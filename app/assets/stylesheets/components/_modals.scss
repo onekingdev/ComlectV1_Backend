@@ -1,0 +1,16 @@
+.modal.plain {
+  $padding: 50px;
+
+  .modal-header, .modal-footer {
+    display: none;
+  }
+
+  .modal-body {
+    padding: $padding;
+  }
+
+  hr.flush {
+    margin-left: -$padding;
+    width: calc(100% + #{$padding} * 2);
+  }
+}

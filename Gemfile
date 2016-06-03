@@ -19,6 +19,9 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 gem 'non-stupid-digest-assets'
 
+# Auth
+gem 'devise', '~> 4.1.1'
+
 # Views
 gem 'slim-rails', '~> 3.0.1'
 gem 'simple_form', '~> 3.2'

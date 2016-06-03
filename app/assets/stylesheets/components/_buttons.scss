@@ -1,0 +1,20 @@
+.btn .fa + span {
+  margin-left: 1rem;
+}
+
+.btn .fa, .btn span {
+  vertical-align: middle;
+}
+
+.btn-social-linkedin {
+  $bg: #4875B4;
+  background-color: $bg;
+  border-color: $bg;
+  color: #fff;
+
+  &:hover {
+    background-color: darken($bg, 10%);
+    border-color: darken($bg, 10%);
+    color: #fff;
+  }
+}
