@@ -1,0 +1,90 @@
+# Overrides from https://github.com/bbatsov/rubocop/blob/master/config/default.yml
+
+AllCops:
+  DefaultFormatter: fuubar
+  DisplayCopNames: true
+  ExtraDetails: true
+  TargetRubyVersion: 2.3
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/CommandLiteral:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/EmptyLineBetweenDefs:
+  AllowAdjacentOneLineDefs: true
+
+Style/MultilineMethodCallBraceLayout:
+  Enabled: true
+
+Style/MultilineMethodDefinitionBraceLayout:
+  Enabled: true
+
+Style/Send:
+  Enabled: true
+
+Style/SingleLineMethods:
+  Enabled: false
+
+Style/StringLiterals:
+  Enabled: false
+
+Style/StringLiteralsInInterpolation:
+  Enabled: false
+
+Style/SymbolArray:
+  Enabled: true
+
+Style/WhileUntilModifier:
+  MaxLineLength: 80
+
+##################### Metrics ##################################
+
+Metrics/AbcSize:
+  Max: 18
+
+Metrics/BlockNesting:
+  Max: 3
+
+Metrics/ClassLength:
+  Max: 120
+
+Metrics/ModuleLength:
+  Max: 120
+
+Metrics/CyclomaticComplexity:
+  Max: 7
+
+Metrics/LineLength:
+  Max: 120
+
+Metrics/MethodLength:
+  Max: 15
+
+Metrics/PerceivedComplexity:
+  Max: 8
+
+##################### Lint ##################################
+
+# Using all defaults
+
+##################### Performance ############################
+
+# Using all defaults
+
+##################### Rails ##################################
+
+Rails:
+  Enabled: true
+
+Rails/Output:
+  Include:
+    - app/**/*.rb
+    - config/**/*.rb
+    - db/**/*.rb
+    - lib/**/*.rb
+    - test/**/*.rb
