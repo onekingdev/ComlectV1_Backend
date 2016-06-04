@@ -24,6 +24,9 @@ Style/MultilineMethodCallBraceLayout:
 Style/MultilineMethodDefinitionBraceLayout:
   Enabled: true
 
+Style/RegexpLiteral:
+  Enabled: false
+
 Style/Send:
   Enabled: true
 
