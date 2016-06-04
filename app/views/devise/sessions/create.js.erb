@@ -1,0 +1,5 @@
+<% if resource %>
+  window.location.reload();
+<% else %>
+  _Modal.showPlain('<%= j render(template: 'devise/sessions/new.html', locals: { resource: resource_class.new }) %>');
+<% end %>

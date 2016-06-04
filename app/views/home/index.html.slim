@@ -1,1 +1,4 @@
-a.btn.btn-primary data-remote=true href=new_user_session_path Log In
+- if signed_in?
+  = link_to 'Log Out', destroy_user_session_path, method: :delete, remote: true, class: 'btn btn-primary'
+- else
+  a.btn.btn-primary data-remote=true href=new_user_session_path Log In

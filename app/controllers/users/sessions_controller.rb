@@ -13,14 +13,30 @@ class Users::SessionsController < Devise::SessionsController
   # end
 
   # POST /resource/sign_in
-  # def create
-  #   super
-  # end
+  def create
+    respond_to do |format|
+      format.html { super }
+      format.js do
+        if (self.resource = warden.authenticate(auth_options))
+          set_flash_message!(:notice, :signed_in)
+          sign_in(resource_name, resource)
+        else
+          flash.now[:warning] = 'Invalid email or password'
+        end
+      end
+    end
+  end
 
   # DELETE /resource/sign_out
-  # def destroy
-  #   super
-  # end
+  def destroy
+    respond_to do |format|
+      format.html { super }
+      format.js do
+        signed_out = (Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name))
+        set_flash_message! :notice, :signed_out if signed_out
+      end
+    end
+  end
 
   # protected
 
