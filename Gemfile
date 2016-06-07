@@ -50,6 +50,7 @@ gem 'sidekiq'
 
 # Logging
 gem 'lograge'
+gem 'newrelic_rpm'
 
 group :development, :test do
   # Logging
