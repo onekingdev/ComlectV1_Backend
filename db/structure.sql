@@ -119,6 +119,47 @@ ALTER SEQUENCE businesses_id_seq OWNED BY businesses.id;
 
 
 --
+-- Name: businesses_jurisdictions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE businesses_jurisdictions (
+    business_id integer NOT NULL,
+    jurisdiction_id integer NOT NULL
+);
+
+
+--
+-- Name: jurisdictions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE jurisdictions (
+    id integer NOT NULL,
+    name character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: jurisdictions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE jurisdictions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: jurisdictions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE jurisdictions_id_seq OWNED BY jurisdictions.id;
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -189,6 +230,13 @@ ALTER TABLE ONLY businesses ALTER COLUMN id SET DEFAULT nextval('businesses_id_s
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY jurisdictions ALTER COLUMN id SET DEFAULT nextval('jurisdictions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
 
 
@@ -206,6 +254,14 @@ ALTER TABLE ONLY admin_users
 
 ALTER TABLE ONLY businesses
     ADD CONSTRAINT businesses_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: jurisdictions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY jurisdictions
+    ADD CONSTRAINT jurisdictions_pkey PRIMARY KEY (id);
 
 
 --
@@ -283,4 +339,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160603200743');
 INSERT INTO schema_migrations (version) VALUES ('20160606215415');
 
 INSERT INTO schema_migrations (version) VALUES ('20160606230043');
+
+INSERT INTO schema_migrations (version) VALUES ('20160607025107');
 
