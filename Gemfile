@@ -8,16 +8,6 @@ gem 'rails', '4.2.6'
 # ActiveRecord
 gem 'pg', '~> 0.15'
 
-# Trailblazer
-gem 'trailblazer'
-gem 'trailblazer-rails'
-gem 'trailblazer-loader'
-gem 'cells-rails'
-gem 'cells', '~> 4.1.1'
-gem 'cells-slim'
-gem 'kaminari-cells'
-gem 'reform', '~> 2.1.0'
-
 # Orchestration
 gem 'puma', '~> 3.4.0'
 gem 'foreman', '~> 0.80.1'

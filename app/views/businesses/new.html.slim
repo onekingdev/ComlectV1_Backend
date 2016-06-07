@@ -1,6 +1,6 @@
 h1 Sign up to post your project
 
-= simple_form_for @form, wrapper: :inline_form do |f|
+= simple_form_for @business, wrapper: :inline_form do |f|
   h2 Let's start with your login details
 
   = f.fields_for :user, wrapper: :inline_form do |uf|
@@ -62,6 +62,11 @@ h1 Sign up to post your project
       .panel-title Jurisdiction
 
     .panel-body
+      = f.association :jurisdictions, as: :check_boxes, label: false, wrapper: false
+      span.checkbox.m-t-0
+        label
+          input type="checkbox" data-toggle-all="business[jurisdiction_ids][]"
+          'Select All
 
   hr
 
