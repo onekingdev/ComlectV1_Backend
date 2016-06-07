@@ -1,7 +1,7 @@
-h1 Sign up to post your project
+h1.text-center Sign up to post your project
 
 = simple_form_for @business, wrapper: :inline_form do |f|
-  h2 Let's start with your login details
+  h2.text-center Let's start with your login details
 
   = f.fields_for :user, wrapper: :inline_form do |uf|
     .row
@@ -10,7 +10,7 @@ h1 Sign up to post your project
       .col-sm-6
         = uf.input :password
 
-  h2 Next, details of the key contact at your business
+  h2.text-center Next, details of the key contact at your business
 
   .row
     .col-sm-4
@@ -70,13 +70,13 @@ h1 Sign up to post your project
 
   hr
 
-  h2 Finally, do you wish to display the name of your business?
+  h2.text-center Finally, do you wish to display the name of your business?
 
-  = f.input :anonymous, as: :boolean
+  .text-center= f.input :anonymous, as: :radio_pills, collection: [['Public', false], ['Anonymous', true]], btn_class: 'btn-primary btn-lg'
 
   hr
 
-  h2 Would you like to add your logo?
+  h2.text-center Would you like to add your logo?
 
   hr
 

@@ -22,7 +22,7 @@ class CreateBusinesses < ActiveRecord::Migration
       t.string :city
       t.string :state
       t.string :zipcode
-      t.boolean :anonymous, null: false, default: true
+      t.boolean :anonymous, null: false, default: false
 
       t.timestamps null: false
     end

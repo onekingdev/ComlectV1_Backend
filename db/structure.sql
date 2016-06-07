@@ -93,7 +93,7 @@ CREATE TABLE businesses (
     city character varying,
     state character varying,
     zipcode character varying,
-    anonymous boolean DEFAULT true NOT NULL,
+    anonymous boolean DEFAULT false NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
