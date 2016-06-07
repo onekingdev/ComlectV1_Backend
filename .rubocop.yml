@@ -18,6 +18,9 @@ Style/Documentation:
 Style/EmptyLineBetweenDefs:
   AllowAdjacentOneLineDefs: true
 
+Style/Lambda:
+  Enabled: false
+
 Style/MultilineMethodCallBraceLayout:
   Enabled: true
 

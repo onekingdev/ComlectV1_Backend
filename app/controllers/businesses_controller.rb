@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 class BusinessesController < ApplicationController
+  before_action -> do
+    redirect_to business_path(current_user.business)
+  end, if: -> { signed_in? && current_user.business }, only: %i(new create)
+
   def show
     @business = Business.find(params[:id])
   end
