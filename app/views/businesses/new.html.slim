@@ -86,6 +86,8 @@ h1.text-center Sign up to post your project
         .fa.fa-circle.fa-stack-2x.text-primary
         .fa.fa-plus.fa-stack-1x
       span.selected= f.object.logo ? f.object.logo.data['metadata']['filename'] : nil
+      - if f.object.errors[:logo].any?
+        .text-danger= "Logo " + f.object.errors[:logo].to_sentence
 
   hr
 
