@@ -62,11 +62,12 @@ h1.text-center Sign up to post your project
       .panel-title Jurisdiction
 
     .panel-body
-      = f.association :jurisdictions, as: :check_boxes, label: false, wrapper: false
-      span.checkbox.m-t-0
-        label
-          input type="checkbox" data-toggle-all="business[jurisdiction_ids][]"
-          'Select All
+      .form-group.business_jurisdictions
+        = f.association :jurisdictions, as: :check_boxes, label: false, wrapper: false
+        span.checkbox.m-t-0
+          label
+            input type="checkbox" data-toggle-all="business[jurisdiction_ids][]"
+            'Select All
 
   hr
 

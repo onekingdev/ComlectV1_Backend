@@ -1,0 +1,15 @@
+form#new_business {
+  .business_jurisdictions {
+    @include make-row();
+
+    .checkbox {
+      @include make-sm-column(3);
+      @include make-xs-column(6);
+      margin-top: 0;
+    }
+  }
+
+  .business_anonymous .btn {
+    width: 180px;
+  }
+}
