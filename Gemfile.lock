@@ -76,6 +76,15 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    cells (4.1.1)
+      tilt (>= 1.4, < 3)
+      uber (>= 0.0.9)
+    cells-rails (0.0.5)
+      actionpack (>= 3.0)
+      cells (>= 4.1)
+    cells-slim (0.0.5)
+      cells (>= 4.0.1, < 6.0.0)
+      slim (~> 3.0)
     childprocess (0.5.9)
       ffi (~> 1.0, >= 1.0.11)
     cliver (0.3.2)
@@ -88,15 +97,28 @@ GEM
     coffee-script-source (1.10.0)
     concurrent-ruby (1.0.1)
     connection_pool (2.2.0)
+    countries (1.2.5)
+      currencies (~> 0.4.2)
+      i18n_data (~> 0.7.0)
+    country_select (2.5.2)
+      countries (~> 1.2.0)
+      sort_alphabetical (~> 1.0)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
+    currencies (0.4.2)
     debug_inspector (0.0.2)
+    declarative (0.0.7)
+      uber (>= 0.0.15)
     devise (4.1.1)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 4.1.0, < 5.1)
       responders
       warden (~> 1.2.3)
+    disposable (0.2.6)
+      declarative (~> 0.0.6)
+      representable (>= 2.4.0, <= 3.1.0)
+      uber
     dotenv (2.0.2)
     dotenv-rails (2.0.2)
       dotenv (= 2.0.2)
@@ -124,6 +146,7 @@ GEM
       activesupport (>= 3.2, < 5)
     hashdiff (0.3.0)
     i18n (0.7.0)
+    i18n_data (0.7.0)
     inherited_resources (1.6.0)
       actionpack (>= 3.2, < 5)
       has_scope (~> 0.6.0.rc)
@@ -143,6 +166,9 @@ GEM
     kaminari (0.17.0)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
+    kaminari-cells (0.0.4)
+      cells (>= 4.0.0, <= 5.0.0)
+      kaminari (>= 0.16.0)
     launchy (2.4.3)
       addressable (~> 2.3)
     letter_opener (1.4.1)
@@ -229,6 +255,13 @@ GEM
       i18n
       polyamorous (~> 1.2)
     redis (3.3.0)
+    reform (2.1.0)
+      disposable (>= 0.2.2, < 0.3.0)
+      representable (>= 2.4.0, < 3.1.0)
+      uber (~> 0.0.11)
+    representable (3.0.0)
+      declarative (~> 0.0.5)
+      uber (~> 0.0.15)
     responders (2.2.0)
       railties (>= 4.2.0, < 5.1)
     rubocop (0.39.0)
@@ -262,6 +295,8 @@ GEM
       activesupport (>= 3.1, < 5.0)
       railties (>= 3.1, < 5.0)
       slim (~> 3.0)
+    sort_alphabetical (1.0.2)
+      unicode_utils (>= 1.2.2)
     spring (1.7.1)
     sprockets (3.6.0)
       concurrent-ruby (~> 1.0)
@@ -274,13 +309,23 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (2.0.2)
+    trailblazer (1.1.1)
+      declarative
+      reform (>= 2.0.0, < 3.0.0)
+      uber (>= 0.0.15)
+    trailblazer-loader (0.0.9)
+    trailblazer-rails (0.2.4)
+      trailblazer (>= 1.0.4)
+      trailblazer-loader (>= 0.0.7)
     turbolinks (2.5.3)
       coffee-rails
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
+    uber (0.0.15)
     uglifier (3.0.0)
       execjs (>= 0.3.0, < 3)
     unicode-display_width (1.0.3)
+    unicode_utils (1.4.0)
     warden (1.2.6)
       rack (>= 1.0)
     web-console (2.3.0)
@@ -305,7 +350,11 @@ DEPENDENCIES
   activeadmin!
   byebug
   capybara
+  cells (~> 4.1.1)
+  cells-rails
+  cells-slim
   coffee-rails (~> 4.1.0)
+  country_select
   devise (~> 4.1.1)
   dotenv-rails (~> 2.0.2)
   factory_girl_rails
@@ -313,6 +362,7 @@ DEPENDENCIES
   foreman (~> 0.80.1)
   jbuilder (~> 2.0)
   jquery-rails
+  kaminari-cells
   letter_opener
   lograge
   meta_request
@@ -324,12 +374,16 @@ DEPENDENCIES
   puma (~> 3.4.0)
   quiet_assets
   rails (= 4.2.6)
+  reform (~> 2.1.0)
   rubocop
   sass-rails (~> 5.0)
   sidekiq
   simple_form (~> 3.2)
   slim-rails (~> 3.0.1)
   spring
+  trailblazer
+  trailblazer-loader
+  trailblazer-rails
   turbolinks
   uglifier (>= 1.3.0)
   web-console (~> 2.0)

@@ -29,7 +29,30 @@ en:
     # prompts:
     #   defaults:
     #     age: 'Select your age'
+    hints:
+      business:
+        description: "Note: For confidentiality, please do NOT include your business name in the description if you do not want it visible to the public."
+        anonymous: If you choose ANONYMOUS only your industry(s), number of employees, jurisdiction, and business description will be displayed.
+
     placeholders:
       user:
-        email: Email
-        password: Password
+        email: "* Email"
+        password: "* Password"
+      business:
+        contact_first_name: "* First Name"
+        contact_last_name: "* Last Name"
+        contact_email: "* Email"
+        contact_job_title: Job Title
+        contact_phone: Phone
+        business_name: "* Business Name"
+        industry: "* Industry"
+        employees: "* No. Employees"
+        website: Website
+        linkedin_link: LinkedIn Link
+        description: "* Business Description"
+        address_1: Address Line 1
+        address_2: Address Line 2
+        country: "* Country"
+        city: "* City"
+        state: "* State"
+        zipcode: Zipcode

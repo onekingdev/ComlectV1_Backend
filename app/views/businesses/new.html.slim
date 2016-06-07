@@ -1,0 +1,83 @@
+h1 Sign up to post your project
+
+= simple_form_for @form, wrapper: :inline_form do |f|
+  h2 Let's start with your login details
+
+  = f.fields_for :user, wrapper: :inline_form do |uf|
+    .row
+      .col-sm-6
+        = uf.input :email
+      .col-sm-6
+        = uf.input :password
+
+  h2 Next, details of the key contact at your business
+
+  .row
+    .col-sm-4
+      = f.input :contact_first_name
+    .col-sm-4
+      = f.input :contact_last_name
+    .col-sm-4
+      = f.input :contact_email
+  .row
+    .col-sm-6
+      = f.input :contact_job_title, required: false
+    .col-sm-6
+      = f.input :contact_phone, required: false
+
+  h2 Tell us more about your business
+
+  .panel.panel-default
+    .panel-heading
+      .panel-title Business Info
+
+    .panel-body
+      .row
+        .col-sm-4= f.input :business_name
+        .col-sm-4= f.input :industry
+        .col-sm-4= f.input :employees
+      .row
+        .col-sm-4
+          = f.input :website, required: false
+          = f.input :linkedin_link, required: false
+        .col-sm-8
+          = f.input :description, as: :text
+
+  .panel.panel-default
+    .panel-heading
+      .panel-title Location
+
+    .panel-body
+      .row
+        .col-sm-4= f.input :address_1, required: false
+        .col-sm-4= f.input :address_2, required: false
+        .col-sm-4= f.input :country, prompt: I18n.t('simple_form.placeholders.business.country')
+      .row
+        .col-sm-4= f.input :city
+        .col-sm-4= f.input :state
+        .col-sm-4= f.input :zipcode, required: false
+
+  .panel.panel-default
+    .panel-heading
+      .panel-title Jurisdiction
+
+    .panel-body
+
+  hr
+
+  h2 Finally, do you wish to display the name of your business?
+
+  = f.input :anonymous, as: :boolean
+
+  hr
+
+  h2 Would you like to add your logo?
+
+  hr
+
+  .row
+    = f.submit 'Sign Up', class: 'btn btn-primary btn-lg col-xs-12 col-sm-4 col-sm-offset-4'
+
+  p.text-center.small.text-muted.m-t-3
+    'By signing up, you are agreeing to our <a href="#">Terms</a> & <a href="#">Privacy Policy</a>,
+    'the <a href="#">Stripe Agreement</a> (for payment), and to receiving Complect email communication.
