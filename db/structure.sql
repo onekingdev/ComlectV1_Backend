@@ -95,7 +95,8 @@ CREATE TABLE businesses (
     zipcode character varying,
     anonymous boolean DEFAULT false NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    logo_data jsonb
 );
 
 
@@ -341,4 +342,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160606215415');
 INSERT INTO schema_migrations (version) VALUES ('20160606230043');
 
 INSERT INTO schema_migrations (version) VALUES ('20160607025107');
+
+INSERT INTO schema_migrations (version) VALUES ('20160607205707');
 

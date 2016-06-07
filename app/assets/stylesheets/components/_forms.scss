@@ -1,0 +1,12 @@
+.custom-file-field {
+  cursor: pointer;
+
+  input {
+    position: fixed;
+    top: -1000px;
+  }
+
+  .selected {
+    display: block;
+  }
+}

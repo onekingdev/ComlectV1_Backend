@@ -21,7 +21,7 @@ class BusinessesController < ApplicationController
       :contact_first_name, :contact_last_name, :contact_email, :contact_job_title, :contact_phone,
       :business_name, :industry, :employees, :description, :website, :linkedin_link,
       :address_1, :address_2, :country, :city, :state, :zipcode,
-      :anonymous,
+      :anonymous, :logo, :cached_logo_data,
       jurisdiction_ids: [],
       user_attributes: %i(email password)
     )

@@ -13,6 +13,9 @@ gem 'puma', '~> 3.4.0'
 gem 'foreman', '~> 0.80.1'
 gem 'dotenv-rails', '~> 2.0.2'
 
+# Auth
+gem 'devise', '~> 4.1.1'
+
 # Admin
 gem 'activeadmin', github: 'activeadmin'
 
@@ -22,9 +25,6 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 gem 'non-stupid-digest-assets'
 
-# Auth
-gem 'devise', '~> 4.1.1'
-
 # Views
 gem 'slim-rails', '~> 3.0.1'
 gem 'simple_form', '~> 3.2'
@@ -33,6 +33,13 @@ gem 'country_select'
 # Assets
 gem 'jquery-rails'
 gem 'turbolinks'
+
+# Image uploads
+gem 'fastimage', '~> 2.0.0'
+gem 'image_processing', '~> 0.3.0'
+gem 'mini_magick', '~> 4.5.1'
+gem 'shrine', '~> 2.0.1'
+gem 'roda', '~> 2.14.0'
 
 # API builder
 gem 'jbuilder', '~> 2.0'
