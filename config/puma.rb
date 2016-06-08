@@ -2,7 +2,7 @@
 workers Integer(ENV['WEB_CONCURRENCY'] || 2)
 threads_count = Integer(ENV['MAX_THREADS'] || 5)
 threads threads_count, threads_count
-worker_timeout 3500 unless Rails.env.production?
+worker_timeout 3500 unless ENV['RAILS_ENV'] == 'production'
 
 preload_app!
 
