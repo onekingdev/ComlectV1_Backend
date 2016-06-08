@@ -2,8 +2,13 @@ $brand-primary: #f8bd00;
 
 //== Buttons
 
+$btn-default-border: transparent;
 $btn-primary-color: #171308;
-$btn-primary-border: $brand-primary;
+$btn-primary-border: transparent;
+
+//== Forms
+
+$input-border: transparent;
 
 //== Components
 
@@ -12,3 +17,8 @@ $padding-large-vertical: 18px;
 //== Type
 
 $hr-border: rgba($brand-primary, 0.5);
+
+//== Wells
+
+$well-bg: #f3f3f3;
+$well-border: transparent;

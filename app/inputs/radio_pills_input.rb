@@ -7,7 +7,8 @@ class RadioPillsInput < SimpleForm::Inputs::CollectionRadioButtonsInput
   def input(_wrapper_options)
     template.content_tag :div, class: 'btn-group', data: { toggle: 'buttons' } do
       collection.map do |label, value|
-        active_class = object.public_send(attribute_name) == value ? 'active' : nil
+        checked = object.public_send(attribute_name) == value
+        active_class = checked ? 'active' : nil
         template.content_tag :label, class: "btn #{btn_class} #{active_class}" do
           @builder.radio_button(attribute_name, value) + label.to_s
         end

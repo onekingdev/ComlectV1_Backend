@@ -10,3 +10,39 @@
     display: block;
   }
 }
+
+form .well {
+  h3 {
+    font-size: 16px;
+    font-weight: bold;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #979797;
+
+    .fa {
+      margin-right: 10px;
+    }
+  }
+
+  hr, .hr {
+    border-color: #979797;
+  }
+}
+
+.form-group.radio_pills .btn-group {
+  .btn.active {
+    @include button-variant($btn-primary-color, $btn-primary-bg, $btn-primary-border);
+  }
+
+  .btn.active:active, .btn.active.active {
+    background-color: $btn-primary-bg;
+    border-color: transparent;
+
+    &:hover,
+    &:focus,
+    &.focus {
+      background-color: darken($btn-primary-bg, 10%);
+      border-color: transparent;
+    }
+  }
+}

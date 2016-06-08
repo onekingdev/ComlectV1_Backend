@@ -1,15 +1,34 @@
 form#new_business {
   .business_jurisdictions {
-    @include make-row();
+    @include clearfix;
 
     .checkbox {
       @include make-sm-column(3);
       @include make-xs-column(6);
       margin-top: 0;
+      padding-left: 20px; // Restore awesome-bootstrap-checkbox padding
     }
   }
 
-  .business_anonymous .btn {
-    width: 180px;
+  .business_anonymous {
+    .btn {
+      width: 180px;
+
+      @media (max-width: $screen-xs-max) {
+        width: 100%;
+      }
+    }
+
+    .help-block {
+      margin: 3em 30%;
+
+      @media (max-width: $screen-xs-max) {
+        margin: 3em 0;
+      }
+    }
+  }
+
+  .business_description textarea {
+    min-height: ($input-height-large * 2) + $form-group-margin-bottom;
   }
 }

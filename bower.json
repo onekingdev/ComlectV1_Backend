@@ -11,6 +11,7 @@
   ],
   "dependencies": {
     "font-awesome": "~4.6.3",
-    "bootstrap-sass": "~3.3.6"
+    "bootstrap-sass": "~3.3.6",
+    "awesome-bootstrap-checkbox": "~0.3.7"
   }
 }
