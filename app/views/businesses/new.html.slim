@@ -1,4 +1,4 @@
-h1.text-center.m-b-3 Sign up to post your project
+h1.text-center.m-b-3.p-y-3 Sign up to post your project
 
 = simple_form_for @business, wrapper: :inline_form do |f|
   .well.well-lg.m-t-3
@@ -67,9 +67,11 @@ h1.text-center.m-b-3 Sign up to post your project
         label for="business_jurisdiction_ids_all" Select All
 
   .well.well-lg.m-t-3
-    .text-center.p-b-1
+    .row.text-center.p-b-1
       h2.m-b-3 Finally, do you wish to display the name of your business?
-      = f.input :anonymous, as: :radio_pills, collection: [['Public', false], ['Anonymous', true]], btn_class: 'btn-lg btn-default'
+      = f.input :anonymous, as: :radio_pills, collection: [['Public', false], ['Anonymous', true]], btn_class: 'btn-lg btn-default', hint: false
+      p.text-muted.small.m-t-3.col-xs-12.col-md-6.col-md-offset-3
+        = I18n.t('simple_form.hints.business.anonymous')
 
     hr.m-b-3.p-t-2
 
