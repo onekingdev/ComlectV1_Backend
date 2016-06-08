@@ -9,6 +9,7 @@ class Business < ActiveRecord::Base
   validates :contact_first_name, :contact_last_name, :contact_email, presence: true
   validates :business_name, :industry, :employees, :description, presence: true
   validates :country, :city, :state, presence: true
+  validates :description, length: { maximum: 750 }
 
   accepts_nested_attributes_for :user
 

@@ -41,7 +41,7 @@ h1.text-center.m-b-3 Sign up to post your project
         = f.input :website, required: false, input_html: { class: 'input-lg' }
         = f.input :linkedin_link, required: false, input_html: { class: 'input-lg' }
       .col-sm-8
-        = f.input :description, as: :text, input_html: { class: 'input-lg' }
+        = f.input :description, as: :text, input_html: { class: 'input-lg', maxlength: 750 }, wrapper_html: { data: { "remaining-chars" => 750 } }
 
     h3
       .fa.fa-map-marker

@@ -28,7 +28,17 @@ form#new_business {
     }
   }
 
-  .business_description textarea {
-    min-height: ($input-height-large * 2) + $form-group-margin-bottom;
+  .business_description {
+    textarea {
+      min-height: ($input-height-large * 2) + $form-group-margin-bottom;
+    }
+
+    &:after {
+      content: attr(data-remaining-chars);
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      color: $text-muted;
+    }
   }
 }
