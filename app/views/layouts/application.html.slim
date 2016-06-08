@@ -7,6 +7,10 @@ html lang=I18n.locale
     = csrf_meta_tags
 
 body
+  header#header
+    = render "navbar", user: User::Decorator.new(current_user)
+    = yield :header
+
   .container
     = yield
 

@@ -29,6 +29,7 @@ gem 'non-stupid-digest-assets'
 gem 'slim-rails', '~> 3.0.1'
 gem 'simple_form', '~> 3.2'
 gem 'country_select'
+gem 'draper'
 
 # Assets
 gem 'jquery-rails'

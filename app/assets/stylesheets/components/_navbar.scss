@@ -1,0 +1,42 @@
+#nav {
+  background-color: rgba(0, 0, 0, 0.6);
+
+  .navbar-brand {
+    @include navbar-vertical-align-by-padding(42px);
+    padding-left: 2em;
+  }
+
+  li > a {
+    font-weight: 500;
+
+    .fa {
+      font-weight: 500;
+    }
+  }
+
+  .badge {
+    margin-top: -1em;
+    margin-left: -1em;
+    background-color: $brand-danger;
+    padding: 1px 4px;
+  }
+
+  .dropdown-menu {
+    background-color: #303233;
+    text-align: right;
+    padding: 1em 0;
+    color: #fff;
+
+    a {
+      color: #fff;
+      line-height: 2;
+      font-weight: 500;
+      padding-left: 2em;
+      padding-right: 1.5em;
+
+      &:hover {
+        background-color: #000;
+      }
+    }
+  }
+}

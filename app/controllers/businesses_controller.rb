@@ -14,7 +14,10 @@ class BusinessesController < ApplicationController
 
   def create
     @business = Business.for_signup(business_params)
-    return redirect_to business_path(@business) if @business.save
+    if @business.save
+      sign_in @business.user
+      return redirect_to business_path(@business)
+    end
     render :new
   end
 

@@ -1,0 +1,8 @@
+#header {
+  background: asset_url("header.jpg") no-repeat center;
+  background-size: cover;
+
+  &.expanded {
+
+  }
+}
