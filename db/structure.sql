@@ -96,7 +96,7 @@ CREATE TABLE businesses (
     anonymous boolean DEFAULT false NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    logo_data jsonb
+    logo character varying
 );
 
 

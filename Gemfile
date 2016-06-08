@@ -35,12 +35,9 @@ gem 'jquery-rails'
 gem 'turbolinks'
 
 # Image uploads
-gem 'fastimage', '~> 2.0.0'
-gem 'image_processing', '~> 0.3.0'
+gem 'carrierwave', '~> 0.11.2'
+gem 'carrierwave-aws', '~> 1.0.1'
 gem 'mini_magick', '~> 4.5.1'
-gem 'aws-sdk', '~> 2.3.12'
-gem 'shrine', '~> 2.0.1'
-gem 'roda', '~> 2.14.0'
 
 # API builder
 gem 'jbuilder', '~> 2.0'
