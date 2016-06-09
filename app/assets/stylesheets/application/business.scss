@@ -13,16 +13,28 @@ form#new_business {
   .business_anonymous {
     .btn {
       width: 180px;
-
-      @media (max-width: $screen-xs-max) {
-        width: 100%;
-      }
     }
 
     .help-block {
       margin: 3em 30%;
+    }
 
-      @media (max-width: $screen-xs-max) {
+    @media (max-width: $screen-xs-max) {
+      .btn {
+        width: 100%;
+
+        &:first-child {
+          border-bottom-left-radius: 0;
+          border-top-right-radius: $btn-border-radius-large;
+        }
+
+        &:last-child {
+          border-top-right-radius: 0;
+          border-bottom-left-radius: $btn-border-radius-large;
+        }
+      }
+
+      .help-block {
         margin: 3em 0;
       }
     }

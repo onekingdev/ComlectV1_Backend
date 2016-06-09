@@ -8,8 +8,14 @@ $brand-primary: #f8bd00;
 
 $font-family-base: Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
 $font-size-base: 16px;
-
+$font-size-large: ceil(($font-size-base * 1.25));
 $font-size-h1: 52px;
+
+$line-height-large: 1.3333333;
+
+//== Grid system
+
+$grid-gutter-width: 30px;
 
 //== Navbar
 
@@ -25,13 +31,16 @@ $btn-default-border: transparent;
 $btn-primary-color: #171308;
 $btn-primary-border: transparent;
 
-//== Forms
-
-$input-border: transparent;
-
 //== Components
 
 $padding-large-vertical: 18px;
+
+//== Forms
+
+$input-border: transparent;
+$input-height-large: (ceil($font-size-large * $line-height-large) + ($padding-large-vertical * 2)) - 3;
+
+$form-group-margin-bottom: $grid-gutter-width / 2; // So vertical spacing equals compact grid spacing (.row-compact)
 
 //== Type
 

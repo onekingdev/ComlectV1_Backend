@@ -18,3 +18,7 @@
     color: #fff;
   }
 }
+
+.btn-primary {
+  @include button-variant-light($btn-primary-bg);
+}

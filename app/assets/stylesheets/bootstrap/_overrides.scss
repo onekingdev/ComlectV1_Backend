@@ -5,3 +5,11 @@
 .btn.active, .btn:active {
   box-shadow: none;
 }
+
+.input-lg, .btn-lg {
+  font-size: $font-size-base;
+}
+
+.well-lg {
+  padding: 24px 40px;
+}
