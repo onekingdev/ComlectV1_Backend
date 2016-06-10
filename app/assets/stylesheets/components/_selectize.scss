@@ -1,0 +1,13 @@
+.selectize-input {
+  border: 0;
+}
+
+.input-lg .selectize-input {
+  height: $input-height-large;
+  line-height: $input-height-large;
+  padding: 0 $padding-large-horizontal;
+
+  .item {
+    line-height: $line-height-base;
+  }
+}
