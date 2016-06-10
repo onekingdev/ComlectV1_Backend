@@ -21,6 +21,19 @@ class BusinessesController < ApplicationController
     render :new
   end
 
+  def edit
+    @business = current_user.business
+    render_404 unless @business
+  end
+
+  def update
+    @business = current_user.business
+    if @business.update_attributes(edit_business_params)
+      return redirect_to business_dashboard_path
+    end
+    render :edit
+  end
+
   private
 
   def business_params
@@ -32,5 +45,9 @@ class BusinessesController < ApplicationController
       jurisdiction_ids: [],
       user_attributes: %i(email password)
     )
+  end
+
+  def edit_business_params
+    business_params.except(:user_attributes)
   end
 end

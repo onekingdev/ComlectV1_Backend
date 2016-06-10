@@ -1,41 +1,16 @@
-h1.text-center.m-b-3.p-y-3 Sign up to post your project
-
-= simple_form_for @business, wrapper: :inline_form do |f|
+= simple_form_for @business, url: update_business_path, wrapper: :inline_form do |f|
   .well.well-lg.m-t-3
-    h2.text-center.m-b-3 Let's start with your login details
-    = f.fields_for :user, wrapper: :inline_form do |uf|
-      .row.row-compact
-        .col-sm-6
-          = uf.input :email, input_html: { class: 'input-lg' }
-        .col-sm-6
-          = uf.input :password, input_html: { class: 'input-lg' }
+    h2.text-center.m-b-3 Edit your business profile
 
-  .well.well-lg.m-t-3
-    h2.text-center.m-b-3 Next, details of the key contact at your business
-    .row.row-compact
-      .col-sm-4
-        = f.input :contact_first_name, input_html: { class: 'input-lg' }
-      .col-sm-4
-        = f.input :contact_last_name, input_html: { class: 'input-lg' }
-      .col-sm-4
-        = f.input :contact_email, input_html: { class: 'input-lg' }
-    .row.row-compact
-      .col-sm-6
-        = f.input :contact_job_title, required: false, input_html: { class: 'input-lg' }
-      .col-sm-6
-        = f.input :contact_phone, required: false, input_html: { class: 'input-lg' }
-
-  .well.well-lg.m-t-3
-    h2.text-center.m-b-3 Tell us more about your business
-
-    h3
+    h3.p-t-3
       i.icon.maxicons1-building
       'Business Info
 
     .row.row-compact
       .col-sm-4= f.input :business_name, input_html: { class: 'input-lg' }
       .col-sm-4= f.input :industry, placeholder: I18n.t('simple_form.placeholders.business.industry'), collection: Business::INDUSTRIES, input_html: { class: 'input-lg js-selectize' }
-      .col-sm-4= f.input :employees, placeholder: I18n.t('simple_form.placeholders.business.employees'), collection: Business::EMPLOYEE_OPTIONS, input_html: { class: 'input-lg js-selectize' }    .row.row-compact
+      .col-sm-4= f.input :employees, placeholder: I18n.t('simple_form.placeholders.business.employees'), collection: Business::EMPLOYEE_OPTIONS, input_html: { class: 'input-lg js-selectize' }
+    .row.row-compact
       .col-sm-4
         = f.input :website, required: false, input_html: { class: 'input-lg' }
         = f.input :linkedin_link, required: false, input_html: { class: 'input-lg' }
@@ -69,7 +44,7 @@ h1.text-center.m-b-3.p-y-3 Sign up to post your project
 
   .well.well-lg.m-t-3
     .row.text-center.p-b-1
-      h2.m-b-3 Finally, do you wish to display the name of your business?
+      h2.m-b-3 Do you wish to display the name of your business?
       = f.input :anonymous, as: :radio_pills, collection: [['Public', false], ['Anonymous', true]], btn_class: 'btn-lg btn-default', hint: false
       p.text-muted.small.m-t-3.col-xs-12.col-md-6.col-md-offset-3
         = I18n.t('simple_form.hints.business.anonymous')
@@ -78,22 +53,21 @@ h1.text-center.m-b-3.p-y-3 Sign up to post your project
       hr.m-b-3.p-t-2
 
       .text-center.m-t-3
-        h2.p-t-1 Would you like to add your logo?
+        h2.p-t-1 Add or update your logo
 
         label.custom-file-field.js-custom-file-field
           = f.hidden_field :logo, value: f.object.logo_data? ? f.object.logo_data.to_json : nil
           = f.file_field :logo
-          .fa-stack.fa-5x
-            .fa.fa-circle.fa-stack-2x.text-white
-            .fa.fa-plus.fa-stack-1x
-          span.selected.m-b-3= f.object.logo ? f.object.logo.data['metadata']['filename'] : nil
+          - if f.object.logo
+            = image_tag f.object.logo_url(:thumb), size: '100x100'
+          - else
+            .fa-stack.fa-5x
+              .fa.fa-circle.fa-stack-2x.text-white
+              .fa.fa-plus.fa-stack-1x
+          span.selected.m-b-3 = f.object.logo ? f.object.logo.data['metadata']['filename'] : nil
           - if f.object.errors[:logo].any?
             .text-danger= "Logo " + f.object.errors[:logo].to_sentence
 
   .row.p-t-2
     .col-xs-12
-      = f.submit 'Sign Up', class: 'btn btn-primary btn-lg col-xs-12 col-sm-4 col-sm-offset-4'
-
-    p.text-center.small.text-muted.m-t-3.col-md-6.col-md-offset-3.col-sm-8.col-sm-offset-2.col-xs-12
-      'By signing up, you are agreeing to our <a class="text-muted" href="#">Terms</a> & <a class="text-muted" href="#">Privacy Policy</a>,
-      'the <a class="text-muted" href="#">Stripe Agreement</a> (for payment), and to receiving Complect email communication.
+      = f.submit 'Save Changes', class: 'btn btn-primary btn-lg col-xs-12 col-sm-4 col-sm-offset-4'

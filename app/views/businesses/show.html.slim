@@ -1,3 +1,7 @@
 h1= @business.business_name
 
+= link_to edit_business_path, class: 'btn btn-primary' do
+  i.icon.maxicons2-editting
+  span Edit Profile
+
 = image_tag @business.logo_url(:thumb)
