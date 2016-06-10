@@ -16,7 +16,7 @@ class BusinessesController < ApplicationController
     @business = Business.for_signup(business_params)
     if @business.save
       sign_in @business.user
-      return redirect_to business_path(@business)
+      return redirect_to business_dashboard_path
     end
     render :new
   end

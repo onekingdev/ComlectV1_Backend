@@ -11,4 +11,5 @@ Rails.application.routes.draw do
   root to: 'home#index'
 
   resources :businesses
+  get '/business' => 'business_dashboard#show', as: :business_dashboard
 end
