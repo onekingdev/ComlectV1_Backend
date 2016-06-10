@@ -2,6 +2,8 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900");
 $maxicons-font-path: "/fonts";
 @import "maxicons";
+$fa-font-path: "font-awesome/fonts";
+@import "font-awesome/scss/font-awesome";
 @import "bootstrap/loader";
 @import "awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.scss";
 @import "selectize/dist/css/selectize.bootstrap3";
