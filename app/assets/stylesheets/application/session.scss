@@ -1,0 +1,7 @@
+.container form.new_session, .container #choose-signup {
+  @include make-xs-column(12);
+  @include make-sm-column(8);
+  @include make-sm-column-push(2);
+  @include make-md-column(6);
+  @include make-md-column-push(3);
+}

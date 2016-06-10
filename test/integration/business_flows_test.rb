@@ -6,9 +6,11 @@ class BusinessFlowsTest < ActionDispatch::IntegrationTest
     attributes = attributes_for(:business)
     attributes[:user_attributes] = attributes_for(:user)
     assert_difference 'Business.count + User.count', +2 do
-      post_via_redirect businesses_path, business: attributes
-      assert_response :success
+      post businesses_path, business: attributes
     end
+    assert_redirected_to business_dashboard_path
+    get business_dashboard_path
+    assert_response :ok
   end
 
   test "#new redirects to user's existing business" do
@@ -31,11 +33,16 @@ class BusinessFlowsTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "signs in after sign up" do
-    skip "TODO (test redirect to dashboard?)"
-  end
-
   test "redirects specialist to root and flash" do
     skip "TODO"
+  end
+
+  test 'update business' do
+    user = create :user
+    business = create :business, user: user
+    post_via_redirect user_session_path, 'user[email]' => user.email, 'user[password]' => 'password'
+    patch update_business_path, business: { business_name: 'New Name' }
+    assert_redirected_to business_dashboard_path
+    assert_equal 'New Name', business.reload.business_name
   end
 end

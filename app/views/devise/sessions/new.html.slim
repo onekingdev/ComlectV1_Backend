@@ -1,10 +1,10 @@
-a.btn.btn-block.btn-lg.btn-primary.btn-social-linkedin href="#"
-  .fa.fa-linkedin-square.fz-1-5x
-  span Log in with LinkedIn
+= simple_form_for resource, remote: true, as: resource_name, url: session_path(resource_name), html: { class: 'new_session' } do |f|
+  a.btn.btn-block.btn-lg.btn-primary.btn-social-linkedin href="#"
+    .fa.fa-linkedin-square.fz-1-5x
+    span Log in with LinkedIn
 
-.m-y-2.text-center or
+  .m-y-2.text-center or
 
-= simple_form_for resource, remote: true, as: resource_name, url: session_path(resource_name) do |f|
   = f.input :email, autofocus: true, label: false, input_html: { class: 'input-lg text-center' }
   = f.input :password, label: false, input_html: { class: 'input-lg text-center' }
 
@@ -15,12 +15,12 @@ a.btn.btn-block.btn-lg.btn-primary.btn-social-linkedin href="#"
 
   .text-center.m-t-1= link_to "Forgot Password", new_password_path(resource_name), remote: true
 
-hr.flush
+  hr.flush
 
-h3.text-center.m-t-3.m-b-2 New to Complect? Sign up as a:
+  h3.text-center.m-t-3.m-b-2 New to Complect? Sign up as a:
 
-.row
-  .col-xs-6
-    = link_to 'Business', new_business_path, class: 'btn btn-lg btn-block btn-primary'
-  .col-xs-6
-    = link_to 'Specialist', '#', class: 'btn btn-lg btn-block btn-primary'
+  .row
+    .col-xs-6
+      = link_to 'Business', new_business_path, class: 'btn btn-lg btn-block btn-primary'
+    .col-xs-6
+      = link_to 'Specialist', '#', class: 'btn btn-lg btn-block btn-primary'

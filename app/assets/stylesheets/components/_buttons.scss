@@ -1,8 +1,9 @@
-.btn .icon + span {
+.btn .icon + span, .btn .fa + span {
   margin-left: 0.7rem;
 }
 
-.btn .icon, .btn span {
+
+.btn .icon, .btn .fa, .btn span {
   vertical-align: middle;
 }
 
@@ -12,10 +13,14 @@
   border-color: $bg;
   color: #fff;
 
-  &:hover {
-    background-color: darken($bg, 10%);
-    border-color: darken($bg, 10%);
+  &:hover, &:focus {
+    background-color: darken($bg, 10%) !important;
+    border-color: darken($bg, 10%) !important;
     color: #fff;
+  }
+
+  .fa {
+    margin-top: -2px; // Small tweak
   }
 }
 
