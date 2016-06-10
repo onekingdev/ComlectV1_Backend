@@ -1,1 +1,4 @@
-$('.js-selectize').selectize()
+$.onContentReady ->
+  $('.js-selectize').each ->
+    $this = $(this)
+    $this.selectize() unless $this[0].selectize?

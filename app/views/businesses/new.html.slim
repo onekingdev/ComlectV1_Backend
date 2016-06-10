@@ -75,20 +75,21 @@ h1.text-center.m-b-3.p-y-3 Sign up to post your project
       p.text-muted.small.m-t-3.col-xs-12.col-md-6.col-md-offset-3
         = I18n.t('simple_form.hints.business.anonymous')
 
-    hr.m-b-3.p-t-2
+    .collapse class=("in" unless f.object.anonymous?) data-toggle-in="#business_anonymous_false" data-toggle-out="#business_anonymous_true"
+      hr.m-b-3.p-t-2
 
-    .text-center.m-t-3
-      h2.p-t-1 Would you like to add your logo?
+      .text-center.m-t-3
+        h2.p-t-1 Would you like to add your logo?
 
-      label.custom-file-field.js-custom-file-field
-        = f.hidden_field :logo, value: f.object.logo_data? ? f.object.logo_data.to_json : nil
-        = f.file_field :logo
-        .fa-stack.fa-5x
-          .fa.fa-circle.fa-stack-2x.text-white
-          .fa.fa-plus.fa-stack-1x
-        span.selected.m-b-3= f.object.logo ? f.object.logo.data['metadata']['filename'] : nil
-        - if f.object.errors[:logo].any?
-          .text-danger= "Logo " + f.object.errors[:logo].to_sentence
+        label.custom-file-field.js-custom-file-field
+          = f.hidden_field :logo, value: f.object.logo_data? ? f.object.logo_data.to_json : nil
+          = f.file_field :logo
+          .fa-stack.fa-5x
+            .fa.fa-circle.fa-stack-2x.text-white
+            .fa.fa-plus.fa-stack-1x
+          span.selected.m-b-3= f.object.logo ? f.object.logo.data['metadata']['filename'] : nil
+          - if f.object.errors[:logo].any?
+            .text-danger= "Logo " + f.object.errors[:logo].to_sentence
 
   .row.p-t-2
     .col-xs-12
