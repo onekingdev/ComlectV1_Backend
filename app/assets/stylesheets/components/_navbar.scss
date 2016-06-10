@@ -9,7 +9,7 @@
   li > a {
     font-weight: 500;
 
-    .fa {
+    .icon {
       font-weight: 500;
     }
   }
@@ -34,7 +34,7 @@
       padding-left: 2em;
       padding-right: 1.5em;
 
-      &:hover {
+      &:hover, &:focus {
         background-color: #000;
       }
     }

@@ -1,5 +1,5 @@
-$.onContentReady ->
-  $('.collapse[data-toggle-in]').each ->
+$.onContentReady ($parent) ->
+  $('.collapse[data-toggle-in]', $parent).each ->
     $this = $(this)
     return if $this.data('toggle-initialized')?
     $($this.data('toggle-in')).on 'change', ->

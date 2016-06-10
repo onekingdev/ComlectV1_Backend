@@ -33,7 +33,6 @@ gem 'draper'
 
 # Assets
 gem 'jquery-rails'
-gem 'turbolinks'
 
 # Image uploads
 gem 'fastimage', '~> 2.0.0'

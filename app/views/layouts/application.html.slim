@@ -2,7 +2,7 @@ doctype html
 html lang=I18n.locale
   head
     title Complect
-    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    = stylesheet_link_tag 'application', media: 'all'
     = csrf_meta_tags
 
 body
@@ -23,4 +23,4 @@ body
         .modal-body
         .modal-footer
 
-  = javascript_include_tag 'application', 'data-turbolinks-track' => true
+  = javascript_include_tag 'application'
