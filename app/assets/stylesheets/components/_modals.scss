@@ -14,3 +14,23 @@
     width: calc(100% + #{$padding} * 2);
   }
 }
+
+.modal.transparent {
+  .modal-content {
+    border: 0;
+    background-color: transparent;
+    box-shadow: none;
+  }
+
+  .modal-body {
+    padding: 0;
+  }
+
+  .modal-fake {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+    background: #fff;
+    padding: 20px;
+  }
+}
