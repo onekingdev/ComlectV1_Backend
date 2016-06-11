@@ -76,3 +76,67 @@ form#new_business, form.edit_business {
     }
   }
 }
+
+#header {
+  .container {
+    margin-top: -$navbar-margin-bottom;
+  }
+
+  .title, .logo-container {
+    @media (min-width: $screen-sm-min) {
+      display: table-cell;
+      float: none;
+      height: 280px;
+      vertical-align: bottom;
+      padding-bottom: 27px;
+    }
+
+    @media (max-width: $screen-xs-max) {
+      text-align: center;
+      height: auto;
+    }
+  }
+
+  .business-logo {
+    position: relative;
+
+    .ghost {
+      visibility: hidden;
+
+      @media (max-width: $screen-xs-max) {
+        visibility: visible;
+        margin: 20px 0;
+      }
+    }
+
+    .real {
+      position: absolute;
+      bottom: -70px;
+
+      @media (max-width: $screen-xs-max) {
+        display: none;
+      }
+    }
+  }
+
+  @media (max-width: $screen-sm-max) {
+    .title h1 {
+      font-size: 32px;
+    }
+  }
+
+  @media (max-width: $screen-xs-max) {
+    .title {
+      padding-bottom: 20px;
+
+      h1 {
+        font-size: 32px;
+      }
+
+      .tools {
+        float: none;
+        margin-bottom: 10px;
+      }
+    }
+  }
+}

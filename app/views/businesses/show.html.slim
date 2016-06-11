@@ -1,7 +1,13 @@
-h1= @business.business_name
+- content_for :header, render('header', business: @business)
 
-= link_to edit_business_path, class: 'btn btn-primary' do
-  i.icon.maxicons2-editting
-  span Edit Profile
+.business-profile
+  .row
+    .col-xs-12.col-sm-4.col-md-3
+      .panel.panel-default
+        .panel-heading
+          i.icon.maxicons1-building
+          'About
+        .panel-body
+          'Address
 
-= image_tag @business.logo_url(:thumb)
+    .col-xs-12.col-sm-8.col-md-9

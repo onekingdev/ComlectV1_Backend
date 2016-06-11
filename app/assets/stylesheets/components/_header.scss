@@ -2,6 +2,12 @@
   background: asset_url("header.jpg") no-repeat center;
   background-size: cover;
   position: relative;
+  margin-bottom: 80px;
+  color: #fff;
+
+  @media (max-width: $screen-xs-max) {
+    margin-bottom: 20px;
+  }
 
   &:before {
     content: "";
@@ -11,5 +17,20 @@
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.6);
+  }
+
+  .header-content {
+    position: relative;
+  }
+
+  h1 {
+    font-size: 42px;
+    margin: 0 0 0 0;
+  }
+
+  .tools {
+    line-height: 42px;
+    float: right;
+    margin-top: 0;
   }
 }
