@@ -120,6 +120,16 @@ ALTER SEQUENCE businesses_id_seq OWNED BY businesses.id;
 
 
 --
+-- Name: businesses_industries; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE businesses_industries (
+    business_id integer NOT NULL,
+    industry_id integer NOT NULL
+);
+
+
+--
 -- Name: businesses_jurisdictions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -127,6 +137,37 @@ CREATE TABLE businesses_jurisdictions (
     business_id integer NOT NULL,
     jurisdiction_id integer NOT NULL
 );
+
+
+--
+-- Name: industries; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE industries (
+    id integer NOT NULL,
+    name character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: industries_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE industries_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: industries_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE industries_id_seq OWNED BY industries.id;
 
 
 --
@@ -231,6 +272,13 @@ ALTER TABLE ONLY businesses ALTER COLUMN id SET DEFAULT nextval('businesses_id_s
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY industries ALTER COLUMN id SET DEFAULT nextval('industries_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY jurisdictions ALTER COLUMN id SET DEFAULT nextval('jurisdictions_id_seq'::regclass);
 
 
@@ -255,6 +303,14 @@ ALTER TABLE ONLY admin_users
 
 ALTER TABLE ONLY businesses
     ADD CONSTRAINT businesses_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: industries_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY industries
+    ADD CONSTRAINT industries_pkey PRIMARY KEY (id);
 
 
 --
@@ -285,6 +341,13 @@ CREATE UNIQUE INDEX index_admin_users_on_email ON admin_users USING btree (email
 --
 
 CREATE UNIQUE INDEX index_admin_users_on_reset_password_token ON admin_users USING btree (reset_password_token);
+
+
+--
+-- Name: index_businesses_industries_on_business_id_and_industry_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_businesses_industries_on_business_id_and_industry_id ON businesses_industries USING btree (business_id, industry_id);
 
 
 --
@@ -344,4 +407,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160606230043');
 INSERT INTO schema_migrations (version) VALUES ('20160607025107');
 
 INSERT INTO schema_migrations (version) VALUES ('20160607205707');
+
+INSERT INTO schema_migrations (version) VALUES ('20160611004308');
 

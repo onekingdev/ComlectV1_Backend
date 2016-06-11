@@ -5,6 +5,7 @@ class BusinessFlowsTest < ActionDispatch::IntegrationTest
   test 'can create business' do
     attributes = attributes_for(:business)
     attributes[:user_attributes] = attributes_for(:user)
+    attributes[:industry_ids] = [create(:industry).id]
     assert_difference 'Business.count + User.count', +2 do
       post businesses_path, business: attributes
     end
@@ -25,6 +26,7 @@ class BusinessFlowsTest < ActionDispatch::IntegrationTest
     user = create :user
     business = create :business, user: user
     attributes = attributes_for(:business)
+    attributes[:industry_ids] = [create(:industry).id]
     attributes[:user_attributes] = attributes_for(:user)
     post_via_redirect user_session_path, 'user[email]' => user.email, 'user[password]' => 'password'
     assert_no_difference 'Business.count + User.count' do

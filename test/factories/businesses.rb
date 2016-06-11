@@ -5,7 +5,7 @@ FactoryGirl.define do
     contact_last_name { Faker::Name.last_name }
     contact_email { Faker::Internet.email }
     business_name { Faker::Company.name }
-    industry { Business::INDUSTRIES.sample }
+    industries { [create(:industry)] }
     employees { Business::EMPLOYEE_OPTIONS.sample }
     description { Faker::Company.bs }
     country { Faker::Address.country }

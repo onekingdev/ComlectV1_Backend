@@ -1,6 +1,6 @@
 form#new_business, form.edit_business {
   select {
-    height: $input-height-large;
+    height: $input-height-large !important;
   }
 
   .business_jurisdictions {

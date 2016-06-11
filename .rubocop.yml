@@ -94,3 +94,6 @@ Rails/Output:
     - db/**/*.rb
     - lib/**/*.rb
     - test/**/*.rb
+
+Rails/HasAndBelongsToMany:
+  Enabled: false
