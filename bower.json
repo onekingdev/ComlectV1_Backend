@@ -13,6 +13,6 @@
     "font-awesome": "~4.6.3",
     "bootstrap-sass": "~3.3.6",
     "awesome-bootstrap-checkbox": "~0.3.7",
-    "selectize": "~0.12.1"
+    "bootstrap-multiselect": "~0.9.13"
   }
 }

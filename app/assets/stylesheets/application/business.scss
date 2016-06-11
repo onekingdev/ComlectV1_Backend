@@ -1,4 +1,8 @@
 form#new_business, form.edit_business {
+  select {
+    height: $input-height-large;
+  }
+
   .business_jurisdictions {
     @include clearfix;
 

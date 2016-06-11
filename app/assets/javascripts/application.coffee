@@ -1,9 +1,7 @@
 #= require jquery
 #= require jquery_ujs
 #= require bootstrap/_loader
-#= require microplugin/src/microplugin
-#= require sifter/sifter
-#= require selectize/dist/js/selectize
+#= require bootstrap-multiselect/dist/js/bootstrap-multiselect
 #= require_self
 #= require_tree ./utilities
 #= require_tree ./components

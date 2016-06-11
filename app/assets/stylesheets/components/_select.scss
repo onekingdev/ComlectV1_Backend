@@ -1,0 +1,29 @@
+.selectize-input {
+  border: 0;
+}
+
+.multiselect {
+  &.input-lg {
+    height: $input-height-large;
+    line-height: $input-height-large;
+    padding: 0 $padding-large-horizontal;
+    text-align: left;
+
+    .caret {
+      $center: ($input-height-large / 2) - 2px;
+      margin: $center 0 $center $padding-base-horizontal;
+      float: right;
+    }
+  }
+
+}
+
+.multiselect-container .input-group-addon, .multiselect-container .input-group-btn {
+  display: none;
+}
+
+.multiselect-parent .dropdown-menu {
+  label {
+    padding: 5px 20px;
+  }
+}
