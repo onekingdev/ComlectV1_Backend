@@ -3,7 +3,8 @@ class window._ModalClass
     options ||= {}
     classes = options.class
     @modal()
-      .addClass('plain ' + classes)
+      .removeAttr('class')
+      .addClass('modal fade plain ' + classes)
       .find('.modal-body').html(content).end()
       .modal('show')
       .modal('handleUpdate')
