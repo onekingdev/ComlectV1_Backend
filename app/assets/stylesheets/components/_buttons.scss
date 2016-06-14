@@ -8,19 +8,18 @@
 }
 
 .btn-social-linkedin {
-  $bg: #4875B4;
+  $bg: #4f72b8;
   background-color: $bg;
   border-color: $bg;
-  color: #fff;
 
   &:hover, &:focus {
-    background-color: darken($bg, 10%) !important;
-    border-color: darken($bg, 10%) !important;
-    color: #fff;
+    background-color: lighten($bg, 10%) !important;
+    border-color: lighten($bg, 10%) !important;
   }
 
   .fa {
     margin-top: -2px; // Small tweak
+    color: #fff;
   }
 }
 

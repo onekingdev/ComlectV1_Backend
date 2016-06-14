@@ -6,3 +6,21 @@ h2 {
   font-weight: 300;
   font-size: 32px;
 }
+
+a[class~="text-white"] {
+  &:hover {
+    color: darken(#fff, 10%);
+  }
+}
+
+a[class~="text-white"][class*=" o-"] {
+  &:hover {
+    color: #fff;
+  }
+}
+
+a[class*=" o-"] {
+  &:hover {
+    opacity: 1.0 !important;
+  }
+}

@@ -2,9 +2,12 @@ class window._ModalClass
   showPlain: (content, options) =>
     options ||= {}
     classes = options.class
-    @modal()
-      .removeAttr('class')
-      .addClass('modal fade plain ' + classes)
+    keep = ['modal', 'fade']
+    $modal = @modal()
+    $.each $modal.attr('class').split(' '), ->
+      $modal.removeClass(this) unless keep.indexOf(this)
+    $modal
+      .addClass("plain #{classes}")
       .find('.modal-body').html(content).end()
       .modal('show')
       .modal('handleUpdate')
