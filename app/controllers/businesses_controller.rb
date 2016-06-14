@@ -5,7 +5,7 @@ class BusinessesController < ApplicationController
   end, if: -> { signed_in? && current_user.business }, only: %i(new create)
 
   def show
-    @business = Business.find(params[:id])
+    @business = Business.includes(:industries).find(params[:id])
   end
 
   def new

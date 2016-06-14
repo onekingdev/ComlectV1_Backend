@@ -12,4 +12,8 @@
           = link_to edit_business_path, class: 'btn btn-primary' do
             i.icon.maxicons2-editting
             span.fw-regular Edit Profile
-      h1= business.business_name
+      h1
+        = business.business_name
+        - if business.linkedin_link.present?
+          a.fa.fa-linkedin-square href=business.linkedin_url
+      = business.render_stars

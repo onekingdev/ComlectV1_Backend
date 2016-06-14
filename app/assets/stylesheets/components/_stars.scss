@@ -1,0 +1,21 @@
+.stars {
+  display: inline-block;
+
+  .star {
+    font-family: FontAwesome;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 13px;
+    display: inline-block;
+
+    &:before {
+      content: "\f005";
+      color: #d1d1d1;
+    }
+
+    &.active:before {
+      //content: "\f005";
+      color: $brand-primary;
+    }
+  }
+}
