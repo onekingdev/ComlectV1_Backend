@@ -8,19 +8,21 @@ class CreateProjects < ActiveRecord::Migration
       t.string :type, null: false, default: 'one-off'
       t.string :status, null: false, default: 'draft'
       t.string :title, null: false
-      t.string :location_type, null: false
+      t.string :location_type
       t.string :location
       t.string :description, null: false
-      t.string :key_deliverables, null: false
+      t.string :key_deliverables
       t.date :starts_on, null: false
-      t.date :ends_on, null: false
-      t.string :pricing_type, null: false, default: 'hourly'
+      t.date :ends_on
+      t.string :pricing_type, default: 'hourly'
       t.string :payment_schedule
       t.decimal :fixed_budget
       t.decimal :hourly_rate
       t.integer :estimated_hours
       t.string :minimum_experience
       t.boolean :only_regulators
+      t.integer :annual_salary
+      t.string :fee_type
 
       t.timestamps null: false
     end
