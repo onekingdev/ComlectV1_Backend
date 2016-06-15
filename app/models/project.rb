@@ -16,6 +16,8 @@ class Project < ActiveRecord::Base
   validates :type, inclusion: { in: %w(one-off full-time) }
   validates :location, inclusion: { in: LOCATIONS.map(&:second) }
 
+  before_validation :assign_pricing_type_fields
+
   attr_accessor :hourly_payment_schedule, :fixed_payment_schedule
 
   def hourly_pricing?
@@ -24,5 +26,17 @@ class Project < ActiveRecord::Base
 
   def fixed_pricing?
     pricing_type == 'fixed'
+  end
+
+  private
+
+  def assign_pricing_type_fields
+    if hourly_pricing?
+      self.fixed_budget = nil
+      self.payment_schedule = hourly_payment_schedule
+    else
+      self.hourly_rate = nil
+      self.payment_schedule = fixed_payment_schedule
+    end
   end
 end

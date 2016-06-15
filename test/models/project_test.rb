@@ -12,7 +12,6 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal 'monthly', project.payment_schedule
     assert_equal 100, project.hourly_rate
     assert_equal 5, project.estimated_hours
-    assert_equal nil, project.fixed_payment_schedule
     assert_equal nil, project.fixed_budget
   end
 
@@ -27,6 +26,5 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal 500, project.fixed_budget
     assert_equal 50, project.estimated_hours
     assert_equal nil, project.hourly_rate
-    assert_equal nil, project.hourly_payment_schedule
   end
 end
