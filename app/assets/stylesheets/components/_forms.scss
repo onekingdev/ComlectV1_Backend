@@ -11,6 +11,15 @@
   }
 }
 
+.panel-body label {
+  color: rgba(0, 0, 0, 0.8);
+  font-weight: $roboto-regular;
+}
+
+.js-datepicker {
+  background-color: #fff !important;
+}
+
 .form-group {
   position: relative;
 }
@@ -34,6 +43,14 @@ form .well {
 }
 
 .form-group.radio_pills .btn-group {
+  .btn {
+    background-color: #f3f3f3;
+
+    .panel-body &, .well & {
+      background-color: #fff;
+    }
+  }
+
   .btn.active {
     @include button-variant($btn-primary-color, $btn-primary-bg, $btn-primary-border);
     @include button-variant-light($btn-primary-bg);
@@ -42,5 +59,19 @@ form .well {
   .btn.active:active, .btn.active.active {
     background-color: $btn-primary-bg;
     border-color: transparent;
+  }
+}
+
+select.js-select.input-lg {
+  height: $input-height-large !important;
+}
+
+.form-group[data-remaining-chars] {
+  &:after {
+    content: attr(data-remaining-chars);
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    color: $text-muted;
   }
 }

@@ -16,8 +16,8 @@ nav#nav.navbar.navbar-default.navbar-inverse
 
     ul.nav.navbar-nav.navbar-right
       - if signed_in?
-        li.m-r-3
-          button.btn.btn-primary.navbar-btn data-url="#" Post a Project
+        li.m-r-2
+          button.btn.btn-primary.navbar-btn data-href=new_project_path Post a Project
       li.dropdown
         a.dropdown-toggle href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
           'Browse
@@ -43,7 +43,7 @@ nav#nav.navbar.navbar-default.navbar-inverse
             .badge.small 2
           ul.dropdown-menu
             li.p-x-2.p-y-1 No alerts
-      - else
+      - elsif controller_name != 'sessions'
         li.m-l-2
           button.btn.btn-primary.navbar-btn data-remote=true data-url=new_user_session_path Log In
         li.m-r-3.m-l-1

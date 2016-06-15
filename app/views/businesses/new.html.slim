@@ -2,7 +2,7 @@ h1.text-center.m-b-3.p-b-3 Sign up to post your project
 
 = simple_form_for @business, wrapper: :inline_form do |f|
   .well.well-lg.m-t-3
-    h2.text-center.m-b-3 Let's start with your login details
+    h2.text-center.m-b-2 Let's start with your login details
     = f.fields_for :user, wrapper: :inline_form do |uf|
       .row.row-compact
         .col-sm-6
@@ -11,7 +11,7 @@ h1.text-center.m-b-3.p-b-3 Sign up to post your project
           = uf.input :password, input_html: { class: 'input-lg' }
 
   .well.well-lg.m-t-3
-    h2.text-center.m-b-3 Next, details of the key contact at your business
+    h2.text-center.m-b-2 Next, details of the key contact at your business
     .row.row-compact
       .col-sm-4
         = f.input :contact_first_name, input_html: { class: 'input-lg' }
@@ -26,7 +26,7 @@ h1.text-center.m-b-3.p-b-3 Sign up to post your project
         = f.input :contact_phone, required: false, input_html: { class: 'input-lg' }
 
   .well.well-lg.m-t-3
-    h2.text-center.m-b-3 Tell us more about your business
+    h2.text-center.m-b-2 Tell us more about your business
 
     h3
       i.icon.maxicons1-building
@@ -72,13 +72,13 @@ h1.text-center.m-b-3.p-b-3 Sign up to post your project
     .row.text-center.p-b-1
       h2.m-b-3 Finally, do you wish to display the name of your business?
       = f.input :anonymous, as: :radio_pills, collection: [['Public', false], ['Anonymous', true]], btn_class: 'btn-lg btn-default', hint: false
-      p.text-muted.small.m-t-3.col-xs-12.col-md-6.col-md-offset-3
+      p.text-muted.small.m-t-2.col-xs-12.col-md-6.col-md-offset-3
         = I18n.t('simple_form.hints.business.anonymous')
 
     .collapse class=("in" unless f.object.anonymous?) data-toggle-in="#business_anonymous_false" data-toggle-out="#business_anonymous_true"
-      hr.m-b-3.p-t-2
+      hr.m-b-3.p-t-1
 
-      .text-center.m-t-3
+      .text-center
         h2.p-t-1 Would you like to add your logo?
 
         label.custom-file-field.js-custom-file-field

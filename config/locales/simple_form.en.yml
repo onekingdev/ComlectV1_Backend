@@ -56,3 +56,11 @@ en:
         city: "* City"
         state: "* State"
         zipcode: Zipcode
+      project:
+        title: "* Title"
+        location: "* Location"
+        industries: "* Industry"
+        jurisdictions: "* Jurisdiction"
+        description: "* Job Description"
+        key_deliverables: "* Key Deliverables"
+        minimum_experience: Years of Compliance Experience

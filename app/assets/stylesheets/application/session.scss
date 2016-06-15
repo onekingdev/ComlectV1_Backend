@@ -5,3 +5,7 @@
   @include make-md-column(6);
   @include make-md-column-push(3);
 }
+
+.modal a.forgot-password {
+  color: #fff;
+}

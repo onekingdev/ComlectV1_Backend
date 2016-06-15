@@ -9,3 +9,4 @@ $.onContentReady ($parent) ->
       buttonWidth: '100%'
       enableFiltering: filtering
       enableCaseInsensitiveFiltering: filtering
+      enableClickableOptGroups: $this.find('optgroup').length > 0

@@ -6,6 +6,11 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def require_business!
+    return if current_user.business
+    render 'forbidden', status: :forbidden, locals: { message: 'Only business accounts can access this page' }
+  end
+
   def render_404
     render file: 'public/404', status: :not_found
   end

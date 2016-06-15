@@ -7,6 +7,9 @@ $fa-font-path: "font-awesome/fonts";
 @import "bootstrap/loader";
 @import "awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.scss";
 @import "bootstrap-multiselect/dist/css/bootstrap-multiselect";
+@import "pickadate/lib/themes/classic";
+@import "pickadate/lib/themes/classic.date";
+@import "pickadate/lib/themes/classic.time";
 
 @import "grid";
 @import "mixins";

@@ -3,6 +3,7 @@ class Business < ActiveRecord::Base
   belongs_to :user
   has_and_belongs_to_many :jurisdictions
   has_and_belongs_to_many :industries
+  has_many :projects, dependent: :destroy
 
   include ImageUploader[:logo]
 

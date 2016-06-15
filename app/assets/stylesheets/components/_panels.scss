@@ -1,8 +1,8 @@
 .panel-default {
   .panel-heading {
     font-weight: $roboto-light;
-    font-size: 24px;
-    line-height: 28px;
+    font-size: 22px;
+    line-height: 30px;
     color: #fff;
 
     .icon {
@@ -56,4 +56,10 @@
       line-height: 24px;
     }
   }
+}
+
+
+.panel-body .row-compact {
+  margin-left: -8px;
+  margin-right: -8px;
 }

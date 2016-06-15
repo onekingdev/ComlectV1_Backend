@@ -48,14 +48,6 @@ form#new_business, form.edit_business {
     textarea {
       min-height: ($input-height-large * 2) + $form-group-margin-bottom;
     }
-
-    &:after {
-      content: attr(data-remaining-chars);
-      position: absolute;
-      right: 10px;
-      top: 10px;
-      color: $text-muted;
-    }
   }
 
   .custom-file-field {

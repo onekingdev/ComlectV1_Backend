@@ -1,0 +1,7 @@
+form.new_project, form.edit_project {
+  .project_description {
+    textarea {
+      min-height: ($input-height-large * 3) + $form-group-margin-bottom * 2;
+    }
+  }
+}

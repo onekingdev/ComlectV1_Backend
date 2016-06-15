@@ -171,6 +171,16 @@ ALTER SEQUENCE industries_id_seq OWNED BY industries.id;
 
 
 --
+-- Name: industries_projects; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE industries_projects (
+    industry_id integer NOT NULL,
+    project_id integer NOT NULL
+);
+
+
+--
 -- Name: jurisdictions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -199,6 +209,63 @@ CREATE SEQUENCE jurisdictions_id_seq
 --
 
 ALTER SEQUENCE jurisdictions_id_seq OWNED BY jurisdictions.id;
+
+
+--
+-- Name: jurisdictions_projects; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE jurisdictions_projects (
+    jurisdiction_id integer NOT NULL,
+    project_id integer NOT NULL
+);
+
+
+--
+-- Name: projects; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE projects (
+    id integer NOT NULL,
+    business_id integer NOT NULL,
+    type character varying DEFAULT 'one-off'::character varying NOT NULL,
+    status character varying DEFAULT 'draft'::character varying NOT NULL,
+    title character varying NOT NULL,
+    location_type character varying NOT NULL,
+    location character varying,
+    description character varying NOT NULL,
+    key_deliverables character varying NOT NULL,
+    starts_on date NOT NULL,
+    ends_on date NOT NULL,
+    pricing_type character varying DEFAULT 'hourly'::character varying NOT NULL,
+    payment_schedule character varying,
+    fixed_budget numeric,
+    hourly_rate numeric,
+    estimated_hours integer,
+    minimum_experience character varying,
+    only_regulators boolean,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: projects_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE projects_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: projects_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE projects_id_seq OWNED BY projects.id;
 
 
 --
@@ -286,6 +353,13 @@ ALTER TABLE ONLY jurisdictions ALTER COLUMN id SET DEFAULT nextval('jurisdiction
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY projects ALTER COLUMN id SET DEFAULT nextval('projects_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
 
 
@@ -319,6 +393,14 @@ ALTER TABLE ONLY industries
 
 ALTER TABLE ONLY jurisdictions
     ADD CONSTRAINT jurisdictions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: projects_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY projects
+    ADD CONSTRAINT projects_pkey PRIMARY KEY (id);
 
 
 --
@@ -362,6 +444,34 @@ CREATE INDEX index_businesses_on_anonymous ON businesses USING btree (anonymous)
 --
 
 CREATE INDEX index_businesses_on_user_id ON businesses USING btree (user_id);
+
+
+--
+-- Name: index_industries_projects_on_industry_id_and_project_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_industries_projects_on_industry_id_and_project_id ON industries_projects USING btree (industry_id, project_id);
+
+
+--
+-- Name: index_jurisdictions_projects_on_jurisdiction_id_and_project_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_jurisdictions_projects_on_jurisdiction_id_and_project_id ON jurisdictions_projects USING btree (jurisdiction_id, project_id);
+
+
+--
+-- Name: index_projects_on_business_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_projects_on_business_id ON projects USING btree (business_id);
+
+
+--
+-- Name: index_projects_on_status; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_projects_on_status ON projects USING btree (status);
 
 
 --
@@ -409,4 +519,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160607025107');
 INSERT INTO schema_migrations (version) VALUES ('20160607205707');
 
 INSERT INTO schema_migrations (version) VALUES ('20160611004308');
+
+INSERT INTO schema_migrations (version) VALUES ('20160614211137');
 

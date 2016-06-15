@@ -4,14 +4,6 @@ class Users::SessionsController < Devise::SessionsController
 
   respond_to :js, :html
 
-  # def new
-  #   super
-  #   respond_to do |format|
-  #     format.html { super }
-  #     format.js
-  #   end
-  # end
-
   # POST /resource/sign_in
   def create
     respond_to do |format|
