@@ -11,3 +11,15 @@ en:
         hourly_rate: Hourly Rate
         estimated_hours: Estimated Hours
         only_regulators: Only Former Regulators
+    errors:
+      messages:
+        blank: This is required
+      models:
+        project:
+          attributes:
+            location_type:
+              inclusion: Please select from the list
+            starts_on:
+              invalid: Must be before end date
+            ends_on:
+              invalid: Must be after end date

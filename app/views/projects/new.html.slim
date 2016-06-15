@@ -5,13 +5,14 @@
 
       = f.input :type, as: :radio_pills, collection: [['One-off Project', 'one-off'], ['Full-time Role', 'full-time']], btn_class: 'btn-lg btn-default p-x-3'
 
-    .panel.panel-default.m-t-3
+    .panel.panel-default.m-t-3.project-details
       .panel-heading Job Details
       .panel-body
         .row.row-compact
           .col-xs-12.col-sm-4
             = f.input :title, input_html: { class: 'input-lg' }
-            = f.input :location, collection: Project::LOCATIONS, include_blank: t('simple_form.placeholders.project.location'), input_html: { class: 'input-lg js-select' }
+            = f.input :location_type, collection: Project::LOCATIONS, include_blank: t('simple_form.placeholders.project.location_type'), input_html: { class: 'input-lg js-select' }
+            = f.input :location, input_html: { class: "input-lg" }, wrapper_html: { class: ('hidden' unless project.location_required?) }
             = project.industries_input(f)
           .col-xs-12.col-sm-8
             = f.input :description, as: :text, input_html: { class: 'input-lg', maxlength: 750 }, wrapper_html: { data: { "remaining-chars" => 750 } }

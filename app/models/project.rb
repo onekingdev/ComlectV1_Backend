@@ -11,14 +11,37 @@ class Project < ActiveRecord::Base
   FIXED_PAYMENT_SCHEDULES = [%w(50/50 fifty-fifty), %w(Bi-Weekly bi-weekly), %w(Monthly monthly)].freeze
   MINIMUM_EXPERIENCE = [%w(3-7\ yrs 3-7), %w(7-10\ yrs 7-10), %w(11-15\ yrs 11-15), %w(15+\ yrs 15+)].freeze
 
-  validates :title, :location, :jurisdictions, :industries, :description, :key_deliverables, presence: true
+  validates :title, :description, :key_deliverables, presence: true
   validates :starts_on, :ends_on, :payment_schedule, :estimated_hours, presence: true
   validates :type, inclusion: { in: %w(one-off full-time) }
-  validates :location, inclusion: { in: LOCATIONS.map(&:second) }
+  validates :location_type, inclusion: { in: LOCATIONS.map(&:second) }, allow_blank: true
+  validates :location_type, presence: true
+  validates :location, presence: true, if: :location_required?
+  validates :jurisdiction_ids, :industry_ids, presence: true
+  validates :hourly_payment_schedule, :hourly_rate, presence: true, if: :hourly_pricing?
+  validates :fixed_payment_schedule, :fixed_budget, presence: true, if: :fixed_pricing?
+  validate if: -> { starts_on.present? && ends_on.present? } do
+    errors.starts_on.add :invalid if starts_on > ends_on
+  end
+  validate if: -> { starts_on.present? && ends_on.present? } do
+    errors.starts_on.add :invalid if ends_on < starts_on
+  end
 
   before_validation :assign_pricing_type_fields
 
   attr_accessor :hourly_payment_schedule, :fixed_payment_schedule
+
+  def location_required?
+    remote? || remote_and_travel?
+  end
+
+  def remote?
+    location_type == 'remote'
+  end
+
+  def remote_and_travel?
+    location_type == 'remote-travel'
+  end
 
   def hourly_pricing?
     pricing_type == 'hourly'

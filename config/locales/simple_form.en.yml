@@ -58,7 +58,8 @@ en:
         zipcode: Zipcode
       project:
         title: "* Title"
-        location: "* Location"
+        location_type: "* Location"
+        location: "* City, State, Country"
         industries: "* Industry"
         jurisdictions: "* Jurisdiction"
         description: "* Job Description"

@@ -75,3 +75,7 @@ select.js-select.input-lg {
     color: $text-muted;
   }
 }
+
+.has-error .dropdown-menu label {
+  color: inherit;
+}
