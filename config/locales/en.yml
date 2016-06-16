@@ -22,6 +22,8 @@ en:
       models:
         project:
           attributes:
+            base:
+              no_payment: Oops! We do not have payment details on file for you. Please add them before you can post a project.
             location_type:
               inclusion: Please select from the list
             starts_on:

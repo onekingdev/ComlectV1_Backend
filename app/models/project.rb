@@ -3,6 +3,7 @@ class Project < ActiveRecord::Base
   self.inheritance_column = '_none'
 
   belongs_to :business
+  has_one :user, through: :business
   has_and_belongs_to_many :industries
   has_and_belongs_to_many :jurisdictions
 
@@ -38,6 +39,9 @@ class Project < ActiveRecord::Base
   validate if: -> { starts_on.present? && ends_on.present? && ends_on - starts_on > 30 } do
     attribute = hourly_pricing? ? :hourly_payment_schedule : :fixed_payment_schedule
     errors.add attribute, :too_much_duration if public_send(attribute) == 'upon-completion'
+  end
+  validate unless: -> { user.payment_info? } do
+    errors.add :base, :no_payment
   end
 
   before_validation :assign_type_fields

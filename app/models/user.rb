@@ -6,4 +6,9 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   has_one :business
+
+  def payment_info?
+    # TODO
+    true
+  end
 end
