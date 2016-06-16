@@ -15,5 +15,5 @@
       h1
         = business.business_name
         - if business.linkedin_link.present?
-          a.fa.fa-linkedin-square href=business.linkedin_url
+          a.fa.fa-linkedin-square href=business.linkedin_url target="_blank"
       = business.render_stars
