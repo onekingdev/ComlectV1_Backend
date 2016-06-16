@@ -1,0 +1,13 @@
+// Pseudo-tables for positioning
+.pseudo-table {
+  display: table;
+  width: 100%;
+
+  .tr {
+    display: table-row;
+  }
+
+  .td {
+    display: table-cell;
+  }
+}

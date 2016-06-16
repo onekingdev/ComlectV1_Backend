@@ -76,7 +76,6 @@ form#new_business, form.edit_business {
 
   .title, .logo-container {
     @media (min-width: $screen-sm-min) {
-      display: table-cell;
       float: none;
       height: 280px;
       vertical-align: bottom;
@@ -145,6 +144,18 @@ form#new_business, form.edit_business {
       .tools {
         float: none;
         margin-bottom: 10px;
+      }
+    }
+  }
+
+  .no-logo {
+    @media (max-width: $screen-xs-max) {
+      h1 {
+        padding-top: 10px;
+      }
+
+      .tools {
+        margin-top: 2em;
       }
     }
   }

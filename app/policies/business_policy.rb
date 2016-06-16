@@ -6,6 +6,14 @@ class BusinessPolicy < ApplicationPolicy
     PRIVATE_ATTRIBUTES.include?(attribute) && record.anonymous? ? nil : record.public_send(attribute)
   end
 
+  def update?
+    owner?
+  end
+
+  def owner?
+    user && record.user_id == user.id
+  end
+
   class Scope < Scope
     def resolve
       scope

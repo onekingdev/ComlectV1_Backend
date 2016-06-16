@@ -22,7 +22,7 @@
               .item
                 i.icon.icon-fw.maxicons1-peoples.text-muted
                 span= business.employees
-              - if business.website.present?
+              - if business.public? && business.website.present?
                 .item
                   i.icon.icon-fw.maxicons2-assign.text-muted
                   span= link_to business.website_short, business.website_url, target: '_blank'
