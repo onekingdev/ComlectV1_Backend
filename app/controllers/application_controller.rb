@@ -6,6 +6,10 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def js_redirect(path)
+    render js: "window.location.href = '#{path}';"
+  end
+
   def require_business!
     return if current_user.business
     render 'forbidden', status: :forbidden, locals: { message: 'Only business accounts can access this page' }

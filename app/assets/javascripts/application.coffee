@@ -10,6 +10,9 @@
 #= require_tree ./components
 #= require_tree ./application
 
-# Custom content ready handler to encompass DOM and ajax (TODO) loads
+# Custom content ready handler to encompass DOM and ajax loads
 $.onContentReady = (callback) ->
   $ -> callback($(document))
+  # Fire $(document).trigger('newContent', $parent) to trigger this
+  $(document).on 'newContent', (_e, $parent) ->
+    callback $parent

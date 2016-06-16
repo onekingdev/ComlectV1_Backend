@@ -10,10 +10,14 @@ class ProjectsController < ApplicationController
 
   def create
     @project = current_user.business.projects.new(project_params)
-    if @project.save
-      redirect_to @project
-    else
-      render :new
+    respond_to do |format|
+      if @project.save
+        format.html { redirect_to @project }
+        format.js { js_redirect url_for(@project) }
+      else
+        format.html { render :new }
+        format.js
+      end
     end
   end
 
