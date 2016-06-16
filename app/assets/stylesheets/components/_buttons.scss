@@ -7,6 +7,10 @@
   vertical-align: middle;
 }
 
+.btn span .fa {
+  vertical-align: initial; // Reset for .fa so it aligns properly
+}
+
 .btn-social-linkedin {
   $bg: #4f72b8;
   background-color: $bg;
@@ -25,4 +29,8 @@
 
 .btn-primary {
   @include button-variant-light($btn-primary-bg);
+}
+
+.btn-md {
+  padding: 11px 16px;
 }

@@ -30,6 +30,15 @@
     a, a:hover {
       color: rgba(0, 0, 0, 0.8);
     }
+
+    .table th span {
+      font-weight: $roboto-black;
+    }
+
+    .table th .icon {
+      margin-right: 0.4em;
+      opacity: 0.5;
+    }
   }
 
   .list-group.plain .list-group-item {
@@ -54,6 +63,15 @@
       font-weight: $roboto-bold;
       font-size: 16px;
       line-height: 24px;
+    }
+  }
+
+  hr {
+    border-color: rgba(0, 0, 0, 0.11);
+
+    &.flush {
+      margin-left: -$panel-body-padding;
+      width: calc(100% + #{$panel-body-padding * 2});
     }
   }
 }

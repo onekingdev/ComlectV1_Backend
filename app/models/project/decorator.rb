@@ -1,7 +1,38 @@
 # frozen_string_literal: true
 class Project::Decorator < Draper::Decorator
   decorates Project
+  decorates_association :business, with: Business::Decorator
   delegate_all
+
+  def location_details
+    return location if full_time?
+    type = location_type_humanized
+    return type unless location_required?
+    "#{location_type_humanized}, #{location}"
+  end
+
+  def start_and_duration
+    string = I18n.l(starts_on, format: :short_ord).gsub('%@d', starts_on.day.ordinalize)
+    return string if full_time?
+    "#{string}, #{duration}"
+  end
+
+  def duration
+    starts_on.distance_in_words_from(ends_on)
+  end
+
+  def minimum_experience_humanized
+    return 'None' if minimum_experience.blank?
+    "#{minimum_experience} Years"
+  end
+
+  def location_type_humanized
+    Project::LOCATIONS.find { |_key, value| value == location_type }.first
+  end
+
+  def payment_schedule_humanized
+    Project::PAYMENT_SCHEDULES.find { |_key, value| value == payment_schedule }.first
+  end
 
   def hourly_rate_input(builder)
     builder.input :hourly_rate,
@@ -41,7 +72,7 @@ class Project::Decorator < Draper::Decorator
                   collection: grouped_collection_for_select(Industry.all),
                   group_method: :all,
                   group_label_method: :label,
-                  prompt: I18n.t('simple_form.placeholders.project.industries'),
+                  placeholder: I18n.t('simple_form.placeholders.project.industries'),
                   input_html: { class: 'input-lg js-select', multiple: true }
   end
 
@@ -51,7 +82,7 @@ class Project::Decorator < Draper::Decorator
                   collection: grouped_collection_for_select(Jurisdiction.all),
                   group_method: :all,
                   group_label_method: :label,
-                  prompt: I18n.t('simple_form.placeholders.project.jurisdictions'),
+                  placeholder: I18n.t('simple_form.placeholders.project.jurisdictions'),
                   input_html: { class: 'input-lg js-select', multiple: true }
   end
 
@@ -60,7 +91,7 @@ class Project::Decorator < Draper::Decorator
     skills = Skill.all.sort_by { |skill| skill_ids.include?(skill.id) ? 0 : 1 }
     builder.input :skill_ids,
                   collection: skills,
-                  include_blank: false,
+                  placeholder: I18n.t('simple_form.placeholders.project.skills'),
                   input_html: { class: 'input-lg js-select', multiple: true }
   end
 

@@ -10,3 +10,4 @@ $.onContentReady ($parent) ->
       enableFiltering: filtering
       enableCaseInsensitiveFiltering: filtering
       enableClickableOptGroups: $this.find('optgroup').length > 0
+      nonSelectedText: $this.attr('placeholder')

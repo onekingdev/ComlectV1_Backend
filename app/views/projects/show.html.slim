@@ -1,2 +1,128 @@
 - Project::Decorator.decorate(@project).tap do |project|
-  h1= project.title
+  - content_for :header, render('header', project: project)
+
+  .row
+    .col-xs-12.col-sm-4.col-md-3
+      .panel.panel-default.business-info
+        .panel-heading.text-center About the Business
+        .panel-body
+          - if project.business.public? && project.business.logo
+            .logo= image_tag project.business.logo_url(:thumb), class: 'img-responsive'
+          h3= policy(project.business).public_info(:business_name) || 'Anonymous'
+          .text-center= project.business.render_stars
+
+          hr.flush
+
+          .icon-list
+            .item
+              i.icon.maxicons2-navigation.text-muted
+              span= project.business.state_country
+            .item
+              i.icon.maxicons1-building.text-muted
+              span= project.business.industries.map(&:name).join(', ')
+            .item
+              i.icon.maxicons1-earth.text-muted
+              span= project.business.jurisdictions.map(&:name).join(', ')
+            .item
+              i.icon.maxicons1-peoples.text-muted
+              span #{project.business.employees} Employees
+            - if project.business.public? && project.business.website.present?
+              .item
+                i.icon.icon-fw.maxicons2-assign.text-muted
+                span= link_to project.business.website_short, project.business.website_url, target: '_blank'
+            - if project.business.public? && project.business.linkedin_link.present?
+              .item
+                .fa.fa-linkedin-square.text-muted
+                span= link_to 'LinkedIn Profile', project.business.linkedin_url, target: "_blank"
+
+          hr.flush
+
+          = truncate project.business.description, length: 150
+
+          hr.flush
+
+          = link_to 'View Profile', project.business, class: 'btn btn-primary btn-block btn-md fw-regular'
+
+    .col-xs-12.col-sm-8.col-md-9
+      .panel.panel-default
+        .panel-heading Key Details & Applicant Prerequisites
+        .panel-body
+          .row
+            .col-xs-12.col-md-6
+              table.table
+                tr
+                  th
+                    i.icon.maxicons2-navigation
+                    span Location
+                  td= project.location_details
+                tr
+                  th
+                    i.icon.maxicons1-building
+                    span Industry
+                  td= project.industries.map(&:name).join(', ')
+                tr
+                  th
+                    i.icon.maxicons1-earth
+                    span Jurisdictions
+                  td= project.jurisdictions.map(&:name).join(', ')
+                tr
+                  th
+                    i.icon.maxicons2-clock
+                    span Start Date
+                  td= project.start_and_duration
+                - if project.hourly_pricing?
+                  tr
+                    th
+                      i.icon.maxicons1-dollar
+                      span Hourly Rate
+                    td= number_to_currency(project.hourly_rate, precision: 0)
+                - elsif project.fixed_pricing?
+                  tr
+                    th
+                      i.icon.maxicons1-dollar
+                      span Fixed Budget
+                    td= number_to_currency(project.fixed_budget, precision: 0)
+                - if project.one_off?
+                  tr
+                    th
+                      i.icon.maxicons1-wallet
+                      span Payment Method
+                    td= project.payment_schedule_humanized
+                - else
+                  tr
+                    th
+                      i.icon.maxicons1-dollar
+                      span Annual Salary
+                    td= number_to_currency(project.annual_salary, precision: 0)
+            .col-xs-12.col-md-6
+              table.table
+                - if project.one_off?
+                  tr
+                    th
+                      i.icon.maxicons1-load-77
+                      span Estimated Hours
+                    td= project.estimated_hours
+                tr
+                  th
+                    i.icon.maxicons1-bag
+                    span Experience
+                  td= project.minimum_experience_humanized
+                tr
+                  th
+                    i.icon.maxicons2-place
+                    span Former Regulator
+                  td= project.only_regulators? ? 'Yes' : 'No'
+                tr
+                  th
+                    i.icon.maxicons2-winer
+                    span Skills
+                  td= project.skills.map(&:name).join(', ').presence || 'None'
+
+      .panel.panel-default
+        .panel-heading Project Description
+        .panel-body= simple_format project.description
+
+      - if project.key_deliverables.present?
+        .panel.panel-default
+          .panel-heading Key Deliverables
+          .panel-body= simple_format project.key_deliverables

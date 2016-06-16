@@ -8,12 +8,19 @@ class Project < ActiveRecord::Base
   has_and_belongs_to_many :jurisdictions
   has_and_belongs_to_many :skills
 
-  LOCATIONS = [%w(Remote remote), %w(Remote\ +\ Travel remote-travel), %w(Onsite onsite)].freeze
-  HOURLY_PAYMENT_SCHEDULES = [%w(Upon\ Completion upon-completion), %w(Bi-Weekly bi-weekly), %w(Monthly monthly)].freeze
-  FIXED_PAYMENT_SCHEDULES = [%w(50/50 fifty-fifty), %w(Bi-Weekly bi-weekly), %w(Monthly monthly)].freeze
+  scope :published, -> { where(status: 'published') }
+  scope :accessible_by, -> (user) { joins(:business).where('user_id = ? OR status = ?', user.id, 'published') }
+
+  enum status: { draft: 'draft', review: 'review', published: 'published' }
+  enum type: { one_off: 'one_off', full_time: 'full_time' }
+  enum location_type: { remote: 'remote', remote_and_travel: 'remote_travel', onsite: 'onsite' }
+
+  LOCATIONS = [%w(Remote remote), %w(Remote\ +\ Travel remote_travel), %w(Onsite onsite)].freeze
+  HOURLY_PAYMENT_SCHEDULES = [%w(Upon\ Completion upon_completion), %w(Bi-Weekly bi_weekly), %w(Monthly monthly)].freeze
+  FIXED_PAYMENT_SCHEDULES = [%w(50/50 fifty_fifty), %w(Bi-Weekly bi_weekly), %w(Monthly monthly)].freeze
+  PAYMENT_SCHEDULES = (HOURLY_PAYMENT_SCHEDULES + FIXED_PAYMENT_SCHEDULES).uniq.freeze
   MINIMUM_EXPERIENCE = [%w(3-7\ yrs 3-7), %w(7-10\ yrs 7-10), %w(11-15\ yrs 11-15), %w(15+\ yrs 15+)].freeze
 
-  validates :type, inclusion: { in: %w(one-off full-time) }
   validates :title, :description, presence: true
   validates :location_type, inclusion: { in: LOCATIONS.map(&:second) }, allow_blank: true
   validates :location, presence: true, if: :location_required?
@@ -25,8 +32,12 @@ class Project < ActiveRecord::Base
   validates(*ONE_OFF_FIELDS, presence: true, if: :one_off?)
   validates(*FULL_TIME_FIELDS, presence: true, if: :full_time?)
 
-  validates :hourly_payment_schedule, :hourly_rate, presence: true, if: :hourly_pricing?
-  validates :fixed_payment_schedule, :fixed_budget, presence: true, if: :fixed_pricing?
+  validates :hourly_rate, presence: true, if: :hourly_pricing?
+  validates :fixed_budget, presence: true, if: :fixed_pricing?
+  validates :hourly_payment_schedule, :hourly_rate,
+            presence: true, if: -> { hourly_pricing? && payment_schedule.blank? }
+  validates :fixed_payment_schedule, :fixed_budget,
+            presence: true, if: -> { fixed_pricing? && payment_schedule.blank? }
   validate if: -> { starts_on.present? && ends_on.present? } do
     errors.add :starts_on, :invalid if starts_on > ends_on
   end
@@ -44,6 +55,7 @@ class Project < ActiveRecord::Base
   validate unless: -> { user.payment_info? } do
     errors.add :base, :no_payment
   end
+  validates :skill_ids, length: { maximum: 10 }
 
   before_validation :assign_type_fields
   before_validation :assign_pricing_type_fields
@@ -51,24 +63,20 @@ class Project < ActiveRecord::Base
   attr_accessor :full_time_starts_on
   attr_accessor :hourly_payment_schedule, :fixed_payment_schedule
 
-  def one_off?
-    type == 'one-off'
+  def full_time_starts_on
+    @full_time_starts_on || starts_on
   end
 
-  def full_time?
-    type == 'full-time'
+  def hourly_payment_schedule
+    @hourly_payment_schedule || payment_schedule
+  end
+
+  def fixed_payment_schedule
+    @fixed_payment_schedule || payment_schedule
   end
 
   def location_required?
     remote? || remote_and_travel? || full_time?
-  end
-
-  def remote?
-    location_type == 'remote'
-  end
-
-  def remote_and_travel?
-    location_type == 'remote-travel'
   end
 
   def hourly_pricing?

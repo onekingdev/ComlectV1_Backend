@@ -15,6 +15,7 @@ gem 'dotenv-rails', '~> 2.0.2'
 
 # Auth
 gem 'devise', '~> 4.1.1'
+gem 'pundit'
 
 # Admin
 gem 'activeadmin', github: 'activeadmin'

@@ -43,7 +43,7 @@ form.project_form {
     }
   }
 
-  &[data-project-type=one-off] {
+  &[data-project-type=one_off] {
     .form-group.project_full_time_starts_on {
       display: none;
     }
@@ -53,7 +53,11 @@ form.project_form {
     }
   }
 
-  &[data-project-type=full-time] {
+  &[data-project-type=full_time] {
+    .project-details #project_description {
+      min-height: ($input-height-large * 3) + $form-group-margin-bottom * 2;
+    }
+
     .form-group.project_key_deliverables {
       display: none;
     }
@@ -68,6 +72,31 @@ form.project_form {
 
     .project-duration, .project-pricing {
       display: none;
+    }
+  }
+}
+
+body.projects.show {
+  .business-info {
+    h3 {
+      font-size: 32px;
+      font-weight: $roboto-light;
+      text-align: center;
+    }
+
+    .logo {
+      width: 70%;
+      margin: 0 auto;
+    }
+  }
+
+  @media (max-width: $screen-sm-max) {
+    .table {
+      margin-bottom: 0;
+    }
+
+    .panel-body .table td, .panel-body .table th {
+      width: 50%;
     }
   }
 }

@@ -5,8 +5,8 @@ html lang=I18n.locale
     = stylesheet_link_tag 'application', media: 'all'
     = csrf_meta_tags
 
-body
-  header#header
+body class="#{controller_name} #{action_name}"
+  header#header class=yield(:header_class)
     = render "navbar", user: User::Decorator.new(current_user)
     = yield :header
 

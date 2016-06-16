@@ -22,4 +22,8 @@ class Business < ActiveRecord::Base
       business.build_user unless business.user
     end
   end
+
+  def public?
+    !anonymous?
+  end
 end

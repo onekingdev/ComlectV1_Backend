@@ -82,7 +82,6 @@ CREATE TABLE businesses (
     contact_job_title character varying,
     contact_phone character varying,
     business_name character varying,
-    industry character varying,
     employees character varying,
     website character varying,
     linkedin_link character varying,
@@ -228,7 +227,7 @@ CREATE TABLE jurisdictions_projects (
 CREATE TABLE projects (
     id integer NOT NULL,
     business_id integer NOT NULL,
-    type character varying DEFAULT 'one-off'::character varying NOT NULL,
+    type character varying DEFAULT 'one_off'::character varying NOT NULL,
     status character varying DEFAULT 'draft'::character varying NOT NULL,
     title character varying NOT NULL,
     location_type character varying,
@@ -595,4 +594,8 @@ INSERT INTO schema_migrations (version) VALUES ('20160611004308');
 INSERT INTO schema_migrations (version) VALUES ('20160614211137');
 
 INSERT INTO schema_migrations (version) VALUES ('20160616013430');
+
+INSERT INTO schema_migrations (version) VALUES ('20160616155048');
+
+INSERT INTO schema_migrations (version) VALUES ('20160616211257');
 

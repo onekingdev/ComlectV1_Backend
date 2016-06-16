@@ -1,19 +1,22 @@
 # frozen_string_literal: true
-
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
   before_action :require_business!, only: %i(new create edit update)
+  before_action :set_project, only: %i(edit update destroy)
+  before_action :build_project, only: %i(new create)
 
-  def new
-    @project = current_user.business.projects.new
+  def show
+    @project = policy_scope(Project)
+               .includes(:industries, :jurisdictions, :skills, business: %i(industries jurisdictions))
+               .find(params[:id])
   end
 
   def create
-    @project = current_user.business.projects.new(project_params)
     respond_to do |format|
       if @project.save
-        format.html { redirect_to @project }
-        format.js { js_redirect url_for(@project) }
+        redirect_path = @project.review? ? url_for(@project) : business_dashboard_path
+        format.html { redirect_to redirect_path }
+        format.js { js_redirect url_for(redirect_path) }
       else
         format.html { render :new }
         format.js
@@ -21,11 +24,33 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def show
-    @project = Project.find(params[:id])
+  def update
+    respond_to do |format|
+      if @project.update_attributes(project_params)
+        redirect_path = @project.review? ? url_for(@project) : business_dashboard_path
+        format.html { redirect_to redirect_path }
+        format.js { js_redirect url_for(redirect_path) }
+      else
+        format.html { render :edit }
+        format.js
+      end
+    end
+  end
+
+  def destroy
+    @project.destroy
+    redirect_to business_dashboard_path, notice: 'Project deleted'
   end
 
   private
+
+  def set_project
+    @project = policy_scope(Project).includes(:business).find(params[:id])
+  end
+
+  def build_project
+    @project = current_user.business.projects.new(params[:project] ? project_params : {})
+  end
 
   def project_params
     params.require(:project).permit(

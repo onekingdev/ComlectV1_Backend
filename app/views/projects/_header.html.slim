@@ -1,0 +1,22 @@
+- content_for(:header_class, 'compact')
+.container
+  .row.header-content.small-header
+    .col-xs-12.title
+      - if policy(project).edit?
+        .tools
+          - if policy(project).destroy?
+            = link_to project_path(project), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-primary m-r-1' do
+              span
+                .fa.fa-trash-o
+          = link_to edit_project_path(project), class: 'btn btn-primary p-x-3' do
+            span.fw-regular Edit
+          - if project.published?
+            = link_to '#', class: 'btn btn-primary p-x-3 m-l-1' do
+              span.fw-regular Share
+          - else
+            = form_for project, html: { class: 'm-l-1 d-ib' } do |f|
+              = f.hidden_field :status, value: Project.statuses[:published]
+              = f.button class: 'btn btn-primary p-x-3 fw-regular' do
+                span Post
+      h1
+        = project.title

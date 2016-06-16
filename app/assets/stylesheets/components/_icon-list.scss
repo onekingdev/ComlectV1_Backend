@@ -1,9 +1,19 @@
 .icon-list {
+  overflow: hidden;
+
   .item {
-    line-height: 1.5em;
+    line-height: 1.6em;
   }
 
   .icon {
     margin-right: 0.5em;
+  }
+
+  .fa {
+    font-size: 120%;
+  }
+
+  span {
+    white-space: nowrap;
   }
 }

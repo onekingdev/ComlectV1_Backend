@@ -9,8 +9,8 @@ FactoryGirl.define do
     description 'Job description'
 
     factory :project_one_off do
-      type 'one-off'
-      location_type 'onsite'
+      type Project.types[:one_off]
+      location_type Project.location_types[:onsite]
       starts_on { 1.month.from_now }
       ends_on { starts_on + 1.month }
       key_deliverables 'Key deliverables'
@@ -31,7 +31,7 @@ FactoryGirl.define do
     end
 
     factory :project_full_time do
-      type 'full-time'
+      type Project.types[:full_time]
       location 'Texas, USA'
       full_time_starts_on { 1.month.from_now }
       annual_salary 98_000

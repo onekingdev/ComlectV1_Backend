@@ -2,6 +2,7 @@ en:
   date:
     formats:
       pickadate: "%Y/%m/%d"
+      short_ord: "%@d %b %Y"
   activerecord:
     attributes:
       project:
@@ -36,3 +37,5 @@ en:
             fixed_payment_schedule:
               too_little_duration: Not available on durations less than 2 weeks
               too_much_duration: Not available on durations more than 1 month
+            skill_ids:
+              too_long: Select 10 skills max

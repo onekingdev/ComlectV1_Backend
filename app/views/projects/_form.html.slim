@@ -2,7 +2,7 @@
   .text-center.p-b-2
     h2.m-t-0.m-b-3 Is this a one-off project or a full-time role?
 
-    = f.input :type, as: :radio_pills, collection: [['One-off Project', 'one-off'], ['Full-time Role', 'full-time']], btn_class: 'btn-lg btn-default p-x-3'
+    = f.input :type, as: :radio_pills, collection: [['One-off Project', Project.types[:one_off]], ['Full-time Role', Project.types[:full_time]]], btn_class: 'btn-lg btn-default p-x-3'
 
   .panel.panel-default.m-t-3.project-details data-location-type=project.location_type
     .panel-heading Job Details
@@ -10,7 +10,7 @@
       .row.row-compact
         .col-xs-12.col-sm-4
           = f.input :title, input_html: { class: 'input-lg' }
-          = f.input :location_type, collection: Project::LOCATIONS, include_blank: t('simple_form.placeholders.project.location_type'), input_html: { class: 'input-lg js-select' }
+          = f.input :location_type, collection: Project::LOCATIONS, include_blank: true, input_html: { class: 'input-lg js-select' }
           = f.input :location, input_html: { class: "input-lg" }
           = project.industries_input(f)
         .col-xs-12.col-sm-8
@@ -93,10 +93,10 @@
 
   .m-t-3.text-center
     - if project.persisted?
-      button.btn.btn-primary.btn-lg.m-r-1.p-x-2.m-b-1
+      = link_to project, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-primary btn-lg m-r-1 p-x-2 m-b-1' do
         .fa.fa-trash-o
-    button.btn.btn-primary.btn-lg.m-r-1.p-x-3.m-b-1 type="submit" name="project[status]" value="draft" Save as Draft
-    button.btn.btn-primary.btn-lg.p-x-3.m-b-1 type="submit" name="project[status]" value="review" Review & Post
+    button.btn.btn-primary.btn-lg.m-r-1.p-x-3.m-b-1 type="submit" name="project[status]" value=Project.statuses[:draft] Save as Draft
+    button.btn.btn-primary.btn-lg.p-x-3.m-b-1 type="submit" name="project[status]" value=Project.statuses[:review] Review & Post
 
   .row.m-t-3.text-center
     .col-xs-12.col-sm-8.col-sm-push-2.small.text-muted

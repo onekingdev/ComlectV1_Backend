@@ -2,10 +2,13 @@
 require 'test_helper'
 
 class ProjectCreationTest < ActionDispatch::IntegrationTest
-  test 'can create one off hourly project' do
-    user = create(:business).user
-    post_via_redirect user_session_path, 'user[email]' => user.email, 'user[password]' => 'password'
+  setup do
+    @business = create :business
+    @user = @business.user
+    post user_session_path, 'user[email]' => @user.email, 'user[password]' => 'password'
+  end
 
+  test 'can create one off hourly project' do
     attributes = attributes_for(:project_one_off_hourly)
     assert_difference 'Project.count', +1 do
       post projects_path, project: attributes
@@ -13,9 +16,6 @@ class ProjectCreationTest < ActionDispatch::IntegrationTest
   end
 
   test 'can create one off fixed budget project' do
-    user = create(:business).user
-    post_via_redirect user_session_path, 'user[email]' => user.email, 'user[password]' => 'password'
-
     attributes = attributes_for(:project_one_off_fixed)
     assert_difference 'Project.count', +1 do
       post projects_path, project: attributes
@@ -23,12 +23,22 @@ class ProjectCreationTest < ActionDispatch::IntegrationTest
   end
 
   test 'can create full time project' do
-    user = create(:business).user
-    post_via_redirect user_session_path, 'user[email]' => user.email, 'user[password]' => 'password'
-
     attributes = attributes_for(:project_full_time)
     assert_difference 'Project.count', +1 do
       post projects_path, project: attributes
     end
+  end
+
+  test 'redirects draft saving to dashboard' do
+    attributes = attributes_for(:project_full_time).merge(status: 'draft')
+    post projects_path, project: attributes
+    assert_redirected_to business_dashboard_path
+  end
+
+  test 'redirects review and post to review page' do
+    attributes = attributes_for(:project_full_time).merge(status: 'review')
+    post projects_path, project: attributes
+    project = Project.last
+    assert_redirected_to project_path(project)
   end
 end

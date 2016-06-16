@@ -5,6 +5,10 @@
   margin-bottom: 80px;
   color: #fff;
 
+  &.compact {
+    margin-bottom: 55px;
+  }
+
   @media (max-width: $screen-xs-max) {
     margin-bottom: 20px;
   }
@@ -33,4 +37,28 @@
     float: right;
     margin-top: 0;
   }
+
+  .small-header {
+    $height: 180px;
+
+    padding-bottom: 0;
+
+
+    h1 {
+      font-size: 32px;
+      font-weight: $roboto-light;
+      line-height: $height;
+    }
+
+    .tools {
+      line-height: $height;
+    }
+
+    .title {
+      display: block;
+      height: $height;
+      line-height: $height;
+    }
+  }
 }
+
