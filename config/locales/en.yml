@@ -28,3 +28,9 @@ en:
               invalid: Must be before end date
             ends_on:
               invalid: Must be after end date
+            hourly_payment_schedule:
+              too_little_duration: Not available on durations less than 2 weeks
+              too_much_duration: Not available on durations more than 1 month
+            fixed_payment_schedule:
+              too_little_duration: Not available on durations less than 2 weeks
+              too_much_duration: Not available on durations more than 1 month

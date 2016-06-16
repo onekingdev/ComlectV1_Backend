@@ -31,6 +31,14 @@ class Project < ActiveRecord::Base
   validate if: -> { starts_on.present? && ends_on.present? } do
     errors.add :ends_on, :invalid if ends_on < starts_on
   end
+  validate if: -> { starts_on.present? && ends_on.present? && ends_on - starts_on < 14 } do
+    attribute = hourly_pricing? ? :hourly_payment_schedule : :fixed_payment_schedule
+    errors.add attribute, :too_little_duration if public_send(attribute) == 'monthly'
+  end
+  validate if: -> { starts_on.present? && ends_on.present? && ends_on - starts_on > 30 } do
+    attribute = hourly_pricing? ? :hourly_payment_schedule : :fixed_payment_schedule
+    errors.add attribute, :too_much_duration if public_send(attribute) == 'upon-completion'
+  end
 
   before_validation :assign_type_fields
   before_validation :assign_pricing_type_fields
