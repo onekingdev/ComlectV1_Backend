@@ -22,7 +22,7 @@ class CreateProjects < ActiveRecord::Migration
       t.string :minimum_experience
       t.boolean :only_regulators
       t.integer :annual_salary
-      t.string :fee_type
+      t.string :fee_type, default: 'upfront'
 
       t.timestamps null: false
     end

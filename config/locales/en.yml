@@ -1,4 +1,7 @@
 en:
+  date:
+    formats:
+      pickadate: "%Y/%m/%d"
   activerecord:
     attributes:
       project:
@@ -11,6 +14,8 @@ en:
         hourly_rate: Hourly Rate
         estimated_hours: Estimated Hours
         only_regulators: Only Former Regulators
+        annual_salary: Annual Salary (USD $)
+        fee_type: Complect Fee
     errors:
       messages:
         blank: This is required

@@ -1,11 +1,73 @@
-form.new_project, form.edit_project {
-  .project_description {
-    textarea {
-      min-height: ($input-height-large * 3) + $form-group-margin-bottom * 2;
+form.project_form {
+  #project_description {
+    min-height: ($input-height-large * 3) + $form-group-margin-bottom * 2;
+  }
+
+  .form-group.project_location {
+    display: none;
+  }
+
+  .project-details[data-location-type*=remote] {
+    .form-group.project_location {
+      display: block;
+    }
+
+    #project_description {
+      min-height: ($input-height-large * 4) + $form-group-margin-bottom * 3;
     }
   }
 
-  .project-details.taller-description #project_description {
-    min-height: ($input-height-large * 4) + $form-group-margin-bottom * 3;
+  .project-pricing[data-pricing-type=fixed] {
+    .form-group.project_hourly_rate, .form-group.project_hourly_payment_schedule {
+      display: none;
+    }
+  }
+
+  .project-pricing[data-pricing-type=hourly] {
+    .form-group.project_fixed_budget, .form-group.project_fixed_payment_schedule {
+      display: none;
+    }
+  }
+
+  .form-group.project_fee_type {
+    label {
+      display: block;
+    }
+
+    .btn-group {
+      width: 100%;
+    }
+
+    .btn {
+      width: 50%;
+    }
+  }
+
+  &[data-project-type=one-off] {
+    .form-group.project_full_time_starts_on {
+      display: none;
+    }
+
+    .project-salary {
+      display: none;
+    }
+  }
+
+  &[data-project-type=full-time] {
+    .form-group.project_key_deliverables {
+      display: none;
+    }
+
+    .form-group.project_location_type {
+      display: none;
+    }
+
+    .form-group.project_location {
+      display: block !important;
+    }
+
+    .project-duration, .project-pricing {
+      display: none;
+    }
   }
 }

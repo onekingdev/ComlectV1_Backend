@@ -1,18 +1,18 @@
 - Project::Decorator.decorate(@project).tap do |project|
-  = simple_form_for project, wrapper: :inline_form do |f|
+  = simple_form_for project, wrapper: :inline_form, html: { class: "project_form", data: { "project-type" => project.type } } do |f|
     .text-center.p-b-2
       h2.m-t-0.m-b-3 Is this a one-off project or a full-time role?
 
       = f.input :type, as: :radio_pills, collection: [['One-off Project', 'one-off'], ['Full-time Role', 'full-time']], btn_class: 'btn-lg btn-default p-x-3'
 
-    .panel.panel-default.m-t-3.project-details
+    .panel.panel-default.m-t-3.project-details data-location-type=project.location_type
       .panel-heading Job Details
       .panel-body
         .row.row-compact
           .col-xs-12.col-sm-4
             = f.input :title, input_html: { class: 'input-lg' }
             = f.input :location_type, collection: Project::LOCATIONS, include_blank: t('simple_form.placeholders.project.location_type'), input_html: { class: 'input-lg js-select' }
-            = f.input :location, input_html: { class: "input-lg" }, wrapper_html: { class: ('hidden' unless project.location_required?) }
+            = f.input :location, input_html: { class: "input-lg" }
             = project.industries_input(f)
           .col-xs-12.col-sm-8
             = f.input :description, as: :text, input_html: { class: 'input-lg', maxlength: 750 }, wrapper_html: { data: { "remaining-chars" => 750 } }
@@ -21,20 +21,37 @@
             = project.jurisdictions_input(f)
           .col-xs-12.col-sm-8
             = f.input :key_deliverables, input_html: { class: 'input-lg' }
+            = f.input :full_time_starts_on, input_html: { class: 'input-lg js-datepicker', "data-value" => (l(f.object.full_time_starts_on, format: :pickadate) if f.object.full_time_starts_on.present?) }
 
-    .panel.panel-default.m-t-3
+    .panel.panel-default.m-t-3.project-duration
       .panel-heading Project Duration
       .panel-body
         .row.row-compact.js-date-range
           .col-xs-12.col-sm-6
-            = f.input :starts_on, as: :string, wrapper: :vertical_form, input_html: { class: 'input-lg js-datepicker', data: { 'date-from' => true } }
+            = f.input :starts_on, required: true, as: :string, wrapper: :vertical_form, input_html: { class: 'input-lg js-datepicker', data: { 'date-from' => true, value: (l(f.object.starts_on, format: :pickadate) if f.object.starts_on) } }
           .col-xs-12.col-sm-6
-            = f.input :ends_on, as: :string, wrapper: :vertical_form, input_html: { class: 'input-lg js-datepicker', data: { 'date-to' => true } }
+            = f.input :ends_on, required: true, as: :string, wrapper: :vertical_form, input_html: { class: 'input-lg js-datepicker', data: { 'date-to' => true, value: (l(f.object.ends_on, format: :pickadate) if f.object.ends_on) } }
         .row.row-compact
           .col-xs-12
             .small.text-muted.text-center Please estimate if necessary to allow our specialists to determine their availability. You will be able to extend the deadline later.
 
-    .panel.panel-default.m-t-3
+    .panel.panel-default.m-t-3.project-salary
+      .panel-heading Salary
+      .panel-body
+        .row.row-compact
+          .col-xs-12.col-sm-6
+            = f.input :annual_salary, required: true, wrapper: :vertical_form, input_html: { class: 'input-lg' }
+          .col-xs-12.col-sm-6
+            = f.input :fee_type, as: :radio_pills, collection: [%w(Upfront upfront), %w(Monthly monthly)], btn_class: 'btn-lg btn-default p-x-3', wrapper: :vertical_form
+        .row.row-compact.m-t-1.text-muted.small.text-center
+          .col-xs-12.col-sm-8.col-sm-push-2
+            'Note: Complect offers two payment options for the full-time hiring fee:
+            br
+            '(1) 15% of first year salary payable on the new employee's start date, refundable if employee leaves within 90 days.
+            br
+            '(2) 3% of first year salary payable monthly for 6 months beginning on the new employee's start date. If employee  leaves within 6 months, monthly payments are no longer due after termination date.
+
+    .panel.panel-default.m-t-3.project-pricing data-pricing-type=project.pricing_type
       .panel-heading Project Pricing
       .panel-body
         .row.row-compact.m-y-1
@@ -66,6 +83,14 @@
           .col-xs-12.col-sm-6
             /= project.skills_input(f)
             .skills-required
+
+    - if f.object.errors.any?
+      .clearfix.m-y-3
+        .alert.alert-danger.text-center.col-xs-12.col-sm-8.col-sm-push-2.m-b-0
+          - if f.object.errors[:base].any?
+            = f.object.errors[:base]
+          - else
+            'Oops! You are missing important information, please add it before proceeding.
 
     .m-t-3.text-center
       - if project.persisted?

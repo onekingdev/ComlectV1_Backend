@@ -21,9 +21,10 @@ class ProjectsController < ApplicationController
 
   def project_params
     params.require(:project).permit(
-      %i(title type location_type location industry_ids description jurisdiction_ids key_deliverables starts_on
-         ends_on pricing_type hourly_payment_schedule fixed_payment_schedule hourly_rate fixed_budget estimated_hours
-         minimum_experience only_regulators status)
+      *%i(title type location_type location description key_deliverables starts_on full_time_starts_on
+          ends_on pricing_type hourly_payment_schedule fixed_payment_schedule hourly_rate fixed_budget estimated_hours
+          minimum_experience only_regulators status annual_salary fee_type),
+      jurisdiction_ids: [], industry_ids: []
     )
   end
 end

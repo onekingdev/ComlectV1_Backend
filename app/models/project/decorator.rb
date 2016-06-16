@@ -7,16 +7,14 @@ class Project::Decorator < Draper::Decorator
     builder.input :hourly_rate,
                   required: true,
                   wrapper: :vertical_form,
-                  input_html: { class: 'input-lg' },
-                  wrapper_html: { class: ('hidden' if fixed_pricing?) }
+                  input_html: { class: 'input-lg' }
   end
 
   def fixed_budget_input(builder)
     builder.input :fixed_budget,
                   required: true,
                   wrapper: :vertical_form,
-                  input_html: { class: 'input-lg' },
-                  wrapper_html: { class: ('hidden' if hourly_pricing?) }
+                  input_html: { class: 'input-lg' }
   end
 
   def hourly_payment_schedule_input(builder)
@@ -25,8 +23,7 @@ class Project::Decorator < Draper::Decorator
                   include_blank: false,
                   required: true,
                   wrapper: :vertical_form,
-                  input_html: { class: 'input-lg js-select' },
-                  wrapper_html: { class: ('hidden' if fixed_pricing?) }
+                  input_html: { class: 'input-lg js-select' }
   end
 
   def fixed_payment_schedule_input(builder)
@@ -35,8 +32,7 @@ class Project::Decorator < Draper::Decorator
                   include_blank: false,
                   required: true,
                   wrapper: :vertical_form,
-                  input_html: { class: 'input-lg js-select' },
-                  wrapper_html: { class: ('hidden' if hourly_pricing?) }
+                  input_html: { class: 'input-lg js-select' }
   end
 
   def industries_input(builder)

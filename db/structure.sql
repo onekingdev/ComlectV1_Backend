@@ -245,7 +245,7 @@ CREATE TABLE projects (
     minimum_experience character varying,
     only_regulators boolean,
     annual_salary integer,
-    fee_type character varying,
+    fee_type character varying DEFAULT 'upfront'::character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
