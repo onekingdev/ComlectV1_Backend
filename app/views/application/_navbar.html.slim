@@ -44,7 +44,6 @@ nav#nav.navbar.navbar-default.navbar-inverse
           ul.dropdown-menu
             li.p-x-2.p-y-1 No alerts
       - elsif controller_name != 'sessions'
-        li.m-l-2
+        li.buttons
           button.btn.btn-primary.navbar-btn data-remote=true data-url=new_user_session_path Log In
-        li.m-r-3.m-l-1
           button.btn.btn-primary.navbar-btn data-remote=true data-url=new_user_registration_path Sign Up
