@@ -6,6 +6,7 @@ class Project < ActiveRecord::Base
   has_one :user, through: :business
   has_and_belongs_to_many :industries
   has_and_belongs_to_many :jurisdictions
+  has_and_belongs_to_many :skills
 
   LOCATIONS = [%w(Remote remote), %w(Remote\ +\ Travel remote-travel), %w(Onsite onsite)].freeze
   HOURLY_PAYMENT_SCHEDULES = [%w(Upon\ Completion upon-completion), %w(Bi-Weekly bi-weekly), %w(Monthly monthly)].freeze

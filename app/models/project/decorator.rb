@@ -55,6 +55,15 @@ class Project::Decorator < Draper::Decorator
                   input_html: { class: 'input-lg js-select', multiple: true }
   end
 
+  def skills_input(builder)
+    # Selected options should appear at the top
+    skills = Skill.all.sort_by { |skill| skill_ids.include?(skill.id) ? 0 : 1 }
+    builder.input :skill_ids,
+                  collection: skills,
+                  include_blank: false,
+                  input_html: { class: 'input-lg js-select', multiple: true }
+  end
+
   def grouped_collection_for_select(array)
     [array].map do |collection|
       collection.define_singleton_method :all do

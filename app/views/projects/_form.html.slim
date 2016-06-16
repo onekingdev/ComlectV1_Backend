@@ -80,7 +80,7 @@
               = f.check_box :only_regulators
               = f.label :only_regulators
         .col-xs-12.col-sm-6
-          /= project.skills_input(f)
+          = project.skills_input(f)
           .skills-required
 
   - if f.object.errors.any?
