@@ -11,3 +11,8 @@ end
 %w(Broker-Dealer Banking Fund\ Manager Investment\ Adviser Commodities\ Trader).each do |name|
   Industry.find_or_create_by! name: name
 end
+
+%w(sec finra cfdc nfa volckerrule doddfrank ria privateequity hedgefund mutualfund
+   investmentcompany investmentcompanyact investmentadvisersact).each do |name|
+  Skill.find_or_create_byx! name: name
+end
