@@ -1,1 +1,50 @@
-h1 Business Dashboard
+- header_class 'compact'
+- Business::Decorator.decorate(@business).tap do |business|
+  .row
+    .col-xs-12.col-sm-4.col-md-3
+      .panel.panel-default.business-info
+        .panel-heading Profile
+        .panel-body
+          - if business.logo
+            .logo= image_tag business.logo_url(:thumb), class: 'img-responsive'
+          h3= business.business_name
+          .text-center= business.render_stars
+
+          hr.flush
+
+          .icon-list
+            .item
+              i.icon.maxicons2-navigation.text-muted
+              span= business.state_country
+            .item
+              i.icon.maxicons1-building.text-muted
+              span= business.industries.map(&:name).join(', ')
+            .item
+              i.icon.maxicons1-earth.text-muted
+              span= business.jurisdictions.map(&:name).join(', ')
+            .item
+              i.icon.maxicons1-peoples.text-muted
+              span #{business.employees} Employees
+            - if business.public? && business.website.present?
+              .item
+                i.icon.icon-fw.maxicons2-assign.text-muted
+                span= link_to business.website_short, business.website_url, target: '_blank'
+                - if business.public? && business.linkedin_link.present?
+              .item
+              .fa.fa-linkedin-square.text-muted
+              span= link_to 'LinkedIn Profile', business.linkedin_url, target: "_blank"
+
+          hr.flush
+
+          = simple_form_for business, url: update_business_path do |f|
+            = hidden_field_tag 'redirect_to', business_dashboard_path
+            = f.input :anonymous, as: :radio_pills, collection: [['Public', false], ['Anonymous', true]], btn_class: 'btn-default fw-medium', label: false, hint: false, input_html: { data: { autosubmit: 'true' } }
+
+          .text-center= link_to 'Edit Profile', edit_business_path, class: 'btn btn-link'
+
+    .col-xs-12.col-sm-8.col-md-9
+      .panel.panel-default
+        .panel-heading
+          span My Projects
+          .tools
+        .panel-body

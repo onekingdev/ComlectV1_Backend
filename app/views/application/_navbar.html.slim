@@ -11,8 +11,8 @@ nav#nav.navbar.navbar-default.navbar-inverse
   #navbar-collapse.collapse.navbar-collapse
     ul.nav.navbar-nav
       li= link_to 'FAQs', '#'
-      - if signed_in?
-        li= link_to 'My Dashboard', '#'
+      - if signed_in? && current_user.business
+        li= link_to 'My Dashboard', business_dashboard_path
 
     ul.nav.navbar-nav.navbar-right
       - if signed_in?

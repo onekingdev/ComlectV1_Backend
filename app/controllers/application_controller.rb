@@ -8,6 +8,10 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def redirect_to_param_or(default)
+    redirect_to params[:redirect_to].present? ? params[:redirect_to] : default
+  end
+
   def js_redirect(path)
     render js: "window.location.href = '#{path}';"
   end

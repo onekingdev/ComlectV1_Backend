@@ -160,3 +160,24 @@ form#new_business, form.edit_business {
     }
   }
 }
+
+.panel.business-info {
+  h3 {
+    font-size: 32px;
+    font-weight: $roboto-light;
+    text-align: center;
+  }
+
+  .logo {
+    width: 70%;
+    margin: 0 auto;
+  }
+
+  .btn-group {
+    width: 100%;
+
+    .btn {
+      width: 50%;
+    }
+  }
+}

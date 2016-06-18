@@ -29,7 +29,7 @@ class BusinessesController < ApplicationController
   def update
     @business = current_user.business
     if @business.update_attributes(edit_business_params)
-      return redirect_to business_dashboard_path
+      return redirect_to_param_or business_dashboard_path
     end
     render :edit
   end
