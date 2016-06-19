@@ -9,6 +9,22 @@
     position: relative;
     border: 0;
 
+    h3 {
+      font-size: 22px;
+      font-weight: $roboto-light;
+      display: inline-block;
+      margin: 0;
+
+      span {
+        font-size: 16px;
+
+        a {
+          color: #fff;
+          text-decoration: underline;
+        }
+      }
+    }
+
     .icon {
       margin-right: 0.5em;
       color: $brand-primary;
@@ -138,5 +154,65 @@
 
   a:hover, li.active a, a:focus {
     background-color: #383838;
+  }
+}
+
+.panel.card {
+  border: 0;
+  border-bottom-left-radius: $panel-border-radius;
+  border-bottom-right-radius: $panel-border-radius;
+  overflow: hidden;
+  box-shadow: 0 6px 14px 0 rgba(0, 0, 0, 0.15);
+
+  .panel-heading, .panel-footer {
+    border: 0;
+  }
+
+  .panel-heading {
+    background-color: #c2c2c2;
+    @include clearfix;
+  }
+
+  .panel-body {
+    background-color: #fff;
+
+    .icon-list {
+      margin: 1.5em 0;
+
+      .icon {
+        opacity: 0.5;
+      }
+    }
+  }
+
+  .panel-footer {
+    padding: 0;
+
+    .btn-group {
+      width: calc(100% + 1px); // Because a button group's btn has a -1px margin
+
+      .btn {
+        width: 50%;
+        border-radius: 0;
+        font-weight: $roboto-light;
+      }
+
+      .button_to {
+        width: 50%;
+        float: left;
+
+        .btn {
+          width: 100%;
+        }
+      }
+
+      .btn-single {
+        width: 100%;
+      }
+
+      .btn + .btn, .button_to + .btn, .btn + .button_to .btn {
+        border-left: 1px solid rgba(0, 0, 0, 0.13);
+      }
+    }
   }
 }

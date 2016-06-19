@@ -82,3 +82,46 @@
             #projects-pending.tab-pane
             #projects-drafts.tab-pane
             #projects-complete.tab-pane
+
+    .col-xs-12.col-sm-8.col-md-9.m-t-2
+      .panel.panel-default
+        .panel-heading
+          h3
+            'My Specialists
+            span.m-l-1= link_to 'Browse All', '#'
+          .dropdown.visible-sm.visible-xs
+            button.btn.btn-default.dropdown-toggle type="button" data-toggle="dropdown"
+              'Filter
+              span.caret
+            ul.dropdown-menu.dropdown-menu-right
+              li.active= link_to '#specialists-all', data: { toggle: 'tab', "remote-load" => true, url: specialists_path(filter: 'all'), 'toggle-sync' => true } do
+                i.icon.maxicons2-menu
+                span All
+              li= link_to '#specialists-hired', data: { toggle: 'tab', "remote-load" => true, url: specialists_path(filter: 'hired'), 'toggle-sync' => true } do
+                i.icon.maxicons1-check
+                span Hired
+              li= link_to '#specialists-shortlisted', data: { toggle: 'tab', "remote-load" => true, url: specialists_path(filter: 'shortlisted'), 'toggle-sync' => true } do
+                i.icon.maxicons2-like
+                span Shortlisted
+              li= link_to '#specialists-favourited', data: { toggle: 'tab', "remote-load" => true, url: specialists_path(filter: 'favourited'), 'toggle-sync' => true } do
+                i.icon.maxicons3-heart
+                span Favourited
+          ul#js-specialist-filters.nav.nav-pills.visible-md.visible-lg
+            li.active= link_to '#specialists-all', data: { toggle: 'tab', "remote-load" => true, url: specialists_path(filter: 'all'), 'toggle-sync' => true } do
+              i.icon.maxicons2-menu
+              span All
+            li= link_to '#specialists-hired', data: { toggle: 'tab', "remote-load" => true, url: specialists_path(filter: 'hired'), 'toggle-sync' => true } do
+              i.icon.maxicons1-check
+              span Hired
+            li= link_to '#specialists-shortlisted', data: { toggle: 'tab', "remote-load" => true, url: specialists_path(filter: 'shortlisted'), 'toggle-sync' => true } do
+              i.icon.maxicons2-like
+              span Shortlisted
+            li= link_to '#specialists-favourited', data: { toggle: 'tab', "remote-load" => true, url: specialists_path(filter: 'favourited'), 'toggle-sync' => true } do
+              i.icon.maxicons3-heart
+              span Favourited
+        .panel-body
+          .tab-content
+            #specialists-all.tab-pane.active
+            #specialists-hired.tab-pane
+            #specialists-shortlisted.tab-pane
+            #specialists-favourited.tab-pane

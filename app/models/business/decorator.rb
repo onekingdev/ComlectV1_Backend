@@ -20,12 +20,7 @@ class Business::Decorator < Draper::Decorator
   end
 
   def render_stars
-    rating = 4
-    h.content_tag :div, class: 'stars' do
-      Array.new(5).each_with_index.map do |_i, n|
-        h.content_tag :div, '', class: "star #{'active' if n < rating}"
-      end.join("\n").html_safe
-    end
+    h.render_stars 4
   end
 
   private

@@ -1,0 +1,47 @@
+- if @specialists.empty?
+  .alert.alert-default No specialists yet
+
+.row
+  /- @specialists.map(&method(:decorate)).each do |specialist|
+  - @specialists.each do |specialist|
+    .col-xs-12.col-md-6.col-lg-4 data-specialist-id=specialist&.id
+      - favourited = rand(2) == 1
+      .specialist.card.panel.panel-default class=("favourited" if favourited)
+        .panel-heading
+          = link_to '#', class: "favourite #{'active' if favourited}" do
+            i.icon.maxicons3-heart
+          .avatar= image_tag "http://lorempixel.com/88/88/people?#{rand(1000)}", size: "88x88"
+          .name= %w(Lula Jeffrey Lois John Jane James Steve).sample
+          .rating= render_stars 4
+
+        .panel-body
+          .icon-list
+            .item
+              i.icon.maxicons2-navigation
+              span Boston, MA
+            .item
+              i.icon.maxicons1-building
+              span Banking
+            .item
+              i.icon.maxicons1-earth
+              span US, Canada
+            .item
+              i.icon.maxicons1-bag
+              span 3-5 Yrs. Compliance Exp.
+            .item
+              i.icon.maxicons2-place
+              span Former Regulator
+            .item
+              i.icon.maxicons3-cup
+              span Skill 1, Skill 2, Skill 3
+
+        .panel-footer
+          .btn-group
+            a.btn.btn-md.btn-primary.btn-single href="#"
+              i.icon.maxicons2-comment
+              span Invite
+
+  - if false && @specialists.total_pages > 1
+    .dot-pagination
+      - @specialists.total_pages.times do |n|
+        = link_to ''.html_safe, current_uri(page: n + 1), remote: true, class: "page #{"current" if n + 1 == @specialists.current_page}"

@@ -1,0 +1,54 @@
+.card.specialist {
+  .panel-heading {
+    background-color: rgba(0, 0, 0, 0.65);
+    position: relative;
+    height: 116px;
+
+    .avatar {
+      position: absolute;
+    }
+
+    .avatar img {
+      border-radius: 50%;
+    }
+
+    .name {
+      margin-top: 22px;
+    }
+
+    .name, .rating {
+      padding-left: 98px;
+    }
+
+    .rating .stars {
+      display: block;
+      line-height: 13px;
+    }
+
+    .favourite {
+      position: absolute;
+      top: 3px;
+      right: 2px;
+
+      .icon {
+        color: rgba(255, 255, 255, 0.3);
+      }
+
+      &.active .icon, &:hover .icon {
+        color: $brand-primary;
+      }
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+
+  &.favourited .panel-heading {
+    background-color: rgba(0, 0, 0, 0.77);
+  }
+
+  .panel-body .icon-list {
+    margin: 0;
+  }
+}
