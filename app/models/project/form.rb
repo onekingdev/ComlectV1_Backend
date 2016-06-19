@@ -44,6 +44,20 @@ class Project::Form < Project
   attr_accessor :full_time_starts_on
   attr_accessor :hourly_payment_schedule, :fixed_payment_schedule
 
+  ATTRIBUTES_FOR_COPY = %w(
+    annual_salary business_id description ends_on estimated_hours fee_type fixed_budget hourly_rate key_deliverables
+    location location_type minimum_experience only_regulators payment_schedule pricing_type starts_on status title type
+  ).freeze
+
+  def self.copy(original, attributes = {})
+    new(original.attributes.slice(*ATTRIBUTES_FOR_COPY)).tap do |copy|
+      copy.attributes = attributes
+      copy.industries = original.industries
+      copy.jurisdictions = original.jurisdictions
+      copy.skills = original.skills
+    end
+  end
+
   def full_time_starts_on
     @full_time_starts_on.present? ? Date.parse(@full_time_starts_on) : starts_on
   end

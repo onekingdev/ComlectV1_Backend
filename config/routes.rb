@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   get '/business' => 'business_dashboard#show', as: :business_dashboard
   resources :projects do
     post :post, on: :member
+    get :copy, on: :member
   end
 
   resources :specialists

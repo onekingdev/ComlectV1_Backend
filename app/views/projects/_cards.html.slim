@@ -54,7 +54,7 @@
                 i.icon.maxicons2-view
                 span View
             - else # project.complete?
-              a.btn.btn-md.btn-primary href=new_project_path(copy: project.id)
+              a.btn.btn-md.btn-primary href=copy_project_path(project.id)
                 i.icon.maxicons1-copy
                 span Copy
               a.btn.btn-md.btn-primary href=project_path(project)

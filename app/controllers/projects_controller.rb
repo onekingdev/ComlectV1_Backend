@@ -54,6 +54,12 @@ class ProjectsController < ApplicationController
     @project.post!
   end
 
+  def copy
+    original = current_user.business.projects.find(params[:id])
+    @project = Project::Form.copy(original)
+    render :new
+  end
+
   def destroy
     @project.destroy
     redirect_to business_dashboard_path, notice: 'Project deleted'
