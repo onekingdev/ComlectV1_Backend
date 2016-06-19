@@ -64,7 +64,7 @@
           = project.hourly_rate_input(f)
           = project.fixed_budget_input(f)
         .col-xs-12.col-sm-4
-          = f.input :estimated_hours, wrapper: :vertical_form, input_html: { class: 'input-lg' }
+          = f.input :estimated_hours, require: true, wrapper: :vertical_form, input_html: { class: 'input-lg' }
       .row.row-compact
         .col-xs-12
           .small.text-muted.text-center Note: Complect adds a 10% fee on top of your project value. You can read more about our Payment Terms <a href="#">here</a>.
