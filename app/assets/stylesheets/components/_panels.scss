@@ -39,6 +39,12 @@
       float: right;
       font-size: 18px;
       color: #c1c1c1;
+
+      &.strong {
+        font-size: 16px;
+        font-weight: $roboto-medium;
+        color: #fff;
+      }
     }
   }
 
