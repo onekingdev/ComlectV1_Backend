@@ -89,7 +89,7 @@
           h3
             'My Specialists
             span.m-l-1= link_to 'Browse All', '#'
-          .dropdown.visible-sm.visible-xs
+          .dropdown.visible-md.visible-sm.visible-xs
             button.btn.btn-default.dropdown-toggle type="button" data-toggle="dropdown"
               'Filter
               span.caret
@@ -106,7 +106,7 @@
               li= link_to '#specialists-favourited', data: { toggle: 'tab', "remote-load" => true, url: specialists_path(filter: 'favourited'), 'toggle-sync' => true } do
                 i.icon.maxicons3-heart
                 span Favourited
-          ul#js-specialist-filters.nav.nav-pills.visible-md.visible-lg
+          ul#js-specialist-filters.nav.nav-pills.visible-lg
             li.active= link_to '#specialists-all', data: { toggle: 'tab', "remote-load" => true, url: specialists_path(filter: 'all'), 'toggle-sync' => true } do
               i.icon.maxicons2-menu
               span All
