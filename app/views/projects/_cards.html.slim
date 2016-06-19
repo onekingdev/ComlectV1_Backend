@@ -1,0 +1,62 @@
+- if @projects.empty?
+  .alert.alert-default No projects yet
+
+.row
+  - @projects.map(&method(:decorate)).each do |project|
+    .col-xs-12.col-md-6.col-lg-4 data-project-id=project.id
+      .project.panel.panel-default
+        .panel-heading
+          - if project.applicants_count > 0
+            .label.label-danger
+              i.icon.maxicons1-peoples
+              span= project.applicants_count
+          '&nbsp;
+
+        .panel-body
+          h4= project.title
+          small.project-type= project.type_humanized
+
+          .icon-list
+            .item
+              i.icon.maxicons2-navigation
+              span= project.location_details
+            .item
+              i.icon.maxicons2-clock
+              span= project.start_and_duration
+            .item
+              i.icon.maxicons1-dollar
+              span= project.dollars
+            .item
+              i.icon.maxicons1-earth
+              span= project.jurisdictions.map(&:name).to_sentence
+            .item
+              i.icon.maxicons1-building
+              span= project.industries.map(&:name).to_sentence
+
+        .panel-footer
+          .btn-group
+            - if project.draft_or_review?
+              a.btn.btn-md.btn-primary href=edit_project_path(project)
+                i.icon.maxicons2-editor
+                span Edit
+              = button_to post_project_path(project), method: :post, remote: true, class: 'btn btn-md btn-primary'
+                i.icon.maxicons2-fix
+                span Post
+            - elsif project.pending?
+              a.btn.btn-md.btn-primary href="#"
+                i.icon.maxicons1-peoples
+                span Applicants
+              a.btn.btn-md.btn-primary href=project_path(project)
+                i.icon.maxicons2-view
+                span View
+            - elsif project.active?
+              a.btn.btn-md.btn-primary.btn-single href=project_path(project)
+                i.icon.maxicons2-view
+                span View
+            - else # project.complete?
+              a.btn.btn-md.btn-primary href=new_project_path(copy: project.id)
+                i.icon.maxicons1-copy
+                span Copy
+              a.btn.btn-md.btn-primary href=project_path(project)
+                i.icon.maxicons2-view
+                span View

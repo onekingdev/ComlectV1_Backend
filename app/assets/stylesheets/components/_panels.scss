@@ -1,9 +1,13 @@
 .panel-default {
+  border: 0;
+
   .panel-heading {
     font-weight: $roboto-light;
     font-size: 22px;
     line-height: 30px;
     color: #fff;
+    position: relative;
+    border: 0;
 
     .icon {
       margin-right: 0.5em;
@@ -23,7 +27,6 @@
   }
 
   .panel-body {
-    background-color: #f3f3f3;
     font-size: 15px;
     color: rgba(0, 0, 0, 0.8);
 
@@ -80,4 +83,60 @@
 .panel-body .row-compact {
   margin-left: -8px;
   margin-right: -8px;
+}
+
+.panel-heading .dropdown {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+
+  .btn {
+    height: 100%;
+    font-size: 18px;
+    font-weight: $roboto-light;
+    color: #fff;
+    background-color: transparent;
+    border-radius: 0;
+    padding: 10px 15px 9px 15px;
+
+    &:hover, &:focus {
+      background-color: #383838;
+      color: #fff;
+    }
+  }
+
+  .dropdown-menu li.active {
+    .icon {
+      color: #fff;
+    }
+  }
+}
+
+.panel-heading .nav-pills {
+  float: right;
+  margin-top: -(nth($panel-heading-padding, 1));
+  margin-right: -(nth($panel-heading-padding, 2));
+
+  li + li {
+    margin-left: 0;
+    border-left: 1px solid #383838;
+  }
+
+  a {
+    font-size: 18px;
+    font-weight: $roboto-light;
+    color: #fff;
+    background-color: transparent;
+    border-radius: 0;
+    padding: 10px 15px 9px 15px;
+
+    .icon {
+      color: #fff;
+    }
+  }
+
+  a:hover, li.active a, a:focus {
+    background-color: #383838;
+  }
 }

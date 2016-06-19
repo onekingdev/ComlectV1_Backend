@@ -2,6 +2,10 @@
 module ApplicationHelper
   include SimpleForm::ActionViewExtensions::FormHelper
 
+  def decorate(object)
+    object.class::Decorator.decorate(object)
+  end
+
   alias simple_form_for_super simple_form_for
   def simple_form_for(record, options = {}, &block)
     simple_form_for_super record, options do |f|

@@ -6,9 +6,16 @@ class Project::Decorator < Draper::Decorator
 
   def location_details
     return location if full_time?
-    type = location_type_humanized
-    return type unless location_required?
-    "#{location_type_humanized}, #{location}"
+    [location_type_humanized, location.presence].compact.join(', ')
+  end
+
+  def dollars
+    amount = if full_time?
+               annual_salary
+             else
+               hourly_pricing? ? hourly_rate : fixed_budget
+             end
+    h.number_to_currency(amount, precision: 0) + ('/hr' if hourly_rate?).to_s
   end
 
   def start_and_duration
@@ -19,6 +26,10 @@ class Project::Decorator < Draper::Decorator
 
   def duration
     starts_on.distance_in_words_from(ends_on)
+  end
+
+  def type_humanized
+    { 'one_off' => 'One-time Project', 'full_time' => 'Full-time Role' }[type]
   end
 
   def minimum_experience_humanized

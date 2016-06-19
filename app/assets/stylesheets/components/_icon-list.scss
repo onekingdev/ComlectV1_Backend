@@ -15,5 +15,10 @@
 
   span {
     white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: calc(100% - 1.5em);
+    display: inline-block;
+    vertical-align: middle;
   }
 }

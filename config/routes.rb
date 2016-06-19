@@ -15,7 +15,9 @@ Rails.application.routes.draw do
     patch '/' => 'businesses#update', as: :update
   end
   get '/business' => 'business_dashboard#show', as: :business_dashboard
-  resources :projects
+  resources :projects do
+    post :post, on: :member
+  end
 
   resources :specialists
 end

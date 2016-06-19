@@ -171,6 +171,10 @@ form#new_business, form.edit_business {
   .logo {
     width: 70%;
     margin: 0 auto;
+
+    img {
+      margin: 0 auto;
+    }
   }
 
   .btn-group {
