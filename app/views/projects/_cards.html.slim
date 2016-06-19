@@ -60,3 +60,8 @@
               a.btn.btn-md.btn-primary href=project_path(project)
                 i.icon.maxicons2-view
                 span View
+
+  - if @projects.total_pages > 1
+    .dot-pagination
+      - @projects.total_pages.times do |n|
+        = link_to ''.html_safe, current_uri(page: n + 1), remote: true, class: "page #{"current" if n + 1 == @projects.current_page}"

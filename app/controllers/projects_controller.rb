@@ -15,7 +15,12 @@ class ProjectsController < ApplicationController
   def index
     filter = FILTERS[params[:filter]] || :none
     @projects = Project.cards_for_user(current_user, filter: filter, page: params[:page], per: params[:per])
-    render partial: 'cards', projects: @projects if request.xhr?
+    respond_to do |format|
+      format.html do
+        render partial: 'cards', projects: @projects if request.xhr?
+      end
+      format.js
+    end
   end
 
   def show

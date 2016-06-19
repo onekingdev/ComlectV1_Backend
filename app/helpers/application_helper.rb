@@ -2,6 +2,10 @@
 module ApplicationHelper
   include SimpleForm::ActionViewExtensions::FormHelper
 
+  def current_uri(query = {})
+    url_for params.merge(query)
+  end
+
   def decorate(object)
     object.class::Decorator.decorate(object)
   end
