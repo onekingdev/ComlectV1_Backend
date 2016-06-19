@@ -4,7 +4,7 @@
 .row
   - @projects.map(&method(:decorate)).each do |project|
     .col-xs-12.col-md-6.col-lg-4 data-project-id=project.id
-      .project.panel.panel-default
+      .project.panel.panel-default class="#{project.type}-project"
         .panel-heading
           - if project.applicants_count > 0
             .label.label-danger

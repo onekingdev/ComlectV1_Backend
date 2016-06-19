@@ -166,4 +166,27 @@ body.projects.show {
       }
     }
   }
+
+  &.full_time-project {
+    .panel-body h4 {
+      position: relative;
+      padding-right: 1.2em;
+
+      &:before {
+        content: "\e00f";
+        font-family: maxicons;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 1.8em;
+        height: 1.8em;
+        line-height: 1.8em;
+        font-size: 15px;
+        text-align: center;
+        color: #fff;
+        background-color: #898989;
+        border-radius: 50%;
+      }
+    }
+  }
 }
