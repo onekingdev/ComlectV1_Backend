@@ -1,5 +1,5 @@
 - if @projects.empty?
-  .alert.alert-default No projects yet
+  .alert.alert-default.text-center No projects yet
 
 .row
   - @projects.map(&method(:decorate)).each do |project|
