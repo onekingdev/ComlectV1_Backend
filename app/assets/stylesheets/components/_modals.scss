@@ -39,3 +39,41 @@
     color: rgba(78, 78, 78, 0.8);
   }
 }
+
+.bootbox.modal {
+  .modal-content {
+    text-align: center;
+  }
+
+  .modal-body {
+    padding: 30px;
+    color: rgba(78, 78, 78, 0.8);
+    font-weight: $roboto-regular;
+
+    h2 {
+      color: #000;
+      font-weight: $roboto-light;
+      font-size: 32px;
+      margin: 45px 0;
+    }
+  }
+
+  .modal-footer {
+    padding: 30px;
+    border-top: 0;
+
+    .btn {
+      font-weight: $roboto-regular;
+    }
+  }
+
+  &.confirm .modal-footer {
+    .btn {
+      width: 49%;
+    }
+
+    .btn + .btn {
+      margin-left: 2%;
+    }
+  }
+}

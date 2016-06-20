@@ -4,6 +4,11 @@ class Project::Decorator < Draper::Decorator
   decorates_association :business, with: Business::Decorator
   delegate_all
 
+  def confirm_delete
+    "Are you sure you want to delete this project?<h2>#{title}</h2>
+     This can't be undone and this project will no longer appear in your dashboard, even as a draft.".html_safe
+  end
+
   def location_details
     return location if full_time?
     [location_type_humanized, location.presence].compact.join(', ')

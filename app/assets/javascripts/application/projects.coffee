@@ -31,3 +31,8 @@ do ->
     if diff > (one_day * 30)
       for parent in parents
         $(parent).find(selector.replace('%value', 'upon-completion')).parents('li').addClass('hidden')
+
+$(document).on 'confirm', '[data-confirm]', (e) ->
+  console.log 'cancel'
+  $.rails.handleMethod($(this))
+  return false

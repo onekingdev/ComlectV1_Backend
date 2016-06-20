@@ -93,7 +93,7 @@
 
   .m-t-3.text-center
     - if project.persisted?
-      = link_to project, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-primary btn-lg m-r-1 p-x-2 m-b-1' do
+      = link_to project, method: :delete, data: { confirm: project.confirm_delete, 'confirm-label' => 'Delete' }, class: 'btn btn-primary btn-lg m-r-1 p-x-2 m-b-1' do
         .fa.fa-trash-o
     button.btn.btn-primary.btn-lg.m-r-1.p-x-3.m-b-1 type="submit" name="project[status]" value=Project.statuses[:draft] Save as Draft
     button.btn.btn-primary.btn-lg.p-x-3.m-b-1 type="submit" name="project[status]" value=Project.statuses[:review] Review & Post
