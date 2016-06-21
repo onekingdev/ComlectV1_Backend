@@ -6,6 +6,14 @@
 .icon-fw {
 
 }
+
+.icon.circled:before {
+  font-size: 75%;
+  border: 2px solid #000;
+  line-height: 18px;
+  border-radius: 50%;
+}
+
 // END CUSTOMIZATION
 // ALSO CLASS NAMES CUSTOMIZED, REMOVING THE .icon PREFIX
 

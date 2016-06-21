@@ -31,6 +31,22 @@
   @include button-variant-light($btn-primary-bg);
 }
 
+.btn-link {
+  color: #000;
+
+  &:hover {
+    color: #000;
+    opacity: 0.6;
+    text-decoration: none;
+  }
+}
+
 .btn-md {
   padding: 11px 16px;
+}
+
+.btn-plain {
+  border: 0;
+  padding: 0;
+  background: transparent;
 }

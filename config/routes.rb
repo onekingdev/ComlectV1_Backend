@@ -15,6 +15,15 @@ Rails.application.routes.draw do
     patch '/' => 'businesses#update', as: :update
   end
   get '/business' => 'business_dashboard#show', as: :business_dashboard
+
+  namespace :business do
+    resource :settings, only: :show do
+      resources :payment_settings, as: :payment, path: 'payment', except: %i(show) do
+        patch :make_primary
+      end
+    end
+  end
+
   resources :projects do
     post :post, on: :member
     get :copy, on: :member

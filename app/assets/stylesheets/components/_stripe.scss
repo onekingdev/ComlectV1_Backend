@@ -1,0 +1,53 @@
+.stripe-new {
+  .stripe-button-el.stripe-button-el, .stripe-button-el.stripe-button-el:active {
+    background: transparent none !important;
+    box-shadow: none;
+
+    &:before {
+      content: "\e00c";
+      font-family: maxicons;
+      font-size: 75%;
+      border: 2px solid #000;
+      line-height: 12px;
+      border-radius: 50%;
+      width: 17px;
+      height: 16px;
+      padding-left: 1px;
+      display: inline-block;
+    }
+
+    span {
+      color: #000 !important;
+      background: transparent !important;
+      font-family: $font-family-base;
+      font-weight: $roboto-regular;
+      display: inline-block !important;
+      font-size: 16px;
+      box-shadow: none !important;
+    }
+  }
+}
+
+.stripe-edit {
+  display: inline-block;
+
+  .stripe-button-el.stripe-button-el, .stripe-button-el.stripe-button-el:active {
+    background: transparent none !important;
+    box-shadow: none;
+
+    &:before {
+      content: ">";
+      font-family: maxicons;
+      display: inline-block;
+      color: #767676;
+    }
+
+    &:hover:before {
+      opacity: 0.6;
+    }
+
+    span {
+      display: none !important;
+    }
+  }
+}

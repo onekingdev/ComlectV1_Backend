@@ -221,6 +221,75 @@ CREATE TABLE jurisdictions_projects (
 
 
 --
+-- Name: payment_profiles; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE payment_profiles (
+    id integer NOT NULL,
+    business_id integer,
+    stripe_customer_id character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: payment_profiles_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE payment_profiles_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: payment_profiles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE payment_profiles_id_seq OWNED BY payment_profiles.id;
+
+
+--
+-- Name: payment_sources; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE payment_sources (
+    id integer NOT NULL,
+    payment_profile_id integer,
+    stripe_card_id character varying NOT NULL,
+    brand character varying NOT NULL,
+    exp_month integer NOT NULL,
+    exp_year integer NOT NULL,
+    last4 character varying NOT NULL,
+    "primary" boolean DEFAULT false NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: payment_sources_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE payment_sources_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: payment_sources_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE payment_sources_id_seq OWNED BY payment_sources.id;
+
+
+--
 -- Name: projects; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -395,6 +464,20 @@ ALTER TABLE ONLY jurisdictions ALTER COLUMN id SET DEFAULT nextval('jurisdiction
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY payment_profiles ALTER COLUMN id SET DEFAULT nextval('payment_profiles_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY payment_sources ALTER COLUMN id SET DEFAULT nextval('payment_sources_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY projects ALTER COLUMN id SET DEFAULT nextval('projects_id_seq'::regclass);
 
 
@@ -442,6 +525,22 @@ ALTER TABLE ONLY industries
 
 ALTER TABLE ONLY jurisdictions
     ADD CONSTRAINT jurisdictions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: payment_profiles_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY payment_profiles
+    ADD CONSTRAINT payment_profiles_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: payment_sources_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY payment_sources
+    ADD CONSTRAINT payment_sources_pkey PRIMARY KEY (id);
 
 
 --
@@ -515,6 +614,27 @@ CREATE UNIQUE INDEX index_industries_projects_on_industry_id_and_project_id ON i
 --
 
 CREATE UNIQUE INDEX index_jurisdictions_projects_on_jurisdiction_id_and_project_id ON jurisdictions_projects USING btree (jurisdiction_id, project_id);
+
+
+--
+-- Name: index_payment_profiles_on_business_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_payment_profiles_on_business_id ON payment_profiles USING btree (business_id);
+
+
+--
+-- Name: index_payment_sources_on_payment_profile_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_payment_sources_on_payment_profile_id ON payment_sources USING btree (payment_profile_id);
+
+
+--
+-- Name: index_payment_sources_on_stripe_card_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_payment_sources_on_stripe_card_id ON payment_sources USING btree (stripe_card_id);
 
 
 --
@@ -598,4 +718,8 @@ INSERT INTO schema_migrations (version) VALUES ('20160616013430');
 INSERT INTO schema_migrations (version) VALUES ('20160616155048');
 
 INSERT INTO schema_migrations (version) VALUES ('20160616211257');
+
+INSERT INTO schema_migrations (version) VALUES ('20160620220131');
+
+INSERT INTO schema_migrations (version) VALUES ('20160621014832');
 

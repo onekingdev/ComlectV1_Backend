@@ -49,6 +49,9 @@ gem 'jbuilder', '~> 2.0'
 # Background jobs
 gem 'sidekiq'
 
+# Payments
+gem 'stripe'
+
 # Logging
 gem 'lograge'
 gem 'newrelic_rpm'
