@@ -283,6 +283,17 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
+    sassc (1.10.0)
+      bundler
+      ffi (~> 1.9.6)
+      sass (>= 3.3.0)
+    sassc-rails (1.2.1)
+      railties (>= 4.0.0)
+      sass
+      sassc (~> 1.9)
+      sprockets (> 2.11)
+      sprockets-rails
+      tilt
     shrine (2.0.1)
       down (>= 2.2.0)
     sidekiq (4.1.1)
@@ -376,7 +387,7 @@ DEPENDENCIES
   rails (= 4.2.6)
   roda (~> 2.14.0)
   rubocop
-  sass-rails (~> 5.0)
+  sassc-rails (~> 1.2.1)
   shrine (~> 2.0.1)
   sidekiq
   simple_form (~> 3.2)

@@ -21,7 +21,7 @@ gem 'pundit'
 gem 'activeadmin', github: 'activeadmin'
 
 # Asset processing
-gem 'sass-rails', '~> 5.0'
+gem 'sassc-rails', '~> 1.2.1'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 gem 'non-stupid-digest-assets'
