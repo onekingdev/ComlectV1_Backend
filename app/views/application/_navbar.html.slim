@@ -1,5 +1,5 @@
 nav#nav.navbar.navbar-default.navbar-inverse
-  .navbar-header.m-r-2
+  .navbar-header
     button.navbar-toggle.collapsed type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"
       span.sr-only Toggle navigataion
       span.icon-bar
@@ -10,13 +10,13 @@ nav#nav.navbar.navbar-default.navbar-inverse
 
   #navbar-collapse.collapse.navbar-collapse
     ul.nav.navbar-nav
-      li= link_to 'FAQs', '#'
+      li= link_to 'How it Works', '#'
       - if signed_in? && current_user.business
         li= link_to 'My Dashboard', business_dashboard_path
 
     ul.nav.navbar-nav.navbar-right
       - if signed_in?
-        li.m-r-2
+        li
           button.btn.btn-primary.navbar-btn data-href=new_project_path Post a Project
       li.dropdown
         a.dropdown-toggle href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"

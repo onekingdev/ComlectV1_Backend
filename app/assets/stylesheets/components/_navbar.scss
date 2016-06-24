@@ -1,25 +1,43 @@
 #nav {
   background-color: rgba(0, 0, 0, 0.6);
+  padding: 0 90px;
+  text-transform: uppercase;
 
   .navbar-brand {
     @include navbar-vertical-align-by-padding(42px);
-    padding-left: 2em;
+    padding-left: 0;
+  }
+
+  .btn {
+    text-transform: uppercase;
+    font-weight: $raleway-light;
   }
 
   li > a {
-    font-weight: 500;
+    font-weight: $raleway-light;
+    padding-left: 0;
+    padding-right: 0;
 
     .icon {
-      font-weight: 500;
+      font-weight: $raleway-light;
     }
   }
 
+  $spacing: 35px;
+
+  .navbar-nav > li + li {
+    margin-left: $spacing;
+  }
+
+  .m-r {
+    margin-right: $spacing;
+  }
+
   .buttons {
-    margin-left: 1rem;
-    margin-right: 2em;
+    margin-left: $spacing - 15px;
 
     .btn + .btn {
-      margin-left: 10px;
+      margin-left: $spacing;
     }
   }
 
@@ -49,9 +67,25 @@
     }
   }
 
+  .navbar-toggle {
+    margin-right: 0;
+  }
+
+  .navbar-header {
+    margin-right: 2em;
+  }
+
+  @media (max-width: $screen-xs-max) {
+    padding: 0 30px;
+  }
+
   @media (max-width: $grid-float-breakpoint-max) {
     .navbar-nav {
       margin: 0;
+    }
+
+    .navbar-header {
+      margin-right: 0;
     }
 
     .navbar-right {
