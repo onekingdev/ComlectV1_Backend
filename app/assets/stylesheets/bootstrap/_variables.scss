@@ -7,12 +7,17 @@ $brand-danger: #d0021b;
 
 //== Typography
 
-$font-family-base: Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
-$font-size-base: 16px;
+$font-family-base: Raleway, sans-serif;
+$font-size-base: 14px;
 $font-size-large: ceil(($font-size-base * 1.25));
 $font-size-h1: 52px;
 
 $line-height-large: 1.3333333;
+
+$raleway-light: 300;
+$raleway-bold: 700;
+$baskerville-regular: 400;
+$baskerville-bold: 700;
 
 $roboto-light: 300;
 $roboto-regular: 400;
@@ -23,6 +28,10 @@ $roboto-black: 900;
 //== Grid system
 
 $grid-gutter-width: 30px;
+
+//== Container
+
+$container-large-desktop: (980px + $grid-gutter-width);
 
 //== Navbar
 
@@ -46,7 +55,8 @@ $padding-large-vertical: 18px;
 //== Forms
 
 $input-border: transparent;
-$input-height-large: (ceil($font-size-large * $line-height-large) + ($padding-large-vertical * 2)) - 3;
+$input-height-large: 48px;
+$input-border-radius-large: 5px;
 
 $form-group-margin-bottom: $grid-gutter-width / 2; // So vertical spacing equals compact grid spacing (.row-compact)
 

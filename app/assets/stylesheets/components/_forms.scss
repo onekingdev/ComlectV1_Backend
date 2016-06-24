@@ -1,3 +1,8 @@
+::-webkit-input-placeholder { text-transform: uppercase; }
+:-moz-placeholder { text-transform: uppercase; }
+::-moz-placeholder { text-transform: uppercase; }
+:-ms-input-placeholder { text-transform: uppercase; }
+
 .custom-file-field {
   cursor: pointer;
 
@@ -26,8 +31,8 @@
 
 form .well {
   h3 {
-    font-size: 16px;
-    font-weight: 900;
+    font-weight: $raleway-bold;
+    font-size: 14px;
     padding-bottom: 10px;
     margin-bottom: 20px;
     border-bottom: 1px solid #979797;
@@ -78,4 +83,8 @@ select.js-select.input-lg {
 
 .has-error .dropdown-menu label {
   color: inherit;
+}
+
+.help-block {
+  font-size: 11px;
 }

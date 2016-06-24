@@ -32,7 +32,7 @@ en:
     hints:
       business:
         description: "Note: For confidentiality, please do NOT include your business name in the description if you do not want it visible to the public."
-        anonymous: If you choose ANONYMOUS only your industry(s), number of employees, jurisdiction, and business description will be displayed.
+        anonymous: If you choose anonymous only your industry(s), number of employees, jurisdiction, and business description will be displayed.
 
     placeholders:
       user:
@@ -43,12 +43,12 @@ en:
         contact_last_name: "* Last Name"
         contact_email: "* Email"
         contact_job_title: Job Title
-        contact_phone: Phone
+        contact_phone: Phone No.
         business_name: "* Business Name"
-        industry: "* Industry"
-        employees: "* No. Employees"
+        industry: "* INDUSTRY"
+        employees: "* NO. EMPLOYEES"
         website: Website
-        linkedin_link: LinkedIn Link
+        linkedin_link: LinkedIn URL
         description: "* Business Description"
         address_1: Address Line 1
         address_2: Address Line 2
