@@ -1,0 +1,25 @@
+footer#footer
+  ul.links.list-unstyled
+    li.title Complect
+    li= link_to 'About Us', '#'
+    li= link_to 'How it Works', '#'
+    li= link_to 'Our Partners', '#'
+  ul.links.list-unstyled
+    li.title Legal
+    li= link_to 'Terms of Use', '#'
+    li= link_to 'Privacy Policy', '#'
+
+  .contact
+    .social
+      a href="https://linkedin.com"
+        .fa.fa-linkedin
+      a href="https://twitter.com"
+        .fa.fa-twitter
+      a href="https://google.com"
+        .fa.fa-google-plus
+    .contact-item
+      i.icon.maxicons3-call
+      = link_to ENV.fetch('CONTACT_PHONE'), "tel:#{ENV['CONTACT_PHONE']}"
+    .contact-item
+      i.icon.maxicons1-mail
+      = link_to ENV.fetch('CONTACT_EMAIL'), "mailto:#{ENV['CONTACT_EMAIL']}"

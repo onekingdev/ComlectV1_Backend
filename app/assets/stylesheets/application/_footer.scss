@@ -1,3 +1,74 @@
 #footer {
   margin-top: 3em;
+  min-height: 207px;
+  background-color: #2f2f2f;
+  padding: 25px 90px;
+
+  a {
+    color: #fff;
+
+    &:hover {
+      color: $brand-primary;
+      text-decoration: none;
+    }
+  }
+
+  .links {
+    float: left;
+
+    .title {
+      color: #fff;
+      font-weight: $raleway-bold;
+    }
+
+    li {
+      margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+  }
+
+  .links + .links {
+    margin-left: 114px;
+  }
+
+  .contact {
+    float: right;
+    text-align: right;
+  }
+
+  .contact-item {
+    margin-bottom: 20px;
+  }
+
+  .contact .icon {
+    margin-right: 10px;
+  }
+
+  .social {
+    margin-bottom: 20px;
+  }
+
+  .social a {
+    font-size: 39px; // Magic number so things aling exactly as client wants
+  }
+
+  .icon {
+    color: #fff;
+  }
+
+  .social a + a {
+    margin-left: 15px;
+  }
+
+  @media (max-width: $screen-xs-max) {
+    .links, .contact {
+      float: none;
+      text-align: center;
+    }
+
+    .links + .links, .contact {
+      margin-left: 0;
+      margin-top: 40px;
+    }
+  }
 }
