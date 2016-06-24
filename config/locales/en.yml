@@ -21,6 +21,11 @@ en:
       messages:
         blank: This is required
       models:
+        business:
+          attributes:
+            logo:
+              invalid: Not a supported image type
+              too_large: Too large (max is 2 MB)
         project:
           attributes:
             base:

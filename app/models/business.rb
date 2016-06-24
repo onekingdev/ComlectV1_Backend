@@ -15,6 +15,7 @@ class Business < ActiveRecord::Base
   validates :country, :city, :state, presence: true
   validates :description, length: { maximum: 750 }
   validates :employees, inclusion: { in: EMPLOYEE_OPTIONS }
+  validate :validate_logo
 
   accepts_nested_attributes_for :user
 
@@ -26,5 +27,15 @@ class Business < ActiveRecord::Base
 
   def public?
     !anonymous?
+  end
+
+  private
+
+  # Shrine validations are not firing for some reason
+  def validate_logo
+    if logo && logo_data_changed?
+      errors.add :logo, :too_large if logo.metadata['size'] > 2.megabytes
+      errors.add :logo, :invalid unless %w(image/jpeg image/png image/gif).include?(logo.metadata['mime_type'])
+    end
   end
 end
