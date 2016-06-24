@@ -50,6 +50,11 @@ form#new_business, form.edit_business {
     }
   }
 
+  .business_country .multiselect-container {
+    max-height: 260px;
+    overflow: auto;
+  }
+
   .custom-file-field {
     .add-button {
       $size: 134px;
