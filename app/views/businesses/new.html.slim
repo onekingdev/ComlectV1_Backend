@@ -1,3 +1,6 @@
+- content_for :html_head do
+  script src="https://maps.googleapis.com/maps/api/js?key=#{ENV.fetch('GOOGLE_PLACES_API_KEY')}&libraries=places"
+
 h1.text-center.m-b-3.p-b-3 Sign up to post your project
 
 = simple_form_for @business, wrapper: :inline_form do |f|
@@ -50,11 +53,14 @@ h1.text-center.m-b-3.p-b-3 Sign up to post your project
     .row.row-compact
       .col-sm-4= f.input :address_1, required: false, input_html: { class: 'input-lg' }
       .col-sm-4= f.input :address_2, required: false, input_html: { class: 'input-lg' }
-      .col-sm-4= f.input :country, priority: %w(United\ States Canada), include_blank: false, placeholder: I18n.t('simple_form.placeholders.business.country'), input_html: { class: 'input-lg js-select' }
+      .col-sm-4
+        = f.input :zipcode,
+                  required: true,
+                  input_html: { class: 'input-lg js-place-autocomplete', data: { country: '#business_country', state: '#business_state', city: '#business_city' } }
     .row.row-compact
-      .col-sm-4= f.input :city, input_html: { class: 'input-lg' }
-      .col-sm-4= f.input :state, input_html: { class: 'input-lg' }
-      .col-sm-4= f.input :zipcode, required: false, input_html: { class: 'input-lg' }
+      .col-sm-4= f.input :city, required: false, readonly: true, input_html: { class: 'input-lg' }
+      .col-sm-4= f.input :state, required: false, readonly: true, input_html: { class: 'input-lg' }
+      .col-sm-4= f.input :country, required: false, readonly: true, as: :string, input_html: { class: 'input-lg' }
 
     h3
       i.icon.maxicons1-earth
