@@ -1,5 +1,5 @@
 #header {
-  background: asset_url("header.jpg") no-repeat center;
+  background-color: transparent;
   background-size: cover;
   position: relative;
   margin-bottom: 80px;
@@ -13,7 +13,7 @@
     margin-bottom: 20px;
   }
 
-  &:before {
+  &.with-picture:before {
     content: "";
     position: absolute;
     left: 0;
