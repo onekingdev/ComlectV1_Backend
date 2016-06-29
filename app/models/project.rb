@@ -33,6 +33,16 @@ class Project < ActiveRecord::Base
         .page(page).per(per || 6)
   end
 
+  def skill_names
+    @skill_names.nil? ? skills.map(&:name) : @skill_names
+  end
+
+  def skill_names=(names)
+    self.skills = names.map do |name|
+      Skill.find_or_initialize_by(name: name)
+    end
+  end
+
   def post!
     update_attribute :status, Project.statuses[:published]
   end

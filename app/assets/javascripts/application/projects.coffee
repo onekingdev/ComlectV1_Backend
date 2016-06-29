@@ -32,7 +32,34 @@ do ->
       for parent in parents
         $(parent).find(selector.replace('%value', 'upon-completion')).parents('li').addClass('hidden')
 
-$(document).on 'confirm', '[data-confirm]', (e) ->
-  console.log 'cancel'
-  $.rails.handleMethod($(this))
-  return false
+# Skills tag selection
+$.onContentReady ($parent) ->
+  $typeahead = $parent.find('#project_skill_selector')
+  return if $typeahead.length == 0 || $typeahead.data('typeahead-initialized')
+  selected = {}
+  $tags = $parent
+            .find('.skills-required')
+            .on 'click', '.remove', ->
+              $this = $(this)
+              selected[$this.data('skill')] = undefined
+              $this.parents('li').remove()
+  inputTpl = "<li><input type='hidden' name='project[skill_names][]' value='%VALUE%' /><span>%LABEL%</span><span data-skill='%VALUE%' class='remove'>x</span></li>"
+
+  $typeahead.typeahead
+    delay: 200
+    source: (query, process) ->
+      $.getJSON $typeahead.data('source'), { q: query }, (data) ->
+        pound = if query[0] == '#' then '' else '#'
+        name = "#{pound}#{query}"
+        exists = (i for i in data when i.name is name)[0]
+        data = [{ name: name }].concat(data) unless exists
+        # Remove items already selected
+        data = (i for i in data when selected[i.name] is undefined)
+        process data
+    updater: (item) ->
+      $input = $(inputTpl.replace('%LABEL%', item.name).replace('%VALUE%', item.name))
+      selected[item.name] = true
+      $tags.append $input
+      return # Don't display anything on the input
+
+  $typeahead.data 'typeahead-initialized', true

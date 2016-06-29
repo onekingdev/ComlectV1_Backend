@@ -6,6 +6,7 @@
 #= require pickadate/lib/picker.date
 #= require pickadate/lib/picker.time
 #= require bootbox.js/bootbox
+#= require bootstrap3-typeahead/bootstrap3-typeahead
 #= require_self
 #= require_tree ./utilities
 #= require_tree ./components

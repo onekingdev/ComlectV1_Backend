@@ -3,6 +3,11 @@
 ::-moz-placeholder { text-transform: uppercase; }
 :-ms-input-placeholder { text-transform: uppercase; }
 
+.tt-n::-webkit-input-placeholder { text-transform: none; }
+.tt-n:-moz-placeholder { text-transform: none; }
+.tt-n::-moz-placeholder { text-transform: none; }
+.tt-n:-ms-input-placeholder { text-transform: none; }
+
 .custom-file-field {
   cursor: pointer;
 

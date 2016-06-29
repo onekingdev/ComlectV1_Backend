@@ -53,39 +53,35 @@ class Project::Decorator < Draper::Decorator
   def hourly_rate_input(builder)
     builder.input :hourly_rate,
                   required: true,
-                  wrapper: :vertical_form,
                   input_html: { class: 'input-lg' }
   end
 
   def fixed_budget_input(builder)
     builder.input :fixed_budget,
                   required: true,
-                  wrapper: :vertical_form,
                   input_html: { class: 'input-lg' }
   end
 
   def hourly_payment_schedule_input(builder)
     builder.input :hourly_payment_schedule,
                   collection: Project::HOURLY_PAYMENT_SCHEDULES,
-                  include_blank: false,
+                  include_blank: I18n.t('simple_form.placeholders.project.hourly_payment_schedule'),
                   required: true,
-                  wrapper: :vertical_form,
                   input_html: { class: 'input-lg js-select' }
   end
 
   def fixed_payment_schedule_input(builder)
     builder.input :fixed_payment_schedule,
                   collection: Project::FIXED_PAYMENT_SCHEDULES,
-                  include_blank: false,
+                  include_blank: I18n.t('simple_form.placeholders.project.fixed_payment_schedule'),
                   required: true,
-                  wrapper: :vertical_form,
                   input_html: { class: 'input-lg js-select' }
   end
 
   def industries_input(builder)
     builder.input :industry_ids,
                   as: :grouped_select,
-                  collection: grouped_collection_for_select(Industry.all),
+                  collection: grouped_collection_for_select(Industry.sorted),
                   group_method: :all,
                   group_label_method: :label,
                   placeholder: I18n.t('simple_form.placeholders.project.industries'),
@@ -95,20 +91,19 @@ class Project::Decorator < Draper::Decorator
   def jurisdictions_input(builder)
     builder.input :jurisdiction_ids,
                   as: :grouped_select,
-                  collection: grouped_collection_for_select(Jurisdiction.all),
+                  collection: grouped_collection_for_select(Jurisdiction.sorted),
                   group_method: :all,
                   group_label_method: :label,
                   placeholder: I18n.t('simple_form.placeholders.project.jurisdictions'),
                   input_html: { class: 'input-lg js-select', multiple: true }
   end
 
+  attr_accessor :skill_selector
   def skills_input(builder)
-    # Selected options should appear at the top
-    skills = Skill.all.sort_by { |skill| skill_ids.include?(skill.id) ? 0 : 1 }
-    builder.input :skill_ids,
-                  collection: skills,
+    # builder.input(:skill_ids, as: :hidden, value: "[1,2,3]", wrapper: false) +
+    builder.input(:skill_selector,
                   placeholder: I18n.t('simple_form.placeholders.project.skills'),
-                  input_html: { class: 'input-lg js-select', multiple: true }
+                  input_html: { class: 'input-lg', autocomplete: "off", data: { source: h.api_skills_path } })
   end
 
   def grouped_collection_for_select(array)

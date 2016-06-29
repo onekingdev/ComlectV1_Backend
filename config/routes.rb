@@ -30,4 +30,8 @@ Rails.application.routes.draw do
   end
 
   resources :specialists
+
+  namespace :api do
+    resources :skills, only: :index
+  end
 end

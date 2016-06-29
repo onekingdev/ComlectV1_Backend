@@ -1,3 +1,7 @@
+.btn {
+  text-transform: uppercase;
+}
+
 .btn .icon + span, .btn .fa + span {
   margin-left: 0.7rem;
 }
@@ -31,6 +35,16 @@
   @include button-variant-light($btn-primary-bg);
 }
 
+.btn-muted {
+  border-color: #f3f3f3;
+  background-color: #f3f3f3;
+  color: #000;
+
+  &:hover {
+    background-color: darken(#f3f3f3, 5%);
+  }
+}
+
 .btn-link {
   color: #000;
 
@@ -39,6 +53,11 @@
     opacity: 0.6;
     text-decoration: none;
   }
+}
+
+.btn-lg {
+  padding-top: 14px; // Make it match the inputs
+  padding-bottom: 14px;
 }
 
 .btn-md {

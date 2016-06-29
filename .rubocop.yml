@@ -97,3 +97,6 @@ Rails/Output:
 
 Rails/HasAndBelongsToMany:
   Enabled: false
+
+Rails/OutputSafety:
+  Enabled: false
