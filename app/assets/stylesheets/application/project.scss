@@ -7,7 +7,7 @@ form.project_form {
     display: none;
   }
 
-  .project-details[data-location-type*=remote] {
+  .project-details[data-location-type*=onsite], .project-details[data-location-type*=travel] {
     .form-group.project_location {
       display: block;
     }

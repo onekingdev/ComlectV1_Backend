@@ -10,7 +10,7 @@ FactoryGirl.define do
 
     factory :project_one_off do
       type Project.types[:one_off]
-      location_type Project.location_types[:onsite]
+      location_type Project.location_types[:remote]
       starts_on { 1.month.from_now }
       ends_on { starts_on + 1.month }
       key_deliverables 'Key deliverables'

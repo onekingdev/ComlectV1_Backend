@@ -22,7 +22,12 @@ class Project < ActiveRecord::Base
 
   LOCATIONS = [%w(Remote remote), %w(Remote\ +\ Travel remote_and_travel), %w(Onsite onsite)].freeze
   HOURLY_PAYMENT_SCHEDULES = [%w(Upon\ Completion upon_completion), %w(Bi-Weekly bi_weekly), %w(Monthly monthly)].freeze
-  FIXED_PAYMENT_SCHEDULES = [%w(50/50 fifty_fifty), %w(Bi-Weekly bi_weekly), %w(Monthly monthly)].freeze
+  FIXED_PAYMENT_SCHEDULES = [
+    %w(50/50 fifty_fifty),
+    %w(Upon\ Completion upon_completion),
+    %w(Bi-Weekly bi_weekly),
+    %w(Monthly monthly)
+  ].freeze
   PAYMENT_SCHEDULES = (HOURLY_PAYMENT_SCHEDULES + FIXED_PAYMENT_SCHEDULES).uniq.freeze
   MINIMUM_EXPERIENCE = [%w(3-7\ yrs 3-7), %w(7-10\ yrs 7-10), %w(11-15\ yrs 11-15), %w(15+\ yrs 15+)].freeze
 
@@ -68,7 +73,7 @@ class Project < ActiveRecord::Base
   end
 
   def location_required?
-    remote? || remote_and_travel? || full_time?
+    onsite? || remote_and_travel? || full_time?
   end
 
   def hourly_pricing?
