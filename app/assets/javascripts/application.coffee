@@ -16,4 +16,5 @@ $.onContentReady = (callback) ->
   $ -> callback($(document))
   # Fire $(document).trigger('newContent', $parent) to trigger this
   $(document).on 'newContent', (_e, $parent) ->
-    callback $parent
+    # Make sure it's jQuery object as sometimes we get in unwrapped
+    callback $($parent)
