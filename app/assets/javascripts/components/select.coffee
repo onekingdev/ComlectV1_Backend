@@ -11,3 +11,6 @@ $.onContentReady ($parent) ->
       enableCaseInsensitiveFiltering: filtering
       enableClickableOptGroups: $this.find('optgroup').length > 0
       nonSelectedText: $this.attr('placeholder')
+
+    # Hack to hide the fake placeholder item
+    $this.data('multiselect').$ul.find('input[value=""]').parents('li').hide()
