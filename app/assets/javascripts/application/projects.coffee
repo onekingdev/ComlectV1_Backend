@@ -50,7 +50,7 @@ $.onContentReady ($parent) ->
     source: (query, process) ->
       $.getJSON $typeahead.data('source'), { q: query }, (data) ->
         pound = if query[0] == '#' then '' else '#'
-        name = "#{pound}#{query}"
+        name = "#{pound}#{query}".toLowerCase()
         exists = (i for i in data when i.name is name)[0]
         data = [{ name: name }].concat(data) unless exists
         # Remove items already selected
