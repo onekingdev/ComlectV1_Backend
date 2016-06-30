@@ -2,6 +2,10 @@
   background-color: rgba(0, 0, 0, 0.3);
   padding: 0 90px;
   text-transform: uppercase;
+  width: 100%;
+  top: 0;
+  position: fixed;
+  z-index: 1;
 
   .navbar-brand {
     @include navbar-vertical-align-by-padding(42px);
