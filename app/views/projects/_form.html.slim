@@ -14,7 +14,7 @@
         = f.input :location, input_html: { class: "input-lg" }
         = project.industries_input(f)
       .col-xs-12.col-sm-8
-        = f.input :description, as: :text, input_html: { class: 'input-lg tt-n', maxlength: 750 }, wrapper_html: { data: { "remaining-chars" => 750 } }
+        = f.input :description, as: :text, input_html: { class: 'input-lg tt-n', maxlength: 750 }
     .row.row-compact
       .col-xs-12.col-sm-4
         = project.jurisdictions_input(f)
