@@ -1,3 +1,28 @@
+body.projects.show {
+  #header {
+    background: asset_url("header-project.jpg") no-repeat;
+    background-size: 100% auto;
+    background-position-y: -100px;
+
+    @media (min-width: 689px) {
+      background-size: cover;
+    }
+
+    @media (max-width: $screen-sm-max) {
+      background-size: cover;
+    }
+
+    @media (max-width: 689px) {
+      background-position-x: center;
+      background-size: auto 300px + 150px;
+    }
+
+    h1 {
+      color: #000;
+    }
+  }
+}
+
 form.project_form {
   #project_description {
     min-height: ($input-height-large * 3) + $form-group-margin-bottom * 2;

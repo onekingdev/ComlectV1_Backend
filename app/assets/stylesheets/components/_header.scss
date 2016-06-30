@@ -28,6 +28,32 @@
     position: relative;
   }
 
+  .title, .logo-container {
+    @media (min-width: $screen-sm-min) {
+      float: none;
+      height: 280px;
+      vertical-align: bottom;
+      padding-bottom: 27px;
+    }
+
+    @media (max-width: $screen-xs-max) {
+      text-align: center;
+      height: auto;
+    }
+  }
+
+  .title h1 .fa {
+    $color: #a7d2ff;
+    color: $color;
+    font-size: 16px;
+    margin-left: 5px;
+
+    &:hover {
+      text-decoration: none;
+      color: darken($color, 10%);
+    }
+  }
+
   h1 {
     font-size: 42px;
     margin: 0;
@@ -40,25 +66,37 @@
   }
 
   .small-header {
-    $height: 180px;
-
+    $height: 272px;
+    height: $height;
+    overflow: hidden;
     padding-bottom: 0;
 
-
+    $align-bottom: calc(#{$height * 2} - 4em);
     h1 {
       font-size: 32px;
       font-weight: $roboto-light;
-      line-height: $height;
+      line-height: $align-bottom;
     }
 
     .tools {
-      line-height: $height;
+      font-size: 32px; // So the line-height below equals the h1
+      line-height: $align-bottom;
     }
 
     .title {
       display: block;
       height: $height;
       line-height: $height;
+    }
+
+    @media (max-width: $screen-xs-max) {
+      h1 {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        line-height: 5em;
+      }
     }
   }
 }

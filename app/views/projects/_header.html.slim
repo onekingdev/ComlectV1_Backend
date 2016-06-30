@@ -5,18 +5,20 @@
       - if policy(project).edit?
         .tools
           - if policy(project).destroy?
-            = link_to project_path(project), method: :delete, data: { confirm: project.confirm_delete, 'confirm-label' => 'Delete' }, class: 'btn btn-primary m-r-1' do
-              span
-                .fa.fa-trash-o
-          = link_to edit_project_path(project), class: 'btn btn-primary p-x-3' do
-            span.fw-regular Edit
+            = link_to project_path(project), method: :delete, data: { confirm: project.confirm_delete, 'confirm-label' => 'Delete' }, class: 'btn btn-md btn-muted m-r-1' do
+              .fa.fa-trash-o
+              span Delete
+          = link_to edit_project_path(project), class: 'btn btn-md btn-primary p-x-2' do
+            i.icon.maxicons2-editor
+            span Edit
           - if project.published?
-            = link_to '#', class: 'btn btn-primary p-x-3 m-l-1' do
-              span.fw-regular Share
+            = link_to '#', class: 'btn btn-md btn-primary p-x-2 m-l-1' do
+              span Share
           - else
             = form_for project, html: { class: 'm-l-1 d-ib' } do |f|
               = f.hidden_field :status, value: Project.statuses[:published]
-              = f.button class: 'btn btn-primary p-x-3 fw-regular' do
+              = f.button class: 'btn btn-md btn-primary p-x-2 fw-regular' do
+                i.icon.maxicons2-fix
                 span Post
       h1
         = project.title
