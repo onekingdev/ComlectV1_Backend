@@ -40,7 +40,7 @@
         = f.input :annual_salary, as: :string, required: true, input_html: { class: 'input-lg', data: { masked: '0#' } }
       .col-xs-12.col-sm-6
         = f.input :fee_type, as: :radio_pills, collection: [%w(Upfront upfront), %w(Monthly monthly)], btn_class: 'btn-lg tt-u btn-default p-x-3'
-        button.info type="button" data-toggle="tooltip" datsa-placement="left" title="Select how you'd like to pay Complect's fees" i
+        button.info-tooltip type="button" data-toggle="tooltip" title="Select how you'd like to pay Complect's fees" i
     .row.row-compact.text-muted.small.p-b-1
       .col-xs-12
         'Note: Complect offers two payment options for the full-time hiring fee:
@@ -78,7 +78,8 @@
             = f.label :only_regulators
       .col-xs-12.col-sm-6
         = project.skills_input(f)
-        .form-group.m-t-2
+        button.info-tooltip type="button" data-toggle="tooltip" title="Only hashtag up to ten skills your desired specialist MUST possess. Desired skills can also be referenced in the project description." i
+        .form-group.m-t-1.m-b-0
           ul.skills-required
             - project.skill_names.each do |skill|
               li

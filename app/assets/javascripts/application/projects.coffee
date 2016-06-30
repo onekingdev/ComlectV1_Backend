@@ -34,7 +34,7 @@ do ->
 
 # Salary tooltip
 $.onContentReady ($parent) ->
-  $.initializeOnce $parent.find('.project-salary [data-toggle=tooltip]'), 'tooltip', ($info) ->
+  $.initializeOnce $parent.find('[data-toggle=tooltip]'), 'tooltip', ($info) ->
     $info.tooltip()
 
 # Skills tag selection

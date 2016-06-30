@@ -7,3 +7,18 @@
 .tooltip.right .tooltip-arrow { border-right-color: rgba(#ffc300, 0.44); }
 .tooltip.bottom .tooltip-arrow { border-bottom-color: rgba(#ffc300, 0.44); }
 .tooltip.left .tooltip-arrow { border-left-color: rgba(#ffc300, 0.44); }
+
+.info-tooltip {
+  background: transparent;
+  border-radius: 50%;
+  border: 2px solid #000;
+  font-family: Baskerville;
+  font-style: italic;
+  font-weight: $baskerville-bold;
+  width: 1.5em;
+  height: 1.5em;
+  line-height: 1em;
+  cursor: default;
+  vertical-align: middle;
+  margin-left: 0.5em;
+}
