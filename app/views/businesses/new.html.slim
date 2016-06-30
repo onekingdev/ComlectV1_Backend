@@ -1,7 +1,7 @@
 - content_for :html_head do
   script src="https://maps.googleapis.com/maps/api/js?key=#{ENV.fetch('GOOGLE_PLACES_API_KEY')}&libraries=places"
 
-h1.text-center.m-b-3.p-b-3 Sign up to post your project
+h1.text-center.m-b-3.m-t-0 Sign up to post your project
 
 = simple_form_for @business, wrapper: :inline_form do |f|
   .well.well-lg.m-t-3
@@ -78,14 +78,14 @@ h1.text-center.m-b-3.p-b-3 Sign up to post your project
     .row.text-center.p-b-1
       h2.m-b-3 Finally, do you wish to display the name of your business?
       = f.input :anonymous, as: :radio_pills, collection: [['Public', false], ['Anonymous', true]], btn_class: 'btn-lg btn-default', hint: false
-      p.text-muted.small.m-t-2.col-xs-12.col-md-6.col-md-offset-3
+      p.text-muted.small.col-xs-12.col-md-6.col-md-offset-3
         = I18n.t('simple_form.hints.business.anonymous')
 
     .collapse class=("in" unless f.object.anonymous?) data-toggle-in="#business_anonymous_false" data-toggle-out="#business_anonymous_true"
-      hr.m-b-3.p-t-1
+      hr.m-b-1.p-t-1
 
       .text-center
-        h2.p-t-1 Would you like to add your logo?
+        h2.m-b-2 Would you like to add your logo?
 
         label.custom-file-field.js-custom-file-field
           = f.hidden_field :logo, value: f.object.logo_data? ? f.object.logo_data.to_json : nil
@@ -96,10 +96,10 @@ h1.text-center.m-b-3.p-b-3 Sign up to post your project
           - if f.object.errors[:logo].any?
             .text-danger= f.object.errors[:logo].to_sentence
 
-  .row.p-t-2
+  .row.p-t-3
     .col-xs-12
       = f.submit 'Sign Up', class: 'btn btn-primary btn-lg col-xs-12 col-sm-4 col-sm-offset-4'
 
-    p.text-center.small.text-muted.m-t-3.col-md-6.col-md-offset-3.col-sm-8.col-sm-offset-2.col-xs-12
+    p.text-center.small.text-muted.m-t-2.m-b-3.p-b-3.col-md-6.col-md-offset-3.col-sm-8.col-sm-offset-2.col-xs-12
       'By signing up, you are agreeing to our <a class="text-muted" href="#">Terms</a> & <a class="text-muted" href="#">Privacy Policy</a>,
       'the <a class="text-muted" href="#">Stripe Agreement</a><br>(for payment), and to receiving Complect email communication.
