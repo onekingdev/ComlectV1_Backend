@@ -31,48 +31,9 @@ h1.text-center.m-b-3.m-t-0 Sign up to post your project
   .well.well-lg.m-t-3
     h2.text-center.m-b-2 Tell us more about your business
 
-    h3
-      i.icon.maxicons1-building
-      'Business Info
-
-    .row.row-compact
-      .col-sm-4= f.input :business_name, input_html: { class: 'input-lg' }
-      .col-sm-4= f.association :industries, placeholder: I18n.t('simple_form.placeholders.business.industry'), input_html: { class: 'input-lg js-select', multiple: true }
-      .col-sm-4= f.input :employees, include_blank: I18n.t('simple_form.placeholders.business.employees'), collection: Business::EMPLOYEE_OPTIONS, input_html: { class: 'input-lg js-select' }
-    .row.row-compact
-      .col-sm-4
-        = f.input :website, required: false, input_html: { class: 'input-lg' }
-        = f.input :linkedin_link, required: false, input_html: { class: 'input-lg' }
-      .col-sm-8
-        = f.input :description, as: :text, input_html: { class: 'input-lg tt-n', maxlength: 750 }, wrapper_html: { data: { "remaining-chars" => 750 } }
-
-    h3
-      i.icon.maxicons2-navigation
-      'Location
-
-    .row.row-compact
-      .col-sm-4= f.input :address_1, required: false, input_html: { class: 'input-lg js-place-autocomplete', data: { zipcode: '#business_zipcode', country: '#business_country', state: '#business_state', city: '#business_city' } }
-      .col-sm-4= f.input :address_2, required: false, input_html: { class: 'input-lg' }
-      .col-sm-4
-        = f.input :zipcode,
-                  required: true,
-                  input_html: { class: 'input-lg' }
-    .row.row-compact
-      .col-sm-4= f.input :city, required: false, readonly: true, input_html: { class: 'input-lg' }
-      .col-sm-4= f.input :state, required: false, readonly: true, input_html: { class: 'input-lg' }
-      .col-sm-4= f.input :country, required: false, readonly: true, as: :string, input_html: { class: 'input-lg' }
-
-    h3
-      i.icon.maxicons1-earth
-      'Jurisdiction
-
-    .form-group.business_jurisdictions
-      .row
-        .col-xs-12
-          span.checkbox.m-t-0
-            input type="checkbox" data-toggle-all="business[jurisdiction_ids][]" id="business_jurisdiction_ids_all"
-            label for="business_jurisdiction_ids_all" Select All
-      = f.collection_check_boxes :jurisdiction_ids, Jurisdiction.sorted, :id, :name, item_wrapper_class: 'checkbox', label: false, boolean_style: :inline
+    = render 'fields_business_info', f: f
+    = render 'fields_location', f: f
+    = render 'fields_jurisdiction', f: f
 
   .well.well-lg.m-t-3
     .row.text-center.p-b-1
@@ -92,7 +53,7 @@ h1.text-center.m-b-3.m-t-0 Sign up to post your project
           = f.file_field :logo, accept: "image/gif, image/jpeg, image/png"
           .add-button +
           .help-block.m-t-1 Must be jpg/jpeg/png/gif<br>Max file size 2MB
-          span.selected.m-b-1= f.object.logo ? f.object.logo.data['metadata']['filename'] : nil
+          span.selected.m-y-1= f.object.logo ? f.object.logo.data['metadata']['filename'] : nil
           - if f.object.errors[:logo].any?
             .text-danger= f.object.errors[:logo].to_sentence
 
