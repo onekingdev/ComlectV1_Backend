@@ -7,6 +7,7 @@
 #= require pickadate/lib/picker.time
 #= require bootbox.js/bootbox
 #= require bootstrap3-typeahead/bootstrap3-typeahead
+#= require jquery-mask-plugin/dist/jquery.mask
 #= require_self
 #= require_tree ./utilities
 #= require_tree ./components
@@ -19,3 +20,9 @@ $.onContentReady = (callback) ->
   $(document).on 'newContent', (_e, $parent) ->
     # Make sure it's jQuery object as sometimes we get in unwrapped
     callback $($parent)
+
+$.initializeOnce = ($el, plugin, callback) ->
+  dataName = "#{plugin}-initialized"
+  return if $el.length == 0 || $el.data(dataName)
+  callback $el
+  $el.data dataName, true

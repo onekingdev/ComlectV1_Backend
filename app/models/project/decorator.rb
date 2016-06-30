@@ -53,13 +53,15 @@ class Project::Decorator < Draper::Decorator
   def hourly_rate_input(builder)
     builder.input :hourly_rate,
                   required: true,
-                  input_html: { class: 'input-lg' }
+                  as: :string,
+                  input_html: { class: 'input-lg', data: { masked: '#0.00', reverse: true } }
   end
 
   def fixed_budget_input(builder)
     builder.input :fixed_budget,
                   required: true,
-                  input_html: { class: 'input-lg' }
+                  as: :string,
+                  input_html: { class: 'input-lg', data: { masked: '#0.00', reverse: true } }
   end
 
   def hourly_payment_schedule_input(builder)
@@ -103,7 +105,11 @@ class Project::Decorator < Draper::Decorator
     # builder.input(:skill_ids, as: :hidden, value: "[1,2,3]", wrapper: false) +
     builder.input(:skill_selector,
                   placeholder: I18n.t('simple_form.placeholders.project.skills'),
-                  input_html: { class: 'input-lg', autocomplete: "off", data: { source: h.api_skills_path } })
+                  input_html: {
+                    class: 'input-lg',
+                    autocomplete: "off",
+                    data: { source: h.api_skills_path, max: 10 }
+                  })
   end
 
   def grouped_collection_for_select(array)

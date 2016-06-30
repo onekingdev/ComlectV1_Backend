@@ -17,6 +17,26 @@ form.project_form {
     }
   }
 
+  .project_fee_type {
+    width: calc(100% - 2em);
+    display: inline-block;
+  }
+
+  .project-salary .info {
+    background: transparent;
+    border-radius: 50%;
+    border: 2px solid #000;
+    font-family: Baskerville;
+    font-style: italic;
+    font-weight: $baskerville-bold;
+    width: 1.5em;
+    height: 1.5em;
+    line-height: 1em;
+    cursor: default;
+    vertical-align: middle;
+    margin-left: 0.5em;
+  }
+
   .project-pricing[data-pricing-type=fixed] {
     .form-group.project_hourly_rate, .form-group.project_hourly_payment_schedule {
       display: none;

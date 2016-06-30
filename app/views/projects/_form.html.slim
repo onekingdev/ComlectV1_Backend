@@ -37,10 +37,11 @@
     h2.text-center.m-b-2 Salary
     .row.row-compact
       .col-xs-12.col-sm-6
-        = f.input :annual_salary, required: true, input_html: { class: 'input-lg' }
+        = f.input :annual_salary, as: :string, required: true, input_html: { class: 'input-lg', data: { masked: '0#' } }
       .col-xs-12.col-sm-6
         = f.input :fee_type, as: :radio_pills, collection: [%w(Upfront upfront), %w(Monthly monthly)], btn_class: 'btn-lg tt-u btn-default p-x-3'
-    .row.row-compact.m-t-1.text-muted.small.p-b-1
+        button.info type="button" data-toggle="tooltip" datsa-placement="left" title="Select how you'd like to pay Complect's fees" i
+    .row.row-compact.text-muted.small.p-b-1
       .col-xs-12
         'Note: Complect offers two payment options for the full-time hiring fee:
         br
@@ -61,7 +62,7 @@
         = project.hourly_rate_input(f)
         = project.fixed_budget_input(f)
       .col-xs-12.col-sm-4
-        = f.input :estimated_hours, require: true, input_html: { class: 'input-lg' }
+        = f.input :estimated_hours, as: :string, require: true, input_html: { class: 'input-lg', data: { masked: '0#' } }
     .row.row-compact.p-b-1
       .col-xs-12
         .small.text-muted Note: Complect adds a 10% fee on top of your project value. You can read more about our Payment Terms <a class="text-muted" href="#">here</a>.
