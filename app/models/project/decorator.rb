@@ -24,13 +24,13 @@ class Project::Decorator < Draper::Decorator
   end
 
   def start_and_duration
-    string = I18n.l(starts_on, format: :short_ord).gsub('%@d', starts_on.day.ordinalize)
+    string = starts_on.strftime('%b %d, %Y')
     return string if full_time?
     "#{string}, #{duration}"
   end
 
   def duration
-    starts_on.distance_in_words_from(ends_on)
+    h.pluralize (ends_on - starts_on).to_i, 'day', 'days'
   end
 
   def type_humanized

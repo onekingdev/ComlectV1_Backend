@@ -1,5 +1,5 @@
 - if @projects.empty?
-  .alert.alert-default.text-center No projects yet
+  h2.text-center No projects yet
 
 .row
   - @projects.map(&method(:decorate)).each do |project|
@@ -10,12 +10,9 @@
             .label.label-danger
               i.icon.maxicons1-peoples
               span= project.applicants_count
-          '&nbsp;
+          h4= project.title
 
         .panel-body
-          h4= project.title
-          small.project-type= project.type_humanized
-
           .icon-list
             .item
               i.icon.maxicons2-navigation
@@ -39,8 +36,8 @@
               a.btn.btn-md.btn-primary href=edit_project_path(project)
                 i.icon.maxicons2-editor
                 span Edit
-              = button_to post_project_path(project), method: :post, remote: true, class: 'btn btn-md btn-primary'
-                i.icon.maxicons2-fix
+              = link_to project_path(project), class: 'btn btn-md btn-primary'
+                i.icon.maxicons2-fix.flip-x
                 span Post
             - elsif project.pending?
               a.btn.btn-md.btn-primary href="#"
@@ -61,7 +58,7 @@
                 i.icon.maxicons2-view
                 span View
 
-  - if @projects.total_pages > 1
-    .dot-pagination
-      - @projects.total_pages.times do |n|
-        = link_to ''.html_safe, current_uri(page: n + 1), remote: true, class: "page #{"current" if n + 1 == @projects.current_page}"
+- if @projects.total_pages > 1
+  .dot-pagination
+    - @projects.total_pages.times do |n|
+      = link_to ''.html_safe, current_uri(page: n + 1), remote: true, class: "page #{"current" if n + 1 == @projects.current_page}"

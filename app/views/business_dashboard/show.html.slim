@@ -4,7 +4,8 @@
     .tr
       .td.col-xs-12.col-sm-4.col-md-3.va-top
         .panel.panel-default.business-info
-          .panel-heading Profile
+          .panel-heading
+            h3 Profile
           .panel-body
             - if business.logo
               .logo= image_tag business.logo_url(:thumb), class: 'img-responsive'
@@ -38,7 +39,7 @@
       .td.col-xs-12.col-sm-8.col-md-9.va-top
         .panel.panel-default
           .panel-heading
-            span My Projects
+            h3 My Projects
             .dropdown.visible-sm.visible-xs
               button.btn.btn-default.dropdown-toggle type="button" data-toggle="dropdown"
                 'Filter

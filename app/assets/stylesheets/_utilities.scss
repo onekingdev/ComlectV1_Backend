@@ -71,4 +71,9 @@
   display: inline-block;
 }
 
+.flip-x {
+  transform: scaleX(-1);
+  display: inline-block;
+}
+
 .va-top { vertical-align: top; }

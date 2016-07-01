@@ -168,15 +168,21 @@
   }
 
   .panel-heading {
-    background-color: #c2c2c2;
     @include clearfix;
+    background-color: #5a5a5a;
+    padding: 24px 20px;
+
+    h4 {
+      margin: 0;
+      line-height: 1.2em;
+      overflow: hidden;
+    }
   }
 
   .panel-body {
     background-color: #fff;
 
     .icon-list {
-      margin: 1.5em 0;
 
       .icon {
         opacity: 0.5;
