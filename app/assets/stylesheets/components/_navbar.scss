@@ -22,6 +22,10 @@
     padding-left: 0;
     padding-right: 0;
 
+    &:hover {
+      color: $brand-primary;
+    }
+
     .icon {
       font-weight: $raleway-light;
     }
@@ -45,6 +49,11 @@
     }
   }
 
+  .navbar-nav > .open > a {
+    background-color: transparent;
+    color: $brand-primary;
+  }
+
   .badge {
     margin-top: -1em;
     margin-left: -1em;
@@ -55,7 +64,7 @@
   .dropdown-menu {
     background-color: #303233;
     text-align: right;
-    padding: 1em 0;
+    padding: 0;
     color: #fff;
 
     a {
@@ -63,10 +72,11 @@
       line-height: 2;
       font-weight: 500;
       padding-left: 2em;
-      padding-right: 1.5em;
+      padding-right: 1.25em; // Magic number so the items align with the dropdown trigger, sigh...
 
       &:hover, &:focus {
-        background-color: #000;
+        background-color: $brand-primary;
+        color: #000;
       }
     }
   }
