@@ -1,0 +1,75 @@
+form#new_business, form.edit_business {
+  select {
+    height: $input-height-large !important;
+  }
+
+  .business_jurisdictions {
+    @include clearfix;
+
+    .checkbox {
+      @include make-sm-column(3);
+      @include make-xs-column(6);
+      margin-top: 0;
+      padding-left: 20px; // Restore awesome-bootstrap-checkbox padding
+    }
+  }
+
+  .business_anonymous {
+    .btn {
+      width: 180px;
+    }
+
+    .help-block {
+      margin: 3em 30%;
+    }
+
+    @media (max-width: $screen-xs-max) {
+      .btn {
+        width: 100%;
+
+        &:first-child {
+          border-bottom-left-radius: 0;
+          border-top-right-radius: $btn-border-radius-large;
+        }
+
+        &:last-child {
+          border-top-right-radius: 0;
+          border-bottom-left-radius: $btn-border-radius-large;
+        }
+      }
+
+      .help-block {
+        margin: 3em 0;
+      }
+    }
+  }
+
+  .business_description {
+    textarea {
+      min-height: ($input-height-large * 2) + $form-group-margin-bottom;
+    }
+  }
+
+  .business_country .multiselect-container {
+    max-height: 260px;
+    overflow: auto;
+  }
+
+  .custom-file-field {
+    .add-button {
+      $size: 134px;
+      font-weight: $roboto-light;
+      font-size: 82px;
+      background: #fff;
+      border-radius: $size / 2;
+      width: $size;
+      height: $size;
+      line-height: $size;
+      margin: 0 auto $padding-base-vertical;
+    }
+
+    .selected {
+      margin: 0 auto;
+    }
+  }
+}

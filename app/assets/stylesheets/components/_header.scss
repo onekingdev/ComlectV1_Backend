@@ -1,10 +1,23 @@
 #header {
-  background-color: transparent;
-  background-size: cover;
   position: relative;
   margin-bottom: 80px;
   color: #fff;
   padding-top: $navbar-height + 3;
+  background-color: transparent;
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+
+  @media (min-width: 689px) {
+    background-size: cover;
+  }
+
+  @media (max-width: $screen-sm-max) {
+    background-size: cover;
+  }
+
+  @media (max-width: 689px) {
+    background-position-x: center;
+  }
 
   &.compact {
     margin-bottom: 3rem;
@@ -42,25 +55,14 @@
     }
   }
 
-  .title h1 .fa {
-    $color: #a7d2ff;
-    color: $color;
-    font-size: 16px;
-    margin-left: 5px;
-
-    &:hover {
-      text-decoration: none;
-      color: darken($color, 10%);
-    }
-  }
-
   h1 {
     font-size: 42px;
     margin: 0;
+    color: #000;
   }
 
   .tools {
-    line-height: 42px;
+    line-height: 46px;
     float: right;
     margin-top: 0;
   }
@@ -96,6 +98,44 @@
         left: 0;
         width: 100%;
         line-height: 5em;
+      }
+    }
+  }
+
+  @media (max-width: $screen-sm-max) {
+    .title h1 {
+      font-size: 32px;
+    }
+  }
+
+  @media (max-width: $screen-xs-max) {
+    .title {
+      padding-bottom: 20px;
+
+      h1 {
+        font-size: 32px;
+        padding-top: 2em;
+      }
+
+      &.has-logo h1 {
+        padding-top: 0;
+      }
+
+      .tools {
+        float: none;
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+  .no-logo {
+    @media (max-width: $screen-xs-max) {
+      h1 {
+        padding-top: 10px;
+      }
+
+      .tools {
+        margin-top: 2em;
       }
     }
   }

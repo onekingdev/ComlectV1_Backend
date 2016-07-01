@@ -1,0 +1,101 @@
+body.businesses.show {
+  #header {
+    background-image: asset_url("header-business.jpg");
+    background-position-y: -100px;
+
+    @media (max-width: 689px) {
+      background-size: auto 300px + 150px;
+    }
+
+    .title h1 .fa {
+      $color: #2777bd;
+      color: $color;
+      font-size: 35px;
+      margin-left: 10px;
+      position: relative;
+
+      &:hover {
+        text-decoration: none;
+        color: darken($color, 10%);
+      }
+
+      &:before {
+        position: relative;
+        z-index: 1;
+      }
+
+      &:after { // White bg so the "in" is not transparent
+        content: "";
+        position: absolute;
+        width: 75%;
+        height: 75%;
+        background: white;
+        left: 13%;
+        top: 13%;
+      }
+    }
+  }
+}
+
+#header {
+  .business-logo {
+    position: relative;
+
+    .ghost {
+      visibility: hidden;
+
+      @media (max-width: $screen-xs-max) {
+        visibility: visible;
+        margin: 20px 0;
+      }
+    }
+
+    .real {
+      position: absolute;
+      bottom: -70px;
+      padding: 6px;
+      border-radius: 5px;
+      background-color: #f3f3f3;
+
+      @media (max-width: $screen-xs-max) {
+        display: none;
+      }
+    }
+  }
+}
+
+.panel.business-info {
+  h3 {
+    font-size: 24px;
+    font-weight: $roboto-light;
+    text-align: center;
+  }
+
+  .logo {
+    width: 65%;
+    margin: 0 auto;
+
+    img {
+      margin: 0 auto;
+    }
+  }
+
+  .btn-group {
+    width: 100%;
+
+    .btn {
+      width: 50%;
+      font-size: 11px;
+    }
+  }
+}
+
+#business-dashboard {
+  @media (max-width: $screen-sm-max) {
+    display: block;
+
+    .tr, .td {
+      display: block;
+    }
+  }
+}

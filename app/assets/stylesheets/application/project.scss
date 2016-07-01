@@ -1,24 +1,10 @@
 body.projects.show {
   #header {
-    background: asset_url("header-project.jpg") no-repeat;
-    background-size: 100% auto;
+    background-image: asset_url("header-project.jpg");
     background-position-y: -100px;
 
-    @media (min-width: 689px) {
-      background-size: cover;
-    }
-
-    @media (max-width: $screen-sm-max) {
-      background-size: cover;
-    }
-
     @media (max-width: 689px) {
-      background-position-x: center;
       background-size: auto 300px + 150px;
-    }
-
-    h1 {
-      color: #000;
     }
   }
 }
