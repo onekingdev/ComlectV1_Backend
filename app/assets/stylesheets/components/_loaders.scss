@@ -1,9 +1,10 @@
-a.btn-primary.loading, button.btn-primary.loading {
-  color: transparent;
-  background-image: asset_url("load-primary-16.gif");
-  background-position: center;
-  background-repeat: no-repeat;
-}
+// Disabled by client request but leave in case they change their mind
+//a.btn-primary.loading, button.btn-primary.loading {
+//  color: transparent;
+//  background-image: asset_url("load-primary-16.gif");
+//  background-position: center;
+//  background-repeat: no-repeat;
+//}
 
 
 form[data-remote] {
