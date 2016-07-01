@@ -7,6 +7,10 @@ class Business::Decorator < Draper::Decorator
     [state, country].map(&:presence).compact.join(', ')
   end
 
+  def city_state_country
+    [city, state, country].map(&:presence).compact.join(', ')
+  end
+
   def website_short
     URI.parse(website_url).hostname
   end

@@ -11,3 +11,13 @@
     display: table-cell;
   }
 }
+
+.table.table-plain {
+  tr td, tr th {
+    border: 0;
+  }
+
+  th {
+    white-space: nowrap;
+  }
+}
