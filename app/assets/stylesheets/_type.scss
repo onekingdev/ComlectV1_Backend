@@ -28,3 +28,11 @@ a[class*=" o-"] {
     opacity: 1.0 !important;
   }
 }
+
+a.link {
+  text-decoration: underline;
+
+  &:hover {
+    color: $brand-primary !important;
+  }
+}

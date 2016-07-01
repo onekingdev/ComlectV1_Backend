@@ -1,56 +1,62 @@
-- header_class 'compact'
+- header_class ''
 - Business::Decorator.decorate(@business).tap do |business|
-  .row
-    .col-xs-12.col-sm-4.col-md-3
-      .panel.panel-default.business-info
-        .panel-heading Profile
-        .panel-body
-          - if business.logo
-            .logo= image_tag business.logo_url(:thumb), class: 'img-responsive'
-          h3= business.business_name
-          .text-center= business.render_stars
+  #business-dashboard.pseudo-table
+    .tr
+      .td.col-xs-12.col-sm-4.col-md-3.va-top
+        .panel.panel-default.business-info
+          .panel-heading Profile
+          .panel-body
+            - if business.logo
+              .logo= image_tag business.logo_url(:thumb), class: 'img-responsive'
+            h3= business.business_name
+            .text-center= business.render_stars
 
-          hr.flush
+            br
 
-          .icon-list
-            .item
-              i.icon.maxicons2-navigation.text-muted
-              span= business.state_country
-            .item
-              i.icon.maxicons1-building.text-muted
-              span= business.industries.map(&:name).join(', ')
-            .item
-              i.icon.maxicons1-earth.text-muted
-              span= business.jurisdictions.map(&:name).join(', ')
-            .item
-              i.icon.maxicons1-peoples.text-muted
-              span #{business.employees} Employees
-            - if business.public? && business.website.present?
+            .icon-list
               .item
-                i.icon.icon-fw.maxicons2-assign.text-muted
-                span= link_to business.website_short, business.website_url, target: '_blank'
-                - if business.public? && business.linkedin_link.present?
+                i.icon.maxicons2-navigation.text-muted
+                span= business.city_state_country
               .item
-              .fa.fa-linkedin-square.text-muted
-              span= link_to 'LinkedIn Profile', business.linkedin_url, target: "_blank"
+                i.icon.maxicons1-building.text-muted
+                span= business.industries.map(&:name).join(', ')
+              .item
+                i.icon.maxicons1-earth.text-muted
+                span= business.jurisdictions.map(&:name).join(', ')
+              .item
+                i.icon.maxicons1-peoples.text-muted
+                span #{business.employees} Employees
 
-          hr.flush
+            br
 
-          = simple_form_for business, url: update_business_path do |f|
-            = hidden_field_tag 'redirect_to', business_dashboard_path
-            = f.input :anonymous, as: :radio_pills, collection: [['Public', false], ['Anonymous', true]], btn_class: 'btn-default fw-medium', label: false, hint: false, input_html: { data: { autosubmit: 'true' } }
+            = simple_form_for business, remote: true, url: update_business_path do |f|
+              = hidden_field_tag 'redirect_to', business_dashboard_path
+              = f.input :anonymous, as: :radio_pills, collection: [['Public', false], ['Anonymous', true]], btn_class: 'btn-default btn-sm', label: false, hint: false, input_html: { data: { autosubmit: 'true' } }
 
-          .text-center= link_to 'Edit Profile', edit_business_path, class: 'btn btn-link'
+            .text-center.p-y-1= link_to 'Edit Profile', edit_business_path, class: 'link'
 
-    .col-xs-12.col-sm-8.col-md-9
-      .panel.panel-default
-        .panel-heading
-          span My Projects
-          .dropdown.visible-sm.visible-xs
-            button.btn.btn-default.dropdown-toggle type="button" data-toggle="dropdown"
-              'Filter
-              span.caret
-            ul.dropdown-menu.dropdown-menu-right
+      .td.col-xs-12.col-sm-8.col-md-9.va-top
+        .panel.panel-default
+          .panel-heading
+            span My Projects
+            .dropdown.visible-sm.visible-xs
+              button.btn.btn-default.dropdown-toggle type="button" data-toggle="dropdown"
+                'Filter
+                span.caret
+              ul.dropdown-menu.dropdown-menu-right
+                li.active= link_to '#projects-active', data: { toggle: 'tab', "remote-load" => true, url: projects_path(filter: 'active'), 'toggle-sync' => true } do
+                  i.icon.maxicons2-clock
+                  span Active
+                li= link_to '#projects-pending', data: { toggle: 'tab', "remote-load" => true, url: projects_path(filter: 'pending'), 'toggle-sync' => true } do
+                  i.icon.maxicons1-load-77
+                  span Pending
+                li= link_to '#projects-drafts', data: { toggle: 'tab', "remote-load" => true, url: projects_path(filter: 'drafts'), 'toggle-sync' => true } do
+                  i.icon.maxicons2-editor
+                  span Drafts
+                li= link_to '#projects-complete', data: { toggle: 'tab', "remote-load" => true, url: projects_path(filter: 'complete'), 'toggle-sync' => true } do
+                  i.icon.maxicons1-check
+                  span Complete
+            ul#js-project-filters.nav.nav-pills.visible-md.visible-lg
               li.active= link_to '#projects-active', data: { toggle: 'tab', "remote-load" => true, url: projects_path(filter: 'active'), 'toggle-sync' => true } do
                 i.icon.maxicons2-clock
                 span Active
@@ -63,88 +69,55 @@
               li= link_to '#projects-complete', data: { toggle: 'tab', "remote-load" => true, url: projects_path(filter: 'complete'), 'toggle-sync' => true } do
                 i.icon.maxicons1-check
                 span Complete
-          ul#js-project-filters.nav.nav-pills.visible-md.visible-lg
-            li.active= link_to '#projects-active', data: { toggle: 'tab', "remote-load" => true, url: projects_path(filter: 'active'), 'toggle-sync' => true } do
-              i.icon.maxicons2-clock
-              span Active
-            li= link_to '#projects-pending', data: { toggle: 'tab', "remote-load" => true, url: projects_path(filter: 'pending'), 'toggle-sync' => true } do
-              i.icon.maxicons1-load-77
-              span Pending
-            li= link_to '#projects-drafts', data: { toggle: 'tab', "remote-load" => true, url: projects_path(filter: 'drafts'), 'toggle-sync' => true } do
-              i.icon.maxicons2-editor
-              span Drafts
-            li= link_to '#projects-complete', data: { toggle: 'tab', "remote-load" => true, url: projects_path(filter: 'complete'), 'toggle-sync' => true } do
-              i.icon.maxicons1-check
-              span Complete
-        .panel-body
-          .tab-content
-            #projects-active.tab-pane.active
-              .alert.alert-default.text-center.loading Loading...
-            #projects-pending.tab-pane
-              .alert.alert-default.text-center.loading Loading...
-            #projects-drafts.tab-pane
-              .alert.alert-default.text-center.loading Loading...
-            #projects-complete.tab-pane
-              .alert.alert-default.text-center.loading Loading...
+          .panel-body
+            .tab-content
+              #projects-active.tab-pane.active
+                .alert.alert-default.text-center.loading Loading...
+              #projects-pending.tab-pane
+                .alert.alert-default.text-center.loading Loading...
+              #projects-drafts.tab-pane
+                .alert.alert-default.text-center.loading Loading...
+              #projects-complete.tab-pane
+                .alert.alert-default.text-center.loading Loading...
 
-    .col-xs-12.col-sm-8.col-md-9.m-t-2
-      .panel.panel-default
-        .panel-heading
-          h3
-            'My Specialists
-            span.m-l-1= link_to 'Browse All', '#'
-          .dropdown.visible-md.visible-sm.visible-xs
-            button.btn.btn-default.dropdown-toggle type="button" data-toggle="dropdown"
-              'Filter
-              span.caret
-            ul.dropdown-menu.dropdown-menu-right
-              li.active= link_to '#specialists-all', data: { toggle: 'tab', "remote-load" => true, url: specialists_path(filter: 'all'), 'toggle-sync' => true } do
-                i.icon.maxicons2-menu
-                span All
-              li= link_to '#specialists-hired', data: { toggle: 'tab', "remote-load" => true, url: specialists_path(filter: 'hired'), 'toggle-sync' => true } do
+        .panel.panel-default
+          .panel-heading
+            h3 My Specialists
+            .dropdown.visible-sm.visible-xs
+              button.btn.btn-default.dropdown-toggle type="button" data-toggle="dropdown"
+                'Filter
+                span.caret
+              ul.dropdown-menu.dropdown-menu-right
+                li.active= link_to '#specialists-hired', data: { toggle: 'tab', "remote-load" => true, url: specialists_path(filter: 'hired'), 'toggle-sync' => true } do
+                  i.icon.maxicons1-check
+                  span Hired
+                li= link_to '#specialists-favourited', data: { toggle: 'tab', "remote-load" => true, url: specialists_path(filter: 'favourited'), 'toggle-sync' => true } do
+                  i.icon.maxicons3-heart
+                  span Favorited
+            ul#js-specialist-filters.nav.nav-pills.visible-md.visible-lg
+              li.active= link_to '#specialists-hired', data: { toggle: 'tab', "remote-load" => true, url: specialists_path(filter: 'hired'), 'toggle-sync' => true } do
                 i.icon.maxicons1-check
                 span Hired
-              li= link_to '#specialists-shortlisted', data: { toggle: 'tab', "remote-load" => true, url: specialists_path(filter: 'shortlisted'), 'toggle-sync' => true } do
-                i.icon.maxicons2-like
-                span Shortlisted
               li= link_to '#specialists-favourited', data: { toggle: 'tab', "remote-load" => true, url: specialists_path(filter: 'favourited'), 'toggle-sync' => true } do
                 i.icon.maxicons3-heart
-                span Favourited
-          ul#js-specialist-filters.nav.nav-pills.visible-lg
-            li.active= link_to '#specialists-all', data: { toggle: 'tab', "remote-load" => true, url: specialists_path(filter: 'all'), 'toggle-sync' => true } do
-              i.icon.maxicons2-menu
-              span All
-            li= link_to '#specialists-hired', data: { toggle: 'tab', "remote-load" => true, url: specialists_path(filter: 'hired'), 'toggle-sync' => true } do
-              i.icon.maxicons1-check
-              span Hired
-            li= link_to '#specialists-shortlisted', data: { toggle: 'tab', "remote-load" => true, url: specialists_path(filter: 'shortlisted'), 'toggle-sync' => true } do
-              i.icon.maxicons2-like
-              span Shortlisted
-            li= link_to '#specialists-favourited', data: { toggle: 'tab', "remote-load" => true, url: specialists_path(filter: 'favourited'), 'toggle-sync' => true } do
-              i.icon.maxicons3-heart
-              span Favourited
-        .panel-body
-          .tab-content
-            #specialists-all.tab-pane.active
-              .alert.alert-default.text-center.loading Loading...
-            #specialists-hired.tab-pane
-              .alert.alert-default.text-center.loading Loading...
-            #specialists-shortlisted.tab-pane
-              .alert.alert-default.text-center.loading Loading...
-            #specialists-favourited.tab-pane
-              .alert.alert-default.text-center.loading Loading...
+                span Favorited
+          .panel-body
+            .tab-content
+              #specialists-hired.tab-pane.active
+                .alert.alert-default.text-center.loading Loading...
+              #specialists-favourited.tab-pane
+                .alert.alert-default.text-center.loading Loading...
 
-    .col-xs-12.col-sm-8.col-md-9.m-t-2
-      .panel.panel-default
-        .panel-heading
-          h3 My Ratings & Reviews
-          .detail.strong 4.8 from 5 Reviews
-        .panel-body
-          .ratings.list-group.plain
-            .rating.list-group-item
-              h4.list-group-item-heading
-                .detail May 2016
-                span Project Title
-                span.m-l-1= business.render_stars
-              .list-group-item-text
-                p Dramatically visualize customer directed convergence without revolutionary ROI. Collaboratively administrate empowered markets via plug-and-play networks. Dynamically procrastinate B2C users after installed base benefits.
+        .panel.panel-default
+          .panel-heading
+            h3 My Ratings & Reviews
+            .detail 4.8 from 5 Reviews
+          .panel-body
+            .ratings.list-group.plain
+              .rating.list-group-item
+                .list-group-item-heading
+                  .detail May 2016
+                  span Project Title
+                  span.m-l-1= business.render_stars
+                .list-group-item-text
+                  p Dramatically visualize customer directed convergence without revolutionary ROI. Collaboratively administrate empowered markets via plug-and-play networks. Dynamically procrastinate B2C users after installed base benefits.

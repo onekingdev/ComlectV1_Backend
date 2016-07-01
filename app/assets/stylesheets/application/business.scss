@@ -157,6 +157,17 @@ form#new_business, form.edit_business {
 
     .btn {
       width: 50%;
+      font-size: 11px;
+    }
+  }
+}
+
+#business-dashboard {
+  @media (max-width: $screen-sm-max) {
+    display: block;
+
+    .tr, .td {
+      display: block;
     }
   }
 }

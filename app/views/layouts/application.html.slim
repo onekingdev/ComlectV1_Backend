@@ -7,7 +7,7 @@ html lang=I18n.locale
     = yield :html_head
 
 body class="#{controller_name} #{action_name}"
-  header#header class=(yield(:header_class).presence || 'compact')
+  header#header class=(yield(:header_class) || 'compact')
     = render "navbar", user: User::Decorator.new(current_user)
     = yield :header
 

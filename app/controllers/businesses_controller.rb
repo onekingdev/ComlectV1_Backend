@@ -28,10 +28,15 @@ class BusinessesController < ApplicationController
 
   def update
     @business = current_user.business
-    if @business.update_attributes(edit_business_params)
-      return redirect_to_param_or business_dashboard_path
+    respond_to do |format|
+      if @business.update_attributes(edit_business_params)
+        format.html { return redirect_to_param_or business_dashboard_path }
+        format.js { render nothing: true, status: :ok }
+      else
+        format.html { render :edit }
+        format.js { js_alert('Could not save your changes, please try again later.') }
+      end
     end
-    render :edit
   end
 
   private

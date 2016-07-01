@@ -39,12 +39,13 @@
 
     .detail {
       float: right;
-      font-size: 18px;
+      font-size: 14px;
+      font-weight: $raleway-light;
       color: #c1c1c1;
 
       &.strong {
-        font-size: 16px;
-        font-weight: $roboto-medium;
+        font-size: 14px;
+        font-weight: $raleway-bold;
         color: #fff;
       }
     }
@@ -73,22 +74,13 @@
     padding-left: 0;
     padding-right: 0;
 
-    h4.list-group-item-heading {
-      border-bottom: 1px solid rgba(151, 151, 151, 0.35);
-      padding-bottom: 0.5em;
+    .list-group-item-heading {
       margin-bottom: 0.5em;
-    }
-
-    h4 span {
-      font-size: 18px;
-      font-weight: $roboto-regular;
+      font-weight: $raleway-bold;
     }
 
     .detail {
       float: right;
-      font-weight: $roboto-bold;
-      font-size: 16px;
-      line-height: 24px;
     }
   }
 
