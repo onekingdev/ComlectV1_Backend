@@ -179,6 +179,10 @@
     }
   }
 
+  &.active .panel-heading {
+    background-color: rgba(0, 0, 0, 0.77);
+  }
+
   .panel-body {
     background-color: #fff;
 

@@ -13,11 +13,14 @@
     }
 
     .name {
-      margin-top: 22px;
+      margin-top: 8px; // Magic number to center with avatar
+      font-weight: $raleway-light;
+      white-space: nowrap;
+      overflow: hidden;
     }
 
     .name, .rating {
-      padding-left: 98px;
+      padding-left: 75px;
     }
 
     .rating .stars {
@@ -42,10 +45,6 @@
         text-decoration: none;
       }
     }
-  }
-
-  &.favourited .panel-heading {
-    background-color: rgba(0, 0, 0, 0.77);
   }
 
   .panel-body .icon-list {

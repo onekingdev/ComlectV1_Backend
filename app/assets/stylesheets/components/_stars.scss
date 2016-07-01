@@ -18,4 +18,8 @@
       color: $brand-primary;
     }
   }
+
+  &.small .star {
+    font-size: 14px;
+  }
 }

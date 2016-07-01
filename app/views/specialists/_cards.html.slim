@@ -6,13 +6,13 @@
   - @specialists.each do |specialist|
     .col-xs-12.col-md-6.col-lg-4 data-specialist-id=specialist&.id
       - favourited = rand(2) == 1
-      .specialist.card.panel.panel-default class=("favourited" if favourited)
+      .specialist.card.panel.panel-default class=("active" if favourited)
         .panel-heading
           = link_to '#', class: "favourite #{'active' if favourited}" do
             i.icon.maxicons3-heart
-          .avatar= image_tag "http://lorempixel.com/88/88/people?#{rand(1000)}", size: "88x88"
+          .avatar= image_tag "http://lorempixel.com/65/65/people?#{rand(1000)}", size: "65x65"
           .name= %w(Lula Jeffrey Lois John Jane James Steve).sample
-          .rating= render_stars 4
+          .rating= render_stars 4, class: 'small'
 
         .panel-body
           .icon-list
