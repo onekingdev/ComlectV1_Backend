@@ -2,8 +2,8 @@
 .container
   .row.header-content.small-header
     .col-xs-12.title
-      - if policy(project).edit?
-        .tools
+      .tools
+        - if policy(project).edit?
           - if policy(project).destroy?
             = link_to project_path(project), method: :delete, data: { confirm: project.confirm_delete, 'confirm-label' => 'Delete' }, class: 'btn btn-md btn-muted m-r-1' do
               .fa.fa-trash-o
@@ -11,14 +11,16 @@
           = link_to edit_project_path(project), class: 'btn btn-md btn-primary p-x-2' do
             i.icon.maxicons2-editor
             span Edit
-          - if project.published?
-            = link_to '#', class: 'btn btn-md btn-primary p-x-2 m-l-1' do
-              span Share
-          - else
-            = form_for project, html: { class: 'm-l-1 d-ib' } do |f|
-              = f.hidden_field :status, value: Project.statuses[:published]
-              = f.button class: 'btn btn-md btn-primary p-x-2 fw-regular' do
-                i.icon.maxicons2-fix
-                span Post
+        - if project.published?
+          = link_to '#', class: 'btn btn-md btn-primary p-x-2 m-l-1' do
+            i.icon.maxicons1-arrowright.rotate-l-45
+            span Share
+        - else
+          = form_for project, html: { class: 'm-l-1 d-ib' } do |f|
+            = f.hidden_field :status, value: Project.statuses[:published]
+            = f.button class: 'btn btn-md btn-primary p-x-2 fw-regular' do
+              i.icon.maxicons2-fix
+              span Post
+
       h1
         = project.title
