@@ -3,23 +3,26 @@
 
   .item {
     line-height: 1.6em;
+    white-space: nowrap;
+    clear: both;
   }
 
-  .icon {
-    margin-right: 0.5em;
+  .icon, .fa {
+    width: 20px;
+    float: left;
+    line-height: 22px;
   }
 
   .fa {
     font-size: 115%;
-    margin-right: 0.2em;
   }
 
   span {
-    white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
     width: calc(100% - 1.5em);
     display: inline-block;
     vertical-align: middle;
+    float: left;
   }
 }

@@ -9,7 +9,7 @@
         .panel-body
           - if project.business.public? && project.business.logo
             .logo= image_tag project.business.logo_url(:thumb), class: 'img-responsive'
-          h3= policy(project.business).public_info(:business_name) || 'Anonymous'
+          h3.text-center= policy(project.business).public_info(:business_name) || 'Anonymous'
           .text-center= project.business.render_stars
 
           br

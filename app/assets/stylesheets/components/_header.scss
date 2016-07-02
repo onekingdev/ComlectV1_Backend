@@ -65,6 +65,10 @@
     line-height: 46px;
     float: right;
     margin-top: 0;
+
+    .btn {
+      width: 103px;
+    }
   }
 
   .small-header {
@@ -73,7 +77,8 @@
     overflow: hidden;
     padding-bottom: 0;
 
-    $align-bottom: calc(#{$height * 2} - 4em);
+    // $align-bottom: calc(#{$height * 2} - 4em); // Not compatible with Firefox
+    $align-bottom: $height * 2 - 129; // Magic number to align cross-browser
     h1 {
       font-size: 32px;
       font-weight: $roboto-light;

@@ -62,7 +62,7 @@ en:
         location: "* City, State, Country"
         industries: "* INDUSTRY"
         jurisdictions: "* JURISDICTION"
-        description: "* DESCRIPTION (i.e. please provide a detailed explanation of your needs and any relevant background information)"
+        description: "* DESCRIPTION (i.e. please provide a detailed explanation of your needs and any relevant background information)."
         key_deliverables: "* KEY DELIVERABLES (e.g. report, advice, policies, etc.)"
         minimum_experience: "* YEARS OF COMPLIANCE EXPERIENCE"
         full_time_starts_on: "* Start Date"
