@@ -13,7 +13,7 @@
             .tools
               = link_to edit_business_path, class: 'btn btn-primary' do
                 i.icon.maxicons2-editting
-                span.fw-regular Edit Profile
+                span.fw-regular Edit
           h1
             = policy(business).public_info(:business_name) || 'Anonymous'
             - if business.public? && business.linkedin_link.present?

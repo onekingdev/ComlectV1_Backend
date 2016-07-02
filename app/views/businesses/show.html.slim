@@ -6,7 +6,6 @@
       .col-xs-12.col-sm-4.col-md-3
         .panel.panel-default
           .panel-heading
-            i.icon.small.maxicons1-building
             h3 About
           .panel-body
             .icon-list
@@ -30,20 +29,18 @@
       .col-xs-12.col-sm-8.col-md-9
         .panel.panel-default
           .panel-heading
-            i.icon.maxicons1-bag
             h3 Description
           .panel-body
             = simple_format business.description.presence || 'Not available'
 
         .panel.panel-default
           .panel-heading
-            i.icon.maxicons1-star
             h3 Ratings & Reviews
             .detail 4.8 from 5 Reviews
           .panel-body
             .ratings.list-group.plain
               .rating.list-group-item
-                h4.list-group-item-heading
+                .list-group-item-heading
                   .detail May 2016
                   span Project Title
                   span.m-l-1= business.render_stars
