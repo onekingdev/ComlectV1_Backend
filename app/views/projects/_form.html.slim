@@ -1,8 +1,8 @@
 = simple_form_for project, remote: true, authenticity_token: true, wrapper: :inline_form, html: { class: "project_form", data: { "project-type" => project.type } } do |f|
-  .text-center.p-b-2
+  .text-center
     h1.m-t-0.m-b-3 Is this a one-off project or a full-time role?
 
-    = f.input :type, as: :radio_pills, collection: [['Project', Project.types[:one_off]], ['Full Time', Project.types[:full_time]]], btn_class: 'btn-lg btn-default p-x-3 tt-u'
+    = f.input :type, as: :radio_pills, collection: [['Project', Project.types[:one_off]], ['Full Time', Project.types[:full_time]]], btn_class: 'btn-lg btn-default p-x-3', wrapper_html: { class: 'm-b-0' }
 
   .well.well-lg.m-t-3.project-details data-location-type=project.location_type
     h2.text-center.m-b-2.full-time Job Details
@@ -72,7 +72,7 @@
     .row.row-compact.m-y-1
       .col-xs-12.col-sm-6
         = f.input :minimum_experience, include_blank: t('simple_form.placeholders.project.minimum_experience'), collection: Project::MINIMUM_EXPERIENCE, input_html: { class: 'input-lg js-select' }
-        .form-group.project_only_regulators.m-t-3
+        .form-group.project_only_regulators
           span.checkbox
             = f.check_box :only_regulators
             = f.label :only_regulators
@@ -95,7 +95,7 @@
         - else
           'Oops! You are missing important information, please add it before proceeding.
 
-  .m-t-3.actions.p-b-1
+  .m-t-3.actions
     - if project.persisted?
       = link_to project, method: :delete, data: { confirm: project.confirm_delete, 'confirm-label' => 'Delete' }, class: 'btn btn-muted btn-lg m-r-1' do
         .fa.fa-trash-o
@@ -111,7 +111,7 @@
       i.icon.maxicons2-fix.flip-x
       span Review & Post
 
-  .row.m-t-3.text-center
+  .row.m-t-2.text-center
     .col-xs-12.col-sm-8.col-sm-push-2.small.text-muted
       p You will be able to make changes to this information until you receive your first application.
         If you need to make changes after that, contact us at <a class="text-muted" href="mailto:help@complect.co">help@complect.co</a> or on [phone number].

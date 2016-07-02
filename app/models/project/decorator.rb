@@ -26,7 +26,7 @@ class Project::Decorator < Draper::Decorator
   def start_and_duration
     string = starts_on.strftime('%b %d, %Y')
     return string if full_time?
-    "#{string}, #{duration}"
+    "#{string} (#{duration})"
   end
 
   def duration
@@ -106,7 +106,7 @@ class Project::Decorator < Draper::Decorator
     builder.input(:skill_selector,
                   placeholder: I18n.t('simple_form.placeholders.project.skills'),
                   input_html: {
-                    class: 'input-lg',
+                    class: 'input-lg tt-n',
                     autocomplete: "off",
                     data: { source: h.api_skills_path, max: 10 }
                   })

@@ -4,7 +4,8 @@
   .row
     .col-xs-12.col-sm-4.col-md-3
       .panel.panel-default.business-info
-        .panel-heading.text-center About the Business
+        .panel-heading.text-center
+          h3 About the Business
         .panel-body
           - if project.business.public? && project.business.logo
             .logo= image_tag project.business.logo_url(:thumb), class: 'img-responsive'
@@ -43,11 +44,12 @@
 
     .col-xs-12.col-sm-8.col-md-9
       .panel.panel-default
-        .panel-heading Key Details & Applicant Prerequisites
+        .panel-heading
+          h3 Key Details & Applicant Prerequisites
         .panel-body
           .row
             .col-xs-12.col-md-6
-              table.table.table-plain
+              table.table.table-plain.table-condensed.m-b-0
                 tr
                   th
                     i.icon.maxicons2-navigation
@@ -93,7 +95,7 @@
                       span Annual Salary
                     td= number_to_currency(project.annual_salary, precision: 0)
             .col-xs-12.col-md-6
-              table.table.table-plain
+              table.table.table-plain.table-condensed.m-b-0
                 - if project.one_off?
                   tr
                     th
@@ -117,7 +119,8 @@
                   td= project.skills.map(&:name).join(' ').presence || 'None'
 
       .panel.panel-default
-        .panel-heading Project Description
+        .panel-heading
+          h3 Project Description
         .panel-body= simple_format project.description
 
       - if project.key_deliverables.present?
