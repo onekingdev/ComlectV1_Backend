@@ -4,7 +4,7 @@
 .row
   /- @specialists.map(&method(:decorate)).each do |specialist|
   - @specialists.each do |specialist|
-    .col-xs-12.col-md-6.col-lg-4 data-specialist-id=specialist&.id
+    .card-container.col-xs-12.col-md-6.col-lg-4 data-specialist-id=specialist&.id
       - favourited = rand(2) == 1
       .specialist.card.panel.panel-default class=("active" if favourited)
         .panel-heading
@@ -42,6 +42,6 @@
               span Invite
 
   - if false && @specialists.total_pages > 1
-    .dot-pagination
+    .dot-pagination.m-t-1
       - @specialists.total_pages.times do |n|
         = link_to ''.html_safe, current_uri(page: n + 1), remote: true, class: "page #{"current" if n + 1 == @specialists.current_page}"

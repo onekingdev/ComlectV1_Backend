@@ -1,5 +1,11 @@
 .panel.card {
   .panel-heading {
-    height: auto;
+    height: 88px;
+  }
+
+  .panel-footer .btn {
+    height: 31px;
+    line-height: 31px;
+    padding: 0;
   }
 }

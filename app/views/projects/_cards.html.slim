@@ -3,20 +3,26 @@
 
 .row
   - @projects.map(&method(:decorate)).each do |project|
-    .col-xs-12.col-md-6.col-lg-4 data-project-id=project.id
+    .card-container.col-xs-12.col-md-6.col-lg-4 data-project-id=project.id
       .project.card.panel.panel-default class="#{project.type}-project"
-        .panel-heading
+        a.panel-heading href=project_path(project)
           - if project.applicants_count > 0
             .label.label-danger
               i.icon.maxicons1-peoples
               span= project.applicants_count
           h4= project.title
 
-        .panel-body
+        a.panel-body href=project_path(project)
           .icon-list
             .item
               i.icon.maxicons2-navigation
               span= project.location_details
+            .item
+              i.icon.maxicons1-building
+              span= project.industries.map(&:name).to_sentence
+            .item
+              i.icon.maxicons1-earth
+              span= project.jurisdictions.map(&:name).to_sentence
             .item
               i.icon.maxicons2-clock
               span= project.start_and_duration
@@ -24,11 +30,11 @@
               i.icon.maxicons1-dollar
               span= project.dollars
             .item
-              i.icon.maxicons1-earth
-              span= project.jurisdictions.map(&:name).to_sentence
-            .item
-              i.icon.maxicons1-building
-              span= project.industries.map(&:name).to_sentence
+              - if project.one_off?
+                i.icon.maxicons1-dollar
+                span= project.payment_schedule_humanized
+              - else
+                span &nbsp;
 
         .panel-footer
           .btn-group
@@ -40,12 +46,9 @@
                 i.icon.maxicons2-fix.flip-x
                 span Post
             - elsif project.pending?
-              a.btn.btn-md.btn-primary href="#"
+              a.btn.btn-md.btn-primary.btn-single href="#"
                 i.icon.maxicons1-peoples
                 span Applicants
-              a.btn.btn-md.btn-primary href=project_path(project)
-                i.icon.maxicons2-view
-                span View
             - elsif project.active?
               a.btn.btn-md.btn-primary.btn-single href=project_path(project)
                 i.icon.maxicons2-view
@@ -59,6 +62,6 @@
                 span View
 
 - if @projects.total_pages > 1
-  .dot-pagination
+  .dot-pagination.m-t-1
     - @projects.total_pages.times do |n|
       = link_to ''.html_safe, current_uri(page: n + 1), remote: true, class: "page #{"current" if n + 1 == @projects.current_page}"

@@ -2,6 +2,14 @@
   border: 0;
   box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
 
+  a.panel-heading {
+    color: #fff !important;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
   .panel-heading {
     font-weight: $raleway-bold;
     font-size: 18px;
@@ -11,6 +19,7 @@
     color: #fff;
     position: relative;
     border: 0;
+    display: block;
 
     h3 {
       font-size: 18px;
@@ -55,6 +64,7 @@
   }
 
   .panel-body {
+    display: block;
     color: rgba(0, 0, 0, 0.8);
 
     a, a:hover {
@@ -230,5 +240,23 @@
         border-left: 1px solid rgba(0, 0, 0, 0.13);
       }
     }
+  }
+}
+
+.panel-body {
+  .card-container:nth-last-child(1) .card, .card-container:nth-last-child(2) .card, .card-container:nth-last-child(3) .card {
+    margin-bottom: 0;
+  }
+}
+
+.panel-body {
+  > :first-child, .list-group .list-group-item:first-child {
+    margin-top: 0;
+    padding-top: 0;
+  }
+
+  > :last-child, .list-group .list-group-item:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
   }
 }

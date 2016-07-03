@@ -45,8 +45,8 @@ class Project::Form < Project
   attr_accessor :hourly_payment_schedule, :fixed_payment_schedule
 
   ATTRIBUTES_FOR_COPY = %w(
-    annual_salary business_id description ends_on estimated_hours fee_type fixed_budget hourly_rate key_deliverables
-    location location_type minimum_experience only_regulators payment_schedule pricing_type starts_on status title type
+    annual_salary business_id description estimated_hours fee_type fixed_budget hourly_rate key_deliverables
+    location location_type minimum_experience only_regulators payment_schedule pricing_type status title type
   ).freeze
 
   def self.copy(original, attributes = {})

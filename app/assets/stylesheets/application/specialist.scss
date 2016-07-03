@@ -13,10 +13,11 @@
     }
 
     .name {
-      margin-top: 8px; // Magic number to center with avatar
+      margin-top: 12px; // Magic number to center with avatar
       font-weight: $raleway-light;
       white-space: nowrap;
       overflow: hidden;
+      padding-bottom: 0.5em;
     }
 
     .name, .rating {
@@ -30,7 +31,7 @@
 
     .favourite {
       position: absolute;
-      top: 3px;
+      top: 7px;
       right: 2px;
 
       .icon {

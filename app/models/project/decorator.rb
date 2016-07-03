@@ -10,6 +10,7 @@ class Project::Decorator < Draper::Decorator
   end
 
   def location_details
+    return 'Remote' if remote?
     return location if full_time?
     [location_type_humanized, location.presence].compact.join(', ')
   end

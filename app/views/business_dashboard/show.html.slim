@@ -9,7 +9,7 @@
           .panel-body
             - if business.logo
               .logo= image_tag business.logo_url(:thumb), class: 'img-responsive'
-            h3= business.business_name
+            h3.text-center= business.business_name
             .text-center= business.render_stars
 
             br
@@ -28,13 +28,11 @@
                 i.icon.maxicons1-peoples.text-muted
                 span #{business.employees} Employees
 
-            br
-
-            = simple_form_for business, remote: true, url: update_business_path do |f|
+            = simple_form_for business, remote: true, url: update_business_path, html: { class: 'm-y-2' } do |f|
               = hidden_field_tag 'redirect_to', business_dashboard_path
               = f.input :anonymous, as: :radio_pills, collection: [['Public', false], ['Anonymous', true]], btn_class: 'btn-default btn-sm', label: false, hint: false, input_html: { data: { autosubmit: 'true' } }
 
-            .text-center.p-y-1= link_to 'Edit Profile', edit_business_path, class: 'link'
+            .text-center.p-b-1= link_to 'Edit Profile', edit_business_path, class: 'link'
 
       .td.col-xs-12.col-sm-8.col-md-9.va-top
         .panel.panel-default
