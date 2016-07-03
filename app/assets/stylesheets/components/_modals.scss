@@ -29,7 +29,7 @@
 
 .modal-fake {
   border: 1px solid rgba(0, 0, 0, 0.2);
-  border-radius: 6px;
+  border-radius: $border-radius-large;
   box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
   background: #f3f3f3;
   padding: 20px;
@@ -49,14 +49,21 @@
 }
 
 .bootbox.modal {
+  $border-radius: $border-radius-large;
+
   .modal-content {
     text-align: center;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+    border-radius: $border-radius;
   }
 
   .modal-body {
     padding: 30px;
     color: rgba(78, 78, 78, 0.8);
     font-weight: $roboto-regular;
+    background-color: #f3f3f3;
+    border-top-left-radius: $border-radius;
+    border-top-right-radius: $border-radius;
 
     h2 {
       color: #000;
@@ -69,6 +76,9 @@
   .modal-footer {
     padding: 30px;
     border-top: 0;
+    background-color: #f3f3f3;
+    border-bottom-left-radius: $border-radius;
+    border-bottom-right-radius: $border-radius;
 
     .btn {
       font-weight: $roboto-regular;
