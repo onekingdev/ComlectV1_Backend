@@ -30,13 +30,21 @@
 .modal-fake {
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 6px;
-  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
-  background: #fff;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+  background: #f3f3f3;
   padding: 20px;
 
   &.gray {
     background-color: #f3f3f3;
     color: rgba(78, 78, 78, 0.8);
+  }
+
+  h4 {
+    font-family: Baskerville;
+    font-weight: $baskerville-bold;
+    font-style: italic;
+    font-size: 18px;
+    color: #666;
   }
 }
 

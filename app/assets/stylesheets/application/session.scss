@@ -9,3 +9,22 @@
 .modal a.forgot-password {
   color: #fff;
 }
+
+#choose-signup {
+  .modal-fake {
+    width: 271px;
+    height: 298px;
+
+    h2 {
+      font-family: Raleway;
+      font-size: 18px;;
+      font-weight: $raleway-light;
+      font-style: normal;
+      margin-top: 10px;
+    }
+  }
+
+  .btn {
+    height: 46px;
+  }
+}
