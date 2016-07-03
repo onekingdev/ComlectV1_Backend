@@ -1,31 +1,32 @@
-.col-xs-12.col-sm-8.col-sm-push-2.m-b-3
-  .modal-fake.gray.clearfix
-    = simple_form_for resource, remote: true, as: resource_name, url: session_path(resource_name), html: { class: 'new_session' } do |f|
-      a.btn.btn-block.btn-lg.btn-primary.btn-social-linkedin href="#"
-        .fa.fa-linkedin-square.fz-1-5x
-        span Log in with LinkedIn
+#sign-in
+  .col-xs-12.col-sm-8.col-sm-push-2
+    .modal-fake.gray.clearfix
+      = simple_form_for resource, remote: true, as: resource_name, url: session_path(resource_name), html: { class: 'new_session' } do |f|
+        a.btn.btn-block.btn-lg.btn-primary.btn-social-linkedin href="#"
+          .fa.fa-linkedin-square.fz-1-5x
+          span Log in with LinkedIn
 
-      .m-y-2.text-center or
+        h4.text-center style="font-size: 22px; margin: 22px 0" or
 
-      = f.input :email, autofocus: true, label: false, input_html: { class: 'input-lg text-center' }
-      = f.input :password, label: false, input_html: { class: 'input-lg text-center' }
+        = f.input :email, autofocus: true, label: false, input_html: { class: 'input-lg' }
+        = f.input :password, label: false, input_html: { class: 'input-lg' }
 
-      - if flash[:warning]
-        .alert.alert-warning= flash[:warning]
+        - if flash[:warning]
+          .alert.alert-warning= flash[:warning]
 
-      button.btn.btn-primary.btn-block.btn-lg type="submit" Log In
+        button.btn.btn-primary.btn-block.btn-lg type="submit" Log In
 
-  .text-center.m-t-1= link_to "Forgot Password", new_password_path(resource_name), remote: true, class: 'o-8 forgot-password'
+        .text-center.m-t-1= link_to "Forgot Password", new_password_path(resource_name), remote: true, class: 'o-8 forgot-password'
 
-.col-xs-12.col-sm-8.col-sm-push-2.m-b-3
-  .modal-fake.gray
-    h4.text-center.m-t-3.m-b-2 New to Complect? Sign up as a:
-    .row
-      .col-xs-6
-        = link_to new_business_path, class: 'btn btn-lg btn-block btn-primary' do
-          i.icon.maxicons1-building
-          span Business
-      .col-xs-6
-        = link_to new_specialist_path, class: 'btn btn-lg btn-block btn-primary' do
-          i.icon.maxicons1-businessman
-          span Specialist
+  .col-xs-12.col-sm-8.col-sm-push-2.m-b-3
+    .modal-fake.gray.new-user
+      h4.text-center.m-b-2.m-t-0 style="font-size: 22px" New to Complect? Sign up as a:
+      .row
+        .col-xs-6
+          = link_to new_business_path, class: 'btn btn-lg btn-block btn-primary' do
+            = image_tag 'icon-business.png', size: '16x16'
+            span.m-l-1 Business
+        .col-xs-6
+          = link_to new_specialist_path, class: 'btn btn-lg btn-block btn-primary' do
+            = image_tag 'icon-specialist.png', size: '16x16'
+            span.m-l-1 Specialist

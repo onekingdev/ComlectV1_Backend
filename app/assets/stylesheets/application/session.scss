@@ -6,10 +6,6 @@
   @include make-md-column-push(3);
 }
 
-.modal a.forgot-password {
-  color: #fff;
-}
-
 #choose-signup {
   .modal-fake {
     width: 271px;
@@ -26,5 +22,35 @@
 
   .btn {
     height: 46px;
+  }
+}
+
+#sign-in {
+  .modal-fake {
+    width: 474px;
+    height: 373px;
+    padding: 26px;
+  }
+
+  .btn {
+    height: 46px;
+  }
+
+  .btn-social-linkedin {
+    width: 199px;
+    color: #fff;
+    padding: 0;
+    line-height: 45px;
+    margin: 0 auto;
+  }
+
+  .forgot-password {
+    text-decoration: underline;
+    color: #000;
+  }
+
+  .new-user {
+    margin-top: 30px;
+    height: 144px;
   }
 }

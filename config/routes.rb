@@ -30,6 +30,7 @@ Rails.application.routes.draw do
   end
 
   resources :specialists
+  get '/specialist' => 'specialist_dashboard#show', as: :specialist_dashboard
 
   namespace :api do
     resources :skills, only: :index
