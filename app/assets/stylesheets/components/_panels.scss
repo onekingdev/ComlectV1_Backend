@@ -244,19 +244,11 @@
 }
 
 .panel-body {
-  .card-container:nth-last-child(1) .card, .card-container:nth-last-child(2) .card, .card-container:nth-last-child(3) .card {
-    margin-bottom: 0;
-  }
-}
-
-.panel-body {
   > :first-child, .list-group .list-group-item:first-child {
     margin-top: 0;
-    padding-top: 0;
   }
 
   > :last-child, .list-group .list-group-item:last-child {
     margin-bottom: 0;
-    padding-bottom: 0;
   }
 }

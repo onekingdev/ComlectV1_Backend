@@ -1,0 +1,10 @@
+.ratings {
+  .rating {
+    margin: 0;
+    padding: 0;
+  }
+
+  .rating + .rating {
+    margin-top: 1em;
+  }
+}
