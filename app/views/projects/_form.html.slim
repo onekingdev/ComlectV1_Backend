@@ -101,7 +101,7 @@
         .fa.fa-trash-o
         span Delete
     - else
-      = link_to_back default: business_dashboard_path, data: { method: 'get', confirm: project.confirm_delete, 'confirm-label' => 'Delete' }, class: 'btn btn-muted btn-lg m-r-1' do
+      = link_to_back default: business_dashboard_path, data: { method: 'get', confirm: project.confirm_delete, 'confirm-label' => 'Delete' }, class: 'btn btn-muted btn-md m-r-1' do
         .fa.fa-trash-o
         span Delete
     button.btn.btn-primary.btn-lg.m-r-1 type="submit" name="project[status]" value=Project.statuses[:draft]

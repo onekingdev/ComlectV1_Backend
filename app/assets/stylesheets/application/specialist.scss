@@ -2,10 +2,11 @@
   .panel-heading {
     background-color: rgba(0, 0, 0, 0.65);
     position: relative;
-    height: 116px;
 
     .avatar {
       position: absolute;
+      top: 14px;
+      left: 20px;
     }
 
     .avatar img {
@@ -13,7 +14,6 @@
     }
 
     .name {
-      margin-top: 12px; // Magic number to center with avatar
       font-weight: $raleway-light;
       white-space: nowrap;
       overflow: hidden;

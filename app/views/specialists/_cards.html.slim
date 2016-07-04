@@ -10,7 +10,7 @@
         .panel-heading
           = link_to '#', class: "favourite #{'active' if favourited}" do
             i.icon.maxicons3-heart
-          .avatar= image_tag "http://lorempixel.com/65/65/people?#{rand(1000)}", size: "65x65"
+          .avatar= image_tag "http://lorempixel.com/60/60/people?#{rand(1000)}", size: "60x60"
           .name= %w(Lula Jeffrey Lois John Jane James Steve).sample
           .rating= render_stars 4, class: 'small'
 
@@ -27,12 +27,12 @@
               span US, Canada
             .item
               i.icon.maxicons1-bag
-              span 3-5 Yrs. Compliance Exp.
+              span 4 Yrs. Compliance Exp.
             .item
               i.icon.maxicons2-place
               span Former Regulator
             .item
-              i.icon.maxicons3-cup
+              i.icon.maxicons2-winer
               span Skill 1, Skill 2, Skill 3
 
         .panel-footer

@@ -52,6 +52,10 @@
 .bootbox.modal {
   $border-radius: $border-radius-large;
 
+  .modal-dialog {
+    width: 474px;
+  }
+
   .modal-content {
     text-align: center;
     box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);

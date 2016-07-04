@@ -125,12 +125,13 @@
 
   .btn {
     height: 100%;
+    font-family: Baskerville;
     font-size: 18px;
-    font-weight: $roboto-light;
+    font-weight: $baskerville-bold;
+    font-style: italic;
     color: #fff;
     background-color: transparent;
     border-radius: 0;
-    padding: 10px 15px 9px 15px;
 
     &:hover, &:focus {
       background-color: #383838;
@@ -156,8 +157,10 @@
   }
 
   a {
+    font-family: Baskerville;
     font-size: 18px;
-    font-weight: $roboto-light;
+    font-weight: $baskerville-bold;
+    font-style: italic;
     color: #fff;
     background-color: transparent;
     border-radius: 0;
