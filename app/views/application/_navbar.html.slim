@@ -43,7 +43,7 @@ nav#nav.navbar.navbar-default.navbar-inverse
             .badge.small 2
           ul.dropdown-menu
             li.p-x-2.p-y-1 No alerts
-      - elsif controller_name != 'sessions'
+      - else
         li.buttons
           button.btn.btn-primary.navbar-btn data-remote=true data-url=new_user_session_path Log In
           button.btn.btn-primary.navbar-btn data-remote=true data-url=new_user_registration_path Sign Up

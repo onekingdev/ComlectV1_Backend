@@ -1,5 +1,5 @@
 #sign-in
-  .col-xs-12.col-sm-8.col-sm-push-2
+  .col-xs-12
     .modal-fake.gray.clearfix
       = simple_form_for resource, remote: true, as: resource_name, url: session_path(resource_name), html: { class: 'new_session' } do |f|
         a.btn.btn-block.btn-lg.btn-primary.btn-social-linkedin href="#"
@@ -8,17 +8,17 @@
 
         h4.text-center style="font-size: 22px; margin: 22px 0" or
 
+        - if flash[:warning]
+          .text-danger.text-center.m-b-1= flash[:warning]
+
         = f.input :email, autofocus: true, label: false, input_html: { class: 'input-lg' }
         = f.input :password, label: false, input_html: { class: 'input-lg' }
-
-        - if flash[:warning]
-          .alert.alert-warning= flash[:warning]
 
         button.btn.btn-primary.btn-block.btn-lg type="submit" Log In
 
         .text-center.m-t-1= link_to "Forgot Password", new_password_path(resource_name), remote: true, class: 'o-8 forgot-password'
 
-  .col-xs-12.col-sm-8.col-sm-push-2.m-b-3
+  .col-xs-12.m-b-3
     .modal-fake.gray.new-user
       h4.text-center.m-b-2.m-t-0 style="font-size: 22px" New to Complect? Sign up as a:
       .row
