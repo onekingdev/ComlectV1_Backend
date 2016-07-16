@@ -3,6 +3,10 @@
   display: table;
   width: 100%;
 
+  &.row {
+    width: auto;
+  }
+
   .tr {
     display: table-row;
   }
