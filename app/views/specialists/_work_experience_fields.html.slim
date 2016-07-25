@@ -1,0 +1,21 @@
+.row.row-compact.m-b-3
+  .col-xs-12.col-md-4
+    = f.input :company, input_html: { class: 'input-lg' }
+  .col-xs-12.col-md-4
+    = f.input :job_title, input_html: { class: 'input-lg' }
+  .col-xs-12.col-md-4
+    = f.input :location, input_html: { class: 'input-lg' }
+  .col-xs-12.col-md-4
+    .row.row-compact
+      .col-xs-12.col-md-6
+        = f.input :from, as: :string, input_html: { class: 'input-lg js-datepicker', data: { format: 'yyyy/mm/dd' } }
+      .col-xs-12.col-md-6
+        = f.input :to, as: :string, input_html: { class: 'input-lg js-datepicker', data: { format: 'yyyy/mm/dd' } }
+      .col-xs-12
+        = f.input :current, label: 'Current job?'
+        = f.input :compliance, label: 'Is this a compliance job?'
+
+  .col-xs-12.col-md-8
+    = f.input :description, as: :text, input_html: { rows: 6, class: 'input-lg' }
+  .col-xs-12.text-right
+    = link_to_remove_association 'Remove', f, class: 'text-muted remove'

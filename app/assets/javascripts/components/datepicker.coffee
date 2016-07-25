@@ -22,7 +22,7 @@ $.onContentReady ($parent) ->
         pair.set({ max: select }, { muted: true })
 
     $picker.pickadate
-      format: 'mmmm d, yyyy'
+      format: $picker.data('format') || 'mmmm d, yyyy'
       formatSubmit: 'yyyy/mm/dd'
       hiddenName: true
       onSet: onSet

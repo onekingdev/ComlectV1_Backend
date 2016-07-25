@@ -33,7 +33,8 @@ en:
       business:
         description: "Note: For confidentiality, please do NOT include your business name in the description if you do not want it visible to the public."
         anonymous: If you choose anonymous only your industry(s), number of employees, jurisdiction, and business description will be displayed.
-
+      specialist:
+        visibility: Your last name, contact info and resume are not displayed on public profiles. If you chose private, your profile will not be searchable by businesses.
     placeholders:
       user:
         email: "* Email Address"
@@ -49,13 +50,25 @@ en:
         employees: "* NO. EMPLOYEES"
         website: Website
         linkedin_link: LinkedIn URL
-        description: "* Business Description"
+        description: "* BUSINESS DESCRIPTION"
         address_1: Address Line 1
         address_2: Address Line 2
         country: "* Country"
         city: "* City"
         state: "* State"
         zipcode: Zipcode
+      specialist:
+        first_name: "* First Name"
+        last_name: "* Last Name"
+        country: "* Country"
+        state: "* State"
+        city: "* City"
+        zipcode: "* Zipcode"
+        phone: Phone Number
+        linkedin_link: LinkedIn Profile URL
+        industries: Industries
+        jurisdictions: Jurisdictions
+        certifications: List your other certifications, e.g. IACCP, CRCP, CFE
       project:
         title: "* Title"
         location_type: "* LOCATION"
@@ -75,3 +88,13 @@ en:
         hourly_rate: "* Hourly Rate"
         fixed_budget: "* Fixed Budget"
         estimated_hours: "* Estimated Hours"
+      work_experiences:
+        company: "* Company Name"
+        job_title: "* Job Title"
+        location: Location
+        from: From
+        to: To
+      education_histories:
+        institution: Institution Name
+        degree: Degree
+        year: GRAD YEAR

@@ -1,5 +1,6 @@
 #= require jquery
 #= require jquery_ujs
+#= require cocoon
 #= require bootstrap/_loader
 #= require bootstrap-multiselect/dist/js/bootstrap-multiselect
 #= require pickadate/lib/picker

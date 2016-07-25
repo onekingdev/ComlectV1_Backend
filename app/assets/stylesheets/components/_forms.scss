@@ -16,7 +16,20 @@
     top: -1000px;
   }
 
+  .add-button {
+    $size: 134px;
+    font-weight: $roboto-light;
+    font-size: 82px;
+    background: #fff;
+    border-radius: $size / 2;
+    width: $size;
+    height: $size;
+    line-height: $size;
+    margin: 0 auto $padding-base-vertical;
+  }
+
   .selected {
+    margin: 0 auto;
     display: block;
   }
 }
@@ -93,4 +106,8 @@ select.js-select.input-lg {
 .help-block {
   font-size: 11px;
   margin-top: $form-group-margin-bottom;
+}
+
+.checkbox-lg {
+  margin: calc(#{$input-height-large / 2} - 0.5em) 0;
 }

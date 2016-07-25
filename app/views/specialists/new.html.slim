@@ -1,0 +1,9 @@
+- content_for :html_head do
+  script src="https://maps.googleapis.com/maps/api/js?key=#{ENV.fetch('GOOGLE_PLACES_API_KEY')}&libraries=places"
+
+.text-center.m-b-3.p-b-2
+  h1 Sign up to become a Complect specialist
+  small.text-muted
+    'To be eligible, you must have 3+ years work experience in financial regulatory compliance
+
+= render 'form', specialist: decorate(@specialist)

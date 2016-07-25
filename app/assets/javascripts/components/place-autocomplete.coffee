@@ -14,9 +14,7 @@ $.onContentReady ($parent) ->
     autocomplete = new google.maps.places.Autocomplete($this.get(0), options)
     autocomplete.addListener 'place_changed', ->
       place = autocomplete.getPlace()
-      console.log place.address_components
-      street = ''
-      streetNumber = ''
+      streetNumber = street = zipCode = city = state = country = ''
       for component in place.address_components
         switch component.types[0]
           when "street_number"
@@ -24,13 +22,22 @@ $.onContentReady ($parent) ->
           when "route"
             street = component.long_name
           when "postal_code"
-            $($this.data("zipcode")).val component.short_name
+            zipCode = component.short_name
           when "locality"
-            $($this.data("city")).val component.short_name
+            city = component.short_name
           when "administrative_area_level_1"
-            $($this.data("state")).val component.long_name
+            state = component.short_name
           when "country"
-            $($this.data("country")).val component.long_name
-      $this.val [street, streetNumber].join(' ').trim()
+            country = component.long_name
+
+      $($this.data("zipcode")).val zipCode
+      $($this.data("city")).val city
+      $($this.data("state")).val state
+      $($this.data("country")).val country
+      switch $this.data('self')
+        when "city"
+          $this.val city
+        else
+          $this.val [street, streetNumber].join(' ').trim()
 
     $this.data 'autocomplete-initialized', true

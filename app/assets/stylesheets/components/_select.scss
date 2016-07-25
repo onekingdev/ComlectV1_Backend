@@ -1,9 +1,9 @@
 .multiselect {
-  font-weight: $roboto-regular;
+  font-weight: $raleway-light;
 
   &.input-lg {
     height: $input-height-large;
-    line-height: $input-height-large;
+    line-height: $input-height-large - 2px;
     padding: 0 $padding-large-horizontal;
     text-align: left;
 

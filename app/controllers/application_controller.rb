@@ -25,6 +25,11 @@ class ApplicationController < ActionController::Base
     render 'forbidden', status: :forbidden, locals: { message: 'Only business accounts can access this page' }
   end
 
+  def require_specialist!
+    return if current_user.specialist
+    render 'forbidden', status: :forbidden, locals: { message: 'Only specialist accounts can access this page' }
+  end
+
   def render_404
     render file: 'public/404', status: :not_found
   end

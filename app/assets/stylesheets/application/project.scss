@@ -97,33 +97,6 @@ form.project_form {
     }
   }
 
-  .skills-required {
-    @include list-unstyled;
-
-    li {
-      display: inline-block;
-      background-color: #fff;
-      padding: 10px 15px;
-      color: #000;
-      border-radius: $border-radius-base;
-      margin-right: 14px;
-      margin-bottom: 14px;
-
-      span {
-        vertical-align: middle;
-        line-height: 1.3em;
-      }
-    }
-
-    .remove {
-      margin-left: 10px;
-      cursor: pointer;
-      font-size: 1.3em;
-      line-height: 1em;
-      color: #666;
-    }
-  }
-
   .actions {
     text-align: center;
 

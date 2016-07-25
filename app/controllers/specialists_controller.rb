@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 class SpecialistsController < ApplicationController
-  before_action :authenticate_user!
-  before_action :require_business!
+  before_action -> do
+    redirect_to specialist_path(current_user.specialist)
+  end, if: -> { signed_in? && current_user.specialist }, only: %i(new create)
+
+  before_action :authenticate_user!, only: %i(edit update)
+  before_action :require_specialist!, only: %i(edit update)
 
   FILTERS = {
     'all' => :all,
@@ -21,5 +25,30 @@ class SpecialistsController < ApplicationController
       end
       format.js
     end
+  end
+
+  def new
+    @specialist = Specialist::Form.signup
+  end
+
+  def create
+    @specialist = Specialist::Form.signup(specialist_params)
+    if @specialist.save
+      sign_in @specialist.user
+      return redirect_to specialist_dashboard_path
+    end
+    render :new
+  end
+
+  private
+
+  def specialist_params
+    params.require(:specialist).permit(
+      :first_name, :last_name, :country, :state, :city, :zipcode, :phone, :linkedin_link, :visibility,
+      :former_regulator, :certifications, :photo, :resume,
+      jurisdiction_ids: [], industry_ids: [], skill_names: [],
+      user_attributes: %i(email password),
+      work_experiences_attributes: %i(id company job_title location from to current compliance description _destroy)
+    )
   end
 end

@@ -139,6 +139,40 @@ CREATE TABLE businesses_jurisdictions (
 
 
 --
+-- Name: education_histories; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE education_histories (
+    id integer NOT NULL,
+    specialist_id integer,
+    institution character varying,
+    degree character varying,
+    year integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: education_histories_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE education_histories_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: education_histories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE education_histories_id_seq OWNED BY education_histories.id;
+
+
+--
 -- Name: industries; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -180,6 +214,16 @@ CREATE TABLE industries_projects (
 
 
 --
+-- Name: industries_specialists; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE industries_specialists (
+    industry_id integer NOT NULL,
+    specialist_id integer NOT NULL
+);
+
+
+--
 -- Name: jurisdictions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -217,6 +261,16 @@ ALTER SEQUENCE jurisdictions_id_seq OWNED BY jurisdictions.id;
 CREATE TABLE jurisdictions_projects (
     jurisdiction_id integer NOT NULL,
     project_id integer NOT NULL
+);
+
+
+--
+-- Name: jurisdictions_specialists; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE jurisdictions_specialists (
+    jurisdiction_id integer NOT NULL,
+    specialist_id integer NOT NULL
 );
 
 
@@ -389,6 +443,60 @@ ALTER SEQUENCE skills_id_seq OWNED BY skills.id;
 
 
 --
+-- Name: skills_specialists; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE skills_specialists (
+    skill_id integer NOT NULL,
+    specialist_id integer NOT NULL
+);
+
+
+--
+-- Name: specialists; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE specialists (
+    id integer NOT NULL,
+    user_id integer,
+    first_name character varying,
+    last_name character varying,
+    country character varying,
+    state character varying,
+    city character varying,
+    zipcode character varying,
+    phone character varying,
+    linkedin_link character varying,
+    former_regulator boolean DEFAULT false NOT NULL,
+    photo_data jsonb,
+    resume_data jsonb,
+    certifications character varying,
+    visibility character varying DEFAULT 'public'::character varying NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: specialists_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE specialists_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: specialists_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE specialists_id_seq OWNED BY specialists.id;
+
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -433,6 +541,45 @@ ALTER SEQUENCE users_id_seq OWNED BY users.id;
 
 
 --
+-- Name: work_experiences; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE work_experiences (
+    id integer NOT NULL,
+    specialist_id integer,
+    company character varying,
+    job_title character varying,
+    location character varying,
+    "from" date,
+    "to" date,
+    current boolean DEFAULT false NOT NULL,
+    compliance boolean DEFAULT false NOT NULL,
+    description character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: work_experiences_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE work_experiences_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: work_experiences_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE work_experiences_id_seq OWNED BY work_experiences.id;
+
+
+--
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -444,6 +591,13 @@ ALTER TABLE ONLY admin_users ALTER COLUMN id SET DEFAULT nextval('admin_users_id
 --
 
 ALTER TABLE ONLY businesses ALTER COLUMN id SET DEFAULT nextval('businesses_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY education_histories ALTER COLUMN id SET DEFAULT nextval('education_histories_id_seq'::regclass);
 
 
 --
@@ -492,7 +646,21 @@ ALTER TABLE ONLY skills ALTER COLUMN id SET DEFAULT nextval('skills_id_seq'::reg
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY specialists ALTER COLUMN id SET DEFAULT nextval('specialists_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY work_experiences ALTER COLUMN id SET DEFAULT nextval('work_experiences_id_seq'::regclass);
 
 
 --
@@ -509,6 +677,14 @@ ALTER TABLE ONLY admin_users
 
 ALTER TABLE ONLY businesses
     ADD CONSTRAINT businesses_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: education_histories_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY education_histories
+    ADD CONSTRAINT education_histories_pkey PRIMARY KEY (id);
 
 
 --
@@ -560,11 +736,27 @@ ALTER TABLE ONLY skills
 
 
 --
+-- Name: specialists_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY specialists
+    ADD CONSTRAINT specialists_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: work_experiences_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY work_experiences
+    ADD CONSTRAINT work_experiences_pkey PRIMARY KEY (id);
 
 
 --
@@ -600,6 +792,13 @@ CREATE INDEX index_businesses_on_anonymous ON businesses USING btree (anonymous)
 --
 
 CREATE INDEX index_businesses_on_user_id ON businesses USING btree (user_id);
+
+
+--
+-- Name: index_education_histories_on_specialist_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_education_histories_on_specialist_id ON education_histories USING btree (specialist_id);
 
 
 --
@@ -673,6 +872,20 @@ CREATE UNIQUE INDEX index_skills_on_name ON skills USING btree (name);
 
 
 --
+-- Name: index_skills_specialists_on_skill_id_and_specialist_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_skills_specialists_on_skill_id_and_specialist_id ON skills_specialists USING btree (skill_id, specialist_id);
+
+
+--
+-- Name: index_specialists_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_specialists_on_user_id ON specialists USING btree (user_id);
+
+
+--
 -- Name: index_users_on_confirmation_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -691,6 +904,27 @@ CREATE UNIQUE INDEX index_users_on_email ON users USING btree (email);
 --
 
 CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (reset_password_token);
+
+
+--
+-- Name: index_work_experiences_on_specialist_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_work_experiences_on_specialist_id ON work_experiences USING btree (specialist_id);
+
+
+--
+-- Name: industries_specialists_unique; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX industries_specialists_unique ON industries_specialists USING btree (industry_id, specialist_id);
+
+
+--
+-- Name: jurisdictions_specialists_unique; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX jurisdictions_specialists_unique ON jurisdictions_specialists USING btree (jurisdiction_id, specialist_id);
 
 
 --
@@ -730,5 +964,11 @@ INSERT INTO schema_migrations (version) VALUES ('20160620220131');
 
 INSERT INTO schema_migrations (version) VALUES ('20160621014832');
 
+INSERT INTO schema_migrations (version) VALUES ('20160621181454');
+
 INSERT INTO schema_migrations (version) VALUES ('20160623211024');
+
+INSERT INTO schema_migrations (version) VALUES ('20160721011122');
+
+INSERT INTO schema_migrations (version) VALUES ('20160722233234');
 

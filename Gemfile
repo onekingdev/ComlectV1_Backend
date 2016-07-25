@@ -31,6 +31,7 @@ gem 'slim-rails', '~> 3.0.1'
 gem 'simple_form', '~> 3.2'
 gem 'country_select'
 gem 'draper'
+gem 'cocoon'
 
 # Assets
 gem 'jquery-rails'

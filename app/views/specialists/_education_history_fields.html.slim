@@ -1,0 +1,9 @@
+.row.row-compact.m-b-3
+  .col-xs-12.col-md-4
+    = f.input :institution, input_html: { class: 'input-lg' }
+  .col-xs-12.col-md-4
+    = f.input :degree, input_html: { class: 'input-lg' }
+  .col-xs-12.col-md-4
+    = f.input :year, collection: (Date.today.year - 40..Date.today.year).to_a, input_html: { class: 'input-lg js-select' }, include_blank: t('simple_form.placeholders.education_histories.year')
+  .col-xs-12.text-right
+    = link_to_remove_association 'Remove', f, class: 'text-muted remove'

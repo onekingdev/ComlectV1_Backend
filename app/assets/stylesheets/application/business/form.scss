@@ -54,22 +54,4 @@ form#new_business, form.edit_business {
     max-height: 260px;
     overflow: auto;
   }
-
-  .custom-file-field {
-    .add-button {
-      $size: 134px;
-      font-weight: $roboto-light;
-      font-size: 82px;
-      background: #fff;
-      border-radius: $size / 2;
-      width: $size;
-      height: $size;
-      line-height: $size;
-      margin: 0 auto $padding-base-vertical;
-    }
-
-    .selected {
-      margin: 0 auto;
-    }
-  }
 }

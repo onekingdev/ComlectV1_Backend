@@ -3,3 +3,20 @@
     vertical-align: middle;
   }
 }
+
+.label-more {
+  border-radius: 50%;
+  background-color: rgba(135, 135, 135, 0.5);
+  color: #fff !important;
+  vertical-align: middle;
+  display: inline-block;
+  width: 1.5em;
+  height: 1.5em;
+  line-height: 1.2em;
+  font-weight: $roboto-black;
+  cursor: pointer;
+}
+
+h2 .label-more {
+  font-size: 50%;
+}

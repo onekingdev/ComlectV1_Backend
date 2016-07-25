@@ -52,3 +52,60 @@
     margin: 0;
   }
 }
+
+.form-specialist {
+  #work-experiences {
+    position: relative;
+
+    > :nth-last-child(2) {
+      .remove {
+        padding-right: 7em;
+      }
+    }
+
+    .add {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+    }
+  }
+
+  #education-histories {
+    position: relative;
+
+    > :nth-last-child(2) {
+      .remove {
+        padding-right: 7em;
+      }
+    }
+
+    .add {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+    }
+  }
+
+  .specialist_skill_selector {
+    width: calc(100% - 2em);
+    display: inline-block;
+  }
+
+  .form-group.specialist_work_experiences_from, .form-group.specialist_work_experiences_to {
+    input {
+      padding-right: 2em;
+    }
+
+    &:after {
+      font-family: FontAwesome;
+      content: "\f133";
+      position: absolute;
+      right: 10px;
+      top: 0;
+      height: 100%;
+      line-height: $input-height-large;
+      color: lighten($text-muted, 10%);
+      pointer-events: none;
+    }
+  }
+}
