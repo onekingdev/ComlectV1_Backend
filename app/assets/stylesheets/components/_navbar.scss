@@ -5,7 +5,7 @@
   width: 100%;
   top: 0;
   position: fixed;
-  z-index: 1;
+  z-index: 5;
 
   .navbar-brand {
     @include navbar-vertical-align-by-padding(42px);
