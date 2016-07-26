@@ -1,12 +1,12 @@
-::-webkit-input-placeholder { text-transform: uppercase; }
-:-moz-placeholder { text-transform: uppercase; }
-::-moz-placeholder { text-transform: uppercase; }
-:-ms-input-placeholder { text-transform: uppercase; }
+::-webkit-input-placeholder { text-transform: uppercase; color: $gray-light; }
+:-moz-placeholder { text-transform: uppercase; color: $gray-light; }
+::-moz-placeholder { text-transform: uppercase; color: $gray-light; }
+:-ms-input-placeholder { text-transform: uppercase; color: $gray-light; }
 
-.tt-n::-webkit-input-placeholder { text-transform: none; }
-.tt-n:-moz-placeholder { text-transform: none; }
-.tt-n::-moz-placeholder { text-transform: none; }
-.tt-n:-ms-input-placeholder { text-transform: none; }
+.tt-n::-webkit-input-placeholder { text-transform: none; color: $gray-light; }
+.tt-n:-moz-placeholder { text-transform: none; color: $gray-light; }
+.tt-n::-moz-placeholder { text-transform: none; color: $gray-light; }
+.tt-n:-ms-input-placeholder { text-transform: none; color: $gray-light; }
 
 .form-control {
   box-shadow: none;

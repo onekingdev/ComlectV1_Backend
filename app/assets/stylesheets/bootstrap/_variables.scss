@@ -1,8 +1,12 @@
 //== Colors
 
-$gray-light: #767676;
+$gray-darker:  #2f2e2e; // Footer
+$gray-dark:    #666666; // Subtitles
+$gray:         #767676; // Subtext / info texts
+$gray-light:   #999999; // Placeholders
+$gray-lighter: #f3f3f3; // Section frames
 
-$brand-primary: #f8bd00;
+$brand-primary: #feb809;
 $brand-danger: #d0021b;
 
 //== Typography
@@ -64,6 +68,7 @@ $form-group-margin-bottom: $grid-gutter-width / 2; // So vertical spacing equals
 //== Type
 
 $hr-border: rgba($brand-primary, 0.5);
+$text-muted: $gray;
 
 //== Wells
 
