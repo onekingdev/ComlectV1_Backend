@@ -2,6 +2,9 @@
 class Specialist::Form < Specialist
   include ApplicationForm
 
+  accepts_nested_attributes_for :work_experiences, allow_destroy: true, reject_if: :all_blank
+  accepts_nested_attributes_for :education_histories, allow_destroy: true, reject_if: :all_blank
+
   validates :first_name, :last_name, :country, :zipcode, presence: true
   validate :validate_photo, :validate_resume
 
@@ -14,6 +17,16 @@ class Specialist::Form < Specialist
       specialist.build_user unless specialist.user
       specialist.work_experiences.build unless specialist.work_experiences.any?
       specialist.education_histories.build unless specialist.education_histories.any?
+    end
+  end
+
+  def skill_names
+    @skill_names.nil? ? skills.map(&:name) : @skill_names
+  end
+
+  def skill_names=(names)
+    self.skills = names.map do |name|
+      Skill.find_or_initialize_by(name: name)
     end
   end
 

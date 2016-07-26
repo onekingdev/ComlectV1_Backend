@@ -4,6 +4,6 @@ class SpecialistDashboardController < ApplicationController
   before_action :require_specialist!
 
   def show
-    @specialist = current_user.specialist
+    @specialist = Specialist.preload_associations.find(current_user.specialist.id)
   end
 end

@@ -3,6 +3,18 @@ class Specialist::Decorator < Draper::Decorator
   decorates Specialist
   delegate_all
 
+  def city_state_country
+    [city, state, country].map(&:presence).compact.join(', ')
+  end
+
+  def years_of_experience
+    work_experiences.map { |exp| (exp.to - exp.from).to_i }.reduce(:+) / 365
+  end
+
+  def render_stars
+    h.render_stars 4
+  end
+
   attr_accessor :skill_selector
   def skills_input(builder)
     builder.input(:skill_selector,

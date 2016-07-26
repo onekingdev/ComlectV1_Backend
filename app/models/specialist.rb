@@ -7,11 +7,12 @@ class Specialist < ActiveRecord::Base
   has_many :work_experiences, dependent: :delete_all
   has_many :education_histories, dependent: :delete_all
 
+  scope :preload_associations, -> {
+    includes(:user, :work_experiences, :education_histories, :industries, :jurisdictions, :skills)
+  }
+
   include ImageUploader[:photo]
   include FileUploader[:resume]
-
-  accepts_nested_attributes_for :work_experiences, allow_destroy: true, reject_if: :all_blank
-  accepts_nested_attributes_for :education_histories, allow_destroy: true, reject_if: :all_blank
 
   enum visibility:  { is_public: 'public', is_private: 'private' }
 
@@ -25,15 +26,5 @@ class Specialist < ActiveRecord::Base
 
   def private?
     is_private?
-  end
-
-  def skill_names
-    @skill_names.nil? ? skills.map(&:name) : @skill_names
-  end
-
-  def skill_names=(names)
-    self.skills = names.map do |name|
-      Skill.find_or_initialize_by(name: name)
-    end
   end
 end

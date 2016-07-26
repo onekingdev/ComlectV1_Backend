@@ -32,8 +32,12 @@ Rails.application.routes.draw do
   namespace :specialist do
     resource :settings, only: :show
   end
+  resources :specialist_projects, path: 'my-projects'
 
-  resources :specialists
+  resources :specialists, only: %i(index new create show)
+  resource :specialist, only: %i(edit) do
+    patch '/' => 'specialists#update', as: :update
+  end
   get '/specialist' => 'specialist_dashboard#show', as: :specialist_dashboard
 
   namespace :api do
