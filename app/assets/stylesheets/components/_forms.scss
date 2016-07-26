@@ -8,6 +8,10 @@
 .tt-n::-moz-placeholder { text-transform: none; }
 .tt-n:-ms-input-placeholder { text-transform: none; }
 
+.form-control {
+  box-shadow: none;
+}
+
 .custom-file-field {
   cursor: pointer;
 

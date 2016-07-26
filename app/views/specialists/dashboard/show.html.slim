@@ -32,7 +32,7 @@
                   i.icon.maxicons2-place.text-muted
                   span Former Regulator
 
-            = simple_form_for Specialist::Form.find(specialist.id), remote: true, url: update_specialist_path, html: { class: 'm-y-2' } do |f|
+            = simple_form_for Specialist::Form.for_user(current_user), remote: true, url: update_specialist_path, html: { class: 'm-y-2' } do |f|
               = hidden_field_tag 'redirect_to', specialists_dashboard_path
               = f.input :public_profile, as: :radio_pills, collection: [['Public', true], ['Private', false]], btn_class: 'btn-default btn-sm', label: false, hint: false, input_html: { data: { autosubmit: 'true' } }
 

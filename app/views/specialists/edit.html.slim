@@ -1,0 +1,12 @@
+- content_for :html_head do
+  script src="https://maps.googleapis.com/maps/api/js?key=#{ENV.fetch('GOOGLE_PLACES_API_KEY')}&libraries=places"
+
+= simple_form_for decorate(@specialist), url: update_specialist_path, wrapper: :inline_form, html: { class: 'form-specialist' } do |f|
+  = render 'form', f: f
+
+  .well.well-lg.well-transparent
+    .row.p-t-2
+      .col-xs-12.col-sm-6
+        = link_to 'Cancel', specialists_dashboard_path, class: 'btn btn-primary btn-lg btn-block'
+      .col-xs-12.col-sm-6
+        = f.submit 'Save', class: 'btn btn-primary btn-lg btn-block'

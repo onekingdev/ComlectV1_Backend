@@ -57,7 +57,7 @@
   #work-experiences {
     position: relative;
 
-    > :nth-last-child(2) {
+    .nested-fields > :last-child {
       .remove {
         padding-right: 7em;
       }
@@ -73,7 +73,7 @@
   #education-histories {
     position: relative;
 
-    > :nth-last-child(2) {
+    .nested-fields > :last-child {
       .remove {
         padding-right: 7em;
       }
@@ -108,8 +108,4 @@
       pointer-events: none;
     }
   }
-
-  //.well > .form-group:last-child {
-  //  margin-bottom: 0;
-  //}
 }

@@ -20,6 +20,10 @@ class Specialist::Form < Specialist
     end
   end
 
+  def self.for_user(user)
+    where(user_id: user.id).first!
+  end
+
   def skill_names
     @skill_names.nil? ? skills.map(&:name) : @skill_names
   end
@@ -35,8 +39,8 @@ class Specialist::Form < Specialist
   end
 
   def public_profile=(is_public)
-    @public_profile = is_public
-    self.visibility = is_public ? visibilities(:is_public) : visibilities(:is_private)
+    @public_profile = ActiveRecord::Type::Boolean.new.type_cast_from_database(is_public)
+    self.visibility = @public_profile ? Specialist.visibilities[:is_public] : Specialist.visibilities[:is_private]
   end
 
   private

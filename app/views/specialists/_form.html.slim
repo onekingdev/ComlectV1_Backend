@@ -1,4 +1,4 @@
-= simple_form_for specialist, wrapper: :inline_form, html: { class: 'form-specialist' } do |f|
+- if f.object.new_record?
   .well.well-lg.m-t-3
     h2.text-center.m-b-3 Let's start with your login details
     = f.fields_for :user, wrapper: :inline_form do |uf|
@@ -8,119 +8,111 @@
         .col-sm-6
           = uf.input :password, input_html: { class: 'input-lg' }
 
-  .well.well-lg.m-t-3
-    h2.text-center.m-b-3 Next, your contact information
-    .row.row-compact
-      .col-sm-4
-        = f.input :first_name, input_html: { class: 'input-lg' }
-      .col-sm-4
-        = f.input :last_name, input_html: { class: 'input-lg' }
-      .col-sm-4
-        = f.input :city, input_html: { class: 'input-lg js-place-autocomplete', data: { country: '#specialist_country', state: '#specialist_state', zipcode: '#specialist_zipcode', self: 'city' } }
-    .row.row-compact
-      .col-sm-4
-        = f.input :zipcode, input_html: { class: 'input-lg' }
-      .col-sm-4= f.input :state, readonly: true, as: :string, input_html: { class: 'input-lg' }
-      .col-sm-4= f.input :country, readonly: true, as: :string, input_html: { class: 'input-lg' }
-    .row.row-compact
-      .col-sm-4
-        = f.input :phone, required: false, input_html: { class: 'input-lg' }
-      .col-sm-4
-        = f.input :linkedin_link, required: false, input_html: { class: 'input-lg' }
+.well.well-lg.m-t-3
+  h2.text-center.m-b-3 Next, your contact information
+  .row.row-compact
+    .col-sm-4
+      = f.input :first_name, input_html: { class: 'input-lg' }
+    .col-sm-4
+      = f.input :last_name, input_html: { class: 'input-lg' }
+    .col-sm-4
+      = f.input :city, input_html: { class: 'input-lg js-place-autocomplete', data: { country: '#specialist_country', state: '#specialist_state', zipcode: '#specialist_zipcode', self: 'city' } }
+  .row.row-compact
+    .col-sm-4
+      = f.input :zipcode, input_html: { class: 'input-lg' }
+    .col-sm-4= f.input :state, readonly: true, as: :string, input_html: { class: 'input-lg' }
+    .col-sm-4= f.input :country, readonly: true, as: :string, input_html: { class: 'input-lg' }
+  .row.row-compact
+    .col-sm-4
+      = f.input :phone, required: false, input_html: { class: 'input-lg' }
+    .col-sm-4
+      = f.input :linkedin_link, required: false, input_html: { class: 'input-lg' }
 
-  .well.well-lg.m-t-3
-    h2.text-center.m-b-3 Tell us about your professional experience
+.well.well-lg.m-t-3
+  h2.text-center.m-b-3 Tell us about your professional experience
 
-    h3
-      i.icon.maxicons1-building
-      'Work Experience
+  h3
+    i.icon.maxicons1-building
+    'Work Experience
 
-    #work-experiences.m-b-2
-      = f.simple_fields_for :work_experiences do |wef|
-        = render 'work_experience_fields', f: wef
-        .add.text-right= link_to_add_association 'Add Another', f, :work_experiences
+  #work-experiences.m-b-2
+    = f.simple_fields_for :work_experiences do |wef|
+      = render 'work_experience_fields', f: wef
+      .add.text-right= link_to_add_association 'Add Another', f, :work_experiences
 
-    h3
-      i.icon.maxicons1-building
-      'Areas of Expertise
+  h3
+    i.icon.maxicons1-building
+    'Areas of Expertise
 
-    .row.row-compact
-      .col-sm-4
-        = f.association :jurisdictions, placeholder: t('simple_form.placeholders.specialist.jurisdictions'), input_html: { class: 'input-lg js-select', multiple: true }
-      .col-sm-4
-        = f.association :industries, placeholder: t('simple_form.placeholders.specialist.industries'), input_html: { class: 'input-lg js-select', multiple: true }
-      .col-sm-4
-        .form-group.specialist_former_regulator.m-l-2
-          span.checkbox.checkbox-lg
-            = f.check_box :former_regulator
-            = f.label :former_regulator
+  .row.row-compact
+    .col-sm-4
+      = f.association :jurisdictions, placeholder: t('simple_form.placeholders.specialist.jurisdictions'), input_html: { class: 'input-lg js-select', multiple: true }
+    .col-sm-4
+      = f.association :industries, placeholder: t('simple_form.placeholders.specialist.industries'), input_html: { class: 'input-lg js-select', multiple: true }
+    .col-sm-4
+      .form-group.specialist_former_regulator.m-l-2
+        span.checkbox.checkbox-lg
+          = f.check_box :former_regulator
+          = f.label :former_regulator
 
-  .well.well-lg.m-t-3
-    .row.text-center.p-b-1
-      h2.m-b-3
-        'Highlight some of your skills
+.well.well-lg.m-t-3
+  .row.text-center.p-b-1
+    h2.m-b-3
+      'Highlight some of your skills
 
-      .col-sm-6.col-sm-push-3
-        = f.object.skills_input(f)
-        button.info-tooltip type="button" data-toggle="tooltip" title="Only hashtag up to ten skills your desired specialist MUST possess. Desired skills can also be referenced in the project description." i
-        .form-group.m-y-0
-          ul.skills-required.m-b-0
-            - f.object.skill_names.each do |skill|
-              li
-                input type='hidden' name='project[skill_names][]' value=skill
-                span= skill
-                span.remove data-skill=skill x
+    .col-sm-6.col-sm-push-3
+      = f.object.skills_input(f)
+      button.info-tooltip type="button" data-toggle="tooltip" title="Only hashtag up to ten skills your desired specialist MUST possess. Desired skills can also be referenced in the project description." i
+      .form-group.m-y-0
+        ul.skills-required.m-b-0
+          - f.object.skill_names.each do |skill|
+            li
+              input type='hidden' name='project[skill_names][]' value=skill
+              span= skill
+              span.remove data-skill=skill x
 
-  .well.well-lg.m-t-3
-    h2.text-center.m-b-0 Now on to your education (almost done!)
+.well.well-lg.m-t-3
+  h2.text-center.m-b-0 Now on to your education (almost done!)
 
-    #education-histories.m-b-1
-      = f.simple_fields_for :education_histories do |ehf|
-        = render 'education_history_fields', f: ehf
-        .add.text-right= link_to_add_association 'Add Another', f, :education_histories
+  #education-histories.m-b-1
+    = f.simple_fields_for :education_histories do |ehf|
+      = render 'education_history_fields', f: ehf
+      .add.text-right= link_to_add_association 'Add Another', f, :education_histories
 
-  .well.well-lg.m-t-3
-    h2.text-center.m-b-3 Have you got any other certifications?
+.well.well-lg.m-t-3
+  h2.text-center.m-b-3 Have you got any other certifications?
 
-    .row
-      .col-xs-12.col-md-8.col-md-push-2= f.input :certifications, input_html: { class: 'input-lg' }
+  .row
+    .col-xs-12.col-md-8.col-md-push-2= f.input :certifications, input_html: { class: 'input-lg' }
 
-  .well.well-lg.m-t-3
-    .row.text-center
-      h2.m-b-3 Upload a photo and resume to complete your profile
+.well.well-lg.m-t-3
+  .row.text-center
+    h2.m-b-3 Upload a photo and resume to complete your profile
 
-      .col-xs-12.col-sm-4.col-sm-push-2.col-md-3.col-md-push-3.m-b-3
-        h4.m-b-2 Profile Photo
-        label.custom-file-field.js-custom-file-field
-          = f.hidden_field :photo, value: f.object.photo_data? ? f.object.photo_data.to_json : nil
-          = f.file_field :photo, accept: "image/gif, image/jpeg, image/png"
-          .add-button +
-          .help-block.m-t-1 Must be jpg/jpeg/png/gif<br>Max file size 2MB
-          span.selected.m-y-1= f.object.photo ? f.object.photo.data['metadata']['filename'] : nil
-          - if f.object.errors[:photo].any?
-            .text-danger.m-b-1= f.object.errors[:photo].to_sentence
-      .col-xs-12.col-sm-4.col-sm-push-2.col-md-3.col-md-push-3
-        h4.m-b-2 Resume
-        label.custom-file-field.js-custom-file-field
-          = f.hidden_field :resume, value: f.object.resume_data? ? f.object.resume_data.to_json : nil
-          = f.file_field :resume, accept: "application/pdf"
-          .add-button +
-          .help-block.m-t-1 Must be a pdf<br>Max file size 2MB
-          span.selected.m-y-1= f.object.resume ? f.object.resume.data['metadata']['filename'] : nil
-          - if f.object.errors[:resume].any?
-            .text-danger.m-b-1= f.object.errors[:resume].to_sentence
+    .col-xs-12.col-sm-4.col-sm-push-2.col-md-3.col-md-push-3.m-b-3
+      h4.m-b-2 Profile Photo
+      label.custom-file-field.js-custom-file-field
+        = f.hidden_field :photo, value: f.object.photo_data? ? f.object.photo_data.to_json : nil
+        = f.file_field :photo, accept: "image/gif, image/jpeg, image/png"
+        .add-button +
+        .help-block.m-t-1 Must be jpg/jpeg/png/gif<br>Max file size 2MB
+        span.selected.m-y-1= f.object.photo ? f.object.photo.data['metadata']['filename'] : nil
+        - if f.object.errors[:photo].any?
+          .text-danger.m-b-1= f.object.errors[:photo].to_sentence
+    .col-xs-12.col-sm-4.col-sm-push-2.col-md-3.col-md-push-3
+      h4.m-b-2 Resume
+      label.custom-file-field.js-custom-file-field
+        = f.hidden_field :resume, value: f.object.resume_data? ? f.object.resume_data.to_json : nil
+        = f.file_field :resume, accept: "application/pdf"
+        .add-button +
+        .help-block.m-t-1 Must be a pdf<br>Max file size 2MB
+        span.selected.m-y-1= f.object.resume ? f.object.resume.data['metadata']['filename'] : nil
+        - if f.object.errors[:resume].any?
+          .text-danger.m-b-1= f.object.errors[:resume].to_sentence
 
-  .well.well-lg.m-t-3
-    .row.text-center.p-b-1
-      h2.m-b-3 Finally, select your profile visibility
-      = f.input :public_profile, as: :radio_pills, collection: [['Public', true], ['Private', false]], btn_class: 'btn-lg btn-default p-x-3', hint: false
-      p.text-muted.small.m-t-2.col-xs-12.col-md-6.col-md-offset-3.m-b-0
-        = t('simple_form.hints.specialist.visibility')
-
-  .row.p-t-2
-    .col-xs-12
-      = f.submit 'Sign Up', class: 'btn btn-primary btn-lg col-xs-12 col-sm-4 col-sm-offset-4'
-
-    p.text-center.small.text-muted.m-t-3.col-md-6.col-md-offset-3.col-sm-8.col-sm-offset-2.col-xs-12
-      'By signing up, you are agreeing to our <a class="text-muted" href="#">Terms</a> & <a class="text-muted" href="#">Privacy Policy</a>,
-      'the <a class="text-muted" href="#">Stripe Agreement</a> (for payment), and to receiving Complect email communication.
+.well.well-lg.m-t-3
+  .row.text-center.p-b-1
+    h2.m-b-3 Finally, select your profile visibility
+    = f.input :public_profile, as: :radio_pills, collection: [['Public', true], ['Private', false]], btn_class: 'btn-lg btn-default p-x-3', hint: false
+    p.text-muted.small.m-t-2.col-xs-12.col-md-6.col-md-offset-3.m-b-0
+      = t('simple_form.hints.specialist.visibility')

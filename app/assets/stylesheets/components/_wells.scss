@@ -1,11 +1,13 @@
 .well {
-  a {
+  box-shadow: none;
+
+  a:not(.btn) {
     color: #000;
     text-decoration: underline;
-  }
 
-  a:hover {
-    color: rgba(0, 0, 0, 0.8);
+    &:hover {
+      color: rgba(0, 0, 0, 0.8);
+    }
   }
 
   .text-muted {
@@ -15,4 +17,22 @@
   .dropdown-menu a {
     text-decoration: none;
   }
+}
+
+.well-lg {
+  padding: 27px 27px 12px;
+  max-width: 831px;
+  margin: 0 auto;
+  border-radius: 10px;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+
+  &.well-pb-full {
+    padding-bottom: 27px;
+  }
+}
+
+.well-transparent {
+  background-color: transparent;
+  border: 0;
+  box-shadow: none;
 }

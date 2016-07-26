@@ -40,15 +40,36 @@ class SpecialistsController < ApplicationController
     render :new
   end
 
+  def edit
+    @specialist = Specialist::Form.for_user(current_user)
+  end
+
+  def update
+    @specialist = Specialist::Form.for_user(current_user)
+    respond_to do |format|
+      if @specialist.update_attributes(edit_specialist_params)
+        format.html { return redirect_to_param_or specialists_dashboard_path }
+        format.js { render nothing: true, status: :ok }
+      else
+        format.html { render :edit }
+        format.js { js_alert('Could not save your changes, please try again later.') }
+      end
+    end
+  end
+
   private
 
   def specialist_params
-    params.require(:specialists).permit(
-      :first_name, :last_name, :country, :state, :city, :zipcode, :phone, :linkedin_link, :visibility,
+    params.require(:specialist).permit(
+      :first_name, :last_name, :country, :state, :city, :zipcode, :phone, :linkedin_link, :public_profile,
       :former_regulator, :certifications, :photo, :resume,
       jurisdiction_ids: [], industry_ids: [], skill_names: [],
       user_attributes: %i(email password),
       work_experiences_attributes: %i(id company job_title location from to current compliance description _destroy)
     )
+  end
+
+  def edit_specialist_params
+    specialist_params.except(:user_attributes)
   end
 end
