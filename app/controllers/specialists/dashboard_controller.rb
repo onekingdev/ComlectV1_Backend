@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class SpecialistDashboardController < ApplicationController
+class Specialists::DashboardController < ApplicationController
   before_action :authenticate_user!
   before_action :require_specialist!
 

@@ -29,16 +29,16 @@ Rails.application.routes.draw do
     get :copy, on: :member
   end
 
-  namespace :specialist do
+  namespace :specialists, path: 'specialist' do
+    get '/' => 'dashboard#show', as: :dashboard
     resource :settings, only: :show
+    resources :projects, path: 'my-projects'
   end
-  resources :specialist_projects, path: 'my-projects'
 
   resources :specialists, only: %i(index new create show)
   resource :specialist, only: %i(edit) do
     patch '/' => 'specialists#update', as: :update
   end
-  get '/specialist' => 'specialist_dashboard#show', as: :specialist_dashboard
 
   namespace :api do
     resources :skills, only: :index

@@ -35,7 +35,7 @@ class SpecialistsController < ApplicationController
     @specialist = Specialist::Form.signup(specialist_params)
     if @specialist.save
       sign_in @specialist.user
-      return redirect_to specialist_dashboard_path
+      return redirect_to specialists_dashboard_path
     end
     render :new
   end
@@ -43,7 +43,7 @@ class SpecialistsController < ApplicationController
   private
 
   def specialist_params
-    params.require(:specialist).permit(
+    params.require(:specialists).permit(
       :first_name, :last_name, :country, :state, :city, :zipcode, :phone, :linkedin_link, :visibility,
       :former_regulator, :certifications, :photo, :resume,
       jurisdiction_ids: [], industry_ids: [], skill_names: [],
