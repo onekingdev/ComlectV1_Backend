@@ -63,8 +63,8 @@
       .col-sm-6.col-sm-push-3
         = f.object.skills_input(f)
         button.info-tooltip type="button" data-toggle="tooltip" title="Only hashtag up to ten skills your desired specialist MUST possess. Desired skills can also be referenced in the project description." i
-        .form-group.m-t-1.m-b-0
-          ul.skills-required
+        .form-group.m-y-0
+          ul.skills-required.m-b-0
             - f.object.skill_names.each do |skill|
               li
                 input type='hidden' name='project[skill_names][]' value=skill
@@ -72,9 +72,9 @@
                 span.remove data-skill=skill x
 
   .well.well-lg.m-t-3
-    h2.text-center.m-b-3 Now on to your education (almost done!)
+    h2.text-center.m-b-0 Now on to your education (almost done!)
 
-    #education-histories.m-b-2
+    #education-histories.m-b-1
       = f.simple_fields_for :education_histories do |ehf|
         = render 'education_history_fields', f: ehf
         .add.text-right= link_to_add_association 'Add Another', f, :education_histories
@@ -86,7 +86,7 @@
       .col-xs-12.col-md-8.col-md-push-2= f.input :certifications, input_html: { class: 'input-lg' }
 
   .well.well-lg.m-t-3
-    .row.text-center.p-b-1
+    .row.text-center
       h2.m-b-3 Upload a photo and resume to complete your profile
 
       .col-xs-12.col-sm-4.col-sm-push-2.col-md-3.col-md-push-3.m-b-3
@@ -112,7 +112,7 @@
     .row.text-center.p-b-1
       h2.m-b-3 Finally, select your profile visibility
       = f.input :public_profile, as: :radio_pills, collection: [['Public', true], ['Private', false]], btn_class: 'btn-lg btn-default p-x-3', hint: false
-      p.text-muted.small.m-t-2.col-xs-12.col-md-6.col-md-offset-3
+      p.text-muted.small.m-t-2.col-xs-12.col-md-6.col-md-offset-3.m-b-0
         = t('simple_form.hints.specialist.visibility')
 
   .row.p-t-2

@@ -11,6 +11,9 @@ class Specialist::Decorator < Draper::Decorator
                     class: 'input-lg tt-n',
                     autocomplete: "off",
                     data: { source: h.api_skills_path, max: 10 }
+                  },
+                  wrapper_html: {
+                    class: 'm-b-0'
                   })
   end
 end
