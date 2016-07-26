@@ -24,6 +24,10 @@ $.onContentReady ($parent) ->
     $picker.pickadate
       format: $picker.data('format') || 'mmmm d, yyyy'
       formatSubmit: 'yyyy/mm/dd'
+      max: $picker.data('max') || undefined
+      min: $picker.data('min') || undefined
+      selectMonths: if $picker.data('months')? then $picker.data('months') else false
+      selectYears: if $picker.data('years')? then $picker.data('years') else false
       hiddenName: true
       onSet: onSet
 

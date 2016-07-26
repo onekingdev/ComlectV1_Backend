@@ -8,9 +8,9 @@
   .col-xs-12.col-md-4
     .row.row-compact
       .col-xs-12.col-md-6
-        = f.input :from, as: :string, input_html: { class: 'input-lg js-datepicker', data: { format: 'yyyy/mm/dd' } }
+        = f.input :from, as: :string, input_html: { class: 'input-lg js-datepicker', data: { format: 'mm/yyyy', months: true, years: 20, max: true } }
       .col-xs-12.col-md-6
-        = f.input :to, as: :string, input_html: { class: 'input-lg js-datepicker', data: { format: 'yyyy/mm/dd' } }
+        = f.input :to, as: :string, input_html: { class: 'input-lg js-datepicker', data: { format: 'mm/yyyy', months: true, years: 20, max: true } }
       .col-xs-12
         = f.input :current, label: 'Current job?'
         = f.input :compliance, label: 'Is this a compliance job?'
