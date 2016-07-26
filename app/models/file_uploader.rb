@@ -8,6 +8,6 @@ class FileUploader < Shrine
   # Shrine validations are not firing for some reason
   Attacher.validate do
     validate_max_size 2.megabytes, message: 'is too large (max is 2 MB)'
-    # validate_mime_type_inclusion %w(image/jpeg image/png image/gif), message: 'is not a supported image type'
+    validate_mime_type_inclusion %w(application/pdf), message: 'is not a PDF file'
   end
 end

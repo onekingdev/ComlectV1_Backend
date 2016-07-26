@@ -44,3 +44,11 @@ en:
               too_much_duration: Not available on durations more than 1 month
             skill_ids:
               too_long: Select 10 skills max
+        specialist:
+          attributes:
+            photo:
+              invalid: Not a supported image type
+              too_large: Too large (max is 2 MB)
+            resume:
+              invalid: Not a PDF file
+              too_large: Too large (max is 2 MB)
