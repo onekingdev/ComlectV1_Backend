@@ -29,6 +29,10 @@ Rails.application.routes.draw do
     get :copy, on: :member
   end
 
+  namespace :specialist do
+    resource :settings, only: :show
+  end
+
   resources :specialists
   get '/specialist' => 'specialist_dashboard#show', as: :specialist_dashboard
 

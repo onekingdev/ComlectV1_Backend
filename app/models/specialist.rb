@@ -15,6 +15,10 @@ class Specialist < ActiveRecord::Base
 
   enum visibility:  { is_public: 'public', is_private: 'private' }
 
+  def to_s
+    [first_name, last_name].map(&:presence).compact.join(' ')
+  end
+
   def public?
     is_public?
   end
