@@ -1,3 +1,14 @@
+body.specialists.show {
+  #header {
+    background-image: asset_url("header-profile.jpg");
+    background-position-y: -100px;
+
+    @media (max-width: 689px) {
+      background-size: auto 300px + 150px;
+    }
+  }
+}
+
 .card.specialist {
   .panel-heading {
     background-color: rgba(0, 0, 0, 0.65);
@@ -57,7 +68,7 @@
   #work-experiences {
     position: relative;
 
-    .nested-fields > :last-child {
+    & > :nth-last-child(3) {
       .remove {
         padding-right: 7em;
       }
@@ -73,7 +84,7 @@
   #education-histories {
     position: relative;
 
-    .nested-fields > :last-child {
+    & > :nth-last-child(3) {
       .remove {
         padding-right: 7em;
       }

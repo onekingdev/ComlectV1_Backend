@@ -1,0 +1,77 @@
+- Specialist::Decorator.decorate(@specialist).tap do |specialist|
+  - content_for :header, render('header', specialist: specialist)
+
+  .specialist-profile
+    .row
+      .col-xs-12.col-sm-4.col-md-3
+        .panel.panel-default
+          .panel-heading
+            h3 About #{specialist.first_name}
+          .panel-body
+            .icon-list
+              .item
+                i.icon.icon-fw.maxicons2-navigation.text-muted
+                span= specialist.city_state_country
+              .item
+                i.icon.icon-fw.maxicons1-building.text-muted
+                span= specialist.industries.map(&:name).join(', ')
+              .item
+                i.icon.maxicons1-earth.text-muted
+                span= specialist.jurisdictions.map(&:name).join(', ')
+              .item
+                i.icon.maxicons1-bag.text-muted
+                span= pluralize specialist.years_of_experience, 'Year Experience', 'Years Experience'
+              - if specialist.former_regulator?
+                .item
+                  i.icon.maxicons2-place.text-muted
+                  span Former Regulator
+
+            h4.m-b-0.m-t-2 Certifications
+            = specialist.certifications.split(',').join('<br>').html_safe
+
+            h4.m-b-0.m-t-2 Skills
+            .skill-tags
+              - specialist.skills.each do |skill|
+                span.skill-tag= skill
+
+      .col-xs-12.col-sm-8.col-md-9
+        .panel.panel-default
+          .panel-heading
+            h3 Experience
+          .panel-body.work-experiences
+            .list-group.plain
+              - specialist.sorted_work_experiences.each do |experience|
+                .list-group-item.p-a-0
+                  .list-group-item-heading
+                    .company= experience.company
+                    .job-title= experience.job_title
+                    .detail= experience.year_span
+                  .list-group-item-text
+                    = simple_format experience.description
+
+        .panel.panel-default
+          .panel-heading
+            h3 Education
+          .panel-body.education-histories
+            .list-group.plain
+              - specialist.sorted_education_histories.each do |education|
+                .list-group-item.p-a-0
+                  .list-group-item-heading
+                    .institution= education.institution
+                    .degree= education.degree
+                    .detail= education.year
+                  .list-group-item-text
+
+        .panel.panel-default
+          .panel-heading
+            h3 Ratings & Reviews
+            .detail 4.8 from 5 Reviews
+          .panel-body
+            .ratings.list-group.plain
+              .rating.list-group-item
+                .list-group-item-heading
+                  .detail May 2016
+                  span Project Title
+                  span.m-l-1= specialist.render_stars
+                .list-group-item-text
+                  p Dramatically visualize customer directed convergence without revolutionary ROI. Collaboratively administrate empowered markets via plug-and-play networks. Dynamically procrastinate B2C users after installed base benefits.

@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class Business::Decorator < Draper::Decorator
+class Business::Decorator < ApplicationDecorator
   decorates Business
   delegate_all
 
@@ -25,12 +25,5 @@ class Business::Decorator < Draper::Decorator
 
   def render_stars
     h.render_stars 4
-  end
-
-  private
-
-  def normalize_url(url)
-    prefix = url =~ /^https?:\/\// ? nil : 'http://'
-    "#{prefix}#{url}"
   end
 end

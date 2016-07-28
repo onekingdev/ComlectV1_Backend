@@ -10,9 +10,13 @@
 
 .form-control {
   box-shadow: none;
+
+  &.readonly {
+    border-color: lighten($gray-light, 30%);
+  }
 }
 
-.custom-file-field {
+.custom-file-fireld {
   cursor: pointer;
 
   input {

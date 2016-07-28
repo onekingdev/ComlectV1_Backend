@@ -37,6 +37,7 @@
 
   #work-experiences.m-b-2
     = f.simple_fields_for :work_experiences do |wef|
+      / Check specialist styling when changing this section in case the hack to align the "Add another" link needs tweaking
       = render 'work_experience_fields', f: wef
       .add.text-right= link_to_add_association 'Add Another', f, :work_experiences
 
@@ -76,6 +77,7 @@
 
   #education-histories.m-b-1
     = f.simple_fields_for :education_histories do |ehf|
+      / Check specialist styling when changing this section in case the hack to align the "Add another" link needs tweaking
       = render 'education_history_fields', f: ehf
       .add.text-right= link_to_add_association 'Add Another', f, :education_histories
 

@@ -1,3 +1,21 @@
+.skill-tags {
+  white-space: normal;
+
+  .skill-tag {
+    float: left;
+    margin-right: 0.5em;
+    margin-top: 0.5em;
+  }
+}
+
+.skill-tag {
+  padding: .3em .7em .4em;
+  background-color: #dadada;
+  border-radius: $border-radius-base;
+  color: #000;
+  font-size: 100%;
+}
+
 .skills-required {
   @include list-unstyled;
 

@@ -11,6 +11,11 @@ h2 {
   margin-top: 0;
 }
 
+h4 {
+  font-family: Baskerville, serif;
+  font-weight: $baskerville-bold;
+}
+
 a[class~="text-white"] {
   &:hover {
     color: darken(#fff, 10%);

@@ -27,6 +27,10 @@ class SpecialistsController < ApplicationController
     end
   end
 
+  def show
+    @specialist = Specialist.preload_associations.find(params[:id])
+  end
+
   def new
     @specialist = Specialist::Form.signup
   end
@@ -65,7 +69,8 @@ class SpecialistsController < ApplicationController
       :former_regulator, :certifications, :photo, :resume,
       jurisdiction_ids: [], industry_ids: [], skill_names: [],
       user_attributes: %i(email password),
-      work_experiences_attributes: %i(id company job_title location from to current compliance description _destroy)
+      work_experiences_attributes: %i(id company job_title location from to current compliance description _destroy),
+      education_histories_attributes: %i(id institution degree year _destroy)
     )
   end
 

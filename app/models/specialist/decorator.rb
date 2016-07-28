@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class Specialist::Decorator < Draper::Decorator
+class Specialist::Decorator < ApplicationDecorator
   decorates Specialist
   delegate_all
 
@@ -11,8 +11,28 @@ class Specialist::Decorator < Draper::Decorator
     work_experiences.map { |exp| (exp.to - exp.from).to_i }.reduce(:+) / 365
   end
 
+  def sorted_education_histories
+    education_histories.sort_by(&:year)
+  end
+
+  def sorted_work_experiences
+    decorated_work_experiences.sort_by(&:to).reverse
+  end
+
+  def decorated_work_experiences
+    work_experiences.map { |exp| WorkExperience::Decorator.new(exp) }
+  end
+
   def render_stars
     h.render_stars 4
+  end
+
+  def certifications_list
+    certifications.split(',')
+  end
+
+  def linkedin_url
+    normalize_url linkedin_link
   end
 
   attr_accessor :skill_selector

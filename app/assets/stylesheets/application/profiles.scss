@@ -1,3 +1,58 @@
+#header .profile-header {
+  .title h1 .linkedin {
+    $color: #2777bd;
+    color: $color;
+    font-size: 35px;
+    margin-left: 10px;
+    position: relative;
+
+    &:hover {
+      text-decoration: none;
+      color: darken($color, 10%);
+    }
+
+    &:before {
+      position: relative;
+      z-index: 1;
+    }
+
+    &:after { // White bg so the "in" is not transparent
+      content: "";
+      position: absolute;
+      width: 75%;
+      height: 75%;
+      background: white;
+      left: 13%;
+      top: 13%;
+    }
+  }
+
+  .profile-image {
+    position: relative;
+
+    .ghost {
+      visibility: hidden;
+
+      @media (max-width: $screen-xs-max) {
+        visibility: visible;
+        margin: 20px 0;
+      }
+    }
+
+    .real {
+      position: absolute;
+      bottom: -70px;
+      padding: 15px;
+      border-radius: 5px;
+      background-color: #f3f3f3;
+
+      @media (max-width: $screen-xs-max) {
+        display: none;
+      }
+    }
+  }
+}
+
 .panel.profile-info {
   .logo {
     width: 65%;

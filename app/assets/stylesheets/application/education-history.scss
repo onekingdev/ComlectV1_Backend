@@ -1,0 +1,27 @@
+.education-histories {
+  .list-group-item-heading {
+    @include clearfix;
+  }
+
+  .list-group-item + .list-group-item {
+    margin-top: 2.5em;
+  }
+
+  .list-group-item-text {
+    margin-top: 0.7em;
+  }
+
+  .institution, .list-group-item-text {
+    clear: both;
+  }
+
+  .degree {
+    float: left;
+    font-weight: normal;
+    font-style: italic;
+  }
+
+  .detail {
+    float: right;
+  }
+}

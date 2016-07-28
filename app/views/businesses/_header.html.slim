@@ -1,11 +1,11 @@
-.container
+.container.profile-header
   .row.header-content
     - css_classes = business.public? && business.logo ? 'col-xs-12 col-sm-8 col-md-9 has-logo' : 'col-xs-12 no-logo'
     .pseudo-table
       .tr
         - if business.public? && business.logo
-          .td.col-xs-4.col-xs-push-4.col-md-3.col-sm-push-0.logo-container
-            .business-logo
+          .td.col-xs-4.col-xs-push-4.col-md-3.col-sm-push-0.image-container
+            .profile-image
               = image_tag business.logo_url(:thumb), class: 'img-responsive ghost'
               = image_tag business.logo_url(:thumb), class: 'img-responsive real'
         .td.title class=css_classes
@@ -17,5 +17,5 @@
           h1
             = policy(business).public_info(:business_name) || 'Anonymous'
             - if business.public? && business.linkedin_link.present?
-              a.fa.fa-linkedin-square href=business.linkedin_url target="_blank"
+              a.fa.fa-linkedin-square.linkedin href=business.linkedin_url target="_blank"
           = business.render_stars
