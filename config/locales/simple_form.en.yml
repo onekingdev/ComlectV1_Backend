@@ -94,6 +94,7 @@ en:
         location: Location
         from: From
         to: To
+        description: Describe this role
       education_histories:
         institution: Institution Name
         degree: Degree
