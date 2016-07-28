@@ -8,7 +8,7 @@ class Specialist::Decorator < ApplicationDecorator
   end
 
   def years_of_experience
-    work_experiences.map { |exp| (exp.to - exp.from).to_i }.reduce(:+) / 365
+    work_experiences.map { |exp| ((exp.to || Time.zone.today.year) - exp.from).to_i }.reduce(:+) / 365
   end
 
   def sorted_education_histories
