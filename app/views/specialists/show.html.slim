@@ -43,9 +43,9 @@
               - specialist.sorted_work_experiences.each do |experience|
                 .list-group-item.p-a-0
                   .list-group-item-heading
+                    .detail= experience.month_year_span
                     .company= experience.company
                     .job-title= experience.job_title
-                    .detail= experience.year_span
                   .list-group-item-text
                     = simple_format experience.description
 
@@ -57,9 +57,9 @@
               - specialist.sorted_education_histories.each do |education|
                 .list-group-item.p-a-0
                   .list-group-item-heading
+                    .detail= education.year
                     .institution= education.institution
                     .degree= education.degree
-                    .detail= education.year
                   .list-group-item-text
 
         .panel.panel-default

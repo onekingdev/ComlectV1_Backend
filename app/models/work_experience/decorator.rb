@@ -3,8 +3,8 @@ class WorkExperience::Decorator < ApplicationDecorator
   decorates WorkExperience
   delegate_all
 
-  def year_span
-    return from.year if from.year == to.year
-    "#{from.year}-#{to.year}"
+  def month_year_span
+    to = current? ? 'Current' : model.to.strftime('%m/%Y')
+    "#{from.strftime('%m/%Y')} to #{to}"
   end
 end
