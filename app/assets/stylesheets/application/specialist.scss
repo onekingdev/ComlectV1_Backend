@@ -97,6 +97,35 @@ body.specialists.show {
     }
   }
 
+  // New/edit forms differ a bit so we need to adjust
+  &#new_specialist #education-histories {
+    > :nth-last-child(3) {
+      .remove {
+        padding-right: 0;
+      }
+    }
+
+    > :nth-last-child(2) {
+      .remove {
+        padding-right: 7em;
+      }
+    }
+  }
+
+  &#new_specialist #work-experiences {
+    > :nth-last-child(3) {
+      .remove {
+        padding-right: 0;
+      }
+    }
+
+    > :nth-last-child(2) {
+      .remove {
+        padding-right: 7em;
+      }
+    }
+  }
+
   .specialist_skill_selector {
     width: calc(100% - 2em);
     display: inline-block;
