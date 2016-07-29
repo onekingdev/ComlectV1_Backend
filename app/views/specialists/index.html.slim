@@ -1,0 +1,53 @@
+.row
+  .col-xs-12.col-sm-4.col-md-3
+    = simple_form_for @search, method: :get, wrapper: :inline_form, url: specialists_path do |f|
+      = f.input :sort_by, collection: Specialist::Search::SORT_BY, input_html: { class: 'input-lg js-select' }
+      = f.input :keyword, input_html: { class: 'input-lg' }
+
+      h3.text-center.m-t-2 Filters
+
+      = f.input :industry_ids,
+                 as: :grouped_select,
+                 collection: grouped_collection_for_select(Industry.sorted),
+                 group_method: :all,
+                 group_label_method: :label,
+                 placeholder: I18n.t('simple_form.placeholders.specialist_search.industry_ids'),
+                 input_html: { class: 'input-lg js-select', multiple: true }
+
+      = f.input :jurisdiction_ids,
+                 as: :grouped_select,
+                 collection: grouped_collection_for_select(Jurisdiction.sorted),
+                 group_method: :all,
+                 group_label_method: :label,
+                 placeholder: I18n.t('simple_form.placeholders.specialist_search.jurisdiction_ids'),
+                 input_html: { class: 'input-lg js-select', multiple: true }
+
+      .panel.panel-default.panel-flat
+        .panel-body
+          label.fw-700.tt-u Rating
+          = f.text_field :rating, class: 'form-control js-range-slider', data: { min: 0, max: 5, type: 'double', input_values_separator: ';', hide_min_max: true }
+
+      .panel.panel-default.panel-flat
+        .panel-body
+          label.fw-700.tt-u Experience
+          = f.text_field :experience, class: 'form-control js-range-slider', data: { min: 3, max: 15, type: 'double', input_values_separator: ';', hide_min_max: true, max_postfix: '+' }
+
+      .panel.panel-default.panel-flat
+        .panel-body
+          span.checkbox.checkbox-lg.checkbox-right
+            = f.check_box :regulator
+            = f.label :regulator, 'Regulator', class: 'fw-700 tt-u d-b'
+
+      .panel.panel-default.panel-flat
+        .panel-body
+          label.fw-700.tt-u Location
+          = f.text_field :location, class: 'form-control'
+
+          label.fw-700.tt-u.m-t-2 Within (Miles)
+          = f.text_field :location_range, class: 'form-control js-range-slider', data: { min: 0, max: 50, type: 'double', input_values_separator: ';', hide_min_max: true, max_postfix: '+' }
+
+      .text-center
+        input.reset type="reset" value="Reset Filters"
+
+  .col-xs-12.col-sm-8.col-md-9
+    = render 'cards', specialists: @specialists

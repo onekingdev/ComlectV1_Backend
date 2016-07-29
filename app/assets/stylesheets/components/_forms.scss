@@ -119,3 +119,21 @@ select.js-select.input-lg {
 .checkbox-lg {
   margin: calc(#{$input-height-large / 2} - 0.5em) 0;
 }
+
+.checkbox-right {
+  padding-left: 0;
+
+  label {
+    padding-left: 0;
+
+    &:before {
+      left: auto;
+      right: 0;
+    }
+
+    &:after {
+      right: 1px;
+      left: auto;
+    }
+  }
+}

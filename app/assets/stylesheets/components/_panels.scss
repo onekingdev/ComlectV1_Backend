@@ -111,6 +111,10 @@
   }
 }
 
+.panel-flat {
+  box-shadow: none;
+  border-radius: $input-border-radius-large;
+}
 
 .panel-body .row-compact {
   margin-left: -8px;

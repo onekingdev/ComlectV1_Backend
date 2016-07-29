@@ -57,7 +57,7 @@
 .fw-medium { font-weight: $roboto-medium; }
 .fw-bold { font-weight: $roboto-bold; }
 .fw-black { font-weight: $roboto-black; }
-.fw-700 { font-weight: 700; }
+.fw-700 { font-weight: 700 !important; }
 .fs-italic { font-style: italic; }
 
 .text-white { color: #fff; }
@@ -67,7 +67,7 @@
 
 .o-8 { opacity: 0.8; }
 
-.d-b { display: block; }
+.d-b { display: block !important; }
 .d-ib { display: inline-block; }
 
 .rotate-l-45 {

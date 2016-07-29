@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class Project::Decorator < Draper::Decorator
+class Project::Decorator < ApplicationDecorator
   decorates Project
   decorates_association :business, with: Business::Decorator
   delegate_all
@@ -111,17 +111,5 @@ class Project::Decorator < Draper::Decorator
                     autocomplete: "off",
                     data: { source: h.api_skills_path, max: 10 }
                   })
-  end
-
-  def grouped_collection_for_select(array)
-    [array].map do |collection|
-      collection.define_singleton_method :all do
-        collection
-      end
-      def collection.label
-        'Select all'
-      end
-      collection
-    end
   end
 end

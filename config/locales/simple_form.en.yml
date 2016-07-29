@@ -99,3 +99,7 @@ en:
         institution: Institution Name
         degree: Degree
         year: GRAD YEAR
+      specialist_search:
+        keyword: Keyword
+        jurisdiction_ids: Jurisdiction
+        industry_ids: Industry

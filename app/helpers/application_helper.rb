@@ -2,6 +2,10 @@
 module ApplicationHelper
   include SimpleForm::ActionViewExtensions::FormHelper
 
+  def grouped_collection_for_select(array)
+    ApplicationDecorator.grouped_collection_for_select array
+  end
+
   def current_uri(query = {})
     url_for params.merge(query)
   end

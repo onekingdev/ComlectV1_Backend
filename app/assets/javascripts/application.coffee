@@ -9,6 +9,7 @@
 #= require bootbox.js/bootbox
 #= require bootstrap3-typeahead/bootstrap3-typeahead
 #= require jquery-mask-plugin/dist/jquery.mask
+#= require ion.rangeSlider/js/ion.rangeSlider
 #= require_self
 #= require_tree ./utilities
 #= require_tree ./components

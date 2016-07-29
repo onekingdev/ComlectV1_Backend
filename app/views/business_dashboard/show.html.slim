@@ -83,17 +83,17 @@
                 'Filter
                 span.caret
               ul.dropdown-menu.dropdown-menu-right
-                li.active= link_to '#specialists-hired', data: { toggle: 'tab', "remote-load" => true, url: specialists_path(filter: 'hired'), 'toggle-sync' => true } do
+                li.active= link_to '#specialists-hired', data: { toggle: 'tab', "remote-load" => true, url: business_specialists_path(filter: 'hired'), 'toggle-sync' => true } do
                   i.icon.maxicons1-check
                   span Hired
-                li= link_to '#specialists-favourited', data: { toggle: 'tab', "remote-load" => true, url: specialists_path(filter: 'favourited'), 'toggle-sync' => true } do
+                li= link_to '#specialists-favourited', data: { toggle: 'tab', "remote-load" => true, url: business_specialists_path(filter: 'favourited'), 'toggle-sync' => true } do
                   i.icon.maxicons3-heart
                   span Favorited
             ul#js-specialist-filters.nav.nav-pills.visible-md.visible-lg
-              li.active= link_to '#specialists-hired', data: { toggle: 'tab', "remote-load" => true, url: specialists_path(filter: 'hired'), 'toggle-sync' => true } do
+              li.active= link_to '#specialists-hired', data: { toggle: 'tab', "remote-load" => true, url: business_specialists_path(filter: 'hired'), 'toggle-sync' => true } do
                 i.icon.maxicons1-check
                 span Hired
-              li= link_to '#specialists-favourited', data: { toggle: 'tab', "remote-load" => true, url: specialists_path(filter: 'favourited'), 'toggle-sync' => true } do
+              li= link_to '#specialists-favourited', data: { toggle: 'tab', "remote-load" => true, url: business_specialists_path(filter: 'favourited'), 'toggle-sync' => true } do
                 i.icon.maxicons3-heart
                 span Favorited
           .panel-body.p-b-0
