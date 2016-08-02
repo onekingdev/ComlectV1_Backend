@@ -9,8 +9,11 @@ class SpecialistsController < ApplicationController
   before_action :require_business!, only: %i(index)
 
   def index
-    @specialists = Specialist.all
-    @search = Specialist::Search.new
+    @search = Specialist::Search.new(search_params)
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   def show
@@ -62,5 +65,14 @@ class SpecialistsController < ApplicationController
 
   def edit_specialist_params
     specialist_params.except(:user_attributes)
+  end
+
+  def search_params
+    specialist_search_params = params[:specialist_search]
+    return {} unless specialist_search_params
+    specialist_search_params.permit(
+      :sort_by, :keyword, :rating, :experience, :regulator, :location, :location_range,
+      industry_ids: [], jurisdiction_ids: []
+    ).merge(params.slice(:page, :per))
   end
 end

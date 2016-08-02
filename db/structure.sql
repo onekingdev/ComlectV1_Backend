@@ -473,7 +473,8 @@ CREATE TABLE specialists (
     certifications character varying,
     visibility character varying DEFAULT 'public'::character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    rating_avg numeric
 );
 
 
@@ -879,6 +880,34 @@ CREATE UNIQUE INDEX index_skills_specialists_on_skill_id_and_specialist_id ON sk
 
 
 --
+-- Name: index_specialists_on_first_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_specialists_on_first_name ON specialists USING btree (first_name);
+
+
+--
+-- Name: index_specialists_on_former_regulator; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_specialists_on_former_regulator ON specialists USING btree (former_regulator);
+
+
+--
+-- Name: index_specialists_on_last_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_specialists_on_last_name ON specialists USING btree (last_name);
+
+
+--
+-- Name: index_specialists_on_rating_avg; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_specialists_on_rating_avg ON specialists USING btree (rating_avg);
+
+
+--
 -- Name: index_specialists_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -907,10 +936,31 @@ CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (re
 
 
 --
+-- Name: index_work_experiences_on_current; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_work_experiences_on_current ON work_experiences USING btree (current);
+
+
+--
+-- Name: index_work_experiences_on_from; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_work_experiences_on_from ON work_experiences USING btree ("from");
+
+
+--
 -- Name: index_work_experiences_on_specialist_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_work_experiences_on_specialist_id ON work_experiences USING btree (specialist_id);
+
+
+--
+-- Name: index_work_experiences_on_to; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_work_experiences_on_to ON work_experiences USING btree ("to");
 
 
 --
@@ -971,4 +1021,10 @@ INSERT INTO schema_migrations (version) VALUES ('20160623211024');
 INSERT INTO schema_migrations (version) VALUES ('20160721011122');
 
 INSERT INTO schema_migrations (version) VALUES ('20160722233234');
+
+INSERT INTO schema_migrations (version) VALUES ('20160802183502');
+
+INSERT INTO schema_migrations (version) VALUES ('20160802190058');
+
+INSERT INTO schema_migrations (version) VALUES ('20160802200651');
 

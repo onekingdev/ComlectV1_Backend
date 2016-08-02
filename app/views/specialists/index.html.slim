@@ -1,6 +1,6 @@
 .row
   .col-xs-12.col-sm-4.col-md-3
-    = simple_form_for @search, method: :get, wrapper: :inline_form, url: specialists_path do |f|
+    = simple_form_for @search, method: :get, remote: true, wrapper: :inline_form, url: specialists_path do |f|
       = f.input :sort_by, collection: Specialist::Search::SORT_BY, input_html: { class: 'input-lg js-select' }
       = f.input :keyword, input_html: { class: 'input-lg' }
 
@@ -49,5 +49,5 @@
       .text-center
         input.reset type="reset" value="Reset Filters"
 
-  .col-xs-12.col-sm-8.col-md-9
-    = render 'cards', specialists: @specialists
+  .col-xs-12.col-sm-8.col-md-9.search-results
+    = render 'cards', specialists: @search.results
