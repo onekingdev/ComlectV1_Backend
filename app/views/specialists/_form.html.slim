@@ -48,9 +48,9 @@
 
   .row.row-compact
     .col-sm-4
-      = f.association :jurisdictions, placeholder: t('simple_form.placeholders.specialist.jurisdictions'), input_html: { class: 'input-lg js-select', multiple: true }
+      = f.association :jurisdictions, collection: Jurisdiction.sorted, placeholder: t('simple_form.placeholders.specialist.jurisdictions'), input_html: { class: 'input-lg js-select', multiple: true }
     .col-sm-4
-      = f.association :industries, placeholder: t('simple_form.placeholders.specialist.industries'), input_html: { class: 'input-lg js-select', multiple: true }
+      = f.association :industries, collection: Industry.sorted, placeholder: t('simple_form.placeholders.specialist.industries'), input_html: { class: 'input-lg js-select', multiple: true }
     .col-sm-4
       .form-group.specialist_former_regulator.m-l-2
         span.checkbox.checkbox-lg
@@ -64,7 +64,7 @@
 
     .col-xs-12.col-sm-8.col-sm-push-2
       = f.object.skills_input(f)
-      button.info-tooltip type="button" data-toggle="tooltip" title="Only hashtag up to ten skills your desired specialist MUST possess. Desired skills can also be referenced in the project description." i
+      button.info-tooltip type="button" data-toggle="tooltip" title="It's important to hashtag your skills as businesses use them to search for you and set their project prerequisites. Hashtag things like specific regulation knowledge (e.g. #doddfrank) and specific jurisdictions (e.g. #NY). You should also order them by importance as businesses will only see your top 5 hashtags." i
       .form-group.m-y-0
         ul.skills-required.m-b-0
           - f.object.skill_names.each do |skill|
@@ -118,5 +118,5 @@
   .row.text-center.p-b-1
     h2.m-b-3 Finally, select your profile visibility
     = f.input :public_profile, as: :radio_pills, collection: [['Public', true], ['Private', false]], btn_class: 'btn-lg btn-default p-x-3', hint: false
-    p.text-muted.small.m-t-2.col-xs-12.col-md-6.col-md-offset-3.m-b-0
+    p.text-muted.small.col-xs-12.col-md-8.col-md-offset-2.m-b-0
       = t('simple_form.hints.specialist.visibility')

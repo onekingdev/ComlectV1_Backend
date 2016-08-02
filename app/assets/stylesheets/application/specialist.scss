@@ -97,6 +97,12 @@ body.specialists.show {
       right: 0;
       bottom: 0;
     }
+
+  }
+
+  .specialist_education_histories_year .multiselect-container {
+    max-height: 200px;
+    overflow: auto;
   }
 
   // New/edit forms differ a bit so we need to adjust
