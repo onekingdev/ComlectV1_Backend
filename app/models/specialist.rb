@@ -18,13 +18,34 @@ class Specialist < ActiveRecord::Base
   }
 
   scope :experience_between, -> (min, max) {
-    join_experience
-      .having('SUM((COALESCE("to", NOW())::date - "from"::date) / 365) BETWEEN ? AND ?', min, max)
+    if max
+      join_experience
+        .having('SUM((COALESCE("to", NOW())::date - "from"::date) / 365) BETWEEN ? AND ?', min, max)
+    else
+      join_experience
+        .having('SUM((COALESCE("to", NOW())::date - "from"::date) / 365) > ?', min)
+    end
   }
 
   scope :by_experience, -> (dir = :desc) {
     join_experience.order("years_of_experience #{dir}")
   }
+
+  scope :by_distance, -> (lat, lng) do
+    order("ST_Distance(point, ST_GeogFromText('SRID=4326;POINT(#{lng.to_f} #{lat.to_f})'))")
+  end
+
+  scope :close_to, -> (lat, lng, miles) do
+    meters = miles.to_i * 1600
+    where("ST_DWithin(point, ST_GeogFromText('SRID=4326;POINT(#{lng.to_f} #{lat.to_f})'), #{meters})")
+  end
+
+  scope :distance_between, -> (lat, lng, min, max) do
+    min_m = min.to_i * 1600
+    max_m = max.to_i * 1600
+    distance = "ST_Distance(point, ST_GeogFromText('SRID=4326;POINT(#{lng.to_f} #{lat.to_f})'))"
+    where("#{distance} >= ? AND #{distance} <= ?", min_m, max_m)
+  end
 
   include ImageUploader[:photo]
   include FileUploader[:resume]

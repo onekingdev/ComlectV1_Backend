@@ -19,10 +19,12 @@ if $form.length > 0
     .find('#specialist_search_experience').change(delayedSearch).end()
     .find('#specialist_search_regulator').change(doSearch).end()
     .find('#specialist_search_location_range').change(delayedSearch).end()
-    .find('').change(doSearch).end()
-    .find('#specialist_search_keyword, #specialist_search_location')
+    .find('#specialist_search_lat').change(doSearch).end()
+    .find('#specialist_search_keyword')
       .keydown ->
         $(this).data 'prevVal', $(this).val()
       .keyup ->
         delayedSearch() if $(this).val() != $(this).data('prevVal')
         $(this).data 'prevVal', $(this).val()
+
+  $form.on 'place_changed', doSearch

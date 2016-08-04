@@ -30,6 +30,8 @@ $.onContentReady ($parent) ->
           when "country"
             country = component.long_name
 
+      $($this.data("lat")).val place.geometry.location.lat()
+      $($this.data("lng")).val place.geometry.location.lng()
       $($this.data("zipcode")).val zipCode
       $($this.data("city")).val city
       $($this.data("state")).val state
@@ -37,7 +39,10 @@ $.onContentReady ($parent) ->
       switch $this.data('self')
         when "city"
           $this.val city
+        when "full"
         else
           $this.val [street, streetNumber].join(' ').trim()
+
+      $this.trigger 'place_changed'
 
     $this.data 'autocomplete-initialized', true

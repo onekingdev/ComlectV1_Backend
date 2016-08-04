@@ -1,3 +1,6 @@
+- content_for :html_head do
+  script src="https://maps.googleapis.com/maps/api/js?key=#{ENV.fetch('GOOGLE_PLACES_API_KEY')}&libraries=places"
+
 .row
   .col-xs-12.col-sm-4.col-md-3
     = simple_form_for @search, method: :get, remote: true, wrapper: :inline_form, url: specialists_path do |f|
@@ -41,7 +44,9 @@
       .panel.panel-default.panel-flat
         .panel-body
           label.fw-700.tt-u Location
-          = f.text_field :location, class: 'form-control'
+          = f.text_field :location, class: 'form-control js-place-autocomplete', data: { self: 'full', lat: '#specialist_search_lat', lng: '#specialist_search_lng' }
+          = f.hidden_field :lat
+          = f.hidden_field :lng
 
           label.fw-700.tt-u.m-t-2 Within (Miles)
           = f.text_field :location_range, class: 'form-control js-range-slider', data: { min: 0, max: 50, type: 'double', input_values_separator: ';', hide_min_max: true, max_postfix: '+' }

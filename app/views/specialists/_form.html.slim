@@ -16,7 +16,9 @@
     .col-sm-4
       = f.input :last_name, input_html: { class: 'input-lg' }
     .col-sm-4
-      = f.input :city, input_html: { class: 'input-lg js-place-autocomplete', data: { country: '#specialist_country', state: '#specialist_state', zipcode: '#specialist_zipcode', self: 'city' } }
+      = f.input :city, input_html: { class: 'input-lg js-place-autocomplete', data: { country: '#specialist_country', state: '#specialist_state', zipcode: '#specialist_zipcode', lat: '#specialist_lat', lng: '#specialist_lng', self: 'city' } }
+      = f.hidden_field :lat
+      = f.hidden_field :lng
   .row.row-compact
     .col-sm-4
       = f.input :zipcode, input_html: { class: 'input-lg' }

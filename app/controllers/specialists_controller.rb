@@ -71,7 +71,7 @@ class SpecialistsController < ApplicationController
     specialist_search_params = params[:specialist_search]
     return {} unless specialist_search_params
     specialist_search_params.permit(
-      :sort_by, :keyword, :rating, :experience, :regulator, :location, :location_range,
+      :sort_by, :keyword, :rating, :experience, :regulator, :location, :location_range, :lat, :lng,
       industry_ids: [], jurisdiction_ids: []
     ).merge(params.slice(:page, :per))
   end

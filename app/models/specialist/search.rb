@@ -3,9 +3,11 @@ class Specialist::Search
   include ActiveModel::Model
 
   SORT_BY = { 'Sort by Rating' => 'rating', 'Sort by Experience' => 'experience' }.freeze
+  MAX_EXPERIENCE = 15
+  MAX_LOCATION_RANGE = 50
 
   attr_accessor :sort_by, :keyword, :jurisdiction_ids, :industry_ids, :rating, :experience, :regulator, :location,
-                :location_range, :page, :per
+                :lat, :lng, :location_range, :page, :per
 
   def initialize(attributes = HashWithIndifferentAccess.new)
     self.per = 12 unless attributes.key?('per')
@@ -46,6 +48,7 @@ class Specialist::Search
   end
 
   def filter_rating(records)
+    return records unless rating.present?
     min, max = rating.split(';').map(&:to_i)
     if min == 0
       records.where("(rating_avg BETWEEN ? AND ?) OR rating_avg IS NULL", min, max)
@@ -55,17 +58,22 @@ class Specialist::Search
   end
 
   def filter_experience(records)
+    return records unless experience.present?
     min, max = experience.split(';').map(&:to_i)
+    max = nil if max == MAX_EXPERIENCE
     records.experience_between(min, max)
   end
 
   def filter_regulator(records)
-    return records if regulator == '0'
+    return records if !regulator || regulator == '0'
     records.where(former_regulator: regulator)
   end
 
   def filter_location(records)
-    records
+    min, max = location_ranges
+    max ||= 10_000
+    return records if (min == 0 && max == 10_000) || lat.blank? || lng.blank?
+    records.distance_between lat, lng, min, max
   end
 
   def filter_industry(records)
@@ -89,5 +97,14 @@ class Specialist::Search
 
   def paginate(records)
     records.page(page).per(per)
+  end
+
+  private
+
+  def location_ranges
+    min, max = location_range.to_s.split(';').map(&:presence)
+    min ||= 0
+    max = nil if max.to_i >= MAX_LOCATION_RANGE
+    [min.to_i, max]
   end
 end

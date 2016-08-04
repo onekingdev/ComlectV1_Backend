@@ -23,7 +23,35 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
+--
+-- Name: postgis; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS postgis WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION postgis; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION postgis IS 'PostGIS geometry, geography, and raster spatial types and functions';
+
+
 SET search_path = public, pg_catalog;
+
+--
+-- Name: set_point_from_lat_lng(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION set_point_from_lat_lng() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      BEGIN
+        NEW.point := ST_SetSRID(ST_Point(NEW.lng, NEW.lat), 4326);
+        RETURN NEW;
+      END;
+      $$;
+
 
 SET default_tablespace = '';
 
@@ -474,7 +502,10 @@ CREATE TABLE specialists (
     visibility character varying DEFAULT 'public'::character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    rating_avg numeric
+    rating_avg numeric,
+    lat numeric(9,5),
+    lng numeric(9,5),
+    point geography
 );
 
 
@@ -901,6 +932,13 @@ CREATE INDEX index_specialists_on_last_name ON specialists USING btree (last_nam
 
 
 --
+-- Name: index_specialists_on_point; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_specialists_on_point ON specialists USING gist (point);
+
+
+--
 -- Name: index_specialists_on_rating_avg; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -985,6 +1023,13 @@ CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (v
 
 
 --
+-- Name: trigger_specialists_on_lat_lng; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER trigger_specialists_on_lat_lng BEFORE INSERT OR UPDATE OF lat, lng ON specialists FOR EACH ROW EXECUTE PROCEDURE set_point_from_lat_lng();
+
+
+--
 -- PostgreSQL database dump complete
 --
 
@@ -1027,4 +1072,10 @@ INSERT INTO schema_migrations (version) VALUES ('20160802183502');
 INSERT INTO schema_migrations (version) VALUES ('20160802190058');
 
 INSERT INTO schema_migrations (version) VALUES ('20160802200651');
+
+INSERT INTO schema_migrations (version) VALUES ('20160802202615');
+
+INSERT INTO schema_migrations (version) VALUES ('20160802210000');
+
+INSERT INTO schema_migrations (version) VALUES ('20160802213145');
 
