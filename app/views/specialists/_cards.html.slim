@@ -1,4 +1,4 @@
-- if specialists.empty?
+- if specialists.total_count == 0
   h2.text-center.m-b-2 No specialists found
 
 .row
@@ -9,7 +9,7 @@
         .panel-heading
           = link_to '#', class: "favourite #{'active' if favourited}" do
             i.icon.maxicons3-heart
-          .avatar= image_tag "http://lorempixel.com/60/60/people?#{rand(1000)}", size: "60x60"
+          .avatar= image_tag specialist.photo_url(:thumb), class: 'img-responsive'
           .name= specialist
           .rating= render_stars 4, class: 'small'
 
@@ -17,22 +17,25 @@
           .icon-list
             .item
               i.icon.maxicons2-navigation
-              span Boston, MA
+              span= specialist.city_state_country
             .item
               i.icon.maxicons1-building
-              span Banking
+              span= specialist.industries.map(&:name).join(', ')
             .item
               i.icon.maxicons1-earth
-              span US, Canada
+              span= specialist.jurisdictions.map(&:name).join(', ')
             .item
               i.icon.maxicons1-bag
               span= pluralize specialist.years_of_experience, 'Yr. Compliance Exp.', 'Yrs. Compliance Exp.'
-            .item
-              i.icon.maxicons2-place
-              span Former Regulator
+            - if specialist.former_regulator?
+              .item
+                i.icon.maxicons2-place
+                span Former Regulator
             .item
               i.icon.maxicons2-winer
-              span Skill 1, Skill 2, Skill 3
+              span= specialist.skills[0..2].map(&:name).join(', ')
+            - unless specialist.former_regulator?
+              .item &nbsp;
 
         .panel-footer
           .btn-group
@@ -40,7 +43,7 @@
               i.icon.maxicons2-comment
               span Invite
 
-  - if false && @specialists.total_pages > 1
+  - if specialists.total_pages > 1
     .dot-pagination.m-b-1
-      - @specialists.total_pages.times do |n|
-        = link_to ''.html_safe, current_uri(page: n + 1), remote: true, class: "page #{"current" if n + 1 == @specialists.current_page}"
+      - specialists.total_pages.times do |n|
+        = link_to ''.html_safe, current_uri(page: n + 1), remote: true, class: "page #{"current" if n + 1 == specialists.current_page}"

@@ -8,7 +8,7 @@ class Specialist < ActiveRecord::Base
   has_many :education_histories, dependent: :delete_all
 
   scope :preload_associations, -> {
-    includes(:user, :work_experiences, :education_histories, :industries, :jurisdictions, :skills)
+    preload(:user, :work_experiences, :education_histories, :industries, :jurisdictions, :skills)
   }
 
   scope :join_experience, -> {

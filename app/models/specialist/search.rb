@@ -23,8 +23,8 @@ class Specialist::Search
   end
 
   def results
-    return @_results if @_results
-    @results = Specialist.all
+    return @results if @results
+    @results = Specialist.preload_associations
     @results = search(@results)
     @results = filter_industry(@results)
     @results = filter_jurisdiction(@results)
@@ -34,7 +34,6 @@ class Specialist::Search
     @results = filter_location(@results)
     @results = sort(@results)
     @results = paginate(@results)
-    @_results = @results.to_a
   end
 
   def search(records)
@@ -97,7 +96,7 @@ class Specialist::Search
   end
 
   def paginate(records)
-    records.page(page).per(per)
+    records.page(page).per(1)
   end
 
   private
