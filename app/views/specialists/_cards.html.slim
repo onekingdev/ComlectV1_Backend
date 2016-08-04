@@ -15,15 +15,22 @@
 
         .panel-body
           .icon-list
+            - empty_lines = 0
             .item
               i.icon.maxicons2-navigation
               span= specialist.city_state_country
-            .item
-              i.icon.maxicons1-building
-              span= specialist.industries.map(&:name).join(', ')
-            .item
-              i.icon.maxicons1-earth
-              span= specialist.jurisdictions.map(&:name).join(', ')
+            - if (industries = specialist.industries.sort_by(&:name).map(&:name).join(', ')).present?
+              .item
+                i.icon.maxicons1-building
+                span= industries
+            - else
+              - empty_lines += 1
+            - if (jurisdictions = specialist.jurisdictions.sort_by(&:name).map(&:name).join(', ')).present?
+              .item
+                i.icon.maxicons1-earth
+                span= jurisdictions
+            - else
+              - empty_lines += 1
             .item
               i.icon.maxicons1-bag
               span= pluralize specialist.years_of_experience, 'Yr. Compliance Exp.', 'Yrs. Compliance Exp.'
@@ -31,10 +38,15 @@
               .item
                 i.icon.maxicons2-place
                 span Former Regulator
-            .item
-              i.icon.maxicons2-winer
-              span= specialist.skills[0..2].map(&:name).join(', ')
-            - unless specialist.former_regulator?
+            - else
+              - empty_lines += 1
+            - if (skills = specialist.skills[0..2].map(&:name).join(', ')).present?
+              .item
+                i.icon.maxicons2-winer
+                span= skills
+            - else
+              - empty_lines += 1
+            - empty_lines.times do
               .item &nbsp;
 
         .panel-footer
