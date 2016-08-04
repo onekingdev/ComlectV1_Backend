@@ -55,7 +55,7 @@ gem 'stripe'
 
 # Logging
 gem 'lograge'
-gem 'newrelic_rpm'
+gem 'appsignal'
 
 group :development, :test do
   # Logging

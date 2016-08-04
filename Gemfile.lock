@@ -56,6 +56,9 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.4.0)
+    appsignal (1.2.3)
+      rack
+      thread_safe
     arbre (1.0.3)
       activesupport (>= 3.0.0)
     arel (6.0.3)
@@ -196,7 +199,6 @@ GEM
     mocha (1.1.0)
       metaclass (~> 0.0.1)
     multi_json (1.11.3)
-    newrelic_rpm (3.16.0.318)
     nokogiri (1.6.8)
       mini_portile2 (~> 2.1.0)
       pkg-config (~> 1.1.7)
@@ -356,6 +358,7 @@ PLATFORMS
 
 DEPENDENCIES
   activeadmin!
+  appsignal
   aws-sdk (~> 2.3.12)
   byebug
   capybara
@@ -377,7 +380,6 @@ DEPENDENCIES
   meta_request
   mini_magick (~> 4.5.1)
   mocha
-  newrelic_rpm
   non-stupid-digest-assets
   overcommit
   pg (~> 0.15)
