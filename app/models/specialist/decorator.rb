@@ -11,7 +11,7 @@ class Specialist::Decorator < ApplicationDecorator
     return @_years_of_experience if @_years_of_experience
     @_years_of_experience =
       model[:years_of_experience] ||
-      work_experiences.map { |exp| ((exp.to || Time.zone.today) - exp.from).to_i }.reduce(:+) / 365
+      work_experiences.map { |exp| exp.from ? ((exp.to || Time.zone.today) - exp.from).to_i : 0 }.reduce(:+) / 365
   end
 
   def sorted_education_histories
