@@ -39,3 +39,8 @@ if $form.length > 0
     $form.find('#specialist_search_experience').data('ionRangeSlider').update(from: 3, to: 15)
     $form.find('#specialist_search_rating').data('ionRangeSlider').update(from: 0, to: 5)
     doSearch()
+
+  $('.search-results').on 'click', '.specialists-pagination .page', (e) ->
+    e.preventDefault()
+    $form.find('#specialist_search_page').val $(this).data('page')
+    doSearch()

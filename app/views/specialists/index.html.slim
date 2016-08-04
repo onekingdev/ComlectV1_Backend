@@ -4,6 +4,7 @@
 .row
   .col-xs-12.col-sm-4.col-md-3
     = simple_form_for @search, method: :get, remote: true, wrapper: :inline_form, url: specialists_path do |f|
+      = f.hidden_field :page
       = f.input :sort_by, collection: Specialist::Search::SORT_BY, input_html: { class: 'input-lg js-select' }
       = f.input :keyword, input_html: { class: 'input-lg' }
 

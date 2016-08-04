@@ -3,6 +3,7 @@ class Specialist::Search
   include ActiveModel::Model
 
   SORT_BY = { 'Sort by Rating' => 'rating', 'Sort by Experience' => 'experience' }.freeze
+  MIN_EXPERIENCE = 3
   MAX_EXPERIENCE = 15
   MAX_LOCATION_RANGE = 50
 
@@ -10,7 +11,8 @@ class Specialist::Search
                 :lat, :lng, :location_range, :page, :per
 
   def initialize(attributes = HashWithIndifferentAccess.new)
-    self.per = 12 unless attributes.key?('per')
+    self.page = 1
+    self.per = 12
     attributes.each do |attr, value|
       public_send "#{attr}=", value.presence
     end
@@ -48,8 +50,8 @@ class Specialist::Search
   end
 
   def filter_rating(records)
-    return records unless rating.present?
-    min, max = rating.split(';').map(&:to_i)
+    min, max = rating.to_s.split(';').map(&:to_i)
+    return records if rating.blank? || (min == 0 && max == 5)
     if min == 0
       records.where("(rating_avg BETWEEN ? AND ?) OR rating_avg IS NULL", min, max)
     else
@@ -58,8 +60,8 @@ class Specialist::Search
   end
 
   def filter_experience(records)
-    return records unless experience.present?
-    min, max = experience.split(';').map(&:to_i)
+    min, max = experience.to_s.split(';').map(&:to_i)
+    return records if experience.blank? || (min == MIN_EXPERIENCE && max == MAX_EXPERIENCE)
     max = nil if max == MAX_EXPERIENCE
     records.experience_between(min, max)
   end
@@ -96,7 +98,7 @@ class Specialist::Search
   end
 
   def paginate(records)
-    records.page(page).per(1)
+    records.page(page).per(per)
   end
 
   private
