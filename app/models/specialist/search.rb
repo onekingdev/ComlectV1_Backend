@@ -14,6 +14,7 @@ class Specialist::Search
     attributes.each do |attr, value|
       public_send "#{attr}=", value.presence
     end
+    self.sort_by = 'rating' if sort_by.blank?
     self.industry_ids ||= []
     self.industry_ids.map!(&:presence).compact!
     self.jurisdiction_ids ||= []

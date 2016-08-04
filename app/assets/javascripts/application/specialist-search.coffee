@@ -28,3 +28,14 @@ if $form.length > 0
         $(this).data 'prevVal', $(this).val()
 
   $form.on 'place_changed', doSearch
+
+  $form.on 'reset', ->
+    $form
+      .find('#specialist_search_lat').val('').end()
+      .find('#specialist_search_lng').val('').end()
+      .find('#specialist_search_jurisdiction_ids').multiselect('deselectAll', false).multiselect('updateButtonText').end()
+      .find('#specialist_search_industry_ids').multiselect('deselectAll', false).multiselect('updateButtonText').end()
+    $form.find('#specialist_search_location_range').data('ionRangeSlider').update(from: 0, to: 50)
+    $form.find('#specialist_search_experience').data('ionRangeSlider').update(from: 3, to: 15)
+    $form.find('#specialist_search_rating').data('ionRangeSlider').update(from: 0, to: 5)
+    doSearch()
