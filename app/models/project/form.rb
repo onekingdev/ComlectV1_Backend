@@ -43,6 +43,7 @@ class Project::Form < Project
 
   attr_accessor :full_time_starts_on
   attr_accessor :hourly_payment_schedule, :fixed_payment_schedule
+  attr_accessor :invite_id
 
   ATTRIBUTES_FOR_COPY = %w(
     annual_salary business_id description estimated_hours fee_type fixed_budget hourly_rate key_deliverables
@@ -56,6 +57,15 @@ class Project::Form < Project
       copy.jurisdictions = original.jurisdictions
       copy.skills = original.skills
     end
+  end
+
+  def save
+    result = super
+    if result && invite_id.present?
+      invite = business.project_invites.find(invite_id)
+      invite.send_message!
+    end
+    result
   end
 
   def full_time_starts_on

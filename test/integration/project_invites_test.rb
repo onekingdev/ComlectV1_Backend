@@ -28,7 +28,7 @@ class ProjectInvitesTest < ActionDispatch::IntegrationTest
   end
 
   test 'show message when inviting to existing project' do
-    project = create :project_full_time
+    project = create(:project_full_time)
     pseudo_id = rand(10_000)
     params = { project_invite: { project_id: project.id, specialist_id: @specialist.id, message: pseudo_id } }
     xhr :post, project_invites_path, params
