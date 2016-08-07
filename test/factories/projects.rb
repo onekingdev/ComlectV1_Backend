@@ -33,7 +33,7 @@ FactoryGirl.define do
     factory :project_full_time do
       type Project.types[:full_time]
       location 'Texas, USA'
-      full_time_starts_on { 1.month.from_now }
+      starts_on { 1.month.from_now }
       annual_salary 98_000
     end
   end

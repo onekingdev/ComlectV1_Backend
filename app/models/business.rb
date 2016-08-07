@@ -5,6 +5,7 @@ class Business < ActiveRecord::Base
   has_and_belongs_to_many :industries
   has_many :projects, dependent: :destroy
   has_one :payment_profile, dependent: :destroy
+  has_many :project_invites, dependent: :destroy
 
   include ImageUploader[:logo]
 

@@ -372,6 +372,41 @@ ALTER SEQUENCE payment_sources_id_seq OWNED BY payment_sources.id;
 
 
 --
+-- Name: project_invites; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE project_invites (
+    id integer NOT NULL,
+    business_id integer NOT NULL,
+    project_id integer,
+    specialist_id integer NOT NULL,
+    message character varying,
+    status character varying DEFAULT 'not_sent'::character varying NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: project_invites_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE project_invites_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: project_invites_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE project_invites_id_seq OWNED BY project_invites.id;
+
+
+--
 -- Name: projects; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -664,6 +699,13 @@ ALTER TABLE ONLY payment_sources ALTER COLUMN id SET DEFAULT nextval('payment_so
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY project_invites ALTER COLUMN id SET DEFAULT nextval('project_invites_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY projects ALTER COLUMN id SET DEFAULT nextval('projects_id_seq'::regclass);
 
 
@@ -749,6 +791,14 @@ ALTER TABLE ONLY payment_profiles
 
 ALTER TABLE ONLY payment_sources
     ADD CONSTRAINT payment_sources_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: project_invites_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY project_invites
+    ADD CONSTRAINT project_invites_pkey PRIMARY KEY (id);
 
 
 --
@@ -873,6 +923,34 @@ CREATE INDEX index_payment_sources_on_payment_profile_id ON payment_sources USIN
 --
 
 CREATE UNIQUE INDEX index_payment_sources_on_stripe_card_id ON payment_sources USING btree (stripe_card_id);
+
+
+--
+-- Name: index_project_invites_on_business_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_project_invites_on_business_id ON project_invites USING btree (business_id);
+
+
+--
+-- Name: index_project_invites_on_project_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_project_invites_on_project_id ON project_invites USING btree (project_id);
+
+
+--
+-- Name: index_project_invites_on_specialist_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_project_invites_on_specialist_id ON project_invites USING btree (specialist_id);
+
+
+--
+-- Name: index_project_invites_on_status; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_project_invites_on_status ON project_invites USING btree (status);
 
 
 --
@@ -1078,4 +1156,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160802202615');
 INSERT INTO schema_migrations (version) VALUES ('20160802210000');
 
 INSERT INTO schema_migrations (version) VALUES ('20160802213145');
+
+INSERT INTO schema_migrations (version) VALUES ('20160806190620');
 

@@ -100,3 +100,42 @@
     }
   }
 }
+
+.modal-sm {
+  margin: 0 auto;
+
+  .modal-dialog {
+    width: 300px;
+  }
+}
+
+.modal-popup {
+  .modal-content {
+    overflow: hidden; // So corners get rounded properly
+  }
+
+  .modal-header {
+    background-color: $gray-dark;
+    color: #fff;
+    padding-top: 5px;
+    padding-bottom: 5px;
+
+    .close {
+      margin: 0;
+      line-height: 39px;
+    }
+  }
+
+  .modal-body, .modal-footer {
+    background-color: $gray-lighter;
+  }
+
+  .modal-footer {
+    border-top: 0;
+  }
+
+  h4 {
+    font-family: Raleway;
+    font-weight: $raleway-light;
+  }
+}

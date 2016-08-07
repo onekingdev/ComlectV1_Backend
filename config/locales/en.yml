@@ -52,3 +52,12 @@ en:
             resume:
               invalid: Not a PDF file
               too_large: Too large (max is 2 MB)
+
+  project_invites:
+    message_template: |
+      Hi %{specialist},
+
+      We really like your profile and think you would be a great fit for our %project_link% %{project_or_job} on Complect. Click the link to see more details and apply!
+
+      Best,
+      %{company_name}

@@ -13,4 +13,5 @@ $.onContentReady ($parent) ->
       nonSelectedText: $this.attr('placeholder')
 
     # Hack to hide the fake placeholder item
-    $this.data('multiselect').$ul.find('input[value=""]').parents('li').hide()
+    unless $this.data('show-blank')
+      $this.data('multiselect').$ul.find('input[value=""]').parents('li').hide()

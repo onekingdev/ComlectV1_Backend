@@ -1,0 +1,12 @@
+#js-project-invite.modal.fade.modal-sm.modal-popup
+  .modal-dialog
+    = simple_form_for @invite, remote: true, html: { class: 'modal-content' } do |f|
+      .modal-header
+        button.close data-dismiss="modal"
+          .fa.fa-close
+        h4 Invite to a Project
+      .modal-body
+        = f.hidden_field :specialist_id
+        = f.association :project, input_html: { class: 'js-select input-lg', data: { show_blank: true } }, include_blank: '<New project>'
+        .m-t-2= f.input :message, as: :text, input_html: { rows: 10 }
+        = f.submit @invite.new_project? ? 'Create Project & Send' : 'Send', class: 'btn btn-primary btn-block'

@@ -41,6 +41,8 @@ Rails.application.routes.draw do
     patch '/' => 'specialists#update', as: :update
   end
 
+  resources :project_invites, path: 'invite'
+
   namespace :api do
     resources :skills, only: :index
   end

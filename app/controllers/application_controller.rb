@@ -8,9 +8,18 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def current_business
+    current_user.business
+  end
+
   def js_alert(message)
     render partial: 'application/js_alert', locals: { message: message }
   end
+
+  def js_notice(message, locals = {})
+    render partial: 'application/js_notice', locals: locals.merge(message: message)
+  end
+  helper_method :js_notice
 
   def redirect_to_param_or(default)
     redirect_to params[:redirect_to].present? ? params[:redirect_to] : default
@@ -21,7 +30,7 @@ class ApplicationController < ActionController::Base
   end
 
   def require_business!
-    return if signed_in? && current_user.business
+    return if signed_in? && current_business
     render 'forbidden', status: :forbidden, locals: { message: 'Only business accounts can access this page' }
   end
 
