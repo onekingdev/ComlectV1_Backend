@@ -15,6 +15,13 @@ class ApplicationController < ActionController::Base
   end
   helper_method :current_business
 
+  def current_specialist
+    return @_current_specialist if @_current_specialist
+    return nil unless current_user || current_user.specialist.nil?
+    @_current_specialist = Specialist::Decorator.decorate(current_user.specialist)
+  end
+  helper_method :current_specialist
+
   def redirect_to_param_or(default)
     redirect_to params[:redirect_to].present? ? params[:redirect_to] : default
   end
@@ -38,7 +45,7 @@ class ApplicationController < ActionController::Base
   end
 
   def require_specialist!
-    return if signed_in? && current_user.specialist
+    return if signed_in? && current_specialist
     render 'forbidden', status: :forbidden, locals: { message: 'Only specialist accounts can access this page' }
   end
 

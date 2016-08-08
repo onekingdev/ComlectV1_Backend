@@ -25,8 +25,10 @@ nav#nav.navbar.navbar-default.navbar-inverse
           'Browse
           i.icon.maxicons1-down
         ul.dropdown-menu
-          li= link_to 'Browse Projects', '#'
-          li= link_to 'Browse Specialists', specialists_path
+          - if current_specialist
+            li= link_to 'Browse Projects', '#'
+          - if current_business
+            li= link_to 'Browse Specialists', specialists_path
       - if signed_in?
         li.dropdown
           - if (business = user.business)
