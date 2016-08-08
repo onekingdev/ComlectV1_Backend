@@ -46,7 +46,7 @@ Rails.application.routes.draw do
 
   resources :project_invites, path: 'invite'
 
-  resources :projects, only: :index
+  resources :projects, only: %i(index show)
 
   namespace :api do
     resources :skills, only: :index

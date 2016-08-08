@@ -16,6 +16,36 @@ class Project < ActiveRecord::Base
   scope :draft_and_in_review, -> { where(status: %w(draft review)) }
   scope :accessible_by, -> (user) { joins(:business).where('user_id = ? OR status = ?', user.id, 'published') }
 
+  scope :one_off, -> { where(type: 'one_off') }
+  scope :full_time, -> { where(type: 'full_time') }
+
+  scope :onsite, -> { where(location_type: 'onsite') }
+  scope :remote, -> { where(location_type: 'remote') }
+  scope :remote_and_travel, -> { where(location_type: 'remote_and_travel') }
+
+  scope :with_skills, -> (names) { joins(:skills).where(skills: { name: Array(names) }) }
+
+  scope :preload_associations, -> {
+    preload(:business, :jurisdictions, :industries)
+  }
+
+  scope :distance_between, -> (lat, lng, min, max) do
+    min_m = min.to_i * 1600
+    max_m = max.to_i * 1600
+    distance = "ST_Distance(point, ST_GeogFromText('SRID=4326;POINT(#{lng.to_f} #{lat.to_f})'))"
+    where("#{distance} >= ? AND #{distance} <= ?", min_m, max_m)
+  end
+
+  include PgSearch
+  pg_search_scope :search,
+                  against: %i(title description),
+                  using: {
+                    tsearch: {
+                      dictionary: 'english',
+                      tsvector_column: 'tsv'
+                    }
+                  }
+
   enum status: { draft: 'draft', review: 'review', published: 'published' }
   enum type: { one_off: 'one_off', full_time: 'full_time' }
   enum location_type: { remote: 'remote', remote_and_travel: 'remote_and_travel', onsite: 'onsite' }
@@ -65,7 +95,7 @@ class Project < ActiveRecord::Base
   end
 
   def applicants_count
-    @count ||= rand(4) # TODO
+    0 # TODO
   end
 
   def draft_or_review?

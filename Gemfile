@@ -7,6 +7,7 @@ gem 'rails', '4.2.7'
 
 # ActiveRecord
 gem 'pg', '~> 0.15'
+gem 'pg_search', '~> 1.0.6'
 
 # Orchestration
 gem 'puma', '~> 3.4.0'

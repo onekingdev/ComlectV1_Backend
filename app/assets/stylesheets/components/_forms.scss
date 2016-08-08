@@ -16,6 +16,21 @@
   }
 }
 
+.input-gray {
+  background-color: $gray-lighter;
+}
+
+.panel .form-control {
+  background-color: #fff;
+}
+
+form .reset {
+  border: 0;
+  background-color: transparent;
+  text-decoration: underline;
+  color: $gray-light;
+}
+
 .custom-file-field {
   cursor: pointer;
 

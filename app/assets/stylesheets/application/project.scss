@@ -137,4 +137,10 @@ body.projects.show {
       }
     }
   }
+
+  .icon-list .icon {
+    color: $text-muted;
+  }
 }
+
+@import "project/*";

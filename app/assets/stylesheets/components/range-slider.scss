@@ -122,3 +122,9 @@ $range-slider-inner-height: 7px;
 
 .irs-disabled {
 }
+
+// "Hide" the to-handler
+.range-slider-fixed-to .irs-slider.to {
+  top: 30px;
+  height: 7px;
+}

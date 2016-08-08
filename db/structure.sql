@@ -40,6 +40,28 @@ COMMENT ON EXTENSION postgis IS 'PostGIS geometry, geography, and raster spatial
 SET search_path = public, pg_catalog;
 
 --
+-- Name: projects_calculate_budget(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION projects_calculate_budget() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      BEGIN
+        IF NEW.type = 'job' THEN
+          NEW.calculated_budget := NEW.annual_salary;
+        ELSE
+          IF NEW.pricing_type = 'hourly' THEN
+            NEW.calculated_budget := NEW.hourly_rate;
+          ELSE
+            NEW.calculated_budget := NEW.fixed_budget;
+          END IF;
+        END IF;
+        RETURN NEW;
+      END;
+      $$;
+
+
+--
 -- Name: set_point_from_lat_lng(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -466,7 +488,12 @@ CREATE TABLE projects (
     annual_salary integer,
     fee_type character varying DEFAULT 'upfront'::character varying,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    tsv tsvector,
+    calculated_budget numeric,
+    lat numeric(9,5),
+    lng numeric(9,5),
+    point geography
 );
 
 
@@ -1031,10 +1058,45 @@ CREATE INDEX index_projects_on_business_id ON projects USING btree (business_id)
 
 
 --
+-- Name: index_projects_on_minimum_experience; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_projects_on_minimum_experience ON projects USING btree (minimum_experience);
+
+
+--
+-- Name: index_projects_on_only_regulators; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_projects_on_only_regulators ON projects USING btree (only_regulators);
+
+
+--
+-- Name: index_projects_on_point; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_projects_on_point ON projects USING gist (point);
+
+
+--
+-- Name: index_projects_on_starts_on; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_projects_on_starts_on ON projects USING btree (starts_on);
+
+
+--
 -- Name: index_projects_on_status; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_projects_on_status ON projects USING btree (status);
+
+
+--
+-- Name: index_projects_on_tsv; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_projects_on_tsv ON projects USING gin (tsv);
 
 
 --
@@ -1171,10 +1233,31 @@ CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (v
 
 
 --
+-- Name: calculate_budget; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER calculate_budget BEFORE INSERT OR UPDATE ON projects FOR EACH ROW EXECUTE PROCEDURE projects_calculate_budget();
+
+
+--
+-- Name: trigger_projects_on_lat_lng; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER trigger_projects_on_lat_lng BEFORE INSERT OR UPDATE OF lat, lng ON projects FOR EACH ROW EXECUTE PROCEDURE set_point_from_lat_lng();
+
+
+--
 -- Name: trigger_specialists_on_lat_lng; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER trigger_specialists_on_lat_lng BEFORE INSERT OR UPDATE OF lat, lng ON specialists FOR EACH ROW EXECUTE PROCEDURE set_point_from_lat_lng();
+
+
+--
+-- Name: tsvectorupdate; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER tsvectorupdate BEFORE INSERT OR UPDATE ON projects FOR EACH ROW EXECUTE PROCEDURE tsvector_update_trigger('tsv', 'pg_catalog.english', 'title', 'description');
 
 
 --
@@ -1230,4 +1313,12 @@ INSERT INTO schema_migrations (version) VALUES ('20160802213145');
 INSERT INTO schema_migrations (version) VALUES ('20160806190620');
 
 INSERT INTO schema_migrations (version) VALUES ('20160807224348');
+
+INSERT INTO schema_migrations (version) VALUES ('20160808122359');
+
+INSERT INTO schema_migrations (version) VALUES ('20160808161529');
+
+INSERT INTO schema_migrations (version) VALUES ('20160808163055');
+
+INSERT INTO schema_migrations (version) VALUES ('20160808172557');
 

@@ -1,3 +1,6 @@
+- content_for :html_head do
+  script src="https://maps.googleapis.com/maps/api/js?key=#{ENV.fetch('GOOGLE_PLACES_API_KEY')}&libraries=places"
+
 = simple_form_for [:business, project], remote: true, authenticity_token: true, wrapper: :inline_form, html: { class: "project_form", data: { "project-type" => project.type } } do |f|
   .text-center
     h1.m-t-0.m-b-3 Is this a one-off project or a full-time role?
@@ -11,7 +14,9 @@
       .col-xs-12.col-sm-4
         = f.input :title, input_html: { class: 'input-lg' }
         = f.input :location_type, collection: Project::LOCATIONS, include_blank: I18n.t('simple_form.placeholders.project.location_type'), input_html: { class: 'input-lg js-select' }
-        = f.input :location, input_html: { class: "input-lg" }
+        = f.hidden_field :lat
+        = f.hidden_field :lng
+        = f.input :location, input_html: { class: "input-lg js-place-autocomplete", data: { lat: '#project_lat', lng: '#project_lng', self: 'full' } }
         = project.industries_input(f)
       .col-xs-12.col-sm-8
         = f.input :description, as: :text, input_html: { class: 'input-lg tt-n', maxlength: 750 }

@@ -19,14 +19,14 @@ FactoryGirl.define do
 
       factory :project_one_off_hourly do
         pricing_type 'hourly'
-        hourly_payment_schedule 'monthly'
+        payment_schedule 'monthly'
         hourly_rate 100
       end
 
       factory :project_one_off_fixed do
         pricing_type 'fixed'
         fixed_budget 10_000
-        fixed_payment_schedule 'monthly'
+        payment_schedule 'monthly'
       end
     end
 

@@ -12,6 +12,7 @@ $.onContentReady ($parent) ->
         $this = $(this)
         delete selected[$this.data('skill')]
         $this.parents('li').remove()
+        $typeahead.trigger('tag-removed').trigger('tags-changed')
         checkLimit()
     selected = {}
     $tags.find('input').each -> selected[$(this).val()] = true
@@ -34,6 +35,7 @@ $.onContentReady ($parent) ->
         $input = $(inputTpl.replace(/%LABEL%/g, item.name).replace(/%VALUE%/g, item.name))
         selected[item.name] = true
         $tags.append $input
+        $typeahead.trigger('tag-added').trigger('tags-changed')
         checkLimit()
         return # Don't display anything on the input
 

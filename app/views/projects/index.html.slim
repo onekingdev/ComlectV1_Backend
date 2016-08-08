@@ -1,0 +1,66 @@
+- content_for :html_head do
+  script src="https://maps.googleapis.com/maps/api/js?key=#{ENV.fetch('GOOGLE_PLACES_API_KEY')}&libraries=places"
+
+.row
+  .col-xs-12.col-sm-4.col-md-3
+    = simple_form_for @search, method: :get, remote: true, wrapper: :inline_form, url: projects_path do |f|
+      = f.hidden_field :page
+      = f.input :project_type, as: :radio_pills, collection: [%w(Projects one-off), %w(Jobs full-time)], btn_class: 'btn-lg btn-default fw-700', hint: false, wrapper_html: { class: 'm-b-1' }
+      = f.input :sort_by, collection: Project::Search::SORT_BY, input_html: { class: 'input-lg js-select input-gray fw-700' }, wrapper_html: { class: 'm-b-1' }
+      = f.input :keyword, input_html: { class: 'input-lg input-gray fw-700' }, wrapper_html: { class: 'm-b-1' }
+
+      .text-center.m-t-2.m-b-1.fz-1-3x Filters
+
+      .panel.panel-default.panel-flat.m-b-1
+        .panel-body
+          = f.input :location_type, wrapper: false, collection: Project::LOCATIONS, include_blank: 'Location', input_html: { class: 'js-select fw-700' }
+          .specific-location.collapse.p-t-1
+            = f.text_field :location, class: 'form-control js-place-autocomplete fw-700', data: { self: 'full', lat: '#project_search_lat', lng: '#project_search_lng' }
+            = f.hidden_field :lat
+            = f.hidden_field :lng
+
+            label.fw-700.tt-u.m-t-2 Within (Miles)
+            = f.text_field :location_range, class: 'form-control js-range-slider', data: { min: 0, max: 50, type: 'double', input_values_separator: ';', hide_min_max: true, max_postfix: '+' }
+
+      = f.input :industry_ids,
+        as: :grouped_select,
+        collection: grouped_collection_for_select(Industry.sorted),
+        group_method: :all,
+        group_label_method: :label,
+        placeholder: I18n.t('simple_form.placeholders.project_search.industry_ids'),
+        input_html: { class: 'input-lg js-select input-gray fw-700', multiple: true }
+
+      = f.input :jurisdiction_ids,
+        as: :grouped_select,
+        collection: grouped_collection_for_select(Jurisdiction.sorted),
+        group_method: :all,
+        group_label_method: :label,
+        placeholder: I18n.t('simple_form.placeholders.project_search.jurisdiction_ids'),
+        input_html: { class: 'input-lg js-select input-gray fw-700', multiple: true }
+
+      .panel.panel-default.panel-flat.m-b-1
+        .panel-body.range-slider-fixed-to
+          label.fw-700.tt-u Minimum Yrs. Experience
+          = f.text_field :experience, class: 'form-control js-range-slider', data: { min: Project::Search::MIN_EXPERIENCE, max: Project::Search::MAX_EXPERIENCE, to_fixed: true, type: 'double', input_values_separator: ';', hide_min_max: true, max_postfix: '+' }
+
+      .panel.panel-default.panel-flat.m-b-1
+        .panel-body
+          label.fw-700.tt-u Project Value
+          = f.text_field :project_value, class: 'form-control js-range-slider', data: { min: 5000, max: 50_000, type: 'double', input_values_separator: ';', hide_min_max: true, prefix: '$', step: 1000, keyboard_step: 1000, force_edges: true, prettify_separator: ',' }
+
+      .panel.panel-default.panel-flat.m-b-1
+        .panel-body
+          span.checkbox.checkbox-lg.checkbox-right
+            = f.check_box :regulator
+            = f.label :regulator, 'Regulator', class: 'fw-700 tt-u d-b'
+
+      .panel.panel-default.panel-flat.m-b-1
+        .panel-body
+          = f.input :skill_selector, input_html: { class: 'fw-700', autocomplete: "off", data: { source: api_skills_path, max: 10 } }, wrapper_html: { class: 'm-b-0' }
+          ul.skills-required
+
+      .text-center
+        input.reset type="reset" value="Reset Filters"
+
+  .col-xs-12.col-sm-8.col-md-9.search-results
+    = render 'results', results: @search.results

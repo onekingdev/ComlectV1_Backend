@@ -1,0 +1,36 @@
+.panel.panel-default.project class="#{project.type}-project" data-project-id=project.id
+  .panel-body
+    .row
+      .col-xs-12.col-md-8
+        h3.m-t-0= link_to project.title, project
+        p.p-b-1= truncate(project.description, length: 250)
+      .col-xs-12.col-md-4
+        .icon-list
+          .item
+            i.icon.maxicons2-navigation
+            span= project.location_details
+          .item
+            i.icon.maxicons1-building
+            span= project.industries.map(&:name).to_sentence
+          .item
+            i.icon.maxicons1-earth
+            span= project.jurisdictions.map(&:name).to_sentence
+          .item
+            i.icon.maxicons2-clock
+            span= project.start_and_duration
+          .item
+            i.icon.maxicons1-dollar
+            span= project.dollars
+          .item
+            - if project.one_off?
+              i.icon.maxicons1-wallet
+              span= project.payment_schedule_humanized
+            - else
+              span &nbsp;
+
+    .row
+      .col-xs-12
+        span
+          i.icon.maxicons1-peoples
+          '&nbsp;
+          = pluralize project.applicants_count, 'Applicant', 'Applicants'

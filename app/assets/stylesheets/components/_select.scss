@@ -2,6 +2,12 @@
   font-weight: $raleway-light;
   text-align: left;
 
+  .caret {
+    $center: ($input-height-base / 2) - 8px;
+    margin: $center 0 $center $padding-base-horizontal;
+    float: right;
+  }
+
   &.input-lg {
     height: $input-height-large;
     line-height: $input-height-large - 2px;

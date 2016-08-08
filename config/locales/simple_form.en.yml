@@ -103,3 +103,8 @@ en:
         keyword: Keyword
         jurisdiction_ids: Jurisdiction
         industry_ids: Industry
+      project_search:
+        keyword: Keyword
+        jurisdiction_ids: Jurisdiction
+        industry_ids: Industry
+        skill_selector: Skills
