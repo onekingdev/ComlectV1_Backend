@@ -43,7 +43,7 @@ if $form.length > 0
       .find('#project_search_location_type').multiselect('deselectAll', false).multiselect('updateButtonText').end()
       .find('.skills-required').html('')
     $form.find('#project_search_location_range').data('ionRangeSlider').update(from: 0, to: 50)
-    $form.find('#project_search_experience').data('ionRangeSlider').update(from: 0, to: 15)
+    $form.find('#project_search_experience').data('ionRangeSlider').update(from: 3, to: 15)
     delayedSearch()
 
   $('.search-results').on 'click', '.projects-pagination .page', (e) ->

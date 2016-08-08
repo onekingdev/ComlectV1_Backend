@@ -4,7 +4,7 @@ class Project::Search
 
   SORT_BY = { 'Sort by Newest' => 'newest', 'Sort by Start Date' => 'start_date', 'Sort by Budget' => 'budget' }.freeze
   KEYWORD_SEARCH_COLUMNS = %w(title description key_deliverables).freeze
-  MIN_EXPERIENCE = 0
+  MIN_EXPERIENCE = 3
   MAX_EXPERIENCE = 15
   EXP_RANGES = {
     (3..7) => '3-7',
@@ -67,8 +67,8 @@ class Project::Search
 
   def filter_experience(records)
     min, _max = experience.to_s.split(';').map(&:to_i)
-    return records if experience.blank? || min == MIN_EXPERIENCE
     min = 8 if min == 7 # Because of the overlapping range
+    min = MIN_EXPERIENCE if min.blank? || min < MIN_EXPERIENCE
     min_range = EXP_RANGES.detect { |(range, _value)| range.include?(min) }[1]
     records.where(minimum_experience: min_range)
   end
