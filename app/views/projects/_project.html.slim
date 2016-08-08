@@ -28,9 +28,15 @@
             - else
               span &nbsp;
 
-    .row
+    .row.m-t-2
       .col-xs-12
-        span
+        span.btn.btn-lg.btn-text.p-x-0.tt-n
           i.icon.maxicons1-peoples
           '&nbsp;
           = pluralize project.applicants_count, 'Applicant', 'Applicants'
+
+        .pull-right
+          /TODO
+          = link_to 'Favorite', '#', class: 'btn btn-lg btn-primary m-r-1 p-x-2'
+          = link_to 'Share', '#', class: 'btn btn-lg btn-primary m-r-1 p-x-2'
+          = link_to 'View Details & Apply', '#', class: 'btn btn-lg btn-primary p-x-2'
