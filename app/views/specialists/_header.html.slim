@@ -15,7 +15,7 @@
                 i.icon.maxicons2-editting
                 span.fw-regular Edit
           h1
-            = specialist
-            - if specialist.linkedin_link.present?
+            = specialist.public? ? specialist.full_name : specialist.first_name
+            - if specialist.public? && specialist.linkedin_link.present?
               a.fa.fa-linkedin-square.linkedin href=specialist.linkedin_url target="_blank"
           = specialist.render_stars

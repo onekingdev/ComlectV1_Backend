@@ -49,12 +49,18 @@ class Specialist < ActiveRecord::Base
     where("#{distance} >= ? AND #{distance} <= ?", min_m, max_m)
   end
 
+  scope :public_profiles, -> { where(visibility: 'public') }
+
   include ImageUploader[:photo]
   include FileUploader[:resume]
 
   enum visibility:  { is_public: 'public', is_private: 'private' }
 
   def to_s
+    full_name
+  end
+
+  def full_name
     [first_name, last_name].map(&:presence).compact.join(' ')
   end
 
