@@ -47,29 +47,29 @@
                 'Filter
                 span.caret
               ul.dropdown-menu.dropdown-menu-right
-                li.active= link_to '#projects-active', data: { toggle: 'tab', "remote-load" => true, url: specialists_projects_path(filter: 'active'), 'toggle-sync' => true } do
+                li.active= link_to '#projects-active', data: { toggle: 'tab', "remote-load" => true, url: specialists_business_projects_path(filter: 'active'), 'toggle-sync' => true } do
                   i.icon.maxicons2-clock
                   span Active
-                li= link_to '#projects-pending', data: { toggle: 'tab', "remote-load" => true, url: specialists_projects_path(filter: 'pending'), 'toggle-sync' => true } do
+                li= link_to '#projects-pending', data: { toggle: 'tab', "remote-load" => true, url: specialists_business_projects_path(filter: 'pending'), 'toggle-sync' => true } do
                   i.icon.maxicons1-load-77
                   span Pending
-                li= link_to '#projects-favorite', data: { toggle: 'tab', "remote-load" => true, url: specialists_projects_path(filter: 'favorite'), 'toggle-sync' => true } do
+                li= link_to '#projects-favorite', data: { toggle: 'tab', "remote-load" => true, url: specialists_business_projects_path(filter: 'favorite'), 'toggle-sync' => true } do
                   i.icon.maxicons2-editor
                   span Favorite
-                li= link_to '#projects-complete', data: { toggle: 'tab', "remote-load" => true, url: specialists_projects_path(filter: 'complete'), 'toggle-sync' => true } do
+                li= link_to '#projects-complete', data: { toggle: 'tab', "remote-load" => true, url: specialists_business_projects_path(filter: 'complete'), 'toggle-sync' => true } do
                   i.icon.maxicons1-check
                   span Complete
             ul#js-project-filters.nav.nav-pills.visible-md.visible-lg
-              li.active= link_to '#projects-active', data: { toggle: 'tab', "remote-load" => true, url: specialists_projects_path(filter: 'active'), 'toggle-sync' => true } do
+              li.active= link_to '#projects-active', data: { toggle: 'tab', "remote-load" => true, url: specialists_business_projects_path(filter: 'active'), 'toggle-sync' => true } do
                 i.icon.maxicons2-clock
                 span Active
-              li= link_to '#projects-pending', data: { toggle: 'tab', "remote-load" => true, url: specialists_projects_path(filter: 'pending'), 'toggle-sync' => true } do
+              li= link_to '#projects-pending', data: { toggle: 'tab', "remote-load" => true, url: specialists_business_projects_path(filter: 'pending'), 'toggle-sync' => true } do
                 i.icon.maxicons1-load-77
                 span Pending
-              li= link_to '#projects-favorite', data: { toggle: 'tab', "remote-load" => true, url: specialists_projects_path(filter: 'favorite'), 'toggle-sync' => true } do
+              li= link_to '#projects-favorite', data: { toggle: 'tab', "remote-load" => true, url: specialists_business_projects_path(filter: 'favorite'), 'toggle-sync' => true } do
                 i.icon.maxicons2-editor
                 span Drafts
-              li= link_to '#projects-complete', data: { toggle: 'tab', "remote-load" => true, url: specialists_projects_path(filter: 'complete'), 'toggle-sync' => true } do
+              li= link_to '#projects-complete', data: { toggle: 'tab', "remote-load" => true, url: specialists_business_projects_path(filter: 'complete'), 'toggle-sync' => true } do
                 i.icon.maxicons1-check
                 span Complete
           .panel-body.p-b-0

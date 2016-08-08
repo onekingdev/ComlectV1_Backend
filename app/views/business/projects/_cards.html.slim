@@ -5,14 +5,14 @@
   - @projects.map(&method(:decorate)).each do |project|
     .card-container.col-xs-12.col-md-6.col-lg-4 data-project-id=project.id
       .project.card.panel.panel-default class="#{project.type}-project"
-        a.panel-heading href=project_path(project)
+        a.panel-heading href=business_project_path(project)
           - if project.applicants_count > 0
             .label.label-danger
               i.icon.maxicons1-peoples
               span= project.applicants_count
           h4= project.title
 
-        a.panel-body href=project_path(project)
+        a.panel-body href=business_project_path(project)
           .icon-list
             .item
               i.icon.maxicons2-navigation
@@ -39,10 +39,10 @@
         .panel-footer
           .btn-group
             - if project.draft_or_review?
-              a.btn.btn-md.btn-primary href=edit_project_path(project)
+              a.btn.btn-md.btn-primary href=edit_business_project_path(project)
                 i.icon.maxicons2-editor
                 span Edit
-              = link_to project_path(project), class: 'btn btn-md btn-primary'
+              = link_to business_project_path(project), class: 'btn btn-md btn-primary'
                 i.icon.maxicons2-fix.flip-x
                 span Post
             - elsif project.pending?
@@ -50,14 +50,14 @@
                 i.icon.maxicons1-peoples
                 span Applicants
             - elsif project.active?
-              a.btn.btn-md.btn-primary.btn-single href=project_path(project)
+              a.btn.btn-md.btn-primary.btn-single href=business_project_path(project)
                 i.icon.maxicons2-view
                 span View
             - else # project.complete?
-              a.btn.btn-md.btn-primary href=copy_project_path(project.id)
+              a.btn.btn-md.btn-primary href=copy_business_project_path(project.id)
                 i.icon.maxicons1-copy
                 span Copy
-              a.btn.btn-md.btn-primary href=project_path(project)
+              a.btn.btn-md.btn-primary href=business_project_path(project)
                 i.icon.maxicons2-view
                 span View
 

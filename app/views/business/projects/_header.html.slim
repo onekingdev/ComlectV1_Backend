@@ -4,11 +4,11 @@
     .col-xs-12.title
       .tools
         - if policy(project).destroy?
-          = link_to project_path(project), method: :delete, data: { confirm: project.confirm_delete, 'confirm-label' => 'Delete' }, class: 'btn btn-md btn-muted m-r-1' do
+          = link_to business_project_path(project), method: :delete, data: { confirm: project.confirm_delete, 'confirm-label' => 'Delete' }, class: 'btn btn-md btn-muted m-r-1' do
             .fa.fa-trash-o
             span Delete
         - if policy(project).edit?
-          = link_to edit_project_path(project), class: 'btn btn-md btn-primary' do
+          = link_to edit_business_project_path(project), class: 'btn btn-md btn-primary' do
             i.icon.maxicons2-editor
             span Edit
         - if project.published?

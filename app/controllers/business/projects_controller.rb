@@ -1,19 +1,19 @@
 # frozen_string_literal: true
-class ProjectsController < ApplicationController
+class Business::ProjectsController < ApplicationController
   before_action :authenticate_user!
   before_action :require_business!, only: %i(index new create edit update)
   before_action :set_project, only: %i(edit update destroy post)
   before_action :build_project, only: %i(new create)
 
   FILTERS = {
-    'active' => :active,
-    'pending' => :pending,
-    'drafts' => :draft_and_in_review,
+    'active'   => :active,
+    'pending'  => :pending,
+    'drafts'   => :draft_and_in_review,
     'complete' => :complete
   }.freeze
 
   def index
-    filter = FILTERS[params[:filter]] || :none
+    filter    = FILTERS[params[:filter]] || :none
     @projects = Project.cards_for_user(current_user, filter: filter, page: params[:page], per: params[:per])
     respond_to do |format|
       format.html do

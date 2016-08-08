@@ -1,4 +1,4 @@
-= simple_form_for project, remote: true, authenticity_token: true, wrapper: :inline_form, html: { class: "project_form", data: { "project-type" => project.type } } do |f|
+= simple_form_for [:business, project], remote: true, authenticity_token: true, wrapper: :inline_form, html: { class: "project_form", data: { "project-type" => project.type } } do |f|
   .text-center
     h1.m-t-0.m-b-3 Is this a one-off project or a full-time role?
 

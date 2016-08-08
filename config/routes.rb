@@ -26,11 +26,11 @@ Rails.application.routes.draw do
     resources :favorites, only: [] do
       post :toggle, on: :collection
     end
-  end
 
-  resources :projects do
-    post :post, on: :member
-    get :copy, on: :member
+    resources :projects do
+      post :post, on: :member
+      get :copy, on: :member
+    end
   end
 
   namespace :specialists, path: 'specialist' do
