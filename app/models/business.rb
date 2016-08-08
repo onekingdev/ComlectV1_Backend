@@ -8,6 +8,7 @@ class Business < ActiveRecord::Base
   has_many :project_invites, dependent: :destroy
   has_many :favorites, as: :owner
   has_many :favorited_by, as: :favorited, dependent: :destroy, class_name: 'Favorite'
+  has_many :favorite_specialists, through: :favorites, source: :favorited, source_type: 'Specialist'
 
   include ImageUploader[:logo]
 

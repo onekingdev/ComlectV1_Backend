@@ -15,6 +15,20 @@ class Business::Decorator < ApplicationDecorator
     @_all_favorited["#{favorited.model_name}/#{favorited.id}"]
   end
 
+  def filtered_specialists(filter)
+    return Specialist.none if filter == :none
+    public_send "#{filter}_specialists"
+  end
+
+  def hired_specialists
+    # TODO
+    Specialist.none
+  end
+
+  def favorited_specialists
+    model.favorite_specialists
+  end
+
   def state_country
     [state, country].map(&:presence).compact.join(', ')
   end

@@ -7,7 +7,7 @@ class Specialist::Decorator < ApplicationDecorator
     data = { params: { favorite: { favorited_type: model.class.name, favorited_id: model.id } } }
     h.link_to path, { method: :post,
                       remote: true,
-                      class: "favourite #{'active' if is_favorited}",
+                      class: "favorite #{'active' if is_favorited}",
                       data: data },
               &block
   end

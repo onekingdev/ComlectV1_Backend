@@ -4,20 +4,15 @@ class Business::SpecialistsController < ApplicationController
   before_action :require_business!
 
   FILTERS = {
-    'all' => :all,
     'hired' => :hired,
-    'shortlisted' => :shortlisted,
-    'favourited' => :favourited
+    'favorited' => :favorited
   }.freeze
 
   def index
-    # TODO
-    # filter = FILTERS[params[:filter]] || :none
-    # @specialists = Specialist.cards_for_user(current_user, filter: filter, page: params[:page], per: params[:per])
-    @specialists = Array.new(3)
+    @specialists = current_business.filtered_specialists(FILTERS[params[:filter]] || :none).page(params[:page])
     respond_to do |format|
       format.html do
-        render partial: 'specialists/cards', specialists: @specialists if request.xhr?
+        render partial: 'specialists/cards', locals: { specialists: @specialists } if request.xhr?
       end
       format.js
     end

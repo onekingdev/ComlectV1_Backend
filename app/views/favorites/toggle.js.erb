@@ -1,7 +1,7 @@
 <% if @favorite.persisted? %>
 $('[data-<%= @favorite.favorited.class.name %>-id=<%= @favorite.favorited_id %>]')
-  .find('.card, .favourite').addClass('active').end();
+  .find('.card, .favorite').addClass('active').end();
 <% else %>
 $('[data-<%= @favorite.favorited.class.name %>-id=<%= @favorite.favorited_id %>]')
-  .find('.card, .favourite').removeClass('active').end();
+  .find('.card, .favorite').removeClass('active').end();
 <% end %>
