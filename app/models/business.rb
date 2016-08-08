@@ -29,6 +29,10 @@ class Business < ActiveRecord::Base
     end
   end
 
+  def to_s
+    business_name
+  end
+
   def public?
     !anonymous?
   end

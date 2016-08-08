@@ -5,11 +5,11 @@ class ProjectInvite::Form < Draper::Decorator
 
   validates :message, presence: true
 
-  def self.for(specialist, project = nil)
+  def self.for(specialist, project)
     message = I18n.t('project_invites.message_template',
                      specialist: specialist.first_name,
-                     project_or_job: 'project',
-                     company_name: 'Yo').strip
+                     project_or_job: project.full_time? ? 'job' : 'project',
+                     company_name: project.business.to_s).strip
     invite = ProjectInvite.new specialist: specialist, project: project, message: message
     decorate invite
   end
