@@ -23,6 +23,9 @@ Rails.application.routes.draw do
       end
     end
     resources :specialists, only: :index
+    resources :favorites, only: [] do
+      post :toggle, on: :collection
+    end
   end
 
   resources :projects do

@@ -201,6 +201,40 @@ ALTER SEQUENCE education_histories_id_seq OWNED BY education_histories.id;
 
 
 --
+-- Name: favorites; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE favorites (
+    id integer NOT NULL,
+    owner_id integer,
+    owner_type character varying,
+    favorited_id integer,
+    favorited_type character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: favorites_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE favorites_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: favorites_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE favorites_id_seq OWNED BY favorites.id;
+
+
+--
 -- Name: industries; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -671,6 +705,13 @@ ALTER TABLE ONLY education_histories ALTER COLUMN id SET DEFAULT nextval('educat
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY favorites ALTER COLUMN id SET DEFAULT nextval('favorites_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY industries ALTER COLUMN id SET DEFAULT nextval('industries_id_seq'::regclass);
 
 
@@ -762,6 +803,14 @@ ALTER TABLE ONLY education_histories
 
 
 --
+-- Name: favorites_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY favorites
+    ADD CONSTRAINT favorites_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: industries_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -842,6 +891,13 @@ ALTER TABLE ONLY work_experiences
 
 
 --
+-- Name: favorites_unique; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX favorites_unique ON favorites USING btree (owner_id, owner_type, favorited_id, favorited_type);
+
+
+--
 -- Name: index_admin_users_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -881,6 +937,20 @@ CREATE INDEX index_businesses_on_user_id ON businesses USING btree (user_id);
 --
 
 CREATE INDEX index_education_histories_on_specialist_id ON education_histories USING btree (specialist_id);
+
+
+--
+-- Name: index_favorites_on_favorited_type_and_favorited_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_favorites_on_favorited_type_and_favorited_id ON favorites USING btree (favorited_type, favorited_id);
+
+
+--
+-- Name: index_favorites_on_owner_type_and_owner_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_favorites_on_owner_type_and_owner_id ON favorites USING btree (owner_type, owner_id);
 
 
 --
@@ -1158,4 +1228,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160802210000');
 INSERT INTO schema_migrations (version) VALUES ('20160802213145');
 
 INSERT INTO schema_migrations (version) VALUES ('20160806190620');
+
+INSERT INTO schema_migrations (version) VALUES ('20160807224348');
 

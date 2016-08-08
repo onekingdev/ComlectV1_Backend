@@ -3,6 +3,18 @@ class Business::Decorator < ApplicationDecorator
   decorates Business
   delegate_all
 
+  def favorited?(favorited)
+    @_all_favorited ||= favorites.pluck(:id, :favorited_type, :favorited_id).each_with_object({}) do |attrs, hash|
+      hash["#{attrs[1]}/#{attrs[2]}"] = attrs[0]
+    end
+    @_all_favorited.key?("#{favorited.model_name}/#{favorited.id}")
+  end
+
+  def favorited_id(favorited)
+    return nil unless favorited?(favorited)
+    @_all_favorited["#{favorited.model_name}/#{favorited.id}"]
+  end
+
   def state_country
     [state, country].map(&:presence).compact.join(', ')
   end

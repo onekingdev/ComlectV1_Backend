@@ -59,7 +59,7 @@ body.specialists.show {
         color: $brand-primary;
       }
 
-      &:hover {
+      &:hover, &:focus {
         text-decoration: none;
       }
     }

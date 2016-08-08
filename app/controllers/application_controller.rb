@@ -9,7 +9,14 @@ class ApplicationController < ActionController::Base
   private
 
   def current_business
-    current_user.business
+    return @_current_business if @_current_business
+    return nil unless current_user || current_user.business.nil?
+    @_current_business = Business::Decorator.decorate(current_user.business)
+  end
+  helper_method :current_business
+
+  def redirect_to_param_or(default)
+    redirect_to params[:redirect_to].present? ? params[:redirect_to] : default
   end
 
   def js_alert(message)
@@ -20,10 +27,6 @@ class ApplicationController < ActionController::Base
     render partial: 'application/js_notice', locals: locals.merge(message: message)
   end
   helper_method :js_notice
-
-  def redirect_to_param_or(default)
-    redirect_to params[:redirect_to].present? ? params[:redirect_to] : default
-  end
 
   def js_redirect(path)
     render js: "window.location.href = '#{path}';"

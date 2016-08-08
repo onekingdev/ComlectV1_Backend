@@ -4,10 +4,9 @@
 .row
   - specialists.map(&method(:decorate)).each do |specialist|
     .card-container.col-xs-12.col-md-6.col-lg-4 data-specialist-id=specialist.id
-      - favourited = rand(2) == 1
-      .specialist.card.panel.panel-default class=("active" if favourited)
+      .specialist.card.panel.panel-default class=("active" if current_business.favorited?(specialist))
         .panel-heading
-          = link_to '#', class: "favourite #{'active' if favourited}" do
+          = specialist.link_to_favorite toggle_business_favorites_path, current_business.favorited?(specialist) do
             i.icon.maxicons3-heart
           .avatar= image_tag specialist.photo_url(:thumb), class: 'img-responsive'
           h4.name= specialist.first_name

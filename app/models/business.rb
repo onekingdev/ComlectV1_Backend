@@ -6,6 +6,8 @@ class Business < ActiveRecord::Base
   has_many :projects, dependent: :destroy
   has_one :payment_profile, dependent: :destroy
   has_many :project_invites, dependent: :destroy
+  has_many :favorites, as: :owner
+  has_many :favorited_by, as: :favorited, dependent: :destroy, class_name: 'Favorite'
 
   include ImageUploader[:logo]
 

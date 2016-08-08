@@ -3,6 +3,15 @@ class Specialist::Decorator < ApplicationDecorator
   decorates Specialist
   delegate_all
 
+  def link_to_favorite(path, is_favorited, &block)
+    data = { params: { favorite: { favorited_type: model.class.name, favorited_id: model.id } } }
+    h.link_to path, { method: :post,
+                      remote: true,
+                      class: "favourite #{'active' if is_favorited}",
+                      data: data },
+              &block
+  end
+
   def city_state_country
     [city, state, country].map(&:presence).compact.join(', ')
   end
