@@ -46,6 +46,8 @@ Rails.application.routes.draw do
 
   resources :project_invites, path: 'invite'
 
+  resources :projects, only: :index
+
   namespace :api do
     resources :skills, only: :index
   end
