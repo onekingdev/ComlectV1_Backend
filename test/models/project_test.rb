@@ -8,8 +8,8 @@ class ProjectTest < ActiveSupport::TestCase
   end
 
   test 'sets one_off hourly budget' do
-    project = create :project_one_off_hourly, hourly_rate: 500
-    assert_equal 500, project.reload.calculated_budget
+    project = create :project_one_off_hourly, hourly_rate: 500, estimated_hours: 8
+    assert_equal 4000, project.reload.calculated_budget
   end
 
   test 'sets one_off fixed budget' do

@@ -47,12 +47,12 @@ CREATE FUNCTION projects_calculate_budget() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
       BEGIN
-        IF NEW.type = 'job' THEN
+        IF NEW.type = 'full_time' THEN
           NEW.calculated_budget := NEW.annual_salary;
         ELSE
-          IF NEW.pricing_type = 'hourly' THEN
-            NEW.calculated_budget := NEW.hourly_rate;
-          ELSE
+          IF NEW.pricing_type = 'hourly' AND NEW.hourly_rate IS NOT NULL AND NEW.estimated_hours IS NOT NULL THEN
+            NEW.calculated_budget := NEW.hourly_rate * NEW.estimated_hours;
+          ELSIF NEW.pricing_type = 'fixed' THEN
             NEW.calculated_budget := NEW.fixed_budget;
           END IF;
         END IF;
@@ -490,10 +490,10 @@ CREATE TABLE projects (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     tsv tsvector,
-    calculated_budget numeric,
     lat numeric(9,5),
     lng numeric(9,5),
-    point geography
+    point geography,
+    calculated_budget numeric
 );
 
 
@@ -1055,6 +1055,13 @@ CREATE INDEX index_project_invites_on_status ON project_invites USING btree (sta
 --
 
 CREATE INDEX index_projects_on_business_id ON projects USING btree (business_id);
+
+
+--
+-- Name: index_projects_on_calculated_budget; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_projects_on_calculated_budget ON projects USING btree (calculated_budget);
 
 
 --
