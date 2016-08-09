@@ -6,7 +6,7 @@ class ProjectInvite < ActiveRecord::Base
   enum status: { not_sent: 'not_sent', sent: 'sent' }
 
   def send_message!
-    # TODO: Send message
+    # TODO: Send message (Add "\n\nProject Link: <a href="">...</a>" to the bottom)
     update_attribute :status, self.class.statuses[:sent]
   end
 end

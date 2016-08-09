@@ -57,7 +57,7 @@ en:
     message_template: |
       Hi %{specialist},
 
-      We really like your profile and think you would be a great fit for our %project_link% %{project_or_job} on Complect. Click the link to see more details and apply!
+      We really like your profile and think you would be a great fit for our %{project_or_job} on Complect. Click the link to see more details and apply!
 
       Best,
       %{company_name}
