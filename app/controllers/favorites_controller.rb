@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 class FavoritesController < ApplicationController
   def toggle
+    @remove = params[:remove]
   end
 
   private

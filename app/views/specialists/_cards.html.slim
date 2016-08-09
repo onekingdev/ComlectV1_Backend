@@ -1,3 +1,5 @@
+- remove_on_unfavorite = local_assigns[:remove_on_unfavorite].nil? ? false : local_assigns[:remove_on_unfavorite]
+
 - if specialists.total_count == 0
   h2.text-center.m-b-2 No specialists found
 
@@ -6,7 +8,7 @@
     .card-container.col-xs-12.col-md-6.col-lg-4 data-specialist-id=specialist.id
       .specialist.card.panel.panel-default class=("active" if current_business.favorited?(specialist))
         .panel-heading
-          = specialist.link_to_favorite toggle_business_favorites_path, current_business.favorited?(specialist) do
+          = specialist.link_to_favorite toggle_business_favorites_path(remove: remove_on_unfavorite), current_business.favorited?(specialist) do
             i.icon.maxicons3-heart
           .avatar= image_tag specialist.photo_url(:thumb), class: 'img-responsive'
           h4.name= specialist.first_name

@@ -12,7 +12,11 @@ class Business::SpecialistsController < ApplicationController
     @specialists = current_business.filtered_specialists(FILTERS[params[:filter]] || :none).page(params[:page])
     respond_to do |format|
       format.html do
-        render partial: 'specialists/cards', locals: { specialists: @specialists } if request.xhr?
+        render partial: 'specialists/cards',
+               locals: {
+                 specialists: @specialists,
+                 remove_on_unfavorite: true
+               } if request.xhr?
       end
       format.js
     end
