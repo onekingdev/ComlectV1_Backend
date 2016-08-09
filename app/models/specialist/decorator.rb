@@ -13,6 +13,7 @@ class Specialist::Decorator < ApplicationDecorator
   end
 
   def city_state_country
+    country = self.country == 'United States' ? 'USA' : self.country
     [city, state, country].map(&:presence).compact.join(', ')
   end
 
