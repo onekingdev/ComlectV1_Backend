@@ -44,14 +44,14 @@
             = f.label :regulator, 'Regulator', class: 'fw-700 tt-u d-b'
 
       .panel.panel-default.panel-flat.m-b-1
-        .panel-body
+        .panel-body.range-slider-fixed-from
           label.fw-700.tt-u Location
           = f.text_field :location, class: 'form-control js-place-autocomplete fw-700', data: { self: 'full', lat: '#specialist_search_lat', lng: '#specialist_search_lng' }
           = f.hidden_field :lat
           = f.hidden_field :lng
 
           label.fw-700.tt-u.m-t-2 Within (Miles)
-          = f.text_field :location_range, class: 'form-control js-range-slider', data: { min: 0, max: 50, type: 'double', input_values_separator: ';', hide_min_max: true, max_postfix: '+' }
+          = f.text_field :location_range, class: 'form-control js-range-slider', data: { min: 0, max: 50, from_fixed: true, type: 'double', input_values_separator: ';', hide_min_max: true, max_postfix: '+' }
 
       .text-center
         input.reset type="reset" value="Reset Filters"

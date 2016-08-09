@@ -128,3 +128,9 @@ $range-slider-inner-height: 7px;
   top: 30px;
   height: 7px;
 }
+
+// "Hide" the from-handler
+.range-slider-fixed-from .irs-slider.from {
+  top: 30px;
+  height: 7px;
+}
