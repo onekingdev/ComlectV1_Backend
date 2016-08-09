@@ -41,11 +41,13 @@ class ApplicationController < ActionController::Base
 
   def require_business!
     return if signed_in? && current_business
+    return authenticate_user! unless signed_in?
     render 'forbidden', status: :forbidden, locals: { message: 'Only business accounts can access this page' }
   end
 
   def require_specialist!
     return if signed_in? && current_specialist
+    return authenticate_user! unless signed_in?
     render 'forbidden', status: :forbidden, locals: { message: 'Only specialist accounts can access this page' }
   end
 

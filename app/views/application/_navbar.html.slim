@@ -17,7 +17,7 @@ nav#nav.navbar.navbar-default.navbar-inverse
         li= link_to 'My Dashboard', specialists_dashboard_path
 
     ul.nav.navbar-nav.navbar-right
-      - if signed_in?
+      - if signed_in? && current_business
         li
           button.btn.btn-primary.navbar-btn data-href=new_business_project_path Post a Project
       li.dropdown
