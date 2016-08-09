@@ -16,7 +16,7 @@
             i.icon.maxicons2-cisco
             span Share
         - else
-          = form_for project, html: { class: 'm-l-1 d-ib' } do |f|
+          = form_for project, url: business_project_path(project), html: { class: 'm-l-1 d-ib' } do |f|
             = f.hidden_field :status, value: Project.statuses[:published]
             = f.button class: 'btn btn-md btn-primary fw-regular' do
               i.icon.maxicons2-fix.flip-x
