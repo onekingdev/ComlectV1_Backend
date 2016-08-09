@@ -8,9 +8,9 @@
   .col-xs-12.col-md-4
     .row.row-compact
       .col-xs-12.col-md-6
-        = f.input :from, as: :string, input_html: { value: f.object.from.try(:strftime, '%m/%Y'), class: 'input-lg js-datepicker', data: { format: 'mm/yyyy', months: true, years: 20, max: true } }
+        = f.input :from, as: :string, input_html: { value: f.object.from.try(:strftime, '%m/%Y'), class: 'input-lg js-datepicker', data: { value: f.object.from.to_s, format: 'mm/yyyy', months: true, years: 20, max: true } }
       .col-xs-12.col-md-6
-        = f.input :to, as: :string, input_html: { value: f.object.from.try(:strftime, '%m/%Y'), class: 'input-lg js-datepicker', data: { format: 'mm/yyyy', months: true, years: 20, max: true } }
+        = f.input :to, as: :string, input_html: { value: f.object.to.try(:strftime, '%m/%Y'), class: 'input-lg js-datepicker', data: { value: f.object.to.to_s, format: 'mm/yyyy', months: true, years: 20, max: true } }
       .col-xs-12
         .form-group.specialist_current
           span.checkbox.checkbox-lg

@@ -1191,6 +1191,13 @@ CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (re
 
 
 --
+-- Name: index_work_experiences_on_compliance; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_work_experiences_on_compliance ON work_experiences USING btree (compliance);
+
+
+--
 -- Name: index_work_experiences_on_current; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1328,4 +1335,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160808161529');
 INSERT INTO schema_migrations (version) VALUES ('20160808163055');
 
 INSERT INTO schema_migrations (version) VALUES ('20160808172557');
+
+INSERT INTO schema_migrations (version) VALUES ('20160809161615');
 
