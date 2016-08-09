@@ -17,6 +17,7 @@ $font-size-large: ceil(($font-size-base * 1.25));
 $font-size-h1: 52px;
 
 $line-height-large: 1.3333333;
+$line-height-md: 1.4;
 
 $headings-font-family: Baskerville, serif;
 
@@ -54,10 +55,13 @@ $btn-font-weight: 500;
 $btn-default-border: transparent;
 $btn-primary-color: #171308;
 $btn-primary-border: transparent;
+$btn-border-radius-md: 5px;
 
 //== Components
 
 $padding-large-vertical: 18px;
+$padding-md-vertical: 10.5px;
+$padding-md-horizontal: 14px;
 
 //== Forms
 

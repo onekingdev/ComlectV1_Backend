@@ -8,4 +8,10 @@ class WorkExperience::Decorator < ApplicationDecorator
     to = current? ? 'Current' : model.to.strftime('%m/%Y')
     "#{from.strftime('%m/%Y')} to #{to}"
   end
+
+  def years
+    return 0 if from.nil? || (to.nil? && !current?)
+    days = current? ? (Time.zone.now.to_date - from).to_i : (to - from).to_i
+    days / 365 # TODO: Round?
+  end
 end

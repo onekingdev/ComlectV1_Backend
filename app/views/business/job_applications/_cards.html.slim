@@ -1,0 +1,63 @@
+- @specialists.map(&method(:decorate)).each do |specialist|
+  .job-application data-application-id="#TODO"
+    .col-xs-12.col-md-4.profile
+      - if specialist.photo
+        .profile-image
+          = image_tag specialist.photo_url(:thumb), size: '80x80', class: 'img-circle'
+      .name= specialist.full_name
+      .rating= specialist.render_stars
+      / TODO
+      p.intro Introductory message
+      .footer
+        .date Applied: #{rand(60).days.ago.strftime("#{rand(28).ordinalize} %b %Y")}
+        .tools
+          a.btn.btn-xs.tool href="#"
+            i.icon.maxicons2-like
+          a.btn.btn-xs.tool href="#"
+            i.icon.maxicons2-dislike
+    .col-xs-12.col-md-8.details.td
+      .row
+        .col-xs-4
+          .icon-list
+            .item
+              i.icon.icon-fw.maxicons2-navigation.text-muted
+              span= specialist.city_state_country
+            .item
+              i.icon.icon-fw.maxicons1-building.text-muted
+              span= specialist.industries.map(&:name).join(', ')
+            .item
+              i.icon.maxicons1-earth.text-muted
+              span= specialist.jurisdictions.map(&:name).join(', ')
+            .item
+              i.icon.maxicons1-bag.text-muted
+              span= pluralize specialist.years_of_experience, 'Yr. Compliance Experience', 'Yrs. Compliance Experience'
+            - if specialist.former_regulator?
+              .item
+                i.icon.maxicons2-place.text-muted
+                span Former Regulator
+            - if specialist.skills.any?
+              .item
+                i.icon.maxicons2-winer.text-muted
+                span= specialist.skills.map(&:name).join(', ')
+
+        .col-xs-4
+          label.strong Work Experience
+          ul.list-unstyled.m-b-1
+            - specialist.work_experiences.map(&method(:decorate)).each do |exp|
+              li #{pluralize exp.years, 'Year', 'Years'} at #{exp.company}
+        .col-xs-4
+          label.strong Education
+          ul.list-unstyled.m-b-1
+            - specialist.education_histories.each do |edu|
+              li #{edu.institution}, #{edu.degree} (#{edu.year})
+
+      .actions.btn-group
+        a.btn.btn-md.btn-primary.col-xs-4 href="#"
+          i.icon.maxicons2-view
+          span View
+        a.btn.btn-md.btn-primary.col-xs-4 href="#"
+          i.icon.maxicons2-comment
+          span Message
+        a.btn.btn-md.btn-primary.col-xs-4 href="#"
+          i.icon.maxicons1-check
+          span Hire

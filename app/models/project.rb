@@ -68,6 +68,10 @@ class Project < ActiveRecord::Base
         .page(page).per(per || 6)
   end
 
+  def to_s
+    title
+  end
+
   def skill_names
     @skill_names.nil? ? skills.map(&:name) : @skill_names
   end
@@ -94,7 +98,7 @@ class Project < ActiveRecord::Base
     rand(2) == 1 # TODO
   end
 
-  def applicants_count
+  def applications_counts
     0 # TODO
   end
 

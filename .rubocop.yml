@@ -51,7 +51,7 @@ Style/WhileUntilModifier:
 ##################### Metrics ##################################
 
 Metrics/AbcSize:
-  Max: 18
+  Max: 19
 
 Metrics/BlockNesting:
   Max: 3

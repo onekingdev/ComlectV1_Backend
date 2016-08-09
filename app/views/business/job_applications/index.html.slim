@@ -1,0 +1,76 @@
+- decorate(@project).tap do |project|
+  h1.m-b-3= project
+
+  .row
+    .col-xs-12.col-sm-4.col-md-3
+      .panel.panel-default.profile-info
+        .panel-heading
+          h3 Key Details
+        .panel-body
+          .icon-list
+            .item
+              i.icon.maxicons2-navigation.text-muted
+              span= project.location_details
+            .item
+              i.icon.maxicons1-building.text-muted
+              span= project.industries.map(&:name).join(', ')
+            .item
+              i.icon.maxicons1-earth.text-muted
+              span= project.jurisdictions.map(&:name).join(', ')
+            .item
+              i.icon.maxicons1-peoples.text-muted
+              span= project.start_and_duration
+            .item
+              i.icon.maxicons1-dollar.text-muted
+              span= project.dollars
+            .item
+              i.icon.maxicons1-wallet.text-muted
+              span= project.payment_schedule_humanized
+            - if project.only_regulators?
+              .item
+                i.icon.maxicons2-place.text-muted
+                span Former Regulator
+            - if project.skills.any?
+              .item
+                i.icon.maxicons2-winer.text-muted
+                span= project.skills.map(&:name).join(', ')
+
+          label.strong.m-t-3 Project Description
+          p= project.description.presence || 'N/A'
+
+          label.strong.m-t-2 Key Deliverables
+          p= project.key_deliverables.presence || 'N/A'
+
+    .col-xs-12.col-sm-8.col-md-9
+      .panel.panel-default
+        .panel-heading
+          h3 Applicants
+          .dropdown.visible-sm.visible-xs
+            button.btn.btn-default.dropdown-toggle type="button" data-toggle="dropdown"
+              'Filter
+              span.caret
+            ul.dropdown-menu.dropdown-menu-right
+              li.active= link_to '#applications-applied', data: { toggle: 'tab', "remote-load" => true, url: business_project_job_applications_path(project, filter: 'applied'), 'toggle-sync' => true } do
+                i.icon.maxicons2-clock
+                span Applied
+              li= link_to '#applications-shortlisted', data: { toggle: 'tab', "remote-load" => true, url: business_project_job_applications_path(project, filter: 'shortlisted'), 'toggle-sync' => true } do
+                i.icon.maxicons1-load-77
+                span Shortlisted
+              li= link_to '#applications-hidden', data: { toggle: 'tab', "remote-load" => true, url: business_project_job_applications_path(project, filter: 'hidden'), 'toggle-sync' => true } do
+                i.icon.maxicons2-editor
+                span Hidden
+          ul#js-application-filters.nav.nav-pills.visible-md.visible-lg
+            li.active= link_to '#applications-applied', data: { toggle: 'tab', "remote-load" => true, url: business_project_job_applications_path(project, filter: 'active'), 'toggle-sync' => true } do
+              i.icon.maxicons2-clock
+              span Applied
+            li= link_to '#applications-shortlisted', data: { toggle: 'tab', "remote-load" => true, url: business_project_job_applications_path(project, filter: 'shortlisted'), 'toggle-sync' => true } do
+              i.icon.maxicons1-load-77
+              span Shortlisted
+            li= link_to '#applications-hidden', data: { toggle: 'tab', "remote-load" => true, url: business_project_job_applications_path(project, filter: 'hidden'), 'toggle-sync' => true } do
+              i.icon.maxicons2-editor
+              span Hidden
+        .panel-body
+          .tab-content
+            #applications-applied.job-applications.tab-pane.clearfix.active
+            #applications-shortlisted.job-applications.tab-pane.clearfix
+            #applications-hidden.job-applications.tab-pane.clearfix

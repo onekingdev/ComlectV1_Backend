@@ -6,10 +6,10 @@
     .card-container.col-xs-12.col-md-6.col-lg-4 data-project-id=project.id
       .project.card.panel.panel-default class="#{project.type}-project"
         a.panel-heading href=business_project_path(project)
-          - if project.applicants_count > 0
+          - if project.applications_count > 0
             .label.label-danger
               i.icon.maxicons1-peoples
-              span= project.applicants_count
+              span= project.applications_count
           h4= project.title
 
         a.panel-body href=business_project_path(project)
@@ -46,7 +46,7 @@
                 i.icon.maxicons2-fix.flip-x
                 span Post
             - elsif project.pending?
-              a.btn.btn-md.btn-primary.btn-single href="#"
+              a.btn.btn-md.btn-primary.btn-single href=business_project_job_applications_path(project)
                 i.icon.maxicons1-peoples
                 span Applicants
             - elsif project.active?

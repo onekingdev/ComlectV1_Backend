@@ -30,6 +30,8 @@ Rails.application.routes.draw do
     resources :projects do
       post :post, on: :member
       get :copy, on: :member
+
+      resources :job_applications, path: 'applications'
     end
   end
 
