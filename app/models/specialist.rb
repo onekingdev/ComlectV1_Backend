@@ -20,11 +20,12 @@ class Specialist < ActiveRecord::Base
   }
 
   scope :experience_between, -> (min, max) {
+    base_scope = join_experience.where(work_experiences: { compliance: true })
     if max
-      join_experience
+      base_scope
         .having('SUM((COALESCE("to", NOW())::date - "from"::date) / 365) BETWEEN ? AND ?', min, max)
     else
-      join_experience
+      base_scope
         .having('SUM((COALESCE("to", NOW())::date - "from"::date) / 365) > ?', min)
     end
   }

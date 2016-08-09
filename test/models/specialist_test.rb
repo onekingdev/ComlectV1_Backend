@@ -39,4 +39,19 @@ class SpecialistTest < ActiveSupport::TestCase
     assert_nil Specialist.distance_between(point_2[0], point_2[1], 100, 200).first
     assert_equal specialist_1.id, Specialist.distance_between(point_2[0], point_2[1], 200, 300).first.id
   end
+
+  test 'search between min-max experience' do
+    specialist_1 = create(:specialist)
+    specialist_1.work_experiences.create! from: Date.new(2005, 1, 1), to: Date.new(2010, 1, 1), compliance: true
+    specialist_1.work_experiences.create! from: Date.new(2010, 1, 1), to: Date.new(2013, 1, 1)
+    specialist_2 = create(:specialist)
+    specialist_2.work_experiences.create! from: Date.new(2001, 1, 1), to: Date.new(2003, 1, 1), compliance: true
+
+    results = Specialist.experience_between(3, 5).to_a
+    assert_equal 1, results.size
+    assert_equal specialist_1.id, results.first.id
+
+    results = Specialist.experience_between(2, 5).to_a
+    assert_equal 2, results.size
+  end
 end
