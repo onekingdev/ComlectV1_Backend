@@ -19,7 +19,7 @@ footer#footer
         .fa.fa-google-plus
     .contact-item
       i.icon.maxicons3-call
-      = link_to ENV.fetch('CONTACT_PHONE'), "tel:#{ENV['CONTACT_PHONE']}"
+      = link_to ENV.fetch('CONTACT_PHONE'), "tel:+1#{ENV['CONTACT_PHONE'].to_s.gsub(/[^\d]/, '')}"
     .contact-item
       i.icon.maxicons1-mail
       = link_to ENV.fetch('CONTACT_EMAIL'), "mailto:#{ENV['CONTACT_EMAIL']}"
