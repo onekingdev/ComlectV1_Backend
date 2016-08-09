@@ -3,6 +3,11 @@
 
   .row
     .col-xs-12.col-sm-4.col-md-3
+      .form-group.m-b-1
+        select#js-sort-job-applications.js-select.form-control.input-lg.input-gray.strong
+          option value="rating" selected=(params[:sort_by].blank? || params[:sort_by] == 'rating') Sort by Rating
+          option value="experience" selected=(params[:sort_by] == 'experience') Sort by Experience
+          option value="newest" selected=(params[:sort_by] == 'newest') Sort by Newest
       .panel.panel-default.profile-info
         .panel-heading
           h3 Key Details
@@ -50,23 +55,23 @@
               'Filter
               span.caret
             ul.dropdown-menu.dropdown-menu-right
-              li.active= link_to '#applications-applied', data: { toggle: 'tab', "remote-load" => true, url: business_project_job_applications_path(project, filter: 'applied'), 'toggle-sync' => true } do
+              li.active= link_to '#applications-applied', data: { toggle: 'tab', "remote-load" => true, url: business_project_job_applications_path(project, sort_by: params[:sort_by], filter: 'applied'), 'toggle-sync' => true } do
                 i.icon.maxicons2-clock
                 span Applied
-              li= link_to '#applications-shortlisted', data: { toggle: 'tab', "remote-load" => true, url: business_project_job_applications_path(project, filter: 'shortlisted'), 'toggle-sync' => true } do
+              li= link_to '#applications-shortlisted', data: { toggle: 'tab', "remote-load" => true, url: business_project_job_applications_path(project, sort_by: params[:sort_by], filter: 'shortlisted'), 'toggle-sync' => true } do
                 i.icon.maxicons1-load-77
                 span Shortlisted
-              li= link_to '#applications-hidden', data: { toggle: 'tab', "remote-load" => true, url: business_project_job_applications_path(project, filter: 'hidden'), 'toggle-sync' => true } do
+              li= link_to '#applications-hidden', data: { toggle: 'tab', "remote-load" => true, url: business_project_job_applications_path(project, sort_by: params[:sort_by], filter: 'hidden'), 'toggle-sync' => true } do
                 i.icon.maxicons2-editor
                 span Hidden
           ul#js-application-filters.nav.nav-pills.visible-md.visible-lg
-            li.active= link_to '#applications-applied', data: { toggle: 'tab', "remote-load" => true, url: business_project_job_applications_path(project, filter: 'active'), 'toggle-sync' => true } do
+            li.active= link_to '#applications-applied', data: { toggle: 'tab', "remote-load" => true, url: business_project_job_applications_path(project, sort_by: params[:sort_by], filter: 'active'), 'toggle-sync' => true } do
               i.icon.maxicons2-clock
               span Applied
-            li= link_to '#applications-shortlisted', data: { toggle: 'tab', "remote-load" => true, url: business_project_job_applications_path(project, filter: 'shortlisted'), 'toggle-sync' => true } do
+            li= link_to '#applications-shortlisted', data: { toggle: 'tab', "remote-load" => true, url: business_project_job_applications_path(project, sort_by: params[:sort_by], filter: 'shortlisted'), 'toggle-sync' => true } do
               i.icon.maxicons1-load-77
               span Shortlisted
-            li= link_to '#applications-hidden', data: { toggle: 'tab', "remote-load" => true, url: business_project_job_applications_path(project, filter: 'hidden'), 'toggle-sync' => true } do
+            li= link_to '#applications-hidden', data: { toggle: 'tab', "remote-load" => true, url: business_project_job_applications_path(project, sort_by: params[:sort_by], filter: 'hidden'), 'toggle-sync' => true } do
               i.icon.maxicons2-editor
               span Hidden
         .panel-body
