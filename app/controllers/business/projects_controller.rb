@@ -32,7 +32,7 @@ class Business::ProjectsController < ApplicationController
   def create
     respond_to do |format|
       if @project.save
-        redirect_path = @project.review? ? url_for(@project) : business_dashboard_path
+        redirect_path = @project.review? ? business_project_path(@project) : business_dashboard_path
         format.html { redirect_to redirect_path }
         format.js { js_redirect url_for(redirect_path) }
       else
@@ -45,7 +45,7 @@ class Business::ProjectsController < ApplicationController
   def update
     respond_to do |format|
       if @project.update_attributes(project_params)
-        redirect_path = @project.review? ? url_for(@project) : business_dashboard_path
+        redirect_path = @project.review? ? business_project_path(@project) : business_dashboard_path
         format.html { redirect_to redirect_path }
         format.js { js_redirect url_for(redirect_path) }
       else
