@@ -29,7 +29,11 @@ class Specialist::Decorator < ApplicationDecorator
   end
 
   def sorted_work_experiences
-    decorated_work_experiences.sort_by(&:to).reverse
+    far_away = 10.years.ago.to_date
+    today = Time.zone.today.to_date
+    decorated_work_experiences.sort_by do |exp|
+      exp.current? ? today : exp.to || far_away
+    end.reverse
   end
 
   def decorated_work_experiences
