@@ -15,7 +15,6 @@
     font-size: 18px;
     line-height: 17px;
     height: 37px;
-    overflow: hidden;
     color: #fff;
     position: relative;
     border: 0;
@@ -154,6 +153,8 @@
   float: right;
   margin-top: -(nth($panel-heading-padding, 1));
   margin-right: -(nth($panel-heading-padding, 2));
+  overflow: hidden;
+  height: calc(100% + #{nth($panel-heading-padding, 1) * 2});
 
   li + li {
     margin-left: 0;
