@@ -34,7 +34,7 @@
 
       .panel.panel-default.panel-flat.m-b-1
         .panel-body
-          label.fw-700.tt-u Yrs. Compliance Experience
+          label.fw-700.tt-u Yrs. Compliance Exp.
           = f.text_field :experience, class: 'form-control js-range-slider', data: { min: 3, max: 15, type: 'double', input_values_separator: ';', hide_min_max: true, max_postfix: '+' }
 
       .panel.panel-default.panel-flat.m-b-1
@@ -51,7 +51,7 @@
           = f.hidden_field :lng
 
           label.fw-700.tt-u.m-t-2 Within (Miles)
-          = f.text_field :location_range, class: 'form-control js-range-slider', data: { min: 0, max: 50, from_fixed: true, type: 'double', input_values_separator: ';', hide_min_max: true, max_postfix: '+' }
+          = f.text_field :location_range, class: 'form-control js-range-slider', data: { min: 0, max: 100, from_fixed: true, type: 'double', input_values_separator: ';', hide_min_max: true }
 
       .text-center
         input.reset type="reset" value="Reset Filters"
