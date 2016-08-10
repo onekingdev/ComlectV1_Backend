@@ -8,8 +8,8 @@
             h3 Profile
           .panel-body
             - if business.logo
-              .logo= image_tag business.logo_url(:thumb), class: 'img-responsive'
-            h3.text-center= business.business_name
+              .logo= link_to image_tag(business.logo_url(:thumb), class: 'img-responsive'), business
+            h3.text-center= link_to business.business_name, business
             .text-center= business.render_stars
 
             br
