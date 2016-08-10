@@ -37,6 +37,9 @@ gem 'cocoon'
 # Assets
 gem 'jquery-rails'
 
+# Mail
+gem 'postmark-rails'
+
 # Image uploads
 gem 'fastimage', '~> 2.0.0'
 gem 'image_processing', '~> 0.3.0'
