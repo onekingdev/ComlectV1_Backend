@@ -1,15 +1,9 @@
 - Project::Decorator.decorate(@project).tap do |project|
-  - content_for :header do
-    .container.profile-header
-      .row.header-content
-        .pseudo-table
-          .tr
-            .td.title.col-xs-12.no-logo
-              .tools
-                / TODO: status
-                label Status: <span class="text-primary">Active</span>
-              h1
-                = project
+  h1.m-b-3
+    = project
+    .pull-right
+      / TODO: status
+      small Status: <span class="text-primary">Active</span>
 
   .business-profile
     .row
@@ -27,10 +21,10 @@
               = image_tag Specialist.first.photo_url(:thumb), size: '60x60', class: 'img-circle'
               .name= Specialist.first.full_name
 
-            h4.m-t-2 Key Deliverables
+            label.strong.m-t-2 Key Deliverables
             = project.key_deliverables_list
 
-            h4.m-t-2 End Date
+            label.strong.m-t-2.d-b End Date
             .percentage-circle.tiny.primary.pull-right data-percent=68
             div style="line-height: 40px;" = project.ends_on.strftime('%d %b %Y')
 
