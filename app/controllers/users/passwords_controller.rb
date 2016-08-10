@@ -5,6 +5,8 @@ class Users::PasswordsController < Devise::PasswordsController
   end
 
   def create
+    user = User.find_by(email: resource_params[:email])
+    resource_params[:email] = user.business.contact_email if user&.business&.contact_email.present?
     self.resource = resource_class.send_reset_password_instructions(resource_params)
     render :new unless successfully_sent?(resource)
   end
