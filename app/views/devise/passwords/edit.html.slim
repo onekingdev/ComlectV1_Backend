@@ -1,0 +1,15 @@
+#new-password
+  .col-xs-12.col-sm-8.col-sm-push-2.col-md-6.col-md-push-3
+    .modal-fake.gray.clearfix
+      h2.text-center.m-b-3 Change your password
+
+      = simple_form_for resource, as: resource_name, url: password_path(resource_name), html: { method: :put } do |f|
+        = f.error_notification
+
+        = f.input :reset_password_token, as: :hidden
+        = f.full_error :reset_password_token
+
+        = f.input :password, label: false, autofocus: true, input_html: { class: 'input-lg' }
+        = f.input :password_confirmation, label: false, input_html: { class: 'input-lg' }
+
+        = f.button :submit, "Change my password", class: 'btn btn-primary btn-lg btn-block'

@@ -39,6 +39,7 @@ en:
       user:
         email: "* Email Address"
         password: "* Password"
+        password_confirmation: "* Password confirmation"
       business:
         contact_first_name: "* First Name"
         contact_last_name: "* Last Name"

@@ -109,6 +109,15 @@
   }
 }
 
+.modal-md {
+  margin: 0 auto;
+
+  .modal-dialog {
+    width: 400px;
+  }
+}
+
+
 .modal-popup {
   .modal-content {
     overflow: hidden; // So corners get rounded properly
