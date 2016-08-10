@@ -102,7 +102,7 @@
         = f.file_field :photo, accept: "image/gif, image/jpeg, image/png"
         .add-button +
         .help-block.m-t-1 Must be jpg/jpeg/png/gif<br>Max file size 2MB
-        span.selected.m-y-1= f.object.photo ? f.object.photo.data['metadata']['filename'] : nil
+        span.selected.m-y-1.ww-break= f.object.photo ? f.object.photo.data['metadata']['filename'] : nil
         - if f.object.errors[:photo].any?
           .text-danger.m-b-1= f.object.errors[:photo].to_sentence
     .col-xs-12.col-sm-4.col-sm-push-2.col-md-3.col-md-push-3
@@ -112,7 +112,7 @@
         = f.file_field :resume, accept: "application/pdf"
         .add-button +
         .help-block.m-t-1 Must be a pdf<br>Max file size 2MB
-        span.selected.m-y-1= f.object.resume ? f.object.resume.data['metadata']['filename'] : nil
+        span.selected.m-y-1.ww-break= f.object.resume ? f.object.resume.data['metadata']['filename'] : nil
         - if f.object.errors[:resume].any?
           .text-danger.m-b-1= f.object.errors[:resume].to_sentence
 
