@@ -80,7 +80,7 @@ class Project::Search
 
   def filter_value(records)
     min, max = project_value.to_s.split(';').map(&:to_i)
-    return records if min == 0 || max == 0
+    return records if min.to_i == 0 || max.to_i == 0
     records.where(calculated_budget: (min..max))
   end
 
