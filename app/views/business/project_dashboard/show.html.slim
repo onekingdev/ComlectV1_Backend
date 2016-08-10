@@ -1,0 +1,67 @@
+- Project::Decorator.decorate(@project).tap do |project|
+  - content_for :header do
+    .container.profile-header
+      .row.header-content
+        .pseudo-table
+          .tr
+            .td.title.col-xs-12.no-logo
+              .tools
+                label Status <span class="text-primary">Active</span>
+              h1
+                = project
+
+  .business-profile
+    .row
+      .col-xs-12.col-md-3
+        .panel.panel-default
+          .panel-heading
+            h3 Project Overview
+          .panel-body
+
+      .col-xs-12.col-md-9
+        .panel.panel-default
+          .panel-heading.full-nav-pills
+            .dropdown.visible-xs
+              button.btn.btn-default.dropdown-toggle type="button" data-toggle="dropdown"
+                .fa.fa-bars
+              ul.dropdown-menu.dropdown-menu-right
+                li.active= link_to '#project-messages', data: { toggle: 'tab', "remote-load" => true, url: business_project_messages_path(project), 'toggle-sync' => true } do
+                  i.icon.maxicons2-comments
+                  span Messages
+                li= link_to '#project-documents', data: { toggle: 'tab', "remote-load" => true, url: business_project_documents_path(project), 'toggle-sync' => true } do
+                  i.icon.maxicons2-documents
+                  span Documents
+                li= link_to '#project-timesheets', data: { toggle: 'tab', "remote-load" => true, url: business_project_timesheets_path(project), 'toggle-sync' => true } do
+                  i.icon.maxicons2-new
+                  span Time Sheets
+                li= link_to '#project-details', data: { toggle: 'tab' } do
+                  i.icon.maxicons2-catalogue
+                  span Project Details
+                li= link_to '#project-help', data: { toggle: 'tab' } do
+                  i.icon.maxicons2-instruction
+                  span Help
+            ul.nav.nav-pills.hidden-xs.small
+              li.active= link_to '#project-messages', data: { toggle: 'tab', "remote-load" => true, url: business_project_messages_path(project), 'toggle-sync' => true } do
+                i.icon.maxicons2-comments
+                span Messages
+              li= link_to '#project-documents', data: { toggle: 'tab', "remote-load" => true, url: business_project_documents_path(project), 'toggle-sync' => true } do
+                i.icon.maxicons2-documents
+                span Documents
+              li= link_to '#project-timesheets', data: { toggle: 'tab', "remote-load" => true, url: business_project_timesheets_path(project), 'toggle-sync' => true } do
+                i.icon.maxicons2-new
+                span Time Sheets
+              li= link_to '#project-details', data: { toggle: 'tab' } do
+                i.icon.maxicons2-catalogue
+                span <span class="hidden-md">Project</span> Details
+              li= link_to '#project-help', data: { toggle: 'tab' } do
+                i.icon.maxicons2-instruction
+                span Help
+          .panel-body
+            .tab-content
+              #project-messages.tab-pane.clearfix.active
+              #project-documents.tab-pane.clearfix
+              #project-time-sheets.tab-pane.clearfix
+              #project-details.tab-pane.clearfix
+                = render 'project_details', project: project
+              #project-help.tab-pane.clearfix
+                'Help

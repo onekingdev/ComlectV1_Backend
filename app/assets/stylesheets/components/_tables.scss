@@ -25,3 +25,13 @@
     white-space: nowrap;
   }
 }
+
+.table.table-flush {
+  tr > th:first-child, tr > td:first-child {
+    padding-left: 0;
+  }
+
+  tr > th:last-child, tr > td:last-child {
+    padding-right: 0;
+  }
+}

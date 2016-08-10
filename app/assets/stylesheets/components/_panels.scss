@@ -183,6 +183,44 @@
   li:last-child a {
     border-top-right-radius: $panel-border-radius;
   }
+
+  &.small a {
+    font-size: 90%;
+
+    .icon {
+      font-size: 90%;
+    }
+  }
+}
+
+.panel-heading.full-nav-pills {
+  padding-left: 0;
+  padding-right: 0;
+
+  .nav-pills {
+    float: none;
+    width: 100%;
+    display: flex;
+
+    li {
+      flex: 1;
+      text-align: center;
+    }
+
+    li:first-child a {
+      border-top-left-radius: $panel-border-radius;
+    }
+  }
+
+  > .dropdown {
+    width: 100%;
+
+    .dropdown-toggle {
+      width: 100%;
+      border-top-left-radius: $panel-border-radius;
+      border-top-right-radius: $panel-border-radius;
+    }
+  }
 }
 
 .panel.card {

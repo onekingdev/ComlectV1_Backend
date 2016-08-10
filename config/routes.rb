@@ -27,11 +27,15 @@ Rails.application.routes.draw do
       post :toggle, on: :collection
     end
 
+    get 'projects/:project_id/dashboard' => 'project_dashboard#show', as: :project_dashboard
     resources :projects do
       post :post, on: :member
       get :copy, on: :member
 
       resources :job_applications, path: 'applications'
+      resources :messages
+      resources :documents
+      resources :timesheets
     end
   end
 

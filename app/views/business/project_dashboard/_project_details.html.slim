@@ -1,0 +1,17 @@
+h4.m-t-0 Key Details & Applicant Prerequisites
+
+.row= render 'business/projects/attributes', project: project
+
+h4.m-t-3 Project Description
+
+- if project.description.present?
+  = simple_format project.description
+- else
+  p N/A
+
+h4.m-t-3 Key Deliverables
+
+- if project.key_deliverables.present?
+  = simple_format project.key_deliverables
+- else
+  p N/A
