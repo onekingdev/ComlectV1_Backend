@@ -49,11 +49,12 @@
   }
 }
 
+$bootbox-width: 474px;
 .bootbox.modal {
   $border-radius: $border-radius-large;
 
   .modal-dialog {
-    width: 474px;
+    width: $bootbox-width;
   }
 
   .modal-content {
@@ -117,6 +118,9 @@
   }
 }
 
+.modal-faux-bootbox .modal-dialog {
+  width: $bootbox-width;
+}
 
 .modal-popup {
   .modal-content {
