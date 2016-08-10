@@ -21,7 +21,7 @@ $(document).on 'show.bs.tab', '[data-toggle="tab"]', (e, args) ->
     $sync.removeClass('loading')
     $this
       .removeClass('loading')
-      .data('remote-loaded', true)
+      .data('remote-loaded', !$tab.data('always-reload'))
 
 $.onContentReady ($parent) ->
   $('[data-remote-load][data-toggle="tab"]', $parent).each ->
