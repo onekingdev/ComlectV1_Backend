@@ -15,6 +15,13 @@ class Project::Decorator < ApplicationDecorator
     [location_type_humanized, location.presence].compact.join(', ')
   end
 
+  def key_deliverables_list
+    return 'N/A' if key_deliverables.blank?
+    h.content_tag 'ul' do
+      key_deliverables.split(',').map { |item| h.content_tag('li', item) }.join.html_safe
+    end
+  end
+
   def dollars
     amount = if full_time?
                annual_salary

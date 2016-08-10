@@ -28,10 +28,7 @@
               .name= Specialist.first.full_name
 
             h4.m-t-2 Key Deliverables
-            - if project.key_deliverables.present?
-              = simple_format project.key_deliverables
-            - else
-              p N/A
+            = project.key_deliverables_list
 
             h4.m-t-2 End Date
             .percentage-circle.tiny.primary.pull-right data-percent=68
