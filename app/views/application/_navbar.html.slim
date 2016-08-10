@@ -20,15 +20,16 @@ nav#nav.navbar.navbar-default.navbar-inverse
       - if signed_in? && current_business
         li
           button.btn.btn-primary.navbar-btn data-href=new_business_project_path Post a Project
-      li.dropdown
-        a.dropdown-toggle href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
-          'Browse
-          i.icon.maxicons1-down
-        ul.dropdown-menu
-          - if current_specialist
-            li= link_to 'Browse Projects', projects_path
-          - if current_business
-            li= link_to 'Browse Specialists', specialists_path
+      - if signed_in?
+        li.dropdown
+          a.dropdown-toggle href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
+            'Browse
+            i.icon.maxicons1-down
+          ul.dropdown-menu
+            - if current_specialist
+              li= link_to 'Browse Projects', projects_path
+            - if current_business
+              li= link_to 'Browse Specialists', specialists_path
       - if signed_in?
         li.dropdown
           - if (business = user.business)
