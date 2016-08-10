@@ -13,10 +13,32 @@
   .business-profile
     .row
       .col-xs-12.col-md-3
-        .panel.panel-default
+        .panel.panel-default.project-overview
           .panel-heading
             h3 Project Overview
+
           .panel-body
+            .business.m-b-1
+              = image_tag project.business.logo_url(:thumb), size: '60x60', class: 'img-circle'
+              .name= project.business
+            .specialist
+              / TODO
+              = image_tag Specialist.first.photo_url(:thumb), size: '60x60', class: 'img-circle'
+              .name= Specialist.first.full_name
+
+            h4.m-t-2 Key Deliverables
+            - if project.key_deliverables.present?
+              = simple_format project.key_deliverables
+            - else
+              p N/A
+
+            h4.m-t-2 End Date
+            .percentage-circle.tiny.primary.pull-right data-percent=68
+            div style="line-height: 40px;" = project.ends_on.strftime('%d %b %Y')
+
+            .m-t-2
+              a.btn.btn-block.btn-primary.btn-md.m-b-1 href="#" End Project
+              a.btn.btn-block.btn-primary.btn-md href="#" Extend Project
 
       .col-xs-12.col-md-9
         .panel.panel-default

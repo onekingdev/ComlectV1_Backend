@@ -10,6 +10,7 @@
 #= require bootstrap3-typeahead/bootstrap3-typeahead
 #= require jquery-mask-plugin/dist/jquery.mask
 #= require ion.rangeSlider/js/ion.rangeSlider
+#= require percircle/src/js/percircle
 #= require_self
 #= require_tree ./utilities
 #= require_tree ./components
@@ -23,6 +24,9 @@ $.onContentReady = (callback) ->
     # Make sure it's jQuery object as sometimes we get in unwrapped
     callback $($parent)
 
+# $.onContentReady ($parent) ->
+#   $.initializeOnce $parent.find('.my-element'), 'data-attr-to-store-init-status', ($myele) ->
+#     $myele.customFunction()
 $.initializeOnce = ($el, plugin, callback) ->
   dataName = "#{plugin}-initialized"
   return if $el.length == 0 || $el.data(dataName)
