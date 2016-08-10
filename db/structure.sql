@@ -359,6 +359,44 @@ CREATE TABLE jurisdictions_specialists (
 
 
 --
+-- Name: messages; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE messages (
+    id integer NOT NULL,
+    thread_id integer,
+    thread_type character varying,
+    sender_id integer,
+    sender_type character varying,
+    recipient_id integer,
+    recipient_type character varying,
+    message character varying,
+    file_data jsonb,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: messages_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE messages_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: messages_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE messages_id_seq OWNED BY messages.id;
+
+
+--
 -- Name: payment_profiles; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -787,6 +825,13 @@ ALTER TABLE ONLY jurisdictions ALTER COLUMN id SET DEFAULT nextval('jurisdiction
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY messages ALTER COLUMN id SET DEFAULT nextval('messages_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY payment_profiles ALTER COLUMN id SET DEFAULT nextval('payment_profiles_id_seq'::regclass);
 
 
@@ -892,6 +937,14 @@ ALTER TABLE ONLY industries
 
 ALTER TABLE ONLY jurisdictions
     ADD CONSTRAINT jurisdictions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY messages
+    ADD CONSTRAINT messages_pkey PRIMARY KEY (id);
 
 
 --
@@ -1048,6 +1101,27 @@ CREATE UNIQUE INDEX index_jurisdictions_on_name ON jurisdictions USING btree (na
 --
 
 CREATE UNIQUE INDEX index_jurisdictions_projects_on_jurisdiction_id_and_project_id ON jurisdictions_projects USING btree (jurisdiction_id, project_id);
+
+
+--
+-- Name: index_messages_on_recipient_type_and_recipient_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_messages_on_recipient_type_and_recipient_id ON messages USING btree (recipient_type, recipient_id);
+
+
+--
+-- Name: index_messages_on_sender_type_and_sender_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_messages_on_sender_type_and_sender_id ON messages USING btree (sender_type, sender_id);
+
+
+--
+-- Name: index_messages_on_thread_type_and_thread_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_messages_on_thread_type_and_thread_id ON messages USING btree (thread_type, thread_id);
 
 
 --
@@ -1402,4 +1476,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160808172557');
 INSERT INTO schema_migrations (version) VALUES ('20160809161615');
 
 INSERT INTO schema_migrations (version) VALUES ('20160810005559');
+
+INSERT INTO schema_migrations (version) VALUES ('20160810021451');
 

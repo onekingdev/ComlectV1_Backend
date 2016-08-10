@@ -6,7 +6,8 @@
           .tr
             .td.title.col-xs-12.no-logo
               .tools
-                label Status <span class="text-primary">Active</span>
+                / TODO: status
+                label Status: <span class="text-primary">Active</span>
               h1
                 = project
 
@@ -80,7 +81,7 @@
                 span Help
           .panel-body
             .tab-content
-              #project-messages.tab-pane.clearfix.active
+              #project-messages.tab-pane.clearfix.active data-always-reload="true"
               #project-documents.tab-pane.clearfix
               #project-time-sheets.tab-pane.clearfix
               #project-details.tab-pane.clearfix

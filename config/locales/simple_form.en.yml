@@ -108,3 +108,5 @@ en:
         jurisdiction_ids: Jurisdiction
         industry_ids: Industry
         skill_selector: Skills
+      message:
+        message: Write a message

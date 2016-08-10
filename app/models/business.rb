@@ -9,6 +9,7 @@ class Business < ActiveRecord::Base
   has_many :favorites, as: :owner
   has_many :favorited_by, as: :favorited, dependent: :destroy, class_name: 'Favorite'
   has_many :favorite_specialists, through: :favorites, source: :favorited, source_type: 'Specialist'
+  has_many :sent_messages, as: :sender, class_name: 'Message'
 
   include ImageUploader[:logo]
 

@@ -28,12 +28,16 @@ Rails.application.routes.draw do
     end
 
     get 'projects/:project_id/dashboard' => 'project_dashboard#show', as: :project_dashboard
+
+    scope 'projects/:project_id' do
+      resources :project_messages, path: 'messages'
+    end
+
     resources :projects do
       post :post, on: :member
       get :copy, on: :member
 
       resources :job_applications, path: 'applications'
-      resources :messages
       resources :documents
       resources :timesheets
       resources :project_issues, path: 'issues'

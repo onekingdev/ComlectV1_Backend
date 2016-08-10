@@ -1,0 +1,9 @@
+- is_me = message.sender?(me)
+.message class=(is_me ? 'me' : 'them')
+  .text= simple_format message.message
+  .author= is_me ? 'Me' : message.sender
+  .date= message.created_at.strftime('%H:%M %d %b %Y')
+  - if message.file
+    .file= link_to message.file_url, target: '_blank' do
+      .fa.fa-paperclip
+      span= message.file.metadata['filename']
