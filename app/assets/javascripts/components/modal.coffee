@@ -2,10 +2,11 @@ class window._ModalClass
   showPlain: (content, options) =>
     options ||= {}
     classes = options.class
-    keep = ['modal', 'fade']
+    keep = ['modal', 'fade', 'in']
     $modal = @modal()
     $.each $modal.attr('class').split(' '), ->
-      $modal.removeClass(this) unless keep.indexOf(this)
+      cssClass = this.toString()
+      $modal.removeClass(cssClass) if keep.indexOf(cssClass) == -1
     $modal
       .addClass("plain #{classes}")
       .find('.modal-body').html(content).end()
