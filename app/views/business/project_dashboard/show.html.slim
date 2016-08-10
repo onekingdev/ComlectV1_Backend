@@ -64,4 +64,4 @@
               #project-details.tab-pane.clearfix
                 = render 'project_details', project: project
               #project-help.tab-pane.clearfix
-                'Help
+                = render 'project_help', issue: project.issues.new

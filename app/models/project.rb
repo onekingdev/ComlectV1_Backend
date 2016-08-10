@@ -7,6 +7,7 @@ class Project < ActiveRecord::Base
   has_and_belongs_to_many :industries
   has_and_belongs_to_many :jurisdictions
   has_and_belongs_to_many :skills
+  has_many :issues, dependent: :delete_all, class_name: 'ProjectIssue'
 
   scope :recent, -> { order(created_at: :desc) }
   scope :published, -> { where(status: 'published') }

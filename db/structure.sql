@@ -463,6 +463,40 @@ ALTER SEQUENCE project_invites_id_seq OWNED BY project_invites.id;
 
 
 --
+-- Name: project_issues; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE project_issues (
+    id integer NOT NULL,
+    project_id integer,
+    user_id integer,
+    issue text,
+    desired_resolution text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: project_issues_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE project_issues_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: project_issues_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE project_issues_id_seq OWNED BY project_issues.id;
+
+
+--
 -- Name: projects; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -774,6 +808,13 @@ ALTER TABLE ONLY project_invites ALTER COLUMN id SET DEFAULT nextval('project_in
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY project_issues ALTER COLUMN id SET DEFAULT nextval('project_issues_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY projects ALTER COLUMN id SET DEFAULT nextval('projects_id_seq'::regclass);
 
 
@@ -875,6 +916,14 @@ ALTER TABLE ONLY payment_sources
 
 ALTER TABLE ONLY project_invites
     ADD CONSTRAINT project_invites_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: project_issues_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY project_issues
+    ADD CONSTRAINT project_issues_pkey PRIMARY KEY (id);
 
 
 --
@@ -1048,6 +1097,20 @@ CREATE INDEX index_project_invites_on_specialist_id ON project_invites USING btr
 --
 
 CREATE INDEX index_project_invites_on_status ON project_invites USING btree (status);
+
+
+--
+-- Name: index_project_issues_on_project_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_project_issues_on_project_id ON project_issues USING btree (project_id);
+
+
+--
+-- Name: index_project_issues_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_project_issues_on_user_id ON project_issues USING btree (user_id);
 
 
 --
@@ -1337,4 +1400,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160808163055');
 INSERT INTO schema_migrations (version) VALUES ('20160808172557');
 
 INSERT INTO schema_migrations (version) VALUES ('20160809161615');
+
+INSERT INTO schema_migrations (version) VALUES ('20160810005559');
 

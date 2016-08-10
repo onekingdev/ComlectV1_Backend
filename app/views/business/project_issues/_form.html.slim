@@ -1,0 +1,13 @@
+- success = local_assigns.key?(:success) ? local_assigns[:success] : false
+
+= simple_form_for [:business, :project, issue], remote: true do |f|
+  = f.input :issue, required: false, input_html: { rows: 6 }
+  = f.input :desired_resolution, required: false, input_html: { rows: 6 }
+
+  - if success
+    .alert.alert-success.m-y-1 Issue escalated
+
+  .pull-right
+    = f.submit 'Escalate', class: 'btn btn-primary btn-md p-x-3'
+
+  .btn-align-md Not that urgent? Maybe our <a href="#">FAQ</a> can help.

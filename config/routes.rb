@@ -36,6 +36,7 @@ Rails.application.routes.draw do
       resources :messages
       resources :documents
       resources :timesheets
+      resources :project_issues, path: 'issues'
     end
   end
 

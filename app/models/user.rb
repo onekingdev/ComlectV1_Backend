@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
 
   has_one :business
   has_one :specialist
+  has_many :project_issues, dependent: :delete_all
 
   def payment_info?
     # TODO
