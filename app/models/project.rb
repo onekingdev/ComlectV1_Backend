@@ -100,7 +100,7 @@ class Project < ActiveRecord::Base
     rand(2) == 1 # TODO
   end
 
-  def applications_counts
+  def applications_count
     0 # TODO
   end
 
