@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+# rubocop:disable Metrics/ClassLength
 class Project::Search
   include ActiveModel::Model
 
@@ -13,6 +14,8 @@ class Project::Search
     (15..Float::INFINITY) => '15+'
   }.freeze
   MAX_LOCATION_RANGE = 50
+  MIN_VALUE = 5000
+  MAX_VALUE = 50_000
 
   attr_accessor :project_type, :sort_by, :keyword, :jurisdiction_ids, :industry_ids, :skill_names, :experience,
                 :regulator, :location_type, :location, :lat, :lng, :location_range, :project_value, :skill_selector,
@@ -27,6 +30,7 @@ class Project::Search
     end
     self.sort_by = 'newest' if sort_by.blank?
     self.project_type = 'one-off' if project_type.blank?
+    self.project_value = 'one-off' if project_type.blank?
     self.industry_ids ||= []
     self.industry_ids.map!(&:presence).compact!
     self.jurisdiction_ids ||= []
@@ -43,6 +47,7 @@ class Project::Search
     @results = filter_industry(@results)
     @results = filter_jurisdiction(@results)
     @results = filter_experience(@results)
+    @results = filter_value(@results)
     @results = filter_regulator(@results)
     @results = filter_location(@results)
     @results = filter_skills(@results)
@@ -71,6 +76,12 @@ class Project::Search
     min = MIN_EXPERIENCE if min.blank? || min < MIN_EXPERIENCE
     min_range = EXP_RANGES.detect { |(range, _value)| range.include?(min) }[1]
     records.where(minimum_experience: min_range)
+  end
+
+  def filter_value(records)
+    min, max = project_value.to_s.split(';').map(&:to_i)
+    return records if min == 0 || max == 0
+    records.where(calculated_budget: (min..max))
   end
 
   def filter_regulator(records)

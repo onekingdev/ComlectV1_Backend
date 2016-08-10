@@ -19,6 +19,7 @@ if $form.length > 0
     .find('#project_search_industry_ids').change(delayedSearch).end()
     .find('#project_search_jurisdiction_ids').change(delayedSearch).end()
     .find('#project_search_experience').change(delayedSearch).end()
+    .find('#project_search_project_value').change(delayedSearch).end()
     .find('#project_search_regulator').change(doSearch).end()
     .find('#project_search_lat').change(doSearch).end()
     .find('#project_search_skill_selector').on('tags-changed', doSearch).end()
@@ -44,6 +45,7 @@ if $form.length > 0
       .find('.skills-required').html('')
     $form.find('#project_search_location_range').data('ionRangeSlider').update(from: 0, to: 50)
     $form.find('#project_search_experience').data('ionRangeSlider').update(from: 3, to: 15)
+    $form.find('#project_search_project_value').data('ionRangeSlider').update(from: 5000, to: 50000)
     delayedSearch()
 
   $('.search-results').on 'click', '.projects-pagination .page', (e) ->
