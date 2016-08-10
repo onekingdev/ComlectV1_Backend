@@ -4,12 +4,16 @@ class Specialist::Decorator < ApplicationDecorator
   delegate_all
 
   def link_to_favorite(path, is_favorited, &block)
-    data = { params: { favorite: { favorited_type: model.class.name, favorited_id: model.id } } }
-    h.link_to path, { method: :post,
-                      remote: true,
-                      class: "favorite #{'active' if is_favorited}",
-                      data: data },
-              &block
+    params = { favorite: { favorited_type: model.class.name, favorited_id: model.id } }
+    h.content_tag 'button',
+                  class: "btn btn-plain favorite #{'active' if is_favorited}",
+                  data: {
+                    url: path,
+                    method: :post,
+                    remote: true,
+                    params: params.to_query
+                  },
+                  &block
   end
 
   def city_state_country
