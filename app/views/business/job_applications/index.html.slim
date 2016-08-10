@@ -1,12 +1,13 @@
+- header_class 'short'
 - decorate(@project).tap do |project|
-  h1.m-b-3= project
+  h1.m-y-3= project
 
   .row
     .col-xs-12.col-sm-4.col-md-3
       .form-group.m-b-1
         select#js-sort-job-applications.js-select.form-control.input-lg.input-gray.strong
           option value="rating" selected=(params[:sort_by].blank? || params[:sort_by] == 'rating') Sort by Rating
-          option value="experience" selected=(params[:sort_by] == 'experience') Sort by Experience
+          option value="experience" selected=(params[:sort_by] == 'experience') Sort by Yrs. Compliance Exp.
           option value="newest" selected=(params[:sort_by] == 'newest') Sort by Newest
       .panel.panel-default.profile-info
         .panel-heading
@@ -15,7 +16,7 @@
           .icon-list
             .item
               i.icon.maxicons2-navigation.text-muted
-              span= project.location_details
+              span.ws-normal= project.location_details
             .item
               i.icon.maxicons1-building.text-muted
               span= project.industries.map(&:name).join(', ')
@@ -23,7 +24,7 @@
               i.icon.maxicons1-earth.text-muted
               span= project.jurisdictions.map(&:name).join(', ')
             .item
-              i.icon.maxicons1-peoples.text-muted
+              i.icon.maxicons2-clock.text-muted
               span= project.start_and_duration
             .item
               i.icon.maxicons1-dollar.text-muted
@@ -40,11 +41,11 @@
                 i.icon.maxicons2-winer.text-muted
                 span= project.skills.map(&:name).join(', ')
 
-          label.strong.m-t-3 Project Description
+          label.strong.m-t-2 Project Description
           p= project.description.presence || 'N/A'
 
-          label.strong.m-t-2 Key Deliverables
-          p= project.key_deliverables_list
+          label.strong.m-t-1 Key Deliverables
+          = project.key_deliverables_list
 
     .col-xs-12.col-sm-8.col-md-9
       .panel.panel-default

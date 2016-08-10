@@ -4,7 +4,7 @@
       - if specialist.photo
         .profile-image
           = image_tag specialist.photo_url(:thumb), size: '80x80', class: 'img-circle'
-      .name= specialist.full_name
+      .name= specialist.first_name
       .rating= specialist.render_stars
       / TODO
       p.intro Introductory message

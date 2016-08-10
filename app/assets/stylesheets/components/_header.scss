@@ -19,6 +19,10 @@
     background-position-x: center;
   }
 
+  &.short {
+    margin-bottom: 0;
+  }
+
   &.compact {
     margin-bottom: 3rem;
   }
