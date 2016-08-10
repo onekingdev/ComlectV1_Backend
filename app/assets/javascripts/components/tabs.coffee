@@ -15,8 +15,10 @@ $(document).on 'show.bs.tab', '[data-toggle="tab"]', (e, args) ->
 
   $tab = $($this.attr('href'))
   $this.addClass('loading')
+  $sync.addClass('loading')
   $.get $this.data('url'), (html) ->
     $tab.html(html)
+    $sync.removeClass('loading')
     $this
       .removeClass('loading')
       .data('remote-loaded', true)
