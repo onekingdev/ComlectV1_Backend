@@ -85,9 +85,21 @@ $bootbox-width: 474px;
     background-color: #f3f3f3;
     border-bottom-left-radius: $border-radius;
     border-bottom-right-radius: $border-radius;
+    text-align: center;
 
     .btn {
-      font-weight: $roboto-regular;
+      padding-left: 3em;
+      padding-right: 3em;
+    }
+  }
+
+  &.bootbox-sm {
+    .modal-body {
+      padding-bottom: 15px;
+    }
+
+    .modal-footer {
+      padding-top: 15px;
     }
   }
 
