@@ -77,3 +77,7 @@
 .btn-align-md {
   line-height: ($padding-md-vertical * 2) + ($font-size-base * $line-height-md);
 }
+
+.btn-align-md-bottom {
+  padding-top: $padding-md-vertical * 2;
+}
