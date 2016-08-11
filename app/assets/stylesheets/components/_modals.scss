@@ -95,11 +95,13 @@ $bootbox-width: 474px;
 
   &.bootbox-sm {
     .modal-body {
+      padding-top: 15px;
       padding-bottom: 15px;
     }
 
     .modal-footer {
       padding-top: 15px;
+      padding-bottom: 15px;
     }
   }
 
