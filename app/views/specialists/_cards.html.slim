@@ -7,14 +7,14 @@
   - specialists.map(&method(:decorate)).each do |specialist|
     .card-container.col-xs-12.col-md-6.col-lg-4 data-specialist-id=specialist.id
       .specialist.card.panel.panel-default class=("active" if current_business.favorited?(specialist))
-        a.panel-heading href=specialist_path(specialist)
+        a.panel-heading href=specialist_path(specialist) target="_blank"
           = specialist.link_to_favorite toggle_business_favorites_path(remove: remove_on_unfavorite), current_business.favorited?(specialist) do
             i.icon.maxicons3-heart
           .avatar= image_tag specialist.photo_url(:thumb), class: 'img-responsive'
           h4.name= specialist.first_name
           .rating= render_stars 4, class: 'small'
 
-        a.panel-body href=specialist_path(specialist)
+        a.panel-body href=specialist_path(specialist) target="_blank"
           .icon-list
             - empty_lines = 0
             .item
