@@ -14,7 +14,6 @@ class Project::Search
     (15..Float::INFINITY) => '15+'
   }.freeze
   MAX_LOCATION_RANGE = 50
-  MIN_VALUE = 5000
   MAX_VALUE = 50_000
 
   attr_accessor :project_type, :sort_by, :keyword, :jurisdiction_ids, :industry_ids, :skill_names, :experience,
@@ -81,6 +80,7 @@ class Project::Search
   def filter_value(records)
     min, max = project_value.to_s.split(';').map(&:to_i)
     return records if min.to_i == 0 || max.to_i == 0
+    max = Float::INFINITY if max.to_i == MAX_VALUE
     records.where(calculated_budget: (min..max))
   end
 

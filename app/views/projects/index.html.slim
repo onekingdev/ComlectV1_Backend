@@ -46,7 +46,7 @@
       .panel.panel-default.panel-flat.m-b-1
         .panel-body
           label.fw-700.tt-u Project Value
-          = f.text_field :project_value, class: 'form-control js-range-slider', data: { min: 5000, max: 50_000, type: 'double', input_values_separator: ';', hide_min_max: true, prefix: '$', step: 1000, keyboard_step: 1000, force_edges: true, prettify_separator: ',' }
+          = f.text_field :project_value, class: 'form-control js-range-slider', data: { min: 0, max: 50_000, type: 'double', input_values_separator: ';', hide_min_max: true, prefix: '$', step: 1000, keyboard_step: 1000, force_edges: true, prettify_separator: ',', max_postfix: '+' }
 
       .panel.panel-default.panel-flat.m-b-1
         .panel-body
