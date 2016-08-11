@@ -8,9 +8,9 @@ class Project::Search
   MIN_EXPERIENCE = 3
   MAX_EXPERIENCE = 15
   EXP_RANGES = {
-    (3..7) => '3-7',
-    (7..10) => '7-10',
-    (11..15) => '11-15',
+    (3..7) => %w(3-7 7-10 11-15 15+),
+    (7..10) => %w(7-10 11-15 15+),
+    (11..15) => %w(11-15 15+),
     (15..Float::INFINITY) => '15+'
   }.freeze
   MAX_LOCATION_RANGE = 50
