@@ -16,6 +16,10 @@ if $form.length > 0
     .find('#project_search_sort_by').change(doSearch).end()
     .find('#project_search_location_type').change(delayedSearch).end()
     .find('#project_search_location_range').change(delayedSearch).end()
+    .find('#project_search_location').change ->
+      if $(this).val == ''
+        $form.find('#project_search_lat, #project_search_lng').val('')
+    .end()
     .find('#project_search_industry_ids').change(delayedSearch).end()
     .find('#project_search_jurisdiction_ids').change(delayedSearch).end()
     .find('#project_search_experience').change(delayedSearch).end()

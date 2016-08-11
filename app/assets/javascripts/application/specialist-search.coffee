@@ -18,7 +18,10 @@ if $form.length > 0
     .find('#specialist_search_rating').change(delayedSearch).end()
     .find('#specialist_search_experience').change(delayedSearch).end()
     .find('#specialist_search_regulator').change(doSearch).end()
-    .find('#specialist_search_location').change(delayedSearch).end()
+    .find('#specialist_search_location').change ->
+      if $(this).val == ''
+        $form.find('#specialist_search_lat, #specialist_search_lng').val('')
+    .end()
     .find('#specialist_search_location_range').change(delayedSearch).end()
     .find('#specialist_search_lat').change(doSearch).end()
     .find('#specialist_search_keyword')
