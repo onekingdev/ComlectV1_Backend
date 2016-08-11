@@ -10,3 +10,5 @@
       = simple_form_for resource, remote: true, as: resource_name, url: password_path(resource_name), html: { class: 'new_password' } do |f|
         = f.input :email, label: false, input_html: { class: 'input-lg' }
         = f.submit 'Reset Password', class: 'btn btn-primary btn-block btn-lg text-center'
+        .text-center.m-t-1
+          a.text-muted.td-u href=new_user_session_path data-remote=true Cancel
