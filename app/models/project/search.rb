@@ -13,7 +13,7 @@ class Project::Search
     (11..15) => %w(11-15 15+),
     (15..Float::INFINITY) => '15+'
   }.freeze
-  MAX_LOCATION_RANGE = 50
+  MAX_LOCATION_RANGE = 100
   MAX_VALUE = 50_000
 
   attr_accessor :project_type, :sort_by, :keyword, :jurisdiction_ids, :industry_ids, :skill_names, :experience,
@@ -89,13 +89,11 @@ class Project::Search
     records.where(only_regulators: regulator)
   end
 
-  # rubocop:disable Metrics/CyclomaticComplexity
   def filter_location(records)
     case location_type
     when 'onsite'
+      return records.onsite if lat.blank? || lng.blank?
       min, max = location_ranges
-      max ||= 10_000
-      return records.onsite if (min == 0 && max == 10_000) || lat.blank? || lng.blank?
       records.onsite.distance_between lat, lng, min, max
     when 'remote'
       records.remote
@@ -140,8 +138,8 @@ class Project::Search
 
   def location_ranges
     min, max = location_range.to_s.split(';').map(&:presence)
-    min ||= 0
-    max = nil if max.to_i >= MAX_LOCATION_RANGE
-    [min.to_i, max]
+    min = 0 if min.nil? || !min.to_i.between?(0..MAX_LOCATION_RANGE)
+    max = MAX_LOCATION_RANGE if max.nil? || !max.between?(0..MAX_LOCATION_RANGE)
+    [min.to_i, max.to_i]
   end
 end

@@ -14,13 +14,13 @@
       .panel.panel-default.panel-flat.m-b-1
         .panel-body
           = f.input :location_type, wrapper: false, collection: Project::LOCATIONS, include_blank: 'Location', input_html: { class: 'js-select fw-700' }
-          .specific-location.collapse.p-t-1
+          .specific-location.collapse.p-t-1.range-slider-fixed-from
             = f.text_field :location, class: 'form-control js-place-autocomplete fw-700', data: { self: 'full', lat: '#project_search_lat', lng: '#project_search_lng' }
             = f.hidden_field :lat
             = f.hidden_field :lng
 
             label.fw-700.tt-u.m-t-2 Within (Miles)
-            = f.text_field :location_range, class: 'form-control js-range-slider', data: { min: 0, max: 50, type: 'double', input_values_separator: ';', hide_min_max: true, max_postfix: '+' }
+            = f.text_field :location_range, class: 'form-control js-range-slider', data: { min: 0, max: 100, from_fixed: true, type: 'double', input_values_separator: ';', hide_min_max: true }
 
       = f.input :industry_ids,
         as: :grouped_select,

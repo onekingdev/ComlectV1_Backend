@@ -5,6 +5,7 @@ class Specialist::Search
   SORT_BY = { 'Sort by Rating' => 'rating', 'Sort by Experience' => 'experience' }.freeze
   MIN_EXPERIENCE = 3
   MAX_EXPERIENCE = 15
+  MAX_LOCATION_RANGE = 100
 
   attr_accessor :sort_by, :keyword, :jurisdiction_ids, :industry_ids, :rating, :experience, :regulator, :location,
                 :lat, :lng, :location_range, :page, :per
@@ -103,7 +104,8 @@ class Specialist::Search
 
   def location_ranges
     min, max = location_range.to_s.split(';').map(&:presence)
-    min ||= 0
+    min = 0 if min.nil? || !min.to_i.between?(0..MAX_LOCATION_RANGE)
+    max = MAX_LOCATION_RANGE if max.nil? || !max.between?(0..MAX_LOCATION_RANGE)
     [min.to_i, max.to_i]
   end
 end
