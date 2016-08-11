@@ -139,7 +139,7 @@ class Project::Search
   def location_ranges
     min, max = location_range.to_s.split(';').map(&:presence)
     min = 0 if min.nil? || !min.to_i.between?(0, MAX_LOCATION_RANGE)
-    max = MAX_LOCATION_RANGE if max.nil? || !max.between?(0, MAX_LOCATION_RANGE)
+    max = MAX_LOCATION_RANGE if max.nil? || !max.to_i.between?(0, MAX_LOCATION_RANGE)
     [min.to_i, max.to_i]
   end
 end
