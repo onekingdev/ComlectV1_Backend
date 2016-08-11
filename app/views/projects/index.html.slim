@@ -39,9 +39,9 @@
         input_html: { class: 'input-lg js-select input-gray fw-700', multiple: true }
 
       .panel.panel-default.panel-flat.m-b-1
-        .panel-body.range-slider-fixed-to
+        .panel-body
           label.fw-700.tt-u Yrs. Compliance Exp.
-          = f.text_field :experience, class: 'form-control js-range-slider', data: { min: Project::Search::MIN_EXPERIENCE, max: Project::Search::MAX_EXPERIENCE, to_fixed: true, type: 'double', input_values_separator: ';', hide_min_max: true, max_postfix: '+' }
+          = f.text_field :experience, class: 'form-control js-range-slider', data: { min: Project::Search::MIN_EXPERIENCE, max: Project::Search::MAX_EXPERIENCE, type: 'double', input_values_separator: ';', hide_min_max: true, max_postfix: '+' }
 
       .panel.panel-default.panel-flat.m-b-1
         .panel-body
