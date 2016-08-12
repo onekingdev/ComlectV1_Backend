@@ -3,7 +3,7 @@ class Favorite < ActiveRecord::Base
   belongs_to :owner, polymorphic: true
   belongs_to :favorited, polymorphic: true
 
-  validates :favorited_id, uniqueness: { scope: :favorited_type }
+  validates :favorited_id, uniqueness: { scope: %i(owner_id owner_type favorited_type) }
 
   def self.toggle!(owner, params)
     owner.favorites.find_by(params)&.destroy || owner.favorites.create!(params)

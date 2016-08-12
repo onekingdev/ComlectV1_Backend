@@ -47,7 +47,7 @@ nav#nav.navbar.navbar-default.navbar-inverse
               = specialist.to_s
               i.icon.maxicons1-down
             ul.dropdown-menu
-              li= link_to 'Dashboard', '#'
+              li= link_to 'Dashboard', specialists_dashboard_path
               li= link_to 'Profile', specialist
               li= link_to 'Account Settings', specialists_settings_path
               li= link_to 'Log Out', destroy_user_session_path, method: :delete

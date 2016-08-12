@@ -17,6 +17,12 @@ Rails.application.routes.draw do
   end
   get '/business' => 'business_dashboard#show', as: :business_dashboard
 
+  concern :favoriteable do
+    resources :favorites, only: [] do
+      post :toggle, on: :collection
+    end
+  end
+
   namespace :business do
     resource :settings, only: :show do
       resources :payment_settings, as: :payment, path: 'payment', except: %i(show) do
@@ -24,9 +30,7 @@ Rails.application.routes.draw do
       end
     end
     resources :specialists, only: :index
-    resources :favorites, only: [] do
-      post :toggle, on: :collection
-    end
+    concerns :favoriteable
 
     get 'projects/:project_id/dashboard' => 'project_dashboard#show', as: :project_dashboard
 
@@ -49,6 +53,7 @@ Rails.application.routes.draw do
     get '/' => 'dashboard#show', as: :dashboard
     resource :settings, only: :show
     resources :projects, path: 'my-projects'
+    concerns :favoriteable
   end
 
   resources :specialists, only: %i(index new create show)

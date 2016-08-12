@@ -53,10 +53,10 @@
                 li= link_to '#projects-pending', data: { toggle: 'tab', "remote-load" => true, url: specialists_projects_path(filter: 'pending'), 'toggle-sync' => true } do
                   i.icon.maxicons1-load-77
                   span Pending
-                li= link_to '#projects-favorite', data: { toggle: 'tab', "remote-load" => true, url: specialists_projects_path(filter: 'favorite'), 'toggle-sync' => true } do
-                  i.icon.maxicons2-editor
+                li= link_to '#projects-favorited', data: { toggle: 'tab', "remote-load" => true, url: specialists_projects_path(filter: 'favorited'), 'toggle-sync' => true } do
+                  i.icon.maxicons3-heart
                   span Favorite
-                li= link_to '#projects-complete', data: { toggle: 'tab', "remote-load" => true, url: specialists_projects_path(filter: 'complete'), 'toggle-sync' => true } do
+                li= link_to '#projects-completed', data: { toggle: 'tab', "remote-load" => true, url: specialists_projects_path(filter: 'completed'), 'toggle-sync' => true } do
                   i.icon.maxicons1-check
                   span Complete
             ul#js-project-filters.nav.nav-pills.visible-md.visible-lg
@@ -66,18 +66,18 @@
               li= link_to '#projects-pending', data: { toggle: 'tab', "remote-load" => true, url: specialists_projects_path(filter: 'pending'), 'toggle-sync' => true } do
                 i.icon.maxicons1-load-77
                 span Pending
-              li= link_to '#projects-favorite', data: { toggle: 'tab', "remote-load" => true, url: specialists_projects_path(filter: 'favorite'), 'toggle-sync' => true } do
-                i.icon.maxicons2-editor
-                span Drafts
-              li= link_to '#projects-complete', data: { toggle: 'tab', "remote-load" => true, url: specialists_projects_path(filter: 'complete'), 'toggle-sync' => true } do
+              li= link_to '#projects-favorited', data: { toggle: 'tab', "remote-load" => true, url: specialists_projects_path(filter: 'favorited'), 'toggle-sync' => true } do
+                i.icon.maxicons3-heart
+                span Favorite
+              li= link_to '#projects-completed', data: { toggle: 'tab', "remote-load" => true, url: specialists_projects_path(filter: 'completed'), 'toggle-sync' => true } do
                 i.icon.maxicons1-check
                 span Complete
           .panel-body.p-b-0
             .tab-content
               #projects-active.tab-pane.active
               #projects-pending.tab-pane
-              #projects-favorite.tab-pane
-              #projects-complete.tab-pane
+              #projects-favorited.tab-pane
+              #projects-completed.tab-pane
 
         .panel.panel-default
           .panel-heading

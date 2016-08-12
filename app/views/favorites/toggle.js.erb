@@ -1,9 +1,9 @@
 <% if @favorite.persisted? %>
-$('[data-<%= @favorite.favorited.class.name %>-id=<%= @favorite.favorited_id %>]')
+$('[data-<%= @favorite.favorited.class.name.underscore.dasherize %>-id=<%= @favorite.favorited_id %>]')
   .find('.card, .favorite').addClass('active').end();
 <% elsif @remove %>
-$('[data-<%= @favorite.favorited.class.name %>-id=<%= @favorite.favorited_id %>]').remove();
+$('[data-<%= @favorite.favorited.class.name.underscore.dasherize %>-id=<%= @favorite.favorited_id %>]').remove();
 <% else @remove %>
-$('[data-<%= @favorite.favorited.class.name %>-id=<%= @favorite.favorited_id %>]')
+$('[data-<%= @favorite.favorited.class.name.underscore.dasherize %>-id=<%= @favorite.favorited_id %>]')
   .find('.card, .favorite').removeClass('active').end();
 <% end %>

@@ -1,0 +1,19 @@
+button.favorite {
+  .unfavorite {
+    display: none;
+  }
+
+  &.active {
+    .icon {
+      color: darken($brand-primary, 15%);
+    }
+
+    .favorite {
+      display: none;
+    }
+
+    .unfavorite {
+      display: inline;
+    }
+  }
+}

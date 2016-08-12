@@ -3,10 +3,24 @@ class Specialist::Decorator < ApplicationDecorator
   decorates Specialist
   delegate_all
 
-  def link_to_favorite(path, is_favorited, &block)
+  def favorited?(favorited)
+    @_all_favorited ||= favorites.pluck(:id, :favorited_type, :favorited_id).each_with_object({}) do |attrs, hash|
+      hash["#{attrs[1]}/#{attrs[2]}"] = attrs[0]
+    end
+    @_all_favorited.key?("#{favorited.model_name}/#{favorited.id}")
+  end
+
+  def favorited_id(favorited)
+    return nil unless favorited?(favorited)
+    @_all_favorited["#{favorited.model_name}/#{favorited.id}"]
+  end
+
+  def link_to_favorite(path, is_favorited, options = {}, &block)
     params = { favorite: { favorited_type: model.class.name, favorited_id: model.id } }
+    css_class = options[:class].presence || 'btn btn-plain'
+    css_class += " favorite #{'active' if is_favorited}"
     h.content_tag 'button',
-                  class: "btn btn-plain favorite #{'active' if is_favorited}",
+                  class: css_class,
                   data: {
                     url: path,
                     method: :post,

@@ -1,5 +1,5 @@
 - content_for(:header_class, 'compact')
-.container
+.container data-project-id=project.id
   .row.header-content.small-header
     .col-xs-12.title
       .tools
@@ -16,9 +16,10 @@
             i.icon.maxicons2-cisco
             span Share
         - if current_specialist
-          = link_to '#', class: 'btn btn-md btn-primary m-l-1' do
+          = link_to_favorite current_specialist, project, class: 'btn btn-primary btn-md m-l-1' do
             i.icon.maxicons3-heart
-            span Favorite
+            span.unfavorite Unfavorite
+            span.favorite Favorite
           = link_to '#', class: 'btn btn-md btn-primary m-l-1' do
             i.icon.maxicons2-comment
             span Apply
