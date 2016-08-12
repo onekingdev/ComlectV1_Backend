@@ -18,12 +18,14 @@
               .item
                 i.icon.maxicons2-navigation.text-muted
                 span= specialist.city_state_country
-              .item
-                i.icon.maxicons1-building.text-muted
-                span= specialist.industries.map(&:name).join(', ')
-              .item
-                i.icon.maxicons1-earth.text-muted
-                span= specialist.jurisdictions.map(&:name).join(', ')
+              - if specialist.industries.any?
+                .item
+                  i.icon.maxicons1-building.text-muted
+                  span= specialist.industries.map(&:name).join(', ')
+              - if specialist.jurisdictions.any?
+                .item
+                  i.icon.maxicons1-earth.text-muted
+                  span= specialist.jurisdictions.map(&:name).join(', ')
               .item
                 i.icon.maxicons1-bag.text-muted
                 span= pluralize specialist.years_of_experience, 'Year Experience', 'Years Experience'
@@ -58,7 +60,7 @@
                   span Favorite
                 li= link_to '#projects-completed', data: { toggle: 'tab', "remote-load" => true, url: specialists_projects_path(filter: 'completed'), 'toggle-sync' => true } do
                   i.icon.maxicons1-check
-                  span Complete
+                  span Completed
             ul#js-project-filters.nav.nav-pills.visible-md.visible-lg
               li.active= link_to '#projects-active', data: { toggle: 'tab', "remote-load" => true, url: specialists_projects_path(filter: 'active'), 'toggle-sync' => true } do
                 i.icon.maxicons2-clock
@@ -71,7 +73,7 @@
                 span Favorite
               li= link_to '#projects-completed', data: { toggle: 'tab', "remote-load" => true, url: specialists_projects_path(filter: 'completed'), 'toggle-sync' => true } do
                 i.icon.maxicons1-check
-                span Complete
+                span Completed
           .panel-body.p-b-0
             .tab-content
               #projects-active.tab-pane.active
