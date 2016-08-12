@@ -33,6 +33,7 @@ module Complect
       generate.helper false
       generate.view_specs false
       generate.helper_specs false
+      generate.decorator false
     end
 
     # Use Sidekiq for asynchronous operations.
