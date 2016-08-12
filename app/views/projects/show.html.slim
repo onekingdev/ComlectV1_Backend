@@ -1,5 +1,5 @@
 - Project::Decorator.decorate(@project).tap do |project|
-  - content_for :header, render('header', project: project)
+  - content_for :header, render('projects/header', project: project)
 
   .row
     .col-xs-12.col-sm-4.col-md-3
@@ -7,9 +7,9 @@
         .panel-heading.text-center
           h3 About the Business
         .panel-body
-          - if project.business.public? && project.business.logo
+          - if policy(project).view_full_business? && project.business.logo
             .logo= image_tag project.business.logo_url(:thumb), class: 'img-responsive'
-          h3.text-center= policy(project.business).public_info(:business_name) || 'Anonymous'
+          h3.text-center= policy(project).public_business_info(:business_name) || 'Anonymous'
           .text-center= project.business.render_stars
 
           br
@@ -27,11 +27,11 @@
             .item
               i.icon.maxicons1-peoples.text-muted
               span #{project.business.employees} Employees
-            - if project.business.public? && project.business.website.present?
+            - if policy(project).view_full_business? && project.business.website.present?
               .item
                 i.icon.icon-fw.maxicons2-assign.text-muted
                 span= link_to project.business.website_short, project.business.website_url, target: '_blank'
-            - if project.business.public? && project.business.linkedin_link.present?
+            - if policy(project).view_full_business? && project.business.linkedin_link.present?
               .item
                 .fa.fa-linkedin-square.text-muted
                 span= link_to 'LinkedIn Profile', project.business.linkedin_url, target: "_blank"
@@ -47,7 +47,7 @@
         .panel-heading
           h3 Key Details & Applicant Prerequisites
         .panel-body
-          .row= render 'attributes', project: project
+          .row= render 'projects/attributes', project: project
 
       .panel.panel-default
         .panel-heading

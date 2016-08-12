@@ -1,5 +1,14 @@
 # frozen_string_literal: true
 class ProjectPolicy < ApplicationPolicy
+  def view_full_business?
+    business_policy.full_view? || record.specialist == user
+  end
+
+  def public_business_info(attribute)
+    return record.business[attribute] if view_full_business?
+    business_policy.public_info attribute
+  end
+
   def update?
     owner? # TODO: && record.applicants.empty?
   end
@@ -16,5 +25,11 @@ class ProjectPolicy < ApplicationPolicy
     def resolve
       user ? scope.accessible_by(user) : scope.published
     end
+  end
+
+  private
+
+  def business_policy
+    @business_policy ||= BusinessPolicy.new(user, record.business)
   end
 end

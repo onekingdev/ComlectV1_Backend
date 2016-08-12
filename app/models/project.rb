@@ -3,6 +3,7 @@ class Project < ActiveRecord::Base
   self.inheritance_column = '_none'
 
   belongs_to :business
+  belongs_to :specialist
   has_one :user, through: :business
   has_and_belongs_to_many :industries
   has_and_belongs_to_many :jurisdictions
@@ -16,7 +17,12 @@ class Project < ActiveRecord::Base
   scope :pending, -> { published } # TODO: Applicant not yet selected
   scope :complete, -> { none } # TODO: User marked as complete
   scope :draft_and_in_review, -> { where(status: %w(draft review)) }
-  scope :accessible_by, -> (user) { joins(:business).where('user_id = ? OR status = ?', user.id, 'published') }
+  scope :accessible_by, -> (user) {
+    # Accessible by project owner, hired specialist, or everyone if it's published
+    joins(:business).joins('LEFT OUTER JOIN specialists ON specialists.id = projects.specialist_id')
+                    .where('businesses.user_id = :user_id OR projects.specialist_id = :user_id OR status = :status',
+                           status: 'published', user_id: user.id)
+  }
 
   scope :one_off, -> { where(type: 'one_off') }
   scope :full_time, -> { where(type: 'full_time') }
@@ -72,6 +78,10 @@ class Project < ActiveRecord::Base
 
   def to_s
     title
+  end
+
+  def applied?(_user)
+    false # TODO
   end
 
   def skill_names

@@ -565,7 +565,8 @@ CREATE TABLE projects (
     lat numeric(9,5),
     lng numeric(9,5),
     point geography,
-    calculated_budget numeric
+    calculated_budget numeric,
+    specialist_id integer
 );
 
 
@@ -1223,6 +1224,13 @@ CREATE INDEX index_projects_on_point ON projects USING gist (point);
 
 
 --
+-- Name: index_projects_on_specialist_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_projects_on_specialist_id ON projects USING btree (specialist_id);
+
+
+--
 -- Name: index_projects_on_starts_on; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1478,4 +1486,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160809161615');
 INSERT INTO schema_migrations (version) VALUES ('20160810005559');
 
 INSERT INTO schema_migrations (version) VALUES ('20160810021451');
+
+INSERT INTO schema_migrations (version) VALUES ('20160812150543');
 

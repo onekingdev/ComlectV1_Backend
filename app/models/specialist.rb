@@ -8,6 +8,7 @@ class Specialist < ActiveRecord::Base
   has_many :education_histories, dependent: :delete_all
   has_many :favorites, as: :owner, dependent: :destroy
   has_many :favorited_by, as: :favorited, dependent: :destroy, class_name: 'Favorite'
+  has_many :projects
 
   scope :preload_associations, -> {
     preload(:user, :work_experiences, :education_histories, :industries, :jurisdictions, :skills)

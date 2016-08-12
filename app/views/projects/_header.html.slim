@@ -15,6 +15,13 @@
           = link_to '#', class: 'btn btn-md btn-primary m-l-1' do
             i.icon.maxicons2-cisco
             span Share
+        - if current_specialist
+          = link_to '#', class: 'btn btn-md btn-primary m-l-1' do
+            i.icon.maxicons3-heart
+            span Favorite
+          = link_to '#', class: 'btn btn-md btn-primary m-l-1' do
+            i.icon.maxicons2-comment
+            span Apply
         - else
           = form_for project, url: business_project_path(project), html: { class: 'm-l-1 d-ib' } do |f|
             = f.hidden_field :status, value: Project.statuses[:published]

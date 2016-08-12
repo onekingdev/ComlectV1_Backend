@@ -10,6 +10,10 @@ class ProjectsController < ApplicationController
     end
   end
 
+  def show
+    @project = policy_scope(Project).published.find(params[:id])
+  end
+
   private
 
   def search_params

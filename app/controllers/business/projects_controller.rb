@@ -27,6 +27,7 @@ class Business::ProjectsController < ApplicationController
     @project = policy_scope(Project)
                .includes(:industries, :jurisdictions, :skills, business: %i(industries jurisdictions))
                .find(params[:id])
+    render template: 'projects/show'
   end
 
   def create
