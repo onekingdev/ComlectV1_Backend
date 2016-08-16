@@ -21,4 +21,6 @@ h2.m-t-0 New Bank Account
 
     .alert.alert-danger class=('hidden' if f.object.errors.empty?) = f.object.errors.full_messages.join(', ')
 
-  .text-center.m-t-3= f.submit 'Add Account', class: 'btn btn-primary btn-lg p-x-3'
+  .text-center.m-t-3
+    = link_to 'Cancel', business_settings_payment_index_path, remote: true, class: 'btn btn-muted btn-lg p-x-3 m-r-1'
+    = f.submit 'Add Account', class: 'btn btn-primary btn-lg p-x-3'
