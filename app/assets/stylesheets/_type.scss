@@ -45,6 +45,11 @@ a.link {
 
 .text-muted {
   color: $text-muted !important;
+
+  a {
+    color: $text-muted;
+    text-decoration: underline;
+  }
 }
 
 ul.list-flush {

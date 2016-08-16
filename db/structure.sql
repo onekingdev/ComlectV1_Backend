@@ -308,6 +308,39 @@ CREATE TABLE industries_specialists (
 
 
 --
+-- Name: job_applications; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE job_applications (
+    id integer NOT NULL,
+    specialist_id integer,
+    project_id integer,
+    message character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: job_applications_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE job_applications_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: job_applications_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE job_applications_id_seq OWNED BY job_applications.id;
+
+
+--
 -- Name: jurisdictions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -825,6 +858,13 @@ ALTER TABLE ONLY industries ALTER COLUMN id SET DEFAULT nextval('industries_id_s
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY job_applications ALTER COLUMN id SET DEFAULT nextval('job_applications_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY jurisdictions ALTER COLUMN id SET DEFAULT nextval('jurisdictions_id_seq'::regclass);
 
 
@@ -936,6 +976,14 @@ ALTER TABLE ONLY favorites
 
 ALTER TABLE ONLY industries
     ADD CONSTRAINT industries_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: job_applications_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY job_applications
+    ADD CONSTRAINT job_applications_pkey PRIMARY KEY (id);
 
 
 --
@@ -1094,6 +1142,27 @@ CREATE INDEX index_favorites_on_owner_type_and_owner_id ON favorites USING btree
 --
 
 CREATE UNIQUE INDEX index_industries_projects_on_industry_id_and_project_id ON industries_projects USING btree (industry_id, project_id);
+
+
+--
+-- Name: index_job_applications_on_project_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_job_applications_on_project_id ON job_applications USING btree (project_id);
+
+
+--
+-- Name: index_job_applications_on_specialist_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_job_applications_on_specialist_id ON job_applications USING btree (specialist_id);
+
+
+--
+-- Name: index_job_applications_on_specialist_id_and_project_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_job_applications_on_specialist_id_and_project_id ON job_applications USING btree (specialist_id, project_id);
 
 
 --
@@ -1505,4 +1574,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160812150543');
 INSERT INTO schema_migrations (version) VALUES ('20160815145734');
 
 INSERT INTO schema_migrations (version) VALUES ('20160815191902');
+
+INSERT INTO schema_migrations (version) VALUES ('20160816192820');
 

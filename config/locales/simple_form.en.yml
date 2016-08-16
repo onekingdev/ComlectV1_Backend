@@ -111,3 +111,5 @@ en:
         skill_selector: Skills
       message:
         message: Write a message
+      job_application:
+        message: You can provide a short introductory message here.
