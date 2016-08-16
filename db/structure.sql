@@ -435,14 +435,20 @@ ALTER SEQUENCE payment_profiles_id_seq OWNED BY payment_profiles.id;
 CREATE TABLE payment_sources (
     id integer NOT NULL,
     payment_profile_id integer,
-    stripe_card_id character varying NOT NULL,
+    stripe_id character varying NOT NULL,
     brand character varying NOT NULL,
-    exp_month integer NOT NULL,
-    exp_year integer NOT NULL,
+    exp_month integer,
+    exp_year integer,
     last4 character varying NOT NULL,
     "primary" boolean DEFAULT false NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    type character varying,
+    country character varying,
+    currency character varying,
+    account_holder_name character varying,
+    account_holder_type character varying,
+    validated boolean DEFAULT false NOT NULL
 );
 
 
@@ -1140,10 +1146,17 @@ CREATE INDEX index_payment_sources_on_payment_profile_id ON payment_sources USIN
 
 
 --
--- Name: index_payment_sources_on_stripe_card_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_payment_sources_on_stripe_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX index_payment_sources_on_stripe_card_id ON payment_sources USING btree (stripe_card_id);
+CREATE UNIQUE INDEX index_payment_sources_on_stripe_id ON payment_sources USING btree (stripe_id);
+
+
+--
+-- Name: index_payment_sources_on_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_payment_sources_on_type ON payment_sources USING btree (type);
 
 
 --
@@ -1488,4 +1501,8 @@ INSERT INTO schema_migrations (version) VALUES ('20160810005559');
 INSERT INTO schema_migrations (version) VALUES ('20160810021451');
 
 INSERT INTO schema_migrations (version) VALUES ('20160812150543');
+
+INSERT INTO schema_migrations (version) VALUES ('20160815145734');
+
+INSERT INTO schema_migrations (version) VALUES ('20160815191902');
 

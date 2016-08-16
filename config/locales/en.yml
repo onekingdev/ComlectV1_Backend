@@ -17,6 +17,14 @@ en:
         only_regulators: Only Former Regulators
         annual_salary: Annual Salary (USD $)
         fee_type: Complect Fee
+      payment_source/ach:
+        routing_number: Routing Number
+        account_number: Account Number
+        account_holder_name: Account Holder
+        account_holder_type: Account Holder Type
+        validate1: Amount 1
+        validate2: Amount 2
+        last4: Last 4 Digits
     errors:
       messages:
         blank: This is required

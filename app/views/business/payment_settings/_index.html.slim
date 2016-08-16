@@ -5,31 +5,39 @@ h2.m-t-0 Payment Details
     - @sources.each do |source|
       tr data-payment-source-id=source.id
         td
-          = image_tag 'icon-cc.png', size: '30x22', class: 'm-r-1'
-          '#{source.brand} **** **** **** #{source.last4}
+          - if source.bank_account?
+            i.icon.maxicons1-bank.m-r-1
+            '#{source.brand} (#{source.last4})
+          - else
+            i.icon.maxicons3-card.m-r-1
+            '#{source.brand} **** **** **** #{source.last4}
         td.text-right
-          - if source.primary?
+          - if source.primary? && source.validated?
             strong.small Primary
+          - elsif source.bank_account? && !source.validated?
+            = link_to business_settings_payment_path(source), remote: true do
+              .td-u.small Validate
           - else
             = form_for source, url: business_settings_payment_make_primary_path(source), html: { class: 'd-ib' } do |f|
               = f.hidden_field :primary, value: true
               button.btn-plain.td-u.small Make Primary
         td.text-right
-          = form_for source, url: business_settings_payment_path(source), html: { class: 'stripe-edit' } do |_f|
-            script[
-              src="https://checkout.stripe.com/checkout.js"
-              class="stripe-button"
-              data-key="#{ENV.fetch('STRIPE_PUBLISHABLE_KEY')}"
-              data-label="Edit"
-              data-email="#{current_user.business.contact_email}"
-              data-panel-label="Update"
-              data-name="Complect"
-              data-description="Edit Payment Details"
-              data-locale="auto"
-              data-currency="usd"
-              data-zip-code="true"
-              data-allow-remember-me="false"
-            ]
+          - unless source.bank_account?
+            = form_for source, url: business_settings_payment_path(source), html: { class: 'stripe-edit' } do |_f|
+              script[
+                src="https://checkout.stripe.com/checkout.js"
+                class="stripe-button"
+                data-key="#{ENV.fetch('STRIPE_PUBLISHABLE_KEY')}"
+                data-label="Edit"
+                data-email="#{current_user.business.contact_email}"
+                data-panel-label="Update"
+                data-name="Complect"
+                data-description="Edit Payment Details"
+                data-locale="auto"
+                data-currency="usd"
+                data-zip-code="true"
+                data-allow-remember-me="false"
+              ]
           = link_to business_settings_payment_path(source.id), method: :delete, class: 'btn-link m-l-2', data: { confirm: 'Are you sure you want to delete this card?', 'confirm-label' => 'Delete' } do
             i.icon.maxicons1-exit.text-muted
 
@@ -39,13 +47,17 @@ h2.m-t-0 Payment Details
       src="https://checkout.stripe.com/checkout.js"
       class="stripe-button"
       data-key="#{ENV.fetch('STRIPE_PUBLISHABLE_KEY')}"
-      data-label="Add Payment Method"
+      data-label="Add Credit Card"
       data-email="#{current_user.business.contact_email}"
-      data-panel-label="Add Payment Method"
+      data-panel-label="Add Credit Card"
       data-name="Complect"
-      data-description="New Payment Method"
+      data-description="New Credit Card"
       data-locale="auto"
       data-currency="usd"
       data-zip-code="true"
       data-allow-remember-me="false"
     ]
+
+  a.btn.btn-link.btn-plain data-remote=true href=new_business_settings_payment_path
+    i.icon.maxicons2-add
+    span Add Bank Account

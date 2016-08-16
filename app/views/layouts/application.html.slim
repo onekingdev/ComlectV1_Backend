@@ -4,6 +4,7 @@ html lang=I18n.locale
     title Complect
     = stylesheet_link_tag 'application', media: 'all'
     = csrf_meta_tags
+    = javascript_include_tag '/app_config.js'
     = yield :html_head
 
 body class="#{controller_name} #{action_name}"

@@ -87,6 +87,10 @@ form .well {
   hr, .hr {
     border-color: #979797;
   }
+
+  .form-control[disabled] {
+    border: 1px solid $gray-dark;
+  }
 }
 
 .form-group.radio_pills .btn-group {

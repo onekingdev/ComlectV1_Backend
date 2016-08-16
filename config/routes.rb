@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   }
 
   root to: 'home#index'
+  get 'app_config' => 'home#config', format: 'js'
 
   resources :businesses, only: %i(index new create show)
   resource :business, only: %i(edit) do
@@ -25,7 +26,7 @@ Rails.application.routes.draw do
 
   namespace :business do
     resource :settings, only: :show do
-      resources :payment_settings, as: :payment, path: 'payment', except: %i(show) do
+      resources :payment_settings, as: :payment, path: 'payment' do
         patch :make_primary
       end
     end

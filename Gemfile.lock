@@ -157,6 +157,7 @@ GEM
       railties (>= 3.2, < 5)
       responders
     iniparse (1.4.2)
+    iso_country_codes (0.7.5)
     jbuilder (2.4.1)
       activesupport (>= 3.0.0, < 5.1)
       multi_json (~> 1.2)
@@ -383,6 +384,7 @@ DEPENDENCIES
   fastimage (~> 2.0.0)
   foreman (~> 0.80.1)
   image_processing (~> 0.3.0)
+  iso_country_codes
   jbuilder (~> 2.0)
   jquery-rails
   letter_opener

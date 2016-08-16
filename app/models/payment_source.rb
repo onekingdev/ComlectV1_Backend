@@ -2,7 +2,7 @@
 class PaymentSource < ActiveRecord::Base
   belongs_to :payment_profile
 
-  scope :sorted, -> { order('"primary" DESC, created_at DESC') }
+  scope :sorted, -> { order('"primary" DESC, type DESC, created_at DESC') }
 
   before_create :create_source
   after_destroy :delete_stripe_data
@@ -13,19 +13,21 @@ class PaymentSource < ActiveRecord::Base
     private
 
     def add_to_existing(profile, token)
-      profile.payment_sources.create token: token, primary: profile.payment_sources.empty?
+      source = profile.payment_sources.new token: token, validated: true, primary: profile.payment_sources.empty?
+      source.save if profile.errors.empty?
+      source
     rescue Stripe::StripeError => e
-      errors.add :base, e.message
+      source.errors.add :base, e.message
+      source
     end
 
     def create_profile_and_add(business, token)
-      business.create_payment_profile.tap do |profile|
-        add_to_existing profile, token if profile.errors.empty?
-      end
+      profile = business.create_payment_profile
+      add_to_existing profile, token
     end
   end
 
-  def self.add_to(business, token:)
+  def self.add_to(business, token)
     if business.payment_profile
       add_to_existing business.payment_profile, token
     else
@@ -42,10 +44,14 @@ class PaymentSource < ActiveRecord::Base
   end
 
   def make_primary!
-    stripe_customer.default_source = stripe_card_id
+    stripe_customer.default_source = stripe_id
     stripe_customer.save
     payment_profile.payment_sources.update_all primary: false
     update_attribute :primary, true
+  end
+
+  def bank_account?
+    false
   end
 
   private
@@ -55,7 +61,7 @@ class PaymentSource < ActiveRecord::Base
   def create_source
     source = stripe_customer.sources.create(source: token)
     self.attributes = source.to_h.slice(*STRIPE_CARD_KEYS)
-    self.stripe_card_id = source['id']
+    self.stripe_id = source['id']
     if primary?
       stripe_customer.default_source = source['id']
       stripe_customer.save
@@ -70,11 +76,15 @@ class PaymentSource < ActiveRecord::Base
   end
 
   def delete_stripe_data
-    if stripe_card_id.present?
-      card = stripe_customer.sources.retrieve stripe_card_id
-      card.delete
+    if stripe_id.present?
+      source = stripe_customer.sources.retrieve stripe_id
+      source.delete
       payment_profile.update_default_source!
     end
+  rescue => _e
+    errors.add :base, 'Could not delete payment source'
+    false
+  else
     true
   end
 end

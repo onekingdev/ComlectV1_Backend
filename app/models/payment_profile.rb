@@ -11,8 +11,8 @@ class PaymentProfile < ActiveRecord::Base
   end
 
   def update_default_source!
-    source = payment_sources.find_by!(stripe_card_id: stripe_customer.default_source)
-    return if source.primary?
+    source = payment_sources.find_by(stripe_id: stripe_customer.default_source)
+    return if source.nil? || source.primary?
     payment_sources.update_all primary: false
     source.update_attribute :primary, true
   end
@@ -27,6 +27,9 @@ class PaymentProfile < ActiveRecord::Base
   end
 
   def delete_stripe_data
-    Stripe::Customer.delete stripe_customer_id
+    stripe_customer.delete if stripe_customer_id
+  rescue => _e
+    errors.add :base, 'Could not delete customer info'
+    false
   end
 end

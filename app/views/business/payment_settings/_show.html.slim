@@ -1,0 +1,31 @@
+h2.m-t-0 Bank Account
+
+= simple_form_for @payment_source, remote: true, url: business_settings_payment_path(@payment_source) do |f|
+  .well.well-lg.m-t-3
+    h2.text-center.m-b-2 Account Details
+    .row
+      .col-xs-12.col-sm-6
+        = f.input :country, as: :string, disabled: true, input_html: { class: 'input-lg' }
+      .col-xs-12.col-sm-6
+        = f.input :currency, disabled: true, input_html: { class: 'input-lg' }
+    .row
+      .col-xs-12.col-sm-6
+        = f.input :account_holder_type, disabled: true, input_html: { class: 'input-lg' }
+      .col-xs-12.col-sm-6
+        = f.input :last4, disabled: true, input_html: { class: 'input-lg' }
+
+    - if @payment_source.validated?
+      .alert.alert-success Validated Bank Account
+    - else
+      h3 Validate this account
+      p There should be two microdeposits in your account (marked as "VERIFICATION"). Enter the amounts in cents here to validate it.
+      .row
+        .col-xs-12.col-sm-6
+          = f.input :validate1, input_html: { class: 'input-lg' }
+        .col-xs-12.col-sm-6
+          = f.input :validate2, input_html: { class: 'input-lg' }
+
+    .alert.alert-danger class=('hidden' if f.object.errors.empty?) = f.object.errors.full_messages.join(', ')
+
+  - unless @payment_source.validated?
+    .text-center.m-t-3= f.submit 'Validate Account', class: 'btn btn-primary btn-lg p-x-3'
