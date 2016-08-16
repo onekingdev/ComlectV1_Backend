@@ -37,13 +37,13 @@ class Business::PaymentSettingsController < ApplicationController
   end
 
   def make_primary
-    @source = current_user.business.payment_profile.payment_sources.find(params[:payment_id])
+    @source = current_business.payment_sources.find(params[:payment_id])
     @source.make_primary!
     redirect_to business_settings_payment_index_path
   end
 
   def destroy
-    @source = current_user.business.payment_profile.payment_sources.find(params[:id])
+    @source = current_business.payment_sources.find(params[:id])
     @source.destroy
     redirect_to business_settings_payment_index_path
   end
