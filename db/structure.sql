@@ -605,7 +605,8 @@ CREATE TABLE projects (
     lng numeric(9,5),
     point geography,
     calculated_budget numeric,
-    specialist_id integer
+    specialist_id integer,
+    job_applications_count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1576,4 +1577,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160815145734');
 INSERT INTO schema_migrations (version) VALUES ('20160815191902');
 
 INSERT INTO schema_migrations (version) VALUES ('20160816192820');
+
+INSERT INTO schema_migrations (version) VALUES ('20160816195801');
 

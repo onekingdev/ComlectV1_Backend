@@ -17,12 +17,14 @@ class Specialist < ActiveRecord::Base
   }
 
   scope :join_experience, -> {
+    # TODO: Adjust when implementing rounding
     joins(:work_experiences)
       .select('specialists.*, SUM((COALESCE("to", NOW())::date - "from"::date) / 365) AS years_of_experience')
       .group(:id)
   }
 
   scope :experience_between, -> (min, max) {
+    # TODO: Adjust when implementing rounding
     base_scope = join_experience.where(work_experiences: { compliance: true })
     if max
       base_scope

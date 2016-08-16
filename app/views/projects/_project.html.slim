@@ -33,7 +33,7 @@
         span.btn.btn-lg.btn-text.p-x-0.tt-n
           i.icon.maxicons1-peoples
           '&nbsp;
-          = pluralize project.applications_count, 'Applicant', 'Applicants'
+          = pluralize project.job_applications_count, 'Applicant', 'Applicants'
 
         .pull-right
           = link_to_favorite current_specialist, project, class: 'btn btn-md btn-primary m-r-1 p-x-2' do
@@ -41,4 +41,4 @@
             span.unfavorite Unfavorite
           /TODO
           = link_to 'Share', '#', class: 'btn btn-md btn-primary m-r-1 p-x-2'
-          = link_to 'View Details & Apply', '#', class: 'btn btn-md btn-primary p-x-2'
+          = link_to 'View Details & Apply', project, class: 'btn btn-md btn-primary p-x-2'

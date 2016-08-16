@@ -7,15 +7,37 @@ class Business::JobApplicationsController < ApplicationController
     respond_to do |format|
       format.html do
         if request.xhr?
-          @specialists = Specialist::Search.new(search_params).results
-          # @specialists = Specialist.preload_associations # TODO: Filter/sort
-          render partial: 'cards', specialists: @specialists
+          @job_applications = applications_list
+          render partial: 'cards', locals: { job_applications: @job_applications }
         end
       end
     end
   end
 
   private
+
+  def applications_list
+    scope = sort_applications(@project.job_applications.preload_associations)
+    case params[:filter]
+    when 'shortlisted' # TODO: Shortlisted
+      scope.none
+    when 'hidden'
+      scope.none # TODO: Hidden
+    else
+      scope # TODO: Not shortlisted/hidden
+    end
+  end
+
+  def sort_applications(scope)
+    case params[:sort_by]
+    when 'experience'
+      scope.order_by_experience
+    when 'newest'
+      scope.order(created_at: :desc)
+    else
+      scope # TODO: Sort by rating
+    end
+  end
 
   def search_params
     { sort_by: params[:sort_by] }

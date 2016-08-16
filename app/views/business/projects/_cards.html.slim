@@ -6,10 +6,10 @@
     .card-container.col-xs-12.col-md-6.col-lg-4 data-project-id=project.id
       .project.card.panel.panel-default class="#{project.type}-project"
         a.panel-heading href=business_project_path(project)
-          - if project.applications_count > 0
+          - if project.job_applications_count > 0
             .label.label-danger
               i.icon.maxicons1-peoples
-              span= project.applications_count
+              span= project.job_applications_count
           h4= project.title
 
         a.panel-body href=business_project_path(project)

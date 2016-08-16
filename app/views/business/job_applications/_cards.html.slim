@@ -1,15 +1,18 @@
-- @specialists.map(&method(:decorate)).each do |specialist|
-  .job-application data-application-id="#TODO"
+- if job_applications.to_a.empty?
+  h2.text-center.m-b-2 No applicants yet
+
+- job_applications.map(&method(:decorate)).each do |application|
+  - specialist = decorate(application.specialist)
+  .job-application data-application-id=application.id
     .col-xs-12.col-md-4.profile
       - if specialist.photo
         .profile-image
           = image_tag specialist.photo_url(:thumb), size: '80x80', class: 'img-circle'
       .name= specialist.first_name
       .rating= specialist.render_stars
-      / TODO
-      p.intro Introductory message
+      .intro= simple_format application.message
       .footer
-        .date Applied: #{rand(60).days.ago.strftime("#{rand(28).ordinalize} %b %Y")}
+        .date Applied: #{application.created_at.strftime("#{application.created_at.day.ordinalize} %b %Y")}
         .tools
           a.btn.btn-xs.tool href="#"
             i.icon.maxicons2-like
@@ -52,6 +55,7 @@
               li #{edu.institution}, #{edu.degree} (#{edu.year})
 
       .actions.btn-group
+        / TODO
         a.btn.btn-md.btn-primary.col-xs-4 href="#"
           i.icon.maxicons2-view
           span View
