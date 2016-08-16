@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   }
 
   root to: 'home#index'
-  get 'app_config' => 'home#config', format: 'js'
+  get 'app_config' => 'home#app_config', format: 'js'
 
   resources :businesses, only: %i(index new create show)
   resource :business, only: %i(edit) do
