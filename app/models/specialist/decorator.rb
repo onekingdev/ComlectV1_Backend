@@ -62,7 +62,10 @@ class Specialist::Decorator < ApplicationDecorator
   end
 
   def certifications_list
-    certifications.split(',')
+    return 'N/A' if certifications.blank?
+    h.content_tag 'ul', class: 'list-flush' do
+      certifications.split(',').map { |item| h.content_tag('li', item) }.join.html_safe
+    end
   end
 
   def linkedin_url

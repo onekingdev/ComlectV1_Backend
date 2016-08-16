@@ -28,7 +28,7 @@
 
             - if specialist.certifications.present?
               label.strong.m-b-0.m-t-2.d-b Certifications
-              = specialist.certifications.split(',').join('<br>').html_safe
+              = specialist.certifications_list
 
             - if specialist.skills.any?
               label.strong.m-b-0.m-t-2.d-b Skills
