@@ -1,6 +1,6 @@
 # frozen_string_literal: true
-class Business::ProjectIssuesController < ApplicationController
-  before_action :require_business!
+class Projects::IssuesController < ApplicationController
+  before_action :require_specialist!
   before_action :find_project
 
   def new
@@ -23,6 +23,6 @@ class Business::ProjectIssuesController < ApplicationController
   end
 
   def find_project
-    @project = current_business.projects.find(params[:project_id])
+    @project = current_specialist.projects.find(params[:project_id])
   end
 end

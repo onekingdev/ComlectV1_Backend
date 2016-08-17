@@ -72,7 +72,7 @@ Rails.application.routes.draw do
       resources :messages
       resources :documents
       resources :timesheets
-      resources :project_issues, path: 'issues', as: :issues
+      resources :issues
     end
   end
 
