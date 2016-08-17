@@ -13,4 +13,12 @@ class Message::Decorator < ApplicationDecorator
   def thread_name(subject)
     thread ? thread.to_s : other_party(subject).to_s
   end
+
+  def form_url
+    if sender_type == 'Business'
+      h.url_for [:business, self]
+    else
+      h.url_for [sender_type.underscore.to_sym, self]
+    end
+  end
 end

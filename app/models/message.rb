@@ -7,7 +7,9 @@ class Message < ActiveRecord::Base
   scope :preload_associations, -> { preload(:thread, :sender, :recipient) }
   scope :recent, -> { order(created_at: :desc) }
   scope :between, -> (type, id) {
-    where('(recipient_type = :type AND id = :id) OR (sender_type = :type AND id = :id)', type: type, id: id)
+    where(thread: nil)
+      .where('(recipient_type = :type AND recipient_id = :id) OR (sender_type = :type AND sender_id = :id)',
+             type: type, id: id.to_i)
   }
 
   include FileUploader[:file]
@@ -50,5 +52,11 @@ class Message < ActiveRecord::Base
 
   def sender?(sender)
     self.sender == sender
+  end
+
+  def send!
+    return false unless save
+    # TODO: Send notification
+    true
   end
 end

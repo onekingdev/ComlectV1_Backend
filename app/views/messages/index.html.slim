@@ -4,7 +4,8 @@ h1.m-y-3 Messages
 .messages
   .row
     .col-xs-12.col-md-3
-      select.js-select.input-lg.form-control.input-gray name="thread_key" data-remote=true data-url=specialists_message_path(id: 'thread')
+      - url = @sender.is_a?(Specialist) ? specialists_message_path(id: 'thread') : business_message_path(id: 'thread')
+      select.js-select.input-lg.form-control.input-gray name="thread_key" data-remote=true data-url=url
         - @threads.map(&method(:decorate)).each do |thread|
           option value=thread.thread_key(@sender) = thread.thread_name(@sender)
 
