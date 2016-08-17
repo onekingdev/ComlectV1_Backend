@@ -14,6 +14,20 @@ class Message < ActiveRecord::Base
 
   validates :message, presence: true
 
+  def self.threads_for(subject)
+    query = <<-SQL
+    WITH summary AS (
+      SELECT *, ROW_NUMBER() OVER(PARTITION BY m.thread_id ORDER BY m.created_at DESC) AS n
+      FROM messages AS m
+    )
+    SELECT DISTINCT(summary.thread_type, summary.thread_id), * FROM summary WHERE summary.n = 1 AND
+      ((sender_type = :type AND sender_id = :id) OR
+       (recipient_type = :type AND recipient_id = :id))
+    ORDER BY summary.created_at DESC
+    SQL
+    find_by_sql([query, { id: subject.id, type: subject.model_name.name }])
+  end
+
   def messages
     if thread
       Message.where(thread: thread)

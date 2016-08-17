@@ -32,6 +32,12 @@ class Business < ActiveRecord::Base
     end
   end
 
+  def messages
+    Message.where("
+      (recipient_type = '#{Business.name}' AND recipient_id = :id) OR
+      (sender_type = '#{Business.name}' AND sender_id = :id)", id: id)
+  end
+
   def to_s
     business_name
   end

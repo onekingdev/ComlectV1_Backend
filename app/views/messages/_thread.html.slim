@@ -1,6 +1,10 @@
-#message-thread.message-thread data-thread-id=thread.id
-  .messages.m-b-3
-    - thread.messages.limit(5).map(&method(:decorate)).reverse.each do |message|
-      = render 'message', message: message, me: sender
+#message-thread.message-thread data-thread-id=thread&.id
+  - if thread
+    .messages.m-b-3
+      - thread.messages.limit(5).map(&method(:decorate)).reverse.each do |message|
+        = render 'message', message: message, me: sender
 
-  /= render 'form', message: me.sent_messages.new
+    / TODO: Implement form?
+    /= render 'form', message: me.sent_messages.new
+  - else
+    h2.text-center No messages

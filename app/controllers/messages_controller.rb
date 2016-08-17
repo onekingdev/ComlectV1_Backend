@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 class MessagesController < ApplicationController
   def index
-    @threads = @sender.threads
+    @threads = Message.threads_for(@sender)
     @thread = @threads.first
   end
 

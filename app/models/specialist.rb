@@ -66,20 +66,6 @@ class Specialist < ActiveRecord::Base
 
   enum visibility:  { is_public: 'public', is_private: 'private' }
 
-  def threads
-    query = <<-SQL
-      WITH summary AS (
-	      SELECT *, ROW_NUMBER() OVER(PARTITION BY m.thread_id ORDER BY m.created_at DESC) AS n
-	      FROM messages AS m
-      )
-      SELECT DISTINCT(summary.thread_type, summary.thread_id), * FROM summary WHERE summary.n = 1 AND
-        ((sender_type = :type AND sender_id = :id) OR
-         (recipient_type = :type AND recipient_id = :id))
-      ORDER BY summary.created_at DESC
-    SQL
-    Message.find_by_sql([query, { id: id, type: self.class.name }])
-  end
-
   def messages
     Message.where("
       (recipient_type = '#{Specialist.name}' AND recipient_id = :id) OR
