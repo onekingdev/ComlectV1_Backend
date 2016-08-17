@@ -81,8 +81,8 @@ class Project < ActiveRecord::Base
     title
   end
 
-  def applied?(_user)
-    false # TODO
+  def applied?(specialist)
+    job_applications.where(specialist_id: specialist.id).exists?
   end
 
   def skill_names

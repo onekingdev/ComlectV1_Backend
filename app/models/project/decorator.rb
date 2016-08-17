@@ -4,6 +4,10 @@ class Project::Decorator < ApplicationDecorator
   decorates_association :business, with: Business::Decorator
   delegate_all
 
+  def specialist_project_href(specialist)
+    specialist == model.specialist ? h.project_dashboard_path(self) : h.project_path(self)
+  end
+
   def confirm_delete
     "Are you sure you want to delete this project?<h2>#{title}</h2>
      This can't be undone and this project will no longer appear in your dashboard, even as a draft.".html_safe

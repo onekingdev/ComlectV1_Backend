@@ -26,11 +26,11 @@ class Specialists::ProjectsController < ApplicationController
   end
 
   def active_projects
-    base_scope Project.none # TODO
+    base_scope current_specialist.projects
   end
 
   def pending_projects
-    base_scope Project.none # TODO
+    base_scope current_specialist.applied_projects
   end
 
   def favorited_projects

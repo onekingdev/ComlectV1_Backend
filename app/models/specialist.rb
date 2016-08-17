@@ -11,6 +11,9 @@ class Specialist < ActiveRecord::Base
   has_many :favorited_projects, class_name: 'Project', through: :favorites, source: :favorited, source_type: 'Project'
   has_many :projects
   has_many :job_applications, dependent: :destroy
+  has_many :applied_projects, -> {
+    where(specialist_id: nil)
+  }, class_name: 'Project', through: :job_applications, source: :project
 
   scope :preload_associations, -> {
     preload(:user, :work_experiences, :education_histories, :industries, :jurisdictions, :skills)

@@ -7,8 +7,7 @@ class Business::ProjectMessagesController < ApplicationController
     @messages = @project.messages.recent.limit(5)
     respond_to do |format|
       format.html do
-        # TODO: @project.specialist
-        render partial: 'thread', locals: { messages: @messages, me: current_business, them: Specialist.first }
+        render partial: 'thread', locals: { messages: @messages, me: current_business, them: @project.specialist }
       end
     end
   end
@@ -20,7 +19,7 @@ class Business::ProjectMessagesController < ApplicationController
   end
 
   def create
-    @message = @project.messages.create(message_params.merge(sender: current_business, recipient: Specialist.first))
+    @message = @project.messages.create(message_params.merge(sender: current_business, recipient: @project.specialist))
     respond_to do |format|
       format.js do
         render :new if @message.new_record?

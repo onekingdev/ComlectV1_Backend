@@ -20,11 +20,6 @@ class Business::Decorator < ApplicationDecorator
     public_send "#{filter}_specialists"
   end
 
-  def hired_specialists
-    # TODO
-    Specialist.none
-  end
-
   def favorited_specialists
     model.favorite_specialists
   end

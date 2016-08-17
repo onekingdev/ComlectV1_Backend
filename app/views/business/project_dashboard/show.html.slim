@@ -18,9 +18,8 @@
               = image_tag project.business.logo_url(:thumb), size: '60x60', class: 'img-circle'
               .name= project.business
             .specialist
-              / TODO
-              = image_tag Specialist.first.photo_url(:thumb), size: '60x60', class: 'img-circle'
-              .name= Specialist.first.full_name
+              = image_tag project.specialist.photo_url(:thumb), size: '60x60', class: 'img-circle'
+              .name= project.specialist.full_name
 
             label.strong.m-t-2 Key Deliverables
             = project.key_deliverables_list

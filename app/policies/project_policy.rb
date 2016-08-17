@@ -10,7 +10,7 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def update?
-    owner? # TODO: && record.applicants.empty?
+    owner? && record.job_applications.empty?
   end
 
   def destroy?

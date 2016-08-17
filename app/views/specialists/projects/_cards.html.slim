@@ -5,10 +5,10 @@
   - projects.map(&method(:decorate)).each do |project|
     .card-container.col-xs-12.col-md-6.col-lg-4 data-project-id=project.id
       .project.card.panel.panel-default class="#{project.type}-project"
-        a.panel-heading href=project_path(project)
+        a.panel-heading href=project.specialist_project_href(current_specialist)
           h4= project.title
 
-        a.panel-body href=project_path(project)
+        a.panel-body href=project.specialist_project_href(current_specialist)
           .icon-list
             .item
               i.icon.maxicons2-navigation
@@ -34,7 +34,7 @@
 
         .panel-footer
           .btn-group
-            - if false || project.applied?(current_specialist)
+            - if project.pending? && project.applied?(current_specialist)
               a.btn.btn-md.btn-primary href="#"
                 i.icon.maxicons1-donotenter
                 span Withdraw
@@ -42,7 +42,7 @@
                 i.icon.maxicons2-view
                 span View
             - else
-              = link_to project_path(project), class: 'btn btn-md btn-primary btn-single'
+              = link_to project.specialist_project_href(current_specialist), class: 'btn btn-md btn-primary btn-single'
                 i.icon.maxicons2-view
                 span View
 
