@@ -19,6 +19,7 @@ class JobApplication < ActiveRecord::Base
 
   def accept!
     # TODO: Send notification to specialist
+    # TODO: Immediately charge business if this is full time job
     project.update_attribute :specialist_id, specialist_id
   end
 end
