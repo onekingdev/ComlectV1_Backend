@@ -1,0 +1,19 @@
+#js-project-hire.modal.fade.modal-popup.modal-faux-bootbox
+  .modal-dialog
+    = form_for @job_application, url: business_project_hires_path(@project), remote: true, method: :post, class: 'modal-content' do |f|
+      = hidden_field_tag :job_application_id, f.object.id
+      .modal-header
+        button.close data-dismiss="modal"
+          .fa.fa-close
+        h4 Confirm Selection
+      .modal-body
+        p Are you sure you want to hire <strong>#{f.object.specialist.first_name}</strong>?
+        p This will notify the specialist of their selection and start your project.
+        / TODO: Terms link
+        p Please remember, as per our <a href="#" class="text-muted td-u">Terms of Use</a>, all payments to specialists must be made through the Complect platform.
+
+        .row.m-t-2.row-compact
+          .col-xs-6
+            a.btn.btn-primary.btn-lg.btn-block href="#" data-dismiss="modal" Cancel
+          .col-xs-6
+            = f.submit 'Confirm', class: 'btn btn-primary btn-lg btn-block'

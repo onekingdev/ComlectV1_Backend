@@ -23,7 +23,7 @@ class ProjectPolicy < ApplicationPolicy
 
   class Scope < Scope
     def resolve
-      user ? scope.accessible_by(user) : scope.published
+      user ? scope.accessible_by(user) : scope.published.pending
     end
   end
 

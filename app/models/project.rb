@@ -14,8 +14,8 @@ class Project < ActiveRecord::Base
 
   scope :recent, -> { order(created_at: :desc) }
   scope :published, -> { where(status: 'published') }
-  scope :active, -> { none } # TODO: Applicant selected
-  scope :pending, -> { published } # TODO: Applicant not yet selected
+  scope :active, -> { where.not(specialist_id: nil) }
+  scope :pending, -> { published.where(specialist_id: nil) }
   scope :complete, -> { none } # TODO: User marked as complete
   scope :draft_and_in_review, -> { where(status: %w(draft review)) }
   scope :accessible_by, -> (user) {
@@ -100,11 +100,11 @@ class Project < ActiveRecord::Base
   end
 
   def pending?
-    rand(2) == 1 # TODO
+    specialist_id.nil?
   end
 
   def active?
-    rand(2) == 1 # TODO
+    specialist_id.present?
   end
 
   def complete?

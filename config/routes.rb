@@ -44,6 +44,7 @@ Rails.application.routes.draw do
       get :copy, on: :member
 
       resources :job_applications, path: 'applications'
+      resources :hires
       resources :documents
       resources :timesheets
       resources :project_issues, path: 'issues'

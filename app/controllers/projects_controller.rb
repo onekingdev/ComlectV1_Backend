@@ -11,7 +11,7 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    @project = policy_scope(Project).published.find(params[:id])
+    @project = policy_scope(Project).find(params[:id])
   end
 
   private

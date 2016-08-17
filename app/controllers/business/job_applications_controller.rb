@@ -40,6 +40,6 @@ class Business::JobApplicationsController < ApplicationController
   end
 
   def search_params
-    { sort_by: params[:sort_by] }
+    params.slice :sort_by
   end
 end

@@ -16,4 +16,9 @@ class JobApplication < ActiveRecord::Base
 
   validates :message, presence: true
   validates :project_id, uniqueness: { scope: :specialist_id }
+
+  def accept!
+    # TODO: Send notification to specialist
+    project.update_attribute :specialist_id, specialist_id
+  end
 end
