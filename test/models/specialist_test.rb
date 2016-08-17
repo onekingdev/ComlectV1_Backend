@@ -54,4 +54,15 @@ class SpecialistTest < ActiveSupport::TestCase
     results = Specialist.experience_between(2, 5).to_a
     assert_equal 2, results.size
   end
+
+  test 'returns messaged parties' do
+    specialist_1 = create(:specialist)
+    specialist_2 = create(:specialist)
+    business_1 = create(:business)
+    business_2 = create(:business)
+    Message.create!(sender: specialist_1, recipient: business_1, message: 'Howdy')
+    Message.create!(sender: specialist_2, recipient: business_2, message: 'Howdy 2')
+    assert_equal [business_1.id], specialist_1.messaged_parties.pluck(:id)
+    assert_equal [business_2.id], specialist_2.messaged_parties.pluck(:id)
+  end
 end

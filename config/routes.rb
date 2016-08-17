@@ -32,6 +32,7 @@ Rails.application.routes.draw do
     end
     resources :specialists, only: :index
     concerns :favoriteable
+    resources :messages
 
     get 'projects/:project_id/dashboard' => 'project_dashboard#show', as: :project_dashboard
 
@@ -56,6 +57,7 @@ Rails.application.routes.draw do
     resource :settings, only: :show
     resources :projects, path: 'my-projects'
     concerns :favoriteable
+    resources :messages
   end
 
   resources :specialists, only: %i(index new create show)

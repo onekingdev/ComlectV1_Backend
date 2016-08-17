@@ -1,6 +1,6 @@
 #project-message-thread.message-thread
   .messages.m-b-3
     - @messages.map(&method(:decorate)).reverse.each do |message|
-      = render 'message', message: message, me: current_specialist
+      = render 'messages/message', message: message, me: current_specialist
 
   = render 'form', message: me.sent_messages.new

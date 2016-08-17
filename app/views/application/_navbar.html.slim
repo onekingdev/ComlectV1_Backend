@@ -41,6 +41,7 @@ nav#nav.navbar.navbar-default.navbar-inverse
               li= link_to 'Profile', business
               li= link_to 'Financials', '#'
               li= link_to 'Account Settings', business_settings_path
+              li= link_to 'Messages', business_messages_path
               li= link_to 'Log Out', destroy_user_session_path, method: :delete
           - elsif (specialist = user.specialist)
             a.dropdown-toggle href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
@@ -50,6 +51,7 @@ nav#nav.navbar.navbar-default.navbar-inverse
               li= link_to 'Dashboard', specialists_dashboard_path
               li= link_to 'Profile', specialist
               li= link_to 'Account Settings', specialists_settings_path
+              li= link_to 'Messages', specialists_messages_path
               li= link_to 'Log Out', destroy_user_session_path, method: :delete
         li.dropdown
           a.dropdown-toggle href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
