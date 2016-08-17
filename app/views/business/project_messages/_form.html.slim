@@ -1,15 +1,2 @@
 = simple_form_for message, remote: true, authenticity_token: true, url: business_project_messages_path do |f|
-  = f.input :message, as: :text, label: false, input_html: { class: 'di-b', rows: 4 }
-
-  label.custom-file-field.js-custom-file-field.m-b-0.pull-left
-    = f.hidden_field :file, value: f.object.file_data? ? f.object.file_data.to_json : nil
-    = f.file_field :file
-    .btn.btn-plain.btn-align-md-bottom
-      i.icon.maxicons1-copy
-      span Add File
-      span.selected.d-ib.m-l-1= f.object.file ? f.object.file.data['metadata']['filename'] : nil
-    - if f.object.errors[:file].any?
-      .text-danger= f.object.errors[:file].to_sentence
-
-  .pull-right
-    = f.submit 'Send', class: 'btn btn-primary btn-md p-x-3'
+  = render 'projects/messages/fields', f: f

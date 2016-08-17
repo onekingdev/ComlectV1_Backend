@@ -14,6 +14,7 @@ class Specialist < ActiveRecord::Base
   has_many :applied_projects, -> {
     where(specialist_id: nil)
   }, class_name: 'Project', through: :job_applications, source: :project
+  has_many :sent_messages, as: :sender, class_name: 'Message'
 
   scope :preload_associations, -> {
     preload(:user, :work_experiences, :education_histories, :industries, :jurisdictions, :skills)

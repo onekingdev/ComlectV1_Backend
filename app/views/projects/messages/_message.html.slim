@@ -1,5 +1,5 @@
 - is_me = message.sender?(me)
-.message class=(is_me ? 'me' : 'them')
+.message class=(is_me ? 'me' : 'them') data-message-id=message.id
   .text= simple_format message.message
   .author= is_me ? 'Me' : message.sender
   .date= message.created_at.strftime('%H:%M %d %b %Y')

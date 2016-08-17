@@ -69,6 +69,10 @@ Rails.application.routes.draw do
     scope module: 'projects' do
       resources :job_applications, path: 'applications'
       resource :dashboard, only: :show
+      resources :messages
+      resources :documents
+      resources :timesheets
+      resources :project_issues, path: 'issues', as: :issues
     end
   end
 
