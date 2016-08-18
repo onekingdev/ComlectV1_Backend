@@ -17,11 +17,15 @@
             i.icon.maxicons2-cisco
             span Share
         - if current_specialist
-          = link_to_favorite current_specialist, project, class: 'btn btn-primary btn-md m-l-1' do
-            i.icon.maxicons3-heart
-            span.unfavorite Unfavorite
-            span.favorite Favorite
-          - unless project.job_applications.by(current_specialist).exists?
+          - if (application = project.job_applications.by(current_specialist).first)
+            = link_to project_job_application_path(project, application), method: :delete, remote: true, data: { confirm: "Are you sure you want to withdraw your application from #{project}?", confirm_label: 'Confirm' }, class: 'btn btn-md btn-primary m-l-1' do
+              i.icon.maxicons1-back
+              span Withdraw
+          - else
+            = link_to_favorite current_specialist, project, class: 'btn btn-primary btn-md m-l-1' do
+              i.icon.maxicons3-heart
+              span.unfavorite Unfavorite
+              span.favorite Favorite
             = link_to new_project_job_application_path(project), remote: true, class: 'btn btn-md btn-primary m-l-1' do
               i.icon.maxicons2-comment
               span Apply
