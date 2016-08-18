@@ -9,6 +9,7 @@ class Project::Form < Project
 
   ONE_OFF_FIELDS = %i(key_deliverables starts_on ends_on location_type payment_schedule estimated_hours).freeze
   FULL_TIME_FIELDS = %i(full_time_starts_on annual_salary).freeze
+  SHARED_FIELDS = %i(starts_on).freeze
 
   validates(*ONE_OFF_FIELDS, presence: true, if: :one_off?)
   validates(*FULL_TIME_FIELDS, presence: true, if: :full_time?)
@@ -82,9 +83,11 @@ class Project::Form < Project
 
   private
 
+  # Clear full time fields if one_off project and vice-versa
+  # Except for fields that both types of projects use
   def assign_type_fields
     clear_fields = one_off? ? FULL_TIME_FIELDS : ONE_OFF_FIELDS
-    clear_fields.each do |field|
+    (clear_fields - SHARED_FIELDS).each do |field|
       next unless self.class.column_names.include?(field.to_s)
       self[field] = nil
     end
