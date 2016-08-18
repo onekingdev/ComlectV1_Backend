@@ -11,4 +11,4 @@ label.custom-file-field.js-custom-file-field.m-b-0.pull-left
     .text-danger= f.object.errors[:file].to_sentence
 
 .pull-right
-  = f.submit 'Send', class: 'btn btn-primary btn-md p-x-3'
+  = f.submit 'Send', class: 'btn btn-primary btn-md p-x-3', data: { disable_with: 'Sending...' }
