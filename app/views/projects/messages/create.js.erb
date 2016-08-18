@@ -1,2 +1,2 @@
 $('form#new_message').replaceWith('<%= j render 'form', message: decorate(@project.messages.new) %>');
-$('#project-message-thread').find('.messages').append('<%= j render 'projects/messages/message', message: decorate(@message), me: current_specialist %>');
+$('#project-message-thread').find('.messages').append('<%= j render 'messages/message', message: decorate(@message), me: current_specialist %>');
