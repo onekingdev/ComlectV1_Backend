@@ -110,6 +110,6 @@ en:
         industry_ids: Industry
         skill_selector: Skills
       message:
-        message: Write a message
+        message: Write a message here.
       job_application:
         message: You can provide a short introductory message here.
