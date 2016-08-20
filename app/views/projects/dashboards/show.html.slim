@@ -14,10 +14,10 @@
             h3 Project Overview
 
           .panel-body
-            .business.m-b-1
+            = link_to project.business, class: 'business m-b-1 td-n d-b' do
               = image_tag project.business.logo_url(:thumb), size: '60x60', class: 'img-circle'
               .name= project.business
-            .specialist
+            = link_to project.specialist, class: 'specialist m-b-1 td-n d-b' do
               = image_tag project.specialist.photo_url(:thumb), size: '60x60', class: 'img-circle'
               .name= project.specialist.full_name
 
