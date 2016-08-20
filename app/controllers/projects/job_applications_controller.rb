@@ -25,7 +25,7 @@ class Projects::JobApplicationsController < ApplicationController
 
   def destroy
     @job_application = current_specialist.job_applications.find(params[:id])
-    authorize @job_application, :destroy
+    authorize @job_application, :destroy?
     @job_application.destroy
     # TODO: Send notification to specialist
     # https://trello.com/c/nfjQBLiK/535-withdraw-application-pop-up
