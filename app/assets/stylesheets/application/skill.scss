@@ -1,5 +1,6 @@
 .skill-tags {
   white-space: normal;
+  @include clearfix;
 
   .skill-tag {
     float: left;
