@@ -108,7 +108,7 @@ class Project < ActiveRecord::Base
   end
 
   def complete?
-    rand(2) == 1 # TODO
+    false # TODO
   end
 
   def draft_or_review?

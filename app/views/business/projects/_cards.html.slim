@@ -5,14 +5,14 @@
   - @projects.map(&method(:decorate)).each do |project|
     .card-container.col-xs-12.col-md-6.col-lg-4 data-project-id=project.id
       .project.card.panel.panel-default class="#{project.type}-project"
-        a.panel-heading href=business_project_path(project)
+        a.panel-heading href=project.business_project_href
           - if project.job_applications_count > 0
             .label.label-danger
               i.icon.maxicons1-peoples
               span= project.job_applications_count
           h4= project.title
 
-        a.panel-body href=business_project_path(project)
+        a.panel-body href=project.business_project_href
           .icon-list
             .item
               i.icon.maxicons2-navigation
@@ -50,14 +50,14 @@
                 i.icon.maxicons1-peoples
                 span Applicants
             - elsif project.active?
-              a.btn.btn-md.btn-primary.btn-single href=business_project_path(project)
+              a.btn.btn-md.btn-primary.btn-single href=business_project_dashboard_path(project)
                 i.icon.maxicons2-view
                 span View
             - else # project.complete?
               a.btn.btn-md.btn-primary href=copy_business_project_path(project.id)
                 i.icon.maxicons1-copy
                 span Copy
-              a.btn.btn-md.btn-primary href=business_project_path(project)
+              a.btn.btn-md.btn-primary href=business_project_dashboard_path(project)
                 i.icon.maxicons2-view
                 span View
 
