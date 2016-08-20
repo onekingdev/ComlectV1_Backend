@@ -6,7 +6,7 @@
     .card-container.col-xs-12.col-md-6.col-lg-4 data-project-id=project.id
       .project.card.panel.panel-default class="#{project.type}-project"
         a.panel-heading href=project.business_project_href
-          - if project.job_applications_count > 0
+          - if project.job_applications_count > 0 && project.pending?
             .label.label-danger
               i.icon.maxicons1-peoples
               span= project.job_applications_count
