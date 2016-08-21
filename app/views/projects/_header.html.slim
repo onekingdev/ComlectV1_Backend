@@ -26,9 +26,10 @@
               i.icon.maxicons3-heart
               span.unfavorite Unfavorite
               span.favorite Favorite
-            = link_to new_project_job_application_path(project), remote: true, class: 'btn btn-md btn-primary m-l-1' do
-              i.icon.maxicons2-comment
-              span Apply
+            - if project.pending?
+              = link_to new_project_job_application_path(project), remote: true, class: 'btn btn-md btn-primary m-l-1' do
+                i.icon.maxicons2-comment
+                span Apply
         - else
           = form_for project, url: business_project_path(project), html: { class: 'm-l-1 d-ib' } do |f|
             = f.hidden_field :status, value: Project.statuses[:published]
