@@ -7,18 +7,18 @@
     = f.simple_fields_for :time_logs do |lf|
       = render 'time_log_fields', f: lf
 
-    tr
+    tr#js-form-timesheet-add-log-before
       th.text-right Total
-      th.hours #{(timesheet.time_logs.map(&:hours).reduce(:+) || 0.0).round(2)} Hours
+      th#js-timesheet-total-hours.hours #{(timesheet.time_logs.map(&:hours).reduce(:+) || 0.0).round(2)} Hours
 
     - if timesheet.project.hourly_rate.present?
       tr data-rate=timesheet.project.hourly_rate
         th.text-right Total Due
-        th.hours= number_to_currency timesheet.total_due.round(2)
+        th#js-timesheet-total-due.hours= number_to_currency timesheet.total_due.round(2)
 
-    tr.add_link
+    tr
       td colspan="3"
-        = link_to_add_association 'Add', f, :time_logs, data: { association_insertion_traversal: 'closest', association_insertion_node: '.add_link' }
+        = link_to_add_association 'Add', f, :time_logs, data: { association_insertion_node: '#js-form-timesheet-add-log-before' }
 
   .form-buttons
     .col-sm-6.col-sm-push-6

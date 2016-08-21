@@ -12,6 +12,11 @@ class Timesheet < ActiveRecord::Base
   validates :time_logs, presence: true
 
   def total_due
-    time_logs.sum(:hours) * project.hourly_rate
+    if errors.any?
+      # Count new records too when there are errors
+      (time_logs.map(&:hours).reduce(:+) || 0) * project.hourly_rate
+    else
+      time_logs.sum(:hours) * project.hourly_rate
+    end
   end
 end

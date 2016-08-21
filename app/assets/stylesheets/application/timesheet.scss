@@ -74,6 +74,10 @@ table.time_logs {
   margin-bottom: 20px;
   width: 100%;
 
+  td {
+    vertical-align: top;
+  }
+
   .description {
     width: 80%;
   }
