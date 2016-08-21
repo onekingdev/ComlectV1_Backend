@@ -59,11 +59,11 @@ class Project::Decorator < ApplicationDecorator
   end
 
   def location_type_humanized
-    Project::LOCATIONS.find { |_key, value| value == location_type }.first
+    Project::LOCATIONS.find { |_key, value| value == location_type }&.first
   end
 
   def payment_schedule_humanized
-    Project::PAYMENT_SCHEDULES.find { |_key, value| value == payment_schedule }.first
+    Project::PAYMENT_SCHEDULES.find { |_key, value| value == payment_schedule }&.first
   end
 
   def hourly_rate_input(builder)
