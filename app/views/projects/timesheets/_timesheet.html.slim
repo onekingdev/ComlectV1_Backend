@@ -1,0 +1,3 @@
+.timesheet data-id=timesheet.id class="#{timesheet.status} #{'selected' if selected.id == timesheet.id}"
+  .date= timesheet.created_at.strftime('%d %b %Y')
+  = timesheet.specialist_button

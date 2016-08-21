@@ -305,4 +305,18 @@
   > :last-child, .list-group .list-group-item:last-child {
     margin-bottom: 0;
   }
+
+  .panel-drawer {
+    background-color: #dadada;
+    width: 100%;
+    box-sizing: content-box;
+    padding: $panel-body-padding;
+    margin-left: -$panel-body-padding;
+    margin-bottom: -$panel-body-padding;
+    border-bottom-left-radius: $panel-border-radius;
+    border-bottom-right-radius: $panel-border-radius;
+    border-top: 1px solid $gray;
+    @include clearfix;
+  }
 }
+

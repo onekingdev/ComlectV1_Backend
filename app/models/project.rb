@@ -11,6 +11,7 @@ class Project < ActiveRecord::Base
   has_many :issues, dependent: :delete_all, class_name: 'ProjectIssue'
   has_many :messages, as: :thread
   has_many :job_applications, dependent: :destroy
+  has_many :timesheets, dependent: :destroy
 
   scope :recent, -> { order(created_at: :desc) }
   scope :published, -> { where(status: 'published') }

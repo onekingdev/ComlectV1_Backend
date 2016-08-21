@@ -1,0 +1,10 @@
+.new-timesheet.timesheet class=('selected' if selected.new_record?)
+  .date &nbsp;
+  = link_to 'New', new_project_timesheet_path, remote: true, class: 'btn btn-primary'
+
+= render timesheets.map(&method(:decorate)), selected: selected
+
+.dot-pagination
+  - if timesheets.total_pages > 1
+    - timesheets.total_pages.times do |n|
+      = link_to ''.html_safe, current_uri(page: n + 1, selected: selected.id), remote: true, class: "page #{"current" if n + 1 == timesheets.current_page}"

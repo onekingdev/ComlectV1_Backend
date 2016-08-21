@@ -1,0 +1,17 @@
+table.table-condensed.time_logs
+  tr
+    th.description Description
+    th.hours Hours
+  - timesheet.time_logs.each do |log|
+    tr
+      td.description= log.description
+      td.hours #{log.hours.to_f.round(2)} Hours
+
+  tr
+    th.text-right Total
+    th.hours #{(timesheet.time_logs.map(&:hours).reduce(:+) || 0.0).round(2)} Hours
+
+  - if timesheet.project.hourly_rate
+    tr
+      th.text-right Total Due
+      th.hours= number_to_currency timesheet.total_due

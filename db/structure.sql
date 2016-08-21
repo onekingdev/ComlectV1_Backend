@@ -601,10 +601,10 @@ CREATE TABLE projects (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     tsv tsvector,
-    calculated_budget numeric,
     lat numeric(9,5),
     lng numeric(9,5),
     point geography,
+    calculated_budget numeric,
     specialist_id integer,
     job_applications_count integer DEFAULT 0 NOT NULL
 );
@@ -735,6 +735,71 @@ CREATE SEQUENCE specialists_id_seq
 --
 
 ALTER SEQUENCE specialists_id_seq OWNED BY specialists.id;
+
+
+--
+-- Name: time_logs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE time_logs (
+    id integer NOT NULL,
+    timesheet_id integer,
+    description character varying,
+    hours numeric,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: time_logs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE time_logs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: time_logs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE time_logs_id_seq OWNED BY time_logs.id;
+
+
+--
+-- Name: timesheets; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE timesheets (
+    id integer NOT NULL,
+    project_id integer,
+    status character varying DEFAULT 'pending'::character varying NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: timesheets_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE timesheets_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: timesheets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE timesheets_id_seq OWNED BY timesheets.id;
 
 
 --
@@ -929,6 +994,20 @@ ALTER TABLE ONLY specialists ALTER COLUMN id SET DEFAULT nextval('specialists_id
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY time_logs ALTER COLUMN id SET DEFAULT nextval('time_logs_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY timesheets ALTER COLUMN id SET DEFAULT nextval('timesheets_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
 
 
@@ -1057,6 +1136,22 @@ ALTER TABLE ONLY skills
 
 ALTER TABLE ONLY specialists
     ADD CONSTRAINT specialists_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: time_logs_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY time_logs
+    ADD CONSTRAINT time_logs_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: timesheets_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY timesheets
+    ADD CONSTRAINT timesheets_pkey PRIMARY KEY (id);
 
 
 --
@@ -1398,6 +1493,27 @@ CREATE INDEX index_specialists_on_user_id ON specialists USING btree (user_id);
 
 
 --
+-- Name: index_time_logs_on_timesheet_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_time_logs_on_timesheet_id ON time_logs USING btree (timesheet_id);
+
+
+--
+-- Name: index_timesheets_on_project_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_timesheets_on_project_id ON timesheets USING btree (project_id);
+
+
+--
+-- Name: index_timesheets_on_status; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_timesheets_on_status ON timesheets USING btree (status);
+
+
+--
 -- Name: index_users_on_confirmation_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1579,4 +1695,8 @@ INSERT INTO schema_migrations (version) VALUES ('20160815191902');
 INSERT INTO schema_migrations (version) VALUES ('20160816192820');
 
 INSERT INTO schema_migrations (version) VALUES ('20160816195801');
+
+INSERT INTO schema_migrations (version) VALUES ('20160820222822');
+
+INSERT INTO schema_migrations (version) VALUES ('20160820222901');
 

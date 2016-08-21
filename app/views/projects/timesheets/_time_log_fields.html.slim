@@ -1,0 +1,6 @@
+tr.nested-fields
+  td.description= f.input :description, label: false
+  td.hours= f.input :hours, as: :string, label: false
+  td.tools
+    = link_to_remove_association f, class: 'remove text-muted' do
+      i.fa.fa-remove

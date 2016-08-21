@@ -1,0 +1,29 @@
+= simple_form_for [timesheet.project, timesheet], wrapper: :inline_form, remote: true, html: { class: 'form-timesheet' } do |f|
+  table.table-condensed.time_logs
+    tr
+      th.description Description
+      th.hours Hours
+      th.tools
+    = f.simple_fields_for :time_logs do |lf|
+      = render 'time_log_fields', f: lf
+
+    tr
+      th.text-right Total
+      th.hours #{(timesheet.time_logs.map(&:hours).reduce(:+) || 0.0).round(2)} Hours
+
+    - if timesheet.project.hourly_rate.present?
+      tr data-rate=timesheet.project.hourly_rate
+        th.text-right Total Due
+        th.hours= number_to_currency timesheet.total_due.round(2)
+
+    tr.add_link
+      td colspan="3"
+        = link_to_add_association 'Add', f, :time_logs, data: { association_insertion_traversal: 'closest', association_insertion_node: '.add_link' }
+
+  .form-buttons
+    .col-sm-6.col-sm-push-6
+      .row.row-compact
+        .col-xs-6
+          = f.submit 'Save', name: 'timesheet[save]', class: 'btn btn-primary btn-md btn-block'
+        .col-xs-6
+          = f.submit 'Submit', name: 'timesheet[submit]', class: 'btn btn-primary btn-md btn-block'
