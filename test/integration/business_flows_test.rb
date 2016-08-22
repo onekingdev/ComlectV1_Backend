@@ -35,10 +35,6 @@ class BusinessFlowsTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "redirects specialist to root and flash" do
-    skip "TODO"
-  end
-
   test 'update business' do
     user = create :user
     business = create :business, user: user

@@ -9,14 +9,14 @@ class ProjectCreationTest < ActionDispatch::IntegrationTest
   end
 
   test 'can create one off hourly project' do
-    attributes = attributes_for(:project_one_off_hourly)
+    attributes = attributes_for(:project_one_off_hourly).merge(hourly_payment_schedule: 'monthly')
     assert_difference 'Project.count', +1 do
       post business_projects_path, project: attributes
     end
   end
 
   test 'can create one off fixed budget project' do
-    attributes = attributes_for(:project_one_off_fixed)
+    attributes = attributes_for(:project_one_off_fixed).merge(fixed_payment_schedule: 'monthly')
     assert_difference 'Project.count', +1 do
       post business_projects_path, project: attributes
     end
@@ -45,7 +45,7 @@ class ProjectCreationTest < ActionDispatch::IntegrationTest
   test 'invites specialist after creating' do
     attributes = attributes_for(:project_full_time).merge(status: 'review', full_time_starts_on: 1.month.ago)
     specialist = create :specialist
-    invite = @business.project_invites.create!(specialist: specialist)
+    invite = @business.project_invites.create!(specialist: specialist, message: 'Invite')
     post business_projects_path, project: attributes, invite_id: invite.id
     invite.reload
     assert invite.sent?
