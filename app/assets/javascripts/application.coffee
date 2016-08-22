@@ -20,9 +20,10 @@
 $.onContentReady = (callback) ->
   $ -> callback($(document))
   # Fire $(document).trigger('newContent', $parent) to trigger this
-  $(document).on 'newContent', (_e, $parent) ->
+  # Alternatively: $(document).trigger('newContent', [$parent, {opt: 'abc', ...}]) to trigger this
+  $(document).on 'newContent', (e, $parent, data) ->
     # Make sure it's jQuery object as sometimes we get in unwrapped
-    callback $($parent)
+    callback $($parent), data
 
 # $.onContentReady ($parent) ->
 #   $.initializeOnce $parent.find('.my-element'), 'data-attr-to-store-init-status', ($myele) ->

@@ -18,6 +18,7 @@ $(document).on 'show.bs.tab', '[data-toggle="tab"]', (e, args) ->
   $sync.addClass('loading')
   $.get $this.data('url'), (html) ->
     $tab.html(html)
+    $(document).trigger 'newContent', $tab
     $sync.removeClass('loading')
     $this
       .removeClass('loading')

@@ -1,2 +1,4 @@
 $('form#new_message').replaceWith('<%= j render 'form', message: decorate(@project.messages.new) %>');
-$('#project-message-thread').find('.messages').append('<%= j render 'messages/message', message: decorate(@message), me: current_business %>');
+var $thread = $('#project-message-thread');
+$thread.find('.messages').append('<%= j render 'messages/message', message: decorate(@message), me: current_business %>');
+$(document).trigger('newContent', [$thread, { scope: 'messages' }]);
