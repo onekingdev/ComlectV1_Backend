@@ -28,6 +28,7 @@ module ApplicationHelper
   end
 
   def decorate(object)
+    return object if object.is_a?(Draper::Decorator)
     object.class::Decorator.decorate(object)
   end
 
