@@ -5,11 +5,11 @@ table.table-condensed.time_logs
   - timesheet.time_logs.each do |log|
     tr
       td.description= log.description
-      td.hours #{log.hours.to_f.round(2)} Hours
+      td.hours #{'%0.2f' % log.hours.to_f.round(2)} Hours
 
   tr
     th.text-right Total
-    th.hours #{(timesheet.time_logs.map(&:hours).reduce(:+) || 0.0).round(2)} Hours
+    th.hours #{'%0.2f' % timesheet.total_hours} Hours
 
   - if timesheet.project.hourly_rate
     tr

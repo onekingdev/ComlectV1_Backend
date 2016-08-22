@@ -9,7 +9,7 @@
 
     tr#js-form-timesheet-add-log-before
       th.text-right Total
-      th#js-timesheet-total-hours.hours #{(timesheet.time_logs.map(&:hours).reduce(:+) || 0.0).round(2)} Hours
+      th#js-timesheet-total-hours.hours #{'%0.2f' % timesheet.total_hours} Hours
 
     - if timesheet.project.hourly_rate.present?
       tr data-rate=timesheet.project.hourly_rate

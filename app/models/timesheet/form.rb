@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class Timesheet::Form < Draper::Decorator
+class Timesheet::Form < Timesheet::Decorator
   decorates Timesheet
   delegate_all
 

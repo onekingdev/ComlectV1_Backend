@@ -15,4 +15,8 @@ class Timesheet::Decorator < Draper::Decorator
 
     h.link_to label, url, remote: true, class: "btn btn-primary #{'disabled' if submitted?}"
   end
+
+  def total_hours
+    (time_logs.map(&:hours).reduce(:+) || 0.0).to_f.round(2)
+  end
 end
