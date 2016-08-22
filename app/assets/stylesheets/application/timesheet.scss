@@ -14,18 +14,17 @@
   margin-bottom: 15px;
   margin-right: 29px;
 
-  &:before {
-    content: "";
+  .sheet-icon {
     display: block;
     height: 108px;
     background: #fff asset_url("timesheet.png") no-repeat center;
   }
 
-  &.disputed:before {
+  &.disputed .sheet-icon {
     background-image: asset_url("timesheet-disputed.png");
   }
 
-  &.approved:before {
+  &.approved .sheet-icon {
     background-image: asset_url("timesheet-approved.png");
   }
 

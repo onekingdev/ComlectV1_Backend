@@ -1,5 +1,5 @@
 var $content = $('.selected-timesheet');
-$content.html('<%= j render 'form', timesheet: @timesheet %>').attr('data-id', '<%= @timesheet.id %>');;
+$content.html('<%= j render 'form', timesheet: decorate(@timesheet) %>').attr('data-id', '<%= @timesheet.id %>');;
 $('.timesheets .timesheet.selected').removeClass('selected');
 $('.timesheets .timesheet[data-id=<%= @timesheet.id %>]').addClass('selected');
 $(document).trigger('newContent', $content);
