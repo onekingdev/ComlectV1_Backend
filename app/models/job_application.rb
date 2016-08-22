@@ -14,7 +14,6 @@ class JobApplication < ActiveRecord::Base
       .order("years_of_experience DESC")
   }
 
-  validates :message, presence: true
   validates :project_id, uniqueness: { scope: :specialist_id }
 
   def accept!
