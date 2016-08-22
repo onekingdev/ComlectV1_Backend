@@ -18,7 +18,8 @@
 
     tr
       td colspan="3"
-        = link_to_add_association 'Add', f, :time_logs, data: { association_insertion_node: '#js-form-timesheet-add-log-before' }
+        .add= link_to_add_association f, :time_logs, data: { association_insertion_node: '#js-form-timesheet-add-log-before' } do
+          i.fa.fa-plus.text-muted title="Add another" data-toggle="tooltip"
 
   .form-buttons
     .col-sm-6.col-sm-push-6

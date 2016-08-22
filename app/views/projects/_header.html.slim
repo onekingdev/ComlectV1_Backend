@@ -16,9 +16,9 @@
           = link_to '#', class: 'btn btn-md btn-primary m-l-1' do
             i.icon.maxicons2-cisco
             span Share
-        - if current_specialist
+        - if current_specialist && project.specialist_id != current_specialist.id
           - if (application = project.job_applications.by(current_specialist).first)
-            = link_to project_job_application_path(project, application), method: :delete, remote: true, data: { confirm: "Are you sure you want to withdraw your application from #{project}?", confirm_label: 'Confirm' }, class: 'btn btn-md btn-primary m-l-1' do
+            = link_to project_job_application_path(project, application), method: :delete, remote: true, data: { confirm: "Are you sure you want to withdraw your application from <b>#{project}</b>?", confirm_label: 'Confirm' }, class: 'btn btn-md btn-primary m-l-1' do
               i.icon.maxicons1-back
               span Withdraw
           - else
@@ -30,7 +30,7 @@
               = link_to new_project_job_application_path(project), remote: true, class: 'btn btn-md btn-primary m-l-1' do
                 i.icon.maxicons2-comment
                 span Apply
-        - else
+        - elsif current_business
           = form_for project, url: business_project_path(project), html: { class: 'm-l-1 d-ib' } do |f|
             = f.hidden_field :status, value: Project.statuses[:published]
             = f.button class: 'btn btn-md btn-primary fw-regular' do
