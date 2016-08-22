@@ -5,9 +5,14 @@
       th.hours Hours
       th.tools
     = f.simple_fields_for :time_logs do |lf|
-      = render 'time_log_fields', f: lf
+      = render 'time_log_fields', f: lf, add_link: timesheet.add_link(f)
 
-    tr#js-form-timesheet-add-log-before
+    - if timesheet.time_logs.empty?
+      tr#js-form-timesheet-add-log-before
+        td colspan="2"
+        td.tools= timesheet.add_link(f)
+
+    tr
       th.text-right Total
       th#js-timesheet-total-hours.hours #{'%0.2f' % timesheet.total_hours} Hours
 
@@ -15,11 +20,6 @@
       tr data-rate=timesheet.project.hourly_rate
         th.text-right Total Due
         th#js-timesheet-total-due.hours= number_to_currency timesheet.total_due.round(2)
-
-    tr
-      td colspan="3"
-        .add= link_to_add_association f, :time_logs, data: { association_insertion_node: '#js-form-timesheet-add-log-before' } do
-          i.fa.fa-plus.text-muted title="Add another" data-toggle="tooltip"
 
   .form-buttons
     .col-sm-6.col-sm-push-6

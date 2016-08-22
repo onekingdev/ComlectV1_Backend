@@ -4,3 +4,8 @@ tr.nested-fields
   td.tools
     = link_to_remove_association f, class: 'remove text-muted' do
       i.fa.fa-remove
+
+- if local_assigns.key?(:add_link)
+  tr#js-form-timesheet-add-log-before
+    td colspan="2"
+    td.tools= add_link
