@@ -1,6 +1,9 @@
 .message-thread {
   .messages {
+    max-height: 300px;
+    overflow-y: auto;
     @include clearfix;
+    padding-right: $padding-base-horizontal;
   }
 
   .message {
