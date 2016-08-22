@@ -42,7 +42,7 @@
       / Check specialist styling when changing this section in case the hack to align the "Add another" link needs tweaking
       = render 'work_experience_fields', f: wef
       .add.text-right= link_to_add_association f, :work_experiences do
-        i.fa.fa-plus title="Add another" data-toggle="tooltip"
+        i.fa.fa-plus.text-muted title="Add another" data-toggle="tooltip"
 
   h3
     i.icon.maxicons1-building
@@ -83,7 +83,7 @@
       / Check specialist styling when changing this section in case the hack to align the "Add another" link needs tweaking
       = render 'education_history_fields', f: ehf
       .add.text-right= link_to_add_association f, :education_histories do
-        i.fa.fa-plus title="Add another" data-toggle="tooltip"
+        i.fa.fa-plus.text-muted title="Add another" data-toggle="tooltip"
 
 .well.well-lg.m-t-3
   h2.text-center.m-b-3 Have you got any other certifications?
