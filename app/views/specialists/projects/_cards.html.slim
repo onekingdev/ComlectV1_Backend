@@ -35,7 +35,7 @@
         .panel-footer
           .btn-group
             - if project.pending? && (application = project.job_applications.by(current_specialist).first)
-              = link_to project_job_application_path(project, application), method: :delete, remote: true, data: { confirm: "Are you sure you want to withdraw your application from #{project}?", confirm_label: 'Confirm' }, class: 'btn btn-md btn-primary' do
+              = link_to project_job_application_path(project, application), method: :delete, remote: true, data: { confirm: "Are you sure you want to withdraw your application from <b>#{project}</b>?", confirm_label: 'Confirm' }, class: 'btn btn-md btn-primary' do
                 i.icon.maxicons1-back
                 span Withdraw
               = link_to project_path(project), class: 'btn btn-md btn-primary'
