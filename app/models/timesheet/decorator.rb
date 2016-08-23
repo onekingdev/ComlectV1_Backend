@@ -17,6 +17,6 @@ class Timesheet::Decorator < Draper::Decorator
   end
 
   def total_hours
-    (time_logs.map(&:hours).reduce(:+) || 0.0).to_f.round(2)
+    (time_logs.map(&:hours).compact.reduce(:+) || 0.0).to_f.round(2)
   end
 end
