@@ -19,6 +19,7 @@
     "bootstrap-multiselect": "~0.9.13",
     "jquery-mask-plugin": "~1.14.0",
     "ion.rangeSlider": "ionrangeslider#~2.1.4",
-    "percircle": "~1.0.14"
+    "percircle": "~1.0.14",
+    "accounting.js": "~0.4.1"
   }
 }

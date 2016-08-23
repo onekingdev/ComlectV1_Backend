@@ -8,4 +8,4 @@ $(document).on 'change', '.form-timesheet .timesheet_time_logs_hours input', (e)
   $due = $('#js-timesheet-total-due')
   if $due.length > 0
     rate = parseFloat($due.parent().data('rate'))
-    $due.html "$#{rate * totalHours}"
+    $due.html accounting.formatMoney rate * totalHours
