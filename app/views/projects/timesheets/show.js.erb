@@ -1,5 +1,11 @@
 var $content = $('.selected-timesheet');
 $content.html('<%= j render 'show', timesheet: decorate(@timesheet) %>').attr('data-id', '<%= @timesheet.id %>');
 $('.timesheets .timesheet.selected').removeClass('selected');
-$('.timesheets .timesheet[data-id=<%= @timesheet.id %>]').addClass('selected');
+$('.timesheets .timesheet[data-id=<%= @timesheet.id %>]')
+  .addClass('selected')
+<% if @timesheet.submitted? %>
+  .find('.btn').text('Pending').addClass('disabled').attr('href', '#');
+<% else %>
+  ;
+<% end %>
 $(document).trigger('newContent', $content);
