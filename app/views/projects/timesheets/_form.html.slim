@@ -7,10 +7,9 @@
     = f.simple_fields_for :time_logs do |lf|
       = render 'time_log_fields', f: lf, add_link: timesheet.add_link(f)
 
-    - if timesheet.time_logs.empty?
-      tr#js-form-timesheet-add-log-before
-        td colspan="2"
-        td.tools= timesheet.add_link(f)
+    tr#js-form-timesheet-add-log-before
+      td colspan="2"
+      td.tools= timesheet.add_link(f)
 
     tr
       th.text-right Total
