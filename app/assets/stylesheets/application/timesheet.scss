@@ -28,6 +28,14 @@
     background-image: asset_url("timesheet-approved.png");
   }
 
+  &.pending .sheet-icon:before {
+    content: "n";
+    font-family: maxicons;
+    position: absolute;
+    right: 10px;
+    top: 30px;
+  }
+
   &.selected:after {
     font-family: FontAwesome;
     content: "\f0d7";
