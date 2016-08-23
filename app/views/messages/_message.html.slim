@@ -6,4 +6,5 @@
   - if message.file
     .file= link_to message.file_url, target: '_blank' do
       .fa.fa-paperclip
+      '&nbsp;
       span= message.file.metadata['filename']
