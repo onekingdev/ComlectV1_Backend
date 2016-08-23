@@ -4,9 +4,10 @@ class Business::ProjectMessagesController < ApplicationController
   before_action :find_project
 
   def index
-    @messages = @project.messages.recent.limit(5)
+    @messages = @project.messages.recent.page(params[:page]).per(5)
     respond_to do |format|
       format.html do
+        return render_messages if params[:page]
         render partial: 'thread', locals: { messages: @messages, me: current_business, them: @project.specialist }
       end
     end
@@ -32,6 +33,12 @@ class Business::ProjectMessagesController < ApplicationController
   end
 
   private
+
+  def render_messages
+    render partial: 'messages/message',
+           collection: @messages.map(&method(:decorate)).reverse,
+           locals: { me: current_business, them: @project.specialist }
+  end
 
   def message_params
     params.require(:message).permit(:message, :file)

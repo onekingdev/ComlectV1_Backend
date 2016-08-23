@@ -1,6 +1,5 @@
 #project-message-thread.message-thread
-  .messages.m-b-3
-    - @messages.map(&method(:decorate)).reverse.each do |message|
-      = render 'messages/message', message: message, me: current_specialist
+  .messages.m-b-3 data-page="1" data-url=project_messages_path(@project)
+    = render partial: 'messages/message', collection: @messages.map(&method(:decorate)).reverse, locals: { me: current_specialist }
 
   = render 'form', message: me.sent_messages.new

@@ -27,11 +27,6 @@ module ApplicationHelper
     url_for params.merge(query)
   end
 
-  def decorate(object)
-    return object if object.is_a?(Draper::Decorator)
-    object.class::Decorator.decorate(object)
-  end
-
   alias simple_form_for_super simple_form_for
   def simple_form_for(record, options = {}, &block)
     simple_form_for_super record, options do |f|

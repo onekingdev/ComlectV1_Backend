@@ -8,6 +8,12 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def decorate(object)
+    return object if object.is_a?(Draper::Decorator)
+    object.class::Decorator.decorate(object)
+  end
+  helper_method :decorate
+
   def current_business
     return @_current_business if @_current_business
     return nil if !signed_in? || current_user.business.nil?
