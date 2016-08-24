@@ -8,7 +8,8 @@ class ApplicationMailer < ActionMailer::Base
   # ProjectMailer.deliver_later :invite, ...
   def self.deliver_later(method, *args)
     message = public_send(method, *args)
-    Rails.env.production? ? message.deliver_later : message.deliver_now
+    bypass = ENV['ENABLE_DIRECT_MAILERS'] == '1'
+    Rails.env.production? && !bypass ? message.deliver_later : message.deliver_now
   end
 
   def initialize(*args)
