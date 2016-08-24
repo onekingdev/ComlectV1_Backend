@@ -54,6 +54,10 @@ gem 'jbuilder', '~> 2.0'
 
 # Background jobs
 gem 'sidekiq'
+gem 'sidekiq-cron'
+gem 'sidekiq-failures'
+gem 'sidekiq-unique-jobs'
+gem 'sinatra', require: nil
 
 # Payments
 gem 'stripe'
@@ -86,7 +90,6 @@ group :development do
   gem 'spring'
 
   # Testing
-  gem 'letter_opener'
   gem 'meta_request'
   gem 'overcommit', require: false
 end

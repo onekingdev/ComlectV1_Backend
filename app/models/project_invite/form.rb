@@ -23,7 +23,6 @@ class ProjectInvite::Form < Draper::Decorator
     return false if invalid?
     save!
     send_message!
-    # TODO: Send message to specialist
   end
 
   def new_project?
