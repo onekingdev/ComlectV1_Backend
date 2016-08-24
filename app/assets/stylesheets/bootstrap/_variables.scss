@@ -7,7 +7,8 @@ $gray-light:   #999999; // Placeholders
 $gray-lighter: #f3f3f3; // Section frames
 
 $brand-primary: #feb809;
-$brand-danger: #d0021b;
+$brand-success: #9dbb00;
+$brand-danger: #c9240e;
 
 //== Typography
 
@@ -56,6 +57,10 @@ $btn-default-border: transparent;
 $btn-primary-color: #171308;
 $btn-primary-border: transparent;
 $btn-border-radius-md: 5px;
+$btn-success-color: #fff !important;
+$btn-success-border: $brand-success;
+$btn-danger-color: #fff !important;
+$btn-danger-border: $brand-danger;
 
 //== Components
 

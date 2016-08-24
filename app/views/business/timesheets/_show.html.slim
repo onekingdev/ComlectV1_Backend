@@ -1,0 +1,34 @@
+table.table-condensed.time_logs
+  tr
+    th.description Description
+    th.hours Hours
+  - timesheet.time_logs.each do |log|
+    tr
+      td.description= log.description
+      td.hours #{'%0.2f' % log.hours.to_f.round(2)} Hours
+
+  tr
+    th.text-right Total
+    th.hours #{'%0.2f' % timesheet.total_hours} Hours
+
+  - if timesheet.project.hourly_rate
+    tr
+      th.text-right Total Due
+      th.hours= number_to_currency timesheet.total_due
+
+- if timesheet.errors.any?
+  .alert.alert-warning= timesheet.errors.full_messages.to_sentence
+- elsif timesheet.approved?
+  .alert.alert-success Timesheet is approved
+- elsif timesheet.disputed?
+  .alert.alert-danger Timesheet is in dispute
+
+- if timesheet.submitted?
+  .text-right.m-b-2
+    = form_for [:business, timesheet.project, timesheet], remote: true do |f|
+      = f.button 'Deny', value: '1', name: 'timesheet[dispute]', class: 'btn btn-danger btn-md p-x-2'
+        i.icon.icon-white.icon-transparent.circled.maxicons1-exit
+        span Deny
+      = f.button 'Confirm', value: '1', name: 'timesheet[approve]', class: 'btn btn-success btn-md p-x-2 m-l-1'
+        i.icon.icon-white.icon-transparent.circled.maxicons1-check
+        span Confirm

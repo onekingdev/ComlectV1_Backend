@@ -1,0 +1,5 @@
+.selected-timesheet data-id=nil
+  h2.text-center.m-b-1 No timesheet selected
+
+.panel-drawer.timesheets.business-timesheets
+  = render 'timesheets', timesheets: @timesheets, selected: nil

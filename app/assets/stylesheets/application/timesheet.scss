@@ -58,6 +58,29 @@
   }
 }
 
+.timesheets.business-timesheets {
+  .timesheet.submitted .sheet-icon:before {
+    content: "O";
+    font-family: maxicons;
+    position: absolute;
+    right: 10px;
+    top: 30px;
+    animation: pulse 3s infinite;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.0;
+  }
+  50% {
+    opacity: 1.0;
+  }
+  100% {
+    opacity: 0.0;
+  }
+}
+
 .timesheets {
   :nth-last-child(2) {
     margin-right: 0; // Remove margin on last .timesheet element

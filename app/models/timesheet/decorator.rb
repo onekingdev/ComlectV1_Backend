@@ -3,6 +3,19 @@ class Timesheet::Decorator < Draper::Decorator
   decorates Timesheet
   delegate_all
 
+  def business_button
+    label, url = case status
+                 # when Timesheet.statuses[:submitted]
+                 #   ['Confirm', h.business_project_timesheet_path(project, self)]
+                 when Timesheet.statuses[:disputed]
+                   %w(Disputed #)
+                 else
+                   ['View', h.business_project_timesheet_path(project, self)]
+                 end
+
+    h.link_to label, url, remote: true, class: "btn btn-primary #{'disabled' if disputed?}"
+  end
+
   def specialist_button
     label, url = case status
                  when Timesheet.statuses[:approved]

@@ -1,10 +1,8 @@
+@import 'bootstrap/variables';
+
 // CUSTOMIZATION
 .icon {
   vertical-align: middle;
-}
-
-.icon-fw {
-
 }
 
 .icon.circled:before {
@@ -13,6 +11,14 @@
   line-height: 18px;
   border-radius: 50%;
 }
+
+.icon.icon-white:before {
+  background-color: #fff;
+  border-color: #fff;
+}
+
+.btn.btn-success .icon.icon-transparent:before { color: $brand-success; }
+.btn.btn-danger .icon.icon-transparent:before { color: $brand-danger; }
 
 // END CUSTOMIZATION
 // ALSO CLASS NAMES CUSTOMIZED, REMOVING THE .icon PREFIX

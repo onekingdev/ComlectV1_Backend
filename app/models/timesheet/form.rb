@@ -22,6 +22,23 @@ class Timesheet::Form < Timesheet::Decorator
     end
   end
 
+  def self.process(timesheet, process)
+    new(timesheet).tap do |form|
+      form.dispute! if process[:dispute] == '1'
+      form.approve! if process[:approve] == '1'
+    end
+  end
+
+  def dispute!
+    # TODO: Notify specialist
+    update_attribute :status, Timesheet.statuses[:disputed]
+  end
+
+  def approve!
+    # TODO: Count for payments
+    update_attribute :status, Timesheet.statuses[:approved]
+  end
+
   def notify_business!
     # TODO: Send notification to business
   end

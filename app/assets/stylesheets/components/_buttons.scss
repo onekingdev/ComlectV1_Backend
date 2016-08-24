@@ -6,6 +6,9 @@
   margin-left: 0.4rem;
 }
 
+.btn.btn-md .icon ~ span, .btn.btn-md .fa ~ span {
+  margin-left: 0.6rem;
+}
 
 .btn .icon, .btn .fa, .btn span {
   vertical-align: middle;
