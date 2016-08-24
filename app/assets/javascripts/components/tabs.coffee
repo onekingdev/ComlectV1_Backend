@@ -1,3 +1,10 @@
+$ ->
+  hash = window.location.hash
+  return if hash.length == 0
+  $trigger = $("a[data-toggle='tab'][href='#{hash}']:first")
+  return if $trigger.length == 0 || $trigger.parent().hasClass('active')
+  $trigger.click()
+
 $(document).on 'show.bs.tab', '[data-toggle="tab"]', (e, args) ->
   $this = $(this)
   # We can have multiple triggers for tabs, this code keeps their "active" class in sync
