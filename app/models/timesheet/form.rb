@@ -30,7 +30,8 @@ class Timesheet::Form < Timesheet::Decorator
   end
 
   def dispute!
-    # TODO: Notify specialist
+    specialist.user.notifications.create! message: 'Timesheet disputed',
+                                          path: h.project_dashboard_path(project, anchor: 'project-timesheets')
     update_attribute :status, Timesheet.statuses[:disputed]
   end
 
