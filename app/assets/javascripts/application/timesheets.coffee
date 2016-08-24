@@ -2,7 +2,7 @@ $(document).on 'change', '.form-timesheet .timesheet_time_logs_hours input', (e)
   $hours = $('#js-timesheet-total-hours')
   totalHours = 0
   $('.timesheet_time_logs_hours input').each ->
-    totalHours += parseFloat($(this).val())
+    totalHours += parseFloat(parseFloat($(this).val()).toFixed(2))
   $hours.html "#{totalHours} Hours"
 
   $due = $('#js-timesheet-total-due')
