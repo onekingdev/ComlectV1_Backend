@@ -42,7 +42,8 @@ class ApplicationController < ActionController::Base
   helper_method :js_notice
 
   def js_redirect(path)
-    render js: "window.location.href = '#{path}';"
+    @path = path
+    render 'application/js_redirect'
   end
 
   def require_business!

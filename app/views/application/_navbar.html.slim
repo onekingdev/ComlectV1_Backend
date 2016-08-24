@@ -56,14 +56,14 @@ nav#nav.navbar.navbar-default.navbar-inverse
         li.dropdown
           a.dropdown-toggle href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
             i.icon.maxicons2-bell
-            - if user.notifications.any?
+            - if user.notifications.unread.any?
               .badge.small= user.notifications.count
           ul.dropdown-menu
-            - if user.notifications.empty?
+            - if user.notifications.unread.empty?
               li.p-x-2.p-y-1 No alerts
             - else
-              - user.notifications.each do |notification|
-                li.p-x-2.p-y-1= link_to notification.message, notification
+              - user.notifications.unread.each do |notification|
+                li= link_to notification.message, notification, remote: true
       - else
         li.buttons
           button.btn.btn-primary.navbar-btn data-remote=true data-url=new_user_session_path Log In
