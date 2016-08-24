@@ -61,10 +61,11 @@ class Project::Form < Project
   end
 
   def save
+    published_now = published? && status_changed?
     result = super
     if result && invite_id.present?
       invite = business.project_invites.find(invite_id)
-      invite.send_message!
+      invite.send_message! if published_now
     end
     result
   end

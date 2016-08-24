@@ -19,7 +19,7 @@ class ProjectInvite::Form < Draper::Decorator
   end
 
   def self.new_from_params(params, business)
-    project = business.projects.find(params.delete(:project_id))
+    project = business.projects.find(params.delete(:project_id)) if params[:project_id].present?
     invite = business.project_invites.new(params.merge(project: project))
     decorate(invite).tap do |form|
       form.business = business
