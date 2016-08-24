@@ -143,4 +143,9 @@ body.projects.show {
   }
 }
 
+.project_invite_project .multiselect-container {
+  height: 292px;
+  overflow-y: auto;
+}
+
 @import "project/*";
