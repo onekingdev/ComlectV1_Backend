@@ -1,7 +1,11 @@
 $.onContentReady ($parent, data) ->
-  $messages = $parent.find('.messages')
-  return if $messages.length == 0
-  $messages.scrollTop $messages[0].scrollHeight
+  $messages = if $parent.hasClass('message-thread') then $parent.find('.messages') else $parent.find('.message-thread .messages')
+  return if $messages.length == 0 || $messages.data('init-scrolled')
+  $messages
+    .scrollTop $messages[0].scrollHeight
+    .data 'init-scrolled'
+
+  return unless $messages.data('url')?
 
   scrollTick = null
   previousRatio = 1
@@ -13,7 +17,9 @@ $.onContentReady ($parent, data) ->
     page = parseInt($messages.attr('data-page') || 1) + 1
     prevScrollHeight = $messages[0].scrollHeight
     prevScrollTop = $messages.scrollTop()
-    request = $.get $messages.data('url'), page: page, (data) ->
+    params = $messages.data('params') || {}
+    params.page = page
+    request = $.get $messages.data('url'), params, (data) ->
       $messages.attr 'data-page', page
       $messages.prepend data
       $messages.scrollTop $messages[0].scrollHeight - prevScrollHeight + prevScrollTop

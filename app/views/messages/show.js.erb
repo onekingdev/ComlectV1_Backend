@@ -1,1 +1,5 @@
-$('#message-thread').replaceWith('<%= j render 'thread', thread: @thread, sender: @sender %>');
+var $thread = $('#message-thread');
+$newThread = $('<%= j render 'thread', thread: @thread, sender: @sender %>');
+messagesHtml = $newThread.html();
+$thread.html(messagesHtml).attr('data-thread-id', <%= @thread.id %>);
+$(document).trigger('newContent', $thread);

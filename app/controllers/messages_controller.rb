@@ -3,6 +3,7 @@ class MessagesController < ApplicationController
   def index
     @threads = Message.threads_for(@sender)
     @thread = @threads.first
+    render_thread(@thread, @sender) if request.xhr?
   end
 
   def new
@@ -25,9 +26,17 @@ class MessagesController < ApplicationController
       thread_type = direct
       @thread = scope.find_by(thread_type: thread_type, thread_id: thread_id)
     end
+
+    render_thread(@thread, @sender) if params.key?(:page)
   end
 
   private
+
+  def render_thread(thread, sender)
+    render partial: 'message',
+           collection: thread.messages.page(params[:page]).per(5).map(&method(:decorate)).reverse,
+           locals: { me: sender }
+  end
 
   def message_params
     params.require(:message).permit(:recipient_type, :recipient_id, :message)
