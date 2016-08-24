@@ -110,6 +110,11 @@ table.time_logs {
 
   .description {
     width: 80%;
+
+    span {
+      max-height: 2.6em;
+      overflow: hidden;
+    }
   }
 
   .hours {
