@@ -7,7 +7,7 @@ Sidekiq.default_worker_options = {
 # https://devcenter.heroku.com/articles/forked-pg-connections#sidekiq
 Sidekiq.configure_server do |config|
   if (database_url = ENV['DATABASE_URL'])
-    ENV['DATABASE_URL'] = "#{database_url}?pool=#{ENV['SIDEKIQ_CONCURRENCY']}"
+    ENV['DATABASE_URL'] = "#{database_url}?pool=#{ENV['SIDEKIQ_CONCURRENCY'] || 25}"
     ActiveRecord::Base.establish_connection
   end
 
