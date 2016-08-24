@@ -63,10 +63,7 @@ class Project::Form < Project
   def save
     published_now = published? && status_changed?
     result = super
-    if result && invite_id.present?
-      invite = business.project_invites.find(invite_id)
-      invite.send_message! if published_now
-    end
+    process_invite(published_now) if result && (invite || invite_id.present?)
     result
   end
 
@@ -83,6 +80,12 @@ class Project::Form < Project
   end
 
   private
+
+  def process_invite(published_now)
+    invite = self.invite || business.project_invites.find(invite_id)
+    invite.update_attribute :project_id, id unless invite.project_id.present?
+    invite.send_message! if published_now
+  end
 
   # Clear full time fields if one_off project and vice-versa
   # Except for fields that both types of projects use

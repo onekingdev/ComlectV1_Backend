@@ -78,16 +78,17 @@ class Business::ProjectsController < ApplicationController
 
   def build_project
     @project = Project::Form.new(business: current_user.business).tap do |project|
-      project.assign_attributes params[:project] ? project_params : {}
+      project.assign_attributes project_params
     end
   end
 
   def project_params
+    return { invite_id: params[:invite_id] } unless params.key?(:project)
     params.require(:project).permit(
       *%i(title type location_type location lat lng description key_deliverables starts_on full_time_starts_on
           ends_on pricing_type hourly_payment_schedule fixed_payment_schedule hourly_rate fixed_budget estimated_hours
-          minimum_experience only_regulators status annual_salary fee_type),
+          minimum_experience only_regulators status annual_salary fee_type invite_id),
       jurisdiction_ids: [], industry_ids: [], skill_names: []
-    ).merge(invite_id: params[:invite_id])
+    )
   end
 end
