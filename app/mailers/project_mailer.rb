@@ -3,10 +3,8 @@ class ProjectMailer < ApplicationMailer
   include ActionView::Helpers::TextHelper
 
   def invite(invite)
-    from_name = "#{invite.project.business.contact_first_name} #{invite.project.business.contact_last_name}"
     mail to: invite.specialist.user.email,
-         from: "#{from_name} <#{ENV.fetch('DEFAULT_MAIL_FROM')}>",
-         reply_to: invite.project.business.contact_email,
+         from: "Complect <#{ENV.fetch('DEFAULT_MAIL_FROM')}>",
          template_id: ENV.fetch('POSTMARK_PROJECT_INVITE_TEMPLATE'),
          template_model: {
            message_html: invite_message_html(invite),
