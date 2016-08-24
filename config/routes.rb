@@ -84,6 +84,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :notifications
+
   namespace :api do
     resources :skills, only: :index
   end
