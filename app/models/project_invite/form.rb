@@ -3,6 +3,8 @@ class ProjectInvite::Form < Draper::Decorator
   decorates ProjectInvite
   delegate_all
 
+  attr_accessor :business
+
   validates :message, presence: true
 
   def self.for(specialist, project)
@@ -11,12 +13,21 @@ class ProjectInvite::Form < Draper::Decorator
                      project_or_job: project.full_time? ? 'job' : 'project',
                      company_name: project.business.to_s).strip
     invite = ProjectInvite.new specialist: specialist, project: project, message: message
-    decorate invite
+    decorate(invite).tap do |form|
+      form.business = project.business
+    end
   end
 
   def self.new_from_params(params, business)
-    invite = business.project_invites.new(params)
-    decorate invite
+    project = business.projects.find(params.delete(:project_id))
+    invite = business.project_invites.new(params.merge(project: project))
+    decorate(invite).tap do |form|
+      form.business = business
+    end
+  end
+
+  def available_projects
+    business.projects.published.pending
   end
 
   def save_and_send

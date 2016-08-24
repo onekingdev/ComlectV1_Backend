@@ -4,7 +4,7 @@ class ProjectInvitesController < ApplicationController
 
   def new
     @specialist = Specialist.find(params.require(:specialist_id))
-    @invite = ProjectInvite::Form.for(@specialist, current_user.business.projects.new)
+    @invite = ProjectInvite::Form.for(@specialist, current_business.projects.new)
   end
 
   def create
