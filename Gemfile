@@ -20,6 +20,7 @@ gem 'pundit'
 
 # Admin
 gem 'activeadmin', github: 'activeadmin'
+gem 'best_in_place', github: 'bernat/best_in_place'
 
 # Asset processing
 gem 'sassc-rails', '~> 1.3'
