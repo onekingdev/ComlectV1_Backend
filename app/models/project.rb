@@ -83,12 +83,8 @@ class Project < ActiveRecord::Base
     title
   end
 
-  def application(specialist)
-    job_applications.where(specialist_id: specialist.id)
-  end
-
   def applied?(specialist)
-    application(specialist).exists?
+    job_applications.where(specialist_id: specialist.id).exists?
   end
 
   def skill_names
