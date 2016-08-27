@@ -584,8 +584,7 @@ CREATE TABLE project_issues (
     issue text,
     desired_resolution text,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    status character varying DEFAULT 'open'::character varying NOT NULL
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -1424,13 +1423,6 @@ CREATE INDEX index_project_issues_on_project_id ON project_issues USING btree (p
 
 
 --
--- Name: index_project_issues_on_status; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_project_issues_on_status ON project_issues USING btree (status);
-
-
---
 -- Name: index_project_issues_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1772,6 +1764,4 @@ INSERT INTO schema_migrations (version) VALUES ('20160820222822');
 INSERT INTO schema_migrations (version) VALUES ('20160820222901');
 
 INSERT INTO schema_migrations (version) VALUES ('20160824202048');
-
-INSERT INTO schema_migrations (version) VALUES ('20160826174241');
 

@@ -3,7 +3,5 @@ class ProjectIssue < ActiveRecord::Base
   belongs_to :project
   belongs_to :user
 
-  enum status: { open: 'open', closed: 'closed' }
-
   validates :issue, :desired_resolution, presence: true
 end
