@@ -16,7 +16,7 @@
 
     .text {
       background-color: #fff;
-      padding: 20px 25px;
+      padding: 10px 12px;
       border-radius: $border-radius-large;
       margin-bottom: 0.5rem;
     }
@@ -61,6 +61,6 @@
   }
 
   .message + .message {
-    padding-top: 3rem;
+    padding-top: 1.5rem;
   }
 }
