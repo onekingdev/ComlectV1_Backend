@@ -30,7 +30,7 @@
               = link_to new_project_job_application_path(project), remote: true, class: 'btn btn-md btn-primary m-l-1' do
                 i.icon.maxicons2-comment
                 span Apply
-        - elsif current_business && project.draft?
+        - elsif current_business && policy(project).post?
           = form_for project, url: business_project_path(project), html: { class: 'm-l-1 d-ib' } do |f|
             = f.hidden_field :status, value: Project.statuses[:published]
             = f.button class: 'btn btn-md btn-primary fw-regular' do

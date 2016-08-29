@@ -17,6 +17,10 @@ class ProjectPolicy < ApplicationPolicy
     owner?
   end
 
+  def post?
+    owner? && (record.draft? || record.review?)
+  end
+
   def owner?
     record.business.user_id == user.id
   end
