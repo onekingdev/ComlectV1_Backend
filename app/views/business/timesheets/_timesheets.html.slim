@@ -3,7 +3,7 @@
 - else
   h2.text-center.m-t-2.m-b-0 No timesheets submitted yet
 
-.dot-pagination
+.dot-pagination.p-t-0
   - if timesheets.total_pages > 1
     - timesheets.total_pages.times do |n|
       = link_to ''.html_safe, current_uri(page: n + 1, selected: selected&.id), remote: true, class: "page #{"current" if n + 1 == timesheets.current_page}"
