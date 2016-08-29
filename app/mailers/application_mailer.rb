@@ -8,8 +8,8 @@ class ApplicationMailer < ActionMailer::Base
   # ProjectMailer.deliver_later :invite, ...
   def self.deliver_later(method, *args)
     message = public_send(method, *args)
-    bypass = ENV['ENABLE_DIRECT_MAILERS'] == '1'
-    Rails.env.production? && !bypass ? message.deliver_later : message.deliver_now
+    later = ENV['ENABLE_DIRECT_MAILERS'] != '1'
+    Rails.env.production? && later ? message.deliver_later : message.deliver_now
   end
 
   def initialize(*args)
@@ -17,8 +17,9 @@ class ApplicationMailer < ActionMailer::Base
     super
   end
 
-  def mail(headers = {})
-    return deliver_via_postmark(headers) if Rails.env.production?
+  def mail(headers = {}, &block)
+    return deliver_with_template(headers) if Rails.env.production? && headers.key?(:template_id)
+    return super if Rails.env.production?
     super headers do |format|
       format.text do
         model = headers[:template_model].map { |var, value| "#{var}: #{value}" }.join("\n")
@@ -29,7 +30,11 @@ class ApplicationMailer < ActionMailer::Base
 
   private
 
-  def deliver_via_postmark(headers = {})
-    postmark.deliver_with_template({ from: ENV.fetch('DEFAULT_MAIL_FROM') }.merge(headers))
+  def default_mail_from
+    "Complect <#{ENV.fetch('DEFAULT_MAIL_FROM')}>"
+  end
+
+  def deliver_with_template(headers = {})
+    postmark.deliver_with_template({ from: default_mail_from }.merge(headers))
   end
 end
