@@ -17,6 +17,14 @@ GIT
       sass-rails
       sprockets (< 4)
 
+GIT
+  remote: git://github.com/bernat/best_in_place.git
+  revision: 332eda290cb133683a99d43a30321bab27d85e70
+  specs:
+    best_in_place (3.1.0)
+      actionpack (>= 3.2)
+      railties (>= 3.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -389,6 +397,7 @@ DEPENDENCIES
   activeadmin!
   appsignal
   aws-sdk (~> 2.3.12)
+  best_in_place!
   byebug
   capybara
   cocoon
