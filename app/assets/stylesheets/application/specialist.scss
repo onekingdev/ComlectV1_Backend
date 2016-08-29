@@ -33,6 +33,7 @@ body.specialists.show {
       white-space: nowrap;
       overflow: hidden;
       padding-bottom: 0.5em;
+      text-overflow: ellipsis;
     }
 
     .name, .rating {
