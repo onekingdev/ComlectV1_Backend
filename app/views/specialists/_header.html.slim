@@ -1,4 +1,4 @@
-.container.profile-header
+.container.profile-header data-specialist-id=specialist.id
   .row.header-content
     - css_classes = specialist.photo ? 'col-xs-12 col-sm-8 col-md-9 has-photo' : 'col-xs-12 no-photo'
     .pseudo-table
@@ -14,6 +14,12 @@
               = link_to edit_specialist_path, class: 'btn btn-primary' do
                 i.icon.maxicons2-editting
                 span.fw-regular Edit
+          - elsif current_business
+            .tools
+              = specialist.link_to_favorite toggle_business_favorites_path, current_business.favorited?(specialist), class: 'btn btn-primary' do
+                i.icon.maxicons3-heart
+                span.unfavorite Unfavorite
+                span.favorite Favorite
           h1
             = specialist.public? ? specialist.full_name : specialist.first_name
             - if specialist.public? && specialist.linkedin_link.present?
