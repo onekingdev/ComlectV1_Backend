@@ -11,16 +11,16 @@ nav#nav.navbar.navbar-default.navbar-inverse
   #navbar-collapse.collapse.navbar-collapse
     ul.nav.navbar-nav
       li= link_to 'How it Works', '#'
-      - if signed_in? && current_user.business
+      - if user_signed_in? && current_user.business
         li= link_to 'My Dashboard', business_dashboard_path
-      - elsif signed_in? && current_user.specialist
+      - elsif user_signed_in? && current_user.specialist
         li= link_to 'My Dashboard', specialists_dashboard_path
 
     ul.nav.navbar-nav.navbar-right
-      - if signed_in? && current_business
+      - if user_signed_in? && current_business
         li
           button.btn.btn-primary.navbar-btn data-href=new_business_project_path Post a Project
-      - if signed_in?
+      - if user_signed_in?
         li.dropdown
           a.dropdown-toggle href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
             'Browse
@@ -30,7 +30,7 @@ nav#nav.navbar.navbar-default.navbar-inverse
               li= link_to 'Browse Projects', projects_path
             - if current_business
               li= link_to 'Browse Specialists', specialists_path
-      - if signed_in?
+      - if user_signed_in?
         li.dropdown
           - if (business = user.business)
             a.dropdown-toggle href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"

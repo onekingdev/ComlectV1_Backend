@@ -16,14 +16,14 @@ class ApplicationController < ActionController::Base
 
   def current_business
     return @_current_business if @_current_business
-    return nil if !signed_in? || current_user.business.nil?
+    return nil if !user_signed_in? || current_user.business.nil?
     @_current_business = Business::Decorator.decorate(current_user.business)
   end
   helper_method :current_business
 
   def current_specialist
     return @_current_specialist if @_current_specialist
-    return nil if !signed_in? || current_user.specialist.nil?
+    return nil if !user_signed_in? || current_user.specialist.nil?
     @_current_specialist = Specialist::Decorator.decorate(current_user.specialist)
   end
   helper_method :current_specialist
@@ -47,14 +47,14 @@ class ApplicationController < ActionController::Base
   end
 
   def require_business!
-    return if signed_in? && current_business
-    return authenticate_user! unless signed_in?
+    return if user_signed_in? && current_business
+    return authenticate_user! unless user_signed_in?
     render 'forbidden', status: :forbidden, locals: { message: 'Only business accounts can access this page' }
   end
 
   def require_specialist!
-    return if signed_in? && current_specialist
-    return authenticate_user! unless signed_in?
+    return if user_signed_in? && current_specialist
+    return authenticate_user! unless user_signed_in?
     render 'forbidden', status: :forbidden, locals: { message: 'Only specialist accounts can access this page' }
   end
 
