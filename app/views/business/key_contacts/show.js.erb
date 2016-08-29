@@ -1,0 +1,3 @@
+var $business = $('#business-settings');
+$business.html('<%= j render('show') %>');
+$(document).trigger('newContent', $business);

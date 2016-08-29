@@ -32,6 +32,7 @@ Rails.application.routes.draw do
 
   namespace :business do
     resource :settings, only: :show do
+      resource :key_contact
       resources :payment_settings, as: :payment, path: 'payment' do
         patch :make_primary
       end

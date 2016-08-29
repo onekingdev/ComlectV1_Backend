@@ -1,0 +1,23 @@
+.row
+  .col-xs-12.col-md-7
+    .panel.panel-default
+      .panel-heading
+        h3 Key Contact
+
+      .panel-body
+        = simple_form_for @business, remote: true, url: business_settings_key_contact_path do |f|
+          .row.row-compact
+            .col-xs-12.col-sm-6
+              = f.input :contact_first_name, label: false, input_html: { class: 'input-lg' }
+            .col-xs-12.col-sm-6
+              = f.input :contact_last_name, label: false, input_html: { class: 'input-lg' }
+            .col-xs-12
+              = f.input :contact_job_title, label: false, input_html: { class: 'input-lg' }
+            .col-xs-12
+              = f.input :contact_phone, label: false, input_html: { class: 'input-lg' }
+            .col-xs-12
+              = f.input :contact_email, label: false, input_html: { class: 'input-lg' }
+            .col-xs-12
+              - if @saved
+                .alert.alert-success.m-b-1 Key contact information saved.
+              = f.submit 'Save', class: 'btn btn-primary btn-block btn-lg'
