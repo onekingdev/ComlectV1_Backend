@@ -15,20 +15,27 @@ class Project::Share
   end
 
   def set_message
-    return self.message = nil if user.specialist
-    self.message = message_template unless message.present?
+    return self.message = specialist_message if user.specialist
+    self.message = business_message unless message.present?
   end
 
   def send!
-    ProjectMailer.share(project, name, email, message, user).deliver_later
+    ProjectMailer.deliver_later :share, project, name, email, message
   end
 
   private
 
-  def message_template
+  def specialist_message
+    I18n.t("project_shares.message_template.from_specialist",
+           recipient_name: name,
+           sender_name: user.specialist.first_name,
+           project_job: "#{project.title} #{project.one_off? ? 'project' : 'job'}").strip
+  end
+
+  def business_message
     type = project.one_off? ? 'project' : 'job'
     I18n.t("project_shares.message_template.from_business.#{type}",
            project_title: project.title,
-           company_name: user.business.business_name)
+           company_name: user.business.business_name).strip
   end
 end

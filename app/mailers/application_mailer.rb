@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class ApplicationMailer < ActionMailer::Base
-  default from: ENV.fetch('DEFAULT_MAIL_FROM')
+  default from: "Complect <#{ENV.fetch('DEFAULT_MAIL_FROM')}>"
 
   attr_reader :postmark
 
@@ -19,7 +19,7 @@ class ApplicationMailer < ActionMailer::Base
 
   def mail(headers = {}, &block)
     return deliver_with_template(headers) if Rails.env.production? && headers.key?(:template_id)
-    return super if Rails.env.production?
+    return super if Rails.env.production? || !headers.key(:template_id)
     super headers do |format|
       format.text do
         model = headers[:template_model].map { |var, value| "#{var}: #{value}" }.join("\n")
@@ -30,11 +30,7 @@ class ApplicationMailer < ActionMailer::Base
 
   private
 
-  def default_mail_from
-    "Complect <#{ENV.fetch('DEFAULT_MAIL_FROM')}>"
-  end
-
   def deliver_with_template(headers = {})
-    postmark.deliver_with_template({ from: default_mail_from }.merge(headers))
+    postmark.deliver_with_template({ from: self.class.default[:from] }.merge(headers))
   end
 end

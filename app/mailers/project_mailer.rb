@@ -14,7 +14,7 @@ class ProjectMailer < ApplicationMailer
   def share(project, name, email, message)
     @message = message
     @project_url = project_url(project)
-    mail to: "#{name} <#{email}>", subject: "#{project.name} on Complect"
+    mail to: "#{name} <#{email}>", subject: "#{project.title} on Complect"
   end
 
   private
