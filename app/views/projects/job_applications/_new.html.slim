@@ -2,7 +2,7 @@
   .modal-dialog
     = simple_form_for @job_application, url: project_job_applications_path(@job_application.project), remote: true, html: { class: 'modal-content' } do |f|
       .modal-header
-        button.close data-dismiss="modal"
+        button.close data-dismiss="modal" type="button"
           .fa.fa-close
         h4 Apply to This #{f.object.project.full_time? ? 'Full-time Role' : 'Project'}
       .modal-body

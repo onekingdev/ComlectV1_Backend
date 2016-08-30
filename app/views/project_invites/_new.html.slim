@@ -2,7 +2,7 @@
   .modal-dialog
     = simple_form_for invite, remote: true, html: { class: 'modal-content' } do |f|
       .modal-header
-        button.close data-dismiss="modal"
+        button.close data-dismiss="modal" type="button"
           .fa.fa-close
         h4 Invite to a Project
       .modal-body

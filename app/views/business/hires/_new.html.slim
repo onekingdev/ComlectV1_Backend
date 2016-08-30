@@ -3,7 +3,7 @@
     = form_for @job_application, url: business_project_hires_path(@project), remote: true, method: :post, class: 'modal-content' do |f|
       = hidden_field_tag :job_application_id, f.object.id
       .modal-header
-        button.close data-dismiss="modal"
+        button.close data-dismiss="modal" type="button"
           .fa.fa-close
         h4 Confirm Selection
       .modal-body
