@@ -26,7 +26,7 @@ class Specialists::ProjectsController < ApplicationController
   end
 
   def active_projects
-    base_scope current_specialist.projects
+    base_scope current_specialist.projects.active
   end
 
   def pending_projects
@@ -38,7 +38,7 @@ class Specialists::ProjectsController < ApplicationController
   end
 
   def completed_projects
-    base_scope Project.none # TODO: return completed projects
+    base_scope current_specialist.projects.complete
   end
 
   def base_scope(relation)
