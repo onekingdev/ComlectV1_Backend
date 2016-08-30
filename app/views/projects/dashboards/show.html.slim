@@ -3,8 +3,12 @@
   h1.m-y-3
     = project
     .pull-right
-      / TODO: real status
-      small Status: <span class="text-primary">Active</span>
+      small Status: <span class="text-primary">#{project.status_text}</span>
+
+  - if (end_request = ProjectEnd::Decorator.new(project.end_request)).present?
+    .alert.alert-warning.m-b-3.text-center
+      'Your project has ended. Please #{end_request.confirm_link 'confirm'} or #{end_request.deny_link 'deny'} within one business day.
+      '  Otherwise, the termination will be deemed accepted.
 
   .business-profile
     .row
@@ -24,9 +28,10 @@
             label.strong.m-t-2 Key Deliverables
             = project.key_deliverables_list
 
-            label.strong.m-t-2.d-b End Date
-            .percentage-circle.tiny.primary.pull-right data-percent=project.percent_complete
-            div style="line-height: 40px;" = project.ends_on.strftime('%d %b %Y')
+            - if project.ends_on.present?
+              label.strong.m-t-2.d-b End Date
+              .percentage-circle.tiny.primary.pull-right data-percent=project.percent_complete
+              div style="line-height: 40px;" = project.ends_on.strftime('%d %b %Y')
 
       .col-xs-12.col-md-9
         .panel.panel-default

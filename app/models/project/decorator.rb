@@ -1,8 +1,15 @@
 # frozen_string_literal: true
+# rubocop:disable Metrics/ClassLength
 class Project::Decorator < ApplicationDecorator
   decorates Project
   decorates_association :business, with: Business::Decorator
   delegate_all
+
+  def status_text
+    return 'Active' if active?
+    return 'Complete' if complete?
+    'Pending'
+  end
 
   def percent_complete
     return 0 unless starts_on && ends_on
@@ -130,7 +137,6 @@ class Project::Decorator < ApplicationDecorator
 
   attr_accessor :skill_selector
   def skills_input(builder)
-    # builder.input(:skill_ids, as: :hidden, value: "[1,2,3]", wrapper: false) +
     builder.input(:skill_selector,
                   placeholder: I18n.t('simple_form.placeholders.project.skills'),
                   input_html: {

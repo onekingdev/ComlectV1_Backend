@@ -11,4 +11,14 @@ class ProjectEnd::Request < Draper::Decorator
       ProjectMailer.deliver_later :end_request, request.project
     end
   end
+
+  def self.confirm_or_deny!(project, params)
+    if params[:confirm]
+      project.end_request.confirm!
+      project.complete!
+    elsif params[:deny]
+      project.end_request.deny!
+      # TODO: Send notification to business?
+    end
+  end
 end

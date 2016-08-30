@@ -84,6 +84,7 @@ Rails.application.routes.draw do
       resources :timesheets
       resources :issues
       resources :shares
+      resource :project_end, path: 'end', as: :end
     end
   end
 

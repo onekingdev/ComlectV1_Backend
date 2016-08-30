@@ -14,13 +14,14 @@ class Project < ActiveRecord::Base
   has_many :timesheets, dependent: :destroy
   has_one :invite, class_name: 'ProjectInvite', dependent: :destroy
   has_many :end_requests, class_name: 'ProjectEnd', dependent: :destroy
+  has_one :end_request, -> { pending }, class_name: 'ProjectEnd'
 
   scope :recent, -> { order(created_at: :desc) }
-  scope :published, -> { where(status: 'published') }
-  scope :active, -> { where.not(specialist_id: nil) }
-  scope :pending, -> { published.where(specialist_id: nil) }
-  scope :complete, -> { none } # TODO: User marked as complete
   scope :draft_and_in_review, -> { where(status: %w(draft review)) }
+  scope :published, -> { where(status: statuses[:published]) }
+  scope :pending, -> { published.where(specialist_id: nil) }
+  scope :active, -> { published.where.not(specialist_id: nil) }
+  scope :complete, -> { where(status: statuses[:complete]) }
   scope :accessible_by, -> (user) {
     # Accessible by project owner, hired specialist, or everyone if it's published
     joins(:business).joins('LEFT OUTER JOIN specialists ON specialists.id = projects.specialist_id')
@@ -38,7 +39,7 @@ class Project < ActiveRecord::Base
   scope :with_skills, -> (names) { joins(:skills).where(skills: { name: Array(names) }) }
 
   scope :preload_associations, -> {
-    preload(:business, :jurisdictions, :industries)
+    preload(:business, :jurisdictions, :industries, :end_request)
   }
 
   scope :distance_between, -> (lat, lng, min, max) do
@@ -58,7 +59,7 @@ class Project < ActiveRecord::Base
                     }
                   }
 
-  enum status: { draft: 'draft', review: 'review', published: 'published' }
+  enum status: { draft: 'draft', review: 'review', published: 'published', complete: 'complete' }
   enum type: { one_off: 'one_off', full_time: 'full_time' }
   enum location_type: { remote: 'remote', remote_and_travel: 'remote_and_travel', onsite: 'onsite' }
 
@@ -78,6 +79,10 @@ class Project < ActiveRecord::Base
         .includes(:industries, :jurisdictions, :skills)
         .public_send(filter)
         .page(page).per(per || 6)
+  end
+
+  def end_requested?
+    end_request.present?
   end
 
   def to_s
@@ -103,7 +108,7 @@ class Project < ActiveRecord::Base
   end
 
   def post!
-    update_attribute :status, Project.statuses[:published]
+    update_attribute :status, self.class.statuses[:published]
   end
 
   def pending?
@@ -111,11 +116,7 @@ class Project < ActiveRecord::Base
   end
 
   def active?
-    specialist_id.present?
-  end
-
-  def complete?
-    false # TODO: return true if project is complete
+    published? && specialist_id.present?
   end
 
   def draft_or_review?
