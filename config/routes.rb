@@ -82,6 +82,7 @@ Rails.application.routes.draw do
       resources :documents
       resources :timesheets
       resources :issues
+      resources :shares
     end
   end
 

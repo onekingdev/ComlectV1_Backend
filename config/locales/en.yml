@@ -69,3 +69,25 @@ en:
 
       Best,
       %{company_name}
+
+  project_shares:
+    message_template:
+      from_business:
+        job: |
+          Hi,
+
+          We thought you might be interested in this new full-time position %{project_title} at our firm that we've listed on Complect. Click the link to learn more, share it with someone else, or apply!
+
+          Best,
+          %{company_name}
+        project: |
+          Hi,
+
+          We thought you might be interested in this %{project_title} project of ours on Complect. Click the link to learn more, share it with someone else, or apply!
+
+          Best,
+          %{company_name}
+      from_specialist: |
+        Hi %{recipient_name}, %{sender_name} thought you would be interested in this %{project_job_link} on Complect.
+
+        Visit our website to apply, and find additional projects and full time roles like these!

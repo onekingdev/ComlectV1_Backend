@@ -34,17 +34,16 @@
           i.icon.maxicons1-peoples
           '&nbsp;
           = pluralize project.job_applications_count, 'Applicant', 'Applicants'
-          
+
         .pull-right
           - if project.applied?(current_specialist)
-            = link_to 'Share', '#', class: 'btn btn-md btn-primary m-r-1 p-x-2'
+            = link_to 'Share', new_project_share_path(project), remote: true, class: 'btn btn-md btn-primary m-r-1 p-x-2'
             = link_to 'Withdraw', project_job_application_path(project, project.application(current_specialist).first, redirect_to: projects_path), method: :delete, remote: true, data: { confirm: "Are you sure you want to withdraw your application from <b>#{project}</b>?", confirm_label: 'Confirm' }, class: 'btn btn-md btn-primary m-r-1 p-x-2'
             = link_to 'View', project, class: 'btn btn-md btn-primary p-x-2', target: '_blank'
           - else
             = link_to_favorite current_specialist, project, class: 'btn btn-md btn-primary m-r-1 p-x-2' do
               span.favorite Favorite
               span.unfavorite Unfavorite
-            /TODO
-            = link_to 'Share', '#', class: 'btn btn-md btn-primary m-r-1 p-x-2'
+            = link_to 'Share', new_project_share_path(project), remote: true, class: 'btn btn-md btn-primary m-r-1 p-x-2'
             = link_to 'View Details & Apply', project, class: 'btn btn-md btn-primary p-x-2', target: '_blank'
-            
+

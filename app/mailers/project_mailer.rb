@@ -4,12 +4,17 @@ class ProjectMailer < ApplicationMailer
 
   def invite(invite)
     mail to: invite.specialist.user.email,
-         from: "Complect <#{ENV.fetch('DEFAULT_MAIL_FROM')}>",
          template_id: ENV.fetch('POSTMARK_PROJECT_INVITE_TEMPLATE'),
          template_model: {
            message_html: invite_message_html(invite),
            message_text: invite_message_text(invite)
          }
+  end
+
+  def share(project, name, email, message)
+    @message = message
+    @project_url = project_url(project)
+    mail to: "#{name} <#{email}>", subject: "#{project.name} on Complect"
   end
 
   private

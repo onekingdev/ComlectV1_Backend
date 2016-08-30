@@ -12,8 +12,7 @@
             i.icon.maxicons2-editor
             span Edit
         - if project.published?
-          / TODO:
-          = link_to '#', class: 'btn btn-md btn-primary m-l-1' do
+          = link_to new_project_share_path(project), remote: true, class: 'btn btn-md btn-primary m-l-1' do
             i.icon.maxicons2-cisco
             span Share
         - if current_specialist && project.specialist_id != current_specialist.id
