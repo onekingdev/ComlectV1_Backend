@@ -114,7 +114,7 @@ class Project < ActiveRecord::Base
   end
 
   def complete?
-    false # TODO
+    false # TODO: return true if project is complete
   end
 
   def draft_or_review?

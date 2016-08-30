@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
   has_many :notifications, dependent: :delete_all
 
   def payment_info?
-    # TODO
+    # TODO: Return true if payment info is available
     true
   end
 end

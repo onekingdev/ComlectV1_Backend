@@ -38,7 +38,7 @@ class Specialists::ProjectsController < ApplicationController
   end
 
   def completed_projects
-    base_scope Project.none # TODO
+    base_scope Project.none # TODO: return completed projects
   end
 
   def base_scope(relation)
