@@ -145,7 +145,8 @@ CREATE TABLE businesses (
     anonymous boolean DEFAULT false NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    logo_data jsonb
+    logo_data jsonb,
+    time_zone character varying
 );
 
 
@@ -536,6 +537,39 @@ CREATE SEQUENCE payment_sources_id_seq
 --
 
 ALTER SEQUENCE payment_sources_id_seq OWNED BY payment_sources.id;
+
+
+--
+-- Name: project_ends; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE project_ends (
+    id integer NOT NULL,
+    project_id integer,
+    status character varying,
+    expires_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: project_ends_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE project_ends_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: project_ends_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE project_ends_id_seq OWNED BY project_ends.id;
 
 
 --
@@ -1001,6 +1035,13 @@ ALTER TABLE ONLY payment_sources ALTER COLUMN id SET DEFAULT nextval('payment_so
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY project_ends ALTER COLUMN id SET DEFAULT nextval('project_ends_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY project_invites ALTER COLUMN id SET DEFAULT nextval('project_invites_id_seq'::regclass);
 
 
@@ -1146,6 +1187,14 @@ ALTER TABLE ONLY payment_profiles
 
 ALTER TABLE ONLY payment_sources
     ADD CONSTRAINT payment_sources_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: project_ends_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY project_ends
+    ADD CONSTRAINT project_ends_pkey PRIMARY KEY (id);
 
 
 --
@@ -1386,6 +1435,27 @@ CREATE UNIQUE INDEX index_payment_sources_on_stripe_id ON payment_sources USING 
 --
 
 CREATE INDEX index_payment_sources_on_type ON payment_sources USING btree (type);
+
+
+--
+-- Name: index_project_ends_on_expires_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_project_ends_on_expires_at ON project_ends USING btree (expires_at);
+
+
+--
+-- Name: index_project_ends_on_project_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_project_ends_on_project_id ON project_ends USING btree (project_id);
+
+
+--
+-- Name: index_project_ends_on_status; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_project_ends_on_status ON project_ends USING btree (status);
 
 
 --
@@ -1774,4 +1844,8 @@ INSERT INTO schema_migrations (version) VALUES ('20160820222901');
 INSERT INTO schema_migrations (version) VALUES ('20160824202048');
 
 INSERT INTO schema_migrations (version) VALUES ('20160826174241');
+
+INSERT INTO schema_migrations (version) VALUES ('20160830172251');
+
+INSERT INTO schema_migrations (version) VALUES ('20160830180941');
 

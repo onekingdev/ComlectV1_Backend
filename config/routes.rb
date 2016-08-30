@@ -45,6 +45,7 @@ Rails.application.routes.draw do
 
     scope 'projects/:project_id' do
       resources :project_messages, path: 'messages'
+      resources :project_ends, path: 'end'
     end
 
     resources :projects do

@@ -32,6 +32,10 @@ class Business < ActiveRecord::Base
     end
   end
 
+  def tz
+    ActiveSupport::TimeZone[time_zone.to_s] || Time.zone
+  end
+
   def messages
     Message.where("
       (recipient_type = '#{Business.name}' AND recipient_id = :id) OR

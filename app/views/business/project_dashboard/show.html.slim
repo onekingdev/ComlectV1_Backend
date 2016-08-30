@@ -29,7 +29,9 @@
             div style="line-height: 40px;" = project.ends_on.strftime('%d %b %Y')
 
             .m-t-2
-              a.btn.btn-block.btn-primary.btn-md.m-b-1 href="#" End Project
+              button.btn.btn-block.btn-primary.btn-md.m-b-1 data-method="post" data-remote="true" data-url=business_project_ends_path data-confirm="Are you sure you want to end this project?"
+                'End Project
+              / TODO: extend project link
               a.btn.btn-block.btn-primary.btn-md href="#" Extend Project
 
       .col-xs-12.col-md-9

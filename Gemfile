@@ -36,6 +36,9 @@ gem 'draper'
 gem 'cocoon'
 gem 'iso_country_codes'
 
+# Misc
+gem 'business_time'
+
 # Assets
 gem 'jquery-rails'
 

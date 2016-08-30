@@ -13,6 +13,7 @@ class Project < ActiveRecord::Base
   has_many :job_applications, dependent: :destroy
   has_many :timesheets, dependent: :destroy
   has_one :invite, class_name: 'ProjectInvite', dependent: :destroy
+  has_many :end_requests, class_name: 'ProjectEnd', dependent: :destroy
 
   scope :recent, -> { order(created_at: :desc) }
   scope :published, -> { where(status: 'published') }
