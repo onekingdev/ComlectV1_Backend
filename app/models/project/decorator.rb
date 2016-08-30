@@ -33,9 +33,12 @@ class Project::Decorator < ApplicationDecorator
   end
 
   def key_deliverables_list
-    return 'N/A' if key_deliverables.blank?
     h.content_tag 'ul', class: 'list-flush' do
-      key_deliverables.split(',').map { |item| h.content_tag('li', item) }.join.html_safe
+      if key_deliverables.blank?
+        h.content_tag 'li', 'N/A'
+      else
+        key_deliverables.split(',').map { |item| h.content_tag('li', item) }.join.html_safe
+      end
     end
   end
 
