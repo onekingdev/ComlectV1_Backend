@@ -3,8 +3,7 @@
   h1.m-y-3
     = project
     .pull-right
-      / TODO: real status
-      small Status: <span class="text-primary">Active</span>
+      small Status: <span class="text-primary">#{project.status_text}</span>
 
   .business-profile
     .row
@@ -29,11 +28,12 @@
               .percentage-circle.tiny.primary.pull-right data-percent=project.percent_complete.round
               div style="line-height: 40px;" = project.ends_on.strftime('%d %b %Y')
 
-            .m-t-2
-              button.btn.btn-block.btn-primary.btn-md.m-b-1 data-method="post" data-remote="true" data-url=business_project_ends_path data-confirm="Are you sure you want to end this project?"
-                'End Project
-              / TODO: extend project link
-              a.btn.btn-block.btn-primary.btn-md href="#" Extend Project
+            - unless project.complete?
+              .m-t-2
+                button.btn.btn-block.btn-primary.btn-md.m-b-1 data-method="post" data-remote="true" data-url=business_project_ends_path data-confirm="Are you sure you want to end this project?"
+                  'End Project
+                / TODO: extend project link
+                a.btn.btn-block.btn-primary.btn-md href="#" Extend Project
 
       .col-xs-12.col-md-9
         .panel.panel-default
