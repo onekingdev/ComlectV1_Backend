@@ -21,6 +21,9 @@
         th#js-timesheet-total-due.hours= number_to_currency timesheet.total_due.round(2)
 
   .form-buttons
+    - if f.object.errors[:base].any?
+      .alert.alert-warning= f.object.errors[:base].to_sentence
+
     .col-sm-6.col-sm-push-6
       .row.row-compact
         .col-xs-6
