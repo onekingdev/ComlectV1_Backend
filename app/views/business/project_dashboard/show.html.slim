@@ -25,8 +25,7 @@
             = project.key_deliverables_list
 
             label.strong.m-t-2.d-b End Date
-            / TODO: Real project progress
-            .percentage-circle.tiny.primary.pull-right data-percent=68
+            .percentage-circle.tiny.primary.pull-right data-percent=project.percent_complete.round
             div style="line-height: 40px;" = project.ends_on.strftime('%d %b %Y')
 
             .m-t-2

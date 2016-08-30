@@ -4,6 +4,15 @@ class Project::Decorator < ApplicationDecorator
   decorates_association :business, with: Business::Decorator
   delegate_all
 
+  def percent_complete
+    return 0 unless starts_on && ends_on
+    total = (ends_on - starts_on).to_f
+    remaining = (ends_on - Time.zone.today).to_i
+    percent = (1 - (remaining / total)) * 100
+    return 100 if percent > 100
+    percent < 0 ? 0 : percent
+  end
+
   def specialist_project_href(specialist)
     specialist == model.specialist ? h.project_dashboard_path(self) : h.project_path(self)
   end
