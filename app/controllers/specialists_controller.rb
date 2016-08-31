@@ -69,10 +69,12 @@ class SpecialistsController < ApplicationController
 
   def search_params
     specialist_search_params = params[:specialist_search]
-    return {} unless specialist_search_params
-    specialist_search_params.permit(
+    return params.slice(:page) unless specialist_search_params
+    permitted = specialist_search_params.permit(
       :sort_by, :keyword, :rating, :experience, :regulator, :location, :location_range, :lat, :lng, :page,
       industry_ids: [], jurisdiction_ids: []
     )
+    permitted.merge!(params.slice(:page)) if permitted[:page].blank?
+    permitted
   end
 end
