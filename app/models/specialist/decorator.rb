@@ -58,7 +58,7 @@ class Specialist::Decorator < ApplicationDecorator
   end
 
   def render_stars
-    h.render_stars 4
+    h.render_stars ratings_average
   end
 
   def certifications_list

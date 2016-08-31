@@ -12,7 +12,7 @@
             i.icon.maxicons3-heart
           .avatar= image_tag specialist.photo_url(:thumb), class: 'img-responsive'
           h4.name= specialist.first_name
-          .rating= render_stars 4, class: 'small'
+          .rating= render_stars specialist.ratings_average, class: 'small'
 
         a.panel-body href=specialist_path(specialist) target="_blank"
           .icon-list

@@ -36,13 +36,7 @@
         .panel.panel-default
           .panel-heading
             h3 Ratings & Reviews
-            .detail 4.8 from 5 Reviews
+            .detail= rating_average_text business
           .panel-body
             .ratings.list-group.plain
-              .rating.list-group-item
-                .list-group-item-heading
-                  .detail May 2016
-                  span Project Title
-                  span.m-l-1= business.render_stars
-                .list-group-item-text
-                  p Dramatically visualize customer directed convergence without revolutionary ROI. Collaboratively administrate empowered markets via plug-and-play networks. Dynamically procrastinate B2C users after installed base benefits.
+              = render business.ratings_received.preload_associations

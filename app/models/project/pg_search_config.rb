@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-module Project::PgSearch
+module Project::PgSearchConfig
   extend ActiveSupport::Concern
 
   included do

@@ -62,7 +62,7 @@ class Project < ActiveRecord::Base
       .where(ratings: { id: nil })
   }
 
-  include Project::PgSearch
+  include Project::PgSearchConfig
 
   enum status: { draft: 'draft', review: 'review', published: 'published', complete: 'complete' }
   enum type: { one_off: 'one_off', full_time: 'full_time' }

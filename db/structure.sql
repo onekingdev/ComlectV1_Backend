@@ -146,7 +146,10 @@ CREATE TABLE businesses (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     logo_data jsonb,
-    time_zone character varying
+    time_zone character varying,
+    ratings_count integer DEFAULT 0 NOT NULL,
+    ratings_total integer DEFAULT 0 NOT NULL,
+    ratings_average double precision
 );
 
 
@@ -670,10 +673,10 @@ CREATE TABLE projects (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     tsv tsvector,
-    calculated_budget numeric,
     lat numeric(9,5),
     lng numeric(9,5),
     point geography,
+    calculated_budget numeric,
     specialist_id integer,
     job_applications_count integer DEFAULT 0 NOT NULL
 );
@@ -818,7 +821,10 @@ CREATE TABLE specialists (
     rating_avg numeric,
     lat numeric(9,5),
     lng numeric(9,5),
-    point geography
+    point geography,
+    ratings_count integer DEFAULT 0 NOT NULL,
+    ratings_total integer DEFAULT 0 NOT NULL,
+    ratings_average double precision
 );
 
 
@@ -1355,6 +1361,13 @@ CREATE INDEX index_businesses_on_anonymous ON businesses USING btree (anonymous)
 
 
 --
+-- Name: index_businesses_on_ratings_average; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_businesses_on_ratings_average ON businesses USING btree (ratings_average);
+
+
+--
 -- Name: index_businesses_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1691,6 +1704,13 @@ CREATE INDEX index_specialists_on_rating_avg ON specialists USING btree (rating_
 
 
 --
+-- Name: index_specialists_on_ratings_average; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_specialists_on_ratings_average ON specialists USING btree (ratings_average);
+
+
+--
 -- Name: index_specialists_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1914,4 +1934,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160830172251');
 INSERT INTO schema_migrations (version) VALUES ('20160830180941');
 
 INSERT INTO schema_migrations (version) VALUES ('20160830194700');
+
+INSERT INTO schema_migrations (version) VALUES ('20160831005700');
 

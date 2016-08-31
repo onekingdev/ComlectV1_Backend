@@ -45,6 +45,6 @@ class Business::Decorator < ApplicationDecorator
   end
 
   def render_stars
-    h.render_stars 4
+    h.render_stars ratings_average
   end
 end
