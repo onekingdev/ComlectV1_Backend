@@ -19,7 +19,8 @@ class User < ActiveRecord::Base
   def freeze_business_account!
     transaction do
       update_attribute :deleted, true
-      business_projects.update_all status: Project.statuses[:complete]
+      business_projects.active.update_all status: Project.statuses[:complete]
+      business_projects.where.not(status: Project.statuses[:complete]).destroy_all
       business.update_attribute :anonymous, true
     end
     reload
