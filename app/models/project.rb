@@ -15,6 +15,7 @@ class Project < ActiveRecord::Base
   has_one :invite, class_name: 'ProjectInvite', dependent: :destroy
   has_many :end_requests, class_name: 'ProjectEnd', dependent: :destroy
   has_one :end_request, -> { pending }, class_name: 'ProjectEnd'
+  has_many :ratings, dependent: :destroy
 
   scope :recent, -> { order(created_at: :desc) }
   scope :draft_and_in_review, -> { where(status: %w(draft review)) }
@@ -49,15 +50,19 @@ class Project < ActiveRecord::Base
     where("#{distance} >= ? AND #{distance} <= ?", min_m, max_m)
   end
 
-  include PgSearch
-  pg_search_scope :search,
-                  against: %i(title description),
-                  using: {
-                    tsearch: {
-                      dictionary: 'english',
-                      tsvector_column: 'tsv'
-                    }
-                  }
+  scope :pending_business_rating, -> {
+    complete
+      .joins("LEFT JOIN ratings ON ratings.project_id = projects.id AND ratings.rater_type = '#{Business.name}'")
+      .where(ratings: { id: nil })
+  }
+
+  scope :pending_specialist_rating, -> {
+    complete
+      .joins("LEFT JOIN ratings ON ratings.project_id = projects.id AND ratings.rater_type = '#{Specialist.name}'")
+      .where(ratings: { id: nil })
+  }
+
+  include Project::PgSearch
 
   enum status: { draft: 'draft', review: 'review', published: 'published', complete: 'complete' }
   enum type: { one_off: 'one_off', full_time: 'full_time' }
@@ -79,6 +84,14 @@ class Project < ActiveRecord::Base
         .includes(:industries, :jurisdictions, :skills)
         .public_send(filter)
         .page(page).per(per || 6)
+  end
+
+  def requires_business_rating?
+    complete? && ratings.by(business).empty?
+  end
+
+  def requires_specialist_rating?
+    complete? && ratings.by(specialist).empty?
   end
 
   def end_requested?

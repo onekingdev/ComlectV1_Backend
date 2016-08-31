@@ -1,3 +1,6 @@
+- content_for :scripts do
+  = javascript_include_tag new_business_project_rating_path
+
 - header_class 'short'
 - Project::Decorator.decorate(@project).tap do |project|
   h1.m-y-3

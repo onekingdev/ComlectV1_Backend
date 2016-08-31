@@ -60,6 +60,10 @@ en:
             resume:
               invalid: Not a PDF file
               too_large: Too large (max is 2 MB)
+        rating:
+          attributes:
+            review:
+              blank: Oops! Please complete all sections before submitting. Your opinion matters.
 
   project_invites:
     message_template: |

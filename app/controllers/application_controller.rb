@@ -6,7 +6,21 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
+  before_action :check_unrated_project, if: -> {
+    user_signed_in? && request.get? && !request.xhr? && request.format.symbol == :html
+  }
+
   private
+
+  def check_unrated_project
+    if current_business
+      project = current_business.projects.pending_business_rating.first
+      redirect_to business_project_dashboard_path(project) if project
+    else
+      project = current_specialist.projects.pending_specialist_rating.first
+      redirect_to project_dashboard_path(project) if project
+    end
+  end
 
   def decorate(object)
     return object if object.is_a?(Draper::Decorator)

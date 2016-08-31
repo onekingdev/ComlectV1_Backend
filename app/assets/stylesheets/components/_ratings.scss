@@ -8,3 +8,55 @@
     margin-top: 1em;
   }
 }
+
+form#new_rating {
+  .rating {
+    @include clearfix;
+    font-family: FontAwesome;
+    width: 10em;
+  }
+
+  .rating:not(:checked) > input {
+    display: none;
+  }
+
+  .rating:not(:checked) > label {
+    width: 1em;
+    float: right;
+    padding: 0 .1em;
+    overflow: hidden;
+    white-space: nowrap;
+    cursor: pointer;
+    font-size: 200%;
+    line-height: 1.2;
+    color: #ddd;
+  }
+
+  .rating:not(:checked) > label:before {
+    font-family: FontAwesome;
+    content: "";
+  }
+
+  .rating > input:checked ~ label {
+    color: $brand-primary;
+  }
+
+  .rating:not(:checked) > label:hover,
+  .rating:not(:checked) > label:hover ~ label {
+    color: $brand-primary;
+  }
+
+  .rating > input:checked + label:hover,
+  .rating > input:checked + label:hover ~ label,
+  .rating > input:checked ~ label:hover,
+  .rating > input:checked ~ label:hover ~ label,
+  .rating > label:hover ~ input:checked ~ label {
+    color: lighten($brand-primary, 10%);
+  }
+
+  .rating > label:active {
+    position: relative;
+    top: 2px;
+    left: 2px;
+  }
+}

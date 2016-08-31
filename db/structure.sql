@@ -670,10 +670,10 @@ CREATE TABLE projects (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     tsv tsvector,
+    calculated_budget numeric,
     lat numeric(9,5),
     lng numeric(9,5),
     point geography,
-    calculated_budget numeric,
     specialist_id integer,
     job_applications_count integer DEFAULT 0 NOT NULL
 );
@@ -706,6 +706,41 @@ CREATE TABLE projects_skills (
     project_id integer NOT NULL,
     skill_id integer NOT NULL
 );
+
+
+--
+-- Name: ratings; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE ratings (
+    id integer NOT NULL,
+    project_id integer,
+    rater_id integer,
+    rater_type character varying,
+    value integer,
+    review character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: ratings_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE ratings_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: ratings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE ratings_id_seq OWNED BY ratings.id;
 
 
 --
@@ -1063,6 +1098,13 @@ ALTER TABLE ONLY projects ALTER COLUMN id SET DEFAULT nextval('projects_id_seq':
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY ratings ALTER COLUMN id SET DEFAULT nextval('ratings_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY skills ALTER COLUMN id SET DEFAULT nextval('skills_id_seq'::regclass);
 
 
@@ -1219,6 +1261,14 @@ ALTER TABLE ONLY project_issues
 
 ALTER TABLE ONLY projects
     ADD CONSTRAINT projects_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: ratings_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY ratings
+    ADD CONSTRAINT ratings_pkey PRIMARY KEY (id);
 
 
 --
@@ -1578,6 +1628,20 @@ CREATE UNIQUE INDEX index_projects_skills_on_project_id_and_skill_id ON projects
 
 
 --
+-- Name: index_ratings_on_project_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_ratings_on_project_id ON ratings USING btree (project_id);
+
+
+--
+-- Name: index_ratings_on_rater_type_and_rater_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_ratings_on_rater_type_and_rater_id ON ratings USING btree (rater_type, rater_id);
+
+
+--
 -- Name: index_skills_on_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1848,4 +1912,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160826174241');
 INSERT INTO schema_migrations (version) VALUES ('20160830172251');
 
 INSERT INTO schema_migrations (version) VALUES ('20160830180941');
+
+INSERT INTO schema_migrations (version) VALUES ('20160830194700');
 

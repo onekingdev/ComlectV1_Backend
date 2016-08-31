@@ -46,6 +46,7 @@ Rails.application.routes.draw do
     scope 'projects/:project_id' do
       resources :project_messages, path: 'messages'
       resources :project_ends, path: 'end'
+      resource :project_rating, path: 'rating'
     end
 
     resources :projects do
@@ -85,6 +86,7 @@ Rails.application.routes.draw do
       resources :issues
       resources :shares
       resource :project_end, path: 'end', as: :end
+      resource :rating
     end
   end
 
