@@ -1,4 +1,4 @@
 - content_for :settings do
-  = render 'index'
+  = render 'show', user: @user, saved: @saved
 
 = render template: 'business/settings/show'
