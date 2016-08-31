@@ -10,7 +10,7 @@ class Business < ActiveRecord::Base
   has_many :favorites, as: :owner
   has_many :favorited_by, as: :favorited, dependent: :destroy, class_name: 'Favorite'
   has_many :favorite_specialists, through: :favorites, source: :favorited, source_type: 'Specialist'
-  has_many :hired_specialists, through: :projects, source: :specialist
+  has_many :hired_specialists, -> { distinct }, through: :projects, source: :specialist
   has_many :sent_messages, as: :sender, class_name: 'Message'
   has_many :ratings_received, -> { where(rater_type: Specialist.name) }, through: :projects, source: :ratings
 
