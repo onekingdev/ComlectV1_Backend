@@ -24,7 +24,7 @@
                 i.icon.maxicons2-comment
                 span Invite
           h1
-            = specialist.public? ? specialist.full_name : specialist.first_name
+            = specialist.first_name
             - if specialist.public? && specialist.linkedin_link.present?
               a.fa.fa-linkedin-square.linkedin href=specialist.linkedin_url target="_blank"
           = specialist.render_stars
