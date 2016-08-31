@@ -30,11 +30,11 @@ class Specialists::ProjectsController < ApplicationController
   end
 
   def pending_projects
-    base_scope current_specialist.applied_projects
+    base_scope current_specialist.applied_projects.visible
   end
 
   def favorited_projects
-    base_scope current_specialist.favorited_projects
+    base_scope current_specialist.favorited_projects.visible
   end
 
   def completed_projects

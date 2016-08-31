@@ -17,6 +17,7 @@ class Project < ActiveRecord::Base
   has_one :end_request, -> { pending }, class_name: 'ProjectEnd'
   has_many :ratings, dependent: :destroy
 
+  scope :visible, -> { joins(business: :user).where(users: { deleted: false }) }
   scope :recent, -> { order(created_at: :desc) }
   scope :draft_and_in_review, -> { where(status: %w(draft review)) }
   scope :published, -> { where(status: statuses[:published]) }

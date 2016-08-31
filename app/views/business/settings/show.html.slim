@@ -8,7 +8,7 @@
     = link_to 'Key Contact', business_settings_key_contact_path, class: 'btn-link btn-block btn-md', remote: true
     = link_to 'Payment Details', business_settings_payment_index_path, class: 'btn-link btn-block btn-md', remote: true
     = link_to 'Notification Preferences', '#', class: 'btn-link btn-block btn-md'
-    = link_to 'Delete Account', '#', class: 'btn-link btn-block btn-md'
+    = link_to 'Delete Account', business_settings_delete_account_path, class: 'btn-link btn-block btn-md', remote: true
 
   #business-settings.col-xs-12.col-sm-8.col-md-9
     = yield(:settings).presence || render('business/passwords/show', user: @user, saved: @saved)

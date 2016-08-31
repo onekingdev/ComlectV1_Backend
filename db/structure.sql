@@ -933,7 +933,8 @@ CREATE TABLE users (
     confirmation_sent_at timestamp without time zone,
     unconfirmed_email character varying,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    deleted boolean DEFAULT false NOT NULL
 );
 
 
@@ -1746,6 +1747,13 @@ CREATE UNIQUE INDEX index_users_on_confirmation_token ON users USING btree (conf
 
 
 --
+-- Name: index_users_on_deleted; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_users_on_deleted ON users USING btree (deleted);
+
+
+--
 -- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1936,4 +1944,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160830180941');
 INSERT INTO schema_migrations (version) VALUES ('20160830194700');
 
 INSERT INTO schema_migrations (version) VALUES ('20160831005700');
+
+INSERT INTO schema_migrations (version) VALUES ('20160831170413');
 

@@ -1,0 +1,11 @@
+.row
+  .col-xs-12.col-md-7
+    .panel.panel-default
+      .panel-heading
+        h3 Delete Account
+
+      .panel-body
+        = simple_form_for user, url: business_settings_delete_account_path, method: :delete do |f|
+          p.m-b-1 We're sorry to see you leave. Note, this is a permanent change and will delete all of your information, so consider changing your profile visibility through the dashboard instead.
+
+          = f.submit 'Yes, Delete my Complect Account', class: 'btn btn-primary btn-block btn-lg'

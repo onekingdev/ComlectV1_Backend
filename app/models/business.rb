@@ -27,6 +27,8 @@ class Business < ActiveRecord::Base
 
   accepts_nested_attributes_for :user
 
+  delegate :deleted?, to: :user
+
   def self.for_signup(attributes = {})
     new(attributes).tap do |business|
       business.build_user unless business.user
