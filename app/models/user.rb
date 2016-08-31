@@ -8,12 +8,12 @@ class User < ActiveRecord::Base
   has_one :business, dependent: :destroy
   has_one :specialist, dependent: :destroy
   has_many :business_projects, through: :business, source: :projects
+  has_many :payment_sources, through: :business
   has_many :project_issues, dependent: :delete_all
   has_many :notifications, dependent: :delete_all
 
   def payment_info?
-    # TODO: Return true if payment info is available
-    true
+    payment_sources.any?
   end
 
   def freeze_business_account!
