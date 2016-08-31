@@ -88,7 +88,7 @@ class Specialist < ActiveRecord::Base
   end
 
   def to_s
-    full_name
+    first_name
   end
 
   def full_name
