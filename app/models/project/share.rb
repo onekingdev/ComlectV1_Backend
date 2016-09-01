@@ -5,7 +5,7 @@ class Project::Share
 
   attr_accessor :name, :email, :message, :message_html, :project, :user
 
-  validates :name, :email, presence: true
+  validates :email, presence: true
   validates :message, presence: true, if: -> { user.business }
 
   def self.for(project, attributes = {})
