@@ -19,7 +19,7 @@ class ApplicationMailer < ActionMailer::Base
 
   def mail(headers = {}, &block)
     return deliver_with_template(headers) if Rails.env.production? && headers.key?(:template_id)
-    return super if Rails.env.production? || !headers.key(:template_id)
+    return super if Rails.env.production? || !headers.key?(:template_id)
     super headers do |format|
       format.text do
         model = headers[:template_model].map { |var, value| "#{var}: #{value}" }.join("\n")
