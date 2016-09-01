@@ -6,8 +6,7 @@
           .fa.fa-close
         h4 Share #{f.object.project.one_off? ? 'This Project' : 'Job' }
       .modal-body
-        = f.input :name, required: false, label: f.object.user.business ? 'Name' : 'To', input_html: { class: 'input-lg' }
-        .m-t-2= f.input :email, required: false, input_html: { class: 'input-lg' }
+        = f.input :email, required: false, input_html: { class: 'input-lg' }
         - if f.object.user.business
           .m-t-2= f.input :message, required: false, as: :text, input_html: { rows: 10 }, hint: 'Note: Project link will be included at the bottom of this message upon sending.'
         = f.submit 'Send', class: 'btn btn-primary btn-block btn-lg'

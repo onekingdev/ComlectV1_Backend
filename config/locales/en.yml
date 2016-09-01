@@ -92,6 +92,8 @@ en:
           Best,
           %{company_name}
       from_specialist: |
-        Hi %{recipient_name}, %{sender_name} thought you would be interested in this %{project_job} on Complect.
+        Hi %{recipient_name},
+
+        %{sender_name} thought you would be interested in this %{project_job} on Complect.
 
         Visit our website to apply, and find additional projects and full time roles like these!
