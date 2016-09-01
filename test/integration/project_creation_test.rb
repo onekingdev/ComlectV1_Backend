@@ -4,6 +4,10 @@ require 'test_helper'
 class ProjectCreationTest < ActionDispatch::IntegrationTest
   setup do
     @business = create :business
+    PaymentProfile.any_instance.expects :create_stripe_customer
+    PaymentSource.any_instance.expects :create_source
+    payment_profile = create :payment_profile, business: @business
+    create :payment_source, payment_profile: payment_profile
     @user = @business.user
     post user_session_path, 'user[email]' => @user.email, 'user[password]' => 'password'
   end
@@ -46,8 +50,8 @@ class ProjectCreationTest < ActionDispatch::IntegrationTest
     attributes = attributes_for(:project_full_time).merge(status: 'review', full_time_starts_on: 1.month.ago)
     specialist = create :specialist
     invite = @business.project_invites.create!(specialist: specialist, message: 'Invite')
-    post business_projects_path, project: attributes, invite_id: invite.id
-    invite.reload
-    assert invite.sent?
+    post business_projects_path, project: attributes.merge(invite_id: invite.id)
+    post post_business_project_path(invite.reload.project), format: 'js'
+    assert invite.reload.sent?
   end
 end

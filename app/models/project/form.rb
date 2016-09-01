@@ -60,11 +60,16 @@ class Project::Form < Project
     end
   end
 
-  def save
+  def save(_options = {})
     published_now = published? && status_changed?
     result = super
     process_invite(published_now) if result && (invite || invite_id.present?)
     result
+  end
+
+  def post!
+    super
+    process_invite true if invite&.not_sent?
   end
 
   def full_time_starts_on
