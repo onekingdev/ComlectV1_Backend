@@ -21,6 +21,9 @@ Style/EmptyLineBetweenDefs:
 Style/Lambda:
   Enabled: false
 
+Style/LambdaCall:
+  Enabled: false
+
 Style/MultilineMethodCallBraceLayout:
   Enabled: true
 

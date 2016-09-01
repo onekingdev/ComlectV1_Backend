@@ -16,6 +16,7 @@ class Project < ActiveRecord::Base
   has_many :end_requests, class_name: 'ProjectEnd', dependent: :destroy
   has_one :end_request, -> { pending }, class_name: 'ProjectEnd'
   has_many :ratings, dependent: :destroy
+  has_many :charges, dependent: :destroy
 
   scope :visible, -> { joins(business: :user).where(users: { deleted: false }) }
   scope :recent, -> { order(created_at: :desc) }
@@ -68,6 +69,7 @@ class Project < ActiveRecord::Base
   enum status: { draft: 'draft', review: 'review', published: 'published', complete: 'complete' }
   enum type: { one_off: 'one_off', full_time: 'full_time' }
   enum location_type: { remote: 'remote', remote_and_travel: 'remote_and_travel', onsite: 'onsite' }
+  enum fee_type: { upfront_fee: 'upfront', monthly_fee: 'monthly' }
 
   LOCATIONS = [%w(Remote remote), %w(Remote\ +\ Travel remote_and_travel), %w(Onsite onsite)].freeze
   HOURLY_PAYMENT_SCHEDULES = [%w(Upon\ Completion upon_completion), %w(Bi-Weekly bi_weekly), %w(Monthly monthly)].freeze
@@ -119,10 +121,6 @@ class Project < ActiveRecord::Base
     self.skills = names.map do |name|
       Skill.find_or_initialize_by(name: name)
     end
-  end
-
-  def post!
-    update_attribute :status, self.class.statuses[:published]
   end
 
   def pending?

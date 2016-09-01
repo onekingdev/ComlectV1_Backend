@@ -3,13 +3,8 @@ require 'test_helper'
 
 class ProjectCreationTest < ActionDispatch::IntegrationTest
   setup do
-    @business = create :business
-    PaymentProfile.any_instance.expects :create_stripe_customer
-    PaymentSource.any_instance.expects :create_source
-    payment_profile = create :payment_profile, business: @business
-    create :payment_source, payment_profile: payment_profile
-    @user = @business.user
-    post user_session_path, 'user[email]' => @user.email, 'user[password]' => 'password'
+    @business = create_business_with_valid_payment_source
+    sign_in @business.user
   end
 
   test 'can create one off hourly project' do

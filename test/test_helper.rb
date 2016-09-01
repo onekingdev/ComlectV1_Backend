@@ -17,6 +17,10 @@ end
 class ActionDispatch::IntegrationTest
   # Make the Capybara DSL available in all integration tests
   include Capybara::DSL
+
+  def sign_in(user, password = 'password')
+    post user_session_path, 'user[email]' => user.email, 'user[password]' => password
+  end
 end
 
 class ActiveSupport::TestCase
@@ -25,5 +29,14 @@ class ActiveSupport::TestCase
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
   fixtures :all
 
-  # Add more helper methods to be used by all tests here...
+  def create_business_with_valid_payment_source(attributes = {})
+    create(:business, attributes).tap do |business|
+      profile = build :payment_profile, business: business
+      profile.expects :create_stripe_customer
+      profile.save!
+      source = build :payment_source, payment_profile: profile
+      source.expects :create_source
+      source.save!
+    end
+  end
 end

@@ -193,6 +193,43 @@ CREATE TABLE businesses_jurisdictions (
 
 
 --
+-- Name: charges; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE charges (
+    id integer NOT NULL,
+    project_id integer NOT NULL,
+    payment_source_id integer,
+    amount_in_cents integer NOT NULL,
+    process_after timestamp without time zone NOT NULL,
+    status character varying DEFAULT 'scheduled'::character varying NOT NULL,
+    status_detail character varying,
+    description character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: charges_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE charges_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: charges_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE charges_id_seq OWNED BY charges.id;
+
+
+--
 -- Name: education_histories; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -461,10 +498,10 @@ CREATE TABLE projects (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     tsv tsvector,
-    calculated_budget numeric,
     lat numeric(9,5),
     lng numeric(9,5),
     point geography,
+    calculated_budget numeric,
     specialist_id integer,
     job_applications_count integer DEFAULT 0 NOT NULL
 );
@@ -1628,6 +1665,13 @@ ALTER TABLE ONLY businesses ALTER COLUMN id SET DEFAULT nextval('businesses_id_s
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY charges ALTER COLUMN id SET DEFAULT nextval('charges_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY education_histories ALTER COLUMN id SET DEFAULT nextval('education_histories_id_seq'::regclass);
 
 
@@ -1778,6 +1822,14 @@ ALTER TABLE ONLY admin_users
 
 ALTER TABLE ONLY businesses
     ADD CONSTRAINT businesses_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: charges_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY charges
+    ADD CONSTRAINT charges_pkey PRIMARY KEY (id);
 
 
 --
@@ -1987,6 +2039,34 @@ CREATE INDEX index_businesses_on_ratings_average ON businesses USING btree (rati
 --
 
 CREATE INDEX index_businesses_on_user_id ON businesses USING btree (user_id);
+
+
+--
+-- Name: index_charges_on_payment_source_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_charges_on_payment_source_id ON charges USING btree (payment_source_id);
+
+
+--
+-- Name: index_charges_on_process_after; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_charges_on_process_after ON charges USING btree (process_after);
+
+
+--
+-- Name: index_charges_on_project_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_charges_on_project_id ON charges USING btree (project_id);
+
+
+--
+-- Name: index_charges_on_status; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_charges_on_status ON charges USING btree (status);
 
 
 --
@@ -2620,4 +2700,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160831170413');
 INSERT INTO schema_migrations (version) VALUES ('20160831202556');
 
 INSERT INTO schema_migrations (version) VALUES ('20160901060934');
+
+INSERT INTO schema_migrations (version) VALUES ('20160901175940');
 

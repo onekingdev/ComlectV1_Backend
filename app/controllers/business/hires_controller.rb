@@ -11,8 +11,7 @@ class Business::HiresController < ApplicationController
   end
 
   def create
-    @job_application = @project.job_applications.find(params.require(:job_application_id))
-    @job_application.accept!
+    @job_application = JobApplication::Accept.(@project.job_applications.find(params.require(:job_application_id)))
     js_redirect business_project_dashboard_path(@project)
   end
 

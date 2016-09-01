@@ -68,7 +68,7 @@ class Project::Form < Project
   end
 
   def post!
-    super
+    update_attribute :status, self.class.statuses[:published]
     process_invite true if invite&.not_sent?
   end
 

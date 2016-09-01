@@ -36,5 +36,17 @@ FactoryGirl.define do
       starts_on { 1.month.from_now }
       annual_salary 98_000
     end
+
+    trait :published do
+      status Project.statuses[:published]
+    end
+
+    trait :upfront_fee do
+      fee_type Project.fee_types[:upfront_fee]
+    end
+
+    trait :monthly_fee do
+      fee_type Project.fee_types[:monthly_fee]
+    end
   end
 end
