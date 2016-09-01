@@ -323,6 +323,9 @@ GEM
       sprockets (> 2.11)
       sprockets-rails
       tilt
+    scenic (1.3.0)
+      activerecord (>= 4.0.0)
+      railties (>= 4.0.0)
     shrine (2.0.1)
       down (>= 2.2.0)
     sidekiq (4.1.2)
@@ -436,6 +439,7 @@ DEPENDENCIES
   roda (~> 2.14.0)
   rubocop
   sassc-rails (~> 1.3)
+  scenic
   shrine (~> 2.0.1)
   sidekiq
   sidekiq-cron

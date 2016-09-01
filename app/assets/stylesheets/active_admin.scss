@@ -18,3 +18,14 @@ $fa-font-path: "font-awesome/fonts";
 // For example, to change the default status-tag color:
 //
 //   .status_tag { background: #6090DB; }
+
+$base-padding: 5px;
+$padding-increment: 12px;
+.col-level-1 { padding-left: $base-padding + $padding-increment; }
+.col-level-2 { padding-left: $base-padding + $padding-increment * 2; }
+.col-level-3 { padding-left: $base-padding + $padding-increment * 3; }
+.col-level-4 { padding-left: $base-padding + $padding-increment * 4; }
+
+.col.number {
+  text-align: right;
+}
