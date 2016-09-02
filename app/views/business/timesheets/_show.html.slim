@@ -5,7 +5,7 @@ table.table-condensed.time_logs
   - timesheet.time_logs.each do |log|
     tr
       td.description
-        span= truncate log.description, length: 120
+        span= truncate log.description, length: 160
       td.hours #{'%0.2f' % log.hours.to_f.round(2)} Hours
 
   tr
