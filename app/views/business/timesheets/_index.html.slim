@@ -1,5 +1,6 @@
-.selected-timesheet data-id=nil
-  h2.text-center.m-b-1 No timesheet selected
+-if @timesheets.size > 0
+  .selected-timesheet data-id=nil
+    h2.text-center.m-b-1 No timesheet selected
 
-.panel-drawer.timesheets.business-timesheets
+.panel-drawer.timesheets.business-timesheets class=('business-timesheets-empty' if @timesheets.size == 0)
   = render 'timesheets', timesheets: @timesheets, selected: nil
