@@ -1,6 +1,18 @@
 $.onContentReady ($parent, data) ->
   $messages = if $parent.hasClass('message-thread') then $parent.find('.messages') else $parent.find('.message-thread .messages')
+
+  if $messages.length != 0 && $('.messages').is(':visible')
+    setInterval ->
+      if $('.messages').is(':visible')
+        request = $.get $messages.data('url'), (data) ->
+          new_data = $(data).find('[data-message-id]').filter ->
+            $(this).data("message-id") > $('[data-message-id]').last().data('message-id')
+          $messages.append new_data
+          $messages.animate({ scrollTop: $messages.prop("scrollHeight")}, 500)
+    , 5000
+
   return if $messages.length == 0 || $messages.data('init-scrolled')
+
   $messages
     .scrollTop $messages[0].scrollHeight
     .data 'init-scrolled'
@@ -44,4 +56,3 @@ $.onContentReady ($parent, data) ->
       loadMessages() if ratio < previousRatio && ratio < 0.25
       previousRatio = ratio
     , 500
-
