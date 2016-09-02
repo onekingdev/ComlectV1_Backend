@@ -7,8 +7,9 @@ $.onContentReady ($parent, data) ->
         request = $.get $messages.data('url'), (data) ->
           new_data = $(data).find('[data-message-id]').filter ->
             $(this).data("message-id") > $('[data-message-id]').last().data('message-id')
-          $messages.append new_data
-          $messages.animate({ scrollTop: $messages.prop("scrollHeight")}, 500)
+          if new_data.length > 0
+            $messages.append new_data
+            $messages.animate({ scrollTop: $messages.prop("scrollHeight")}, 500)
     , 5000
 
   return if $messages.length == 0 || $messages.data('init-scrolled')
