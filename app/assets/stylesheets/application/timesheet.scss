@@ -58,16 +58,15 @@
   }
 }
 
-.timesheets.business-timesheets {
-  .timesheet.submitted .sheet-icon:before {
-    content: "O";
-    font-family: maxicons;
-    position: absolute;
-    right: 10px;
-    top: 30px;
-    animation: pulse 3s infinite;
-  }
+.timesheet.submitted .sheet-icon:before {
+  content: "O";
+  font-family: maxicons;
+  position: absolute;
+  right: 10px;
+  top: 30px;
+  animation: pulse 3s infinite;
 }
+
 .timesheets.business-timesheets-empty {
   margin-top: -15px;
 }

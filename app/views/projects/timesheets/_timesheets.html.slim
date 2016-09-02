@@ -1,7 +1,6 @@
 .new-timesheet.timesheet class=('selected' if selected.new_record?)
   = link_to '', new_project_timesheet_path, remote: true, class: 'sheet-icon'
   .date &nbsp;
-  = link_to 'New', new_project_timesheet_path, remote: true, class: 'btn btn-primary'
 
 = render timesheets.map(&method(:decorate)), selected: selected
 

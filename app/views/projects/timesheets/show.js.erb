@@ -1,5 +1,9 @@
 var $content = $('.selected-timesheet');
-$content.html('<%= j render 'show', timesheet: decorate(@timesheet) %>').attr('data-id', '<%= @timesheet.id %>');
+<% if @timesheet.pending? %>
+  $content.html('<%= j render 'form', timesheet: Timesheet::Form.new(@timesheet) %>').attr('data-id', '<%= @timesheet.id %>');;
+<% else %>
+  $content.html('<%= j render 'show', timesheet: decorate(@timesheet) %>').attr('data-id', '<%= @timesheet.id %>');
+<% end %>
 $('.timesheets .timesheet.selected').removeClass('selected');
 $('.timesheets .timesheet[data-id=<%= @timesheet.id %>]')
   .addClass('selected')

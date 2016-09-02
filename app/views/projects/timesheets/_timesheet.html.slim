@@ -1,4 +1,3 @@
 .timesheet data-id=timesheet.id class="#{timesheet.status} #{'selected' if selected.id == timesheet.id}"
   = link_to '', project_timesheet_path(timesheet.project, timesheet), remote: true, class: 'sheet-icon'
   .date= timesheet.created_at.strftime('%d %b %Y')
-  = timesheet.specialist_button
