@@ -2,6 +2,7 @@ en:
   date:
     formats:
       pickadate: "%Y/%m/%d"
+      pickadate_p: "%Y-%m-%d"
       short_ord: "%@d %b %Y"
   activerecord:
     attributes:

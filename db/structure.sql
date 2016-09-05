@@ -1499,6 +1499,55 @@ ALTER SEQUENCE specialists_id_seq OWNED BY specialists.id;
 
 
 --
+-- Name: stripe_accounts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE stripe_accounts (
+    id integer NOT NULL,
+    specialist_id integer,
+    status character varying DEFAULT 'Pending'::character varying NOT NULL,
+    account_country character varying,
+    account_currency character varying,
+    account_routing_number character varying,
+    account_number character varying,
+    city character varying,
+    address1 character varying,
+    postal_code character varying,
+    state character varying,
+    country character varying,
+    dob date,
+    first_name character varying,
+    last_name character varying,
+    ssn_last_4 character varying,
+    tos_acceptance_date date,
+    tos_acceptance_ip character varying,
+    personal_id_number character varying,
+    verification_document_data jsonb,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: stripe_accounts_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE stripe_accounts_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: stripe_accounts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE stripe_accounts_id_seq OWNED BY stripe_accounts.id;
+
+
+--
 -- Name: time_logs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1784,6 +1833,13 @@ ALTER TABLE ONLY specialists ALTER COLUMN id SET DEFAULT nextval('specialists_id
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY stripe_accounts ALTER COLUMN id SET DEFAULT nextval('stripe_accounts_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY time_logs ALTER COLUMN id SET DEFAULT nextval('time_logs_id_seq'::regclass);
 
 
@@ -1958,6 +2014,14 @@ ALTER TABLE ONLY skills
 
 ALTER TABLE ONLY specialists
     ADD CONSTRAINT specialists_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: stripe_accounts_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY stripe_accounts
+    ADD CONSTRAINT stripe_accounts_pkey PRIMARY KEY (id);
 
 
 --
@@ -2469,6 +2533,13 @@ CREATE INDEX index_specialists_on_user_id ON specialists USING btree (user_id);
 
 
 --
+-- Name: index_stripe_accounts_on_specialist_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_stripe_accounts_on_specialist_id ON stripe_accounts USING btree (specialist_id);
+
+
+--
 -- Name: index_time_logs_on_timesheet_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2602,6 +2673,14 @@ CREATE TRIGGER tsvectorupdate BEFORE INSERT OR UPDATE ON projects FOR EACH ROW E
 
 
 --
+-- Name: fk_rails_7988d7b477; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY stripe_accounts
+    ADD CONSTRAINT fk_rails_7988d7b477 FOREIGN KEY (specialist_id) REFERENCES specialists(id);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
@@ -2702,4 +2781,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160831202556');
 INSERT INTO schema_migrations (version) VALUES ('20160901060934');
 
 INSERT INTO schema_migrations (version) VALUES ('20160901175940');
+
+INSERT INTO schema_migrations (version) VALUES ('20160905191421');
 
