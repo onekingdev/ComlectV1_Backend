@@ -9,8 +9,8 @@
               = image_tag business.logo_url(:thumb), class: 'img-responsive ghost'
               = image_tag business.logo_url(:thumb), class: 'img-responsive real'
             - else
-              = image_tag 'anonymous_business-xl.png', class: 'img-responsive ghost'
-              = image_tag 'anonymous_business-xl.png', class: 'img-responsive real'
+              = image_tag 'icon-specialist.png', class: 'img-responsive ghost'
+              = image_tag 'icon-specialist.png', class: 'img-responsive real'
 
         .td.title.col-xs-12.col-sm-8.col-md-9.has-logo
           - if policy(business).edit?
@@ -19,7 +19,7 @@
                 i.icon.maxicons2-editting
                 span.fw-regular Edit
           h1
-            = policy(business).public_info(:business_name) || 'Anonymous'
+            = policy(business).public_info(:business_name) || business.industries.first.name
             - if business.public? && business.linkedin_link.present?
               a.fa.fa-linkedin-square.linkedin href=business.linkedin_url target="_blank"
           = business.render_stars
