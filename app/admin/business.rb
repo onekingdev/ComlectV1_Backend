@@ -18,7 +18,9 @@ ActiveAdmin.register Business do
     column 'Email', :user, sortable: 'users.email' do |business|
       business.user.email
     end
-    column :industries
+    column :industries do |business|
+      business.industries.map(&:name).join(', ')
+    end
     column :employees
     column :website
     column :description
@@ -39,7 +41,7 @@ ActiveAdmin.register Business do
   #   end
   # end
 
-  permit_params :business_name, :industries, :employees, :website, :description, :linkedin_link
+  permit_params :business_name, :employees, :website, :description, :linkedin_link, industry_ids: []
   form do |f|
     inputs do
       input :business_name

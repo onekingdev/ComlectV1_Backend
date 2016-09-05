@@ -26,7 +26,13 @@ ActiveAdmin.register Project do
     actions
   end
 
-  permit_params :title, :location, :industries, :jurisdiction, :description, :key_deliverables
+  permit_params :title,
+                :location,
+                :description,
+                :key_deliverables,
+                :specialist_id,
+                industry_ids: [],
+                jurisdiction_ids: []
   form do |f|
     inputs do
       input :title
