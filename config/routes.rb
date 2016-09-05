@@ -65,7 +65,12 @@ Rails.application.routes.draw do
 
   namespace :specialists, path: 'specialist' do
     get '/' => 'dashboard#show', as: :dashboard
-    resource :settings, only: :show
+    resource :settings, only: :show do
+      resource :password
+      resources :payment_settings, as: :payment, path: 'payment' do
+        patch :make_primary
+      end
+    end
     resources :projects, path: 'my-projects'
     concerns :favoriteable
     resources :messages

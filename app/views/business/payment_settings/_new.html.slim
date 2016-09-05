@@ -5,19 +5,19 @@ h2.m-t-0 New Bank Account
     h2.text-center.m-b-2 Account Details
     .row
       .col-xs-12.col-sm-6
-        = f.input :country, collection: IsoCountryCodes.for_select, input_html: { class: 'input-lg js-select'}
+        = f.input :country, collection: IsoCountryCodes.for_select, input_html: { class: 'input-lg js-select' }
       .col-xs-12.col-sm-6
-        = f.input :currency, collection: IsoCountryCodes.all.map(&:currency).uniq.sort, input_html: { class: 'input-lg js-select'}
+        = f.input :currency, collection: IsoCountryCodes.all.map(&:currency).uniq.sort, input_html: { class: 'input-lg js-select' }
     .row
       .col-xs-12.col-sm-6
-        = f.input :routing_number, input_html: { class: 'input-lg'}
+        = f.input :routing_number, input_html: { class: 'input-lg' }
       .col-xs-12.col-sm-6
-        = f.input :account_number, input_html: { class: 'input-lg'}
+        = f.input :account_number, input_html: { class: 'input-lg' }
     .row
       .col-xs-12.col-sm-6
-        = f.input :account_holder_name, input_html: { class: 'input-lg'}
+        = f.input :account_holder_name, input_html: { class: 'input-lg' }
       .col-xs-12.col-sm-6
-        = f.input :account_holder_type, collection: [%w(Individual individual), %w(Company company)], input_html: { class: 'input-lg js-select'}
+        = f.input :account_holder_type, collection: [%w(Individual individual), %w(Company company)], input_html: { class: 'input-lg js-select' }
 
     .alert.alert-danger class=('hidden' if f.object.errors.empty?) = f.object.errors.full_messages.join(', ')
 
