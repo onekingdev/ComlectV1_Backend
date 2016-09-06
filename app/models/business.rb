@@ -53,6 +53,10 @@ class Business < ActiveRecord::Base
     !anonymous?
   end
 
+  def contact_full_name
+    [contact_first_name, contact_last_name].map(&:presence).compact.join(' ')
+  end
+
   private
 
   # Shrine validations are not firing for some reason

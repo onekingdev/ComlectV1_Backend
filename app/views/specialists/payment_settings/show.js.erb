@@ -1,0 +1,3 @@
+var $specialist = $('#specialist-settings');
+$specialist.html('<%= j render('show') %>');
+$(document).trigger('newContent', $specialist);

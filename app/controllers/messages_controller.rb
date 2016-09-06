@@ -13,7 +13,7 @@ class MessagesController < ApplicationController
 
   def create
     @message = @sender.sent_messages.new(message_params)
-    render :new unless @message.send!
+    render :new unless @message.send_as_email!
   end
 
   def show

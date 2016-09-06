@@ -28,6 +28,9 @@
 }
 
 .multiselect-parent .dropdown-menu {
+  max-height: 200px;
+  overflow-y: auto;
+
   label {
     padding: 5px 20px;
   }

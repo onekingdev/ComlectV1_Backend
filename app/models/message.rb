@@ -54,9 +54,7 @@ class Message < ActiveRecord::Base
     self.sender == sender
   end
 
-  def send!
-    return false unless save
-    # TODO: Send notification
-    true
+  def send_as_email!
+    MessageMailer.deliver_later :first_contact, sender, recipient, message
   end
 end
