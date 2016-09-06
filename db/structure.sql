@@ -1524,7 +1524,10 @@ CREATE TABLE stripe_accounts (
     personal_id_number character varying,
     verification_document_data jsonb,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    account_type character varying DEFAULT 'individual'::character varying NOT NULL,
+    business_name character varying,
+    business_tax_id character varying
 );
 
 
@@ -2783,4 +2786,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160901060934');
 INSERT INTO schema_migrations (version) VALUES ('20160901175940');
 
 INSERT INTO schema_migrations (version) VALUES ('20160905191421');
+
+INSERT INTO schema_migrations (version) VALUES ('20160906170404');
 

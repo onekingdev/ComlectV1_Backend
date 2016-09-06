@@ -1,8 +1,18 @@
 h2.m-t-0 New Bank Account
 
-= simple_form_for @account, url: specialists_settings_payment_path do |f|
-  .well.well-lg.m-t-3
+= simple_form_for account, html: { data: { account_type: account.account_type }}, url: specialists_settings_payment_path do |f|
+  .text-center.m-y-3
+    = account.type_switch f
+
+  .well.well-lg
     h2.text-center.m-b-2 Account Details
+
+    .row.account-type-business
+      .col-xs-12.col-sm-6
+        = f.input :business_name, label: 'Business Name', input_html: { class: 'input-lg' }
+      .col-xs-12.col-sm-6
+        = f.input :business_tax_id, label: 'Tax ID', input_html: { class: 'input-lg' }
+
     .row
       .col-xs-12.col-sm-6
         = f.input :account_country, required: false, label: "Country", include_blank: false, collection: [['United States', 'US']], input_html: { class: 'input-lg js-select' }

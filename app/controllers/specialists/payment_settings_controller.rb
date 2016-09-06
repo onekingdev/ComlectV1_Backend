@@ -32,9 +32,9 @@ class Specialists::PaymentSettingsController < ApplicationController
 
   def account_attributes
     params.require(:stripe_account).permit(
-      :account_country, :account_currency, :account_routing_number, :account_number, :address1, :postal_code,
-      :city, :state, :country, :first_name, :last_name, :dob, :ssn_last_4, :personal_id_number,
-      :verification_document, :accept_tos
+      :account_type, :account_country, :account_currency, :account_routing_number, :account_number, :address1,
+      :postal_code, :city, :state, :country, :first_name, :last_name, :dob, :ssn_last_4, :personal_id_number,
+      :verification_document, :accept_tos, :business_name, :business_tax_id
     )
   end
 end
