@@ -23,21 +23,9 @@ class Specialists::PaymentSettingsController < ApplicationController
     end
   end
 
-  def update
-    @payment_target = current_business.payment_targets.find(params[:id])
-    params.key?(:payment_target_ach) ? handle_ach_update : handle_cc_update
-  end
-
-  def make_primary
-    @target = current_business.payment_targets.find(params[:payment_id])
-    @target.make_primary!
-    redirect_to business_settings_payment_index_path
-  end
-
   def destroy
-    @target = current_business.payment_targets.find(params[:id])
-    @target.destroy
-    redirect_to business_settings_payment_index_path
+    current_specialist.stripe_account&.destroy
+    redirect_to specialists_settings_payment_path
   end
 
   private
