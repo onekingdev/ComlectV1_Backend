@@ -16,7 +16,7 @@ class MessageMailer < ApplicationMailer
     @message_text = message_text
     @message_html = message_html
     mail to: to_address(to),
-         subject: subject(from),
+         subject: "RE: #{subject(from)}",
          reply_to: thread_address(thread, from)
   end
 

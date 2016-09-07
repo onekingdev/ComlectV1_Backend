@@ -39,7 +39,7 @@ class MessageMailerTest < ActionMailer::TestCase
     assert_equal ['from@complect'], email.from
     assert_equal @specialist.user.email, email.to.last
     assert_equal ["inbound+#{@thread.thread_key}+business@test.com"], email.reply_to
-    assert_equal "Message on Complect", email.subject
+    assert_equal "RE: Message on Complect", email.subject
     email.body.parts.each do |part|
       assert_no_match(/#{@business.business_name}/, part.body.to_s)
       assert_match(/Howdy/, part.body.to_s)
@@ -53,7 +53,7 @@ class MessageMailerTest < ActionMailer::TestCase
     assert_equal ['from@complect'], email.from
     assert_equal @business.user.email, email.to.last
     assert_equal ["inbound+#{@thread.thread_key}+specialist@test.com"], email.reply_to
-    assert_equal "Message from #{@specialist.first_name} on Complect", email.subject
+    assert_equal "RE: Message from #{@specialist.first_name} on Complect", email.subject
     email.body.parts.each do |part|
       assert_match(/Howdy/, part.body.to_s)
     end
@@ -66,7 +66,7 @@ class MessageMailerTest < ActionMailer::TestCase
     assert_equal ['from@complect'], email.from
     assert_equal @specialist.user.email, email.to.last
     assert_equal ["inbound+#{@thread.thread_key}+business@test.com"], email.reply_to
-    assert_equal "Message from #{@business.business_name} on Complect", email.subject
+    assert_equal "RE: Message from #{@business.business_name} on Complect", email.subject
     email.body.parts.each do |part|
       assert_match(/Howdy/, part.body.to_s)
     end
