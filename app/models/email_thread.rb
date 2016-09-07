@@ -28,7 +28,7 @@ class EmailThread < ActiveRecord::Base
 
   def set_thread_key
     loop do
-      self.thread_key = SecureRandom.hex(8)
+      self.thread_key = SecureRandom.hex(5)
       break if self.class.where(thread_key: thread_key).empty?
     end
   end
