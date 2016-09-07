@@ -1,5 +1,5 @@
 var $content = $('.selected-timesheet');
-<% if @timesheet.pending? %>
+<% if policy(@timesheet).update? %>
   $content.html('<%= j render 'form', timesheet: Timesheet::Form.new(@timesheet) %>').attr('data-id', '<%= @timesheet.id %>');;
 <% else %>
   $content.html('<%= j render 'show', timesheet: decorate(@timesheet) %>').attr('data-id', '<%= @timesheet.id %>');
