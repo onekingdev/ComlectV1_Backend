@@ -17,6 +17,7 @@ class Specialist < ActiveRecord::Base
   has_many :sent_messages, as: :sender, class_name: 'Message'
   has_many :ratings_received, -> { where(rater_type: Business.name) }, through: :projects, source: :ratings
   has_one :stripe_account, dependent: :destroy
+  has_many :email_threads, dependent: :destroy
 
   scope :preload_associations, -> {
     preload(:user, :work_experiences, :education_histories, :industries, :jurisdictions, :skills)

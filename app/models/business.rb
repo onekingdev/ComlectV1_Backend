@@ -13,6 +13,7 @@ class Business < ActiveRecord::Base
   has_many :hired_specialists, -> { distinct }, through: :projects, source: :specialist
   has_many :sent_messages, as: :sender, class_name: 'Message'
   has_many :ratings_received, -> { where(rater_type: Specialist.name) }, through: :projects, source: :ratings
+  has_many :email_threads, dependent: :destroy
 
   include ImageUploader[:logo]
 

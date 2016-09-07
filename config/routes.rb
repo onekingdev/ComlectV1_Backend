@@ -96,6 +96,7 @@ Rails.application.routes.draw do
   end
 
   resources :notifications
+  resources :email_threads, path: 'email', only: :create
 
   namespace :api do
     resources :skills, only: :index

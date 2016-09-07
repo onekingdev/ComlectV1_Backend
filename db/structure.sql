@@ -264,6 +264,39 @@ ALTER SEQUENCE education_histories_id_seq OWNED BY education_histories.id;
 
 
 --
+-- Name: email_threads; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE email_threads (
+    id integer NOT NULL,
+    business_id integer,
+    specialist_id integer,
+    thread_key character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: email_threads_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE email_threads_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: email_threads_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE email_threads_id_seq OWNED BY email_threads.id;
+
+
+--
 -- Name: favorites; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1732,6 +1765,13 @@ ALTER TABLE ONLY education_histories ALTER COLUMN id SET DEFAULT nextval('educat
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY email_threads ALTER COLUMN id SET DEFAULT nextval('email_threads_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY favorites ALTER COLUMN id SET DEFAULT nextval('favorites_id_seq'::regclass);
 
 
@@ -1898,6 +1938,14 @@ ALTER TABLE ONLY charges
 
 ALTER TABLE ONLY education_histories
     ADD CONSTRAINT education_histories_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: email_threads_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY email_threads
+    ADD CONSTRAINT email_threads_pkey PRIMARY KEY (id);
 
 
 --
@@ -2142,6 +2190,34 @@ CREATE INDEX index_charges_on_status ON charges USING btree (status);
 --
 
 CREATE INDEX index_education_histories_on_specialist_id ON education_histories USING btree (specialist_id);
+
+
+--
+-- Name: index_email_threads_on_business_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_email_threads_on_business_id ON email_threads USING btree (business_id);
+
+
+--
+-- Name: index_email_threads_on_business_id_and_specialist_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_email_threads_on_business_id_and_specialist_id ON email_threads USING btree (business_id, specialist_id);
+
+
+--
+-- Name: index_email_threads_on_specialist_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_email_threads_on_specialist_id ON email_threads USING btree (specialist_id);
+
+
+--
+-- Name: index_email_threads_on_thread_key; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_email_threads_on_thread_key ON email_threads USING btree (thread_key);
 
 
 --
@@ -2789,4 +2865,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160901175940');
 INSERT INTO schema_migrations (version) VALUES ('20160905191421');
 
 INSERT INTO schema_migrations (version) VALUES ('20160906170404');
+
+INSERT INTO schema_migrations (version) VALUES ('20160907162030');
 
