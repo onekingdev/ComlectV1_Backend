@@ -15,7 +15,8 @@ class MessageMailerTest < ActionMailer::TestCase
     email = MessageMailer.first_contact(@business, @specialist, 'Howdy')
     assert_emails(1) { email.deliver_now }
     assert_equal ['from@complect'], email.from
-    assert_equal [@specialist.user.email], email.to
+    assert_equal ['from@complect'], email.to
+    assert_equal [@specialist.user.email], email.bcc
     assert_equal ["inbound+#{@thread.thread_key}+business@test.com"], email.reply_to
     assert_equal "Message from #{@business.business_name} on Complect", email.subject
     assert_match(/#{@business.business_name}/, email.body.to_s)
@@ -26,7 +27,8 @@ class MessageMailerTest < ActionMailer::TestCase
     email = MessageMailer.first_contact(@business, @specialist, 'Howdy')
     assert_emails(1) { email.deliver_now }
     assert_equal ['from@complect'], email.from
-    assert_equal [@specialist.user.email], email.to
+    assert_equal ['from@complect'], email.to
+    assert_equal [@specialist.user.email], email.bcc
     assert_equal ["inbound+#{@thread.thread_key}+business@test.com"], email.reply_to
     assert_equal "Message on Complect", email.subject
     assert_no_match(/#{@business.business_name}/, email.body.to_s)
@@ -37,7 +39,8 @@ class MessageMailerTest < ActionMailer::TestCase
     email = MessageMailer.reply(@thread, 'specialist', 'Howdy', '<p>Howdy</p>')
     assert_emails(1) { email.deliver_now }
     assert_equal ['from@complect'], email.from
-    assert_equal @specialist.user.email, email.to.last
+    assert_equal ['from@complect'], email.to
+    assert_equal [@specialist.user.email], email.bcc
     assert_equal ["inbound+#{@thread.thread_key}+business@test.com"], email.reply_to
     assert_equal "RE: Message on Complect", email.subject
     email.body.parts.each do |part|
@@ -51,7 +54,8 @@ class MessageMailerTest < ActionMailer::TestCase
     email = MessageMailer.reply(@thread, 'business', 'Howdy', '<p>Howdy</p>')
     assert_emails(1) { email.deliver_now }
     assert_equal ['from@complect'], email.from
-    assert_equal @business.user.email, email.to.last
+    assert_equal ['from@complect'], email.to
+    assert_equal [@business.user.email], email.bcc
     assert_equal ["inbound+#{@thread.thread_key}+specialist@test.com"], email.reply_to
     assert_equal "RE: Message from #{@specialist.first_name} on Complect", email.subject
     email.body.parts.each do |part|
@@ -64,7 +68,8 @@ class MessageMailerTest < ActionMailer::TestCase
     email = MessageMailer.reply(@thread, 'specialist', 'Howdy', '<p>Howdy</p>')
     assert_emails(1) { email.deliver_now }
     assert_equal ['from@complect'], email.from
-    assert_equal @specialist.user.email, email.to.last
+    assert_equal ['from@complect'], email.to
+    assert_equal [@specialist.user.email], email.bcc
     assert_equal ["inbound+#{@thread.thread_key}+business@test.com"], email.reply_to
     assert_equal "RE: Message from #{@business.business_name} on Complect", email.subject
     email.body.parts.each do |part|

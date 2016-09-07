@@ -4,7 +4,8 @@ class MessageMailer < ApplicationMailer
     @message = message_text
     @from = confidential_party_name(from)
     thread = EmailThread.for!(from, to)
-    mail to: to_address(to),
+    mail to: "Complect <#{ENV.fetch('DEFAULT_MAIL_FROM')}>",
+         bcc: to_address(to),
          subject: subject(from),
          reply_to: thread_address(thread, from)
   end
@@ -15,7 +16,8 @@ class MessageMailer < ApplicationMailer
     thread = EmailThread.for!(from, to)
     @message_text = message_text
     @message_html = message_html
-    mail to: to_address(to),
+    mail to: "Complect <#{ENV.fetch('DEFAULT_MAIL_FROM')}>",
+         bcc: to_address(to),
          subject: "RE: #{subject(from)}",
          reply_to: thread_address(thread, from)
   end
