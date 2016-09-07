@@ -498,10 +498,10 @@ CREATE TABLE projects (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     tsv tsvector,
+    calculated_budget numeric,
     lat numeric(9,5),
     lng numeric(9,5),
     point geography,
-    calculated_budget numeric,
     specialist_id integer,
     job_applications_count integer DEFAULT 0 NOT NULL
 );
@@ -1526,6 +1526,7 @@ CREATE TABLE stripe_accounts (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     account_type character varying DEFAULT 'individual'::character varying NOT NULL,
+    stripe_id character varying,
     business_name character varying,
     business_tax_id character varying
 );

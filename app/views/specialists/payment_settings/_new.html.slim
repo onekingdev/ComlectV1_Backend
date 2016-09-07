@@ -40,7 +40,7 @@ h2.m-t-0 New Bank Account
 
     .row
       .col-xs-12.col-sm-6
-        = f.input :country, collection: IsoCountryCodes.for_select, input_html: { class: 'input-lg js-select' }
+        = f.input :country, required: false, collection: IsoCountryCodes.for_select, input_html: { class: 'input-lg js-select' }
 
     h2.text-center.m-y-2 Personal Details
 
