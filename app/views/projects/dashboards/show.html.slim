@@ -49,9 +49,10 @@
                 li= link_to '#project-documents', data: { toggle: 'tab', "remote-load" => true, url: project_documents_path(project), 'toggle-sync' => true } do
                   i.icon.maxicons2-documents
                   span Documents
-                li= link_to '#project-timesheets', data: { toggle: 'tab', "remote-load" => true, url: project_timesheets_path(project), 'toggle-sync' => true } do
-                  i.icon.maxicons2-new
-                  span Time Sheets
+                - if project.one_off?
+                  li= link_to '#project-timesheets', data: { toggle: 'tab', "remote-load" => true, url: project_timesheets_path(project), 'toggle-sync' => true } do
+                    i.icon.maxicons2-new
+                    span Time Sheets
                 li= link_to '#project-details', data: { toggle: 'tab' } do
                   i.icon.maxicons2-catalogue
                   span Project Details
@@ -65,9 +66,10 @@
               li= link_to '#project-documents', data: { toggle: 'tab', "remote-load" => true, url: project_documents_path(project), 'toggle-sync' => true } do
                 i.icon.maxicons2-documents
                 span Documents
-              li= link_to '#project-timesheets', data: { toggle: 'tab', "remote-load" => true, url: project_timesheets_path(project), 'toggle-sync' => true } do
-                i.icon.maxicons2-new
-                span Time Sheets
+              - if project.one_off?
+                li= link_to '#project-timesheets', data: { toggle: 'tab', "remote-load" => true, url: project_timesheets_path(project), 'toggle-sync' => true } do
+                  i.icon.maxicons2-new
+                  span Time Sheets
               li= link_to '#project-details', data: { toggle: 'tab' } do
                 i.icon.maxicons2-catalogue
                 span <span class="hidden-md">Project</span> Details
@@ -78,7 +80,8 @@
             .tab-content
               #project-messages.tab-pane.clearfix.active data-always-reload="true"
               #project-documents.tab-pane.clearfix
-              #project-timesheets.tab-pane.clearfix
+              - if project.one_off?
+                #project-timesheets.tab-pane.clearfix
               #project-details.tab-pane.clearfix
                 = render 'project_details', project: project
               #project-help.tab-pane.clearfix
