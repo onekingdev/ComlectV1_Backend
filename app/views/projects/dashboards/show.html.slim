@@ -33,7 +33,7 @@
 
             - if project.ends_on.present?
               label.strong.m-t-2.d-b End Date
-              .percentage-circle.tiny.primary.pull-right data-percent=project.percent_complete
+              .percentage-circle.tiny.primary.pull-right data-percent=project.percent_complete.round
               div style="line-height: 40px;" = project.ends_on.strftime('%d %b %Y')
 
       .col-xs-12.col-md-9
@@ -49,7 +49,7 @@
                 li= link_to '#project-documents', data: { toggle: 'tab', "remote-load" => true, url: project_documents_path(project), 'toggle-sync' => true } do
                   i.icon.maxicons2-documents
                   span Documents
-                - if project.one_off?
+                - if project.hourly_pricing?
                   li= link_to '#project-timesheets', data: { toggle: 'tab', "remote-load" => true, url: project_timesheets_path(project), 'toggle-sync' => true } do
                     i.icon.maxicons2-new
                     span Time Sheets
@@ -66,7 +66,7 @@
               li= link_to '#project-documents', data: { toggle: 'tab', "remote-load" => true, url: project_documents_path(project), 'toggle-sync' => true } do
                 i.icon.maxicons2-documents
                 span Documents
-              - if project.one_off?
+              - if project.hourly_pricing?
                 li= link_to '#project-timesheets', data: { toggle: 'tab', "remote-load" => true, url: project_timesheets_path(project), 'toggle-sync' => true } do
                   i.icon.maxicons2-new
                   span Time Sheets
@@ -80,7 +80,7 @@
             .tab-content
               #project-messages.tab-pane.clearfix.active data-always-reload="true"
               #project-documents.tab-pane.clearfix
-              - if project.one_off?
+              - if project.hourly_pricing?
                 #project-timesheets.tab-pane.clearfix
               #project-details.tab-pane.clearfix
                 = render 'project_details', project: project
