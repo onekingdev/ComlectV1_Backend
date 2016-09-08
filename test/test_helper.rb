@@ -6,6 +6,21 @@ require 'mocha/test_unit'
 require 'webmock/minitest'
 require 'capybara/rails'
 require 'capybara/poltergeist'
+require 'database_cleaner'
+
+DatabaseCleaner.strategy = :transaction
+
+class Minitest::Test
+  def before_setup
+    super
+    DatabaseCleaner.start
+  end
+
+  def after_teardown
+    DatabaseCleaner.clean
+    super
+  end
+end
 
 Capybara.configure do |config|
   config.run_server = false

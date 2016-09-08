@@ -105,4 +105,5 @@ group :test do
   gem 'webmock'
   gem 'capybara'
   gem 'poltergeist'
+  gem 'database_cleaner'
 end

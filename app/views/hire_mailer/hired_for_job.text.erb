@@ -1,0 +1,12 @@
+Hi <%= @project.specialist.full_name %>,
+
+p
+'Congratulations! We have selected you for the role of <%= @project.title %></a> through Complect.
+'We're excited to have you as part of our team!
+
+<%= project_url(@project) %>
+
+p
+'Best,
+br
+<%= @project.business.business_name %>

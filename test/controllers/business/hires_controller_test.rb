@@ -2,9 +2,12 @@
 require 'test_helper'
 
 class Business::HiresControllerTest < ActionDispatch::IntegrationTest
+  include ActionMailer::TestHelper
+
   setup do
     @business = create_business_with_valid_payment_source
-    @specialist = create :specialist
+    user = create :user, email_prefix: 'specialist'
+    @specialist = create :specialist, user: user
     sign_in @business.user
   end
 
@@ -44,5 +47,27 @@ class Business::HiresControllerTest < ActionDispatch::IntegrationTest
     charge_dates = Array.new(6) { |i| Date.new(2016, i + 1, 1) }
     assert_equal [fee_in_cents], project.charges.pluck(:amount_in_cents).uniq
     assert_equal charge_dates, project.charges.pluck(:process_after).sort
+  end
+
+  test 'sends notification on full time hire' do
+    project = create :project_full_time, :published, :monthly_fee, business: @business
+    application = create :job_application, project: project, specialist: @specialist
+    assert_emails 1 do
+      post business_project_hires_path(project), job_application_id: application.id, format: 'js'
+    end
+    sent = ActionMailer::Base.deliveries.last
+    assert_equal @specialist.user.email, sent.to.last
+    assert_match(/role/, sent.body.to_s)
+  end
+
+  test 'sends notification on project hire' do
+    project = create :project_one_off_hourly, :published, business: @business
+    application = create :job_application, project: project, specialist: @specialist
+    assert_emails 1 do
+      post business_project_hires_path(project), job_application_id: application.id, format: 'js'
+    end
+    sent = ActionMailer::Base.deliveries.last
+    assert_equal @specialist.user.email, sent.to.last
+    assert_match(/project/, sent.body.to_s)
   end
 end

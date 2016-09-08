@@ -18,7 +18,7 @@ class JobApplication::Accept < Draper::Decorator
   end
 
   def send_specialist_notification
-    # TODO: Send specialist hired notification
+    HireMailer.deliver_later :hired, model
   end
 
   private
