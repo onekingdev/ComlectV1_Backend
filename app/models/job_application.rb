@@ -4,6 +4,8 @@ class JobApplication < ActiveRecord::Base
   belongs_to :project, counter_cache: true
   has_one :user, through: :specialist
 
+  enum visibility: { undecided: nil, shortlisted: 'shortlisted', hidden: 'hidden' }
+
   scope :preload_associations, -> { preload(specialist: :user) }
   scope :by, -> (specialist) { where(specialist_id: specialist) }
   scope :order_by_experience, -> {

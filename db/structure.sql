@@ -391,7 +391,8 @@ CREATE TABLE job_applications (
     project_id integer,
     message character varying,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    visibility character varying
 );
 
 
@@ -2870,4 +2871,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160906170404');
 INSERT INTO schema_migrations (version) VALUES ('20160907162030');
 
 INSERT INTO schema_migrations (version) VALUES ('20160908143324');
+
+INSERT INTO schema_migrations (version) VALUES ('20160908170540');
 

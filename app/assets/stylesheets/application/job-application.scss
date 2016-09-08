@@ -1,5 +1,4 @@
 .job-applications {
-
   .job-application + .job-application {
     margin-top: 1rem;
   }
@@ -112,5 +111,10 @@
         }
       }
     }
+  }
+
+  .job-application[data-visibility=shortlisted] .shortlist-application,
+  .job-application[data-visibility=hidden] .hide-application {
+    display: none;
   }
 }

@@ -4,6 +4,7 @@ class Business < ActiveRecord::Base
   has_and_belongs_to_many :jurisdictions
   has_and_belongs_to_many :industries
   has_many :projects, dependent: :destroy
+  has_many :job_applications, through: :projects
   has_one :payment_profile, dependent: :destroy
   has_many :payment_sources, through: :payment_profile
   has_many :project_invites, dependent: :destroy

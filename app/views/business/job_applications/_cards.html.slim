@@ -1,9 +1,8 @@
-- if job_applications.to_a.empty?
-  h2.text-center.m-b-2 No applicants yet
+h2.text-center.m-b-2.no-applicants class=('hidden' if job_applications.to_a.any?) No applicants yet
 
 - job_applications.map(&method(:decorate)).each do |application|
   - specialist = decorate(application.specialist)
-  .job-application data-application-id=application.id
+  .job-application data-visibility=application.visibility data-application-id=application.id
     .col-xs-12.col-md-4.profile
       - if specialist.photo
         .profile-image
@@ -14,10 +13,11 @@
       .footer
         .date Applied: #{application.created_at.strftime("#{application.created_at.day.ordinalize} %b %Y")}
         .tools
-          a.btn.btn-xs.tool href="#"
+          = link_to business_job_application_shortlist_path(application), method: :post, remote: true, class: 'btn btn-xs tool shortlist-application' do
             i.icon.maxicons2-like
-          a.btn.btn-xs.tool href="#"
+          = link_to business_job_application_hide_path(application), method: :post, remote: true, class: 'btn btn-xs tool hide-application' do
             i.icon.maxicons2-dislike
+
     .col-xs-12.col-md-8.details.td
       .row
         .col-xs-4

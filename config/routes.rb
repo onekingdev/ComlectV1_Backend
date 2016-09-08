@@ -61,6 +61,11 @@ Rails.application.routes.draw do
       resources :timesheets
       resources :project_issues, path: 'issues'
     end
+
+    resources :job_applications do
+      post :shortlist
+      post :hide
+    end
   end
 
   namespace :specialists, path: 'specialist' do

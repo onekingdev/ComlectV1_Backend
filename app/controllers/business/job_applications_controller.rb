@@ -14,17 +14,27 @@ class Business::JobApplicationsController < ApplicationController
     end
   end
 
+  def shortlist
+    @job_application = current_business.job_applications.find(params[:job_application_id])
+    @job_application.shortlisted!
+  end
+
+  def hide
+    @job_application = current_business.job_applications.find(params[:job_application_id])
+    @job_application.hidden!
+  end
+
   private
 
   def applications_list
     scope = sort_applications(@project.job_applications.preload_associations)
     case params[:filter]
-    when 'shortlisted' # TODO: Shortlisted
-      scope.none
+    when 'shortlisted'
+      scope.shortlisted
     when 'hidden'
-      scope.none # TODO: Hidden
+      scope.hidden
     else
-      scope # TODO: Not shortlisted/hidden
+      scope.undecided
     end
   end
 
