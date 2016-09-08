@@ -28,7 +28,13 @@ class ProjectMailer < ApplicationMailer
   def end_request(project)
     @project = project
     specialist = project.specialist
-    mail to: "#{specialist.full_name} <#{specialist.user.email}>", subject: "#{project.title} Ending"
+    mail to: "#{specialist.full_name} <#{specialist.user.email}>",
+         template_id: ENV.fetch('POSTMARK_TEMPLATE_ID'),
+         template_model: {
+           subject: "#{project.title} Ending",
+           message_html: render('end_request.html'),
+           message_text: render('end_request.text')
+         }
   end
 
   private
