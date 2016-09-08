@@ -27,6 +27,12 @@ class User < ActiveRecord::Base
     deleted?
   end
 
+  def freeze_specialist_account!
+    update_attribute :deleted, true
+    specialist.update_attribute :visibility, Specialist.visibilities[:is_private]
+    deleted?
+  end
+
   def active_for_authentication?
     super && !deleted?
   end

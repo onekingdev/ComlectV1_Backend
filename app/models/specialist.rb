@@ -62,12 +62,14 @@ class Specialist < ActiveRecord::Base
     where("#{distance} >= ? AND #{distance} <= ?", min_m, max_m)
   end
 
-  scope :public_profiles, -> { where(visibility: 'public') }
+  scope :public_profiles, -> { where(visibility: self.class.visibilities[:is_public]) }
 
   include ImageUploader[:photo]
   include FileUploader[:resume]
 
   enum visibility:  { is_public: 'public', is_private: 'private' }
+
+  delegate :deleted?, to: :user
 
   def messages
     Message.where("

@@ -67,6 +67,7 @@ Rails.application.routes.draw do
     get '/' => 'dashboard#show', as: :dashboard
     resource :settings, only: :show do
       resource :password
+      resource :delete_account
       resource :payment_setting, as: :payment, path: 'payment'
     end
     resources :projects, path: 'my-projects'

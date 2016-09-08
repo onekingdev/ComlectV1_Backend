@@ -531,10 +531,10 @@ CREATE TABLE projects (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     tsv tsvector,
-    calculated_budget numeric,
     lat numeric(9,5),
     lng numeric(9,5),
     point geography,
+    calculated_budget numeric,
     specialist_id integer,
     job_applications_count integer DEFAULT 0 NOT NULL
 );
@@ -1508,7 +1508,8 @@ CREATE TABLE specialists (
     point geography,
     ratings_count integer DEFAULT 0 NOT NULL,
     ratings_total integer DEFAULT 0 NOT NULL,
-    ratings_average double precision
+    ratings_average double precision,
+    deleted boolean DEFAULT false NOT NULL
 );
 
 
@@ -2867,4 +2868,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160905191421');
 INSERT INTO schema_migrations (version) VALUES ('20160906170404');
 
 INSERT INTO schema_migrations (version) VALUES ('20160907162030');
+
+INSERT INTO schema_migrations (version) VALUES ('20160908143324');
 
