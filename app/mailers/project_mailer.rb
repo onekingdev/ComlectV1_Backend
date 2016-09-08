@@ -16,7 +16,13 @@ class ProjectMailer < ApplicationMailer
     @project_url = project_url(project)
     @message_text = add_project_link(project, message_text, @project_url, :text)
     @message_html = add_project_link(project, message_html, @project_url, :html)
-    mail to: "#{name} <#{email}>", subject: "#{project.title} on Complect"
+    mail to: "#{name} <#{email}>",
+         template_id: ENV.fetch('POSTMARK_TEMPLATE_ID'),
+         template_model: {
+           subject: (project.full_time? ? 'Full-time role' : 'Project') + ' you might be interested in',
+           message_html: render('share.html'),
+           message_text: render('share.text')
+         }
   end
 
   def end_request(project)
