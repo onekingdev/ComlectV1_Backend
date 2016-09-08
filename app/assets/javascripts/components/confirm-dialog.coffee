@@ -15,5 +15,7 @@ $(document).on 'confirm', '[data-confirm]', (e) ->
         className: 'btn-primary btn-lg'
         callback: ->
           $.rails.handleMethod($this)
+
+  options.title = $this.attr('title') if $this.attr('title').length > 0
   bootbox.dialog options
   return false

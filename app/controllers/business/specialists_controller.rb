@@ -15,7 +15,8 @@ class Business::SpecialistsController < ApplicationController
         render partial: 'specialists/cards',
                locals: {
                  specialists: @specialists,
-                 remove_on_unfavorite: true
+                 remove_on_unfavorite: true,
+                 hire_again: params[:filter] == 'hired'
                } if request.xhr?
       end
       format.js

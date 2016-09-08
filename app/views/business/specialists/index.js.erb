@@ -1,1 +1,1 @@
-$('#specialists-<%= params[:filter] %>').html('<%=j render 'specialists/cards', specialists: @specialists, remove_on_unfavorite: true %>');
+$('#specialists-<%= params[:filter] %>').html('<%=j render 'specialists/cards', specialists: @specialists, remove_on_unfavorite: true, hire_again: params[:filter] == 'hired' %>');

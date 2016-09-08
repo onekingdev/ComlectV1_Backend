@@ -57,6 +57,12 @@ $bootbox-width: 474px;
     width: $bootbox-width;
   }
 
+  .modal-header {
+    background-color: $panel-default-heading-bg;
+    color: #fff;
+    text-align: left;
+  }
+
   .modal-content {
     text-align: center;
     box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);

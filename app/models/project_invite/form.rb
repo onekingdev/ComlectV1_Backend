@@ -7,8 +7,13 @@ class ProjectInvite::Form < Draper::Decorator
 
   validates :message, presence: true
 
-  def self.for(specialist, project)
-    message = I18n.t('project_invites.message_template',
+  TEMPLATES = {
+    invite: 'project_invites.message_templates.invite',
+    hire_again: 'project_invites.message_templates.hire_again'
+  }.freeze
+
+  def self.for(specialist, project, template: :invite)
+    message = I18n.t(TEMPLATES.fetch(template.to_s.to_sym, TEMPLATES[:invite]),
                      specialist: specialist.first_name,
                      project_or_job: project.full_time? ? 'job' : 'project',
                      company_name: project.business.to_s).strip

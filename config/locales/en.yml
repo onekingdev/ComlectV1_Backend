@@ -67,13 +67,21 @@ en:
               blank: Oops! Please complete all sections before submitting. Your opinion matters.
 
   project_invites:
-    message_template: |
-      Hi %{specialist},
+    message_templates:
+      invite: |
+        Hi %{specialist},
 
-      We really like your profile and think you would be a great fit for our %{project_or_job} on Complect. Click the link to see more details and apply!
+        We really like your profile and think you would be a great fit for our %{project_or_job} on Complect. Click the link to see more details and apply!
 
-      Best,
-      %{company_name}
+        Best,
+        %{company_name}
+      hire_again: |
+        Hi %{specialist},
+
+        You did such a great job last time, we'd like to hire you again for our %{project_or_job} on Complect. Click the link to learn more and we hope you will apply!
+
+        Best,
+        %{company_name}
 
   project_shares:
     message_template:
