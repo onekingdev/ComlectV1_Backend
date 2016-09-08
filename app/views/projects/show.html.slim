@@ -53,7 +53,7 @@
 
       .panel.panel-default
         .panel-heading
-          h3 Project Description
+          h3 #{project.one_off? ? 'Project' : 'Job' } Description
         .panel-body= simple_format project.description
 
       - if project.key_deliverables.present?
