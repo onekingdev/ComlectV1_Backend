@@ -4,8 +4,9 @@ class ProjectMailer < ApplicationMailer
 
   def invite(invite)
     mail to: invite.specialist.user.email,
-         template_id: ENV.fetch('POSTMARK_PROJECT_INVITE_TEMPLATE'),
+         template_id: ENV.fetch('POSTMARK_TEMPLATE_ID'),
          template_model: {
+           subject: "You've been invited to a project",
            message_html: invite_message_html(invite),
            message_text: invite_message_text(invite)
          }
