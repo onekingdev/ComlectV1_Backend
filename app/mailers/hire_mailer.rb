@@ -11,6 +11,7 @@ class HireMailer < ApplicationMailer
     mail to: application.specialist.user.email,
          template_id: ENV.fetch('POSTMARK_BLANK_TEMPLATE'),
          template_model: {
+           subject: 'You got the job!',
            message_html: render('hired_for_job.html'),
            message_text: render('hired_for_job.text')
          }
@@ -21,6 +22,7 @@ class HireMailer < ApplicationMailer
     mail to: application.specialist.user.email,
          template_id: ENV.fetch('POSTMARK_BLANK_TEMPLATE'),
          template_model: {
+           subject: "You've been selected for a project!",
            message_html: render('hired_for_project.html'),
            message_text: render('hired_for_project.text')
          }
