@@ -16,6 +16,14 @@ class Business::HiresControllerTest < ActionDispatch::IntegrationTest
     assert_equal @specialist.id, project.reload.specialist_id
   end
 
+  test 'marks full time job complete after hiring' do
+    project = create :project_full_time, :published, business: @business
+    application = create :job_application, project: project, specialist: @specialist
+    post business_project_hires_path(project), job_application_id: application.id, format: 'js'
+    assert_response :success
+    assert project.reload.complete?
+  end
+
   test 'charges business upfront fee for full time hires' do
     project = create :project_full_time, :published, :upfront_fee, business: @business, annual_salary: 98_000
     application = create :job_application, project: project, specialist: @specialist

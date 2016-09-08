@@ -6,6 +6,7 @@ class JobApplication::Accept < Draper::Decorator
   def self.call(application)
     new(application).tap do |decorated|
       decorated.project.update_attribute :specialist_id, decorated.specialist_id
+      decorated.project.complete! if decorated.project.full_time?
       decorated.schedule_full_time_fee
       decorated.send_specialist_notification
     end
