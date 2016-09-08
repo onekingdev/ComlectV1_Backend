@@ -49,4 +49,30 @@ class ProjectCreationTest < ActionDispatch::IntegrationTest
     post post_business_project_path(invite.reload.project), format: 'js'
     assert invite.reload.sent?
   end
+
+  test 'can save draft without payment info' do
+    sign_out
+    business = create :business
+    sign_in business.user
+    attributes = attributes_for(:project_one_off_hourly).merge(hourly_payment_schedule: 'monthly')
+    assert_difference 'Project.count', +1 do
+      post business_projects_path, project: attributes
+    end
+  end
+
+  test 'cannot post without payment info' do
+    sign_out
+    project = create :project_one_off_hourly
+    sign_in project.business.user
+    post_via_redirect post_business_project_path(project)
+    assert !project.reload.published?
+    assert_match(/#{I18n.t('activerecord.errors.models.project.attributes.base.no_payment')}/, response.body)
+  end
+
+  test 'can post with payment info' do
+    project = create :project_one_off_hourly, business: @business
+    post post_business_project_path(project)
+    assert project.reload.published?
+    assert_redirected_to business_dashboard_path
+  end
 end

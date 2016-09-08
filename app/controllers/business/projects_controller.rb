@@ -57,7 +57,13 @@ class Business::ProjectsController < ApplicationController
   end
 
   def post
-    @project.post!
+    if policy(@project).post?
+      @project.post!
+      redirect_to business_dashboard_path
+    else
+      redirect_to business_project_path(@project),
+                  alert: I18n.t('activerecord.errors.models.project.attributes.base.no_payment')
+    end
   end
 
   def copy

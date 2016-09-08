@@ -34,7 +34,7 @@ class Project::Form < Project
     attribute = hourly_pricing? ? :hourly_payment_schedule : :fixed_payment_schedule
     errors.add attribute, :too_much_duration if public_send(attribute) == 'upon-completion'
   end
-  validate unless: -> { user&.payment_info? } do
+  validate if: -> { published? && !user&.payment_info? } do
     errors.add :base, :no_payment
   end
   validates :skill_ids, length: { maximum: 10 }

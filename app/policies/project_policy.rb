@@ -17,8 +17,12 @@ class ProjectPolicy < ApplicationPolicy
     owner?
   end
 
-  def post?
+  def postable?
     owner? && (record.draft? || record.review?)
+  end
+
+  def post?
+    postable? && user.payment_info?
   end
 
   def owner?
