@@ -17,7 +17,7 @@
             span Share
         - if current_specialist && project.specialist_id != current_specialist.id
           - if (application = project.job_applications.by(current_specialist).first)
-            = link_to project_job_application_path(project, application), method: :delete, remote: true, title: 'Withdraw Application', data: { confirm: "Are you sure you want to withdraw your application from <b>#{project}</b>?", confirm_label: 'Confirm' }, class: 'btn btn-md btn-primary m-l-1' do
+            = link_to project_job_application_path(project, application), method: :delete, remote: true, title: 'Withdraw Application', data: { confirm: "Are you sure you want to withdraw your<br>application from <b>#{project}</b>?", confirm_label: 'Confirm' }, class: 'btn btn-md btn-primary m-l-1' do
               i.icon.maxicons1-back
               span Withdraw
           - else
