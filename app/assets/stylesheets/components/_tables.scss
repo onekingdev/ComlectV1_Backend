@@ -3,8 +3,9 @@
   display: table;
   width: 100%;
 
-  &.row {
-    width: auto;
+  &.row-fix {
+    width: calc(100% + #{$grid-gutter-width});
+    margin-left: -$grid-gutter-width / 2;
   }
 
   .tr {
