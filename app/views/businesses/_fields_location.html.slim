@@ -13,3 +13,5 @@ h3
   .col-sm-4= f.input :city, required: false, readonly: true, input_html: { class: 'input-lg' }
   .col-sm-4= f.input :state, required: false, readonly: true, input_html: { class: 'input-lg' }
   .col-sm-4= f.input :country, required: false, readonly: true, as: :string, input_html: { class: 'input-lg' }
+.row.row-compact
+  .col-sm-4= f.input :time_zone, include_blank: t('simple_form.placeholders.specialist.time_zone'), input_html: { class: 'input-lg js-select' }

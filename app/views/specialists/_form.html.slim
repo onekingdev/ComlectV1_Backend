@@ -29,6 +29,8 @@
     .col-sm-4= f.input :country, readonly: true, as: :string, input_html: { class: 'input-lg' }
   .row.row-compact
     .col-sm-4
+      = f.input :time_zone, include_blank: t('simple_form.placeholders.specialist.time_zone'), input_html: { class: 'input-lg js-select' }
+    .col-sm-4
       = f.input :phone, required: false, input_html: { class: 'input-lg' }
     .col-sm-4
       = f.input :linkedin_link, required: false, input_html: { class: 'input-lg' }

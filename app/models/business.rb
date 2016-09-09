@@ -22,7 +22,7 @@ class Business < ActiveRecord::Base
 
   validates :contact_first_name, :contact_last_name, :contact_email, presence: true
   validates :business_name, :industries, :employees, :description, presence: true
-  validates :country, :city, :state, presence: true
+  validates :country, :city, :state, :time_zone, presence: true
   validates :description, length: { maximum: 750 }
   validates :employees, inclusion: { in: EMPLOYEE_OPTIONS }
   validate :validate_logo
