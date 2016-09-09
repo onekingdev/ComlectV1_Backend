@@ -1,7 +1,9 @@
 $ ->
   hash = window.location.hash
   return if hash.length == 0
-  $trigger = $("a[data-toggle='tab'][href='#{hash}']:first")
+  # nojump- is a prefix used to prevent the browser from jumping to the anchor
+  href = hash.replace('nojump-', '')
+  $trigger = $("a[data-toggle='tab'][href='#{href}']:first")
   return if $trigger.length == 0 || $trigger.parent().hasClass('active')
   $trigger.click()
 
