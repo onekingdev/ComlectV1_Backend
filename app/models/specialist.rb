@@ -62,7 +62,7 @@ class Specialist < ActiveRecord::Base
     where("#{distance} >= ? AND #{distance} <= ?", min_m, max_m)
   end
 
-  scope :public_profiles, -> { where(visibility: self.class.visibilities[:is_public]) }
+  scope :public_profiles, -> { where(visibility: Specialist.visibilities[:is_public]) }
 
   include ImageUploader[:photo]
   include FileUploader[:resume]

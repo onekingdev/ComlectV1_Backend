@@ -74,7 +74,7 @@ class SpecialistsController < ApplicationController
       :sort_by, :keyword, :rating, :experience, :regulator, :location, :location_range, :lat, :lng, :page,
       industry_ids: [], jurisdiction_ids: []
     )
-    permitted.merge!(params.slice(:page)) if permitted[:page].blank?
+    permitted.merge!(params.slice(:page)) if permitted[:page].blank? || params[:page].to_i > 0
     permitted
   end
 end

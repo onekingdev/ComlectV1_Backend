@@ -89,7 +89,7 @@ en:
         job: |
           Hi,
 
-          We thought you might be interested in this new full-time position %{project_title} at our firm that we've listed on Complect. Click the link to learn more, share it with someone else, or apply!
+          We thought you might be interested in this new full-time position of %{project_title} at our firm that we've listed on Complect. Click the link to learn more, share it with someone else, or apply!
 
           Best,
           %{company_name}
