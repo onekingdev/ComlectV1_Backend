@@ -2,12 +2,16 @@
 -- PostgreSQL database dump
 --
 
+-- Dumped from database version 9.5.4
+-- Dumped by pg_dump version 9.5.4
+
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
+SET row_security = off;
 
 --
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
@@ -21,6 +25,20 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 --
 
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+--
+-- Name: pg_stat_statements; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS pg_stat_statements WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION pg_stat_statements; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION pg_stat_statements IS 'track execution statistics of all SQL statements executed';
 
 
 --
@@ -80,7 +98,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: admin_users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: admin_users; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE admin_users (
@@ -120,7 +138,7 @@ ALTER SEQUENCE admin_users_id_seq OWNED BY admin_users.id;
 
 
 --
--- Name: businesses; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: businesses; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE businesses (
@@ -173,7 +191,7 @@ ALTER SEQUENCE businesses_id_seq OWNED BY businesses.id;
 
 
 --
--- Name: businesses_industries; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: businesses_industries; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE businesses_industries (
@@ -183,7 +201,7 @@ CREATE TABLE businesses_industries (
 
 
 --
--- Name: businesses_jurisdictions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: businesses_jurisdictions; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE businesses_jurisdictions (
@@ -193,7 +211,7 @@ CREATE TABLE businesses_jurisdictions (
 
 
 --
--- Name: charges; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: charges; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE charges (
@@ -230,7 +248,7 @@ ALTER SEQUENCE charges_id_seq OWNED BY charges.id;
 
 
 --
--- Name: education_histories; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: education_histories; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE education_histories (
@@ -264,7 +282,7 @@ ALTER SEQUENCE education_histories_id_seq OWNED BY education_histories.id;
 
 
 --
--- Name: email_threads; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: email_threads; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE email_threads (
@@ -297,7 +315,7 @@ ALTER SEQUENCE email_threads_id_seq OWNED BY email_threads.id;
 
 
 --
--- Name: favorites; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: favorites; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE favorites (
@@ -331,7 +349,7 @@ ALTER SEQUENCE favorites_id_seq OWNED BY favorites.id;
 
 
 --
--- Name: industries; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: industries; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE industries (
@@ -362,7 +380,7 @@ ALTER SEQUENCE industries_id_seq OWNED BY industries.id;
 
 
 --
--- Name: industries_projects; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: industries_projects; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE industries_projects (
@@ -372,7 +390,7 @@ CREATE TABLE industries_projects (
 
 
 --
--- Name: industries_specialists; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: industries_specialists; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE industries_specialists (
@@ -382,7 +400,7 @@ CREATE TABLE industries_specialists (
 
 
 --
--- Name: job_applications; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: job_applications; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE job_applications (
@@ -416,7 +434,7 @@ ALTER SEQUENCE job_applications_id_seq OWNED BY job_applications.id;
 
 
 --
--- Name: jurisdictions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: jurisdictions; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE jurisdictions (
@@ -447,7 +465,7 @@ ALTER SEQUENCE jurisdictions_id_seq OWNED BY jurisdictions.id;
 
 
 --
--- Name: jurisdictions_projects; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: jurisdictions_projects; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE jurisdictions_projects (
@@ -457,7 +475,7 @@ CREATE TABLE jurisdictions_projects (
 
 
 --
--- Name: jurisdictions_specialists; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: jurisdictions_specialists; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE jurisdictions_specialists (
@@ -467,7 +485,7 @@ CREATE TABLE jurisdictions_specialists (
 
 
 --
--- Name: messages; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: messages; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE messages (
@@ -505,7 +523,7 @@ ALTER SEQUENCE messages_id_seq OWNED BY messages.id;
 
 
 --
--- Name: projects; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: projects; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE projects (
@@ -552,10 +570,10 @@ CREATE VIEW metrics_jobs_installment_pay AS
     itd.cnt AS itd
    FROM ( SELECT count(*) AS cnt
            FROM projects
-          WHERE ((((projects.type)::text = 'full_time'::text) AND ((projects.fee_type)::text = 'monthly'::text)) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
+          WHERE (((projects.type)::text = 'full_time'::text) AND ((projects.fee_type)::text = 'monthly'::text) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
     ( SELECT count(*) AS cnt
            FROM projects
-          WHERE ((((projects.type)::text = 'full_time'::text) AND ((projects.fee_type)::text = 'monthly'::text)) AND ((projects.created_at)::date >= (
+          WHERE (((projects.type)::text = 'full_time'::text) AND ((projects.fee_type)::text = 'monthly'::text) AND ((projects.created_at)::date >= (
                 CASE
                     WHEN (('now'::text)::date >= ((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date) THEN (((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date)::text
                     ELSE ((((date_part('year'::text, ('now'::text)::date) - (1)::double precision) || '/10/01'::text))::date)::text
@@ -633,10 +651,10 @@ CREATE VIEW metrics_jobs_upfront_pay AS
     itd.cnt AS itd
    FROM ( SELECT count(*) AS cnt
            FROM projects
-          WHERE ((((projects.type)::text = 'full_time'::text) AND ((projects.fee_type)::text = 'upfront'::text)) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
+          WHERE (((projects.type)::text = 'full_time'::text) AND ((projects.fee_type)::text = 'upfront'::text) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
     ( SELECT count(*) AS cnt
            FROM projects
-          WHERE ((((projects.type)::text = 'full_time'::text) AND ((projects.fee_type)::text = 'upfront'::text)) AND ((projects.created_at)::date >= (
+          WHERE (((projects.type)::text = 'full_time'::text) AND ((projects.fee_type)::text = 'upfront'::text) AND ((projects.created_at)::date >= (
                 CASE
                     WHEN (('now'::text)::date >= ((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date) THEN (((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date)::text
                     ELSE ((((date_part('year'::text, ('now'::text)::date) - (1)::double precision) || '/10/01'::text))::date)::text
@@ -681,17 +699,17 @@ CREATE VIEW metrics_projects_fixed_50_50_pay AS
     itd.cnt AS itd
    FROM ( SELECT count(*) AS cnt
            FROM projects
-          WHERE (((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text)) AND ((projects.payment_schedule)::text = 'fifty_fifty'::text)) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
+          WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text) AND ((projects.payment_schedule)::text = 'fifty_fifty'::text) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
     ( SELECT count(*) AS cnt
            FROM projects
-          WHERE (((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text)) AND ((projects.payment_schedule)::text = 'fifty_fifty'::text)) AND ((projects.created_at)::date >= (
+          WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text) AND ((projects.payment_schedule)::text = 'fifty_fifty'::text) AND ((projects.created_at)::date >= (
                 CASE
                     WHEN (('now'::text)::date >= ((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date) THEN (((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date)::text
                     ELSE ((((date_part('year'::text, ('now'::text)::date) - (1)::double precision) || '/10/01'::text))::date)::text
                 END)::date))) fytd,
     ( SELECT count(*) AS cnt
            FROM projects
-          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text)) AND ((projects.payment_schedule)::text = 'fifty_fifty'::text))) itd;
+          WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text) AND ((projects.payment_schedule)::text = 'fifty_fifty'::text))) itd;
 
 
 --
@@ -705,17 +723,17 @@ CREATE VIEW metrics_projects_fixed_bi_weekly_pay AS
     itd.cnt AS itd
    FROM ( SELECT count(*) AS cnt
            FROM projects
-          WHERE (((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text)) AND ((projects.payment_schedule)::text = 'bi_weekly'::text)) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
+          WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text) AND ((projects.payment_schedule)::text = 'bi_weekly'::text) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
     ( SELECT count(*) AS cnt
            FROM projects
-          WHERE (((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text)) AND ((projects.payment_schedule)::text = 'bi_weekly'::text)) AND ((projects.created_at)::date >= (
+          WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text) AND ((projects.payment_schedule)::text = 'bi_weekly'::text) AND ((projects.created_at)::date >= (
                 CASE
                     WHEN (('now'::text)::date >= ((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date) THEN (((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date)::text
                     ELSE ((((date_part('year'::text, ('now'::text)::date) - (1)::double precision) || '/10/01'::text))::date)::text
                 END)::date))) fytd,
     ( SELECT count(*) AS cnt
            FROM projects
-          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text)) AND ((projects.payment_schedule)::text = 'bi_weekly'::text))) itd;
+          WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text) AND ((projects.payment_schedule)::text = 'bi_weekly'::text))) itd;
 
 
 --
@@ -729,17 +747,17 @@ CREATE VIEW metrics_projects_fixed_monthly_pay AS
     itd.cnt AS itd
    FROM ( SELECT count(*) AS cnt
            FROM projects
-          WHERE (((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text)) AND ((projects.payment_schedule)::text = 'monthly'::text)) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
+          WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text) AND ((projects.payment_schedule)::text = 'monthly'::text) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
     ( SELECT count(*) AS cnt
            FROM projects
-          WHERE (((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text)) AND ((projects.payment_schedule)::text = 'monthly'::text)) AND ((projects.created_at)::date >= (
+          WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text) AND ((projects.payment_schedule)::text = 'monthly'::text) AND ((projects.created_at)::date >= (
                 CASE
                     WHEN (('now'::text)::date >= ((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date) THEN (((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date)::text
                     ELSE ((((date_part('year'::text, ('now'::text)::date) - (1)::double precision) || '/10/01'::text))::date)::text
                 END)::date))) fytd,
     ( SELECT count(*) AS cnt
            FROM projects
-          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text)) AND ((projects.payment_schedule)::text = 'monthly'::text))) itd;
+          WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text) AND ((projects.payment_schedule)::text = 'monthly'::text))) itd;
 
 
 --
@@ -753,10 +771,10 @@ CREATE VIEW metrics_projects_fixed_pay AS
     itd.cnt AS itd
    FROM ( SELECT count(*) AS cnt
            FROM projects
-          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text)) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
+          WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
     ( SELECT count(*) AS cnt
            FROM projects
-          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text)) AND ((projects.created_at)::date >= (
+          WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text) AND ((projects.created_at)::date >= (
                 CASE
                     WHEN (('now'::text)::date >= ((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date) THEN (((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date)::text
                     ELSE ((((date_part('year'::text, ('now'::text)::date) - (1)::double precision) || '/10/01'::text))::date)::text
@@ -779,7 +797,7 @@ CREATE VIEW metrics_projects_fixed_share AS
                    FROM projects projects_1
                   WHERE (((projects_1.type)::text = 'one_off'::text) AND (projects_1.created_at >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))))::double precision) * (100)::double precision) AS pct
            FROM projects
-          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text)) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
+          WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
     ( SELECT (((count(*))::double precision / (( SELECT count(*) AS count
                    FROM projects projects_1
                   WHERE (((projects_1.type)::text = 'one_off'::text) AND ((projects_1.created_at)::date >= (
@@ -788,7 +806,7 @@ CREATE VIEW metrics_projects_fixed_share AS
                             ELSE ((((date_part('year'::text, ('now'::text)::date) - (1)::double precision) || '/10/01'::text))::date)::text
                         END)::date))))::double precision) * (100)::double precision) AS pct
            FROM projects
-          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text)) AND ((projects.created_at)::date >= (
+          WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text) AND ((projects.created_at)::date >= (
                 CASE
                     WHEN (('now'::text)::date >= ((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date) THEN (((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date)::text
                     ELSE ((((date_part('year'::text, ('now'::text)::date) - (1)::double precision) || '/10/01'::text))::date)::text
@@ -811,17 +829,17 @@ CREATE VIEW metrics_projects_fixed_upon_completion_pay AS
     itd.cnt AS itd
    FROM ( SELECT count(*) AS cnt
            FROM projects
-          WHERE (((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text)) AND ((projects.payment_schedule)::text = 'upon_completion'::text)) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
+          WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text) AND ((projects.payment_schedule)::text = 'upon_completion'::text) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
     ( SELECT count(*) AS cnt
            FROM projects
-          WHERE (((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text)) AND ((projects.payment_schedule)::text = 'upon_completion'::text)) AND ((projects.created_at)::date >= (
+          WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text) AND ((projects.payment_schedule)::text = 'upon_completion'::text) AND ((projects.created_at)::date >= (
                 CASE
                     WHEN (('now'::text)::date >= ((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date) THEN (((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date)::text
                     ELSE ((((date_part('year'::text, ('now'::text)::date) - (1)::double precision) || '/10/01'::text))::date)::text
                 END)::date))) fytd,
     ( SELECT count(*) AS cnt
            FROM projects
-          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text)) AND ((projects.payment_schedule)::text = 'upon_completion'::text))) itd;
+          WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text) AND ((projects.payment_schedule)::text = 'upon_completion'::text))) itd;
 
 
 --
@@ -835,17 +853,17 @@ CREATE VIEW metrics_projects_hourly_bi_weekly_pay AS
     itd.cnt AS itd
    FROM ( SELECT count(*) AS cnt
            FROM projects
-          WHERE (((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text)) AND ((projects.payment_schedule)::text = 'bi_weekly'::text)) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
+          WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text) AND ((projects.payment_schedule)::text = 'bi_weekly'::text) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
     ( SELECT count(*) AS cnt
            FROM projects
-          WHERE (((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text)) AND ((projects.payment_schedule)::text = 'bi_weekly'::text)) AND ((projects.created_at)::date >= (
+          WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text) AND ((projects.payment_schedule)::text = 'bi_weekly'::text) AND ((projects.created_at)::date >= (
                 CASE
                     WHEN (('now'::text)::date >= ((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date) THEN (((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date)::text
                     ELSE ((((date_part('year'::text, ('now'::text)::date) - (1)::double precision) || '/10/01'::text))::date)::text
                 END)::date))) fytd,
     ( SELECT count(*) AS cnt
            FROM projects
-          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text)) AND ((projects.payment_schedule)::text = 'bi_weekly'::text))) itd;
+          WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text) AND ((projects.payment_schedule)::text = 'bi_weekly'::text))) itd;
 
 
 --
@@ -859,17 +877,17 @@ CREATE VIEW metrics_projects_hourly_monthly_pay AS
     itd.cnt AS itd
    FROM ( SELECT count(*) AS cnt
            FROM projects
-          WHERE (((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text)) AND ((projects.payment_schedule)::text = 'monthly'::text)) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
+          WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text) AND ((projects.payment_schedule)::text = 'monthly'::text) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
     ( SELECT count(*) AS cnt
            FROM projects
-          WHERE (((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text)) AND ((projects.payment_schedule)::text = 'monthly'::text)) AND ((projects.created_at)::date >= (
+          WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text) AND ((projects.payment_schedule)::text = 'monthly'::text) AND ((projects.created_at)::date >= (
                 CASE
                     WHEN (('now'::text)::date >= ((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date) THEN (((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date)::text
                     ELSE ((((date_part('year'::text, ('now'::text)::date) - (1)::double precision) || '/10/01'::text))::date)::text
                 END)::date))) fytd,
     ( SELECT count(*) AS cnt
            FROM projects
-          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text)) AND ((projects.payment_schedule)::text = 'monthly'::text))) itd;
+          WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text) AND ((projects.payment_schedule)::text = 'monthly'::text))) itd;
 
 
 --
@@ -883,10 +901,10 @@ CREATE VIEW metrics_projects_hourly_pay AS
     itd.cnt AS itd
    FROM ( SELECT count(*) AS cnt
            FROM projects
-          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text)) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
+          WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
     ( SELECT count(*) AS cnt
            FROM projects
-          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text)) AND ((projects.created_at)::date >= (
+          WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text) AND ((projects.created_at)::date >= (
                 CASE
                     WHEN (('now'::text)::date >= ((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date) THEN (((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date)::text
                     ELSE ((((date_part('year'::text, ('now'::text)::date) - (1)::double precision) || '/10/01'::text))::date)::text
@@ -909,7 +927,7 @@ CREATE VIEW metrics_projects_hourly_share AS
                    FROM projects projects_1
                   WHERE (((projects_1.type)::text = 'one_off'::text) AND (projects_1.created_at >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))))::double precision) * (100)::double precision) AS pct
            FROM projects
-          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text)) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
+          WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
     ( SELECT (((count(*))::double precision / (( SELECT count(*) AS count
                    FROM projects projects_1
                   WHERE (((projects_1.type)::text = 'one_off'::text) AND ((projects_1.created_at)::date >= (
@@ -918,7 +936,7 @@ CREATE VIEW metrics_projects_hourly_share AS
                             ELSE ((((date_part('year'::text, ('now'::text)::date) - (1)::double precision) || '/10/01'::text))::date)::text
                         END)::date))))::double precision) * (100)::double precision) AS pct
            FROM projects
-          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text)) AND ((projects.created_at)::date >= (
+          WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text) AND ((projects.created_at)::date >= (
                 CASE
                     WHEN (('now'::text)::date >= ((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date) THEN (((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date)::text
                     ELSE ((((date_part('year'::text, ('now'::text)::date) - (1)::double precision) || '/10/01'::text))::date)::text
@@ -941,17 +959,17 @@ CREATE VIEW metrics_projects_hourly_upon_completion_pay AS
     itd.cnt AS itd
    FROM ( SELECT count(*) AS cnt
            FROM projects
-          WHERE (((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text)) AND ((projects.payment_schedule)::text = 'upon_completion'::text)) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
+          WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text) AND ((projects.payment_schedule)::text = 'upon_completion'::text) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
     ( SELECT count(*) AS cnt
            FROM projects
-          WHERE (((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text)) AND ((projects.payment_schedule)::text = 'upon_completion'::text)) AND ((projects.created_at)::date >= (
+          WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text) AND ((projects.payment_schedule)::text = 'upon_completion'::text) AND ((projects.created_at)::date >= (
                 CASE
                     WHEN (('now'::text)::date >= ((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date) THEN (((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date)::text
                     ELSE ((((date_part('year'::text, ('now'::text)::date) - (1)::double precision) || '/10/01'::text))::date)::text
                 END)::date))) fytd,
     ( SELECT count(*) AS cnt
            FROM projects
-          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text)) AND ((projects.payment_schedule)::text = 'upon_completion'::text))) itd;
+          WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text) AND ((projects.payment_schedule)::text = 'upon_completion'::text))) itd;
 
 
 --
@@ -1156,7 +1174,7 @@ UNION
 
 
 --
--- Name: notifications; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: notifications; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE notifications (
@@ -1190,7 +1208,7 @@ ALTER SEQUENCE notifications_id_seq OWNED BY notifications.id;
 
 
 --
--- Name: payment_profiles; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: payment_profiles; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE payment_profiles (
@@ -1222,7 +1240,7 @@ ALTER SEQUENCE payment_profiles_id_seq OWNED BY payment_profiles.id;
 
 
 --
--- Name: payment_sources; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: payment_sources; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE payment_sources (
@@ -1265,7 +1283,7 @@ ALTER SEQUENCE payment_sources_id_seq OWNED BY payment_sources.id;
 
 
 --
--- Name: project_ends; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: project_ends; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE project_ends (
@@ -1298,7 +1316,7 @@ ALTER SEQUENCE project_ends_id_seq OWNED BY project_ends.id;
 
 
 --
--- Name: project_invites; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: project_invites; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE project_invites (
@@ -1333,7 +1351,7 @@ ALTER SEQUENCE project_invites_id_seq OWNED BY project_invites.id;
 
 
 --
--- Name: project_issues; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: project_issues; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE project_issues (
@@ -1387,7 +1405,7 @@ ALTER SEQUENCE projects_id_seq OWNED BY projects.id;
 
 
 --
--- Name: projects_skills; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: projects_skills; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE projects_skills (
@@ -1397,7 +1415,7 @@ CREATE TABLE projects_skills (
 
 
 --
--- Name: ratings; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ratings; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE ratings (
@@ -1432,7 +1450,7 @@ ALTER SEQUENCE ratings_id_seq OWNED BY ratings.id;
 
 
 --
--- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE schema_migrations (
@@ -1441,7 +1459,7 @@ CREATE TABLE schema_migrations (
 
 
 --
--- Name: skills; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: skills; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE skills (
@@ -1472,7 +1490,7 @@ ALTER SEQUENCE skills_id_seq OWNED BY skills.id;
 
 
 --
--- Name: skills_specialists; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: skills_specialists; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE skills_specialists (
@@ -1482,7 +1500,7 @@ CREATE TABLE skills_specialists (
 
 
 --
--- Name: specialists; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: specialists; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE specialists (
@@ -1534,7 +1552,7 @@ ALTER SEQUENCE specialists_id_seq OWNED BY specialists.id;
 
 
 --
--- Name: stripe_accounts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: stripe_accounts; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE stripe_accounts (
@@ -1587,7 +1605,7 @@ ALTER SEQUENCE stripe_accounts_id_seq OWNED BY stripe_accounts.id;
 
 
 --
--- Name: time_logs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: time_logs; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE time_logs (
@@ -1620,7 +1638,7 @@ ALTER SEQUENCE time_logs_id_seq OWNED BY time_logs.id;
 
 
 --
--- Name: timesheets; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: timesheets; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE timesheets (
@@ -1652,7 +1670,7 @@ ALTER SEQUENCE timesheets_id_seq OWNED BY timesheets.id;
 
 
 --
--- Name: users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE users (
@@ -1697,7 +1715,7 @@ ALTER SEQUENCE users_id_seq OWNED BY users.id;
 
 
 --
--- Name: work_experiences; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: work_experiences; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE work_experiences (
@@ -1911,7 +1929,7 @@ ALTER TABLE ONLY work_experiences ALTER COLUMN id SET DEFAULT nextval('work_expe
 
 
 --
--- Name: admin_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: admin_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY admin_users
@@ -1919,7 +1937,7 @@ ALTER TABLE ONLY admin_users
 
 
 --
--- Name: businesses_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: businesses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY businesses
@@ -1927,7 +1945,7 @@ ALTER TABLE ONLY businesses
 
 
 --
--- Name: charges_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: charges_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY charges
@@ -1935,7 +1953,7 @@ ALTER TABLE ONLY charges
 
 
 --
--- Name: education_histories_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: education_histories_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY education_histories
@@ -1943,7 +1961,7 @@ ALTER TABLE ONLY education_histories
 
 
 --
--- Name: email_threads_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: email_threads_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY email_threads
@@ -1951,7 +1969,7 @@ ALTER TABLE ONLY email_threads
 
 
 --
--- Name: favorites_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: favorites_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY favorites
@@ -1959,7 +1977,7 @@ ALTER TABLE ONLY favorites
 
 
 --
--- Name: industries_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: industries_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY industries
@@ -1967,7 +1985,7 @@ ALTER TABLE ONLY industries
 
 
 --
--- Name: job_applications_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: job_applications_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY job_applications
@@ -1975,7 +1993,7 @@ ALTER TABLE ONLY job_applications
 
 
 --
--- Name: jurisdictions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: jurisdictions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY jurisdictions
@@ -1983,7 +2001,7 @@ ALTER TABLE ONLY jurisdictions
 
 
 --
--- Name: messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY messages
@@ -1991,7 +2009,7 @@ ALTER TABLE ONLY messages
 
 
 --
--- Name: notifications_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: notifications_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY notifications
@@ -1999,7 +2017,7 @@ ALTER TABLE ONLY notifications
 
 
 --
--- Name: payment_profiles_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: payment_profiles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY payment_profiles
@@ -2007,7 +2025,7 @@ ALTER TABLE ONLY payment_profiles
 
 
 --
--- Name: payment_sources_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: payment_sources_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY payment_sources
@@ -2015,7 +2033,7 @@ ALTER TABLE ONLY payment_sources
 
 
 --
--- Name: project_ends_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: project_ends_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY project_ends
@@ -2023,7 +2041,7 @@ ALTER TABLE ONLY project_ends
 
 
 --
--- Name: project_invites_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: project_invites_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY project_invites
@@ -2031,7 +2049,7 @@ ALTER TABLE ONLY project_invites
 
 
 --
--- Name: project_issues_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: project_issues_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY project_issues
@@ -2039,7 +2057,7 @@ ALTER TABLE ONLY project_issues
 
 
 --
--- Name: projects_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: projects_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY projects
@@ -2047,7 +2065,7 @@ ALTER TABLE ONLY projects
 
 
 --
--- Name: ratings_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ratings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY ratings
@@ -2055,7 +2073,7 @@ ALTER TABLE ONLY ratings
 
 
 --
--- Name: skills_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: skills_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY skills
@@ -2063,7 +2081,7 @@ ALTER TABLE ONLY skills
 
 
 --
--- Name: specialists_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: specialists_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY specialists
@@ -2071,7 +2089,7 @@ ALTER TABLE ONLY specialists
 
 
 --
--- Name: stripe_accounts_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: stripe_accounts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY stripe_accounts
@@ -2079,7 +2097,7 @@ ALTER TABLE ONLY stripe_accounts
 
 
 --
--- Name: time_logs_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: time_logs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY time_logs
@@ -2087,7 +2105,7 @@ ALTER TABLE ONLY time_logs
 
 
 --
--- Name: timesheets_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: timesheets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY timesheets
@@ -2095,7 +2113,7 @@ ALTER TABLE ONLY timesheets
 
 
 --
--- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY users
@@ -2103,7 +2121,7 @@ ALTER TABLE ONLY users
 
 
 --
--- Name: work_experiences_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: work_experiences_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY work_experiences
@@ -2111,616 +2129,616 @@ ALTER TABLE ONLY work_experiences
 
 
 --
--- Name: favorites_unique; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: favorites_unique; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX favorites_unique ON favorites USING btree (owner_id, owner_type, favorited_id, favorited_type);
 
 
 --
--- Name: index_admin_users_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_admin_users_on_email; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_admin_users_on_email ON admin_users USING btree (email);
 
 
 --
--- Name: index_admin_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_admin_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_admin_users_on_reset_password_token ON admin_users USING btree (reset_password_token);
 
 
 --
--- Name: index_businesses_industries_on_business_id_and_industry_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_businesses_industries_on_business_id_and_industry_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_businesses_industries_on_business_id_and_industry_id ON businesses_industries USING btree (business_id, industry_id);
 
 
 --
--- Name: index_businesses_on_anonymous; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_businesses_on_anonymous; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_businesses_on_anonymous ON businesses USING btree (anonymous);
 
 
 --
--- Name: index_businesses_on_ratings_average; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_businesses_on_ratings_average; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_businesses_on_ratings_average ON businesses USING btree (ratings_average);
 
 
 --
--- Name: index_businesses_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_businesses_on_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_businesses_on_user_id ON businesses USING btree (user_id);
 
 
 --
--- Name: index_charges_on_payment_source_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_charges_on_payment_source_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_charges_on_payment_source_id ON charges USING btree (payment_source_id);
 
 
 --
--- Name: index_charges_on_process_after; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_charges_on_process_after; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_charges_on_process_after ON charges USING btree (process_after);
 
 
 --
--- Name: index_charges_on_project_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_charges_on_project_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_charges_on_project_id ON charges USING btree (project_id);
 
 
 --
--- Name: index_charges_on_status; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_charges_on_status; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_charges_on_status ON charges USING btree (status);
 
 
 --
--- Name: index_education_histories_on_specialist_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_education_histories_on_specialist_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_education_histories_on_specialist_id ON education_histories USING btree (specialist_id);
 
 
 --
--- Name: index_email_threads_on_business_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_email_threads_on_business_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_email_threads_on_business_id ON email_threads USING btree (business_id);
 
 
 --
--- Name: index_email_threads_on_business_id_and_specialist_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_email_threads_on_business_id_and_specialist_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_email_threads_on_business_id_and_specialist_id ON email_threads USING btree (business_id, specialist_id);
 
 
 --
--- Name: index_email_threads_on_specialist_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_email_threads_on_specialist_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_email_threads_on_specialist_id ON email_threads USING btree (specialist_id);
 
 
 --
--- Name: index_email_threads_on_thread_key; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_email_threads_on_thread_key; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_email_threads_on_thread_key ON email_threads USING btree (thread_key);
 
 
 --
--- Name: index_favorites_on_favorited_type_and_favorited_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_favorites_on_favorited_type_and_favorited_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_favorites_on_favorited_type_and_favorited_id ON favorites USING btree (favorited_type, favorited_id);
 
 
 --
--- Name: index_favorites_on_owner_type_and_owner_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_favorites_on_owner_type_and_owner_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_favorites_on_owner_type_and_owner_id ON favorites USING btree (owner_type, owner_id);
 
 
 --
--- Name: index_industries_projects_on_industry_id_and_project_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_industries_projects_on_industry_id_and_project_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_industries_projects_on_industry_id_and_project_id ON industries_projects USING btree (industry_id, project_id);
 
 
 --
--- Name: index_job_applications_on_project_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_job_applications_on_project_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_job_applications_on_project_id ON job_applications USING btree (project_id);
 
 
 --
--- Name: index_job_applications_on_specialist_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_job_applications_on_specialist_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_job_applications_on_specialist_id ON job_applications USING btree (specialist_id);
 
 
 --
--- Name: index_job_applications_on_specialist_id_and_project_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_job_applications_on_specialist_id_and_project_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_job_applications_on_specialist_id_and_project_id ON job_applications USING btree (specialist_id, project_id);
 
 
 --
--- Name: index_jurisdictions_on_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_jurisdictions_on_name; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_jurisdictions_on_name ON jurisdictions USING btree (name);
 
 
 --
--- Name: index_jurisdictions_projects_on_jurisdiction_id_and_project_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_jurisdictions_projects_on_jurisdiction_id_and_project_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_jurisdictions_projects_on_jurisdiction_id_and_project_id ON jurisdictions_projects USING btree (jurisdiction_id, project_id);
 
 
 --
--- Name: index_messages_on_recipient_type_and_recipient_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_messages_on_recipient_type_and_recipient_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_messages_on_recipient_type_and_recipient_id ON messages USING btree (recipient_type, recipient_id);
 
 
 --
--- Name: index_messages_on_sender_type_and_sender_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_messages_on_sender_type_and_sender_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_messages_on_sender_type_and_sender_id ON messages USING btree (sender_type, sender_id);
 
 
 --
--- Name: index_messages_on_thread_type_and_thread_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_messages_on_thread_type_and_thread_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_messages_on_thread_type_and_thread_id ON messages USING btree (thread_type, thread_id);
 
 
 --
--- Name: index_notifications_on_read_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_notifications_on_read_at; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_notifications_on_read_at ON notifications USING btree (read_at);
 
 
 --
--- Name: index_notifications_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_notifications_on_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_notifications_on_user_id ON notifications USING btree (user_id);
 
 
 --
--- Name: index_payment_profiles_on_business_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_payment_profiles_on_business_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_payment_profiles_on_business_id ON payment_profiles USING btree (business_id);
 
 
 --
--- Name: index_payment_sources_on_payment_profile_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_payment_sources_on_payment_profile_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_payment_sources_on_payment_profile_id ON payment_sources USING btree (payment_profile_id);
 
 
 --
--- Name: index_payment_sources_on_stripe_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_payment_sources_on_stripe_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_payment_sources_on_stripe_id ON payment_sources USING btree (stripe_id);
 
 
 --
--- Name: index_payment_sources_on_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_payment_sources_on_type; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_payment_sources_on_type ON payment_sources USING btree (type);
 
 
 --
--- Name: index_project_ends_on_expires_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_project_ends_on_expires_at; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_project_ends_on_expires_at ON project_ends USING btree (expires_at);
 
 
 --
--- Name: index_project_ends_on_project_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_project_ends_on_project_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_project_ends_on_project_id ON project_ends USING btree (project_id);
 
 
 --
--- Name: index_project_ends_on_status; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_project_ends_on_status; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_project_ends_on_status ON project_ends USING btree (status);
 
 
 --
--- Name: index_project_invites_on_business_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_project_invites_on_business_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_project_invites_on_business_id ON project_invites USING btree (business_id);
 
 
 --
--- Name: index_project_invites_on_project_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_project_invites_on_project_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_project_invites_on_project_id ON project_invites USING btree (project_id);
 
 
 --
--- Name: index_project_invites_on_specialist_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_project_invites_on_specialist_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_project_invites_on_specialist_id ON project_invites USING btree (specialist_id);
 
 
 --
--- Name: index_project_invites_on_status; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_project_invites_on_status; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_project_invites_on_status ON project_invites USING btree (status);
 
 
 --
--- Name: index_project_issues_on_project_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_project_issues_on_project_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_project_issues_on_project_id ON project_issues USING btree (project_id);
 
 
 --
--- Name: index_project_issues_on_status; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_project_issues_on_status; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_project_issues_on_status ON project_issues USING btree (status);
 
 
 --
--- Name: index_project_issues_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_project_issues_on_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_project_issues_on_user_id ON project_issues USING btree (user_id);
 
 
 --
--- Name: index_projects_on_annual_salary; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_projects_on_annual_salary; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_projects_on_annual_salary ON projects USING btree (annual_salary);
 
 
 --
--- Name: index_projects_on_business_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_projects_on_business_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_projects_on_business_id ON projects USING btree (business_id);
 
 
 --
--- Name: index_projects_on_calculated_budget; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_projects_on_calculated_budget; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_projects_on_calculated_budget ON projects USING btree (calculated_budget);
 
 
 --
--- Name: index_projects_on_estimated_hours; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_projects_on_estimated_hours; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_projects_on_estimated_hours ON projects USING btree (estimated_hours);
 
 
 --
--- Name: index_projects_on_fee_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_projects_on_fee_type; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_projects_on_fee_type ON projects USING btree (fee_type);
 
 
 --
--- Name: index_projects_on_fixed_budget; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_projects_on_fixed_budget; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_projects_on_fixed_budget ON projects USING btree (fixed_budget);
 
 
 --
--- Name: index_projects_on_hourly_rate; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_projects_on_hourly_rate; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_projects_on_hourly_rate ON projects USING btree (hourly_rate);
 
 
 --
--- Name: index_projects_on_minimum_experience; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_projects_on_minimum_experience; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_projects_on_minimum_experience ON projects USING btree (minimum_experience);
 
 
 --
--- Name: index_projects_on_only_regulators; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_projects_on_only_regulators; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_projects_on_only_regulators ON projects USING btree (only_regulators);
 
 
 --
--- Name: index_projects_on_payment_schedule; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_projects_on_payment_schedule; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_projects_on_payment_schedule ON projects USING btree (payment_schedule);
 
 
 --
--- Name: index_projects_on_point; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_projects_on_point; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_projects_on_point ON projects USING gist (point);
 
 
 --
--- Name: index_projects_on_pricing_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_projects_on_pricing_type; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_projects_on_pricing_type ON projects USING btree (pricing_type);
 
 
 --
--- Name: index_projects_on_specialist_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_projects_on_specialist_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_projects_on_specialist_id ON projects USING btree (specialist_id);
 
 
 --
--- Name: index_projects_on_starts_on; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_projects_on_starts_on; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_projects_on_starts_on ON projects USING btree (starts_on);
 
 
 --
--- Name: index_projects_on_status; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_projects_on_status; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_projects_on_status ON projects USING btree (status);
 
 
 --
--- Name: index_projects_on_tsv; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_projects_on_tsv; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_projects_on_tsv ON projects USING gin (tsv);
 
 
 --
--- Name: index_projects_on_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_projects_on_type; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_projects_on_type ON projects USING btree (type);
 
 
 --
--- Name: index_projects_skills_on_project_id_and_skill_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_projects_skills_on_project_id_and_skill_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_projects_skills_on_project_id_and_skill_id ON projects_skills USING btree (project_id, skill_id);
 
 
 --
--- Name: index_ratings_on_project_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_ratings_on_project_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_ratings_on_project_id ON ratings USING btree (project_id);
 
 
 --
--- Name: index_ratings_on_rater_type_and_rater_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_ratings_on_rater_type_and_rater_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_ratings_on_rater_type_and_rater_id ON ratings USING btree (rater_type, rater_id);
 
 
 --
--- Name: index_skills_on_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_skills_on_name; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_skills_on_name ON skills USING btree (name);
 
 
 --
--- Name: index_skills_specialists_on_skill_id_and_specialist_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_skills_specialists_on_skill_id_and_specialist_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_skills_specialists_on_skill_id_and_specialist_id ON skills_specialists USING btree (skill_id, specialist_id);
 
 
 --
--- Name: index_specialists_on_first_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_specialists_on_first_name; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_specialists_on_first_name ON specialists USING btree (first_name);
 
 
 --
--- Name: index_specialists_on_former_regulator; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_specialists_on_former_regulator; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_specialists_on_former_regulator ON specialists USING btree (former_regulator);
 
 
 --
--- Name: index_specialists_on_last_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_specialists_on_last_name; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_specialists_on_last_name ON specialists USING btree (last_name);
 
 
 --
--- Name: index_specialists_on_point; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_specialists_on_point; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_specialists_on_point ON specialists USING gist (point);
 
 
 --
--- Name: index_specialists_on_rating_avg; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_specialists_on_rating_avg; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_specialists_on_rating_avg ON specialists USING btree (rating_avg);
 
 
 --
--- Name: index_specialists_on_ratings_average; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_specialists_on_ratings_average; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_specialists_on_ratings_average ON specialists USING btree (ratings_average);
 
 
 --
--- Name: index_specialists_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_specialists_on_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_specialists_on_user_id ON specialists USING btree (user_id);
 
 
 --
--- Name: index_stripe_accounts_on_specialist_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_stripe_accounts_on_specialist_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_stripe_accounts_on_specialist_id ON stripe_accounts USING btree (specialist_id);
 
 
 --
--- Name: index_time_logs_on_timesheet_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_time_logs_on_timesheet_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_time_logs_on_timesheet_id ON time_logs USING btree (timesheet_id);
 
 
 --
--- Name: index_timesheets_on_project_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_timesheets_on_project_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_timesheets_on_project_id ON timesheets USING btree (project_id);
 
 
 --
--- Name: index_timesheets_on_status; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_timesheets_on_status; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_timesheets_on_status ON timesheets USING btree (status);
 
 
 --
--- Name: index_users_on_confirmation_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_users_on_confirmation_token; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_users_on_confirmation_token ON users USING btree (confirmation_token);
 
 
 --
--- Name: index_users_on_deleted; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_users_on_deleted; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_users_on_deleted ON users USING btree (deleted);
 
 
 --
--- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_users_on_email ON users USING btree (email);
 
 
 --
--- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (reset_password_token);
 
 
 --
--- Name: index_work_experiences_on_compliance; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_work_experiences_on_compliance; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_work_experiences_on_compliance ON work_experiences USING btree (compliance);
 
 
 --
--- Name: index_work_experiences_on_current; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_work_experiences_on_current; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_work_experiences_on_current ON work_experiences USING btree (current);
 
 
 --
--- Name: index_work_experiences_on_from; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_work_experiences_on_from; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_work_experiences_on_from ON work_experiences USING btree ("from");
 
 
 --
--- Name: index_work_experiences_on_specialist_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_work_experiences_on_specialist_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_work_experiences_on_specialist_id ON work_experiences USING btree (specialist_id);
 
 
 --
--- Name: index_work_experiences_on_to; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_work_experiences_on_to; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_work_experiences_on_to ON work_experiences USING btree ("to");
 
 
 --
--- Name: industries_specialists_unique; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: industries_specialists_unique; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX industries_specialists_unique ON industries_specialists USING btree (industry_id, specialist_id);
 
 
 --
--- Name: jurisdictions_specialists_unique; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: jurisdictions_specialists_unique; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX jurisdictions_specialists_unique ON jurisdictions_specialists USING btree (jurisdiction_id, specialist_id);
 
 
 --
--- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
@@ -2766,7 +2784,7 @@ ALTER TABLE ONLY stripe_accounts
 -- PostgreSQL database dump complete
 --
 
-SET search_path TO "$user",public;
+SET search_path TO "$user", public;
 
 INSERT INTO schema_migrations (version) VALUES ('20160603200743');
 

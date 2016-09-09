@@ -35,10 +35,16 @@
 
 .well.well-lg.m-t-3
   h2.text-center.m-b-3 Tell us about your professional experience
+  
+  - unless f.object.errors[:work_experiences].blank?
+    .has-error.text-center.m-b-3
+      span.help-block 
+        'To be eligible, you must have 3+ years work experience in financial regulatory compliance
 
   h3
     i.icon.maxicons1-building
     'Work Experience
+    
 
   #work-experiences.m-b-2
     = f.simple_fields_for :work_experiences do |wef|

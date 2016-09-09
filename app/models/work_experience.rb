@@ -6,6 +6,10 @@ class WorkExperience < ActiveRecord::Base
 
   validate :validate_from_to
 
+  def years
+    from ? (((to || Time.zone.today) - from) / 365).to_f : 0
+  end
+
   private
 
   def validate_from_to
