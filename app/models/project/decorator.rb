@@ -11,6 +11,14 @@ class Project::Decorator < ApplicationDecorator
     'Pending'
   end
 
+  def dashboard_path
+    if h.current_specialist
+      one_off? ? h.specialists_project_dashboard_path(self) : h.specialists_project_path(self)
+    else
+      one_off? ? h.business_project_dashboard_path(self) : h.business_project_path(self)
+    end
+  end
+
   def percent_complete
     return 0 unless starts_on && ends_on
     total = (ends_on - starts_on).to_f

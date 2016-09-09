@@ -50,14 +50,14 @@
                 i.icon.maxicons1-peoples
                 span Applicants
             - elsif project.active?
-              a.btn.btn-md.btn-primary.btn-single href=business_project_dashboard_path(project)
+              a.btn.btn-md.btn-primary.btn-single href=project.dashboard_path
                 i.icon.maxicons2-view
                 span View
             - else # project.complete?
               a.btn.btn-md.btn-primary href=copy_business_project_path(project.id)
                 i.icon.maxicons1-copy
                 span Copy
-              a.btn.btn-md.btn-primary href=business_project_dashboard_path(project)
+              a.btn.btn-md.btn-primary href=project.dashboard_path
                 i.icon.maxicons2-view
                 span View
 

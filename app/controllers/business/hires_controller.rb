@@ -12,7 +12,8 @@ class Business::HiresController < ApplicationController
 
   def create
     @job_application = JobApplication::Accept.(@project.job_applications.find(params.require(:job_application_id)))
-    js_redirect business_project_dashboard_path(@project)
+    redirect_path = @project.one_off? ? business_project_dashboard_path(@project) : business_dashboard_path
+    js_redirect redirect_path
   end
 
   private
