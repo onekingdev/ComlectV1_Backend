@@ -16,12 +16,12 @@ class Business::JobApplicationsController < ApplicationController
 
   def shortlist
     @job_application = current_business.job_applications.find(params[:job_application_id])
-    @job_application.shortlisted!
+    @job_application.shortlisted? ? @job_application.undecided! : @job_application.shortlisted!
   end
 
   def hide
     @job_application = current_business.job_applications.find(params[:job_application_id])
-    @job_application.hidden!
+    @job_application.hidden? ? @job_application.undecided! : @job_application.hidden!
   end
 
   private

@@ -4,10 +4,15 @@ $parent = $application.parents('.job-applications');
 switch ($parent.attr('id')) {
   case 'applications-applied':
   case 'applications-shortlisted':
-    $('#applications-hidden')
-      .prepend($application)
-      .find('.no-applicants').addClass('hidden');
+    $newParent = $('#applications-hidden');
+    break;
+  default:
+    $newParent = $('#applications-applied')
 }
+
+$newParent
+  .prepend($application)
+  .find('.no-applicants').addClass('hidden');
 
 if ($parent.find('.job-application').length == 0) {
   $parent.find('.no-applicants').removeClass('hidden');
