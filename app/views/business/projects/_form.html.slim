@@ -114,12 +114,20 @@
       = link_to_back default: business_dashboard_path, data: { method: 'get', confirm: project.confirm_delete, 'confirm-label' => 'Delete' }, class: 'btn btn-muted btn-lg m-r-1' do
         .fa.fa-trash-o
         span Delete
-    button.btn.btn-primary.btn-lg.m-r-1 type="submit" name="project[status]" value=Project.statuses[:draft]
-      i.icon.maxicons2-editor
-      span Save as Draft
-    button.btn.btn-primary.btn-lg type="submit" name="project[status]" value=Project.statuses[:review]
-      i.icon.maxicons2-fix.flip-x
-      span Review & Post
+    - if project.published?
+      = link_to business_project_path(project), class: 'btn btn-muted btn-lg m-r-1' do
+        i.icon.maxicons1-undo
+        span Cancel
+      button.btn.btn-primary.btn-lg type="submit"
+        i.icon.maxicons2-fix.flip-x
+        span Save Changes
+    - else
+      button.btn.btn-primary.btn-lg.m-r-1 type="submit" name="project[status]" value=Project.statuses[:draft]
+        i.icon.maxicons2-editor
+        span Save as Draft
+      button.btn.btn-primary.btn-lg type="submit" name="project[status]" value=Project.statuses[:review]
+        i.icon.maxicons2-fix.flip-x
+        span Review & Post
 
   .row.m-t-2.text-center
     .col-xs-12.col-sm-8.col-sm-push-2.small.text-muted
