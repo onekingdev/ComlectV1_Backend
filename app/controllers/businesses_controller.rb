@@ -48,7 +48,7 @@ class BusinessesController < ApplicationController
     params.require(:business).permit(
       :contact_first_name, :contact_last_name, :contact_email, :contact_job_title, :contact_phone,
       :business_name, :employees, :description, :website, :linkedin_link,
-      :address_1, :address_2, :country, :city, :state, :zipcode,
+      :address_1, :address_2, :country, :city, :state, :zipcode, :time_zone,
       :anonymous, :logo,
       industry_ids: [], jurisdiction_ids: [],
       user_attributes: %i(email password)

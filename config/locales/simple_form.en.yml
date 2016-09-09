@@ -64,6 +64,7 @@ en:
         country: "* Country"
         state: "* State"
         city: "* City"
+        time_zone: "* Timezone"
         zipcode: "* Zipcode"
         phone: Phone Number
         linkedin_link: LinkedIn Profile URL
