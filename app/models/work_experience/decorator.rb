@@ -5,8 +5,8 @@ class WorkExperience::Decorator < ApplicationDecorator
 
   def month_year_span
     return nil if !current && model.to.nil?
-    to = current? ? 'Current' : model.to.strftime('%m/%Y')
-    "#{from.strftime('%m/%Y')} to #{to}"
+    to = current? ? 'Current' : model.to.strftime('%b %Y')
+    "#{from.strftime('%b %Y')} to #{to}"
   end
 
   def years
