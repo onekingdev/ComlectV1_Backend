@@ -15,6 +15,9 @@ class JobApplication < ActiveRecord::Base
       .group(:id)
       .order("years_of_experience DESC")
   }
+  scope :order_by_rating, -> {
+    joins(:specialist).order('specialists.ratings_average DESC')
+  }
 
   validates :project_id, uniqueness: { scope: :specialist_id }
 end

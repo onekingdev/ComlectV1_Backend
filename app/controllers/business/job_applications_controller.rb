@@ -45,7 +45,7 @@ class Business::JobApplicationsController < ApplicationController
     when 'newest'
       scope.order(created_at: :desc)
     else
-      scope # TODO: Sort by rating
+      scope.order_by_rating
     end
   end
 
