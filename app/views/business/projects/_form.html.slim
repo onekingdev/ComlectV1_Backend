@@ -46,7 +46,10 @@
       .col-xs-12.col-sm-6
         = f.input :annual_salary, as: :string, required: true, input_html: { class: 'input-lg', data: { masked: '0#' } }
       .col-xs-12.col-sm-6
-        = f.input :fee_type, as: :radio_pills, collection: [%w(Upfront upfront), %w(Monthly monthly)], btn_class: 'btn-lg tt-u btn-default p-x-3'
+        = f.input :fee_type,
+          as: :radio_pills,
+          collection: [['Upfront', f.object.class.fee_types[:upfront_fee]], ['Monthly', f.object.class.fee_types[:monthly_fee]]],
+          btn_class: 'btn-lg tt-u btn-default p-x-3'
         button.info-tooltip type="button" data-toggle="tooltip" title="Select how you'd like to pay Complect's fees" i
     .row.row-compact.text-muted.small.p-b-1
       .col-xs-12

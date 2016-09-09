@@ -69,7 +69,7 @@ class Project < ActiveRecord::Base
   enum status: { draft: 'draft', review: 'review', published: 'published', complete: 'complete' }
   enum type: { one_off: 'one_off', full_time: 'full_time' }
   enum location_type: { remote: 'remote', remote_and_travel: 'remote_and_travel', onsite: 'onsite' }
-  enum fee_type: { upfront_fee: 'upfront', monthly_fee: 'monthly' }
+  enum fee_type: { upfront_fee: 'upfront_fee', monthly_fee: 'monthly_fee' }
 
   LOCATIONS = [%w(Remote remote), %w(Remote\ +\ Travel remote_and_travel), %w(Onsite onsite)].freeze
   HOURLY_PAYMENT_SCHEDULES = [%w(Upon\ Completion upon_completion), %w(Bi-Weekly bi_weekly), %w(Monthly monthly)].freeze
