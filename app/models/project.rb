@@ -54,12 +54,14 @@ class Project < ActiveRecord::Base
 
   scope :pending_business_rating, -> {
     complete
+      .one_off
       .joins("LEFT JOIN ratings ON ratings.project_id = projects.id AND ratings.rater_type = '#{Business.name}'")
       .where(ratings: { id: nil })
   }
 
   scope :pending_specialist_rating, -> {
     complete
+      .one_off
       .joins("LEFT JOIN ratings ON ratings.project_id = projects.id AND ratings.rater_type = '#{Specialist.name}'")
       .where(ratings: { id: nil })
   }
@@ -90,11 +92,11 @@ class Project < ActiveRecord::Base
   end
 
   def requires_business_rating?
-    complete? && ratings.by(business).empty?
+    one_off? && complete? && ratings.by(business).empty?
   end
 
   def requires_specialist_rating?
-    complete? && ratings.by(specialist).empty?
+    one_off? && complete? && ratings.by(specialist).empty?
   end
 
   def end_requested?
