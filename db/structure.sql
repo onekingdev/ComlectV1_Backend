@@ -1503,7 +1503,6 @@ CREATE TABLE specialists (
     visibility character varying DEFAULT 'public'::character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    rating_avg numeric,
     lat numeric(9,5),
     lng numeric(9,5),
     point geography,
@@ -2595,13 +2594,6 @@ CREATE INDEX index_specialists_on_point ON specialists USING gist (point);
 
 
 --
--- Name: index_specialists_on_rating_avg; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_specialists_on_rating_avg ON specialists USING btree (rating_avg);
-
-
---
 -- Name: index_specialists_on_ratings_average; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2880,4 +2872,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160909053710');
 INSERT INTO schema_migrations (version) VALUES ('20160909170311');
 
 INSERT INTO schema_migrations (version) VALUES ('20160909170614');
+
+INSERT INTO schema_migrations (version) VALUES ('20160913030250');
 
