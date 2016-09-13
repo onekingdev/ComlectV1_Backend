@@ -1,7 +1,12 @@
 # frozen_string_literal: true
 
 unless AdminUser.any?
-  AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password')
+  AdminUser.create!(
+    email: 'admin@example.com',
+    password: 'password',
+    password_confirmation: 'password',
+    super_admin: true
+  )
 end
 
 %w(USA Canada Africa Central\ America Asia South\ America Australasia Europe).each do |name|

@@ -1,11 +1,9 @@
 # frozen_string_literal: true
-ActiveAdmin.register AdminUser, as: 'Admins' do
-  menu parent: 'Users'
-
+ActiveAdmin.register AdminUser, as: 'Customer Service Accounts' do
   filter :email
-  filter :current_sign_in_at
-  filter :sign_in_count
-  filter :created_at
+
+  scope :super_admin
+  scope :cusomter_representative
 
   index do
     selectable_column
@@ -24,6 +22,7 @@ ActiveAdmin.register AdminUser, as: 'Admins' do
       f.input :email
       f.input :password
       f.input :password_confirmation
+      f.input :super_admin
     end
     f.actions
   end

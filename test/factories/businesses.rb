@@ -12,5 +12,6 @@ FactoryGirl.define do
     country { Faker::Address.country }
     city { Faker::Address.city }
     state { Faker::Address.state }
+    time_zone { Faker::Address.time_zone }
   end
 end

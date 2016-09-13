@@ -8,11 +8,11 @@ class ApplicationPolicy
   end
 
   def index?
-    false
+    false || user.is_a?(AdminUser)
   end
 
   def show?
-    scope.where(id: record.id).exists?
+    scope.where(id: record.id).exists? || user.is_a?(AdminUser)
   end
 
   def create?
@@ -24,7 +24,7 @@ class ApplicationPolicy
   end
 
   def update?
-    false
+    false || user.is_a?(AdminUser)
   end
 
   def edit?
@@ -32,7 +32,7 @@ class ApplicationPolicy
   end
 
   def destroy?
-    false
+    false || user.is_a?(AdminUser)
   end
 
   def scope
