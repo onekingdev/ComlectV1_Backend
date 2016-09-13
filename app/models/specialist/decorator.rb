@@ -89,6 +89,8 @@ class Specialist::Decorator < ApplicationDecorator
   private
 
   def calculate_years_of_experience
-    work_experiences.map { |exp| exp.from ? ((exp.to || Time.zone.today) - exp.from).to_i : 0 }.reduce(:+) || 0
+    work_experiences.compliance.map do |exp|
+      exp.from ? ((exp.to || Time.zone.today) - exp.from).to_i : 0
+    end.reduce(:+) || 0
   end
 end
