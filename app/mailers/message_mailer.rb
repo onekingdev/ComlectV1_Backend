@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 class MessageMailer < ApplicationMailer
-  def first_contact(from, to, message_text, project)
+  def first_contact(from, to, message_text)
     @message = message_text
     @from = confidential_party_name(from)
-    @project = project
     thread = EmailThread.for!(from, to)
     mail to: "Complect <#{ENV.fetch('DEFAULT_MAIL_FROM')}>",
          bcc: to_address(to),
@@ -35,8 +34,8 @@ class MessageMailer < ApplicationMailer
 
   private
 
-  def subject(_from)
-    "You received a message on Complect"
+  def subject(from)
+    from.is_a?(Business) && from.anonymous? ? "Message on Complect" : "Message from #{party_name(from)} on Complect"
   end
 
   def confidential_party_name(party)

@@ -274,6 +274,11 @@ GEM
       rails-deprecated_sanitizer (>= 1.0.1)
     rails-html-sanitizer (1.0.3)
       loofah (~> 2.0)
+    rails_12factor (0.0.3)
+      rails_serve_static_assets
+      rails_stdout_logging
+    rails_serve_static_assets (0.0.5)
+    rails_stdout_logging (0.0.5)
     railties (4.2.7)
       actionpack (= 4.2.7)
       activesupport (= 4.2.7)
@@ -438,6 +443,7 @@ DEPENDENCIES
   pundit
   quiet_assets
   rails (= 4.2.7)
+  rails_12factor
   roda (~> 2.14.0)
   rubocop
   sassc-rails (~> 1.3)

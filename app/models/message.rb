@@ -14,8 +14,6 @@ class Message < ActiveRecord::Base
 
   include FileUploader[:file]
 
-  attr_accessor :project
-
   validates :message, presence: true
 
   def self.threads_for(subject)
@@ -57,6 +55,6 @@ class Message < ActiveRecord::Base
   end
 
   def send_as_email!
-    MessageMailer.deliver_later :first_contact, sender, recipient, message, project
+    MessageMailer.deliver_later :first_contact, sender, recipient, message
   end
 end
