@@ -53,9 +53,9 @@ class Specialist::Search
     min, max = rating.to_s.split(';').map(&:to_i)
     return records if rating.blank? || (min == 0 && max == 5)
     if min == 0
-      records.where("(rating_avg BETWEEN ? AND ?) OR rating_avg IS NULL", min, max)
+      records.where("(ratings_average BETWEEN ? AND ?) OR ratings_average IS NULL", min, max)
     else
-      records.where("rating_avg BETWEEN ? AND ?", min, max)
+      records.where("ratings_average BETWEEN ? AND ?", min, max)
     end
   end
 
@@ -92,7 +92,7 @@ class Specialist::Search
     when 'experience'
       records.by_experience
     else
-      records.order('rating_avg DESC NULLS LAST')
+      records.order('ratings_average DESC NULLS LAST')
     end
   end
 

@@ -8,11 +8,13 @@ class MessagesController < ApplicationController
 
   def new
     type, id = params.require(:recipient_key).split('/')
-    @message = @sender.sent_messages.new(recipient_type: type, recipient_id: id)
+    @project = @sender.projects.find(params.require(:project_id))
+    @message = @sender.sent_messages.new(recipient_type: type, recipient_id: id, project: @project)
   end
 
   def create
-    @message = @sender.sent_messages.new(message_params)
+    @project = @sender.projects.find(params.require(:project_id))
+    @message = @sender.sent_messages.new(message_params.merge(project: @project))
     render :new unless @message.send_as_email!
   end
 

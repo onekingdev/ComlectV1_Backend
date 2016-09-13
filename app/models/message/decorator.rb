@@ -16,9 +16,9 @@ class Message::Decorator < ApplicationDecorator
 
   def form_url
     if sender_type == 'Business'
-      h.url_for [:business, self]
+      h.url_for [:business, self, { project_id: project.id }]
     else
-      h.url_for [sender_type.underscore.to_sym, self]
+      h.url_for [sender_type.underscore.to_sym, self, { project_id: project.id }]
     end
   end
 end

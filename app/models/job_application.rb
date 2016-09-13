@@ -12,6 +12,7 @@ class JobApplication < ActiveRecord::Base
     # TODO: Adjust when implementing rounding
     joins(specialist: :work_experiences)
       .select('job_applications.*, SUM((COALESCE("to", NOW())::date - "from"::date) / 365) AS years_of_experience')
+      .where(work_experiences: { id: WorkExperience.compliance })
       .group(:id)
       .order("years_of_experience DESC")
   }
