@@ -6,6 +6,7 @@ class Project::Decorator < ApplicationDecorator
   delegate_all
 
   def status_text
+    return 'Escalated' if escalated?
     return 'Active' if active?
     return 'Complete' if complete?
     'Pending'

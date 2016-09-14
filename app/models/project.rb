@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+# rubocop:disable Metrics/ClassLength
 class Project < ActiveRecord::Base
   self.inheritance_column = '_none'
 
@@ -109,6 +110,10 @@ class Project < ActiveRecord::Base
 
   def application(specialist)
     job_applications.where(specialist_id: specialist.id)
+  end
+
+  def escalated?
+    issues.open.any?
   end
 
   def applied?(specialist)
