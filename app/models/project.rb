@@ -106,6 +106,10 @@ class Project < ActiveRecord::Base
     end_request.present?
   end
 
+  def extension_requested?
+    extension.present?
+  end
+
   def to_s
     title
   end

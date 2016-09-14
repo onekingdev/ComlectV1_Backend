@@ -16,8 +16,9 @@ class ProjectExtension::Request < Draper::Decorator
 
   def self.confirm_or_deny!(project, params)
     if params[:confirm]
-      project.extension.confirm!
-      project.update_attribute :ends_on, new_end_date
+      extension = project.extension
+      extension.confirm!
+      project.update_attribute :ends_on, extension.new_end_date
     elsif params[:deny]
       project.end_request.deny!
     end
