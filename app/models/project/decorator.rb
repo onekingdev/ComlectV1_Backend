@@ -30,10 +30,12 @@ class Project::Decorator < ApplicationDecorator
   end
 
   def specialist_project_href(specialist)
+    return h.project_path(self) if full_time?
     specialist == model.specialist ? h.project_dashboard_path(self) : h.project_path(self)
   end
 
   def business_project_href
+    return h.business_project_path(self) if full_time?
     complete? || active? ? h.business_project_dashboard_path(self) : h.business_project_path(self)
   end
 
