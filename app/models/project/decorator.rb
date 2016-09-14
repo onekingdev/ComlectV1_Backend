@@ -20,6 +20,14 @@ class Project::Decorator < ApplicationDecorator
     end
   end
 
+  def extension_popup
+    url = h.business_project_extensions_path(project)
+    h.form_for project.extensions.new, url: url, html: { class: 'js-project-extension-popover' } do |f|
+      f.hidden_field(:new_end_date, data: { min: (ends_on + 1).to_a(zero_based_month: true) }) +
+        f.submit('Extend', class: 'btn btn-primary btn-md btn-block m-t-1 disabled', disabled: true)
+    end
+  end
+
   def percent_complete
     return 0 unless starts_on && ends_on
     total = (ends_on - starts_on).to_f

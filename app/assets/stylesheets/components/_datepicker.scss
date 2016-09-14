@@ -1,3 +1,8 @@
 .picker__holder {
   min-width: 350px;
 }
+
+.btn-primary.js-datepicker {
+  background-color: $brand-primary !important;
+  cursor: pointer;
+}

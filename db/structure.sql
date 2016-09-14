@@ -1299,6 +1299,40 @@ ALTER SEQUENCE project_ends_id_seq OWNED BY project_ends.id;
 
 
 --
+-- Name: project_extensions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE project_extensions (
+    id integer NOT NULL,
+    project_id integer,
+    new_end_date date,
+    expires_at timestamp without time zone,
+    status character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: project_extensions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE project_extensions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: project_extensions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE project_extensions_id_seq OWNED BY project_extensions.id;
+
+
+--
 -- Name: project_invites; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1838,6 +1872,13 @@ ALTER TABLE ONLY project_ends ALTER COLUMN id SET DEFAULT nextval('project_ends_
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY project_extensions ALTER COLUMN id SET DEFAULT nextval('project_extensions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY project_invites ALTER COLUMN id SET DEFAULT nextval('project_invites_id_seq'::regclass);
 
 
@@ -2021,6 +2062,14 @@ ALTER TABLE ONLY payment_sources
 
 ALTER TABLE ONLY project_ends
     ADD CONSTRAINT project_ends_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: project_extensions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY project_extensions
+    ADD CONSTRAINT project_extensions_pkey PRIMARY KEY (id);
 
 
 --
@@ -2361,6 +2410,27 @@ CREATE INDEX index_project_ends_on_project_id ON project_ends USING btree (proje
 --
 
 CREATE INDEX index_project_ends_on_status ON project_ends USING btree (status);
+
+
+--
+-- Name: index_project_extensions_on_expires_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_project_extensions_on_expires_at ON project_extensions USING btree (expires_at);
+
+
+--
+-- Name: index_project_extensions_on_project_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_project_extensions_on_project_id ON project_extensions USING btree (project_id);
+
+
+--
+-- Name: index_project_extensions_on_status; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_project_extensions_on_status ON project_extensions USING btree (status);
 
 
 --
@@ -2877,4 +2947,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160909170614');
 INSERT INTO schema_migrations (version) VALUES ('20160913025529');
 
 INSERT INTO schema_migrations (version) VALUES ('20160913030250');
+
+INSERT INTO schema_migrations (version) VALUES ('20160914160717');
 
