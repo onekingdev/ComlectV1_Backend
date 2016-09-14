@@ -16,6 +16,6 @@ $(document).on 'confirm', '[data-confirm]', (e) ->
         callback: ->
           $.rails.handleMethod($this)
 
-  options.title = $this.attr('title') if $this.attr('title').length > 0
+  options.title = $this.attr('title') if $this.attr('title') && $this.attr('title').length > 0
   bootbox.dialog options
   return false
