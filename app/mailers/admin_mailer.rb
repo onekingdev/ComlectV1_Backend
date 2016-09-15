@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 class AdminMailer < ApplicationMailer
   def admin_email(email, subject, body)
-    @message_text = body
-    @message_html = body
+    @body = body
     mail to: email,
          template_id: ENV.fetch('POSTMARK_TEMPLATE_ID'),
          template_model: {
