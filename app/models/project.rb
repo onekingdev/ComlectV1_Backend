@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+# rubocop:disable Metrics/ClassLength
 class Project < ActiveRecord::Base
   self.inheritance_column = '_none'
 
@@ -17,6 +18,8 @@ class Project < ActiveRecord::Base
   has_one :end_request, -> { pending }, class_name: 'ProjectEnd'
   has_many :ratings, dependent: :destroy
   has_many :charges, dependent: :destroy
+  has_many :extensions, dependent: :destroy, class_name: 'ProjectExtension'
+  has_one :extension, -> { pending }, class_name: 'ProjectExtension'
 
   scope :visible, -> { joins(business: :user).where(users: { deleted: false }) }
   scope :recent, -> { order(created_at: :desc) }
@@ -103,12 +106,20 @@ class Project < ActiveRecord::Base
     end_request.present?
   end
 
+  def extension_requested?
+    extension.present?
+  end
+
   def to_s
     title
   end
 
   def application(specialist)
     job_applications.where(specialist_id: specialist.id)
+  end
+
+  def escalated?
+    issues.open.any?
   end
 
   def applied?(specialist)

@@ -3,6 +3,8 @@ class ProjectEnd::Request < Draper::Decorator
   decorates ProjectEnd
   delegate_all
 
+  # TODO: Schedule expiring stale requests
+
   def self.process!(project)
     expires_at = 1.business_day.after(project.business.tz.now)
     # Delete previous request if any

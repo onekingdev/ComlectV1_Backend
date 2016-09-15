@@ -1,0 +1,22 @@
+#project-extension-picker-container {
+  #project_extension_new_end_date {
+    display: none;
+  }
+
+  .popover {
+    max-width: none;
+  }
+
+  .picker {
+    position: relative;
+  }
+
+  .picker__holder {
+    border: 0;
+    max-height: none;
+    position: relative;
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}

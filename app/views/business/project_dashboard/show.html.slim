@@ -32,11 +32,18 @@
               div style="line-height: 40px;" = project.ends_on.strftime('%d %b %Y')
 
             - unless project.complete?
-              .m-t-2
+              #project-extension-picker-container.m-t-2
                 button.btn.btn-block.btn-primary.btn-md.m-b-1 data-method="post" data-remote="true" data-url=business_project_ends_path data-confirm="Are you sure you want to end this project?"
                   'End Project
-                / TODO: extend project link
-                a.btn.btn-block.btn-primary.btn-md href="#" Extend Project
+                button#js-project-extension.btn.btn-block.btn-primary.btn-md.m-b-1[
+                  data-toggle="popover"
+                  data-placement="bottom"
+                  data-content="#{project.extension_popup.to_str}"
+                  data-html="true"
+                  data-container="#project-extension-picker-container"
+                ]
+                  'Extend Project
+
 
       .col-xs-12.col-md-9
         .panel.panel-default

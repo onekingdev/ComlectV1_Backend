@@ -6,6 +6,7 @@ class Project::Decorator < ApplicationDecorator
   delegate_all
 
   def status_text
+    return 'Escalated' if escalated?
     return 'Active' if active?
     return 'Complete' if complete?
     'Pending'
@@ -19,6 +20,14 @@ class Project::Decorator < ApplicationDecorator
     end
   end
 
+  def extension_popup
+    url = h.business_project_extensions_path(project)
+    h.form_for project.extensions.new, url: url, html: { class: 'js-project-extension-popover' } do |f|
+      f.hidden_field(:new_end_date, data: { min: (ends_on + 1).to_a(zero_based_month: true) }) +
+        f.submit('Extend', class: 'btn btn-primary btn-md btn-block m-t-1 disabled', disabled: true)
+    end
+  end
+
   def percent_complete
     return 0 unless starts_on && ends_on
     total = (ends_on - starts_on).to_f
@@ -29,10 +38,12 @@ class Project::Decorator < ApplicationDecorator
   end
 
   def specialist_project_href(specialist)
+    return h.project_path(self) if full_time?
     specialist == model.specialist ? h.project_dashboard_path(self) : h.project_path(self)
   end
 
   def business_project_href
+    return h.business_project_path(self) if full_time?
     complete? || active? ? h.business_project_dashboard_path(self) : h.business_project_path(self)
   end
 
