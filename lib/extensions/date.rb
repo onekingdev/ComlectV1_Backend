@@ -13,8 +13,4 @@ class Date
       [weeks, days].join(' ')
     end
   end
-
-  def to_a(zero_based_month: false)
-    [year, month - (zero_based_month ? 1 : 0), day]
-  end
 end

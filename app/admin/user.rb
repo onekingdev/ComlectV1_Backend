@@ -2,8 +2,17 @@
 ActiveAdmin.register User do
   menu priority: 100
 
+  batch_action :send_email_to, form: {
+    subject: :text,
+    body: :textarea
+  } do |ids, inputs|
+    User.where(id: ids).pluck(:email).uniq.each do |email|
+      AdminMailer.admin_email(email, inputs[:subject], inputs[:body]).deliver
+    end
+    redirect_to collection_path, notice: "Email will be send to selected #{'user'.pluralize(ids.length)}"
+  end
+
   filter :email
-  filter :current_sign_in_at
   filter :sign_in_count
   filter :created_at
 

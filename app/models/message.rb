@@ -58,6 +58,5 @@ class Message < ActiveRecord::Base
 
   def send_as_email!
     MessageMailer.deliver_later :first_contact, sender, recipient, message, project
-    true
   end
 end

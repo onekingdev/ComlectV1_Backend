@@ -12,7 +12,6 @@
 #= require ion.rangeSlider/js/ion.rangeSlider
 #= require percircle/src/js/percircle
 #= require accounting.js/accounting
-#= require parallax.js/parallax
 #= require_self
 #= require_tree ./utilities
 #= require_tree ./components
