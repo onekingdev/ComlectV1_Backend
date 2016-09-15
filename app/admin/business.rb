@@ -24,32 +24,40 @@ ActiveAdmin.register Business do
     column :employees
     column :website
     column :description
-    column :linkedin_link
     actions
   end
 
-  # show title: :business_name do
-  #   panel "Projects" do
-  #     table_for(business.projects) do
-  #       column :title
-  #       column :location
-  #       column :industry
-  #       column :jurisdiction
-  #       column :description
-  #       column :key_deliverables
-  #     end
-  #   end
-  # end
-
   permit_params :business_name, :employees, :website, :description, :linkedin_link, industry_ids: []
   form do |f|
-    inputs do
+    inputs name: 'Business Info' do
       input :business_name
       input :industries
       input :employees, as: :select, collection: Business::EMPLOYEE_OPTIONS
       input :website
-      input :description
       input :linkedin_link
+      input :description
+    end
+    inputs name: 'Location' do
+      input :address_1
+      input :address_2
+      input :zipcode
+      input :city
+      input :state
+      input :country
+      input :time_zone
+    end
+    inputs name: 'Jurisdiction' do
+      input :jurisdictions
+    end
+    inputs name: 'Visibility' do
+      input :anonymous
+    end
+    inputs name: 'Key Contact' do
+      input :contact_first_name, label: 'First Name'
+      input :contact_last_name, label: 'Last Name'
+      input :contact_email, label: 'Email'
+      input :contact_job_title, label: 'Job Title'
+      input :contact_phone, label: 'Phone'
     end
     f.actions
   end

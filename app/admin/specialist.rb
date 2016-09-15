@@ -26,15 +26,54 @@ ActiveAdmin.register Specialist do
 
   permit_params :first_name, :last_name, :city, :zipcode, :state, :country, :phone, :linkedin_link
   form do |f|
-    inputs do
-      input :first_name
-      input :last_name
-      input :city
-      input :zipcode
-      input :state
-      input :country, as: :select, collection: IsoCountryCodes.for_select.map(&:first)
-      input :phone
-      input :linkedin_link
+    f.inputs name: 'Contact Information' do
+      f.input :first_name
+      f.input :last_name
+      f.input :city
+      f.input :zipcode
+      f.input :state
+      f.input :country
+      f.input :phone
+      f.input :linkedin_link
+    end
+    f.inputs name: 'Work Experience' do
+      f.has_many :work_experiences, heading: false, allow_destroy: true do |a|
+        a.input :company
+        a.input :job_title
+        a.input :location
+        a.input :from
+        a.input :to
+        a.input :current
+        a.input :compliance
+        a.input :description, as: :text, input_html: { class: 'autogrow', rows: 10, cols: 20, maxlength: 10 }
+      end
+    end
+    f.inputs name: 'Areas of Expertise' do
+      f.input :jurisdictions
+      f.input :industries
+      f.input :former_regulator
+    end
+    f.inputs name: 'Skills' do
+      f.input :skills
+    end
+    f.inputs name: 'Education' do
+      f.has_many :education_histories, heading: false, allow_destroy: true do |a|
+        a.input :institution
+        a.input :degree
+        a.input :year
+      end
+    end
+    f.inputs name: 'Certifications' do
+      f.input :certifications
+    end
+    f.inputs name: 'Photo' do
+      # f.input :photo_data
+    end
+    f.inputs name: 'Resume' do
+      # f.input :resume_data
+    end
+    f.inputs name: 'Visibility' do
+      f.input :visibility
     end
     f.actions
   end

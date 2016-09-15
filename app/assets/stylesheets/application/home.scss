@@ -1,4 +1,4 @@
-body.home.index {
+body.home.index, body.home.page {
   color: #000;
   background-color: #fafafa;
 
@@ -247,5 +247,64 @@ body.home.index {
 
   #footer {
     margin-top: 0;
+  }
+
+  .default-heading {
+    background: asset_url("home/graph-bg.jpg") no-repeat center;
+    height: 380px;
+
+    h1 {
+      background-color: rgba(0, 0, 0, 0.15);
+      margin: 0;
+      line-height: 380px;
+      color: #fff;
+      text-transform: uppercase;
+      font-size: 90px;
+      text-align: center;
+      font-weight: 700;
+    }
+  }
+
+  h4 {
+    font-family: Raleway;
+    color: $brand-primary;
+    text-transform: uppercase;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 2rem;
+  }
+
+  .collapsible-list {
+    padding: 0;
+    list-style: none;
+
+    li {
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 16px;
+
+      span {
+        margin-bottom: 1rem;
+        display: inline-block;
+      }
+
+      &:before {
+        content: "-";
+        margin-right: 5px;
+      }
+
+      &.collapsed:before {
+        content: "+";
+      }
+
+      .collapse, .collapsing {
+        font-weight: normal;
+        font-size: 14px;
+      }
+    }
+
+    li + li {
+      margin-top: 1rem;
+    }
   }
 }

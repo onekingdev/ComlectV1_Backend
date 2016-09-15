@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   }
 
   root to: 'home#index'
+  get 'info/:page' => 'home#page', as: :page
   get 'app_config' => 'home#app_config', format: 'js'
 
   resources :businesses, only: %i(index new create show)

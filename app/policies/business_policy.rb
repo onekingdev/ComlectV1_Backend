@@ -12,7 +12,7 @@ class BusinessPolicy < ApplicationPolicy
   end
 
   def update?
-    owner?
+    owner? || user.is_a?(AdminUser)
   end
 
   def owner?
