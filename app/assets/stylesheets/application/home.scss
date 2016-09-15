@@ -1,4 +1,7 @@
 body.home.index {
+  color: #000;
+  background-color: #fafafa;
+
   .nav-padding {
     padding: 0 90px;
   }
@@ -72,6 +75,81 @@ body.home.index {
 
     @media (max-width: $screen-sm-max) {
       margin-right: 0;
+    }
+  }
+
+  h2 {
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 40px;
+    font-weight: 700;
+    font-family: Raleway;
+    font-style: normal;;
+  }
+
+  h3 {
+    font-size: 20px;
+    font-weight: 700;
+    font-family: Raleway;
+    text-transform: uppercase;
+  }
+
+  .how-it-works {
+    position: relative;
+    overflow: hidden;
+
+    &:before {
+      content: "";
+      width: 1px;
+      position: absolute;
+      left: 50%;
+      top: 0;
+      border-left: 1px dashed #000;
+      height: 1000px;
+    }
+
+    .last-step {
+      height: 11em;
+      background-color: #fafafa;
+    }
+
+    @media (max-width: $screen-sm-max) {
+      text-align: center;
+
+      &:before {
+        display: none;
+      }
+
+      h3 {
+        margin-top: 1em !important;
+      }
+
+      .step {
+        margin-top: 1em !important;
+      }
+
+      .last-step {
+        height: auto;
+      }
+
+      .descriptions {
+        padding: 0 3em;
+      }
+    }
+
+    .steps {
+      text-align: center;
+
+      .step {
+        background: #f3f3f3;
+        width: 56px;
+        height: 56px;
+        border: 2px solid #000;
+        border-radius: 50%;
+        line-height: 52px;
+        font-size: 20px;
+        margin: 0 auto;
+      }
     }
   }
 }
