@@ -19,6 +19,8 @@ class Specialist < ActiveRecord::Base
   has_one :stripe_account, dependent: :destroy
   has_many :email_threads, dependent: :destroy
 
+  accepts_nested_attributes_for :education_histories, :work_experiences
+
   scope :preload_associations, -> {
     preload(:user, :work_experiences, :education_histories, :industries, :jurisdictions, :skills)
   }

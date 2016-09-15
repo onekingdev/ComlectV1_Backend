@@ -49,7 +49,7 @@ ActiveAdmin.register Business do
     inputs name: 'Jurisdiction' do
       input :jurisdictions
     end
-    inputs name: 'Privacy' do
+    inputs name: 'Visibility' do
       input :anonymous
     end
     inputs name: 'Key Contact' do
