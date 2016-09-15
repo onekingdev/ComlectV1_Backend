@@ -263,6 +263,12 @@ body.home.index, body.home.page {
       text-align: center;
       font-weight: 700;
     }
+
+    @media (max-width: $screen-xs-max) {
+      h1 {
+        font-size: 40px;
+      }
+    }
   }
 
   h4 {
@@ -305,6 +311,37 @@ body.home.index, body.home.page {
 
     li + li {
       margin-top: 1rem;
+    }
+  }
+
+  .team-members {
+    width: 85%;
+    margin: 0 auto;
+
+    .team-member {
+      text-align: center;
+      width: 209px;
+
+      img {
+        border-radius: 50%;
+      }
+
+      .name {
+        text-transform: uppercase;
+        font-size: 20px;
+        font-weight: 700;
+        margin-top: 1rem;
+      }
+
+      .position {
+        font-size: 17px;
+        margin: 0.3rem 0;
+      }
+
+      .linkedin {
+        color: #0070b3;
+        font-size: 40px;
+      }
     }
   }
 }
