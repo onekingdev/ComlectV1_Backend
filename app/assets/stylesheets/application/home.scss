@@ -1,0 +1,155 @@
+body.home.index {
+  color: #000;
+  background-color: #fafafa;
+
+  .nav-padding {
+    padding: 0 90px;
+  }
+
+  #nav {
+    background-color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.3) 0 0 3px 2px;
+
+    a {
+      color: #000;
+
+      &:hover {
+        color: $brand-primary;
+      }
+    }
+  }
+
+  > .container {
+    width: auto;
+    padding: 0;
+  }
+
+  .hero-image {
+    background: no-repeat fixed center;
+    background-size: cover;
+    color: #000;
+
+    .btn {
+      border-radius: 7px;
+      border: 3px solid rgba(243, 243, 243, 1.0);
+      background-color: rgba(243, 243, 243, 1.0);
+      transition: background-color 0.5s ease,
+                  border-color 0.5s ease,
+                  color 0.5s ease;
+
+      &:hover {
+        border-color: rgba($brand-primary, 1.0);
+        background-color: rgba(243, 243, 243, 0);
+        color: rgba($brand-primary, 1.0);
+      }
+    }
+  }
+
+  .slogan {
+    font-size: 90px;
+    font-weight: 700;
+    color: #000;
+    text-transform: uppercase;
+    line-height: 0.9;
+    margin-top: 0;
+    padding: 0 25px;
+    margin-right: 40px;
+
+    span {
+      color: $brand-primary;
+      display: block;
+      margin-top: -8px;
+      border-top: 3px solid $brand-primary;
+      line-height: 0.7;
+      margin-left: -25px;
+      padding-left: 25px;
+    }
+
+    @media (max-width: $screen-md-max) {
+      font-size: 70px;
+    }
+
+    @media (max-width: $screen-xs-max) {
+      font-size: 40px;
+    }
+
+    @media (max-width: $screen-sm-max) {
+      margin-right: 0;
+    }
+  }
+
+  h2 {
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 40px;
+    font-weight: 700;
+    font-family: Raleway;
+    font-style: normal;;
+  }
+
+  h3 {
+    font-size: 20px;
+    font-weight: 700;
+    font-family: Raleway;
+    text-transform: uppercase;
+  }
+
+  .how-it-works {
+    position: relative;
+    overflow: hidden;
+
+    &:before {
+      content: "";
+      width: 1px;
+      position: absolute;
+      left: 50%;
+      top: 0;
+      border-left: 1px dashed #000;
+      height: 1000px;
+    }
+
+    .last-step {
+      height: 11em;
+      background-color: #fafafa;
+    }
+
+    @media (max-width: $screen-sm-max) {
+      text-align: center;
+
+      &:before {
+        display: none;
+      }
+
+      h3 {
+        margin-top: 1em !important;
+      }
+
+      .step {
+        margin-top: 1em !important;
+      }
+
+      .last-step {
+        height: auto;
+      }
+
+      .descriptions {
+        padding: 0 3em;
+      }
+    }
+
+    .steps {
+      text-align: center;
+
+      .step {
+        background: #f3f3f3;
+        width: 56px;
+        height: 56px;
+        border: 2px solid #000;
+        border-radius: 50%;
+        line-height: 52px;
+        font-size: 20px;
+        margin: 0 auto;
+      }
+    }
+  }
+}

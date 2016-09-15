@@ -21,6 +21,7 @@
     "ion.rangeSlider": "ionrangeslider#~2.1.4",
     "percircle": "~1.0.14",
     "accounting.js": "~0.4.1",
-    "webui-popover": "~1.2.13"
+    "webui-popover": "~1.2.13",
+    "parallax.js": "~1.4.2"
   }
 }
