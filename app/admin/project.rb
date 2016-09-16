@@ -12,6 +12,12 @@ ActiveAdmin.register Project do
   scope :active
   scope :complete
 
+  controller do
+    def scoped_collection
+      super.includes :ratings, :issues
+    end
+  end
+
   index do
     column :title
     column :location
@@ -23,7 +29,17 @@ ActiveAdmin.register Project do
     end
     column :description
     column :key_deliverables
-    actions
+    column 'Escalated' do |project|
+      project.escalated? ? status_tag('yes', :ok) : status_tag('no')
+      link_to 'Issues', admin_issues_path(q: { project_id_eq: project.id }) if project.escalated?
+    end
+    actions do |project|
+      if project.ratings.count > 0
+        link_to 'Ratings', admin_ratings_path(q: { project_id_eq: project.id })
+      else
+        'No Ratings yet'
+      end
+    end
   end
 
   permit_params :title,

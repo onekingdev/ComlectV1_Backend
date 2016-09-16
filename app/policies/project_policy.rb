@@ -10,7 +10,15 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def update?
-    owner? && record.job_applications.empty?
+    owner? && record.job_applications.empty? || (user.is_a?(AdminUser) && admin_can_update?)
+  end
+
+  def admin_can_update?
+    (!record.active? && !record.complete?) || admin_is_assigned_to_project?
+  end
+
+  def admin_is_assigned_to_project?
+    record.issues.open.where(admin_user: user).any?
   end
 
   def destroy?

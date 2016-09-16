@@ -110,6 +110,10 @@ class Project < ActiveRecord::Base
     extension.present?
   end
 
+  def parties
+    [business, specialist]
+  end
+
   def to_s
     title
   end
