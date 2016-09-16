@@ -5,7 +5,7 @@ ActiveAdmin.register User do
     body: :textarea
   } do |ids, inputs|
     User.where(id: ids).pluck(:email).uniq.each do |email|
-      AdminMailer.admin_email(email, inputs[:subject], inputs[:body]).deliver
+      AdminMailer.admin_email(email, inputs[:subject], inputs[:body]).deliver_later
     end
     redirect_to collection_path, notice: "Email will be send to selected #{'user'.pluralize(ids.length)}"
   end
