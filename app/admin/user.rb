@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 ActiveAdmin.register User do
-  menu priority: 100
-
   batch_action :send_email_to, form: {
     subject: :text,
     body: :textarea
@@ -10,6 +8,11 @@ ActiveAdmin.register User do
       AdminMailer.admin_email(email, inputs[:subject], inputs[:body]).deliver
     end
     redirect_to collection_path, notice: "Email will be send to selected #{'user'.pluralize(ids.length)}"
+  end
+
+  member_action :lock, method: :put do
+    resource.lock!
+    redirect_to resource_path, notice: "Locked!"
   end
 
   filter :email
