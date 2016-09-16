@@ -1,6 +1,5 @@
 - success = local_assigns.key?(:success) ? local_assigns[:success] : false
-- url = issue.persisted? ? project_issue_path(issue.project, issue) : project_issues_path(issue.project)
-= simple_form_for issue, url: url, remote: true do |f|
+= simple_form_for issue, url: project_issues_path(issue.project), remote: true do |f|
   = f.input :issue, required: false, input_html: { rows: 6 }, label_html: { class: 'strong' }
   = f.input :desired_resolution, label: 'Desired Resolution', required: false, input_html: { rows: 6 }, label_html: { class: 'strong' }
 
