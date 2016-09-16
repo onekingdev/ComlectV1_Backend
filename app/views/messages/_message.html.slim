@@ -1,4 +1,6 @@
 - is_me = message.sender?(me)
+.messages-day class= "messge-day-#{message.created_at.in_time_zone(me.time_zone).strftime('%Y%m%d')}"
+  = message.created_at.in_time_zone(me.time_zone).strftime('%B %d')
 .message class=(is_me ? 'me' : 'them') data-message-id=message.id
   .text= simple_format message.message
   .author= is_me ? 'Me' : message.sender
