@@ -6,6 +6,10 @@ body.home.index, body.home.page {
     padding: 0 90px;
   }
 
+  .double-margin-p p {
+    margin-bottom: 2rem;
+  }
+
   #nav {
     background-color: #fff;
     box-shadow: rgba(0, 0, 0, 0.3) 0 0 3px 2px;
@@ -284,7 +288,7 @@ body.home.index, body.home.page {
     padding: 0;
     list-style: none;
 
-    li {
+    > li {
       cursor: pointer;
       font-weight: 700;
       font-size: 16px;
@@ -306,6 +310,14 @@ body.home.index, body.home.page {
       .collapse, .collapsing {
         font-weight: normal;
         font-size: 14px;
+      }
+    }
+
+    li.section {
+      cursor: default;
+
+      &:before {
+        display: none;
       }
     }
 
@@ -342,6 +354,63 @@ body.home.index, body.home.page {
         color: #0070b3;
         font-size: 40px;
       }
+    }
+  }
+
+  ol {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .ol-letters {
+    list-style-type: lower-alpha;
+  }
+
+  .ol-numerals {
+    list-style-type: lower-roman;
+  }
+
+  .partners-list .partner {
+    .your-business {
+      display: inline-block;
+      border: 3px solid #999;
+      border-radius: 50%;
+      width: 150px;
+      height: 150px;
+      position: relative;
+
+      &:before {
+        content: "+";
+        position: absolute;
+        color: #999;
+        font-size: 110px;
+        font-family: Arial;
+        text-align: center;
+        width: 150px;
+        height: 150px;
+        line-height: 150px;
+        left: 0;
+        top: 0;
+      }
+    }
+
+    span {
+      padding: 3rem 0;
+      display: block;
+    }
+  }
+
+  .partner-callout {
+    color: $brand-primary;
+    text-transform: uppercase;
+    margin: 80px 0;
+    font-size: 40px;
+    font-weight: 700;
+    text-align: center;
+
+    a:hover {
+      text-decoration: none;
+      color: $brand-primary;
     }
   }
 }
