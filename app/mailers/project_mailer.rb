@@ -25,6 +25,18 @@ class ProjectMailer < ApplicationMailer
          }
   end
 
+  def escalate(project_issue)
+    @project_issue = project_issue
+    @project = @project_issue.project
+    mail to: 'help@complect.co',
+         template_id: ENV.fetch('POSTMARK_TEMPLATE_ID'),
+         template_model: {
+           subject: "The project \"#{@project.title}\" has been escalated",
+           message_html: render('escalate.html'),
+           message_text: render('escalate.text')
+         }
+  end
+
   def end_request(project)
     @project = project
     specialist = project.specialist

@@ -1,6 +1,14 @@
 $.onContentReady ($parent, data) ->
   $messages = if $parent.hasClass('message-thread') then $parent.find('.messages') else $parent.find('.message-thread .messages')
 
+  group_messages_by_day = ->
+    $message_days = $('.messages-day').map -> $(this).attr('class').split(' ')[1]
+    $.uniqueSort($message_days).each (_, message_day) ->
+      $(".#{message_day}:first").show()
+      $(".#{message_day}:not(:first)").hide()
+
+  group_messages_by_day()
+
   if $messages.length != 0 && $('.messages').is(':visible')
     setInterval ->
       if $('.messages').is(':visible')
@@ -36,6 +44,7 @@ $.onContentReady ($parent, data) ->
       $messages.attr 'data-page', page
       $messages.prepend data
       $messages.scrollTop $messages[0].scrollHeight - prevScrollHeight + prevScrollTop
+      group_messages_by_day()
 
     request
       .fail ->

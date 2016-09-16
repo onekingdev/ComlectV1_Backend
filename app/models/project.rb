@@ -21,6 +21,8 @@ class Project < ActiveRecord::Base
   has_many :extensions, dependent: :destroy, class_name: 'ProjectExtension'
   has_one :extension, -> { pending }, class_name: 'ProjectExtension'
 
+  accepts_nested_attributes_for :extensions, :timesheets
+
   scope :visible, -> { joins(business: :user).where(users: { deleted: false }) }
   scope :recent, -> { order(created_at: :desc) }
   scope :draft_and_in_review, -> { where(status: %w(draft review)) }
@@ -108,6 +110,10 @@ class Project < ActiveRecord::Base
 
   def extension_requested?
     extension.present?
+  end
+
+  def parties
+    [business, specialist]
   end
 
   def to_s
