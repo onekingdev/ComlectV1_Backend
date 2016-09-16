@@ -20,6 +20,7 @@ ActiveAdmin.register Specialist do
     column :state
     column :country
     column :phone
+    column :linkedin_link
     actions
   end
 

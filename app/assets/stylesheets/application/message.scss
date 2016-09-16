@@ -1,14 +1,4 @@
 .message-thread {
-  .messages-day {
-    clear: both;
-    width: 100%;
-    float: left;
-    text-align: center;
-    margin: 20px;
-    font-weight: bold;
-    color: darken($gray-lighter, 50%);
-  }
-
   .messages {
     max-height: 300px;
     overflow-y: auto;

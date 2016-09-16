@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 ActiveAdmin.register_page "Metrics" do
+  menu priority: 50
+
   content title: 'Metrics' do
     def render_rows(rows, level = 0)
       rows.each do |name, values|

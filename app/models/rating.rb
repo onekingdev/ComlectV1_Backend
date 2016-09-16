@@ -14,10 +14,6 @@ class Rating < ActiveRecord::Base
 
   validates :review, presence: true, if: -> { value.blank? || value < 4 }
 
-  def to
-    (project.parties - [rater]).first
-  end
-
   private
 
   def update_stats

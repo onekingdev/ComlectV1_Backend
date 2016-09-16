@@ -6,7 +6,7 @@ nav#nav.navbar.navbar-default.navbar-inverse
       span.icon-bar
       span.icon-bar
     a.navbar-brand href=root_path
-      = yield(:logo) || image_tag('logo.png', size: '178x42')
+      = yield(:logo).presence || image_tag('logo.png', size: '178x42')
 
   #navbar-collapse.collapse.navbar-collapse
     ul.nav.navbar-nav
