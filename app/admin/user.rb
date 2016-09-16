@@ -10,10 +10,13 @@ ActiveAdmin.register User do
     redirect_to collection_path, notice: "Email will be send to selected #{'user'.pluralize(ids.length)}"
   end
 
-  member_action :lock, method: :put do
-    resource.lock!
-    redirect_to resource_path, notice: "Locked!"
+  member_action :toggle_suspend, method: :post do
+    resource.deleted? ? resource.unfreeze! : resource.freeze!
+    redirect_to collection_path, notice: resource.deleted? ? 'Suspended' : 'Reactivated'
   end
+
+  scope("Active") { |scope| scope.where(deleted: false) }
+  scope("Suspended") { |scope| scope.where(deleted: true) }
 
   filter :email
   filter :sign_in_count
@@ -26,7 +29,9 @@ ActiveAdmin.register User do
     column :current_sign_in_at
     column :sign_in_count
     column :created_at
-    actions
+    actions do |user|
+      link_to (user.deleted? ? 'Reactivate' : 'Suspend'), toggle_suspend_admin_user_path(user), method: :post
+    end
   end
 
   permit_params :email, :password, :password_confirmation

@@ -16,6 +16,15 @@ class User < ActiveRecord::Base
     payment_sources.any?
   end
 
+  def freeze!
+    freeze_business_account! if business
+    freeze_specialist_account! if specialist
+  end
+
+  def unfreeze!
+    update_attribute :deleted, false
+  end
+
   def freeze_business_account!
     transaction do
       update_attribute :deleted, true
