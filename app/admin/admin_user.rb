@@ -5,6 +5,12 @@ ActiveAdmin.register AdminUser, as: 'Customer Service Accounts' do
   scope :super_admin
   scope :cusomter_representative
 
+  config.clear_action_items!
+
+  action_item only: :index do
+    link_to "New Customer Service Representative", new_admin_customer_service_account_path
+  end
+
   index do
     selectable_column
     id_column
