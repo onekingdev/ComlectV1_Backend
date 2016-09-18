@@ -21,5 +21,3 @@ end
    investmentcompany investmentcompanyact investmentadvisersact).each do |name|
   Skill.find_or_create_by! name: "##{name}"
 end
-
-load Rails.root.join('db', 'seeds', 'sample_data.rb') if ENV['SAMPLE_DATA']

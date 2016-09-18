@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 ActiveAdmin.register Specialist do
+  menu parent: 'Users'
   actions :all, except: %i(show new)
   filter :user_email_cont, label: 'Email'
   filter :first_name_or_last_name_cont, as: :string, label: 'Name'

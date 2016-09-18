@@ -4,8 +4,7 @@ ActiveAdmin.register Project do
   filter :title
   filter :business
 
-  scope :visible
-  scope :recent
+  scope :escalated
   scope :draft_and_in_review
   scope :published
   scope :pending
