@@ -9,6 +9,7 @@ gem 'rails', '4.2.7'
 gem 'pg', '~> 0.15'
 gem 'pg_search', '~> 1.0.6'
 gem 'scenic'
+gem 'faker'
 
 # Orchestration
 gem 'puma', '~> 3.4.0'
@@ -80,7 +81,6 @@ group :development, :test do
 
   # Testing
   gem 'factory_girl_rails'
-  gem 'faker'
 
   # Code Quality
   gem 'rubocop', require: false

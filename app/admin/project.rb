@@ -71,11 +71,6 @@ ActiveAdmin.register Project do
       f.input :calculated_budget, as: :readonly
       f.input :job_applications_count, as: :readonly
     end
-    f.inputs 'Extensions' do
-      f.has_many :extensions do |a|
-        a.input :status, collection: ProjectExtension.statuses
-      end
-    end
     f.inputs 'Timesheets' do
       f.has_many :timesheets do |a|
         a.input :status, collection: Timesheet.statuses

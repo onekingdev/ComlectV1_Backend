@@ -533,10 +533,10 @@ CREATE TABLE projects (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     tsv tsvector,
-    calculated_budget numeric,
     lat numeric(9,5),
     lng numeric(9,5),
     point geography,
+    calculated_budget numeric,
     specialist_id integer,
     job_applications_count integer DEFAULT 0 NOT NULL
 );
@@ -1379,7 +1379,8 @@ CREATE TABLE project_issues (
     desired_resolution text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    status character varying DEFAULT 'open'::character varying NOT NULL
+    status character varying DEFAULT 'open'::character varying NOT NULL,
+    admin_user_id integer
 );
 
 
@@ -2462,6 +2463,13 @@ CREATE INDEX index_project_invites_on_status ON project_invites USING btree (sta
 
 
 --
+-- Name: index_project_issues_on_admin_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_project_issues_on_admin_user_id ON project_issues USING btree (admin_user_id);
+
+
+--
 -- Name: index_project_issues_on_project_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2827,6 +2835,14 @@ ALTER TABLE ONLY stripe_accounts
 
 
 --
+-- Name: fk_rails_80e6243750; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY project_issues
+    ADD CONSTRAINT fk_rails_80e6243750 FOREIGN KEY (admin_user_id) REFERENCES admin_users(id);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
@@ -2949,4 +2965,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160913025529');
 INSERT INTO schema_migrations (version) VALUES ('20160913030250');
 
 INSERT INTO schema_migrations (version) VALUES ('20160914160717');
+
+INSERT INTO schema_migrations (version) VALUES ('20160916041708');
 
