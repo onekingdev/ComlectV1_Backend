@@ -45,7 +45,6 @@ ActiveAdmin.register Project do
                 :location,
                 :description,
                 :key_deliverables,
-                :specialist_id,
                 industry_ids: [],
                 jurisdiction_ids: []
   form do |f|
@@ -56,7 +55,6 @@ ActiveAdmin.register Project do
       f.input :jurisdictions
       f.input :description, as: :text
       f.input :key_deliverables
-      f.input :specialist
       f.input :starts_on
       f.input :ends_on
       f.input :payment_schedule, collection: Project::PAYMENT_SCHEDULES
