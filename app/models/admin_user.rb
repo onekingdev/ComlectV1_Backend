@@ -3,6 +3,6 @@ class AdminUser < ActiveRecord::Base
   devise :database_authenticatable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  scope :super_admin, -> { where(super_admin: true) }
+  scope :admin, -> { where(super_admin: true) }
   scope :cusomter_representative, -> { where(super_admin: false) }
 end

@@ -2,7 +2,7 @@
 ActiveAdmin.register AdminUser, as: 'Customer Service Accounts' do
   filter :email
 
-  scope :super_admin
+  scope :admin
   scope :cusomter_representative
 
   config.clear_action_items!
@@ -28,7 +28,7 @@ ActiveAdmin.register AdminUser, as: 'Customer Service Accounts' do
       f.input :email
       f.input :password
       f.input :password_confirmation
-      f.input :super_admin
+      f.input 'Admin', :super_admin
     end
     f.actions
   end
