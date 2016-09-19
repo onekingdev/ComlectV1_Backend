@@ -33,7 +33,7 @@ class Project < ActiveRecord::Base
   scope :accessible_by, -> (user) {
     # Accessible by project owner, hired specialist, or everyone if it's published
     joins(:business).joins('LEFT OUTER JOIN specialists ON specialists.id = projects.specialist_id')
-                    .where('businesses.user_id = :user_id OR projects.specialist_id = :user_id OR status = :status',
+                    .where('businesses.user_id = :user_id OR specialists.user_id = :user_id OR status = :status',
                            status: 'published', user_id: user.id)
   }
 
