@@ -62,11 +62,30 @@ $bootbox-width: 474px;
     color: #fff;
     text-align: left;
 
+    .bootbox-close-button {
+      color: transparent;
+      position: relative;
+      text-shadow: none;
+      opacity: 1.0;
+      margin-top: 0;
+      margin-right: 5px;
+
+      &:before {
+        font-family: FontAwesome;
+        position: absolute;
+        content: "";
+        font-size: 21px;
+        color: #000;
+        text-shadow: 0 1px 0 #fff;
+        opacity: 0.2;
+      }
+    }
   }
 
   .modal-title {
     font-family: Raleway;
     font-size: 18px;
+    font-weight: normal;
   }
 
   .modal-content {
