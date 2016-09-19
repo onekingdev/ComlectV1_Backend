@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 ActiveAdmin.register Business do
-  menu parent: 'Users'
-  filter :user_email_cont, label: 'Login Email'
-  filter :business_name, as: :string, label: 'Business Name'
+  filter :user_email_cont, label: 'Email'
+  filter :business_name, as: :string, label: 'Name'
 
   controller do
     def scoped_collection
@@ -13,10 +12,10 @@ ActiveAdmin.register Business do
   actions :all, except: %i(new show)
 
   index do
-    column :business_name, label: 'Business Name' do |business|
+    column :business_name, label: 'Name' do |business|
       link_to business.business_name, admin_projects_path(q: { business_id_eq: business.id })
     end
-    column 'Login Email', :user, sortable: 'users.email' do |business|
+    column 'Email', :user, sortable: 'users.email' do |business|
       business.user.email
     end
     column :industries do |business|

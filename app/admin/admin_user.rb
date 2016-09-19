@@ -2,14 +2,8 @@
 ActiveAdmin.register AdminUser, as: 'Customer Service Accounts' do
   filter :email
 
-  scope :admin
+  scope :super_admin
   scope :cusomter_representative
-
-  config.clear_action_items!
-
-  action_item only: :index do
-    link_to "New Customer Service Representative", new_admin_customer_service_account_path
-  end
 
   index do
     selectable_column
@@ -28,7 +22,7 @@ ActiveAdmin.register AdminUser, as: 'Customer Service Accounts' do
       f.input :email
       f.input :password
       f.input :password_confirmation
-      f.input 'Admin', :super_admin
+      f.input :super_admin
     end
     f.actions
   end
