@@ -4,7 +4,7 @@ $(document).on 'confirm', '[data-confirm]', (e) ->
   options =
     message: $this.data('confirm')
     backdrop: true
-    closeButton: if $this.data('close-button')? then $this.data('close-button') else true
+    closeButton: false
     className: 'confirm'
     buttons:
       cancel:
