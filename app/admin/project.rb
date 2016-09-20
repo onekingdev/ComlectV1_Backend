@@ -45,6 +45,17 @@ ActiveAdmin.register Project do
                 :location,
                 :description,
                 :key_deliverables,
+                :starts_on,
+                :ends_on,
+                :payment_schedule,
+                :fixed_budget,
+                :hourly_rate,
+                :estimated_hours,
+                :minimum_experience,
+                :only_regulators,
+                :annual_salary,
+                :fee_type,
+                :pricing_type,
                 industry_ids: [],
                 jurisdiction_ids: []
   form do |f|
@@ -65,7 +76,7 @@ ActiveAdmin.register Project do
       f.input :only_regulators
       f.input :annual_salary
       f.input :fee_type, collection: Project.fee_types
-      f.input :pricing_type, as: :readonly
+      f.input :pricing_type, collection: %w(hourly fixed)
       f.input :calculated_budget, as: :readonly
       f.input :job_applications_count, as: :readonly
     end

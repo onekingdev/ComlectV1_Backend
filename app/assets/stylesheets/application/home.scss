@@ -36,15 +36,14 @@ body.home.index, body.home.page {
     background: no-repeat fixed center;
     background-size: cover;
     color: #000;
-    overflow: hidden;
 
     .btn {
       border-radius: 7px;
       border: 3px solid rgba(243, 243, 243, 1.0);
       background-color: rgba(243, 243, 243, 1.0);
       transition: background-color 0.5s ease,
-      border-color 0.5s ease,
-      color 0.5s ease;
+                  border-color 0.5s ease,
+                  color 0.5s ease;
 
       &:hover {
         border-color: rgba($brand-primary, 1.0);
@@ -85,6 +84,22 @@ body.home.index, body.home.page {
     @media (max-width: $screen-sm-max) {
       margin-right: 0;
     }
+  }
+
+  h2 {
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 40px;
+    font-weight: 700;
+    font-family: Raleway;
+    font-style: normal;;
+  }
+
+  h3 {
+    font-size: 20px;
+    font-weight: 700;
+    font-family: Raleway;
+    text-transform: uppercase;
   }
 
   .how-it-works {
@@ -134,7 +149,7 @@ body.home.index, body.home.page {
       text-align: center;
 
       .step {
-        background: #fafafa;
+        background: #f3f3f3;
         width: 56px;
         height: 56px;
         border: 2px solid #000;
@@ -150,11 +165,9 @@ body.home.index, body.home.page {
     background-color: #2f2f2f;
     color: #fff;
     padding: 70px 0;
-    overflow: hidden;
   }
 
   .hero-light {
-    overflow: hidden;
     padding: 70px 0;
 
     .btn-primary {
@@ -210,7 +223,8 @@ body.home.index, body.home.page {
   }
 
   .hero-numbers {
-    background-color: rgba(0, 0, 0, 0.1);
+    height: 350px;
+    background-color: rgba(0, 0, 0, 0.3);
 
     @media (max-width: $screen-sm-max) {
       height: 450px;
@@ -259,6 +273,15 @@ body.home.index, body.home.page {
         font-size: 40px;
       }
     }
+  }
+
+  h4 {
+    font-family: Raleway;
+    color: $brand-primary;
+    text-transform: uppercase;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 2rem;
   }
 
   .collapsible-list {
@@ -334,6 +357,19 @@ body.home.index, body.home.page {
     }
   }
 
+  ol {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .ol-letters {
+    list-style-type: lower-alpha;
+  }
+
+  .ol-numerals {
+    list-style-type: lower-roman;
+  }
+
   .partners-list .partner {
     .your-business {
       display: inline-block;
@@ -376,48 +412,5 @@ body.home.index, body.home.page {
       text-decoration: none;
       color: $brand-primary;
     }
-  }
-}
-
-body.home.index .home-content, body.home.page .home-content {
-  font-family: "Glacial Indifference", Arial, sans-serif;
-  font-size: 16px;
-
-  h2 {
-    text-transform: uppercase;
-    text-align: center;
-    font-size: 40px;
-    font-weight: 700;
-    font-family: Raleway;
-    font-style: normal;;
-  }
-
-  h3 {
-    font-size: 20px;
-    font-weight: 700;
-    font-family: Raleway;
-    text-transform: uppercase;
-  }
-
-  h4 {
-    font-family: Raleway;
-    color: $brand-primary;
-    text-transform: uppercase;
-    font-size: 20px;
-    font-weight: 700;
-    margin-bottom: 2rem;
-  }
-
-  ol {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-  }
-
-  .ol-letters {
-    list-style-type: lower-alpha;
-  }
-
-  .ol-numerals {
-    list-style-type: lower-roman;
   }
 }
