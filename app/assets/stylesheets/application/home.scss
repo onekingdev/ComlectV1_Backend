@@ -36,6 +36,7 @@ body.home.index, body.home.page {
     background: no-repeat fixed center;
     background-size: cover;
     color: #000;
+    overflow: hidden;
 
     .btn {
       border-radius: 7px;
@@ -149,9 +150,11 @@ body.home.index, body.home.page {
     background-color: #2f2f2f;
     color: #fff;
     padding: 70px 0;
+    overflow: hidden;
   }
 
   .hero-light {
+    overflow: hidden;
     padding: 70px 0;
 
     .btn-primary {
