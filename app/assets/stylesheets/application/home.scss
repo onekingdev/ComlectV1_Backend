@@ -133,7 +133,7 @@ body.home.index, body.home.page {
       text-align: center;
 
       .step {
-        background: #f3f3f3;
+        background: #fafafa;
         width: 56px;
         height: 56px;
         border: 2px solid #000;
@@ -207,8 +207,7 @@ body.home.index, body.home.page {
   }
 
   .hero-numbers {
-    height: 350px;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.1);
 
     @media (max-width: $screen-sm-max) {
       height: 450px;
@@ -378,6 +377,9 @@ body.home.index, body.home.page {
 }
 
 body.home.index .home-content, body.home.page .home-content {
+  font-family: "Glacial Indifference", Arial, sans-serif;
+  font-size: 16px;
+
   h2 {
     text-transform: uppercase;
     text-align: center;
