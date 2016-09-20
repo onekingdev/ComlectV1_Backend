@@ -80,3 +80,13 @@
   bottom: 10px;
   right: 10px;
 }
+
+.send_on_enter {
+  display: inline;
+  position: relative;
+  bottom: -10px;
+  margin-right: 10px;
+  input[type="checkbox"] {
+    margin-right: 5px;
+  }
+}
