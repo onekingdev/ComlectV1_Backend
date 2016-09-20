@@ -39,6 +39,10 @@ class AdminUserPolicy < ApplicationPolicy
     user.super_admin?
   end
 
+  def toggle_suspend?
+    destroy?
+  end
+
   def scope
     Pundit.policy_scope!(user, record.class)
   end

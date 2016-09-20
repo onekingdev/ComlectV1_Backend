@@ -1,28 +1,34 @@
 - content_for :header_class, 'short'
 - content_for :logo, image_tag('logo-inverse.png', size: '178x42')
 
-.hero-image.default-heading
-  h1 Our Partners
+.home-content
+  .hero-image.default-heading
+    h1 Our Partners
 
-.container
-  p.m-y-3 We know freelancing can be intimidating. Breaking away from a job means taking on organizational responsibilities that you've not had to think about before. That's why we want to make the process as easy as possible for you by finding companies to help you on the road to being your own boss! From workspace to self-employment benefits, we want to have you covered. Check back periodically for new additions and sign up to see what partnership discounts are available to you as we grow our network!
+  .hero-light.p-b-1
+    .container
+      .row
+        .col-xs-12.col-md-8.col-md-push-2
+          p.m-b-3.small We know freelancing can be intimidating. Breaking away from a job means taking on organizational responsibilities that you've not had to think about before. That's why we want to make the process as easy as possible for you by finding companies to help you on the road to being your own boss! From workspace to self-employment benefits, we want to have you covered. Check back periodically for new additions and sign up to see what partnership discounts are available to you as we grow our network!
 
-  .row.p-y-3.text-center.partners-list
-    .col-xs-12.col-sm-6.col-md-4
-      .partner
-        = link_to image_tag('home/wework.png', size: '150x150', class: 'border-round'), 'http://www.wework.com', target: '_blank'
-        span WEWORK
-    .col-xs-12.col-sm-6.col-md-4
-      .partner
-        .your-business
-        span YOUR BUSINESS?
-    .col-xs-12.col-sm-6.col-md-4
-      .partner
-        .your-business
-        span STAY TUNED!
 
-  .partner-callout
-    'Would you like to partner with us? Get in touch at
-    = link_to 'info@complect.co', 'mailto:info@complect.co'
+  .nav-padding
+    .row.p-y-3.text-center.partners-list
+      .col-xs-12.col-sm-6.col-md-4
+        .partner
+          = link_to image_tag('home/wework.png', size: '150x150', class: 'border-round'), 'http://www.wework.com', target: '_blank'
+          span.small WEWORK
+      .col-xs-12.col-sm-6.col-md-4
+        .partner
+          .your-business
+          span.small YOUR BUSINESS?
+      .col-xs-12.col-sm-6.col-md-4
+        .partner
+          .your-business
+          span.small STAY TUNED!
 
-.m-y-3
+  .hero-light.p-t-0
+    .container
+      .partner-callout
+        'Would you like to partner with us? Get in touch at
+        = link_to 'info@complect.co', 'mailto:info@complect.co'

@@ -11,6 +11,12 @@ ActiveAdmin.register AdminUser, as: 'Customer Service Accounts' do
     link_to "New Customer Service Representative", new_admin_customer_service_account_path
   end
 
+  member_action :toggle_suspend, method: :post do
+    resource.suspended = !resource.suspended
+    resource.save
+    redirect_to collection_path, notice: resource.suspended ? 'Suspended' : 'Reactivated'
+  end
+
   index do
     selectable_column
     id_column
@@ -19,6 +25,13 @@ ActiveAdmin.register AdminUser, as: 'Customer Service Accounts' do
     column :sign_in_count
     column :created_at
     actions
+    actions do |admin_user|
+      unless admin_user.super_admin?
+        link_to (admin_user.suspended ? 'Reactivate' : 'Suspend'),
+                toggle_suspend_admin_customer_service_account_path(admin_user),
+                method: :post
+      end
+    end
   end
 
   permit_params :email, :password, :password_confirmation
