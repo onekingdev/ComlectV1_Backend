@@ -23,6 +23,7 @@ class Project < ActiveRecord::Base
 
   accepts_nested_attributes_for :extensions, :timesheets
 
+  scope :escalated, -> { joins(:issues).where(project_issues: { status: :open }) }
   scope :visible, -> { joins(business: :user).where(users: { deleted: false }) }
   scope :recent, -> { order(created_at: :desc) }
   scope :draft_and_in_review, -> { where(status: %w(draft review)) }
@@ -33,8 +34,9 @@ class Project < ActiveRecord::Base
   scope :accessible_by, -> (user) {
     # Accessible by project owner, hired specialist, or everyone if it's published
     joins(:business).joins('LEFT OUTER JOIN specialists ON specialists.id = projects.specialist_id')
-                    .where('businesses.user_id = :user_id OR specialists.user_id = :user_id OR status = :status',
-                           status: 'published', user_id: user.id)
+                    .where('businesses.user_id = :user_id
+                      OR specialists.user_id = :user_id
+                      OR projects.status = :status', status: 'published', user_id: user.id)
   }
 
   scope :one_off, -> { where(type: 'one_off') }

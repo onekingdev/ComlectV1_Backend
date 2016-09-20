@@ -4,8 +4,7 @@ ActiveAdmin.register Project do
   filter :title
   filter :business
 
-  scope :visible
-  scope :recent
+  scope :escalated
   scope :draft_and_in_review
   scope :published
   scope :pending
@@ -46,7 +45,6 @@ ActiveAdmin.register Project do
                 :location,
                 :description,
                 :key_deliverables,
-                :specialist_id,
                 industry_ids: [],
                 jurisdiction_ids: []
   form do |f|
@@ -57,7 +55,6 @@ ActiveAdmin.register Project do
       f.input :jurisdictions
       f.input :description, as: :text
       f.input :key_deliverables
-      f.input :specialist
       f.input :starts_on
       f.input :ends_on
       f.input :payment_schedule, collection: Project::PAYMENT_SCHEDULES
@@ -71,11 +68,6 @@ ActiveAdmin.register Project do
       f.input :pricing_type, as: :readonly
       f.input :calculated_budget, as: :readonly
       f.input :job_applications_count, as: :readonly
-    end
-    f.inputs 'Extensions' do
-      f.has_many :extensions do |a|
-        a.input :status, collection: ProjectExtension.statuses
-      end
     end
     f.inputs 'Timesheets' do
       f.has_many :timesheets do |a|

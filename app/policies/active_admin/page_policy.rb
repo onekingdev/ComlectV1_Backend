@@ -6,13 +6,12 @@ module ActiveAdmin
     end
 
     def show?
-      true
-      # case record.name
-      # when 'Dashboard'
-      #   true
-      # else
-      #   false
-      # end
+      case record.name
+      when 'Dashboard'
+        true
+      else
+        user.super_admin?
+      end
     end
   end
 end
