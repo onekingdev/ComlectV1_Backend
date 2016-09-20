@@ -1,1 +1,15 @@
-_Modal.showPlain('<%= j render('sent') %>', { class: 'modal-md transparent' });
+_Modal.modal().modal('hide')
+var $modal = $('#js-new-password');
+var modalContent = '<%= j render('sent') %>';
+if ($modal.length > 0) {
+  $modal
+    .find('.modal-body').replaceWith($(modalContent).find('.modal-body')).end()
+  $modal
+    .find('.modal-header').replaceWith($(modalContent).find('.modal-header')).end()
+    .modal('show');
+} else {
+  $('body').append(modalContent);
+  $('#js-new-password').modal('show')
+}
+
+$(document).trigger('newContent', $('#js-new-password'));
