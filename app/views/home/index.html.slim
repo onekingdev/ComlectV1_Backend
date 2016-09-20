@@ -1,153 +1,151 @@
 - content_for :header_class, 'short'
 - content_for :logo, image_tag('logo-inverse.png', size: '178x42')
 
-.hero-image[
-  style="height: 690px;"
-  data-parallax="scroll"
-  data-image-src=image_path('header-project.jpg')
-  data-natural-width="1920"
-  data-natural-height="1280"
-]
-  .nav-padding style="padding-top: 160px"
+.home-content
+  .hero-image[
+    style="height: 690px;"
+    data-parallax="scroll"
+    data-image-src=image_path('header-project.jpg')
+    data-natural-width="1920"
+    data-natural-height="1280"
+  ]
+    .nav-padding style="padding-top: 160px"
+      .row
+        .col-xs-12.col-sm-12.col-md-8
+          h1.slogan Compliance Specialists <span>On Demand</span>
+
+          .m-y-3.tt-u.fz-1-5x.fw-700 style="margin-left: 25px"
+            'Get instant access to top financial<br>regulatory compliance specialists
+
+        .col-xs-12.col-sm-12.col-md-4
+          .row
+            .col-xs-12.col-sm-12.col-lg-9.col-lg-push-2
+              a.btn.btn-xl.btn-muted.btn-block href=new_business_project_path Post a Project
+              .m-t-2
+                a.btn.btn-xl.btn-muted.btn-block href=new_specialist_path Become a Specialist
+
+  .hero-light
+    .container
+      h2.m-b-3 How it Works
+
+      .row.row-compact.how-it-works
+        .col-md-5.images.text-center
+          = image_tag 'home/how-it-works-1.png', size: '238x51'
+        .col-md-2.steps
+          .step 1
+        .col-md-4.descriptions
+          h3.m-t-0 Post a Project
+          p.m-t-1.m-b-3
+            'It's free to post a project. You can post a one-off project, hourly engagement, or a full-time role.
+            '  Set the price, time and prerequisites, and immediately start receiving applications from our pool of top specialists.
+
+        .m-y-3 &nbsp;
+
+        .col-md-5.images.text-center
+          = image_tag 'home/how-it-works-2.png', size: '238x73'
+        .col-md-2.steps
+          .step 2
+        .col-md-4.descriptions
+          h3.m-t-0 Review Applicants
+          p.m-t-1.m-b-3
+            'Our specialists have a minimum of three years compliance experience and only those meeting your job prerequisites may apply.
+            '  You can read reviews and interview before selecting the right specialist for your project.
+
+        .m-y-3 &nbsp;
+
+        .col-md-5.images.text-center
+          = image_tag 'home/how-it-works-3.png', size: '238x56'
+        .col-md-2.steps.last-step
+          .step 3
+        .col-md-4.descriptions
+          h3.m-t-0 Get Work Done
+          p.m-t-1.m-b-0
+            'Start working right away! Your information will only be shared with the specialists you engage.
+            '  Payment is made electronically when you are satisfied with the work and our fees are simple:
+            '  10% of the payment processed.
+
+  .hero-dark
+    .container
+      h2.m-b-1 Types of services
+
+      .row.row-compact.text-center.fw-700.types-of-services
+        .col-xs-6.col-sm-4.col-md-2.m-t-2.type-of-service
+          = image_tag 'home/services-registration.png', size: '51x52'
+          .d-b.m-t-1 Registration
+        .col-xs-6.col-sm-4.col-md-2.m-t-2.type-of-service
+          = image_tag 'home/services-filings.png', size: '50x51'
+          .d-b.m-t-1 Regulatory Filings
+        .col-xs-6.col-sm-4.col-md-2.m-t-2.type-of-service
+          = image_tag 'home/services-manual.png', size: '50x51'
+          .d-b.m-t-1 Compliance Manual
+        .col-xs-6.col-sm-4.col-md-2.m-t-2.type-of-service
+          = image_tag 'home/services-secondment.png', size: '51x51'
+          .d-b.m-t-1 Secondment
+        .col-xs-6.col-sm-4.col-md-2.m-t-2.type-of-service
+          = image_tag 'home/services-support.png', size: '52x52'
+          .d-b.m-t-1 CCO Support
+        .col-xs-6.col-sm-4.col-md-2.m-t-2.type-of-service
+          = image_tag 'home/services-reviews.png', size: '58x52'
+          .d-b.m-t-1 Internal Reviews
+
+  .hero-light
+    .container
+      h2.m-b-3 The Talent
+
+      .row
+        .col-xs-12.col-md-4
+          p.m-b-2
+            'Regulatory compliance is an unavoidable aspect of the financial services industry. The regulatory environment
+            '  is constantly changing and compliance issues are more numerous and complicated than ever.
+
+          p
+            'Our online platform makes it easier for firms in the industry to connect with experienced compliance specialists
+            '  in their field and gives top compliance talent the tools and resources to take control of their careers.
+
+        .col-xs-12.col-md-8
+          .the-talent.text-center
+            .m-b-2.talent
+              .reveal Broker-Dealer
+              = image_tag 'home/talent-1.jpg', size: '180x180'
+            .m-b-2.m-l-2.talent
+              .reveal Banking
+              = image_tag 'home/talent-2.jpg', size: '180x180'
+            .m-b-2.m-l-2.talent
+              .reveal Fund Manager
+              = image_tag 'home/talent-3.jpg', size: '180x180'
+            .m-b-2.m-l-2.talent.two-lines
+              .reveal Investment Adviser
+              = image_tag 'home/talent-4.jpg', size: '180x180'
+            .m-b-2.m-l-2.talent.two-lines
+              .reveal Commodities Trader
+              = image_tag 'home/talent-5.jpg', size: '180x180'
+
+  .hero-image.hero-numbers[
+    data-parallax="scroll"
+    data-image-src=image_path('home/numbers-bg.jpg')
+    data-natural-width="1920"
+    data-natural-height="1437"
+    data-position-y="-180px"
+  ]
     .row
-      .col-xs-12.col-sm-12.col-md-8
-        h1.slogan Compliance Specialists <span>On Demand</span>
+      .nav-padding.financial-numbers.clearfix style="padding-top: 70px; padding-bottom: 70px"
+        .col-xs-12.col-sm-6.col-md-3
+          .number $150BN
+          .tt-u Spent on compliance in the U.S.
 
-        .m-y-3.tt-u.fz-1-5x.fw-700 style="margin-left: 25px"
-          'Get instant access to top financial<br>regulatory compliance specialists
+        .col-xs-12.col-sm-6.col-md-3
+          .number 24MM
+          .tt-u Hours spent a year on Dodd-Frank Compliance
 
-      .col-xs-12.col-sm-12.col-md-4
-        .row
-          .col-xs-12.col-sm-12.col-lg-9.col-lg-push-3
-            a.btn.btn-xl.btn-muted.btn-block href=new_business_project_path Post a Project
-            .m-t-2
-              a.btn.btn-xl.btn-muted.btn-block href=new_specialist_path Become a Specialist
+        .col-xs-12.col-sm-6.col-md-3
+          .number 807
+          .tt-u Enforcement actions from the SEC in 2015
 
-.container
-  h2.m-y-3 How it Works
+        .col-xs-12.col-sm-6.col-md-3
+          .number $4.2BN
+          .tt-u Disgorgement and penalties ordered by the SEC in 2015
 
-  .row.row-compact.how-it-works
-    .col-md-5.images.text-center
-      = image_tag 'home/how-it-works-1.png', size: '238x51'
-    .col-md-2.steps
-      .step 1
-    .col-md-5.descriptions
-      h3.m-t-0 Post a Project
-      p.m-t-1.m-b-3
-        'It's free to post a project. You can post a one-off project, hourly engagement, or a full-time role.
-        '  Set the price, time and prerequisites, and immediately start receiving applications from our pool of top specialists.
-
-    .m-y-3 &nbsp;
-
-    .col-md-5.images.text-center
-      = image_tag 'home/how-it-works-2.png', size: '238x73'
-    .col-md-2.steps
-      .step 2
-    .col-md-5.descriptions
-      h3.m-t-0 Review Applicants
-      p.m-t-1.m-b-3
-        'Our specialists have a minimum of three years compliance experience and only those meeting your job prerequisites may apply.
-        '  You can read reviews and interview before selecting the right specialist for your project.
-
-    .m-y-3 &nbsp;
-
-    .col-md-5.images.text-center
-      = image_tag 'home/how-it-works-3.png', size: '238x56'
-    .col-md-2.steps.last-step
-      .step 3
-    .col-md-5.descriptions
-      h3.m-t-0 Get Work Done
-      p.m-t-1.m-b-3
-        'Start working right away! Your information will only be shared with the specialists you engage.
-        '  Payment is made electronically when you are satisfied with the work and our fees are simple:
-        '  10% of the payment processed.
-
-.hero-dark
-  .container
-    h2.m-b-1 Types of services
-
-    .row.row-compact.text-center.fw-700.types-of-services
-      .col-xs-6.col-sm-4.col-md-2.m-t-2.type-of-service
-        = image_tag 'home/services-registration.png', size: '51x52'
-        .d-b.m-t-1 Registration
-      .col-xs-6.col-sm-4.col-md-2.m-t-2.type-of-service
-        = image_tag 'home/services-filings.png', size: '50x51'
-        .d-b.m-t-1 Regulatory Filings
-      .col-xs-6.col-sm-4.col-md-2.m-t-2.type-of-service
-        = image_tag 'home/services-manual.png', size: '50x51'
-        .d-b.m-t-1 Compliance Manual
-      .col-xs-6.col-sm-4.col-md-2.m-t-2.type-of-service
-        = image_tag 'home/services-secondment.png', size: '51x51'
-        .d-b.m-t-1 Secondment
-      .col-xs-6.col-sm-4.col-md-2.m-t-2.type-of-service
-        = image_tag 'home/services-support.png', size: '52x52'
-        .d-b.m-t-1 CCO Support
-      .col-xs-6.col-sm-4.col-md-2.m-t-2.type-of-service
-        = image_tag 'home/services-reviews.png', size: '58x52'
-        .d-b.m-t-1 Internal Reviews
-
-.hero-light
-  .container
-    h2.m-b-3 The Talent
-
-    .row
-      .col-xs-12.col-md-4
-        p.m-b-2
-          'Regulatory compliance is an unavoidable aspect of the financial services industry. The regulatory environment
-          '  is constantly changing and compliance issues are more numerous and complicated than ever.
-
-        p
-          'Our online platform makes it easier for firms in the industry to connect with experienced compliance specialists
-          '  in their field and gives top compliance talent the tools and resources to take control of their careers.
-
-      .col-xs-12.col-md-8
-        .the-talent.text-center
-          .m-b-2.talent
-            .reveal Broker-Dealer
-            = image_tag 'home/talent-1.jpg', size: '180x180'
-          .m-b-2.m-l-2.talent
-            .reveal Banking
-            = image_tag 'home/talent-2.jpg', size: '180x180'
-          .m-b-2.m-l-2.talent
-            .reveal Fund Manager
-            = image_tag 'home/talent-3.jpg', size: '180x180'
-          .m-b-2.m-l-2.talent.two-lines
-            .reveal Investment Adviser
-            = image_tag 'home/talent-4.jpg', size: '180x180'
-          .m-b-2.m-l-2.talent.two-lines
-            .reveal Commodities Trader
-            = image_tag 'home/talent-5.jpg', size: '180x180'
-
-.hero-image.hero-numbers[
-  data-parallax="scroll"
-  data-image-src=image_path('home/numbers-bg.jpg')
-  data-natural-width="1920"
-  data-natural-height="1280"
-  data-position-y="-100px"
-]
-  .nav-padding style="padding-top: 120px"
-
-  .row
-    .nav-padding.financial-numbers
-      .col-xs-12.col-sm-6.col-md-3
-        .number $150BN
-        .tt-u Spent on compliance in the U.S.
-
-      .col-xs-12.col-sm-6.col-md-3
-        .number 24MM
-        .tt-u Hours spent a year on Dodd-Frank Compliance
-
-      .col-xs-12.col-sm-6.col-md-3
-        .number 807
-        .tt-u Enforcement actions from the SEC in 2015
-
-      .col-xs-12.col-sm-6.col-md-3
-        .number $4.2BN
-        .tt-u Disgorgement and penalties ordered by the SEC in 2015
-
-.hero-light.text-center
-  = image_tag 'home/rocket.png', size: '169x169'
-  h2.m-y-3 Get Work Done
-  .row
-    .col-xs-10.col-xs-push-1.col-sm-8.col-sm-push-2.col-md-4.col-md-push-4.col-lg-2.col-lg-push-5
-      = link_to 'Sign Up', new_user_registration_path, remote: true, class: 'btn btn-xl btn-primary btn-block'
+  .hero-light.text-center
+    = image_tag 'home/rocket.png', size: '169x169'
+    h2.m-y-3 Get Work Done
+    = link_to 'Sign Up', new_user_registration_path, remote: true, class: 'btn btn-xl btn-primary', style: 'padding-left: 86px; padding-right: 86px'
