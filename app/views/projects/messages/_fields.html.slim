@@ -1,6 +1,9 @@
 = f.input :message, as: :text, label: false, input_html: { class: 'di-b', rows: 4 }
 
 .pull-right.message-form
+  .send_on_enter
+    = check_box_tag 'send_on_enter', true, true
+    span Press Enter To Send
   label.custom-file-field.js-custom-file-field.m-b-0
     = f.hidden_field :file, value: f.object.file_data? ? f.object.file_data.to_json : nil
     = f.file_field :file

@@ -5,9 +5,9 @@ ActiveAdmin.register User do
     body: :textarea
   } do |ids, inputs|
     User.where(id: ids).pluck(:email).uniq.each do |email|
-      AdminMailer.admin_email(email, inputs[:subject], inputs[:body]).deliver_later
+      AdminMailer.deliver_later :admin_email, email, inputs[:subject], inputs[:body]
     end
-    redirect_to collection_path, notice: "Email will be send to selected #{'user'.pluralize(ids.length)}"
+    redirect_to collection_path, notice: "Email will be sent to selected #{'user'.pluralize(ids.length)}"
   end
 
   member_action :toggle_suspend, method: :post do

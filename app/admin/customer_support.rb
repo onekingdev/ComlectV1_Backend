@@ -1,16 +1,18 @@
 # frozen_string_literal: true
-ActiveAdmin.register AdminUser, as: 'Administrator' do
+ActiveAdmin.register AdminUser, as: 'Customer Support' do
   menu parent: 'Roles'
   filter :email
 
   controller do
     def scoped_collection
-      super.admin
+      super.cusomter_representative
     end
   end
 
-  before_create do |admin_user|
-    admin_user.super_admin = true
+  config.clear_action_items!
+
+  action_item only: :index do
+    link_to "New Customer Service Representative", new_admin_customer_support_path
   end
 
   member_action :toggle_suspend, method: :post do
@@ -27,11 +29,9 @@ ActiveAdmin.register AdminUser, as: 'Administrator' do
     column :sign_in_count
     column :created_at
     actions do |admin_user|
-      if admin_user != current_admin_user
-        link_to (admin_user.suspended ? 'Reactivate' : 'Suspend'),
-                toggle_suspend_admin_administrator_path(admin_user),
-                method: :post
-      end
+      link_to (admin_user.suspended ? 'Reactivate' : 'Suspend'),
+              toggle_suspend_admin_customer_support_path(admin_user),
+              method: :post
     end
   end
 

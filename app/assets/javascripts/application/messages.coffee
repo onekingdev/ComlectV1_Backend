@@ -66,3 +66,8 @@ $.onContentReady ($parent, data) ->
       loadMessages() if ratio < previousRatio && ratio < 0.25
       previousRatio = ratio
     , 500
+
+  $('.message_message').on 'keypress', (e) ->
+    if (window.event.keyCode == 13 && $('#send_on_enter').prop('checked'))
+        $('.message-form input[type="submit"]').click()
+        return false
