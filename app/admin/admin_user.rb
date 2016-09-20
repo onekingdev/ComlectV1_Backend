@@ -1,22 +1,14 @@
 # frozen_string_literal: true
-ActiveAdmin.register AdminUser, as: 'Administrator' do
-  menu parent: 'Roles'
+ActiveAdmin.register AdminUser, as: 'Customer Service Accounts' do
   filter :email
 
-  controller do
-    def scoped_collection
-      super.admin
-    end
-  end
+  scope :admin
+  scope :cusomter_representative
 
-  before_create do |admin_user|
-    admin_user.super_admin = true
-  end
+  config.clear_action_items!
 
-  member_action :toggle_suspend, method: :post do
-    resource.suspended = !resource.suspended
-    resource.save
-    redirect_to collection_path, notice: resource.suspended ? 'Suspended' : 'Reactivated'
+  action_item only: :index do
+    link_to "New Customer Service Representative", new_admin_customer_service_account_path
   end
 
   index do
@@ -26,13 +18,7 @@ ActiveAdmin.register AdminUser, as: 'Administrator' do
     column :current_sign_in_at
     column :sign_in_count
     column :created_at
-    actions do |admin_user|
-      if admin_user != current_admin_user
-        link_to (admin_user.suspended ? 'Reactivate' : 'Suspend'),
-                toggle_suspend_admin_administrator_path(admin_user),
-                method: :post
-      end
-    end
+    actions
   end
 
   permit_params :email, :password, :password_confirmation
@@ -42,6 +28,7 @@ ActiveAdmin.register AdminUser, as: 'Administrator' do
       f.input :email
       f.input :password
       f.input :password_confirmation
+      f.input 'Admin', :super_admin
     end
     f.actions
   end

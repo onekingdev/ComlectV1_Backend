@@ -5,8 +5,4 @@ class AdminUser < ActiveRecord::Base
 
   scope :admin, -> { where(super_admin: true) }
   scope :cusomter_representative, -> { where(super_admin: false) }
-
-  def active_for_authentication?
-    super && !suspended?
-  end
 end
