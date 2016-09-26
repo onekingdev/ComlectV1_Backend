@@ -48,5 +48,5 @@ $(document).on 'change', '.js-payment-country #payment_source_ach_country', (e) 
         $form.find('.payment_source_ach_plaid_account_id').val(metadata.account_id)
         $form.attr('method', 'post').submit()
     plaid.open()
-  else
+  else if $this.val().length > 0
     $form.submit()
