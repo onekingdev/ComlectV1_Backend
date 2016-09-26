@@ -1,0 +1,7 @@
+= form_for @payment_source, method: 'get', url: new_business_settings_payment_path, html: { class: 'js-payment-country' } do |f|
+  = f.hidden_field :plaid_token
+  = f.hidden_field :plaid_account_id
+  .m-b-1 What country is your account on?
+  = f.country_select :country,
+    { include_blank: true, only: Stripe::SUPPORTED_COUNTRIES.keys.map(&:to_s) },
+    { class: 'form-control input-lg input-gray', data: { env: ENV.fetch('PLAID_ENV'), public_key: ENV.fetch('PLAID_PUBLIC_KEY'), client_name: current_business.business_name } }

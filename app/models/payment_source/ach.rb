@@ -5,6 +5,12 @@ class PaymentSource::ACH < PaymentSource
   class << self
     private
 
+    def plaid_or_manual(business, params)
+      return add_to(business, params) unless params.is_a?(Hash)
+      user = Plaid::User.exchange_token(params.require(:plaid_token), params.require(:plaid_account_id), product: :auth)
+      add_to business, user.stripe_bank_account_token
+    end
+
     def add_to_existing(profile, params)
       source = profile.payment_sources.new params.merge(primary: profile.payment_sources.empty?)
       source.save if profile.errors.empty?

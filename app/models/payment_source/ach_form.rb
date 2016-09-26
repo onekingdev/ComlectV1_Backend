@@ -4,10 +4,12 @@ class PaymentSource::ACHForm < Draper::Decorator
   delegate_all
 
   attr_accessor :routing_number, :account_number
+  attr_accessor :plaid_account_id, :plaid_token
 
-  def self.new_for(business)
+  def self.new_for(business, attributes = {})
     profile = business.payment_profile || business.build_payment_profile
-    new profile.payment_sources.new(type: 'PaymentSource::ACH', country: 'US', currency: 'USD')
+    defaults = { type: 'PaymentSource::ACH', country: 'US', currency: 'USD' }
+    new profile.payment_sources.new(defaults.merge(attributes))
   end
 
   def self.find_for(business, id)

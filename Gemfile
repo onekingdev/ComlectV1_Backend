@@ -67,6 +67,7 @@ gem 'sinatra', require: nil
 
 # Payments
 gem 'stripe'
+gem 'plaid'
 
 # Logging
 gem 'lograge'

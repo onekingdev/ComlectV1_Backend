@@ -3,6 +3,7 @@ if Stripe?
 
 $(document).on 'submit', '#new_payment_source_ach', (e) ->
   $form = $(this)
+  return if $form.hasClass('js-payment-country')
   e.preventDefault()
   $form.find('.alert-danger').text('').addClass('hidden')
   Stripe.bankAccount.createToken
@@ -29,3 +30,23 @@ $(document).on 'submit', '#new_payment_source_ach', (e) ->
           'payment_source_ach[last4]': response.bank_account.last4
           'payment_source_ach[account_holder_name]': response.bank_account.account_holder_name
           'payment_source_ach[account_holder_type]': response.bank_account.account_holder_type
+
+$(document).on 'change', '.js-payment-country #payment_source_ach_country', (e) ->
+  $this = $(this)
+  $form = $this.parents('form')
+  if $this.val() == 'US'
+    plaid = Plaid.create
+      selectAccount: true
+      env: $this.data('env')
+      clientName: $this.data('client-name')
+      key: $this.data('public-key')
+      product: 'auth'
+      onSuccess: (publicToken, metadata) ->
+        console.log public_token
+        console.log metadata
+        $form.find('.payment_source_ach_plaid_token').val(publicToken)
+        $form.find('.payment_source_ach_plaid_account_id').val(metadata.account_id)
+        $form.attr('method', 'post').submit()
+    plaid.open()
+  else
+    $form.submit()

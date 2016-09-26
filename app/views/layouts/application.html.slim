@@ -28,5 +28,6 @@ body class="#{controller_name} #{action_name}"
 
   = render 'footer'
 
+  = yield :prepend_scripts
   = javascript_include_tag 'application'
   = yield :scripts

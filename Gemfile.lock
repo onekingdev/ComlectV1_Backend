@@ -229,6 +229,8 @@ GEM
       activesupport (>= 3.1)
       arel
     pkg-config (1.1.7)
+    plaid (2.0.0)
+      multi_json (~> 1.0)
     poltergeist (1.10.0)
       capybara (~> 2.1)
       cliver (~> 0.3.1)
@@ -437,6 +439,7 @@ DEPENDENCIES
   overcommit
   pg (~> 0.15)
   pg_search (~> 1.0.6)
+  plaid
   poltergeist
   postmark-rails
   puma (~> 3.4.0)

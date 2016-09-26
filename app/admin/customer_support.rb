@@ -1,14 +1,6 @@
 # frozen_string_literal: true
 ActiveAdmin.register AdminUser, as: 'Customer Support' do
-  menu parent: 'Roles', label: 'Customer Support'
-
-  breadcrumb do
-    [
-      link_to('Admin', admin_root_path),
-      link_to('Customer Support', admin_customer_supports_path)
-    ]
-  end
-
+  menu parent: 'Roles'
   filter :email
 
   controller do
@@ -19,7 +11,7 @@ ActiveAdmin.register AdminUser, as: 'Customer Support' do
 
   config.clear_action_items!
 
-  action_item :new, only: :index do
+  action_item only: :index do
     link_to "New Customer Service Representative", new_admin_customer_support_path
   end
 
@@ -29,7 +21,7 @@ ActiveAdmin.register AdminUser, as: 'Customer Support' do
     redirect_to collection_path, notice: resource.suspended ? 'Suspended' : 'Reactivated'
   end
 
-  index title: 'Customer Support' do
+  index do
     selectable_column
     id_column
     column :email

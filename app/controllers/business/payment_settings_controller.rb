@@ -12,11 +12,11 @@ class Business::PaymentSettingsController < ApplicationController
   end
 
   def new
-    @payment_source = PaymentSource::ACHForm.new_for(current_business)
+    @payment_source = PaymentSource::ACHForm.new_for(current_business, stripe_params(optional: true))
   end
 
   def create
-    @payment_source = payment_source_type.add_to current_business, stripe_params
+    @payment_source = payment_source_type.plaid_or_manual current_business, stripe_params
     respond_to do |format|
       format.html { redirect_to business_settings_payment_index_path }
       format.js do
@@ -63,10 +63,13 @@ class Business::PaymentSettingsController < ApplicationController
     params.key?(:stripeToken) ? PaymentSource : PaymentSource::ACH
   end
 
-  def stripe_params
+  def stripe_params(optional: false)
     return params[:stripeToken] if params.key?(:stripeToken)
-    params.require(:payment_source_ach).permit(
-      :stripe_id, :country, :currency, :brand, :account_holder_name, :account_holder_type, :last4, :token
+    return {} if optional && !params.key?(:payment_source_ach)
+    root = optional ? params[:payment_source_ach] : params.require(:payment_source_ach)
+    root.permit(
+      :stripe_id, :country, :currency, :brand, :account_holder_name, :account_holder_type, :last4, :token,
+      :plaid_token, :plaid_account_id
     ).merge(type: PaymentSource::ACH.name)
   end
 

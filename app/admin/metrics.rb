@@ -23,21 +23,11 @@ ActiveAdmin.register_page "Metrics" do
               th 'ITD', class: 'col number'
             end
 
-            render_rows metrics.postings
+            render_rows metrics.metrics
           end
         end
 
         panel 'Completions' do
-          table do
-            tr do
-              th '', class: 'col'
-              th 'MTD', class: 'col number'
-              th 'FYTD', class: 'col number'
-              th 'ITD', class: 'col number'
-            end
-
-            render_rows metrics.completions
-          end
         end
       end
 

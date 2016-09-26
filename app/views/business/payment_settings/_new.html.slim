@@ -5,7 +5,7 @@ h2.m-t-0 New Bank Account
     h2.text-center.m-b-2 Account Details
     .row
       .col-xs-12.col-sm-6
-        = f.input :country, collection: IsoCountryCodes.for_select, input_html: { class: 'input-lg js-select' }
+        = f.input :country, collection: Stripe::SUPPORTED_COUNTRIES.invert, input_html: { class: 'input-lg js-select' }
       .col-xs-12.col-sm-6
         = f.input :currency, collection: IsoCountryCodes.all.map(&:currency).uniq.sort, input_html: { class: 'input-lg js-select' }
     .row
