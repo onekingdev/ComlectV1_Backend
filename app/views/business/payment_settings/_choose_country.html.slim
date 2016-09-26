@@ -1,6 +1,7 @@
-= form_for @payment_source, method: 'get', url: new_business_settings_payment_path, html: { class: 'js-payment-country' } do |f|
+= form_for @payment_source, url: business_settings_payment_index_path, html: { class: 'js-payment-country', data: { manual_url: new_business_settings_payment_path } } do |f|
   = f.hidden_field :plaid_token
   = f.hidden_field :plaid_account_id
+  = f.hidden_field :plaid_institution
   .m-b-1 What country is your account on?
   = f.country_select :country,
     { include_blank: true, only: Stripe::SUPPORTED_COUNTRIES.keys.map(&:to_s) },

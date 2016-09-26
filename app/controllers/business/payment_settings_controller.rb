@@ -69,7 +69,7 @@ class Business::PaymentSettingsController < ApplicationController
     root = optional ? params[:payment_source_ach] : params.require(:payment_source_ach)
     root.permit(
       :stripe_id, :country, :currency, :brand, :account_holder_name, :account_holder_type, :last4, :token,
-      :plaid_token, :plaid_account_id
+      :plaid_token, :plaid_account_id, :plaid_institution
     ).merge(type: PaymentSource::ACH.name)
   end
 

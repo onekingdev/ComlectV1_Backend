@@ -42,11 +42,14 @@ $(document).on 'change', '.js-payment-country #payment_source_ach_country', (e) 
       key: $this.data('public-key')
       product: 'auth'
       onSuccess: (publicToken, metadata) ->
-        console.log public_token
+        console.log publicToken
         console.log metadata
-        $form.find('.payment_source_ach_plaid_token').val(publicToken)
-        $form.find('.payment_source_ach_plaid_account_id').val(metadata.account_id)
-        $form.attr('method', 'post').submit()
+        console.log metadata.institution
+        console.log metadata.account
+        $form.find('#payment_source_ach_plaid_token').val(publicToken)
+        $form.find('#payment_source_ach_plaid_account_id').val(metadata.account_id)
+#        $form.find('#payment_source_ach_plaid_institution').val(metadata.institution)
+        $form.submit()
     plaid.open()
   else if $this.val().length > 0
-    $form.submit()
+    $form.attr('method', 'get').attr('action', $form.data('manual-url')).submit()

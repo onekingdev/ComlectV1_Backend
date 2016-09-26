@@ -11,6 +11,10 @@ class PaymentSource < ActiveRecord::Base
   attr_accessor :token
 
   class << self
+    def plaid_or_manual(business, params)
+      add_to business, params
+    end
+
     private
 
     def add_to_existing(profile, token)

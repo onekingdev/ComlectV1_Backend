@@ -1,16 +1,17 @@
 # frozen_string_literal: true
 class PaymentSource::ACH < PaymentSource
   attr_accessor :validate1, :validate2
-  attr_accessor :plaid_account_id, :plaid_token
+  attr_accessor :plaid_account_id, :plaid_token, :plaid_institution
 
   class << self
-    private
-
     def plaid_or_manual(business, params)
       return add_to(business, params) unless params.is_a?(Hash)
       user = Plaid::User.exchange_token(params.require(:plaid_token), params.require(:plaid_account_id), product: :auth)
-      add_to business, user.stripe_bank_account_token
+      attributes = { token: user.stripe_bank_account_token, brand: params.require(:institution) }
+      add_to business, attributes
     end
+
+    private
 
     def add_to_existing(profile, params)
       source = profile.payment_sources.new params.merge(primary: profile.payment_sources.empty?)
