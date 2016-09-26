@@ -7,7 +7,11 @@ Rails.application.routes.draw do
   mount Sidekiq::Web => '/sidekiq'
 
   devise_for :admin_users, ActiveAdmin::Devise.config
-  ActiveAdmin.routes(self)
+  begin
+    ActiveAdmin.routes(self)
+  rescue ActiveRecord::StatementInvalid, PG::UndefinedTable => e
+    Rails.logger.info "ActiveAdmin could not load: #{e.message}"
+  end
 
   devise_for :users, controllers: {
     sessions: 'users/sessions',

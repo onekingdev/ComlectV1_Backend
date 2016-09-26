@@ -4,8 +4,8 @@ ActiveAdmin.register ProjectIssue, as: 'Issues' do
 
   actions :all, except: %i(new create)
 
-  filter :status, collection: ProjectIssue.statuses
-  filter :admin_user, collection: AdminUser.pluck(:email, :id)
+  filter :status, collection: -> { ProjectIssue.statuses }
+  filter :admin_user, collection: -> { AdminUser.pluck(:email, :id) }
   filter :project
   filter :issue
   filter :created_at
