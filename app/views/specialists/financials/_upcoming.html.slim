@@ -23,5 +23,5 @@ table.table.table-striped
     - if payments.total_pages > 1
       - payments.total_pages.times do |n|
         = link_to ''.html_safe, current_uri(page: n + 1), remote: true, class: "page #{"current" if n + 1 == payments.current_page}"
-  .pull-right
+  .pull-md-right
     = link_to 'Export', specialists_financial_path('upcoming', format: 'csv'), class: 'btn btn-lg btn-primary p-x-3'

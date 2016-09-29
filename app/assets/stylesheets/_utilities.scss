@@ -92,3 +92,9 @@
 }
 
 .va-top { vertical-align: top; }
+
+@media (min-width: $screen-md-min) {
+  .pull-md-right {
+    float: right;
+  }
+}
