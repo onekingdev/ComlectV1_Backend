@@ -19,6 +19,7 @@ $font-size-h1: 52px;
 
 $line-height-large: 1.3333333;
 $line-height-md: 1.4;
+$line-height-lg: $line-height-large;
 
 $headings-font-family: Baskerville, serif;
 
@@ -67,6 +68,7 @@ $btn-danger-border: $brand-danger;
 $padding-large-vertical: 18px;
 $padding-md-vertical: 10.5px;
 $padding-md-horizontal: 14px;
+$padding-lg-vertical: 14px; // Match buttons to inputs
 
 //== Forms
 

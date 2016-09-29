@@ -66,8 +66,8 @@
 }
 
 .btn-lg {
-  padding-top: 14px; // Make it match the inputs
-  padding-bottom: 14px;
+  padding-top: $padding-lg-vertical; // Make it match the inputs
+  padding-bottom: $padding-lg-vertical;
 }
 
 .btn-md {
@@ -86,6 +86,10 @@
 
 .btn-align-md {
   line-height: ($padding-md-vertical * 2) + ($font-size-base * $line-height-md);
+}
+
+.btn-align-lg {
+  line-height: ($padding-lg-vertical * 2) + ($font-size-base * $line-height-lg);
 }
 
 .btn-align-md-bottom {

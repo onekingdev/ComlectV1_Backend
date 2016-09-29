@@ -1,0 +1,28 @@
+.my-financials {
+  text-align: center;
+  display: flex;
+
+  .financial {
+    flex: 1;
+    padding: 1rem $padding-base-vertical;
+  }
+
+  .financial + .financial {
+    border-left: 1px solid $gray-light;
+  }
+
+  @media (max-width: $screen-sm-max) {
+    display: block;
+
+    .financial + .financial {
+      border-left: 0;
+      border-top: 1px solid $gray-light;
+    }
+  }
+
+  .amount {
+    font-weight: 700;
+    font-size: 18px;
+    margin-bottom: 1rem;
+  }
+}

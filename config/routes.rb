@@ -84,6 +84,7 @@ Rails.application.routes.draw do
     resources :projects, path: 'my-projects'
     concerns :favoriteable
     resources :messages
+    resources :financials
   end
 
   resources :specialists, only: %i(index new create show)
