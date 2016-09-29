@@ -5,7 +5,7 @@ class PaymentSource::ACH < PaymentSource
 
   class << self
     def plaid_or_manual(business, params)
-      return add_to(business, params) unless params.is_a?(Hash)
+      return add_to(business, params) if params.is_a?(String) || !params.key?(:plaid_token)
       user = Plaid::User.exchange_token(params.require(:plaid_token), params.require(:plaid_account_id), product: :auth)
       attributes = {
         token: user.stripe_bank_account_token,
