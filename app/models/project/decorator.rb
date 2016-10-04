@@ -31,6 +31,7 @@ class Project::Decorator < ApplicationDecorator
   def percent_complete
     return 0 unless starts_on && ends_on
     total = (ends_on - starts_on).to_f
+    return 100 if total == 0 # Edge case: project that starts and ends on the same day
     remaining = (ends_on - Time.zone.today).to_i
     percent = (1 - (remaining / total)) * 100
     return 100 if percent > 100
