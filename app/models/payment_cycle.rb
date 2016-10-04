@@ -6,7 +6,7 @@ class PaymentCycle
     "hourly/upon_completion" => PaymentCycle::Hourly::UponCompletion,
     "hourly/bi_weekly" => PaymentCycle::Hourly::BiWeekly,
     "hourly/monthly" => PaymentCycle::Hourly::Monthly,
-    # "fixed/50_50" => PaymentCycle::Fixed::FiftyFifty,
+    "fixed/fifty_fifty" => PaymentCycle::Fixed::FiftyFifty,
     # "fixed/upon_completion" => PaymentCycle::Fixed::UponCompletion,
     # "fixed/bi_weekly" => PaymentCycle::Fixed::BiWeekly,
     # "fixed/monthly" => PaymentCycle::Fixed::Monthly
@@ -14,7 +14,7 @@ class PaymentCycle
 
   def self.for(project)
     hourly_or_fixed = project.hourly_pricing? ? 'hourly' : 'fixed'
-    klass = SCHEDULE_CLASSES["#{hourly_or_fixed}/#{project.payment_schedule.parameterize.underscore}"]
+    klass = SCHEDULE_CLASSES.fetch("#{hourly_or_fixed}/#{project.payment_schedule.parameterize.underscore}")
     klass.new(project)
   end
 
@@ -27,6 +27,15 @@ class PaymentCycle
     ActiveRecord::Base.transaction do
       create_charges!
       reschedule!
+    end
+  end
+
+  def reschedule!
+    project.charges.estimated.delete_all
+    remaining_dates = occurrences.reject { |date| charge_exists?(date) }
+    amounts = outstanding_amount / remaining_dates.size
+    remaining_dates.each do |date|
+      create_estimated_charge! amount: amounts, date: date
     end
   end
 
@@ -53,7 +62,33 @@ class PaymentCycle
     project.charges.where(date: datetime).exists?
   end
 
+  def create_charges!
+    date = current_cycle_date
+    ActiveRecord::Base.transaction do
+      project.timesheets.approved.each do |timesheet|
+        schedule_charge! amount: timesheet.total_due,
+                         date: date,
+                         description: "Timesheet #{timesheet.id}"
+        timesheet.charged!
+      end
+    end
+  end
+
+  def charge_current!(amount:, description:)
+    date = current_cycle_date
+    project.charges.create! amount_in_cents: amount * 100,
+                            status: Project.statuses[:scheduled],
+                            date: date,
+                            process_after: calculate_process_at_date(date),
+                            description: description
+  end
+
   private
+
+  def current_cycle_date
+    all_occurrences = occurrences
+    all_occurrences.detect(&:future?) || all_occurrences.last
+  end
 
   WEEKDAY_BUFFERS = Hash.new(1.day).merge(
     5 => 3.days, # Friday? Push to monday

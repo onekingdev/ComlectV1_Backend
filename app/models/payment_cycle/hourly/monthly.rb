@@ -1,14 +1,5 @@
 # frozen_string_literal: true
 class PaymentCycle::Hourly::Monthly < PaymentCycle::Hourly
-  def reschedule!
-    project.charges.estimated.delete_all
-    remaining_dates = occurrences.reject { |date| charge_exists?(date) }
-    amounts = outstanding_amount / remaining_dates.size
-    remaining_dates.each do |date|
-      create_estimated_charge! amount: amounts, date: date
-    end
-  end
-
   private
 
   def occurrences
