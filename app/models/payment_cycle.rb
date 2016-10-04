@@ -8,7 +8,7 @@ class PaymentCycle
     "hourly/monthly" => PaymentCycle::Hourly::Monthly,
     "fixed/fifty_fifty" => PaymentCycle::Fixed::FiftyFifty,
     "fixed/upon_completion" => PaymentCycle::Fixed::UponCompletion,
-    # "fixed/bi_weekly" => PaymentCycle::Fixed::BiWeekly,
+    "fixed/bi_weekly" => PaymentCycle::Fixed::BiWeekly,
     # "fixed/monthly" => PaymentCycle::Fixed::Monthly
   }.freeze
 
@@ -59,19 +59,7 @@ class PaymentCycle
   end
 
   def charge_exists?(datetime)
-    project.charges.where(date: datetime).exists?
-  end
-
-  def create_charges!
-    date = current_cycle_date
-    ActiveRecord::Base.transaction do
-      project.timesheets.approved.each do |timesheet|
-        schedule_charge! amount: timesheet.total_due,
-                         date: date,
-                         description: "Timesheet #{timesheet.id}"
-        timesheet.charged!
-      end
-    end
+    project.charges.real.where(date: datetime).exists?
   end
 
   def charge_current!(amount:, description:)
@@ -88,6 +76,11 @@ class PaymentCycle
   def current_cycle_date
     all_occurrences = occurrences
     all_occurrences.detect(&:future?) || all_occurrences.last
+  end
+
+  def previous_cycle_date
+    all_occurrences = occurrences
+    all_occurrences.reverse.detect(&:past?) || all_occurrences.first
   end
 
   WEEKDAY_BUFFERS = Hash.new(1.day).merge(
