@@ -9,7 +9,7 @@ class PaymentCycle
     "fixed/fifty_fifty" => PaymentCycle::Fixed::FiftyFifty,
     "fixed/upon_completion" => PaymentCycle::Fixed::UponCompletion,
     "fixed/bi_weekly" => PaymentCycle::Fixed::BiWeekly,
-    # "fixed/monthly" => PaymentCycle::Fixed::Monthly
+    "fixed/monthly" => PaymentCycle::Fixed::Monthly
   }.freeze
 
   def self.for(project)
