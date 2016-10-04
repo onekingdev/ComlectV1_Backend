@@ -18,7 +18,7 @@ class Business::Financials
   def self.upcoming(business, params)
     sort_direction = params[:sort_direction].to_s.casecmp('asc').zero? ? 'ASC' : 'DESC'
     business.charges
-            .estimated
+            .upcoming
             .order("#{PAYMENT_ORDERING[params[:sort_by] || 'date']} #{sort_direction}")
             .page(params[:page]).per(5)
   end
@@ -26,34 +26,34 @@ class Business::Financials
   def self.processed(business, params)
     sort_direction = params[:sort_direction].to_s.casecmp('asc').zero? ? 'ASC' : 'DESC'
     business.charges
-            .real
+            .processed
             .order("#{PAYMENT_ORDERING[params[:sort_by] || 'date']} #{sort_direction}")
             .page(params[:page]).per(5)
   end
 
   def processed_this_month
-    @this_month ||= processed_charges.after(Time.zone.now.beginning_of_month).sum(:amount_in_cents) / 100
+    @this_month ||= processed_charges.after(Time.zone.now.beginning_of_month).sum(:amount_in_cents) / 100.0
   end
 
   def upcoming_30_days
-    @next_30_days ||= estimated_charges.where(date: (Time.zone.now..30.days.from_now)).sum(:amount_in_cents) / 100
+    @next_30_days ||= upcoming_charges.where('date <= ?', 30.days.from_now).sum(:amount_in_cents) / 100.0
   end
 
   def processed_ytd
-    @ytd ||= processed_charges.after(Time.zone.now.beginning_of_year).sum(:amount_in_cents) / 100
+    @ytd ||= processed_charges.after(Time.zone.now.beginning_of_year).sum(:amount_in_cents) / 100.0
   end
 
   def processed_total
-    @total ||= processed_charges.sum(:amount_in_cents) / 100
+    @total ||= processed_charges.sum(:amount_in_cents) / 100.0
   end
 
   private
 
-  def estimated_charges
-    business.charges.estimated
+  def upcoming_charges
+    business.charges.upcoming
   end
 
   def processed_charges
-    business.charges.real
+    business.charges.processed
   end
 end

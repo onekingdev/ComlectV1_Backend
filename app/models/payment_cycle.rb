@@ -55,7 +55,8 @@ class PaymentCycle
   end
 
   def outstanding_amount
-    estimated_total - project.charges.real.sum(:amount_in_cents) / 100.0
+    amount = (estimated_total - project.charges.real.sum(:amount_in_cents) / 100.0)
+    amount < 0 ? 0 : amount
   end
 
   def charge_exists?(datetime)

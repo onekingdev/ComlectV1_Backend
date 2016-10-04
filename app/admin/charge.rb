@@ -4,24 +4,38 @@ ActiveAdmin.register Charge do
 
   actions :all, except: %i(new create)
 
+  decorate_with Admin::ChargeDecorator
+
   filter :amount_in_cents
   filter :status, as: :select, collection: Charge.statuses
-  filter :process_after
+  filter :date
   filter :created_at
   filter :updated_at
 
-  collection_action :process_pending, method: :post do
+  collection_action :schedule_pending, method: :post do
     Project.active_for_charges.one_off.find_each(batch_size: 20) do |project|
       PaymentCycle.for(project).create_charges_and_reschedule!
     end
-    redirect_to admin_charges_path, notice: 'Done.'
+    redirect_to admin_charges_path, notice: 'Done'
   end
 
-  action_item :process_pending, only: :index do
+  action_item :schedule_pending, only: :index do
     link_to 'Schedule Pending',
-            process_pending_admin_charges_path,
+            schedule_pending_admin_charges_path,
             method: :post,
             title: 'Schedule payments for approved timesheets and fixed-bugdet projects.'
+  end
+
+  collection_action :process_scheduled, method: :post do
+    Charge::Processing.process_scheduled!
+    redirect_to admin_charges_path, notice: 'Done'
+  end
+
+  action_item :process_scheduled, only: :index do
+    link_to 'Process Charges Due',
+            process_scheduled_admin_charges_path,
+            method: :post,
+            title: 'Process payments scheduled payments that are due.'
   end
 
   index do
@@ -33,11 +47,7 @@ ActiveAdmin.register Charge do
       number_to_currency charge.amount
     end
     column :status do |charge|
-      status_tag charge.status, class: if charge.processed?
-                                         'yes'
-                                       else
-                                         charge.error? ? 'error' : nil
-                                       end
+      status_tag charge.status, charge.status_css_class
     end
     column :description
     column :date
@@ -56,13 +66,7 @@ ActiveAdmin.register Charge do
       row :date
       row :process_after
       row :status do |charge|
-        status = {
-          'estimated' => 'no',
-          'scheduled' => 'yes',
-          'processed' => 'green',
-          'error'     => 'red'
-        }[charge.status]
-        status_tag charge.status, status
+        status_tag charge.status, charge.status_css_class
       end
       row :status_detail
       row :description
