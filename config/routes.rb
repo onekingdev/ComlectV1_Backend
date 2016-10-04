@@ -47,6 +47,7 @@ Rails.application.routes.draw do
     resources :specialists, only: :index
     concerns :favoriteable
     resources :messages
+    resources :financials
 
     get 'projects/:project_id/dashboard' => 'project_dashboard#show', as: :project_dashboard
 

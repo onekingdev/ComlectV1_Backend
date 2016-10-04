@@ -1,0 +1,32 @@
+.panel.panel-default
+  .panel-heading
+    h3 My Financials
+
+  .panel-body
+    .my-financials
+      .financial
+        .amount= number_to_currency @financials.received_this_month
+        .description Payments received in <br>#{Time.zone.now.strftime('%B %Y')}
+      .financial
+        .amount= number_to_currency @financials.upcoming_30_days
+        .description Upcoming payment<br>(next 30 days)
+      .financial
+        .amount= number_to_currency @financials.received_ytd
+        .description Payments received YTD
+      .financial
+        .amount= number_to_currency @financials.received_total
+        .description Total Payments Received
+
+.panel.panel-default.m-t-3
+  .panel-heading
+    h3 Payment Details
+    ul.nav.nav-pills.small
+      li.active= link_to '#payments-upcoming', data: { toggle: 'tab', "remote-load" => true, url: specialists_financial_path('upcoming'), 'toggle-sync' => true } do
+        span Upcoming
+      li= link_to '#payments-received', data: { toggle: 'tab', "remote-load" => true, url: specialists_financial_path('received'), 'toggle-sync' => true } do
+        span Received
+
+  .panel-body
+    .tab-content
+      #payments-upcoming.tab-pane.clearfix.active
+      #payments-received.tab-pane.clearfix

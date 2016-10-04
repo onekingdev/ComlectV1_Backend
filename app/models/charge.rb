@@ -3,6 +3,7 @@ class Charge < ActiveRecord::Base
   belongs_to :project
 
   scope :real, -> { where(status: [Charge.statuses[:scheduled], Charge.statuses[:processed]]) }
+  scope :after, -> (date) { where('date >= ?', date) }
 
   enum status: { estimated: 'estimated', scheduled: 'scheduled', processed: 'processed', error: 'error' }
 

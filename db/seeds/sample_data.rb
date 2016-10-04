@@ -72,7 +72,7 @@ ActiveRecord::Base.transaction do
       key_deliverables: 'Deliverable 1, Deliverable 2',
       ends_on: starts_on + (rand(90) + 14).days,
       location_type: 'remote',
-      payment_schedule: 'hourly',
+      payment_schedule: Project.payment_schedules.values.sample,
       estimated_hours: rand(100) + 50,
       hourly_rate: rand(100) + 30
     }

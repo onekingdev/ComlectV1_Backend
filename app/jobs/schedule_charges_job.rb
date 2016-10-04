@@ -11,7 +11,7 @@ class ScheduleChargesJob < ActiveJob::Base
   private
 
   def schedule_all
-    Project.active.pluck(:id).each do |project_id|
+    Project.active_for_charges.one_off.pluck(:id).each do |project_id|
       self.class.perform_later project_id
     end
   end

@@ -534,10 +534,10 @@ CREATE TABLE projects (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     tsv tsvector,
-    calculated_budget numeric,
     lat numeric(9,5),
     lng numeric(9,5),
     point geography,
+    calculated_budget numeric,
     specialist_id integer,
     job_applications_count integer DEFAULT 0 NOT NULL
 );
