@@ -7,12 +7,17 @@ class JobApplication::Accept < Draper::Decorator
     new(application).tap do |decorated|
       decorated.project.update_attribute :specialist_id, decorated.specialist_id
       decorated.project.complete! if decorated.project.full_time?
-      decorated.schedule_full_time_fee
+      decorated.schedule_one_off_fees
+      decorated.schedule_full_time_fees
       decorated.send_specialist_notification
     end
   end
 
-  def schedule_full_time_fee
+  def schedule_one_off_fees
+    PaymentCycle.for(project).reschedule!
+  end
+
+  def schedule_full_time_fees
     return unless project.full_time?
     project.upfront_fee? ? schedule_upfront_fee : schedule_monthly_fee
   end
@@ -24,18 +29,22 @@ class JobApplication::Accept < Draper::Decorator
   private
 
   def schedule_upfront_fee
-    Charge.create! project: project,
-                   process_after: project.starts_on,
-                   amount_in_cents: project.annual_salary * 15, # 15%, 0.15 = 15 in cents
-                   description: "Upfront fee for job hire"
+    PaymentCycle.for(project).charge_current!(
+      amount: project.annual_salary * 0.15, # 15%
+      description: "Upfront fee for job hire"
+    )
   end
 
   def schedule_monthly_fee
+    payment_cycle = PaymentCycle.for(project)
+    # Push to monday: add two days for saturday, add one day for sunday
+    adjust_dates = Hash.new(0).merge(6 => 2.days, 0 => 1.day)
     6.times do |i|
-      Charge.create! project: project,
-                     process_after: project.starts_on + i.months,
-                     amount_in_cents: project.annual_salary * 3, # 3%, 0.03 = 3 in cents
-                     description: "Monthly fee for job hire (#{i + 1} of 6)"
+      date = project.starts_on + i.months
+      date += adjust_dates[date.wday]
+      payment_cycle.schedule_charge! amount: project.annual_salary * 0.03, # 3%
+                                     date: date,
+                                     description: "Monthly fee for job hire (#{i + 1} of 6)"
     end
   end
 end

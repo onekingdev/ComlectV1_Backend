@@ -40,6 +40,7 @@ gem 'iso_country_codes'
 
 # Misc
 gem 'business_time'
+gem 'ice_cube'
 
 # Assets
 gem 'jquery-rails'
@@ -81,6 +82,7 @@ group :development, :test do
   gem 'byebug'
 
   # Testing
+  gem 'rspec-rails'
   gem 'factory_girl_rails'
 
   # Code Quality
@@ -107,6 +109,7 @@ group :test do
   gem 'capybara'
   gem 'poltergeist'
   gem 'database_cleaner'
+  gem 'timecop'
 end
 
 gem 'rails_12factor', group: :production

@@ -201,14 +201,14 @@ CREATE TABLE businesses_jurisdictions (
 CREATE TABLE charges (
     id integer NOT NULL,
     project_id integer NOT NULL,
-    payment_source_id integer,
     amount_in_cents integer NOT NULL,
     process_after timestamp without time zone NOT NULL,
     status character varying DEFAULT 'scheduled'::character varying NOT NULL,
     status_detail character varying,
     description character varying,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    date timestamp without time zone NOT NULL
 );
 
 
@@ -534,10 +534,10 @@ CREATE TABLE projects (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     tsv tsvector,
+    calculated_budget numeric,
     lat numeric(9,5),
     lng numeric(9,5),
     point geography,
-    calculated_budget numeric,
     specialist_id integer,
     job_applications_count integer DEFAULT 0 NOT NULL
 );
@@ -1279,7 +1279,8 @@ CREATE TABLE payments (
     status_detail character varying,
     description character varying,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    date timestamp without time zone NOT NULL
 );
 
 
@@ -1725,6 +1726,43 @@ ALTER SEQUENCE timesheets_id_seq OWNED BY timesheets.id;
 
 
 --
+-- Name: transactions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE transactions (
+    id integer NOT NULL,
+    stripe_id character varying,
+    type character varying,
+    amount_in_cents integer NOT NULL,
+    processed_at timestamp without time zone,
+    status character varying,
+    charge_source_id integer,
+    payment_target_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: transactions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE transactions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: transactions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE transactions_id_seq OWNED BY transactions.id;
+
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1987,6 +2025,13 @@ ALTER TABLE ONLY timesheets ALTER COLUMN id SET DEFAULT nextval('timesheets_id_s
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY transactions ALTER COLUMN id SET DEFAULT nextval('transactions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
 
 
@@ -2198,6 +2243,14 @@ ALTER TABLE ONLY timesheets
 
 
 --
+-- Name: transactions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY transactions
+    ADD CONSTRAINT transactions_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2260,13 +2313,6 @@ CREATE INDEX index_businesses_on_ratings_average ON businesses USING btree (rati
 --
 
 CREATE INDEX index_businesses_on_user_id ON businesses USING btree (user_id);
-
-
---
--- Name: index_charges_on_payment_source_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_charges_on_payment_source_id ON charges USING btree (payment_source_id);
 
 
 --
@@ -2788,6 +2834,41 @@ CREATE INDEX index_timesheets_on_status ON timesheets USING btree (status);
 
 
 --
+-- Name: index_transactions_on_charge_source_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_transactions_on_charge_source_id ON transactions USING btree (charge_source_id);
+
+
+--
+-- Name: index_transactions_on_payment_target_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_transactions_on_payment_target_id ON transactions USING btree (payment_target_id);
+
+
+--
+-- Name: index_transactions_on_processed_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_transactions_on_processed_at ON transactions USING btree (processed_at);
+
+
+--
+-- Name: index_transactions_on_status; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_transactions_on_status ON transactions USING btree (status);
+
+
+--
+-- Name: index_transactions_on_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_transactions_on_type ON transactions USING btree (type);
+
+
+--
 -- Name: index_users_on_confirmation_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -3044,4 +3125,8 @@ INSERT INTO schema_migrations (version) VALUES ('20160916041708');
 INSERT INTO schema_migrations (version) VALUES ('20160920034425');
 
 INSERT INTO schema_migrations (version) VALUES ('20160929002205');
+
+INSERT INTO schema_migrations (version) VALUES ('20160929181728');
+
+INSERT INTO schema_migrations (version) VALUES ('20161004031506');
 

@@ -13,6 +13,7 @@ class Project < ActiveRecord::Base
   has_many :messages, as: :thread
   has_many :job_applications, dependent: :destroy
   has_many :timesheets, dependent: :destroy
+  has_many :time_logs, through: :timesheets
   has_one :invite, class_name: 'ProjectInvite', dependent: :destroy
   has_many :end_requests, class_name: 'ProjectEnd', dependent: :destroy
   has_one :end_request, -> { pending }, class_name: 'ProjectEnd'
@@ -31,6 +32,7 @@ class Project < ActiveRecord::Base
   scope :published, -> { where(status: statuses[:published]) }
   scope :pending, -> { published.where(specialist_id: nil) }
   scope :active, -> { published.where.not(specialist_id: nil) }
+  scope :active_for_charges, -> { active.where.not(Project.escalated) }
   scope :complete, -> { where(status: statuses[:complete]) }
   scope :accessible_by, -> (user) {
     # Accessible by project owner, hired specialist, or everyone if it's published
@@ -90,6 +92,8 @@ class Project < ActiveRecord::Base
     %w(Monthly monthly)
   ].freeze
   PAYMENT_SCHEDULES = (HOURLY_PAYMENT_SCHEDULES + FIXED_PAYMENT_SCHEDULES).uniq.freeze
+  enum payment_schedule: Hash[PAYMENT_SCHEDULES].invert
+
   MINIMUM_EXPERIENCE = [%w(3-7\ yrs 3-7), %w(7-10\ yrs 7-10), %w(11-15\ yrs 11-15), %w(15+\ yrs 15+)].freeze
 
   def self.cards_for_user(user, filter:, page:, per:)

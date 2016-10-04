@@ -5,7 +5,10 @@ class ProjectExtension < ActiveRecord::Base
   enum status: { pending: nil, confirmed: 'confirmed', denied: 'denied' }
 
   def confirm!
-    update_attribute :status, self.class.statuses[:confirmed]
+    self.class.transaction do
+      update_attribute :status, self.class.statuses[:confirmed]
+      PaymentCycle.for(project).reschedule!
+    end
   end
 
   def deny!

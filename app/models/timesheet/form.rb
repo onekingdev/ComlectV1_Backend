@@ -37,7 +37,10 @@ class Timesheet::Form < Timesheet::Decorator
 
   def approve!
     # TODO: Count for payments
-    update_attribute :status, Timesheet.statuses[:approved]
+    self.class.transaction do
+      update_attribute :status, Timesheet.statuses[:approved]
+      PaymentCycle.for(project).reschedule!
+    end
   end
 
   def notify_business!

@@ -8,7 +8,11 @@ class Timesheet < ActiveRecord::Base
   scope :sorted, -> { order(created_at: :desc) }
   scope :not_pending, -> { where.not(status: Timesheet.statuses[:pending]) }
 
-  enum status: { pending: 'pending', submitted: 'submitted', approved: 'approved', disputed: 'disputed' }
+  enum status: { pending: 'pending',
+                 submitted: 'submitted',
+                 approved: 'approved',
+                 disputed: 'disputed',
+                 charged: 'charged' }
 
   accepts_nested_attributes_for :time_logs, allow_destroy: true
 
