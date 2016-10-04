@@ -26,7 +26,9 @@ ActiveAdmin.register Charge do
 
   index do
     selectable_column
-    column :project
+    column :project, sortable: 'projects.title' do |charge|
+      link_to charge.project, [:admin, charge.project]
+    end
     column :amount, sortable: :amount_in_cents, class: 'number' do |charge|
       number_to_currency charge.amount
     end

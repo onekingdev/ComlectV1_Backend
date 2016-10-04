@@ -1,0 +1,27 @@
+table.table.table-striped
+  thead
+    tr
+      th Date
+      th Project
+      th Specialist
+      th Amount
+      th Outstanding Balance
+
+  tbody
+    - charges.each do |charge|
+      tr
+        td= charge.date.strftime('%b %d, %Y')
+        td= charge.project
+        td= charge.project.business
+        td= number_to_currency charge.amount
+        td= number_to_currency PaymentCycle.for(charge.project).outstanding_amount
+
+.small.text-muted Note: Upcoming payments and outstanding balances are representative of estimated hours and rates. Actual payments may differ.
+
+.dot-pagination.text-center.m-t-2.clearfix
+  .d-ib.btn-align-md
+    - if charges.total_pages > 1
+      - charges.total_pages.times do |n|
+        = link_to ''.html_safe, current_uri(page: n + 1), remote: true, class: "page #{"current" if n + 1 == charges.current_page}"
+  .pull-md-right
+    = link_to 'Export', specialists_financial_path('upcoming', format: 'csv'), class: 'btn btn-lg btn-primary p-x-3'

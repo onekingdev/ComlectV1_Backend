@@ -15,41 +15,41 @@ class Business::Financials
     'amount' => 'amount_in_cents'
   }.freeze
 
-  def self.upcoming(specialist, params)
+  def self.upcoming(business, params)
     sort_direction = params[:sort_direction].to_s.casecmp('asc').zero? ? 'ASC' : 'DESC'
-    specialist.payments
-              .scheduled
-              .order("#{PAYMENT_ORDERING[params[:sort_by] || 'date']} #{sort_direction}")
-              .page(params[:page]).per(5)
+    business.charges
+            .estimated
+            .order("#{PAYMENT_ORDERING[params[:sort_by] || 'date']} #{sort_direction}")
+            .page(params[:page]).per(5)
   end
 
-  def self.received(specialist, params)
+  def self.processed(business, params)
     sort_direction = params[:sort_direction].to_s.casecmp('asc').zero? ? 'ASC' : 'DESC'
-    specialist.payments
-              .processed
-              .order("#{PAYMENT_ORDERING[params[:sort_by] || 'date']} #{sort_direction}")
-              .page(params[:page]).per(5)
+    business.charges
+            .real
+            .order("#{PAYMENT_ORDERING[params[:sort_by] || 'date']} #{sort_direction}")
+            .page(params[:page]).per(5)
   end
 
-  def received_this_month
+  def processed_this_month
     @this_month ||= processed_charges.after(Time.zone.now.beginning_of_month).sum(:amount_in_cents) / 100
   end
 
   def upcoming_30_days
-    @next_30_days ||= scheduled_charges.after(Time.zone.now).sum(:amount_in_cents) / 100
+    @next_30_days ||= estimated_charges.where(date: (Time.zone.now..30.days.from_now)).sum(:amount_in_cents) / 100
   end
 
-  def received_ytd
+  def processed_ytd
     @ytd ||= processed_charges.after(Time.zone.now.beginning_of_year).sum(:amount_in_cents) / 100
   end
 
-  def received_total
+  def processed_total
     @total ||= processed_charges.sum(:amount_in_cents) / 100
   end
 
   private
 
-  def scheduled_charges
+  def estimated_charges
     business.charges.estimated
   end
 

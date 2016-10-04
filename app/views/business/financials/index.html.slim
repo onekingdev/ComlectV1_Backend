@@ -5,28 +5,28 @@
   .panel-body
     .my-financials
       .financial
-        .amount= number_to_currency @financials.received_this_month
-        .description Payments received in <br>#{Time.zone.now.strftime('%B %Y')}
+        .amount= number_to_currency @financials.processed_this_month
+        .description Payments made in <br>#{Time.zone.now.strftime('%B %Y')}
       .financial
         .amount= number_to_currency @financials.upcoming_30_days
-        .description Upcoming payment<br>(next 30 days)
+        .description Upcoming payments<br>(next 30 days)
       .financial
-        .amount= number_to_currency @financials.received_ytd
-        .description Payments received YTD
+        .amount= number_to_currency @financials.processed_ytd
+        .description Payments made YTD
       .financial
-        .amount= number_to_currency @financials.received_total
-        .description Total Payments Received
+        .amount= number_to_currency @financials.processed_total
+        .description Total Payments Made
 
 .panel.panel-default.m-t-3
   .panel-heading
     h3 Payment Details
     ul.nav.nav-pills.small
-      li.active= link_to '#payments-upcoming', data: { toggle: 'tab', "remote-load" => true, url: specialists_financial_path('upcoming'), 'toggle-sync' => true } do
+      li.active= link_to '#charges-upcoming', data: { toggle: 'tab', "remote-load" => true, url: business_financial_path('upcoming'), 'toggle-sync' => true } do
         span Upcoming
-      li= link_to '#payments-received', data: { toggle: 'tab', "remote-load" => true, url: specialists_financial_path('received'), 'toggle-sync' => true } do
-        span Received
+      li= link_to '#charges-processed', data: { toggle: 'tab', "remote-load" => true, url: business_financial_path('processed'), 'toggle-sync' => true } do
+        span Completed
 
   .panel-body
     .tab-content
-      #payments-upcoming.tab-pane.clearfix.active
-      #payments-received.tab-pane.clearfix
+      #charges-upcoming.tab-pane.clearfix.active
+      #charges-processed.tab-pane.clearfix

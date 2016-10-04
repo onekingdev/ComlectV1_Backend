@@ -9,7 +9,7 @@
         .description Payments received in <br>#{Time.zone.now.strftime('%B %Y')}
       .financial
         .amount= number_to_currency @financials.upcoming_30_days
-        .description Upcoming payment<br>(next 30 days)
+        .description Upcoming payments<br>(next 30 days)
       .financial
         .amount= number_to_currency @financials.received_ytd
         .description Payments received YTD
