@@ -47,6 +47,17 @@
                 'YTD
             .m-t-1= link_to 'View Details', business_financials_path, class: 'btn btn-md btn-primary'
 
+        .panel.panel-default.profile-info
+          .panel-heading
+            h3 Tools & Resources
+          .panel-body
+            ul.list-flush
+              / TODO: Link to discourse forums:
+              li= link_to 'Forum', '#'
+              / TODO: Link best practices
+              li= link_to 'Best Practices', '#'
+              li= link_to 'Partnerships', page_path('partner-network')
+
       .td.col-xs-12.col-sm-8.col-md-9.va-top
         .panel.panel-default
           .panel-heading
