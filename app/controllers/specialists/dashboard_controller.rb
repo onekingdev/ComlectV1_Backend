@@ -5,5 +5,6 @@ class Specialists::DashboardController < ApplicationController
 
   def show
     @specialist = Specialist.preload_associations.find(current_user.specialist.id)
+    @financials = Specialist::Financials.for(current_specialist)
   end
 end
