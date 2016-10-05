@@ -9,7 +9,7 @@ class Business::Financials
   end
 
   PAYMENT_ORDERING = {
-    'date' => 'process_after',
+    'date' => 'date',
     'project' => 'projects.title',
     'specialist' => 'specialists.first_name',
     'amount' => 'amount_in_cents'
