@@ -1,3 +1,7 @@
 schedule_charges:
   cron: "0 * * * *"
   class: "ScheduleChargesJob"
+
+process_scheduled_charges:
+  cron: "30 * * * *"
+  class: "ProcessScheduledChargesJob"

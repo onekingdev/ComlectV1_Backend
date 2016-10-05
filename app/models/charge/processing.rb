@@ -3,7 +3,6 @@ class Charge::Processing
   attr_reader :charges, :project_id
 
   def self.process_scheduled!
-    # TODO: Call from scheduled bg job
     Charge.scheduled.where('process_after <= ?', Time.zone.now).group_by(&:project_id).map do |project_id, charges|
       new(charges, project_id).process!
     end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class ScheduleChargesJob < ActiveJob::Base
-  queue_as :default
+  queue_as :payments
 
   def perform(project_id = nil)
     return schedule_all if project_id.nil?
