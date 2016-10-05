@@ -208,7 +208,8 @@ CREATE TABLE charges (
     description character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    date timestamp without time zone NOT NULL
+    date timestamp without time zone NOT NULL,
+    transaction_id integer
 );
 
 
@@ -1280,7 +1281,8 @@ CREATE TABLE payments (
     description character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    date timestamp without time zone NOT NULL
+    date timestamp without time zone NOT NULL,
+    transaction_id integer
 );
 
 
@@ -1733,13 +1735,15 @@ CREATE TABLE transactions (
     id integer NOT NULL,
     stripe_id character varying,
     type character varying,
-    amount_in_cents integer NOT NULL,
+    amount_in_cents integer,
     processed_at timestamp without time zone,
     status character varying,
     charge_source_id integer,
     payment_target_id integer,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    project_id integer,
+    parent_transaction_id integer
 );
 
 
@@ -2337,6 +2341,13 @@ CREATE INDEX index_charges_on_status ON charges USING btree (status);
 
 
 --
+-- Name: index_charges_on_transaction_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_charges_on_transaction_id ON charges USING btree (transaction_id);
+
+
+--
 -- Name: index_education_histories_on_specialist_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2509,6 +2520,13 @@ CREATE INDEX index_payments_on_project_id ON payments USING btree (project_id);
 --
 
 CREATE INDEX index_payments_on_status ON payments USING btree (status);
+
+
+--
+-- Name: index_payments_on_transaction_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_payments_on_transaction_id ON payments USING btree (transaction_id);
 
 
 --
@@ -2841,6 +2859,13 @@ CREATE INDEX index_transactions_on_charge_source_id ON transactions USING btree 
 
 
 --
+-- Name: index_transactions_on_parent_transaction_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_transactions_on_parent_transaction_id ON transactions USING btree (parent_transaction_id);
+
+
+--
 -- Name: index_transactions_on_payment_target_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2852,6 +2877,13 @@ CREATE INDEX index_transactions_on_payment_target_id ON transactions USING btree
 --
 
 CREATE INDEX index_transactions_on_processed_at ON transactions USING btree (processed_at);
+
+
+--
+-- Name: index_transactions_on_project_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_transactions_on_project_id ON transactions USING btree (project_id);
 
 
 --
@@ -3129,4 +3161,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160929002205');
 INSERT INTO schema_migrations (version) VALUES ('20160929181728');
 
 INSERT INTO schema_migrations (version) VALUES ('20161004031506');
+
+INSERT INTO schema_migrations (version) VALUES ('20161005031450');
 
