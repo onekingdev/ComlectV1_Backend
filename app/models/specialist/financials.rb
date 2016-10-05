@@ -9,48 +9,50 @@ class Specialist::Financials
   end
 
   PAYMENT_ORDERING = {
-    'date' => 'process_after',
+    'date' => 'date',
     'project' => 'projects.title',
-    'business' => 'business.business_name',
+    'business' => 'businesses.business_name',
     'amount' => 'amount_in_cents'
   }.freeze
 
   def self.upcoming(specialist, params)
     sort_direction = params[:sort_direction].to_s.casecmp('asc').zero? ? 'ASC' : 'DESC'
     specialist.payments
-              .scheduled
+              .upcoming
+              .joins(:business)
               .order("#{PAYMENT_ORDERING[params[:sort_by] || 'date']} #{sort_direction}")
               .page(params[:page]).per(5)
   end
 
-  def self.received(specialist, params)
+  def self.processed(specialist, params)
     sort_direction = params[:sort_direction].to_s.casecmp('asc').zero? ? 'ASC' : 'DESC'
     specialist.payments
               .processed
+              .joins(:business)
               .order("#{PAYMENT_ORDERING[params[:sort_by] || 'date']} #{sort_direction}")
               .page(params[:page]).per(5)
   end
 
-  def received_this_month
+  def processed_this_month
     @this_month ||= processed_payments.after(Time.zone.now.beginning_of_month).sum(:amount_in_cents) / 100.0
   end
 
   def upcoming_30_days
-    @next_30_days ||= scheduled_payments.after(Time.zone.now).sum(:amount_in_cents) / 100.0
+    @next_30_days ||= upcoming_payments.where('date <= ?', 30.days.from_now).sum(:amount_in_cents) / 100.0
   end
 
-  def received_ytd
+  def processed_ytd
     @ytd ||= processed_payments.after(Time.zone.now.beginning_of_year).sum(:amount_in_cents) / 100.0
   end
 
-  def received_total
+  def processed_total
     @total ||= processed_payments.sum(:amount_in_cents) / 100.0
   end
 
   private
 
-  def scheduled_payments
-    specialist.payments.processed
+  def upcoming_payments
+    specialist.payments.upcoming
   end
 
   def processed_payments

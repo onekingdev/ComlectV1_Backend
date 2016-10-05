@@ -9,7 +9,7 @@ class Specialists::FinancialsController < ApplicationController
   def show
     @payments = {
       'upcoming' => upcoming_payments,
-      'received' => received_payments
+      'processed' => processed_payments
     }[params[:id]]
 
     return render_404 unless @payments
@@ -31,7 +31,7 @@ class Specialists::FinancialsController < ApplicationController
     Specialist::Financials.upcoming(current_specialist, params)
   end
 
-  def received_payments
-    Specialist::Financials.received(current_specialist, params)
+  def processed_payments
+    Specialist::Financials.processed(current_specialist, params)
   end
 end

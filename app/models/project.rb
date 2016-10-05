@@ -19,7 +19,6 @@ class Project < ActiveRecord::Base
   has_one :end_request, -> { pending }, class_name: 'ProjectEnd'
   has_many :ratings, dependent: :destroy
   has_many :charges, dependent: :destroy
-  has_many :payments, dependent: :destroy
   has_many :transactions, dependent: :destroy
   has_many :extensions, dependent: :destroy, class_name: 'ProjectExtension'
   has_one :extension, -> { pending }, class_name: 'ProjectExtension'
