@@ -1,16 +1,16 @@
 table.table.table-striped
   thead
     tr
-      th Date
-      th Project
-      th Business
-      th Amount
+      th= link_to "Date <small><small>#{sort_by_arrow('date', default: 'desc')}</small></small>".html_safe, sort_by_url('date'), remote: true
+      th= link_to "Project <small><small>#{sort_by_arrow('project')}</small></small>".html_safe, sort_by_url('project'), remote: true
+      th= link_to "Business <small><small>#{sort_by_arrow('business')}</small></small>".html_safe, sort_by_url('business'), remote: true
+      th= link_to "Amount <small><small>#{sort_by_arrow('amount')}</small></small>".html_safe, sort_by_url('amount'), remote: true
       th Outstanding Balance
 
   tbody
     - payments.each do |payment|
       tr
-        td= payment.process_after.strftime('%b %d, %Y')
+        td= payment.date.strftime('%b %d, %Y')
         td= payment.project
         td= payment.project.business
         td= number_to_currency payment.amount
