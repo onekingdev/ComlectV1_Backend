@@ -1,0 +1,3 @@
+schedule_charges:
+  cron: "0 * * * *"
+  class: "ScheduleChargesJob"
