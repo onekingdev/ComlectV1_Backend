@@ -24,4 +24,4 @@ table.table.table-striped
       - charges.total_pages.times do |n|
         = link_to ''.html_safe, current_uri(page: n + 1), remote: true, class: "page #{"current" if n + 1 == charges.current_page}"
   .pull-md-right
-    = link_to 'Export', specialists_financial_path('upcoming', format: 'csv'), class: 'btn btn-lg btn-primary p-x-3'
+    = link_to 'Export', business_financial_path('upcoming', format: 'csv'), class: 'btn btn-lg btn-primary p-x-3'

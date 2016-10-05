@@ -20,7 +20,7 @@ class Business::FinancialsController < ApplicationController
       format.csv do
         # Override paging to get all records
         @charges = @charges.unscope(:limit, :offset)
-        send_data Charge::Export.to_csv(@charges), filename: 'charges.csv'
+        send_data Charge::Export.business(@charges), filename: 'charges.csv'
       end
     end
   end
