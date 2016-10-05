@@ -5,3 +5,7 @@ schedule_charges:
 process_scheduled_charges:
   cron: "30 * * * *"
   class: "ProcessScheduledChargesJob"
+
+process_transactions:
+  cron: "*/5 * * * *"
+  class: "ProcessTransactionsJob"
