@@ -14,6 +14,7 @@ class JobApplication::Accept < Draper::Decorator
   end
 
   def schedule_one_off_fees
+    return unless project.one_off?
     PaymentCycle.for(project).reschedule!
   end
 
