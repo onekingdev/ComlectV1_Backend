@@ -12,7 +12,7 @@ table.table.table-striped
       tr
         td= charge.date.strftime('%b %d, %Y')
         td= charge.project
-        td= charge.project.business
+        td= charge.project.specialist
         td= number_to_currency charge.amount
         td= number_to_currency PaymentCycle.for(charge.project).outstanding_amount
 
