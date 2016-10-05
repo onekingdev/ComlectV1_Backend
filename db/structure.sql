@@ -1743,7 +1743,8 @@ CREATE TABLE transactions (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     project_id integer,
-    parent_transaction_id integer
+    parent_transaction_id integer,
+    status_detail character varying
 );
 
 
@@ -3163,4 +3164,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160929181728');
 INSERT INTO schema_migrations (version) VALUES ('20161004031506');
 
 INSERT INTO schema_migrations (version) VALUES ('20161005031450');
+
+INSERT INTO schema_migrations (version) VALUES ('20161005041957');
 

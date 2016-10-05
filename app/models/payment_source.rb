@@ -3,6 +3,7 @@ class PaymentSource < ActiveRecord::Base
   belongs_to :payment_profile
 
   scope :sorted, -> { order('"primary" DESC, type DESC, created_at DESC') }
+  scope :primary_first, -> { order(primary: :desc) }
 
   before_create :create_source
   after_destroy :delete_stripe_data
