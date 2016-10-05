@@ -34,6 +34,19 @@
 
             .text-center.p-b-1= link_to 'Edit Profile', edit_business_path, class: 'link'
 
+        .panel.panel-default.profile-info
+          .panel-heading
+            h3 Financials
+          .panel-body.text-center
+            .row.bordered-cells
+              .col-xs-6
+                .fw-700= number_to_currency @financials.processed_this_month
+                = Time.zone.now.strftime('%B')
+              .col-xs-6
+                .fw-700= number_to_currency @financials.processed_ytd
+                'YTD
+            .m-t-1= link_to 'View Details', business_financials_path, class: 'btn btn-md btn-primary'
+
       .td.col-xs-12.col-sm-8.col-md-9.va-top
         .panel.panel-default
           .panel-heading

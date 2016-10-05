@@ -7,3 +7,9 @@
     padding-right: floor(($grid-gutter-width / 4));
   }
 }
+
+.row.bordered-cells {
+  [class*=col-] + [class*=col-] {
+    border-left: 1px solid $gray-dark;
+  }
+}
