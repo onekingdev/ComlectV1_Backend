@@ -11,7 +11,9 @@ class Transaction::SpecialistPayment < Transaction
   def process!
     super do
       if parent_transaction.processed?
-        create_stripe_transfer
+        transfer = create_stripe_transfer
+        self.stripe_id = transfer.id
+        self.payment_target_id = specialist.stripe_account_id
         true
       else
         false

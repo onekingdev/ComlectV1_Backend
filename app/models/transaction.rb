@@ -9,6 +9,7 @@ class Transaction < ActiveRecord::Base
   scope :pending_or_errored, -> { where(status: [Transaction.statuses[:pending], Transaction.statuses[:error]]) }
 
   def self.process_pending!
+    # TODO: Replicate on scheduled bg job
     pending_or_errored.find_each(&:process!)
   end
 
@@ -20,6 +21,7 @@ class Transaction < ActiveRecord::Base
     self.class.transaction do
       return nil unless yield
       self.processed_at = Time.zone.now
+      self.status_detail = nil
       processed!
       save!
     end
