@@ -19,7 +19,7 @@ class Specialists::FinancialsController < ApplicationController
       format.js
       format.csv do
         # Override paging to get all records
-        @payments = @payments.page(1).per(100_000)
+        @payments = @payments.unscope(:limit, :offset)
         send_data Payment::Export.to_csv(@payments), filename: 'payments.csv'
       end
     end

@@ -19,6 +19,7 @@ class Business::Financials
     sort_direction = params[:sort_direction].to_s.casecmp('asc').zero? ? 'ASC' : 'DESC'
     business.charges
             .upcoming
+            .joins(:specialist)
             .order("#{PAYMENT_ORDERING[params[:sort_by] || 'date']} #{sort_direction}")
             .page(params[:page]).per(5)
   end
@@ -27,6 +28,7 @@ class Business::Financials
     sort_direction = params[:sort_direction].to_s.casecmp('asc').zero? ? 'ASC' : 'DESC'
     business.charges
             .processed
+            .joins(:specialist)
             .order("#{PAYMENT_ORDERING[params[:sort_by] || 'date']} #{sort_direction}")
             .page(params[:page]).per(5)
   end

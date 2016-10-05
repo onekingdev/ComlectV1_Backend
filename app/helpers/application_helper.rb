@@ -2,6 +2,25 @@
 module ApplicationHelper
   include SimpleForm::ActionViewExtensions::FormHelper
 
+  def reverse_sort
+    Hash.new('desc').merge('asc' => 'desc', 'desc' => 'asc')[params[:sort_direction]]
+  end
+
+  def default_sort
+    Hash.new('asc').merge('desc' => 'desc')[params[:sort_direction]]
+  end
+
+  def sort_by_url(attribute)
+    direction = params[:sort_direction] && params[:sort_by] == attribute ? reverse_sort : default_sort
+    current_uri(sort_by: attribute, sort_direction: direction)
+  end
+
+  def sort_by_arrow(attribute, default: nil)
+    return unless params[:sort_by] == attribute || (default && params[:sort_by].blank?)
+    direction = params[:sort_direction] == 'asc' || default == 'asc' ? 'asc' : 'desc'
+    (direction == 'asc' ? '&#9650;' : '&#9660;').html_safe
+  end
+
   def link_to_favorite(owner, favorited, options = {}, &block)
     params = { favorite: { favorited_type: favorited.class.model_name, favorited_id: favorited.id } }
     is_favorited = owner.favorited?(favorited)
