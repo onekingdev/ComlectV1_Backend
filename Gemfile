@@ -41,7 +41,6 @@ gem 'iso_country_codes'
 # Misc
 gem 'business_time'
 gem 'ice_cube'
-gem 'ledermann-rails-settings'
 
 # Assets
 gem 'jquery-rails'

@@ -11,12 +11,12 @@ Sidekiq.configure_server do |config|
     ActiveRecord::Base.establish_connection
   end
 
-  config.redis = { size: (ENV['REDIS_CONNECTIONS'] || 27).to_i }
+  config.redis = { size: 27 }
 end
 
 Sidekiq.configure_client do |config|
   # 1 connection per Rails process
-  config.redis = { size: (ENV['REDIS_CLIENT_CONNECTIONS'] || 1).to_i }
+  config.redis = { size: 1 }
 end
 
 SidekiqUniqueJobs.config.unique_args_enabled = true

@@ -27,7 +27,8 @@ class Projects::JobApplicationsController < ApplicationController
     @job_application = current_specialist.job_applications.find(params[:id])
     authorize @job_application, :destroy?
     @job_application.destroy
-    JobApplicationMailer.deliver_later :withdraw, @job_application
+    # TODO: Send notification to specialist
+    # https://trello.com/c/nfjQBLiK/535-withdraw-application-pop-up
     redirect_to params[:redirect_to] || project_path(@project)
   end
 

@@ -41,12 +41,16 @@ class Specialist::Search
   def search(records)
     return records if keyword.blank?
     terms = keyword.split(' ')
-    columns = %w(first_name last_name)
+    records = records.joins('LEFT JOIN work_experiences ON specialists.id = work_experiences.specialist_id')
+    records = records.joins('LEFT JOIN education_histories ON specialists.id = education_histories.specialist_id')
+    records = records.joins('LEFT JOIN ( skills_specialists LEFT JOIN skills on skills_specialists.skill_id = skills.id) on skills_specialists.specialist_id = specialists.id')
+    columns = ['specialists.first_name', 'specialists.last_name', 'specialists.certifications',
+               'work_experiences.description', 'education_histories.institution', 'skills.name']
     conditions = columns.each_with_index.map do |column|
       Array.new(terms.size) { |i| "#{column} ILIKE :term_#{i}" }.join(' OR ')
     end.join(' OR ')
     values = terms.each_with_index.each_with_object({}) { |(term, i), hash| hash[:"term_#{i}"] = "%#{term}%" }
-    records.where(conditions, values)
+    records.where(conditions, values).uniq
   end
 
   def filter_rating(records)

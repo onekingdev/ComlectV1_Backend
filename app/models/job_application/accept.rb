@@ -30,20 +30,22 @@ class JobApplication::Accept < Draper::Decorator
   private
 
   def schedule_upfront_fee
-    project.charges.create! amount_in_cents: project.annual_salary * 15, # 15% in cents
-                            date: project.starts_on,
-                            process_after: project.starts_on,
-                            status: Charge.statuses[:scheduled],
-                            description: "Upfront fee for job hire"
+    PaymentCycle.for(project).charge_current!(
+      amount: project.annual_salary * 0.15, # 15%
+      description: "Upfront fee for job hire"
+    )
   end
 
   def schedule_monthly_fee
+    payment_cycle = PaymentCycle.for(project)
+    # Push to monday: add two days for saturday, add one day for sunday
+    adjust_dates = Hash.new(0).merge(6 => 2.days, 0 => 1.day)
     6.times do |i|
-      Charge.create! project: project,
-                     date: project.starts_on + i.months,
-                     process_after: project.starts_on + i.months,
-                     amount_in_cents: project.annual_salary * 3, # 3%, 0.03 = 3 in cents
-                     description: "Monthly fee for job hire (#{i + 1} of 6)"
+      date = project.starts_on + i.months
+      date += adjust_dates[date.wday]
+      payment_cycle.schedule_charge! amount: project.annual_salary * 0.03, # 3%
+                                     date: date,
+                                     description: "Monthly fee for job hire (#{i + 1} of 6)"
     end
   end
 end
