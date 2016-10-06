@@ -61,6 +61,7 @@ class Specialist::Form < Specialist
   end
 
   def validate_minimum_experience
-    errors.add :work_experiences, :too_short if work_experiences.map(&:years).reduce(:+) < 3
+    experience = work_experiences.select(&:compliance?).map(&:years).reduce(:+) || 0
+    errors.add :work_experiences, :too_short if experience < 3
   end
 end

@@ -4,6 +4,7 @@ class WorkExperience < ActiveRecord::Base
 
   scope :compliance, -> { where(compliance: true) }
 
+  validates :company, :job_title, presence: true
   validate :validate_from_to
 
   def years

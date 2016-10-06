@@ -1,5 +1,6 @@
+title = "<%= local_assigns[:title] == false ? '' : "<h2>#{local_assigns[:title] || 'Complect'}</h2>" %>";
 options = {
-  message: "<h2><%= local_assigns[:title] || 'Complect' %></h2><p><%= j message %></p>",
+  message: title + "<p><%= j message %></p>",
   backdrop: true,
   closeButton: false,
   className: 'notice <%= local_assigns[:css_class] %>'

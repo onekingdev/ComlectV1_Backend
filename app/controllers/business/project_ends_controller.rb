@@ -5,7 +5,7 @@ class Business::ProjectEndsController < ApplicationController
 
   def create
     @request = ProjectEnd::Request.process! @project
-    js_notice 'Project end requested'
+    js_notice 'Project end requested', title: false
   end
 
   private
