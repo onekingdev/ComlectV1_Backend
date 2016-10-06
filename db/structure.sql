@@ -1582,7 +1582,9 @@ CREATE TABLE specialists (
     ratings_total integer DEFAULT 0 NOT NULL,
     ratings_average double precision,
     deleted boolean DEFAULT false NOT NULL,
-    time_zone character varying
+    time_zone character varying,
+    address_1 character varying,
+    address_2 character varying
 );
 
 
@@ -3145,4 +3147,6 @@ INSERT INTO schema_migrations (version) VALUES ('20161005041957');
 INSERT INTO schema_migrations (version) VALUES ('20161005193709');
 
 INSERT INTO schema_migrations (version) VALUES ('20161006060606');
+
+INSERT INTO schema_migrations (version) VALUES ('20161006192238');
 

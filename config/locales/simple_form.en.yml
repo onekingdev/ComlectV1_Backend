@@ -65,6 +65,8 @@ en:
         state: "* State"
         city: "* City"
         time_zone: "* Timezone"
+        address_1: Address Line 1
+        address_2: Address Line 2
         zipcode: "* Zipcode"
         phone: Phone Number
         linkedin_link: LinkedIn Profile URL

@@ -13,40 +13,59 @@
     h2.text-center.m-b-3 Next, your contact information
   - else
     h2.text-center.m-b-3 Your contact information
+
+  h3
+    i.icon.maxicons1-building
+    'Contact Info
+
   .row.row-compact
     .col-sm-4
       = f.input :first_name, input_html: { class: 'input-lg' }
     .col-sm-4
       = f.input :last_name, input_html: { class: 'input-lg' }
     .col-sm-4
-      = f.input :city, input_html: { class: 'input-lg js-place-autocomplete', data: { country: '#specialist_country', state: '#specialist_state', zipcode: '#specialist_zipcode', lat: '#specialist_lat', lng: '#specialist_lng', self: 'city' } }
-      = f.hidden_field :lat
-      = f.hidden_field :lng
+      = f.input :phone, required: false, input_html: { class: 'input-lg' }
   .row.row-compact
     .col-sm-4
+      = f.input :linkedin_link, required: false, input_html: { class: 'input-lg' }
+
+  h3
+    i.icon.maxicons2-navigation
+    'Location
+
+  .row.row-compact
+    .col-sm-4
+      = f.input :address_1,
+        required: false,
+        input_html: { \
+          class: 'input-lg js-place-autocomplete', \
+          data: { zipcode: '#specialist_zipcode', country: '#specialist_country', state: '#specialist_state', city: '#specialist_city' } \
+        }
+    .col-sm-4= f.input :address_2, required: false, input_html: { class: 'input-lg' }
+    .col-sm-4
       = f.input :zipcode, input_html: { class: 'input-lg' }
+  .row.row-compact
+    .col-sm-4
+      = f.input :city, readonly: true, as: :string, input_html: { class: 'input-lg' }
+      = f.hidden_field :lat
+      = f.hidden_field :lng
     .col-sm-4= f.input :state, readonly: true, as: :string, input_html: { class: 'input-lg' }
     .col-sm-4= f.input :country, readonly: true, as: :string, input_html: { class: 'input-lg' }
   .row.row-compact
     .col-sm-4
       = f.input :time_zone, include_blank: t('simple_form.placeholders.specialist.time_zone'), input_html: { class: 'input-lg js-select' }
-    .col-sm-4
-      = f.input :phone, required: false, input_html: { class: 'input-lg' }
-    .col-sm-4
-      = f.input :linkedin_link, required: false, input_html: { class: 'input-lg' }
 
 .well.well-lg.m-t-3
   h2.text-center.m-b-3 Tell us about your professional experience
-  
+
   - unless f.object.errors[:work_experiences].blank?
     .has-error.text-center.m-b-3
-      span.help-block 
+      span.help-block
         'To be eligible, you must have 3+ years work experience in financial regulatory compliance
 
   h3
     i.icon.maxicons1-building
     'Work Experience
-    
 
   #work-experiences.m-b-2
     = f.simple_fields_for :work_experiences do |wef|
