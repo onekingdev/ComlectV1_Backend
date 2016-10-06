@@ -3,7 +3,7 @@ class ProjectEnd::Request < Draper::Decorator
   decorates ProjectEnd
   delegate_all
 
-  include NotificationsHelper
+  extend NotificationsHelper
 
   # TODO: Schedule expiring stale requests
 
