@@ -3,6 +3,8 @@ class ProjectExtension::Request < Draper::Decorator
   decorates ProjectExtension
   delegate_all
 
+  include NotificationsHelper
+
   # TODO: Schedule expiring stale requests
 
   def self.process!(project, new_end_date)
@@ -10,7 +12,9 @@ class ProjectExtension::Request < Draper::Decorator
     # Delete previous request if any
     pending.where(project_id: project).delete_all
     new(create!(project: project, expires_at: expires_at, new_end_date: new_end_date)).tap do |request|
-      ProjectMailer.deliver_later :extension_request, request.project
+      notification_enabled? project.specialist, :project_extension_requested do
+        ProjectMailer.deliver_later :extension_request, request.project
+      end
     end
   end
 
