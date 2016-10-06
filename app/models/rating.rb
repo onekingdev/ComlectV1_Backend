@@ -14,8 +14,13 @@ class Rating < ActiveRecord::Base
 
   validates :review, presence: true, if: -> { value.blank? || value < 4 }
 
+  SELECT_RATED = {
+    'Business' => :specialist,
+    'Specialist' => :business
+  }.freeze
+
   def to
-    (project.parties - [rater]).first
+    project.public_send SELECT_RATED[rater.class.model_name.to_s]
   end
 
   private

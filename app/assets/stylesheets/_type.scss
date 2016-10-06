@@ -43,6 +43,11 @@ a.link {
   }
 }
 
+a.no-link {
+  text-decoration: none;
+  color: #000;
+}
+
 .text-muted {
   color: $text-muted !important;
 

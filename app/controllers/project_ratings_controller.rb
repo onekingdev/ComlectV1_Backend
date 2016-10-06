@@ -3,6 +3,7 @@ class ProjectRatingsController < ApplicationController
   skip_before_action :check_unrated_project
   before_action :find_project, :set_form_url
   protect_from_forgery only: []
+  include NotificationsHelper
 
   def new
     return render js: '' unless @project
@@ -12,7 +13,10 @@ class ProjectRatingsController < ApplicationController
   def create
     @rating = @project.ratings.new(rating_params.merge(rater: specialist_or_business))
     if @rating.save
-      js_redirect redirect_url
+      notification_enabled?(@rating.to, :got_rated) do
+        RatingMailer.deliver_later :notification, @rating.id
+      end
+      js_redirect redirect_url, status: :created
     else
       render :new
     end

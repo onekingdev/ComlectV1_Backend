@@ -41,6 +41,10 @@ FactoryGirl.define do
       status Project.statuses[:published]
     end
 
+    trait :complete do
+      status Project.statuses[:complete]
+    end
+
     trait :upfront_fee do
       fee_type Project.fee_types[:upfront_fee]
     end

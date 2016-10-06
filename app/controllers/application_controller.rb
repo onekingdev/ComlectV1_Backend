@@ -55,9 +55,9 @@ class ApplicationController < ActionController::Base
   end
   helper_method :js_notice
 
-  def js_redirect(path)
+  def js_redirect(path, status: :ok)
     @path = path
-    render 'application/js_redirect'
+    render 'application/js_redirect', status: status
   end
 
   def require_business!
