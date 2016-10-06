@@ -11,9 +11,9 @@ class Transaction::BusinessCharge < Transaction
 
   def process!
     super do
-      charge, source = create_stripe_charge
+      charge, source_id = create_stripe_charge
       self.stripe_id = charge.id
-      self.charge_source_id = source.id
+      self.charge_source_id = source_id
       true
     end
   end
@@ -21,18 +21,8 @@ class Transaction::BusinessCharge < Transaction
   private
 
   def create_stripe_charge
-    last_error = nil # For re-raising in case the last payment source failed
-    business.payment_sources.primary_first.each do |source|
-      begin
-        charge = Stripe::Charge.create(amount: amount_in_cents, currency: 'usd', customer: source.stripe_id)
-        return [charge, source]
-      rescue Stripe::StripeError => e
-        last_error = e
-        next
-      rescue
-        raise
-      end
-    end
-    raise last_error
+    stripe_customer_id = business.payment_profile.stripe_customer_id
+    charge = Stripe::Charge.create(amount: amount_in_cents, currency: 'usd', customer: stripe_customer_id)
+    [charge, stripe_customer_id]
   end
 end
