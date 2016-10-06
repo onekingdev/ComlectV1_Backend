@@ -3,13 +3,18 @@ class JobApplication::Accept < Draper::Decorator
   decorates JobApplication
   delegate_all
 
+  include NotificationsHelper
+
   def self.call(application)
-    new(application).tap do |decorated|
-      decorated.project.update_attribute :specialist_id, decorated.specialist_id
-      decorated.project.complete! if decorated.project.full_time?
-      decorated.schedule_one_off_fees
-      decorated.schedule_full_time_fees
-      decorated.send_specialist_notification
+    ActiveRecord::Base.transaction do
+      new(application).tap do |decorated|
+        decorated.project.update_attribute :specialist_id, decorated.specialist_id
+        decorated.project.complete! if decorated.project.full_time?
+        decorated.schedule_one_off_fees
+        decorated.schedule_full_time_fees
+        decorated.send_specialist_notification
+        decorated.notify_not_selected_applicants
+      end
     end
   end
 
@@ -21,6 +26,14 @@ class JobApplication::Accept < Draper::Decorator
   def schedule_full_time_fees
     return unless project.full_time?
     project.upfront_fee? ? schedule_upfront_fee : schedule_monthly_fee
+  end
+
+  def notify_not_selected_applicants
+    project.job_applications.includes(:specialist).where.not(id: id).find_each do |application|
+      notification_enabled? application.specialist, :not_hired do
+        HireMailer.deliver_later :not_hired, application
+      end
+    end
   end
 
   def send_specialist_notification
