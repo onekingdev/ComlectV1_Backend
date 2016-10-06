@@ -20,6 +20,16 @@ class Specialist < ActiveRecord::Base
   has_many :email_threads, dependent: :destroy
   has_many :payments, through: :projects, source: :charges
 
+  has_settings do |s|
+    s.key :notifications, defaults: {
+      marketing_emails: true,
+      got_rated: true,
+      not_hired: true,
+      project_extension_requested: true,
+      project_end_requested: true
+    }
+  end
+
   accepts_nested_attributes_for :education_histories, :work_experiences
 
   scope :preload_associations, -> {
@@ -34,13 +44,14 @@ class Specialist < ActiveRecord::Base
   }
 
   scope :experience_between, -> (min, max) {
+    # TODO: Adjust when implementing rounding
     base_scope = join_experience.where(work_experiences: { compliance: true })
     if max
       base_scope
-        .having('SUM(ROUND(CAST((COALESCE("to", NOW())::date - "from"::date) AS FLOAT) / 365.0)) BETWEEN ? AND ?', min, max)
+        .having('SUM((COALESCE("to", NOW())::date - "from"::date) / 365) BETWEEN ? AND ?', min, max)
     else
       base_scope
-        .having('SUM(ROUND(CAST((COALESCE("to", NOW())::date - "from"::date) AS FLOAT) / 365.0)) > ?', min)
+        .having('SUM((COALESCE("to", NOW())::date - "from"::date) / 365) > ?', min)
     end
   }
 

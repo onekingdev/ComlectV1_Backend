@@ -47,4 +47,18 @@ RSpec.describe Charge::Processing, type: :model do
       expect(transaction_2.amount_in_cents).to eq(BigDecimal.new(25_000))
     end
   end
+
+  describe 'charge for full time role' do
+    let(:specialist) { create :specialist }
+    let(:project) { create :project_full_time, specialist: specialist, annual_salary: 120_000 }
+    let(:job_application) { project.job_applications.create!(specialist: specialist) }
+
+    it 'creates direct transaction without fee' do
+      JobApplication::Accept.(job_application)
+      processing = Charge::Processing.new(project.charges, project)
+      expect { processing.process! }.to change { Transaction.count }.by(1)
+      transaction = project.transactions.first
+      expect(transaction.amount).to eq(18_000)
+    end
+  end
 end

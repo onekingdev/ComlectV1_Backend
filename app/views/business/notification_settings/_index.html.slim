@@ -1,0 +1,20 @@
+.row
+  .col-xs-12.col-md-8
+    .panel.panel-default
+      .panel-heading
+        h3 Notification Preferences
+
+      .panel-body
+        table.table.table-plain
+          - settings.keys.each do |setting|
+            tr
+              td= t setting, scope: 'notification_settings.businesses'
+              td.text-right
+                input.button-switch.hidden[
+                  type="checkbox"
+                  data-size="small"
+                  data-on-color="primary"
+                  data-remote=true
+                  data-url=business_settings_notification_path(setting)
+                  checked=(business.settings(:notifications).send(setting))
+                ]

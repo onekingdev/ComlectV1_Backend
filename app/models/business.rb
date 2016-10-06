@@ -17,6 +17,15 @@ class Business < ActiveRecord::Base
   has_many :ratings_received, -> { where(rater_type: Specialist.name) }, through: :projects, source: :ratings
   has_many :email_threads, dependent: :destroy
 
+  has_settings do |s|
+    s.key :notifications, defaults: {
+      marketing_emails: true,
+      got_rated: true,
+      project_extended: true,
+      project_ended: true
+    }
+  end
+
   include ImageUploader[:logo]
 
   EMPLOYEE_OPTIONS = %w(<10 11-50 51-100 100+).freeze

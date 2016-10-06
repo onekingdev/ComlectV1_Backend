@@ -19,7 +19,7 @@ class SpecialistTest < ActiveSupport::TestCase
     specialist_1 = create(:specialist, lat: point_1[0] + 0.5, lng: point_1[1] + 0.5)
     specialist_2 = create(:specialist, lat: point_1[0] + 0.1, lng: point_1[1] + 0.1)
     ids = Specialist.by_distance(point_1[0], point_1[1]).pluck(:id)
-    assert_equal [specialist_2.id, specialist_1.id], ids
+    assert_equal [specialist_2.id, specialist_1.id], ids[0..1]
   end
 
   test 'search close_to' do

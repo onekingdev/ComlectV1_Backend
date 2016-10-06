@@ -43,6 +43,7 @@ Rails.application.routes.draw do
       resources :payment_settings, as: :payment, path: 'payment' do
         patch :make_primary
       end
+      resources :notification_settings, as: :notifications, path: 'notifications', only: %i(index update)
     end
     resources :specialists, only: :index
     concerns :favoriteable
@@ -81,6 +82,7 @@ Rails.application.routes.draw do
       resource :password
       resource :delete_account
       resource :payment_setting, as: :payment, path: 'payment'
+      resources :notification_settings, as: :notifications, path: 'notifications', only: %i(index update)
     end
     resources :projects, path: 'my-projects'
     concerns :favoriteable
