@@ -7,6 +7,7 @@ class Charge < ActiveRecord::Base
   scope :real, -> { where(status: [Charge.statuses[:scheduled], Charge.statuses[:processed]]) }
   scope :upcoming, -> { where(status: [Charge.statuses[:estimated], Charge.statuses[:scheduled]]) }
   scope :after, -> (date) { where('date >= ?', date) }
+  scope :for_processing, -> { where('process_after <= ?', Time.zone.now) }
 
   enum status: { estimated: 'estimated', scheduled: 'scheduled', processed: 'processed', error: 'error' }
 
