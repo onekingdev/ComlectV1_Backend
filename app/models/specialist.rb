@@ -20,6 +20,16 @@ class Specialist < ActiveRecord::Base
   has_many :email_threads, dependent: :destroy
   has_many :payments, through: :projects, source: :charges
 
+  has_settings do |s|
+    s.key :notifications, defaults: {
+      marketing_emails: true,
+      got_rated: true,
+      not_hired: true,
+      project_extension_requested: true,
+      project_end_requested: true
+    }
+  end
+
   accepts_nested_attributes_for :education_histories, :work_experiences
 
   scope :preload_associations, -> {

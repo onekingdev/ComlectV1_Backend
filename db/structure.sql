@@ -1479,6 +1479,40 @@ CREATE TABLE schema_migrations (
 
 
 --
+-- Name: settings; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE settings (
+    id integer NOT NULL,
+    var character varying NOT NULL,
+    value text,
+    target_id integer NOT NULL,
+    target_type character varying NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: settings_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE settings_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: settings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE settings_id_seq OWNED BY settings.id;
+
+
+--
 -- Name: skills; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1950,6 +1984,13 @@ ALTER TABLE ONLY ratings ALTER COLUMN id SET DEFAULT nextval('ratings_id_seq'::r
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY settings ALTER COLUMN id SET DEFAULT nextval('settings_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY skills ALTER COLUMN id SET DEFAULT nextval('skills_id_seq'::regclass);
 
 
@@ -2152,6 +2193,14 @@ ALTER TABLE ONLY projects
 
 ALTER TABLE ONLY ratings
     ADD CONSTRAINT ratings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: settings_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY settings
+    ADD CONSTRAINT settings_pkey PRIMARY KEY (id);
 
 
 --
@@ -2688,6 +2737,13 @@ CREATE INDEX index_ratings_on_rater_type_and_rater_id ON ratings USING btree (ra
 
 
 --
+-- Name: index_settings_on_target_type_and_target_id_and_var; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_settings_on_target_type_and_target_id_and_var ON settings USING btree (target_type, target_id, var);
+
+
+--
 -- Name: index_skills_on_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -3087,4 +3143,6 @@ INSERT INTO schema_migrations (version) VALUES ('20161005031450');
 INSERT INTO schema_migrations (version) VALUES ('20161005041957');
 
 INSERT INTO schema_migrations (version) VALUES ('20161005193709');
+
+INSERT INTO schema_migrations (version) VALUES ('20161006060606');
 

@@ -81,6 +81,7 @@ Rails.application.routes.draw do
       resource :password
       resource :delete_account
       resource :payment_setting, as: :payment, path: 'payment'
+      resources :notification_settings, as: :notifications, path: 'notifications', only: %i(index update)
     end
     resources :projects, path: 'my-projects'
     concerns :favoriteable
