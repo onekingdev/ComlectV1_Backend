@@ -233,6 +233,40 @@ ALTER SEQUENCE charges_id_seq OWNED BY charges.id;
 
 
 --
+-- Name: documents; Type: TABLE; Schema: public; Owner: -; Tablespace:
+--
+
+CREATE TABLE documents (
+    id integer NOT NULL,
+    owner_id integer,
+    owner_type character varying,
+    project_id integer NOT NULL,
+    file_data jsonb,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: documents_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE documents_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: documents_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE documents_id_seq OWNED BY documents.id;
+
+
+--
 -- Name: education_histories; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1874,6 +1908,13 @@ ALTER TABLE ONLY charges ALTER COLUMN id SET DEFAULT nextval('charges_id_seq'::r
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY documents ALTER COLUMN id SET DEFAULT nextval('documents_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY education_histories ALTER COLUMN id SET DEFAULT nextval('education_histories_id_seq'::regclass);
 
 
@@ -2075,6 +2116,14 @@ ALTER TABLE ONLY charges
 
 ALTER TABLE ONLY education_histories
     ADD CONSTRAINT education_histories_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: documents_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+--
+
+ALTER TABLE ONLY documents
+    ADD CONSTRAINT documents_pkey PRIMARY KEY (id);
 
 
 --
@@ -3145,6 +3194,8 @@ INSERT INTO schema_migrations (version) VALUES ('20161005031450');
 INSERT INTO schema_migrations (version) VALUES ('20161005041957');
 
 INSERT INTO schema_migrations (version) VALUES ('20161005193709');
+
+INSERT INTO schema_migrations (version) VALUES ('20161005195837');
 
 INSERT INTO schema_migrations (version) VALUES ('20161006060606');
 

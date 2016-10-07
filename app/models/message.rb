@@ -60,4 +60,12 @@ class Message < ActiveRecord::Base
     MessageMailer.deliver_later :first_contact, sender, recipient, message, project
     true
   end
+
+  def get_file_name
+    file.metadata['filename']
+  end
+
+  def get_owner_name
+    sender.to_s
+  end
 end

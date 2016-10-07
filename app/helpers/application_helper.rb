@@ -71,4 +71,8 @@ module ApplicationHelper
       content_tag 'div', flash[key], class: "alert alert-#{classes[key.to_sym]} m-b-3"
     end.join("\n").html_safe
   end
+
+  def doc_page_num
+    params[:page].blank? ? 1 : params[:page].to_i
+  end
 end

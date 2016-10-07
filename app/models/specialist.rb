@@ -44,14 +44,13 @@ class Specialist < ActiveRecord::Base
   }
 
   scope :experience_between, -> (min, max) {
-    # TODO: Adjust when implementing rounding
     base_scope = join_experience.where(work_experiences: { compliance: true })
     if max
       base_scope
-        .having('SUM((COALESCE("to", NOW())::date - "from"::date) / 365) BETWEEN ? AND ?', min, max)
+        .having('SUM(ROUND(CAST((COALESCE("to", NOW())::date - "from"::date) AS FLOAT) / 365.0)) BETWEEN ? AND ?', min, max)
     else
       base_scope
-        .having('SUM((COALESCE("to", NOW())::date - "from"::date) / 365) > ?', min)
+        .having('SUM(ROUND(CAST((COALESCE("to", NOW())::date - "from"::date) AS FLOAT) / 365.0)) > ?', min)
     end
   }
 

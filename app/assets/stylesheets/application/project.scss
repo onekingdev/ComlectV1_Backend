@@ -148,4 +148,8 @@ body.projects.show {
   overflow-y: auto;
 }
 
+.documents-table .added-by {
+  min-width: 100px;
+}
+
 @import "project/*";

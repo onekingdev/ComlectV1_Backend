@@ -22,6 +22,7 @@ class Project < ActiveRecord::Base
   has_many :transactions, dependent: :destroy
   has_many :extensions, dependent: :destroy, class_name: 'ProjectExtension'
   has_one :extension, -> { pending }, class_name: 'ProjectExtension'
+  has_many :documents, dependent: :destroy
 
   accepts_nested_attributes_for :extensions, :timesheets
 
