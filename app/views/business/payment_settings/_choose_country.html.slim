@@ -6,3 +6,5 @@
   = f.country_select :country,
     { include_blank: true, only: Stripe::SUPPORTED_COUNTRIES.keys.map(&:to_s) },
     { class: 'form-control input-lg input-gray', data: { env: ENV.fetch('PLAID_ENV'), public_key: ENV.fetch('PLAID_PUBLIC_KEY'), client_name: current_business.business_name } }
+  br
+  = link_to 'Add account with micro-deposits verification', new_business_settings_payment_path
