@@ -14,9 +14,9 @@ table.table.table-striped.documents-table
           td
             = doc_mess.is_a?(Message) ? doc_mess.sender.to_s : doc_mess.owner.to_s
           td
-            = doc_mess.created_at.in_time_zone(me.time_zone).strftime('%b %-d, %Y %I:%M %p')
+            = doc_mess.created_at.in_time_zone(@me.time_zone).strftime('%b %-d, %Y %I:%M %p')
           td
-            - if (doc_mess.is_a?(Message) && doc_mess.sender == me) || (doc_mess.is_a?(Document) && doc_mess.owner == me)
+            - if (doc_mess.is_a?(Message) && doc_mess.sender == @me) || (doc_mess.is_a?(Document) && doc_mess.owner == @me)
               = form_tag project_document_path(@project.id, doc_mess.id), method: :delete do
                 = hidden_field_tag :doc_type, doc_mess.class.to_s
                 = submit_tag 'Delete'
