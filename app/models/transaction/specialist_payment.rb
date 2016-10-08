@@ -6,7 +6,7 @@ class Transaction::SpecialistPayment < Transaction
 
   validates :parent_transaction, presence: true
 
-  delegate :project, to: :parent_transaction
+  delegate :project, :specialist, to: :parent_transaction
 
   def process!
     super do
