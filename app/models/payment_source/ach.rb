@@ -10,7 +10,8 @@ class PaymentSource::ACH < PaymentSource
       attributes = {
         token: user.stripe_bank_account_token,
         brand: params.require(:plaid_institution),
-        last4: '****'
+        last4: '****',
+        validated: true
       }
       add_to business, attributes
     end
