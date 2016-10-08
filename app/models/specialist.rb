@@ -37,9 +37,8 @@ class Specialist < ActiveRecord::Base
   }
 
   scope :join_experience, -> {
-    # TODO: Adjust when implementing rounding
     joins(:work_experiences)
-      .select('specialists.*, SUM((COALESCE("to", NOW())::date - "from"::date) / 365) AS years_of_experience')
+      .select("specialists.*, #{dates_between_query} AS years_of_experience")
       .group(:id)
   }
 
@@ -47,10 +46,10 @@ class Specialist < ActiveRecord::Base
     base_scope = join_experience.where(work_experiences: { compliance: true })
     if max
       base_scope
-        .having('SUM(ROUND(CAST((COALESCE("to", NOW())::date - "from"::date) AS FLOAT) / 365.0)) BETWEEN ? AND ?', min, max)
+        .having("#{dates_between_query} BETWEEN ? AND ?", min, max)
     else
       base_scope
-        .having('SUM(ROUND(CAST((COALESCE("to", NOW())::date - "from"::date) AS FLOAT) / 365.0)) > ?', min)
+        .having("#{dates_between_query} > ?", min)
     end
   }
 
@@ -82,6 +81,11 @@ class Specialist < ActiveRecord::Base
   enum visibility:  { is_public: 'public', is_private: 'private' }
 
   delegate :deleted?, to: :user
+
+  def self.dates_between_query
+    'SUM(ROUND((COALESCE("to", NOW())::date - "from"::date)::float / 365.0)::numeric::int)'
+  end
+  private_class_method :dates_between_query
 
   def messages
     Message.where("

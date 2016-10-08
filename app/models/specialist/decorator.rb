@@ -38,7 +38,7 @@ class Specialist::Decorator < ApplicationDecorator
   def years_of_experience
     return @_years_of_experience if @_years_of_experience
     @_years_of_experience =
-      model[:years_of_experience] || calculate_years_of_experience / 365
+      model[:years_of_experience] || (calculate_years_of_experience / 365.0).round
   end
 
   def sorted_education_histories
@@ -90,7 +90,7 @@ class Specialist::Decorator < ApplicationDecorator
 
   def calculate_years_of_experience
     work_experiences.compliance.map do |exp|
-      exp.from ? ((exp.to || Time.zone.today) - exp.from).to_i : 0
-    end.reduce(:+) || 0
+      exp.from ? ((exp.to || Time.zone.today) - exp.from).to_f : 0.0
+    end.reduce(:+) || 0.0
   end
 end

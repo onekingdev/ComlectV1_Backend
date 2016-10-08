@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 ActiveAdmin.register Skill do
-  menu parent: 'Projects'
-
   filter :name
   filter :created_at
   filter :updated_at
