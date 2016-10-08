@@ -73,9 +73,18 @@ class PaymentSource < ActiveRecord::Base
     end
     true
   rescue Stripe::StripeError => e
-    Appsignal.send_error e
-    errors.add :base, e.message
+    errors.add :base, parse_stripe_error(e)
     false
+  end
+
+  def parse_stripe_error(e)
+    case e.message
+    when /already exists/i
+      'You already linked that account'
+    else
+      Appsignal.send_error e
+      'Could not link your account. Please try again later.'
+    end
   end
 
   def stripe_customer
