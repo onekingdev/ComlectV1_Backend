@@ -49,7 +49,7 @@ class Specialist < ActiveRecord::Base
         .having("#{dates_between_query} BETWEEN ? AND ?", min, max)
     else
       base_scope
-        .having("#{dates_between_query} > ?", min)
+        .having("#{dates_between_query} >= ?", min)
     end
   }
 
