@@ -18,7 +18,10 @@ class Business::PaymentSettingsController < ApplicationController
   def create
     @payment_source = payment_source_type.plaid_or_manual current_business, stripe_params
     respond_to do |format|
-      format.html { redirect_to business_settings_payment_index_path }
+      format.html do
+        notice = @payment_source.errors.any? ? "Could not link your account. Please try again later." : nil
+        redirect_to business_settings_payment_index_path, notice: notice
+      end
       format.js do
         @payment_source = PaymentSource::ACHForm.new(@payment_source)
         if @payment_source.persisted?

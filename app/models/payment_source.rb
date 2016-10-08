@@ -73,7 +73,9 @@ class PaymentSource < ActiveRecord::Base
     end
     true
   rescue Stripe::StripeError => e
+    Appsignal.send_error e
     errors.add :base, e.message
+    false
   end
 
   def stripe_customer

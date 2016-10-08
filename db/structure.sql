@@ -233,7 +233,7 @@ ALTER SEQUENCE charges_id_seq OWNED BY charges.id;
 
 
 --
--- Name: documents; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: documents; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE documents (
@@ -2111,19 +2111,19 @@ ALTER TABLE ONLY charges
 
 
 --
+-- Name: documents_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY documents
+    ADD CONSTRAINT documents_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: education_histories_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY education_histories
     ADD CONSTRAINT education_histories_pkey PRIMARY KEY (id);
-
-
---
--- Name: documents_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
---
-
-ALTER TABLE ONLY documents
-    ADD CONSTRAINT documents_pkey PRIMARY KEY (id);
 
 
 --
@@ -2393,6 +2393,20 @@ CREATE INDEX index_charges_on_status ON charges USING btree (status);
 --
 
 CREATE INDEX index_charges_on_transaction_id ON charges USING btree (transaction_id);
+
+
+--
+-- Name: index_documents_on_owner_type_and_owner_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_documents_on_owner_type_and_owner_id ON documents USING btree (owner_type, owner_id);
+
+
+--
+-- Name: index_documents_on_project_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_documents_on_project_id ON documents USING btree (project_id);
 
 
 --

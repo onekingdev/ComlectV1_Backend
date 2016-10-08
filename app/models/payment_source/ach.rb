@@ -18,7 +18,7 @@ class PaymentSource::ACH < PaymentSource
     private
 
     def add_to_existing(profile, params)
-      source = profile.payment_sources.new params.merge(primary: profile.payment_sources.empty?)
+      source = new(params.merge(payment_profile: profile, primary: profile.payment_sources.empty?))
       source.save if profile.errors.empty?
       source
     rescue Stripe::StripeError => e
@@ -38,14 +38,6 @@ class PaymentSource::ACH < PaymentSource
     update_attribute :validated, true
   rescue Stripe::CardError => _e
     errors.add :base, "Amounts don't match"
-  end
-
-  def create_source
-    stripe_customer.sources.create(source: token)
-    true
-  rescue Stripe::StripeError => e
-    errors.add :base, e.message
-    false
   end
 
   def bank_account?
