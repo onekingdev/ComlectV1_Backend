@@ -9,8 +9,8 @@ class Transaction::SpecialistPayment < Transaction
   delegate :project, :specialist, to: :parent_transaction
 
   def process!
-    raise "Specialist does not have a bank account" unless specialist.stripe_account
     super do
+      raise "Specialist does not have a bank account" unless specialist.stripe_account
       if parent_transaction.processed?
         transfer = create_stripe_transfer
         self.stripe_id = transfer.id
