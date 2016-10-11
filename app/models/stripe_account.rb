@@ -73,7 +73,7 @@ class StripeAccount < ActiveRecord::Base
   end
 
   def delete_managed_account
-    Stripe::Account.delete stripe_id
+    Stripe::Account.retrieve(stripe_id).delete
   end
 
   def status_from_account(account)
