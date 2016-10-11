@@ -23,6 +23,20 @@ class Specialists::PaymentSettingsController < ApplicationController
     end
   end
 
+  def edit
+    @account = StripeAccount::Form.for(current_specialist)
+    render :new
+  end
+
+  def update
+    @account = StripeAccount::Form.for(current_specialist)
+    if @account.update_and_verify(account_attributes)
+      redirect_to specialists_settings_payment_path
+    else
+      render :new
+    end
+  end
+
   def destroy
     current_specialist.stripe_account&.destroy
     redirect_to specialists_settings_payment_path

@@ -93,4 +93,4 @@
 
   .text-center.m-t-3
     = link_to 'Cancel', specialists_settings_payment_path, remote: true, class: 'btn btn-primary btn-lg p-x-3 m-r-1'
-    = f.submit 'Add Account', class: 'btn btn-primary btn-lg p-x-3'
+    = f.submit f.object.persisted? ? 'Update Account' : 'Add Account', class: 'btn btn-primary btn-lg p-x-3'

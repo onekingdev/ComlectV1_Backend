@@ -56,6 +56,7 @@ class StripeAccount < ActiveRecord::Base
     account.save
     account = Stripe::Account.retrieve(stripe_id)
     update_attribute :status, status_from_account(account)
+    true
   rescue Stripe::InvalidRequestError => e
     errors.add :base, e.message
     false
@@ -79,31 +80,44 @@ class StripeAccount < ActiveRecord::Base
     account.verification.fields_needed.empty? ? self.class.statuses[:verified] : self.class.statuses[:fields_needed]
   end
 
-  # rubocop:disable Metrics/PerceivedComplexity
-  # rubocop:disable Metrics/MethodLength
-  # rubocop:disable Metrics/CyclomaticComplexity
-  # rubocop:disable Metrics/AbcSize
+  FIELD_MAPPINGS = {
+    'legal_entity.type' => :account_type,
+    'legal_entity.address.city' => :city,
+    'legal_entity.address.line1' => :address1,
+    'legal_entity.address.postal_code' => :zipcode,
+    'legal_entity.address.state' => :state,
+    'legal_entity.personal_address.city' => :personal_city,
+    'legal_entity.personal_address.line1' => :personal_address1,
+    'legal_entity.personal_address.postal_code' => :personal_zipcode,
+    'legal_entity.personal_id_number' => :personal_id_number,
+    'legal_entity.dob.day' => -> { dob.day },
+    'legal_entity.dob.month' => -> { dob.month },
+    'legal_entity.dob.year' => -> { dob.year },
+    'legal_entity.first_name' => :first_name,
+    'legal_entity.last_name' => :last_name,
+    'legal_entity.ssn_last_4' => :ssn_last_4,
+    'legal_entity.business_name' => :business_name,
+    'legal_entity.business_tax_id' => :business_tax_id,
+    'tos_acceptance.date' => -> { tos_acceptance_date.to_i },
+    'tos_acceptance.ip' => :tos_acceptance_ip
+  }.freeze
+
   def assign_account_fields(account)
-    account.legal_entity.type = account_type if account_type.present?
-    account.legal_entity.address.city = city if city.present?
-    account.legal_entity.address.line1 = address1 if address1.present?
-    account.legal_entity.address.postal_code = zipcode if zipcode.present?
-    account.legal_entity.address.state = state if state.present?
-    account.legal_entity.personal_address.city = personal_city if personal_city.present?
-    account.legal_entity.personal_address.line1 = personal_address1 if personal_address1.present?
-    account.legal_entity.personal_address.postal_code = personal_zipcode if personal_zipcode.present?
-    account.legal_entity.personal_id_number = personal_id_number if personal_id_number.present?
-    account.legal_entity.dob.day = dob.day if dob.present?
-    account.legal_entity.dob.month = dob.month if dob.present?
-    account.legal_entity.dob.year = dob.year if dob.present?
-    account.legal_entity.first_name = first_name if first_name.present?
-    account.legal_entity.last_name = last_name if last_name.present?
-    account.legal_entity.ssn_last_4 = ssn_last_4 if ssn_last_4.present?
-    account.legal_entity.business_name = business_name if business_name.present?
-    account.legal_entity.business_tax_id = business_tax_id if business_tax_id.present?
-    account.tos_acceptance.date = tos_acceptance_date.to_i if tos_acceptance_date.present?
-    account.tos_acceptance.ip = tos_acceptance_ip if tos_acceptance_ip.present?
-    upload = upload_verification_document
-    account.legal_entity.verification.document = upload.id if upload
+    FIELD_MAPPINGS.each do |field, value|
+      assign_account_field account, field, value.is_a?(Proc) ? instance_exec(&value) : public_send(value)
+    end
+    if verification_document_data
+      upload = upload_verification_document
+      account.legal_entity.verification.document = upload.id if upload
+    end
+  end
+
+  def assign_account_field(account, field, value)
+    return unless value.present?
+    methods = field.split('.')
+    # Chain method calls except last one
+    methods[0..-2].inject(account) do |acc, method|
+      acc.public_send method
+    end.public_send("#{methods.last}=", value)
   end
 end

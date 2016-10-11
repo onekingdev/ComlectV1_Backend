@@ -38,6 +38,15 @@ class StripeAccount::Form < StripeAccount
     end
   end
 
+  def update_and_verify(attributes)
+    self.class.transaction do
+      update_attributes! attributes
+      return true if verify_account
+      errors.add :base, 'Could not verify account info with Stripe'
+      raise ActiveRecord::Rollback
+    end
+  end
+
   def required?(field)
     return false unless REQUIRED_FIELDS.key?(field)
     base = REQUIRED_FIELDS[field][:both] || REQUIRED_FIELDS[field][account_type.to_sym] || {}
