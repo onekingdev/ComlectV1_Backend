@@ -67,7 +67,7 @@ class Project::Search
   def search(records)
     return records if keyword.blank?
     terms = keyword.split(' ')
-    columns = ['title', 'description', 'key_deliverables']
+    columns = %w(title description key_deliverables)
     conditions = columns.each_with_index.map do |column|
       Array.new(terms.size) { |i| "#{column} ILIKE :term_#{i}" }.join(' OR ')
     end.join(' OR ')

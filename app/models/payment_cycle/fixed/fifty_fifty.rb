@@ -2,7 +2,9 @@
 class PaymentCycle::Fixed::FiftyFifty < PaymentCycle::Fixed
   def reschedule!
     # Create first real charge right away
-    schedule_charge! amount: estimated_total / 2.0, date: project.starts_on, description: "First 50/50 charge"
+    unless charge_exists?(project.starts_on)
+      schedule_charge! amount: estimated_total / 2.0, date: project.starts_on, description: "First 50/50 charge"
+    end
     # Schedule second charge normally
     super
   end

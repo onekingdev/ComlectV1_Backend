@@ -1,14 +1,15 @@
+# frozen_string_literal: true
 class Document < ActiveRecord::Base
   include FileUploader[:file]
   belongs_to :project
   belongs_to :owner, polymorphic: true
-  validates_presence_of :file_data
+  validates :file_data, presence: true
 
-  def get_file_name
+  def file_name
     file_data['metadata']['filename']
   end
 
-  def get_owner_name
+  def owner_name
     owner.to_s
   end
 end

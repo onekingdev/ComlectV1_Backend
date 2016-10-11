@@ -33,7 +33,7 @@ class PaymentCycle
   def reschedule!
     project.charges.estimated.delete_all
     remaining_dates = occurrences.reject { |date| charge_exists?(date) }
-    amounts = outstanding_amount / remaining_dates.size
+    amounts = outstanding_amount / remaining_dates.size if remaining_dates.any?
     remaining_dates.each do |date|
       create_estimated_charge! amount: amounts, date: date
     end

@@ -25,5 +25,14 @@ RSpec.describe PaymentCycle::Fixed::FiftyFifty, type: :model do
       ]
       expect(@project.charges.map(&:process_after).sort).to eq(dates)
     end
+
+    it 'does not duplicate charges' do
+      JobApplication::Accept.(@job_application)
+      PaymentCycle.for(@project).create_charges_and_reschedule!
+      PaymentCycle.for(@project).create_charges_and_reschedule!
+      expect(@project.charges.count).to eq(2)
+      dates = [Date.new(2016, 1, 1), Date.new(2016, 3, 26)]
+      expect(@project.reload.charges.map { |ch| ch.date.to_date }.sort).to eq(dates)
+    end
   end
 end
