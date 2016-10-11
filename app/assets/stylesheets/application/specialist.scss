@@ -77,7 +77,7 @@ body.specialists.show {
   #work-experiences {
     position: relative;
 
-    & > :nth-last-child(3) {
+    .last-child {
       .remove {
         margin-right: 2em;
       }
@@ -93,7 +93,7 @@ body.specialists.show {
   #education-histories {
     position: relative;
 
-    & > :nth-last-child(3) {
+    .last-child {
       .remove {
         margin-right: 2em;
       }
@@ -110,35 +110,6 @@ body.specialists.show {
   .specialist_education_histories_year .multiselect-container {
     max-height: 200px;
     overflow: auto;
-  }
-
-  // New/edit forms differ a bit so we need to adjust
-  &#new_specialist #education-histories {
-    > :nth-last-child(3) {
-      .remove {
-        margin-right: 0;
-      }
-    }
-
-    > :nth-last-child(2) {
-      .remove {
-        margin-right: 2em;
-      }
-    }
-  }
-
-  &#new_specialist #work-experiences {
-    > :nth-last-child(3) {
-      .remove {
-        margin-right: 0;
-      }
-    }
-
-    > :nth-last-child(2) {
-      .remove {
-        margin-right: 2em;
-      }
-    }
   }
 
   .specialist_skill_selector {

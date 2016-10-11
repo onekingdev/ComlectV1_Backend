@@ -41,10 +41,12 @@ class Specialist::Search
   def search(records)
     return records if keyword.blank?
     terms = keyword.split(' ')
-    records = additional_search_joins(records)
+    records = records.joins('LEFT JOIN work_experiences ON specialists.id = work_experiences.specialist_id')
+    records = records.joins('LEFT JOIN education_histories ON specialists.id = education_histories.specialist_id')
+    records = records.joins('LEFT JOIN ( skills_specialists LEFT JOIN skills on skills_specialists.skill_id = skills.id) on skills_specialists.specialist_id = specialists.id')
     columns = ['specialists.first_name', 'specialists.last_name', 'specialists.certifications',
-               'work_experiences.description', 'work_experiences.company', 'work_experiences.job_title',
-               'education_histories.institution', 'skills.name']
+               'work_experiences.description','work_experiences.company','work_experiences.job_title',
+               'education_histories.institution', 'skills.name' ]
     conditions = columns.each_with_index.map do |column|
       Array.new(terms.size) { |i| "#{column} ILIKE :term_#{i}" }.join(' OR ')
     end.join(' OR ')
@@ -110,12 +112,5 @@ class Specialist::Search
     min = 0 if min.nil? || !min.to_i.between?(0, MAX_LOCATION_RANGE)
     max = MAX_LOCATION_RANGE if max.nil? || !max.to_i.between?(0, MAX_LOCATION_RANGE)
     [min.to_i, max.to_i]
-  end
-
-  def additional_search_joins(records)
-    records = records.joins('LEFT JOIN work_experiences ON specialists.id = work_experiences.specialist_id')
-    records = records.joins('LEFT JOIN education_histories ON specialists.id = education_histories.specialist_id')
-    inner_query = 'skills_specialists LEFT JOIN skills on skills_specialists.skill_id = skills.id'
-    records.joins("LEFT JOIN (#{inner_query}) on skills_specialists.specialist_id = specialists.id")
   end
 end

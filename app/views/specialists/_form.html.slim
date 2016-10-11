@@ -67,7 +67,7 @@
     i.icon.maxicons1-building
     'Work Experience
 
-  #work-experiences.m-b-2
+  #work-experiences.m-b-2.js-set-last-child data-last-child=".nested-fields:last"
     = f.simple_fields_for :work_experiences do |wef|
       / Check specialist styling when changing this section in case the hack to align the "Add another" link needs tweaking
       = render 'work_experience_fields', f: wef
@@ -108,7 +108,7 @@
 .well.well-lg.m-t-3
   h2.text-center.m-b-0 Now on to your education (almost done!)
 
-  #education-histories.m-b-1
+  #education-histories.m-b-1.js-set-last-child data-last-child=".nested-fields:last"
     = f.simple_fields_for :education_histories do |ehf|
       / Check specialist styling when changing this section in case the hack to align the "Add another" link needs tweaking
       = render 'education_history_fields', f: ehf

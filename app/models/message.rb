@@ -61,11 +61,11 @@ class Message < ActiveRecord::Base
     true
   end
 
-  def file_name
+  def get_file_name
     file.metadata['filename']
   end
 
-  def owner_name
+  def get_owner_name
     sender.to_s
   end
 end
