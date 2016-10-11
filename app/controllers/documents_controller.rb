@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class DocumentsController < ApplicationController
   before_action :find_project
   before_action :set_me
@@ -45,35 +46,13 @@ class DocumentsController < ApplicationController
 
   def sorted_documents
     all_documents = @project.messages.where.not(file_data: nil)
-    all_documents = all_documents + @project.documents
-    if params[:sort_by] == 'Name'
-      if params['sort_direction'] == 'asc'
-        all_documents = all_documents.sort{|a, b| a.get_file_name <=> b.get_file_name }
-      else
-        all_documents = all_documents.sort{|a, b| b.get_file_name <=> a.get_file_name }
-      end
-    elsif params[:sort_by] == 'Added By'
-      if params['sort_direction'] == 'asc'
-        all_documents = all_documents.sort{ |a, b| a.get_owner_name <=> b.get_owner_name }
-      else
-        all_documents = all_documents.sort{ |a, b| b.get_owner_name <=> a.get_owner_name }
-      end
-    else
-      if params[:sort_by] == 'Date Added' && params['sort_direction'] == 'asc'
-        all_documents = all_documents.sort{|a,b| a.created_at <=> b.created_at }
-      else
-        all_documents = all_documents.sort { |a,b| b.created_at <=> a.created_at }
-      end
-    end
-    all_documents
+    all_documents += @project.documents
+    sort_docs(all_documents, params['sort_direction'], params['sort_by'] || 'Date Added')
   end
 
   def docs_of_current_page
-    if params[:page].blank? || params[:page] == 1
-      @docs_and_messages[0..10]
-    elsif params[:page].present?
-      @docs_and_messages[((params[:page].to_i - 1) * 10)..((params[:page].to_i) * 10)]
-    end
+    current_page_num = params[:page].blank? ? 1 : params[:page].to_i
+    @docs_and_messages[((current_page_num - 1) * 10)..(current_page_num * 10)]
   end
 
   def document_params
@@ -85,6 +64,26 @@ class DocumentsController < ApplicationController
       redirect_to business_project_dashboard_path(@project)
     elsif current_specialist
       redirect_to project_dashboard_path(@project)
+    end
+  end
+
+  def sort_docs(all_documents, sort_direction, sort_keyword)
+    sort_property = keyword_to_method(sort_keyword)
+    if sort_direction == 'asc'
+      all_documents.sort { |a, b| a.__send__(sort_property) <=> b.__send__(sort_property) }
+    else
+      all_documents.sort { |a, b| b.__send__(sort_property) <=> a.__send__(sort_property) }
+    end
+  end
+
+  def keyword_to_method(keyword)
+    case keyword
+    when 'Name'
+      :file_name
+    when 'Date Added'
+      :created_at
+    when 'Added By'
+      :owner_name
     end
   end
 end
