@@ -1,4 +1,4 @@
-title = "<%= local_assigns[:title] == false ? '' : "<h2>#{local_assigns[:title] || 'Complect'}</h2>" %>";
+title = "<%= local_assigns[:title] == false ? '' : "<h2>#{local_assigns[:title] || 'Complect'}</h2>".html_safe %>";
 options = {
   message: title + "<p><%= j message %></p>",
   backdrop: true,
