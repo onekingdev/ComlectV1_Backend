@@ -18,7 +18,7 @@ class Specialist < ActiveRecord::Base
   has_many :ratings_received, -> { where(rater_type: Business.name) }, through: :projects, source: :ratings
   has_one :stripe_account, dependent: :destroy
   has_many :email_threads, dependent: :destroy
-  has_many :payments, through: :projects, source: :charges
+  has_many :payments, -> { for_one_off_projects }, through: :projects, source: :charges
 
   has_settings do |s|
     s.key :notifications, defaults: {

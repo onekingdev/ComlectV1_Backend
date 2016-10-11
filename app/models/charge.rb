@@ -4,6 +4,7 @@ class Charge < ActiveRecord::Base
   has_one :business, through: :project
   has_one :specialist, through: :project
 
+  scope :for_one_off_projects, -> { joins(:project).where(project: Project.one_off) }
   scope :real, -> { where(status: [Charge.statuses[:scheduled], Charge.statuses[:processed]]) }
   scope :upcoming, -> { where(status: [Charge.statuses[:estimated], Charge.statuses[:scheduled]]) }
   scope :after, -> (date) { where('date >= ?', date) }
