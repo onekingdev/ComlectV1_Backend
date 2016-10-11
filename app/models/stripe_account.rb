@@ -56,8 +56,10 @@ class StripeAccount < ActiveRecord::Base
     account.save
     account = Stripe::Account.retrieve(stripe_id)
     update_attribute :status, status_from_account(account)
+    update_attribute :status_detail, nil
     true
   rescue Stripe::InvalidRequestError => e
+    update_attribute :status_detail, e.message
     errors.add :base, e.message
     false
   end
