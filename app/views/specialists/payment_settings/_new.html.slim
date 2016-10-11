@@ -1,67 +1,84 @@
-h2.m-t-0 New Bank Account
-
-= simple_form_for account, html: { data: { account_type: account.account_type }}, url: specialists_settings_payment_path do |f|
-  .text-center.m-y-3
-    = account.type_switch f
-
+= simple_form_for account, url: specialists_settings_payment_path do |f|
+  = f.hidden_field :account_type
   .well.well-lg
     h2.text-center.m-b-2 Account Details
 
-    .row.account-type-business
+    .row.account-type-company
       .col-xs-12.col-sm-6
-        = f.input :business_name, label: 'Business Name', input_html: { class: 'input-lg' }
+        = f.input :business_name, label: 'Business Name', input_html: { class: 'input-lg' }, wrapper: :vertical_tight
       .col-xs-12.col-sm-6
-        = f.input :business_tax_id, label: 'Tax ID', input_html: { class: 'input-lg' }
+        = f.input :business_tax_id, label: 'Tax ID', input_html: { class: 'input-lg' }, wrapper: :vertical_tight
+      - if f.object.required?(:additional_owners)
+        .col-xs-12= f.input :additional_owners, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
 
     .row
       .col-xs-12.col-sm-6
-        = f.input :account_country, required: false, label: "Country", include_blank: false, collection: [['United States', 'US']], input_html: { class: 'input-lg js-select' }
+        = f.input :country, as: :hidden
+        .form-group
+          label.control-label Country
+          input.form-control.input-lg disabled=true value=Stripe::SUPPORTED_COUNTRIES[f.object.country.to_s.upcase.to_sym]
       .col-xs-12.col-sm-6
-        = f.input :account_currency, required: false, label: "Currency", include_blank: false, collection: [%w(USD USD)], input_html: { class: 'input-lg js-select' }
+        = f.input :account_currency,
+          wrapper: :vertical_tight,
+          required: false,
+          label: "Currency",
+          include_blank: false,
+          collection: Stripe::SUPPORTED_BANK_CURRENCIES[f.object.country.to_sym],
+          input_html: { class: 'input-lg js-select' }
     .row
       .col-xs-12.col-sm-6
-        = f.input :account_routing_number, required: false, label: "Routing Number", input_html: { class: 'input-lg' }
+        = f.input :account_routing_number, required: false, label: "Routing Number", input_html: { class: 'input-lg' }, wrapper: :vertical_tight
       .col-xs-12.col-sm-6
-        = f.input :account_number, required: false, label: "Account Number", input_html: { class: 'input-lg' }
+        = f.input :account_number, required: false, label: "Account Number", input_html: { class: 'input-lg' }, wrapper: :vertical_tight
 
     h2.text-center.m-y-2 Address
 
     .row
       .col-xs-12.col-sm-6
-        = f.input :address1, required: false, label: "Street", input_html: { class: 'input-lg' }
+        = f.input :address1, required: false, label: "Street", input_html: { class: 'input-lg' }, wrapper: :vertical_tight
       .col-xs-12.col-sm-6
-        = f.input :postal_code, required: false, label: "Postal Code", input_html: { class: 'input-lg' }
+        = f.input :zipcode, required: false, label: "Postal Code", input_html: { class: 'input-lg' }, wrapper: :vertical_tight
 
     .row
       .col-xs-12.col-sm-6
-        = f.input :city, required: false, input_html: { class: 'input-lg' }
+        = f.input :city, required: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
       .col-xs-12.col-sm-6
-        = f.input :state, required: false, input_html: { class: 'input-lg' }
-
-    .row
-      .col-xs-12.col-sm-6
-        = f.input :country, required: false, collection: IsoCountryCodes.for_select, input_html: { class: 'input-lg js-select' }
+        = f.input :state, required: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
 
     h2.text-center.m-y-2 Personal Details
 
     .row
       .col-xs-12.col-sm-6
-        = f.input :first_name, required: false, label: 'First Name', input_html: { class: 'input-lg' }
+        = f.input :first_name, required: false, label: 'First Name', input_html: { class: 'input-lg' }, wrapper: :vertical_tight
       .col-xs-12.col-sm-6
-        = f.input :last_name, required: false, label: 'Last Name', input_html: { class: 'input-lg' }
+        = f.input :last_name, required: false, label: 'Last Name', input_html: { class: 'input-lg' }, wrapper: :vertical_tight
 
     .row
       .col-xs-12.col-sm-6
-        = f.input :dob, required: false, as: :string, label: 'Date of Birth', input_html: { class: 'input-lg js-datepicker', data: { max: 18.years.ago.to_a[3..5].reverse, years: true, months: true, value: (l(f.object.dob, format: :pickadate) if f.object.dob.present?) } }
-      .col-xs-12.col-sm-6
-        = f.input :ssn_last_4, required: false, label: 'SSN Last 4 Digits', input_html: { class: 'input-lg', maxlength: 4 }
+        = f.input :dob, required: false, as: :string, label: 'Date of Birth', input_html: { class: 'input-lg js-datepicker', data: { max: 18.years.ago.to_a[3..5].reverse, years: true, months: true, value: (l(f.object.dob, format: :pickadate) if f.object.dob.present?) } }, wrapper: :vertical_tight
+      - if f.object.required?(:ssn_last_4)
+        .col-xs-12.col-sm-6
+          = f.input :ssn_last_4, required: false, label: 'SSN Last 4 Digits', input_html: { class: 'input-lg', maxlength: 4 }, wrapper: :vertical_tight
 
     .row
       .col-xs-12.col-sm-6
-        = f.input :personal_id_number, required: false, label: 'Personal ID Number', input_html: { class: 'input-lg' }
+        = f.input :personal_id_number, required: false, label: 'Personal ID Number', input_html: { class: 'input-lg' }, wrapper: :vertical_tight
       .col-xs-12.col-sm-6
-        = f.hidden_field :verification_document, value: f.object.verification_document_data? ? f.object.verification_document_data.to_json : nil
-        = f.input :verification_document, required: false, as: :file, label: 'ID Verification Document', input_html: { class: 'input-lg' }
+        = f.hidden_field :verification_document_cache, value: f.object.verification_document_data.present? ? f.object.verification_document : nil
+        = f.input :verification_document_data, required: false, as: :file, label: 'ID Verification Document', input_html: { class: 'input-lg' }
+
+    - if f.object.required?(:personal_city)
+      h2.text-center.m-y-2 Personal Address
+
+      .row
+        .col-xs-12.col-sm-6
+          = f.input :personal_address1, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
+        .col-xs-12.col-sm-6
+          = f.input :personal_zipcode, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
+
+      .row
+        .col-xs-12.col-sm-6
+          = f.input :personal_city, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
 
     .row
       .col-xs-12

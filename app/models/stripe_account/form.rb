@@ -2,33 +2,55 @@
 class StripeAccount::Form < StripeAccount
   include ApplicationForm
 
-  validates :account_country, :account_currency, :account_routing_number, :account_number, :address1, :postal_code,
-            :city, :state, :country, :first_name, :last_name, :dob, :ssn_last_4, :personal_id_number, :account_type,
-            :verification_document,
+  validates :country, :account_currency, :account_routing_number, :account_number, :address1, :zipcode,
+            :city, :state, :first_name, :last_name, :dob,
             presence: true
+  validates :account_type, inclusion: { in: account_types.values }
   validates :accept_tos, inclusion: { in: [true] }
-  validates :business_name, :business_tax_id, presence: true, if: :business?
+  validates :business_name, :business_tax_id, presence: true, if: :company?
 
-  def self.for(specialist)
-    where(specialist: specialist).first_or_initialize
+  REQUIRED_FIELDS.each do |field, _config|
+    validates field, presence: true, if: -> { required?(field) }
+  end
+
+  PREPOPULATE_FIELDS = {
+    country: -> (specialist) { Stripe::SUPPORTED_COUNTRIES.invert[specialist.country].to_s },
+    zipcode: :zipcode,
+    city: :city,
+    state: :state,
+    personal_city: :city,
+    personal_zipcode: :zipcode,
+    first_name: :first_name,
+    last_name: :last_name
+  }.freeze
+
+  def self.for(specialist, attributes = {})
+    where(specialist: specialist).first_or_initialize.tap do |account|
+      PREPOPULATE_FIELDS.each do |field, specialist_field|
+        value = if specialist_field.is_a?(Proc)
+                  specialist_field.call(specialist)
+                else
+                  specialist.public_send(specialist_field)
+                end
+        account.public_send("#{field}=", value) if account.public_send(field).blank?
+      end
+      account.attributes = attributes
+    end
+  end
+
+  def required?(field)
+    return false unless REQUIRED_FIELDS.key?(field)
+    base = REQUIRED_FIELDS[field][:both] || REQUIRED_FIELDS[field][account_type.to_sym] || {}
+    base == :all || base.include?(country.to_s.upcase)
   end
 
   def accept_tos=(value)
     if (@accept_tos = ActiveRecord::Type::Boolean.new.type_cast_from_user(value))
-      self.tos_acceptance_date = Time.zone.today
+      self.tos_acceptance_date = Time.zone.now
     end
   end
 
   def accept_tos
     @accept_tos.nil? ? tos_acceptance_date.present? : @accept_tos
-  end
-
-  def type_switch(form)
-    form.input :account_type,
-               label: false,
-               as: :radio_pills,
-               collection: [['Individual', StripeAccount.account_types[:individual]],
-                            ['Business', StripeAccount.account_types[:business]]],
-               btn_class: 'btn-lg btn-default p-x-3'
   end
 end

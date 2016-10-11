@@ -29,12 +29,20 @@ en:
     # prompts:
     #   defaults:
     #     age: 'Select your age'
+    labels:
+      stripe_account:
+        additional_owners: Additional Owners
+        personal_address1: Street
+        personal_zipcode: Postal Code
+        personal_city: City
     hints:
       business:
         description: "Note: For confidentiality, please do NOT include your business name in the description if you do not want it visible to the public."
         anonymous: If you choose anonymous only your industry(s), number of employees, jurisdiction, and business description will be displayed.
       specialist:
         visibility: Your last name, contact info and resume are not displayed on public profiles. If you chose private, your profile will not be searchable by businesses.
+      stripe_account:
+        additional_owners: Owners with more than 25% ownership, excluding the individual responsible for the account. Separate names with commas.
     placeholders:
       user:
         email: "* Email Address"

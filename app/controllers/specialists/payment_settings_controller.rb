@@ -11,7 +11,7 @@ class Specialists::PaymentSettingsController < ApplicationController
   end
 
   def new
-    @account = StripeAccount::Form.for(current_specialist)
+    @account = StripeAccount::Form.for(current_specialist, account_attributes)
   end
 
   def create
@@ -32,9 +32,10 @@ class Specialists::PaymentSettingsController < ApplicationController
 
   def account_attributes
     params.require(:stripe_account).permit(
-      :account_type, :account_country, :account_currency, :account_routing_number, :account_number, :address1,
-      :postal_code, :city, :state, :country, :first_name, :last_name, :dob, :ssn_last_4, :personal_id_number,
-      :verification_document, :accept_tos, :business_name, :business_tax_id
+      :account_type, :country, :account_currency, :account_routing_number, :account_number, :address1,
+      :zipcode, :city, :state, :country, :first_name, :last_name, :dob, :ssn_last_4, :personal_id_number,
+      :personal_address1, :personal_zipcode, :personal_city, :additional_owners,
+      :verification_document_data, :verification_document_cache, :accept_tos, :business_name, :business_tax_id
     ).merge(tos_acceptance_ip: request.remote_ip)
   end
 end

@@ -1649,29 +1649,33 @@ CREATE TABLE stripe_accounts (
     id integer NOT NULL,
     specialist_id integer,
     status character varying DEFAULT 'Pending'::character varying NOT NULL,
-    account_country character varying,
     account_currency character varying,
     account_routing_number character varying,
     account_number character varying,
     city character varying,
     address1 character varying,
-    postal_code character varying,
+    zipcode character varying,
     state character varying,
     country character varying,
     dob date,
     first_name character varying,
     last_name character varying,
     ssn_last_4 character varying,
-    tos_acceptance_date date,
+    tos_acceptance_date timestamp without time zone,
     tos_acceptance_ip character varying,
     personal_id_number character varying,
-    verification_document_data jsonb,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     account_type character varying DEFAULT 'individual'::character varying NOT NULL,
     stripe_id character varying,
     business_name character varying,
-    business_tax_id character varying
+    business_tax_id character varying,
+    additional_owners character varying,
+    personal_city character varying,
+    personal_address1 character varying,
+    personal_zipcode character varying,
+    status_detail character varying,
+    verification_document text
 );
 
 
@@ -3214,4 +3218,6 @@ INSERT INTO schema_migrations (version) VALUES ('20161005195837');
 INSERT INTO schema_migrations (version) VALUES ('20161006060606');
 
 INSERT INTO schema_migrations (version) VALUES ('20161006192238');
+
+INSERT INTO schema_migrations (version) VALUES ('20161010150831');
 

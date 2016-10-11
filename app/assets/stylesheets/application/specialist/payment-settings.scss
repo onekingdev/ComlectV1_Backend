@@ -1,9 +1,0 @@
-form#new_stripe_account {
-  &[data-account-type=individual] .account-type-business {
-    display: none;
-  }
-
-  &[data-account-type=business] .account-type-individual {
-    display: none;
-  }
-}
