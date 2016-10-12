@@ -6,6 +6,17 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
+  # TODO: LAUNCH: Remove
+  before_action -> {
+    if protected_beta? && controller_name != 'home'
+      redirect_to :root
+    elsif beta_site?
+      unless authenticate_with_http_basic { |u, p| u == ENV['BETA_USER'] && p == ENV['BETA_PASSWORD'] }
+        request_http_basic_authentication
+      end
+    end
+  }
+
   before_action :check_unrated_project, if: -> {
     user_signed_in? && request.get? && !request.xhr? && request.format.symbol == :html
   }
@@ -29,6 +40,7 @@ class ApplicationController < ActionController::Base
   helper_method :decorate
 
   def current_business
+    return nil if protected_beta? # TODO: LAUNCH: Remove
     return @_current_business if @_current_business
     return nil if !user_signed_in? || current_user.business.nil?
     @_current_business = Business::Decorator.decorate(current_user.business)
@@ -36,6 +48,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_business
 
   def current_specialist
+    return nil if protected_beta? # TODO: LAUNCH: Remove
     return @_current_specialist if @_current_specialist
     return nil if !user_signed_in? || current_user.specialist.nil?
     @_current_specialist = Specialist::Decorator.decorate(current_user.specialist)
@@ -65,15 +78,44 @@ class ApplicationController < ActionController::Base
   end
 
   def require_business!
+    return if handle_beta_site
     return if user_signed_in? && current_business
     return authenticate_user! unless user_signed_in?
     render 'forbidden', status: :forbidden, locals: { message: 'Only business accounts can access this page' }
   end
 
   def require_specialist!
+    return if handle_beta_site
     return if user_signed_in? && current_specialist
     return authenticate_user! unless user_signed_in?
     render 'forbidden', status: :forbidden, locals: { message: 'Only specialist accounts can access this page' }
+  end
+
+  # TODO: LAUNCH: Methods for handling beta protection, delete/disable when site goes live
+
+  def protected_beta?
+    ENV['BETA_PROTECTED'] == '1' && !beta_site?
+  end
+  helper_method :protected_beta?
+
+  def beta_site?
+    request.domain == ENV.fetch('BETA_DOMAIN')
+  end
+
+  def handle_beta_site
+    return false unless protected_beta?
+    redirect_to root_path
+    true
+  end
+
+  def user_signed_in?
+    return false if protected_beta?
+    super
+  end
+
+  def authenticate_user!
+    return super unless handle_beta_site
+    redirect_to root_path
   end
 
   def render_404
