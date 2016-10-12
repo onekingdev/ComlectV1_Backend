@@ -1,1 +1,6 @@
 _Modal.showPlain('<%= j render(template: 'devise/sessions/new.html') %>', { class: 'transparent' });
+handler = function() {
+  $(this).find('#user_email').focus();
+  _Modal.modal().off('shown.bs.modal', null, handler);
+};
+_Modal.modal().on('shown.bs.modal', handler);
