@@ -12,7 +12,7 @@ class JobApplication::Form < JobApplication
 
   def self.apply!(specialist, project, params)
     # TODO: Send notification message to client
-    new(specialist.job_applications.new(params.merge(project: project)))
+    new(params.merge(specialist: specialist, project: project)).tap(&:save)
   end
 
   private
