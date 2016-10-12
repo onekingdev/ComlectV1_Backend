@@ -21,8 +21,9 @@ class ImageUploader < Shrine
     case context[:phase]
     when :store
       thumb = resize_to_limit!(io.download, 200, 200)
+      circle = resize_and_pad!(io.download, 200, 200)
       profile = resize_and_pad!(io.download, 300, 300)
-      { original: io, thumb: thumb, profile: profile }
+      { original: io, thumb: thumb, profile: profile, circle: circle }
     end
   end
 end
