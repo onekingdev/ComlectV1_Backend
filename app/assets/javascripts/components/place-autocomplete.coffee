@@ -41,7 +41,7 @@ $.onContentReady ($parent) ->
           $this.val city
         when "full"
         else
-          $this.val [street, streetNumber].join(' ').trim()
+          $this.val place.name
 
       $this.trigger 'place_changed'
 
