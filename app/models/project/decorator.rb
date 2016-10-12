@@ -109,14 +109,14 @@ class Project::Decorator < ApplicationDecorator
     builder.input :hourly_rate,
                   required: true,
                   as: :string,
-                  input_html: { class: 'input-lg', data: { masked: '#0.00', reverse: true } }
+                  input_html: { class: 'input-lg', data: { numeric: true } }
   end
 
   def fixed_budget_input(builder)
     builder.input :fixed_budget,
                   required: true,
                   as: :string,
-                  input_html: { class: 'input-lg', data: { masked: '#0.00', reverse: true } }
+                  input_html: { class: 'input-lg', data: { numeric: true } }
   end
 
   def hourly_payment_schedule_input(builder)
