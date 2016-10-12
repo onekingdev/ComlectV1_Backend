@@ -10,11 +10,10 @@ class Projects::IssuesController < ApplicationController
   end
 
   def create
-    @issue = @project.issues.new(issue_params)
-    if @issue.save
-      ProjectMailer.escalate(@issue).deliver_later
-      respond_to do |format|
-        format.js { render(:new) }
+    @issue = ProjectIssue::Create.(@project, issue_params)
+    respond_to do |format|
+      format.js do
+        render :new unless @issue.persisted?
       end
     end
   end

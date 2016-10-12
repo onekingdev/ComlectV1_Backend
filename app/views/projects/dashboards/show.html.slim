@@ -6,7 +6,7 @@
   h1.m-y-3
     = project
     .pull-right
-      small Status: <span class="text-primary">#{project.status_text}</span>
+      small Status: <span class="text-primary project-status">#{project.status_text}</span>
 
   - if (end_request = ProjectEnd::Decorator.new(project.end_request)).present?
     .alert.alert-warning.m-b-3.text-center
