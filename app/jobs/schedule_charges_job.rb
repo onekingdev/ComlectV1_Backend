@@ -4,7 +4,7 @@ class ScheduleChargesJob < ActiveJob::Base
 
   def perform(project_id = nil)
     return schedule_all if project_id.nil?
-    project = Project.find_by(id: project_id)
+    project = Project.active_for_charges.find_by(id: project_id)
     PaymentCycle.for(project).create_charges_and_reschedule! if project
   end
 
