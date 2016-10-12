@@ -12,6 +12,7 @@
   .messages {
     max-height: 300px;
     overflow-y: auto;
+    overflow-x: hidden;
     @include clearfix;
     padding-right: $padding-base-horizontal;
   }
