@@ -8,10 +8,11 @@ class ApplicationController < ActionController::Base
 
   # TODO: LAUNCH: Remove
   before_action -> {
+    Rails.logger.info "Protected Beta? #{protected_beta?} / Controller: #{controller_name} / Domain: #{request.domain}"
     if protected_beta? && controller_name != 'home'
       redirect_to :root
     elsif beta_site?
-      unless authenticate_with_http_basic { |u, p| u == ENV['BETA_USER'] && p == ENV['BETA_PASSWORD'] }
+      unless authenticate_with_http_basic { |u, p| u == ENV.fetch('BETA_USER') && p == ENV.fetch('BETA_PASSWORD') }
         request_http_basic_authentication
       end
     end
@@ -99,7 +100,7 @@ class ApplicationController < ActionController::Base
   helper_method :protected_beta?
 
   def beta_site?
-    request.domain == ENV.fetch('BETA_DOMAIN')
+    request.domain(2) == ENV.fetch('BETA_DOMAIN')
   end
 
   def handle_beta_site
