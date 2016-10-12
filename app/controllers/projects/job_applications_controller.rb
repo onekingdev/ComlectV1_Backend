@@ -27,8 +27,7 @@ class Projects::JobApplicationsController < ApplicationController
   def destroy
     @job_application = current_specialist.job_applications.find(params[:id])
     authorize @job_application, :destroy?
-    @job_application.destroy
-    JobApplicationMailer.deliver_later :withdraw, @job_application
+    JobApplication::Delete.(@job_application)
     js_redirect params[:redirect_to] || project_path(@project)
   end
 

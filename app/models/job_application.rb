@@ -19,6 +19,12 @@ class JobApplication < ActiveRecord::Base
   scope :order_by_rating, -> {
     joins(:specialist).order('specialists.ratings_average DESC NULLS LAST')
   }
+  scope :pending, -> { joins(:project).where(projects: { specialist_id: nil }) }
+  scope :not_accepted, -> {
+    joins(:project)
+      .where.not(projects: { specialist_id: nil })
+      .where('projects.specialist_id != job_applications.specialist_id')
+  }
 
   validates :project_id, uniqueness: { scope: :specialist_id }
 end

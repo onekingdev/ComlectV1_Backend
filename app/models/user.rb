@@ -38,6 +38,10 @@ class User < ActiveRecord::Base
 
   def freeze_specialist_account!
     update_attribute :deleted, true
+    # Withdraw active job applications
+    specialist.job_applications.pending.each { |application| JobApplication::Delete.(application) }
+    # And just delete all applications which weren't accepted to avoid sending notifications
+    specialist.job_applications.not_accepted.delete_all
     specialist.update_attribute :visibility, Specialist.visibilities[:is_private]
     deleted?
   end
