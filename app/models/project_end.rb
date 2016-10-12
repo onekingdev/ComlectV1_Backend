@@ -7,7 +7,8 @@ class ProjectEnd < ActiveRecord::Base
   def confirm!
     self.class.transaction do
       update_attribute :status, self.class.statuses[:confirmed]
-      PaymentCycle.for(project).reschedule!
+      project.update_attribute :ends_on, Time.zone.now
+      PaymentCycle.for(project).create_charges_and_reschedule!
     end
   end
 

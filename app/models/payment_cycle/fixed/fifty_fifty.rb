@@ -9,6 +9,16 @@ class PaymentCycle::Fixed::FiftyFifty < PaymentCycle::Fixed
     super
   end
 
+  def create_charges!
+    remaining_dates = occurrences.reject { |date| charge_exists?(date) }
+    amount = outstanding_amount / (remaining_dates.size * 1.0)
+    remaining_dates.each do |date|
+      schedule_charge! amount: amount,
+                       date: date,
+                       description: "Monthly pay"
+    end
+  end
+
   private
 
   def occurrences

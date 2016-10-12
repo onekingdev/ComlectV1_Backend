@@ -37,6 +37,10 @@ FactoryGirl.define do
       annual_salary 98_000
     end
 
+    trait :fifty_fifty_pay do
+      payment_schedule Project.payment_schedules[:fifty_fifty]
+    end
+
     trait :published do
       status Project.statuses[:published]
     end

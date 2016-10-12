@@ -6,7 +6,7 @@ RSpec.describe PaymentCycle::Fixed::FiftyFifty, type: :model do
     @specialist = create :specialist
   end
 
-  describe 'an fixed budget project with fifty-fifty pay' do
+  describe 'a fixed budget project with fifty-fifty pay' do
     before do
       @project = create :project_one_off_fixed,
                         payment_schedule: Project.payment_schedules[:fifty_fifty],
@@ -33,6 +33,20 @@ RSpec.describe PaymentCycle::Fixed::FiftyFifty, type: :model do
       expect(@project.charges.count).to eq(2)
       dates = [Date.new(2016, 1, 1), Date.new(2016, 3, 26)]
       expect(@project.reload.charges.map { |ch| ch.date.to_date }.sort).to eq(dates)
+    end
+
+    context 'project ended early' do
+      it 'reschedules charge' do
+        new_end_date = @project.business.tz.local(2016, 1, 13, 12)
+        JobApplication::Accept.(@job_application)
+        Timecop.freeze(new_end_date) do
+          request = ProjectEnd::Request.process! @project
+          request.confirm!
+          charges = @project.reload.charges.order(date: :asc)
+          expect(charges.last.scheduled?).to be_truthy
+          expect(charges.last.date.to_date).to eq(new_end_date.to_date)
+        end
+      end
     end
   end
 end
