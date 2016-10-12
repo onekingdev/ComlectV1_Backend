@@ -26,7 +26,7 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def destroy?
-    owner?
+    owner? && !(record.full_time? && record.specialist_id.present?)
   end
 
   def postable?
