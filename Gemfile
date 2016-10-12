@@ -54,7 +54,7 @@ gem 'fastimage', '~> 2.0.0'
 gem 'image_processing', '~> 0.3.0'
 gem 'mini_magick', '~> 4.5.1'
 gem 'aws-sdk', '~> 2.3.12'
-gem 'shrine', '~> 2.0.1'
+gem 'shrine', '~> 2.4.0'
 gem 'roda', '~> 2.14.0'
 
 # API builder
