@@ -161,3 +161,9 @@ select.js-select.input-lg {
     }
   }
 }
+
+// We place this button first in the source so it becomes the default on <enter>, and then move it off screen
+.default-submit-offscreen {
+  position: absolute;
+  left: -100%;
+}

@@ -53,6 +53,14 @@ en:
               too_much_duration: Not available on durations more than 1 month
             skill_ids:
               too_long: Select 10 skills max
+        job_application:
+          attributes:
+            prerequisites:
+              no_experience: You don't have enough compliance experience to apply
+              no_jurisdiction: You don't have the required jurisdiction
+              no_industry: You don't have the required industry experience
+              no_regulator: You don't have regulatory experience
+              no_payment_info: You need to have verified payment info
         specialist:
           attributes:
             photo:

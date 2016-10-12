@@ -122,6 +122,7 @@
         i.icon.maxicons2-fix.flip-x
         span Save Changes
     - else
+      button.default-submit-offscreen type="submit" name="project[status]" value=Project.statuses[:review]
       button.btn.btn-primary.btn-lg.m-r-1 type="submit" name="project[status]" value=Project.statuses[:draft]
         - if project.persisted?
           i.icon.maxicons1-shelf

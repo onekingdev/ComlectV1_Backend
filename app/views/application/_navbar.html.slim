@@ -65,7 +65,7 @@ nav#nav.navbar.navbar-default.navbar-inverse
             - else
               - user.notifications.unread.each do |notification|
                 li= link_to notification.message, notification, remote: true
-      - else
+      - elsif !protected_beta? # TODO: LAUNCH: Remove condition
         li.buttons
           button.btn.btn-primary.navbar-btn data-remote=true data-url=new_user_session_path Log In
           button.btn.btn-primary.navbar-btn data-remote=true data-url=new_user_registration_path Sign Up

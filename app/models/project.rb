@@ -75,18 +75,6 @@ class Project < ActiveRecord::Base
       .where(ratings: { id: nil })
   }
 
-  # TODO: Change once activeadmin uses separate policy
-  # Need these two scopes for activeadmin to search beacuse
-  # the default scope joins specialists so we can't
-  # use the convenience filters
-  scope :by_specialist_first_name, ->(first_name) {
-    where('specialists.first_name = ?', first_name)
-  }
-
-  scope :by_specialist_last_name, ->(last_name) {
-    where('specialists.last_name = ?', last_name)
-  }
-
   include Project::PgSearchConfig
 
   enum status: { draft: 'draft', review: 'review', published: 'published', complete: 'complete' }
@@ -106,16 +94,18 @@ class Project < ActiveRecord::Base
   enum payment_schedule: Hash[PAYMENT_SCHEDULES].invert
 
   MINIMUM_EXPERIENCE = [%w(3-7\ yrs 3-7), %w(7-10\ yrs 7-10), %w(11-15\ yrs 11-15), %w(15+\ yrs 15+)].freeze
+  EXPERIENCE_RANGES = {
+    '3-7' => (3..Float::INFINITY),
+    '7-10' => (7..Float::INFINITY),
+    '11-15' => (11..Float::INFINITY),
+    '15+' => (15..Float::INFINITY)
+  }.freeze
 
   def self.cards_for_user(user, filter:, page:, per:)
     user.business.projects.recent
         .includes(:industries, :jurisdictions, :skills)
         .public_send(filter)
         .page(page).per(per || 6)
-  end
-
-  def self.ransackable_scopes(_auth_object = nil)
-    %i(by_specialist_first_name by_specialist_last_name)
   end
 
   def requires_business_rating?
