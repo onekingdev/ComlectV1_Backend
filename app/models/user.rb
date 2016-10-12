@@ -12,6 +12,14 @@ class User < ActiveRecord::Base
   has_many :project_issues, dependent: :delete_all
   has_many :notifications, dependent: :delete_all
 
+  def full_name
+    if specialist
+      [specialist.first_name, specialist.last_name].join(' ')
+    else
+      [business.contact_first_name, business.contact_last_name].join(' ')
+    end
+  end
+
   def payment_info?
     payment_sources.any?
   end

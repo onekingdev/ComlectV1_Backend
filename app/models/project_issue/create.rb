@@ -2,7 +2,10 @@
 class ProjectIssue::Create
   def self.call(project, attributes)
     ProjectIssue.new(attributes.merge(project: project)).tap do |issue|
-      ProjectMailer.escalate(issue).deliver_later if issue.save
+      if issue.save
+        EscalatedProjectMailer.deliver_later :email_to_support, issue
+        EscalatedProjectMailer.deliver_later :email_to_user, issue
+      end
     end
   end
 end
