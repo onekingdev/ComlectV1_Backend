@@ -31,8 +31,3 @@ do ->
     if diff > (one_day * 30)
       for parent in parents
         $(parent).find(selector.replace('%value', 'upon-completion')).parents('li').addClass('hidden')
-
-# Salary tooltip
-$.onContentReady ($parent) ->
-  $.initializeOnce $parent.find('[data-toggle=tooltip]'), 'tooltip', ($info) ->
-    $info.tooltip()
