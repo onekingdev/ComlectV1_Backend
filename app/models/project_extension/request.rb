@@ -12,7 +12,7 @@ class ProjectExtension::Request < Draper::Decorator
     # Delete previous request if any
     pending.where(project_id: project).delete_all
     new(create!(project: project, expires_at: expires_at, new_end_date: new_end_date)).tap do |request|
-      notification_enabled? project.specialist, :project_extension_requested do
+      h.notification_enabled? project.specialist, :project_extension_requested do
         ProjectMailer.deliver_later :extension_request, request.project
       end
     end

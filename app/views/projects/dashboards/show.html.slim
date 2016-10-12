@@ -17,7 +17,7 @@
   - if (extension = ProjectExtension::Decorator.new(project.extension)).present?
     .alert.alert-warning.m-b-3.text-center
       '#{project.business} has requested to extend your project. Please #{extension.confirm_link 'confirm'} or #{extension.deny_link 'deny'}
-      '  within one business day. <br>Otherwise, the extension will be deemed denied.
+      '  within one business day otherwise it will be deemed to be denied.
 
   .business-profile
     .row
