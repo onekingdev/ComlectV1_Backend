@@ -28,7 +28,7 @@ class Projects::JobApplicationsController < ApplicationController
     authorize @job_application, :destroy?
     @job_application.destroy
     JobApplicationMailer.deliver_later :withdraw, @job_application
-    redirect_to params[:redirect_to] || project_path(@project)
+    js_redirect params[:redirect_to] || project_path(@project)
   end
 
   private
