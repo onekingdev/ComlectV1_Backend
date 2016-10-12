@@ -6,6 +6,8 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
+  rescue_from Pundit::NotAuthorizedError, with: :render_403
+
   # TODO: LAUNCH: Remove
   before_action -> {
     Rails.logger.info "Protected Beta? #{protected_beta?} / Controller: #{controller_name} / Domain: #{request.domain}"
@@ -121,5 +123,11 @@ class ApplicationController < ActionController::Base
 
   def render_404
     render file: 'public/404', status: :not_found
+  end
+
+  def render_403
+    render template: 'application/forbidden',
+           locals: { message: 'You do not have access to this page' },
+           status: :forbidden
   end
 end

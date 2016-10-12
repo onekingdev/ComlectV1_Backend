@@ -8,6 +8,10 @@ class SpecialistPolicy < ApplicationPolicy
     user && record.user_id == user.id
   end
 
+  def freeze?
+    record.projects.active.empty?
+  end
+
   class Scope < Scope
     def resolve
       scope
