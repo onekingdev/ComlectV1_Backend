@@ -1,8 +1,15 @@
 # frozen_string_literal: true
 ActiveAdmin.register Project do
-  actions :all, except: %i(new show)
+  actions :all, except: %i(new)
   filter :title
   filter :business
+  # TODO: Change next two once activeadmin uses separate policy
+  # Next two filters are custom because default policy joins specialists
+  # We can't use the convenience methods because they would also join
+  filter :by_specialist_first_name, as: :string, label: 'Specialist First Name'
+  filter :by_specialist_last_name, as: :string, label: 'Specialist Last Name'
+  filter :business_contact_first_name_in, as: :string, label: 'Business First Name'
+  filter :business_contact_last_name_in, as: :string, label: 'Business Last Name'
 
   scope :escalated
   scope :draft_and_in_review
@@ -23,7 +30,9 @@ ActiveAdmin.register Project do
   end
 
   index do
-    column :title
+    column :title do |project|
+      link_to project.title, [:admin, project]
+    end
     column :location
     column :industries do |project|
       project.industries.map(&:name).join(', ')
@@ -48,6 +57,33 @@ ActiveAdmin.register Project do
         actions << '<span class="member_span">No Ratings yet</span>'.html_safe
       end
       actions.join('').html_safe
+    end
+  end
+
+  show do
+    attributes_table do
+      row :business
+      row :type
+      row :status
+      row :title
+      row :location
+      row :location_type
+      row :decscription
+      row :key_deliverables
+      row :starts_on
+      row :ends_on
+      row :payment_schedule
+      row :fixed_budget
+      row :hourly_rate
+      row :estimated_hours
+      row :minimum_experience
+      row :only_regulators
+      row :annual_salary
+      row :fee_type
+      row :pricing_type
+      row :annual_salary
+      row :calculated_budget
+      row :specialist
     end
   end
 
