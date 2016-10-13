@@ -1203,7 +1203,10 @@ CREATE TABLE notifications (
     path character varying,
     read_at timestamp without time zone,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    key character varying,
+    associated_id integer,
+    associated_type character varying
 );
 
 
@@ -2526,6 +2529,13 @@ CREATE INDEX index_messages_on_thread_type_and_thread_id ON messages USING btree
 
 
 --
+-- Name: index_notifications_on_associated_type_and_associated_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_notifications_on_associated_type_and_associated_id ON notifications USING btree (associated_type, associated_id);
+
+
+--
 -- Name: index_notifications_on_read_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -3220,4 +3230,6 @@ INSERT INTO schema_migrations (version) VALUES ('20161006060606');
 INSERT INTO schema_migrations (version) VALUES ('20161006192238');
 
 INSERT INTO schema_migrations (version) VALUES ('20161010150831');
+
+INSERT INTO schema_migrations (version) VALUES ('20161013042100');
 

@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 module NotificationsHelper
   def notification_enabled?(who, notification)
-    enabled = who.settings(:notifications).public_send(notification)
-    return false unless enabled
+    return false unless Notification.enabled?(who, notification)
     block_given? ? yield : true
   end
 end

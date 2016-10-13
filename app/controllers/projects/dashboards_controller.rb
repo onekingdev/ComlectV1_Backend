@@ -5,6 +5,10 @@ class Projects::DashboardsController < ApplicationController
   before_action :redirect_if_full_time
   skip_before_action :check_unrated_project, if: -> { action_name == 'show' && @project&.requires_specialist_rating? }
 
+  def show
+    Notification.clear! current_user, :got_hired, @project
+  end
+
   private
 
   def redirect_if_full_time

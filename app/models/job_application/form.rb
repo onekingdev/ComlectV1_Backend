@@ -11,8 +11,7 @@ class JobApplication::Form < JobApplication
   validate -> { errors.add :prerequisites, :no_payment_info }, unless: :payment_info?
 
   def self.apply!(specialist, project, params)
-    # TODO: Send notification message to client
-    new(params.merge(specialist: specialist, project: project)).tap(&:save)
+    create params.merge(specialist: specialist, project: project)
   end
 
   private
