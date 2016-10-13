@@ -1206,7 +1206,8 @@ CREATE TABLE notifications (
     updated_at timestamp without time zone NOT NULL,
     key character varying,
     associated_id integer,
-    associated_type character varying
+    associated_type character varying,
+    clear_manually boolean DEFAULT false NOT NULL
 );
 
 
@@ -2536,6 +2537,13 @@ CREATE INDEX index_notifications_on_associated_type_and_associated_id ON notific
 
 
 --
+-- Name: index_notifications_on_clear_manually; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_notifications_on_clear_manually ON notifications USING btree (clear_manually);
+
+
+--
 -- Name: index_notifications_on_path; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -3241,4 +3249,6 @@ INSERT INTO schema_migrations (version) VALUES ('20161010150831');
 INSERT INTO schema_migrations (version) VALUES ('20161013042100');
 
 INSERT INTO schema_migrations (version) VALUES ('20161013153825');
+
+INSERT INTO schema_migrations (version) VALUES ('20161013154701');
 

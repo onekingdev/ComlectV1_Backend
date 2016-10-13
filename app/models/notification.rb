@@ -7,12 +7,17 @@ class Notification < ActiveRecord::Base
   scope :with_key, -> (key) { where(key: key) }
   scope :associated_with, -> (associated) { where(associated: associated) }
   scope :fetch, -> (key, associated) { with_key(key).associated_with(associated) }
+  scope :clear_automatically, -> { where(clear_manually: false) }
 
   def self.enabled?(who, notification)
     who.settings(:notifications).public_send(notification)
   end
 
+  def self.clear!(user, key, associated)
+    user.notifications.fetch(key, associated).update_all read_at: Time.zone.now
+  end
+
   def self.clear_by_path!(user, path)
-    user.notifications.where(path: path).update_all read_at: Time.zone.now
+    user.notifications.clear_automatically.where(path: path).update_all read_at: Time.zone.now
   end
 end
