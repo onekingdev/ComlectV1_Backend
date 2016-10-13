@@ -4,6 +4,7 @@ class Business::ProjectMessagesController < ApplicationController
   before_action :find_project
 
   def index
+    Notification.clear! current_user, :business_got_project_message, @project
     @messages = @project.messages.recent.page(params[:page]).per(5)
     respond_to do |format|
       format.html do
@@ -30,6 +31,7 @@ class Business::ProjectMessagesController < ApplicationController
         redirect_to business_project_dashboard_path(@project), notice: notice
       end
     end
+    Notification::Deliver.got_project_message!(@message) if @message.persisted?
   end
 
   private

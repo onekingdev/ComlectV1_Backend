@@ -25,7 +25,9 @@ class Notification::Deliver < Draper::Decorator
     end
 
     def specialist_got_rated!(rating)
-      return unless Notification.enabled?(rating.project.specialist, :got_rated)
+      specialist = rating.project.specialist
+      return unless Notification.enabled?(specialist, :got_rated)
+      dispatcher = Dispatcher.new(specialist.user)
       dispatcher.deliver_notification! :specialist_got_rated,
                                        h.specialists_dashboard_path(anchor: 'ratings-reviews'),
                                        rating
@@ -33,11 +35,25 @@ class Notification::Deliver < Draper::Decorator
     end
 
     def business_got_rated!(rating)
-      return unless Notification.enabled?(rating.project.business, :got_rated)
+      business = rating.project.business
+      return unless Notification.enabled?(business, :got_rated)
+      dispatcher = Dispatcher.new(business.user)
       dispatcher.deliver_notification! :business_got_rated,
                                        h.business_dashboard_path(anchor: 'ratings-reviews'),
                                        rating
       dispatcher.deliver_email! RatingMailer, :notification, rating.id
+    end
+
+    def got_project_message!(message)
+      project = message.thread
+      key, path, who = if message.sender == project.specialist
+                         [:business_got_project_message, h.business_project_dashboard_path(project), project.business]
+                       else
+                         [:specialist_got_project_message, h.project_dashboard_path(project), project.specialist]
+                       end
+      dispatcher = Dispatcher.new(who.user)
+      dispatcher.deliver_notification! key, path, project, clear_manually: true
+      dispatcher.deliver_email! ProjectMessageMailer, :notification, message.id
     end
   end
 

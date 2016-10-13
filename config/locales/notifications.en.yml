@@ -4,3 +4,5 @@ en:
     not_hired: You were not selected for the project "%{project_title}"
     specialist_got_rated: You've been rated and reviewed!
     business_got_rated: You've been rated and reviewed!
+    specialist_got_project_message: You've received a message
+    business_got_project_message: You've received a message
