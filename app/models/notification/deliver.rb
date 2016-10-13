@@ -19,6 +19,26 @@ class Notification::Deliver < Draper::Decorator
                                        t: { project_title: application.project.title }
       dispatcher.deliver_email! HireMailer, :not_hired, application
     end
+
+    def got_rated!(rating)
+      rating.rater == rating.project.business ? specialist_got_rated!(rating) : business_got_rated!(rating)
+    end
+
+    def specialist_got_rated!(rating)
+      return unless Notification.enabled?(rating.project.specialist, :got_rated)
+      dispatcher.deliver_notification! :specialist_got_rated,
+                                       h.specialists_dashboard_path(anchor: 'ratings-reviews'),
+                                       rating
+      dispatcher.deliver_email! RatingMailer, :notification, rating.id
+    end
+
+    def business_got_rated!(rating)
+      return unless Notification.enabled?(rating.project.business, :got_rated)
+      dispatcher.deliver_notification! :business_got_rated,
+                                       h.business_dashboard_path(anchor: 'ratings-reviews'),
+                                       rating
+      dispatcher.deliver_email! RatingMailer, :notification, rating.id
+    end
   end
 
   class Dispatcher

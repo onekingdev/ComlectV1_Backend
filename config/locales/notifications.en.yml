@@ -2,3 +2,5 @@ en:
   notification_messages:
     got_hired: Congrats! You've been hired!
     not_hired: You were not selected for the project "%{project_title}"
+    specialist_got_rated: You've been rated and reviewed!
+    business_got_rated: You've been rated and reviewed!

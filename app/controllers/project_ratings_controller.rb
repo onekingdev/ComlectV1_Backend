@@ -13,9 +13,7 @@ class ProjectRatingsController < ApplicationController
   def create
     @rating = @project.ratings.new(rating_params.merge(rater: specialist_or_business))
     if @rating.save
-      notification_enabled?(@rating.to, :got_rated) do
-        RatingMailer.deliver_later :notification, @rating.id
-      end
+      Notification::Deliver.got_rated! @rating
       js_redirect redirect_url, status: :created
     else
       render :new
