@@ -58,7 +58,7 @@ nav#nav.navbar.navbar-default.navbar-inverse
           a.dropdown-toggle href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
             i.icon.maxicons2-bell
             - if user.notifications.unread.any?
-              .badge.small= user.notifications.count
+              .badge.small= user.notifications.unread.count
           ul.dropdown-menu
             - if user.notifications.unread.empty?
               li.p-x-2.p-y-1 No alerts

@@ -30,9 +30,7 @@ class JobApplication::Accept < Draper::Decorator
 
   def notify_not_selected_applicants
     project.job_applications.includes(:specialist).where.not(id: id).find_each do |application|
-      notification_enabled? application.specialist, :not_hired do
-        HireMailer.deliver_later :not_hired, application
-      end
+      Notification::Deliver.not_hired!(application)
     end
   end
 

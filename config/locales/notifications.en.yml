@@ -1,3 +1,4 @@
 en:
   notification_messages:
     got_hired: Congrats! You've been hired!
+    not_hired: You were not selected for the project "%{project_title}"
