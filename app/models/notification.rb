@@ -12,7 +12,7 @@ class Notification < ActiveRecord::Base
     who.settings(:notifications).public_send(notification)
   end
 
-  def self.clear!(user, key, associated)
-    user.notifications.fetch(key, associated).first&.update_attribute :read_at, Time.zone.now
+  def self.clear_by_path!(user, path)
+    user.notifications.where(path: path).update_all read_at: Time.zone.now
   end
 end

@@ -2536,6 +2536,13 @@ CREATE INDEX index_notifications_on_associated_type_and_associated_id ON notific
 
 
 --
+-- Name: index_notifications_on_path; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_notifications_on_path ON notifications USING btree (path);
+
+
+--
 -- Name: index_notifications_on_read_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -3232,4 +3239,6 @@ INSERT INTO schema_migrations (version) VALUES ('20161006192238');
 INSERT INTO schema_migrations (version) VALUES ('20161010150831');
 
 INSERT INTO schema_migrations (version) VALUES ('20161013042100');
+
+INSERT INTO schema_migrations (version) VALUES ('20161013153825');
 

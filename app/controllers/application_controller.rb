@@ -20,6 +20,10 @@ class ApplicationController < ActionController::Base
     end
   }
 
+  before_action -> {
+    Notification.clear_by_path! current_user, request.path
+  }, if: :user_signed_in?
+
   before_action :check_unrated_project, if: -> {
     user_signed_in? && request.get? && !request.xhr? && request.format.symbol == :html
   }
