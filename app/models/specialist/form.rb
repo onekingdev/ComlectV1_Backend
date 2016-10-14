@@ -6,7 +6,7 @@ class Specialist::Form < Specialist
   accepts_nested_attributes_for :education_histories, allow_destroy: true, reject_if: :all_blank
 
   validates :first_name, :last_name, :country, :zipcode, :time_zone, presence: true
-  validate :validate_photo, :validate_resume, :validate_minimum_experience
+  validate :validate_minimum_experience
 
   accepts_nested_attributes_for :user
 
@@ -44,21 +44,6 @@ class Specialist::Form < Specialist
   end
 
   private
-
-  # Shrine validations are not firing for some reason
-  def validate_photo
-    if photo && photo_data_changed?
-      errors.add :photo, :too_large if photo.metadata['size'] > 2.megabytes
-      errors.add :photo, :invalid unless %w(image/jpeg image/png image/gif).include?(photo.metadata['mime_type'])
-    end
-  end
-
-  def validate_resume
-    if resume && resume_data_changed?
-      errors.add :resume, :too_large if resume.metadata['size'] > 2.megabytes
-      errors.add :resume, :invalid unless %w(application/pdf).include?(resume.metadata['mime_type'])
-    end
-  end
 
   def validate_minimum_experience
     experience = work_experiences.select(&:compliance?).map(&:years).reduce(:+) || 0
