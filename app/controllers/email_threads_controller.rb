@@ -26,6 +26,7 @@ class EmailThreadsController < ApplicationController
     inbound = ENV.fetch('POSTMARK_INBOUND_ADDRESS').split('@')[0]
     to = params.require('ToFull').detect { |t| t['Email'].to_s.starts_with?(inbound) } || {}
     return [] if to.nil?
-    to.fetch('MailboxHash').split('+')
+    hash = to.fetch('MailboxHash')
+    [hash[0..-2], hash[-1]] # abcde01234b = [abcde01234, b] (thread key and b=business s=specialist)
   end
 end

@@ -7,7 +7,7 @@ class MessageMailer < ApplicationMailer
     thread = EmailThread.for!(from, to)
     mail to: "Complect <#{ENV.fetch('DEFAULT_MAIL_FROM')}>",
          bcc: to_address(to),
-         reply_to: thread_address(thread, from),
+         from: thread_address(thread, from),
          template_id: ENV.fetch('POSTMARK_TEMPLATE_ID'),
          template_model: {
            subject: subject(from),
@@ -17,14 +17,14 @@ class MessageMailer < ApplicationMailer
   end
 
   def reply(thread, original_sender, message_text, message_html)
-    to = original_sender == 'business' ? thread.business : thread.specialist
-    from = original_sender == 'business' ? thread.specialist : thread.business
+    to = original_sender == 'b' ? thread.business : thread.specialist
+    from = original_sender == 'b' ? thread.specialist : thread.business
     thread = EmailThread.for!(from, to)
     @message_text = message_text
     @message_html = message_html
     mail to: "Complect <#{ENV.fetch('DEFAULT_MAIL_FROM')}>",
          bcc: to_address(to),
-         reply_to: thread_address(thread, from),
+         from: thread_address(thread, from),
          template_id: ENV.fetch('POSTMARK_TEMPLATE_ID'),
          template_model: {
            subject: "RE: #{subject(from)}",
@@ -52,7 +52,9 @@ class MessageMailer < ApplicationMailer
   end
 
   def thread_address(thread, from)
-    sender = { 'Business' => 'business', 'Specialist' => 'specialist' }.fetch(from.class.name)
-    ENV.fetch('POSTMARK_INBOUND_ADDRESS').split('@').join("+#{thread.thread_key}+#{sender}@")
+    sender = { 'Business' => 'b', 'Specialist' => 's' }.fetch(from.class.name)
+    prefix, server = ENV.fetch('POSTMARK_INBOUND_ADDRESS').split('@')
+    prefix = 'thread' if prefix.blank?
+    "#{prefix}+#{thread.thread_key}#{sender}@#{server}"
   end
 end
