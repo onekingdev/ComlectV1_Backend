@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 class EmailThreadsController < ApplicationController
   skip_before_action :verify_authenticity_token
+  # TODO: LAUNCH: remove this
+  skip_before_action :beta_protection
 
   before_action -> {
     authenticated = authenticate_with_http_basic do |u, p|
