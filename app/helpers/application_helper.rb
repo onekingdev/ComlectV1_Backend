@@ -75,4 +75,10 @@ module ApplicationHelper
   def doc_page_num
     params[:page].blank? ? 1 : params[:page].to_i
   end
+
+  def invoice_disclaimer
+    text = "Note: The total invoice amount has been automatically drawn from your nominated credit card or bank"
+    text += "account. If you wish to dispute these charges, please contact Complect."
+    text
+  end
 end
