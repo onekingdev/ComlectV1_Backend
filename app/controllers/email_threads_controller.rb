@@ -13,6 +13,7 @@ class EmailThreadsController < ApplicationController
 
   def create
     thread_key, sender = message_hashes
+    return render(nothing: true, status: :ok) if thread_key.nil? # Blackhole for spam (could also hide a bug?)
     thread = EmailThread.find_by!(thread_key: thread_key)
     MessageMailer.deliver_later :reply, thread, sender, params['TextBody'], params['HtmlBody']
     render nothing: true, status: :ok
@@ -24,6 +25,7 @@ class EmailThreadsController < ApplicationController
   def message_hashes
     inbound = ENV.fetch('POSTMARK_INBOUND_ADDRESS').split('@')[0]
     to = params.require('ToFull').detect { |t| t['Email'].to_s.starts_with?(inbound) } || {}
+    return [] if to.nil?
     to.fetch('MailboxHash').split('+')
   end
 end
