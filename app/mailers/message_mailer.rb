@@ -7,7 +7,7 @@ class MessageMailer < ApplicationMailer
     thread = EmailThread.for!(from, to)
     mail to: "Complect <#{ENV.fetch('DEFAULT_MAIL_FROM')}>",
          bcc: to_address(to),
-         from: thread_address(thread, from),
+         reply_to: thread_address(thread, from),
          template_id: ENV.fetch('POSTMARK_TEMPLATE_ID'),
          template_model: {
            subject: subject(from),
@@ -24,7 +24,7 @@ class MessageMailer < ApplicationMailer
     @message_html = message_html
     mail to: "Complect <#{ENV.fetch('DEFAULT_MAIL_FROM')}>",
          bcc: to_address(to),
-         from: thread_address(thread, from),
+         reply_to: thread_address(thread, from),
          template_id: ENV.fetch('POSTMARK_TEMPLATE_ID'),
          template_model: {
            subject: "RE: #{subject(from)}",
