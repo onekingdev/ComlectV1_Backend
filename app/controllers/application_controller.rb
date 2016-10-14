@@ -9,7 +9,8 @@ class ApplicationController < ActionController::Base
   rescue_from Pundit::NotAuthorizedError, with: :render_403
 
   # TODO: LAUNCH: Remove
-  before_action -> {
+  before_action :beta_protection
+  def beta_protection
     Rails.logger.info "Protected Beta? #{protected_beta?} / Controller: #{controller_name} / Domain: #{request.domain}"
     if protected_beta? && controller_name != 'home'
       redirect_to :root
@@ -18,7 +19,7 @@ class ApplicationController < ActionController::Base
         request_http_basic_authentication
       end
     end
-  }
+  end
 
   before_action -> {
     Notification.clear_by_path! current_user, request.path
