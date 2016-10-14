@@ -53,9 +53,7 @@ Rails.application.routes.draw do
     resources :specialists, only: :index
     concerns :favoriteable
     resources :messages
-    resources :financials do
-      get :invoice, on: :member
-    end
+    resources :financials
 
     get 'projects/:project_id/dashboard' => 'project_dashboard#show', as: :project_dashboard
 
@@ -94,9 +92,7 @@ Rails.application.routes.draw do
     resources :projects, path: 'my-projects'
     concerns :favoriteable
     resources :messages
-    resources :financials do
-      get :invoice, on: :member
-    end
+    resources :financials
   end
 
   resources :specialists, only: %i(index new create show)

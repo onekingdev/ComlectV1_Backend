@@ -14,7 +14,8 @@ table.table.table-striped
         td= charge.project
         td= charge.project.specialist
         td= number_to_currency charge.amount
-        td= link_to "Invoice", invoice_business_financial_path(charge.id, format: :pdf)
+        td
+          / TODO: Invoice link
 
 .dot-pagination.text-center.m-t-2.clearfix
   .d-ib.btn-align-md

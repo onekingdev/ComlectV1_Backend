@@ -31,7 +31,7 @@
             .fa-stack.fa-5x
               .fa.fa-circle.fa-stack-2x.text-white
               .fa.fa-plus.fa-stack-1x
-          span.selected.m-y-1 = f.object.logo ? f.object.logo.data['metadata']['filename'] : nil
+          span.selected.m-y-1 = f.object.logo ? f.object.logo[:original].data['metadata']['filename'] : nil
           - if f.object.errors[:logo].any?
             .text-danger= "Logo " + f.object.errors[:logo].to_sentence
 

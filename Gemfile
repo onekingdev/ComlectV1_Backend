@@ -42,8 +42,6 @@ gem 'iso_country_codes'
 gem 'business_time'
 gem 'ice_cube'
 gem 'ledermann-rails-settings'
-gem 'wicked_pdf'
-gem 'wkhtmltopdf-binary'
 
 # Assets
 gem 'jquery-rails'
