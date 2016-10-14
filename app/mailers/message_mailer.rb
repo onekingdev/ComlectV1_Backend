@@ -16,12 +16,12 @@ class MessageMailer < ApplicationMailer
          }
   end
 
-  def reply(thread, original_sender, message_text, message_html)
+  def reply(thread, original_sender, message_text, message_html, reply_text)
     to = original_sender == 'b' ? thread.business : thread.specialist
     from = original_sender == 'b' ? thread.specialist : thread.business
     thread = EmailThread.for!(from, to)
     @message_text = message_text
-    @message_html = message_html
+    @message_html = remove_template_html(message_html, reply_text)
     mail to: "Complect <#{ENV.fetch('DEFAULT_MAIL_FROM')}>",
          bcc: to_address(to),
          reply_to: thread_address(thread, from),
@@ -34,6 +34,11 @@ class MessageMailer < ApplicationMailer
   end
 
   private
+
+  def remove_template_html(html, reply_text)
+    reply_text + "<br/><br/>---<br/><br/>" +
+      html.match(/id=.*?message-body".*?>(.*?)<div id=".*?message-body-end"/mi)[1].strip
+  end
 
   def subject(_from)
     "You received a message on Complect"

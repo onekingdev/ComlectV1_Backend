@@ -14,8 +14,10 @@ class EmailThreadsController < ApplicationController
   def create
     thread_key, sender = message_hashes
     return render(nothing: true, status: :ok) if thread_key.nil? # Blackhole for spam (could also hide a bug?)
-    thread = EmailThread.find_by!(thread_key: thread_key)
-    MessageMailer.deliver_later :reply, thread, sender, params['TextBody'], params['HtmlBody']
+    MessageMailer.deliver_later :reply,
+                                EmailThread.find_by!(thread_key: thread_key),
+                                sender,
+                                *params.slice('TextBody', 'HtmlBody', 'StrippedTextReply').values
     render nothing: true, status: :ok
   end
 

@@ -1,6 +1,8 @@
 p You received a message on Complect regarding your application to #{link_to @project, project_url(@project)}
 
-= simple_format @message
+#message-body
+  = simple_format @message
 
-- if @from
-  p - #{@from}
+  - if @from
+    p - #{@from}
+  #message-body-end
