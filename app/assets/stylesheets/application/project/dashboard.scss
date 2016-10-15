@@ -12,3 +12,28 @@
     }
   }
 }
+
+.question-and-answer {
+  margin-top: 5px;
+}
+
+.question-and-answer {
+  .q-or-a {
+    font-weight: 700;
+    font-size: 20px;
+  }
+
+  .answer-text {
+    margin-left: 15px;
+  }
+
+  .question-or-answer-timestamp {
+    width: 100%;
+    text-align: right;
+  }
+
+  .flag-form {
+    display: none;
+    text-align: center;
+  }
+}

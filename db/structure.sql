@@ -122,6 +122,38 @@ ALTER SEQUENCE admin_users_id_seq OWNED BY admin_users.id;
 
 
 --
+-- Name: answers; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE answers (
+    id integer NOT NULL,
+    question_id integer NOT NULL,
+    text text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: answers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE answers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: answers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE answers_id_seq OWNED BY answers.id;
+
+
+--
 -- Name: businesses; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -365,6 +397,41 @@ CREATE SEQUENCE favorites_id_seq
 --
 
 ALTER SEQUENCE favorites_id_seq OWNED BY favorites.id;
+
+
+--
+-- Name: flags; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE flags (
+    id integer NOT NULL,
+    flagged_content_id integer,
+    flagged_content_type character varying,
+    flagger_id integer,
+    flagger_type character varying,
+    reason text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: flags_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE flags_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: flags_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE flags_id_seq OWNED BY flags.id;
 
 
 --
@@ -1473,6 +1540,38 @@ CREATE TABLE projects_skills (
 
 
 --
+-- Name: questions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE questions (
+    id integer NOT NULL,
+    project_id integer NOT NULL,
+    text text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: questions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE questions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: questions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE questions_id_seq OWNED BY questions.id;
+
+
+--
 -- Name: ratings; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1902,6 +2001,18 @@ ALTER TABLE ONLY admin_users ALTER COLUMN id SET DEFAULT nextval('admin_users_id
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY answers ALTER COLUMN id SET DEFAULT nextval('answers_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY businesses ALTER COLUMN id SET DEFAULT nextval('businesses_id_seq'::regclass);
 
 
@@ -1938,6 +2049,13 @@ ALTER TABLE ONLY email_threads ALTER COLUMN id SET DEFAULT nextval('email_thread
 --
 
 ALTER TABLE ONLY favorites ALTER COLUMN id SET DEFAULT nextval('favorites_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY flags ALTER COLUMN id SET DEFAULT nextval('flags_id_seq'::regclass);
 
 
 --
@@ -2028,6 +2146,13 @@ ALTER TABLE ONLY projects ALTER COLUMN id SET DEFAULT nextval('projects_id_seq':
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY questions ALTER COLUMN id SET DEFAULT nextval('questions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY ratings ALTER COLUMN id SET DEFAULT nextval('ratings_id_seq'::regclass);
 
 
@@ -2103,6 +2228,14 @@ ALTER TABLE ONLY admin_users
 
 
 --
+-- Name: answers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY answers
+    ADD CONSTRAINT answers_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: businesses_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2148,6 +2281,14 @@ ALTER TABLE ONLY email_threads
 
 ALTER TABLE ONLY favorites
     ADD CONSTRAINT favorites_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: flags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY flags
+    ADD CONSTRAINT flags_pkey PRIMARY KEY (id);
 
 
 --
@@ -2244,6 +2385,14 @@ ALTER TABLE ONLY project_issues
 
 ALTER TABLE ONLY projects
     ADD CONSTRAINT projects_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: questions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY questions
+    ADD CONSTRAINT questions_pkey PRIMARY KEY (id);
 
 
 --
@@ -2345,6 +2494,13 @@ CREATE UNIQUE INDEX index_admin_users_on_email ON admin_users USING btree (email
 --
 
 CREATE UNIQUE INDEX index_admin_users_on_reset_password_token ON admin_users USING btree (reset_password_token);
+
+
+--
+-- Name: index_answers_on_question_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_answers_on_question_id ON answers USING btree (question_id);
 
 
 --
@@ -2464,6 +2620,20 @@ CREATE INDEX index_favorites_on_favorited_type_and_favorited_id ON favorites USI
 --
 
 CREATE INDEX index_favorites_on_owner_type_and_owner_id ON favorites USING btree (owner_type, owner_id);
+
+
+--
+-- Name: index_flags_on_flagged_content_type_and_flagged_content_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_flags_on_flagged_content_type_and_flagged_content_id ON flags USING btree (flagged_content_type, flagged_content_id);
+
+
+--
+-- Name: index_flags_on_flagger_type_and_flagger_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_flags_on_flagger_type_and_flagger_id ON flags USING btree (flagger_type, flagger_id);
 
 
 --
@@ -2814,6 +2984,18 @@ CREATE INDEX index_projects_on_type ON projects USING btree (type);
 --
 
 CREATE UNIQUE INDEX index_projects_skills_on_project_id_and_skill_id ON projects_skills USING btree (project_id, skill_id);
+
+
+--
+-- Name: index_questions_on_project_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_questions_on_project_id ON questions USING btree (project_id);
+
+
+--
+-- Name: index_ratings_on_project_id; Type: INDEX; Schema: public; Owner: -
+--
 
 
 --
@@ -3252,3 +3434,8 @@ INSERT INTO schema_migrations (version) VALUES ('20161013153825');
 
 INSERT INTO schema_migrations (version) VALUES ('20161013154701');
 
+INSERT INTO schema_migrations (version) VALUES ('20161014194840');
+
+INSERT INTO schema_migrations (version) VALUES ('20161014195149');
+
+INSERT INTO schema_migrations (version) VALUES ('20161014231410');

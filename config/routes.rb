@@ -73,6 +73,8 @@ Rails.application.routes.draw do
       resources :job_applications, path: 'applications'
       resources :hires
       resources :documents
+      resources :answers, only: :create
+      resources :flags, only: :create
       resources :timesheets
       resources :project_issues, path: 'issues'
     end
@@ -112,6 +114,8 @@ Rails.application.routes.draw do
       resource :dashboard, only: :show
       resources :messages
       resources :documents
+      resources :questions, only: :create
+      resources :flags, only: :create
       resources :timesheets
       resources :issues
       resources :shares

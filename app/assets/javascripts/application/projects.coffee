@@ -10,6 +10,11 @@ $(document).on 'change', '#project_location_type', (e) ->
   $this = $(this)
   $this.parents('.project-details').attr('data-location-type', $this.val())
 
+$(document).on 'click', '.flag-link', (e) ->
+  e.preventDefault()
+  $this = $(this)
+  $('.flag-form[data-content="' + $(this).data('content') + '"]').toggle()
+
 do ->
   one_day = 86400000
   parents = ['.project_fixed_payment_schedule', '.project_hourly_payment_schedule']
