@@ -57,7 +57,12 @@
 
     .row
       .col-xs-12.col-sm-6
-        = f.input :dob, required: false, as: :string, label: 'Date of Birth', input_html: { class: 'input-lg js-datepicker', data: { max: 18.years.ago.to_a[3..5].reverse, years: true, months: true, value: (l(f.object.dob, format: :pickadate) if f.object.dob.present?) } }, wrapper: :vertical_tight
+        = f.input :dob,
+          wrapper: :vertical_tight,
+          required: false,
+          as: :string,
+          label: 'Date of Birth',
+          input_html: { class: 'input-lg js-datepicker', data: { max: 18.years.ago.to_a[3..5].reverse, years: 80, months: true, value: (l(f.object.dob, format: :pickadate) if f.object.dob.present?) } }
       - if f.object.required?(:ssn_last_4)
         .col-xs-12.col-sm-6
           = f.input :ssn_last_4, required: false, label: 'SSN Last 4 Digits', input_html: { class: 'input-lg', maxlength: 4 }, wrapper: :vertical_tight
