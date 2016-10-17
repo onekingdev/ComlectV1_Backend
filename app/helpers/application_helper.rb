@@ -2,23 +2,31 @@
 module ApplicationHelper
   include SimpleForm::ActionViewExtensions::FormHelper
 
-  def reverse_sort
-    Hash.new('desc').merge('asc' => 'desc', 'desc' => 'asc')[params[:sort_direction]]
+  def reverse_sort(direction)
+    Hash.new('desc').merge('asc' => 'desc', 'desc' => 'asc')[direction]
   end
 
-  def default_sort
-    Hash.new('asc').merge('desc' => 'desc')[params[:sort_direction]]
+  def default_sort(direction)
+    Hash.new('asc').merge('desc' => 'desc')[direction]
   end
 
-  def sort_by_url(attribute)
-    direction = params[:sort_direction] && params[:sort_by] == attribute ? reverse_sort : default_sort
+  def sort_by_url(attribute, default: 'asc')
+    direction = sort_direction(default)
+    direction = if params[:sort_by] == attribute
+                  reverse_sort(direction)
+                else
+                  default_sort(default)
+                end
     current_uri(sort_by: attribute, sort_direction: direction)
+  end
+
+  def sort_direction(default = 'asc')
+    params[:sort_direction] == 'desc' || (params[:sort_direction].blank? && default == 'desc') ? 'desc' : 'asc'
   end
 
   def sort_by_arrow(attribute, default: nil)
     return unless params[:sort_by] == attribute || (default && params[:sort_by].blank?)
-    direction = params[:sort_direction] == 'asc' || default == 'asc' ? 'asc' : 'desc'
-    (direction == 'asc' ? '&#9650;' : '&#9660;').html_safe
+    (sort_direction(default) == 'asc' ? '&#9650;' : '&#9660;').html_safe
   end
 
   def link_to_favorite(owner, favorited, options = {}, &block)

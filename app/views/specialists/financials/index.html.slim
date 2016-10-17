@@ -21,9 +21,9 @@
   .panel-heading
     h3 Payment Details
     ul.nav.nav-pills.small
-      li.active= link_to '#payments-upcoming', data: { toggle: 'tab', "remote-load" => true, url: specialists_financial_path('upcoming'), 'toggle-sync' => true } do
+      li.active= link_to '#payments-upcoming', data: { toggle: 'tab', "remote-load" => true, url: specialists_financial_path('upcoming', sort_by: 'date'), 'toggle-sync' => true } do
         span Upcoming
-      li= link_to '#payments-processed', data: { toggle: 'tab', "remote-load" => true, url: specialists_financial_path('processed'), 'toggle-sync' => true } do
+      li= link_to '#payments-processed', data: { toggle: 'tab', "remote-load" => true, url: specialists_financial_path('processed', sort_by: 'date'), 'toggle-sync' => true } do
         span Received
 
   .panel-body

@@ -16,7 +16,7 @@ class Specialist::Financials
   }.freeze
 
   def self.upcoming(specialist, params)
-    sort_direction = params[:sort_direction].to_s.casecmp('asc').zero? ? 'ASC' : 'DESC'
+    sort_direction = params[:sort_direction].to_s.casecmp('desc').zero? ? 'DESC' : 'ASC'
     specialist.payments
               .upcoming
               .joins(:business)
@@ -25,7 +25,7 @@ class Specialist::Financials
   end
 
   def self.processed(specialist, params)
-    sort_direction = params[:sort_direction].to_s.casecmp('asc').zero? ? 'ASC' : 'DESC'
+    sort_direction = params[:sort_direction].to_s.casecmp('desc').zero? ? 'DESC' : 'ASC'
     specialist.payments
               .processed
               .joins(:business)
