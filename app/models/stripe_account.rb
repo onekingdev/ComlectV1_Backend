@@ -59,6 +59,7 @@ class StripeAccount < ActiveRecord::Base
     update_attribute :status_detail, nil
     true
   rescue Stripe::InvalidRequestError => e
+    update_attribute :status, 'error'
     update_attribute :status_detail, e.message
     errors.add :base, e.message
     false

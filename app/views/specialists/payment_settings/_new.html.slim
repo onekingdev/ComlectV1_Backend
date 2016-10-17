@@ -3,12 +3,14 @@
   .well.well-lg
     h2.text-center.m-b-2 Account Details
 
-    .row.account-type-company
-      .col-xs-12.col-sm-6
-        = f.input :business_name, label: 'Business Name', input_html: { class: 'input-lg' }, wrapper: :vertical_tight
-      .col-xs-12.col-sm-6
-        = f.input :business_tax_id, label: 'Tax ID', input_html: { class: 'input-lg' }, wrapper: :vertical_tight
-      - if f.object.required?(:additional_owners)
+    - if f.object.company?
+      .row
+        .col-xs-12.col-sm-6
+          = f.input :business_name, label: 'Business Name', input_html: { class: 'input-lg' }, wrapper: :vertical_tight
+        .col-xs-12.col-sm-6
+          = f.input :business_tax_id, label: 'Tax ID', input_html: { class: 'input-lg' }, wrapper: :vertical_tight
+    - if f.object.required?(:additional_owners)
+      .row
         .col-xs-12= f.input :additional_owners, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
 
     .row
