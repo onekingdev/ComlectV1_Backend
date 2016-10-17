@@ -36,8 +36,8 @@ class MessageMailer < ApplicationMailer
   private
 
   def remove_template_html(html, reply_text)
-    reply_text + "<br/><br/>---<br/><br/>" +
-      html.match(/id=.*?message-body".*?>(.*?)<div id=".*?message-body-end"/mi)[1].strip
+    previous = (html.match(/id=.*?message-body".*?>(.*?)<div id=".*?message-body-end"/mi) || [])[1].to_s.strip
+    reply_text + "<br/><br/>---<br/><br/>" + previous
   end
 
   def subject(_from)
