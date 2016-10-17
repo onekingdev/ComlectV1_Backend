@@ -14,7 +14,7 @@ table.table.table-striped
         td= payment.project
         td= payment.project.business
         td= number_to_currency payment.amount
-        td= number_to_currency 0
+        td= number_to_currency PaymentCycle.for(payment.project).outstanding_amount
 
 .small.text-muted Note: Upcoming payments and outstanding balances are representative of estimated hours and rates. Actual payments may differ.
 
