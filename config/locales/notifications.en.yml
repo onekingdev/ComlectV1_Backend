@@ -7,4 +7,4 @@ en:
     specialist_got_project_message: You've received a message
     business_got_project_message: You've received a message
     business_project_ended: Congrats on the successful completion of your project!
-    specialist_project_ended: Hooray! Your project [project title] has ended. Hungry for more work? Let us help you find the perfect role today! (hyperlink to browse projects page)\
+    specialist_project_ended: Hooray! Your project %{project_title} has ended
