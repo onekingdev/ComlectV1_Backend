@@ -81,4 +81,8 @@ module ApplicationHelper
     text += "account. If you wish to dispute these charges, please contact Complect."
     text
   end
+
+  def current_business_or_specialist
+    current_user.business.present? ? current_user.business : current_user.specialist
+  end
 end
