@@ -13,13 +13,13 @@ class PaymentCycle
   }.freeze
 
   def self.for(project)
+    return PaymentCycle::FullTime.new(project) if project.full_time?
     hourly_or_fixed = project.hourly_pricing? ? 'hourly' : 'fixed'
     klass = SCHEDULE_CLASSES.fetch("#{hourly_or_fixed}/#{project.payment_schedule.parameterize.underscore}")
     klass.new(project)
   end
 
   def initialize(project)
-    raise 'Payment cycles only available for one-off projects' unless project.one_off?
     @project = project
   end
 
