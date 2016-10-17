@@ -1,4 +1,6 @@
 = simple_form_for account, url: specialists_settings_payment_path do |f|
+  - if f.object.status_detail.present?
+    .alert.alert-warning= f.object.status_detail
   = f.hidden_field :account_type
   .well.well-lg
     h2.text-center.m-b-2 Account Details
