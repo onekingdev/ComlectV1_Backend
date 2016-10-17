@@ -23,8 +23,6 @@ class Project < ActiveRecord::Base
   has_many :extensions, dependent: :destroy, class_name: 'ProjectExtension'
   has_one :extension, -> { pending }, class_name: 'ProjectExtension'
   has_many :documents, dependent: :destroy
-  has_many :questions, dependent: :destroy
-  has_many :answers, through: :questions, dependent: :destroy
 
   accepts_nested_attributes_for :extensions, :timesheets
 
@@ -114,6 +112,14 @@ class Project < ActiveRecord::Base
     '11-15' => (11..Float::INFINITY),
     '15+' => (15..Float::INFINITY)
   }.freeze
+
+  def self.ending
+    one_off.active.joins(:business).select('projects.*, businesses.time_zone').find_each.find_all do |project|
+      # Set to midnight
+      tz = ActiveSupport::TimeZone[project[:time_zone]]
+      project.ends_on.in_time_zone(tz) + 1.day <= 5.minutes.from_now
+    end
+  end
 
   def self.cards_for_user(user, filter:, page:, per:)
     user.business.projects.recent

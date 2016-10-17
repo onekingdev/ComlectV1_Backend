@@ -9,3 +9,7 @@ process_scheduled_charges:
 process_transactions:
   cron: "*/5 * * * *"
   class: "ProcessTransactionsJob"
+
+end_projects:
+  cron: "/30 * * * *"
+  class: "EndProjectsJob"
