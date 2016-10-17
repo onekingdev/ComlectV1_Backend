@@ -26,14 +26,15 @@ table.table.table-striped.documents-table
     - (@docs_and_messages.size/10 + 1).times do |n|
       = link_to ''.html_safe, current_uri(page: n + 1), remote: true, class: "page #{"current" if n + 1 == doc_page_num}"
 
-= simple_form_for Document.new, authenticity_token: true, url: project_documents_path do |f|
-  .pull-right.message-form
-  label.custom-fiel-field.js-custom-file-field.m-b-0
-    = f.hidden_field :file, value: f.object.file_data? ? f.object.file_data.to_json: nil
-    = f.file_field :file
-    .btn.btn-plain.btn-align-md-bottom
-      i.icon.maxicons1-copy
-      span.selected.d-ib.m-l-1= f.object.file ? f.object.file.data['metadata']['filename'] : nil
-    - if f.object.errors[:file].any?
-      .text-danger= f.object.errors[:file].to_sentence
-  = f.submit 'Send', class: 'btn btn-primary btn-md p-x-3', data: { disable_with: 'Sending...' }
+- if @project.active?
+  = simple_form_for Document.new, authenticity_token: true, url: project_documents_path do |f|
+    .pull-right.message-form
+    label.custom-fiel-field.js-custom-file-field.m-b-0
+      = f.hidden_field :file, value: f.object.file_data? ? f.object.file_data.to_json: nil
+      = f.file_field :file
+      .btn.btn-plain.btn-align-md-bottom
+        i.icon.maxicons1-copy
+        span.selected.d-ib.m-l-1= f.object.file ? f.object.file.data['metadata']['filename'] : nil
+      - if f.object.errors[:file].any?
+        .text-danger= f.object.errors[:file].to_sentence
+    = f.submit 'Send', class: 'btn btn-primary btn-md p-x-3', data: { disable_with: 'Sending...' }

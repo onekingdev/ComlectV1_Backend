@@ -13,51 +13,52 @@ label.strong.m-t-3 Key Deliverables
 
 = project.key_deliverables_list
 
-label.strong.m-t-3 Q & A
+- if project.active?
+  label.strong.m-t-3 Q & A
 
-- if current_user.specialist == project.specialist
-  = simple_form_for Question.new, authenticity_token: true, url: project_questions_path do |f|
-    = f.input :text, as: :text, label: false, input_html: {class: 'di-b', rows: 2, placeholder: 'Enter question here'}
-    = f.submit 'Ask Question', class: 'btn btn-primary btn-md p-x-3', data: {disable_with: 'Sending...'}
+  - if current_specialist == project.specialist
+    = simple_form_for Question.new, authenticity_token: true, url: project_questions_path do |f|
+      = f.input :text, as: :text, label: false, input_html: {class: 'di-b', rows: 2, placeholder: 'Enter question here'}
+      = f.submit 'Ask Question', class: 'btn btn-primary btn-md p-x-3', data: {disable_with: 'Sending...'}
 
-- project.questions.each do |q|
-  .question-and-answer
-    .question-text
-      span.q-or-a Q&nbsp;
-      = q.text
-      .question-or-answer-timestamp
-        span= q.created_at.in_time_zone(current_business_or_specialist.time_zone).strftime("%b %d, %Y at %I:%M %P")
-        span &nbsp;
-        - if project.business == current_user.business
-          span= link_to 'Flag', '#', { class: 'flag-link', data: { content: "question#{q.id}" } }
-          = content_tag :div, {class: 'flag-form', data: { content: "question#{q.id}" } } do
-            = simple_form_for Flag.new, authenticity_token: true, url: business_project_flags_path do |f|
-              label.strong.m-t-3.aligned-center Report Post
-              = f.hidden_field :question_id, value: q.id
-              = f.input :reason, as: :radio_pills,
-                        collection: [%w(Inappropriate inappropriate), %w(Harassment harassment), %w(Spam spam)],
-                        btn_class: 'btn-default p-x-3 tt-u', label: false
-              = f.submit 'Flag Question', class: 'btn btn-primary btn-md p-x-3 aligned-center'
-
-    - if q.answer.present?
-      .answer-text
-        span.q-or-a A&nbsp;
-        = q.answer.text
+  - project.questions.each do |q|
+    .question-and-answer
+      .question-text
+        span.q-or-a Q&nbsp;
+        = q.text
         .question-or-answer-timestamp
-          span= q.answer.created_at.in_time_zone(current_business_or_specialist.time_zone).strftime("%b %d, %Y at %I:%M %P")
+          span= q.created_at.in_time_zone(current_business_or_specialist.time_zone).strftime("%b %d, %Y at %I:%M %P")
           span &nbsp;
-          - if project.specialist == current_user.specialist
-            span= link_to 'Flag', '#', {class: 'flag-link', data: {content: "answer#{q.answer.id}"}}
-            = content_tag :div, {class: 'flag-form', data: {content: "answer#{q.answer.id}"}} do
-              = simple_form_for Flag.new, authenticity_token: true, url: project_flags_path do |f|
+          - if project.business == current_user.business
+            span= link_to 'Flag', '#', { class: 'flag-link', data: { content: "question#{q.id}" } }
+            = content_tag :div, {class: 'flag-form', data: { content: "question#{q.id}" } } do
+              = simple_form_for Flag.new, authenticity_token: true, url: business_project_flags_path do |f|
                 label.strong.m-t-3.aligned-center Report Post
-                = f.hidden_field :answer_id, value: q.answer.id
+                = f.hidden_field :question_id, value: q.id
                 = f.input :reason, as: :radio_pills,
                           collection: [%w(Inappropriate inappropriate), %w(Harassment harassment), %w(Spam spam)],
                           btn_class: 'btn-default p-x-3 tt-u', label: false
                 = f.submit 'Flag Question', class: 'btn btn-primary btn-md p-x-3 aligned-center'
-    - elsif project.business == current_user.business
-      = simple_form_for Answer.new, authenticity_token: true, url: business_project_answers_path do |f|
-        = f.input :text, as: :text, label: false, input_html: {class: 'di-b', rows: 2, placeholder: 'Enter answer here'}
-        = f.hidden_field :question_id, value: q.id
-        = f.submit 'Answer Question', class: 'btn btn-primary btn-md p-x-3', data: {disable_with: 'Sending...'}
+
+      - if q.answer.present?
+        .answer-text
+          span.q-or-a A&nbsp;
+          = q.answer.text
+          .question-or-answer-timestamp
+            span= q.answer.created_at.in_time_zone(current_business_or_specialist.time_zone).strftime("%b %d, %Y at %I:%M %P")
+            span &nbsp;
+            - if project.specialist == current_user.specialist
+              span= link_to 'Flag', '#', {class: 'flag-link', data: {content: "answer#{q.answer.id}"}}
+              = content_tag :div, {class: 'flag-form', data: {content: "answer#{q.answer.id}"}} do
+                = simple_form_for Flag.new, authenticity_token: true, url: project_flags_path do |f|
+                  label.strong.m-t-3.aligned-center Report Post
+                  = f.hidden_field :answer_id, value: q.answer.id
+                  = f.input :reason, as: :radio_pills,
+                            collection: [%w(Inappropriate inappropriate), %w(Harassment harassment), %w(Spam spam)],
+                            btn_class: 'btn-default p-x-3 tt-u', label: false
+                  = f.submit 'Flag Question', class: 'btn btn-primary btn-md p-x-3 aligned-center'
+      - elsif project.business == current_business
+        = simple_form_for Answer.new, authenticity_token: true, url: business_project_answers_path do |f|
+          = f.input :text, as: :text, label: false, input_html: {class: 'di-b', rows: 2, placeholder: 'Enter answer here'}
+          = f.hidden_field :question_id, value: q.id
+          = f.submit 'Answer Question', class: 'btn btn-primary btn-md p-x-3', data: {disable_with: 'Sending...'}

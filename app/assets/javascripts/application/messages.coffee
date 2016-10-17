@@ -9,7 +9,7 @@ $.onContentReady ($parent, data) ->
 
   group_messages_by_day()
 
-  if $messages.length != 0 && $('.messages').is(':visible')
+  if $messages.length != 0 && $('.messages').is(':visible') && $messages.data('active') == 'true'
     setInterval ->
       if $('.messages').is(':visible')
         request = $.get $messages.data('url'), (data) ->
@@ -57,15 +57,16 @@ $.onContentReady ($parent, data) ->
         $messages.removeClass 'loading'
         loadingMessages = false
 
-  $messages.on 'scroll', (e) ->
-    clearTimeout(scrollTick) if scrollTick?
-    return if loadingMessages
-    scrollTick = setTimeout ->
-      ratio = $messages.scrollTop() / $messages[0].scrollHeight
-      # ratio < previousRatio : Do nothing when scrolling down
-      loadMessages() if ratio < previousRatio && ratio < 0.25
-      previousRatio = ratio
-    , 500
+  if $messages.data('active') == 'true'
+    $messages.on 'scroll', (e) ->
+      clearTimeout(scrollTick) if scrollTick?
+      return if loadingMessages
+      scrollTick = setTimeout ->
+        ratio = $messages.scrollTop() / $messages[0].scrollHeight
+        # ratio < previousRatio : Do nothing when scrolling down
+        loadMessages() if ratio < previousRatio && ratio < 0.25
+        previousRatio = ratio
+      , 500
 
   $('.message_message').on 'keypress', (e) ->
     if (window.event.keyCode == 13 && $('#send_on_enter').prop('checked'))
