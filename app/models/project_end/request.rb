@@ -21,7 +21,7 @@ class ProjectEnd::Request < Draper::Decorator
   def self.confirm_or_deny!(project, params)
     if params[:confirm]
       project.end_request.confirm!
-      project.complete!
+      Project::Ending.process! project
     elsif params[:deny]
       project.end_request.deny!
       # TODO: Send notification to business?
