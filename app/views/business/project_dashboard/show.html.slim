@@ -71,9 +71,10 @@
                 li= link_to '#project-details', data: { toggle: 'tab' } do
                   i.icon.maxicons2-catalogue
                   span Project Details
-                li= link_to '#project-help', data: { toggle: 'tab' } do
-                  i.icon.maxicons2-instruction
-                  span Help
+                - if project.active?
+                  li= link_to '#project-help', data: { toggle: 'tab' } do
+                    i.icon.maxicons2-instruction
+                    span Help
             ul.nav.nav-pills.hidden-xs.small
               li.active= link_to '#project-messages', data: { toggle: 'tab', "remote-load" => true, url: business_project_messages_path(project), 'toggle-sync' => true } do
                 i.icon.maxicons2-comments
@@ -88,9 +89,10 @@
               li= link_to '#project-details', data: { toggle: 'tab' } do
                 i.icon.maxicons2-catalogue
                 span <span class="hidden-md">Project</span> Details
-              li= link_to '#project-help', data: { toggle: 'tab' } do
-                i.icon.maxicons2-instruction
-                span Help
+              - if project.active?
+                li= link_to '#project-help', data: { toggle: 'tab' } do
+                  i.icon.maxicons2-instruction
+                  span Help
           .panel-body
             .tab-content
               #project-messages.tab-pane.clearfix.active data-always-reload="true"
@@ -99,5 +101,6 @@
                 #project-timesheets.tab-pane.clearfix
               #project-details.tab-pane.clearfix
                 = render 'projects/dashboards/project_details', project: project
-              #project-help.tab-pane.clearfix
-                = render 'project_help', issue: project.issues.new
+              - if project.active?
+                #project-help.tab-pane.clearfix
+                  = render 'project_help', issue: project.issues.new
