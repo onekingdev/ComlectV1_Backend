@@ -8,7 +8,7 @@ class Business::FlagsController < ApplicationController
     @flag.flagger = current_business
     @flag.flagged_content = @project.questions.find(flag_params[:question_id])
     @flag.save
-    redirect_to business_project_dashboard_path(@project)
+    redirect_to business_project_path(@project)
   end
 
   private

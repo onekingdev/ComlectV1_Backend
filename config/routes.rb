@@ -28,6 +28,9 @@ Rails.application.routes.draw do
   get 'info/:page' => 'home#page', as: :page
   get 'app_config' => 'home#app_config', format: 'js'
 
+  get 'specialist_sso' => 'discourse#specialist_sso'
+  get 'business_sso' => 'discourse#business_sso'
+
   resources :businesses, only: %i(index new create show)
   resource :business, only: %i(edit) do
     patch '/' => 'businesses#update', as: :update

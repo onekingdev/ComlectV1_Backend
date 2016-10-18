@@ -7,7 +7,7 @@ class Business::AnswersController < DocumentsController
     @answer.text = answer_params[:text]
     @answer.question = @project.questions.find(answer_params[:question_id])
     @answer.save
-    redirect_to business_project_dashboard_path(@project)
+    redirect_to business_project_path(@project)
   end
 
   private
