@@ -25,7 +25,9 @@ class JobApplication::Form < JobApplication
   end
 
   def enough_experience?
-    exp = Specialist.by_experience.find_by_id(specialist.id).years_of_experience
+    exp = specialist.work_experiences.map do |xp|
+      xp.compliance? ? xp.years : 0
+    end.reduce(:+) || 0
     Project::EXPERIENCE_RANGES[project.minimum_experience].include?(exp)
   end
 

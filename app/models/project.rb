@@ -142,6 +142,11 @@ class Project < ActiveRecord::Base
     one_off? && complete? && ratings.by(specialist).empty?
   end
 
+  def ending?
+    tz = ActiveSupport::TimeZone[attributes[:time_zone].presence || business.time_zone]
+    ends_on.in_time_zone(tz) + 1.day <= 5.minutes.from_now
+  end
+
   def end_requested?
     end_request.present?
   end
