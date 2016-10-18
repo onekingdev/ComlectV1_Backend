@@ -49,7 +49,11 @@ ActiveAdmin.register Project do
     actions do |project|
       actions = []
       if project.specialist && !project.complete?
-        actions << link_to('End Project', end_admin_project_path(project), method: :post, class: 'member_link')
+        actions << link_to('End Project',
+                           end_admin_project_path(project),
+                           method: :post,
+                           class: 'member_link',
+                           data: { confirm: 'Do you want to end this project?' })
       end
       if project.ratings.count > 0
         actions << link_to('Ratings', admin_ratings_path(q: { project_id_eq: project.id }), class: 'member_link')
