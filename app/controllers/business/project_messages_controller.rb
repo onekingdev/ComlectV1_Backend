@@ -21,20 +21,24 @@ class Business::ProjectMessagesController < ApplicationController
   end
 
   def create
-    @message = @project.messages.create(message_params.merge(sender: current_business, recipient: @project.specialist))
+    @message = create_message
     respond_to do |format|
       format.js do
         render :new if @message.new_record?
       end
       format.html do
-        notice = @message.new_record? ? 'Could not save your message' : nil
-        redirect_to business_project_dashboard_path(@project), notice: notice
+        alert = @message.new_record? ? @message.errors.messages.values.flatten.to_sentence : nil
+        redirect_to business_project_dashboard_path(@project), alert: alert
       end
     end
     Notification::Deliver.got_project_message!(@message) if @message.persisted?
   end
 
   private
+
+  def create_message
+    @project.messages.create(message_params.merge(sender: current_business, recipient: @project.specialist))
+  end
 
   def render_messages
     render partial: 'messages/message',
