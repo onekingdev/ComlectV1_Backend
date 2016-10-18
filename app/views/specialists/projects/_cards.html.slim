@@ -35,7 +35,7 @@
         .panel-footer
           .btn-group
             - if project.pending? && (application = project.job_applications.by(current_specialist).first)
-              = link_to project_job_application_path(project, application),
+              = link_to project_job_application_path(project, application, redirect_to: specialists_dashboard_path),
                 method: :delete,
                 remote: true,
                 title: 'Withdraw Application',
