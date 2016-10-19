@@ -88,6 +88,49 @@ ActiveAdmin.register Project do
       row :annual_salary
       row :calculated_budget
       row :specialist
+      row :documents do |project|
+        if project.issues.open.where(admin_user: current_admin_user).any?
+          table_for project.documents do
+            column(:file) do |document|
+              link_to document.file_url, target: '_blank' do
+                document.file.metadata['filename']
+              end
+            end
+            column 'Sender', :owner
+            column :created_at
+          end
+        end
+      end
+      row :messages do |project|
+        if project.issues.open.where(admin_user: current_admin_user).any?
+          table_for project.messages do
+            column :message
+            column :sender
+            column :created_at
+            column :file do |message|
+              if message.file
+                link_to message.file_url, target: '_blank' do
+                  message.file.metadata['filename']
+                end
+              end
+            end
+          end
+        end
+      end
+      row :timesheets do |project|
+        if project.issues.open.where(admin_user: current_admin_user).any?
+          table_for project.timesheets.order('id asc') do
+            column :status
+            column :created_at
+            column :time_logs do |timesheet|
+              table_for timesheet.time_logs do
+                column :description
+                column :hours
+              end
+            end
+          end
+        end
+      end
     end
   end
 
@@ -106,6 +149,7 @@ ActiveAdmin.register Project do
                 :annual_salary,
                 :fee_type,
                 :pricing_type,
+                timesheets_attributes: [:_destroy, :id, :status, time_logs_attributes: %i(id description hours)],
                 industry_ids: [],
                 jurisdiction_ids: []
   form do |f|
@@ -137,6 +181,9 @@ ActiveAdmin.register Project do
         a.has_many :time_logs do |b|
           b.input :description
           b.input :hours, min: 0
+        end
+        if a.object.status == 'pending' || a.object.status == 'submitted' || a.object.status == 'disputed'
+          a.input :_destroy, as: :boolean, required: false, label: 'Remove'
         end
       end
     end

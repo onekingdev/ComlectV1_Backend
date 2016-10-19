@@ -46,10 +46,6 @@ class Business < ActiveRecord::Base
     end
   end
 
-  def in_usa?
-    country == 'United States'
-  end
-
   def tz
     ActiveSupport::TimeZone[time_zone.to_s] || Time.zone
   end

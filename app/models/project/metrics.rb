@@ -34,14 +34,9 @@ class Project::Metrics
         'Average Value' => metric('jobs_value', :currency),
         'Percent of All Postings' => metric('jobs_share', :percentage),
         'By Payment Plan' => [nil, nil, nil, {
-          'Upfront' => metric('jobs_upfront_pay'),
+          'Bi-Weekly' => metric('jobs_upfront_pay'),
           'Monthly' => metric('jobs_installment_pay')
         }]
-      }],
-      'Total' => [nil, nil, nil, {
-        'Number Posted' => [metric('jobs_posted'), metric('projects_posted')].transpose.map(&:sum),
-        'Percent Projects' => metric('projects_share', :percentage),
-        'Percent Jobs' => metric('jobs_share', :percentage)
       }]
     }
   end

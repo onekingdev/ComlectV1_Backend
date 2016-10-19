@@ -28,8 +28,11 @@ ActiveAdmin.register ProjectIssue, as: 'Issues' do
     column 'Assigned to', sortable: 'admin_users.email' do |issue|
       issue.admin_user ? issue.admin_user.email : 'Not assigned'
     end
-    column 'Business or Specialist' do |issue|
-      issue.user.specialist ? 'Specialist' : 'Business'
+    column 'Business' do |issue|
+      issue.user.business if issue.user.business
+    end
+    column 'Specialist' do |issue|
+      issue.user.specialist if issue.user.specialist
     end
     column content_tag(:i, '', class: 'fa fa-eye') do |issue|
       link_to '#', data: { title: 'Issue', content: issue.issue } do
