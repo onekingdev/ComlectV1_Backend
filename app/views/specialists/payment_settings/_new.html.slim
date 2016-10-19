@@ -7,7 +7,9 @@
   = f.hidden_field :first_name
   = f.hidden_field :last_name
 
-  - if f.object.status_detail.present?
+  - if %i(address1 zipcode city state first_name last_name).any? { |attr| f.object[attr].blank? }
+    .alert.alert-warning Your profile information is not complete, please #{link_to 'update it', edit_specialist_path} before adding an account.
+  - elsif f.object.status_detail.present?
     .alert.alert-warning= f.object.status_detail
   - elsif f.object.errors[:base].any?
     .alert.alert-warning= f.object.errors[:base].to_sentence
