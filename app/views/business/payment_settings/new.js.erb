@@ -2,5 +2,5 @@
 $('#new_payment_source_ach')
   .find('.alert-danger').text('<%= j @payment_source.errors.full_messages.to_sentence %>').removeClass('hidden');
 <% else %>
-_Modal.showPlain('<%= j render 'choose_country' %>');
+_Modal.showPlain('<%= j render 'choose_verification_method' %>');
 <% end %>

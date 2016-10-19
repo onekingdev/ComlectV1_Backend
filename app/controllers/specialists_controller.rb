@@ -54,8 +54,8 @@ class SpecialistsController < ApplicationController
 
   def specialist_params
     params.require(:specialist).permit(
-      :first_name, :last_name, :country, :state, :city, :zipcode, :lat, :lng, :phone, :linkedin_link, :public_profile,
-      :former_regulator, :certifications, :photo, :resume, :time_zone,
+      :first_name, :last_name, :country, :address_1, :address_2, :state, :city, :zipcode, :lat, :lng, :phone,
+      :linkedin_link, :public_profile, :former_regulator, :certifications, :photo, :resume, :time_zone,
       jurisdiction_ids: [], industry_ids: [], skill_names: [],
       user_attributes: %i(email password),
       work_experiences_attributes: %i(id company job_title location from to current compliance description _destroy),

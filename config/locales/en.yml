@@ -28,7 +28,7 @@ en:
         last4: Last 4 Digits
     errors:
       messages:
-        blank: A message is required
+        blank: is required
       models:
         business:
           attributes:
@@ -73,6 +73,10 @@ en:
           attributes:
             review:
               blank: Oops! Please complete all sections before submitting. Your opinion matters.
+        message:
+          attributes:
+            message:
+              blank: A message is required
 
   project_invites:
     message_templates:

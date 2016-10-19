@@ -18,6 +18,7 @@ class StripeAccount::Form < StripeAccount
     zipcode: :zipcode,
     city: :city,
     state: :state,
+    address1: :address_1,
     personal_city: :city,
     personal_zipcode: :zipcode,
     first_name: :first_name,

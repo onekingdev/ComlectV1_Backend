@@ -8,6 +8,8 @@ ActiveAdmin.register Transaction do
 
   filter :amount_in_cents
   filter :status, as: :select, collection: Transaction.statuses
+  filter :project_id, label: 'Project ID'
+  filter :project_title, as: :string, label: 'Project Title'
   filter :processed_at
   filter :created_at
   filter :updated_at
@@ -40,5 +42,11 @@ ActiveAdmin.register Transaction do
     end
     column :processed_at
     actions
+  end
+
+  controller do
+    def scoped_collection
+      Transaction.joins(:project, :business, :specialist)
+    end
   end
 end

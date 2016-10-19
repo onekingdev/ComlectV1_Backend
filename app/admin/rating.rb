@@ -15,7 +15,6 @@ ActiveAdmin.register Rating do
     column 'From', :rater
     column :to
     column :review
-    column :stars, &:value
     actions
   end
 end

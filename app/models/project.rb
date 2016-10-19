@@ -26,8 +26,7 @@ class Project < ActiveRecord::Base
   has_many :questions, dependent: :destroy
   has_many :answers, through: :questions, dependent: :destroy
 
-  accepts_nested_attributes_for :extensions
-  accepts_nested_attributes_for :timesheets, allow_destroy: true
+  accepts_nested_attributes_for :extensions, :timesheets
 
   scope :escalated, -> { joins(:issues).where(project_issues: { status: :open }) }
   scope :not_escalated, -> { where.not(id: escalated) }

@@ -9,6 +9,8 @@ ActiveAdmin.register Charge do
   filter :amount_in_cents
   filter :status, as: :select, collection: Charge.statuses
   filter :date
+  filter :project_id, label: 'Project ID'
+  filter :project_title, as: :string, label: 'Project Title'
   filter :created_at
   filter :updated_at
 
@@ -43,6 +45,8 @@ ActiveAdmin.register Charge do
     column :project, sortable: 'projects.title' do |charge|
       link_to charge.project, [:admin, charge.project]
     end
+    column :business, sortable: 'businesses.business_name'
+    column :specialist, sortable: 'specialists.first_name'
     column :amount, sortable: :amount_in_cents, class: 'number' do |charge|
       number_to_currency charge.amount
     end
@@ -84,5 +88,11 @@ ActiveAdmin.register Charge do
       input :description
     end
     actions
+  end
+
+  controller do
+    def scoped_collection
+      Charge.joins(:project, :business, :specialist)
+    end
   end
 end
