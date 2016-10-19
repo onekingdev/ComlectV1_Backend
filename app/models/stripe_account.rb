@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+# rubocop:disable Metrics/ClassLength
 class StripeAccount < ActiveRecord::Base
   belongs_to :specialist
 
@@ -35,7 +36,15 @@ class StripeAccount < ActiveRecord::Base
   end
 
   def create_managed_account
-    account = Stripe::Account.create(
+    account = Stripe::Account.create(stripe_account_attributes)
+    update_attribute :stripe_id, account.id
+  rescue Stripe::InvalidRequestError => e
+    errors.add :base, e.message
+    raise ActiveRecord::Rollback
+  end
+
+  def stripe_account_attributes
+    {
       country: country,
       managed: true,
       external_account: {
@@ -46,8 +55,7 @@ class StripeAccount < ActiveRecord::Base
         account_number: account_number
       },
       tos_acceptance: { date: tos_acceptance_date.to_i, ip: tos_acceptance_ip }
-    )
-    update_attribute :stripe_id, account.id
+    }
   end
 
   def verify_account
@@ -55,14 +63,10 @@ class StripeAccount < ActiveRecord::Base
     assign_account_fields account
     account.save
     account = Stripe::Account.retrieve(stripe_id)
-    update_attribute :status, status_from_account(account)
-    update_attribute :status_detail, nil
-    true
+    update_columns status: status_from_account(account), status_detail: fields_needed_message(account).presence
   rescue Stripe::InvalidRequestError => e
-    update_attribute :status, 'error'
-    update_attribute :status_detail, e.message
     errors.add :base, e.message
-    false
+    raise ActiveRecord::Rollback
   end
 
   def upload_verification_document
@@ -77,6 +81,17 @@ class StripeAccount < ActiveRecord::Base
 
   def delete_managed_account
     Stripe::Account.retrieve(stripe_id).delete
+  end
+
+  FIELDS_NEEDED_MAP = {
+    'legal_entity.personal_id_number' => 'Personal ID Number'
+  }.freeze
+
+  def fields_needed_message(account)
+    fields = (account.verification&.fields_needed || []).map do |field|
+      FIELDS_NEEDED_MAP[field] || field.split('.')[-1]
+    end
+    "Required information: #{fields.to_sentence}" if fields.any?
   end
 
   def status_from_account(account)
@@ -122,5 +137,13 @@ class StripeAccount < ActiveRecord::Base
     methods[0..-2].inject(account) do |acc, method|
       acc.public_send method
     end.public_send("#{methods.last}=", value)
+  end
+
+  STRIPE_ERRORS = {
+    /Cannot provide both personal_id_number/i => 'Personal ID number and last 4 SSN digits must match'
+  }.freeze
+
+  def translate_stripe_error(error)
+    (STRIPE_ERRORS.detect { |regex, _m| regex.match(error) } || [nil, error])[1]
   end
 end

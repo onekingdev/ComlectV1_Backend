@@ -38,6 +38,7 @@ class Project::Form < Project
     errors.add :base, :no_payment
   end
   validates :skill_ids, length: { maximum: 10 }
+  validates :minimum_experience, presence: true, inclusion: { in: EXPERIENCE_RANGES.values }
 
   before_validation :assign_type_fields
   before_validation :assign_pricing_type_fields

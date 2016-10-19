@@ -9,6 +9,8 @@ h2.m-t-0 Payment Details
       td.text-right
         - if @account.fields_needed?
           = link_to 'Additional Info Required', edit_specialists_settings_payment_path
+        - elsif @account.error?
+          = link_to 'Error', edit_specialists_settings_payment_path
         - else
           strong.small= @account.status.capitalize
       td.text-right
