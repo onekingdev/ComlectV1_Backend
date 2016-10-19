@@ -93,4 +93,12 @@ module ApplicationHelper
   def current_business_or_specialist
     current_user.business.present? ? current_user.business : current_user.specialist
   end
+
+  def submit_flag_url(user, project)
+    if user.business.present?
+      business_project_flags_path(project_id: project.id)
+    else
+      project_flags_path(project_id: project.id)
+    end
+  end
 end

@@ -650,20 +650,23 @@ CREATE TABLE projects (
 --
 
 CREATE VIEW metrics_jobs_installment_pay AS
- WITH base AS (
-         SELECT projects.created_at
-           FROM projects
-          WHERE (((projects.type)::text = 'full_time'::text) AND ((projects.fee_type)::text = 'monthly_fee'::text))
-        )
  SELECT 'jobs_installment_pay'::character varying AS metric,
-    ( SELECT count(*) AS count
-           FROM base
-          WHERE (base.created_at >= date_trunc('month'::text, now()))) AS mtd,
-    ( SELECT count(*) AS count
-           FROM base
-          WHERE (base.created_at >= date_trunc('year'::text, now()))) AS fytd,
-    ( SELECT count(*) AS count
-           FROM base) AS itd;
+    mtd.cnt AS mtd,
+    fytd.cnt AS fytd,
+    itd.cnt AS itd
+   FROM ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE ((((projects.type)::text = 'full_time'::text) AND ((projects.fee_type)::text = 'monthly_fee'::text)) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
+    ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE ((((projects.type)::text = 'full_time'::text) AND ((projects.fee_type)::text = 'monthly_fee'::text)) AND ((projects.created_at)::date >= (
+                CASE
+                    WHEN (('now'::text)::date >= ((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date) THEN (((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date)::text
+                    ELSE ((((date_part('year'::text, ('now'::text)::date) - (1)::double precision) || '/10/01'::text))::date)::text
+                END)::date))) fytd,
+    ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE (((projects.type)::text = 'full_time'::text) AND ((projects.fee_type)::text = 'monthly_fee'::text))) itd;
 
 
 --
@@ -671,20 +674,23 @@ CREATE VIEW metrics_jobs_installment_pay AS
 --
 
 CREATE VIEW metrics_jobs_posted AS
- WITH base AS (
-         SELECT projects.created_at
-           FROM projects
-          WHERE ((projects.type)::text = 'full_time'::text)
-        )
  SELECT 'jobs_posted'::character varying AS metric,
-    ( SELECT count(*) AS count
-           FROM base
-          WHERE (base.created_at >= date_trunc('month'::text, now()))) AS mtd,
-    ( SELECT count(*) AS count
-           FROM base
-          WHERE (base.created_at >= date_trunc('year'::text, now()))) AS fytd,
-    ( SELECT count(*) AS count
-           FROM base) AS itd;
+    mtd.cnt AS mtd,
+    fytd.cnt AS fytd,
+    itd.cnt AS itd
+   FROM ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE (((projects.type)::text = 'full_time'::text) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
+    ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE (((projects.type)::text = 'full_time'::text) AND ((projects.created_at)::date >= (
+                CASE
+                    WHEN (('now'::text)::date >= ((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date) THEN (((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date)::text
+                    ELSE ((((date_part('year'::text, ('now'::text)::date) - (1)::double precision) || '/10/01'::text))::date)::text
+                END)::date))) fytd,
+    ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE ((projects.type)::text = 'full_time'::text)) itd;
 
 
 --
@@ -692,25 +698,32 @@ CREATE VIEW metrics_jobs_posted AS
 --
 
 CREATE VIEW metrics_jobs_share AS
- WITH base AS (
-         SELECT projects.created_at
-           FROM projects
-          WHERE ((projects.type)::text = 'full_time'::text)
-        )
  SELECT 'jobs_share'::character varying AS metric,
-    (((mtd.cnt)::double precision / (total.cnt)::double precision) * (100)::double precision) AS mtd,
-    (((fytd.cnt)::double precision / (total.cnt)::double precision) * (100)::double precision) AS fytd,
-    (((itd.cnt)::double precision / (total.cnt)::double precision) * (100)::double precision) AS itd
-   FROM ( SELECT count(*) AS cnt
-           FROM projects) total,
-    ( SELECT count(*) AS cnt
-           FROM base
-          WHERE (base.created_at >= date_trunc('month'::text, now()))) mtd,
-    ( SELECT count(*) AS cnt
-           FROM base
-          WHERE (base.created_at >= date_trunc('year'::text, now()))) fytd,
-    ( SELECT count(*) AS cnt
-           FROM base) itd;
+    mtd.pct AS mtd,
+    fytd.pct AS fytd,
+    itd.pct AS itd
+   FROM ( SELECT (((count(*))::double precision / (( SELECT count(*) AS count
+                   FROM projects projects_1
+                  WHERE (projects_1.created_at >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date)))::double precision) * (100)::double precision) AS pct
+           FROM projects
+          WHERE (((projects.type)::text = 'full_time'::text) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
+    ( SELECT (((count(*))::double precision / (( SELECT count(*) AS count
+                   FROM projects projects_1
+                  WHERE ((projects_1.created_at)::date >= (
+                        CASE
+                            WHEN (('now'::text)::date >= ((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date) THEN (((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date)::text
+                            ELSE ((((date_part('year'::text, ('now'::text)::date) - (1)::double precision) || '/10/01'::text))::date)::text
+                        END)::date)))::double precision) * (100)::double precision) AS pct
+           FROM projects
+          WHERE (((projects.type)::text = 'full_time'::text) AND ((projects.created_at)::date >= (
+                CASE
+                    WHEN (('now'::text)::date >= ((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date) THEN (((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date)::text
+                    ELSE ((((date_part('year'::text, ('now'::text)::date) - (1)::double precision) || '/10/01'::text))::date)::text
+                END)::date))) fytd,
+    ( SELECT (((count(*))::double precision / (( SELECT count(*) AS count
+                   FROM projects projects_1))::double precision) * (100)::double precision) AS pct
+           FROM projects
+          WHERE ((projects.type)::text = 'full_time'::text)) itd;
 
 
 --
@@ -718,20 +731,23 @@ CREATE VIEW metrics_jobs_share AS
 --
 
 CREATE VIEW metrics_jobs_upfront_pay AS
- WITH base AS (
-         SELECT projects.created_at
-           FROM projects
-          WHERE (((projects.type)::text = 'full_time'::text) AND ((projects.fee_type)::text = 'upfront_fee'::text))
-        )
  SELECT 'jobs_upfront_pay'::character varying AS metric,
-    ( SELECT count(*) AS count
-           FROM base
-          WHERE (base.created_at >= date_trunc('month'::text, now()))) AS mtd,
-    ( SELECT count(*) AS count
-           FROM base
-          WHERE (base.created_at >= date_trunc('year'::text, now()))) AS fytd,
-    ( SELECT count(*) AS count
-           FROM base) AS itd;
+    mtd.cnt AS mtd,
+    fytd.cnt AS fytd,
+    itd.cnt AS itd
+   FROM ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE ((((projects.type)::text = 'full_time'::text) AND ((projects.fee_type)::text = 'upfront_fee'::text)) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
+    ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE ((((projects.type)::text = 'full_time'::text) AND ((projects.fee_type)::text = 'upfront_fee'::text)) AND ((projects.created_at)::date >= (
+                CASE
+                    WHEN (('now'::text)::date >= ((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date) THEN (((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date)::text
+                    ELSE ((((date_part('year'::text, ('now'::text)::date) - (1)::double precision) || '/10/01'::text))::date)::text
+                END)::date))) fytd,
+    ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE (((projects.type)::text = 'full_time'::text) AND ((projects.fee_type)::text = 'upfront_fee'::text))) itd;
 
 
 --
@@ -739,21 +755,23 @@ CREATE VIEW metrics_jobs_upfront_pay AS
 --
 
 CREATE VIEW metrics_jobs_value AS
- WITH base AS (
-         SELECT projects.created_at,
-            projects.annual_salary
-           FROM projects
-          WHERE ((projects.type)::text = 'full_time'::text)
-        )
  SELECT 'jobs_value'::character varying AS metric,
-    ( SELECT avg(base.annual_salary) AS avg
-           FROM base
-          WHERE (base.created_at >= date_trunc('month'::text, now()))) AS mtd,
-    ( SELECT avg(base.annual_salary) AS avg
-           FROM base
-          WHERE (base.created_at >= date_trunc('year'::text, now()))) AS fytd,
-    ( SELECT avg(base.annual_salary) AS avg
-           FROM base) AS itd;
+    mtd.avg AS mtd,
+    fytd.avg AS fytd,
+    itd.avg AS itd
+   FROM ( SELECT avg(projects.annual_salary) AS avg
+           FROM projects
+          WHERE (((projects.type)::text = 'full_time'::text) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
+    ( SELECT avg(projects.annual_salary) AS avg
+           FROM projects
+          WHERE (((projects.type)::text = 'full_time'::text) AND ((projects.created_at)::date >= (
+                CASE
+                    WHEN (('now'::text)::date >= ((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date) THEN (((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date)::text
+                    ELSE ((((date_part('year'::text, ('now'::text)::date) - (1)::double precision) || '/10/01'::text))::date)::text
+                END)::date))) fytd,
+    ( SELECT avg(projects.annual_salary) AS avg
+           FROM projects
+          WHERE ((projects.type)::text = 'full_time'::text)) itd;
 
 
 --
@@ -761,20 +779,23 @@ CREATE VIEW metrics_jobs_value AS
 --
 
 CREATE VIEW metrics_projects_fixed_50_50_pay AS
- WITH base AS (
-         SELECT projects.created_at
-           FROM projects
-          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text)) AND ((projects.payment_schedule)::text = 'fifty_fifty'::text))
-        )
  SELECT 'projects_fixed_50_50_pay'::character varying AS metric,
-    ( SELECT count(*) AS count
-           FROM base
-          WHERE (base.created_at >= date_trunc('month'::text, now()))) AS mtd,
-    ( SELECT count(*) AS count
-           FROM base
-          WHERE (base.created_at >= date_trunc('year'::text, now()))) AS fytd,
-    ( SELECT count(*) AS count
-           FROM base) AS itd;
+    mtd.cnt AS mtd,
+    fytd.cnt AS fytd,
+    itd.cnt AS itd
+   FROM ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE (((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text)) AND ((projects.payment_schedule)::text = 'fifty_fifty'::text)) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
+    ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE (((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text)) AND ((projects.payment_schedule)::text = 'fifty_fifty'::text)) AND ((projects.created_at)::date >= (
+                CASE
+                    WHEN (('now'::text)::date >= ((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date) THEN (((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date)::text
+                    ELSE ((((date_part('year'::text, ('now'::text)::date) - (1)::double precision) || '/10/01'::text))::date)::text
+                END)::date))) fytd,
+    ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text)) AND ((projects.payment_schedule)::text = 'fifty_fifty'::text))) itd;
 
 
 --
@@ -782,20 +803,23 @@ CREATE VIEW metrics_projects_fixed_50_50_pay AS
 --
 
 CREATE VIEW metrics_projects_fixed_bi_weekly_pay AS
- WITH base AS (
-         SELECT projects.created_at
-           FROM projects
-          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text)) AND ((projects.payment_schedule)::text = 'bi_weekly'::text))
-        )
  SELECT 'projects_fixed_bi_weekly_pay'::character varying AS metric,
-    ( SELECT count(*) AS count
-           FROM base
-          WHERE (base.created_at >= date_trunc('month'::text, now()))) AS mtd,
-    ( SELECT count(*) AS count
-           FROM base
-          WHERE (base.created_at >= date_trunc('year'::text, now()))) AS fytd,
-    ( SELECT count(*) AS count
-           FROM base) AS itd;
+    mtd.cnt AS mtd,
+    fytd.cnt AS fytd,
+    itd.cnt AS itd
+   FROM ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE (((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text)) AND ((projects.payment_schedule)::text = 'bi_weekly'::text)) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
+    ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE (((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text)) AND ((projects.payment_schedule)::text = 'bi_weekly'::text)) AND ((projects.created_at)::date >= (
+                CASE
+                    WHEN (('now'::text)::date >= ((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date) THEN (((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date)::text
+                    ELSE ((((date_part('year'::text, ('now'::text)::date) - (1)::double precision) || '/10/01'::text))::date)::text
+                END)::date))) fytd,
+    ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text)) AND ((projects.payment_schedule)::text = 'bi_weekly'::text))) itd;
 
 
 --
@@ -803,20 +827,23 @@ CREATE VIEW metrics_projects_fixed_bi_weekly_pay AS
 --
 
 CREATE VIEW metrics_projects_fixed_monthly_pay AS
- WITH base AS (
-         SELECT projects.created_at
-           FROM projects
-          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text)) AND ((projects.payment_schedule)::text = 'monthly'::text))
-        )
  SELECT 'projects_fixed_monthly_pay'::character varying AS metric,
-    ( SELECT count(*) AS count
-           FROM base
-          WHERE (base.created_at >= date_trunc('month'::text, now()))) AS mtd,
-    ( SELECT count(*) AS count
-           FROM base
-          WHERE (base.created_at >= date_trunc('year'::text, now()))) AS fytd,
-    ( SELECT count(*) AS count
-           FROM base) AS itd;
+    mtd.cnt AS mtd,
+    fytd.cnt AS fytd,
+    itd.cnt AS itd
+   FROM ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE (((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text)) AND ((projects.payment_schedule)::text = 'monthly'::text)) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
+    ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE (((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text)) AND ((projects.payment_schedule)::text = 'monthly'::text)) AND ((projects.created_at)::date >= (
+                CASE
+                    WHEN (('now'::text)::date >= ((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date) THEN (((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date)::text
+                    ELSE ((((date_part('year'::text, ('now'::text)::date) - (1)::double precision) || '/10/01'::text))::date)::text
+                END)::date))) fytd,
+    ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text)) AND ((projects.payment_schedule)::text = 'monthly'::text))) itd;
 
 
 --
@@ -824,20 +851,23 @@ CREATE VIEW metrics_projects_fixed_monthly_pay AS
 --
 
 CREATE VIEW metrics_projects_fixed_pay AS
- WITH base AS (
-         SELECT projects.created_at
-           FROM projects
-          WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text))
-        )
  SELECT 'projects_fixed_pay'::character varying AS metric,
-    ( SELECT count(*) AS count
-           FROM base
-          WHERE (base.created_at >= date_trunc('month'::text, now()))) AS mtd,
-    ( SELECT count(*) AS count
-           FROM base
-          WHERE (base.created_at >= date_trunc('year'::text, now()))) AS fytd,
-    ( SELECT count(*) AS count
-           FROM base) AS itd;
+    mtd.cnt AS mtd,
+    fytd.cnt AS fytd,
+    itd.cnt AS itd
+   FROM ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text)) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
+    ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text)) AND ((projects.created_at)::date >= (
+                CASE
+                    WHEN (('now'::text)::date >= ((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date) THEN (((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date)::text
+                    ELSE ((((date_part('year'::text, ('now'::text)::date) - (1)::double precision) || '/10/01'::text))::date)::text
+                END)::date))) fytd,
+    ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text))) itd;
 
 
 --
@@ -845,26 +875,33 @@ CREATE VIEW metrics_projects_fixed_pay AS
 --
 
 CREATE VIEW metrics_projects_fixed_share AS
- WITH base AS (
-         SELECT projects.created_at
-           FROM projects
-          WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text))
-        )
  SELECT 'projects_fixed_share'::character varying AS metric,
-    (((mtd.cnt)::double precision / (total.cnt)::double precision) * (100)::double precision) AS mtd,
-    (((fytd.cnt)::double precision / (total.cnt)::double precision) * (100)::double precision) AS fytd,
-    (((itd.cnt)::double precision / (total.cnt)::double precision) * (100)::double precision) AS itd
-   FROM ( SELECT count(*) AS cnt
+    mtd.pct AS mtd,
+    fytd.pct AS fytd,
+    itd.pct AS itd
+   FROM ( SELECT (((count(*))::double precision / (( SELECT count(*) AS count
+                   FROM projects projects_1
+                  WHERE (((projects_1.type)::text = 'one_off'::text) AND (projects_1.created_at >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))))::double precision) * (100)::double precision) AS pct
            FROM projects
-          WHERE ((projects.type)::text = 'one_off'::text)) total,
-    ( SELECT count(*) AS cnt
-           FROM base
-          WHERE (base.created_at >= date_trunc('month'::text, now()))) mtd,
-    ( SELECT count(*) AS cnt
-           FROM base
-          WHERE (base.created_at >= date_trunc('year'::text, now()))) fytd,
-    ( SELECT count(*) AS cnt
-           FROM base) itd;
+          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text)) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
+    ( SELECT (((count(*))::double precision / (( SELECT count(*) AS count
+                   FROM projects projects_1
+                  WHERE (((projects_1.type)::text = 'one_off'::text) AND ((projects_1.created_at)::date >= (
+                        CASE
+                            WHEN (('now'::text)::date >= ((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date) THEN (((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date)::text
+                            ELSE ((((date_part('year'::text, ('now'::text)::date) - (1)::double precision) || '/10/01'::text))::date)::text
+                        END)::date))))::double precision) * (100)::double precision) AS pct
+           FROM projects
+          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text)) AND ((projects.created_at)::date >= (
+                CASE
+                    WHEN (('now'::text)::date >= ((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date) THEN (((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date)::text
+                    ELSE ((((date_part('year'::text, ('now'::text)::date) - (1)::double precision) || '/10/01'::text))::date)::text
+                END)::date))) fytd,
+    ( SELECT (((count(*))::double precision / (( SELECT count(*) AS count
+                   FROM projects projects_1
+                  WHERE ((projects_1.type)::text = 'one_off'::text)))::double precision) * (100)::double precision) AS pct
+           FROM projects
+          WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text))) itd;
 
 
 --
@@ -872,20 +909,23 @@ CREATE VIEW metrics_projects_fixed_share AS
 --
 
 CREATE VIEW metrics_projects_fixed_upon_completion_pay AS
- WITH base AS (
-         SELECT projects.created_at
-           FROM projects
-          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text)) AND ((projects.payment_schedule)::text = 'upon_completion'::text))
-        )
  SELECT 'projects_fixed_upon_completion_pay'::character varying AS metric,
-    ( SELECT count(*) AS count
-           FROM base
-          WHERE (base.created_at >= date_trunc('month'::text, now()))) AS mtd,
-    ( SELECT count(*) AS count
-           FROM base
-          WHERE (base.created_at >= date_trunc('year'::text, now()))) AS fytd,
-    ( SELECT count(*) AS count
-           FROM base) AS itd;
+    mtd.cnt AS mtd,
+    fytd.cnt AS fytd,
+    itd.cnt AS itd
+   FROM ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE (((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text)) AND ((projects.payment_schedule)::text = 'upon_completion'::text)) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
+    ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE (((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text)) AND ((projects.payment_schedule)::text = 'upon_completion'::text)) AND ((projects.created_at)::date >= (
+                CASE
+                    WHEN (('now'::text)::date >= ((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date) THEN (((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date)::text
+                    ELSE ((((date_part('year'::text, ('now'::text)::date) - (1)::double precision) || '/10/01'::text))::date)::text
+                END)::date))) fytd,
+    ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text)) AND ((projects.payment_schedule)::text = 'upon_completion'::text))) itd;
 
 
 --
@@ -893,20 +933,23 @@ CREATE VIEW metrics_projects_fixed_upon_completion_pay AS
 --
 
 CREATE VIEW metrics_projects_hourly_bi_weekly_pay AS
- WITH base AS (
-         SELECT projects.created_at
-           FROM projects
-          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text)) AND ((projects.payment_schedule)::text = 'bi_weekly'::text))
-        )
  SELECT 'projects_hourly_bi_weekly_pay'::character varying AS metric,
-    ( SELECT count(*) AS count
-           FROM base
-          WHERE (base.created_at >= date_trunc('month'::text, now()))) AS mtd,
-    ( SELECT count(*) AS count
-           FROM base
-          WHERE (base.created_at >= date_trunc('year'::text, now()))) AS fytd,
-    ( SELECT count(*) AS count
-           FROM base) AS itd;
+    mtd.cnt AS mtd,
+    fytd.cnt AS fytd,
+    itd.cnt AS itd
+   FROM ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE (((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text)) AND ((projects.payment_schedule)::text = 'bi_weekly'::text)) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
+    ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE (((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text)) AND ((projects.payment_schedule)::text = 'bi_weekly'::text)) AND ((projects.created_at)::date >= (
+                CASE
+                    WHEN (('now'::text)::date >= ((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date) THEN (((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date)::text
+                    ELSE ((((date_part('year'::text, ('now'::text)::date) - (1)::double precision) || '/10/01'::text))::date)::text
+                END)::date))) fytd,
+    ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text)) AND ((projects.payment_schedule)::text = 'bi_weekly'::text))) itd;
 
 
 --
@@ -914,20 +957,23 @@ CREATE VIEW metrics_projects_hourly_bi_weekly_pay AS
 --
 
 CREATE VIEW metrics_projects_hourly_monthly_pay AS
- WITH base AS (
-         SELECT projects.created_at
-           FROM projects
-          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text)) AND ((projects.payment_schedule)::text = 'monthly'::text))
-        )
  SELECT 'projects_hourly_monthly_pay'::character varying AS metric,
-    ( SELECT count(*) AS count
-           FROM base
-          WHERE (base.created_at >= date_trunc('month'::text, now()))) AS mtd,
-    ( SELECT count(*) AS count
-           FROM base
-          WHERE (base.created_at >= date_trunc('year'::text, now()))) AS fytd,
-    ( SELECT count(*) AS count
-           FROM base) AS itd;
+    mtd.cnt AS mtd,
+    fytd.cnt AS fytd,
+    itd.cnt AS itd
+   FROM ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE (((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text)) AND ((projects.payment_schedule)::text = 'monthly'::text)) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
+    ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE (((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text)) AND ((projects.payment_schedule)::text = 'monthly'::text)) AND ((projects.created_at)::date >= (
+                CASE
+                    WHEN (('now'::text)::date >= ((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date) THEN (((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date)::text
+                    ELSE ((((date_part('year'::text, ('now'::text)::date) - (1)::double precision) || '/10/01'::text))::date)::text
+                END)::date))) fytd,
+    ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text)) AND ((projects.payment_schedule)::text = 'monthly'::text))) itd;
 
 
 --
@@ -935,20 +981,23 @@ CREATE VIEW metrics_projects_hourly_monthly_pay AS
 --
 
 CREATE VIEW metrics_projects_hourly_pay AS
- WITH base AS (
-         SELECT projects.created_at
-           FROM projects
-          WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text))
-        )
  SELECT 'projects_hourly_pay'::character varying AS metric,
-    ( SELECT count(*) AS count
-           FROM base
-          WHERE (base.created_at >= date_trunc('month'::text, now()))) AS mtd,
-    ( SELECT count(*) AS count
-           FROM base
-          WHERE (base.created_at >= date_trunc('year'::text, now()))) AS fytd,
-    ( SELECT count(*) AS count
-           FROM base) AS itd;
+    mtd.cnt AS mtd,
+    fytd.cnt AS fytd,
+    itd.cnt AS itd
+   FROM ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text)) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
+    ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text)) AND ((projects.created_at)::date >= (
+                CASE
+                    WHEN (('now'::text)::date >= ((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date) THEN (((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date)::text
+                    ELSE ((((date_part('year'::text, ('now'::text)::date) - (1)::double precision) || '/10/01'::text))::date)::text
+                END)::date))) fytd,
+    ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text))) itd;
 
 
 --
@@ -956,26 +1005,33 @@ CREATE VIEW metrics_projects_hourly_pay AS
 --
 
 CREATE VIEW metrics_projects_hourly_share AS
- WITH base AS (
-         SELECT projects.created_at
-           FROM projects
-          WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text))
-        )
  SELECT 'projects_hourly_share'::character varying AS metric,
-    (((mtd.cnt)::double precision / (total.cnt)::double precision) * (100)::double precision) AS mtd,
-    (((fytd.cnt)::double precision / (total.cnt)::double precision) * (100)::double precision) AS fytd,
-    (((itd.cnt)::double precision / (total.cnt)::double precision) * (100)::double precision) AS itd
-   FROM ( SELECT count(*) AS cnt
+    mtd.pct AS mtd,
+    fytd.pct AS fytd,
+    itd.pct AS itd
+   FROM ( SELECT (((count(*))::double precision / (( SELECT count(*) AS count
+                   FROM projects projects_1
+                  WHERE (((projects_1.type)::text = 'one_off'::text) AND (projects_1.created_at >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))))::double precision) * (100)::double precision) AS pct
            FROM projects
-          WHERE ((projects.type)::text = 'one_off'::text)) total,
-    ( SELECT count(*) AS cnt
-           FROM base
-          WHERE (base.created_at >= date_trunc('month'::text, now()))) mtd,
-    ( SELECT count(*) AS cnt
-           FROM base
-          WHERE (base.created_at >= date_trunc('year'::text, now()))) fytd,
-    ( SELECT count(*) AS cnt
-           FROM base) itd;
+          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text)) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
+    ( SELECT (((count(*))::double precision / (( SELECT count(*) AS count
+                   FROM projects projects_1
+                  WHERE (((projects_1.type)::text = 'one_off'::text) AND ((projects_1.created_at)::date >= (
+                        CASE
+                            WHEN (('now'::text)::date >= ((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date) THEN (((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date)::text
+                            ELSE ((((date_part('year'::text, ('now'::text)::date) - (1)::double precision) || '/10/01'::text))::date)::text
+                        END)::date))))::double precision) * (100)::double precision) AS pct
+           FROM projects
+          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text)) AND ((projects.created_at)::date >= (
+                CASE
+                    WHEN (('now'::text)::date >= ((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date) THEN (((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date)::text
+                    ELSE ((((date_part('year'::text, ('now'::text)::date) - (1)::double precision) || '/10/01'::text))::date)::text
+                END)::date))) fytd,
+    ( SELECT (((count(*))::double precision / (( SELECT count(*) AS count
+                   FROM projects projects_1
+                  WHERE ((projects_1.type)::text = 'one_off'::text)))::double precision) * (100)::double precision) AS pct
+           FROM projects
+          WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text))) itd;
 
 
 --
@@ -983,20 +1039,23 @@ CREATE VIEW metrics_projects_hourly_share AS
 --
 
 CREATE VIEW metrics_projects_hourly_upon_completion_pay AS
- WITH base AS (
-         SELECT projects.created_at
-           FROM projects
-          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text)) AND ((projects.payment_schedule)::text = 'upon_completion'::text))
-        )
  SELECT 'projects_hourly_upon_completion_pay'::character varying AS metric,
-    ( SELECT count(*) AS count
-           FROM base
-          WHERE (base.created_at >= date_trunc('month'::text, now()))) AS mtd,
-    ( SELECT count(*) AS count
-           FROM base
-          WHERE (base.created_at >= date_trunc('year'::text, now()))) AS fytd,
-    ( SELECT count(*) AS count
-           FROM base) AS itd;
+    mtd.cnt AS mtd,
+    fytd.cnt AS fytd,
+    itd.cnt AS itd
+   FROM ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE (((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text)) AND ((projects.payment_schedule)::text = 'upon_completion'::text)) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
+    ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE (((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text)) AND ((projects.payment_schedule)::text = 'upon_completion'::text)) AND ((projects.created_at)::date >= (
+                CASE
+                    WHEN (('now'::text)::date >= ((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date) THEN (((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date)::text
+                    ELSE ((((date_part('year'::text, ('now'::text)::date) - (1)::double precision) || '/10/01'::text))::date)::text
+                END)::date))) fytd,
+    ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text)) AND ((projects.payment_schedule)::text = 'upon_completion'::text))) itd;
 
 
 --
@@ -1004,20 +1063,23 @@ CREATE VIEW metrics_projects_hourly_upon_completion_pay AS
 --
 
 CREATE VIEW metrics_projects_posted AS
- WITH base AS (
-         SELECT projects.created_at
-           FROM projects
-          WHERE ((projects.type)::text = 'one_off'::text)
-        )
  SELECT 'projects_posted'::character varying AS metric,
-    ( SELECT count(*) AS count
-           FROM base
-          WHERE (base.created_at >= date_trunc('month'::text, now()))) AS mtd,
-    ( SELECT count(*) AS count
-           FROM base
-          WHERE (base.created_at >= date_trunc('year'::text, now()))) AS fytd,
-    ( SELECT count(*) AS count
-           FROM base) AS itd;
+    mtd.cnt AS mtd,
+    fytd.cnt AS fytd,
+    itd.cnt AS itd
+   FROM ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
+    ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.created_at)::date >= (
+                CASE
+                    WHEN (('now'::text)::date >= ((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date) THEN (((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date)::text
+                    ELSE ((((date_part('year'::text, ('now'::text)::date) - (1)::double precision) || '/10/01'::text))::date)::text
+                END)::date))) fytd,
+    ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE ((projects.type)::text = 'one_off'::text)) itd;
 
 
 --
@@ -1025,25 +1087,32 @@ CREATE VIEW metrics_projects_posted AS
 --
 
 CREATE VIEW metrics_projects_share AS
- WITH base AS (
-         SELECT projects.created_at
-           FROM projects
-          WHERE ((projects.type)::text = 'one_off'::text)
-        )
  SELECT 'projects_share'::character varying AS metric,
-    (((mtd.cnt)::double precision / (total.cnt)::double precision) * (100)::double precision) AS mtd,
-    (((fytd.cnt)::double precision / (total.cnt)::double precision) * (100)::double precision) AS fytd,
-    (((itd.cnt)::double precision / (total.cnt)::double precision) * (100)::double precision) AS itd
-   FROM ( SELECT count(*) AS cnt
-           FROM projects) total,
-    ( SELECT count(*) AS cnt
-           FROM base
-          WHERE (base.created_at >= date_trunc('month'::text, now()))) mtd,
-    ( SELECT count(*) AS cnt
-           FROM base
-          WHERE (base.created_at >= date_trunc('year'::text, now()))) fytd,
-    ( SELECT count(*) AS cnt
-           FROM base) itd;
+    mtd.pct AS mtd,
+    fytd.pct AS fytd,
+    itd.pct AS itd
+   FROM ( SELECT (((count(*))::double precision / (( SELECT count(*) AS count
+                   FROM projects projects_1
+                  WHERE (projects_1.created_at >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date)))::double precision) * (100)::double precision) AS pct
+           FROM projects
+          WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
+    ( SELECT (((count(*))::double precision / (( SELECT count(*) AS count
+                   FROM projects projects_1
+                  WHERE ((projects_1.created_at)::date >= (
+                        CASE
+                            WHEN (('now'::text)::date >= ((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date) THEN (((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date)::text
+                            ELSE ((((date_part('year'::text, ('now'::text)::date) - (1)::double precision) || '/10/01'::text))::date)::text
+                        END)::date)))::double precision) * (100)::double precision) AS pct
+           FROM projects
+          WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.created_at)::date >= (
+                CASE
+                    WHEN (('now'::text)::date >= ((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date) THEN (((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date)::text
+                    ELSE ((((date_part('year'::text, ('now'::text)::date) - (1)::double precision) || '/10/01'::text))::date)::text
+                END)::date))) fytd,
+    ( SELECT (((count(*))::double precision / (( SELECT count(*) AS count
+                   FROM projects projects_1))::double precision) * (100)::double precision) AS pct
+           FROM projects
+          WHERE ((projects.type)::text = 'one_off'::text)) itd;
 
 
 --
@@ -1051,26 +1120,23 @@ CREATE VIEW metrics_projects_share AS
 --
 
 CREATE VIEW metrics_projects_value AS
- WITH base AS (
-         SELECT projects.created_at,
-            projects.fixed_budget,
-            projects.hourly_rate,
-            projects.estimated_hours
-           FROM projects
-          WHERE ((projects.type)::text = 'one_off'::text)
-        )
  SELECT 'projects_value'::character varying AS metric,
     mtd.avg AS mtd,
     fytd.avg AS fytd,
     itd.avg AS itd
-   FROM ( SELECT avg(COALESCE(base.fixed_budget, (base.hourly_rate * (base.estimated_hours)::numeric))) AS avg
-           FROM base
-          WHERE (base.created_at >= date_trunc('month'::text, now()))) mtd,
-    ( SELECT avg(COALESCE(base.fixed_budget, (base.hourly_rate * (base.estimated_hours)::numeric))) AS avg
-           FROM base
-          WHERE (base.created_at >= date_trunc('year'::text, now()))) fytd,
-    ( SELECT avg(COALESCE(base.fixed_budget, (base.hourly_rate * (base.estimated_hours)::numeric))) AS avg
-           FROM base) itd;
+   FROM ( SELECT avg(COALESCE(projects.fixed_budget, (projects.hourly_rate * (projects.estimated_hours)::numeric))) AS avg
+           FROM projects
+          WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.created_at)::date >= ((((date_part('year'::text, ('now'::text)::date) || '-'::text) || date_part('month'::text, ('now'::text)::date)) || '-01'::text))::date))) mtd,
+    ( SELECT avg(COALESCE(projects.fixed_budget, (projects.hourly_rate * (projects.estimated_hours)::numeric))) AS avg
+           FROM projects
+          WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.created_at)::date >= (
+                CASE
+                    WHEN (('now'::text)::date >= ((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date) THEN (((date_part('year'::text, ('now'::text)::date) || '/10/01'::text))::date)::text
+                    ELSE ((((date_part('year'::text, ('now'::text)::date) - (1)::double precision) || '/10/01'::text))::date)::text
+                END)::date))) fytd,
+    ( SELECT avg(COALESCE(projects.fixed_budget, (projects.hourly_rate * (projects.estimated_hours)::numeric))) AS avg
+           FROM projects
+          WHERE ((projects.type)::text = 'one_off'::text)) itd;
 
 
 --
@@ -1482,7 +1548,8 @@ CREATE TABLE questions (
     project_id integer NOT NULL,
     text text,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    specialist_id integer
 );
 
 
@@ -2811,13 +2878,6 @@ CREATE INDEX index_projects_on_calculated_budget ON projects USING btree (calcul
 
 
 --
--- Name: index_projects_on_created_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_projects_on_created_at ON projects USING btree (created_at);
-
-
---
 -- Name: index_projects_on_estimated_hours; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -3371,7 +3431,5 @@ INSERT INTO schema_migrations (version) VALUES ('20161014195149');
 
 INSERT INTO schema_migrations (version) VALUES ('20161014231410');
 
-INSERT INTO schema_migrations (version) VALUES ('20161018200158');
-
-INSERT INTO schema_migrations (version) VALUES ('20161018231053');
+INSERT INTO schema_migrations (version) VALUES ('20161018182637');
 

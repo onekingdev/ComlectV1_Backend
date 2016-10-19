@@ -76,7 +76,7 @@ class Specialist < ActiveRecord::Base
   scope :public_profiles, -> { where(visibility: Specialist.visibilities[:is_public]) }
 
   include ImageUploader[:photo]
-  include PdfUploader[:resume]
+  include FileUploader[:resume]
 
   enum visibility:  { is_public: 'public', is_private: 'private' }
 

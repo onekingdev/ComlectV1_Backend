@@ -10,10 +10,10 @@ class Flag < ActiveRecord::Base
   delegate :project, to: :flagged_content, allow_nil: true
 
   def offending_user
-    if flagger.is_a?(Business)
-      flagged_content.project.specialist
+    if flagged_content.is_a?(Question)
+      flagged_content.specialist
     else
-      flagged_content.project.business
+      project.business
     end
   end
 end
