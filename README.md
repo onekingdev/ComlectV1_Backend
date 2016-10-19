@@ -1,4 +1,4 @@
-## Complect Web App test
+## Complect Web App
 
 ### Getting Started
 
