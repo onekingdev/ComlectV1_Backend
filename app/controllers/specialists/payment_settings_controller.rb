@@ -14,11 +14,18 @@ class Specialists::PaymentSettingsController < ApplicationController
     @account = StripeAccount::Form.for(current_specialist, account_attributes)
   end
 
+  # rubocop:disable Metrics/AbcSize
   def create
     @account = StripeAccount::Form.for(current_specialist)
     if @account.update_attributes account_attributes
+      Rails.logger.info '*' * 100
+      Rails.logger.info 'SUCCESS'
+      Rails.logger.info '*' * 100
       redirect_to specialists_settings_payment_path
     else
+      Rails.logger.info '*' * 100
+      Rails.logger.info @account.errors.inspect
+      Rails.logger.info '*' * 100
       render :new
     end
   end

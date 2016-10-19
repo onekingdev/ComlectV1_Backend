@@ -65,7 +65,7 @@ class StripeAccount < ActiveRecord::Base
     account = Stripe::Account.retrieve(stripe_id)
     update_columns status: status_from_account(account), status_detail: fields_needed_message(account).presence
   rescue Stripe::InvalidRequestError => e
-    errors.add :base, e.message
+    errors.add :base, translate_stripe_error(e.message)
     raise ActiveRecord::Rollback
   end
 

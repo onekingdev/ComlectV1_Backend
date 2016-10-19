@@ -1,5 +1,11 @@
 = simple_form_for account, url: specialists_settings_payment_path do |f|
   = f.hidden_field :account_type
+  = f.hidden_field :address1
+  = f.hidden_field :zipcode
+  = f.hidden_field :city
+  = f.hidden_field :state
+  = f.hidden_field :first_name
+  = f.hidden_field :last_name
 
   - if f.object.status_detail.present?
     .alert.alert-warning= f.object.status_detail
@@ -15,6 +21,7 @@
           = f.input :business_name, label: 'Business Name', input_html: { class: 'input-lg' }, wrapper: :vertical_tight
         .col-xs-12.col-sm-6
           = f.input :business_tax_id, label: 'Tax ID', input_html: { class: 'input-lg' }, wrapper: :vertical_tight
+
     - if f.object.required?(:additional_owners)
       .row
         .col-xs-12= f.input :additional_owners, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
@@ -39,27 +46,7 @@
       .col-xs-12.col-sm-6
         = f.input :account_number, required: false, label: "Account Number", input_html: { class: 'input-lg' }, wrapper: :vertical_tight
 
-    h2.text-center.m-y-2 Address
-
-    .row
-      .col-xs-12.col-sm-6
-        = f.input :address1, required: false, label: "Street", input_html: { class: 'input-lg' }, wrapper: :vertical_tight
-      .col-xs-12.col-sm-6
-        = f.input :zipcode, required: false, label: "Postal Code", input_html: { class: 'input-lg' }, wrapper: :vertical_tight
-
-    .row
-      .col-xs-12.col-sm-6
-        = f.input :city, required: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
-      .col-xs-12.col-sm-6
-        = f.input :state, required: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
-
     h2.text-center.m-y-2 Personal Details
-
-    .row
-      .col-xs-12.col-sm-6
-        = f.input :first_name, required: false, label: 'First Name', input_html: { class: 'input-lg' }, wrapper: :vertical_tight
-      .col-xs-12.col-sm-6
-        = f.input :last_name, required: false, label: 'Last Name', input_html: { class: 'input-lg' }, wrapper: :vertical_tight
 
     .row
       .col-xs-12.col-sm-6
