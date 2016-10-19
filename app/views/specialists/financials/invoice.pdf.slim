@@ -1,0 +1,78 @@
+doctype html
+html lang=I18n.locale
+  head
+    = stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Raleway:300,700'
+    = wicked_pdf_stylesheet_link_tag 'pdf'
+body.invoice-body
+  .header
+    a.header-logo href="http://www.complect.co"
+      img height="42" src="https://s3.amazonaws.com/gigster-complect-staging/email-template/logo.png" width="178" /
+    .right-side-text
+      | Compliance Specialists&nbsp;
+      span.special-yellow On
+    .right-side-text.special-yellow Demand
+
+  .invoice-inner-body
+    .project-title
+      = charge.project.title
+
+    .bolded-text.top-row
+     .left-side Specialist:
+     .right-side INVOICE
+    br
+    div= charge.specialist.full_name
+    div= "#{charge.specialist.address_1}, #{charge.specialist.address_2}"
+    div= "#{charge.specialist.city}, #{charge.specialist.state} #{charge.specialist.zipcode}"
+    div= charge.specialist.country
+
+    .bolded-text.top-row BILL TO:
+    div= charge.business.contact_full_name
+    div= "#{charge.business.address_1}, #{charge.business.address_2}"
+    div
+      .business-city-state
+        = "#{charge.business.city}, #{charge.business.state} #{charge.business.zipcode}"
+      div style=("float: right; width: 30%; text-align: right;")
+        span.bolded-text Date:&nbsp;
+        = charge.process_after.strftime("%d %b, %Y")
+
+    table.invoice-table
+      thead
+        tr
+          th.left-column.bolded-text DESCRIPTION
+          th.middle-column
+          th.right-column.bolded-text AMOUNT
+      tbody
+        tr.odd-row
+          td.left-column
+            = charge.description
+          td.middle-column
+          td.right-column
+            = number_to_currency(charge.amount / 1.15)
+        tr.even-row
+          td.left-column
+          td.middle-column.bolded-text SUBTOTAL
+          td.right-column.bolded-text
+            = number_to_currency(charge.amount / 1.15)
+        tr.odd-row
+          td.left-column
+          td.middle-column Complect Fee (15%)
+          td.right-column
+            = number_to_currency(charge.amount - (charge.amount / 1.15))
+        tr.even-row
+          td
+          td.middle-column.bolded-text TOTAL
+          td.right-column.bolded-text
+            = number_to_currency(charge.amount)
+    .after-table-text
+      = invoice_disclaimer
+
+  .footer
+    a.left-side-link href="tel:13476189656"
+      img height="16" src="https://s3.amazonaws.com/gigster-complect-staging/email-template/icon-phone.png" style=("margin-right: 5px; vertical-align: middle; outline:none; text-decoration:none; -ms-interpolation-mode: bicubic; border: none;") width="16" /
+      | +1 347.618.9656
+    a.left-side-link.inner-link href="mailto:info@complect.co"
+      img height="16" src="https://s3.amazonaws.com/gigster-complect-staging/email-template/icon-email.png" style=("margin-right: 5px; vertical-align: middle; outline:none; text-decoration:none; -ms-interpolation-mode: bicubic; border: none;") width="16" /
+      | info@complect.co
+    a.left-side-link.inner-link href="http://www.complect.co"
+      img height="16" src="https://s3.amazonaws.com/gigster-complect-staging/email-template/icon-website.png" style=("margin-right: 5px; vertical-align: middle; outline:none; text-decoration:none; -ms-interpolation-mode: bicubic; border: none;") width="16" /
+      | www.complect.co
