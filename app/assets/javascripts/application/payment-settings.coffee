@@ -31,26 +31,24 @@ $(document).on 'submit', '#new_payment_source_ach', (e) ->
           'payment_source_ach[account_holder_name]': response.bank_account.account_holder_name
           'payment_source_ach[account_holder_type]': response.bank_account.account_holder_type
 
-$(document).on 'change', '.js-payment-country #payment_source_ach_country', (e) ->
+$(document).on 'click', '.js-plaid-link', (e) ->
+  e.preventDefault()
   $this = $(this)
   $form = $this.parents('form')
-  if $this.val() == 'US'
-    plaid = Plaid.create
-      selectAccount: true
-      env: $this.data('env')
-      clientName: $this.data('client-name')
-      key: $this.data('public-key')
-      product: 'auth'
-      onSuccess: (publicToken, metadata) ->
-        # TODO: Remove logging
-        console.log publicToken
-        console.log metadata
-        console.log metadata.institution
-        console.log metadata.account
-        $form.find('#payment_source_ach_plaid_token').val(publicToken)
-        $form.find('#payment_source_ach_plaid_account_id').val(metadata.account_id)
-        $form.find('#payment_source_ach_plaid_institution').val(metadata.institution.name)
-        $form.submit()
-    plaid.open()
-  else if $this.val().length > 0
-    $form.attr('method', 'get').attr('action', $form.data('manual-url')).submit()
+  plaid = Plaid.create
+    selectAccount: true
+    env: $this.data('env')
+    clientName: $this.data('client-name')
+    key: $this.data('public-key')
+    product: 'auth'
+    onSuccess: (publicToken, metadata) ->
+      # TODO: Remove logging
+      console.log publicToken
+      console.log metadata
+      console.log metadata.institution
+      console.log metadata.account
+      $form.find('#payment_source_ach_plaid_token').val(publicToken)
+      $form.find('#payment_source_ach_plaid_account_id').val(metadata.account_id)
+      $form.find('#payment_source_ach_plaid_institution').val(metadata.institution.name)
+      $form.submit()
+  plaid.open()

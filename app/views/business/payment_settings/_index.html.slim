@@ -29,7 +29,7 @@ h2.m-t-0 Payment Details
                 class="stripe-button"
                 data-key="#{ENV.fetch('STRIPE_PUBLISHABLE_KEY')}"
                 data-label="Edit"
-                data-email="#{current_user.business.contact_email}"
+                data-email="#{current_business.contact_email}"
                 data-panel-label="Update"
                 data-name="Complect"
                 data-description="Edit Payment Details"
@@ -48,7 +48,7 @@ h2.m-t-0 Payment Details
       class="stripe-button"
       data-key="#{ENV.fetch('STRIPE_PUBLISHABLE_KEY')}"
       data-label="Add Credit Card"
-      data-email="#{current_user.business.contact_email}"
+      data-email="#{current_business.contact_email}"
       data-panel-label="Add Credit Card"
       data-name="Complect"
       data-description="New Credit Card"
@@ -58,6 +58,7 @@ h2.m-t-0 Payment Details
       data-allow-remember-me="false"
     ]
 
-  a.btn.btn-link.btn-plain data-remote=true href=new_business_settings_payment_path
-    i.icon.maxicons2-add
-    span Add Bank Account
+  - if current_business.in_usa?
+    a.btn.btn-link.btn-plain data-remote=true href=new_business_settings_payment_path
+      i.icon.maxicons2-add
+      span Add Bank Account
