@@ -29,12 +29,13 @@ class Business::FinancialsController < ApplicationController
     respond_to do |format|
       format.pdf do
         render pdf: 'invoice',
-               template: 'specialists/financials/invoice.pdf.slim',
+               template: 'specialists/financials/invoice.pdf.erb',
                locals: { charge: Charge.find(params[:id]) },
                margin: { top:               0,
-                         bottom:            0,
+                         bottom:            35,
                          left:              0,
-                         right:             0 }
+                         right:             0 },
+               footer: { html: { template: 'specialists/financials/footer.pdf.erb' } }
       end
     end
   end

@@ -5,7 +5,8 @@ class DiscourseController < ApplicationController
       redirect_to root_url
     else
       sso = form_specialist_sso(current_specialist)
-      redirect_to sso.to_url("https://discourse-specialist.herokuapp.com/session/sso_login")
+      # EXAMPLE url https://discourse-specialist.herokuapp.com/session/sso_login
+      redirect_to sso.to_url(ENV['DISCOURSE_SPECIALIST_SSO_URL'])
     end
   end
 
@@ -14,7 +15,8 @@ class DiscourseController < ApplicationController
       redirect_to root_url
     else
       sso = form_business_sso(current_business)
-      redirect_to sso.to_url("https://discourse-business.herokuapp.com/session/sso_login")
+      # EXAMPLE url https://discourse-business.herokuapp.com/session/sso_login
+      redirect_to sso.to_url(ENV['DISCOURSE_BUSINESS_SSO_URL'])
     end
   end
 
