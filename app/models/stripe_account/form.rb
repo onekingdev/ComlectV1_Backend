@@ -2,9 +2,10 @@
 class StripeAccount::Form < StripeAccount
   include ApplicationForm
 
-  validates :country, :account_currency, :account_routing_number, :account_number, :address1, :zipcode,
+  validates :country, :account_currency, :account_routing_number, :account_number, :address1,
             :city, :first_name, :last_name, :dob,
             presence: true
+  validates :zipcode, presence: true, unless: -> { country == 'HK' }
   validates :state, presence: true, unless: -> { country == 'SG' }
   validates :account_type, inclusion: { in: account_types.values }
   validates :accept_tos, inclusion: { in: [true] }
