@@ -51,8 +51,9 @@
         = f.input :zipcode, required: false, label: 'Post Code', input_html: { class: 'input-lg' }, wrapper: :vertical_tight
       .col-xs-12.col-sm-6
         = f.input :city, required: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
-      .col-xs-12.col-sm-6
-        = f.input :state, required: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
+      - if f.object.required?(:state)
+        .col-xs-12.col-sm-6
+          = f.input :state, required: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
 
     h2.text-center.m-y-2 Personal Details
 
