@@ -137,7 +137,7 @@ class Project < ActiveRecord::Base
 
   def complete!
     super
-    update_attribute :completed_at, Time.zone.now
+    touch :completed_at
   end
 
   def requires_business_rating?
