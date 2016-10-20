@@ -1,15 +1,9 @@
 = simple_form_for account, url: specialists_settings_payment_path do |f|
   = f.hidden_field :account_type
-  = f.hidden_field :address1
-  = f.hidden_field :zipcode
-  = f.hidden_field :city
-  = f.hidden_field :state
   = f.hidden_field :first_name
   = f.hidden_field :last_name
 
-  - if %i(address1 zipcode city state first_name last_name).any? { |attr| f.object[attr].blank? }
-    .alert.alert-warning Your profile information is not complete, please #{link_to 'update it', edit_specialist_path} before adding an account.
-  - elsif f.object.status_detail.present?
+  - if f.object.status_detail.present?
     .alert.alert-warning= f.object.status_detail
   - elsif f.object.errors[:base].any?
     .alert.alert-warning= f.object.errors[:base].to_sentence
@@ -48,7 +42,29 @@
       .col-xs-12.col-sm-6
         = f.input :account_number, required: false, label: "Account Number", input_html: { class: 'input-lg' }, wrapper: :vertical_tight
 
+    h2.text-center.m-y-2 Billing Address
+
+    .row
+      .col-xs-12.col-sm-6
+        = f.input :address1, required: false, label: 'Street', input_html: { class: 'input-lg' }, wrapper: :vertical_tight
+      .col-xs-12.col-sm-6
+        = f.input :zipcode, required: false, label: 'Post Code', input_html: { class: 'input-lg' }, wrapper: :vertical_tight
+      .col-xs-12.col-sm-6
+        = f.input :city, required: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
+      .col-xs-12.col-sm-6
+        = f.input :state, required: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
+
     h2.text-center.m-y-2 Personal Details
+
+    .row
+      .col-xs-12.col-sm-6
+        .form-group
+          label.control-label First Name
+          input.form-control.input-lg disabled=true value=f.object.first_name
+      .col-xs-12.col-sm-6
+        .form-group
+          label.control-label Last Name
+          input.form-control.input-lg disabled=true value=f.object.last_name
 
     .row
       .col-xs-12.col-sm-6
