@@ -69,7 +69,8 @@ class Project::Form < Project
   end
 
   def post!
-    update_attribute :status, self.class.statuses[:published]
+    published!
+    touch :published_at
     process_invite true if invite&.not_sent?
   end
 
