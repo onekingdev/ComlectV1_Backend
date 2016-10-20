@@ -65,6 +65,7 @@ class ApplicationController < ActionController::Base
   def current_business_or_specialist
     current_business || current_specialist
   end
+  helper_method :current_business_or_specialist
 
   def redirect_to_param_or(default)
     redirect_to params[:redirect_to].present? ? params[:redirect_to] : default

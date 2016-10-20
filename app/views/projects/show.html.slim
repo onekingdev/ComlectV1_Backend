@@ -79,10 +79,10 @@
                 span.q-or-a Q&nbsp;
                 = question.text
                 .question-or-answer-timestamp
-                  span= question.created_at.in_time_zone(current_business_or_specialist.time_zone).strftime("%b %d, %Y at %I:%M %P")
+                  span= question.created_at.in_time_zone(current_business_or_specialist.tz).strftime("%b %d, %Y at %I:%M %P")
                   span &nbsp;
                   - id_string = "question" + question.id.to_s
-                  span= link_to 'Flag', '#', {class: 'flag-link', data: {content: id_string}}
+                  span= link_to image_tag('flag-icon.png'), '#', {class: 'flag-link', data: {content: id_string}}
                   = content_tag :div, {class: 'flag-form', data: {content: id_string}} do
                     = simple_form_for Flag.new, authenticity_token: true, url: submit_flag_url(current_user, project) do |f|
                       label.strong.m-t-3.aligned-center Report Post
@@ -97,11 +97,11 @@
                   span.q-or-a A&nbsp;
                   = question.answer.text
                   .question-or-answer-timestamp
-                    span= question.answer.created_at.in_time_zone(current_business_or_specialist.time_zone).strftime("%b %d, %Y at %I:%M %P")
+                    span= question.answer.created_at.in_time_zone(current_business_or_specialist.tz).strftime("%b %d, %Y at %I:%M %P")
                     span &nbsp;
                     - if current_user.business != project.business
                       - id_string = "answer" + question.answer.id.to_s
-                      span= link_to 'Flag', '#', {class: 'flag-link', data: {content: id_string}}
+                      span= link_to image_tag('flag-icon.png'), '#', {class: 'flag-link', data: {content: id_string}}
                       = content_tag :div, {class: 'flag-form', data: {content: id_string}} do
                         = simple_form_for Flag.new, authenticity_token: true, url: project_flags_path(project_id: project.id) do |f|
                           label.strong.m-t-3.aligned-center Report Post
