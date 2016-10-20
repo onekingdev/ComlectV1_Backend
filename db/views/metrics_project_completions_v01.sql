@@ -1,7 +1,7 @@
 WITH
   one_off AS (SELECT completed_at, pricing_type, payment_schedule
               FROM projects
-              WHERE type = 'one_off' AND status = 'complete'),
+              WHERE type = 'one_off'),
   completed AS (SELECT * FROM one_off WHERE completed_at IS NOT NULL),
   hourly AS (SELECT * FROM completed WHERE pricing_type = 'hourly'),
   fixed AS (SELECT * FROM completed WHERE pricing_type = 'fixed'),

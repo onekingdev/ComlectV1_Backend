@@ -660,7 +660,7 @@ CREATE VIEW metrics_job_completions AS
             projects.pricing_type,
             projects.fee_type
            FROM projects
-          WHERE (((projects.type)::text = 'full_time'::text) AND ((projects.status)::text = 'complete'::text))
+          WHERE ((projects.type)::text = 'full_time'::text)
         ), completed AS (
          SELECT full_time.completed_at,
             full_time.published_at,
@@ -865,7 +865,7 @@ CREATE VIEW metrics_project_completions AS
             projects.pricing_type,
             projects.payment_schedule
            FROM projects
-          WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.status)::text = 'complete'::text))
+          WHERE ((projects.type)::text = 'one_off'::text)
         ), completed AS (
          SELECT one_off.completed_at,
             one_off.pricing_type,

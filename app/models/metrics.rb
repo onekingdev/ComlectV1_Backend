@@ -13,6 +13,7 @@ class Metrics
 
   private
 
+  # rubocop:disable Metrics/AbcSize
   def metric(name, cast = :int)
     values = @db_view.detect { |metric| metric['metric'] == name }
     results = [values['mtd'], values['fytd'], values['itd']]
@@ -24,7 +25,7 @@ class Metrics
     when :currency
       results.map(&method(:number_to_currency))
     when :days
-      results.map { |r| pluralize(r, 'day', 'days') }
+      results.map { |r| pluralize(r.to_f.round, 'day', 'days') }
     else
       results.map(&:to_i)
     end

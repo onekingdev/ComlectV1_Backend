@@ -1,7 +1,7 @@
 WITH
     full_time AS (SELECT completed_at, published_at, pricing_type, fee_type
                   FROM projects
-                  WHERE type = 'full_time' AND status = 'complete'),
+                  WHERE type = 'full_time'),
     completed AS (SELECT * FROM full_time WHERE completed_at IS NOT NULL),
     upfront_fee AS (SELECT * FROM completed WHERE fee_type = 'upfront_fee'),
     monthly_fee AS (SELECT * FROM completed WHERE fee_type = 'monthly_fee')
