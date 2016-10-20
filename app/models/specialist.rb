@@ -107,6 +107,10 @@ class Specialist < ActiveRecord::Base
       ", id: id)
   end
 
+  def tz
+    ActiveSupport::TimeZone[time_zone.to_s] || Time.zone
+  end
+
   def to_s
     first_name
   end
