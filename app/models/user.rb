@@ -25,12 +25,13 @@ class User < ActiveRecord::Base
   end
 
   def freeze!
-    freeze_business_account! if business
-    freeze_specialist_account! if specialist
+    freeze_business_account! && touch(:deleted_at) if business
+    freeze_specialist_account! && touch(:deleted_at) if specialist
   end
 
   def unfreeze!
     update_attribute :deleted, false
+    update_attribute :deleted_at, nil
   end
 
   def freeze_business_account!
@@ -51,6 +52,7 @@ class User < ActiveRecord::Base
     # And just delete all applications which weren't accepted to avoid sending notifications
     specialist.job_applications.not_accepted.delete_all
     specialist.update_attribute :visibility, Specialist.visibilities[:is_private]
+    reload
     deleted?
   end
 
