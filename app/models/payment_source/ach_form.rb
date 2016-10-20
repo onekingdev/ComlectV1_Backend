@@ -7,7 +7,7 @@ class PaymentSource::ACHForm < Draper::Decorator
 
   def self.new_for(business, attributes = {})
     profile = business.payment_profile || business.build_payment_profile
-    defaults = { type: 'PaymentSource::ACH', currency: 'USD' }
+    defaults = { type: 'PaymentSource::ACH', country: 'US', currency: 'USD' }
     new profile.payment_sources.new(defaults.merge(attributes))
   end
 

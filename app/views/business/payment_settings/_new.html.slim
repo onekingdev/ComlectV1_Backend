@@ -1,13 +1,10 @@
 h2.m-t-0 New Bank Account
 
 = simple_form_for @payment_source, url: business_settings_payment_index_path do |f|
+  = f.hidden_field :country
+  = f.hidden_field :currency
   .well.well-lg.m-t-3
     h2.text-center.m-b-2 Account Details
-    .row
-      .col-xs-12.col-sm-6
-        = f.input :country, collection: Stripe::SUPPORTED_COUNTRIES.except(:CA).invert, input_html: { class: 'input-lg js-select' }
-      .col-xs-12.col-sm-6
-        = f.input :currency, collection: IsoCountryCodes.all.map(&:currency).uniq.sort, input_html: { class: 'input-lg js-select' }
     .row
       .col-xs-12.col-sm-6
         = f.input :routing_number, input_html: { class: 'input-lg' }
