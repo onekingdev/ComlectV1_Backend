@@ -12,7 +12,38 @@ class Metrics
     @db_view = ActiveRecord::Base.connection.execute('SELECT * FROM metrics').to_a
   end
 
+  def to_csv
+    CSV.generate do |csv|
+      csv << %w(metric mtd fytd itd count percent)
+      [postings, completions, misc].each do |set|
+        csv_from_hash(hash: set).each_slice(4).each do |row|
+          csv << row + [nil, nil]
+        end
+      end
+      add_activity_csv csv
+    end
+  end
+
   private
+
+  def add_activity_csv(csv)
+    activity = Metrics::Activity.new.activity
+    csv_from_hash(hash: activity, value_cols: 2).each_slice(3).each do |row|
+      csv << [row[0], nil, nil, nil, row[1], row[2]]
+    end
+  end
+
+  def csv_from_hash(hash:, prefix: '', value_cols: 3)
+    hash.map do |label, row|
+      label_with_prefix = "#{prefix.present? ? "#{prefix} / " : ''}#{label}"
+      next if row.all?(&:nil?)
+      if row.size == value_cols
+        [label_with_prefix, *row]
+      else
+        csv_from_hash hash: row[-1], prefix: label_with_prefix, value_cols: value_cols
+      end
+    end.flatten
+  end
 
   # rubocop:disable Metrics/AbcSize
   def metric(name, cast = :int)

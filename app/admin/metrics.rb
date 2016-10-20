@@ -1,5 +1,13 @@
 # frozen_string_literal: true
 ActiveAdmin.register_page "Metrics" do
+  page_action :download, method: :get do
+    send_data ::Metrics.new.to_csv, filename: 'metrics.csv'
+  end
+
+  action_item :download do
+    link_to 'Download CSV', admin_metrics_download_path(format: :csv)
+  end
+
   content title: 'Metrics' do
     def render_rows(rows, level = 0, cols: 3)
       rows.each do |name, values|
