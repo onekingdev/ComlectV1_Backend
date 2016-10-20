@@ -14,6 +14,7 @@ class JobApplication::Accept < Draper::Decorator
         decorated.schedule_full_time_fees
         decorated.send_specialist_notification
         decorated.notify_not_selected_applicants
+        decorated.project.touch :hired_at
       end
     end
   end
