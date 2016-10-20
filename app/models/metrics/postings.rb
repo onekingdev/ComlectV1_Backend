@@ -1,13 +1,8 @@
 # frozen_string_literal: true
-class Project::Metrics
-  include ActiveSupport::NumberHelper
-
-  attr_reader :metrics
-
+module Metrics::Postings
   # rubocop:disable Metrics/MethodLength
   # rubocop:disable Metrics/AbcSize
-  def initialize
-    @db_view = ActiveRecord::Base.connection.execute('SELECT * FROM metrics').to_a
+  def postings
     @metrics = {
       'Projects' => [nil, nil, nil, {
         'Number Posted' => metric('projects_posted'),
@@ -44,22 +39,5 @@ class Project::Metrics
         'Percent Jobs' => metric('jobs_share', :percentage)
       }]
     }
-  end
-
-  private
-
-  def metric(name, cast = :int)
-    values = @db_view.detect { |metric| metric['metric'] == name }
-    results = [values['mtd'], values['fytd'], values['itd']]
-    case cast
-    when :float
-      results.map { |r| r.to_f.round(2) }
-    when :percentage
-      results.map { |r| "#{r.to_f.round(2)}%" }
-    when :currency
-      results.map(&method(:number_to_currency))
-    else
-      results.map(&:to_i)
-    end
   end
 end

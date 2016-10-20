@@ -26,7 +26,8 @@ class Project < ActiveRecord::Base
   has_many :questions, dependent: :destroy
   has_many :answers, through: :questions, dependent: :destroy
 
-  accepts_nested_attributes_for :extensions, :timesheets
+  accepts_nested_attributes_for :extensions
+  accepts_nested_attributes_for :timesheets, allow_destroy: true
 
   scope :escalated, -> { joins(:issues).where(project_issues: { status: :open }) }
   scope :not_escalated, -> { where.not(id: escalated) }
@@ -132,6 +133,11 @@ class Project < ActiveRecord::Base
 
   def self.ransackable_scopes(_auth_object = nil)
     %i(by_specialist_first_name by_specialist_last_name)
+  end
+
+  def complete!
+    super
+    update_attribute :completed_at, Time.zone.now
   end
 
   def requires_business_rating?

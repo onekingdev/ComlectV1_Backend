@@ -11,7 +11,7 @@ ActiveAdmin.register_page "Metrics" do
       end
     end
 
-    metrics = ::Project::Metrics.new
+    metrics = ::Metrics.new
     columns do
       column do
         panel 'Postings' do
@@ -23,7 +23,7 @@ ActiveAdmin.register_page "Metrics" do
               th 'ITD', class: 'col number'
             end
 
-            render_rows metrics.metrics
+            render_rows metrics.postings
           end
         end
 
@@ -36,7 +36,7 @@ ActiveAdmin.register_page "Metrics" do
               th 'ITD', class: 'col number'
             end
 
-            # render_rows metrics.completions
+            render_rows metrics.completions
           end
         end
       end

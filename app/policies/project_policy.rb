@@ -18,7 +18,7 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def admin_can_update?
-    (!record.active? && !record.complete?) || admin_is_assigned_to_project?
+    record.escalated? || (!record.active? && !record.complete?)
   end
 
   def admin_is_assigned_to_project?

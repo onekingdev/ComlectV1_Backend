@@ -10,7 +10,7 @@ ActiveAdmin.register Business do
     end
   end
 
-  actions :all, except: %i(new show)
+  actions :all, except: %i(new)
 
   index do
     column :business_name, label: 'Business Name' do |business|
