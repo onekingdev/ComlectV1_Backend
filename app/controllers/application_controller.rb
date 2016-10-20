@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   rescue_from ::Pundit::NotAuthorizedError, with: :render_403
 
   # TODO: LAUNCH: Remove
-  before_action :beta_protection
+  before_action :beta_protection, if: -> { ::Rails.env.production? }
   def beta_protection
     if protected_beta? && controller_name != 'home'
       redirect_to :root
