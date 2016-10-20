@@ -4,6 +4,7 @@ class Metrics
   include ActionView::Helpers::TextHelper
   include Metrics::Postings
   include Metrics::Completions
+  include Metrics::Misc
 
   attr_reader :metrics
 

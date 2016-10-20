@@ -609,6 +609,118 @@ ALTER SEQUENCE messages_id_seq OWNED BY messages.id;
 
 
 --
+-- Name: specialists; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE specialists (
+    id integer NOT NULL,
+    user_id integer,
+    first_name character varying,
+    last_name character varying,
+    country character varying,
+    state character varying,
+    city character varying,
+    zipcode character varying,
+    phone character varying,
+    linkedin_link character varying,
+    former_regulator boolean DEFAULT false NOT NULL,
+    photo_data jsonb,
+    resume_data jsonb,
+    certifications character varying,
+    visibility character varying DEFAULT 'public'::character varying NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    lat numeric(9,5),
+    lng numeric(9,5),
+    point geography,
+    ratings_count integer DEFAULT 0 NOT NULL,
+    ratings_total integer DEFAULT 0 NOT NULL,
+    ratings_average double precision,
+    deleted boolean DEFAULT false NOT NULL,
+    time_zone character varying,
+    address_1 character varying,
+    address_2 character varying
+);
+
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE users (
+    id integer NOT NULL,
+    email character varying DEFAULT ''::character varying NOT NULL,
+    encrypted_password character varying DEFAULT ''::character varying NOT NULL,
+    reset_password_token character varying,
+    reset_password_sent_at timestamp without time zone,
+    remember_created_at timestamp without time zone,
+    sign_in_count integer DEFAULT 0 NOT NULL,
+    current_sign_in_at timestamp without time zone,
+    last_sign_in_at timestamp without time zone,
+    current_sign_in_ip inet,
+    last_sign_in_ip inet,
+    confirmation_token character varying,
+    confirmed_at timestamp without time zone,
+    confirmation_sent_at timestamp without time zone,
+    unconfirmed_email character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    deleted boolean DEFAULT false NOT NULL,
+    deleted_at timestamp without time zone
+);
+
+
+--
+-- Name: metrics_account_deletions; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW metrics_account_deletions AS
+ WITH deleted_users AS (
+         SELECT users.id,
+            users.deleted_at
+           FROM users
+          WHERE (users.deleted_at IS NOT NULL)
+        ), deleted_businesses AS (
+         SELECT deleted_users.deleted_at
+           FROM (deleted_users
+             JOIN businesses ON ((businesses.user_id = deleted_users.id)))
+        ), deleted_specialists AS (
+         SELECT deleted_users.deleted_at
+           FROM (deleted_users
+             JOIN specialists ON ((specialists.user_id = deleted_users.id)))
+        )
+ SELECT 'all_account_deletions'::character varying AS metric,
+    ( SELECT count(*) AS count
+           FROM deleted_users
+          WHERE (deleted_users.deleted_at >= date_trunc('month'::text, now()))) AS mtd,
+    ( SELECT count(*) AS count
+           FROM deleted_users
+          WHERE (deleted_users.deleted_at >= date_trunc('year'::text, now()))) AS fytd,
+    ( SELECT count(*) AS count
+           FROM deleted_users) AS itd
+UNION
+ SELECT 'business_account_deletions'::character varying AS metric,
+    ( SELECT count(*) AS count
+           FROM deleted_businesses
+          WHERE (deleted_businesses.deleted_at >= date_trunc('month'::text, now()))) AS mtd,
+    ( SELECT count(*) AS count
+           FROM deleted_businesses
+          WHERE (deleted_businesses.deleted_at >= date_trunc('year'::text, now()))) AS fytd,
+    ( SELECT count(*) AS count
+           FROM deleted_businesses) AS itd
+UNION
+ SELECT 'specialist_account_deletions'::character varying AS metric,
+    ( SELECT count(*) AS count
+           FROM deleted_specialists
+          WHERE (deleted_specialists.deleted_at >= date_trunc('month'::text, now()))) AS mtd,
+    ( SELECT count(*) AS count
+           FROM deleted_specialists
+          WHERE (deleted_specialists.deleted_at >= date_trunc('year'::text, now()))) AS fytd,
+    ( SELECT count(*) AS count
+           FROM deleted_specialists) AS itd;
+
+
+--
 -- Name: projects; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -647,6 +759,108 @@ CREATE TABLE projects (
     published_at timestamp without time zone,
     extended_at timestamp without time zone
 );
+
+
+--
+-- Name: metrics_avg_staffing_times; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW metrics_avg_staffing_times AS
+ WITH one_off AS (
+         SELECT projects.published_at,
+            projects.hired_at
+           FROM projects
+          WHERE ((projects.type)::text = 'one_off'::text)
+        ), full_time AS (
+         SELECT projects.published_at,
+            projects.hired_at
+           FROM projects
+          WHERE ((projects.type)::text = 'full_time'::text)
+        )
+ SELECT 'avg_staffing_time'::character varying AS metric,
+    ( SELECT avg(date_part('days'::text, (projects.hired_at - projects.published_at))) AS avg
+           FROM projects
+          WHERE (projects.hired_at >= date_trunc('month'::text, now()))) AS mtd,
+    ( SELECT avg(date_part('days'::text, (projects.hired_at - projects.published_at))) AS avg
+           FROM projects
+          WHERE (projects.hired_at >= date_trunc('year'::text, now()))) AS fytd,
+    ( SELECT avg(date_part('days'::text, (projects.hired_at - projects.published_at))) AS avg
+           FROM projects) AS itd
+UNION
+ SELECT 'avg_project_staffing_time'::character varying AS metric,
+    ( SELECT avg(date_part('days'::text, (one_off.hired_at - one_off.published_at))) AS avg
+           FROM one_off
+          WHERE (one_off.hired_at >= date_trunc('month'::text, now()))) AS mtd,
+    ( SELECT avg(date_part('days'::text, (one_off.hired_at - one_off.published_at))) AS avg
+           FROM one_off
+          WHERE (one_off.hired_at >= date_trunc('year'::text, now()))) AS fytd,
+    ( SELECT avg(date_part('days'::text, (one_off.hired_at - one_off.published_at))) AS avg
+           FROM one_off) AS itd
+UNION
+ SELECT 'avg_job_staffing_time'::character varying AS metric,
+    ( SELECT avg(date_part('days'::text, (full_time.hired_at - full_time.published_at))) AS avg
+           FROM full_time
+          WHERE (full_time.hired_at >= date_trunc('month'::text, now()))) AS mtd,
+    ( SELECT avg(date_part('days'::text, (full_time.hired_at - full_time.published_at))) AS avg
+           FROM full_time
+          WHERE (full_time.hired_at >= date_trunc('year'::text, now()))) AS fytd,
+    ( SELECT avg(date_part('days'::text, (full_time.hired_at - full_time.published_at))) AS avg
+           FROM full_time) AS itd;
+
+
+--
+-- Name: project_issues; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE project_issues (
+    id integer NOT NULL,
+    project_id integer,
+    user_id integer,
+    issue text,
+    desired_resolution text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    status character varying DEFAULT 'open'::character varying NOT NULL,
+    admin_user_id integer
+);
+
+
+--
+-- Name: metrics_escalated_projects; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW metrics_escalated_projects AS
+ WITH escalated_projects AS (
+         SELECT max(project_issues.created_at) AS escalated_at
+           FROM project_issues
+          WHERE ((project_issues.status)::text = 'open'::text)
+          GROUP BY project_issues.project_id
+        )
+ SELECT 'escalated_projects'::character varying AS metric,
+    ( SELECT count(*) AS count
+           FROM escalated_projects
+          WHERE (escalated_projects.escalated_at >= date_trunc('month'::text, now()))) AS mtd,
+    ( SELECT count(*) AS count
+           FROM escalated_projects
+          WHERE (escalated_projects.escalated_at >= date_trunc('year'::text, now()))) AS fytd,
+    ( SELECT count(*) AS count
+           FROM escalated_projects) AS itd;
+
+
+--
+-- Name: metrics_extended_projects; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW metrics_extended_projects AS
+ SELECT 'extended_projects'::character varying AS metric,
+    ( SELECT count(*) AS count
+           FROM projects
+          WHERE (projects.extended_at >= date_trunc('month'::text, now()))) AS mtd,
+    ( SELECT count(*) AS count
+           FROM projects
+          WHERE (projects.extended_at >= date_trunc('year'::text, now()))) AS fytd,
+    ( SELECT count(*) AS count
+           FROM projects) AS itd;
 
 
 --
@@ -1406,6 +1620,42 @@ CREATE VIEW metrics_projects_value AS
 
 
 --
+-- Name: metrics_signups; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW metrics_signups AS
+ SELECT 'all_signups'::character varying AS metric,
+    ( SELECT count(*) AS count
+           FROM users
+          WHERE (users.created_at >= date_trunc('month'::text, now()))) AS mtd,
+    ( SELECT count(*) AS count
+           FROM users
+          WHERE (users.created_at >= date_trunc('year'::text, now()))) AS fytd,
+    ( SELECT count(*) AS count
+           FROM users) AS itd
+UNION
+ SELECT 'business_signups'::character varying AS metric,
+    ( SELECT count(*) AS count
+           FROM businesses
+          WHERE (businesses.created_at >= date_trunc('month'::text, now()))) AS mtd,
+    ( SELECT count(*) AS count
+           FROM businesses
+          WHERE (businesses.created_at >= date_trunc('year'::text, now()))) AS fytd,
+    ( SELECT count(*) AS count
+           FROM businesses) AS itd
+UNION
+ SELECT 'specialist_signups'::character varying AS metric,
+    ( SELECT count(*) AS count
+           FROM specialists
+          WHERE (specialists.created_at >= date_trunc('month'::text, now()))) AS mtd,
+    ( SELECT count(*) AS count
+           FROM specialists
+          WHERE (specialists.created_at >= date_trunc('year'::text, now()))) AS fytd,
+    ( SELECT count(*) AS count
+           FROM specialists) AS itd;
+
+
+--
 -- Name: metrics_time_to_completion; Type: VIEW; Schema: public; Owner: -
 --
 
@@ -1577,7 +1827,140 @@ UNION
     metrics_time_to_completion.mtd,
     metrics_time_to_completion.fytd,
     metrics_time_to_completion.itd
-   FROM metrics_time_to_completion;
+   FROM metrics_time_to_completion
+UNION
+ SELECT metrics_avg_staffing_times.metric,
+    metrics_avg_staffing_times.mtd,
+    metrics_avg_staffing_times.fytd,
+    metrics_avg_staffing_times.itd
+   FROM metrics_avg_staffing_times
+UNION
+ SELECT metrics_escalated_projects.metric,
+    metrics_escalated_projects.mtd,
+    metrics_escalated_projects.fytd,
+    metrics_escalated_projects.itd
+   FROM metrics_escalated_projects
+UNION
+ SELECT metrics_extended_projects.metric,
+    metrics_extended_projects.mtd,
+    metrics_extended_projects.fytd,
+    metrics_extended_projects.itd
+   FROM metrics_extended_projects
+UNION
+ SELECT metrics_account_deletions.metric,
+    metrics_account_deletions.mtd,
+    metrics_account_deletions.fytd,
+    metrics_account_deletions.itd
+   FROM metrics_account_deletions
+UNION
+ SELECT metrics_signups.metric,
+    metrics_signups.mtd,
+    metrics_signups.fytd,
+    metrics_signups.itd
+   FROM metrics_signups;
+
+
+--
+-- Name: metrics_activity; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW metrics_activity AS
+ WITH dates AS (
+         SELECT (now() - '30 days'::interval) AS thirty_days_ago
+        ), totals AS (
+         SELECT count(*) AS cnt
+           FROM users
+        ), all_users AS (
+         SELECT users.current_sign_in_at
+           FROM users
+        ), businesses_count AS (
+         SELECT users.current_sign_in_at
+           FROM (users
+             JOIN businesses ON ((businesses.user_id = users.id)))
+        ), specialists_count AS (
+         SELECT users.current_sign_in_at
+           FROM (users
+             JOIN specialists ON ((specialists.user_id = users.id)))
+        )
+ SELECT 'recent_activity'::character varying AS metric,
+    ( SELECT count(*) AS count
+           FROM users
+          WHERE (users.current_sign_in_at >= dates.thirty_days_ago)) AS cnt,
+    ( SELECT (((count(*))::double precision / (totals.cnt)::double precision) * (100)::double precision)
+           FROM users
+          WHERE (users.current_sign_in_at >= dates.thirty_days_ago)) AS pct
+   FROM totals,
+    dates
+UNION
+ SELECT 'recent_activity_businesses'::character varying AS metric,
+    ( SELECT count(*) AS count
+           FROM businesses_count businesses_count_1
+          WHERE (businesses_count_1.current_sign_in_at >= dates.thirty_days_ago)) AS cnt,
+    ( SELECT (((count(*))::double precision / (totals.cnt)::double precision) * (100)::double precision)
+           FROM businesses_count businesses_count_1
+          WHERE (businesses_count_1.current_sign_in_at >= dates.thirty_days_ago)) AS pct
+   FROM totals,
+    businesses_count,
+    dates
+UNION
+ SELECT 'recent_activity_specialists'::character varying AS metric,
+    ( SELECT count(*) AS count
+           FROM specialists_count specialists_count_1
+          WHERE (specialists_count_1.current_sign_in_at >= dates.thirty_days_ago)) AS cnt,
+    ( SELECT (((count(*))::double precision / (totals.cnt)::double precision) * (100)::double precision)
+           FROM specialists_count specialists_count_1
+          WHERE (specialists_count_1.current_sign_in_at >= dates.thirty_days_ago)) AS pct
+   FROM totals,
+    specialists_count,
+    dates
+UNION
+ SELECT 'old_activity'::character varying AS metric,
+    ( SELECT count(*) AS count
+           FROM users
+          WHERE ((users.current_sign_in_at IS NULL) OR (users.current_sign_in_at < dates.thirty_days_ago))) AS cnt,
+    ( SELECT (((count(*))::double precision / (totals.cnt)::double precision) * (100)::double precision)
+           FROM users
+          WHERE ((users.current_sign_in_at IS NULL) OR (users.current_sign_in_at < dates.thirty_days_ago))) AS pct
+   FROM totals,
+    dates
+UNION
+ SELECT 'old_activity_businesses'::character varying AS metric,
+    ( SELECT count(*) AS count
+           FROM businesses_count businesses_count_1
+          WHERE ((businesses_count_1.current_sign_in_at IS NULL) OR (businesses_count_1.current_sign_in_at < dates.thirty_days_ago))) AS cnt,
+    ( SELECT (((count(*))::double precision / (totals.cnt)::double precision) * (100)::double precision)
+           FROM businesses_count businesses_count_1
+          WHERE ((businesses_count_1.current_sign_in_at IS NULL) OR (businesses_count_1.current_sign_in_at < dates.thirty_days_ago))) AS pct
+   FROM totals,
+    businesses_count,
+    dates
+UNION
+ SELECT 'old_activity_specialists'::character varying AS metric,
+    ( SELECT count(*) AS count
+           FROM specialists_count specialists_count_1
+          WHERE ((specialists_count_1.current_sign_in_at IS NULL) OR (specialists_count_1.current_sign_in_at < dates.thirty_days_ago))) AS cnt,
+    ( SELECT (((count(*))::double precision / (totals.cnt)::double precision) * (100)::double precision)
+           FROM specialists_count specialists_count_1
+          WHERE ((specialists_count_1.current_sign_in_at IS NULL) OR (specialists_count_1.current_sign_in_at < dates.thirty_days_ago))) AS pct
+   FROM totals,
+    specialists_count,
+    dates
+UNION
+ SELECT 'all_activity_businesses'::character varying AS metric,
+    ( SELECT count(*) AS count
+           FROM businesses_count) AS cnt,
+    ( SELECT (((count(*))::double precision / (totals.cnt)::double precision) * (100)::double precision)
+           FROM businesses_count) AS pct
+   FROM totals,
+    dates
+UNION
+ SELECT 'all_activity_specialists'::character varying AS metric,
+    ( SELECT count(*) AS count
+           FROM specialists_count) AS cnt,
+    ( SELECT (((count(*))::double precision / (totals.cnt)::double precision) * (100)::double precision)
+           FROM specialists_count) AS pct
+   FROM totals,
+    dates;
 
 
 --
@@ -1796,23 +2179,6 @@ ALTER SEQUENCE project_invites_id_seq OWNED BY project_invites.id;
 
 
 --
--- Name: project_issues; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE project_issues (
-    id integer NOT NULL,
-    project_id integer,
-    user_id integer,
-    issue text,
-    desired_resolution text,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    status character varying DEFAULT 'open'::character varying NOT NULL,
-    admin_user_id integer
-);
-
-
---
 -- Name: project_issues_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -2013,41 +2379,6 @@ CREATE TABLE skills_specialists (
 
 
 --
--- Name: specialists; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE specialists (
-    id integer NOT NULL,
-    user_id integer,
-    first_name character varying,
-    last_name character varying,
-    country character varying,
-    state character varying,
-    city character varying,
-    zipcode character varying,
-    phone character varying,
-    linkedin_link character varying,
-    former_regulator boolean DEFAULT false NOT NULL,
-    photo_data jsonb,
-    resume_data jsonb,
-    certifications character varying,
-    visibility character varying DEFAULT 'public'::character varying NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    lat numeric(9,5),
-    lng numeric(9,5),
-    point geography,
-    ratings_count integer DEFAULT 0 NOT NULL,
-    ratings_total integer DEFAULT 0 NOT NULL,
-    ratings_average double precision,
-    deleted boolean DEFAULT false NOT NULL,
-    time_zone character varying,
-    address_1 character varying,
-    address_2 character varying
-);
-
-
---
 -- Name: specialists_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -2226,33 +2557,6 @@ CREATE SEQUENCE transactions_id_seq
 --
 
 ALTER SEQUENCE transactions_id_seq OWNED BY transactions.id;
-
-
---
--- Name: users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE users (
-    id integer NOT NULL,
-    email character varying DEFAULT ''::character varying NOT NULL,
-    encrypted_password character varying DEFAULT ''::character varying NOT NULL,
-    reset_password_token character varying,
-    reset_password_sent_at timestamp without time zone,
-    remember_created_at timestamp without time zone,
-    sign_in_count integer DEFAULT 0 NOT NULL,
-    current_sign_in_at timestamp without time zone,
-    last_sign_in_at timestamp without time zone,
-    current_sign_in_ip inet,
-    last_sign_in_ip inet,
-    confirmation_token character varying,
-    confirmed_at timestamp without time zone,
-    confirmation_sent_at timestamp without time zone,
-    unconfirmed_email character varying,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    deleted boolean DEFAULT false NOT NULL,
-    deleted_at timestamp without time zone
-);
 
 
 --
@@ -3812,4 +4116,6 @@ INSERT INTO schema_migrations (version) VALUES ('20161020003125');
 INSERT INTO schema_migrations (version) VALUES ('20161020003532');
 
 INSERT INTO schema_migrations (version) VALUES ('20161020004927');
+
+INSERT INTO schema_migrations (version) VALUES ('20161020060113');
 
