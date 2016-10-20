@@ -6,12 +6,13 @@ class ProjectExtension < ActiveRecord::Base
 
   def confirm!
     self.class.transaction do
-      update_attribute :status, self.class.statuses[:confirmed]
+      confirmed!
+      project.touch :extended_at
       PaymentCycle.for(project).reschedule!
     end
   end
 
   def deny!
-    update_attribute :status, self.class.statuses[:denied]
+    denied!
   end
 end
