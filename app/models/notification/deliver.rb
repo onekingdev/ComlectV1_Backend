@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class Notification::Deliver < Draper::Decorator
-  include Rails.application.routes.url_helpers
+  extend Rails.application.routes.url_helpers
 
   decorates Notification
 
