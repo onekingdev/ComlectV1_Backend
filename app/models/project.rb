@@ -98,6 +98,7 @@ class Project < ActiveRecord::Base
   enum fee_type: { upfront_fee: 'upfront_fee', monthly_fee: 'monthly_fee' }
 
   LOCATIONS = [%w(Remote remote), %w(Remote\ +\ Travel remote_and_travel), %w(Onsite onsite)].freeze
+  # DB Views depend on these so don't modify:
   HOURLY_PAYMENT_SCHEDULES = [%w(Upon\ Completion upon_completion), %w(Bi-Weekly bi_weekly), %w(Monthly monthly)].freeze
   FIXED_PAYMENT_SCHEDULES = [
     %w(50/50 fifty_fifty),

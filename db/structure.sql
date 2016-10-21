@@ -1310,7 +1310,7 @@ CREATE VIEW metrics_projects_fixed_50_50_pay AS
  WITH base AS (
          SELECT projects.created_at
            FROM projects
-          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text)) AND ((projects.payment_schedule)::text = 'fifty_fifty'::text))
+          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text)) AND ((projects.payment_schedule)::text = '50/50'::text))
         )
  SELECT 'projects_fixed_50_50_pay'::character varying AS metric,
     ( SELECT count(*) AS count
@@ -1331,7 +1331,7 @@ CREATE VIEW metrics_projects_fixed_bi_weekly_pay AS
  WITH base AS (
          SELECT projects.created_at
            FROM projects
-          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text)) AND ((projects.payment_schedule)::text = 'bi_weekly'::text))
+          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text)) AND ((projects.payment_schedule)::text = 'Bi-Weekly'::text))
         )
  SELECT 'projects_fixed_bi_weekly_pay'::character varying AS metric,
     ( SELECT count(*) AS count
@@ -1352,7 +1352,7 @@ CREATE VIEW metrics_projects_fixed_monthly_pay AS
  WITH base AS (
          SELECT projects.created_at
            FROM projects
-          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text)) AND ((projects.payment_schedule)::text = 'monthly'::text))
+          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text)) AND ((projects.payment_schedule)::text = 'Monthly'::text))
         )
  SELECT 'projects_fixed_monthly_pay'::character varying AS metric,
     ( SELECT count(*) AS count
@@ -1421,7 +1421,7 @@ CREATE VIEW metrics_projects_fixed_upon_completion_pay AS
  WITH base AS (
          SELECT projects.created_at
            FROM projects
-          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text)) AND ((projects.payment_schedule)::text = 'upon_completion'::text))
+          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text)) AND ((projects.payment_schedule)::text = 'Upon Completion'::text))
         )
  SELECT 'projects_fixed_upon_completion_pay'::character varying AS metric,
     ( SELECT count(*) AS count
@@ -1442,7 +1442,7 @@ CREATE VIEW metrics_projects_hourly_bi_weekly_pay AS
  WITH base AS (
          SELECT projects.created_at
            FROM projects
-          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text)) AND ((projects.payment_schedule)::text = 'bi_weekly'::text))
+          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text)) AND ((projects.payment_schedule)::text = 'Bi-Weekly'::text))
         )
  SELECT 'projects_hourly_bi_weekly_pay'::character varying AS metric,
     ( SELECT count(*) AS count
@@ -1463,7 +1463,7 @@ CREATE VIEW metrics_projects_hourly_monthly_pay AS
  WITH base AS (
          SELECT projects.created_at
            FROM projects
-          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text)) AND ((projects.payment_schedule)::text = 'monthly'::text))
+          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text)) AND ((projects.payment_schedule)::text = 'Monthly'::text))
         )
  SELECT 'projects_hourly_monthly_pay'::character varying AS metric,
     ( SELECT count(*) AS count
@@ -1532,7 +1532,7 @@ CREATE VIEW metrics_projects_hourly_upon_completion_pay AS
  WITH base AS (
          SELECT projects.created_at
            FROM projects
-          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text)) AND ((projects.payment_schedule)::text = 'upon_completion'::text))
+          WHERE ((((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text)) AND ((projects.payment_schedule)::text = 'Upon Completion'::text))
         )
  SELECT 'projects_hourly_upon_completion_pay'::character varying AS metric,
     ( SELECT count(*) AS count
@@ -4118,4 +4118,6 @@ INSERT INTO schema_migrations (version) VALUES ('20161020003532');
 INSERT INTO schema_migrations (version) VALUES ('20161020004927');
 
 INSERT INTO schema_migrations (version) VALUES ('20161020060113');
+
+INSERT INTO schema_migrations (version) VALUES ('20161021013658');
 
