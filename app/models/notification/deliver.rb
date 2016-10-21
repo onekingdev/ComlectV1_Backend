@@ -1,13 +1,15 @@
 # frozen_string_literal: true
 class Notification::Deliver < Draper::Decorator
-  extend Rails.application.routes.url_helpers
-
   decorates Notification
 
   class << self
+    def r
+      Rails.application.routes.url_helpers
+    end
+
     def got_hired!(application)
       dispatcher = Dispatcher.new(application.specialist.user)
-      dispatcher.deliver_notification! :got_hired, project_dashboard_path(application.project), application.project
+      dispatcher.deliver_notification! :got_hired, r.project_dashboard_path(application.project), application.project
       dispatcher.deliver_email! HireMailer, :hired, application
     end
 
@@ -15,7 +17,7 @@ class Notification::Deliver < Draper::Decorator
       return unless Notification.enabled? application.specialist, :not_hired
       dispatcher = Dispatcher.new(application.specialist.user)
       dispatcher.deliver_notification! :not_hired,
-                                       projects_path,
+                                       r.projects_path,
                                        application.project,
                                        clear_manually: true,
                                        t: { project_title: application.project.title }
@@ -31,7 +33,7 @@ class Notification::Deliver < Draper::Decorator
       return unless Notification.enabled?(specialist, :got_rated)
       dispatcher = Dispatcher.new(specialist.user)
       dispatcher.deliver_notification! :specialist_got_rated,
-                                       specialists_dashboard_path(anchor: 'ratings-reviews'),
+                                       r.specialists_dashboard_path(anchor: 'ratings-reviews'),
                                        rating
       dispatcher.deliver_email! RatingMailer, :notification, rating.id
     end
@@ -41,7 +43,7 @@ class Notification::Deliver < Draper::Decorator
       return unless Notification.enabled?(business, :got_rated)
       dispatcher = Dispatcher.new(business.user)
       dispatcher.deliver_notification! :business_got_rated,
-                                       business_dashboard_path(anchor: 'ratings-reviews'),
+                                       r.business_dashboard_path(anchor: 'ratings-reviews'),
                                        rating
       dispatcher.deliver_email! RatingMailer, :notification, rating.id
     end
@@ -49,9 +51,9 @@ class Notification::Deliver < Draper::Decorator
     def got_project_message!(message)
       project = message.thread
       key, path, who = if message.sender == project.specialist
-                         [:business_got_project_message, business_project_dashboard_path(project), project.business]
+                         [:business_got_project_message, r.business_project_dashboard_path(project), project.business]
                        else
-                         [:specialist_got_project_message, project_dashboard_path(project), project.specialist]
+                         [:specialist_got_project_message, r.project_dashboard_path(project), project.specialist]
                        end
       dispatcher = Dispatcher.new(who.user)
       dispatcher.deliver_notification! key, path, project, clear_manually: true
@@ -67,7 +69,7 @@ class Notification::Deliver < Draper::Decorator
       return unless Notification.enabled?(project.business, :project_ended)
       business_dispatcher = Dispatcher.new(project.business.user)
       business_dispatcher.deliver_notification! :business_project_ended,
-                                                business_project_dashboard_path(project),
+                                                r.business_project_dashboard_path(project),
                                                 project
       business_dispatcher.deliver_email! ProjectEndedMailer, :business_message, project.id
     end
@@ -75,7 +77,7 @@ class Notification::Deliver < Draper::Decorator
     def specialist_project_ended!(project)
       specialist_dispatcher = Dispatcher.new(project.specialist.user)
       specialist_dispatcher.deliver_notification! :specialist_project_ended,
-                                                  project_dashboard_path(project),
+                                                  r.project_dashboard_path(project),
                                                   project,
                                                   project_title: project.title
       specialist_dispatcher.deliver_email! ProjectEndedMailer, :specialist_message, project.id
