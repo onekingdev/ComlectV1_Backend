@@ -37,10 +37,14 @@
           collection: Stripe::SUPPORTED_BANK_CURRENCIES[f.object.country.to_sym],
           input_html: { class: 'input-lg js-select' }
     .row
-      .col-xs-12.col-sm-6
-        = f.input :account_routing_number, required: false, label: "Routing Number", input_html: { class: 'input-lg' }, wrapper: :vertical_tight
-      .col-xs-12.col-sm-6
-        = f.input :account_number, required: false, label: "Account Number", input_html: { class: 'input-lg' }, wrapper: :vertical_tight
+      - if f.object.require_iban?
+        .col-xs-12
+          = f.input :account_number, required: false, label: "IBAN", input_html: { class: 'input-lg' }, wrapper: :vertical_tight
+      - else
+        .col-xs-12.col-sm-6
+          = f.input :account_routing_number, required: false, label: "Routing Number", input_html: { class: 'input-lg' }, wrapper: :vertical_tight
+        .col-xs-12.col-sm-6
+          = f.input :account_number, required: false, label: "Account Number", input_html: { class: 'input-lg' }, wrapper: :vertical_tight
 
     h2.text-center.m-y-2 Billing Address
 

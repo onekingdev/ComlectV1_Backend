@@ -2,11 +2,11 @@
 class StripeAccount::Form < StripeAccount
   include ApplicationForm
 
-  validates :country, :account_currency, :account_routing_number, :account_number, :address1,
-            :city, :first_name, :last_name, :dob,
+  validates :country, :account_currency, :account_number, :address1, :city, :first_name, :last_name, :dob,
             presence: true
   validates :zipcode, presence: true, unless: -> { country == 'HK' }
   validates :state, presence: true, unless: -> { country == 'SG' }
+  validates :account_routing_number, presence: true, unless: :require_iban?
   validates :account_type, inclusion: { in: account_types.values }
   validates :accept_tos, inclusion: { in: [true] }
   validates :business_name, :business_tax_id, presence: true, if: :company?
@@ -48,6 +48,10 @@ class StripeAccount::Form < StripeAccount
       errors.add :base, 'Could not verify account info with Stripe'
       raise ActiveRecord::Rollback
     end
+  end
+
+  def require_iban?
+    %w(BE DE DK ES FI FR GB IE IT LU NL NO PT SE).include? country
   end
 
   def required?(field)
