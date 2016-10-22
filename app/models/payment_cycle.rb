@@ -32,11 +32,14 @@ class PaymentCycle
 
   def reschedule!
     project.charges.estimated.delete_all
-    remaining_dates = occurrences.reject { |date| charge_exists?(date) }
-    amounts = outstanding_amount / remaining_dates.size if remaining_dates.any?
+    remaining_dates = outstanding_occurrences
     remaining_dates.each do |date|
-      create_estimated_charge! amount: amounts, date: date
+      create_estimated_charge! amount: amount_for(date, remaining_dates: remaining_dates), date: date
     end
+  end
+
+  def amount_for(_date = nil, remaining_dates:)
+    outstanding_amount / remaining_dates.size if remaining_dates.any?
   end
 
   def schedule_charge!(amount:, date:, description:)
@@ -59,6 +62,10 @@ class PaymentCycle
     amount < 0 ? 0 : amount
   end
 
+  def outstanding_occurrences
+    occurrences.reject { |date| charge_exists?(date) }
+  end
+
   def charge_exists?(datetime)
     project.charges.real.where(date: datetime).exists?
   end
@@ -73,6 +80,11 @@ class PaymentCycle
   end
 
   private
+
+  def adjusted_ends_on
+    # Recalculate ends_on date to previous friday if falling on sat/sun
+    project.ends_on - ({ 6 => 1, 0 => 2 }[project.ends_on.wday] || 0)
+  end
 
   def current_cycle_date
     all_occurrences = occurrences

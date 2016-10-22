@@ -19,7 +19,7 @@ RSpec.describe PaymentCycle::Fixed::BiWeekly, type: :model do
     it 'creates estimated charges every other week' do
       JobApplication::Accept.(@job_application)
       expect(@project.charges.estimated.count).to eq(6)
-      dates = [
+      expected_dates = [
         @project.business.tz.local(2016, 1, 18, 0, 1), # Not the 15th since that's a friday so we charge on monday
         @project.business.tz.local(2016, 2, 1, 0, 1),  # and so on...
         @project.business.tz.local(2016, 2, 15, 0, 1),
@@ -27,7 +27,10 @@ RSpec.describe PaymentCycle::Fixed::BiWeekly, type: :model do
         @project.business.tz.local(2016, 3, 14, 0, 1),
         @project.business.tz.local(2016, 3, 28, 0, 1)
       ]
-      expect(@project.charges.estimated.map(&:process_after).sort).to eq(dates)
+      dates = @project.charges.estimated.pluck(:process_after).sort.map do |date|
+        date.in_time_zone(@project.business.tz)
+      end
+      expect(dates).to eq(expected_dates)
     end
 
     context 'in the middle of project with already paid work' do
@@ -47,22 +50,23 @@ RSpec.describe PaymentCycle::Fixed::BiWeekly, type: :model do
       it 'creates first real charge two weeks after start' do
         expect(@project.charges.real.count).to eq(1)
         charge = @project.charges.real.first
-        expect(charge.amount).to eq(1666.66) # @project.fixed_budget / 6
+        expect(charge.amount).to eq(1764.71)
         expect(charge.process_after).to eq(@project.business.tz.local(2016, 1, 18, 0, 1))
       end
 
       it 'creates remaining estimated charges' do
         expect(@project.charges.estimated.count).to eq(5)
-        # $10,000 total - $1,666 paid = $8,334, $8,334 / 5 remaining payments = $1,666
-        expect(@project.charges.estimated.map(&:amount).uniq).to eq([1666.66])
-        dates = [
+        expected_dates = [
           @project.business.tz.local(2016, 2, 1, 0, 1),
           @project.business.tz.local(2016, 2, 15, 0, 1),
           @project.business.tz.local(2016, 2, 29, 0, 1),
           @project.business.tz.local(2016, 3, 14, 0, 1),
           @project.business.tz.local(2016, 3, 28, 0, 1)
         ]
-        expect(@project.charges.estimated.map(&:process_after).sort).to eq(dates)
+        dates = @project.charges.estimated.pluck(:process_after).sort.map do |date|
+          date.in_time_zone(@project.business.tz)
+        end
+        expect(dates).to eq(expected_dates)
       end
     end
   end
