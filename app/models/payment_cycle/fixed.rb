@@ -7,7 +7,6 @@ class PaymentCycle::Fixed < PaymentCycle
   def create_charges!
     current_cycle = previous_cycle_date
     return if charge_exists?(current_cycle)
-    # remaining_dates = occurrences.reject { |date| charge_exists?(date) }
     amount = amount_for(current_cycle)
     schedule_charge! amount: amount,
                      date: current_cycle,
@@ -17,7 +16,7 @@ class PaymentCycle::Fixed < PaymentCycle
   private
 
   def amount_for_day_period(date)
-    return last_period_amount if last_period?(date)
+    return last_period_amount if last_period?(date - 1)
     days = days_for_period(date)
     (days * amount_per_day_remaining).round(2)
   end
@@ -38,7 +37,7 @@ class PaymentCycle::Fixed < PaymentCycle
   end
 
   def days_for_period(date)
-    date = date.to_date
+    date = date.to_date - 1
     period = periods.detect do |span|
       span.include?(date)
     end
@@ -48,7 +47,8 @@ class PaymentCycle::Fixed < PaymentCycle
   def last_period_amount
     # Because of rounding, use a different method to return the last amount
     previous = outstanding_occurrences[0..-2].map do |date|
-      amount_for(date).round(2)
+      days = days_for_period(date)
+      (days * amount_per_day_remaining).round(2)
     end.reduce(:+)
     outstanding_amount - previous
   end
@@ -59,10 +59,12 @@ class PaymentCycle::Fixed < PaymentCycle
 
   def periods
     previous = project.starts_on
+    last = occurrences.last.to_date
     occurrences.map do |occurrence|
       date = occurrence.to_date
-      (previous..date).tap do
-        previous = date + 1.day
+      adjust = date == last ? 0 : -1
+      (previous..date + adjust).tap do
+        previous = date + adjust + 1
       end
     end
   end

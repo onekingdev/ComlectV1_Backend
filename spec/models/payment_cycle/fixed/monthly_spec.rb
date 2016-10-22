@@ -33,10 +33,10 @@ RSpec.describe PaymentCycle::Fixed::Monthly, type: :model do
         @project.business.tz.local(2016, 6, 2, 0, 1),
         @project.business.tz.local(2016, 6, 20, 0, 1)
       ]
-      expected_amounts = [18_934.91, 17_159.76, 18_343.20, 17_751.48, 18_343.20, 9_467.45]
+      expected_amounts = [18_343.2, 17_159.76, 18_343.20, 17_751.48, 18_343.20, 10_059.16]
       expect(dates.sort).to eq(expected_dates)
-      expect(amounts.reduce(:+)).to eq(@project.fixed_budget)
       expect(amounts.map(&:to_f)).to eq(expected_amounts)
+      expect(amounts.reduce(:+)).to eq(@project.fixed_budget)
     end
 
     context 'in the middle of project with already paid work' do
@@ -58,7 +58,7 @@ RSpec.describe PaymentCycle::Fixed::Monthly, type: :model do
 
       it 'creates remaining estimated charges' do
         expect(@project.charges.estimated.count).to eq(5)
-        expected_amounts = [17_159.76, 18_343.2, 17_751.48, 9_467.45]
+        expected_amounts = [17_159.76, 18_343.19, 17_751.48, 10_059.18]
         expect(@project.charges.estimated.map(&:amount).uniq).to eq(expected_amounts)
         dates = [
           @project.business.tz.local(2016, 3, 2, 0, 1),
