@@ -52,8 +52,7 @@
             h3 Tools & Resources
           .panel-body
             ul.list-flush
-              / TODO: Link to discourse forums:
-              li= link_to 'Forum', '#'
+              li= link_to 'Forum', (ENV['DISCOURSE_BUSINESS_FORUM'] || '#')
               / TODO: Link best practices
               li= link_to 'Best Practices', '#'
               li= link_to 'Partnerships', page_path('partner-network')
