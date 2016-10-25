@@ -31,6 +31,8 @@ ActiveAdmin.register Transaction do
     column :project, sortable: 'projects.title' do |transaction|
       link_to transaction.project, [:admin, transaction.project]
     end
+    column :business, sortable: 'businesses.business_name'
+    column :specialist, sortable: 'specialists.first_name'
     column :type do |transaction|
       transaction.parent_transaction_id.present? ? 'Specialist Payment' : 'Business Charge'
     end
