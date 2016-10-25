@@ -49,7 +49,7 @@ class PaymentCycle::Fixed < PaymentCycle
     previous = outstanding_occurrences[0..-2].map do |date|
       days = days_for_period(date)
       (days * amount_per_day_remaining).round(2)
-    end.reduce(:+)
+    end.reduce(:+) || 0
     outstanding_amount - previous
   end
 
