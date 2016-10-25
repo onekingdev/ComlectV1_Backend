@@ -8,7 +8,7 @@ class Transaction < ActiveRecord::Base
 
   scope :pending_or_errored, -> { where(status: [Transaction.statuses[:pending], Transaction.statuses[:error]]) }
   scope :not_escalated, -> { joins(:project).where(project: Project.not_escalated) }
-  scope :ready, -> { pending_or_errored.not_escalated }
+  scope :ready, -> { pending.not_escalated }
 
   def self.process_pending!
     pending_or_errored.find_each(&:process!)
