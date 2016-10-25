@@ -79,7 +79,7 @@ class Notification::Deliver < Draper::Decorator
       specialist_dispatcher.deliver_notification! :specialist_project_ended,
                                                   r.project_dashboard_path(project),
                                                   project,
-                                                  project_title: project.title
+                                                  t: { project_title: project.title }
       specialist_dispatcher.deliver_email! ProjectEndedMailer, :specialist_message, project.id
     end
   end

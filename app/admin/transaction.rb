@@ -44,6 +44,23 @@ ActiveAdmin.register Transaction do
     actions
   end
 
+  show do
+    attributes_table do
+      row :id
+      row 'Stripe ID' do |t|
+        link_to t.stripe_id, "https://dashboard.stripe.com/test/payments/#{t.stripe_id}", target: '_blank'
+      end
+      row :type
+      row :amount
+      row :status
+      row :status_detail
+      row :processed_at
+      row :project
+      row :created_at
+      row :updated_at
+    end
+  end
+
   controller do
     def scoped_collection
       Transaction.joins(:project, :business, :specialist)
