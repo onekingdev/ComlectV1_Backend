@@ -38,7 +38,7 @@ class PaymentCycle
     end
   end
 
-  def amount_for(_date = nil, remaining_dates:)
+  def amount_for(_date = nil, remaining_dates: [])
     outstanding_amount / remaining_dates.size if remaining_dates.any?
   end
 
