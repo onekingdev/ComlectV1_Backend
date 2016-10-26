@@ -52,7 +52,7 @@ class StripeAccount::Form < StripeAccount
   end
 
   def require_iban?
-    %w(BE DE DK ES FI FR GB IE IT LU NL NO PT SE).include? country
+    %w(AT BE DE DK ES FI FR GB IE IT LU NL NO PT SE).include? country
   end
 
   def required?(field)

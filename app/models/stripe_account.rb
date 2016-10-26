@@ -14,13 +14,13 @@ class StripeAccount < ActiveRecord::Base
 
   REQUIRED_FIELDS = {
     additional_owners: { company: %w(AT BE DE DK ES FI FR GB IE IT LU NL NO PT SE SG) },
-    state: { both: %w(US AT CA) },
+    state: { both: %w(US AT CA AU) },
     business_name: { company: :all },
     business_tax_id: { company: :all },
     personal_city: { company: %w(BE DE DK ES FI FR GB HK IE IT LU NL NO PT SE SG) },
     personal_address1: { company: %w(BE DE DK ES FI FR GB HK IE IT LU NL NO PT SE SG) },
     personal_zipcode: { company: %w(BE DE DK ES FI FR GB HK IE IT LU NL NO PT SE SG) },
-    personal_id_number: { both: %w(CA HK) },
+    personal_id_number: { both: %w(US CA HK SG) },
     ssn_last_4: { both: %w(US) }
   }.freeze
 
