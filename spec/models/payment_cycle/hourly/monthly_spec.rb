@@ -11,8 +11,15 @@ RSpec.describe PaymentCycle::Hourly::Monthly, type: :model do
       @project = create :project_one_off_hourly,
                         payment_schedule: Project.payment_schedules[:monthly],
                         starts_on: Date.new(2016, 1, 1),
-                        ends_on: Date.new(2016, 6, 1)
+                        ends_on: Date.new(2016, 6, 1),
+                        hourly_rate: 100,
+                        estimated_hours: 50
       @job_application = create :job_application, project: @project, specialist: @specialist
+      Timecop.freeze Date.new(2016, 1, 1)
+    end
+
+    after do
+      Timecop.return
     end
 
     it 'creates estimated charges every month' do
@@ -30,6 +37,18 @@ RSpec.describe PaymentCycle::Hourly::Monthly, type: :model do
       ]
 
       expect(dates).to eq(expected_dates)
+    end
+
+    it 'removes past estimates' do
+      JobApplication::Accept.(@job_application)
+      first_charge = @project.charges.estimated.first
+      Timecop.freeze(first_charge.process_after + 2.days) do
+        PaymentCycle.for(@project).create_charges_and_reschedule!
+        estimated = @project.charges.estimated.order(date: :asc)
+        expect(estimated.sum(:amount_in_cents)).to eq(500_000)
+        expect(estimated.count).to eq(4)
+        expect(estimated.first.process_after).to eq(@project.business.tz.local(2016, 3, 2, 0, 1))
+      end
     end
 
     context 'in the middle of project with already paid work' do

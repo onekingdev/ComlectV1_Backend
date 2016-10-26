@@ -4,6 +4,12 @@ class PaymentCycle::Hourly < PaymentCycle
     project.estimated_hours * project.hourly_rate
   end
 
+  def outstanding_occurrences
+    # For hourly projects lets not include past occurrences since
+    # real charges are based off of timesheets not dates
+    occurrences.reject { |date| date.past? || charge_exists?(date) }
+  end
+
   def create_charges!
     date = current_cycle_date
     ActiveRecord::Base.transaction do
