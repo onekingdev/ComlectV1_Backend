@@ -8,7 +8,10 @@ if ($modal.length > 0) {
   $('body')
     .append(modalContent)
     .on('click', 'input[type=submit]', function(_e) {
-      $(this).attr('disabled', true).parents('form').submit();
+      $(this)
+        .parents('form')
+        .find('.btn').attr('disabled', true).end()
+        .submit();
     });
   $('#js-project-hire').modal('show')
 }
