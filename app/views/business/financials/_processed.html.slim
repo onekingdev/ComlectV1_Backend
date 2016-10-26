@@ -15,7 +15,7 @@ table.table.table-striped
         td= charge.project.specialist
         td.text-right= number_to_currency charge.amount
         td.text-center
-          = link_to invoice_business_financial_path(charge.id, format: :pdf) do
+          = link_to invoice_business_financial_path(charge.id, format: :pdf), target: "_blank" do
             .fa.fa-file-pdf-o
 
 .dot-pagination.text-center.m-t-2.clearfix
