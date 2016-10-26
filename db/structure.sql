@@ -833,9 +833,8 @@ CREATE TABLE project_issues (
 
 CREATE VIEW metrics_escalated_projects AS
  WITH escalated_projects AS (
-         SELECT max(project_issues.created_at) AS escalated_at
+         SELECT project_issues.created_at AS escalated_at
            FROM project_issues
-          GROUP BY project_issues.project_id
         )
  SELECT 'escalated_projects'::character varying AS metric,
     ( SELECT count(*) AS count
@@ -4125,4 +4124,6 @@ INSERT INTO schema_migrations (version) VALUES ('20161021013658');
 INSERT INTO schema_migrations (version) VALUES ('20161021014432');
 
 INSERT INTO schema_migrations (version) VALUES ('20161026162641');
+
+INSERT INTO schema_migrations (version) VALUES ('20161026171857');
 
