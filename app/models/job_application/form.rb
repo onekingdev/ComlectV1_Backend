@@ -30,6 +30,7 @@ class JobApplication::Form < JobApplication
   end
 
   def regulator?
+    return true unless project.only_regulators?
     specialist.former_regulator?
   end
 
