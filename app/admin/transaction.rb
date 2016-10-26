@@ -10,6 +10,7 @@ ActiveAdmin.register Transaction do
   filter :status, as: :select, collection: Transaction.statuses
   filter :project_id, label: 'Project ID'
   filter :project_title, as: :string, label: 'Project Title'
+  filter :project_specialist_id, label: 'Specialist ID', as: :numeric
   filter :processed_at
   filter :created_at
   filter :updated_at

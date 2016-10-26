@@ -11,6 +11,7 @@ ActiveAdmin.register Charge do
   filter :date
   filter :project_id, label: 'Project ID'
   filter :project_title, as: :string, label: 'Project Title'
+  filter :project_specialist_id, label: 'Specialist ID', as: :numeric
   filter :created_at
   filter :updated_at
 
