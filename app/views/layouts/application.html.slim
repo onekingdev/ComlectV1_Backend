@@ -5,8 +5,8 @@ html lang=I18n.locale
     = stylesheet_link_tag 'application', media: 'all'
     = csrf_meta_tags
     = javascript_include_tag '/app_config.js'
-    = yield :html_head
     = render 'mixpanel'
+    = yield :html_head
 
 body class="#{controller_name} #{action_name}"
   header#header class=(yield(:header_class) || 'compact')

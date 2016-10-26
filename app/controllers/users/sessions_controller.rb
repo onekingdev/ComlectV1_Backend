@@ -17,10 +17,12 @@ class Users::SessionsController < Devise::SessionsController
         end
       end
     end
+    mixpanel_track_later 'Sign In' if signed_in?
   end
 
   # DELETE /resource/sign_out
   def destroy
+    user = current_user
     respond_to do |format|
       format.html { super }
       format.js do
@@ -28,6 +30,7 @@ class Users::SessionsController < Devise::SessionsController
         set_flash_message! :notice, :signed_out if signed_out
       end
     end
+    mixpanel_track_later 'Sign Out', user: user
   end
 
   protected
