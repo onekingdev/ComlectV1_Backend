@@ -8,6 +8,7 @@ class PaymentCycle::Fixed < PaymentCycle
     current_cycle = previous_cycle_date
     return if charge_exists?(current_cycle)
     amount = amount_for(current_cycle)
+    return if amount.nil?
     schedule_charge! amount: amount,
                      date: current_cycle,
                      description: ''

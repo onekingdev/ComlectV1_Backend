@@ -39,5 +39,26 @@ RSpec.describe PaymentCycle::Fixed::UponCompletion, type: :model do
         expect(process_after).to eq(@project.business.tz.local(2016, 6, 23, 0, 1))
       end
     end
+
+    context 'when project is ended early' do
+      before do
+        JobApplication::Accept.(@job_application)
+        middle_of_project = @project.starts_on + ((@project.ends_on - @project.starts_on) / 2)
+        Timecop.freeze middle_of_project
+        project_end = @project.end_requests.create!
+        project_end.confirm!
+      end
+
+      after do
+        Timecop.return
+      end
+
+      it 'reschedules payment' do
+        expect(@project.reload.charges.count).to eq(1)
+        charge = @project.reload.charges.first
+        expect(charge.amount).to eq(@project.fixed_budget)
+        expect(charge.date).to eq(Time.zone.now.to_date)
+      end
+    end
   end
 end
