@@ -666,7 +666,9 @@ CREATE TABLE users (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     deleted boolean DEFAULT false NOT NULL,
-    deleted_at timestamp without time zone
+    deleted_at timestamp without time zone,
+    tos_acceptance_date timestamp without time zone,
+    tos_acceptance_ip character varying
 );
 
 
@@ -4121,4 +4123,6 @@ INSERT INTO schema_migrations (version) VALUES ('20161020060113');
 INSERT INTO schema_migrations (version) VALUES ('20161021013658');
 
 INSERT INTO schema_migrations (version) VALUES ('20161021014432');
+
+INSERT INTO schema_migrations (version) VALUES ('20161026162641');
 

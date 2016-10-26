@@ -60,11 +60,11 @@ class SpecialistsController < ApplicationController
       user_attributes: %i(email password),
       work_experiences_attributes: %i(id company job_title location from to current compliance description _destroy),
       education_histories_attributes: %i(id institution degree year _destroy)
-    )
+    ).merge(tos_acceptance_ip: request.remote_ip)
   end
 
   def edit_specialist_params
-    specialist_params.except(:user_attributes)
+    specialist_params.except(:user_attributes, :tos_acceptance_ip)
   end
 
   def search_params

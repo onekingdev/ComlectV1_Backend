@@ -13,8 +13,11 @@ class Specialist::Form < Specialist
   attr_accessor :public_profile
 
   def self.signup(attributes = {})
+    tos_acceptance_ip = attributes.delete(:tos_acceptance_ip)
     new(attributes).tap do |specialist|
       specialist.build_user unless specialist.user
+      specialist.user.tos_acceptance_date = Time.zone.now
+      specialist.user.tos_acceptance_ip = tos_acceptance_ip
       specialist.work_experiences.build unless specialist.work_experiences.any?
       specialist.education_histories.build unless specialist.education_histories.any?
     end

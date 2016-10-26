@@ -8,7 +8,6 @@ class StripeAccount::Form < StripeAccount
   validates :state, presence: true, unless: -> { country == 'SG' }
   validates :account_routing_number, presence: true, unless: :require_iban?
   validates :account_type, inclusion: { in: account_types.values }
-  validates :accept_tos, inclusion: { in: [true] }
   validates :business_name, :business_tax_id, presence: true, if: :company?
 
   REQUIRED_FIELDS.each do |field, _config|
@@ -24,7 +23,9 @@ class StripeAccount::Form < StripeAccount
     personal_city: :city,
     personal_zipcode: :zipcode,
     first_name: :first_name,
-    last_name: :last_name
+    last_name: :last_name,
+    tos_acceptance_date: -> (specialist) { specialist.user.tos_acceptance_date },
+    tos_acceptance_ip: -> (specialist) { specialist.user.tos_acceptance_ip }
   }.freeze
 
   def self.for(specialist, attributes = {})
@@ -58,15 +59,5 @@ class StripeAccount::Form < StripeAccount
     return false unless REQUIRED_FIELDS.key?(field)
     base = REQUIRED_FIELDS[field][:both] || REQUIRED_FIELDS[field][account_type.to_sym] || {}
     base == :all || base.include?(country.to_s.upcase)
-  end
-
-  def accept_tos=(value)
-    if (@accept_tos = ActiveRecord::Type::Boolean.new.type_cast_from_user(value))
-      self.tos_acceptance_date = Time.zone.now
-    end
-  end
-
-  def accept_tos
-    @accept_tos.nil? ? tos_acceptance_date.present? : @accept_tos
   end
 end
