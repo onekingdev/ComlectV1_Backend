@@ -14,61 +14,54 @@
     - if f.object.company?
       .row
         .col-xs-12.col-sm-6
-          = f.input :business_name, label: 'Business Name', input_html: { class: 'input-lg' }, wrapper: :vertical_tight
+          = f.input :business_name, label: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
         .col-xs-12.col-sm-6
-          = f.input :business_tax_id, label: 'Tax ID', input_html: { class: 'input-lg' }, wrapper: :vertical_tight
-
-    - if f.object.required?(:additional_owners)
-      .row
-        .col-xs-12= f.input :additional_owners, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
+          = f.input :business_tax_id, label: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
 
     .row
       .col-xs-12.col-sm-6
         = f.input :country, as: :hidden
         .form-group
-          label.control-label Country
           input.form-control.input-lg disabled=true value=Stripe::SUPPORTED_COUNTRIES[f.object.country.to_s.upcase.to_sym]
       .col-xs-12.col-sm-6
         = f.input :account_currency,
           wrapper: :vertical_tight,
           required: false,
-          label: "Currency",
+          label: false,
           include_blank: false,
           collection: Stripe::SUPPORTED_BANK_CURRENCIES[f.object.country.to_sym],
           input_html: { class: 'input-lg js-select' }
     .row
       - if f.object.require_iban?
         .col-xs-12
-          = f.input :account_number, required: false, label: "IBAN", input_html: { class: 'input-lg' }, wrapper: :vertical_tight
+          = f.input :account_number, required: false, label: false, placeholder: 'IBAN', input_html: { class: 'input-lg' }, wrapper: :vertical_tight
       - else
         .col-xs-12.col-sm-6
-          = f.input :account_routing_number, required: false, label: "Routing Number", input_html: { class: 'input-lg' }, wrapper: :vertical_tight
+          = f.input :account_routing_number, required: false, label: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
         .col-xs-12.col-sm-6
-          = f.input :account_number, required: false, label: "Account Number", input_html: { class: 'input-lg' }, wrapper: :vertical_tight
+          = f.input :account_number, required: false, label: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
 
     h2.text-center.m-y-2 Billing Address
 
     .row
       .col-xs-12.col-sm-6
-        = f.input :address1, required: false, label: 'Street', input_html: { class: 'input-lg' }, wrapper: :vertical_tight
+        = f.input :address1, required: false, label: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
       .col-xs-12.col-sm-6
-        = f.input :zipcode, required: false, label: 'Post Code', input_html: { class: 'input-lg' }, wrapper: :vertical_tight
+        = f.input :zipcode, required: false, label: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
       .col-xs-12.col-sm-6
-        = f.input :city, required: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
+        = f.input :city, required: false, label: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
       - if f.object.required?(:state)
         .col-xs-12.col-sm-6
-          = f.input :state, required: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
+          = f.input :state, required: false, label: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
 
     h2.text-center.m-y-2 Personal Details
 
     .row
       .col-xs-12.col-sm-6
         .form-group
-          label.control-label First Name
           input.form-control.input-lg disabled=true value=f.object.first_name
       .col-xs-12.col-sm-6
         .form-group
-          label.control-label Last Name
           input.form-control.input-lg disabled=true value=f.object.last_name
 
     .row
@@ -77,38 +70,27 @@
           wrapper: :vertical_tight,
           required: false,
           as: :string,
-          label: 'Date of Birth',
+          label: false,
           input_html: { class: 'input-lg js-datepicker', data: { max: 18.years.ago.to_a[3..5].reverse, years: 80, months: true, value: (l(f.object.dob, format: :pickadate) if f.object.dob.present?) } }
       - if f.object.required?(:ssn_last_4)
         .col-xs-12.col-sm-6
-          = f.input :ssn_last_4, required: false, label: 'SSN Last 4 Digits', input_html: { class: 'input-lg', maxlength: 4 }, wrapper: :vertical_tight
+          = f.input :ssn_last_4, required: false, label: false, input_html: { class: 'input-lg', maxlength: 4 }, wrapper: :vertical_tight
 
       .col-xs-12.col-sm-6
-        = f.input :personal_id_number, required: false, label: 'Personal ID Number', input_html: { class: 'input-lg' }, wrapper: :vertical_tight
+        = f.input :personal_id_number, required: false, label: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
 
     - if f.object.required?(:personal_city)
       h2.text-center.m-y-2 Personal Address
 
       .row
         .col-xs-12.col-sm-6
-          = f.input :personal_address1, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
+          = f.input :personal_address1, label: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
         .col-xs-12.col-sm-6
-          = f.input :personal_zipcode, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
+          = f.input :personal_zipcode, label: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
 
       .row
         .col-xs-12.col-sm-6
-          = f.input :personal_city, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
-
-    .row
-      .col-xs-12
-        .form-group.stripe_account_accept_tos
-          span.checkbox
-            = f.check_box :accept_tos
-            = f.label :accept_tos, 'Do you accept the&nbsp;'.html_safe
-            a target="_blank" href="https://stripe.com/us/connect-account/legal" Stripe Account Agreement?
-
-    - if f.object.errors[:accept_tos].any?
-      .alert.alert-danger You have to accept Stripe's Account Agreement
+          = f.input :personal_city, label: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
 
   .text-center.m-t-3
     = link_to 'Cancel', specialists_settings_payment_path, remote: true, class: 'btn btn-primary btn-lg p-x-3 m-r-1'

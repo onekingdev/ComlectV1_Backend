@@ -29,12 +29,6 @@ en:
     # prompts:
     #   defaults:
     #     age: 'Select your age'
-    labels:
-      stripe_account:
-        additional_owners: Additional Owners
-        personal_address1: Street
-        personal_zipcode: Postal Code
-        personal_city: City
     hints:
       business:
         description: "Note: For confidentiality, please do NOT include your business name in the description if you do not want it visible to the public."
@@ -126,3 +120,18 @@ en:
         message: You can provide a short introductory message here.
       rating:
         review: "* Write a review"
+      stripe_account:
+        business_name: Business Name
+        business_tax_id: Business Tax ID
+        account_number: Account Number
+        account_routing_number: Routing Number
+        address1: Street
+        zipcode: Post Code
+        city: City
+        state: State
+        dob: Date of Birth
+        personal_id_number: Personal ID Number
+        ssn_last_4: SSN Last 4 Digits
+        personal_address1: Street
+        personal_zipcode: Post Code
+        personal_city: City
