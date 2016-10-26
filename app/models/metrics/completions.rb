@@ -34,7 +34,7 @@ module Metrics::Completions
         }]
       }],
       'Total' => [nil, nil, nil, {
-        'Number Posted' => [metric('completed_jobs'), metric('completed_projects')].transpose.map(&:sum),
+        'Number Completed' => [metric('completed_jobs'), metric('completed_projects')].transpose.map(&:sum),
         'Percent Projects' => metric('completed_projects_share', :percentage),
         'Percent Jobs' => metric('completed_jobs_share', :percentage)
       }],
