@@ -15,8 +15,8 @@ class Specialists::PaymentSettingsController < ApplicationController
   end
 
   def create
-    @account = StripeAccount::Form.for(current_specialist)
-    if @account.update_attributes account_attributes
+    @account = StripeAccount::Form.for(current_specialist, account_attributes)
+    if @account.save
       redirect_to specialists_settings_payment_path
     else
       render :new

@@ -39,6 +39,7 @@ class StripeAccount::Form < StripeAccount
         account.public_send("#{field}=", value) if account.public_send(field).blank?
       end
       account.attributes = attributes
+      account.state = 'Hong Kong' if account.country == 'HK'
     end
   end
 
