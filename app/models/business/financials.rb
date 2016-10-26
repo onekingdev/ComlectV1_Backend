@@ -25,7 +25,7 @@ class Business::Financials
   end
 
   def self.processed(business, params)
-    sort_direction = params[:sort_direction].to_s.casecmp('desc').zero? ? 'DESC' : 'ASC'
+    sort_direction = params[:sort_direction].to_s.casecmp('asc').zero? ? 'ASC' : 'DESC'
     business.charges
             .processed
             .joins(:specialist)
