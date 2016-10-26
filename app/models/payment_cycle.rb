@@ -58,8 +58,9 @@ class PaymentCycle
   end
 
   def outstanding_amount
+    return @_outstanding_amount if @_outstanding_amount
     amount = (estimated_total - project.charges.real.sum(:amount_in_cents) / 100.0)
-    amount < 0 ? 0 : amount
+    @_outstanding_amount = amount < 0 ? 0 : amount
   end
 
   def outstanding_occurrences

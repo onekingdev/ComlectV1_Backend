@@ -5,7 +5,7 @@ class Charge < ActiveRecord::Base
   has_one :specialist, through: :project
 
   scope :for_one_off_projects, -> { joins(:project).where(project: Project.one_off) }
-  scope :real, -> { where(status: [Charge.statuses[:scheduled], Charge.statuses[:processed]]) }
+  scope :real, -> { where(status: [Charge.statuses[:scheduled], Charge.statuses[:processed], Charge.statuses[:error]]) }
   scope :upcoming, -> { where(status: [Charge.statuses[:estimated], Charge.statuses[:scheduled]]) }
   scope :after, -> (date) { where('date >= ?', date) }
   scope :for_processing, -> { where('process_after <= ?', Time.zone.now) }
