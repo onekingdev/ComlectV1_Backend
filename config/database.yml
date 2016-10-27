@@ -1,7 +1,7 @@
 default: &default
   url: <%= ENV.fetch('DATABASE_URL') %>
   encoding: unicode
-  pool: 5
+  pool: <%= ENV['DATABASE_POOL'].presence || 5 %>
 
 development:
   <<: *default
