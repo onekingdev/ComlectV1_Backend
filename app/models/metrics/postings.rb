@@ -3,6 +3,7 @@ module Metrics::Postings
   # rubocop:disable Metrics/MethodLength
   # rubocop:disable Metrics/AbcSize
   def postings
+    return {} if invalid?
     @metrics = {
       'Projects' => [nil, nil, nil, {
         'Number Posted' => metric('projects_posted'),

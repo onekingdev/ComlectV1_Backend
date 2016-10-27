@@ -5,6 +5,7 @@ class Metrics::Activity < Metrics
   end
 
   def activity
+    return {} if invalid?
     @metrics = {
       'Under 30 days since last activity' => [*metric('recent_activity'), {
         'Businesses' => metric('recent_activity_businesses'),

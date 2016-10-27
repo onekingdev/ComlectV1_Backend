@@ -3,6 +3,7 @@ module Metrics::Completions
   # rubocop:disable Metrics/MethodLength
   # rubocop:disable Metrics/AbcSize
   def completions
+    return {} if invalid?
     @metrics = {
       'Projects' => [nil, nil, nil, {
         'Number Completed' => metric('completed_projects'),

@@ -2,6 +2,7 @@
 module Metrics::Misc
   # rubocop:disable Metrics/MethodLength
   def misc
+    return {} if invalid?
     @metrics = {
       'Average Time to Getting Staffed' => [*metric('avg_staffing_time', :days), {
         'Projects' => metric('avg_project_staffing_time', :days),

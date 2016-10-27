@@ -9,7 +9,15 @@ class Metrics
   attr_reader :metrics
 
   def initialize
-    @db_view = ActiveRecord::Base.connection.execute('SELECT * FROM metrics').to_a
+    @db_view = begin
+                 ActiveRecord::Base.connection.execute('SELECT * FROM metrics').to_a
+               rescue
+                 nil
+               end
+  end
+
+  def invalid?
+    @db_view.nil?
   end
 
   def to_csv
