@@ -30,17 +30,20 @@ class Charge::Processing
 
   def create_business_transaction(amount_in_cents)
     # Don't overcharge for full-time roles since the amount is already the fee
-    fee_multiplier = project.full_time? ? 1.0 : 1.15
+    fee_multiplier = project.full_time? ? 1.0 : 1.10
     Transaction::BusinessCharge.create!(
       project_id: project.id,
-      # 15 percent service fee (BigDecimal to avoid floating point issues)
-      amount_in_cents: BigDecimal.new(amount_in_cents) * fee_multiplier
+      # 10 percent service fee (BigDecimal to avoid floating point issues)
+      amount_in_cents: BigDecimal.new(amount_in_cents) * fee_multiplier,
+      fee_in_cents: BigDecimal.new(amount_in_cents) * (fee_multiplier - 1)
     )
   end
 
   def create_specialist_payment(parent_transaction, amount_in_cents)
+    fee_in_cents = amount_in_cents * 0.10
     Transaction::SpecialistPayment.create!(
-      amount_in_cents: amount_in_cents,
+      amount_in_cents: amount_in_cents - fee_in_cents,
+      fee_in_cents: fee_in_cents,
       parent_transaction: parent_transaction
     )
   end
