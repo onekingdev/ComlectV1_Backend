@@ -21,7 +21,7 @@ class JobApplication::Accept < Draper::Decorator
 
   def schedule_one_off_fees
     return unless project.one_off?
-    ScheduleChargesJob.enqueue project.id
+    ScheduleChargesJob.perform_later project.id
   end
 
   def schedule_full_time_fees
