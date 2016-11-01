@@ -74,11 +74,11 @@
                 = f.input :text, as: :text, label: false, input_html: {class: 'di-b', rows: 2, placeholder: 'Enter question here'}
                 = f.submit 'Ask Question', class: 'btn btn-primary btn-md p-x-3', data: {disable_with: 'Sending...'}
 
-            - project.questions.each do |question|
+            - project.questions.order('id DESC').each do |question|
               .question-and-answer
                 .question-text
                   span.q-or-a Q&nbsp;
-                  = question.text
+                  = simple_format(question.text)
                   .question-or-answer-timestamp
                     span= question.created_at.in_time_zone(current_business_or_specialist.tz).strftime("%b %d, %Y at %I:%M %P")
                     span &nbsp;
@@ -96,7 +96,7 @@
                 - if question.answer.present?
                   .answer-text
                     span.q-or-a A&nbsp;
-                    = question.answer.text
+                    = simple_format(question.answer.text)
                     .question-or-answer-timestamp
                       span= question.answer.created_at.in_time_zone(current_business_or_specialist.tz).strftime("%b %d, %Y at %I:%M %P")
                       span &nbsp;

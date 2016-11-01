@@ -13,7 +13,8 @@ $(document).on 'change', '#project_location_type', (e) ->
 $(document).on 'click', '.flag-link', (e) ->
   e.preventDefault()
   $this = $(this)
-  $('.flag-form[data-content="' + $(this).data('content') + '"]').toggle()
+  content = $('.flag-form[data-content="' + $(this).data('content') + '"]').html()
+  _Modal.showPlain(content)
 
 do ->
   one_day = 86400000

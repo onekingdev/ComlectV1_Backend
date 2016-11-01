@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 Sidekiq.default_worker_options = {
-  unique: :until_executed,
+  unique: :until_and_while_executing,
   unique_args: -> (args) { args.first.except('job_id') }
 }
 

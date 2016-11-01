@@ -107,6 +107,26 @@ form.project_form {
 }
 
 body.projects.show {
+  #new_flag {
+    .aligned-center {
+      margin: 0 auto;
+      width: 100%;
+      text-align: center;
+    }
+
+    .btn-group {
+      width: 100%;
+
+      .p-x-3:first-of-type {
+        width: 35%;
+      }
+
+      .p-x-3:last-of-type {
+        width: 30%;
+      }
+    }
+  }
+
   @media (max-width: $screen-sm-max) {
     .table {
       margin-bottom: 0;
