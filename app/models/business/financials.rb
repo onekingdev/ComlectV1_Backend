@@ -34,19 +34,19 @@ class Business::Financials
   end
 
   def processed_this_month
-    @this_month ||= processed_charges.after(Time.zone.now.beginning_of_month).sum(:amount_in_cents) / 100.0
+    @this_month ||= processed_charges.after(Time.zone.now.beginning_of_month).sum(:total_with_fee_in_cents) / 100.0
   end
 
   def upcoming_30_days
-    @next_30_days ||= upcoming_charges.where('date <= ?', 30.days.from_now).sum(:amount_in_cents) / 100.0
+    @next_30_days ||= upcoming_charges.where('date <= ?', 30.days.from_now).sum(:total_with_fee_in_cents) / 100.0
   end
 
   def processed_ytd
-    @ytd ||= processed_charges.after(Time.zone.now.beginning_of_year).sum(:amount_in_cents) / 100.0
+    @ytd ||= processed_charges.after(Time.zone.now.beginning_of_year).sum(:total_with_fee_in_cents) / 100.0
   end
 
   def processed_total
-    @total ||= processed_charges.sum(:amount_in_cents) / 100.0
+    @total ||= processed_charges.sum(:total_with_fee_in_cents) / 100.0
   end
 
   private

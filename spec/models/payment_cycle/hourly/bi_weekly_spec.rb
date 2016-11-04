@@ -13,10 +13,16 @@ RSpec.describe PaymentCycle::Hourly::BiWeekly, type: :model do
                         starts_on: Date.new(2016, 1, 1),
                         ends_on: Date.new(2016, 3, 26)
       @job_application = create :job_application, project: @project, specialist: @specialist
+      Timecop.freeze Date.new(2016, 1, 1)
+    end
+
+    after do
+      Timecop.return
     end
 
     it 'creates estimated charges every other week' do
       JobApplication::Accept.(@job_application)
+      PaymentCycle.for(@project).reschedule!
       expect(@project.charges.estimated.count).to eq(6)
       dates = [
         @project.business.tz.local(2016, 1, 18, 0, 1), # Not the 15th since that's a friday so we charge on monday
@@ -52,6 +58,7 @@ RSpec.describe PaymentCycle::Hourly::BiWeekly, type: :model do
 
       it 'creates remaining estimated charges' do
         expect(@project.charges.estimated.count).to eq(5)
+        PaymentCycle.for(@project).reschedule!
         # $5000 total - $500 paid = $4500, $4500 / 5 remaining payments = $900
         expect(@project.charges.estimated.map(&:amount).uniq).to eq([900])
         dates = [

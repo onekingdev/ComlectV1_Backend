@@ -18,6 +18,7 @@ RSpec.describe PaymentCycle::Fixed::BiWeekly, type: :model do
 
     it 'creates estimated charges every other week' do
       JobApplication::Accept.(@job_application)
+      PaymentCycle.for(@project).reschedule!
       expect(@project.charges.estimated.count).to eq(6)
       expected_dates = [
         @project.business.tz.local(2016, 1, 18, 0, 1), # Not the 15th since that's a friday so we charge on monday

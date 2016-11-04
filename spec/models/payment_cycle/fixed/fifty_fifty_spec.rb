@@ -18,6 +18,7 @@ RSpec.describe PaymentCycle::Fixed::FiftyFifty, type: :model do
 
     it 'creates first charge and last estimate' do
       JobApplication::Accept.(@job_application)
+      PaymentCycle.for(@project).reschedule!
       expect(@project.charges.estimated.count).to eq(1)
       dates = [
         @project.business.tz.local(2016, 1, 4, 0, 1),  # Not the 1st since that's a friday so we charge on monday

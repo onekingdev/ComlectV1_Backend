@@ -13,10 +13,16 @@ RSpec.describe PaymentCycle::Hourly::UponCompletion, type: :model do
                         starts_on: Date.new(2016, 1, 1),
                         ends_on: Date.new(2016, 6, 18)
       @job_application = create :job_application, project: @project, specialist: @specialist
+      Timecop.freeze Date.new(2016, 1, 1)
+    end
+
+    after do
+      Timecop.return
     end
 
     it 'creates a single estimated charge at end of project' do
       JobApplication::Accept.(@job_application)
+      PaymentCycle.for(@project).reschedule!
       expect(@project.charges.estimated.count).to eq(1)
       charge = @project.charges.estimated.first
       process_after = charge.process_after.in_time_zone(@project.business.tz)

@@ -18,6 +18,7 @@ RSpec.describe PaymentCycle::Fixed::Monthly, type: :model do
 
     it 'creates estimated charges every month' do
       JobApplication::Accept.(@job_application)
+      PaymentCycle.for(@project).reschedule!
       expect(@project.charges.estimated.count).to eq(6)
       dates = []
       amounts = []
@@ -57,6 +58,7 @@ RSpec.describe PaymentCycle::Fixed::Monthly, type: :model do
       end
 
       it 'creates remaining estimated charges' do
+        PaymentCycle.for(@project).reschedule!
         expect(@project.charges.estimated.count).to eq(5)
         expected_amounts = [17_159.76, 18_343.19, 17_751.48, 10_059.18]
         expect(@project.charges.estimated.map(&:amount).uniq).to eq(expected_amounts)

@@ -33,26 +33,34 @@ class PaymentCycle
   def reschedule!
     project.charges.estimated.delete_all
     remaining_dates = outstanding_occurrences
+    balance = outstanding_amount
     remaining_dates.each do |date|
-      create_estimated_charge! amount: amount_for(date, remaining_dates: remaining_dates), date: date
+      amount = amount_for(date, remaining_dates: remaining_dates)
+      balance -= amount
+      create_estimated_charge! amount: amount,
+                               balance: balance,
+                               date: date
     end
   end
 
-  def amount_for(_date = nil, remaining_dates: [])
-    outstanding_amount / remaining_dates.size if remaining_dates.any?
+  def amount_for(date = nil, remaining_dates: [])
+    outstanding_amount / (remaining_dates.presence || [date].compact.presence).size if remaining_dates.any? || date
   end
 
   def schedule_charge!(amount:, date:, description:)
+    balance = outstanding_amount - project.charges.processed.before(date).sum(:total_with_fee_in_cents)
     project.charges.create! amount_in_cents: amount * 100,
+                            running_balance_in_cents: balance * 100,
                             date: date,
                             process_after: calculate_process_at_date(date),
                             status: Charge.statuses[:scheduled],
                             description: description
   end
 
-  def create_estimated_charge!(amount:, date:)
+  def create_estimated_charge!(amount:, date:, balance:)
     project.charges.create! status: Charge.statuses[:estimated],
                             amount_in_cents: amount * 100,
+                            running_balance_in_cents: balance * 100,
                             date: date,
                             process_after: calculate_process_at_date(date)
   end

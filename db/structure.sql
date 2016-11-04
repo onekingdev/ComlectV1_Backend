@@ -241,7 +241,11 @@ CREATE TABLE charges (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     date timestamp without time zone NOT NULL,
-    transaction_id integer
+    transaction_id integer,
+    fee_in_cents integer,
+    total_with_fee_in_cents integer,
+    running_balance_in_cents integer,
+    specialist_amount_in_cents integer DEFAULT 0 NOT NULL
 );
 
 
@@ -4126,4 +4130,8 @@ INSERT INTO schema_migrations (version) VALUES ('20161021014432');
 INSERT INTO schema_migrations (version) VALUES ('20161026162641');
 
 INSERT INTO schema_migrations (version) VALUES ('20161026171857');
+
+INSERT INTO schema_migrations (version) VALUES ('20161027163457');
+
+INSERT INTO schema_migrations (version) VALUES ('20161104010221');
 

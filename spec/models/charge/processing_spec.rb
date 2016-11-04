@@ -36,15 +36,15 @@ RSpec.describe Charge::Processing, type: :model do
     it 'creates transactions per project with total amount' do
       transaction_1 = project_1.transactions.first
       transaction_2 = project_2.transactions.first
-      expect(transaction_1.amount_in_cents).to eq(BigDecimal.new(50_000) * 1.15)
-      expect(transaction_2.amount_in_cents).to eq(BigDecimal.new(25_000) * 1.15)
+      expect(transaction_1.amount_in_cents).to eq(BigDecimal.new(50_000) * (1 + Charge::COMPLECT_FEE_PCT))
+      expect(transaction_2.amount_in_cents).to eq(BigDecimal.new(25_000) * (1 + Charge::COMPLECT_FEE_PCT))
     end
 
     it 'creates associated specialist payment transactions' do
       transaction_1 = project_1.transactions.first.specialist_payment
       transaction_2 = project_2.transactions.first.specialist_payment
-      expect(transaction_1.amount_in_cents).to eq(BigDecimal.new(50_000))
-      expect(transaction_2.amount_in_cents).to eq(BigDecimal.new(25_000))
+      expect(transaction_1.amount_in_cents).to eq(BigDecimal.new(45_000))
+      expect(transaction_2.amount_in_cents).to eq(BigDecimal.new(22_500))
     end
   end
 

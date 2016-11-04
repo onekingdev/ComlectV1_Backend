@@ -13,8 +13,8 @@ table.table.table-striped
         td= payment.date.strftime('%b %d, %Y')
         td= payment.project
         td= payment.project.business
-        td.text-right= number_to_currency payment.amount
-        td.text-right= number_to_currency PaymentCycle.for(payment.project).outstanding_amount
+        td.text-right= number_to_currency payment.specialist_payment
+        td.text-right= number_to_currency payment.specialist_running_balance
 
 .small.text-muted Note: Upcoming payments and outstanding balances are representative of estimated hours and rates. Actual payments may differ.
 

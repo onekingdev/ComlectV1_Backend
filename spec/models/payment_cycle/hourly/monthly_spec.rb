@@ -24,6 +24,7 @@ RSpec.describe PaymentCycle::Hourly::Monthly, type: :model do
 
     it 'creates estimated charges every month' do
       JobApplication::Accept.(@job_application)
+      PaymentCycle.for(@project).reschedule!
       expect(@project.charges.estimated.count).to eq(5)
       dates = @project.charges.estimated.pluck(:process_after).sort.map do |date|
         date.in_time_zone(@project.business.tz)
@@ -41,6 +42,7 @@ RSpec.describe PaymentCycle::Hourly::Monthly, type: :model do
 
     it 'removes past estimates' do
       JobApplication::Accept.(@job_application)
+      PaymentCycle.for(@project).reschedule!
       first_charge = @project.charges.estimated.first
       Timecop.freeze(first_charge.process_after + 2.days) do
         PaymentCycle.for(@project).create_charges_and_reschedule!
@@ -76,6 +78,7 @@ RSpec.describe PaymentCycle::Hourly::Monthly, type: :model do
 
       it 'creates remaining estimated charges' do
         expect(@project.charges.estimated.count).to eq(4)
+        PaymentCycle.for(@project).reschedule!
         # $5000 total - $500 paid = $4500, $4500 / 4 remaining payments = $1,125
         expect(@project.charges.estimated.map(&:amount).uniq).to eq([1125])
         dates = [
