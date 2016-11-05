@@ -24,6 +24,20 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
 --
+-- Name: pg_stat_statements; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS pg_stat_statements WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION pg_stat_statements; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION pg_stat_statements IS 'track execution statistics of all SQL statements executed';
+
+
+--
 -- Name: postgis; Type: EXTENSION; Schema: -; Owner: -
 --
 
@@ -73,6 +87,44 @@ CREATE FUNCTION set_point_from_lat_lng() RETURNS trigger
         RETURN NEW;
       END;
       $$;
+
+
+--
+-- Name: truncate_tables(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION truncate_tables() RETURNS void
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+    statements CURSOR FOR
+    SELECT tablename FROM pg_tables
+    WHERE schemaname = 'public';
+BEGIN
+  FOR stmt IN statements LOOP
+    EXECUTE 'DELETE FROM ' || quote_ident(stmt.tablename) || ' CASCADE;';
+  END LOOP;
+END;
+$$;
+
+
+--
+-- Name: truncate_tables(character varying); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION truncate_tables(username character varying) RETURNS void
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+    statements CURSOR FOR
+    SELECT tablename FROM pg_tables
+    WHERE schemaname = 'public';
+BEGIN
+  FOR stmt IN statements LOOP
+    EXECUTE 'DELETE FROM ' || quote_ident(stmt.tablename) || ' CASCADE;';
+  END LOOP;
+END;
+$$;
 
 
 SET default_tablespace = '';
@@ -754,15 +806,15 @@ CREATE TABLE projects (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     tsv tsvector,
+    calculated_budget numeric,
     lat numeric(9,5),
     lng numeric(9,5),
     point geography,
-    calculated_budget numeric,
     specialist_id integer,
     job_applications_count integer DEFAULT 0 NOT NULL,
+    published_at timestamp without time zone,
     completed_at timestamp without time zone,
     hired_at timestamp without time zone,
-    published_at timestamp without time zone,
     extended_at timestamp without time zone
 );
 
@@ -1015,11 +1067,17 @@ CREATE VIEW metrics_jobs_share AS
           WHERE ((projects.type)::text = 'full_time'::text)
         )
  SELECT 'jobs_share'::character varying AS metric,
-    (((mtd.cnt)::double precision / (total.cnt)::double precision) * (100)::double precision) AS mtd,
-    (((fytd.cnt)::double precision / (total.cnt)::double precision) * (100)::double precision) AS fytd,
-    (((itd.cnt)::double precision / (total.cnt)::double precision) * (100)::double precision) AS itd
+    (((mtd.cnt)::double precision / (total_mtd.cnt)::double precision) * (100)::double precision) AS mtd,
+    (((fytd.cnt)::double precision / (total_fytd.cnt)::double precision) * (100)::double precision) AS fytd,
+    (((itd.cnt)::double precision / (total_itd.cnt)::double precision) * (100)::double precision) AS itd
    FROM ( SELECT count(*) AS cnt
-           FROM projects) total,
+           FROM projects
+          WHERE (projects.created_at >= date_trunc('month'::text, now()))) total_mtd,
+    ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE (projects.created_at >= date_trunc('year'::text, now()))) total_fytd,
+    ( SELECT count(*) AS cnt
+           FROM projects) total_itd,
     ( SELECT count(*) AS cnt
            FROM base
           WHERE (base.created_at >= date_trunc('month'::text, now()))) mtd,
@@ -1401,12 +1459,18 @@ CREATE VIEW metrics_projects_fixed_share AS
           WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text))
         )
  SELECT 'projects_fixed_share'::character varying AS metric,
-    (((mtd.cnt)::double precision / (total.cnt)::double precision) * (100)::double precision) AS mtd,
-    (((fytd.cnt)::double precision / (total.cnt)::double precision) * (100)::double precision) AS fytd,
-    (((itd.cnt)::double precision / (total.cnt)::double precision) * (100)::double precision) AS itd
+    (((mtd.cnt)::double precision / (total_mtd.cnt)::double precision) * (100)::double precision) AS mtd,
+    (((fytd.cnt)::double precision / (total_fytd.cnt)::double precision) * (100)::double precision) AS fytd,
+    (((itd.cnt)::double precision / (total_itd.cnt)::double precision) * (100)::double precision) AS itd
    FROM ( SELECT count(*) AS cnt
            FROM projects
-          WHERE ((projects.type)::text = 'one_off'::text)) total,
+          WHERE (((projects.type)::text = 'one_off'::text) AND (projects.created_at >= date_trunc('month'::text, now())))) total_mtd,
+    ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE (((projects.type)::text = 'one_off'::text) AND (projects.created_at >= date_trunc('year'::text, now())))) total_fytd,
+    ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE ((projects.type)::text = 'one_off'::text)) total_itd,
     ( SELECT count(*) AS cnt
            FROM base
           WHERE (base.created_at >= date_trunc('month'::text, now()))) mtd,
@@ -1512,12 +1576,18 @@ CREATE VIEW metrics_projects_hourly_share AS
           WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text))
         )
  SELECT 'projects_hourly_share'::character varying AS metric,
-    (((mtd.cnt)::double precision / (total.cnt)::double precision) * (100)::double precision) AS mtd,
-    (((fytd.cnt)::double precision / (total.cnt)::double precision) * (100)::double precision) AS fytd,
-    (((itd.cnt)::double precision / (total.cnt)::double precision) * (100)::double precision) AS itd
+    (((mtd.cnt)::double precision / (total_mtd.cnt)::double precision) * (100)::double precision) AS mtd,
+    (((fytd.cnt)::double precision / (total_fytd.cnt)::double precision) * (100)::double precision) AS fytd,
+    (((itd.cnt)::double precision / (total_itd.cnt)::double precision) * (100)::double precision) AS itd
    FROM ( SELECT count(*) AS cnt
            FROM projects
-          WHERE ((projects.type)::text = 'one_off'::text)) total,
+          WHERE (((projects.type)::text = 'one_off'::text) AND (projects.created_at >= date_trunc('month'::text, now())))) total_mtd,
+    ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE (((projects.type)::text = 'one_off'::text) AND (projects.created_at >= date_trunc('year'::text, now())))) total_fytd,
+    ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE ((projects.type)::text = 'one_off'::text)) total_itd,
     ( SELECT count(*) AS cnt
            FROM base
           WHERE (base.created_at >= date_trunc('month'::text, now()))) mtd,
@@ -1581,11 +1651,17 @@ CREATE VIEW metrics_projects_share AS
           WHERE ((projects.type)::text = 'one_off'::text)
         )
  SELECT 'projects_share'::character varying AS metric,
-    (((mtd.cnt)::double precision / (total.cnt)::double precision) * (100)::double precision) AS mtd,
-    (((fytd.cnt)::double precision / (total.cnt)::double precision) * (100)::double precision) AS fytd,
-    (((itd.cnt)::double precision / (total.cnt)::double precision) * (100)::double precision) AS itd
+    (((mtd.cnt)::double precision / (total_mtd.cnt)::double precision) * (100)::double precision) AS mtd,
+    (((fytd.cnt)::double precision / (total_fytd.cnt)::double precision) * (100)::double precision) AS fytd,
+    (((itd.cnt)::double precision / (total_itd.cnt)::double precision) * (100)::double precision) AS itd
    FROM ( SELECT count(*) AS cnt
-           FROM projects) total,
+           FROM projects
+          WHERE (projects.created_at >= date_trunc('month'::text, now()))) total_mtd,
+    ( SELECT count(*) AS cnt
+           FROM projects
+          WHERE (projects.created_at >= date_trunc('year'::text, now()))) total_fytd,
+    ( SELECT count(*) AS cnt
+           FROM projects) total_itd,
     ( SELECT count(*) AS cnt
            FROM base
           WHERE (base.created_at >= date_trunc('month'::text, now()))) mtd,
@@ -4134,4 +4210,6 @@ INSERT INTO schema_migrations (version) VALUES ('20161026171857');
 INSERT INTO schema_migrations (version) VALUES ('20161027163457');
 
 INSERT INTO schema_migrations (version) VALUES ('20161104010221');
+
+INSERT INTO schema_migrations (version) VALUES ('20161105034339');
 
