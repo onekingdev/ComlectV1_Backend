@@ -42,8 +42,8 @@ class JobApplication::Accept < Draper::Decorator
   private
 
   def schedule_upfront_fee
-    project.charges.create! amount_in_cents: project.annual_salary * 15, # 15% in cents
-                            fee_in_cents: 0,
+    project.charges.create! amount_in_cents: 0,
+                            fee_in_cents: project.annual_salary * 15, # 15% in cents,
                             date: project.starts_on,
                             process_after: project.starts_on,
                             status: Charge.statuses[:scheduled],
@@ -55,8 +55,8 @@ class JobApplication::Accept < Draper::Decorator
       Charge.create! project: project,
                      date: project.starts_on + i.months,
                      process_after: project.starts_on + i.months,
-                     amount_in_cents: project.annual_salary * 3, # 3%, 0.03 = 3 in cents
-                     fee_in_cents: 0,
+                     amount_in_cents: 0,
+                     fee_in_cents: project.annual_salary * 3, # 3%, 0.03 = 3 in cents,
                      description: "Monthly fee for job hire (#{i + 1} of 6)"
     end
   end
