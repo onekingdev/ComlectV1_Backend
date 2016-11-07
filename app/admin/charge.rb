@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 ActiveAdmin.register Charge do
-  menu parent: 'Financials'
+  menu parent: 'Payments'
 
   actions :all, except: %i(new create)
 

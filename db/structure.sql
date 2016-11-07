@@ -456,6 +456,432 @@ ALTER SEQUENCE favorites_id_seq OWNED BY favorites.id;
 
 
 --
+-- Name: projects; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE projects (
+    id integer NOT NULL,
+    business_id integer NOT NULL,
+    type character varying DEFAULT 'one_off'::character varying NOT NULL,
+    status character varying DEFAULT 'draft'::character varying NOT NULL,
+    title character varying NOT NULL,
+    location_type character varying,
+    location character varying,
+    description character varying NOT NULL,
+    key_deliverables character varying,
+    starts_on date NOT NULL,
+    ends_on date,
+    pricing_type character varying DEFAULT 'hourly'::character varying,
+    payment_schedule character varying,
+    fixed_budget numeric,
+    hourly_rate numeric,
+    estimated_hours integer,
+    minimum_experience character varying,
+    only_regulators boolean,
+    annual_salary integer,
+    fee_type character varying DEFAULT 'upfront_fee'::character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    tsv tsvector,
+    calculated_budget numeric,
+    lat numeric(9,5),
+    lng numeric(9,5),
+    point geography,
+    specialist_id integer,
+    job_applications_count integer DEFAULT 0 NOT NULL,
+    published_at timestamp without time zone,
+    completed_at timestamp without time zone,
+    hired_at timestamp without time zone,
+    extended_at timestamp without time zone
+);
+
+
+--
+-- Name: financials_actual; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW financials_actual AS
+ WITH completed AS (
+         SELECT projects.completed_at
+           FROM projects
+          WHERE (projects.completed_at IS NOT NULL)
+        ), all_value AS (
+         SELECT projects.completed_at,
+            projects.type,
+            charges.project_id,
+            ((charges.amount_in_cents)::numeric / 100.0) AS value,
+            ((charges.fee_in_cents)::numeric / 100.0) AS revenue,
+            ((charges.total_with_fee_in_cents)::numeric / 100.0) AS total
+           FROM (charges
+             JOIN projects ON ((projects.id = charges.project_id)))
+        ), job_revenue AS (
+         SELECT all_value.project_id,
+            all_value.completed_at,
+            all_value.revenue
+           FROM all_value
+          WHERE ((all_value.type)::text = 'full_time'::text)
+        ), project_revenue AS (
+         SELECT all_value.completed_at,
+            all_value.type,
+            all_value.project_id,
+            all_value.value,
+            all_value.revenue,
+            all_value.total
+           FROM all_value
+          WHERE ((all_value.type)::text = 'one_off'::text)
+        )
+ SELECT 'actual_completed'::character varying AS metric,
+    ( SELECT count(*) AS count
+           FROM completed
+          WHERE (completed.completed_at >= date_trunc('month'::text, now()))) AS mtd,
+    ( SELECT count(*) AS count
+           FROM completed
+          WHERE (completed.completed_at >= date_trunc('year'::text, now()))) AS fytd,
+    ( SELECT count(*) AS count
+           FROM completed) AS itd
+UNION
+ SELECT 'actual_value'::character varying AS metric,
+    ( SELECT sum(all_value.total) AS sum
+           FROM all_value
+          WHERE (all_value.completed_at >= date_trunc('month'::text, now()))) AS mtd,
+    ( SELECT sum(all_value.total) AS sum
+           FROM all_value
+          WHERE (all_value.completed_at >= date_trunc('year'::text, now()))) AS fytd,
+    ( SELECT sum(all_value.total) AS sum
+           FROM all_value) AS itd
+UNION
+ SELECT 'actual_revenue'::character varying AS metric,
+    ( SELECT sum(all_value.revenue) AS sum
+           FROM all_value
+          WHERE (all_value.completed_at >= date_trunc('month'::text, now()))) AS mtd,
+    ( SELECT sum(all_value.revenue) AS sum
+           FROM all_value
+          WHERE (all_value.completed_at >= date_trunc('year'::text, now()))) AS fytd,
+    ( SELECT sum(all_value.revenue) AS sum
+           FROM all_value) AS itd
+UNION
+ SELECT 'actual_revenue_per_job'::character varying AS metric,
+    ( SELECT avg(rev.revenue) AS avg
+           FROM ( SELECT avg(job_revenue.revenue) AS revenue
+                   FROM job_revenue
+                  WHERE (job_revenue.completed_at >= date_trunc('month'::text, now()))
+                  GROUP BY job_revenue.project_id) rev) AS mtd,
+    ( SELECT avg(rev.revenue) AS avg
+           FROM ( SELECT avg(job_revenue.revenue) AS revenue
+                   FROM job_revenue
+                  WHERE (job_revenue.completed_at >= date_trunc('year'::text, now()))
+                  GROUP BY job_revenue.project_id) rev) AS fytd,
+    ( SELECT avg(rev.revenue) AS avg
+           FROM ( SELECT avg(job_revenue.revenue) AS revenue
+                   FROM job_revenue
+                  GROUP BY job_revenue.project_id) rev) AS itd
+UNION
+ SELECT 'actual_revenue_per_project'::character varying AS metric,
+    ( SELECT avg(rev.revenue) AS avg
+           FROM ( SELECT avg(project_revenue.revenue) AS revenue
+                   FROM project_revenue
+                  WHERE (project_revenue.completed_at >= date_trunc('month'::text, now()))
+                  GROUP BY project_revenue.project_id) rev) AS mtd,
+    ( SELECT avg(rev.revenue) AS avg
+           FROM ( SELECT avg(project_revenue.revenue) AS revenue
+                   FROM project_revenue
+                  WHERE (project_revenue.completed_at >= date_trunc('year'::text, now()))
+                  GROUP BY project_revenue.project_id) rev) AS fytd,
+    ( SELECT avg(rev.revenue) AS avg
+           FROM ( SELECT avg(project_revenue.revenue) AS revenue
+                   FROM project_revenue
+                  GROUP BY project_revenue.project_id) rev) AS itd
+UNION
+ SELECT 'actual_job_share'::character varying AS metric,
+    (((mtd.revenue)::double precision / (t_mtd.revenue)::double precision) * (100)::double precision) AS mtd,
+    (((fytd.revenue)::double precision / (t_fytd.revenue)::double precision) * (100)::double precision) AS fytd,
+    (((itd.revenue)::double precision / (t_itd.revenue)::double precision) * (100)::double precision) AS itd
+   FROM ( SELECT sum(all_value.revenue) AS revenue
+           FROM all_value
+          WHERE (((all_value.type)::text = 'full_time'::text) AND (all_value.completed_at >= date_trunc('month'::text, now())))) mtd,
+    ( SELECT sum(all_value.revenue) AS revenue
+           FROM all_value
+          WHERE (((all_value.type)::text = 'full_time'::text) AND (all_value.completed_at >= date_trunc('year'::text, now())))) fytd,
+    ( SELECT sum(all_value.revenue) AS revenue
+           FROM all_value
+          WHERE ((all_value.type)::text = 'full_time'::text)) itd,
+    ( SELECT sum(all_value.revenue) AS revenue
+           FROM all_value
+          WHERE (all_value.completed_at >= date_trunc('month'::text, now()))) t_mtd,
+    ( SELECT sum(all_value.revenue) AS revenue
+           FROM all_value
+          WHERE (all_value.completed_at >= date_trunc('year'::text, now()))) t_fytd,
+    ( SELECT sum(all_value.revenue) AS revenue
+           FROM all_value) t_itd
+UNION
+ SELECT 'actual_project_share'::character varying AS metric,
+    (((mtd.revenue)::double precision / (t_mtd.revenue)::double precision) * (100)::double precision) AS mtd,
+    (((fytd.revenue)::double precision / (t_fytd.revenue)::double precision) * (100)::double precision) AS fytd,
+    (((itd.revenue)::double precision / (t_itd.revenue)::double precision) * (100)::double precision) AS itd
+   FROM ( SELECT sum(all_value.revenue) AS revenue
+           FROM all_value
+          WHERE (((all_value.type)::text = 'one_off'::text) AND (all_value.completed_at >= date_trunc('month'::text, now())))) mtd,
+    ( SELECT sum(all_value.revenue) AS revenue
+           FROM all_value
+          WHERE (((all_value.type)::text = 'one_off'::text) AND (all_value.completed_at >= date_trunc('year'::text, now())))) fytd,
+    ( SELECT sum(all_value.revenue) AS revenue
+           FROM all_value
+          WHERE ((all_value.type)::text = 'one_off'::text)) itd,
+    ( SELECT sum(all_value.revenue) AS revenue
+           FROM all_value
+          WHERE (all_value.completed_at >= date_trunc('month'::text, now()))) t_mtd,
+    ( SELECT sum(all_value.revenue) AS revenue
+           FROM all_value
+          WHERE (all_value.completed_at >= date_trunc('year'::text, now()))) t_fytd,
+    ( SELECT sum(all_value.revenue) AS revenue
+           FROM all_value) t_itd;
+
+
+--
+-- Name: financials_forecasted; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW financials_forecasted AS
+ WITH active AS (
+         SELECT projects.created_at
+           FROM projects
+          WHERE ((projects.status)::text = 'published'::text)
+        ), all_value AS (
+         SELECT projects.created_at,
+            projects.type,
+            charges.project_id,
+            ((charges.amount_in_cents)::double precision / (100)::double precision) AS value,
+            ((charges.fee_in_cents)::double precision / (100)::double precision) AS revenue
+           FROM (charges
+             JOIN projects ON ((projects.id = charges.project_id)))
+          WHERE ((charges.status)::text = 'estimated'::text)
+        ), job_revenue AS (
+         SELECT all_value.project_id,
+            all_value.created_at,
+            all_value.revenue
+           FROM all_value
+          WHERE ((all_value.type)::text = 'full_time'::text)
+        ), project_revenue AS (
+         SELECT all_value.created_at,
+            all_value.type,
+            all_value.project_id,
+            all_value.value,
+            all_value.revenue
+           FROM all_value
+          WHERE ((all_value.type)::text = 'one_off'::text)
+        )
+ SELECT 'forecasted_completed'::character varying AS metric,
+    ( SELECT count(*) AS count
+           FROM active
+          WHERE (active.created_at >= date_trunc('month'::text, now()))) AS mtd,
+    ( SELECT count(*) AS count
+           FROM active
+          WHERE (active.created_at >= date_trunc('year'::text, now()))) AS fytd,
+    ( SELECT count(*) AS count
+           FROM active) AS itd
+UNION
+ SELECT 'forecasted_value'::character varying AS metric,
+    ( SELECT sum(all_value.value) AS sum
+           FROM all_value
+          WHERE (all_value.created_at >= date_trunc('month'::text, now()))) AS mtd,
+    ( SELECT sum(all_value.value) AS sum
+           FROM all_value
+          WHERE (all_value.created_at >= date_trunc('year'::text, now()))) AS fytd,
+    ( SELECT sum(all_value.value) AS sum
+           FROM all_value) AS itd
+UNION
+ SELECT 'forecasted_revenue'::character varying AS metric,
+    ( SELECT sum(all_value.revenue) AS sum
+           FROM all_value
+          WHERE (all_value.created_at >= date_trunc('month'::text, now()))) AS mtd,
+    ( SELECT sum(all_value.revenue) AS sum
+           FROM all_value
+          WHERE (all_value.created_at >= date_trunc('year'::text, now()))) AS fytd,
+    ( SELECT sum(all_value.revenue) AS sum
+           FROM all_value) AS itd
+UNION
+ SELECT 'forecasted_revenue_per_job'::character varying AS metric,
+    ( SELECT avg(rev.revenue) AS avg
+           FROM ( SELECT avg(job_revenue.revenue) AS revenue
+                   FROM job_revenue
+                  WHERE (job_revenue.created_at >= date_trunc('month'::text, now()))
+                  GROUP BY job_revenue.project_id) rev) AS mtd,
+    ( SELECT avg(rev.revenue) AS avg
+           FROM ( SELECT avg(job_revenue.revenue) AS revenue
+                   FROM job_revenue
+                  WHERE (job_revenue.created_at >= date_trunc('year'::text, now()))
+                  GROUP BY job_revenue.project_id) rev) AS fytd,
+    ( SELECT avg(rev.revenue) AS avg
+           FROM ( SELECT avg(job_revenue.revenue) AS revenue
+                   FROM job_revenue
+                  GROUP BY job_revenue.project_id) rev) AS itd
+UNION
+ SELECT 'forecasted_revenue_per_project'::character varying AS metric,
+    ( SELECT avg(rev.revenue) AS avg
+           FROM ( SELECT avg(project_revenue.revenue) AS revenue
+                   FROM project_revenue
+                  WHERE (project_revenue.created_at >= date_trunc('month'::text, now()))
+                  GROUP BY project_revenue.project_id) rev) AS mtd,
+    ( SELECT avg(rev.revenue) AS avg
+           FROM ( SELECT avg(project_revenue.revenue) AS revenue
+                   FROM project_revenue
+                  WHERE (project_revenue.created_at >= date_trunc('year'::text, now()))
+                  GROUP BY project_revenue.project_id) rev) AS fytd,
+    ( SELECT avg(rev.revenue) AS avg
+           FROM ( SELECT avg(project_revenue.revenue) AS revenue
+                   FROM project_revenue
+                  GROUP BY project_revenue.project_id) rev) AS itd
+UNION
+ SELECT 'forecasted_job_share'::character varying AS metric,
+    ((mtd.revenue / t_mtd.revenue) * (100)::double precision) AS mtd,
+    ((fytd.revenue / t_fytd.revenue) * (100)::double precision) AS fytd,
+    ((itd.revenue / t_itd.revenue) * (100)::double precision) AS itd
+   FROM ( SELECT sum(all_value.revenue) AS revenue
+           FROM all_value
+          WHERE (((all_value.type)::text = 'full_time'::text) AND (all_value.created_at >= date_trunc('month'::text, now())))) mtd,
+    ( SELECT sum(all_value.revenue) AS revenue
+           FROM all_value
+          WHERE (((all_value.type)::text = 'full_time'::text) AND (all_value.created_at >= date_trunc('year'::text, now())))) fytd,
+    ( SELECT sum(all_value.revenue) AS revenue
+           FROM all_value
+          WHERE ((all_value.type)::text = 'full_time'::text)) itd,
+    ( SELECT sum(all_value.revenue) AS revenue
+           FROM all_value
+          WHERE (all_value.created_at >= date_trunc('month'::text, now()))) t_mtd,
+    ( SELECT sum(all_value.revenue) AS revenue
+           FROM all_value
+          WHERE (all_value.created_at >= date_trunc('year'::text, now()))) t_fytd,
+    ( SELECT sum(all_value.revenue) AS revenue
+           FROM all_value) t_itd
+UNION
+ SELECT 'forecasted_project_share'::character varying AS metric,
+    ((mtd.revenue / t_mtd.revenue) * (100)::double precision) AS mtd,
+    ((fytd.revenue / t_fytd.revenue) * (100)::double precision) AS fytd,
+    ((itd.revenue / t_itd.revenue) * (100)::double precision) AS itd
+   FROM ( SELECT sum(all_value.revenue) AS revenue
+           FROM all_value
+          WHERE (((all_value.type)::text = 'one_off'::text) AND (all_value.created_at >= date_trunc('month'::text, now())))) mtd,
+    ( SELECT sum(all_value.revenue) AS revenue
+           FROM all_value
+          WHERE (((all_value.type)::text = 'one_off'::text) AND (all_value.created_at >= date_trunc('year'::text, now())))) fytd,
+    ( SELECT sum(all_value.revenue) AS revenue
+           FROM all_value
+          WHERE ((all_value.type)::text = 'one_off'::text)) itd,
+    ( SELECT sum(all_value.revenue) AS revenue
+           FROM all_value
+          WHERE (all_value.created_at >= date_trunc('month'::text, now()))) t_mtd,
+    ( SELECT sum(all_value.revenue) AS revenue
+           FROM all_value
+          WHERE (all_value.created_at >= date_trunc('year'::text, now()))) t_fytd,
+    ( SELECT sum(all_value.revenue) AS revenue
+           FROM all_value) t_itd;
+
+
+--
+-- Name: financials; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW financials AS
+ SELECT financials_actual.metric,
+    financials_actual.mtd,
+    financials_actual.fytd,
+    financials_actual.itd
+   FROM financials_actual
+UNION
+ SELECT financials_forecasted.metric,
+    financials_forecasted.mtd,
+    financials_forecasted.fytd,
+    financials_forecasted.itd
+   FROM financials_forecasted;
+
+
+--
+-- Name: financials_postings; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW financials_postings AS
+ WITH active AS (
+         SELECT projects.created_at
+           FROM projects
+          WHERE (projects.completed_at IS NULL)
+        ), all_projects AS (
+         SELECT projects.created_at,
+            projects.type,
+            projects.pricing_type,
+            projects.calculated_budget,
+            projects.annual_salary,
+            projects.fee_type
+           FROM projects
+        ), job_value AS (
+         SELECT (all_projects.calculated_budget *
+                CASE
+                    WHEN ((all_projects.fee_type)::text = 'upfront_fee'::text) THEN 1.15
+                    ELSE 1.18
+                END) AS value
+           FROM all_projects
+          WHERE ((all_projects.type)::text = 'full_time'::text)
+        ), job_revenue AS (
+         SELECT (all_projects.calculated_budget *
+                CASE
+                    WHEN ((all_projects.fee_type)::text = 'upfront_fee'::text) THEN 0.15
+                    ELSE 0.18
+                END) AS revenue
+           FROM all_projects
+          WHERE ((all_projects.type)::text = 'full_time'::text)
+        ), project_value AS (
+         SELECT all_projects.created_at,
+            (all_projects.calculated_budget * 1.20) AS value
+           FROM all_projects
+          WHERE ((all_projects.type)::text = 'one_off'::text)
+        ), project_revenue AS (
+         SELECT (all_projects.calculated_budget * 0.2) AS revenue
+           FROM all_projects
+          WHERE ((all_projects.type)::text = 'one_off'::text)
+        ), all_value AS (
+         SELECT (COALESCE(a.value, (0)::numeric) + COALESCE(b.value, (0)::numeric)) AS value
+           FROM ( SELECT sum(job_value.value) AS value
+                   FROM job_value) a,
+            ( SELECT sum(project_value.value) AS value
+                   FROM project_value) b
+        ), all_revenue AS (
+         SELECT (COALESCE(a.revenue, (0)::numeric) + COALESCE(b.revenue, (0)::numeric)) AS revenue
+           FROM ( SELECT sum(job_revenue.revenue) AS revenue
+                   FROM job_revenue) a,
+            ( SELECT sum(project_revenue.revenue) AS revenue
+                   FROM project_revenue) b
+        )
+ SELECT 'postings_value'::character varying AS metric,
+    ( SELECT sum(all_value.value) AS sum
+           FROM all_value) AS value
+UNION
+ SELECT 'postings_revenue'::character varying AS metric,
+    ( SELECT sum(all_revenue.revenue) AS sum
+           FROM all_revenue) AS value
+UNION
+ SELECT 'postings_revenue_per_job'::character varying AS metric,
+    ( SELECT avg(job_revenue.revenue) AS avg
+           FROM job_revenue) AS value
+UNION
+ SELECT 'postings_revenue_per_project'::character varying AS metric,
+    ( SELECT avg(project_revenue.revenue) AS avg
+           FROM project_revenue) AS value
+UNION
+ SELECT 'postings_job_share'::character varying AS metric,
+    ((j.revenue / a.revenue) * (100)::numeric) AS value
+   FROM ( SELECT COALESCE(sum(all_revenue.revenue), (0)::numeric) AS revenue
+           FROM all_revenue) a,
+    ( SELECT COALESCE(sum(job_revenue.revenue), (0)::numeric) AS revenue
+           FROM job_revenue) j
+UNION
+ SELECT 'postings_project_share'::character varying AS metric,
+    ((p.revenue / a.revenue) * (100)::numeric) AS value
+   FROM ( SELECT COALESCE(sum(all_revenue.revenue), (0)::numeric) AS revenue
+           FROM all_revenue) a,
+    ( SELECT COALESCE(sum(project_revenue.revenue), (0)::numeric) AS revenue
+           FROM project_revenue) p;
+
+
+--
 -- Name: flags; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -776,47 +1202,6 @@ UNION
           WHERE (deleted_specialists.deleted_at >= date_trunc('year'::text, now()))) AS fytd,
     ( SELECT count(*) AS count
            FROM deleted_specialists) AS itd;
-
-
---
--- Name: projects; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE projects (
-    id integer NOT NULL,
-    business_id integer NOT NULL,
-    type character varying DEFAULT 'one_off'::character varying NOT NULL,
-    status character varying DEFAULT 'draft'::character varying NOT NULL,
-    title character varying NOT NULL,
-    location_type character varying,
-    location character varying,
-    description character varying NOT NULL,
-    key_deliverables character varying,
-    starts_on date NOT NULL,
-    ends_on date,
-    pricing_type character varying DEFAULT 'hourly'::character varying,
-    payment_schedule character varying,
-    fixed_budget numeric,
-    hourly_rate numeric,
-    estimated_hours integer,
-    minimum_experience character varying,
-    only_regulators boolean,
-    annual_salary integer,
-    fee_type character varying DEFAULT 'upfront_fee'::character varying,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    tsv tsvector,
-    calculated_budget numeric,
-    lat numeric(9,5),
-    lng numeric(9,5),
-    point geography,
-    specialist_id integer,
-    job_applications_count integer DEFAULT 0 NOT NULL,
-    published_at timestamp without time zone,
-    completed_at timestamp without time zone,
-    hired_at timestamp without time zone,
-    extended_at timestamp without time zone
-);
 
 
 --
@@ -4212,4 +4597,6 @@ INSERT INTO schema_migrations (version) VALUES ('20161027163457');
 INSERT INTO schema_migrations (version) VALUES ('20161104010221');
 
 INSERT INTO schema_migrations (version) VALUES ('20161105034339');
+
+INSERT INTO schema_migrations (version) VALUES ('20161107203304');
 
