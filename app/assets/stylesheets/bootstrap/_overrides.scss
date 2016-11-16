@@ -9,3 +9,11 @@ html {
 .input-lg, .btn-lg {
   font-size: $font-size-base;
 }
+
+.input-lg{
+  border: none;
+  border: $input-border;
+  font-weight: bold;
+  font-size: 12px;
+  letter-spacing: 1px;
+}

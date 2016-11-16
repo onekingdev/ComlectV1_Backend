@@ -1,4 +1,4 @@
-::-webkit-input-placeholder { text-transform: uppercase; color: $gray-light; }
+::-webkit-input-placeholder { color: $gray-light; }
 :-moz-placeholder { text-transform: uppercase; color: $gray-light; }
 ::-moz-placeholder { text-transform: uppercase; color: $gray-light; }
 :-ms-input-placeholder { text-transform: uppercase; color: $gray-light; }
@@ -40,15 +40,40 @@ form .reset {
   }
 
   .add-button {
-    $size: 134px;
-    font-weight: $roboto-light;
-    font-size: 82px;
+    $size: 110px;
     background: #fff;
     border-radius: $size / 2;
     width: $size;
     height: $size;
     line-height: $size;
     margin: 0 auto $padding-base-vertical;
+    border-radius: 50%;
+    border: 1px solid #999999;
+    color: #999999;
+    position: relative
+  }
+
+  .add-button:before, .add-button:after {
+    content: "";
+    position: absolute;
+    background: #999999;
+    left: 0%;
+  }
+
+  .add-button:before {
+    left: 50%;
+    width: 2px;
+    margin-left: -2%;
+    height: 25%;
+    top: 40%;
+  }
+
+  .add-button:after {
+    top: 76%;
+    height: 2px;
+    margin-top: -25%;
+    width: 25%;
+    left: 36%;
   }
 
   .selected {
@@ -72,13 +97,13 @@ form .reset {
 
 form .well {
   h3 {
-    font-family: Raleway;
-    font-weight: $raleway-bold;
-    font-size: 14px;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #979797;
-
+    font-family: Muller;
+    font-weight: bold;
+    font-size: 16px;
+    padding-bottom: 6px;
+    margin-top: 0px;
+    padding-left: 10px;
+    letter-spacing: 2px;
     .icon {
       margin-right: 10px;
     }
@@ -93,25 +118,36 @@ form .well {
   }
 }
 
-.form-group.radio_pills .btn-group {
-  .btn {
-    background-color: #f3f3f3;
+.form-group.radio_pills {
+  .btn-group {
+    border: 2px solid #ffcc00;
+    .btn {
+      text-transform: uppercase;
+      font-weight: bold;
+      font-size: 14px;
+      letter-spacing: 2px;
+      background-color: #f3f3f3;
+      border-radius: 0px;
+      padding-top: 8px;
+      padding-bottom: 8px;
 
-    .panel-body &, .well & {
-      background-color: #fff;
+      .panel-body &, .well & {
+        background-color: #fff;
+      }
     }
-  }
 
-  .btn.active {
-    @include button-variant($btn-primary-color, $btn-primary-bg, $btn-primary-border);
-    @include button-variant-light($btn-primary-bg);
-  }
+    .btn.active {
+      @include button-variant($btn-primary-color, $btn-primary-bg, $btn-primary-border);
+      @include button-variant-light($btn-primary-bg);
+    }
 
-  .btn.active:active, .btn.active.active {
-    background-color: $btn-primary-bg;
-    border-color: transparent;
-  }
+    .btn.active:active, .btn.active.active {
+      background-color: $btn-primary-bg;
+      border-color: transparent;
+    }
+  }  
 }
+
 
 select.js-select.input-lg {
   height: $input-height-large !important;
@@ -132,8 +168,10 @@ select.js-select.input-lg {
 }
 
 .help-block {
-  font-size: 11px;
+  font-size: 12px;
   margin-top: $form-group-margin-bottom;
+  font-weight: bold;
+  letter-spacing: 1px;
 
   .form-group.tight & {
     margin-top: 5px;
@@ -141,7 +179,23 @@ select.js-select.input-lg {
 }
 
 .checkbox-lg {
-  margin: calc(#{$input-height-large / 2} - 0.5em) 0;
+  //margin: 0px;
+  margin: calc(#{$input-height-large / 3} - 0.5em) 0;
+  input[type="checkbox"] {
+    outline: 2px solid #e4e4e4;
+    border: none;
+    opacity: 1;
+    -moz-appearance:none;
+    -webkit-appearance:none;
+    -o-appearance:none;
+    outline-offset: 6px;
+    margin: 9px 0px 0px -12px;
+  }
+  label{
+    font-weight: bold;
+    letter-spacing: 1px;
+    font-size: 12px;
+  }
 }
 
 .checkbox-right {

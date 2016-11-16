@@ -14,20 +14,21 @@
 
   .btn {
     text-transform: uppercase;
-    font-weight: $raleway-light;
+    font-weight: lighter;
   }
 
   li > a {
-    font-weight: $raleway-light;
+    font-weight: lighter;
     padding-left: 0;
     padding-right: 0;
+    font-size: 12px;
 
     &:hover {
       color: $brand-primary;
     }
 
     .icon {
-      font-weight: $raleway-light;
+      font-weight: lighter;
     }
   }
 
@@ -84,10 +85,6 @@
   .navbar-toggle {
     margin-right: 0;
     border-color: transparent;
-  }
-
-  .navbar-header {
-    margin-right: 2em;
   }
 
   @media (max-width: $screen-xs-max) {

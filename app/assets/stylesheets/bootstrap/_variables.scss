@@ -6,13 +6,13 @@ $gray:         #767676; // Subtext / info texts
 $gray-light:   #999999; // Placeholders
 $gray-lighter: #f3f3f3; // Section frames
 
-$brand-primary: #feb809;
+$brand-primary: #ffcc00;
 $brand-success: #9dbb00;
 $brand-danger: #c9240e;
 
 //== Typography
 
-$font-family-base: Raleway, sans-serif;
+$font-family-base: Muller, sans-serif;
 $font-size-base: 14px;
 $font-size-large: ceil(($font-size-base * 1.25));
 $font-size-h1: 52px;
@@ -21,12 +21,7 @@ $line-height-large: 1.3333333;
 $line-height-md: 1.4;
 $line-height-lg: $line-height-large;
 
-$headings-font-family: Baskerville, serif;
-
-$raleway-light: 300;
-$raleway-bold: 700;
-$baskerville-regular: 400;
-$baskerville-bold: 700;
+$headings-font-family: Muller, serif;
 
 $roboto-light: 300;
 $roboto-regular: 400;
@@ -72,9 +67,9 @@ $padding-lg-vertical: 14px; // Match buttons to inputs
 
 //== Forms
 
-$input-border: transparent;
-$input-height-large: 48px;
-$input-border-radius-large: 5px;
+$input-border: 2px solid #e4e4e4;
+$input-height-large: 42px;
+$input-border-radius-large: 2px;
 
 $form-group-margin-bottom: $grid-gutter-width / 2; // So vertical spacing equals compact grid spacing (.row-compact)
 
@@ -85,7 +80,7 @@ $text-muted: $gray;
 
 //== Wells
 
-$well-bg: #f3f3f3;
+$well-bg: #ffffff;
 $well-border: transparent;
 
 //== Panels
