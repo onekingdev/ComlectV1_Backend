@@ -68,6 +68,9 @@ ActiveAdmin.register Charge do
       row :amount do |charge|
         number_to_currency charge.amount
       end
+      row :fee do |charge|
+        number_to_currency charge.fee_in_cents / 100.0
+      end
       row :date
       row :process_after
       row :status do |charge|

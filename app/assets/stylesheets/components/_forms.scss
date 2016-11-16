@@ -84,6 +84,7 @@ form .reset {
 
 .panel-body label {
   color: rgba(0, 0, 0, 0.8);
+  font-weight: $roboto-regular;
 }
 
 .js-datepicker {
@@ -92,12 +93,25 @@ form .reset {
 
 .form-group {
   position: relative;
+
+  &.with-tooltip .form-control {
+    padding-right: 40px;
+  }
+
+  .info-tooltip {
+    position: absolute;
+    right: 10px;
+  }
+
+  .info-tooltip-lg {
+    top: 15px;
+  }
 }
 
 form .well {
   h3 {
     font-family: Muller;
-    font-weight: $medium-weight;
+    font-weight: bold;
     font-size: 16px;
     padding-bottom: 6px;
     margin-top: 0px;
@@ -119,9 +133,10 @@ form .well {
 
 .form-group.radio_pills {
   .btn-group {
+    border: 2px solid #ffcc00;
     .btn {
       text-transform: uppercase;
-      font-weight: $medium-weight;
+      font-weight: bold;
       font-size: 14px;
       letter-spacing: 2px;
       background-color: #f3f3f3;
@@ -168,9 +183,8 @@ select.js-select.input-lg {
 .help-block {
   font-size: 12px;
   margin-top: $form-group-margin-bottom;
-  font-weight: $light-weight;
+  font-weight: bold;
   letter-spacing: 1px;
-  color: $gray-light;
 
   .form-group.tight & {
     margin-top: 5px;
@@ -191,7 +205,7 @@ select.js-select.input-lg {
     margin: 9px 0px 0px -12px;
   }
   label{
-    font-weight: $medium-weight;
+    font-weight: bold;
     letter-spacing: 1px;
     font-size: 12px;
   }

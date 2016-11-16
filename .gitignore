@@ -17,3 +17,6 @@
 
 # Ignore locally uploaded files
 /public/uploads
+
+# Ignore OS X DS_Store
+.DS_Store

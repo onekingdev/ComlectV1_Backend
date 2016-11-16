@@ -79,7 +79,7 @@
     }
 
     .table th span {
-      font-weight: bold;
+      font-weight: $roboto-black;
     }
 
     .table th .icon {
@@ -282,6 +282,7 @@
       .btn {
         width: 50%;
         border-radius: 0;
+        font-weight: $roboto-light;
       }
 
       .button_to {

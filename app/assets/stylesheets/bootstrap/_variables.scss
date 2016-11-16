@@ -1,8 +1,8 @@
 //== Colors
 
 $gray-darker:  #2f2e2e; // Footer
-$gray-dark:    #333333; // Subtitles
-$gray:         #333333; // Subtext / info texts
+$gray-dark:    #666666; // Subtitles
+$gray:         #767676; // Subtext / info texts
 $gray-light:   #999999; // Placeholders
 $gray-lighter: #f3f3f3; // Section frames
 
@@ -13,7 +13,6 @@ $brand-danger: #c9240e;
 //== Typography
 
 $font-family-base: Muller, sans-serif;
-
 $font-size-base: 14px;
 $font-size-large: ceil(($font-size-base * 1.25));
 $font-size-h1: 52px;
@@ -23,6 +22,12 @@ $line-height-md: 1.4;
 $line-height-lg: $line-height-large;
 
 $headings-font-family: Muller, serif;
+
+$roboto-light: 300;
+$roboto-regular: 400;
+$roboto-medium: 500;
+$roboto-bold: 700;
+$roboto-black: 900;
 
 //== Grid system
 
@@ -43,18 +48,11 @@ $grid-float-breakpoint: 1150px;
 
 //== Buttons
 
-$btn-default-color:              #333 !default;
-$btn-default-bg:                 transparent !default;
-$btn-default-border:             #ffcc00;
-
-$btn-primary-color:              #fff !default;
-$btn-primary-bg:                 $brand-primary !default;
-$btn-primary-border:             #ffcc00;
-
-$btn-font-weight: $light-weight;
-//$btn-default-border: transparent;
-$btn-primary-color: #333333;
-$btn-border-radius-md: 0px;
+$btn-font-weight: 500;
+$btn-default-border: transparent;
+$btn-primary-color: #171308;
+$btn-primary-border: transparent;
+$btn-border-radius-md: 5px;
 $btn-success-color: #fff !important;
 $btn-success-border: $brand-success;
 $btn-danger-color: #fff !important;
@@ -78,7 +76,7 @@ $form-group-margin-bottom: $grid-gutter-width / 2; // So vertical spacing equals
 //== Type
 
 $hr-border: rgba($brand-primary, 0.5);
-$text-muted: $gray-light;
+$text-muted: $gray;
 
 //== Wells
 
@@ -90,13 +88,3 @@ $well-border: transparent;
 $panel-default-heading-bg: #626262;
 $panel-bg: #f3f3f3;
 $panel-border-radius: 10px;
-
-//== Tooltips
-
-$tooltip-arrow-width: 5px;
-$tooltip-background-color: #ffffff;
-$tooltip-arrow-color: #ffffff;
-$tooltip-border-color: $gray-light;
-$tooltip-border-width: 1px;
-$tooltip-arrow-border-width: $tooltip-arrow-width + $tooltip-border-width;
-$tooltip-text-color: $gray;
