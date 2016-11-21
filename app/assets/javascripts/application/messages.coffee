@@ -9,7 +9,7 @@ $.onContentReady ($parent, data) ->
 
   groupMessagesByDay()
 
-  if $messages.length != 0 && $('.messages').is(':visible') && $messages.data('active') == 'true'
+  if $messages.length != 0 && $('.messages').is(':visible') && $messages.data('active')
     setInterval ->
       if $('.messages').is(':visible')
         request = $.get $messages.data('url'), (data) ->
