@@ -4,9 +4,8 @@ class ExpireProjectsJob < ActiveJob::Base
 
   def perform(project_id = nil)
     return process_all if project_id.nil?
-    project = Project.find_by(id: project_id)
-    return unless project&.expired?
-    Project::Expire.(project)
+    project = Project.expired.find_by(id: project_id)
+    Project::Expire.(project) if project
   end
 
   private
