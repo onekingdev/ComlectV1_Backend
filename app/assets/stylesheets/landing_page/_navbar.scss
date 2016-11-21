@@ -1,0 +1,28 @@
+#nav {
+  padding: 80px $grid-gutter-width / 2 0;
+  width: $container-large-desktop;
+  margin: 0 auto;
+  position: relative;
+  background-color: transparent;
+
+  .navbar-brand {
+    padding: 0;
+  }
+
+  .buttons .btn {
+    background-color: transparent;
+    color: $brand-primary;
+    text-transform: uppercase;
+  }
+
+  .buttons .btn + .btn {
+    margin-left: $padding-base-horizontal;
+    padding-left: $padding-base-horizontal;
+    border-left: 1px solid white;
+  }
+
+  .nav-about a {
+    text-transform: uppercase;
+    color: #000;
+  }
+}

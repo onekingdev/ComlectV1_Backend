@@ -1,0 +1,68 @@
+doctype html
+html lang=I18n.locale
+  head
+    title Complect
+    = stylesheet_link_tag 'landing_page', media: 'all'
+    = csrf_meta_tags
+    = render 'mixpanel'
+    = yield :html_head
+
+body.home.index
+  header#header class=(yield(:header_class) || 'compact')
+    - content_for :logo, image_tag('logo-inverse.png', size: '178x42')
+    = render "navbar", user: User::Decorator.new(current_user)
+
+    .callout
+      h1
+        'Compliance Specialists
+        span On Demand
+
+      blockquote Get Instant Access to Top Financial Regulatory Compliance Specialists
+
+      .buttons
+        a.btn.btn-primary href=new_business_project_path Post a Project
+        a.btn.btn-default href=new_specialist_path Become a Specialist
+
+  .container
+    = render_flash
+    = yield
+    p &nbsp;
+    p &nbsp;
+    p &nbsp;
+    p &nbsp;
+    p &nbsp;
+    p &nbsp;
+    p &nbsp;
+    p &nbsp;
+    p &nbsp;
+    p &nbsp;
+    p &nbsp;
+    p &nbsp;
+    p &nbsp;
+    p &nbsp;
+    p &nbsp;
+    p &nbsp;
+    p &nbsp;
+    p &nbsp;
+    p &nbsp;
+    p &nbsp;
+    p &nbsp;
+    p &nbsp;
+    p &nbsp;
+    p &nbsp;
+
+  #modal.modal.fade tabindex=-1 role="dialog"
+    .modal-dialog
+      .modal-content
+        .modal-header
+          button.close type="button" data-dismiss="modal" aria-label="Close"
+            span aria-hidden="true" &times;
+          h4.modal-title
+        .modal-body
+        .modal-footer
+
+  = render 'footer'
+
+  = yield :prepend_scripts
+  = javascript_include_tag 'application'
+  = yield :scripts
