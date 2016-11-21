@@ -1,27 +1,20 @@
 h1 {
-  font-size: 18px;
-  font-weight: normal;
-  font-family: Muller;
-  text-transform: uppercase;
-  letter-spacing: 2px;
+  font-size: 36px;
+  font-weight: $raleway-light;
+  font-family: Raleway;
 }
 
 h2 {
-  font-family: Muller, serif;
-  font-weight: bold;
-  font-size: 16px;
-  letter-spacing: 2px;
+  font-family: Baskerville, serif;
+  font-weight: $baskerville-bold;
+  font-style: italic;
+  font-size: 22px;
   margin-top: 0;
 }
 
 h4 {
-  font-family: Muller, serif;
-  font-weight: bold;
-}
-
-h6 {
-  font-weight: bold;
-  letter-spacing: 1px;
+  font-family: Baskerville, serif;
+  font-weight: $baskerville-bold;
 }
 
 a[class~="text-white"] {
@@ -57,9 +50,7 @@ a.no-link {
 
 .text-muted {
   color: $text-muted !important;
-  font-family: Muller, serif;
-  font-size: 12px;
-  letter-spacing: 1px;
+
   a {
     color: $text-muted;
     text-decoration: underline;
