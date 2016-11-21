@@ -24,7 +24,7 @@ Rails.application.routes.draw do
   # LetsEncrypt Verification TODO: Remove after purchasing SSL cert
   get '/.well-known/acme-challenge/:id' => 'home#page', page: 'letsencrypt'
 
-  root to: 'home#index'
+  root to: 'landing_page#show'
   get 'info/:page' => 'home#page', as: :page
   get 'app_config' => 'home#app_config', format: 'js'
 
