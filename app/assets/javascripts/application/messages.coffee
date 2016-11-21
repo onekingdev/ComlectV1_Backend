@@ -1,13 +1,13 @@
 $.onContentReady ($parent, data) ->
   $messages = if $parent.hasClass('message-thread') then $parent.find('.messages') else $parent.find('.message-thread .messages')
 
-  group_messages_by_day = ->
-    $message_days = $('.messages-day').map -> $(this).attr('class').split(' ')[1]
-    $.uniqueSort($message_days).each (_, message_day) ->
-      $(".#{message_day}:first").show()
-      $(".#{message_day}:not(:first)").hide()
+  groupMessagesByDay = ->
+    $messageDays = $('.messages-day').map -> $(this).attr('class').split(' ')[1]
+    $.uniqueSort($messageDays).each (_, messageDay) ->
+      $(".#{messageDay}:first").show()
+      $(".#{messageDay}:not(:first)").hide()
 
-  group_messages_by_day()
+  groupMessagesByDay()
 
   if $messages.length != 0 && $('.messages').is(':visible') && $messages.data('active') == 'true'
     setInterval ->
@@ -44,7 +44,7 @@ $.onContentReady ($parent, data) ->
       $messages.attr 'data-page', page
       $messages.prepend data
       $messages.scrollTop $messages[0].scrollHeight - prevScrollHeight + prevScrollTop
-      group_messages_by_day()
+      groupMessagesByDay()
 
     request
       .fail ->
@@ -57,16 +57,15 @@ $.onContentReady ($parent, data) ->
         $messages.removeClass 'loading'
         loadingMessages = false
 
-  if $messages.data('active') == 'true'
-    $messages.on 'scroll', (e) ->
-      clearTimeout(scrollTick) if scrollTick?
-      return if loadingMessages
-      scrollTick = setTimeout ->
-        ratio = $messages.scrollTop() / $messages[0].scrollHeight
-        # ratio < previousRatio : Do nothing when scrolling down
-        loadMessages() if ratio < previousRatio && ratio < 0.25
-        previousRatio = ratio
-      , 500
+  $messages.on 'scroll', (e) ->
+    clearTimeout(scrollTick) if scrollTick?
+    return if loadingMessages
+    scrollTick = setTimeout ->
+      ratio = $messages.scrollTop() / $messages[0].scrollHeight
+      # ratio < previousRatio : Do nothing when scrolling down
+      loadMessages() if ratio < previousRatio && ratio < 0.25
+      previousRatio = ratio
+    , 500
 
   $('.message_message').on 'keypress', (e) ->
     if (window.event.keyCode == 13 && $('#send_on_enter').prop('checked'))
