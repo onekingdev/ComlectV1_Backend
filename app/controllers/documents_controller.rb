@@ -61,9 +61,9 @@ class DocumentsController < ApplicationController
 
   def dashboard_redirection_based_on_role
     if current_business
-      redirect_to business_project_dashboard_path(@project)
+      redirect_to business_project_dashboard_path(@project, anchor: 'nojump-project-documents')
     elsif current_specialist
-      redirect_to project_dashboard_path(@project)
+      redirect_to project_dashboard_path(@project, anchor: 'nojump-project-documents')
     end
   end
 
