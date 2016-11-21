@@ -34,6 +34,7 @@ class Project < ActiveRecord::Base
   scope :visible, -> { joins(business: :user).where(users: { deleted: false }) }
   scope :recent, -> { order(created_at: :desc) }
   scope :draft_and_in_review, -> { where(status: %w(draft review)) }
+  scope :expired, -> { pending.where('starts_on < ?', Time.zone.now) }
   scope :published, -> { where(status: statuses[:published]) }
   scope :pending, -> { published.where(specialist_id: nil) }
   scope :active, -> { published.where.not(specialist_id: nil) }
