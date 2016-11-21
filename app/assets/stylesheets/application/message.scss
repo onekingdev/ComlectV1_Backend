@@ -29,7 +29,6 @@
       background-color: #fff;
       padding: 10px 12px;
       border-radius: $border-radius-large;
-      margin-bottom: 0.5rem;
     }
 
     .author, .date {
@@ -45,6 +44,7 @@
     .date {
       font-size: 90%;
       color: $gray-light;
+      margin-bottom: 0.5rem;
     }
 
     &.me {
