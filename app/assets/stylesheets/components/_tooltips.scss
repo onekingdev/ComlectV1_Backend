@@ -13,16 +13,19 @@
 .tooltip.left .tooltip-arrow { border-left-color: rgba(#ffc300, 0.44); }
 
 .info-tooltip {
-  background: transparent;
+  background-color: #00bff3;
+  border: none;
   border-radius: 50%;
-  border: 2px solid #000;
   font-family: Muller;
   font-style: italic;
   font-weight: bold;
-  width: 1.5em;
-  height: 1.5em;
-  line-height: 1em;
+  width: 1.1em;
+  height: 1.1em;
+  line-height: 0.8em;
   cursor: default;
   vertical-align: middle;
   margin-left: 0.5em;
+  position: absolute;
+  margin-left: -30px;
+  margin-top: 14px;
 }

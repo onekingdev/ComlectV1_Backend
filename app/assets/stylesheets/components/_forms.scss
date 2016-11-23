@@ -183,8 +183,9 @@ select.js-select.input-lg {
 .help-block {
   font-size: 12px;
   margin-top: $form-group-margin-bottom;
-  font-weight: bold;
+  font-weight: lighter;
   letter-spacing: 1px;
+  color: $gray-light;
 
   .form-group.tight & {
     margin-top: 5px;

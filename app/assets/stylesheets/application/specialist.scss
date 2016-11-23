@@ -30,7 +30,7 @@ body.specialists.new {
     color: #feb809;
   }
   #header {
-    margin-bottom: 35px;
+    margin-bottom: 60px;
   }
   .btn-primary {
     text-transform: uppercase;
@@ -105,37 +105,36 @@ body.specialists.new {
 
 .form-specialist {
   .time_zone {
-    color: $gray;
+    color: $gray-light;
   }
   #work-experiences {
     position: relative;
 
-    .last-child {
-      .remove {
-        margin-right: 2em;
-      }
-    }
-
     .add {
       position: absolute;
-      right: 0;
+      right: 14px;
       bottom: 0;
     }
+  }
+
+  .multiselect-parent .btn-default {
+    color: $gray-light;
+  }
+
+  .specialist_current, .specialist_compliance, .specialist_former_regulator{
+    color: $gray-light;
   }
 
   #education-histories {
     position: relative;
 
-    .last-child {
-      .remove {
-        margin-right: 2em;
-      }
-    }
-
     .add {
       position: absolute;
-      right: 0;
-      bottom: 0;
+      right: 14px;
+      @media (min-width: $screen-sm-max) {
+        bottom: 36px;
+      }
+      bottom: 0px;
     }
 
   }

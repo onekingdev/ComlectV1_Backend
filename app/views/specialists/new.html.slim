@@ -4,7 +4,7 @@
 
 .text-center.m-b-3.m-t-3.p-b-1
   h1.m-t-0.m-b-1 Sign up to become a Complect specialist
-  small.text-muted
+  small
     'To be eligible, you must have 3+ years work experience
     br
     'in financial regulatory compliance
@@ -16,8 +16,14 @@
     .col-xs-12
       = f.submit 'Sign Up', class: 'btn btn-primary btn-lg col-xs-12 col-sm-2 col-sm-offset-5'
 
-    p.text-center.help-block.m-t-1.m-b-3.col-md-12
-      'By signing up, you are agreeing to our <a class="text-muted" href="#">Terms</a> & <a class="text-muted" href="#">Privacy Policy</a>,
-      'the <a class="text-muted" href="#">Stripe Agreement</a> (for payment),
-      br
-      'and to receiving Complect email communication.
+    .col-xs-12
+      p.text-center.help-block.m-t-1.m-b-3.col-md-12.text-muted
+        'By signing up, you are agreeing to our
+        = link_to "Terms", "#"
+        '&nbsp;&
+        = link_to "Privacy Policy", "#"
+        ', the
+        = link_to "Stripe Agreement", "#"
+        '&nbsp;(for payment),
+        br
+        'and to receiving Complect email communication.

@@ -138,6 +138,6 @@
 .well.well-lg.m-t-3
   .row.text-center.p-b-1
     h2.m-b-2 Finally, select your profile visibility
-    = f.input :public_profile, as: :radio_pills, collection: [['Public', true], ['Private', false]], btn_class: 'btn-lg btn-default p-x-5', hint: false
+    = f.input :public_profile, as: :radio_pills, collection: [['Public', true], ['Private', false]], btn_class: 'btn-lg btn-default p-x-3', hint: false
     p.help-block.col-xs-12.col-md-8.col-md-offset-2.m-b-0.m-t-0
       = t('simple_form.hints.specialist.visibility')
