@@ -9,7 +9,7 @@ nav#nav.navbar.navbar-default.navbar-inverse
       = yield(:logo).presence || image_tag('logo.png', size: '226x53')
 
   #navbar-collapse.collapse.navbar-collapse
-    ul.nav.navbar-nav
+    ul.nav.navbar-nav.nav-about
       li= link_to 'How it Works', page_path('how-it-works')
       - if user_signed_in? && current_user.business
         li= link_to 'My Dashboard', business_dashboard_path

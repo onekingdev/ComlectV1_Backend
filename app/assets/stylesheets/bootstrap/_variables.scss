@@ -88,3 +88,13 @@ $well-border: transparent;
 $panel-default-heading-bg: #626262;
 $panel-bg: #f3f3f3;
 $panel-border-radius: 10px;
+
+//== Tooltips
+
+$tooltip-arrow-width: 5px;
+$tooltip-background-color: #ffffff;
+$tooltip-arrow-color: #ffffff;
+$tooltip-border-color: $gray-light;
+$tooltip-border-width: 1px;
+$tooltip-arrow-border-width: $tooltip-arrow-width + $tooltip-border-width;
+$tooltip-text-color: $gray;
