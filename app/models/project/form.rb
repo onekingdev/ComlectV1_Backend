@@ -20,6 +20,9 @@ class Project::Form < Project
             presence: true, if: -> { hourly_pricing? && payment_schedule.blank? }
   validates :fixed_payment_schedule, :fixed_budget,
             presence: true, if: -> { fixed_pricing? && payment_schedule.blank? }
+  validate if: -> { starts_on.present? } do
+    errors.add :starts_on, :past if starts_on.past?
+  end
   validate if: -> { starts_on.present? && ends_on.present? } do
     errors.add :starts_on, :invalid if starts_on > ends_on
   end

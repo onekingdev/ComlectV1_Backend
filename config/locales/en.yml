@@ -43,6 +43,7 @@ en:
               inclusion: Please select from the list
             starts_on:
               invalid: Must be before end date
+              past: Must be in the future
             ends_on:
               invalid: Must be after end date
             hourly_payment_schedule:
