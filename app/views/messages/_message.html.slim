@@ -3,8 +3,7 @@
   = message.created_at.in_time_zone(me.time_zone).strftime('%B %d')
 .message class=(is_me ? 'me' : 'them') data-message-id=message.id
   .text= simple_format message.message
-  .author= is_me ? 'Me' : message.sender
-  .date= message.created_at.in_time_zone(me.time_zone).strftime('%I:%M %p')
+  .date= message.created_at.in_time_zone(me.time_zone).strftime('%-I:%M %p')
   - if message.file
     .file= link_to message.file_url, target: '_blank' do
       .fa.fa-paperclip

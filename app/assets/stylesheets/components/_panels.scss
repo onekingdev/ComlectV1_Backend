@@ -11,7 +11,7 @@
   }
 
   .panel-heading {
-    font-weight: bold;
+    font-weight: $raleway-bold;
     font-size: 18px;
     line-height: 17px;
     height: 37px;
@@ -22,8 +22,8 @@
 
     h3 {
       font-size: 18px;
-      font-family: "Muller";
-      font-weight: bold;
+      font-family: "Baskerville";
+      font-weight: $baskerville-bold;
       font-style: italic;
       display: inline-block;
       margin: 0;
@@ -59,12 +59,12 @@
     .detail {
       float: right;
       font-size: 14px;
-      font-weight: lighter;
+      font-weight: $raleway-light;
       color: #c1c1c1;
 
       &.strong {
         font-size: 14px;
-        font-weight: bold;
+        font-weight: $raleway-bold;
         color: #fff;
       }
     }
@@ -100,7 +100,7 @@
 
     .list-group-item-heading {
       margin-bottom: 0.5em;
-      font-weight: bold;
+      font-weight: $raleway-bold;
     }
 
     .detail {
@@ -136,9 +136,9 @@
 
   .btn {
     height: 100%;
-    font-family: Muller;
+    font-family: Baskerville;
     font-size: 18px;
-    font-weight: bold;
+    font-weight: $baskerville-bold;
     font-style: italic;
     color: #fff;
     background-color: transparent;
@@ -170,9 +170,9 @@
   }
 
   a {
-    font-family: Muller;
+    font-family: Baskerville;
     font-size: 18px;
-    font-weight: bold;
+    font-weight: $baskerville-bold;
     font-style: italic;
     color: #fff;
     background-color: transparent;

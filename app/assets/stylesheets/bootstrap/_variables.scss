@@ -1,18 +1,18 @@
 //== Colors
 
 $gray-darker:  #2f2e2e; // Footer
-$gray-dark:    #333333; // Subtitles
-$gray:         #333333; // Subtext / info texts
+$gray-dark:    #666666; // Subtitles
+$gray:         #767676; // Subtext / info texts
 $gray-light:   #999999; // Placeholders
 $gray-lighter: #f3f3f3; // Section frames
 
-$brand-primary: #ffcc00;
+$brand-primary: #feb809;
 $brand-success: #9dbb00;
 $brand-danger: #c9240e;
 
 //== Typography
 
-$font-family-base: Muller, sans-serif;
+$font-family-base: Raleway, sans-serif;
 $font-size-base: 14px;
 $font-size-large: ceil(($font-size-base * 1.25));
 $font-size-h1: 52px;
@@ -21,7 +21,12 @@ $line-height-large: 1.3333333;
 $line-height-md: 1.4;
 $line-height-lg: $line-height-large;
 
-$headings-font-family: Muller, serif;
+$headings-font-family: Baskerville, serif;
+
+$raleway-light: 300;
+$raleway-bold: 700;
+$baskerville-regular: 400;
+$baskerville-bold: 700;
 
 $roboto-light: 300;
 $roboto-regular: 400;
@@ -67,20 +72,20 @@ $padding-lg-vertical: 14px; // Match buttons to inputs
 
 //== Forms
 
-$input-border: 2px solid #e4e4e4;
-$input-height-large: 42px;
-$input-border-radius-large: 2px;
+$input-border: transparent;
+$input-height-large: 48px;
+$input-border-radius-large: 5px;
 
 $form-group-margin-bottom: $grid-gutter-width / 2; // So vertical spacing equals compact grid spacing (.row-compact)
 
 //== Type
 
 $hr-border: rgba($brand-primary, 0.5);
-$text-muted: $gray-light;
+$text-muted: $gray;
 
 //== Wells
 
-$well-bg: #ffffff;
+$well-bg: #f3f3f3;
 $well-border: transparent;
 
 //== Panels
@@ -88,13 +93,3 @@ $well-border: transparent;
 $panel-default-heading-bg: #626262;
 $panel-bg: #f3f3f3;
 $panel-border-radius: 10px;
-
-//== Tooltips
-
-$tooltip-arrow-width: 5px;
-$tooltip-background-color: #ffffff;
-$tooltip-arrow-color: #ffffff;
-$tooltip-border-color: $gray-light;
-$tooltip-border-width: 1px;
-$tooltip-arrow-border-width: $tooltip-arrow-width + $tooltip-border-width;
-$tooltip-text-color: $gray;

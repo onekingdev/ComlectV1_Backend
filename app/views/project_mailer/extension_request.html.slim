@@ -1,4 +1,3 @@
-p #{@project.business} loves your work and wants to extend the project! Please confirm the extension request within one business day before it expires.
+p #{@project.business} loves your work and wants to extend the project #{link_to @project, project_dashboard_url(@project)}! Please confirm the extension request within one business day before it expires.
 
 p Please visit the #{link_to 'project dashboard', project_dashboard_url(@project)} to accept or deny this request.
-
