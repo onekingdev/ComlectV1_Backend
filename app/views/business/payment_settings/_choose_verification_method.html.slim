@@ -3,9 +3,9 @@
   = f.hidden_field :plaid_account_id
   = f.hidden_field :plaid_institution
   .text-center
-    = link_to 'Add account with Plaid', '#',
+    = link_to 'Instant Verification', '#',
       class: 'btn btn-primary btn-md js-plaid-link',
       data: { env: ENV.fetch('PLAID_ENV'), public_key: ENV.fetch('PLAID_PUBLIC_KEY'), client_name: current_business.business_name }
     .m-y-1 or
-    = link_to 'Add account with micro-deposits verification', new_business_settings_payment_path, class: 'btn btn-primary btn-md'
+    = link_to 'Micro-Deposit Verification', new_business_settings_payment_path, class: 'btn btn-primary btn-md'
 
