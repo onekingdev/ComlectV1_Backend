@@ -68,6 +68,19 @@ form .reset {
 
 .form-group {
   position: relative;
+
+  &.with-tooltip .form-control {
+    padding-right: 40px;
+  }
+
+  .info-tooltip {
+    position: absolute;
+    right: 10px;
+  }
+
+  .info-tooltip-lg {
+    top: 15px;
+  }
 }
 
 form .well {

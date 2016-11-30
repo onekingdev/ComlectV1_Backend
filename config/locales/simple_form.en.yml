@@ -125,7 +125,7 @@ en:
         business_tax_id: Business Tax ID
         account_number: Account Number
         account_routing_number: Routing Number
-        address1: Street
+        address1: Address Line 1
         zipcode: Post Code
         city: City
         state: State
