@@ -22,6 +22,11 @@ class Charge < ActiveRecord::Base
     amount_in_cents / 100.0
   end
 
+  def fee
+    return unless fee_in_cents
+    fee_in_cents / 100.0
+  end
+
   def total_amount
     return unless total_with_fee_in_cents
     total_with_fee_in_cents / 100.0
