@@ -1,8 +1,7 @@
 # frozen_string_literal: true
-class Transaction::BusinessCharge < Transaction
+class Transaction::FullTime < Transaction
   belongs_to :charge_source, class_name: 'PaymentSource'
   has_many :charges, dependent: :nullify
-  has_one :specialist_payment, class_name: 'Transaction::SpecialistPayment', foreign_key: 'parent_transaction_id'
 
   scope :current, -> { where(status: nil) }
   scope :current_for, -> (project_id) do
@@ -22,7 +21,11 @@ class Transaction::BusinessCharge < Transaction
 
   def create_stripe_charge
     stripe_customer_id = business.payment_profile.stripe_customer_id
-    charge = Stripe::Charge.create(amount: amount_in_cents, currency: 'usd', customer: stripe_customer_id)
+    charge = Stripe::Charge.create(
+      amount: amount_in_cents,
+      currency: 'usd',
+      customer: stripe_customer_id
+    )
     [charge, stripe_customer_id]
   end
 end
