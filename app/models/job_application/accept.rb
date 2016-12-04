@@ -47,7 +47,7 @@ class JobApplication::Accept < Draper::Decorator
                             date: project.starts_on,
                             process_after: project.starts_on,
                             status: Charge.statuses[:scheduled],
-                            description: "Upfront fee for job hire"
+                            description: "Full-time fee payable to Complect; Payment option: Upfront"
   end
 
   def schedule_monthly_fee
@@ -57,7 +57,7 @@ class JobApplication::Accept < Draper::Decorator
                      process_after: project.starts_on + i.months,
                      amount_in_cents: 0,
                      fee_in_cents: project.annual_salary * 3, # 3%, 0.03 = 3 in cents,
-                     description: "Monthly fee for job hire (#{i + 1} of 6)"
+                     description: "Full-time fee payable to Complect; Payment option: Monthly"
     end
   end
 end
