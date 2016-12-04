@@ -15,11 +15,15 @@ class PaymentCycle::Fixed::FiftyFifty < PaymentCycle::Fixed
     remaining_dates.each do |date|
       schedule_charge! amount: amount,
                        date: date,
-                       description: "Monthly pay"
+                       description: charge_description
     end
   end
 
   private
+
+  def charge_description
+    "50/50 project payment"
+  end
 
   def occurrences
     [project.starts_on, project.ends_on]

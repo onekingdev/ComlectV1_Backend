@@ -21,7 +21,7 @@ class Project::Form < Project
   validates :fixed_payment_schedule, :fixed_budget,
             presence: true, if: -> { fixed_pricing? && payment_schedule.blank? }
   validate if: -> { starts_on.present? } do
-    errors.add :starts_on, :past if starts_on.past?
+    errors.add :starts_on, :past if starts_on.in_time_zone(business.tz).to_date < business.tz.today
   end
   validate if: -> { starts_on.present? && ends_on.present? } do
     errors.add :starts_on, :invalid if starts_on > ends_on

@@ -11,7 +11,7 @@ class PaymentCycle::Fixed < PaymentCycle
     return if amount.nil?
     schedule_charge! amount: amount,
                      date: current_cycle,
-                     description: ''
+                     description: charge_description
   end
 
   private
