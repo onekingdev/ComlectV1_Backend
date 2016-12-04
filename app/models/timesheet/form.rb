@@ -37,7 +37,7 @@ class Timesheet::Form < Timesheet::Decorator
 
   def approve!
     self.class.transaction do
-      update_attribute :status, Timesheet.statuses[:approved]
+      update_attributes status: Timesheet.statuses[:approved], approved_at: Time.zone.now
       PaymentCycle.for(project).reschedule!
     end
   end
