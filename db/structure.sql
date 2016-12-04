@@ -3003,7 +3003,8 @@ CREATE TABLE transactions (
     project_id integer,
     parent_transaction_id integer,
     status_detail character varying,
-    fee_in_cents integer DEFAULT 0 NOT NULL
+    fee_in_cents integer DEFAULT 0 NOT NULL,
+    date timestamp without time zone
 );
 
 
@@ -4237,6 +4238,13 @@ CREATE INDEX index_transactions_on_charge_source_id ON transactions USING btree 
 
 
 --
+-- Name: index_transactions_on_date; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_transactions_on_date ON transactions USING btree (date);
+
+
+--
 -- Name: index_transactions_on_parent_transaction_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -4612,4 +4620,6 @@ INSERT INTO schema_migrations (version) VALUES ('20161107203304');
 INSERT INTO schema_migrations (version) VALUES ('20161130201113');
 
 INSERT INTO schema_migrations (version) VALUES ('20161204011945');
+
+INSERT INTO schema_migrations (version) VALUES ('20161204020457');
 

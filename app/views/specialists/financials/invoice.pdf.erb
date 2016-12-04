@@ -163,28 +163,28 @@
 </div>
 
 <div class="invoice-inner-body">
-  <div class="project-title"><%= charge.project.title %></div>
+  <div class="project-title"><%= transaction.project.title %></div>
 
   <div class="bolded-text top-row">
     <div class="left-side">Specialist:</div>
     <div class="right-side">INVOICE</div>
   </div>
   <br />
-  <div><%= charge.specialist.full_name %></div>
-  <div><%= "#{charge.specialist.address_1}, #{charge.specialist.address_2}" %></div>
-  <div><%= "#{charge.specialist.city}, #{charge.specialist.state} #{charge.specialist.zipcode}" %></div>
-  <div><%= charge.specialist.country %></div>
+  <div><%= transaction.specialist.full_name %></div>
+  <div><%= "#{transaction.specialist.address_1}, #{transaction.specialist.address_2}" %></div>
+  <div><%= "#{transaction.specialist.city}, #{transaction.specialist.state} #{transaction.specialist.zipcode}" %></div>
+  <div><%= transaction.specialist.country %></div>
 
   <div class="bolded-text top-row">Bill to::</div>
-  <div><%= charge.business.contact_full_name %></div>
-  <div><%= "#{charge.business.address_1}, #{charge.business.address_2}" %></div>
+  <div><%= transaction.business.contact_full_name %></div>
+  <div><%= "#{transaction.business.address_1}, #{transaction.business.address_2}" %></div>
   <div>
     <div class="business-city-state">
-      <%= "#{charge.business.city}, #{charge.business.state} #{charge.business.zipcode}" %>
+      <%= "#{transaction.business.city}, #{transaction.business.state} #{transaction.business.zipcode}" %>
     </div>
     <div class="charge-date">
       <span class="bolded-text">Date:&nbsp;</span>
-      <%= charge.process_after.strftime("%d %b, %Y") %>
+      <%= transaction.date.strftime("%d %b, %Y") %>
     </div>
   </div>
 
@@ -197,29 +197,34 @@
     </tr>
     </thead>
     <tbody>
-    <tr class="odd-row">
-      <td class="left-column"><%= charge.description %></td>
-      <td class="middle-column"></td>
-      <td class="right-column"><%= number_to_currency(charge.amount) %></td>
-    </tr>
+    <% transaction.charges.each do |charge| %>
+      <tr class="odd-row">
+        <td class="left-column"><%= charge.description %></td>
+        <td class="middle-column"></td>
+        <td class="right-column"><%= number_to_currency(charge.amount) %></td>
+      </tr>
+    <% end %>
     <tr class="even-row subtotal">
       <td class="left-column"></td>
       <th class="middle-column bolded-text">SUBTOTAL</th>
-      <td class="right-column bolded-text"><%= number_to_currency(charge.amount) %></td>
+      <td class="right-column bolded-text"><%= number_to_currency(transaction.subtotal) %></td>
     </tr>
     <tr class="odd-row">
       <td class="left-column"></td>
       <td class="middle-column">Complect Fee (10%)</td>
-      <td class="right-column"><%= number_to_currency(charge.fee) %></td>
+      <td class="right-column"><%= number_to_currency(transaction.fee) %></td>
     </tr>
     <tr class="even-row total">
       <td class="left-column"></td>
       <th class="middle-column bolded-text">TOTAL</th>
-      <td class="right-column bolded-text"><%= number_to_currency(charge.total_amount) %></td>
+      <td class="right-column bolded-text"><%= number_to_currency(transaction.amount) %></td>
     </tr>
     </tbody>
   </table>
-  <div class="after-table-text"><%= invoice_disclaimer %></div>
+  <div class="after-table-text">
+    Note: The total invoice amount has been automatically drawn from your nominated credit card or bank account.
+    If you wish to dispute these charges, please contact Complect.
+  </div>
 </div>
 
 </body>
