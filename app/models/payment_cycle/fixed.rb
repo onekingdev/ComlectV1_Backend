@@ -59,9 +59,10 @@ class PaymentCycle::Fixed < PaymentCycle
   end
 
   def periods
+    return @_periods if @_periods
     previous = project.starts_on
     last = occurrences.last.to_date
-    occurrences.map do |occurrence|
+    @_periods = occurrences.map do |occurrence|
       date = occurrence.to_date
       adjust = date == last ? 0 : -1
       (previous..date + adjust).tap do
