@@ -5,9 +5,13 @@
 .text-center.m-b-3.m-t-3.p-b-1
   h1.m-t-0.m-b-1 Sign up to become a Complect specialist
   small
-    'To be eligible, you must have 3+ years work experience
-    br
-    'in financial regulatory compliance
+    #eligible-huge To be eligible, you must have 3+ years work experience in financial regulatory compliance
+    #eligible-mobile
+      | To be eligible, you must have 3+
+      br
+      | years work experience in
+      br
+      | financial regulatory compliance
 
 = simple_form_for decorate(@specialist), wrapper: :inline_form, html: { class: 'form-specialist' } do |f|
   = render 'form', f: f

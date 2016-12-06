@@ -20,25 +20,26 @@ body.specialists.new {
     background-color: #ffffff;
     padding-top: 25px;
   }
-  #nav {
-    background-color: transparent;
-  }
-  #navbar-collapse li a {
-    color: #000000;
-  }
-  #navbar-collapse li a:hover {
-    color: #feb809;
-  }
-  #header {
-    margin-bottom: 60px;
-  }
   .btn-primary {
     text-transform: uppercase;
-    font-weight: bold;
+    font-weight: $medium-weight;
     font-size: 14px;
     letter-spacing: 2px;
     border-radius: 0px;
     padding: 10px 20px;
+  }
+  #eligible-huge {
+    display: inline-block;
+    max-width: 360px;
+    @media (max-width: $screen-xs-max) {
+      display: none;
+    }
+  }
+  #eligible-mobile {
+    display: none;
+    @media (max-width: $screen-xs-max) {
+      display: inline-block;
+    }
   }
 }
 

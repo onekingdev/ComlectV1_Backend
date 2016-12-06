@@ -55,12 +55,20 @@
 
 .fz-1-3x { font-size: 1.3em; }
 .fz-1-5x { font-size: 1.5em; }
-.fw-light { font-weight: $roboto-light; }
-.fw-regular { font-weight: $roboto-regular; }
-.fw-medium { font-weight: $roboto-medium; }
-.fw-bold { font-weight: $roboto-bold; }
-.fw-black { font-weight: $roboto-black; }
+
+.fw-hairline { font-weight: $hairline-weight; }
+.fw-thin { font-weight: $thin-weight; }
+.fw-ultralight { font-weight: $ultralight-weight; }
+.fw-light { font-weight: $light-weight; }
+.fw-regular { font-weight: $regular-weight; }
+.fw-medium { font-weight: $medium-weight; }
+.fw-bold { font-weight: $bold-weight; }
+.fw-extrabold { font-weight: $extrabold-weight; }
+.fw-black { font-weight: $black-weight; }
+.fw-heavy { font-weight: $heavy-weight; }
+
 .fw-700 { font-weight: 700 !important; }
+
 .fs-italic { font-style: italic; }
 .strong { font-weight: bold !important; }
 

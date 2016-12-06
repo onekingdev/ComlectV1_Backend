@@ -1,5 +1,5 @@
 #nav {
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: transparent;
   padding: 30px 50px;
   text-transform: uppercase;
   width: 100%;
@@ -7,17 +7,16 @@
   position: fixed;
   z-index: 5;
 
-  .sign_in li {
-    @media (min-width: $grid-float-breakpoint) {
-      padding: 0px 20px;
-    }
-    margin: 0px !important;
-  }
-
   .sign_in {
-    li a {
-      color: #ffcc00 !important;
-      font-weight: bold;
+    li {
+      @media (min-width: $grid-float-breakpoint) {
+        padding: 0px 20px;
+      }
+      margin: 0px !important;
+      a {
+        color: #ffcc00 !important;
+        font-weight: $bold-weight;
+      }
     }
     li:first-child {
       @media (min-width: $grid-float-breakpoint) {
@@ -31,11 +30,26 @@
     @media (min-width: $grid-float-breakpoint) {
       padding-top: 20px;
     }
+    li {
+      a {
+        color: #000000;
+      }
+      a:hover {
+        color: #feb809;
+      }
+    }
   }
 
   .navbar-brand {
     @include navbar-vertical-align-by-padding(53px);
     padding-left: 0;
+
+    @media (max-width: $grid-float-breakpoint) {
+      img {
+        -webkit-filter: drop-shadow(1px 1px 0px rgba(255, 255, 255, 1));
+        filter: drop-shadow(1px 1px 0px rgba(255, 255, 255, 1));
+      }
+    }
   }
 
   .btn {
@@ -44,7 +58,7 @@
   }
 
   li > a {
-    font-weight: lighter;
+    font-weight: $regular-weight;
     padding-left: 0;
     padding-right: 0;
     font-size: 12px;
@@ -118,7 +132,7 @@
   }
 
   @media (max-width: $screen-xs-max) {
-    padding: 0 30px;
+    padding: 10px;
   }
 
   @media (max-width: $grid-float-breakpoint-max) {

@@ -13,6 +13,7 @@ $brand-danger: #c9240e;
 //== Typography
 
 $font-family-base: Muller, sans-serif;
+
 $font-size-base: 14px;
 $font-size-large: ceil(($font-size-base * 1.25));
 $font-size-h1: 52px;
@@ -22,12 +23,6 @@ $line-height-md: 1.4;
 $line-height-lg: $line-height-large;
 
 $headings-font-family: Muller, serif;
-
-$roboto-light: 300;
-$roboto-regular: 400;
-$roboto-medium: 500;
-$roboto-bold: 700;
-$roboto-black: 900;
 
 //== Grid system
 
@@ -48,11 +43,18 @@ $grid-float-breakpoint: 1150px;
 
 //== Buttons
 
-$btn-font-weight: 500;
-$btn-default-border: transparent;
-$btn-primary-color: #171308;
-$btn-primary-border: transparent;
-$btn-border-radius-md: 5px;
+$btn-default-color:              #333 !default;
+$btn-default-bg:                 transparent !default;
+$btn-default-border:             #ffcc00;
+
+$btn-primary-color:              #fff !default;
+$btn-primary-bg:                 $brand-primary !default;
+$btn-primary-border:             #ffcc00;
+
+$btn-font-weight: $medium-weight;
+//$btn-default-border: transparent;
+$btn-primary-color: #333333;
+$btn-border-radius-md: 0px;
 $btn-success-color: #fff !important;
 $btn-success-border: $brand-success;
 $btn-danger-color: #fff !important;

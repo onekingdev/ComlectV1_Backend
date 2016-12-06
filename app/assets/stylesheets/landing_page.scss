@@ -1,8 +1,8 @@
-@import "landing_page/fonts";
 //$maxicons-font-path: "/fonts";
 //@import "maxicons";
 //$fa-font-path: "font-awesome/fonts";
 //@import "font-awesome/scss/font-awesome";
+@import "fonts";
 @import "landing_page/bootstrap";
 //@import "awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.scss";
 //@import "bootstrap-multiselect/dist/css/bootstrap-multiselect";
@@ -18,5 +18,5 @@
 @import "utilities";
 @import "type";
 
-//@import "components/*";
+@import "components/*";
 @import "landing_page/*";

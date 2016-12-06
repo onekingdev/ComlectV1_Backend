@@ -1,39 +1,107 @@
 #header {
   padding-top: 0;
-  background: asset-url("landing/header.jpg") no-repeat top center;
-  background-size: cover;
+  //background: asset-url("landing/header.jpg") no-repeat top center;
+  //background-size: cover;
+  min-height: 100%;
+  height: 140%;
   position: relative;
-  min-height: 1300px;
+  background-position: center;
+  justify-content: center;
+  margin-bottom: 0px;
 
-  &:before {
+  #how-it-works-header {
     position: absolute;
-    content: "";
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(#333, 0.2);
+    bottom: 0px;
+    left: 50%;
+    transform: translate(-50%,0%);
+    img {
+      width: 100%;
+    }
+    @media (max-width: $screen-xs-max) {
+      width: 100%;
+    }
   }
 
   .callout {
-    margin-top: 210px;
     text-align: center;
     color: #333;
     position: relative;
+    display: inline-block;
+    top: 35%; left: 50%;
+    transform: translate(-50%,-50%);
+
+    @media (max-width: $screen-xs-max) {
+      padding-top: 50px;
+    }
 
     h1 {
-      font-family: MullerMedium;
-      font-size: 45px;
       text-transform: uppercase;
       color: #fff;
       margin: 0;
-      letter-spacing: 0.11em;
 
       span {
         display: block;
-        font-size: 100px;
-        letter-spacing: 0.08em;
       }
     }
+
+    .buttons {
+      :first-child{
+        @media (min-width: $screen-xs-max) {
+          margin-right: 70px;
+        }
+      }
+
+      .btn {
+        width: 230px;
+        padding: 15px 0px;
+        margin-top: 20px;
+      }
+    }
+
+    blockquote {
+      text-transform: uppercase;
+      font-size: 22px;
+      font-weight: $bold-weight;
+      color: #333333;
+      width: 520px;
+      text-align: center;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      border-left: none;
+      margin-bottom: 0px;
+      -webkit-filter: drop-shadow(1px 1px 0px rgba(255, 255, 255, 0.5));
+      filter: drop-shadow(1px 1px 0px rgba(255, 255, 255, 0.5));
+    }
+
+    @media (max-width: $screen-xs-max) {
+      h1 {
+        font-size: 25px;
+        letter-spacing: 0.2em;
+
+        span {
+          font-size: 40px;
+          letter-spacing: 0.1em;
+        }
+      }
+      blockquote {
+        display: none;
+        width: auto;
+      }
+    }
+
+    @media (min-width: $screen-sm-min) {
+      h1 {
+        font-size: 35px;
+        letter-spacing: 0.11em;
+
+        span {
+          font-size: 80px;
+          letter-spacing: 0.08em;
+        }
+      }
+
+    }
+
   }
 }

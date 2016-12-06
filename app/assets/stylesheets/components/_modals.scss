@@ -97,14 +97,12 @@ $bootbox-width: 474px;
   .modal-body {
     padding: 30px;
     color: rgba(78, 78, 78, 0.8);
-    font-weight: $roboto-regular;
     background-color: #f3f3f3;
     border-top-left-radius: $border-radius;
     border-top-right-radius: $border-radius;
 
     h2 {
       color: #000;
-      font-weight: $roboto-light;
       font-size: 32px;
       margin: 45px 0;
     }

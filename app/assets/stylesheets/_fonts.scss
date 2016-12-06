@@ -1,30 +1,109 @@
-@font-face {
-  font-family: 'Glacial Indifference';
-  src: asset_url('GlacialIndifference-Regular.eot');
-  src: asset_url('GlacialIndifference-Regular.eot?#iefix') format('embedded-opentype'),
-  asset_url('GlacialIndifference-Regular.woff') format('woff'),
-  asset_url('GlacialIndifference-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
+// Font weights:
+
+$hairline-weight: 0;
+$thin-weight: 100;
+$ultralight-weight: 200;
+$light-weight: 300;
+$regular-weight: 400;
+$medium-weight: 500;
+$bold-weight: 600;
+$extrabold-weight: 700;
+$black-weight: 800;
+$heavy-weight: 900;
 
 @font-face {
-  font-family: 'Glacial Indifference';
-  src: asset_url('GlacialIndifference-Bold.eot');
-  src: asset_url('GlacialIndifference-Bold.eot?#iefix') format('embedded-opentype'),
-  asset_url('GlacialIndifference-Bold.woff') format('woff'),
-  asset_url('GlacialIndifference-Bold.ttf') format('truetype');
-  font-weight: bold;
+  font-family: 'Muller';
+  src: url('/fonts/mullerhairline-webfont.eot');
+  src: url('/fonts/mullerhairline-webfont.eot?#iefix') format('embedded-opentype'),
+       url('/fonts/mullerhairline-webfont.woff2') format('woff2'),
+       url('/fonts/mullerhairline-webfont.woff') format('woff'),
+       url('/fonts/mullerhairline-webfont.ttf') format('truetype'),
+       url('/fonts/mullerhairline-webfont.svg#mullerhairline') format('svg');
+  font-weight: $hairline-weight;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Muller';
-  src: url('fonts/mullerlight-webfont.eot');
-  src: url('fonts/mullerlight-webfont.eot?#iefix') format('embedded-opentype'),
-    url('fonts/mullerlight-webfont.woff') format('woff'),
-    url('fonts/mullerlight-webfont.ttf') format('truetype');
-  font-weight: lighter;
+  src: url('/fonts/mullerhairlineitalic-webfont.eot');
+  src: url('/fonts/mullerhairlineitalic-webfont.eot?#iefix') format('embedded-opentype'),
+       url('/fonts/mullerhairlineitalic-webfont.woff2') format('woff2'),
+       url('/fonts/mullerhairlineitalic-webfont.woff') format('woff'),
+       url('/fonts/mullerhairlineitalic-webfont.ttf') format('truetype'),
+       url('/fonts/mullerhairlineitalic-webfont.svg#mullerhairline_italic') format('svg');
+  font-weight: $hairline-weight;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Muller';
+  src: url('/fonts/mullerthin-webfont.eot');
+  src: url('/fonts/mullerthin-webfont.eot?#iefix') format('embedded-opentype'),
+       url('/fonts/mullerthin-webfont.woff2') format('woff2'),
+       url('/fonts/mullerthin-webfont.woff') format('woff'),
+       url('/fonts/mullerthin-webfont.ttf') format('truetype'),
+       url('/fonts/mullerthin-webfont.svg#mullerthin') format('svg');
+  font-weight: $thin-weight;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Muller';
+  src: url('/fonts/mullerthinitalic-webfont.eot');
+  src: url('/fonts/mullerthinitalic-webfont.eot?#iefix') format('embedded-opentype'),
+       url('/fonts/mullerthinitalic-webfont.woff2') format('woff2'),
+       url('/fonts/mullerthinitalic-webfont.woff') format('woff'),
+       url('/fonts/mullerthinitalic-webfont.ttf') format('truetype'),
+       url('/fonts/mullerthinitalic-webfont.svg#mullerthin_italic') format('svg');
+  font-weight: $thin-weight;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Muller';
+  src: url('/fonts/mullerultralight-webfont.eot');
+  src: url('/fonts/mullerultralight-webfont.eot?#iefix') format('embedded-opentype'),
+       url('/fonts/mullerultralight-webfont.woff2') format('woff2'),
+       url('/fonts/mullerultralight-webfont.woff') format('woff'),
+       url('/fonts/mullerultralight-webfont.ttf') format('truetype'),
+       url('/fonts/mullerultralight-webfont.svg#mullerultralight') format('svg');
+  font-weight: $ultralight-weight;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Muller';
+  src: url('/fonts/mullerlight-webfont.eot');
+  src: url('/fonts/mullerlight-webfont.eot?#iefix') format('embedded-opentype'),
+       url('/fonts/mullerlight-webfont.woff2') format('woff2'),
+       url('/fonts/mullerlight-webfont.woff') format('woff'),
+       url('/fonts/mullerlight-webfont.ttf') format('truetype'),
+       url('/fonts/mullerlight-webfont.svg#mullerlight') format('svg');
+  font-weight: $light-weight;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Muller';
+  src: url('/fonts/mullerlightitalic-webfont.eot');
+  src: url('/fonts/mullerlightitalic-webfont.eot?#iefix') format('embedded-opentype'),
+       url('/fonts/mullerlightitalic-webfont.woff2') format('woff2'),
+       url('/fonts/mullerlightitalic-webfont.woff') format('woff'),
+       url('/fonts/mullerlightitalic-webfont.ttf') format('truetype'),
+       url('/fonts/mullerlightitalic-webfont.svg#mullerlight_italic') format('svg');
+  font-weight: $light-weight;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Muller';
+  src: url('/fonts/mullerregular-webfont.eot');
+  src: url('/fonts/mullerregular-webfont.eot?#iefix') format('embedded-opentype'),
+       url('/fonts/mullerregular-webfont.woff2') format('woff2'),
+       url('/fonts/mullerregular-webfont.woff') format('woff'),
+       url('/fonts/mullerregular-webfont.ttf') format('truetype'),
+       url('/fonts/mullerregular-webfont.svg#muller_regularregular') format('svg');
+  font-weight: $regular-weight;
   font-style: normal;
 }
 
@@ -32,18 +111,106 @@
   font-family: 'Muller';
   src: url('/fonts/mullermedium-webfont.eot');
   src: url('/fonts/mullermedium-webfont.eot?#iefix') format('embedded-opentype'),
-    url('/fonts/mullermedium-webfont.woff') format('woff'),
-    url('/fonts/mullermedium-webfont.ttf') format('truetype');
-  font-weight: bold;
+       url('/fonts/mullermedium-webfont.woff2') format('woff2'),
+       url('/fonts/mullermedium-webfont.woff') format('woff'),
+       url('/fonts/mullermedium-webfont.ttf') format('truetype'),
+       url('/fonts/mullermedium-webfont.svg#mullermedium') format('svg');
+  font-weight: $medium-weight;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Muller';
-  src: url('/fonts/mullerregular-webfont.eot');
-  src: url('/fonts/mullerregular-webfont.eot?#iefix') format('embedded-opentype'),
-    url('/fonts/mullerregular-webfont.woff') format('woff'),
-    url('/fonts/mullerregular-webfont.ttf') format('truetype');
-  font-weight: normal;
+  src: url('/fonts/mullermediumitalic-webfont.eot');
+  src: url('/fonts/mullermediumitalic-webfont.eot?#iefix') format('embedded-opentype'),
+       url('/fonts/mullermediumitalic-webfont.woff2') format('woff2'),
+       url('/fonts/mullermediumitalic-webfont.woff') format('woff'),
+       url('/fonts/mullermediumitalic-webfont.ttf') format('truetype'),
+       url('/fonts/mullermediumitalic-webfont.svg#mullermedium_italic') format('svg');
+  font-weight: $medium-weight;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Muller';
+  src: url('/fonts/mullerbold-webfont.eot');
+  src: url('/fonts/mullerbold-webfont.eot?#iefix') format('embedded-opentype'),
+       url('/fonts/mullerbold-webfont.woff2') format('woff2'),
+       url('/fonts/mullerbold-webfont.woff') format('woff'),
+       url('/fonts/mullerbold-webfont.ttf') format('truetype'),
+       url('/fonts/mullerbold-webfont.svg#mullerbold') format('svg');
+  font-weight: $bold-weight;
   font-style: normal;
+}
+
+@font-face {
+  font-family: 'Muller';
+  src: url('/fonts/mullerbolditalic-webfont.eot');
+  src: url('/fonts/mullerbolditalic-webfont.eot?#iefix') format('embedded-opentype'),
+       url('/fonts/mullerbolditalic-webfont.woff2') format('woff2'),
+       url('/fonts/mullerbolditalic-webfont.woff') format('woff'),
+       url('/fonts/mullerbolditalic-webfont.ttf') format('truetype'),
+       url('/fonts/mullerbolditalic-webfont.svg#mullerbold_italic') format('svg');
+  font-weight: $bold-weight;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Muller';
+  src: url('/fonts/mullerextrabold-webfont.eot');
+  src: url('/fonts/mullerextrabold-webfont.eot?#iefix') format('embedded-opentype'),
+       url('/fonts/mullerextrabold-webfont.woff2') format('woff2'),
+       url('/fonts/mullerextrabold-webfont.woff') format('woff'),
+       url('/fonts/mullerextrabold-webfont.ttf') format('truetype'),
+       url('/fonts/mullerextrabold-webfont.svg#mullerextrabold') format('svg');
+  font-weight: $extrabold-weight;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Muller';
+  src: url('/fonts/mullerblack-webfont.eot');
+  src: url('/fonts/mullerblack-webfont.eot?#iefix') format('embedded-opentype'),
+       url('/fonts/mullerblack-webfont.woff2') format('woff2'),
+       url('/fonts/mullerblack-webfont.woff') format('woff'),
+       url('/fonts/mullerblack-webfont.ttf') format('truetype'),
+       url('/fonts/mullerblack-webfont.svg#mullerblack') format('svg');
+  font-weight: $black-weight;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Muller';
+  src: url('/fonts/mullerblackitalic-webfont.eot');
+  src: url('/fonts/mullerblackitalic-webfont.eot?#iefix') format('embedded-opentype'),
+       url('/fonts/mullerblackitalic-webfont.woff2') format('woff2'),
+       url('/fonts/mullerblackitalic-webfont.woff') format('woff'),
+       url('/fonts/mullerblackitalic-webfont.ttf') format('truetype'),
+       url('/fonts/mullerblackitalic-webfont.svg#mullerblack_italic') format('svg');
+  font-weight: $black-weight;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Muller';
+  src: url('/fonts/mullerheavy-webfont.eot');
+  src: url('/fonts/mullerheavy-webfont.eot?#iefix') format('embedded-opentype'),
+       url('/fonts/mullerheavy-webfont.woff2') format('woff2'),
+       url('/fonts/mullerheavy-webfont.woff') format('woff'),
+       url('/fonts/mullerheavy-webfont.ttf') format('truetype'),
+       url('/fonts/mullerheavy-webfont.svg#mullerheavy') format('svg');
+  font-weight: $heavy-weight;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Muller';
+  src: url('/fonts/mullerheavyitalic-webfont.eot');
+  src: url('/fonts/mullerheavyitalic-webfont.eot?#iefix') format('embedded-opentype'),
+       url('/fonts/mullerheavyitalic-webfont.woff2') format('woff2'),
+       url('/fonts/mullerheavyitalic-webfont.woff') format('woff'),
+       url('/fonts/mullerheavyitalic-webfont.ttf') format('truetype'),
+       url('/fonts/mullerheavyitalic-webfont.svg#mullerheavy_italic') format('svg');
+  font-weight: $heavy-weight;
+  font-style: italic;
 }

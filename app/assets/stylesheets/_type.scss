@@ -1,6 +1,5 @@
 h1 {
   font-size: 18px;
-  font-weight: normal;
   font-family: Muller;
   text-transform: uppercase;
   letter-spacing: 2px;
@@ -8,15 +7,18 @@ h1 {
 
 h2 {
   font-family: Muller, serif;
-  font-weight: bold;
   font-size: 16px;
   letter-spacing: 2px;
   margin-top: 0;
+//<<<<<<< 10a361ccaa16253dcc20cf3028134117f39f578d
 
   .info-tooltip {
     font-size: 65%;
     line-height: 1;
   }
+//=======
+  font-weight: $medium-weight;
+//>>>>>>> landing page initial
 }
 
 h4 {
@@ -25,7 +27,7 @@ h4 {
 }
 
 h6 {
-  font-weight: bold;
+  font-weight: $medium-weight;
   letter-spacing: 1px;
 }
 

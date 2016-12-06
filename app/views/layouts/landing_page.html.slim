@@ -2,54 +2,127 @@ doctype html
 html lang=I18n.locale
   head
     title Complect
+    meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     = stylesheet_link_tag 'landing_page', media: 'all'
     = csrf_meta_tags
     = render 'mixpanel'
     = yield :html_head
 
+
 body.home.index
-  header#header class=(yield(:header_class) || 'compact')
-    - content_for :logo, image_tag('logo-inverse.png', size: '178x42')
+  #header.parallax-window class=(yield(:header_class) || 'compact') data-parallax="scroll" data-image-src=asset_path('landing/header.jpg')
+    - content_for :logo, image_tag('logo-inverse.png', size: '226x53')
     = render "navbar", user: User::Decorator.new(current_user)
 
     .callout
       h1
-        'Compliance Specialists
-        span On Demand
+        | Compliance Specialists
+        span
+          | On Demand
 
-      blockquote Get Instant Access to Top Financial Regulatory Compliance Specialists
-
+      blockquote
+        | Get Instant Access to Top Financial Regulatory Compliance Specialists
       .buttons
-        a.btn.btn-primary href=new_business_project_path Post a Project
-        a.btn.btn-default href=new_specialist_path Become a Specialist
+        a.btn.btn-primary.p-h-3 href=new_business_project_path Post a Project
+        a.btn.btn-default.p-h-3 href=new_specialist_path Become a Specialist
 
+    .container#how-it-works-header 
+      =image_tag "landing/how-it-works.png"
+
+  .overflow-wrap
+    .container
+      #how-it-works.clearfix
+        .col-md-6.pull-right.hiw-entry
+          .hiw-num 01
+          h1 POST A PROJECT
+          p It's free to post a project. You can post a one-off project, hourly engagement, or a full-time role. Set the price, time and prerequisites, and immediately start receiving applications from our pool of top specialists.
+        .col-md-7.pull-left.hiw-entry
+          .hiw-num 02
+          h1 REVIEW APPLICANTS
+          p Our specialists have a minimum of three years compliance experience and only those meeting your job prerequisites may apply. You can read reviews and interview before selecting the right specialist for your project.
+        .col-md-7.pull-right.hiw-entry
+          .hiw-num 03
+          h1 GET WORK DONE
+          p Start working right away! Your information will only be shared with the specialists you engage. Payment is made electronically when you are satisfied with the work and our fees are simple: 10% of the payment processed.
+
+  #types-of-services.parallax-window data-image-src=asset_path("landing/types-of-services-bg.jpg") data-parallax="scroll"
+    .container.clearfix
+      .col-md-5.pull-right
+        #services-heading
+          | Types of 
+          span services
+        #services-img = image_tag "landing/types-of-services-icons.png"
+        ul
+          li Registration
+          li Regulatory Filings
+          li Compliance Manual
+          li Secondment
+          li CCO Support
+          li Internal Reviews
+          li and more
+
+    .container#talent-across-header
+      =image_tag "landing/talent-across.png"
+
+  .container
+    #talent-across.clearfix
+      table
+        tr
+          td Broker<br>dealer
+          td Banking
+          td Fund<br>manager
+          td Investment<br>adviser
+          td Commodities<br>trader
+      ul
+        li Broker dealer
+        li Banking
+        li Fund manager
+        li Investment adviser
+        li Commodities trader
+
+      .col-md-7#talent-text.pull-right
+        | Regulatory compliance is an unavoidable aspect of the financial services industry. The regulatory environment is constantly changing and compliance issues are more numerous and complicated than ever.
+        br
+        br
+        | Our online platform makes it easier for firms in the industry to connect with experienced compliance specialists in their field and gives top compliance talent the tools and resources to take control of their careers.
+
+  #infographics.parallax-window data-image-src=asset_path('landing/infographics.jpg') data-parallax="scroll"
+    .container
+      .circle
+        h1 $150BN
+        p
+          | SPENT
+          br
+          | ON COMPLIANCE 
+          br
+          | IN THE U.S.
+      .circle
+        h1 24MM
+        p
+          | HOURS SPENT A YEAR 
+          br
+          | ON DODD-FRANK 
+          br
+          | COMPLIANCE
+      .circle
+        h1 807
+        p
+          | ENFORCEMENT 
+          br
+          | ACTIONS FROM 
+          br
+          | THE SEC IN 2015
+      .circle
+        h1 $4.2BN
+        p
+          | DISGORGEMENT AND 
+          br
+          | PENALTIES ORDERED 
+          br
+          | BY THE SEC IN 2015
   .container
     = render_flash
     = yield
-    p &nbsp;
-    p &nbsp;
-    p &nbsp;
-    p &nbsp;
-    p &nbsp;
-    p &nbsp;
-    p &nbsp;
-    p &nbsp;
-    p &nbsp;
-    p &nbsp;
-    p &nbsp;
-    p &nbsp;
-    p &nbsp;
-    p &nbsp;
-    p &nbsp;
-    p &nbsp;
-    p &nbsp;
-    p &nbsp;
-    p &nbsp;
-    p &nbsp;
-    p &nbsp;
-    p &nbsp;
-    p &nbsp;
-    p &nbsp;
 
   #modal.modal.fade tabindex=-1 role="dialog"
     .modal-dialog
@@ -65,4 +138,5 @@ body.home.index
 
   = yield :prepend_scripts
   = javascript_include_tag 'application'
+  = javascript_include_tag 'landing'
   = yield :scripts
