@@ -13,3 +13,7 @@ process_transactions:
 end_projects:
   cron: "0,30 * * * *"
   class: "EndProjectsJob"
+
+expire_projects:
+  cron: "*/5 * * * *"
+  class: "ExpireProjectsJob"

@@ -27,15 +27,36 @@
         = project.jurisdictions_input(f)
       .col-xs-12.col-sm-8
         = f.input :key_deliverables, input_html: { class: 'input-lg tt-n' }
-        = f.input :full_time_starts_on, input_html: { class: 'input-lg js-datepicker', "data-value" => (l(f.object.full_time_starts_on, format: :pickadate) if f.object.full_time_starts_on.present?) }
+        = f.input :full_time_starts_on, \
+          input_html: { \
+            class: 'input-lg js-datepicker', \
+            data: { \
+              min: Date.today.to_a[3..5].reverse, \
+              value: (l(f.object.full_time_starts_on, format: :pickadate) if f.object.full_time_starts_on.present?) \
+            } \
+          }
 
   .well.well-lg.m-t-3.project-duration
     h2.text-center.m-b-2 Project Duration
     .row.row-compact.js-date-range
       .col-xs-12.col-sm-6
-        = f.input :starts_on, required: true, as: :string, input_html: { class: 'input-lg js-datepicker', data: { 'date-from' => true, value: (l(f.object.starts_on, format: :pickadate) if f.object.starts_on) } }
+        = f.input :starts_on, required: true, as: :string, input_html: { \
+          class: 'input-lg js-datepicker', \
+          data: { \
+            min: Date.today.to_a[3..5].reverse, \
+            'date-from' => true, \
+            value: (l(f.object.starts_on, format: :pickadate) if f.object.starts_on) \
+          } \
+        }
       .col-xs-12.col-sm-6
-        = f.input :ends_on, required: true, as: :string, input_html: { class: 'input-lg js-datepicker', data: { 'date-to' => true, value: (l(f.object.ends_on, format: :pickadate) if f.object.ends_on) } }
+        = f.input :ends_on, required: true, as: :string, input_html: { \
+          class: 'input-lg js-datepicker', \
+          data: { \
+            min: Date.today.to_a[3..5].reverse, \
+            'date-to' => true, \
+            value: (l(f.object.ends_on, format: :pickadate) if f.object.ends_on) \
+          } \
+        }
     .row.row-compact.p-b-1
       .col-xs-12
         .small.text-muted Please estimate if necessary to allow our specialists to determine their availability. You will be able to extend the deadline later.

@@ -2,7 +2,6 @@
 class MessageMailer < ApplicationMailer
   def first_contact(from, to, message_text, project)
     @message = message_text
-    @from = confidential_party_name(from)
     @project = project
     thread = EmailThread.for!(from, to)
     mail to: "Complect <#{ENV.fetch('DEFAULT_MAIL_FROM')}>",
@@ -42,10 +41,6 @@ class MessageMailer < ApplicationMailer
 
   def subject(_from)
     "You received a message on Complect"
-  end
-
-  def confidential_party_name(party)
-    party_name(party) unless party.is_a?(Business) && party.anonymous?
   end
 
   def party_name(party)

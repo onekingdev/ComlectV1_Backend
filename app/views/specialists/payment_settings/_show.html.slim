@@ -19,24 +19,6 @@ h2.m-t-0 Payment Details
 
 - else
   .m-t-2
-    a.btn.btn-link.btn-plain.js-specialist-payment-settings href="#"
+    a.btn.btn-link.btn-plain href=new_specialists_settings_payment_path(popup: true) data-remote="true"
       i.icon.maxicons2-add
       span Add Bank Account
-
-.hidden
-  = simple_form_for StripeAccount::Form.for(current_specialist), method: 'get', url: new_specialists_settings_payment_path, html: { id: 'specialist-payment-choose-country' } do |f|
-    .form-group.m-b-2
-      = f.label :country, 'What country is your account on?'
-      = f.country_select :country,
-        { only: Stripe::SUPPORTED_COUNTRIES.except(:JP).keys.map(&:to_s) },
-        { class: 'form-control input-lg input-gray js-select' }
-    = f.input :account_type,
-      required: false,
-      label: 'Account type:',
-      collection: [%w(Individual individual), %w(Company company)],
-      input_html: { class: 'input-gray input-lg js-select' },
-      wrapper_html: { class: 'm-b-2' }
-
-    .text-center
-      button.btn.btn-md.btn-primary.m-r-1 data-dismiss="modal" type="button" Cancel
-      = f.submit 'Continue', class: 'btn btn-md btn-primary'

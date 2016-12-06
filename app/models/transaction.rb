@@ -3,6 +3,7 @@ class Transaction < ActiveRecord::Base
   belongs_to :project
   has_one :business, through: :project
   has_one :specialist, through: :project
+  has_many :charges
 
   enum status: { pending: nil, processed: 'processed', error: 'error' }
 
@@ -16,6 +17,14 @@ class Transaction < ActiveRecord::Base
 
   def amount
     BigDecimal.new(amount_in_cents) / 100.0
+  end
+
+  def fee
+    charges.map(&:fee).reduce(:+) || 0
+  end
+
+  def subtotal
+    BigDecimal.new(charges.map(&:amount_in_cents).reduce(:+) || 0) / 100.0
   end
 
   def process!

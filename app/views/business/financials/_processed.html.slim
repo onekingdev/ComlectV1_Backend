@@ -13,7 +13,7 @@ table.table.table-striped
         td= charge.date.strftime('%b %d, %Y')
         td= charge.project
         td= charge.project.specialist
-        td.text-right= number_to_currency charge.total_amount
+        td.text-right= number_to_currency charge.amount
         td.text-center
           = link_to invoice_business_financial_path(charge.id, format: :pdf), target: "_blank" do
             .fa.fa-file-pdf-o

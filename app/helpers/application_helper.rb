@@ -84,12 +84,6 @@ module ApplicationHelper
     params[:page].blank? ? 1 : params[:page].to_i
   end
 
-  def invoice_disclaimer
-    text = "Note: The total invoice amount has been automatically drawn from your nominated credit card or bank"
-    text += "account. If you wish to dispute these charges, please contact Complect."
-    text
-  end
-
   def submit_flag_url(user, project)
     if user.business.present?
       business_project_flags_path(project_id: project.id)

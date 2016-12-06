@@ -26,8 +26,7 @@ class Specialist::Financials
 
   def self.processed(specialist, params)
     sort_direction = params[:sort_direction].to_s.casecmp('asc').zero? ? 'ASC' : 'DESC'
-    specialist.payments
-              .processed
+    specialist.transactions
               .joins(:business)
               .order("#{PAYMENT_ORDERING[params[:sort_by] || 'date']} #{sort_direction}")
               .page(params[:page]).per(5)

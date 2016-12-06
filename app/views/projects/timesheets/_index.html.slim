@@ -1,5 +1,5 @@
-- if @timesheet.project.active?
-  .selected-timesheet data-id=@timesheet.id
+.selected-timesheet data-id=@timesheet.id
+  - if @timesheet.project.active?
     = render 'form', timesheet: @timesheet
 
 .panel-drawer.timesheets

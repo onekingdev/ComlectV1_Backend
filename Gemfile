@@ -95,7 +95,7 @@ end
 group :development do
   # Debugging
   gem 'web-console', '~> 2.0'
-  gem 'letter_opener'
+  gem 'mailcatcher'
 
   # Preloading
   gem 'spring'

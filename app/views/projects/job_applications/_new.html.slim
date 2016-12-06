@@ -7,10 +7,12 @@
         h4 Apply to This #{f.object.project.full_time? ? 'Full-time Role' : 'Project'}
       .modal-body
         - if @job_application.errors[:prerequisites].empty?
-          = f.input :message, required: false, label: 'Introductory Message:', as: :text, input_html: { rows: 10 }
+          = f.input :message, required: false, label: 'Introductory Message:', as: :text, input_html: { rows: 10, maxlength: 200 }
           = f.submit 'Apply', class: 'btn btn-primary btn-block'
-          / TODO: terms link
-          p.text-center.m-t-2.small.text-muted By clicking 'Apply' you are agreeing to our <a href="#">Terms of Use</a><br>and the <a href="#">Stripe Agreement</a>
+          p.text-center.m-t-2.small.text-muted
+            'By clicking 'Apply' you are agreeing to our <a href="#{page_path('terms-of-use')}" target="_blank">Terms of Use</a>
+            br
+            'and the <a href="https://stripe.com/us/connect-account/legal" target="_blank">Stripe Agreement</a>
         - else
           p We're sorry but you don't fill the requirements for this #{@job_application.project.full_time? ? 'full-time role' : 'project'}:
           ul
