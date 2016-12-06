@@ -41,8 +41,8 @@
   }
 
   h4 {
-    font-family: Baskerville;
-    font-weight: $baskerville-bold;
+    font-family: Muller;
+    font-weight: bold;
     font-style: italic;
     font-size: 18px;
     color: #666;
@@ -83,7 +83,7 @@ $bootbox-width: 474px;
   }
 
   .modal-title {
-    font-family: Raleway;
+    font-family: Muller;
     font-size: 18px;
     font-weight: normal;
   }
@@ -97,14 +97,12 @@ $bootbox-width: 474px;
   .modal-body {
     padding: 30px;
     color: rgba(78, 78, 78, 0.8);
-    font-weight: $roboto-regular;
     background-color: #f3f3f3;
     border-top-left-radius: $border-radius;
     border-top-right-radius: $border-radius;
 
     h2 {
       color: #000;
-      font-weight: $roboto-light;
       font-size: 32px;
       margin: 45px 0;
     }
@@ -193,7 +191,7 @@ $bootbox-width: 474px;
   }
 
   h4 {
-    font-family: Raleway;
-    font-weight: $raleway-light;
+    font-family: Muller;
+    font-weight: lighter;
   }
 }

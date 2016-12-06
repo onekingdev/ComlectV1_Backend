@@ -29,10 +29,8 @@ class Business::FinancialsController < ApplicationController
     respond_to do |format|
       format.pdf do
         render pdf: 'invoice',
-               show_as_html: params.key?('debug'),
                template: 'specialists/financials/invoice.pdf.erb',
-               locals: { transaction: Transaction.find(params[:id]) },
-               page_size: 'Letter',
+               locals: { charge: Charge.find(params[:id]) },
                margin: { top:               0,
                          bottom:            35,
                          left:              0,

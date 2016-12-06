@@ -11,7 +11,7 @@ class Charge < ActiveRecord::Base
   scope :upcoming, -> { where.not(status: Charge.statuses[:processed]) }
   scope :after, -> (date) { where('date >= ?', date.to_date) }
   scope :before, -> (date) { where('date < ?', date.to_date) }
-  scope :for_processing, -> { where('process_after <= ?', Time.zone.now).order(date: :asc) }
+  scope :for_processing, -> { where('process_after <= ?', Time.zone.now) }
 
   before_create :calculate_fee
 
@@ -20,11 +20,6 @@ class Charge < ActiveRecord::Base
   def amount
     return unless amount_in_cents
     amount_in_cents / 100.0
-  end
-
-  def fee
-    return unless fee_in_cents
-    fee_in_cents / 100.0
   end
 
   def total_amount

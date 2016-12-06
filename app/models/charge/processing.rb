@@ -15,9 +15,12 @@ class Charge::Processing
 
   def process!
     ActiveRecord::Base.transaction do
-      transaction = create_transaction
+      total_in_cents = charges.map(&:total_with_fee_in_cents).reduce(:+)
+      specialist_amount = charges.map(&:specialist_amount_in_cents).reduce(:+)
+      business_transaction = create_business_transaction(total_in_cents)
+      create_specialist_payment business_transaction, specialist_amount
       Charge.where(id: charges.map(&:id)).update_all(
-        transaction_id: transaction.id,
+        transaction_id: business_transaction.id,
         status: Charge.statuses[:processed]
       )
     end
@@ -25,15 +28,13 @@ class Charge::Processing
 
   private
 
-  def create_transaction
-    amount_in_cents = charges.map(&:total_with_fee_in_cents).reduce(:+)
-    fee_in_cents = charges.map(&:fee_in_cents).reduce(:+)
-    common = { project_id: project.id, amount_in_cents: amount_in_cents, date: charges.first.date }
-    if project.full_time?
-      Transaction::FullTime.create!(common)
-    else
-      # (*2) because we take 10% off business and 10% off specialists
-      Transaction::OneOff.create!(common.merge(fee_in_cents: fee_in_cents * 2))
-    end
+  def create_business_transaction(amount_in_cents)
+    Transaction::BusinessCharge.create!(project_id: project.id, amount_in_cents: amount_in_cents)
+  end
+
+  def create_specialist_payment(parent_transaction, amount_in_cents)
+    # Specialists don't get directly paid for full time roles:
+    return if project.full_time?
+    Transaction::SpecialistPayment.create!(amount_in_cents: amount_in_cents, parent_transaction: parent_transaction)
   end
 end
