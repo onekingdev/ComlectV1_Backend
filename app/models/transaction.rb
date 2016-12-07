@@ -20,11 +20,15 @@ class Transaction < ActiveRecord::Base
   end
 
   def fee
-    charges.map(&:fee).reduce(:+) || 0
+    @_fee ||= charges.map(&:fee).reduce(:+) || 0
   end
 
   def subtotal
     BigDecimal.new(charges.map(&:amount_in_cents).reduce(:+) || 0) / 100.0
+  end
+
+  def specialist_total
+    subtotal - fee
   end
 
   def process!

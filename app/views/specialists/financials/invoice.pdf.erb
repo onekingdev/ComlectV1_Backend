@@ -210,18 +210,18 @@
         <th class="middle-column bolded-text">SUBTOTAL</th>
         <td class="right-column bolded-text"><%= number_to_currency(transaction.subtotal) %></td>
       </tr>
-    <tr class="odd-row">
-      <td class="left-column"></td>
-      <td class="middle-column">Complect Fee (10%)</td>
-      <td class="right-column"><%= number_to_currency(transaction.fee) %></td>
-    </tr>
+      <tr class="odd-row">
+        <td class="left-column"></td>
+        <td class="middle-column">Complect Fee (10%)</td>
+        <td class="right-column"><%= number_to_currency(transaction.fee) %></td>
+      </tr>
     <% end %>
     <tr class="even-row total">
       <td class="left-column"></td>
       <th class="middle-column bolded-text">TOTAL</th>
       <td class="right-column bolded-text">
         <% if specialist %>
-          <%= number_to_currency(transaction.subtotal - transaction.fee) %>
+          <%= number_to_currency(transaction.specialist_total) %>
         <% else %>
           <%= number_to_currency(transaction.amount) %>
         <% end %>
