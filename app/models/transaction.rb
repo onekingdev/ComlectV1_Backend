@@ -3,7 +3,7 @@ class Transaction < ActiveRecord::Base
   belongs_to :project
   has_one :business, through: :project
   has_one :specialist, through: :project
-  has_many :charges
+  has_many :charges, foreign_key: 'transaction_id', dependent: :nullify
 
   enum status: { pending: nil, processed: 'processed', error: 'error' }
 

@@ -51,12 +51,15 @@ class JobApplication::Accept < Draper::Decorator
   end
 
   def schedule_monthly_fee
+    fee = project.annual_salary * 3 # 3%, 0.03 = 3 in cents
+    total = fee * 6
     6.times do |i|
       Charge.create! project: project,
                      date: project.starts_on + i.months,
                      process_after: project.starts_on + i.months,
                      amount_in_cents: 0,
-                     fee_in_cents: project.annual_salary * 3, # 3%, 0.03 = 3 in cents,
+                     fee_in_cents: fee,
+                     running_balance_in_cents: total - (fee * (i + 1)),
                      description: "Full-time fee payable to Complect; Payment option: Monthly"
     end
   end

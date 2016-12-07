@@ -201,7 +201,7 @@
       <tr class="odd-row">
         <td class="left-column"><%= charge.description %></td>
         <td class="middle-column"></td>
-        <td class="right-column"><%= number_to_currency(charge.amount) %></td>
+        <td class="right-column"><%= number_to_currency(charge.amount_or_fee) %></td>
       </tr>
     <% end %>
     <% if transaction.project.one_off? %>
