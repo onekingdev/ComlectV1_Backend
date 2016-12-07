@@ -22,10 +22,14 @@ class Timesheet < ActiveRecord::Base
   def total_due
     if errors.any?
       # Count new records too when there are errors
-      (time_logs.map(&:hours).compact.reduce(:+) || 0) * project.hourly_rate
+      (time_logs.map(&:total_amount).compact.reduce(:+) || 0)
     else
-      time_logs.sum(:hours) * project.hourly_rate
+      time_logs.sum :total_amount
     end
+  end
+
+  def approved_or_charged?
+    approved? || charged?
   end
 
   private

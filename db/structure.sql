@@ -2929,7 +2929,9 @@ CREATE TABLE time_logs (
     description character varying,
     hours numeric,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    hourly_rate numeric,
+    total_amount numeric
 );
 
 
@@ -4622,4 +4624,6 @@ INSERT INTO schema_migrations (version) VALUES ('20161130201113');
 INSERT INTO schema_migrations (version) VALUES ('20161204011945');
 
 INSERT INTO schema_migrations (version) VALUES ('20161204020457');
+
+INSERT INTO schema_migrations (version) VALUES ('20161207193307');
 

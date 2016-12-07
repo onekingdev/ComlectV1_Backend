@@ -38,6 +38,8 @@ class Timesheet::Form < Timesheet::Decorator
   def approve!
     self.class.transaction do
       update_attributes status: Timesheet.statuses[:approved], approved_at: Time.zone.now
+      time_logs.update_all hourly_rate: project.hourly_rate
+      time_logs.update_all 'total_amount = hourly_rate * hours'
       PaymentCycle.for(project).reschedule!
     end
   end
