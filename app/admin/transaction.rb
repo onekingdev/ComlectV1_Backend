@@ -54,12 +54,7 @@ ActiveAdmin.register Transaction do
         link_to t.stripe_id, "https://dashboard.stripe.com/test/payments/#{t.stripe_id}", target: '_blank'
       end
       row :type
-      row :amount do |t|
-        number_to_currency t.amount
-      end
-      row :fee do |t|
-        number_to_currency t.fee_in_cents / 100.0
-      end
+      row :amount
       row :status
       row :status_detail
       row :processed_at

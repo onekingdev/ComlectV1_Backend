@@ -11,11 +11,7 @@ class Specialists::PaymentSettingsController < ApplicationController
   end
 
   def new
-    if params[:popup]
-      render 'popup'
-    else
-      @account = StripeAccount::Form.for(current_specialist, account_attributes)
-    end
+    @account = StripeAccount::Form.for(current_specialist, account_attributes)
   end
 
   def create

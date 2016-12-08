@@ -1,3 +1,7 @@
 You received a message on Complect regarding your application to <%= @project %>:
 
 <%= @message %>
+
+<% if @from %>
+- <%= @from %>
+<% end %>

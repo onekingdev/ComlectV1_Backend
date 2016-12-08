@@ -1,33 +1,77 @@
 #nav {
-  background-color: rgba(0, 0, 0, 0.3);
-  padding: 0 90px;
+  background-color: transparent;
+  padding: 30px 70px;
   text-transform: uppercase;
   width: 100%;
   top: 0;
   position: fixed;
   z-index: 5;
 
+  .sign_in {
+    li {
+      @media (min-width: $grid-float-breakpoint) {
+        padding: 0px 20px;
+      }
+      margin: 0px !important;
+      a {
+        color: #ffcc00 !important;
+        font-weight: $bold-weight;
+      }
+    }
+    li:first-child {
+      @media (min-width: $grid-float-breakpoint) {
+        border-right: 1px solid #000;
+      }
+    }
+  }
+
+  .navbar-collapse {
+    padding: 0px 15px;
+    @media (min-width: $grid-float-breakpoint) {
+      padding-top: 20px;
+    }
+    li {
+      a {
+        color: #000000;
+      }
+      a:hover {
+        color: #feb809;
+      }
+    }
+  }
+
   .navbar-brand {
-    @include navbar-vertical-align-by-padding(42px);
+    @include navbar-vertical-align-by-padding(53px);
     padding-left: 0;
+    @media (min-width: $grid-float-breakpoint) {
+      padding-right: 30px;
+    }
+
+    @media (max-width: $grid-float-breakpoint) {
+      img {
+        -webkit-filter: drop-shadow(1px 1px 0px rgba(255, 255, 255, 1));
+        filter: drop-shadow(1px 1px 0px rgba(255, 255, 255, 1));
+      }
+    }
   }
 
   .btn {
     text-transform: uppercase;
-    font-weight: $raleway-light;
+    font-weight: lighter;
   }
 
   li > a {
-    font-weight: $raleway-light;
+    font-weight: $regular-weight;
     padding-left: 0;
     padding-right: 0;
+    font-size: 12px;
 
     &:hover {
       color: $brand-primary;
     }
 
     .icon {
-      font-weight: $raleway-light;
+      font-weight: lighter;
     }
   }
 
@@ -35,6 +79,10 @@
 
   .navbar-nav > li + li {
     margin-left: $spacing;
+  }
+
+  .navbar-nav > li > a {
+    padding: 5px 0px;
   }
 
   .m-r {
@@ -86,12 +134,8 @@
     border-color: transparent;
   }
 
-  .navbar-header {
-    margin-right: 2em;
-  }
-
   @media (max-width: $screen-xs-max) {
-    padding: 0 30px;
+    padding: 10px;
   }
 
   @media (max-width: $grid-float-breakpoint-max) {
