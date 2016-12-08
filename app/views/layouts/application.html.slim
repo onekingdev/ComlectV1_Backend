@@ -14,7 +14,7 @@ body class="#{controller_name} #{action_name}"
     = render "navbar", user: User::Decorator.new(current_user)
     = yield :header
 
-  .container
+  .container.app_container
     = render_flash
     = yield
 
