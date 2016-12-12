@@ -106,9 +106,6 @@ body.specialists.new {
 }
 
 .form-specialist {
-  .time_zone {
-    color: $gray-light;
-  }
   #work-experiences {
     position: relative;
 
@@ -117,10 +114,6 @@ body.specialists.new {
       right: 14px;
       bottom: 0;
     }
-  }
-
-  .multiselect-parent .btn-default {
-    color: $gray-light;
   }
 
   .specialist_current, .specialist_compliance, .specialist_former_regulator{

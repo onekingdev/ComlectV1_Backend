@@ -3,10 +3,6 @@ form#new_business, form.edit_business {
     height: $input-height-large !important;
   }
 
-  .time_zone {
-    color: $gray;
-  }
-
   .business_jurisdictions {
     @include clearfix;
 

@@ -16,6 +16,14 @@
   }
 }
 
+.btn-default .dropdown-toggle {
+  color: $gray-light;
+}
+
+.multiselect-parent .btn-default {
+  color: $gray-light;
+}
+
 .input-gray {
   background-color: $gray-lighter;
 }
