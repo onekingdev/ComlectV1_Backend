@@ -1,7 +1,65 @@
+.modal-wrapper {
+  background-color: #ffffff;
+  padding: 10px;
+}
+
+.forgot-password {
+  text-decoration: underline;
+  text-transform: uppercase;
+  font-size: 10px;
+  font-weight: $light-weight;
+  color: #666666;
+
+  a {
+    color: #666666;
+  }
+}
+
+#reset-password {
+  @media (min-width: $screen-sm-min) {
+    width: 548px;  
+  }
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+
+  h4 {
+    font-size: 14px;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: $light-weight;
+    margin-top: 40px;
+  }
+
+  p {
+    font-size: 14px;
+    font-weight: $light-weight;
+    line-height: 16px;
+  }
+
+  .user_email {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    border: 3px solid #ffcc00;
+    input {
+      font-size: 14px;
+      padding: 24px 16px;
+    }
+  }
+
+  .btn-primary {
+    padding: 12px 67px;
+  }
+}
+
 #choose-signup {
+  div[class*="col-"] {
+    padding: 0px 32px;
+  }
   .modal-fake {
-    width: 271px;
-    height: 298px;
+    //width: 271px;
+    //height: 298px;
 
     h2 {
       font-family: Muller;
@@ -9,6 +67,36 @@
       font-weight: lighter;
       font-style: normal;
       margin-top: 10px;
+    }
+
+    p {
+      color: #ffcc00;
+      text-transform: uppercase;
+      font-size: 12px;
+      font-weight: $bold-weight;
+      line-height: 24px;
+      span {
+        letter-spacing: 0.1em;
+        font-size: 30px;
+      }
+    }
+
+    .icon-briefcase, .icon-user {
+      font-size: 84px;
+    }
+
+    h4 {
+      font-size: 12px;
+      text-transform: uppercase;
+      font-weight: $regular-weight;
+    }
+
+    .btn-lg {
+      padding: 13px 16px;
+      font-weight: $regular-weight;
+      width: 90%;
+      margin-left: auto;
+      margin-right: auto;
     }
   }
 
@@ -18,30 +106,56 @@
 }
 
 #sign-in {
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  @media (min-width: $screen-sm-min) {
+    width: 549px;
+  }
+
+  .input-lg {
+    border: 3px solid #ffcc00;
+    border-radius: 0px;
+    font-weight: $light-weight;
+  }
+
+  h4 {
+    margin: 20px 0px 15px 0px;
+  }
+
+  .btn-primary {
+    padding: 0px 60px;
+  }
+
   .modal-fake {
-    width: 474px;
-    padding: 26px;
+    //width: 520px;
+    padding: 26px 35px;
   }
 
   .btn {
-    height: 46px;
+    height: 44px;
+    font-size: 12px;
   }
 
   .btn-social-linkedin {
-    width: 199px;
-    color: #fff;
+    width: 240px;
     padding: 0;
-    line-height: 45px;
+    line-height: 40px;
     margin: 0 auto;
-  }
-
-  .forgot-password {
-    text-decoration: underline;
-    color: #000;
+    .social {
+      width: 32px;
+      height: 32px;
+      line-height: 28px;
+      font-size: 20px;
+    }
   }
 
   .new-user {
     margin-top: 30px;
     height: 144px;
+  }
+
+  .form-group {
+    margin-bottom: 8px;
   }
 }

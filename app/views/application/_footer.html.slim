@@ -11,10 +11,10 @@ footer#footer
         li= link_to 'Terms of Use', page_path('terms-of-use')
         li= link_to 'Privacy Policy', page_path('privacy-policy')
 
-    .col-md-6.pull-right
-      a.social-twitter href="https://twitter.com/Complect_co" target="_blank"
+    .col-md-6.pull-right-md
+      a.social.social-twitter href="https://twitter.com/Complect_co" target="_blank"
         .fa.fa-twitter
-      a.social-linkedin href="https://www.linkedin.com/company/complect" target="_blank"
+      a.social.social-linkedin href="https://www.linkedin.com/company/complect" target="_blank"
         .fa.fa-linkedin
       p.email
         = link_to ENV.fetch('CONTACT_EMAIL'), "mailto:#{ENV['CONTACT_EMAIL']}"
