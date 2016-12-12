@@ -11,7 +11,6 @@ html lang=I18n.locale
 
 body.home.index
   #header.parallax-window class=(yield(:header_class) || 'compact') data-parallax="scroll" data-image-src=asset_path('landing/header.jpg')
-    - content_for :logo, image_tag('logo-inverse.png', size: '226x53')
     = render "navbar", user: User::Decorator.new(current_user)
 
     .callout

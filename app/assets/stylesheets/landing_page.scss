@@ -2,6 +2,7 @@
 //@import "maxicons";
 //$fa-font-path: "font-awesome/fonts";
 //@import "font-awesome/scss/font-awesome";
+@import "simple-line-icons";
 @import "fonts";
 @import "landing_page/bootstrap";
 $fa-font-path: "font-awesome/fonts";
@@ -22,4 +23,5 @@ $fa-font-path: "font-awesome/fonts";
 
 @import "components/*";
 @import "landing_page/*";
+@import "application/session";
 @import "application/footer";

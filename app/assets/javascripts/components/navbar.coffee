@@ -24,12 +24,12 @@ update_navbar = ->
     $('#nav').css 'background-color': 'rgba(255, 255, 255, '+z+')', 'box-shadow': 'rgba(0, 0, 0, '+z/3.3+') 0 0 3px 2px'
   return
 
-$('.collapse').on 'show.bs.collapse', (e) ->
+$('.navbar-collapse').on 'show.bs.collapse', (e) ->
   bs_collapse = true
   $('#nav').css 'background-color': 'rgba(255, 255, 255, 1)', 'box-shadow': 'rgba(0, 0, 0, 0.33) 0 0 3px 2px'
   return
 
-$('.collapse').on 'hide.bs.collapse', (e) ->
+$('.navbar-collapse').on 'hide.bs.collapse', (e) ->
   bs_collapse = false
   update_navbar()
   return

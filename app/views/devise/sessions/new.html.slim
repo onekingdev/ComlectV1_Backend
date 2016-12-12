@@ -1,12 +1,15 @@
 #sign-in
-  .col-xs-12
+  .modal-wrapper
     .modal-fake.gray.clearfix
+      button.close.close-absolute data-dismiss="modal" type="button"
+        .fa.fa-close
       = simple_form_for resource, remote: true, as: resource_name, url: session_path(resource_name), html: { class: 'new_session' } do |f|
         a.btn.btn-block.btn-lg.btn-primary.btn-social-linkedin href="#"
-          .fa.fa-linkedin-square.fz-1-5x
-          span Log in with LinkedIn
+          .social.social-linkedin.m-r-1 href="https://www.linkedin.com/company/complect" target="_blank"
+            .fa.fa-linkedin
+          span.small Log in with LinkedIn
 
-        h4.text-center style="font-size: 22px; margin: 22px 0" or
+        h4.text-center OR
 
         - if flash[:warning]
           .text-danger.text-center.m-b-1= flash[:warning]
@@ -14,19 +17,9 @@
         = f.input :email, autofocus: true, label: false, input_html: { class: 'input-lg' }
         = f.input :password, label: false, input_html: { class: 'input-lg' }
 
-        button.btn.btn-primary.btn-block.btn-lg type="submit" Log In
+        button.btn.btn-primary.center-block type="submit" Log In
 
-        .text-center.m-t-1= link_to "Forgot Password", new_password_path(resource_name), remote: true, class: 'o-8 forgot-password'
-
-  .col-xs-12.m-b-3
-    .modal-fake.gray.new-user
-      h4.text-center.m-b-2.m-t-0 style="font-size: 22px" New to Complect? Sign up as a:
-      .row
-        .col-xs-6
-          = link_to new_business_path, class: 'btn btn-lg btn-block btn-primary' do
-            = image_tag 'icon-business.png', size: '16x16'
-            span.m-l-1 Business
-        .col-xs-6
-          = link_to new_specialist_path, class: 'btn btn-lg btn-block btn-primary' do
-            = image_tag 'icon-specialist.png', size: '16x16'
-            span.m-l-1 Specialist
+        .text-center.forgot-password.m-t-1= link_to "Forgot Password", new_password_path(resource_name), remote: true, class: 'o-8 forgot-password'
+        h4.text-center.text-uppercase.m-t-3.m-b-1
+          | Don’t have an account yet? 
+          = link_to "sign up here", new_user_registration_path, "data-remote" => true

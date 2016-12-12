@@ -9,11 +9,15 @@
     font-size: 12px;
     font-weight: $regular-weight;
     text-transform: uppercase;
-    margin-top: 70px;
+    margin-top: 0px;
   }
 
-  .pull-right {
-    text-align: right;
+  .pull-right-md {
+    @media (min-width: $screen-xs-max) {
+      text-align: right;
+      float: right;
+    }
+    margin-bottom: 70px;
   }
 
   .email {
@@ -23,27 +27,6 @@
       font-size: 12px;
       weight: $light-weight;
     }
-  }
-
-  .social-twitter, .social-linkedin {
-    display: inline-block;
-    border-radius: 50%;
-    width: 36px;
-    height: 36px;
-    font-size: 22px;
-    line-height: 38px;
-    letter-spacing: -2px;
-    text-align: center;
-    margin-bottom: 30px;
-  }
-
-  .social-twitter {
-    background-color: #33ccff;
-    margin-right: 16px;
-  }
-
-  .social-linkedin {
-    background-color: #3399cc;
   }
 
   a {
@@ -59,6 +42,7 @@
     float: left;
     font-size: 12px;
     color: #ffcc00;
+    margin-bottom: 70px;
 
     .title {
       font-weight: $bold-weight;
@@ -88,10 +72,18 @@
     margin-left: 114px;
   }
 
+  .social-twitter {
+    margin-right: 16px;    
+  }
+
+  .social {
+    margin-bottom: 30px;
+  }
+
   @media (max-width: $screen-xs-max) {
     .links, .contact {
       float: none;
-      text-align: center;
+      //text-align: center;
     }
 
     .links + .links, .contact {

@@ -6,8 +6,7 @@ nav#nav.navbar.navbar-default.navbar-inverse
       span.icon-bar
       span.icon-bar
     a.navbar-brand href=root_path
-      = image_tag('logo.png', size: '226x53')
-
+      = yield(:logo).presence || image_tag('logo.png', size: '226x53')
   #navbar-collapse.collapse.navbar-collapse
     ul.nav.navbar-nav.nav-about
       li= link_to 'How it Works', page_path('how-it-works')
@@ -68,5 +67,5 @@ nav#nav.navbar.navbar-default.navbar-inverse
       -# elsif !protected_beta? # TODO: LAUNCH: Remove condition
       li
         ul.nav.navbar-nav.sign_in
-          li= link_to "Log In", new_user_session_path
-          li= link_to "Sign Up", new_user_registration_path
+          li= link_to "Log In", new_user_session_path, "data-dismiss" => "modal", "data-remote" => true
+          li= link_to "Sign Up", new_user_registration_path, "data-dismiss" => "modal", "data-remote" => true
