@@ -47,6 +47,7 @@ class JobApplication::Accept < Draper::Decorator
                             date: project.starts_on,
                             process_after: project.starts_on,
                             status: Charge.statuses[:scheduled],
+                            running_balance_in_cents: 0,
                             description: "Full-time fee payable to Complect; Payment option: Upfront"
   end
 
