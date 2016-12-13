@@ -1,6 +1,6 @@
 #header {
-  //position: relative;
-  margin-bottom: 60px;
+  position: relative;
+  margin-bottom: 80px;
   color: #fff;
   padding-top: $navbar-height + 3;
   background-color: transparent;
@@ -21,7 +21,6 @@
 
   &.short {
     margin-bottom: 0;
-    padding-top: 0px;
   }
 
   &.compact {
@@ -82,6 +81,7 @@
     $align-bottom: $height * 2 - 129; // Magic number to align cross-browser
     h1 {
       font-size: 32px;
+      font-weight: $roboto-light;
       line-height: $align-bottom;
     }
 

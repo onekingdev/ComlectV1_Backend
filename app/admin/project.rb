@@ -29,6 +29,17 @@ ActiveAdmin.register Project do
     redirect_to collection_path, notice: 'Project end requested'
   end
 
+  member_action :reschedule_charges, method: :post do
+    PaymentCycle.for(resource).create_charges_and_reschedule!
+    redirect_to admin_project_path(resource), notice: 'Project charges rescheduled'
+  end
+
+  action_item :reschedule_charges, only: :show, if: -> { resource.one_off? } do
+    link_to 'Reschedule Charges',
+            reschedule_charges_admin_project_path,
+            method: :post
+  end
+
   index do
     column :title do |project|
       link_to project.title, [:admin, project]
@@ -61,6 +72,20 @@ ActiveAdmin.register Project do
         actions << '<span class="member_span">No Ratings yet</span>'.html_safe
       end
       actions.join('').html_safe
+    end
+  end
+
+  sidebar 'Charges', only: :show do
+    table_for resource.charges.order(date: :asc) do
+      column :date do |charge|
+        link_to charge.date.strftime('%b %-d, %Y'), [:admin, charge]
+      end
+      column :amount do |charge|
+        number_to_currency charge.amount
+      end
+      column 'S' do |charge|
+        span charge.status[0].upcase, title: charge.status.capitalize
+      end
     end
   end
 

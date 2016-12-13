@@ -6,6 +6,7 @@ class Business < ActiveRecord::Base
   has_many :projects, dependent: :destroy
   has_many :job_applications, through: :projects
   has_many :charges, through: :projects
+  has_many :transactions, through: :projects
   has_one :payment_profile, dependent: :destroy
   has_many :payment_sources, through: :payment_profile
   has_many :project_invites, dependent: :destroy

@@ -9,41 +9,6 @@ body.specialists.show {
   }
 }
 
-body.specialists.new, body.specialists.create {
-  background-image: asset_url('bg.png');
-  background-position: center top;
-  background-repeat: repeat-y;
-  .app_container{
-    -webkit-box-shadow: 0px 13px 32px 3px rgba(0,0,0,0.3);
-    -moz-box-shadow: 0px 13px 32px 3px rgba(0,0,0,0.3);
-    box-shadow: 0px 13px 32px 3px rgba(0,0,0,0.3);
-    background-color: #ffffff;
-    padding-top: 25px;
-    margin-bottom: 100px;
-  }
-  .btn-primary {
-    text-transform: uppercase;
-    font-weight: $medium-weight;
-    font-size: 14px;
-    letter-spacing: 2px;
-    border-radius: 0px;
-    padding: 10px 20px;
-  }
-  #eligible-huge {
-    display: inline-block;
-    max-width: 360px;
-    @media (max-width: $screen-xs-max) {
-      display: none;
-    }
-  }
-  #eligible-mobile {
-    display: none;
-    @media (max-width: $screen-xs-max) {
-      display: inline-block;
-    }
-  }
-}
-
 .card.specialist {
   .panel-heading {
     background-color: rgba(0, 0, 0, 0.65);
@@ -64,7 +29,7 @@ body.specialists.new, body.specialists.create {
     }
 
     .name {
-      font-weight: lighter;
+      font-weight: $raleway-light;
       white-space: nowrap;
       overflow: hidden;
       padding-bottom: 0.5em;
@@ -106,30 +71,38 @@ body.specialists.new, body.specialists.create {
 }
 
 .form-specialist {
+  .time_zone {
+    color: $gray;
+  }
   #work-experiences {
     position: relative;
 
+    .last-child {
+      .remove {
+        margin-right: 2em;
+      }
+    }
+
     .add {
       position: absolute;
-      right: 14px;
+      right: 0;
       bottom: 0;
     }
-  }
-
-  .specialist_current, .specialist_compliance, .specialist_former_regulator{
-    color: $gray-light;
   }
 
   #education-histories {
     position: relative;
 
+    .last-child {
+      .remove {
+        margin-right: 2em;
+      }
+    }
+
     .add {
       position: absolute;
-      right: 14px;
-      @media (min-width: $screen-sm-max) {
-        bottom: 36px;
-      }
-      bottom: 0px;
+      right: 0;
+      bottom: 0;
     }
 
   }

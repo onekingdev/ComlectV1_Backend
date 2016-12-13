@@ -24,7 +24,7 @@
     background-image: asset_url("timesheet-disputed.png");
   }
 
-  &.approved .sheet-icon {
+  &.approved .sheet-icon, &.charged .sheet-icon {
     background-image: asset_url("timesheet-approved.png");
   }
 

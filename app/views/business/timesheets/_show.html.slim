@@ -19,7 +19,7 @@ table.table-condensed.time_logs
 
 - if timesheet.errors.any?
   .alert.alert-warning= timesheet.errors.full_messages.to_sentence
-- elsif timesheet.approved?
+- elsif timesheet.approved_or_charged?
   .alert.alert-success Timesheet is approved
 - elsif timesheet.disputed?
   .alert.alert-danger Timesheet is in dispute
