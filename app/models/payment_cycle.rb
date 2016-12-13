@@ -48,7 +48,7 @@ class PaymentCycle
   end
 
   def schedule_charge!(amount:, date:, description:)
-    balance = outstanding_amount - project.charges.processed.before(date).sum(:total_with_fee_in_cents)
+    balance = outstanding_amount - project.charges.processed.before(date).sum(:total_with_fee_in_cents) - amount
     project.charges.create! amount_in_cents: amount * 100,
                             running_balance_in_cents: balance * 100,
                             date: date,
@@ -66,9 +66,9 @@ class PaymentCycle
   end
 
   def outstanding_amount
-    return @_outstanding_amount if @_outstanding_amount
+    # Note this cannot be cached otherwise running balances will be wrong after charges are created
     amount = (estimated_total - project.charges.real.sum(:amount_in_cents) / 100.0)
-    @_outstanding_amount = amount < 0 ? 0 : amount
+    amount < 0 ? 0 : amount
   end
 
   def outstanding_occurrences
