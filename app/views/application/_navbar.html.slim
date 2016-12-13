@@ -1,4 +1,4 @@
-nav#nav.navbar.navbar-default.navbar-inverse
+nav#nav.navbar.navbar-default
   .navbar-header
     button.navbar-toggle.collapsed type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"
       span.sr-only Toggle navigataion
@@ -18,19 +18,14 @@ nav#nav.navbar.navbar-default.navbar-inverse
     ul.nav.navbar-nav.navbar-right
       - if user_signed_in? && current_business
         li
-          button.btn.btn-primary.navbar-btn data-href=new_business_project_path Post a Project
+          button.btn.btn-default.navbar-btn data-href=new_business_project_path Post a Project
       - if user_signed_in?
-        li.dropdown
-          a.dropdown-toggle href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
-            'Browse
-            i.icon.maxicons1-down
-          ul.dropdown-menu
-            - if current_specialist
-              li= link_to 'Browse Projects', projects_path
-            - if current_business
-              li= link_to 'Browse Specialists', specialists_path
+        - if current_business
+          li= link_to 'Browse Spacialists', specialists_path
+        - else
+          li= link_to 'Browse Projects', projects_path
       - if user_signed_in?
-        li.dropdown
+        li.dropdown.preseparate
           - if (business = user.business)
             a.dropdown-toggle href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
               'My Company
@@ -55,7 +50,7 @@ nav#nav.navbar.navbar-default.navbar-inverse
               li= link_to 'Log Out', destroy_user_session_path, method: :delete
         li.dropdown
           a.dropdown-toggle href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
-            i.icon.maxicons2-bell
+            i.icon-bell
             - if user.notifications.unread.any?
               .badge.small= user.notifications.unread.count
           ul.dropdown-menu
@@ -64,8 +59,8 @@ nav#nav.navbar.navbar-default.navbar-inverse
             - else
               - user.notifications.unread.each do |notification|
                 li= link_to notification.message, notification, remote: true
-      -# elsif !protected_beta? # TODO: LAUNCH: Remove condition
-      li
-        ul.nav.navbar-nav.sign_in
-          li= link_to "Log In", new_user_session_path, "data-dismiss" => "modal", "data-remote" => true
-          li= link_to "Sign Up", new_user_registration_path, "data-dismiss" => "modal", "data-remote" => true
+      - elsif !protected_beta? # TODO: LAUNCH: Remove condition
+        li
+          ul.nav.navbar-nav.sign_in
+            li= link_to "Log In", new_user_session_path, "data-dismiss" => "modal", "data-remote" => true
+            li.preseparate= link_to "Sign Up", new_user_registration_path, "data-dismiss" => "modal", "data-remote" => true
