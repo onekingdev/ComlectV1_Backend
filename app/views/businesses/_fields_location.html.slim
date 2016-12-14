@@ -1,17 +1,14 @@
 h3
-  i.icon.maxicons2-navigation
   'Location
 
 .row.row-compact
-  .col-sm-4= f.input :address_1, required: false, input_html: { class: 'input-lg js-place-autocomplete', data: { zipcode: '#business_zipcode', country: '#business_country', state: '#business_state', city: '#business_city' } }
-  .col-sm-4= f.input :address_2, required: false, input_html: { class: 'input-lg' }
-  .col-sm-4
+  .col-sm-6= f.input :address_1, required: false, input_html: { class: 'input-lg js-place-autocomplete', data: { zipcode: '#business_zipcode', country: '#business_country', state: '#business_state', city: '#business_city' } }
+  .col-sm-6= f.input :address_2, required: false, input_html: { class: 'input-lg' }
+  .col-sm-6= f.input :city, required: false, readonly: true, input_html: { class: 'input-lg' }
+  .col-sm-6= f.input :state, required: false, readonly: true, input_html: { class: 'input-lg' }
+  .col-sm-6
     = f.input :zipcode,
       required: true,
       input_html: { class: 'input-lg' }
-.row.row-compact
-  .col-sm-4= f.input :city, required: false, readonly: true, input_html: { class: 'input-lg' }
-  .col-sm-4= f.input :state, required: false, readonly: true, input_html: { class: 'input-lg' }
-  .col-sm-4= f.input :country, required: false, readonly: true, as: :string, input_html: { class: 'input-lg' }
-.row.row-compact
-  .col-sm-4= f.input :time_zone, include_blank: t('simple_form.placeholders.specialist.time_zone'), input_html: { class: 'input-lg js-select' }
+  .col-sm-6= f.input :country, required: false, readonly: true, as: :string, input_html: { class: 'input-lg' }
+  .col-sm-6= f.input :time_zone, include_blank: t('simple_form.placeholders.specialist.time_zone'), input_html: { class: 'input-lg js-select' }

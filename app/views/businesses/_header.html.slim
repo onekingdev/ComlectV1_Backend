@@ -3,23 +3,24 @@
     - css_classes = business.public? && business.logo ? 'col-xs-12 col-sm-8 col-md-9 has-logo' : 'col-xs-12 no-logo'
     .pseudo-table
       .tr
-        .td.col-xs-4.col-xs-push-4.col-md-3.col-sm-push-0.image-container
+        .td.col-xs-6.col-xs-push-3.col-sm-4.col-md-3.col-sm-push-0.image-container
           .profile-image
             - if business.public? && business.logo
               = image_tag business.logo_url(:thumb), class: 'img-responsive ghost'
               = image_tag business.logo_url(:thumb), class: 'img-responsive real'
             - else
-              = image_tag 'icon-specialist.png', class: 'img-responsive ghost'
+              /= image_tag 'icon-specialist.png', class: 'img-responsive ghost'
               = image_tag 'icon-specialist.png', class: 'img-responsive real'
 
         .td.title.col-xs-12.col-sm-8.col-md-9.has-logo
           - if policy(business).edit?
             .tools
               = link_to edit_business_path, class: 'btn btn-primary' do
-                i.icon.maxicons2-editting
-                span.fw-regular Edit
+                span Edit
           h1
             = policy(business).public_info(:business_name) || business.industries.first.name
             - if business.public? && business.linkedin_link.present?
-              a.fa.fa-linkedin-square.linkedin href=business.linkedin_url target="_blank"
+              //a.fa.fa-linkedin-square.linkedin href=business.linkedin_url target="_blank"
+              a.social.social-linkedin.m-l-1 href=business.linkedin_url target="_blank"
+                  .fa.fa-linkedin
           = business.render_stars

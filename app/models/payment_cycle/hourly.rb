@@ -16,7 +16,7 @@ class PaymentCycle::Hourly < PaymentCycle
       project.timesheets.approved.each do |timesheet|
         schedule_charge! amount: timesheet.total_due,
                          date: date,
-                         description: "Timesheet #{timesheet.approved_at.strftime("%b %d, %Y")}"
+                         description: "Timesheet #{timesheet.id}"
         timesheet.charged!
       end
     end

@@ -1,16 +1,23 @@
-#js-new-password.modal.fade.modal-popup.modal-faux-bootbox
-  .modal-dialog
-    .modal-header
-      button.close data-dismiss="modal" type="button"
-        .fa.fa-close
-      h4 Reset password via email
-    .modal-body
-      p.text-center.text-muted.p-y-2
-        'Enter the email address used to log in to your Complect account and we'll send you a link to reset your password.
-        ' If you are a business, we'll send the email to your key contact.
+#reset-password.modal-wrapper
+  .modal-fake.gray.clearfix
+    button.close.close-absolute data-dismiss="modal" type="button"
+      .fa.fa-close
+    h4 Reset password via email
 
-      = simple_form_for resource, remote: true, as: resource_name, url: password_path(resource_name), html: { class: 'new_password' } do |f|
-        = f.input :email, label: false, input_html: { class: 'input-lg' }
-        = f.submit 'Reset Password', class: 'btn btn-primary btn-block btn-lg text-center'
-        .text-center.m-t-1
-          a.text-muted.td-u href=new_user_session_path data-remote=true data-dismiss='modal' Cancel
+    p.text-center.p-y-2
+      | Enter the email address
+      br
+      | used to log in to your Complect account
+      br
+      | and we'll send you a link to reset your
+      br
+      | password. If you are a business, we'll send
+      br
+      | the email to your key contact.
+
+    = simple_form_for resource, remote: true, as: resource_name, url: password_path(resource_name), html: { class: 'new_password' } do |f|
+      = f.input :email, label: false, input_html: { class: 'input-lg' }
+      .text-center
+        = f.submit 'Reset', class: 'btn btn-primary btn-lg text-center'
+        .m-t-1
+          .forgot-password.m-t-1.m-b-2= link_to "Cancel", new_user_session_path, "data-remote" => true

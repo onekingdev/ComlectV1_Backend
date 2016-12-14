@@ -1,4 +1,7 @@
 #header .profile-header {
+  @media (min-width: $screen-xs-max) {
+    margin-top: 132px;  
+  }
   .title h1 .linkedin {
     $color: #2777bd;
     color: $color;
@@ -40,15 +43,16 @@
     }
 
     .real {
-      position: absolute;
-      bottom: -70px;
-      padding: 15px;
+      //position: absolute;
+      //bottom: 0px;
+      //padding: 15px;
+      border: 10px solid #ffcc00;
       border-radius: 5px;
-      background-color: #f3f3f3;
+      background-color: #fff;
 
-      @media (max-width: $screen-xs-max) {
+      /*@media (max-width: $screen-xs-max) {
         display: none;
-      }
+      }*/
     }
   }
 }

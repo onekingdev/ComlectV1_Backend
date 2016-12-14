@@ -1,25 +1,25 @@
 footer#footer
-  ul.links.list-unstyled
-    li.title Complect
-    li= link_to 'About Us', page_path('about-us')
-    li= link_to 'How it Works', page_path('how-it-works')
-    li= link_to 'Our Partners', page_path('partner-network')
-  ul.links.list-unstyled
-    li.title Legal
-    li= link_to 'Terms of Use', page_path('terms-of-use')
-    li= link_to 'Privacy Policy', page_path('privacy-policy')
+  .container.clearfix
+    .col-md-6
+      ul.links.list-unstyled
+        li.title Complect
+        li= link_to 'About Us', page_path('about-us')
+        li= link_to 'How it Works', page_path('how-it-works')
+        li= link_to 'Our Partners', page_path('partner-network')
+      ul.links.list-unstyled
+        li.title Legal
+        li= link_to 'Terms of Use', page_path('terms-of-use')
+        li= link_to 'Privacy Policy', page_path('privacy-policy')
 
-  .contact
-    .social
-      a href="https://linkedin.com"
-        .fa.fa-linkedin
-      a href="https://twitter.com"
+    .col-md-6.pull-right-md
+      a.social.social-twitter href="https://twitter.com/Complect_co" target="_blank"
         .fa.fa-twitter
-      a href="https://google.com"
-        .fa.fa-google-plus
-    .contact-item
-      i.icon.maxicons3-call
-      = link_to ENV.fetch('CONTACT_PHONE'), "tel:#{ENV['CONTACT_PHONE'].to_s.gsub(/[^\d+]/, '')}"
-    .contact-item
-      i.icon.maxicons1-mail
-      = link_to ENV.fetch('CONTACT_EMAIL'), "mailto:#{ENV['CONTACT_EMAIL']}"
+      a.social.social-linkedin href="https://www.linkedin.com/company/complect" target="_blank"
+        .fa.fa-linkedin
+      p.email
+        = link_to ENV.fetch('CONTACT_EMAIL'), "mailto:#{ENV['CONTACT_EMAIL']}"
+
+  p.copyright
+   | Copyright © 
+   = Date.today.year
+   |  complect
