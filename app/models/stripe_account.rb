@@ -10,7 +10,7 @@ class StripeAccount < ActiveRecord::Base
 
   before_validation :encode_verification_document
   after_create :create_managed_account, :verify_account
-  after_destroy :delete_managed_account
+  after_destroy :delete_managed_account, if: -> { stripe_id.present? }
 
   REQUIRED_FIELDS = {
     additional_owners: { company: %w(AT BE DE DK ES FI FR GB IE IT LU NL NO PT SE SG) },
@@ -39,6 +39,7 @@ class StripeAccount < ActiveRecord::Base
     update_attribute :stripe_id, account.id
   rescue Stripe::InvalidRequestError => e
     errors.add :base, e.message
+    destroy # So #persisted? does not return true
     raise ActiveRecord::Rollback
   end
 
