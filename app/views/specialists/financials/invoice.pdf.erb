@@ -230,8 +230,13 @@
     </tbody>
   </table>
   <div class="after-table-text">
+    <% if specialist %>
+    Note: The total invoice amount has been automatically deposited into your nominated bank account.
+    If you wish to dispute these charges, please contact Complect.
+    <% else %>
     Note: The total invoice amount has been automatically drawn from your nominated credit card or bank account.
     If you wish to dispute these charges, please contact Complect.
+    <% end %>
   </div>
 </div>
 
