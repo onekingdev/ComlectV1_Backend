@@ -31,11 +31,12 @@ class Project::Form < Project
   end
   validate if: -> { starts_on.present? && ends_on.present? && ends_on - starts_on < 14 } do
     attribute = hourly_pricing? ? :hourly_payment_schedule : :fixed_payment_schedule
-    errors.add attribute, :too_little_duration if public_send(attribute) == 'monthly'
+    period = public_send(attribute)
+    errors.add attribute, :too_little_duration if period == 'monthly' || period == 'bi_weekly'
   end
   validate if: -> { starts_on.present? && ends_on.present? && ends_on - starts_on > 30 } do
     attribute = hourly_pricing? ? :hourly_payment_schedule : :fixed_payment_schedule
-    errors.add attribute, :too_much_duration if public_send(attribute) == 'upon-completion'
+    errors.add attribute, :too_much_duration if public_send(attribute) == 'upon_completion'
   end
   validate if: -> { published? && !user&.payment_info? } do
     errors.add :base, :no_payment
