@@ -5,7 +5,7 @@
 
   - if f.object.status_detail.present?
     .alert.alert-warning= f.object.status_detail
-  - elsif f.object.errors[:base].any?
+  - if f.object.errors[:base].any?
     .alert.alert-warning= f.object.errors[:base].to_sentence
 
   .well.well-lg

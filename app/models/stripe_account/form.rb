@@ -40,15 +40,14 @@ class StripeAccount::Form < StripeAccount
       end
       account.attributes = attributes
       account.state = 'Hong Kong' if account.country == 'HK'
-      account.ssn_last_4 = account.personal_id_number.to_s[-4..-1] if account.country == 'US'
     end
   end
 
   def update_and_verify(attributes)
     self.class.transaction do
       update_attributes! attributes
-      return true if verify_account
-      errors.add :base, 'Could not verify account info with Stripe'
+      verify_account
+      return true if errors.empty?
       raise ActiveRecord::Rollback
     end
   end

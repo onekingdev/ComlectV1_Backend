@@ -9,6 +9,7 @@ class StripeAccount < ActiveRecord::Base
   attr_accessor :verification_document_data, :verification_document_cache
 
   before_validation :encode_verification_document
+  before_validation :set_ssn_last_4_from_personal_id, if: -> { country == 'US' }
   after_create :create_managed_account, :verify_account
   after_destroy :delete_managed_account, if: -> { stripe_id.present? }
 
@@ -24,6 +25,10 @@ class StripeAccount < ActiveRecord::Base
   }.freeze
 
   private
+
+  def set_ssn_last_4_from_personal_id
+    self.ssn_last_4 = personal_id_number.to_s[-4..-1]
+  end
 
   def encode_verification_document
     if verification_document_data.present?
