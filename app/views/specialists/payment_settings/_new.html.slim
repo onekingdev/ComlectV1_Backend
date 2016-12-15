@@ -71,9 +71,6 @@
           as: :string,
           label: false,
           input_html: { class: 'input-lg js-datepicker', data: { max: 18.years.ago.to_a[3..5].reverse, years: 80, months: true, value: (l(f.object.dob, format: :pickadate) if f.object.dob.present?) } }
-      - if f.object.required?(:ssn_last_4)
-        .col-xs-12.col-sm-6
-          = f.input :ssn_last_4, required: false, label: false, input_html: { class: 'input-lg', maxlength: 4 }, wrapper: :vertical_tight
 
       - if f.object.required?(:personal_id_number)
         .col-xs-12.col-sm-6

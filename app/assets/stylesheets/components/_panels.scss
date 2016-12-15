@@ -1,13 +1,6 @@
-.panel {
-  margin-bottom: 35px;
-  border-radius: 0;
-}
-
 .panel-default {
   border: 0;
-  -webkit-box-shadow: 0px 13px 32px 3px rgba(0,0,0,0.2);
-  -moz-box-shadow: 0px 13px 32px 3px rgba(0,0,0,0.2);
-  box-shadow: 0px 13px 32px 3px rgba(0,0,0,0.2);
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
 
   a.panel-heading {
     color: #fff !important;
@@ -18,35 +11,32 @@
   }
 
   .panel-heading {
-    font-weight: bold;
+    font-weight: $raleway-bold;
     font-size: 18px;
     line-height: 17px;
     height: 37px;
-    color: #333333;
+    color: #fff;
     position: relative;
     border: 0;
     display: block;
-    padding-top: 30px;
-    padding-left: 25px;
-    padding-right: 25px;
-    padding-bottom: 20px;
+
     h3 {
-      font-size: 13px;
-      font-family: "Muller";
-      font-weight: $medium-weight;
+      font-size: 18px;
+      font-family: "Baskerville";
+      font-weight: $baskerville-bold;
+      font-style: italic;
       display: inline-block;
       margin: 0;
       white-space: nowrap;
       text-overflow: ellipsis;
       max-width: 100%;
       overflow: hidden;
-      text-transform: uppercase;
 
       span {
         font-size: 16px;
 
         a {
-          color: #333333;
+          color: #fff;
           text-decoration: underline;
         }
       }
@@ -68,22 +58,19 @@
 
     .detail {
       float: right;
-      font-size: 13px;
-      font-weight: $bold-weight;
-      color: #333333;
+      font-size: 14px;
+      font-weight: $raleway-light;
+      color: #c1c1c1;
 
       &.strong {
         font-size: 14px;
-        font-weight: bold;
+        font-weight: $raleway-bold;
         color: #fff;
       }
     }
   }
 
   .panel-body {
-    padding-left: 25px;
-    padding-right: 25px;
-    padding-bottom: 30px;
     display: block;
     color: rgba(0, 0, 0, 0.8);
 
@@ -92,7 +79,7 @@
     }
 
     .table th span {
-      font-weight: bold;
+      font-weight: $roboto-black;
     }
 
     .table th .icon {
@@ -113,15 +100,7 @@
 
     .list-group-item-heading {
       margin-bottom: 0.5em;
-      font-weight: bold;
-
-      .stars {
-        padding-left: 20px;
-
-        .star {
-          font-size: 12px;
-        }
-      }
+      font-weight: $raleway-bold;
     }
 
     .detail {
@@ -135,15 +114,6 @@
     &.flush {
       margin-left: -$panel-body-padding;
       width: calc(100% + #{$panel-body-padding * 2});
-    }
-  }
-}
-
-.panel-padded {
-  @media (min-width: $screen-xs-max) {
-    .panel-heading, .panel-body {
-      padding-left: 50px;
-      padding-right: 50px;
     }
   }
 }
@@ -166,9 +136,9 @@
 
   .btn {
     height: 100%;
-    font-family: Muller;
+    font-family: Baskerville;
     font-size: 18px;
-    font-weight: bold;
+    font-weight: $baskerville-bold;
     font-style: italic;
     color: #fff;
     background-color: transparent;
@@ -200,9 +170,9 @@
   }
 
   a {
-    font-family: Muller;
+    font-family: Baskerville;
     font-size: 18px;
-    font-weight: bold;
+    font-weight: $baskerville-bold;
     font-style: italic;
     color: #fff;
     background-color: transparent;
@@ -261,26 +231,6 @@
   }
 }
 
-.list-icon {
-  font-size: 12px;
-  font-weight: $regular-weight;
-  line-height: 24px;
-  .item {
-    i {
-      position: absolute;
-      font-size: 16px;
-      line-height: 22px;
-    }
-    span {
-      width: 100%;
-      padding-left: 23px;
-      display: block;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-  }
-}
-
 .panel.card {
   border: 0;
   border-bottom-left-radius: $panel-border-radius;
@@ -314,6 +264,13 @@
 
   .panel-body {
     background-color: #fff;
+
+    .icon-list {
+
+      .icon {
+        opacity: 0.5;
+      }
+    }
   }
 
   .panel-footer {
@@ -325,6 +282,7 @@
       .btn {
         width: 50%;
         border-radius: 0;
+        font-weight: $roboto-light;
       }
 
       .button_to {
@@ -348,10 +306,6 @@
 }
 
 .panel-body {
-  font-size: 13px;
-  color: #333333;
-  font-weight: $light-weight;
-
   > :first-child, .list-group .list-group-item:first-child {
     margin-top: 0;
   }

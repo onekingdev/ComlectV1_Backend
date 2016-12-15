@@ -1,5 +1,5 @@
 .multiselect {
-  font-weight: bold;
+  font-weight: $raleway-light;
   text-align: left;
 
   .caret {
@@ -25,10 +25,6 @@
 
 .multiselect-container .input-group-addon, .multiselect-container .input-group-btn {
   display: none;
-}
-
-.multiselect-container .multiselect-item .input-group{
-  display: block;
 }
 
 .multiselect-parent .dropdown-menu {
