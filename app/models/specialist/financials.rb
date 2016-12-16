@@ -17,10 +17,18 @@ class Specialist::Financials
 
   def self.upcoming(specialist, params)
     sort_direction = params[:sort_direction].to_s.casecmp('desc').zero? ? 'DESC' : 'ASC'
+    select = <<-SELECT
+      charges.date, charges.project_id,
+      SUM(specialist_amount_in_cents) AS specialist_amount_in_cents,
+      MIN(running_balance_in_cents) AS running_balance_in_cents
+    SELECT
+    # Group per project and date so charges for timesheets on the same date return a single line:
     specialist.payments
               .upcoming
               .joins(:business)
               .order("#{PAYMENT_ORDERING[params[:sort_by] || 'date']} #{sort_direction}")
+              .select(select)
+              .group(:project_id, :date)
               .page(params[:page]).per(5)
   end
 
