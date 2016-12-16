@@ -19,6 +19,7 @@ class Specialist::Financials
     sort_direction = params[:sort_direction].to_s.casecmp('desc').zero? ? 'DESC' : 'ASC'
     select = <<-SELECT
       charges.date, charges.project_id,
+      SUM(amount_in_cents) AS amount_in_cents,
       SUM(specialist_amount_in_cents) AS specialist_amount_in_cents,
       MIN(running_balance_in_cents) AS running_balance_in_cents
     SELECT
@@ -28,7 +29,7 @@ class Specialist::Financials
               .joins(:business)
               .order("#{PAYMENT_ORDERING[params[:sort_by] || 'date']} #{sort_direction}")
               .select(select)
-              .group(:project_id, :date)
+              .group(:project_id, :date, 'businesses.business_name', 'projects.title')
               .page(params[:page]).per(5)
   end
 
