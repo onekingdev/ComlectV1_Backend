@@ -48,7 +48,8 @@ class PaymentCycle
   end
 
   def schedule_charge!(amount:, date:, description:)
-    balance = outstanding_amount - project.charges.processed.before(date).sum(:total_with_fee_in_cents) - amount
+    processed_amount = BigDecimal.new(project.charges.processed.before(date).sum(:total_with_fee_in_cents)) / 100
+    balance = outstanding_amount - processed_amount - amount
     project.charges.create! amount_in_cents: amount * 100,
                             running_balance_in_cents: balance * 100,
                             date: date,
