@@ -1,11 +1,10 @@
 h3
-  i.icon.maxicons1-earth
   'Jurisdiction
 
 .form-group.business_jurisdictions
   .row
     .col-xs-12
-      span.checkbox.m-t-0
+      span.checkbox.checkbox-lg.m-t-0
         input type="checkbox" data-toggle-all="business[jurisdiction_ids][]" id="business_jurisdiction_ids_all"
         label for="business_jurisdiction_ids_all" Select All
-  = f.collection_check_boxes :jurisdiction_ids, Jurisdiction.sorted, :id, :name, item_wrapper_class: 'checkbox', label: false, boolean_style: :inline
+  = f.collection_check_boxes :jurisdiction_ids, Jurisdiction.sorted, :id, :name, item_wrapper_class: 'checkbox checkbox-lg', label: false, boolean_style: :inline

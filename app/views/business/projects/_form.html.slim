@@ -96,21 +96,21 @@
         = f.input :estimated_hours, as: :string, require: true, input_html: { class: 'input-lg', data: { masked: '0#' } }
     .row.row-compact.p-b-1
       .col-xs-12
-        .small.text-muted Note: Complect adds a 10% fee on top of your project value. You can read more about our Payment Terms <a class="text-muted" href="#">here</a>.
+        .small.text-muted Note: Complect adds a 10% fee on top of your project value. You can read more about our Payment Terms <a class="text-muted" href="/info/terms-of-use#fees" target="_blank">here</a>.
 
   .well.well-lg.m-t-3
     h2.text-center.m-b-2 Applicant Prerequisites
-    .row.row-compact.m-y-1
+    .row.row-compact.m-t-1
       .col-xs-12.col-sm-6
         = f.input :minimum_experience, include_blank: t('simple_form.placeholders.project.minimum_experience'), collection: Project::MINIMUM_EXPERIENCE, input_html: { class: 'input-lg js-select' }
         .form-group.project_only_regulators
-          span.checkbox
+          span.checkbox.checkbox-lg
             = f.check_box :only_regulators
             = f.label :only_regulators
       .col-xs-12.col-sm-6
         = project.skills_input(f)
         button.info-tooltip type="button" data-toggle="tooltip" title="Only hashtag up to ten skills your desired specialist MUST possess. Desired skills can also be referenced in the project description." i
-        .form-group.m-t-1.m-b-0
+        .form-group.m-t-0.m-b-0
           ul.skills-required
             - project.skill_names.each do |skill|
               li
@@ -126,36 +126,33 @@
         - else
           'Oops! You are missing important information, please add it before proceeding.
 
-  .m-t-3.actions
-    - if project.persisted?
-      = link_to project, method: :delete, data: { confirm: project.confirm_delete, 'confirm-label' => 'Delete' }, class: 'btn btn-muted btn-lg m-r-1' do
-        .fa.fa-trash-o
-        span Delete
-    - else
-      = link_to_back default: business_dashboard_path, data: { method: 'get', confirm: project.confirm_delete, 'confirm-label' => 'Delete' }, class: 'btn btn-muted btn-lg m-r-1' do
-        .fa.fa-trash-o
-        span Delete
+  .actions.clearfix.well-lg.well-transparent
+    .col-xs-12.col-sm-4.m-b-1.md-text-right
+      - if project.persisted?
+        = link_to project, method: :delete, data: { confirm: project.confirm_delete, 'confirm-label' => 'Delete' }, class: 'btn btn-muted btn-lg' do
+          span Delete
+      - else
+        = link_to_back default: business_dashboard_path, data: { method: 'get', confirm: project.confirm_delete, 'confirm-label' => 'Delete' }, class: 'btn btn-muted btn-lg' do
+          span Delete
     - if project.published?
-      = link_to business_project_path(project), class: 'btn btn-muted btn-lg m-r-1' do
-        i.icon.maxicons1-exit
-        span Cancel
-      button.btn.btn-primary.btn-lg type="submit"
-        i.icon.maxicons2-fix.flip-x
-        span Save Changes
-    - else
-      button.default-submit-offscreen type="submit" name="project[status]" value=Project.statuses[:review]
-      button.btn.btn-primary.btn-lg.m-r-1 type="submit" name="project[status]" value=Project.statuses[:draft]
-        - if project.persisted?
-          i.icon.maxicons1-shelf
+      .col-xs-12.col-sm-4.text-center.m-b-1
+        = link_to business_project_path(project), class: 'btn btn-muted btn-lg m-r-1' do
+          span Cancel
+        button.btn.btn-primary.btn-lg type="submit"
           span Save Changes
-        - else
-          i.icon.maxicons2-editor
-          span Save as Draft
-      button.btn.btn-primary.btn-lg type="submit" name="project[status]" value=Project.statuses[:review]
-        i.icon.maxicons2-fix.flip-x
-        span Review & Post
+    - else
+      .col-xs-12.col-sm-4.text-center.m-b-1
+        button.default-submit-offscreen type="submit" name="project[status]" value=Project.statuses[:review]
+        button.btn.btn-primary.btn-lg type="submit" name="project[status]" value=Project.statuses[:draft]
+          - if project.persisted?
+            span Save Changes
+          - else
+            span Save as Draft
+      .col-xs-12.col-sm-4.md-text-left.m-b-1
+        button.btn.btn-primary.btn-lg type="submit" name="project[status]" value=Project.statuses[:review]
+          span Review & Post
 
-  .row.m-t-2.text-center
+  .row.m-b-2.text-center
     .col-xs-12.col-sm-8.col-sm-push-2.small.text-muted
       p You will be able to make changes to this information until you receive your first application.
         If you need to make changes after that, contact us at <a class="text-muted" href="mailto:help@complect.co">help@complect.co</a> or on #{link_to ENV.fetch('CONTACT_PHONE'), "tel:#{ENV['CONTACT_PHONE'].to_s.gsub(/[^\d+]/, '')}", class: 'text-muted'}.

@@ -48,8 +48,7 @@ class PaymentCycle
   end
 
   def schedule_charge!(amount:, date:, description:)
-    processed_amount = BigDecimal.new(project.charges.processed.before(date).sum(:total_with_fee_in_cents)) / 100
-    balance = outstanding_amount - processed_amount - amount
+    balance = outstanding_amount - project.charges.processed.before(date).sum(:total_with_fee_in_cents)
     project.charges.create! amount_in_cents: amount * 100,
                             running_balance_in_cents: balance * 100,
                             date: date,
@@ -67,9 +66,9 @@ class PaymentCycle
   end
 
   def outstanding_amount
-    # Note this cannot be cached otherwise running balances will be wrong after charges are created
+    return @_outstanding_amount if @_outstanding_amount
     amount = (estimated_total - project.charges.real.sum(:amount_in_cents) / 100.0)
-    amount < 0 ? 0 : amount
+    @_outstanding_amount = amount < 0 ? 0 : amount
   end
 
   def outstanding_occurrences

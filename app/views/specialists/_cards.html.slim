@@ -8,43 +8,48 @@
   - specialists.map(&method(:decorate)).each do |specialist|
     .card-container.col-xs-12.col-md-6.col-lg-4 data-specialist-id=specialist.id
       .specialist.card.panel.panel-default class=("active" if current_business.favorited?(specialist))
+        = specialist.link_to_favorite toggle_business_favorites_path(remove: remove_on_unfavorite), current_business.favorited?(specialist) do
+          i.icon-heart
         a.panel-heading href=specialist_path(specialist) target="_blank"
-          = specialist.link_to_favorite toggle_business_favorites_path(remove: remove_on_unfavorite), current_business.favorited?(specialist) do
-            i.icon.maxicons3-heart
-          .avatar= image_tag specialist.photo_url(:thumb), class: 'img-responsive'
-          h4.name= specialist.first_name
-          .rating= render_stars specialist.ratings_average, class: 'small'
+          .avatar
+            - if specialist.photo
+              = image_tag specialist.photo_url(:thumb), class: 'img-responsive'
+            - else
+              = image_tag 'icon-specialist.png', class: 'img-responsive'
+          h4.name
+            = specialist.first_name
+            .rating= render_stars specialist.ratings_average, class: 'small'
 
         a.panel-body href=specialist_path(specialist) target="_blank"
-          .icon-list
+          .list-icon
             - empty_lines = 0
             .item
-              i.icon.maxicons2-navigation
+              i.icon-location-pin
               span= specialist.city_state_country
             - if (industries = specialist.industries.sort_by(&:name).map(&:name).join(', ')).present?
               .item
-                i.icon.maxicons1-building
+                i.icon-briefcase
                 span= industries
             - else
               - empty_lines += 1
             - if (jurisdictions = specialist.jurisdictions.sort_by(&:name).map(&:name).join(', ')).present?
               .item
-                i.icon.maxicons1-earth
+                i.icon-globe
                 span= jurisdictions
             - else
               - empty_lines += 1
             .item
-              i.icon.maxicons1-bag
+              i.icon-folder
               span= pluralize specialist.years_of_experience, 'Yr. Compliance Exp.', 'Yrs. Compliance Exp.'
             - if specialist.former_regulator?
               .item
-                i.icon.maxicons2-place
+                i.icon-flag
                 span Former Regulator
             - else
               - empty_lines += 1
             - if (skills = specialist.skills[0..2].map(&:name).join(', ')).present?
               .item
-                i.icon.maxicons2-winer
+                i.icon-badge
                 span= skills
             - else
               - empty_lines += 1
@@ -54,12 +59,10 @@
         .panel-footer
           .btn-group
             - if hire_again
-              a.btn.btn-md.btn-primary.btn-single data-remote=true href=new_project_invite_path(specialist_id: specialist.id, template: 'hire_again')
-                i.icon.maxicons2-comment
+              a.btn.btn-sm.btn-primary.btn-single data-remote=true href=new_project_invite_path(specialist_id: specialist.id, template: 'hire_again')
                 span Hire Again
             - else
-              a.btn.btn-md.btn-primary.btn-single data-remote=true href=new_project_invite_path(specialist_id: specialist.id)
-                i.icon.maxicons2-comment
+              a.btn.btn-sm.btn-primary.btn-single data-remote=true href=new_project_invite_path(specialist_id: specialist.id)
                 span Invite
 
   - if specialists.total_pages > 1
@@ -68,3 +71,6 @@
         .specialists-pagination.dot-pagination.m-b-1
           - specialists.total_pages.times do |n|
             = link_to ''.html_safe, current_uri(page: n + 1), remote: true, class: "page #{"current" if n + 1 == specialists.current_page}"
+
+javascript:
+  slickify("#specialists-#{@filter}");

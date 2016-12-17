@@ -8,32 +8,32 @@
           .panel-heading
             h3 About
           .panel-body
-            .icon-list
+            .list-icon
               .item
-                i.icon.icon-fw.maxicons2-navigation.text-muted
+                i.icon-location-pin
                 span= business.state_country
               .item
-                i.icon.icon-fw.maxicons1-building.text-muted
+                i.icon-briefcase
                 span= business.industries.map(&:name).join(', ').presence || 'Not available'
               .item
-                i.icon.icon-fw.maxicons1-earth.text-muted
+                i.icon-globe
                 span= business.country
               .item
-                i.icon.icon-fw.maxicons1-peoples.text-muted
+                i.icon-people
                 span= business.employees
               - if business.public? && business.website.present?
                 .item
-                  i.icon.icon-fw.maxicons2-assign.text-muted
+                  i.icon-link
                   span= link_to business.website_short, business.website_url, target: '_blank'
 
       .col-xs-12.col-sm-8.col-md-9
-        .panel.panel-default
+        .panel.panel-default.panel-padded
           .panel-heading
             h3 Description
           .panel-body
             = simple_format business.description.presence || 'Not available'
 
-        .panel.panel-default
+        .panel.panel-default.panel-padded
           .panel-heading
             h3 Ratings & Reviews
             .detail= rating_average_text business

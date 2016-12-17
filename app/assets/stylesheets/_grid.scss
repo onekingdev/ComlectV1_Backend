@@ -1,15 +1,15 @@
 .row-compact {
-  margin-left:  -(ceil(($grid-gutter-width / 4)));
-  margin-right:  -(ceil(($grid-gutter-width / 4)));
+  margin-left:  -(ceil(($grid-gutter-width)));
+  margin-right:  -(ceil(($grid-gutter-width)));
 
   div[class*="col-"] {
-    padding-left:  ceil(($grid-gutter-width / 4));
-    padding-right: floor(($grid-gutter-width / 4));
+    padding-left:  ceil(($grid-gutter-width/1.4));
+    padding-right: floor(($grid-gutter-width/1.4));
   }
 }
 
 .row.bordered-cells {
   [class*=col-] + [class*=col-] {
-    border-left: 1px solid $gray-dark;
+    border-left: 2px solid $gray-dark;
   }
 }

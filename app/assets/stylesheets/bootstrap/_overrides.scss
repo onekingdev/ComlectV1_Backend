@@ -1,5 +1,7 @@
 html {
-  font-size: 13px; // So rems work better
+  //font-size: 13px; // So rems work better
+  letter-spacing: 1px;
+  font-weight: $regular-weight; 
 }
 
 .btn.active, .btn:active {
@@ -8,4 +10,24 @@ html {
 
 .input-lg, .btn-lg {
   font-size: $font-size-base;
+}
+
+.input-lg{
+  border: none;
+  border: $input-border;
+  font-weight: $medium-weight;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+.btn{
+  border-radius: 0px;
+  border: 3px solid #ffcc00;
+}
+
+.multiselect{
+  border: 2px solid #e4e4e4;
+  text-transform: none !important;
+  font-size: 12px !important;
+  font-weight: $medium-weight !important;
 }

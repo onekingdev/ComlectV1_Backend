@@ -1,6 +1,6 @@
 #header {
-  position: relative;
-  margin-bottom: 80px;
+  //position: relative;
+  margin-bottom: 60px;
   color: #fff;
   padding-top: $navbar-height + 3;
   background-color: transparent;
@@ -21,6 +21,7 @@
 
   &.short {
     margin-bottom: 0;
+    padding-top: 0px;
   }
 
   &.compact {
@@ -48,7 +49,7 @@
   .title, .image-container {
     @media (min-width: $screen-sm-min) {
       float: none;
-      height: 280px;
+      height: 285px;
       vertical-align: bottom;
       padding-bottom: 27px;
     }
@@ -59,6 +60,12 @@
     }
   }
 
+  @media (max-width: $screen-xs-max) {
+    .image-container {
+      margin-bottom: 20px;
+    }
+  }
+
   h1 {
     font-size: 42px;
     margin: 0;
@@ -66,8 +73,13 @@
   }
 
   .tools {
-    line-height: 46px;
-    float: right;
+    //line-height: 46px;
+    @media (min-width: $screen-sm-min) {
+      float: right;
+    }
+    @media (max-width: $screen-sm-max) {
+      margin-top: 10px;
+    }
     margin-top: 0;
   }
 
@@ -81,7 +93,6 @@
     $align-bottom: $height * 2 - 129; // Magic number to align cross-browser
     h1 {
       font-size: 32px;
-      font-weight: $roboto-light;
       line-height: $align-bottom;
     }
 
@@ -119,7 +130,7 @@
 
       h1 {
         font-size: 32px;
-        padding-top: 2em;
+        //padding-top: 2em;
       }
 
       &.has-logo h1 {
@@ -142,6 +153,42 @@
       .tools {
         margin-top: 2em;
       }
+    }
+  }
+
+  .pseudo-table {
+    .tools {
+      .btn-primary {
+        padding: 4px 32px;
+      }
+    }
+    .has-logo, .has-photo {
+      h1 {
+        font-size: 30px;
+        font-weight: $bold-weight;
+        span {
+          @media (min-width: $screen-xs-max) {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: $screen-xs-min;
+            display: inline-block;
+          }
+
+          @media (max-width: $screen-md-max) {
+            max-width: 420px;            
+          }
+        }
+        .social-linkedin {
+          position: absolute;
+        }
+      }
+      @media (max-width: $screen-xs-max) {
+        background-color: #ffffff;
+      }
+    }
+    .stars {
+      line-height: 20px;
     }
   }
 }
