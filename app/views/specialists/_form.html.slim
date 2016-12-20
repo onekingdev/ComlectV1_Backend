@@ -31,7 +31,7 @@
   .row.row-compact
     .col-sm-6
       = f.input :address_1,
-        required: false,
+        required: true,
         input_html: { \
           class: 'input-lg js-place-autocomplete', \
           data: { zipcode: '#specialist_zipcode', country: '#specialist_country', state: '#specialist_state', city: '#specialist_city' } \
@@ -63,7 +63,7 @@
       / Check specialist styling when changing this section in case the hack to align the "Add another" link needs tweaking
       = render 'work_experience_fields', f: wef
       .add.text-right= link_to_add_association f, :work_experiences do
-        i.fa.fa-plus.text-muted title="Add another" data-toggle="tooltip"
+        i.text-muted.fa.fa-plus title="Add another" data-toggle="tooltip"
 
   h3 Areas of Expertise
 

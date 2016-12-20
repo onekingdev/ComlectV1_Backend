@@ -46,6 +46,12 @@
 
 .btn-primary {
   @include button-variant-light($btn-primary-bg);
+
+  &:hover {
+    background-color: #000;
+    color: #fff;
+    border-color: #000;
+  }
 }
 
 .btn-muted {
@@ -54,7 +60,9 @@
   color: #000;
 
   &:hover {
-    background-color: darken(#f3f3f3, 5%);
+    background-color: #ffcc00;
+    border-color: #ffcc00;
+    color: #000;
   }
 }
 

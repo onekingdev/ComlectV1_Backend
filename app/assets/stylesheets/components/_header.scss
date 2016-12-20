@@ -63,6 +63,9 @@
   @media (max-width: $screen-xs-max) {
     .image-container {
       margin-bottom: 20px;
+      .img-responsive {
+        display: inline;
+      }
     }
   }
 
@@ -81,6 +84,29 @@
       margin-top: 10px;
     }
     margin-top: 0;
+
+    .tool-icon {
+      font-size: 24px;
+      color: #000;
+      border: 0px;
+      background: transparent;
+
+      i {
+        font-weight: bold;
+      }
+
+      &:hover {
+        text-decoration: none;
+      }
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    .favorite.active {
+      color: #ffcc00;
+    }
   }
 
   .small-header {
@@ -173,6 +199,7 @@
             text-overflow: ellipsis;
             max-width: $screen-xs-min;
             display: inline-block;
+            vertical-align: bottom;
           }
 
           @media (max-width: $screen-md-max) {
@@ -181,6 +208,13 @@
         }
         .social-linkedin {
           position: absolute;
+          height: 29px;
+          width: 29px;
+          line-height: 29px;
+
+          .fa-linkedin {
+            font-size: 20px;
+          }
         }
       }
       @media (max-width: $screen-xs-max) {
@@ -189,6 +223,7 @@
     }
     .stars {
       line-height: 20px;
+      margin-top: 7px;
     }
   }
 }

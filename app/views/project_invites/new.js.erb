@@ -1,4 +1,4 @@
-var $modal = $('#js-project-invite');
+/*var $modal = $('#js-project-invite');
 var modalContent = '<%= j render('new', invite: @invite) %>';
 if ($modal.length > 0) {
   $modal
@@ -10,3 +10,6 @@ if ($modal.length > 0) {
 }
 
 $(document).trigger('newContent', $('#js-project-invite'));
+*/
+
+_Modal.showPlain('<%= j render('new', invite: @invite) %>', { class: 'transparent' });

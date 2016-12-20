@@ -117,9 +117,13 @@ body.specialists.new, body.specialists.create, body.specialists.edit {
     .icon-heart {
       font-weight: bold;
       color: #d2d2d2;
+
+      &:hover {
+        color: #ffcc00;
+      }
     }
 
-    &.active .icon, &:hover .icon {
+    &.active .icon-heart, &:hover .icon-heart {
       color: $brand-primary;
     }
 
@@ -141,11 +145,11 @@ body.specialists.new, body.specialists.create, body.specialists.edit {
     .add {
       position: absolute;
       right: 14px;
-      bottom: 0;
+      bottom: 1px;
     }
   }
 
-  .specialist_current, .specialist_compliance, .specialist_former_regulator{
+  .specialist_current, .specialist_compliance, .specialist_former_regulator {
     color: $gray-light;
   }
 
@@ -156,7 +160,7 @@ body.specialists.new, body.specialists.create, body.specialists.edit {
       position: absolute;
       right: 14px;
       @media (min-width: $screen-sm-max) {
-        bottom: 36px;
+        bottom: 38px;
       }
       bottom: 0px;
     }

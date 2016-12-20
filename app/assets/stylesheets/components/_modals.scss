@@ -65,9 +65,24 @@
 
   h4 {
     font-family: "Muller";
-    font-weight: $light-weight;
+    font-weight: $regular-weight;
     font-size: 11px;
     color: #000;
+  }
+
+  h3 {
+    font-size: 14px;
+    font-weight: $light-weight;
+  }
+
+  label {
+    font-weight: $light-weight;
+    font-size: 14px;
+  }
+
+  .form-control {
+    border-radius: 0;
+    border: 3px solid #ffcc00;
   }
 }
 

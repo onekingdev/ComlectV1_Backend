@@ -49,12 +49,12 @@ en:
         contact_job_title: Job Title
         contact_phone: Phone No.
         business_name: "* Business Name"
-        industry: "* INDUSTRY"
-        employees: "* NO. EMPLOYEES"
+        industry: "* Industry"
+        employees: "* No. Employees"
         website: Website
         linkedin_link: LinkedIn URL
-        description: "* BUSINESS DESCRIPTION"
-        address_1: Address Line 1
+        description: "* Business Description"
+        address_1: "* Address Line 1"
         address_2: Address Line 2
         country: "* Country"
         city: "* City"
@@ -67,30 +67,30 @@ en:
         state: "* State"
         city: "* City"
         time_zone: "* Timezone"
-        address_1: Address Line 1
+        address_1: "* Address Line 1"
         address_2: Address Line 2
         zipcode: "* Zipcode"
         phone: Phone Number
         linkedin_link: LinkedIn Profile URL
         industries: Industries
         jurisdictions: Jurisdictions
-        certifications: List your other certifications, e.g. IACCP, CRCP, CFE
+        certifications: List your other certifications (e.g. IACCP, CRCP, CFE)
       project:
         title: "* Title"
-        location_type: "* LOCATION"
+        location_type: "* Location"
         location: "* City, State, Country"
-        industries: "* INDUSTRY"
-        jurisdictions: "* JURISDICTION"
-        description: "* DESCRIPTION (i.e. please provide a detailed explanation of your needs and any relevant background information.)"
-        key_deliverables: "* KEY DELIVERABLES (e.g. report, advice, policies, etc.)"
-        minimum_experience: "* YEARS OF COMPLIANCE EXPERIENCE"
+        industries: "* Industry"
+        jurisdictions: "* Jurisdiction"
+        description: "* Description (i.e. please provide a detailed explanation of your needs and any relevant background information.)"
+        key_deliverables: "* Key Deliverables (e.g. report, advice, policies, etc.)"
+        minimum_experience: "* Years of Compliance Experience"
         full_time_starts_on: "* Start Date"
-        skills: "HASHTAG SKILLS (e.g. #sec #brokerdealer #finra)"
+        skills: "Hashtag Skills (e.g. #sec #brokerdealer #finra)"
         starts_on: "* Start Date"
         ends_on: "* End Date"
         annual_salary: "* Annual Salary (USD $)"
-        hourly_payment_schedule: "* PAYMENT METHOD"
-        fixed_payment_schedule: "* PAYMENT METHOD"
+        hourly_payment_schedule: "* Payment method"
+        fixed_payment_schedule: "* Payment method"
         hourly_rate: "* Hourly Rate"
         fixed_budget: "* Fixed Budget"
         estimated_hours: "* Estimated Hours"
@@ -104,7 +104,7 @@ en:
       education_histories:
         institution: Institution Name
         degree: Degree
-        year: GRAD YEAR
+        year: Grad year
       specialist_search:
         keyword: Keyword
         jurisdiction_ids: Jurisdiction

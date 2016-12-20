@@ -96,6 +96,14 @@
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
     border-radius: 2px;
+
+    &:hover {
+      color: #ffcc00;
+    }
+
+    &:focus {
+      outline: none;
+    }
   }
 
   .btn {

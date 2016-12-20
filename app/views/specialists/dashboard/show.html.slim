@@ -28,7 +28,7 @@
                   span= specialist.jurisdictions.map(&:name).join(', ')
               .item
                 i.icon-folder
-                span= pluralize specialist.years_of_experience, 'Year Experience', 'Years Experience'
+                span= pluralize specialist.years_of_experience, 'Yr. Compliance Exp.', 'Yrs. Compliance Exp.'
               - if specialist.former_regulator?
                 .item
                   i.icon-flag

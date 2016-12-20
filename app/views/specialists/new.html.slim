@@ -22,11 +22,11 @@
     .col-xs-12
       p.text-center.help-block.m-t-1.m-b-3.col-md-12.text-muted
         'By signing up, you are agreeing to our
-        = link_to "Terms", "#"
+        = link_to "Terms", "/info/terms-of-use", :target => "_blank"
         '&nbsp;&
-        = link_to "Privacy Policy", "#"
+        = link_to "Privacy Policy", "/info/privacy-policy", :target => "_blank"
         ', the
-        = link_to "Stripe Agreement", "#"
+        = link_to "Stripe Agreement", "https://stripe.com/us/connect-account/legal", :target => "_blank"
         '&nbsp;(for payment),
         br
         'and to receiving Complect email communication.

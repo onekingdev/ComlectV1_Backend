@@ -25,7 +25,7 @@
     color: #333;
     position: relative;
     display: inline-block;
-    top: 35%; left: 50%;
+    top: 33%; left: 50%;
     transform: translate(-50%,-50%);
 
     @media (max-width: $screen-xs-max) {
@@ -50,9 +50,23 @@
       }
 
       .btn {
+        cursor: pointer;
         width: 230px;
         padding: 15px 0px;
-        margin-top: 20px;
+        margin-top: 30px;
+        font-weight: $regular-weight;
+      }
+
+      .btn-primary:hover {
+        color: #fff;
+        background-color: #000;
+        border-color: #000;
+      }
+
+      .btn-default:hover {
+        color: #fff;
+        border-color: #ffcc00;
+        background: transparent;
       }
     }
 
@@ -92,9 +106,10 @@
       h1 {
         font-size: 35px;
         letter-spacing: 0.11em;
+        margin-bottom: 15px;
 
         span {
-          font-size: 80px;
+          font-size: 77px;
           letter-spacing: 0.08em;
         }
       }

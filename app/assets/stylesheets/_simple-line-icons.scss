@@ -208,7 +208,7 @@ $simple-line-icon-prefix: "icon-" !default;
   &social-dropbox,
   &social-vkontakte,
   &social-steam {
-    font-family: '#{$simple-line-font-family}';
+    font-family: '#{$simple-line-font-family}' !important;
     speak: none;
     font-style: normal;
     font-weight: normal;

@@ -4,12 +4,6 @@
       button.close.close-absolute data-dismiss="modal" type="button"
         .fa.fa-close
       = simple_form_for resource, remote: true, as: resource_name, url: session_path(resource_name), html: { class: 'new_session' } do |f|
-        a.btn.btn-block.btn-lg.btn-primary.btn-social-linkedin href="#"
-          .social.social-linkedin.m-r-1 href="https://www.linkedin.com/company/complect" target="_blank"
-            .fa.fa-linkedin
-          span.small Log in with LinkedIn
-
-        h4.text-center OR
 
         - if flash[:warning]
           .text-danger.text-center.m-b-1= flash[:warning]

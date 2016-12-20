@@ -21,7 +21,7 @@ nav#nav.navbar.navbar-default
           button.btn.btn-default.navbar-btn data-href=new_business_project_path Post a Project
       - if user_signed_in?
         - if current_business
-          li= link_to 'Browse Spacialists', specialists_path
+          li= link_to 'Browse Specialists', specialists_path
         - else
           li= link_to 'Browse Projects', projects_path
       - if user_signed_in?
@@ -31,22 +31,18 @@ nav#nav.navbar.navbar-default
               'My Company
               i.icon.maxicons1-down
             ul.dropdown-menu
-              li= link_to 'Dashboard', business_dashboard_path
               li= link_to 'Profile', business
               li= link_to 'Financials', business_financials_path
               li= link_to 'Account Settings', business_settings_path
-              li= link_to 'Messages', business_messages_path
               li= link_to 'Log Out', destroy_user_session_path, method: :delete
           - elsif (specialist = user.specialist)
             a.dropdown-toggle href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
               = specialist.to_s
               i.icon.maxicons1-down
             ul.dropdown-menu
-              li= link_to 'Dashboard', specialists_dashboard_path
               li= link_to 'Profile', specialist
               li= link_to 'Financials', specialists_financials_path
               li= link_to 'Account Settings', specialists_settings_path
-              li= link_to 'Messages', specialists_messages_path
               li= link_to 'Log Out', destroy_user_session_path, method: :delete
         li.dropdown
           a.dropdown-toggle href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"

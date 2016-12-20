@@ -84,7 +84,7 @@
     h2.text-center.m-b-2 Project Pricing
     .row.row-compact.m-y-1
       .col-xs-12.text-center
-        = f.input :pricing_type, as: :radio_pills, collection: [%w(Hourly hourly), %w(Fixed fixed)], btn_class: 'btn-default p-x-3 tt-u'
+        = f.input :pricing_type, as: :radio_pills, collection: [%w(Hourly hourly), %w(Fixed fixed)], btn_class: 'btn-default tt-u'
     .row.row-compact
       .col-xs-12.col-sm-4
         = project.hourly_payment_schedule_input(f)

@@ -15,11 +15,11 @@
                 span Edit
           - elsif current_business
             .tools
-              = specialist.link_to_favorite toggle_business_favorites_path, current_business.favorited?(specialist), class: 'btn btn-primary m-b-1' do
+              = specialist.link_to_favorite toggle_business_favorites_path, current_business.favorited?(specialist), class: 'tool-icon' do
                 i.icon-heart.unfavorite
                 i.icon-heart.favorite
-              a.btn.btn-primary.m-l-1.m-b-1 data-remote=true href=new_project_invite_path(specialist_id: specialist.id)
-                i.icon-bubble
+              a.m-l-1.tool-icon data-remote=true href=new_project_invite_path(specialist_id: specialist.id)
+                i.icon-envelope-letter
           h1
             span= specialist.first_name
             - if specialist.public? && specialist.linkedin_link.present?
