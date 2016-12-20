@@ -1,18 +1,9 @@
-.panel {
-  margin-bottom: 35px;
-  border-radius: 0;
-}
-
 .panel-default {
   border: 0;
-  -webkit-box-shadow: 0px 13px 32px 3px rgba(0,0,0,0.2);
-  -moz-box-shadow: 0px 13px 32px 3px rgba(0,0,0,0.2);
-  box-shadow: 0px 13px 32px 3px rgba(0,0,0,0.2);
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
 
   a.panel-heading {
-    //color: #fff !important;
-    font-weight: $black-weight;
-    font-size: 13px;
+    color: #fff !important;
 
     &:hover {
       text-decoration: none;
@@ -20,38 +11,39 @@
   }
 
   .panel-heading {
-    font-weight: bold;
+    font-weight: $raleway-bold;
     font-size: 18px;
     line-height: 17px;
     height: 37px;
-    color: #333333;
+    color: #fff;
     position: relative;
     border: 0;
     display: block;
-    padding-top: 30px;
-    padding-left: 25px;
-    padding-right: 25px;
-    padding-bottom: 20px;
+
     h3 {
-      font-size: 13px;
-      font-family: "Muller";
-      font-weight: $medium-weight;
+      font-size: 18px;
+      font-family: "Baskerville";
+      font-weight: $baskerville-bold;
+      font-style: italic;
       display: inline-block;
       margin: 0;
       white-space: nowrap;
       text-overflow: ellipsis;
       max-width: 100%;
       overflow: hidden;
-      text-transform: uppercase;
 
       span {
         font-size: 16px;
 
         a {
-          color: #333333;
+          color: #fff;
           text-decoration: underline;
         }
       }
+    }
+
+    a.no-link {
+      color: #fff;
     }
 
     .icon {
@@ -66,22 +58,19 @@
 
     .detail {
       float: right;
-      font-size: 13px;
-      font-weight: $bold-weight;
-      color: #333333;
+      font-size: 14px;
+      font-weight: $raleway-light;
+      color: #c1c1c1;
 
       &.strong {
         font-size: 14px;
-        font-weight: bold;
+        font-weight: $raleway-bold;
         color: #fff;
       }
     }
   }
 
   .panel-body {
-    padding-left: 25px;
-    padding-right: 25px;
-    padding-bottom: 30px;
     display: block;
     color: rgba(0, 0, 0, 0.8);
 
@@ -90,7 +79,7 @@
     }
 
     .table th span {
-      font-weight: bold;
+      font-weight: $roboto-black;
     }
 
     .table th .icon {
@@ -111,15 +100,7 @@
 
     .list-group-item-heading {
       margin-bottom: 0.5em;
-      font-weight: bold;
-
-      .stars {
-        padding-left: 20px;
-
-        .star {
-          font-size: 12px;
-        }
-      }
+      font-weight: $raleway-bold;
     }
 
     .detail {
@@ -133,15 +114,6 @@
     &.flush {
       margin-left: -$panel-body-padding;
       width: calc(100% + #{$panel-body-padding * 2});
-    }
-  }
-}
-
-.panel-padded {
-  @media (min-width: $screen-xs-max) {
-    .panel-heading, .panel-body {
-      padding-left: 50px;
-      padding-right: 50px;
     }
   }
 }
@@ -164,13 +136,18 @@
 
   .btn {
     height: 100%;
-    font-family: Muller;
-    //font-size: 18px;
-    //font-weight: bold;
-    //font-style: italic;
-    //color: #fff;
+    font-family: Baskerville;
+    font-size: 18px;
+    font-weight: $baskerville-bold;
+    font-style: italic;
+    color: #fff;
     background-color: transparent;
     border-radius: 0;
+
+    &:hover, &:focus {
+      background-color: #383838;
+      color: #fff;
+    }
   }
 
   .dropdown-menu li.active {
@@ -182,11 +159,10 @@
 
 .panel-heading .nav-pills {
   float: right;
-  //margin-top: -(nth($panel-heading-padding, 1));
-  margin-top: -1px;
+  margin-top: -(nth($panel-heading-padding, 1));
   margin-right: -(nth($panel-heading-padding, 2));
   overflow: hidden;
-  //height: calc(100% + #{nth($panel-heading-padding, 1) * 2});
+  height: calc(100% + #{nth($panel-heading-padding, 1) * 2});
 
   li + li {
     margin-left: 0;
@@ -194,27 +170,22 @@
   }
 
   a {
-    font-family: Muller;
-    font-size: 13px;
-    font-weight: $light-weight;
-    color: #000;
+    font-family: Baskerville;
+    font-size: 18px;
+    font-weight: $baskerville-bold;
+    font-style: italic;
+    color: #fff;
     background-color: transparent;
     border-radius: 0;
-    padding: 0px 15px;
+    padding: 10px 15px 9px 15px;
 
     .icon {
       color: #fff;
     }
-    text-transform: uppercase;
   }
 
   a:hover, li.active a, a:focus {
-    background-color: #fff;
-    color: #ffcc00;
-  }
-
-  li.active a {
-    font-weight: $bold-weight;
+    background-color: #383838;
   }
 
   li:last-child a {
@@ -260,26 +231,6 @@
   }
 }
 
-.list-icon {
-  font-size: 12px;
-  font-weight: $regular-weight;
-  line-height: 24px;
-  .item {
-    i {
-      position: absolute;
-      font-size: 16px;
-      line-height: 22px;
-    }
-    span {
-      width: 100%;
-      padding-left: 23px;
-      display: block;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-  }
-}
-
 .panel.card {
   border: 0;
   border-bottom-left-radius: $panel-border-radius;
@@ -297,7 +248,7 @@
 
   .panel-heading {
     @include clearfix;
-    //background-color: #5a5a5a;
+    background-color: #5a5a5a;
     padding: 24px 20px;
 
     h4 {
@@ -308,11 +259,18 @@
   }
 
   &.active .panel-heading {
-    //background-color: rgba(0, 0, 0, 0.77);
+    background-color: rgba(0, 0, 0, 0.77);
   }
 
   .panel-body {
     background-color: #fff;
+
+    .icon-list {
+
+      .icon {
+        opacity: 0.5;
+      }
+    }
   }
 
   .panel-footer {
@@ -324,6 +282,7 @@
       .btn {
         width: 50%;
         border-radius: 0;
+        font-weight: $roboto-light;
       }
 
       .button_to {
@@ -347,10 +306,6 @@
 }
 
 .panel-body {
-  font-size: 13px;
-  color: #333333;
-  font-weight: $light-weight;
-
   > :first-child, .list-group .list-group-item:first-child {
     margin-top: 0;
   }
@@ -373,16 +328,3 @@
   }
 }
 
-
-.tab-pane .card-container {
-  padding: 0px 10px;
-
-  .project, .specialist {
-    border: 2px solid #ffcc00;
-
-    .panel-heading {
-      border-bottom: 2px solid #ffcc00;
-      display: block;
-    }
-  }
-}

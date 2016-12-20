@@ -9,8 +9,7 @@ class Business::SpecialistsController < ApplicationController
   }.freeze
 
   def index
-    @filter = FILTERS[params[:filter]] || :none
-    @specialists = current_business.filtered_specialists(@filter).page(params[:page]).per(6)
+    @specialists = current_business.filtered_specialists(FILTERS[params[:filter]] || :none).page(params[:page]).per(6)
     respond_to do |format|
       format.html do
         render partial: 'specialists/cards',

@@ -1,25 +1,3 @@
-.modal {
-  text-align: center;
-}
-
-@media screen and (min-width: $screen-md-max) { 
-  .modal:before {
-    display: inline-block;
-    vertical-align: middle;
-    content: " ";
-    height: 100%;
-  }
-}
-
-.modal-dialog {
-  display: inline-block;
-  text-align: left;
-  vertical-align: middle;
-  @media screen and (min-width: $screen-md-min) { 
-    width: 650px !important;
-  }
-}
-
 .modal.plain {
   $padding: 50px;
 
@@ -50,39 +28,24 @@
 }
 
 .modal-fake {
-  //box-shadow: inset 0 0 3px #ffcc00;
-  border: 3px solid #ffcc00;
-  //border-radius: $border-radius-large;
-  //box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
-  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: $border-radius-large;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+  background: #f3f3f3;
   padding: 20px;
-  //margin: 0 auto;
+  margin: 0 auto;
 
   &.gray {
-    background-color: #ffffff;
+    background-color: #f3f3f3;
     color: rgba(78, 78, 78, 0.8);
   }
 
   h4 {
-    font-family: "Muller";
-    font-weight: $regular-weight;
-    font-size: 11px;
-    color: #000;
-  }
-
-  h3 {
-    font-size: 14px;
-    font-weight: $light-weight;
-  }
-
-  label {
-    font-weight: $light-weight;
-    font-size: 14px;
-  }
-
-  .form-control {
-    border-radius: 0;
-    border: 3px solid #ffcc00;
+    font-family: Baskerville;
+    font-weight: $baskerville-bold;
+    font-style: italic;
+    font-size: 18px;
+    color: #666;
   }
 }
 
@@ -120,7 +83,7 @@ $bootbox-width: 474px;
   }
 
   .modal-title {
-    font-family: Muller;
+    font-family: Raleway;
     font-size: 18px;
     font-weight: normal;
   }
@@ -134,12 +97,14 @@ $bootbox-width: 474px;
   .modal-body {
     padding: 30px;
     color: rgba(78, 78, 78, 0.8);
+    font-weight: $roboto-regular;
     background-color: #f3f3f3;
     border-top-left-radius: $border-radius;
     border-top-right-radius: $border-radius;
 
     h2 {
       color: #000;
+      font-weight: $roboto-light;
       font-size: 32px;
       margin: 45px 0;
     }
@@ -202,24 +167,6 @@ $bootbox-width: 474px;
   width: $bootbox-width;
 }
 
-.close {
-  margin: 0;
-  line-height: 39px;
-  opacity: 1 !important;
-  margin-top: -15px;
-  font-size: 18px;
-}
-
-.close-inverse {
-  color: #ffffff !important;
-}
-
-.close-absolute {
-  z-index: 100;
-  position: absolute;
-  right: 24px;
-}
-
 .modal-popup {
   .modal-content {
     overflow: hidden; // So corners get rounded properly
@@ -230,6 +177,11 @@ $bootbox-width: 474px;
     color: #fff;
     padding-top: 5px;
     padding-bottom: 5px;
+
+    .close {
+      margin: 0;
+      line-height: 39px;
+    }
   }
 
   .modal-body, .modal-footer {
@@ -241,7 +193,7 @@ $bootbox-width: 474px;
   }
 
   h4 {
-    font-family: Muller;
-    font-weight: lighter;
+    font-family: Raleway;
+    font-weight: $raleway-light;
   }
 }

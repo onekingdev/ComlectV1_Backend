@@ -22,9 +22,11 @@ RSpec.describe PaymentCycle::Fixed::Monthly, type: :model do
       expect(@project.charges.estimated.count).to eq(6)
       dates = []
       amounts = []
+      balances = []
       @project.charges.estimated.each do |charge|
         dates << charge.process_after.in_time_zone(@project.business.tz)
         amounts << BigDecimal.new(charge.amount_in_cents) / 100.0
+        balances << [charge.running_balance, charge.specialist_running_balance]
       end
       expected_dates = [
         @project.business.tz.local(2016, 2, 2, 0, 1),
@@ -38,6 +40,8 @@ RSpec.describe PaymentCycle::Fixed::Monthly, type: :model do
       expect(dates.sort).to eq(expected_dates)
       expect(amounts.map(&:to_f)).to eq(expected_amounts)
       expect(amounts.reduce(:+)).to eq(@project.fixed_budget)
+      expect(balances).to eq([[89_822.48, 73_491.12], [70_946.74, 58_047.332727272726], [50_769.22, 41_538.45272727272],
+                              [31_242.59, 25_562.119090909087], [11_065.07, 9053.23909090909], [0.0, 0.0]])
     end
 
     context 'in the middle of project with already paid work' do

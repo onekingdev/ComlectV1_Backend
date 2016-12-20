@@ -6,28 +6,28 @@
     .card-container.col-xs-12.col-md-6.col-lg-4 data-project-id=project.id
       .project.card.panel.panel-default class="#{project.type}-project"
         a.panel-heading href=project.specialist_project_href(current_specialist)
-          h4= project.title[0..100]
+          h4= project.title
 
         a.panel-body href=project.specialist_project_href(current_specialist)
-          .list-icon
+          .icon-list
             .item
-              i.icon-location-pin
-              span= project.location_details[0..100]
+              i.icon.maxicons2-navigation
+              span= project.location_details
             .item
-              i.icon-briefcase
+              i.icon.maxicons1-building
               span= project.industries.map(&:name).to_sentence
             .item
-              i.icon-globe
+              i.icon.maxicons1-earth
               span= project.jurisdictions.map(&:name).to_sentence
             .item
-              i.icon-calendar
+              i.icon.maxicons2-clock
               span= project.start_and_duration
             .item
-              i.icon-trophy
+              i.icon.maxicons1-dollar
               span= project.dollars
             .item
               - if project.one_off?
-                i.icon-tag
+                i.icon.maxicons1-wallet
                 span= project.payment_schedule_humanized
               - else
                 span &nbsp;
@@ -40,18 +40,18 @@
                 remote: true,
                 title: 'Withdraw Application',
                 data: { confirm: "Are you sure you want to withdraw your<br>application from <b>#{project}</b>?", confirm_label: 'Confirm' },
-                class: 'btn btn-sm btn-primary' do
+                class: 'btn btn-md btn-primary' do
+                i.icon.maxicons1-back
                 span Withdraw
-              = link_to project_path(project), class: 'btn btn-sm btn-primary'
+              = link_to project_path(project), class: 'btn btn-md btn-primary'
+                i.icon.maxicons2-view
                 span View
             - else
-              = link_to project.specialist_project_href(current_specialist), class: 'btn btn-sm btn-primary btn-single'
+              = link_to project.specialist_project_href(current_specialist), class: 'btn btn-md btn-primary btn-single'
+                i.icon.maxicons2-view
                 span View
 
 - if projects.total_pages > 1
   .dot-pagination.m-b-1
     - projects.total_pages.times do |n|
       = link_to ''.html_safe, current_uri(page: n + 1), remote: true, class: "page #{"current" if n + 1 == projects.current_page}"
-
-javascript:
-  slickify("#projects-#{@filter.to_s.split('_')[0]}");

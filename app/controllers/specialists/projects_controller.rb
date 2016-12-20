@@ -10,8 +10,7 @@ class Specialists::ProjectsController < ApplicationController
   }.freeze
 
   def index
-    @filter = FILTERS[filter_param]
-    @projects = __send__(@filter || :render_404)
+    @projects = __send__(FILTERS[filter_param] || :render_404)
     respond_to do |format|
       format.html do
         render partial: 'cards', locals: { projects: @projects }

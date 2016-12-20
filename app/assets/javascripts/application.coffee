@@ -1,6 +1,5 @@
 #= require jquery
 #= require jquery_ujs
-#= require jquery.slick
 #= require cocoon
 #= require bootstrap/_loader
 #= require bootstrap-multiselect/dist/js/bootstrap-multiselect

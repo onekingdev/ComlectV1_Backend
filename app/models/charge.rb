@@ -11,7 +11,7 @@ class Charge < ActiveRecord::Base
   scope :upcoming, -> { where.not(status: Charge.statuses[:processed]) }
   scope :after, -> (date) { where('date >= ?', date.to_date) }
   scope :before, -> (date) { where('date < ?', date.to_date) }
-  scope :for_processing, -> { where('process_after <= ?', Time.zone.now) }
+  scope :for_processing, -> { where('process_after <= ?', Time.zone.now).order(date: :asc) }
 
   before_create :calculate_fee
 
@@ -20,6 +20,15 @@ class Charge < ActiveRecord::Base
   def amount
     return unless amount_in_cents
     amount_in_cents / 100.0
+  end
+
+  def fee
+    return unless fee_in_cents
+    fee_in_cents / 100.0
+  end
+
+  def amount_or_fee
+    project.full_time? ? fee : amount
   end
 
   def total_amount
@@ -49,8 +58,8 @@ class Charge < ActiveRecord::Base
   def calculate_fee
     self.fee_in_cents ||= amount_in_cents * COMPLECT_FEE_PCT
     self.total_with_fee_in_cents = amount_in_cents + fee_in_cents
-    self.running_balance_in_cents *= (1 + COMPLECT_FEE_PCT) if running_balance_in_cents
     if project.one_off?
+      self.running_balance_in_cents *= (1 + COMPLECT_FEE_PCT) if running_balance_in_cents
       self.specialist_amount_in_cents = amount_in_cents - fee_in_cents
     end
     true

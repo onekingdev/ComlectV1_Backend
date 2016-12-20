@@ -17,17 +17,25 @@ class Business::Financials
 
   def self.upcoming(business, params)
     sort_direction = params[:sort_direction].to_s.casecmp('desc').zero? ? 'DESC' : 'ASC'
+    select = <<-SELECT
+      charges.date, charges.project_id,
+      SUM(amount_in_cents) AS amount_in_cents,
+      SUM(total_with_fee_in_cents) AS total_with_fee_in_cents,
+      MIN(running_balance_in_cents) AS running_balance_in_cents
+    SELECT
+    # Group per project and date so charges for timesheets on the same date return a single line:
     business.charges
             .upcoming
             .joins(:specialist)
             .order("#{PAYMENT_ORDERING[params[:sort_by] || 'date']} #{sort_direction}")
+            .select(select)
+            .group(:project_id, :date, 'projects.title', 'specialists.first_name')
             .page(params[:page]).per(5)
   end
 
   def self.processed(business, params)
     sort_direction = params[:sort_direction].to_s.casecmp('asc').zero? ? 'ASC' : 'DESC'
-    business.charges
-            .processed
+    business.transactions
             .joins(:specialist)
             .order("#{PAYMENT_ORDERING[params[:sort_by] || 'date']} #{sort_direction}")
             .page(params[:page]).per(5)

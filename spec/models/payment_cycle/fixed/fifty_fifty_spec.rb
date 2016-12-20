@@ -24,7 +24,10 @@ RSpec.describe PaymentCycle::Fixed::FiftyFifty, type: :model do
         @project.business.tz.local(2016, 1, 4, 0, 1),  # Not the 1st since that's a friday so we charge on monday
         @project.business.tz.local(2016, 3, 29, 0, 1), # ditto...
       ]
-      expect(@project.charges.map(&:process_after).sort).to eq(dates)
+      charges = @project.charges.order(date: :asc)
+      expect(charges.map(&:process_after).sort).to eq(dates)
+      expect(charges.map(&:running_balance)).to eq([5500, 0])
+      expect(charges.map(&:specialist_running_balance)).to eq([4500, 0])
     end
 
     it 'does not duplicate charges' do

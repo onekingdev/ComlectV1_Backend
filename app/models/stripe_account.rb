@@ -9,8 +9,9 @@ class StripeAccount < ActiveRecord::Base
   attr_accessor :verification_document_data, :verification_document_cache
 
   before_validation :encode_verification_document
+  before_validation :set_ssn_last_4_from_personal_id, if: -> { country == 'US' }
   after_create :create_managed_account, :verify_account
-  after_destroy :delete_managed_account
+  after_destroy :delete_managed_account, if: -> { stripe_id.present? }
 
   REQUIRED_FIELDS = {
     additional_owners: { company: %w(AT BE DE DK ES FI FR GB IE IT LU NL NO PT SE SG) },
@@ -20,11 +21,14 @@ class StripeAccount < ActiveRecord::Base
     personal_city: { company: %w(BE DE DK ES FI FR GB HK IE IT LU NL NO PT SE SG) },
     personal_address1: { company: %w(BE DE DK ES FI FR GB HK IE IT LU NL NO PT SE SG) },
     personal_zipcode: { company: %w(BE DE DK ES FI FR GB HK IE IT LU NL NO PT SE SG) },
-    personal_id_number: { both: %w(US CA HK SG) },
-    ssn_last_4: { both: %w(US) }
+    personal_id_number: { both: %w(US CA HK SG) }
   }.freeze
 
   private
+
+  def set_ssn_last_4_from_personal_id
+    self.ssn_last_4 = personal_id_number.to_s[-4..-1]
+  end
 
   def encode_verification_document
     if verification_document_data.present?
@@ -40,6 +44,7 @@ class StripeAccount < ActiveRecord::Base
     update_attribute :stripe_id, account.id
   rescue Stripe::InvalidRequestError => e
     errors.add :base, e.message
+    destroy # So #persisted? does not return true
     raise ActiveRecord::Rollback
   end
 
