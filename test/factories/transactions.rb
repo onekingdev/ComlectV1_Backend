@@ -2,7 +2,7 @@
 FactoryGirl.define do
   factory :transaction do
     stripe_id "MyString"
-    amount_in_cents 1
-    processed_at "2016-09-29 13:17:28"
+    amount_in_cents 10_000
+    status Transaction.statuses[:pending]
   end
 end

@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class StripeWebhook::AccountUpdated < StripeWebhook
+class StripeEvent::AccountUpdated < StripeEvent
   def handle
     # TODO
   end
