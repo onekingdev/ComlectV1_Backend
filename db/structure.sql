@@ -2896,7 +2896,9 @@ CREATE TABLE stripe_accounts (
     personal_address1 character varying,
     personal_zipcode character varying,
     status_detail character varying,
-    verification_document text
+    verification_document text,
+    secret_key character varying,
+    publishable_key character varying
 );
 
 
@@ -4205,6 +4207,13 @@ CREATE INDEX index_stripe_accounts_on_specialist_id ON stripe_accounts USING btr
 
 
 --
+-- Name: index_stripe_accounts_on_stripe_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_stripe_accounts_on_stripe_id ON stripe_accounts USING btree (stripe_id);
+
+
+--
 -- Name: index_time_logs_on_timesheet_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -4626,4 +4635,8 @@ INSERT INTO schema_migrations (version) VALUES ('20161204011945');
 INSERT INTO schema_migrations (version) VALUES ('20161204020457');
 
 INSERT INTO schema_migrations (version) VALUES ('20161207193307');
+
+INSERT INTO schema_migrations (version) VALUES ('20161216191410');
+
+INSERT INTO schema_migrations (version) VALUES ('20161216194421');
 
