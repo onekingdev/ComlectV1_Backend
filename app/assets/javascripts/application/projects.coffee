@@ -29,11 +29,13 @@ do ->
     # .project_fixed|hourly_payment_schedule
     parentSelector = ".project_#{$('.project-pricing[data-pricing-type]').attr('data-pricing-type')}_payment_schedule"
     for parent in parents
-      $(parent).find(selector.replace('%value', 'upon-completion')).parents('li').removeClass('hidden')
+      $(parent).find(selector.replace('%value', 'upon_completion')).parents('li').removeClass('hidden')
       $(parent).find(selector.replace('%value', 'monthly')).parents('li').removeClass('hidden')
+      $(parent).find(selector.replace('%value', 'bi_weekly')).parents('li').removeClass('hidden')
     if diff < (one_day * 14)
       for parent in parents
         $(parent).find(selector.replace('%value', 'monthly')).parents('li').addClass('hidden')
+        $(parent).find(selector.replace('%value', 'bi_weekly')).parents('li').addClass('hidden')
     if diff > (one_day * 30)
       for parent in parents
-        $(parent).find(selector.replace('%value', 'upon-completion')).parents('li').addClass('hidden')
+        $(parent).find(selector.replace('%value', 'upon_completion')).parents('li').addClass('hidden')

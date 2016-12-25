@@ -30,7 +30,7 @@ class Specialists::FinancialsController < ApplicationController
       format.pdf do
         render pdf: 'invoice',
                template: 'specialists/financials/invoice.pdf.erb',
-               locals: { charge: Charge.find(params[:id]) },
+               locals: { transaction: Transaction.find(params[:id]), specialist: true },
                margin: { top:               0,
                          bottom:            35,
                          left:              0,

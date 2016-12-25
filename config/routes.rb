@@ -131,6 +131,10 @@ Rails.application.routes.draw do
   resources :notifications
   resources :email_threads, path: 'email', only: :create
 
+  namespace :stripe do
+    resources :webhooks, only: :create
+  end
+
   namespace :api do
     resources :skills, only: :index
   end

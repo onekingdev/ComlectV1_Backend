@@ -2,6 +2,10 @@
 class PaymentCycle::Fixed::Monthly < PaymentCycle::Fixed
   private
 
+  def charge_description
+    "Monthly project payment"
+  end
+
   # rubocop:disable Lint/UnusedMethodArgument
   def amount_for(date, remaining_dates: nil)
     amount_for_day_period date

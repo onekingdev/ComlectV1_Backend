@@ -28,7 +28,7 @@ class Charge::Processing
   def create_transaction
     amount_in_cents = charges.map(&:total_with_fee_in_cents).reduce(:+)
     fee_in_cents = charges.map(&:fee_in_cents).reduce(:+)
-    common = { project_id: project.id, amount_in_cents: amount_in_cents }
+    common = { project_id: project.id, amount_in_cents: amount_in_cents, date: charges.first.date }
     if project.full_time?
       Transaction::FullTime.create!(common)
     else

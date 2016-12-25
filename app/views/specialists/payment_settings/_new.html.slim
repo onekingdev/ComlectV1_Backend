@@ -5,7 +5,7 @@
 
   - if f.object.status_detail.present?
     .alert.alert-warning= f.object.status_detail
-  - elsif f.object.errors[:base].any?
+  - if f.object.errors[:base].any?
     .alert.alert-warning= f.object.errors[:base].to_sentence
 
   .well.well-lg
@@ -24,13 +24,18 @@
         .form-group
           input.form-control.input-lg disabled=true value=Stripe::SUPPORTED_COUNTRIES[f.object.country.to_s.upcase.to_sym]
       .col-xs-12.col-sm-6
-        = f.input :account_currency,
-          wrapper: :vertical_tight,
-          required: false,
-          label: false,
-          include_blank: false,
-          collection: Stripe::SUPPORTED_BANK_CURRENCIES[f.object.country.to_sym],
-          input_html: { class: 'input-lg js-select' }
+        - if Stripe::SUPPORTED_BANK_CURRENCIES[f.object.country.to_sym].size == 1
+          = f.input :account_currency, as: :hidden, input_html: { value: Stripe::SUPPORTED_BANK_CURRENCIES[f.object.country.to_sym].first }
+          .form-group
+            input.form-control.input-lg disabled=true value=Stripe::SUPPORTED_BANK_CURRENCIES[f.object.country.to_sym].first
+        - else
+          = f.input :account_currency,
+            wrapper: :vertical_tight,
+            required: false,
+            label: false,
+            include_blank: false,
+            collection: Stripe::SUPPORTED_BANK_CURRENCIES[f.object.country.to_sym],
+            input_html: { class: 'input-lg js-select' }
     .row
       - if f.object.require_iban?
         .col-xs-12
@@ -71,9 +76,6 @@
           as: :string,
           label: false,
           input_html: { class: 'input-lg js-datepicker', data: { max: 18.years.ago.to_a[3..5].reverse, years: 80, months: true, value: (l(f.object.dob, format: :pickadate) if f.object.dob.present?) } }
-      - if f.object.required?(:ssn_last_4)
-        .col-xs-12.col-sm-6
-          = f.input :ssn_last_4, required: false, label: false, input_html: { class: 'input-lg', maxlength: 4 }, wrapper: :vertical_tight
 
       - if f.object.required?(:personal_id_number)
         .col-xs-12.col-sm-6
