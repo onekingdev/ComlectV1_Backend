@@ -2,6 +2,19 @@ body.home.index, body.home.page {
   color: #000;
   background-color: #fafafa;
 
+  ol {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .ol-letters {
+    list-style-type: lower-alpha;
+  }
+
+  .ol-numerals {
+    list-style-type: lower-roman;
+  }
+  
   .nav-padding {
     padding: 0 90px;
   }
@@ -10,9 +23,26 @@ body.home.index, body.home.page {
     margin-bottom: 2rem;
   }
 
+  #we-url {
+    position: relative;
+    img {
+      width: 100%;
+    }
+    a {
+      position: absolute;
+      display: block;
+      width: 18%;
+      height: 30%;
+      left: 75%;
+      top: 7%;
+      cursor: pointer;
+      //border: 1px solid #ff0000;
+    }
+  }
+
   #nav {
-    background-color: #fff;
-    box-shadow: rgba(0, 0, 0, 0.3) 0 0 3px 2px;
+    //background-color: #fff;
+    //box-shadow: rgba(0, 0, 0, 0.3) 0 0 3px 2px;
 
     a {
       color: #000;
@@ -155,7 +185,13 @@ body.home.index, body.home.page {
 
   .hero-light {
     overflow: hidden;
-    padding: 70px 0;
+
+    .partner-text {
+      font-weight: $light-weight;
+      color: #333333;
+      line-height: 25px;
+      margin-bottom: 80px;
+    }
 
     .btn-primary {
       border-radius: 7px;
@@ -170,6 +206,11 @@ body.home.index, body.home.page {
         background-color: rgba($brand-primary, 0);
         color: rgba($brand-primary, 1.0);
       }
+    }
+
+    .container {
+      background-color: #ebebeb;
+      padding: 65px 0px;
     }
   }
 
@@ -241,22 +282,24 @@ body.home.index, body.home.page {
 
   .default-heading {
     background: asset_url("home/graph-bg.jpg") no-repeat center;
-    height: 380px;
+    height: 420px;
 
     h1 {
-      background-color: rgba(0, 0, 0, 0.15);
+      //background-color: rgba(0, 0, 0, 0.15);
       margin: 0;
-      line-height: 380px;
-      color: #fff;
+      line-height: 420px;
+      color: #ffcc33;
       text-transform: uppercase;
-      font-size: 90px;
+      font-size: 72px;
       text-align: center;
-      font-weight: 700;
+      font-weight: $bold-weight;
     }
 
     @media (max-width: $screen-xs-max) {
+      height: 210px;
       h1 {
         font-size: 40px;
+        line-height: 210px;
       }
     }
   }
@@ -267,12 +310,12 @@ body.home.index, body.home.page {
 
     > li {
       cursor: pointer;
-      font-weight: 700;
+      font-weight: $medium-weight;
       font-size: 16px;
 
       span {
         margin-bottom: 1rem;
-        display: inline-block;
+        //display: inline-block;
       }
 
       &:before {
@@ -285,8 +328,11 @@ body.home.index, body.home.page {
       }
 
       .collapse, .collapsing {
-        font-weight: normal;
-        font-size: 14px;
+        font-weight: $light-weight;
+        font-size: 16px;
+        margin: 10px 0px;
+        color: #333333;
+        font-family: "Muller";
       }
     }
 
@@ -303,6 +349,18 @@ body.home.index, body.home.page {
     }
   }
 
+  .pull-right-md {
+    @media (min-width: $screen-xs-max) {
+      float: right;
+    }
+  }
+
+  .pull-left-md {
+    @media (min-width: $screen-xs-max) {
+      float: left;
+    }
+  }
+
   .team-members {
     width: 85%;
     margin: 0 auto;
@@ -310,6 +368,8 @@ body.home.index, body.home.page {
     .team-member {
       text-align: center;
       width: 209px;
+      margin-left: auto;
+      margin-right: auto;
 
       img {
         border-radius: 50%;
@@ -335,6 +395,10 @@ body.home.index, body.home.page {
         display: inline-block;
       }
     }
+
+    .team-member:first-child {
+      margin-bottom: 50px;
+    }
   }
 
   .partners-list .partner {
@@ -351,7 +415,7 @@ body.home.index, body.home.page {
         position: absolute;
         color: #999;
         font-size: 110px;
-        font-family: Arial;
+        font-family: "Muller";
         text-align: center;
         width: 150px;
         height: 150px;
@@ -368,13 +432,17 @@ body.home.index, body.home.page {
   }
 
   .partner-callout {
-    color: $brand-primary;
+    color: #333333;
     text-transform: uppercase;
-    margin: 35px 0 0;
-    font-family: Raleway;
-    font-size: 40px;
-    font-weight: 700;
+    margin: 77px 0 0;
+    font-family: Muller;
+    font-size: 30px;
+    font-weight: $light-weight;
     text-align: center;
+
+    a {
+      font-weight: $bold-weight;
+    }
 
     a:hover {
       text-decoration: none;
@@ -384,7 +452,7 @@ body.home.index, body.home.page {
 }
 
 body.home.index .home-content, body.home.page .home-content {
-  font-family: "Glacial Indifference", Arial, sans-serif;
+  font-family: "Muller";
   font-size: 16px;
 
   .small {
@@ -396,36 +464,25 @@ body.home.index .home-content, body.home.page .home-content {
     text-align: center;
     font-size: 40px;
     font-weight: 700;
-    font-family: Raleway;
+    font-family: Muller;
     font-style: normal;;
   }
 
   h3 {
     font-size: 20px;
     font-weight: 700;
-    font-family: Raleway;
+    font-family: Muller;
     text-transform: uppercase;
   }
 
   h4 {
-    font-family: Raleway;
-    color: $brand-primary;
+    font-family: Muller;
+    font-weight: $bold-weight;
+    color: #ffcc33;
     text-transform: uppercase;
-    font-size: 20px;
-    font-weight: 700;
+    font-size: 18px;
     margin-bottom: 2rem;
   }
 
-  ol {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-  }
 
-  .ol-letters {
-    list-style-type: lower-alpha;
-  }
-
-  .ol-numerals {
-    list-style-type: lower-roman;
-  }
 }

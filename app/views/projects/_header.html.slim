@@ -1,20 +1,17 @@
 - content_for(:header_class, 'compact')
-.container data-project-id=project.id
+.container.project-header data-project-id=project.id
   .row.header-content.small-header
     .col-xs-12.title
       .tools
         - if policy(project).destroy?
-          = link_to business_project_path(project), method: :delete, data: { confirm: project.confirm_delete, 'confirm-label' => 'Delete' }, class: 'btn btn-md btn-muted m-r-1' do
-            .fa.fa-trash-o
-            span Delete
+          = link_to business_project_path(project), method: :delete, data: { confirm: project.confirm_delete, 'confirm-label' => 'Delete' }, class: 'tool-icon' do
+            i.icon-trash
         - if policy(project).edit?
-          = link_to edit_business_project_path(project), class: 'btn btn-md btn-primary' do
-            i.icon.maxicons2-editor
-            span Edit
+          = link_to edit_business_project_path(project), class: 'tool-icon m-l-2' do
+            i.icon-pencil
         - if project.published?
-          = link_to new_project_share_path(project), remote: true, class: 'btn btn-md btn-primary m-l-1' do
-            i.icon.maxicons2-cisco
-            span Share
+          = link_to new_project_share_path(project), remote: true, class: 'tool-icon m-l-2' do
+            i.icon-share
         - if current_specialist && project.specialist_id != current_specialist.id
           - if (application = project.job_applications.by(current_specialist).first)
             = link_to project_job_application_path(project, application),
@@ -26,19 +23,16 @@
               i.icon.maxicons1-back
               span Withdraw
           - else
-            = link_to_favorite current_specialist, project, class: 'btn btn-primary btn-md m-l-1' do
-              i.icon.maxicons3-heart
-              span.unfavorite Unfavorite
-              span.favorite Favorite
+            = link_to_favorite current_specialist, project, class: 'tool-icon m-l-2' do
+              i.icon-heart.unfavorite
+              i.icon-heart.favorite
             - if project.pending?
-              = link_to new_project_job_application_path(project), remote: true, class: 'btn btn-md btn-primary m-l-1' do
-                i.icon.maxicons2-comment
-                span Apply
+              = link_to new_project_job_application_path(project), remote: true, class: 'tool-icon m-l-2' do
+                i.icon-bubble
         - elsif current_business && policy(project).postable?
-          = form_for project, url: post_business_project_path(project), method: :post, html: { class: 'm-l-1 d-ib' } do |f|
-            = f.button class: 'btn btn-md btn-primary fw-regular' do
-              i.icon.maxicons2-fix.flip-x
-              span Post
+          = form_for project, url: post_business_project_path(project), method: :post, html: { class: 'd-ib' } do |f|
+            = f.button class: 'tool-icon m-l-1' do
+              i.icon-pin
 
       h1
         = project.title

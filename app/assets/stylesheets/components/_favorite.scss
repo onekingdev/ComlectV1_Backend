@@ -16,4 +16,8 @@ button.favorite {
       display: inline;
     }
   }
+
+  &:hover {
+    color: #ffcc00;
+  }
 }

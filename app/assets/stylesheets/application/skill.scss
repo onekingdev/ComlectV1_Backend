@@ -23,11 +23,12 @@
   li {
     display: inline-block;
     background-color: #fff;
-    padding: 10px 15px;
+    padding: 5px 12px;
     color: #000;
     border-radius: $border-radius-base;
     margin-right: 14px;
-    margin-top: 14px;
+    margin-bottom: 14px;
+    border: 1px solid #ffcc00;
 
     span {
       vertical-align: middle;
@@ -41,5 +42,7 @@
     font-size: 1.3em;
     line-height: 1em;
     color: #666;
+    display: inline-block;
+    margin-top: -3px;
   }
 }

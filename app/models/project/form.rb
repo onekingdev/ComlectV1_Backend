@@ -21,7 +21,7 @@ class Project::Form < Project
   validates :fixed_payment_schedule, :fixed_budget,
             presence: true, if: -> { fixed_pricing? && payment_schedule.blank? }
   validate if: -> { starts_on.present? } do
-    errors.add :starts_on, :past if starts_on.in_time_zone(business.tz).to_date < business.tz.today
+    errors.add :starts_on, :past if starts_on.past?
   end
   validate if: -> { starts_on.present? && ends_on.present? } do
     errors.add :starts_on, :invalid if starts_on > ends_on
@@ -31,12 +31,11 @@ class Project::Form < Project
   end
   validate if: -> { starts_on.present? && ends_on.present? && ends_on - starts_on < 14 } do
     attribute = hourly_pricing? ? :hourly_payment_schedule : :fixed_payment_schedule
-    period = public_send(attribute)
-    errors.add attribute, :too_little_duration if period == 'monthly' || period == 'bi_weekly'
+    errors.add attribute, :too_little_duration if public_send(attribute) == 'monthly'
   end
   validate if: -> { starts_on.present? && ends_on.present? && ends_on - starts_on > 30 } do
     attribute = hourly_pricing? ? :hourly_payment_schedule : :fixed_payment_schedule
-    errors.add attribute, :too_much_duration if public_send(attribute) == 'upon_completion'
+    errors.add attribute, :too_much_duration if public_send(attribute) == 'upon-completion'
   end
   validate if: -> { published? && !user&.payment_info? } do
     errors.add :base, :no_payment

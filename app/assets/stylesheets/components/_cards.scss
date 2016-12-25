@@ -1,11 +1,26 @@
+.project.card .panel-heading {
+  justify-content: center;
+}
+
 .panel.card {
+  box-shadow: none !important;
+  margin-bottom: 10px !important;
+
   .panel-heading {
-    height: 88px;
+    height: 70px;
+    padding: 0px 15px !important;
+    display: flex !important;
+    align-items: center;
 
     h4 {
-      font-family: Raleway;
-      font-size: 18px;
-      font-weight: $raleway-light;
+      margin-left: auto;
+      margin-right: auto;
+      font-family: Muller;
+      font-size: 14px;
+      font-weight: lighter;
+      max-height: 2.5em;
+      text-align: center;
+      text-transform: uppercase;
     }
   }
 
@@ -14,11 +29,23 @@
     line-height: 31px;
     padding: 0;
   }
-}
 
-.panel-body {
-  h3 {
-    font-family: Raleway;
-    font-size: 24px;
+  .panel-body {
+    h3 {
+      font-family: Muller;
+      font-size: 24px;
+    }
+
+    padding: 14px 18px;
+
+    .list-icon {
+      .item {
+        span {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
   }
 }

@@ -11,7 +11,7 @@ class PaymentCycle::Fixed < PaymentCycle
     return if amount.nil?
     schedule_charge! amount: amount,
                      date: current_cycle,
-                     description: charge_description
+                     description: ''
   end
 
   private
@@ -59,10 +59,9 @@ class PaymentCycle::Fixed < PaymentCycle
   end
 
   def periods
-    return @_periods if @_periods
     previous = project.starts_on
     last = occurrences.last.to_date
-    @_periods = occurrences.map do |occurrence|
+    occurrences.map do |occurrence|
       date = occurrence.to_date
       adjust = date == last ? 0 : -1
       (previous..date + adjust).tap do

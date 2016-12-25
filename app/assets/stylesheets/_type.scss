@@ -1,25 +1,30 @@
 h1 {
-  font-size: 36px;
-  font-weight: $raleway-light;
-  font-family: Raleway;
+  font-size: 18px;
+  font-family: Muller;
+  letter-spacing: 2px;
 }
 
 h2 {
-  font-family: Baskerville, serif;
-  font-weight: $baskerville-bold;
-  font-style: italic;
-  font-size: 22px;
+  font-family: Muller, serif;
+  font-size: 16px;
+  letter-spacing: 2px;
   margin-top: 0;
 
   .info-tooltip {
     font-size: 65%;
     line-height: 1;
   }
+  font-weight: $medium-weight;
 }
 
 h4 {
-  font-family: Baskerville, serif;
-  font-weight: $baskerville-bold;
+  font-family: Muller, serif;
+  font-weight: bold;
+}
+
+h6 {
+  font-weight: $medium-weight;
+  letter-spacing: 1px;
 }
 
 a[class~="text-white"] {
@@ -55,13 +60,18 @@ a.no-link {
 
 .text-muted {
   color: $text-muted !important;
-
+  font-size: 12px;
+  letter-spacing: 1px;
   a {
-    color: $text-muted;
+    color: $text-muted !important;
     text-decoration: underline;
   }
 }
 
 ul.list-flush {
   padding-left: 15px;
+}
+
+a:focus, div:focus {
+  outline: none;
 }

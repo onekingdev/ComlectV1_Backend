@@ -6,8 +6,8 @@
     = simple_form_for @search, method: :get, remote: true, wrapper: :inline_form, url: projects_path do |f|
       = f.hidden_field :page
       = f.input :project_type, as: :radio_pills, collection: [%w(Projects one-off), %w(Jobs full-time)], btn_class: 'btn-lg btn-default fw-700', hint: false, wrapper_html: { class: 'm-b-1' }
-      = f.input :sort_by, collection: Project::Search::SORT_BY, input_html: { class: 'input-lg js-select input-gray fw-700' }, wrapper_html: { class: 'm-b-1' }
-      = f.input :keyword, input_html: { class: 'input-lg input-gray fw-700' }, wrapper_html: { class: 'm-b-1' }
+      = f.input :sort_by, collection: Project::Search::SORT_BY, input_html: { class: 'input-lg js-select input-gray' }, wrapper_html: { class: 'm-b-1' }
+      = f.input :keyword, input_html: { class: 'input-lg input-gray' }, wrapper_html: { class: 'm-b-1' }
 
       .text-center.m-t-2.m-b-1.fz-1-3x Filters
 
@@ -28,7 +28,7 @@
         group_method: :all,
         group_label_method: :label,
         placeholder: I18n.t('simple_form.placeholders.project_search.industry_ids'),
-        input_html: { class: 'input-lg js-select input-gray fw-700', multiple: true }
+        input_html: { class: 'input-lg js-select input-gray', multiple: true }
 
       = f.input :jurisdiction_ids,
         as: :grouped_select,

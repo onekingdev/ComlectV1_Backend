@@ -46,8 +46,8 @@ class StripeAccount::Form < StripeAccount
   def update_and_verify(attributes)
     self.class.transaction do
       update_attributes! attributes
-      verify_account
-      return true if errors.empty?
+      return true if verify_account
+      errors.add :base, 'Could not verify account info with Stripe'
       raise ActiveRecord::Rollback
     end
   end

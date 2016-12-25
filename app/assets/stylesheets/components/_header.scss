@@ -1,6 +1,6 @@
 #header {
-  position: relative;
-  margin-bottom: 80px;
+  //position: relative;
+  margin-bottom: 60px;
   color: #fff;
   padding-top: $navbar-height + 3;
   background-color: transparent;
@@ -21,6 +21,7 @@
 
   &.short {
     margin-bottom: 0;
+    padding-top: 0px;
   }
 
   &.compact {
@@ -48,7 +49,7 @@
   .title, .image-container {
     @media (min-width: $screen-sm-min) {
       float: none;
-      height: 280px;
+      height: 285px;
       vertical-align: bottom;
       padding-bottom: 27px;
     }
@@ -59,6 +60,15 @@
     }
   }
 
+  @media (max-width: $screen-xs-max) {
+    .image-container {
+      margin-bottom: 20px;
+      .img-responsive {
+        display: inline;
+      }
+    }
+  }
+
   h1 {
     font-size: 42px;
     margin: 0;
@@ -66,9 +76,37 @@
   }
 
   .tools {
-    line-height: 46px;
-    float: right;
+    //line-height: 46px;
+    @media (min-width: $screen-sm-min) {
+      float: right;
+    }
+    @media (max-width: $screen-sm-min) {
+      margin-top: 10px;
+    }
     margin-top: 0;
+
+    .tool-icon {
+      font-size: 24px;
+      color: #000;
+      border: 0px;
+      background: transparent;
+
+      i {
+        //font-weight: bold;
+      }
+
+      &:hover {
+        text-decoration: none;
+      }
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    .favorite.active {
+      color: #ffcc00;
+    }
   }
 
   .small-header {
@@ -81,13 +119,21 @@
     $align-bottom: $height * 2 - 129; // Magic number to align cross-browser
     h1 {
       font-size: 32px;
-      font-weight: $roboto-light;
       line-height: $align-bottom;
     }
 
     .tools {
       font-size: 32px; // So the line-height below equals the h1
       line-height: $align-bottom;
+      @media (max-width: $screen-sm-min) {
+        line-height: 488px;
+        position: absolute;
+        z-index: 10;
+        margin-left: auto;
+        margin-right: auto;
+        left: 50%;
+        transform: translate(-50%, 0);
+      }
     }
 
     .title {
@@ -99,10 +145,11 @@
     @media (max-width: $screen-xs-max) {
       h1 {
         position: absolute;
-        top: 0;
+        top: 153px;
         left: 0;
         width: 100%;
-        line-height: 5em;
+        line-height: 2em;
+        background-color: #fff;
       }
     }
   }
@@ -119,7 +166,7 @@
 
       h1 {
         font-size: 32px;
-        padding-top: 2em;
+        //padding-top: 2em;
       }
 
       &.has-logo h1 {
@@ -142,6 +189,51 @@
       .tools {
         margin-top: 2em;
       }
+    }
+  }
+
+  .pseudo-table {
+    .tools {
+      .btn-primary {
+        padding: 4px 32px;
+      }
+    }
+    .has-logo, .has-photo, .no-photo {
+      h1 {
+        font-size: 30px;
+        font-weight: $bold-weight;
+        span {
+          @media (min-width: $screen-xs-max) {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: $screen-xs-min;
+            display: inline-block;
+            vertical-align: bottom;
+          }
+
+          @media (max-width: $screen-md-max) {
+            max-width: 420px;            
+          }
+        }
+        .social-linkedin {
+          position: absolute;
+          height: 29px;
+          width: 29px;
+          line-height: 29px;
+
+          .fa-linkedin {
+            font-size: 20px;
+          }
+        }
+      }
+      @media (max-width: $screen-xs-max) {
+        background-color: #ffffff;
+      }
+    }
+    .stars {
+      line-height: 20px;
+      margin-top: 7px;
     }
   }
 }

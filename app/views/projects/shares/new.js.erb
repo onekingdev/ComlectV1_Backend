@@ -1,4 +1,4 @@
-var $modal = $('#js-project-share');
+/*var $modal = $('#js-project-share');
 var modalContent = '<%= j render('new', share: @share) %>';
 if ($modal.length > 0) {
   $modal
@@ -9,4 +9,6 @@ if ($modal.length > 0) {
   $('#js-project-share').modal('show')
 }
 
-$(document).trigger('newContent', $('#js-project-share'));
+$(document).trigger('newContent', $('#js-project-share'));*/
+
+_Modal.showPlain('<%= j render('new', share: @share) %>', { class: 'transparent' });

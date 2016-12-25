@@ -1,4 +1,4 @@
-$range-slider-inner-height: 7px;
+$range-slider-inner-height: 4px;
 
 .irs {
   height: 43px;
@@ -28,7 +28,7 @@ $range-slider-inner-height: 7px;
 
 .irs-bar {
   height: $range-slider-inner-height;
-  top: 30px;
+  top: 6px;
   border-top: 1px solid $brand-primary;
   border-bottom: 1px solid $brand-primary;
   background: $brand-primary;
@@ -58,9 +58,9 @@ $range-slider-inner-height: 7px;
 }
 
 .irs-slider {
-  top: 25px;
-  width: 18px;
-  height: 18px;
+  top: 2px;
+  width: 11px;
+  height: 11px;
   border: 1px solid $brand-primary;
   background: $brand-primary;
   background: $brand-primary;
@@ -90,12 +90,14 @@ $range-slider-inner-height: 7px;
 
 .irs-from, .irs-to, .irs-single {
   //color: #000;
-  font-size: 14px; line-height: 1.333;
+  font-size: 10px; line-height: 1.333;
   text-shadow: none;
   padding: 1px 5px;
+  font-weight: $medium-weight;
   //background: $brand-primary;
   border-radius: 3px;
   -moz-border-radius: 3px;
+  top: 16px;
 }
 
 .lt-ie9 .irs-from, .lt-ie9 .irs-to, .lt-ie9 .irs-single {

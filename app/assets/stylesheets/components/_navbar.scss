@@ -1,40 +1,140 @@
 #nav {
-  background-color: rgba(0, 0, 0, 0.3);
-  padding: 0 90px;
+  $spacing: 35px;
+
+  background-color: transparent;
+  padding: 30px 70px;
+  @media (max-width: $screen-md-max) {
+    padding: 30px 50px;
+  }
   text-transform: uppercase;
   width: 100%;
   top: 0;
   position: fixed;
   z-index: 5;
 
+  li {
+    position: static;
+  }
+
+  .preseparate {
+    @media (min-width: $grid-float-breakpoint) {
+      border-left: 1px solid #000;
+      padding-left: $spacing/2;
+    }
+    a {
+      color: #ffcc00;
+      max-width: 200px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .navbar-right {
+    position: relative;
+  }
+
+  .sign_in {
+    li {
+      //@media (min-width: $grid-float-breakpoint) {
+      //  padding: 0px 20px;
+      //}
+      a {
+        color: #ffcc00 !important;
+        font-weight: $bold-weight;
+      }
+    }
+    //li:first-child {
+    //  }
+    //}
+  }
+
+  .navbar-collapse {
+    padding: 0px 15px;
+    @media (min-width: $grid-float-breakpoint) {
+      padding-top: 20px;
+    }
+    li {
+      a {
+        //color: #000000;
+      }
+      a:hover {
+        color: #feb809;
+      }
+    }
+  }
+
+  .icon-bell {
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 21px;
+  }
+
   .navbar-brand {
-    @include navbar-vertical-align-by-padding(42px);
+    @include navbar-vertical-align-by-padding(53px);
     padding-left: 0;
+    @media (min-width: $grid-float-breakpoint) {
+      padding-right: 30px;
+    }
+
+    @media (max-width: $grid-float-breakpoint) {
+      img {
+        -webkit-filter: drop-shadow(1px 1px 0px rgba(255, 255, 255, 1));
+        filter: drop-shadow(1px 1px 0px rgba(255, 255, 255, 1));
+      }
+    }
+  }
+
+  .navbar-btn {
+    margin: 0px;
+    margin-top: -3px;
+    padding: 7px 18px;
+    font-weight: $regular-weight !important;
+    font-size: 12px;
+    border: 2px solid #ffcc00;
+    letter-spacing: 1px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+
+    &:hover {
+      color: #ffcc00;
+    }
+
+    &:focus {
+      outline: none;
+    }
   }
 
   .btn {
     text-transform: uppercase;
-    font-weight: $raleway-light;
+    font-weight: lighter;
   }
 
   li > a {
-    font-weight: $raleway-light;
+    font-weight: $regular-weight;
     padding-left: 0;
     padding-right: 0;
+    font-size: 12px;
 
     &:hover {
       color: $brand-primary;
     }
 
     .icon {
-      font-weight: $raleway-light;
+      font-weight: lighter;
     }
   }
 
-  $spacing: 35px;
+  .navbar-nav > li {
+    @media (min-width: $grid-float-breakpoint) {
+      padding-right: $spacing/2;
+      margin: 0px !important;
+    }
+  }
 
-  .navbar-nav > li + li {
-    margin-left: $spacing;
+  .navbar-nav > li > a {
+    padding: 5px 0px;
   }
 
   .m-r {
@@ -55,16 +155,15 @@
   }
 
   .badge {
-    margin-top: -1em;
-    margin-left: -1em;
-    background-color: $brand-danger;
+    margin-top: -20px;
+    margin-left: -15px;
+    background-color: #00bff3;
     padding: 1px 4px;
   }
 
   .dropdown-menu {
     background-color: #303233;
-    text-align: right;
-    padding: 0;
+    padding: 13px 0px;
     color: #fff;
 
     a {
@@ -75,10 +174,13 @@
       padding-right: 1.25em; // Magic number so the items align with the dropdown trigger, sigh...
 
       &:hover, &:focus {
-        background-color: $brand-primary;
-        color: #000;
+        //background-color: $brand-primary;
+        color: #ffcc00;
+        background-color: #363636;
       }
     }
+    left: auto;
+    right: 0px;
   }
 
   .navbar-toggle {
@@ -86,12 +188,8 @@
     border-color: transparent;
   }
 
-  .navbar-header {
-    margin-right: 2em;
-  }
-
   @media (max-width: $screen-xs-max) {
-    padding: 0 30px;
+    padding: 10px;
   }
 
   @media (max-width: $grid-float-breakpoint-max) {
@@ -113,14 +211,10 @@
       }
 
       li .navbar-btn:first-child {
-        margin-left: 15px;
+        //margin-left: 15px;
         margin-top: 15px;
         margin-bottom: 15px;
       }
-    }
-
-    .navbar-btn {
-      margin: 0;
     }
 
     .buttons {

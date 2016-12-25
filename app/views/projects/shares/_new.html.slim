@@ -1,19 +1,19 @@
-#js-project-share.modal.fade.modal-popup.modal-faux-bootbox
-  .modal-dialog
-    = simple_form_for share, url: project_shares_path(share.project.id), remote: true, html: { class: 'modal-content' } do |f|
-      .modal-header
-        button.close data-dismiss="modal" type="button"
-          .fa.fa-close
-        h4 Share #{f.object.project.one_off? ? 'This Project' : 'Job' }
-      .modal-body
-        - if f.object.user.specialist
-          .m-b-2= f.input :name, required: false, label: f.object.user.business ? 'Name' : 'To', input_html: { class: 'input-lg' }
-        = f.input :email, required: false, input_html: { class: 'input-lg' }
-        - if f.object.user.business
-          .m-t-2
-            = f.input :message,
-              required: false,
-              as: :text,
-              input_html: { rows: 10 },
-              hint: share.project.one_off? ? 'Note: Project link will be included at the bottom of this message upon sending.' : 'Note: A link to this job will be included at the bottom of this message upon sending.'
-        = f.submit 'Send', class: 'btn btn-primary btn-block btn-lg'
+#js-project-share
+  .modal-wrapper
+    .modal-fake.gray.clearfix
+      button.close.close-absolute data-dismiss="modal" type="button"
+        .fa.fa-close
+      = simple_form_for share, url: project_shares_path(share.project.id), remote: true, wrapper: :inline_form, html: { class: 'modal-content' } do |f|
+        h3.text-uppercase.text-center Share #{f.object.project.one_off? ? 'This Project' : 'Job' }
+        .modal-body
+          - if f.object.user.specialist
+            .m-b-1.m-t-2= f.input :name, required: false, placeholder: f.object.user.business ? 'NAME' : 'TO', input_html: { class: 'input-lg' }
+          = f.input :email, required: false, placeholder: "EMAIL", input_html: { class: 'input-lg' }
+          - if f.object.user.business
+            .m-t-2
+              = f.input :message,
+                required: false,
+                as: :text,
+                input_html: { rows: 10 },
+                hint: share.project.one_off? ? 'Note: A link to this project will be included at the bottom of this message upon sending.' : 'Note: A link to this job will be included at the bottom of this message upon sending.'
+          = f.submit 'Share', class: 'btn btn-md btn-primary p-x-3 center-block m-b-2'
