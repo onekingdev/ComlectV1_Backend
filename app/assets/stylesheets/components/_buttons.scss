@@ -1,5 +1,5 @@
 .btn {
-  //text-transform: uppercase;
+  text-transform: uppercase;
   //font-weight: ;
   font-size: 14px;
   letter-spacing: 2px;
@@ -46,17 +46,12 @@
 
 .btn-primary {
   @include button-variant-light($btn-primary-bg);
-  text-transform: uppercase;
 
   &:hover {
     background-color: #000;
-    color: #fff !important;
+    color: #fff;
     border-color: #000;
   }
-}
-
-.btn-default {
-  text-transform: uppercase;
 }
 
 .btn-muted {
@@ -95,7 +90,6 @@
 
 .btn-md {
   @include button-size($padding-md-vertical, $padding-md-horizontal, $font-size-base, $line-height-md, $btn-border-radius-md);
-  font-weight: $medium-weight;
 }
 
 .btn-text {

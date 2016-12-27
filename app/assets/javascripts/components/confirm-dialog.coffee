@@ -9,10 +9,10 @@ $(document).on 'confirm', '[data-confirm]', (e) ->
     buttons:
       cancel:
         label: 'Cancel'
-        className: 'btn-primary btn-md'
+        className: 'btn-primary btn-lg'
       confirm:
         label: $this.data('confirm-label') || 'Ok'
-        className: 'btn-primary btn-md'
+        className: 'btn-primary btn-lg'
         callback: ->
           $.rails.handleMethod($this)
 

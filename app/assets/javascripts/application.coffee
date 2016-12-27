@@ -37,3 +37,5 @@ $.initializeOnce = ($el, plugin, callback) ->
   return if $el.length == 0 || $el.data(dataName)
   callback $el
   $el.data dataName, true
+
+window._Appsignal = new Appsignal()

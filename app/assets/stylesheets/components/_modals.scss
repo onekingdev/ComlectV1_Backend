@@ -16,7 +16,7 @@
   text-align: left;
   vertical-align: middle;
   @media screen and (min-width: $screen-md-min) { 
-    width: auto !important;
+    width: 650px !important;
   }
 }
 
@@ -65,14 +65,14 @@
 
   h4 {
     font-family: "Muller";
-    font-weight: $medium-weight;
-    font-size: 12px;
+    font-weight: $regular-weight;
+    font-size: 11px;
     color: #000;
   }
 
   h3 {
     font-size: 14px;
-    font-weight: $medium-weight;
+    font-weight: $light-weight;
   }
 
   label {
@@ -88,40 +88,36 @@
 
 $bootbox-width: 474px;
 .bootbox.modal {
-  $border-radius: 0;
+  $border-radius: $border-radius-large;
 
   .modal-dialog {
     width: $bootbox-width;
-    background-color: #fff;
-    padding: 10px;
   }
 
-  //.modal-header {
-  //  background-color: $panel-default-heading-bg;
-  //  color: #fff;
-  //  text-align: left;
+  .modal-header {
+    background-color: $panel-default-heading-bg;
+    color: #fff;
+    text-align: left;
 
-  .bootbox-close-button {
-    color: transparent;
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    text-shadow: none;
-    opacity: 1.0;
-    margin-top: 0;
-    margin-right: 5px;
+    .bootbox-close-button {
+      color: transparent;
+      position: relative;
+      text-shadow: none;
+      opacity: 1.0;
+      margin-top: 0;
+      margin-right: 5px;
 
-    &:before {
-      font-family: FontAwesome !important;
-      position: absolute;
-      content: "";
-      font-size: 21px;
-      color: #000;
-      text-shadow: 0 1px 0 #fff;
-      //opacity: 0.2;
+      &:before {
+        font-family: FontAwesome;
+        position: absolute;
+        content: "";
+        font-size: 21px;
+        color: #000;
+        text-shadow: 0 1px 0 #fff;
+        opacity: 0.2;
+      }
     }
   }
-  //}
 
   .modal-title {
     font-family: Muller;
@@ -130,19 +126,15 @@ $bootbox-width: 474px;
   }
 
   .modal-content {
-    @media screen and (min-width: $screen-md-min) { 
-      width: 530px;
-    }
     text-align: center;
-    box-shadow: none;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
     border-radius: $border-radius;
-    border: 3px solid #ffcc00;
   }
 
   .modal-body {
     padding: 30px;
-    color: #000000;
-    background-color: #fff;
+    color: rgba(78, 78, 78, 0.8);
+    background-color: #f3f3f3;
     border-top-left-radius: $border-radius;
     border-top-right-radius: $border-radius;
 
@@ -156,7 +148,7 @@ $bootbox-width: 474px;
   .modal-footer {
     padding: 30px;
     border-top: 0;
-    background-color: #fff;
+    background-color: #f3f3f3;
     border-bottom-left-radius: $border-radius;
     border-bottom-right-radius: $border-radius;
     text-align: center;
@@ -215,7 +207,7 @@ $bootbox-width: 474px;
   line-height: 39px;
   opacity: 1 !important;
   margin-top: -15px;
-  font-size: 21px;
+  font-size: 18px;
 }
 
 .close-inverse {
@@ -251,22 +243,5 @@ $bootbox-width: 474px;
   h4 {
     font-family: Muller;
     font-weight: lighter;
-  }
-}
-
-#js-project-share {
-  @media (min-width: $screen-sm-min) {
-    width: 549px;
-    position: relative;
-
-    /*.modal-dialog {
-      width: auto !important;
-    }*/
-
-    .input-lg, .form-control, p {
-      width: 80%;
-      margin-left: auto;
-      margin-right: auto;
-    }
   }
 }
