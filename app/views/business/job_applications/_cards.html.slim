@@ -2,65 +2,67 @@ h2.text-center.m-b-2.no-applicants class=('hidden' if job_applications.to_a.any?
 
 - job_applications.map(&method(:decorate)).each do |application|
   - specialist = decorate(application.specialist)
-  .job-application data-visibility=application.visibility data-application-id=application.id
-    .col-xs-12.col-md-4.profile
-      - if specialist.photo
-        .profile-image
-          = image_tag specialist.photo_url(:thumb), size: '80x80', class: 'img-circle'
-      .name= specialist.first_name
-      .rating= specialist.render_stars
-      .intro= simple_format application.message
-      .footer
-        .date Applied: #{application.created_at.strftime("#{application.created_at.day.ordinalize} %b %Y")}
-        .tools
+  .job-application.panel-default data-visibility=application.visibility data-application-id=application.id
+    .col-xs-12.col-md-3.profile
+      .profile-image.m-t-2
+        - if specialist.photo
+          = image_tag specialist.photo_url(:thumb), size: '100x100', class: 'img-circle'
+        - else
+          = image_tag 'icon-specialist.png', size: '100x100', class: 'img-circle'
+      .name.m-t-2= specialist.first_name
+      .rating.m-y-1= specialist.render_stars
+      .intro.m-b-1= simple_format application.message
+      .footer.m-b-2
+        .date Applied:<br> #{application.created_at.strftime("#{application.created_at.day.ordinalize} %b %Y")}
+        .tools.m-t-1
           = link_to business_job_application_shortlist_path(application), method: :post, remote: true, class: 'btn btn-xs tool shortlist-application' do
-            i.icon.maxicons2-like
+            i.icon-like
           = link_to business_job_application_hide_path(application), method: :post, remote: true, class: 'btn btn-xs tool hide-application' do
-            i.icon.maxicons2-dislike
+            i.icon-dislike
 
-    .col-xs-12.col-md-8.details.td
-      .row
-        .col-xs-4
-          .icon-list
+    .col-xs-12.col-md-9.details.td
+      .row.m-y-1
+        .col-xs-6
+          .list-icon
             .item
-              i.icon.icon-fw.maxicons2-navigation.text-muted
+              i.icon-location-pin
               span= specialist.city_state_country
             .item
-              i.icon.icon-fw.maxicons1-building.text-muted
+              i.icon-briefcase
               span= specialist.industries.map(&:name).join(', ')
             .item
-              i.icon.maxicons1-earth.text-muted
+              i.icon-globe
               span= specialist.jurisdictions.map(&:name).join(', ')
             .item
-              i.icon.maxicons1-bag.text-muted
+              i.icon-folder
               span= pluralize specialist.years_of_experience, 'Yr. Compliance Experience', 'Yrs. Compliance Experience'
             - if specialist.former_regulator?
               .item
-                i.icon.maxicons2-place.text-muted
+                i.icon-flag
                 span Former Regulator
             - if specialist.skills.any?
               .item
-                i.icon.maxicons2-winer.text-muted
+                i.icon-badge
                 span= specialist.skills.map(&:name).join(', ')
 
-        .col-xs-4
-          label.strong Work Experience
-          ul.list-unstyled.m-b-1
-            - specialist.work_experiences.map(&method(:decorate)).each do |exp|
-              li #{pluralize exp.years, 'Year', 'Years'} at #{exp.company}
-        .col-xs-4
-          label.strong Education
-          ul.list-unstyled.m-b-1
-            - specialist.education_histories.each do |edu|
-              li #{edu.institution}, #{edu.degree} (#{edu.year})
+        .col-xs-6
+          .panel-heading.m-t-0.p-y-0
+            h3 Work Experience
+          .panel-body
+            ul.list-unstyled.m-b-1
+              - specialist.work_experiences.map(&method(:decorate)).each do |exp|
+                li #{pluralize exp.years, 'Year', 'Years'} at #{exp.company}
+          .panel-heading.m-t-0.p-y-0
+            h3 Education
+          .panel-body
+            ul.list-unstyled.m-b-1
+              - specialist.education_histories.each do |edu|
+                li #{edu.institution}, #{edu.degree} (#{edu.year})
 
       .actions.btn-group
         a.btn.btn-md.btn-primary.col-xs-4 href=specialist_path(specialist) target="_blank"
-          i.icon.maxicons2-view
           span View
         a.btn.btn-md.btn-primary.col-xs-4 href=new_business_message_path(recipient_key: "#{Specialist.name}/#{specialist.id}", project_id: application.project_id) data-remote=true
-          i.icon.maxicons2-comment
           span Message
         a.btn.btn-md.btn-primary.col-xs-4 href=new_business_project_hire_path(application.project, job_application_id: application.id) data-remote=true
-          i.icon.maxicons1-check
           span Hire

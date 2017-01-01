@@ -2,46 +2,46 @@
   table.table.table-plain.table-condensed.table-flush.m-b-0
     tr
       th
-        i.icon.maxicons2-navigation
+        i.icon-location-pin
         span Location
       td= project.location_details
     tr
       th
-        i.icon.maxicons1-building
+        i.icon-briefcase
         span Industry
       td= project.industries.map(&:name).join(', ')
     tr
       th
-        i.icon.maxicons1-earth
+        i.icon-globe
         span Jurisdiction
       td= project.jurisdictions.map(&:name).join(', ')
     tr
       th
-        i.icon.maxicons2-clock
+        i.icon-calendar
         span Start Date
       td= project.start_and_duration
     - if project.hourly_pricing?
       tr
         th
-          i.icon.maxicons1-dollar
+          i.icon-trophy
           span Hourly Rate
         td= number_to_currency(project.hourly_rate, precision: 0)
     - elsif project.fixed_pricing?
       tr
         th
-          i.icon.maxicons1-dollar
+          i.icon-trophy
           span Fixed Budget
         td= number_to_currency(project.fixed_budget, precision: 0)
     - if project.one_off?
       tr
         th
-          i.icon.maxicons1-wallet
+          i.icon-tag
           span Payment Method
         td= project.payment_schedule_humanized
     - else
       tr
         th
-          i.icon.maxicons1-dollar
+          i.icon-trophy
           span Annual Salary
         td= number_to_currency(project.annual_salary, precision: 0)
 
@@ -50,21 +50,21 @@
     - if project.one_off?
       tr
         th
-          i.icon.maxicons1-load-77
+          i.icon-hourglass
           span Est. Hours
         td= project.estimated_hours
     tr
       th
-        i.icon.maxicons1-bag
+        i.icon-folder
         span Yrs. Compliance Exp.
       td= project.minimum_experience_humanized
     tr
       th
-        i.icon.maxicons2-place
+        i.icon-flag
         span Former Regulator
       td= project.only_regulators? ? 'Yes' : 'No'
     tr
       th
-        i.icon.maxicons2-winer
+        i.icon-badge
         span Skills
       td= project.skills.map(&:name).join(' ').presence || 'None'

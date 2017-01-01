@@ -3,7 +3,7 @@
 
   .row
     .col-xs-12.col-sm-4.col-md-3
-      .panel.panel-default.business-info
+      .panel.panel-default.profile-info
         .panel-heading
           h3 About the Business
         .panel-body
@@ -14,30 +14,30 @@
               .logo.text-center= image_tag 'icon-specialist.png', size: '104x104'
           = link_to business_path(project.business) do
             h3.text-center= policy(project).public_business_info(:business_name) || project.business.industries.first.name
-          .text-center= project.business.render_stars
+            .text-center= project.business.render_stars
 
           br
 
-          .icon-list
+          .list-icon
             .item
-              i.icon.maxicons2-navigation.text-muted
+              i.icon-location-pin
               span= project.business.city_state_country
             .item
-              i.icon.maxicons1-building.text-muted
+              i.icon-briefcase
               span= project.business.industries.map(&:name).join(', ')
             .item
-              i.icon.maxicons1-earth.text-muted
+              i.icon-globe
               span= project.business.jurisdictions.map(&:name).join(', ')
             .item
-              i.icon.maxicons1-peoples.text-muted
+              i.icon-users
               span #{project.business.employees} Employees
             - if policy(project).view_full_business? && project.business.website.present?
               .item
-                i.icon.icon-fw.maxicons2-assign.text-muted
+                i.icon-link
                 span= link_to project.business.website_short, project.business.website_url, target: '_blank'
             - if policy(project).view_full_business? && project.business.linkedin_link.present?
               .item
-                .fa.fa-linkedin-square.text-muted
+                i.fa.fa-linkedin-square
                 span= link_to 'LinkedIn Profile', project.business.linkedin_url, target: "_blank"
 
           br
@@ -47,25 +47,25 @@
           = link_to 'View Profile', project.business, class: 'btn btn-primary btn-block btn-md fw-regular'
 
     .col-xs-12.col-sm-8.col-md-9
-      .panel.panel-default
+      .panel.panel-default.panel-padded
         .panel-heading
           h3 Key Details & Applicant Prerequisites
         .panel-body
           .row= render 'projects/attributes', project: project
 
-      .panel.panel-default
+      .panel.panel-default.panel-padded
         .panel-heading
           h3 #{project.one_off? ? 'Project' : 'Job' } Description
         .panel-body= simple_format project.description
 
       - if project.key_deliverables.present?
-        .panel.panel-default
+        .panel.panel-default.panel-padded
           .panel-heading
             h3 Key Deliverables
           .panel-body= project.key_deliverables_list
 
       - if project.specialist.blank?
-        .panel.panel-default
+        .panel.panel-default.panel-padded
           .panel-heading
             h3 Q & A
           .panel-body

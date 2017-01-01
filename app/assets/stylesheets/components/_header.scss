@@ -80,33 +80,10 @@
     @media (min-width: $screen-sm-min) {
       float: right;
     }
-    @media (max-width: $screen-sm-max) {
+    @media (max-width: $screen-sm-min) {
       margin-top: 10px;
     }
     margin-top: 0;
-
-    .tool-icon {
-      font-size: 24px;
-      color: #000;
-      border: 0px;
-      background: transparent;
-
-      i {
-        font-weight: bold;
-      }
-
-      &:hover {
-        text-decoration: none;
-      }
-
-      &:focus {
-        outline: none;
-      }
-    }
-
-    .favorite.active {
-      color: #ffcc00;
-    }
   }
 
   .small-header {
@@ -125,6 +102,15 @@
     .tools {
       font-size: 32px; // So the line-height below equals the h1
       line-height: $align-bottom;
+      @media (max-width: $screen-sm-min) {
+        line-height: 488px;
+        position: absolute;
+        z-index: 10;
+        margin-left: auto;
+        margin-right: auto;
+        left: 50%;
+        transform: translate(-50%, 0);
+      }
     }
 
     .title {
@@ -136,10 +122,11 @@
     @media (max-width: $screen-xs-max) {
       h1 {
         position: absolute;
-        top: 0;
+        top: 153px;
         left: 0;
         width: 100%;
-        line-height: 5em;
+        line-height: 2em;
+        background-color: #fff;
       }
     }
   }
@@ -188,7 +175,7 @@
         padding: 4px 32px;
       }
     }
-    .has-logo, .has-photo {
+    .has-logo, .has-photo, .no-photo {
       h1 {
         font-size: 30px;
         font-weight: $bold-weight;

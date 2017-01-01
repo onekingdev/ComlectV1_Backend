@@ -1,14 +1,3 @@
-body.projects.show {
-  #header {
-    background-image: asset_url("header-project.jpg");
-    background-position-y: -100px;
-
-    @media (max-width: 689px) {
-      background-size: auto 300px + 150px;
-    }
-  }
-}
-
 form.project_form {
   #project_description {
     min-height: ($input-height-large * 3) + $form-group-margin-bottom * 2;
@@ -107,6 +96,83 @@ form.project_form {
 }
 
 body.projects.show {
+  #header {
+    background-image: asset_url("header-profile.jpg");
+    //background-position-y: -120px;
+    background-size: cover;
+    @media (min-width: $screen-xs-max) {
+      height: 381px;
+      margin-bottom: 120px;      
+    }
+    @media (max-width: 689px) {
+      background-size: auto 300px + 150px;
+    }
+
+    .project-header {
+      @media (min-width: $screen-xs-max) {
+        margin-top: 158px;  
+      }
+      .title h1 .linkedin {
+        $color: #2777bd;
+        color: $color;
+        font-size: 35px;
+        margin-left: 10px;
+        position: relative;
+
+        &:hover {
+          text-decoration: none;
+          color: darken($color, 10%);
+        }
+
+        &:before {
+          position: relative;
+          z-index: 1;
+        }
+
+        &:after { // White bg so the "in" is not transparent
+          content: "";
+          position: absolute;
+          width: 75%;
+          height: 75%;
+          background: white;
+          left: 13%;
+          top: 13%;
+        }
+      }
+
+      h1 {
+        font-size: 48px;
+        font-weight: $bold-weight;
+      }
+
+      .profile-image {
+        position: relative;
+
+        .ghost {
+          visibility: hidden;
+
+          @media (max-width: $screen-xs-max) {
+            visibility: visible;
+            margin: 20px 0;
+          }
+        }
+
+        .real {
+          //position: absolute;
+          //bottom: 0px;
+          //padding: 15px;
+          border: 10px solid #ffcc00;
+          border-radius: 5px;
+          background-color: #fff;
+
+          /*@media (max-width: $screen-xs-max) {
+            display: none;
+          }*/
+        }
+      }
+    }
+  }
+
   #new_flag {
     .aligned-center {
       margin: 0 auto;
@@ -139,6 +205,23 @@ body.projects.show {
 }
 
 .project.panel {
+  .applications-count {
+    border: 0px;
+    background: transparent;
+    position: absolute;
+    right: 17px;
+    top: 8px;
+    z-index: 5;
+    padding: 0px;
+    font-weight: $medium-weight;
+    color: #d2d2d2;
+
+    .icon-user {
+      font-weight: bold;
+      margin-left: 5px;
+    }
+  }
+
   .panel-heading {
     h4 {
       //height: 2.4em;

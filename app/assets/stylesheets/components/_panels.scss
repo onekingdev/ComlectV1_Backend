@@ -3,6 +3,10 @@
   border-radius: 0;
 }
 
+.panel-heading a {
+  color: #333;
+}
+
 .panel-default {
   border: 0;
   -webkit-box-shadow: 0px 13px 32px 3px rgba(0,0,0,0.2);
@@ -19,19 +23,22 @@
     }
   }
 
+  .panel-heading:first-child {
+    padding-top: 30px;
+    padding-bottom: 20px;
+  }
+
   .panel-heading {
     font-weight: bold;
     font-size: 18px;
     line-height: 17px;
-    height: 37px;
+    //height: 37px;
     color: #333333;
     position: relative;
     border: 0;
     display: block;
-    padding-top: 30px;
     padding-left: 25px;
     padding-right: 25px;
-    padding-bottom: 20px;
     h3 {
       font-size: 13px;
       font-family: "Muller";
@@ -85,12 +92,13 @@
     display: block;
     color: rgba(0, 0, 0, 0.8);
 
-    a, a:hover {
+    a {
       color: rgba(0, 0, 0, 0.8);
     }
 
     .table th span {
-      font-weight: bold;
+      font-weight: $bold-weight;
+      margin-left: 10px;
     }
 
     .table th .icon {
@@ -101,6 +109,10 @@
     p:last-child {
       margin-bottom: 0;
     }
+  }
+
+  .panel-body-thin {
+    padding: 0px 15px;
   }
 
   .list-group.plain .list-group-item {
@@ -373,8 +385,12 @@
   }
 }
 
+.tab-pane .dot-pagination a{
+  display: none
+}
 
-.tab-pane .card-container {
+//.tab-pane .card-container {
+.card-container {
   padding: 0px 10px;
 
   .project, .specialist {

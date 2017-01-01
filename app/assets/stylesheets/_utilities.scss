@@ -59,7 +59,7 @@
 .fw-hairline { font-weight: $hairline-weight; }
 .fw-thin { font-weight: $thin-weight; }
 .fw-ultralight { font-weight: $ultralight-weight; }
-.fw-light { font-weight: $light-weight; }
+.fw-light { font-weight: $light-weight !important; }
 .fw-regular { font-weight: $regular-weight; }
 .fw-medium { font-weight: $medium-weight; }
 .fw-bold { font-weight: $bold-weight; }
@@ -108,3 +108,5 @@
     float: right;
   }
 }
+
+.border-left-2 { border-left: 2px solid #ffcc00; }

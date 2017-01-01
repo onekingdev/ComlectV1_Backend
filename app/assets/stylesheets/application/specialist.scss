@@ -1,3 +1,36 @@
+body.specialists.index {
+  background-image: asset_url('bg.png');
+  background-position: center top;
+  background-repeat: repeat-y;
+
+  .new_specialist_search {
+    .input-lg {
+      border: 2px solid #ffcc00;
+      border-radius: 0px;
+      height: 32px;
+      line-height: 28px;
+      padding: 0px 10px;
+      text-transform: uppercase;
+      color: #333;
+
+      .caret {
+        margin-top: 14px;
+      }
+    }
+
+    #specialist_search_regulator {
+      right: 9px;
+    }
+  }
+
+  .search-results {
+    padding-bottom: 7px;
+    .card-container {
+      padding-bottom: 27px;
+    }
+  }
+}
+
 body.specialists.show {
   /*#header {
     background-image: asset_url("header-profile.jpg");

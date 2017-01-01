@@ -119,7 +119,10 @@
       label.custom-file-field.js-custom-file-field
         = f.hidden_field :photo, value: f.object.photo_data? ? f.object.photo_data.to_json : nil
         = f.file_field :photo, accept: "image/gif, image/jpeg, image/png"
-        .add-button
+        - if f.object.photo
+          = image_tag f.object.photo_url(:thumb), size: '100x100'
+        - else
+          .add-button
         .help-block.m-t-1 Must be jpg/jpeg/png/gif<br>Max file size 2MB
         span.selected.m-y-1.ww-break= f.object.photo ? (f.object.photo.try(:[], :original) || f.object.photo).data['metadata']['filename'] : nil
         - if f.object.errors[:photo].any?

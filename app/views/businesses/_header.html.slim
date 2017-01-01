@@ -18,7 +18,7 @@
               = link_to edit_business_path, class: 'btn btn-primary' do
                 span Edit
           h1
-            = policy(business).public_info(:business_name) || business.industries.first.name
+            span= policy(business).public_info(:business_name) || business.industries.first.name
             - if business.public? && business.linkedin_link.present?
               //a.fa.fa-linkedin-square.linkedin href=business.linkedin_url target="_blank"
               a.social.social-linkedin.m-l-1 href=business.linkedin_url target="_blank"

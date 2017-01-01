@@ -1,55 +1,60 @@
-.panel.panel-default.project class="#{project.type}-project" data-project-id=project.id
+.panel.panel-default.panel-padded.project class="#{project.type}-project" data-project-id=project.id
+  .panel-heading
+    h3= link_to project.title, project, target: '_blank'
+    .pull-right.tools
+      - if project.applied?(current_specialist)
+        = link_to new_project_share_path(project), remote: true, class: 'tool-icon tool-icon-sm' do
+          i.icon-share
+        = link_to project_job_application_path(project, project.application(current_specialist).first, redirect_to: projects_path),
+          method: :delete,
+          remote: true,
+          title: 'Withdraw Application',
+          data: { confirm: "Are you sure you want to withdraw your<br>application from <b>#{project}</b>?", confirm_label: 'Confirm' },
+          class: 'tool-icon tool-icon-sm m-l-2' do
+            i.icon-reload
+      - else
+        = link_to_favorite current_specialist, project, class: 'tool-icon tool-icon-sm' do
+          i.icon-heart.favorite
+          i.icon-heart.unfavorite
+        = link_to new_project_share_path(project), remote: true, class: 'tool-icon tool-icon-sm m-l-2' do
+          i.icon-share
+
   .panel-body
     .row
-      .col-xs-12.col-md-8
-        h3.m-t-0= link_to project.title, project, target: '_blank'
+      .col-xs-12.col-md-7
         p.p-b-1= truncate(project.description, length: 250)
-      .col-xs-12.col-md-4
-        .icon-list
+      .col-xs-12.col-md-5.border-left-2
+        .list-icon
           .item
-            i.icon.maxicons2-navigation
+            i.icon-location-pin
             span= project.location_details
           .item
-            i.icon.maxicons1-building
+            i.icon-briefcase
             span= project.industries.map(&:name).to_sentence
           .item
-            i.icon.maxicons1-earth
+            i.icon-globe
             span= project.jurisdictions.map(&:name).to_sentence
           .item
-            i.icon.maxicons2-clock
+            i.icon-calendar
             span= project.start_and_duration
           .item
-            i.icon.maxicons1-dollar
+            i.icon-trophy
             span= project.dollars
           .item
             - if project.one_off?
-              i.icon.maxicons1-wallet
+              i.icon-tag
               span= project.payment_schedule_humanized
             - else
               span &nbsp;
+          .item
+            i.icon-user
+            span= pluralize project.job_applications_count, 'Applicant', 'Applicants'
 
-    .row.m-t-2
-      .col-xs-12
-        span.btn.btn-lg.btn-text.p-x-0.tt-n
-          i.icon.maxicons1-peoples
-          '&nbsp;
-          = pluralize project.job_applications_count, 'Applicant', 'Applicants'
-
-        .pull-right
+    .row
+      .col-md-12
+        .pull-right.m-t-3
           - if project.applied?(current_specialist)
-            = link_to 'Share', new_project_share_path(project), remote: true, class: 'btn btn-md btn-primary m-r-1 p-x-2'
-            = link_to 'Withdraw',
-              project_job_application_path(project, project.application(current_specialist).first, redirect_to: projects_path),
-              method: :delete,
-              remote: true,
-              title: 'Withdraw Application',
-              data: { confirm: "Are you sure you want to withdraw your<br>application from <b>#{project}</b>?", confirm_label: 'Confirm' },
-              class: 'btn btn-md btn-primary m-r-1 p-x-2'
             = link_to 'View', project, class: 'btn btn-md btn-primary p-x-2', target: '_blank'
           - else
-            = link_to_favorite current_specialist, project, class: 'btn btn-md btn-primary m-r-1 p-x-2' do
-              span.favorite Favorite
-              span.unfavorite Unfavorite
-            = link_to 'Share', new_project_share_path(project), remote: true, class: 'btn btn-md btn-primary m-r-1 p-x-2'
             = link_to 'View Details & Apply', project, class: 'btn btn-md btn-primary p-x-2', target: '_blank'
 

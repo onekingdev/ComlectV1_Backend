@@ -27,7 +27,7 @@
     font-size: 14px;
     text-transform: uppercase;
     text-align: center;
-    font-weight: $regular-weight;
+    font-weight: $medium-weight;
     margin-top: 12px;
   }
 
@@ -37,7 +37,7 @@
     line-height: 16px;
   }
 
-  .user_email {
+  /*.user_email {
     width: 90%;
     margin-left: auto;
     margin-right: auto;
@@ -46,14 +46,18 @@
       font-size: 14px;
       padding: 24px 16px;
     }
-  }
+  }*/
 
   .btn-primary {
     padding: 12px 67px;
+    font-weight: $medium-weight;
   }
 }
 
 #choose-signup {
+  @media screen and (min-width: $screen-md-min) { 
+    width: 650px;
+  }
   div[class*="col-"] {
     padding: 0px 32px;
   }
@@ -134,7 +138,11 @@
 
   .btn {
     height: 44px;
-    font-size: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    margin-left: auto;
+    margin-right: auto;
+    width: 190px;
   }
 
   .btn-social-linkedin {

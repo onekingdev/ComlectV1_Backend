@@ -2,59 +2,67 @@
   script src="https://maps.googleapis.com/maps/api/js?key=#{ENV.fetch('GOOGLE_PLACES_API_KEY')}&libraries=places"
 
 .row
-  .col-xs-12.col-sm-4.col-md-3
+  .td.col-xs-12.col-sm-4.col-md-3
     = simple_form_for @search, method: :get, remote: true, wrapper: :inline_form, url: specialists_path do |f|
-      = f.hidden_field :page
-      = f.input :sort_by, collection: Specialist::Search::SORT_BY, input_html: { class: 'input-lg js-select input-gray fw-700' }, wrapper_html: { class: 'm-b-1' }
-      = f.input :keyword, input_html: { class: 'input-lg input-gray fw-700' }, wrapper_html: { class: 'm-b-1' }
+      .panel.panel-default
+        .panel-body.panel-body-thin
+            = f.hidden_field :page
+            = f.input :sort_by, collection: Specialist::Search::SORT_BY, input_html: { class: 'input-lg js-select' }, wrapper_html: { class: 'm-b-1 m-t-3' }
+            = f.input :keyword, input_html: { class: 'input-lg input-gray' }, wrapper_html: { class: 'm-b-3' }, placeholder: "Keywords"
 
-      .text-center.m-t-2.m-b-1.fz-1-3x Filters
+      .panel.panel-default
+        .panel-heading
+          h3 Filters
+        .panel-body.panel-body-thin
 
-      = f.input :industry_ids,
-                 as: :grouped_select,
-                 collection: grouped_collection_for_select(Industry.sorted),
-                 group_method: :all,
-                 group_label_method: :label,
-                 placeholder: I18n.t('simple_form.placeholders.specialist_search.industry_ids'),
-                 input_html: { class: 'input-lg js-select input-gray fw-700', multiple: true },
-                 wrapper_html: { class: 'm-b-1' }
+          = f.input :industry_ids,
+                     as: :grouped_select,
+                     collection: grouped_collection_for_select(Industry.sorted),
+                     group_method: :all,
+                     group_label_method: :label,
+                     placeholder: I18n.t('simple_form.placeholders.specialist_search.industry_ids'),
+                     input_html: { class: 'input-lg js-select', multiple: true },
+                     wrapper_html: { class: 'm-b-1 m-t-1' }
 
-      = f.input :jurisdiction_ids,
-                 as: :grouped_select,
-                 collection: grouped_collection_for_select(Jurisdiction.sorted),
-                 group_method: :all,
-                 group_label_method: :label,
-                 placeholder: I18n.t('simple_form.placeholders.specialist_search.jurisdiction_ids'),
-                 input_html: { class: 'input-lg js-select input-gray fw-700', multiple: true }
+          = f.input :jurisdiction_ids,
+                     as: :grouped_select,
+                     collection: grouped_collection_for_select(Jurisdiction.sorted),
+                     group_method: :all,
+                     group_label_method: :label,
+                     placeholder: I18n.t('simple_form.placeholders.specialist_search.jurisdiction_ids'),
+                     input_html: { class: 'input-lg js-select m-b-2', multiple: true }
 
-      .panel.panel-default.panel-flat.m-b-1
-        .panel-body
-          label.fw-700.tt-u Rating
+        .panel-heading.m-b-1
+          h3 Rating
+        .panel-body.panel-body-thin
           = f.text_field :rating, class: 'form-control js-range-slider', data: { min: 0, max: 5, type: 'double', input_values_separator: ';', hide_min_max: true }
 
-      .panel.panel-default.panel-flat.m-b-1
-        .panel-body
-          label.fw-700.tt-u Yrs. Compliance Exp.
+        .panel-heading.m-b-1
+          h3 Yrs. Compliance Exp.
+        .panel-body.panel-body-thin
           = f.text_field :experience, class: 'form-control js-range-slider', data: { min: 3, max: 15, type: 'double', input_values_separator: ';', hide_min_max: true, max_postfix: '+' }
 
-      .panel.panel-default.panel-flat.m-b-1
-        .panel-body
+        .panel-heading
           span.checkbox.checkbox-lg.checkbox-right
             = f.check_box :regulator
-            = f.label :regulator, 'Former Regulator', class: 'fw-700 tt-u d-b'
+            = f.label :regulator, 'Former Regulator', class: 'tt-u d-b fw-light'
 
-      .panel.panel-default.panel-flat.m-b-1
-        .panel-body.range-slider-fixed-from
-          label.fw-700.tt-u Location
-          = f.text_field :location, class: 'form-control js-place-autocomplete fw-700', data: { self: 'full', lat: '#specialist_search_lat', lng: '#specialist_search_lng' }
+        .panel-heading.m-t-1
+          h3 Location
+        .panel-body.panel-body-thin.m-t-1
+          = f.text_field :location, class: 'input-lg form-control js-place-autocomplete', data: { self: 'full', lat: '#specialist_search_lat', lng: '#specialist_search_lng' }
           = f.hidden_field :lat
           = f.hidden_field :lng
 
-          label.fw-700.tt-u.m-t-2 Within (Miles)
+        .panel-heading.m-t-1
+          h3.fw-light Within (Miles)
+        .panel-body.panel-body-thin.m-t-1
           = f.text_field :location_range, class: 'form-control js-range-slider', data: { min: 0, max: 100, from_fixed: true, type: 'double', input_values_separator: ';', hide_min_max: true }
 
-      .text-center
-        input.reset type="reset" value="Reset Filters"
+          .text-center.small.m-b-2
+            input.reset.text-uppercase type="reset" value="Reset Filters"
 
-  .col-xs-12.col-sm-8.col-md-9.search-results
-    = render 'cards', specialists: @search.results
+  .td.col-xs-12.col-sm-8.col-md-9
+    .panel.panel-default.panel-padded.p-t-3
+      .panel-body.search-results
+        = render 'cards', specialists: @search.results

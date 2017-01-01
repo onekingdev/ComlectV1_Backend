@@ -88,7 +88,7 @@ en:
         skills: "Hashtag Skills (e.g. #sec #brokerdealer #finra)"
         starts_on: "* Start Date"
         ends_on: "* End Date"
-        annual_salary: "* Annual Salary (USD $)"
+        annual_salary: "* Annual Salary (USD)"
         hourly_payment_schedule: "* Payment method"
         fixed_payment_schedule: "* Payment method"
         hourly_rate: "* Hourly Rate"

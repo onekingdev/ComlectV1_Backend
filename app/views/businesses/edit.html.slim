@@ -30,7 +30,7 @@ h2.text-center.m-b-3.m-t-3.p-b-2 Edit your business profile
           = image_tag f.object.logo_url(:thumb), size: '100x100'
         - else
           .add-button
-          .help-block.m-t-1 Must be jpg/jpeg/png/gif<br>Max file size 2MB
+        .help-block.m-t-1 Must be jpg/jpeg/png/gif<br>Max file size 2MB
         span.selected.m-y-1 = f.object.logo ? (f.object.logo.try(:[], :original) || f.object.logo).data['metadata']['filename'] : nil
         - if f.object.errors[:logo].any?
           .text-danger= "Logo " + f.object.errors[:logo].to_sentence

@@ -20,6 +20,10 @@
   color: $gray-light;
 }
 
+.multiselect {
+  text-transform: none;
+}
+
 .multiselect-parent .btn-default {
   color: $gray-light;
 }
@@ -169,7 +173,7 @@ form .well {
 
     .btn-sm {
       padding: 4px 0px;
-      font-weight: $light-weight;
+      font-weight: $medium-weight;
       font-size: 12px;
     }
 
@@ -203,7 +207,7 @@ select.js-select.input-lg {
 .help-block {
   font-size: 12px;
   margin-top: $form-group-margin-bottom;
-  font-weight: $light-weight;
+  font-weight: $regular-weight;
   letter-spacing: 1px;
   color: $gray-light;
 

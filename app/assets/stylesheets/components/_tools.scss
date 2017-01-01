@@ -1,0 +1,27 @@
+.tool-icon {
+  padding: 0px;
+  font-size: 24px;
+  color: #000;
+  border: 0px;
+  background: transparent;
+
+  i {
+    //font-weight: bold;
+  }
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover, .active {
+    color: #ffcc00;
+  }
+}
+
+.tool-icon-sm {
+  font-size: 20px;
+}

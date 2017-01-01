@@ -23,11 +23,16 @@ html {
 .btn{
   border-radius: 0px;
   border: 3px solid #ffcc00;
+  //text-transform: none;
 }
 
 .multiselect{
   border: 2px solid #e4e4e4;
-  text-transform: none !important;
+  text-transform: none;
   font-size: 12px !important;
   font-weight: $medium-weight !important;
+}
+
+.close {
+  font-size: 21px;
 }

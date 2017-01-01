@@ -1,56 +1,60 @@
-- header_class 'short'
 - decorate(@project).tap do |project|
-  h1.m-y-3= project
+  h1.m-t-0.m-b-3.text-uppercase= project
 
   .row
-    .col-xs-12.col-sm-4.col-md-3
-      .form-group.m-b-1
-        select#js-sort-job-applications.js-select.form-control.input-lg.input-gray.strong data-remote="true"
-          option value="rating" selected=(params[:sort_by].blank? || params[:sort_by] == 'rating') Sort by Rating
-          option value="experience" selected=(params[:sort_by] == 'experience') Sort by Yrs. Compliance Exp.
-          option value="newest" selected=(params[:sort_by] == 'newest') Sort by Newest
+    .td.col-xs-12.col-sm-4.col-md-3
       .panel.panel-default.profile-info
+        .panel-body
+          .form-group.m-b-0.m-t-2
+            select#js-sort-job-applications.js-select.form-control.input-lg.input-gray data-remote="true"
+              option value="rating" selected=(params[:sort_by].blank? || params[:sort_by] == 'rating') Sort by Rating
+              option value="experience" selected=(params[:sort_by] == 'experience') Sort by Yrs. Compliance Exp.
+              option value="newest" selected=(params[:sort_by] == 'newest') Sort by Newest
         .panel-heading
           h3 Key Details
         .panel-body
-          .icon-list
+          .list-icon
             .item
-              i.icon.maxicons2-navigation.text-muted
+              i.icon-location-pin
               span.ws-normal= project.location_details
             .item
-              i.icon.maxicons1-building.text-muted
+              i.icon-briefcase
               span= project.industries.map(&:name).join(', ')
             .item
-              i.icon.maxicons1-earth.text-muted
+              i.icon-globe
               span= project.jurisdictions.map(&:name).join(', ')
             .item
-              i.icon.maxicons2-clock.text-muted
+              i.icon-calendar
               span= project.start_and_duration
             .item
-              i.icon.maxicons1-dollar.text-muted
+              i.icon-trophy
               span= project.dollars
             - if project.one_off?
               .item
-                i.icon.maxicons1-wallet.text-muted
+                i.icon-tag
                 span= project.payment_schedule_humanized
             - if project.only_regulators?
               .item
-                i.icon.maxicons2-place.text-muted
+                i.icon-flag
                 span Former Regulator
             - if project.skills.any?
               .item
-                i.icon.maxicons2-winer.text-muted
+                i.icon-badge
                 span= project.skills.map(&:name).join(', ')
 
-          label.strong.m-t-2 #{project.one_off? ? 'Project' : 'Job'} Description
+        .panel-heading
+          h3 #{project.one_off? ? 'Project' : 'Job'} Description
+        .panel-body
           p= project.description.presence || 'N/A'
 
-          - if project.one_off?
-            label.strong.m-t-1 Key Deliverables
+        - if project.one_off?
+          .panel-heading
+            h3 Key Deliverables
+          .panel-body
             = project.key_deliverables_list
 
     .col-xs-12.col-sm-8.col-md-9
-      .panel.panel-default
+      .panel.panel-default.panel-padded
         .panel-heading
           h3 Applicants
           .dropdown.visible-sm.visible-xs
@@ -59,26 +63,20 @@
               span.caret
             ul.dropdown-menu.dropdown-menu-right
               li.active= link_to '#applications-applied', data: { toggle: 'tab', "remote-load" => true, url: business_project_job_applications_path(project, sort_by: params[:sort_by], filter: 'applied'), 'toggle-sync' => true } do
-                i.icon.maxicons2-clock
                 span Applied
               li= link_to '#applications-shortlisted', data: { toggle: 'tab', "remote-load" => true, url: business_project_job_applications_path(project, sort_by: params[:sort_by], filter: 'shortlisted'), 'toggle-sync' => true } do
-                i.icon.maxicons1-load-77
                 span Shortlisted
               li= link_to '#applications-hidden', data: { toggle: 'tab', "remote-load" => true, url: business_project_job_applications_path(project, sort_by: params[:sort_by], filter: 'hidden'), 'toggle-sync' => true } do
-                i.icon.maxicons2-editor
                 span Hidden
           ul#js-application-filters.nav.nav-pills.visible-md.visible-lg
             li.active= link_to '#applications-applied', data: { toggle: 'tab', "remote-load" => true, url: business_project_job_applications_path(project, sort_by: params[:sort_by], filter: 'applied'), 'toggle-sync' => true } do
-              i.icon.maxicons2-clock
               span Applied
             li= link_to '#applications-shortlisted', data: { toggle: 'tab', "remote-load" => true, url: business_project_job_applications_path(project, sort_by: params[:sort_by], filter: 'shortlisted'), 'toggle-sync' => true } do
-              i.icon.maxicons1-load-77
               span Shortlisted
             li= link_to '#applications-hidden', data: { toggle: 'tab', "remote-load" => true, url: business_project_job_applications_path(project, sort_by: params[:sort_by], filter: 'hidden'), 'toggle-sync' => true } do
-              i.icon.maxicons2-editor
               span Hidden
-        .panel-body
-          .tab-content
-            #applications-applied.job-applications.tab-pane.clearfix.active
-            #applications-shortlisted.job-applications.tab-pane.clearfix
-            #applications-hidden.job-applications.tab-pane.clearfix
+        /.panel-body
+      .tab-content
+        #applications-applied.job-applications.tab-pane.clearfix.active
+        #applications-shortlisted.job-applications.tab-pane.clearfix
+        #applications-hidden.job-applications.tab-pane.clearfix

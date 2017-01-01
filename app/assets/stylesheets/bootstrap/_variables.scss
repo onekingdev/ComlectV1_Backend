@@ -92,6 +92,7 @@ $well-border: transparent;
 $panel-default-heading-bg: #ffffff;
 $panel-bg: #ffffff;
 $panel-border-radius: 0px;
+$panel-heading-padding:       0px 15px !default;
 
 //== Tooltips
 
@@ -102,3 +103,9 @@ $tooltip-border-color: $gray-light;
 $tooltip-border-width: 1px;
 $tooltip-arrow-border-width: $tooltip-arrow-width + $tooltip-border-width;
 $tooltip-text-color: $gray;
+
+//== Errors
+
+$state-danger-text:              #ff0000 !default;
+$state-danger-bg:                #ffdfdf !default;
+$state-danger-border:            #ff0000 !default;

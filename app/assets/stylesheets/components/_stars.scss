@@ -18,6 +18,10 @@
       //content: "\f005";
       color: $brand-primary;
     }
+
+    &:last-child {
+      letter-spacing: 0px;
+    }
   }
 
   &.small .star {

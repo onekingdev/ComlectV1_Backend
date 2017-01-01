@@ -1,56 +1,125 @@
+body.job_applications.index {
+  background-image: asset_url('bg.png');
+  background-position: center top;
+  background-repeat: repeat-y;
+
+  h1 {
+    font-size: 24px;
+    font-weight: $bold-weight;
+  }
+
+  .input-lg {
+    border: 2px solid #ffcc00;
+    border-radius: 0px;
+    height: 42px;
+    line-height: 33px;
+    padding: 0px 14px;
+    text-transform: uppercase;
+    color: #333;
+
+    .caret {
+      margin-top: 17px;
+      margin-left: 3px;
+    }
+
+    .btn {
+      padding-top: 0px;
+      padding-bottom: 0px;
+      height: 32px;
+      line-height: 28px;
+      font-size: 12px;
+    }
+
+    .btn-group {
+      .btn {
+        padding-left: 10px;
+      }
+    }
+
+    .form-group {
+      margin-bottom: 10px;
+    }
+  }
+
+  #project_search_regulator {
+    right: 9px;
+  }
+
+  .search-results {
+    padding-bottom: 7px;
+    .card-container {
+      padding-bottom: 27px;
+    }
+  }
+}
+
 .job-applications {
-  .job-application + .job-application {
-    margin-top: 1rem;
+  .job-application {
+    margin-bottom: 30px;
+  }
+
+  .stars {
+    display: block;
+    line-height: 13px;
+    .star {
+      font-size: 12px;        
+    }
   }
 
   .job-application {
     background-color: #fff;
-    border-top-right-radius: $border-radius-base;
-    border-bottom-right-radius: $border-radius-base;
+    //border-top-right-radius: $border-radius-base;
+    //border-bottom-right-radius: $border-radius-base;
     display: flex;
     @include clearfix;
+    -webkit-box-shadow: 0px 13px 32px 3px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0px 13px 32px 3px rgba(0,0,0,0.2);
+    box-shadow: 0px 13px 32px 3px rgba(0,0,0,0.2);
 
     .profile {
-      flex-grow: 1;
       background-color: $gray;
       color: #fff;
-      padding: 10px 10px 35px; // 35 = tools height + padding
-      border-top-left-radius: $border-radius-base;
-      border-bottom-left-radius: $border-radius-base;
+      padding: 10px 10px;
+      text-align: center; // 35 = tools height + padding
+      //border-top-left-radius: $border-radius-base;
+      //border-bottom-left-radius: $border-radius-base;
 
       .profile-image {
-        float: left;
-        margin-right: 1rem;
-        margin-bottom: 1rem;
+        width: 100px;
+        background-color: #ffffff;
+        border-radius: 50%;
+        margin-left: auto;
+        margin-right: auto;
       }
 
       .name {
-        margin-top: calc((80px - 1em - 22px) / 2);
+        font-size: 18px;
+        font-weight: $medium-weight;
       }
 
       .footer {
-        position: absolute;
-        bottom: 0;
-        left: 0;
+        //position: absolute;
+        //bottom: 0;
+        //left: 0;
         width: 100%;
-        padding: 10px
+        //padding: 10px 0px;
       }
 
       .date {
-        float: left;
         color: #fff;
-        font-size: 90%;
-        font-weight: bold;
-        line-height: 25px;
+        font-weight: $medium-weight;
+        font-size: 12px;
       }
 
       .tools {
-        float: right;
-
         .tool {
-          border-radius: $border-radius-small;
-          background-color: $gray-lighter;
           padding: 2px 7px;
+          border: 0px;
+          font-size: 24px;
+
+          &:hover {
+            color: #fff;
+          }
         }
 
         .tool + .tool {
@@ -65,13 +134,17 @@
 
     .intro {
       clear: both;
+      font-size: 12px;
+      font-weight: $light-weight;
     }
 
     .details {
       flex-grow: 2;
       background-color: #fff;
       padding: 20px 15px (($padding-md-vertical * 2) + ($font-size-base * $line-height-md) + 20px);
-      font-size: 90%;
+      font-size: 12px;
+      padding-right: 50px;
+      padding-left: 50px;
 
       .icon-list .item span {
         width: calc(100% - 1.6em);
@@ -91,10 +164,6 @@
       .btn + .btn {
         border-left: 1px solid darken($btn-primary-bg, 10%);
       }
-
-      .btn:last-child {
-        border-bottom-right-radius: $border-radius-base;
-      }
     }
 
     @media (max-width: $screen-sm-max) {
@@ -102,13 +171,6 @@
 
       .profile {
         border-bottom-left-radius: 0;
-        border-top-right-radius: $border-radius-base;
-      }
-
-      .details .actions {
-        .btn:first-child {
-          border-bottom-left-radius: $border-radius-base;
-        }
       }
     }
   }
