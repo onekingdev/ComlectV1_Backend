@@ -1,23 +1,24 @@
-#js-project-apply.modal.fade.modal-popup.modal-faux-bootbox
+#js-project-apply.modal.fade.modal-popup.bootbox
   .modal-dialog
-    = simple_form_for @job_application, url: project_job_applications_path(@job_application.project), remote: true, html: { class: 'modal-content' } do |f|
-      .modal-header
-        button.close data-dismiss="modal" type="button"
-          .fa.fa-close
-        h4 Apply to This #{f.object.project.full_time? ? 'Full-time Role' : 'Project'}
-      .modal-body
-        - if @job_application.errors[:prerequisites].empty?
-          = f.input :message, required: false, label: 'Introductory Message:', as: :text, input_html: { rows: 10, maxlength: 200 }
-          = f.submit 'Apply', class: 'btn btn-primary btn-block'
-          p.text-center.m-t-2.small.text-muted
-            'By clicking 'Apply' you are agreeing to our <a href="#{page_path('terms-of-use')}" target="_blank">Terms of Use</a>
-            br
-            'and the <a href="https://stripe.com/us/connect-account/legal" target="_blank">Stripe Agreement</a>
-        - else
-          p We're sorry but you don't fill the requirements for this #{@job_application.project.full_time? ? 'full-time role' : 'project'}:
-          ul
-            - @job_application.errors[:prerequisites].each do |error|
-              li= error
+    .modal-content
+      = simple_form_for @job_application, url: project_job_applications_path(@job_application.project), remote: true do |f|
+        .modal-header
+          button.close.bootbox-close-button data-dismiss="modal" type="button"
+            .fa.fa-close
+        .modal-body.text-left
+          h3.text-uppercase.text-center.m-t-1.m-b-2 Apply to This #{f.object.project.full_time? ? 'Full-time Role' : 'Project'}
+          - if @job_application.errors[:prerequisites].empty?
+            = f.input :message, required: false, label: 'Introductory Message:', as: :text, input_html: { rows: 10, maxlength: 200 }
+            = f.submit 'Apply', class: 'btn btn-primary btn-md p-x-3 center-block'
+            p.text-center.m-t-2.small.text-muted
+              'By clicking 'Apply' you are agreeing to our <a href="#{page_path('terms-of-use')}" target="_blank">Terms of Use</a>
+              br
+              'and the <a href="https://stripe.com/us/connect-account/legal" target="_blank">Stripe Agreement</a>
+          - else
+            p We're sorry but you don't fill the requirements for this #{@job_application.project.full_time? ? 'full-time role' : 'project'}:
+            ul
+              - @job_application.errors[:prerequisites].each do |error|
+                li= error
 
-          .m-t-1.text-center
-            button.btn.btn-primary.p-x-3 type="button" data-dismiss="modal" OK
+            .m-t-1.text-center
+              button.btn.btn-primary.p-x-3 type="button" data-dismiss="modal" OK

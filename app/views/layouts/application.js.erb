@@ -1,0 +1,7 @@
+try {
+  <%= yield %>
+} catch (e) {
+  console.log(e);
+  _Appsignal.tagRequest({ test: 'dummy' });
+  _Appsignal.sendError(e);
+}

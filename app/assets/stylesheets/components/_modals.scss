@@ -16,8 +16,12 @@
   text-align: left;
   vertical-align: middle;
   @media screen and (min-width: $screen-md-min) { 
-    width: auto !important;
+    //width: auto !important;
   }
+}
+
+.modal-header {
+  border-bottom: 0px;
 }
 
 .modal.plain {
@@ -91,7 +95,7 @@ $bootbox-width: 474px;
   $border-radius: 0;
 
   .modal-dialog {
-    width: $bootbox-width;
+    width: auto;
     background-color: #fff;
     padding: 10px;
   }
@@ -108,8 +112,9 @@ $bootbox-width: 474px;
     top: 10px;
     text-shadow: none;
     opacity: 1.0;
-    margin-top: 0;
+    margin-top: -10px;
     margin-right: 5px;
+    width: 16px;
 
     &:before {
       font-family: FontAwesome !important;
@@ -140,11 +145,25 @@ $bootbox-width: 474px;
   }
 
   .modal-body {
-    padding: 30px;
+    //width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+    padding-top: 0px;
     color: #000000;
     background-color: #fff;
     border-top-left-radius: $border-radius;
     border-top-right-radius: $border-radius;
+
+    label {
+      font-size: 14px;
+      font-weight: $light-weight;
+    }
+
+    .form-control {
+      border-radius: 0;
+      border: 3px solid #ffcc00;
+    }
 
     h2 {
       color: #000;
@@ -155,6 +174,7 @@ $bootbox-width: 474px;
 
   .modal-footer {
     padding: 30px;
+    padding-top: 0px;
     border-top: 0;
     background-color: #fff;
     border-bottom-left-radius: $border-radius;
@@ -229,15 +249,20 @@ $bootbox-width: 474px;
 }
 
 .modal-popup {
+  padding: 20px;
+
   .modal-content {
     overflow: hidden; // So corners get rounded properly
   }
 
   .modal-header {
-    background-color: $gray-dark;
-    color: #fff;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    //background-color: $gray-dark;
+    //color: #fff;
+    //padding-top: 5px;
+    //padding-bottom: 5px;
+    width: 100%;
+    position: relative;
+    border-bottom: 0px;
   }
 
   .modal-body, .modal-footer {
@@ -246,6 +271,11 @@ $bootbox-width: 474px;
 
   .modal-footer {
     border-top: 0;
+  }
+
+  h3 {
+    font-size: 14px;
+    font-weight: $medium-weight;
   }
 
   h4 {

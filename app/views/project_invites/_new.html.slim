@@ -1,11 +1,12 @@
-#js-project-invite
-  .modal-wrapper
-    .modal-fake.gray.clearfix
-      button.close.close-absolute data-dismiss="modal" type="button"
-        .fa.fa-close
-      h3.text-uppercase.text-center Invite to project
-      = simple_form_for invite, remote: true, html: { class: 'modal-content' } do |f|
-        .modal-body
+#js-project-invite.modal.fade.modal-popup.bootbox
+  .modal-dialog
+    .modal-content
+      = simple_form_for invite, remote: true do |f|
+        .modal-header
+          button.close.bootbox-close-button data-dismiss="modal" type="button"
+            .fa.fa-close
+        .modal-body.text-left
+          h3.text-uppercase.text-center Invite to project
           = f.hidden_field :specialist_id
           = f.association :project, collection: invite.available_projects, input_html: { class: 'js-select input-lg', data: { show_blank: true } }, include_blank: '<New project>'
           .m-t-2= f.input :message, as: :text, input_html: { rows: 10 }, hint: 'Note: Project link will be included at the bottom of this message upon sending.'

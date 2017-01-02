@@ -1,20 +1,21 @@
 - message = decorate(message)
-#js-new-message.modal.fade.modal-popup.modal-faux-bootbox
+#js-new-message.modal.fade.modal-popup.bootbox
   .modal-dialog
-    = simple_form_for message, url: message.form_url, remote: true, html: { class: 'modal-content' } do |f|
-      .modal-header
-        button.close data-dismiss="modal" type="button"
-          .fa.fa-close
-        h4 Send a Message
-      .modal-body
-        = f.hidden_field :recipient_type
-        = f.hidden_field :recipient_id
-        label Send to:
-        br
-        = f.object.recipient
-        .m-t-1= f.input :message, required: false, as: :text, input_html: { rows: 10 }
-        .row.row-compact
-          .col-xs-6
-            = link_to 'Cancel', '#', class: 'btn btn-lg btn-primary btn-block', data: { dismiss: 'modal' }
-          .col-xs-6
-            = f.submit 'Send', class: 'btn btn-lg btn-primary btn-block', data: { disable_with: 'Sending...' }
+    .modal-content
+      = simple_form_for message, url: message.form_url, remote: true do |f|
+        .modal-header
+          button.close.bootbox-close-button data-dismiss="modal" type="button"
+            .fa.fa-close          
+        .modal-body.text-left
+          h3.text-uppercase.text-center.m-t-1 Send a Message
+          = f.hidden_field :recipient_type
+          = f.hidden_field :recipient_id
+          label Send to:
+          br
+          = f.object.recipient
+          .m-t-1= f.input :message, required: false, as: :text, input_html: { rows: 10 }, hint: 'Note: If you wish to remain anonymous, remember to remove any signature blocks from future email responses to this messaging thread.'
+          .row
+            .col-xs-6
+              = link_to 'Cancel', '#', class: 'btn btn-md btn-primary btn-block', data: { dismiss: 'modal' }
+            .col-xs-6
+              = f.submit 'Send', class: 'btn btn-md btn-primary btn-block', data: { disable_with: 'Sending...' }
