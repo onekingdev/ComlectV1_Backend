@@ -47,8 +47,9 @@ gem 'wkhtmltopdf-binary'
 
 # Assets
 gem 'jquery-rails'
-gem "jquery-slick-rails"
+gem 'jquery-slick-rails'
 gem 'imagesLoaded_rails'
+gem 'jquery-mousewheel-rails'
 
 # Mail
 gem 'postmark-rails'

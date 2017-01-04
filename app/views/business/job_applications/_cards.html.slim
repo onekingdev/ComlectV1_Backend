@@ -22,7 +22,7 @@ h2.text-center.m-b-2.no-applicants class=('hidden' if job_applications.to_a.any?
 
     .col-xs-12.col-md-9.details.td
       .row.m-y-1
-        .col-xs-6
+        .col-sm-4.m-b-3
           .list-icon
             .item
               i.icon-location-pin
@@ -45,16 +45,17 @@ h2.text-center.m-b-2.no-applicants class=('hidden' if job_applications.to_a.any?
                 i.icon-badge
                 span= specialist.skills.map(&:name).join(', ')
 
-        .col-xs-6
-          .panel-heading.m-t-0.p-y-0
+        .col-sm-4
+          .panel-heading.m-t-0.p-y-0.p-x-0
             h3 Work Experience
-          .panel-body
+          .panel-body.p-x-0
             ul.list-unstyled.m-b-1
               - specialist.work_experiences.map(&method(:decorate)).each do |exp|
                 li #{pluralize exp.years, 'Year', 'Years'} at #{exp.company}
-          .panel-heading.m-t-0.p-y-0
+        .col-sm-4
+          .panel-heading.m-t-0.p-y-0.p-x-0
             h3 Education
-          .panel-body
+          .panel-body.p-x-0
             ul.list-unstyled.m-b-1
               - specialist.education_histories.each do |edu|
                 li #{edu.institution}, #{edu.degree} (#{edu.year})

@@ -3,7 +3,7 @@
 
 - header_class 'short'
 - Project::Decorator.decorate(@project).tap do |project|
-  h1.m-y-3
+  h1.m-t-0.m-b-3
     = project
     .pull-right
       small Status: <span class="text-primary project-status">#{project.status_text}</span>

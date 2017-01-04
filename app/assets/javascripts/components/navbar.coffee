@@ -13,8 +13,8 @@ update_navbar = ->
   x = $('body').scrollTop()
   y = (60-x)/2
   z = x/60
-  y = 0 if y < 0
-  z = 1 if z > 1
+  y = 0 if (y < 0) || ($('#header').hasClass 'short')
+  z = 1 if (z > 1) || ($('#header').hasClass 'short')
     
   if window.innerWidth < 766
     y = 0

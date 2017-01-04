@@ -76,6 +76,10 @@ body.job_applications.index {
     -moz-box-shadow: 0px 13px 32px 3px rgba(0,0,0,0.2);
     box-shadow: 0px 13px 32px 3px rgba(0,0,0,0.2);
 
+    .panel-heading h3 {
+      text-transform: none;
+    }
+
     .profile {
       background-color: $gray;
       color: #fff;
@@ -143,8 +147,8 @@ body.job_applications.index {
       background-color: #fff;
       padding: 20px 15px (($padding-md-vertical * 2) + ($font-size-base * $line-height-md) + 20px);
       font-size: 12px;
-      padding-right: 50px;
-      padding-left: 50px;
+      padding-right: 30px;
+      padding-left: 30px;
 
       .icon-list .item span {
         width: calc(100% - 1.6em);

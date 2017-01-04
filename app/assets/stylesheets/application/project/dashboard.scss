@@ -6,10 +6,39 @@
     }
 
     .name {
-      line-height: 60px;
-      white-space: nowrap;
+      //line-height: 60px;
+      //white-space: nowrap;
       overflow: hidden;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      font-size: 13px;
+      font-weight: $regular-weight;
     }
+  }
+
+  label {
+    padding: 0px 10px;
+    font-weight: $medium-weight;
+  }
+
+  i {
+    font-size: 16px;
+    font-weight: bold;
+    display:inline-block;
+    vertical-align: -2px;
+  }
+
+  ul {
+    padding-left: 30px;
+    li {
+      font-size: 12px;
+    }
+  }
+
+  p {
+    padding-left: 30px;
+    font-size: 12px;
   }
 }
 
@@ -35,5 +64,28 @@
   .flag-form {
     display: none;
     text-align: center;
+  }
+}
+
+body.project_dashboard.show {
+  background-image: asset_url('bg.png');
+  background-position: center top;
+  background-repeat: repeat-y;
+
+  h1 {
+    font-size: 24px;
+    font-weight: $regular-weight;
+    text-transform: uppercase;
+  }
+
+  #footer {
+    display: none;
+  }
+
+  @media (max-width: $screen-xs-max) {
+    .col-xs-12 {
+      padding-left: 0px;
+      padding-right: 0px;
+    }
   }
 }

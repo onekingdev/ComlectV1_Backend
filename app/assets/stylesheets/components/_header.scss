@@ -21,7 +21,11 @@
 
   &.short {
     margin-bottom: 0;
-    padding-top: 0px;
+    padding-top: 100px;
+    padding-bottom: 0px;
+    @media (max-width: $screen-xs-max) {
+      padding-top: 70px;
+    }
   }
 
   &.compact {

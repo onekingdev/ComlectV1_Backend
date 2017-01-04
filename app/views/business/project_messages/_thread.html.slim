@@ -1,5 +1,5 @@
 #project-message-thread.message-thread
-  .messages.m-b-3 data-page="1" data-active=@project.active?.to_s data-url=business_project_messages_path(@project)
+  .messages.m-b-2 data-page="1" data-active=@project.active?.to_s data-url=business_project_messages_path(@project)
     = render partial: 'messages/message', collection: @messages.map(&method(:decorate)).reverse, locals: { me: current_business }
 
   - if @project.active?

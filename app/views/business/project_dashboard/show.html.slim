@@ -1,99 +1,99 @@
+- content_for :header_class, 'short'
 - content_for :scripts do
   = javascript_include_tag new_business_project_rating_path
 
-- header_class 'short'
 - Project::Decorator.decorate(@project).tap do |project|
-  h1.m-y-3
+  h1.m-t-0.m-b-3.hidden-sm.hidden-xs
     = project
     .pull-right
       small Status: <span class="text-primary project-status">#{project.status_text}</span>
 
   .business-profile
     .row
-      .col-xs-12.col-md-3
+      .col-xs-12.col-md-3.hidden-sm.hidden-xs
         .panel.panel-default.project-overview
           .panel-heading
             h3 Project Overview
 
-          .panel-body
-            = link_to project.business, class: 'business m-b-1 td-n d-b' do
+          .panel-body.p-t-0.p-b-1
+            = link_to project.business, class: 'business m-b-1 td-n d-b clearfix' do
               = image_tag project.business.logo_url(:thumb), size: '60x60', class: 'img-circle'
               .name= project.business
             = link_to project.specialist, class: 'specialist m-b-1 td-n d-b' do
               = image_tag project.specialist.photo_url(:thumb), size: '60x60', class: 'img-circle'
               .name= project.specialist.full_name
 
-            label.strong.m-t-2 Key Deliverables
+            label.m-t-2
+              i.icon-pin
+              | &nbsp;
+              | Key Deliverables
             = project.key_deliverables_list
 
             - if project.ends_on.present?
-              label.strong.m-t-2.d-b End Date
-              .percentage-circle.tiny.primary.pull-right data-percent=project.percent_complete.round
-              div style="line-height: 40px;" = project.ends_on.strftime('%d %b %Y')
+              label
+                i.icon-clock
+                | &nbsp;
+                | End Date
+              p= project.ends_on.strftime('%d %b %Y')
 
+              label
+                i.icon-pie-chart
+                | &nbsp;
+                | Complete
+              p= "#{project.percent_complete.round} %"
             - unless project.complete?
-              #project-extension-picker-container.m-t-2
-                button.btn.btn-block.btn-primary.btn-md.m-b-1[
+              #project-extension-picker-container.m-t-1
+                button.btn.btn-block.btn-primary.btn-sm.m-b-1[
                   data-method="post"
                   data-remote="true"
                   data-url=business_project_ends_path
                   data-confirm="Are you sure you want to end this project?"
                   data-confirm-label="End Project"
                 ]
-                  'End Project
-                button#js-project-extension.btn.btn-block.btn-primary.btn-md.m-b-1[
+                  'End
+                button#js-project-extension.btn.btn-block.btn-default.btn-sm.m-b-1[
                   data-toggle="popover"
                   data-placement="bottom"
                   data-content="#{project.extension_popup.to_str}"
                   data-html="true"
                   data-container="#project-extension-picker-container"
                 ]
-                  'Extend Project
+                  'Extend
 
 
       .col-xs-12.col-md-9
-        .panel.panel-default
-          .panel-heading.full-nav-pills
+        .panel.panel-default.panel-padded.m-b-0
+          .panel-heading
             .dropdown.visible-xs
               button.btn.btn-default.dropdown-toggle type="button" data-toggle="dropdown"
                 .fa.fa-bars
               ul.dropdown-menu.dropdown-menu-right
                 li.active= link_to '#project-messages', data: { toggle: 'tab', "remote-load" => true, url: business_project_messages_path(project), 'toggle-sync' => true } do
-                  i.icon.maxicons2-comments
                   span Messages
                 li= link_to '#project-documents', data: { toggle: 'tab', "remote-load" => true, url: business_project_documents_path(project), 'toggle-sync' => true } do
-                  i.icon.maxicons2-documents
                   span Documents
                 - if project.hourly_pricing?
                   li= link_to '#project-timesheets', data: { toggle: 'tab', "remote-load" => true, url: business_project_timesheets_path(project), 'toggle-sync' => true } do
-                    i.icon.maxicons2-new
                     span Time Sheets
                 li= link_to '#project-details', data: { toggle: 'tab' } do
-                  i.icon.maxicons2-catalogue
                   span Project Details
                 - if project.active?
                   li= link_to '#project-help', data: { toggle: 'tab' } do
-                    i.icon.maxicons2-instruction
                     span Help
             ul.nav.nav-pills.hidden-xs.small
               li.active= link_to '#project-messages', data: { toggle: 'tab', "remote-load" => true, url: business_project_messages_path(project), 'toggle-sync' => true } do
-                i.icon.maxicons2-comments
                 span Messages
               li= link_to '#project-documents', data: { toggle: 'tab', "remote-load" => true, url: business_project_documents_path(project), 'toggle-sync' => true } do
-                i.icon.maxicons2-documents
                 span Documents
               - if project.hourly_pricing?
                 li= link_to '#project-timesheets', data: { toggle: 'tab', "remote-load" => true, url: business_project_timesheets_path(project), 'toggle-sync' => true } do
-                  i.icon.maxicons2-new
                   span Time Sheets
               li= link_to '#project-details', data: { toggle: 'tab' } do
-                i.icon.maxicons2-catalogue
-                span <span class="hidden-md">Project</span> Details
+                span Details
               - if project.active?
                 li= link_to '#project-help', data: { toggle: 'tab' } do
-                  i.icon.maxicons2-instruction
                   span Help
-          .panel-body
+          .panel-body.p-b-2
             .tab-content
               #project-messages.tab-pane.clearfix.active data-always-reload="true"
               #project-documents.tab-pane.clearfix
