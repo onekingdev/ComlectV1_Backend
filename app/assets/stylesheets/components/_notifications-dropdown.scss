@@ -1,0 +1,14 @@
+.notifications-dropdown {
+  max-width: 430px;
+
+  li a {
+    white-space: normal;
+    padding: 3px 20px !important;
+  }
+
+  li + li {
+    border-top: 1px solid $gray-light;
+    margin-top: 7.5px;
+    padding-top: 7.5px;
+  }
+}
