@@ -24,6 +24,25 @@ class StripeAccount < ActiveRecord::Base
     personal_id_number: { both: %w(US CA HK SG) }
   }.freeze
 
+  FIELDS_NEEDED_MAP = {
+    'legal_entity.personal_id_number' => 'Personal ID Number'
+  }.freeze
+
+  def fields_needed_message(account)
+    fields = (account.verification&.fields_needed || []).map do |field|
+      FIELDS_NEEDED_MAP[field] || field.split('.')[-1]
+    end
+    "Required information: #{fields.to_sentence}" if fields.any?
+  end
+
+  def status_from_account(account)
+    account.verification.fields_needed.empty? ? self.class.statuses[:verified] : self.class.statuses[:fields_needed]
+  end
+
+  def update_status_from_stripe(account)
+    update_columns status: status_from_account(account), status_detail: fields_needed_message(account).presence
+  end
+
   private
 
   def set_ssn_last_4_from_personal_id
@@ -68,7 +87,7 @@ class StripeAccount < ActiveRecord::Base
     assign_account_fields account
     account.save
     account = Stripe::Account.retrieve(stripe_id)
-    update_columns status: status_from_account(account), status_detail: fields_needed_message(account).presence
+    update_status_from_stripe account
   rescue Stripe::InvalidRequestError => e
     errors.add :base, translate_stripe_error(e.message)
     raise ActiveRecord::Rollback
@@ -86,21 +105,6 @@ class StripeAccount < ActiveRecord::Base
 
   def delete_managed_account
     Stripe::Account.retrieve(stripe_id).delete
-  end
-
-  FIELDS_NEEDED_MAP = {
-    'legal_entity.personal_id_number' => 'Personal ID Number'
-  }.freeze
-
-  def fields_needed_message(account)
-    fields = (account.verification&.fields_needed || []).map do |field|
-      FIELDS_NEEDED_MAP[field] || field.split('.')[-1]
-    end
-    "Required information: #{fields.to_sentence}" if fields.any?
-  end
-
-  def status_from_account(account)
-    account.verification.fields_needed.empty? ? self.class.statuses[:verified] : self.class.statuses[:fields_needed]
   end
 
   FIELD_MAPPINGS = {
