@@ -19,4 +19,14 @@ class StripeMailer < ApplicationMailer
            message_text: render('charge_failed.text')
          }
   end
+
+  def transfer_failed(email)
+    mail to: email,
+         template_id: ENV.fetch('POSTMARK_TEMPLATE_ID'),
+         template_model: {
+           subject: 'Payment failed',
+           message_html: render('transfer_failed.html'),
+           message_text: render('transfer_failed.text')
+         }
+  end
 end
