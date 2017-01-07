@@ -31,19 +31,21 @@ $.onContentReady ($parent, data) ->
   scrollTick = null
   previousRatio = 1
   loadingMessages = false
+
   loadMessages = ->
     loadingMessages = true
     $messages.addClass 'loading'
 
     page = parseInt($messages.attr('data-page') || 1) + 1
-    prevScrollHeight = $messages[0].scrollHeight
-    prevScrollTop = $messages.scrollTop()
     params = $messages.data('params') || {}
     params.page = page
     request = $.get $messages.data('url'), params, (data) ->
       $messages.attr 'data-page', page
+      scrolltop_A = $messages.scrollTop()
+      scrollheight_A = $messages[0].scrollHeight
       $messages.prepend data
-      $messages.scrollTop $messages[0].scrollHeight - prevScrollHeight + prevScrollTop
+      scrollheight_B = $messages[0].scrollHeight
+      $messages.scrollTop scrolltop_A + scrollheight_B - scrollheight_A - 348 # TODO: what is 348
       groupMessagesByDay()
 
     request
@@ -58,6 +60,8 @@ $.onContentReady ($parent, data) ->
         loadingMessages = false
 
   $messages.on 'scroll', (e) ->
+    console.log "sc:"+$messages.scrollTop()
+    console.log "sh :"+$messages[0].scrollHeight
     clearTimeout(scrollTick) if scrollTick?
     return if loadingMessages
     scrollTick = setTimeout ->

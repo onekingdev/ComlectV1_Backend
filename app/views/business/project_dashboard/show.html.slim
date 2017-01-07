@@ -61,7 +61,7 @@
                   'Extend
 
 
-      .col-xs-12.col-md-9
+      .col-xs-12.col-md-9.unrelative
         .panel.panel-default.panel-padded.m-b-0
           .panel-heading
             .dropdown.visible-xs
@@ -93,7 +93,7 @@
               - if project.active?
                 li= link_to '#project-help', data: { toggle: 'tab' } do
                   span Help
-          .panel-body.p-b-2
+          .panel-body
             .tab-content
               #project-messages.tab-pane.clearfix.active data-always-reload="true"
               #project-documents.tab-pane.clearfix
@@ -104,3 +104,6 @@
               - if project.active?
                 #project-help.tab-pane.clearfix
                   = render 'project_help', issue: project.issues.new
+
+javascript:
+  var scroll_init = false;

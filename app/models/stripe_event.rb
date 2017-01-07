@@ -4,8 +4,7 @@ class StripeEvent
 
   HANDLERS = {
     'account.updated' => StripeEvent::AccountUpdated,
-    'charge.failed' => StripeEvent::ChargeFailed,
-    'transfer.failed' => StripeEvent::TransferFailed
+    'charge.failed' => StripeEvent::ChargeFailed
   }.freeze
 
   def self.handle(event_id, account_id, connect: true)

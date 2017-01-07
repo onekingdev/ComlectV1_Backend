@@ -1,22 +1,90 @@
-= f.input :message, as: :text, label: false, input_html: { class: 'di-b', rows: 4 }
+.col-xs-8.col-sm-12= f.input :message, as: :text, label: false, input_html: { class: 'di-b', rows: 4 }
 
-.pull-right.message-form
-  .send_on_enter
-    = check_box_tag 'send_on_enter', true, true
-    label.fw-regular for="send_on_enter"
-      span Press Enter To Send
-  i.icon-paper-clip.m-r-1
-  = f.submit 'Send', class: 'btn btn-primary btn-md', data: { disable_with: 'Sending...' }
+.col-xs-4.col-sm-12
+  .message-form
+    .row
+      .col-sm-8.hidden-xs.text-right.p-r-0
+        .send_on_enter
+          = check_box_tag 'send_on_enter', true, true
+          label.fw-regular for="send_on_enter"
+            span Press Enter To Send
+      .col-xs-12.col-sm-4
+        a.btn.btn-default.btn-md.upload-button
+          i.icon-paper-clip
+        = f.submit 'Send', class: 'btn btn-primary btn-md btn-block', data: { disable_with: 'Sending...' }
 
 javascript:
-  var scrollable = $(".messages")[0];
+  /*if (scroll_init == false) {
+    scroll_init = true;
 
-  //$(scrollable).mousewheel(function(event, delta) {
-  //  event.preventDefault();
-  //});
+    $("body").not(".messages").mousewheel(function(event, delta) {
+      event.preventDefault();
+      $(".messages")[0].scrollTop -= (delta);
+    });
+  }*/
 
-  $("body").not(".messages").mousewheel(function(event, delta) {
-    console.log(delta);
-    event.preventDefault();
-    scrollable.scrollTop -= (delta);
+  /*if (scroll_init == false) {
+    scroll_init = true;
+    $('body').not(".messages").on('mousewheel',function(event) {
+      var scroll = $('.messages').scrollTop();
+      $('.messages').scrollTop(scroll - event.originalEvent.wheelDeltaY);
+      event.preventDefault();
+      return true;
+    });
+  }*/
+
+  /*var scrollPos = $(document).scrollTop();
+  $(window).scroll(function(){
+      scrollPos = $(document).scrollTop();
+  });
+  var savedScrollPos = scrollPos;
+
+  function is_iOS() {
+    var iDevices = [
+      'iPad Simulator',
+      'iPhone Simulator',
+      'iPod Simulator',
+      'iPad',
+      'iPhone',
+      'iPod'
+    ];
+    while (iDevices.length) {
+      if (navigator.platform === iDevices.pop()){ return true; }
+    }
+    return false;
+  }
+
+  $('textarea').on('touchstart', function(){
+      if (is_iOS()){
+          savedScrollPos = scrollPos;
+          $('body').css({
+              position: 'relative',
+              top: -scrollPos
+          });
+          $('html').css('overflow','hidden');
+      }
+  })
+  .blur(function(){
+      if (is_iOS()){
+          $('body, html').removeAttr('style');
+          $(document).scrollTop(savedScrollPos);
+      }
+  });*/
+
+  function messages_h() {
+    if (window.innerWidth > 766) {
+      var computed_height = window.innerHeight-$(".business-profile")[0].offsetTop-$("#new_message").height()-95;
+      console.log(computed_height);
+      $(".messages").css({"height": computed_height});
+    } else {
+      $(".messages").css({"height": "auto"});
+    }
+  }
+
+  $(document).ready(function() {
+    messages_h();
+  });
+
+  $(window).resize(function() {
+    messages_h();
   });

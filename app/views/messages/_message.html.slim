@@ -5,7 +5,10 @@
   - if is_me
     | Me,&nbsp;
   - else
-    = "#{message.sender.full_name}, "
+    - if message.sender_type == "Business"
+      = "#{message.sender.contact_full_name}, "
+    - if message.sender_type == "Specialist"
+      = "#{message.sender.full_name}, "
   = message.created_at.in_time_zone(me.time_zone).strftime('%-I:%M %p')
 .message class=(is_me ? 'me' : 'them') data-message-id=message.id
   .text= simple_format message.message
