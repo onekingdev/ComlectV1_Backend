@@ -1,4 +1,11 @@
 .project-overview {
+  @media (max-width: $screen-xs-max) {
+    padding: 0px 20px;
+    .panel-heading {
+      display: none;
+    }
+  }
+
   .business, .specialist {
     img {
       float: left;
@@ -67,7 +74,7 @@
   }
 }
 
-body.project_dashboard.show {
+body.project_dashboard.show, body.dashboards.show {
   //-webkit-overflow-scrolling : touch !important;
   //overflow: auto !important;
   //height: 100% !important;

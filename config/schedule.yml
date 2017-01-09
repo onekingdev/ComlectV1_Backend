@@ -17,3 +17,7 @@ end_projects:
 expire_projects:
   cron: "*/5 * * * *"
   class: "ExpireProjectsJob"
+
+transfer_foreign_currency:
+  cron: "0 * * * *"
+  class: "TransferForeignCurrencyJob"

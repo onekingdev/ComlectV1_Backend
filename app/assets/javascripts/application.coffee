@@ -16,6 +16,7 @@
 #= require accounting.js/accounting
 #= require parallax.js/parallax
 #= require bootstrap-switch/dist/js/bootstrap-switch
+#= require components/appsignal
 #= require_self
 #= require_tree ./utilities
 #= require_tree ./components

@@ -205,6 +205,16 @@
     border-left: 1px solid #383838;
   }
 
+  a.visible-sm {
+    float: left;
+    border-right: 1px solid #000;
+    text-decoration: none;
+
+    &.active {
+      font-weight: $bold-weight;
+    }
+  }
+
   a {
     font-family: Muller;
     font-size: 13px;
@@ -212,7 +222,7 @@
     color: #000;
     background-color: transparent;
     border-radius: 0;
-    padding: 0px 15px;
+    padding: 0px 13px;
 
     .icon {
       color: #fff;
