@@ -35,6 +35,11 @@ ActiveAdmin.register Flag do
       row :flagger
       row :flagged_content_type
       row :flagged_content
+      if flag.flagged_content.is_a?(Question)
+        row :answer do |flag|
+          flag.flagged_content.answer
+        end
+      end
       row :offending_user
     end
   end
