@@ -1,4 +1,11 @@
 .project-overview {
+  @media (max-width: $screen-xs-max) {
+    padding: 0px 20px;
+    .panel-heading {
+      display: none;
+    }
+  }
+
   .business, .specialist {
     img {
       float: left;
@@ -67,7 +74,11 @@
   }
 }
 
-body.project_dashboard.show {
+body.project_dashboard.show, body.dashboards.show {
+  //-webkit-overflow-scrolling : touch !important;
+  //overflow: auto !important;
+  //height: 100% !important;
+  //overflow: hidden;
   background-image: asset_url('bg.png');
   background-position: center top;
   background-repeat: repeat-y;
@@ -82,10 +93,103 @@ body.project_dashboard.show {
     display: none;
   }
 
+  .upload-button {
+    border-color: transparent;
+    position: absolute;
+    left: 0px;
+    padding: 10.5px 10px;
+  }
+
+  .message-form .col-xs-12 {
+    padding-left: 45px;
+  }
+
+  .send_on_enter {
+    line-height: 46px;
+  }
+
+  .panel-padded .panel-body {
+    padding-bottom: 10px;
+  }
+
+  #new_message .col-sm-12 {
+    padding-left: 0px;
+    padding-right: 0px;    
+  }
+
   @media (max-width: $screen-xs-max) {
-    .col-xs-12 {
+    .unrelative {
+      position: static;
+    }
+    //.col-xs-12, .col-xs-8, .col-xs-4 {
+    div[class*="col-"] {
       padding-left: 0px;
       padding-right: 0px;
     }
+
+    .panel-padded {
+      box-shadow: none;
+
+      .panel-heading {
+        position: fixed;
+        top: 80px;
+        right: 10px;
+        background-color: transparent;
+
+        .dropdown-toggle {
+          border-radius: 50%;
+          background-color: #fff;
+          padding: 10px 16px;
+        }
+      }
+
+      .panel-body {
+        padding-left: 0px;
+        padding-right: 0px;
+        overflow: hidden;
+        //padding-bottom: 0px;
+
+        .messages {
+          padding-left: 10px;
+          padding-right: 10px;
+          padding-bottom: 35px;
+        }
+
+        .message_message {
+          margin-bottom: 0px;
+          padding-right: 20px;
+        }
+
+        #new_message {
+          position: fixed;
+          overflow: hidden;
+          bottom: 0px;
+          width: 100%;
+          border-top: 2px solid #e4e4e4;
+          background-color: #fff;
+
+          .btn {
+            //padding-top: 0px;
+            //padding-bottom: 0px;
+            height: 50px;
+          }
+
+          .btn-default {
+            border: 0px;
+          }
+
+          .btn-primary {
+            padding-left: 0px;
+            padding-right: 0px;
+          }
+        }
+
+        .message-form {
+          .col-sm-4 {
+            padding-right: 15px;
+          }
+        }
+      }      
+    } 
   }
 }

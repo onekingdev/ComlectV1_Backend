@@ -16,6 +16,9 @@ class Timesheet < ActiveRecord::Base
 
   accepts_nested_attributes_for :time_logs, allow_destroy: true
 
+  before_save -> { self.status_changed_at = Time.zone.now }, if: :status_changed?
+  before_save -> { self.first_submitted_at = Time.zone.now }, if: -> { first_submitted_at.nil? && submitted? }
+
   validates :time_logs, presence: true
   validate :validate_project_is_active
 

@@ -39,7 +39,7 @@ class Project < ActiveRecord::Base
   scope :pending, -> { published.where(specialist_id: nil) }
   scope :active, -> { published.where.not(specialist_id: nil) }
   scope :active_for_charges, -> { active.not_escalated }
-  scope :complete, -> { where(status: statuses[:complete]) }
+  scope :complete, -> { where(status: statuses[:complete]).not_escalated }
   scope :accessible_by, -> (user) {
     # Accessible by project owner, hired specialist, or everyone if it's published
     joins(:business).joins('LEFT OUTER JOIN specialists ON specialists.id = projects.specialist_id')

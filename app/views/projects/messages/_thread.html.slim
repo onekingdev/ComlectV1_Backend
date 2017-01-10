@@ -1,6 +1,6 @@
 #project-message-thread.message-thread
-  .messages data-page="1" data-active=@project.active?.to_s data-url=project_messages_path(@project)
+  .messages.m-b-2 data-page="1" data-active=@project.active?.to_s data-url=project_messages_path(@project)
     = render partial: 'messages/message', collection: @messages.map(&method(:decorate)).reverse, locals: { me: current_specialist }
 
   - unless @project.business.deleted? || @project.complete?
-    .m-t-3= render 'form', message: me.sent_messages.new
+    = render 'form', message: me.sent_messages.new

@@ -2970,7 +2970,8 @@ CREATE TABLE timesheets (
     status character varying DEFAULT 'pending'::character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    approved_at timestamp without time zone
+    status_changed_at timestamp without time zone,
+    first_submitted_at timestamp without time zone
 );
 
 
@@ -4225,10 +4226,10 @@ CREATE INDEX index_time_logs_on_timesheet_id ON time_logs USING btree (timesheet
 
 
 --
--- Name: index_timesheets_on_approved_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_timesheets_on_first_submitted_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_timesheets_on_approved_at ON timesheets USING btree (approved_at);
+CREATE INDEX index_timesheets_on_first_submitted_at ON timesheets USING btree (first_submitted_at);
 
 
 --
@@ -4243,6 +4244,13 @@ CREATE INDEX index_timesheets_on_project_id ON timesheets USING btree (project_i
 --
 
 CREATE INDEX index_timesheets_on_status ON timesheets USING btree (status);
+
+
+--
+-- Name: index_timesheets_on_status_changed_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_timesheets_on_status_changed_at ON timesheets USING btree (status_changed_at);
 
 
 --
@@ -4645,4 +4653,8 @@ INSERT INTO schema_migrations (version) VALUES ('20161216191410');
 INSERT INTO schema_migrations (version) VALUES ('20161216194421');
 
 INSERT INTO schema_migrations (version) VALUES ('20170109234629');
+
+INSERT INTO schema_migrations (version) VALUES ('20170110003441');
+
+INSERT INTO schema_migrations (version) VALUES ('20170110004317');
 

@@ -5,7 +5,7 @@ class Business::ProjectMessagesController < ApplicationController
 
   def index
     Notification.clear! current_user, :business_got_project_message, @project
-    @messages = @project.messages.recent.page(params[:page]).per(5)
+    @messages = @project.messages.recent.page(params[:page]).per(20)
     respond_to do |format|
       format.html do
         return render_messages if params[:page]

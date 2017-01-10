@@ -12,62 +12,17 @@
     .row
       .col-xs-12.col-md-3.hidden-sm.hidden-xs
         .panel.panel-default.project-overview
-          .panel-heading
-            h3 Project Overview
+          = render :partial => "projects/dashboards/project_overview", :locals => { project: project }
 
-          .panel-body.p-t-0.p-b-1
-            = link_to project.business, class: 'business m-b-1 td-n d-b clearfix' do
-              = image_tag project.business.logo_url(:thumb), size: '60x60', class: 'img-circle'
-              .name= project.business
-            = link_to project.specialist, class: 'specialist m-b-1 td-n d-b' do
-              = image_tag project.specialist.photo_url(:thumb), size: '60x60', class: 'img-circle'
-              .name= project.specialist.full_name
-
-            label.m-t-2
-              i.icon-pin
-              | &nbsp;
-              | Key Deliverables
-            = project.key_deliverables_list
-
-            - if project.ends_on.present?
-              label
-                i.icon-clock
-                | &nbsp;
-                | End Date
-              p= project.ends_on.strftime('%d %b %Y')
-
-              label
-                i.icon-pie-chart
-                | &nbsp;
-                | Complete
-              p= "#{project.percent_complete.round} %"
-            - unless project.complete?
-              #project-extension-picker-container.m-t-1
-                button.btn.btn-block.btn-primary.btn-sm.m-b-1[
-                  data-method="post"
-                  data-remote="true"
-                  data-url=business_project_ends_path
-                  data-confirm="Are you sure you want to end this project?"
-                  data-confirm-label="End Project"
-                ]
-                  'End
-                button#js-project-extension.btn.btn-block.btn-default.btn-sm.m-b-1[
-                  data-toggle="popover"
-                  data-placement="bottom"
-                  data-content="#{project.extension_popup.to_str}"
-                  data-html="true"
-                  data-container="#project-extension-picker-container"
-                ]
-                  'Extend
-
-
-      .col-xs-12.col-md-9
+      .col-xs-12.col-md-9.unrelative
         .panel.panel-default.panel-padded.m-b-0
           .panel-heading
             .dropdown.visible-xs
               button.btn.btn-default.dropdown-toggle type="button" data-toggle="dropdown"
                 .fa.fa-bars
               ul.dropdown-menu.dropdown-menu-right
+                li= link_to '#project-overview', data: { toggle: 'tab', "remote-load" => true, url: business_project_overview_path(project), 'toggle-sync' => true } do
+                  span Overview
                 li.active= link_to '#project-messages', data: { toggle: 'tab', "remote-load" => true, url: business_project_messages_path(project), 'toggle-sync' => true } do
                   span Messages
                 li= link_to '#project-documents', data: { toggle: 'tab', "remote-load" => true, url: business_project_documents_path(project), 'toggle-sync' => true } do
@@ -81,6 +36,8 @@
                   li= link_to '#project-help', data: { toggle: 'tab' } do
                     span Help
             ul.nav.nav-pills.hidden-xs.small
+              = link_to '#project-overview', :class => "visible-sm", data: { toggle: 'tab', "remote-load" => true, url: business_project_overview_path(project), 'toggle-sync' => true } do
+                span Overview
               li.active= link_to '#project-messages', data: { toggle: 'tab', "remote-load" => true, url: business_project_messages_path(project), 'toggle-sync' => true } do
                 span Messages
               li= link_to '#project-documents', data: { toggle: 'tab', "remote-load" => true, url: business_project_documents_path(project), 'toggle-sync' => true } do
@@ -93,8 +50,9 @@
               - if project.active?
                 li= link_to '#project-help', data: { toggle: 'tab' } do
                   span Help
-          .panel-body.p-b-2
+          .panel-body
             .tab-content
+              #project-overview.project-overview.tab-pane.clearfix
               #project-messages.tab-pane.clearfix.active data-always-reload="true"
               #project-documents.tab-pane.clearfix
               - if project.hourly_pricing?

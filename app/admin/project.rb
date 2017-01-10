@@ -10,17 +10,19 @@ ActiveAdmin.register Project do
   filter :by_specialist_last_name, as: :string, label: 'Specialist Last Name'
   filter :business_contact_first_name_in, as: :string, label: 'Business First Name'
   filter :business_contact_last_name_in, as: :string, label: 'Business Last Name'
+  filter :location_type, as: :select, collection: -> { Project.location_types }
+  filter :location
 
+  scope :all
   scope :escalated
   scope :draft_and_in_review
-  scope :published
   scope :pending
   scope :active
   scope :complete
 
   controller do
     def scoped_collection
-      super.includes :ratings, :issues
+      super.joins(:business, :specialist).includes :ratings, :issues, :business, :specialist
     end
   end
 
@@ -41,10 +43,13 @@ ActiveAdmin.register Project do
   end
 
   index do
+    column :id
     column :title do |project|
       link_to project.title, [:admin, project]
     end
-    column :location
+    column :location do |project|
+      project.remote? ? 'Remote' : project.location
+    end
     column :industries do |project|
       project.industries.map(&:name).join(', ')
     end
@@ -52,7 +57,8 @@ ActiveAdmin.register Project do
       project.jurisdictions.map(&:name).join(', ')
     end
     column :description
-    column :key_deliverables
+    column :business, sortable: 'businesses.business_name'
+    column :specialist, sortable: 'specialists.first_name'
     column 'Escalated' do |project|
       project.escalated? ? status_tag('yes', :ok) : status_tag('no')
       link_to 'Issues', admin_issues_path(q: { project_id_eq: project.id }) if project.escalated?
@@ -144,7 +150,7 @@ ActiveAdmin.register Project do
       end
       row :timesheets do |project|
         if project.issues.open.where(admin_user: current_admin_user).any?
-          table_for project.timesheets.order('id asc') do
+          table_for project.timesheets.order(first_submitted_at: :asc) do
             column :status
             column :created_at
             column :time_logs do |timesheet|
@@ -177,6 +183,7 @@ ActiveAdmin.register Project do
                 timesheets_attributes: [:_destroy, :id, :status, time_logs_attributes: %i(id description hours)],
                 industry_ids: [],
                 jurisdiction_ids: []
+
   form do |f|
     f.inputs do
       f.input :title
@@ -187,31 +194,37 @@ ActiveAdmin.register Project do
       f.input :description, as: :text
       f.input :key_deliverables
       f.input :starts_on
-      f.input :ends_on
-      f.input :payment_schedule, collection: Project::PAYMENT_SCHEDULES
-      f.input :fixed_budget
-      f.input :hourly_rate
-      f.input :estimated_hours
+      f.input :ends_on if f.object.one_off?
+      f.input :pricing_type, collection: %w(hourly fixed) if f.object.one_off?
+      f.input :payment_schedule, collection: Project::PAYMENT_SCHEDULES if f.object.one_off?
+      f.input :fixed_budget if f.object.one_off?
+      f.input :hourly_rate if f.object.one_off?
+      f.input :estimated_hours if f.object.one_off?
       f.input :minimum_experience, collection: Project::MINIMUM_EXPERIENCE
       f.input :only_regulators
-      f.input :annual_salary
-      f.input :fee_type, collection: Project.fee_types
-      f.input :pricing_type, collection: %w(hourly fixed)
+      f.input :annual_salary if f.object.full_time?
+      f.input :fee_type, collection: Project.fee_types if f.object.full_time?
       f.input :calculated_budget, as: :readonly
       f.input :job_applications_count, as: :readonly
     end
-    f.inputs 'Timesheets' do
-      f.has_many :timesheets do |a|
-        a.input :status, collection: Timesheet.statuses
-        a.has_many :time_logs do |b|
-          b.input :description
-          b.input :hours, min: 0
-        end
-        if a.object.status == 'pending' || a.object.status == 'submitted' || a.object.status == 'disputed'
-          a.input :_destroy, as: :boolean, required: false, label: 'Remove'
+
+    if f.object.one_off? && f.object.hourly_pricing?
+      f.inputs 'Timesheets' do
+        f.has_many :timesheets, sortable: :first_submitted_at do |a|
+          a.input :status_changed_at, as: :readonly
+          a.input :status, collection: Timesheet.statuses
+          a.has_many :time_logs do |b|
+            b.input :description
+            b.input :hours, min: 0
+          end
+
+          if TimesheetPolicy.new(current_admin_user, a.object).destroy?
+            a.input :_destroy, as: :boolean, required: false, label: 'Remove'
+          end
         end
       end
     end
+
     f.actions
   end
 end

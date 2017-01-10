@@ -67,6 +67,7 @@ Rails.application.routes.draw do
       resources :project_ends, path: 'end'
       resources :project_extensions, path: 'extension'
       resource :project_rating, path: 'rating'
+      resource :project_overview, path: 'overview'
     end
 
     resources :projects do
@@ -125,6 +126,7 @@ Rails.application.routes.draw do
       resource :project_end, path: 'end', as: :end
       resource :project_extension, path: 'extension', as: :extension
       resource :rating
+      resource :overview, only: :show
     end
   end
 

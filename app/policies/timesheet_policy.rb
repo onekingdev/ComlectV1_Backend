@@ -8,6 +8,10 @@ class TimesheetPolicy < ApplicationPolicy
     owner? && %w(pending disputed).include?(record.status)
   end
 
+  def destroy?
+    super && (record.pending? || record.submitted? || record.disputed?)
+  end
+
   def business_owner?
     record.business == user.business
   end
