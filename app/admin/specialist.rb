@@ -5,9 +5,15 @@ ActiveAdmin.register Specialist do
   filter :user_email_cont, label: 'Email'
   filter :first_name_or_last_name_cont, as: :string, label: 'Name'
 
+  member_action :toggle_suspend, method: :post do
+    resource.deleted? ? resource.user.unfreeze! : resource.user.freeze!
+    sign_out resource.user if resource.deleted?
+    redirect_to collection_path, notice: resource.deleted? ? 'Suspended' : 'Reactivated'
+  end
+
   controller do
     def scoped_collection
-      super.includes :user # prevents N+1 queries to your database
+      super.includes :user
     end
   end
 
@@ -21,7 +27,11 @@ ActiveAdmin.register Specialist do
     column :state
     column :country
     column :phone
-    actions
+
+    actions do |specialist|
+      label = specialist.deleted? ? 'Reactivate' : 'Suspend'
+      link_to label, toggle_suspend_admin_specialist_path(specialist), method: :post
+    end
   end
 
   permit_params :first_name, :last_name, :city, :zipcode, :state, :country, :phone, :linkedin_link

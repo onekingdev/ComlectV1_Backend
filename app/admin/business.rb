@@ -6,11 +6,17 @@ ActiveAdmin.register Business do
 
   controller do
     def scoped_collection
-      super.includes :user # prevents N+1 queries to your database
+      super.includes :user
     end
   end
 
   actions :all, except: %i(new)
+
+  member_action :toggle_suspend, method: :post do
+    resource.deleted? ? resource.user.unfreeze! : resource.user.freeze!
+    sign_out resource.user if resource.deleted?
+    redirect_to collection_path, notice: resource.deleted? ? 'Suspended' : 'Reactivated'
+  end
 
   index do
     column :business_name, label: 'Business Name' do |business|
@@ -25,10 +31,15 @@ ActiveAdmin.register Business do
     column :employees
     column :website
     column :description
-    actions
+
+    actions do |business|
+      label = business.deleted? ? 'Reactivate' : 'Suspend'
+      link_to label, toggle_suspend_admin_business_path(business), method: :post
+    end
   end
 
   permit_params :business_name, :employees, :website, :description, :linkedin_link, industry_ids: []
+
   form do |f|
     inputs name: 'Business Info' do
       input :business_name
