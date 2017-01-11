@@ -3,11 +3,8 @@ class Business::FlagsController < ApplicationController
   before_action :find_project
 
   def create
-    @flag = Flag.new
-    @flag.reason = flag_params[:reason]
-    @flag.flagger = current_business
-    @flag.flagged_content = @project.questions.find(flag_params[:question_id])
-    @flag.save
+    question = @project.questions.find(flag_params[:question_id])
+    @flag = Flag::Create.(current_business, question, flag_params.slice(:reason))
     redirect_to business_project_path(@project)
   end
 

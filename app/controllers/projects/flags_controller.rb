@@ -3,11 +3,7 @@ class Projects::FlagsController < ApplicationController
   before_action :find_project
 
   def create
-    @flag = Flag.new
-    @flag.reason = flag_params[:reason]
-    @flag.flagger = current_specialist
-    @flag.flagged_content = find_flagged_content
-    @flag.save
+    @flag = Flag::Create.(current_specialist, find_flagged_content, flag_params.slice[:reason])
     redirect_to project_path(@project)
   end
 
