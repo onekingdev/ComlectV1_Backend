@@ -99,7 +99,7 @@ ActiveAdmin.register Charge do
 
   controller do
     def scoped_collection
-      Charge.joins(:project, :business, :specialist)
+      Charge.joins(:project, :business, :specialist).where.not(status: Charge.statuses[:processed])
     end
   end
 end

@@ -2,7 +2,7 @@
 ActiveAdmin.register Transaction do
   menu parent: 'Payments'
 
-  actions :all, except: %i(new create)
+  actions :index, :show
 
   decorate_with Admin::TransactionDecorator
 
@@ -34,9 +34,6 @@ ActiveAdmin.register Transaction do
     end
     column :business, sortable: 'businesses.business_name'
     column :specialist, sortable: 'specialists.first_name'
-    column :type do |transaction|
-      transaction.parent_transaction_id.present? ? 'Specialist Payment' : 'Business Charge'
-    end
     column :amount, sortable: :amount_in_cents, class: 'number' do |transaction|
       number_to_currency transaction.amount
     end
@@ -44,7 +41,6 @@ ActiveAdmin.register Transaction do
       status_tag transaction.status, transaction.status_css_class
     end
     column :processed_at
-    actions
   end
 
   show do
@@ -53,7 +49,9 @@ ActiveAdmin.register Transaction do
       row 'Stripe ID' do |t|
         link_to t.stripe_id, "https://dashboard.stripe.com/test/payments/#{t.stripe_id}", target: '_blank'
       end
-      row :type
+      row :type do |t|
+        t.parent_transaction_id.present? ? 'Specialist Payment' : 'Business Charge'
+      end
       row :amount do |t|
         number_to_currency t.amount
       end
