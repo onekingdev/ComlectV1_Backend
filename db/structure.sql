@@ -1467,13 +1467,13 @@ CREATE VIEW metrics_jobs_share AS
           WHERE (projects.created_at >= date_trunc('year'::text, now()))) total_fytd,
     ( SELECT count(*) AS cnt
            FROM projects) total_itd,
-    ( SELECT count(*) AS cnt
+    ( SELECT NULLIF(count(*), 0) AS cnt
            FROM base
           WHERE (base.created_at >= date_trunc('month'::text, now()))) mtd,
-    ( SELECT count(*) AS cnt
+    ( SELECT NULLIF(count(*), 0) AS cnt
            FROM base
           WHERE (base.created_at >= date_trunc('year'::text, now()))) fytd,
-    ( SELECT count(*) AS cnt
+    ( SELECT NULLIF(count(*), 0) AS cnt
            FROM base) itd;
 
 
@@ -1860,13 +1860,13 @@ CREATE VIEW metrics_projects_fixed_share AS
     ( SELECT count(*) AS cnt
            FROM projects
           WHERE ((projects.type)::text = 'one_off'::text)) total_itd,
-    ( SELECT count(*) AS cnt
+    ( SELECT NULLIF(count(*), 0) AS cnt
            FROM base
           WHERE (base.created_at >= date_trunc('month'::text, now()))) mtd,
-    ( SELECT count(*) AS cnt
+    ( SELECT NULLIF(count(*), 0) AS cnt
            FROM base
           WHERE (base.created_at >= date_trunc('year'::text, now()))) fytd,
-    ( SELECT count(*) AS cnt
+    ( SELECT NULLIF(count(*), 0) AS cnt
            FROM base) itd;
 
 
@@ -1977,13 +1977,13 @@ CREATE VIEW metrics_projects_hourly_share AS
     ( SELECT count(*) AS cnt
            FROM projects
           WHERE ((projects.type)::text = 'one_off'::text)) total_itd,
-    ( SELECT count(*) AS cnt
+    ( SELECT NULLIF(count(*), 0) AS cnt
            FROM base
           WHERE (base.created_at >= date_trunc('month'::text, now()))) mtd,
-    ( SELECT count(*) AS cnt
+    ( SELECT NULLIF(count(*), 0) AS cnt
            FROM base
           WHERE (base.created_at >= date_trunc('year'::text, now()))) fytd,
-    ( SELECT count(*) AS cnt
+    ( SELECT NULLIF(count(*), 0) AS cnt
            FROM base) itd;
 
 
@@ -2051,13 +2051,13 @@ CREATE VIEW metrics_projects_share AS
           WHERE (projects.created_at >= date_trunc('year'::text, now()))) total_fytd,
     ( SELECT count(*) AS cnt
            FROM projects) total_itd,
-    ( SELECT count(*) AS cnt
+    ( SELECT NULLIF(count(*), 0) AS cnt
            FROM base
           WHERE (base.created_at >= date_trunc('month'::text, now()))) mtd,
-    ( SELECT count(*) AS cnt
+    ( SELECT NULLIF(count(*), 0) AS cnt
            FROM base
           WHERE (base.created_at >= date_trunc('year'::text, now()))) fytd,
-    ( SELECT count(*) AS cnt
+    ( SELECT NULLIF(count(*), 0) AS cnt
            FROM base) itd;
 
 
@@ -4659,4 +4659,6 @@ INSERT INTO schema_migrations (version) VALUES ('20170110003441');
 INSERT INTO schema_migrations (version) VALUES ('20170110004317');
 
 INSERT INTO schema_migrations (version) VALUES ('20170111205323');
+
+INSERT INTO schema_migrations (version) VALUES ('20170111220646');
 
