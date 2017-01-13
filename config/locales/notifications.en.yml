@@ -1,4 +1,19 @@
 en:
+  notification_settings:
+    specialists:
+      marketing_emails: General marketing emails
+      got_rated: Notify me when I'm rated and reviewed
+      not_hired: Notify me when I am not selected for a project
+      project_extension_requested: Notify me when my project is extended
+      project_end_requested: Notify me when my project ends
+      got_message: Notify me when I receive a message
+    businesses:
+      marketing_emails: General marketing emails
+      got_rated: Notify me when I'm rated and reviewed
+      project_extended: Notify me when my project is extended
+      project_ended: Notify me when my project ends
+      got_message: Notify me when I receive a message
+
   notification_messages:
     got_hired: Congrats! You've been hired!
     not_hired: You were not selected for the project "%{project_title}"

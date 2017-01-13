@@ -27,7 +27,8 @@ class Specialist < ActiveRecord::Base
       got_rated: true,
       not_hired: true,
       project_extension_requested: true,
-      project_end_requested: true
+      project_end_requested: true,
+      got_message: true
     }
   end
 

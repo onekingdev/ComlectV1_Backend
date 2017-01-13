@@ -119,16 +119,3 @@ en:
         %{sender_name} thought you would be interested in this new %{project_job} on Complect.
 
         Visit our website to apply, and find additional projects and full time roles like these!
-
-  notification_settings:
-    specialists:
-      marketing_emails: General marketing emails
-      got_rated: Notify me when I'm rated and reviewed
-      not_hired: Notify me when I am not selected for a project
-      project_extension_requested: Notify me when my project is extended
-      project_end_requested: Notify me when my project ends
-    businesses:
-      marketing_emails: General marketing emails
-      got_rated: Notify me when I'm rated and reviewed
-      project_extended: Notify me when my project is extended
-      project_ended: Notify me when my project ends

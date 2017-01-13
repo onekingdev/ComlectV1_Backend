@@ -57,7 +57,9 @@ class Notification::Deliver < Draper::Decorator
                        end
       dispatcher = Dispatcher.new(who.user)
       dispatcher.deliver_notification! key, path, project, clear_manually: true
-      dispatcher.deliver_email! ProjectMessageMailer, :notification, message.id
+      if Notification.enabled?(who, :got_message)
+        dispatcher.deliver_email! ProjectMessageMailer, :notification, message.id
+      end
     end
 
     def project_ended!(project)

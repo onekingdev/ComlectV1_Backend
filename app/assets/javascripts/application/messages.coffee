@@ -1,5 +1,6 @@
 $.onContentReady ($parent, data) ->
   $messages = if $parent.hasClass('message-thread') then $parent.find('.messages') else $parent.find('.message-thread .messages')
+  return if $messages.data('initMessagePolling')
 
   if $messages.length > 0
     $messages = $messages.add $(window)
@@ -22,6 +23,7 @@ $.onContentReady ($parent, data) ->
               $messages.append new_data
               $messages.animate({ scrollTop: $messages.prop("scrollHeight")}, 500)
       , 5000
+      $messages.data 'initMessagePolling', true
 
     return if $messages.length == 0 || $messages.data('init-scrolled')
 
@@ -30,7 +32,7 @@ $.onContentReady ($parent, data) ->
 
     $messages
       .scrollTop $messages[0].scrollHeight
-      .data 'init-scrolled'
+      .data 'init-scrolled', true
 
     return unless $messages.data('url')?
 

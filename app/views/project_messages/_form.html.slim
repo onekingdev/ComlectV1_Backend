@@ -1,0 +1,29 @@
+- url = sender.is_a?(Business) ? business_project_messages_path : project_messages_path
+= simple_form_for message, remote: true, authenticity_token: true, url: url, :html => { class: 'clearfix' } do |f|
+  .col-xs-8.col-sm-12= f.input :message, as: :text, label: false, input_html: { class: 'di-b', rows: 4 }
+
+  .col-xs-4.col-sm-12
+    .message-form
+      .row
+        .col-sm-8.hidden-xs.text-right.p-r-0
+          .send_on_enter
+            = check_box_tag 'send_on_enter', true, true
+            label.fw-regular for="send_on_enter"
+              span Press Enter To Send
+        .col-xs-12.col-sm-4
+          a.btn.btn-default.btn-md.upload-button
+            i.icon-paper-clip
+          = f.submit 'Send', class: 'btn btn-primary btn-md btn-block', data: { disable_with: 'Sending...' }
+
+javascript:
+  function adjustMessagesHeight() {
+    if (window.innerWidth > 766) {
+      var computedHeight = window.innerHeight - $('.business-profile')[0].offsetTop - $('#new_message').height() - 95;
+      $('.messages').css({height: computedHeight});
+    } else {
+      $('.messages').css({ height: 'auto' });
+    }
+  }
+
+  $(document).ready(adjustMessagesHeight);
+  $(window).resize(adjustMessagesHeight);
