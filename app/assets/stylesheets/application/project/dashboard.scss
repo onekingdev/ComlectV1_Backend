@@ -1,3 +1,20 @@
+.documents-table {
+  th {
+    font-weight: $regular-weight;
+    text-transform: uppercase;
+  }
+
+  thead > tr > th {
+    border-bottom: none;
+  }
+}
+
+#project-documents {
+  @media (max-width: $screen-xs-max) {
+    padding: 0px 20px;
+  }
+}
+
 .project-overview {
   @media (max-width: $screen-xs-max) {
     padding: 0px 20px;

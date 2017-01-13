@@ -21,8 +21,11 @@ class Metrics::Financials
   def to_csv
     CSV.generate do |csv|
       csv << %w(metric mtd fytd itd all_periods)
-      rows = csv_from_hash(hash: actual, output_cols: 4).each_slice(5)
-      rows.each { |row| csv << row }
+      [actual, forecast].each do |set|
+        csv_from_hash(hash: set).each_slice(4).each do |row|
+          csv << row + [nil]
+        end
+      end
       add_postings_csv csv
     end
   end
@@ -30,24 +33,20 @@ class Metrics::Financials
   private
 
   def add_postings_csv(csv)
-    postings = Metrics::Financials::Postings.new.postings
-    rows = csv_from_hash(hash: postings, value_cols: 1).each_slice(2)
-    rows.each { |row| csv << ["Postings #{row[0]}", nil, nil, nil, row[1]] }
+    activity = Metrics::Financials::Postings.new.postings
+    csv_from_hash(hash: activity, value_cols: 2).each_slice(3).each do |row|
+      csv << [row[0], nil, nil, nil, row[1]]
+    end
   end
 
-  def csv_from_hash(hash:, prefix: '', value_cols: 3, output_cols: value_cols)
+  def csv_from_hash(hash:, prefix: '', value_cols: 3)
     hash.map do |label, row|
       label_with_prefix = "#{prefix.present? ? "#{prefix} / " : ''}#{label}"
       next if row.all?(&:nil?)
-      fill_cols = [nil] * (output_cols - value_cols)
       if row.size == value_cols
-        [label_with_prefix, *row + fill_cols]
+        [label_with_prefix, *row]
       else
-        nested = csv_from_hash(hash: row[-1],
-                               prefix: label_with_prefix,
-                               value_cols: value_cols,
-                               output_cols: output_cols)
-        [label_with_prefix, row[0..value_cols - 1] + fill_cols, nested]
+        csv_from_hash hash: row[-1], prefix: label_with_prefix, value_cols: value_cols
       end
     end.flatten
   end
@@ -62,7 +61,7 @@ class Metrics::Financials
     when :percentage
       results.map { |r| "#{r.to_f.round(2)}%" }
     when :currency
-      results.map { |r| r.nil? ? number_to_currency(0) : number_to_currency(r) }
+      results.map(&method(:number_to_currency))
     when :days
       results.map { |r| pluralize(r.to_f.round, 'day', 'days') }
     else
