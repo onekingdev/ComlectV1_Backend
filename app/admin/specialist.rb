@@ -23,10 +23,13 @@ ActiveAdmin.register Specialist do
     end
     column :first_name
     column :city
-    column :zipcode
     column :state
     column :country
     column :phone
+    column :status do |specialist|
+      label, css_class = specialist.deleted? ? %w(Suspended error) : %w(Active yes)
+      status_tag label, class: css_class
+    end
 
     actions do |specialist|
       label = specialist.deleted? ? 'Reactivate' : 'Suspend'

@@ -30,7 +30,10 @@ ActiveAdmin.register Business do
     end
     column :employees
     column :website
-    column :description
+    column :status do |business|
+      label, css_class = business.deleted? ? %w(Suspended error) : %w(Active yes)
+      status_tag label, class: css_class
+    end
 
     actions do |business|
       label = business.deleted? ? 'Reactivate' : 'Suspend'
