@@ -8,7 +8,7 @@ class ApplicationPolicy
   end
 
   def index?
-    false || user.is_a?(AdminUser)
+    user.is_a?(AdminUser)
   end
 
   def show?
@@ -24,7 +24,7 @@ class ApplicationPolicy
   end
 
   def update?
-    false || user.is_a?(AdminUser)
+    user.is_a?(AdminUser)
   end
 
   def edit?
@@ -32,7 +32,7 @@ class ApplicationPolicy
   end
 
   def destroy?
-    false || user.is_a?(AdminUser)
+    user.is_a?(AdminUser)
   end
 
   def scope

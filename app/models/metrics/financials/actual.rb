@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 module Metrics::Financials::Actual
   # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/AbcSize
   def actual
     return {} if invalid?
     @metrics = {
@@ -14,13 +15,14 @@ module Metrics::Financials::Actual
         'Percent Projects' => metric('actual_project_share', :percentage)
       }],
       'Forecast' => [*metric('forecasted_completed'), {
-        'Value' => metric('forecasted_value', :currency),
-        'Revenue' => [*metric('forecasted_revenue', :currency), {
-          'Average per Job' => metric('forecasted_revenue_per_job', :currency),
-          'Average per Project' => metric('forecasted_revenue_per_project', :currency)
+        # Client only wants ITD column:
+        'Value' => [nil, nil, metric('forecasted_value', :currency)[-1]],
+        'Revenue' => [nil, nil, metric('forecasted_revenue', :currency)[-1], {
+          'Average per Job' => [nil, nil, metric('forecasted_revenue_per_job', :currency)[-1]],
+          'Average per Project' => [nil, nil, metric('forecasted_revenue_per_project', :currency)[-1]]
         }],
-        'Percent Jobs' => metric('forecasted_job_share', :percentage),
-        'Percent Projects' => metric('forecasted_project_share', :percentage)
+        'Percent Jobs' => [nil, nil, metric('forecasted_job_share', :percentage)[-1]],
+        'Percent Projects' => [nil, nil, metric('forecasted_project_share', :percentage)[-1]]
       }]
     }
   end

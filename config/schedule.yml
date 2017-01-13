@@ -19,5 +19,5 @@ expire_projects:
   class: "ExpireProjectsJob"
 
 transfer_foreign_currency:
-  cron: "0 * * * *"
+  cron: "0 0 * * *"
   class: "TransferForeignCurrencyJob"
