@@ -22,7 +22,7 @@ ActiveAdmin.register Project do
 
   controller do
     def scoped_collection
-      super.joins(:business, :specialist).includes :ratings, :issues, :business, :specialist
+      super.includes(:ratings, :issues, :business, :specialist)
     end
   end
 
