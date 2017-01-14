@@ -7,21 +7,33 @@ class Notification::Deliver < Draper::Decorator
       Rails.application.routes.url_helpers
     end
 
+    def path_and_url(name, *args)
+      [
+        r.public_send("#{name}_path", *args),
+        r.public_send("#{name}_url", *args, host: ENV.fetch('DEFAULT_URL_HOST'))
+      ]
+    end
+
     def got_hired!(application)
-      dispatcher = Dispatcher.new(application.specialist.user)
-      dispatcher.deliver_notification! :got_hired, r.project_dashboard_path(application.project), application.project
-      dispatcher.deliver_email! HireMailer, :hired, application
+      user = application.specialist.user
+      action_path, action_url = path_and_url :project_dashboard, application.project
+      dispatcher = Dispatcher.new(user, :got_hired, action_path, application.project)
+      dispatcher.deliver_notification!
+      HireMailer.deliver_later :hired, application
+      NotificationMailer.deliver_later :notification, user.email, dispatcher.message, 'Project Dashboard', action_url
     end
 
     def not_hired!(application)
       return unless Notification.enabled? application.specialist, :not_hired
-      dispatcher = Dispatcher.new(application.specialist.user)
-      dispatcher.deliver_notification! :not_hired,
-                                       r.projects_path,
-                                       application.project,
-                                       clear_manually: true,
-                                       t: { project_title: application.project.title }
-      dispatcher.deliver_email! HireMailer, :not_hired, application
+      dispatcher = Dispatcher.new(
+        application.specialist.user,
+        :not_hired, r.projects_path,
+        application.project,
+        clear_manually: true,
+        t: { project_title: application.project.title }
+      )
+      dispatcher.deliver_notification!
+      HireMailer.deliver_later :not_hired, application
     end
 
     def got_rated!(rating)
@@ -31,21 +43,26 @@ class Notification::Deliver < Draper::Decorator
     def specialist_got_rated!(rating)
       specialist = rating.project.specialist
       return unless Notification.enabled?(specialist, :got_rated)
-      dispatcher = Dispatcher.new(specialist.user)
-      dispatcher.deliver_notification! :specialist_got_rated,
-                                       r.specialists_dashboard_path(anchor: 'ratings-reviews'),
-                                       rating
-      dispatcher.deliver_email! RatingMailer, :notification, rating.id
+      dispatcher = Dispatcher.new(
+        specialist.user, :specialist_got_rated,
+        r.specialists_dashboard_path(anchor: 'ratings-reviews'),
+        rating
+      )
+      dispatcher.deliver_notification!
+      RatingMailer.deliver_later :notification, rating.id
     end
 
     def business_got_rated!(rating)
       business = rating.project.business
       return unless Notification.enabled?(business, :got_rated)
-      dispatcher = Dispatcher.new(business.user)
-      dispatcher.deliver_notification! :business_got_rated,
-                                       r.business_dashboard_path(anchor: 'ratings-reviews'),
-                                       rating
-      dispatcher.deliver_email! RatingMailer, :notification, rating.id
+      dispatcher = Dispatcher.new(
+        business.user,
+        :business_got_rated,
+        r.business_dashboard_path(anchor: 'ratings-reviews'),
+        rating
+      )
+      dispatcher.deliver_notification!
+      RatingMailer.deliver_later :notification, rating.id
     end
 
     def got_project_message!(message)
@@ -55,11 +72,9 @@ class Notification::Deliver < Draper::Decorator
                        else
                          [:specialist_got_project_message, r.project_dashboard_path(project), project.specialist]
                        end
-      dispatcher = Dispatcher.new(who.user)
-      dispatcher.deliver_notification! key, path, project, clear_manually: true
-      if Notification.enabled?(who, :got_message)
-        dispatcher.deliver_email! ProjectMessageMailer, :notification, message.id
-      end
+      dispatcher = Dispatcher.new(who.user, key, path, project, clear_manually: true)
+      dispatcher.deliver_notification!
+      ProjectMessageMailer.deliver_later(:notification, message.id) if Notification.enabled?(who, :got_message)
     end
 
     def project_ended!(project)
@@ -69,42 +84,51 @@ class Notification::Deliver < Draper::Decorator
 
     def business_project_ended!(project)
       return unless Notification.enabled?(project.business, :project_ended)
-      business_dispatcher = Dispatcher.new(project.business.user)
-      business_dispatcher.deliver_notification! :business_project_ended,
-                                                r.business_project_dashboard_path(project),
-                                                project
-      business_dispatcher.deliver_email! ProjectEndedMailer, :business_message, project.id
+      business_dispatcher = Dispatcher.new(
+        project.business.user,
+        :business_project_ended,
+        r.business_project_dashboard_path(project),
+        project
+      )
+      business_dispatcher.deliver_notification!
+      ProjectEndedMailer.deliver_later :business_message, project.id
     end
 
     def specialist_project_ended!(project)
-      specialist_dispatcher = Dispatcher.new(project.specialist.user)
-      specialist_dispatcher.deliver_notification! :specialist_project_ended,
-                                                  r.project_dashboard_path(project),
-                                                  project,
-                                                  t: { project_title: project.title }
-      specialist_dispatcher.deliver_email! ProjectEndedMailer, :specialist_message, project.id
+      specialist_dispatcher = Dispatcher.new(
+        project.specialist.user,
+        :specialist_project_ended,
+        r.project_dashboard_path(project),
+        project,
+        t: { project_title: project.title }
+      )
+      specialist_dispatcher.deliver_notification!
+      ProjectEndedMailer.deliver_later :specialist_message, project.id
     end
   end
 
   class Dispatcher
-    attr_reader :user
+    attr_reader :user, :key, :path, :associated, :clear_manually, :t, :message
 
-    def initialize(user)
+    # rubocop:disable Metrics/ParameterLists
+    def initialize(user, key, path, associated, clear_manually: false, t: {})
       @user = user
+      @key = key
+      @path = path
+      @associated = associated
+      @clear_manually = clear_manually
+      @t = t
+      @message = I18n.t(key, t.merge(scope: 'notification_messages'))
     end
+    # rubocop:enable Metrics/ParameterLists
 
-    def deliver_notification!(key, path, associated, clear_manually: false, t: {})
-      message = I18n.t(key, t.merge(scope: 'notification_messages'))
+    def deliver_notification!
       user.notifications.fetch(key, associated).delete_all # Re-create existing notification if necessary
       user.notifications.create! key: key,
                                  message: message,
                                  path: path,
                                  associated: associated,
                                  clear_manually: clear_manually
-    end
-
-    def deliver_email!(mailer, method, *args)
-      mailer.deliver_later method, *args
     end
   end
 end

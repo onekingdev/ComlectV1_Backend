@@ -2,8 +2,8 @@ table.table.table-striped.documents-table
   thead
     tr
       th= link_to "Name <small><small>#{sort_by_arrow('Name')}</small></small>".html_safe, sort_by_url('Name'), remote: true
-      th.added-by= link_to "Added By <small><small>#{sort_by_arrow('Added By')}</small></small>".html_safe, sort_by_url('Added By'), remote: true
-      th= link_to "Date Added <small><small>#{sort_by_arrow('Date Added', default: 'desc')}</small></small>".html_safe, sort_by_url('Date Added'), remote: true
+      th.added-by.hidden-xs= link_to "Added By <small><small>#{sort_by_arrow('Added By')}</small></small>".html_safe, sort_by_url('Added By'), remote: true
+      th.hidden-xs= link_to "Date Added <small><small>#{sort_by_arrow('Date Added', default: 'desc')}</small></small>".html_safe, sort_by_url('Date Added'), remote: true
   tbody
     - @show_docs.each do |doc_mess|
       - if doc_mess.file
@@ -11,15 +11,15 @@ table.table.table-striped.documents-table
           td
             .file= link_to doc_mess.file_url, target: '_blank' do
               span= doc_mess.file.metadata['filename']
-          td
+          td.hidden-xs
             = doc_mess.is_a?(Message) ? doc_mess.sender.to_s : doc_mess.owner.to_s
-          td
+          td.hidden-xs
             = doc_mess.created_at.in_time_zone(@me.time_zone).strftime('%b %-d, %Y %I:%M %p')
-          td
+          td.text-right
             - if (doc_mess.is_a?(Message) && doc_mess.sender == @me) || (doc_mess.is_a?(Document) && doc_mess.owner == @me)
               = form_tag project_document_path(@project.id, doc_mess.id), method: :delete do
                 = hidden_field_tag :doc_type, doc_mess.class.to_s
-                = submit_tag 'Delete'
+                = submit_tag 'Delete', class: "btn btn-sm btn-default p-x-2"
 
 .dot-pagination.text-center.m-t-2.clearfix
   - if @docs_and_messages.size > 10
@@ -29,7 +29,7 @@ table.table.table-striped.documents-table
 - if @project.active?
   = simple_form_for Document.new, authenticity_token: true, url: project_documents_path do |f|
     .pull-right.message-form
-    label.custom-fiel-field.js-custom-file-field.m-b-0
+    label.custom-fiel-field.js-custom-file-field.m-b-0.m-t-1
       = f.hidden_field :file, value: f.object.file_data? ? f.object.file_data.to_json: nil
       = f.file_field :file
-    = f.submit 'Send File', class: 'btn btn-primary btn-md p-x-3 doc-send', data: { disable_with: 'Sending...' }
+    = f.submit 'Send File', class: 'btn btn-primary btn-md p-x-3 doc-send m-b-1', data: { disable_with: 'Sending...' }
