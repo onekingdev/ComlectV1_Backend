@@ -15,7 +15,7 @@ ActiveAdmin.register Project do
 
   scope :all
   scope :escalated
-  scope :draft_and_in_review
+  scope 'Draft', :draft_and_in_review
   scope :pending
   scope :active
   scope :complete
@@ -148,17 +148,24 @@ ActiveAdmin.register Project do
           end
         end
       end
-      row :timesheets do |project|
-        if project.issues.open.where(admin_user: current_admin_user).any?
-          table_for project.timesheets.order(first_submitted_at: :asc) do
-            column :status
-            column :created_at
-            column :time_logs do |timesheet|
-              table_for timesheet.time_logs do
-                column :description
-                column :hours
-              end
-            end
+    end
+
+    div class: 'panel' do
+      h3 'Timesheets'
+      div class: 'panel_contents' do
+        table_for Admin::TimesheetDecorator.decorate_collection(project.timesheets.order(first_submitted_at: :asc)) do
+          column :status do |timesheet|
+            status_tag timesheet.status.capitalize, class: timesheet.status_css
+          end
+          column 'Created' do |timesheet|
+            link_to l(timesheet.created_at, format: :long), [:admin, timesheet]
+          end
+          column 'Submitted' do |timesheet|
+            l timesheet.first_submitted_at, format: :long
+          end
+          column :hours, class: 'number', &:total_hours
+          column :total, class: 'number' do |timesheet|
+            number_to_currency timesheet.total_amount
           end
         end
       end
