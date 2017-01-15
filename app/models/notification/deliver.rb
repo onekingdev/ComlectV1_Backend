@@ -24,16 +24,19 @@ class Notification::Deliver < Draper::Decorator
     end
 
     def not_hired!(application)
-      return unless Notification.enabled? application.specialist, :not_hired
+      user = application.specialist.user
+      action_path, action_url = path_and_url :projects
       dispatcher = Dispatcher.new(
-        application.specialist.user,
-        :not_hired, r.projects_path,
+        user,
+        :not_hired,
+        action_path,
         application.project,
         clear_manually: true,
         t: { project_title: application.project.title }
       )
       dispatcher.deliver_notification!
-      HireMailer.deliver_later :not_hired, application
+      return unless Notification.enabled? application.specialist, :not_hired
+      NotificationMailer.deliver_later(:notification, user.email, dispatcher.message, 'Browse Projects', action_url)
     end
 
     def got_rated!(rating)

@@ -4,17 +4,6 @@ class HireMailer < ApplicationMailer
     application.project.full_time? ? hired_for_job(application) : hired_for_project(application)
   end
 
-  def not_hired(application)
-    @project = application.project
-    mail to: application.specialist.user.email,
-         template_id: ENV.fetch('POSTMARK_TEMPLATE_ID'),
-         template_model: {
-           subject: "You didn't get the job",
-           message_html: render('not_hired.html'),
-           message_text: render('not_hired.text')
-         }
-  end
-
   private
 
   def hired_for_job(application)
