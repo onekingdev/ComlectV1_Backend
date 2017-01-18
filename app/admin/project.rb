@@ -173,7 +173,9 @@ ActiveAdmin.register Project do
   end
 
   permit_params :title,
+                :location_type,
                 :location,
+                :lat, :lng,
                 :description,
                 :key_deliverables,
                 :starts_on,
@@ -194,7 +196,12 @@ ActiveAdmin.register Project do
   form do |f|
     f.inputs do
       f.input :title
-      f.input :location
+      f.input :lat, as: :hidden
+      f.input :lng, as: :hidden
+      f.input :location_type, collection: Project::LOCATIONS
+      f.input :location, input_html: {
+        class: 'js-place-autocomplete', data: { lat: '#project_lat', lng: '#project_lng', self: 'full' }
+      }
       f.input :type, as: :readonly
       f.input :industries
       f.input :jurisdictions
