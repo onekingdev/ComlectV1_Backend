@@ -505,19 +505,42 @@ CREATE VIEW financials_actual AS
          SELECT projects.completed_at
            FROM projects
           WHERE (projects.completed_at IS NOT NULL)
-        ), all_value AS (
+        ), project_value AS (
          SELECT projects.completed_at,
             projects.type,
             charges.project_id,
             ((charges.amount_in_cents)::numeric / 100.0) AS value,
-            (((charges.fee_in_cents)::numeric / 100.0) * (
-                CASE
-                    WHEN ((projects.type)::text = 'one_off'::text) THEN 2
-                    ELSE 1
-                END)::numeric) AS revenue,
+            (((charges.fee_in_cents)::numeric / 100.0) * (2)::numeric) AS revenue,
             ((charges.total_with_fee_in_cents)::numeric / 100.0) AS total
            FROM (charges
              JOIN projects ON ((projects.id = charges.project_id)))
+          WHERE ((projects.type)::text = 'one_off'::text)
+        ), job_value AS (
+         SELECT projects.completed_at,
+            projects.type,
+            charges.project_id,
+            projects.annual_salary AS value,
+            ((charges.fee_in_cents)::numeric / 100.0) AS revenue,
+            ((charges.total_with_fee_in_cents)::numeric / 100.0) AS total
+           FROM (charges
+             JOIN projects ON ((projects.id = charges.project_id)))
+          WHERE ((projects.type)::text = 'full_time'::text)
+        ), all_value AS (
+         SELECT project_value.completed_at,
+            project_value.type,
+            project_value.project_id,
+            project_value.value,
+            project_value.revenue,
+            project_value.total
+           FROM project_value
+        UNION
+         SELECT job_value.completed_at,
+            job_value.type,
+            job_value.project_id,
+            job_value.value,
+            job_value.revenue,
+            job_value.total
+           FROM job_value
         ), job_revenue AS (
          SELECT all_value.project_id,
             all_value.completed_at,
@@ -650,6 +673,24 @@ CREATE VIEW financials_forecasted AS
          SELECT projects.created_at
            FROM projects
           WHERE ((projects.status)::text = 'published'::text)
+        ), project_value AS (
+         SELECT projects.created_at,
+            projects.type,
+            charges.project_id,
+            ((charges.amount_in_cents)::double precision / (100)::double precision) AS value,
+            (((charges.fee_in_cents)::numeric / 100.0) * (2)::numeric) AS revenue
+           FROM (charges
+             JOIN projects ON ((projects.id = charges.project_id)))
+          WHERE (((projects.type)::text = 'one_off'::text) AND ((charges.status)::text = 'estimated'::text))
+        ), job_value AS (
+         SELECT projects.created_at,
+            projects.type,
+            charges.project_id,
+            projects.annual_salary AS value,
+            ((charges.fee_in_cents)::numeric / 100.0) AS revenue
+           FROM (charges
+             JOIN projects ON ((projects.id = charges.project_id)))
+          WHERE (((projects.type)::text = 'full_time'::text) AND ((charges.status)::text = 'estimated'::text))
         ), all_value AS (
          SELECT projects.created_at,
             projects.type,
@@ -1320,6 +1361,20 @@ CREATE VIEW metrics_job_completions AS
             projects.fee_type
            FROM projects
           WHERE ((projects.type)::text = 'full_time'::text)
+        ), all_completed AS (
+         SELECT projects.completed_at,
+            projects.pricing_type,
+            projects.payment_schedule,
+            projects.published_at
+           FROM projects
+          WHERE (projects.completed_at IS NOT NULL)
+        ), published AS (
+         SELECT full_time.completed_at,
+            full_time.published_at,
+            full_time.pricing_type,
+            full_time.fee_type
+           FROM full_time
+          WHERE (full_time.published_at IS NOT NULL)
         ), completed AS (
          SELECT full_time.completed_at,
             full_time.published_at,
@@ -1353,34 +1408,48 @@ CREATE VIEW metrics_job_completions AS
            FROM completed) AS itd
 UNION
  SELECT 'completed_jobs_share'::character varying AS metric,
-    (((mtd.cnt)::double precision / (total.cnt)::double precision) * (100)::double precision) AS mtd,
-    (((fytd.cnt)::double precision / (total.cnt)::double precision) * (100)::double precision) AS fytd,
-    (((itd.cnt)::double precision / (total.cnt)::double precision) * (100)::double precision) AS itd
-   FROM ( SELECT count(*) AS cnt
+    (((mtd.cnt)::double precision / (total_mtd.cnt)::double precision) * (100)::double precision) AS mtd,
+    (((fytd.cnt)::double precision / (total_fytd.cnt)::double precision) * (100)::double precision) AS fytd,
+    (((itd.cnt)::double precision / (total_itd.cnt)::double precision) * (100)::double precision) AS itd
+   FROM ( SELECT NULLIF(count(*), 0) AS cnt
            FROM full_time) total,
-    ( SELECT count(*) AS cnt
+    ( SELECT NULLIF(count(*), 0) AS cnt
            FROM completed
           WHERE (completed.completed_at >= date_trunc('month'::text, now()))) mtd,
-    ( SELECT count(*) AS cnt
+    ( SELECT NULLIF(count(*), 0) AS cnt
+           FROM published
+          WHERE (published.published_at >= date_trunc('month'::text, now()))) total_mtd,
+    ( SELECT NULLIF(count(*), 0) AS cnt
            FROM completed
           WHERE (completed.completed_at >= date_trunc('year'::text, now()))) fytd,
-    ( SELECT count(*) AS cnt
-           FROM completed) itd
+    ( SELECT NULLIF(count(*), 0) AS cnt
+           FROM published
+          WHERE (published.published_at >= date_trunc('year'::text, now()))) total_fytd,
+    ( SELECT NULLIF(count(*), 0) AS cnt
+           FROM completed) itd,
+    ( SELECT NULLIF(count(*), 0) AS cnt
+           FROM published) total_itd
 UNION
  SELECT 'completed_jobs_all_share'::character varying AS metric,
-    (((mtd.cnt)::double precision / (total.cnt)::double precision) * (100)::double precision) AS mtd,
-    (((fytd.cnt)::double precision / (total.cnt)::double precision) * (100)::double precision) AS fytd,
-    (((itd.cnt)::double precision / (total.cnt)::double precision) * (100)::double precision) AS itd
-   FROM ( SELECT count(*) AS cnt
-           FROM projects) total,
-    ( SELECT count(*) AS cnt
+    (((mtd.cnt)::double precision / (total_mtd.cnt)::double precision) * (100)::double precision) AS mtd,
+    (((fytd.cnt)::double precision / (total_fytd.cnt)::double precision) * (100)::double precision) AS fytd,
+    (((itd.cnt)::double precision / (total_itd.cnt)::double precision) * (100)::double precision) AS itd
+   FROM ( SELECT NULLIF(count(*), 0) AS cnt
            FROM completed
           WHERE (completed.completed_at >= date_trunc('month'::text, now()))) mtd,
-    ( SELECT count(*) AS cnt
+    ( SELECT NULLIF(count(*), 0) AS cnt
+           FROM all_completed
+          WHERE (all_completed.completed_at >= date_trunc('month'::text, now()))) total_mtd,
+    ( SELECT NULLIF(count(*), 0) AS cnt
            FROM completed
           WHERE (completed.completed_at >= date_trunc('year'::text, now()))) fytd,
-    ( SELECT count(*) AS cnt
-           FROM completed) itd
+    ( SELECT NULLIF(count(*), 0) AS cnt
+           FROM all_completed
+          WHERE (all_completed.completed_at >= date_trunc('year'::text, now()))) total_fytd,
+    ( SELECT NULLIF(count(*), 0) AS cnt
+           FROM completed) itd,
+    ( SELECT NULLIF(count(*), 0) AS cnt
+           FROM all_completed) total_itd
 UNION
  SELECT 'completed_jobs_upfront_pay'::character varying AS metric,
     ( SELECT count(*) AS count
@@ -1528,67 +1597,92 @@ CREATE VIEW metrics_project_completions AS
  WITH one_off AS (
          SELECT projects.completed_at,
             projects.pricing_type,
-            projects.payment_schedule
+            projects.payment_schedule,
+            projects.published_at
            FROM projects
           WHERE ((projects.type)::text = 'one_off'::text)
+        ), all_completed AS (
+         SELECT projects.completed_at,
+            projects.pricing_type,
+            projects.payment_schedule,
+            projects.published_at
+           FROM projects
+          WHERE (projects.completed_at IS NOT NULL)
+        ), published AS (
+         SELECT one_off.completed_at,
+            one_off.pricing_type,
+            one_off.payment_schedule,
+            one_off.published_at
+           FROM one_off
+          WHERE (one_off.published_at IS NOT NULL)
         ), completed AS (
          SELECT one_off.completed_at,
             one_off.pricing_type,
-            one_off.payment_schedule
+            one_off.payment_schedule,
+            one_off.published_at
            FROM one_off
           WHERE (one_off.completed_at IS NOT NULL)
         ), hourly AS (
          SELECT completed.completed_at,
             completed.pricing_type,
-            completed.payment_schedule
+            completed.payment_schedule,
+            completed.published_at
            FROM completed
           WHERE ((completed.pricing_type)::text = 'hourly'::text)
         ), fixed AS (
          SELECT completed.completed_at,
             completed.pricing_type,
-            completed.payment_schedule
+            completed.payment_schedule,
+            completed.published_at
            FROM completed
           WHERE ((completed.pricing_type)::text = 'fixed'::text)
         ), hourly_upon_completion AS (
          SELECT hourly.completed_at,
             hourly.pricing_type,
-            hourly.payment_schedule
+            hourly.payment_schedule,
+            hourly.published_at
            FROM hourly
           WHERE ((hourly.payment_schedule)::text = 'Upon Completion'::text)
         ), hourly_bi_weekly AS (
          SELECT hourly.completed_at,
             hourly.pricing_type,
-            hourly.payment_schedule
+            hourly.payment_schedule,
+            hourly.published_at
            FROM hourly
           WHERE ((hourly.payment_schedule)::text = 'Bi-Weekly'::text)
         ), hourly_monthly AS (
          SELECT hourly.completed_at,
             hourly.pricing_type,
-            hourly.payment_schedule
+            hourly.payment_schedule,
+            hourly.published_at
            FROM hourly
           WHERE ((hourly.payment_schedule)::text = 'Monthly'::text)
         ), fixed_upon_completion AS (
          SELECT fixed.completed_at,
             fixed.pricing_type,
-            fixed.payment_schedule
+            fixed.payment_schedule,
+            fixed.published_at
            FROM fixed
           WHERE ((fixed.payment_schedule)::text = 'Upon Completion'::text)
         ), fixed_bi_weekly AS (
          SELECT fixed.completed_at,
             fixed.pricing_type,
-            fixed.payment_schedule
+            fixed.payment_schedule,
+            fixed.published_at
            FROM fixed
           WHERE ((fixed.payment_schedule)::text = 'Bi-Weekly'::text)
         ), fixed_monthly AS (
          SELECT fixed.completed_at,
             fixed.pricing_type,
-            fixed.payment_schedule
+            fixed.payment_schedule,
+            fixed.published_at
            FROM fixed
           WHERE ((fixed.payment_schedule)::text = 'Monthly'::text)
         ), fixed_50_50 AS (
          SELECT fixed.completed_at,
             fixed.pricing_type,
-            fixed.payment_schedule
+            fixed.payment_schedule,
+            fixed.published_at
            FROM fixed
           WHERE ((fixed.payment_schedule)::text = '50/50'::text)
         )
@@ -1603,64 +1697,90 @@ CREATE VIEW metrics_project_completions AS
            FROM completed) AS itd
 UNION
  SELECT 'completed_projects_share'::character varying AS metric,
-    (((mtd.cnt)::double precision / (total.cnt)::double precision) * (100)::double precision) AS mtd,
-    (((fytd.cnt)::double precision / (total.cnt)::double precision) * (100)::double precision) AS fytd,
-    (((itd.cnt)::double precision / (total.cnt)::double precision) * (100)::double precision) AS itd
+    (((mtd.cnt)::double precision / (total_mtd.cnt)::double precision) * (100)::double precision) AS mtd,
+    (((fytd.cnt)::double precision / (total_fytd.cnt)::double precision) * (100)::double precision) AS fytd,
+    (((itd.cnt)::double precision / (total_itd.cnt)::double precision) * (100)::double precision) AS itd
    FROM ( SELECT NULLIF(count(*), 0) AS cnt
            FROM one_off) total,
     ( SELECT NULLIF(count(*), 0) AS cnt
            FROM completed
           WHERE (completed.completed_at >= date_trunc('month'::text, now()))) mtd,
     ( SELECT NULLIF(count(*), 0) AS cnt
+           FROM published
+          WHERE (published.published_at >= date_trunc('month'::text, now()))) total_mtd,
+    ( SELECT NULLIF(count(*), 0) AS cnt
            FROM completed
           WHERE (completed.completed_at >= date_trunc('year'::text, now()))) fytd,
     ( SELECT NULLIF(count(*), 0) AS cnt
-           FROM completed) itd
+           FROM published
+          WHERE (published.published_at >= date_trunc('year'::text, now()))) total_fytd,
+    ( SELECT NULLIF(count(*), 0) AS cnt
+           FROM completed) itd,
+    ( SELECT NULLIF(count(*), 0) AS cnt
+           FROM published) total_itd
 UNION
  SELECT 'completed_projects_all_share'::character varying AS metric,
-    (((mtd.cnt)::double precision / (total.cnt)::double precision) * (100)::double precision) AS mtd,
-    (((fytd.cnt)::double precision / (total.cnt)::double precision) * (100)::double precision) AS fytd,
-    (((itd.cnt)::double precision / (total.cnt)::double precision) * (100)::double precision) AS itd
+    (((mtd.cnt)::double precision / (total_mtd.cnt)::double precision) * (100)::double precision) AS mtd,
+    (((fytd.cnt)::double precision / (total_fytd.cnt)::double precision) * (100)::double precision) AS fytd,
+    (((itd.cnt)::double precision / (total_itd.cnt)::double precision) * (100)::double precision) AS itd
    FROM ( SELECT NULLIF(count(*), 0) AS cnt
-           FROM projects) total,
-    ( SELECT NULLIF(count(*), 0) AS cnt
            FROM completed
           WHERE (completed.completed_at >= date_trunc('month'::text, now()))) mtd,
+    ( SELECT NULLIF(count(*), 0) AS cnt
+           FROM all_completed
+          WHERE (all_completed.completed_at >= date_trunc('month'::text, now()))) total_mtd,
     ( SELECT NULLIF(count(*), 0) AS cnt
            FROM completed
           WHERE (completed.completed_at >= date_trunc('year'::text, now()))) fytd,
     ( SELECT NULLIF(count(*), 0) AS cnt
-           FROM completed) itd
+           FROM all_completed
+          WHERE (all_completed.completed_at >= date_trunc('year'::text, now()))) total_fytd,
+    ( SELECT NULLIF(count(*), 0) AS cnt
+           FROM completed) itd,
+    ( SELECT NULLIF(count(*), 0) AS cnt
+           FROM all_completed) total_itd
 UNION
  SELECT 'completed_projects_hourly_share'::character varying AS metric,
-    (((mtd.cnt)::double precision / (total.cnt)::double precision) * (100)::double precision) AS mtd,
-    (((fytd.cnt)::double precision / (total.cnt)::double precision) * (100)::double precision) AS fytd,
-    (((itd.cnt)::double precision / (total.cnt)::double precision) * (100)::double precision) AS itd
+    (((mtd.cnt)::double precision / (total_mtd.cnt)::double precision) * (100)::double precision) AS mtd,
+    (((fytd.cnt)::double precision / (total_fytd.cnt)::double precision) * (100)::double precision) AS fytd,
+    (((itd.cnt)::double precision / (total_itd.cnt)::double precision) * (100)::double precision) AS itd
    FROM ( SELECT NULLIF(count(*), 0) AS cnt
-           FROM one_off) total,
-    ( SELECT NULLIF(count(*), 0) AS cnt
            FROM hourly
           WHERE (hourly.completed_at >= date_trunc('month'::text, now()))) mtd,
+    ( SELECT NULLIF(count(*), 0) AS cnt
+           FROM completed
+          WHERE (completed.completed_at >= date_trunc('month'::text, now()))) total_mtd,
     ( SELECT NULLIF(count(*), 0) AS cnt
            FROM hourly
           WHERE (hourly.completed_at >= date_trunc('year'::text, now()))) fytd,
     ( SELECT NULLIF(count(*), 0) AS cnt
-           FROM hourly) itd
+           FROM completed
+          WHERE (completed.completed_at >= date_trunc('year'::text, now()))) total_fytd,
+    ( SELECT NULLIF(count(*), 0) AS cnt
+           FROM hourly) itd,
+    ( SELECT NULLIF(count(*), 0) AS cnt
+           FROM completed) total_itd
 UNION
  SELECT 'completed_projects_fixed_share'::character varying AS metric,
-    (((mtd.cnt)::double precision / (total.cnt)::double precision) * (100)::double precision) AS mtd,
-    (((fytd.cnt)::double precision / (total.cnt)::double precision) * (100)::double precision) AS fytd,
-    (((itd.cnt)::double precision / (total.cnt)::double precision) * (100)::double precision) AS itd
+    (((mtd.cnt)::double precision / (total_mtd.cnt)::double precision) * (100)::double precision) AS mtd,
+    (((fytd.cnt)::double precision / (total_fytd.cnt)::double precision) * (100)::double precision) AS fytd,
+    (((itd.cnt)::double precision / (total_itd.cnt)::double precision) * (100)::double precision) AS itd
    FROM ( SELECT NULLIF(count(*), 0) AS cnt
-           FROM completed) total,
-    ( SELECT NULLIF(count(*), 0) AS cnt
            FROM fixed
           WHERE (fixed.completed_at >= date_trunc('month'::text, now()))) mtd,
+    ( SELECT NULLIF(count(*), 0) AS cnt
+           FROM completed
+          WHERE (completed.completed_at >= date_trunc('month'::text, now()))) total_mtd,
     ( SELECT NULLIF(count(*), 0) AS cnt
            FROM fixed
           WHERE (fixed.completed_at >= date_trunc('year'::text, now()))) fytd,
     ( SELECT NULLIF(count(*), 0) AS cnt
-           FROM fixed) itd
+           FROM completed
+          WHERE (completed.completed_at >= date_trunc('year'::text, now()))) total_fytd,
+    ( SELECT NULLIF(count(*), 0) AS cnt
+           FROM fixed) itd,
+    ( SELECT NULLIF(count(*), 0) AS cnt
+           FROM completed) total_itd
 UNION
  SELECT 'completed_projects_hourly_pay'::character varying AS metric,
     ( SELECT NULLIF(count(*), 0) AS "nullif"
@@ -4661,4 +4781,6 @@ INSERT INTO schema_migrations (version) VALUES ('20170110004317');
 INSERT INTO schema_migrations (version) VALUES ('20170111205323');
 
 INSERT INTO schema_migrations (version) VALUES ('20170111220646');
+
+INSERT INTO schema_migrations (version) VALUES ('20170118003355');
 

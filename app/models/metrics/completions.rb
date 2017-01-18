@@ -28,7 +28,7 @@ module Metrics::Completions
       'Jobs' => [nil, nil, nil, {
         'Number Completed' => metric('completed_jobs'),
         'Percent Completed' => metric('completed_jobs_share', :percentage),
-        'Percent of All Postings' => metric('completed_jobs_all_share', :percentage),
+        'Percent of All Completions' => metric('completed_jobs_all_share', :percentage),
         'By Payment Plan' => [nil, nil, nil, {
           'Upfront' => metric('completed_jobs_upfront_pay'),
           'Monthly' => metric('completed_jobs_monthly_pay')

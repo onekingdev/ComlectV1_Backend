@@ -14,8 +14,8 @@ module Metrics::Financials::Actual
         'Percent Jobs' => metric('actual_job_share', :percentage),
         'Percent Projects' => metric('actual_project_share', :percentage)
       }],
-      'Forecast' => [*metric('forecasted_completed'), {
-        # Client only wants ITD column:
+      # Client only wants ITD column:
+      'Forecast' => [nil, nil, metric('forecasted_completed')[-1], {
         'Value' => [nil, nil, metric('forecasted_value', :currency)[-1]],
         'Revenue' => [nil, nil, metric('forecasted_revenue', :currency)[-1], {
           'Average per Job' => [nil, nil, metric('forecasted_revenue_per_job', :currency)[-1]],
