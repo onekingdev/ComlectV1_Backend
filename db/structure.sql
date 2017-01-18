@@ -681,7 +681,7 @@ CREATE VIEW financials_forecasted AS
             (((charges.fee_in_cents)::numeric / 100.0) * (2)::numeric) AS revenue
            FROM (charges
              JOIN projects ON ((projects.id = charges.project_id)))
-          WHERE (((projects.type)::text = 'one_off'::text) AND ((charges.status)::text = 'estimated'::text))
+          WHERE (((projects.type)::text = 'one_off'::text) AND ((charges.status)::text <> 'processed'::text))
         ), job_value AS (
          SELECT projects.created_at,
             projects.type,
@@ -690,7 +690,7 @@ CREATE VIEW financials_forecasted AS
             ((charges.fee_in_cents)::numeric / 100.0) AS revenue
            FROM (charges
              JOIN projects ON ((projects.id = charges.project_id)))
-          WHERE (((projects.type)::text = 'full_time'::text) AND ((charges.status)::text = 'estimated'::text))
+          WHERE (((projects.type)::text = 'full_time'::text) AND ((charges.status)::text <> 'processed'::text))
         ), all_value AS (
          SELECT projects.created_at,
             projects.type,
@@ -703,7 +703,7 @@ CREATE VIEW financials_forecasted AS
                 END)::numeric) AS revenue
            FROM (charges
              JOIN projects ON ((projects.id = charges.project_id)))
-          WHERE ((charges.status)::text = 'estimated'::text)
+          WHERE ((charges.status)::text <> 'processed'::text)
         ), job_revenue AS (
          SELECT all_value.project_id,
             all_value.created_at,
@@ -4783,4 +4783,6 @@ INSERT INTO schema_migrations (version) VALUES ('20170111205323');
 INSERT INTO schema_migrations (version) VALUES ('20170111220646');
 
 INSERT INTO schema_migrations (version) VALUES ('20170118003355');
+
+INSERT INTO schema_migrations (version) VALUES ('20170118012655');
 
