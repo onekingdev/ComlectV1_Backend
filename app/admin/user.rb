@@ -11,12 +11,12 @@ ActiveAdmin.register User do
   end
 
   member_action :toggle_suspend, method: :post do
-    resource.deleted? ? resource.unfreeze! : resource.freeze!
-    redirect_to collection_path, notice: resource.deleted? ? 'Suspended' : 'Reactivated'
+    resource.suspended? ? resource.unfreeze! : resource.freeze!
+    redirect_to collection_path, notice: resource.suspended? ? 'Suspended' : 'Reactivated'
   end
 
-  scope("Active") { |scope| scope.where(deleted: false) }
-  scope("Suspended") { |scope| scope.where(deleted: true) }
+  scope("Active") { |scope| scope.where(suspended: false) }
+  scope("Suspended") { |scope| scope.where(suspended: true) }
 
   filter :email
   filter :sign_in_count
@@ -30,7 +30,7 @@ ActiveAdmin.register User do
     column :sign_in_count
     column :created_at
     actions do |user|
-      link_to (user.deleted? ? 'Reactivate' : 'Suspend'), toggle_suspend_admin_user_path(user), method: :post
+      link_to (user.suspended? ? 'Reactivate' : 'Suspend'), toggle_suspend_admin_user_path(user), method: :post
     end
   end
 

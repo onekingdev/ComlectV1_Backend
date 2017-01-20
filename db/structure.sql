@@ -1192,10 +1192,12 @@ CREATE TABLE users (
     unconfirmed_email character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    deleted boolean DEFAULT false NOT NULL,
-    deleted_at timestamp without time zone,
+    suspended boolean DEFAULT false NOT NULL,
+    suspended_at timestamp without time zone,
     tos_acceptance_date timestamp without time zone,
-    tos_acceptance_ip character varying
+    tos_acceptance_ip character varying,
+    deleted boolean DEFAULT false NOT NULL,
+    deleted_at timestamp without time zone
 );
 
 
@@ -1206,9 +1208,9 @@ CREATE TABLE users (
 CREATE VIEW metrics_account_deletions AS
  WITH deleted_users AS (
          SELECT users.id,
-            users.deleted_at
+            users.suspended_at AS deleted_at
            FROM users
-          WHERE (users.deleted_at IS NOT NULL)
+          WHERE (users.suspended_at IS NOT NULL)
         ), deleted_businesses AS (
          SELECT deleted_users.deleted_at
            FROM (deleted_users
@@ -4437,20 +4439,6 @@ CREATE UNIQUE INDEX index_users_on_confirmation_token ON users USING btree (conf
 
 
 --
--- Name: index_users_on_deleted; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_users_on_deleted ON users USING btree (deleted);
-
-
---
--- Name: index_users_on_deleted_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_users_on_deleted_at ON users USING btree (deleted_at);
-
-
---
 -- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -4462,6 +4450,20 @@ CREATE UNIQUE INDEX index_users_on_email ON users USING btree (email);
 --
 
 CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (reset_password_token);
+
+
+--
+-- Name: index_users_on_suspended; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_users_on_suspended ON users USING btree (suspended);
+
+
+--
+-- Name: index_users_on_suspended_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_users_on_suspended_at ON users USING btree (suspended_at);
 
 
 --
@@ -4785,4 +4787,6 @@ INSERT INTO schema_migrations (version) VALUES ('20170111220646');
 INSERT INTO schema_migrations (version) VALUES ('20170118003355');
 
 INSERT INTO schema_migrations (version) VALUES ('20170118012655');
+
+INSERT INTO schema_migrations (version) VALUES ('20170120205317');
 
