@@ -34,7 +34,7 @@ class Specialist < ActiveRecord::Base
 
   accepts_nested_attributes_for :education_histories, :work_experiences
 
-  default_scope -> { joins(:user).where(users: { deleted: false }) }
+  default_scope -> { joins("INNER JOIN users ON users.id = specialists.user_id AND users.deleted = 'f'") }
 
   scope :preload_associations, -> {
     preload(:user, :work_experiences, :education_histories, :industries, :jurisdictions, :skills)

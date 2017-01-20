@@ -4439,6 +4439,20 @@ CREATE UNIQUE INDEX index_users_on_confirmation_token ON users USING btree (conf
 
 
 --
+-- Name: index_users_on_deleted; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_users_on_deleted ON users USING btree (deleted);
+
+
+--
+-- Name: index_users_on_deleted_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_users_on_deleted_at ON users USING btree (deleted_at);
+
+
+--
 -- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -4789,4 +4803,6 @@ INSERT INTO schema_migrations (version) VALUES ('20170118003355');
 INSERT INTO schema_migrations (version) VALUES ('20170118012655');
 
 INSERT INTO schema_migrations (version) VALUES ('20170120205317');
+
+INSERT INTO schema_migrations (version) VALUES ('20170120222804');
 

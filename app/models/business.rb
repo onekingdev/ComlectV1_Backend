@@ -28,7 +28,7 @@ class Business < ActiveRecord::Base
     }
   end
 
-  default_scope -> { joins(:user).where(users: { deleted: false }) }
+  default_scope -> { joins("INNER JOIN users ON users.id = businesses.user_id AND users.deleted = 'f'") }
 
   include ImageUploader[:logo]
 
