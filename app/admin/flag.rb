@@ -34,7 +34,13 @@ ActiveAdmin.register Flag do
       row :reason
       row :flagger
       row :flagged_content_type
-      row :flagged_content
+      row :flagged_content do |flag|
+        div simple_format(flag.flagged_content.to_s)
+        span link_to('Delete',
+                     [:admin, flag.flagged_content, { return_to: admin_flags_path }],
+                     method: :delete,
+                     data: { confirm: 'Are you sure?' })
+      end
       if flag.flagged_content.is_a?(Question)
         row :answer do |flag|
           flag.flagged_content.answer
