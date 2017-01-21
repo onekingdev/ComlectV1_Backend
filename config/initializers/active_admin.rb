@@ -47,6 +47,15 @@ ActiveAdmin.setup do |config|
   # This will ONLY change the title for the admin section. Other
   # namespaces will continue to use the main "site_title" configuration.
 
+  require 'active_admin/authentication_helpers'
+  ActiveAdmin::BaseController.public_send(:include, ActiveAdmin::AuthenticationHelpers)
+
+  config.namespace :support do |support|
+    support.site_title = "Complect Customer Support"
+    support.root_to = "projects#index"
+    support.authentication_method = :authenticate_support_user!
+  end
+
   # == User Authentication
   #
   # Active Admin will automatically call an authentication
@@ -55,7 +64,7 @@ ActiveAdmin.setup do |config|
   #
   # This setting changes the method which Active Admin calls
   # within the application controller.
-  config.authentication_method = :authenticate_admin_user!
+  config.authentication_method = :authenticate_super_admin_user!
 
   # == User Authorization
   #
