@@ -12,6 +12,7 @@ class Metrics::Financials
                rescue
                  nil
                end
+    @db_view += ActiveRecord::Base.connection.execute('SELECT * FROM metrics').to_a if @db_view
   end
 
   def invalid?
