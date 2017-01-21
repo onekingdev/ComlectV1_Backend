@@ -1348,7 +1348,8 @@ CREATE VIEW metrics_extended_projects AS
            FROM projects
           WHERE (projects.extended_at >= date_trunc('year'::text, now()))) AS fytd,
     ( SELECT count(*) AS count
-           FROM projects) AS itd;
+           FROM projects
+          WHERE (projects.extended_at IS NOT NULL)) AS itd;
 
 
 --
@@ -4805,4 +4806,6 @@ INSERT INTO schema_migrations (version) VALUES ('20170118012655');
 INSERT INTO schema_migrations (version) VALUES ('20170120205317');
 
 INSERT INTO schema_migrations (version) VALUES ('20170120222804');
+
+INSERT INTO schema_migrations (version) VALUES ('20170121204351');
 
