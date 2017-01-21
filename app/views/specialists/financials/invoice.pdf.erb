@@ -176,11 +176,12 @@
   <div><%= transaction.specialist.country %></div>
 
   <div class="bolded-text top-row">Bill to:</div>
-  <div><%= transaction.business.contact_full_name %></div>
+  <div><%= transaction.business.business_name %></div>
   <div><%= "#{transaction.business.address_1}, #{transaction.business.address_2}" %></div>
   <div>
     <div class="business-city-state">
       <%= "#{transaction.business.city}, #{transaction.business.state} #{transaction.business.zipcode}" %>
+      <div><%= transaction.business.country %></div>
     </div>
     <div class="charge-date">
       <span class="bolded-text">Date:&nbsp;</span>
