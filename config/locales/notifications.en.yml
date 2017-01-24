@@ -15,11 +15,11 @@ en:
       got_message: Notify me when I receive a message
 
   notification_messages:
-    got_hired: Congrats! You've been hired. Click the link and visit the project dashboard to get started.
+    got_hired: Congrats! You've been hired. Click here to visit the project dashboard to get started.
     not_hired: It's their loss! You were not selected for %{project_title}, but apply to more and increase your odds of landing that perfect role.
     specialist_got_rated: You've been rated and reviewed!
     business_got_rated: You've been rated and reviewed!
-    specialist_got_project_message: You've received a message
-    business_got_project_message: You've received a message
+    specialist_got_project_message: I've sent you a message
+    business_got_project_message: I've sent you a message
     business_project_ended: Congrats on the successful completion of your project!
     specialist_project_ended: Hooray! Your project %{project_title} has ended

@@ -21,6 +21,8 @@ $.onContentReady ($parent, data) ->
               $(this).data("message-id") > $('[data-message-id]').last().data('message-id')
             if new_data.length > 0
               $messages.append new_data
+              console.log new_data
+              groupMessagesByDay()
               $messages.animate({ scrollTop: $messages.prop("scrollHeight")}, 500)
       , 5000
       $messages.data 'initMessagePolling', true
@@ -29,10 +31,6 @@ $.onContentReady ($parent, data) ->
 
     mobile_height = Math.max document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight
     $(window).scrollTop mobile_height
-
-    $messages
-      .scrollTop $messages[0].scrollHeight
-      .data 'init-scrolled', true
 
     return unless $messages.data('url')?
 
@@ -49,7 +47,6 @@ $.onContentReady ($parent, data) ->
       params.page = page
       request = $.get $messages.data('url'), params, (data) ->
         $messages.attr 'data-page', page
-        scrolltop_A = $messages.scrollTop()
         scrollheight_A = $messages[0].scrollHeight
         $messages.prepend data
         groupMessagesByDay() # order is very important otherwise updated scrollTop will set incorrect position
@@ -92,5 +89,13 @@ $.onContentReady ($parent, data) ->
         $('.messages').css height: 'auto'
       return
 
-    $(document).ready adjustMessagesHeight
+    $(document).ready -> 
+      adjustMessagesHeight()
+      $messages
+        .scrollTop $messages.prop("scrollHeight")
+        .data 'init-scrolled', true
     $(window).resize adjustMessagesHeight
+
+    $(document).on 'newContent', (e) ->
+      groupMessagesByDay()
+      $messages.animate({ scrollTop: $messages.prop("scrollHeight")}, 500)

@@ -75,17 +75,33 @@ class Notification::Deliver < Draper::Decorator
       RatingMailer.deliver_later :notification, rating.id
     end
 
+    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/MethodLength
     def got_project_message!(message)
       project = message.thread
-      key, path, who = if message.sender == project.specialist
-                         [:business_got_project_message, r.business_project_dashboard_path(project), project.business]
-                       else
-                         [:specialist_got_project_message, r.project_dashboard_path(project), project.specialist]
-                       end
-      dispatcher = Dispatcher.new(who.user, key, path, project, clear_manually: true)
+      key, path, who, init, img = if message.sender == project.specialist
+                                    [
+                                      :business_got_project_message,
+                                      r.business_project_dashboard_path(project),
+                                      project.business,
+                                      project.specialist.first_name,
+                                      project.specialist.photo_url(:thumb)
+                                    ]
+                                  else
+                                    [
+                                      :specialist_got_project_message,
+                                      r.project_dashboard_path(project),
+                                      project.specialist,
+                                      project.business.business_name,
+                                      project.business.logo_url(:thumb)
+                                    ]
+                                  end
+      dispatcher = Dispatcher.new(who.user, key, path, project, clear_manually: true, initiator: init, img_path: img)
       dispatcher.deliver_notification!
       ProjectMessageMailer.deliver_later(:notification, message.id) if Notification.enabled?(who, :got_message)
     end
+    # rubocop:enable Metrics/AbcSize
+    # rubocop:enable Metrics/MethodLength
 
     def project_ended!(project)
       business_project_ended! project

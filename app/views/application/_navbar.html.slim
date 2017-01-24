@@ -67,6 +67,8 @@ nav#nav.navbar.navbar-default
                       b = notification.initiator
                       br
                       = notification.message
+                      br
+                      small= "#{time_ago_in_words(notification.created_at)} ago"
       - elsif !protected_beta? # TODO: LAUNCH: Remove condition
         li
           ul.nav.navbar-nav.sign_in
