@@ -17,7 +17,14 @@ class Notification::Deliver < Draper::Decorator
     def got_hired!(application)
       user = application.specialist.user
       action_path, action_url = path_and_url :project_dashboard, application.project
-      dispatcher = Dispatcher.new(user, :got_hired, action_path, application.project)
+      dispatcher = Dispatcher.new(
+        user,
+        :got_hired,
+        action_path,
+        application.project,
+        initiator: application.project.business.business_name,
+        img_path: application.project.business.logo_url(:thumb)
+      )
       dispatcher.deliver_notification!
       # HireMailer.deliver_later :hired, application
       NotificationMailer.deliver_later :notification, user.email, dispatcher.message, 'Project Dashboard', action_url
@@ -111,10 +118,14 @@ class Notification::Deliver < Draper::Decorator
   end
 
   class Dispatcher
-    attr_reader :user, :key, :path, :associated, :clear_manually, :t, :message
+    attr_reader :user, :key, :path, :associated, :clear_manually, :t, :message, :initiator, :img_path
+
+    def def_img
+      ActionController::Base.helpers.asset_path("icon-specialist.png")
+    end
 
     # rubocop:disable Metrics/ParameterLists
-    def initialize(user, key, path, associated, clear_manually: false, t: {})
+    def initialize(user, key, path, associated, clear_manually: false, t: {}, initiator: "Complect", img_path: def_img)
       @user = user
       @key = key
       @path = path
@@ -122,6 +133,8 @@ class Notification::Deliver < Draper::Decorator
       @clear_manually = clear_manually
       @t = t
       @message = I18n.t(key, t.merge(scope: 'notification_messages'))
+      @initiator = initiator
+      @img_path = img_path
     end
     # rubocop:enable Metrics/ParameterLists
 
@@ -131,7 +144,9 @@ class Notification::Deliver < Draper::Decorator
                                  message: message,
                                  path: path,
                                  associated: associated,
-                                 clear_manually: clear_manually
+                                 clear_manually: clear_manually,
+                                 initiator: initiator,
+                                 img_path: img_path
     end
   end
 end

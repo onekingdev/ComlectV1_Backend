@@ -31,7 +31,7 @@ class Project < ActiveRecord::Base
 
   scope :escalated, -> { joins(:issues).where(project_issues: { status: :open }) }
   scope :not_escalated, -> { where.not(id: escalated) }
-  scope :visible, -> { joins(business: :user).where(users: { deleted: false }) }
+  scope :visible, -> { joins(business: :user).where(users: { suspended: false }) }
   scope :recent, -> { order(created_at: :desc) }
   scope :draft_and_in_review, -> { where(status: %w(draft review)) }
   scope :expired, -> { pending.where('starts_on < ?', Time.zone.now) }
@@ -119,7 +119,7 @@ class Project < ActiveRecord::Base
   }.freeze
 
   def self.ending
-    one_off.active.joins(:business).select('projects.*, businesses.time_zone').find_each.find_all do |project|
+    one_off.active.joins(business: :user).select('projects.*, businesses.time_zone').find_each.find_all do |project|
       # Set to midnight
       tz = ActiveSupport::TimeZone[project[:time_zone]]
       project.ends_on.in_time_zone(tz) + 1.day <= 5.minutes.from_now

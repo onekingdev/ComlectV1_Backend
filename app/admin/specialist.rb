@@ -6,12 +6,16 @@ ActiveAdmin.register Specialist do
   filter :first_name_or_last_name_cont, as: :string, label: 'Name'
 
   member_action :toggle_suspend, method: :post do
-    resource.deleted? ? resource.user.unfreeze! : resource.user.freeze!
-    sign_out resource.user if resource.deleted?
-    redirect_to collection_path, notice: resource.deleted? ? 'Suspended' : 'Reactivated'
+    resource.suspended? ? resource.user.unfreeze! : resource.user.freeze!
+    sign_out resource.user if resource.suspended?
+    redirect_to collection_path, notice: resource.suspended? ? 'Suspended' : 'Reactivated'
   end
 
   controller do
+    def destroy_resource(resource)
+      User::Delete.(resource.user)
+    end
+
     def scoped_collection
       super.includes :user
     end
@@ -27,12 +31,12 @@ ActiveAdmin.register Specialist do
     column :country
     column :phone
     column :status do |specialist|
-      label, css_class = specialist.deleted? ? %w(Suspended error) : %w(Active yes)
+      label, css_class = specialist.suspended? ? %w(Suspended error) : %w(Active yes)
       status_tag label, class: css_class
     end
 
     actions do |specialist|
-      label = specialist.deleted? ? 'Reactivate' : 'Suspend'
+      label = specialist.suspended? ? 'Reactivate' : 'Suspend'
       link_to label, toggle_suspend_admin_specialist_path(specialist), method: :post
     end
   end

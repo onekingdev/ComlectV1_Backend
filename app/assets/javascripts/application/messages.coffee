@@ -81,3 +81,16 @@ $.onContentReady ($parent, data) ->
       if (window.event.keyCode == 13 && $('#send_on_enter').prop('checked'))
           $('.message-form input[type="submit"]').click()
           return false
+
+    adjustMessagesHeight = ->
+      if window.innerWidth > 766
+        computedHeight = window.innerHeight - ($('.business-profile')[0].offsetTop) - 95
+        if $('#new_message').height() != null
+          computedHeight -= $('#new_message').height()
+        $('.messages').css height: computedHeight
+      else
+        $('.messages').css height: 'auto'
+      return
+
+    $(document).ready adjustMessagesHeight
+    $(window).resize adjustMessagesHeight

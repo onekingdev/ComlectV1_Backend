@@ -54,10 +54,19 @@ nav#nav.navbar.navbar-default
               li.p-x-2.p-y-1 No alerts
             - else
               li.clearfix
-                .pull-left.p-l-2.p-y-1 Notifications
+                .pull-left.p-x-2.p-y-1 Notifications
                 .pull-right= link_to "Mark all as read", "#"
               - user.notifications.unread.each do |notification|
-                li= link_to notification.message, notification, remote: true
+                li
+                  = link_to notification, remote: true do
+                    - if notification.img_path
+                      = image_tag notification.img_path
+                    - else
+                      = image_tag "icon-specialist.png"
+                    span
+                      b = notification.initiator
+                      br
+                      = notification.message
       - elsif !protected_beta? # TODO: LAUNCH: Remove condition
         li
           ul.nav.navbar-nav.sign_in

@@ -1192,10 +1192,12 @@ CREATE TABLE users (
     unconfirmed_email character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    deleted boolean DEFAULT false NOT NULL,
-    deleted_at timestamp without time zone,
+    suspended boolean DEFAULT false NOT NULL,
+    suspended_at timestamp without time zone,
     tos_acceptance_date timestamp without time zone,
-    tos_acceptance_ip character varying
+    tos_acceptance_ip character varying,
+    deleted boolean DEFAULT false NOT NULL,
+    deleted_at timestamp without time zone
 );
 
 
@@ -1206,9 +1208,9 @@ CREATE TABLE users (
 CREATE VIEW metrics_account_deletions AS
  WITH deleted_users AS (
          SELECT users.id,
-            users.deleted_at
+            users.suspended_at AS deleted_at
            FROM users
-          WHERE (users.deleted_at IS NOT NULL)
+          WHERE (users.suspended_at IS NOT NULL)
         ), deleted_businesses AS (
          SELECT deleted_users.deleted_at
            FROM (deleted_users
@@ -1346,7 +1348,8 @@ CREATE VIEW metrics_extended_projects AS
            FROM projects
           WHERE (projects.extended_at >= date_trunc('year'::text, now()))) AS fytd,
     ( SELECT count(*) AS count
-           FROM projects) AS itd;
+           FROM projects
+          WHERE (projects.extended_at IS NOT NULL)) AS itd;
 
 
 --
@@ -4465,6 +4468,20 @@ CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (re
 
 
 --
+-- Name: index_users_on_suspended; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_users_on_suspended ON users USING btree (suspended);
+
+
+--
+-- Name: index_users_on_suspended_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_users_on_suspended_at ON users USING btree (suspended_at);
+
+
+--
 -- Name: index_work_experiences_on_compliance; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -4785,4 +4802,10 @@ INSERT INTO schema_migrations (version) VALUES ('20170111220646');
 INSERT INTO schema_migrations (version) VALUES ('20170118003355');
 
 INSERT INTO schema_migrations (version) VALUES ('20170118012655');
+
+INSERT INTO schema_migrations (version) VALUES ('20170120205317');
+
+INSERT INTO schema_migrations (version) VALUES ('20170120222804');
+
+INSERT INTO schema_migrations (version) VALUES ('20170121204351');
 

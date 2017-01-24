@@ -14,16 +14,3 @@
           a.btn.btn-default.btn-md.upload-button
             i.icon-paper-clip
           = f.submit 'Send', class: 'btn btn-primary btn-md btn-block', data: { disable_with: 'Sending...' }
-
-javascript:
-  function adjustMessagesHeight() {
-    if (window.innerWidth > 766) {
-      var computedHeight = window.innerHeight - $('.business-profile')[0].offsetTop - $('#new_message').height() - 95;
-      $('.messages').css({height: computedHeight});
-    } else {
-      $('.messages').css({ height: 'auto' });
-    }
-  }
-
-  $(document).ready(adjustMessagesHeight);
-  $(window).resize(adjustMessagesHeight);
