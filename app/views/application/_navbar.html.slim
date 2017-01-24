@@ -53,6 +53,9 @@ nav#nav.navbar.navbar-default
             - if user.notifications.unread.empty?
               li.p-x-2.p-y-1 No alerts
             - else
+              li.clearfix
+                .pull-left.p-l-2.p-y-1 Notifications
+                .pull-right= link_to "Mark all as read", "#"
               - user.notifications.unread.each do |notification|
                 li= link_to notification.message, notification, remote: true
       - elsif !protected_beta? # TODO: LAUNCH: Remove condition

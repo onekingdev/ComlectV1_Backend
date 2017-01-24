@@ -31,7 +31,7 @@ class Project < ActiveRecord::Base
 
   scope :escalated, -> { joins(:issues).where(project_issues: { status: :open }) }
   scope :not_escalated, -> { where.not(id: escalated) }
-  scope :visible, -> { joins(business: :user).where(users: { suspended: false }) }
+  scope :visible, -> { joins(business: :user).where(users: { deleted: false }) }
   scope :recent, -> { order(created_at: :desc) }
   scope :draft_and_in_review, -> { where(status: %w(draft review)) }
   scope :expired, -> { pending.where('starts_on < ?', Time.zone.now) }
@@ -79,6 +79,18 @@ class Project < ActiveRecord::Base
       .where(ratings: { id: nil })
   }
 
+  # TODO: Change once activeadmin uses separate policy
+  # Need these two scopes for activeadmin to search beacuse
+  # the default scope joins specialists so we can't
+  # use the convenience filters
+  scope :by_specialist_first_name, ->(first_name) {
+    where('specialists.first_name = ?', first_name)
+  }
+
+  scope :by_specialist_last_name, ->(last_name) {
+    where('specialists.last_name = ?', last_name)
+  }
+
   include Project::PgSearchConfig
 
   enum status: { draft: 'draft', review: 'review', published: 'published', complete: 'complete' }
@@ -107,7 +119,7 @@ class Project < ActiveRecord::Base
   }.freeze
 
   def self.ending
-    one_off.active.joins(business: :user).select('projects.*, businesses.time_zone').find_each.find_all do |project|
+    one_off.active.joins(:business).select('projects.*, businesses.time_zone').find_each.find_all do |project|
       # Set to midnight
       tz = ActiveSupport::TimeZone[project[:time_zone]]
       project.ends_on.in_time_zone(tz) + 1.day <= 5.minutes.from_now
@@ -119,6 +131,10 @@ class Project < ActiveRecord::Base
         .includes(:industries, :jurisdictions, :skills)
         .public_send(filter)
         .page(page).per(per || 6)
+  end
+
+  def self.ransackable_scopes(_auth_object = nil)
+    %i(by_specialist_first_name by_specialist_last_name)
   end
 
   def complete!

@@ -5,10 +5,6 @@ ActiveAdmin.register Business do
   filter :business_name, as: :string, label: 'Business Name'
 
   controller do
-    def destroy_resource(resource)
-      User::Delete.(resource.user)
-    end
-
     def scoped_collection
       super.includes :user
     end
@@ -17,9 +13,9 @@ ActiveAdmin.register Business do
   actions :all, except: %i(new)
 
   member_action :toggle_suspend, method: :post do
-    resource.suspended? ? resource.user.unfreeze! : resource.user.freeze!
-    sign_out resource.user if resource.suspended?
-    redirect_to collection_path, notice: resource.suspended? ? 'Suspended' : 'Reactivated'
+    resource.deleted? ? resource.user.unfreeze! : resource.user.freeze!
+    sign_out resource.user if resource.deleted?
+    redirect_to collection_path, notice: resource.deleted? ? 'Suspended' : 'Reactivated'
   end
 
   index do
@@ -35,12 +31,12 @@ ActiveAdmin.register Business do
     column :employees
     column :website
     column :status do |business|
-      label, css_class = business.suspended? ? %w(Suspended error) : %w(Active yes)
+      label, css_class = business.deleted? ? %w(Suspended error) : %w(Active yes)
       status_tag label, class: css_class
     end
 
     actions do |business|
-      label = business.suspended? ? 'Reactivate' : 'Suspend'
+      label = business.deleted? ? 'Reactivate' : 'Suspend'
       link_to label, toggle_suspend_admin_business_path(business), method: :post
     end
   end

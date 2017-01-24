@@ -16,6 +16,17 @@ $(document).on 'click', '.flag-link', (e) ->
   content = $('.flag-form[data-content="' + $(this).data('content') + '"]').html()
   _Modal.showPlain(content)
 
+$ ->
+  hash = window.location.hash
+  hash and $('ul.nav a[href="' + hash + '"]').tab('show')
+  $('.nav-pills a').click (e) ->
+    $(this).tab 'show'
+    scrollmem = $('body').scrollTop() or $('html').scrollTop()
+    window.location.hash = @hash
+    $('html,body').scrollTop scrollmem
+    return
+  return
+
 do ->
   one_day = 86400000
   parents = ['.project_fixed_payment_schedule', '.project_hourly_payment_schedule']

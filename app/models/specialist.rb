@@ -34,8 +34,6 @@ class Specialist < ActiveRecord::Base
 
   accepts_nested_attributes_for :education_histories, :work_experiences
 
-  default_scope -> { joins("INNER JOIN users ON users.id = specialists.user_id AND users.deleted = 'f'") }
-
   scope :preload_associations, -> {
     preload(:user, :work_experiences, :education_histories, :industries, :jurisdictions, :skills)
   }
@@ -84,7 +82,7 @@ class Specialist < ActiveRecord::Base
 
   enum visibility:  { is_public: 'public', is_private: 'private' }
 
-  delegate :suspended?, to: :user
+  delegate :deleted?, to: :user
 
   def self.dates_between_query
     'SUM(ROUND((COALESCE("to", NOW())::date - "from"::date)::float / 365.0)::numeric::int)'

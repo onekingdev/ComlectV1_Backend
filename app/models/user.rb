@@ -8,12 +8,9 @@ class User < ActiveRecord::Base
   has_one :business, dependent: :destroy
   has_one :specialist, dependent: :destroy
   has_many :business_projects, through: :business, source: :projects
-  has_many :specialist_projects, through: :specialist, source: :projects
   has_many :payment_sources, through: :business
   has_many :project_issues, dependent: :delete_all
   has_many :notifications, dependent: :delete_all
-
-  default_scope -> { where(deleted: false) }
 
   def full_name
     if specialist
@@ -28,45 +25,38 @@ class User < ActiveRecord::Base
   end
 
   def freeze!
-    freeze_business_account! if business
-    freeze_specialist_account! if specialist
-    touch :suspended_at
-    update_attribute :suspended, true
+    freeze_business_account! && touch(:deleted_at) if business
+    freeze_specialist_account! && touch(:deleted_at) if specialist
   end
 
   def unfreeze!
-    update_attribute :suspended, false
-    update_attribute :suspended_at, nil
+    update_attribute :deleted, false
+    update_attribute :deleted_at, nil
   end
 
   def freeze_business_account!
     transaction do
-      create_dummy_issue business_projects.active, business
-      business_projects.published.update_all status: Project.statuses[:draft]
+      update_attribute :deleted, true
+      business_projects.active.update_all status: Project.statuses[:complete]
+      business_projects.where.not(status: Project.statuses[:complete]).destroy_all
       business.update_attribute :anonymous, true
     end
     reload
-    suspended?
+    deleted?
   end
 
   def freeze_specialist_account!
-    create_dummy_issue specialist_projects.active, specialist
+    update_attribute :deleted, true
     # Withdraw active job applications
     specialist.job_applications.pending.each { |application| JobApplication::Delete.(application) }
     # And just delete all applications which weren't accepted to avoid sending notifications
     specialist.job_applications.not_accepted.delete_all
     specialist.update_attribute :visibility, Specialist.visibilities[:is_private]
     reload
-    suspended?
-  end
-
-  def create_dummy_issue(projects, user)
-    projects.each do |project|
-      project.issues.create! issue: user.business ? "Business suspended" : "Specialist suspended"
-    end
+    deleted?
   end
 
   def active_for_authentication?
-    super && !suspended? && !deleted? # Extra safeguard, default_scope should prevent deleted users from being found
+    super && !deleted?
   end
 end

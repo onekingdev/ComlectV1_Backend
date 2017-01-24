@@ -1,14 +1,35 @@
-.notifications-dropdown {
+#nav .notifications-dropdown {
+  padding: 0px;
   max-width: 430px;
+  background-color: #ebebeb;
+  color: #333333;
+  text-transform: none;
+
+  .clearfix {
+    font-size: 12px;
+    font-weight: $bold-weight;
+
+    .pull-right a {
+      font-weight: $regular-weight;
+    }
+  }
+
+  a {
+    padding: 0px;
+    line-height: inherit;
+    text-transform: none;
+    color: #333333;
+    display: inline-block;
+  }
 
   li a {
     white-space: normal;
-    padding: 3px 20px !important;
+    padding: 1rem 20px;
   }
 
   li + li {
     border-top: 1px solid $gray-light;
-    margin-top: 7.5px;
-    padding-top: 7.5px;
+    //margin-top: 7.5px;
+    //padding-top: 7.5px;
   }
 }

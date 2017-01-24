@@ -28,8 +28,6 @@ class Business < ActiveRecord::Base
     }
   end
 
-  default_scope -> { joins("INNER JOIN users ON users.id = businesses.user_id AND users.deleted = 'f'") }
-
   include ImageUploader[:logo]
 
   EMPLOYEE_OPTIONS = %w(<10 11-50 51-100 100+).freeze
@@ -42,7 +40,7 @@ class Business < ActiveRecord::Base
 
   accepts_nested_attributes_for :user
 
-  delegate :suspended?, to: :user
+  delegate :deleted?, to: :user
 
   def self.for_signup(attributes = {})
     new(attributes).tap do |business|

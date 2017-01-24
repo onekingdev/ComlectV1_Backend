@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 ActiveAdmin.register Project do
   actions :all, except: %i(new)
-
   filter :title
   filter :business
-  filter :specialist_first_name, as: :string, label: 'Specialist First Name'
-  filter :specialist_last_name, as: :string, label: 'Specialist Last Name'
+  # TODO: Change next two once activeadmin uses separate policy
+  # Next two filters are custom because default policy joins specialists
+  # We can't use the convenience methods because they would also join
+  filter :by_specialist_first_name, as: :string, label: 'Specialist First Name'
+  filter :by_specialist_last_name, as: :string, label: 'Specialist Last Name'
   filter :business_contact_first_name_in, as: :string, label: 'Business First Name'
   filter :business_contact_last_name_in, as: :string, label: 'Business Last Name'
   filter :location_type, as: :select, collection: -> { Project.location_types }
@@ -20,7 +22,7 @@ ActiveAdmin.register Project do
 
   controller do
     def scoped_collection
-      super.joins(:specialist, :business).includes(:ratings, :issues, :business, :specialist)
+      super.includes(:ratings, :issues, :business, :specialist)
     end
   end
 

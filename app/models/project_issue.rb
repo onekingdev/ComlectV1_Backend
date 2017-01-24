@@ -6,5 +6,5 @@ class ProjectIssue < ActiveRecord::Base
 
   enum status: { open: 'open', closed: 'closed' }
 
-  validates :issue, presence: true
+  validates :user, :issue, :desired_resolution, presence: true
 end

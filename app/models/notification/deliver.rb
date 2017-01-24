@@ -19,7 +19,7 @@ class Notification::Deliver < Draper::Decorator
       action_path, action_url = path_and_url :project_dashboard, application.project
       dispatcher = Dispatcher.new(user, :got_hired, action_path, application.project)
       dispatcher.deliver_notification!
-      HireMailer.deliver_later :hired, application
+      # HireMailer.deliver_later :hired, application
       NotificationMailer.deliver_later :notification, user.email, dispatcher.message, 'Project Dashboard', action_url
     end
 
