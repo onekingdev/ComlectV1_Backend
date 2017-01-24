@@ -23,7 +23,7 @@ $.onContentReady ($parent, data) ->
               $messages.append new_data
               console.log new_data
               groupMessagesByDay()
-              $messages.animate({ scrollTop: $messages.prop("scrollHeight")}, 500)
+              scrollLast()
       , 5000
       $messages.data 'initMessagePolling', true
 
@@ -98,4 +98,9 @@ $.onContentReady ($parent, data) ->
 
     $(document).on 'newContent', (e) ->
       groupMessagesByDay()
+      scrollLast()
+
+    scrollLast = ->
       $messages.animate({ scrollTop: $messages.prop("scrollHeight")}, 500)
+      if window.innerWidth < 766
+        $(window).scrollTop mobile_height

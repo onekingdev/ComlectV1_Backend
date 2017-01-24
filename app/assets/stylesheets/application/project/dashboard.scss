@@ -156,7 +156,12 @@ body.project_dashboard.show, body.dashboards.show {
         .dropdown-toggle {
           border-radius: 50%;
           background-color: #fff;
-          padding: 10px 16px;
+          padding: 10px 13px;
+          box-shadow: rgba(0, 0, 0, 0.301961) 0px 2px 3px 1px;
+
+          .icon-magic-wand {
+            font-size: 18px;
+          }
         }
       }
 
