@@ -17,7 +17,7 @@ class Notification < ActiveRecord::Base
     user.notifications.fetch(key, associated).update_all read_at: Time.zone.now
   end
 
-  def self.clear_by_path!(user, path)
-    user.notifications.clear_automatically.where(path: path).update_all read_at: Time.zone.now
+  def self.clear_by_path!(user, action_path)
+    user.notifications.clear_automatically.where(action_path: action_path).update_all read_at: Time.zone.now
   end
 end

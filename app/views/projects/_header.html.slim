@@ -30,7 +30,7 @@
                 i.icon-bubble
         - elsif current_business && policy(project).postable?
           = form_for project, url: post_business_project_path(project), method: :post, html: { class: 'd-ib' } do |f|
-            = f.button class: 'tool-icon m-l-1' do
+            = f.button class: 'tool-icon m-l-2' do
               i.icon-pin
 
       h1

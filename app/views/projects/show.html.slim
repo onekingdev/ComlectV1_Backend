@@ -67,7 +67,8 @@
       - if project.specialist.blank?
         .panel.panel-default.panel-padded
           .panel-heading
-            h3 Q & A
+            h3
+              a.no-link name="q-a" Q & A
           .panel-body
             - if current_specialist.present?
               = simple_form_for Question.new, authenticity_token: true, url: project_questions_path(project_id: project.id) do |f|

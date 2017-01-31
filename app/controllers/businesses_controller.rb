@@ -20,6 +20,7 @@ class BusinessesController < ApplicationController
     if @business.save
       sign_in @business.user
       mixpanel_track_later 'Sign Up'
+      Notification::Deliver.welcome_business! @business
       return redirect_to business_dashboard_path
     end
     render :new
