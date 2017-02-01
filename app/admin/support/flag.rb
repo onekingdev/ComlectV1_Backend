@@ -13,7 +13,19 @@ ActiveAdmin.register Flag, namespace: :support do
     redirect_to collection_path, notice: "Email will be sent to selected #{'user'.pluralize(ids.length)}"
   end
 
-  actions :all, except: %i(edit delete new create update)
+  actions :all, except: %i(edit destroy new create update)
+
+  member_action :delete, method: :delete, only: :show do
+    Flag.find(params[:id]).destroy
+    redirect_to collection_path, notice: 'Flag marked resolved'
+  end
+
+  action_item :delete, only: :show do
+    link_to 'Mark Resolved',
+            [:delete, :support, flag],
+            method: :delete,
+            data: { confirm: 'Are you sure you want to delete this?' }
+  end
 
   filter :flagger_type
   filter :flagged_content_type
@@ -26,7 +38,12 @@ ActiveAdmin.register Flag, namespace: :support do
     column :reason
     column :flagger
     column :created_at
-    actions
+    actions defaults: false do |flag|
+      [
+        link_to('View', [:admin, flag]),
+        link_to('Resolved', [:admin, flag], method: :delete, data: { confirm: 'Are you sure you want to delete this?' })
+      ].join(' ').html_safe
+    end
   end
 
   show do
@@ -39,7 +56,7 @@ ActiveAdmin.register Flag, namespace: :support do
       row :flagged_content do |flag|
         div simple_format(flag.flagged_content.to_s)
         span link_to('Delete',
-                     [:admin, flag.flagged_content, { return_to: admin_flags_path }],
+                     [:support, flag.flagged_content, { return_to: support_flags_path }],
                      method: :delete,
                      data: { confirm: 'Are you sure?' })
       end
