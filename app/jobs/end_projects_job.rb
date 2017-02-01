@@ -5,7 +5,7 @@ class EndProjectsJob < ActiveJob::Base
   def perform(project_id = nil)
     return process_all if project_id.nil?
     project = Project.find_by(id: project_id)
-    return unless project&.ending?
+    return unless project&.ending? && !project.escalated?
     Project::Ending.process! project
   end
 
@@ -13,6 +13,7 @@ class EndProjectsJob < ActiveJob::Base
 
   def process_all
     Project.ending.each do |project|
+      next if project.escalated?
       self.class.perform_later project.id
     end
   end
