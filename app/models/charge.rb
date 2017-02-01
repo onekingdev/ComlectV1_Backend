@@ -8,6 +8,7 @@ class Charge < ActiveRecord::Base
 
   scope :for_one_off_projects, -> { joins(:project).where(project: Project.one_off) }
   scope :real, -> { where(status: [Charge.statuses[:scheduled], Charge.statuses[:processed], Charge.statuses[:error]]) }
+  scope :pending_or_errored, -> { where(status: [Charge.statuses[:scheduled], Charge.statuses[:error]]) }
   scope :upcoming, -> { where.not(status: Charge.statuses[:processed]) }
   scope :after, -> (date) { where('date >= ?', date.to_date) }
   scope :before, -> (date) { where('date < ?', date.to_date) }

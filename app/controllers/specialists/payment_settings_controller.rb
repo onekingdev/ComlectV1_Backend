@@ -42,7 +42,9 @@ class Specialists::PaymentSettingsController < ApplicationController
   end
 
   def destroy
-    current_specialist.stripe_account&.destroy
+    account = current_specialist.stripe_account
+    authorize account, :destroy
+    account&.destroy
     redirect_to specialists_settings_payment_path
   end
 

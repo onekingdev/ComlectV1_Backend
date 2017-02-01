@@ -16,8 +16,14 @@ h2.m-t-0 Payment Details
       td.text-right
         = link_to edit_specialists_settings_payment_path, class: 'btn-link m-l-2' do
           i.icon.maxicons2-editting
-        = link_to specialists_settings_payment_path, method: :delete, class: 'btn-link m-l-1', data: { confirm: 'Are you sure you want to delete this account?', 'confirm-label' => 'Delete' } do
-          i.icon.maxicons1-exit.text-muted
+        - if policy(@account).destroy?
+          = link_to specialists_settings_payment_path, method: :delete, class: 'btn-link m-l-1', data: { confirm: 'Are you sure you want to delete this account?', 'confirm-label' => 'Delete' } do
+            i.icon.maxicons1-exit.text-muted
+
+    - unless policy(@account).destroy?
+      tr
+        td colspan=3
+          .alert.alert-warning <b>Note:</b> Cannot remove your payment details while there are pending payments.
 
 - else
   .m-t-2
