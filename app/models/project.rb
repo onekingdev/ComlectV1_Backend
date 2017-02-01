@@ -79,18 +79,6 @@ class Project < ActiveRecord::Base
       .where(ratings: { id: nil })
   }
 
-  # TODO: Change once activeadmin uses separate policy
-  # Need these two scopes for activeadmin to search beacuse
-  # the default scope joins specialists so we can't
-  # use the convenience filters
-  scope :by_specialist_first_name, ->(first_name) {
-    where('specialists.first_name = ?', first_name)
-  }
-
-  scope :by_specialist_last_name, ->(last_name) {
-    where('specialists.last_name = ?', last_name)
-  }
-
   include Project::PgSearchConfig
 
   enum status: { draft: 'draft', review: 'review', published: 'published', complete: 'complete' }
@@ -131,10 +119,6 @@ class Project < ActiveRecord::Base
         .includes(:industries, :jurisdictions, :skills)
         .public_send(filter)
         .page(page).per(per || 6)
-  end
-
-  def self.ransackable_scopes(_auth_object = nil)
-    %i(by_specialist_first_name by_specialist_last_name)
   end
 
   def complete!

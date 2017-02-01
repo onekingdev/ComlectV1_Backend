@@ -29,7 +29,6 @@ class SpecialistsController < ApplicationController
     if @specialist.save
       sign_in @specialist.user
       mixpanel_track_later 'Sign Up'
-      Notification::Deliver.welcome_specialist! @specialist
       return redirect_to specialists_dashboard_path
     end
     render :new

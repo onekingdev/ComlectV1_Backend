@@ -17,10 +17,7 @@ class Timesheet::Form < Timesheet::Decorator
   def self.update(timesheet, attributes)
     new(timesheet).tap do |form|
       form.assign_attributes attributes.except(:submit, :save)
-      if attributes[:submit]
-        form.status = Timesheet.statuses[:submitted]
-        Notification::Deliver.timesheet_submitted! timesheet
-      end
+      form.status = Timesheet.statuses[:submitted] if attributes[:submit]
       form.notify_business! if form.save && form.submitted?
     end
   end
@@ -33,8 +30,9 @@ class Timesheet::Form < Timesheet::Decorator
   end
 
   def dispute!
+    specialist.user.notifications.create! message: 'Timesheet disputed',
+                                          path: h.project_dashboard_path(project, anchor: 'project-timesheets')
     update_attribute :status, Timesheet.statuses[:disputed]
-    Notification::Deliver.specialist_timesheet_disputed! self
   end
 
   def approve!

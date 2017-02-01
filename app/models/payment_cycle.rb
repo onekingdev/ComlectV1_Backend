@@ -34,6 +34,7 @@ class PaymentCycle
     project.charges.estimated.delete_all
     remaining_dates = outstanding_occurrences
     balance = outstanding_amount
+    return unless balance > 0
     remaining_dates.each do |date|
       amount = amount_for(date, remaining_dates: remaining_dates)
       balance -= amount
@@ -48,10 +49,8 @@ class PaymentCycle
   end
 
   def schedule_charge!(amount:, date:, description:)
-    processed_amount = BigDecimal.new(project.charges.processed.before(date).sum(:total_with_fee_in_cents)) / 100
-    balance = outstanding_amount - processed_amount - amount
     project.charges.create! amount_in_cents: amount * 100,
-                            running_balance_in_cents: balance * 100,
+                            running_balance_in_cents: balance_after(amount, cut_off: date) * 100,
                             date: date,
                             process_after: calculate_process_at_date(date),
                             status: Charge.statuses[:scheduled],
@@ -90,6 +89,12 @@ class PaymentCycle
   end
 
   private
+
+  def balance_after(amount, cut_off:)
+    processed_amount = BigDecimal.new(project.charges.processed.before(cut_off).sum(:total_with_fee_in_cents)) / 100
+    balance = outstanding_amount - processed_amount - amount
+    balance < 0 ? 0 : balance # When company pays more than was estimated
+  end
 
   def adjusted_ends_on
     # Recalculate ends_on date to previous friday if falling on sat/sun

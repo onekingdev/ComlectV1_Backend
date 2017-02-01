@@ -2,6 +2,8 @@
 require 'rails_helper'
 
 RSpec.describe PaymentCycle::Hourly::Monthly, type: :model do
+  include TimesheetSpecHelper
+
   before(:all) do
     @specialist = create :specialist
   end
@@ -54,8 +56,6 @@ RSpec.describe PaymentCycle::Hourly::Monthly, type: :model do
     end
 
     context 'in the middle of project with already paid work' do
-      include TimesheetSpecHelper
-
       before do
         JobApplication::Accept.(@job_application)
         Timecop.freeze @project.starts_on + 5.days do
@@ -88,6 +88,29 @@ RSpec.describe PaymentCycle::Hourly::Monthly, type: :model do
           @project.business.tz.local(2016, 6, 2, 0, 1)
         ]
         expect(@project.charges.estimated.map(&:process_after).sort).to eq(dates)
+      end
+    end
+
+    context 'when more than full amount paid' do
+      before do
+        JobApplication::Accept.(@job_application)
+        Timecop.freeze @project.starts_on + 5.days do
+          log_timesheet @project, hours: @project.estimated_hours + 10
+          PaymentCycle.for(@project).create_charges_and_reschedule!
+        end
+      end
+
+      after do
+        Timecop.return
+      end
+
+      it 'sets running balance at 0' do
+        charge = @project.charges.scheduled.first
+        expect(charge.running_balance_in_cents).to eq(0)
+      end
+
+      it 'does not add estimated charges' do
+        expect(@project.charges.estimated.count).to eq(0)
       end
     end
   end

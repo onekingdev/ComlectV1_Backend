@@ -12,19 +12,19 @@ class ProjectEnd::Request < Draper::Decorator
     # Delete previous request if any
     pending.where(project_id: project).delete_all
     new(create!(project: project, expires_at: expires_at)).tap do |request|
-      Notification::Deliver.end_project! request
+      notification_enabled? project.specialist, :project_end_requested do
+        ProjectMailer.deliver_later :end_request, request.project
+      end
     end
   end
 
   def self.confirm_or_deny!(project, params)
-    end_request = project.end_request
     if params[:confirm]
-      end_request.confirm!
+      project.end_request.confirm!
       Project::Ending.process! project
-      # Notification::Deliver.end_project! request
     elsif params[:deny]
-      end_request.deny!
-      Notification::Deliver.end_project_denied! end_request
+      project.end_request.deny!
+      # TODO: Send notification to business?
     end
   end
 end
