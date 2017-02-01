@@ -1,10 +1,2 @@
-p Hi #{@project.specialist.full_name},
-
-p
-  'Congratulations! We have selected you for the role of <a href="#{project_url(@project)}">#{@project.title}</a> through Complect.
-  'We're excited to have you as part of our team!
-
-p
-  'Best,
-  br
-  = @project.business.business_name
+p Congrats! You've been hired for the <a href="#{project_url(@project)}">#{@project.title}</a> role. Reach out to the business with any questions or concerns.
+p = @project.business.business_name

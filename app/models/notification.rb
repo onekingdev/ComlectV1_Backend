@@ -3,7 +3,7 @@ class Notification < ActiveRecord::Base
   belongs_to :user
   belongs_to :associated, polymorphic: true
 
-  scope :unread, -> { where(read_at: nil) }
+  scope :unread, -> { where(read_at: nil).order(created_at: :desc) }
   scope :with_key, -> (key) { where(key: key) }
   scope :associated_with, -> (associated) { where(associated: associated) }
   scope :fetch, -> (key, associated) { with_key(key).associated_with(associated) }
@@ -17,7 +17,7 @@ class Notification < ActiveRecord::Base
     user.notifications.fetch(key, associated).update_all read_at: Time.zone.now
   end
 
-  def self.clear_by_path!(user, path)
-    user.notifications.clear_automatically.where(path: path).update_all read_at: Time.zone.now
+  def self.clear_by_path!(user, action_path)
+    user.notifications.clear_automatically.where(action_path: action_path).update_all read_at: Time.zone.now
   end
 end

@@ -4,6 +4,7 @@ class Projects::QuestionsController < ApplicationController
 
   def create
     @question = Question.create(question_params.merge(project: @project, specialist: current_specialist))
+    Notification::Deliver.project_question! @question
     redirect_to project_path(@project)
   end
 

@@ -5,6 +5,9 @@ class NotificationsController < ApplicationController
   def show
     notification = current_user.notifications.find(params[:id])
     notification.touch :read_at
-    js_redirect notification.path
+    respond_to do |format|
+      format.html { redirect_to notification.action_path } # "Open Link in New Tab"
+      format.js { js_redirect notification.action_path }
+    end
   end
 end

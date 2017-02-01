@@ -2563,14 +2563,16 @@ CREATE TABLE notifications (
     id integer NOT NULL,
     user_id integer,
     message character varying,
-    path character varying,
+    action_path character varying,
     read_at timestamp without time zone,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     key character varying,
     associated_id integer,
     associated_type character varying,
-    clear_manually boolean DEFAULT false NOT NULL
+    clear_manually boolean DEFAULT false NOT NULL,
+    initiator character varying,
+    img_path character varying
 );
 
 
@@ -3922,6 +3924,13 @@ CREATE INDEX index_messages_on_thread_type_and_thread_id ON messages USING btree
 
 
 --
+-- Name: index_notifications_on_action_path; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_notifications_on_action_path ON notifications USING btree (action_path);
+
+
+--
 -- Name: index_notifications_on_associated_type_and_associated_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -3933,13 +3942,6 @@ CREATE INDEX index_notifications_on_associated_type_and_associated_id ON notific
 --
 
 CREATE INDEX index_notifications_on_clear_manually ON notifications USING btree (clear_manually);
-
-
---
--- Name: index_notifications_on_path; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_notifications_on_path ON notifications USING btree (path);
 
 
 --
@@ -4808,6 +4810,10 @@ INSERT INTO schema_migrations (version) VALUES ('20170120205317');
 INSERT INTO schema_migrations (version) VALUES ('20170120222804');
 
 INSERT INTO schema_migrations (version) VALUES ('20170121204351');
+
+INSERT INTO schema_migrations (version) VALUES ('20170124102558');
+
+INSERT INTO schema_migrations (version) VALUES ('20170128182414');
 
 INSERT INTO schema_migrations (version) VALUES ('20170201033003');
 
