@@ -782,47 +782,47 @@ UNION
                   GROUP BY project_revenue.project_id) rev) AS itd
 UNION
  SELECT 'forecasted_job_share'::character varying AS metric,
-    (((mtd.revenue)::double precision / (t_mtd.revenue)::double precision) * (100)::double precision) AS mtd,
-    (((fytd.revenue)::double precision / (t_fytd.revenue)::double precision) * (100)::double precision) AS fytd,
-    (((itd.revenue)::double precision / (t_itd.revenue)::double precision) * (100)::double precision) AS itd
-   FROM ( SELECT sum(all_value.revenue) AS revenue
+    (((mtd.cnt)::double precision / (t_mtd.cnt)::double precision) * (100)::double precision) AS mtd,
+    (((fytd.cnt)::double precision / (t_fytd.cnt)::double precision) * (100)::double precision) AS fytd,
+    (((itd.cnt)::double precision / (t_itd.cnt)::double precision) * (100)::double precision) AS itd
+   FROM ( SELECT NULLIF(count(*), 0) AS cnt
            FROM all_value
           WHERE (((all_value.type)::text = 'full_time'::text) AND (all_value.created_at >= date_trunc('month'::text, now())))) mtd,
-    ( SELECT sum(all_value.revenue) AS revenue
+    ( SELECT NULLIF(count(*), 0) AS cnt
            FROM all_value
           WHERE (((all_value.type)::text = 'full_time'::text) AND (all_value.created_at >= date_trunc('year'::text, now())))) fytd,
-    ( SELECT sum(all_value.revenue) AS revenue
+    ( SELECT NULLIF(count(*), 0) AS cnt
            FROM all_value
           WHERE ((all_value.type)::text = 'full_time'::text)) itd,
-    ( SELECT sum(all_value.revenue) AS revenue
+    ( SELECT NULLIF(count(*), 0) AS cnt
            FROM all_value
           WHERE (all_value.created_at >= date_trunc('month'::text, now()))) t_mtd,
-    ( SELECT sum(all_value.revenue) AS revenue
+    ( SELECT NULLIF(count(*), 0) AS cnt
            FROM all_value
           WHERE (all_value.created_at >= date_trunc('year'::text, now()))) t_fytd,
-    ( SELECT sum(all_value.revenue) AS revenue
+    ( SELECT NULLIF(count(*), 0) AS cnt
            FROM all_value) t_itd
 UNION
  SELECT 'forecasted_project_share'::character varying AS metric,
-    (((mtd.revenue)::double precision / (t_mtd.revenue)::double precision) * (100)::double precision) AS mtd,
-    (((fytd.revenue)::double precision / (t_fytd.revenue)::double precision) * (100)::double precision) AS fytd,
-    (((itd.revenue)::double precision / (t_itd.revenue)::double precision) * (100)::double precision) AS itd
-   FROM ( SELECT sum(all_value.revenue) AS revenue
+    (((mtd.cnt)::double precision / (t_mtd.cnt)::double precision) * (100)::double precision) AS mtd,
+    (((fytd.cnt)::double precision / (t_fytd.cnt)::double precision) * (100)::double precision) AS fytd,
+    (((itd.cnt)::double precision / (t_itd.cnt)::double precision) * (100)::double precision) AS itd
+   FROM ( SELECT NULLIF(count(*), 0) AS cnt
            FROM all_value
           WHERE (((all_value.type)::text = 'one_off'::text) AND (all_value.created_at >= date_trunc('month'::text, now())))) mtd,
-    ( SELECT sum(all_value.revenue) AS revenue
+    ( SELECT NULLIF(count(*), 0) AS cnt
            FROM all_value
           WHERE (((all_value.type)::text = 'one_off'::text) AND (all_value.created_at >= date_trunc('year'::text, now())))) fytd,
-    ( SELECT sum(all_value.revenue) AS revenue
+    ( SELECT NULLIF(count(*), 0) AS cnt
            FROM all_value
           WHERE ((all_value.type)::text = 'one_off'::text)) itd,
-    ( SELECT sum(all_value.revenue) AS revenue
+    ( SELECT NULLIF(count(*), 0) AS cnt
            FROM all_value
           WHERE (all_value.created_at >= date_trunc('month'::text, now()))) t_mtd,
-    ( SELECT sum(all_value.revenue) AS revenue
+    ( SELECT NULLIF(count(*), 0) AS cnt
            FROM all_value
           WHERE (all_value.created_at >= date_trunc('year'::text, now()))) t_fytd,
-    ( SELECT sum(all_value.revenue) AS revenue
+    ( SELECT NULLIF(count(*), 0) AS cnt
            FROM all_value) t_itd;
 
 
@@ -912,17 +912,17 @@ UNION
            FROM project_revenue) AS value
 UNION
  SELECT 'postings_job_share'::character varying AS metric,
-    ((j.revenue / a.revenue) * (100)::numeric) AS value
-   FROM ( SELECT COALESCE(sum(all_revenue.revenue), (0)::numeric) AS revenue
-           FROM all_revenue) a,
-    ( SELECT COALESCE(sum(job_revenue.revenue), (0)::numeric) AS revenue
+    (((j.cnt)::double precision / (a.cnt)::double precision) * (100)::double precision) AS value
+   FROM ( SELECT NULLIF(count(*), 0) AS cnt
+           FROM all_projects) a,
+    ( SELECT NULLIF(count(*), 0) AS cnt
            FROM job_revenue) j
 UNION
  SELECT 'postings_project_share'::character varying AS metric,
-    ((p.revenue / a.revenue) * (100)::numeric) AS value
-   FROM ( SELECT COALESCE(sum(all_revenue.revenue), (0)::numeric) AS revenue
-           FROM all_revenue) a,
-    ( SELECT COALESCE(sum(project_revenue.revenue), (0)::numeric) AS revenue
+    (((p.cnt)::double precision / (a.cnt)::double precision) * (100)::double precision) AS value
+   FROM ( SELECT NULLIF(count(*), 0) AS cnt
+           FROM all_projects) a,
+    ( SELECT NULLIF(count(*), 0) AS cnt
            FROM project_revenue) p;
 
 
@@ -4808,4 +4808,6 @@ INSERT INTO schema_migrations (version) VALUES ('20170120205317');
 INSERT INTO schema_migrations (version) VALUES ('20170120222804');
 
 INSERT INTO schema_migrations (version) VALUES ('20170121204351');
+
+INSERT INTO schema_migrations (version) VALUES ('20170201033003');
 
