@@ -5,6 +5,7 @@ class ProjectIssue::Create
       if issue.save
         EscalatedProjectMailer.deliver_later :email_to_support, issue
         EscalatedProjectMailer.deliver_later :email_to_user, issue
+        Notification::Deliver.escalated! issue
       end
     end
   end

@@ -25,7 +25,7 @@ class Notification::Deliver < Draper::Decorator
         action_path: action_path,
         associated: project,
         initiator: project.business,
-        t: { job_title: project.title }
+        t: { project_title: project.title }
       )
       dispatcher.deliver_notification!
       NotificationMailer.deliver_later :notification, dispatcher, action_url
@@ -62,7 +62,7 @@ class Notification::Deliver < Draper::Decorator
         key: :got_rated,
         action_path: action_path,
         associated: rating,
-        initiator: rating.project.business
+        initiator: project.business
       )
       dispatcher.deliver_notification!
       return unless Notification.enabled?(specialist, :got_rated)
@@ -154,7 +154,8 @@ class Notification::Deliver < Draper::Decorator
         key: :timesheet_disputed,
         action_path: action_path,
         associated: project,
-        initiator: project.business
+        initiator: project.business,
+        t: { project_title: project.title }
       )
       dispatcher.deliver_notification!
       NotificationMailer.deliver_later :notification, dispatcher, action_url
@@ -185,7 +186,8 @@ class Notification::Deliver < Draper::Decorator
         key: key,
         action_path: action_path,
         associated: project,
-        initiator: project.business
+        initiator: project.business,
+        t: { project_title: project.title }
       )
       dispatcher.deliver_notification!
       NotificationMailer.deliver_later :notification, dispatcher, action_url
@@ -199,7 +201,8 @@ class Notification::Deliver < Draper::Decorator
         key: :timesheet_submitted,
         action_path: action_path,
         associated: project,
-        initiator: project.specialist
+        initiator: project.specialist,
+        t: { project_title: project.title }
       )
       dispatcher.deliver_notification!
       NotificationMailer.deliver_later :notification, dispatcher, action_url
@@ -213,7 +216,8 @@ class Notification::Deliver < Draper::Decorator
         key: :extend_project,
         action_path: action_path,
         associated: project,
-        initiator: project.business
+        initiator: project.business,
+        t: { project_title: project.title }
       )
       dispatcher.deliver_notification!
       NotificationMailer.deliver_later :notification, dispatcher, action_url
@@ -226,7 +230,8 @@ class Notification::Deliver < Draper::Decorator
         user: project.business.user,
         key: :extension_denied,
         action_path: action_path,
-        associated: project
+        associated: project,
+        t: { project_title: project.title }
       )
       dispatcher.deliver_notification!
       NotificationMailer.deliver_later :notification, dispatcher, action_url
@@ -240,7 +245,8 @@ class Notification::Deliver < Draper::Decorator
         key: :extension_accepted,
         action_path: action_path,
         associated: project,
-        initiator: project.specialist
+        initiator: project.specialist,
+        t: { project_title: project.title }
       )
       dispatcher.deliver_notification!
       NotificationMailer.deliver_later :notification, dispatcher, action_url
@@ -254,7 +260,7 @@ class Notification::Deliver < Draper::Decorator
         key: :end_project,
         action_path: action_path,
         associated: project,
-        t: { business_name: project.business.business_name }
+        t: { business_name: project.business.business_name, project_title: project.title }
       )
       dispatcher.deliver_notification!
       NotificationMailer.deliver_later :notification, dispatcher, action_url
@@ -267,7 +273,8 @@ class Notification::Deliver < Draper::Decorator
         user: project.business.user,
         key: :end_project_denied,
         action_path: action_path,
-        associated: project
+        associated: project,
+        t: { project_title: project.title }
       )
       dispatcher.deliver_notification!
       NotificationMailer.deliver_later :notification, dispatcher, action_url
@@ -275,21 +282,85 @@ class Notification::Deliver < Draper::Decorator
 
     def welcome_specialist!(specialist)
       action_path, action_url = path_and_url :specialists_settings_payment
-      dispatcher = Dispatcher.new(
-        user: specialist.user,
-        key: :welcome_specialist,
-        action_path: action_path
-      )
+      dispatcher = Dispatcher.new(user: specialist.user, key: :welcome_specialist, action_path: action_path)
       dispatcher.deliver_notification!
       NotificationMailer.deliver_later :notification, dispatcher, action_url
     end
 
     def welcome_business!(business)
       action_path, action_url = path_and_url :business_settings_payment_index
+      dispatcher = Dispatcher.new(user: business.user, key: :welcome_business, action_path: action_path)
+      dispatcher.deliver_notification!
+      NotificationMailer.deliver_later :notification, dispatcher, action_url
+    end
+
+    # rubocop:disable Metrics/MethodLength
+    def escalated!(issue)
+      project = issue.project
+      rcv, key, path, url = if issue.user.specialist
+                              [
+                                project.business.user, :business_escalated,
+                                *path_and_url(:business_project_dashboard, project, anchor: "project-messages")
+                              ]
+                            elsif issue.user.business
+                              [
+                                project.specialist.user, :specialist_escalated,
+                                *path_and_url(:project_dashboard, project, anchor: "project-messages")
+                              ]
+                            end
       dispatcher = Dispatcher.new(
-        user: business.user,
-        key: :welcome_business,
-        action_path: action_path
+        user: rcv,
+        key: key,
+        action_path: path,
+        associated: project,
+        t: { project_title: project.title }
+      )
+      dispatcher.deliver_notification!
+      NotificationMailer.deliver_later :notification, dispatcher, url
+    end
+    # rubocop:enable Metrics/MethodLength
+
+    def invited_to_project!(invite)
+      project = invite.project
+      action_path = r.project_path(project)
+      key = project.full_time? ? :invited_to_job : :invited_to_project
+      dispatcher = Dispatcher.new(
+        user: invite.specialist.user,
+        key: key,
+        action_path: action_path,
+        associated: project,
+        t: { project_title: project.title }
+      )
+      dispatcher.deliver_notification!
+      # No mail notification here
+    end
+
+    def project_application!(application)
+      project = application.project
+      action_path, action_url = path_and_url :business_project_job_applications, project
+      key = project.full_time? ? :job_application : :project_application
+      dispatcher = Dispatcher.new(
+        user: project.business.user,
+        key: key,
+        action_path: action_path,
+        associated: project,
+        t: { project_title: project.title },
+        initiator: application.specialist
+      )
+      dispatcher.deliver_notification!
+      NotificationMailer.deliver_later :notification, dispatcher, action_url
+    end
+
+    def end_project_accepted!(request)
+      project = request.project
+      action_path, action_url = path_and_url :business_project_dashboard, project
+      dispatcher = Dispatcher.new(
+        user: project.business.user,
+        key: :end_project_accepted,
+        action_path: action_path,
+        associated: project,
+        t: { project_title: project.title },
+        initiator: project.specialist
       )
       dispatcher.deliver_notification!
       NotificationMailer.deliver_later :notification, dispatcher, action_url
@@ -331,12 +402,13 @@ class Notification::Deliver < Draper::Decorator
     private
 
     def initiator_name_and_img(initiator)
+      def_img = ActionController::Base.helpers.asset_path("icon-specialist.png")
       if initiator.class == Business::Decorator || initiator.class == Business
-        [initiator.business_name, initiator.logo_url(:thumb)]
+        [initiator.business_name, initiator.logo_url(:thumb) || def_img]
       elsif initiator.class == Specialist::Decorator || initiator.class == Specialist
-        [initiator.first_name, initiator.photo_url(:thumb)]
+        [initiator.first_name, initiator.photo_url(:thumb) || def_img]
       else
-        ["Complect", ActionController::Base.helpers.asset_path("icon-specialist.png")]
+        ["Complect", def_img]
       end
     end
 

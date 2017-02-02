@@ -8,6 +8,7 @@ class ProjectInvite < ActiveRecord::Base
 
   def send_message!
     ProjectMailer.deliver_later :invite, self
+    Notification::Deliver.invited_to_project! self
     update_attribute :status, self.class.statuses[:sent]
   end
 end

@@ -21,7 +21,7 @@ class ProjectEnd::Request < Draper::Decorator
     if params[:confirm]
       end_request.confirm!
       Project::Ending.process! project
-      # Notification::Deliver.end_project! request
+      Notification::Deliver.end_project_accepted! end_request
     elsif params[:deny]
       end_request.deny!
       Notification::Deliver.end_project_denied! end_request
