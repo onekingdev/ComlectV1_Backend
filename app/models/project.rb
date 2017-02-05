@@ -25,10 +25,16 @@ class Project < ActiveRecord::Base
   has_many :documents, dependent: :destroy
   has_many :questions, dependent: :destroy
   has_many :answers, through: :questions, dependent: :destroy
+  has_many :favorites, as: :favorited, dependent: :destroy, class_name: 'Favorite'
+  has_many :favorited_by, through: :favorites, source_type: 'Specialist', source: :owner
+
+  # add favorites or specialists who favorited this project
 
   accepts_nested_attributes_for :extensions
   accepts_nested_attributes_for :timesheets, allow_destroy: true
 
+  scope :starts_in_48, -> { where('starts_on = ?', Time.zone.today + 2.days).where(starts_in_48: false) }
+  scope :ends_in_24, -> { where('ends_on = ?', Time.zone.today + 1.day).where(ends_in_24: false) }
   scope :escalated, -> { joins(:issues).where(project_issues: { status: :open }) }
   scope :not_escalated, -> { where.not(id: escalated) }
   scope :visible, -> { joins(business: :user).where(users: { suspended: false }) }

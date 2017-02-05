@@ -1,3 +1,13 @@
+# *    *    *    *    *  command to be executed
+# ┬    ┬    ┬    ┬    ┬
+# │    │    │    │    │
+# │    │    │    │    │
+# │    │    │    │    └───── day of week (0 - 6) (0 or 6 are Sunday to Saturday, or use names)
+# │    │    │    └────────── month (1 - 12)
+# │    │    └─────────────── day of month (1 - 31)
+# │    └──────────────────── hour (0 - 23)
+# └───────────────────────── min (0 - 59)
+
 schedule_charges:
   cron: "0 * * * *"
   class: "ScheduleChargesJob"
@@ -21,3 +31,11 @@ expire_projects:
 transfer_foreign_currency:
   cron: "0 0 * * *"
   class: "TransferForeignCurrencyJob"
+
+starts_in_48:
+  cron: "*/5 * * * *"
+  class: "StartsIn48Job"
+
+ends_in_24:
+  cron: "*/5 * * * *"
+  class: "EndsIn24Job"

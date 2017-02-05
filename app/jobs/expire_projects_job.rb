@@ -13,6 +13,7 @@ class ExpireProjectsJob < ActiveJob::Base
   def process_all
     Project.expired.each do |project|
       self.class.perform_later project.id
+      Notification::Deliver.start_date_lapsed! project
     end
   end
 end

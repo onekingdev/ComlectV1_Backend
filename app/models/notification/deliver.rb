@@ -3,6 +3,8 @@
 class Notification::Deliver < Draper::Decorator
   decorates Notification
 
+  # TODO: come up with a better method in order to remove repetitive code
+
   class << self
     def r
       Rails.application.routes.url_helpers
@@ -361,6 +363,117 @@ class Notification::Deliver < Draper::Decorator
         associated: project,
         t: { project_title: project.title },
         initiator: project.specialist
+      )
+      dispatcher.deliver_notification!
+      NotificationMailer.deliver_later :notification, dispatcher, action_url
+    end
+
+    def start_date_lapsed!(project)
+      action_path, action_url = path_and_url :business_dashboard, anchor: 'projects-drafts'
+      dispatcher = Dispatcher.new(
+        user: project.business.user,
+        key: :start_date_lapsed,
+        action_path: action_path,
+        associated: project
+      )
+      dispatcher.deliver_notification!
+      NotificationMailer.deliver_later :notification, dispatcher, action_url
+    end
+
+    def starts_in_48!(project)
+      if project.active?
+        specialist_project_starting_soon!(project)
+        business_project_starting_soon!(project)
+      end
+      if project.pending?
+        project.favorites.each do |favorite|
+          apply_to_favorited!(favorite)
+        end
+        pending_project_starting_soon!(project)
+      end
+    end
+
+    def specialist_project_starting_soon!(project)
+      action_path, action_url = path_and_url :project_dashboard, project
+      dispatcher = Dispatcher.new(
+        user: project.specialist.user,
+        key: :specialist_project_starting_soon,
+        action_path: action_path,
+        associated: project,
+        t: { project_title: project.title }
+      )
+      dispatcher.deliver_notification!
+      NotificationMailer.deliver_later :notification, dispatcher, action_url
+    end
+
+    def business_project_starting_soon!(project)
+      action_path, action_url = path_and_url :business_project_dashboard, project
+      dispatcher = Dispatcher.new(
+        user: project.business.user,
+        key: :business_project_starting_soon,
+        action_path: action_path,
+        associated: project,
+        t: { project_title: project.title }
+      )
+      dispatcher.deliver_notification!
+      NotificationMailer.deliver_later :notification, dispatcher, action_url
+    end
+
+    def apply_to_favorited!(favorite)
+      project = favorite.favorited
+      action_path, action_url = path_and_url :project, project
+      dispatcher = Dispatcher.new(
+        user: favorite.owner.user,
+        key: :apply_to_favorited,
+        action_path: action_path,
+        associated: project,
+        t: { project_title: project.title }
+      )
+      dispatcher.deliver_notification!
+      NotificationMailer.deliver_later :notification, dispatcher, action_url
+    end
+
+    def pending_project_starting_soon!(project)
+      action_path, action_url = path_and_url :business_project_job_applications, project
+      dispatcher = Dispatcher.new(
+        user: project.business.user,
+        key: :pending_project_starting_soon,
+        action_path: action_path,
+        associated: project,
+        t: { project_title: project.title }
+      )
+      dispatcher.deliver_notification!
+      NotificationMailer.deliver_later :notification, dispatcher, action_url
+    end
+
+    def ends_in_24!(project)
+      business_ends_in_24!(project)
+      specialist_ends_in_24!(project)
+    end
+
+    def business_ends_in_24!(project)
+      action_path, action_url = path_and_url :business_project_dashboard, project
+      key = project.fixed_pricing? ? :business_fixed_project_ends : :business_hourly_project_ends
+      dispatcher = Dispatcher.new(
+        user: project.business.user,
+        key: key,
+        action_path: action_path,
+        associated: project,
+        t: { project_title: project.title }
+      )
+      dispatcher.deliver_notification!
+      NotificationMailer.deliver_later :notification, dispatcher, action_url
+    end
+
+    def specialist_ends_in_24!(project)
+      action_path, action_url = path_and_url :project_dashboard, project
+      key = project.fixed_pricing? ? :specialist_fixed_project_ends : :specialist_hourly_project_ends
+      dispatcher = Dispatcher.new(
+        user: project.specialist.user,
+        key: key,
+        action_path: action_path,
+        associated: project,
+        t: { project_title: project.title }
       )
       dispatcher.deliver_notification!
       NotificationMailer.deliver_later :notification, dispatcher, action_url
