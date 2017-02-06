@@ -39,3 +39,7 @@ starts_in_48:
 ends_in_24:
   cron: "*/5 * * * *"
   class: "EndsIn24Job"
+
+user_inactive:
+  cron: "*/5 * * * *"
+  class: "UserInactiveJob"

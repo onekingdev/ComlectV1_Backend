@@ -12,6 +12,7 @@ class Users::SessionsController < Devise::SessionsController
         if (self.resource = warden.authenticate(auth_options))
           set_flash_message!(:notice, :signed_in)
           sign_in(resource_name, resource)
+          resource.update(inactive_for_month: false)
         else
           flash.now[:warning] = 'Invalid email or password'
         end

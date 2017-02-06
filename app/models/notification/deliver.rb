@@ -478,7 +478,31 @@ class Notification::Deliver < Draper::Decorator
       dispatcher.deliver_notification!
       NotificationMailer.deliver_later :notification, dispatcher, action_url
     end
+
+    # rubocop:disable Metrics/MethodLength
+    def user_inactive!(user)
+      key, path, url = if user.specialist
+                         [
+                           :browse_new_projects,
+                           *path_and_url(:projects)
+                         ]
+                       elsif user.business
+                         [
+                           :post_new_project,
+                           *path_and_url(:new_business_project)
+                         ]
+                       end
+      dispatcher = Dispatcher.new(
+        user: user,
+        key: key,
+        action_path: path,
+        associated: user
+      )
+      dispatcher.deliver_notification!
+      NotificationMailer.deliver_later :notification, dispatcher, url
+    end
   end
+  # rubocop:enable Metrics/MethodLength
 
   class Dispatcher
     attr_reader :user, :key, :action_path, :associated, :clear_manually, :t, :message,

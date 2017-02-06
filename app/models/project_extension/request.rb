@@ -20,7 +20,7 @@ class ProjectExtension::Request < Draper::Decorator
     extension = project.extension
     if params[:confirm]
       extension.confirm!
-      project.update_attribute :ends_on, extension.new_end_date
+      project.update_attributes(ends_on: extension.new_end_date, ends_in_24: false)
       Notification::Deliver.extension_accepted! extension
     elsif params[:deny]
       extension.deny!
