@@ -28,19 +28,25 @@ class DiscourseController < ApplicationController
     sso.email = specialist.user.email
     sso.name = specialist.full_name
     sso.username = specialist.user.email
+    sso.avatar_url = specialist.photo ? specialist.photo_url(:thumb) : asset_url('icon-specialist.png')
     sso.external_id = specialist.id
     sso.sso_secret = secret
     sso
   end
 
   def form_business_sso(business)
-    secret = ENV['DISCOURSE_SECRET']
+    secret = ENV.fetch('DISCOURSE_SECRET')
     sso = SingleSignOn.parse(request.query_string, secret)
     sso.email = business.user.email
     sso.name = business.contact_full_name
     sso.username = business.user.email
+    sso.avatar_url = (business.public? && business.logo) ? business.logo_url(:thumb) : asset_url('icon-business.png')
     sso.external_id = business.id
     sso.sso_secret = secret
     sso
+  end
+
+  def asset_url(asset)
+    self.class.helpers.asset_url asset, host: "http#{request.ssl? ? 's' : ''}://#{ENV.fetch('DEFAULT_URL_HOST')}"
   end
 end

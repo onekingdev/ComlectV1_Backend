@@ -16,6 +16,7 @@
   * Enable `enable sso`
   * `sso url` -> `https://<domain>/specialist_sso`
   * `sso secret` -> Same as Heroku config `DISCOURSE_SECRET`
+  * Enable all `sso overrides ...` settings
 
 * Users
   * `/admin/site_settings/category/users`
