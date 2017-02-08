@@ -38,5 +38,12 @@ module Complect
 
     # Use Sidekiq for asynchronous operations.
     config.active_job.queue_adapter = :sidekiq
+
+    config.middleware.insert_before 0, 'Rack::Cors' do
+      allow do
+        origins(/https:\/\/.+?\.complect\.co/)
+        resource '*', headers: :any, methods: :get
+      end
+    end
   end
 end

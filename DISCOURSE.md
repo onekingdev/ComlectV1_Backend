@@ -39,6 +39,17 @@
   * Disable `version checks`
   * Disable `new version emails`
 
+## Colors
+
+`/admin/customize/colors`
+
+Create a new theme, and use the following colors:
+
+* `header background` -> `#646464`
+* `header primary` -> `#ffffff`
+
+Save and enable.
+
 ## Customization
 
 For each section, go to `/admin/customize/css_html` and add code as instructed.
@@ -50,12 +61,34 @@ Make sure to enable each customization.
 Put the following code into the `CSS` section:
 
 ```css
-.d-header .icons .icon {
-  color: white;
+@font-face {
+  font-family: Muller, Helvetica, serif;
+  src: url('https://beta.complect.co/fonts/mullerregular-webfont.eot');
+  src: url('https://beta.complect.co/fonts/mullerregular-webfont.eot?#iefix') format('embedded-opentype'),
+       url('https://beta.complect.co/fonts/mullerregular-webfont.woff2') format('woff2'),
+       url('https://beta.complect.co/fonts/mullerregular-webfont.woff') format('woff'),
+       url('https://beta.complect.co/fonts/mullerregular-webfont.ttf') format('truetype'),
+       url('https://beta.complect.co/fonts/mullerregular-webfont.svg#mullerregular') format('svg');
+  font-weight: 400;
+  font-style: normal;
 }
 
-.d-header {
-  background-color: #646464 !important;
+@font-face {
+  font-family: Muller, Helvetica, serif;
+  src: url('https://beta.complect.co/fonts/mullerbold-webfont.eot');
+  src: url('https://beta.complect.co/fonts/mullerbold-webfont.eot?#iefix') format('embedded-opentype'),
+       url('https://beta.complect.co/fonts/mullerbold-webfont.woff2') format('woff2'),
+       url('https://beta.complect.co/fonts/mullerbold-webfont.woff') format('woff'),
+       url('https://beta.complect.co/fonts/mullerbold-webfont.ttf') format('truetype'),
+       url('https://beta.complect.co/fonts/mullerbold-webfont.svg#mullerbold') format('svg');
+  font-weight: 600;
+  font-style: normal;
+}
+
+body {
+  font-family: Muller, Helvetica;
+  font-size: 12px;
+  font-weight: 400;
 }
 ```
 

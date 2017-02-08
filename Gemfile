@@ -29,6 +29,7 @@ gem 'sassc-rails', '~> 1.3'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 gem 'non-stupid-digest-assets'
+gem 'rack-cors', require: 'rack/cors'
 
 # Views
 gem 'slim-rails', '~> 3.0.1'
