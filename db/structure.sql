@@ -492,7 +492,9 @@ CREATE TABLE projects (
     published_at timestamp without time zone,
     completed_at timestamp without time zone,
     hired_at timestamp without time zone,
-    extended_at timestamp without time zone
+    extended_at timestamp without time zone,
+    starts_in_48 boolean DEFAULT false,
+    ends_in_24 boolean DEFAULT false
 );
 
 
@@ -1197,7 +1199,8 @@ CREATE TABLE users (
     tos_acceptance_date timestamp without time zone,
     tos_acceptance_ip character varying,
     deleted boolean DEFAULT false NOT NULL,
-    deleted_at timestamp without time zone
+    deleted_at timestamp without time zone,
+    inactive_for_month boolean DEFAULT false
 );
 
 
@@ -3129,7 +3132,7 @@ CREATE TABLE transactions (
     type character varying,
     amount_in_cents integer,
     processed_at timestamp without time zone,
-    status character varying,
+    status character varying DEFAULT 'pending'::character varying,
     charge_source_id integer,
     payment_target_id integer,
     created_at timestamp without time zone NOT NULL,
@@ -3138,7 +3141,8 @@ CREATE TABLE transactions (
     parent_transaction_id integer,
     status_detail character varying,
     fee_in_cents integer DEFAULT 0 NOT NULL,
-    date timestamp without time zone
+    date timestamp without time zone,
+    last_try_at timestamp without time zone
 );
 
 
@@ -4393,6 +4397,13 @@ CREATE INDEX index_transactions_on_date ON transactions USING btree (date);
 
 
 --
+-- Name: index_transactions_on_last_try_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_transactions_on_last_try_at ON transactions USING btree (last_try_at);
+
+
+--
 -- Name: index_transactions_on_parent_transaction_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -4816,4 +4827,12 @@ INSERT INTO schema_migrations (version) VALUES ('20170124102558');
 INSERT INTO schema_migrations (version) VALUES ('20170128182414');
 
 INSERT INTO schema_migrations (version) VALUES ('20170201033003');
+
+INSERT INTO schema_migrations (version) VALUES ('20170205030444');
+
+INSERT INTO schema_migrations (version) VALUES ('20170206020010');
+
+INSERT INTO schema_migrations (version) VALUES ('20170208044644');
+
+INSERT INTO schema_migrations (version) VALUES ('20170208045428');
 
