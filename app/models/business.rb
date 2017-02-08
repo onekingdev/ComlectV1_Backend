@@ -18,6 +18,8 @@ class Business < ActiveRecord::Base
   has_many :ratings_received, -> { where(rater_type: Specialist.name) }, through: :projects, source: :ratings
   has_many :email_threads, dependent: :destroy
 
+  include DiscourseUsernameGenerator
+
   has_settings do |s|
     s.key :notifications, defaults: {
       marketing_emails: true,

@@ -235,7 +235,8 @@ CREATE TABLE businesses (
     time_zone character varying,
     ratings_count integer DEFAULT 0 NOT NULL,
     ratings_total integer DEFAULT 0 NOT NULL,
-    ratings_average double precision
+    ratings_average double precision,
+    discourse_username character varying
 );
 
 
@@ -1168,7 +1169,8 @@ CREATE TABLE specialists (
     deleted boolean DEFAULT false NOT NULL,
     time_zone character varying,
     address_1 character varying,
-    address_2 character varying
+    address_2 character varying,
+    discourse_username character varying
 );
 
 
@@ -3746,6 +3748,13 @@ CREATE INDEX index_businesses_on_anonymous ON businesses USING btree (anonymous)
 
 
 --
+-- Name: index_businesses_on_discourse_username; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_businesses_on_discourse_username ON businesses USING btree (discourse_username);
+
+
+--
 -- Name: index_businesses_on_ratings_average; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -4292,6 +4301,13 @@ CREATE UNIQUE INDEX index_skills_specialists_on_skill_id_and_specialist_id ON sk
 
 
 --
+-- Name: index_specialists_on_discourse_username; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_specialists_on_discourse_username ON specialists USING btree (discourse_username);
+
+
+--
 -- Name: index_specialists_on_first_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -4835,4 +4851,6 @@ INSERT INTO schema_migrations (version) VALUES ('20170206020010');
 INSERT INTO schema_migrations (version) VALUES ('20170208044644');
 
 INSERT INTO schema_migrations (version) VALUES ('20170208045428');
+
+INSERT INTO schema_migrations (version) VALUES ('20170208211820');
 

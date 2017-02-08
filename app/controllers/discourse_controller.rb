@@ -27,7 +27,7 @@ class DiscourseController < ApplicationController
     sso = SingleSignOn.parse(request.query_string, secret)
     sso.email = specialist.user.email
     sso.name = specialist.full_name
-    sso.username = specialist.user.email
+    sso.username = specialist.discourse_username! "#{specialist.first_name}#{specialist.last_name}"
     sso.avatar_url = specialist.photo ? specialist.photo_url(:thumb) : asset_url('icon-specialist.png')
     sso.external_id = specialist.id
     sso.sso_secret = secret
@@ -39,7 +39,7 @@ class DiscourseController < ApplicationController
     sso = SingleSignOn.parse(request.query_string, secret)
     sso.email = business.user.email
     sso.name = business.contact_full_name
-    sso.username = business.user.email
+    sso.username = business.discourse_username! "#{business.contact_first_name}#{business.contact_last_name}"
     sso.avatar_url = (business.public? && business.logo) ? business.logo_url(:thumb) : asset_url('icon-business.png')
     sso.external_id = business.id
     sso.sso_secret = secret
