@@ -1,29 +1,29 @@
 # frozen_string_literal: true
 class DiscourseController < ApplicationController
   def specialist_sso
-    if current_user.specialist.blank?
+    if !signed_in? || current_user.specialist.blank?
       redirect_to root_url
     else
       sso = form_specialist_sso(current_specialist)
       # EXAMPLE url https://discourse-specialist.herokuapp.com/session/sso_login
-      redirect_to sso.to_url(ENV['DISCOURSE_SPECIALIST_SSO_URL'])
+      redirect_to sso.to_url(ENV.fetch('DISCOURSE_SPECIALIST_SSO_URL'))
     end
   end
 
   def business_sso
-    if current_user.business.blank?
+    if !signed_in? || current_user.business.blank?
       redirect_to root_url
     else
       sso = form_business_sso(current_business)
       # EXAMPLE url https://discourse-business.herokuapp.com/session/sso_login
-      redirect_to sso.to_url(ENV['DISCOURSE_BUSINESS_SSO_URL'])
+      redirect_to sso.to_url(ENV.fetch('DISCOURSE_BUSINESS_SSO_URL'))
     end
   end
 
   private
 
   def form_specialist_sso(specialist)
-    secret = ENV['DISCOURSE_SECRET']
+    secret = ENV.fetch('DISCOURSE_SECRET')
     sso = SingleSignOn.parse(request.query_string, secret)
     sso.email = specialist.user.email
     sso.name = specialist.full_name
