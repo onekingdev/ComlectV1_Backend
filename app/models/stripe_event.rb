@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class StripeEvent
-  attr_reader :event
+  attr_reader :event, :account
 
   HANDLERS = {
     'account.updated' => StripeEvent::AccountUpdated,
@@ -17,11 +17,12 @@ class StripeEvent
     event = Stripe::Event.retrieve(event_id, args)
     handler = HANDLERS[event.type]
     return nil unless handler
-    handler.new(event, connect: connect).handle
+    handler.new(event, account: account, connect: connect).handle
   end
 
-  def initialize(event, connect:)
+  def initialize(event, account:, connect:)
     @connect = connect
+    @account = account
     @event = event
   end
 
