@@ -32,7 +32,7 @@ class BusinessesController < ApplicationController
   end
 
   def update
-    @business = Business::Form.for(current_user)
+    @business = Business::Form.for_user(current_user)
     respond_to do |format|
       if @business.update_attributes(edit_business_params)
         format.html { return redirect_to_param_or business_dashboard_path }
