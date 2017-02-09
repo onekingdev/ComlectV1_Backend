@@ -54,7 +54,7 @@
             .list-icon.p-x-2
               .item
                 i.icon-bubbles
-                span= link_to 'Forum', (ENV['DISCOURSE_BUSINESS_FORUM'] || '#')
+                span= link_to 'Forum', ENV.fetch('DISCOURSE_BUSINESS_FORUM'), target: '_blank'
               .item
                 i.icon-doc
                 span= link_to 'Best Practices', '#'

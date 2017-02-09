@@ -19,7 +19,12 @@ Rails.application.routes.draw do
     sessions: 'users/sessions',
     registrations: 'users/registrations',
     passwords: 'users/passwords'
-  }
+  } do
+  end
+
+  devise_scope :user do
+    get 'users/sign_out/force' => 'users/sessions#destroy'
+  end
 
   # LetsEncrypt Verification TODO: Remove after purchasing SSL cert
   get '/.well-known/acme-challenge/:id' => 'home#page', page: 'letsencrypt'
