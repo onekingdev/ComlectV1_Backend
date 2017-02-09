@@ -12,10 +12,15 @@ class DiscourseUser
       ActiveRecord::Base.connection.transaction do
         sso.name = name
         sso.username = username
+        sso.email = email
         sso.avatar_url = avatar_url
         api.post '/admin/users/sync_sso', sso.payload
       end
     end
+  end
+
+  def email
+    object.user.email
   end
 
   def username
