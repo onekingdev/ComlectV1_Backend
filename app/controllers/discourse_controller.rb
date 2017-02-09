@@ -23,27 +23,31 @@ class DiscourseController < ApplicationController
   private
 
   def form_specialist_sso(specialist)
-    secret = ENV.fetch('DISCOURSE_SECRET')
-    sso = SingleSignOn.parse(request.query_string, secret)
-    sso.email = specialist.user.email
-    sso.name = specialist.full_name
-    sso.username = specialist.discourse_username! "#{specialist.first_name}#{specialist.last_name}"
-    sso.avatar_url = specialist.photo ? specialist.photo_url(:thumb) : asset_url('icon-specialist.png')
-    sso.external_id = specialist.id
-    sso.sso_secret = secret
-    sso
+    sso(specialist).tap do |sso|
+      sso.email = specialist.user.email
+      specialist_name = specialist.full_name
+      sso.name = specialist_name
+      sso.username = specialist.discourse_username! "#{specialist.first_name}#{specialist.last_name}"
+      sso.avatar_url = specialist.photo ? specialist.photo_url(:thumb) : asset_url('icon-specialist.png')
+    end
   end
 
   def form_business_sso(business)
+    sso(business).tap do |sso|
+      sso.email = business.user.email
+      business_name = business.public? ? business.business_name : 'Anonymous'
+      sso.name = business_name
+      sso.username = business.discourse_username! business_name.parameterize.underscore.classify
+      sso.avatar_url = (business.public? && business.logo) ? business.logo_url(:thumb) : asset_url('icon-business.png')
+    end
+  end
+
+  def sso(object)
     secret = ENV.fetch('DISCOURSE_SECRET')
-    sso = SingleSignOn.parse(request.query_string, secret)
-    sso.email = business.user.email
-    sso.name = business.business_name
-    sso.username = business.discourse_username! business.business_name.parameterize.underscore.classify
-    sso.avatar_url = (business.public? && business.logo) ? business.logo_url(:thumb) : asset_url('icon-business.png')
-    sso.external_id = business.id
-    sso.sso_secret = secret
-    sso
+    SingleSignOn.parse(request.query_string, secret).tap do |sso|
+      sso.external_id = object.id
+      sso.sso_secret = secret
+    end
   end
 
   def asset_url(asset)
