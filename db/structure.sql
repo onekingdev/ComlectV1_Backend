@@ -235,8 +235,7 @@ CREATE TABLE businesses (
     time_zone character varying,
     ratings_count integer DEFAULT 0 NOT NULL,
     ratings_total integer DEFAULT 0 NOT NULL,
-    ratings_average double precision,
-    discourse_username character varying
+    ratings_average double precision
 );
 
 
@@ -493,9 +492,7 @@ CREATE TABLE projects (
     published_at timestamp without time zone,
     completed_at timestamp without time zone,
     hired_at timestamp without time zone,
-    extended_at timestamp without time zone,
-    starts_in_48 boolean DEFAULT false,
-    ends_in_24 boolean DEFAULT false
+    extended_at timestamp without time zone
 );
 
 
@@ -1169,8 +1166,7 @@ CREATE TABLE specialists (
     deleted boolean DEFAULT false NOT NULL,
     time_zone character varying,
     address_1 character varying,
-    address_2 character varying,
-    discourse_username character varying
+    address_2 character varying
 );
 
 
@@ -1201,8 +1197,7 @@ CREATE TABLE users (
     tos_acceptance_date timestamp without time zone,
     tos_acceptance_ip character varying,
     deleted boolean DEFAULT false NOT NULL,
-    deleted_at timestamp without time zone,
-    inactive_for_month boolean DEFAULT false
+    deleted_at timestamp without time zone
 );
 
 
@@ -3134,7 +3129,7 @@ CREATE TABLE transactions (
     type character varying,
     amount_in_cents integer,
     processed_at timestamp without time zone,
-    status character varying DEFAULT 'pending'::character varying,
+    status character varying,
     charge_source_id integer,
     payment_target_id integer,
     created_at timestamp without time zone NOT NULL,
@@ -3143,8 +3138,7 @@ CREATE TABLE transactions (
     parent_transaction_id integer,
     status_detail character varying,
     fee_in_cents integer DEFAULT 0 NOT NULL,
-    date timestamp without time zone,
-    last_try_at timestamp without time zone
+    date timestamp without time zone
 );
 
 
@@ -3748,13 +3742,6 @@ CREATE INDEX index_businesses_on_anonymous ON businesses USING btree (anonymous)
 
 
 --
--- Name: index_businesses_on_discourse_username; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_businesses_on_discourse_username ON businesses USING btree (discourse_username);
-
-
---
 -- Name: index_businesses_on_ratings_average; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -4301,13 +4288,6 @@ CREATE UNIQUE INDEX index_skills_specialists_on_skill_id_and_specialist_id ON sk
 
 
 --
--- Name: index_specialists_on_discourse_username; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_specialists_on_discourse_username ON specialists USING btree (discourse_username);
-
-
---
 -- Name: index_specialists_on_first_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -4410,13 +4390,6 @@ CREATE INDEX index_transactions_on_charge_source_id ON transactions USING btree 
 --
 
 CREATE INDEX index_transactions_on_date ON transactions USING btree (date);
-
-
---
--- Name: index_transactions_on_last_try_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_transactions_on_last_try_at ON transactions USING btree (last_try_at);
 
 
 --
@@ -4843,14 +4816,4 @@ INSERT INTO schema_migrations (version) VALUES ('20170124102558');
 INSERT INTO schema_migrations (version) VALUES ('20170128182414');
 
 INSERT INTO schema_migrations (version) VALUES ('20170201033003');
-
-INSERT INTO schema_migrations (version) VALUES ('20170205030444');
-
-INSERT INTO schema_migrations (version) VALUES ('20170206020010');
-
-INSERT INTO schema_migrations (version) VALUES ('20170208044644');
-
-INSERT INTO schema_migrations (version) VALUES ('20170208045428');
-
-INSERT INTO schema_migrations (version) VALUES ('20170208211820');
 
