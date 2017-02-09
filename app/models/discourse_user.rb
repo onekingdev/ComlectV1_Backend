@@ -13,7 +13,7 @@ class DiscourseUser
         sso.name = name
         sso.username = username
         sso.avatar_url = avatar_url
-        api.post '/admin/users/sync_so', sso.payload
+        api.post '/admin/users/sync_sso', sso.payload
       end
     end
   end
