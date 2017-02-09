@@ -8,7 +8,7 @@
   * `/admin/site_settings/category/required`
   * `company short name` -> `Complect`
   * `company full name` -> `Complect LLC`
-  * `company domain` -> `<domain>` or `complect.co`
+  * `company domain` -> `<domain>`
 
 * Login settings
   * `/admin/site_settings/category/login`

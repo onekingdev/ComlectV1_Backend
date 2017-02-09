@@ -34,7 +34,7 @@ class Project < ActiveRecord::Base
   accepts_nested_attributes_for :timesheets, allow_destroy: true
 
   scope :starts_in_48, -> { where('starts_on = ?', Time.zone.today + 2.days).where(starts_in_48: false) }
-  scope :ends_in_24, -> { where('ends_on = ?', Time.zone.today + 1.day).where(ends_in_24: false) }
+  scope :ends_in_24, -> { active.where('ends_on = ?', Time.zone.today + 1.day).where(ends_in_24: false) }
   scope :escalated, -> { joins(:issues).where(project_issues: { status: :open }) }
   scope :not_escalated, -> { where.not(id: escalated) }
   scope :visible, -> { joins(business: :user).where(users: { suspended: false }) }
