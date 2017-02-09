@@ -38,8 +38,8 @@ class DiscourseController < ApplicationController
     secret = ENV.fetch('DISCOURSE_SECRET')
     sso = SingleSignOn.parse(request.query_string, secret)
     sso.email = business.user.email
-    sso.name = business.contact_full_name
-    sso.username = business.discourse_username! "#{business.contact_first_name}#{business.contact_last_name}"
+    sso.name = business.business_name
+    sso.username = business.discourse_username! business.business_name.parameterize.underscore.classify
     sso.avatar_url = (business.public? && business.logo) ? business.logo_url(:thumb) : asset_url('icon-business.png')
     sso.external_id = business.id
     sso.sso_secret = secret
