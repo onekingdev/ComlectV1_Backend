@@ -27,7 +27,7 @@ class DiscourseController < ApplicationController
       sso.email = specialist.user.email
       specialist_name = specialist.full_name
       sso.name = specialist_name
-      sso.username = specialist.discourse_username! "#{specialist.first_name}#{specialist.last_name}"
+      sso.username = specialist.discourse_username! specialist_name.parameterize.titleize.delete(' ')
       sso.avatar_url = specialist.photo ? specialist.photo_url(:thumb) : asset_url('icon-specialist.png')
     end
   end
@@ -37,7 +37,7 @@ class DiscourseController < ApplicationController
       sso.email = business.user.email
       business_name = business.public? ? business.business_name : 'Anonymous'
       sso.name = business_name
-      sso.username = business.discourse_username! business_name.parameterize.underscore.classify
+      sso.username = business.discourse_username! business_name.parameterize.parameterize.titleize.delete(' ')
       sso.avatar_url = (business.public? && business.logo) ? business.logo_url(:thumb) : asset_url('icon-business.png')
     end
   end

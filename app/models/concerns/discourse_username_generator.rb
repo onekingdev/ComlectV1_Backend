@@ -3,7 +3,7 @@ module DiscourseUsernameGenerator
   extend ActiveSupport::Concern
 
   def discourse_username!(base)
-    return discourse_username if discourse_username.present?
+    return discourse_username if discourse_username == base
     count = 0
     loop do
       self.discourse_username = count > 0 ? "#{base}_#{count}" : base

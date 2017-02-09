@@ -46,6 +46,9 @@ gem 'ledermann-rails-settings'
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
 
+# Discourse
+gem 'discourse_api'
+
 # Assets
 gem 'jquery-rails'
 gem 'jquery-slick-rails'

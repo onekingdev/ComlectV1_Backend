@@ -27,6 +27,17 @@ class Specialist::Form < Specialist
     where(user_id: user.id).first!
   end
 
+  def save(*)
+    sync_triggered = (%w(visibility first_name last_name photo_data) & changed).any?
+    super.tap do |result|
+      discourse.sync if result && sync_triggered
+    end
+  end
+
+  def discourse
+    @_discourse ||= Specialist::Discourse.new(self)
+  end
+
   def skill_names
     @skill_names.nil? ? skills.map(&:name) : @skill_names
   end
