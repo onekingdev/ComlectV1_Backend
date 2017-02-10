@@ -13,7 +13,9 @@ class User < ActiveRecord::Base
   has_many :project_issues, dependent: :delete_all
   has_many :notifications, dependent: :delete_all
 
-  scope :inactive, -> { where('last_sign_in_at < ?', Time.zone.now - 30.days).where(inactive_for_month: false) }
+  scope :inactive, -> {
+    where('last_sign_in_at < ?', Time.zone.now - 30.days).where(inactive_for_month: false, suspended: false)
+  }
 
   default_scope -> { where(deleted: false) }
 

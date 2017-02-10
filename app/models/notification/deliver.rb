@@ -501,6 +501,28 @@ class Notification::Deliver < Draper::Decorator
       dispatcher.deliver_notification!
       NotificationMailer.deliver_later :notification, dispatcher, url
     end
+
+    def payment_issue!(user)
+      key, path, url = if user.specialist
+                         [
+                           :specialist_payment_issue,
+                           *path_and_url(:specialists_settings_payment)
+                         ]
+                       elsif user.business
+                         [
+                           :business_payment_issue,
+                           *path_and_url(:business_settings_payment)
+                         ]
+                       end
+      dispatcher = Dispatcher.new(
+        user: user,
+        key: key,
+        action_path: path,
+        associated: user
+      )
+      dispatcher.deliver_notification!
+      NotificationMailer.deliver_later :notification, dispatcher, url
+    end
   end
   # rubocop:enable Metrics/MethodLength
 
