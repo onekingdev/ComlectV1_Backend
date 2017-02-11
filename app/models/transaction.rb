@@ -44,6 +44,7 @@ class Transaction < ActiveRecord::Base
       self.status_detail = nil
       processed!
       save!
+      Notification::Deliver.transaction_processed! self
     end
   rescue => e
     self.status_detail = e.message

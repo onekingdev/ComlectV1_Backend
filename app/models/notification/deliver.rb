@@ -523,6 +523,37 @@ class Notification::Deliver < Draper::Decorator
       dispatcher.deliver_notification!
       NotificationMailer.deliver_later :notification, dispatcher, url
     end
+
+    def transaction_processed!(transaction)
+      business_transaction_processed! transaction if transaction.business
+      specialist_transaction_processed! transaction if transaction.specialist
+    end
+
+    def business_transaction_processed!(transaction)
+      action_path, action_url = path_and_url :business_financials, anchor: "charges-processed"
+      dispatcher = Dispatcher.new(
+        user: transaction.business.user,
+        key: :business_transaction_processed,
+        action_path: action_path,
+        associated: transaction,
+        t: { payment_amount: ActionController::Base.helpers.number_to_currency(transaction.amount) }
+      )
+      dispatcher.deliver_notification!
+      NotificationMailer.deliver_later :notification, dispatcher, action_url
+    end
+
+    def specialist_transaction_processed!(transaction)
+      action_path, action_url = path_and_url :specialists_financials, anchor: "payments-processed"
+      dispatcher = Dispatcher.new(
+        user: transaction.specialist.user,
+        key: :specialist_transaction_processed,
+        action_path: action_path,
+        associated: transaction,
+        t: { payment_amount: ActionController::Base.helpers.number_to_currency(transaction.specialist_total) }
+      )
+      dispatcher.deliver_notification!
+      NotificationMailer.deliver_later :notification, dispatcher, action_url
+    end
   end
   # rubocop:enable Metrics/MethodLength
 

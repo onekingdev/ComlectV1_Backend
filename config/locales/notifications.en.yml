@@ -55,7 +55,7 @@ en:
       subject: Job Question Answered
       message: I've responded to your question about the job.
       action_label: Go to %{project_title} Detailed Job Page
-    got_paid:
+    specialist_transaction_processed:
       subject: You've Been Paid!
       message: Payout of %{payment_amount} sent.
       action_label: Go to Financials Page
@@ -191,7 +191,7 @@ en:
       subject: "Urgent: Issue with Your Payment Details"
       message: Oh no! There was an issue verifying your payment details. Please review and update them to ensure your project can continue without a hitch.
       action_label: Go to Account Settings
-    payment_sent:
+    business_transaction_processed:
       subject: Your Payment Has Been Sent
       message: You've just made a payment of %{payment_amount}. You can check the invoice in your detailed financials section.
       action_label: Go to Financials Page
