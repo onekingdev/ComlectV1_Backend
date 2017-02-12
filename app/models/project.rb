@@ -33,8 +33,7 @@ class Project < ActiveRecord::Base
   accepts_nested_attributes_for :extensions
   accepts_nested_attributes_for :timesheets, allow_destroy: true
 
-  scope :starts_in_48, -> { where('starts_on = ?', Time.zone.today + 2.days).where(starts_in_48: false) }
-  scope :ends_in_24, -> { active.where('ends_on = ?', Time.zone.today + 1.day).where(ends_in_24: false) }
+  scope :business_timezones, -> { joins(business: :user).select('projects.*, businesses.time_zone') }
   scope :escalated, -> { joins(:issues).where(project_issues: { status: :open }) }
   scope :not_escalated, -> { where.not(id: escalated) }
   scope :visible, -> { joins(business: :user).where(users: { suspended: false }) }
@@ -117,6 +116,23 @@ class Project < ActiveRecord::Base
       # Set to midnight
       tz = ActiveSupport::TimeZone[project[:time_zone]]
       project.ends_on.in_time_zone(tz) + 1.day <= 5.minutes.from_now
+    end
+  end
+
+  def self.ends_in_24
+    one_off.active.where(ends_in_24: false).business_timezones.find_each.find_all do |p|
+      # Set to midnight
+      tz = ActiveSupport::TimeZone[p[:time_zone]]
+      p.ends_on.in_time_zone(tz) - 1.day <= 5.minutes.from_now
+    end
+  end
+
+  def self.starts_in_48
+    one_off.where(starts_in_48: false).business_timezones.find_each.find_all do |p|
+      # Set to midnight
+      tz = ActiveSupport::TimeZone[p[:time_zone]]
+      start_time = p.starts_on.in_time_zone(tz)
+      ((start_time - 2.days) <= 10.minutes.from_now) && (start_time >= Time.zone.now)
     end
   end
 
