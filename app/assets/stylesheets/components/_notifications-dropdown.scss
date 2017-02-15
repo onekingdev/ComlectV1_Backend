@@ -4,6 +4,10 @@
   background-color: #ebebeb;
   color: #333333;
   text-transform: none;
+  overflow-y: scroll;
+  @media (max-width: $grid-float-breakpoint) {
+    position: relative;
+  }
 
   .clearfix {
     font-size: 12px;

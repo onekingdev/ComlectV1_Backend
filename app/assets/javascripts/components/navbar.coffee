@@ -33,3 +33,11 @@ $('.navbar-collapse').on 'hide.bs.collapse', (e) ->
   bs_collapse = false
   update_navbar()
   return
+
+$('.notifications-dropdown').parent().on 'shown.bs.dropdown', (e) ->
+  th = 0
+  $('.notifications-dropdown > li').slice(0, 6).each ->
+    th += $(this).height()+1 # 1 for border
+    return
+  $('.notifications-dropdown').css 'max-height': th+"px"
+  return
