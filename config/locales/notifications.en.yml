@@ -57,15 +57,19 @@ en:
       action_label: Go to %{project_title} Detailed Job Page
     specialist_transaction_processed:
       subject: You've Been Paid!
-      message: Payout of %{payment_amount} sent.
+      message: You've just been paid %{payment_amount}. You can check the invoice in your detailed financials section.
       action_label: Go to Financials Page
     extend_project:
       subject: Project Extension Request
       message: I love your work and want to extend the project! Please confirm the extension request within one business day before it expires.
       action_label: Go to %{project_title} Project Dashboard
-    end_project:
+    end_project_fixed:
       subject: Project Early Termination Request
       message: "%{business_name} has requested to end your project. If this doesn't sound right, deny it within one business day otherwise the project will automatically end."
+      action_label: Go to %{project_title} Project Dashboard
+    end_project_hourly:
+      subkect: Project Early Termination Request
+      message: "%{business_name} has requested to end your project. If this doesn't sound right, deny it within one business day otherwise the project will automatically end. This is an hourly project, so you will only have one business day to submit any outstanding timesheets."
       action_label: Go to %{project_title} Project Dashboard
     specialist_project_starting_soon:
       subject: Your Project is Starting Soon
@@ -137,11 +141,11 @@ en:
       action_label: Go to %{project_title} Project Dashboard
     business_project_starting_soon:
       subject: Your Project is Starting Soon
-      message: "Don't forget your project %{project_title} starts in 48 hours. Message the specialist to set up a kick off call if you've not had one yet."
+      message: "Don't forget your project %{project_title} starts in less than 48 hours. Message the specialist to set up a kick off call if you've not had one yet."
       action_label: Go to %{project_title} Project Dashboard
     pending_project_starting_soon:
       subject: Your Project is Starting Soon
-      message: Yikes! It's 48 hours till your start date. Select a specialist soon! 
+      message: "Yikes! It's less than 48 hours till project %{project_title} is due to start. Select a specialist soon!"
       action_label: Go to %{project_title} Applicant Pool
     extension_denied:
       subject: "Project Extension Request: Denied"
