@@ -10,4 +10,12 @@ class NotificationsController < ApplicationController
       format.js { js_redirect notification.action_path }
     end
   end
+
+  def index
+    current_user.notifications.unread.each { |n| n.touch :read_at }
+    respond_to do |format|
+      format.html { redirect_to request.referer }
+      format.js
+    end
+  end
 end

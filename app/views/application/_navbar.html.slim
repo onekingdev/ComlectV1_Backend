@@ -51,11 +51,12 @@ nav#nav.navbar.navbar-default
               .badge.small= user.notifications.unread.count
           ul.dropdown-menu.notifications-dropdown
             - if user.notifications.unread.empty?
-              li.p-x-2.p-y-1 No alerts
+              li.no_unread
+                p No alerts
             - else
               li.clearfix
                 .pull-left.p-x-2.p-y-1 Notifications
-                .pull-right= link_to "Mark all as read", "#"
+                .pull-right= link_to "Mark all as read", notifications_path, "data-remote" => true
               - user.notifications.unread.each do |notification|
                 li
                   = link_to notification, remote: true do

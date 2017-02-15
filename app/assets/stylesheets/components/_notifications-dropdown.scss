@@ -9,6 +9,15 @@
     position: relative;
   }
 
+  .no_unread {
+    //min-width: 200px;
+    text-align: center;
+    height: 45px;
+    p {
+      padding-top: 15px;
+    }
+  }
+
   .clearfix {
     font-size: 12px;
     font-weight: $bold-weight;
