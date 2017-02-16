@@ -1,46 +1,48 @@
-.slick-prev:before, .slick-next:before {
-  color: #333333 !important;
-  font-family: "maxicons" !important;
-}
-
-.slick-prev:before {
-  content: "Q" !important;
-}
-
-.slick-next:before {
-  content: "+" !important;
-}
-
-.slick-prev {
-  left: -22px !important;
-}
-
-.slick-next {
-  right: -22px !important;
-}
-
-.slick-prev-sub, .slick-next-sub {
-  height: 24px;
-  display: inline-block;
-  vertical-align: bottom;
-  font-size: 18px;
-  font-family: "maxicons";
-  cursor: pointer;
-}
-
-.slick-dots {
-  position: static !important;
-  margin-bottom: 0px;
-  margin-top: 20px;
-  
-  li {
-    width: auto !important;
-    font-size: 12px;
-    color: #999999;
-    text-decoration: underline;
+.panel {
+  .slick-prev:before, .slick-next:before {
+    color: #333333 !important;
+    font-family: "maxicons" !important;
   }
-}
 
-.slick-slider {
-  margin-bottom: 0px !important;
+  .slick-prev:before {
+    content: "Q" !important;
+  }
+
+  .slick-next:before {
+    content: "+" !important;
+  }
+
+  .slick-prev {
+    left: -22px;
+  }
+
+  .slick-next {
+    right: -22px;
+  }
+
+  .slick-prev-sub, .slick-next-sub {
+    height: 24px;
+    display: inline-block;
+    vertical-align: bottom;
+    font-size: 18px;
+    font-family: "maxicons";
+    cursor: pointer;
+  }
+
+  .slick-dots {
+    position: static !important;
+    margin-bottom: 0px;
+    margin-top: 20px;
+    
+    li {
+      width: auto !important;
+      font-size: 12px;
+      color: #999999;
+      text-decoration: underline;
+    }
+  }
+
+  .slick-slider {
+    margin-bottom: 0px !important;
+  }
 }

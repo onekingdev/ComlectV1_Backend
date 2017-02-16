@@ -2,5 +2,8 @@
   - if @timesheet.project.active?
     = render 'form', timesheet: @timesheet
 
-.panel-drawer.timesheets
+.panel-drawer.timesheets#timesheets
   = render 'timesheets', timesheets: @timesheets, selected: @timesheet
+
+javascript:
+  slickify_timesheets("#timesheets");

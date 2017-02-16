@@ -12,25 +12,37 @@
   border-top: 2px solid #b7b7b7;
 }
 
+#timesheets {
+  .slick-prev, .slick-next {
+    top: 40%;
+  }
+
+  .slick-dots {
+    margin-top: 10px;
+  }
+}
+
 .timesheets .timesheet {
-  width: 90px;
+  width: 118px;
   float: left;
   padding-top: 22px;
   position: relative;
-  margin-bottom: 15px;
-  margin-right: 29px;
 
   .sheet-icon {
     display: block;
     height: 110px;
+    width: 84px;
     background: #fff asset_url("timesheet.png") no-repeat center;
     background-size: 84px 110px;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .sheet-icon:before {
     position: absolute;
-    right: 14px;
-    top: 30px;
+    right: 12px;
+    top: 10px;
     width: 16px;
     height: 16px;
     text-align: right;
