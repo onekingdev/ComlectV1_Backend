@@ -3,7 +3,7 @@ tr.nested-fields
   td.hours= f.input :hours, as: :string, label: false, input_html: {value: number_with_precision(f.object.hours, precision: 2) }
   td.tools
     = link_to_remove_association f, class: 'remove text-muted' do
-      i.fa.fa-remove
+      i.fa.fa-minus title="Remove" data-toggle="tooltip"
 
 /- if local_assigns.key?(:add_link)
   tr#js-form-timesheet-add-log-before

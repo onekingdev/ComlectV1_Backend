@@ -10,7 +10,7 @@
 
 .form-control {
   box-shadow: none;
-
+  border-radius: 0px;
   &.readonly {
     border-color: lighten($gray-light, 30%);
   }

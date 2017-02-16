@@ -152,6 +152,7 @@ body.project_dashboard.show, body.dashboards.show {
         top: 80px;
         right: 10px;
         background-color: transparent;
+        z-index: 500;
 
         .dropdown-toggle {
           border-radius: 50%;

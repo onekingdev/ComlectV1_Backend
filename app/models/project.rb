@@ -131,8 +131,8 @@ class Project < ActiveRecord::Base
     one_off.where(starts_in_48: false).business_timezones.find_each.find_all do |p|
       # Set to midnight
       tz = ActiveSupport::TimeZone[p[:time_zone]]
-      start_time = p.starts_on.in_time_zone(tz)
-      ((start_time - 2.days) <= 10.minutes.from_now) && (start_time >= Time.zone.now)
+      start_time = p.starts_on.in_time_zone(tz) - 2.days
+      (start_time <= 10.minutes.from_now) && (start_time >= Time.zone.now)
     end
   end
 

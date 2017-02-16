@@ -1,9 +1,15 @@
+.selected-timesheet .form-buttons input {
+  height: 36px;
+  padding: 6px 14px;
+}
+
 .panel-drawer.timesheets {
   padding-top: 0;
   padding-left: 20px;
   padding-right: 20px;
   box-sizing: border-box;
   width: calc(100% + 30px);
+  border-top: 2px solid #b7b7b7;
 }
 
 .timesheets .timesheet {
@@ -16,33 +22,69 @@
 
   .sheet-icon {
     display: block;
-    height: 108px;
+    height: 110px;
     background: #fff asset_url("timesheet.png") no-repeat center;
+    background-size: 84px 110px;
+  }
+
+  .sheet-icon:before {
+    position: absolute;
+    right: 14px;
+    top: 30px;
+    width: 16px;
+    height: 16px;
+    text-align: right;
   }
 
   &.disputed .sheet-icon {
-    background-image: asset_url("timesheet-disputed.png");
+    &:before {
+      font-family: 'Simple-Line-Icons';
+      content: "\e082";
+      background-color: #bf0000;
+      color: #fff;
+      display: block;
+      border-radius: 50%;
+    }
+
+    &:after {
+      content: "in dispute";
+      display: inline-block;
+      text-transform: uppercase;
+      color: #000;
+      opacity: 0.3;
+      top: 70px;
+      left: 3px;
+      position: absolute;
+      font-weight: $bold-weight;
+      transform: rotate(45deg);
+      -webkit-transform: rotate(45deg);
+      -moz-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      -o-transform: rotate(45deg);
+    }
   }
 
-  &.approved .sheet-icon, &.charged .sheet-icon {
-    background-image: asset_url("timesheet-approved.png");
+  &.approved .sheet-icon:before, &.charged .sheet-icon:before {
+    font-family: 'Simple-Line-Icons';
+    content: "\e080";
+    background-color: #0d8500;
+    color: #fff;
+    display: block;
+    border-radius: 50%;
   }
 
   &.pending .sheet-icon:before {
-    content: "n";
-    font-family: maxicons;
-    position: absolute;
-    right: 10px;
-    top: 30px;
+    content: "\e060";
+    font-family: 'Simple-Line-Icons';
   }
 
   &.selected:after {
     font-family: FontAwesome;
     content: "\f0d7";
     font-size: 30px;
-    color: $gray;
+    color: #b7b7b7;
     position: absolute;
-    top: -17px;
+    top: -18px;
     left: 0;
     width: 100%;
     text-align: center;
@@ -51,6 +93,9 @@
   .date {
     text-align: center;
     margin: 0.5rem 0;
+    font-weight: $bold-weight;
+    color: #7c7c7c;
+    font-size: 10px;
   }
 
   a {
@@ -59,11 +104,8 @@
 }
 
 .timesheet.submitted .sheet-icon:before {
-  content: "O";
-  font-family: maxicons;
-  position: absolute;
-  right: 10px;
-  top: 30px;
+  content: "\e081";
+  font-family: 'Simple-Line-Icons';
   animation: pulse 3s infinite;
 }
 
@@ -106,12 +148,21 @@ table.time_logs {
   margin-bottom: 20px;
   width: 100%;
 
+  .form-control {
+    border: 2px solid #eaeaea;
+  }
+
+  th {
+    text-transform: uppercase;
+    font-weight: $medium-weight;
+  }
+
   td {
     vertical-align: top;
   }
 
   .description {
-    width: 80%;
+    width: 75%;
 
     span {
       max-height: 2.6em;
@@ -120,8 +171,7 @@ table.time_logs {
   }
 
   .hours {
-    width: 15%;
-    text-align: right;
+    width: 20%;
 
     input {
       text-align: right;

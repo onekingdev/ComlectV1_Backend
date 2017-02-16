@@ -53,7 +53,7 @@ class Timesheet::Form < Timesheet::Decorator
   def add_link(f)
     data = { association_insertion_node: '#js-form-timesheet-add-log-before' }
     h.link_to_add_association f, :time_logs, data: data do
-      h.content_tag :i, '', class: 'fa fa-plus text-muted'
+      h.content_tag :i, '', class: 'fa fa-plus text-muted', title: "Add another", "data-toggle" => "tooltip"
     end
   end
 end

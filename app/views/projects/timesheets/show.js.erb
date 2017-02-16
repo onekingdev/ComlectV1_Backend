@@ -8,6 +8,7 @@ $('.timesheets .timesheet.selected').removeClass('selected');
 $('.timesheets .timesheet[data-id=<%= @timesheet.id %>]')
   .addClass('selected')
 <% if @timesheet.submitted? %>
+  .removeClass('pending').addClass('submitted')
   .find('.btn').text('Pending').addClass('disabled').attr('href', '#');
 <% else %>
   ;

@@ -24,9 +24,9 @@
     - if f.object.errors[:base].any?
       .alert.alert-warning= f.object.errors[:base].to_sentence
 
-    .col-sm-6.col-sm-push-6
-      .row.row-compact
+    .col-sm-8.col-sm-push-4
+      .row
         .col-xs-6
-          = f.submit 'Save', name: 'timesheet[save]', class: 'btn btn-primary btn-md btn-block'
+          = f.submit 'Save', name: 'timesheet[save]', class: 'btn btn-default btn-md btn-block'
         .col-xs-6
           = f.submit 'Submit', name: 'timesheet[submit]', class: 'btn btn-primary btn-md btn-block'
