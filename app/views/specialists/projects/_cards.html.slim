@@ -54,4 +54,4 @@
       = link_to ''.html_safe, current_uri(page: n + 1), remote: true, class: "page #{"current" if n + 1 == projects.current_page}"
 
 javascript:
-  slickify("#projects-#{@filter.to_s.split('_')[0]}");
+  slickify("#projects-#{@filter.to_s.split('_')[0]}", 3, 2, 1);
