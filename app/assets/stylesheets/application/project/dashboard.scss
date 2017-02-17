@@ -15,6 +15,19 @@
   }
 }
 
+#project-details, #project-help {
+  label.strong {
+    text-transform: uppercase;
+    font-weight: $medium-weight !important;
+    margin-bottom: 6px;
+  }
+
+  textarea.form-control {
+    height: 102px;
+    border: 2px solid #E3E3E3;
+  }
+}
+
 .project-overview {
   @media (max-width: $screen-xs-max) {
     padding: 0px 20px;

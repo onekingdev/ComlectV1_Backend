@@ -1,4 +1,4 @@
-table.table-condensed.time_logs
+table.table-condensed.time_logs.table-striped
   tr
     th.description Description
     th.hours Hours
@@ -28,8 +28,6 @@ table.table-condensed.time_logs
   .text-right.m-b-2
     = form_for [:business, timesheet.project, timesheet], remote: true do |f|
       = f.button 'Deny', value: '1', name: 'timesheet[dispute]', class: 'btn btn-danger btn-md p-x-2'
-        i.icon.icon-white.icon-transparent.circled.maxicons1-exit
         span Deny
       = f.button 'Confirm', value: '1', name: 'timesheet[approve]', class: 'btn btn-success btn-md p-x-2 m-l-1'
-        i.icon.icon-white.icon-transparent.circled.maxicons1-check
         span Confirm
