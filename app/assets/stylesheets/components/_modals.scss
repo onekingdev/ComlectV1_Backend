@@ -98,6 +98,10 @@ $bootbox-width: 474px;
     width: auto;
     background-color: #fff;
     padding: 10px;
+
+    .bootbox-body {
+      padding-top: 30px;
+    }
   }
 
   //.modal-header {

@@ -42,7 +42,6 @@ class Notification::Deliver < Draper::Decorator
         key: key,
         action_path: action_path,
         associated: project,
-        initiator: project.business,
         clear_manually: true,
         t: { project_title: project.title }
       )
