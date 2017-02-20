@@ -1,3 +1,5 @@
 var $business = $('#business-settings');
 $business.html('<%= j render('show', business: @business, saved: @saved) %>');
 $(document).trigger('newContent', $business);
+$(".settings-nav > li").removeClass("active");
+$(".settings-nav > .key-contact").addClass("active");

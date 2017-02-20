@@ -1,11 +1,8 @@
-.row
-  .col-xs-12.col-md-7
-    .panel.panel-default
-      .panel-heading
-        h3 Delete Account
+.panel-heading
+  h3 Delete Account
 
-      .panel-body
-        p.m-b-1 We're sorry to see you leave. Note, this is a permanent change and will delete all of your information, so consider changing your profile visibility through the dashboard instead.
+.panel-body
+  p.m-b-1 We're sorry to see you leave. Note, this is a permanent change and will delete all of your information, so consider changing your profile visibility through the dashboard instead.
 
-        = link_to business_settings_delete_account_path, method: :delete, class: 'btn btn-primary btn-block btn-lg', title: 'Confirm Deletion', data: { confirm: 'This action is permanent. Do you still want to delete your profile?', confirm_label: 'Delete' }
-          'Yes, Delete my Complect Account'
+  = link_to business_settings_delete_account_path, method: :delete, class: 'btn btn-primary btn-block btn-lg', title: 'Confirm Deletion', data: { confirm: 'This action is permanent. Do you still want to delete your profile?', confirm_label: 'Delete' }
+    'Yes, Delete my Complect Account'

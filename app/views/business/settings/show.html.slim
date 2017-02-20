@@ -1,17 +1,18 @@
-- header_class 'compact'
 - content_for :html_head do
   = javascript_include_tag "https://js.stripe.com/v2/"
 
 - content_for :prepend_scripts do
   = javascript_include_tag "https://cdn.plaid.com/link/stable/link-initialize.js"
 
-.row
-  .col-xs-12.col-sm-4.col-md-3
-    = link_to 'Change Password', business_settings_password_path, class: 'btn-link btn-block btn-md', remote: true
-    = link_to 'Key Contact', business_settings_key_contact_path, class: 'btn-link btn-block btn-md', remote: true
-    = link_to 'Payment Details', business_settings_payment_index_path, class: 'btn-link btn-block btn-md', remote: true
-    = link_to 'Notification Preferences', business_settings_notifications_path, class: 'btn-link btn-block btn-md', remote: true
-    = link_to 'Delete Account', business_settings_delete_account_path, class: 'btn-link btn-block btn-md', remote: true
+.col-xs-12.col-sm-10.col-sm-push-1
+  .row.panel.panel-default.settings
+    .col-xs-12.col-sm-4
+      ul.settings-nav
+        li.change-password.active = link_to 'Change Password', business_settings_password_path, class: 'btn-link btn-block btn-md', remote: true
+        li.key-contact = link_to 'Key Contact', business_settings_key_contact_path, class: 'btn-link btn-block btn-md', remote: true
+        li.payment-details = link_to 'Payment Details', business_settings_payment_index_path, class: 'btn-link btn-block btn-md', remote: true
+        li.notification-preferences = link_to 'Notification Preferences', business_settings_notifications_path, class: 'btn-link btn-block btn-md', remote: true
+        li.delete-account = link_to 'Delete Account', business_settings_delete_account_path, class: 'btn-link btn-block btn-md', remote: true
 
-  #business-settings.col-xs-12.col-sm-8.col-md-9
-    = yield(:settings).presence || render('business/passwords/show', user: @user, saved: @saved)
+    #business-settings.col-xs-12.col-sm-8
+      = yield(:settings).presence || render('business/passwords/show', user: @user, saved: @saved)

@@ -1,19 +1,16 @@
-.row
-  .col-xs-12.col-md-7
-    .panel.panel-default
-      .panel-heading
-        h3 Change Password
+.panel-heading
+  h3 Change Password
 
-      .panel-body
-        = simple_form_for user, remote: true, url: business_settings_password_path do |f|
-          .row.row-compact
-            .col-xs-12
-              = f.input :current_password, label: false, placeholder: 'Old Password', input_html: { class: 'input-lg input-gray' }
-            .col-xs-12
-              = f.input :password, label: false, placeholder: 'New Password', input_html: { class: 'input-lg  input-gray' }
-            .col-xs-12
-              = f.input :password_confirmation, label: false, placeholder: 'Repeat New Password', input_html: { class: 'input-lg  input-gray' }
-            .col-xs-12
-              - if saved
-                .alert.alert-success.m-b-1 Password changed
-              = f.submit 'Change Password', class: 'btn btn-primary btn-block btn-lg'
+.panel-body.p-t-0
+  = simple_form_for user, remote: true, url: business_settings_password_path do |f|
+    .row
+      .col-xs-12
+        = f.input :current_password, label: false, placeholder: 'Old Password', input_html: { class: 'input-lg input-gray' }
+      .col-xs-12
+        = f.input :password, label: false, placeholder: 'New Password', input_html: { class: 'input-lg  input-gray' }
+      .col-xs-12
+        = f.input :password_confirmation, label: false, placeholder: 'Repeat New Password', input_html: { class: 'input-lg  input-gray' }
+      .col-xs-12
+        - if saved
+          .alert.alert-success.m-b-1 Password changed
+        = f.submit 'Change Password', class: 'btn btn-primary btn-block btn-lg'

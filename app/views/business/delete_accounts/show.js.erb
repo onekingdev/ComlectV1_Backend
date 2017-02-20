@@ -1,3 +1,5 @@
 var $business = $('#business-settings');
 $business.html('<%= j render('show', user: @user) %>');
 $(document).trigger('newContent', $business);
+$(".settings-nav > li").removeClass("active");
+$(".settings-nav > .delete-account").addClass("active");

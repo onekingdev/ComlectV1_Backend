@@ -1,0 +1,26 @@
+.settings-nav {
+  list-style-type: none;
+  padding-left: 10px;
+  border-left: 2px solid #ffcc00;
+  margin-top: 24px;
+  margin-bottom: 24px;
+  margin-left: 15px;
+
+  .active a {
+    color: #ffcc33;
+  }
+
+  li a {
+    font-size: 13px;
+    font-weight: $bold-weight;
+    text-decoration: none;
+  }
+}
+
+#business-settings {
+  margin-top: 8px;
+
+  input.form-control {
+    border-color: #ffcc00;
+  }
+}

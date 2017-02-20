@@ -23,7 +23,7 @@ body.businesses.show {
   }
 }
 
-body.business_dashboard.show, body.dashboard.show {
+body.business_dashboard.show, body.dashboard.show, body.settings.show {
   background-image: asset_url('bg.png');
   background-position: center top;
   background-repeat: repeat-y;  
