@@ -12,9 +12,12 @@ class EmailThreadsControllerTest < ActionDispatch::IntegrationTest
     token, host = ENV.fetch('POSTMARK_INBOUND_ADDRESS').split('@')
     params = {
       'ToFull' => [{
-        'Email' => "#{token}+#{@thread.thread_key}+specialist@#{host}",
-        'MailboxHash' => "#{@thread.thread_key}+specialist"
-      }]
+        'Email' => "#{token}+#{@thread.thread_key}s@#{host}",
+        'MailboxHash' => "#{@thread.thread_key}s"
+      }],
+      'TextBody' => 'Text',
+      'HtmlBody' => 'Html',
+      'StrippedTextReply' => 'Stripped'
     }
     post email_threads_path, params.to_json, 'CONTENT_TYPE' => 'application/json'
     assert_response :ok

@@ -4,9 +4,9 @@ require 'test_helper'
 class SpecialistTest < ActiveSupport::TestCase
   test 'sort by_experience' do
     specialist_1 = create(:specialist)
-    specialist_1.work_experiences.create! from: Date.new(2005, 1, 1), to: Date.new(2010, 1, 1)
+    create :work_experience, specialist_id: specialist_1.id, from: Date.new(2005, 1, 1), to: Date.new(2010, 1, 1)
     specialist_2 = create(:specialist)
-    specialist_2.work_experiences.create! from: Date.new(2001, 1, 1), to: Date.new(2003, 1, 1)
+    create :work_experience, specialist_id: specialist_2.id, from: Date.new(2001, 1, 1), to: Date.new(2003, 1, 1)
     assert_equal specialist_1.id, Specialist.by_experience.first.id
     specialist_1.work_experiences.first.update_attribute :from, Date.new(2009, 1, 1)
     assert_equal specialist_2.id, Specialist.by_experience.first.id
@@ -42,10 +42,15 @@ class SpecialistTest < ActiveSupport::TestCase
 
   test 'search between min-max experience' do
     specialist_1 = create(:specialist)
-    specialist_1.work_experiences.create! from: Date.new(2005, 1, 1), to: Date.new(2010, 1, 1), compliance: true
-    specialist_1.work_experiences.create! from: Date.new(2010, 1, 1), to: Date.new(2013, 1, 1)
+    create :work_experience,
+           specialist_id: specialist_1.id,
+           from: Date.new(2005, 1, 1),
+           to: Date.new(2010, 1, 1),
+           compliance: true
+    create :work_experience, specialist_id: specialist_1.id, from: Date.new(2010, 1, 1), to: Date.new(2013, 1, 1)
     specialist_2 = create(:specialist)
-    specialist_2.work_experiences.create! from: Date.new(2001, 1, 1), to: Date.new(2003, 1, 1), compliance: true
+    create :work_experience, specialist_id: specialist_2.id, from: Date.new(2001, 1, 1), to: Date.new(2003, 1, 1),
+                             compliance: true
 
     results = Specialist.experience_between(3, 5).to_a
     assert_equal 1, results.size
