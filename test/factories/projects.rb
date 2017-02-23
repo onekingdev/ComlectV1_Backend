@@ -7,6 +7,7 @@ FactoryGirl.define do
     industry_ids { [create(:industry).id] }
     jurisdiction_ids { [create(:jurisdiction).id] }
     description 'Job description'
+    minimum_experience Project::MINIMUM_EXPERIENCE.first.last
 
     factory :project_one_off do
       type Project.types[:one_off]

@@ -2,6 +2,10 @@
 require 'test_helper'
 
 class BusinessFlowsTest < ActionDispatch::IntegrationTest
+  setup do
+    stub_request :post, /sync_sso/
+  end
+
   test 'can create business' do
     attributes = attributes_for(:business)
     attributes[:user_attributes] = attributes_for(:user)

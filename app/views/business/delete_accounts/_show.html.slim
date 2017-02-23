@@ -12,7 +12,7 @@
   p.m-b-3.text-center We're sorry to see you leave. This is a permanent change and will delete all of your information, so consider changing your profile visibility through the dashboard instead.
 
   - if current_business.projects.active.count > 0
-    .btn.btn-block.btn-lg.disabled.text-uppercase Yes, Delete my Complect Account
+    .btn.btn-block.btn-lg.disabled.text-uppercase Delete
   - else
     = link_to business_settings_delete_account_path, method: :delete, class: 'btn btn-primary btn-block btn-lg', title: 'Confirm Deletion', data: { confirm: 'This action is permanent. Do you still want to delete your profile?', confirm_label: 'Delete' }
-      | Yes, Delete my Complect Account
+      | Delete

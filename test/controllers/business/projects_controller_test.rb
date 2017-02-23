@@ -10,7 +10,7 @@ class Business::ProjectsControllerTest < ActionDispatch::IntegrationTest
     invite = create :project_invite, business: business, project: nil, message: 'Invited'
     attributes = attributes_for(:project_one_off_fixed).merge(fixed_payment_schedule: 'monthly', invite_id: invite.id)
     post business_projects_path, project: attributes
-    project = Project.last
+    project = Project.last!
     assert_emails 1 do
       post post_business_project_path(project)
     end

@@ -16,6 +16,7 @@ class MessageMailer < ApplicationMailer
   end
 
   def reply(thread, original_sender, message_text, message_html, reply_text)
+    raise 'Invalid parameters' unless %w(b s).include?(original_sender)
     to = original_sender == 'b' ? thread.business : thread.specialist
     from = original_sender == 'b' ? thread.specialist : thread.business
     thread = EmailThread.for!(from, to)

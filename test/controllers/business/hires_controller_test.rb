@@ -33,20 +33,22 @@ class Business::HiresControllerTest < ActionDispatch::IntegrationTest
     assert_difference 'Charge.count', +1 do
       post business_project_hires_path(project), job_application_id: application.id, format: 'js'
     end
-    assert_equal 14_700, project.charges.first.amount
+    assert_equal 14_700, project.charges.first.fee
   end
 
   test 'charges business monthly fee for full time hires' do
-    starts_on = Date.new(2016, 1, 1)
-    project = create :project_full_time, :published, :monthly_fee, business: @business, starts_on: starts_on
-    application = create :job_application, project: project, specialist: @specialist
-    assert_difference 'Charge.count', +6 do
-      post business_project_hires_path(project), job_application_id: application.id, format: 'js'
+    Timecop.freeze(Date.new(2016, 1, 1)) do
+      starts_on = Date.new(2016, 1, 1)
+      project = create :project_full_time, :published, :monthly_fee, business: @business, starts_on: starts_on
+      application = create :job_application, project: project, specialist: @specialist
+      assert_difference 'Charge.count', +6 do
+        post business_project_hires_path(project), job_application_id: application.id, format: 'js'
+      end
+      fee_in_cents = project.annual_salary * 0.03 * 100
+      charge_dates = Array.new(6) { |i| Date.new(2016, i + 1, 1) }
+      assert_equal [fee_in_cents], project.charges.pluck(:fee_in_cents).uniq
+      assert_equal charge_dates, project.charges.pluck(:process_after).sort
     end
-    fee_in_cents = project.annual_salary * 0.03 * 100
-    charge_dates = Array.new(6) { |i| Date.new(2016, i + 1, 1) }
-    assert_equal [fee_in_cents], project.charges.pluck(:amount_in_cents).uniq
-    assert_equal charge_dates, project.charges.pluck(:process_after).sort
   end
 
   test 'sends notification on full time hire' do

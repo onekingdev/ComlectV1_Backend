@@ -1,5 +1,7 @@
 ## Complect Web App
 
+Build Status: ![Codeship](https://codeship.com/projects/7b4076f0-db4b-0134-05b7-4a5a03b4ed0e/status?branch=master)
+
 ### Getting Started
 
 1. `bundle install`

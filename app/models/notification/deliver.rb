@@ -511,7 +511,7 @@ class Notification::Deliver < Draper::Decorator
                        elsif user.business
                          [
                            :business_payment_issue,
-                           *path_and_url(:business_settings_payment)
+                           *path_and_url(:business_settings_payment_index)
                          ]
                        end
       dispatcher = Dispatcher.new(
