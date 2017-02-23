@@ -15,12 +15,58 @@
     font-weight: $bold-weight;
     text-decoration: none;
   }
+
+  .btn-md {
+    padding: 7px 14px;
+  }
 }
 
-#business-settings {
+#business-settings, #specialist-settings {
   margin-top: 8px;
 
   input.form-control {
     border-color: #ffcc00;
+  }
+
+  table.payment-details {
+    border-top: 0px;
+    tr, td {
+      border-top: 0px;
+      border-bottom: 1px solid #dddddd;      
+    }
+
+    tr.primary {
+      border-bottom: 2px solid #ffcc00;
+    }
+
+    td:first-child {
+      width: 10px;
+    }
+
+    strong {
+      font-weight: $bold-weight;
+    }
+  }
+
+  table.notification-preferences {
+    td {
+      padding-left: 0px;
+      padding-right: 0px;
+    }
+  }
+
+  .delete-account {
+    border: 2px solid #ffcc00;
+
+    a {
+      text-decoration: underline;
+    }
+  }
+}
+
+body.payment_settings #specialist-settings {
+  .info-tooltip {
+    margin-top: 0px;
+    margin-left: 10px;
   }
 }

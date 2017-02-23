@@ -4,18 +4,20 @@
     box-shadow: none;
     @extend .btn;
     @extend .btn-plain;
+    font-size: 13px;
 
     &:hover {
       opacity: 0.6;
     }
 
     &:before {
-      content: "\e0cf";
-      font-family: maxicons;
+      content: "\e095";
+      font-family: "simple-line-icons";
       width: 14px;
       display: inline-block;
       vertical-align: middle;
       color: #000 !important;
+      margin-left: 8px;
     }
 
     span {
@@ -25,7 +27,9 @@
       display: inline-block !important;
       box-shadow: none !important;
       padding: 0 !important;
-      margin-left: 0.4rem;
+      margin-left: 15px;
+      font-weight: $regular-weight;
+      font-size: 13px;
     }
   }
 }
@@ -38,8 +42,8 @@
     box-shadow: none;
 
     &:before {
-      content: ">";
-      font-family: maxicons;
+      content: "\e05f";
+      font-family: "simple-line-icons";
       display: inline-block;
       color: #767676;
     }

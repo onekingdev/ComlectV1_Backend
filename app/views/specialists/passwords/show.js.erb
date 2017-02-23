@@ -1,3 +1,5 @@
 var $specialist = $('#specialist-settings');
 $specialist.html('<%= j render('show', user: @user, saved: @saved) %>');
 $(document).trigger('newContent', $specialist);
+$(".settings-nav > li").removeClass("active");
+$(".settings-nav > .change-password").addClass("active");

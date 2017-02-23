@@ -22,7 +22,6 @@
   * `/admin/site_settings/category/users`
   * `username change period` -> `0`
   * `logout redirect` -> `https://<domain>/users/sign_out/force`
-  * Disable `enable user directory`
 
 * Posting
   * `/admin/site_settings/category/posting`

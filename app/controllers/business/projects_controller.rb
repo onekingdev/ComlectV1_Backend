@@ -65,8 +65,6 @@ class Business::ProjectsController < ApplicationController
       redirect_to business_project_path(@project),
                   alert: I18n.t('activerecord.errors.models.project.attributes.base.no_payment')
     end
-  rescue ActiveRecord::RecordInvalid
-    redirect_to business_project_path(@project), alert: @project.errors.full_messages
   end
 
   def copy
