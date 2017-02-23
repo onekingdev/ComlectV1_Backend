@@ -47,6 +47,10 @@ ActiveAdmin.setup do |config|
   # This will ONLY change the title for the admin section. Other
   # namespaces will continue to use the main "site_title" configuration.
 
+  require 'active_admin/pundit_admin_adapter'
+  config.authorization_adapter = ActiveAdmin::PunditAdminAdapter
+  config.pundit_default_policy = "AdminPolicy"
+
   require 'active_admin/authentication_helpers'
   ActiveAdmin::BaseController.public_send(:include, ActiveAdmin::AuthenticationHelpers)
 
@@ -54,6 +58,7 @@ ActiveAdmin.setup do |config|
     support.site_title = "Complect Customer Support"
     support.root_to = "projects#index"
     support.authentication_method = :authenticate_support_user!
+    support.authorization_adapter = ActiveAdmin::AuthorizationAdapter
   end
 
   # == User Authentication

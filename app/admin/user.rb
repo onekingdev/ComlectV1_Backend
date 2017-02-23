@@ -15,6 +15,13 @@ ActiveAdmin.register User do
     redirect_to collection_path, notice: resource.suspended? ? 'Suspended' : 'Reactivated'
   end
 
+  controller do
+    def resource
+      # So users can be edited without providing a password
+      @user ||= super.extend(NoPasswordRequired)
+    end
+  end
+
   scope("Active") { |scope| scope.where(suspended: false) }
   scope("Suspended") { |scope| scope.where(suspended: true) }
 
