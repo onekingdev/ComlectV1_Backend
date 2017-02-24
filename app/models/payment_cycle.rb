@@ -91,6 +91,7 @@ class PaymentCycle
   private
 
   def balance_after(amount, cut_off:)
+    return 0 if project.complete?
     processed_amount = BigDecimal.new(project.charges.processed.before(cut_off).sum(:total_with_fee_in_cents)) / 100
     balance = outstanding_amount - processed_amount - amount
     balance < 0 ? 0 : balance # When company pays more than was estimated

@@ -36,3 +36,18 @@ html {
 .close {
   font-size: 21px;
 }
+
+.bootstrap-switch, .bootstrap-switch-label, .bootstrap-switch-container, .bootstrap-switch-handle-on, .bootstrap-switch-handle-off {
+  -webkit-border-radius: 0px !important;
+  -moz-border-radius: 0px !important;
+  border-radius: 0px !important;
+}
+
+.bootstrap-switch-label {
+  background-image: none !important;
+  background-color: #fff !important;
+}
+
+.bootstrap-switch-wrapper {
+  border: 2px solid #ffcc00 !important;
+}

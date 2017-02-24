@@ -1,8 +1,8 @@
 .panel-heading
   h3 Notification Preferences
 
-.panel-body
-  table.table.table-plain
+.panel-body.p-t-0.m-b-1
+  table.table.table-plain.notification-preferences
     - settings.keys.each do |setting|
       tr
         td= t setting, scope: 'notification_settings.businesses'

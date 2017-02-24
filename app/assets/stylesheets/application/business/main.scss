@@ -23,7 +23,7 @@ body.businesses.show {
   }
 }
 
-body.business_dashboard.show, body.dashboard.show, body.settings.show {
+body.business_dashboard.show, body.dashboard.show, body.settings, body.passwords, body.key_contacts, body.payment_settings, body.notification_settings, body.delete_accounts {
   background-image: asset_url('bg.png');
   background-position: center top;
   background-repeat: repeat-y;  

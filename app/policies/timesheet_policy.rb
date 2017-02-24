@@ -4,6 +4,12 @@ class TimesheetPolicy < ApplicationPolicy
     business_owner? && record.submitted?
   end
 
+  def create?
+    # Only specialist assigned to project that is not escalated/completed
+    # and that doesn't already have a disputed timesheet
+    specialist? && assigned_to_project? && active_project? && !disputed_project?
+  end
+
   def update?
     owner? && %w(pending disputed).include?(record.status)
   end
@@ -18,5 +24,23 @@ class TimesheetPolicy < ApplicationPolicy
 
   def owner?
     record.specialist == user.specialist
+  end
+
+  private
+
+  def specialist?
+    user.specialist
+  end
+
+  def assigned_to_project?
+    record.project.specialist_id == user.specialist.id
+  end
+
+  def active_project?
+    record.project.active?
+  end
+
+  def disputed_project?
+    record.project.timesheets.disputed.where.not(id: record.id).exists?
   end
 end

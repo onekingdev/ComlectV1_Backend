@@ -4,3 +4,5 @@ $('#new_payment_source_ach')
 <% else %>
 _Modal.showPlain('<%= j render 'choose_verification_method' %>');
 <% end %>
+$(".settings-nav > li").removeClass("active");
+$(".settings-nav > .payment-details").addClass("active");

@@ -1,22 +1,20 @@
-.row
-  .col-xs-12.col-md-7
-    .panel.panel-default
-      .panel-heading
-        h3 Delete Account
+.panel-heading
+  h3 Delete Account
 
-      .panel-body
-        - if @freeze.disallowed?
-          .alert.alert-warning
-            'You cannot delete your account at this time because:
-            ul.m-t-1
-              - @freeze.not_permitted_reasons.each do |reason|
-                li= reason
+.panel-body.p-t-0.m-b-1
+  - if @freeze.disallowed?
+    .delete-account.text-center.p-y-2.p-x-1.m-b-2
+      | You cannot delete your account at this time because:
+      br
+      br
+      - @freeze.not_permitted_reasons.each do |reason|
+        li= reason
 
-        p.m-b-1 We're sorry to see you leave. Note, this is a permanent change and will delete all of your information, so consider changing your profile visibility through the dashboard instead.
+  p.m-b-3.text-center We're sorry to see you leave. This is a permanent change and will delete all of your information, so consider changing your profile visibility through the dashboard instead.
 
-        = link_to specialists_settings_delete_account_path,
-          method: :delete,
-          class: "btn btn-primary btn-block btn-lg #{'disabled' if @freeze.disallowed?}",
-          title: 'Confirm Deletion',
-          data: { confirm: 'This action is permanent. Do you still want to delete your profile?', confirm_label: 'Delete' }
-          'Yes, Delete my Complect Account'
+  = link_to specialists_settings_delete_account_path,
+    method: :delete,
+    class: "btn btn-primary btn-block btn-lg #{'disabled' if @freeze.disallowed?}",
+    title: 'Confirm Deletion',
+    data: { confirm: 'This action is permanent. Do you still want to delete your profile?', confirm_label: 'Delete' }
+    | Delete

@@ -8,9 +8,10 @@
   - if f.object.errors[:base].any?
     .alert.alert-warning= f.object.errors[:base].to_sentence
 
-  .well.well-lg
-    h2.text-center.m-b-2 Account Details
+  .panel-heading.p-t-3
+    h3 Account Details
 
+  .panel-body.p-b-2
     - if f.object.company?
       .row
         .col-xs-12.col-sm-6
@@ -46,8 +47,10 @@
         .col-xs-12.col-sm-6
           = f.input :account_number, required: false, label: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
 
-    h2.text-center.m-y-2 Billing Address
+  .panel-heading
+    h3 Billing Address
 
+  .panel-body.p-b-2
     .row
       .col-xs-12.col-sm-6
         = f.input :address1, required: false, label: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
@@ -58,8 +61,10 @@
       .col-xs-12.col-sm-6
         = f.input :state, required: false, label: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
 
-    h2.text-center.m-y-2 Personal Details
+  .panel-heading
+    h3 Personal Details
 
+  .panel-body.p-b-2
     .row
       .col-xs-12.col-sm-6
         .form-group
@@ -81,12 +86,14 @@
         .col-xs-12.col-sm-6
           .form-group.tight.with-tooltip
             = f.input :personal_id_number, required: false, label: false, input_html: { class: 'input-lg' }, wrapper: false
-            button.info-tooltip.info-tooltip-lg type="button" data-toggle="tooltip" title="Provide your full ID number, such as your SSN, SIN, HKID or NRIC." i
+            button.info-tooltip.info-tooltip-lg.m-t-0.m-l-1 type="button" data-toggle="tooltip" title="Provide your full ID number, such as your SSN, SIN, HKID or NRIC." i
 
-    h2.text-center.m-y-2
+  .panel-heading
+    h3
       'ID Verification Document
       button.info-tooltip type="button" data-toggle="tooltip" title="Provide a color copy of your passport or driver's license" i
 
+  .panel-body.p-b-2
     .row
       .col-xs-12.col-sm-6
         = f.hidden_field :verification_document_cache, value: f.object.verification_document_data.present? ? f.object.verification_document : nil
@@ -105,6 +112,6 @@
         .col-xs-12.col-sm-6
           = f.input :personal_city, label: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
 
-  .text-center.m-t-3
-    = link_to 'Cancel', specialists_settings_payment_path, remote: true, class: 'btn btn-primary btn-lg p-x-3 m-r-1'
-    = f.submit f.object.persisted? ? 'Update Account' : 'Add Account', class: 'btn btn-primary btn-lg p-x-3'
+  .text-center.m-b-3.p-b-1
+    = link_to 'Cancel', specialists_settings_payment_path, remote: true, class: 'btn btn-default btn-md p-x-3 m-r-1'
+    = f.submit f.object.persisted? ? 'Update Account' : 'Add Account', class: 'btn btn-primary btn-md p-x-3'

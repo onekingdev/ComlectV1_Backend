@@ -1,64 +1,66 @@
-h2.m-t-0 Payment Details
+.panel-heading
+  h3 Payment Details
 
-- if @sources.any?
-  table.table.m-t-3
-    - @sources.each do |source|
-      tr data-payment-source-id=source.id
-        td
-          - if source.bank_account?
-            i.icon.maxicons1-bank.m-r-1
-            '#{source.brand} (#{source.last4})
-          - else
-            i.icon.maxicons3-card.m-r-1
-            '#{source.brand} **** **** **** #{source.last4}
-        td.text-right
-          - if source.primary? && source.validated?
-            strong.small Primary
-          - elsif source.bank_account? && !source.validated?
-            = link_to business_settings_payment_path(source), remote: true do
-              .td-u.small Validate
-          - else
-            = form_for source, url: business_settings_payment_make_primary_path(source), html: { class: 'd-ib' } do |f|
-              = f.hidden_field :primary, value: true
-              button.btn-plain.td-u.small Make Primary
-        td.text-right
-          - unless source.bank_account?
-            = form_for source, url: business_settings_payment_path(source), html: { class: 'stripe-edit' } do |_f|
-              script[
-                src="https://checkout.stripe.com/checkout.js"
-                class="stripe-button"
-                data-key="#{ENV.fetch('STRIPE_PUBLISHABLE_KEY')}"
-                data-label="Edit"
-                data-email="#{current_business.contact_email}"
-                data-panel-label="Update"
-                data-name="Complect"
-                data-description="Edit Payment Details"
-                data-locale="auto"
-                data-currency="usd"
-                data-zip-code="true"
-                data-allow-remember-me="false"
-              ]
-          = link_to business_settings_payment_path(source.id), method: :delete, class: 'btn-link m-l-2', data: { confirm: 'Are you sure you want to delete this payment method?', 'confirm-label' => 'Delete' } do
-            i.icon.maxicons1-exit.text-muted
+.panel-body.p-t-0
+  - if @sources.any?
+    table.table.payment-details.m-b-1
+      - @sources.each do |source|
+        tr data-payment-source-id=source.id class="#{'primary' if source.primary?}"
+          td
+            i.icon-credit-card          
+          td
+            - if source.bank_account?
+              '#{source.brand} (#{source.last4})
+            - else
+              '#{source.brand} **** **** **** #{source.last4}
+            br
+            - if source.primary? && source.validated?
+              strong Primary
+            - elsif source.bank_account? && !source.validated?
+              = link_to business_settings_payment_path(source), remote: true do
+                .td-u.small Validate
+            - else
+              = form_for source, url: business_settings_payment_make_primary_path(source), html: { class: 'd-ib' } do |f|
+                = f.hidden_field :primary, value: true
+                button.btn-plain.td-u Make Primary
+          td.text-right
+            - unless source.bank_account?
+              = form_for source, url: business_settings_payment_path(source), html: { class: 'stripe-edit' } do |_f|
+                script[
+                  src="https://checkout.stripe.com/checkout.js"
+                  class="stripe-button"
+                  data-key="#{ENV.fetch('STRIPE_PUBLISHABLE_KEY')}"
+                  data-label="Edit"
+                  data-email="#{current_business.contact_email}"
+                  data-panel-label="Update"
+                  data-name="Complect"
+                  data-description="Edit Payment Details"
+                  data-locale="auto"
+                  data-currency="usd"
+                  data-zip-code="true"
+                  data-allow-remember-me="false"
+                ]
+            = link_to business_settings_payment_path(source.id), method: :delete, class: 'btn-link m-l-1', data: { confirm: 'Are you sure you want to delete this payment method?', 'confirm-label' => 'Delete' } do
+              i.icon-trash
 
-.m-t-2
-  form.stripe-new action=business_settings_payment_index_path method="POST"
-    script[
-      src="https://checkout.stripe.com/checkout.js"
-      class="stripe-button"
-      data-key="#{ENV.fetch('STRIPE_PUBLISHABLE_KEY')}"
-      data-label="Add Credit Card"
-      data-email="#{current_business.contact_email}"
-      data-panel-label="Add Credit Card"
-      data-name="Complect"
-      data-description="New Credit Card"
-      data-locale="auto"
-      data-currency="usd"
-      data-zip-code="true"
-      data-allow-remember-me="false"
-    ]
+  .m-t-1
+    form.stripe-new action=business_settings_payment_index_path method="POST"
+      script[
+        src="https://checkout.stripe.com/checkout.js"
+        class="stripe-button"
+        data-key="#{ENV.fetch('STRIPE_PUBLISHABLE_KEY')}"
+        data-label="Add Credit Card"
+        data-email="#{current_business.contact_email}"
+        data-panel-label="Add Credit Card"
+        data-name="Complect"
+        data-description="New Credit Card"
+        data-locale="auto"
+        data-currency="usd"
+        data-zip-code="true"
+        data-allow-remember-me="false"
+      ]
 
-  - if current_business.in_usa?
-    a.btn.btn-link.btn-plain data-remote=true href=new_business_settings_payment_path
-      i.icon.maxicons2-add
-      span Add Bank Account
+    - if current_business.in_usa?
+      a.btn.btn-link.btn-plain data-remote=true href=new_business_settings_payment_path
+        i.icon.maxicons2-add
+        span Add Bank Account

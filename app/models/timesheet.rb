@@ -38,6 +38,7 @@ class Timesheet < ActiveRecord::Base
   private
 
   def validate_project_is_active
+    return if changed == %w(status) # Allow changing timesheet status
     changes = self.changes.any? || time_logs.any? { |log| log.changes.any? }
     errors.add :base, 'Cannot add/update on complete projects' if changes && project.complete?
   end

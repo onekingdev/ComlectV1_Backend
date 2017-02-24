@@ -1,8 +1,18 @@
 .panel-heading
   h3 Delete Account
 
-.panel-body
-  p.m-b-1 We're sorry to see you leave. Note, this is a permanent change and will delete all of your information, so consider changing your profile visibility through the dashboard instead.
+.panel-body.p-t-0.m-b-1
+  - if current_business.projects.active.count > 0
+    .delete-account.text-center.p-y-2.p-x-1.m-b-2
+      | You cannot delete your account at this time because
+      br
+      br
+      = link_to "You have active projects", business_dashboard_path, class: "underline"
 
-  = link_to business_settings_delete_account_path, method: :delete, class: 'btn btn-primary btn-block btn-lg', title: 'Confirm Deletion', data: { confirm: 'This action is permanent. Do you still want to delete your profile?', confirm_label: 'Delete' }
-    'Yes, Delete my Complect Account'
+  p.m-b-3.text-center We're sorry to see you leave. This is a permanent change and will delete all of your information, so consider changing your profile visibility through the dashboard instead.
+
+  - if current_business.projects.active.count > 0
+    .btn.btn-block.btn-lg.disabled.text-uppercase Delete
+  - else
+    = link_to business_settings_delete_account_path, method: :delete, class: 'btn btn-primary btn-block btn-lg', title: 'Confirm Deletion', data: { confirm: 'This action is permanent. Do you still want to delete your profile?', confirm_label: 'Delete' }
+      | Delete

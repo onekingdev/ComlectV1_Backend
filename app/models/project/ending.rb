@@ -3,6 +3,7 @@ class Project::Ending < Project
   def self.process!(project)
     project.complete!
     project.timesheets.pending.destroy_all
+    PaymentCycle.for(project).create_charges_and_reschedule!
     Notification::Deliver.project_ended!(project)
   end
 

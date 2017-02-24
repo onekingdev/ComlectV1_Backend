@@ -1,32 +1,33 @@
-h2.m-t-0 Payment Details
+.panel-heading
+  h3 Payment Details
 
-- if @account
-  table.table.m-t-3
-    tr
-      td
-        i.icon.maxicons1-bank.m-r-1
-        '#{'*' * (@account.account_number.size - 4).abs} #{@account.account_number.reverse[0..3].reverse}
-      td.text-right
-        - if @account.fields_needed?
-          = link_to 'Additional Info Required', edit_specialists_settings_payment_path
-        - elsif @account.error?
-          = link_to 'Error', edit_specialists_settings_payment_path
-        - else
-          strong.small= @account.status.capitalize
-      td.text-right
-        = link_to edit_specialists_settings_payment_path, class: 'btn-link m-l-2' do
-          i.icon.maxicons2-editting
-        - if policy(@account).destroy?
-          = link_to specialists_settings_payment_path, method: :delete, class: 'btn-link m-l-1', data: { confirm: 'Are you sure you want to delete this account?', 'confirm-label' => 'Delete' } do
-            i.icon.maxicons1-exit.text-muted
+.panel-body.p-t-0
+  - if @account
+    table.table.payment-details.m-b-1
+      tr
+        td
+          i.icon-credit-card
+        td
+          '#{'*' * (@account.account_number.size - 4).abs} #{@account.account_number.reverse[0..3].reverse}
+          br
+          - if @account.fields_needed?
+            = link_to 'Additional Info Required', edit_specialists_settings_payment_path
+          - elsif @account.error?
+            = link_to 'Error', edit_specialists_settings_payment_path
+          - else
+            strong= @account.status.capitalize
+        td.text-right
+          = link_to edit_specialists_settings_payment_path, class: 'btn-link m-l-2' do
+            i.icon-pencil
+          - if policy(@account).destroy?
+            = link_to specialists_settings_payment_path, method: :delete, class: 'btn-link m-l-1', data: { confirm: 'Are you sure you want to delete this account?', 'confirm-label' => 'Delete' } do
+              i.icon.maxicons1-exit.text-muted
 
     - unless policy(@account).destroy?
-      tr
-        td colspan=3
-          .alert.alert-warning <b>Note:</b> Cannot remove your payment details while there are pending payments.
+      .alert.alert-warning <b>Note:</b> Cannot remove your payment details while there are pending payments.
 
-- else
-  .m-t-2
-    a.btn.btn-link.btn-plain href=new_specialists_settings_payment_path(popup: true) data-remote="true"
-      i.icon.maxicons2-add
-      span Add Bank Account
+  - else
+    .m-t-2
+      a.btn.btn-link.btn-plain href=new_specialists_settings_payment_path(popup: true) data-remote="true"
+        i.icon.maxicons2-add
+        span Add Bank Account

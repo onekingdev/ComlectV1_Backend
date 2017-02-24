@@ -157,8 +157,26 @@ class Project < ActiveRecord::Base
   end
 
   def ending?
-    tz = ActiveSupport::TimeZone[attributes[:time_zone].presence || business.time_zone]
-    ends_on.in_time_zone(tz) + 1.day <= 5.minutes.from_now
+    ends_on.in_time_zone(time_zone) + 1.day <= 5.minutes.from_now
+  end
+
+  def past_ends_on?
+    ends_on.in_time_zone(time_zone).past?
+  end
+
+  def hard_ends_on
+    datetime = ends_on.in_time_zone(time_zone)
+    datetime + case datetime.wday
+               when 5 then 4.days # friday -> monday (tues midnight)
+               when 6 then 4.days # saturday -> tuesday (wed midnight)
+               when 0 then 3.days # sunday -> tuesday (wed midnight)
+               else
+                 0
+               end
+  end
+
+  def time_zone
+    @_time_zone ||= ActiveSupport::TimeZone[attributes[:time_zone].presence || business.time_zone]
   end
 
   def end_requested?
@@ -204,7 +222,7 @@ class Project < ActiveRecord::Base
   end
 
   def active?
-    published? && specialist_id.present?
+    published? && specialist_id.present? && hard_ends_on.future?
   end
 
   def draft_or_review?

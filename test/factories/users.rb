@@ -5,7 +5,7 @@ FactoryGirl.define do
       email_prefix 'user'
     end
 
-    sequence(:email) { |n| "#{n}@example.com" }
+    sequence(:email) { |n| "#{n + rand(10_000)}@example.com" }
     password "password"
 
     before(:create) do |user, evaluator|

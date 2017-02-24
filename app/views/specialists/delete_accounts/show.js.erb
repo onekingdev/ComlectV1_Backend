@@ -1,3 +1,5 @@
 var $specialist = $('#specialist-settings');
 $specialist.html('<%= j render('show', user: @user) %>');
 $(document).trigger('newContent', $specialist);
+$(".settings-nav > li").removeClass("active");
+$(".settings-nav > .delete-account").addClass("active");
