@@ -51,3 +51,19 @@ html {
 .bootstrap-switch-wrapper {
   border: 2px solid #ffcc00 !important;
 }
+
+.table-striped {
+  th {
+    font-weight: $medium-weight;
+    font-size: 14px;
+    color: #666666;
+  }
+  th, tr, td {
+    border: 0px !important;
+  }
+  td {
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+    color: #666666 !important;
+  }
+}
