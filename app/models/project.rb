@@ -222,7 +222,7 @@ class Project < ActiveRecord::Base
   end
 
   def active?
-    published? && specialist_id.present? && hard_ends_on.future?
+    published? && specialist_id.present? && (hard_ends_on.future? || escalated?)
   end
 
   def draft_or_review?
