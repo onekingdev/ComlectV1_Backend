@@ -35,7 +35,7 @@ class ApplicationController < ActionController::Base
     if current_business
       project = current_business.projects.pending_business_rating.first
       redirect_to business_project_dashboard_path(project) if project
-    else
+    elsif current_specialist
       project = current_specialist.projects.pending_specialist_rating.first
       redirect_to project_dashboard_path(project) if project
     end
