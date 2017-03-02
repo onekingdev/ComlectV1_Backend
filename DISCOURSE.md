@@ -23,6 +23,7 @@
   * `username change period` -> `0`
   * `logout redirect` -> `https://<domain>/users/sign_out/force`
   * Disable `enable user directory`
+  * Disable `enable names`
 
 * Posting
   * `/admin/site_settings/category/posting`
