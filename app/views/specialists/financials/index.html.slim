@@ -1,9 +1,9 @@
-.panel.panel-default
+.panel.panel-default.panel-padded
   .panel-heading
     h3 My Financials
 
-  .panel-body
-    .my-financials
+  .panel-body.p-x-2
+    .my-financials.p-b-2
       .financial
         .amount= number_to_currency @financials.processed_this_month
         .description Payments received in <br>#{Time.zone.now.strftime('%B %Y')}
@@ -12,12 +12,12 @@
         .description Upcoming payments<br>(next 30 days)
       .financial
         .amount= number_to_currency @financials.processed_ytd
-        .description Payments received YTD
+        .description Payments received<br>YTD
       .financial
         .amount= number_to_currency @financials.processed_total
-        .description Total Payments Received
+        .description Total<br>Payments Received
 
-.panel.panel-default.m-t-3
+.panel.panel-default.m-t-3.panel-padded
   .panel-heading
     h3 Payment Details
     ul.nav.nav-pills.small

@@ -40,11 +40,8 @@
                 i.fa.fa-linkedin-square
                 span= link_to 'LinkedIn Profile', project.business.linkedin_url, target: "_blank"
 
-          br
-
-          p.m-b-2= truncate project.business.description, length: 150
-
-          = link_to 'View Profile', project.business, class: 'btn btn-primary btn-block btn-md fw-regular'
+          .m-t-2
+            .text-center.text-uppercase.small= link_to 'View Profile', project.business, class: 'link', target: '_blank'
 
     .col-xs-12.col-sm-8.col-md-9
       .panel.panel-default.panel-padded

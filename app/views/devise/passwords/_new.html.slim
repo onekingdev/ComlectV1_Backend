@@ -16,7 +16,7 @@
       | email to your key contact.
 
     = simple_form_for resource, remote: true, as: resource_name, url: password_path(resource_name), html: { class: 'new_password' } do |f|
-      = f.input :email, label: false, input_html: { class: 'input-lg' }
+      = f.input :email, label: false, input_html: { class: 'input-lg fw-light' }
       .text-center
         = f.submit 'Reset', class: 'btn btn-primary btn-lg text-center'
         .m-t-1
