@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 class Charge < ActiveRecord::Base
   belongs_to :project
+  belongs_to :stripe_transaction, class_name: 'Transaction', foreign_key: 'transaction_id'
   has_one :business, through: :project
   has_one :specialist, through: :project
 
@@ -10,6 +11,10 @@ class Charge < ActiveRecord::Base
   scope :real, -> { where(status: [Charge.statuses[:scheduled], Charge.statuses[:processed], Charge.statuses[:error]]) }
   scope :pending_or_errored, -> { where(status: [Charge.statuses[:scheduled], Charge.statuses[:error]]) }
   scope :upcoming, -> { where.not(status: Charge.statuses[:processed]) }
+  scope :not_charged, -> {
+    joins('LEFT OUTER JOIN transactions ON transaction_id = transactions.id')
+      .where('transaction_id IS NULL OR transactions.status <> ?', Transaction.statuses[:processed])
+  }
   scope :after, -> (date) { where('date >= ?', date.to_date) }
   scope :before, -> (date) { where('date < ?', date.to_date) }
   scope :for_processing, -> { where('process_after <= ?', Time.zone.now).order(date: :asc) }
