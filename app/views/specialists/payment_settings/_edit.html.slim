@@ -1,8 +1,4 @@
-= simple_form_for account, url: specialists_settings_payment_index_path do |f|
-  = f.hidden_field :account_type
-  = f.hidden_field :first_name
-  = f.hidden_field :last_name
-
+= simple_form_for account, url: specialists_settings_payment_path do |f|
   - if f.object.status_detail.present?
     .alert.alert-warning= f.object.status_detail
   - if f.object.errors[:base].any?
@@ -15,37 +11,27 @@
     - if f.object.company?
       .row
         .col-xs-12.col-sm-6
-          = f.input :business_name, label: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
+          = f.input :business_name, readonly: true, label: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
         .col-xs-12.col-sm-6
           = f.input :business_tax_id, label: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
 
     .row
       .col-xs-12.col-sm-6
-        = f.input :country, as: :hidden
         .form-group
           input.form-control.input-lg disabled=true value=Stripe::SUPPORTED_COUNTRIES[f.object.country.to_s.upcase.to_sym]
       .col-xs-12.col-sm-6
-        - if Stripe::SUPPORTED_BANK_CURRENCIES[f.object.country.to_sym].size == 1
-          = f.input :account_currency, as: :hidden, input_html: { value: Stripe::SUPPORTED_BANK_CURRENCIES[f.object.country.to_sym].first }
-          .form-group
-            input.form-control.input-lg disabled=true value=Stripe::SUPPORTED_BANK_CURRENCIES[f.object.country.to_sym].first
-        - else
-          = f.input :account_currency,
-            wrapper: :vertical_tight,
-            required: false,
-            label: false,
-            include_blank: false,
-            collection: Stripe::SUPPORTED_BANK_CURRENCIES[f.object.country.to_sym],
-            input_html: { class: 'input-lg js-select' }
+        .form-group
+          input.form-control.input-lg disabled=true value=Stripe::SUPPORTED_BANK_CURRENCIES[f.object.country.to_sym].first
+
     .row
       - if f.object.require_iban?
         .col-xs-12
           = f.input :account_number, required: false, label: false, placeholder: 'IBAN', input_html: { class: 'input-lg' }, wrapper: :vertical_tight
       - else
         .col-xs-12.col-sm-6
-          = f.input :account_routing_number, required: false, label: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
+          = f.input :account_routing_number, readonly: true, disabled: true, label: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
         .col-xs-12.col-sm-6
-          = f.input :account_number, required: false, label: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
+          = f.input :account_number, readonly: true, disabled: true, label: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
 
   .panel-heading
     h3 Billing Address

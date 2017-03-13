@@ -21,7 +21,7 @@ class Transaction::OneOff < Transaction
       currency: 'usd',
       customer: stripe_customer_id,
       application_fee: fee_in_cents,
-      destination: specialist.stripe_account.stripe_id
+      destination: specialist.stripe_account_id
     )
   end
 end

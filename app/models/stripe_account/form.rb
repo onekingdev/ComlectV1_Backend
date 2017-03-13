@@ -28,18 +28,30 @@ class StripeAccount::Form < StripeAccount
     tos_acceptance_ip: -> (specialist) { specialist.user.tos_acceptance_ip }
   }.freeze
 
+  def self.find(specialist, id)
+    where(specialist: specialist).find(id)
+  end
+
   def self.for(specialist, attributes = {})
-    where(specialist: specialist).first_or_initialize.tap do |account|
-      PREPOPULATE_FIELDS.each do |field, specialist_field|
-        value = if specialist_field.is_a?(Proc)
-                  specialist_field.call(specialist)
-                else
-                  specialist.public_send(specialist_field)
-                end
-        account.public_send("#{field}=", value) if account.public_send(field).blank?
-      end
+    existing = specialist.stripe_account
+    new(specialist: specialist).tap do |account|
+      prepopulate account, specialist
       account.attributes = attributes
+      account.primary = true unless existing
+      account.country = existing.country if existing
+      account.account_type = existing.account_type if existing
       account.state = 'Hong Kong' if account.country == 'HK'
+    end
+  end
+
+  def self.prepopulate(account, specialist)
+    PREPOPULATE_FIELDS.each do |field, specialist_field|
+      value = if specialist_field.is_a?(Proc)
+                specialist_field.call(specialist)
+              else
+                specialist.public_send(specialist_field)
+              end
+      account.public_send("#{field}=", value) if account.public_send(field).blank?
     end
   end
 
@@ -50,6 +62,15 @@ class StripeAccount::Form < StripeAccount
       return true if errors.empty?
       raise ActiveRecord::Rollback
     end
+  end
+
+  def make_primary!
+    stripe = Stripe::Account.retrieve(specialist.stripe_account_id)
+    account = stripe.external_accounts.retrieve(stripe_id)
+    account.default_for_currency = true
+    account.save
+    specialist.stripe_accounts.update_all primary: false
+    update_attribute :primary, true
   end
 
   def require_iban?

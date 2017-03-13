@@ -2,6 +2,10 @@
 # rubocop:disable Metrics/ClassLength
 class StripeAccount < ActiveRecord::Base
   belongs_to :specialist
+  has_many :transactions, dependent: :nullify, foreign_key: 'payment_target_id'
+
+  scope :sorted, -> { order('"primary" DESC, created_at DESC') }
+  scope :primary, -> { where(primary: true) }
 
   enum status: { pending: 'pending', verified: 'verified', fields_needed: 'fields_needed', error: 'error' }
   enum account_type: { individual: 'individual', company: 'company' }
@@ -10,8 +14,11 @@ class StripeAccount < ActiveRecord::Base
 
   before_validation :encode_verification_document
   before_validation :set_ssn_last_4_from_personal_id, if: -> { country == 'US' }
-  after_create :create_managed_account, :verify_account
-  after_destroy :delete_managed_account, if: -> { stripe_id.present? }
+  after_create :create_managed_account, if: -> { specialist.stripe_account_id.blank? }
+  after_create :create_bank_account, if: -> { stripe_id.blank? }
+  after_create :verify_account
+  after_save :sync_all_accounts
+  after_destroy :delete_bank_account, if: -> { stripe_id.present? }
 
   REQUIRED_FIELDS = {
     additional_owners: { company: %w(AT BE DE DK ES FI FR GB IE IT LU NL NO PT SE SG) },
@@ -45,6 +52,17 @@ class StripeAccount < ActiveRecord::Base
 
   private
 
+  # These fields belong to the connected account so they're shared across all bank accounts
+  SHARED_ATTRIBUTES = %i(city address1 zipcode personal_city personal_address1 personal_zipcode state dob ssn_last_4
+                         personal_id_number business_name business_tax_id).freeze
+  def sync_all_accounts
+    return if specialist.stripe_accounts.count == 1
+    attributes = SHARED_ATTRIBUTES.each_with_object({}) do |attr, attrs|
+      attrs[attr] = public_send(attr)
+    end
+    specialist.stripe_accounts.update_all(attributes)
+  end
+
   def set_ssn_last_4_from_personal_id
     self.ssn_last_4 = personal_id_number.to_s[-4..-1]
   end
@@ -60,7 +78,20 @@ class StripeAccount < ActiveRecord::Base
 
   def create_managed_account
     account = Stripe::Account.create(stripe_account_attributes)
-    update_columns stripe_id: account.id, secret_key: account.keys.secret, publishable_key: account.keys.publishable
+    specialist.update_columns stripe_account_id: account.id,
+                              stripe_secret_key: account.keys.secret,
+                              stripe_publishable_key: account.keys.publishable
+    update_column :stripe_id, account.external_accounts.first.id
+  rescue Stripe::InvalidRequestError => e
+    errors.add :base, e.message
+    destroy # So #persisted? does not return true
+    raise ActiveRecord::Rollback
+  end
+
+  def create_bank_account
+    account = Stripe::Account.retrieve(specialist.stripe_account_id)
+    ba = account.external_accounts.create(external_account: stripe_external_account_attributes)
+    update_attribute :stripe_id, ba.id
   rescue Stripe::InvalidRequestError => e
     errors.add :base, e.message
     destroy # So #persisted? does not return true
@@ -71,22 +102,26 @@ class StripeAccount < ActiveRecord::Base
     {
       country: country,
       managed: true,
-      external_account: {
-        object: 'bank_account',
-        country: country,
-        currency: account_currency,
-        routing_number: account_routing_number,
-        account_number: account_number
-      },
+      external_account: stripe_external_account_attributes,
       tos_acceptance: { date: tos_acceptance_date.to_i, ip: tos_acceptance_ip }
     }
   end
 
+  def stripe_external_account_attributes
+    {
+      object: 'bank_account',
+      country: country,
+      currency: account_currency,
+      routing_number: account_routing_number,
+      account_number: account_number
+    }
+  end
+
   def verify_account
-    account = Stripe::Account.retrieve(stripe_id)
+    account = Stripe::Account.retrieve(specialist.stripe_account_id)
     assign_account_fields account
     account.save
-    account = Stripe::Account.retrieve(stripe_id)
+    account = Stripe::Account.retrieve(specialist.stripe_account_id)
     update_status_from_stripe account
   rescue Stripe::InvalidRequestError => e
     errors.add :base, translate_stripe_error(e.message)
@@ -100,11 +135,15 @@ class StripeAccount < ActiveRecord::Base
     tmp.write Base64.decode64(verification_document)
     tmp.close
     file = File.new(tmp.path)
-    Stripe::FileUpload.create({ purpose: 'identity_document', file: file }, stripe_account: stripe_id)
+    Stripe::FileUpload.create(
+      { purpose: 'identity_document', file: file },
+      stripe_account: specialist.stripe_account_id
+    )
   end
 
-  def delete_managed_account
-    Stripe::Account.retrieve(stripe_id).delete
+  def delete_bank_account
+    account = Stripe::Account.retrieve(specialist.stripe_account_id)
+    account.external_accounts.retrieve(stripe_id).delete
   end
 
   FIELD_MAPPINGS = {

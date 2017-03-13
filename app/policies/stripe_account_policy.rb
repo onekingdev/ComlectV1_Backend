@@ -7,7 +7,6 @@ class StripeAccountPolicy < ApplicationPolicy
   end
 
   def destroy?
-    record.specialist.payments.pending_or_errored.empty? &&
-      record.specialist.transactions.pending_or_errored.empty?
+    !record.primary?
   end
 end

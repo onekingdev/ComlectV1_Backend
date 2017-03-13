@@ -1170,7 +1170,10 @@ CREATE TABLE specialists (
     time_zone character varying,
     address_1 character varying,
     address_2 character varying,
-    discourse_username character varying
+    discourse_username character varying,
+    stripe_account_id character varying,
+    stripe_secret_key character varying,
+    stripe_publishable_key character varying
 );
 
 
@@ -3031,8 +3034,7 @@ CREATE TABLE stripe_accounts (
     personal_zipcode character varying,
     status_detail character varying,
     verification_document text,
-    secret_key character varying,
-    publishable_key character varying
+    "primary" boolean DEFAULT false NOT NULL
 );
 
 
@@ -4853,4 +4855,8 @@ INSERT INTO schema_migrations (version) VALUES ('20170208044644');
 INSERT INTO schema_migrations (version) VALUES ('20170208045428');
 
 INSERT INTO schema_migrations (version) VALUES ('20170208211820');
+
+INSERT INTO schema_migrations (version) VALUES ('20170306232008');
+
+INSERT INTO schema_migrations (version) VALUES ('20170307203302');
 
