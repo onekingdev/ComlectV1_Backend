@@ -9,11 +9,10 @@ class StripeEvent
   }.freeze
 
   def self.handle(event_id, account_id, connect: true)
-    args = if (account = StripeAccount.find_by(stripe_id: account_id))
-             { api_key: account.secret_key }
-           else
-             {}
-           end
+    account = StripeAccount.find_by(stripe_id: account_id) if connect
+    args = {}
+    args[:api_key] = account.secret_key if connect && account
+    return nil if connect && account.nil? # We don't have the account on record (probably a dev account)
     event = Stripe::Event.retrieve(event_id, args)
     handler = HANDLERS[event.type]
     return nil unless handler
