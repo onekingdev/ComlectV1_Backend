@@ -592,7 +592,8 @@ class Notification::Deliver < Draper::Decorator
     private
 
     def initiator_name_and_img(initiator)
-      def_img = ActionController::Base.helpers.asset_path("icon-specialist.png")
+      # def_img = ActionController::Base.helpers.asset_path("icon-specialist.png")
+      def_img = "/icon-specialist.png"
       if initiator.class == Business::Decorator || initiator.class == Business
         [initiator.business_name, initiator.logo_url(:thumb) || def_img]
       elsif initiator.class == Specialist::Decorator || initiator.class == Specialist

@@ -28,10 +28,6 @@ expire_projects:
   cron: "*/5 * * * *"
   class: "ExpireProjectsJob"
 
-auto_accept_timesheets:
-  cron: "*/5 * * * *"
-  class: "AutoAcceptTimesheetsJob"
-
 transfer_foreign_currency:
   cron: "0 0 * * *"
   class: "TransferForeignCurrencyJob"

@@ -5,15 +5,12 @@
     h4 Reset password via email
 
     p.text-center.p-t-2
-      | Enter the email address used to log in
-      br
-      | to your Complect account and we'll
-      br
-      | send you a link to reset your password.
-      br
-      | If you are a business, we'll send the
-      br
-      | email to your key contact.
+      small
+        | Enter the email address used to log in to your Complect
+        br
+        | account and we'll send you a link to reset your password. If you
+        br
+        | are a business, we'll send the email to your key contact.
 
     = simple_form_for resource, remote: true, as: resource_name, url: password_path(resource_name), html: { class: 'new_password' } do |f|
       = f.input :email, label: false, input_html: { class: 'input-lg fw-light' }
