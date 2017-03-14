@@ -7,6 +7,7 @@ class Timesheet < ActiveRecord::Base
 
   scope :sorted, -> { order(created_at: :desc) }
   scope :not_pending, -> { where.not(status: Timesheet.statuses[:pending]) }
+  scope :expired, -> { where('expires_at <= ?', Time.zone.now) }
 
   enum status: { pending: 'pending',
                  submitted: 'submitted',
@@ -18,6 +19,7 @@ class Timesheet < ActiveRecord::Base
 
   before_save -> { self.status_changed_at = Time.zone.now }, if: :status_changed?
   before_save -> { self.first_submitted_at = Time.zone.now }, if: -> { first_submitted_at.nil? && submitted? }
+  before_save :set_expiration, if: -> { submitted? && status_changed? }
 
   validates :time_logs, presence: true
   validate :validate_project_is_active
@@ -35,7 +37,18 @@ class Timesheet < ActiveRecord::Base
     approved? || charged?
   end
 
+  def expired?
+    !expires_at.blank? && expires_at.past? # negate blank? instead of using present? for clarity (present? && past?)
+  end
+
   private
+
+  def set_expiration
+    date = status_changed_at.in_time_zone(business.tz)
+    expires_at = date.tomorrow
+    expires_at = expires_at.next_week unless expires_at.weekday?
+    self.expires_at = expires_at.change(hour: 23, min: 59, sec: 59)
+  end
 
   def validate_project_is_active
     return if changed == %w(status) # Allow changing timesheet status

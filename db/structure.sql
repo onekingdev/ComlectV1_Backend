@@ -3103,7 +3103,8 @@ CREATE TABLE timesheets (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     status_changed_at timestamp without time zone,
-    first_submitted_at timestamp without time zone
+    first_submitted_at timestamp without time zone,
+    expires_at timestamp without time zone
 );
 
 
@@ -4859,4 +4860,6 @@ INSERT INTO schema_migrations (version) VALUES ('20170208211820');
 INSERT INTO schema_migrations (version) VALUES ('20170306232008');
 
 INSERT INTO schema_migrations (version) VALUES ('20170307203302');
+
+INSERT INTO schema_migrations (version) VALUES ('20170314025240');
 
