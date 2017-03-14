@@ -5,7 +5,16 @@
         .modal-header
         .modal-body
           h3.text-uppercase.text-center.m-t-1.m-b-2  Rate & Review
-          .rating.m-x-auto.m-y-2
+          .clearfix
+            - if current_business
+              = image_tag (rating.project.specialist.logo_url(:thumb) || "/icon-specialist.png"), size: '60x60', class: 'img-circle m-b-1'
+              .name= rating.project.specialist.full_name
+            - else
+              = image_tag (rating.project.business.logo_url(:thumb) || "/icon-specialist.png"), size: '60x60', class: 'img-circle m-b-1'
+              .name= rating.project.business
+            small
+              i= "(#{rating.project.title})"
+          .rating.m-x-auto.m-y-1
             = f.radio_button :value, 5
             label for="rating_value_5"
             = f.radio_button :value, 4

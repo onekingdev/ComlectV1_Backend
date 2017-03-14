@@ -3,10 +3,10 @@
 
 .panel-body.p-t-0.p-b-1
   = link_to project.business, class: 'business m-b-1 td-n d-b clearfix' do
-    = image_tag project.business.logo_url(:thumb), size: '60x60', class: 'img-circle'
+    = image_tag (project.business.logo_url(:thumb) || "/icon-specialist.png"), size: '60x60', class: 'img-circle'
     .name= project.business
   = link_to project.specialist, class: 'specialist m-b-1 td-n d-b' do
-    = image_tag project.specialist.photo_url(:thumb), size: '60x60', class: 'img-circle'
+    = image_tag (project.specialist.photo_url(:thumb) || "/icon-specialist.png"), size: '60x60', class: 'img-circle'
     .name= project.specialist.full_name
 
   label.m-t-2
