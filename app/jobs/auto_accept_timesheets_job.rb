@@ -4,7 +4,7 @@ class AutoAcceptTimesheetsJob < ActiveJob::Base
 
   def perform(timesheet_id = nil)
     return process_all if timesheet_id.nil?
-    timesheet = Timesheet::Form.find(timesheet_id)
+    timesheet = Timesheet::Form.new(Timesheet.find(timesheet_id))
     return unless timesheet.expired?
     timesheet.approve!
   end
