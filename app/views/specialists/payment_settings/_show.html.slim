@@ -1,0 +1,84 @@
+.panel-heading
+  h3 Payment Details
+
+.panel-body.p-t-0
+  - if @account.persisted?
+    = render 'accounts', accounts: @bank_accounts
+
+    .m-t-2
+      a.btn.btn-link.btn-plain href=new_specialists_settings_payment_path(popup: true) data-remote="true"
+        i.icon.maxicons2-add
+        span Add Bank Account
+
+  - if @account.persisted?
+    .panel-heading.p-a-0.m-t-3
+      h3.m-b-1 Personal Details
+    - if @account.status_detail.present?
+      .alert.alert-warning= @account.status_detail
+
+    .row
+      .col-xs-12.col-sm-6
+        .form-group
+          input.form-control.input-lg readonly=true value=Stripe::SUPPORTED_COUNTRIES[@account.country.to_sym]
+      .col-xs-12.col-sm-6
+        .form-group
+          input.form-control.input-lg readonly=true value=@account.account_type.capitalize
+
+      - if @account.company?
+        .col-xs-12.col-sm-6
+          .form-group
+            input.form-control.input-lg readonly=true value=@account.business_name
+        .col-xs-12.col-sm-6
+          .form-group
+            input.form-control.input-lg readonly=true value=@account.business_tax_id
+
+      .col-xs-12.col-sm-6
+        .form-group
+          input.form-control.input-lg readonly=true value=@account.address1
+      .col-xs-12.col-sm-6
+        .form-group
+          input.form-control.input-lg readonly=true value=@account.zipcode
+      .col-xs-12.col-sm-6
+        .form-group
+          input.form-control.input-lg readonly=true value=@account.city
+      .col-xs-12.col-sm-6
+        .form-group
+          input.form-control.input-lg readonly=true value=@account.state
+
+      .col-xs-12.col-sm-6
+        .form-group
+          input.form-control.input-lg readonly=true value=@account.first_name
+      .col-xs-12.col-sm-6
+        .form-group
+          input.form-control.input-lg readonly=true value=@account.last_name
+
+      .col-xs-12.col-sm-6
+        .form-group
+          input.form-control.input-lg readonly=true value=l(@account.dob, format: :pickadate)
+
+      .col-xs-12.col-sm-6
+        .form-group
+          input.form-control.input-lg readonly=true value=@account.personal_id_number
+
+      - if @account.verification_document
+        .col-xs-12.col-sm-6
+          .form-group
+            .fa.fa-file-text-o
+            'Verification provided
+
+      - if @account.required?(:personal_city)
+        .col-xs-12.col-sm-6
+          .form-group
+            input.form-control.input-lg readonly=true value=@account.personal_address1
+        .col-xs-12.col-sm-6
+          .form-group
+            input.form-control.input-lg readonly=true value=@account.personal_zipcode
+        .col-xs-12.col-sm-6
+          .form-group
+            input.form-control.input-lg readonly=true value=@account.personal_city
+
+    .text-right.m-b-3.p-b-1
+      = link_to 'Edit', edit_specialists_settings_payment_path, class: 'btn btn-default btn-md p-x-3'
+
+  - else
+    = render 'new', account: @account

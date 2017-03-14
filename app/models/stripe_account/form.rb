@@ -2,11 +2,11 @@
 class StripeAccount::Form < StripeAccount
   include ApplicationForm
 
-  validates :country, :account_currency, :account_number, :address1, :city, :first_name, :last_name, :dob,
-            presence: true
+  # validates :country, :account_currency, :account_number, :address1, :city, :first_name, :last_name, :dob,
+  validates :country, :address1, :city, :first_name, :last_name, :dob, presence: true
   validates :zipcode, presence: true, unless: -> { country == 'HK' }
   validates :state, presence: true, unless: -> { country == 'SG' }
-  validates :account_routing_number, presence: true, unless: :require_iban?
+  # validates :account_routing_number, presence: true, unless: :require_iban?
   validates :account_type, inclusion: { in: account_types.values }
   validates :business_name, :business_tax_id, presence: true, if: :company?
 
@@ -33,15 +33,13 @@ class StripeAccount::Form < StripeAccount
   end
 
   def self.for(specialist, attributes = {})
-    existing = specialist.stripe_account
-    new(specialist: specialist).tap do |account|
-      prepopulate account, specialist
-      account.attributes = attributes
-      account.primary = true unless existing
-      account.country = existing.country if existing
-      account.account_type = existing.account_type if existing
-      account.state = 'Hong Kong' if account.country == 'HK'
-    end
+    account = find_by(specialist_id: specialist.id) || new(specialist: specialist)
+    prepopulate account, specialist
+    account.attributes = attributes
+    account.account_type = 'individual' if Stripe::INDIVIDUAL_ONLY_COUNTRIES.include?(account.country)
+    # account.primary = true unless existing
+    account.state = 'Hong Kong' if account.country == 'HK'
+    account
   end
 
   def self.prepopulate(account, specialist)
