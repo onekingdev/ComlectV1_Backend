@@ -14,7 +14,7 @@
 
             br
 
-            .list-icon
+            .list-icon.width-110
               .item
                 i.icon-location-pin
                 span= specialist.city_state_country
@@ -73,7 +73,7 @@
                 span= link_to 'Forum', ENV.fetch('DISCOURSE_SPECIALIST_FORUM'), target: '_blank'
               .item
                 i.icon-doc
-                span= link_to 'Best Practices', '#'
+                span= link_to 'Best Practices', '/Best_Practices_Specialist.pdf', target: :blank
               .item
                 i.icon-share
                 span= link_to 'Partnerships', page_path('partner-network')

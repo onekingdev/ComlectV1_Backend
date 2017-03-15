@@ -1,3 +1,8 @@
+.new_document .btn, .new_project_issue .btn{
+  height: 36px;
+  padding: 6px 14px;
+}
+
 .documents-table {
   th {
     font-weight: $regular-weight;
@@ -127,7 +132,7 @@ body.project_dashboard.show, body.dashboards.show {
     border-color: transparent;
     position: absolute;
     left: 0px;
-    padding: 10.5px 10px;
+    padding: 6.5px 10px;
   }
 
   .message-form .col-xs-12 {
@@ -135,7 +140,7 @@ body.project_dashboard.show, body.dashboards.show {
   }
 
   .send_on_enter {
-    line-height: 46px;
+    line-height: 38px;
   }
 
   .panel-padded .panel-body {

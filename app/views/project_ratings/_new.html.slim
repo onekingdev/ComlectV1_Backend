@@ -4,7 +4,8 @@
       = simple_form_for rating, url: @form_url, remote: true do |f|
         .modal-header
         .modal-body
-          h3.text-uppercase.text-center.m-t-1.m-b-2  Rate & Review
+          h3.text-uppercase.text-center.m-t-0.m-b-2
+            big Rate & Review
           .clearfix
             - if current_business
               = image_tag (rating.project.specialist.logo_url(:thumb) || "/icon-specialist.png"), size: '60x60', class: 'img-circle m-b-1'
@@ -26,4 +27,4 @@
             = f.radio_button :value, 1
             label for="rating_value_1"
           = f.input :review, label: false, required: false, as: :text, input_html: { rows: 6 }
-          .m-t-1= f.submit 'Send', class: 'btn btn-primary btn-block btn-lg'
+          .m-t-2= f.submit 'Submit', class: 'btn btn-primary btn-block btn-lg'

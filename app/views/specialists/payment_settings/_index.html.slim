@@ -1,0 +1,40 @@
+.panel-heading
+  h3 Payment Details
+
+.panel-body.p-t-0
+  - if @accounts.any?
+    table.table.payment-details.m-b-1
+      - @accounts.each do |account|
+        tr
+          td
+            i.icon-credit-card
+          td
+            '#{'*' * (account.account_number.size - 4).abs} #{account.account_number.reverse[0..3].reverse}
+            br
+            - if account.fields_needed?
+              = link_to 'Additional Info Required', edit_specialists_settings_payment_path(account)
+            - elsif account.error?
+              = link_to 'Error', edit_specialists_settings_payment_path(account)
+            - else
+              strong= account.status.capitalize
+          td
+            - if account.primary?
+              strong Primary
+            - else
+              = form_for account, url: specialists_settings_payment_make_primary_path(account), html: { class: 'd-ib' } do |f|
+                = f.hidden_field :primary, value: true
+                button.btn-plain.td-u Make Primary
+          td.text-right
+            = link_to edit_specialists_settings_payment_path(account), class: 'btn-link m-l-2' do
+              i.icon-pencil
+            - if policy(account).destroy?
+              = link_to specialists_settings_payment_path(account), method: :delete, class: 'btn-link m-l-1', data: { confirm: 'Are you sure you want to delete this account?', 'confirm-label' => 'Delete' } do
+                i.icon.maxicons1-exit.text-muted
+
+      /- unless policy(@account).destroy?
+        .alert.alert-warning <b>Note:</b> Cannot remove your payment details while there are pending payments.
+
+  .m-t-2
+    a.btn.btn-link.btn-plain href=new_specialists_settings_payment_path(popup: true) data-remote="true"
+      i.icon.maxicons2-add
+      span Add Bank Account

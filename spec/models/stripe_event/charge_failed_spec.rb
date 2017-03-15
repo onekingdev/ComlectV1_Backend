@@ -3,8 +3,7 @@ require 'rails_helper'
 
 RSpec.describe StripeEvent::ChargeFailed, type: :model do
   before do
-    @specialist = create :specialist, stripe_account_id: 'acc_XXX'
-    # @stripe_account = @specialist.stripe_accounts =
+    @specialist = create :specialist
     @project = create :project_one_off_fixed,
                       payment_schedule: Project.payment_schedules[:bi_weekly],
                       fixed_budget: 10_000,
@@ -21,7 +20,7 @@ RSpec.describe StripeEvent::ChargeFailed, type: :model do
     it 'resets the transaction to failed' do
       stub_request(:get, 'https://api.stripe.com/v1/events/dummy_event_id')
         .to_return(status: 200, body: File.read(Rails.root.join('spec/webmock/stripe_events/charge_failed.json')))
-      StripeEvent.handle('dummy_event_id', 'acc_XXX', connect: true)
+      StripeEvent.handle('dummy_event_id', 'account_id', connect: true)
       @transaction.reload
       expect(@transaction.error?).to be(true)
     end

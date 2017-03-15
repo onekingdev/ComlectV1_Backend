@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class BankAccountPolicy < ApplicationPolicy
+class StripeAccountPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       scope

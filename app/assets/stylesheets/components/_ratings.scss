@@ -13,7 +13,7 @@ form#new_rating {
   .rating {
     @include clearfix;
     font-family: FontAwesome;
-    width: 10em;
+    width: 11em;
   }
 
   .rating:not(:checked) > input {
@@ -21,9 +21,9 @@ form#new_rating {
   }
 
   .rating:not(:checked) > label {
-    width: 1em;
+    width: 1.1em;
     float: right;
-    padding: 0 .1em;
+    padding: 0 .2em;
     overflow: hidden;
     white-space: nowrap;
     cursor: pointer;

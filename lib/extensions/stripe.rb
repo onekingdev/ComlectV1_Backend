@@ -24,8 +24,6 @@ module Stripe
     US: 'United States'
   }.freeze
 
-  INDIVIDUAL_ONLY_COUNTRIES = %w(AT BE DE DK ES FI FR GB IE IT LU NL NO PT SE SG).freeze
-
   SUPPORTED_BANK_CURRENCIES = {
     AT: %w(EUR),
     BE: %w(EUR),
