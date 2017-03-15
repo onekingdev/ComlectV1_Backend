@@ -2,54 +2,41 @@
 class Specialists::PaymentSettingsController < ApplicationController
   before_action :require_specialist!
 
-  def index
-    @accounts = current_specialist.stripe_accounts.sorted
-  end
-
   def show
-    @account = current_specialist.stripe_accounts.find(params[:id])
+    @account = StripeAccount::Form.for(current_specialist)
+    @bank_accounts = @account.bank_accounts
   end
 
   def new
-    if params[:popup] && current_specialist.stripe_account.nil?
-      render 'popup'
-    else
-      @account = StripeAccount::Form.for(current_specialist, account_attributes_optional)
-    end
+    @account = StripeAccount::Form.for(current_specialist, account_attributes_optional)
   end
 
   def create
     @account = StripeAccount::Form.for(current_specialist, account_attributes)
-    if @account.save
-      redirect_to specialists_settings_payment_index_path
+    if @account.save && @account.errors.empty?
+      redirect_to specialists_settings_payment_path
     else
       render :new
     end
   end
 
   def edit
-    @account = StripeAccount::Form.find(current_specialist, params[:id])
+    @account = StripeAccount::Form.for(current_specialist, account_attributes_optional)
   end
 
   def update
-    @account = StripeAccount::Form.find(current_specialist, params[:id])
+    @account = StripeAccount::Form.for(current_specialist)
     if @account.update_and_verify(account_attributes)
-      redirect_to specialists_settings_payment_index_path
+      redirect_to specialists_settings_payment_path
     else
       render :edit
     end
   end
 
-  def make_primary
-    @account = StripeAccount::Form.find(current_specialist, params[:payment_id])
-    @account.make_primary!
-    redirect_to specialists_settings_payment_index_path
-  end
-
   def destroy
-    account = current_specialist.stripe_accounts.find(params[:id])
+    account = current_specialist.stripe_account
     authorize account, :destroy?
-    account&.destroy
+    account.destroy
     redirect_to specialists_settings_payment_path
   end
 

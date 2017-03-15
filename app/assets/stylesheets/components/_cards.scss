@@ -26,16 +26,8 @@
 
   .panel-footer .btn {
     height: 31px;
-    line-height: 26px;
+    line-height: 31px;
     padding: 0;
-
-    &:hover {
-      span {
-        color: #000000;      
-      }
-      background-color: #ffcc00;
-      border-color: #ffcc00;
-    }
   }
 
   .panel-body {

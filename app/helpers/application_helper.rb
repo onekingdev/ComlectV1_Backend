@@ -2,6 +2,15 @@
 module ApplicationHelper
   include SimpleForm::ActionViewExtensions::FormHelper
 
+  def active_class(*args)
+    active = args.detect do |arg|
+      controller, action = arg.split('#')
+      controller_check = controller =~ %r{\/} ? controller_path : controller_name
+      controller == controller_check && (action.nil? || action == action_name)
+    end
+    active ? 'active' : ''
+  end
+
   def reverse_sort(direction)
     Hash.new('desc').merge('asc' => 'desc', 'desc' => 'asc')[direction]
   end

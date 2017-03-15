@@ -206,6 +206,43 @@ ALTER SEQUENCE answers_id_seq OWNED BY answers.id;
 
 
 --
+-- Name: bank_accounts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE bank_accounts (
+    id integer NOT NULL,
+    stripe_account_id integer,
+    stripe_id character varying,
+    "primary" boolean DEFAULT false NOT NULL,
+    country character varying,
+    currency character varying,
+    routing_number character varying,
+    account_number character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: bank_accounts_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE bank_accounts_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: bank_accounts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE bank_accounts_id_seq OWNED BY bank_accounts.id;
+
+
+--
 -- Name: businesses; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1170,10 +1207,7 @@ CREATE TABLE specialists (
     time_zone character varying,
     address_1 character varying,
     address_2 character varying,
-    discourse_username character varying,
-    stripe_account_id character varying,
-    stripe_secret_key character varying,
-    stripe_publishable_key character varying
+    discourse_username character varying
 );
 
 
@@ -3007,14 +3041,10 @@ CREATE TABLE stripe_accounts (
     id integer NOT NULL,
     specialist_id integer,
     status character varying DEFAULT 'Pending'::character varying NOT NULL,
-    account_currency character varying,
-    account_routing_number character varying,
-    account_number character varying,
     city character varying,
     address1 character varying,
     zipcode character varying,
     state character varying,
-    country character varying,
     dob date,
     first_name character varying,
     last_name character varying,
@@ -3034,7 +3064,9 @@ CREATE TABLE stripe_accounts (
     personal_zipcode character varying,
     status_detail character varying,
     verification_document text,
-    "primary" boolean DEFAULT false NOT NULL
+    country character varying,
+    secret_key character varying,
+    publishable_key character varying
 );
 
 
@@ -3240,6 +3272,13 @@ ALTER TABLE ONLY admin_users ALTER COLUMN id SET DEFAULT nextval('admin_users_id
 --
 
 ALTER TABLE ONLY answers ALTER COLUMN id SET DEFAULT nextval('answers_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY bank_accounts ALTER COLUMN id SET DEFAULT nextval('bank_accounts_id_seq'::regclass);
 
 
 --
@@ -3466,6 +3505,14 @@ ALTER TABLE ONLY admin_users
 
 ALTER TABLE ONLY answers
     ADD CONSTRAINT answers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: bank_accounts_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY bank_accounts
+    ADD CONSTRAINT bank_accounts_pkey PRIMARY KEY (id);
 
 
 --
@@ -3734,6 +3781,13 @@ CREATE UNIQUE INDEX index_admin_users_on_reset_password_token ON admin_users USI
 --
 
 CREATE INDEX index_answers_on_question_id ON answers USING btree (question_id);
+
+
+--
+-- Name: index_bank_accounts_on_stripe_account_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_bank_accounts_on_stripe_account_id ON bank_accounts USING btree (stripe_account_id);
 
 
 --
@@ -4862,4 +4916,8 @@ INSERT INTO schema_migrations (version) VALUES ('20170306232008');
 INSERT INTO schema_migrations (version) VALUES ('20170307203302');
 
 INSERT INTO schema_migrations (version) VALUES ('20170314025240');
+
+INSERT INTO schema_migrations (version) VALUES ('20170314145501');
+
+INSERT INTO schema_migrations (version) VALUES ('20170314145531');
 

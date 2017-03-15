@@ -1,0 +1,40 @@
+= simple_form_for account, url: specialists_settings_bank_accounts_path do |f|
+  - if f.object.errors[:base].any?
+    .alert.alert-warning= f.object.errors[:base].to_sentence
+
+  .panel-heading.p-t-3
+    h3 Account Details
+
+  .panel-body.p-b-2
+    .row
+      .col-xs-12.col-sm-6
+        = f.input :country, as: :hidden
+        .form-group
+          input.form-control.input-lg disabled=true value=Stripe::SUPPORTED_COUNTRIES[f.object.country.to_s.upcase.to_sym]
+      .col-xs-12.col-sm-6
+        - if Stripe::SUPPORTED_BANK_CURRENCIES[f.object.country.to_sym].size == 1
+          = f.input :currency, as: :hidden, input_html: { value: Stripe::SUPPORTED_BANK_CURRENCIES[f.object.country.to_sym].first }
+          .form-group
+            input.form-control.input-lg disabled=true value=Stripe::SUPPORTED_BANK_CURRENCIES[f.object.country.to_sym].first
+        - else
+          = f.input :currency,
+            wrapper: :vertical_tight,
+            required: false,
+            label: false,
+            include_blank: false,
+            collection: Stripe::SUPPORTED_BANK_CURRENCIES[f.object.country.to_sym],
+            input_html: { class: 'input-lg js-select' }
+
+    .row
+      - if f.object.require_iban?
+        .col-xs-12
+          = f.input :account_number, required: false, label: false, placeholder: 'IBAN', input_html: { class: 'input-lg' }, wrapper: :vertical_tight
+      - else
+        .col-xs-12.col-sm-6
+          = f.input :routing_number, required: false, label: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
+        .col-xs-12.col-sm-6
+          = f.input :account_number, required: false, label: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
+
+  .text-center.m-b-3.p-b-1
+    = link_to 'Cancel', specialists_settings_payment_path, remote: true, class: 'btn btn-default btn-md p-x-3 m-r-1'
+    = f.submit f.object.persisted? ? 'Update Account' : 'Add Account', class: 'btn btn-primary btn-md p-x-3'

@@ -3,9 +3,7 @@ module ApplicationForm
   extend ActiveSupport::Concern
 
   class_methods do
-    def model_name
-      # Project::Form.model_name => Project.model_name
-      name.deconstantize.constantize.model_name
-    end
+    # Project::Form.model_name => Project.model_name
+    delegate :model_name, to: :superclass
   end
 end

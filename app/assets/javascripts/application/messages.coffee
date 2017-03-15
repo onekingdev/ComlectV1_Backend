@@ -74,7 +74,7 @@ $.onContentReady ($parent, data) ->
         previousRatio = ratio
       , 500
 
-    $('#project-messages').on 'keypress', '.message_message', (e) ->
+    $('.message_message').on 'keypress', (e) ->
       if (window.event.keyCode == 13 && $('#send_on_enter').prop('checked'))
           $('.message-form input[type="submit"]').click()
           return false
