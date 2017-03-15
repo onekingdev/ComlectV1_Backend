@@ -5,20 +5,24 @@ class BankAccount < ActiveRecord::Base
 
   scope :sorted, -> { order('"primary" DESC, created_at DESC') }
 
+  before_create :create_bank_account
+  after_destroy :delete_bank_account
+  after_commit -> { stripe_account.update_verification_status }, on: :create
+
   private
 
   def create_bank_account
-    account = Stripe::Account.retrieve(specialist.stripe_account_id)
+    account = Stripe::Account.retrieve(stripe_account.stripe_id)
     ba = account.external_accounts.create(external_account: stripe_attributes)
-    update_attribute :stripe_id, ba.id
+    self.stripe_id = ba.id
+    true
   rescue Stripe::InvalidRequestError => e
     errors.add :base, e.message
-    destroy # So #persisted? does not return true
-    raise ActiveRecord::Rollback
+    false
   end
 
   def delete_bank_account
-    account = Stripe::Account.retrieve(specialist.stripe_account_id)
+    account = Stripe::Account.retrieve(stripe_account.stripe_id)
     account.external_accounts.retrieve(stripe_id).delete
   end
 
@@ -26,8 +30,8 @@ class BankAccount < ActiveRecord::Base
     {
       object: 'bank_account',
       country: country,
-      currency: account_currency,
-      routing_number: account_routing_number,
+      currency: currency,
+      routing_number: routing_number,
       account_number: account_number
     }
   end

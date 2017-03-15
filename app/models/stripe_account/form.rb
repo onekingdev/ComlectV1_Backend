@@ -2,11 +2,9 @@
 class StripeAccount::Form < StripeAccount
   include ApplicationForm
 
-  # validates :country, :account_currency, :account_number, :address1, :city, :first_name, :last_name, :dob,
   validates :country, :address1, :city, :first_name, :last_name, :dob, presence: true
   validates :zipcode, presence: true, unless: -> { country == 'HK' }
   validates :state, presence: true, unless: -> { country == 'SG' }
-  # validates :account_routing_number, presence: true, unless: :require_iban?
   validates :account_type, inclusion: { in: account_types.values }
   validates :business_name, :business_tax_id, presence: true, if: :company?
 
@@ -60,19 +58,6 @@ class StripeAccount::Form < StripeAccount
       return true if errors.empty?
       raise ActiveRecord::Rollback
     end
-  end
-
-  def make_primary!
-    stripe = Stripe::Account.retrieve(specialist.stripe_account_id)
-    account = stripe.external_accounts.retrieve(stripe_id)
-    account.default_for_currency = true
-    account.save
-    specialist.stripe_accounts.update_all primary: false
-    update_attribute :primary, true
-  end
-
-  def require_iban?
-    %w(AT BE DE DK ES FI FR GB IE IT LU NL NO PT SE).include? country
   end
 
   def required?(field)

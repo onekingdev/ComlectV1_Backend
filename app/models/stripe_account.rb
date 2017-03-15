@@ -15,9 +15,7 @@ class StripeAccount < ActiveRecord::Base
   before_validation :encode_verification_document
   before_validation :set_ssn_last_4_from_personal_id, if: -> { country == 'US' }
   after_create :create_managed_account, if: -> { stripe_id.blank? }
-  # after_create :create_bank_account, if: -> { stripe_id.blank? }
   after_create :verify_account
-  # after_destroy :delete_bank_account, if: -> { stripe_id.present? }
   after_destroy :delete_stripe_account, if: -> { stripe_id.present? }
 
   REQUIRED_FIELDS = {
@@ -54,6 +52,11 @@ class StripeAccount < ActiveRecord::Base
 
   def update_status_from_stripe(account)
     update_columns status: status_from_account(account), status_detail: fields_needed_message(account).presence
+  end
+
+  def update_verification_status
+    account = Stripe::Account.retrieve(stripe_id)
+    update_status_from_stripe account
   end
 
   private
@@ -94,8 +97,7 @@ class StripeAccount < ActiveRecord::Base
     account = Stripe::Account.retrieve(stripe_id)
     assign_account_fields account
     account.save
-    account = Stripe::Account.retrieve(stripe_id)
-    update_status_from_stripe account
+    update_verification_status
   rescue Stripe::InvalidRequestError => e
     errors.add :base, translate_stripe_error(e.message)
     raise ActiveRecord::Rollback unless stripe_id.present?

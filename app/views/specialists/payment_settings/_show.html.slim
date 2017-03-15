@@ -2,11 +2,14 @@
   h3 Payment Details
 
 .panel-body.p-t-0
+  - if @account.error?
+    .alert.alert-danger= @account.status_detail
+
   - if @account.persisted?
     = render 'accounts', accounts: @bank_accounts
 
     .m-t-2
-      a.btn.btn-link.btn-plain href=new_specialists_settings_payment_path(popup: true) data-remote="true"
+      a.btn.btn-link.btn-plain href=new_specialists_settings_bank_account_path
         i.icon.maxicons2-add
         span Add Bank Account
 

@@ -33,12 +33,6 @@ class Specialists::PaymentSettingsController < ApplicationController
     end
   end
 
-  def make_primary
-    @account = StripeAccount::Form.find(current_specialist, params[:payment_id])
-    @account.make_primary!
-    redirect_to specialists_settings_payment_path
-  end
-
   def destroy
     account = current_specialist.stripe_account
     authorize account, :destroy?
