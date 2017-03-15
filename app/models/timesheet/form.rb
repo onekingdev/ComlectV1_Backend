@@ -8,18 +8,19 @@ class Timesheet::Form < Timesheet::Decorator
   end
 
   def self.create(project, attributes)
-    new(project.timesheets.new(attributes.except(:save, :submit))).tap do |form|
-      form.status = Timesheet.statuses[:submitted] if attributes[:submit]
-      form.notify_business! if form.save && form.submitted?
-    end
+    save project.timesheets.new, attributes
   end
 
   def self.update(timesheet, attributes)
+    save timesheet, attributes
+  end
+
+  def self.save(timesheet, attributes)
     new(timesheet).tap do |form|
       form.assign_attributes attributes.except(:submit, :save)
-      if form.save && attributes[:submit]
-        form.submitted!
-        Notification::Deliver.timesheet_submitted! timesheet
+      form.status = Timesheet.statuses[:submitted] if attributes[:submit]
+      if form.save
+        Notification::Deliver.timesheet_submitted!(timesheet) if form.submitted?
       end
     end
   end
