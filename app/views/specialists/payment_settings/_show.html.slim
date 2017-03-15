@@ -7,6 +7,9 @@
 
   - if @account.persisted?
     = render 'accounts', accounts: @bank_accounts
+    - if @bank_accounts.size == 1
+      .m-t-1
+        .alert.alert-info If you need to remove your primary bank account, please add an additional bank account and make that your primary. You can delete old bank accounts after the new primary bank account is assigned.
 
     .m-t-2
       a.btn.btn-link.btn-plain href=new_specialists_settings_bank_account_path
@@ -82,6 +85,8 @@
 
     .text-right.m-b-3.p-b-1
       = link_to 'Edit', edit_specialists_settings_payment_path, class: 'btn btn-default btn-md p-x-3'
+
+    p.small Note: While identity verification information may be edited at any time, if your bank account information changes, please add a new bank account and select that as your primary bank account.
 
   - else
     = render 'new', account: @account
