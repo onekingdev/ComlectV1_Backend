@@ -23,6 +23,7 @@ class Projects::SharesController < ApplicationController
   end
 
   def find_project
-    @project = Project.pending.find(params[:project_id])
+    @project = Project.find(params[:project_id])
+    authorize @project, :share?
   end
 end
