@@ -7,15 +7,14 @@ class DiscourseUser
   end
 
   def sync
-    sso.tap do |sso|
-      # Wrap in transaction so Discourse username is not permanent after an error
-      ActiveRecord::Base.connection.transaction do
-        sso.name = name
-        sso.username = username
-        sso.email = email
-        sso.avatar_url = avatar_url
-        api.post '/admin/users/sync_sso', sso.payload
-      end
+    sso.name = name
+    sso.username = username
+    sso.email = email
+    sso.avatar_url = avatar_url
+    begin
+      api.post '/admin/users/sync_sso', sso.payload
+    rescue => e # Silent so user gets saved anyway when applicable
+      Appsignal.send_error e
     end
   end
 
