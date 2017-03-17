@@ -6,6 +6,7 @@ class ProjectRatingsController < ApplicationController
   include NotificationsHelper
 
   def new
+    return render js: '' unless @project
     @rating = @project.ratings.new(rater: specialist_or_business)
   end
 

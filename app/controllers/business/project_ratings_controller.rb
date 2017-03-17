@@ -18,6 +18,5 @@ class Business::ProjectRatingsController < ::ProjectRatingsController
 
   def find_project
     @project = current_business.projects.pending_business_rating.find_by(id: params[:project_id])
-    render js: '' unless @project
   end
 end

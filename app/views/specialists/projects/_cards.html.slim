@@ -48,9 +48,9 @@
               = link_to project.specialist_project_href(current_specialist), class: 'btn btn-sm btn-primary btn-single'
                 span View
 
-- if projects.total_pages > 1
+//- if projects.count > 3
   .dot-pagination.m-b-1
-    - projects.total_pages.times do |n|
+    - projects.count/3.times do |n|
       = link_to ''.html_safe, current_uri(page: n + 1), remote: true, class: "page #{"current" if n + 1 == projects.current_page}"
 
 javascript:

@@ -43,6 +43,6 @@ class Specialists::ProjectsController < ApplicationController
   end
 
   def base_scope(relation)
-    relation.includes(:industries, :jurisdictions, :skills).page(params[:page]).per(6)
+    relation.includes(:industries, :jurisdictions, :skills) # .page(params[:page]).per(6)
   end
 end

@@ -136,11 +136,10 @@ class Project < ActiveRecord::Base
     end
   end
 
-  def self.cards_for_user(user, filter:, page:, per:)
+  def self.cards_for_user(user, filter:) # , page:, per:)
     user.business.projects.recent
         .includes(:industries, :jurisdictions, :skills)
-        .public_send(filter)
-        .page(page).per(per || 6)
+        .public_send(filter) # .page(page).per(per || 6)
   end
 
   def complete!

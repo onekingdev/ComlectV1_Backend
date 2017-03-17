@@ -15,7 +15,9 @@ class Specialist < ActiveRecord::Base
     where(specialist_id: nil)
   }, class_name: 'Project', through: :job_applications, source: :project
   has_many :sent_messages, as: :sender, class_name: 'Message'
-  has_many :ratings_received, -> { where(rater_type: Business.name) }, through: :projects, source: :ratings
+  has_many :ratings_received, -> {
+    where(rater_type: Business.name).order(created_at: :desc)
+  }, through: :projects, source: :ratings
   has_one :stripe_account, dependent: :destroy
   has_many :bank_accounts, through: :stripe_account
   has_many :email_threads, dependent: :destroy

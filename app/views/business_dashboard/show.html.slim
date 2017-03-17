@@ -75,7 +75,7 @@
                   span Active
                 li= link_to '#projects-pending', data: { toggle: 'tab', "remote-load" => true, url: business_projects_path(filter: 'pending'), 'toggle-sync' => true } do
                   span Pending
-                li= link_to '#projects-drafts', data: { toggle: 'tab', "remote-load" => true, url: business_projects_path(filter: 'drafts'), 'toggle-sync' => true } do
+                li= link_to '#projects-draft', data: { toggle: 'tab', "remote-load" => true, url: business_projects_path(filter: 'drafts'), 'toggle-sync' => true } do
                   span Drafts
                 li= link_to '#projects-complete', data: { toggle: 'tab', "remote-load" => true, url: business_projects_path(filter: 'complete'), 'toggle-sync' => true } do
                   span Completed
@@ -84,7 +84,7 @@
                 span Active
               li= link_to '#projects-pending', data: { toggle: 'tab', "remote-load" => true, url: business_projects_path(filter: 'pending'), 'toggle-sync' => true } do
                 span Pending
-              li= link_to '#projects-drafts', data: { toggle: 'tab', "remote-load" => true, url: business_projects_path(filter: 'drafts'), 'toggle-sync' => true } do
+              li= link_to '#projects-draft', data: { toggle: 'tab', "remote-load" => true, url: business_projects_path(filter: 'drafts'), 'toggle-sync' => true } do
                 span Drafts
               li= link_to '#projects-complete', data: { toggle: 'tab', "remote-load" => true, url: business_projects_path(filter: 'complete'), 'toggle-sync' => true } do
                 span Completed
@@ -92,7 +92,7 @@
             .tab-content
               #projects-active.tab-pane.active
               #projects-pending.tab-pane
-              #projects-drafts.tab-pane
+              #projects-draft.tab-pane
               #projects-complete.tab-pane
 
         .panel.panel-default.panel-padded
