@@ -7,6 +7,10 @@ $ ->
   return if $trigger.length == 0 || $trigger.parent().hasClass('active')
   $trigger.click()
 
+# Trigger reloading content on active tabs when clicking the tab
+$(document).on 'click', '.active [data-toggle="tab"][data-remote-load="true"]', (e, args) ->
+  $(this).trigger('show.bs.tab')
+
 $(document).on 'show.bs.tab', '[data-toggle="tab"]', (e, args) ->
   $this = $(this)
   # We can have multiple triggers for tabs, this code keeps their "active" class in sync
@@ -20,7 +24,7 @@ $(document).on 'show.bs.tab', '[data-toggle="tab"]', (e, args) ->
       .parent().addClass('active').end()
 
   args ||= {}
-  return if !args.force? && (!$this.data('remote-load') || $this.data('remote-loaded') || $sync.hasClass('loading'))
+  return if !args.force? && (!$this.data('remote-load') || $sync.hasClass('loading'))
 
   $tab = $($this.attr('href'))
   $this.addClass('loading')
@@ -29,9 +33,7 @@ $(document).on 'show.bs.tab', '[data-toggle="tab"]', (e, args) ->
     $tab.html(html)
     $(document).trigger 'newContent', $tab
     $sync.removeClass('loading')
-    $this
-      .removeClass('loading')
-      .data('remote-loaded', !$tab.data('always-reload'))
+    $this.removeClass('loading')
 
 $.onContentReady ($parent) ->
   $('[data-remote-load][data-toggle="tab"]', $parent).each ->
