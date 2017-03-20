@@ -269,6 +269,8 @@ GEM
       actionmailer (>= 3.0.0)
       postmark (~> 1.8.0)
     powerpack (0.1.1)
+    pretender (0.2.1)
+      actionpack
     puma (3.4.0)
     pundit (1.1.0)
       activesupport (>= 3.0.0)
@@ -502,6 +504,7 @@ DEPENDENCIES
   plaid
   poltergeist
   postmark-rails
+  pretender
   puma (~> 3.4.0)
   pundit
   quiet_assets

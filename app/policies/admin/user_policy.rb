@@ -8,6 +8,10 @@ class Admin::UserPolicy < AdminPolicy
     !discourse_admin?
   end
 
+  def impersonate?
+    true
+  end
+
   private
 
   def discourse_admin?

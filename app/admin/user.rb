@@ -15,6 +15,24 @@ ActiveAdmin.register User do
     redirect_to collection_path, notice: resource.suspended? ? 'Suspended' : 'Reactivated'
   end
 
+  member_action :impersonate, method: :post do
+    impersonate_user resource
+    redirect_to resource_path(resource), notice: "Impersonating this user"
+  end
+
+  collection_action :stop_impersonating, method: :post do
+    stop_impersonating_user
+    redirect_to collection_path, notice: 'Stopped user impersonation'
+  end
+
+  action_item :impersonate, only: :show do
+    link_to 'Impersonate', impersonate_admin_user_path(resource), method: :post
+  end
+
+  action_item :stop_impersonating, only: :index do
+    link_to 'Stop Impersonating', stop_impersonating_admin_users_path, method: :post
+  end
+
   controller do
     def resource
       # So users can be edited without providing a password
