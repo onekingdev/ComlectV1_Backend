@@ -1,26 +1,15 @@
 @slickify = (div_id, bp_1024, bp_992, bp_480) ->
   console.log div_id
-  #$(div_id + ' > .row').on 'init', (slick) ->
-    #slick_dots = $(slick.currentTarget).find('.slick-dots')
-    #if slick_dots.length > 0
-    #  slick_prev = $(slick.currentTarget).find('.slick-prev')[0]
-    #  slick_next = $(slick.currentTarget).find('.slick-next')[0]
-    #  $(slick_dots[0]).prepend '<div class=\'slick-prev-sub\'>Q</div>'
-    #  $(slick_dots[0]).append '<div class=\'slick-next-sub\'>+</div>'
-    #  $($(slick.currentTarget).find('.slick-prev-sub')[0]).click ->
-    #    $(slick_prev).trigger 'click'
-    #    return
-    #  $($(slick.currentTarget).find('.slick-next-sub')[0]).click ->
-    #    $(slick_next).trigger 'click'
-    #    return
-    #return
+  $(div_id + ' > .row').on 'init', (s) ->
+    showhide_pages(div_id)
+    return
   $(div_id + ' > .row').slick
     dots: true,
     infinite: false,
     speed: 300,
     slidesToShow: bp_1024,
     slidesToScroll: bp_1024,
-    appendDots: '.dot-pagination',
+    appendDots: $(div_id).find('.dot-pagination'),
     prevArrow: '.prev-slide',
     nextArrow: '.next-slide',
     arrows: false,
@@ -50,6 +39,16 @@
     e.preventDefault()
     $(div_id + ' > .row').slick 'slickNext'
     return
-
+  .on 'breakpoint', (e, s, d) ->
+    showhide_pages(div_id)
   return
 
+showhide_pages = (div_id) -> 
+  console.log "ulyulyukyukee"
+  console.log $(div_id).find(".slick-track").width()
+  console.log $(div_id + " > .row").width()
+  if $(div_id).find(".slick-track").width() > $(div_id + " > .row").width()
+    $(div_id).find(".slick-nav").show()
+  else
+    $(div_id).find(".slick-nav").hide()
+  return
