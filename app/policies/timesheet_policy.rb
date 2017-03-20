@@ -6,8 +6,7 @@ class TimesheetPolicy < ApplicationPolicy
 
   def create?
     # Only specialist assigned to project that is not escalated/completed
-    # and that doesn't already have a disputed timesheet
-    specialist? && assigned_to_project? && active_project? && !disputed_project?
+    specialist? && assigned_to_project? && active_project?
   end
 
   def update?

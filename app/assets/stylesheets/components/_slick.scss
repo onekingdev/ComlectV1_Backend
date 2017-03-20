@@ -1,16 +1,23 @@
 .panel {
-  /*.slick-prev:before, .slick-next:before {
-    color: #333333 !important;
-    font-family: "maxicons" !important;
+  .slick-nav {
+    text-align: center;
+    .dot-pagination {
+      display: inline-block;
+      vertical-align: super;
+      .dot-ellipsis {
+        text-decoration: none;
+      }
+    }
+    .prev-slide, .next-slide {
+      font-family: maxicons;
+      font-size: 18px;
+    }
   }
 
-  .slick-prev:before {
-    content: "Q" !important;
+  .slick-active {
+    font-weight: $bold-weight;
+    text-decoration: none !important;
   }
-
-  .slick-next:before {
-    content: "+" !important;
-  }*/
 
   .slick-prev {
     left: -22px;
