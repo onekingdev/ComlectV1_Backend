@@ -4,6 +4,9 @@
     .dot-pagination {
       display: inline-block;
       vertical-align: super;
+      .dot-ellipsis {
+        text-decoration: none;
+      }
     }
     .prev-slide, .next-slide {
       font-family: maxicons;
