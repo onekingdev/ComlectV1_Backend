@@ -55,6 +55,11 @@
               a.btn.btn-sm.btn-primary href=project.dashboard_path
                 span View
 
+.slick-nav
+  a.prev-slide href="#" Q
+  .dot-pagination.m-b-1
+  a.next-slide href="#" +
+
 javascript:
   slickify("#projects-#{@filter.to_s.split('_')[0]}", 3, 2, 1);
 

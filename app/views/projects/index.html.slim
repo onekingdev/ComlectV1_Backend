@@ -41,7 +41,7 @@
             input_html: { class: 'input-lg js-select input-gray', multiple: true }
 
         .panel-heading.m-t-2.m-b-1
-          h3 Yrs. Compliance Exp.
+          h3 Min. Compliance Exp.
         .panel-body.panel-body-thin
           = f.text_field :experience, class: 'form-control js-range-slider', data: { min: Project::Search::MIN_EXPERIENCE, max: Project::Search::MAX_EXPERIENCE, type: 'double', input_values_separator: ';', hide_min_max: true, max_postfix: '+' }
 

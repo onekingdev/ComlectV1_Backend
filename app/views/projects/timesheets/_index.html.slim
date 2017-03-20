@@ -5,5 +5,10 @@
 .panel-drawer.timesheets#timesheets
   = render 'timesheets', timesheets: @timesheets, selected: @timesheet
 
+  .slick-nav
+    a.prev-slide href="#" Q
+    .dot-pagination.m-b-1
+    a.next-slide href="#" +
+
 javascript:
   slickify("#timesheets", 5, 4, 3);

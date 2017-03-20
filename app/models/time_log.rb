@@ -16,5 +16,7 @@ class TimeLog < ActiveRecord::Base
 
   def total_amount
     hours * hourly_rate
+  rescue
+    0
   end
 end

@@ -13,6 +13,10 @@ class ProjectPolicy < ApplicationPolicy
     owner? && record.job_applications.empty? || (user.is_a?(AdminUser) && admin_can_update?)
   end
 
+  def share?
+    record.published? && record.specialist_id.nil?
+  end
+
   def end?
     user.is_a?(AdminUser)
   end
