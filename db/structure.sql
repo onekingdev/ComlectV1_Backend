@@ -335,7 +335,9 @@ CREATE TABLE charges (
     fee_in_cents integer,
     total_with_fee_in_cents integer,
     running_balance_in_cents integer,
-    specialist_amount_in_cents integer DEFAULT 0 NOT NULL
+    specialist_amount_in_cents integer DEFAULT 0 NOT NULL,
+    referenceable_id integer,
+    referenceable_type character varying
 );
 
 
@@ -3840,6 +3842,13 @@ CREATE INDEX index_charges_on_project_id ON charges USING btree (project_id);
 
 
 --
+-- Name: index_charges_on_referenceable_type_and_referenceable_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_charges_on_referenceable_type_and_referenceable_id ON charges USING btree (referenceable_type, referenceable_id);
+
+
+--
 -- Name: index_charges_on_status; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -4920,4 +4929,6 @@ INSERT INTO schema_migrations (version) VALUES ('20170314025240');
 INSERT INTO schema_migrations (version) VALUES ('20170314145501');
 
 INSERT INTO schema_migrations (version) VALUES ('20170314145531');
+
+INSERT INTO schema_migrations (version) VALUES ('20170321022610');
 

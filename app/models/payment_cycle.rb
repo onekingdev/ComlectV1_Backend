@@ -48,13 +48,14 @@ class PaymentCycle
     outstanding_amount / (remaining_dates.presence || [date].compact.presence).size if remaining_dates.any? || date
   end
 
-  def schedule_charge!(amount:, date:, description:)
+  def schedule_charge!(amount:, date:, description:, referenceable: nil)
     project.charges.create! amount_in_cents: amount * 100,
                             running_balance_in_cents: balance_after(amount, cut_off: date) * 100,
                             date: date,
                             process_after: calculate_process_at_date(date),
                             status: Charge.statuses[:scheduled],
-                            description: description
+                            description: description,
+                            referenceable: referenceable
   end
 
   def create_estimated_charge!(amount:, date:, balance:)

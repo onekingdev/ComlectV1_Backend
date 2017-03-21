@@ -2,6 +2,7 @@
 class Charge < ActiveRecord::Base
   belongs_to :project
   belongs_to :stripe_transaction, class_name: 'Transaction', foreign_key: 'transaction_id'
+  belongs_to :referenceable, polymorphic: true
   has_one :business, through: :project
   has_one :specialist, through: :project
 
