@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 class PaymentSource < ActiveRecord::Base
   belongs_to :payment_profile
+  has_one :business, through: :payment_profile
 
   scope :sorted, -> { order('"primary" DESC, type DESC, created_at DESC') }
   scope :primary_first, -> { order(primary: :desc) }

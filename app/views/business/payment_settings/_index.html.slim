@@ -7,7 +7,7 @@
       - @sources.each do |source|
         tr data-payment-source-id=source.id class="#{'primary' if source.primary?}"
           td
-            i.icon-credit-card          
+            i.icon-credit-card
           td
             - if source.bank_account?
               '#{source.brand} (#{source.last4})
@@ -40,8 +40,12 @@
                   data-zip-code="true"
                   data-allow-remember-me="false"
                 ]
-            = link_to business_settings_payment_path(source.id), method: :delete, class: 'btn-link m-l-1', data: { confirm: 'Are you sure you want to delete this payment method?', 'confirm-label' => 'Delete' } do
-              i.icon-trash
+            - if policy(source).destroy?
+              = link_to business_settings_payment_path(source.id), method: :delete, class: 'btn-link m-l-1', data: { confirm: 'Are you sure you want to delete this payment method?', 'confirm-label' => 'Delete' } do
+                i.icon-trash
+
+  - if @sources.size == 1
+    .alert.alert-info.m-b-0 If you need to remove your primary payment method, please add an additional payment method and make that your primary. You can delete old payment methods after the new primary payment method is assigned.
 
   .m-t-1
     form.stripe-new action=business_settings_payment_index_path method="POST"

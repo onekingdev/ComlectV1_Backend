@@ -42,6 +42,7 @@ class Business::PaymentSettingsController < ApplicationController
 
   def destroy
     @source = current_business.payment_sources.find(params[:id])
+    authorize @source, :destroy?
     @source.destroy
     redirect_to business_settings_payment_index_path
   end
