@@ -51,13 +51,13 @@ RSpec.describe "Project end scenarios", type: :request do
           sign_in specialist.user
         end
 
-        it 'specialist cannot add more timesheets' do
+        it 'specialist can add more timesheets' do
           expect do
             post project_timesheets_path(project),
                  timesheet: { save: '1', time_logs_attributes: [{ description: 'Dummy', hours: 5 }] },
                  format: :js
-            expect(response).to have_http_status(:forbidden)
-          end.to_not change { project.timesheets.count }
+            expect(response).to have_http_status(:created)
+          end.to change { project.timesheets.count }
         end
 
         it 'specialist can edit disputed timesheet' do

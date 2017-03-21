@@ -79,8 +79,7 @@ class Project::Search
     min, _max = experience.to_s.split(';').map(&:to_i)
     min = 8 if min == 7 # Because of the overlapping range
     min = MIN_EXPERIENCE if min.blank? || min < MIN_EXPERIENCE
-    min_range = EXP_RANGES.detect { |(range, _value)| range.include?(min) }[1]
-    records.where(minimum_experience: min_range)
+    records.where('minimum_experience >= ?', min)
   end
 
   def filter_value(records)

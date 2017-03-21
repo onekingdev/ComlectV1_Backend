@@ -516,7 +516,6 @@ CREATE TABLE projects (
     fixed_budget numeric,
     hourly_rate numeric,
     estimated_hours integer,
-    minimum_experience character varying,
     only_regulators boolean,
     annual_salary integer,
     fee_type character varying DEFAULT 'upfront_fee'::character varying,
@@ -534,7 +533,8 @@ CREATE TABLE projects (
     hired_at timestamp without time zone,
     extended_at timestamp without time zone,
     starts_in_48 boolean DEFAULT false,
-    ends_in_24 boolean DEFAULT false
+    ends_in_24 boolean DEFAULT false,
+    minimum_experience integer
 );
 
 
@@ -4931,4 +4931,6 @@ INSERT INTO schema_migrations (version) VALUES ('20170314145501');
 INSERT INTO schema_migrations (version) VALUES ('20170314145531');
 
 INSERT INTO schema_migrations (version) VALUES ('20170321022610');
+
+INSERT INTO schema_migrations (version) VALUES ('20170321030955');
 

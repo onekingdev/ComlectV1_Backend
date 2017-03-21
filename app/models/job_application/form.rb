@@ -27,8 +27,8 @@ class JobApplication::Form < JobApplication
   end
 
   def enough_experience?
-    exp = Specialist.by_experience.find_by_id(specialist.id).years_of_experience
-    Project::EXPERIENCE_RANGES[project.minimum_experience].include?(exp)
+    exp = Specialist.by_experience.find_by_id(specialist.id).years_of_experience.to_f
+    exp >= project.minimum_experience
   end
 
   def regulator?

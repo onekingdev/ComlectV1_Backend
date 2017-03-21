@@ -103,13 +103,10 @@ class Project < ActiveRecord::Base
   PAYMENT_SCHEDULES = (HOURLY_PAYMENT_SCHEDULES + FIXED_PAYMENT_SCHEDULES).uniq.freeze
   enum payment_schedule: Hash[PAYMENT_SCHEDULES].invert
 
-  MINIMUM_EXPERIENCE = [%w(3-7\ yrs 3-7), %w(8-10\ yrs 8-10), %w(11-15\ yrs 11-15), %w(15+\ yrs 15+)].freeze
-  EXPERIENCE_RANGES = {
-    '3-7' => (3..Float::INFINITY),
-    '8-10' => (8..Float::INFINITY),
-    '11-15' => (11..Float::INFINITY),
-    '15+' => (15..Float::INFINITY)
-  }.freeze
+  MINIMUM_EXPERIENCE = ((3..14).map { |n| ["#{n} yrs", n] } + [['15+ yrs', 15]]).freeze
+  EXPERIENCE_RANGES = (1..15).each_with_object({}) do |n, years|
+    years[n] = (n..Float::INFINITY)
+  end.freeze
 
   def self.ending
     one_off.active.joins(business: :user).select('projects.*, businesses.time_zone').find_each.find_all do |project|

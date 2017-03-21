@@ -2,7 +2,7 @@ $.onContentReady ($parent) ->
   $('.js-select', $parent).each ->
     $this = $(this)
     return if $this.data('multiselect')
-    filtering = if $this.find('option').length > 10 then true else false
+    filtering = $this.data('filter') == 'true' || (!$this.data('filter')? && $this.find('option').length > 10)
     $this.multiselect
       buttonContainer: '<div class="btn-group multiselect-parent" />'
       inheritClass: true

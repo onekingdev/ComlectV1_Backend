@@ -102,7 +102,9 @@
     h2.text-center.m-b-2 Applicant Prerequisites
     .row.row-compact.m-t-1
       .col-xs-12.col-sm-6
-        = f.input :minimum_experience, include_blank: t('simple_form.placeholders.project.minimum_experience'), collection: Project::MINIMUM_EXPERIENCE, input_html: { class: 'input-lg js-select' }
+        = f.input :minimum_experience, include_blank: t('simple_form.placeholders.project.minimum_experience'), \
+          collection: Project::MINIMUM_EXPERIENCE, \
+          input_html: { class: 'input-lg js-select', data: { filter: false } }
         .form-group.project_only_regulators
           span.checkbox.checkbox-lg
             = f.check_box :only_regulators
