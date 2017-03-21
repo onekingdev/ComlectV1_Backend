@@ -13,7 +13,7 @@ class PaymentCycle::Hourly < PaymentCycle
   def create_charges!
     date = current_cycle_date
     ActiveRecord::Base.transaction do
-      project.timesheets.approved.each do |timesheet|
+      project.timesheets.pending_charge.each do |timesheet|
         schedule_charge! amount: timesheet.total_due,
                          date: date,
                          description: "Timesheet #{timesheet.status_changed_at.strftime("%b %d, %Y")}",

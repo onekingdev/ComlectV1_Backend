@@ -3,11 +3,16 @@ class Timesheet < ActiveRecord::Base
   belongs_to :project
   has_one :business, through: :project
   has_one :specialist, through: :project
+  has_one :charge, as: :referenceable
   has_many :time_logs, dependent: :destroy
 
   scope :sorted, -> { order(created_at: :desc) }
   scope :not_pending, -> { where.not(status: Timesheet.statuses[:pending]) }
   scope :expired, -> { where('expires_at <= ?', Time.zone.now) }
+  scope :pending_charge, -> {
+    joins("LEFT OUTER JOIN charges c ON c.referenceable_id = timesheets.id AND c.referenceable_type = 'Timesheet'")
+      .where(c: { id: nil })
+  }
 
   enum status: { pending: 'pending',
                  submitted: 'submitted',
