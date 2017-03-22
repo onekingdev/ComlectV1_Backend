@@ -24,6 +24,14 @@ end_projects:
   cron: "0,30 * * * *"
   class: "EndProjectsJob"
 
+auto_accept_end_requests:
+  cron: "0,30 * * * *"
+  class: "AutoAcceptEndRequestsJob"
+
+delete_expired_extensions_job:
+  cron: "0,30 * * * *"
+  class: "DeleteExpiredExtensionsJob"
+
 expire_projects:
   cron: "*/5 * * * *"
   class: "ExpireProjectsJob"

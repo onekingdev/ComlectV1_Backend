@@ -4,6 +4,8 @@ class ProjectExtension < ActiveRecord::Base
 
   enum status: { pending: nil, confirmed: 'confirmed', denied: 'denied' }
 
+  scope :expired, -> { pending.where('expires_at <= ?', Time.zone.now) }
+
   def confirm!
     self.class.transaction do
       confirmed!

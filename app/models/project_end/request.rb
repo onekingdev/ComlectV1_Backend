@@ -5,12 +5,10 @@ class ProjectEnd::Request < Draper::Decorator
 
   extend NotificationsHelper
 
-  # TODO: Schedule expiring stale requests
-
   def self.process!(project)
-    expires_at = 1.business_day.after(project.business.tz.now)
     # Delete previous request if any
     pending.where(project_id: project).delete_all
+    expires_at = 1.business_day.after(project.business.tz.now)
     new(create!(project: project, expires_at: expires_at)).tap do |request|
       Notification::Deliver.end_project! request
     end
