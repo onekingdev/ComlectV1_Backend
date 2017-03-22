@@ -26,9 +26,6 @@ Rails.application.routes.draw do
     get 'users/sign_out/force' => 'users/sessions#destroy'
   end
 
-  # LetsEncrypt Verification TODO: Remove after purchasing SSL cert
-  get '/.well-known/acme-challenge/:id' => 'home#page', page: 'letsencrypt'
-
   root to: 'landing_page#show'
   get 'info/:page' => 'home#page', as: :page
   get 'app_config' => 'home#app_config', format: 'js'
