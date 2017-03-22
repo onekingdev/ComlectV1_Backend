@@ -6,15 +6,14 @@ class AutoAcceptEndRequestsJob < ActiveJob::Base
     return process_all if end_id.nil?
     end_request = ProjectEnd.expired.includes(:project).find_by(id: end_id)
     return if end_request.nil?
-    ProjectEnd::Request.confirm_or_deny!(project, confirm: true)
+    ProjectEnd::Request.confirm_or_deny!(end_request.project, confirm: true)
   end
 
   private
 
   def process_all
-    ProjectEnd.includes(:project).expired.each do |extension|
-      next if extension.project.escalated?
-      self.class.perform_later extension.id
+    ProjectEnd.expired.pluck(:id).each do |id|
+      self.class.perform_later id
     end
   end
 end
