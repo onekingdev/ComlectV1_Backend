@@ -28,7 +28,7 @@ en:
         last4: Last 4 Digits
     errors:
       messages:
-        blank: is required
+        blank: required field
       models:
         business:
           attributes:

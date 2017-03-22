@@ -28,6 +28,10 @@
     }
   }
 
+  &.short_absolute {
+    position: absolute;
+  }
+
   &.compact {
     margin-bottom: 3rem;
   }

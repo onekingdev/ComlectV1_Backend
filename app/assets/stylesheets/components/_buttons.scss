@@ -57,6 +57,9 @@
 
 .btn-default {
   text-transform: uppercase;
+  &:hover {
+    border-color: #000000;
+  }
 }
 
 .btn-muted {

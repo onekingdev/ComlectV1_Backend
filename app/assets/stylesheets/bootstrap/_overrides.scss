@@ -67,3 +67,21 @@ html {
     color: #666666 !important;
   }
 }
+
+button:active,
+button:focus, 
+.btn:active, 
+.btn:focus, 
+.btn:hover,
+.form-control:focus,
+.form-group:focus,
+.form-group:active,
+.form-control:active{   
+  outline:none !important;
+  outline-color: #ffffff !important;
+  outline-offset: 0px !important;
+  -webkit-appearance:none;
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+}
