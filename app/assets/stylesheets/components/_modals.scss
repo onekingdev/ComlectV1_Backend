@@ -121,9 +121,9 @@ $bootbox-width: 474px;
     width: 16px;
 
     &:before {
-      font-family: FontAwesome !important;
+      font-family: "maxicons" !important;
       position: absolute;
-      content: "";
+      content: "A";
       font-size: 21px;
       color: #000;
       text-shadow: 0 1px 0 #fff;
@@ -236,7 +236,7 @@ $bootbox-width: 474px;
 
 .close {
   margin: 0;
-  line-height: 39px;
+  line-height: 39px !important;
   opacity: 1 !important;
   margin-top: -15px;
   font-size: 21px;

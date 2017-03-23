@@ -85,3 +85,18 @@ button:focus,
   -moz-box-shadow: none;
   -webkit-box-shadow: none;
 }
+
+.submit-icon-trash {
+  background: transparent;
+  border: 0px;
+  i {
+    font-family: "simple-line-icons" !important;
+    font-weight: bold;
+    &:before {
+      content: "\e054" !important;
+    }
+  }
+  &:hover {
+    color: #ffcc00;
+  }
+}
