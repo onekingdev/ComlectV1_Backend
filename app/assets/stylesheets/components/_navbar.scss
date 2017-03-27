@@ -27,6 +27,8 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      -webkit-filter: none;
+      filter: none;
     }
   }
 
@@ -76,13 +78,8 @@
     @media (min-width: $grid-float-breakpoint) {
       padding-right: 30px;
     }
-
-    @media (max-width: $grid-float-breakpoint) {
-      img {
-        -webkit-filter: drop-shadow(1px 1px 0px rgba(255, 255, 255, 1));
-        filter: drop-shadow(1px 1px 0px rgba(255, 255, 255, 1));
-      }
-    }
+    -webkit-filter: drop-shadow(1px 1px 0px rgba(255, 255, 255, 1));
+    filter: drop-shadow(1px 1px 0px rgba(255, 255, 255, 1));
   }
 
   .navbar-btn {
@@ -96,6 +93,8 @@
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
     border-radius: 2px;
+    -webkit-filter: drop-shadow(1px 1px 0px rgba(255, 255, 255, 0.5));
+    filter: drop-shadow(1px 1px 0px rgba(255, 255, 255, 0.5));
 
     &:hover {
       color: #ffcc00;
@@ -116,9 +115,13 @@
     padding-left: 0;
     padding-right: 0;
     font-size: 12px;
+    -webkit-filter: drop-shadow(1px 1px 0px rgba(255, 255, 255, 0.5));
+    filter: drop-shadow(1px 1px 0px rgba(255, 255, 255, 0.5));
+    color: #555;
 
     &:hover {
       color: $brand-primary;
+      filter: none;
     }
 
     .icon {

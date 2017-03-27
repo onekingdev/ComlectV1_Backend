@@ -57,3 +57,25 @@
     }
   }
 }
+
+.add-bank-account {
+  font-size: 13px;
+  -webkit-font-smoothing: antialiased;
+  span {
+    margin-left: 15px;
+  }
+
+  &:hover {
+    opacity: 0.6;
+  }
+
+  &:before {
+    content: "\e095";
+    font-family: "simple-line-icons";
+    width: 14px;
+    display: inline-block;
+    vertical-align: middle;
+    color: #000 !important;
+    margin-left: 8px;
+  }
+}

@@ -1,14 +1,12 @@
--if @timesheets.size > 0
+- if @timesheets.any?
   .selected-timesheet data-id=nil
     h2.text-center.m-b-1 No timesheet selected
 
 .panel-drawer.timesheets.business-timesheets#timesheets class=('business-timesheets-empty' if @timesheets.size == 0)
   = render 'timesheets', timesheets: @timesheets, selected: nil
 
+- if @timesheets.any?
   .slick-nav
     a.prev-slide href="#" Q
     .dot-pagination.m-b-1
     a.next-slide href="#" +
-
-javascript:
-  slickify("#timesheets", 5, 4, 3);

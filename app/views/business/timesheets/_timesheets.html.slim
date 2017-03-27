@@ -1,8 +1,10 @@
 .row.clearfix
   - if timesheets.any?
     = render timesheets.map(&method(:decorate)), selected: selected
+    javascript:
+      slickify("#timesheets", 5, 4, 3);
   - else
-    h2.text-center.m-t-2.m-b-0 No timesheets submitted yet
+    h2.text-center.m-t-2.m-b-2 No timesheets submitted yet
 
 /.dot-pagination.p-t-0
   - if timesheets.total_pages > 1

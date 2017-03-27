@@ -1,4 +1,16 @@
 $(document).on 'change', '.form-timesheet .timesheet_time_logs_hours input', (e) ->
+  recalculate_hours()
+
+$(document).on 'keypress', '.form-timesheet .timesheet_time_logs_hours input', (e) ->
+  e.preventDefault() if !$(this).val().match(/^(\d)*(\.)?(\d){0,1}$/)
+
+$(document).on 'click', '.form-timesheet .remove_fields', (e) ->
+  setTimeout (->
+    recalculate_hours()
+    return
+  ), 100
+
+recalculate_hours = ->
   $hours = $('#js-timesheet-total-hours')
   totalHours = 0
   $('.timesheet_time_logs_hours input').each ->
@@ -13,6 +25,3 @@ $(document).on 'change', '.form-timesheet .timesheet_time_logs_hours input', (e)
   if $due.length > 0
     rate = parseFloat($due.parent().data('rate'))
     $due.html accounting.formatMoney rate * totalHours
-
-$(document).on 'keypress', '.form-timesheet .timesheet_time_logs_hours input', (e) ->
-  e.preventDefault() if !$(this).val().match(/^(\d)*(\.)?(\d){0,1}$/)
