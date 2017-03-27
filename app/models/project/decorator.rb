@@ -61,7 +61,7 @@ class Project::Decorator < ApplicationDecorator
   end
 
   def confirm_delete
-    "Are you sure you want to delete this project?<h2>#{title}</h2>
+    "Are you sure you want to delete this project?<h3>#{title}</h3>
      This can't be undone and this project will no longer appear in your dashboard, even as a draft.".html_safe
   end
 

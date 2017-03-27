@@ -1,8 +1,7 @@
 = simple_form_for @payment_source, url: business_settings_payment_index_path do |f|
   = f.hidden_field :country
   = f.hidden_field :currency
-  .well.well-lg.m-t-3
-    h2.text-center.m-b-2 New Bank Account Details
+  .panel-body.p-b-2.p-x-0
     .row
       .col-xs-12.col-sm-6
         = f.input :routing_number, label: false, input_html: { class: 'input-lg' }
@@ -19,6 +18,6 @@
 
     .alert.alert-danger class=('hidden' if f.object.errors.empty?) = f.object.errors.full_messages.join(', ')
 
-  .text-center.m-t-3
-    = link_to 'Cancel', business_settings_payment_index_path, remote: true, class: 'btn btn-primary btn-lg p-x-3 m-r-1'
-    = f.submit 'Add Account', class: 'btn btn-primary btn-lg p-x-3'
+  .text-center.m-t-0.m-b-1
+    = link_to 'Cancel', business_settings_payment_index_path, remote: true, class: 'btn btn-default btn-md p-x-3 m-r-1'
+    = f.submit 'Add Account', class: 'btn btn-primary btn-md p-x-3'

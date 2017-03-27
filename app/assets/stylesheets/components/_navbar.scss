@@ -44,6 +44,8 @@
       a {
         color: #ffcc00 !important;
         font-weight: $bold-weight;
+        -webkit-filter: none;
+        filter: none;
       }
     }
     //li:first-child {
@@ -96,11 +98,9 @@
     -webkit-filter: drop-shadow(1px 1px 0px rgba(255, 255, 255, 0.5));
     filter: drop-shadow(1px 1px 0px rgba(255, 255, 255, 0.5));
 
-    &:hover {
-      color: #ffcc00;
-    }
-
-    &:focus {
+    &:hover, &:focus, &:active {
+      color: #ffcc00 !important;
+      border-color: #ffcc00 !important;
       outline: none;
     }
   }

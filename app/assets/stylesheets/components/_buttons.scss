@@ -48,17 +48,22 @@
   @include button-variant-light($btn-primary-bg);
   text-transform: uppercase;
 
-  &:hover {
-    background-color: #000;
+  &:focus {
+    background-color: #ffcc00 !important;
+    border-color: #ffcc00 !important;
+  }
+
+  &:hover, &:active {
+    background-color: #000 !important;
     color: #fff !important;
-    border-color: #000;
+    border-color: #000 !important;
   }
 }
 
 .btn-default {
   text-transform: uppercase;
-  &:hover {
-    border-color: #000000;
+  &:hover, &:focus, &:active {
+    border-color: #000000 !important;
   }
 }
 

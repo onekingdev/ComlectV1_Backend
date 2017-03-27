@@ -4,15 +4,15 @@ h2.text-center.m-b-2.no-applicants class=('hidden' if job_applications.to_a.any?
   - specialist = decorate(application.specialist)
   .job-application.panel-default data-visibility=application.visibility data-application-id=application.id
     .col-xs-12.col-md-3.profile
-      .profile-image.m-t-2
+      .profile-image.m-t-1
         - if specialist.photo
           = image_tag specialist.photo_url(:thumb), size: '100x100', class: 'img-circle'
         - else
           = image_tag 'icon-specialist.png', size: '100x100', class: 'img-circle'
-      .name.m-t-2= specialist.first_name
+      .name.m-t-1= specialist.first_name
       .rating.m-y-1= specialist.render_stars
       .intro.m-b-1= simple_format application.message
-      .footer.m-b-2
+      .footer.m-b-0
         .date Applied:<br> #{application.created_at.strftime("#{application.created_at.day.ordinalize} %b %Y")}
         .tools.m-t-1
           = link_to business_job_application_shortlist_path(application), method: :post, remote: true, class: 'btn btn-xs tool shortlist-application' do
@@ -21,7 +21,7 @@ h2.text-center.m-b-2.no-applicants class=('hidden' if job_applications.to_a.any?
             i.icon-dislike
 
     .col-xs-12.col-md-9.details.td
-      .row.m-y-1
+      .row
         .col-sm-4.m-b-3
           .list-icon
             .item

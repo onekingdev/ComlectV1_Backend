@@ -30,6 +30,7 @@
       margin-left: 15px;
       font-weight: $regular-weight;
       font-size: 13px;
+      text-shadow: none !important;
     }
   }
 }
@@ -61,8 +62,10 @@
 .add-bank-account {
   font-size: 13px;
   -webkit-font-smoothing: antialiased;
+
   span {
     margin-left: 15px;
+    color: #000;
   }
 
   &:hover {
