@@ -105,7 +105,8 @@ $bootbox-width: 474px;
     padding: 10px;
 
     .bootbox-body {
-      padding-top: 30px;
+      color: #666;
+      //padding-top: 30px;
     }
   }
 
@@ -129,7 +130,7 @@ $bootbox-width: 474px;
       font-family: "maxicons" !important;
       position: absolute;
       content: "A";
-      font-size: 18px;
+      font-size: 14px;
       color: #000;
       text-shadow: 0 1px 0 #fff;
       //opacity: 0.2;
@@ -141,6 +142,10 @@ $bootbox-width: 474px;
     font-family: Muller;
     font-size: 18px;
     font-weight: normal;
+    font-size: 14px;
+    font-weight: $medium-weight;
+    text-transform: uppercase;
+    margin-top: 20px;
   }
 
   .modal-content {
@@ -214,7 +219,7 @@ $bootbox-width: 474px;
     }
 
     .btn + .btn {
-      margin-left: 2%;
+      margin-left: 6%;
     }
   }
 }
@@ -244,7 +249,7 @@ $bootbox-width: 474px;
   line-height: 39px !important;
   opacity: 1 !important;
   margin-top: -15px;
-  font-size: 21px;
+  font-size: 14px;
 }
 
 .close-inverse {

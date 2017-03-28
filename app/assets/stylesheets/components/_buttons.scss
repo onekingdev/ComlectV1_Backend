@@ -70,11 +70,21 @@
 .btn-danger {
   text-transform: uppercase;
   border-color: #c9240e;
+  &:hover, &:focus, &:active {
+    border-color: #000;
+    color: #fff;
+    background-color: #000;
+  }
 }
 
 .btn-success {
   text-transform: uppercase;
   border-color: #9dbb00;
+  &:hover, &:focus, &:active {
+    border-color: #000;
+    color: #fff;
+    background-color: #000;
+  }
 }
 
 .btn-muted {
