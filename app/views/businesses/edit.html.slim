@@ -28,6 +28,8 @@ h2.text-center.m-b-3.m-t-3.p-b-2 Edit your business profile
         = f.file_field :logo, accept: "image/gif, image/jpeg, image/png"
         - if f.object.logo
           = image_tag f.object.logo_url(:thumb), size: '100x100'
+          = f.hidden_field :delete_logo, value: 0
+          .btn-sm.btn-primary.m-t-1.delete-logo-button Delete
         - else
           .add-button
         .help-block.m-t-1 Must be jpg/jpeg/png/gif<br>Max file size 2MB

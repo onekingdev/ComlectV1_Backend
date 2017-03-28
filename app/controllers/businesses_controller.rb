@@ -35,8 +35,12 @@ class BusinessesController < ApplicationController
     @business = Business::Form.for_user(current_user)
     respond_to do |format|
       if @business.update_attributes(edit_business_params)
-        format.html { return redirect_to_param_or business_dashboard_path }
-        format.js { render nothing: true, status: :ok }
+        if @business.delete_logo == "1"
+          format.html { render :edit }
+        else
+          format.html { return redirect_to_param_or business_dashboard_path }
+          format.js { render nothing: true, status: :ok }
+        end
       else
         format.html { render :edit }
         format.js { js_alert('Could not save your changes, please try again later.') }
@@ -49,7 +53,7 @@ class BusinessesController < ApplicationController
   def business_params
     params.require(:business).permit(
       :contact_first_name, :contact_last_name, :contact_email, :contact_job_title, :contact_phone,
-      :business_name, :employees, :description, :website, :linkedin_link,
+      :business_name, :employees, :description, :website, :linkedin_link, :delete_logo,
       :address_1, :address_2, :country, :city, :state, :zipcode, :time_zone,
       :anonymous, :logo,
       industry_ids: [], jurisdiction_ids: [],
