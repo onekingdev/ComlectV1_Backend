@@ -10,8 +10,8 @@ class Specialist::Form < Specialist
 
   accepts_nested_attributes_for :user
 
-  before_save :destroy_photo?
-  before_save :destroy_resume?
+  before_save :destroy_photo
+  before_save :destroy_resume
 
   attr_accessor :public_profile
   attr_writer :delete_photo, :delete_resume
@@ -69,6 +69,14 @@ class Specialist::Form < Specialist
     @delete_resume ||= "0"
   end
 
+  def delete_photo?
+    @delete_photo == "1"
+  end
+
+  def delete_resume?
+    @delete_resume == "1"
+  end
+
   private
 
   def validate_minimum_experience
@@ -76,11 +84,11 @@ class Specialist::Form < Specialist
     errors.add :work_experiences, :too_short if experience < 3
   end
 
-  def destroy_photo?
+  def destroy_photo
     self.photo = nil if @delete_photo == "1"
   end
 
-  def destroy_resume?
+  def destroy_resume
     self.resume = nil if @delete_resume == "1"
   end
 end
