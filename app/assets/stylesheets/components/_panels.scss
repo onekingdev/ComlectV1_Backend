@@ -356,6 +356,13 @@
       .btn {
         width: 50%;
         border-radius: 0;
+        position: static;
+
+        &:hover {
+          span {
+            color: #fff !important;
+          }
+        }
       }
 
       .button_to {
@@ -371,8 +378,8 @@
         width: 100%;
       }
 
-      .btn + .btn, .button_to + .btn, .btn + .button_to .btn {
-        border-left: 1px solid rgba(0, 0, 0, 0.13);
+      .btn + .btn {
+        border-left: 1px solid rgba(0, 0, 0, 0.13) !important;
       }
     }
   }
