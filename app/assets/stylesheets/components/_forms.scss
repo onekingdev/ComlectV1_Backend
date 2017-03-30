@@ -179,7 +179,7 @@ form .well {
 
     .btn, .btn.active, .btn.active.active {
       &:hover {
-        border-color: #ffcc00;
+        border-color: #ffcc00 !important;
       }      
     }
   }  
