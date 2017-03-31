@@ -10,7 +10,11 @@ class Specialist::Form < Specialist
 
   accepts_nested_attributes_for :user
 
+  before_save :destroy_photo
+  before_save :destroy_resume
+
   attr_accessor :public_profile
+  attr_writer :delete_photo, :delete_resume
 
   def self.signup(attributes = {})
     tos_acceptance_ip = attributes.delete(:tos_acceptance_ip)
@@ -57,10 +61,34 @@ class Specialist::Form < Specialist
     self.visibility = @public_profile ? Specialist.visibilities[:is_public] : Specialist.visibilities[:is_private]
   end
 
+  def delete_photo
+    @delete_photo ||= "0"
+  end
+
+  def delete_resume
+    @delete_resume ||= "0"
+  end
+
+  def delete_photo?
+    @delete_photo == "1"
+  end
+
+  def delete_resume?
+    @delete_resume == "1"
+  end
+
   private
 
   def validate_minimum_experience
     experience = work_experiences.select(&:compliance?).map(&:years).reduce(:+) || 0
     errors.add :work_experiences, :too_short if experience < 3
+  end
+
+  def destroy_photo
+    self.photo = nil if @delete_photo == "1"
+  end
+
+  def destroy_resume
+    self.resume = nil if @delete_resume == "1"
   end
 end

@@ -84,6 +84,8 @@ $.onContentReady ($parent, data) ->
         computedHeight = window.innerHeight - ($('.business-profile')[0].offsetTop) - 95
         if $('#new_message').height() != null
           computedHeight -= $('#new_message').height()
+          if window.innerHeight < 550
+            computedHeight = 250
         $('.messages').css height: computedHeight
       else
         $('.messages').css height: 'auto'

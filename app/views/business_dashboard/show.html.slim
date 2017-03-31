@@ -40,10 +40,18 @@
           .panel-body.text-center
             .row.bordered-cells
               .col-xs-6.p-y-1
-                .fw-700= number_to_currency @financials.processed_this_month
+                .fw-700
+                  - if @financials.processed_this_month > 9999
+                    = number_to_currency @financials.processed_this_month, precision: 0
+                  - else
+                    = number_to_currency @financials.processed_this_month
                 = Time.zone.now.strftime('%B')
               .col-xs-6.p-y-1
-                .fw-700= number_to_currency @financials.processed_ytd
+                .fw-700
+                  - if @financials.processed_ytd > 9999
+                    = number_to_currency @financials.processed_ytd, precision: 0
+                  - else
+                    = number_to_currency @financials.processed_ytd
                 'YTD
             .m-t-2= link_to 'Details', business_financials_path, class: 'btn btn-sm btn-primary p-x-3'
 
@@ -122,6 +130,14 @@
             h3
               a.no-link name="ratings-reviews" My Ratings & Reviews
             .detail= rating_average_text business
-          .panel-body
-            .ratings.list-group.plain
-              = render business.ratings_received.preload_associations
+          .panel-body#ratings-slick
+            .ratings.list-group.plain.row
+              - @ratings.each_slice(10).to_a.each do |a|
+                .rating-block
+                  /= render business.ratings_received.preload_associations
+                  = render partial: 'ratings/rating', collection: a
+            - if @ratings.count > 10
+              .slick-nav
+                a.prev-slide href="#" Q
+                .dot-pagination.m-b-1
+                a.next-slide href="#" +

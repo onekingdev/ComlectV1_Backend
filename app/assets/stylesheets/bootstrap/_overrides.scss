@@ -34,7 +34,7 @@ html {
 }
 
 .close {
-  font-size: 21px;
+  font-size: 14px;
 }
 
 .bootstrap-switch, .bootstrap-switch-label, .bootstrap-switch-container, .bootstrap-switch-handle-on, .bootstrap-switch-handle-off {
@@ -65,5 +65,38 @@ html {
     padding-top: 4px !important;
     padding-bottom: 4px !important;
     color: #666666 !important;
+  }
+}
+
+button:active,
+button:focus, 
+.btn:active, 
+.btn:focus, 
+.btn:hover,
+.form-control:focus,
+.form-group:focus,
+.form-group:active,
+.form-control:active{   
+  outline:none !important;
+  outline-color: #ffffff !important;
+  outline-offset: 0px !important;
+  -webkit-appearance:none;
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+}
+
+.submit-icon-trash {
+  background: transparent;
+  border: 0px;
+  i {
+    font-family: "simple-line-icons" !important;
+    font-weight: bold;
+    &:before {
+      content: "\e054" !important;
+    }
+  }
+  &:hover {
+    color: #ffcc00;
   }
 }

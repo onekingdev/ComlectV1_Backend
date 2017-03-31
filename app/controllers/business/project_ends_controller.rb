@@ -5,7 +5,7 @@ class Business::ProjectEndsController < ApplicationController
 
   def create
     @request = ProjectEnd::Request.process! @project
-    js_notice 'Project end requested', title: false
+    redirect_to business_project_dashboard_path(@project), notice: "Project end requested"
   end
 
   private

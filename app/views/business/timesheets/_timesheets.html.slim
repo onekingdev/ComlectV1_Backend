@@ -1,9 +1,14 @@
-- if timesheets.any?
-  = render timesheets.map(&method(:decorate)), selected: selected
-- else
-  h2.text-center.m-t-2.m-b-0 No timesheets submitted yet
+.row.clearfix
+  - if timesheets.any?
+    = render timesheets.map(&method(:decorate)), selected: selected
+  - else
+    h2.text-center.m-t-2.m-b-2 No timesheets submitted yet
 
-.dot-pagination.p-t-0
+- if timesheets.any?
+  javascript:
+    slickify("#timesheets", 5, 4, 3);
+
+/.dot-pagination.p-t-0
   - if timesheets.total_pages > 1
     - timesheets.total_pages.times do |n|
       = link_to ''.html_safe, current_uri(page: n + 1, selected: selected&.id), remote: true, class: "page #{"current" if n + 1 == timesheets.current_page}"

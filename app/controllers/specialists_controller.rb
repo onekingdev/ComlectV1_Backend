@@ -36,15 +36,19 @@ class SpecialistsController < ApplicationController
   end
 
   def edit
-    @specialist = Specialist::Form.for_user(current_user)
+    fetch_specialist
   end
 
   def update
-    @specialist = Specialist::Form.for_user(current_user)
+    fetch_specialist
     respond_to do |format|
       if @specialist.update_attributes(edit_specialist_params)
-        format.html { return redirect_to_param_or specialists_dashboard_path }
-        format.js { render nothing: true, status: :ok }
+        if @specialist.delete_photo? || @specialist.delete_resume?
+          format.html { render :edit }
+        else
+          format.html { return redirect_to_param_or specialists_dashboard_path }
+          format.js { render nothing: true, status: :ok }
+        end
       else
         format.html { render :edit }
         format.js { js_alert('Could not save your changes, please try again later.') }
@@ -54,10 +58,15 @@ class SpecialistsController < ApplicationController
 
   private
 
+  def fetch_specialist
+    @specialist = Specialist::Form.for_user(current_user)
+  end
+
   def specialist_params
     params.require(:specialist).permit(
-      :first_name, :last_name, :country, :address_1, :address_2, :state, :city, :zipcode, :lat, :lng, :phone,
-      :linkedin_link, :public_profile, :former_regulator, :certifications, :photo, :resume, :time_zone,
+      :delete_photo, :delete_resume, :first_name, :last_name, :country, :address_1, :address_2, :state, :city,
+      :lng, :phone, :linkedin_link, :public_profile, :former_regulator, :certifications, :photo, :resume,
+      :zipcode, :lat, :time_zone,
       jurisdiction_ids: [], industry_ids: [], skill_names: [],
       user_attributes: %i(email password),
       work_experiences_attributes: %i(id company job_title location from to current compliance description _destroy),

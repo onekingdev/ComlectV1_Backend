@@ -9,7 +9,12 @@
       br
       = link_to "You have active projects", business_dashboard_path, class: "underline"
 
-  p.m-b-3.text-center We're sorry to see you leave. This is a permanent change and will delete all of your information, so consider changing your profile visibility through the dashboard instead.
+  p.m-b-3.text-center
+    | We're sorry to see you leave. This is a permanent change
+    br
+    | and will delete all of your information, so consider changing
+    br
+    | your profile visibility through the dashboard instead.
 
   - if current_business.projects.active.count > 0
     .btn.btn-block.btn-lg.disabled.text-uppercase Delete

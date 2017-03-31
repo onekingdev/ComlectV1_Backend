@@ -48,15 +48,43 @@
   @include button-variant-light($btn-primary-bg);
   text-transform: uppercase;
 
-  &:hover {
-    background-color: #000;
+  &:focus {
+    background-color: #ffcc00 !important;
+    border-color: #ffcc00 !important;
+  }
+
+  &:hover, &:active {
+    background-color: #000 !important;
     color: #fff !important;
-    border-color: #000;
+    border-color: #000 !important;
   }
 }
 
 .btn-default {
   text-transform: uppercase;
+  &:hover, &:focus, &:active {
+    border-color: #000000 !important;
+  }
+}
+
+.btn-danger {
+  text-transform: uppercase;
+  border-color: #c9240e;
+  &:hover, &:focus, &:active {
+    border-color: #000;
+    color: #fff;
+    background-color: #000;
+  }
+}
+
+.btn-success {
+  text-transform: uppercase;
+  border-color: #9dbb00;
+  &:hover, &:focus, &:active {
+    border-color: #000;
+    color: #fff;
+    background-color: #000;
+  }
 }
 
 .btn-muted {

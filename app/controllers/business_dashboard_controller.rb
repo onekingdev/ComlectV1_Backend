@@ -5,5 +5,6 @@ class BusinessDashboardController < ApplicationController
   def show
     @business = current_user.business
     @financials = Business::Financials.for(current_business)
+    @ratings = @business.ratings_received.preload_associations
   end
 end
