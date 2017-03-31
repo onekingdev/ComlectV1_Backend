@@ -9,6 +9,7 @@ class Specialists::DeleteAccountsController < ApplicationController
 
   def destroy
     @user = current_user
+    @freeze = Specialist::Freeze.new(@user.specialist)
     authorize @user.specialist, :freeze?
     if @user.freeze_specialist_account!
       sign_out @user

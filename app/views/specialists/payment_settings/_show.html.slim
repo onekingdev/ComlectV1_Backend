@@ -9,7 +9,7 @@
     = render 'accounts', accounts: @bank_accounts
     - if @bank_accounts.size == 1
       .m-t-1
-        .alert.alert-info If you need to remove your primary bank account, please add an additional bank account and make that your primary. You can delete old bank accounts after the new primary bank account is assigned.
+        .p.small If you need to remove your primary bank account, please add an additional bank account and make that your primary. You can delete old bank accounts after the new primary bank account is assigned.
 
     .m-t-2
       a.btn.btn-link.btn-plain href=new_specialists_settings_bank_account_path

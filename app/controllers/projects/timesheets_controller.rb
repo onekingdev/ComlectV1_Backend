@@ -5,7 +5,7 @@ class Projects::TimesheetsController < ApplicationController
 
   def index
     @timesheet = Timesheet::Form.new_for(@project)
-    @timesheets = @project.timesheets.sorted
+    @timesheets = @project.timesheets.sorted.page(params[:page]).per(5)
     respond_to do |format|
       format.html { render partial: 'index' }
       format.js
