@@ -109,9 +109,7 @@ class Project < ActiveRecord::Base
   end.freeze
 
   def self.ending
-    one_off.active.joins(business: :user).select('projects.*, businesses.time_zone').find_each.find_all do |project|
-      (project.hard_ends_on - 5.minutes).past?
-    end
+    one_off.active.joins(business: :user).select('projects.*, businesses.time_zone').find_each.find_all(&:ending?)
   end
 
   def self.ends_in_24
