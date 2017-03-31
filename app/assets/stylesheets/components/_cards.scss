@@ -29,12 +29,12 @@
     line-height: 26px;
     padding: 0;
 
-    &:hover, &:focus, &:active {
+    &:hover {
       span {
-        color: #000000 !important;      
+        color: #000000;      
       }
-      background-color: #ffcc00 !important;
-      border-color: #ffcc00 !important;
+      background-color: #ffcc00;
+      border-color: #ffcc00;
     }
   }
 

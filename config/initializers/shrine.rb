@@ -23,5 +23,3 @@ else
     store: Shrine::Storage::FileSystem.new('public', prefix: 'uploads/store')
   }
 end
-
-Shrine.plugin :keep_files, cached: true, replaced: true

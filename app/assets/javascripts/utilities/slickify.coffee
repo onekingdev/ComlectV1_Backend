@@ -76,7 +76,3 @@ showhide_pages = (div_id) ->
   else
     nav.hide()
   return
-
-if $('#ratings-slick').length > 0
-  slickify '#ratings-slick', 1, 1, 1
-  return

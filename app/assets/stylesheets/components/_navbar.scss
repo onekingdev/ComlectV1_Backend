@@ -27,8 +27,6 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      -webkit-filter: none;
-      filter: none;
     }
   }
 
@@ -44,8 +42,6 @@
       a {
         color: #ffcc00 !important;
         font-weight: $bold-weight;
-        -webkit-filter: none;
-        filter: none;
       }
     }
     //li:first-child {
@@ -80,8 +76,13 @@
     @media (min-width: $grid-float-breakpoint) {
       padding-right: 30px;
     }
-    -webkit-filter: drop-shadow(1px 1px 0px rgba(255, 255, 255, 1));
-    filter: drop-shadow(1px 1px 0px rgba(255, 255, 255, 1));
+
+    @media (max-width: $grid-float-breakpoint) {
+      img {
+        -webkit-filter: drop-shadow(1px 1px 0px rgba(255, 255, 255, 1));
+        filter: drop-shadow(1px 1px 0px rgba(255, 255, 255, 1));
+      }
+    }
   }
 
   .navbar-btn {
@@ -95,12 +96,12 @@
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
     border-radius: 2px;
-    -webkit-filter: drop-shadow(1px 1px 0px rgba(255, 255, 255, 0.5));
-    filter: drop-shadow(1px 1px 0px rgba(255, 255, 255, 0.5));
 
-    &:hover, &:focus, &:active {
-      color: #ffcc00 !important;
-      border-color: #ffcc00 !important;
+    &:hover {
+      color: #ffcc00;
+    }
+
+    &:focus {
       outline: none;
     }
   }
@@ -115,13 +116,9 @@
     padding-left: 0;
     padding-right: 0;
     font-size: 12px;
-    -webkit-filter: drop-shadow(1px 1px 0px rgba(255, 255, 255, 0.5));
-    filter: drop-shadow(1px 1px 0px rgba(255, 255, 255, 0.5));
-    color: #555;
 
     &:hover {
       color: $brand-primary;
-      filter: none;
     }
 
     .icon {
