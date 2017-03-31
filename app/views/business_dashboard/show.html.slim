@@ -25,7 +25,7 @@
                 i.icon-globe
                 span= business.jurisdictions.map(&:name).join(', ')
               .item
-                i.icon-users
+                i.icon-people
                 span #{business.employees} Employees
 
             = simple_form_for business, remote: true, url: update_business_path, html: { class: 'm-y-2' } do |f|

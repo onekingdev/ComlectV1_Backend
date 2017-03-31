@@ -10,7 +10,7 @@
 
   - if (end_request = ProjectEnd::Decorator.new(project.end_request)).present?
     .alert.alert-warning.m-b-3.text-center
-      '#{@project.business} has requested to end your project #{@project}.
+      '#{@project.business} has requested to end your project.
       br
       'Please #{end_request.confirm_link 'confirm'} or #{end_request.deny_link 'deny'} this request within one business day otherwise it will be deemed accepted.
 

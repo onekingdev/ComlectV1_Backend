@@ -4,7 +4,7 @@ class Business::TimesheetsController < ApplicationController
   before_action :find_project
 
   def index
-    @timesheets = @project.timesheets.sorted.not_pending.page(params[:page]).per(6)
+    @timesheets = @project.timesheets.sorted.not_pending
     respond_to do |format|
       format.html { render partial: 'index' }
       format.js
