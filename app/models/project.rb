@@ -199,6 +199,10 @@ class Project < ActiveRecord::Base
     issues.open.any?
   end
 
+  def disputed_timesheets?
+    timesheets.disputed.exists?
+  end
+
   def applied?(specialist)
     application(specialist).exists?
   end
