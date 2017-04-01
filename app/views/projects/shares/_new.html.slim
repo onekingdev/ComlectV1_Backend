@@ -8,7 +8,7 @@
         .modal-body
           - if f.object.user.specialist
             .m-b-1.m-t-2= f.input :name, required: false, placeholder: f.object.user.business ? 'NAME' : 'TO', input_html: { class: 'input-lg' }
-          = f.input :email, required: false, placeholder: "EMAIL", input_html: { class: 'input-lg' }
+          = f.input :email, required: false, placeholder: "EMAIL", input_html: { class: 'input-lg m-t-2' }
           - if f.object.user.business
             .m-t-2
               = f.input :message,

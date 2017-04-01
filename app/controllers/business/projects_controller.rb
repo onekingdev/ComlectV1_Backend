@@ -76,7 +76,6 @@ class Business::ProjectsController < ApplicationController
   end
 
   def destroy
-    @project.destroy
     redirect_to business_dashboard_path, notice: 'Project deleted'
   end
 

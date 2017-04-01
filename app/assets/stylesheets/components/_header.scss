@@ -179,6 +179,9 @@
 
   .pseudo-table {
     .tools {
+      @media (min-width: $screen-xs-max) {
+        margin-top: 22px;
+      }
       .btn-primary {
         padding: 4px 32px;
       }

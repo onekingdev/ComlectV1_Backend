@@ -27,7 +27,7 @@
               i.icon-heart.favorite
             - if project.pending?
               = link_to new_project_job_application_path(project), remote: true, class: 'tool-icon m-l-2' do
-                i.icon-bubble
+                i.icon-user-follow
         - elsif current_business && policy(project).postable?
           = form_for project, url: post_business_project_path(project), method: :post, html: { class: 'd-ib' } do |f|
             = f.button class: 'tool-icon m-l-2' do
