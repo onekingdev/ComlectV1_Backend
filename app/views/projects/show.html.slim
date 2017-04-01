@@ -29,7 +29,7 @@
               i.icon-globe
               span= project.business.jurisdictions.map(&:name).join(', ')
             .item
-              i.icon-users
+              i.icon-people
               span #{project.business.employees} Employees
             - if policy(project).view_full_business? && project.business.website.present?
               .item
