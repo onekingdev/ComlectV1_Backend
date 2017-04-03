@@ -47,35 +47,34 @@ class Specialist < ActiveRecord::Base
 
   scope :join_experience, -> {
     joins(:work_experiences)
+      .where(work_experiences: { compliance: true })
       .select("specialists.*, #{dates_between_query} AS years_of_experience")
       .group(:id)
   }
 
-  scope :experience_between, -> (min, max) {
+  scope :experience_between, ->(min, max) {
     base_scope = join_experience.where(work_experiences: { compliance: true })
     if max
-      base_scope
-        .having("#{dates_between_query} BETWEEN ? AND ?", min, max)
+      base_scope.having("#{dates_between_query} BETWEEN ? AND ?", min, max)
     else
-      base_scope
-        .having("#{dates_between_query} >= ?", min)
+      base_scope.having("#{dates_between_query} >= ?", min)
     end
   }
 
-  scope :by_experience, -> (dir = :desc) {
+  scope :by_experience, ->(dir = :desc) {
     join_experience.order("years_of_experience #{dir}")
   }
 
-  scope :by_distance, -> (lat, lng) do
+  scope :by_distance, ->(lat, lng) do
     order("ST_Distance(point, ST_GeogFromText('SRID=4326;POINT(#{lng.to_f} #{lat.to_f})'))")
   end
 
-  scope :close_to, -> (lat, lng, miles) do
+  scope :close_to, ->(lat, lng, miles) do
     meters = miles.to_i * 1600
     where("ST_DWithin(point, ST_GeogFromText('SRID=4326;POINT(#{lng.to_f} #{lat.to_f})'), #{meters})")
   end
 
-  scope :distance_between, -> (lat, lng, min, max) do
+  scope :distance_between, ->(lat, lng, min, max) do
     min_m = min.to_i * 1600
     max_m = max.to_i * 1600
     distance = "ST_Distance(point, ST_GeogFromText('SRID=4326;POINT(#{lng.to_f} #{lat.to_f})'))"

@@ -1,15 +1,6 @@
 - is_me = message.sender?(me)
 .messages-day class= "messge-day-#{message.created_at.in_time_zone(me.time_zone).strftime('%Y%m%d')}"
   = message.created_at.in_time_zone(me.time_zone).strftime('%B %d')
-.date class=(is_me ? 'me' : 'them')
-  - if is_me
-    | Me,&nbsp;
-  - else
-    - if message.sender_type == "Business"
-      = "#{message.sender.contact_full_name}, "
-    - if message.sender_type == "Specialist"
-      = "#{message.sender.full_name}, "
-  = message.created_at.in_time_zone(me.time_zone).strftime('%-I:%M %p')
 .message class=(is_me ? 'me' : 'them') data-message-id=message.id
   .text= simple_format message.message
   - if message.file
@@ -17,3 +8,12 @@
       .fa.fa-paperclip
       '&nbsp;
       span= message.file.metadata['filename']
+.date class=(is_me ? 'me' : 'them')
+  - if is_me
+    | Me,&nbsp;
+  - else
+    - if message.sender_type == "Business"
+      = "#{message.sender.business_name}, "
+    - if message.sender_type == "Specialist"
+      = "#{message.sender.full_name}, "
+  = message.created_at.in_time_zone(me.time_zone).strftime('%-I:%M %p')

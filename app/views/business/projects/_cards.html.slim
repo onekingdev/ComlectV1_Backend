@@ -55,13 +55,14 @@
               a.btn.btn-sm.btn-primary href=project.dashboard_path
                 span View
 
-.slick-nav
-  a.prev-slide href="#" Q
-  .dot-pagination
-  a.next-slide href="#" +
+- if @projects.count > 3
+  .slick-nav
+    a.prev-slide href="#" Q
+    .dot-pagination
+    a.next-slide href="#" +
 
-javascript:
-  slickify("#projects-#{@filter.to_s.split('_')[0]}", 3, 2, 1);
+  javascript:
+    slickify("#projects-#{@filter.to_s.split('_')[0]}", 3, 2, 1);
 
 //- if @projects.count > 3
   .dot-pagination.m-b-1

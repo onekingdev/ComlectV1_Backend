@@ -24,7 +24,11 @@ class Projects::TimesheetsController < ApplicationController
     authorize @project.timesheets.new
     @timesheet = Timesheet::Form.create(@project, timesheet_params)
     @timesheets = @project.timesheets.sorted.page(params[:page]).per(5)
-    render :new if @timesheet.errors.any?
+    if @timesheet.errors.any?
+      render :new
+    else
+      render status: :created
+    end
   end
 
   def edit

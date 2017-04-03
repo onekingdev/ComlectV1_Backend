@@ -109,11 +109,7 @@ class Project < ActiveRecord::Base
   end.freeze
 
   def self.ending
-    one_off.active.joins(business: :user).select('projects.*, businesses.time_zone').find_each.find_all do |project|
-      # Set to midnight
-      tz = ActiveSupport::TimeZone[project[:time_zone]]
-      project.ends_on.in_time_zone(tz) + 1.day <= 5.minutes.from_now
-    end
+    one_off.active.joins(business: :user).select('projects.*, businesses.time_zone').find_each.find_all(&:ending?)
   end
 
   def self.ends_in_24
@@ -153,7 +149,7 @@ class Project < ActiveRecord::Base
   end
 
   def ending?
-    ends_on.in_time_zone(time_zone) + 1.day <= 5.minutes.from_now
+    hard_ends_on <= 5.minutes.from_now
   end
 
   def past_ends_on?
@@ -167,7 +163,7 @@ class Project < ActiveRecord::Base
                when 6 then 4.days # saturday -> tuesday (wed midnight)
                when 0 then 3.days # sunday -> tuesday (wed midnight)
                else
-                 0
+                 1.day
                end
   end
 
@@ -197,6 +193,10 @@ class Project < ActiveRecord::Base
 
   def escalated?
     issues.open.any?
+  end
+
+  def disputed_timesheets?
+    timesheets.disputed.exists?
   end
 
   def applied?(specialist)

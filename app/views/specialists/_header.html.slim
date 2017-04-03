@@ -18,10 +18,10 @@
           - elsif current_business
             .tools
               = specialist.link_to_favorite toggle_business_favorites_path, current_business.favorited?(specialist), class: 'tool-icon' do
-                i.icon-heart.unfavorite
-                i.icon-heart.favorite
+                i.icon-heart.unfavorite data-toggle="tooltip" title="unfavorite"
+                i.icon-heart.favorite data-toggle="tooltip" title="favorite"
               a.m-l-2.tool-icon data-remote=true href=new_project_invite_path(specialist_id: specialist.id)
-                i.icon-envelope-letter
+                i.icon-envelope data-toggle="tooltip" title="invite"
           h1
             span= specialist.first_name
             - if specialist.public? && specialist.linkedin_link.present?

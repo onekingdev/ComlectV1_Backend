@@ -65,17 +65,17 @@
               a.btn.btn-sm.btn-primary.btn-single data-remote=true href=new_project_invite_path(specialist_id: specialist.id)
                 span Invite
 
-
-.slick-nav
-  a.prev-slide href="#" Q
-  .dot-pagination.m-b-1
-  a.next-slide href="#" +
-/  - if specialists.total_pages > 1
-    .row
-      .col-xs-12
-        .specialists-pagination.dot-pagination.m-b-1
-          - specialists.total_pages.times do |n|
-            = link_to ''.html_safe, current_uri(page: n + 1), remote: true, class: "page #{"current" if n + 1 == specialists.current_page}"
+/- if @filter
+  .slick-nav
+    a.prev-slide href="#" Q
+    .dot-pagination.m-b-1
+    a.next-slide href="#" +
+- if specialists.total_pages > 1
+  .row
+    .col-xs-12
+      .specialists-pagination.dot-pagination.m-b-1
+        - specialists.total_pages.times do |n|
+          = link_to ''.html_safe, current_uri(page: n + 1), remote: true, class: "page #{"current" if n + 1 == specialists.current_page}"
 
 - if @filter
   javascript:

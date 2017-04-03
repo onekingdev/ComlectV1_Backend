@@ -16,9 +16,9 @@ h2.text-center.m-b-2.no-applicants class=('hidden' if job_applications.to_a.any?
         .date Applied:<br> #{application.created_at.strftime("#{application.created_at.day.ordinalize} %b %Y")}
         .tools.m-t-1
           = link_to business_job_application_shortlist_path(application), method: :post, remote: true, class: 'btn btn-xs tool shortlist-application' do
-            i.icon-like
+            i.icon-like data-toggle="tooltip" title="shortlist"
           = link_to business_job_application_hide_path(application), method: :post, remote: true, class: 'btn btn-xs tool hide-application' do
-            i.icon-dislike
+            i.icon-dislike data-toggle="tooltip" title="hide"
 
     .col-xs-12.col-md-9.details.td
       .row
