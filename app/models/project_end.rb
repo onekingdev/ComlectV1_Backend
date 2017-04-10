@@ -9,13 +9,19 @@ class ProjectEnd < ActiveRecord::Base
   def confirm!
     self.class.transaction do
       update_attribute :status, self.class.statuses[:confirmed]
-      project.update_attribute :ends_on, Time.zone.now
-      project.charges.upcoming.delete_all
-      PaymentCycle.for(project).create_charges_and_reschedule!
+      trigger_project_end
     end
   end
 
   def deny!
     update_attribute :status, self.class.statuses[:denied]
+  end
+
+  private
+
+  def trigger_project_end
+    project.update_attribute :ends_on, Time.zone.now.in_time_zone(project.business.tz)
+    project.charges.upcoming.delete_all
+    PaymentCycle.for(project).create_charges_and_reschedule!
   end
 end
