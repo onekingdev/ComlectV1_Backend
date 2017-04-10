@@ -99,7 +99,11 @@ ActiveAdmin.register Charge do
 
   controller do
     def scoped_collection
-      Charge.joins(:project, :business, :specialist).where.not(status: Charge.statuses[:processed])
+      if action_name == 'index' && !params.key?(:status)
+        Charge.joins(:project, :business, :specialist).where.not(status: Charge.statuses[:processed])
+      else
+        Charge.joins(:project, :business, :specialist)
+      end
     end
   end
 end
