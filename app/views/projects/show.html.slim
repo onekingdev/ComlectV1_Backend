@@ -47,30 +47,30 @@
       .panel.panel-default.panel-padded
         .panel-heading
           h3 Key Details & Applicant Prerequisites
-        .panel-body
+        .panel-body.p-t-0
           .row= render 'projects/attributes', project: project
 
       .panel.panel-default.panel-padded
         .panel-heading
           h3 #{project.one_off? ? 'Project' : 'Job' } Description
-        .panel-body= simple_format project.description
+        .panel-body.p-t-0= simple_format project.description
 
       - if project.key_deliverables.present?
         .panel.panel-default.panel-padded
           .panel-heading
             h3 Key Deliverables
-          .panel-body= project.key_deliverables_list
+          .panel-body.p-t-0= project.key_deliverables_list
 
-      - if project.specialist.blank?
+      - if project.specialist.blank? && !(current_business && !project.questions.any?)
         .panel.panel-default.panel-padded
           .panel-heading
             h3
               a.no-link name="q-a" Q & A
-          .panel-body
+          .panel-body.p-t-0
             - if current_specialist.present?
               = simple_form_for Question.new, authenticity_token: true, url: project_questions_path(project_id: project.id) do |f|
-                = f.input :text, as: :text, label: false, input_html: {class: 'di-b', rows: 2, placeholder: 'Enter question here'}
-                = f.submit 'Ask Question', class: 'btn btn-primary btn-md p-x-3', data: {disable_with: 'Sending...'}
+                = f.input :text, as: :text, label: false, input_html: {class: 'input-lg', rows: 2, placeholder: 'Enter question here'}
+                = f.submit 'Ask', class: 'btn btn-primary btn-sm p-x-4 pull-right', data: {disable_with: 'Sending...'}
 
             - project.questions.order('id DESC').each do |question|
               .question-and-answer

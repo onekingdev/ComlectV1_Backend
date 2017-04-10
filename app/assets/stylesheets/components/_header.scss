@@ -97,7 +97,7 @@
   .small-header {
     $height: 272px;
     height: $height;
-    overflow: hidden;
+    //overflow: hidden;
     padding-bottom: 0;
 
     // $align-bottom: calc(#{$height * 2} - 4em); // Not compatible with Firefox
@@ -109,7 +109,10 @@
 
     .tools {
       font-size: 32px; // So the line-height below equals the h1
-      line-height: 400px;
+      //line-height: 400px;
+      @media (min-width: $screen-xs-max) {
+        padding-top: 180px;        
+      }
       @media (max-width: $screen-sm-min) {
         line-height: 488px;
         position: absolute;
@@ -124,7 +127,7 @@
     .title {
       display: block;
       height: $height;
-      line-height: $height;
+      //line-height: $height;
     }
 
     @media (max-width: $screen-xs-max) {

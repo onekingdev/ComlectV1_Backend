@@ -160,10 +160,10 @@ class Project < ActiveRecord::Base
     datetime = ends_on.in_time_zone(time_zone)
     datetime + case datetime.wday
                when 5 then 4.days # friday -> monday (tues midnight)
-               when 6 then 4.days # saturday -> tuesday (wed midnight)
-               when 0 then 3.days # sunday -> tuesday (wed midnight)
+               when 6 then 3.days # saturday -> monday (tues midnight)
+               when 0 then 2.days # sunday -> monday (tues midnight)
                else
-                 1.day
+                 2.days
                end
   end
 

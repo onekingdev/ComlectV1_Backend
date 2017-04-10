@@ -5,13 +5,13 @@
       .tools
         - if policy(project).destroy?
           = link_to business_project_path(project), method: :delete, data: { confirm: project.confirm_delete, 'confirm-label' => 'Delete' }, class: 'tool-icon' do
-            i.icon-trash
+            i.icon-trash data-toggle="tooltip" title="delete"
         - if policy(project).edit?
           = link_to edit_business_project_path(project), class: 'tool-icon m-l-2' do
-            i.icon-pencil
+            i.icon-pencil data-toggle="tooltip" title="edit"
         - if policy(project).share?
           = link_to new_project_share_path(project), remote: true, class: 'tool-icon m-l-2' do
-            i.icon-share
+            i.icon-share data-toggle="tooltip" title="share"
         - if current_specialist && project.specialist_id != current_specialist.id
           - if (application = project.job_applications.by(current_specialist).first)
             = link_to project_job_application_path(project, application),
@@ -20,18 +20,18 @@
               title: 'Withdraw Application',
               data: { confirm: "Are you sure you want to withdraw your<br>application from <b>#{project}</b>?", confirm_label: 'Confirm' },
               class: 'tool-icon m-l-2' do
-              i.icon-reload
+              i.icon-reload data-toggle="tooltip" title="withdraw"
           - else
             = link_to_favorite current_specialist, project, class: 'tool-icon m-l-2' do
-              i.icon-heart.unfavorite
-              i.icon-heart.favorite
+              i.icon-heart.unfavorite data-toggle="tooltip" title="unfavorite"
+              i.icon-heart.favorite data-toggle="tooltip" title="favorite"
             - if project.pending?
               = link_to new_project_job_application_path(project), remote: true, class: 'tool-icon m-l-2' do
-                i.icon-user-follow
+                i.icon-user-follow data-toggle="tooltip" title="apply"
         - elsif current_business && policy(project).postable?
           = form_for project, url: post_business_project_path(project), method: :post, html: { class: 'd-ib' } do |f|
             = f.button class: 'tool-icon m-l-2' do
-              i.icon-pin
+              i.icon-pin data-toggle="tooltip" title="post"
 
       h1
         = project.title

@@ -2,3 +2,14 @@
   border-color: #898989;
   background-color: #e0e0e0;
 }
+
+.alert-info {
+  position: relative;
+  &:after {
+    content: "A";
+    font-family: "maxicons";
+    position: absolute;
+    right: 15px;
+    cursor: pointer;
+  }
+}
