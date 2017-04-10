@@ -15,6 +15,7 @@ class ProjectEnd::Request < Draper::Decorator
   end
 
   def self.confirm_or_deny!(project, params)
+    return if project.escalated?
     end_request = project.end_request
     if params[:confirm]
       end_request.confirm!
