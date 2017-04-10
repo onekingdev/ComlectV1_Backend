@@ -7,12 +7,6 @@ class Project::Search
   KEYWORD_SEARCH_COLUMNS = %w(title description key_deliverables).freeze
   MIN_EXPERIENCE = 3
   MAX_EXPERIENCE = 15
-  EXP_RANGES = {
-    (3..7) => %w(3-7 7-10 11-15 15+),
-    (7..10) => %w(7-10 11-15 15+),
-    (11..15) => %w(11-15 15+),
-    (15..Float::INFINITY) => '15+'
-  }.freeze
   MAX_LOCATION_RANGE = 100
   MAX_VALUE = 50_000
 
@@ -76,10 +70,12 @@ class Project::Search
   end
 
   def filter_experience(records)
-    min, _max = experience.to_s.split(';').map(&:to_i)
-    min = 8 if min == 7 # Because of the overlapping range
+    min, max = experience.to_s.split(';').map(&:to_i)
     min = MIN_EXPERIENCE if min.blank? || min < MIN_EXPERIENCE
-    records.where('minimum_experience >= ?', min)
+    max = MAX_EXPERIENCE if max.blank?
+    max = min if max < min
+    max = 100 if max == MAX_EXPERIENCE # Future-proof "any experience above 15"
+    records.where(minimum_experience: min..max)
   end
 
   def filter_value(records)
