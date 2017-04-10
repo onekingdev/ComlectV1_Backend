@@ -49,10 +49,9 @@ class Timesheet < ActiveRecord::Base
   private
 
   def set_expiration
-    date = status_changed_at.in_time_zone(business.tz)
-    expires_at = date.tomorrow
+    expires_at = status_changed_at.in_time_zone(business.tz).tomorrow
     expires_at = expires_at.next_week unless expires_at.weekday?
-    self.expires_at = expires_at.change(hour: 23, min: 59, sec: 59)
+    self.expires_at = expires_at.end_of_day
   end
 
   def validate_project_is_active
