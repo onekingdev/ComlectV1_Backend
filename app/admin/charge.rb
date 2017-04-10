@@ -81,6 +81,7 @@ ActiveAdmin.register Charge do
       end
       row :status_detail
       row :description
+      row :referenceable
       row :created_at
       row :updated_at
     end
