@@ -39,7 +39,11 @@ class StripeAccount < ActiveRecord::Base
       next if field == 'external_account'
       FIELDS_NEEDED_MAP[field] || field.split('.')[-1]
     end.compact
-    "Required information: #{fields.to_sentence}" if fields.any?
+    if fields == ['document']
+      'Verification missing'
+    elsif fields.any?
+      "Required information: #{fields.to_sentence}"
+    end
   end
 
   def status_from_account(account)
