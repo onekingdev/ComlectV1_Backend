@@ -157,14 +157,7 @@ class Project < ActiveRecord::Base
   end
 
   def hard_ends_on
-    datetime = ends_on.in_time_zone(time_zone)
-    datetime + case datetime.wday
-               when 5 then 4.days # friday -> monday (tues midnight)
-               when 6 then 3.days # saturday -> monday (tues midnight)
-               when 0 then 2.days # sunday -> monday (tues midnight)
-               else
-                 2.days
-               end
+    BufferDate.for(ends_on, tz: time_zone)
   end
 
   def time_zone
