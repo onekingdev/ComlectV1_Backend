@@ -10,7 +10,8 @@ class Timesheet < ActiveRecord::Base
   scope :not_pending, -> { where.not(status: Timesheet.statuses[:pending]) }
   scope :expired, -> { where.not(status: Timesheet.statuses[:approved]).where('expires_at <= ?', Time.zone.now) }
   scope :pending_charge, -> {
-    joins("LEFT OUTER JOIN charges c ON c.referenceable_id = timesheets.id AND c.referenceable_type = 'Timesheet'")
+    approved
+      .joins("LEFT OUTER JOIN charges c ON c.referenceable_id = timesheets.id AND c.referenceable_type = 'Timesheet'")
       .where(c: { id: nil })
   }
 
