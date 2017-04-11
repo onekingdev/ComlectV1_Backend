@@ -31,14 +31,8 @@ RSpec.describe "Project end scenarios", type: :request do
           project.reload
         end
 
-        it 'completes project immediately' do
-          expect(project.complete?).to be_truthy
-        end
-
-        it 'triggers final payment' do
-          expect(project.charges.count).to eq(2)
-          expect(project.charges.sum(:amount_in_cents)).to eq(150_000)
-          expect(project.charges.last.running_balance).to eq(0)
+        it 'allows time before ending project' do
+          expect(project.complete?).to be_falsey
         end
       end
 

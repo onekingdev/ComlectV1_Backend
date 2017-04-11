@@ -8,7 +8,7 @@ class ProjectEnd::Request < Draper::Decorator
   def self.process!(project)
     # Delete previous request if any
     pending.where(project_id: project).delete_all
-    expires_at = 1.business_day.after(project.business.tz.now)
+    expires_at = BufferDate.for(project.business.tz.now, tz: project.business.tz)
     new(create!(project: project, expires_at: expires_at)).tap do |request|
       Notification::Deliver.end_project! request
     end

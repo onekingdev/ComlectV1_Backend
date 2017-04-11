@@ -63,7 +63,7 @@ RSpec.describe PaymentCycle::Fixed::UponCompletion, type: :model do
         expect(@project.reload.charges.count).to eq(1)
         charge = @project.reload.charges.first
         expect(charge.amount).to eq(@project.fixed_budget)
-        expect(charge.date).to eq(Time.zone.now.to_date)
+        expect(charge.date).to eq(Time.zone.now)
       end
     end
   end

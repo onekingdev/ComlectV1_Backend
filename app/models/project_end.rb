@@ -22,6 +22,14 @@ class ProjectEnd < ActiveRecord::Base
   def trigger_project_end
     project.update_attribute :ends_on, Time.zone.now.in_time_zone(project.business.tz)
     project.charges.upcoming.delete_all
+    project.fixed_pricing? ? trigger_fixed_project_end : trigger_hourly_project_end
+  end
+
+  def trigger_fixed_project_end
+    Project::Ending.process! project
+  end
+
+  def trigger_hourly_project_end
     PaymentCycle.for(project).create_charges_and_reschedule!
   end
 end
