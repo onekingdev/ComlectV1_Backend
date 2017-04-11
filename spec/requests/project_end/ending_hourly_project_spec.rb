@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'rails_helper'
 
-RSpec.describe "Project end scenarios", type: :request do
+RSpec.describe "Hourly project end scenarios", type: :request do
   include SessionsHelper
 
   context 'project lapses' do
