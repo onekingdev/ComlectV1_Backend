@@ -15,6 +15,10 @@ class BusinessPolicy < ApplicationPolicy
     owner? || user.is_a?(AdminUser)
   end
 
+  def freeze?
+    record.projects.active.empty?
+  end
+
   def owner?
     user && record.user_id == user.id
   end
