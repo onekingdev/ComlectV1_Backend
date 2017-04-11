@@ -11,7 +11,7 @@ class Specialists::DeleteAccountsController < ApplicationController
     @user = current_user
     @freeze = Specialist::Freeze.new(@user.specialist)
     authorize @user.specialist, :freeze?
-    if @user.freeze_specialist_account!
+    if @user.freeze!
       sign_out @user
       redirect_to root_path
     else

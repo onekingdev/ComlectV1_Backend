@@ -8,7 +8,7 @@ class Business::DeleteAccountsController < ApplicationController
 
   def destroy
     @user = current_user
-    if @user.freeze_business_account!
+    if @user.freeze!
       sign_out @user
       redirect_to root_path
     else
