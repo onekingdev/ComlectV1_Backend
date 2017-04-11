@@ -87,11 +87,16 @@ ActiveAdmin.register Charge do
     end
   end
 
-  permit_params :amount_in_cents, :process_after, :description
+  permit_params :amount_in_cents, :fee_in_cents, :total_with_fee_in_cents, :running_balance_in_cents,
+                :specialist_amount_in_cents, :process_after, :description
 
   form do |_f|
     inputs do
       input :amount_in_cents
+      input :fee_in_cents
+      input :total_with_fee_in_cents
+      input :running_balance_in_cents
+      input :specialist_amount_in_cents
       input :process_after, as: :datepicker
       input :description
     end
@@ -100,7 +105,7 @@ ActiveAdmin.register Charge do
 
   controller do
     def scoped_collection
-      if action_name == 'index' && !params.key?(:status)
+      if action_name == 'index' && !(params[:q] || {}).key?(:status_eq)
         Charge.joins(:project, :business, :specialist).where.not(status: Charge.statuses[:processed])
       else
         Charge.joins(:project, :business, :specialist)
