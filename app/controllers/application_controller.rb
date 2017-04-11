@@ -12,6 +12,9 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   rescue_from ::Pundit::NotAuthorizedError, with: :render_403
+  rescue_from ::ActionController::InvalidAuthenticityToken, with: -> {
+    render_403('Your session expired, please refresh the page')
+  }
 
   # TODO: LAUNCH: Remove
   before_action :beta_protection, if: -> { ::Rails.env.production? }
@@ -139,9 +142,10 @@ class ApplicationController < ActionController::Base
     render file: 'public/404', status: :not_found
   end
 
-  def render_403
-    render template: 'application/forbidden',
-           locals: { message: 'You do not have access to this page' },
+  def render_403(message = 'You do not have access to this page')
+    format = request.xhr? ? '.js' : ''
+    render template: "application/forbidden#{format}",
+           locals: { message: message },
            status: :forbidden
   end
 end
