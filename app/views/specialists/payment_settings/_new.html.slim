@@ -103,7 +103,9 @@
         .col-xs-12.col-sm-6
           = f.input :personal_city, label: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
 
-  .text-center.m-b-3.p-b-1
+  .text-center.p-b-1
     - if f.object.persisted?
       = link_to 'Cancel', specialists_settings_payment_path, class: 'btn btn-default btn-md p-x-3 m-r-1'
-    = f.submit 'Save', class: 'btn btn-primary btn-md p-x-3'
+      = f.submit 'Save', class: 'btn btn-primary btn-md p-x-3'
+    - else
+      = f.submit 'Save', class: 'btn btn-primary p-x-3 btn-block btn-lg'
