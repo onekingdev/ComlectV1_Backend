@@ -87,16 +87,16 @@ ActiveAdmin.register Charge do
     end
   end
 
-  permit_params :amount_in_cents, :fee_in_cents, :total_with_fee_in_cents, :running_balance_in_cents,
-                :specialist_amount_in_cents, :process_after, :description
+  permit_params :amount, :fee, :total_with_fee, :running_balance,
+                :specialist_amount, :process_after, :description
 
   form do |_f|
     inputs do
-      input :amount_in_cents
-      input :fee_in_cents
-      input :total_with_fee_in_cents
-      input :running_balance_in_cents
-      input :specialist_amount_in_cents
+      input :amount
+      input :fee
+      input :total_with_fee
+      input :running_balance
+      input :specialist_amount
       input :process_after, as: :datepicker
       input :description
     end

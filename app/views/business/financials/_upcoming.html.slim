@@ -13,7 +13,7 @@ table.table.table-striped
         td= charge.date.strftime('%b %d, %Y')
         td= charge.project
         td= charge.project.specialist.full_name
-        td.text-right= number_to_currency charge.total_amount
+        td.text-right= number_to_currency charge.total_with_fee
         td.text-right= number_to_currency charge.running_balance
 
 .small.text-muted <strong>Note:</strong> Upcoming payments and outstanding balances are representative of estimated hours and rates. Actual payments may differ.
