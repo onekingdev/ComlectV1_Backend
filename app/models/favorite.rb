@@ -5,6 +5,10 @@ class Favorite < ActiveRecord::Base
 
   validates :favorited_id, uniqueness: { scope: %i(owner_id owner_type favorited_type) }
 
+  def self.remove!(owner, favorited)
+    owner.favorites.find_by(favorited: favorited)&.destroy
+  end
+
   def self.toggle!(owner, params)
     owner.favorites.find_by(params)&.destroy || owner.favorites.create!(params)
   end
