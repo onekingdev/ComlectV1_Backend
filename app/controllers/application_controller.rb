@@ -11,7 +11,9 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  rescue_from ::Pundit::NotAuthorizedError, with: :render_403
+  # Use lambda not symbol so render_403 uses the default message
+  # as opposed to getting passed a Pundit::NotAuthorizedError object
+  rescue_from ::Pundit::NotAuthorizedError, with: -> { render_403 }
   rescue_from ::ActionController::InvalidAuthenticityToken, with: -> {
     render_403('Your session expired, please refresh the page')
   }
