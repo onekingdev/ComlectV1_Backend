@@ -37,7 +37,6 @@ class Project < ActiveRecord::Base
   scope :escalated, -> { joins(:issues).where(project_issues: { status: :open }) }
   scope :not_escalated, -> { where.not(id: escalated) }
   scope :visible, -> { joins(business: :user).where(users: { suspended: false }) }
-  scope :not_lapsed, -> { where('starts_on > ?', Time.zone.now) }
   scope :recent, -> { order(starts_on: :desc) }
   scope :draft_and_in_review, -> { where(status: %w(draft review)) }
   scope :expired, -> { pending.where('starts_on < ?', Time.zone.now) }
@@ -46,7 +45,7 @@ class Project < ActiveRecord::Base
   scope :active, -> { published.where.not(specialist_id: nil) }
   scope :active_for_charges, -> { active.not_escalated }
   scope :complete, -> { where(status: statuses[:complete]).not_escalated }
-  scope :accessible_by, -> (user) {
+  scope :accessible_by, ->(user) {
     # Accessible by project owner, hired specialist, or everyone if it's published
     joins(:business).joins('LEFT OUTER JOIN specialists ON specialists.id = projects.specialist_id')
                     .where('businesses.user_id = :user_id

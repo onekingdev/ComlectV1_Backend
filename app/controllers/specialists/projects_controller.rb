@@ -35,7 +35,7 @@ class Specialists::ProjectsController < ApplicationController
   end
 
   def favorited_projects
-    base_scope current_specialist.favorited_projects.visible.not_lapsed
+    base_scope current_specialist.favorited_projects.visible.active
   end
 
   def completed_projects
