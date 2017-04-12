@@ -9,7 +9,7 @@ class Projects::RatingsController < ::ProjectRatingsController
   end
 
   def redirect_url
-    project_dashboard_path @project
+    specialists_dashboard_path
   end
 
   def specialist_or_business
