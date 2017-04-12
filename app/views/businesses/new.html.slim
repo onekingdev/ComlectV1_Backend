@@ -61,5 +61,12 @@ h1.text-center.m-b-3.m-t-3.p-t-1.p-b-2 Sign up to post your project
       = f.submit 'Sign Up', class: 'btn btn-primary btn-lg col-xs-12 col-sm-2 col-sm-offset-5'
 
     p.text-center.text-muted.m-t-1.m-b-3.p-b-2.col-md-8.col-md-offset-2.col-sm-8.col-sm-offset-2.col-xs-12
-      'By signing up, you are agreeing to our <a class="text-muted" href="#">Terms</a> & <a class="text-muted" href="#">Privacy Policy</a>,
-      'the <a class="text-muted" href="#">Stripe Agreement</a> (for payment), and to receiving Complect email communication.
+      'By signing up, you are agreeing to our
+      = link_to "Terms", "/info/terms-of-use", :target => "_blank"
+      '&nbsp;&
+      = link_to "Privacy Policy", "/info/privacy-policy", :target => "_blank"
+      ', the
+      = link_to "Stripe Agreement", "https://stripe.com/us/connect-account/legal", :target => "_blank"
+      '&nbsp;(for payment),
+      br
+      'and to receiving Complect email communication.
