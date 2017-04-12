@@ -37,7 +37,7 @@ class Project < ActiveRecord::Base
   scope :escalated, -> { joins(:issues).where(project_issues: { status: :open }) }
   scope :not_escalated, -> { where.not(id: escalated) }
   scope :visible, -> { joins(business: :user).where(users: { suspended: false }) }
-  scope :recent, -> { order(created_at: :desc) }
+  scope :recent, -> { order(starts_on: :desc) }
   scope :draft_and_in_review, -> { where(status: %w(draft review)) }
   scope :expired, -> { pending.where('starts_on < ?', Time.zone.now) }
   scope :published, -> { where(status: statuses[:published]) }
