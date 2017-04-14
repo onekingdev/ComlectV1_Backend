@@ -43,5 +43,30 @@ RSpec.describe PaymentCycle::Hourly::UponCompletion, type: :model do
         expect(process_after).to eq(@project.business.tz.local(2016, 6, 23, 0, 1))
       end
     end
+
+    context 'a timesheet is approved during the grace period' do
+      before do
+        Timecop.freeze @project.hard_ends_on - 12.hours
+        @timesheet = create :timesheet, :approved, project: @project, specialist: @specialist, hours: 5
+      end
+
+      after do
+        Timecop.return
+      end
+
+      it 'generates payment after the fact' do
+        @project.complete!
+        ScheduleChargesJob.new.perform(@project.id)
+        Timecop.freeze(@project.hard_ends_on + 1.day) { ScheduleChargesJob.new.perform(@project.id) }
+        expect(@project.reload.charges.count).to eq(1)
+      end
+
+      it 'does not generate duplicate payment later' do
+        @project.complete!
+        ScheduleChargesJob.new.perform(@project.id)
+        Timecop.freeze(@project.hard_ends_on + 1.day) { ScheduleChargesJob.new.perform(@project.id) }
+        expect(@project.reload.charges.count).to eq(1)
+      end
+    end
   end
 end

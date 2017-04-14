@@ -93,6 +93,15 @@ module ApplicationHelper
     params[:page].blank? ? 1 : params[:page].to_i
   end
 
+  def new_flag_url(user, project, flaggable)
+    flaggable_id = flaggable.class.name.downcase + "_id"
+    if user.business.present?
+      new_business_project_flag_path(project_id: project.id, flaggable_id => flaggable.id)
+    else
+      new_project_flag_path(project_id: project.id, flaggable_id => flaggable.id)
+    end
+  end
+
   def submit_flag_url(user, project)
     if user.business.present?
       business_project_flags_path(project_id: project.id)
