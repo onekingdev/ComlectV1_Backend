@@ -12,6 +12,14 @@ class Admin::UserPolicy < AdminPolicy
     true
   end
 
+  def stop_impersonating?
+    true
+  end
+
+  def toggle_suspend?
+    true
+  end
+
   private
 
   def discourse_admin?
