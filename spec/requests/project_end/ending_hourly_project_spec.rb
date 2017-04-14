@@ -92,4 +92,60 @@ RSpec.describe "Hourly project end scenarios", type: :request do
       end
     end
   end
+
+  context 'payment upon completion' do
+    let(:business) { create :business }
+    let(:specialist) { create :specialist }
+    # Hourly rate: $100, estimated hours: 50
+    let(:project) do
+      create :project_one_off_hourly, :published, :upon_completion_pay, business: business, specialist: specialist
+    end
+    let(:first_timesheet) { create :timesheet, :approved, project: project, hours: 10 }
+
+    before do
+      Timecop.freeze(project.starts_on + 2.days) { first_timesheet } # Trigger creation
+      Timecop.freeze project.ends_on.in_time_zone(business.tz) + 12.hours
+    end
+
+    after do
+      Timecop.return
+    end
+
+    context 'specialist submits last timesheet' do
+      let(:last_timesheet) { create(:timesheet, :submitted, project: project, hours: 5) }
+
+      context 'business disputes timesheet' do
+        before do
+          sign_in business.user
+          put business_project_timesheet_path(project, last_timesheet, timesheet: { dispute: '1' }, format: :js)
+          expect(response).to have_http_status(:ok)
+          sign_out
+          sign_in specialist.user
+        end
+
+        it 'does not generate any real payments' do
+          expect do
+            PaymentCycle.for(project).create_charges_and_reschedule!
+          end.to_not change { Charge.real.count }
+        end
+      end
+
+      context 'business approves timesheet' do
+        before do
+          sign_in business.user
+          put business_project_timesheet_path(project, last_timesheet, format: :js, timesheet: { approve: '1' })
+          expect(response).to have_http_status(:ok)
+          project.reload
+        end
+
+        it 'creates final charges' do
+          expect { Project::Ending.process!(project) }.to change { Charge.real.count }
+          charges = project.reload.charges
+          expect(charges.size).to eq(2)
+          expect(charges.map(&:status).uniq).to eq(['scheduled'])
+          expect(charges.map(&:amount).reduce(:+)).to eq(1500)
+        end
+      end
+    end
+  end
 end

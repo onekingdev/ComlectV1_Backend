@@ -13,7 +13,7 @@ class Business::ProjectsController < ApplicationController
   }.freeze
 
   def index
-    @filter    = FILTERS[params[:filter]] || :none
+    @filter   = FILTERS[params[:filter]] || :none
     @projects = Project.cards_for_user(current_user, filter: @filter) # , page: params[:page], per: params[:per])
     respond_to do |format|
       format.html do

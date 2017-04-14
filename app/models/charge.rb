@@ -29,28 +29,48 @@ class Charge < ActiveRecord::Base
     amount_in_cents / 100.0
   end
 
+  def amount=(value)
+    self.amount_in_cents = (BigDecimal.new(value) * 100).to_i
+  end
+
   def fee
     return unless fee_in_cents
     fee_in_cents / 100.0
   end
 
-  def amount_or_fee
-    project.full_time? ? fee : amount
+  def fee=(value)
+    self.fee_in_cents = (BigDecimal.new(value) * 100).to_i
   end
 
-  def total_amount
+  def total_with_fee
     return unless total_with_fee_in_cents
     total_with_fee_in_cents / 100.0
   end
 
-  def specialist_payment
-    return unless specialist_amount_in_cents
-    specialist_amount_in_cents / 100.0
+  def total_with_fee=(value)
+    self.total_with_fee_in_cents = (BigDecimal.new(value) * 100).to_i
   end
 
   def running_balance
     return unless running_balance_in_cents
     running_balance_in_cents / 100.0
+  end
+
+  def running_balance=(value)
+    self.running_balance_in_cents = (BigDecimal.new(value) * 100).to_i
+  end
+
+  def specialist_amount
+    return unless specialist_amount_in_cents
+    specialist_amount_in_cents / 100.0
+  end
+
+  def specialist_amount=(value)
+    self.specialist_amount_in_cents = (BigDecimal.new(value) * 100).to_i
+  end
+
+  def amount_or_fee
+    project.full_time? ? fee : amount
   end
 
   def specialist_running_balance

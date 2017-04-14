@@ -3,13 +3,7 @@ class Flag < ActiveRecord::Base
   belongs_to :flagger, polymorphic: true
   belongs_to :flagged_content, polymorphic: true
 
-  validates :reason, inclusion: {
-    in: %w(Inappropriate Harassment Spam) + [
-      "Inappropriate, Harassment",
-      "Inappropriate, Spam", "Harassment, Spam",
-      "Inappropriate, Harassment, Spam"
-    ]
-  }
+  validates :reason, inclusion: { in: %w(inappropriate harassment spam) }
   validates :flagger, presence: true
   validates :flagged_content, presence: true
 

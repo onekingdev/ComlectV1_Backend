@@ -35,7 +35,7 @@ class Specialists::ProjectsController < ApplicationController
   end
 
   def favorited_projects
-    base_scope current_specialist.favorited_projects.visible
+    base_scope current_specialist.favorited_projects.visible.active
   end
 
   def completed_projects
@@ -43,6 +43,6 @@ class Specialists::ProjectsController < ApplicationController
   end
 
   def base_scope(relation)
-    relation.includes(:industries, :jurisdictions, :skills) # .page(params[:page]).per(6)
+    relation.includes(:industries, :jurisdictions, :skills).recent # .page(params[:page]).per(6)
   end
 end
