@@ -69,58 +69,31 @@
           .panel-body.p-t-0
             - if current_specialist.present?
               = simple_form_for Question.new, authenticity_token: true, url: project_questions_path(project_id: project.id) do |f|
-                = f.input :text, as: :text, label: false, input_html: {class: 'input-lg', rows: 2, placeholder: 'Enter question here'}
-                = f.submit 'Ask', class: 'btn btn-primary btn-sm p-x-4 pull-right', data: {disable_with: 'Sending...'}
+                = f.input :text, as: :text, label: false, input_html: {class: 'input-lg', rows: 3, placeholder: 'Enter question here'}
+                = f.submit 'Ask', class: 'btn btn-primary btn-sm p-x-4 pull-right m-b-1', data: {disable_with: 'Sending...'}
 
+              .clearfix
             - project.questions.order('id DESC').each do |question|
               .question-and-answer
                 .question-text
-                  span.q-or-a Q&nbsp;
+                  span.q-or-a
+                    | Q,&nbsp;
+                    = question.created_at.in_time_zone(current_business_or_specialist.tz).strftime("%b %d, %Y at %I:%M %P")
+                  = link_to new_flag_url(current_user, project, question), remote: true do
+                    big.pull-right.fw-bold.icon-flag.flag-link
                   = simple_format(question.text)
-                  .question-or-answer-timestamp
-                    span= question.created_at.in_time_zone(current_business_or_specialist.tz).strftime("%b %d, %Y at %I:%M %P")
-                    span &nbsp;
-                    - id_string = "question" + question.id.to_s
-                    span= link_to image_tag('flag-icon.png'), '#', {class: 'flag-link', data: {content: id_string}}
-                    = content_tag :div, {class: 'flag-form', data: {content: id_string}} do
-                      .modal-wrapper
-                        .modal-fake.gray.clearfix
-                          button.close.close-absolute data-dismiss="modal" type="button"
-                            .icon.maxicons1-exit
-                          h3.text-uppercase.text-center.m-b-3.p-x-5 Report Post
-                          .checkbox-lg
-                            = simple_form_for Flag.new, authenticity_token: true, url: submit_flag_url(current_user, project) do |f|
-                              = f.hidden_field :question_id, value: question.id
-                              = f.input :reason, as: :check_boxes,
-                                        collection: [%w(Inappropriate inappropriate), %w(Harassment harassment), %w(Spam spam)], label: false
-                              .text-center
-                                = f.submit 'Submit', class: 'btn btn-primary btn-md p-x-3 m-t-2'
-
                 - if question.answer.present?
                   .answer-text
-                    span.q-or-a A&nbsp;
+                    span.q-or-a
+                      | A,&nbsp;
+                      = question.answer.created_at.in_time_zone(current_business_or_specialist.tz).strftime("%b %d, %Y at %I:%M %P")
+                    - if current_user.business != project.business
+                      = link_to new_flag_url(current_user, project, question.answer), remote: true do
+                        big.pull-right.fw-bold.icon-flag.flag-link
                     = simple_format(question.answer.text)
-                    .question-or-answer-timestamp
-                      span= question.answer.created_at.in_time_zone(current_business_or_specialist.tz).strftime("%b %d, %Y at %I:%M %P")
-                      span &nbsp;
-                      - if current_user.business != project.business
-                        - id_string = "answer" + question.answer.id.to_s
-                        span= link_to image_tag('flag-icon.png'), '#', {class: 'flag-link', data: {content: id_string}}
-                        = content_tag :div, {class: 'flag-form', data: {content: id_string}} do
-                          .modal-wrapper
-                            .modal-fake.gray.clearfix
-                              button.close.close-absolute data-dismiss="modal" type="button"
-                                .icon.maxicons1-exit
-                              h3.text-uppercase.text-center.m-b-3.p-x-5 Report Post
-                              .checkbox-lg
-                                = simple_form_for Flag.new, authenticity_token: true, url: project_flags_path(project_id: project.id) do |f|
-                                  = f.hidden_field :answer_id, value: question.answer.id
-                                  = f.input :reason, as: :check_boxes,
-                                            collection: [%w(Inappropriate inappropriate), %w(Harassment harassment), %w(Spam spam)], label: false
-                                  .text-center
-                                    = f.submit 'Submit', class: 'btn btn-primary btn-md p-x-3 m-t-2'
                 - if current_user.business == project.business && question.answer.blank?
                   = simple_form_for Answer.new, authenticity_token: true, url: business_project_answers_path(project_id: project.id) do |f|
-                    = f.input :text, as: :text, label: false, input_html: {class: 'di-b', rows: 2, placeholder: 'Enter answer here'}
+                    = f.input :text, as: :text, label: false, input_html: {class: 'input-lg', rows: 3, placeholder: 'Enter answer here'}
                     = f.hidden_field :question_id, value: question.id
-                    = f.submit 'Answer Question', class: 'btn btn-primary btn-md p-x-3', data: {disable_with: 'Sending...'}
+                    = f.submit 'Answer Question', class: 'btn btn-primary btn-sm p-x-4 pull-right m-b-1', data: {disable_with: 'Sending...'}
+                    .clearfix

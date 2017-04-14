@@ -80,7 +80,7 @@ Rails.application.routes.draw do
       resources :hires
       resources :documents
       resources :answers, only: :create
-      resources :flags, only: :create
+      resources :flags, only: %i(new create)
       resources :timesheets
       resources :project_issues, path: 'issues'
     end
@@ -124,7 +124,7 @@ Rails.application.routes.draw do
       resources :messages
       resources :documents
       resources :questions, only: :create
-      resources :flags, only: :create
+      resources :flags, only: %i(new create)
       resources :timesheets
       resources :issues
       resources :shares
