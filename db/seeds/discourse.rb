@@ -32,7 +32,9 @@ if Specialist.where(discourse_username: ENV.fetch('DISCOURSE_SPECIALIST_API_USER
   )
   user.create_specialist!(
     visibility: Specialist.visibilities[:is_private],
-    discourse_username: ENV.fetch('DISCOURSE_SPECIALIST_API_USER')
+    discourse_username: ENV.fetch('DISCOURSE_SPECIALIST_API_USER'),
+    first_name: 'Specialist',
+    last_name: 'Admin'
   )
   puts "Discourse Specialist Admin ID / password: #{user.specialist.id} / password (login and change it)"
 end
