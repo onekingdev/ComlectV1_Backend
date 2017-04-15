@@ -24,4 +24,14 @@ RSpec.describe Project, type: :model do
       expect(subject.hard_ends_on).to eq(tuesday_midnight)
     end
   end
+
+  describe '#expires_at' do
+    it 'sets value to midnight of the start date on the business TZ' do
+      business = build(:business, time_zone: 'Amsterdam')
+      project = build(:project_one_off_hourly, business: business, starts_on: Date.new(2016, 1, 1))
+      project.save
+      expected_expiration = Date.new(2016, 1, 1).in_time_zone('Amsterdam').end_of_day
+      expect(project.expires_at).to eq(expected_expiration)
+    end
+  end
 end

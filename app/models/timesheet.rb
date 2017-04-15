@@ -7,8 +7,8 @@ class Timesheet < ActiveRecord::Base
   has_many :time_logs, dependent: :destroy
 
   scope :sorted, -> { order(created_at: :desc) }
-  scope :not_pending, -> { where.not(status: Timesheet.statuses[:pending]) }
-  scope :expired, -> { where.not(status: Timesheet.statuses[:approved]).where('expires_at <= ?', Time.zone.now) }
+  scope :not_pending, -> { where.not(status: statuses[:pending]) }
+  scope :expired, -> { where(status: statuses[:submitted]).where('expires_at <= ?', Time.zone.now) }
   scope :pending_charge, -> {
     approved
       .joins("LEFT OUTER JOIN charges c ON c.referenceable_id = timesheets.id AND c.referenceable_type = 'Timesheet'")
@@ -45,7 +45,9 @@ class Timesheet < ActiveRecord::Base
   end
 
   def expired?
-    !expires_at.blank? && expires_at.past? # negate blank? instead of using present? for clarity (present? && past?)
+    # Only submitted timesheets can be considered expired
+    # negate blank? instead of using present? for clarity (present? && past?)
+    submitted? && !expires_at.blank? && expires_at.past?
   end
 
   private

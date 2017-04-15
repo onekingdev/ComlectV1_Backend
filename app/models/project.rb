@@ -38,12 +38,22 @@ class Project < ActiveRecord::Base
   scope :not_escalated, -> { where.not(id: escalated) }
   scope :visible, -> { joins(business: :user).where(users: { suspended: false }) }
   scope :recent, -> { order(starts_on: :desc) }
-  scope :draft_and_in_review, -> { where(status: %w(draft review)) }
-  scope :expired, -> { pending.where('starts_on < ?', Time.zone.now) }
+  scope :draft_and_in_review, -> { where(status: [statuses[:draft], statuses[:review]]) }
   scope :published, -> { where(status: statuses[:published]) }
   scope :pending, -> { published.where(specialist_id: nil) }
+  scope :expired, -> { pending.where('expires_at < ?', Time.zone.now) }
   scope :active, -> { published.where.not(specialist_id: nil) }
-  scope :active_for_charges, -> { active.not_escalated }
+  # TODO: Maybe add an "archived" flag so we can filter these projects more easily
+  # Then in the PaymentCycle class, set archived = true when a project is complete and
+  # has got all charges created.
+  scope :active_for_charges, -> {
+    not_escalated
+      .where('(status = :complete AND payment_schedule = :upon_completion)
+           OR (status = :published AND specialist_id IS NOT NULL)',
+             complete: statuses[:complete],
+             upon_completion: payment_schedules[:upon_completion],
+             published: statuses[:published])
+  }
   scope :complete, -> { where(status: statuses[:complete]).not_escalated }
   scope :accessible_by, ->(user) {
     # Accessible by project owner, hired specialist, or everyone if it's published
@@ -53,17 +63,17 @@ class Project < ActiveRecord::Base
                       OR projects.status = :status', status: 'published', user_id: user.id)
   }
 
-  scope :onsite, -> { where(location_type: 'onsite') }
-  scope :remote, -> { where(location_type: 'remote') }
-  scope :remote_and_travel, -> { where(location_type: 'remote_and_travel') }
+  scope :onsite, -> { where(location_type: location_types[:onsite]) }
+  scope :remote, -> { where(location_type: location_types[:remote]) }
+  scope :remote_and_travel, -> { where(location_type: location_types[:remote_and_travel]) }
 
-  scope :with_skills, -> (names) { joins(:skills).where(skills: { name: Array(names) }) }
+  scope :with_skills, ->(names) { joins(:skills).where(skills: { name: Array(names) }) }
 
   scope :preload_associations, -> {
     preload(:business, :jurisdictions, :industries, :end_request)
   }
 
-  scope :distance_between, -> (lat, lng, min, max) do
+  scope :distance_between, ->(lat, lng, min, max) do
     min_m = min.to_i * 1600
     max_m = max.to_i * 1600
     distance = "ST_Distance(point, ST_GeogFromText('SRID=4326;POINT(#{lng.to_f} #{lat.to_f})'))"
@@ -107,6 +117,8 @@ class Project < ActiveRecord::Base
   EXPERIENCE_RANGES = (1..15).each_with_object({}) do |n, years|
     years[n] = (n..Float::INFINITY)
   end.freeze
+
+  before_save :save_expires_at, if: -> { starts_on_changed? }
 
   def self.ending
     one_off.active.joins(business: :user).select('projects.*, businesses.time_zone').find_each.find_all(&:ending?)
@@ -228,5 +240,12 @@ class Project < ActiveRecord::Base
 
   def fixed_pricing?
     one_off? && pricing_type == 'fixed'
+  end
+
+  private
+
+  def save_expires_at
+    return unless starts_on.present?
+    self.expires_at = starts_on.in_time_zone(time_zone).end_of_day
   end
 end
