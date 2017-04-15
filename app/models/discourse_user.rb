@@ -23,13 +23,7 @@ class DiscourseUser
   end
 
   def username
-    if ENV.fetch('DISCOURSE_BUSINESS_ADMIN_ID') == object.user_id
-      ENV.fetch('DISCOURSE_BUSINESS_API_USER')
-    elsif ENV.fetch('DISCOURSE_SPECIALIST_ADMIN_ID') == object.user_id
-      ENV.fetch('DISCOURSE_SPECIALIST_API_USER')
-    else
-      object.discourse_username! name.parameterize.titleize.delete(' ')
-    end
+    object.discourse_username! name.parameterize.titleize.delete(' ')
   end
 
   def avatar_url

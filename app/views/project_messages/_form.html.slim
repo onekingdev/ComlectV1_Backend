@@ -14,3 +14,8 @@
           a.btn.btn-default.btn-md.upload-button
             i.icon-paper-clip
           = f.submit 'Send', class: 'btn btn-primary btn-md btn-block', data: { disable_with: 'Sending...' }
+
+.hidden-upload
+  = simple_form_for Document.new, authenticity_token: true, url: project_documents_path do |f|
+    = f.hidden_field :file, value: f.object.file_data? ? f.object.file_data.to_json: nil
+    = f.file_field :file, onchange: "this.form.submit();"

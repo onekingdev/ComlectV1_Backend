@@ -7,12 +7,4 @@ class Admin::ChargePolicy < AdminPolicy
   def destroy?
     !record.processed?
   end
-
-  def schedule_pending?
-    true
-  end
-
-  def process_scheduled?
-    true
-  end
 end

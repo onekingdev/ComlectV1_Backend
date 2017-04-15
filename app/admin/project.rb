@@ -163,11 +163,7 @@ ActiveAdmin.register Project do
           end
           column :hours, class: 'number', &:total_hours
           column :total, class: 'number' do |timesheet|
-            if timesheet.charge
-              link_to number_to_currency(timesheet.total_amount), [:admin, timesheet.charge]
-            else
-              number_to_currency timesheet.total_amount
-            end
+            number_to_currency timesheet.total_amount
           end
         end
       end
