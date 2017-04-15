@@ -86,7 +86,7 @@ class Specialist < ActiveRecord::Base
   include ImageUploader[:photo]
   include PdfUploader[:resume]
 
-  enum visibility:  { is_public: 'public', is_private: 'private' }
+  enum visibility: { is_public: 'public', is_private: 'private' }
 
   delegate :suspended?, to: :user
 
