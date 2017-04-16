@@ -2,6 +2,10 @@ $.onContentReady ($parent, data) ->
   $messages = if $parent.hasClass('message-thread') then $parent.find('.messages') else $parent.find('.message-thread .messages')
   return if $messages.data('initMessagePolling')
 
+  $('.upload-button').on 'click', ->
+    $('.hidden-upload').find('input[type=file]').trigger 'click'
+    return
+  
   if $messages.length > 0
     $messages = $messages.add $(window)
 

@@ -41,6 +41,6 @@ class MessagesController < ApplicationController
   end
 
   def message_params
-    params.require(:message).permit(:recipient_type, :recipient_id, :message)
+    params.require(:message).permit(:recipient_type, :recipient_id, :message, :file)
   end
 end

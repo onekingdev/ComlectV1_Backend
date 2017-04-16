@@ -163,11 +163,21 @@ body.project_dashboard.show, body.dashboards.show {
     display: none;
   }
 
+  .hidden-upload {
+    overflow: hidden;
+    width: 1px;
+    height: 1px;
+  }
+
   .upload-button {
     border-color: transparent;
     position: absolute;
     left: 0px;
     padding: 6.5px 10px;
+
+    &:hover, &:focus, &:active {
+      border-color: transparent !important;
+    }
   }
 
   .message-form .col-xs-12 {

@@ -2,12 +2,13 @@
 .messages-day class= "messge-day-#{message.created_at.in_time_zone(me.time_zone).strftime('%Y%m%d')}"
   = message.created_at.in_time_zone(me.time_zone).strftime('%B %d')
 .message class=(is_me ? 'me' : 'them') data-message-id=message.id
-  .text= simple_format message.message
-  - if message.file
-    .file= link_to message.file_url, target: '_blank' do
-      .fa.fa-paperclip
-      '&nbsp;
-      span= message.file.metadata['filename']
+  .text
+    = simple_format message.message if !message.message.blank?
+    - if message.file
+      .file= link_to message.file_url, target: '_blank' do
+        .fa.fa-paperclip
+        '&nbsp;
+        span= message.file.metadata['filename']
 .date class=(is_me ? 'me' : 'them')
   - if is_me
     | Me,&nbsp;

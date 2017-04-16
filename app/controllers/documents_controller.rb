@@ -36,6 +36,10 @@ class DocumentsController < ApplicationController
 
   private
 
+  # def recipient(project)
+  #   current_business ? project.specialist : project.business
+  # end
+
   def set_me
     @me = current_business_or_specialist
   end

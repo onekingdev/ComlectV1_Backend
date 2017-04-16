@@ -16,7 +16,7 @@ class Message < ActiveRecord::Base
 
   attr_accessor :project
 
-  validates :message, presence: true
+  validates :message, presence: true, unless: ->(msg) { msg.file.present? }
 
   def self.threads_for(subject)
     query = <<-SQL

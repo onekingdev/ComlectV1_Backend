@@ -40,7 +40,7 @@ class ProjectMessagesController < ApplicationController
   end
 
   def message_params
-    params.require(:message).permit(:message)
+    params.require(:message).permit(:message, :file)
   end
 
   def find_project
