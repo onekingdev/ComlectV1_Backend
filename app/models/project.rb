@@ -39,9 +39,9 @@ class Project < ActiveRecord::Base
   scope :visible, -> { joins(business: :user).where(users: { suspended: false }) }
   scope :recent, -> { order(starts_on: :desc) }
   scope :draft_and_in_review, -> { where(status: [statuses[:draft], statuses[:review]]) }
-  scope :expired, -> { pending.where('starts_on < ?', Time.zone.now) }
   scope :published, -> { where(status: statuses[:published]) }
   scope :pending, -> { published.where(specialist_id: nil) }
+  scope :expired, -> { pending.where('expires_at < ?', Time.zone.now) }
   scope :active, -> { published.where.not(specialist_id: nil) }
   # TODO: Maybe add an "archived" flag so we can filter these projects more easily
   # Then in the PaymentCycle class, set archived = true when a project is complete and
@@ -117,6 +117,8 @@ class Project < ActiveRecord::Base
   EXPERIENCE_RANGES = (1..15).each_with_object({}) do |n, years|
     years[n] = (n..Float::INFINITY)
   end.freeze
+
+  before_save :save_expires_at, if: -> { starts_on_changed? }
 
   def self.ending
     one_off.active.joins(business: :user).select('projects.*, businesses.time_zone').find_each.find_all(&:ending?)
@@ -238,5 +240,12 @@ class Project < ActiveRecord::Base
 
   def fixed_pricing?
     one_off? && pricing_type == 'fixed'
+  end
+
+  private
+
+  def save_expires_at
+    return unless starts_on.present?
+    self.expires_at = starts_on.in_time_zone(time_zone).end_of_day
   end
 end

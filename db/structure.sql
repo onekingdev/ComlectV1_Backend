@@ -534,7 +534,8 @@ CREATE TABLE projects (
     extended_at timestamp without time zone,
     starts_in_48 boolean DEFAULT false,
     ends_in_24 boolean DEFAULT false,
-    minimum_experience integer
+    minimum_experience integer,
+    expires_at timestamp without time zone
 );
 
 
@@ -4207,6 +4208,13 @@ CREATE INDEX index_projects_on_estimated_hours ON projects USING btree (estimate
 
 
 --
+-- Name: index_projects_on_expires_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_projects_on_expires_at ON projects USING btree (expires_at);
+
+
+--
 -- Name: index_projects_on_extended_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -4936,4 +4944,6 @@ INSERT INTO schema_migrations (version) VALUES ('20170321022610');
 INSERT INTO schema_migrations (version) VALUES ('20170321030955');
 
 INSERT INTO schema_migrations (version) VALUES ('20170410233330');
+
+INSERT INTO schema_migrations (version) VALUES ('20170415185854');
 

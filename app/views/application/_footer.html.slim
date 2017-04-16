@@ -3,7 +3,6 @@ footer#footer
     .col-md-6
       ul.links.list-unstyled
         li.title Complect
-        li= link_to 'About Us', page_path('about-us')
         li= link_to 'How it Works', page_path('how-it-works')
         li= link_to 'Our Partners', page_path('partner-network')
       ul.links.list-unstyled
@@ -20,6 +19,6 @@ footer#footer
         = link_to ENV.fetch('CONTACT_EMAIL'), "mailto:#{ENV['CONTACT_EMAIL']}"
 
   p.copyright
-   | Copyright © 
+   | Copyright ©
    = Date.today.year
    |  complect

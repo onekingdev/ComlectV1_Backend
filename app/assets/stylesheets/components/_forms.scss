@@ -117,6 +117,11 @@ form .reset {
   .info-tooltip-lg {
     top: 15px;
   }
+
+  input {
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
 }
 
 form .well {
@@ -223,7 +228,8 @@ select.js-select.input-lg {
     outline: 2px solid #e4e4e4;
     border: none;
     opacity: 1;
-    -moz-appearance:none;
+    -moz-appearance:none !important;
+    //visibility: hidden;
     -webkit-appearance:none;
     -o-appearance:none;
     outline-offset: 6px;
