@@ -46,6 +46,7 @@ nav#nav.navbar.navbar-default
               li= link_to 'Log Out', destroy_user_session_path, method: :delete
         li.dropdown
           a.dropdown-toggle href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
+            span.hidden-bp Notifications&nbsp;
             i.icon-bell
             - if user.notifications.unread.any?
               .badge.small= user.notifications.unread.count
@@ -55,7 +56,7 @@ nav#nav.navbar.navbar-default
                 p No alerts
             - else
               li.clearfix.notifications-header
-                .pull-left.p-x-2.p-y-1 Notifications
+                .pull-left.p-x-2.p-y-1.show-bp Notifications
                 .pull-right= link_to "Mark all as read", notifications_path, "data-remote" => true
               - user.notifications.unread.each do |notification|
                 li

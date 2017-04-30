@@ -39,5 +39,11 @@ $('.notifications-dropdown').parent().on 'shown.bs.dropdown', (e) ->
   $('.notifications-dropdown > li').slice(0, 6).each ->
     th += $(this).height()+1 # 1 for border
     return
+  if window.innerWidth < 1050
+    $(".nav > li").not(".open").hide()
+    th = window.innerHeight-112
   $('.notifications-dropdown').css 'max-height': th+"px"
   return
+
+$(".notifications-dropdown").parent().on 'hidden.bs.dropdown', (e) ->
+  $(".nav > li").show()

@@ -14,12 +14,16 @@
 
   li {
     position: static;
+    @media (max-width: $grid-float-breakpoint) {
+      border-bottom: 1px solid #eaeaea;
+    }
   }
 
   .preseparate {
     @media (min-width: $grid-float-breakpoint) {
       border-left: 1px solid #000;
       padding-left: $spacing/2;
+      border-bottom: none;
     }
     a {
       color: #ffcc00;
@@ -103,6 +107,12 @@
       border-color: #ffcc00 !important;
       outline: none;
     }
+
+    @media (max-width: $grid-float-breakpoint) {
+      border: none;
+      padding: 0px;
+    }
+
   }
 
   .btn {
@@ -138,6 +148,9 @@
 
   .navbar-nav > li > a {
     padding: 5px 0px;
+    @media (max-width: $grid-float-breakpoint) {
+      padding: 8px 0px;
+    }
   }
 
   .m-r {
@@ -184,6 +197,22 @@
     }
     left: auto;
     right: 0px;
+
+    @media (max-width: $grid-float-breakpoint-max) {
+      background-color: transparent;
+      padding: 0px;
+
+      a {
+        color: #555;
+        padding-left: 0px;
+        margin-left: 1em;
+
+        &:hover, &:focus {
+          color: #ffcc00;
+          background-color: transparent;
+        }
+      }
+    }
   }
 
   .navbar-toggle {
@@ -217,6 +246,9 @@
         //margin-left: 15px;
         margin-top: 15px;
         margin-bottom: 15px;
+        @media (max-width: $grid-float-breakpoint) {
+          margin: 8px 0px;
+        }
       }
     }
 

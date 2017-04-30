@@ -7,6 +7,8 @@
   overflow-y: scroll;
   @media (max-width: $grid-float-breakpoint) {
     position: relative;
+    max-width: 100%;
+    width: 100%
   }
 
   .notifications-header {

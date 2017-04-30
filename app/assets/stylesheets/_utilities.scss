@@ -112,3 +112,15 @@
 .border-left-2 { border-left: 2px solid #ffcc00; }
 
 .width-110 { width: 110%; }
+
+.hidden-bp {
+  @media (min-width: $grid-float-breakpoint-max) {
+    display: none;
+  }
+}
+
+.show-bp {
+  @media (max-width: $grid-float-breakpoint-max) {
+    display: none;
+  }
+}
