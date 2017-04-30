@@ -1,6 +1,9 @@
 .modal-wrapper {
   background-color: #ffffff;
   padding: 10px;
+  @media screen and (max-width: $screen-xs-min) { 
+    padding: 0px;
+  }
 }
 
 .forgot-password {
@@ -134,6 +137,10 @@
   .modal-fake {
     //width: 520px;
     padding: 20px 35px;
+    @media screen and (max-width: $screen-xs-min) { 
+      //padding: 35px 10px;
+      border: 0px;
+    }
   }
 
   .btn {
