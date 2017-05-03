@@ -1,5 +1,5 @@
-p You received a message on Complect regarding your application to #{link_to @project, project_url(@project)}
-
-#message-body
+p You received a message regarding your application to #{link_to @project, project_url(@project)} on Complect. Simply reply to this email to respond.
+hr
+#message-body style="font-weight: bold"
   = simple_format @message
   #message-body-end
