@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 ActiveAdmin.register Skill do
+  menu parent: 'Data'
+
   filter :name
   filter :created_at
   filter :updated_at
