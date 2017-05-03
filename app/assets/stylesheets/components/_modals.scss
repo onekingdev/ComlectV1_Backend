@@ -15,8 +15,10 @@
   display: inline-block;
   text-align: left;
   vertical-align: middle;
-  @media screen and (min-width: $screen-md-min) { 
-    //width: auto !important;
+  @media screen and (max-width: $screen-xs-min) { 
+    margin: 0px !important;
+    width: 100%;
+    min-height: 100%;
   }
 }
 
@@ -42,6 +44,9 @@
 
   .modal-dialog {
     width: auto;
+    @media screen and (max-width: $screen-xs-min) { 
+      width: 100%;
+    }
   }
 }
 
@@ -58,14 +63,13 @@
 }
 
 .modal-fake {
-  //box-shadow: inset 0 0 3px #ffcc00;
   border: 3px solid #ffcc00;
-  //border-radius: $border-radius-large;
-  //box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+  @media screen and (max-width: $screen-xs-min) { 
+    border: none;
+  }
   background: #ffffff;
   padding: 20px;
-  //margin: 0 auto;
-
+  
   &.gray {
     background-color: #ffffff;
     color: rgba(78, 78, 78, 0.8);
@@ -103,6 +107,11 @@ $bootbox-width: 474px;
     width: auto;
     background-color: #fff;
     padding: 10px;
+    @media screen and (max-width: $screen-xs-min) { 
+      background-color: transparent;
+      padding: 0px;
+      width: 100%;
+    }
 
     .bootbox-body {
       color: #666;
@@ -125,6 +134,11 @@ $bootbox-width: 474px;
     margin-top: -10px;
     margin-right: 5px;
     width: 16px;
+
+    @media screen and (max-width: $screen-xs-min) { 
+      top: 15px;
+      right: 20px;
+    }
 
     &:before {
       font-family: "maxicons" !important;
@@ -156,6 +170,9 @@ $bootbox-width: 474px;
     box-shadow: none;
     border-radius: $border-radius;
     border: 3px solid #ffcc00;
+    @media screen and (max-width: $screen-xs-min) { 
+      border: none;
+    }
   }
 
   .modal-body {
@@ -163,6 +180,9 @@ $bootbox-width: 474px;
     margin-left: auto;
     margin-right: auto;
     padding: 20px;
+    @media screen and (max-width: $screen-xs-min) { 
+      padding: 10px;
+    }
     padding-top: 0px;
     color: #000000;
     background-color: #fff;
@@ -196,8 +216,10 @@ $bootbox-width: 474px;
     text-align: center;
 
     .btn {
-      padding-left: 3em;
-      padding-right: 3em;
+      @media screen and (min-width: $screen-md-min) {
+        padding-left: 3em;
+        padding-right: 3em;
+      }
     }
   }
 
@@ -250,6 +272,9 @@ $bootbox-width: 474px;
   opacity: 1 !important;
   margin-top: -15px;
   font-size: 14px;
+  @media screen and (max-width: $screen-xs-min) { 
+    margin-top: -28px;
+  }
 }
 
 .close-inverse {
@@ -260,10 +285,15 @@ $bootbox-width: 474px;
   z-index: 100;
   position: absolute;
   right: 24px;
+  @media screen and (max-width: $screen-xs-min) { 
+    margin-top: -12px;
+  }
 }
 
 .modal-popup {
-  padding: 20px;
+  @media screen and (min-width: $screen-md-min) { 
+    padding: 20px;
+  }
 
   .modal-content {
     overflow: hidden; // So corners get rounded properly
