@@ -592,7 +592,8 @@ class Notification::Deliver < Draper::Decorator
     private
 
     def initiator_name_and_img(initiator)
-      def_img = default_img_url
+      # def_img = ActionController::Base.helpers.asset_path("icon-specialist.png")
+      def_img = "/icon-specialist.png"
       if initiator.class == Business::Decorator || initiator.class == Business
         [initiator.business_name, initiator.logo_url(:thumb) || def_img]
       elsif initiator.class == Specialist::Decorator || initiator.class == Specialist
@@ -607,14 +608,6 @@ class Notification::Deliver < Draper::Decorator
         I18n.t("#{key}.message_mail", t.merge(scope: 'notification_messages'))
       else
         I18n.t("#{key}.message", t.merge(scope: 'notification_messages'))
-      end
-    end
-
-    def default_img_url
-      if Rails.env.production?
-        'https://' + Shrine.storages[:store].bucket.name + '.s3.amazonaws.com/icon-specialist.png'
-      else
-        "/icon-specialist.png"
       end
     end
   end
