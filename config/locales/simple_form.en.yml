@@ -72,8 +72,8 @@ en:
         zipcode: "* Zipcode"
         phone: Phone Number
         linkedin_link: LinkedIn Profile URL
-        industries: Industries
-        jurisdictions: Jurisdictions
+        industries: "* Industries"
+        jurisdictions: "* Jurisdictions"
         certifications: List your other certifications (e.g. IACCP, CRCP, CFE)
       project:
         title: "* Title"

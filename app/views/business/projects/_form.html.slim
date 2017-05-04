@@ -136,7 +136,7 @@
       - else
         = link_to_back default: business_dashboard_path, data: { method: 'get', confirm: project.confirm_delete, 'confirm-label' => 'Delete' }, class: 'btn btn-muted btn-lg' do
           span Delete
-    - if project.published?
+    - if project.published? && project.persisted?
       .col-xs-12.col-sm-4.text-center.m-b-1
         = link_to business_project_path(project), class: 'btn btn-muted btn-lg m-r-1' do
           span Cancel
@@ -152,8 +152,8 @@
           - else
             span Save as Draft
       .col-xs-12.col-sm-4.md-text-left.m-b-1
-        button.btn.btn-primary.btn-lg type="submit" name="project[status]" value=Project.statuses[:review]
-          span Review & Post
+        button.btn.btn-primary.btn-lg type="submit" name="project[status]" value=Project.statuses[:published]
+          span Post
 
   .row.m-b-2.text-center
     .col-xs-12.col-sm-8.col-sm-push-2.small.text-muted

@@ -4,7 +4,12 @@ class ProjectEnd < ActiveRecord::Base
 
   enum status: { pending: nil, confirmed: 'confirmed', denied: 'denied' }
 
-  scope :expired, -> { pending.where('expires_at <= ?', Time.zone.now) }
+  scope :expired, -> {
+    pending
+      .where("#{table_name}.expires_at <= ?", Time.zone.now)
+      .joins(:project)
+      .merge(Project.published)
+  }
 
   def confirm!
     self.class.transaction do

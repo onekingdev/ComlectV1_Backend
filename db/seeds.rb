@@ -14,7 +14,8 @@ end
   Jurisdiction.find_or_create_by! name: name
 end
 
-%w(Broker-Dealer Banking Fund\ Manager Investment\ Adviser Commodities\ Trader).each do |name|
+%w(Broker-Dealer Banking Fund\ Manager Investment\ Adviser
+   Commodities\ Trader Family\ Office Pension\ Plan Other).each do |name|
   Industry.find_or_create_by! name: name
 end
 
