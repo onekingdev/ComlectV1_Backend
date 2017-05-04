@@ -9,7 +9,7 @@ class MessageMailer < ApplicationMailer
          reply_to: thread_address(thread, from),
          template_id: ENV.fetch('POSTMARK_TEMPLATE_ID'),
          template_model: {
-           subject: 'A message regarding your application on Complect',
+           subject: subject(from),
            message_html: render('first_contact.html'),
            message_text: render('first_contact.text')
          }
