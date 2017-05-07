@@ -4,7 +4,7 @@ class Timesheet::Form < Timesheet::Decorator
   delegate_all
 
   def self.new_for(project)
-    new project.timesheets.new(time_logs: [TimeLog.new])
+    new project.timesheets.new(time_logs: [TimeLog.new, TimeLog.new, TimeLog.new])
   end
 
   def self.create(project, attributes)

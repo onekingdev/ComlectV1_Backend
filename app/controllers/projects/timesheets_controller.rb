@@ -45,7 +45,7 @@ class Projects::TimesheetsController < ApplicationController
   private
 
   def timesheet_params
-    params.require(:timesheet).permit(:save, :submit, time_logs_attributes: %i(id description hours _destroy))
+    params.require(:timesheet).permit(:save, :submit, time_logs_attributes: %i(id description hours _destroy date))
   end
 
   def find_project

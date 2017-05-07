@@ -6,6 +6,8 @@ class Timesheet < ActiveRecord::Base
   has_one :charge, as: :referenceable
   has_many :time_logs, dependent: :destroy
 
+  before_validation :remove_empty_logs
+
   scope :sorted, -> { order(created_at: :desc) }
   scope :not_pending, -> { where.not(status: statuses[:pending]) }
   scope :expired, -> { where(status: statuses[:submitted]).where('expires_at <= ?', Time.zone.now) }
@@ -62,5 +64,11 @@ class Timesheet < ActiveRecord::Base
     return if changed == %w(status) # Allow changing timesheet status
     changes = self.changes.any? || time_logs.any? { |log| log.changes.any? }
     errors.add :base, 'Cannot add/update on complete projects' if changes && project.complete?
+  end
+
+  def remove_empty_logs
+    self.time_logs.each do |tl|
+      tl.delete if (tl.description.blank? && tl.hours.blank? && tl.date.blank?)
+    end
   end
 end

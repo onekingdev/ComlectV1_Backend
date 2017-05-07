@@ -5,7 +5,7 @@ class TimeLog < ActiveRecord::Base
 
   scope :approved, -> { joins(:timesheet).where(timesheets: { status: Timesheet.statuses[:approved] }) }
 
-  validates :description, :hours, presence: true
+  validates :date, :description, :hours, presence: true
   validates :hours, numericality: { greater_than: 0 }
 
   after_validation -> { self.hours = hours.round(2) }, if: -> { hours.present? }

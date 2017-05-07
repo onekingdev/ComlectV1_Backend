@@ -1,18 +1,22 @@
 table.table-condensed.time_logs.table-striped
   tr
+    th.date Date
     th.description Description
     th.hours Hours
   - timesheet.time_logs.each do |log|
     tr
+      td.date= log.date.strftime('%b %d, %Y') if log.date.present?
       td.description
         span= truncate log.description, length: 160
       td.hours #{'%0.2f' % log.hours.to_f.round(2)} Hours
 
   tr
+    th.date
     th.text-right Total
     th.hours #{'%0.2f' % timesheet.total_hours} Hours
 
   - if timesheet.project.hourly_rate
     tr
+      th.date
       th.text-right Total Due
       th.hours= number_to_currency timesheet.total_due
