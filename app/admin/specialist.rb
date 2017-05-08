@@ -52,7 +52,14 @@ ActiveAdmin.register Specialist do
     end
   end
 
-  permit_params :first_name, :last_name, :city, :zipcode, :state, :country, :phone, :linkedin_link
+  permit_params :first_name, :last_name, :city, :zipcode, :state, :country, :phone, :linkedin_link, :visibility,
+                :former_regulator, :certifications,
+                work_experience_attributes: %i(
+                  id _destroy company job_title location from to current compliance description
+                ),
+                education_history_attributes: %i(institution degree year),
+                jurisdiction_ids: [], industry_ids: [], skill_ids: []
+
   form do |f|
     f.inputs name: 'Contact Information' do
       f.input :first_name
@@ -63,14 +70,15 @@ ActiveAdmin.register Specialist do
       f.input :country
       f.input :phone
       f.input :linkedin_link
+      f.input :visibility, collection: Specialist.visibilities.invert
     end
     f.inputs name: 'Work Experience' do
       f.has_many :work_experiences, heading: false, allow_destroy: true do |a|
         a.input :company
         a.input :job_title
         a.input :location
-        a.input :from
-        a.input :to
+        a.input :from, as: :datepicker
+        a.input :to, as: :datepicker
         a.input :current
         a.input :compliance
         a.input :description, as: :text, input_html: { class: 'autogrow', rows: 10, cols: 20, maxlength: 10 }
@@ -94,15 +102,12 @@ ActiveAdmin.register Specialist do
     f.inputs name: 'Certifications' do
       f.input :certifications
     end
-    f.inputs name: 'Photo' do
-      # f.input :photo_data
-    end
-    f.inputs name: 'Resume' do
-      # f.input :resume_data
-    end
-    f.inputs name: 'Visibility' do
-      f.input :visibility
-    end
+    # f.inputs name: 'Photo' do
+    # f.input :photo_data
+    # end
+    # f.inputs name: 'Resume' do
+    # f.input :resume_data
+    # end
     f.actions
   end
 end

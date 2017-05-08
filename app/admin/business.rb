@@ -57,7 +57,10 @@ ActiveAdmin.register Business do
     end
   end
 
-  permit_params :business_name, :employees, :website, :description, :linkedin_link, industry_ids: []
+  permit_params :business_name, :employees, :website, :description, :linkedin_link, :address_1, :address_2, :zipcode,
+                :city, :state, :country, :time_zone, :anonymous, :contact_first_name, :contact_last_name,
+                :contact_email, :contact_job_title, :contact_phone,
+                industry_ids: [], jurisdiction_ids: []
 
   form do |f|
     inputs name: 'Business Info' do
@@ -67,6 +70,7 @@ ActiveAdmin.register Business do
       input :website
       input :linkedin_link
       input :description
+      input :anonymous
     end
     inputs name: 'Location' do
       input :address_1
@@ -79,9 +83,6 @@ ActiveAdmin.register Business do
     end
     inputs name: 'Jurisdiction' do
       input :jurisdictions
-    end
-    inputs name: 'Visibility' do
-      input :anonymous
     end
     inputs name: 'Key Contact' do
       input :contact_first_name, label: 'First Name'
