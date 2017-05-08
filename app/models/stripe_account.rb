@@ -93,7 +93,8 @@ class StripeAccount < ActiveRecord::Base
     {
       country: country,
       managed: true,
-      tos_acceptance: { date: tos_acceptance_date.to_i, ip: tos_acceptance_ip }
+      tos_acceptance: { date: tos_acceptance_date.to_i, ip: tos_acceptance_ip },
+      debit_negative_balances: true
     }
   end
 
