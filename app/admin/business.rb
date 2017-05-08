@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 ActiveAdmin.register Business do
   menu parent: 'Users'
+
   filter :user_email_cont, label: 'Login Email'
   filter :business_name, as: :string, label: 'Business Name'
 
@@ -16,6 +17,16 @@ ActiveAdmin.register Business do
 
   actions :all, except: %i(new)
 
+  batch_action :send_email_to, form: {
+    subject: :text,
+    body: :textarea
+  } do |ids, inputs|
+    Business.where(id: ids).deep_pluck(user: :email).map(&:values).flatten.map(&:values).flatten.uniq.each do |email|
+      AdminMailer.deliver_later :admin_email, email, inputs[:subject], inputs[:body]
+    end
+    redirect_to collection_path, notice: "Email will be sent to selected #{'business'.pluralize(ids.length)}"
+  end
+
   member_action :toggle_suspend, method: :post do
     resource.suspended? ? resource.user.unfreeze! : resource.user.freeze!
     sign_out resource.user if resource.suspended?
@@ -23,6 +34,7 @@ ActiveAdmin.register Business do
   end
 
   index do
+    selectable_column
     column :business_name, label: 'Business Name' do |business|
       link_to business.business_name, admin_projects_path(q: { business_id_eq: business.id })
     end

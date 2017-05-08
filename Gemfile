@@ -10,6 +10,7 @@ gem 'pg', '~> 0.15'
 gem 'pg_search', '~> 1.0.6'
 gem 'scenic'
 gem 'faker'
+gem 'deep_pluck'
 
 # Orchestration
 gem 'puma', '~> 3.4.0'

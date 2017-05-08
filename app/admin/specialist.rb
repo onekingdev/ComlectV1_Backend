@@ -5,6 +5,16 @@ ActiveAdmin.register Specialist do
   filter :user_email_cont, label: 'Email'
   filter :first_name_or_last_name_cont, as: :string, label: 'Name'
 
+  batch_action :send_email_to, form: {
+    subject: :text,
+    body: :textarea
+  } do |ids, inputs|
+    Specialist.where(id: ids).deep_pluck(user: :email).map(&:values).flatten.map(&:values).flatten.uniq.each do |email|
+      AdminMailer.deliver_later :admin_email, email, inputs[:subject], inputs[:body]
+    end
+    redirect_to collection_path, notice: "Email will be sent to selected #{'specialist'.pluralize(ids.length)}"
+  end
+
   member_action :toggle_suspend, method: :post do
     resource.suspended? ? resource.user.unfreeze! : resource.user.freeze!
     sign_out resource.user if resource.suspended?
@@ -22,6 +32,7 @@ ActiveAdmin.register Specialist do
   end
 
   index do
+    selectable_column
     column 'Email', :user, sortable: 'users.email' do |specialist|
       link_to specialist.user.email, admin_specialist_path(specialist)
     end
