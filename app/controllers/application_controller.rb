@@ -144,7 +144,7 @@ class ApplicationController < ActionController::Base
     render file: 'public/404', status: :not_found
   end
 
-  def render_403(message = 'You do not have access to this page')
+  def render_403(message = I18n.t('forbidden'))
     format = request.xhr? ? '.js' : ''
     render template: "application/forbidden#{format}",
            locals: { message: message },

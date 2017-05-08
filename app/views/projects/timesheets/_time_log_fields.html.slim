@@ -1,9 +1,18 @@
 tr.nested-fields
+  td= f.input :date, required: true, as: :string, \
+      input_html: { \
+        class: 'input-lg js-datepicker', \
+        data: { \
+          min: @timesheet.project.hired_at.to_date.to_a[3..5].reverse, \
+          value: (l(f.object.date, format: :pickadate) if f.object.date.present?) \
+        } \
+      }
   td.description= f.input :description, label: false, input_html: { maxlength: 160 }
-  td.hours= f.input :hours, as: :string, label: false, input_html: {value: number_with_precision(f.object.hours, precision: 2) }
+  td.hours= f.input :hours, as: :string, label: false, input_html: { value: number_with_precision(f.object.hours, precision: 2) }
   td.tools
     = link_to_remove_association f, class: 'remove text-muted' do
       i.fa.fa-minus title="Remove" data-toggle="tooltip"
+
 
 /- if local_assigns.key?(:add_link)
   tr#js-form-timesheet-add-log-before

@@ -30,3 +30,21 @@
     margin-left: 5px;
   }
 }
+
+.back-paging {
+  font-size: 12px;
+  .page,.current,.prev-slide,.next-slide {
+    vertical-align: middle;
+    display: inline-block;   
+  }
+  .page {
+    color: #999999 !important;
+    text-decoration: underline;
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+  .current {
+    font-weight: $bold-weight;
+    text-decoration: none;
+  }
+}

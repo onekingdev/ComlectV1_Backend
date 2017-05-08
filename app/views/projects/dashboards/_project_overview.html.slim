@@ -29,7 +29,7 @@
     p= "#{project.percent_complete.round} %"
   - if current_business
     - unless project.complete?
-      #project-extension-picker-container.m-t-1
+      .project-extension-picker-container.m-t-1
         button.btn.btn-block.btn-primary.btn-sm.m-b-1[
           data-method="post"
           data-remote="false"
@@ -38,11 +38,10 @@
           data-confirm-label="Confirm"
         ]
           'End
-        button#js-project-extension.btn.btn-block.btn-default.btn-sm.m-b-1[
+        button.js-project-extension.btn.btn-block.btn-default.btn-sm.m-b-1[
           data-toggle="popover"
           data-placement="top"
           data-content="#{project.extension_popup.to_str}"
           data-html="true"
-          data-container="#project-extension-picker-container"
         ]
           'Extend

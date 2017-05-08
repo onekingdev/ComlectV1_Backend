@@ -119,3 +119,5 @@ en:
         %{sender_name} thought you would be interested in this new %{project_job} on Complect.
 
         Visit our website to apply, and find additional projects and full time roles like these!
+
+  forbidden: "We're sorry but your request appears to have triggered an error. Please review the request or try again."

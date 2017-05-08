@@ -1,6 +1,7 @@
 = simple_form_for [timesheet.project, timesheet], wrapper: :inline_form, remote: true, html: { class: 'form-timesheet' } do |f|
   table.table-condensed.time_logs
     tr
+      th.date Date
       th.description Description
       th.hours Hours
       th.tools
@@ -8,7 +9,7 @@
       = render 'time_log_fields', f: lf, add_link: timesheet.add_link(f)
 
     tr#js-form-timesheet-add-log-before
-      td colspan="2"
+      td colspan="3"
       td.tools= timesheet.add_link(f)
 
     tr

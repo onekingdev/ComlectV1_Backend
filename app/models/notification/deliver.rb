@@ -594,9 +594,9 @@ class Notification::Deliver < Draper::Decorator
     def initiator_name_and_img(initiator)
       def_img = default_img_url
       if initiator.class == Business::Decorator || initiator.class == Business
-        [initiator.business_name, initiator.logo_url(:thumb) || def_img]
+        [initiator.business_name, initiator.logo_url(:thumb).split("?")[0] || def_img]
       elsif initiator.class == Specialist::Decorator || initiator.class == Specialist
-        [initiator.first_name, initiator.photo_url(:thumb) || def_img]
+        [initiator.first_name, initiator.photo_url(:thumb).split("?")[0] || def_img]
       else
         ["Complect", def_img]
       end

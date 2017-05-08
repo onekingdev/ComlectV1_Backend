@@ -174,7 +174,7 @@ table.time_logs {
   }
 
   .description {
-    width: 75%;
+    width: 55%;
 
     span {
       max-height: 2.6em;
@@ -199,4 +199,13 @@ table.time_logs {
   .form-group {
     margin-bottom: 0;
   }
+
+  .date {
+    width: 20%;
+  }
+}
+
+.timesheet_time_logs_date .input-lg {
+  width: 130px;
+  height: 34px;
 }

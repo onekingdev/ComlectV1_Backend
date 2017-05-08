@@ -60,3 +60,36 @@ form#new_rating {
     left: 2px;
   }
 }
+
+.stars_bg {
+  display: inline-block;
+  width: 170px;
+  height: 21px;
+  margin-left: -7px;
+  background: asset_url("rating_bg.png");
+  background-size: auto 100%;
+  position: relative;
+  background-repeat: no-repeat;
+  background-position: center left;
+
+  .stars_fg {
+    height: 21px;
+    position: absolute;
+    background: asset_url("rating_fg.png");
+    background-size: auto 100%;
+  }
+}
+
+.stars_bg.small {
+  width: 89px;
+  height: 11px;
+  margin-left: -3px;
+  .stars_fg {
+    height: 11px;
+  }
+}
+
+.text-center .stars_bg {
+  margin-left: auto;
+  margin-right: auto;
+}
