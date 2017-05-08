@@ -96,6 +96,28 @@ ActiveAdmin.register Project do
     end
   end
 
+  sidebar 'Applicants', only: :show do
+    table_for resource.job_applications.order(created_at: :desc) do
+      column :name do |application|
+        link_to application.specialist, [:admin, application.specialist]
+      end
+      column :status do |application|
+        if application.project.specialist_id == application.specialist_id
+          status_tag 'Hired', 'green'
+        else
+          case application.visibility
+          when JobApplication.visibilities[:shortlisted]
+            status_tag 'Shortlisted', 'green'
+          when JobApplication.visibilities[:hidden]
+            status_tag 'Hidden', 'red'
+          else
+            status_tag 'Undecided', nil
+          end
+        end
+      end
+    end
+  end
+
   show do
     attributes_table do
       row :business
