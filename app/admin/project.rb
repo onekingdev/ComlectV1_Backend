@@ -3,7 +3,7 @@ ActiveAdmin.register Project do
   actions :all, except: %i(new)
 
   filter :title
-  filter :business
+  filter :business_business_name, as: :string, label: 'Business Name'
   filter :specialist_first_name, as: :string, label: 'Specialist First Name'
   filter :specialist_last_name, as: :string, label: 'Specialist Last Name'
   filter :business_contact_first_name_in, as: :string, label: 'Business First Name'
@@ -44,6 +44,9 @@ ActiveAdmin.register Project do
     column :id
     column :title do |project|
       link_to project.title, [:admin, project]
+    end
+    column :type, sortable: :type do |project|
+      status_tag project.one_off? ? 'P' : 'J', 'yes'
     end
     column :location do |project|
       project.remote? ? 'Remote' : project.location
@@ -175,6 +178,7 @@ ActiveAdmin.register Project do
   end
 
   permit_params :title,
+                :status,
                 :location_type,
                 :location,
                 :lat, :lng,
@@ -198,6 +202,11 @@ ActiveAdmin.register Project do
   form do |f|
     f.inputs do
       f.input :title
+      if f.object.published? || f.object.draft?
+        f.input :status, collection: Project.statuses.slice('draft', 'published').invert
+      else
+        f.input :status, as: :readonly
+      end
       f.input :lat, as: :hidden
       f.input :lng, as: :hidden
       f.input :location_type, collection: Project::LOCATIONS
