@@ -1255,9 +1255,9 @@ CREATE TABLE users (
 CREATE VIEW metrics_account_deletions AS
  WITH deleted_users AS (
          SELECT users.id,
-            users.suspended_at AS deleted_at
+            users.deleted_at
            FROM users
-          WHERE (users.suspended_at IS NOT NULL)
+          WHERE (users.deleted_at IS NOT NULL)
         ), deleted_businesses AS (
          SELECT deleted_users.deleted_at
            FROM (deleted_users
@@ -4953,4 +4953,6 @@ INSERT INTO schema_migrations (version) VALUES ('20170415185854');
 INSERT INTO schema_migrations (version) VALUES ('20170506204523');
 
 INSERT INTO schema_migrations (version) VALUES ('20170508190146');
+
+INSERT INTO schema_migrations (version) VALUES ('20170508231021');
 
