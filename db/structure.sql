@@ -273,7 +273,8 @@ CREATE TABLE businesses (
     ratings_count integer DEFAULT 0 NOT NULL,
     ratings_total integer DEFAULT 0 NOT NULL,
     ratings_average double precision,
-    discourse_username character varying
+    discourse_username character varying,
+    discourse_user_id integer
 );
 
 
@@ -1210,7 +1211,8 @@ CREATE TABLE specialists (
     time_zone character varying,
     address_1 character varying,
     address_2 character varying,
-    discourse_username character varying
+    discourse_username character varying,
+    discourse_user_id integer
 );
 
 
@@ -3104,7 +3106,8 @@ CREATE TABLE time_logs (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     hourly_rate numeric,
-    total_amount numeric
+    total_amount numeric,
+    date date
 );
 
 
@@ -4946,4 +4949,8 @@ INSERT INTO schema_migrations (version) VALUES ('20170321030955');
 INSERT INTO schema_migrations (version) VALUES ('20170410233330');
 
 INSERT INTO schema_migrations (version) VALUES ('20170415185854');
+
+INSERT INTO schema_migrations (version) VALUES ('20170506204523');
+
+INSERT INTO schema_migrations (version) VALUES ('20170508190146');
 

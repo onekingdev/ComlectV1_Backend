@@ -10,6 +10,7 @@ class User::Delete < Draper::Decorator
   def delete
     business ? delete_business : delete_specialist
     update_columns deleted: true, deleted_at: Time.zone.now
+    true
   end
 
   private
@@ -17,11 +18,13 @@ class User::Delete < Draper::Decorator
   def delete_business
     delete_projects business_projects
     business.payment_profile&.destroy
+    Business::Discourse.new(business).suspend
   end
 
   def delete_specialist
     delete_projects specialist_projects
     specialist.stripe_account&.destroy
+    Specialist::Discourse.new(specialist).suspend
   end
 
   def delete_projects(projects)

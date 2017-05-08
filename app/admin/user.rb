@@ -34,6 +34,10 @@ ActiveAdmin.register User do
   end
 
   controller do
+    def destroy_resource(resource)
+      User::Delete.(resource)
+    end
+
     def resource
       # So users can be edited without providing a password
       @user ||= super.extend(NoPasswordRequired)
