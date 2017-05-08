@@ -1,13 +1,9 @@
-$('.panel').on 'inserted.bs.popover', '.js-project-extension', ->
-#$('.js-project-extension').on 'inserted.bs.popover', (e) -> 
-  #console.log $(this).parent.find('.js-project-extension-popover')
-  #$wrapper = $('.js-project-extension-popover')
-  $wrapper = $(this).parent().find('.js-project-extension-popover')
-  console.log $wrapper
+$('#js-project-extension').on 'inserted.bs.popover', ->
+  $wrapper = $('.js-project-extension-popover')
   return if $wrapper.data('datepicker-initialized')
 
   $submit = $wrapper.find('input[type=submit]')
-  $picker = $wrapper.find('.new_end_date')
+  $picker = $wrapper.find('#project_extension_new_end_date')
   $picker
     .pickadate
       today: false

@@ -3,7 +3,8 @@ class Business::JobApplicationsController < ApplicationController
   before_action :require_business!
 
   def index
-    @project = current_business.projects.preload_associations.find(params[:project_id])
+    @project = current_business.projects.preload_associations.find_by(id: params[:project_id])
+    return render_404 unless @project
     respond_to do |format|
       format.html do
         if request.xhr?

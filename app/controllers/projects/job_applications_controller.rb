@@ -25,7 +25,8 @@ class Projects::JobApplicationsController < ApplicationController
   end
 
   def destroy
-    @job_application = current_specialist.job_applications.find(params[:id])
+    @job_application = current_specialist.job_applications.find_by(id: params[:id])
+    return render_404 unless @job_application
     authorize @job_application, :destroy?
     JobApplication::Delete.(@job_application)
     js_redirect params[:redirect_to] || project_path(@project)
