@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 ActiveAdmin.register Specialist do
   menu parent: 'Users'
+  decorate_with Admin::SpecialistDecorator
+
   actions :all, except: %i(new)
   filter :user_email_cont, label: 'Email'
   filter :first_name_or_last_name_cont, as: :string, label: 'Name'
@@ -49,6 +51,49 @@ ActiveAdmin.register Specialist do
     actions do |specialist|
       label = specialist.suspended? ? 'Reactivate' : 'Suspend'
       link_to label, toggle_suspend_admin_specialist_path(specialist), method: :post
+    end
+  end
+
+  show do
+    attributes_table do
+      row :id
+      row :photo do |specialist|
+        if specialist.photo
+          image_tag specialist.photo_url(:profile), height: 100
+        else
+          image_tag 'icon-specialist.png', height: 100
+        end
+      end
+      row :name, &:full_name
+      row :user
+      row :visibility do |specialist|
+        status_tag specialist.is_public? ? 'Public' : 'Anonymous', specialist.is_public? ? 'yes' : nil
+      end
+      row :deleted
+      row :address, &:full_address
+      row :phone
+      row :time_zone
+      row :linkedin_link do |specialist|
+        if specialist.linkedin_link.present?
+          link_to specialist.linkedin_link, specialist.linkedin_link, target: '_blank'
+        end
+      end
+      row :resume do |specialist|
+        if specialist.resume
+          link_to 'View Resume', specialist.resume_url, target: '_blank'
+        end
+      end
+      row :industries do |specialist|
+        specialist.industries.map(&:to_s).to_sentence
+      end
+      row :jurisdictions do |specialist|
+        specialist.jurisdictions.map(&:to_s).to_sentence
+      end
+      row :former_regulator
+      row :certifications
+      row :rating, &:ratings_average
+      row :created_at
+      row :updated_at
     end
   end
 
