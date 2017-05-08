@@ -25,17 +25,9 @@ form#new_business, form.edit_business {
 
     @media (max-width: $screen-xs-max) {
       .btn {
-        width: 100%;
-
-        &:first-child {
-          border-bottom-left-radius: 0;
-          border-top-right-radius: $btn-border-radius-large;
-        }
-
-        &:last-child {
-          border-top-right-radius: 0;
-          border-bottom-left-radius: $btn-border-radius-large;
-        }
+        width: auto;
+        padding-left: 15px;
+        padding-right: 15px;
       }
 
       .help-block {
