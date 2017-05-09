@@ -68,7 +68,7 @@ class DiscourseUser
   end
 
   def save_discourse_id
-    response = api.get "/users/#{record.discourse_username}"
+    response = api.get "/users/#{object.discourse_username}"
     object.update_attribute :discourse_user_id, response['user']['id']
   end
 
