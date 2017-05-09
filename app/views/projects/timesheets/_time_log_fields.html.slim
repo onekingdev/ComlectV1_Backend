@@ -3,7 +3,6 @@ tr.nested-fields
       input_html: { \
         class: 'input-lg js-datepicker', \
         data: { \
-          min: @timesheet.project.hired_at.to_date.to_a[3..5].reverse, \
           value: (l(f.object.date, format: :pickadate) if f.object.date.present?) \
         } \
       }
