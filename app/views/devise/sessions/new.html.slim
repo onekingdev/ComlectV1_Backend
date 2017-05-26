@@ -1,3 +1,5 @@
+- content_for :title, 'Log in'
+
 #sign-in.m-b-3
   .modal-wrapper
     .modal-fake.gray.clearfix
@@ -15,5 +17,5 @@
 
         .text-center.forgot-password.m-t-1= link_to "Forgot Password", new_password_path(resource_name), remote: true, class: 'o-8 forgot-password'
         h4.text-center.text-uppercase.m-t-3.m-b-1
-          | Don’t have an account yet? 
+          | Don’t have an account yet?
           = link_to "sign up here", new_user_registration_path, "data-remote" => true

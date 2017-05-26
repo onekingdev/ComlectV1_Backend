@@ -1,6 +1,7 @@
 - content_for :header_class, 'short'
 - content_for :scripts do
   = javascript_include_tag new_business_project_rating_path
+- content_for :title, "#{@project.title} dashboard"
 
 - Project::Decorator.decorate(@project).tap do |project|
   h1.m-t-0.m-b-3.hidden-sm.hidden-xs

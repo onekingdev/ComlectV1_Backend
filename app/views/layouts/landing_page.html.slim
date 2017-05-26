@@ -1,14 +1,21 @@
 doctype html
 html lang=I18n.locale
   head
-    title Complect
+    title Complect – Compliance Specialists on Demand
     meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     = stylesheet_link_tag 'landing_page', media: 'all'
     = csrf_meta_tags
     = render 'mixpanel'
     = render 'layouts/favicons'
     = yield :html_head
-
+    - if content_for?(:meta)
+      = yield :meta
+    - else
+      meta content="Compliance specialists on demand. Get instant access to top financial regulatory compliance specialists." name="description"
+      meta content="regulatory compliance hire freelance outsourcing platform finance cco complect" name="keywords"
+      // Open Graph
+      meta property="og:title" content="Complect – Compliance specialists on demand"
+      meta property="og:description" content="Get instant access to top financial regulatory compliance specialists."
 
 body.home.index
   #header.parallax-window class=(yield(:header_class) || 'compact') data-parallax="scroll" data-image-src=asset_path('landing/header.jpg')

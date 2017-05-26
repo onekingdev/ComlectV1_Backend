@@ -1,7 +1,18 @@
 doctype html
 html lang=I18n.locale
   head
-    title Complect
+    title
+      - if content_for?(:title)
+        = yield(:title) + " | "
+      | Complect
+    - if content_for?(:meta)
+      = yield :meta
+    - else
+      meta content="Compliance specialists on demand. Get instant access to top financial regulatory compliance specialists." name="description"
+      meta content="regulatory compliance hire freelance outsourcing platform finance cco complect" name="keywords"
+      // Open Graph
+      meta property="og:title" content="Complect – Compliance specialists on demand"
+      meta property="og:description" content="Get instant access to top financial regulatory compliance specialists."
     meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     = stylesheet_link_tag 'application', media: 'all'
     = csrf_meta_tags

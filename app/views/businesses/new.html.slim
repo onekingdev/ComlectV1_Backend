@@ -1,6 +1,8 @@
 - content_for :html_head do
   script src="https://maps.googleapis.com/maps/api/js?key=#{ENV.fetch('GOOGLE_PLACES_API_KEY')}&libraries=places"
 
+- content_for :title, "Business sign up"
+
 h1.text-center.m-b-3.m-t-3.p-t-1.p-b-2 Sign up to post your project
 
 = simple_form_for @business, wrapper: :inline_form do |f|
