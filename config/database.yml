@@ -1,13 +1,15 @@
 default: &default
-  url: <%= ENV.fetch('DATABASE_URL') %>
   encoding: unicode
   pool: <%= ENV['DATABASE_POOL'].presence || 5 %>
 
 development:
   <<: *default
+  database: complect_development
 
 test:
   <<: *default
+  database: complect_test
 
 production:
   <<: *default
+  database: complect_production
