@@ -43,7 +43,7 @@ class Timesheet::Form < Timesheet::Decorator
     self.class.transaction do
       update_attributes status: Timesheet.statuses[:approved] # , status_changed_at: Time.zone.now, expires_at: nil
       update_static_attributes
-      PaymentCycle.for(project).reschedule!
+      PaymentCycle.for(project).create_charges_and_reschedule!
     end
   end
 
