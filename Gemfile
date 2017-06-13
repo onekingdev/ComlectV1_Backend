@@ -108,6 +108,7 @@ group :development do
 
   # Preloading
   gem 'spring'
+  gem 'spring-commands-rspec'
 
   # Testing
   gem 'meta_request'
