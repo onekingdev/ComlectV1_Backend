@@ -34,42 +34,51 @@ class PaymentCycle
     project.charges.estimated.delete_all
     remaining_dates = outstanding_occurrences
     balance = outstanding_amount
-    return unless balance > 0
+    return unless balance.positive?
+
     remaining_dates.each do |date|
       amount = amount_for(date, remaining_dates: remaining_dates)
       balance -= amount
-      create_estimated_charge! amount: amount,
-                               balance: balance,
-                               date: date
+
+      create_estimated_charge!(
+        amount: amount,
+        balance: balance,
+        date: date
+      )
     end
   end
 
   def amount_for(date = nil, remaining_dates: [])
-    outstanding_amount / (remaining_dates.presence || [date].compact.presence).size if remaining_dates.any? || date
+    return unless remaining_dates.any? || date
+    outstanding_amount / (remaining_dates.presence || [date].compact.presence).size
   end
 
   def schedule_charge!(amount:, date:, description:, referenceable: nil)
-    project.charges.create! amount_in_cents: amount * 100,
-                            running_balance_in_cents: balance_after(amount, cut_off: date) * 100,
-                            date: date,
-                            process_after: calculate_process_at_date(date),
-                            status: Charge.statuses[:scheduled],
-                            description: description,
-                            referenceable: referenceable
+    project.charges.create!(
+      amount_in_cents: amount * 100,
+      running_balance_in_cents: balance_after(amount, cut_off: date) * 100,
+      date: date,
+      process_after: calculate_process_at_date(date),
+      status: Charge.statuses[:scheduled],
+      description: description,
+      referenceable: referenceable
+    )
   end
 
   def create_estimated_charge!(amount:, date:, balance:)
-    project.charges.create! status: Charge.statuses[:estimated],
-                            amount_in_cents: amount * 100,
-                            running_balance_in_cents: balance * 100,
-                            date: date,
-                            process_after: calculate_process_at_date(date)
+    project.charges.create!(
+      status: Charge.statuses[:estimated],
+      amount_in_cents: amount * 100,
+      running_balance_in_cents: balance * 100,
+      date: date,
+      process_after: calculate_process_at_date(date)
+    )
   end
 
   def outstanding_amount
     # Note this cannot be cached otherwise running balances will be wrong after charges are created
     amount = (estimated_total - project.charges.real.sum(:amount_in_cents) / 100.0)
-    amount < 0 ? 0 : amount
+    amount.negative? ? 0 : amount
   end
 
   def outstanding_occurrences
@@ -82,11 +91,13 @@ class PaymentCycle
 
   def charge_current!(amount:, description:)
     date = current_cycle_date
-    project.charges.create! amount_in_cents: amount * 100,
-                            status: Project.statuses[:scheduled],
-                            date: date,
-                            process_after: calculate_process_at_date(date),
-                            description: description
+    project.charges.create!(
+      amount_in_cents: amount * 100,
+      status: Project.statuses[:scheduled],
+      date: date,
+      process_after: calculate_process_at_date(date),
+      description: description
+    )
   end
 
   private
@@ -95,7 +106,7 @@ class PaymentCycle
     return 0 if project.complete?
     processed_amount = BigDecimal.new(project.charges.processed.before(cut_off).sum(:total_with_fee_in_cents)) / 100
     balance = outstanding_amount - processed_amount - amount
-    balance < 0 ? 0 : balance # When company pays more than was estimated
+    balance.negative? ? 0 : balance # When company pays more than was estimated
   end
 
   def adjusted_ends_on
