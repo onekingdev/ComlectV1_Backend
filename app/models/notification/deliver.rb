@@ -579,14 +579,18 @@ class Notification::Deliver < Draper::Decorator
     # rubocop:enable Metrics/ParameterLists
 
     def deliver_notification!
-      user.notifications.fetch(key, associated).delete_all # Re-create existing notification if necessary
-      user.notifications.create! key: key,
-                                 message: message,
-                                 action_path: action_path,
-                                 associated: associated,
-                                 clear_manually: clear_manually,
-                                 initiator: initiator_name,
-                                 img_path: img_path
+      # Re-create existing notification if necessary
+      user.notifications.fetch(key, associated).delete_all
+
+      user.notifications.create!(
+        key: key,
+        message: message,
+        action_path: action_path,
+        associated: associated,
+        clear_manually: clear_manually,
+        initiator: initiator_name,
+        img_path: img_path
+      )
     end
 
     private

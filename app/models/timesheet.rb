@@ -17,11 +17,13 @@ class Timesheet < ActiveRecord::Base
       .where(c: { id: nil })
   }
 
-  enum status: { pending: 'pending',
-                 submitted: 'submitted',
-                 approved: 'approved',
-                 disputed: 'disputed',
-                 charged: 'charged' }
+  enum status: {
+    pending: 'pending',
+    submitted: 'submitted',
+    approved: 'approved',
+    disputed: 'disputed',
+    charged: 'charged'
+  }
 
   accepts_nested_attributes_for :time_logs, allow_destroy: true
 

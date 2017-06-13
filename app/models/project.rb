@@ -96,10 +96,28 @@ class Project < ActiveRecord::Base
 
   include Project::PgSearchConfig
 
-  enum status: { draft: 'draft', review: 'review', published: 'published', complete: 'complete' }
-  enum type: { one_off: 'one_off', full_time: 'full_time' }
-  enum location_type: { remote: 'remote', remote_and_travel: 'remote_and_travel', onsite: 'onsite' }
-  enum fee_type: { upfront_fee: 'upfront_fee', monthly_fee: 'monthly_fee' }
+  enum status: {
+    draft: 'draft',
+    review: 'review',
+    published: 'published',
+    complete: 'complete'
+  }
+
+  enum type: {
+    one_off: 'one_off',
+    full_time: 'full_time'
+  }
+
+  enum location_type: {
+    remote: 'remote',
+    remote_and_travel: 'remote_and_travel',
+    onsite: 'onsite'
+  }
+
+  enum fee_type: {
+    upfront_fee: 'upfront_fee',
+    monthly_fee: 'monthly_fee'
+  }
 
   LOCATIONS = [%w(Remote remote), %w(Remote\ +\ Travel remote_and_travel), %w(Onsite onsite)].freeze
   # DB Views depend on these so don't modify:
