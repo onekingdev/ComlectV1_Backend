@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 ruby '2.3.1'
 
 # Rails
-gem 'rails', '4.2.7'
+gem 'rails', '4.2.8'
 
 # ActiveRecord
 gem 'pg', '~> 0.15'
@@ -23,8 +23,8 @@ gem 'pretender'
 gem 'pundit'
 
 # Admin
-gem 'activeadmin', github: 'activeadmin'
-gem 'best_in_place', github: 'bernat/best_in_place'
+gem 'activeadmin', git: 'https://github.com/activeadmin/activeadmin.git'
+gem 'best_in_place', git: 'https://github.com/bernat/best_in_place.git'
 
 # Asset processing
 gem 'sassc-rails', '~> 1.3'
