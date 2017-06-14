@@ -22,7 +22,12 @@ class Charge < ActiveRecord::Base
 
   before_create :calculate_fee
 
-  enum status: { estimated: 'estimated', scheduled: 'scheduled', processed: 'processed', error: 'error' }
+  enum status: {
+    estimated: 'estimated',
+    scheduled: 'scheduled',
+    processed: 'processed',
+    error: 'error'
+  }
 
   def amount
     return unless amount_in_cents
