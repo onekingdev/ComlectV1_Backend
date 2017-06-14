@@ -6,10 +6,8 @@
         .td.col-xs-6.col-xs-push-3.col-sm-4.col-md-3.col-sm-push-0.image-container
           .profile-image
             - if business.public? && business.logo
-              /= image_tag business.logo_url(:thumb), class: 'img-responsive ghost'
               = image_tag business.logo_url(:thumb), class: 'img-responsive real'
             - else
-              /= image_tag 'icon-specialist.png', class: 'img-responsive ghost'
               = image_tag 'icon-specialist.png', class: 'img-responsive real'
 
         .td.title.col-xs-12.col-sm-8.col-md-9.has-logo
