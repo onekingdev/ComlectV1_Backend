@@ -222,6 +222,10 @@ class Project < ActiveRecord::Base
     timesheets.disputed.exists?
   end
 
+  def submitted_timesheets?
+    timesheets.submitted.exists?
+  end
+
   def applied?(specialist)
     application(specialist).exists?
   end
