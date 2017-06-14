@@ -3,9 +3,14 @@ class Charge::Processing
   attr_reader :charges, :project
 
   def self.process_scheduled!
-    Charge.includes(:project).scheduled.for_processing.group_by(&:project).map do |project, charges|
-      new(charges, project).process!
+    result = []
+
+    Charge.includes(:project).scheduled.for_processing.group_by(&:project).each do |project, charges|
+      next if project.upon_completion? && project.disputed_timesheets?
+      result << new(charges, project).process!
     end
+
+    result
   end
 
   def initialize(charges, project)
