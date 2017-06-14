@@ -604,7 +604,7 @@ class Notification::Deliver < Draper::Decorator
     end
 
     def business_name_and_img(business)
-      image = if business.logo_url(:thumb).present?
+      image = if business.logo
                 business.logo_url(:thumb).split("?").first
               else
                 default_img_url
@@ -614,7 +614,7 @@ class Notification::Deliver < Draper::Decorator
     end
 
     def specialist_name_and_img(specialist)
-      image = if specialist.photo_url(:thumb).present?
+      image = if specialist.photo
                 specialist.photo_url(:thumb).split("?").first
               else
                 default_img_url
