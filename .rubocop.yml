@@ -5,6 +5,8 @@ AllCops:
   DisplayCopNames: true
   ExtraDetails: true
   TargetRubyVersion: 2.3
+  Exclude:
+    - 'bin/*'
 
 Style/ClassAndModuleChildren:
   Enabled: false
