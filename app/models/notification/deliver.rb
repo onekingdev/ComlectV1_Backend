@@ -595,14 +595,41 @@ class Notification::Deliver < Draper::Decorator
 
     private
 
-    def initiator_name_and_img(initiator)
-      def_img = default_img_url
-      if initiator.class == Business::Decorator || initiator.class == Business
-        [initiator.business_name, initiator.logo_url(:thumb).split("?")[0] || def_img]
-      elsif initiator.class == Specialist::Decorator || initiator.class == Specialist
-        [initiator.first_name, initiator.photo_url(:thumb).split("?")[0] || def_img]
+    def default_img_url
+      if Rails.env.production?
+        'https://' + Shrine.storages[:store].bucket.name + '.s3.amazonaws.com/icon-specialist.png'
       else
-        ["Complect", def_img]
+        "/icon-specialist.png"
+      end
+    end
+
+    def business_name_and_img(business)
+      image = if business.logo_url(:thumb).present?
+                business.logo_url(:thumb).split("?").first
+              else
+                default_img_url
+              end
+
+      [business.business_name, image]
+    end
+
+    def specialist_name_and_img(specialist)
+      image = if specialist.photo_url(:thumb).present?
+                specialist.photo_url(:thumb).split("?").first
+              else
+                default_img_url
+              end
+
+      [specialist.first_name, image]
+    end
+
+    def initiator_name_and_img(initiator)
+      if initiator.class == Business::Decorator || initiator.class == Business
+        business_name_and_img(initiator)
+      elsif initiator.class == Specialist::Decorator || initiator.class == Specialist
+        specialist_name_and_img(initiator)
+      else
+        ["Complect", default_img_url]
       end
     end
 
@@ -611,14 +638,6 @@ class Notification::Deliver < Draper::Decorator
         I18n.t("#{key}.message_mail", t.merge(scope: 'notification_messages'))
       else
         I18n.t("#{key}.message", t.merge(scope: 'notification_messages'))
-      end
-    end
-
-    def default_img_url
-      if Rails.env.production?
-        'https://' + Shrine.storages[:store].bucket.name + '.s3.amazonaws.com/icon-specialist.png'
-      else
-        "/icon-specialist.png"
       end
     end
   end
