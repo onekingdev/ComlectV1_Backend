@@ -118,7 +118,6 @@ end
 
 group :test do
   # Testing
-  gem 'mocha'
   gem 'webmock'
   gem 'capybara'
   gem 'poltergeist'
