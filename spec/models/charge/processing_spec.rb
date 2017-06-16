@@ -35,6 +35,7 @@ RSpec.describe Charge::Processing, type: :model do
       end
 
       it 'does not process scheduled charges' do
+        expect_any_instance_of(Project).to receive(:ending?).and_return(true)
         charges = Charge::Processing.process_scheduled!
         expect(charges.size).to eq(0)
       end

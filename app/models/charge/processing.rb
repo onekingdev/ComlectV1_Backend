@@ -6,7 +6,7 @@ class Charge::Processing
     result = []
 
     Charge.includes(:project).scheduled.for_processing.group_by(&:project).each do |project, charges|
-      next if project.upon_completion? && project.disputed_timesheets?
+      next if project.ending? && project.disputed_timesheets?
       result << new(charges, project).process!
     end
 
