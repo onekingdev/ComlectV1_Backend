@@ -89,17 +89,6 @@ class PaymentCycle
     project.charges.real.where(date: datetime).exists?
   end
 
-  def charge_current!(amount:, description:)
-    date = current_cycle_date
-    project.charges.create!(
-      amount_in_cents: amount * 100,
-      status: Project.statuses[:scheduled],
-      date: date,
-      process_after: calculate_process_at_date(date),
-      description: description
-    )
-  end
-
   private
 
   def balance_after(amount, cut_off:)
