@@ -26,7 +26,6 @@ class Business < ActiveRecord::Base
     s.key :notifications, defaults: {
       marketing_emails: true,
       got_rated: true,
-      project_extended: true,
       project_ended: true,
       got_message: true
     }

@@ -46,7 +46,7 @@ class Notification::Deliver < Draper::Decorator
         t: { project_title: project.title }
       )
       dispatcher.deliver_notification!
-      return unless Notification.enabled? application.specialist, :not_hired
+      return unless Notification.enabled?(application.specialist, :not_hired)
       NotificationMailer.deliver_later :notification, dispatcher, action_url
     end
 
@@ -131,7 +131,7 @@ class Notification::Deliver < Draper::Decorator
         associated: project
       )
       dispatcher.deliver_notification!
-      return unless Notification.enabled?(project.business, :marketing_emails)
+      return unless Notification.enabled?(project.business, :project_ended)
       NotificationMailer.deliver_later :notification, dispatcher, action_url
     end
 
@@ -145,7 +145,7 @@ class Notification::Deliver < Draper::Decorator
         t: { project_title: project.title }
       )
       dispatcher.deliver_notification!
-      return unless Notification.enabled?(project.specialist, :marketing_emails)
+      return unless Notification.enabled?(project.specialist, :project_ended)
       NotificationMailer.deliver_later :notification, dispatcher, action_url
     end
 
@@ -267,6 +267,7 @@ class Notification::Deliver < Draper::Decorator
         t: { business_name: project.business.business_name, project_title: project.title }
       )
       dispatcher.deliver_notification!
+      return unless Notification.enabled?(project.specialist, :project_ended)
       NotificationMailer.deliver_later :notification, dispatcher, action_url
     end
 

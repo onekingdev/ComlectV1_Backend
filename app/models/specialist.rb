@@ -31,8 +31,7 @@ class Specialist < ActiveRecord::Base
       marketing_emails: true,
       got_rated: true,
       not_hired: true,
-      project_extension_requested: true,
-      project_end_requested: true,
+      project_ended: true,
       got_message: true
     }
   end
