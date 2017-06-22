@@ -2,7 +2,11 @@
 class ProjectEnd < ActiveRecord::Base
   belongs_to :project
 
-  enum status: { pending: nil, confirmed: 'confirmed', denied: 'denied' }
+  enum status: {
+    pending: nil,
+    confirmed: 'confirmed',
+    denied: 'denied'
+  }
 
   scope :expired, -> {
     pending
