@@ -6,6 +6,8 @@ class ProjectEnd::Request < Draper::Decorator
   extend NotificationsHelper
 
   def self.process!(project)
+    return if project.end_requests.any?(&:confirmed?)
+
     # Delete previous request if any
     pending.where(project_id: project).delete_all
     expires_at = BufferDate.for(project.business.tz.now, tz: project.business.tz)

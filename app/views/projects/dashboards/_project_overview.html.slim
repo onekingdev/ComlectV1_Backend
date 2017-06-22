@@ -28,7 +28,7 @@
       | Complete
     p= "#{project.percent_complete.round} %"
   - if current_business
-    - unless project.complete?
+    - if !project.complete? && !project.end_requests.any?(&:confirmed?)
       .project-extension-picker-container.m-t-1
         button.btn.btn-block.btn-primary.btn-sm.m-b-1[
           data-method="post"
