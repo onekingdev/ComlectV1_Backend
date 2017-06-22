@@ -8,9 +8,8 @@ class Project::Ending < Project
   end
 
   def self.ends_in_24!(project)
-    unless project.ends_in_24
-      project.update(ends_in_24: true)
-      Notification::Deliver.ends_in_24!(project)
-    end
+    return if project.ends_in_24
+    project.update(ends_in_24: true)
+    Notification::Deliver.ends_in_24!(project)
   end
 end
