@@ -48,14 +48,11 @@
               = link_to project.specialist_project_href(current_specialist), class: 'btn btn-sm btn-primary btn-single'
                 span View
 
-.slick-nav
-  a.prev-slide href="#" Q
-  .dot-pagination.m-b-1
-  a.next-slide href="#" +
-//- if projects.count > 3
-  .dot-pagination.m-b-1
-    - projects.count/3.times do |n|
-      = link_to ''.html_safe, current_uri(page: n + 1), remote: true, class: "page #{"current" if n + 1 == projects.current_page}"
+- if projects.count > 3
+  .slick-nav
+    a.prev-slide href="#" Q
+    .dot-pagination.m-b-1
+    a.next-slide href="#" +
 
 javascript:
   slickify("#projects-#{@filter.to_s.split('_')[0]}", 3, 2, 1); 
