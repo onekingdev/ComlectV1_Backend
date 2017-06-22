@@ -91,17 +91,18 @@ class Notification::Deliver < Draper::Decorator
       project = message.thread
       init, rcv, path, url = if message.sender == project.business
                                [
-                                 project.business, project.specialist.user,
+                                 project.business, project.specialist,
                                  *path_and_url(:project_dashboard, project, anchor: "project-messages")
                                ]
                              else
                                [
-                                 project.specialist, project.business.user,
+                                 project.specialist, project.business,
                                  *path_and_url(:business_project_dashboard, project, anchor: "project-messages")
                                ]
                              end
+
       dispatcher = Dispatcher.new(
-        user: rcv,
+        user: rcv.user,
         key: :got_project_message,
         action_path: path,
         associated: project,
@@ -109,8 +110,9 @@ class Notification::Deliver < Draper::Decorator
         initiator: init,
         t: { project_title: project.title }
       )
+
       dispatcher.deliver_notification!
-      return unless Notification.enabled?(init, :got_message)
+      return unless Notification.enabled?(rcv, :got_message)
       NotificationMailer.deliver_later :notification, dispatcher, url
     end
     # rubocop:enable Metrics/MethodLength
