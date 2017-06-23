@@ -18,10 +18,12 @@ table.table.table-striped
 
 .small.text-muted <strong>Note:</strong> Upcoming payments and outstanding balances are representative of estimated hours and rates. Actual payments may differ.
 
-.dot-pagination.text-center.m-t-2.clearfix
-  .d-ib.btn-align-md
+.back-paging.text-center.m-t-w.clearfix
+  .d-ib.btn-align-md.slick-nav
     - if payments.total_pages > 1
+      = link_to "Q", current_uri(page: payments.current_page - 1), remote: true, class: "prev-slide" if payments.current_page > 1
       - payments.total_pages.times do |n|
-        = link_to ''.html_safe, current_uri(page: n + 1), remote: true, class: "page #{"current" if n + 1 == payments.current_page}"
+        = link_to n + 1, current_uri(page: n + 1), remote: true, class: "page #{"current" if n + 1 == payments.current_page}"
+      = link_to "+", current_uri(page: payments.current_page + 1), remote: true, class: "next-slide" if payments.current_page < payments.total_pages
   .pull-md-right
     = link_to 'Export', specialists_financial_path('upcoming', format: 'csv'), class: 'btn btn-lg btn-primary p-x-3'
