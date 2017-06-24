@@ -18,7 +18,7 @@ table.table.table-striped
 
 .small.text-muted <strong>Note:</strong> Upcoming payments and outstanding balances are representative of estimated hours and rates. Actual payments may differ.
 
-.back-paging.text-center.m-t-w.clearfix
+.back-paging.text-center.m-t-2.clearfix
   .d-ib.btn-align-md.slick-nav
     - if payments.total_pages > 1
       = link_to "Q", current_uri(page: payments.current_page - 1), remote: true, class: "prev-slide" if payments.current_page > 1
