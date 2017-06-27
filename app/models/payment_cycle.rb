@@ -54,8 +54,8 @@ class PaymentCycle
   end
 
   def schedule_charge!(amount:, date:, description:, referenceable: nil)
-    Rails.logger.debug "Scheduling charge for project: #{project.id}. Ends on: #{project.ends_on}."
-    Rails.logger.debug "Process after: #{calculate_process_at_date(date)}. Date: #{date}."
+    Rails.logger.info "Scheduling charge for project: #{project.id}. Ends on: #{project.ends_on}."
+    Rails.logger.info "Date: #{date}."
 
     project.charges.create!(
       amount_in_cents: amount * 100,
