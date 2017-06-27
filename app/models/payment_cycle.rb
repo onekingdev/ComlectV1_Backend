@@ -108,13 +108,13 @@ class PaymentCycle
 
   def current_cycle_date
     all_occurrences = occurrences
+    Rails.logger.info '2' * 80
+    Rails.logger.info all_occurrences.inspect
     all_occurrences.detect(&:future?) || all_occurrences.last
   end
 
   def previous_cycle_date
     all_occurrences = occurrences
-    Rails.logger.info '2' * 80
-    Rails.logger.info all_occurrences.inspect
     all_occurrences.reverse.detect(&:past?) || all_occurrences.first
   end
 
