@@ -11,10 +11,9 @@ class PaymentCycle::Hourly < PaymentCycle
   end
 
   def create_charges!
-    Rails.logger.info '!' * 80
+    Rails.logger.info '1' * 80
     Rails.logger.info project.inspect
     Rails.logger.info self.inspect
-    Rails.logger.info self.occurrences.inspect
     Rails.logger.info current_cycle_date.inspect
 
     ActiveRecord::Base.transaction do
