@@ -10,9 +10,12 @@ class PaymentCycle::Fixed < PaymentCycle
     return create_final_charge if project.complete?
     amount = amount_for(current_cycle)
     return if amount.nil?
-    schedule_charge! amount: amount,
-                     date: current_cycle,
-                     description: charge_description
+
+    schedule_charge!(
+      amount: amount,
+      date: current_cycle,
+      description: charge_description
+    )
   end
 
   private
