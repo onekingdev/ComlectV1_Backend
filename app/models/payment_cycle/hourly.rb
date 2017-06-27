@@ -11,6 +11,11 @@ class PaymentCycle::Hourly < PaymentCycle
   end
 
   def create_charges!
+    Rails.logger.info '!' * 80
+    Rails.logger.info project.inspect
+    Rails.logger.info self
+    Rails.logger.info current_cycle_date.inspect
+
     ActiveRecord::Base.transaction do
       project.timesheets.pending_charge.each do |timesheet|
         schedule_charge!(
