@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'test_helper'
 
 class ProjectCreationTest < ActionDispatch::IntegrationTest
@@ -10,33 +11,33 @@ class ProjectCreationTest < ActionDispatch::IntegrationTest
   test 'can create one off hourly project' do
     attributes = attributes_for(:project_one_off_hourly).merge(hourly_payment_schedule: 'monthly')
     assert_difference 'Project.count', +1 do
-      post business_projects_path, project: attributes
+      post business_projects_path, params: { project: attributes }
     end
   end
 
   test 'can create one off fixed budget project' do
     attributes = attributes_for(:project_one_off_fixed).merge(fixed_payment_schedule: 'monthly')
     assert_difference 'Project.count', +1 do
-      post business_projects_path, project: attributes
+      post business_projects_path, params: { project: attributes }
     end
   end
 
   test 'can create full time project' do
     attributes = attributes_for(:project_full_time)
     assert_difference 'Project.count', +1 do
-      post business_projects_path, project: attributes
+      post business_projects_path, params: { project: attributes }
     end
   end
 
   test 'redirects draft saving to dashboard' do
     attributes = attributes_for(:project_full_time).merge(status: 'draft')
-    post business_projects_path, project: attributes
+    post business_projects_path, params: { project: attributes }
     assert_redirected_to business_dashboard_path
   end
 
   test 'redirects review and post to review page' do
     attributes = attributes_for(:project_full_time).merge(status: 'review')
-    post business_projects_path, project: attributes
+    post business_projects_path, params: { project: attributes }
     project = Project.last
     assert_redirected_to business_project_path(project)
   end
@@ -45,7 +46,7 @@ class ProjectCreationTest < ActionDispatch::IntegrationTest
     attributes = attributes_for(:project_full_time).merge(status: 'review')
     specialist = create :specialist
     invite = @business.project_invites.create!(specialist: specialist, message: 'Invite')
-    post business_projects_path, project: attributes.merge(invite_id: invite.id)
+    post business_projects_path, params: { project: attributes.merge(invite_id: invite.id) }
     post post_business_project_path(invite.reload.project), format: 'js'
     assert invite.reload.sent?
   end
@@ -56,7 +57,7 @@ class ProjectCreationTest < ActionDispatch::IntegrationTest
     sign_in business.user
     attributes = attributes_for(:project_one_off_hourly).merge(hourly_payment_schedule: 'monthly')
     assert_difference 'Project.count', +1 do
-      post business_projects_path, project: attributes
+      post business_projects_path, params: { project: attributes }
     end
   end
 

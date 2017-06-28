@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Business::ProjectDashboardController < ApplicationController
   prepend_before_action :find_project, only: :show
   prepend_before_action :require_business!

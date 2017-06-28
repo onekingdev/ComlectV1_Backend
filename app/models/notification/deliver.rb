@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # rubocop:disable Metrics/ClassLength
 class Notification::Deliver < Draper::Decorator
   decorates Notification
@@ -86,7 +87,6 @@ class Notification::Deliver < Draper::Decorator
       NotificationMailer.deliver_later :notification, dispatcher, action_url
     end
 
-    # rubocop:disable Metrics/MethodLength
     def got_project_message!(message)
       project = message.thread
       init, rcv, path, url = if message.sender == project.business
@@ -299,7 +299,6 @@ class Notification::Deliver < Draper::Decorator
       NotificationMailer.deliver_later :notification, dispatcher, action_url
     end
 
-    # rubocop:disable Metrics/MethodLength
     def escalated!(issue)
       project = issue.project
       rcv, key, path, url = if issue.user.specialist
@@ -388,12 +387,12 @@ class Notification::Deliver < Draper::Decorator
         specialist_project_starting_soon!(project)
         business_project_starting_soon!(project)
       end
-      if project.pending?
-        project.favorites.each do |favorite|
-          apply_to_favorited!(favorite)
-        end
-        pending_project_starting_soon!(project)
+
+      return unless project.pending?
+      project.favorites.each do |favorite|
+        apply_to_favorited!(favorite)
       end
+      pending_project_starting_soon!(project)
     end
 
     def specialist_project_starting_soon!(project)
@@ -482,7 +481,6 @@ class Notification::Deliver < Draper::Decorator
       NotificationMailer.deliver_later :notification, dispatcher, action_url
     end
 
-    # rubocop:disable Metrics/MethodLength
     def user_inactive!(user)
       key, path, url = if user.specialist
                          [

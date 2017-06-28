@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class RefactorStripeAccounts < ActiveRecord::Migration
   def change
     remove_column :specialists, :stripe_account_id, :string

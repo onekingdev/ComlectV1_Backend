@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Projects::ProjectExtensionsController < ApplicationController
   before_action :require_specialist!
   before_action :find_project

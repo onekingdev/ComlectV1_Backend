@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe PaymentCycle::Hourly::UponCompletion, type: :model do
@@ -8,11 +9,19 @@ RSpec.describe PaymentCycle::Hourly::UponCompletion, type: :model do
 
   describe 'an hourly project with upon-completion pay' do
     before do
-      @project = create :project_one_off_hourly,
-                        payment_schedule: Project.payment_schedules[:upon_completion],
-                        starts_on: Date.new(2016, 1, 1),
-                        ends_on: Date.new(2016, 6, 18)
-      @job_application = create :job_application, project: @project, specialist: @specialist
+      @project = create(
+        :project_one_off_hourly,
+        payment_schedule: Project.payment_schedules[:upon_completion],
+        starts_on: Date.new(2016, 1, 1),
+        ends_on: Date.new(2016, 6, 18)
+      )
+
+      @job_application = create(
+        :job_application,
+        project: @project,
+        specialist: @specialist
+      )
+
       Timecop.freeze Date.new(2016, 1, 1)
     end
 

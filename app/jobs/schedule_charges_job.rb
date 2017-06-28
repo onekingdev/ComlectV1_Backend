@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class ScheduleChargesJob < ActiveJob::Base
+
+class ScheduleChargesJob < ApplicationJob
   queue_as :payments
 
   def perform(project_id = nil)

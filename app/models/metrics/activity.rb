@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Metrics::Activity < Metrics
   def initialize
     @db_view = ActiveRecord::Base.connection.execute('SELECT * FROM metrics_activity').to_a

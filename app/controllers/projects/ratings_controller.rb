@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Projects::RatingsController < ::ProjectRatingsController
   prepend_before_action :require_specialist!
 

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class Charge < ActiveRecord::Base
+
+class Charge < ApplicationRecord
   belongs_to :project
   belongs_to :stripe_transaction, class_name: 'Transaction', foreign_key: 'transaction_id'
   belongs_to :referenceable, polymorphic: true
@@ -16,8 +17,8 @@ class Charge < ActiveRecord::Base
     joins('LEFT OUTER JOIN transactions ON transaction_id = transactions.id')
       .where('transaction_id IS NULL OR transactions.status <> ?', Transaction.statuses[:processed])
   }
-  scope :after, -> (date) { where('date >= ?', date.to_date) }
-  scope :before, -> (date) { where('date < ?', date.to_date) }
+  scope :after, ->(date) { where('date >= ?', date.to_date) }
+  scope :before, ->(date) { where('date < ?', date.to_date) }
   scope :for_processing, -> { where('process_after <= ?', Time.zone.now).order(date: :asc) }
 
   before_create :calculate_fee

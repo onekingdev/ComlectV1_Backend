@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class DeleteExpiredExtensionsJob < ActiveJob::Base
+
+class DeleteExpiredExtensionsJob < ApplicationJob
   queue_as :default
 
   def perform(extension_id = nil)

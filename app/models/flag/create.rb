@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Flag::Create < Draper::Decorator
   decorates Flag
   delegate_all

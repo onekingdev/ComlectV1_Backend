@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Business::ProjectMessagesController < ProjectMessagesController
   before_action :require_business!
 

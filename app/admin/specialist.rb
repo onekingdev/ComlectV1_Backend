@@ -1,9 +1,10 @@
 # frozen_string_literal: true
+
 ActiveAdmin.register Specialist do
   menu parent: 'Users'
   decorate_with Admin::SpecialistDecorator
 
-  actions :all, except: %i(new)
+  actions :all, except: %i[new]
   filter :user_email_cont, label: 'Email'
   filter :first_name_or_last_name_cont, as: :string, label: 'Name'
 
@@ -44,7 +45,7 @@ ActiveAdmin.register Specialist do
     column :country
     column :phone
     column :status do |specialist|
-      label, css_class = specialist.suspended? ? %w(Suspended error) : %w(Active yes)
+      label, css_class = specialist.suspended? ? %w[Suspended error] : %w[Active yes]
       status_tag label, class: css_class
     end
 
@@ -99,10 +100,10 @@ ActiveAdmin.register Specialist do
 
   permit_params :first_name, :last_name, :city, :zipcode, :state, :country, :phone, :linkedin_link, :visibility,
                 :former_regulator, :certifications,
-                work_experience_attributes: %i(
+                work_experience_attributes: %i[
                   id _destroy company job_title location from to current compliance description
-                ),
-                education_history_attributes: %i(institution degree year),
+                ],
+                education_history_attributes: %i[institution degree year],
                 jurisdiction_ids: [], industry_ids: [], skill_ids: []
 
   form do |f|

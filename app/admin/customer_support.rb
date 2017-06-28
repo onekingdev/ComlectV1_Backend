@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 ActiveAdmin.register AdminUser, as: 'Customer Support' do
   menu parent: 'Roles', label: 'Customer Support'
 

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
+
 ActiveAdmin.register Project do
-  actions :all, except: %i(new)
+  actions :all, except: %i[new]
 
   filter :title
   filter :business_business_name, as: :string, label: 'Business Name'
@@ -73,7 +74,7 @@ ActiveAdmin.register Project do
                            class: 'member_link',
                            data: { confirm: 'Do you want to end this project?' })
       end
-      if project.ratings.count > 0
+      if project.ratings.count.positive?
         actions << link_to('Ratings', admin_ratings_path(q: { project_id_eq: project.id }), class: 'member_link')
       else
         actions << '<span class="member_span">No Ratings yet</span>'.html_safe
@@ -217,7 +218,7 @@ ActiveAdmin.register Project do
                 :annual_salary,
                 :fee_type,
                 :pricing_type,
-                timesheets_attributes: [:_destroy, :id, :status, time_logs_attributes: %i(id description hours)],
+                timesheets_attributes: [:_destroy, :id, :status, time_logs_attributes: %i[id description hours]],
                 industry_ids: [],
                 jurisdiction_ids: []
 
@@ -242,7 +243,7 @@ ActiveAdmin.register Project do
       f.input :key_deliverables
       f.input :starts_on
       f.input :ends_on if f.object.one_off?
-      f.input :pricing_type, collection: %w(hourly fixed) if f.object.one_off?
+      f.input :pricing_type, collection: %w[hourly fixed] if f.object.one_off?
       f.input :payment_schedule, collection: Project::PAYMENT_SCHEDULES if f.object.one_off?
       f.input :fixed_budget if f.object.one_off?
       f.input :hourly_rate if f.object.one_off?

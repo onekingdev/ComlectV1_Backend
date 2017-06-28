@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Charge::Processing
   attr_reader :charges, :project
 

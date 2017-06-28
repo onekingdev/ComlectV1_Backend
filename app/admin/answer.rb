@@ -1,8 +1,9 @@
 # frozen_string_literal: true
+
 ActiveAdmin.register Answer do
   menu false
 
-  actions :all, except: %i(show new edit create update)
+  actions :all, except: %i[show new edit create update]
 
   controller do
     def destroy

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 ActiveAdmin.register User, namespace: :support do
   batch_action :send_email_to, form: {
     subject: :text,

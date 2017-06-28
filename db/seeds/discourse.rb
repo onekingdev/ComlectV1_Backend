@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # rubocop:disable Rails/Output
 if Business.where(discourse_username: ENV.fetch('DISCOURSE_BUSINESS_API_USER')).empty?
   user = User.create!(

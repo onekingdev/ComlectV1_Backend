@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Business::AnswersController < DocumentsController
   before_action :find_project
 

@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-# rubocop:disable Metrics/MethodLength
+
 # rubocop:disable Metrics/AbcSize
 class AddStripeAccountIdToSpecialists < ActiveRecord::Migration
   def change

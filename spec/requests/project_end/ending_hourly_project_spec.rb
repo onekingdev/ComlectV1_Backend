@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe "Hourly project end scenarios", type: :request do
@@ -47,18 +48,35 @@ RSpec.describe "Hourly project end scenarios", type: :request do
 
         it 'specialist can add more timesheets' do
           expect do
-            post project_timesheets_path(project),
-                 timesheet: { save: '1', time_logs_attributes: [{ description: 'Dummy', hours: 5 }] },
-                 format: :js
+            post(
+              project_timesheets_path(project),
+              params: {
+                timesheet: {
+                  save: '1',
+                  time_logs_attributes: [{ description: 'Dummy', hours: 5 }]
+                },
+                format: :js
+              }
+            )
+
             expect(response).to have_http_status(:created)
           end.to change { project.timesheets.count }
         end
 
         it 'specialist can edit disputed timesheet' do
           log = timesheet.time_logs.last
-          put project_timesheet_path(project, timesheet),
-              timesheet: { submit: '1', time_logs_attributes: [{ id: log.id, hours: 2 }] },
+
+          put(
+            project_timesheet_path(project, timesheet),
+            params: {
+              timesheet: {
+                submit: '1',
+                time_logs_attributes: [{ id: log.id, hours: 2 }]
+              },
               format: :js
+            }
+          )
+
           expect(response).to have_http_status(:ok)
           expect(log.reload.hours).to eq(2)
         end
@@ -83,10 +101,19 @@ RSpec.describe "Hourly project end scenarios", type: :request do
 
       it 'can no longer add timesheets' do
         sign_in specialist.user
+
         expect do
-          post project_timesheets_path(project),
-               timesheet: { save: '1', time_logs_attributes: [{ description: 'Dummy', hours: 5 }] },
-               format: :js
+          post(
+            project_timesheets_path(project),
+            params: {
+              timesheet: {
+                save: '1',
+                time_logs_attributes: [{ description: 'Dummy', hours: 5 }]
+              },
+              format: :js
+            }
+          )
+
           expect(response).to have_http_status(:forbidden)
         end.to_not change { project.timesheets.count }
       end

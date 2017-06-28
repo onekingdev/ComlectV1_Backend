@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class UserPolicy < ApplicationPolicy
   def toggle_suspend?
     user.is_a?(AdminUser)

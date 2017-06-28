@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class CompletionMetricsViews < ActiveRecord::Migration
   def change
     create_view :metrics_project_completions

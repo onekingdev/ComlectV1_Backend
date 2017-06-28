@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class AddDateToTransactions < ActiveRecord::Migration
   def change
     add_column :transactions, :date, :datetime

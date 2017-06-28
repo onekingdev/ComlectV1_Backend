@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 ActiveAdmin.register_page "Metrics" do
   page_action :download, method: :get do
     send_data ::Metrics.new.to_csv, filename: 'metrics.csv'

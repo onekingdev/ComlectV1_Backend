@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class AutoAcceptEndRequestsJob < ActiveJob::Base
+
+class AutoAcceptEndRequestsJob < ApplicationJob
   queue_as :default
 
   def perform(end_id = nil)

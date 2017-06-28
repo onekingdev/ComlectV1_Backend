@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class FlagMailer < ApplicationMailer
   def flagged_content(flag_id)
     @flag = Flag.find(flag_id)

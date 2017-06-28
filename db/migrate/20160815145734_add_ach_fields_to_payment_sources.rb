@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class AddAchFieldsToPaymentSources < ActiveRecord::Migration
   def change
     change_table :payment_sources do |t|

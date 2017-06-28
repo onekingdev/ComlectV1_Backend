@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class TimesheetPolicy < ApplicationPolicy
   def process?
     business_owner? && record.submitted?
@@ -10,7 +11,7 @@ class TimesheetPolicy < ApplicationPolicy
   end
 
   def update?
-    owner? && %w(pending disputed).include?(record.status)
+    owner? && %w[pending disputed].include?(record.status)
   end
 
   def destroy?

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Metrics
   include ActiveSupport::NumberHelper
   include ActionView::Helpers::TextHelper
@@ -22,7 +23,7 @@ class Metrics
 
   def to_csv
     CSV.generate do |csv|
-      csv << %w(metric mtd fytd itd count percent)
+      csv << %w[metric mtd fytd itd count percent]
       [postings, completions, misc].each do |set|
         csv_from_hash(hash: set).each_slice(4).each do |row|
           csv << row + [nil, nil]

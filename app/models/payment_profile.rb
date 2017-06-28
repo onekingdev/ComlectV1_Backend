@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class PaymentProfile < ActiveRecord::Base
+
+class PaymentProfile < ApplicationRecord
   belongs_to :business
   has_many :payment_sources, dependent: :destroy
 

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 namespace :discourse do
   task set_user_ids: :environment do
     [

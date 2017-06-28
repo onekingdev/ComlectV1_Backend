@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Projects::MessagesController < ProjectMessagesController
   before_action :require_specialist!
 

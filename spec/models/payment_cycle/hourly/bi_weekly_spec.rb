@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe PaymentCycle::Hourly::BiWeekly, type: :model do

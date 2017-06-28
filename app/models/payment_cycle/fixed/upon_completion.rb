@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class PaymentCycle::Fixed::UponCompletion < PaymentCycle::Fixed
   private
 

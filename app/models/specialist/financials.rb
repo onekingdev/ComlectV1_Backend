@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Specialist::Financials
   attr_accessor :specialist
 

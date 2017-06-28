@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Business::PaymentSettingsController < ApplicationController
   before_action :require_business!
   skip_before_action :verify_authenticity_token, only: :create

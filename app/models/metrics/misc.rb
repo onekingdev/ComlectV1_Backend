@@ -1,6 +1,6 @@
 # frozen_string_literal: true
+
 module Metrics::Misc
-  # rubocop:disable Metrics/MethodLength
   def misc
     return {} if invalid?
     @metrics = {

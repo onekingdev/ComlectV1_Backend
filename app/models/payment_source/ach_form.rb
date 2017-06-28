@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class PaymentSource::ACHForm < Draper::Decorator
   decorates PaymentSource::ACH
   delegate_all

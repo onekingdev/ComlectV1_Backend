@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class FixMetricsProjectsViews < ActiveRecord::Migration
   def change
     replace_view :metrics_projects_fixed_50_50_pay, version: 3, revert_to_version: 2

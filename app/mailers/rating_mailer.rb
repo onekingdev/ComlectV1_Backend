@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class RatingMailer < ApplicationMailer
   def notification(rating_id)
     rating = Rating.find(rating_id)

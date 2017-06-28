@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class WorkExperience < ActiveRecord::Base
+
+class WorkExperience < ApplicationRecord
   belongs_to :specialist
 
   scope :compliance, -> { where(compliance: true) }

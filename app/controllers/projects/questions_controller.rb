@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Projects::QuestionsController < ApplicationController
   before_action :find_project
 

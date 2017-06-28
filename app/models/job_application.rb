@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class JobApplication < ActiveRecord::Base
+
+class JobApplication < ApplicationRecord
   belongs_to :specialist
   belongs_to :project, counter_cache: true
   has_one :user, through: :specialist
@@ -7,7 +8,7 @@ class JobApplication < ActiveRecord::Base
   enum visibility: { undecided: nil, shortlisted: 'shortlisted', hidden: 'hidden' }
 
   scope :preload_associations, -> { preload(specialist: :user) }
-  scope :by, -> (specialist) { where(specialist_id: specialist) }
+  scope :by, ->(specialist) { where(specialist_id: specialist) }
   scope :order_by_experience, -> {
     # TODO: Adjust when implementing rounding
     joins(specialist: :work_experiences)

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class BufferDate
   def self.for(date, tz:)
     datetime = date.in_time_zone(tz).end_of_day

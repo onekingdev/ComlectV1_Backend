@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 FactoryGirl.define do
   factory :specialist do
     association :user, email_prefix: 'specialist'

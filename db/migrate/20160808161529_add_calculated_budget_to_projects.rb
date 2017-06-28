@@ -1,6 +1,6 @@
 # frozen_string_literal: true
+
 class AddCalculatedBudgetToProjects < ActiveRecord::Migration
-  # rubocop:disable Metrics/MethodLength
   def up
     add_column :projects, :calculated_budget, :decimal
     add_index :projects, :calculated_budget

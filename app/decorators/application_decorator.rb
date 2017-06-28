@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class ApplicationDecorator < Draper::Decorator
   def self.grouped_collection_for_select(array)
     [array].map do |collection|

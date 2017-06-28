@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Specialists::FinancialsController < ApplicationController
   before_action :require_specialist!
 

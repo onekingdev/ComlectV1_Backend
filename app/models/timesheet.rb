@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class Timesheet < ActiveRecord::Base
+
+class Timesheet < ApplicationRecord
   belongs_to :project
   has_one :business, through: :project
   has_one :specialist, through: :project
@@ -51,7 +52,7 @@ class Timesheet < ActiveRecord::Base
   def expired?
     # Only submitted timesheets can be considered expired
     # negate blank? instead of using present? for clarity (present? && past?)
-    submitted? && !expires_at.blank? && expires_at.past?
+    submitted? && expires_at.present? && expires_at.past?
   end
 
   private
@@ -63,7 +64,7 @@ class Timesheet < ActiveRecord::Base
   end
 
   def validate_project_is_active
-    return if changed == %w(status) # Allow changing timesheet status
+    return if changed == %w[status] # Allow changing timesheet status
     changes = self.changes.any? || time_logs.any? { |log| log.changes.any? }
     errors.add :base, 'Cannot add/update on complete projects' if changes && project.complete?
   end

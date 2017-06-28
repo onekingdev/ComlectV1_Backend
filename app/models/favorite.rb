@@ -1,9 +1,10 @@
 # frozen_string_literal: true
-class Favorite < ActiveRecord::Base
+
+class Favorite < ApplicationRecord
   belongs_to :owner, polymorphic: true
   belongs_to :favorited, polymorphic: true
 
-  validates :favorited_id, uniqueness: { scope: %i(owner_id owner_type favorited_type) }
+  validates :favorited_id, uniqueness: { scope: %i[owner_id owner_type favorited_type] }
 
   def self.remove!(owner, favorited)
     owner.favorites.find_by(favorited: favorited)&.destroy

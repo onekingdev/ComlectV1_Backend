@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class CreateProjectEnds < ActiveRecord::Migration
   def change
     create_table :project_ends do |t|

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class UserInactiveJob < ActiveJob::Base
+
+class UserInactiveJob < ApplicationJob
   queue_as :default
 
   delegate :perform_later, to: :class

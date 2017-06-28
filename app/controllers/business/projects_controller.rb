@@ -1,9 +1,10 @@
 # frozen_string_literal: true
+
 class Business::ProjectsController < ApplicationController
   before_action :authenticate_user!
-  before_action :require_business!, only: %i(index new create edit update)
-  before_action :set_project, only: %i(edit update destroy post)
-  before_action :build_project, only: %i(new create)
+  before_action :require_business!, only: %i[index new create edit update]
+  before_action :set_project, only: %i[edit update destroy post]
+  before_action :build_project, only: %i[new create]
 
   FILTERS = {
     'active'   => :active,
@@ -25,7 +26,7 @@ class Business::ProjectsController < ApplicationController
 
   def show
     @project = policy_scope(Project)
-               .includes(:industries, :jurisdictions, :skills, business: %i(industries jurisdictions))
+               .includes(:industries, :jurisdictions, :skills, business: %i[industries jurisdictions])
                .find(params[:id])
     render template: 'projects/show'
   end
@@ -94,11 +95,34 @@ class Business::ProjectsController < ApplicationController
 
   def project_params
     return { invite_id: params[:invite_id] } unless params.key?(:project)
+
     params.require(:project).permit(
-      *%i(title type location_type location lat lng description key_deliverables starts_on full_time_starts_on
-          ends_on pricing_type hourly_payment_schedule fixed_payment_schedule hourly_rate fixed_budget estimated_hours
-          minimum_experience only_regulators status annual_salary fee_type invite_id),
-      jurisdiction_ids: [], industry_ids: [], skill_names: []
+      :title,
+      :type,
+      :location_type,
+      :location,
+      :lat,
+      :lng,
+      :description,
+      :key_deliverables,
+      :starts_on,
+      :full_time_starts_on,
+      :ends_on,
+      :pricing_type,
+      :hourly_payment_schedule,
+      :fixed_payment_schedule,
+      :hourly_rate,
+      :fixed_budget,
+      :estimated_hours,
+      :minimum_experience,
+      :only_regulators,
+      :status,
+      :annual_salary,
+      :fee_type,
+      :invite_id,
+      jurisdiction_ids: [],
+      industry_ids: [],
+      skill_names: []
     )
   end
 end

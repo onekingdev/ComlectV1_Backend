@@ -1,12 +1,13 @@
 # frozen_string_literal: true
+
 class SpecialistsController < ApplicationController
   before_action -> do
     redirect_to specialist_path(current_user.specialist)
-  end, if: -> { user_signed_in? && current_user.specialist }, only: %i(new create)
+  end, if: -> { user_signed_in? && current_user.specialist }, only: %i[new create]
 
-  before_action :authenticate_user!, only: %i(edit update)
-  before_action :require_specialist!, only: %i(edit update)
-  before_action :require_business!, only: %i(index)
+  before_action :authenticate_user!, only: %i[edit update]
+  before_action :require_specialist!, only: %i[edit update]
+  before_action :require_business!, only: %i[index]
 
   def index
     @search = Specialist::Search.new(search_params)
@@ -68,9 +69,9 @@ class SpecialistsController < ApplicationController
       :lng, :phone, :linkedin_link, :public_profile, :former_regulator, :certifications, :photo, :resume,
       :zipcode, :lat, :time_zone,
       jurisdiction_ids: [], industry_ids: [], skill_names: [],
-      user_attributes: %i(email password),
-      work_experiences_attributes: %i(id company job_title location from to current compliance description _destroy),
-      education_histories_attributes: %i(id institution degree year _destroy)
+      user_attributes: %i[email password],
+      work_experiences_attributes: %i[id company job_title location from to current compliance description _destroy],
+      education_histories_attributes: %i[id institution degree year _destroy]
     ).merge(tos_acceptance_ip: request.remote_ip)
   end
 
@@ -85,7 +86,7 @@ class SpecialistsController < ApplicationController
       :sort_by, :keyword, :rating, :experience, :regulator, :location, :location_range, :lat, :lng, :page,
       industry_ids: [], jurisdiction_ids: []
     )
-    permitted.merge!(params.slice(:page)) if permitted[:page].blank? || params[:page].to_i > 0
+    permitted.merge!(params.slice(:page)) if permitted[:page].blank? || params[:page].to_i.positive?
     permitted
   end
 end

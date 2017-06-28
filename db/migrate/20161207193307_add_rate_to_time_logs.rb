@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class AddRateToTimeLogs < ActiveRecord::Migration
   def change
     add_column :time_logs, :hourly_rate, :decimal

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class MoveFeesToChargesTable < ActiveRecord::Migration
   def change
     add_column :charges, :fee_in_cents, :integer

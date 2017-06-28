@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class Question < ActiveRecord::Base
+
+class Question < ApplicationRecord
   belongs_to :project
   belongs_to :specialist
   has_one :answer

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class AddIndexesToWorkExperiences < ActiveRecord::Migration
   def change
     add_index :work_experiences, :from

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module RatingsHelper
   def render_stars(rating, options = {})
     css_class = options.delete(:class)

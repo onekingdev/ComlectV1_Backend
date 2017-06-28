@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class FixShareMetrics < ActiveRecord::Migration
   def change
     replace_view :metrics_projects_share, version: 3, revert_to_version: 2

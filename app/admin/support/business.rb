@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 ActiveAdmin.register Business, namespace: :support do
   menu parent: 'Users'
   filter :user_email_cont, label: 'Login Email'
@@ -14,7 +15,7 @@ ActiveAdmin.register Business, namespace: :support do
     end
   end
 
-  actions :all, except: %i(new)
+  actions :all, except: %i[new]
 
   member_action :toggle_suspend, method: :post do
     resource.suspended? ? resource.user.unfreeze! : resource.user.freeze!
@@ -35,7 +36,7 @@ ActiveAdmin.register Business, namespace: :support do
     column :employees
     column :website
     column :status do |business|
-      label, css_class = business.suspended? ? %w(Suspended error) : %w(Active yes)
+      label, css_class = business.suspended? ? %w[Suspended error] : %w[Active yes]
       status_tag label, class: css_class
     end
 

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Business::NotificationSettingsController < ApplicationController
   before_action :require_business!
 

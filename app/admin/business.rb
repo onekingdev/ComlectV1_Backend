@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 ActiveAdmin.register Business do
   menu parent: 'Users'
 
@@ -15,7 +16,7 @@ ActiveAdmin.register Business do
     end
   end
 
-  actions :all, except: %i(new)
+  actions :all, except: %i[new]
 
   batch_action :send_email_to, form: {
     subject: :text,
@@ -47,7 +48,7 @@ ActiveAdmin.register Business do
     column :employees
     column :website
     column :status do |business|
-      label, css_class = business.suspended? ? %w(Suspended error) : %w(Active yes)
+      label, css_class = business.suspended? ? %w[Suspended error] : %w[Active yes]
       status_tag label, class: css_class
     end
 

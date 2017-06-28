@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class DiscourseController < ApplicationController
   def specialist_sso
     if !signed_in? || current_user.specialist.blank?
@@ -39,7 +40,12 @@ class DiscourseController < ApplicationController
       business_name = business.public? ? business.business_name : 'Anonymous'
       sso.name = business_name
       sso.username = business.discourse_username! business_name.parameterize.titleize.delete(' ')
-      sso.avatar_url = (business.public? && business.logo) ? business.logo_url(:thumb) : asset_url('icon-business.png')
+
+      sso.avatar_url = if business.public? && business.logo
+                         business.logo_url(:thumb)
+                       else
+                         asset_url('icon-business.png')
+                       end
     end
   end
 

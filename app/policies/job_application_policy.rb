@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class JobApplicationPolicy < ApplicationPolicy
   def destroy?
     owner? && record.project.pending?

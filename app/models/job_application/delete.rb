@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class JobApplication::Delete
   def self.call(application)
     application.destroy

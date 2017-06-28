@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Business::Discourse < DiscourseUser
   FORUM_URL = ENV.fetch('DISCOURSE_BUSINESS_FORUM')
   API_KEY = ENV.fetch('DISCOURSE_BUSINESS_API_KEY')

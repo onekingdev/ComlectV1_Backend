@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class StripeAccount::Form < StripeAccount
   include ApplicationForm
 
@@ -13,7 +14,7 @@ class StripeAccount::Form < StripeAccount
   end
 
   PREPOPULATE_FIELDS = {
-    country: -> (specialist) { Stripe::SUPPORTED_COUNTRIES.invert[specialist.country].to_s },
+    country: ->(specialist) { Stripe::SUPPORTED_COUNTRIES.invert[specialist.country].to_s },
     zipcode: :zipcode,
     city: :city,
     state: :state,
@@ -22,8 +23,8 @@ class StripeAccount::Form < StripeAccount
     personal_zipcode: :zipcode,
     first_name: :first_name,
     last_name: :last_name,
-    tos_acceptance_date: -> (specialist) { specialist.user.tos_acceptance_date },
-    tos_acceptance_ip: -> (specialist) { specialist.user.tos_acceptance_ip }
+    tos_acceptance_date: ->(specialist) { specialist.user.tos_acceptance_date },
+    tos_acceptance_ip: ->(specialist) { specialist.user.tos_acceptance_ip }
   }.freeze
 
   def self.find(specialist, id)

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class AddIndexesToProjects < ActiveRecord::Migration
   def change
     add_index :projects, :starts_on

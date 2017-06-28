@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class PaymentSourcePolicy < ApplicationPolicy
   def destroy?
     owner? && !record.primary?

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Projects::TimesheetsController < ApplicationController
   before_action :require_specialist!
   before_action :find_project
@@ -45,7 +46,7 @@ class Projects::TimesheetsController < ApplicationController
   private
 
   def timesheet_params
-    params.require(:timesheet).permit(:save, :submit, time_logs_attributes: %i(id description hours _destroy date))
+    params.require(:timesheet).permit(:save, :submit, time_logs_attributes: %i[id description hours _destroy date])
   end
 
   def find_project

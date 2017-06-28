@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class ProjectEnd < ActiveRecord::Base
+
+class ProjectEnd < ApplicationRecord
   belongs_to :project
 
   enum status: {

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class RadioPillsInput < SimpleForm::Inputs::CollectionRadioButtonsInput
   def btn_class
     options[:btn_class] || 'btn-default'

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Specialist::Search
   include ActiveModel::Model
 
@@ -54,8 +55,9 @@ class Specialist::Search
 
   def filter_rating(records)
     min, max = rating.to_s.split(';').map(&:to_i)
-    return records if rating.blank? || (min == 0 && max == 5)
-    if min == 0
+    return records if rating.blank? || (min.zero? && max == 5)
+
+    if min.zero?
       records.where("(ratings_average BETWEEN ? AND ?) OR ratings_average IS NULL", min, max)
     else
       records.where("ratings_average BETWEEN ? AND ?", min, max)

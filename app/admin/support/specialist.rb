@@ -1,7 +1,8 @@
 # frozen_string_literal: true
+
 ActiveAdmin.register Specialist, namespace: :support do
   menu parent: 'Users'
-  actions :all, except: %i(new)
+  actions :all, except: %i[new]
   filter :user_email_cont, label: 'Email'
   filter :first_name_or_last_name_cont, as: :string, label: 'Name'
 
@@ -31,7 +32,7 @@ ActiveAdmin.register Specialist, namespace: :support do
     column :country
     column :phone
     column :status do |specialist|
-      label, css_class = specialist.suspended? ? %w(Suspended error) : %w(Active yes)
+      label, css_class = specialist.suspended? ? %w[Suspended error] : %w[Active yes]
       status_tag label, class: css_class
     end
 

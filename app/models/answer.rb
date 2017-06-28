@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class Answer < ActiveRecord::Base
+
+class Answer < ApplicationRecord
   belongs_to :question
   has_many :flags, as: :flagged_content, dependent: :nullify
   validates :question, presence: true

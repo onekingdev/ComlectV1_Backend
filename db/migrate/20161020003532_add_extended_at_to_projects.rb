@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class AddExtendedAtToProjects < ActiveRecord::Migration
   def change
     add_column :projects, :extended_at, :datetime

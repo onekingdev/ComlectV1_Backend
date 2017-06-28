@@ -1,8 +1,9 @@
 # frozen_string_literal: true
+
 class SingleSignOn
-  ACCESSORS = %i(nonce name username email avatar_url avatar_force_update require_activation
-                 bio external_id return_sso_url admin moderator suppress_welcome_message).freeze
-  BOOLS = %i(avatar_force_update admin moderator require_activation suppress_welcome_message).freeze
+  ACCESSORS = %i[nonce name username email avatar_url avatar_force_update require_activation
+                 bio external_id return_sso_url admin moderator suppress_welcome_message].freeze
+  BOOLS = %i[avatar_force_update admin moderator require_activation suppress_welcome_message].freeze
   NONCE_EXPIRY_TIME = 10.minutes
 
   attr_accessor(*ACCESSORS)
@@ -35,7 +36,7 @@ class SingleSignOn
     ACCESSORS.each do |k|
       val = decoded_hash[k.to_s]
       if BOOLS.include? k
-        val = %w(true false).include?(val) ? val == "true" : nil
+        val = %w[true false].include?(val) ? val == "true" : nil
       end
       sso.__send__("#{k}=", val)
     end
@@ -92,10 +93,8 @@ class SingleSignOn
       payload[k] = val
     end
 
-    if @custom_fields
-      @custom_fields.each do |k, v|
-        payload["custom.#{k}"] = v.to_s
-      end
+    @custom_fields&.each do |k, v|
+      payload["custom.#{k}"] = v.to_s
     end
 
     Rack::Utils.build_query(payload)

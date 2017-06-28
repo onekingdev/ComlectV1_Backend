@@ -1,7 +1,7 @@
 # frozen_string_literal: true
+
 class CreateSpecialists < ActiveRecord::Migration
   # rubocop:disable Metrics/AbcSize
-  # rubocop:disable Metrics/MethodLength
   def change
     create_table :specialists do |t|
       t.references :user, index: true
@@ -24,16 +24,16 @@ class CreateSpecialists < ActiveRecord::Migration
 
     create_join_table :jurisdictions, :specialists
     add_index :jurisdictions_specialists,
-              %i(jurisdiction_id specialist_id),
+              %i[jurisdiction_id specialist_id],
               unique: true,
               name: 'jurisdictions_specialists_unique'
     create_join_table :industries, :specialists
     add_index :industries_specialists,
-              %i(industry_id specialist_id),
+              %i[industry_id specialist_id],
               unique: true,
               name: 'industries_specialists_unique'
 
     create_join_table :skills, :specialists
-    add_index :skills_specialists, %i(skill_id specialist_id), unique: true
+    add_index :skills_specialists, %i[skill_id specialist_id], unique: true
   end
 end

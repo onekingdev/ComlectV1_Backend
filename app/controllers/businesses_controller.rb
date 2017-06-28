@@ -1,11 +1,12 @@
 # frozen_string_literal: true
+
 class BusinessesController < ApplicationController
   before_action -> do
     redirect_to business_path(current_user.business)
-  end, if: -> { user_signed_in? && current_user.business }, only: %i(new create)
+  end, if: -> { user_signed_in? && current_user.business }, only: %i[new create]
 
-  before_action :authenticate_user!, only: %i(edit update)
-  before_action :require_business!, only: %i(edit update)
+  before_action :authenticate_user!, only: %i[edit update]
+  before_action :require_business!, only: %i[edit update]
 
   def show
     @business = Business.includes(:industries).find(params[:id])
@@ -57,7 +58,7 @@ class BusinessesController < ApplicationController
       :address_1, :address_2, :country, :city, :state, :zipcode, :time_zone,
       :anonymous, :logo,
       industry_ids: [], jurisdiction_ids: [],
-      user_attributes: %i(email password)
+      user_attributes: %i[email password]
     )
   end
 

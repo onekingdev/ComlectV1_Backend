@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Specialist::Decorator < ApplicationDecorator
   decorates Specialist
   delegate_all

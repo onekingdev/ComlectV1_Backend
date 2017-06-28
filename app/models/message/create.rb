@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Message::Create < Draper::Decorator
   decorates Message
   delegate_all

@@ -1,11 +1,14 @@
 # frozen_string_literal: true
+
 Rails.application.routes.draw do
   require 'sidekiq/web'
   require 'sidekiq/cron/web'
 
-  Sidekiq::Web.use Rack::Auth::Basic do |username, password|
-    username == ENV.fetch('SIDEKIQ_USERNAME') && password == ENV.fetch('SIDEKIQ_PASSWORD')
-  end if Rails.env.production?
+  if Rails.env.production?
+    Sidekiq::Web.use Rack::Auth::Basic do |username, password|
+      username == ENV.fetch('SIDEKIQ_USERNAME') && password == ENV.fetch('SIDEKIQ_PASSWORD')
+    end
+  end
   mount Sidekiq::Web => '/sidekiq'
 
   devise_for :admin_users, ActiveAdmin::Devise.config
@@ -33,8 +36,8 @@ Rails.application.routes.draw do
   get 'specialist_sso' => 'discourse#specialist_sso'
   get 'business_sso' => 'discourse#business_sso'
 
-  resources :businesses, only: %i(index new create show)
-  resource :business, only: %i(edit) do
+  resources :businesses, only: %i[index new create show]
+  resource :business, only: %i[edit] do
     patch '/' => 'businesses#update', as: :update
   end
   get '/business' => 'business_dashboard#show', as: :business_dashboard
@@ -53,7 +56,7 @@ Rails.application.routes.draw do
       resources :payment_settings, as: :payment, path: 'payment' do
         patch :make_primary
       end
-      resources :notification_settings, as: :notifications, path: 'notifications', only: %i(index update)
+      resources :notification_settings, as: :notifications, path: 'notifications', only: %i[index update]
     end
     resources :specialists, only: :index
     concerns :favoriteable
@@ -80,7 +83,7 @@ Rails.application.routes.draw do
       resources :hires
       resources :documents
       resources :answers, only: :create
-      resources :flags, only: %i(new create)
+      resources :flags, only: %i[new create]
       resources :timesheets
       resources :project_issues, path: 'issues'
     end
@@ -100,7 +103,7 @@ Rails.application.routes.draw do
       resources :bank_accounts do
         patch :make_primary
       end
-      resources :notification_settings, as: :notifications, path: 'notifications', only: %i(index update)
+      resources :notification_settings, as: :notifications, path: 'notifications', only: %i[index update]
     end
     resources :projects, path: 'my-projects'
     concerns :favoriteable
@@ -110,21 +113,21 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :specialists, only: %i(index new create show)
-  resource :specialist, only: %i(edit) do
+  resources :specialists, only: %i[index new create show]
+  resource :specialist, only: %i[edit] do
     patch '/' => 'specialists#update', as: :update
   end
 
   resources :project_invites, path: 'invite'
 
-  resources :projects, only: %i(index show) do
+  resources :projects, only: %i[index show] do
     scope module: 'projects' do
       resources :job_applications, path: 'applications'
       resource :dashboard, only: :show
       resources :messages
       resources :documents
       resources :questions, only: :create
-      resources :flags, only: %i(new create)
+      resources :flags, only: %i[new create]
       resources :timesheets
       resources :issues
       resources :shares

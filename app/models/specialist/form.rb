@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Specialist::Form < Specialist
   include ApplicationForm
 
@@ -32,7 +33,7 @@ class Specialist::Form < Specialist
   end
 
   def save(*)
-    sync_triggered = (%w(visibility first_name last_name photo_data) & changed).any?
+    sync_triggered = (%w[visibility first_name last_name photo_data] & changed).any?
     super.tap do |result|
       discourse.sync if result && sync_triggered
     end

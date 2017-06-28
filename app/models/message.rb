@@ -1,12 +1,13 @@
 # frozen_string_literal: true
-class Message < ActiveRecord::Base
+
+class Message < ApplicationRecord
   belongs_to :thread, polymorphic: true
   belongs_to :sender, polymorphic: true
   belongs_to :recipient, polymorphic: true
 
   scope :preload_associations, -> { preload(:thread, :sender, :recipient) }
   scope :recent, -> { order(created_at: :desc) }
-  scope :between, -> (type, id) {
+  scope :between, ->(type, id) {
     where(thread: nil)
       .where('(recipient_type = :type AND recipient_id = :id) OR (sender_type = :type AND sender_id = :id)',
              type: type, id: id.to_i)

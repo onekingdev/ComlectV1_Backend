@@ -1,8 +1,9 @@
 # frozen_string_literal: true
+
 ActiveAdmin.register Charge do
   menu parent: 'Payments'
 
-  actions :all, except: %i(new create)
+  actions :all, except: %i[new create]
 
   decorate_with Admin::ChargeDecorator
 

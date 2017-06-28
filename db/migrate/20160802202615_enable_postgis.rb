@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class EnablePostgis < ActiveRecord::Migration
   # rubocop:disable Lint/HandleExceptions
   def change

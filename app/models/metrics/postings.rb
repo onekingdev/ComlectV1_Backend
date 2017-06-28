@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Metrics::Postings
   # rubocop:disable Metrics/MethodLength
   # rubocop:disable Metrics/AbcSize

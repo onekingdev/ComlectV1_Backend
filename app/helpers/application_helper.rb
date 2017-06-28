@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module ApplicationHelper
   include SimpleForm::ActionViewExtensions::FormHelper
 
@@ -84,7 +85,7 @@ module ApplicationHelper
 
   def render_flash
     classes = { alert: 'warning', notice: 'info' }
-    (flash.keys & %w(warning notice alert)).map do |key|
+    (flash.keys & %w[warning notice alert]).map do |key|
       content_tag 'div', flash[key], class: "alert alert-#{classes[key.to_sym]} m-b-3"
     end.join("\n").html_safe
   end

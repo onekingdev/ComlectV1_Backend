@@ -1,9 +1,9 @@
 # frozen_string_literal: true
+
 class Business::FlagsController < ApplicationController
   before_action :find_project
 
-  def new
-  end
+  def new; end
 
   def create
     @flag = Flag::Create.(current_business, find_flagged_content, reason: flag_params[:reason].values.join(", "))
@@ -17,7 +17,7 @@ class Business::FlagsController < ApplicationController
   end
 
   def flag_params
-    params.require(:flag).permit(:question_id, :answer_id, reason: %i(i h s))
+    params.require(:flag).permit(:question_id, :answer_id, reason: %i[i h s])
   end
 
   def find_flagged_content

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class ChangeProjectsExpToNumber < ActiveRecord::Migration
   def up
     add_column :projects, :min_exp_int, :integer

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class ProjectIssue < ActiveRecord::Base
+
+class ProjectIssue < ApplicationRecord
   belongs_to :project
   belongs_to :user
   belongs_to :admin_user

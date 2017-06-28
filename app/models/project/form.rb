@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Project::Form < Project
   include ApplicationForm
 
@@ -7,9 +8,9 @@ class Project::Form < Project
   validates :location, presence: true, if: :location_required?
   validates :jurisdiction_ids, :industry_ids, presence: true
 
-  ONE_OFF_FIELDS = %i(key_deliverables starts_on ends_on location_type payment_schedule estimated_hours).freeze
-  FULL_TIME_FIELDS = %i(full_time_starts_on annual_salary).freeze
-  SHARED_FIELDS = %i(starts_on).freeze
+  ONE_OFF_FIELDS = %i[key_deliverables starts_on ends_on location_type payment_schedule estimated_hours].freeze
+  FULL_TIME_FIELDS = %i[full_time_starts_on annual_salary].freeze
+  SHARED_FIELDS = %i[starts_on].freeze
 
   validates(*ONE_OFF_FIELDS, presence: true, if: :one_off?)
   validates(*FULL_TIME_FIELDS, presence: true, if: :full_time?)
@@ -32,7 +33,7 @@ class Project::Form < Project
   validate if: -> { starts_on.present? && ends_on.present? && ends_on - starts_on < 14 } do
     attribute = hourly_pricing? ? :hourly_payment_schedule : :fixed_payment_schedule
     period = public_send(attribute)
-    errors.add attribute, :too_little_duration if period == 'monthly' || period == 'bi_weekly'
+    errors.add attribute, :too_little_duration if %w[monthly bi_weekly].include?(period)
   end
   validate if: -> { starts_on.present? && ends_on.present? && ends_on - starts_on > 30 } do
     attribute = hourly_pricing? ? :hourly_payment_schedule : :fixed_payment_schedule
@@ -51,10 +52,10 @@ class Project::Form < Project
   attr_accessor :hourly_payment_schedule, :fixed_payment_schedule
   attr_accessor :invite_id
 
-  ATTRIBUTES_FOR_COPY = %w(
+  ATTRIBUTES_FOR_COPY = %w[
     annual_salary business_id description estimated_hours fee_type fixed_budget hourly_rate key_deliverables
     location location_type minimum_experience only_regulators payment_schedule pricing_type status title type
-  ).freeze
+  ].freeze
 
   def self.copy(original, attributes = {})
     new(original.attributes.slice(*ATTRIBUTES_FOR_COPY)).tap do |copy|
@@ -94,7 +95,7 @@ class Project::Form < Project
 
   def process_invite(published_now)
     invite = self.invite || business.project_invites.find(invite_id)
-    invite.update_attribute :project_id, id unless invite.project_id.present?
+    invite.update_attribute :project_id, id if invite.project_id.blank?
     invite.send_message! if published_now
   end
 

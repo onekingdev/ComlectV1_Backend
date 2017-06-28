@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class BankAccount::Save < BankAccount
   include ApplicationForm
 
@@ -16,6 +17,6 @@ class BankAccount::Save < BankAccount
   end
 
   def require_iban?
-    %w(AT BE DE DK ES FI FR GB IE IT LU NL NO PT SE).include? country
+    %w[AT BE DE DK ES FI FR GB IE IT LU NL NO PT SE].include? country
   end
 end

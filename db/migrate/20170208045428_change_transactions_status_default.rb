@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class ChangeTransactionsStatusDefault < ActiveRecord::Migration
   def change
     change_column_default :transactions, :status, 'pending'

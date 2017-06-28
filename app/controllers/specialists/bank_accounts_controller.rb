@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Specialists::BankAccountsController < ApplicationController
   before_action :require_specialist!
   before_action :require_stripe_account!

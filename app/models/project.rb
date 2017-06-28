@@ -1,6 +1,7 @@
 # frozen_string_literal: true
+
 # rubocop:disable Metrics/ClassLength
-class Project < ActiveRecord::Base
+class Project < ApplicationRecord
   self.inheritance_column = '_none'
 
   belongs_to :business
@@ -119,14 +120,14 @@ class Project < ActiveRecord::Base
     monthly_fee: 'monthly_fee'
   }
 
-  LOCATIONS = [%w(Remote remote), %w(Remote\ +\ Travel remote_and_travel), %w(Onsite onsite)].freeze
+  LOCATIONS = [%w[Remote remote], %w[Remote\ +\ Travel remote_and_travel], %w[Onsite onsite]].freeze
   # DB Views depend on these so don't modify:
-  HOURLY_PAYMENT_SCHEDULES = [%w(Upon\ Completion upon_completion), %w(Bi-Weekly bi_weekly), %w(Monthly monthly)].freeze
+  HOURLY_PAYMENT_SCHEDULES = [%w[Upon\ Completion upon_completion], %w[Bi-Weekly bi_weekly], %w[Monthly monthly]].freeze
   FIXED_PAYMENT_SCHEDULES = [
-    %w(50/50 fifty_fifty),
-    %w(Upon\ Completion upon_completion),
-    %w(Bi-Weekly bi_weekly),
-    %w(Monthly monthly)
+    %w[50/50 fifty_fifty],
+    %w[Upon\ Completion upon_completion],
+    %w[Bi-Weekly bi_weekly],
+    %w[Monthly monthly]
   ].freeze
   PAYMENT_SCHEDULES = (HOURLY_PAYMENT_SCHEDULES + FIXED_PAYMENT_SCHEDULES).uniq.freeze
   enum payment_schedule: Hash[PAYMENT_SCHEDULES].invert
@@ -267,7 +268,7 @@ class Project < ActiveRecord::Base
   private
 
   def save_expires_at
-    return unless starts_on.present?
+    return if starts_on.blank?
     self.expires_at = starts_on.in_time_zone(time_zone).end_of_day
   end
 end

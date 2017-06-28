@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe "Specialist::Ratings", type: :request do
@@ -14,7 +15,7 @@ RSpec.describe "Specialist::Ratings", type: :request do
     end
 
     subject do
-      post project_rating_path(project), rating: { value: 5, review: 'Nice working with them' }, format: :js
+      post project_rating_path(project), params: { rating: { value: 5, review: 'Nice working with them' }, format: :js }
     end
 
     it "creates a rating" do

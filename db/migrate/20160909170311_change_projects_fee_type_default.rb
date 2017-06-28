@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class ChangeProjectsFeeTypeDefault < ActiveRecord::Migration
   def change
     change_column_default :projects, :fee_type, 'upfront_fee'

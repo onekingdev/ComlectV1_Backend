@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class CreateFinancialsViews < ActiveRecord::Migration
   def change
     create_view :financials_actual

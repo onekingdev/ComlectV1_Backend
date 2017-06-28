@@ -1,11 +1,12 @@
 # frozen_string_literal: true
+
 module Project::PgSearchConfig
   extend ActiveSupport::Concern
 
   included do
     include PgSearch
     pg_search_scope :search,
-                    against: %i(title description),
+                    against: %i[title description],
                     using: {
                       tsearch: {
                         dictionary: 'english',

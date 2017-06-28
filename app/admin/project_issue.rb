@@ -1,8 +1,9 @@
 # frozen_string_literal: true
+
 ActiveAdmin.register ProjectIssue, as: 'Issues' do
   menu parent: 'Projects'
 
-  actions :all, except: %i(new create)
+  actions :all, except: %i[new create]
 
   filter :status, collection: -> { ProjectIssue.statuses }
   filter :admin_user, collection: -> { AdminUser.pluck(:email, :id) }

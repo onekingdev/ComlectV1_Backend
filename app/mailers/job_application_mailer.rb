@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class JobApplicationMailer < ApplicationMailer
   def withdraw(job_application)
     @specialist = job_application.specialist

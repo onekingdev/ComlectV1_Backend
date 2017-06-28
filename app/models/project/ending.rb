@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Project::Ending < Project
   def self.process!(project)
     project.complete!

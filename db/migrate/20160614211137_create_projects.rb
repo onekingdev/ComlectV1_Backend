@@ -1,6 +1,6 @@
 # frozen_string_literal: true
+
 class CreateProjects < ActiveRecord::Migration
-  # rubocop:disable Metrics/MethodLength
   # rubocop:disable Metrics/AbcSize
   def change
     create_table :projects do |t|
@@ -29,8 +29,8 @@ class CreateProjects < ActiveRecord::Migration
     add_index :projects, :status
 
     create_join_table :industries, :projects
-    add_index :industries_projects, %i(industry_id project_id), unique: true
+    add_index :industries_projects, %i[industry_id project_id], unique: true
     create_join_table :jurisdictions, :projects
-    add_index :jurisdictions_projects, %i(jurisdiction_id project_id), unique: true
+    add_index :jurisdictions_projects, %i[jurisdiction_id project_id], unique: true
   end
 end

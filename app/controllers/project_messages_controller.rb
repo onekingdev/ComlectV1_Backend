@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class ProjectMessagesController < ApplicationController
   before_action :find_project
 

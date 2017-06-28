@@ -1,6 +1,6 @@
 # frozen_string_literal: true
+
 module Metrics::Financials::Actual
-  # rubocop:disable Metrics/MethodLength
   # rubocop:disable Metrics/AbcSize
   def actual
     return {} if invalid?

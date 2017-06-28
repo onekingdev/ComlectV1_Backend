@@ -1,10 +1,11 @@
 # frozen_string_literal: true
-class Flag < ActiveRecord::Base
+
+class Flag < ApplicationRecord
   belongs_to :flagger, polymorphic: true
   belongs_to :flagged_content, polymorphic: true
 
   validates :reason, inclusion: {
-    in: %w(Inappropriate Harassment Spam) + [
+    in: %w[Inappropriate Harassment Spam] + [
       "Inappropriate, Harassment",
       "Inappropriate, Spam", "Harassment, Spam",
       "Inappropriate, Harassment, Spam"

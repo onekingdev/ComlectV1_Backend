@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 ActiveAdmin.register AdminUser, as: 'Administrator' do
   menu parent: 'Roles'
   filter :email

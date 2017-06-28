@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class JobApplication::Accept < Draper::Decorator
   decorates JobApplication
   delegate_all

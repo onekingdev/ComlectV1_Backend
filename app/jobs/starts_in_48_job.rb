@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class StartsIn48Job < ActiveJob::Base
+
+class StartsIn48Job < ApplicationJob
   queue_as :default
 
   def perform(project_id = nil)

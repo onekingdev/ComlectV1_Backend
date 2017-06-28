@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class AddRatingStats < ActiveRecord::Migration
   def change
     add_column :businesses, :ratings_count, :integer, null: false, default: 0

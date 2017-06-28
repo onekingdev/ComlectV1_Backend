@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module MixpanelHelper
   def mixpanel_track_later(event, args = {})
     mixpanel do

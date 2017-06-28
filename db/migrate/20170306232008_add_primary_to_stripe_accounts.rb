@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class AddPrimaryToStripeAccounts < ActiveRecord::Migration
   def change
     add_column :stripe_accounts, :primary, :boolean, null: false, default: false

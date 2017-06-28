@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Metrics::Financials
   include ActiveSupport::NumberHelper
   include ActionView::Helpers::TextHelper
@@ -21,7 +22,7 @@ class Metrics::Financials
 
   def to_csv
     CSV.generate do |csv|
-      csv << %w(metric mtd fytd itd all_periods)
+      csv << %w[metric mtd fytd itd all_periods]
       rows = csv_from_hash(hash: actual, output_cols: 4).each_slice(5)
       rows.each { |row| csv << row }
       add_postings_csv csv

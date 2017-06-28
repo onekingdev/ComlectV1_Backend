@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Api::SkillsController < ApiController
   def index
     @skills = skill_search(params[:q])
@@ -10,7 +11,7 @@ class Api::SkillsController < ApiController
   private
 
   def skill_search(query)
-    return Skill.all unless query.present?
+    return Skill.all if query.blank?
     Skill.where('name ILIKE ?', "%#{params[:q]}%")
   end
 end

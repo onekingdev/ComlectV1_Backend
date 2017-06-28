@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class MessageMailer < ApplicationMailer
   def first_contact(from, to, message_text, project)
     @message = message_text
@@ -16,7 +17,7 @@ class MessageMailer < ApplicationMailer
   end
 
   def reply(thread, original_sender, message_text, message_html, reply_text)
-    raise 'Invalid parameters' unless %w(b s).include?(original_sender)
+    raise 'Invalid parameters' unless %w[b s].include?(original_sender)
     to = original_sender == 'b' ? thread.business : thread.specialist
     from = original_sender == 'b' ? thread.specialist : thread.business
     thread = EmailThread.for!(from, to)

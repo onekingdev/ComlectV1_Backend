@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class AddFirstSubmittedAtToTimesheets < ActiveRecord::Migration
   def change
     add_column :timesheets, :first_submitted_at, :datetime

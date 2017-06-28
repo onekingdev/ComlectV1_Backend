@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class DocumentsController < ApplicationController
   before_action :find_project
   before_action :set_me

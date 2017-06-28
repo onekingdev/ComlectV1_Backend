@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class StripeEvent::AccountUpdated < StripeEvent
   def handle
     object = event.data.object

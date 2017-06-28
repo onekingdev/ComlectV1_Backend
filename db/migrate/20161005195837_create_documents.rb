@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class CreateDocuments < ActiveRecord::Migration
   def change
     create_table :documents do |t|

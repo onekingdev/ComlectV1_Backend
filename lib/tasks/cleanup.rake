@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 namespace :cleanup do
   namespace :projects do
     desc 'Update project payment schedules to use enum values'

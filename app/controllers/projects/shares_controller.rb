@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Projects::SharesController < ApplicationController
   before_action :authenticate_user!
   before_action :find_project

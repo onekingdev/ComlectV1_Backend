@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Business::ProjectMessageDecorator < ApplicationDecorator
   delegate_all
 

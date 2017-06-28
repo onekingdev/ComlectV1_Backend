@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class JobApplication::Form < JobApplication
   include ApplicationForm
 

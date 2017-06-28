@@ -1,10 +1,11 @@
 # frozen_string_literal: true
+
 # rubocop:disable Metrics/ClassLength
 class Project::Search
   include ActiveModel::Model
 
   SORT_BY = { 'Sort by Newest' => 'newest', 'Sort by Start Date' => 'start_date', 'Sort by Budget' => 'budget' }.freeze
-  KEYWORD_SEARCH_COLUMNS = %w(title description key_deliverables).freeze
+  KEYWORD_SEARCH_COLUMNS = %w[title description key_deliverables].freeze
   MIN_EXPERIENCE = 3
   MAX_EXPERIENCE = 15
   MAX_LOCATION_RANGE = 100
@@ -61,7 +62,7 @@ class Project::Search
   def search(records)
     return records if keyword.blank?
     terms = keyword.split(' ')
-    columns = %w(title description key_deliverables)
+    columns = %w[title description key_deliverables]
     conditions = columns.each_with_index.map do |column|
       Array.new(terms.size) { |i| "#{column} ILIKE :term_#{i}" }.join(' OR ')
     end.join(' OR ')
@@ -80,7 +81,7 @@ class Project::Search
 
   def filter_value(records)
     min, max = project_value.to_s.split(';').map(&:to_i)
-    return records if min.to_i == 0 || max.to_i == 0
+    return records if min.to_i.zero? || max.to_i.zero?
     max = Float::INFINITY if max.to_i == MAX_VALUE
     records.where(calculated_budget: (min..max))
   end

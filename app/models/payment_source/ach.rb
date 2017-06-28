@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class PaymentSource::ACH < PaymentSource
   attr_accessor :validate1, :validate2
   attr_accessor :plaid_account_id, :plaid_token, :plaid_institution

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Project::Share
   include ActiveModel::Model
   include ActionView::Helpers::TextHelper
@@ -22,7 +23,7 @@ class Project::Share
   end
 
   def set_business_message
-    self.message = business_message unless message.present?
+    self.message = business_message if message.blank?
     self.message_html = simple_format message
   end
 

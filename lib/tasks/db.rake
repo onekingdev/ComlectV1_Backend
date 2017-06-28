@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 namespace :db do
   task cleanup: :environment do
     if ENV['FORCE'] != '1'
@@ -6,7 +7,7 @@ namespace :db do
       exit 1
     end
 
-    tables = %w(
+    tables = %w[
       admin_users
       answers
       bank_accounts
@@ -48,7 +49,7 @@ namespace :db do
       transactions
       users
       work_experiences
-    )
+    ]
 
     tables.each do |table|
       ActiveRecord::Base.connection.execute "DELETE FROM #{table}"

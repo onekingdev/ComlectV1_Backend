@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Date
   def distance_in_words_from(from)
     days = (from - self).to_i.abs + 1
@@ -9,7 +10,7 @@ class Date
     else
       weeks = helper.pluralize(days / 7, 'Week', 'Weeks')
       remaining = days - (days / 7) * 7
-      days = remaining > 0 ? helper.pluralize(remaining, 'Day', 'Days') : ''
+      days = remaining.positive? ? helper.pluralize(remaining, 'Day', 'Days') : ''
       [weeks, days].join(' ')
     end
   end

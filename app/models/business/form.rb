@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Business::Form < Business
   include ApplicationForm
 
@@ -10,7 +11,7 @@ class Business::Form < Business
   end
 
   def save(*)
-    sync_triggered = (%w(anonymous business_name logo_data) & changed).any?
+    sync_triggered = (%w[anonymous business_name logo_data] & changed).any?
     super.tap do |result|
       discourse.sync if result && sync_triggered
     end

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class StripeEventJob < ActiveJob::Base
+
+class StripeEventJob < ApplicationJob
   queue_as :default
 
   def perform(event_id, account_id, connect)

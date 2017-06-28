@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe "Deleting account", type: :request do
@@ -15,7 +16,7 @@ RSpec.describe "Deleting account", type: :request do
       end
 
       it 'cannot login anymore' do
-        post user_session_path, 'user[email]' => business.user.email, 'user[password]' => 'password'
+        post user_session_path, params: { 'user[email]' => business.user.email, 'user[password]' => 'password' }
         expect(response).to have_http_status(:ok)
         expect(response.body).to match(/Invalid email or password/i)
       end

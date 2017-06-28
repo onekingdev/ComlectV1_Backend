@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module ActiveAdmin
   module AuthenticationHelpers
     extend ActiveSupport::Concern

@@ -8,6 +8,15 @@ AllCops:
   Exclude:
     - 'bin/*'
 
+Layout/EmptyLineBetweenDefs:
+  AllowAdjacentOneLineDefs: true
+
+Layout/MultilineMethodCallBraceLayout:
+  Enabled: true
+
+Layout/MultilineMethodDefinitionBraceLayout:
+  Enabled: true
+
 Style/ClassAndModuleChildren:
   Enabled: false
 
@@ -17,20 +26,14 @@ Style/CommandLiteral:
 Style/Documentation:
   Enabled: false
 
-Style/EmptyLineBetweenDefs:
-  AllowAdjacentOneLineDefs: true
+Style/FormatStringToken:
+  Enabled: false
 
 Style/Lambda:
   Enabled: false
 
 Style/LambdaCall:
   Enabled: false
-
-Style/MultilineMethodCallBraceLayout:
-  Enabled: true
-
-Style/MultilineMethodDefinitionBraceLayout:
-  Enabled: true
 
 Style/RegexpLiteral:
   Enabled: false
@@ -50,6 +53,9 @@ Style/StringLiteralsInInterpolation:
 Style/SymbolArray:
   Enabled: true
 
+Style/VariableNumber:
+  Enabled: false
+
 Style/WhileUntilModifier:
   MaxLineLength: 80
 
@@ -57,6 +63,14 @@ Style/WhileUntilModifier:
 
 Metrics/AbcSize:
   Max: 19
+
+Metrics/BlockLength:
+  Max: 150
+  Exclude:
+    - 'app/admin/**/*'
+    - 'config/routes.rb'
+    - 'spec/**/*'
+    - 'test/**/*'
 
 Metrics/BlockNesting:
   Max: 3
@@ -74,14 +88,15 @@ Metrics/LineLength:
   Max: 120
 
 Metrics/MethodLength:
-  Max: 15
+  Max: 30
 
 Metrics/PerceivedComplexity:
   Max: 8
 
 ##################### Lint ##################################
 
-# Using all defaults
+Lint/AmbiguousBlockAssociation:
+  Enabled: false
 
 ##################### Performance ############################
 
@@ -91,6 +106,9 @@ Metrics/PerceivedComplexity:
 
 Rails:
   Enabled: true
+
+Rails/FilePath:
+  Enabled: false
 
 Rails/Output:
   Include:
@@ -103,5 +121,14 @@ Rails/Output:
 Rails/HasAndBelongsToMany:
   Enabled: false
 
+Rails/NotNullColumn:
+  Enabled: false
+
 Rails/OutputSafety:
+  Enabled: false
+
+Rails/ReversibleMigration:
+  Enabled: false
+
+Rails/SkipsModelValidations:
   Enabled: false

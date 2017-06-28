@@ -1,6 +1,6 @@
 # frozen_string_literal: true
+
 class CreateMetrics < ActiveRecord::Migration
-  # rubocop:disable Metrics/MethodLength
   # rubocop:disable Metrics/AbcSize
   def change
     create_view :metrics_projects_posted

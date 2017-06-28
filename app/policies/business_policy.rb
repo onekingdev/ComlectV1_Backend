@@ -1,6 +1,7 @@
 # frozen_string_literal: true
+
 class BusinessPolicy < ApplicationPolicy
-  PRIVATE_ATTRIBUTES = %i(business_name logo website linkedin_link).freeze
+  PRIVATE_ATTRIBUTES = %i[business_name logo website linkedin_link].freeze
 
   def public_info(attribute)
     return record.public_send(attribute) if full_view?

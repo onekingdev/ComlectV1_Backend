@@ -1,7 +1,8 @@
 # frozen_string_literal: true
+
 Sidekiq.default_worker_options = {
   unique: :until_executed,
-  unique_args: -> (args) { args.first.except('job_id') }
+  unique_args: ->(args) { args.first.except('job_id') }
 }
 
 # https://devcenter.heroku.com/articles/forked-pg-connections#sidekiq

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # rubocop:disable Metrics/ClassLength
 class Project::Decorator < ApplicationDecorator
   decorates Project
@@ -43,11 +44,11 @@ class Project::Decorator < ApplicationDecorator
   def percent_complete
     return 0 unless starts_on && ends_on
     total = (ends_on - starts_on).to_f
-    return 100 if total == 0 # Edge case: project that starts and ends on the same day
+    return 100 if total.zero? # Edge case: project that starts and ends on the same day
     remaining = (ends_on - Time.zone.today).to_i
     percent = (1 - (remaining / total)) * 100
     return 100 if percent > 100
-    percent < 0 ? 0 : percent
+    percent.negative? ? 0 : percent
   end
 
   def specialist_project_href(specialist)

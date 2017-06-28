@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 source 'https://rubygems.org'
 ruby '2.3.1'
 
@@ -6,16 +7,16 @@ ruby '2.3.1'
 gem 'rails', '4.2.8'
 
 # ActiveRecord
+gem 'deep_pluck'
+gem 'faker'
 gem 'pg', '~> 0.15'
 gem 'pg_search', '~> 1.0.6'
 gem 'scenic'
-gem 'faker'
-gem 'deep_pluck'
 
 # Orchestration
-gem 'puma', '~> 3.4.0'
-gem 'foreman', '~> 0.80.1'
 gem 'dotenv-rails', '~> 2.0.2'
+gem 'foreman', '~> 0.80.1'
+gem 'puma', '~> 3.4.0'
 
 # Auth
 gem 'devise', '~> 4.1.1'
@@ -27,19 +28,19 @@ gem 'activeadmin', git: 'https://github.com/activeadmin/activeadmin.git'
 gem 'best_in_place', git: 'https://github.com/bernat/best_in_place.git'
 
 # Asset processing
-gem 'sassc-rails', '~> 1.3'
-gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 gem 'non-stupid-digest-assets'
 gem 'rack-cors', require: 'rack/cors'
+gem 'sassc-rails', '~> 1.3'
+gem 'uglifier', '>= 1.3.0'
 
 # Views
-gem 'slim-rails', '~> 3.0.1'
-gem 'simple_form', '~> 3.2'
+gem 'cocoon'
 gem 'country_select'
 gem 'draper'
-gem 'cocoon'
 gem 'iso_country_codes'
+gem 'simple_form', '~> 3.2'
+gem 'slim-rails', '~> 3.0.1'
 
 # Misc
 gem 'business_time'
@@ -53,21 +54,21 @@ gem 'wkhtmltopdf-binary'
 gem 'discourse_api'
 
 # Assets
-gem 'jquery-rails'
-gem 'jquery-slick-rails'
 gem 'imagesLoaded_rails'
 gem 'jquery-mousewheel-rails'
+gem 'jquery-rails'
+gem 'jquery-slick-rails'
 
 # Mail
 gem 'postmark-rails'
 
 # Image uploads
+gem 'aws-sdk', '~> 2.3.12'
 gem 'fastimage', '~> 2.0.0'
 gem 'image_processing', '~> 0.3.0'
 gem 'mini_magick', '~> 4.5.1'
-gem 'aws-sdk', '~> 2.3.12'
-gem 'shrine', '~> 2.4.0'
 gem 'roda', '~> 2.14.0'
+gem 'shrine', '~> 2.4.0'
 
 # API builder
 gem 'jbuilder', '~> 2.0'
@@ -80,12 +81,12 @@ gem 'sidekiq-unique-jobs'
 gem 'sinatra', require: nil
 
 # Payments
-gem 'stripe'
 gem 'plaid'
+gem 'stripe'
 
 # Logging
-gem 'lograge'
 gem 'appsignal'
+gem 'lograge'
 
 group :development, :test do
   # Logging
@@ -95,8 +96,8 @@ group :development, :test do
   gem 'byebug'
 
   # Testing
-  gem 'rspec-rails'
   gem 'factory_girl_rails'
+  gem 'rspec-rails'
 
   # Code Quality
   gem 'rubocop', require: false
@@ -104,8 +105,8 @@ end
 
 group :development do
   # Debugging
-  gem 'web-console', '~> 2.0'
   gem 'mailcatcher'
+  gem 'web-console', '~> 2.0'
 
   # Preloading
   gem 'spring'
@@ -118,11 +119,11 @@ end
 
 group :test do
   # Testing
-  gem 'webmock'
   gem 'capybara'
-  gem 'poltergeist'
   gem 'database_cleaner'
+  gem 'poltergeist'
   gem 'timecop'
+  gem 'webmock'
 end
 
 gem 'rails_12factor', group: :production

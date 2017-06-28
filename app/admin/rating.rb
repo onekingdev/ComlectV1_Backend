@@ -1,6 +1,7 @@
 # frozen_string_literal: true
+
 ActiveAdmin.register Rating do
-  actions :all, except: %i(show edit)
+  actions :all, except: %i[show edit]
   filter :project
   filter :review
 

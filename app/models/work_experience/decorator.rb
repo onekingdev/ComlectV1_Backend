@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class WorkExperience::Decorator < ApplicationDecorator
   decorates WorkExperience
   delegate_all

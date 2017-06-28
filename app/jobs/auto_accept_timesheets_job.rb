@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class AutoAcceptTimesheetsJob < ActiveJob::Base
+
+class AutoAcceptTimesheetsJob < ApplicationJob
   queue_as :default
 
   def perform(timesheet_id = nil)

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class Document < ActiveRecord::Base
+
+class Document < ApplicationRecord
   include FileUploader[:file]
   belongs_to :project
   belongs_to :owner, polymorphic: true

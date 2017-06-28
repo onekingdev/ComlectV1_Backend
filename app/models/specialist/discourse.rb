@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Specialist::Discourse < DiscourseUser
   FORUM_URL = ENV.fetch('DISCOURSE_SPECIALIST_FORUM')
   API_KEY = ENV.fetch('DISCOURSE_SPECIALIST_API_KEY')

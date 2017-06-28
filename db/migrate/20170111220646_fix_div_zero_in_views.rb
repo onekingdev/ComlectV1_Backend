@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class FixDivZeroInViews < ActiveRecord::Migration
   def change
     replace_view :metrics_jobs_share, version: 4, revert_to_version: 3

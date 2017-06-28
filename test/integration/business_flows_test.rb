@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'test_helper'
 
 class BusinessFlowsTest < ActionDispatch::IntegrationTest
@@ -11,7 +12,7 @@ class BusinessFlowsTest < ActionDispatch::IntegrationTest
     attributes[:user_attributes] = attributes_for(:user)
     attributes[:industry_ids] = [create(:industry).id]
     assert_difference 'Business.count + User.count', +2 do
-      post businesses_path, business: attributes
+      post businesses_path, params: { business: attributes }
     end
     assert_redirected_to business_dashboard_path
     get business_dashboard_path
@@ -34,7 +35,7 @@ class BusinessFlowsTest < ActionDispatch::IntegrationTest
     attributes[:user_attributes] = attributes_for(:user)
     post_via_redirect user_session_path, 'user[email]' => user.email, 'user[password]' => 'password'
     assert_no_difference 'Business.count + User.count' do
-      post businesses_path, business: attributes
+      post businesses_path, params: { business: attributes }
       assert_redirected_to business_path(business)
     end
   end
@@ -43,7 +44,7 @@ class BusinessFlowsTest < ActionDispatch::IntegrationTest
     user = create :user
     business = create :business, user: user
     post_via_redirect user_session_path, 'user[email]' => user.email, 'user[password]' => 'password'
-    patch update_business_path, business: { business_name: 'New Name' }
+    patch update_business_path, params: { business: { business_name: 'New Name' } }
     assert_redirected_to business_dashboard_path
     assert_equal 'New Name', business.reload.business_name
   end

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class BankAccount < ActiveRecord::Base
+
+class BankAccount < ApplicationRecord
   belongs_to :stripe_account
   has_one :specialist, through: :stripe_account
 

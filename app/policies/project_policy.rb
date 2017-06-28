@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class ProjectPolicy < ApplicationPolicy
   def view_full_business?
     business_policy.full_view? || record.specialist == user

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class PaymentCycle::Fixed::FiftyFifty < PaymentCycle::Fixed
   def reschedule!
     # Create first real charge right away

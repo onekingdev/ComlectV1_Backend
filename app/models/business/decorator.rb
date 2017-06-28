@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Business::Decorator < ApplicationDecorator
   decorates Business
   delegate_all

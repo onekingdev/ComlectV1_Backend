@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class User::Decorator < Draper::Decorator
   decorates User
   delegate_all

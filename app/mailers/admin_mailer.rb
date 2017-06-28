@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class AdminMailer < ApplicationMailer
   def admin_email(email, subject, body)
     @body = body

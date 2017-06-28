@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class SpecialistPolicy < ApplicationPolicy
   def update?
     owner? || user.is_a?(AdminUser)

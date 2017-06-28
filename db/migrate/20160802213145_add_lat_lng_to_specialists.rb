@@ -1,6 +1,6 @@
 # frozen_string_literal: true
+
 class AddLatLngToSpecialists < ActiveRecord::Migration
-  # rubocop:disable Metrics/MethodLength
   def change
     change_table :specialists do |t|
       t.decimal :lat, precision: 9, scale: 5

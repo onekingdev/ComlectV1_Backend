@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class ProjectEndedMailer < ApplicationMailer
   include ActionView::Helpers::TextHelper
 

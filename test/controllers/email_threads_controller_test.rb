@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'test_helper'
 
 class EmailThreadsControllerTest < ActionDispatch::IntegrationTest
@@ -19,7 +20,7 @@ class EmailThreadsControllerTest < ActionDispatch::IntegrationTest
       'HtmlBody' => 'Html',
       'StrippedTextReply' => 'Stripped'
     }
-    post email_threads_path, params.to_json, 'CONTENT_TYPE' => 'application/json'
+    post email_threads_path, params: params.to_json, headers: { 'CONTENT_TYPE' => 'application/json' }
     assert_response :ok
   end
 end

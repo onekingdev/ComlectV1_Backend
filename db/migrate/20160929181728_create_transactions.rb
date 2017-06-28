@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-# rubocop:disable Metrics/MethodLength
+
 class CreateTransactions < ActiveRecord::Migration
   def change
     create_table :transactions do |t|

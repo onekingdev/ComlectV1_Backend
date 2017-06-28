@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class PaymentSource < ActiveRecord::Base
+
+class PaymentSource < ApplicationRecord
   belongs_to :payment_profile
   has_one :business, through: :payment_profile
 
@@ -62,7 +63,7 @@ class PaymentSource < ActiveRecord::Base
 
   private
 
-  STRIPE_CARD_KEYS = %i(brand exp_month exp_year last4).freeze
+  STRIPE_CARD_KEYS = %i[brand exp_month exp_year last4].freeze
 
   def create_source
     source = stripe_customer.sources.create(source: token)

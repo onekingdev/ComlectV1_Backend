@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class TimeLog < ActiveRecord::Base
+
+class TimeLog < ApplicationRecord
   belongs_to :timesheet
   has_one :project, through: :timesheet
 

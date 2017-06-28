@@ -1,9 +1,10 @@
 # frozen_string_literal: true
+
 class Transaction::FullTime < Transaction
   belongs_to :charge_source, class_name: 'PaymentSource'
 
   scope :current, -> { where(status: nil) }
-  scope :current_for, -> (project_id) do
+  scope :current_for, ->(project_id) do
     current.where(project_id: project_id)
   end
 

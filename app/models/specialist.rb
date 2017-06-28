@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class Specialist < ActiveRecord::Base
+
+class Specialist < ApplicationRecord
   belongs_to :user, autosave: true
   has_and_belongs_to_many :industries
   has_and_belongs_to_many :jurisdictions

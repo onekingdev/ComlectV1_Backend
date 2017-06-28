@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class UpdateMetricsAndFinancials < ActiveRecord::Migration
   def change
     replace_view :financials_actual, version: 3, revert_to_version: 2

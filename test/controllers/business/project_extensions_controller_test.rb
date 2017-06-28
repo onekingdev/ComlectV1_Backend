@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'test_helper'
 
 class Business::ProjectExtensionsControllerTest < ActionDispatch::IntegrationTest
@@ -12,7 +13,7 @@ class Business::ProjectExtensionsControllerTest < ActionDispatch::IntegrationTes
   test 'creates pending extension request' do
     new_end_date = @project.ends_on + 1.week
     assert_difference 'ProjectExtension.count', +1 do
-      post business_project_extensions_path(@project), project_extension: { new_end_date: new_end_date }
+      post business_project_extensions_path(@project), params: { project_extension: { new_end_date: new_end_date } }
     end
     assert @project.extensions.first.pending?
   end

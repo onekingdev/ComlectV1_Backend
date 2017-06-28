@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class Transaction < ActiveRecord::Base
+
+class Transaction < ApplicationRecord
   belongs_to :project
   has_one :business, through: :project
   has_one :specialist, through: :project

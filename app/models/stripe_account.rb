@@ -1,6 +1,7 @@
 # frozen_string_literal: true
+
 # rubocop:disable Metrics/ClassLength
-class StripeAccount < ActiveRecord::Base
+class StripeAccount < ApplicationRecord
   belongs_to :specialist
   has_many :bank_accounts, dependent: :destroy
   has_many :transactions, dependent: :nullify, foreign_key: 'payment_target_id'
@@ -19,14 +20,14 @@ class StripeAccount < ActiveRecord::Base
   after_destroy :delete_stripe_account, if: -> { stripe_id.present? }
 
   REQUIRED_FIELDS = {
-    additional_owners: { company: %w(AT BE DE DK ES FI FR GB IE IT LU NL NO PT SE SG) },
-    state: { both: %w(US AT CA AU) },
+    additional_owners: { company: %w[AT BE DE DK ES FI FR GB IE IT LU NL NO PT SE SG] },
+    state: { both: %w[US AT CA AU] },
     business_name: { company: :all },
     business_tax_id: { company: :all },
-    personal_city: { company: %w(BE DE DK ES FI FR GB HK IE IT LU NL NO PT SE SG) },
-    personal_address1: { company: %w(BE DE DK ES FI FR GB HK IE IT LU NL NO PT SE SG) },
-    personal_zipcode: { company: %w(BE DE DK ES FI FR GB HK IE IT LU NL NO PT SE SG) },
-    personal_id_number: { both: %w(US CA HK SG) }
+    personal_city: { company: %w[BE DE DK ES FI FR GB HK IE IT LU NL NO PT SE SG] },
+    personal_address1: { company: %w[BE DE DK ES FI FR GB HK IE IT LU NL NO PT SE SG] },
+    personal_zipcode: { company: %w[BE DE DK ES FI FR GB HK IE IT LU NL NO PT SE SG] },
+    personal_id_number: { both: %w[US CA HK SG] }
   }.freeze
 
   FIELDS_NEEDED_MAP = {
@@ -34,7 +35,7 @@ class StripeAccount < ActiveRecord::Base
   }.freeze
 
   def fields_needed_message(account)
-    return 'Please add a bank account' if account.verification&.fields_needed == %w(external_account)
+    return 'Please add a bank account' if account.verification&.fields_needed == %w[external_account]
     fields = (account.verification&.fields_needed || []).map do |field|
       next if field == 'external_account'
       FIELDS_NEEDED_MAP[field] || field.split('.')[-1]
@@ -105,12 +106,12 @@ class StripeAccount < ActiveRecord::Base
     update_verification_status
   rescue Stripe::InvalidRequestError => e
     errors.add :base, translate_stripe_error(e.message)
-    raise ActiveRecord::Rollback unless stripe_id.present?
+    raise ActiveRecord::Rollback if stripe_id.blank?
     update_attribute :status_detail, translate_stripe_error(e.message)
   end
 
   def upload_verification_document
-    return false unless verification_document.present?
+    return false if verification_document.blank?
     tmp = Tempfile.new
     tmp.binmode
     tmp.write Base64.decode64(verification_document)
@@ -153,14 +154,14 @@ class StripeAccount < ActiveRecord::Base
     FIELD_MAPPINGS.each do |field, value|
       assign_account_field account, field, value.is_a?(Proc) ? instance_exec(&value) : public_send(value)
     end
-    if verification_document_data
-      upload = upload_verification_document
-      account.legal_entity.verification.document = upload.id if upload
-    end
+
+    return unless verification_document_data
+    upload = upload_verification_document
+    account.legal_entity.verification.document = upload.id if upload
   end
 
   def assign_account_field(account, field, value)
-    return unless value.present?
+    return if value.blank?
     methods = field.split('.')
     # Chain method calls except last one
     methods[0..-2].inject(account) do |acc, method|

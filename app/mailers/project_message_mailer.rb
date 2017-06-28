@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class ProjectMessageMailer < ApplicationMailer
   def notification(message_id)
     message = Message.find(message_id)

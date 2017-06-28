@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class AddApprovedAtToTimesheets < ActiveRecord::Migration
   def change
     add_column :timesheets, :approved_at, :datetime

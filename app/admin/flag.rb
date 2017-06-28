@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 ActiveAdmin.register Flag do
   config.batch_actions = true
 
@@ -13,7 +14,7 @@ ActiveAdmin.register Flag do
     redirect_to collection_path, notice: "Email will be sent to selected #{'user'.pluralize(ids.length)}"
   end
 
-  actions :all, except: %i(edit destroy new create update)
+  actions :all, except: %i[edit destroy new create update]
 
   member_action :delete, method: :delete, only: :show do
     Flag.find(params[:id]).destroy

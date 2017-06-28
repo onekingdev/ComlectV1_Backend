@@ -1,7 +1,7 @@
 # frozen_string_literal: true
+
 class CreateStripeAccounts < ActiveRecord::Migration
   # rubocop:disable Metrics/AbcSize
-  # rubocop:disable Metrics/MethodLength
   def change
     create_table :stripe_accounts do |t|
       t.references :specialist, index: true, foreign_key: true

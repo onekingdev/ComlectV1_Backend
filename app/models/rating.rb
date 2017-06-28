@@ -1,9 +1,10 @@
 # frozen_string_literal: true
-class Rating < ActiveRecord::Base
+
+class Rating < ApplicationRecord
   belongs_to :project
   belongs_to :rater, polymorphic: true
 
-  scope :by, -> (rater) { where(rater: rater) }
+  scope :by, ->(rater) { where(rater: rater) }
   scope :preload_associations, -> { preload(:project, :rater) }
 
   attr_accessor :should_update_stats
@@ -34,7 +35,7 @@ class Rating < ActiveRecord::Base
     total = rated.ratings_received.sum(:value)
     rated.ratings_count = count
     rated.ratings_total = total
-    rated.ratings_average = count > 0 ? total / (count * 1.0) : nil
+    rated.ratings_average = count.positive? ? total / (count * 1.0) : nil
     rated.save! validate: false
   end
 end

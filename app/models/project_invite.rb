@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class ProjectInvite < ActiveRecord::Base
+
+class ProjectInvite < ApplicationRecord
   belongs_to :business
   belongs_to :project
   belongs_to :specialist

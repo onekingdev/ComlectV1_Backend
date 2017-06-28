@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class BankAccount::Update < BankAccount::Save
   include ApplicationForm
 

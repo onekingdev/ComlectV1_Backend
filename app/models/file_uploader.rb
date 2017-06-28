@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class FileUploader < Shrine
   plugin :activerecord
   plugin :determine_mime_type

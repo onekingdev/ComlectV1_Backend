@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class EmailThread < ActiveRecord::Base
+
+class EmailThread < ApplicationRecord
   belongs_to :business
   belongs_to :specialist
 

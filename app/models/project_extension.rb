@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class ProjectExtension < ActiveRecord::Base
+
+class ProjectExtension < ApplicationRecord
   belongs_to :project
 
   enum status: { pending: nil, confirmed: 'confirmed', denied: 'denied' }

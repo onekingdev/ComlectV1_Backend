@@ -1,4 +1,5 @@
 # frozen_string_literal: true
-class EducationHistory < ActiveRecord::Base
+
+class EducationHistory < ApplicationRecord
   belongs_to :specialist
 end

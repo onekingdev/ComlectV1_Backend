@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 ActiveAdmin.register Skill, namespace: :support do
   filter :name
   filter :created_at

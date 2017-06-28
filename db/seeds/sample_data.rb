@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 industry_ids = Industry.pluck(:id)
 jurisdiction_ids = Jurisdiction.pluck(:id)
 business_ids = []

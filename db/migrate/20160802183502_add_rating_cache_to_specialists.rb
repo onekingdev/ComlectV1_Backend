@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class AddRatingCacheToSpecialists < ActiveRecord::Migration
   def change
     add_column :specialists, :rating_avg, :decimal

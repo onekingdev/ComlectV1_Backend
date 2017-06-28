@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class ProjectExtension::Request < Draper::Decorator
   decorates ProjectExtension
   delegate_all

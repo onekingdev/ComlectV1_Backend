@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class ExpireProjectsJob < ActiveJob::Base
+
+class ExpireProjectsJob < ApplicationJob
   queue_as :default
 
   def perform(project_id = nil)
