@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 ruby '2.3.1'
 
 # Rails
-gem 'rails', '4.2.8'
+gem 'rails', '4.2.9'
 
 # ActiveRecord
 gem 'deep_pluck'
