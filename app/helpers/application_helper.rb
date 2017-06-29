@@ -6,7 +6,7 @@ module ApplicationHelper
   def active_class(*args)
     active = args.detect do |arg|
       controller, action = arg.split('#')
-      controller_check = controller =~ %r{\/} ? controller_path : controller_name
+      controller_check = controller.match?(%r{\/}) ? controller_path : controller_name
       controller == controller_check && (action.nil? || action == action_name)
     end
     active ? 'active' : ''
@@ -68,7 +68,12 @@ module ApplicationHelper
   def simple_form_for(record, options = {}, &block)
     simple_form_for_super record, options do |f|
       contents = capture(f, &block)
-      contents =~ /name="redirect_to"/ ? contents : hidden_field_tag('redirect_to', params[:redirect_to]) + contents
+
+      if contents.match?(/name="redirect_to"/)
+        contents
+      else
+        hidden_field_tag('redirect_to', params[:redirect_to]) + contents
+      end
     end
   end
 

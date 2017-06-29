@@ -20,7 +20,7 @@ class ApplicationDecorator < Draper::Decorator
   end
 
   def normalize_url(url)
-    prefix = url =~ /^https?:\/\// ? nil : 'http://'
+    prefix = url.match?(/^https?:\/\//) ? nil : 'http://'
     "#{prefix}#{url}"
   end
 end
