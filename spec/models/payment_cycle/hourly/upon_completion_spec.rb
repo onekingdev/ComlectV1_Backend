@@ -3,9 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe PaymentCycle::Hourly::UponCompletion, type: :model do
-  before(:all) do
-    @specialist = create :specialist
-  end
+  before(:all) { @specialist = create(:specialist) }
 
   describe 'an hourly project with upon-completion pay' do
     before do
@@ -56,7 +54,14 @@ RSpec.describe PaymentCycle::Hourly::UponCompletion, type: :model do
     context 'a timesheet is approved during the grace period' do
       before do
         Timecop.freeze @project.hard_ends_on - 12.hours
-        @timesheet = create :timesheet, :approved, project: @project, specialist: @specialist, hours: 5
+
+        @timesheet = create(
+          :timesheet,
+          :approved,
+          project: @project,
+          specialist: @specialist,
+          hours: 5
+        )
       end
 
       after do

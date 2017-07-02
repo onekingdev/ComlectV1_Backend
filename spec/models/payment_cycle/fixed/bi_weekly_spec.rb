@@ -3,18 +3,23 @@
 require 'rails_helper'
 
 RSpec.describe PaymentCycle::Fixed::BiWeekly, type: :model do
-  before(:all) do
-    @specialist = create :specialist
-  end
+  before(:all) { @specialist = create(:specialist) }
 
   describe 'a fixed-budget project with bi-weekly pay' do
     before do
-      @project = create :project_one_off_fixed,
-                        payment_schedule: Project.payment_schedules[:bi_weekly],
-                        fixed_budget: 10_000,
-                        starts_on: Date.new(2016, 1, 1),
-                        ends_on: Date.new(2016, 3, 24)
-      @job_application = create :job_application, project: @project, specialist: @specialist
+      @project = create(
+        :project_one_off_fixed,
+        payment_schedule: Project.payment_schedules[:bi_weekly],
+        fixed_budget: 10_000,
+        starts_on: Date.new(2016, 1, 1),
+        ends_on: Date.new(2016, 3, 24)
+      )
+
+      @job_application = create(
+        :job_application,
+        project: @project,
+        specialist: @specialist
+      )
     end
 
     it 'creates estimated charges every other week' do

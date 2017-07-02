@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe Business::Form, type: :model do
   describe 'a business with a Discourse account' do
-    let(:business) { create :business }
+    let(:business) { create(:business) }
 
     before do
       business.discourse_username! business.business_name.parameterize.titleize.delete(' ')

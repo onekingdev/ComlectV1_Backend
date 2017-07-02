@@ -10,6 +10,10 @@ class Business::Discourse < DiscourseUser
   end
 
   def avatar_url
-    object.logo && object.public? ? object.logo_url(:thumb) : asset_url('icon-business.png')
+    if object.logo && object.public?
+      object.logo_url(:thumb)
+    else
+      asset_url('icon-business.png')
+    end
   end
 end
