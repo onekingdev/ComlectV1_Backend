@@ -49,11 +49,10 @@ class Project < ApplicationRecord
   # has got all charges created.
   scope :active_for_charges, -> {
     not_escalated
-      .where('(status = :complete AND payment_schedule = :upon_completion)
-           OR (status = :published AND specialist_id IS NOT NULL)',
-             complete: statuses[:complete],
-             upon_completion: payment_schedules[:upon_completion],
-             published: statuses[:published])
+      .where(
+        'status = :published AND specialist_id IS NOT NULL',
+        published: statuses[:published]
+      )
   }
   scope :complete, -> { where(status: statuses[:complete]).not_escalated }
   scope :accessible_by, ->(user) {

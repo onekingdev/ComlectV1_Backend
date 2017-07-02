@@ -64,14 +64,14 @@ RSpec.describe PaymentCycle::Hourly::UponCompletion, type: :model do
       end
 
       it 'generates payment after the fact' do
-        @project.complete!
+        Project::Ending.process!(@project)
         ScheduleChargesJob.new.perform(@project.id)
         Timecop.freeze(@project.hard_ends_on + 1.day) { ScheduleChargesJob.new.perform(@project.id) }
         expect(@project.reload.charges.count).to eq(1)
       end
 
       it 'does not generate duplicate payment later' do
-        @project.complete!
+        Project::Ending.process!(@project)
         ScheduleChargesJob.new.perform(@project.id)
         Timecop.freeze(@project.hard_ends_on + 1.day) { ScheduleChargesJob.new.perform(@project.id) }
         expect(@project.reload.charges.count).to eq(1)
