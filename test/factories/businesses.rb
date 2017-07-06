@@ -14,5 +14,11 @@ FactoryGirl.define do
     city { Faker::Address.city }
     state { Faker::Address.state }
     time_zone { Faker::Address.time_zone }
+
+    trait :with_payment_profile do
+      after(:create) do |business, _evaluator|
+        create(:payment_profile, business: business)
+      end
+    end
   end
 end
