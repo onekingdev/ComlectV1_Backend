@@ -187,7 +187,11 @@ class Project < ApplicationRecord
   end
 
   def hard_ends_on
-    BufferDate.for(ends_on, tz: time_zone)
+    if fixed_pricing?
+      ends_on.in_time_zone(time_zone).end_of_day
+    else
+      BufferDate.for(ends_on, tz: time_zone)
+    end
   end
 
   def time_zone
