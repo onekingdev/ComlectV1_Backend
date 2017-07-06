@@ -54,7 +54,7 @@ class PaymentCycle
     outstanding_amount / (remaining_dates.presence || [date].compact.presence).size
   end
 
-  def schedule_charge!(amount:, date:, description:, referenceable: nil)
+  def schedule_charge!(amount:, date:, description:, force: false, referenceable: nil)
     Rails.logger.info "Scheduling charge for project: #{project.id}. Ends on: #{project.ends_on}."
     Rails.logger.info "Date: #{date}."
 
@@ -62,7 +62,7 @@ class PaymentCycle
       amount_in_cents: amount * 100,
       running_balance_in_cents: balance_after(amount, cut_off: date) * 100,
       date: date,
-      process_after: calculate_process_at_date(date),
+      process_after: force ? date : calculate_process_at_date(date),
       status: Charge.statuses[:scheduled],
       description: description,
       referenceable: referenceable

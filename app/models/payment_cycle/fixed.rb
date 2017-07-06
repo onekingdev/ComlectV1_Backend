@@ -28,7 +28,8 @@ class PaymentCycle::Fixed < PaymentCycle
     schedule_charge!(
       amount: outstanding_amount,
       date: Time.zone.now,
-      description: charge_description
+      description: charge_description,
+      force: true
     )
   end
 
