@@ -114,7 +114,7 @@ class PaymentCycle
 
   def previous_cycle_date
     all_occurrences = occurrences
-    all_occurrences.reverse.detect(&:past?) || all_occurrences.first
+    all_occurrences.reverse.detect(&:past?)
   end
 
   WEEKDAY_BUFFERS = Hash.new(1.day).merge(

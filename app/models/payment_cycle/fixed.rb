@@ -7,8 +7,11 @@ class PaymentCycle::Fixed < PaymentCycle
 
   def create_charges!
     current_cycle = previous_cycle_date
+
+    return unless current_cycle
     return if charge_exists?(current_cycle)
     return create_final_charge if project.complete?
+
     amount = amount_for(current_cycle)
     return if amount.nil?
 
@@ -22,9 +25,11 @@ class PaymentCycle::Fixed < PaymentCycle
   private
 
   def create_final_charge
-    schedule_charge! amount: outstanding_amount,
-                     date: Time.zone.now,
-                     description: charge_description
+    schedule_charge!(
+      amount: outstanding_amount,
+      date: Time.zone.now,
+      description: charge_description
+    )
   end
 
   def amount_for_day_period(date)
