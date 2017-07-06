@@ -118,10 +118,10 @@ group :development do
 end
 
 group :test do
-  # Testing
   gem 'capybara'
   gem 'database_cleaner'
   gem 'poltergeist'
+  gem 'stripe-ruby-mock', require: 'stripe_mock'
   gem 'timecop'
   gem 'webmock'
 end
