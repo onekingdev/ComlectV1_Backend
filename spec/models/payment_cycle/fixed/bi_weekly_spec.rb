@@ -3,23 +3,41 @@
 require 'rails_helper'
 
 RSpec.describe PaymentCycle::Fixed::BiWeekly, type: :model do
-  before(:all) { @specialist = create(:specialist) }
+  before(:all) do
+    StripeMock.start
+    @specialist = create(:specialist)
+  end
+
+  after(:all) do
+    StripeMock.stop
+  end
 
   describe 'a fixed-budget project with bi-weekly pay' do
     before do
-      @project = create(
-        :project_one_off_fixed,
-        payment_schedule: Project.payment_schedules[:bi_weekly],
-        fixed_budget: 10_000,
-        starts_on: Date.new(2016, 1, 1),
-        ends_on: Date.new(2016, 3, 24)
-      )
+      Timecop.freeze(Date.new(2015, 12, 25)) do
+        @business = create(
+          :business,
+          :with_payment_profile,
+          time_zone: 'Pacific Time (US & Canada)'
+        )
 
-      @job_application = create(
-        :job_application,
-        project: @project,
-        specialist: @specialist
-      )
+        @project = create(
+          :project_one_off_fixed,
+          business: @business,
+          payment_schedule: Project.payment_schedules[:bi_weekly],
+          fixed_budget: 10_000,
+          starts_on: Date.new(2016, 1, 1),
+          ends_on: Date.new(2016, 3, 24)
+        )
+
+        @job_application = create(
+          :job_application,
+          project: @project,
+          specialist: @specialist
+        )
+
+        Project::Form.find(@project.id).post!
+      end
     end
 
     it 'creates estimated charges every other week' do
@@ -86,23 +104,61 @@ RSpec.describe PaymentCycle::Fixed::BiWeekly, type: :model do
       end
     end
 
-    context 'when project ends' do
+    context 'when full billing cycle' do
       before do
         Timecop.freeze(@project.starts_on) do
           JobApplication::Accept.(@job_application)
         end
-
-        Timecop.freeze(@project.ends_on + 1.day) do
-          PaymentCycle.for(@project).create_charges_and_reschedule!
-        end
-
-        Timecop.freeze(@project.ends_on + 1.day + 30.minutes) do
-          ProcessScheduledChargesJob.new.perform
-        end
       end
 
-      it 'creates a scheduled charge and processes it' do
-        expect(@project.charges.processed.size).to eq(1)
+      it 'creates, schedules, and processes charges' do
+        Timecop.freeze(@project.starts_on + 2.weeks + 1.day) do
+          ScheduleChargesJob.new.perform(@project.id)
+          expect(@project.charges.real.size).to eq(1)
+        end
+
+        Timecop.freeze(@project.starts_on + 4.weeks + 1.day) do
+          ScheduleChargesJob.new.perform(@project.id)
+          expect(@project.charges.real.size).to eq(2)
+        end
+
+        Timecop.freeze(@project.starts_on + 6.weeks + 1.day) do
+          ScheduleChargesJob.new.perform(@project.id)
+          expect(@project.charges.real.size).to eq(3)
+        end
+
+        # check off weeks too
+        Timecop.freeze(@project.starts_on + 7.weeks + 1.day) do
+          ScheduleChargesJob.new.perform(@project.id)
+          expect(@project.charges.real.size).to eq(3)
+        end
+
+        Timecop.freeze(@project.starts_on + 8.weeks + 1.day) do
+          ScheduleChargesJob.new.perform(@project.id)
+          expect(@project.charges.real.size).to eq(4)
+        end
+
+        Timecop.freeze(@project.starts_on + 10.weeks + 1.day) do
+          ScheduleChargesJob.new.perform(@project.id)
+          expect(@project.charges.real.size).to eq(5)
+        end
+
+        # check off weeks too
+        Timecop.freeze(@project.starts_on + 11.weeks + 1.day) do
+          ScheduleChargesJob.new.perform(@project.id)
+          expect(@project.charges.real.size).to eq(5)
+        end
+
+        Timecop.freeze(@project.ends_on + 2.days) do
+          EndProjectsJob.new.perform(@project.id)
+          expect(@project.charges.real.size).to eq(6)
+        end
+
+        Timecop.freeze(@project.ends_on + 2.days + 30.minutes) do
+          ProcessScheduledChargesJob.new.perform
+          expect(@project.charges.size).to eq(6)
+          expect(@project.charges.processed.size).to eq(6)
+        end
       end
     end
   end
