@@ -4,20 +4,29 @@ class PaymentCycle::Fixed::FiftyFifty < PaymentCycle::Fixed
   def reschedule!
     # Create first real charge right away
     unless charge_exists?(project.starts_on)
-      schedule_charge! amount: estimated_total / 2.0, date: project.starts_on, description: "First 50/50 charge"
+      schedule_charge!(
+        amount: estimated_total / 2.0,
+        date: project.starts_on,
+        description: "First 50/50 charge"
+      )
     end
+
     # Schedule second charge normally
     super
   end
 
   def create_charges!
-    remaining_dates = occurrences.reject { |date| charge_exists?(date) }
-    amount = outstanding_amount / (remaining_dates.size * 1.0)
-    remaining_dates.each do |date|
-      schedule_charge! amount: amount,
-                       date: date,
-                       description: charge_description
-    end
+    current_cycle = previous_cycle_date
+
+    current_cycle = project.ends_on if project.complete?
+    return unless current_cycle
+    return if charge_exists?(current_cycle)
+
+    schedule_charge!(
+      amount: outstanding_amount,
+      date: current_cycle,
+      description: charge_description
+    )
   end
 
   private
