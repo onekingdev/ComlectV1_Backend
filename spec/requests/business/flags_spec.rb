@@ -16,8 +16,12 @@ RSpec.describe "Flagging content", type: :request do
 
   it 'sends email to complect' do
     expect do
-      post business_project_flags_path(project.id, flag: { reason: 'spam', question_id: question.id })
+      post business_project_flags_path(
+        project.id,
+        flag: { reason: { 's' => 'Spam' }, question_id: question.id }
+      )
     end.to change { ActionMailer::Base.deliveries.count }.by(1)
+
     message = ActionMailer::Base.deliveries.last
     expect(message.subject).to match(/flagged/i)
   end

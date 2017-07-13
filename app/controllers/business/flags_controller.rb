@@ -6,7 +6,12 @@ class Business::FlagsController < ApplicationController
   def new; end
 
   def create
-    @flag = Flag::Create.(current_business, find_flagged_content, reason: flag_params[:reason].values.join(", "))
+    @flag = Flag::Create.(
+      current_business,
+      find_flagged_content,
+      reason: flag_params[:reason].values.join(", ")
+    )
+
     redirect_to business_project_path(@project)
   end
 
