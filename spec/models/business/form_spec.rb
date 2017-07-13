@@ -13,8 +13,8 @@ RSpec.describe Business::Form, type: :model do
     describe 'when changing profile privacy' do
       it 'updates username and avatar' do
         form = Business::Form.for_user(business.user)
-        expect_any_instance_of(DiscourseApi::Client).to receive(:get).and_return('user' => { 'id' => 1 })
-        expect_any_instance_of(DiscourseApi::Client).to receive(:post)
+        allow_any_instance_of(DiscourseApi::Client).to receive(:get).and_return('user' => { 'id' => 1 })
+        allow_any_instance_of(DiscourseApi::Client).to receive(:post)
         form.anonymous = true
         form.save validate: false
         expect(business.reload.discourse_username).to eq('Anonymous')
