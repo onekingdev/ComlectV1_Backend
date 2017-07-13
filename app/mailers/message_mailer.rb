@@ -23,6 +23,7 @@ class MessageMailer < ApplicationMailer
     thread = EmailThread.for!(from, to)
     @message_text = message_text
     @message_html = remove_template_html(message_html, reply_text)
+
     mail to: "Complect <#{ENV.fetch('DEFAULT_MAIL_FROM')}>",
          bcc: to_address(to),
          reply_to: thread_address(thread, from),
@@ -50,7 +51,7 @@ class MessageMailer < ApplicationMailer
   end
 
   def to_address(to)
-    "#{party_name(to)} <#{to.user.email}>"
+    "\"#{party_name(to)}\" <#{to.user.email}>"
   end
 
   def thread_address(thread, from)
