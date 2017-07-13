@@ -7,7 +7,7 @@ RSpec.describe Project, type: :model do
     let(:tuesday_midnight) { Date.new(2017, 2, 27).in_time_zone('UTC').end_of_day }
 
     before do
-      subject.expects(:time_zone).returns(ActiveSupport::TimeZone['UTC'])
+      expect(subject).to receive(:time_zone).and_return(ActiveSupport::TimeZone['UTC'])
     end
 
     it 'ends on a friday, returns next monday (tue midnight)' do
