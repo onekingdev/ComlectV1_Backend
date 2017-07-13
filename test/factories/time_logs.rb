@@ -5,6 +5,6 @@ FactoryGirl.define do
     timesheet
     description "Work well done"
     date { DateTime.current }
-    hours { rand(10) }
+    hours { rand(1..10) }
   end
 end
