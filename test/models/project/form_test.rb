@@ -16,7 +16,7 @@ class Project::FormTest < ActiveSupport::TestCase
     assert_equal 'monthly', project.payment_schedule
     assert_equal 100, project.hourly_rate
     assert_equal 5, project.estimated_hours
-    assert_equal nil, project.fixed_budget
+    assert_nil project.fixed_budget
   end
 
   test 'assigns fixed job fields' do
@@ -32,6 +32,6 @@ class Project::FormTest < ActiveSupport::TestCase
     assert_equal 'fifty_fifty', project.payment_schedule
     assert_equal 500, project.fixed_budget
     assert_equal 50, project.estimated_hours
-    assert_equal nil, project.hourly_rate
+    assert_nil project.hourly_rate
   end
 end
