@@ -8,8 +8,14 @@ class MessageMailerTest < ActionMailer::TestCase
     ENV['DEFAULT_MAIL_FROM'] = 'complect@complect'
     @business = create_business_with_valid_payment_source
     @specialist = create :specialist
+
     @thread = EmailThread.for!(@business, @specialist)
-    @project = create :project_one_off_hourly, business: @business, specialist: @specialist
+
+    @project = create(
+      :project_one_off_hourly,
+      business: @business,
+      specialist: @specialist
+    )
   end
 
   test 'business messages specialist' do
