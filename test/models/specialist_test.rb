@@ -5,13 +5,34 @@ require 'test_helper'
 class SpecialistTest < ActiveSupport::TestCase
   test 'sort by_experience' do
     specialist_1 = create(:specialist)
-    create :work_experience, specialist: specialist_1, compliance: true, length: 5.years
+    create(
+      :work_experience,
+      specialist: specialist_1,
+      compliance: true,
+      from: 10.years.ago,
+      length: 5.years
+    )
+
     specialist_2 = create(:specialist)
-    create :work_experience, specialist: specialist_2, compliance: true, length: 2.years
+    create(
+      :work_experience,
+      specialist: specialist_2,
+      compliance: true,
+      length: 2.years
+    )
+
     assert_equal specialist_1.id, Specialist.by_experience.first.id
-    specialist_1.work_experiences.first.update_attribute :from, specialist_1.work_experiences.first.to - 1.year
+    specialist_1.work_experiences.first.update_attribute(
+      :from,
+      specialist_1.work_experiences.first.to - 1.year
+    )
+
     assert_equal specialist_2.id, Specialist.by_experience.first.id
-    specialist_1.work_experiences.first.update_attributes! to: nil, current: true
+    specialist_1.work_experiences.first.update_attributes!(
+      to: nil,
+      current: true
+    )
+
     assert_equal specialist_1.id, Specialist.by_experience.first.id
   end
 
