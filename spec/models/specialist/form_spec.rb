@@ -13,7 +13,6 @@ RSpec.describe Specialist::Form, type: :model do
     describe 'when changing profile privacy' do
       it 'updates username and avatar' do
         form = Specialist::Form.for_user(specialist.user)
-        DiscourseApi::Client.any_instance.expects(:post)
         form.visibility = Specialist.visibilities.fetch(:is_private)
         form.save validate: false
         expect(specialist.reload.discourse_username).to eq('Anonymous')
