@@ -6,8 +6,14 @@ class ProjectInvitesTest < ActionDispatch::IntegrationTest
   setup do
     @business = create :business
     @user = @business.user
-    post_via_redirect user_session_path, 'user[email]' => @user.email, 'user[password]' => 'password'
-    @specialist = create :specialist
+
+    post_via_redirect(
+      user_session_path,
+      'user[email]' => @user.email,
+      'user[password]' => 'password'
+    )
+
+    @specialist = create(:specialist)
   end
 
   test 'business gets set automatically' do

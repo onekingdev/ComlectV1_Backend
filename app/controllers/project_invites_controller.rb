@@ -5,11 +5,17 @@ class ProjectInvitesController < ApplicationController
 
   def new
     @specialist = Specialist.find(params.require(:specialist_id))
-    @invite = ProjectInvite::Form.for(@specialist, current_business.projects.new, template: params[:template])
+
+    @invite = ProjectInvite::Form.for(
+      @specialist,
+      current_business.projects.new,
+      template: params[:template]
+    )
   end
 
   def create
     @invite = ProjectInvite::Form.new_from_params(invite_params, current_business)
+
     if @invite.new_project? && @invite.save
       js_redirect new_business_project_path(invite_id: @invite.id)
     elsif @invite.existing_project? && @invite.save_and_send

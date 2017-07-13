@@ -5,8 +5,14 @@ require 'test_helper'
 class Projects::ProjectExtensionsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @business = create_business_with_valid_payment_source
-    @specialist = create :specialist
-    @project = create :project_one_off_hourly, business: @business, specialist: @specialist
+    @specialist = create(:specialist)
+
+    @project = create(
+      :project_one_off_hourly,
+      business: @business,
+      specialist: @specialist
+    )
+
     sign_in @specialist.user, 'password'
   end
 

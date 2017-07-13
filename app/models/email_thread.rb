@@ -15,6 +15,7 @@ class EmailThread < ApplicationRecord
     party = [[:business, specialist.user.email], [:specialist, business.contact_email]].detect do |test|
       test[1].casecmp(email.downcase).zero?
     end
+
     public_send party[0]
   end
 
@@ -22,6 +23,7 @@ class EmailThread < ApplicationRecord
     party = [[:business, business.contact_email], [:specialist, specialist.user.email]].detect do |test|
       test[1].casecmp(email.downcase).zero?
     end
+
     public_send party[0]
   end
 

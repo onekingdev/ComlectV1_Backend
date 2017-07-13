@@ -41,10 +41,21 @@ class BusinessFlowsTest < ActionDispatch::IntegrationTest
   end
 
   test 'update business' do
-    user = create :user
-    business = create :business, user: user
-    post_via_redirect user_session_path, 'user[email]' => user.email, 'user[password]' => 'password'
-    patch update_business_path, business: { business_name: 'New Name' }
+    user = create(:user)
+    business = create(:business, user: user)
+    DiscourseApi::Client.any_instance.stubs(:get)
+
+    post_via_redirect(
+      user_session_path,
+      'user[email]' => user.email,
+      'user[password]' => 'password'
+    )
+
+    patch(
+      update_business_path,
+      business: { business_name: 'New Name' }
+    )
+
     assert_redirected_to business_dashboard_path
     assert_equal 'New Name', business.reload.business_name
   end
