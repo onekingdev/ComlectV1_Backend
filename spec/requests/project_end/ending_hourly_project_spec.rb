@@ -52,7 +52,7 @@ RSpec.describe "Hourly project end scenarios", type: :request do
               project_timesheets_path(project),
               timesheet: {
                 save: '1',
-                time_logs_attributes: [{ description: 'Dummy', hours: 5 }]
+                time_logs_attributes: [attributes_for(:time_log)]
               },
               format: :js
             )
@@ -115,17 +115,33 @@ RSpec.describe "Hourly project end scenarios", type: :request do
   end
 
   context 'payment upon completion' do
-    let(:business) { create :business }
-    let(:specialist) { create :specialist }
+    let(:business) { create(:business) }
+    let(:specialist) { create(:specialist) }
+
     # Hourly rate: $100, estimated hours: 50
     let(:project) do
-      create :project_one_off_hourly, :published, :upon_completion_pay, business: business, specialist: specialist
+      create(
+        :project_one_off_hourly,
+        :published,
+        :upon_completion_pay,
+        business: business,
+        specialist: specialist
+      )
     end
-    let(:first_timesheet) { create :timesheet, :approved, project: project, hours: 10 }
+
+    let(:first_timesheet) do
+      create(
+        :timesheet,
+        :approved,
+        project: project,
+        hours: 10
+      )
+    end
 
     before do
       Timecop.freeze(project.starts_on + 2.days) { first_timesheet } # Trigger creation
-      Timecop.freeze project.ends_on.in_time_zone(business.tz) + 12.hours
+      Timecop.freeze(project.ends_on.in_time_zone(business.tz) + 12.hours)
+      PaymentCycle.for(project).create_charges_and_reschedule!
     end
 
     after do
@@ -133,13 +149,27 @@ RSpec.describe "Hourly project end scenarios", type: :request do
     end
 
     context 'specialist submits last timesheet' do
-      let(:last_timesheet) { create(:timesheet, :submitted, project: project, hours: 5) }
+      let(:last_timesheet) do
+        create(
+          :timesheet,
+          :submitted,
+          project: project,
+          hours: 5
+        )
+      end
 
       context 'business disputes timesheet' do
         before do
           sign_in business.user
-          put business_project_timesheet_path(project, last_timesheet, timesheet: { dispute: '1' }, format: :js)
+
+          put business_project_timesheet_path(
+            project,
+            last_timesheet,
+            timesheet: { dispute: '1' },
+            format: :js
+          )
           expect(response).to have_http_status(:ok)
+
           sign_out
           sign_in specialist.user
         end
@@ -154,13 +184,20 @@ RSpec.describe "Hourly project end scenarios", type: :request do
       context 'business approves timesheet' do
         before do
           sign_in business.user
-          put business_project_timesheet_path(project, last_timesheet, format: :js, timesheet: { approve: '1' })
+
+          put business_project_timesheet_path(
+            project,
+            last_timesheet,
+            format: :js,
+            timesheet: { approve: '1' }
+          )
           expect(response).to have_http_status(:ok)
+
           project.reload
         end
 
         it 'creates final charges' do
-          expect { Project::Ending.process!(project) }.to change { Charge.real.count }
+          Project::Ending.process!(project)
           charges = project.reload.charges
           expect(charges.size).to eq(2)
           expect(charges.map(&:status).uniq).to eq(['scheduled'])
