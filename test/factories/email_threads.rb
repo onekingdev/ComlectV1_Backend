@@ -4,6 +4,6 @@ FactoryGirl.define do
   factory :email_thread do
     business nil
     specialist nil
-    hash "MyString"
+    hash 'MyString'
   end
 end

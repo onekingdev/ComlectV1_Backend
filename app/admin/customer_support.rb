@@ -21,7 +21,7 @@ ActiveAdmin.register AdminUser, as: 'Customer Support' do
   config.clear_action_items!
 
   action_item :new, only: :index do
-    link_to "New Customer Service Representative", new_admin_customer_support_path
+    link_to 'New Customer Service Representative', new_admin_customer_support_path
   end
 
   member_action :toggle_suspend, method: :post do
@@ -47,7 +47,7 @@ ActiveAdmin.register AdminUser, as: 'Customer Support' do
   permit_params :email, :password, :password_confirmation
 
   form do |f|
-    f.inputs "Admin Details" do
+    f.inputs 'Admin Details' do
       f.input :email
       f.input :password
       f.input :password_confirmation

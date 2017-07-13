@@ -4,7 +4,7 @@ class PaymentCycle::Fixed::BiWeekly < PaymentCycle::Fixed
   private
 
   def charge_description
-    "Bi-weekly project payment"
+    'Bi-weekly project payment'
   end
 
   # rubocop:disable Lint/UnusedMethodArgument

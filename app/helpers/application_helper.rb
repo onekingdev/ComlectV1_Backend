@@ -100,7 +100,7 @@ module ApplicationHelper
   end
 
   def new_flag_url(user, project, flaggable)
-    flaggable_id = flaggable.class.name.downcase + "_id"
+    flaggable_id = flaggable.class.name.downcase + '_id'
     if user.business.present?
       new_business_project_flag_path(project_id: project.id, flaggable_id => flaggable.id)
     else

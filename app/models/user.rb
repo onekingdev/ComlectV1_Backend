@@ -67,7 +67,7 @@ class User < ApplicationRecord
 
   def create_dummy_issue(projects, user)
     projects.each do |project|
-      project.issues.create! issue: user.business ? "Business suspended" : "Specialist suspended"
+      project.issues.create! issue: user.business ? 'Business suspended' : 'Specialist suspended'
     end
   end
 

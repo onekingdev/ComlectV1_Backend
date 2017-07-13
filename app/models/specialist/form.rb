@@ -63,19 +63,19 @@ class Specialist::Form < Specialist
   end
 
   def delete_photo
-    @delete_photo ||= "0"
+    @delete_photo ||= '0'
   end
 
   def delete_resume
-    @delete_resume ||= "0"
+    @delete_resume ||= '0'
   end
 
   def delete_photo?
-    @delete_photo == "1"
+    @delete_photo == '1'
   end
 
   def delete_resume?
-    @delete_resume == "1"
+    @delete_resume == '1'
   end
 
   private
@@ -86,10 +86,10 @@ class Specialist::Form < Specialist
   end
 
   def destroy_photo
-    self.photo = nil if @delete_photo == "1"
+    self.photo = nil if @delete_photo == '1'
   end
 
   def destroy_resume
-    self.resume = nil if @delete_resume == "1"
+    self.resume = nil if @delete_resume == '1'
   end
 end

@@ -16,8 +16,8 @@ ActiveAdmin.register User, namespace: :support do
     redirect_to collection_path, notice: resource.suspended? ? 'Suspended' : 'Reactivated'
   end
 
-  scope("Active") { |scope| scope.where(suspended: false) }
-  scope("Suspended") { |scope| scope.where(suspended: true) }
+  scope('Active') { |scope| scope.where(suspended: false) }
+  scope('Suspended') { |scope| scope.where(suspended: true) }
 
   filter :email
   filter :sign_in_count
@@ -38,7 +38,7 @@ ActiveAdmin.register User, namespace: :support do
   permit_params :email, :password, :password_confirmation
 
   form do |f|
-    f.inputs "User Details" do
+    f.inputs 'User Details' do
       f.input :email
       f.input :password
       f.input :password_confirmation

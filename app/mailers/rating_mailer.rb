@@ -24,7 +24,7 @@ class RatingMailer < ApplicationMailer
     mail to: to,
          template_id: ENV.fetch('POSTMARK_TEMPLATE_ID'),
          template_model: {
-           subject: "You have been rated and reviewed!",
+           subject: 'You have been rated and reviewed!',
            message_html: render('notification.html'),
            message_text: render('notification.text')
          }

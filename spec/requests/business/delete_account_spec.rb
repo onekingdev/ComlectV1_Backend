@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe "Deleting account", type: :request do
+RSpec.describe 'Deleting account', type: :request do
   include SessionsHelper
 
   context 'a business' do

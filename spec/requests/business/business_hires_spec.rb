@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe "hiring a specialist", type: :request do
+RSpec.describe 'hiring a specialist', type: :request do
   include SessionsHelper
 
   let(:specialist) { create :specialist }

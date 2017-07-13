@@ -92,12 +92,12 @@ class Notification::Deliver < Draper::Decorator
       init, rcv, path, url = if message.sender == project.business
                                [
                                  project.business, project.specialist,
-                                 *path_and_url(:project_dashboard, project, anchor: "project-messages")
+                                 *path_and_url(:project_dashboard, project, anchor: 'project-messages')
                                ]
                              else
                                [
                                  project.specialist, project.business,
-                                 *path_and_url(:business_project_dashboard, project, anchor: "project-messages")
+                                 *path_and_url(:business_project_dashboard, project, anchor: 'project-messages')
                                ]
                              end
 
@@ -151,7 +151,7 @@ class Notification::Deliver < Draper::Decorator
 
     def specialist_timesheet_disputed!(timesheet)
       project = timesheet.project
-      action_path, action_url = path_and_url :project_dashboard, project, anchor: "project-timesheets"
+      action_path, action_url = path_and_url :project_dashboard, project, anchor: 'project-timesheets'
       dispatcher = Dispatcher.new(
         user: timesheet.specialist.user,
         key: :timesheet_disputed,
@@ -166,7 +166,7 @@ class Notification::Deliver < Draper::Decorator
 
     def project_question!(question)
       project = question.project
-      action_path, action_url = path_and_url :business_project, project, anchor: "q-a"
+      action_path, action_url = path_and_url :business_project, project, anchor: 'q-a'
       key = project.full_time? ? :job_question : :project_question
       dispatcher = Dispatcher.new(
         user: question.project.business.user,
@@ -182,7 +182,7 @@ class Notification::Deliver < Draper::Decorator
 
     def project_answer!(answer)
       project = answer.project
-      action_path, action_url = path_and_url :project, project, anchor: "q-a"
+      action_path, action_url = path_and_url :project, project, anchor: 'q-a'
       key = project.full_time? ? :job_answer : :project_answer
       dispatcher = Dispatcher.new(
         user: answer.question.specialist.user,
@@ -198,7 +198,7 @@ class Notification::Deliver < Draper::Decorator
 
     def timesheet_submitted!(timesheet)
       project = timesheet.project
-      action_path, action_url = path_and_url :business_project_dashboard, project, anchor: "project-timesheets"
+      action_path, action_url = path_and_url :business_project_dashboard, project, anchor: 'project-timesheets'
       dispatcher = Dispatcher.new(
         user: timesheet.business.user,
         key: :timesheet_submitted,
@@ -304,12 +304,12 @@ class Notification::Deliver < Draper::Decorator
       rcv, key, path, url = if issue.user.specialist
                               [
                                 project.business.user, :business_escalated,
-                                *path_and_url(:business_project_dashboard, project, anchor: "project-messages")
+                                *path_and_url(:business_project_dashboard, project, anchor: 'project-messages')
                               ]
                             elsif issue.user.business
                               [
                                 project.specialist.user, :specialist_escalated,
-                                *path_and_url(:project_dashboard, project, anchor: "project-messages")
+                                *path_and_url(:project_dashboard, project, anchor: 'project-messages')
                               ]
                             end
       dispatcher = Dispatcher.new(
@@ -531,7 +531,7 @@ class Notification::Deliver < Draper::Decorator
     end
 
     def business_transaction_processed!(transaction)
-      action_path, action_url = path_and_url :business_financials, anchor: "charges-processed"
+      action_path, action_url = path_and_url :business_financials, anchor: 'charges-processed'
       dispatcher = Dispatcher.new(
         user: transaction.business.user,
         key: :business_transaction_processed,
@@ -544,7 +544,7 @@ class Notification::Deliver < Draper::Decorator
     end
 
     def specialist_transaction_processed!(transaction)
-      action_path, action_url = path_and_url :specialists_financials, anchor: "payments-processed"
+      action_path, action_url = path_and_url :specialists_financials, anchor: 'payments-processed'
       dispatcher = Dispatcher.new(
         user: transaction.specialist.user,
         key: :specialist_transaction_processed,
@@ -600,13 +600,13 @@ class Notification::Deliver < Draper::Decorator
       if Rails.env.production?
         'https://' + Shrine.storages[:store].bucket.name + '.s3.amazonaws.com/icon-specialist.png'
       else
-        "/icon-specialist.png"
+        '/icon-specialist.png'
       end
     end
 
     def business_name_and_img(business)
       image = if business.logo
-                business.logo_url(:thumb).split("?").first
+                business.logo_url(:thumb).split('?').first
               else
                 default_img_url
               end
@@ -616,7 +616,7 @@ class Notification::Deliver < Draper::Decorator
 
     def specialist_name_and_img(specialist)
       image = if specialist.photo
-                specialist.photo_url(:thumb).split("?").first
+                specialist.photo_url(:thumb).split('?').first
               else
                 default_img_url
               end
@@ -630,7 +630,7 @@ class Notification::Deliver < Draper::Decorator
       elsif initiator.class == Specialist::Decorator || initiator.class == Specialist
         specialist_name_and_img(initiator)
       else
-        ["Complect", default_img_url]
+        ['Complect', default_img_url]
       end
     end
 

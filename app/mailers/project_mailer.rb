@@ -44,7 +44,7 @@ class ProjectMailer < ApplicationMailer
     mail to: "#{specialist.full_name} <#{specialist.user.email}>",
          template_id: ENV.fetch('POSTMARK_TEMPLATE_ID'),
          template_model: {
-           subject: "Project Extension Request",
+           subject: 'Project Extension Request',
            message_html: render('extension_request.html'),
            message_text: render('extension_request.text')
          }

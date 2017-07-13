@@ -7,7 +7,7 @@ class JobApplicationMailer < ApplicationMailer
     mail to: job_application.specialist.user.email,
          template_id: ENV.fetch('POSTMARK_TEMPLATE_ID'),
          template_model: {
-           subject: "Job application withdrawn",
+           subject: 'Job application withdrawn',
            message_html: render('withdraw.html'),
            message_text: render('withdraw.text')
          }

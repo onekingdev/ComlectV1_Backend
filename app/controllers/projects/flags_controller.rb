@@ -6,7 +6,7 @@ class Projects::FlagsController < ApplicationController
   def new; end
 
   def create
-    @flag = Flag::Create.(current_specialist, find_flagged_content, reason: flag_params[:reason].values.join(", "))
+    @flag = Flag::Create.(current_specialist, find_flagged_content, reason: flag_params[:reason].values.join(', '))
     redirect_to project_path(@project)
   end
 

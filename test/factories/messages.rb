@@ -5,7 +5,7 @@ FactoryGirl.define do
     thread nil
     sender nil
     recipient nil
-    message "MyString"
-    file_data ""
+    message 'MyString'
+    file_data ''
   end
 end

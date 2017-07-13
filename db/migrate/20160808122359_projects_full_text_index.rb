@@ -3,7 +3,7 @@
 class ProjectsFullTextIndex < ActiveRecord::Migration
   def up
     add_column :projects, :tsv, :tsvector
-    add_index :projects, :tsv, using: "gin"
+    add_index :projects, :tsv, using: 'gin'
 
     execute <<-SQL
       CREATE TRIGGER tsvectorupdate BEFORE INSERT OR UPDATE

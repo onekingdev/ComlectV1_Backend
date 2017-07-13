@@ -22,12 +22,12 @@ class Business::Form < Business
   end
 
   def delete_logo
-    @delete_logo ||= "0"
+    @delete_logo ||= '0'
   end
 
   private
 
   def destroy_logo?
-    self.logo = nil if @delete_logo == "1"
+    self.logo = nil if @delete_logo == '1'
   end
 end

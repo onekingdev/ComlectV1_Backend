@@ -6,9 +6,9 @@ class Flag < ApplicationRecord
 
   validates :reason, inclusion: {
     in: %w[Inappropriate Harassment Spam] + [
-      "Inappropriate, Harassment",
-      "Inappropriate, Spam", "Harassment, Spam",
-      "Inappropriate, Harassment, Spam"
+      'Inappropriate, Harassment',
+      'Inappropriate, Spam', 'Harassment, Spam',
+      'Inappropriate, Harassment, Spam'
     ]
   }
   validates :flagger, presence: true

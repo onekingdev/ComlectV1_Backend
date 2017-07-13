@@ -7,7 +7,7 @@ class PaymentCycle::Fixed::FiftyFifty < PaymentCycle::Fixed
       schedule_charge!(
         amount: estimated_total / 2.0,
         date: project.starts_on,
-        description: "First 50/50 charge"
+        description: 'First 50/50 charge'
       )
     end
 
@@ -32,7 +32,7 @@ class PaymentCycle::Fixed::FiftyFifty < PaymentCycle::Fixed
   private
 
   def charge_description
-    "50/50 project payment"
+    '50/50 project payment'
   end
 
   def occurrences

@@ -8,7 +8,7 @@ unless AdminUser.any?
     password_confirmation: 'password',
     super_admin: true
   )
-  puts "Admin credentials: admin@complect.co / password (login and change it)"
+  puts 'Admin credentials: admin@complect.co / password (login and change it)'
 end
 
 %w[USA Canada Africa Central\ America Asia South\ America Australasia Europe].each do |name|

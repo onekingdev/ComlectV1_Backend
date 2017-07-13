@@ -58,9 +58,9 @@ class Specialist::Search
     return records if rating.blank? || (min.zero? && max == 5)
 
     if min.zero?
-      records.where("(ratings_average BETWEEN ? AND ?) OR ratings_average IS NULL", min, max)
+      records.where('(ratings_average BETWEEN ? AND ?) OR ratings_average IS NULL', min, max)
     else
-      records.where("ratings_average BETWEEN ? AND ?", min, max)
+      records.where('ratings_average BETWEEN ? AND ?', min, max)
     end
   end
 

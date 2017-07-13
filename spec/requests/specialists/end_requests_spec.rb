@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe "Project end requests", type: :request do
+RSpec.describe 'Project end requests', type: :request do
   include SessionsHelper
 
   context 'project with an early end request' do

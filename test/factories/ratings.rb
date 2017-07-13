@@ -5,6 +5,6 @@ FactoryGirl.define do
     project nil
     rater nil
     value 1
-    review "MyString"
+    review 'MyString'
   end
 end

@@ -34,8 +34,8 @@ class AddCalculatedBudgetToProjects < ActiveRecord::Migration
   end
 
   def down
-    execute "DROP TRIGGER calculate_budget ON projects"
-    execute "DROP FUNCTION projects_calculate_budget()"
+    execute 'DROP TRIGGER calculate_budget ON projects'
+    execute 'DROP FUNCTION projects_calculate_budget()'
     remove_column :projects, :calculated_budget
   end
 end

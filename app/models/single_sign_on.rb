@@ -22,9 +22,9 @@ class SingleSignOn
     sso.sso_secret = sso_secret if sso_secret
 
     parsed = Rack::Utils.parse_query(payload)
-    raise Runtime Error if sso.sign(parsed["sso"]) != parsed["sig"]
+    raise Runtime Error if sso.sign(parsed['sso']) != parsed['sig']
 
-    decoded = Base64.decode64(parsed["sso"])
+    decoded = Base64.decode64(parsed['sso'])
     decoded_hash = Rack::Utils.parse_query(decoded)
 
     sso = modified_sso_on_accessors(sso, decoded_hash)
@@ -36,7 +36,7 @@ class SingleSignOn
     ACCESSORS.each do |k|
       val = decoded_hash[k.to_s]
       if BOOLS.include? k
-        val = %w[true false].include?(val) ? val == "true" : nil
+        val = %w[true false].include?(val) ? val == 'true' : nil
       end
       sso.__send__("#{k}=", val)
     end
@@ -45,7 +45,7 @@ class SingleSignOn
 
   def self.modified_sso_on_custom(sso, decoded_hash)
     decoded_hash.each do |k, v|
-      if k[0..6] == "custom."
+      if k[0..6] == 'custom.'
         field = k[7..-1]
         sso.custom_fields[field] = v
       end
@@ -72,7 +72,7 @@ class SingleSignOn
   end
 
   def sign(payload)
-    OpenSSL::HMAC.hexdigest("sha256", sso_secret, payload)
+    OpenSSL::HMAC.hexdigest('sha256', sso_secret, payload)
   end
 
   def to_url(base_url = nil)

@@ -49,7 +49,7 @@ class JobApplication::Accept < Draper::Decorator
                             process_after: Time.zone.today,
                             status: Charge.statuses[:scheduled],
                             running_balance_in_cents: 0,
-                            description: "Full-time fee payable to Complect; Payment option: Upfront"
+                            description: 'Full-time fee payable to Complect; Payment option: Upfront'
   end
 
   def schedule_monthly_fee
@@ -63,7 +63,7 @@ class JobApplication::Accept < Draper::Decorator
                      amount_in_cents: 0,
                      fee_in_cents: fee,
                      running_balance_in_cents: total - (fee * (i + 1)),
-                     description: "Full-time fee payable to Complect; Payment option: Monthly"
+                     description: 'Full-time fee payable to Complect; Payment option: Monthly'
     end
   end
 end

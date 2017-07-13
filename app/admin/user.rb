@@ -18,7 +18,7 @@ ActiveAdmin.register User do
 
   member_action :impersonate, method: :post do
     impersonate_user resource
-    redirect_to resource_path(resource), notice: "Impersonating this user"
+    redirect_to resource_path(resource), notice: 'Impersonating this user'
   end
 
   collection_action :stop_impersonating, method: :post do
@@ -45,8 +45,8 @@ ActiveAdmin.register User do
     end
   end
 
-  scope("Active") { |scope| scope.where(suspended: false) }
-  scope("Suspended") { |scope| scope.where(suspended: true) }
+  scope('Active') { |scope| scope.where(suspended: false) }
+  scope('Suspended') { |scope| scope.where(suspended: true) }
 
   filter :email
   filter :sign_in_count
@@ -67,7 +67,7 @@ ActiveAdmin.register User do
   permit_params :email, :password, :password_confirmation
 
   form do |f|
-    f.inputs "User Details" do
+    f.inputs 'User Details' do
       f.input :email
       f.input :password
       f.input :password_confirmation

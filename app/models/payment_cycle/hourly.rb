@@ -17,7 +17,7 @@ class PaymentCycle::Hourly < PaymentCycle
         schedule_charge!(
           amount: timesheet.total_due,
           date: current_cycle_date,
-          description: "Timesheet #{timesheet.status_changed_at.strftime("%b %d, %Y")}",
+          description: "Timesheet #{timesheet.status_changed_at.strftime('%b %d, %Y')}",
           referenceable: timesheet
         )
 

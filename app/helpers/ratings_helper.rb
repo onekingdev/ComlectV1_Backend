@@ -10,7 +10,7 @@ module RatingsHelper
     #  end.join("\n").html_safe
     # end
     content_tag(:div, nil, class: "stars_bg #{css_class}") do
-      content_tag(:div, nil, class: "stars_fg", style: "width: #{rating * 100.0 / 5}%") if rating
+      content_tag(:div, nil, class: 'stars_fg', style: "width: #{rating * 100.0 / 5}%") if rating
     end
   end
 

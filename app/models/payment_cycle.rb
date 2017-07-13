@@ -4,13 +4,13 @@ class PaymentCycle
   attr_reader :project
 
   SCHEDULE_CLASSES = {
-    "hourly/upon_completion" => PaymentCycle::Hourly::UponCompletion,
-    "hourly/bi_weekly" => PaymentCycle::Hourly::BiWeekly,
-    "hourly/monthly" => PaymentCycle::Hourly::Monthly,
-    "fixed/fifty_fifty" => PaymentCycle::Fixed::FiftyFifty,
-    "fixed/upon_completion" => PaymentCycle::Fixed::UponCompletion,
-    "fixed/bi_weekly" => PaymentCycle::Fixed::BiWeekly,
-    "fixed/monthly" => PaymentCycle::Fixed::Monthly
+    'hourly/upon_completion' => PaymentCycle::Hourly::UponCompletion,
+    'hourly/bi_weekly' => PaymentCycle::Hourly::BiWeekly,
+    'hourly/monthly' => PaymentCycle::Hourly::Monthly,
+    'fixed/fifty_fifty' => PaymentCycle::Fixed::FiftyFifty,
+    'fixed/upon_completion' => PaymentCycle::Fixed::UponCompletion,
+    'fixed/bi_weekly' => PaymentCycle::Fixed::BiWeekly,
+    'fixed/monthly' => PaymentCycle::Fixed::Monthly
   }.freeze
 
   def self.for(project)

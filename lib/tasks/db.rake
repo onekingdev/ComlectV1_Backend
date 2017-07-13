@@ -3,7 +3,7 @@
 namespace :db do
   task cleanup: :environment do
     if ENV['FORCE'] != '1'
-      puts "Usage: FORCE=1 rake db:cleanup"
+      puts 'Usage: FORCE=1 rake db:cleanup'
       exit 1
     end
 

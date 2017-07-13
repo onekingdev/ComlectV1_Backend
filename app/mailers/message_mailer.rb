@@ -38,11 +38,11 @@ class MessageMailer < ApplicationMailer
 
   def remove_template_html(html, reply_text)
     previous = (html.match(/id=.*?message-body".*?>(.*?)<div id=".*?message-body-end"/mi) || [])[1].to_s.strip
-    reply_text + "<br/><br/>---<br/><br/>" + previous
+    reply_text + '<br/><br/>---<br/><br/>' + previous
   end
 
   def subject(_from)
-    "You received a message on Complect"
+    'You received a message on Complect'
   end
 
   def party_name(party)

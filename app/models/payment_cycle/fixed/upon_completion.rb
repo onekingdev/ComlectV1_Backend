@@ -4,7 +4,7 @@ class PaymentCycle::Fixed::UponCompletion < PaymentCycle::Fixed
   private
 
   def charge_description
-    "Upon completion project payment"
+    'Upon completion project payment'
   end
 
   def occurrences

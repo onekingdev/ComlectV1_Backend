@@ -6,7 +6,7 @@ class Business::ProjectEndsController < ApplicationController
 
   def create
     @request = ProjectEnd::Request.process! @project
-    redirect_to business_project_dashboard_path(@project), notice: "Project end requested"
+    redirect_to business_project_dashboard_path(@project), notice: 'Project end requested'
   end
 
   private

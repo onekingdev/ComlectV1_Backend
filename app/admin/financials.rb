@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-ActiveAdmin.register_page "Financials" do
+ActiveAdmin.register_page 'Financials' do
   page_action :download, method: :get do
     send_data ::Metrics::Financials.new.to_csv, filename: 'financials.csv'
   end

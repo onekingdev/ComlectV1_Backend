@@ -34,7 +34,7 @@ class Project::Share
   private
 
   def specialist_message_text
-    I18n.t("project_shares.message_template.from_specialist",
+    I18n.t('project_shares.message_template.from_specialist',
            recipient_name: name,
            sender_name: user.specialist.full_name,
            project_job: "#{project.title} #{project.one_off? ? 'project' : 'job'}").strip
@@ -42,7 +42,7 @@ class Project::Share
 
   def specialist_message_html
     simple_format I18n.t(
-      "project_shares.message_template.from_specialist",
+      'project_shares.message_template.from_specialist',
       recipient_name: name,
       sender_name: user.specialist.full_name,
       project_job: "%{project_job_link} #{project.one_off? ? 'project' : 'job'}"

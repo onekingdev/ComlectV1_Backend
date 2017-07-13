@@ -5,6 +5,6 @@ class User::Decorator < Draper::Decorator
   delegate_all
 
   def to_s
-    business ? business.business_name : "Specialist"
+    business ? business.business_name : 'Specialist'
   end
 end

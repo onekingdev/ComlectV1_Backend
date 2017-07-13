@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe "Flagging content", type: :request do
+RSpec.describe 'Flagging content', type: :request do
   include SessionsHelper
 
   let(:specialist) { create :specialist }

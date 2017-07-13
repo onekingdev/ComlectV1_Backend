@@ -8,7 +8,7 @@ class Projects::OverviewsController < ApplicationController
     respond_to do |format|
       format.html do
         Project::Decorator.decorate(@project).tap do |project|
-          render partial: "projects/dashboards/project_overview", locals: { project: project }
+          render partial: 'projects/dashboards/project_overview', locals: { project: project }
         end
       end
     end

@@ -5,7 +5,7 @@ class Transaction::OneOff < Transaction
 
   def process!
     super do
-      raise "Specialist does not have a managed account" unless specialist.stripe_account
+      raise 'Specialist does not have a managed account' unless specialist.stripe_account
       transfer = create_stripe_transfer
       self.stripe_id = transfer.id
       self.payment_target_id = specialist.stripe_account.id

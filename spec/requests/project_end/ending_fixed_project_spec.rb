@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe "Fixed project end scenarios", type: :request do
+RSpec.describe 'Fixed project end scenarios', type: :request do
   include SessionsHelper
 
   context 'early end approved' do

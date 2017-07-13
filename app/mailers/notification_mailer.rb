@@ -3,7 +3,7 @@
 class NotificationMailer < ApplicationMailer
   include ActionView::Helpers::TextHelper
 
-  def notification(dispatcher, action_url = nil, subject = "Notification on Complect")
+  def notification(dispatcher, action_url = nil, subject = 'Notification on Complect')
     to = dispatcher.user.email
     @message = dispatcher.message_mail
     @action_label = dispatcher.action_label
@@ -22,7 +22,7 @@ class NotificationMailer < ApplicationMailer
   private
 
   def template_by_initiator(name)
-    if name == "Complect"
+    if name == 'Complect'
       ENV.fetch('POSTMARK_COMPLECT_TEMPLATE_ID')
     else
       ENV.fetch('POSTMARK_PERSONALITY_TEMPLATE_ID')

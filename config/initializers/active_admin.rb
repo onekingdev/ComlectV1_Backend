@@ -6,12 +6,12 @@ ActiveAdmin.setup do |config|
   # Set the title that is displayed on the main layout
   # for each of the active admin pages.
   #
-  config.site_title = "Complect"
+  config.site_title = 'Complect'
 
   # Set the link url for the title. For example, to take
   # users to your main site. Defaults to no link.
   #
-  config.site_title_link = "/"
+  config.site_title_link = '/'
 
   # Set an optional image to be displayed for the header
   # instead of a string (overrides :site_title)
@@ -50,14 +50,14 @@ ActiveAdmin.setup do |config|
 
   require 'active_admin/pundit_admin_adapter'
   config.authorization_adapter = ActiveAdmin::PunditAdminAdapter
-  config.pundit_default_policy = "AdminPolicy"
+  config.pundit_default_policy = 'AdminPolicy'
 
   require 'active_admin/authentication_helpers'
   ActiveAdmin::BaseController.public_send(:include, ActiveAdmin::AuthenticationHelpers)
 
   config.namespace :support do |support|
-    support.site_title = "Complect Customer Support"
-    support.root_to = "projects#index"
+    support.site_title = 'Complect Customer Support'
+    support.root_to = 'projects#index'
     support.authentication_method = :authenticate_support_user!
     support.authorization_adapter = ActiveAdmin::AuthorizationAdapter
   end

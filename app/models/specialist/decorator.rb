@@ -79,7 +79,7 @@ class Specialist::Decorator < ApplicationDecorator
                   placeholder: I18n.t('simple_form.placeholders.project.skills'),
                   input_html: {
                     class: 'input-lg tt-n',
-                    autocomplete: "off",
+                    autocomplete: 'off',
                     data: { source: h.api_skills_path, max: 10 }
                   },
                   wrapper_html: {
