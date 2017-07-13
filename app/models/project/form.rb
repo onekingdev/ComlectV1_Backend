@@ -35,7 +35,7 @@ class Project::Form < Project
     period = public_send(attribute)
     errors.add attribute, :too_little_duration if %w[monthly bi_weekly].include?(period)
   end
-  validate if: -> { starts_on.present? && ends_on.present? && ends_on - starts_on > 30 } do
+  validate if: -> { starts_on.present? && ends_on.present? && ends_on - starts_on > 31 } do
     attribute = hourly_pricing? ? :hourly_payment_schedule : :fixed_payment_schedule
     errors.add attribute, :too_much_duration if public_send(attribute) == 'upon_completion'
   end
