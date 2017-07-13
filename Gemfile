@@ -97,7 +97,7 @@ group :development, :test do
 
   # Testing
   gem 'factory_girl_rails'
-  gem 'rspec-rails'
+  gem 'rspec-rails', '3.5.2'
 
   # Code Quality
   gem 'rubocop', require: false
