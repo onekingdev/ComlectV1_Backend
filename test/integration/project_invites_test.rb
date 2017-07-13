@@ -37,8 +37,13 @@ class ProjectInvitesTest < ActionDispatch::IntegrationTest
   test 'show message when inviting to existing project' do
     project = create(:project_full_time, business: @business)
     pseudo_id = rand(10_000)
-    params = { project_invite: { project_id: project.id, specialist_id: @specialist.id, message: pseudo_id } }
-    xhr :post, project_invites_path, params
-    assert_match(/Invite sent/, response.body)
+
+    xhr :post, project_invites_path, project_invite: {
+      project_id: project.id,
+      specialist_id: @specialist.id,
+      message: pseudo_id
+    }
+
+    assert_match(/js-project-invite/, response.body)
   end
 end
