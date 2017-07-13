@@ -35,7 +35,12 @@ class ActionDispatch::IntegrationTest
   include Capybara::DSL
 
   def sign_in(user, password = 'password')
-    post user_session_path, params: { 'user[email]' => user.email, 'user[password]' => password }
+    post(
+      user_session_path,
+      'user[email]' => user.email,
+      'user[password]' => password
+    )
+
     assert_response 302
   end
 

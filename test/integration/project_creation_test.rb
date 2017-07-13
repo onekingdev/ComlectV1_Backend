@@ -9,35 +9,42 @@ class ProjectCreationTest < ActionDispatch::IntegrationTest
   end
 
   test 'can create one off hourly project' do
-    attributes = attributes_for(:project_one_off_hourly).merge(hourly_payment_schedule: 'monthly')
-    assert_difference 'Project.count', +1 do
-      post business_projects_path, params: { project: attributes }
+    attributes =
+      attributes_for(:project_one_off_hourly)
+      .merge(hourly_payment_schedule: 'monthly')
+
+    assert_difference 'Project.count', + 1 do
+      post business_projects_path, project: attributes
     end
   end
 
   test 'can create one off fixed budget project' do
-    attributes = attributes_for(:project_one_off_fixed).merge(fixed_payment_schedule: 'monthly')
-    assert_difference 'Project.count', +1 do
-      post business_projects_path, params: { project: attributes }
+    attributes =
+      attributes_for(:project_one_off_fixed)
+      .merge(fixed_payment_schedule: 'monthly')
+
+    assert_difference 'Project.count', + 1 do
+      post business_projects_path, project: attributes
     end
   end
 
   test 'can create full time project' do
     attributes = attributes_for(:project_full_time)
-    assert_difference 'Project.count', +1 do
-      post business_projects_path, params: { project: attributes }
+
+    assert_difference 'Project.count', + 1 do
+      post business_projects_path, project: attributes
     end
   end
 
   test 'redirects draft saving to dashboard' do
     attributes = attributes_for(:project_full_time).merge(status: 'draft')
-    post business_projects_path, params: { project: attributes }
+    post business_projects_path, project: attributes
     assert_redirected_to business_dashboard_path
   end
 
   test 'redirects review and post to review page' do
     attributes = attributes_for(:project_full_time).merge(status: 'review')
-    post business_projects_path, params: { project: attributes }
+    post business_projects_path, project: attributes
     project = Project.last
     assert_redirected_to business_project_path(project)
   end
@@ -45,9 +52,21 @@ class ProjectCreationTest < ActionDispatch::IntegrationTest
   test 'invites specialist after creating' do
     attributes = attributes_for(:project_full_time).merge(status: 'review')
     specialist = create :specialist
-    invite = @business.project_invites.create!(specialist: specialist, message: 'Invite')
-    post business_projects_path, params: { project: attributes.merge(invite_id: invite.id) }
-    post post_business_project_path(invite.reload.project), format: 'js'
+    invite = @business.project_invites.create!(
+      specialist: specialist,
+      message: 'Invite'
+    )
+
+    post(
+      business_projects_path,
+      project: attributes.merge(invite_id: invite.id)
+    )
+
+    post(
+      post_business_project_path(invite.reload.project),
+      format: 'js'
+    )
+
     assert invite.reload.sent?
   end
 
@@ -55,9 +74,13 @@ class ProjectCreationTest < ActionDispatch::IntegrationTest
     sign_out
     business = create :business
     sign_in business.user
-    attributes = attributes_for(:project_one_off_hourly).merge(hourly_payment_schedule: 'monthly')
-    assert_difference 'Project.count', +1 do
-      post business_projects_path, params: { project: attributes }
+
+    attributes =
+      attributes_for(:project_one_off_hourly)
+      .merge(hourly_payment_schedule: 'monthly')
+
+    assert_difference 'Project.count', + 1 do
+      post business_projects_path, project: attributes
     end
   end
 
@@ -66,8 +89,12 @@ class ProjectCreationTest < ActionDispatch::IntegrationTest
     project = create :project_one_off_hourly
     sign_in project.business.user
     post_via_redirect post_business_project_path(project)
+
     assert !project.reload.published?
-    assert_match(/#{I18n.t('activerecord.errors.models.project.attributes.base.no_payment')}/, response.body)
+    assert_match(
+      /#{I18n.t('activerecord.errors.models.project.attributes.base.no_payment')}/,
+      response.body
+    )
   end
 
   test 'can post with payment info' do

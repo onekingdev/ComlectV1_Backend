@@ -13,7 +13,7 @@ class ProjectInvitesTest < ActionDispatch::IntegrationTest
   test 'business gets set automatically' do
     pseudo_id = rand(10_000)
     params = { project_invite: { specialist_id: @specialist.id, message: pseudo_id } }
-    post project_invites_path, params: params.merge(format: :js)
+    post project_invites_path, params.merge(format: :js)
     invite = ProjectInvite.find_by!(message: pseudo_id)
     assert_equal @business.id, invite.business_id
   end
@@ -22,7 +22,7 @@ class ProjectInvitesTest < ActionDispatch::IntegrationTest
     pseudo_id = rand(10_000)
     params = { project_invite: { specialist_id: @specialist.id, message: pseudo_id } }
     assert_difference 'ProjectInvite.count' do
-      post project_invites_path, params: params.merge(format: :js)
+      post project_invites_path, params.merge(format: :js)
     end
     invite = ProjectInvite.find_by!(message: pseudo_id)
     assert_match(/invite_id=#{invite.id}/, response.body)
