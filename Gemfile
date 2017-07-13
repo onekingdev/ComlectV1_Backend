@@ -120,6 +120,7 @@ end
 group :test do
   gem 'capybara'
   gem 'database_cleaner'
+  gem 'mocha'
   gem 'poltergeist'
   gem 'stripe-ruby-mock', require: 'stripe_mock'
   gem 'timecop'
