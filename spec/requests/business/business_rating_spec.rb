@@ -17,10 +17,8 @@ RSpec.describe "Business::Ratings", type: :request do
     subject do
       post(
         business_project_rating_path(project),
-        params: {
-          rating: { value: 5, review: 'Nice working with him' },
-          format: :js
-        }
+        rating: { value: 5, review: 'Nice working with him' },
+        format: :js
       )
     end
 

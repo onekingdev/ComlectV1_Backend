@@ -50,13 +50,11 @@ RSpec.describe "Hourly project end scenarios", type: :request do
           expect do
             post(
               project_timesheets_path(project),
-              params: {
-                timesheet: {
-                  save: '1',
-                  time_logs_attributes: [{ description: 'Dummy', hours: 5 }]
-                },
-                format: :js
-              }
+              timesheet: {
+                save: '1',
+                time_logs_attributes: [{ description: 'Dummy', hours: 5 }]
+              },
+              format: :js
             )
 
             expect(response).to have_http_status(:created)
@@ -68,13 +66,11 @@ RSpec.describe "Hourly project end scenarios", type: :request do
 
           put(
             project_timesheet_path(project, timesheet),
-            params: {
-              timesheet: {
-                submit: '1',
-                time_logs_attributes: [{ id: log.id, hours: 2 }]
-              },
-              format: :js
-            }
+            timesheet: {
+              submit: '1',
+              time_logs_attributes: [{ id: log.id, hours: 2 }]
+            },
+            format: :js
           )
 
           expect(response).to have_http_status(:ok)
@@ -105,13 +101,11 @@ RSpec.describe "Hourly project end scenarios", type: :request do
         expect do
           post(
             project_timesheets_path(project),
-            params: {
-              timesheet: {
-                save: '1',
-                time_logs_attributes: [{ description: 'Dummy', hours: 5 }]
-              },
-              format: :js
-            }
+            timesheet: {
+              save: '1',
+              time_logs_attributes: [{ description: 'Dummy', hours: 5 }]
+            },
+            format: :js
           )
 
           expect(response).to have_http_status(:forbidden)
