@@ -20,7 +20,7 @@ class MessageMailerTest < ActionMailer::TestCase
     assert_match(/complect/, email.to.first.to_s)
     assert_equal [@specialist.user.email], email.bcc
     assert_equal ["inbound+#{@thread.thread_key}b@test.com"], email.reply_to
-    assert_match(/subject: You received a message on Complect/, email.body.to_s)
+    assert_match(/subject: A message regarding your application on Complect/, email.body.to_s)
     assert_match(/#{@project.title}/, email.body.to_s)
   end
 
@@ -32,7 +32,7 @@ class MessageMailerTest < ActionMailer::TestCase
     assert_match(/complect/, email.to.first.to_s)
     assert_equal [@specialist.user.email], email.bcc
     assert_equal ["inbound+#{@thread.thread_key}b@test.com"], email.reply_to
-    assert_match(/You received a message on Complect/, email.body.to_s)
+    assert_match(/subject: A message regarding your application on Complect/, email.body.to_s)
     assert_match(/#{@project.title}/, email.body.to_s)
     assert_no_match(/#{@business.business_name}/, email.body.to_s)
   end
