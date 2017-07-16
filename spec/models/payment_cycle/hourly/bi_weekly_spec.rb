@@ -4,36 +4,58 @@ require 'rails_helper'
 
 RSpec.describe PaymentCycle::Hourly::BiWeekly, type: :model do
   before(:all) do
-    @specialist = create :specialist
+    StripeMock.start
+    @specialist = create(:specialist)
+  end
+
+  after(:all) do
+    StripeMock.stop
   end
 
   describe 'an hourly project with bi-weekly pay' do
     before do
-      @project = create :project_one_off_hourly,
-                        payment_schedule: Project.payment_schedules[:bi_weekly],
-                        starts_on: Date.new(2016, 1, 1),
-                        ends_on: Date.new(2016, 3, 26)
-      @job_application = create :job_application, project: @project, specialist: @specialist
-      Timecop.freeze Date.new(2016, 1, 1)
-    end
+      Timecop.freeze(Date.new(2015, 12, 25)) do
+        @business = create(
+          :business,
+          :with_payment_profile,
+          time_zone: 'Pacific Time (US & Canada)'
+        )
 
-    after do
-      Timecop.return
+        @project = create(
+          :project_one_off_hourly,
+          business: @business,
+          payment_schedule: Project.payment_schedules[:bi_weekly],
+          starts_on: Date.new(2016, 1, 1),
+          ends_on: Date.new(2016, 3, 26)
+        )
+
+        @job_application = create(
+          :job_application,
+          project: @project,
+          specialist: @specialist
+        )
+
+        Project::Form.find(@project.id).post!
+        JobApplication::Accept.(@job_application)
+      end
     end
 
     it 'creates estimated charges every other week' do
-      JobApplication::Accept.(@job_application)
-      PaymentCycle.for(@project).reschedule!
-      expect(@project.charges.estimated.count).to eq(6)
-      dates = [
-        @project.business.tz.local(2016, 1, 18, 0, 1), # Not the 15th since that's a friday so we charge on monday
-        @project.business.tz.local(2016, 2, 1, 0, 1),  # and so on...
-        @project.business.tz.local(2016, 2, 15, 0, 1),
-        @project.business.tz.local(2016, 2, 29, 0, 1),
-        @project.business.tz.local(2016, 3, 14, 0, 1),
-        @project.business.tz.local(2016, 3, 28, 0, 1)
-      ]
-      expect(@project.charges.estimated.map(&:process_after).sort).to eq(dates)
+      Timecop.freeze(@project.starts_on) do
+        PaymentCycle.for(@project).create_charges_and_reschedule!
+        expect(@project.charges.estimated.count).to eq(6)
+
+        dates = [
+          @project.business.tz.local(2016, 1, 18, 0, 1), # Not the 15th since that's a friday so we charge on monday
+          @project.business.tz.local(2016, 2, 1, 0, 1),  # and so on...
+          @project.business.tz.local(2016, 2, 15, 0, 1),
+          @project.business.tz.local(2016, 2, 29, 0, 1),
+          @project.business.tz.local(2016, 3, 14, 0, 1),
+          @project.business.tz.local(2016, 3, 28, 0, 1)
+        ]
+
+        expect(@project.charges.estimated.map(&:process_after).sort).to eq(dates)
+      end
     end
 
     context 'in the middle of project with already paid work' do

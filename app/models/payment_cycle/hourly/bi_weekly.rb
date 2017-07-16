@@ -11,7 +11,7 @@ class PaymentCycle::Hourly::BiWeekly < PaymentCycle::Hourly
   end
 
   def schedule
-    IceCube::Schedule.new(project.starts_on).tap do |schedule|
+    IceCube::Schedule.new(project.starts_on.in_time_zone(timezone)).tap do |schedule|
       schedule.add_recurrence_rule IceCube::Rule.weekly(2)
     end
   end
