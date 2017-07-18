@@ -17,8 +17,7 @@ RSpec.describe PaymentCycle::Fixed::Monthly, type: :model do
       Timecop.freeze(Date.new(2015, 12, 25)) do
         @business = create(
           :business,
-          :with_payment_profile,
-          time_zone: 'Pacific Time (US & Canada)'
+          :with_payment_profile
         )
 
         @project = create(
@@ -133,7 +132,7 @@ RSpec.describe PaymentCycle::Fixed::Monthly, type: :model do
           ProcessScheduledChargesJob.new.perform
         end
 
-        new_end_date = @project.business.tz.local(2016, 2, 13)
+        new_end_date = @business.tz.local(2016, 2, 13)
         Timecop.freeze(new_end_date) do
           request = ProjectEnd::Request.process!(@project)
           request.confirm!

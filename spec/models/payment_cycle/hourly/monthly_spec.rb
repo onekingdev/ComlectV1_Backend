@@ -6,37 +6,56 @@ RSpec.describe PaymentCycle::Hourly::Monthly, type: :model do
   include TimesheetSpecHelper
 
   before(:all) do
-    @specialist = create :specialist
+    StripeMock.start
+    @specialist = create(:specialist)
+  end
+
+  after(:all) do
+    StripeMock.stop
   end
 
   describe 'an hourly project with monthly pay' do
-    before do
-      @project = create :project_one_off_hourly,
-                        payment_schedule: Project.payment_schedules[:monthly],
-                        starts_on: Date.new(2016, 1, 1),
-                        ends_on: Date.new(2016, 6, 1),
-                        hourly_rate: 100,
-                        estimated_hours: 50
-      @job_application = create :job_application, project: @project, specialist: @specialist
-      Timecop.freeze Date.new(2016, 1, 1)
-    end
+    let(:business) { create(:business, :with_payment_profile) }
 
-    after do
-      Timecop.return
+    before do
+      Timecop.freeze(business.tz.local(2015, 12, 25)) do
+        @project = create(
+          :project_one_off_hourly,
+          business: business,
+          payment_schedule: Project.payment_schedules[:monthly],
+          starts_on: Date.new(2016, 1, 1),
+          ends_on: Date.new(2016, 6, 1),
+          hourly_rate: 100,
+          estimated_hours: 50
+        )
+
+        @job_application = create(
+          :job_application,
+          project: @project,
+          specialist: @specialist
+        )
+
+        Project::Form.find(@project.id).post!
+        JobApplication::Accept.(@job_application)
+      end
     end
 
     it 'creates estimated charges every month' do
-      JobApplication::Accept.(@job_application)
-      PaymentCycle.for(@project).reschedule!
+      Timecop.freeze(@project.starts_on) do
+        PaymentCycle.for(@project).create_charges_and_reschedule!
+      end
+
       expect(@project.charges.estimated.count).to eq(5)
+
       dates = @project.charges.estimated.pluck(:process_after).sort.map do |date|
         date.in_time_zone(@project.business.tz)
       end
+
       expected_dates = [
         @project.business.tz.local(2016, 2, 2, 0, 1),
         @project.business.tz.local(2016, 3, 2, 0, 1),
         @project.business.tz.local(2016, 4, 4, 0, 1),
-        @project.business.tz.local(2016, 5, 3, 0, 1),
+        @project.business.tz.local(2016, 5, 2, 0, 1),
         @project.business.tz.local(2016, 6, 2, 0, 1)
       ]
 
@@ -44,8 +63,10 @@ RSpec.describe PaymentCycle::Hourly::Monthly, type: :model do
     end
 
     it 'removes past estimates' do
-      JobApplication::Accept.(@job_application)
-      PaymentCycle.for(@project).reschedule!
+      Timecop.freeze(@project.starts_on) do
+        PaymentCycle.for(@project).create_charges_and_reschedule!
+      end
+
       first_charge = @project.charges.estimated.first
       Timecop.freeze(first_charge.process_after + 2.days) do
         PaymentCycle.for(@project).create_charges_and_reschedule!
@@ -58,16 +79,10 @@ RSpec.describe PaymentCycle::Hourly::Monthly, type: :model do
 
     context 'in the middle of project with already paid work' do
       before do
-        JobApplication::Accept.(@job_application)
-        Timecop.freeze @project.starts_on + 5.days do
+        Timecop.freeze(@project.starts_on + 5.days) do
           log_timesheet @project, hours: 5
           PaymentCycle.for(@project).create_charges_and_reschedule!
         end
-        Timecop.freeze @project.starts_on + 1.month + 5.days
-      end
-
-      after do
-        Timecop.return
       end
 
       it 'creates real charge for first month' do
@@ -79,30 +94,27 @@ RSpec.describe PaymentCycle::Hourly::Monthly, type: :model do
 
       it 'creates remaining estimated charges' do
         expect(@project.charges.estimated.count).to eq(4)
-        PaymentCycle.for(@project).reschedule!
+
         # $5000 total - $500 paid = $4500, $4500 / 4 remaining payments = $1,125
         expect(@project.charges.estimated.map(&:amount).uniq).to eq([1125])
+
         dates = [
-          @project.business.tz.local(2016, 3, 2, 0, 1),
-          @project.business.tz.local(2016, 4, 4, 0, 1),
-          @project.business.tz.local(2016, 5, 3, 0, 1),
-          @project.business.tz.local(2016, 6, 2, 0, 1)
+          @project.business.tz.local(2016, 3, 2, 0, 1).utc,
+          @project.business.tz.local(2016, 4, 4, 0, 1).utc,
+          @project.business.tz.local(2016, 5, 2, 0, 1).utc,
+          @project.business.tz.local(2016, 6, 2, 0, 1).utc
         ]
+
         expect(@project.charges.estimated.map(&:process_after).sort).to eq(dates)
       end
     end
 
     context 'when more than full amount paid' do
       before do
-        JobApplication::Accept.(@job_application)
-        Timecop.freeze @project.starts_on + 5.days do
+        Timecop.freeze(@project.starts_on + 5.days) do
           log_timesheet @project, hours: @project.estimated_hours + 10
           PaymentCycle.for(@project).create_charges_and_reschedule!
         end
-      end
-
-      after do
-        Timecop.return
       end
 
       it 'sets running balance at 0' do

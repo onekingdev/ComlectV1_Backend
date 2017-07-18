@@ -17,8 +17,7 @@ RSpec.describe PaymentCycle::Fixed::FiftyFifty, type: :model do
       Timecop.freeze(Date.new(2015, 12, 25)) do
         @business = create(
           :business,
-          :with_payment_profile,
-          time_zone: 'Pacific Time (US & Canada)'
+          :with_payment_profile
         )
 
         @project = create(
@@ -63,7 +62,7 @@ RSpec.describe PaymentCycle::Fixed::FiftyFifty, type: :model do
     it 'does not duplicate charges' do
       PaymentCycle.for(@project).create_charges_and_reschedule!
       PaymentCycle.for(@project).create_charges_and_reschedule!
-      expect(@project.charges.count).to eq(2)
+      expect(@project.reload.charges.count).to eq(2)
 
       dates = [Date.new(2016, 1, 1), Date.new(2016, 3, 24)]
       expect(
@@ -80,8 +79,7 @@ RSpec.describe PaymentCycle::Fixed::FiftyFifty, type: :model do
 
     context 'project ended early' do
       it 'reschedules charge' do
-        new_end_date = @project.business.tz.local(2016, 1, 13)
-
+        new_end_date = @business.tz.local(2016, 1, 13)
         Timecop.freeze(new_end_date) do
           request = ProjectEnd::Request.process! @project
           request.confirm!

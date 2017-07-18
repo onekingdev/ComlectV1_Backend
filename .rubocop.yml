@@ -20,15 +20,7 @@ Layout/MultilineMethodDefinitionBraceLayout:
   Enabled: true
 
 Style/BlockDelimiters:
-  EnforcedStyle: semantic
-  FunctionalMethods:
-    - before
-    - let
-    - let!
-    - subject
-    - expect
-  Exclude:
-    - 'test/factories/*'
+  Enabled: false
 
 Style/ClassAndModuleChildren:
   Enabled: false

@@ -17,8 +17,7 @@ RSpec.describe PaymentCycle::Fixed::UponCompletion, type: :model do
       Timecop.freeze(Date.new(2015, 12, 25)) do
         @business = create(
           :business,
-          :with_payment_profile,
-          time_zone: 'Pacific Time (US & Canada)'
+          :with_payment_profile
         )
 
         @project = create(
@@ -55,18 +54,17 @@ RSpec.describe PaymentCycle::Fixed::UponCompletion, type: :model do
 
     context 'when project is ended early' do
       before do
-        middle_of_project = @project.starts_on + ((@project.ends_on - @project.starts_on) / 2)
-        Timecop.freeze(middle_of_project) do
+        Timecop.freeze(@business.tz.local(2016, 1, 16)) do
           request = ProjectEnd::Request.process!(@project)
           request.confirm!
         end
       end
 
-      it 'reschedules payment' do
+      it 'reschedules charge' do
         expect(@project.reload.charges.count).to eq(1)
         charge = @project.reload.charges.first
         expect(charge.amount).to eq(@project.fixed_budget)
-        expect(charge.date).to eq(Date.new(2016, 1, 16))
+        expect(charge.date.to_date).to eq(Date.new(2016, 1, 16))
       end
     end
   end
