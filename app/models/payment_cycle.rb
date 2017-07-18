@@ -113,9 +113,9 @@ class PaymentCycle
   end
 
   WEEKDAY_BUFFERS = Hash.new(1.day).merge(
-    5 => 3.days, # Friday? Push to monday
-    6 => 3.days, # Saturday? Push to tuesday
-    0 => 2.days  # Sunday? Push to tuesday
+    5 => 3.days, # Friday to Monday
+    6 => 2.days, # Saturday to Monday
+    0 => 1.day # Sunday to Monday
   ).freeze
 
   def calculate_process_at_date(date)
