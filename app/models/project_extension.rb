@@ -9,6 +9,7 @@ class ProjectExtension < ApplicationRecord
 
   def confirm!
     self.class.transaction do
+      project.update_attributes(ends_on: new_end_date, ends_in_24: false)
       confirmed!
       project.touch :extended_at
       PaymentCycle.for(project).reschedule!
