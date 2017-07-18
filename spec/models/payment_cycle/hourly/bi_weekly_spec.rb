@@ -41,7 +41,7 @@ RSpec.describe PaymentCycle::Hourly::BiWeekly, type: :model do
         PaymentCycle.for(@project).create_charges_and_reschedule!
       end
 
-      expect(@project.charges.estimated.count).to eq(6)
+      expect(@project.charges.estimated.count).to eq(7)
 
       dates = [
         @project.business.tz.local(2016, 1, 18, 0, 1), # Not the 15th since that's a friday so we charge on monday
@@ -49,6 +49,8 @@ RSpec.describe PaymentCycle::Hourly::BiWeekly, type: :model do
         @project.business.tz.local(2016, 2, 15, 0, 1),
         @project.business.tz.local(2016, 2, 29, 0, 1),
         @project.business.tz.local(2016, 3, 14, 0, 1),
+        # the final bi-weekly and upon completion charge both fall in the buffer zone
+        @project.business.tz.local(2016, 3, 28, 0, 1),
         @project.business.tz.local(2016, 3, 28, 0, 1)
       ]
 
@@ -73,16 +75,17 @@ RSpec.describe PaymentCycle::Hourly::BiWeekly, type: :model do
       end
 
       it 'creates remaining estimated charges' do
-        expect(@project.charges.estimated.count).to eq(5)
+        expect(@project.charges.estimated.count).to eq(6)
 
-        # $5000 total - $500 paid = $4500, $4500 / 5 remaining payments = $900
-        expect(@project.charges.estimated.map(&:amount).uniq).to eq([900])
+        # $5000 total - $500 paid = $4500, $4500 / 6 remaining payments = $900
+        expect(@project.charges.estimated.map(&:amount).uniq).to eq([750])
 
         dates = [
           @project.business.tz.local(2016, 2, 1, 0, 1),
           @project.business.tz.local(2016, 2, 15, 0, 1),
           @project.business.tz.local(2016, 2, 29, 0, 1),
           @project.business.tz.local(2016, 3, 14, 0, 1),
+          @project.business.tz.local(2016, 3, 28, 0, 1),
           @project.business.tz.local(2016, 3, 28, 0, 1)
         ]
 
