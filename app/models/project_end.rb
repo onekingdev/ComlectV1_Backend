@@ -40,7 +40,7 @@ class ProjectEnd < ApplicationRecord
   end
 
   def trigger_fixed_project_end
-    Project::Ending.process! project
+    Project::Ending.process!(project)
   end
 
   def trigger_hourly_project_end
