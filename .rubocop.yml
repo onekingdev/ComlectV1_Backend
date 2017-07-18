@@ -27,6 +27,8 @@ Style/BlockDelimiters:
     - let!
     - subject
     - expect
+  Exclude:
+    - 'test/factories/*'
 
 Style/ClassAndModuleChildren:
   Enabled: false
