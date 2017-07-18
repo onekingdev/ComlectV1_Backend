@@ -17,7 +17,7 @@ class PaymentCycle::Fixed::Monthly < PaymentCycle::Fixed
     # Skip first occurrence since it will be at the project's start date
     normal = schedule.occurrences_between(project.starts_on, project.ends_on)[1..-1]
     # Add project end date in case project ends in-between periods
-    (normal + [adjusted_ends_on.in_time_zone(project.business.tz)]).uniq
+    (normal + [project.ends_on]).uniq
   end
 
   def schedule

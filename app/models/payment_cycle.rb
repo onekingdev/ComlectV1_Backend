@@ -102,11 +102,6 @@ class PaymentCycle
     balance.negative? ? 0 : balance # When company pays more than was estimated
   end
 
-  def adjusted_ends_on
-    # Recalculate ends_on date to previous friday if falling on sat/sun
-    project.ends_on - ({ 6 => 1, 0 => 2 }[project.ends_on.wday] || 0)
-  end
-
   def current_cycle_date
     all_occurrences = occurrences
     all_occurrences.detect(&:future?) || all_occurrences.last
