@@ -19,6 +19,15 @@ Layout/MultilineMethodCallBraceLayout:
 Layout/MultilineMethodDefinitionBraceLayout:
   Enabled: true
 
+Style/BlockDelimiters:
+  EnforcedStyle: semantic
+  FunctionalMethods:
+    - before
+    - let
+    - let!
+    - subject
+    - expect
+
 Style/ClassAndModuleChildren:
   Enabled: false
 
