@@ -8,6 +8,6 @@ class PaymentCycle::Fixed::UponCompletion < PaymentCycle::Fixed
   end
 
   def occurrences
-    [project.ends_on]
+    [project.ends_on.in_time_zone(timezone)]
   end
 end

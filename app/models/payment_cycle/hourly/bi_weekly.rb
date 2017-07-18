@@ -7,7 +7,10 @@ class PaymentCycle::Hourly::BiWeekly < PaymentCycle::Hourly
     return @_occurrences if @_occurrences
 
     # Skip first occurrence since it will be at the project's start date
-    @_occurrences = schedule.occurrences_between(project.starts_on, project.ends_on)[1..-1]
+    @_occurrences = schedule.occurrences_between(
+      project.starts_on.in_time_zone(timezone),
+      project.ends_on.in_time_zone(timezone)
+    )[1..-1]
   end
 
   def schedule

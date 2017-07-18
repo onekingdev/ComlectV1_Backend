@@ -3,10 +3,10 @@
 class PaymentCycle::Fixed::FiftyFifty < PaymentCycle::Fixed
   def reschedule!
     # Create first real charge right away
-    unless charge_exists?(project.starts_on)
+    unless charge_exists?(project.starts_on.in_time_zone(timezone))
       schedule_charge!(
         amount: estimated_total / 2.0,
-        date: project.starts_on,
+        date: project.starts_on.in_time_zone(timezone),
         description: 'First 50/50 charge'
       )
     end
@@ -18,7 +18,7 @@ class PaymentCycle::Fixed::FiftyFifty < PaymentCycle::Fixed
   def create_charges!
     current_cycle = previous_cycle_date
 
-    current_cycle = project.ends_on if project.complete?
+    current_cycle = project.ends_on.in_time_zone(timezone) if project.complete?
     return unless current_cycle
     return if charge_exists?(current_cycle)
 
@@ -36,6 +36,9 @@ class PaymentCycle::Fixed::FiftyFifty < PaymentCycle::Fixed
   end
 
   def occurrences
-    [project.starts_on, project.ends_on]
+    [
+      project.starts_on.in_time_zone(timezone),
+      project.ends_on.in_time_zone(timezone)
+    ]
   end
 end
