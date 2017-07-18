@@ -13,7 +13,7 @@ FactoryGirl.define do
     country { Faker::Address.country }
     city { Faker::Address.city }
     state { Faker::Address.state }
-    time_zone { Faker::Address.time_zone }
+    time_zone 'Mountain Time (US & Canada)'
 
     trait :with_payment_profile do
       after(:create) do |business, _evaluator|
