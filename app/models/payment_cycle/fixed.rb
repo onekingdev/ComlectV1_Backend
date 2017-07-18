@@ -9,8 +9,8 @@ class PaymentCycle::Fixed < PaymentCycle
     current_cycle = previous_cycle_date
 
     return unless current_cycle
+    current_cycle = project.ends_on.in_time_zone(timezone) if project.complete?
     return if charge_exists?(current_cycle)
-    return create_final_charge if project.complete?
 
     amount = amount_for(current_cycle)
     return if amount.nil?
@@ -23,15 +23,6 @@ class PaymentCycle::Fixed < PaymentCycle
   end
 
   private
-
-  def create_final_charge
-    schedule_charge!(
-      amount: outstanding_amount,
-      date: Time.zone.now,
-      description: charge_description,
-      force: true
-    )
-  end
 
   def amount_for_day_period(date)
     return last_period_amount if last_period?(date - 1)
