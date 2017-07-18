@@ -39,6 +39,10 @@ FactoryGirl.define do
       annual_salary 98_000
     end
 
+    trait :monthly_pay do
+      payment_schedule Project.payment_schedules[:monthly]
+    end
+
     trait :upon_completion_pay do
       payment_schedule Project.payment_schedules[:upon_completion]
     end
