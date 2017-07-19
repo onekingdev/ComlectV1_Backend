@@ -12,7 +12,6 @@ class ProjectExtension < ApplicationRecord
       project.update_attributes(ends_on: new_end_date, ends_in_24: false)
       confirmed!
       project.touch :extended_at
-      PaymentCycle.for(project).create_charges_and_reschedule!
     end
   end
 

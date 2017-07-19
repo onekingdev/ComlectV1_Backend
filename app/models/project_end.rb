@@ -36,15 +36,11 @@ class ProjectEnd < ApplicationRecord
     )
 
     reset_upcoming_charges
-    project.fixed_pricing? ? trigger_fixed_project_end : trigger_hourly_project_end
+    trigger_fixed_project_end if project.fixed_pricing?
   end
 
   def trigger_fixed_project_end
     Project::Ending.process!(project)
-  end
-
-  def trigger_hourly_project_end
-    PaymentCycle.for(project).create_charges_and_reschedule!
   end
 
   def reset_upcoming_charges

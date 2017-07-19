@@ -138,6 +138,10 @@ class Project < ApplicationRecord
 
   before_save :save_expires_at, if: -> { starts_on_changed? }
 
+  after_commit :reschedule_charges, on: :update, if: ->(project) {
+    project.previous_changes.include?(:ends_on)
+  }
+
   def self.ending
     one_off.active.joins(business: :user).select('projects.*, businesses.time_zone').find_each.find_all(&:ending?)
   end
@@ -266,6 +270,10 @@ class Project < ApplicationRecord
 
   def fixed_pricing?
     one_off? && pricing_type == 'fixed'
+  end
+
+  def reschedule_charges
+    PaymentCycle.for(self).create_charges_and_reschedule!
   end
 
   private

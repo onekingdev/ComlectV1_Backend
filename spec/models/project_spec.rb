@@ -3,6 +3,18 @@
 require 'rails_helper'
 
 RSpec.describe Project, type: :model do
+  describe '#reschedule_charges callback' do
+    let!(:project) { create(:project_one_off) }
+
+    it 'reschedules charges after ends_on is changed' do
+      expect_any_instance_of(
+        PaymentCycle::Hourly::Monthly
+      ).to receive(:create_charges_and_reschedule!)
+
+      project.update(ends_on: 15.days.from_now)
+    end
+  end
+
   describe '#hard_ends_on' do
     let(:tuesday_midnight) { Date.new(2017, 2, 27).in_time_zone('UTC').end_of_day }
 
@@ -27,9 +39,17 @@ RSpec.describe Project, type: :model do
   end
 
   describe '#expires_at' do
+    let(:business) { build(:business, time_zone: 'Amsterdam') }
+
+    let(:project) {
+      build(
+        :project_one_off_hourly,
+        business: business,
+        starts_on: Date.new(2016, 1, 1)
+      )
+    }
+
     it 'sets value to midnight of the start date on the business TZ' do
-      business = build(:business, time_zone: 'Amsterdam')
-      project = build(:project_one_off_hourly, business: business, starts_on: Date.new(2016, 1, 1))
       project.save
       expected_expiration = Date.new(2016, 1, 1).in_time_zone('Amsterdam').end_of_day
       expect(project.expires_at).to eq(expected_expiration)
