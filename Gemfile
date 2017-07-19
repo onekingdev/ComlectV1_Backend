@@ -123,6 +123,7 @@ group :test do
   gem 'mocha'
   gem 'poltergeist'
   gem 'stripe-ruby-mock', require: 'stripe_mock'
+  gem 'test_after_commit'
   gem 'timecop'
   gem 'webmock'
 end
