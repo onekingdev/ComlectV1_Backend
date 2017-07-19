@@ -27,7 +27,11 @@ class Rating < ApplicationRecord
   private
 
   def update_stats
-    rater.is_a?(Specialist) ? update_rated(project.business) : update_rated(project.specialist)
+    if rater.is_a?(Specialist)
+      update_rated(project.business)
+    else
+      update_rated(project.specialist)
+    end
   end
 
   def update_rated(rated)
