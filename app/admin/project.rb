@@ -36,9 +36,11 @@ ActiveAdmin.register Project do
   end
 
   action_item :reschedule_charges, only: :show, if: -> { resource.one_off? } do
-    link_to 'Reschedule Charges',
-            reschedule_charges_admin_project_path,
-            method: :post
+    link_to(
+      'Reschedule Charges',
+      reschedule_charges_admin_project_path,
+      method: :post
+    )
   end
 
   index do
