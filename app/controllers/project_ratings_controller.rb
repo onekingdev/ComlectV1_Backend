@@ -13,6 +13,7 @@ class ProjectRatingsController < ApplicationController
 
   def create
     @rating = @project.ratings.new(rating_params.merge(rater: specialist_or_business))
+
     if @rating.save
       Notification::Deliver.got_rated! @rating
       js_redirect redirect_url, status: :created
