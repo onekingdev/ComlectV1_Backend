@@ -3,10 +3,10 @@ var modalContent = '<%= j render('new', rating: @rating) %>';
 if ($modal.length > 0) {
   $modal
     .find('form').replaceWith($(modalContent).find('form')).end()
-    .modal('show');
+    .modal({'backdrop': true, 'show': true});
 } else {
   $('body').append(modalContent);
-  $('#js-project-rating').modal('show')
+  $('#js-project-rating').modal({'backdrop': true, 'show': true})
 }
 
 $(document).trigger('newContent', $('#js-project-rating'));

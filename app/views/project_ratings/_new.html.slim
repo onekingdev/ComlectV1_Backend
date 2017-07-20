@@ -3,6 +3,7 @@
     .modal-content
       = simple_form_for rating, url: @form_url, remote: true do |f|
         .modal-header
+          button.close.bootbox-close-button data-dismiss="modal" type="button"
         .modal-body
           h3.text-uppercase.text-center.m-t-0.m-b-2
             big Rate & Review
