@@ -3,6 +3,7 @@
 class ProjectRatingsController < ApplicationController
   skip_before_action :check_unrated_project
   before_action :find_project, :set_form_url
+  before_action :set_rating_solicitation, only: :new
   protect_from_forgery only: []
   include NotificationsHelper
 
@@ -24,5 +25,13 @@ class ProjectRatingsController < ApplicationController
 
   def rating_params
     params.require(:rating).permit(:value, :review)
+  end
+
+  def set_rating_solicitation
+    if current_business
+      @project.update(solicited_business_rating: true)
+    elsif current_specialist
+      @project.update(solicited_specialist_rating: true)
+    end
   end
 end

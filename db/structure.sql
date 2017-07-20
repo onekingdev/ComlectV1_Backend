@@ -541,7 +541,9 @@ CREATE TABLE projects (
     starts_in_48 boolean DEFAULT false,
     ends_in_24 boolean DEFAULT false,
     minimum_experience integer,
-    expires_at timestamp without time zone
+    expires_at timestamp without time zone,
+    solicited_business_rating boolean DEFAULT false,
+    solicited_specialist_rating boolean DEFAULT false
 );
 
 
@@ -4960,4 +4962,6 @@ INSERT INTO schema_migrations (version) VALUES ('20170506204523');
 INSERT INTO schema_migrations (version) VALUES ('20170508190146');
 
 INSERT INTO schema_migrations (version) VALUES ('20170508231021');
+
+INSERT INTO schema_migrations (version) VALUES ('20170720153724');
 
