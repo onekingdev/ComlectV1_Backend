@@ -10,3 +10,7 @@ if ($modal.length > 0) {
 }
 
 $(document).trigger('newContent', $('#js-project-rating'));
+
+$('#js-project-rating').on('hidden.bs.modal', function() {
+  window.location = '<%= @redirect_url %>';
+})

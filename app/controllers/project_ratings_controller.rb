@@ -9,6 +9,7 @@ class ProjectRatingsController < ApplicationController
 
   def new
     @rating = @project.ratings.new(rater: specialist_or_business)
+    @redirect_url = redirect_url
   end
 
   def create
