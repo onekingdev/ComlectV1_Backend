@@ -18,7 +18,7 @@ class Projects::RatingsController < ::ProjectRatingsController
   end
 
   def find_project
-    @project = current_specialist.projects.find_by(id: params[:project_id])
+    @project = current_specialist.projects.pending_specialist_rating.find_by(id: params[:project_id])
     render js: '' unless @project
   end
 end

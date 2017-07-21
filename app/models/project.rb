@@ -83,13 +83,15 @@ class Project < ApplicationRecord
   scope :pending_business_rating, -> {
     complete
       .one_off
-      .where(solicited_business_rating: false)
+      .joins("LEFT JOIN ratings ON ratings.project_id = projects.id AND ratings.rater_type = '#{Business.name}'")
+      .where(ratings: { id: nil })
   }
 
   scope :pending_specialist_rating, -> {
     complete
       .one_off
-      .where(solicited_specialist_rating: false)
+      .joins("LEFT JOIN ratings ON ratings.project_id = projects.id AND ratings.rater_type = '#{Specialist.name}'")
+      .where(ratings: { id: nil })
   }
 
   include Project::PgSearchConfig
