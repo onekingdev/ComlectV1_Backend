@@ -46,13 +46,13 @@
             - elsif project.pending?
               a.btn.btn-sm.btn-primary.btn-single href=business_project_job_applications_path(project)
                 span Applicants
-            - elsif project.active?
-              a.btn.btn-sm.btn-primary.btn-single href=project.dashboard_path
-                span View
-            - else # project.complete?
+            - elsif project.complete?
               a.btn.btn-sm.btn-primary href=copy_business_project_path(project.id)
                 span Copy
               a.btn.btn-sm.btn-primary href=project.dashboard_path
+                span View
+            - else # active/finishing projects
+              a.btn.btn-sm.btn-primary.btn-single href=project.dashboard_path
                 span View
 
 - if @projects.count > 3
