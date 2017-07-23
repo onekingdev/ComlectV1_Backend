@@ -120,7 +120,7 @@ class PaymentCycle
 
   def calculate_process_at_date(date)
     process_at = project.fixed_pricing? ? date.to_date : date.to_date + WEEKDAY_BUFFERS[date.wday]
-    process_at.in_time_zone(timezone) + 1.minute
+    process_at.in_time_zone(timezone).end_of_day
   end
 
   def timezone

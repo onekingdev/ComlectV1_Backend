@@ -45,12 +45,12 @@ RSpec.describe PaymentCycle::Fixed::FiftyFifty, type: :model do
       expect(@project.charges.estimated.count).to eq(1)
 
       dates = [
-        @project.business.tz.local(2016, 1, 1, 0, 1),
-        @project.business.tz.local(2016, 3, 24, 0, 1)
+        @project.business.tz.local(2016, 1, 1).end_of_day.to_i,
+        @project.business.tz.local(2016, 3, 24).end_of_day.to_i
       ]
 
       charges = @project.charges.order(date: :asc)
-      expect(charges.map(&:process_after).sort).to eq(dates)
+      expect(charges.map { |charge| charge.process_after.in_time_zone(@business.tz).to_i }.sort).to eq(dates)
       expect(charges.map(&:running_balance)).to eq([5500, 0])
       expect(charges.map(&:specialist_running_balance)).to eq([4500, 0])
     end

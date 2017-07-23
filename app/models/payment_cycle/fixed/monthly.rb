@@ -19,8 +19,9 @@ class PaymentCycle::Fixed::Monthly < PaymentCycle::Fixed
       project.starts_on.in_time_zone(timezone),
       project.ends_on.in_time_zone(timezone)
     )[1..-1]
+
     # Add project end date in case project ends in-between periods
-    (normal + [project.ends_on]).uniq
+    (normal + [project.ends_on.in_time_zone(timezone)]).uniq
   end
 
   def schedule

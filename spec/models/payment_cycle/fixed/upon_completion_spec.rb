@@ -41,15 +41,11 @@ RSpec.describe PaymentCycle::Fixed::UponCompletion, type: :model do
     end
 
     it 'creates a single estimated charge at end of project' do
-      Timecop.freeze(@project.starts_on + 1.day) do
-        PaymentCycle.for(@project).create_charges_and_reschedule!
-      end
-
       expect(@project.charges.estimated.count).to eq(1)
       charge = @project.charges.estimated.first
       expect(charge.amount).to eq(10_000)
       process_after = charge.process_after.in_time_zone(@project.business.tz)
-      expect(process_after).to eq(@project.business.tz.local(2016, 2, 1, 0, 1))
+      expect(process_after.to_i).to eq(@project.business.tz.local(2016, 2, 1).end_of_day.to_i)
     end
 
     context 'when project is ended early' do
@@ -64,7 +60,8 @@ RSpec.describe PaymentCycle::Fixed::UponCompletion, type: :model do
         expect(@project.reload.charges.count).to eq(1)
         charge = @project.reload.charges.first
         expect(charge.amount).to eq(@project.fixed_budget)
-        expect(charge.date.to_date).to eq(Date.new(2016, 1, 16))
+        process_after = charge.process_after.in_time_zone(@business.tz).to_i
+        expect(process_after).to eq(@business.tz.local(2016, 1, 16).end_of_day.to_i)
       end
     end
   end

@@ -43,18 +43,23 @@ RSpec.describe PaymentCycle::Hourly::BiWeekly, type: :model do
 
       expect(@project.charges.estimated.count).to eq(7)
 
-      dates = [
-        @project.business.tz.local(2016, 1, 18, 0, 1), # Not the 15th since that's a friday so we charge on monday
-        @project.business.tz.local(2016, 2, 1, 0, 1),  # and so on...
-        @project.business.tz.local(2016, 2, 15, 0, 1),
-        @project.business.tz.local(2016, 2, 29, 0, 1),
-        @project.business.tz.local(2016, 3, 14, 0, 1),
+      expected_dates = [
+        # Not the 15th since that's a friday so we charge on monday
+        @project.business.tz.local(2016, 1, 18).end_of_day.to_i,
+        @project.business.tz.local(2016, 2, 1).end_of_day.to_i,
+        @project.business.tz.local(2016, 2, 15).end_of_day.to_i,
+        @project.business.tz.local(2016, 2, 29).end_of_day.to_i,
+        @project.business.tz.local(2016, 3, 14).end_of_day.to_i,
         # the final bi-weekly and upon completion charge both fall in the buffer zone
-        @project.business.tz.local(2016, 3, 28, 0, 1),
-        @project.business.tz.local(2016, 3, 28, 0, 1)
+        @project.business.tz.local(2016, 3, 28).end_of_day.to_i,
+        @project.business.tz.local(2016, 3, 28).end_of_day.to_i
       ]
 
-      expect(@project.charges.estimated.map(&:process_after).sort).to eq(dates)
+      process_after_dates = @project.charges.estimated.map do |charge|
+        charge.process_after.in_time_zone(business.tz).to_i
+      end.sort
+
+      expect(process_after_dates).to eq(expected_dates)
     end
 
     context 'in the middle of project with already paid work' do
@@ -71,7 +76,8 @@ RSpec.describe PaymentCycle::Hourly::BiWeekly, type: :model do
         expect(@project.charges.real.count).to eq(1)
         charge = @project.charges.real.first
         expect(charge.amount).to eq(5 * @project.hourly_rate)
-        expect(charge.process_after).to eq(@project.business.tz.local(2016, 1, 18, 0, 1))
+        process_after = charge.process_after.in_time_zone(business.tz).to_i
+        expect(process_after).to eq(business.tz.local(2016, 1, 18).end_of_day.to_i)
       end
 
       it 'creates remaining estimated charges' do
@@ -80,16 +86,20 @@ RSpec.describe PaymentCycle::Hourly::BiWeekly, type: :model do
         # $5000 total - $500 paid = $4500, $4500 / 6 remaining payments = $900
         expect(@project.charges.estimated.map(&:amount).uniq).to eq([750])
 
-        dates = [
-          @project.business.tz.local(2016, 2, 1, 0, 1),
-          @project.business.tz.local(2016, 2, 15, 0, 1),
-          @project.business.tz.local(2016, 2, 29, 0, 1),
-          @project.business.tz.local(2016, 3, 14, 0, 1),
-          @project.business.tz.local(2016, 3, 28, 0, 1),
-          @project.business.tz.local(2016, 3, 28, 0, 1)
+        expected_dates = [
+          @project.business.tz.local(2016, 2, 1).end_of_day.to_i,
+          @project.business.tz.local(2016, 2, 15).end_of_day.to_i,
+          @project.business.tz.local(2016, 2, 29).end_of_day.to_i,
+          @project.business.tz.local(2016, 3, 14).end_of_day.to_i,
+          @project.business.tz.local(2016, 3, 28).end_of_day.to_i,
+          @project.business.tz.local(2016, 3, 28).end_of_day.to_i
         ]
 
-        expect(@project.charges.estimated.map(&:process_after).sort).to eq(dates)
+        process_after_dates = @project.charges.estimated.map do |charge|
+          charge.process_after.in_time_zone(business.tz).to_i
+        end.sort
+
+        expect(process_after_dates).to eq(expected_dates)
       end
     end
   end

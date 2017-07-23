@@ -39,23 +39,19 @@ RSpec.describe PaymentCycle::Fixed::BiWeekly, type: :model do
     end
 
     it 'creates estimated charges every other week' do
-      Timecop.freeze(@project.starts_on) do
-        PaymentCycle.for(@project).create_charges_and_reschedule!
-      end
-
       expect(@project.charges.estimated.count).to eq(6)
 
       expected_dates = [
-        @project.business.tz.local(2016, 1, 15, 0, 1),
-        @project.business.tz.local(2016, 1, 29, 0, 1),
-        @project.business.tz.local(2016, 2, 12, 0, 1),
-        @project.business.tz.local(2016, 2, 26, 0, 1),
-        @project.business.tz.local(2016, 3, 11, 0, 1),
-        @project.business.tz.local(2016, 3, 24, 0, 1)
+        @project.business.tz.local(2016, 1, 15).end_of_day.to_i,
+        @project.business.tz.local(2016, 1, 29).end_of_day.to_i,
+        @project.business.tz.local(2016, 2, 12).end_of_day.to_i,
+        @project.business.tz.local(2016, 2, 26).end_of_day.to_i,
+        @project.business.tz.local(2016, 3, 11).end_of_day.to_i,
+        @project.business.tz.local(2016, 3, 24).end_of_day.to_i
       ]
 
       dates = @project.charges.pluck(:process_after).sort.map do |date|
-        date.in_time_zone(@project.business.tz)
+        date.in_time_zone(@project.business.tz).to_i
       end
       expect(dates).to eq(expected_dates)
 
@@ -75,22 +71,25 @@ RSpec.describe PaymentCycle::Fixed::BiWeekly, type: :model do
         expect(@project.charges.real.count).to eq(1)
         charge = @project.charges.real.first
         expect(charge.amount).to eq(1666.67)
-        expect(charge.process_after).to eq(@project.business.tz.local(2016, 1, 15, 0, 1))
+
+        expect(
+          charge.process_after.in_time_zone(business.tz).to_i
+        ).to eq(@project.business.tz.local(2016, 1, 15).end_of_day.to_i)
       end
 
       it 'creates remaining estimated charges' do
         expect(@project.charges.estimated.count).to eq(5)
 
         expected_dates = [
-          @project.business.tz.local(2016, 1, 29, 0, 1),
-          @project.business.tz.local(2016, 2, 12, 0, 1),
-          @project.business.tz.local(2016, 2, 26, 0, 1),
-          @project.business.tz.local(2016, 3, 11, 0, 1),
-          @project.business.tz.local(2016, 3, 24, 0, 1)
+          @project.business.tz.local(2016, 1, 29).end_of_day.to_i,
+          @project.business.tz.local(2016, 2, 12).end_of_day.to_i,
+          @project.business.tz.local(2016, 2, 26).end_of_day.to_i,
+          @project.business.tz.local(2016, 3, 11).end_of_day.to_i,
+          @project.business.tz.local(2016, 3, 24).end_of_day.to_i
         ]
 
         dates = @project.charges.estimated.pluck(:process_after).sort.map do |date|
-          date.in_time_zone(@project.business.tz)
+          date.in_time_zone(@project.business.tz).to_i
         end
 
         expect(dates).to eq(expected_dates)
@@ -101,19 +100,15 @@ RSpec.describe PaymentCycle::Fixed::BiWeekly, type: :model do
       let(:ends_on) { Date.new(2016, 1, 22) }
 
       it 'creates the first biweekly estimated charge and another estimated upon completion charge' do
-        Timecop.freeze(@project.starts_on) do
-          PaymentCycle.for(@project).create_charges_and_reschedule!
-        end
-
         expect(@project.charges.estimated.count).to eq(2)
 
         expected_dates = [
-          @project.business.tz.local(2016, 1, 15, 0, 1),
-          @project.business.tz.local(2016, 1, 22, 0, 1)
+          @project.business.tz.local(2016, 1, 15).end_of_day.to_i,
+          @project.business.tz.local(2016, 1, 22).end_of_day.to_i
         ]
 
         dates = @project.charges.pluck(:process_after).sort.map do |date|
-          date.in_time_zone(@project.business.tz)
+          date.in_time_zone(@project.business.tz).to_i
         end
         expect(dates).to eq(expected_dates)
 
@@ -149,14 +144,22 @@ RSpec.describe PaymentCycle::Fixed::BiWeekly, type: :model do
           ScheduleChargesJob.new.perform(@project.id)
           expect(@project.charges.real.size).to eq(1)
           expect(@project.charges.scheduled.last.amount).to eq(1666.67)
+        end
+
+        Timecop.freeze(@project.starts_on + 2.weeks + 2.days) do
           ProcessScheduledChargesJob.new.perform
+          expect(@project.charges.real.size).to eq(1)
         end
 
         Timecop.freeze(@project.starts_on + 4.weeks + 1.day) do
           ScheduleChargesJob.new.perform(@project.id)
           expect(@project.charges.real.size).to eq(2)
           expect(@project.charges.scheduled.last.amount).to eq(1666.67)
+        end
+
+        Timecop.freeze(@project.starts_on + 4.weeks + 2.days) do
           ProcessScheduledChargesJob.new.perform
+          expect(@project.charges.real.size).to eq(2)
         end
 
         new_end_date = business.tz.local(2016, 2, 10)

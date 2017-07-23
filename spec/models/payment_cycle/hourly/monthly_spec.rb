@@ -41,39 +41,33 @@ RSpec.describe PaymentCycle::Hourly::Monthly, type: :model do
     end
 
     it 'creates estimated charges every month' do
-      Timecop.freeze(@project.starts_on) do
-        PaymentCycle.for(@project).create_charges_and_reschedule!
-      end
-
       expect(@project.charges.estimated.count).to eq(5)
 
       dates = @project.charges.estimated.pluck(:process_after).sort.map do |date|
-        date.in_time_zone(@project.business.tz)
+        date.in_time_zone(@project.business.tz).to_i
       end
 
       expected_dates = [
-        @project.business.tz.local(2016, 2, 2, 0, 1),
-        @project.business.tz.local(2016, 3, 2, 0, 1),
-        @project.business.tz.local(2016, 4, 4, 0, 1),
-        @project.business.tz.local(2016, 5, 2, 0, 1),
-        @project.business.tz.local(2016, 6, 2, 0, 1)
+        @project.business.tz.local(2016, 2, 2).end_of_day.to_i,
+        @project.business.tz.local(2016, 3, 2).end_of_day.to_i,
+        @project.business.tz.local(2016, 4, 4).end_of_day.to_i,
+        @project.business.tz.local(2016, 5, 2).end_of_day.to_i,
+        @project.business.tz.local(2016, 6, 2).end_of_day.to_i
       ]
 
       expect(dates).to eq(expected_dates)
     end
 
     it 'removes past estimates' do
-      Timecop.freeze(@project.starts_on) do
-        PaymentCycle.for(@project).create_charges_and_reschedule!
-      end
-
       first_charge = @project.charges.estimated.first
+
       Timecop.freeze(first_charge.process_after + 2.days) do
         PaymentCycle.for(@project).create_charges_and_reschedule!
         estimated = @project.charges.estimated.order(date: :asc)
         expect(estimated.sum(:amount_in_cents)).to eq(500_000)
         expect(estimated.count).to eq(4)
-        expect(estimated.first.process_after).to eq(@project.business.tz.local(2016, 3, 2, 0, 1))
+        process_after = estimated.first.process_after.in_time_zone(business.tz)
+        expect(process_after.to_i).to eq(business.tz.local(2016, 3, 2).end_of_day.to_i)
       end
     end
 
@@ -89,7 +83,10 @@ RSpec.describe PaymentCycle::Hourly::Monthly, type: :model do
         expect(@project.charges.real.count).to eq(1)
         charge = @project.charges.real.first
         expect(charge.amount).to eq(5 * @project.hourly_rate)
-        expect(charge.process_after).to eq(@project.business.tz.local(2016, 2, 2, 0, 1))
+
+        expect(
+          charge.process_after.in_time_zone(business.tz).to_i
+        ).to eq(@project.business.tz.local(2016, 2, 2).end_of_day.to_i)
       end
 
       it 'creates remaining estimated charges' do
@@ -99,13 +96,15 @@ RSpec.describe PaymentCycle::Hourly::Monthly, type: :model do
         expect(@project.charges.estimated.map(&:amount).uniq).to eq([1125])
 
         dates = [
-          @project.business.tz.local(2016, 3, 2, 0, 1).utc,
-          @project.business.tz.local(2016, 4, 4, 0, 1).utc,
-          @project.business.tz.local(2016, 5, 2, 0, 1).utc,
-          @project.business.tz.local(2016, 6, 2, 0, 1).utc
+          @project.business.tz.local(2016, 3, 2).end_of_day.to_i,
+          @project.business.tz.local(2016, 4, 4).end_of_day.to_i,
+          @project.business.tz.local(2016, 5, 2).end_of_day.to_i,
+          @project.business.tz.local(2016, 6, 2).end_of_day.to_i
         ]
 
-        expect(@project.charges.estimated.map(&:process_after).sort).to eq(dates)
+        expect(
+          @project.charges.estimated.map { |charge| charge.process_after.in_time_zone(business.tz).to_i }.sort
+        ).to eq(dates)
       end
     end
 
