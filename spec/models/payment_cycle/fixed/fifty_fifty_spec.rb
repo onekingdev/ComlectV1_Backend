@@ -14,7 +14,7 @@ RSpec.describe PaymentCycle::Fixed::FiftyFifty, type: :model do
 
   describe 'a fixed budget project with fifty-fifty pay' do
     before do
-      Timecop.freeze(Date.new(2015, 12, 25)) do
+      Timecop.freeze(Date.new(2016, 1, 1).end_of_day) do
         @business = create(
           :business,
           :with_payment_profile
@@ -41,10 +41,6 @@ RSpec.describe PaymentCycle::Fixed::FiftyFifty, type: :model do
     end
 
     it 'creates first charge and last estimate' do
-      Timecop.freeze(@project.starts_on + 1.day) do
-        PaymentCycle.for(@project).create_charges_and_reschedule!
-      end
-
       expect(@project.charges.scheduled.count).to eq(1)
       expect(@project.charges.estimated.count).to eq(1)
 
