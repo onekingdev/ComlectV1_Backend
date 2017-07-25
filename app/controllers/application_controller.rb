@@ -4,8 +4,6 @@ class ApplicationController < ActionController::Base
   include ::Pundit
   include ::MixpanelHelper
 
-  force_ssl if: :ssl_configured?
-
   impersonates :user
 
   # Prevent CSRF attacks by raising an exception.
@@ -40,10 +38,6 @@ class ApplicationController < ActionController::Base
   }
 
   private
-
-  def ssl_configured?
-    Rails.env.production?
-  end
 
   def check_unrated_project
     if current_business
