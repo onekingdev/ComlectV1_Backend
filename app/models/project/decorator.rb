@@ -24,17 +24,24 @@ class Project::Decorator < ApplicationDecorator
   # rubocop:disable Metrics/AbcSize
   def extension_popup
     url = h.business_project_extensions_path(project)
+
     h.form_for project.extensions.new, url: url, html: { class: 'js-project-extension-popover' } do |f|
       f.hidden_field(:new_end_date, data: { min: (ends_on + 1).to_a(zero_based_month: true) }, class: 'new_end_date') +
         h.content_tag(:div, class: 'row row-compact') do
           h.content_tag(:div, class: 'col-xs-6') do
-            f.button('Cancel',
-                     type: 'button',
-                     class: 'btn btn-primary btn-md btn-block m-t-1',
-                     data: { dismiss: 'popover' })
+            f.button(
+              'Cancel',
+              type: 'button',
+              class: 'btn btn-primary btn-md btn-block m-t-1',
+              data: { dismiss: 'popover' }
+            )
           end +
             h.content_tag(:div, class: 'col-xs-6') do
-              f.submit('Extend', class: 'btn btn-primary btn-md btn-block m-t-1 disabled', disabled: true)
+              f.submit(
+                'Extend',
+                class: 'btn btn-primary btn-md btn-block m-t-1 disabled',
+                disabled: true
+              )
             end
         end
     end
