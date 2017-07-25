@@ -22,6 +22,7 @@ class Charge::Processing
   def process!
     ActiveRecord::Base.transaction do
       transaction = create_transaction
+
       Charge.where(id: charges.map(&:id)).update_all(
         transaction_id: transaction.id,
         status: Charge.statuses[:processed]

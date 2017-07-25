@@ -88,6 +88,7 @@ class Project::Decorator < ApplicationDecorator
              else
                hourly_pricing? ? hourly_rate : fixed_budget
              end
+
     h.number_to_currency(amount, precision: 0) + ("/hr, est. #{estimated_hours} hrs." if hourly_rate?).to_s
   end
 
@@ -119,63 +120,77 @@ class Project::Decorator < ApplicationDecorator
   end
 
   def hourly_rate_input(builder)
-    builder.input :hourly_rate,
-                  required: true,
-                  as: :string,
-                  input_html: { class: 'input-lg', data: { numeric: true } }
+    builder.input(
+      :hourly_rate,
+      required: true,
+      as: :string,
+      input_html: { class: 'input-lg', data: { numeric: true } }
+    )
   end
 
   def fixed_budget_input(builder)
-    builder.input :fixed_budget,
-                  required: true,
-                  as: :string,
-                  input_html: { class: 'input-lg', data: { numeric: true } }
+    builder.input(
+      :fixed_budget,
+      required: true,
+      as: :string,
+      input_html: { class: 'input-lg', data: { numeric: true } }
+    )
   end
 
   def hourly_payment_schedule_input(builder)
-    builder.input :hourly_payment_schedule,
-                  collection: Project::HOURLY_PAYMENT_SCHEDULES,
-                  include_blank: I18n.t('simple_form.placeholders.project.hourly_payment_schedule'),
-                  required: true,
-                  input_html: { class: 'input-lg js-select' }
+    builder.input(
+      :hourly_payment_schedule,
+      collection: Project::HOURLY_PAYMENT_SCHEDULES,
+      include_blank: I18n.t('simple_form.placeholders.project.hourly_payment_schedule'),
+      required: true,
+      input_html: { class: 'input-lg js-select' }
+    )
   end
 
   def fixed_payment_schedule_input(builder)
-    builder.input :fixed_payment_schedule,
-                  collection: Project::FIXED_PAYMENT_SCHEDULES,
-                  include_blank: I18n.t('simple_form.placeholders.project.fixed_payment_schedule'),
-                  required: true,
-                  input_html: { class: 'input-lg js-select' }
+    builder.input(
+      :fixed_payment_schedule,
+      collection: Project::FIXED_PAYMENT_SCHEDULES,
+      include_blank: I18n.t('simple_form.placeholders.project.fixed_payment_schedule'),
+      required: true,
+      input_html: { class: 'input-lg js-select' }
+    )
   end
 
   def industries_input(builder)
-    builder.input :industry_ids,
-                  as: :grouped_select,
-                  collection: grouped_collection_for_select(Industry.sorted),
-                  group_method: :all,
-                  group_label_method: :label,
-                  placeholder: I18n.t('simple_form.placeholders.project.industries'),
-                  input_html: { class: 'input-lg js-select', multiple: true }
+    builder.input(
+      :industry_ids,
+      as: :grouped_select,
+      collection: grouped_collection_for_select(Industry.sorted),
+      group_method: :all,
+      group_label_method: :label,
+      placeholder: I18n.t('simple_form.placeholders.project.industries'),
+      input_html: { class: 'input-lg js-select', multiple: true }
+    )
   end
 
   def jurisdictions_input(builder)
-    builder.input :jurisdiction_ids,
-                  as: :grouped_select,
-                  collection: grouped_collection_for_select(Jurisdiction.sorted),
-                  group_method: :all,
-                  group_label_method: :label,
-                  placeholder: I18n.t('simple_form.placeholders.project.jurisdictions'),
-                  input_html: { class: 'input-lg js-select', multiple: true }
+    builder.input(
+      :jurisdiction_ids,
+      as: :grouped_select,
+      collection: grouped_collection_for_select(Jurisdiction.sorted),
+      group_method: :all,
+      group_label_method: :label,
+      placeholder: I18n.t('simple_form.placeholders.project.jurisdictions'),
+      input_html: { class: 'input-lg js-select', multiple: true }
+    )
   end
 
   attr_accessor :skill_selector
   def skills_input(builder)
-    builder.input(:skill_selector,
-                  placeholder: I18n.t('simple_form.placeholders.project.skills'),
-                  input_html: {
-                    class: 'input-lg tt-n',
-                    autocomplete: 'off',
-                    data: { source: h.api_skills_path, max: 10 }
-                  })
+    builder.input(
+      :skill_selector,
+      placeholder: I18n.t('simple_form.placeholders.project.skills'),
+      input_html: {
+        class: 'input-lg tt-n',
+        autocomplete: 'off',
+        data: { source: h.api_skills_path, max: 10 }
+      }
+    )
   end
 end

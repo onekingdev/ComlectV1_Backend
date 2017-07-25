@@ -6,15 +6,21 @@ class Transaction < ApplicationRecord
   has_one :specialist, through: :project
   has_many :charges, foreign_key: 'transaction_id', dependent: :nullify
 
-  enum status: { pending: 'pending', processed: 'processed', error: 'error' }
+  enum status: {
+    pending: 'pending',
+    processed: 'processed',
+    error: 'error'
+  }
 
   scope :pending_or_errored, -> { where(status: [Transaction.statuses[:pending], Transaction.statuses[:error]]) }
   scope :not_escalated, -> { joins(:project).where(project: Project.not_escalated) }
   scope :ready, -> {
-    not_escalated.where('(transactions.status = ?) OR (transactions.status = ? AND last_try_at > ?)',
-                        Transaction.statuses[:pending],
-                        Transaction.statuses[:error],
-                        24.hours.ago)
+    not_escalated.where(
+      '(transactions.status = ?) OR (transactions.status = ? AND last_try_at > ?)',
+      Transaction.statuses[:pending],
+      Transaction.statuses[:error],
+      24.hours.ago
+    )
   }
   scope :one_off, -> { joins(:project).where(project: Project.one_off) }
 

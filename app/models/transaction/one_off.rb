@@ -17,6 +17,7 @@ class Transaction::OneOff < Transaction
 
   def create_stripe_transfer
     stripe_customer_id = business.payment_profile.stripe_customer_id
+
     Stripe::Charge.create(
       amount: amount_in_cents,
       currency: 'usd',

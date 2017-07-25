@@ -22,10 +22,12 @@ ActiveAdmin.register Transaction do
   end
 
   action_item :process_pending, only: :index do
-    link_to 'Process Pending',
-            process_pending_admin_transactions_path,
-            method: :post,
-            title: 'Process pending transactions on Stripe.'
+    link_to(
+      'Process Pending',
+      process_pending_admin_transactions_path,
+      method: :post,
+      title: 'Process pending transactions on Stripe.'
+    )
   end
 
   index do
