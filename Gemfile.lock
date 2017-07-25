@@ -63,9 +63,6 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.4.0)
-    appsignal (1.2.3)
-      rack
-      thread_safe
     arbre (1.1.1)
       activesupport (>= 3.0.0)
     arel (6.0.4)
@@ -498,7 +495,6 @@ PLATFORMS
 
 DEPENDENCIES
   activeadmin!
-  appsignal
   aws-sdk (~> 2.3.12)
   best_in_place!
   business_time

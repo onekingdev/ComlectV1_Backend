@@ -85,7 +85,6 @@ gem 'plaid'
 gem 'stripe'
 
 # Logging
-gem 'appsignal'
 gem 'lograge'
 
 group :development, :test do
