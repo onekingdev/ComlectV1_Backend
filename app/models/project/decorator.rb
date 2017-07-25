@@ -8,7 +8,7 @@ class Project::Decorator < ApplicationDecorator
 
   def status_text
     return 'Escalated' if escalated?
-    return 'Active' if active?
+    return 'Active' if active? || finishing?
     return 'Complete' if complete?
     'Pending'
   end
