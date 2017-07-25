@@ -25,7 +25,7 @@ ActiveAdmin.register_page 'Transaction::OneOff' do
       fieldset(class: 'inputs') do
         ol do
           li do
-            label 'Amount'
+            label 'Amount (ex: 501.43)'
             input name: :amount, type: :text
           end
         end
