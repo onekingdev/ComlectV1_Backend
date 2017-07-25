@@ -43,6 +43,7 @@ gem 'simple_form'
 gem 'slim-rails', '~> 3.0.1'
 
 # Misc
+gem 'bugsnag'
 gem 'business_time'
 gem 'ice_cube'
 gem 'ledermann-rails-settings'

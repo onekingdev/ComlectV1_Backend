@@ -16,11 +16,8 @@
 #= require accounting.js/accounting
 #= require parallax.js/parallax
 #= require bootstrap-switch/dist/js/bootstrap-switch
-#= require components/appsignal
 #= require utilities/content-initializer
 #= require_self
 #= require_tree ./utilities
 #= require_tree ./components
 #= require_tree ./application
-
-window._Appsignal = new Appsignal()

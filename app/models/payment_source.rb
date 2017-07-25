@@ -84,7 +84,7 @@ class PaymentSource < ApplicationRecord
     when /already exists/i
       'You already linked that account'
     else
-      Appsignal.send_error e
+      Bugsnag.notify(e)
       'Could not link your account. Please try again later.'
     end
   end

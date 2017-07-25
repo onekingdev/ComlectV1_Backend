@@ -16,6 +16,7 @@ html lang=I18n.locale
     meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     = stylesheet_link_tag 'application', media: 'all'
     = csrf_meta_tags
+    script src='//d2wy8f7a9ursnm.cloudfront.net/bugsnag-3.min.js' data-apikey="#{ENV['BUGSNAG_API_KEY']}"
     = javascript_include_tag '/app_config.js'
     = render 'mixpanel'
     = render 'layouts/favicons'
