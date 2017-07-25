@@ -20,8 +20,11 @@ process_transactions:
   cron: "*/5 * * * *"
   class: "ProcessTransactionsJob"
 
+# There's a race condition here where a timesheet may be auto accepted
+# precisely when this job tries to end the project.
+# Run at 0, 1, and 30 minute marks.
 end_projects:
-  cron: "0,30 * * * *"
+  cron: "0,1,30 * * * *"
   class: "EndProjectsJob"
 
 auto_accept_end_requests:
