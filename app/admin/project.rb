@@ -43,7 +43,7 @@ ActiveAdmin.register Project do
     )
   end
 
-  action_item :create_transaction, only: :show do
+  action_item :create_transaction, only: :show, if: -> { resource.one_off? } do
     link_to(
       'Create Transaction',
       admin_project_transaction_oneoff_path(resource.id)
