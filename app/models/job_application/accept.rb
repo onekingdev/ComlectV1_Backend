@@ -43,13 +43,15 @@ class JobApplication::Accept < Draper::Decorator
   private
 
   def schedule_upfront_fee
-    project.charges.create! amount_in_cents: 0,
-                            fee_in_cents: project.annual_salary * 15, # 15% in cents,
-                            date: Time.zone.today,
-                            process_after: Time.zone.today,
-                            status: Charge.statuses[:scheduled],
-                            running_balance_in_cents: 0,
-                            description: 'Full-time fee payable to Complect; Payment option: Upfront'
+    project.charges.create!(
+      amount_in_cents: 0,
+      fee_in_cents: project.annual_salary * 15, # 15% in cents,
+      date: Time.zone.today,
+      process_after: Time.zone.today,
+      status: Charge.statuses[:scheduled],
+      running_balance_in_cents: 0,
+      description: 'Full-time fee payable to Complect; Payment option: Upfront'
+    )
   end
 
   def schedule_monthly_fee
@@ -57,13 +59,15 @@ class JobApplication::Accept < Draper::Decorator
     total = fee * 6
     start_on = Time.zone.today
     6.times do |i|
-      Charge.create! project: project,
-                     date: start_on + i.months,
-                     process_after: start_on + i.months,
-                     amount_in_cents: 0,
-                     fee_in_cents: fee,
-                     running_balance_in_cents: total - (fee * (i + 1)),
-                     description: 'Full-time fee payable to Complect; Payment option: Monthly'
+      Charge.create!(
+        project: project,
+        date: start_on + i.months,
+        process_after: start_on + i.months,
+        amount_in_cents: 0,
+        fee_in_cents: fee,
+        running_balance_in_cents: total - (fee * (i + 1)),
+        description: 'Full-time fee payable to Complect; Payment option: Monthly'
+      )
     end
   end
 end
