@@ -3,10 +3,50 @@
 require 'rails_helper'
 
 RSpec.describe Charge::Processing, type: :model do
-  describe 'a set of scheduled charges' do
-    context 'with disputed timesheets' do
-      let!(:specialist) { create :specialist }
+  before(:all) do
+    StripeMock.start
+  end
 
+  after(:all) do
+    StripeMock.stop
+  end
+
+  describe 'a set of scheduled charges' do
+    let(:specialist) { create(:specialist) }
+
+    context 'when full time project' do
+      let(:business) { create(:business, :with_payment_profile) }
+
+      let(:project) do
+        create(
+          :project_full_time,
+          business: business,
+          payment_schedule: Project.payment_schedules[:hourly],
+          starts_on: Date.new(2016, 1, 1)
+        )
+      end
+
+      before do
+        Timecop.freeze(business.tz.local(2015, 12, 25)) do
+          job_application = create(
+            :job_application,
+            project: project,
+            specialist: specialist
+          )
+
+          Project::Form.find(project.id).post!
+          JobApplication::Accept.(job_application)
+        end
+      end
+
+      it 'processes scheduled charge and creates a transaction' do
+        charges = Charge::Processing.process_scheduled!
+        expect(charges.size).to eq(1)
+        expect(project.transactions.size).to eq(1)
+      end
+    end
+
+    context 'with disputed timesheets' do
       let!(:project) do
         create(
           :project_one_off_hourly,
@@ -91,7 +131,9 @@ RSpec.describe Charge::Processing, type: :model do
         @charges = Charge::Processing.process_scheduled!
       end
 
-      it('creates 2 transactions') { expect(@charges.size).to eq(2) }
+      it 'creates 2 transactions' do
+        expect(@charges.size).to eq(2)
+      end
 
       it 'creates transactions per project with total amount' do
         transaction_1 = project_1.transactions.first
@@ -106,20 +148,6 @@ RSpec.describe Charge::Processing, type: :model do
         expect(transaction_1.specialist_total).to eq(BigDecimal.new(450))
         expect(transaction_2.specialist_total).to eq(BigDecimal.new(225))
       end
-    end
-  end
-
-  describe 'charge for full time role' do
-    let(:specialist) { create :specialist }
-    let(:project) { create :project_full_time, specialist: specialist, annual_salary: 120_000 }
-    let(:job_application) { project.job_applications.create!(specialist: specialist) }
-
-    it 'creates direct transaction without fee' do
-      JobApplication::Accept.(job_application)
-      processing = Charge::Processing.new(project.charges, project)
-      expect { processing.process! }.to change { Transaction.count }.by(1)
-      transaction = project.transactions.first
-      expect(transaction.amount).to eq(18_000)
     end
   end
 end
