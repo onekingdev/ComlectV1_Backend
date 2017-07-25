@@ -147,8 +147,11 @@ class ApplicationController < ActionController::Base
 
   def render_403(message = I18n.t('forbidden'))
     format = request.xhr? ? '.js' : ''
-    render template: "application/forbidden#{format}",
-           locals: { message: message },
-           status: :forbidden
+
+    render(
+      template: "application/forbidden#{format}",
+      locals: { message: message },
+      status: :forbidden
+    )
   end
 end
