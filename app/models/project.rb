@@ -94,6 +94,14 @@ class Project < ApplicationRecord
       .where(ratings: { id: nil })
   }
 
+  scope :unsolicited_business_rating, -> {
+    where(solicited_business_rating: false)
+  }
+
+  scope :unsolicited_specialist_rating, -> {
+    where(solicited_specialist_rating: false)
+  }
+
   include Project::PgSearchConfig
 
   enum status: {

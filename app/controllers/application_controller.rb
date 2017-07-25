@@ -47,10 +47,10 @@ class ApplicationController < ActionController::Base
 
   def check_unrated_project
     if current_business
-      project = current_business.projects.pending_business_rating.first
+      project = current_business.projects.pending_business_rating.unsolicited_business_rating.first
       redirect_to business_project_dashboard_path(project) if project&.requires_business_rating?
     elsif current_specialist
-      project = current_specialist.projects.pending_specialist_rating.first
+      project = current_specialist.projects.pending_specialist_rating.unsolicited_specialist_rating.first
       redirect_to project_dashboard_path(project) if project&.requires_specialist_rating?
     end
   end
