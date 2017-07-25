@@ -256,6 +256,10 @@ class Project < ApplicationRecord
     published? && specialist_id.present? && (hard_ends_on.future? || escalated?)
   end
 
+  def finishing?
+    published? && past_ends_on?
+  end
+
   def draft_or_review?
     status == self.class.statuses[:draft] || status == self.class.statuses[:review]
   end

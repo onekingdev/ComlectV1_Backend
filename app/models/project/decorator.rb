@@ -58,7 +58,7 @@ class Project::Decorator < ApplicationDecorator
 
   def business_project_href
     return h.business_project_path(self) if full_time?
-    complete? || active? ? h.business_project_dashboard_path(self) : h.business_project_path(self)
+    complete? || active? || finishing? ? h.business_project_dashboard_path(self) : h.business_project_path(self)
   end
 
   def confirm_delete
