@@ -4,7 +4,13 @@ class TimeLog < ApplicationRecord
   belongs_to :timesheet
   has_one :project, through: :timesheet
 
-  scope :approved, -> { joins(:timesheet).where(timesheets: { status: Timesheet.statuses[:approved] }) }
+  scope :approved, -> {
+    joins(:timesheet).where(
+      timesheets: {
+        status: Timesheet.statuses[:approved]
+      }
+    )
+  }
 
   validates :date, :description, :hours, presence: true
   validates :hours, numericality: { greater_than: 0 }
@@ -13,6 +19,10 @@ class TimeLog < ApplicationRecord
   before_save -> do
     self.hourly_rate = project.hourly_rate
     self.total_amount = hours * hourly_rate if hourly_rate && hours
+  end
+
+  after_commit on: :update do
+    PaymentCycle.for(project).create_charges_and_reschedule!
   end
 
   def total_amount

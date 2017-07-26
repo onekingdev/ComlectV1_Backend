@@ -36,6 +36,10 @@ class Timesheet < ApplicationRecord
   validates :time_logs, presence: true
   validate :validate_project_is_active
 
+  after_commit on: :update do
+    PaymentCycle.for(project).create_charges_and_reschedule!
+  end
+
   def total_due
     if errors.any?
       # Count new records too when there are errors
