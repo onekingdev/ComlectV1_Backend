@@ -44,7 +44,7 @@ class Transaction < ApplicationRecord
     if charges.size.positive?
       BigDecimal.new(charges.map(&:amount_in_cents).reduce(:+) || 0) / 100.0
     else
-      subtotal_in_cents = BigDecimal.new(amount_new_cents) - (BigDecimal.new(fee_in_cents) / 2)
+      subtotal_in_cents = BigDecimal.new(amount_in_cents) - (BigDecimal.new(fee_in_cents) / 2)
       subtotal_in_cents / 100.0
     end
   end
