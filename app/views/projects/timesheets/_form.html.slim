@@ -33,7 +33,7 @@
           .col-xs-4
             = f.submit 'Save', name: 'timesheet[save]', class: 'btn btn-default btn-md btn-block'
           .col-xs-4
-            = link_to 'Delete', project_timesheet_path(id: timesheet.id, project_id: timesheet.project.id), method: :delete, data: { confirm: timesheet.confirm_delete }, class: 'btn btn-default btn-md btn-block'
+            = link_to 'Delete', project_timesheet_path(id: timesheet.id, project_id: timesheet.project.id), method: :delete, data: { confirm: timesheet.confirm_delete }, class: 'btn btn-primary btn-md btn-block'
           .col-xs-4
             = f.submit 'Submit', name: 'timesheet[submit]', class: 'btn btn-primary btn-md btn-block'
         - else
