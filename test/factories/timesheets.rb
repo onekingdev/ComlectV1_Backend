@@ -11,7 +11,14 @@ FactoryGirl.define do
 
     before(:create) do |timesheet, evaluator|
       hours = evaluator.hours
-      timesheet.time_logs << build(:time_log, hours: hours, timesheet: timesheet) if hours
+
+      if hours
+        timesheet.time_logs << build(
+          :time_log,
+          hours: hours,
+          timesheet: timesheet
+        )
+      end
     end
 
     trait(:submitted) { status Timesheet.statuses.fetch(:submitted) }

@@ -36,7 +36,7 @@ class Timesheet < ApplicationRecord
   validates :time_logs, presence: true
   validate :validate_project_is_active
 
-  after_commit on: :update do
+  after_commit on: %i[update destroy] do
     PaymentCycle.for(project).create_charges_and_reschedule!
   end
 

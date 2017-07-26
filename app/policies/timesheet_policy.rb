@@ -15,7 +15,7 @@ class TimesheetPolicy < ApplicationPolicy
   end
 
   def destroy?
-    super && (record.pending? || record.submitted? || record.disputed?)
+    (super || owner?) && (record.pending? || record.submitted? || record.disputed?)
   end
 
   def business_owner?

@@ -7,6 +7,7 @@ class Projects::TimesheetsController < ApplicationController
   def index
     @timesheet = Timesheet::Form.new_for(@project)
     @timesheets = @project.timesheets.sorted
+
     respond_to do |format|
       format.html { render partial: 'index' }
       format.js
@@ -44,10 +45,30 @@ class Projects::TimesheetsController < ApplicationController
     policy(@timesheet).edit? ? render(:edit) : render(:show)
   end
 
+  def destroy
+    @timesheet = @project.timesheets.find(params[:id])
+
+    if policy(@timesheet).destroy?
+      @timesheet.destroy
+      flash[:notice] = 'Timesheet deleted.'
+    else
+      flash[:notice] = 'Unable to delete timesheet.'
+    end
+
+    redirect_to project_dashboard_path(
+      project_id: @project.id,
+      anchor: 'project-timesheets'
+    )
+  end
+
   private
 
   def timesheet_params
-    params.require(:timesheet).permit(:save, :submit, time_logs_attributes: %i[id description hours _destroy date])
+    params.require(:timesheet).permit(
+      :save,
+      :submit,
+      time_logs_attributes: %i[id description hours _destroy date]
+    )
   end
 
   def find_project
