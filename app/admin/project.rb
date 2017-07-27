@@ -200,7 +200,9 @@ ActiveAdmin.register Project do
             link_to l(timesheet.created_at, format: :long), [:admin, timesheet]
           end
           column 'Submitted' do |timesheet|
-            l timesheet.first_submitted_at, format: :long
+            if timesheet.first_submitted_at
+              l timesheet.first_submitted_at, format: :long
+            end
           end
           column :hours, class: 'number', &:total_hours
           column :total, class: 'number' do |timesheet|
@@ -215,27 +217,34 @@ ActiveAdmin.register Project do
     end
   end
 
-  permit_params :title,
-                :status,
-                :location_type,
-                :location,
-                :lat, :lng,
-                :description,
-                :key_deliverables,
-                :starts_on,
-                :ends_on,
-                :payment_schedule,
-                :fixed_budget,
-                :hourly_rate,
-                :estimated_hours,
-                :minimum_experience,
-                :only_regulators,
-                :annual_salary,
-                :fee_type,
-                :pricing_type,
-                timesheets_attributes: [:_destroy, :id, :status, time_logs_attributes: %i[id description hours]],
-                industry_ids: [],
-                jurisdiction_ids: []
+  permit_params(
+    :title,
+    :status,
+    :location_type,
+    :location,
+    :lat, :lng,
+    :description,
+    :key_deliverables,
+    :starts_on,
+    :ends_on,
+    :payment_schedule,
+    :fixed_budget,
+    :hourly_rate,
+    :estimated_hours,
+    :minimum_experience,
+    :only_regulators,
+    :annual_salary,
+    :fee_type,
+    :pricing_type,
+    timesheets_attributes: [
+      :_destroy,
+      :id,
+      :status,
+      time_logs_attributes: %i[id date description hours]
+    ],
+    industry_ids: [],
+    jurisdiction_ids: []
+  )
 
   form do |f|
     f.inputs do
@@ -277,6 +286,7 @@ ActiveAdmin.register Project do
           a.input :status_changed_at, as: :readonly
           a.input :status, collection: Timesheet.statuses
           a.has_many :time_logs do |b|
+            b.input :date
             b.input :description
             b.input :hours, min: 0
           end

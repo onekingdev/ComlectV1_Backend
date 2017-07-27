@@ -35,6 +35,7 @@ ActiveAdmin.register Timesheet do
         )
         table_for timesheet.time_logs + [totals_row] do
           column :id
+          column :date
           column :description
           column :hours
           column :total do |log|
