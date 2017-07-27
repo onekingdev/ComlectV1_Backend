@@ -17,13 +17,6 @@ class ApplicationController < ActionController::Base
     render_403('Your session expired, please refresh the page')
   }
 
-  # TODO: LAUNCH: Remove
-  before_action :beta_protection, if: -> { ::Rails.env.production? }
-  def beta_protection
-    return if authenticate_with_http_basic { |u, p| u == ::ENV.fetch('BETA_USER') && p == ::ENV.fetch('BETA_PASSWORD') }
-    request_http_basic_authentication
-  end
-
   before_action -> {
     ::Notification.clear_by_path! current_user, request.path
   }, if: :user_signed_in?
