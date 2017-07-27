@@ -99,14 +99,6 @@ class ApplicationController < ActionController::Base
     render 'forbidden', status: :forbidden, locals: { message: 'Only specialist accounts can access this page' }
   end
 
-  def user_signed_in?
-    super
-  end
-
-  def authenticate_user!
-    redirect_to root_path
-  end
-
   def render_404
     render file: 'public/404', status: :not_found
   end
