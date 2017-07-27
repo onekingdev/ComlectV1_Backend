@@ -11,7 +11,7 @@ unless AdminUser.any?
   puts 'Admin credentials: admin@complect.co / password (login and change it)'
 end
 
-%w[USA Canada Africa Central\ America Asia South\ America Australasia Europe].each do |name|
+%w[USA Canada Africa Central\ America Asia South\ America Australia Europe].each do |name|
   Jurisdiction.find_or_create_by! name: name
 end
 
