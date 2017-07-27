@@ -11,10 +11,6 @@ test:
   <<: *default
   database: complect_test
 
-staging:
-  <<: *default
-  database: complect_staging
-
 production:
   <<: *default
   database: complect_production
