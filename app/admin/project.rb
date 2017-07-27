@@ -19,9 +19,15 @@ ActiveAdmin.register Project do
   scope :active
   scope :complete
 
+  after_update :call_after_update
+
   controller do
     def scoped_collection
       super.includes(:ratings, :issues, :business, :specialist)
+    end
+
+    def call_after_update(project)
+      PaymentCycle.for(project).create_charges_and_reschedule!
     end
   end
 

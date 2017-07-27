@@ -3,18 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe Project, type: :model do
-  describe '#reschedule_charges callback' do
-    let!(:project) { create(:project_one_off) }
-
-    it 'reschedules charges after ends_on is changed' do
-      expect_any_instance_of(
-        PaymentCycle::Hourly::Monthly
-      ).to receive(:create_charges_and_reschedule!)
-
-      project.update(ends_on: 15.days.from_now)
-    end
-  end
-
   describe '#hard_ends_on' do
     let(:tuesday_midnight) { Date.new(2017, 2, 27).in_time_zone('UTC').end_of_day }
 

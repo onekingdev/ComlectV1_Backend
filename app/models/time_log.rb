@@ -21,10 +21,6 @@ class TimeLog < ApplicationRecord
     self.total_amount = hours * hourly_rate if hourly_rate && hours
   end
 
-  after_commit on: :update do
-    PaymentCycle.for(project).create_charges_and_reschedule!
-  end
-
   def total_amount
     hours * hourly_rate
   rescue
