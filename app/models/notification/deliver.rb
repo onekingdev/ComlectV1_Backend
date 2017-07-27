@@ -597,11 +597,7 @@ class Notification::Deliver < Draper::Decorator
     private
 
     def default_img_url
-      if Rails.env.production?
-        'https://' + Shrine.storages[:store].bucket.name + '.s3.amazonaws.com/icon-specialist.png'
-      else
-        '/icon-specialist.png'
-      end
+      asset_url('icon-specialist.png')
     end
 
     def business_name_and_img(business)
