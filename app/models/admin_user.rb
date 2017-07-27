@@ -5,7 +5,7 @@ class AdminUser < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
 
   scope :admin, -> { where(super_admin: true) }
-  scope :cusomter_representative, -> { where(super_admin: false) }
+  scope :customer_representative, -> { where(super_admin: false) }
 
   def active_for_authentication?
     super && !suspended?

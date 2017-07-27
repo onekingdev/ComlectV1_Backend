@@ -14,7 +14,7 @@ ActiveAdmin.register AdminUser, as: 'Customer Support' do
 
   controller do
     def scoped_collection
-      super.cusomter_representative
+      super.customer_representative
     end
   end
 
