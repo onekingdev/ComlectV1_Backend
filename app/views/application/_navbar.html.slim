@@ -71,7 +71,7 @@ nav#nav.navbar.navbar-default
                       = notification.message
                       br
                       small= "#{time_ago_in_words(notification.created_at)} ago"
-      - elsif !protected_beta? # TODO: LAUNCH: Remove condition
+      - else
         li
           ul.nav.navbar-nav.sign_in
             li= link_to "Log In", new_user_session_path, "data-dismiss" => "modal", "data-remote" => true
