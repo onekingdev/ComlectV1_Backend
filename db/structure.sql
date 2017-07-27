@@ -3193,7 +3193,8 @@ CREATE TABLE transactions (
     status_detail character varying,
     fee_in_cents integer DEFAULT 0 NOT NULL,
     date timestamp without time zone,
-    last_try_at timestamp without time zone
+    last_try_at timestamp without time zone,
+    description text
 );
 
 
@@ -4964,4 +4965,6 @@ INSERT INTO schema_migrations (version) VALUES ('20170508190146');
 INSERT INTO schema_migrations (version) VALUES ('20170508231021');
 
 INSERT INTO schema_migrations (version) VALUES ('20170720153724');
+
+INSERT INTO schema_migrations (version) VALUES ('20170727084631');
 

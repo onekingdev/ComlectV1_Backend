@@ -11,6 +11,7 @@ ActiveAdmin.register_page 'Transaction::OneOff' do
 
     Transaction::OneOff.create!(
       project_id: params['project_id'],
+      description: params['description'],
       amount_in_cents: total_with_fee_in_cents,
       fee_in_cents: fee_in_cents * 2, # 10% from business and specialist
       date: Time.zone.now
@@ -24,6 +25,13 @@ ActiveAdmin.register_page 'Transaction::OneOff' do
       input type: :hidden, name: 'authenticity_token', value: form_authenticity_token
 
       fieldset(class: 'inputs') do
+        ol do
+          li do
+            label 'Description'
+            input name: :description, type: :text
+          end
+        end
+
         ol do
           li do
             label 'Amount (ex: 501.43)'
