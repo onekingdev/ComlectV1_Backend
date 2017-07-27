@@ -59,6 +59,22 @@ RSpec.describe PaymentCycle::Hourly::UponCompletion, type: :model do
       end
     end
 
+    context 'when project is ended early' do
+      before do
+        Timecop.freeze(business.tz.local(2016, 1, 10, 5)) do
+          request = ProjectEnd::Request.process!(@project)
+          request.confirm!
+        end
+      end
+
+      it 'reschedules payment' do
+        expect(@project.charges.size).to eq(1)
+        charge = @project.charges.first
+        process_after = charge.process_after.in_time_zone(business.tz).to_i
+        expect(process_after).to eq(business.tz.local(2016, 1, 11).end_of_day.to_i)
+      end
+    end
+
     context 'a timesheet is approved during the grace period' do
       before do
         Timecop.freeze(@project.hard_ends_on - 12.hours) do

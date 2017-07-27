@@ -8,7 +8,7 @@ class PaymentCycle::Hourly < PaymentCycle
   def outstanding_occurrences
     # For hourly projects lets not include past occurrences since
     # real charges are based off of timesheets not dates
-    occurrences.reject { |date| date.past? || charge_exists?(date) }
+    occurrences.reject { |date| date.end_of_day.past? || charge_exists?(date) }
   end
 
   def create_charges!

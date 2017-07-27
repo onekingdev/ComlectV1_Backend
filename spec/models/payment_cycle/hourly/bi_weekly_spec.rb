@@ -3,6 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe PaymentCycle::Hourly::BiWeekly, type: :model do
+  include TimesheetSpecHelper
+
   before(:all) do
     StripeMock.start
     @specialist = create(:specialist)
@@ -63,8 +65,6 @@ RSpec.describe PaymentCycle::Hourly::BiWeekly, type: :model do
     end
 
     context 'in the middle of project with already paid work' do
-      include TimesheetSpecHelper
-
       before do
         Timecop.freeze(@project.starts_on + 1.week) do
           log_timesheet @project, hours: 5
@@ -100,6 +100,31 @@ RSpec.describe PaymentCycle::Hourly::BiWeekly, type: :model do
         end.sort
 
         expect(process_after_dates).to eq(expected_dates)
+      end
+    end
+
+    context 'when project is ended early' do
+      before do
+        Timecop.freeze(business.tz.local(2016, 1, 14)) do
+          log_timesheet @project, hours: 5
+          PaymentCycle.for(@project).create_charges_and_reschedule!
+        end
+
+        Timecop.freeze(business.tz.local(2016, 1, 19)) do
+          ProcessScheduledChargesJob.new.perform
+        end
+
+        Timecop.freeze(business.tz.local(2016, 1, 19, 5)) do
+          request = ProjectEnd::Request.process!(@project)
+          request.confirm!
+        end
+      end
+
+      it 'reschedules payment' do
+        expect(@project.reload.charges.estimated.size).to eq(1)
+        charge = @project.charges.estimated.first
+        process_after = charge.process_after.in_time_zone(business.tz).to_i
+        expect(process_after).to eq(business.tz.local(2016, 1, 20).end_of_day.to_i)
       end
     end
   end

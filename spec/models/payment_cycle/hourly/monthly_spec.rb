@@ -125,5 +125,21 @@ RSpec.describe PaymentCycle::Hourly::Monthly, type: :model do
         expect(@project.charges.estimated.count).to eq(0)
       end
     end
+
+    context 'when project is ended early' do
+      before do
+        Timecop.freeze(business.tz.local(2016, 1, 26, 5)) do
+          request = ProjectEnd::Request.process!(@project)
+          request.confirm!
+        end
+      end
+
+      it 'reschedules payment' do
+        expect(@project.reload.charges.size).to eq(1)
+        charge = @project.charges.first
+        process_after = charge.process_after.in_time_zone(business.tz).to_i
+        expect(process_after).to eq(business.tz.local(2016, 1, 27).end_of_day.to_i)
+      end
+    end
   end
 end
