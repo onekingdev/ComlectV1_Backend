@@ -11,12 +11,20 @@ class NotificationMailer < ApplicationMailer
     @initiator_name = dispatcher.initiator_name
     @img_path = dispatcher.img_path
     @subject = dispatcher.subject ? dispatcher.subject : subject
-    mail to: to, template_id: template_by_initiator(@initiator_name),
-         template_model: {
-           subject: @subject, message_html: simple_format(@message),
-           message_text: @message, action_label: @action_label,
-           action_url: action_url, initiator: @initiator_name, img_path: @img_path
-         }
+
+    mail(
+      to: to,
+      template_id: template_by_initiator(@initiator_name),
+      template_model: {
+        subject: @subject,
+        message_html: simple_format(@message),
+        message_text: @message,
+        action_label: @action_label,
+        action_url: action_url,
+        initiator: @initiator_name,
+        img_path: @img_path
+      }
+    )
   end
 
   private
