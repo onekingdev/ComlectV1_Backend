@@ -282,7 +282,7 @@ ActiveAdmin.register Project do
 
     if f.object.one_off? && f.object.hourly_pricing?
       f.inputs 'Timesheets' do
-        f.has_many :timesheets, sortable: :first_submitted_at do |a|
+        f.has_many :timesheets, sortable: :created_at do |a|
           a.input :status_changed_at, as: :readonly
           a.input :status, collection: Timesheet.statuses
           a.has_many :time_logs do |b|
