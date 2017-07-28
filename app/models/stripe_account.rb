@@ -93,7 +93,7 @@ class StripeAccount < ApplicationRecord
   def stripe_attributes
     {
       country: country,
-      managed: true,
+      type: :custom,
       tos_acceptance: { date: tos_acceptance_date.to_i, ip: tos_acceptance_ip },
       debit_negative_balances: true
     }
