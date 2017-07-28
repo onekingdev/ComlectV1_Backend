@@ -81,9 +81,12 @@ class StripeAccount < ApplicationRecord
 
   def create_managed_account
     account = Stripe::Account.create(stripe_attributes)
-    update_columns stripe_id: account.id,
-                   secret_key: account.keys.secret,
-                   publishable_key: account.keys.publishable
+
+    update_columns(
+      stripe_id: account.id,
+      secret_key: account.keys.secret,
+      publishable_key: account.keys.publishable
+    )
   rescue Stripe::InvalidRequestError => e
     errors.add :base, e.message
     destroy # So #persisted? does not return true
