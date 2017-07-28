@@ -83,4 +83,10 @@ Rails.application.configure do
 
   # Improve logs in production.
   config.lograge.enabled = true
+
+  config.lograge.custom_options = lambda do |event|
+    {
+      params: event.payload[:params].except('controller', 'action', 'format')
+    }
+  end
 end
