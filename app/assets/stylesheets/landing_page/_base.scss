@@ -3,8 +3,6 @@ html, body{
 }
 
 #infographics {
-  //background-image: asset_url('landing/infographics.jpg');
-  //background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   .circle {
@@ -125,9 +123,6 @@ html, body{
 }
 
 #types-of-services {
-  //background-image: asset_url("landing/types-of-services-bg.jpg");
-  //background-position: center;
-  //background-size: cover;
   padding-bottom: 50px;
   position: relative;
   #services-heading {
@@ -259,5 +254,4 @@ html, body{
     }
     text-align: right;
   }
-
 }
