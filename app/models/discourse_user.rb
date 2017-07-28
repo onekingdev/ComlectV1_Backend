@@ -76,7 +76,7 @@ class DiscourseUser
   private
 
   def asset_url(asset)
-    ActionController::Base.helpers.asset_url asset, host: "https://#{ENV.fetch('DEFAULT_URL_HOST')}"
+    ActionController::Base.helpers.asset_url(asset)
   end
 
   def sso

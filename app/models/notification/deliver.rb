@@ -597,11 +597,11 @@ class Notification::Deliver < Draper::Decorator
     private
 
     def asset_url(asset)
-      ActionController::Base.helpers.asset_url asset, host: "https://#{ENV.fetch('DEFAULT_URL_HOST')}"
+      ActionController::Base.helpers.asset_url(asset)
     end
 
     def default_img_url
-      asset_url('icon-specialist.png')
+      asset_url('/icon-specialist.png')
     end
 
     def business_name_and_img(business)

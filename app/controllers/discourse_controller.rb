@@ -58,6 +58,6 @@ class DiscourseController < ApplicationController
   end
 
   def asset_url(asset)
-    self.class.helpers.asset_url asset, host: "http#{request.ssl? ? 's' : ''}://#{ENV.fetch('DEFAULT_URL_HOST')}"
+    self.class.helpers.asset_url(asset)
   end
 end
