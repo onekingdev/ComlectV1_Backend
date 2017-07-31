@@ -1,6 +1,7 @@
 - content_for :header_class, 'short'
 - content_for :scripts do
-  script src="#{new_business_project_rating_url(format: :js)}"
+  - unless @project.solicited_specialist_rating
+    script src="#{new_project_rating_url(format: :js)}"
 
 - Project::Decorator.decorate(@project).tap do |project|
   h1.m-t-0.m-b-3.hidden-sm.hidden-xs

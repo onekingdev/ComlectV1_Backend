@@ -1,6 +1,7 @@
 - content_for :header_class, 'short'
 - content_for :scripts do
-  script src="#{new_business_project_rating_url(format: :js)}"
+  - unless @project.solicited_business_rating
+    script src="#{new_business_project_rating_url(format: :js)}"
 - content_for :title, "#{@project.title} dashboard"
 
 - Project::Decorator.decorate(@project).tap do |project|

@@ -2,26 +2,26 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Business::ProjectRatingsController', type: :request do
+RSpec.describe 'Projects::RatingsController', type: :request do
   include SessionsHelper
 
-  describe 'GET /business/projects/:project_id/rating/new.js' do
+  describe 'GET /projects/:project_id/rating/new.js' do
     let(:business) { project.business }
     let(:specialist) { create(:specialist) }
 
     let(:project) {
       create(
-        :project_one_off_fixed,
+        :project_one_off_hourly,
         :complete,
         specialist: specialist,
-        solicited_business_rating: false
+        solicited_specialist_rating: false
       )
     }
 
-    subject { get new_business_project_rating_path(project, format: :js) }
+    subject { get new_project_rating_path(project, format: :js) }
 
     before do
-      sign_in business.user
+      sign_in specialist.user
       subject
     end
 
@@ -34,68 +34,68 @@ RSpec.describe 'Business::ProjectRatingsController', type: :request do
     end
   end
 
-  describe 'POST /business/projects/:project_id/rating' do
+  describe 'POST /projects/:project_id/rating' do
     let(:business) { project.business }
     let(:specialist) { create(:specialist) }
 
     before do
-      sign_in business.user
+      sign_in specialist.user
     end
 
     subject do
       post(
-        business_project_rating_path(project),
-        rating: { value: 5, review: 'Nice working with him' },
+        project_rating_path(project),
+        rating: { value: 5, review: 'Nice working with them' },
         format: :js
       )
     end
 
-    context 'when business has received review/rating prompt' do
+    context 'when specialist has received review/rating prompt' do
       let(:project) {
         create(
           :project_one_off_hourly,
           :complete,
           specialist: specialist,
-          solicited_business_rating: true
+          solicited_specialist_rating: true
         )
       }
 
       it 'creates a rating' do
         subject
         expect(response).to have_http_status(:created)
-        expect(project.specialist.ratings_received.count).to eq(1)
+        expect(project.business.ratings_received.count).to eq(1)
       end
     end
 
-    context 'when business has not received review/rating prompt' do
+    context 'when specialist has not received review/rating prompt' do
       let(:project) {
         create(
           :project_one_off_hourly,
           :complete,
           specialist: specialist,
-          solicited_business_rating: false
+          solicited_specialist_rating: false
         )
       }
 
       it 'creates a rating' do
         subject
         expect(response).to have_http_status(:created)
-        expect(project.specialist.ratings_received.count).to eq(1)
+        expect(project.business.ratings_received.count).to eq(1)
       end
 
-      context 'specialist wants notification' do
+      context 'business wants notification' do
         before do
-          specialist.settings(:notifications).update_attributes! got_rated: true
+          business.settings(:notifications).update_attributes! got_rated: true
         end
 
-        it 'sends notification to specialist' do
+        it 'sends notification to business' do
           expect { subject }.to change { ActionMailer::Base.deliveries.count }.by(1)
         end
       end
 
-      context 'specialist does not want notification' do
+      context 'business does not want notification' do
         before do
-          specialist.settings(:notifications).update_attributes! got_rated: false
+          business.settings(:notifications).update_attributes! got_rated: false
         end
 
         it 'does not send notification to business' do
