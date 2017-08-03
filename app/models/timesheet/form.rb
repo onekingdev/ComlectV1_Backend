@@ -41,8 +41,8 @@ class Timesheet::Form < Timesheet::Decorator
   end
 
   def approve!
-    self.class.transaction do
-      update_attributes status: Timesheet.statuses[:approved]
+    with_lock do
+      update_attributes(status: Timesheet.statuses[:approved])
       update_static_attributes
       PaymentCycle.for(project).create_charges_and_reschedule!
     end

@@ -9,7 +9,7 @@
 # └───────────────────────── min (0 - 59)
 
 schedule_charges:
-  cron: "0 * * * *"
+  cron: "15 * * * *"
   class: "ScheduleChargesJob"
 
 process_scheduled_charges:
