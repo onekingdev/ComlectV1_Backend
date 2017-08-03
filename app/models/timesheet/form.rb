@@ -37,7 +37,7 @@ class Timesheet::Form < Timesheet::Decorator
     update_attribute :status, Timesheet.statuses[:disputed]
     Notification::Deliver.specialist_timesheet_disputed! self
     # Allow another day for specialists to edit the timesheet if project is ending
-    project.update_attribute :ends_on, project.ends_on + 1.day if project.past_ends_on?
+    project.update_attribute(:ends_on, project.ends_on + 1.day) if project.past_ends_on?
   end
 
   def approve!
