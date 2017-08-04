@@ -16,7 +16,7 @@ class Transaction < ApplicationRecord
   scope :not_escalated, -> { joins(:project).where(project: Project.not_escalated) }
   scope :ready, -> {
     not_escalated.where(
-      '(transactions.status = ?) OR (transactions.status = ? AND last_try_at > ?)',
+      '(transactions.status = ?) OR (transactions.status = ? AND last_try_at < ?)',
       Transaction.statuses[:pending],
       Transaction.statuses[:error],
       24.hours.ago
