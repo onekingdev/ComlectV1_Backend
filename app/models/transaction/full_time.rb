@@ -21,11 +21,13 @@ class Transaction::FullTime < Transaction
 
   def create_stripe_charge
     stripe_customer_id = business.payment_profile.stripe_customer_id
+
     charge = Stripe::Charge.create(
       amount: amount_in_cents,
       currency: 'usd',
       customer: stripe_customer_id
     )
+
     [charge, stripe_customer_id]
   end
 end
