@@ -3,7 +3,7 @@
 class StripeEventJob < ApplicationJob
   queue_as :default
 
-  def perform(event_id, account_id, connect)
-    StripeEvent.handle(event_id, account_id, connect: connect)
+  def perform(event_id, account_id, opts)
+    StripeEvent.handle(event_id, account_id, connect: opts[:connect])
   end
 end
