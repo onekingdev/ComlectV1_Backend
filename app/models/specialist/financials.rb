@@ -18,12 +18,14 @@ class Specialist::Financials
 
   def self.upcoming(specialist, params)
     sort_direction = params[:sort_direction].to_s.casecmp('desc').zero? ? 'DESC' : 'ASC'
+
     select = <<-SELECT
       charges.date, charges.project_id,
       SUM(charges.amount_in_cents) AS amount_in_cents,
       SUM(specialist_amount_in_cents) AS specialist_amount_in_cents,
       MIN(running_balance_in_cents) AS running_balance_in_cents
     SELECT
+
     # Group per project and date so charges for timesheets on the same date return a single line:
     specialist.payments
               .not_charged
@@ -36,6 +38,7 @@ class Specialist::Financials
 
   def self.processed(specialist, params)
     sort_direction = params[:sort_direction].to_s.casecmp('asc').zero? ? 'ASC' : 'DESC'
+
     specialist.transactions
               .one_off
               .joins(:business)
