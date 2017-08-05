@@ -29,16 +29,15 @@ class Business::FinancialsController < ApplicationController
   def invoice
     respond_to do |format|
       format.pdf do
-        render pdf: 'invoice',
-               show_as_html: params.key?('debug'),
-               template: 'specialists/financials/invoice.pdf.erb',
-               locals: { transaction: Transaction.find(params[:id]), specialist: false },
-               page_size: 'Letter',
-               margin: { top:               0,
-                         bottom:            35,
-                         left:              0,
-                         right:             0 },
-               footer: { html: { template: 'specialists/financials/footer.pdf.erb' } }
+        render(
+          pdf: 'invoice',
+          show_as_html: params.key?('debug'),
+          template: 'specialists/financials/invoice.pdf.erb',
+          locals: { transaction: Transaction.find(params[:id]), specialist: false },
+          page_size: 'Letter',
+          margin: { top: 0, bottom: 35, left: 0, right: 0 },
+          footer: { html: { template: 'specialists/financials/footer.pdf.erb' } }
+        )
       end
     end
   end
