@@ -40,6 +40,7 @@ class Specialist::Financials
     sort_direction = params[:sort_direction].to_s.casecmp('asc').zero? ? 'ASC' : 'DESC'
 
     specialist.transactions
+              .processed
               .one_off
               .joins(:business)
               .order("#{PAYMENT_ORDERING[params[:sort_by] || 'date']} #{sort_direction}")
