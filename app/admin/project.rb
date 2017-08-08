@@ -27,7 +27,19 @@ ActiveAdmin.register Project do
     end
 
     def call_after_update(project)
-      PaymentCycle.for(project).create_charges_and_reschedule!
+      return unless project.previous_changes.key?(:ends_on)
+
+      changed = project.previous_changes[:ends_on]
+      if changed.second > changed.first
+        extension = ProjectExtension.new(
+          project: project,
+          new_end_date: changed.second
+        )
+
+        extension.__send__(:trigger_project_extension)
+      else
+        PaymentCycle.for(project).create_charges_and_reschedule!
+      end
     end
   end
 

@@ -19,9 +19,27 @@ ActiveAdmin.register Project, namespace: :support do
   scope :active
   scope :complete
 
+  after_update :call_after_update
+
   controller do
     def scoped_collection
       super.includes(:ratings, :issues, :business, :specialist)
+    end
+
+    def call_after_update(project)
+      return unless project.previous_changes.key?(:ends_on)
+
+      changed = project.previous_changes[:ends_on]
+      if changed.second > changed.first
+        extension = ProjectExtension.new(
+          project: project,
+          new_end_date: changed.second
+        )
+
+        extension.__send__(:trigger_project_extension)
+      else
+        PaymentCycle.for(project).create_charges_and_reschedule!
+      end
     end
   end
 
