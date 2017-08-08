@@ -61,5 +61,25 @@ RSpec.describe PaymentCycle::Fixed::UponCompletion, type: :model do
         expect(process_after).to eq(business.tz.local(2016, 1, 16).end_of_day.to_i)
       end
     end
+
+    context 'when project is extended' do
+      context 'when project has a scheduled charge' do
+        before do
+          Timecop.freeze(business.tz.local(2016, 2, 1, 0, 15)) do
+            ScheduleChargesJob.new.perform(@project.id)
+            request = ProjectExtension::Request.process!(@project, Date.new(2016, 2, 10))
+            request.confirm!
+          end
+        end
+
+        it 'reschedules charge' do
+          expect(@project.reload.charges.count).to eq(1)
+          charge = @project.charges.estimated.first
+          expect(charge.amount).to eq(@project.fixed_budget)
+          process_after = charge.process_after.in_time_zone(business.tz).to_i
+          expect(process_after).to eq(business.tz.local(2016, 2, 10).end_of_day.to_i)
+        end
+      end
+    end
   end
 end

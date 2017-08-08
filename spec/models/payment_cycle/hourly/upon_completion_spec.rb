@@ -3,6 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe PaymentCycle::Hourly::UponCompletion, type: :model do
+  include TimesheetSpecHelper
+
   before(:all) do
     StripeMock.start
     @specialist = create(:specialist)
@@ -44,18 +46,22 @@ RSpec.describe PaymentCycle::Hourly::UponCompletion, type: :model do
     end
 
     context 'when project is extended' do
-      before do
-        Timecop.freeze(Date.new(2016, 1, 12)) do
-          request = ProjectExtension::Request.process!(@project, Date.new(2016, 1, 25))
-          request.confirm!
+      context 'when project has a scheduled charge' do
+        before do
+          Timecop.freeze(business.tz.local(2016, 1, 15, 0, 15)) do
+            log_timesheet @project, hours: 5
+            ScheduleChargesJob.new.perform(@project.id)
+            request = ProjectExtension::Request.process!(@project, Date.new(2016, 1, 25))
+            request.confirm!
+          end
         end
-      end
 
-      it 'reschedules payment' do
-        expect(@project.charges.estimated.count).to eq(1)
-        charge = @project.charges.estimated.first
-        process_after = charge.process_after.in_time_zone(@project.business.tz).to_i
-        expect(process_after).to eq(@project.business.tz.local(2016, 1, 26).end_of_day.to_i)
+        it 'reschedules payment' do
+          expect(@project.charges.count).to eq(1)
+          charge = @project.charges.scheduled.first
+          process_after = charge.process_after.in_time_zone(business.tz).to_i
+          expect(process_after).to eq(business.tz.local(2016, 1, 26).end_of_day.to_i)
+        end
       end
     end
 

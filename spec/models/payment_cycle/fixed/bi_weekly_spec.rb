@@ -175,6 +175,25 @@ RSpec.describe PaymentCycle::Fixed::BiWeekly, type: :model do
       end
     end
 
+    context 'when project is extended' do
+      context 'when project has a scheduled charge' do
+        before do
+          Timecop.freeze(business.tz.local(2016, 3, 24, 0, 15)) do
+            ScheduleChargesJob.new.perform(@project.id)
+            request = ProjectExtension::Request.process!(@project, Date.new(2016, 3, 28))
+            request.confirm!
+          end
+        end
+
+        it 'reschedules final charge' do
+          expect(@project.reload.charges.count).to eq(7)
+          charge = @project.charges.estimated.last
+          process_after = charge.process_after.in_time_zone(business.tz).to_i
+          expect(process_after).to eq(business.tz.local(2016, 3, 28).end_of_day.to_i)
+        end
+      end
+    end
+
     context 'when full billing cycle' do
       it 'schedules and processes charges' do
         Timecop.freeze(@project.starts_on + 2.weeks + 1.day) do

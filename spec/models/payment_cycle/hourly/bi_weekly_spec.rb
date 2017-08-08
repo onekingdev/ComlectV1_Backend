@@ -127,5 +127,25 @@ RSpec.describe PaymentCycle::Hourly::BiWeekly, type: :model do
         expect(process_after).to eq(business.tz.local(2016, 1, 20).end_of_day.to_i)
       end
     end
+
+    context 'when project is extended' do
+      context 'when project has a scheduled charge' do
+        before do
+          Timecop.freeze(business.tz.local(2016, 3, 26, 0, 15)) do
+            log_timesheet @project, hours: 5
+            ScheduleChargesJob.new.perform(@project.id)
+            request = ProjectExtension::Request.process!(@project, Date.new(2016, 4, 5))
+            request.confirm!
+          end
+        end
+
+        it 'reschedules payment' do
+          expect(@project.charges.count).to eq(1)
+          charge = @project.charges.scheduled.first
+          process_after = charge.process_after.in_time_zone(business.tz).to_i
+          expect(process_after).to eq(business.tz.local(2016, 4, 6).end_of_day.to_i)
+        end
+      end
+    end
   end
 end
