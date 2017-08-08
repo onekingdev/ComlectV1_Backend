@@ -24,7 +24,7 @@ RSpec.describe PaymentCycle::Hourly::Monthly, type: :model do
           business: business,
           payment_schedule: Project.payment_schedules[:monthly],
           starts_on: Date.new(2016, 1, 1),
-          ends_on: Date.new(2016, 6, 1),
+          ends_on: Date.new(2016, 6, 7),
           hourly_rate: 100,
           estimated_hours: 50
         )
@@ -41,7 +41,7 @@ RSpec.describe PaymentCycle::Hourly::Monthly, type: :model do
     end
 
     it 'creates estimated charges every month' do
-      expect(@project.charges.estimated.count).to eq(5)
+      expect(@project.charges.estimated.count).to eq(6)
 
       dates = @project.charges.estimated.pluck(:process_after).sort.map do |date|
         date.in_time_zone(@project.business.tz).to_i
@@ -52,7 +52,8 @@ RSpec.describe PaymentCycle::Hourly::Monthly, type: :model do
         @project.business.tz.local(2016, 3, 2).end_of_day.to_i,
         @project.business.tz.local(2016, 4, 4).end_of_day.to_i,
         @project.business.tz.local(2016, 5, 2).end_of_day.to_i,
-        @project.business.tz.local(2016, 6, 2).end_of_day.to_i
+        @project.business.tz.local(2016, 6, 2).end_of_day.to_i,
+        @project.business.tz.local(2016, 6, 8).end_of_day.to_i
       ]
 
       expect(dates).to eq(expected_dates)
@@ -65,7 +66,7 @@ RSpec.describe PaymentCycle::Hourly::Monthly, type: :model do
         PaymentCycle.for(@project).create_charges_and_reschedule!
         estimated = @project.charges.estimated.order(date: :asc)
         expect(estimated.sum(:amount_in_cents)).to eq(500_000)
-        expect(estimated.count).to eq(4)
+        expect(estimated.count).to eq(5)
         process_after = estimated.first.process_after.in_time_zone(business.tz)
         expect(process_after.to_i).to eq(business.tz.local(2016, 3, 2).end_of_day.to_i)
       end
@@ -90,21 +91,24 @@ RSpec.describe PaymentCycle::Hourly::Monthly, type: :model do
       end
 
       it 'creates remaining estimated charges' do
-        expect(@project.charges.estimated.count).to eq(4)
+        expect(@project.charges.estimated.count).to eq(5)
 
-        # $5000 total - $500 paid = $4500, $4500 / 4 remaining payments = $1,125
-        expect(@project.charges.estimated.map(&:amount).uniq).to eq([1125])
+        # $5000 total - $500 paid = $4500, $4500 / 5 remaining payments = $900
+        expect(@project.charges.estimated.map(&:amount).uniq).to eq([900])
 
-        dates = [
+        expected_dates = [
           @project.business.tz.local(2016, 3, 2).end_of_day.to_i,
           @project.business.tz.local(2016, 4, 4).end_of_day.to_i,
           @project.business.tz.local(2016, 5, 2).end_of_day.to_i,
-          @project.business.tz.local(2016, 6, 2).end_of_day.to_i
+          @project.business.tz.local(2016, 6, 2).end_of_day.to_i,
+          @project.business.tz.local(2016, 6, 8).end_of_day.to_i
         ]
 
-        expect(
-          @project.charges.estimated.map { |charge| charge.process_after.in_time_zone(business.tz).to_i }.sort
-        ).to eq(dates)
+        process_after = @project.charges.estimated.map do |charge|
+          charge.process_after.in_time_zone(business.tz).to_i
+        end.sort
+
+        expect(process_after).to eq(expected_dates)
       end
     end
 
