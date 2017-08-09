@@ -44,7 +44,7 @@ ActiveAdmin.register Project, namespace: :support do
   end
 
   member_action :end, method: :post do
-    ProjectEnd::Request.process! resource
+    ProjectEnd.new(project: resource).__send__(:trigger_project_end)
     redirect_to collection_path, notice: 'Project end requested'
   end
 

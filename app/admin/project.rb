@@ -44,8 +44,8 @@ ActiveAdmin.register Project do
   end
 
   member_action :end, method: :post do
-    ProjectEnd::Request.process! resource
-    redirect_to collection_path, notice: 'Project end requested'
+    ProjectEnd.new(project: resource).__send__(:trigger_project_end)
+    redirect_to collection_path, notice: 'Project ended'
   end
 
   member_action :reschedule_charges, method: :post do
