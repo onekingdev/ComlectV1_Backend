@@ -591,12 +591,33 @@ class Notification::Deliver < Draper::Decorator
                            *path_and_url(:business_settings_payment_index)
                          ]
                        end
+
       dispatcher = Dispatcher.new(
         user: user,
         key: key,
         action_path: path,
         associated: user
       )
+
+      dispatcher.deliver_notification!
+      NotificationMailer.deliver_later :notification, dispatcher, url
+    end
+
+    def payout_issue!(user)
+      return unless user.specialist
+
+      key, path, url = [
+        :specialist_payout_issue,
+        *path_and_url(:specialists_settings_payment)
+      ]
+
+      dispatcher = Dispatcher.new(
+        user: user,
+        key: key,
+        action_path: path,
+        associated: user
+      )
+
       dispatcher.deliver_notification!
       NotificationMailer.deliver_later :notification, dispatcher, url
     end

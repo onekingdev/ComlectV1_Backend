@@ -6,6 +6,7 @@ class StripeEvent
   HANDLERS = {
     'account.updated' => StripeEvent::AccountUpdated,
     'charge.failed' => StripeEvent::ChargeFailed,
+    'payout.failed' => StripeEvent::PayoutFailed,
     'transfer.failed' => StripeEvent::TransferFailed
   }.freeze
 

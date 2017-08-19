@@ -111,6 +111,10 @@ en:
       subject: "Urgent: Issue with Your Bank Details"
       message: Oh no! There was an issue verifying your bank account. Please review and update your bank details to ensure your project can continue without a hitch.
       action_label: Go to Account Settings
+    specialist_payout_issue:
+      subject: "Urgent: Issue with Your Bank Details"
+      message: Oh no! There was an issue transferring funds to your bank account. Please review and update your bank details.
+      action_label: Go to Account Settings
     apply_to_favorited:
       subject: "Apply Today: the Project Starts Soon!"
       message: Project %{project_title} that you favorited starts in 48 hours. Make sure you throw your hat in the ring and apply in time!
