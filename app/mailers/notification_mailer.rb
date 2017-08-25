@@ -3,14 +3,15 @@
 class NotificationMailer < ApplicationMailer
   include ActionView::Helpers::TextHelper
 
-  def notification(dispatcher, action_url = nil, subject = 'Notification on Complect')
-    to = dispatcher.user.email
-    @message = dispatcher.message_mail
-    @action_label = dispatcher.action_label
+  # rubocop:disable Metrics/ParameterLists
+  def notification(to, message, action_label, initiator_name, img_path, action_url, subject)
+    @message = message
+    @action_label = action_label
     @action_url = action_url
-    @initiator_name = dispatcher.initiator_name
-    @img_path = dispatcher.img_path
-    @subject = dispatcher.subject ? dispatcher.subject : subject
+    @initiator_name = initiator_name
+    @img_path = img_path
+    @action_url = action_url
+    @subject = subject || 'Notification on Complect'
 
     mail(
       to: to,
@@ -20,12 +21,13 @@ class NotificationMailer < ApplicationMailer
         message_html: simple_format(@message),
         message_text: @message,
         action_label: @action_label,
-        action_url: action_url,
+        action_url: @action_url,
         initiator: @initiator_name,
         img_path: @img_path
       }
     )
   end
+  # rubocop:enable Metrics/ParameterLists
 
   private
 
