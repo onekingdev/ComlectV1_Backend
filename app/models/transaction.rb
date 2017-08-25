@@ -65,13 +65,15 @@ class Transaction < ApplicationRecord
     end
   rescue => e
     self.status_detail = e.message
-    self.stripe_id = e.json_body[:error][:charge] if e.json_body[:error][:type] == 'card_error'
     self.last_try_at = Time.zone.now
-
     error!
     save!
+    Bugsnag.notify(e)
 
-    Bugsnag.notify(e) if e.json_body[:error][:type] == 'invalid_request_error'
+    if e.respond_to?(:json_body) && e.json_body[:error][:type] == 'card_error'
+      self.stripe_id = e.json_body[:error][:charge]
+      save!
+    end
   end
   # rubocop:enable Metrics/AbcSize
 end
