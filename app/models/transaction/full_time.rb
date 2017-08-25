@@ -25,7 +25,8 @@ class Transaction::FullTime < Transaction
     charge = Stripe::Charge.create(
       amount: amount_in_cents,
       currency: 'usd',
-      customer: stripe_customer_id
+      customer: stripe_customer_id,
+      description: "Project: #{project.title}"
     )
 
     [charge, stripe_customer_id]
