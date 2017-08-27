@@ -6,7 +6,7 @@ class Stripe::WebhooksController < ApplicationController
   def create
     StripeEventJob.perform_later(
       params[:id],
-      params[:user_id],
+      params[:account],
       connect: params[:connect] == '1'
     )
 
