@@ -3,7 +3,7 @@
 class StripeEvent::AccountUpdated < StripeEvent
   def handle
     object = event.data.object
-    return if object.verification.status == 'verified'
+    return if object.legal_entity.verification.status == 'verified'
     stripe_account = Stripe::Account.retrieve(object.id)
     account = StripeAccount.find_by!(stripe_id: object.id)
     account.update_status_from_stripe stripe_account
