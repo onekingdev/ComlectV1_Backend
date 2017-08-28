@@ -42,7 +42,14 @@ class Specialist < ApplicationRecord
   default_scope -> { joins("INNER JOIN users ON users.id = specialists.user_id AND users.deleted = 'f'") }
 
   scope :preload_associations, -> {
-    preload(:user, :work_experiences, :education_histories, :industries, :jurisdictions, :skills)
+    preload(
+      :user,
+      :work_experiences,
+      :education_histories,
+      :industries,
+      :jurisdictions,
+      :skills
+    )
   }
 
   scope :join_experience, -> {
