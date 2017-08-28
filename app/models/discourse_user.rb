@@ -16,11 +16,15 @@ class DiscourseUser
     @object = object
   end
 
+  # rubocop:disable Metrics/AbcSize
   def sync
+    return unless ENV['ENABLE_DISCOURSE_SYNC'] == '1'
+
     sso.name = name
     sso.username = username
     sso.email = email
     sso.avatar_url = avatar_url
+
     begin
       api.post '/admin/users/sync_sso', sso.payload
       save_discourse_id if object.discourse_user_id.blank?
@@ -28,6 +32,7 @@ class DiscourseUser
       Bugsnag.notify(e)
     end
   end
+  # rubocop:enable Metrics/AbcSize
 
   def suspend
     return if object.discourse_user_id.blank?
