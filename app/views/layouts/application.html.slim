@@ -18,6 +18,7 @@ html lang=I18n.locale
     = csrf_meta_tags
     script src='//d2wy8f7a9ursnm.cloudfront.net/bugsnag-3.min.js' data-apikey="#{ENV['BUGSNAG_API_KEY']}"
     = javascript_include_tag '/app_config.js'
+    = render 'google_analytics'
     = render 'mixpanel'
     = render 'layouts/favicons'
     = yield :html_head
