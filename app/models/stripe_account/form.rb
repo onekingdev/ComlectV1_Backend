@@ -36,7 +36,6 @@ class StripeAccount::Form < StripeAccount
     prepopulate account, specialist
     account.attributes = attributes
     account.account_type = 'individual' if Stripe::INDIVIDUAL_ONLY_COUNTRIES.include?(account.country)
-    # account.primary = true unless existing
     account.state = 'Hong Kong' if account.country == 'HK'
     account
   end

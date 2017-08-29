@@ -36,10 +36,12 @@ class StripeAccount < ApplicationRecord
 
   def fields_needed_message(account)
     return 'Please add a bank account' if account.verification&.fields_needed == %w[external_account]
+
     fields = (account.verification&.fields_needed || []).map do |field|
       next if field == 'external_account'
       FIELDS_NEEDED_MAP[field] || field.split('.')[-1]
     end.compact
+
     if fields == ['document']
       'Verification missing'
     elsif fields.any?
