@@ -183,18 +183,32 @@
   <% end %>
 
   <div class="bolded-text top-row">Bill to:</div>
-  <div><%= transaction.business.business_name %></div>
-  <div><%= "#{transaction.business.address_1}, #{transaction.business.address_2}" %></div>
-  <div>
-    <div class="business-city-state">
-      <%= "#{transaction.business.city}, #{transaction.business.state} #{transaction.business.zipcode}" %>
-      <div><%= transaction.business.country %></div>
+  <% if transaction.business %>
+    <div><%= transaction.business.business_name %></div>
+    <div><%= "#{transaction.business.address_1}, #{transaction.business.address_2}" %></div>
+    <div>
+      <div class="business-city-state">
+        <%= "#{transaction.business.city}, #{transaction.business.state} #{transaction.business.zipcode}" %>
+        <div><%= transaction.business.country %></div>
+      </div>
+      <div class="charge-date">
+        <span class="bolded-text">Date:&nbsp;</span>
+        <%= transaction.date.strftime("%d %b, %Y") %>
+      </div>
     </div>
-    <div class="charge-date">
-      <span class="bolded-text">Date:&nbsp;</span>
-      <%= transaction.date.strftime("%d %b, %Y") %>
+  <% else %>
+    <div>Deleted</div>
+    <div></div>
+    <div>
+      <div class="business-city-state">
+        <div></div>
+      </div>
+      <div class="charge-date">
+        <span class="bolded-text">Date:&nbsp;</span>
+        <%= transaction.date.strftime("%d %b, %Y") %>
+      </div>
     </div>
-  </div>
+  <% end %>
 
   <table class="invoice-table">
     <thead>

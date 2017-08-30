@@ -12,7 +12,7 @@ table.table.table-striped
       tr
         td= payment.date.strftime('%b %d, %Y')
         td= payment.project
-        td= payment.project.business
+        td= payment.project.business || 'Deleted'
         td.text-right= number_to_currency payment.specialist_total
         td.text-center
           = link_to invoice_specialists_financial_path(payment.id, format: :pdf), target: "_blank" do
