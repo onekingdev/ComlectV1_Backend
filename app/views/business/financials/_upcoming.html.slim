@@ -12,7 +12,7 @@ table.table.table-striped
       tr
         td= charge.date.strftime('%b %d, %Y')
         td= charge.project
-        td= charge.project.specialist.full_name
+        td= charge.project&.specialist.full_name || 'Deleted'
         td.text-right= number_to_currency charge.total_with_fee
         td.text-right= number_to_currency charge.running_balance
 
