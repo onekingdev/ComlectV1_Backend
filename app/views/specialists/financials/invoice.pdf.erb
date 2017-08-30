@@ -170,10 +170,17 @@
     <div class="right-side">INVOICE</div>
   </div>
   <br />
-  <div><%= transaction.specialist.full_name %></div>
-  <div><%= "#{transaction.specialist.address_1}, #{transaction.specialist.address_2}" %></div>
-  <div><%= "#{transaction.specialist.city}, #{transaction.specialist.state} #{transaction.specialist.zipcode}" %></div>
-  <div><%= transaction.specialist.country %></div>
+  <% if transaction.specialist %>
+    <div><%= transaction.specialist.full_name %></div>
+    <div><%= "#{transaction.specialist.address_1}, #{transaction.specialist.address_2}" %></div>
+    <div><%= "#{transaction.specialist.city}, #{transaction.specialist.state} #{transaction.specialist.zipcode}" %></div>
+    <div><%= transaction.specialist.country %></div>
+  <% else %>
+    <div>Deleted</div>
+    <div></div>
+    <div></div>
+    <div></div>
+  <% end %>
 
   <div class="bolded-text top-row">Bill to:</div>
   <div><%= transaction.business.business_name %></div>
