@@ -14,7 +14,7 @@
     | Me,&nbsp;
   - else
     - if message.sender_type == "Business"
-      = "#{message.sender.business_name}, "
+      = "#{message.sender&.business_name || 'Deleted'}, "
     - if message.sender_type == "Specialist"
-      = "#{message.sender.full_name}, "
+      = "#{message.sender&.full_name || 'Deleted'}, "
   = message.created_at.in_time_zone(me.time_zone).strftime('%-I:%M %p')
