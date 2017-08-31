@@ -8,7 +8,12 @@ class TransferForeignCurrencyJob < ApplicationJob
     # balance and make a transfer into the USD bank account
     Stripe::Balance.retrieve.available.each do |balance|
       next if balance.currency == 'usd' || balance.amount.zero?
-      Stripe::Transfer.create(amount: balance.amount, currency: balance.currency, destination: 'default_for_currency')
+
+      Stripe::Transfer.create(
+        amount: balance.amount,
+        currency: balance.currency,
+        destination: 'default_for_currency'
+      )
     end
   end
 end
