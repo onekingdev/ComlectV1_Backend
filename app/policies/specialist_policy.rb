@@ -10,9 +10,7 @@ class SpecialistPolicy < ApplicationPolicy
   end
 
   def freeze?
-    !active_projects? &&
-      !full_time_projects_started_within_6_months? &&
-      !one_off_projects_ended_within_1_week?
+    !active_projects? && !one_off_projects_ended_within_1_week?
   end
 
   class Scope < Scope
@@ -25,12 +23,6 @@ class SpecialistPolicy < ApplicationPolicy
 
   def active_projects?
     record.projects.active.any?
-  end
-
-  def full_time_projects_started_within_6_months?
-    project = record.projects.full_time.order(:starts_on).last
-    return false unless project
-    (project.starts_on + 6.months) > Time.zone.today
   end
 
   def one_off_projects_ended_within_1_week?

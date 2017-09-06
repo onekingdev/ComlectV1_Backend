@@ -33,26 +33,6 @@ RSpec.describe 'Deleting account', type: :request do
       end
     end
 
-    context 'with full time projects started within 6 months' do
-      let!(:project) {
-        create(
-          :project_full_time,
-          :complete,
-          specialist: specialist,
-          starts_on: Time.zone.today
-        )
-      }
-
-      before do
-        sign_in specialist.user
-        delete specialists_settings_delete_account_path
-      end
-
-      it 'responds with a forbidden status' do
-        expect(response).to have_http_status(:forbidden)
-      end
-    end
-
     context 'with full time projects started outside 6 months' do
       let!(:project) {
         create(
