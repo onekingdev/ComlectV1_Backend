@@ -32,7 +32,7 @@ class Business::Delete < Draper::Decorator
   def full_time_projects_started_within_6_months?
     project = business.projects.full_time.order(:starts_on).last
     return false unless project
-    (project.starts_on + 6.months) > Time.zone.today
+    (project.starts_on + 6.months + 2.days) > Time.zone.today
   end
 
   def one_off_projects_ended_within_1_week?
