@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.6.3
--- Dumped by pg_dump version 9.6.3
+-- Dumped from database version 9.6.5
+-- Dumped by pg_dump version 9.6.5
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -1219,7 +1219,8 @@ CREATE TABLE specialists (
     address_1 character varying,
     address_2 character varying,
     discourse_username character varying,
-    discourse_user_id integer
+    discourse_user_id integer,
+    specialist_team_id integer
 );
 
 
@@ -3027,6 +3028,73 @@ CREATE TABLE skills_specialists (
 
 
 --
+-- Name: specialist_invitations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE specialist_invitations (
+    id integer NOT NULL,
+    specialist_team_id integer NOT NULL,
+    specialist_id integer,
+    first_name character varying NOT NULL,
+    last_name character varying NOT NULL,
+    email character varying NOT NULL,
+    token character varying NOT NULL,
+    status integer DEFAULT 0 NOT NULL
+);
+
+
+--
+-- Name: specialist_invitations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE specialist_invitations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: specialist_invitations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE specialist_invitations_id_seq OWNED BY specialist_invitations.id;
+
+
+--
+-- Name: specialist_teams; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE specialist_teams (
+    id integer NOT NULL,
+    manager_id integer NOT NULL,
+    name character varying NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: specialist_teams_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE specialist_teams_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: specialist_teams_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE specialist_teams_id_seq OWNED BY specialist_teams.id;
+
+
+--
 -- Name: specialists_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -3458,6 +3526,20 @@ ALTER TABLE ONLY skills ALTER COLUMN id SET DEFAULT nextval('skills_id_seq'::reg
 
 
 --
+-- Name: specialist_invitations id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY specialist_invitations ALTER COLUMN id SET DEFAULT nextval('specialist_invitations_id_seq'::regclass);
+
+
+--
+-- Name: specialist_teams id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY specialist_teams ALTER COLUMN id SET DEFAULT nextval('specialist_teams_id_seq'::regclass);
+
+
+--
 -- Name: specialists id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3712,6 +3794,22 @@ ALTER TABLE ONLY settings
 
 ALTER TABLE ONLY skills
     ADD CONSTRAINT skills_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: specialist_invitations specialist_invitations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY specialist_invitations
+    ADD CONSTRAINT specialist_invitations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: specialist_teams specialist_teams_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY specialist_teams
+    ADD CONSTRAINT specialist_teams_pkey PRIMARY KEY (id);
 
 
 --
@@ -4387,6 +4485,27 @@ CREATE UNIQUE INDEX index_skills_specialists_on_skill_id_and_specialist_id ON sk
 
 
 --
+-- Name: index_specialist_invitations_on_specialist_team_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_specialist_invitations_on_specialist_team_id ON specialist_invitations USING btree (specialist_team_id);
+
+
+--
+-- Name: index_specialist_invitations_on_token; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_specialist_invitations_on_token ON specialist_invitations USING btree (token);
+
+
+--
+-- Name: index_specialist_teams_on_manager_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_specialist_teams_on_manager_id ON specialist_teams USING btree (manager_id);
+
+
+--
 -- Name: index_specialists_on_discourse_username; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4967,4 +5086,10 @@ INSERT INTO schema_migrations (version) VALUES ('20170508231021');
 INSERT INTO schema_migrations (version) VALUES ('20170720153724');
 
 INSERT INTO schema_migrations (version) VALUES ('20170727084631');
+
+INSERT INTO schema_migrations (version) VALUES ('20170919140223');
+
+INSERT INTO schema_migrations (version) VALUES ('20170919163901');
+
+INSERT INTO schema_migrations (version) VALUES ('20170919200413');
 
