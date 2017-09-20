@@ -2,9 +2,11 @@
 
 class Specialist < ApplicationRecord
   belongs_to :user, autosave: true
+  belongs_to :team, foreign_key: :specialist_team_id
   has_and_belongs_to_many :industries
   has_and_belongs_to_many :jurisdictions
   has_and_belongs_to_many :skills
+  has_one :managed_team, class_name: 'Team', foreign_key: :manager_id
   has_many :work_experiences, dependent: :destroy
   has_many :education_histories, dependent: :delete_all
   has_many :favorites, as: :owner, dependent: :destroy
@@ -134,11 +136,23 @@ class Specialist < ApplicationRecord
     [first_name, last_name].map(&:presence).compact.join(' ')
   end
 
+  def manager
+    team&.manager || self
+  end
+
   def public?
     is_public?
   end
 
   def private?
     is_private?
+  end
+
+  def manager?
+    !managed?
+  end
+
+  def managed?
+    !team.nil?
   end
 end

@@ -24,6 +24,10 @@ en:
       action_label: Go to %{project_title} Project Dashboard
 
     # sent to specialist
+    got_employee_invitation:
+      subject: "%{manager_full_name} has invited you to Complect"
+      message_mail: "%{manager_full_name} has requested you create a profile on Complect. In order for your profile to be linked with this company, please sign up directly via the link below."
+      action_label: Sign up
     got_hired_project:
       subject: You've been Selected for a Project!
       message: Congrats! You've been hired. Click here to visit the project dashboard to get started.

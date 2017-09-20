@@ -8,7 +8,7 @@ class Transaction::OneOff < Transaction
       raise 'Specialist does not have a managed account' unless specialist.stripe_account
       transfer = create_stripe_transfer
       self.stripe_id = transfer.id
-      self.payment_target_id = specialist.stripe_account.id
+      self.payment_target_id = specialist.manager.stripe_account.id
       true
     end
   end
@@ -23,7 +23,7 @@ class Transaction::OneOff < Transaction
       currency: 'usd',
       customer: stripe_customer_id,
       application_fee: fee_in_cents,
-      destination: specialist.stripe_account.stripe_id,
+      destination: specialist.manager.stripe_account.stripe_id,
       description: "Project: #{project.title}"
     )
   end

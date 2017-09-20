@@ -1,0 +1,5 @@
+var $specialist = $('#specialist-settings');
+$specialist.html('<%= j render('new', team: @team) %>');
+$(document).trigger('newContent', $specialist);
+$('.settings-nav > li').removeClass('active');
+$('.settings-nav > .manage-employees').addClass('active');

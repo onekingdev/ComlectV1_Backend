@@ -8,6 +8,7 @@ class SpecialistsController < ApplicationController
   before_action :authenticate_user!, only: %i[edit update]
   before_action :require_specialist!, only: %i[edit update]
   before_action :require_business!, only: %i[index]
+  before_action :fetch_invitation, only: %i[new create]
 
   def index
     @search = Specialist::Search.new(search_params)
@@ -22,17 +23,26 @@ class SpecialistsController < ApplicationController
   end
 
   def new
-    @specialist = Specialist::Form.signup
+    attributes = {
+      first_name: @invitation&.first_name,
+      last_name: @invitation&.last_name,
+      user_attributes: { email: @invitation&.email }
+    }
+
+    @specialist = Specialist::Form.signup(attributes)
   end
 
   def create
-    @specialist = Specialist::Form.signup(specialist_params)
+    @specialist = Specialist::Form.signup(specialist_params.merge(invitation: @invitation))
+
     if @specialist.save
+      @invitation&.accepted!(@specialist)
       sign_in @specialist.user
       mixpanel_track_later 'Sign Up'
       Notification::Deliver.welcome_specialist! @specialist
       return redirect_to specialists_dashboard_path
     end
+
     render :new
   end
 
@@ -58,6 +68,13 @@ class SpecialistsController < ApplicationController
   end
 
   private
+
+  def fetch_invitation
+    @invitation = Specialist::Invitation.find_by(
+      token: params[:invite_token],
+      status: Specialist::Invitation.statuses[:pending]
+    )
+  end
 
   def fetch_specialist
     @specialist = Specialist::Form.for_user(current_user)

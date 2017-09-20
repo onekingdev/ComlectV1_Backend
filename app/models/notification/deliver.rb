@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 # rubocop:disable Metrics/ClassLength
-# rubocop:disable Metrics/AbcSize
 class Notification::Deliver < Draper::Decorator
   decorates Notification
 
@@ -17,6 +16,30 @@ class Notification::Deliver < Draper::Decorator
         r.public_send("#{name}_path", *args),
         r.public_send("#{name}_url", *args)
       ]
+    end
+
+    def got_employee_invitation!(invitation)
+      action_path, action_url = path_and_url(
+        :new_specialist,
+        invite_token: invitation.token
+      )
+
+      dispatcher = Dispatcher.new(
+        key: :got_employee_invitation,
+        action_path: action_path,
+        t: { manager_full_name: invitation.team.manager.full_name }
+      )
+
+      NotificationMailer.deliver_later(
+        :notification,
+        invitation.email,
+        dispatcher.message_mail,
+        dispatcher.action_label,
+        dispatcher.initiator_name,
+        dispatcher.img_path,
+        action_url,
+        dispatcher.subject
+      )
     end
 
     def got_hired!(application)
@@ -1109,4 +1132,3 @@ class Notification::Deliver < Draper::Decorator
   end
 end
 # rubocop:enable Metrics/ClassLength
-# rubocop:enable Metrics/AbcSize

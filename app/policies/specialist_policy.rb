@@ -10,7 +10,10 @@ class SpecialistPolicy < ApplicationPolicy
   end
 
   def freeze?
-    !active_projects? && !one_off_projects_ended_within_1_week?
+    !active_projects? &&
+      !one_off_projects_ended_within_1_week? &&
+      !team_manager? &&
+      manages_account?
   end
 
   class Scope < Scope
@@ -23,6 +26,15 @@ class SpecialistPolicy < ApplicationPolicy
 
   def active_projects?
     record.projects.active.any?
+  end
+
+  def team_manager?
+    record.managed_team
+  end
+
+  def manages_account?
+    return true if record.managed_team
+    user.specialist == record.team&.manager
   end
 
   def one_off_projects_ended_within_1_week?

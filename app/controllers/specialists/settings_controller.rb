@@ -5,5 +5,6 @@ class Specialists::SettingsController < ApplicationController
 
   def show
     @user = current_user
+    @specialist = current_specialist
   end
 end

@@ -14,7 +14,7 @@
       br
       | financial regulatory compliance
 
-= simple_form_for decorate(@specialist), wrapper: :inline_form, html: { class: 'form-specialist' } do |f|
+= simple_form_for decorate(@specialist), url: specialists_path(invite_token: @invitation.token), wrapper: :inline_form, html: { class: 'form-specialist' } do |f|
   = render 'form', f: f
 
   .row.p-t-3

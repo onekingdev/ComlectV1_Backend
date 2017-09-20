@@ -1,0 +1,35 @@
+.panel-heading
+  h3 Manage Employees
+
+.panel-body
+  - if flash[:notice]
+    .alert.alert-success.m-b-3 = flash[:notice]
+
+  - if employees.present?
+    .panel-heading.p-a-0
+      h3.m-b-1 Employees
+    table.table.manage-employees
+      = render 'employees', employees: employees
+
+  - if invitations.present?
+    .panel-heading.p-a-0
+      h3.m-b-1 Pending Invitations
+    table.table.manage-employees
+      = render 'invitations', invitations: invitations
+
+  .panel-heading.p-a-0
+    h3.m-b-1 Invite Employee
+
+  .row
+    .col-xs-12.m-b-1
+      p.small An employee account will have full functionality on the platform but its payments will be linked to the bank account marked as primary for this user account and they will be unable to see or edit those payment details.
+
+    = simple_form_for Specialist::Invitation.new, remote: true, url: specialists_invitations_path do |f|
+      .col-xs-12.col-sm-6
+        = f.input :first_name, label: false, placeholder: 'First Name', input_html: { class: 'input-lg input-gray'}
+      .col-xs-12.col-sm-6
+        = f.input :last_name, label: false, placeholder: 'Last Name', input_html: { class: 'input-lg input-gray'}
+      .col-xs-12
+        = f.input :email, label: false, placeholder: 'Email', input_html: { class: 'input-lg input-gray'}
+      .col-xs-12
+        = f.submit 'Invite Employee', class: 'btn btn-primary btn-block btn-lg'

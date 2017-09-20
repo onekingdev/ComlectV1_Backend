@@ -99,12 +99,17 @@ Rails.application.routes.draw do
     resource :settings, only: :show do
       resource :password
       resource :delete_account
+      resources :delete_managed_accounts, only: :destroy
       resource :payment_settings, as: :payment, path: 'payment'
+      resource :team
+
       resources :bank_accounts do
         patch :make_primary
       end
       resources :notification_settings, as: :notifications, path: 'notifications', only: %i[index update]
     end
+
+    resources :invitations, only: %i[create destroy]
     resources :projects, path: 'my-projects'
     concerns :favoriteable
     resources :messages

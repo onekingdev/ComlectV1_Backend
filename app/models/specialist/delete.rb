@@ -1,12 +1,18 @@
 # frozen_string_literal: true
 
-class Specialist::Delete < Draper::Decorator
-  decorates Specialist
+class Specialist::Delete
+  attr_reader :user, :specialist
 
   NOT_PERMITTED_REASONS = {
     active_projects: 'You have active projects',
-    one_off_projects: 'You have one off projects ended within 1 week'
+    one_off_projects: 'You have one off projects ended within 1 week',
+    team_manager: 'Your account manages other accounts'
   }.freeze
+
+  def initialize(user, specialist)
+    @user = user
+    @specialist = specialist
+  end
 
   def call
     return false if disallowed?
@@ -15,13 +21,14 @@ class Specialist::Delete < Draper::Decorator
   end
 
   def disallowed?
-    !SpecialistPolicy.new(specialist.user, specialist).freeze?
+    !SpecialistPolicy.new(user, specialist).freeze?
   end
 
   def not_permitted_reasons
     reasons = []
     reasons << :active_projects if specialist.projects.active.any?
     reasons << :one_off_projects if one_off_projects_ended_within_1_week?
+    reasons << :team_manager if specialist.managed_team
     NOT_PERMITTED_REASONS.slice(*reasons).values
   end
 

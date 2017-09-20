@@ -18,8 +18,11 @@ class Specialist::Form < Specialist
   attr_writer :delete_photo, :delete_resume
 
   def self.signup(attributes = {})
+    invitation = attributes.delete(:invitation)
     tos_acceptance_ip = attributes.delete(:tos_acceptance_ip)
+
     new(attributes).tap do |specialist|
+      specialist.specialist_team_id = invitation.specialist_team_id if invitation
       specialist.build_user unless specialist.user
       specialist.user.tos_acceptance_date = Time.zone.now
       specialist.user.tos_acceptance_ip = tos_acceptance_ip
