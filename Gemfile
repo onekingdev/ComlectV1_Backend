@@ -7,6 +7,7 @@ ruby '2.4.1'
 gem 'rails', '4.2.9'
 
 # ActiveRecord
+gem 'auto_strip_attributes'
 gem 'deep_pluck'
 gem 'faker'
 gem 'pg', '~> 0.15'

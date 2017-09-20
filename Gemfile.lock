@@ -67,6 +67,8 @@ GEM
       activesupport (>= 3.0.0)
     arel (6.0.4)
     ast (2.3.0)
+    auto_strip_attributes (2.1.0)
+      activerecord (>= 3.0)
     aws-sdk (2.3.18)
       aws-sdk-resources (= 2.3.18)
     aws-sdk-core (2.3.18)
@@ -496,6 +498,7 @@ PLATFORMS
 
 DEPENDENCIES
   activeadmin!
+  auto_strip_attributes
   aws-sdk (~> 2.3.12)
   best_in_place!
   bugsnag
@@ -573,4 +576,4 @@ RUBY VERSION
    ruby 2.4.1p111
 
 BUNDLED WITH
-   1.15.1
+   1.15.3
