@@ -40,6 +40,6 @@ class JobApplication::Form < JobApplication
 
   def payment_info?
     return true if project.full_time? # No payment info required for full time roles
-    specialist.stripe_account&.verified?
+    specialist.manager.stripe_account&.verified?
   end
 end
