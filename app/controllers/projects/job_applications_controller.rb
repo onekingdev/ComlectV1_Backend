@@ -5,15 +5,24 @@ class Projects::JobApplicationsController < ApplicationController
   before_action :find_project
 
   def new
-    @job_application = JobApplication::Form.new(specialist: current_specialist, project: @project)
+    @job_application = JobApplication::Form.new(
+      specialist: current_specialist,
+      project: @project
+    )
+
     @job_application.valid?
+
     respond_to do |format|
       format.js
     end
   end
 
   def create
-    @job_application = JobApplication::Form.apply!(current_specialist, @project, job_application_params)
+    @job_application = JobApplication::Form.apply!(
+      current_specialist,
+      @project, job_application_params
+    )
+
     respond_to do |format|
       format.js do
         if @job_application.persisted?
