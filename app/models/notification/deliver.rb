@@ -27,7 +27,10 @@ class Notification::Deliver < Draper::Decorator
       dispatcher = Dispatcher.new(
         key: :got_employee_invitation,
         action_path: action_path,
-        t: { manager_full_name: invitation.team.manager.full_name }
+        t: {
+          manager_full_name: invitation.team.manager.full_name,
+          team_name: invitation.team.name
+        }
       )
 
       NotificationMailer.deliver_later(
