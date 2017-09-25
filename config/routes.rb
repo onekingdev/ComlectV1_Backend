@@ -98,6 +98,7 @@ Rails.application.routes.draw do
     get '/' => 'dashboard#show', as: :dashboard
     resource :settings, only: :show do
       resource :password
+      resource :contact_information, only: %i[show update]
       resource :delete_account
       resources :delete_managed_accounts, only: :destroy
       resource :payment_settings, as: :payment, path: 'payment'
