@@ -33,7 +33,7 @@ class SpecialistPolicy < ApplicationPolicy
   end
 
   def manages_account?
-    return true if record.managed_team
+    return true unless record.team
     user.specialist == record.team&.manager
   end
 
