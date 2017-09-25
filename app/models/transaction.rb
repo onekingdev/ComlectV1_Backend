@@ -53,7 +53,6 @@ class Transaction < ApplicationRecord
     subtotal - fee
   end
 
-  # rubocop:disable Metrics/AbcSize
   def process!
     self.class.transaction do
       return nil unless yield
@@ -75,5 +74,4 @@ class Transaction < ApplicationRecord
       save!
     end
   end
-  # rubocop:enable Metrics/AbcSize
 end

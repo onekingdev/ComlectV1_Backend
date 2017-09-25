@@ -21,7 +21,6 @@ class Project::Decorator < ApplicationDecorator
     end
   end
 
-  # rubocop:disable Metrics/AbcSize
   def extension_popup
     url = h.business_project_extensions_path(project)
 
@@ -46,7 +45,6 @@ class Project::Decorator < ApplicationDecorator
         end
     end
   end
-  # rubocop:enable Metrics/AbcSize
 
   def percent_complete
     return 0 unless starts_on && ends_on

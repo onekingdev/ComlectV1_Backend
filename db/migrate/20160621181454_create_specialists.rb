@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class CreateSpecialists < ActiveRecord::Migration
-  # rubocop:disable Metrics/AbcSize
   def change
     create_table :specialists do |t|
       t.references :user, index: true

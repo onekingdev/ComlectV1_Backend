@@ -16,7 +16,6 @@ class DiscourseUser
     @object = object
   end
 
-  # rubocop:disable Metrics/AbcSize
   def sync
     return unless ENV['ENABLE_DISCOURSE_SYNC'] == '1'
 
@@ -32,7 +31,6 @@ class DiscourseUser
       Bugsnag.notify(e)
     end
   end
-  # rubocop:enable Metrics/AbcSize
 
   def suspend
     return if object.discourse_user_id.blank?

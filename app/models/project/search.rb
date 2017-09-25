@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/ClassLength
 class Project::Search
   include ActiveModel::Model
 
@@ -14,8 +13,6 @@ class Project::Search
   attr_accessor :project_type, :sort_by, :keyword, :jurisdiction_ids, :industry_ids, :skill_names, :experience,
                 :regulator, :location_type, :location, :lat, :lng, :location_range, :project_value, :skill_selector,
                 :page, :per
-
-  # rubocop:disable Metrics/AbcSize
   def initialize(attributes = HashWithIndifferentAccess.new)
     self.page = 1
     self.per = 12

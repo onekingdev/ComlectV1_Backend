@@ -2,7 +2,6 @@
 
 module Metrics::Postings
   # rubocop:disable Metrics/MethodLength
-  # rubocop:disable Metrics/AbcSize
   def postings
     return {} if invalid?
     @metrics = {

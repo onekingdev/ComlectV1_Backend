@@ -54,7 +54,6 @@ class Metrics
     end.flatten
   end
 
-  # rubocop:disable Metrics/AbcSize
   def metric(name, cast = :int)
     values = @db_view.detect { |metric| metric['metric'] == name }
     results = [values['mtd'], values['fytd'], values['itd']]

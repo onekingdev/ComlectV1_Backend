@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class CreateProjects < ActiveRecord::Migration
-  # rubocop:disable Metrics/AbcSize
   def change
     create_table :projects do |t|
       t.references :business, index: true, null: false
