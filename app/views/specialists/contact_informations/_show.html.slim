@@ -15,7 +15,7 @@
       .col-xs-12
         = f.simple_fields_for :user do |uf|
           = uf.input :email, label: false, input_html: { class: 'input-lg' }
-          p.help-block This will change the email you use to login
+          p.help-block Note: This will change the email you use to log in to Complect.
       .col-xs-12
         - if saved
           .alert.alert-success.m-b-1 Contact information saved.
