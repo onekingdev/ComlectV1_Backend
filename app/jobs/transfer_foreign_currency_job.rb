@@ -5,14 +5,13 @@ class TransferForeignCurrencyJob < ApplicationJob
 
   def perform
     # Stripe doesn't handle EUR/etc. automatically so we go through each
-    # balance and make a transfer into the USD bank account
+    # balance and create a payout into the USD bank account
     Stripe::Balance.retrieve.available.each do |balance|
       next if balance.currency == 'usd' || balance.amount.zero?
 
-      Stripe::Transfer.create(
+      Stripe::Payout.create(
         amount: balance.amount,
-        currency: balance.currency,
-        destination: 'default_for_currency'
+        currency: balance.currency
       )
     end
   end
