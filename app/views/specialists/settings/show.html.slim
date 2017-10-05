@@ -9,10 +9,10 @@
       ul.settings-nav
         li.change-password class=active_class('settings', 'passwords') = link_to 'Change Password', specialists_settings_password_path, class: 'btn-link btn-block btn-md', remote: true
         li.contact-information class=active_class('contact_information') = link_to 'Contact Information', specialists_settings_contact_information_path, class: 'btn-link btn-block btn-md', remote: true
-        - if @specialist.manager?
+        - if current_specialist.manager?
           li.payment-details class=active_class('payment_settings') = link_to 'Payment Details', specialists_settings_payment_path, class: 'btn-link btn-block btn-md', remote: true
         li.notification-preferences class=active_class('notification_settings') = link_to 'Notification Preferences', specialists_settings_notifications_path, class: 'btn-link btn-block btn-md', remote: true
-        - if @specialist.manager?
+        - if current_specialist.manager?
           li.manage-employees class=active_class('manage_employees') = link_to 'Manage Employees', @specialist.managed_team ? specialists_settings_team_path : new_specialists_settings_team_path, class: 'btn-link btn-block btn-md', remote: true
           li.delete-account class=active_class('delete_accounts') = link_to 'Delete Account', specialists_settings_delete_account_path, class: 'btn-link btn-block btn-md', remote: true
 
