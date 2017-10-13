@@ -10,7 +10,7 @@ $(window).on 'resize', ->
   update_navbar()
 
 update_navbar = ->
-  x = $('body').scrollTop()
+  x = $('html').scrollTop()
   y = (60-x)/2
   z = x/60
   y = 0 if (y < 0) || ($('#header').hasClass 'short')
