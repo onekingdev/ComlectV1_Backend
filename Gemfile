@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 ruby '2.4.1'
 
 # Rails
-gem 'rails', '4.2.9'
+gem 'rails', '4.2.10'
 
 # ActiveRecord
 gem 'auto_strip_attributes'
