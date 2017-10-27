@@ -1,5 +1,6 @@
 <% if ENV['ADROLL_ADV_ID'].presence && ENV['ADROLL_PIX_ID'].presence %>
-  <!-- start Adroll -->
+<!-- start adroll -->
+<script type="text/javascript" async>
   adroll_adv_id = "<%= ENV['ADROLL_ADV_ID'] %>";
   adroll_pix_id = "<%= ENV['ADROLL_PIX_ID'] %>";
 
@@ -20,4 +21,6 @@
       window.addEventListener('load', _onload, false);}
     else {window.attachEvent('onload', _onload)}
   }());
+</script>
+<!-- end adroll -->
 <% end %>
