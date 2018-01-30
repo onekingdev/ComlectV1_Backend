@@ -10,8 +10,8 @@ gem 'rails', '4.2.10'
 gem 'auto_strip_attributes'
 gem 'deep_pluck'
 gem 'faker'
-gem 'pg', '~> 0.15'
-gem 'pg_search', '~> 1.0.6'
+gem 'pg', '0.20.0'
+gem 'pg_search'
 gem 'scenic'
 
 # Orchestration
