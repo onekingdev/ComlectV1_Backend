@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
-ruby '2.4.1'
+ruby '2.4.2'
 
 # Rails
 gem 'rails', '4.2.10'
@@ -15,9 +15,9 @@ gem 'pg_search', '~> 1.0.6'
 gem 'scenic'
 
 # Orchestration
-gem 'dotenv-rails', '~> 2.0.2'
-gem 'foreman', '~> 0.80.1'
-gem 'puma', '~> 3.4.0'
+gem 'dotenv-rails'
+gem 'foreman'
+gem 'puma'
 
 # Auth
 gem 'devise', '~> 4.1.1'
@@ -41,7 +41,7 @@ gem 'country_select'
 gem 'draper'
 gem 'iso_country_codes'
 gem 'simple_form'
-gem 'slim-rails', '~> 3.0.1'
+gem 'slim-rails'
 
 # Misc
 gem 'bugsnag'
@@ -83,7 +83,7 @@ gem 'sidekiq-unique-jobs'
 gem 'sinatra', require: nil
 
 # Payments
-gem 'plaid'
+gem 'plaid-legacy'
 gem 'stripe'
 
 # Logging
@@ -98,7 +98,7 @@ group :development, :test do
 
   # Testing
   gem 'factory_girl_rails'
-  gem 'rspec-rails', '3.5.2'
+  gem 'rspec-rails'
 
   # Code Quality
   gem 'rubocop', require: false
@@ -107,7 +107,7 @@ end
 group :development do
   # Debugging
   gem 'mailcatcher'
-  gem 'web-console', '~> 2.0'
+  gem 'web-console'
 
   # Preloading
   gem 'spring'

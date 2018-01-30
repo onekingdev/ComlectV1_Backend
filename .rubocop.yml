@@ -19,6 +19,9 @@ Layout/MultilineMethodCallBraceLayout:
 Layout/MultilineMethodDefinitionBraceLayout:
   Enabled: true
 
+Naming/VariableNumber:
+  Enabled: false
+
 Style/BlockDelimiters:
   Enabled: false
 
@@ -51,12 +54,6 @@ Style/SingleLineMethods:
 
 Style/SymbolArray:
   Enabled: true
-
-Style/VariableNumber:
-  Enabled: false
-
-Style/WhileUntilModifier:
-  MaxLineLength: 80
 
 ##################### Metrics ##################################
 
@@ -97,6 +94,9 @@ Metrics/PerceivedComplexity:
 Lint/AmbiguousBlockAssociation:
   Enabled: false
 
+Lint/DuplicateMethods:
+  Enabled: false
+
 ##################### Performance ############################
 
 # Using all defaults
@@ -118,6 +118,15 @@ Rails/Output:
     - test/**/*.rb
 
 Rails/HasAndBelongsToMany:
+  Enabled: false
+
+Rails/HasManyOrHasOneDependent:
+  Enabled: false
+
+Rails/InverseOf:
+  Enabled: false
+
+Rails/LexicallyScopedActionFilter:
   Enabled: false
 
 Rails/NotNullColumn:
