@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'validators/email_validator'
+
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -13,6 +15,8 @@ class User < ApplicationRecord
   has_many :payment_sources, through: :business
   has_many :project_issues, dependent: :delete_all
   has_many :notifications, dependent: :delete_all
+
+  validates :email, presence: true, email: true
 
   scope :inactive, -> {
     where('last_sign_in_at < ?', Time.zone.now - 30.days).where(inactive_for_month: false, suspended: false)
