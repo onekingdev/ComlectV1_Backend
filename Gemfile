@@ -25,7 +25,7 @@ gem 'pretender'
 gem 'pundit'
 
 # Admin
-gem 'activeadmin', git: 'https://github.com/activeadmin/activeadmin.git'
+gem 'activeadmin', '~> 1.2.1'
 gem 'best_in_place', git: 'https://github.com/bernat/best_in_place.git'
 
 # Asset processing
