@@ -9,7 +9,7 @@ class Projects::DashboardsController < ApplicationController
   private
 
   def redirect_if_full_time
-    redirect_to specialists_dashboard_path if @project && @project.full_time?
+    redirect_to specialists_dashboard_path if @project&.full_time?
   end
 
   def find_project

@@ -80,9 +80,7 @@ ActiveAdmin.register Specialist do
         end
       end
       row :resume do |specialist|
-        if specialist.resume
-          link_to 'View Resume', specialist.resume_url, target: '_blank'
-        end
+        link_to 'View Resume', specialist.resume_url, target: '_blank' if specialist.resume
       end
       row :industries do |specialist|
         specialist.industries.map(&:to_s).to_sentence

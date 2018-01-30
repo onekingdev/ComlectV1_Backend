@@ -199,3 +199,4 @@ class Project::Decorator < ApplicationDecorator
     )
   end
 end
+# rubocop:enable Metrics/ClassLength

@@ -6,4 +6,5 @@ class EnablePostgis < ActiveRecord::Migration
     enable_extension 'postgis'
   rescue PG::UniqueViolation
   end
+  # rubocop:enable Lint/HandleExceptions
 end

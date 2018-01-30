@@ -39,3 +39,4 @@ if Specialist.where(discourse_username: ENV.fetch('DISCOURSE_SPECIALIST_API_USER
   )
   puts "Discourse Specialist Admin ID / password: #{user.specialist.id} / password (login and change it)"
 end
+# rubocop:enable Rails/Output

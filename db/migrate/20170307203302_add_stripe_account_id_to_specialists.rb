@@ -32,3 +32,4 @@ class AddStripeAccountIdToSpecialists < ActiveRecord::Migration
     end
   end
 end
+# rubocop:enable Metrics/AbcSize

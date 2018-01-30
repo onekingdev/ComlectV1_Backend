@@ -4,7 +4,7 @@ FactoryGirl.define do
   factory :time_log do
     timesheet
     description 'Work well done'
-    date { DateTime.current }
+    date { Time.current }
     hours { rand(1..10) }
   end
 end

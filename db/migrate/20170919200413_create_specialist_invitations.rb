@@ -2,6 +2,7 @@
 
 class CreateSpecialistInvitations < ActiveRecord::Migration
   def change
+    # rubocop:disable Rails/CreateTableWithTimestamps
     create_table :specialist_invitations do |t|
       t.belongs_to :specialist_team, null: false, index: true
       t.belongs_to :specialist
@@ -12,5 +13,6 @@ class CreateSpecialistInvitations < ActiveRecord::Migration
       t.string :token, null: false, index: true
       t.integer :status, null: false, default: 0
     end
+    # rubocop:enable Rails/CreateTableWithTimestamps
   end
 end

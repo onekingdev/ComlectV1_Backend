@@ -10,7 +10,7 @@ class Metrics::Financials
   def initialize
     @db_view = begin
                  ActiveRecord::Base.connection.execute('SELECT * FROM financials').to_a
-               rescue
+               rescue StandardError
                  nil
                end
     @db_view += ActiveRecord::Base.connection.execute('SELECT * FROM metrics').to_a if @db_view

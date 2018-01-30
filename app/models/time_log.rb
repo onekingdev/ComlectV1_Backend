@@ -23,7 +23,7 @@ class TimeLog < ApplicationRecord
 
   def total_amount
     hours * hourly_rate
-  rescue
+  rescue StandardError
     0
   end
 end

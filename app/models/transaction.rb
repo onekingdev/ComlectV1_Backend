@@ -62,7 +62,7 @@ class Transaction < ApplicationRecord
       save!
       Notification::Deliver.transaction_processed!(self)
     end
-  rescue => e
+  rescue StandardError => e
     self.status_detail = e.message
     self.last_try_at = Time.zone.now
     error!

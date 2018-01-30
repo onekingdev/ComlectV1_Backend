@@ -27,7 +27,7 @@ class DiscourseUser
     begin
       api.post '/admin/users/sync_sso', sso.payload
       save_discourse_id if object.discourse_user_id.blank?
-    rescue => e # Silent so user gets saved anyway when applicable
+    rescue StandardError => e # Silent so user gets saved anyway when applicable
       Bugsnag.notify(e)
     end
   end
@@ -35,14 +35,14 @@ class DiscourseUser
   def suspend
     return if object.discourse_user_id.blank?
     api.put "/admin/users/#{object.discourse_user_id}/suspend"
-  rescue => e
+  rescue StandardError => e
     Bugsnag.notify(e)
   end
 
   def unsuspend
     return if object.discourse_user_id.blank?
     api.put "/admin/users/#{object.discourse_user_id}/unsuspend"
-  rescue => e
+  rescue StandardError => e
     Bugsnag.notify(e)
   end
 

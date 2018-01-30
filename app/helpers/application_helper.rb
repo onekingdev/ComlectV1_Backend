@@ -77,12 +77,13 @@ module ApplicationHelper
     end
   end
 
+  # rubocop:disable Style/ParallelAssignment
   def link_to_back(name = nil, html_options = nil, &block)
-    # rubocop:disable Style/ParallelAssignment
     html_options, name = name, block if block_given?
     url = params[:redirect_to] || request.referer || html_options.delete(:default)
     link_to url, html_options, &name
   end
+  # rubocop:enable Style/ParallelAssignment
 
   def header_class(css_class)
     content_for :header_class, " #{css_class}"

@@ -182,3 +182,4 @@ class StripeAccount < ApplicationRecord
     (STRIPE_ERRORS.detect { |regex, _m| regex.match(error) } || [nil, error])[1]
   end
 end
+# rubocop:enable Metrics/ClassLength

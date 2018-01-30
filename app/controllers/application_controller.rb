@@ -63,7 +63,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_business_or_specialist
 
   def redirect_to_param_or(default)
-    redirect_to params[:redirect_to].present? ? params[:redirect_to] : default
+    redirect_to params[:redirect_to].presence || default
   end
 
   def js_alert(message)

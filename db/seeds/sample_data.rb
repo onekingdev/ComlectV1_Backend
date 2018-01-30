@@ -48,7 +48,7 @@ ActiveRecord::Base.transaction do
       industry_ids: industry_ids.sample(rand(industry_ids.size) + 1),
       jurisdiction_ids: jurisdiction_ids.sample(rand(jurisdiction_ids.size) + 1)
     )
-    from_years = (rand(10) + 3)
+    from_years = rand(3..12)
     from = from_years.years.ago
     current = rand(2) == 1
     specialist.work_experiences.create!(
@@ -67,15 +67,15 @@ ActiveRecord::Base.transaction do
   100.times do |_i|
     full_time = rand(2) == 1
     title = "#{Faker::Company.industry} #{full_time ? 'Job' : 'Project'}"
-    starts_on = (rand(300) + 30).days.from_now
-    full_time_fields = { annual_salary: rand(70_000) + 50_000 }
+    starts_on = rand(30..329).days.from_now
+    full_time_fields = { annual_salary: rand(50_000..119_999) }
     one_time_fields = {
       key_deliverables: 'Deliverable 1, Deliverable 2',
-      ends_on: starts_on + (rand(90) + 14).days,
+      ends_on: starts_on + rand(14..103).days,
       location_type: 'remote',
       payment_schedule: Project.payment_schedules.values.sample,
-      estimated_hours: rand(100) + 50,
-      hourly_rate: rand(100) + 30
+      estimated_hours: rand(50..149),
+      hourly_rate: rand(30..129)
     }
     status = Project.statuses.values.sample
     specialist_id = specialist_ids.sample if status == 'complete'

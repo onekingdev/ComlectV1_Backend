@@ -12,7 +12,7 @@ class Metrics
   def initialize
     @db_view = begin
                  ActiveRecord::Base.connection.execute('SELECT * FROM metrics').to_a
-               rescue
+               rescue StandardError
                  nil
                end
   end

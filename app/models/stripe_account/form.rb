@@ -9,7 +9,7 @@ class StripeAccount::Form < StripeAccount
   validates :account_type, inclusion: { in: account_types.values }
   validates :business_name, :business_tax_id, presence: true, if: :company?
 
-  REQUIRED_FIELDS.each do |field, _config|
+  REQUIRED_FIELDS.each_key do |field|
     validates field, presence: true, if: -> { required?(field) }
   end
 

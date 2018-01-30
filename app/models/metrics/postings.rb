@@ -41,4 +41,5 @@ module Metrics::Postings
       }]
     }
   end
+  # rubocop:enable Metrics/MethodLength
 end

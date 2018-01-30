@@ -9,9 +9,7 @@ class Specialists::PasswordsController < ApplicationController
 
   def update
     @user = current_user
-    if (@saved = @user.update_with_password(password_params))
-      sign_in @user, bypass: true
-    end
+    sign_in @user, bypass: true if (@saved = @user.update_with_password(password_params))
     render :show
   end
 

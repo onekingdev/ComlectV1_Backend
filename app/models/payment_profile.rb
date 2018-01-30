@@ -29,7 +29,7 @@ class PaymentProfile < ApplicationRecord
 
   def delete_stripe_data
     stripe_customer.delete if stripe_customer_id
-  rescue => _e
+  rescue StandardError => _e
     errors.add :base, 'Could not delete customer info'
     false
   end

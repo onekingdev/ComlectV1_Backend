@@ -101,11 +101,11 @@ ActiveAdmin.register Project do
                            class: 'member_link',
                            data: { confirm: 'Do you want to end this project?' })
       end
-      if project.ratings.count.positive?
-        actions << link_to('Ratings', admin_ratings_path(q: { project_id_eq: project.id }), class: 'member_link')
-      else
-        actions << '<span class="member_span">No Ratings yet</span>'.html_safe
-      end
+      actions << if project.ratings.count.positive?
+                   link_to('Ratings', admin_ratings_path(q: { project_id_eq: project.id }), class: 'member_link')
+                 else
+                   '<span class="member_span">No Ratings yet</span>'.html_safe
+                 end
       actions.join('').html_safe
     end
   end
@@ -212,9 +212,7 @@ ActiveAdmin.register Project do
             link_to l(timesheet.created_at, format: :long), [:admin, timesheet]
           end
           column 'Submitted' do |timesheet|
-            if timesheet.first_submitted_at
-              l timesheet.first_submitted_at, format: :long
-            end
+            l timesheet.first_submitted_at, format: :long if timesheet.first_submitted_at
           end
           column :hours, class: 'number', &:total_hours
           column :total, class: 'number' do |timesheet|

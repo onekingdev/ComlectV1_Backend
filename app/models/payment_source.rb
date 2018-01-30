@@ -99,7 +99,7 @@ class PaymentSource < ApplicationRecord
       source.delete
       payment_profile.update_default_source!
     end
-  rescue => _e
+  rescue StandardError => _e
     errors.add :base, 'Could not delete payment source'
     false
   else

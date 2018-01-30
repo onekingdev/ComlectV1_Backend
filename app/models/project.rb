@@ -287,3 +287,4 @@ class Project < ApplicationRecord
     self.expires_at = starts_on.in_time_zone(time_zone).end_of_day
   end
 end
+# rubocop:enable Metrics/ClassLength
