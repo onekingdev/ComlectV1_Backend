@@ -26,7 +26,7 @@ describe EmailValidator do
   end
 
   context 'when email address is invalid' do
-    subject { Test::EmailValidatable.new 'jane@example.com>' }
+    subject { Test::EmailValidatable.new 'jane@example' }
 
     it 'is not valid' do
       expect(subject).not_to be_valid
