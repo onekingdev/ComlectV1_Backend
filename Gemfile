@@ -29,11 +29,11 @@ gem 'activeadmin', git: 'https://github.com/activeadmin/activeadmin.git'
 gem 'best_in_place', git: 'https://github.com/bernat/best_in_place.git'
 
 # Asset processing
-gem 'coffee-rails', '~> 4.1.0'
+gem 'coffee-rails'
 gem 'non-stupid-digest-assets'
 gem 'rack-cors', require: 'rack/cors'
-gem 'sassc-rails', '~> 1.3'
-gem 'uglifier', '>= 1.3.0'
+gem 'sassc-rails'
+gem 'uglifier'
 
 # Views
 gem 'cocoon'
