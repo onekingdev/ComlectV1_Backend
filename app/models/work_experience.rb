@@ -15,7 +15,10 @@ class WorkExperience < ApplicationRecord
   private
 
   def validate_from_to
-    return if from.nil? || to.nil?
-    errors.add :from, :invalid if from > to
+    return if from.nil? && to.nil?
+
+    return errors.add :to, :invalid if from.present? && to.nil? && !current
+    return errors.add :from, :invalid if from.nil? && to.present?
+    return errors.add :from, :invalid if from > to
   end
 end
