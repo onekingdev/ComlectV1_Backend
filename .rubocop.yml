@@ -78,7 +78,7 @@ Metrics/ModuleLength:
   Max: 120
 
 Metrics/CyclomaticComplexity:
-  Max: 10
+  Max: 15
 
 Metrics/LineLength:
   Max: 120
@@ -87,7 +87,7 @@ Metrics/MethodLength:
   Max: 30
 
 Metrics/PerceivedComplexity:
-  Max: 10
+  Max: 15
 
 ##################### Lint ##################################
 
