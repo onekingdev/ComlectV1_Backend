@@ -36,14 +36,10 @@ body.home.index, body.home.page {
       left: 75%;
       top: 7%;
       cursor: pointer;
-      //border: 1px solid #ff0000;
     }
   }
 
   #nav {
-    //background-color: #fff;
-    //box-shadow: rgba(0, 0, 0, 0.3) 0 0 3px 2px;
-
     a {
       color: #000;
 
@@ -209,7 +205,6 @@ body.home.index, body.home.page {
     }
 
     .container {
-      background-color: #ebebeb;
       padding: 65px 0px;
     }
   }
@@ -483,6 +478,4 @@ body.home.index .home-content, body.home.page .home-content {
     font-size: 18px;
     margin-bottom: 2rem;
   }
-
-
 }
