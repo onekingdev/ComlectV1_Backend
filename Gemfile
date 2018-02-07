@@ -20,7 +20,7 @@ gem 'foreman'
 gem 'puma'
 
 # Auth
-gem 'devise', '~> 4.1.1'
+gem 'devise'
 gem 'pretender'
 gem 'pundit'
 
