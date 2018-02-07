@@ -394,7 +394,7 @@ GEM
       railties (>= 4.0.0)
     shrine (2.4.1)
       down (>= 2.3.6)
-    sidekiq (5.0.5)
+    sidekiq (5.1.0)
       concurrent-ruby (~> 1.0)
       connection_pool (~> 2.2, >= 2.2.0)
       rack-protection (>= 1.5.0)
