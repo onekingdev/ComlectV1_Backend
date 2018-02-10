@@ -12,7 +12,7 @@ class PartnerMailer < ApplicationMailer
     @company_description = company_description
 
     mail(
-      to: 'info@complect.co',
+      to: 'wes.keating@signatureselect.com',
       subject: 'Complect E&O Referral for a Quote'
     )
   end
