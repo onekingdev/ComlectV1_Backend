@@ -10,7 +10,7 @@ end
 
 # Rails
 gem 'rails', '4.2.10'
-gem 'webpacker', github: 'rails/webpacker'
+gem 'webpacker', '~> 3.2'
 
 # ActiveRecord
 gem 'auto_strip_attributes'
