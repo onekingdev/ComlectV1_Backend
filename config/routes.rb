@@ -36,6 +36,10 @@ Rails.application.routes.draw do
   get 'specialist_sso' => 'discourse#specialist_sso'
   get 'business_sso' => 'discourse#business_sso'
 
+  namespace :partners, only: [] do
+    resources :ima, only: %i[index create]
+  end
+
   resources :businesses, only: %i[index new create show]
   resource :business, only: %i[edit] do
     patch '/' => 'businesses#update', as: :update

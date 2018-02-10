@@ -4,7 +4,12 @@ footer#footer
       ul.links.list-unstyled
         li.title Complect
         li= link_to 'How it Works', page_path('how-it-works')
-        li= link_to 'Our Partners', page_path('partner-network')
+
+        - if current_user
+          li= link_to 'Our Partners', page_path('member-partner-network')
+        - else
+          li= link_to 'Our Partners', page_path('partner-network')
+
         li= link_to 'Blog', 'https://blog.complect.co'
       ul.links.list-unstyled
         li.title Legal

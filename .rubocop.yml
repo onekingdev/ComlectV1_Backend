@@ -8,6 +8,7 @@ AllCops:
   TargetRailsVersion: 4.2
   Exclude:
     - 'bin/*'
+    - 'node_modules/**/*'
     - 'vendor/**/*'
 
 Layout/EmptyLineBetweenDefs:
@@ -81,7 +82,7 @@ Metrics/CyclomaticComplexity:
   Max: 15
 
 Metrics/LineLength:
-  Max: 120
+  Max: 135
 
 Metrics/MethodLength:
   Max: 30

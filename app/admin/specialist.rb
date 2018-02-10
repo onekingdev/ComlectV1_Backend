@@ -75,9 +75,7 @@ ActiveAdmin.register Specialist do
       row :phone
       row :time_zone
       row :linkedin_link do |specialist|
-        if specialist.linkedin_link.present?
-          link_to specialist.linkedin_link, specialist.linkedin_link, target: '_blank'
-        end
+        link_to specialist.linkedin_link, specialist.linkedin_link, target: '_blank' if specialist.linkedin_link.present?
       end
       row :resume do |specialist|
         link_to 'View Resume', specialist.resume_url, target: '_blank' if specialist.resume

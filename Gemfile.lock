@@ -6,6 +6,15 @@ GIT
       actionpack (>= 3.2)
       railties (>= 3.2)
 
+GIT
+  remote: https://github.com/rails/webpacker.git
+  revision: 89e4d602c29ca5cf89d7e634a7e901225d2e7a4f
+  specs:
+    webpacker (3.2.1)
+      activesupport (>= 4.2)
+      rack-proxy (>= 0.6.1)
+      railties (>= 4.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -168,7 +177,7 @@ GEM
       actionpack (>= 4.1, < 5.2)
       activesupport (>= 4.1, < 5.2)
     hashdiff (0.3.7)
-    i18n (0.9.3)
+    i18n (0.9.4)
       concurrent-ruby (~> 1.0)
     i18n_data (0.8.0)
     ice_cube (0.16.2)
@@ -296,6 +305,8 @@ GEM
       rack (~> 1.4)
     rack-cors (1.0.2)
     rack-protection (1.5.3)
+      rack
+    rack-proxy (0.6.3)
       rack
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -557,6 +568,7 @@ DEPENDENCIES
   uglifier
   web-console
   webmock
+  webpacker!
   wicked_pdf
   wkhtmltopdf-binary
 

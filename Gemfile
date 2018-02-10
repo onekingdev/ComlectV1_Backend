@@ -3,8 +3,14 @@
 source 'https://rubygems.org'
 ruby '2.4.2'
 
+git_source(:github) do |repo_name|
+  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?('/')
+  "https://github.com/#{repo_name}.git"
+end
+
 # Rails
 gem 'rails', '4.2.10'
+gem 'webpacker', github: 'rails/webpacker'
 
 # ActiveRecord
 gem 'auto_strip_attributes'
