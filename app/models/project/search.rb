@@ -21,7 +21,7 @@ class Project::Search
     end
     self.sort_by = 'newest' if sort_by.blank?
     self.project_type = 'one-off' if project_type.blank?
-    self.project_value = 'one-off' if project_type.blank?
+    self.project_value = "0;#{MAX_VALUE}" if project_value.blank?
     self.industry_ids ||= []
     self.industry_ids.map!(&:presence).compact!
     self.jurisdiction_ids ||= []
@@ -78,7 +78,7 @@ class Project::Search
 
   def filter_value(records)
     min, max = project_value.to_s.split(';').map(&:to_i)
-    return records if min.to_i.zero? || max.to_i.zero?
+    return records if min.zero? && max.zero?
     max = Float::INFINITY if max.to_i == MAX_VALUE
     records.where(calculated_budget: (min..max))
   end
