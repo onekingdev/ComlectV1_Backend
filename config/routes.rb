@@ -40,7 +40,7 @@ Rails.application.routes.draw do
     resources :ima, only: %i[index create]
   end
 
-  resources :businesses, only: %i[index new create show]
+  resources :businesses, only: %i[new create show]
   resource :business, only: %i[edit] do
     patch '/' => 'businesses#update', as: :update
   end
