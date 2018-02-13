@@ -38,7 +38,7 @@ class Project < ApplicationRecord
   scope :escalated, -> { joins(:issues).where(project_issues: { status: :open }) }
   scope :not_escalated, -> { where.not(id: escalated) }
   scope :visible, -> { joins(business: :user).where(users: { suspended: false }) }
-  scope :recent, -> { order(starts_on: :asc) }
+  scope :recent, -> { order(published_at: :desc) }
   scope :draft_and_in_review, -> { where(status: [statuses[:draft], statuses[:review]]) }
   scope :published, -> { where(status: statuses[:published]) }
   scope :pending, -> { published.where(specialist_id: nil) }
