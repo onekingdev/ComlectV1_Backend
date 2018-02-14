@@ -65,6 +65,7 @@ class Project::Form < Project
   def save(_options = {})
     published_now = published? && status_changed?
     result = super
+    touch(:published_at) if published_now
     process_invite(published_now) if result && (invite || invite_id.present?)
     result
   end
