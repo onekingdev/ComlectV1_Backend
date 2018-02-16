@@ -161,16 +161,9 @@ body.projects.show {
         }
 
         .real {
-          //position: absolute;
-          //bottom: 0px;
-          //padding: 15px;
           border: 10px solid #ffcc00;
           border-radius: 5px;
           background-color: #fff;
-
-          /*@media (max-width: $screen-xs-max) {
-            display: none;
-          }*/
         }
       }
     }
@@ -226,10 +219,6 @@ body.projects.show {
   }
 
   .panel-heading {
-    h4 {
-      //height: 2.4em;
-    }
-
     .label {
       float: right;
       border-radius: 1em;
