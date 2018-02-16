@@ -182,9 +182,12 @@ body.home.index, body.home.page {
   .hero-light {
     overflow: hidden;
 
+    .partner-container {
+      background-color: #fff;
+    }
+
     .partner-logo {
       height: 250px;
-      width: 800px;
       display: table-cell;
       vertical-align: middle;
       position: relative;
@@ -206,10 +209,6 @@ body.home.index, body.home.page {
 
     .partner-logo-wrapper:hover .partner-logo-overlay {
       opacity: 1;
-    }
-
-    .partner-image {
-      height: 75px;
     }
 
     .partner-details {
