@@ -8,6 +8,10 @@ class AdminPolicy
     @record = record
   end
 
+  def download?
+    true
+  end
+
   def index?
     true
   end
