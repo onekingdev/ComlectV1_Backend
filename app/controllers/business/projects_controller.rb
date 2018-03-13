@@ -15,7 +15,8 @@ class Business::ProjectsController < ApplicationController
 
   def index
     @filter   = FILTERS[params[:filter]] || :none
-    @projects = Project.cards_for_user(current_user, filter: @filter) # , page: params[:page], per: params[:per])
+    @projects = Project.cards_for_user(current_user, filter: @filter)
+
     respond_to do |format|
       format.html do
         render partial: 'cards', projects: @projects if request.xhr?
@@ -28,6 +29,7 @@ class Business::ProjectsController < ApplicationController
     @project = policy_scope(Project)
                .includes(:industries, :jurisdictions, :skills, business: %i[industries jurisdictions])
                .find(params[:id])
+
     render template: 'projects/show'
   end
 
