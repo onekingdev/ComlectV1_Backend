@@ -19,7 +19,8 @@ class User < ApplicationRecord
   validates :email, presence: true, email: true
 
   scope :inactive, -> {
-    where('last_sign_in_at < ?', Time.zone.now - 30.days).where(inactive_for_month: false, suspended: false)
+    where('last_sign_in_at < ?', Time.zone.now - 90.days)
+      .where(inactive_for_period: false, suspended: false)
   }
 
   default_scope -> { where(deleted: false) }
