@@ -12,6 +12,7 @@ class SpecialistsController < ApplicationController
 
   def index
     @search = Specialist::Search.new(search_params)
+
     respond_to do |format|
       format.html
       format.js

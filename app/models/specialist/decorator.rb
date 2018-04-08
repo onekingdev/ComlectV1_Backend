@@ -38,8 +38,7 @@ class Specialist::Decorator < ApplicationDecorator
 
   def years_of_experience
     return @_years_of_experience if @_years_of_experience
-    @_years_of_experience =
-      model[:years_of_experience] || (calculate_years_of_experience / 365.0).round
+    @_years_of_experience = model[:years_of_experience] || (calculate_years_of_experience / 365.0).round
   end
 
   def sorted_education_histories
@@ -75,16 +74,18 @@ class Specialist::Decorator < ApplicationDecorator
 
   attr_accessor :skill_selector
   def skills_input(builder)
-    builder.input(:skill_selector,
-                  placeholder: I18n.t('simple_form.placeholders.project.skills'),
-                  input_html: {
-                    class: 'input-lg tt-n',
-                    autocomplete: 'off',
-                    data: { source: h.api_skills_path, max: 10 }
-                  },
-                  wrapper_html: {
-                    class: 'm-b-0'
-                  })
+    builder.input(
+      :skill_selector,
+      placeholder: I18n.t('simple_form.placeholders.project.skills'),
+      input_html: {
+        class: 'input-lg tt-n',
+        autocomplete: 'off',
+        data: { source: h.api_skills_path, max: 10 }
+      },
+      wrapper_html: {
+        class: 'm-b-0'
+      }
+    )
   end
 
   private

@@ -43,9 +43,18 @@ class Specialist::Search
     return records if keyword.blank?
     terms = keyword.split(' ')
     records = additional_search_joins(records)
-    columns = ['specialists.first_name', 'specialists.last_name', 'specialists.certifications',
-               'work_experiences.description', 'work_experiences.company', 'work_experiences.job_title',
-               'education_histories.institution', 'skills.name']
+
+    columns = [
+      'specialists.first_name',
+      'specialists.last_name',
+      'specialists.certifications',
+      'work_experiences.description',
+      'work_experiences.company',
+      'work_experiences.job_title',
+      'education_histories.institution',
+      'skills.name'
+    ]
+
     conditions = columns.each_with_index.map do |column|
       Array.new(terms.size) { |i| "#{column} ILIKE :term_#{i}" }.join(' OR ')
     end.join(' OR ')
