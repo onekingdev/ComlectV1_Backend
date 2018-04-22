@@ -18,6 +18,7 @@ class WorkExperience < ApplicationRecord
     return if from.nil? && to.nil?
     return if from.present? && current
 
+    return errors.add :to, :invalid if from && !to && !current
     return errors.add :from, :invalid if from.nil? && to.present?
     return errors.add :from, :invalid if from > to
   end

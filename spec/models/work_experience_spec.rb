@@ -20,6 +20,20 @@ describe WorkExperience do
       end
     end
 
+    context 'when from is truthy and to/current are nil' do
+      it 'is not valid' do
+        experience = WorkExperience.new(
+          from: Time.zone.yesterday,
+          to: nil,
+          current: nil,
+          company: 'Acme corp',
+          job_title: 'CPA'
+        )
+
+        expect(experience).not_to be_valid
+      end
+    end
+
     context 'when from is truthy and current is true' do
       it 'is valid' do
         experience = WorkExperience.new(
