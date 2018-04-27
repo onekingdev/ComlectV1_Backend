@@ -112,6 +112,7 @@ ActiveAdmin.register Specialist do
       f.input :linkedin_link
       f.input :visibility, collection: Specialist.visibilities.invert
     end
+
     f.inputs name: 'Work Experience' do
       f.has_many :work_experiences, heading: false, allow_destroy: true do |a|
         a.input :company
@@ -124,14 +125,17 @@ ActiveAdmin.register Specialist do
         a.input :description, as: :text, input_html: { class: 'autogrow', rows: 10, cols: 20 }
       end
     end
+
     f.inputs name: 'Areas of Expertise' do
       f.input :jurisdictions
       f.input :industries
       f.input :former_regulator
     end
+
     f.inputs name: 'Skills' do
       f.input :skills
     end
+
     f.inputs name: 'Education' do
       f.has_many :education_histories, heading: false, allow_destroy: true do |a|
         a.input :institution
@@ -139,15 +143,11 @@ ActiveAdmin.register Specialist do
         a.input :year
       end
     end
+
     f.inputs name: 'Certifications' do
       f.input :certifications
     end
-    # f.inputs name: 'Photo' do
-    # f.input :photo_data
-    # end
-    # f.inputs name: 'Resume' do
-    # f.input :resume_data
-    # end
+
     f.actions
   end
 end
