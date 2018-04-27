@@ -96,10 +96,8 @@ ActiveAdmin.register Specialist do
 
   permit_params :first_name, :last_name, :city, :zipcode, :state, :country, :phone, :linkedin_link, :visibility,
                 :former_regulator, :certifications,
-                work_experience_attributes: %i[
-                  id _destroy company job_title location from to current compliance description
-                ],
-                education_history_attributes: %i[institution degree year],
+                work_experiences_attributes: %i[id _destroy company job_title location from to current compliance description],
+                education_histories_attributes: %i[institution degree year],
                 jurisdiction_ids: [], industry_ids: [], skill_ids: []
 
   form do |f|
