@@ -121,7 +121,7 @@ ActiveAdmin.register Specialist do
         a.input :to, as: :datepicker
         a.input :current
         a.input :compliance
-        a.input :description, as: :text, input_html: { class: 'autogrow', rows: 10, cols: 20, maxlength: 10 }
+        a.input :description, as: :text, input_html: { class: 'autogrow', rows: 10, cols: 20 }
       end
     end
     f.inputs name: 'Areas of Expertise' do
