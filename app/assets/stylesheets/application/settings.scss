@@ -24,6 +24,10 @@
 #business-settings, #specialist-settings {
   margin-top: 8px;
 
+  .multiselect-parent .btn-default {
+    border-color: #ffcc00;
+  }
+
   input.form-control {
     border-color: #ffcc00;
   }
