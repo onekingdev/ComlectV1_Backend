@@ -78,6 +78,7 @@ class StripeAccount < ApplicationRecord
     elsif verification_document_cache.present?
       self.verification_document = verification_document_cache
     end
+
     true
   end
 
