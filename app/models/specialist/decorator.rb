@@ -42,7 +42,7 @@ class Specialist::Decorator < ApplicationDecorator
   end
 
   def sorted_education_histories
-    education_histories.sort_by(&:year)
+    education_histories.where.not(year: nil).sort_by(&:year) + education_histories.where(year: nil)
   end
 
   def sorted_work_experiences
