@@ -1,7 +1,6 @@
 #header {
   padding-top: 0;
-  min-height: 100%;
-  height: 140%;
+  height: 550px;
   position: relative;
   background-position: center;
   justify-content: center;
@@ -25,7 +24,8 @@
     color: #333;
     position: relative;
     display: inline-block;
-    top: 33%; left: 50%;
+    top: 370px;
+    left: 50%;
     transform: translate(-50%,-50%);
 
     @media (max-width: $screen-xs-max) {
@@ -54,7 +54,7 @@
         width: 230px;
         padding: 15px 0px;
         margin-top: 30px;
-        font-weight: $medium-weight;
+        font-weight: $bold-weight;
       }
 
       .btn-primary:hover {
@@ -72,9 +72,10 @@
 
     blockquote {
       text-transform: uppercase;
-      font-size: 22px;
+      font-size: 19px;
       font-weight: $bold-weight;
-      color: #333333;
+      font-family: "Nimbus Sans";
+      color: #000000;
       width: 520px;
       text-align: center;
       display: block;
@@ -104,16 +105,16 @@
 
     @media (min-width: $screen-sm-min) {
       h1 {
-        font-size: 35px;
+        font-size: 32px;
         letter-spacing: 0.11em;
         margin-bottom: 15px;
+        font-weight: 600;
 
         span {
-          font-size: 77px;
+          font-size: 66px;
           letter-spacing: 0.08em;
         }
       }
-
     }
 
   }

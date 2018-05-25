@@ -2,6 +2,89 @@ html, body{
   height: 100%;
 }
 
+.landing-cards {
+  div {
+    text-align: center;
+    min-height: 465px;
+    padding: 0px 79px;
+    h1 {
+      font-size: 19px;
+      font-family: 'Muller';
+      font-weight: $black-weight;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      display: block;
+      height: 50px;
+      margin-bottom: 30px;
+    }
+    img {
+      width: 80px;
+      height: 80px;
+      margin-top: 70px;
+      margin-bottom: 20px;
+    }
+    p {
+      text-align: center;
+      font-family: 'Avenir Light';
+      font-size: 16px;
+      letter-spacing: 0em;
+    }
+  }
+  .card_1 {
+    background-color: #000000;
+    color: #ffffff;
+  }
+  .card_2 {
+    background-color: #333333;
+    color: #ffffff;
+    h1 {
+      color: #FFC300;
+    }
+  }
+  .card_3 {
+    background-color: #EDEDED;
+    color: #000000;
+    h1 {
+      color: #FFC300;
+    }
+  }
+  .card_4 {
+    background-color: #FFC300;
+    color: #000000;
+    h1 {
+      color: #ffffff;
+    }
+  }
+}
+
+.landing-stats {
+  h1 {
+    font-family: 'Nimbus Sans';
+    font-weight: $bold-weight;
+    color: #FFC300;
+    font-size: 16px;
+    text-align: center;
+  }
+  h2 {
+    font-family: 'Muller';
+    font-weight: $black-weight;
+    font-size: 64px;
+    color: #FFC300;
+    text-align: center;
+    letter-spacing: 0.2em;
+  }
+  p {
+    text-transform: uppercase;
+    color: #FFC300;
+    font-family: 'Nimbus Sans Cond';
+    font-weight: $regular-weight;
+    text-align: center;
+    font-size: 17px;
+    letter-spacing: 0.1em;
+  }
+}
+
 #infographics {
   background-position: center;
   background-repeat: no-repeat;
@@ -41,6 +124,10 @@ html, body{
       font-size: 10px;     
     }
   }
+}
+
+.relative-wrap {
+  position: relative;
 }
 
 #talent-across {
@@ -107,6 +194,7 @@ html, body{
 
 .overflow-wrap {
   overflow: hidden;
+  clear: both;
 }
 
 #talent-across-header {
@@ -125,6 +213,52 @@ html, body{
 #types-of-services {
   padding-bottom: 50px;
   position: relative;
+  div {
+    text-align: center
+  }
+  .pull-right {
+    p {
+      font-family: 'Nimbus Sans';
+      font-weight: $bold-weight;
+      color: #000000;
+      letter-spacing: 0.1em;
+      margin-top: 290px;
+    }
+    .btn {
+      padding: 15px 40px;
+      margin-top: 30px;
+      font-weight: 600;
+    }
+  }
+  .arrow-down {
+    transform: rotate(270deg) scale(0.2);
+  }
+  .pull-left {
+    .quotes {
+      img {
+        width: 32px;
+        margin-left: 300px;
+      }
+    }
+    h1 {
+      font-family: 'Nimbus Sans';
+      font-size: 24px;
+      color: #FECC2A;
+      font-weight: $bold-weight;
+      padding-top: 20px;
+    }
+    h2 {
+      margin-top: 0px;
+      font-family: 'Nimbus Sans';
+      font-weight: $bold-weight;
+      font-size: 16px;
+      color: #FECC2A;
+      letter-spacing: 0em;
+    }
+  }
+  .clint_photo img {
+    border-radius: 50%;
+  }
   #services-heading {
     margin-top: 50px;
     margin-bottom: 40px;
@@ -169,9 +303,14 @@ html, body{
 }
 
 #how-it-works {
-  padding-top: 100px;
-  padding-bottom: 70px;
-  background-image: asset_url('landing/how-it-works-bg.png');
+  padding-top: 10px;
+
+  h2 {
+    font-family: 'Nimbus Sans';
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+  }
 
   @media (max-width: $screen-md-min) {
     padding-top: 40px;
@@ -179,9 +318,9 @@ html, body{
   }
 
   .hiw-entry {
-    border-left: 2px solid #000000;
-    padding: 8px 30px;
-    margin: 0px 80px;
+    border-left: 3px solid #000000;
+    padding: 0px 12px 8px;
+    //margin: 0px 80px;
     margin-bottom: 30px;
 
     @media (max-width: $screen-md-min) {
@@ -195,29 +334,31 @@ html, body{
     }
 
     h1 {
-      font-size: 20px;
-      font-weight: $medium-weight;
+      font-size: 14px;
+      font-weight: $bold-weight;
+      font-family: 'Nimbus Sans';
       margin-top: 0px;
       position: relative;
+      color: #000000;
     }
 
     p {
-      font-size: 16px;
+      font-size: 15px;
       margin-bottom: 0px;
-      color: #666666;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      line-height: 28px;
+      color: #000000;
+      line-height: 18px;
+      font-family: 'Avenir Light';
       font-weight: $regular-weight;
+      padding-right: 100px;
     }
 
     .hiw-num {
-      font-size: 400px;
-      color: rgba(#ffcc00, 0.2);
+      font-weight: $bold-weight;
+      font-size: 176px;
+      color: #000000;
       position: absolute;
-      letter-spacing: 0.1em;
-      left: -190px;
-      top: -400px;
+      left: -230px;
+      top: -60px;
       border: none !important;
       @media (max-width: $screen-md-min) {
         left: -150px;
@@ -227,9 +368,38 @@ html, body{
     }
   }
 
+  .hiw-entry-first {
+    margin-left: 120px;
+  }
+
+  .hiw-entry-middle {
+    border-left: 0px;
+    border-right: 3px solid #000000;
+    width: 390px;
+    margin-right: 130px;
+    h1 {
+      text-align: right;
+    }
+    p {
+      text-align: right;
+      padding-right: 0px;
+    }
+    .hiw-num {
+      left: 400px;
+    }
+  }
+
+  .hiw-entry-last {
+    text-align: left;
+    border-left: 3px solid #000000;
+    width: 490px;
+    margin-left: 252px;
+    margin-top: 40px;
+  }
+
   div:first-child {
     border-left: none;
-    border-right: 2px solid #000000;
+    //border-right: 2px solid #000000;
     .hiw-num {
       top: -200px;
       right: -150px;
@@ -242,16 +412,16 @@ html, body{
   }
 
   div:last-child {
-    border-left: none;
-    border-right: 2px solid #000000;
+    //border-left: none;
+    //border-right: 2px solid #000000;
     .hiw-num {
-      left: -150px;
+      left: -65px;
       top: -200px;
       @media (max-width: $screen-md-min) {
         top: -130px;
         right: -100px;
       }
     }
-    text-align: right;
+    //text-align: right;
   }
 }

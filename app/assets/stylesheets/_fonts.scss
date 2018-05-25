@@ -12,6 +12,60 @@ $black-weight: 800;
 $heavy-weight: 900;
 
 @font-face {
+    font-family: 'Avenir Light';
+    src: url('/fonts/avenir.eot');
+    src: url('/fonts/avenir.eot?#iefix') format('embedded-opentype'),
+         url('/fonts/avenir.woff') format('woff'),
+         url('/fonts/avenir.ttf') format('truetype');
+    font-weight: $bold-weight;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Nimbus Sans Cond';
+    src: url('/fonts/nimbussansdot-boldcond-webfont.eot');
+    src: url('/fonts/nimbussansdot-boldcond-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/fonts/nimbussansdot-boldcond-webfont.woff2') format('woff2'),
+         url('/fonts/nimbussansdot-boldcond-webfont.woff') format('woff'),
+         url('/fonts/nimbussansdot-boldcond-webfont.ttf') format('truetype');
+    font-weight: $bold-weight;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Nimbus Sans Cond';
+    src: url('/fonts/nimbussansdot-regucond-webfont.eot');
+    src: url('/fonts/nimbussansdot-regucond-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/fonts/nimbussansdot-regucond-webfont.woff2') format('woff2'),
+         url('/fonts/nimbussansdot-regucond-webfont.woff') format('woff'),
+         url('/fonts/nimbussansdot-regucond-webfont.ttf') format('truetype');
+    font-weight: $regular-weight;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Nimbus Sans';
+    src: url('/fonts/nimbussanl-reg-webfont.eot');
+    src: url('/fonts/nimbussanl-reg-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/fonts/nimbussanl-reg-webfont.woff2') format('woff2'),
+         url('/fonts/nimbussanl-reg-webfont.woff') format('woff'),
+         url('/fonts/nimbussanl-reg-webfont.ttf') format('truetype');
+    font-weight: $regular-weight;
+    font-style: normal;
+}
+
+@font-face {
+  font-family: 'Nimbus Sans';
+  src: url('/fonts/nimbussanl-bol-webfont.eot');
+  src: url('/fonts/nimbussanl-bol-webfont.eot?#iefix') format('embedded-opentype'),
+       url('/fonts/nimbussanl-bol-webfont.woff2') format('woff2'),
+       url('/fonts/nimbussanl-bol-webfont.woff') format('woff'),
+       url('/fonts/nimbussanl-bol-webfont.ttf') format('truetype');
+  font-weight: $bold-weight;
+  font-style: normal;
+}
+
+@font-face {
   font-family: 'Muller';
   src: url('/fonts/mullerhairline-webfont.eot');
   src: url('/fonts/mullerhairline-webfont.eot?#iefix') format('embedded-opentype'),
