@@ -1,10 +1,26 @@
+html, body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+.content-wrap {
+  flex: 1 0 auto;
+}
+#footer {
+  flex-shrink: 0;
+}
+
 #footer {
   min-height: 207px;
   background-color: #333333;
   padding: 55px 40px 40px 40px;
   color: #ffcc00;
 
-  .copyright {
+/*  .copyright {
     text-align: center;
     font-size: 12px;
     font-weight: $regular-weight;
@@ -91,5 +107,5 @@
       margin-left: 0;
       margin-top: 40px;
     }
-  }
+  }*/
 }

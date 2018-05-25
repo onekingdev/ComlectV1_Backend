@@ -1,30 +1,35 @@
 footer#footer
   .container.clearfix
-    .col-md-6
-      ul.links.list-unstyled
-        li.title Complect
-        li= link_to 'How it Works', page_path('how-it-works')
+    .col-md-3
+      = image_tag "landing/footer-logo.png", :width => "146px"
 
-        - if current_user
-          li= link_to 'Our Partners', page_path('member-partner-network')
-        - else
-          li= link_to 'Our Partners', page_path('partner-network')
-
-        li= link_to 'Blog', 'https://blog.complect.co'
-      ul.links.list-unstyled
-        li.title Legal
-        li= link_to 'Terms of Use', page_path('terms-of-use')
-        li= link_to 'Privacy Policy', page_path('privacy-policy')
-
-    .col-md-6.pull-right-md
-      a.social.social-twitter href="https://twitter.com/Complect_co" target="_blank"
-        .fa.fa-twitter
-      a.social.social-linkedin href="https://www.linkedin.com/company/complect" target="_blank"
-        .fa.fa-linkedin
-      p.email
-        = link_to ENV.fetch('CONTACT_EMAIL'), "mailto:#{ENV['CONTACT_EMAIL']}"
-
-  p.copyright
-   | Copyright ©
-   = Date.today.year
-   |  complect
+//  .container.clearfix
+//    .col-md-6
+//      ul.links.list-unstyled
+//        li.title Complect
+//        li= link_to 'How it Works', page_path('how-it-works')
+//
+//        - if current_user
+//          li= link_to 'Our Partners', page_path('member-partner-network')
+//        - else
+//          li= link_to 'Our Partners', page_path('partner-network')
+//
+//        li= link_to 'Blog', 'https://blog.complect.co'
+//      ul.links.list-unstyled
+//        li.title Legal
+//        li= link_to 'Terms of Use', page_path('terms-of-use')
+//        li= link_to 'Privacy Policy', page_path('privacy-policy')
+//
+//    .col-md-6.pull-right-md
+//      a.social.social-twitter href="https://twitter.com/Complect_co" target="_blank"
+//        .fa.fa-twitter
+//      a.social.social-linkedin href="https://www.linkedin.com/company/complect" target="//blank"
+//        .fa.fa-linkedin
+//      p.email
+//        = link_to ENV.fetch('CONTACT_EMAIL'), "mailto:#{ENV['CONTACT_EMAIL']}"
+//
+//  p.copyright
+//   | Copyright ©
+//   = Date.today.year
+//   |  complect
+//

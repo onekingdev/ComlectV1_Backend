@@ -24,23 +24,24 @@ html lang=I18n.locale
     = yield :html_head
 
 body class="#{controller_name} #{action_name}"
-  header#header class=(yield(:header_class) || 'compact')
-    = render "navbar", user: User::Decorator.new(current_user)
-    = yield :header
+  .content-wrap
+    header#header class=(yield(:header_class) || 'compact')
+      = render "navbar", user: User::Decorator.new(current_user)
+      = yield :header
 
-  .container.app_container
-    = render_flash
-    = yield
+    .container.app_container
+      = render_flash
+      = yield
 
-  #modal.modal.fade tabindex=-1 role="dialog"
-    .modal-dialog
-      .modal-content
-        .modal-header
-          button.close type="button" data-dismiss="modal" aria-label="Close"
-            span aria-hidden="true" &times;
-          h4.modal-title
-        .modal-body
-        .modal-footer
+    #modal.modal.fade tabindex=-1 role="dialog"
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close type="button" data-dismiss="modal" aria-label="Close"
+              span aria-hidden="true" &times;
+            h4.modal-title
+          .modal-body
+          .modal-footer
 
   = render 'footer'
 
