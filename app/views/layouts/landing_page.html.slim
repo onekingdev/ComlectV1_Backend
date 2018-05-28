@@ -36,16 +36,16 @@ body.home.index
   .container.landing-stats.m-b-3.p-b-2
     h1.m-t-3.m-b-2 ACCESS TOP COMPLIANCE SPECIALISTS & BOUTIQUE FIRMS IN ONE PLACE
     .col-md-3
-      h2 25
+      h2 = Specialist.count-2
       p specialists
     .col-md-3
-      h2 26%
+      h2 = "#{@former_regulators_percent}%"
       p former regulators
     .col-md-3
-      h2 13
+      h2 = @avg_xp_years
       p avg. years experience
     .col-md-3
-      h2 05
+      h2 = Business.count-1
       p businesses serviced
   .landing-cards
     .col-md-3.card_1
@@ -98,7 +98,7 @@ body.home.index
   #types-of-services.parallax-window data-image-src=asset_path("landing/breather.jpg") data-parallax="scroll"
     .container.clearfix
       .col-md-4.pull-left.m-t-3.p-t-2
-        .clint_photo= image_tag "landing/clint.jpg"
+        .clint_photo= link_to (image_tag "landing/clint.jpg"), "https://www.nextgen-wealth.com/", :target => "_blank"
         h1.m-t-3.p-2-t Clint Haynes, CFP
         h2 Founder, NextGen Wealth
         .quotes = image_tag "landing/two-quotes.png"
