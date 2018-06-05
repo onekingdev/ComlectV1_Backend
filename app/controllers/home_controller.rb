@@ -16,6 +16,12 @@ class HomeController < ApplicationController
     render params[:page]
   end
 
+  def partnerships
+    s = {}; Partnership.all.order(:id).each { |p| c = p.category.to_sym; s[c] = [] if !s.keys.include? c; s[c].push(p) }
+    s["Become a partner"]
+    @partnerships = s
+  end
+
   def app_config
     respond_to do |format|
       format.js

@@ -1,0 +1,50 @@
+
+
+#partnerships-header {
+  h1 {
+    font-family: "Muller";
+    font-weight: $black-weight;
+    font-size: 50px;
+    color: #FFC300;
+    text-align: center;
+  }
+  h2 {
+    font-family: "Nimbus Sans";
+    font-weight: $bold-weight;
+    text-align: center;
+  }
+  #partnerships-block {
+    font-family: "Avenir";
+    width: 853px;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: bold;
+    font-size: 16px;
+    border-top: 1px solid rgb(215, 210, 196);
+    .hrow {
+      border-left: 1px solid rgb(215, 210, 196);
+    }
+    .entry {
+      border-right: 1px solid rgb(215, 210, 196);
+      border-bottom: 1px solid rgb(215, 210, 196);
+      border-collapse: collapse;
+      width: 213px;
+      height: 184px;
+      float: left;
+      text-align: center;
+      img {
+        width: 77px;
+        height: 77px;
+        margin-bottom: 20px;
+        margin-top: 30px;
+      }
+    }
+    .entry-yellow {
+      background-color: #FFC300;
+
+      img {
+        display: none;
+      }
+    }
+  }
+}

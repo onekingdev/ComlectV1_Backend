@@ -1,0 +1,24 @@
+.container#partnerships-header data-image-src=asset_path("partnerships/partnership_bg.jpg") data-parallax="scroll"
+  h1.m-b-2 Partnership Network
+  h2.m-b-3.p-b-3 LEVERAGE OUR DISCOUNTS FOR YOUR BUSINESS & DAY TO DAY
+  .row
+    #partnerships-block
+      - i = 0
+      - for row in (@partnerships.keys | ["Become a partner"]).each_slice(4).to_a do
+        .hrow
+          - for k in row do
+            .entry class=("entry-yellow" if k == "Become a partner")
+              = image_tag "partnerships/#{k.to_s.downcase.gsub(' ','-').gsub('&','and')}.png"
+              p = k
+          .clearfix
+      .clearfix
+    .partnerships-list
+      - @partnerships.each do |k,v|
+        h1 = k
+        - v.each do |partnership|
+          .entry
+            = image_tag partnership.logo_url(:original), width: '184px'
+            - if current_user || partnership.discount_pub.blank?
+              = partnership.discount
+            - else
+              = partnership.discount_pub
