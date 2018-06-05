@@ -1,4 +1,13 @@
-
+body.home.partnerships {
+  .content-wrap {
+    > .container {
+      width: auto;
+    }
+    > .app_container {
+      width: auto;
+    }
+  }
+}
 
 #partnerships-header {
   h1 {
@@ -13,6 +22,47 @@
     font-weight: $bold-weight;
     text-align: center;
   }
+  .partnerships-list {
+    h1 {
+      text-align: left;
+      font-family: "Avenir";
+      font-size: 16px;
+      font-weight: bold;
+      color: #000;
+    }
+    a {
+      color: #000;
+    }
+    .entry {
+      img {
+        margin-bottom: 15px;
+      }
+      overflow: hidden;
+      width: 218px;
+      height: 312px;
+      padding: 17px;
+      padding-bottom: 0px;
+      background: #ffffff;
+      margin-right: 30px;
+      position: relative;
+      float: left;
+      font-size: 12px;
+      font-family: "Avenir Light";
+      p {
+        font-size: 14px;
+        font-weight: bold;
+        background: #fff;
+        width: 100%;
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
+        font-family: "Nimbus Sans";
+        color: #FFC304;
+        padding: 17px;
+        margin-bottom: 0px;
+      }
+    }
+  }
   #partnerships-block {
     font-family: "Avenir";
     width: 853px;
@@ -25,6 +75,7 @@
       border-left: 1px solid rgb(215, 210, 196);
     }
     .entry {
+      background: #fff;
       border-right: 1px solid rgb(215, 210, 196);
       border-bottom: 1px solid rgb(215, 210, 196);
       border-collapse: collapse;
@@ -41,7 +92,8 @@
     }
     .entry-yellow {
       background-color: #FFC300;
-
+      padding-top: 80px;
+      text-transform: uppercase;
       img {
         display: none;
       }
