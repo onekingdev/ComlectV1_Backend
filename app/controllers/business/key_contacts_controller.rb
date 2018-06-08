@@ -9,7 +9,7 @@ class Business::KeyContactsController < ApplicationController
 
   def update
     @business = current_business
-    @saved = @business.update_attributes(contact_params)
+    @saved = @business.update(contact_params)
     render :show
   end
 

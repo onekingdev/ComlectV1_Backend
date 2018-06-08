@@ -15,8 +15,6 @@ RSpec.describe Charge::Processing, type: :model do
     let(:specialist) { create(:specialist) }
 
     context 'when full time project' do
-      let(:business) { create(:business, :with_payment_profile) }
-
       let(:project) do
         create(
           :project_full_time,
@@ -37,12 +35,26 @@ RSpec.describe Charge::Processing, type: :model do
           Project::Form.find(project.id).post!
           JobApplication::Accept.(job_application)
         end
+
+        Charge::Processing.process_scheduled!
       end
 
-      it 'processes scheduled charge and creates a transaction' do
-        charges = Charge::Processing.process_scheduled!
-        expect(charges.size).to eq(1)
-        expect(project.transactions.size).to eq(1)
+      context 'when fee free' do
+        let(:business) { create(:business, :with_payment_profile, :fee_free) }
+
+        it 'sets the correct amount' do
+          transaction = project.transactions.first
+          expect(transaction.amount_in_cents).to eq(0)
+        end
+      end
+
+      context 'when not fee free' do
+        let(:business) { create(:business, :with_payment_profile) }
+
+        it 'sets the correct amount' do
+          transaction = project.transactions.first
+          expect(transaction.amount_in_cents).to eq(project.annual_salary * 15)
+        end
       end
     end
 
@@ -88,6 +100,7 @@ RSpec.describe Charge::Processing, type: :model do
       let(:project_1) do
         create(
           :project_one_off_hourly,
+          business: business,
           specialist: specialist
         )
       end
@@ -95,6 +108,7 @@ RSpec.describe Charge::Processing, type: :model do
       let(:project_2) do
         create(
           :project_one_off_hourly,
+          business: business,
           specialist: specialist
         )
       end
@@ -131,22 +145,52 @@ RSpec.describe Charge::Processing, type: :model do
         @charges = Charge::Processing.process_scheduled!
       end
 
-      it 'creates 2 transactions' do
-        expect(@charges.size).to eq(2)
+      context 'when business is fee free' do
+        let(:business) { create :business, :fee_free }
+
+        it 'creates 2 transactions' do
+          expect(@charges.size).to eq(2)
+        end
+
+        it 'creates transactions per project with total amount' do
+          transaction_1 = project_1.transactions.first
+          transaction_2 = project_2.transactions.first
+          expect(transaction_1.amount_in_cents).to eq(BigDecimal(50_000))
+          expect(transaction_2.amount_in_cents).to eq(BigDecimal(25_000))
+          expect(transaction_1.fee_in_cents).to eq(BigDecimal(5000))
+          expect(transaction_2.fee_in_cents).to eq(BigDecimal(2500))
+        end
+
+        it 'creates associated specialist payment transactions' do
+          transaction_1 = project_1.transactions.first
+          transaction_2 = project_2.transactions.first
+          expect(transaction_1.specialist_total).to eq(BigDecimal(450))
+          expect(transaction_2.specialist_total).to eq(BigDecimal(225))
+        end
       end
 
-      it 'creates transactions per project with total amount' do
-        transaction_1 = project_1.transactions.first
-        transaction_2 = project_2.transactions.first
-        expect(transaction_1.amount_in_cents).to eq(BigDecimal.new(50_000) * (1 + Charge::COMPLECT_FEE_PCT))
-        expect(transaction_2.amount_in_cents).to eq(BigDecimal.new(25_000) * (1 + Charge::COMPLECT_FEE_PCT))
-      end
+      context 'when business is not fee free' do
+        let(:business) { create :business }
 
-      it 'creates associated specialist payment transactions' do
-        transaction_1 = project_1.transactions.first
-        transaction_2 = project_2.transactions.first
-        expect(transaction_1.specialist_total).to eq(BigDecimal.new(450))
-        expect(transaction_2.specialist_total).to eq(BigDecimal.new(225))
+        it 'creates 2 transactions' do
+          expect(@charges.size).to eq(2)
+        end
+
+        it 'creates transactions per project with total amount' do
+          transaction_1 = project_1.transactions.first
+          transaction_2 = project_2.transactions.first
+          expect(transaction_1.amount_in_cents).to eq(BigDecimal(50_000) * (1 + Charge::COMPLECT_FEE_PCT))
+          expect(transaction_2.amount_in_cents).to eq(BigDecimal(25_000) * (1 + Charge::COMPLECT_FEE_PCT))
+          expect(transaction_1.fee_in_cents).to eq(BigDecimal(10_000))
+          expect(transaction_2.fee_in_cents).to eq(BigDecimal(5000))
+        end
+
+        it 'creates associated specialist payment transactions' do
+          transaction_1 = project_1.transactions.first
+          transaction_2 = project_2.transactions.first
+          expect(transaction_1.specialist_total).to eq(BigDecimal(450))
+          expect(transaction_2.specialist_total).to eq(BigDecimal(225))
+        end
       end
     end
   end

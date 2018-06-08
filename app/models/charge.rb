@@ -45,7 +45,7 @@ class Charge < ApplicationRecord
   end
 
   def fee=(value)
-    self.fee_in_cents = (BigDecimal.new(value) * 100).to_i
+    self.fee_in_cents = (BigDecimal(value) * 100).to_i
   end
 
   def total_with_fee
@@ -54,7 +54,7 @@ class Charge < ApplicationRecord
   end
 
   def total_with_fee=(value)
-    self.total_with_fee_in_cents = (BigDecimal.new(value) * 100).to_i
+    self.total_with_fee_in_cents = (BigDecimal(value) * 100).to_i
   end
 
   def running_balance
@@ -63,7 +63,7 @@ class Charge < ApplicationRecord
   end
 
   def running_balance=(value)
-    self.running_balance_in_cents = (BigDecimal.new(value) * 100).to_i
+    self.running_balance_in_cents = (BigDecimal(value) * 100).to_i
   end
 
   def specialist_amount
@@ -72,7 +72,7 @@ class Charge < ApplicationRecord
   end
 
   def specialist_amount=(value)
-    self.specialist_amount_in_cents = (BigDecimal.new(value) * 100).to_i
+    self.specialist_amount_in_cents = (BigDecimal(value) * 100).to_i
   end
 
   def amount_or_fee
@@ -90,6 +90,7 @@ class Charge < ApplicationRecord
 
   def calculate_fee
     self.fee_in_cents ||= amount_in_cents * COMPLECT_FEE_PCT
+    self.fee_in_cents = 0 if project.full_time? && project.business.fee_free
     self.total_with_fee_in_cents = amount_in_cents + fee_in_cents
 
     if project.one_off?

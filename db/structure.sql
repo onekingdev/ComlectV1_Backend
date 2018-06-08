@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.6.8 (Homebrew petere/postgresql)
--- Dumped by pg_dump version 9.6.8 (Homebrew petere/postgresql)
+-- Dumped from database version 9.6.9
+-- Dumped by pg_dump version 9.6.9
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -27,20 +27,6 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 --
 
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
-
-
---
--- Name: pg_stat_statements; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS pg_stat_statements WITH SCHEMA public;
-
-
---
--- Name: EXTENSION pg_stat_statements; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION pg_stat_statements IS 'track execution statistics of all SQL statements executed';
 
 
 --
@@ -91,44 +77,6 @@ CREATE FUNCTION public.set_point_from_lat_lng() RETURNS trigger
         RETURN NEW;
       END;
       $$;
-
-
---
--- Name: truncate_tables(); Type: FUNCTION; Schema: public; Owner: -
---
-
-CREATE FUNCTION public.truncate_tables() RETURNS void
-    LANGUAGE plpgsql
-    AS $$
-DECLARE
-    statements CURSOR FOR
-    SELECT tablename FROM pg_tables
-    WHERE schemaname = 'public';
-BEGIN
-  FOR stmt IN statements LOOP
-    EXECUTE 'DELETE FROM ' || quote_ident(stmt.tablename) || ' CASCADE;';
-  END LOOP;
-END;
-$$;
-
-
---
--- Name: truncate_tables(character varying); Type: FUNCTION; Schema: public; Owner: -
---
-
-CREATE FUNCTION public.truncate_tables(username character varying) RETURNS void
-    LANGUAGE plpgsql
-    AS $$
-DECLARE
-    statements CURSOR FOR
-    SELECT tablename FROM pg_tables
-    WHERE schemaname = 'public';
-BEGIN
-  FOR stmt IN statements LOOP
-    EXECUTE 'DELETE FROM ' || quote_ident(stmt.tablename) || ' CASCADE;';
-  END LOOP;
-END;
-$$;
 
 
 SET default_tablespace = '';
@@ -278,7 +226,8 @@ CREATE TABLE public.businesses (
     ratings_total integer DEFAULT 0 NOT NULL,
     ratings_average double precision,
     discourse_username character varying,
-    discourse_user_id integer
+    discourse_user_id integer,
+    fee_free boolean DEFAULT false
 );
 
 
@@ -3124,6 +3073,7 @@ CREATE TABLE public.stripe_accounts (
     address1 character varying,
     zipcode character varying,
     state character varying,
+    country character varying,
     dob date,
     first_name character varying,
     last_name character varying,
@@ -3143,7 +3093,6 @@ CREATE TABLE public.stripe_accounts (
     personal_zipcode character varying,
     status_detail character varying,
     verification_document text,
-    country character varying,
     secret_key character varying,
     publishable_key character varying
 );
@@ -5093,4 +5042,6 @@ INSERT INTO schema_migrations (version) VALUES ('20170919163901');
 INSERT INTO schema_migrations (version) VALUES ('20170919200413');
 
 INSERT INTO schema_migrations (version) VALUES ('20180323075021');
+
+INSERT INTO schema_migrations (version) VALUES ('20180605145214');
 

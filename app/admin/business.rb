@@ -61,6 +61,7 @@ ActiveAdmin.register Business do
   permit_params :business_name, :employees, :website, :description, :linkedin_link, :address_1, :address_2, :zipcode,
                 :city, :state, :country, :time_zone, :anonymous, :contact_first_name, :contact_last_name,
                 :contact_email, :contact_job_title, :contact_phone,
+                :fee_free,
                 industry_ids: [], jurisdiction_ids: []
 
   form do |f|
@@ -73,6 +74,7 @@ ActiveAdmin.register Business do
       input :description
       input :anonymous
     end
+
     inputs name: 'Location' do
       input :address_1
       input :address_2
@@ -82,9 +84,11 @@ ActiveAdmin.register Business do
       input :country
       input :time_zone
     end
+
     inputs name: 'Jurisdiction' do
       input :jurisdictions
     end
+
     inputs name: 'Key Contact' do
       input :contact_first_name, label: 'First Name'
       input :contact_last_name, label: 'Last Name'
@@ -92,6 +96,11 @@ ActiveAdmin.register Business do
       input :contact_job_title, label: 'Job Title'
       input :contact_phone, label: 'Phone'
     end
+
+    inputs name: 'Billing' do
+      input :fee_free
+    end
+
     f.actions
   end
 end

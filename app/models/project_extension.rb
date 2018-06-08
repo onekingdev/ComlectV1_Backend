@@ -22,7 +22,7 @@ class ProjectExtension < ApplicationRecord
   private
 
   def trigger_project_extension
-    project.update_attributes(ends_on: new_end_date, ends_in_24: false)
+    project.update(ends_on: new_end_date, ends_in_24: false)
     reset_upcoming_charges
     PaymentCycle.for(project).create_charges_and_reschedule!
   end
