@@ -54,7 +54,7 @@ class SpecialistsController < ApplicationController
   def update
     fetch_specialist
     respond_to do |format|
-      if @specialist.update_attributes(edit_specialist_params)
+      if @specialist.update(edit_specialist_params)
         if @specialist.delete_photo? || @specialist.delete_resume?
           format.html { render :edit }
         else

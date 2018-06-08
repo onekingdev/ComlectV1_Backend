@@ -53,7 +53,7 @@ class StripeAccount::Form < StripeAccount
 
   def update_and_verify(attributes)
     self.class.transaction do
-      update_attributes! attributes
+      update! attributes
       verify_account
       return true if errors.empty?
       raise ActiveRecord::Rollback

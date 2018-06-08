@@ -28,7 +28,7 @@ class SpecialistTest < ActiveSupport::TestCase
     )
 
     assert_equal specialist_2.id, Specialist.by_experience.first.id
-    specialist_1.work_experiences.first.update_attributes!(
+    specialist_1.work_experiences.first.update!(
       to: nil,
       current: true
     )

@@ -5,7 +5,7 @@ ActiveAdmin.register_page 'Transaction::OneOff' do
 
   page_action :create, method: :post do
     return if params['project_id'].blank?
-    amount_in_cents = (BigDecimal.new(params['amount']) * 100).to_i
+    amount_in_cents = (BigDecimal(params['amount']) * 100).to_i
     fee_in_cents = amount_in_cents * Charge::COMPLECT_FEE_PCT
     total_with_fee_in_cents = amount_in_cents + fee_in_cents
 
