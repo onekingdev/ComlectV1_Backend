@@ -28,7 +28,7 @@ $.onContentReady ($parent) ->
           when "administrative_area_level_1"
             state = component.short_name
           when "country"
-            country = component.long_name
+            country = component.short_name
 
       $($this.data("lat")).val place.geometry.location.lat()
       $($this.data("lng")).val place.geometry.location.lng()
