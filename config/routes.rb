@@ -32,6 +32,7 @@ Rails.application.routes.draw do
   root to: 'landing_page#show'
   get 'info/:page' => 'home#page', as: :page
   get 'app_config' => 'home#app_config', format: 'js'
+  get 'partnerships' => 'home#partnerships'
 
   get 'specialist_sso' => 'discourse#specialist_sso'
   get 'business_sso' => 'discourse#business_sso'
