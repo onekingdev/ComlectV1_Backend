@@ -10,7 +10,9 @@
           p Are you sure you want to hire <strong>#{f.object.specialist.first_name}</strong>?
           - if f.object.project.full_time?
             p This will notify the specialist of their selection and provide them with your key contact information.
-            p Clicking confirm will trigger automatic payment of a fee to Complect as per the <a href="#{page_path('terms-of-use')}" class="text-muted td-u">Terms of Use</a>.
+
+            - unless f.object.business.fee_free
+              p Clicking confirm will trigger automatic payment of a fee to Complect as per the <a href="#{page_path('terms-of-use')}" class="text-muted td-u">Terms of Use</a>.
           - else
             p This will notify the specialist of their selection and you will now have access to your project's dashboard.
             p Please remember, as per our <a target="_blank" href="#{page_path('terms-of-use')}" class="text-muted td-u">Terms of Use</a>, all payments to specialists must be made through the Complect platform.
