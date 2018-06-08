@@ -243,7 +243,11 @@
       <tr class="odd-row">
         <td class="left-column"></td>
         <td class="middle-column">Complect Fee (10%)</td>
-        <td class="right-column"><%= number_to_currency(transaction.fee) %></td>
+        <% if business&.fee_free %>
+          <td class="right-column"><%= number_to_currency(transaction.fee) %></td>
+        <% else %>
+          <td class="right-column"><%= number_to_currency(0) %></td>
+        <% end %>
       </tr>
     <% end %>
     <tr class="even-row total">

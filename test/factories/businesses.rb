@@ -20,5 +20,9 @@ FactoryGirl.define do
         create(:payment_profile, business: business)
       end
     end
+
+    trait :fee_free do
+      fee_free true
+    end
   end
 end

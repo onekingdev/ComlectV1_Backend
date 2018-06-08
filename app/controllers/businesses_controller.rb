@@ -35,7 +35,7 @@ class BusinessesController < ApplicationController
   def update
     @business = Business::Form.for_user(current_user)
     respond_to do |format|
-      if @business.update_attributes(edit_business_params)
+      if @business.update(edit_business_params)
         if @business.delete_logo == '1'
           format.html { render :edit }
         else

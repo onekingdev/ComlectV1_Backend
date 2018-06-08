@@ -85,7 +85,7 @@ RSpec.describe 'Business::ProjectRatingsController', type: :request do
 
       context 'specialist wants notification' do
         before do
-          specialist.settings(:notifications).update_attributes! got_rated: true
+          specialist.settings(:notifications).update! got_rated: true
         end
 
         it 'sends notification to specialist' do
@@ -95,7 +95,7 @@ RSpec.describe 'Business::ProjectRatingsController', type: :request do
 
       context 'specialist does not want notification' do
         before do
-          specialist.settings(:notifications).update_attributes! got_rated: false
+          specialist.settings(:notifications).update! got_rated: false
         end
 
         it 'does not send notification to business' do

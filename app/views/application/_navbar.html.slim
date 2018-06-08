@@ -9,16 +9,11 @@ nav#nav.navbar.navbar-default
       = yield(:logo).presence || image_tag('logo.png', size: '226x53')
   #navbar-collapse.collapse.navbar-collapse
     ul.nav.navbar-nav.nav-about
-      - if !user_signed_in?
-        li= link_to 'Our talent', root_path(:anchor => 'our-talent')
-        li= link_to 'Types of services', root_path(:anchor => 'types-of-services')
-        li= link_to 'How it Works', root_path(:anchor => 'how-it-works')
+      li= link_to 'How it Works', page_path('how-it-works')
       - if user_signed_in? && current_user.business
         li= link_to 'My Dashboard', business_dashboard_path
       - elsif user_signed_in? && current_user.specialist
         li= link_to 'My Dashboard', specialists_dashboard_path
-      li= link_to "Our blog", "https://www.blog.complect.co/", :target => "_blank"
-      li= link_to "Faqs", page_path('how-it-works')
 
     ul.nav.navbar-nav.navbar-right
       - if user_signed_in? && current_business
@@ -79,5 +74,5 @@ nav#nav.navbar.navbar-default
       - else
         li
           ul.nav.navbar-nav.sign_in
-            li.p-r-2= link_to "Log In", new_user_session_path, "data-dismiss" => "modal", "data-remote" => true
-            li.preseparate.p-r-2= link_to "Sign Up", new_user_registration_path, "data-dismiss" => "modal", "data-remote" => true
+            li= link_to "Log In", new_user_session_path, "data-dismiss" => "modal", "data-remote" => true
+            li.preseparate= link_to "Sign Up", new_user_registration_path, "data-dismiss" => "modal", "data-remote" => true

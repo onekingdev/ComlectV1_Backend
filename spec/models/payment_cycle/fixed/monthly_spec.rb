@@ -50,7 +50,7 @@ RSpec.describe PaymentCycle::Fixed::Monthly, type: :model do
 
       @project.charges.estimated.each do |charge|
         dates << charge.process_after.in_time_zone(business.tz).to_i
-        amounts << BigDecimal.new(charge.amount_in_cents) / 100.0
+        amounts << BigDecimal(charge.amount_in_cents) / 100.0
         balances << [charge.running_balance, charge.specialist_running_balance]
       end
 

@@ -1,10 +1,10 @@
 #nav {
   $spacing: 35px;
 
-  background-color: #fff;
-  padding: 0px 70px;
+  background-color: transparent;
+  padding: 30px 70px;
   @media (max-width: $screen-md-max) {
-    padding: 0px 50px;
+    padding: 30px 50px;
   }
   text-transform: uppercase;
   width: 100%;
@@ -47,6 +47,7 @@
       //}
       a {
         color: #ffcc00 !important;
+        font-weight: $bold-weight;
         -webkit-filter: none;
         filter: none;
       }
@@ -57,8 +58,6 @@
   }
 
   .navbar-collapse {
-    font-family: Nimbus Sans Cond;
-    font-weight: $bold-weight;
     padding: 0px 15px;
     @media (min-width: $grid-float-breakpoint) {
       padding-top: 20px;
@@ -125,10 +124,10 @@
     font-weight: $regular-weight;
     padding-left: 0;
     padding-right: 0;
-    font-size: 16px;
+    font-size: 12px;
     -webkit-filter: drop-shadow(1px 1px 0px rgba(255, 255, 255, 0.5));
     filter: drop-shadow(1px 1px 0px rgba(255, 255, 255, 0.5));
-    color: #ffc300;
+    color: #555;
 
     &:hover {
       color: $brand-primary;
@@ -142,7 +141,7 @@
 
   .navbar-nav > li {
     @media (min-width: $grid-float-breakpoint) {
-      padding-right: 40px;
+      padding-right: $spacing/2;
       margin: 0px !important;
     }
   }
@@ -257,8 +256,4 @@
       margin-left: 0;
     }
   }
-}
-
-.home.index #nav {
-  background-color: #fff;
 }
