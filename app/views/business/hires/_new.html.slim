@@ -11,7 +11,7 @@
           - if f.object.project.full_time?
             p This will notify the specialist of their selection and provide them with your key contact information.
 
-            - unless f.object.business.fee_free
+            - unless @project.business.fee_free
               p Clicking confirm will trigger automatic payment of a fee to Complect as per the <a href="#{page_path('terms-of-use')}" class="text-muted td-u">Terms of Use</a>.
           - else
             p This will notify the specialist of their selection and you will now have access to your project's dashboard.
