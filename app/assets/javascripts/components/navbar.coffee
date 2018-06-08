@@ -21,8 +21,6 @@ update_navbar = ->
 
   $('#nav').css 'padding-top': y+'px', 'padding-bottom': y+'px'
   if bs_collapse == false
-    if ($("body").hasClass("home") && $("body").hasClass("index"))
-      z = 1
     $('#nav').css 'background-color': 'rgba(255, 255, 255, '+z+')', 'box-shadow': 'rgba(0, 0, 0, '+z/3.3+') 0 0 3px 2px'
   return
 

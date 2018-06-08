@@ -91,10 +91,12 @@ class Charge < ApplicationRecord
   def calculate_fee
     self.fee_in_cents ||= amount_in_cents * COMPLECT_FEE_PCT
     self.total_with_fee_in_cents = amount_in_cents + fee_in_cents
+
     if project.one_off?
       self.running_balance_in_cents *= (1 + COMPLECT_FEE_PCT) if running_balance_in_cents
       self.specialist_amount_in_cents = amount_in_cents - fee_in_cents
     end
+
     true
   end
 end
