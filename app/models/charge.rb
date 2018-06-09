@@ -90,7 +90,6 @@ class Charge < ApplicationRecord
 
   def calculate_fee
     self.fee_in_cents ||= amount_in_cents * COMPLECT_FEE_PCT
-    self.fee_in_cents = 0 if project.full_time? && project.business.fee_free
     self.total_with_fee_in_cents = amount_in_cents + fee_in_cents
 
     if project.one_off?

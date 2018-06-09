@@ -42,9 +42,8 @@ RSpec.describe Charge::Processing, type: :model do
       context 'when fee free' do
         let(:business) { create(:business, :with_payment_profile, :fee_free) }
 
-        it 'sets the correct amount' do
-          transaction = project.transactions.first
-          expect(transaction.amount_in_cents).to eq(0)
+        it 'does not create a transaction' do
+          expect(project.transactions.size).to be_zero
         end
       end
 
