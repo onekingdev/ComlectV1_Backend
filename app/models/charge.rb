@@ -36,7 +36,7 @@ class Charge < ApplicationRecord
   end
 
   def amount=(value)
-    self.amount_in_cents = (BigDecimal.new(value) * 100).to_i
+    self.amount_in_cents = (BigDecimal(value) * 100).to_i
   end
 
   def fee

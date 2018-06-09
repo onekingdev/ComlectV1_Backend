@@ -597,7 +597,6 @@ class Notification::Deliver < Draper::Decorator
         dispatcher.subject
       )
     end
-    # rubocop:enable Metrics/MethodLength
 
     def invited_to_project!(invite)
       project = invite.project
@@ -1047,7 +1046,6 @@ class Notification::Deliver < Draper::Decorator
       )
     end
   end
-  # rubocop:enable Metrics/MethodLength
 
   class Dispatcher
     attr_reader :user, :key, :action_path, :associated, :clear_manually, :t, :message,
