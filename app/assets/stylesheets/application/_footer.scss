@@ -15,9 +15,12 @@ body {
 }
 
 #footer {
+  .social:hover {
+    color: #ffcc00;
+  }
   min-height: 207px;
   background-color: #333333;
-  padding: 55px 40px 40px 40px;
+  padding: 55px 70px 40px 70px;
   color: #ffcc00;
   .contact-us {
     p {
@@ -30,6 +33,11 @@ body {
       font-family: "Nimbus Sans";
       font-weight: $bold-weight;
     }
+  }
+
+  a:hover {
+    color: #fff;
+    text-decoration: none;
   }
 
   .links {

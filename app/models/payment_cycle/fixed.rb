@@ -40,7 +40,7 @@ class PaymentCycle::Fixed < PaymentCycle
   end
 
   def amount_per_day_remaining
-    BigDecimal(outstanding_amount) / remaining_days
+    BigDecimal.new(outstanding_amount) / remaining_days
   end
 
   def days_for_period(date)

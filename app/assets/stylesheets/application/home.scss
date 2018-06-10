@@ -183,6 +183,16 @@ body.home.index, body.home.page {
     overflow: hidden;
   }
 
+  .collapsible-list {
+    li span {
+      font-family: "Nimbus Sans";
+      font-weight: $bold-weight;
+    }
+    .collapse {
+      font-family: "Avenir Light";
+    }
+  }
+
   .hero-light {
     overflow: hidden;
     font-family: "Avenir Light";
@@ -352,12 +362,20 @@ body.home.index, body.home.page {
     h1 {
       //background-color: rgba(0, 0, 0, 0.15);
       margin: 0;
-      line-height: 420px;
+      margin-top: 150px;
+      line-height: 100px;
       color: #ffcc33;
       text-transform: uppercase;
-      font-size: 72px;
+      font-size: 50px;
       text-align: center;
+      font-weight: $black-weight;
+      font-family: "Muller";
+    }
+
+    p {
+      font-family: "Nimbus Sans";
       font-weight: $bold-weight;
+      font-size: 16px;
     }
 
     @media (max-width: $screen-xs-max) {
