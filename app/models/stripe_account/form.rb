@@ -14,7 +14,7 @@ class StripeAccount::Form < StripeAccount
   end
 
   PREPOPULATE_FIELDS = {
-    country: ->(specialist) { Stripe::SUPPORTED_COUNTRIES.invert[specialist.country].to_s },
+    country: ->(specialist) { Stripe::SUPPORTED_COUNTRIES.key?(specialist.country.to_sym) ? specialist.country : nil },
     zipcode: :zipcode,
     city: :city,
     state: :state,

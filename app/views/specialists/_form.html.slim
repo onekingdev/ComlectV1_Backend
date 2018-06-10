@@ -36,15 +36,19 @@
           class: 'input-lg js-place-autocomplete', \
           data: { zipcode: '#specialist_zipcode', country: '#specialist_country', state: '#specialist_state', city: '#specialist_city', lat: '#specialist_lat', lng: '#specialist_lng' } \
         }
-    .col-sm-6= f.input :address_2, required: false, input_html: { class: 'input-lg' }
+    .col-sm-6
+      = f.input :address_2, required: false, input_html: { class: 'input-lg' }
     .col-sm-6
       = f.input :city, as: :string, input_html: { class: 'input-lg' }
       = f.hidden_field :lat
       = f.hidden_field :lng
-    .col-sm-6= f.input :state, as: :string, input_html: { class: 'input-lg' }
+    .col-sm-6
+      = f.input :state, as: :string, input_html: { class: 'input-lg' }
     .col-sm-6
       = f.input :zipcode, input_html: { class: 'input-lg' }
-    .col-sm-6= f.input :country, as: :string, input_html: { class: 'input-lg' }
+    .col-sm-6
+      .form-group
+        = f.country_select :country, { include_blank: 'Select a country' }, class: 'form-control input-lg js-select'
     .col-sm-6
       = f.input :time_zone, include_blank: t('simple_form.placeholders.specialist.time_zone'), input_html: { class: 'input-lg js-select' }
 

@@ -28,7 +28,7 @@ $.onContentReady ($parent) ->
           when "administrative_area_level_1"
             state = component.short_name
           when "country"
-            country = component.long_name
+            country = component.short_name
 
       $($this.data("lat")).val place.geometry.location.lat()
       $($this.data("lng")).val place.geometry.location.lng()
@@ -36,6 +36,7 @@ $.onContentReady ($parent) ->
       $($this.data("city")).val city
       $($this.data("state")).val state
       $($this.data("country")).val country
+      $($this.data("country")).multiselect 'refresh'
       switch $this.data('self')
         when "city"
           $this.val city
