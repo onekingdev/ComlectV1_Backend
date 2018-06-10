@@ -9,14 +9,22 @@
   text-align: center;
 }
 
-.social-twitter, .social-linkedin {
+.social-twitter, .social-linkedin, .social-facebook {
   color: #ffffff;
+  margin-right: 20px;
+  &:hover {
+    color: #FFC300;
+  }
 }
 
 .social-twitter {
-  background-color: #33ccff;
+  background-color: #24A6CF;
 }
 
 .social-linkedin {
-  background-color: #3399cc;
+  background-color: #0475A6;
+}
+
+.social-facebook {
+  background-color: #3B5895;
 }

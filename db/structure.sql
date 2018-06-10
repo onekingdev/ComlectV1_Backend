@@ -2599,6 +2599,43 @@ ALTER SEQUENCE public.notifications_id_seq OWNED BY public.notifications.id;
 
 
 --
+-- Name: partnerships; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.partnerships (
+    id integer NOT NULL,
+    company character varying,
+    description text,
+    discount character varying,
+    discount_pub character varying,
+    href character varying,
+    logo_data jsonb,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    category character varying
+);
+
+
+--
+-- Name: partnerships_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.partnerships_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: partnerships_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.partnerships_id_seq OWNED BY public.partnerships.id;
+
+
+--
 -- Name: payment_profiles; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -3397,6 +3434,13 @@ ALTER TABLE ONLY public.notifications ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
+-- Name: partnerships id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.partnerships ALTER COLUMN id SET DEFAULT nextval('public.partnerships_id_seq'::regclass);
+
+
+--
 -- Name: payment_profiles id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3654,6 +3698,14 @@ ALTER TABLE ONLY public.messages
 
 ALTER TABLE ONLY public.notifications
     ADD CONSTRAINT notifications_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: partnerships partnerships_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.partnerships
+    ADD CONSTRAINT partnerships_pkey PRIMARY KEY (id);
 
 
 --
@@ -5042,6 +5094,10 @@ INSERT INTO schema_migrations (version) VALUES ('20170919163901');
 INSERT INTO schema_migrations (version) VALUES ('20170919200413');
 
 INSERT INTO schema_migrations (version) VALUES ('20180323075021');
+
+INSERT INTO schema_migrations (version) VALUES ('20180531123213');
+
+INSERT INTO schema_migrations (version) VALUES ('20180531132555');
 
 INSERT INTO schema_migrations (version) VALUES ('20180605145214');
 

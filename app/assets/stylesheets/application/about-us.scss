@@ -1,0 +1,106 @@
+#about-us {
+  padding-top: 80px;
+
+  .about-us-team {
+    img {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      margin-bottom: 30px;
+    }
+    font-family: "Avenir Light";
+    font-size: 16px;
+    span {
+      font-size: 14px;
+      padding-left: 30px;
+      padding-right: 30px;
+      display: block;
+      text-align: left;
+      margin-top: 15px;
+    }
+    h1 {
+      margin: 0px;
+      margin-bottom: 5px;
+      font-family: "Nimbus Sans";
+      font-size: 16px;
+      font-weight: $bold-weight;
+    }
+  }
+
+  .pitch {
+    margin-top: 147px;
+    font-family: "Nimbus Sans";
+    font-weight: $bold-weight;
+    font-size: 40px;
+    font-style: italic;
+    color: #FFC300;
+    width: 310px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .desc {
+    margin-bottom: 70px;
+    h1 {
+      margin: 0px;
+      font-family: "Muller";
+      font-weight: $black-weight;
+      font-size: 50px;
+      color: #FFC300;
+      text-transform: uppercase;
+    }
+    p {
+      font-family: "Avenir Light";
+      font-size: 15px;
+      line-height: 17px;
+      b {
+        font-family: "Avenir";
+      }
+    }
+  }
+  .separator {
+    border-top: 1px solid #A6A6A6;
+    color: #ffc300;
+    text-transform: uppercase;
+    text-align: center;
+    font-family: "Nimbus Sans";
+    font-weight: $bold-weight;
+    font-size: 14px;
+    width: 60%;
+    padding: 25px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .bottom-info {
+    margin-bottom: 45px;
+    img {
+      width: 54px;
+      height: 54px;
+      margin-bottom: 30px;
+    }
+    .headline {
+      font-family: 'Avenir Light';
+      font-size: 16px;
+      background-color: #ffc300;
+      height: 100px;
+      line-height: 100px;
+      padding: 0px 20px;
+      margin-bottom: 40px;
+      span {
+        display: inline-block;
+        vertical-align: middle;
+        line-height: normal;
+      }
+    }
+    .about-us-list {
+      .entry {
+        font-family: 'Avenir Light';
+        font-size: 14px;
+        background-color: #fff;
+        border: 3px solid #ffc300;
+        padding: 6px 10px;
+        display: inline-block;
+        margin-bottom: 20px;
+      }
+    }
+  }
+}

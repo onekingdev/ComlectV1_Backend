@@ -2,6 +2,10 @@ body.home.index, body.home.page {
   color: #000;
   background-color: #fafafa;
 
+  #header {
+    margin-bottom: 0px;
+  }
+
   ol {
     margin-top: 1rem;
     margin-bottom: 1rem;
@@ -53,7 +57,7 @@ body.home.index, body.home.page {
     }
   }
 
-  > .container {
+  > .content-wrap > .container {
     width: auto;
     padding: 0;
   }
@@ -181,6 +185,16 @@ body.home.index, body.home.page {
 
   .hero-light {
     overflow: hidden;
+    font-family: "Avenir Light";
+    b {
+      font-family: "Nimbus Sans";
+      font-weight: $bold-weight;
+    }
+
+    .fw-700 {
+      font-family: "Nimbus Sans";
+      font-weight: $bold-weight;
+    }
 
     .partner-container {
       background-color: #fff;
