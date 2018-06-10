@@ -367,7 +367,8 @@ CREATE TABLE businesses (
     ratings_total integer DEFAULT 0 NOT NULL,
     ratings_average double precision,
     discourse_username character varying,
-    discourse_user_id integer
+    discourse_user_id integer,
+    fee_free boolean DEFAULT false
 );
 
 
@@ -5253,6 +5254,8 @@ INSERT INTO schema_migrations (version) VALUES ('20180323075021');
 INSERT INTO schema_migrations (version) VALUES ('20180531123213');
 
 INSERT INTO schema_migrations (version) VALUES ('20180531132555');
+
+INSERT INTO schema_migrations (version) VALUES ('20180605145214');
 
 INSERT INTO schema_migrations (version) VALUES ('20180609010335');
 

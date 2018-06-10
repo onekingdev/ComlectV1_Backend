@@ -14,7 +14,7 @@ class StripeAccount::Form < StripeAccount
   end
 
   PREPOPULATE_FIELDS = {
-    country: ->(specialist) { Stripe::SUPPORTED_COUNTRIES.invert[specialist.country].to_s },
+    country: ->(specialist) { Stripe::SUPPORTED_COUNTRIES.key?(specialist.country.to_sym) ? specialist.country : nil },
     zipcode: :zipcode,
     city: :city,
     state: :state,
@@ -53,7 +53,7 @@ class StripeAccount::Form < StripeAccount
 
   def update_and_verify(attributes)
     self.class.transaction do
-      update_attributes! attributes
+      update! attributes
       verify_account
       return true if errors.empty?
       raise ActiveRecord::Rollback

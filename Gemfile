@@ -48,7 +48,6 @@ gem 'draper'
 gem 'iso_country_codes'
 gem 'simple_form'
 gem 'slim-rails'
-gem 'will_paginate', '~> 3.1.0'
 
 # Misc
 gem 'bugsnag'

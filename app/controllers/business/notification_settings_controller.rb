@@ -11,7 +11,7 @@ class Business::NotificationSettingsController < ApplicationController
   def update
     setting = Business.default_settings[:notifications][params[:id]]
     return render_404 unless setting
-    current_business.settings(:notifications).update_attributes! params[:id] => (params[:value] == 'true')
+    current_business.settings(:notifications).update! params[:id] => (params[:value] == 'true')
     render nothing: true, status: :ok
   end
 end

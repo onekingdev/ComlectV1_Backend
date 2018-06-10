@@ -43,6 +43,8 @@ class JobApplication::Accept < Draper::Decorator
   private
 
   def schedule_upfront_fee
+    return if project.business.fee_free
+
     project.charges.create!(
       amount_in_cents: 0,
       fee_in_cents: project.annual_salary * 15, # 15% in cents,
@@ -55,6 +57,8 @@ class JobApplication::Accept < Draper::Decorator
   end
 
   def schedule_monthly_fee
+    return if project.business.fee_free
+
     fee = project.annual_salary * 3 # 3%, 0.03 = 3 in cents
     total = fee * 6
     start_on = Time.zone.today

@@ -18,17 +18,19 @@ class HomeController < ApplicationController
   end
 
   def partnerships
-    s = {}
-    Partnership.all.order(:id).each do |p|
-      c = p.category.to_sym
-      s[c] = [] unless s.keys.include? c
-      s[c].push(p)
+    @partnerships = {}
+
+    Partnership.all.order(:id).each do |partnership|
+      category = partnership.category.to_sym
+      @partnerships[category] = [] unless @partnerships.key?(category)
+      @partnerships[category].push(partnership)
     end
-    @partnerships = s
+
+    @partnerships
   end
 
   def press
-    @articles = Article.order(published_at: :desc).paginate(page: params[:page])
+    @articles = Article.order(published_at: :desc)
   end
 
   def app_config
