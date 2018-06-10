@@ -18,8 +18,15 @@ class HomeController < ApplicationController
   end
 
   def partnerships
-    s = {}; Partnership.all.order(:id).each { |p| c = p.category.to_sym; s[c] = [] if !s.keys.include? c; s[c].push(p) }
-    @partnerships = s
+    @partnerships = {}
+
+    Partnership.all.order(:id).each do |partnership|
+      category = partnership.category.to_sym
+      @partnerships[category] = [] unless @partnerships.key?(category)
+      @partnerships[category].push(partnership)
+    end
+
+    @partnerships
   end
 
   def app_config

@@ -21,7 +21,7 @@ ActiveAdmin.register Partnership do
     end
   end
 
-  form html: { enctype: "multipart/form-data" } do |f|
+  form html: { enctype: 'multipart/form-data' } do |f|
     inputs name: 'Partnership' do
       input :company
       input :description

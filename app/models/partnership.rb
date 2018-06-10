@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Partnership < ActiveRecord::Base
   include ImageUploader[:logo]
 
