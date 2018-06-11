@@ -12,7 +12,7 @@ $brand-danger: #c9240e;
 
 //== Typography
 
-$font-family-base: Muller, sans-serif;
+$font-family-base: Avenir Light, sans-serif;
 
 $font-size-base: 14px;
 $font-size-large: ceil(($font-size-base * 1.25));
@@ -22,7 +22,7 @@ $line-height-large: 1.3333333;
 $line-height-md: 1.4;
 $line-height-lg: $line-height-large;
 
-$headings-font-family: Muller, serif;
+$headings-font-family: Nimbus Sans;
 
 //== Grid system
 
@@ -53,7 +53,7 @@ $btn-primary-color:              #fff !default;
 $btn-primary-bg:                 $brand-primary !default;
 $btn-primary-border:             #ffcc00;
 
-$btn-font-weight: $regular-weight;
+$btn-font-weight: $bold-weight;
 //$btn-default-border: transparent;
 $btn-primary-color: #333333;
 $btn-border-radius-md: 0px;

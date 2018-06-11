@@ -13,6 +13,10 @@
 }
 
 .panel-default {
+  .fw-700 {
+    font-family: "Nimbus Sans";
+    font-weight: bold;
+  }
   border: 0;
   -webkit-box-shadow: 0px 13px 32px 3px rgba(0,0,0,0.2);
   -moz-box-shadow: 0px 13px 32px 3px rgba(0,0,0,0.2);
@@ -46,8 +50,8 @@
     padding-right: 25px;
     h3 {
       font-size: 13px;
-      font-family: "Muller";
-      font-weight: $medium-weight;
+      font-family: "Nimbus Sans";
+      font-weight: bold;
       display: inline-block;
       margin: 0;
       white-space: nowrap;
@@ -109,6 +113,11 @@
     .table th span {
       font-weight: $bold-weight;
       margin-left: 10px;
+    }
+
+    .table th {
+      font-weight: bold;
+      font-family: "Avenir";
     }
 
     .table th .icon {
@@ -226,7 +235,7 @@
   }
 
   a {
-    font-family: Muller;
+    font-family: "Avenir Light";
     font-size: 13px;
     font-weight: $light-weight;
     color: #000;
@@ -243,6 +252,8 @@
   a:hover, li.active a, a:focus {
     background-color: #fff;
     color: #ffcc00;
+    font-family: "Nimbus Sans";
+    font-weight: bold;
   }
 
   li.active a {

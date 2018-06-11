@@ -115,7 +115,7 @@ body.home.index
                 g
                   path d=("M192.05 39H42V24.161c0-2.073-2.057-3.369-3.853-2.333L6.156 40.353c-1.796 1.037-1.749 3.628.047 4.665l31.922 18.524C39.919 64.579 42 63.283 42 61.21V46h150.05a3.501 3.501 0 1 0 0-7z") 
 
-          a.btn.btn-primary.p-h-3.m-t-1 href="#" GET STARTED
+          = link_to "Get started", new_user_registration_path, "data-dismiss" => "modal", "data-remote" => true, class: "btn btn-primary p-h-3 m-t-1"
 
     .container
       = yield

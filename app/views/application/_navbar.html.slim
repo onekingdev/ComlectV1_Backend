@@ -26,9 +26,9 @@ nav#nav.navbar.navbar-default
           button.btn.btn-default.navbar-btn data-href=new_business_project_path Post a Project
       - if user_signed_in?
         - if current_business
-          li= link_to 'Browse Specialists', specialists_path
+          li.p-r-2= link_to 'Browse Specialists', specialists_path
         - else
-          li= link_to 'Browse Projects', projects_path
+          li.p-r-2= link_to 'Browse Projects', projects_path
       - if user_signed_in?
         li.dropdown.preseparate
           - if (business = user.business)
@@ -43,13 +43,14 @@ nav#nav.navbar.navbar-default
           - elsif (specialist = user.specialist)
             a.dropdown-toggle href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
               = specialist.to_s
+              | &nbsp;
               i.icon.maxicons1-down
             ul.dropdown-menu
               li= link_to 'Profile', specialist
               li= link_to 'Financials', specialists_financials_path
               li= link_to 'Account Settings', specialists_settings_path
               li= link_to 'Log Out', destroy_user_session_path, method: :delete
-        li.dropdown
+        li.dropdown.p-r-0
           a.dropdown-toggle href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
             span.hidden-bp Notifications&nbsp;
             i.icon-bell

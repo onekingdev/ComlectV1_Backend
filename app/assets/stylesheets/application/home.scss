@@ -1,4 +1,4 @@
-body.home.index, body.home.page {
+body.home.index, body.home.page, body.home.partnerships {
   color: #000;
   background-color: #fafafa;
 
@@ -203,7 +203,7 @@ body.home.index, body.home.page {
 
     .fw-700 {
       font-family: "Nimbus Sans";
-      font-weight: $bold-weight;
+      font-weight: bold;
     }
 
     .partner-container {
@@ -547,20 +547,20 @@ body.home.index .home-content, body.home.page .home-content {
     text-align: center;
     font-size: 40px;
     font-weight: 700;
-    font-family: Muller;
-    font-style: normal;;
+    font-family: "Nimbus Sans";
+    font-style: bold;
   }
 
   h3 {
     font-size: 20px;
-    font-weight: 700;
-    font-family: Muller;
+    font-weight: bold;
+    font-family: "Nimbus Sans";
     text-transform: uppercase;
   }
 
   h4 {
-    font-family: Muller;
-    font-weight: $bold-weight;
+    font-family: "Nimbus Sans";
+    font-weight: bold;
     color: #ffcc33;
     text-transform: uppercase;
     font-size: 18px;
