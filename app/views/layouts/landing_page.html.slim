@@ -19,115 +19,116 @@ html lang=I18n.locale
       meta property="og:description" content="Complect is an online freelancing platform that connects financial services firms with financial regulatory compliance specialists with a minimum of three years direct compliance experience."
 
 body.home.index
-  #header.parallax-window class=(yield(:header_class) || 'compact') data-parallax="scroll" data-image-src=asset_path('landing/header.jpg')
-    = render "navbar", user: User::Decorator.new(current_user)
+  .content-wrap
+    #header.parallax-window class=(yield(:header_class) || 'compact') data-parallax="scroll" data-image-src=asset_path('landing/header.jpg')
+      = render "navbar", user: User::Decorator.new(current_user)
 
-    .callout
-      h1
-        | Compliance Specialists
-        span
-          | On Demand
+      .callout
+        h1
+          | Compliance Specialists
+          span
+            | On Demand
 
-      blockquote
-        | Get Instant Access to Top Financial Regulatory Compliance Specialists
-      .buttons
-        a.btn.btn-primary.p-h-3 href=new_business_project_path Post a Project
-        a.btn.btn-default.p-h-3 href=new_specialist_path Become a Specialist
-  .container.landing-stats.m-b-3.p-b-2
-    #our-talent.anchor
-    h1.m-t-3.m-b-2 ACCESS TOP COMPLIANCE SPECIALISTS & BOUTIQUE FIRMS IN ONE PLACE
-    .col-md-3
-      h2 = Specialist.count-2
-      p specialists
-    .col-md-3
-      h2 = "#{@former_regulators_percent}%"
-      p former regulators
-    .col-md-3
-      h2 = @avg_xp_years
-      p avg. years experience
-    .col-md-3
-      h2 = Business.count-1
-      p businesses serviced
-  .landing-cards
-    #types-of-services.anchor
-    .col-md-3.card_1
-      = image_tag "landing/pencil.png"
-      h1 Registrations
-      p Tap one of our specialists to help get you registered with state securities divisions, the SEC, FINRA, CFTC/NFA, and more!
-    .col-md-3.card_2
-      = image_tag "landing/clipboards.png"
-      h1 Regulatory filings
-      p Trying to interpret all those instructions on your regulatory filings? Let our specialists help you get them filed in a flash.
-    .col-md-3.card_3
-      = image_tag "landing/magnifying-glass.png"
-      h1 internal reviews
-      p Hire a specialist for your annual compliance program review or a one off mock audit. We can customize to your needs!
-    .col-md-3.card_4
-      = image_tag "landing/chat.png"
-      h1 CCO support & more
-      p Can't get it all done alone? Don't want to add another full time position? Create an agile compliance workforce with our on demand specialists.
+        blockquote
+          | Get Instant Access to Top Financial Regulatory Compliance Specialists
+        .buttons
+          a.btn.btn-primary.p-h-3 href=new_business_project_path Post a Project
+          a.btn.btn-default.p-h-3 href=new_specialist_path Become a Specialist
+    .container.landing-stats.m-b-3.p-b-2
+      #our-talent.anchor
+      h1.m-t-3.m-b-2 ACCESS TOP COMPLIANCE SPECIALISTS & BOUTIQUE FIRMS IN ONE PLACE
+      .col-md-3
+        h2 = Specialist.count-2
+        p specialists
+      .col-md-3
+        h2 = "#{@former_regulators_percent}%"
+        p former regulators
+      .col-md-3
+        h2 = @avg_xp_years
+        p avg. years experience
+      .col-md-3
+        h2 = Business.count-1
+        p businesses serviced
+    .landing-cards.clearfix
+      #types-of-services.anchor
+      .col-md-3.card_1
+        = image_tag "landing/pencil.png"
+        h1 Registrations
+        p Tap one of our specialists to help get you registered with state securities divisions, the SEC, FINRA, CFTC/NFA, and more!
+      .col-md-3.card_2
+        = image_tag "landing/clipboards.png"
+        h1 Regulatory filings
+        p Trying to interpret all those instructions on your regulatory filings? Let our specialists help you get them filed in a flash.
+      .col-md-3.card_3
+        = image_tag "landing/magnifying-glass.png"
+        h1 internal reviews
+        p Hire a specialist for your annual compliance program review or a one off mock audit. We can customize to your needs!
+      .col-md-3.card_4
+        = image_tag "landing/chat.png"
+        h1 CCO support & more
+        p Can't get it all done alone? Don't want to add another full time position? Create an agile compliance workforce with our on demand specialists.
 
 
-  .clearfix.relative-wrap
+    .clearfix.relative-wrap.overflow-hidden
+      .container
+        #how-it-works-cont.clearfix
+          #how-it-works.anchor
+          #figure_a data-angle="31.863128522485226" data-display-mode="fit" data-preserve-viewbox="ignore" data-strokewidth="0" data-svg-id="svgshape.v2.Svg_2199b45a569247d49c22b958a59eacc8" data-svg-type="shape" data-viewbox=("0 0 60 60") style=("left: 180px; width: 1349px; position: absolute; transform: rotate(31.8631deg) translateZ(0px); margin-left: calc((100% - 980px) * 0.5); top: -161px; height: 668px; z-index: -1;") 
+            #figure_a_svg style="fill-opacity: 1; stroke-width: 0; stroke: rgb(237, 21, 102); stroke-opacity: 1; fill: rgb(237, 237, 237);"
+              svg preserveaspectratio=("xMidYMid meet") role="img" style=("stroke-width: 0px;") viewbox=("0.699999988079071 15.5 58.599998474121094 29") xmlns="http://www.w3.org/2000/svg" 
+                g
+                  path d=("M30 15.5L.7 30 30 44.5 59.3 30 30 15.5z") 
+
+          #figure_b data-angle="49.68953921324038" data-display-mode="fit" data-preserve-viewbox="ignore" data-strokewidth="0" data-svg-id="svgshape.v1.svg_6b1da864ef84b466c566b1aac7ed2e1e.Triangle" data-svg-type="shape" data-viewbox=("-20.924 -26.943 377 377") style=("left: -340px; width: 1133px; position: absolute; transform: rotate(49.6895deg) translateZ(0px); margin-left: calc((100% - 980px) * 0.5); top: -255px; height: 982px; z-index: -151;") 
+            #figure_b_svg style="fill-opacity: 1; stroke-width: 0; stroke: rgb(237, 21, 102); stroke-opacity: 1; fill: rgb(255, 195, 0);" 
+              svg preserveaspectratio=("xMidYMid meet") role="img" style=("stroke-width: 0px;") viewbox=("0 0 334.80499267578125 289.9490051269531") xmlns="http://www.w3.org/2000/svg" 
+                g
+                  path d=("M167.402 0l167.403 289.949H0L167.402 0z") 
+          h2.m-b-3.p-b-3 MINIMIZE YOUR COMPLIANCE COSTS. MAXIMIZE YOUR RESULTS.
+
+          .col-md-6.pull-left.hiw-entry.hiw-entry-first
+            .hiw-num 01
+            h1 POST A PROJECT
+            p It's free to post a project. You can post a one off project, hourly engagement, or a full time role. Set the price, time, and prerequisites, and immediately start receiving applications form our pool of top specialists.
+          .col-md-7.pull-right.hiw-entry.hiw-entry-middle
+            h1 REVIEW APPLICANTS
+            p Our specialists have minimum of three years compliance experience and only those meeting your job prerequisites may apply. You can read reviews and interview before selecting the right specialist for your project. 
+            .hiw-num 02
+          .col-md-7.pull-left.hiw-entry.hiw-entry-last
+            .hiw-num 03
+            h1 GET WORK DONE
+            p It's free to post a project. You can post a one off project, hourly engagement, or a full time role. Set the price, time, and prerequisites, and immediately start receiving applications form our pool of top specialists. 
+
+    #clint-story.parallax-window data-image-src=asset_path("landing/breather.jpg") data-parallax="scroll"
+      .container.clearfix
+        .col-md-4.left-story.m-t-3.p-t-2
+          .clint_photo= link_to (image_tag "landing/clint.jpg"), "https://www.nextgen-wealth.com/", :target => "_blank"
+          h1.m-t-3.p-2-t Clint Haynes, CFP
+          h2 Founder, NextGen Wealth
+          .quotes = image_tag "landing/two-quotes.png"
+          p Using Complect for the first time was an awesome experience. Very easy to navigate and I loved being able to learn more about the compliance professionals who were bidding on my project. It was such a great experience that I've already used it again and plan on turning to Complect for all of my compliance needs moving forward. Definitely recommend.
+        .col-md-4.right-story
+          p JOIN CLINT AND YOU CAN BE A HAPPY CLIENT TOO
+          .arrow-down
+            #comp-jgg2183osvg.style-isy6271e1_comp-jgg2183o.style-isy6271e1_non-scaling-stroke.style-isy6271e1svg style="fill-opacity: 1; stroke-width: 0; stroke: rgb(237, 21, 102); stroke-opacity: 1; fill: rgb(0, 0, 0);" 
+              svg preserveaspectratio=("xMidYMid meet") role="img" style=("stroke-width: 0px;") viewbox=("4.360000133514404 20.79199981689453 191.8350830078125 43.78700256347656") xmlns="http://www.w3.org/2000/svg" 
+                g
+                  path d=("M192.05 39H42V24.161c0-2.073-2.057-3.369-3.853-2.333L6.156 40.353c-1.796 1.037-1.749 3.628.047 4.665l31.922 18.524C39.919 64.579 42 63.283 42 61.21V46h150.05a3.501 3.501 0 1 0 0-7z") 
+
+          a.btn.btn-primary.p-h-3.m-t-1 href="#" GET STARTED
+
     .container
-      #how-it-works-cont.clearfix
-        #how-it-works.anchor
-        #figure_a data-angle="31.863128522485226" data-display-mode="fit" data-preserve-viewbox="ignore" data-strokewidth="0" data-svg-id="svgshape.v2.Svg_2199b45a569247d49c22b958a59eacc8" data-svg-type="shape" data-viewbox=("0 0 60 60") style=("left: 180px; width: 1349px; position: absolute; transform: rotate(31.8631deg) translateZ(0px); margin-left: calc((100% - 980px) * 0.5); top: -161px; height: 668px; z-index: -1;") 
-          #figure_a_svg style="fill-opacity: 1; stroke-width: 0; stroke: rgb(237, 21, 102); stroke-opacity: 1; fill: rgb(237, 237, 237);"
-            svg preserveaspectratio=("xMidYMid meet") role="img" style=("stroke-width: 0px;") viewbox=("0.699999988079071 15.5 58.599998474121094 29") xmlns="http://www.w3.org/2000/svg" 
-              g
-                path d=("M30 15.5L.7 30 30 44.5 59.3 30 30 15.5z") 
+      = yield
 
-        #figure_b data-angle="49.68953921324038" data-display-mode="fit" data-preserve-viewbox="ignore" data-strokewidth="0" data-svg-id="svgshape.v1.svg_6b1da864ef84b466c566b1aac7ed2e1e.Triangle" data-svg-type="shape" data-viewbox=("-20.924 -26.943 377 377") style=("left: -340px; width: 1133px; position: absolute; transform: rotate(49.6895deg) translateZ(0px); margin-left: calc((100% - 980px) * 0.5); top: -255px; height: 982px; z-index: -151;") 
-          #figure_b_svg style="fill-opacity: 1; stroke-width: 0; stroke: rgb(237, 21, 102); stroke-opacity: 1; fill: rgb(255, 195, 0);" 
-            svg preserveaspectratio=("xMidYMid meet") role="img" style=("stroke-width: 0px;") viewbox=("0 0 334.80499267578125 289.9490051269531") xmlns="http://www.w3.org/2000/svg" 
-              g
-                path d=("M167.402 0l167.403 289.949H0L167.402 0z") 
-        h2.m-b-3.p-b-3 MINIMIZE YOUR COMPLIANCE COSTS. MAXIMIZE YOUR RESULTS.
-
-        .col-md-6.pull-left.hiw-entry.hiw-entry-first
-          .hiw-num 01
-          h1 POST A PROJECT
-          p It's free to post a project. You can post a one off project, hourly engagement, or a full time role. Set the price, time, and prerequisites, and immediately start receiving applications form our pool of top specialists.
-        .col-md-7.pull-right.hiw-entry.hiw-entry-middle
-          h1 REVIEW APPLICANTS
-          p Our specialists have minimum of three years compliance experience and only those meeting your job prerequisites may apply. You can read reviews and interview before selecting the right specialist for your project. 
-          .hiw-num 02
-        .col-md-7.pull-left.hiw-entry.hiw-entry-last
-          .hiw-num 03
-          h1 GET WORK DONE
-          p It's free to post a project. You can post a one off project, hourly engagement, or a full time role. Set the price, time, and prerequisites, and immediately start receiving applications form our pool of top specialists. 
-
-  #clint-story.parallax-window data-image-src=asset_path("landing/breather.jpg") data-parallax="scroll"
-    .container.clearfix
-      .col-md-4.pull-left.m-t-3.p-t-2
-        .clint_photo= link_to (image_tag "landing/clint.jpg"), "https://www.nextgen-wealth.com/", :target => "_blank"
-        h1.m-t-3.p-2-t Clint Haynes, CFP
-        h2 Founder, NextGen Wealth
-        .quotes = image_tag "landing/two-quotes.png"
-        p Using Complect for the first time was an awesome experience. Very easy to navigate and I loved being able to learn more about the compliance professionals who were bidding on my project. It was such a great experience that I've already used it again and plan on turning to Complect for all of my compliance needs moving forward. Definitely recommend.
-      .col-md-4.pull-right
-        p JOIN CLINT AND YOU CAN BE A HAPPY CLIENT TOO
-        .arrow-down
-          #comp-jgg2183osvg.style-isy6271e1_comp-jgg2183o.style-isy6271e1_non-scaling-stroke.style-isy6271e1svg style="fill-opacity: 1; stroke-width: 0; stroke: rgb(237, 21, 102); stroke-opacity: 1; fill: rgb(0, 0, 0);" 
-            svg preserveaspectratio=("xMidYMid meet") role="img" style=("stroke-width: 0px;") viewbox=("4.360000133514404 20.79199981689453 191.8350830078125 43.78700256347656") xmlns="http://www.w3.org/2000/svg" 
-              g
-                path d=("M192.05 39H42V24.161c0-2.073-2.057-3.369-3.853-2.333L6.156 40.353c-1.796 1.037-1.749 3.628.047 4.665l31.922 18.524C39.919 64.579 42 63.283 42 61.21V46h150.05a3.501 3.501 0 1 0 0-7z") 
-
-        a.btn.btn-primary.p-h-3.m-t-1 href="#" GET STARTED
-
-  .container
-    = yield
-
-  #modal.modal.fade tabindex=-1 role="dialog"
-    .modal-dialog
-      .modal-content
-        .modal-header
-          button.close type="button" data-dismiss="modal" aria-label="Close"
-            span aria-hidden="true" &times;
-          h4.modal-title
-        .modal-body
-        .modal-footer
+    #modal.modal.fade tabindex=-1 role="dialog"
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close type="button" data-dismiss="modal" aria-label="Close"
+              span aria-hidden="true" &times;
+            h4.modal-title
+          .modal-body
+          .modal-footer
 
   = render 'footer'
 

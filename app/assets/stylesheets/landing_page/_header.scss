@@ -28,10 +28,10 @@
     margin-left: 50%;
     transform: translate(-50%,-50%);
 
-    @media (max-width: $screen-xs-max) {
-      padding-top: 50px;
-    }
 
+    @media (max-width: $screen-xs-max) {
+      margin-top: 320px;
+    }
     h1 {
       text-transform: uppercase;
       color: #fff;
@@ -44,9 +44,13 @@
 
     .buttons {
       :first-child{
-        @media (min-width: $screen-xs-max) {
+        @media (min-width: $screen-sm-max) {
+          margin-right: 30px;
+        }
+        @media (min-width: $screen-md-max) {
           margin-right: 70px;
         }
+
       }
 
       .btn {

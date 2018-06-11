@@ -18,9 +18,15 @@ body {
   .social:hover {
     color: #ffcc00;
   }
+  .social {
+    margin-bottom: 30px;
+  }
   min-height: 207px;
   background-color: #333333;
   padding: 55px 70px 40px 70px;
+  @media (max-width: $screen-sm-max) {
+    padding: 55px 20px 40px 20px;
+  }
   color: #ffcc00;
   .contact-us {
     p {

@@ -7,6 +7,12 @@ html, body{
     text-align: center;
     min-height: 465px;
     padding: 0px 79px;
+    @media (max-width: $screen-xs-max) {
+      padding: 0px 20px;
+    }
+    @media (max-width: $screen-md-max) {
+      padding: 0px 32px;
+    }
     h1 {
       font-size: 19px;
       font-family: 'Muller';
@@ -126,10 +132,6 @@ html, body{
   }
 }
 
-.relative-wrap {
-  position: relative;
-}
-
 #talent-across {
   padding: 40px 0px;
   background-image: asset_url('landing/how-it-works-bg.png');
@@ -216,13 +218,19 @@ html, body{
   div {
     text-align: center
   }
-  .pull-right {
+  .right-story {
+    @media (min-width: $screen-sm-max) {
+      float: right;
+    }
     p {
       font-family: 'Nimbus Sans';
       font-weight: $bold-weight;
       color: #000000;
       letter-spacing: 0.1em;
-      margin-top: 290px;
+      margin-top: 30px;
+      @media (min-width: $screen-sm-max) {
+        margin-top: 290px;
+      }
     }
     .btn {
       padding: 15px 40px;
@@ -233,7 +241,10 @@ html, body{
   .arrow-down {
     transform: rotate(270deg) scale(0.2);
   }
-  .pull-left {
+  .left-story {
+    @media (min-width: $screen-sm-max) {
+      float: left;
+    }
     .quotes {
       img {
         width: 32px;
@@ -360,23 +371,30 @@ html, body{
       left: -230px;
       top: -60px;
       border: none !important;
-      @media (max-width: $screen-md-min) {
-        left: -150px;
+      @media (max-width: $screen-sm-max) {
+        /*left: -150px;
         top: -150px;
-        font-size: 300px;
+        font-size: 300px;*/
+        position: static;
+        font-size: 40px;
+        text-align: left;
       }
     }
   }
 
   .hiw-entry-first {
-    margin-left: 120px;
+    @media (min-width: $screen-sm-max) {
+      margin-left: 120px;
+    }
   }
 
   .hiw-entry-middle {
     border-left: 0px;
     border-right: 3px solid #000000;
-    width: 390px;
-    margin-right: 130px;
+    @media (min-width: $screen-sm-max) {
+      margin-right: 130px;
+      width: 390px;
+    }
     h1 {
       text-align: right;
     }
@@ -386,15 +404,23 @@ html, body{
     }
     .hiw-num {
       left: 400px;
+      text-align: right;
     }
   }
 
   .hiw-entry-last {
     text-align: left;
     border-left: 3px solid #000000;
-    width: 490px;
-    margin-left: 252px;
-    margin-top: 40px;
+    @media (min-width: $screen-sm-max) {
+      width: 490px;
+      margin-left: 252px;
+      margin-top: 40px;
+    }
+    @media (max-width: $screen-sm-max) {
+      p {
+        padding-right: 0px;
+      }
+    }
   }
 
   div:first-child {
