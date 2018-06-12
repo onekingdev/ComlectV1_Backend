@@ -6,12 +6,15 @@ html, body{
   div {
     text-align: center;
     min-height: 465px;
-    padding: 0px 66px;
+    //padding: 0px 41px;
     @media (max-width: $screen-xs-max) {
-      padding: 0px 20px;
+      //padding: 0px 20px;
     }
     @media (max-width: $screen-md-max) {
       padding: 0px 32px;
+      br {
+        display: none;
+      }
     }
     h1 {
       font-size: 19px;
