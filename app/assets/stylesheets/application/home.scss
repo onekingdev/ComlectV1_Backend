@@ -1,6 +1,6 @@
 body.home.index, body.home.page, body.home.partnerships {
   color: #000;
-  background-color: #fafafa;
+  background-color: #fff;
 
   #header {
     margin-bottom: 0px;
@@ -45,7 +45,7 @@ body.home.index, body.home.page, body.home.partnerships {
 
   #nav {
     a {
-      color: #000;
+      //color: #000;
 
       &:hover {
         color: $brand-primary;

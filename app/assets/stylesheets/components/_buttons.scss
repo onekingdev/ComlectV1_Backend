@@ -124,7 +124,7 @@
 
 .btn-md {
   @include button-size($padding-md-vertical, $padding-md-horizontal, $font-size-base, $line-height-md, $btn-border-radius-md);
-  font-weight: $medium-weight;
+  font-weight: bold;
 }
 
 .btn-text {

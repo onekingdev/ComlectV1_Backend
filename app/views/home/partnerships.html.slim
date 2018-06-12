@@ -16,7 +16,7 @@
         .clearfix
       .partnerships-list
         - @partnerships.each do |k,v|
-          h1
+          h1.m-t-3.m-b-0
             .anchor id=(k.to_s.downcase.gsub(' ','-').gsub('&','and'))
             = k
           - v.each do |partnership|

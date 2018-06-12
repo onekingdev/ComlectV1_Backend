@@ -1,7 +1,17 @@
 #about-us {
   padding-top: 80px;
-
+  @media (min-width: $screen-md-max) {
+    .row {
+      margin-left: -70px;
+      margin-right: -70px;
+    }
+  }
   .about-us-team {
+    &:last-child {
+      span {
+        letter-spacing: 0px;
+      }
+    }
     img {
       width: 160px;
       height: 160px;
@@ -9,9 +19,9 @@
       margin-bottom: 30px;
     }
     font-family: "Avenir Light";
-    font-size: 16px;
+    font-size: 14px;
     span {
-      font-size: 14px;
+      font-size: 12px;
       padding-left: 30px;
       padding-right: 30px;
       display: block;
@@ -35,8 +45,7 @@
     font-style: italic;
     color: #FFC300;
     width: 310px;
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: 10px;
   }
   .desc {
     margin-bottom: 70px;
@@ -83,7 +92,7 @@
       background-color: #ffc300;
       height: 100px;
       line-height: 100px;
-      padding: 0px 20px;
+      padding: 0px 10px;
       margin-bottom: 40px;
       span {
         display: inline-block;
