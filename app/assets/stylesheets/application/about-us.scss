@@ -13,7 +13,10 @@
     }
   }
   .about-us-team {
-
+    @media (min-width: $screen-md-max) {
+        margin-left: -120px;
+        margin-right: -120px;
+    }
     img {
       width: 160px;
       height: 160px;
@@ -115,6 +118,8 @@
       line-height: 100px;
       padding: 0px 20px;
       margin-bottom: 40px;
+      margin-right: 10px;
+      margin-left: 10px;
       span {
         display: inline-block;
         vertical-align: middle;
