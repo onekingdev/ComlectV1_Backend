@@ -18,7 +18,7 @@ nav#nav.navbar.navbar-default
       - elsif user_signed_in? && current_user.specialist
         li= link_to 'My Dashboard', specialists_dashboard_path
       li= link_to "Our blog", "https://www.blog.complect.co/", :target => "_blank"
-      li= link_to "Faqs", page_path('how-it-works')
+      li= link_to "Faqs", page_path('faqs')
 
     ul.nav.navbar-nav.navbar-right
       - if user_signed_in? && current_business
