@@ -20,7 +20,8 @@
             .anchor id=(k.to_s.downcase.gsub(' ','-').gsub('&','and'))
             = k
           - v.each do |partnership|
-            = link_to partnership.href, target: "_blank" do
+            - href = current_user ? partnership.href : new_user_session_path
+            = link_to href, target: "_blank" do
               .entry
                 center
                   = image_tag partnership.logo_url(:original), width: '184px'

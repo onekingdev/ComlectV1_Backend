@@ -285,7 +285,7 @@ body.home.index, body.home.page, body.home.partnerships {
     }
 
     .container {
-      padding: 65px 0px;
+      padding: 15px 0px;
     }
   }
 
@@ -356,13 +356,13 @@ body.home.index, body.home.page, body.home.partnerships {
   }
 
   .default-heading {
-    background: asset_url("home/graph-bg.jpg") no-repeat center;
-    height: 420px;
+    //background: asset_url("home/graph-bg.jpg") no-repeat center;
+    height: 210px;
 
     h1 {
       //background-color: rgba(0, 0, 0, 0.15);
       margin: 0;
-      margin-top: 150px;
+      margin-top: 83px;
       line-height: 100px;
       color: #ffcc33;
       text-transform: uppercase;
@@ -566,4 +566,8 @@ body.home.index .home-content, body.home.page .home-content {
     font-size: 18px;
     margin-bottom: 2rem;
   }
+}
+
+body.home.page .hero-light h4 {
+  color: #FFCC33;
 }
