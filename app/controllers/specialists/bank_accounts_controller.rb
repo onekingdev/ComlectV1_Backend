@@ -10,6 +10,7 @@ class Specialists::BankAccountsController < ApplicationController
 
   def create
     @bank_account = BankAccount::Create.new(permitted_params.merge(stripe_account: stripe_account))
+
     if @bank_account.save
       redirect_to specialists_settings_payment_path
     else
