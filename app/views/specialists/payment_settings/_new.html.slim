@@ -79,6 +79,18 @@
             = f.input :personal_id_number, required: false, label: false, input_html: { class: 'input-lg' }, wrapper: false
             button.info-tooltip.info-tooltip-lg.m-t-0.m-l-1 type="button" data-toggle="tooltip" title="Provide your full ID number, such as your SSN, SIN, HKID or NRIC." i
 
+  - if f.object.status == 'fields_needed' && f.object.status_detail == 'Verification missing'
+    .panel-heading.p-a-0
+      h3
+        | ID Verification Document&nbsp;
+        button.info-tooltip type="button" data-toggle="tooltip" title="Provide a color copy of your passport or driver's license" i
+
+    .panel-body.p-b-2.p-x-0
+      .row
+        .col-xs-12.col-sm-6
+          = f.hidden_field :verification_document_cache, value: f.object.verification_document_data.present? ? f.object.verification_document : nil
+          = f.input :verification_document_data, required: false, as: :file, label: false
+
   .panel-body.p-b-0.p-x-0
     - if f.object.required?(:personal_city)
       h2.text-center.m-y-2 Personal Address

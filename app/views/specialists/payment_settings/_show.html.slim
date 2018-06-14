@@ -20,7 +20,8 @@
     .panel-heading.p-a-0.m-t-3
       h3.m-b-1 Personal Details
     - if @account.status_detail.present?
-      .alert.alert-warning= @account.status_detail
+      .alert.alert-warning
+        = @account.status_detail
 
     .row
       .col-xs-12.col-sm-6
