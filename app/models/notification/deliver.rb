@@ -911,6 +911,33 @@ class Notification::Deliver < Draper::Decorator
       )
     end
 
+    def verification_missing!(user)
+      return unless user.specialist
+
+      key, path, action_url = [
+        :specialist_verification_missing,
+        *path_and_url(:edit_specialists_settings_payment)
+      ]
+
+      dispatcher = Dispatcher.new(
+        user: user,
+        key: key,
+        action_path: path,
+        associated: user
+      )
+
+      NotificationMailer.deliver_later(
+        :notification,
+        dispatcher.user.email,
+        dispatcher.message_mail,
+        dispatcher.action_label,
+        dispatcher.initiator_name,
+        dispatcher.img_path,
+        action_url,
+        dispatcher.subject
+      )
+    end
+
     def payment_issue!(user)
       key, path, action_url = if user.specialist
                                 [

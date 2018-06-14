@@ -19,6 +19,7 @@ RSpec.configure do |config|
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with :truncation, except: %w[spatial_ref_sys]
+    Stripe.api_base = "http://localhost:#{ENV['MOCK_PORT']}"
   end
 
   config.around(:each) do |example|

@@ -43,7 +43,7 @@ en:
       action_label: Browse Projects
     not_hired_job:
       subject: You Were Not Hired
-      message: It's their loss! You were not selected for the %{project_title} role, but apply to more and increase your odds of landing that perfect job. 
+      message: It's their loss! You were not selected for the %{project_title} role, but apply to more and increase your odds of landing that perfect job.
       action_label: Browse Projects
     timesheet_disputed:
       subject: Disputed Timesheet
@@ -111,6 +111,10 @@ en:
       message: I've invited you to my job. Click here to check out the details.
       message_mail: I've invited you to my job. Click the link to check out the details.
       action_label: Go to %{project_title} Detailed Job Page
+    specialist_verification_missing:
+      subject: "Urgent: Issue With Your Bank Details"
+      message: Oh no! It looks like Stripe is having trouble verifying your bank account. Please review and update your information to ensure you can continue to get paid without a hitch.
+      action_label: Go to Payment Settings
     specialist_payment_issue:
       subject: "Urgent: Issue with Your Bank Details"
       message: Oh no! There was an issue verifying your bank account. Please review and update your bank details to ensure your project can continue without a hitch.

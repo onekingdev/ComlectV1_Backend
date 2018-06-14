@@ -34,6 +34,10 @@ class StripeAccount < ApplicationRecord
     'legal_entity.personal_id_number' => 'Personal ID Number'
   }.freeze
 
+  def verification_missing?
+    status_detail == 'Verification missing'
+  end
+
   def fields_needed_message(account)
     return 'Please add a bank account' if account.verification&.fields_needed == %w[external_account]
 
@@ -50,15 +54,16 @@ class StripeAccount < ApplicationRecord
   end
 
   def status_from_account(account)
-    if account.verification.fields_needed.include?('external_account')
+    if account.verification&.fields_needed&.include?('external_account')
       self.class.statuses[:pending]
     else
-      account.verification.fields_needed.empty? ? self.class.statuses[:verified] : self.class.statuses[:fields_needed]
+      account.verification&.fields_needed&.empty? ? self.class.statuses[:verified] : self.class.statuses[:fields_needed]
     end
   end
 
   def update_status_from_stripe(account)
     update_columns status: status_from_account(account), status_detail: fields_needed_message(account).presence
+    Notification::Deliver.verification_missing!(specialist.user) if verification_missing?
   end
 
   def update_verification_status
