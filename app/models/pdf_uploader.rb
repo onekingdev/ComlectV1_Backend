@@ -8,7 +8,7 @@ class PdfUploader < Shrine
   plugin :pretty_location
 
   Attacher.validate do
-    validate_max_size 2.megabytes, message: 'is too large (max is 2 MB)'
+    validate_max_size 10.megabytes, message: 'is too large (max is 10 MB)'
     validate_mime_type_inclusion %w[application/pdf], message: 'is not a PDF file'
   end
 end

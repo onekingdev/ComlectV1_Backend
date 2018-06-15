@@ -13,7 +13,7 @@ ActiveAdmin.register Article do
     actions
   end
 
-  permit_params :title, :src_title, :published_at, :image_data, :image, :src_href
+  permit_params :open_pdf, :pdf, :pdf_data, :title, :src_title, :published_at, :image_data, :image, :src_href
 
   controller do
     def create
@@ -27,7 +27,9 @@ ActiveAdmin.register Article do
       input :src_title
       input :published_at
       input :image, as: :file, label: 'preview'
-      input :src_href
+      input :pdf, as: :file, label: 'PDF'
+      input :open_pdf, label: 'Open PDF instead of URL'
+      input :src_href, label: 'Source URL'
     end
     f.actions
   end

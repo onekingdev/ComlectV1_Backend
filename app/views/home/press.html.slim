@@ -8,7 +8,8 @@
         .articles
           - for article in @articles do
             .article
-              = link_to article.src_href, target: "_blank" do
+              - href = article.open_pdf ? article.pdf_url : article.src_href
+              = link_to href, target: "_blank" do
                 h2 = article.src_title
                 h3 = article.published_at
                 = image_tag article.image_url(:original), width: '332px'
