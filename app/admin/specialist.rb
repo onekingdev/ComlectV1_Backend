@@ -94,6 +94,33 @@ ActiveAdmin.register Specialist do
     end
   end
 
+  csv do
+    column :id
+    column :first_name
+    column :last_name
+    column(:email) { |specialist| specialist.user.email }
+    column :country
+    column :state
+    column :city
+    column :zipcode
+    column :phone
+    column :linkedin_link
+    column :former_regulator
+    column :certifications
+    column :visibility
+    column :lat
+    column :lng
+    column :point
+    column :ratings_average
+    column :deleted
+    column :time_zone
+    column :address_1
+    column :address_2
+    column :discourse_username
+    column :created_at
+    column :updated_at
+  end
+
   permit_params :first_name, :last_name, :city, :zipcode, :state, :country, :phone, :linkedin_link, :visibility,
                 :former_regulator, :certifications,
                 work_experiences_attributes: %i[id _destroy company job_title location from to current compliance description],
