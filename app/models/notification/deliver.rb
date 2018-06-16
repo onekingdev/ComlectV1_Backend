@@ -516,52 +516,6 @@ class Notification::Deliver < Draper::Decorator
       )
     end
 
-    def welcome_specialist!(specialist)
-      action_path, action_url = path_and_url :specialists_settings_payment
-
-      dispatcher = Dispatcher.new(
-        user: specialist.user,
-        key: :welcome_specialist,
-        action_path: action_path
-      )
-
-      dispatcher.deliver_notification!
-
-      NotificationMailer.deliver_later(
-        :notification,
-        dispatcher.user.email,
-        dispatcher.message_mail,
-        dispatcher.action_label,
-        dispatcher.initiator_name,
-        dispatcher.img_path,
-        action_url,
-        dispatcher.subject
-      )
-    end
-
-    def welcome_business!(business)
-      action_path, action_url = path_and_url :business_settings_payment_index
-
-      dispatcher = Dispatcher.new(
-        user: business.user,
-        key: :welcome_business,
-        action_path: action_path
-      )
-
-      dispatcher.deliver_notification!
-
-      NotificationMailer.deliver_later(
-        :notification,
-        dispatcher.user.email,
-        dispatcher.message_mail,
-        dispatcher.action_label,
-        dispatcher.initiator_name,
-        dispatcher.img_path,
-        action_url,
-        dispatcher.subject
-      )
-    end
-
     def escalated!(issue)
       project = issue.project
       rcv, key, path, action_url = if issue.user.specialist
