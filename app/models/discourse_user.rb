@@ -65,7 +65,7 @@ class DiscourseUser
   end
 
   def api
-    @_api ||= DiscourseApi::Client.new(self.class::FORUM_URL).tap do |api|
+    @api ||= DiscourseApi::Client.new(self.class::FORUM_URL).tap do |api|
       api.api_key = self.class::API_KEY
       api.api_username = self.class::API_USER
     end
@@ -83,7 +83,7 @@ class DiscourseUser
   end
 
   def sso
-    @_sso ||= DiscourseApi::SingleSignOn.new.tap do |sso|
+    @sso ||= DiscourseApi::SingleSignOn.new.tap do |sso|
       sso.sso_secret = ENV.fetch('DISCOURSE_SECRET')
       sso.email = object.user.email
       sso.external_id = object.id

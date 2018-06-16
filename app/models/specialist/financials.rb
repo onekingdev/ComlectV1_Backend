@@ -48,19 +48,19 @@ class Specialist::Financials
   end
 
   def processed_this_month
-    @this_month ||= processed_payments.after(Time.zone.now.beginning_of_month).sum(:specialist_amount_in_cents) / 100.0
+    @processed_this_month ||= processed_payments.after(Time.zone.now.beginning_of_month).sum(:specialist_amount_in_cents) / 100.0
   end
 
   def upcoming_30_days
-    @next_30_days ||= upcoming_payments.where('date <= ?', 30.days.from_now).sum(:specialist_amount_in_cents) / 100.0
+    @upcoming_30_days ||= upcoming_payments.where('date <= ?', 30.days.from_now).sum(:specialist_amount_in_cents) / 100.0
   end
 
   def processed_ytd
-    @ytd ||= processed_payments.after(Time.zone.now.beginning_of_year).sum(:specialist_amount_in_cents) / 100.0
+    @processed_ytd ||= processed_payments.after(Time.zone.now.beginning_of_year).sum(:specialist_amount_in_cents) / 100.0
   end
 
   def processed_total
-    @total ||= processed_payments.sum(:specialist_amount_in_cents) / 100.0
+    @processed_total ||= processed_payments.sum(:specialist_amount_in_cents) / 100.0
   end
 
   private

@@ -43,7 +43,7 @@ class Specialist::Form < Specialist
   end
 
   def discourse
-    @_discourse ||= Specialist::Discourse.new(self)
+    @discourse ||= Specialist::Discourse.new(self)
   end
 
   def skill_names

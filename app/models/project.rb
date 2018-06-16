@@ -198,12 +198,12 @@ class Project < ApplicationRecord
     if fixed_pricing?
       ends_on.in_time_zone(time_zone).end_of_day
     else
-      BufferDate.for(ends_on, tz: time_zone)
+      BufferDate.for(ends_on, time_zone: time_zone)
     end
   end
 
   def time_zone
-    @_time_zone ||= ActiveSupport::TimeZone[attributes[:time_zone].presence || business.time_zone]
+    @time_zone ||= ActiveSupport::TimeZone[attributes[:time_zone].presence || business.time_zone]
   end
 
   def end_requested?

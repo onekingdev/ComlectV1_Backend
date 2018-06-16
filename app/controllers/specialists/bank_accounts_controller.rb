@@ -43,6 +43,6 @@ class Specialists::BankAccountsController < ApplicationController
   end
 
   def stripe_account
-    @_stripe_account ||= current_specialist.stripe_account
+    @stripe_account ||= current_specialist.stripe_account
   end
 end

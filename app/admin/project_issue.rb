@@ -30,10 +30,10 @@ ActiveAdmin.register ProjectIssue, as: 'Issues' do
       issue.admin_user ? issue.admin_user.email : 'Not assigned'
     end
     column 'Business' do |issue|
-      issue.user.business if issue.user.business
+      issue&.user&.business
     end
     column 'Specialist' do |issue|
-      issue.user.specialist if issue.user.specialist
+      issue&.user&.specialist
     end
     column content_tag(:i, '', class: 'fa fa-eye') do |issue|
       link_to '#', data: { title: 'Issue', content: issue.issue } do

@@ -1079,6 +1079,7 @@ class Notification::Deliver < Draper::Decorator
                 :initiator, :initiator_name, :img_path, :message_mail, :subject, :action_label
 
     # rubocop:disable Metrics/ParameterLists
+    # rubocop:disable Naming/UncommunicativeMethodParamName
     def initialize(user: nil, key: nil, action_path: nil, associated: nil, clear_manually: false, t: {}, initiator: nil)
       @user = user
       @key = key
@@ -1094,6 +1095,7 @@ class Notification::Deliver < Draper::Decorator
       @initiator_name, @img_path = initiator_name_and_img(@initiator)
     end
     # rubocop:enable Metrics/ParameterLists
+    # rubocop:enable Naming/UncommunicativeMethodParamName
 
     def deliver_notification!
       # Re-create existing notification if necessary
@@ -1150,13 +1152,15 @@ class Notification::Deliver < Draper::Decorator
       end
     end
 
+    # rubocop:disable Naming/UncommunicativeMethodParamName
     def message_mail_handler(key, t)
-      if I18n.t("notification_messages.#{key}").keys.include? :message_mail
+      if I18n.t("notification_messages.#{key}").key?(:message_mail)
         I18n.t("#{key}.message_mail", t.merge(scope: 'notification_messages'))
       else
         I18n.t("#{key}.message", t.merge(scope: 'notification_messages'))
       end
     end
+    # rubocop:enable Naming/UncommunicativeMethodParamName
   end
 end
 # rubocop:enable Metrics/ClassLength

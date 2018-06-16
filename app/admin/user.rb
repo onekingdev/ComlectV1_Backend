@@ -41,7 +41,7 @@ ActiveAdmin.register User do
 
     def resource
       # So users can be edited without providing a password
-      @user ||= super.extend(NoPasswordRequired)
+      @resource ||= super.extend(NoPasswordRequired)
     end
   end
 

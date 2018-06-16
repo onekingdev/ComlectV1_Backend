@@ -124,6 +124,6 @@ class PaymentCycle
   end
 
   def timezone
-    @_timezone ||= project.business.tz
+    @timezone ||= project.business.tz
   end
 end

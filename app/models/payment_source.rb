@@ -79,18 +79,18 @@ class PaymentSource < ApplicationRecord
     false
   end
 
-  def parse_stripe_error(e)
-    case e.message
+  def parse_stripe_error(exception)
+    case exception.message
     when /already exists/i
       'You already linked that account'
     else
-      Bugsnag.notify(e)
+      Bugsnag.notify(exception)
       'Could not link your account. Please try again later.'
     end
   end
 
   def stripe_customer
-    @_stripe_customer ||= payment_profile.stripe_customer
+    @stripe_customer ||= payment_profile.stripe_customer
   end
 
   def delete_stripe_data

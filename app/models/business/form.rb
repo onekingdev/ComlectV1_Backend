@@ -18,7 +18,7 @@ class Business::Form < Business
   end
 
   def discourse
-    @_discourse ||= Business::Discourse.new(self)
+    @discourse ||= Business::Discourse.new(self)
   end
 
   def delete_logo

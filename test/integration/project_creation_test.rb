@@ -90,7 +90,7 @@ class ProjectCreationTest < ActionDispatch::IntegrationTest
     sign_in project.business.user
     post_via_redirect post_business_project_path(project)
 
-    assert !project.reload.published?
+    assert_not project.reload.published?
     assert_match(
       /#{I18n.t('activerecord.errors.models.project.attributes.base.no_payment')}/,
       response.body
