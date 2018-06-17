@@ -5,15 +5,18 @@ class MessageMailer < ApplicationMailer
     @message = message_text
     @project = project
     thread = EmailThread.for!(from, to)
-    mail to: "Complect <#{ENV.fetch('DEFAULT_MAIL_FROM')}>",
-         bcc: to_address(to),
-         reply_to: thread_address(thread, from),
-         template_id: ENV.fetch('POSTMARK_TEMPLATE_ID'),
-         template_model: {
-           subject: 'A message regarding your application on Complect',
-           message_html: render('first_contact.html'),
-           message_text: render('first_contact.text')
-         }
+
+    mail(
+      to: "Complect <#{ENV.fetch('DEFAULT_MAIL_FROM')}>",
+      bcc: to_address(to),
+      reply_to: thread_address(thread, from),
+      template_id: ENV.fetch('POSTMARK_TEMPLATE_ID'),
+      template_model: {
+        subject: 'A message regarding your application on Complect',
+        message_html: render('first_contact.html'),
+        message_text: render('first_contact.text')
+      }
+    )
   end
 
   def reply(thread, original_sender, message_text, message_html, reply_text)
