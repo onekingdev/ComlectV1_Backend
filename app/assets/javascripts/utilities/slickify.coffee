@@ -1,5 +1,4 @@
 @slickify = (div_id, bp_1024, bp_992, bp_480) ->
-  console.log div_id
   $(div_id + ' > .row').on 'init', (s) ->
     showhide_pages(div_id)
     return

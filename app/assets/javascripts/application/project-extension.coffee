@@ -1,7 +1,4 @@
 $('.panel').on 'inserted.bs.popover', '.js-project-extension', ->
-#$('.js-project-extension').on 'inserted.bs.popover', (e) -> 
-  #console.log $(this).parent.find('.js-project-extension-popover')
-  #$wrapper = $('.js-project-extension-popover')
   $wrapper = $(this).parent().find('.js-project-extension-popover')
   console.log $wrapper
   return if $wrapper.data('datepicker-initialized')

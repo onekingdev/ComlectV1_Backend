@@ -42,11 +42,6 @@ $(document).on 'click', '.js-plaid-link', (e) ->
     key: $this.data('public-key')
     product: 'auth'
     onSuccess: (publicToken, metadata) ->
-      # TODO: Remove logging
-      console.log publicToken
-      console.log metadata
-      console.log metadata.institution
-      console.log metadata.account
       $form.find('#payment_source_ach_plaid_token').val(publicToken)
       $form.find('#payment_source_ach_plaid_account_id').val(metadata.account_id)
       $form.find('#payment_source_ach_plaid_institution').val(metadata.institution.name)
