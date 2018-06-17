@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :business do
     association :user, email_prefix: 'business'
     contact_first_name { Faker::Name.first_name }

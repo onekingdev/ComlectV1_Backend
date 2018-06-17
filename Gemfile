@@ -103,7 +103,7 @@ group :development, :test do
   gem 'byebug'
 
   # Testing
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
   gem 'rspec-rails'
 
   # Code Quality

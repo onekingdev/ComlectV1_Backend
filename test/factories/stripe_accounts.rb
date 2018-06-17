@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :stripe_account do
     specialist
     dob Faker::Date.birthday(18, 95)
