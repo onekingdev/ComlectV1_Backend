@@ -19,7 +19,6 @@ class MessageMailerTest < ActionMailer::TestCase
   end
 
   test 'business messages specialist' do
-    @business.expects(:anonymous?).at_least_once.returns(false)
     email = MessageMailer.first_contact(@business, @specialist, 'Howdy', @project)
     assert_emails(1) { email.deliver_now }
     assert_match(/complect/, email.from.first.to_s)
@@ -31,7 +30,6 @@ class MessageMailerTest < ActionMailer::TestCase
   end
 
   test 'anonymous business messages specialist' do
-    @business.expects(:anonymous?).at_least_once.returns(true)
     email = MessageMailer.first_contact(@business, @specialist, 'Howdy', @project)
     assert_emails(1) { email.deliver_now }
     assert_match(/complect/, email.from.first.to_s)
@@ -44,7 +42,6 @@ class MessageMailerTest < ActionMailer::TestCase
   end
 
   test 'anonymous business replies to specialist' do
-    Business.any_instance.expects(:anonymous?).at_least_once.returns(true)
     email = MessageMailer.reply(@thread, 's', 'Howdy', '<p>Howdy</p>', '')
     assert_emails(1) { email.deliver_now }
     assert_match(/complect/, email.from.first.to_s)
@@ -59,7 +56,6 @@ class MessageMailerTest < ActionMailer::TestCase
   end
 
   test 'specialist replies' do
-    Business.any_instance.expects(:anonymous?).at_least_once.returns(false)
     email = MessageMailer.reply(@thread, 'b', 'Howdy', '<p>Howdy</p>', '')
     assert_emails(1) { email.deliver_now }
     assert_match(/complect/, email.from.first.to_s)
@@ -73,7 +69,6 @@ class MessageMailerTest < ActionMailer::TestCase
   end
 
   test 'business replies' do
-    Business.any_instance.expects(:anonymous?).at_least_once.returns(false)
     email = MessageMailer.reply(@thread, 's', 'Howdy', '<p>Howdy</p>', '')
     assert_emails(1) { email.deliver_now }
     assert_match(/complect/, email.from.first.to_s)
