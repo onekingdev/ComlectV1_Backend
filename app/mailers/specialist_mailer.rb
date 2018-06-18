@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class SpecialistMailer < ApplicationMailer
-  include ActionView::Helpers::TextHelper
-
   def welcome(specialist)
     @specialist = specialist
 

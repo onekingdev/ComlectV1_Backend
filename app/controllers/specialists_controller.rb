@@ -40,7 +40,7 @@ class SpecialistsController < ApplicationController
       @invitation&.accepted!(@specialist)
       sign_in @specialist.user
       mixpanel_track_later 'Sign Up'
-      Notification::Deliver.welcome_specialist! @specialist
+      SpecialistMailer.welcome(@specialist).deliver_later
       return redirect_to specialists_dashboard_path
     end
 

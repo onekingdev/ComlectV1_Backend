@@ -93,10 +93,6 @@ en:
       subject: "Urgent: Escalated Issue"
       message: Oh no! It appears there is an urgent issue with your project. Have you spoken with the business recently?
       action_label: Go to %{project_title} Project Dashboard
-    welcome_specialist:
-      subject: Welcome to Complect!
-      message: Welcome to Complect! Don't forget to add payment details to start getting paid today!
-      action_label: Go to Account Settings
     specialist_project_ended:
       subject: Your Project Has Ended
       message: Hooray! Your project %{project_title} has ended. Hungry for more work? Let us help you find the perfect role today!
@@ -197,10 +193,6 @@ en:
       subject: Start Date Has Lapsed
       message: Bummer, your start date has lapsed, so we went ahead and moved your listing to the Drafts tab of your dashboard.
       action_label: Go to Main Dashboard
-    welcome_business:
-      subject: Welcome to Complect!
-      message: Welcome to Complect! Don't forget to add payment details to start posting today!
-      action_label: Go to Account Settings
     business_payment_issue:
       subject: "Urgent: Issue with Your Payment Details"
       message: Oh no! There was an issue verifying your payment details. Please review and update them to ensure your project can continue without a hitch.
