@@ -14,7 +14,7 @@ FactoryBot.define do
       type Project.types[:one_off]
       location_type Project.location_types[:remote]
       starts_on { 1.month.from_now }
-      ends_on { starts_on + 1.month }
+      ends_on { 1.month.from_now + 1.month }
       key_deliverables 'Key deliverables'
       payment_schedule 'monthly'
       estimated_hours 50

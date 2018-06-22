@@ -8,7 +8,7 @@ class Project::Form < Project
   validates :location, presence: true, if: :location_required?
   validates :jurisdiction_ids, :industry_ids, presence: true
 
-  ONE_OFF_FIELDS = %i[key_deliverables starts_on ends_on location_type payment_schedule estimated_hours].freeze
+  ONE_OFF_FIELDS = %i[key_deliverables ends_on location_type payment_schedule estimated_hours].freeze
   FULL_TIME_FIELDS = %i[full_time_starts_on annual_salary].freeze
   SHARED_FIELDS = %i[starts_on].freeze
 
@@ -21,6 +21,12 @@ class Project::Form < Project
             presence: true, if: -> { hourly_pricing? && payment_schedule.blank? }
   validates :fixed_payment_schedule, :fixed_budget,
             presence: true, if: -> { fixed_pricing? && payment_schedule.blank? }
+  validate if: -> { starts_asap } do
+    errors.add :starts_asap, :invalid if starts_on.present?
+  end
+  validate if: -> { starts_on.blank? } do
+    errors.add :starts_on, :blank unless starts_asap
+  end
   validate if: -> { starts_on.present? } do
     errors.add :starts_on, :past if starts_on.in_time_zone(business.tz).to_date < business.tz.today
   end

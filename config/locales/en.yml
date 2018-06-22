@@ -7,6 +7,7 @@ en:
   activerecord:
     attributes:
       project:
+        starts_asap: Start ASAP (As Soon As Possible)
         starts_on: Start Date
         ends_on: End Date
         payment_schedule: Payment Schedule
@@ -43,6 +44,8 @@ en:
               no_payment: Oops! We do not have payment details on file for you. Please add them before you can post a project.
             location_type:
               inclusion: Please select from the list
+            starts_asap:
+              invalid: Cannot have both Start Date and Start ASAP
             starts_on:
               invalid: Must be before end date
               past: Must be in the future
