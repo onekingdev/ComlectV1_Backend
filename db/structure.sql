@@ -500,7 +500,7 @@ CREATE TABLE public.projects (
     location character varying,
     description character varying NOT NULL,
     key_deliverables character varying,
-    starts_on date NOT NULL,
+    starts_on date,
     ends_on date,
     pricing_type character varying DEFAULT 'hourly'::character varying,
     payment_schedule character varying,
@@ -528,7 +528,8 @@ CREATE TABLE public.projects (
     minimum_experience integer,
     expires_at timestamp without time zone,
     solicited_business_rating boolean DEFAULT false,
-    solicited_specialist_rating boolean DEFAULT false
+    solicited_specialist_rating boolean DEFAULT false,
+    starts_asap boolean DEFAULT false
 );
 
 
@@ -5156,4 +5157,8 @@ INSERT INTO schema_migrations (version) VALUES ('20180605145214');
 INSERT INTO schema_migrations (version) VALUES ('20180609010335');
 
 INSERT INTO schema_migrations (version) VALUES ('20180614160822');
+
+INSERT INTO schema_migrations (version) VALUES ('20180621010509');
+
+INSERT INTO schema_migrations (version) VALUES ('20180622004759');
 
