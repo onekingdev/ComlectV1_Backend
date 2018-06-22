@@ -48,6 +48,11 @@
             value: (l(f.object.starts_on, format: :pickadate) if f.object.starts_on) \
           } \
         }
+
+        .form-group.project_starts_asap
+          span.checkbox.checkbox-lg
+            = f.check_box :starts_asap
+            = f.label :starts_asap
       .col-xs-12.col-sm-6
         = f.input :ends_on, required: true, as: :string, input_html: { \
           class: 'input-lg js-datepicker', \
