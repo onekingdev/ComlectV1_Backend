@@ -98,7 +98,9 @@ class Project::Decorator < ApplicationDecorator
   end
 
   def start_and_duration
-    string = starts_on.strftime('%b %d, %Y')
+    return 'ASAP' if starts_asap?
+
+    string = starts_on&.strftime('%b %d, %Y')
     return string if full_time?
     "#{string} (#{duration})"
   end

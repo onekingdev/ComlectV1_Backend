@@ -159,10 +159,12 @@ class Project < ApplicationRecord
   end
 
   def self.starts_in_48
-    one_off.where(starts_in_48: false).business_timezones.find_each.find_all do |p|
+    one_off.where(starts_in_48: false).business_timezones.find_each.find_all do |project|
+      next if project.starts_asap?
+
       # Set to midnight
-      tz = ActiveSupport::TimeZone[p[:time_zone]]
-      start_time = p.starts_on.in_time_zone(tz) - 2.days
+      tz = ActiveSupport::TimeZone[project[:time_zone]]
+      start_time = project.starts_on.in_time_zone(tz) - 2.days
       (start_time <= 10.minutes.from_now) && (start_time >= Time.zone.now)
     end
   end
