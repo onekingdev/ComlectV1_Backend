@@ -14,7 +14,8 @@ class JobApplication::Form < JobApplication
   def self.apply!(specialist, project, params)
     application = create params.merge(specialist: specialist, project: project)
     Favorite.remove! specialist, project
-    Notification::Deliver.project_application! application
+    Notification::Deliver.project_application!(application) unless project.starts_asap?
+    JobApplication::Accept.(application) if project.starts_asap?
     application
   end
 
