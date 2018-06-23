@@ -15,6 +15,12 @@ body {
 }
 
 #footer {
+  @media (max-width: $screen-sm-max) {
+    text-align: center;
+    .svg-icon {
+      display: none;
+    }
+  }
   .social:hover {
     color: #ffcc00;
   }
@@ -26,6 +32,9 @@ body {
   padding: 55px 70px 40px 70px;
   @media (max-width: $screen-sm-max) {
     padding: 55px 20px 40px 20px;
+    .social-twitter {
+      margin-right: 0px;
+    }
   }
   color: #ffcc00;
   .contact-us {
@@ -33,6 +42,9 @@ body {
       font-family: "Avenir Light";
       font-size: 14px;
       padding-left: 25px;
+      @media (max-width: $screen-sm-max) {
+        padding-left: 0px;
+      }
     }
     h1 {
       font-size: 20px;

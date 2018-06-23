@@ -13,19 +13,23 @@
 
   .notifications-header {
     min-width: 270px;
+    .pull-left, .pull-right {
+      text-transform: uppercase;
+    }
   }
 
   .no_unread {
     //min-width: 200px;
     text-align: center;
     height: 45px;
+    text-transform: uppercase;
     p {
       padding-top: 15px;
     }
   }
 
   .clearfix {
-    font-size: 12px;
+    font-size: 14px;
     font-weight: $bold-weight;
 
     .pull-right a {
