@@ -55,7 +55,7 @@ class Business < ApplicationRecord
   end
 
   def in_usa?
-    country == 'United States'
+    country == 'US'
   end
 
   def tz
