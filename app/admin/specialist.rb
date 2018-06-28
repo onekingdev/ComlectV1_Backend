@@ -104,7 +104,9 @@ ActiveAdmin.register Specialist do
     column :city
     column :zipcode
     column :phone
+    column(:photo) { |specialist| specialist.photo.present? }
     column :linkedin_link
+    column :years_of_experience
     column :former_regulator
     column :certifications
     column :visibility
