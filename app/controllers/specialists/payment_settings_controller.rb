@@ -4,6 +4,8 @@ class Specialists::PaymentSettingsController < ApplicationController
   before_action :require_specialist!
 
   def show
+    redirect_to specialists_settings_path if current_specialist.team
+
     @account = StripeAccount::Form.for(current_specialist)
     @bank_accounts = @account.bank_accounts
   end
@@ -14,6 +16,7 @@ class Specialists::PaymentSettingsController < ApplicationController
 
   def create
     @account = StripeAccount::Form.for(current_specialist, account_attributes)
+    authorize @account, :create?
 
     if @account.save && @account.errors.empty?
       redirect_to specialists_settings_payment_path
@@ -28,6 +31,7 @@ class Specialists::PaymentSettingsController < ApplicationController
 
   def update
     @account = StripeAccount::Form.for(current_specialist)
+    authorize @account, :update?
 
     if @account.update_and_verify(account_attributes)
       redirect_to specialists_settings_payment_path
