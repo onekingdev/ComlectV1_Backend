@@ -71,14 +71,16 @@ Rails.application.routes.draw do
       get :invoice, on: :member
     end
 
+    get 'projects/:project_id/interview/:specialist_id' => 'project_dashboard#show', as: :project_dashboard_interview
     get 'projects/:project_id/dashboard' => 'project_dashboard#show', as: :project_dashboard
 
     scope 'projects/:project_id' do
-      resources :project_messages, path: 'messages'
+      resources :project_messages, path: 'messages(/:specialist_id)'
       resources :project_ends, path: 'end'
       resources :project_extensions, path: 'extension'
       resource :project_rating, path: 'rating'
-      resource :project_overview, path: 'overview'
+      resource :project_overview, path: 'overview(/:specialist_id)', only: :show
+      #get 'overview(/:specialist_id)' => 'project_overviews#show', as: :project_overview
     end
 
     resources :projects do

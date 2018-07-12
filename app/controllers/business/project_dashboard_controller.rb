@@ -14,5 +14,9 @@ class Business::ProjectDashboardController < ApplicationController
 
   def find_project
     @project = current_business.projects.find(params[:project_id])
+    @specialist = Specialist.find(params[:specialist_id]) if params[:specialist_id]
+    if !@specialist.blank?
+      @specialist = nil if @specialist.applied_projects.where(id: @project.id).blank?
+    end
   end
 end

@@ -31,6 +31,10 @@
   display: block;
 }
 
+.multiselect-item > a > label {
+  width: 100%;
+}
+
 .multiselect-parent .dropdown-menu {
   max-height: 200px;
   overflow-y: auto;

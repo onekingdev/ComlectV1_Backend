@@ -8,7 +8,7 @@ class Business::ProjectOverviewsController < ApplicationController
     respond_to do |format|
       format.html do
         Project::Decorator.decorate(@project).tap do |project|
-          render partial: 'projects/dashboards/project_overview', locals: { project: project }
+          render partial: 'projects/dashboards/project_overview', locals: { project: project, specialist: @specialist }
         end
       end
     end
@@ -18,5 +18,9 @@ class Business::ProjectOverviewsController < ApplicationController
 
   def find_project
     @project = current_business.projects.find(params[:project_id])
+    @specialist = Specialist.find(params[:specialist_id]) if params[:specialist_id]
+    if !@specialist.blank?
+      @specialist = nil if @specialist.applied_projects.where(id: @project.id).blank?
+    end
   end
 end
