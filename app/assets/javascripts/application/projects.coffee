@@ -2,6 +2,10 @@ $(document).on 'change', '#project_type_one_off, #project_type_full_time', (e) -
   $this = $(this)
   $this.parents('form').attr('data-project-type', $this.val())
 
+$(document).on 'change', '#project_duration_type_asap, #project_duration_type_custom', (e) ->
+  $this = $(this)
+  $this.parents('.project-duration').attr('data-duration-type', $this.val())
+
 $(document).on 'change', '#project_pricing_type_hourly, #project_pricing_type_fixed', (e) ->
   $this = $(this)
   $this.parents('.project-pricing').attr('data-pricing-type', $this.val())
