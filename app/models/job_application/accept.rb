@@ -11,6 +11,7 @@ class JobApplication::Accept < Draper::Decorator
       new(application).tap do |decorated|
         decorated.project.update_attribute :specialist_id, decorated.specialist_id
         decorated.project.complete! if decorated.project.full_time?
+        decorated.set_start_and_end_dates if decorated.project.asap_duration?
         decorated.schedule_one_off_fees
         decorated.schedule_full_time_fees
         decorated.send_specialist_notification
@@ -18,6 +19,15 @@ class JobApplication::Accept < Draper::Decorator
         decorated.project.touch :hired_at
       end
     end
+  end
+
+  def set_start_and_end_dates
+    return unless project.asap_duration?
+
+    project.update(
+      starts_on: Time.zone.today,
+      ends_on: Time.zone.today + project.estimated_days.days
+    )
   end
 
   def schedule_one_off_fees
