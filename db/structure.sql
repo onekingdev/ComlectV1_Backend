@@ -529,7 +529,8 @@ CREATE TABLE public.projects (
     expires_at timestamp without time zone,
     solicited_business_rating boolean DEFAULT false,
     solicited_specialist_rating boolean DEFAULT false,
-    starts_asap boolean DEFAULT false
+    duration_type character varying DEFAULT 'asap'::character varying NOT NULL,
+    estimated_days integer
 );
 
 
@@ -5158,7 +5159,7 @@ INSERT INTO schema_migrations (version) VALUES ('20180609010335');
 
 INSERT INTO schema_migrations (version) VALUES ('20180614160822');
 
-INSERT INTO schema_migrations (version) VALUES ('20180621010509');
-
 INSERT INTO schema_migrations (version) VALUES ('20180622004759');
+
+INSERT INTO schema_migrations (version) VALUES ('20180712053404');
 
