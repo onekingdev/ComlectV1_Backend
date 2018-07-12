@@ -9,6 +9,7 @@ FactoryBot.define do
     jurisdiction_ids { [create(:jurisdiction).id] }
     description 'Job description'
     minimum_experience Project::MINIMUM_EXPERIENCE.first.last
+    duration_type 'custom'
 
     factory :project_one_off do
       type Project.types[:one_off]
@@ -37,6 +38,13 @@ FactoryBot.define do
       location 'Texas, USA'
       starts_on { 1.month.from_now }
       annual_salary 98_000
+    end
+
+    trait :asap_duration do
+      duration_type 'asap'
+      estimated_days 30
+      starts_on nil
+      ends_on nil
     end
 
     trait :monthly_pay do

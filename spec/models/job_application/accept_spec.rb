@@ -16,6 +16,17 @@ RSpec.describe JobApplication::Accept, type: :model do
 
     before { JobApplication::Accept.(job_application) }
 
+    context 'when asap duration' do
+      let(:project) { create(:project_one_off_hourly, :asap_duration, estimated_days: 5) }
+
+      it 'sets the start and end date' do
+        project.reload
+        expect(project.charges.size).to eq 1
+        expect(project.starts_on).to eq Time.zone.today
+        expect(project.ends_on).to eq Time.zone.today + 5.days
+      end
+    end
+
     context 'when full time upfront fee project' do
       let(:project) { create :project_full_time, business: business }
 
