@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'validators/url_validator'
+
 class Business < ApplicationRecord
   belongs_to :user
   has_and_belongs_to_many :jurisdictions
@@ -43,6 +45,8 @@ class Business < ApplicationRecord
   validates :country, :city, :state, :time_zone, presence: true
   validates :description, length: { maximum: 750 }
   validates :employees, inclusion: { in: EMPLOYEE_OPTIONS }
+  validates :linkedin_link, allow_blank: true, url: true
+  validates :website, allow_blank: true, url: true
 
   accepts_nested_attributes_for :user
 

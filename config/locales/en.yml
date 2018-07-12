@@ -30,6 +30,7 @@ en:
       messages:
         blank: required field
         email: invalid field
+        url: invalid field
       models:
         business:
           attributes:
