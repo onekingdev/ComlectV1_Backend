@@ -14,6 +14,7 @@ en:
         fixed_payment_schedule: Payment Schedule
         fixed_budget: Fixed Budget
         hourly_rate: Hourly Rate
+        estimated_days: Estimated Days
         estimated_hours: Estimated Hours
         only_regulators: Only Former Regulators
         annual_salary: Annual Salary (USD)
@@ -43,10 +44,14 @@ en:
               no_payment: Oops! We do not have payment details on file for you. Please add them before you can post a project.
             location_type:
               inclusion: Please select from the list
+            estimated_days:
+              duration: Invalid field for duration type
             starts_on:
+              duration: Invalid field for duration type
               invalid: Must be before end date
               past: Must be in the future
             ends_on:
+              duration: Invalid field for duration type
               invalid: Must be after end date
             hourly_payment_schedule:
               too_little_duration: Not available on durations less than 2 weeks

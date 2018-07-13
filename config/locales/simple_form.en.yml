@@ -93,6 +93,7 @@ en:
         fixed_payment_schedule: "* Payment method"
         hourly_rate: "* Hourly Rate"
         fixed_budget: "* Fixed Budget"
+        estimated_days: "* Estimated No. of Days"
         estimated_hours: "* Estimated Hours"
       work_experiences:
         company: "* Company Name"

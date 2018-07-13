@@ -95,6 +95,7 @@ class Business::ProjectsController < ApplicationController
     end
   end
 
+  # rubocop:disable Metrics/MethodLength
   def project_params
     return { invite_id: params[:invite_id] } unless params.key?(:project)
 
@@ -107,6 +108,8 @@ class Business::ProjectsController < ApplicationController
       :lng,
       :description,
       :key_deliverables,
+      :duration_type,
+      :estimated_days,
       :starts_on,
       :full_time_starts_on,
       :ends_on,
@@ -127,4 +130,5 @@ class Business::ProjectsController < ApplicationController
       skill_names: []
     )
   end
+  # rubocop:enable Metrics/MethodLength
 end
