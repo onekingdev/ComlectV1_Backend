@@ -28,6 +28,7 @@ RSpec.describe 'Creating a project', type: :request do
       title: 'Foo',
       description: 'bar baz',
       type: 'one_off',
+      duration_type: 'custom',
       starts_on: 1.month.from_now,
       ends_on: 2.months.from_now,
       location_type: 'remote',

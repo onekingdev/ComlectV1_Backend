@@ -14,6 +14,7 @@ FactoryBot.define do
     factory :project_one_off do
       type Project.types[:one_off]
       location_type Project.location_types[:remote]
+      duration_type 'custom'
       starts_on { 1.month.from_now }
       ends_on { 1.month.from_now + 1.month }
       key_deliverables 'Key deliverables'
@@ -36,6 +37,7 @@ FactoryBot.define do
     factory :project_full_time do
       type Project.types[:full_time]
       location 'Texas, USA'
+      duration_type nil
       starts_on { 1.month.from_now }
       annual_salary 98_000
     end
