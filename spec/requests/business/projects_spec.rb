@@ -5,14 +5,6 @@ require 'rails_helper'
 RSpec.describe 'Creating a project', type: :request do
   include SessionsHelper
 
-  before(:all) do
-    StripeMock.start
-  end
-
-  after(:all) do
-    StripeMock.stop
-  end
-
   let(:industry) { create(:industry) }
   let(:jurisdiction) { create(:jurisdiction) }
   let(:business) { create(:business, :with_payment_profile) }
