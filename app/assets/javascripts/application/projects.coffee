@@ -35,6 +35,24 @@ do ->
   one_day = 86400000
   parents = ['.project_fixed_payment_schedule', '.project_hourly_payment_schedule']
   selector = '.multiselect-container input[type=radio][value=%value]'
+
+  $(document).on 'change', '#project_estimated_days', (e) ->
+    days = e.currentTarget.value
+
+    for parent in parents
+      $(parent).find(selector.replace('%value', 'upon_completion')).parents('li').removeClass('hidden')
+      $(parent).find(selector.replace('%value', 'monthly')).parents('li').removeClass('hidden')
+      $(parent).find(selector.replace('%value', 'bi_weekly')).parents('li').removeClass('hidden')
+
+    if days < 15
+      for parent in parents
+        $(parent).find(selector.replace('%value', 'monthly')).parents('li').addClass('hidden')
+        $(parent).find(selector.replace('%value', 'bi_weekly')).parents('li').addClass('hidden')
+
+    if days < 30
+      for parent in parents
+        $(parent).find(selector.replace('%value', 'monthly')).parents('li').addClass('hidden')
+
   $(document).on 'change', '#project_starts_on, #project_ends_on', (e) ->
     starts = $("#project_starts_on").pickadate('picker').get('select')
     ends = $("#project_ends_on").pickadate('picker').get('select')
