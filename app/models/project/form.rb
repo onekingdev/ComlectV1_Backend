@@ -54,6 +54,7 @@ class Project::Form < Project
   validates :minimum_experience, presence: true, inclusion: { in: EXPERIENCE_RANGES.keys }
 
   before_validation :assign_type_fields
+  before_validation :assign_duration_type_fields
   before_validation :assign_pricing_type_fields
 
   attr_accessor :full_time_starts_on
@@ -117,6 +118,12 @@ class Project::Form < Project
       self[field] = nil
     end
     true
+  end
+
+  def assign_duration_type_fields
+    return unless full_time?
+    self.duration_type = nil
+    self.estimated_days = nil
   end
 
   def assign_pricing_type_fields
