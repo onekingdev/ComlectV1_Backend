@@ -1,4 +1,4 @@
-- url = sender.is_a?(Business) ? business_project_messages_path : project_messages_path
+- url = sender.is_a?(Business) ? (params[:specialist_id] ?business_project_messages_path(@project, params[:specialist_id].to_i) : business_project_messages_path) : project_messages_path
 = simple_form_for message, remote: true, authenticity_token: true, url: url, :html => { class: 'clearfix' } do |f|
   .col-xs-8.col-sm-12= f.input :message, as: :text, label: false, input_html: { class: 'di-b', rows: 4 }
 
@@ -10,6 +10,7 @@
             = check_box_tag 'send_on_enter', true, true
             label.fw-regular for="send_on_enter"
               span Press Enter To Send
+              = params[:specialist_id]
         .col-xs-12.col-sm-4
           a.btn.btn-default.btn-md.upload-button
             i.icon-paper-clip

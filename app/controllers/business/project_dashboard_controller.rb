@@ -3,6 +3,7 @@
 class Business::ProjectDashboardController < ApplicationController
   prepend_before_action :find_project, only: :show
   prepend_before_action :require_business!
+  before_action :find_specialist, only: :show
   before_action :redirect_if_full_time
   skip_before_action :check_unrated_project, if: -> { action_name == 'show' && @project&.requires_business_rating? }
 
@@ -14,5 +15,14 @@ class Business::ProjectDashboardController < ApplicationController
 
   def find_project
     @project = current_business.projects.find(params[:project_id])
+  end
+
+  def find_specialist
+    if params[:specialist_id]
+      specialist = Specialist.where(id: params[:specialist_id])
+      if !specialist.blank? && !specialist.first.applied_projects.where(id: @project.id).blank?
+        @specialist = specialist.first
+      end
+    end
   end
 end

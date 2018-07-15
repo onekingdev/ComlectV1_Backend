@@ -7,7 +7,9 @@
   h1.m-t-0.m-b-3.hidden-sm.hidden-xs
     = project
     .pull-right
-      small Status: <span class="text-primary project-status">#{project.status_text}</span>
+      small
+        | Status: 
+        span.text-primary.project-status = project.status_text == "Pending" ? "Interview" : project.status_text
 
   - if (end_request = ProjectEnd::Decorator.new(project.end_request)).present?
     .alert.alert-warning.m-b-3.text-center

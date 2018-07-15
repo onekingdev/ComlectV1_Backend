@@ -9,13 +9,12 @@ class JobApplication::Form < JobApplication
   validate -> { errors.add :prerequisites, :no_industry }, unless: :industry?
   validate -> { errors.add :prerequisites, :no_experience }, unless: :enough_experience?
   validate -> { errors.add :prerequisites, :no_regulator }, unless: :regulator?
-  validate -> { errors.add :prerequisites, :no_payment_info }, unless: :payment_info?
+#  validate -> { errors.add :prerequisites, :no_payment_info }, unless: :payment_info?
 
   def self.apply!(specialist, project, params)
     application = create params.merge(specialist: specialist, project: project)
     Favorite.remove! specialist, project
-    Notification::Deliver.project_application!(application) unless project.asap_duration?
-    JobApplication::Accept.(application) if project.asap_duration?
+    Notification::Deliver.project_application! application
     application
   end
 

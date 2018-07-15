@@ -5,6 +5,14 @@ require 'rails_helper'
 RSpec.describe 'Creating a project', type: :request do
   include SessionsHelper
 
+  before(:all) do
+    StripeMock.start
+  end
+
+  after(:all) do
+    StripeMock.stop
+  end
+
   let(:industry) { create(:industry) }
   let(:jurisdiction) { create(:jurisdiction) }
   let(:business) { create(:business, :with_payment_profile) }
@@ -20,7 +28,6 @@ RSpec.describe 'Creating a project', type: :request do
       title: 'Foo',
       description: 'bar baz',
       type: 'one_off',
-      duration_type: 'custom',
       starts_on: 1.month.from_now,
       ends_on: 2.months.from_now,
       location_type: 'remote',

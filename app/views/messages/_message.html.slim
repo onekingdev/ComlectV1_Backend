@@ -9,7 +9,7 @@
         .fa.fa-paperclip
         '&nbsp;
         span= message.file.metadata['filename']
-.date class=(is_me ? 'me' : 'them')
+.date class=(is_me ? 'me' : 'them') data-message-id=message.id
   - if is_me
     | Me,&nbsp;
   - else

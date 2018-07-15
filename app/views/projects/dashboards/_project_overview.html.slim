@@ -10,10 +10,11 @@
     .business.m-b-1.td-n.d-b.clearfix
       = image_tag 'icon-specialist.png', size: '60x60', class: 'img-circle'
       .name Deleted
-  - if @project.specialist
-    = link_to project.specialist, class: 'specialist m-b-1 td-n d-b' do
-      = image_tag (project.specialist.photo_url(:thumb) || 'icon-specialist.png'), size: '60x60', class: 'img-circle'
-      .name= project.specialist.full_name
+  - specialist = @project.specialist.blank? ? current_specialist ? current_specialist : @specialist : @project.specialist
+  - if specialist
+    = link_to specialist, class: 'specialist m-b-1 td-n d-b' do
+      = image_tag (specialist.photo_url(:thumb) || 'icon-specialist.png'), size: '60x60', class: 'img-circle'
+      .name= specialist.full_name
   - else
     .specialist.m-b-1.td-n.d-b
       = image_tag ('icon-specialist.png'), size: '60x60', class: 'img-circle'
@@ -37,21 +38,22 @@
       | &nbsp;
       | Complete
     p= "#{project.percent_complete.round} %"
-  - if current_business
-    - if !project.complete? && !project.end_requests.any?(&:confirmed?)
-      .project-extension-picker-container.m-t-1
-        button.btn.btn-block.btn-primary.btn-sm.m-b-1[
-          data-method="post"
-          data-remote="false"
-          data-url=business_project_ends_path
-          data-confirm="<br><br>Are you sure you want to end this project?"
-          data-confirm-label="Confirm"
-        ]
-          'End
-        button.js-project-extension.btn.btn-block.btn-default.btn-sm.m-b-1[
-          data-toggle="popover"
-          data-placement="top"
-          data-content="#{project.extension_popup.to_str}"
-          data-html="true"
-        ]
-          'Extend
+  - if current_business && !project.complete? && !project.end_requests.any?(&:confirmed?) && !project.pending?
+    .project-extension-picker-container.m-t-1
+      button.btn.btn-block.btn-primary.btn-sm.m-b-1[
+        data-method="post"
+        data-remote="false"
+        data-url=business_project_ends_path
+        data-confirm="<br><br>Are you sure you want to end this project?"
+        data-confirm-label="Confirm"
+      ]
+        'End
+      button.js-project-extension.btn.btn-block.btn-default.btn-sm.m-b-1[
+        data-toggle="popover"
+        data-placement="top"
+        data-content="#{project.extension_popup.to_str}"
+        data-html="true"
+      ]
+        'Extend
+  - else
+    | &nbsp;

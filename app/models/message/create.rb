@@ -5,6 +5,7 @@ class Message::Create < Draper::Decorator
   delegate_all
 
   def self.call(project, attributes)
+    puts attributes.inspect
     new(project.messages.create(attributes)).tap do |message|
       Notification::Deliver.got_project_message!(message) if message.persisted?
     end

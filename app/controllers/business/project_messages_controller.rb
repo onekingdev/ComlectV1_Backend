@@ -4,6 +4,9 @@ class Business::ProjectMessagesController < ProjectMessagesController
   before_action :require_business!
 
   def index
+    if params[:specialist_id]
+      recipient = Specialist.find(params[:specialist_id])
+    end
     Notification.clear! current_user, :business_got_project_message, @project
     super
   end
@@ -15,7 +18,11 @@ class Business::ProjectMessagesController < ProjectMessagesController
   end
 
   def user_project_messages_path
-    business_project_messages_path @project
+    if params[:specialist_id].blank?
+      return business_project_messages_path @project
+    else
+      return business_project_messages_path(@project, params[:specialist_id].to_i)
+    end
   end
   helper_method :user_project_messages_path
 

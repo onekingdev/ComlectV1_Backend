@@ -22,18 +22,6 @@ form.project_form {
     display: inline-block;
   }
 
-  .project-duration[data-duration-type=asap] {
-    .project-duration-custom {
-      display: none;
-    }
-  }
-
-  .project-duration[data-duration-type=custom] {
-    .project-duration-asap {
-      display: none;
-    }
-  }
-
   .project-pricing[data-pricing-type=fixed] {
     .form-group.project_hourly_rate, .form-group.project_hourly_payment_schedule {
       display: none;
@@ -114,7 +102,7 @@ body.projects.show {
     background-size: cover;
     @media (min-width: $screen-xs-max) {
       height: 381px;
-      margin-bottom: 100px;
+      margin-bottom: 100px;      
     }
     @media (max-width: 689px) {
       background-size: auto 300px + 150px;
@@ -122,7 +110,7 @@ body.projects.show {
 
     .project-header {
       @media (min-width: $screen-xs-max) {
-        margin-top: 158px;
+        margin-top: 158px;  
       }
       .title h1 .linkedin {
         $color: #2777bd;

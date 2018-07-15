@@ -170,18 +170,18 @@ class Notification::Deliver < Draper::Decorator
     # rubocop:disable Metrics/MethodLength
     def got_project_message!(message)
       project = message.thread
+
       init, rcv, path, action_url = if message.sender == project.business
                                       [
-                                        project.business, project.specialist,
+                                        project.business, message.recipient,
                                         *path_and_url(:project_dashboard, project, anchor: 'project-messages')
                                       ]
                                     else
                                       [
-                                        project.specialist, project.business,
+                                        message.sender, project.business,
                                         *path_and_url(:business_project_dashboard, project, anchor: 'project-messages')
                                       ]
                                     end
-
       dispatcher = Dispatcher.new(
         user: rcv.user,
         key: :got_project_message,
