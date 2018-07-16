@@ -24,7 +24,6 @@ $.onContentReady ($parent, data) ->
             new_data = $(data).find('[data-message-id]').filter ->
               $(this).data("message-id") > $('[data-message-id]').last().data('message-id')
             if new_data.length > 0
-              console.log new_data
               $messages.append new_data
               groupMessagesByDay()
               scrollLast()
