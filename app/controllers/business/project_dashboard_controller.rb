@@ -18,11 +18,7 @@ class Business::ProjectDashboardController < ApplicationController
   end
 
   def find_specialist
-    if params[:specialist_id]
-      specialist = Specialist.where(id: params[:specialist_id])
-      if !specialist.blank? && !specialist.first.applied_projects.where(id: @project.id).blank?
-        @specialist = specialist.first
-      end
-    end
+    specialist = Specialist.where(id: params[:specialist_id]) if params[:specialist_id]
+    @specialist = specialist.first if specialist.present? && specialist.first.applied_projects.where(id: @project.id).present?
   end
 end

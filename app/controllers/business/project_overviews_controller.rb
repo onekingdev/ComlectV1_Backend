@@ -19,8 +19,6 @@ class Business::ProjectOverviewsController < ApplicationController
   def find_project
     @project = current_business.projects.find(params[:project_id])
     @specialist = Specialist.find(params[:specialist_id]) if params[:specialist_id]
-    if @specialist.present?
-      @specialist = nil if @specialist.applied_projects.where(id: @project.id).blank?
-    end
+    @specialist = nil if @specialist.present? && @specialist.applied_projects.where(id: @project.id).blank?
   end
 end

@@ -3,6 +3,7 @@
 class ProjectMessagesController < ApplicationController
   before_action :find_project
 
+  # rubocop:disable Metrics/AbcSize
   def index
     s_id = nil
     b_id = nil
@@ -10,7 +11,7 @@ class ProjectMessagesController < ApplicationController
       b_id = current_business.id
       if params[:specialist_id]
         specialist = Specialist.where(id: params[:specialist_id])
-        if !specialist.blank? && !specialist.first.applied_projects.where(id: @project.id).blank?
+        if specialist.present? && specialist.first.applied_projects.where(id: @project.id).present?
           s_id = params[:specialist_id].to_i
           @messages = @project.messages.business_specialist(b_id, s_id).page(params[:page]).per(20)
         end
@@ -41,9 +42,7 @@ class ProjectMessagesController < ApplicationController
     a = recipient
     if params[:specialist_id] && recipient.blank?
       specialist = Specialist.where(id: params[:specialist_id])
-      if !specialist.blank? && !specialist.first.applied_projects.where(id: @project.id).blank?
-        recipient = specialist.first
-      end
+      recipient = specialist.first if specialist.present? && specialist.first.applied_projects.where(id: @project.id).present?
     end
     recipient = a if recipient.blank?
     @message = Message::Create.(@project, message_params.merge(sender: sender, recipient: recipient))
@@ -57,6 +56,7 @@ class ProjectMessagesController < ApplicationController
       end
     end
   end
+  # rubocop:enable Metrics/AbcSize
 
   private
 
@@ -72,9 +72,7 @@ class ProjectMessagesController < ApplicationController
 
   def find_project
     project = sender.projects.where(id: params[:project_id])
-    if project.blank?
-      project = sender.applied_projects.where(id: params[:project_id])
-    end
-    @project = project.first if !project.blank?
+    project = sender.applied_projects.where(id: params[:project_id]) if project.blank?
+    @project = project.first if project.present?
   end
 end
