@@ -89,7 +89,7 @@ Rails.application.routes.draw do
 
       resources :job_applications, path: 'applications'
       resources :hires
-      resources :documents
+      resources :documents, path: 'documents(/:specialist_id)'
       resources :answers, only: :create
       resources :flags, only: %i[new create]
       resources :timesheets

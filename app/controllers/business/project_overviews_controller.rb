@@ -2,7 +2,7 @@
 
 class Business::ProjectOverviewsController < ApplicationController
   before_action :require_business!
-  before_action :find_project
+  before_action :find_project_and_specialist
 
   def show
     respond_to do |format|
@@ -16,7 +16,7 @@ class Business::ProjectOverviewsController < ApplicationController
 
   private
 
-  def find_project
+  def find_project_and_specialist
     @project = current_business.projects.find(params[:project_id])
     @specialist = Specialist.find(params[:specialist_id]) if params[:specialist_id]
     @specialist = nil if @specialist.present? && @specialist.applied_projects.where(id: @project.id).blank?

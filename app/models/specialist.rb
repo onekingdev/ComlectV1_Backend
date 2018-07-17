@@ -17,6 +17,7 @@ class Specialist < ApplicationRecord
   has_many :applied_projects, -> {
     where(specialist_id: nil)
   }, class_name: 'Project', through: :job_applications, source: :project
+  has_many :communicable_projects, class_name: 'Project', through: :job_applications, source: :project
   has_many :sent_messages, as: :sender, class_name: 'Message'
   has_many :ratings_received, -> {
     where(rater_type: Business.name).order(created_at: :desc)

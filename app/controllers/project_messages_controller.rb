@@ -3,26 +3,10 @@
 class ProjectMessagesController < ApplicationController
   before_action :find_project
 
-  # rubocop:disable Metrics/AbcSize
   def index
-    s_id = nil
-    b_id = nil
-    if current_business
-      b_id = current_business.id
-      if params[:specialist_id]
-        specialist = Specialist.where(id: params[:specialist_id])
-        if specialist.present? && specialist.first.applied_projects.where(id: @project.id).present?
-          s_id = params[:specialist_id].to_i
-          @messages = @project.messages.business_specialist(b_id, s_id).page(params[:page]).per(20)
-        end
-      else
-        s_id = @project.specialist_id
-        @messages = @project.messages.business_specialist(b_id, s_id).page(params[:page]).per(20)
-      end
-    elsif current_specialist
-      s_id = current_specialist.id
-      b_id = @project.business_id
-    end
+    b_id = current_business ? current_business.id : @project.business_id
+    s_id = current_specialist ? current_specialist.id : specialist_from_params_or_project
+
     @messages = @project.messages.business_specialist(b_id, s_id).page(params[:page]).per(20)
     respond_to do |format|
       format.html do
@@ -39,13 +23,9 @@ class ProjectMessagesController < ApplicationController
   end
 
   def create
-    a = recipient
-    if params[:specialist_id] && recipient.blank?
-      specialist = Specialist.where(id: params[:specialist_id])
-      recipient = specialist.first if specialist.present? && specialist.first.applied_projects.where(id: @project.id).present?
-    end
-    recipient = a if recipient.blank?
-    @message = Message::Create.(@project, message_params.merge(sender: sender, recipient: recipient))
+    dst = recipient
+    dst = Specialist.find(specialist_from_params_or_project) if dst.blank?
+    @message = Message::Create.(@project, message_params.merge(sender: sender, recipient: dst))
     respond_to do |format|
       format.js do
         render :new if @message.new_record?
@@ -56,9 +36,16 @@ class ProjectMessagesController < ApplicationController
       end
     end
   end
-  # rubocop:enable Metrics/AbcSize
 
   private
+
+  def specialist_from_params_or_project
+    if params[:specialist_id]
+      return params[:specialist_id].to_i if Specialist.find(params[:specialist_id]).applied_projects.where(id: @project.id).present?
+    else
+      @project.specialist_id
+    end
+  end
 
   def render_messages
     render partial: 'messages/message',
@@ -71,8 +58,6 @@ class ProjectMessagesController < ApplicationController
   end
 
   def find_project
-    project = sender.projects.where(id: params[:project_id])
-    project = sender.applied_projects.where(id: params[:project_id]) if project.blank?
-    @project = project.first if project.present?
+    @project = sender.communicable_projects.find(params[:project_id])
   end
 end
