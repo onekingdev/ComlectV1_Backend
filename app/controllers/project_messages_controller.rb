@@ -28,7 +28,11 @@ class ProjectMessagesController < ApplicationController
     @message = Message::Create.(@project, message_params.merge(sender: sender, recipient: dst))
     respond_to do |format|
       format.js do
-        render :new if @message.new_record?
+        if @message
+          render :new if @message.new_record?
+        else
+          render nothing: true
+        end
       end
       format.html do
         alert = @message.new_record? ? @message.errors.messages.values.flatten.to_sentence : nil

@@ -7,6 +7,10 @@ class Business::ProjectDashboardController < ApplicationController
   before_action :redirect_if_full_time
   skip_before_action :check_unrated_project, if: -> { action_name == 'show' && @project&.requires_business_rating? }
 
+  def show
+    redirect_to business_dashboard_path if @project.pending? && params[:specialist_id].blank?
+  end
+
   private
 
   def redirect_if_full_time
