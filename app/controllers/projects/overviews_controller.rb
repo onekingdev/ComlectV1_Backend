@@ -17,8 +17,6 @@ class Projects::OverviewsController < ApplicationController
   private
 
   def find_project
-    # rubocop:disable Metrics/LineLength
-    @project = Project.find(params[:project_id]) if current_specialist.applied_projects.where(id: params[:project_id]).present? || current_specialist.projects.where(id: params[:project_id]).present?
-    # rubocop:enable Metrics/LineLength
+    @project = current_specialist.projects.find(params[:project_id])
   end
 end

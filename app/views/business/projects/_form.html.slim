@@ -36,30 +36,42 @@
             } \
           }
 
-  .well.well-lg.m-t-3.project-duration
+  .well.well-lg.m-t-3.project-duration data-duration-type=project.duration_type
     h2.text-center.m-b-2 Project Duration
-    .row.row-compact.js-date-range
-      .col-xs-12.col-sm-6
-        = f.input :starts_on, required: true, as: :string, input_html: { \
-          class: 'input-lg js-datepicker', \
-          data: { \
-            min: Date.today.to_a[3..5].reverse, \
-            'date-from' => true, \
-            value: (l(f.object.starts_on, format: :pickadate) if f.object.starts_on) \
-          } \
-        }
-      .col-xs-12.col-sm-6
-        = f.input :ends_on, required: true, as: :string, input_html: { \
-          class: 'input-lg js-datepicker', \
-          data: { \
-            min: Date.today.to_a[3..5].reverse, \
-            'date-to' => true, \
-            value: (l(f.object.ends_on, format: :pickadate) if f.object.ends_on) \
-          } \
-        }
-    .row.row-compact.p-b-1
-      .col-xs-12
-        .small.text-muted Please estimate if necessary to allow our specialists to determine their availability. You will be able to extend the deadline later.
+    .row.row-compact.m-y-1
+      .col-xs-12.text-center
+        = f.input :duration_type, as: :radio_pills, collection: [%w(ASAP asap), %w(Custom custom)], btn_class: 'btn-default tt-u'
+    .project-duration-asap
+      .row.row-compact
+        .col-xs-12.col-sm-4.col-sm-offset-4
+          = f.input :estimated_days, as: :string, require: true, input_html: { class: 'input-lg text-center' }
+      .row.row-compact.p-b-1
+        .col-xs-12
+          .small.text-muted Note: This on-demand feature automatically matches you with a specialist that meets your project pre-requisites. Please select custom if you’d like to interview and hire a specialist of your choosing. Please estimate how many days your project may take to allow our specialists to determine their availability. You will be able to finish the project early or extend the deadline once the project begins.
+    .project-duration-custom
+      .row.row-compact.js-date-range
+        .col-xs-12.col-sm-6
+          = f.input :starts_on, required: true, as: :string, input_html: { \
+            class: 'input-lg js-datepicker', \
+            data: { \
+              min: Date.today.to_a[3..5].reverse, \
+              'date-from' => true, \
+              value: (l(f.object.starts_on, format: :pickadate) if f.object.starts_on) \
+            } \
+          }
+
+        .col-xs-12.col-sm-6
+          = f.input :ends_on, required: true, as: :string, input_html: { \
+            class: 'input-lg js-datepicker', \
+            data: { \
+              min: Date.today.to_a[3..5].reverse, \
+              'date-to' => true, \
+              value: (l(f.object.ends_on, format: :pickadate) if f.object.ends_on) \
+            } \
+          }
+      .row.row-compact.p-b-1
+        .col-xs-12
+          .small.text-muted Please estimate if necessary to allow our specialists to determine their availability. You will be able to extend the deadline later.
 
   .well.well-lg.m-t-3.project-salary
     h2.text-center.m-b-2 Salary

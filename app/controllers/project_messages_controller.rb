@@ -4,10 +4,7 @@ class ProjectMessagesController < ApplicationController
   before_action :find_project
 
   def index
-    b_id = current_business ? current_business.id : @project.business_id
-    s_id = current_specialist ? current_specialist.id : specialist_from_params_or_project
-
-    @messages = @project.messages.business_specialist(b_id, s_id).page(params[:page]).per(20)
+    @messages = @project.messages.recent.page(params[:page]).per(20)
     respond_to do |format|
       format.html do
         return render_messages if params[:page]
@@ -23,16 +20,10 @@ class ProjectMessagesController < ApplicationController
   end
 
   def create
-    dst = recipient
-    dst = Specialist.find(specialist_from_params_or_project) if dst.blank?
-    @message = Message::Create.(@project, message_params.merge(sender: sender, recipient: dst))
+    @message = Message::Create.(@project, message_params.merge(sender: sender, recipient: recipient))
     respond_to do |format|
       format.js do
-        if @message
-          render :new if @message.new_record?
-        else
-          render nothing: true
-        end
+        render :new if @message.new_record?
       end
       format.html do
         alert = @message.new_record? ? @message.errors.messages.values.flatten.to_sentence : nil
@@ -42,14 +33,6 @@ class ProjectMessagesController < ApplicationController
   end
 
   private
-
-  def specialist_from_params_or_project
-    if params[:specialist_id]
-      return params[:specialist_id].to_i if Specialist.find(params[:specialist_id]).applied_projects.where(id: @project.id).present?
-    else
-      @project.specialist_id
-    end
-  end
 
   def render_messages
     render partial: 'messages/message',
@@ -62,6 +45,6 @@ class ProjectMessagesController < ApplicationController
   end
 
   def find_project
-    @project = sender.communicable_projects.find(params[:project_id])
+    @project = sender.projects.find(params[:project_id])
   end
 end

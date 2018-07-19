@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'validators/url_validator'
+
 class Business < ApplicationRecord
   belongs_to :user
   has_and_belongs_to_many :jurisdictions
@@ -32,8 +34,6 @@ class Business < ApplicationRecord
     }
   end
 
-  alias communicable_projects projects
-
   default_scope -> { joins("INNER JOIN users ON users.id = businesses.user_id AND users.deleted = 'f'") }
 
   include ImageUploader[:logo]
@@ -45,6 +45,8 @@ class Business < ApplicationRecord
   validates :country, :city, :state, :time_zone, presence: true
   validates :description, length: { maximum: 750 }
   validates :employees, inclusion: { in: EMPLOYEE_OPTIONS }
+  validates :linkedin_link, allow_blank: true, url: true
+  validates :website, allow_blank: true, url: true
 
   accepts_nested_attributes_for :user
 
@@ -54,10 +56,6 @@ class Business < ApplicationRecord
     new(attributes).tap do |business|
       business.build_user unless business.user
     end
-  end
-
-  def available_projects
-    projects
   end
 
   def in_usa?

@@ -186,9 +186,9 @@ form .well {
     .btn, .btn.active, .btn.active.active {
       &:hover {
         border-color: #ffcc00 !important;
-      }      
+      }
     }
-  }  
+  }
 }
 
 
@@ -269,7 +269,7 @@ select.js-select.input-lg {
   left: -1000px;
 }
 
-.project_pricing_type .btn {
+.project_duration_type .btn, .project_pricing_type .btn {
   width: 8em;
 }
 
