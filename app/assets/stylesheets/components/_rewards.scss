@@ -1,0 +1,49 @@
+.rewards {
+  position: absolute;
+  margin-top: -57px;
+  color: #fff;
+  text-align: center;
+  font-size: 18px;
+  width: 100%;
+  &-star {
+    color: #000;
+    position: absolute;
+    z-index: 100;
+    font-size: 36px;
+    font-weight: bold;
+    color: #7f6600;
+    margin-top: -5px;
+    margin-left: -16px;
+  }
+  & .container {
+    margin-left: -15px;
+  }
+  &-gold, &-platinum, &-honors {
+    //padding: 3px 0px;
+    padding-top: 5px;
+    padding-bottom: 1px;
+    font-weight: bold;
+    -webkit-box-shadow: 0px 7px 32px 3px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0px 7px 32px 3px rgba(0,0,0,0.2);
+    box-shadow: 0px 7px 32px 3px rgba(0,0,0,0.2);
+  }
+  &-gold {
+    background-color: #FFDA70;
+    color: #664a00;
+  }
+  &-platinum {
+    background-color: #A6A6A6;
+  }
+  &-honors {
+    background-color: #404040;
+  }
+
+  .tooltip-inner {
+    text-align: left;
+    color: #000;
+    ul {
+      margin-bottom: 0px;
+      padding-left: 20px;
+    }
+  }
+}
