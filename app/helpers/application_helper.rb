@@ -116,4 +116,11 @@ module ApplicationHelper
       project_flags_path(project_id: project.id)
     end
   end
+
+  def reward_percent
+    spent = current_business_or_specialist.completed_projects_amount
+    return ((spent - 10_000) * 100 / 40_000) * 32.4 / 100 + 1.5 if (spent > BigDecimal('9999')) && (spent < BigDecimal('50001'))
+    return (spent * 100 / 50_000) * 32.3 / 100 + 1.5 if (spent > BigDecimal('50000')) && (spent < BigDecimal('150001'))
+    return 98.2 if spent > BigDecimal('150000')
+  end
 end
