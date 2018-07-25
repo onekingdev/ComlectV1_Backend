@@ -30,6 +30,8 @@ Rails.application.routes.draw do
   end
 
   root to: 'landing_page#show'
+  get 'turnkey' => 'turnkeys#index'
+  get 'turnkey/:page' => 'turnkeys#page'
   get 'info/:page' => 'home#page', as: :page
   get 'app_config' => 'home#app_config', format: 'js'
   get 'partnerships' => 'home#partnerships'
