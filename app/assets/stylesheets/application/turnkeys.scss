@@ -1,3 +1,10 @@
 body.turnkeys.index {
-	
+  .app_container {
+    width: 100% !important;
+  }
+	.page-parallax {
+    height: 453px;
+    background-size: cover;
+    width: 100%;
+  }
 }
