@@ -1,9 +1,91 @@
 .page-parallax.parallax-window data-image-src=asset_url("turnkey/index-header.jpg") data-parallax="scroll"
-  .container#about-us.p-b-3
-    .row
-      = link_to "Hourly advice", "/turnkey/hourly-advice"
-      = link_to "Mock sec exam", "/turnkey/mock-sec-exam"
-      = link_to "FINRA, SEC, STATE, & NFA REGISTRATION", "/turnkey/finra-sec-state-nfa"
-      = link_to "TAILORED COMPLIANCE MANUAL", "/turnkey/tailored-compliance-manual"
-      = link_to "OUTSOURCED COMPLIANCE PROGRAM", "/turnkey/outsourced-compliance-program"
-      = link_to "Topical turnkey solutions", "/turnkey/topical-turnkey-solutions"
+.container.p-b-3
+  .row
+    .col-md-6.left-story.text-center
+      p.text-center
+        | START TAKING CONTROL OF YOUR
+        br
+        | COMPLIANCE PROGRAM
+      .arrow-down
+        #comp-jgg2183osvg.style-isy6271e1_comp-jgg2183o.style-isy6271e1_non-scaling-stroke.style-isy6271e1svg style="fill-opacity: 1; stroke-width: 0; stroke: rgb(237, 21, 102); stroke-opacity: 1; fill: rgb(0, 0, 0);" 
+          svg preserveaspectratio=("xMidYMid meet") role="img" style=("stroke-width: 0px;") viewbox=("4.360000133514404 20.79199981689453 191.8350830078125 43.78700256347656") xmlns="http://www.w3.org/2000/svg" 
+            g
+              path d=("M192.05 39H42V24.161c0-2.073-2.057-3.369-3.853-2.333L6.156 40.353c-1.796 1.037-1.749 3.628.047 4.665l31.922 18.524C39.919 64.579 42 63.283 42 61.21V46h150.05a3.501 3.501 0 1 0 0-7z") 
+
+      = link_to "Get started", new_user_registration_path, "data-dismiss" => "modal", "data-remote" => true, class: "btn btn-primary p-h-3 m-t-1"
+    .col-md-6.right-story
+      h1.text-center.brand-color.p-b-1 IT'S GOOD TO HAVE OPTIONS
+      = image_tag "turnkey/document.png"
+      h3 ONE OFF PROJECTS
+      ul
+        li Onsite CCO support
+        li Form ADV, 13F, 13H filings, etc.
+        li Compliance manual updates
+        li Email reviews
+        li Look back/internal reviews
+        li Secondments
+      = image_tag "turnkey/key.png"
+      h3 TURN KEY SOLUTIONS
+      ul
+        li FINRA, SEC, NFA registrations
+        li New compliance manuals
+        li Mock SEC exams
+        li Annual RIA compliance retainer packages
+        li Outsourced compliance officers
+      = image_tag "turnkey/network.png"
+      h3 ENTERPRISE SOLUTIONS
+      ul
+        li 
+          | Fully customized scope of work for when you need an entire team of specialists:
+          ul
+            li e.g. AML special project teams (KYC, SARS, EDD, red flag alerts, etc.)
+.row.black_thing.m-t-3
+.container.turnkey-index.m-t-3
+  .row
+    h1.brand-color Turnkey Solutions
+    - for category in @categories do
+      .col-md-4 ontouchstart="this.classList.toggle('hover');"
+        .turnkey-index-entity
+          .turnkey-index-entity-front
+            .turnkey-index-entity-front-bg
+            .text-center
+              .cost = category.cost
+              = link_to category.title, "/turnkey/#{category.url}"
+          .turnkey-index-entity-back onclick="window.open('/turnkey/#{category.url}')"
+            .text-center.p-l-2.p-r-2 = category.description
+
+
+
+      /.product_item.product_nuts ontouchstart="this.classList.toggle('hover');"
+        .product_flipper
+          .product_front
+            p Орехи
+          .product_back onclick="window.open('http://semushka.com/produkcziya/orexi/', '_blank')"
+            h1 Орех
+            p
+              | Орехи — это сильный антиоксидант, содержатель таких витаминов, как B, C, A, B2 и других, полезных для нервной системы и сердца. Практически все сорта орехов — это мощный источник токоферона (витамина Е).
+            a.product_more href="#" Подробнее
+
+
+
+.container
+  .row
+    = simple_form_for FeedbackRequest.new do |f|
+      .col-md-3.col-md-push-3
+        = f.input :name
+        = f.input :email
+        = f.input :phone
+        = f.input :specialists
+        = f.input :budget
+      .col-md-3.col-md-push-3
+        = f.input :description
+.container
+  .row
+    .col-md-5.col-md-push-2
+      .col-md-12
+        h1 Ready to find out more?
+      .col-md-3
+        .line
+        = link_to "FREE EVALUATION", new_user_registration_path, "data-dismiss" => "modal", "data-remote" => true, class: "btn btn-primary p-h-3 m-t-1"
+      .col-md-9
+        | Whether you are a seasoned compliance professional or just setting up shop and learning the ropes, we are here as that unbiased third party to help you navigate comptalk you through your needs. You can reach us by email or phone to request your free evaluation and assistance to scope out the best project fit for your circumstances. Just drop us a line!

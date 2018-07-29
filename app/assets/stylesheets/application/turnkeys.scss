@@ -1,4 +1,119 @@
 body.turnkeys.index {
+
+
+     /* .product_item
+        perspective: 1000px
+        float: left
+        width: 290px
+        position: relative
+        text-align: center
+        color: #ffffff
+        &:hover .product_flipper
+          transform: rotateY(180deg)
+      .product_flipper
+        width: 100%
+        height: 100%
+        transition: 0.6s
+        transform-style: preserve-3d
+      .product_front, .product_back
+        backface-visibility: hidden
+        top: 0
+        left: 0
+      .product_front
+        position: absolute
+        width: 100%
+        height: 100%
+        font-family: "Marianna"
+        font-size: 40px
+        padding-top: 70px
+        background-repeat: no-repeat
+        background-position: center
+        transform: rotateY(0deg)
+      .product_back
+        transform: rotateY(180deg)
+        display: block*/
+
+
+
+
+
+
+
+
+  .turnkey-index {
+    .col-md-4 {
+      perspective: 1000px;
+      &:hover .turnkey-index-entity {
+        transform: rotateY(180deg);        
+      }
+    }
+    h1 {
+      font-family: "Muller";
+      font-weight: $black-weight;
+      font-size: 50px;
+      margin-top: 50px;
+      margin-bottom: 50px;
+    }
+    &-entity {
+      transition: 0.6s;
+      transform-style: preserve-3d;
+      width: 240px;
+      height: 280px;
+      margin-bottom: 85px;
+      position: relative;
+      a {
+        color: #000;
+        font-size: 30px;
+        text-transform: uppercase;
+        text-align: center;
+        display: block;
+      }
+      &-front, &-back {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        backface-visibility: hidden;
+        width: 100%;
+        background-color: #EDEDED;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 3px solid #ededed;
+        cursor: pointer;
+      }
+      &-front {
+        transform: rotateY(0deg);
+        .cost {
+          position: absolute;
+          bottom: 20px;
+          width: 100%;
+        }
+        &-bg {
+          position: absolute;
+          top: 15px;
+          left: 15px;
+          z-index: -10;
+          display: block;
+          border: 3px solid #ededed;
+          width: 100%;
+          height: 100%;
+        }
+      }
+      &-back {
+        transform: rotateY(180deg);
+        background-color: #fff;
+        color: #000;
+      }
+    }
+  }
+  .black_thing {
+    position: absolute;
+    background-color: #242323;
+    height: 288px;
+    width: 100%;
+    z-index: -1;
+  }
   .app_container {
     width: 100% !important;
   }
@@ -6,5 +121,58 @@ body.turnkeys.index {
     height: 453px;
     background-size: cover;
     width: 100%;
+  }
+  #header {
+    margin-bottom: 0px;
+  }
+  .left-story {
+    p {
+      font-family: 'Nimbus Sans';
+      font-weight: $bold-weight;
+      color: #000000;
+      letter-spacing: 0.1em;
+      margin-top: 30px;
+      @media (min-width: $screen-sm-max) {
+        margin-top: 70px;
+      }
+    }
+    .btn {
+      padding: 15px 40px;
+      margin-top: 20px;
+      font-weight: 600;
+    }
+    .arrow-down {
+      transform: rotate(270deg) scale(0.15);
+    }
+  }
+  .right-story {
+    background: #ededed;
+    box-shadow: 2.97px 2.68px 4px 3px rgba(0,0,0,0.23);
+    margin-top: -185px;
+    padding-left: 150px;
+    padding-right: 65px;
+    padding-bottom: 35px;
+    ul {
+      padding-left: 15px;
+    }
+    h1 {
+      margin-left: -95px;
+      font-size: 16px;
+      font-family: "Nimbus Sans";
+      font-weight: bold;
+    }
+
+    h3 {
+      font-size: 20px;
+      font-family: "Nimbus Sans";
+      font-weight: bold;
+    }
+    img {
+      position: absolute;
+      width: 64px;
+      height: 64px;
+      margin-left: -85px;
+      margin-top: 10px;
+    }
   }
 }

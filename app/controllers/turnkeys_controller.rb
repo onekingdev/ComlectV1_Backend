@@ -1,14 +1,10 @@
+# frozen_string_literal: true
+
 class TurnkeysController < ApplicationController
-  PAGES = %w[
-    hourly-advice
-    mock-sec-exam
-    finra-sec-state-nfa
-    tailored-compliance-manual
-    outsourced-compliance-program
-    topical-turnkey-solutions
-  ].freeze
+  PAGES = TurnkeyPage.all.collect(&:url).freeze
 
   def index
+    @categories = TurnkeyPage.all.order(:id)
   end
 
   def page
