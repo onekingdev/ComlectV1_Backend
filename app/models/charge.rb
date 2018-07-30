@@ -42,15 +42,6 @@ class Charge < ApplicationRecord
     self.amount_in_cents = (BigDecimal(value) * 100).to_i
   end
 
-  def fee
-    return unless fee_in_cents
-    fee_in_cents / 100.0
-  end
-
-  def fee=(value)
-    self.fee_in_cents = (BigDecimal(value) * 100).to_i
-  end
-
   def business_fee
     return unless business_fee_in_cents
     business_fee_in_cents / 100.0

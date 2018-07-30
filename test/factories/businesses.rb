@@ -24,5 +24,17 @@ FactoryBot.define do
     trait :fee_free do
       fee_free true
     end
+
+    trait :gold_rewards do
+      rewards_tier 'gold'
+    end
+
+    trait :platinum_rewards do
+      rewards_tier 'platinum'
+    end
+
+    trait :platinum_honors_rewards do
+      rewards_tier 'platinum_honors'
+    end
   end
 end

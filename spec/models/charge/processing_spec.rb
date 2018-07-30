@@ -86,7 +86,7 @@ RSpec.describe Charge::Processing, type: :model do
     end
 
     context 'with no disputed timesheets' do
-      let(:specialist) { create :specialist }
+      let(:specialist) { create :specialist, :platinum_rewards }
 
       let(:project_1) do
         create(
@@ -137,7 +137,7 @@ RSpec.describe Charge::Processing, type: :model do
       end
 
       context 'when business is fee free' do
-        let(:business) { create :business, :fee_free }
+        let(:business) { create :business, :fee_free, :gold_rewards }
 
         it 'creates 2 transactions' do
           expect(@charges.size).to eq(2)
@@ -148,15 +148,15 @@ RSpec.describe Charge::Processing, type: :model do
           transaction_2 = project_2.transactions.first
           expect(transaction_1.amount_in_cents).to eq(BigDecimal(50_000))
           expect(transaction_2.amount_in_cents).to eq(BigDecimal(25_000))
-          expect(transaction_1.fee_in_cents).to eq(BigDecimal(5000))
-          expect(transaction_2.fee_in_cents).to eq(BigDecimal(2500))
+          expect(transaction_1.fee_in_cents).to eq(BigDecimal(3500))
+          expect(transaction_2.fee_in_cents).to eq(BigDecimal(1750))
         end
 
         it 'creates associated specialist payment transactions' do
           transaction_1 = project_1.transactions.first
           transaction_2 = project_2.transactions.first
-          expect(transaction_1.specialist_total).to eq(BigDecimal(450))
-          expect(transaction_2.specialist_total).to eq(BigDecimal(225))
+          expect(transaction_1.specialist_total).to eq(BigDecimal(465))
+          expect(transaction_2.specialist_total).to eq(BigDecimal('232.50'))
         end
       end
 
@@ -172,15 +172,15 @@ RSpec.describe Charge::Processing, type: :model do
           transaction_2 = project_2.transactions.first
           expect(transaction_1.amount_in_cents).to eq(BigDecimal(50_000) * (1 + Charge::COMPLECT_FEE_PCT))
           expect(transaction_2.amount_in_cents).to eq(BigDecimal(25_000) * (1 + Charge::COMPLECT_FEE_PCT))
-          expect(transaction_1.fee_in_cents).to eq(BigDecimal(10_000))
-          expect(transaction_2.fee_in_cents).to eq(BigDecimal(5000))
+          expect(transaction_1.fee_in_cents).to eq(BigDecimal(8500))
+          expect(transaction_2.fee_in_cents).to eq(BigDecimal(4250))
         end
 
         it 'creates associated specialist payment transactions' do
           transaction_1 = project_1.transactions.first
           transaction_2 = project_2.transactions.first
-          expect(transaction_1.specialist_total).to eq(BigDecimal(450))
-          expect(transaction_2.specialist_total).to eq(BigDecimal(225))
+          expect(transaction_1.specialist_total).to eq(BigDecimal(465))
+          expect(transaction_2.specialist_total).to eq(BigDecimal('232.50'))
         end
       end
     end
