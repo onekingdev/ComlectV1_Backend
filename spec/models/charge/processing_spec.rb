@@ -3,14 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe Charge::Processing, type: :model do
-  before(:all) do
-    StripeMock.start
-  end
-
-  after(:all) do
-    StripeMock.stop
-  end
-
   describe 'a set of scheduled charges' do
     let(:specialist) { create(:specialist) }
 
