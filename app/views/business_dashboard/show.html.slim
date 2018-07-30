@@ -1,7 +1,7 @@
-- content_for :title, "Dashboard"
+- content_for :title, 'Dashboard'
 - header_class ''
 
-/= render :partial => "specialists/dashboard/rewards"
+= render partial: 'specialists/dashboard/rewards'
 
 - Business::Decorator.decorate(@business).tap do |business|
   #business-dashboard.row.m-b-3

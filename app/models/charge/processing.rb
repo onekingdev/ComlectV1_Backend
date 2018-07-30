@@ -33,7 +33,9 @@ class Charge::Processing
   private
 
   def create_transaction
-    fee_in_cents = charges.map(&:fee_in_cents).reduce(:+)
+    business_fee_in_cents = charges.sum(:business_fee_in_cents)
+    specialist_fee_in_cents = charges.sum(:specialist_fee_in_cents)
+    total_fees_in_cents = business_fee_in_cents + specialist_fee_in_cents
 
     common = {
       project_id: project.id,
@@ -44,17 +46,14 @@ class Charge::Processing
     if project.full_time?
       Transaction::FullTime.create!(common)
     else
-      # (*1) when business is fee free but we still take 10% off specialists
-      # (*2) because we take 10% off business and 10% off specialists
-      multiplier = project.business.fee_free ? 1 : 2
-      Transaction::OneOff.create!(common.merge(fee_in_cents: fee_in_cents * multiplier))
+      Transaction::OneOff.create!(common.merge(fee_in_cents: total_fees_in_cents))
     end
   end
 
   def amount_in_cents
     # Do not include fee if business is fee free
-    return charges.map(&:amount_in_cents).reduce(:+) if project.business.fee_free
+    return charges.sum(:amount_in_cents) if project.business.fee_free
 
-    charges.map(&:total_with_fee_in_cents).reduce(:+)
+    charges.sum(:total_with_fee_in_cents)
   end
 end
