@@ -125,11 +125,11 @@ class Charge < ApplicationRecord
 
   def calculate_business_fee
     return self.business_fee_in_cents = 0 if business.fee_free
-    self.business_fee_in_cents = fee_in_cents_with_rewards(business)
+    self.business_fee_in_cents ||= fee_in_cents_with_rewards(business)
   end
 
   def calculate_specialist_fee
-    self.specialist_fee_in_cents = fee_in_cents_with_rewards(specialist)
+    self.specialist_fee_in_cents ||= fee_in_cents_with_rewards(specialist)
   end
 
   def fee_in_cents_with_rewards(record)

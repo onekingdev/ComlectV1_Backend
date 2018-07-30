@@ -33,8 +33,8 @@ class Charge::Processing
   private
 
   def create_transaction
-    business_fee_in_cents = charges.sum(:business_fee_in_cents)
-    specialist_fee_in_cents = charges.sum(:specialist_fee_in_cents)
+    business_fee_in_cents = charges.map(&:business_fee_in_cents).reduce(:+)
+    specialist_fee_in_cents = charges.map(&:specialist_fee_in_cents).reduce(:+)
     total_fees_in_cents = business_fee_in_cents + specialist_fee_in_cents
 
     common = {
@@ -52,8 +52,8 @@ class Charge::Processing
 
   def amount_in_cents
     # Do not include fee if business is fee free
-    return charges.sum(:amount_in_cents) if project.business.fee_free
+    return charges.map(&:amount_in_cents).reduce(:+) if project.business.fee_free
 
-    charges.sum(:total_with_fee_in_cents)
+    charges.map(&:total_with_fee_in_cents).reduce(:+)
   end
 end
