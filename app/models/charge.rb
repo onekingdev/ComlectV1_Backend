@@ -8,9 +8,6 @@ class Charge < ApplicationRecord
   has_one :specialist, through: :project
 
   COMPLECT_FEE_PCT = 0.10
-  COMPLECT_FEE_PCT_GOLD_TIER = COMPLECT_FEE_PCT - 0.02
-  COMPLECT_FEE_PCT_PLATINUM_TIER = COMPLECT_FEE_PCT - 0.03
-  COMPLECT_FEE_PCT_PLATINUM_HONORS_TIER = COMPLECT_FEE_PCT - 0.04
 
   scope :for_one_off_projects, -> { joins(:project).where(project: Project.one_off) }
   scope :real, -> { where(status: [Charge.statuses[:scheduled], Charge.statuses[:processed], Charge.statuses[:error]]) }
@@ -42,22 +39,13 @@ class Charge < ApplicationRecord
     self.amount_in_cents = (BigDecimal(value) * 100).to_i
   end
 
-  def business_fee
-    return unless business_fee_in_cents
-    business_fee_in_cents / 100.0
+  def fee
+    return unless fee_in_cents
+    fee_in_cents / 100.0
   end
 
-  def business_fee=(value)
-    self.business_fee_in_cents = (BigDecimal(value) * 100).to_i
-  end
-
-  def specialist_fee
-    return unless specialist_fee_in_cents
-    specialist_fee_in_cents / 100.0
-  end
-
-  def specialist_fee=(value)
-    self.specialist_fee_in_cents = (BigDecimal(value) * 100).to_i
+  def fee=(value)
+    self.fee_in_cents = (BigDecimal(value) * 100).to_i
   end
 
   def total_with_fee
@@ -101,32 +89,14 @@ class Charge < ApplicationRecord
   private
 
   def calculate_fee
-    calculate_business_fee
-    calculate_specialist_fee
-
-    self.total_with_fee_in_cents = amount_in_cents + business_fee_in_cents
+    self.fee_in_cents ||= amount_in_cents * COMPLECT_FEE_PCT
+    self.total_with_fee_in_cents = amount_in_cents + fee_in_cents
 
     if project.one_off?
       self.running_balance_in_cents *= (1 + COMPLECT_FEE_PCT) if running_balance_in_cents
-      self.specialist_amount_in_cents = amount_in_cents - specialist_fee_in_cents
+      self.specialist_amount_in_cents = amount_in_cents - fee_in_cents
     end
 
     true
-  end
-
-  def calculate_business_fee
-    return self.business_fee_in_cents = 0 if business.fee_free
-    self.business_fee_in_cents ||= fee_in_cents_with_rewards(business)
-  end
-
-  def calculate_specialist_fee
-    self.specialist_fee_in_cents ||= fee_in_cents_with_rewards(specialist)
-  end
-
-  def fee_in_cents_with_rewards(record)
-    return amount_in_cents * COMPLECT_FEE_PCT_GOLD_TIER if record.gold?
-    return amount_in_cents * COMPLECT_FEE_PCT_PLATINUM_TIER if record.platinum?
-    return amount_in_cents * COMPLECT_FEE_PCT_PLATINUM_HONORS_TIER if record.platinum_honors?
-    amount_in_cents * COMPLECT_FEE_PCT
   end
 end

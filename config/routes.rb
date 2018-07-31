@@ -30,6 +30,8 @@ Rails.application.routes.draw do
   end
 
   root to: 'landing_page#show'
+  get 'turnkey' => 'turnkeys#index'
+  get 'turnkey/:page' => 'turnkeys#page'
   get 'info/:page' => 'home#page', as: :page
   get 'app_config' => 'home#app_config', format: 'js'
   get 'partnerships' => 'home#partnerships'
@@ -42,6 +44,7 @@ Rails.application.routes.draw do
     resources :ima, only: %i[index create]
   end
 
+  resources :feedback_requests, only: %i[create new]
   resources :businesses, only: %i[new create show]
   resource :business, only: %i[edit] do
     patch '/' => 'businesses#update', as: :update
