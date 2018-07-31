@@ -370,7 +370,8 @@ CREATE TABLE businesses (
     ratings_average double precision,
     discourse_username character varying,
     discourse_user_id integer,
-    fee_free boolean DEFAULT false
+    fee_free boolean DEFAULT false,
+    rewards_tier integer
 );
 
 
@@ -434,7 +435,9 @@ CREATE TABLE charges (
     running_balance_in_cents integer,
     specialist_amount_in_cents integer DEFAULT 0 NOT NULL,
     referenceable_id integer,
-    referenceable_type character varying
+    referenceable_type character varying,
+    business_fee_in_cents integer,
+    specialist_fee_in_cents integer
 );
 
 
@@ -591,6 +594,45 @@ CREATE SEQUENCE favorites_id_seq
 --
 
 ALTER SEQUENCE favorites_id_seq OWNED BY favorites.id;
+
+
+--
+-- Name: feedback_requests; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE feedback_requests (
+    id integer NOT NULL,
+    name character varying,
+    email character varying,
+    phone character varying,
+    specialists character varying,
+    budget character varying,
+    description text,
+    ip inet,
+    user_agent character varying,
+    kind character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: feedback_requests_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE feedback_requests_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: feedback_requests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE feedback_requests_id_seq OWNED BY feedback_requests.id;
 
 
 --
@@ -1314,7 +1356,8 @@ CREATE TABLE specialists (
     address_2 character varying,
     discourse_username character varying,
     discourse_user_id integer,
-    specialist_team_id integer
+    specialist_team_id integer,
+    rewards_tier integer
 );
 
 
@@ -3417,6 +3460,40 @@ ALTER SEQUENCE transactions_id_seq OWNED BY transactions.id;
 
 
 --
+-- Name: turnkey_pages; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE turnkey_pages (
+    id integer NOT NULL,
+    title character varying,
+    url character varying,
+    description text,
+    cost character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: turnkey_pages_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE turnkey_pages_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: turnkey_pages_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE turnkey_pages_id_seq OWNED BY turnkey_pages.id;
+
+
+--
 -- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -3542,6 +3619,13 @@ ALTER TABLE ONLY email_threads ALTER COLUMN id SET DEFAULT nextval('email_thread
 --
 
 ALTER TABLE ONLY favorites ALTER COLUMN id SET DEFAULT nextval('favorites_id_seq'::regclass);
+
+
+--
+-- Name: feedback_requests id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY feedback_requests ALTER COLUMN id SET DEFAULT nextval('feedback_requests_id_seq'::regclass);
 
 
 --
@@ -3720,6 +3804,13 @@ ALTER TABLE ONLY transactions ALTER COLUMN id SET DEFAULT nextval('transactions_
 
 
 --
+-- Name: turnkey_pages id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY turnkey_pages ALTER COLUMN id SET DEFAULT nextval('turnkey_pages_id_seq'::regclass);
+
+
+--
 -- Name: users id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3811,6 +3902,14 @@ ALTER TABLE ONLY email_threads
 
 ALTER TABLE ONLY favorites
     ADD CONSTRAINT favorites_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: feedback_requests feedback_requests_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY feedback_requests
+    ADD CONSTRAINT feedback_requests_pkey PRIMARY KEY (id);
 
 
 --
@@ -4011,6 +4110,14 @@ ALTER TABLE ONLY timesheets
 
 ALTER TABLE ONLY transactions
     ADD CONSTRAINT transactions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: turnkey_pages turnkey_pages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY turnkey_pages
+    ADD CONSTRAINT turnkey_pages_pkey PRIMARY KEY (id);
 
 
 --
@@ -5271,3 +5378,12 @@ INSERT INTO schema_migrations (version) VALUES ('20180622004759');
 INSERT INTO schema_migrations (version) VALUES ('20180712053404');
 
 INSERT INTO schema_migrations (version) VALUES ('20180717152210');
+
+INSERT INTO schema_migrations (version) VALUES ('20180728192204');
+
+INSERT INTO schema_migrations (version) VALUES ('20180728213813');
+
+INSERT INTO schema_migrations (version) VALUES ('20180729032945');
+
+INSERT INTO schema_migrations (version) VALUES ('20180729172500');
+

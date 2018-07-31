@@ -97,6 +97,7 @@ class Specialist < ApplicationRecord
   include PdfUploader[:resume]
 
   enum visibility: { is_public: 'public', is_private: 'private' }
+  enum rewards_tier: { gold: 0, platinum: 1, platinum_honors: 2 }
 
   delegate :suspended?, to: :user
 
@@ -155,5 +156,9 @@ class Specialist < ApplicationRecord
 
   def managed?
     !team.nil?
+  end
+
+  def completed_projects_amount
+    projects.complete.sum(:calculated_budget)
   end
 end
