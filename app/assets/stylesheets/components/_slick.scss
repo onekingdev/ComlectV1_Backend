@@ -1,7 +1,4 @@
 .panel {
-  .slick-track {
-    margin: 0px;
-  }
   .slick-nav {
     text-align: center;
     .dot-pagination {
@@ -15,6 +12,11 @@
       font-family: maxicons;
       font-size: 18px;
     }
+  }
+
+  .slick-track {
+    margin-left: 0px;
+    margin-right: 0px;
   }
 
   .slick-active {

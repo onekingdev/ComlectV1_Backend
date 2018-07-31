@@ -8,6 +8,6 @@ class FileUploader < Shrine
   plugin :pretty_location
 
   Attacher.validate do
-    validate_max_size 2.megabytes, message: 'is too large (max is 2 MB)'
+    validate_max_size 100.megabytes, message: 'is too large (max is 100 MB)'
   end
 end

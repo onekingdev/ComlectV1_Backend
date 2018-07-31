@@ -28,7 +28,7 @@ class Project < ApplicationRecord
   has_many :answers, through: :questions, dependent: :destroy
   has_many :favorites, as: :favorited, dependent: :destroy, class_name: 'Favorite'
   has_many :favorited_by, through: :favorites, source_type: 'Specialist', source: :owner
-
+  has_many :applicants, class_name: 'Specialist', through: :job_applications, source: :specialist
   # add favorites or specialists who favorited this project
 
   accepts_nested_attributes_for :extensions

@@ -34,6 +34,8 @@ class Business < ApplicationRecord
     }
   end
 
+  alias communicable_projects projects
+
   default_scope -> { joins("INNER JOIN users ON users.id = businesses.user_id AND users.deleted = 'f'") }
 
   include ImageUploader[:logo]
@@ -56,6 +58,10 @@ class Business < ApplicationRecord
     new(attributes).tap do |business|
       business.build_user unless business.user
     end
+  end
+
+  def available_projects
+    projects
   end
 
   def in_usa?

@@ -42,8 +42,12 @@
                 data: { confirm: "Are you sure you want to withdraw your<br>application from <b>#{project}</b>?", confirm_label: 'Confirm' },
                 class: 'btn btn-sm btn-primary' do
                 span Withdraw
-              = link_to project_path(project), class: 'btn btn-sm btn-primary'
-                span View
+              - if project.messages.business_specialist(project.business_id, current_specialist.id).blank?
+                = link_to project_path(project), class: 'btn btn-sm btn-primary'
+                  span View
+              - else
+                = link_to project_dashboard_path(project), class: 'btn btn-sm btn-primary'
+                  span Message
             - else
               = link_to project.specialist_project_href(current_specialist), class: 'btn btn-sm btn-primary btn-single'
                 span View
