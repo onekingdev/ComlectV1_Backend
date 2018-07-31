@@ -50,6 +50,8 @@ class Business < ApplicationRecord
 
   accepts_nested_attributes_for :user
 
+  enum rewards_tier: { gold: 0, platinum: 1, platinum_honors: 2 }
+
   delegate :suspended?, to: :user
 
   def self.for_signup(attributes = {})
@@ -82,5 +84,9 @@ class Business < ApplicationRecord
 
   def contact_full_name
     [contact_first_name, contact_last_name].map(&:presence).compact.join(' ')
+  end
+
+  def completed_projects_amount
+    projects.complete.sum(:calculated_budget)
   end
 end

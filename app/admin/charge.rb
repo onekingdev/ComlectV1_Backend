@@ -50,7 +50,7 @@ ActiveAdmin.register Charge do
     column :business, sortable: 'businesses.business_name'
     column :specialist, sortable: 'specialists.first_name'
     column :amount, sortable: :amount_in_cents, class: 'number' do |charge|
-      number_to_currency charge.project.full_time? ? charge.fee : charge.amount
+      number_to_currency charge.project.full_time? ? charge.business_fee : charge.amount
     end
     column :status do |charge|
       status_tag charge.status, charge.status_css_class
@@ -69,8 +69,11 @@ ActiveAdmin.register Charge do
       row :amount do |charge|
         number_to_currency charge.amount
       end
-      row :fee do |charge|
-        number_to_currency charge.fee_in_cents / 100.0
+      row :business_fee do |charge|
+        number_to_currency charge.business_fee_in_cents / 100.0
+      end
+      row :specialist_fee do |charge|
+        number_to_currency charge.specialist_fee_in_cents / 100.0
       end
       row :balance do |charge|
         number_to_currency charge.running_balance_in_cents / 100.0
@@ -88,13 +91,14 @@ ActiveAdmin.register Charge do
     end
   end
 
-  permit_params :amount, :fee, :total_with_fee, :running_balance,
-                :specialist_amount, :process_after, :description
+  permit_params :amount, :business_fee, :total_with_fee, :running_balance,
+                :specialist_fee, :specialist_amount, :process_after, :description
 
   form do |_f|
     inputs do
       input :amount
-      input :fee
+      input :business_fee
+      input :specialist_fee
       input :total_with_fee
       input :running_balance
       input :specialist_amount
