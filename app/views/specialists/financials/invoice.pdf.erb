@@ -242,13 +242,8 @@
       </tr>
       <tr class="odd-row">
         <td class="left-column"></td>
-        <% if specialist %>
-          <td class="middle-column">Complect Fee</td>
-          <td class="right-column"><%= number_to_currency(transaction.specialist_fee) %></td>
-        <% else %>
-          <td class="middle-column">Complect Fee</td>
-          <td class="right-column"><%= number_to_currency(transaction.business_fee) %></td>
-        <% end %>
+        <td class="middle-column">Complect Fee (10%)</td>
+        <td class="right-column"><%= number_to_currency(transaction.fee) %></td>
       </tr>
     <% end %>
     <tr class="even-row total">
