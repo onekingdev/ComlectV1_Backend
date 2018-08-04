@@ -1,0 +1,113 @@
+= render :partial => "header"
+.row.text-center
+  h1.small.m-t-3.p-t-1.m-b-3.p-b-3.brand-color DIG YOURSELF OUT FROM THAT MOUNTAIN OF PAPERWORK
+
+.container
+  .row
+    .turnkey-entry.col-md-4.col-sm-6
+      = simple_form_for :turnkey do |f|
+        h1
+          | SEC/State RIA/ERA Registration
+          br
+          span $5,000-$15,000
+        = f.input :flavor, as: :radio_pills, collection: ['ERA', 'SMA', 'Fund'], input_html: { selected: 'ERA' }, btn_class: 'btn-lg btn-default p-x-1'
+        p
+          | The ugly truth is state registration can be just as complicated if not more so than SEC registration for most investment advisers. Stop paying more, just because consulting firms assume a higher AUM means you are willing to pay more and start paying what it costs to hire quality compliance assistance.​
+          ul.turnkey-entry-profits
+            li 
+              | Guaranteed minimum 
+              b 5 years 
+              | direct compliance experience
+            li FINRA Entitlement Form to establish IARD/Web CRD account
+            li Form ADV Part 1A, 1B, 2A, and 2B (as applicable)
+            li U4 filings for investment adviser representatives (as applicable)
+            li
+              | Customized compliance manual covering a minimum:
+              ul
+                li Books & Records
+                li Business Continuity Planning
+                li Code of Ethics
+                li Custody & Safeguarding Client Assets
+                li Marketing & Solicitation
+                li Investment Management
+                li Privacy and Cybersecurity
+                li Proxy Voting
+                li Regulatory Filings & Disclosures
+                li Trading
+                li Valuation
+            li Unlimited correspondence with regulatory bodies until registration is processed
+            li Compliance training to prepare business for status as a registered investment adviser
+        .clearfix
+        .turnkey-entry-purchase
+          = f.submit "Purchase", class: "btn btn-large btn-primary turnkey-entry-submit"
+
+    .turnkey-entry.col-md-4.col-sm-6
+      = simple_form_for :turnkey do |f|
+        h1
+          | FINRA Registration
+          br
+          span $17,500
+        p
+          | Becoming a broker dealer doesn't have to be a headache. Let one of our specialists do it for you and get you on your way to earning those commissions!
+          ul.turnkey-entry-profits
+            li 
+              | Guaranteed minimum 
+              b 5 years 
+              | direct compliance experience
+            li Onsite visit for the full regulatory exam experience, travel cost incl.
+            li
+              | Written compliance program review report covering a minimum: 
+              ul
+                li Books & Records
+                li Business Continuity Planning
+                li Code of Ethics
+                li Custody & Safeguarding Client Assets
+                li Fees & Expenses
+                li Marketing & Solicitation
+                li Investment Management
+                li Privacy and Cybersecurity
+                li Proxy Voting
+                li Regulatory Filings & Disclosures
+                li Trading
+                li Valuation
+            li Mock interviews with key employees
+        .clearfix
+        .turnkey-entry-purchase
+          = f.submit "Purchase", class: "btn btn-large btn-primary turnkey-entry-submit"
+
+    .turnkey-entry.col-md-4.col-sm-6
+      = simple_form_for :turnkey do |f|
+        h1
+          | NFA/CFTC Registration
+          br
+          span $23,000
+        p
+          | It's always good to be prepared and keep your team ready for the day the regulator​s come knocking. Kill two birds with one stone and undergo a mock SEC exam that can double as your required 206(4)-7 annual compliance program review as well!
+          ul.turnkey-entry-profits
+            li 
+              | Guaranteed minimum 
+              b 10+ years 
+              | direct compliance experience
+            li Former regulator
+            li Onsite visit for the full regulatory exam experience, travel cost incl.
+            li
+              | Written compliance program review report covering a minimum: 
+              ul
+                li Books & Records
+                li Business Continuity Planning
+                li Code of Ethics
+                li Custody & Safeguarding Client Assets
+                li Fees & Expenses
+                li Marketing & Solicitation
+                li Investment Management
+                li Privacy and Cybersecurity
+                li Proxy Voting
+                li Regulatory Filings & Disclosures
+                li Trading
+                li Valuation
+            li Mock interviews with key employees
+        .clearfix
+        .turnkey-entry-purchase
+          = f.submit "Purchase", class: "btn btn-large btn-primary turnkey-entry-submit"
+
+= render :partial => "turnkey_footer"

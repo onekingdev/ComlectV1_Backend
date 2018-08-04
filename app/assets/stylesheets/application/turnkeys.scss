@@ -1,6 +1,45 @@
 .turnkey-entry {
   text-align: center;
   margin-bottom: 40px;
+  .check_boxes.turnkey_flavor {
+    text-align: left;
+  }
+  .checkbox {
+    padding: 4px 0px 2px !important;
+    margin: 0px;
+    display: inline-block;
+    width: 45px;
+    border: 2px solid #ffc42f;
+    label {
+      text-align: center;
+      width: 100% !important;
+    }
+    label::before {
+      content: none;
+    }
+  }
+  .btn-grid-flavor {
+    opacity: 1 !important;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 1px; /*Desired width*/
+    height: 1px; /*Desired height*/
+    display: block;
+    float: left;
+    color: white;
+    margin-right: 0px;
+    z-index: auto !important;
+    &:checked:before {
+      content: '';
+      background: #FFC42F;
+      position: absolute;
+      width: 44px;
+      height: 27px;
+      left: 13px;
+      top: -8px;
+      z-index:-200;
+    }
+  }
   form {
     border: 2px solid #FFC42F;
     padding: 10px;
@@ -42,6 +81,7 @@
 body.turnkeys.page {
   .app_container {
     width: 100% !important;
+    padding: 0px;
   }
   .page-parallax {
     height: 280px;
@@ -59,6 +99,9 @@ body.turnkeys.page {
 }
 
 body.turnkeys.index {
+  .app_container {
+    padding: 0px;
+  }
   .modal-content{
     box-shadow: none !important;
     border: 0px !important;
