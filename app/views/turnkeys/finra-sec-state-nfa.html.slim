@@ -1,0 +1,44 @@
+= render :partial => "header"
+.row.text-center
+  h1.small.m-t-3.p-t-1.m-b-3.p-b-3.brand-color DIG YOURSELF OUT FROM THAT MOUNTAIN OF PAPERWORK
+
+- states = ["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New", "Hampshire", "New", "Jersey", "New", "Mexico", "New", "York", "North", "Carolina", "North", "Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode", "Island", "South", "Carolina", "South", "Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West", "Virginia", "Wisconsin", "Wyoming"]
+
+.container
+  .row
+    .turnkey-entry.col-md-4.col-sm-6
+      = simple_form_for :turnkey do |f|
+        h1
+          | SEC/State RIA/ERA Registration
+          br
+          span $3,000-$12,000
+        = f.input :flavor, as: :radio_pills, collection: ['ERA', 'SMA', 'Fund'], input_html: { selected: 'ERA' }, btn_class: 'btn-lg btn-default p-x-3'
+        = f.input :state, collection: states, placeholder: "Principal Office", input_html: { class: 'input-lg js-select' }
+        p
+          | It's always good to be prepared and keep your team ready for the day the regulator​s come knocking. Kill two birds with one stone and undergo a mock SEC exam that can double as your required 206(4)-7 annual compliance program review as well!
+          ul.turnkey-entry-profits
+            li
+              | Guaranteed minimum 
+              b 3 years 
+              | direct compliance experience
+            li Desktop review, no onsite hassle
+            li Mock interviews with key employees
+            li 
+              | Written compliance program review report covering a minimum:
+              ul
+                li Books & Records
+                li Business Continuity Planning
+                li Code of Ethics
+                li Custody & Safeguarding Client Assets
+                li Fees & Expenses
+                li Marketing & Solicitation
+                li Investment Management
+                li Privacy and Cybersecurity
+                li Proxy Voting
+                li Regulatory Filings & Disclosures
+                li Trading
+                li Valuation
+            li Entrance/Exit Interview
+        .clearfix
+        .turnkey-entry-purchase
+          = f.submit "Purchase", class: "btn btn-large btn-primary turnkey-entry-submit"

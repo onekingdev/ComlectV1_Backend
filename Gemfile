@@ -19,7 +19,6 @@ gem 'faker'
 gem 'pg', '0.20.0'
 gem 'pg_search'
 gem 'scenic'
-gem 'where-or'
 
 # Orchestration
 gem 'dotenv-rails'

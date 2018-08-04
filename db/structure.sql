@@ -370,8 +370,7 @@ CREATE TABLE businesses (
     ratings_average double precision,
     discourse_username character varying,
     discourse_user_id integer,
-    fee_free boolean DEFAULT false,
-    rewards_tier integer
+    fee_free boolean DEFAULT false
 );
 
 
@@ -435,9 +434,7 @@ CREATE TABLE charges (
     running_balance_in_cents integer,
     specialist_amount_in_cents integer DEFAULT 0 NOT NULL,
     referenceable_id integer,
-    referenceable_type character varying,
-    business_fee_in_cents integer,
-    specialist_fee_in_cents integer
+    referenceable_type character varying
 );
 
 
@@ -1356,8 +1353,7 @@ CREATE TABLE specialists (
     address_2 character varying,
     discourse_username character varying,
     discourse_user_id integer,
-    specialist_team_id integer,
-    rewards_tier integer
+    specialist_team_id integer
 );
 
 
@@ -5380,10 +5376,6 @@ INSERT INTO schema_migrations (version) VALUES ('20180712053404');
 INSERT INTO schema_migrations (version) VALUES ('20180717152210');
 
 INSERT INTO schema_migrations (version) VALUES ('20180728192204');
-
-INSERT INTO schema_migrations (version) VALUES ('20180728213813');
-
-INSERT INTO schema_migrations (version) VALUES ('20180729032945');
 
 INSERT INTO schema_migrations (version) VALUES ('20180729172500');
 

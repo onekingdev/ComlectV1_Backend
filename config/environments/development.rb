@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 Rails.application.configure do
-  config.log_level = :warn
   config.webpacker.check_yarn_integrity = false # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded on
