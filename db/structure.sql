@@ -370,7 +370,8 @@ CREATE TABLE businesses (
     ratings_average double precision,
     discourse_username character varying,
     discourse_user_id integer,
-    fee_free boolean DEFAULT false
+    fee_free boolean DEFAULT false,
+    rewards_tier integer
 );
 
 
@@ -434,7 +435,9 @@ CREATE TABLE charges (
     running_balance_in_cents integer,
     specialist_amount_in_cents integer DEFAULT 0 NOT NULL,
     referenceable_id integer,
-    referenceable_type character varying
+    referenceable_type character varying,
+    business_fee_in_cents integer,
+    specialist_fee_in_cents integer
 );
 
 
@@ -1197,6 +1200,16 @@ CREATE TABLE industries_specialists (
 
 
 --
+-- Name: industries_turnkey_solutions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE industries_turnkey_solutions (
+    turnkey_solution_id integer NOT NULL,
+    industry_id integer NOT NULL
+);
+
+
+--
 -- Name: job_applications; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1282,6 +1295,16 @@ CREATE TABLE jurisdictions_specialists (
 
 
 --
+-- Name: jurisdictions_turnkey_solutions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE jurisdictions_turnkey_solutions (
+    turnkey_solution_id integer NOT NULL,
+    jurisdiction_id integer NOT NULL
+);
+
+
+--
 -- Name: messages; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1353,7 +1376,8 @@ CREATE TABLE specialists (
     address_2 character varying,
     discourse_username character varying,
     discourse_user_id integer,
-    specialist_team_id integer
+    specialist_team_id integer,
+    rewards_tier integer
 );
 
 
@@ -3490,6 +3514,65 @@ ALTER SEQUENCE turnkey_pages_id_seq OWNED BY turnkey_pages.id;
 
 
 --
+-- Name: turnkey_solutions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE turnkey_solutions (
+    id integer NOT NULL,
+    title character varying,
+    range character varying,
+    era boolean,
+    sma boolean,
+    fund boolean,
+    industries_enabled boolean,
+    jurisdictions_enabled boolean,
+    description text,
+    features text,
+    project_title character varying,
+    project_type character varying,
+    project_location_type character varying,
+    project_description character varying,
+    project_payment_schedule character varying,
+    project_fixed_budget numeric,
+    project_hourly_rate numeric,
+    project_estimated_hours integer,
+    project_only_regulators boolean,
+    project_annual_salary integer,
+    project_fee_type character varying,
+    project_minimum_experience integer,
+    project_duration_type character varying,
+    project_estimated_days integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    turnkey_page_id integer,
+    principal_office boolean DEFAULT false,
+    project_key_deliverables character varying,
+    project_pricing_type character varying,
+    aum boolean,
+    hours boolean DEFAULT false
+);
+
+
+--
+-- Name: turnkey_solutions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE turnkey_solutions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: turnkey_solutions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE turnkey_solutions_id_seq OWNED BY turnkey_solutions.id;
+
+
+--
 -- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -3807,6 +3890,13 @@ ALTER TABLE ONLY turnkey_pages ALTER COLUMN id SET DEFAULT nextval('turnkey_page
 
 
 --
+-- Name: turnkey_solutions id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY turnkey_solutions ALTER COLUMN id SET DEFAULT nextval('turnkey_solutions_id_seq'::regclass);
+
+
+--
 -- Name: users id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -4114,6 +4204,14 @@ ALTER TABLE ONLY transactions
 
 ALTER TABLE ONLY turnkey_pages
     ADD CONSTRAINT turnkey_pages_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: turnkey_solutions turnkey_solutions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY turnkey_solutions
+    ADD CONSTRAINT turnkey_solutions_pkey PRIMARY KEY (id);
 
 
 --
@@ -5377,5 +5475,25 @@ INSERT INTO schema_migrations (version) VALUES ('20180717152210');
 
 INSERT INTO schema_migrations (version) VALUES ('20180728192204');
 
+INSERT INTO schema_migrations (version) VALUES ('20180728213813');
+
+INSERT INTO schema_migrations (version) VALUES ('20180729032945');
+
 INSERT INTO schema_migrations (version) VALUES ('20180729172500');
+
+INSERT INTO schema_migrations (version) VALUES ('20180807032531');
+
+INSERT INTO schema_migrations (version) VALUES ('20180807035221');
+
+INSERT INTO schema_migrations (version) VALUES ('20180807042109');
+
+INSERT INTO schema_migrations (version) VALUES ('20180807043238');
+
+INSERT INTO schema_migrations (version) VALUES ('20180807045237');
+
+INSERT INTO schema_migrations (version) VALUES ('20180807045920');
+
+INSERT INTO schema_migrations (version) VALUES ('20180807052054');
+
+INSERT INTO schema_migrations (version) VALUES ('20180808000204');
 
