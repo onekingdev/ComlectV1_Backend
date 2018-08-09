@@ -43,6 +43,7 @@ class Business::HiresControllerTest < ActionDispatch::IntegrationTest
   test 'charges business upfront fee for full time hires' do
     project = create :project_full_time, :published, :upfront_fee, business: @business, annual_salary: 98_000
     application = create :job_application, project: project, specialist: @specialist
+
     assert_difference 'Charge.count', +1 do
       post(
         business_project_hires_path(project),
@@ -50,7 +51,8 @@ class Business::HiresControllerTest < ActionDispatch::IntegrationTest
         format: 'js'
       )
     end
-    assert_equal 14_700, project.charges.first.fee
+
+    assert_equal 14_700, project.charges.first.total_with_fee
   end
 
   test 'charges business monthly fee for full time hires' do
@@ -65,9 +67,9 @@ class Business::HiresControllerTest < ActionDispatch::IntegrationTest
           format: 'js'
         )
       end
-      fee_in_cents = project.annual_salary * 0.03 * 100
+      business_fee_in_cents = project.annual_salary * 0.03 * 100
       charge_dates = Array.new(6) { |i| Date.new(2016, i + 1, 1) }
-      assert_equal [fee_in_cents], project.charges.pluck(:fee_in_cents).uniq
+      assert_equal [business_fee_in_cents], project.charges.pluck(:business_fee_in_cents).uniq
       assert_equal charge_dates, project.charges.pluck(:process_after).sort
     end
   end

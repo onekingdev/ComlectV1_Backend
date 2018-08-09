@@ -40,17 +40,33 @@ class Transaction < ApplicationRecord
     end
   end
 
+  def business_fee
+    if charges.size.positive?
+      @specialist_fee ||= charges.map(&:business_fee).reduce(:+)
+    else
+      (BigDecimal(fee_in_cents) / 2) / 100.0
+    end
+  end
+
+  def specialist_fee
+    if charges.size.positive?
+      @specialist_fee ||= charges.map(&:specialist_fee).reduce(:+)
+    else
+      (BigDecimal(fee_in_cents) / 2) / 100.0
+    end
+  end
+
   def subtotal
     if charges.size.positive?
-      BigDecimal(charges.map(&:amount_in_cents).reduce(:+) || 0) / 100.0
+      BigDecimal(charges.sum(:amount_in_cents)) / 100.0
     else
-      subtotal_in_cents = BigDecimal(amount_in_cents) - (BigDecimal(fee_in_cents) / 2)
+      subtotal_in_cents = BigDecimal(amount_in_cents) - (business_fee * 100.0)
       subtotal_in_cents / 100.0
     end
   end
 
   def specialist_total
-    subtotal - fee
+    subtotal - specialist_fee
   end
 
   def process!

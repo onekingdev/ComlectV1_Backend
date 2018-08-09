@@ -57,7 +57,7 @@ class JobApplication::Accept < Draper::Decorator
 
     project.charges.create!(
       amount_in_cents: 0,
-      fee_in_cents: project.annual_salary * 15, # 15% in cents,
+      business_fee_in_cents: project.annual_salary * 15, # 15% in cents,
       date: Time.zone.today,
       process_after: Time.zone.today,
       status: Charge.statuses[:scheduled],
@@ -78,7 +78,7 @@ class JobApplication::Accept < Draper::Decorator
         date: start_on + i.months,
         process_after: start_on + i.months,
         amount_in_cents: 0,
-        fee_in_cents: fee,
+        business_fee_in_cents: fee,
         running_balance_in_cents: total - (fee * (i + 1)),
         description: 'Full-time fee payable to Complect; Payment option: Monthly'
       )

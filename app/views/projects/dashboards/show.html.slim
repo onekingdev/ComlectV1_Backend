@@ -7,7 +7,9 @@
   h1.m-t-0.m-b-3.hidden-sm.hidden-xs
     = project
     .pull-right
-      small Status: <span class="text-primary project-status">#{project.status_text}</span>
+      small
+        | Status: 
+        span.text-primary.project-status = project.status_text == "Pending" ? "Interview" : project.status_text
 
   - if (end_request = ProjectEnd::Decorator.new(project.end_request)).present?
     .alert.alert-warning.m-b-3.text-center
@@ -40,7 +42,7 @@
                   span Messages
                 li= link_to '#project-documents', data: { toggle: 'tab', "remote-load" => true, url: project_documents_path(project), 'toggle-sync' => true } do
                   span Documents
-                - if project.hourly_pricing?
+                - if project.hourly_pricing? && project.specialist_id
                   li= link_to '#project-timesheets', data: { toggle: 'tab', "remote-load" => true, url: project_timesheets_path(project), 'toggle-sync' => true } do
                     span Time Sheets
                 li= link_to '#project-details', data: { toggle: 'tab' } do
@@ -55,7 +57,7 @@
                 span Messages
               li= link_to '#project-documents', data: { toggle: 'tab', "remote-load" => true, url: project_documents_path(project), 'toggle-sync' => true } do
                 span Documents
-              - if project.hourly_pricing?
+              - if project.hourly_pricing? && project.specialist_id
                 li= link_to '#project-timesheets', data: { toggle: 'tab', "remote-load" => true, url: project_timesheets_path(project), 'toggle-sync' => true } do
                   span Time Sheets
               li= link_to '#project-details', data: { toggle: 'tab' } do
