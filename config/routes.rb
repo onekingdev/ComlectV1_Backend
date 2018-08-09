@@ -43,6 +43,7 @@ Rails.application.routes.draw do
   end
 
   resources :turnkey_pages, only: %i[index show], path: 'turnkey'
+  resources :turnkey_solutions # , only: :create
 
   resources :feedback_requests, only: %i[create new]
   resources :businesses, only: %i[new create show]

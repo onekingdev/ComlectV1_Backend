@@ -4,7 +4,7 @@
   .check_boxes.turnkey_flavor {
     text-align: left;
   }
-  .checkbox {
+  .bd .checkbox {
     padding: 4px 0px 2px !important;
     margin: 0px;
     display: inline-block;
@@ -50,8 +50,6 @@
     font-size: 30px;
     font-family: "Nimbus Sans";
     font-weight: bold;
-    margin-top: 0px;
-    margin-bottom: 40px;
   }
   &-profits {
     padding-left: 20px;
@@ -94,7 +92,6 @@ body.turnkey_pages.show {
     width: 100%;
   }
   .turnkey-footer-top {
-//    margin-right: -1%;
     @media (min-width: $screen-sm-max) and (max-width: $screen-md-max) {
       margin-right: -50px;
     }

@@ -1,5 +1,42 @@
 = render :partial => "header"
 .row.text-center
-  h1.small.m-t-3.p-t-1.m-b-3.p-b-3.brand-color = @turnkey.header_text
+  h1.small.m-t-3.p-t-1.m-b-3.p-b-3.brand-color = @turnkey_page.header_text
+
+.container
+  .row
+    - for solution in @turnkey_page.turnkey_solutions do
+      .turnkey-entry.col-md-4.col-sm-6 class=('col-md-push-2' if @turnkey_page.turnkey_solutions.count == 2)
+        = simple_form_for :turnkey do |f|
+          h1.m-t-0.m-b-2
+            = solution.title
+            br
+            span = solution.range
+          - if solution.flavored?
+            = f.input :flavor, as: :radio_pills, collection: solution.flavors, input_html: { selected: solution.flavors[0] }, btn_class: 'btn-lg btn-default p-x-1'
+          - if solution.principal_office
+            = f.input :state, collection: @states, placeholder: "Principal Office", input_html: { class: 'input-lg js-select', multiple: false }
+          - if solution.aum_enabled
+            = f.input :aum, collection: [["below $100MM", false], ["$100MM+", true]], placeholder: "AUM", input_html: { class: 'input-lg js-select', multiple: false }
+          - if solution.industries_enabled
+            = f.input :industries, collection: Industry.sorted, placeholder: t('simple_form.placeholders.specialist.industries'), input_html: { class: 'input-lg js-select', multiple: true }
+          - if solution.jurisdictions_enabled
+            = f.input :jurisdictions, collection: Jurisdiction.sorted, placeholder: t('simple_form.placeholders.specialist.jurisdictions'), input_html: { class: 'input-lg js-select', multiple: true }
+          - if solution.hours_enabled
+            = f.input :estimated_hours, placeholder: "No. of hours", as: :string, require: true, input_html: { class: 'input-lg', data: { masked: '0#' } }
+          p
+            = solution.description.html_safe
+            ul.turnkey-entry-profits
+              - for feature in solution.features_array do
+                li
+                  - if feature.is_a? String
+                    = feature.html_safe
+                  - if feature.is_a? Array
+                    ul
+                      - for sub_feature in feature do
+                        li = sub_feature.html_safe
+
+          .clearfix
+          .turnkey-entry-purchase
+            = f.submit "Purchase", class: "btn btn-large btn-primary turnkey-entry-submit"
 
 = render :partial => "turnkey_footer"
