@@ -17,7 +17,6 @@ class Specialist < ApplicationRecord
   has_many :applied_projects, -> {
     where(specialist_id: nil)
   }, class_name: 'Project', through: :job_applications, source: :project
-  has_many :communicable_projects, class_name: 'Project', through: :job_applications, source: :project
   has_many :sent_messages, as: :sender, class_name: 'Message'
   has_many :ratings_received, -> {
     where(rater_type: Business.name).order(created_at: :desc)
@@ -97,12 +96,11 @@ class Specialist < ApplicationRecord
   include PdfUploader[:resume]
 
   enum visibility: { is_public: 'public', is_private: 'private' }
-  enum rewards_tier: { gold: 0, platinum: 1, platinum_honors: 2 }
 
   delegate :suspended?, to: :user
 
   def self.dates_between_query
-    'SUM(ROUND((COALESCE("to", NOW())::date - "from"::date)::float / 365.0)::numeric::int)'
+    'SUM(DISTINCT ROUND((COALESCE("to", NOW())::date - "from"::date)::float / 365.0)::numeric::int)'
   end
   private_class_method :dates_between_query
 
@@ -156,9 +154,5 @@ class Specialist < ApplicationRecord
 
   def managed?
     !team.nil?
-  end
-
-  def completed_projects_amount
-    projects.complete.sum(:calculated_budget)
   end
 end

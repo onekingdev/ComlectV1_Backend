@@ -4,6 +4,10 @@ class Business::Decorator < ApplicationDecorator
   decorates Business
   delegate_all
 
+  def completed_projects_amount
+    projects.complete.sum(:calculated_budget)
+  end
+
   def favorited?(favorited)
     @_all_favorited ||= favorites.pluck(:id, :favorited_type, :favorited_id).each_with_object({}) do |attrs, hash|
       hash["#{attrs[1]}/#{attrs[2]}"] = attrs[0]

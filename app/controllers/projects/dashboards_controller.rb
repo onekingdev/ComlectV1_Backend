@@ -13,8 +13,6 @@ class Projects::DashboardsController < ApplicationController
   end
 
   def find_project
-    projects = current_specialist.projects.where(id: params[:project_id])
-    projects = current_specialist.applied_projects.where(id: params[:project_id]) if projects.blank?
-    @project = projects.first
+    @project = current_specialist.projects.find(params[:project_id])
   end
 end

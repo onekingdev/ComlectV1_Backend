@@ -3021,6 +3021,54 @@ ALTER SEQUENCE project_issues_id_seq OWNED BY project_issues.id;
 
 
 --
+-- Name: project_templates; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE project_templates (
+    id integer NOT NULL,
+    title character varying,
+    type character varying,
+    location_type character varying,
+    description character varying,
+    payment_schedule character varying,
+    fixed_budget numeric,
+    hourly_rate numeric,
+    estimated_hours integer,
+    only_regulators boolean,
+    annual_salary integer,
+    fee_type character varying,
+    minimum_experience integer,
+    duration_type character varying,
+    estimated_days integer,
+    turnkey_solution_id integer,
+    flavor character varying,
+    key_deliverables character varying,
+    pricing_type character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: project_templates_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE project_templates_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: project_templates_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE project_templates_id_seq OWNED BY project_templates.id;
+
+
+--
 -- Name: projects_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -3720,6 +3768,13 @@ ALTER TABLE ONLY project_issues ALTER COLUMN id SET DEFAULT nextval('project_iss
 
 
 --
+-- Name: project_templates id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY project_templates ALTER COLUMN id SET DEFAULT nextval('project_templates_id_seq'::regclass);
+
+
+--
 -- Name: projects id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -4014,6 +4069,14 @@ ALTER TABLE ONLY project_invites
 
 ALTER TABLE ONLY project_issues
     ADD CONSTRAINT project_issues_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: project_templates project_templates_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY project_templates
+    ADD CONSTRAINT project_templates_pkey PRIMARY KEY (id);
 
 
 --
