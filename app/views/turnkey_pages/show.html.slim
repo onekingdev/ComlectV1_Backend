@@ -6,7 +6,8 @@
   .row
     - for solution in @turnkey_page.turnkey_solutions do
       .turnkey-entry.col-md-4.col-sm-6 class=('col-md-push-2' if @turnkey_page.turnkey_solutions.count == 2)
-        = simple_form_for :turnkey do |f|
+        = simple_form_for :solution do |f|
+          = f.input :id, as: :hidden, input_html: { value: solution.id }
           h1.m-t-0.m-b-2
             = solution.title
             br
@@ -37,6 +38,6 @@
 
           .clearfix
           .turnkey-entry-purchase
-            = f.submit "Purchase", class: "btn btn-large btn-primary turnkey-entry-submit"
+            = f.submit "Purchase", class: "btn btn-large btn-primary turnkey-entry-submit", input_html: { "data-dismiss" => "modal", "data-remote" => true }
 
 = render :partial => "turnkey_footer"

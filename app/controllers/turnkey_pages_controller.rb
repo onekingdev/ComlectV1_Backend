@@ -23,4 +23,8 @@ class TurnkeyPagesController < ApplicationController
 
     @turnkey_page = TurnkeyPage.find_by(url: params[:id])
   end
+
+  def create
+    # puts params[:solution].inspect
+  end
 end
