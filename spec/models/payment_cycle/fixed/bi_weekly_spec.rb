@@ -167,6 +167,19 @@ RSpec.describe PaymentCycle::Fixed::BiWeekly, type: :model do
       end
     end
 
+    context 'when project is ended early and on the same day' do
+      it 'schedules charges' do
+        Timecop.freeze(business.tz.local(2016, 1, 1, 20, 0)) do
+          request = ProjectEnd::Request.process!(@project)
+          request.confirm!
+          last_charge = @project.reload.charges.last
+          expect(last_charge).to be_scheduled
+          expect(last_charge.date.to_date).to eq(Date.new(2016, 1, 1))
+          expect(last_charge.amount) .to eq 10_000
+        end
+      end
+    end
+
     context 'when project is extended' do
       context 'when project has a scheduled charge' do
         before do

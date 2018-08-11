@@ -46,6 +46,7 @@ class PaymentCycle::Fixed < PaymentCycle
   def days_for_period(date)
     date = date.to_date - 1
     period = periods.detect { |span| span.include?(date) }
+    return 1 unless period
     (period.last - period.first).to_i + 1
   end
 
