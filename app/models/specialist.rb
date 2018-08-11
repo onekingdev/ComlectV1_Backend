@@ -165,6 +165,18 @@ class Specialist < ApplicationRecord
     projects.complete.sum(:calculated_budget)
   end
 
+  alias original_rewards_tier rewards_tier
+  def rewards_tier
+    return RewardsTier.default unless original_rewards_tier
+    return rewards_tier_override if rewards_tier_override_precedence?
+    original_rewards_tier
+  end
+
+  def rewards_tier_override_precedence?
+    return false unless rewards_tier_override
+    rewards_tier_override.fee_percentage < original_rewards_tier.fee_percentage
+  end
+
   def set_tier!
     tier = RewardsTier.all.find { |t| t.amount.include? completed_projects_amount }
     update(rewards_tier: tier)

@@ -100,6 +100,7 @@ class Business < ApplicationRecord
 
   alias original_rewards_tier rewards_tier
   def rewards_tier
+    return RewardsTier.default unless original_rewards_tier
     return rewards_tier_override if rewards_tier_override_precedence?
     original_rewards_tier
   end
