@@ -168,20 +168,24 @@ class Notification::Deliver < Draper::Decorator
     end
 
     # rubocop:disable Metrics/MethodLength
+    # rubocop:disable Metrics/AbcSize
     def got_project_message!(message)
       project = message.thread
+
       init, rcv, path, action_url = if message.sender == project.business
                                       [
-                                        project.business, project.specialist,
+                                        project.business, message.recipient,
                                         *path_and_url(:project_dashboard, project, anchor: 'project-messages')
                                       ]
                                     else
                                       [
-                                        project.specialist, project.business,
+                                        message.sender, project.business,
                                         *path_and_url(:business_project_dashboard, project, anchor: 'project-messages')
                                       ]
                                     end
-
+      # rubocop:disable Metrics/LineLength
+      path, action_url = *path_and_url(:business_project_dashboard_interview, project, message.sender, anchor: 'project-messages') if message.sender != project.business && project.specialist.blank?
+      # rubocop:enable Metrics/LineLength
       dispatcher = Dispatcher.new(
         user: rcv.user,
         key: :got_project_message,
@@ -207,6 +211,7 @@ class Notification::Deliver < Draper::Decorator
       )
     end
     # rubocop:enable Metrics/MethodLength
+    # rubocop:enable Metrics/AbcSize
 
     def project_ended!(project)
       business_project_ended! project

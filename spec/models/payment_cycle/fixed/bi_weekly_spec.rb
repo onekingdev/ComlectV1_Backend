@@ -3,17 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe PaymentCycle::Fixed::BiWeekly, type: :model do
-  before(:all) do
-    StripeMock.start
-    @specialist = create(:specialist)
-  end
-
-  after(:all) do
-    StripeMock.stop
-  end
-
   describe 'a fixed-budget project with bi-weekly pay' do
     let(:business) { create(:business, :with_payment_profile) }
+    let(:specialist) { create(:specialist) }
     let(:ends_on) { Date.new(2016, 3, 24) }
 
     before do
@@ -30,7 +22,7 @@ RSpec.describe PaymentCycle::Fixed::BiWeekly, type: :model do
         @job_application = create(
           :job_application,
           project: @project,
-          specialist: @specialist
+          specialist: specialist
         )
 
         Project::Form.find(@project.id).post!

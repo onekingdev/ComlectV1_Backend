@@ -26,6 +26,14 @@ end
   Skill.find_or_create_by! name: "##{name}"
 end
 
+[{ name: 'None', fee: 0.10, amount: (0...9999) },
+ { name: 'Gold', fee: 0.08, amount: (10_000...50_000) },
+ { name: 'Platinum', fee: 0.07, amount: (50_001...100_000) },
+ { name: 'Platinum Honors', fee: 0.06, amount: (100_001...1_000_000_000) }].each do |tier|
+  record = RewardsTier.find_by(name: tier[:name])
+  RewardsTier.create(name: tier[:name], fee_percentage: tier[:fee], amount: tier[:amount]) unless record
+end
+
 load Rails.root.join('db', 'seeds', 'discourse.rb')
 
 load Rails.root.join('db', 'seeds', 'sample_data.rb') if ENV['SAMPLE_DATA']

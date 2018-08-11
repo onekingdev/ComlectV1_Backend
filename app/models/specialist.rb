@@ -3,6 +3,7 @@
 class Specialist < ApplicationRecord
   belongs_to :user, autosave: true
   belongs_to :team, foreign_key: :specialist_team_id
+  belongs_to :rewards_tier
   has_and_belongs_to_many :industries
   has_and_belongs_to_many :jurisdictions
   has_and_belongs_to_many :skills
@@ -17,6 +18,7 @@ class Specialist < ApplicationRecord
   has_many :applied_projects, -> {
     where(specialist_id: nil)
   }, class_name: 'Project', through: :job_applications, source: :project
+  has_many :communicable_projects, class_name: 'Project', through: :job_applications, source: :project
   has_many :sent_messages, as: :sender, class_name: 'Message'
   has_many :ratings_received, -> {
     where(rater_type: Business.name).order(created_at: :desc)
@@ -100,7 +102,7 @@ class Specialist < ApplicationRecord
   delegate :suspended?, to: :user
 
   def self.dates_between_query
-    'SUM(DISTINCT ROUND((COALESCE("to", NOW())::date - "from"::date)::float / 365.0)::numeric::int)'
+    'SUM(ROUND((COALESCE("to", NOW())::date - "from"::date)::float / 365.0)::numeric::int)'
   end
   private_class_method :dates_between_query
 
@@ -154,5 +156,14 @@ class Specialist < ApplicationRecord
 
   def managed?
     !team.nil?
+  end
+
+  def completed_projects_amount
+    projects.complete.sum(:calculated_budget)
+  end
+
+  def set_tier!
+    tier = RewardsTier.all.find { |t| t.amount.include? completed_projects_amount }
+    update(rewards_tier: tier)
   end
 end

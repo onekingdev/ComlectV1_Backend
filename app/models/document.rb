@@ -5,6 +5,7 @@ class Document < ApplicationRecord
   belongs_to :project
   belongs_to :owner, polymorphic: true
   validates :file_data, presence: true
+  belongs_to :specialist # recipient if uploaded by business @ interview
 
   def file_name
     file_data['metadata']['filename']

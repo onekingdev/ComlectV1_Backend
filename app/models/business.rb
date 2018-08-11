@@ -4,6 +4,7 @@ require 'validators/url_validator'
 
 class Business < ApplicationRecord
   belongs_to :user
+  belongs_to :rewards_tier
   has_and_belongs_to_many :jurisdictions
   has_and_belongs_to_many :industries
   has_many :projects, dependent: :destroy
@@ -34,6 +35,8 @@ class Business < ApplicationRecord
     }
   end
 
+  alias communicable_projects projects
+
   default_scope -> { joins("INNER JOIN users ON users.id = businesses.user_id AND users.deleted = 'f'") }
 
   include ImageUploader[:logo]
@@ -56,6 +59,10 @@ class Business < ApplicationRecord
     new(attributes).tap do |business|
       business.build_user unless business.user
     end
+  end
+
+  def available_projects
+    projects
   end
 
   def in_usa?
@@ -82,5 +89,14 @@ class Business < ApplicationRecord
 
   def contact_full_name
     [contact_first_name, contact_last_name].map(&:presence).compact.join(' ')
+  end
+
+  def completed_projects_amount
+    projects.complete.sum(:calculated_budget)
+  end
+
+  def set_tier!
+    tier = RewardsTier.all.find { |t| t.amount.include? completed_projects_amount }
+    update(rewards_tier: tier)
   end
 end
