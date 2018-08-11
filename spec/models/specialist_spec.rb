@@ -4,6 +4,15 @@ require 'rails_helper'
 
 RSpec.describe Specialist do
   describe '#rewards_tier' do
+    context 'with no rewards tier set' do
+      let!(:default_tier) { create(:rewards_tier) }
+      let!(:specialist) { create(:specialist, rewards_tier: nil) }
+
+      it 'returns the correct tier' do
+        expect(specialist.rewards_tier.name).to eq 'None'
+      end
+    end
+
     context 'with override greater than current tier' do
       let(:specialist) { create(:specialist, :gold_rewards, :platinum_rewards_override) }
 
