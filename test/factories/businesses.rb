@@ -37,5 +37,17 @@ FactoryBot.define do
     trait :platinum_honors_rewards do
       association :rewards_tier, factory: %i[rewards_tier platinum_honors]
     end
+
+    trait :gold_rewards_override do
+      association :rewards_tier_override, factory: %i[rewards_tier gold]
+    end
+
+    trait :platinum_rewards_override do
+      association :rewards_tier_override, factory: %i[rewards_tier platinum]
+    end
+
+    trait :platinum_honors_rewards_override do
+      association :rewards_tier_override, factory: %i[rewards_tier platinum_honors]
+    end
   end
 end

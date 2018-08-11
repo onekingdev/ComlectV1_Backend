@@ -265,7 +265,8 @@ CREATE TABLE public.businesses (
     discourse_username character varying,
     discourse_user_id integer,
     fee_free boolean DEFAULT false,
-    rewards_tier_id integer
+    rewards_tier_id integer,
+    rewards_tier_override_id integer
 );
 
 
@@ -1212,7 +1213,8 @@ CREATE TABLE public.specialists (
     discourse_username character varying,
     discourse_user_id integer,
     specialist_team_id integer,
-    rewards_tier_id integer
+    rewards_tier_id integer,
+    rewards_tier_override_id integer
 );
 
 
@@ -5227,4 +5229,6 @@ INSERT INTO schema_migrations (version) VALUES ('20180811003234');
 INSERT INTO schema_migrations (version) VALUES ('20180811025719');
 
 INSERT INTO schema_migrations (version) VALUES ('20180811063154');
+
+INSERT INTO schema_migrations (version) VALUES ('20180811063955');
 

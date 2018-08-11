@@ -3,7 +3,10 @@
 class Specialist < ApplicationRecord
   belongs_to :user, autosave: true
   belongs_to :team, foreign_key: :specialist_team_id
+
   belongs_to :rewards_tier
+  belongs_to :rewards_tier_override, class_name: 'RewardsTier'
+
   has_and_belongs_to_many :industries
   has_and_belongs_to_many :jurisdictions
   has_and_belongs_to_many :skills
