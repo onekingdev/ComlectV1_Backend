@@ -292,7 +292,6 @@ class Project < ApplicationRecord
   end
 
   # rubocop:disable Metrics/AbcSize
-  # rubocop:disable Metrics/PerceivedComplexity
   def build_from_template(businessid, template, params)
     %i[location_type key_deliverables pricing_type hourly_rate only_regulators annual_salary
        fee_type minimum_experience duration_type estimated_days fixed_budget].each do |attr|
@@ -311,8 +310,7 @@ class Project < ApplicationRecord
                        else
                          template.description
                        end
-    description.gsub!('{state}', params[:state]) if params.include? :state
-    description.gsub!('{aum}', params[:aum] == 'true' ? '$100MM+' : 'below $100MM') if params.include? :aum
+    self.description = format_description(description, params)
     self.payment_schedule = payment_schedule_to_name(template.payment_schedule)
     self.estimated_hours = params.include?(:estimated_hours) ? params[:estimated_hours].to_i : template.estimated_hours
     self.industries = if params.include?(:industries)
@@ -327,10 +325,16 @@ class Project < ApplicationRecord
                          end
     self
   end
-  # rubocop:enable Metrics/PerceivedComplexity
   # rubocop:enable Metrics/AbcSize
 
   private
+
+  def format_description(description, params)
+    description.gsub!('{state}', params[:state]) if params.include? :state
+    description.gsub!('{aum}', params[:aum] == 'true' ? '$100MM+' : 'below $100MM') if params.include? :aum
+    description.gsub!('{bd}', params[:bd].reject(&:empty?).join(', ')) if params.include? :bd
+    description
+  end
 
   def payment_schedule_to_name(identifer)
     n = ''

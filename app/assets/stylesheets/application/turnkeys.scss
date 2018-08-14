@@ -40,6 +40,30 @@
       z-index:-200;
     }
   }
+  .bd-stuff {
+    .checkbox {
+      width: 44px;
+      float: left;
+      margin: 3px 0px;
+      label:before {
+        width: 0px;
+        margin-left: 20px;
+      }
+      padding: 4px 0px 2px !important;
+      margin: 0px;
+      display: inline-block;
+      width: 45px;
+      border: 2px solid #ffc42f;
+      label {
+        text-align: center;
+        width: 100% !important;
+      }
+      label::before {
+        content: none;
+      }
+      //padding: 0px;
+    }
+  }
   form {
     border: 2px solid #FFC42F;
     padding: 10px;
