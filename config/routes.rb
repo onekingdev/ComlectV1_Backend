@@ -35,9 +35,6 @@ Rails.application.routes.draw do
   get 'partnerships' => 'home#partnerships'
   get 'press' => 'home#press'
 
-  get 'specialist_sso' => 'discourse#specialist_sso'
-  get 'business_sso' => 'discourse#business_sso'
-
   namespace :partners, only: [] do
     resources :ima, only: %i[index create]
   end

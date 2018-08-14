@@ -32,8 +32,6 @@ class Specialist < ApplicationRecord
   has_many :payments, -> { for_one_off_projects }, through: :projects, source: :charges
   has_many :transactions, through: :projects
 
-  include DiscourseUsernameGenerator
-
   has_settings do |s|
     s.key :notifications, defaults: {
       marketing_emails: true,
