@@ -5,15 +5,22 @@ ActiveAdmin.register_page 'Transaction::OneOff' do
 
   page_action :create, method: :post do
     return if params['project_id'].blank?
+
+    project = Project.find(params['project_id'])
+    business = project.business
+    specialist = project.specialist
+
     amount_in_cents = (BigDecimal(params['amount']) * 100).to_i
-    fee_in_cents = amount_in_cents * Charge::COMPLECT_FEE_PCT
-    total_with_fee_in_cents = amount_in_cents + fee_in_cents
+    business_fee_in_cents = amount_in_cents * business.rewards_tier.fee_percentage
+    specialist_fee_in_cents = amount_in_cents * specialist.rewards_tier.fee_percentage
+    total_fees_in_cents = business_fee_in_cents + specialist_fee_in_cents
+    total_with_fee_in_cents = amount_in_cents + business_fee_in_cents
 
     Transaction::OneOff.create!(
       project_id: params['project_id'],
       description: params['description'],
       amount_in_cents: total_with_fee_in_cents,
-      fee_in_cents: fee_in_cents * 2, # 10% from business and specialist
+      fee_in_cents: total_fees_in_cents,
       date: Time.zone.now
     )
 

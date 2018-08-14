@@ -61,7 +61,7 @@ ActiveAdmin.register Business do
   permit_params :business_name, :employees, :website, :description, :linkedin_link, :address_1, :address_2, :zipcode,
                 :city, :state, :country, :time_zone, :anonymous, :contact_first_name, :contact_last_name,
                 :contact_email, :contact_job_title, :contact_phone,
-                :fee_free,
+                :rewards_tier_override_id, :fee_free,
                 industry_ids: [], jurisdiction_ids: []
 
   form do |f|
@@ -95,6 +95,10 @@ ActiveAdmin.register Business do
       input :contact_email, label: 'Email'
       input :contact_job_title, label: 'Job Title'
       input :contact_phone, label: 'Phone'
+    end
+
+    inputs name: 'Rewards' do
+      input :rewards_tier_override
     end
 
     inputs name: 'Billing' do

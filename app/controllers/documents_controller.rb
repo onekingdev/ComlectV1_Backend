@@ -19,7 +19,11 @@ class DocumentsController < ApplicationController
   end
 
   def create
-    @document = Document.create(document_params.merge(owner: @me, project: @project))
+    @document = if current_business && params[:specialist_id]
+                  Document.create(document_params.merge(owner: @me, project: @project, specialist_id: params[:specialist_id]))
+                else
+                  Document.create(document_params.merge(owner: @me, project: @project))
+                end
     dashboard_redirection_based_on_role
   end
 
@@ -29,8 +33,7 @@ class DocumentsController < ApplicationController
       Document.find(params[:id]).destroy
     elsif params[:doc_type] == 'Message'
       m = Message.find(params[:id])
-      m.file_data = nil
-      m.save
+      m.message.blank? ? m.destroy : m.update(file_data: nil)
     end
     dashboard_redirection_based_on_role
   end
@@ -46,13 +49,26 @@ class DocumentsController < ApplicationController
   end
 
   def find_project
-    @project = current_business_or_specialist.projects.find(params[:project_id])
+    @project = current_business_or_specialist.communicable_projects.find(params[:project_id])
   end
 
   def sorted_documents
-    all_documents = @project.messages.where.not(file_data: nil)
-    all_documents += @project.documents
+    business = @project.business
+    specialist = current_business ? params_or_project_specialist : current_or_project_specialist
+    all_documents = @project.messages.business_specialist(business.id, specialist.id).where.not(file_data: nil)
+    # rubocop:disable Metrics/LineLength
+    all_documents += @project.documents.where(specialist_id: [specialist.id, nil]).or(@project.documents.where(owner: [specialist, business]))
+    # rubocop:enable Metrics/LineLength
+
     sort_docs(all_documents, params['sort_direction'], params['sort_by'] || 'Date Added')
+  end
+
+  def params_or_project_specialist
+    params[:specialist_id] && @project.pending? ? Specialist.find(params[:specialist_id]) : @project.specialist
+  end
+
+  def current_or_project_specialist
+    @project.pending? ? current_specialist : @project.specialist
   end
 
   def docs_of_current_page
@@ -61,12 +77,18 @@ class DocumentsController < ApplicationController
   end
 
   def document_params
-    params.require(:document).permit(:file)
+    params.require(:document).permit(:file, :specialist_id)
   end
 
   def dashboard_redirection_based_on_role
     if current_business
-      redirect_to business_project_dashboard_path(@project, anchor: 'nojump-project-documents')
+      if params[:specialist_id]
+        # rubocop:disable Metrics/LineLength
+        redirect_to business_project_dashboard_interview_path(@project, params[:specialist_id].to_i, anchor: 'nojump-project-documents')
+        # rubocop:enable Metrics/LineLength
+      else
+        redirect_to business_project_dashboard_path(@project, anchor: 'nojump-project-documents')
+      end
     elsif current_specialist
       redirect_to project_dashboard_path(@project, anchor: 'nojump-project-documents')
     end

@@ -17,8 +17,9 @@ table.table.table-striped.documents-table
             = doc_mess.created_at.in_time_zone(@me.time_zone).strftime('%b %-d, %Y %I:%M %p')
           td.text-right
             - if (doc_mess.is_a?(Message) && doc_mess.sender == @me) || (doc_mess.is_a?(Document) && doc_mess.owner == @me)
-              = form_tag project_document_path(@project.id, doc_mess.id), method: :delete do
+              = form_tag project_document_path(@project.id, doc_mess.id), method: :delete, onsubmit: "return confirm('Delete #{doc_mess.file.metadata['filename']}? This cannot be undone.')" do
                 = hidden_field_tag :doc_type, doc_mess.class.to_s
+                = hidden_field_tag :specialist_id, params[:specialist_id] if params[:specialist_id]
                 /= submit_tag nil, class: "submit-icon-trash"
                 button type="submit" class="submit-icon-trash"
                   i.icon-trash
@@ -28,8 +29,9 @@ table.table.table-striped.documents-table
     - (@docs_and_messages.size/10 + 1).times do |n|
       = link_to ''.html_safe, current_uri(page: n + 1), remote: true, class: "page #{"current" if n + 1 == doc_page_num}"
 
-- if @project.active?
-  = simple_form_for Document.new, authenticity_token: true, url: project_documents_path do |f|
+- if @project.active? || @project.pending? 
+  - url = params[:specialist_id] ? business_project_documents_path(@project, params[:specialist_id].to_i) : project_documents_path
+  = simple_form_for Document.new, authenticity_token: true, url: url do |f|
     .pull-right.message-form
     label.custom-fiel-field.js-custom-file-field.m-b-0.m-t-1
       = f.hidden_field :file, value: f.object.file_data? ? f.object.file_data.to_json: nil

@@ -1,6 +1,6 @@
 #project-message-thread.message-thread
-  .messages.m-b-2 data-page="1" data-active=@project.active?.to_s data-url=user_project_messages_path
+  .messages.m-b-2 data-page="1" data-active=(@project.active? || @project.pending?).to_s data-url=user_project_messages_path
     = render partial: 'messages/message', collection: @messages.map(&method(:decorate)).reverse, locals: { me: sender }
 
-  - if @project.active? && !@project.business.suspended?
+  - if (@project.active? || @project.pending?) && !@project.business.suspended?
     = render 'form', message: sender.sent_messages.new

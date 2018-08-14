@@ -3,17 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe PaymentCycle::Fixed::BiWeekly, type: :model do
-  before(:all) do
-    StripeMock.start
-    @specialist = create(:specialist)
-  end
-
-  after(:all) do
-    StripeMock.stop
-  end
-
   describe 'a fixed-budget project with bi-weekly pay' do
     let(:business) { create(:business, :with_payment_profile) }
+    let(:specialist) { create(:specialist) }
     let(:ends_on) { Date.new(2016, 3, 24) }
 
     before do
@@ -30,7 +22,7 @@ RSpec.describe PaymentCycle::Fixed::BiWeekly, type: :model do
         @job_application = create(
           :job_application,
           project: @project,
-          specialist: @specialist
+          specialist: specialist
         )
 
         Project::Form.find(@project.id).post!
@@ -171,6 +163,19 @@ RSpec.describe PaymentCycle::Fixed::BiWeekly, type: :model do
           expect(last_charge).to be_scheduled
           expect(last_charge.date.to_date).to eq(Date.new(2016, 2, 10))
           expect(last_charge.amount).to eq(6666.66)
+        end
+      end
+    end
+
+    context 'when project is ended early and on the same day' do
+      it 'schedules charges' do
+        Timecop.freeze(business.tz.local(2016, 1, 1, 20, 0)) do
+          request = ProjectEnd::Request.process!(@project)
+          request.confirm!
+          last_charge = @project.reload.charges.last
+          expect(last_charge).to be_scheduled
+          expect(last_charge.date.to_date).to eq(Date.new(2016, 1, 1))
+          expect(last_charge.amount) .to eq 10_000
         end
       end
     end

@@ -63,7 +63,7 @@ en:
       action_label: Go to Financials Page
     extend_project:
       subject: Project Extension Request
-      message: I love your work and want to extend the project! Please confirm the extension request within one business day before it expires.
+      message: I think we need more time to complete the project. Please confirm the extension request within one business day before the request expires.
       action_label: Go to %{project_title} Project Dashboard
     end_project_fixed:
       subject: Project Early Termination Request
@@ -159,7 +159,7 @@ en:
       action_label: Go to %{project_title} Project Dashboard
     extension_accepted:
       subject: "Project Extension Request: Approved"
-      message: I agree to extend the project.
+      message: Congrats! Your project has been extended per your request.
       action_label: Go to %{project_title} Project Dashboard
     end_project_denied:
       subject: "Project Early Termination Request: Denied"
@@ -167,7 +167,7 @@ en:
       action_label: Go to %{project_title} Project Dashboard
     end_project_accepted:
       subject: "Project Early Termination Request: Approved"
-      message: I agree to end the project early.
+      message: Congrats! Your project has been ended early per your request.
       action_label: Go to %{project_title} Project Dashboard
     business_project_ended:
       subject: Your Project has Ended
