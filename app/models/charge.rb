@@ -117,6 +117,7 @@ class Charge < ApplicationRecord
   end
 
   def calculate_specialist_fee
+    return unless specialist
     self.specialist_fee_in_cents ||= amount_in_cents * specialist.rewards_tier.fee_percentage
   end
 end
