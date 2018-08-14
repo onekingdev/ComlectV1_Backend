@@ -1,0 +1,16 @@
+.modal-wrapper
+  .modal-fake.text-center
+    button.close.close-absolute data-dismiss="modal" type="button"
+      .icon.maxicons1-exit
+    .m-t-2.m-b-2
+      | Congrats! We will notify you once you've been matched with a specialist. 
+      br
+      | You may amend or delete this project at any time by accessing 
+      = link_to "Pending Projects", "/business#projects-pending"
+      |  on your dashboard.
+      br
+      | Once a specialist has been assigned, you may no longer delete the project.
+      br
+      br
+      .text-center
+        = link_to "View project", business_project_path(@project), class: "btn btn-lg btn-primary text-center"

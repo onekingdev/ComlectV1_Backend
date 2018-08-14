@@ -42,6 +42,12 @@ Rails.application.routes.draw do
     resources :ima, only: %i[index create]
   end
 
+  resources :turnkey_pages, only: %i[index show create], path: 'turnkey'
+  resources :turnkey_solutions # , only: :create
+  post '/turnkey/:id' => 'turnkey_pages#create'
+  patch '/turnkey/:id' => 'turnkey_pages#update'
+
+  resources :feedback_requests, only: %i[create new]
   resources :businesses, only: %i[new create show]
   resource :business, only: %i[edit] do
     patch '/' => 'businesses#update', as: :update
@@ -71,16 +77,14 @@ Rails.application.routes.draw do
       get :invoice, on: :member
     end
 
-    get 'projects/:project_id/interview/:specialist_id' => 'project_dashboard#show', as: :project_dashboard_interview
     get 'projects/:project_id/dashboard' => 'project_dashboard#show', as: :project_dashboard
 
     scope 'projects/:project_id' do
-      resources :project_messages, path: 'messages(/:specialist_id)'
+      resources :project_messages, path: 'messages'
       resources :project_ends, path: 'end'
       resources :project_extensions, path: 'extension'
       resource :project_rating, path: 'rating'
-      resource :project_overview, path: 'overview(/:specialist_id)', only: :show
-      # get 'overview(/:specialist_id)' => 'project_overviews#show', as: :project_overview
+      resource :project_overview, path: 'overview'
     end
 
     resources :projects do
@@ -89,7 +93,7 @@ Rails.application.routes.draw do
 
       resources :job_applications, path: 'applications'
       resources :hires
-      resources :documents, path: 'documents(/:specialist_id)'
+      resources :documents
       resources :answers, only: :create
       resources :flags, only: %i[new create]
       resources :timesheets

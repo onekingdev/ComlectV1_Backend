@@ -11,13 +11,5 @@ FactoryBot.define do
     job_title { Faker::Company.profession }
     from { rand(40).years.ago + 10.years }
     to { from + length }
-
-    trait :compliance do
-      compliance true
-    end
-
-    trait :current do
-      current true
-    end
   end
 end
