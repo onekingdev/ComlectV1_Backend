@@ -77,10 +77,6 @@ en:
       subject: Your Project is Starting Soon
       message: "Don't forget your project %{project_title} starts in 48 hours. Message the business to set up a kick off call if you've not had one yet."
       action_label: Go to %{project_title} Project Dashboard
-    browse_new_projects:
-      subject: Check Out Our New Projects!
-      message: We miss you! Are you relaxing on a tropical beach? Let us help you find the perfect project to earn a little extra to extend your stay!
-      action_label: Browse Projects
     specialist_fixed_project_ends:
       subject: Your Project Is Ending Soon
       message: Project %{project_title} ends in 24 hours, so make sure you are on track for a successful on-time completion. Having issues? Don't hesitate to escalate them to us.
@@ -172,10 +168,6 @@ en:
     business_project_ended:
       subject: Your Project has Ended
       message: Congrats on the completion of your project! Post another one to get more work off your plate.
-      action_label: Post a Project
-    post_new_project:
-      subject: Check Out Our New Specialists!
-      message: We miss you! Are you buried under a mountain of work? Let us dig you out and post a project today!
       action_label: Post a Project
     business_fixed_project_ends:
       subject: Your Project Is Ending Soon
