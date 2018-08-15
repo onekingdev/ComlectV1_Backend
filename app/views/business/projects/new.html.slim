@@ -1,17 +1,4 @@
 - if @project.invite_id
   .alert.alert-info.m-b-3 Your message will be delivered when this project is posted.
 
-#js-help.modal.fade.modal-popup.bootbox data-controller="business--projects" data-keyboards="false"
-  .modal-dialog
-    .modal-content
-      .modal-header
-        button.close.bootbox-close-button data-dismiss="modal" type="button"
-      .modal-body
-        h3.text-center.m-t-0.m-b-2
-          big Need help?
-        h1
-          = "Call "
-          span.phone-number 347-618-9656
-        p for personalized assistance posting your project
-
 = render 'form', project: Project::Decorator.decorate(@project)
