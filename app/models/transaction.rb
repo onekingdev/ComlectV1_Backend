@@ -23,6 +23,7 @@ class Transaction < ApplicationRecord
     )
   }
   scope :one_off, -> { joins(:project).where(project: Project.one_off) }
+  scope :by_year, ->(year) { where('EXTRACT(year FROM processed_at) = ?', year) }
 
   def self.process_pending!
     pending_or_errored.find_each(&:process!)

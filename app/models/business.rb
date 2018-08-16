@@ -92,8 +92,9 @@ class Business < ApplicationRecord
     [contact_first_name, contact_last_name].map(&:presence).compact.join(' ')
   end
 
-  def completed_projects_amount
-    projects.complete.sum(:calculated_budget)
+  def processed_transactions_amount
+    year = Time.zone.now.in_time_zone(tz).year
+    transactions.processed.by_year(year).map(&:subtotal).inject(&:+)
   end
 
   alias original_rewards_tier rewards_tier
@@ -109,7 +110,7 @@ class Business < ApplicationRecord
   end
 
   def set_tier!
-    tier = RewardsTier.all.find { |t| t.amount.include? completed_projects_amount }
+    tier = RewardsTier.all.find { |t| t.amount.include? processed_transactions_amount }
     update(rewards_tier: tier)
   end
 end
