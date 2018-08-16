@@ -837,39 +837,6 @@ class Notification::Deliver < Draper::Decorator
       )
     end
 
-    def user_inactive!(user)
-      key, path, action_url = if user.specialist
-                                [
-                                  :browse_new_projects,
-                                  *path_and_url(:projects)
-                                ]
-                              elsif user.business
-                                [
-                                  :post_new_project,
-                                  *path_and_url(:new_business_project)
-                                ]
-                              end
-
-      dispatcher = Dispatcher.new(
-        user: user,
-        key: key,
-        action_path: path,
-        associated: user
-      )
-      dispatcher.deliver_notification!
-
-      NotificationMailer.deliver_later(
-        :notification,
-        dispatcher.user.email,
-        dispatcher.message_mail,
-        dispatcher.action_label,
-        dispatcher.initiator_name,
-        dispatcher.img_path,
-        action_url,
-        dispatcher.subject
-      )
-    end
-
     def verification_missing!(user)
       return unless user.specialist
 

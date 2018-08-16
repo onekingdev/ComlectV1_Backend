@@ -2,11 +2,11 @@
 
 class Admin::UserPolicy < AdminPolicy
   def update?
-    !discourse_admin?
+    true
   end
 
   def destroy?
-    !discourse_admin?
+    true
   end
 
   def impersonate?
@@ -19,15 +19,6 @@ class Admin::UserPolicy < AdminPolicy
 
   def toggle_suspend?
     true
-  end
-
-  private
-
-  def discourse_admin?
-    [
-      ENV.fetch('DISCOURSE_BUSINESS_ADMIN_ID'),
-      ENV.fetch('DISCOURSE_SPECIALIST_ADMIN_ID')
-    ].include?(record.id.to_s)
   end
 
   class Scope < Scope

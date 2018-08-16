@@ -34,6 +34,4 @@ end
   RewardsTier.create(name: tier[:name], fee_percentage: tier[:fee], amount: tier[:amount]) unless record
 end
 
-load Rails.root.join('db', 'seeds', 'discourse.rb')
-
 load Rails.root.join('db', 'seeds', 'sample_data.rb') if ENV['SAMPLE_DATA']

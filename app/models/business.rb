@@ -27,8 +27,6 @@ class Business < ApplicationRecord
   }, through: :projects, source: :ratings
   has_many :email_threads, dependent: :destroy
 
-  include DiscourseUsernameGenerator
-
   has_settings do |s|
     s.key :notifications, defaults: {
       marketing_emails: true,

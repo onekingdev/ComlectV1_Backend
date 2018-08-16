@@ -35,19 +35,10 @@ Rails.application.routes.draw do
   get 'partnerships' => 'home#partnerships'
   get 'press' => 'home#press'
 
-  get 'specialist_sso' => 'discourse#specialist_sso'
-  get 'business_sso' => 'discourse#business_sso'
-
   namespace :partners, only: [] do
     resources :ima, only: %i[index create]
   end
 
-  resources :turnkey_pages, only: %i[index show create new], path: 'turnkey'
-  resources :turnkey_solutions # , only: :create
-  post '/turnkey/:id' => 'turnkey_pages#create'
-  patch '/turnkey/:id' => 'turnkey_pages#update'
-
-  resources :feedback_requests, only: %i[create new]
   resources :businesses, only: %i[new create show]
   resource :business, only: %i[edit] do
     patch '/' => 'businesses#update', as: :update
