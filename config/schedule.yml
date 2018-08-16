@@ -39,10 +39,6 @@ expire_projects:
   cron: "*/5 * * * *"
   class: "ExpireProjectsJob"
 
-annual_rewards_reset:
-  cron: "59 23 31 12 *"
-  class: "AnnualRewardsResetJob"
-
 auto_accept_timesheets:
   cron: "*/5 * * * *"
   class: "AutoAcceptTimesheetsJob"
