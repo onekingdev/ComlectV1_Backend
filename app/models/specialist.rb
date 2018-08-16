@@ -175,9 +175,4 @@ class Specialist < ApplicationRecord
     return false unless rewards_tier_override
     rewards_tier_override.fee_percentage < original_rewards_tier.fee_percentage
   end
-
-  def set_tier!
-    tier = RewardsTier.all.find { |t| t.amount.include? processed_transactions_amount }
-    update(rewards_tier: tier)
-  end
 end
