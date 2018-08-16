@@ -161,7 +161,7 @@ class Specialist < ApplicationRecord
 
   def processed_transactions_amount
     year = Time.zone.now.in_time_zone(tz).year
-    transactions.processed.by_year(year).map(&:specialist_total).inject(&:+)
+    transactions.processed.by_year(year).map(&:specialist_total).inject(&:+) || 0
   end
 
   alias original_rewards_tier rewards_tier

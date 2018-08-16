@@ -94,7 +94,7 @@ class Business < ApplicationRecord
 
   def processed_transactions_amount
     year = Time.zone.now.in_time_zone(tz).year
-    transactions.processed.by_year(year).map(&:subtotal).inject(&:+)
+    transactions.processed.by_year(year).map(&:subtotal).inject(&:+) || 0
   end
 
   alias original_rewards_tier rewards_tier
