@@ -105,7 +105,7 @@ class Charge < ApplicationRecord
 
     if project.one_off?
       self.running_balance_in_cents *= (1 + COMPLECT_FEE_PCT) if running_balance_in_cents
-      self.specialist_amount_in_cents = amount_in_cents - specialist_fee_in_cents
+      self.specialist_amount_in_cents = amount_in_cents - specialist_fee_in_cents if specialist
     end
 
     true

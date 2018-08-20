@@ -6,6 +6,12 @@ FactoryBot.define do
     fee_percentage 0.10
     amount 0...9999
 
+    trait :default do
+      name 'None'
+      fee_percentage 0.10
+      amount 0...9999
+    end
+
     trait :gold do
       name 'Gold'
       fee_percentage 0.08

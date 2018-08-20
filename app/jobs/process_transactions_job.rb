@@ -7,6 +7,9 @@ class ProcessTransactionsJob < ApplicationJob
     return process_all if transaction_id.nil?
     transaction = Transaction.ready.find_by(id: transaction_id)
     transaction&.process!
+
+    Business::Rewards.calculate! transaction.business
+    Specialist::Rewards.calculate! transaction.specialist
   end
 
   private
