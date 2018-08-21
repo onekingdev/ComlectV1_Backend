@@ -120,6 +120,7 @@ ActiveAdmin.register Specialist do
     column :time_zone
     column :address_1
     column :address_2
+    column :discourse_username
     column :created_at
     column :updated_at
   end

@@ -59,6 +59,9 @@ gem 'pry-rails'
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
 
+# Discourse
+gem 'discourse_api'
+
 # Assets
 gem 'imagesLoaded_rails'
 gem 'jquery-mousewheel-rails'
