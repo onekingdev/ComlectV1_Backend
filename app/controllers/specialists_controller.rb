@@ -36,7 +36,7 @@ class SpecialistsController < ApplicationController
   def create
     @specialist = Specialist::Form.signup(specialist_params.merge(invitation: @invitation))
 
-    if @specialist.save
+    if @specialist.save(context: :signup)
       @invitation&.accepted!(@specialist)
       sign_in @specialist.user
       mixpanel_track_later 'Sign Up'
@@ -53,6 +53,7 @@ class SpecialistsController < ApplicationController
 
   def update
     fetch_specialist
+
     respond_to do |format|
       if @specialist.update(edit_specialist_params)
         if @specialist.delete_photo? || @specialist.delete_resume?

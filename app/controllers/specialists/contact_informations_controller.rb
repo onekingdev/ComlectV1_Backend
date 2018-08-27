@@ -8,7 +8,7 @@ class Specialists::ContactInformationsController < ApplicationController
   end
 
   def update
-    @specialist = current_specialist
+    @specialist = Specialist::Form.for_user(current_user)
     @specialist.assign_attributes(specialist_params)
     @saved = @specialist.save
     render :show
