@@ -102,7 +102,7 @@ class Specialist < ApplicationRecord
 
   delegate :suspended?, to: :user
 
-  after_commit :sync_hubspot, on: %i[create update]
+  after_commit :sync_with_hubspot, on: %i[create update]
 
   def self.dates_between_query
     'SUM(ROUND((COALESCE("to", NOW())::date - "from"::date)::float / 365.0)::numeric::int)'
@@ -178,7 +178,7 @@ class Specialist < ApplicationRecord
     rewards_tier_override.fee_percentage < original_rewards_tier.fee_percentage
   end
 
-  def sync_hubspot
+  def sync_with_hubspot
     SyncHubspotContactJob.perform_later(self)
   end
 end
