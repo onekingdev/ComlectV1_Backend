@@ -291,58 +291,7 @@ class Project < ApplicationRecord
     one_off? && pricing_type == 'fixed'
   end
 
-  # rubocop:disable Metrics/AbcSize
-  def build_from_template(businessid, template, params)
-    %i[location_type key_deliverables pricing_type hourly_rate only_regulators annual_salary
-       fee_type minimum_experience duration_type estimated_days fixed_budget].each do |attr|
-      public_send("#{attr}=", template.public_send(attr.to_s))
-    end
-    self.business_id = businessid
-    self.type = template.project_type
-    self.status = 'published'
-    # rubocop:disable Lint/RequireParentheses
-    self.title = params.include?(:aum) && params[:aum] == 'true' && !template.title_aum.empty? ? template.title_aum : template.title
-    # rubocop:enable Lint/RequireParentheses
-    title.gsub!('{state}', params[:state]) if params.include? :state
-    self.location = params[:state] if params.include? :state
-    self.description = if params.include?(:aum) && params[:aum] == 'true' && !template.description_aum.empty?
-                         template.description_aum
-                       else
-                         template.description
-                       end
-    self.description = format_description(description, params)
-    self.payment_schedule = payment_schedule_to_name(template.payment_schedule)
-    self.estimated_hours = params.include?(:estimated_hours) ? params[:estimated_hours].to_i : template.estimated_hours
-    self.industries = if params.include?(:industries)
-                        Industry.where(id: params[:industries].reject(&:empty?).map(&:to_i))
-                      else
-                        template.industries
-                      end
-    self.jurisdictions = if params.include?(:jurisdictions)
-                           Jurisdiction.where(id: params[:jurisdictions].reject(&:empty?).map(&:to_i))
-                         else
-                           template.jurisdictions
-                         end
-    self
-  end
-  # rubocop:enable Metrics/AbcSize
-
   private
-
-  def format_description(description, params)
-    description.gsub!('{state}', params[:state]) if params.include? :state
-    description.gsub!('{aum}', params[:aum] == 'true' ? '$100MM+' : 'below $100MM') if params.include? :aum
-    description.gsub!('{bd}', params[:bd].reject(&:empty?).join(', ')) if params.include? :bd
-    description
-  end
-
-  def payment_schedule_to_name(identifer)
-    n = ''
-    Project::PAYMENT_SCHEDULES.each do |s|
-      n = s[0] if s.include?(identifer)
-    end
-    n
-  end
 
   def save_expires_at
     return if starts_on.blank?

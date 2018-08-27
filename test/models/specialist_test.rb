@@ -92,13 +92,4 @@ class SpecialistTest < ActiveSupport::TestCase
     assert_equal [business_1.id], specialist_1.messaged_parties.pluck(:id)
     assert_equal [business_2.id], specialist_2.messaged_parties.pluck(:id)
   end
-
-  test 'discourse username generation' do
-    specialist_1 = create :specialist
-    specialist_1.discourse_username! "#{specialist_1.first_name}#{specialist_1.last_name}"
-    assert_equal "#{specialist_1.first_name}#{specialist_1.last_name}", specialist_1.reload.discourse_username
-    specialist_2 = create :specialist
-    specialist_2.discourse_username! "#{specialist_1.first_name}#{specialist_1.last_name}"
-    assert_equal "#{specialist_1.first_name}#{specialist_1.last_name}_1", specialist_2.reload.discourse_username
-  end
 end

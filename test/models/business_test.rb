@@ -19,15 +19,4 @@ class BusinessTest < ActiveSupport::TestCase
     other_business.sent_messages.create! recipient: specialist, message: 'dummy'
     assert_equal included.sort, business.messages.pluck(:id).sort
   end
-
-  test 'discourse username generation' do
-    business_1 = create :business
-    business_1.discourse_username! "#{business_1.contact_first_name}#{business_1.contact_last_name}"
-    assert_equal "#{business_1.contact_first_name}#{business_1.contact_last_name}",
-                 business_1.reload.discourse_username
-    business_2 = create :business
-    business_2.discourse_username! "#{business_1.contact_first_name}#{business_1.contact_last_name}"
-    assert_equal "#{business_1.contact_first_name}#{business_1.contact_last_name}_1",
-                 business_2.reload.discourse_username
-  end
 end

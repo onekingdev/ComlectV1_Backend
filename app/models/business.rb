@@ -27,8 +27,6 @@ class Business < ApplicationRecord
   }, through: :projects, source: :ratings
   has_many :email_threads, dependent: :destroy
 
-  include DiscourseUsernameGenerator
-
   has_settings do |s|
     s.key :notifications, defaults: {
       marketing_emails: true,
@@ -94,8 +92,9 @@ class Business < ApplicationRecord
     [contact_first_name, contact_last_name].map(&:presence).compact.join(' ')
   end
 
-  def completed_projects_amount
-    projects.complete.sum(:calculated_budget)
+  def processed_transactions_amount
+    year = Time.zone.now.in_time_zone(tz).year
+    transactions.processed.by_year(year).map(&:subtotal).inject(&:+) || 0
   end
 
   alias original_rewards_tier rewards_tier
@@ -108,10 +107,5 @@ class Business < ApplicationRecord
   def rewards_tier_override_precedence?
     return false unless rewards_tier_override
     rewards_tier_override.fee_percentage < original_rewards_tier.fee_percentage
-  end
-
-  def set_tier!
-    tier = RewardsTier.all.find { |t| t.amount.include? completed_projects_amount }
-    update(rewards_tier: tier)
   end
 end

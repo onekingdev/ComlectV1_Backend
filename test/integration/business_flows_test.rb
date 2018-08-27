@@ -43,7 +43,6 @@ class BusinessFlowsTest < ActionDispatch::IntegrationTest
   test 'update business' do
     user = create(:user)
     business = create(:business, user: user)
-    DiscourseApi::Client.any_instance.stubs(:get)
 
     post_via_redirect(
       user_session_path,
