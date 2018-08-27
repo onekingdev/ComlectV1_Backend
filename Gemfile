@@ -80,6 +80,7 @@ gem 'shrine', '~> 2.4.0'
 gem 'jbuilder', '~> 2.0'
 
 # Background jobs
+gem 'activejob-traffic_control'
 gem 'sidekiq'
 gem 'sidekiq-failures'
 gem 'sidekiq-scheduler'

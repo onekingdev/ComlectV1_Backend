@@ -2,6 +2,7 @@
 
 class SyncHubspotContactJob < ApplicationJob
   queue_as :default
+  throttle threshold: 2, period: 1.second
 
   def perform(record = nil)
     return process_all if record.nil?
