@@ -1,3 +1,3 @@
 web: bundle exec puma -C config/puma.rb
-worker: bundle exec sidekiq -q default -q mailers -q payments -e production
+worker: bundle exec sidekiq -C config/sidekiq.yml
 release: bundle exec rake db:migrate
