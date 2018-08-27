@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-Rails.application.routes.draw do
-  require 'sidekiq/web'
-  require 'sidekiq/cron/web'
+require 'sidekiq/web'
+require 'sidekiq-scheduler/web'
 
+Rails.application.routes.draw do
   if Rails.env.production?
     Sidekiq::Web.use Rack::Auth::Basic do |username, password|
       username == ENV.fetch('SIDEKIQ_USERNAME') && password == ENV.fetch('SIDEKIQ_PASSWORD')

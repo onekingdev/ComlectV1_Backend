@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
-ruby '2.4.2'
+ruby '2.5.1'
 
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?('/')
@@ -81,8 +81,8 @@ gem 'jbuilder', '~> 2.0'
 
 # Background jobs
 gem 'sidekiq'
-gem 'sidekiq-cron'
 gem 'sidekiq-failures'
+gem 'sidekiq-scheduler'
 gem 'sinatra', require: nil
 
 # Payments
