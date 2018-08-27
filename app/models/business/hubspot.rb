@@ -39,7 +39,8 @@ class Business::Hubspot < HubspotContact
       state: object.state,
       zip: object.zipcode,
       country: object.country,
-      phone: object.contact_phone
+      phone: object.contact_phone,
+      industry: object.industries.pluck(:name).join(', ')
     )
 
     object.update_columns(hubspot_contact_id: hubspot_contact.vid)
