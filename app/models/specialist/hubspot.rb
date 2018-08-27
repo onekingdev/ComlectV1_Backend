@@ -21,6 +21,7 @@ class Specialist::Hubspot < HubspotContact
       email: object.user.email,
       firstname: object.first_name,
       lastname: object.last_name,
+      address: [object.address_1, object.address_2.presence].compact.join(', '),
       city: object.city,
       state: object.state,
       zip: object.zipcode,

@@ -24,17 +24,20 @@ class Business::Hubspot < HubspotContact
   def sync_company
     hubspot_company.update!(
       description: object.description,
-      website: object.website
+      website: object.website,
+      range_of_employees: object.employees
     )
 
     object.update_columns(hubspot_company_id: hubspot_company.vid)
   end
 
+  # rubocop:disable Metrics/AbcSize
   def sync_contact
     hubspot_contact.update!(
       email: object.user.email,
       firstname: object.contact_first_name,
       lastname: object.contact_last_name,
+      address: [object.address_1, object.address_2.presence].compact.join(', '),
       city: object.city,
       state: object.state,
       zip: object.zipcode,
@@ -47,4 +50,5 @@ class Business::Hubspot < HubspotContact
 
     hubspot_company.add_contact(hubspot_contact)
   end
+  # rubocop:enable Metrics/AbcSize
 end
