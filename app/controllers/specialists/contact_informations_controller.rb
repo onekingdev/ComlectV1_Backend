@@ -11,7 +11,6 @@ class Specialists::ContactInformationsController < ApplicationController
     @specialist = Specialist::Form.for_user(current_user)
     @specialist.assign_attributes(specialist_params)
     @saved = @specialist.save
-    SyncHubspotContactJob.perform_later(@specialist)
     render :show
   end
 

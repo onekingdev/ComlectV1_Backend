@@ -10,7 +10,6 @@ class Business::KeyContactsController < ApplicationController
   def update
     @business = current_business
     @saved = @business.update(contact_params)
-    SyncHubspotContactJob.perform_later(@business)
     render :show
   end
 

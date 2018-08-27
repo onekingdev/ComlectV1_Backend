@@ -56,6 +56,8 @@ class Business < ApplicationRecord
 
   delegate :suspended?, to: :user
 
+  after_commit :sync_hubspot, on: %i[create update]
+
   def self.for_signup(attributes = {})
     new(attributes).tap do |business|
       business.build_user unless business.user
@@ -107,5 +109,9 @@ class Business < ApplicationRecord
   def rewards_tier_override_precedence?
     return false unless rewards_tier_override
     rewards_tier_override.fee_percentage < original_rewards_tier.fee_percentage
+  end
+
+  def sync_hubspot
+    SyncHubspotContactJob.perform_later(self)
   end
 end

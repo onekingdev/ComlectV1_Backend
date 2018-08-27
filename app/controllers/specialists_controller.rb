@@ -41,7 +41,6 @@ class SpecialistsController < ApplicationController
       sign_in @specialist.user
       mixpanel_track_later 'Sign Up'
       SpecialistMailer.welcome(@specialist).deliver_later
-      SyncHubspotContactJob.perform_later(@specialist)
       return redirect_to specialists_dashboard_path
     end
 
@@ -54,7 +53,6 @@ class SpecialistsController < ApplicationController
 
   def update
     fetch_specialist
-
     respond_to do |format|
       if @specialist.update(edit_specialist_params)
         if @specialist.delete_photo? || @specialist.delete_resume?
@@ -63,8 +61,6 @@ class SpecialistsController < ApplicationController
           format.html { return redirect_to_param_or specialists_dashboard_path }
           format.js { render nothing: true, status: :ok }
         end
-
-        SyncHubspotContactJob.perform_later(@specialist)
       else
         format.html { render :edit }
         format.js { js_alert('Could not save your changes, please try again later.') }

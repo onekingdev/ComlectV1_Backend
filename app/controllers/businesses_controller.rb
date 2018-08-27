@@ -18,15 +18,12 @@ class BusinessesController < ApplicationController
 
   def create
     @business = Business.for_signup(business_params)
-
     if @business.save
       sign_in @business.user
       mixpanel_track_later 'Sign Up'
       BusinessMailer.welcome(@business).deliver_later
-      SyncHubspotContactJob.perform_later(@business)
       return redirect_to business_dashboard_path
     end
-
     render :new
   end
 
@@ -37,7 +34,6 @@ class BusinessesController < ApplicationController
 
   def update
     @business = Business::Form.for_user(current_user)
-
     respond_to do |format|
       if @business.update(edit_business_params)
         if @business.delete_logo == '1'
@@ -46,8 +42,6 @@ class BusinessesController < ApplicationController
           format.html { return redirect_to_param_or business_dashboard_path }
           format.js { render nothing: true, status: :ok }
         end
-
-        SyncHubspotContactJob.perform_later(@business)
       else
         format.html { render :edit }
         format.js { js_alert('Could not save your changes, please try again later.') }
