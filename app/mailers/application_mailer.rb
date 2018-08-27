@@ -33,5 +33,7 @@ class ApplicationMailer < ActionMailer::Base
 
   def deliver_with_template(headers = {})
     postmark.deliver_with_template({ from: self.class.default[:from] }.merge(headers))
+  rescue Postmark::InactiveRecipientError
+    true
   end
 end
