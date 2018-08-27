@@ -165,6 +165,11 @@ GEM
       actionpack (>= 4.1)
       activesupport (>= 4.1)
     hashdiff (0.3.7)
+    httparty (0.16.2)
+      multi_xml (>= 0.5.2)
+    hubspot-ruby (0.4.0)
+      activesupport (>= 3.0.0)
+      httparty (>= 0.10.0)
     i18n (0.9.5)
       concurrent-ruby (~> 1.0)
     i18n_data (0.8.0)
@@ -240,6 +245,7 @@ GEM
     money (6.11.3)
       i18n (>= 0.6.4, < 1.1)
     multi_json (1.13.1)
+    multi_xml (0.6.0)
     multipart-post (2.0.0)
     nokogiri (1.8.3)
       mini_portile2 (~> 2.3.0)
@@ -509,6 +515,7 @@ DEPENDENCIES
   faker
   fastimage (~> 2.0.0)
   foreman
+  hubspot-ruby
   ice_cube
   image_processing (~> 0.3.0)
   imagesLoaded_rails

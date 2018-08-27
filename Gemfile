@@ -93,6 +93,9 @@ gem 'stripe'
 # Logging
 gem 'lograge'
 
+# Other
+gem 'hubspot-ruby'
+
 group :development, :test do
   # Logging
   gem 'quiet_assets'
