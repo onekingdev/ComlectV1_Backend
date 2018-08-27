@@ -83,7 +83,6 @@ gem 'jbuilder', '~> 2.0'
 gem 'sidekiq'
 gem 'sidekiq-cron'
 gem 'sidekiq-failures'
-gem 'sidekiq-unique-jobs'
 gem 'sinatra', require: nil
 
 # Payments
