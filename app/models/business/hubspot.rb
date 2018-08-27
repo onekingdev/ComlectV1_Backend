@@ -2,7 +2,7 @@
 
 class Business::Hubspot < HubspotContact
   def sync
-    super
+    return if ENV['HUBSPOT_API_KEY'].blank?
     sync_company
     sync_contact
   end

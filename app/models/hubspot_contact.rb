@@ -15,10 +15,6 @@ class HubspotContact
   def initialize(object)
     @object = object
   end
-
-  def sync
-    return if ENV['HUBSPOT_API_KEY'].blank?
-  end
 end
 
 require_dependency 'business/hubspot'

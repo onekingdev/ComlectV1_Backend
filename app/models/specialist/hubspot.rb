@@ -2,7 +2,7 @@
 
 class Specialist::Hubspot < HubspotContact
   def sync
-    super
+    return if ENV['HUBSPOT_API_KEY'].blank?
     sync_contact
   end
 
