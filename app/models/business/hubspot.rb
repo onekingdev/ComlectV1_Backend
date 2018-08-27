@@ -27,7 +27,7 @@ class Business::Hubspot < HubspotContact
       website: object.website
     )
 
-    object.update(hubspot_company_id: hubspot_company.vid)
+    object.update_columns(hubspot_company_id: hubspot_company.vid)
   end
 
   def sync_contact
@@ -42,7 +42,7 @@ class Business::Hubspot < HubspotContact
       phone: object.contact_phone
     )
 
-    object.update(hubspot_contact_id: hubspot_contact.vid)
+    object.update_columns(hubspot_contact_id: hubspot_contact.vid)
 
     hubspot_company.add_contact(hubspot_contact)
   end

@@ -31,7 +31,7 @@ class Specialist::Hubspot < HubspotContact
       former_regulator: object.former_regulator?
     )
 
-    object.update(hubspot_contact_id: hubspot_contact.vid)
+    object.update_columns(hubspot_contact_id: hubspot_contact.vid)
   end
   # rubocop:enable Metrics/AbcSize
 end
