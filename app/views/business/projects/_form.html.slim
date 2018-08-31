@@ -40,14 +40,7 @@
     h2.text-center.m-b-2 Project Duration
     .row.row-compact.m-y-1
       .col-xs-12.text-center
-        = f.input :duration_type, as: :radio_pills, collection: [%w(ASAP asap), %w(Custom custom)], btn_class: 'btn-default tt-u'
-    .project-duration-asap
-      .row.row-compact
-        .col-xs-12.col-sm-4.col-sm-offset-4
-          = f.input :estimated_days, as: :string, require: true, input_html: { class: 'input-lg text-center' }
-      .row.row-compact.p-b-1
-        .col-xs-12
-          .small.text-muted Note: This on-demand feature automatically matches you with a specialist that meets your project pre-requisites. Please select custom if you’d like to interview and hire a specialist of your choosing. Please estimate how many days your project may take to allow our specialists to determine their availability. You will be able to finish the project early or extend the deadline once the project begins.
+        = f.input :duration_type, as: :radio_pills, collection: [%w(Custom custom), %w(ASAP asap)], btn_class: 'btn-default tt-u'
     .project-duration-custom
       .row.row-compact.js-date-range
         .col-xs-12.col-sm-6
@@ -72,6 +65,13 @@
       .row.row-compact.p-b-1
         .col-xs-12
           .small.text-muted Please estimate if necessary to allow our specialists to determine their availability. You will be able to extend the deadline later.
+    .project-duration-asap
+      .row.row-compact
+        .col-xs-12.col-sm-4.col-sm-offset-4
+          = f.input :estimated_days, as: :string, require: true, input_html: { class: 'input-lg text-center' }
+      .row.row-compact.p-b-1
+        .col-xs-12
+          .small.text-muted Note: This on-demand feature automatically matches you with a specialist that meets your project pre-requisites. Please select custom if you’d like to interview and hire a specialist of your choosing. Please estimate how many days your project may take to allow our specialists to determine their availability. You will be able to finish the project early or extend the deadline once the project begins.
 
   .well.well-lg.m-t-3.project-salary
     h2.text-center.m-b-2 Salary

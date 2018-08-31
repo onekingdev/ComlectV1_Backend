@@ -45,6 +45,10 @@
     }
   }
   .bd-stuff {
+    width: 274px;
+    border: 2px solid #ffc42f;
+    margin-left: auto;
+    margin-right: auto;
     .checkbox {
       width: 44px;
       float: left;
@@ -145,6 +149,11 @@ body.turnkey_pages.show {
         background-color: #fff !important;
         color: #000 !important;
         border: 3px solid #fff !important;
+      }
+      &:focus {
+        background-color: #000 !important;
+        border: 3px solid #000 !important;
+        color: #fff !important;
       }
     }
     .arrow-down {

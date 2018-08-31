@@ -1,2 +1,63 @@
 ---
 :concurrency: <%= ENV['SIDEKIQ_CONCURRENCY'] || 5 %>
+
+:queues:
+  - default
+  - mailers
+  - payments
+
+:schedule:
+  schedule_charges:
+    cron: "15 * * * *"
+    class: "ScheduleChargesJob"
+
+  process_scheduled_charges:
+    cron: "30 * * * *"
+    class: "ProcessScheduledChargesJob"
+
+  process_transactions:
+    cron: "*/5 * * * *"
+    class: "ProcessTransactionsJob"
+
+  # There's a race condition here where a timesheet may be auto accepted
+  # precisely when this job tries to end the project.
+  # Run at 0, 1, and 30 minute marks.
+  end_projects:
+    cron: "0,1,30 * * * *"
+    class: "EndProjectsJob"
+
+  auto_accept_end_requests:
+    cron: "0,30 * * * *"
+    class: "AutoAcceptEndRequestsJob"
+
+  delete_expired_extensions_job:
+    cron: "0,30 * * * *"
+    class: "DeleteExpiredExtensionsJob"
+
+  expire_projects:
+    cron: "*/5 * * * *"
+    class: "ExpireProjectsJob"
+
+  annual_rewards_reset:
+    cron: "59 23 31 12 *"
+    class: "AnnualRewardsResetJob"
+
+  auto_accept_timesheets:
+    cron: "*/5 * * * *"
+    class: "AutoAcceptTimesheetsJob"
+
+  transfer_foreign_currency:
+    cron: "0 0 * * *"
+    class: "TransferForeignCurrencyJob"
+
+  starts_in_48:
+    cron: "*/5 * * * *"
+    class: "StartsIn48Job"
+
+  ends_in_24:
+    cron: "*/5 * * * *"
+    class: "EndsIn24Job"
+
+  user_inactive:
+    cron: "*/5 * * * *"
+    class: "UserInactiveJob"

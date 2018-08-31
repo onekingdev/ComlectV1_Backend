@@ -20,6 +20,8 @@ class Specialists::ContactInformationsController < ApplicationController
     params.require(:specialist).permit(
       :first_name,
       :last_name,
+      :phone,
+      :linkedin_link,
       user_attributes: %i[id email]
     )
   end

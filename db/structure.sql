@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.6.2
--- Dumped by pg_dump version 9.6.2
+-- Dumped from database version 9.6.10
+-- Dumped by pg_dump version 9.6.10
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -372,7 +372,9 @@ CREATE TABLE businesses (
     discourse_user_id integer,
     fee_free boolean DEFAULT false,
     rewards_tier_id integer,
-    rewards_tier_override_id integer
+    rewards_tier_override_id integer,
+    hubspot_company_id character varying,
+    hubspot_contact_id character varying
 );
 
 
@@ -679,7 +681,7 @@ CREATE TABLE projects (
     expires_at timestamp without time zone,
     solicited_business_rating boolean DEFAULT false,
     solicited_specialist_rating boolean DEFAULT false,
-    duration_type character varying DEFAULT 'asap'::character varying,
+    duration_type character varying DEFAULT 'custom'::character varying,
     estimated_days integer
 );
 
@@ -1359,7 +1361,8 @@ CREATE TABLE specialists (
     discourse_user_id integer,
     specialist_team_id integer,
     rewards_tier_id integer,
-    rewards_tier_override_id integer
+    rewards_tier_override_id integer,
+    hubspot_contact_id character varying
 );
 
 
@@ -5507,4 +5510,10 @@ INSERT INTO schema_migrations (version) VALUES ('20180811025719');
 INSERT INTO schema_migrations (version) VALUES ('20180811063154');
 
 INSERT INTO schema_migrations (version) VALUES ('20180811063955');
+
+INSERT INTO schema_migrations (version) VALUES ('20180827045947');
+
+INSERT INTO schema_migrations (version) VALUES ('20180827051141');
+
+INSERT INTO schema_migrations (version) VALUES ('20180827191112');
 

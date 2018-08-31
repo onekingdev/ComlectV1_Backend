@@ -7,7 +7,7 @@ class Specialist::Form < Specialist
   accepts_nested_attributes_for :education_histories, allow_destroy: true, reject_if: :all_blank
 
   validates :first_name, :last_name, :country, :time_zone, :address_1, :industry_ids, :jurisdiction_ids, presence: true
-  validate :validate_minimum_experience
+  validate :validate_minimum_experience, on: :signup
 
   accepts_nested_attributes_for :user
 

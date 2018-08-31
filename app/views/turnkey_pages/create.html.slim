@@ -21,10 +21,13 @@
               = link_to "here", "/info/terms-of-use#fees", target: "_blank"
               | 
           - else
-            - str = @missing.map(&:capitalize).join(', ').gsub("_", " ")
-            = @missing.length > 1 ? "#{str} are missing." : "#{str} is missing."
-            br
-            br
+            - str = @missing.map(&:to_s).map(&:capitalize).map { |k| k.gsub("_", " ") }
+            .m-l-3.p-l-3.m-r-3.p-r-3
+              | You're missing information for:
+              ul.text-left
+                - for s in str
+                  li= s
+              br
             .btn.btn-lg.btn-primary data-dismiss="modal" Try again
         - else
           | Please add a payment method under 

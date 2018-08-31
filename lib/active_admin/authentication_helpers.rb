@@ -4,9 +4,6 @@ module ActiveAdmin
   module AuthenticationHelpers
     extend ActiveSupport::Concern
 
-    included do
-    end
-
     private
 
     def authenticate_super_admin_user!
