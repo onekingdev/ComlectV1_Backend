@@ -43,7 +43,7 @@ module Complect
 
     config.middleware.insert_before 0, 'Rack::Cors' do
       allow do
-        origins(/https:\/\/.+?\.complect\.com?/)
+        origins(/https:\/\/.+?\.complect\.co/)
         resource '*', headers: :any, methods: :get
       end
     end

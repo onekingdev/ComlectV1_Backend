@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require 'sidekiq/web'
-require 'sidekiq-scheduler/web'
-
 Rails.application.routes.draw do
+  require 'sidekiq/web'
+  require 'sidekiq/cron/web'
+
   if Rails.env.production?
     Sidekiq::Web.use Rack::Auth::Basic do |username, password|
       username == ENV.fetch('SIDEKIQ_USERNAME') && password == ENV.fetch('SIDEKIQ_PASSWORD')
@@ -39,6 +39,12 @@ Rails.application.routes.draw do
     resources :ima, only: %i[index create]
   end
 
+  resources :turnkey_pages, only: %i[index show create new], path: 'turnkey'
+  resources :turnkey_solutions # , only: :create
+  post '/turnkey/:id' => 'turnkey_pages#create'
+  patch '/turnkey/:id' => 'turnkey_pages#update'
+
+  resources :feedback_requests, only: %i[create new]
   resources :businesses, only: %i[new create show]
   resource :business, only: %i[edit] do
     patch '/' => 'businesses#update', as: :update
