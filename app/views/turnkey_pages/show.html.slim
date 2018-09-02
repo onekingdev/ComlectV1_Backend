@@ -15,6 +15,8 @@
           - if solution.flavored?
             = f.input :flavor, as: :radio_pills, collection: solution.flavors, input_html: { selected: solution.flavors[0] }, btn_class: 'btn-lg btn-default p-x-1'
           - if solution.bd?
+            javascript:
+              var all_bds = #{raw Project.all_bds}
             .bd-stuff.clearfix.m-b-2
               = f.input :bd, as: :check_boxes, collection: @bds.map(&Proc.new { |s| s[0] }), input_html: { multiple: true, class: 'btn-grid-flavor' }
           - if !solution.info_dot.blank?
