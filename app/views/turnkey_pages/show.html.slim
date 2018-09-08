@@ -25,13 +25,16 @@
             - hidden_class = solution.flavors.include?("era") ? " hidden-on-load" : ""
             = f.input :state, collection: @states, placeholder: "Principal Office", input_html: { class: 'input-lg js-select'+hidden_class, multiple: false }
           - if solution.aum_enabled
-            = f.input :aum, collection: [["below $100MM", false], ["$100MM+", true]], placeholder: "AUM", input_html: { class: 'input-lg js-select', multiple: false }
+            /= f.input :aum, collection: [["below $100MM", false], ["$100MM+", true]], placeholder: "AUM", input_html: { class: 'input-lg js-select', multiple: false }
+            = f.input :aum, placeholder: "AUM", input_html: { class: 'input-lg' }
           - if solution.industries_enabled
             = f.input :industries, collection: Industry.sorted, placeholder: t('simple_form.placeholders.specialist.industries'), input_html: { class: 'input-lg js-select', multiple: true }
           - if solution.jurisdictions_enabled
             = f.input :jurisdictions, collection: Jurisdiction.sorted, placeholder: t('simple_form.placeholders.specialist.jurisdictions'), input_html: { class: 'input-lg js-select', multiple: true }
           - if solution.hours_enabled
             = f.input :estimated_hours, placeholder: "No. of hours", as: :string, require: true, input_html: { class: 'input-lg', data: { masked: '0#' } }
+          - if solution.accounts_enabled
+            = f.input :accounts, placeholder: "No. of client accounts", as: :string, require: true, input_html: { class: 'input-lg', data: { masked: '0#' } }
           p
             = solution.description.html_safe
             ul.turnkey-entry-profits

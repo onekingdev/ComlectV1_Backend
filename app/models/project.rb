@@ -298,15 +298,15 @@ class Project < ApplicationRecord
       public_send("#{attr}=", template.public_send(attr.to_s))
     end
     solution = template.turnkey_solution
-    params_bd = params[:bd].reject(&:empty?)
+    params_bd = params[:bd].reject(&:empty?) if params.include?(:bd)
     self.fixed_budget = template.flavor == 'bd' ? calculate_bd(params_bd)[0] : template.fixed_budget
     self.business_id = businessid
     self.type = template.project_type
     self.status = 'published'
-    self.title = solution.aum_enabled && params[:aum] == 'true' && !template.title_aum.empty? ? template.title_aum : template.title
+    self.title = solution.aum_enabled && check_aum(params[:aum]) && !template.title_aum.empty? ? template.title_aum : template.title
     title.gsub!('{state}', params[:state]) if solution.principal_office
     self.location = params[:state] if solution.principal_office
-    self.description = if solution.aum_enabled && params[:aum] == 'true' && !template.description_aum.empty?
+    self.description = if solution.aum_enabled && check_aum(params[:aum]) && !template.description_aum.empty?
                          template.description_aum
                        else
                          template.description
@@ -341,6 +341,22 @@ class Project < ApplicationRecord
     [[1200, 70, 0, 0], [20_000, 115, 30, 5000], [65_000, 370, 30, 5000], [135_000, 775, 0, 0]]
   end
 
+  def check_aum(str)
+    vocab = [%w[BN bn Billion billion Bill bill], '000000000'], \
+            [%w[Million million MM mm Mill mill], '000000']
+    result = str.to_i.to_s
+    occured = false
+    vocab.each do |v|
+      v[0].each do |word|
+        if str.include?(word) && !occured
+          result += v[1]
+          occured = true
+        end
+      end
+    end
+    result.to_i > 100_000_000
+  end
+
   # rubocop:disable Metrics/AbcSize
   def calculate_bd(bds)
     # 0 = 12000 yellow
@@ -370,8 +386,9 @@ class Project < ApplicationRecord
 
   def format_description(description, params)
     description.gsub!('{state}', params[:state]) if params.include? :state
-    description.gsub!('{aum}', params[:aum] == 'true' ? '$100MM+' : 'below $100MM') if params.include? :aum
+    description.gsub!('{aum}', params[:aum]) if params.include? :aum
     description.gsub!('{bd}', params[:bd].reject(&:empty?).join(', ')) if params.include? :bd
+    description += ' We have {accounts} client accounts.'.gsub('{accounts}', params[:accounts]) if params.include? :accounts
     description
   end
 

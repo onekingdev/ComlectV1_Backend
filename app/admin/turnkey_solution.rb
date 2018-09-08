@@ -22,6 +22,7 @@ ActiveAdmin.register TurnkeySolution do
     :principal_office,
     :industries_enabled,
     :jurisdictions_enabled,
+    :accounts_enabled,
     :range,
     :aum_enabled,
     :hours_enabled,
@@ -73,6 +74,7 @@ ActiveAdmin.register TurnkeySolution do
       f.input :industries_enabled, label: 'Industries selectable'
       f.input :jurisdictions_enabled, label: 'Jurisdictions selectable'
       f.input :hours_enabled, label: 'No. of hours selectable'
+      f.input :accounts_enabled, label: 'Request # of accounts'
       f.input :description
       f.input :features, label: 'Features (1 line per feature, sub-features begin with space)'
       f.inputs 'Templates' do

@@ -31,7 +31,7 @@ class TurnkeySolution < ActiveRecord::Base
   # rubocop:disable Metrics/AbcSize
   def validate_params(params)
     missing = []
-    [[:aum, aum_enabled], [:state, principal_office], [:estimated_hours, hours_enabled],\
+    [[:aum, aum_enabled], [:accounts, accounts_enabled], [:state, principal_office], [:estimated_hours, hours_enabled],\
      [:industries, industries_enabled], [:jurisdictions, jurisdictions_enabled]].each do |v|
       if v[1]
         if params.include?(v[0])
