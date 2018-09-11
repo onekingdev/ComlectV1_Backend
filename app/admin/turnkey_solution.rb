@@ -26,8 +26,6 @@ ActiveAdmin.register TurnkeySolution do
     :range,
     :aum_enabled,
     :hours_enabled,
-    :description,
-    :features,
     :turnkey_page_id,
     project_templates_attributes: [
       :_destroy,
@@ -37,6 +35,8 @@ ActiveAdmin.register TurnkeySolution do
       :flavor,
       :project_type,
       :location_type,
+      :public_description,
+      :public_features,
       :description,
       :description_aum,
       :payment_schedule,
@@ -75,8 +75,6 @@ ActiveAdmin.register TurnkeySolution do
       f.input :jurisdictions_enabled, label: 'Jurisdictions selectable'
       f.input :hours_enabled, label: 'No. of hours selectable'
       f.input :accounts_enabled, label: 'Request # of accounts'
-      f.input :description
-      f.input :features, label: 'Features (1 line per feature, sub-features begin with space)'
       f.inputs 'Templates' do
         f.has_many :project_templates do |pt|
           pt.input :title
@@ -86,6 +84,8 @@ ActiveAdmin.register TurnkeySolution do
           pt.input :jurisdictions
           pt.input :project_type, as: :select, collection: %w[one_off full_time]
           pt.input :location_type, as: :select, collection: %w[remote remote_and_travel onsite]
+          pt.input :public_description, as: :text
+          pt.input :public_features, as: :text, label: 'Features (1 line per feature, sub-features begin with space)'
           pt.input :description, as: :text
           pt.input :description_aum, as: :text
           pt.input :payment_schedule, as: :select, collection: %w[upon_completion bi_weekly monthly fifty_fifty]

@@ -31,6 +31,9 @@ $.onContentReady ($parent) ->
       order.push($(this).hasClass("active"))
     price = $(this).closest("form").attr("data-budgets").split(' ')[order.indexOf(true)]
     $($(this).closest("form").find("h1 span")[0]).html("$"+parseInt(price).toLocaleString())
+    switcher = $(this).closest("form").find(".description_switcher")
+    switcher.hide()
+    $(switcher[order.indexOf(true)]).show()
   #$(".solution_flavor").on 'change', ->
   #  window.sss = this
   #  if $(this).find(".active input").val() == "era"

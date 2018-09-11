@@ -12,6 +12,10 @@
   position: fixed;
   z-index: 1001;
 
+  .nav-about li:last-child {
+    padding-right: 0px !important;
+  }
+
   li {
     position: static;
     @media (max-width: $grid-float-breakpoint) {
@@ -142,7 +146,7 @@
 
   .navbar-nav > li {
     @media (min-width: $grid-float-breakpoint) {
-      padding-right: 40px;
+      padding-right: 30px;
       margin: 0px !important;
     }
   }
