@@ -9,7 +9,7 @@ class FeedbackRequestsController < ApplicationController
     if verify_recaptcha(model: @feedback)
       @feedback.assign_attributes(ip: request.remote_ip, user_agent: request.user_agent)
       @feedback.save!
-      FeedbackMailer.notification(@feedback).deliver_later
+      FeedbackMailer.deliver_later(:notification, @feedback)
     else
       @err = 'Please solve CAPTCHA to proceed.'
     end
