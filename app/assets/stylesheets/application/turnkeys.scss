@@ -206,6 +206,17 @@ body.turnkey_pages.index {
   }
   .enterprise-solutions {
     background-color: #EDEDED;
+    .remote-submit-errors {
+      color: #ff0000;
+      font-weight: bold;
+      font-family: "Nimbus Sans";
+      span {
+        color: #00cd00;
+      }
+    }
+    .g-recaptcha {
+      float: right;
+    }
     .col-md-4 {
       padding: 1.5px;
     }

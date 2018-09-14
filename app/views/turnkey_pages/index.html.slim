@@ -12,7 +12,10 @@
             g
               path d=("M192.05 39H42V24.161c0-2.073-2.057-3.369-3.853-2.333L6.156 40.353c-1.796 1.037-1.749 3.628.047 4.665l31.922 18.524C39.919 64.579 42 63.283 42 61.21V46h150.05a3.501 3.501 0 1 0 0-7z") 
 
-      = link_to "Get started", new_user_registration_path, "data-dismiss" => "modal", "data-remote" => true, class: "btn btn-primary p-h-3 m-t-1"
+      - if current_business
+        = link_to "Get started", "#", class: "btn btn-primary p-h-3 m-t-1", onclick: "$('html, body').animate({scrollTop:$('#turnkey-anchor').position().top}, 'slow');"
+      - else
+        = link_to "Get started", new_user_registration_path, "data-dismiss" => "modal", "data-remote" => true, class: "btn btn-primary p-h-3 m-t-1"
     .col-md-6.right-story
       h1.text-center.brand-color.p-b-1 IT'S GOOD TO HAVE OPTIONS
       = image_tag "turnkey/document.png"
@@ -42,6 +45,7 @@
 .row.black_thing.m-t-3
 .container.turnkey-index.m-t-3
   .row
+    .anchor#turnkey-anchor
     h1.brand-color Turnkey Solutions
     - for category in @categories do
       .col-md-4.col-sm-6 ontouchstart="this.classList.toggle('hover');"
@@ -59,14 +63,20 @@
       h1.brand-color.text-center. Enterprise Solutions
       = simple_form_for FeedbackRequest.new do |f|
         .col-md-4.col-md-push-2
-          = f.input :name, placeholder: "Name *"
+          = f.input :name, placeholder: "Name"
           = f.input :email, placeholder: "Email *"
-          = f.input :phone, placeholder: "Phone number *"
+          = f.input :phone, placeholder: "Phone number"
           = f.input :specialists, placeholder: "No. specialists needed"
           = f.input :budget, placeholder: "Budget (USD)"
         .col-md-4.col-md-push-2
-          = f.input :description, placeholder: "Project description *"
-        .col-md-8.col-md-push-2.p-b-1 = f.submit "Submit", class: "btn btn-primary btn-xs pull-right m-t-1 m-b-3"
+          = f.input :description, placeholder: "Project description"
+        .clearfix
+        /.col-md-8.col-md-push-2.p-b-1 = f.submit "Submit", class: "btn btn-primary btn-xs pull-right m-t-1 m-b-3"
+        .col-md-4.col-md-push-2.remote-submit-errors
+        .col-md-4.col-md-push-2.p-r-0
+          = recaptcha_tags
+        .clearfix
+        .col-md-8.col-md-push-2.p-b-1 = link_to "Submit", "#", class: "remote-submit-no-popup btn btn-primary btn-xs pull-right m-t-1 m-b-3", "data-remote" => true
 .row.black-line
 .container.p-b-2
   .row.p-b-3
@@ -74,6 +84,6 @@
       h1.text-center.m-t-0.m-b-2 Ready to find out more?
       .col-md-4.text-center
         .line.m-t-2.m-b-3
-        = link_to "FREE EVALUATION", new_feedback_request_path, "data-dismiss" => "modal", "data-remote" => true, class: "btn btn-primary p-h-3 m-t-1"
+        = link_to "FREE EVALUATION", "mailto:info@complect.com?subject=I'd Like a Free Evaluation", class: "btn btn-primary p-h-3 m-t-1"
       .col-md-8.p-t-1
         | Whether you are a seasoned compliance professional or just setting up shop and learning the ropes, we are here as that unbiased third party to help talk through your needs. You can reach us by email or phone to request your free evaluation and assistance to scope out the best project fit for your circumstances. Just drop us a line!

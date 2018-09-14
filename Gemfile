@@ -8,6 +8,10 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+# captcha
+gem 'bcrypt'
+gem 'recaptcha', require: 'recaptcha/rails'
+
 # Rails
 gem 'rails', '4.2.10'
 gem 'webpacker'

@@ -43,5 +43,14 @@ $.onContentReady ($parent) ->
 
   #$(".hidden-on-load").closest(".solution_state").fadeOut()
 
+$(document).on 'click', '.remote-submit-no-popup', (e) ->
+  form = $(this).closest("form")
+  $.ajax
+    type: 'POST'
+    url: form.attr("action")
+    data: form.serialize()
+    success: (data) ->
+      form.find(".remote-submit-errors").html(data)
+
 $(window).resize ->
   window.fix_turnkeys()
