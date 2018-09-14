@@ -10,7 +10,7 @@ class FeedbackMailer < ApplicationMailer
       message_text += "#{k}: #{v}\n"
     end
     mail(
-      to: 'kourindouhime@gmail.com',
+      to: ENV.fetch('CONTACT_EMAIL'),
       template_id: ENV.fetch('POSTMARK_TEMPLATE_ID'),
       template_model: {
         subject: 'Enterprise Solutions Request',
