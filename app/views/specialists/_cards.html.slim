@@ -75,7 +75,7 @@
     .col-xs-12
       .specialists-pagination.dot-pagination.m-b-1
         - specialists.total_pages.times do |n|
-          = link_to n+1, current_uri(page: n + 1), remote: true, class: "page #{"current" if n + 1 == specialists.current_page}"
+          = link_to n+1, current_uri(page: n + 1, "specialist_search[page]": n+1), remote: true, class: "page #{"current" if n + 1 == specialists.current_page}"
 
 - if @filter
   javascript:
