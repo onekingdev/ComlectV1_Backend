@@ -5,17 +5,9 @@ require 'rails_helper'
 RSpec.describe PaymentCycle::Hourly::UponCompletion, type: :model do
   include TimesheetSpecHelper
 
-  before(:all) do
-    StripeMock.start
-    @specialist = create(:specialist)
-  end
-
-  after(:all) do
-    StripeMock.stop
-  end
-
   describe 'an hourly project with upon-completion pay' do
     let(:business) { create(:business, :with_payment_profile) }
+    let(:specialist) { create(:specialist) }
 
     before do
       Timecop.freeze(business.tz.local(2015, 12, 25)) do
@@ -30,7 +22,7 @@ RSpec.describe PaymentCycle::Hourly::UponCompletion, type: :model do
         @job_application = create(
           :job_application,
           project: @project,
-          specialist: @specialist
+          specialist: specialist
         )
 
         Project::Form.find(@project.id).post!
@@ -88,7 +80,7 @@ RSpec.describe PaymentCycle::Hourly::UponCompletion, type: :model do
             :timesheet,
             :approved,
             project: @project,
-            specialist: @specialist,
+            specialist: specialist,
             hours: 5
           )
         end
