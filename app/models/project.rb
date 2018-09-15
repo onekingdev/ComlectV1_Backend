@@ -291,7 +291,114 @@ class Project < ApplicationRecord
     one_off? && pricing_type == 'fixed'
   end
 
+  # rubocop:disable all
+  def build_from_template(businessid, template, params)
+    %i[location_type key_deliverables pricing_type hourly_rate only_regulators annual_salary
+       fee_type minimum_experience duration_type estimated_days].each do |attr|
+      public_send("#{attr}=", template.public_send(attr.to_s))
+    end
+    solution = template.turnkey_solution
+    params_bd = params[:bd].reject(&:empty?) if params.include?(:bd)
+    self.fixed_budget = template.flavor == 'bd' ? calculate_bd(params_bd)[0] : template.fixed_budget
+    self.business_id = businessid
+    self.type = template.project_type
+    self.status = 'published'
+    self.title = solution.aum_enabled && check_aum(params[:aum]) && !template.title_aum.empty? ? template.title_aum : template.title
+    title.gsub!('{state}', params[:state]) if solution.principal_office
+    self.location = params[:state] if solution.principal_office
+    self.description = if solution.aum_enabled && check_aum(params[:aum]) && !template.description_aum.empty?
+                         template.description_aum
+                       else
+                         template.description
+                       end
+    self.description = format_description(description, params)
+    self.payment_schedule = payment_schedule_to_name(template.payment_schedule)
+    self.estimated_hours = solution.hours_enabled ? params[:estimated_hours].to_i : template.flavor == 'bd' ? calculate_bd(params_bd)[1] : template.estimated_hours
+    self.industries = if solution.industries_enabled
+                        Industry.where(id: params[:industries].reject(&:empty?).map(&:to_i))
+                      else
+                        template.industries
+                      end
+    self.jurisdictions = if solution.jurisdictions_enabled
+                           Jurisdiction.where(id: params[:jurisdictions].reject(&:empty?).map(&:to_i))
+                         else
+                           template.jurisdictions
+                         end
+    self
+  end
+  # rubocop:enable all
+
+  def self.all_bds
+    [['EMC', 3], ['BIA', 1], ['MFU', 2], ['MSD', 1], ['TAS', 1], ['SSL', 1],\
+     ['EMF', 3], ['NEX', 1], ['MFR', 2], ['MSB', 1], ['PLA', 1], ['IAD', 1],\
+     ['IDM', 3], ['BDD', 1], ['VLA', 1], ['OGI', 1], ['PCB', 2], ['MRI', 1],\
+     ['TRA', 3], ['USG', 2], ['GSD', 1], ['NPB', 2], ['BNA', 2], ['OTH', 2],\
+     ['BDR', 2], ['RES', 1], ['GSB', 1], ['TAP', 1], ['INA', 2], ['LP', 0]]
+  end
+
+  def self.bd_prices_and_hours
+    # price, base hours, additional hours for 3 selected, additional USD
+    [[1200, 70, 0, 0], [20_000, 115, 30, 5000], [65_000, 370, 30, 5000], [135_000, 775, 0, 0]]
+  end
+
+  def check_aum(str)
+    vocab = [%w[BN bn Billion billion Bill bill], '000000000'], \
+            [%w[Million million MM mm Mill mill], '000000']
+    result = str.to_i.to_s
+    occured = false
+    vocab.each do |v|
+      v[0].each do |word|
+        if str.include?(word) && !occured
+          result += v[1]
+          occured = true
+        end
+      end
+    end
+    result.to_i > 100_000_000
+  end
+
+  # rubocop:disable Metrics/AbcSize
+  def calculate_bd(bds)
+    # 0 = 12000 yellow
+    # 1 = 20000 gray
+    # 2 = 65000 blue
+    # 3 = 135000 orange
+    filtered = Project.all_bds.select { |f| bds.uniq.include?(f[0]) }
+    base = filtered.max_by { |a| a[1] }
+    base_price = Project.bd_prices_and_hours[base[1]][0]
+    base_hours = Project.bd_prices_and_hours[base[1]][1]
+    g = {}
+    filtered.each { |s| g.key?(s[1]) ? g[s[1]] += 1 : g[s[1]] = 1 }
+    add_price = 0
+    add_hours = 0
+    g.each do |k, v|
+      cnt = v / 3
+      if cnt.positive?
+        add_price += Project.bd_prices_and_hours[k][3] * cnt
+        add_hours += Project.bd_prices_and_hours[k][2] * cnt
+      end
+    end
+    [base_price + add_price, base_hours + add_hours]
+  end
+  # rubocop:enable Metrics/AbcSize
+
   private
+
+  def format_description(description, params)
+    description.gsub!('{state}', params[:state]) if params.include? :state
+    description.gsub!('{aum}', params[:aum]) if params.include? :aum
+    description.gsub!('{bd}', params[:bd].reject(&:empty?).join(', ')) if params.include? :bd
+    description += ' We have {accounts} client accounts.'.gsub('{accounts}', params[:accounts]) if params.include? :accounts
+    description
+  end
+
+  def payment_schedule_to_name(identifer)
+    n = ''
+    Project::PAYMENT_SCHEDULES.each do |s|
+      n = s[0] if s.include?(identifer)
+    end
+    n
+  end
 
   def save_expires_at
     return if starts_on.blank?

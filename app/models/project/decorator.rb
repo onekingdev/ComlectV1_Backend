@@ -93,7 +93,6 @@ class Project::Decorator < ApplicationDecorator
              else
                hourly_pricing? ? hourly_rate : fixed_budget
              end
-
     h.number_to_currency(amount, precision: 0) + ("/hr, est. #{estimated_hours} hrs." if hourly_rate?).to_s
   end
 

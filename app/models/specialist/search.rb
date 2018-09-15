@@ -13,7 +13,7 @@ class Specialist::Search
 
   def initialize(attributes = HashWithIndifferentAccess.new)
     self.page = 1
-    self.per = 12
+    self.per = 3
     attributes.each do |attr, value|
       public_send "#{attr}=", value.presence
     end

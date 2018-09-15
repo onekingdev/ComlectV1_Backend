@@ -350,6 +350,8 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
+    recaptcha (4.12.0)
+      json
     redis (4.0.2)
     request_store (1.4.1)
       rack (>= 1.4)
@@ -509,6 +511,7 @@ DEPENDENCIES
   activejob-traffic_control
   auto_strip_attributes
   aws-sdk (~> 2.3.12)
+  bcrypt
   best_in_place!
   bugsnag
   business_time
@@ -556,6 +559,7 @@ DEPENDENCIES
   rack-cors
   rails (= 4.2.10)
   rails_12factor
+  recaptcha
   roda (~> 2.14.0)
   rspec-rails
   rubocop
@@ -586,4 +590,4 @@ RUBY VERSION
    ruby 2.5.1p57
 
 BUNDLED WITH
-   1.16.1
+   1.16.4

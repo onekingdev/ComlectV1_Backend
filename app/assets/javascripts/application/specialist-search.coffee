@@ -47,4 +47,4 @@ if $form.length > 0
   $('.search-results').on 'click', '.specialists-pagination .page', (e) ->
     e.preventDefault()
     $form.find('#specialist_search_page').val $(this).data('page')
-    doSearch()
+    #doSearch()
