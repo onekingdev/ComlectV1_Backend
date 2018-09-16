@@ -73,9 +73,13 @@
 - if specialists.total_pages > 1
   .row
     .col-xs-12
-      .specialists-pagination.dot-pagination.m-b-1
-        - specialists.total_pages.times do |n|
-          = link_to n+1, current_uri(page: n + 1), remote: true, class: "page #{"current" if n + 1 == specialists.current_page}"
+      .specialists-pagination.slick-nav.m-b-1
+        /= link_to "Q", "#", class: 'prev-slide middled'
+        .inline-pagination.m-b-1
+          ul.slick-dots
+            - specialists.total_pages.times do |n|
+              li= link_to n+1, current_uri(page: n + 1), remote: true, class: "page #{"current" if n + 1 == specialists.current_page}"
+        /= link_to "+", class: 'next-slide middled'
 
 - if @filter
   javascript:

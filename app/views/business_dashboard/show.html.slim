@@ -134,7 +134,7 @@
               a.no-link name="ratings-reviews" My Ratings & Reviews
             .detail= rating_average_text business
           .panel-body#ratings-slick
-            .ratings.list-group.plain
+            .row.ratings.list-group.plain
               - @ratings.each_slice(10).to_a.each do |a|
                 .rating-block
                   /= render business.ratings_received.preload_associations
