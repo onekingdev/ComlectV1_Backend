@@ -1,8 +1,8 @@
 @slickify = (div_id, bp_1024, bp_992, bp_480) ->
-  $(div_id + ' > .ratings').on 'init', (s) ->
+  $(div_id + ' > .row').on 'init', (s) ->
     showhide_pages(div_id)
     return
-  $(div_id + ' > .ratings').slick
+  $(div_id + ' > .row').slick
     dots: true,
     infinite: false,
     speed: 300,

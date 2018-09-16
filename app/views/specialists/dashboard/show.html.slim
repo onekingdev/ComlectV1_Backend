@@ -127,7 +127,7 @@
               a.no-link name="ratings-reviews" My Ratings & Reviews
             .detail= rating_average_text specialist
           .panel-body#ratings-slick
-            .ratings.list-group.plain.row
+            .row.ratings.list-group.plain
               - @ratings.each_slice(10).to_a.each do |a|
                 .rating-block
                   = render partial: 'ratings/rating', collection: a
