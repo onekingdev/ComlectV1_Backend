@@ -36,7 +36,7 @@
           - if solution.accounts_enabled
             = f.input :accounts, placeholder: "No. of client accounts", as: :string, require: true, input_html: { class: 'input-lg', data: { masked: '0#' } }
           - solution.project_templates.each_with_index do |template,i|
-            .description_switcher class=('hidden' if i > 0)
+            .description_switcher style=('display: none;' if i > 0)
               p = template.public_description.html_safe if template.public_description.present?
               ul.turnkey-entry-profits
                 - for feature in template.features_array do
