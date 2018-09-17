@@ -1,6 +1,10 @@
 .turnkey-entry {
   text-align: center;
   margin-bottom: 40px;
+  .description_switcher p b {
+    font-family: "Avenir";
+    font-weight: bold;
+  }
   .info-tooltip {
     right: 20px;
     margin-top: -40px;
