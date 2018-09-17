@@ -34,6 +34,7 @@ $.onContentReady ($parent) ->
     switcher = $(this).closest("form").find(".description_switcher")
     switcher.hide()
     $(switcher[order.indexOf(true)]).show()
+    window.fix_turnkeys()
   #$(".solution_flavor").on 'change', ->
   #  window.sss = this
   #  if $(this).find(".active input").val() == "era"
