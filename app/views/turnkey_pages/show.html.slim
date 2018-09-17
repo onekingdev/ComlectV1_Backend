@@ -40,7 +40,7 @@
               p = template.public_description.html_safe if template.public_description.present?
               ul.turnkey-entry-profits
                 - for feature in template.features_array do
-                  li
+                  li class=('lst-none' if feature.is_a? Array)
                     - if feature.is_a? String
                       = feature.html_safe
                     - if feature.is_a? Array
