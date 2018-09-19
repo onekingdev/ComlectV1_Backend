@@ -55,7 +55,7 @@
             .text-center
               .cost = category.cost
               = link_to category.title, "/turnkey/#{category.url}"
-          .turnkey-index-entity-back onclick="window.open('/turnkey/#{category.url}')"
+          .turnkey-index-entity-back onclick="location.href = '/turnkey/#{category.url}'"
             .text-center.p-l-2.p-r-2 = link_to category.description, "/turnkey/#{category.url}"
 .row.enterprise-solutions
   .container
