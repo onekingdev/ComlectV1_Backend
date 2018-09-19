@@ -3,17 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe PaymentCycle::Fixed::UponCompletion, type: :model do
-  before(:all) do
-    StripeMock.start
-    @specialist = create(:specialist)
-  end
-
-  after(:all) do
-    StripeMock.stop
-  end
-
   describe 'a fixed-budget project with upon-completion pay' do
     let(:business) { create(:business, :with_payment_profile) }
+    let(:specialist) { create(:specialist) }
 
     before do
       Timecop.freeze(Date.new(2015, 12, 25)) do
@@ -29,7 +21,7 @@ RSpec.describe PaymentCycle::Fixed::UponCompletion, type: :model do
         @job_application = create(
           :job_application,
           project: @project,
-          specialist: @specialist
+          specialist: specialist
         )
 
         Project::Form.find(@project.id).post!

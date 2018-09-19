@@ -109,14 +109,14 @@ COMMENT ON EXTENSION postgis IS 'PostGIS geometry, geography, and raster spatial
 -- Name: postgis_sfcgal; Type: EXTENSION; Schema: -; Owner: -
 --
 
-CREATE EXTENSION IF NOT EXISTS postgis_sfcgal WITH SCHEMA public;
+--CREATE EXTENSION IF NOT EXISTS postgis_sfcgal WITH SCHEMA public;
 
 
 --
 -- Name: EXTENSION postgis_sfcgal; Type: COMMENT; Schema: -; Owner: -
 --
 
-COMMENT ON EXTENSION postgis_sfcgal IS 'PostGIS SFCGAL functions';
+--COMMENT ON EXTENSION postgis_sfcgal IS 'PostGIS SFCGAL functions';
 
 
 --
