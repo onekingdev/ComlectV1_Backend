@@ -36,6 +36,6 @@ RSpec.describe 'Creating a project', type: :request do
   end
 
   it 'redirects to the business dashboard' do
-    expect(response).to redirect_to(business_dashboard_path)
+    expect(response).to redirect_to(business_dashboard_path(anchor: 'projects-pending'))
   end
 end
