@@ -10,30 +10,10 @@ SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
 SET check_function_bodies = false;
 SET client_min_messages = warning;
 SET row_security = off;
-
---
--- Name: tiger; Type: SCHEMA; Schema: -; Owner: -
---
-
-CREATE SCHEMA tiger;
-
-
---
--- Name: tiger_data; Type: SCHEMA; Schema: -; Owner: -
---
-
-CREATE SCHEMA tiger_data;
-
-
---
--- Name: topology; Type: SCHEMA; Schema: -; Owner: -
---
-
-CREATE SCHEMA topology;
-
 
 --
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
@@ -47,48 +27,6 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 --
 
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
-
-
---
--- Name: address_standardizer; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS address_standardizer WITH SCHEMA public;
-
-
---
--- Name: EXTENSION address_standardizer; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION address_standardizer IS 'Used to parse an address into constituent elements. Generally used to support geocoding address normalization step.';
-
-
---
--- Name: address_standardizer_data_us; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS address_standardizer_data_us WITH SCHEMA public;
-
-
---
--- Name: EXTENSION address_standardizer_data_us; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION address_standardizer_data_us IS 'Address Standardizer US dataset example';
-
-
---
--- Name: fuzzystrmatch; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS fuzzystrmatch WITH SCHEMA public;
-
-
---
--- Name: EXTENSION fuzzystrmatch; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION fuzzystrmatch IS 'determine similarities and distance between strings';
 
 
 --
@@ -106,54 +44,10 @@ COMMENT ON EXTENSION postgis IS 'PostGIS geometry, geography, and raster spatial
 
 
 --
--- Name: postgis_sfcgal; Type: EXTENSION; Schema: -; Owner: -
---
-
---CREATE EXTENSION IF NOT EXISTS postgis_sfcgal WITH SCHEMA public;
-
-
---
--- Name: EXTENSION postgis_sfcgal; Type: COMMENT; Schema: -; Owner: -
---
-
---COMMENT ON EXTENSION postgis_sfcgal IS 'PostGIS SFCGAL functions';
-
-
---
--- Name: postgis_tiger_geocoder; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS postgis_tiger_geocoder WITH SCHEMA tiger;
-
-
---
--- Name: EXTENSION postgis_tiger_geocoder; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION postgis_tiger_geocoder IS 'PostGIS tiger geocoder and reverse geocoder';
-
-
---
--- Name: postgis_topology; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS postgis_topology WITH SCHEMA topology;
-
-
---
--- Name: EXTENSION postgis_topology; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION postgis_topology IS 'PostGIS topology spatial types and functions';
-
-
-SET search_path = public, pg_catalog;
-
---
 -- Name: projects_calculate_budget(); Type: FUNCTION; Schema: public; Owner: -
 --
 
-CREATE FUNCTION projects_calculate_budget() RETURNS trigger
+CREATE FUNCTION public.projects_calculate_budget() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
       BEGIN
@@ -175,7 +69,7 @@ CREATE FUNCTION projects_calculate_budget() RETURNS trigger
 -- Name: set_point_from_lat_lng(); Type: FUNCTION; Schema: public; Owner: -
 --
 
-CREATE FUNCTION set_point_from_lat_lng() RETURNS trigger
+CREATE FUNCTION public.set_point_from_lat_lng() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
       BEGIN
@@ -193,7 +87,7 @@ SET default_with_oids = false;
 -- Name: admin_users; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE admin_users (
+CREATE TABLE public.admin_users (
     id integer NOT NULL,
     email character varying DEFAULT ''::character varying NOT NULL,
     encrypted_password character varying DEFAULT ''::character varying NOT NULL,
@@ -216,7 +110,7 @@ CREATE TABLE admin_users (
 -- Name: admin_users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE admin_users_id_seq
+CREATE SEQUENCE public.admin_users_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -228,14 +122,14 @@ CREATE SEQUENCE admin_users_id_seq
 -- Name: admin_users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE admin_users_id_seq OWNED BY admin_users.id;
+ALTER SEQUENCE public.admin_users_id_seq OWNED BY public.admin_users.id;
 
 
 --
 -- Name: answers; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE answers (
+CREATE TABLE public.answers (
     id integer NOT NULL,
     question_id integer NOT NULL,
     text text,
@@ -248,7 +142,7 @@ CREATE TABLE answers (
 -- Name: answers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE answers_id_seq
+CREATE SEQUENCE public.answers_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -260,14 +154,14 @@ CREATE SEQUENCE answers_id_seq
 -- Name: answers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE answers_id_seq OWNED BY answers.id;
+ALTER SEQUENCE public.answers_id_seq OWNED BY public.answers.id;
 
 
 --
 -- Name: articles; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE articles (
+CREATE TABLE public.articles (
     id integer NOT NULL,
     src_title character varying,
     published_at date,
@@ -285,7 +179,7 @@ CREATE TABLE articles (
 -- Name: articles_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE articles_id_seq
+CREATE SEQUENCE public.articles_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -297,14 +191,14 @@ CREATE SEQUENCE articles_id_seq
 -- Name: articles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE articles_id_seq OWNED BY articles.id;
+ALTER SEQUENCE public.articles_id_seq OWNED BY public.articles.id;
 
 
 --
 -- Name: bank_accounts; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE bank_accounts (
+CREATE TABLE public.bank_accounts (
     id integer NOT NULL,
     stripe_account_id integer,
     stripe_id character varying,
@@ -322,7 +216,7 @@ CREATE TABLE bank_accounts (
 -- Name: bank_accounts_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE bank_accounts_id_seq
+CREATE SEQUENCE public.bank_accounts_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -334,14 +228,14 @@ CREATE SEQUENCE bank_accounts_id_seq
 -- Name: bank_accounts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE bank_accounts_id_seq OWNED BY bank_accounts.id;
+ALTER SEQUENCE public.bank_accounts_id_seq OWNED BY public.bank_accounts.id;
 
 
 --
 -- Name: businesses; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE businesses (
+CREATE TABLE public.businesses (
     id integer NOT NULL,
     user_id integer,
     contact_first_name character varying,
@@ -382,7 +276,7 @@ CREATE TABLE businesses (
 -- Name: businesses_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE businesses_id_seq
+CREATE SEQUENCE public.businesses_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -394,14 +288,14 @@ CREATE SEQUENCE businesses_id_seq
 -- Name: businesses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE businesses_id_seq OWNED BY businesses.id;
+ALTER SEQUENCE public.businesses_id_seq OWNED BY public.businesses.id;
 
 
 --
 -- Name: businesses_industries; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE businesses_industries (
+CREATE TABLE public.businesses_industries (
     business_id integer NOT NULL,
     industry_id integer NOT NULL
 );
@@ -411,7 +305,7 @@ CREATE TABLE businesses_industries (
 -- Name: businesses_jurisdictions; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE businesses_jurisdictions (
+CREATE TABLE public.businesses_jurisdictions (
     business_id integer NOT NULL,
     jurisdiction_id integer NOT NULL
 );
@@ -421,7 +315,7 @@ CREATE TABLE businesses_jurisdictions (
 -- Name: charges; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE charges (
+CREATE TABLE public.charges (
     id integer NOT NULL,
     project_id integer NOT NULL,
     amount_in_cents integer NOT NULL,
@@ -448,7 +342,7 @@ CREATE TABLE charges (
 -- Name: charges_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE charges_id_seq
+CREATE SEQUENCE public.charges_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -460,14 +354,14 @@ CREATE SEQUENCE charges_id_seq
 -- Name: charges_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE charges_id_seq OWNED BY charges.id;
+ALTER SEQUENCE public.charges_id_seq OWNED BY public.charges.id;
 
 
 --
 -- Name: documents; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE documents (
+CREATE TABLE public.documents (
     id integer NOT NULL,
     owner_id integer,
     owner_type character varying,
@@ -483,7 +377,7 @@ CREATE TABLE documents (
 -- Name: documents_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE documents_id_seq
+CREATE SEQUENCE public.documents_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -495,14 +389,14 @@ CREATE SEQUENCE documents_id_seq
 -- Name: documents_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE documents_id_seq OWNED BY documents.id;
+ALTER SEQUENCE public.documents_id_seq OWNED BY public.documents.id;
 
 
 --
 -- Name: education_histories; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE education_histories (
+CREATE TABLE public.education_histories (
     id integer NOT NULL,
     specialist_id integer,
     institution character varying,
@@ -517,7 +411,7 @@ CREATE TABLE education_histories (
 -- Name: education_histories_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE education_histories_id_seq
+CREATE SEQUENCE public.education_histories_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -529,14 +423,14 @@ CREATE SEQUENCE education_histories_id_seq
 -- Name: education_histories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE education_histories_id_seq OWNED BY education_histories.id;
+ALTER SEQUENCE public.education_histories_id_seq OWNED BY public.education_histories.id;
 
 
 --
 -- Name: email_threads; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE email_threads (
+CREATE TABLE public.email_threads (
     id integer NOT NULL,
     business_id integer,
     specialist_id integer,
@@ -550,7 +444,7 @@ CREATE TABLE email_threads (
 -- Name: email_threads_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE email_threads_id_seq
+CREATE SEQUENCE public.email_threads_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -562,14 +456,14 @@ CREATE SEQUENCE email_threads_id_seq
 -- Name: email_threads_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE email_threads_id_seq OWNED BY email_threads.id;
+ALTER SEQUENCE public.email_threads_id_seq OWNED BY public.email_threads.id;
 
 
 --
 -- Name: favorites; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE favorites (
+CREATE TABLE public.favorites (
     id integer NOT NULL,
     owner_id integer,
     owner_type character varying,
@@ -584,7 +478,7 @@ CREATE TABLE favorites (
 -- Name: favorites_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE favorites_id_seq
+CREATE SEQUENCE public.favorites_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -596,14 +490,14 @@ CREATE SEQUENCE favorites_id_seq
 -- Name: favorites_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE favorites_id_seq OWNED BY favorites.id;
+ALTER SEQUENCE public.favorites_id_seq OWNED BY public.favorites.id;
 
 
 --
 -- Name: feedback_requests; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE feedback_requests (
+CREATE TABLE public.feedback_requests (
     id integer NOT NULL,
     name character varying,
     email character varying,
@@ -613,7 +507,6 @@ CREATE TABLE feedback_requests (
     description text,
     ip inet,
     user_agent character varying,
-    kind character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -623,7 +516,7 @@ CREATE TABLE feedback_requests (
 -- Name: feedback_requests_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE feedback_requests_id_seq
+CREATE SEQUENCE public.feedback_requests_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -635,14 +528,14 @@ CREATE SEQUENCE feedback_requests_id_seq
 -- Name: feedback_requests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE feedback_requests_id_seq OWNED BY feedback_requests.id;
+ALTER SEQUENCE public.feedback_requests_id_seq OWNED BY public.feedback_requests.id;
 
 
 --
 -- Name: projects; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE projects (
+CREATE TABLE public.projects (
     id integer NOT NULL,
     business_id integer NOT NULL,
     type character varying DEFAULT 'one_off'::character varying NOT NULL,
@@ -668,7 +561,7 @@ CREATE TABLE projects (
     calculated_budget numeric,
     lat numeric(9,5),
     lng numeric(9,5),
-    point geography,
+    point public.geography,
     specialist_id integer,
     job_applications_count integer DEFAULT 0 NOT NULL,
     published_at timestamp without time zone,
@@ -690,10 +583,10 @@ CREATE TABLE projects (
 -- Name: financials_actual; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW financials_actual AS
+CREATE VIEW public.financials_actual AS
  WITH completed AS (
          SELECT projects.completed_at
-           FROM projects
+           FROM public.projects
           WHERE (projects.completed_at IS NOT NULL)
         ), project_value AS (
          SELECT projects.completed_at,
@@ -702,8 +595,8 @@ CREATE VIEW financials_actual AS
             ((charges.amount_in_cents)::numeric / 100.0) AS value,
             (((charges.fee_in_cents)::numeric / 100.0) * (2)::numeric) AS revenue,
             ((charges.total_with_fee_in_cents)::numeric / 100.0) AS total
-           FROM (charges
-             JOIN projects ON ((projects.id = charges.project_id)))
+           FROM (public.charges
+             JOIN public.projects ON ((projects.id = charges.project_id)))
           WHERE ((projects.type)::text = 'one_off'::text)
         ), job_value AS (
          SELECT projects.completed_at,
@@ -712,8 +605,8 @@ CREATE VIEW financials_actual AS
             projects.annual_salary AS value,
             ((charges.fee_in_cents)::numeric / 100.0) AS revenue,
             ((charges.total_with_fee_in_cents)::numeric / 100.0) AS total
-           FROM (charges
-             JOIN projects ON ((projects.id = charges.project_id)))
+           FROM (public.charges
+             JOIN public.projects ON ((projects.id = charges.project_id)))
           WHERE ((projects.type)::text = 'full_time'::text)
         ), all_value AS (
          SELECT project_value.completed_at,
@@ -858,10 +751,10 @@ UNION
 -- Name: financials_forecasted; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW financials_forecasted AS
+CREATE VIEW public.financials_forecasted AS
  WITH active AS (
          SELECT projects.created_at
-           FROM projects
+           FROM public.projects
           WHERE ((projects.status)::text = 'published'::text)
         ), project_value AS (
          SELECT projects.created_at,
@@ -869,8 +762,8 @@ CREATE VIEW financials_forecasted AS
             charges.project_id,
             ((charges.amount_in_cents)::double precision / (100)::double precision) AS value,
             (((charges.fee_in_cents)::numeric / 100.0) * (2)::numeric) AS revenue
-           FROM (charges
-             JOIN projects ON ((projects.id = charges.project_id)))
+           FROM (public.charges
+             JOIN public.projects ON ((projects.id = charges.project_id)))
           WHERE (((projects.type)::text = 'one_off'::text) AND ((charges.status)::text <> 'processed'::text))
         ), job_value AS (
          SELECT projects.created_at,
@@ -878,8 +771,8 @@ CREATE VIEW financials_forecasted AS
             charges.project_id,
             projects.annual_salary AS value,
             ((charges.fee_in_cents)::numeric / 100.0) AS revenue
-           FROM (charges
-             JOIN projects ON ((projects.id = charges.project_id)))
+           FROM (public.charges
+             JOIN public.projects ON ((projects.id = charges.project_id)))
           WHERE (((projects.type)::text = 'full_time'::text) AND ((charges.status)::text <> 'processed'::text))
         ), all_value AS (
          SELECT projects.created_at,
@@ -891,8 +784,8 @@ CREATE VIEW financials_forecasted AS
                     WHEN ((projects.type)::text = 'one_off'::text) THEN 2
                     ELSE 1
                 END)::numeric) AS revenue
-           FROM (charges
-             JOIN projects ON ((projects.id = charges.project_id)))
+           FROM (public.charges
+             JOIN public.projects ON ((projects.id = charges.project_id)))
           WHERE ((charges.status)::text <> 'processed'::text)
         ), job_revenue AS (
          SELECT all_value.project_id,
@@ -1020,28 +913,28 @@ UNION
 -- Name: financials; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW financials AS
+CREATE VIEW public.financials AS
  SELECT financials_actual.metric,
     financials_actual.mtd,
     financials_actual.fytd,
     financials_actual.itd
-   FROM financials_actual
+   FROM public.financials_actual
 UNION
  SELECT financials_forecasted.metric,
     financials_forecasted.mtd,
     financials_forecasted.fytd,
     financials_forecasted.itd
-   FROM financials_forecasted;
+   FROM public.financials_forecasted;
 
 
 --
 -- Name: financials_postings; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW financials_postings AS
+CREATE VIEW public.financials_postings AS
  WITH active AS (
          SELECT projects.created_at
-           FROM projects
+           FROM public.projects
           WHERE (projects.completed_at IS NULL)
         ), all_projects AS (
          SELECT projects.created_at,
@@ -1050,7 +943,7 @@ CREATE VIEW financials_postings AS
             projects.calculated_budget,
             projects.annual_salary,
             projects.fee_type
-           FROM projects
+           FROM public.projects
         ), job_value AS (
          SELECT all_projects.calculated_budget AS value
            FROM all_projects
@@ -1120,7 +1013,7 @@ UNION
 -- Name: flags; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE flags (
+CREATE TABLE public.flags (
     id integer NOT NULL,
     flagged_content_id integer,
     flagged_content_type character varying,
@@ -1136,7 +1029,7 @@ CREATE TABLE flags (
 -- Name: flags_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE flags_id_seq
+CREATE SEQUENCE public.flags_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1148,14 +1041,14 @@ CREATE SEQUENCE flags_id_seq
 -- Name: flags_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE flags_id_seq OWNED BY flags.id;
+ALTER SEQUENCE public.flags_id_seq OWNED BY public.flags.id;
 
 
 --
 -- Name: industries; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE industries (
+CREATE TABLE public.industries (
     id integer NOT NULL,
     name character varying,
     created_at timestamp without time zone NOT NULL,
@@ -1167,7 +1060,7 @@ CREATE TABLE industries (
 -- Name: industries_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE industries_id_seq
+CREATE SEQUENCE public.industries_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1179,14 +1072,24 @@ CREATE SEQUENCE industries_id_seq
 -- Name: industries_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE industries_id_seq OWNED BY industries.id;
+ALTER SEQUENCE public.industries_id_seq OWNED BY public.industries.id;
+
+
+--
+-- Name: industries_project_templates; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.industries_project_templates (
+    project_template_id integer NOT NULL,
+    industry_id integer NOT NULL
+);
 
 
 --
 -- Name: industries_projects; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE industries_projects (
+CREATE TABLE public.industries_projects (
     industry_id integer NOT NULL,
     project_id integer NOT NULL
 );
@@ -1196,7 +1099,7 @@ CREATE TABLE industries_projects (
 -- Name: industries_specialists; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE industries_specialists (
+CREATE TABLE public.industries_specialists (
     industry_id integer NOT NULL,
     specialist_id integer NOT NULL
 );
@@ -1206,7 +1109,7 @@ CREATE TABLE industries_specialists (
 -- Name: job_applications; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE job_applications (
+CREATE TABLE public.job_applications (
     id integer NOT NULL,
     specialist_id integer,
     project_id integer,
@@ -1221,7 +1124,7 @@ CREATE TABLE job_applications (
 -- Name: job_applications_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE job_applications_id_seq
+CREATE SEQUENCE public.job_applications_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1233,14 +1136,14 @@ CREATE SEQUENCE job_applications_id_seq
 -- Name: job_applications_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE job_applications_id_seq OWNED BY job_applications.id;
+ALTER SEQUENCE public.job_applications_id_seq OWNED BY public.job_applications.id;
 
 
 --
 -- Name: jurisdictions; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE jurisdictions (
+CREATE TABLE public.jurisdictions (
     id integer NOT NULL,
     name character varying,
     created_at timestamp without time zone NOT NULL,
@@ -1252,7 +1155,7 @@ CREATE TABLE jurisdictions (
 -- Name: jurisdictions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE jurisdictions_id_seq
+CREATE SEQUENCE public.jurisdictions_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1264,14 +1167,24 @@ CREATE SEQUENCE jurisdictions_id_seq
 -- Name: jurisdictions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE jurisdictions_id_seq OWNED BY jurisdictions.id;
+ALTER SEQUENCE public.jurisdictions_id_seq OWNED BY public.jurisdictions.id;
+
+
+--
+-- Name: jurisdictions_project_templates; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.jurisdictions_project_templates (
+    project_template_id integer NOT NULL,
+    jurisdiction_id integer NOT NULL
+);
 
 
 --
 -- Name: jurisdictions_projects; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE jurisdictions_projects (
+CREATE TABLE public.jurisdictions_projects (
     jurisdiction_id integer NOT NULL,
     project_id integer NOT NULL
 );
@@ -1281,7 +1194,7 @@ CREATE TABLE jurisdictions_projects (
 -- Name: jurisdictions_specialists; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE jurisdictions_specialists (
+CREATE TABLE public.jurisdictions_specialists (
     jurisdiction_id integer NOT NULL,
     specialist_id integer NOT NULL
 );
@@ -1291,7 +1204,7 @@ CREATE TABLE jurisdictions_specialists (
 -- Name: messages; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE messages (
+CREATE TABLE public.messages (
     id integer NOT NULL,
     thread_id integer,
     thread_type character varying,
@@ -1310,7 +1223,7 @@ CREATE TABLE messages (
 -- Name: messages_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE messages_id_seq
+CREATE SEQUENCE public.messages_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1322,14 +1235,14 @@ CREATE SEQUENCE messages_id_seq
 -- Name: messages_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE messages_id_seq OWNED BY messages.id;
+ALTER SEQUENCE public.messages_id_seq OWNED BY public.messages.id;
 
 
 --
 -- Name: specialists; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE specialists (
+CREATE TABLE public.specialists (
     id integer NOT NULL,
     user_id integer,
     first_name character varying,
@@ -1349,7 +1262,7 @@ CREATE TABLE specialists (
     updated_at timestamp without time zone NOT NULL,
     lat numeric(9,5),
     lng numeric(9,5),
-    point geography,
+    point public.geography,
     ratings_count integer DEFAULT 0 NOT NULL,
     ratings_total integer DEFAULT 0 NOT NULL,
     ratings_average double precision,
@@ -1370,7 +1283,7 @@ CREATE TABLE specialists (
 -- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE users (
+CREATE TABLE public.users (
     id integer NOT NULL,
     email character varying DEFAULT ''::character varying NOT NULL,
     encrypted_password character varying DEFAULT ''::character varying NOT NULL,
@@ -1402,20 +1315,20 @@ CREATE TABLE users (
 -- Name: metrics_account_deletions; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW metrics_account_deletions AS
+CREATE VIEW public.metrics_account_deletions AS
  WITH deleted_users AS (
          SELECT users.id,
             users.deleted_at
-           FROM users
+           FROM public.users
           WHERE (users.deleted_at IS NOT NULL)
         ), deleted_businesses AS (
          SELECT deleted_users.deleted_at
            FROM (deleted_users
-             JOIN businesses ON ((businesses.user_id = deleted_users.id)))
+             JOIN public.businesses ON ((businesses.user_id = deleted_users.id)))
         ), deleted_specialists AS (
          SELECT deleted_users.deleted_at
            FROM (deleted_users
-             JOIN specialists ON ((specialists.user_id = deleted_users.id)))
+             JOIN public.specialists ON ((specialists.user_id = deleted_users.id)))
         )
  SELECT 'all_account_deletions'::character varying AS metric,
     ( SELECT count(*) AS count
@@ -1452,27 +1365,27 @@ UNION
 -- Name: metrics_avg_staffing_times; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW metrics_avg_staffing_times AS
+CREATE VIEW public.metrics_avg_staffing_times AS
  WITH one_off AS (
          SELECT projects.published_at,
             projects.hired_at
-           FROM projects
+           FROM public.projects
           WHERE ((projects.type)::text = 'one_off'::text)
         ), full_time AS (
          SELECT projects.published_at,
             projects.hired_at
-           FROM projects
+           FROM public.projects
           WHERE ((projects.type)::text = 'full_time'::text)
         )
  SELECT 'avg_staffing_time'::character varying AS metric,
     ( SELECT avg(date_part('days'::text, (projects.hired_at - projects.published_at))) AS avg
-           FROM projects
+           FROM public.projects
           WHERE (projects.hired_at >= date_trunc('month'::text, now()))) AS mtd,
     ( SELECT avg(date_part('days'::text, (projects.hired_at - projects.published_at))) AS avg
-           FROM projects
+           FROM public.projects
           WHERE (projects.hired_at >= date_trunc('year'::text, now()))) AS fytd,
     ( SELECT avg(date_part('days'::text, (projects.hired_at - projects.published_at))) AS avg
-           FROM projects) AS itd
+           FROM public.projects) AS itd
 UNION
  SELECT 'avg_project_staffing_time'::character varying AS metric,
     ( SELECT avg(date_part('days'::text, (one_off.hired_at - one_off.published_at))) AS avg
@@ -1499,7 +1412,7 @@ UNION
 -- Name: project_issues; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE project_issues (
+CREATE TABLE public.project_issues (
     id integer NOT NULL,
     project_id integer,
     user_id integer,
@@ -1516,10 +1429,10 @@ CREATE TABLE project_issues (
 -- Name: metrics_escalated_projects; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW metrics_escalated_projects AS
+CREATE VIEW public.metrics_escalated_projects AS
  WITH escalated_projects AS (
          SELECT project_issues.created_at AS escalated_at
-           FROM project_issues
+           FROM public.project_issues
         )
  SELECT 'escalated_projects'::character varying AS metric,
     ( SELECT count(*) AS count
@@ -1536,16 +1449,16 @@ CREATE VIEW metrics_escalated_projects AS
 -- Name: metrics_extended_projects; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW metrics_extended_projects AS
+CREATE VIEW public.metrics_extended_projects AS
  SELECT 'extended_projects'::character varying AS metric,
     ( SELECT count(*) AS count
-           FROM projects
+           FROM public.projects
           WHERE (projects.extended_at >= date_trunc('month'::text, now()))) AS mtd,
     ( SELECT count(*) AS count
-           FROM projects
+           FROM public.projects
           WHERE (projects.extended_at >= date_trunc('year'::text, now()))) AS fytd,
     ( SELECT count(*) AS count
-           FROM projects
+           FROM public.projects
           WHERE (projects.extended_at IS NOT NULL)) AS itd;
 
 
@@ -1553,20 +1466,20 @@ CREATE VIEW metrics_extended_projects AS
 -- Name: metrics_job_completions; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW metrics_job_completions AS
+CREATE VIEW public.metrics_job_completions AS
  WITH full_time AS (
          SELECT projects.completed_at,
             projects.published_at,
             projects.pricing_type,
             projects.fee_type
-           FROM projects
+           FROM public.projects
           WHERE ((projects.type)::text = 'full_time'::text)
         ), all_completed AS (
          SELECT projects.completed_at,
             projects.pricing_type,
             projects.payment_schedule,
             projects.published_at
-           FROM projects
+           FROM public.projects
           WHERE (projects.completed_at IS NOT NULL)
         ), published AS (
          SELECT full_time.completed_at,
@@ -1676,10 +1589,10 @@ UNION
 -- Name: metrics_jobs_installment_pay; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW metrics_jobs_installment_pay AS
+CREATE VIEW public.metrics_jobs_installment_pay AS
  WITH base AS (
          SELECT projects.created_at
-           FROM projects
+           FROM public.projects
           WHERE (((projects.type)::text = 'full_time'::text) AND ((projects.fee_type)::text = 'monthly_fee'::text))
         )
  SELECT 'jobs_installment_pay'::character varying AS metric,
@@ -1697,10 +1610,10 @@ CREATE VIEW metrics_jobs_installment_pay AS
 -- Name: metrics_jobs_posted; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW metrics_jobs_posted AS
+CREATE VIEW public.metrics_jobs_posted AS
  WITH base AS (
          SELECT projects.created_at
-           FROM projects
+           FROM public.projects
           WHERE ((projects.type)::text = 'full_time'::text)
         )
  SELECT 'jobs_posted'::character varying AS metric,
@@ -1718,10 +1631,10 @@ CREATE VIEW metrics_jobs_posted AS
 -- Name: metrics_jobs_share; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW metrics_jobs_share AS
+CREATE VIEW public.metrics_jobs_share AS
  WITH base AS (
          SELECT projects.created_at
-           FROM projects
+           FROM public.projects
           WHERE ((projects.type)::text = 'full_time'::text)
         )
  SELECT 'jobs_share'::character varying AS metric,
@@ -1729,13 +1642,13 @@ CREATE VIEW metrics_jobs_share AS
     (((fytd.cnt)::double precision / (total_fytd.cnt)::double precision) * (100)::double precision) AS fytd,
     (((itd.cnt)::double precision / (total_itd.cnt)::double precision) * (100)::double precision) AS itd
    FROM ( SELECT count(*) AS cnt
-           FROM projects
+           FROM public.projects
           WHERE (projects.created_at >= date_trunc('month'::text, now()))) total_mtd,
     ( SELECT count(*) AS cnt
-           FROM projects
+           FROM public.projects
           WHERE (projects.created_at >= date_trunc('year'::text, now()))) total_fytd,
     ( SELECT count(*) AS cnt
-           FROM projects) total_itd,
+           FROM public.projects) total_itd,
     ( SELECT NULLIF(count(*), 0) AS cnt
            FROM base
           WHERE (base.created_at >= date_trunc('month'::text, now()))) mtd,
@@ -1750,10 +1663,10 @@ CREATE VIEW metrics_jobs_share AS
 -- Name: metrics_jobs_upfront_pay; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW metrics_jobs_upfront_pay AS
+CREATE VIEW public.metrics_jobs_upfront_pay AS
  WITH base AS (
          SELECT projects.created_at
-           FROM projects
+           FROM public.projects
           WHERE (((projects.type)::text = 'full_time'::text) AND ((projects.fee_type)::text = 'upfront_fee'::text))
         )
  SELECT 'jobs_upfront_pay'::character varying AS metric,
@@ -1771,11 +1684,11 @@ CREATE VIEW metrics_jobs_upfront_pay AS
 -- Name: metrics_jobs_value; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW metrics_jobs_value AS
+CREATE VIEW public.metrics_jobs_value AS
  WITH base AS (
          SELECT projects.created_at,
             projects.annual_salary
-           FROM projects
+           FROM public.projects
           WHERE ((projects.type)::text = 'full_time'::text)
         )
  SELECT 'jobs_value'::character varying AS metric,
@@ -1793,20 +1706,20 @@ CREATE VIEW metrics_jobs_value AS
 -- Name: metrics_project_completions; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW metrics_project_completions AS
+CREATE VIEW public.metrics_project_completions AS
  WITH one_off AS (
          SELECT projects.completed_at,
             projects.pricing_type,
             projects.payment_schedule,
             projects.published_at
-           FROM projects
+           FROM public.projects
           WHERE ((projects.type)::text = 'one_off'::text)
         ), all_completed AS (
          SELECT projects.completed_at,
             projects.pricing_type,
             projects.payment_schedule,
             projects.published_at
-           FROM projects
+           FROM public.projects
           WHERE (projects.completed_at IS NOT NULL)
         ), published AS (
          SELECT one_off.completed_at,
@@ -2077,10 +1990,10 @@ UNION
 -- Name: metrics_projects_fixed_50_50_pay; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW metrics_projects_fixed_50_50_pay AS
+CREATE VIEW public.metrics_projects_fixed_50_50_pay AS
  WITH base AS (
          SELECT projects.created_at
-           FROM projects
+           FROM public.projects
           WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text) AND ((projects.payment_schedule)::text = '50/50'::text))
         )
  SELECT 'projects_fixed_50_50_pay'::character varying AS metric,
@@ -2098,10 +2011,10 @@ CREATE VIEW metrics_projects_fixed_50_50_pay AS
 -- Name: metrics_projects_fixed_bi_weekly_pay; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW metrics_projects_fixed_bi_weekly_pay AS
+CREATE VIEW public.metrics_projects_fixed_bi_weekly_pay AS
  WITH base AS (
          SELECT projects.created_at
-           FROM projects
+           FROM public.projects
           WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text) AND ((projects.payment_schedule)::text = 'Bi-Weekly'::text))
         )
  SELECT 'projects_fixed_bi_weekly_pay'::character varying AS metric,
@@ -2119,10 +2032,10 @@ CREATE VIEW metrics_projects_fixed_bi_weekly_pay AS
 -- Name: metrics_projects_fixed_monthly_pay; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW metrics_projects_fixed_monthly_pay AS
+CREATE VIEW public.metrics_projects_fixed_monthly_pay AS
  WITH base AS (
          SELECT projects.created_at
-           FROM projects
+           FROM public.projects
           WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text) AND ((projects.payment_schedule)::text = 'Monthly'::text))
         )
  SELECT 'projects_fixed_monthly_pay'::character varying AS metric,
@@ -2140,10 +2053,10 @@ CREATE VIEW metrics_projects_fixed_monthly_pay AS
 -- Name: metrics_projects_fixed_pay; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW metrics_projects_fixed_pay AS
+CREATE VIEW public.metrics_projects_fixed_pay AS
  WITH base AS (
          SELECT projects.created_at
-           FROM projects
+           FROM public.projects
           WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text))
         )
  SELECT 'projects_fixed_pay'::character varying AS metric,
@@ -2161,10 +2074,10 @@ CREATE VIEW metrics_projects_fixed_pay AS
 -- Name: metrics_projects_fixed_share; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW metrics_projects_fixed_share AS
+CREATE VIEW public.metrics_projects_fixed_share AS
  WITH base AS (
          SELECT projects.created_at
-           FROM projects
+           FROM public.projects
           WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text))
         )
  SELECT 'projects_fixed_share'::character varying AS metric,
@@ -2172,13 +2085,13 @@ CREATE VIEW metrics_projects_fixed_share AS
     (((fytd.cnt)::double precision / (total_fytd.cnt)::double precision) * (100)::double precision) AS fytd,
     (((itd.cnt)::double precision / (total_itd.cnt)::double precision) * (100)::double precision) AS itd
    FROM ( SELECT count(*) AS cnt
-           FROM projects
+           FROM public.projects
           WHERE (((projects.type)::text = 'one_off'::text) AND (projects.created_at >= date_trunc('month'::text, now())))) total_mtd,
     ( SELECT count(*) AS cnt
-           FROM projects
+           FROM public.projects
           WHERE (((projects.type)::text = 'one_off'::text) AND (projects.created_at >= date_trunc('year'::text, now())))) total_fytd,
     ( SELECT count(*) AS cnt
-           FROM projects
+           FROM public.projects
           WHERE ((projects.type)::text = 'one_off'::text)) total_itd,
     ( SELECT NULLIF(count(*), 0) AS cnt
            FROM base
@@ -2194,10 +2107,10 @@ CREATE VIEW metrics_projects_fixed_share AS
 -- Name: metrics_projects_fixed_upon_completion_pay; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW metrics_projects_fixed_upon_completion_pay AS
+CREATE VIEW public.metrics_projects_fixed_upon_completion_pay AS
  WITH base AS (
          SELECT projects.created_at
-           FROM projects
+           FROM public.projects
           WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'fixed'::text) AND ((projects.payment_schedule)::text = 'Upon Completion'::text))
         )
  SELECT 'projects_fixed_upon_completion_pay'::character varying AS metric,
@@ -2215,10 +2128,10 @@ CREATE VIEW metrics_projects_fixed_upon_completion_pay AS
 -- Name: metrics_projects_hourly_bi_weekly_pay; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW metrics_projects_hourly_bi_weekly_pay AS
+CREATE VIEW public.metrics_projects_hourly_bi_weekly_pay AS
  WITH base AS (
          SELECT projects.created_at
-           FROM projects
+           FROM public.projects
           WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text) AND ((projects.payment_schedule)::text = 'Bi-Weekly'::text))
         )
  SELECT 'projects_hourly_bi_weekly_pay'::character varying AS metric,
@@ -2236,10 +2149,10 @@ CREATE VIEW metrics_projects_hourly_bi_weekly_pay AS
 -- Name: metrics_projects_hourly_monthly_pay; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW metrics_projects_hourly_monthly_pay AS
+CREATE VIEW public.metrics_projects_hourly_monthly_pay AS
  WITH base AS (
          SELECT projects.created_at
-           FROM projects
+           FROM public.projects
           WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text) AND ((projects.payment_schedule)::text = 'Monthly'::text))
         )
  SELECT 'projects_hourly_monthly_pay'::character varying AS metric,
@@ -2257,10 +2170,10 @@ CREATE VIEW metrics_projects_hourly_monthly_pay AS
 -- Name: metrics_projects_hourly_pay; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW metrics_projects_hourly_pay AS
+CREATE VIEW public.metrics_projects_hourly_pay AS
  WITH base AS (
          SELECT projects.created_at
-           FROM projects
+           FROM public.projects
           WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text))
         )
  SELECT 'projects_hourly_pay'::character varying AS metric,
@@ -2278,10 +2191,10 @@ CREATE VIEW metrics_projects_hourly_pay AS
 -- Name: metrics_projects_hourly_share; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW metrics_projects_hourly_share AS
+CREATE VIEW public.metrics_projects_hourly_share AS
  WITH base AS (
          SELECT projects.created_at
-           FROM projects
+           FROM public.projects
           WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text))
         )
  SELECT 'projects_hourly_share'::character varying AS metric,
@@ -2289,13 +2202,13 @@ CREATE VIEW metrics_projects_hourly_share AS
     (((fytd.cnt)::double precision / (total_fytd.cnt)::double precision) * (100)::double precision) AS fytd,
     (((itd.cnt)::double precision / (total_itd.cnt)::double precision) * (100)::double precision) AS itd
    FROM ( SELECT count(*) AS cnt
-           FROM projects
+           FROM public.projects
           WHERE (((projects.type)::text = 'one_off'::text) AND (projects.created_at >= date_trunc('month'::text, now())))) total_mtd,
     ( SELECT count(*) AS cnt
-           FROM projects
+           FROM public.projects
           WHERE (((projects.type)::text = 'one_off'::text) AND (projects.created_at >= date_trunc('year'::text, now())))) total_fytd,
     ( SELECT count(*) AS cnt
-           FROM projects
+           FROM public.projects
           WHERE ((projects.type)::text = 'one_off'::text)) total_itd,
     ( SELECT NULLIF(count(*), 0) AS cnt
            FROM base
@@ -2311,10 +2224,10 @@ CREATE VIEW metrics_projects_hourly_share AS
 -- Name: metrics_projects_hourly_upon_completion_pay; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW metrics_projects_hourly_upon_completion_pay AS
+CREATE VIEW public.metrics_projects_hourly_upon_completion_pay AS
  WITH base AS (
          SELECT projects.created_at
-           FROM projects
+           FROM public.projects
           WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.pricing_type)::text = 'hourly'::text) AND ((projects.payment_schedule)::text = 'Upon Completion'::text))
         )
  SELECT 'projects_hourly_upon_completion_pay'::character varying AS metric,
@@ -2332,10 +2245,10 @@ CREATE VIEW metrics_projects_hourly_upon_completion_pay AS
 -- Name: metrics_projects_posted; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW metrics_projects_posted AS
+CREATE VIEW public.metrics_projects_posted AS
  WITH base AS (
          SELECT projects.created_at
-           FROM projects
+           FROM public.projects
           WHERE ((projects.type)::text = 'one_off'::text)
         )
  SELECT 'projects_posted'::character varying AS metric,
@@ -2353,10 +2266,10 @@ CREATE VIEW metrics_projects_posted AS
 -- Name: metrics_projects_share; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW metrics_projects_share AS
+CREATE VIEW public.metrics_projects_share AS
  WITH base AS (
          SELECT projects.created_at
-           FROM projects
+           FROM public.projects
           WHERE ((projects.type)::text = 'one_off'::text)
         )
  SELECT 'projects_share'::character varying AS metric,
@@ -2364,13 +2277,13 @@ CREATE VIEW metrics_projects_share AS
     (((fytd.cnt)::double precision / (total_fytd.cnt)::double precision) * (100)::double precision) AS fytd,
     (((itd.cnt)::double precision / (total_itd.cnt)::double precision) * (100)::double precision) AS itd
    FROM ( SELECT count(*) AS cnt
-           FROM projects
+           FROM public.projects
           WHERE (projects.created_at >= date_trunc('month'::text, now()))) total_mtd,
     ( SELECT count(*) AS cnt
-           FROM projects
+           FROM public.projects
           WHERE (projects.created_at >= date_trunc('year'::text, now()))) total_fytd,
     ( SELECT count(*) AS cnt
-           FROM projects) total_itd,
+           FROM public.projects) total_itd,
     ( SELECT NULLIF(count(*), 0) AS cnt
            FROM base
           WHERE (base.created_at >= date_trunc('month'::text, now()))) mtd,
@@ -2385,13 +2298,13 @@ CREATE VIEW metrics_projects_share AS
 -- Name: metrics_projects_value; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW metrics_projects_value AS
+CREATE VIEW public.metrics_projects_value AS
  WITH base AS (
          SELECT projects.created_at,
             projects.fixed_budget,
             projects.hourly_rate,
             projects.estimated_hours
-           FROM projects
+           FROM public.projects
           WHERE ((projects.type)::text = 'one_off'::text)
         )
  SELECT 'projects_value'::character varying AS metric,
@@ -2412,52 +2325,52 @@ CREATE VIEW metrics_projects_value AS
 -- Name: metrics_signups; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW metrics_signups AS
+CREATE VIEW public.metrics_signups AS
  SELECT 'all_signups'::character varying AS metric,
     ( SELECT count(*) AS count
-           FROM users
+           FROM public.users
           WHERE (users.created_at >= date_trunc('month'::text, now()))) AS mtd,
     ( SELECT count(*) AS count
-           FROM users
+           FROM public.users
           WHERE (users.created_at >= date_trunc('year'::text, now()))) AS fytd,
     ( SELECT count(*) AS count
-           FROM users) AS itd
+           FROM public.users) AS itd
 UNION
  SELECT 'business_signups'::character varying AS metric,
     ( SELECT count(*) AS count
-           FROM businesses
+           FROM public.businesses
           WHERE (businesses.created_at >= date_trunc('month'::text, now()))) AS mtd,
     ( SELECT count(*) AS count
-           FROM businesses
+           FROM public.businesses
           WHERE (businesses.created_at >= date_trunc('year'::text, now()))) AS fytd,
     ( SELECT count(*) AS count
-           FROM businesses) AS itd
+           FROM public.businesses) AS itd
 UNION
  SELECT 'specialist_signups'::character varying AS metric,
     ( SELECT count(*) AS count
-           FROM specialists
+           FROM public.specialists
           WHERE (specialists.created_at >= date_trunc('month'::text, now()))) AS mtd,
     ( SELECT count(*) AS count
-           FROM specialists
+           FROM public.specialists
           WHERE (specialists.created_at >= date_trunc('year'::text, now()))) AS fytd,
     ( SELECT count(*) AS count
-           FROM specialists) AS itd;
+           FROM public.specialists) AS itd;
 
 
 --
 -- Name: metrics_time_to_completion; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW metrics_time_to_completion AS
+CREATE VIEW public.metrics_time_to_completion AS
  WITH one_off AS (
          SELECT projects.hired_at,
             projects.completed_at
-           FROM projects
+           FROM public.projects
           WHERE (((projects.type)::text = 'one_off'::text) AND ((projects.status)::text = 'complete'::text))
         ), full_time AS (
          SELECT projects.hired_at,
             projects.completed_at
-           FROM projects
+           FROM public.projects
           WHERE (((projects.type)::text = 'full_time'::text) AND ((projects.status)::text = 'complete'::text))
         )
  SELECT 'completed_projects_average_time'::character varying AS metric,
@@ -2485,198 +2398,198 @@ UNION
 -- Name: metrics; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW metrics AS
+CREATE VIEW public.metrics AS
  SELECT metrics_projects_posted.metric,
     metrics_projects_posted.mtd,
     metrics_projects_posted.fytd,
     metrics_projects_posted.itd
-   FROM metrics_projects_posted
+   FROM public.metrics_projects_posted
 UNION
  SELECT metrics_projects_value.metric,
     metrics_projects_value.mtd,
     metrics_projects_value.fytd,
     metrics_projects_value.itd
-   FROM metrics_projects_value
+   FROM public.metrics_projects_value
 UNION
  SELECT metrics_projects_share.metric,
     metrics_projects_share.mtd,
     metrics_projects_share.fytd,
     metrics_projects_share.itd
-   FROM metrics_projects_share
+   FROM public.metrics_projects_share
 UNION
  SELECT metrics_projects_hourly_share.metric,
     metrics_projects_hourly_share.mtd,
     metrics_projects_hourly_share.fytd,
     metrics_projects_hourly_share.itd
-   FROM metrics_projects_hourly_share
+   FROM public.metrics_projects_hourly_share
 UNION
  SELECT metrics_projects_fixed_share.metric,
     metrics_projects_fixed_share.mtd,
     metrics_projects_fixed_share.fytd,
     metrics_projects_fixed_share.itd
-   FROM metrics_projects_fixed_share
+   FROM public.metrics_projects_fixed_share
 UNION
  SELECT metrics_projects_hourly_pay.metric,
     metrics_projects_hourly_pay.mtd,
     metrics_projects_hourly_pay.fytd,
     metrics_projects_hourly_pay.itd
-   FROM metrics_projects_hourly_pay
+   FROM public.metrics_projects_hourly_pay
 UNION
  SELECT metrics_projects_hourly_upon_completion_pay.metric,
     metrics_projects_hourly_upon_completion_pay.mtd,
     metrics_projects_hourly_upon_completion_pay.fytd,
     metrics_projects_hourly_upon_completion_pay.itd
-   FROM metrics_projects_hourly_upon_completion_pay
+   FROM public.metrics_projects_hourly_upon_completion_pay
 UNION
  SELECT metrics_projects_hourly_bi_weekly_pay.metric,
     metrics_projects_hourly_bi_weekly_pay.mtd,
     metrics_projects_hourly_bi_weekly_pay.fytd,
     metrics_projects_hourly_bi_weekly_pay.itd
-   FROM metrics_projects_hourly_bi_weekly_pay
+   FROM public.metrics_projects_hourly_bi_weekly_pay
 UNION
  SELECT metrics_projects_hourly_monthly_pay.metric,
     metrics_projects_hourly_monthly_pay.mtd,
     metrics_projects_hourly_monthly_pay.fytd,
     metrics_projects_hourly_monthly_pay.itd
-   FROM metrics_projects_hourly_monthly_pay
+   FROM public.metrics_projects_hourly_monthly_pay
 UNION
  SELECT metrics_projects_fixed_pay.metric,
     metrics_projects_fixed_pay.mtd,
     metrics_projects_fixed_pay.fytd,
     metrics_projects_fixed_pay.itd
-   FROM metrics_projects_fixed_pay
+   FROM public.metrics_projects_fixed_pay
 UNION
  SELECT metrics_projects_fixed_50_50_pay.metric,
     metrics_projects_fixed_50_50_pay.mtd,
     metrics_projects_fixed_50_50_pay.fytd,
     metrics_projects_fixed_50_50_pay.itd
-   FROM metrics_projects_fixed_50_50_pay
+   FROM public.metrics_projects_fixed_50_50_pay
 UNION
  SELECT metrics_projects_fixed_upon_completion_pay.metric,
     metrics_projects_fixed_upon_completion_pay.mtd,
     metrics_projects_fixed_upon_completion_pay.fytd,
     metrics_projects_fixed_upon_completion_pay.itd
-   FROM metrics_projects_fixed_upon_completion_pay
+   FROM public.metrics_projects_fixed_upon_completion_pay
 UNION
  SELECT metrics_projects_fixed_bi_weekly_pay.metric,
     metrics_projects_fixed_bi_weekly_pay.mtd,
     metrics_projects_fixed_bi_weekly_pay.fytd,
     metrics_projects_fixed_bi_weekly_pay.itd
-   FROM metrics_projects_fixed_bi_weekly_pay
+   FROM public.metrics_projects_fixed_bi_weekly_pay
 UNION
  SELECT metrics_projects_fixed_monthly_pay.metric,
     metrics_projects_fixed_monthly_pay.mtd,
     metrics_projects_fixed_monthly_pay.fytd,
     metrics_projects_fixed_monthly_pay.itd
-   FROM metrics_projects_fixed_monthly_pay
+   FROM public.metrics_projects_fixed_monthly_pay
 UNION
  SELECT metrics_jobs_posted.metric,
     metrics_jobs_posted.mtd,
     metrics_jobs_posted.fytd,
     metrics_jobs_posted.itd
-   FROM metrics_jobs_posted
+   FROM public.metrics_jobs_posted
 UNION
  SELECT metrics_jobs_value.metric,
     metrics_jobs_value.mtd,
     metrics_jobs_value.fytd,
     metrics_jobs_value.itd
-   FROM metrics_jobs_value
+   FROM public.metrics_jobs_value
 UNION
  SELECT metrics_jobs_share.metric,
     metrics_jobs_share.mtd,
     metrics_jobs_share.fytd,
     metrics_jobs_share.itd
-   FROM metrics_jobs_share
+   FROM public.metrics_jobs_share
 UNION
  SELECT metrics_jobs_upfront_pay.metric,
     metrics_jobs_upfront_pay.mtd,
     metrics_jobs_upfront_pay.fytd,
     metrics_jobs_upfront_pay.itd
-   FROM metrics_jobs_upfront_pay
+   FROM public.metrics_jobs_upfront_pay
 UNION
  SELECT metrics_jobs_installment_pay.metric,
     metrics_jobs_installment_pay.mtd,
     metrics_jobs_installment_pay.fytd,
     metrics_jobs_installment_pay.itd
-   FROM metrics_jobs_installment_pay
+   FROM public.metrics_jobs_installment_pay
 UNION
  SELECT metrics_project_completions.metric,
     metrics_project_completions.mtd,
     metrics_project_completions.fytd,
     metrics_project_completions.itd
-   FROM metrics_project_completions
+   FROM public.metrics_project_completions
 UNION
  SELECT metrics_job_completions.metric,
     metrics_job_completions.mtd,
     metrics_job_completions.fytd,
     metrics_job_completions.itd
-   FROM metrics_job_completions
+   FROM public.metrics_job_completions
 UNION
  SELECT metrics_time_to_completion.metric,
     metrics_time_to_completion.mtd,
     metrics_time_to_completion.fytd,
     metrics_time_to_completion.itd
-   FROM metrics_time_to_completion
+   FROM public.metrics_time_to_completion
 UNION
  SELECT metrics_avg_staffing_times.metric,
     metrics_avg_staffing_times.mtd,
     metrics_avg_staffing_times.fytd,
     metrics_avg_staffing_times.itd
-   FROM metrics_avg_staffing_times
+   FROM public.metrics_avg_staffing_times
 UNION
  SELECT metrics_escalated_projects.metric,
     metrics_escalated_projects.mtd,
     metrics_escalated_projects.fytd,
     metrics_escalated_projects.itd
-   FROM metrics_escalated_projects
+   FROM public.metrics_escalated_projects
 UNION
  SELECT metrics_extended_projects.metric,
     metrics_extended_projects.mtd,
     metrics_extended_projects.fytd,
     metrics_extended_projects.itd
-   FROM metrics_extended_projects
+   FROM public.metrics_extended_projects
 UNION
  SELECT metrics_account_deletions.metric,
     metrics_account_deletions.mtd,
     metrics_account_deletions.fytd,
     metrics_account_deletions.itd
-   FROM metrics_account_deletions
+   FROM public.metrics_account_deletions
 UNION
  SELECT metrics_signups.metric,
     metrics_signups.mtd,
     metrics_signups.fytd,
     metrics_signups.itd
-   FROM metrics_signups;
+   FROM public.metrics_signups;
 
 
 --
 -- Name: metrics_activity; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW metrics_activity AS
+CREATE VIEW public.metrics_activity AS
  WITH dates AS (
          SELECT (now() - '30 days'::interval) AS thirty_days_ago
         ), totals AS (
          SELECT count(*) AS cnt
-           FROM users
+           FROM public.users
         ), all_users AS (
          SELECT users.current_sign_in_at
-           FROM users
+           FROM public.users
         ), businesses_count AS (
          SELECT users.current_sign_in_at
-           FROM (users
-             JOIN businesses ON ((businesses.user_id = users.id)))
+           FROM (public.users
+             JOIN public.businesses ON ((businesses.user_id = users.id)))
         ), specialists_count AS (
          SELECT users.current_sign_in_at
-           FROM (users
-             JOIN specialists ON ((specialists.user_id = users.id)))
+           FROM (public.users
+             JOIN public.specialists ON ((specialists.user_id = users.id)))
         )
  SELECT 'recent_activity'::character varying AS metric,
     ( SELECT count(*) AS count
-           FROM users
+           FROM public.users
           WHERE (users.current_sign_in_at >= dates.thirty_days_ago)) AS cnt,
     ( SELECT (((count(*))::double precision / (totals.cnt)::double precision) * (100)::double precision)
-           FROM users
+           FROM public.users
           WHERE (users.current_sign_in_at >= dates.thirty_days_ago)) AS pct
    FROM totals,
     dates
@@ -2705,10 +2618,10 @@ UNION
 UNION
  SELECT 'old_activity'::character varying AS metric,
     ( SELECT count(*) AS count
-           FROM users
+           FROM public.users
           WHERE ((users.current_sign_in_at IS NULL) OR (users.current_sign_in_at < dates.thirty_days_ago))) AS cnt,
     ( SELECT (((count(*))::double precision / (totals.cnt)::double precision) * (100)::double precision)
-           FROM users
+           FROM public.users
           WHERE ((users.current_sign_in_at IS NULL) OR (users.current_sign_in_at < dates.thirty_days_ago))) AS pct
    FROM totals,
     dates
@@ -2756,7 +2669,7 @@ UNION
 -- Name: notifications; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE notifications (
+CREATE TABLE public.notifications (
     id integer NOT NULL,
     user_id integer,
     message character varying,
@@ -2777,7 +2690,7 @@ CREATE TABLE notifications (
 -- Name: notifications_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE notifications_id_seq
+CREATE SEQUENCE public.notifications_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2789,14 +2702,14 @@ CREATE SEQUENCE notifications_id_seq
 -- Name: notifications_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE notifications_id_seq OWNED BY notifications.id;
+ALTER SEQUENCE public.notifications_id_seq OWNED BY public.notifications.id;
 
 
 --
 -- Name: partnerships; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE partnerships (
+CREATE TABLE public.partnerships (
     id integer NOT NULL,
     company character varying,
     description text,
@@ -2814,7 +2727,7 @@ CREATE TABLE partnerships (
 -- Name: partnerships_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE partnerships_id_seq
+CREATE SEQUENCE public.partnerships_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2826,14 +2739,14 @@ CREATE SEQUENCE partnerships_id_seq
 -- Name: partnerships_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE partnerships_id_seq OWNED BY partnerships.id;
+ALTER SEQUENCE public.partnerships_id_seq OWNED BY public.partnerships.id;
 
 
 --
 -- Name: payment_profiles; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE payment_profiles (
+CREATE TABLE public.payment_profiles (
     id integer NOT NULL,
     business_id integer,
     stripe_customer_id character varying,
@@ -2846,7 +2759,7 @@ CREATE TABLE payment_profiles (
 -- Name: payment_profiles_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE payment_profiles_id_seq
+CREATE SEQUENCE public.payment_profiles_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2858,14 +2771,14 @@ CREATE SEQUENCE payment_profiles_id_seq
 -- Name: payment_profiles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE payment_profiles_id_seq OWNED BY payment_profiles.id;
+ALTER SEQUENCE public.payment_profiles_id_seq OWNED BY public.payment_profiles.id;
 
 
 --
 -- Name: payment_sources; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE payment_sources (
+CREATE TABLE public.payment_sources (
     id integer NOT NULL,
     payment_profile_id integer,
     stripe_id character varying NOT NULL,
@@ -2889,7 +2802,7 @@ CREATE TABLE payment_sources (
 -- Name: payment_sources_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE payment_sources_id_seq
+CREATE SEQUENCE public.payment_sources_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2901,14 +2814,14 @@ CREATE SEQUENCE payment_sources_id_seq
 -- Name: payment_sources_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE payment_sources_id_seq OWNED BY payment_sources.id;
+ALTER SEQUENCE public.payment_sources_id_seq OWNED BY public.payment_sources.id;
 
 
 --
 -- Name: project_ends; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE project_ends (
+CREATE TABLE public.project_ends (
     id integer NOT NULL,
     project_id integer,
     status character varying,
@@ -2922,7 +2835,7 @@ CREATE TABLE project_ends (
 -- Name: project_ends_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE project_ends_id_seq
+CREATE SEQUENCE public.project_ends_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2934,14 +2847,14 @@ CREATE SEQUENCE project_ends_id_seq
 -- Name: project_ends_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE project_ends_id_seq OWNED BY project_ends.id;
+ALTER SEQUENCE public.project_ends_id_seq OWNED BY public.project_ends.id;
 
 
 --
 -- Name: project_extensions; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE project_extensions (
+CREATE TABLE public.project_extensions (
     id integer NOT NULL,
     project_id integer,
     new_end_date date,
@@ -2956,7 +2869,7 @@ CREATE TABLE project_extensions (
 -- Name: project_extensions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE project_extensions_id_seq
+CREATE SEQUENCE public.project_extensions_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2968,14 +2881,14 @@ CREATE SEQUENCE project_extensions_id_seq
 -- Name: project_extensions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE project_extensions_id_seq OWNED BY project_extensions.id;
+ALTER SEQUENCE public.project_extensions_id_seq OWNED BY public.project_extensions.id;
 
 
 --
 -- Name: project_invites; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE project_invites (
+CREATE TABLE public.project_invites (
     id integer NOT NULL,
     business_id integer NOT NULL,
     project_id integer,
@@ -2991,7 +2904,7 @@ CREATE TABLE project_invites (
 -- Name: project_invites_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE project_invites_id_seq
+CREATE SEQUENCE public.project_invites_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3003,14 +2916,14 @@ CREATE SEQUENCE project_invites_id_seq
 -- Name: project_invites_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE project_invites_id_seq OWNED BY project_invites.id;
+ALTER SEQUENCE public.project_invites_id_seq OWNED BY public.project_invites.id;
 
 
 --
 -- Name: project_issues_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE project_issues_id_seq
+CREATE SEQUENCE public.project_issues_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3022,17 +2935,17 @@ CREATE SEQUENCE project_issues_id_seq
 -- Name: project_issues_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE project_issues_id_seq OWNED BY project_issues.id;
+ALTER SEQUENCE public.project_issues_id_seq OWNED BY public.project_issues.id;
 
 
 --
 -- Name: project_templates; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE project_templates (
+CREATE TABLE public.project_templates (
     id integer NOT NULL,
     title character varying,
-    type character varying,
+    project_type character varying,
     location_type character varying,
     description character varying,
     payment_schedule character varying,
@@ -3050,7 +2963,11 @@ CREATE TABLE project_templates (
     key_deliverables character varying,
     pricing_type character varying,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    title_aum character varying,
+    description_aum character varying,
+    public_description text,
+    public_features text
 );
 
 
@@ -3058,7 +2975,7 @@ CREATE TABLE project_templates (
 -- Name: project_templates_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE project_templates_id_seq
+CREATE SEQUENCE public.project_templates_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3070,14 +2987,14 @@ CREATE SEQUENCE project_templates_id_seq
 -- Name: project_templates_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE project_templates_id_seq OWNED BY project_templates.id;
+ALTER SEQUENCE public.project_templates_id_seq OWNED BY public.project_templates.id;
 
 
 --
 -- Name: projects_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE projects_id_seq
+CREATE SEQUENCE public.projects_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3089,14 +3006,14 @@ CREATE SEQUENCE projects_id_seq
 -- Name: projects_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE projects_id_seq OWNED BY projects.id;
+ALTER SEQUENCE public.projects_id_seq OWNED BY public.projects.id;
 
 
 --
 -- Name: projects_skills; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE projects_skills (
+CREATE TABLE public.projects_skills (
     project_id integer NOT NULL,
     skill_id integer NOT NULL
 );
@@ -3106,7 +3023,7 @@ CREATE TABLE projects_skills (
 -- Name: questions; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE questions (
+CREATE TABLE public.questions (
     id integer NOT NULL,
     project_id integer NOT NULL,
     text text,
@@ -3120,7 +3037,7 @@ CREATE TABLE questions (
 -- Name: questions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE questions_id_seq
+CREATE SEQUENCE public.questions_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3132,14 +3049,14 @@ CREATE SEQUENCE questions_id_seq
 -- Name: questions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE questions_id_seq OWNED BY questions.id;
+ALTER SEQUENCE public.questions_id_seq OWNED BY public.questions.id;
 
 
 --
 -- Name: ratings; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE ratings (
+CREATE TABLE public.ratings (
     id integer NOT NULL,
     project_id integer,
     rater_id integer,
@@ -3155,7 +3072,7 @@ CREATE TABLE ratings (
 -- Name: ratings_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE ratings_id_seq
+CREATE SEQUENCE public.ratings_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3167,7 +3084,7 @@ CREATE SEQUENCE ratings_id_seq
 -- Name: ratings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE ratings_id_seq OWNED BY ratings.id;
+ALTER SEQUENCE public.ratings_id_seq OWNED BY public.ratings.id;
 
 
 --
@@ -3207,7 +3124,7 @@ ALTER SEQUENCE public.rewards_tiers_id_seq OWNED BY public.rewards_tiers.id;
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE schema_migrations (
+CREATE TABLE public.schema_migrations (
     version character varying NOT NULL
 );
 
@@ -3216,7 +3133,7 @@ CREATE TABLE schema_migrations (
 -- Name: settings; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE settings (
+CREATE TABLE public.settings (
     id integer NOT NULL,
     var character varying NOT NULL,
     value text,
@@ -3231,7 +3148,7 @@ CREATE TABLE settings (
 -- Name: settings_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE settings_id_seq
+CREATE SEQUENCE public.settings_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3243,14 +3160,14 @@ CREATE SEQUENCE settings_id_seq
 -- Name: settings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE settings_id_seq OWNED BY settings.id;
+ALTER SEQUENCE public.settings_id_seq OWNED BY public.settings.id;
 
 
 --
 -- Name: skills; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE skills (
+CREATE TABLE public.skills (
     id integer NOT NULL,
     name character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
@@ -3262,7 +3179,7 @@ CREATE TABLE skills (
 -- Name: skills_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE skills_id_seq
+CREATE SEQUENCE public.skills_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3274,14 +3191,14 @@ CREATE SEQUENCE skills_id_seq
 -- Name: skills_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE skills_id_seq OWNED BY skills.id;
+ALTER SEQUENCE public.skills_id_seq OWNED BY public.skills.id;
 
 
 --
 -- Name: skills_specialists; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE skills_specialists (
+CREATE TABLE public.skills_specialists (
     skill_id integer NOT NULL,
     specialist_id integer NOT NULL
 );
@@ -3291,7 +3208,7 @@ CREATE TABLE skills_specialists (
 -- Name: specialist_invitations; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE specialist_invitations (
+CREATE TABLE public.specialist_invitations (
     id integer NOT NULL,
     specialist_team_id integer NOT NULL,
     specialist_id integer,
@@ -3307,7 +3224,7 @@ CREATE TABLE specialist_invitations (
 -- Name: specialist_invitations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE specialist_invitations_id_seq
+CREATE SEQUENCE public.specialist_invitations_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3319,14 +3236,14 @@ CREATE SEQUENCE specialist_invitations_id_seq
 -- Name: specialist_invitations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE specialist_invitations_id_seq OWNED BY specialist_invitations.id;
+ALTER SEQUENCE public.specialist_invitations_id_seq OWNED BY public.specialist_invitations.id;
 
 
 --
 -- Name: specialist_teams; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE specialist_teams (
+CREATE TABLE public.specialist_teams (
     id integer NOT NULL,
     manager_id integer NOT NULL,
     name character varying NOT NULL,
@@ -3339,7 +3256,7 @@ CREATE TABLE specialist_teams (
 -- Name: specialist_teams_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE specialist_teams_id_seq
+CREATE SEQUENCE public.specialist_teams_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3351,14 +3268,14 @@ CREATE SEQUENCE specialist_teams_id_seq
 -- Name: specialist_teams_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE specialist_teams_id_seq OWNED BY specialist_teams.id;
+ALTER SEQUENCE public.specialist_teams_id_seq OWNED BY public.specialist_teams.id;
 
 
 --
 -- Name: specialists_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE specialists_id_seq
+CREATE SEQUENCE public.specialists_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3370,14 +3287,14 @@ CREATE SEQUENCE specialists_id_seq
 -- Name: specialists_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE specialists_id_seq OWNED BY specialists.id;
+ALTER SEQUENCE public.specialists_id_seq OWNED BY public.specialists.id;
 
 
 --
 -- Name: stripe_accounts; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE stripe_accounts (
+CREATE TABLE public.stripe_accounts (
     id integer NOT NULL,
     specialist_id integer,
     status character varying DEFAULT 'Pending'::character varying NOT NULL,
@@ -3414,7 +3331,7 @@ CREATE TABLE stripe_accounts (
 -- Name: stripe_accounts_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE stripe_accounts_id_seq
+CREATE SEQUENCE public.stripe_accounts_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3426,14 +3343,14 @@ CREATE SEQUENCE stripe_accounts_id_seq
 -- Name: stripe_accounts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE stripe_accounts_id_seq OWNED BY stripe_accounts.id;
+ALTER SEQUENCE public.stripe_accounts_id_seq OWNED BY public.stripe_accounts.id;
 
 
 --
 -- Name: time_logs; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE time_logs (
+CREATE TABLE public.time_logs (
     id integer NOT NULL,
     timesheet_id integer,
     description character varying,
@@ -3450,7 +3367,7 @@ CREATE TABLE time_logs (
 -- Name: time_logs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE time_logs_id_seq
+CREATE SEQUENCE public.time_logs_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3462,14 +3379,14 @@ CREATE SEQUENCE time_logs_id_seq
 -- Name: time_logs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE time_logs_id_seq OWNED BY time_logs.id;
+ALTER SEQUENCE public.time_logs_id_seq OWNED BY public.time_logs.id;
 
 
 --
 -- Name: timesheets; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE timesheets (
+CREATE TABLE public.timesheets (
     id integer NOT NULL,
     project_id integer,
     status character varying DEFAULT 'pending'::character varying NOT NULL,
@@ -3486,7 +3403,7 @@ CREATE TABLE timesheets (
 -- Name: timesheets_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE timesheets_id_seq
+CREATE SEQUENCE public.timesheets_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3498,14 +3415,14 @@ CREATE SEQUENCE timesheets_id_seq
 -- Name: timesheets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE timesheets_id_seq OWNED BY timesheets.id;
+ALTER SEQUENCE public.timesheets_id_seq OWNED BY public.timesheets.id;
 
 
 --
 -- Name: transactions; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE transactions (
+CREATE TABLE public.transactions (
     id integer NOT NULL,
     stripe_id character varying,
     type character varying,
@@ -3530,7 +3447,7 @@ CREATE TABLE transactions (
 -- Name: transactions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE transactions_id_seq
+CREATE SEQUENCE public.transactions_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3542,21 +3459,22 @@ CREATE SEQUENCE transactions_id_seq
 -- Name: transactions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE transactions_id_seq OWNED BY transactions.id;
+ALTER SEQUENCE public.transactions_id_seq OWNED BY public.transactions.id;
 
 
 --
 -- Name: turnkey_pages; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE turnkey_pages (
+CREATE TABLE public.turnkey_pages (
     id integer NOT NULL,
     title character varying,
     url character varying,
     description text,
     cost character varying,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    header_text character varying
 );
 
 
@@ -3564,7 +3482,7 @@ CREATE TABLE turnkey_pages (
 -- Name: turnkey_pages_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE turnkey_pages_id_seq
+CREATE SEQUENCE public.turnkey_pages_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3576,14 +3494,54 @@ CREATE SEQUENCE turnkey_pages_id_seq
 -- Name: turnkey_pages_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE turnkey_pages_id_seq OWNED BY turnkey_pages.id;
+ALTER SEQUENCE public.turnkey_pages_id_seq OWNED BY public.turnkey_pages.id;
+
+
+--
+-- Name: turnkey_solutions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.turnkey_solutions (
+    id integer NOT NULL,
+    title character varying,
+    turnkey_page_id integer,
+    range character varying,
+    aum_enabled boolean,
+    principal_office boolean,
+    industries_enabled boolean,
+    jurisdictions_enabled boolean,
+    hours_enabled boolean,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    info_dot character varying,
+    accounts_enabled boolean DEFAULT false
+);
+
+
+--
+-- Name: turnkey_solutions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.turnkey_solutions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: turnkey_solutions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.turnkey_solutions_id_seq OWNED BY public.turnkey_solutions.id;
 
 
 --
 -- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE users_id_seq
+CREATE SEQUENCE public.users_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3595,14 +3553,14 @@ CREATE SEQUENCE users_id_seq
 -- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE users_id_seq OWNED BY users.id;
+ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
 
 --
 -- Name: work_experiences; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE work_experiences (
+CREATE TABLE public.work_experiences (
     id integer NOT NULL,
     specialist_id integer,
     company character varying,
@@ -3622,7 +3580,7 @@ CREATE TABLE work_experiences (
 -- Name: work_experiences_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE work_experiences_id_seq
+CREATE SEQUENCE public.work_experiences_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3634,203 +3592,203 @@ CREATE SEQUENCE work_experiences_id_seq
 -- Name: work_experiences_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE work_experiences_id_seq OWNED BY work_experiences.id;
+ALTER SEQUENCE public.work_experiences_id_seq OWNED BY public.work_experiences.id;
 
 
 --
 -- Name: admin_users id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY admin_users ALTER COLUMN id SET DEFAULT nextval('admin_users_id_seq'::regclass);
+ALTER TABLE ONLY public.admin_users ALTER COLUMN id SET DEFAULT nextval('public.admin_users_id_seq'::regclass);
 
 
 --
 -- Name: answers id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY answers ALTER COLUMN id SET DEFAULT nextval('answers_id_seq'::regclass);
+ALTER TABLE ONLY public.answers ALTER COLUMN id SET DEFAULT nextval('public.answers_id_seq'::regclass);
 
 
 --
 -- Name: articles id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY articles ALTER COLUMN id SET DEFAULT nextval('articles_id_seq'::regclass);
+ALTER TABLE ONLY public.articles ALTER COLUMN id SET DEFAULT nextval('public.articles_id_seq'::regclass);
 
 
 --
 -- Name: bank_accounts id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY bank_accounts ALTER COLUMN id SET DEFAULT nextval('bank_accounts_id_seq'::regclass);
+ALTER TABLE ONLY public.bank_accounts ALTER COLUMN id SET DEFAULT nextval('public.bank_accounts_id_seq'::regclass);
 
 
 --
 -- Name: businesses id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY businesses ALTER COLUMN id SET DEFAULT nextval('businesses_id_seq'::regclass);
+ALTER TABLE ONLY public.businesses ALTER COLUMN id SET DEFAULT nextval('public.businesses_id_seq'::regclass);
 
 
 --
 -- Name: charges id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY charges ALTER COLUMN id SET DEFAULT nextval('charges_id_seq'::regclass);
+ALTER TABLE ONLY public.charges ALTER COLUMN id SET DEFAULT nextval('public.charges_id_seq'::regclass);
 
 
 --
 -- Name: documents id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY documents ALTER COLUMN id SET DEFAULT nextval('documents_id_seq'::regclass);
+ALTER TABLE ONLY public.documents ALTER COLUMN id SET DEFAULT nextval('public.documents_id_seq'::regclass);
 
 
 --
 -- Name: education_histories id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY education_histories ALTER COLUMN id SET DEFAULT nextval('education_histories_id_seq'::regclass);
+ALTER TABLE ONLY public.education_histories ALTER COLUMN id SET DEFAULT nextval('public.education_histories_id_seq'::regclass);
 
 
 --
 -- Name: email_threads id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY email_threads ALTER COLUMN id SET DEFAULT nextval('email_threads_id_seq'::regclass);
+ALTER TABLE ONLY public.email_threads ALTER COLUMN id SET DEFAULT nextval('public.email_threads_id_seq'::regclass);
 
 
 --
 -- Name: favorites id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY favorites ALTER COLUMN id SET DEFAULT nextval('favorites_id_seq'::regclass);
+ALTER TABLE ONLY public.favorites ALTER COLUMN id SET DEFAULT nextval('public.favorites_id_seq'::regclass);
 
 
 --
 -- Name: feedback_requests id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY feedback_requests ALTER COLUMN id SET DEFAULT nextval('feedback_requests_id_seq'::regclass);
+ALTER TABLE ONLY public.feedback_requests ALTER COLUMN id SET DEFAULT nextval('public.feedback_requests_id_seq'::regclass);
 
 
 --
 -- Name: flags id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY flags ALTER COLUMN id SET DEFAULT nextval('flags_id_seq'::regclass);
+ALTER TABLE ONLY public.flags ALTER COLUMN id SET DEFAULT nextval('public.flags_id_seq'::regclass);
 
 
 --
 -- Name: industries id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY industries ALTER COLUMN id SET DEFAULT nextval('industries_id_seq'::regclass);
+ALTER TABLE ONLY public.industries ALTER COLUMN id SET DEFAULT nextval('public.industries_id_seq'::regclass);
 
 
 --
 -- Name: job_applications id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY job_applications ALTER COLUMN id SET DEFAULT nextval('job_applications_id_seq'::regclass);
+ALTER TABLE ONLY public.job_applications ALTER COLUMN id SET DEFAULT nextval('public.job_applications_id_seq'::regclass);
 
 
 --
 -- Name: jurisdictions id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY jurisdictions ALTER COLUMN id SET DEFAULT nextval('jurisdictions_id_seq'::regclass);
+ALTER TABLE ONLY public.jurisdictions ALTER COLUMN id SET DEFAULT nextval('public.jurisdictions_id_seq'::regclass);
 
 
 --
 -- Name: messages id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY messages ALTER COLUMN id SET DEFAULT nextval('messages_id_seq'::regclass);
+ALTER TABLE ONLY public.messages ALTER COLUMN id SET DEFAULT nextval('public.messages_id_seq'::regclass);
 
 
 --
 -- Name: notifications id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY notifications ALTER COLUMN id SET DEFAULT nextval('notifications_id_seq'::regclass);
+ALTER TABLE ONLY public.notifications ALTER COLUMN id SET DEFAULT nextval('public.notifications_id_seq'::regclass);
 
 
 --
 -- Name: partnerships id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY partnerships ALTER COLUMN id SET DEFAULT nextval('partnerships_id_seq'::regclass);
+ALTER TABLE ONLY public.partnerships ALTER COLUMN id SET DEFAULT nextval('public.partnerships_id_seq'::regclass);
 
 
 --
 -- Name: payment_profiles id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY payment_profiles ALTER COLUMN id SET DEFAULT nextval('payment_profiles_id_seq'::regclass);
+ALTER TABLE ONLY public.payment_profiles ALTER COLUMN id SET DEFAULT nextval('public.payment_profiles_id_seq'::regclass);
 
 
 --
 -- Name: payment_sources id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY payment_sources ALTER COLUMN id SET DEFAULT nextval('payment_sources_id_seq'::regclass);
+ALTER TABLE ONLY public.payment_sources ALTER COLUMN id SET DEFAULT nextval('public.payment_sources_id_seq'::regclass);
 
 
 --
 -- Name: project_ends id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY project_ends ALTER COLUMN id SET DEFAULT nextval('project_ends_id_seq'::regclass);
+ALTER TABLE ONLY public.project_ends ALTER COLUMN id SET DEFAULT nextval('public.project_ends_id_seq'::regclass);
 
 
 --
 -- Name: project_extensions id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY project_extensions ALTER COLUMN id SET DEFAULT nextval('project_extensions_id_seq'::regclass);
+ALTER TABLE ONLY public.project_extensions ALTER COLUMN id SET DEFAULT nextval('public.project_extensions_id_seq'::regclass);
 
 
 --
 -- Name: project_invites id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY project_invites ALTER COLUMN id SET DEFAULT nextval('project_invites_id_seq'::regclass);
+ALTER TABLE ONLY public.project_invites ALTER COLUMN id SET DEFAULT nextval('public.project_invites_id_seq'::regclass);
 
 
 --
 -- Name: project_issues id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY project_issues ALTER COLUMN id SET DEFAULT nextval('project_issues_id_seq'::regclass);
+ALTER TABLE ONLY public.project_issues ALTER COLUMN id SET DEFAULT nextval('public.project_issues_id_seq'::regclass);
 
 
 --
 -- Name: project_templates id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY project_templates ALTER COLUMN id SET DEFAULT nextval('project_templates_id_seq'::regclass);
+ALTER TABLE ONLY public.project_templates ALTER COLUMN id SET DEFAULT nextval('public.project_templates_id_seq'::regclass);
 
 
 --
 -- Name: projects id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY projects ALTER COLUMN id SET DEFAULT nextval('projects_id_seq'::regclass);
+ALTER TABLE ONLY public.projects ALTER COLUMN id SET DEFAULT nextval('public.projects_id_seq'::regclass);
 
 
 --
 -- Name: questions id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY questions ALTER COLUMN id SET DEFAULT nextval('questions_id_seq'::regclass);
+ALTER TABLE ONLY public.questions ALTER COLUMN id SET DEFAULT nextval('public.questions_id_seq'::regclass);
 
 
 --
 -- Name: ratings id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY ratings ALTER COLUMN id SET DEFAULT nextval('ratings_id_seq'::regclass);
+ALTER TABLE ONLY public.ratings ALTER COLUMN id SET DEFAULT nextval('public.ratings_id_seq'::regclass);
 
 
 --
@@ -3844,91 +3802,98 @@ ALTER TABLE ONLY public.rewards_tiers ALTER COLUMN id SET DEFAULT nextval('publi
 -- Name: settings id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY settings ALTER COLUMN id SET DEFAULT nextval('settings_id_seq'::regclass);
+ALTER TABLE ONLY public.settings ALTER COLUMN id SET DEFAULT nextval('public.settings_id_seq'::regclass);
 
 
 --
 -- Name: skills id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY skills ALTER COLUMN id SET DEFAULT nextval('skills_id_seq'::regclass);
+ALTER TABLE ONLY public.skills ALTER COLUMN id SET DEFAULT nextval('public.skills_id_seq'::regclass);
 
 
 --
 -- Name: specialist_invitations id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY specialist_invitations ALTER COLUMN id SET DEFAULT nextval('specialist_invitations_id_seq'::regclass);
+ALTER TABLE ONLY public.specialist_invitations ALTER COLUMN id SET DEFAULT nextval('public.specialist_invitations_id_seq'::regclass);
 
 
 --
 -- Name: specialist_teams id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY specialist_teams ALTER COLUMN id SET DEFAULT nextval('specialist_teams_id_seq'::regclass);
+ALTER TABLE ONLY public.specialist_teams ALTER COLUMN id SET DEFAULT nextval('public.specialist_teams_id_seq'::regclass);
 
 
 --
 -- Name: specialists id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY specialists ALTER COLUMN id SET DEFAULT nextval('specialists_id_seq'::regclass);
+ALTER TABLE ONLY public.specialists ALTER COLUMN id SET DEFAULT nextval('public.specialists_id_seq'::regclass);
 
 
 --
 -- Name: stripe_accounts id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY stripe_accounts ALTER COLUMN id SET DEFAULT nextval('stripe_accounts_id_seq'::regclass);
+ALTER TABLE ONLY public.stripe_accounts ALTER COLUMN id SET DEFAULT nextval('public.stripe_accounts_id_seq'::regclass);
 
 
 --
 -- Name: time_logs id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY time_logs ALTER COLUMN id SET DEFAULT nextval('time_logs_id_seq'::regclass);
+ALTER TABLE ONLY public.time_logs ALTER COLUMN id SET DEFAULT nextval('public.time_logs_id_seq'::regclass);
 
 
 --
 -- Name: timesheets id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY timesheets ALTER COLUMN id SET DEFAULT nextval('timesheets_id_seq'::regclass);
+ALTER TABLE ONLY public.timesheets ALTER COLUMN id SET DEFAULT nextval('public.timesheets_id_seq'::regclass);
 
 
 --
 -- Name: transactions id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY transactions ALTER COLUMN id SET DEFAULT nextval('transactions_id_seq'::regclass);
+ALTER TABLE ONLY public.transactions ALTER COLUMN id SET DEFAULT nextval('public.transactions_id_seq'::regclass);
 
 
 --
 -- Name: turnkey_pages id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY turnkey_pages ALTER COLUMN id SET DEFAULT nextval('turnkey_pages_id_seq'::regclass);
+ALTER TABLE ONLY public.turnkey_pages ALTER COLUMN id SET DEFAULT nextval('public.turnkey_pages_id_seq'::regclass);
+
+
+--
+-- Name: turnkey_solutions id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.turnkey_solutions ALTER COLUMN id SET DEFAULT nextval('public.turnkey_solutions_id_seq'::regclass);
 
 
 --
 -- Name: users id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
+ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
 
 
 --
 -- Name: work_experiences id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY work_experiences ALTER COLUMN id SET DEFAULT nextval('work_experiences_id_seq'::regclass);
+ALTER TABLE ONLY public.work_experiences ALTER COLUMN id SET DEFAULT nextval('public.work_experiences_id_seq'::regclass);
 
 
 --
 -- Name: admin_users admin_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY admin_users
+ALTER TABLE ONLY public.admin_users
     ADD CONSTRAINT admin_users_pkey PRIMARY KEY (id);
 
 
@@ -3936,7 +3901,7 @@ ALTER TABLE ONLY admin_users
 -- Name: answers answers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY answers
+ALTER TABLE ONLY public.answers
     ADD CONSTRAINT answers_pkey PRIMARY KEY (id);
 
 
@@ -3944,7 +3909,7 @@ ALTER TABLE ONLY answers
 -- Name: articles articles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY articles
+ALTER TABLE ONLY public.articles
     ADD CONSTRAINT articles_pkey PRIMARY KEY (id);
 
 
@@ -3952,7 +3917,7 @@ ALTER TABLE ONLY articles
 -- Name: bank_accounts bank_accounts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY bank_accounts
+ALTER TABLE ONLY public.bank_accounts
     ADD CONSTRAINT bank_accounts_pkey PRIMARY KEY (id);
 
 
@@ -3960,7 +3925,7 @@ ALTER TABLE ONLY bank_accounts
 -- Name: businesses businesses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY businesses
+ALTER TABLE ONLY public.businesses
     ADD CONSTRAINT businesses_pkey PRIMARY KEY (id);
 
 
@@ -3968,7 +3933,7 @@ ALTER TABLE ONLY businesses
 -- Name: charges charges_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY charges
+ALTER TABLE ONLY public.charges
     ADD CONSTRAINT charges_pkey PRIMARY KEY (id);
 
 
@@ -3976,7 +3941,7 @@ ALTER TABLE ONLY charges
 -- Name: documents documents_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY documents
+ALTER TABLE ONLY public.documents
     ADD CONSTRAINT documents_pkey PRIMARY KEY (id);
 
 
@@ -3984,7 +3949,7 @@ ALTER TABLE ONLY documents
 -- Name: education_histories education_histories_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY education_histories
+ALTER TABLE ONLY public.education_histories
     ADD CONSTRAINT education_histories_pkey PRIMARY KEY (id);
 
 
@@ -3992,7 +3957,7 @@ ALTER TABLE ONLY education_histories
 -- Name: email_threads email_threads_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY email_threads
+ALTER TABLE ONLY public.email_threads
     ADD CONSTRAINT email_threads_pkey PRIMARY KEY (id);
 
 
@@ -4000,7 +3965,7 @@ ALTER TABLE ONLY email_threads
 -- Name: favorites favorites_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY favorites
+ALTER TABLE ONLY public.favorites
     ADD CONSTRAINT favorites_pkey PRIMARY KEY (id);
 
 
@@ -4008,7 +3973,7 @@ ALTER TABLE ONLY favorites
 -- Name: feedback_requests feedback_requests_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY feedback_requests
+ALTER TABLE ONLY public.feedback_requests
     ADD CONSTRAINT feedback_requests_pkey PRIMARY KEY (id);
 
 
@@ -4016,7 +3981,7 @@ ALTER TABLE ONLY feedback_requests
 -- Name: flags flags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY flags
+ALTER TABLE ONLY public.flags
     ADD CONSTRAINT flags_pkey PRIMARY KEY (id);
 
 
@@ -4024,7 +3989,7 @@ ALTER TABLE ONLY flags
 -- Name: industries industries_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY industries
+ALTER TABLE ONLY public.industries
     ADD CONSTRAINT industries_pkey PRIMARY KEY (id);
 
 
@@ -4032,7 +3997,7 @@ ALTER TABLE ONLY industries
 -- Name: job_applications job_applications_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY job_applications
+ALTER TABLE ONLY public.job_applications
     ADD CONSTRAINT job_applications_pkey PRIMARY KEY (id);
 
 
@@ -4040,7 +4005,7 @@ ALTER TABLE ONLY job_applications
 -- Name: jurisdictions jurisdictions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY jurisdictions
+ALTER TABLE ONLY public.jurisdictions
     ADD CONSTRAINT jurisdictions_pkey PRIMARY KEY (id);
 
 
@@ -4048,7 +4013,7 @@ ALTER TABLE ONLY jurisdictions
 -- Name: messages messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY messages
+ALTER TABLE ONLY public.messages
     ADD CONSTRAINT messages_pkey PRIMARY KEY (id);
 
 
@@ -4056,7 +4021,7 @@ ALTER TABLE ONLY messages
 -- Name: notifications notifications_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY notifications
+ALTER TABLE ONLY public.notifications
     ADD CONSTRAINT notifications_pkey PRIMARY KEY (id);
 
 
@@ -4064,7 +4029,7 @@ ALTER TABLE ONLY notifications
 -- Name: partnerships partnerships_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY partnerships
+ALTER TABLE ONLY public.partnerships
     ADD CONSTRAINT partnerships_pkey PRIMARY KEY (id);
 
 
@@ -4072,7 +4037,7 @@ ALTER TABLE ONLY partnerships
 -- Name: payment_profiles payment_profiles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY payment_profiles
+ALTER TABLE ONLY public.payment_profiles
     ADD CONSTRAINT payment_profiles_pkey PRIMARY KEY (id);
 
 
@@ -4080,7 +4045,7 @@ ALTER TABLE ONLY payment_profiles
 -- Name: payment_sources payment_sources_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY payment_sources
+ALTER TABLE ONLY public.payment_sources
     ADD CONSTRAINT payment_sources_pkey PRIMARY KEY (id);
 
 
@@ -4088,7 +4053,7 @@ ALTER TABLE ONLY payment_sources
 -- Name: project_ends project_ends_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY project_ends
+ALTER TABLE ONLY public.project_ends
     ADD CONSTRAINT project_ends_pkey PRIMARY KEY (id);
 
 
@@ -4096,7 +4061,7 @@ ALTER TABLE ONLY project_ends
 -- Name: project_extensions project_extensions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY project_extensions
+ALTER TABLE ONLY public.project_extensions
     ADD CONSTRAINT project_extensions_pkey PRIMARY KEY (id);
 
 
@@ -4104,7 +4069,7 @@ ALTER TABLE ONLY project_extensions
 -- Name: project_invites project_invites_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY project_invites
+ALTER TABLE ONLY public.project_invites
     ADD CONSTRAINT project_invites_pkey PRIMARY KEY (id);
 
 
@@ -4112,7 +4077,7 @@ ALTER TABLE ONLY project_invites
 -- Name: project_issues project_issues_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY project_issues
+ALTER TABLE ONLY public.project_issues
     ADD CONSTRAINT project_issues_pkey PRIMARY KEY (id);
 
 
@@ -4120,7 +4085,7 @@ ALTER TABLE ONLY project_issues
 -- Name: project_templates project_templates_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY project_templates
+ALTER TABLE ONLY public.project_templates
     ADD CONSTRAINT project_templates_pkey PRIMARY KEY (id);
 
 
@@ -4128,7 +4093,7 @@ ALTER TABLE ONLY project_templates
 -- Name: projects projects_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY projects
+ALTER TABLE ONLY public.projects
     ADD CONSTRAINT projects_pkey PRIMARY KEY (id);
 
 
@@ -4136,7 +4101,7 @@ ALTER TABLE ONLY projects
 -- Name: questions questions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY questions
+ALTER TABLE ONLY public.questions
     ADD CONSTRAINT questions_pkey PRIMARY KEY (id);
 
 
@@ -4144,7 +4109,7 @@ ALTER TABLE ONLY questions
 -- Name: ratings ratings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY ratings
+ALTER TABLE ONLY public.ratings
     ADD CONSTRAINT ratings_pkey PRIMARY KEY (id);
 
 
@@ -4160,7 +4125,7 @@ ALTER TABLE ONLY public.rewards_tiers
 -- Name: settings settings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY settings
+ALTER TABLE ONLY public.settings
     ADD CONSTRAINT settings_pkey PRIMARY KEY (id);
 
 
@@ -4168,7 +4133,7 @@ ALTER TABLE ONLY settings
 -- Name: skills skills_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY skills
+ALTER TABLE ONLY public.skills
     ADD CONSTRAINT skills_pkey PRIMARY KEY (id);
 
 
@@ -4176,7 +4141,7 @@ ALTER TABLE ONLY skills
 -- Name: specialist_invitations specialist_invitations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY specialist_invitations
+ALTER TABLE ONLY public.specialist_invitations
     ADD CONSTRAINT specialist_invitations_pkey PRIMARY KEY (id);
 
 
@@ -4184,7 +4149,7 @@ ALTER TABLE ONLY specialist_invitations
 -- Name: specialist_teams specialist_teams_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY specialist_teams
+ALTER TABLE ONLY public.specialist_teams
     ADD CONSTRAINT specialist_teams_pkey PRIMARY KEY (id);
 
 
@@ -4192,7 +4157,7 @@ ALTER TABLE ONLY specialist_teams
 -- Name: specialists specialists_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY specialists
+ALTER TABLE ONLY public.specialists
     ADD CONSTRAINT specialists_pkey PRIMARY KEY (id);
 
 
@@ -4200,7 +4165,7 @@ ALTER TABLE ONLY specialists
 -- Name: stripe_accounts stripe_accounts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY stripe_accounts
+ALTER TABLE ONLY public.stripe_accounts
     ADD CONSTRAINT stripe_accounts_pkey PRIMARY KEY (id);
 
 
@@ -4208,7 +4173,7 @@ ALTER TABLE ONLY stripe_accounts
 -- Name: time_logs time_logs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY time_logs
+ALTER TABLE ONLY public.time_logs
     ADD CONSTRAINT time_logs_pkey PRIMARY KEY (id);
 
 
@@ -4216,7 +4181,7 @@ ALTER TABLE ONLY time_logs
 -- Name: timesheets timesheets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY timesheets
+ALTER TABLE ONLY public.timesheets
     ADD CONSTRAINT timesheets_pkey PRIMARY KEY (id);
 
 
@@ -4224,7 +4189,7 @@ ALTER TABLE ONLY timesheets
 -- Name: transactions transactions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY transactions
+ALTER TABLE ONLY public.transactions
     ADD CONSTRAINT transactions_pkey PRIMARY KEY (id);
 
 
@@ -4232,15 +4197,23 @@ ALTER TABLE ONLY transactions
 -- Name: turnkey_pages turnkey_pages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY turnkey_pages
+ALTER TABLE ONLY public.turnkey_pages
     ADD CONSTRAINT turnkey_pages_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: turnkey_solutions turnkey_solutions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.turnkey_solutions
+    ADD CONSTRAINT turnkey_solutions_pkey PRIMARY KEY (id);
 
 
 --
 -- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY users
+ALTER TABLE ONLY public.users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
 
 
@@ -4248,7 +4221,7 @@ ALTER TABLE ONLY users
 -- Name: work_experiences work_experiences_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY work_experiences
+ALTER TABLE ONLY public.work_experiences
     ADD CONSTRAINT work_experiences_pkey PRIMARY KEY (id);
 
 
@@ -4256,954 +4229,954 @@ ALTER TABLE ONLY work_experiences
 -- Name: favorites_unique; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX favorites_unique ON favorites USING btree (owner_id, owner_type, favorited_id, favorited_type);
+CREATE UNIQUE INDEX favorites_unique ON public.favorites USING btree (owner_id, owner_type, favorited_id, favorited_type);
 
 
 --
 -- Name: index_admin_users_on_email; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_admin_users_on_email ON admin_users USING btree (email);
+CREATE UNIQUE INDEX index_admin_users_on_email ON public.admin_users USING btree (email);
 
 
 --
 -- Name: index_admin_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_admin_users_on_reset_password_token ON admin_users USING btree (reset_password_token);
+CREATE UNIQUE INDEX index_admin_users_on_reset_password_token ON public.admin_users USING btree (reset_password_token);
 
 
 --
 -- Name: index_answers_on_question_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_answers_on_question_id ON answers USING btree (question_id);
+CREATE INDEX index_answers_on_question_id ON public.answers USING btree (question_id);
 
 
 --
 -- Name: index_bank_accounts_on_stripe_account_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_bank_accounts_on_stripe_account_id ON bank_accounts USING btree (stripe_account_id);
+CREATE INDEX index_bank_accounts_on_stripe_account_id ON public.bank_accounts USING btree (stripe_account_id);
 
 
 --
 -- Name: index_businesses_industries_on_business_id_and_industry_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_businesses_industries_on_business_id_and_industry_id ON businesses_industries USING btree (business_id, industry_id);
+CREATE UNIQUE INDEX index_businesses_industries_on_business_id_and_industry_id ON public.businesses_industries USING btree (business_id, industry_id);
 
 
 --
 -- Name: index_businesses_on_anonymous; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_businesses_on_anonymous ON businesses USING btree (anonymous);
+CREATE INDEX index_businesses_on_anonymous ON public.businesses USING btree (anonymous);
 
 
 --
 -- Name: index_businesses_on_discourse_username; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_businesses_on_discourse_username ON businesses USING btree (discourse_username);
+CREATE INDEX index_businesses_on_discourse_username ON public.businesses USING btree (discourse_username);
 
 
 --
 -- Name: index_businesses_on_ratings_average; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_businesses_on_ratings_average ON businesses USING btree (ratings_average);
+CREATE INDEX index_businesses_on_ratings_average ON public.businesses USING btree (ratings_average);
 
 
 --
 -- Name: index_businesses_on_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_businesses_on_user_id ON businesses USING btree (user_id);
+CREATE INDEX index_businesses_on_user_id ON public.businesses USING btree (user_id);
 
 
 --
 -- Name: index_charges_on_process_after; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_charges_on_process_after ON charges USING btree (process_after);
+CREATE INDEX index_charges_on_process_after ON public.charges USING btree (process_after);
 
 
 --
 -- Name: index_charges_on_project_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_charges_on_project_id ON charges USING btree (project_id);
+CREATE INDEX index_charges_on_project_id ON public.charges USING btree (project_id);
 
 
 --
 -- Name: index_charges_on_referenceable_type_and_referenceable_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_charges_on_referenceable_type_and_referenceable_id ON charges USING btree (referenceable_type, referenceable_id);
+CREATE UNIQUE INDEX index_charges_on_referenceable_type_and_referenceable_id ON public.charges USING btree (referenceable_type, referenceable_id);
 
 
 --
 -- Name: index_charges_on_status; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_charges_on_status ON charges USING btree (status);
+CREATE INDEX index_charges_on_status ON public.charges USING btree (status);
 
 
 --
 -- Name: index_charges_on_transaction_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_charges_on_transaction_id ON charges USING btree (transaction_id);
+CREATE INDEX index_charges_on_transaction_id ON public.charges USING btree (transaction_id);
 
 
 --
 -- Name: index_documents_on_owner_type_and_owner_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_documents_on_owner_type_and_owner_id ON documents USING btree (owner_type, owner_id);
+CREATE INDEX index_documents_on_owner_type_and_owner_id ON public.documents USING btree (owner_type, owner_id);
 
 
 --
 -- Name: index_documents_on_project_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_documents_on_project_id ON documents USING btree (project_id);
+CREATE INDEX index_documents_on_project_id ON public.documents USING btree (project_id);
 
 
 --
 -- Name: index_education_histories_on_specialist_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_education_histories_on_specialist_id ON education_histories USING btree (specialist_id);
+CREATE INDEX index_education_histories_on_specialist_id ON public.education_histories USING btree (specialist_id);
 
 
 --
 -- Name: index_email_threads_on_business_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_email_threads_on_business_id ON email_threads USING btree (business_id);
+CREATE INDEX index_email_threads_on_business_id ON public.email_threads USING btree (business_id);
 
 
 --
 -- Name: index_email_threads_on_business_id_and_specialist_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_email_threads_on_business_id_and_specialist_id ON email_threads USING btree (business_id, specialist_id);
+CREATE UNIQUE INDEX index_email_threads_on_business_id_and_specialist_id ON public.email_threads USING btree (business_id, specialist_id);
 
 
 --
 -- Name: index_email_threads_on_specialist_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_email_threads_on_specialist_id ON email_threads USING btree (specialist_id);
+CREATE INDEX index_email_threads_on_specialist_id ON public.email_threads USING btree (specialist_id);
 
 
 --
 -- Name: index_email_threads_on_thread_key; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_email_threads_on_thread_key ON email_threads USING btree (thread_key);
+CREATE UNIQUE INDEX index_email_threads_on_thread_key ON public.email_threads USING btree (thread_key);
 
 
 --
 -- Name: index_favorites_on_favorited_type_and_favorited_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_favorites_on_favorited_type_and_favorited_id ON favorites USING btree (favorited_type, favorited_id);
+CREATE INDEX index_favorites_on_favorited_type_and_favorited_id ON public.favorites USING btree (favorited_type, favorited_id);
 
 
 --
 -- Name: index_favorites_on_owner_type_and_owner_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_favorites_on_owner_type_and_owner_id ON favorites USING btree (owner_type, owner_id);
+CREATE INDEX index_favorites_on_owner_type_and_owner_id ON public.favorites USING btree (owner_type, owner_id);
 
 
 --
 -- Name: index_flags_on_flagged_content_type_and_flagged_content_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_flags_on_flagged_content_type_and_flagged_content_id ON flags USING btree (flagged_content_type, flagged_content_id);
+CREATE INDEX index_flags_on_flagged_content_type_and_flagged_content_id ON public.flags USING btree (flagged_content_type, flagged_content_id);
 
 
 --
 -- Name: index_flags_on_flagger_type_and_flagger_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_flags_on_flagger_type_and_flagger_id ON flags USING btree (flagger_type, flagger_id);
+CREATE INDEX index_flags_on_flagger_type_and_flagger_id ON public.flags USING btree (flagger_type, flagger_id);
 
 
 --
 -- Name: index_industries_projects_on_industry_id_and_project_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_industries_projects_on_industry_id_and_project_id ON industries_projects USING btree (industry_id, project_id);
+CREATE UNIQUE INDEX index_industries_projects_on_industry_id_and_project_id ON public.industries_projects USING btree (industry_id, project_id);
 
 
 --
 -- Name: index_job_applications_on_project_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_job_applications_on_project_id ON job_applications USING btree (project_id);
+CREATE INDEX index_job_applications_on_project_id ON public.job_applications USING btree (project_id);
 
 
 --
 -- Name: index_job_applications_on_specialist_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_job_applications_on_specialist_id ON job_applications USING btree (specialist_id);
+CREATE INDEX index_job_applications_on_specialist_id ON public.job_applications USING btree (specialist_id);
 
 
 --
 -- Name: index_job_applications_on_specialist_id_and_project_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_job_applications_on_specialist_id_and_project_id ON job_applications USING btree (specialist_id, project_id);
+CREATE UNIQUE INDEX index_job_applications_on_specialist_id_and_project_id ON public.job_applications USING btree (specialist_id, project_id);
 
 
 --
 -- Name: index_jurisdictions_on_name; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_jurisdictions_on_name ON jurisdictions USING btree (name);
+CREATE UNIQUE INDEX index_jurisdictions_on_name ON public.jurisdictions USING btree (name);
 
 
 --
 -- Name: index_jurisdictions_projects_on_jurisdiction_id_and_project_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_jurisdictions_projects_on_jurisdiction_id_and_project_id ON jurisdictions_projects USING btree (jurisdiction_id, project_id);
+CREATE UNIQUE INDEX index_jurisdictions_projects_on_jurisdiction_id_and_project_id ON public.jurisdictions_projects USING btree (jurisdiction_id, project_id);
 
 
 --
 -- Name: index_messages_on_recipient_type_and_recipient_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_messages_on_recipient_type_and_recipient_id ON messages USING btree (recipient_type, recipient_id);
+CREATE INDEX index_messages_on_recipient_type_and_recipient_id ON public.messages USING btree (recipient_type, recipient_id);
 
 
 --
 -- Name: index_messages_on_sender_type_and_sender_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_messages_on_sender_type_and_sender_id ON messages USING btree (sender_type, sender_id);
+CREATE INDEX index_messages_on_sender_type_and_sender_id ON public.messages USING btree (sender_type, sender_id);
 
 
 --
 -- Name: index_messages_on_thread_type_and_thread_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_messages_on_thread_type_and_thread_id ON messages USING btree (thread_type, thread_id);
+CREATE INDEX index_messages_on_thread_type_and_thread_id ON public.messages USING btree (thread_type, thread_id);
 
 
 --
 -- Name: index_notifications_on_action_path; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_notifications_on_action_path ON notifications USING btree (action_path);
+CREATE INDEX index_notifications_on_action_path ON public.notifications USING btree (action_path);
 
 
 --
 -- Name: index_notifications_on_associated_type_and_associated_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_notifications_on_associated_type_and_associated_id ON notifications USING btree (associated_type, associated_id);
+CREATE INDEX index_notifications_on_associated_type_and_associated_id ON public.notifications USING btree (associated_type, associated_id);
 
 
 --
 -- Name: index_notifications_on_clear_manually; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_notifications_on_clear_manually ON notifications USING btree (clear_manually);
+CREATE INDEX index_notifications_on_clear_manually ON public.notifications USING btree (clear_manually);
 
 
 --
 -- Name: index_notifications_on_read_at; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_notifications_on_read_at ON notifications USING btree (read_at);
+CREATE INDEX index_notifications_on_read_at ON public.notifications USING btree (read_at);
 
 
 --
 -- Name: index_notifications_on_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_notifications_on_user_id ON notifications USING btree (user_id);
+CREATE INDEX index_notifications_on_user_id ON public.notifications USING btree (user_id);
 
 
 --
 -- Name: index_payment_profiles_on_business_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_payment_profiles_on_business_id ON payment_profiles USING btree (business_id);
+CREATE INDEX index_payment_profiles_on_business_id ON public.payment_profiles USING btree (business_id);
 
 
 --
 -- Name: index_payment_sources_on_payment_profile_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_payment_sources_on_payment_profile_id ON payment_sources USING btree (payment_profile_id);
+CREATE INDEX index_payment_sources_on_payment_profile_id ON public.payment_sources USING btree (payment_profile_id);
 
 
 --
 -- Name: index_payment_sources_on_stripe_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_payment_sources_on_stripe_id ON payment_sources USING btree (stripe_id);
+CREATE UNIQUE INDEX index_payment_sources_on_stripe_id ON public.payment_sources USING btree (stripe_id);
 
 
 --
 -- Name: index_payment_sources_on_type; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_payment_sources_on_type ON payment_sources USING btree (type);
+CREATE INDEX index_payment_sources_on_type ON public.payment_sources USING btree (type);
 
 
 --
 -- Name: index_project_ends_on_expires_at; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_project_ends_on_expires_at ON project_ends USING btree (expires_at);
+CREATE INDEX index_project_ends_on_expires_at ON public.project_ends USING btree (expires_at);
 
 
 --
 -- Name: index_project_ends_on_project_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_project_ends_on_project_id ON project_ends USING btree (project_id);
+CREATE INDEX index_project_ends_on_project_id ON public.project_ends USING btree (project_id);
 
 
 --
 -- Name: index_project_ends_on_status; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_project_ends_on_status ON project_ends USING btree (status);
+CREATE INDEX index_project_ends_on_status ON public.project_ends USING btree (status);
 
 
 --
 -- Name: index_project_extensions_on_expires_at; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_project_extensions_on_expires_at ON project_extensions USING btree (expires_at);
+CREATE INDEX index_project_extensions_on_expires_at ON public.project_extensions USING btree (expires_at);
 
 
 --
 -- Name: index_project_extensions_on_project_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_project_extensions_on_project_id ON project_extensions USING btree (project_id);
+CREATE INDEX index_project_extensions_on_project_id ON public.project_extensions USING btree (project_id);
 
 
 --
 -- Name: index_project_extensions_on_status; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_project_extensions_on_status ON project_extensions USING btree (status);
+CREATE INDEX index_project_extensions_on_status ON public.project_extensions USING btree (status);
 
 
 --
 -- Name: index_project_invites_on_business_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_project_invites_on_business_id ON project_invites USING btree (business_id);
+CREATE INDEX index_project_invites_on_business_id ON public.project_invites USING btree (business_id);
 
 
 --
 -- Name: index_project_invites_on_project_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_project_invites_on_project_id ON project_invites USING btree (project_id);
+CREATE INDEX index_project_invites_on_project_id ON public.project_invites USING btree (project_id);
 
 
 --
 -- Name: index_project_invites_on_specialist_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_project_invites_on_specialist_id ON project_invites USING btree (specialist_id);
+CREATE INDEX index_project_invites_on_specialist_id ON public.project_invites USING btree (specialist_id);
 
 
 --
 -- Name: index_project_invites_on_status; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_project_invites_on_status ON project_invites USING btree (status);
+CREATE INDEX index_project_invites_on_status ON public.project_invites USING btree (status);
 
 
 --
 -- Name: index_project_issues_on_admin_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_project_issues_on_admin_user_id ON project_issues USING btree (admin_user_id);
+CREATE INDEX index_project_issues_on_admin_user_id ON public.project_issues USING btree (admin_user_id);
 
 
 --
 -- Name: index_project_issues_on_project_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_project_issues_on_project_id ON project_issues USING btree (project_id);
+CREATE INDEX index_project_issues_on_project_id ON public.project_issues USING btree (project_id);
 
 
 --
 -- Name: index_project_issues_on_status; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_project_issues_on_status ON project_issues USING btree (status);
+CREATE INDEX index_project_issues_on_status ON public.project_issues USING btree (status);
 
 
 --
 -- Name: index_project_issues_on_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_project_issues_on_user_id ON project_issues USING btree (user_id);
+CREATE INDEX index_project_issues_on_user_id ON public.project_issues USING btree (user_id);
 
 
 --
 -- Name: index_projects_on_annual_salary; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_projects_on_annual_salary ON projects USING btree (annual_salary);
+CREATE INDEX index_projects_on_annual_salary ON public.projects USING btree (annual_salary);
 
 
 --
 -- Name: index_projects_on_business_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_projects_on_business_id ON projects USING btree (business_id);
+CREATE INDEX index_projects_on_business_id ON public.projects USING btree (business_id);
 
 
 --
 -- Name: index_projects_on_calculated_budget; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_projects_on_calculated_budget ON projects USING btree (calculated_budget);
+CREATE INDEX index_projects_on_calculated_budget ON public.projects USING btree (calculated_budget);
 
 
 --
 -- Name: index_projects_on_completed_at; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_projects_on_completed_at ON projects USING btree (completed_at);
+CREATE INDEX index_projects_on_completed_at ON public.projects USING btree (completed_at);
 
 
 --
 -- Name: index_projects_on_created_at; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_projects_on_created_at ON projects USING btree (created_at);
+CREATE INDEX index_projects_on_created_at ON public.projects USING btree (created_at);
 
 
 --
 -- Name: index_projects_on_estimated_hours; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_projects_on_estimated_hours ON projects USING btree (estimated_hours);
+CREATE INDEX index_projects_on_estimated_hours ON public.projects USING btree (estimated_hours);
 
 
 --
 -- Name: index_projects_on_expires_at; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_projects_on_expires_at ON projects USING btree (expires_at);
+CREATE INDEX index_projects_on_expires_at ON public.projects USING btree (expires_at);
 
 
 --
 -- Name: index_projects_on_extended_at; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_projects_on_extended_at ON projects USING btree (extended_at);
+CREATE INDEX index_projects_on_extended_at ON public.projects USING btree (extended_at);
 
 
 --
 -- Name: index_projects_on_fee_type; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_projects_on_fee_type ON projects USING btree (fee_type);
+CREATE INDEX index_projects_on_fee_type ON public.projects USING btree (fee_type);
 
 
 --
 -- Name: index_projects_on_fixed_budget; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_projects_on_fixed_budget ON projects USING btree (fixed_budget);
+CREATE INDEX index_projects_on_fixed_budget ON public.projects USING btree (fixed_budget);
 
 
 --
 -- Name: index_projects_on_hired_at; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_projects_on_hired_at ON projects USING btree (hired_at);
+CREATE INDEX index_projects_on_hired_at ON public.projects USING btree (hired_at);
 
 
 --
 -- Name: index_projects_on_hourly_rate; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_projects_on_hourly_rate ON projects USING btree (hourly_rate);
+CREATE INDEX index_projects_on_hourly_rate ON public.projects USING btree (hourly_rate);
 
 
 --
 -- Name: index_projects_on_minimum_experience; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_projects_on_minimum_experience ON projects USING btree (minimum_experience);
+CREATE INDEX index_projects_on_minimum_experience ON public.projects USING btree (minimum_experience);
 
 
 --
 -- Name: index_projects_on_only_regulators; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_projects_on_only_regulators ON projects USING btree (only_regulators);
+CREATE INDEX index_projects_on_only_regulators ON public.projects USING btree (only_regulators);
 
 
 --
 -- Name: index_projects_on_payment_schedule; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_projects_on_payment_schedule ON projects USING btree (payment_schedule);
+CREATE INDEX index_projects_on_payment_schedule ON public.projects USING btree (payment_schedule);
 
 
 --
 -- Name: index_projects_on_point; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_projects_on_point ON projects USING gist (point);
+CREATE INDEX index_projects_on_point ON public.projects USING gist (point);
 
 
 --
 -- Name: index_projects_on_pricing_type; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_projects_on_pricing_type ON projects USING btree (pricing_type);
+CREATE INDEX index_projects_on_pricing_type ON public.projects USING btree (pricing_type);
 
 
 --
 -- Name: index_projects_on_published_at; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_projects_on_published_at ON projects USING btree (published_at);
+CREATE INDEX index_projects_on_published_at ON public.projects USING btree (published_at);
 
 
 --
 -- Name: index_projects_on_specialist_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_projects_on_specialist_id ON projects USING btree (specialist_id);
+CREATE INDEX index_projects_on_specialist_id ON public.projects USING btree (specialist_id);
 
 
 --
 -- Name: index_projects_on_starts_on; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_projects_on_starts_on ON projects USING btree (starts_on);
+CREATE INDEX index_projects_on_starts_on ON public.projects USING btree (starts_on);
 
 
 --
 -- Name: index_projects_on_status; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_projects_on_status ON projects USING btree (status);
+CREATE INDEX index_projects_on_status ON public.projects USING btree (status);
 
 
 --
 -- Name: index_projects_on_tsv; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_projects_on_tsv ON projects USING gin (tsv);
+CREATE INDEX index_projects_on_tsv ON public.projects USING gin (tsv);
 
 
 --
 -- Name: index_projects_on_type; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_projects_on_type ON projects USING btree (type);
+CREATE INDEX index_projects_on_type ON public.projects USING btree (type);
 
 
 --
 -- Name: index_projects_skills_on_project_id_and_skill_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_projects_skills_on_project_id_and_skill_id ON projects_skills USING btree (project_id, skill_id);
+CREATE UNIQUE INDEX index_projects_skills_on_project_id_and_skill_id ON public.projects_skills USING btree (project_id, skill_id);
 
 
 --
 -- Name: index_questions_on_project_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_questions_on_project_id ON questions USING btree (project_id);
+CREATE INDEX index_questions_on_project_id ON public.questions USING btree (project_id);
 
 
 --
 -- Name: index_ratings_on_project_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_ratings_on_project_id ON ratings USING btree (project_id);
+CREATE INDEX index_ratings_on_project_id ON public.ratings USING btree (project_id);
 
 
 --
 -- Name: index_ratings_on_rater_type_and_rater_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_ratings_on_rater_type_and_rater_id ON ratings USING btree (rater_type, rater_id);
+CREATE INDEX index_ratings_on_rater_type_and_rater_id ON public.ratings USING btree (rater_type, rater_id);
 
 
 --
 -- Name: index_settings_on_target_type_and_target_id_and_var; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_settings_on_target_type_and_target_id_and_var ON settings USING btree (target_type, target_id, var);
+CREATE UNIQUE INDEX index_settings_on_target_type_and_target_id_and_var ON public.settings USING btree (target_type, target_id, var);
 
 
 --
 -- Name: index_skills_on_name; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_skills_on_name ON skills USING btree (name);
+CREATE UNIQUE INDEX index_skills_on_name ON public.skills USING btree (name);
 
 
 --
 -- Name: index_skills_specialists_on_skill_id_and_specialist_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_skills_specialists_on_skill_id_and_specialist_id ON skills_specialists USING btree (skill_id, specialist_id);
+CREATE UNIQUE INDEX index_skills_specialists_on_skill_id_and_specialist_id ON public.skills_specialists USING btree (skill_id, specialist_id);
 
 
 --
 -- Name: index_specialist_invitations_on_specialist_team_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_specialist_invitations_on_specialist_team_id ON specialist_invitations USING btree (specialist_team_id);
+CREATE INDEX index_specialist_invitations_on_specialist_team_id ON public.specialist_invitations USING btree (specialist_team_id);
 
 
 --
 -- Name: index_specialist_invitations_on_token; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_specialist_invitations_on_token ON specialist_invitations USING btree (token);
+CREATE INDEX index_specialist_invitations_on_token ON public.specialist_invitations USING btree (token);
 
 
 --
 -- Name: index_specialist_teams_on_manager_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_specialist_teams_on_manager_id ON specialist_teams USING btree (manager_id);
+CREATE INDEX index_specialist_teams_on_manager_id ON public.specialist_teams USING btree (manager_id);
 
 
 --
 -- Name: index_specialists_on_discourse_username; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_specialists_on_discourse_username ON specialists USING btree (discourse_username);
+CREATE INDEX index_specialists_on_discourse_username ON public.specialists USING btree (discourse_username);
 
 
 --
 -- Name: index_specialists_on_first_name; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_specialists_on_first_name ON specialists USING btree (first_name);
+CREATE INDEX index_specialists_on_first_name ON public.specialists USING btree (first_name);
 
 
 --
 -- Name: index_specialists_on_former_regulator; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_specialists_on_former_regulator ON specialists USING btree (former_regulator);
+CREATE INDEX index_specialists_on_former_regulator ON public.specialists USING btree (former_regulator);
 
 
 --
 -- Name: index_specialists_on_last_name; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_specialists_on_last_name ON specialists USING btree (last_name);
+CREATE INDEX index_specialists_on_last_name ON public.specialists USING btree (last_name);
 
 
 --
 -- Name: index_specialists_on_point; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_specialists_on_point ON specialists USING gist (point);
+CREATE INDEX index_specialists_on_point ON public.specialists USING gist (point);
 
 
 --
 -- Name: index_specialists_on_ratings_average; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_specialists_on_ratings_average ON specialists USING btree (ratings_average);
+CREATE INDEX index_specialists_on_ratings_average ON public.specialists USING btree (ratings_average);
 
 
 --
 -- Name: index_specialists_on_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_specialists_on_user_id ON specialists USING btree (user_id);
+CREATE INDEX index_specialists_on_user_id ON public.specialists USING btree (user_id);
 
 
 --
 -- Name: index_stripe_accounts_on_specialist_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_stripe_accounts_on_specialist_id ON stripe_accounts USING btree (specialist_id);
+CREATE INDEX index_stripe_accounts_on_specialist_id ON public.stripe_accounts USING btree (specialist_id);
 
 
 --
 -- Name: index_stripe_accounts_on_stripe_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_stripe_accounts_on_stripe_id ON stripe_accounts USING btree (stripe_id);
+CREATE INDEX index_stripe_accounts_on_stripe_id ON public.stripe_accounts USING btree (stripe_id);
 
 
 --
 -- Name: index_time_logs_on_timesheet_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_time_logs_on_timesheet_id ON time_logs USING btree (timesheet_id);
+CREATE INDEX index_time_logs_on_timesheet_id ON public.time_logs USING btree (timesheet_id);
 
 
 --
 -- Name: index_timesheets_on_first_submitted_at; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_timesheets_on_first_submitted_at ON timesheets USING btree (first_submitted_at);
+CREATE INDEX index_timesheets_on_first_submitted_at ON public.timesheets USING btree (first_submitted_at);
 
 
 --
 -- Name: index_timesheets_on_project_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_timesheets_on_project_id ON timesheets USING btree (project_id);
+CREATE INDEX index_timesheets_on_project_id ON public.timesheets USING btree (project_id);
 
 
 --
 -- Name: index_timesheets_on_status; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_timesheets_on_status ON timesheets USING btree (status);
+CREATE INDEX index_timesheets_on_status ON public.timesheets USING btree (status);
 
 
 --
 -- Name: index_timesheets_on_status_changed_at; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_timesheets_on_status_changed_at ON timesheets USING btree (status_changed_at);
+CREATE INDEX index_timesheets_on_status_changed_at ON public.timesheets USING btree (status_changed_at);
 
 
 --
 -- Name: index_transactions_on_charge_source_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_transactions_on_charge_source_id ON transactions USING btree (charge_source_id);
+CREATE INDEX index_transactions_on_charge_source_id ON public.transactions USING btree (charge_source_id);
 
 
 --
 -- Name: index_transactions_on_date; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_transactions_on_date ON transactions USING btree (date);
+CREATE INDEX index_transactions_on_date ON public.transactions USING btree (date);
 
 
 --
 -- Name: index_transactions_on_last_try_at; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_transactions_on_last_try_at ON transactions USING btree (last_try_at);
+CREATE INDEX index_transactions_on_last_try_at ON public.transactions USING btree (last_try_at);
 
 
 --
 -- Name: index_transactions_on_parent_transaction_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_transactions_on_parent_transaction_id ON transactions USING btree (parent_transaction_id);
+CREATE INDEX index_transactions_on_parent_transaction_id ON public.transactions USING btree (parent_transaction_id);
 
 
 --
 -- Name: index_transactions_on_payment_target_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_transactions_on_payment_target_id ON transactions USING btree (payment_target_id);
+CREATE INDEX index_transactions_on_payment_target_id ON public.transactions USING btree (payment_target_id);
 
 
 --
 -- Name: index_transactions_on_processed_at; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_transactions_on_processed_at ON transactions USING btree (processed_at);
+CREATE INDEX index_transactions_on_processed_at ON public.transactions USING btree (processed_at);
 
 
 --
 -- Name: index_transactions_on_project_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_transactions_on_project_id ON transactions USING btree (project_id);
+CREATE INDEX index_transactions_on_project_id ON public.transactions USING btree (project_id);
 
 
 --
 -- Name: index_transactions_on_status; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_transactions_on_status ON transactions USING btree (status);
+CREATE INDEX index_transactions_on_status ON public.transactions USING btree (status);
 
 
 --
 -- Name: index_transactions_on_type; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_transactions_on_type ON transactions USING btree (type);
+CREATE INDEX index_transactions_on_type ON public.transactions USING btree (type);
 
 
 --
 -- Name: index_users_on_confirmation_token; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_users_on_confirmation_token ON users USING btree (confirmation_token);
+CREATE UNIQUE INDEX index_users_on_confirmation_token ON public.users USING btree (confirmation_token);
 
 
 --
 -- Name: index_users_on_deleted; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_users_on_deleted ON users USING btree (deleted);
+CREATE INDEX index_users_on_deleted ON public.users USING btree (deleted);
 
 
 --
 -- Name: index_users_on_deleted_at; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_users_on_deleted_at ON users USING btree (deleted_at);
+CREATE INDEX index_users_on_deleted_at ON public.users USING btree (deleted_at);
 
 
 --
 -- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_users_on_email ON users USING btree (email);
+CREATE UNIQUE INDEX index_users_on_email ON public.users USING btree (email);
 
 
 --
 -- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (reset_password_token);
+CREATE UNIQUE INDEX index_users_on_reset_password_token ON public.users USING btree (reset_password_token);
 
 
 --
 -- Name: index_users_on_suspended; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_users_on_suspended ON users USING btree (suspended);
+CREATE INDEX index_users_on_suspended ON public.users USING btree (suspended);
 
 
 --
 -- Name: index_users_on_suspended_at; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_users_on_suspended_at ON users USING btree (suspended_at);
+CREATE INDEX index_users_on_suspended_at ON public.users USING btree (suspended_at);
 
 
 --
 -- Name: index_work_experiences_on_compliance; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_work_experiences_on_compliance ON work_experiences USING btree (compliance);
+CREATE INDEX index_work_experiences_on_compliance ON public.work_experiences USING btree (compliance);
 
 
 --
 -- Name: index_work_experiences_on_current; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_work_experiences_on_current ON work_experiences USING btree (current);
+CREATE INDEX index_work_experiences_on_current ON public.work_experiences USING btree (current);
 
 
 --
 -- Name: index_work_experiences_on_from; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_work_experiences_on_from ON work_experiences USING btree ("from");
+CREATE INDEX index_work_experiences_on_from ON public.work_experiences USING btree ("from");
 
 
 --
 -- Name: index_work_experiences_on_specialist_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_work_experiences_on_specialist_id ON work_experiences USING btree (specialist_id);
+CREATE INDEX index_work_experiences_on_specialist_id ON public.work_experiences USING btree (specialist_id);
 
 
 --
 -- Name: index_work_experiences_on_to; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_work_experiences_on_to ON work_experiences USING btree ("to");
+CREATE INDEX index_work_experiences_on_to ON public.work_experiences USING btree ("to");
 
 
 --
 -- Name: industries_specialists_unique; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX industries_specialists_unique ON industries_specialists USING btree (industry_id, specialist_id);
+CREATE UNIQUE INDEX industries_specialists_unique ON public.industries_specialists USING btree (industry_id, specialist_id);
 
 
 --
 -- Name: jurisdictions_specialists_unique; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX jurisdictions_specialists_unique ON jurisdictions_specialists USING btree (jurisdiction_id, specialist_id);
+CREATE UNIQUE INDEX jurisdictions_specialists_unique ON public.jurisdictions_specialists USING btree (jurisdiction_id, specialist_id);
 
 
 --
 -- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
+CREATE UNIQUE INDEX unique_schema_migrations ON public.schema_migrations USING btree (version);
 
 
 --
 -- Name: projects calculate_budget; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER calculate_budget BEFORE INSERT OR UPDATE ON projects FOR EACH ROW EXECUTE PROCEDURE projects_calculate_budget();
+CREATE TRIGGER calculate_budget BEFORE INSERT OR UPDATE ON public.projects FOR EACH ROW EXECUTE PROCEDURE public.projects_calculate_budget();
 
 
 --
 -- Name: projects trigger_projects_on_lat_lng; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER trigger_projects_on_lat_lng BEFORE INSERT OR UPDATE OF lat, lng ON projects FOR EACH ROW EXECUTE PROCEDURE set_point_from_lat_lng();
+CREATE TRIGGER trigger_projects_on_lat_lng BEFORE INSERT OR UPDATE OF lat, lng ON public.projects FOR EACH ROW EXECUTE PROCEDURE public.set_point_from_lat_lng();
 
 
 --
 -- Name: specialists trigger_specialists_on_lat_lng; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER trigger_specialists_on_lat_lng BEFORE INSERT OR UPDATE OF lat, lng ON specialists FOR EACH ROW EXECUTE PROCEDURE set_point_from_lat_lng();
+CREATE TRIGGER trigger_specialists_on_lat_lng BEFORE INSERT OR UPDATE OF lat, lng ON public.specialists FOR EACH ROW EXECUTE PROCEDURE public.set_point_from_lat_lng();
 
 
 --
 -- Name: projects tsvectorupdate; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER tsvectorupdate BEFORE INSERT OR UPDATE ON projects FOR EACH ROW EXECUTE PROCEDURE tsvector_update_trigger('tsv', 'pg_catalog.english', 'title', 'description');
+CREATE TRIGGER tsvectorupdate BEFORE INSERT OR UPDATE ON public.projects FOR EACH ROW EXECUTE PROCEDURE tsvector_update_trigger('tsv', 'pg_catalog.english', 'title', 'description');
 
 
 --
 -- Name: stripe_accounts fk_rails_7988d7b477; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY stripe_accounts
-    ADD CONSTRAINT fk_rails_7988d7b477 FOREIGN KEY (specialist_id) REFERENCES specialists(id);
+ALTER TABLE ONLY public.stripe_accounts
+    ADD CONSTRAINT fk_rails_7988d7b477 FOREIGN KEY (specialist_id) REFERENCES public.specialists(id);
 
 
 --
 -- Name: project_issues fk_rails_80e6243750; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY project_issues
-    ADD CONSTRAINT fk_rails_80e6243750 FOREIGN KEY (admin_user_id) REFERENCES admin_users(id);
+ALTER TABLE ONLY public.project_issues
+    ADD CONSTRAINT fk_rails_80e6243750 FOREIGN KEY (admin_user_id) REFERENCES public.admin_users(id);
 
 
 --
 -- PostgreSQL database dump complete
 --
 
-SET search_path TO "$user", public, tiger;
+SET search_path TO "$user", public;
 
 INSERT INTO schema_migrations (version) VALUES ('20160603200743');
 
@@ -5503,6 +5476,14 @@ INSERT INTO schema_migrations (version) VALUES ('20180729032945');
 
 INSERT INTO schema_migrations (version) VALUES ('20180729172500');
 
+INSERT INTO schema_migrations (version) VALUES ('20180807032531');
+
+INSERT INTO schema_migrations (version) VALUES ('20180808042020');
+
+INSERT INTO schema_migrations (version) VALUES ('20180809033224');
+
+INSERT INTO schema_migrations (version) VALUES ('20180809052509');
+
 INSERT INTO schema_migrations (version) VALUES ('20180811003234');
 
 INSERT INTO schema_migrations (version) VALUES ('20180811025719');
@@ -5511,9 +5492,19 @@ INSERT INTO schema_migrations (version) VALUES ('20180811063154');
 
 INSERT INTO schema_migrations (version) VALUES ('20180811063955');
 
+INSERT INTO schema_migrations (version) VALUES ('20180819092322');
+
 INSERT INTO schema_migrations (version) VALUES ('20180827045947');
 
 INSERT INTO schema_migrations (version) VALUES ('20180827051141');
 
 INSERT INTO schema_migrations (version) VALUES ('20180827191112');
+
+INSERT INTO schema_migrations (version) VALUES ('20180908030634');
+
+INSERT INTO schema_migrations (version) VALUES ('20180911180555');
+
+INSERT INTO schema_migrations (version) VALUES ('20180911182144');
+
+INSERT INTO schema_migrations (version) VALUES ('20180914165337');
 
