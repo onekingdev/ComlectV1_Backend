@@ -11,7 +11,7 @@ ActiveAdmin.register TurnkeySolution do
       link_to record.title.to_s, [:admin, record]
     end
     column :category do |record|
-      link_to record.turnkey_page.title, [:admin, record]
+      link_to record.turnkey_page.title, [:admin, record] if record.turnkey_page
     end
     actions
   end
