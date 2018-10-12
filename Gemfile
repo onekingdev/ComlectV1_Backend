@@ -13,6 +13,7 @@ gem 'bcrypt'
 gem 'recaptcha', require: 'recaptcha/rails'
 
 # Rails
+gem 'font_assets'
 gem 'rails', '4.2.10'
 gem 'webpacker'
 
