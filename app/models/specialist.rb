@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Specialist < ApplicationRecord
+class Specialist < ApplicationRecord # rubocop:disable Metrics/ClassLength
   belongs_to :user, autosave: true
   belongs_to :team, foreign_key: :specialist_team_id
 
@@ -104,6 +104,8 @@ class Specialist < ApplicationRecord
 
   after_commit :sync_with_hubspot, on: %i[create update]
 
+  after_create :sync_with_mailchimp
+
   def self.dates_between_query
     'SUM(ROUND((COALESCE("to", NOW())::date - "from"::date)::float / 365.0)::numeric::int)'
   end
@@ -180,5 +182,13 @@ class Specialist < ApplicationRecord
 
   def sync_with_hubspot
     SyncHubspotContactJob.perform_later(self)
+  end
+
+  def sync_with_mailchimp
+    SyncSpecialistWithMailChimpJob.perform_later(self)
+  end
+
+  def years_of_compilant_experience
+    work_experiences.select(&:compliance?).map(&:years).reduce(:+).round
   end
 end

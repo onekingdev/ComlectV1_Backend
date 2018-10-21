@@ -71,6 +71,7 @@ gem 'jquery-rails'
 gem 'jquery-slick-rails'
 
 # Mail
+gem 'mailchimp-api', require: 'mailchimp'
 gem 'postmark-rails'
 
 # Image uploads
