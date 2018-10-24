@@ -167,7 +167,7 @@ class Project::Decorator < ApplicationDecorator
     builder.input(
       :industry_ids,
       as: :grouped_select,
-      collection: grouped_collection_for_select(Industry.sorted),
+      collection: grouped_collection_for_select(Industry.sorted.filtered),
       group_method: :all,
       group_label_method: :label,
       placeholder: I18n.t('simple_form.placeholders.project.industries'),

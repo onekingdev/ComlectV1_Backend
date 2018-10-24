@@ -172,11 +172,13 @@ class Specialist < ApplicationRecord # rubocop:disable Metrics/ClassLength
   def rewards_tier
     return RewardsTier.default unless original_rewards_tier
     return rewards_tier_override if rewards_tier_override_precedence?
+
     original_rewards_tier
   end
 
   def rewards_tier_override_precedence?
     return false unless rewards_tier_override
+
     rewards_tier_override.fee_percentage < original_rewards_tier.fee_percentage
   end
 
