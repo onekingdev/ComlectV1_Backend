@@ -9,4 +9,12 @@ class Jurisdiction < ApplicationRecord
   def to_s
     name
   end
+
+  def self.ordered_starting_from_usa
+    result = []
+    Jurisdiction.sorted.each do |item|
+      item.name != 'USA' ? result << item : result.unshift(item)
+    end
+    result
+  end
 end

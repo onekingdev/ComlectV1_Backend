@@ -179,7 +179,7 @@ class Project::Decorator < ApplicationDecorator
     builder.input(
       :jurisdiction_ids,
       as: :grouped_select,
-      collection: grouped_collection_for_select(Jurisdiction.sorted),
+      collection: grouped_collection_for_select(Jurisdiction.ordered_starting_from_usa),
       group_method: :all,
       group_label_method: :label,
       placeholder: I18n.t('simple_form.placeholders.project.jurisdictions'),
