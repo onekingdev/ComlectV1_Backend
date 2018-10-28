@@ -14,6 +14,7 @@ class Specialist::Credit
   end
 
   def redeem!(amount_in_cents)
+    return unless amount_in_cents.positive?
     specialist.referral_credits_in_cents -= amount_in_cents
     specialist.save
   end

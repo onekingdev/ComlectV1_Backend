@@ -14,6 +14,7 @@ class Business::Credit
   end
 
   def redeem!(amount_in_cents)
+    return unless amount_in_cents.positive?
     business.referral_credits_in_cents -= amount_in_cents
     business.save
   end
