@@ -3,6 +3,39 @@
 require 'rails_helper'
 
 RSpec.describe Business do
+  describe '.for_signup' do
+    context 'with referral token' do
+      let(:referral_token) { create(:referral_token) }
+
+      subject do
+        Business.for_signup(
+          attributes_for(:business).merge(user_attributes: attributes_for(:user)),
+          referral_token.token
+        )
+      end
+
+      it 'creates and processes a referral' do
+        subject.save
+        expect(subject.referral).to be_persisted
+        expect(referral_token.reload.referrals_count).to eq 1
+        expect(referral_token.referrer.reload.referral_credits_in_cents).to eq 1000
+      end
+    end
+
+    context 'without referral token' do
+      subject do
+        Business.for_signup(
+          attributes_for(:business).merge(user_attributes: attributes_for(:user))
+        )
+      end
+
+      it 'does not create a referral' do
+        subject.save
+        expect(subject.referral).to be_nil
+      end
+    end
+  end
+
   describe '#processed_transactions_amount' do
     let!(:business) { create(:business) }
     let!(:specialist) { create(:specialist) }
