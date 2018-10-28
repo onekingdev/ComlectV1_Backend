@@ -5,5 +5,7 @@ class Specialists::ReferralsController < ApplicationController
 
   def show
     @specialist = current_specialist
+    @credit = Specialist::Credit.for(@specialist)
+    @token = @specialist.referral_token
   end
 end

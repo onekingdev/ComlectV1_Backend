@@ -114,7 +114,7 @@ class Specialist < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
   private_class_method :dates_between_query
 
-  def active_referral_token
+  def referral_token
     referral_tokens.last
   end
 

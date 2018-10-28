@@ -269,7 +269,7 @@ CREATE TABLE public.businesses (
     rewards_tier_override_id integer,
     hubspot_company_id character varying,
     hubspot_contact_id character varying,
-    referral_credits_in_cents integer DEFAULT 0
+    credits_in_cents integer DEFAULT 0
 );
 
 
@@ -1277,7 +1277,7 @@ CREATE TABLE public.specialists (
     rewards_tier_id integer,
     rewards_tier_override_id integer,
     hubspot_contact_id character varying,
-    referral_credits_in_cents integer DEFAULT 0
+    credits_in_cents integer DEFAULT 0
 );
 
 
@@ -3509,7 +3509,9 @@ CREATE TABLE public.transactions (
     fee_in_cents integer DEFAULT 0 NOT NULL,
     date timestamp without time zone,
     last_try_at timestamp without time zone,
-    description text
+    description text,
+    business_credits_in_cents integer DEFAULT 0,
+    specialist_credits_in_cents integer DEFAULT 0
 );
 
 
@@ -5636,4 +5638,6 @@ INSERT INTO schema_migrations (version) VALUES ('20181026212530');
 INSERT INTO schema_migrations (version) VALUES ('20181028010350');
 
 INSERT INTO schema_migrations (version) VALUES ('20181028023519');
+
+INSERT INTO schema_migrations (version) VALUES ('20181028102912');
 

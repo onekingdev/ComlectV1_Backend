@@ -1,17 +1,17 @@
 .panel-heading
-  h3 Earn #{number_to_currency(@specialist.active_referral_token.amount_in_cents / 100, precision: 0)} for every new member you refer
+  h3 Earn #{number_to_currency(@token.amount_in_cents / 100, precision: 0)} for every new member you refer
 
 .panel-body.p-t-0.m-b-1
   .m-b-2
-    | Get a colleague to join our community as either a new specialist or business member and earn #{number_to_currency(@specialist.active_referral_token.amount_in_cents / 100, precision: 0)} for your account when they set up their free profile.
+    | Get a colleague to join our community as either a new specialist or business member and earn #{number_to_currency(@token.amount_in_cents / 100, precision: 0)} for your account when they set up their free profile.
 
   .row.m-b-2(data-controller="clipboard")
     .col-xs-12
       .form-group
-        input.form-control.input-lg(data-target="clipboard.source" value=referrals_url(token: @specialist.active_referral_token.token))
+        input.form-control.input-lg(data-target="clipboard.source" value=referrals_url(token: @token.token))
     .col-xs-12
       button.btn.btn-primary.btn-block.btn-sm.clipboard-button(data-action="clipboard#copy") Copy Link
 
   .m-b-2
     h4
-      | Accrued Credit: #{number_to_currency(@specialist.referral_credits_in_cents / 100)}
+      | Accrued Credit: #{number_to_currency(@credit.amount_in_cents / 100)}

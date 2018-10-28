@@ -5,5 +5,7 @@ class Business::ReferralsController < ApplicationController
 
   def show
     @business = current_business
+    @credit = Business::Credit.for(@business)
+    @token = @business.referral_token
   end
 end

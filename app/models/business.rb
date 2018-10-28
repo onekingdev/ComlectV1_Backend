@@ -71,7 +71,7 @@ class Business < ApplicationRecord
     end
   end
 
-  def active_referral_token
+  def referral_token
     referral_tokens.last
   end
 
