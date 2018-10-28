@@ -18,12 +18,14 @@ class BusinessesController < ApplicationController
 
   def create
     @business = Business.for_signup(business_params)
+
     if @business.save
       sign_in @business.user
       mixpanel_track_later 'Sign Up'
       BusinessMailer.welcome(@business).deliver_later
       return redirect_to business_dashboard_path
     end
+
     render :new
   end
 

@@ -27,6 +27,9 @@ class Business < ApplicationRecord
   }, through: :projects, source: :ratings
   has_many :email_threads, dependent: :destroy
 
+  has_one :referral, as: :referrable
+  has_many :referral_tokens, as: :referrer
+
   has_settings do |s|
     s.key :notifications, defaults: {
       marketing_emails: true,
@@ -64,6 +67,10 @@ class Business < ApplicationRecord
     new(attributes).tap do |business|
       business.build_user unless business.user
     end
+  end
+
+  def active_referral_token
+    referral_tokens.last
   end
 
   def available_projects
