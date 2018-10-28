@@ -268,7 +268,8 @@ CREATE TABLE public.businesses (
     rewards_tier_id integer,
     rewards_tier_override_id integer,
     hubspot_company_id character varying,
-    hubspot_contact_id character varying
+    hubspot_contact_id character varying,
+    referral_credits_in_cents integer DEFAULT 0
 );
 
 
@@ -3094,6 +3095,7 @@ ALTER SEQUENCE public.ratings_id_seq OWNED BY public.ratings.id;
 
 CREATE TABLE public.referral_tokens (
     id integer NOT NULL,
+    referrals_count integer DEFAULT 0 NOT NULL,
     amount_in_cents integer NOT NULL,
     token character varying NOT NULL,
     referrer_id integer NOT NULL,
@@ -5632,4 +5634,6 @@ INSERT INTO schema_migrations (version) VALUES ('20181026024940');
 INSERT INTO schema_migrations (version) VALUES ('20181026212530');
 
 INSERT INTO schema_migrations (version) VALUES ('20181028010350');
+
+INSERT INTO schema_migrations (version) VALUES ('20181028023519');
 
