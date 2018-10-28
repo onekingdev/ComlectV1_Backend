@@ -18,7 +18,7 @@ RSpec.describe Specialist::Form do
         subject.save
         expect(subject.referral).to be_persisted
         expect(referral_token.reload.referrals_count).to eq 1
-        expect(referral_token.referrer.reload.referral_credits_in_cents).to eq 1000
+        expect(referral_token.referrer.reload.credits_in_cents).to eq 1000
       end
     end
 

@@ -7,7 +7,7 @@ class ReferralToken < ApplicationRecord
   validates :token, uniqueness: true
 
   def redeem
-    referrer.referral_credits_in_cents += amount_in_cents
+    referrer.credits_in_cents += amount_in_cents
     referrer.save
   end
 end

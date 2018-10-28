@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe Specialist do
-  describe '#active_referral_token' do
+  describe '#referral_token' do
     let!(:specialist) { create(:specialist) }
 
     let!(:token1) {
@@ -28,7 +28,7 @@ RSpec.describe Specialist do
     }
 
     it 'returns the latest token' do
-      token = specialist.active_referral_token
+      token = specialist.referral_token
       expect(token.token).to eq token3.reload.token
       expect(token.amount_in_cents).to eq 3000
     end
