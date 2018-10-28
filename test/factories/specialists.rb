@@ -13,6 +13,10 @@ FactoryBot.define do
     address_1 { Faker::Address.street_address }
     country { Faker::Address.country }
 
+    trait :credit do
+      credits_in_cents 6000
+    end
+
     trait :gold_rewards do
       association :rewards_tier, factory: %i[rewards_tier gold]
     end

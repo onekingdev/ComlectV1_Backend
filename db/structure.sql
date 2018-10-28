@@ -3510,8 +3510,8 @@ CREATE TABLE public.transactions (
     date timestamp without time zone,
     last_try_at timestamp without time zone,
     description text,
-    business_credits_in_cents integer DEFAULT 0,
-    specialist_credits_in_cents integer DEFAULT 0
+    business_credit_in_cents integer DEFAULT 0,
+    specialist_credit_in_cents integer DEFAULT 0
 );
 
 
