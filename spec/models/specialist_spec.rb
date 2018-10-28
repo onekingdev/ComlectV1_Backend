@@ -62,7 +62,7 @@ RSpec.describe Specialist do
   end
 
   describe '#years_of_compilant_experience' do
-    let!(:specialist) { create(:specialist) }
+    let!(:specialist) { create(:specialist, work_experiences: []) }
 
     let!(:experience) {
       create(
@@ -74,13 +74,13 @@ RSpec.describe Specialist do
       )
     }
 
-    it 'should return compilant working experience rounded' do
-      from_date = specialist.work_experiences.first.from
-      to_date = specialist.work_experiences.first.to
+    it 'should return compliance working experience rounded' do
+      from_date = specialist.reload.work_experiences.first.from
+      to_date = specialist.reload.work_experiences.first.to
 
-      compilant_years = ((to_date - from_date) / 365).round
+      compliance_years = ((to_date - from_date) / 365).round
 
-      expect(specialist.years_of_compilant_experience).to eq(compilant_years)
+      expect(specialist.reload.years_of_compilant_experience).to eq(compliance_years)
     end
   end
 
