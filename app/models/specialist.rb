@@ -31,6 +31,7 @@ class Specialist < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_many :email_threads, dependent: :destroy
   has_many :payments, -> { for_one_off_projects }, through: :projects, source: :charges
   has_many :transactions, through: :projects
+  has_many :referral_tokens, as: :referrer
 
   has_settings do |s|
     s.key :notifications, defaults: {
@@ -110,6 +111,10 @@ class Specialist < ApplicationRecord # rubocop:disable Metrics/ClassLength
     'SUM(ROUND((COALESCE("to", NOW())::date - "from"::date)::float / 365.0)::numeric::int)'
   end
   private_class_method :dates_between_query
+
+  def active_referral_token
+    referral_tokens.last
+  end
 
   def messages
     Message.where("
