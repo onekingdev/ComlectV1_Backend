@@ -31,6 +31,8 @@ class Specialist < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_many :email_threads, dependent: :destroy
   has_many :payments, -> { for_one_off_projects }, through: :projects, source: :charges
   has_many :transactions, through: :projects
+
+  has_one :referral, as: :referrable
   has_many :referral_tokens, as: :referrer
 
   has_settings do |s|
