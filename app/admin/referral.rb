@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register Referral do
-  actions :all, except: %i[new update delete]
+  actions :all, except: %i[new edit update delete]
 
   index do
     column :id
