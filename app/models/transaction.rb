@@ -57,6 +57,14 @@ class Transaction < ApplicationRecord
     end
   end
 
+  def business_credit
+    business_credit_in_cents / 100.0
+  end
+
+  def specialist_credit
+    specialist_credit_in_cents / 100.0
+  end
+
   def subtotal
     if charges.size.positive?
       BigDecimal(charges.sum(:amount_in_cents)) / 100.0

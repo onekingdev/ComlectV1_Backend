@@ -251,6 +251,24 @@
         <% end %>
       </tr>
     <% end %>
+    <% if business && transaction.business_credit.positive? %>
+      <tr class="even-row credits">
+        <td class="left-column"></td>
+        <th class="middle-column bolded-text">Credits Applied</th>
+        <td class="right-column bolded-text">
+          <%= number_to_currency(-transaction.business_credit) %>
+        </td>
+      </tr>
+    <% end %>
+    <% if specialist && transaction.specialist_credit.positive? %>
+      <tr class="even-row credits">
+        <td class="left-column"></td>
+        <th class="middle-column bolded-text">Credits Applied</th>
+        <td class="right-column bolded-text">
+          <%= number_to_currency(-transaction.specialist_credit) %>
+        </td>
+      </tr>
+    <% end %>
     <tr class="even-row total">
       <td class="left-column"></td>
       <th class="middle-column bolded-text">TOTAL</th>
