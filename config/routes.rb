@@ -34,6 +34,7 @@ Rails.application.routes.draw do
   get 'app_config' => 'home#app_config', format: 'js'
   get 'partnerships' => 'home#partnerships'
   get 'press' => 'home#press'
+  get 'r/:token' => 'referrals#show', as: :referrals
 
   namespace :partners, only: [] do
     resources :ima, only: %i[index create]

@@ -17,12 +17,13 @@ class BusinessesController < ApplicationController
   end
 
   def create
-    @business = Business.for_signup(business_params)
+    @business = Business.for_signup(business_params, cookies[:referral])
 
     if @business.save
       sign_in @business.user
       mixpanel_track_later 'Sign Up'
       BusinessMailer.welcome(@business).deliver_later
+      cookies.delete :referral
       return redirect_to business_dashboard_path
     end
 
@@ -36,6 +37,7 @@ class BusinessesController < ApplicationController
 
   def update
     @business = Business::Form.for_user(current_user)
+
     respond_to do |format|
       if @business.update(edit_business_params)
         if @business.delete_logo == '1'
