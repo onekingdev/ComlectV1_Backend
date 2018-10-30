@@ -27,9 +27,6 @@ class Business < ApplicationRecord
   }, through: :projects, source: :ratings
   has_many :email_threads, dependent: :destroy
 
-  has_one :referral, as: :referrable
-  has_many :referral_tokens, as: :referrer
-
   has_settings do |s|
     s.key :notifications, defaults: {
       marketing_emails: true,
@@ -63,16 +60,10 @@ class Business < ApplicationRecord
 
   after_create :sync_with_mailchimp
 
-  def self.for_signup(attributes = {}, token = nil)
+  def self.for_signup(attributes = {})
     new(attributes).tap do |business|
       business.build_user unless business.user
-      referral_token = ReferralToken.find_by(token: token) if token
-      business.build_referral(referral_token: referral_token) if referral_token
     end
-  end
-
-  def referral_token
-    referral_tokens.last
   end
 
   def available_projects

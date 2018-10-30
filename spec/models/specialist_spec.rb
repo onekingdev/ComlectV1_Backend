@@ -3,37 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe Specialist do
-  describe '#referral_token' do
-    let!(:specialist) { create(:specialist) }
-
-    let!(:token1) {
-      ReferralToken::Generate.new(
-        referrer: specialist,
-        amount_in_cents: 1000
-      ).call
-    }
-
-    let!(:token2) {
-      ReferralToken::Generate.new(
-        referrer: specialist,
-        amount_in_cents: 2000
-      ).call
-    }
-
-    let!(:token3) {
-      ReferralToken::Generate.new(
-        referrer: specialist,
-        amount_in_cents: 3000
-      ).call
-    }
-
-    it 'returns the latest token' do
-      token = specialist.referral_token
-      expect(token.token).to eq token3.reload.token
-      expect(token.amount_in_cents).to eq 3000
-    end
-  end
-
   describe '#processed_transactions_amount' do
     let!(:business) { create(:business) }
     let!(:specialist) { create(:specialist) }
@@ -62,7 +31,7 @@ RSpec.describe Specialist do
   end
 
   describe '#years_of_compilant_experience' do
-    let!(:specialist) { create(:specialist, work_experiences: []) }
+    let!(:specialist) { create(:specialist) }
 
     let!(:experience) {
       create(
@@ -74,13 +43,13 @@ RSpec.describe Specialist do
       )
     }
 
-    it 'should return compliance working experience rounded' do
-      from_date = specialist.reload.work_experiences.first.from
-      to_date = specialist.reload.work_experiences.first.to
+    it 'should return compilant working experience rounded' do
+      from_date = specialist.work_experiences.first.from
+      to_date = specialist.work_experiences.first.to
 
-      compliance_years = ((to_date - from_date) / 365).round
+      compilant_years = ((to_date - from_date) / 365).round
 
-      expect(specialist.reload.years_of_compilant_experience).to eq(compliance_years)
+      expect(specialist.years_of_compilant_experience).to eq(compilant_years)
     end
   end
 
