@@ -43,4 +43,21 @@ RSpec.describe Project, type: :model do
       expect(project.expires_at).to eq(expected_expiration)
     end
   end
+
+  describe '.new_project_notification' do
+    let(:business) { build(:business, time_zone: 'Amsterdam') }
+
+    let(:project) {
+      build(
+        :project_one_off_hourly,
+        business: business,
+        starts_on: Date.new(2016, 1, 1)
+      )
+    }
+
+    it 'should call the right method after creation' do
+      expect(project).to receive(:new_project_notification)
+      project.save
+    end
+  end
 end

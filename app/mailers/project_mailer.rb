@@ -50,6 +50,15 @@ class ProjectMailer < ApplicationMailer
          }
   end
 
+  def notify_admin_on_creation(project)
+    @project = project
+
+    mail(
+      to: 'hanh@complect.com',
+      subject: 'New project listed'
+    )
+  end
+
   private
 
   def add_project_link(project, text, url, format = :html)
