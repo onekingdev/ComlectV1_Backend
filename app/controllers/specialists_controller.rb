@@ -34,13 +34,17 @@ class SpecialistsController < ApplicationController
   end
 
   def create
-    @specialist = Specialist::Form.signup(specialist_params.merge(invitation: @invitation))
+    @specialist = Specialist::Form.signup(
+      specialist_params.merge(invitation: @invitation),
+      cookies[:referral]
+    )
 
     if @specialist.save(context: :signup)
       @invitation&.accepted!(@specialist)
       sign_in @specialist.user
       mixpanel_track_later 'Sign Up'
       SpecialistMailer.welcome(@specialist).deliver_later
+      cookies.delete :referral
       return redirect_to specialists_dashboard_path
     end
 

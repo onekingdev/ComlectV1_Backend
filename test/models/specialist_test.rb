@@ -4,7 +4,7 @@ require 'test_helper'
 
 class SpecialistTest < ActiveSupport::TestCase
   test 'sort by_experience' do
-    specialist_1 = create(:specialist)
+    specialist_1 = create(:specialist, work_experiences: [])
     create(
       :work_experience,
       specialist: specialist_1,
@@ -13,7 +13,7 @@ class SpecialistTest < ActiveSupport::TestCase
       length: 5.years
     )
 
-    specialist_2 = create(:specialist)
+    specialist_2 = create(:specialist, work_experiences: [])
     create(
       :work_experience,
       specialist: specialist_2,
@@ -22,7 +22,7 @@ class SpecialistTest < ActiveSupport::TestCase
     )
 
     assert_equal specialist_1.id, Specialist.by_experience.first.id
-    specialist_1.work_experiences.first.update_attribute(
+    specialist_1.reload.work_experiences.first.update_attribute(
       :from,
       specialist_1.work_experiences.first.to - 1.year
     )

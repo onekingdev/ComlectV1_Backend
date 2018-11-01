@@ -34,6 +34,7 @@ Rails.application.routes.draw do
   get 'app_config' => 'home#app_config', format: 'js'
   get 'partnerships' => 'home#partnerships'
   get 'press' => 'home#press'
+  get 'r/:token' => 'referrals#show', as: :referrals
 
   namespace :partners, only: [] do
     resources :ima, only: %i[index create]
@@ -61,6 +62,7 @@ Rails.application.routes.draw do
     resource :settings, only: :show do
       resource :password
       resource :key_contact
+      resource :referrals, only: :show
       resource :delete_account
       resources :payment_settings, as: :payment, path: 'payment' do
         patch :make_primary
@@ -110,6 +112,7 @@ Rails.application.routes.draw do
     resource :settings, only: :show do
       resource :password
       resource :contact_information, only: %i[show update]
+      resource :referrals, only: :show
       resource :delete_account
       resources :delete_managed_accounts, only: :destroy
       resource :payment_settings, as: :payment, path: 'payment'

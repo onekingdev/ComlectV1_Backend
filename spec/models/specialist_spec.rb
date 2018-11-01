@@ -3,6 +3,37 @@
 require 'rails_helper'
 
 RSpec.describe Specialist do
+  describe '#referral_token' do
+    let!(:specialist) { create(:specialist) }
+
+    let!(:token1) {
+      ReferralToken::Generate.new(
+        referrer: specialist,
+        amount_in_cents: 1000
+      ).call
+    }
+
+    let!(:token2) {
+      ReferralToken::Generate.new(
+        referrer: specialist,
+        amount_in_cents: 2000
+      ).call
+    }
+
+    let!(:token3) {
+      ReferralToken::Generate.new(
+        referrer: specialist,
+        amount_in_cents: 3000
+      ).call
+    }
+
+    it 'returns the latest token' do
+      token = specialist.referral_token
+      expect(token.token).to eq token3.reload.token
+      expect(token.amount_in_cents).to eq 3000
+    end
+  end
+
   describe '#processed_transactions_amount' do
     let!(:business) { create(:business) }
     let!(:specialist) { create(:specialist) }
@@ -27,29 +58,6 @@ RSpec.describe Specialist do
 
     it 'returns the correct amount' do
       expect(specialist.processed_transactions_amount).to eq 90
-    end
-  end
-
-  describe '#years_of_compilant_experience' do
-    let!(:specialist) { create(:specialist) }
-
-    let!(:experience) {
-      create(
-        :work_experience,
-        :compliance,
-        specialist: specialist,
-        from: Date.new(2012, 11, 7),
-        to: Date.new(2014, 6, 7)
-      )
-    }
-
-    it 'should return compilant working experience rounded' do
-      from_date = specialist.work_experiences.first.from
-      to_date = specialist.work_experiences.first.to
-
-      compilant_years = ((to_date - from_date) / 365).round
-
-      expect(specialist.years_of_compilant_experience).to eq(compilant_years)
     end
   end
 
