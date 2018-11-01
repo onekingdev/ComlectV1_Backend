@@ -60,6 +60,7 @@ class Business < ApplicationRecord
   delegate :suspended?, to: :user
 
   after_commit :sync_with_hubspot, on: %i[create update]
+  after_commit :generate_referral_token, on: :create
 
   def self.for_signup(attributes = {}, token = nil)
     new(attributes).tap do |business|
@@ -122,5 +123,9 @@ class Business < ApplicationRecord
 
   def sync_with_hubspot
     SyncHubspotContactJob.perform_later(self)
+  end
+
+  def generate_referral_token
+    GenerateReferralTokensJob.perform_later(self)
   end
 end

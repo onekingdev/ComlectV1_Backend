@@ -106,6 +106,7 @@ class Specialist < ApplicationRecord
   delegate :suspended?, to: :user
 
   after_commit :sync_with_hubspot, on: %i[create update]
+  after_commit :generate_referral_token, on: :create
 
   def self.dates_between_query
     'SUM(ROUND((COALESCE("to", NOW())::date - "from"::date)::float / 365.0)::numeric::int)'
@@ -187,5 +188,9 @@ class Specialist < ApplicationRecord
 
   def sync_with_hubspot
     SyncHubspotContactJob.perform_later(self)
+  end
+
+  def generate_referral_token
+    GenerateReferralTokensJob.perform_later(self)
   end
 end
