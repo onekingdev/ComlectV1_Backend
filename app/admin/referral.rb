@@ -9,7 +9,7 @@ ActiveAdmin.register Referral do
       link_to referral.referral_token.referrer.to_s, [:admin, referral.referral_token.referrer]
     end
     column :referred do |referral|
-      link_to referral.referrable.full_name, [:admin, referral.referrable]
+      link_to referral.referrable.to_s, [:admin, referral.referrable]
     end
     # rubocop:disable Style/SymbolProc
     column :referred_type do |referral|
