@@ -3,6 +3,37 @@
 require 'rails_helper'
 
 RSpec.describe Specialist do
+  describe '#referral_token' do
+    let!(:specialist) { create(:specialist) }
+
+    let!(:token1) {
+      ReferralToken::Generate.new(
+        referrer: specialist,
+        amount_in_cents: 1000
+      ).call
+    }
+
+    let!(:token2) {
+      ReferralToken::Generate.new(
+        referrer: specialist,
+        amount_in_cents: 2000
+      ).call
+    }
+
+    let!(:token3) {
+      ReferralToken::Generate.new(
+        referrer: specialist,
+        amount_in_cents: 3000
+      ).call
+    }
+
+    it 'returns the latest token' do
+      token = specialist.referral_token
+      expect(token.token).to eq token3.reload.token
+      expect(token.amount_in_cents).to eq 3000
+    end
+  end
+
   describe '#processed_transactions_amount' do
     let!(:business) { create(:business) }
     let!(:specialist) { create(:specialist) }

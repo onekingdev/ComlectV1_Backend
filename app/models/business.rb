@@ -27,6 +27,9 @@ class Business < ApplicationRecord
   }, through: :projects, source: :ratings
   has_many :email_threads, dependent: :destroy
 
+  has_one :referral, as: :referrable
+  has_many :referral_tokens, as: :referrer
+
   has_settings do |s|
     s.key :notifications, defaults: {
       marketing_emails: true,
@@ -57,11 +60,18 @@ class Business < ApplicationRecord
   delegate :suspended?, to: :user
 
   after_commit :sync_with_hubspot, on: %i[create update]
+  after_commit :generate_referral_token, on: :create
 
-  def self.for_signup(attributes = {})
+  def self.for_signup(attributes = {}, token = nil)
     new(attributes).tap do |business|
       business.build_user unless business.user
+      referral_token = ReferralToken.find_by(token: token) if token
+      business.build_referral(referral_token: referral_token) if referral_token
     end
+  end
+
+  def referral_token
+    referral_tokens.last
   end
 
   def available_projects
@@ -113,5 +123,9 @@ class Business < ApplicationRecord
 
   def sync_with_hubspot
     SyncHubspotContactJob.perform_later(self)
+  end
+
+  def generate_referral_token
+    GenerateReferralTokensJob.perform_later(self)
   end
 end

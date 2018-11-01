@@ -17,7 +17,7 @@ class Specialist::Form < Specialist
   attr_accessor :public_profile
   attr_writer :delete_photo, :delete_resume
 
-  def self.signup(attributes = {})
+  def self.signup(attributes = {}, token = nil)
     invitation = attributes.delete(:invitation)
     tos_acceptance_ip = attributes.delete(:tos_acceptance_ip)
 
@@ -28,6 +28,8 @@ class Specialist::Form < Specialist
       specialist.user.tos_acceptance_ip = tos_acceptance_ip
       specialist.work_experiences.build unless specialist.work_experiences.any?
       specialist.education_histories.build unless specialist.education_histories.any?
+      referral_token = ReferralToken.find_by(token: token) if token
+      specialist.build_referral(referral_token: referral_token) if referral_token
     end
   end
 

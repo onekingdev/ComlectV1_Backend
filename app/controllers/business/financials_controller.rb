@@ -33,7 +33,7 @@ class Business::FinancialsController < ApplicationController
           pdf: 'invoice',
           show_as_html: params.key?('debug'),
           template: 'specialists/financials/invoice.pdf.erb',
-          locals: { transaction: Transaction.find(params[:id]), specialist: false },
+          locals: { transaction: Transaction.find(params[:id]), business: true, specialist: false },
           page_size: 'Letter',
           margin: { top: 0, bottom: 35, left: 0, right: 0 },
           footer: { html: { template: 'specialists/financials/footer.pdf.erb' } }

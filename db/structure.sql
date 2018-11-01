@@ -268,7 +268,8 @@ CREATE TABLE public.businesses (
     rewards_tier_id integer,
     rewards_tier_override_id integer,
     hubspot_company_id character varying,
-    hubspot_contact_id character varying
+    hubspot_contact_id character varying,
+    credits_in_cents integer DEFAULT 0
 );
 
 
@@ -1275,7 +1276,8 @@ CREATE TABLE public.specialists (
     specialist_team_id integer,
     rewards_tier_id integer,
     rewards_tier_override_id integer,
-    hubspot_contact_id character varying
+    hubspot_contact_id character varying,
+    credits_in_cents integer DEFAULT 0
 );
 
 
@@ -3088,6 +3090,74 @@ ALTER SEQUENCE public.ratings_id_seq OWNED BY public.ratings.id;
 
 
 --
+-- Name: referral_tokens; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.referral_tokens (
+    id integer NOT NULL,
+    referrals_count integer DEFAULT 0 NOT NULL,
+    amount_in_cents integer NOT NULL,
+    token character varying NOT NULL,
+    referrer_id integer NOT NULL,
+    referrer_type character varying NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: referral_tokens_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.referral_tokens_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: referral_tokens_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.referral_tokens_id_seq OWNED BY public.referral_tokens.id;
+
+
+--
+-- Name: referrals; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.referrals (
+    id integer NOT NULL,
+    referral_token_id integer NOT NULL,
+    referrable_id integer NOT NULL,
+    referrable_type character varying NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: referrals_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.referrals_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: referrals_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.referrals_id_seq OWNED BY public.referrals.id;
+
+
+--
 -- Name: rewards_tiers; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -3439,7 +3509,9 @@ CREATE TABLE public.transactions (
     fee_in_cents integer DEFAULT 0 NOT NULL,
     date timestamp without time zone,
     last_try_at timestamp without time zone,
-    description text
+    description text,
+    business_credit_in_cents integer DEFAULT 0,
+    specialist_credit_in_cents integer DEFAULT 0
 );
 
 
@@ -3792,6 +3864,20 @@ ALTER TABLE ONLY public.ratings ALTER COLUMN id SET DEFAULT nextval('public.rati
 
 
 --
+-- Name: referral_tokens id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.referral_tokens ALTER COLUMN id SET DEFAULT nextval('public.referral_tokens_id_seq'::regclass);
+
+
+--
+-- Name: referrals id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.referrals ALTER COLUMN id SET DEFAULT nextval('public.referrals_id_seq'::regclass);
+
+
+--
 -- Name: rewards_tiers id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -4111,6 +4197,22 @@ ALTER TABLE ONLY public.questions
 
 ALTER TABLE ONLY public.ratings
     ADD CONSTRAINT ratings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: referral_tokens referral_tokens_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.referral_tokens
+    ADD CONSTRAINT referral_tokens_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: referrals referrals_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.referrals
+    ADD CONSTRAINT referrals_pkey PRIMARY KEY (id);
 
 
 --
@@ -4821,6 +4923,27 @@ CREATE INDEX index_ratings_on_rater_type_and_rater_id ON public.ratings USING bt
 
 
 --
+-- Name: index_referral_tokens_on_referrer_id_and_referrer_type; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_referral_tokens_on_referrer_id_and_referrer_type ON public.referral_tokens USING btree (referrer_id, referrer_type);
+
+
+--
+-- Name: index_referral_tokens_on_token; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_referral_tokens_on_token ON public.referral_tokens USING btree (token);
+
+
+--
+-- Name: index_referrals_on_referrable_id_and_referrable_type; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_referrals_on_referrable_id_and_referrable_type ON public.referrals USING btree (referrable_id, referrable_type);
+
+
+--
 -- Name: index_settings_on_target_type_and_target_id_and_var; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -5507,4 +5630,14 @@ INSERT INTO schema_migrations (version) VALUES ('20180911180555');
 INSERT INTO schema_migrations (version) VALUES ('20180911182144');
 
 INSERT INTO schema_migrations (version) VALUES ('20180914165337');
+
+INSERT INTO schema_migrations (version) VALUES ('20181026024940');
+
+INSERT INTO schema_migrations (version) VALUES ('20181026212530');
+
+INSERT INTO schema_migrations (version) VALUES ('20181028010350');
+
+INSERT INTO schema_migrations (version) VALUES ('20181028023519');
+
+INSERT INTO schema_migrations (version) VALUES ('20181028102912');
 
