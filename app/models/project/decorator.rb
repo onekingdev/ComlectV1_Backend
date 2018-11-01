@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/ClassLength
 class Project::Decorator < ApplicationDecorator
   decorates Project
   decorates_association :business, with: Business::Decorator
@@ -200,4 +199,3 @@ class Project::Decorator < ApplicationDecorator
     )
   end
 end
-# rubocop:enable Metrics/ClassLength

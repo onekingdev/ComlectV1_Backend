@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/ClassLength
 class StripeAccount < ApplicationRecord
   belongs_to :specialist
   has_many :bank_accounts, dependent: :destroy
@@ -188,4 +187,3 @@ class StripeAccount < ApplicationRecord
     (STRIPE_ERRORS.detect { |regex, _m| regex.match(error) } || [nil, error])[1]
   end
 end
-# rubocop:enable Metrics/ClassLength
