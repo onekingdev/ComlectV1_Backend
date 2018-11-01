@@ -120,6 +120,8 @@ ActiveAdmin.register Specialist do
     column :time_zone
     column :address_1
     column :address_2
+    column(:industries) { |specialist| specialist.industries.map(&:name).join(', ') }
+    column(:jurisdictions) { |specialist| specialist.jurisdictions.map(&:name).join(', ') }
     column :created_at
     column :updated_at
   end
