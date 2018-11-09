@@ -13,6 +13,7 @@ gem 'bcrypt'
 gem 'recaptcha', require: 'recaptcha/rails'
 
 # Rails
+gem 'font_assets'
 gem 'rails', '4.2.10'
 gem 'webpacker'
 
@@ -71,6 +72,9 @@ gem 'jquery-slick-rails'
 
 # Mail
 gem 'postmark-rails'
+
+# Mailchimp
+gem 'gibbon'
 
 # Image uploads
 gem 'aws-sdk', '~> 2.3.12'

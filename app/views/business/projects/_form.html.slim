@@ -21,7 +21,7 @@
         = f.input :location, input_html: { class: "input-lg js-place-autocomplete", data: { lat: '#project_lat', lng: '#project_lng', self: 'full' } }
         = project.industries_input(f)
       .col-xs-12.col-sm-8
-        = f.input :description, as: :text, input_html: { class: 'input-lg tt-n', maxlength: 750 }
+        = f.input :description, as: :text, input_html: { class: 'input-lg tt-n' }
     .row.row-compact
       .col-xs-12.col-sm-4
         = project.jurisdictions_input(f)

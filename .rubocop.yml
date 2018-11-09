@@ -73,7 +73,7 @@ Metrics/BlockNesting:
   Max: 3
 
 Metrics/ClassLength:
-  Max: 150
+  Max: 175
 
 Metrics/ModuleLength:
   Max: 120

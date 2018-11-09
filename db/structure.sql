@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.5.3
--- Dumped by pg_dump version 10.5
+-- Dumped from database version 9.6.10
+-- Dumped by pg_dump version 9.6.10
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -269,9 +269,7 @@ CREATE TABLE public.businesses (
     rewards_tier_override_id integer,
     hubspot_company_id character varying,
     hubspot_contact_id character varying,
-    qna_lvl integer DEFAULT 0,
-    qna_viewed_questions integer[] DEFAULT '{}'::integer[],
-    qna_views_left integer DEFAULT 5
+    credits_in_cents integer DEFAULT 0
 );
 
 
@@ -1048,129 +1046,6 @@ ALTER SEQUENCE public.flags_id_seq OWNED BY public.flags.id;
 
 
 --
--- Name: forum_answers; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.forum_answers (
-    id integer NOT NULL,
-    user_id integer,
-    body text,
-    forum_question_id integer,
-    reply_to integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    upvotes_cnt integer DEFAULT 0
-);
-
-
---
--- Name: forum_answers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.forum_answers_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: forum_answers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.forum_answers_id_seq OWNED BY public.forum_answers.id;
-
-
---
--- Name: forum_questions; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.forum_questions (
-    id integer NOT NULL,
-    title character varying,
-    body text,
-    state character varying,
-    business_id integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    last_activity timestamp without time zone
-);
-
-
---
--- Name: forum_questions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.forum_questions_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: forum_questions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.forum_questions_id_seq OWNED BY public.forum_questions.id;
-
-
---
--- Name: forum_questions_industries; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.forum_questions_industries (
-    forum_question_id integer NOT NULL,
-    industry_id integer NOT NULL
-);
-
-
---
--- Name: forum_questions_jurisdictions; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.forum_questions_jurisdictions (
-    forum_question_id integer NOT NULL,
-    jurisdiction_id integer NOT NULL
-);
-
-
---
--- Name: forum_votes; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.forum_votes (
-    id integer NOT NULL,
-    user_id integer,
-    forum_answer_id integer,
-    upvote boolean DEFAULT true,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: forum_votes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.forum_votes_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: forum_votes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.forum_votes_id_seq OWNED BY public.forum_votes.id;
-
-
---
 -- Name: industries; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1178,8 +1053,7 @@ CREATE TABLE public.industries (
     id integer NOT NULL,
     name character varying,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    short_name character varying
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -1402,7 +1276,8 @@ CREATE TABLE public.specialists (
     specialist_team_id integer,
     rewards_tier_id integer,
     rewards_tier_override_id integer,
-    hubspot_contact_id character varying
+    hubspot_contact_id character varying,
+    credits_in_cents integer DEFAULT 0
 );
 
 
@@ -3215,6 +3090,74 @@ ALTER SEQUENCE public.ratings_id_seq OWNED BY public.ratings.id;
 
 
 --
+-- Name: referral_tokens; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.referral_tokens (
+    id integer NOT NULL,
+    referrals_count integer DEFAULT 0 NOT NULL,
+    amount_in_cents integer NOT NULL,
+    token character varying NOT NULL,
+    referrer_id integer NOT NULL,
+    referrer_type character varying NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: referral_tokens_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.referral_tokens_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: referral_tokens_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.referral_tokens_id_seq OWNED BY public.referral_tokens.id;
+
+
+--
+-- Name: referrals; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.referrals (
+    id integer NOT NULL,
+    referral_token_id integer NOT NULL,
+    referrable_id integer NOT NULL,
+    referrable_type character varying NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: referrals_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.referrals_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: referrals_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.referrals_id_seq OWNED BY public.referrals.id;
+
+
+--
 -- Name: rewards_tiers; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -3566,7 +3509,9 @@ CREATE TABLE public.transactions (
     fee_in_cents integer DEFAULT 0 NOT NULL,
     date timestamp without time zone,
     last_try_at timestamp without time zone,
-    description text
+    description text,
+    business_credit_in_cents integer DEFAULT 0,
+    specialist_credit_in_cents integer DEFAULT 0
 );
 
 
@@ -3807,27 +3752,6 @@ ALTER TABLE ONLY public.flags ALTER COLUMN id SET DEFAULT nextval('public.flags_
 
 
 --
--- Name: forum_answers id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.forum_answers ALTER COLUMN id SET DEFAULT nextval('public.forum_answers_id_seq'::regclass);
-
-
---
--- Name: forum_questions id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.forum_questions ALTER COLUMN id SET DEFAULT nextval('public.forum_questions_id_seq'::regclass);
-
-
---
--- Name: forum_votes id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.forum_votes ALTER COLUMN id SET DEFAULT nextval('public.forum_votes_id_seq'::regclass);
-
-
---
 -- Name: industries id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3937,6 +3861,20 @@ ALTER TABLE ONLY public.questions ALTER COLUMN id SET DEFAULT nextval('public.qu
 --
 
 ALTER TABLE ONLY public.ratings ALTER COLUMN id SET DEFAULT nextval('public.ratings_id_seq'::regclass);
+
+
+--
+-- Name: referral_tokens id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.referral_tokens ALTER COLUMN id SET DEFAULT nextval('public.referral_tokens_id_seq'::regclass);
+
+
+--
+-- Name: referrals id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.referrals ALTER COLUMN id SET DEFAULT nextval('public.referrals_id_seq'::regclass);
 
 
 --
@@ -4134,30 +4072,6 @@ ALTER TABLE ONLY public.flags
 
 
 --
--- Name: forum_answers forum_answers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.forum_answers
-    ADD CONSTRAINT forum_answers_pkey PRIMARY KEY (id);
-
-
---
--- Name: forum_questions forum_questions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.forum_questions
-    ADD CONSTRAINT forum_questions_pkey PRIMARY KEY (id);
-
-
---
--- Name: forum_votes forum_votes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.forum_votes
-    ADD CONSTRAINT forum_votes_pkey PRIMARY KEY (id);
-
-
---
 -- Name: industries industries_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4283,6 +4197,22 @@ ALTER TABLE ONLY public.questions
 
 ALTER TABLE ONLY public.ratings
     ADD CONSTRAINT ratings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: referral_tokens referral_tokens_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.referral_tokens
+    ADD CONSTRAINT referral_tokens_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: referrals referrals_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.referrals
+    ADD CONSTRAINT referrals_pkey PRIMARY KEY (id);
 
 
 --
@@ -4993,6 +4923,27 @@ CREATE INDEX index_ratings_on_rater_type_and_rater_id ON public.ratings USING bt
 
 
 --
+-- Name: index_referral_tokens_on_referrer_id_and_referrer_type; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_referral_tokens_on_referrer_id_and_referrer_type ON public.referral_tokens USING btree (referrer_id, referrer_type);
+
+
+--
+-- Name: index_referral_tokens_on_token; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_referral_tokens_on_token ON public.referral_tokens USING btree (token);
+
+
+--
+-- Name: index_referrals_on_referrable_id_and_referrable_type; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_referrals_on_referrable_id_and_referrable_type ON public.referrals USING btree (referrable_id, referrable_type);
+
+
+--
 -- Name: index_settings_on_target_type_and_target_id_and_var; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -5680,19 +5631,13 @@ INSERT INTO schema_migrations (version) VALUES ('20180911182144');
 
 INSERT INTO schema_migrations (version) VALUES ('20180914165337');
 
-INSERT INTO schema_migrations (version) VALUES ('20181102164606');
+INSERT INTO schema_migrations (version) VALUES ('20181026024940');
 
-INSERT INTO schema_migrations (version) VALUES ('20181110001445');
+INSERT INTO schema_migrations (version) VALUES ('20181026212530');
 
-INSERT INTO schema_migrations (version) VALUES ('20181111001648');
+INSERT INTO schema_migrations (version) VALUES ('20181028010350');
 
-INSERT INTO schema_migrations (version) VALUES ('20181112100355');
+INSERT INTO schema_migrations (version) VALUES ('20181028023519');
 
-INSERT INTO schema_migrations (version) VALUES ('20181118233812');
-
-INSERT INTO schema_migrations (version) VALUES ('20181123042811');
-
-INSERT INTO schema_migrations (version) VALUES ('20181124133815');
-
-INSERT INTO schema_migrations (version) VALUES ('20181124135819');
+INSERT INTO schema_migrations (version) VALUES ('20181028102912');
 

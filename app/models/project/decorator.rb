@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/ClassLength
 class Project::Decorator < ApplicationDecorator
   decorates Project
   decorates_association :business, with: Business::Decorator
@@ -167,7 +166,7 @@ class Project::Decorator < ApplicationDecorator
     builder.input(
       :industry_ids,
       as: :grouped_select,
-      collection: grouped_collection_for_select(Industry.sorted),
+      collection: grouped_collection_for_select(Industry.sorted.filtered),
       group_method: :all,
       group_label_method: :label,
       placeholder: I18n.t('simple_form.placeholders.project.industries'),
@@ -179,7 +178,7 @@ class Project::Decorator < ApplicationDecorator
     builder.input(
       :jurisdiction_ids,
       as: :grouped_select,
-      collection: grouped_collection_for_select(Jurisdiction.sorted),
+      collection: grouped_collection_for_select(Jurisdiction.ordered_starting_from_usa),
       group_method: :all,
       group_label_method: :label,
       placeholder: I18n.t('simple_form.placeholders.project.jurisdictions'),
@@ -200,4 +199,3 @@ class Project::Decorator < ApplicationDecorator
     )
   end
 end
-# rubocop:enable Metrics/ClassLength

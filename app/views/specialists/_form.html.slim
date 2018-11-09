@@ -73,9 +73,9 @@
 
   .row.row-compact
     .col-sm-6
-      = f.association :jurisdictions, collection: Jurisdiction.sorted, placeholder: t('simple_form.placeholders.specialist.jurisdictions'), input_html: { class: 'input-lg js-select', multiple: true }
+      = f.association :jurisdictions, collection: Jurisdiction.ordered_starting_from_usa, placeholder: t('simple_form.placeholders.specialist.jurisdictions'), input_html: { class: 'input-lg js-select', multiple: true }
     .col-sm-6
-      = f.association :industries, collection: Industry.sorted, placeholder: t('simple_form.placeholders.specialist.industries'), input_html: { class: 'input-lg js-select', multiple: true }
+      = f.association :industries, collection: Industry.sorted.filtered, placeholder: t('simple_form.placeholders.specialist.industries'), input_html: { class: 'input-lg js-select', multiple: true }
     .col-sm-6
       .form-group.specialist_former_regulator
         span.checkbox.checkbox-lg

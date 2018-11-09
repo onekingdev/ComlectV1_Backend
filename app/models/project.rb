@@ -127,6 +127,8 @@ class Project < ApplicationRecord
     monthly_fee: 'monthly_fee'
   }
 
+  after_create :new_project_notification
+
   LOCATIONS = [%w[Remote remote], %w[Remote\ +\ Travel remote_and_travel], %w[Onsite onsite]].freeze
   # DB Views depend on these so don't modify:
   HOURLY_PAYMENT_SCHEDULES = [%w[Upon\ Completion upon_completion], %w[Bi-Weekly bi_weekly], %w[Monthly monthly]].freeze
@@ -403,6 +405,10 @@ class Project < ApplicationRecord
   def save_expires_at
     return if starts_on.blank?
     self.expires_at = starts_on.in_time_zone(time_zone).end_of_day
+  end
+
+  def new_project_notification
+    ProjectMailer.notify_admin_on_creation(self).deliver_later
   end
 end
 # rubocop:enable Metrics/ClassLength

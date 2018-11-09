@@ -32,6 +32,9 @@ class Specialist < ApplicationRecord
   has_many :payments, -> { for_one_off_projects }, through: :projects, source: :charges
   has_many :transactions, through: :projects
 
+  has_one :referral, as: :referrable
+  has_many :referral_tokens, as: :referrer
+
   has_settings do |s|
     s.key :notifications, defaults: {
       marketing_emails: true,
@@ -103,11 +106,16 @@ class Specialist < ApplicationRecord
   delegate :suspended?, to: :user
 
   after_commit :sync_with_hubspot, on: %i[create update]
+  after_commit :generate_referral_token, on: :create
 
   def self.dates_between_query
     'SUM(ROUND((COALESCE("to", NOW())::date - "from"::date)::float / 365.0)::numeric::int)'
   end
   private_class_method :dates_between_query
+
+  def referral_token
+    referral_tokens.last
+  end
 
   def messages
     Message.where("
@@ -134,7 +142,7 @@ class Specialist < ApplicationRecord
   end
 
   def to_s
-    first_name
+    full_name
   end
 
   def full_name
@@ -180,5 +188,9 @@ class Specialist < ApplicationRecord
 
   def sync_with_hubspot
     SyncHubspotContactJob.perform_later(self)
+  end
+
+  def generate_referral_token
+    GenerateReferralTokensJob.perform_later(self)
   end
 end
