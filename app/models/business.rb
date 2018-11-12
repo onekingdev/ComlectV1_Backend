@@ -133,5 +133,7 @@ class Business < ApplicationRecord
 
   def sync_with_mailchimp
     SyncBusinessUsersToMailchimpJob.perform_later(self)
+    # The following line is for Dev purposes only
+    # SyncBusinessUsersToMailchimpJob.perform_now(self)
   end
 end
