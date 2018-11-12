@@ -26,11 +26,15 @@ class SyncBusinessUsersToMailchimpJob < ActiveJob::Base
     end
 
     #  Make a second call to add a tag to the user
-    gibbon.lists(ENV["MAILCHIMP_BUSINESS_ID"]).members(Digest::MD5.hexdigest(user.contact_email)).tags.create(
-      body: {
-        tags: [{name:"Businesses", status:"active"}]
-      }
-    )
+    begin
+      gibbon.lists(ENV["MAILCHIMP_BUSINESS_ID"]).members(Digest::MD5.hexdigest(user.contact_email)).tags.create(
+        body: {
+          tags: [{name:"Businesses", status:"active"}]
+        }
+      )
+    rescue Gibbon::MailChimpError => exception
+      puts exception
+    end
     # NEED TO VALIDATE CONTACT_EMAIL
   end
 end
