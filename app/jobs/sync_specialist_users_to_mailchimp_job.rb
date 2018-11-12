@@ -22,7 +22,7 @@ class SyncSpecialistUsersToMailchimpJob < ActiveJob::Base
     begin
       gibbon.lists(ENV["MAILCHIMP_SPECIALIST_ID"]).members.create(body: body)
     rescue Gibbon::MailChimpError => exception
-      puts exception
+      Rails.logger.info exception
     end
 
     # Make a second call to add a a tag to the user
@@ -33,7 +33,7 @@ class SyncSpecialistUsersToMailchimpJob < ActiveJob::Base
         }
       )
     rescue Gibbon::MailChimpError => exception
-      puts exception
+      Rails.logger.info exception
     end
 # VALIDATE CONTACT EMAIL
   end

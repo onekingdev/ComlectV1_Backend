@@ -7,7 +7,6 @@ class SyncBusinessUsersToMailchimpJob < ActiveJob::Base
     body = {
       email_address: user.contact_email,
       status: "subscribed",
-      tags: "Businesses",
       merge_fields: {
         FNAME: user.contact_first_name,
         LNAME: user.contact_last_name,
@@ -22,7 +21,7 @@ class SyncBusinessUsersToMailchimpJob < ActiveJob::Base
     begin
       gibbon.lists(ENV["MAILCHIMP_BUSINESS_ID"]).members.create(body: body)
     rescue Gibbon::MailChimpError => exception
-      puts exception
+      Rails.logger.info exception
     end
 
     #  Make a second call to add a tag to the user
@@ -33,8 +32,7 @@ class SyncBusinessUsersToMailchimpJob < ActiveJob::Base
         }
       )
     rescue Gibbon::MailChimpError => exception
-      puts exception
+      Rails.logger.info exception
     end
-    # NEED TO VALIDATE CONTACT_EMAIL
   end
 end
