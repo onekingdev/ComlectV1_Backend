@@ -209,5 +209,7 @@ class Specialist < ApplicationRecord
 
   def sync_with_mailchimp
     SyncSpecialistUsersToMailchimpJob.perform_later(self)
+    # Use this for testing, also I'm just comitting this to test the heroku staging deploy process
+    # SyncSpecialistUsersToMailchimpJob.perform_now(self)
   end
 end
