@@ -209,7 +209,5 @@ class Specialist < ApplicationRecord
 
   def sync_with_mailchimp
     SyncSpecialistUsersToMailchimpJob.perform_later(self)
-    # The following line is for Dev purposes only
-    # SyncSpecialistUsersToMailchimpJob.perform_now(self)
   end
 end
