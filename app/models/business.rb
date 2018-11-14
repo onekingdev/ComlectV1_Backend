@@ -54,6 +54,7 @@ class Business < ApplicationRecord
   validates :employees, inclusion: { in: EMPLOYEE_OPTIONS }
   validates :linkedin_link, allow_blank: true, url: true
   validates :website, allow_blank: true, url: true
+  validates :contact_email, format: { with: URI::MailTo::EMAIL_REGEXP }
 
   accepts_nested_attributes_for :user
 
@@ -132,8 +133,8 @@ class Business < ApplicationRecord
   end
 
   def sync_with_mailchimp
-    SyncBusinessUsersToMailchimpJob.perform_later(self)
+    # SyncBusinessUsersToMailchimpJob.perform_later(self)
     # The following line is for Dev purposes only
-    # SyncBusinessUsersToMailchimpJob.perform_now(self)
+    SyncBusinessUsersToMailchimpJob.perform_now(self)
   end
 end
