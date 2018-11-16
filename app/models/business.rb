@@ -134,5 +134,7 @@ class Business < ApplicationRecord
 
   def sync_with_mailchimp
     SyncBusinessUsersToMailchimpJob.perform_later(self)
+    # For dev testing and triggering heroku deploy
+    # SyncBusinessUsersToMailchimpJob.perform_now(self)
   end
 end
