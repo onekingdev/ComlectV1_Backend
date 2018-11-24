@@ -15,6 +15,8 @@ class User < ApplicationRecord
   has_many :payment_sources, through: :business
   has_many :project_issues, dependent: :delete_all
   has_many :notifications, dependent: :delete_all
+  has_many :forum_answers
+  has_many :forum_votes, dependent: :destroy
 
   validates :email, presence: true, email: true
 

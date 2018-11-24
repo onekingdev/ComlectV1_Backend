@@ -1,0 +1,43 @@
+.row.full_width.pitch
+  .container
+    b
+      = @question.created_at.strftime("%B %e, %Y")
+      br
+      = @question.industries.collect(&:name).join(", ")
+      | , 
+      = @question.jurisdictions.collect(&:name).join(", ")
+      | , 
+      = @question.state
+    h3 = @question.title
+    p = @question.body
+.row
+  .container
+    h3.m-b-1
+      b.small
+        = @forum_answers.count
+        = " Answer#{'s' if @question.forum_answers.count > 1}"
+  .container
+    - @forum_answers.each_with_index do |answer, i|
+      = render partial: "forum_answers/answer", locals: { answer: answer, best: (answer.upvotes_cnt > 0 && i == 0) }
+      .thread.col-md-11.col-md-push-1.p-x-0
+        - answer.replies.each do |reply|
+          - reply.body = "Please sign up to view this content" if @please_sign_up
+          - reply.body = "Please subscribe to view this content" if @please_subscribe
+          = render partial: "forum_answers/answer", locals: { answer: reply }
+    .answer_form_wrapper
+      .col-md-12.p-x-0.forum_answer_form
+        = simple_form_for ForumAnswer.new do |f|
+          = f.input :body, placeholder: "Type your reply here.", input_html: { rows: 4 }
+          = f.input :reply_to, as: :hidden
+          = f.input :forum_question_id, as: :hidden, input_html: { value: @question.id }
+          = f.button :button, "Submit", type: :button, class: 'btn btn-primary pull-right clearfix m-b-2 remote-submit-answer'
+- if @please_subscribe
+  .modal.fade#subscribe-modal
+    .modal-dialog style="width: 100%;"
+      .container
+        = render partial: "forum_questions/subscriptions"
+  javascript:
+    var show_subscriptions = true;
+- if @please_sign_up
+  javascript:
+    var show_sign_up_modal = true;

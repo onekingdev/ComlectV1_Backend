@@ -1,0 +1,46 @@
+.col-md-4.sub_block
+  .entry
+    h1 Free
+    .price
+      h3 $
+      h1 0
+      b &nbsp;free forever
+    small &nbsp;
+    span 
+      | View up to 5 answers a
+      br
+      | month from the forum
+    - if !current_business
+      = link_to "Sign Up", new_user_registration_path, "data-dismiss" => "modal", "data-remote" => true, class: "btn btn-primary m-t-1"
+.col-md-4.sub_block
+  .entry
+    h1 Basic
+    .price
+      h3 $
+      h1 10
+      b &nbsp;&#47; month
+    small $100 annually
+    span
+      | Unlimited viewing access
+      br
+      | of the forum
+    - if current_business
+      = link_to "Buy", "/ask-a-specialist/buy/1", class: "btn btn-primary m-t-1" if current_business.qna_lvl < 1
+    - else
+      = link_to "Sign Up", new_user_registration_path, "data-dismiss" => "modal", "data-remote" => true, class: "btn btn-primary m-t-1"
+.col-md-4.sub_block
+  .entry
+    h1 Pro
+    .price
+      h3 $
+      h1 25
+      b &nbsp;&#47; month
+    small $275 annually
+    span
+      | Ask your own custom
+      br
+      | questions on the forum
+    - if current_business
+      = link_to "Buy", "/ask-a-specialist/buy/2", class: "btn btn-primary m-t-1" if current_business.qna_lvl < 2
+    - else
+      = link_to "Sign Up", new_user_registration_path, "data-dismiss" => "modal", "data-remote" => true, class: "btn btn-primary m-t-1"

@@ -17,8 +17,10 @@ nav#nav.navbar.navbar-default
         li= link_to 'My Dashboard', business_dashboard_path
       - elsif user_signed_in? && current_user.specialist
         li= link_to 'My Dashboard', specialists_dashboard_path
-      li= link_to "Our blog", "https://www.blog.complect.com/", target: "_blank"
-      li= link_to "Faqs", page_path('faqs')
+      li.hidden-nav= link_to "Our blog", "https://www.blog.complect.com/", target: "_blank"
+      li.hidden-nav2= link_to "Faqs", page_path('faqs')
+      li
+        button.btn.btn-primary.navbar-btn data-href=forum_questions_path Q&A Forum
 
     ul.nav.navbar-nav.navbar-right
       - if user_signed_in? && current_business
@@ -81,4 +83,4 @@ nav#nav.navbar.navbar-default
         li.p-r-0
           ul.nav.navbar-nav.sign_in
             li.p-r-2= link_to "Log In", new_user_session_path, "data-dismiss" => "modal", "data-remote" => true
-            li.preseparate.p-r-0= link_to "Sign Up", new_user_registration_path, "data-dismiss" => "modal", "data-remote" => true
+            li.preseparate.p-r-0= link_to "Sign Up", new_user_registration_path, "data-dismiss" => "modal", "data-remote" => true, class: "sign_up_navbar_link"

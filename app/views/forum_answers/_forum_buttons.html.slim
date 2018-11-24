@@ -1,0 +1,10 @@
+.forum_upvote.p-t-1 data-toggle="tooltip" title="upvote" class=("active" if current_user.forum_votes.where(forum_answer_id: answer.id, upvote: true).count > 0)
+  = link_to "/ask-a-specialist/upvote/#{answer.id}" do
+    i.icon-like
+  span = answer.upvotes
+.forum_downvote.p-t-1 data-toggle="tooltip" title="downvote" class=("active" if current_user.forum_votes.where(forum_answer_id: answer.id, upvote: false).count > 0)
+  = link_to "/ask-a-specialist/downvote/#{answer.id}" do
+    i.icon-dislike
+  span = answer.downvotes
+.forum_reply_btn.p-t-1 data-answer-id="#{answer.reply_to.present? ? answer.reply_to : answer.id}" data-toggle="tooltip" title="reply"
+  i.fa.fa-reply

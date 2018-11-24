@@ -22,10 +22,6 @@ FactoryBot.define do
       end
     end
 
-    trait :credit do
-      credits_in_cents 3000
-    end
-
     trait :fee_free do
       fee_free true
     end
