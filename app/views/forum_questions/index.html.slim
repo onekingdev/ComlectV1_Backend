@@ -1,19 +1,4 @@
-.row.full_width.pitch
-  .container
-    - if current_business && current_business.qna_lvl == 2
-      = render partial: "search"
-      .container
-        = render partial: "top_questions", locals: { grid_class: "col-md-3", industries: [5, 2, 1, 3]  }
-    - elsif current_specialist
-      h3
-        | Want to land more projects?
-        br
-        | Answer more questions. 
-        br
-        br
-        | See what your peers are saying. Learn what businesses care about. And, earn 5 star ratings for every 25 upvotes you receive on your responses.
-    - else
-      = render partial: "forum_questions/subscriptions"
+= render partial: "forum_questions/head"
 .row
   - if current_business && current_business.qna_lvl == 2
     .container.p-t-2.p-b-3

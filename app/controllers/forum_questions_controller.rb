@@ -37,6 +37,16 @@ class ForumQuestionsController < ApplicationController
     end
   end
 
+  def search
+    @query = params[:search][:query]
+    @count = 0
+    @questions = []
+    @questions = ForumQuestion.where('lower(title) LIKE ?', "%#{@query}%").or(ForumQuestion.where('lower(body) LIKE ?', "%#{@query}%"))
+    @count += @questions.count if @questions.present?
+    answers = ForumAnswer.where('lower(body) LIKE ?', "%#{@query}%")
+    @questions |= ForumQuestion.where(id: answers.collect(&:forum_question_id)) if answers.count.positive?
+  end
+
   private
 
   def forum_question_params

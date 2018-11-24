@@ -1,7 +1,15 @@
-body.forum_questions.index, body.forum_questions.create, body.forum_questions.show {
+body.forum_questions.index, body.forum_questions.search, body.forum_questions.create, body.forum_questions.show {
   .forum_answer_body {
     label {
       display: none;
+    }
+  }
+  .search_results {
+    .well {
+      border: 2px solid #ffcc00;
+      a {
+        color: #000;
+      }
     }
   }
   .forum_answer {
