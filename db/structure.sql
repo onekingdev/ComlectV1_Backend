@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.6.10
--- Dumped by pg_dump version 9.6.10
+-- Dumped from database version 9.5.3
+-- Dumped by pg_dump version 10.5
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -269,6 +269,9 @@ CREATE TABLE public.businesses (
     rewards_tier_override_id integer,
     hubspot_company_id character varying,
     hubspot_contact_id character varying,
+    qna_lvl integer DEFAULT 0,
+    qna_viewed_questions integer[] DEFAULT '{}'::integer[],
+    qna_views_left integer DEFAULT 5
     credits_in_cents integer DEFAULT 0
 );
 
@@ -1046,6 +1049,129 @@ ALTER SEQUENCE public.flags_id_seq OWNED BY public.flags.id;
 
 
 --
+-- Name: forum_answers; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.forum_answers (
+    id integer NOT NULL,
+    user_id integer,
+    body text,
+    forum_question_id integer,
+    reply_to integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    upvotes_cnt integer DEFAULT 0
+);
+
+
+--
+-- Name: forum_answers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.forum_answers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: forum_answers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.forum_answers_id_seq OWNED BY public.forum_answers.id;
+
+
+--
+-- Name: forum_questions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.forum_questions (
+    id integer NOT NULL,
+    title character varying,
+    body text,
+    state character varying,
+    business_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    last_activity timestamp without time zone
+);
+
+
+--
+-- Name: forum_questions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.forum_questions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: forum_questions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.forum_questions_id_seq OWNED BY public.forum_questions.id;
+
+
+--
+-- Name: forum_questions_industries; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.forum_questions_industries (
+    forum_question_id integer NOT NULL,
+    industry_id integer NOT NULL
+);
+
+
+--
+-- Name: forum_questions_jurisdictions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.forum_questions_jurisdictions (
+    forum_question_id integer NOT NULL,
+    jurisdiction_id integer NOT NULL
+);
+
+
+--
+-- Name: forum_votes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.forum_votes (
+    id integer NOT NULL,
+    user_id integer,
+    forum_answer_id integer,
+    upvote boolean DEFAULT true,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: forum_votes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.forum_votes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: forum_votes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.forum_votes_id_seq OWNED BY public.forum_votes.id;
+
+
+--
 -- Name: industries; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1053,7 +1179,8 @@ CREATE TABLE public.industries (
     id integer NOT NULL,
     name character varying,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    short_name character varying
 );
 
 
@@ -3752,6 +3879,28 @@ ALTER TABLE ONLY public.flags ALTER COLUMN id SET DEFAULT nextval('public.flags_
 
 
 --
+-- Name: forum_answers id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.forum_answers ALTER COLUMN id SET DEFAULT nextval('public.forum_answers_id_seq'::regclass);
+
+
+--
+-- Name: forum_questions id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.forum_questions ALTER COLUMN id SET DEFAULT nextval('public.forum_questions_id_seq'::regclass);
+
+
+--
+-- Name: forum_votes id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.forum_votes ALTER COLUMN id SET DEFAULT nextval('public.forum_votes_id_seq'::regclass);
+
+
+
+--
 -- Name: industries id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -4069,6 +4218,30 @@ ALTER TABLE ONLY public.feedback_requests
 
 ALTER TABLE ONLY public.flags
     ADD CONSTRAINT flags_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: forum_answers forum_answers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.forum_answers
+    ADD CONSTRAINT forum_answers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: forum_questions forum_questions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.forum_questions
+    ADD CONSTRAINT forum_questions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: forum_votes forum_votes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.forum_votes
+    ADD CONSTRAINT forum_votes_pkey PRIMARY KEY (id);
 
 
 --
@@ -5631,6 +5804,21 @@ INSERT INTO schema_migrations (version) VALUES ('20180911182144');
 
 INSERT INTO schema_migrations (version) VALUES ('20180914165337');
 
+INSERT INTO schema_migrations (version) VALUES ('20181102164606');
+
+INSERT INTO schema_migrations (version) VALUES ('20181110001445');
+
+INSERT INTO schema_migrations (version) VALUES ('20181111001648');
+
+INSERT INTO schema_migrations (version) VALUES ('20181112100355');
+
+INSERT INTO schema_migrations (version) VALUES ('20181118233812');
+
+INSERT INTO schema_migrations (version) VALUES ('20181123042811');
+
+INSERT INTO schema_migrations (version) VALUES ('20181124133815');
+
+INSERT INTO schema_migrations (version) VALUES ('20181124135819');
 INSERT INTO schema_migrations (version) VALUES ('20181026024940');
 
 INSERT INTO schema_migrations (version) VALUES ('20181026212530');

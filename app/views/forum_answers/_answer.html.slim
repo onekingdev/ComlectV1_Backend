@@ -1,0 +1,34 @@
+- if answer.reply_to.blank?
+  .col-md-12.p-t-2.p-b-1.m-y-1.clearfix.forum_answer class=("best_answer" if (defined? best) && best)
+    .col-md-2.profile.text-center
+      .profile-image.m-y-1
+        - if answer.photo
+          = image_tag answer.photo_url(:thumb), size: '100x100', class: 'img-circle'
+        - else
+          = image_tag 'icon-specialist.png', size: '100x100', class: 'img-circle'
+      - if answer.user.specialist
+        .first_name = answer.user.specialist.first_name
+      = render_stars answer.ratings_average, { class: "small m-t-1 m-b-1" }
+      - if answer.user.specialist && current_business
+        a.btn.btn-primary.btn-single.m-b-1 data-remote=true href=new_project_invite_path(specialist_id: answer.user.specialist.id) HIRE
+
+    .col-md-10.m-t-1.p-b-3
+      = answer.body
+      .timestamp
+        = answer.created_at.strftime("%B %e, %Y at %H:%M")
+    .forum_btns
+      = render partial: "forum_answers/forum_buttons", locals: { answer: answer } if current_user
+- else
+  .col-md-12.forum_reply.p-b-1
+    - if answer.photo
+      = image_tag answer.photo_url(:thumb), size: '25x25', class: 'img-circle m-r-1'
+    - else
+      = image_tag 'icon-specialist.png', size: '40x40', class: 'img-circle m-r-1'
+    .answer_body
+      .arrow_left
+      = answer.body
+      span.timestamp
+        |  – 
+        = answer.created_at.strftime("%B %e, %Y at %H:%M")
+      - if answer.user.specialist
+        b = " – #{answer.user.specialist.first_name}"
