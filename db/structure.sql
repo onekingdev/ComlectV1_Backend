@@ -1159,9 +1159,10 @@ CREATE TABLE public.forum_subscriptions (
     billing_type integer DEFAULT 0,
     level integer DEFAULT 0,
     suspended boolean DEFAULT false,
-    expiration timestamp without time zone,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    annual_bill_date character varying,
+    monthly_bill_date character varying
 );
 
 
@@ -5923,4 +5924,8 @@ INSERT INTO schema_migrations (version) VALUES ('20181124133815');
 INSERT INTO schema_migrations (version) VALUES ('20181124135819');
 
 INSERT INTO schema_migrations (version) VALUES ('20181204204949');
+
+INSERT INTO schema_migrations (version) VALUES ('20181204223503');
+
+INSERT INTO schema_migrations (version) VALUES ('20181204224111');
 

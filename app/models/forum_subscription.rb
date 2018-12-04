@@ -12,22 +12,14 @@ class ForumSubscription < ActiveRecord::Base
   enum billing_type: [ :annual, :monthly ]
   enum level: [ :free, :basic, :pro ]
 
-  after_create :schedule_payments
+  before_create :set_bill_date
 
-  def schedule_payments
+  def set_bill_date
     if self.annual?
-      schedule_annual_payments
-    else
-      schedule_monthly_payments
+      self.annual_bill_date = Time.zone.now.strftime("%m %d")
+    elsif self.monthly?
+      self.monthly_bill_date = Time.zone.now.strftime("%d")
     end
-  end
-
-  def schedule_monthly_payments
-    #
-  end
-
-  def schedule_annual_payments
-    # 
   end
 
 end
