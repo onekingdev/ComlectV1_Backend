@@ -2,6 +2,7 @@
 
 class ProjectMessagesController < ApplicationController
   before_action :authenticate_user!
+  before_action :find_project
 
   def index
     b_id = current_business ? current_business.id : @project.business_id
