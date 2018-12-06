@@ -5,9 +5,12 @@
 # t.boolean :suspended, default: false
 # t.datetime :expiration
 # t.timestamps null: false
+# t.integer :fee
+# t.string :stripe_customer_id
 
 class ForumSubscription < ActiveRecord::Base
   belongs_to :business
+  has_many :subscription_charges
 
   enum billing_type: [ :annual, :monthly ]
   enum level: [ :free, :basic, :pro ]
@@ -19,9 +22,10 @@ class ForumSubscription < ActiveRecord::Base
   end
 
   def create_subscription
+    self.update_attributes(:stripe_customer_id => self.business.payment_profile.stripe_customer_id)
     begin
       sub = Stripe::Subscription.create({
-        customer: self.business.payment_profile.stripe_customer_id,
+        customer: self.stripe_customer_id,
         items: [{plan: self.get_plan_id}],
       })
     rescue => e

@@ -1161,7 +1161,9 @@ CREATE TABLE public.forum_subscriptions (
     suspended boolean DEFAULT false,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    fee integer DEFAULT 0
+    fee integer DEFAULT 0,
+    stripe_customer_id character varying,
+    stripe_subscription_id character varying
 );
 
 
@@ -3610,6 +3612,42 @@ ALTER SEQUENCE public.stripe_accounts_id_seq OWNED BY public.stripe_accounts.id;
 
 
 --
+-- Name: subscription_charges; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.subscription_charges (
+    id integer NOT NULL,
+    stripe_charge_id character varying,
+    status integer,
+    plan character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    stripe_subscription_id character varying,
+    forum_subscription_id integer
+);
+
+
+--
+-- Name: subscription_charges_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.subscription_charges_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: subscription_charges_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.subscription_charges_id_seq OWNED BY public.subscription_charges.id;
+
+
+--
 -- Name: time_logs; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -4153,6 +4191,13 @@ ALTER TABLE ONLY public.stripe_accounts ALTER COLUMN id SET DEFAULT nextval('pub
 
 
 --
+-- Name: subscription_charges id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.subscription_charges ALTER COLUMN id SET DEFAULT nextval('public.subscription_charges_id_seq'::regclass);
+
+
+--
 -- Name: time_logs id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -4527,6 +4572,14 @@ ALTER TABLE ONLY public.specialists
 
 ALTER TABLE ONLY public.stripe_accounts
     ADD CONSTRAINT stripe_accounts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: subscription_charges subscription_charges_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.subscription_charges
+    ADD CONSTRAINT subscription_charges_pkey PRIMARY KEY (id);
 
 
 --
@@ -5314,6 +5367,13 @@ CREATE INDEX index_stripe_accounts_on_stripe_id ON public.stripe_accounts USING 
 
 
 --
+-- Name: index_subscription_charges_on_forum_subscription_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_subscription_charges_on_forum_subscription_id ON public.subscription_charges USING btree (forum_subscription_id);
+
+
+--
 -- Name: index_time_logs_on_timesheet_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -5929,4 +5989,14 @@ INSERT INTO schema_migrations (version) VALUES ('20181204223503');
 INSERT INTO schema_migrations (version) VALUES ('20181204224111');
 
 INSERT INTO schema_migrations (version) VALUES ('20181205190733');
+
+INSERT INTO schema_migrations (version) VALUES ('20181206190337');
+
+INSERT INTO schema_migrations (version) VALUES ('20181206193340');
+
+INSERT INTO schema_migrations (version) VALUES ('20181206194641');
+
+INSERT INTO schema_migrations (version) VALUES ('20181206194651');
+
+INSERT INTO schema_migrations (version) VALUES ('20181206201151');
 
