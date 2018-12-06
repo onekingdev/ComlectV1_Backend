@@ -3,6 +3,7 @@
 class Business::ProjectOverviewsController < ApplicationController
   before_action :require_business!
   before_action :find_project_and_specialist
+  before_action :authenticate_user!
 
   def show
     respond_to do |format|

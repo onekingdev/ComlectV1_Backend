@@ -2,6 +2,7 @@
 
 class Business::ProjectMessagesController < ProjectMessagesController
   before_action :require_business!
+  before_action :authenticate_user!
 
   def index
     Notification.clear! current_user, :business_got_project_message, @project

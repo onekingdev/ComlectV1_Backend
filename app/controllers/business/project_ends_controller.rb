@@ -3,6 +3,7 @@
 class Business::ProjectEndsController < ApplicationController
   before_action :require_business!
   before_action :find_project
+  before_action :authenticate_user!
 
   def create
     @request = ProjectEnd::Request.process! @project

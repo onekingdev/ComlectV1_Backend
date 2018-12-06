@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 10.5
+-- Dumped from database version 9.5.3
 -- Dumped by pg_dump version 10.5
 
 SET statement_timeout = 0;
@@ -143,7 +143,6 @@ CREATE TABLE public.answers (
 --
 
 CREATE SEQUENCE public.answers_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -181,7 +180,6 @@ CREATE TABLE public.articles (
 --
 
 CREATE SEQUENCE public.articles_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -219,7 +217,6 @@ CREATE TABLE public.bank_accounts (
 --
 
 CREATE SEQUENCE public.bank_accounts_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -272,10 +269,10 @@ CREATE TABLE public.businesses (
     rewards_tier_override_id integer,
     hubspot_company_id character varying,
     hubspot_contact_id character varying,
-    credits_in_cents integer DEFAULT 0,
     qna_lvl integer DEFAULT 0,
     qna_viewed_questions integer[] DEFAULT '{}'::integer[],
     qna_views_left integer DEFAULT 5
+    credits_in_cents integer DEFAULT 0
 );
 
 
@@ -350,7 +347,6 @@ CREATE TABLE public.charges (
 --
 
 CREATE SEQUENCE public.charges_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -386,7 +382,6 @@ CREATE TABLE public.documents (
 --
 
 CREATE SEQUENCE public.documents_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -454,7 +449,6 @@ CREATE TABLE public.email_threads (
 --
 
 CREATE SEQUENCE public.email_threads_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -489,7 +483,6 @@ CREATE TABLE public.favorites (
 --
 
 CREATE SEQUENCE public.favorites_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -528,7 +521,6 @@ CREATE TABLE public.feedback_requests (
 --
 
 CREATE SEQUENCE public.feedback_requests_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1042,7 +1034,6 @@ CREATE TABLE public.flags (
 --
 
 CREATE SEQUENCE public.flags_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1078,7 +1069,6 @@ CREATE TABLE public.forum_answers (
 --
 
 CREATE SEQUENCE public.forum_answers_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1114,7 +1104,6 @@ CREATE TABLE public.forum_questions (
 --
 
 CREATE SEQUENCE public.forum_questions_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1150,44 +1139,6 @@ CREATE TABLE public.forum_questions_jurisdictions (
 
 
 --
--- Name: forum_subscriptions; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.forum_subscriptions (
-    id integer NOT NULL,
-    business_id integer,
-    billing_type integer DEFAULT 0,
-    level integer DEFAULT 0,
-    suspended boolean DEFAULT false,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    fee integer DEFAULT 0,
-    stripe_customer_id character varying,
-    stripe_subscription_id character varying
-);
-
-
---
--- Name: forum_subscriptions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.forum_subscriptions_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: forum_subscriptions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.forum_subscriptions_id_seq OWNED BY public.forum_subscriptions.id;
-
-
---
 -- Name: forum_votes; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1206,7 +1157,6 @@ CREATE TABLE public.forum_votes (
 --
 
 CREATE SEQUENCE public.forum_votes_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1303,7 +1253,6 @@ CREATE TABLE public.job_applications (
 --
 
 CREATE SEQUENCE public.job_applications_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1403,7 +1352,6 @@ CREATE TABLE public.messages (
 --
 
 CREATE SEQUENCE public.messages_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2872,7 +2820,6 @@ CREATE TABLE public.notifications (
 --
 
 CREATE SEQUENCE public.notifications_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2910,7 +2857,6 @@ CREATE TABLE public.partnerships (
 --
 
 CREATE SEQUENCE public.partnerships_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3019,7 +2965,6 @@ CREATE TABLE public.project_ends (
 --
 
 CREATE SEQUENCE public.project_ends_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3054,7 +2999,6 @@ CREATE TABLE public.project_extensions (
 --
 
 CREATE SEQUENCE public.project_extensions_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3090,7 +3034,6 @@ CREATE TABLE public.project_invites (
 --
 
 CREATE SEQUENCE public.project_invites_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3110,7 +3053,6 @@ ALTER SEQUENCE public.project_invites_id_seq OWNED BY public.project_invites.id;
 --
 
 CREATE SEQUENCE public.project_issues_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3163,7 +3105,6 @@ CREATE TABLE public.project_templates (
 --
 
 CREATE SEQUENCE public.project_templates_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3226,7 +3167,6 @@ CREATE TABLE public.questions (
 --
 
 CREATE SEQUENCE public.questions_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3262,7 +3202,6 @@ CREATE TABLE public.ratings (
 --
 
 CREATE SEQUENCE public.ratings_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3298,7 +3237,6 @@ CREATE TABLE public.referral_tokens (
 --
 
 CREATE SEQUENCE public.referral_tokens_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3332,7 +3270,6 @@ CREATE TABLE public.referrals (
 --
 
 CREATE SEQUENCE public.referrals_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3366,7 +3303,6 @@ CREATE TABLE public.rewards_tiers (
 --
 
 CREATE SEQUENCE public.rewards_tiers_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3410,7 +3346,6 @@ CREATE TABLE public.settings (
 --
 
 CREATE SEQUENCE public.settings_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3487,7 +3422,6 @@ CREATE TABLE public.specialist_invitations (
 --
 
 CREATE SEQUENCE public.specialist_invitations_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3520,7 +3454,6 @@ CREATE TABLE public.specialist_teams (
 --
 
 CREATE SEQUENCE public.specialist_teams_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3596,7 +3529,6 @@ CREATE TABLE public.stripe_accounts (
 --
 
 CREATE SEQUENCE public.stripe_accounts_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3609,42 +3541,6 @@ CREATE SEQUENCE public.stripe_accounts_id_seq
 --
 
 ALTER SEQUENCE public.stripe_accounts_id_seq OWNED BY public.stripe_accounts.id;
-
-
---
--- Name: subscription_charges; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.subscription_charges (
-    id integer NOT NULL,
-    stripe_charge_id character varying,
-    status integer,
-    plan character varying,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    stripe_subscription_id character varying,
-    forum_subscription_id integer
-);
-
-
---
--- Name: subscription_charges_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.subscription_charges_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: subscription_charges_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.subscription_charges_id_seq OWNED BY public.subscription_charges.id;
 
 
 --
@@ -3669,7 +3565,6 @@ CREATE TABLE public.time_logs (
 --
 
 CREATE SEQUENCE public.time_logs_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3706,7 +3601,6 @@ CREATE TABLE public.timesheets (
 --
 
 CREATE SEQUENCE public.timesheets_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3753,7 +3647,6 @@ CREATE TABLE public.transactions (
 --
 
 CREATE SEQUENCE public.transactions_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3789,7 +3682,6 @@ CREATE TABLE public.turnkey_pages (
 --
 
 CREATE SEQUENCE public.turnkey_pages_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3830,7 +3722,6 @@ CREATE TABLE public.turnkey_solutions (
 --
 
 CREATE SEQUENCE public.turnkey_solutions_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -4002,17 +3893,11 @@ ALTER TABLE ONLY public.forum_questions ALTER COLUMN id SET DEFAULT nextval('pub
 
 
 --
--- Name: forum_subscriptions id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.forum_subscriptions ALTER COLUMN id SET DEFAULT nextval('public.forum_subscriptions_id_seq'::regclass);
-
-
---
 -- Name: forum_votes id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.forum_votes ALTER COLUMN id SET DEFAULT nextval('public.forum_votes_id_seq'::regclass);
+
 
 
 --
@@ -4191,13 +4076,6 @@ ALTER TABLE ONLY public.stripe_accounts ALTER COLUMN id SET DEFAULT nextval('pub
 
 
 --
--- Name: subscription_charges id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.subscription_charges ALTER COLUMN id SET DEFAULT nextval('public.subscription_charges_id_seq'::regclass);
-
-
---
 -- Name: time_logs id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -4356,14 +4234,6 @@ ALTER TABLE ONLY public.forum_answers
 
 ALTER TABLE ONLY public.forum_questions
     ADD CONSTRAINT forum_questions_pkey PRIMARY KEY (id);
-
-
---
--- Name: forum_subscriptions forum_subscriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.forum_subscriptions
-    ADD CONSTRAINT forum_subscriptions_pkey PRIMARY KEY (id);
 
 
 --
@@ -4572,14 +4442,6 @@ ALTER TABLE ONLY public.specialists
 
 ALTER TABLE ONLY public.stripe_accounts
     ADD CONSTRAINT stripe_accounts_pkey PRIMARY KEY (id);
-
-
---
--- Name: subscription_charges subscription_charges_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.subscription_charges
-    ADD CONSTRAINT subscription_charges_pkey PRIMARY KEY (id);
 
 
 --
@@ -4818,13 +4680,6 @@ CREATE INDEX index_flags_on_flagged_content_type_and_flagged_content_id ON publi
 --
 
 CREATE INDEX index_flags_on_flagger_type_and_flagger_id ON public.flags USING btree (flagger_type, flagger_id);
-
-
---
--- Name: index_forum_subscriptions_on_business_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_forum_subscriptions_on_business_id ON public.forum_subscriptions USING btree (business_id);
 
 
 --
@@ -5364,13 +5219,6 @@ CREATE INDEX index_stripe_accounts_on_specialist_id ON public.stripe_accounts US
 --
 
 CREATE INDEX index_stripe_accounts_on_stripe_id ON public.stripe_accounts USING btree (stripe_id);
-
-
---
--- Name: index_subscription_charges_on_forum_subscription_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_subscription_charges_on_forum_subscription_id ON public.subscription_charges USING btree (forum_subscription_id);
 
 
 --
@@ -5956,16 +5804,6 @@ INSERT INTO schema_migrations (version) VALUES ('20180911182144');
 
 INSERT INTO schema_migrations (version) VALUES ('20180914165337');
 
-INSERT INTO schema_migrations (version) VALUES ('20181026024940');
-
-INSERT INTO schema_migrations (version) VALUES ('20181026212530');
-
-INSERT INTO schema_migrations (version) VALUES ('20181028010350');
-
-INSERT INTO schema_migrations (version) VALUES ('20181028023519');
-
-INSERT INTO schema_migrations (version) VALUES ('20181028102912');
-
 INSERT INTO schema_migrations (version) VALUES ('20181102164606');
 
 INSERT INTO schema_migrations (version) VALUES ('20181110001445');
@@ -5981,22 +5819,13 @@ INSERT INTO schema_migrations (version) VALUES ('20181123042811');
 INSERT INTO schema_migrations (version) VALUES ('20181124133815');
 
 INSERT INTO schema_migrations (version) VALUES ('20181124135819');
+INSERT INTO schema_migrations (version) VALUES ('20181026024940');
 
-INSERT INTO schema_migrations (version) VALUES ('20181204204949');
+INSERT INTO schema_migrations (version) VALUES ('20181026212530');
 
-INSERT INTO schema_migrations (version) VALUES ('20181204223503');
+INSERT INTO schema_migrations (version) VALUES ('20181028010350');
 
-INSERT INTO schema_migrations (version) VALUES ('20181204224111');
+INSERT INTO schema_migrations (version) VALUES ('20181028023519');
 
-INSERT INTO schema_migrations (version) VALUES ('20181205190733');
-
-INSERT INTO schema_migrations (version) VALUES ('20181206190337');
-
-INSERT INTO schema_migrations (version) VALUES ('20181206193340');
-
-INSERT INTO schema_migrations (version) VALUES ('20181206194641');
-
-INSERT INTO schema_migrations (version) VALUES ('20181206194651');
-
-INSERT INTO schema_migrations (version) VALUES ('20181206201151');
+INSERT INTO schema_migrations (version) VALUES ('20181028102912');
 

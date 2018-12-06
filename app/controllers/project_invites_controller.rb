@@ -2,6 +2,7 @@
 
 class ProjectInvitesController < ApplicationController
   before_action :require_business!
+  before_action :authenticate_user!
 
   def new
     @specialist = Specialist.find(params.require(:specialist_id))

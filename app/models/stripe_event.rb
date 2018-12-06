@@ -4,10 +4,6 @@ class StripeEvent
   attr_reader :event, :account
 
   HANDLERS = {
-    'invoice.created' => StripeEvent::InvoiceCreated,
-    'invoice.finalized' => StripeEvent::InvoiceFinalized,
-    'invoice.payment_succeeded' => StripeEvent::InvoiceSucceeded,
-    'customer.subscription.created' => StripeEvent::SubscriptionCreated, 
     'account.updated' => StripeEvent::AccountUpdated,
     'charge.failed' => StripeEvent::ChargeFailed,
     'payout.failed' => StripeEvent::PayoutFailed,

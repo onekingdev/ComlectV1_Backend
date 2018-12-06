@@ -2,6 +2,7 @@
 
 class Business::ProjectRatingsController < ::ProjectRatingsController
   prepend_before_action :require_business!
+  before_action :authenticate_user!
 
   private
 
