@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SyncBusinessUsersToMailchimpJob < ActiveJob::Base
   queue_as :default
 
@@ -6,7 +8,7 @@ class SyncBusinessUsersToMailchimpJob < ActiveJob::Base
     # Build body of the request for the businesses
     body = {
       email_address: user.contact_email,
-      status: "subscribed",
+      status: 'subscribed',
       merge_fields: {
         FNAME: user.contact_first_name,
         LNAME: user.contact_last_name,
@@ -19,16 +21,16 @@ class SyncBusinessUsersToMailchimpJob < ActiveJob::Base
     }
     # Execute the request, to subscribe the user to the list
     begin
-      gibbon.lists(ENV["MAILCHIMP_BUSINESS_ID"]).members.create(body: body)
+      gibbon.lists(ENV['MAILCHIMP_BUSINESS_ID']).members.create(body: body)
     rescue Gibbon::MailChimpError => exception
       Rails.logger.info exception
     end
 
     #  Make a second call to add a tag to the user
     begin
-      gibbon.lists(ENV["MAILCHIMP_BUSINESS_ID"]).members(Digest::MD5.hexdigest(user.contact_email)).tags.create(
+      gibbon.lists(ENV['MAILCHIMP_BUSINESS_ID']).members(Digest::MD5.hexdigest(user.contact_email)).tags.create(
         body: {
-          tags: [{name:"Businesses", status:"active"}]
+          tags: [{ name: 'Businesses', status: 'active' }]
         }
       )
     rescue Gibbon::MailChimpError => exception
