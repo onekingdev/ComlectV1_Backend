@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Business::ProjectDashboardController < ApplicationController
-  before_action :authenticate_user!
+  prepend_before_action :authenticate_user!
   prepend_before_action :find_project, only: :show
   prepend_before_action :require_business!
   before_action :find_specialist, only: :show

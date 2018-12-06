@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ProjectRatingsController < ApplicationController
-  before_action :authenticate_user!
+  prepend_before_action :authenticate_user!
   skip_before_action :check_unrated_project
   before_action :find_project, :set_form_url
   before_action :set_rating_solicitation, only: :new
