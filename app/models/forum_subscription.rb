@@ -7,9 +7,12 @@
 # t.boolean :suspended, default: false
 # t.datetime :expiration
 # t.timestamps null: false
+# t.integer :fee
+# t.string :stripe_customer_id
 
 class ForumSubscription < ActiveRecord::Base
   belongs_to :business
+  has_many :subscription_charges
 
   enum billing_type: %i[annual monthly]
   enum level: %i[free basic pro]
@@ -21,12 +24,30 @@ class ForumSubscription < ActiveRecord::Base
   end
 
   def create_subscription
-    # sub = Stripe::Subscription.create(
-    #   customer: business.payment_profile.stripe_customer_id,
-    #   items: [{ plan: return_plan_id }]
-    # )
-    # rescue StandardError => e
-    #   puts e
-    # end
+    update(stripe_customer_id: business.payment_profile.stripe_customer_id)
+    begin
+      Stripe::Subscription.create(
+        customer: stripe_customer_id,
+        items: [{ plan: return_plan_id }]
+      )
+    rescue StandardError => e
+      Rails.logger.info e
+    end
   end
+
+  def upgrade(_lvl, billing_type)
+    billing_type.zero? ? annual! : monthly!
+    pro!
+    stripe_sub = Stripe::Subscription.retrieve(stripe_subscription_id)
+    stripe_sub.items = [{
+      id: stripe_sub.items.data[0].id,
+      plan: return_plan_id
+    }]
+    stripe_sub.save
+  end
+
+  def cancel
+    
+  end
+
 end
