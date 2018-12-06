@@ -41,7 +41,10 @@
       | Ask your own custom
       br
       | questions on the forum
-    - if current_business
+    - if current_business && current_business.qna_lvl == 1
+      = link_to "Upgrade Annual", forum_subscriptions_upgrade_path(:lvl => 2, :billing_type => 0), class: 'btn btn-primary m-t-1'
+      = link_to "Upgrade Monthly", forum_subscriptions_upgrade_path(:lvl => 2, :billing_type => 1), class: 'btn btn-primary m-t-1'
+    - elsif current_business
       = link_to "Buy Annual", forum_subscriptions_create_path(:lvl =>2, :billing_type => 0), class: "btn btn-primary m-t-1" if current_business.qna_lvl < 2
       = link_to "Buy Monthly", forum_subscriptions_create_path(:lvl =>2, :billing_type => 1), class: "btn btn-primary m-t-1" if current_business.qna_lvl < 2
     - else

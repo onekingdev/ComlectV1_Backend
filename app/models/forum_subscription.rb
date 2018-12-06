@@ -33,5 +33,19 @@ class ForumSubscription < ActiveRecord::Base
     end
   end
 
+  def upgrade(lvl, billing_type)
+    self.billing_type = billing_type == 0 ? "annual" : "monthly"
+    self.pro!
+    stripe_sub = Stripe::Subscription.retrieve(self.stripe_subscription_id)
+    stripe_sub.items = [{
+        id: stripe_sub.items.data[0].id,
+        plan: self.get_plan_id,
+    }]
+    stripe_sub.save
+  end
+
+  def cancel
+    
+  end
 
 end

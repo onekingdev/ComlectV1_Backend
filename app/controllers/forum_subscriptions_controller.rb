@@ -21,9 +21,12 @@ class ForumSubscriptionsController < ApplicationController
     end
   end
 
-  def update
-    # Upgrade subscription here
+  def upgrade
+    referer = URI(request.referer).path
+    current_business.update(qna_lvl: params[:lvl])
     sub = ForumSubscription.where(:business_id => current_business.id).first
+    sub.upgrade(params[:lvl], params[:billing_type])
+    redirect_to referer, notice: 'Subscription confirmed'
   end
 
 end
