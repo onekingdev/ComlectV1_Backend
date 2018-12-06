@@ -108,6 +108,8 @@ class Specialist < ApplicationRecord
   after_commit :sync_with_hubspot, on: %i[create update]
   after_commit :generate_referral_token, on: :create
 
+  after_create :sync_with_mailchimp
+
   def self.dates_between_query
     'SUM(ROUND((COALESCE("to", NOW())::date - "from"::date)::float / 365.0)::numeric::int)'
   end
@@ -115,6 +117,17 @@ class Specialist < ApplicationRecord
 
   def referral_token
     referral_tokens.last
+  end
+
+  def years_of_experience
+    return @_years_of_experience if @_years_of_experience
+    @_years_of_experience = self[:years_of_experience] || (calculate_years_of_experience / 365.0).round
+  end
+
+  def calculate_years_of_experience
+    work_experiences.compliance.map do |exp|
+      exp.from ? ((exp.to || Time.zone.today) - exp.from).to_f : 0.0
+    end.reduce(:+) || 0.0
   end
 
   def messages
@@ -192,5 +205,11 @@ class Specialist < ApplicationRecord
 
   def generate_referral_token
     GenerateReferralTokensJob.perform_later(self)
+  end
+
+  def sync_with_mailchimp
+    SyncSpecialistUsersToMailchimpJob.perform_later(self)
+    # Use this for testing, also I'm just comitting this to test the heroku staging deploy process
+    # SyncSpecialistUsersToMailchimpJob.perform_now(self)
   end
 end

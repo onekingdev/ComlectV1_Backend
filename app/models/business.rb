@@ -54,6 +54,7 @@ class Business < ApplicationRecord
   validates :employees, inclusion: { in: EMPLOYEE_OPTIONS }
   validates :linkedin_link, allow_blank: true, url: true
   validates :website, allow_blank: true, url: true
+  validates :contact_email, format: { with: URI::MailTo::EMAIL_REGEXP }
 
   accepts_nested_attributes_for :user
 
@@ -61,6 +62,8 @@ class Business < ApplicationRecord
 
   after_commit :sync_with_hubspot, on: %i[create update]
   after_commit :generate_referral_token, on: :create
+
+  after_create :sync_with_mailchimp
 
   def self.for_signup(attributes = {}, token = nil)
     new(attributes).tap do |business|
@@ -127,5 +130,11 @@ class Business < ApplicationRecord
 
   def generate_referral_token
     GenerateReferralTokensJob.perform_later(self)
+  end
+
+  def sync_with_mailchimp
+    SyncBusinessUsersToMailchimpJob.perform_later(self)
+    # For dev testing and triggering heroku deploy
+    # SyncBusinessUsersToMailchimpJob.perform_now(self)
   end
 end

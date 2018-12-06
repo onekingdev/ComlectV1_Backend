@@ -73,6 +73,9 @@ gem 'jquery-slick-rails'
 # Mail
 gem 'postmark-rails'
 
+# Mailchimp
+gem 'gibbon'
+
 # Image uploads
 gem 'aws-sdk', '~> 2.3.12'
 gem 'fastimage', '~> 2.0.0'
