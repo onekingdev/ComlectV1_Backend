@@ -1161,8 +1161,7 @@ CREATE TABLE public.forum_subscriptions (
     suspended boolean DEFAULT false,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    annual_bill_date character varying,
-    monthly_bill_date character varying
+    fee integer DEFAULT 0
 );
 
 
@@ -5928,4 +5927,6 @@ INSERT INTO schema_migrations (version) VALUES ('20181204204949');
 INSERT INTO schema_migrations (version) VALUES ('20181204223503');
 
 INSERT INTO schema_migrations (version) VALUES ('20181204224111');
+
+INSERT INTO schema_migrations (version) VALUES ('20181205190733');
 

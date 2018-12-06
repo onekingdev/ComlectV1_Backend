@@ -12,14 +12,22 @@ class ForumSubscription < ActiveRecord::Base
   enum billing_type: [ :annual, :monthly ]
   enum level: [ :free, :basic, :pro ]
 
-  before_create :set_bill_date
+  after_create :create_subscription
 
-  def set_bill_date
-    if self.annual?
-      self.annual_bill_date = Time.zone.now.strftime("%m %d")
-    elsif self.monthly?
-      self.monthly_bill_date = Time.zone.now.strftime("%d")
+  def get_plan_id
+    "#{Rails.env == "production" ? "production" : "staging"}_#{self.level}_#{self.billing_type}"
+  end
+
+  def create_subscription
+    begin
+      sub = Stripe::Subscription.create({
+        customer: self.business.payment_profile.stripe_customer_id,
+        items: [{plan: self.get_plan_id}],
+      })
+    rescue => e
+      puts e
     end
   end
+
 
 end

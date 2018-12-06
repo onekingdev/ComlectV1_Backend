@@ -2,6 +2,7 @@
 
 class ForumSubscriptionsController < ApplicationController
   # Dumb subscription updater
+  before_action :authenticate_user!
 
   def create
     referer = URI(request.referer).path
