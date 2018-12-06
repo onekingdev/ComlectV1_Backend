@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 class ProjectMessagesController < ApplicationController
-  prepend_before_action :authenticate_user!
-  before_action :find_project
+  before_action :authenticate_user!
 
   def index
     b_id = current_business ? current_business.id : @project.business_id
