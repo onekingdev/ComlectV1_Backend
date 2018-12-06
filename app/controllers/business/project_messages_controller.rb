@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class Business::ProjectMessagesController < ProjectMessagesController
+  prepend_before_action :authenticate_user!
   before_action :require_business!
-  before_action :authenticate_user!
 
   def index
     Notification.clear! current_user, :business_got_project_message, @project
