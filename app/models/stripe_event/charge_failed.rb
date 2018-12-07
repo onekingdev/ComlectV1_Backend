@@ -9,6 +9,7 @@ class StripeEvent::ChargeFailed < StripeEvent
       transaction.update_attribute :status_detail, event.data.object.failure_message
       Notification::Deliver.payment_issue! transaction.business.user
     elsif subscription
+      subscription.failed!
       subscription.forum_subscription.update_attribute(suspended: true)
       subscription.forum_subscription.business.update_attribute(qna_lvl: 0)
     end

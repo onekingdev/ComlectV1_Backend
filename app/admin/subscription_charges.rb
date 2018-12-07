@@ -14,13 +14,19 @@ ActiveAdmin.register SubscriptionCharge do
   #   permitted
   # end
 
+  filter :status
+  filter :plan
+
   index do
     id_column
+    column 'Business' do |sc|
+      sc.forum_subscription&.business
+    end
     column :status
     column :plan
-    # column 'Business' do |sc|
-    #   sc.forum_subscription.business
-    # end
+    column 'Fee' do |sc|
+      number_to_currency((sc.amount / 100), precision: 2) if sc.amount
+    end
     # column :stripe_subscription_id
   end
 end

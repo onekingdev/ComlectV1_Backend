@@ -2,9 +2,9 @@
 
 class StripeEvent::InvoiceSucceeded < StripeEvent
   def handle
-    sub = SubscriptionCharge.find_by(stripe_charge_id: event.data.object.charge)
-    fs = ForumSubscription.find_by(stripe_subscription_id: event.data.object.lines.data[0].id)
-    sub&.update(forum_subscription: fs, status: 1)
-    fs.business.update_attribute(qna_lvl: fs[:level])
+    fs = PaymentProfile.find_by(stripe_customer_id: event.data.object.customer).business.forum_subscription
+    sub = SubscriptionCharge.where(stripe_charge_id: event.data.object.charge, forum_subscription: fs).first_or_create
+    sub.update(forum_subscription: fs, status: 1, amount: event.data.object.amount_paid)
+    fs.business.update(qna_lvl: fs[:level])
   end
 end

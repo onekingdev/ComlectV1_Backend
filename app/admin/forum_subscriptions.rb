@@ -13,6 +13,10 @@ ActiveAdmin.register ForumSubscription do
   #   permitted << :other if params[:action] == 'create' && current_user.admin?
   #   permitted
   # end
+
+  filter :level
+  filter :billing_type
+
   index do
     id_column
     column 'Business', &:business
