@@ -47,6 +47,7 @@ class ForumSubscription < ActiveRecord::Base
   end
 
   def cancel
+    # will need to use a webhook to set a cancellation date for front end messaging
     subscription = Stripe::Subscription.retrieve(stripe_subscription_id)
     subscription.cancel_at_period_end = true
     subscription.save
