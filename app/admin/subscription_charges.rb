@@ -23,10 +23,12 @@ ActiveAdmin.register SubscriptionCharge do
       sc.forum_subscription&.business
     end
     column :status
-    column :plan
+    column 'Plan' do |sc|
+      sc.plan.nil? ? 'upgrade' : sc.plan
+    end
     column 'Fee' do |sc|
       number_to_currency((sc.amount / 100), precision: 2) if sc.amount
     end
-    # column :stripe_subscription_id
+    column :forum_subscription
   end
 end
