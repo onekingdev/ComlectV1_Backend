@@ -14,6 +14,8 @@ ActiveAdmin.register SubscriptionCharge do
   #   permitted
   # end
 
+  menu parent: 'Subscriptions'
+
   filter :status
   filter :plan
 

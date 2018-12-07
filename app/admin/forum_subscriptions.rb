@@ -13,6 +13,7 @@ ActiveAdmin.register ForumSubscription do
   #   permitted << :other if params[:action] == 'create' && current_user.admin?
   #   permitted
   # end
+  menu parent: 'Subscriptions'
 
   filter :level
   filter :billing_type
