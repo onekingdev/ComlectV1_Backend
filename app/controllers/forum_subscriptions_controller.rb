@@ -29,5 +29,9 @@ class ForumSubscriptionsController < ApplicationController
     redirect_to referer, notice: 'Subscription confirmed'
   end
 
-  def cancel; end
+  def cancel
+    referer = URI(request.referer).path
+    current_business.forum_subscription.cancel
+    redirect_to referer, notice: 'Subscription cancelled'
+  end
 end

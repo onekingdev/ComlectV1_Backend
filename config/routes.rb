@@ -47,6 +47,7 @@ Rails.application.routes.draw do
   get '/ask-a-specialist/downvote/:id' => 'forum_votes#downvote'
   get '/forum_subscriptions/create' => 'forum_subscriptions#create'
   get '/forum_subscriptions/upgrade' => 'forum_subscriptions#upgrade'
+  get '/forum_subscriptions/cancel' => 'forum_subscriptions#cancel'
 
   resources :turnkey_pages, only: %i[index show create new], path: 'turnkey'
   resources :turnkey_solutions # , only: :create

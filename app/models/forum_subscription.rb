@@ -47,7 +47,8 @@ class ForumSubscription < ActiveRecord::Base
   end
 
   def cancel
-    
+    subscription = Stripe::Subscription.retrieve(stripe_subscription_id)
+    subscription.cancel_at_period_end = true
+    subscription.save
   end
-
 end

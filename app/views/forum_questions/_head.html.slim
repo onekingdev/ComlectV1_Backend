@@ -1,5 +1,7 @@
 .row.full_width.pitch
   .container
+    -if current_business && current_business.qna_lvl > 0
+      = link_to 'Cancel', forum_subscriptions_cancel_path, class: 'btn btn-primary'
     - if current_business && current_business.qna_lvl == 2 || params[:action] == "search"
       = render partial: "search"
       .container
