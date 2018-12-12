@@ -125,7 +125,7 @@ class Specialist < ApplicationRecord
   end
 
   def calculate_years_of_experience
-    self.work_experiences.compliance.map do |exp|
+    work_experiences.compliance.map do |exp|
       exp.from ? ((exp.to || Time.zone.today) - exp.from).to_f : 0.0
     end.reduce(:+) || 0.0
   end
