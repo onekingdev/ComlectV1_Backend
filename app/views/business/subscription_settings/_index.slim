@@ -1,0 +1,22 @@
+.panel-heading
+  h3 Q&A Forum
+
+.panel-body.p-t-0.m-b-1
+
+  = simple_form_for :subscription do |f|
+    table.table.table-plain.notification-preferences.m-b-2
+      tr
+        td Enable Q&A Subscription
+        td.text-right
+          input.button-switch.hidden[
+            type="checkbox"
+            data-size="small"
+            data-on-color="primary"
+            data-remote=true
+            data-url=business_settings_subscription_path("qna_sub")
+            checked=(current_business.qna_lvl > 0)
+        ]
+    = f.input :plan, as: :radio_pills, collection: [['basic', current_business.qna_lvl == 1], ['pro', current_business.qna_lvl == 2]], btn_class: 'btn-lg btn-default', hint: false, label: "Plan", input_html: { "data-remote": true, "data-url": business_settings_subscriptions_path }
+    .clearfix.m-b-2
+    - if @forum_sub
+      = f.input :charge, as: :radio_pills, collection: [['monthly', @forum_sub.billing_type == "monthly"], ['annual', @forum_sub.billing_type == "annual"]], btn_class: 'btn-lg btn-default', hint: false, label: "Charge", input_html: { "data-remote": true, "data-url": business_settings_subscriptions_path }

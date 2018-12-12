@@ -21,6 +21,16 @@
   }
 }
 
+.subscription_settings {
+  .subscription_plan, .subscription_charge {
+    .btn-group {
+      position: absolute;
+      right: 0px;
+      margin-top: -10px;
+    }
+  }
+}
+
 #business-settings, #specialist-settings {
   margin-top: 8px;
 

@@ -77,6 +77,7 @@ Rails.application.routes.draw do
         patch :make_primary
       end
       resources :notification_settings, as: :notifications, path: 'notifications', only: %i[index update]
+      resources :subscription_settings, as: :subscriptions, path: 'subscriptions', only: %i[index update]
     end
     resources :specialists, only: :index
     concerns :favoriteable
