@@ -21,6 +21,8 @@ class User < ApplicationRecord
 
   validates :email, presence: true, email: true
 
+  accepts_nested_attributes_for :tos_agreement
+
   scope :inactive, -> {
     where('last_sign_in_at < ?', Time.zone.now - 90.days)
       .where(inactive_for_period: false, suspended: false)
@@ -83,11 +85,11 @@ class User < ApplicationRecord
     super && !suspended? && !deleted? # Extra safeguard, default_scope should prevent deleted users from being found
   end
 
-  def create_tos_agreement(ip_address, description)
-    TosAgreement.create(
-      user_id: id,
-      description: description,
-      status: true,
+  def update_privacy_agreement(ip_address, params)
+    binding.pry
+    self.tos_agreement.update(
+      tos_description: params[:tos_description],
+      cookie_description: params[:cookie_description],
       agreement_date: Time.zone.now,
       ip_address: ip_address
     )

@@ -60,6 +60,9 @@ class Business < ApplicationRecord
   validates :contact_email, format: { with: URI::MailTo::EMAIL_REGEXP }
 
   accepts_nested_attributes_for :user
+  accepts_nested_attributes_for :tos_agreement
+
+  validate :tos_invalid?
 
   delegate :suspended?, to: :user
 
@@ -70,10 +73,14 @@ class Business < ApplicationRecord
 
   def self.for_signup(attributes = {}, token = nil)
     new(attributes).tap do |business|
-      business.build_user unless business.user
+      business.build_user.build_tos_agreement unless business.user
       referral_token = ReferralToken.find_by(token: token) if token
       business.build_referral(referral_token: referral_token) if referral_token
     end
+  end
+
+  def tos_invalid?
+    errors.add(:tos_agree, "You must agree to the terms of service to create an account") if self.user.tos_agreement.nil?
   end
 
   def referral_token
