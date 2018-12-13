@@ -20,7 +20,7 @@ class BusinessesController < ApplicationController
     @business = Business.for_signup(business_params, cookies[:referral])
     if @business.save
       sign_in @business.user
-      @business.user.create_privacy_agreements(request.remote_ip, params[:agreements])
+      @business.user.create_privacy_agreement(request.remote_ip, params[:agreements])
       mixpanel_track_later 'Sign Up'
       BusinessMailer.welcome(@business).deliver_later
       cookies.delete :referral

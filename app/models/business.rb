@@ -27,12 +27,9 @@ class Business < ApplicationRecord
   }, through: :projects, source: :ratings
   has_many :email_threads, dependent: :destroy
 
-<<<<<<< HEAD
-=======
   has_one :forum_subscription
   has_one :tos_agreement, through: :user
 
->>>>>>> adds tos_agreement
   has_one :referral, as: :referrable
   has_many :referral_tokens, as: :referrer
 

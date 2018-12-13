@@ -5773,8 +5773,6 @@ INSERT INTO schema_migrations (version) VALUES ('20181028023519');
 
 INSERT INTO schema_migrations (version) VALUES ('20181028102912');
 
-<<<<<<< HEAD
-=======
 INSERT INTO schema_migrations (version) VALUES ('20181102164606');
 
 INSERT INTO schema_migrations (version) VALUES ('20181110001445');
@@ -5814,5 +5812,3 @@ INSERT INTO schema_migrations (version) VALUES ('20181207154323');
 INSERT INTO schema_migrations (version) VALUES ('20181212215219');
 
 INSERT INTO schema_migrations (version) VALUES ('20181213163257');
-
->>>>>>> adds tos_agreement
