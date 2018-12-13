@@ -20,7 +20,7 @@ class BusinessesController < ApplicationController
     @business = Business.for_signup(business_params, cookies[:referral])
     if @business.save
       sign_in @business.user
-      @business.user.update_privacy_agreement(request.remote_ip, params[:agreements])
+      @business.user.update_privacy_agreement(request.remote_ip)
       mixpanel_track_later 'Sign Up'
       BusinessMailer.welcome(@business).deliver_later
       cookies.delete :referral
@@ -62,7 +62,7 @@ class BusinessesController < ApplicationController
       :address_1, :address_2, :country, :city, :state, :zipcode, :time_zone,
       :anonymous, :logo,
       industry_ids: [], jurisdiction_ids: [],
-      user_attributes: [:email, :password, tos_agreement_attributes: [:status]],
+      user_attributes: [:email, :password, tos_agreement_attributes: [:status, :cookie_description, :tos_description]],
     )
   end
 
