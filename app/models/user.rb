@@ -86,7 +86,7 @@ class User < ApplicationRecord
   end
 
   def update_privacy_agreement(ip_address)
-    self.tos_agreement.update(
+    tos_agreement.update(
       agreement_date: Time.zone.now,
       ip_address: ip_address
     )

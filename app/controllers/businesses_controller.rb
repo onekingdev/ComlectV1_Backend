@@ -62,7 +62,7 @@ class BusinessesController < ApplicationController
       :address_1, :address_2, :country, :city, :state, :zipcode, :time_zone,
       :anonymous, :logo,
       industry_ids: [], jurisdiction_ids: [],
-      user_attributes: [:email, :password, tos_agreement_attributes: [:status, :cookie_description, :tos_description]],
+      user_attributes: [:email, :password, tos_agreement_attributes: %i[status cookie_description tos_description]]
     )
   end
 

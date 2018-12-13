@@ -45,7 +45,10 @@ class Specialist < ApplicationRecord
     }
   end
 
+  has_one :tos_agreement, through: :user
+
   accepts_nested_attributes_for :education_histories, :work_experiences
+  accepts_nested_attributes_for :tos_agreement
 
   default_scope -> { joins("INNER JOIN users ON users.id = specialists.user_id AND users.deleted = 'f'") }
 

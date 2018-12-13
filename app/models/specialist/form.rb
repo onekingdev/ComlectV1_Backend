@@ -23,7 +23,7 @@ class Specialist::Form < Specialist
 
     new(attributes).tap do |specialist|
       specialist.specialist_team_id = invitation.specialist_team_id if invitation
-      specialist.build_user unless specialist.user
+      specialist.build_user.build_tos_agreement unless specialist.user
       specialist.user.tos_acceptance_date = Time.zone.now
       specialist.user.tos_acceptance_ip = tos_acceptance_ip
       specialist.work_experiences.build unless specialist.work_experiences.any?
