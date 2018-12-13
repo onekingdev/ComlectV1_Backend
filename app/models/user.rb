@@ -15,6 +15,12 @@ class User < ApplicationRecord
   has_many :payment_sources, through: :business
   has_many :project_issues, dependent: :delete_all
   has_many :notifications, dependent: :delete_all
+<<<<<<< HEAD
+=======
+  has_many :forum_answers
+  has_many :forum_votes, dependent: :destroy
+  has_one :tos_agreement, dependent: :destroy
+>>>>>>> adds tos_agreement
 
   validates :email, presence: true, email: true
 
@@ -78,5 +84,19 @@ class User < ApplicationRecord
 
   def active_for_authentication?
     super && !suspended? && !deleted? # Extra safeguard, default_scope should prevent deleted users from being found
+  end
+
+  def create_tos_agreement(ip_address, description)
+    TosAgreement.create(
+      user_id: id,
+      description: description,
+      status: true,
+      agreement_date: Time.zone.now,
+      ip_address: ip_address
+    )
+  end
+
+  def create_privacy_agreements(ip_address, params)
+    create_tos_agreement(ip_address, params[:tos_description])
   end
 end

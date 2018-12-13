@@ -2820,6 +2820,42 @@ ALTER SEQUENCE public.payment_sources_id_seq OWNED BY public.payment_sources.id;
 
 
 --
+-- Name: privacy_agreements; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.privacy_agreements (
+    id integer NOT NULL,
+    type integer DEFAULT 0,
+    status boolean DEFAULT false,
+    description character varying,
+    ip_address character varying,
+    user_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: privacy_agreements_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.privacy_agreements_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: privacy_agreements_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.privacy_agreements_id_seq OWNED BY public.privacy_agreements.id;
+
+
+--
 -- Name: project_ends; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -3489,6 +3525,42 @@ ALTER SEQUENCE public.timesheets_id_seq OWNED BY public.timesheets.id;
 
 
 --
+-- Name: tos_agreements; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.tos_agreements (
+    id integer NOT NULL,
+    agreement_date timestamp without time zone,
+    description character varying,
+    status boolean,
+    ip_address character varying,
+    user_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: tos_agreements_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.tos_agreements_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: tos_agreements_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.tos_agreements_id_seq OWNED BY public.tos_agreements.id;
+
+
+--
 -- Name: transactions; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -3808,6 +3880,13 @@ ALTER TABLE ONLY public.payment_sources ALTER COLUMN id SET DEFAULT nextval('pub
 
 
 --
+-- Name: privacy_agreements id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.privacy_agreements ALTER COLUMN id SET DEFAULT nextval('public.privacy_agreements_id_seq'::regclass);
+
+
+--
 -- Name: project_ends id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3938,6 +4017,13 @@ ALTER TABLE ONLY public.time_logs ALTER COLUMN id SET DEFAULT nextval('public.ti
 --
 
 ALTER TABLE ONLY public.timesheets ALTER COLUMN id SET DEFAULT nextval('public.timesheets_id_seq'::regclass);
+
+
+--
+-- Name: tos_agreements id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tos_agreements ALTER COLUMN id SET DEFAULT nextval('public.tos_agreements_id_seq'::regclass);
 
 
 --
@@ -4136,6 +4222,14 @@ ALTER TABLE ONLY public.payment_sources
 
 
 --
+-- Name: privacy_agreements privacy_agreements_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.privacy_agreements
+    ADD CONSTRAINT privacy_agreements_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: project_ends project_ends_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4285,6 +4379,14 @@ ALTER TABLE ONLY public.time_logs
 
 ALTER TABLE ONLY public.timesheets
     ADD CONSTRAINT timesheets_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: tos_agreements tos_agreements_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tos_agreements
+    ADD CONSTRAINT tos_agreements_pkey PRIMARY KEY (id);
 
 
 --
@@ -4633,6 +4735,13 @@ CREATE UNIQUE INDEX index_payment_sources_on_stripe_id ON public.payment_sources
 --
 
 CREATE INDEX index_payment_sources_on_type ON public.payment_sources USING btree (type);
+
+
+--
+-- Name: index_privacy_agreements_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_privacy_agreements_on_user_id ON public.privacy_agreements USING btree (user_id);
 
 
 --
@@ -5084,6 +5193,13 @@ CREATE INDEX index_timesheets_on_status_changed_at ON public.timesheets USING bt
 
 
 --
+-- Name: index_tos_agreements_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_tos_agreements_on_user_id ON public.tos_agreements USING btree (user_id);
+
+
+--
 -- Name: index_transactions_on_charge_source_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -5277,6 +5393,22 @@ CREATE TRIGGER trigger_specialists_on_lat_lng BEFORE INSERT OR UPDATE OF lat, ln
 --
 
 CREATE TRIGGER tsvectorupdate BEFORE INSERT OR UPDATE ON public.projects FOR EACH ROW EXECUTE PROCEDURE tsvector_update_trigger('tsv', 'pg_catalog.english', 'title', 'description');
+
+
+--
+-- Name: privacy_agreements fk_rails_471e258074; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.privacy_agreements
+    ADD CONSTRAINT fk_rails_471e258074 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: tos_agreements fk_rails_6e25fd106a; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tos_agreements
+    ADD CONSTRAINT fk_rails_6e25fd106a FOREIGN KEY (user_id) REFERENCES public.users(id);
 
 
 --
@@ -5641,3 +5773,46 @@ INSERT INTO schema_migrations (version) VALUES ('20181028023519');
 
 INSERT INTO schema_migrations (version) VALUES ('20181028102912');
 
+<<<<<<< HEAD
+=======
+INSERT INTO schema_migrations (version) VALUES ('20181102164606');
+
+INSERT INTO schema_migrations (version) VALUES ('20181110001445');
+
+INSERT INTO schema_migrations (version) VALUES ('20181111001648');
+
+INSERT INTO schema_migrations (version) VALUES ('20181112100355');
+
+INSERT INTO schema_migrations (version) VALUES ('20181118233812');
+
+INSERT INTO schema_migrations (version) VALUES ('20181123042811');
+
+INSERT INTO schema_migrations (version) VALUES ('20181124133815');
+
+INSERT INTO schema_migrations (version) VALUES ('20181124135819');
+
+INSERT INTO schema_migrations (version) VALUES ('20181204204949');
+
+INSERT INTO schema_migrations (version) VALUES ('20181204223503');
+
+INSERT INTO schema_migrations (version) VALUES ('20181204224111');
+
+INSERT INTO schema_migrations (version) VALUES ('20181205190733');
+
+INSERT INTO schema_migrations (version) VALUES ('20181206190337');
+
+INSERT INTO schema_migrations (version) VALUES ('20181206193340');
+
+INSERT INTO schema_migrations (version) VALUES ('20181206194641');
+
+INSERT INTO schema_migrations (version) VALUES ('20181206194651');
+
+INSERT INTO schema_migrations (version) VALUES ('20181206201151');
+
+INSERT INTO schema_migrations (version) VALUES ('20181207154323');
+
+INSERT INTO schema_migrations (version) VALUES ('20181212215219');
+
+INSERT INTO schema_migrations (version) VALUES ('20181213163257');
+
+>>>>>>> adds tos_agreement
