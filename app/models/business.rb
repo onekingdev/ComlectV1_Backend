@@ -80,7 +80,7 @@ class Business < ApplicationRecord
   end
 
   def tos_invalid?
-    errors.add(:tos_agree, 'You must agree to the terms of service to create an account') if user.tos_agreement.nil?
+    errors.add(:tos_agree, 'You must agree to the terms of service to create an account') if !user.tos_agreement.status
   end
 
   def referral_token

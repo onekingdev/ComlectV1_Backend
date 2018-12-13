@@ -50,6 +50,8 @@ class Specialist < ApplicationRecord
   accepts_nested_attributes_for :education_histories, :work_experiences
   accepts_nested_attributes_for :tos_agreement
 
+  validate :tos_invalid?
+
   default_scope -> { joins("INNER JOIN users ON users.id = specialists.user_id AND users.deleted = 'f'") }
 
   scope :preload_associations, -> {
@@ -112,6 +114,10 @@ class Specialist < ApplicationRecord
   after_commit :generate_referral_token, on: :create
 
   after_create :sync_with_mailchimp
+
+  def tos_invalid?
+    errors.add(:tos_agree, 'You must agree to the terms of service to create an account') if !user.tos_agreement.status
+  end
 
   def self.dates_between_query
     'SUM(ROUND((COALESCE("to", NOW())::date - "from"::date)::float / 365.0)::numeric::int)'
