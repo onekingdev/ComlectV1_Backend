@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop:disable ClassLength
 class Specialist < ApplicationRecord
   belongs_to :user, autosave: true
   belongs_to :team, foreign_key: :specialist_team_id
@@ -46,10 +47,8 @@ class Specialist < ApplicationRecord
   end
 
   has_one :tos_agreement, through: :user
-
   accepts_nested_attributes_for :education_histories, :work_experiences
   accepts_nested_attributes_for :tos_agreement
-
   validate :tos_invalid?
 
   default_scope -> { joins("INNER JOIN users ON users.id = specialists.user_id AND users.deleted = 'f'") }
@@ -116,7 +115,7 @@ class Specialist < ApplicationRecord
   after_create :sync_with_mailchimp
 
   def tos_invalid?
-    errors.add(:tos_agree, 'You must agree to the terms of service to create an account') if !user.tos_agreement.status
+    errors.add(:tos_agree, 'You must agree to the terms of service to create an account') unless user.tos_agreement.status
   end
 
   def self.dates_between_query
@@ -218,7 +217,6 @@ class Specialist < ApplicationRecord
 
   def sync_with_mailchimp
     SyncSpecialistUsersToMailchimpJob.perform_later(self)
-    # Use this for testing, also I'm just comitting this to test the heroku staging deploy process
-    # SyncSpecialistUsersToMailchimpJob.perform_now(self)
   end
 end
+# rubocop:enable ClassLength
