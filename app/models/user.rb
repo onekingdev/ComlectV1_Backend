@@ -85,6 +85,16 @@ class User < ApplicationRecord
     super && !suspended? && !deleted? # Extra safeguard, default_scope should prevent deleted users from being found
   end
 
+  def create_privacy_agreement(ip_address, status)
+    tos_agreement.create(
+      # tos_description: tos,
+      # cookie_description: cookie,
+      status: status,
+      agreement_date: Time.zone.now,
+      ip_address: ip_address
+    )
+  end
+
   def update_privacy_agreement(ip_address)
     tos_agreement.update(
       agreement_date: Time.zone.now,
