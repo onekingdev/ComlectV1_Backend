@@ -1,6 +1,0 @@
-.container
-  .col-md-push-3.col-md-6
-    .search_form.m-t-3.p-t-3
-      = simple_form_for :search, url: forum_search_path, method: :get do |f|
-        = f.input :query, placeholder: 'Search Q&A', input_html: { value: @query }
-        = f.button :button, raw('<i class="icon maxicons2-search"></i>'), type: :submit, class: 'search_submit'

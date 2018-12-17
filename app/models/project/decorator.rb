@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/ClassLength
 class Project::Decorator < ApplicationDecorator
   decorates Project
   decorates_association :business, with: Business::Decorator
@@ -61,7 +62,7 @@ class Project::Decorator < ApplicationDecorator
   end
 
   def business_project_href
-    return h.business_project_path(self) if full_time?
+    return h.business_project_path(self) if rfp? || full_time?
     complete? || active? || finishing? ? h.business_project_dashboard_path(self) : h.business_project_path(self)
   end
 
@@ -89,6 +90,8 @@ class Project::Decorator < ApplicationDecorator
   def dollars
     amount = if full_time?
                annual_salary
+             elsif rfp?
+               est_budget
              else
                hourly_pricing? ? hourly_rate : fixed_budget
              end
@@ -97,10 +100,13 @@ class Project::Decorator < ApplicationDecorator
 
   def start_and_duration
     return 'ASAP' if asap_duration?
-
-    string = starts_on&.strftime('%b %d, %Y')
-    return string if full_time?
+    string = rfp? ? rfp_timing_humanized : starts_on&.strftime('%b %d, %Y')
+    return string if full_time? || rfp?
     "#{string} (#{duration})"
+  end
+
+  def rfp_timing_humanized
+    Project::RFP_TIMING.map(&proc { |e| e[0] if e[1] == rfp_timing }).compact[0]
   end
 
   def duration
@@ -108,7 +114,7 @@ class Project::Decorator < ApplicationDecorator
   end
 
   def type_humanized
-    { 'one_off' => 'One-time Project', 'full_time' => 'Full-time Role' }[type]
+    { 'one_off' => 'One-time Project', 'full_time' => 'Full-time Role', 'rfp' => 'Request For Proposal' }[type]
   end
 
   def minimum_experience_humanized
@@ -136,6 +142,15 @@ class Project::Decorator < ApplicationDecorator
   def fixed_budget_input(builder)
     builder.input(
       :fixed_budget,
+      required: true,
+      as: :string,
+      input_html: { class: 'input-lg', data: { numeric: true } }
+    )
+  end
+
+  def est_budget_input(builder)
+    builder.input(
+      :est_budget,
       required: true,
       as: :string,
       input_html: { class: 'input-lg', data: { numeric: true } }
@@ -199,3 +214,4 @@ class Project::Decorator < ApplicationDecorator
     )
   end
 end
+# rubocop:enable Metrics/ClassLength

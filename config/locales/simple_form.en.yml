@@ -81,7 +81,7 @@ en:
         location: "* City, State, Country"
         industries: "* Industry"
         jurisdictions: "* Jurisdiction"
-        description: "* Description (i.e. please provide a detailed explanation of your needs and any relevant background information.)"
+        description: "* Please provide a detailed description of what services you're looking for and relevant background information. For example: ​\n\nWe're an SEC registered adviser with 10 employees and ~$250MM AUM across 225 accounts. Our sales team is producing several new marketing materials every week and we would like to hire someone to review these materials for us as they come up. It will likely be anywhere from 3-5 a month and are primarily one pagers and 5-10 page marketing decks."
         key_deliverables: "* Key Deliverables (e.g. report, advice, policies, etc.)"
         minimum_experience: "* Minimum Years of Compliance Experience"
         full_time_starts_on: "* Start Date"
@@ -95,6 +95,8 @@ en:
         fixed_budget: "* Fixed Budget"
         estimated_days: "* Estimated No. of Days"
         estimated_hours: "* Estimated Hours"
+        rfp_timing: "* Timing"
+        est_budget: "* Estimated budget ($ USD)"
       work_experiences:
         company: "* Company Name"
         job_title: "* Job Title"
