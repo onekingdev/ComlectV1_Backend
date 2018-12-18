@@ -47,9 +47,12 @@ class Specialist < ApplicationRecord
   end
 
   has_one :tos_agreement, through: :user
+  has_one :cookie_agreement, through: :user
   accepts_nested_attributes_for :education_histories, :work_experiences
   accepts_nested_attributes_for :tos_agreement
+  accepts_nested_attributes_for :cookie_agreement
   validate :tos_invalid?
+  validate :cookie_agreement_invalid?
 
   default_scope -> { joins("INNER JOIN users ON users.id = specialists.user_id AND users.deleted = 'f'") }
 
@@ -116,6 +119,10 @@ class Specialist < ApplicationRecord
 
   def tos_invalid?
     errors.add(:tos_agree, 'You must agree to the terms of service to create an account') unless user.tos_agreement.status
+  end
+
+  def cookie_agreement_invalid?
+    errors.add(:cookie_agree, 'You must agree to cookies to create an account') unless user.cookie_agreement.status
   end
 
   def self.dates_between_query

@@ -18,10 +18,12 @@ class User < ApplicationRecord
   has_many :forum_answers
   has_many :forum_votes, dependent: :destroy
   has_one :tos_agreement, dependent: :destroy
+  has_one :cookie_agreement, dependent: :destroy
 
   validates :email, presence: true, email: true
 
   accepts_nested_attributes_for :tos_agreement
+  accepts_nested_attributes_for :cookie_agreement
 
   scope :inactive, -> {
     where('last_sign_in_at < ?', Time.zone.now - 90.days)
@@ -85,10 +87,9 @@ class User < ApplicationRecord
     super && !suspended? && !deleted? # Extra safeguard, default_scope should prevent deleted users from being found
   end
 
-  def create_privacy_agreement(ip_address, status)
-    tos_agreement.create(
-      # tos_description: tos,
-      # cookie_description: cookie,
+  def create_cookie_agreement(ip_address, status, description)
+    cookie_agreement.create(
+      cookie_description: description,
       status: status,
       agreement_date: Time.zone.now,
       ip_address: ip_address
@@ -102,7 +103,10 @@ class User < ApplicationRecord
     )
   end
 
-  def create_privacy_agreements(ip_address, params)
-    create_tos_agreement(ip_address, params[:tos_description])
+  def update_cookie_agreement(ip_address)
+    cookie_agreement.update(
+      agreement_date: Time.zone.now,
+      ip_address: ip_address
+    )
   end
 end

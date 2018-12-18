@@ -359,6 +359,42 @@ ALTER SEQUENCE public.charges_id_seq OWNED BY public.charges.id;
 
 
 --
+-- Name: cookie_agreements; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.cookie_agreements (
+    id integer NOT NULL,
+    agreement_date timestamp without time zone,
+    cookie_description character varying,
+    status boolean,
+    ip_address character varying,
+    user_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: cookie_agreements_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.cookie_agreements_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: cookie_agreements_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.cookie_agreements_id_seq OWNED BY public.cookie_agreements.id;
+
+
+--
 -- Name: documents; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -3782,6 +3818,13 @@ ALTER TABLE ONLY public.charges ALTER COLUMN id SET DEFAULT nextval('public.char
 
 
 --
+-- Name: cookie_agreements id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cookie_agreements ALTER COLUMN id SET DEFAULT nextval('public.cookie_agreements_id_seq'::regclass);
+
+
+--
 -- Name: documents id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -4107,6 +4150,14 @@ ALTER TABLE ONLY public.businesses
 
 ALTER TABLE ONLY public.charges
     ADD CONSTRAINT charges_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: cookie_agreements cookie_agreements_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cookie_agreements
+    ADD CONSTRAINT cookie_agreements_pkey PRIMARY KEY (id);
 
 
 --
@@ -4532,6 +4583,13 @@ CREATE INDEX index_charges_on_status ON public.charges USING btree (status);
 --
 
 CREATE INDEX index_charges_on_transaction_id ON public.charges USING btree (transaction_id);
+
+
+--
+-- Name: index_cookie_agreements_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_cookie_agreements_on_user_id ON public.cookie_agreements USING btree (user_id);
 
 
 --
@@ -5396,6 +5454,14 @@ CREATE TRIGGER tsvectorupdate BEFORE INSERT OR UPDATE ON public.projects FOR EAC
 
 
 --
+-- Name: cookie_agreements fk_rails_1a26beb8cc; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cookie_agreements
+    ADD CONSTRAINT fk_rails_1a26beb8cc FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
 -- Name: privacy_agreements fk_rails_471e258074; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5812,3 +5878,7 @@ INSERT INTO schema_migrations (version) VALUES ('20181207154323');
 INSERT INTO schema_migrations (version) VALUES ('20181212215219');
 
 INSERT INTO schema_migrations (version) VALUES ('20181213163257');
+
+INSERT INTO schema_migrations (version) VALUES ('20181213180722');
+
+INSERT INTO schema_migrations (version) VALUES ('20181218181633');

@@ -43,6 +43,7 @@ class SpecialistsController < ApplicationController
       @invitation&.accepted!(@specialist)
       sign_in @specialist.user
       @specialist.user.update_privacy_agreement(request.remote_ip)
+      @specialist.user.update_cookie_agreement(request.remote_ip)
       mixpanel_track_later 'Sign Up'
       SpecialistMailer.welcome(@specialist).deliver_later
       cookies.delete :referral
@@ -93,7 +94,10 @@ class SpecialistsController < ApplicationController
       :lng, :phone, :linkedin_link, :public_profile, :former_regulator, :certifications, :photo, :resume,
       :zipcode, :lat, :time_zone,
       jurisdiction_ids: [], industry_ids: [], skill_names: [],
-      user_attributes: [:email, :password, tos_agreement_attributes: %i[status cookie_description tos_description]],
+      user_attributes: [:email, :password,
+        tos_agreement_attributes: %i[status tos_description],
+        cookie_agreement_attributes: %i[status cookie_description]
+      ],
       work_experiences_attributes: %i[id company job_title location from to current compliance description _destroy],
       education_histories_attributes: %i[id institution degree year _destroy]
     ).merge(tos_acceptance_ip: request.remote_ip)

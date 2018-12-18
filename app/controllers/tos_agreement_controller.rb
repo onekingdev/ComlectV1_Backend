@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TosAgreementController < ApplicationController
   before_action :authenticate_user!
 
@@ -10,5 +12,4 @@ class TosAgreementController < ApplicationController
       redirect_to root_path
     end
   end
-
 end
