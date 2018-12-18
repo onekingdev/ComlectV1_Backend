@@ -19,15 +19,17 @@
 
   .well.well-lg.m-t-3
     .row.text-center.p-b-1
-      input#tos-checkbox type="checkbox" name="specialist[user_attributes][tos_agreement_attributes][status]"
       - if f.object.errors[:tos_agree].any?
-        .text-danger= f.object.errors[:tos_agree].first
-      ul#tos-list
-        / li I am at least 18 years old
-        li I have read and agree to the Terms of Service and Privacy Policy.
-        li This site uses cookies. By creating an account you agree to the use of cookies on this site.
-      / input type="hidden" name="agreements[age_description]" value="I am at least 18 years old"
-      input type="hidden" name="specialist[user_attributes][tos_agreement_attributes][cookie_description]" value="This site uses cookies. By creating an account you agree to the use of cookies on this site."
+      .text-danger= f.object.errors[:tos_agree].first
+      - if f.object.errors[:cookie_agree].any?
+      .text-danger= f.object.errors[:cookie_agree].first
+      div
+        input#tos-checkbox type="checkbox" name="specialist[user_attributes][tos_agreement_attributes][status]"
+        label I have read and agree to the Terms of Service and Privacy Policy.
+      div
+        input#cookie-checkbox type="checkbox" name="specialist[user_attributes][cookie_agreement_attributes][status]"
+        label This site uses cookies. By creating an account you agree to the use of cookies on this site.
+      input type="hidden" name="specialist[user_attributes][cookie_agreement_attributes][cookie_description]" value="This site uses cookies. By creating an account you agree to the use of cookies on this site."
       input type="hidden" name="specialist[user_attributes][tos_agreement_attributes][tos_description]" value="I have read and agree to the Terms of Service and Privacy Policy"
 
   .row.p-t-3
