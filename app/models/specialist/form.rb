@@ -23,7 +23,6 @@ class Specialist::Form < Specialist
 
     new(attributes).tap do |specialist|
       specialist.specialist_team_id = invitation.specialist_team_id if invitation
-      binding.pry
       specialist.build_user.build_tos_agreement.build_cookie_agreement unless specialist.user
       specialist.user.tos_acceptance_date = Time.zone.now
       specialist.user.tos_acceptance_ip = tos_acceptance_ip

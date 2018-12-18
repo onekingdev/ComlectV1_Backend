@@ -5,7 +5,8 @@ class TosAgreementController < ApplicationController
 
   def create
     status = params[:status]
-    current_user.create_privacy_agreement(request.remote_ip, status)
+    description = params[:description]
+    current_user.create_cookie_agreement(request.remote_ip, status, description)
     begin
       redirect_to :back
     rescue ActionController::RedirectBackError

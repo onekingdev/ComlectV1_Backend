@@ -88,7 +88,8 @@ class User < ApplicationRecord
   end
 
   def create_cookie_agreement(ip_address, status, description)
-    cookie_agreement.create(
+    CookieAgreement.create(
+      user: self,
       cookie_description: description,
       status: status,
       agreement_date: Time.zone.now,
