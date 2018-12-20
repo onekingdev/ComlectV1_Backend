@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.5.3
--- Dumped by pg_dump version 10.5
+-- Dumped from database version 9.6.10
+-- Dumped by pg_dump version 9.6.10
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -269,9 +269,6 @@ CREATE TABLE public.businesses (
     rewards_tier_override_id integer,
     hubspot_company_id character varying,
     hubspot_contact_id character varying,
-    qna_lvl integer DEFAULT 0,
-    qna_viewed_questions integer[] DEFAULT '{}'::integer[],
-    qna_views_left integer DEFAULT 5,
     credits_in_cents integer DEFAULT 0
 );
 
@@ -542,10 +539,10 @@ ALTER SEQUENCE public.feedback_requests_id_seq OWNED BY public.feedback_requests
 CREATE TABLE public.projects (
     id integer NOT NULL,
     business_id integer NOT NULL,
-    type character varying DEFAULT 'rfp'::character varying NOT NULL,
+    type character varying DEFAULT 'one_off'::character varying NOT NULL,
     status character varying DEFAULT 'draft'::character varying NOT NULL,
     title character varying NOT NULL,
-    location_kind character varying,
+    location_type character varying,
     location character varying,
     description character varying NOT NULL,
     key_deliverables character varying,
@@ -579,9 +576,7 @@ CREATE TABLE public.projects (
     solicited_business_rating boolean DEFAULT false,
     solicited_specialist_rating boolean DEFAULT false,
     duration_type character varying DEFAULT 'custom'::character varying,
-    estimated_days integer,
-    rfp_timing character varying,
-    est_budget numeric
+    estimated_days integer
 );
 
 
@@ -1051,166 +1046,6 @@ ALTER SEQUENCE public.flags_id_seq OWNED BY public.flags.id;
 
 
 --
--- Name: forum_answers; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.forum_answers (
-    id integer NOT NULL,
-    user_id integer,
-    body text,
-    forum_question_id integer,
-    reply_to integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    upvotes_cnt integer DEFAULT 0
-);
-
-
---
--- Name: forum_answers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.forum_answers_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: forum_answers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.forum_answers_id_seq OWNED BY public.forum_answers.id;
-
-
---
--- Name: forum_questions; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.forum_questions (
-    id integer NOT NULL,
-    title character varying,
-    body text,
-    state character varying,
-    business_id integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    last_activity timestamp without time zone
-);
-
-
---
--- Name: forum_questions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.forum_questions_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: forum_questions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.forum_questions_id_seq OWNED BY public.forum_questions.id;
-
-
---
--- Name: forum_questions_industries; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.forum_questions_industries (
-    forum_question_id integer NOT NULL,
-    industry_id integer NOT NULL
-);
-
-
---
--- Name: forum_questions_jurisdictions; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.forum_questions_jurisdictions (
-    forum_question_id integer NOT NULL,
-    jurisdiction_id integer NOT NULL
-);
-
-
---
--- Name: forum_subscriptions; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.forum_subscriptions (
-    id integer NOT NULL,
-    business_id integer,
-    billing_type integer DEFAULT 0,
-    level integer DEFAULT 0,
-    suspended boolean DEFAULT false,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    fee integer DEFAULT 0,
-    stripe_customer_id character varying,
-    stripe_subscription_id character varying
-);
-
-
---
--- Name: forum_subscriptions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.forum_subscriptions_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: forum_subscriptions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.forum_subscriptions_id_seq OWNED BY public.forum_subscriptions.id;
-
-
---
--- Name: forum_votes; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.forum_votes (
-    id integer NOT NULL,
-    user_id integer,
-    forum_answer_id integer,
-    upvote boolean DEFAULT true,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: forum_votes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.forum_votes_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: forum_votes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.forum_votes_id_seq OWNED BY public.forum_votes.id;
-
-
---
 -- Name: industries; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1218,8 +1053,7 @@ CREATE TABLE public.industries (
     id integer NOT NULL,
     name character varying,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    short_name character varying
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -3583,42 +3417,6 @@ ALTER SEQUENCE public.stripe_accounts_id_seq OWNED BY public.stripe_accounts.id;
 
 
 --
--- Name: subscription_charges; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.subscription_charges (
-    id integer NOT NULL,
-    stripe_charge_id character varying,
-    status integer,
-    plan character varying,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    stripe_subscription_id character varying,
-    forum_subscription_id integer,
-    amount integer
-);
-
-
---
--- Name: subscription_charges_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.subscription_charges_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: subscription_charges_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.subscription_charges_id_seq OWNED BY public.subscription_charges.id;
-
-
---
 -- Name: time_logs; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -3954,34 +3752,6 @@ ALTER TABLE ONLY public.flags ALTER COLUMN id SET DEFAULT nextval('public.flags_
 
 
 --
--- Name: forum_answers id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.forum_answers ALTER COLUMN id SET DEFAULT nextval('public.forum_answers_id_seq'::regclass);
-
-
---
--- Name: forum_questions id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.forum_questions ALTER COLUMN id SET DEFAULT nextval('public.forum_questions_id_seq'::regclass);
-
-
---
--- Name: forum_subscriptions id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.forum_subscriptions ALTER COLUMN id SET DEFAULT nextval('public.forum_subscriptions_id_seq'::regclass);
-
-
---
--- Name: forum_votes id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.forum_votes ALTER COLUMN id SET DEFAULT nextval('public.forum_votes_id_seq'::regclass);
-
-
---
 -- Name: industries id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -4157,13 +3927,6 @@ ALTER TABLE ONLY public.stripe_accounts ALTER COLUMN id SET DEFAULT nextval('pub
 
 
 --
--- Name: subscription_charges id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.subscription_charges ALTER COLUMN id SET DEFAULT nextval('public.subscription_charges_id_seq'::regclass);
-
-
---
 -- Name: time_logs id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -4306,38 +4069,6 @@ ALTER TABLE ONLY public.feedback_requests
 
 ALTER TABLE ONLY public.flags
     ADD CONSTRAINT flags_pkey PRIMARY KEY (id);
-
-
---
--- Name: forum_answers forum_answers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.forum_answers
-    ADD CONSTRAINT forum_answers_pkey PRIMARY KEY (id);
-
-
---
--- Name: forum_questions forum_questions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.forum_questions
-    ADD CONSTRAINT forum_questions_pkey PRIMARY KEY (id);
-
-
---
--- Name: forum_subscriptions forum_subscriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.forum_subscriptions
-    ADD CONSTRAINT forum_subscriptions_pkey PRIMARY KEY (id);
-
-
---
--- Name: forum_votes forum_votes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.forum_votes
-    ADD CONSTRAINT forum_votes_pkey PRIMARY KEY (id);
 
 
 --
@@ -4538,14 +4269,6 @@ ALTER TABLE ONLY public.specialists
 
 ALTER TABLE ONLY public.stripe_accounts
     ADD CONSTRAINT stripe_accounts_pkey PRIMARY KEY (id);
-
-
---
--- Name: subscription_charges subscription_charges_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.subscription_charges
-    ADD CONSTRAINT subscription_charges_pkey PRIMARY KEY (id);
 
 
 --
@@ -4784,13 +4507,6 @@ CREATE INDEX index_flags_on_flagged_content_type_and_flagged_content_id ON publi
 --
 
 CREATE INDEX index_flags_on_flagger_type_and_flagger_id ON public.flags USING btree (flagger_type, flagger_id);
-
-
---
--- Name: index_forum_subscriptions_on_business_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_forum_subscriptions_on_business_id ON public.forum_subscriptions USING btree (business_id);
 
 
 --
@@ -5330,13 +5046,6 @@ CREATE INDEX index_stripe_accounts_on_specialist_id ON public.stripe_accounts US
 --
 
 CREATE INDEX index_stripe_accounts_on_stripe_id ON public.stripe_accounts USING btree (stripe_id);
-
-
---
--- Name: index_subscription_charges_on_forum_subscription_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_subscription_charges_on_forum_subscription_id ON public.subscription_charges USING btree (forum_subscription_id);
 
 
 --
@@ -5931,48 +5640,4 @@ INSERT INTO schema_migrations (version) VALUES ('20181028010350');
 INSERT INTO schema_migrations (version) VALUES ('20181028023519');
 
 INSERT INTO schema_migrations (version) VALUES ('20181028102912');
-
-INSERT INTO schema_migrations (version) VALUES ('20181102164606');
-
-INSERT INTO schema_migrations (version) VALUES ('20181110001445');
-
-INSERT INTO schema_migrations (version) VALUES ('20181111001648');
-
-INSERT INTO schema_migrations (version) VALUES ('20181112100355');
-
-INSERT INTO schema_migrations (version) VALUES ('20181118233812');
-
-INSERT INTO schema_migrations (version) VALUES ('20181123042811');
-
-INSERT INTO schema_migrations (version) VALUES ('20181124133815');
-
-INSERT INTO schema_migrations (version) VALUES ('20181124135819');
-
-INSERT INTO schema_migrations (version) VALUES ('20181204204949');
-
-INSERT INTO schema_migrations (version) VALUES ('20181204223503');
-
-INSERT INTO schema_migrations (version) VALUES ('20181204224111');
-
-INSERT INTO schema_migrations (version) VALUES ('20181205190733');
-
-INSERT INTO schema_migrations (version) VALUES ('20181206190337');
-
-INSERT INTO schema_migrations (version) VALUES ('20181206193340');
-
-INSERT INTO schema_migrations (version) VALUES ('20181206194641');
-
-INSERT INTO schema_migrations (version) VALUES ('20181206194651');
-
-INSERT INTO schema_migrations (version) VALUES ('20181206201151');
-
-INSERT INTO schema_migrations (version) VALUES ('20181207154323');
-
-INSERT INTO schema_migrations (version) VALUES ('20181217094718');
-
-INSERT INTO schema_migrations (version) VALUES ('20181217113715');
-
-INSERT INTO schema_migrations (version) VALUES ('20181217114759');
-
-INSERT INTO schema_migrations (version) VALUES ('20181217203220');
 
