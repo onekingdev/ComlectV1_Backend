@@ -1,0 +1,11 @@
+- if current_user && current_user.cookie_agreement.nil?
+  #cookie-modal style="display: block; position: fixed; bottom: 0; left: 2%; z-index: 2;" role="dialog"
+    .modal-dialog
+      .modal-content
+        .modal-body
+          p
+          | This site uses cookies to improve your experience. Please accept the use of cookies on this site. You can review our cookie policy and privacy policy
+          = link_to ' here', page_path("privacy-policy")
+          .m-t-2
+            = link_to 'Yes, I agree', tos_agreement_index_path(status: true, description: 'This site uses cookies to improve your experience. Please accept the use of cookies on this site. You can review our cookie policy and privacy policy here' ), :method => :post, class: 'btn btn-sm btn-primary p-x-3'
+            / = link_to 'No, I refuse', tos_agreement_index_path(status: false), :method => :post, class: 'btn btn-sm btn-primary p-x-3'
