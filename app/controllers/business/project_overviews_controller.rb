@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Business::ProjectOverviewsController < ApplicationController
+  prepend_before_action :authenticate_user!
   before_action :require_business!
   before_action :find_project_and_specialist
 

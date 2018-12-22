@@ -26,8 +26,12 @@
               i.icon-heart.unfavorite data-toggle="tooltip" title="unfavorite"
               i.icon-heart.favorite data-toggle="tooltip" title="favorite"
             - if project.pending?
-              = link_to new_project_job_application_path(project), remote: true, class: 'tool-icon m-l-2' do
-                i.icon-user-follow data-toggle="tooltip" title="apply"
+              - if project.rfp?
+                = link_to new_project_job_application_path(project), class: 'tool-icon m-l-2' do
+                  i.icon-user-follow data-toggle="tooltip" title="apply"
+              - else
+                = link_to new_project_job_application_path(project), remote: true, class: 'tool-icon m-l-2' do
+                  i.icon-user-follow data-toggle="tooltip" title="apply"
         - elsif current_business && policy(project).postable?
           = form_for project, url: post_business_project_path(project), method: :post, html: { class: 'd-ib' } do |f|
             = f.button class: 'tool-icon m-l-2' do

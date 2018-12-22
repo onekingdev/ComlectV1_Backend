@@ -1,3 +1,26 @@
+body.job_applications {
+  .project-pricing[data-pricing-type=fixed] {
+    .form-group.job_application_hourly_rate, .form-group.job_application_hourly_payment_schedule {
+      display: none;
+    }
+  }
+
+  .project-pricing[data-pricing-type=hourly] {
+    .form-group.job_application_fixed_budget, .form-group.job_application_fixed_payment_schedule {
+      display: none;
+    }
+  }
+  form.form-proposal {
+    .actions {
+      text-align: center;
+
+      .btn {
+        width: 185px;
+      }
+    }
+  }
+}
+
 body.job_applications.index {
   background-image: asset_url('bg.png');
   background-position: center top;

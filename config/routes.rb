@@ -107,8 +107,6 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :tos_agreement, only: %i[create]
-
   namespace :specialists, path: 'specialist' do
     get '/' => 'dashboard#show', as: :dashboard
     resource :settings, only: :show do

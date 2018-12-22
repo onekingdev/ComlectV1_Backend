@@ -22,43 +22,62 @@ h2.text-center.m-b-2.no-applicants class=('hidden' if job_applications.to_a.any?
 
     .col-xs-12.col-md-9.details.td
       .row
-        .col-sm-4.m-b-3
-          .list-icon
-            .item
-              i.icon-location-pin
-              span= specialist.city_state_country
-            .item
-              i.icon-briefcase
-              span= specialist.industries.map(&:name).join(', ')
-            .item
-              i.icon-globe
-              span= specialist.jurisdictions.map(&:name).join(', ')
-            .item
-              i.icon-folder
-              span= pluralize specialist.years_of_experience, 'Yr. Compliance Experience', 'Yrs. Compliance Experience'
-            - if specialist.former_regulator?
-              .item
-                i.icon-flag
-                span Former Regulator
-            - if specialist.skills.any?
-              .item
-                i.icon-badge
-                span= specialist.skills.map(&:name).join(', ')
+        - if application.rfp?
+          .col-sm-6
+            .panel-heading.m-t-0.p-y-0.p-x-0
+              h3 PROJECT DETAILS
+            .panel-body.p-x-0
+              = application.message
+          .col-sm-6
+            .panel-heading.m-t-0.p-y-0.p-x-0
+              h3 PROPOSED TIMING
+              .list-icon
+                .item
+                  i.icon-location-pin
+                  span timing
 
-        .col-sm-4
-          .panel-heading.m-t-0.p-y-0.p-x-0
-            h3 Work Experience
-          .panel-body.p-x-0
-            ul.list-unstyled.m-b-1
-              - specialist.work_experiences.map(&method(:decorate)).each do |exp|
-                li #{pluralize exp.years, 'Year', 'Years'} at #{exp.company}
-        .col-sm-4
-          .panel-heading.m-t-0.p-y-0.p-x-0
-            h3 Education
-          .panel-body.p-x-0
-            ul.list-unstyled.m-b-1
-              - specialist.education_histories.each do |edu|
-                li #{edu.institution}, #{edu.degree} (#{edu.year})
+            .panel-heading.m-t-0.p-y-0.p-x-0
+              h3 PROPOSED COST
+            .panel-heading.m-t-0.p-y-0.p-x-0
+              h3 KEY DELIVERABLES
+        - else
+          .col-sm-4.m-b-3
+            .list-icon
+              .item
+                i.icon-location-pin
+                span= specialist.city_state_country
+              .item
+                i.icon-briefcase
+                span= specialist.industries.map(&:name).join(', ')
+              .item
+                i.icon-globe
+                span= specialist.jurisdictions.map(&:name).join(', ')
+              .item
+                i.icon-folder
+                span= pluralize specialist.years_of_experience, 'Yr. Compliance Experience', 'Yrs. Compliance Experience'
+              - if specialist.former_regulator?
+                .item
+                  i.icon-flag
+                  span Former Regulator
+              - if specialist.skills.any?
+                .item
+                  i.icon-badge
+                  span= specialist.skills.map(&:name).join(', ')
+
+          .col-sm-4
+            .panel-heading.m-t-0.p-y-0.p-x-0
+              h3 Work Experience
+            .panel-body.p-x-0
+              ul.list-unstyled.m-b-1
+                - specialist.work_experiences.map(&method(:decorate)).each do |exp|
+                  li #{pluralize exp.years, 'Year', 'Years'} at #{exp.company}
+          .col-sm-4
+            .panel-heading.m-t-0.p-y-0.p-x-0
+              h3 Education
+            .panel-body.p-x-0
+              ul.list-unstyled.m-b-1
+                - specialist.education_histories.each do |edu|
+                  li #{edu.institution}, #{edu.degree} (#{edu.year})
 
       .actions.btn-group
         a.btn.btn-md.btn-primary.col-xs-4 href=specialist_path(specialist) target="_blank"

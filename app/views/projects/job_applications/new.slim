@@ -1,0 +1,106 @@
+.text-center
+  h1.m-t-0.m-b-3 Project Proposal
+
+= @job_application.errors.full_messages if @job_application.errors.any?
+
+= simple_form_for @job_application, url: project_job_applications_path(@project.id), wrapper: :inline_form, html: { class: 'form-proposal' } do |f|
+  .panel.panel-default.panel-padded.col-xs-10.col-xs-push-1
+    .panel-heading
+      h3 Key Details & Applicant Prerequisites
+    .panel-body.p-t-0
+      .row= render 'projects/attributes', project: decorate(@project)
+
+  .panel.panel-default.panel-padded.col-xs-10.col-xs-push-1
+    .panel-heading
+      h3 #{@project.one_off? || @project.rfp? ? 'Project' : 'Job' } Description
+    .panel-body.p-t-0= simple_format @project.description
+
+  .clearfix
+
+  .well.well-lg.m-t-3.project-description
+    h2.text-center.m-b-2 Proposed Project Offering
+    .row.row-compact.m-t-1
+      .col-xs-12.text-center
+        = f.input :message, as: :text, input_html: { class: 'input-lg tt-n', rows: 7, placeholder: "* Please provide a detailed description of how you propose to tackle the client's problem or need. This is your opportunity to provide a better service than your competitors, so be thorough and detailed about the process you intend to undertake." }
+        = f.input :key_deliverables, input_html: { class: 'input-lg tt-n', placeholder: "* List the key deliverables you intend to provide (e.g. report, advice, written policies and procedures, etc.)" }
+
+
+  .well.well-lg.m-t-3.project-pricing data-pricing-type=@job_application.pricing_type
+    h2.text-center.m-b-2 Project Pricing
+    .row.row-compact.m-y-1
+      .col-xs-12.text-center
+        = f.input :pricing_type, as: :radio_pills, collection: [%w(Hourly hourly), %w(Fixed fixed)], btn_class: 'btn-default tt-u'
+    .row.row-compact
+      .col-xs-12.col-sm-4
+        = f.input :hourly_payment_schedule, collection: Project::HOURLY_PAYMENT_SCHEDULES, include_blank: I18n.t('simple_form.placeholders.project.hourly_payment_schedule'), required: true, input_html: { class: 'input-lg js-select' }
+        = f.input :fixed_payment_schedule, collection: Project::FIXED_PAYMENT_SCHEDULES, include_blank: I18n.t('simple_form.placeholders.project.fixed_payment_schedule'), required: true, input_html: { class: 'input-lg js-select' }
+      .col-xs-12.col-sm-4
+        = f.input :hourly_rate, required: true, as: :string, input_html: { class: 'input-lg', data: { numeric: true } }
+        = f.input :fixed_budget, required: true, as: :string, input_html: { class: 'input-lg', data: { numeric: true } }
+      .col-xs-12.col-sm-4
+        = f.input :estimated_hours, as: :string, require: true, input_html: { class: 'input-lg', data: { masked: '0#' } }
+    .row.row-compact.p-b-1
+      .col-xs-12
+        .small.text-muted Note: Complect adds a 10% fee on top of your project value. You can read more about our Payment Terms <a class="text-muted" href="/info/terms-of-use#fees" target="_blank">here</a>.
+
+  .well.well-lg.m-t-3.project-duration
+    h2.text-center.m-b-2 Proposed Timing
+    - if @project.rfp_timing == 'asap'
+      .project-duration-asap
+        .row.row-compact
+          .col-xs-12.col-sm-4.col-sm-offset-4
+            = f.input :estimated_days, as: :string, require: true, input_html: { class: 'input-lg text-center' }
+        .row.row-compact.p-b-1
+          .col-xs-12
+            .small.text-muted Note: This on-demand feature automatically matches you with a specialist that meets your project pre-requisites. Please select custom if you’d like to interview and hire a specialist of your choosing. Please estimate how many days your project may take to allow our specialists to determine their availability. You will be able to finish the project early or extend the deadline once the project begins.
+    - else
+      .project-duration-custom
+        .row.row-compact.js-date-range
+          .col-xs-12.col-sm-6
+            = f.input :starts_on, required: true, as: :string, input_html: { \
+              class: 'input-lg js-datepicker', \
+              data: { \
+                min: Date.today.to_a[3..5].reverse, \
+                'date-from' => true, \
+                value: (l(f.object.starts_on, format: :pickadate) if f.object.starts_on) \
+              } \
+            }
+
+          .col-xs-12.col-sm-6
+            = f.input :ends_on, required: true, as: :string, input_html: { \
+              class: 'input-lg js-datepicker', \
+              data: { \
+                min: Date.today.to_a[3..5].reverse, \
+                'date-to' => true, \
+                value: (l(f.object.ends_on, format: :pickadate) if f.object.ends_on) \
+              } \
+            }
+        .row.row-compact.p-b-1
+          .col-xs-12
+            .small.text-muted Please estimate if necessary to allow our specialists to determine their availability. You will be able to extend the deadline later.
+
+  .actions.clearfix.well-lg.well-transparent
+    .col-xs-12.col-sm-4.m-b-1.md-text-right
+      - if @job_application.persisted?
+        = link_to @job_application, method: :delete, data: { confirm: @job_application.confirm_delete, 'confirm-label' => 'Delete' }, class: 'btn btn-muted btn-lg' do
+          span Delete
+      - else
+        = link_to_back default: specialists_dashboard_path, data: { method: 'get', confirm: @job_application.confirm_delete, 'confirm-label' => 'Delete' }, class: 'btn btn-muted btn-lg' do
+          span Delete
+    - if @job_application.published? && @job_application.persisted?
+      .col-xs-12.col-sm-4.text-center.m-b-1
+        = link_to project_job_application_path(@project.id), class: 'btn btn-muted btn-lg m-r-1' do
+          span Cancel
+      .col-xs-12.col-sm-4.text-center.m-b-1
+        button.btn.btn-primary.btn-lg type="submit"
+          span Save Changes
+    - else
+      .col-xs-12.col-sm-4.text-center.m-b-1
+        button.btn.btn-primary.btn-lg type="submit" name="job_application[status]" value=JobApplication.statuses[:draft]
+          - if @job_application.persisted?
+            span Save Changes
+          - else
+            span Save as Draft
+      .col-xs-12.col-sm-4.md-text-left.m-b-1
+        button.btn.btn-primary.btn-lg type="submit" name="job_application[status]" value=JobApplication.statuses[:published]
+          span Post

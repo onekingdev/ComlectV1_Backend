@@ -7,6 +7,12 @@ class JobApplication < ApplicationRecord
 
   enum visibility: { undecided: nil, shortlisted: 'shortlisted', hidden: 'hidden' }
 
+  enum status: {
+    draft: 'draft',
+    published: 'published',
+    accepted: 'accepted'
+  }
+
   scope :preload_associations, -> { preload(specialist: :user) }
   scope :by, ->(specialist) { where(specialist_id: specialist) }
   scope :order_by_experience, -> {
@@ -28,4 +34,6 @@ class JobApplication < ApplicationRecord
   }
 
   validates :project_id, uniqueness: { scope: :specialist_id }
+
+  delegate :rfp?, to: :project
 end

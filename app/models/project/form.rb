@@ -11,10 +11,12 @@ class Project::Form < Project
   ONE_OFF_FIELDS = %i[key_deliverables location_type payment_schedule estimated_hours].freeze
   FULL_TIME_FIELDS = %i[full_time_starts_on annual_salary].freeze
   SHARED_FIELDS = %i[starts_on].freeze
+  RFP_FIELDS = %i[location_type est_budget rfp_timing].freeze
 
   ASAP_DURATION_FIELDS = %i[estimated_days].freeze
   CUSTOM_DURATION_FIELDS = %i[starts_on ends_on].freeze
 
+  validates(*RFP_FIELDS, presence: true, if: :rfp?)
   validates(*ONE_OFF_FIELDS, presence: true, if: :one_off?)
   validates(*FULL_TIME_FIELDS, presence: true, if: :full_time?)
   validates(*ASAP_DURATION_FIELDS, presence: true, if: :asap_duration?)
@@ -63,7 +65,7 @@ class Project::Form < Project
 
   ATTRIBUTES_FOR_COPY = %w[
     annual_salary business_id description estimated_hours fee_type fixed_budget hourly_rate key_deliverables
-    location location_type minimum_experience only_regulators payment_schedule pricing_type status title type
+    location_type location minimum_experience only_regulators payment_schedule pricing_type status title type
   ].freeze
 
   def self.copy(original, attributes = {})
