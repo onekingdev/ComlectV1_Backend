@@ -36,4 +36,27 @@ class JobApplication < ApplicationRecord
   validates :project_id, uniqueness: { scope: :specialist_id }
 
   delegate :rfp?, to: :project
+
+  def timing
+    if starts_on.present? && ends_on.present?
+      bus_starts_on = starts_on.in_time_zone(project.business.tz)
+      bus_ends_on = ends_on.in_time_zone(project.business.tz)
+      return "#{bus_starts_on.strftime('%b')} #{bus_starts_on.day}-#{bus_ends_on.day}" if starts_on.month == ends_on.month
+      "#{bus_starts_on.strftime('%b %d')}-#{bus_ends_on.strftime('%b %d')}"
+    elsif estimated_days.present?
+      "#{estimated_days} days"
+    end
+  end
+
+  def dollars
+    if pricing_type == 'hourly'
+      hourly_rate
+    elsif pricing_type == 'fixed'
+      fixed_budget
+    end
+  end
+
+  def hourly_rate?
+    pricing_type == 'hourly'
+  end
 end

@@ -1,9 +1,11 @@
 .text-center
   h1.m-t-0.m-b-3 Project Proposal
 
-= @job_application.errors.full_messages if @job_application.errors.any?
+- ja_url = @job_application.persisted? ? project_job_application_path(@project.id, @job_application.id) : project_job_applications_path(@project.id)
 
-= simple_form_for @job_application, url: project_job_applications_path(@project.id), wrapper: :inline_form, html: { class: 'form-proposal' } do |f|
+- is_disabled = params[:action] == "show"
+
+= simple_form_for @job_application, defaults: { disabled: is_disabled }, url: ja_url, wrapper: :inline_form, html: { class: 'form-proposal' } do |f|
   .panel.panel-default.panel-padded.col-xs-10.col-xs-push-1
     .panel-heading
       h3 Key Details & Applicant Prerequisites
@@ -82,14 +84,14 @@
   .actions.clearfix.well-lg.well-transparent
     .col-xs-12.col-sm-4.m-b-1.md-text-right
       - if @job_application.persisted?
-        = link_to @job_application, method: :delete, data: { confirm: @job_application.confirm_delete, 'confirm-label' => 'Delete' }, class: 'btn btn-muted btn-lg' do
+        = link_to project_job_application_path(@project.id, @job_application.id), method: :delete, data: { confirm: @job_application.confirm_delete, 'confirm-label' => 'Delete' }, class: 'btn btn-muted btn-lg' do
           span Delete
       - else
         = link_to_back default: specialists_dashboard_path, data: { method: 'get', confirm: @job_application.confirm_delete, 'confirm-label' => 'Delete' }, class: 'btn btn-muted btn-lg' do
           span Delete
     - if @job_application.published? && @job_application.persisted?
       .col-xs-12.col-sm-4.text-center.m-b-1
-        = link_to project_job_application_path(@project.id), class: 'btn btn-muted btn-lg m-r-1' do
+        = link_to project_job_application_path(@project.id, @job_application.id), class: 'btn btn-muted btn-lg m-r-1' do
           span Cancel
       .col-xs-12.col-sm-4.text-center.m-b-1
         button.btn.btn-primary.btn-lg type="submit"

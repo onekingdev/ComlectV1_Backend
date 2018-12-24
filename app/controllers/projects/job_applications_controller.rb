@@ -1,8 +1,13 @@
 # frozen_string_literal: true
 
 class Projects::JobApplicationsController < ApplicationController
-  before_action :require_specialist!
+  before_action :require_specialist!, except: 'show'
   before_action :find_project
+
+  def show
+    @job_application = JobApplication::Form.find(params[:id])
+    render :new
+  end
 
   def new
     @job_application = JobApplication::Form.new(
@@ -18,29 +23,34 @@ class Projects::JobApplicationsController < ApplicationController
     end
   end
 
+  def edit
+    @job_application = JobApplication::Form.find(params[:id])
+    render :new
+  end
+
+  def update
+    @job_application = JobApplication::Form.find(params[:id])
+    if @project.rfp? && @job_application.update(job_application_params)
+      redirect_to @project
+    else
+      render :new
+    end
+  end
+
   def create
-    # if @project.rfp?
-    # else
-    # end
     @job_application = JobApplication::Form.apply!(
       current_specialist,
       @project, job_application_params
     )
 
-    # respond_to do |format|
-    #  format.js do
-    #    if @job_application.persisted?
-    #      js_redirect project_path(@project)
-    #    else
-    #      render :new
-    #    end
-    #  end
-    # end
-
     if @job_application.persisted?
-      respond_to do |format|
-        format.js { js_redirect project_path(@project) }
-        format.html { redirect_to project_path(@project) }
+      if @job_application.draft?
+        redirect_to specialists_dashboard_path(anchor: 'projects-pending')
+      else
+        respond_to do |format|
+          format.js { js_redirect project_path(@project) }
+          format.html { redirect_to project_path(@project) }
+        end
       end
     else
       render :new
@@ -52,7 +62,10 @@ class Projects::JobApplicationsController < ApplicationController
     return render_404 unless @job_application
     authorize @job_application, :destroy?
     JobApplication::Delete.(@job_application)
-    js_redirect params[:redirect_to] || project_path(@project)
+    respond_to do |format|
+      format.js { js_redirect params[:redirect_to] || project_path(@project) }
+      format.html { redirect_to params[:redirect_to] || project_path(@project) }
+    end
   end
 
   private
@@ -69,6 +82,7 @@ class Projects::JobApplicationsController < ApplicationController
       :hourly_rate,
       :fixed_budget,
       :estimated_hours,
+      :estimated_days,
       :status,
       :fixed_budget
     )

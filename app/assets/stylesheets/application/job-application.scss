@@ -21,6 +21,11 @@ body.job_applications {
   }
 }
 
+body.job_applications.show {
+  .actions { display: none; }
+  .project-duration { margin-bottom: 40px; }
+}
+
 body.job_applications.index {
   background-image: asset_url('bg.png');
   background-position: center top;

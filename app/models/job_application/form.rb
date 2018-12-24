@@ -5,6 +5,7 @@ class JobApplication::Form < JobApplication
 
   attr_accessor :prerequisites # Dummy to store related errors
   attr_accessor :hourly_payment_schedule, :fixed_payment_schedule
+  before_validation :assign_pricing_type_fields
 
   validate -> { errors.add :prerequisites, :no_jurisdiction }, unless: :jurisdiction?
   validate -> { errors.add :prerequisites, :no_industry }, unless: :industry?
@@ -46,15 +47,21 @@ class JobApplication::Form < JobApplication
 
   def self.apply!(specialist, project, params)
     application = create params.merge(specialist: specialist, project: project)
-    Favorite.remove! specialist, project
-    Notification::Deliver.project_application!(application) unless project.asap_duration?
-    JobApplication::Accept.(application) if project.asap_duration?
+    unless application.draft?
+      Favorite.remove! specialist, project
+      Notification::Deliver.project_application!(application) unless project.asap_duration?
+      JobApplication::Accept.(application) if project.asap_duration?
+    end
     application
   end
 
   def confirm_delete
     "<br><br>Are you sure you want to delete this proposal?<h4 class='m-t-1'>#{project.title}</h4>
      This can't be undone and this proposal will no longer appear in your dashboard, even as a draft.".html_safe
+  end
+
+  def draft?
+    status == 'draft'
   end
 
   private
@@ -96,5 +103,24 @@ class JobApplication::Form < JobApplication
   def payment_info?
     return true if project.full_time? # No payment info required for full time roles
     specialist.manager.stripe_account&.verified?
+  end
+
+  def assign_pricing_type_fields
+    if hourly_pricing?
+      self.fixed_budget = nil
+      self.payment_schedule = hourly_payment_schedule
+    else
+      self.hourly_rate = nil
+      self.payment_schedule = fixed_payment_schedule
+    end
+    true
+  end
+
+  def hourly_payment_schedule
+    @hourly_payment_schedule || payment_schedule
+  end
+
+  def fixed_payment_schedule
+    @fixed_payment_schedule || payment_schedule
   end
 end
