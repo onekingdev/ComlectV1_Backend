@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.5.3
+-- Dumped from database version 10.5
 -- Dumped by pg_dump version 10.5
 
 SET statement_timeout = 0;
@@ -143,6 +143,7 @@ CREATE TABLE public.answers (
 --
 
 CREATE SEQUENCE public.answers_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -180,6 +181,7 @@ CREATE TABLE public.articles (
 --
 
 CREATE SEQUENCE public.articles_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -217,6 +219,7 @@ CREATE TABLE public.bank_accounts (
 --
 
 CREATE SEQUENCE public.bank_accounts_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -269,10 +272,10 @@ CREATE TABLE public.businesses (
     rewards_tier_override_id integer,
     hubspot_company_id character varying,
     hubspot_contact_id character varying,
+    credits_in_cents integer DEFAULT 0,
     qna_lvl integer DEFAULT 0,
     qna_viewed_questions integer[] DEFAULT '{}'::integer[],
-    qna_views_left integer DEFAULT 5,
-    credits_in_cents integer DEFAULT 0
+    qna_views_left integer DEFAULT 5
 );
 
 
@@ -347,6 +350,7 @@ CREATE TABLE public.charges (
 --
 
 CREATE SEQUENCE public.charges_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -382,6 +386,7 @@ CREATE TABLE public.documents (
 --
 
 CREATE SEQUENCE public.documents_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -449,6 +454,7 @@ CREATE TABLE public.email_threads (
 --
 
 CREATE SEQUENCE public.email_threads_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -483,6 +489,7 @@ CREATE TABLE public.favorites (
 --
 
 CREATE SEQUENCE public.favorites_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -521,6 +528,7 @@ CREATE TABLE public.feedback_requests (
 --
 
 CREATE SEQUENCE public.feedback_requests_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -542,7 +550,7 @@ ALTER SEQUENCE public.feedback_requests_id_seq OWNED BY public.feedback_requests
 CREATE TABLE public.projects (
     id integer NOT NULL,
     business_id integer NOT NULL,
-    type character varying DEFAULT 'rfp'::character varying NOT NULL,
+    type character varying DEFAULT 'one_off'::character varying NOT NULL,
     status character varying DEFAULT 'draft'::character varying NOT NULL,
     title character varying NOT NULL,
     location_type character varying,
@@ -579,9 +587,7 @@ CREATE TABLE public.projects (
     solicited_business_rating boolean DEFAULT false,
     solicited_specialist_rating boolean DEFAULT false,
     duration_type character varying DEFAULT 'custom'::character varying,
-    estimated_days integer,
-    rfp_timing character varying,
-    est_budget numeric
+    estimated_days integer
 );
 
 
@@ -1036,6 +1042,7 @@ CREATE TABLE public.flags (
 --
 
 CREATE SEQUENCE public.flags_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1071,6 +1078,7 @@ CREATE TABLE public.forum_answers (
 --
 
 CREATE SEQUENCE public.forum_answers_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1106,6 +1114,7 @@ CREATE TABLE public.forum_questions (
 --
 
 CREATE SEQUENCE public.forum_questions_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1163,6 +1172,7 @@ CREATE TABLE public.forum_subscriptions (
 --
 
 CREATE SEQUENCE public.forum_subscriptions_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1196,6 +1206,7 @@ CREATE TABLE public.forum_votes (
 --
 
 CREATE SEQUENCE public.forum_votes_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1283,17 +1294,7 @@ CREATE TABLE public.job_applications (
     message character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    visibility character varying,
-    key_deliverables character varying,
-    pricing_type character varying DEFAULT 'hourly'::character varying,
-    payment_schedule character varying,
-    fixed_budget numeric,
-    hourly_rate numeric,
-    estimated_hours integer,
-    starts_on date,
-    ends_on date,
-    estimated_days integer,
-    status character varying
+    visibility character varying
 );
 
 
@@ -1302,6 +1303,7 @@ CREATE TABLE public.job_applications (
 --
 
 CREATE SEQUENCE public.job_applications_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1401,6 +1403,7 @@ CREATE TABLE public.messages (
 --
 
 CREATE SEQUENCE public.messages_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2869,6 +2872,7 @@ CREATE TABLE public.notifications (
 --
 
 CREATE SEQUENCE public.notifications_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2906,6 +2910,7 @@ CREATE TABLE public.partnerships (
 --
 
 CREATE SEQUENCE public.partnerships_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3014,6 +3019,7 @@ CREATE TABLE public.project_ends (
 --
 
 CREATE SEQUENCE public.project_ends_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3048,6 +3054,7 @@ CREATE TABLE public.project_extensions (
 --
 
 CREATE SEQUENCE public.project_extensions_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3083,6 +3090,7 @@ CREATE TABLE public.project_invites (
 --
 
 CREATE SEQUENCE public.project_invites_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3102,6 +3110,7 @@ ALTER SEQUENCE public.project_invites_id_seq OWNED BY public.project_invites.id;
 --
 
 CREATE SEQUENCE public.project_issues_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3154,6 +3163,7 @@ CREATE TABLE public.project_templates (
 --
 
 CREATE SEQUENCE public.project_templates_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3216,6 +3226,7 @@ CREATE TABLE public.questions (
 --
 
 CREATE SEQUENCE public.questions_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3251,6 +3262,7 @@ CREATE TABLE public.ratings (
 --
 
 CREATE SEQUENCE public.ratings_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3286,6 +3298,7 @@ CREATE TABLE public.referral_tokens (
 --
 
 CREATE SEQUENCE public.referral_tokens_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3319,6 +3332,7 @@ CREATE TABLE public.referrals (
 --
 
 CREATE SEQUENCE public.referrals_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3352,6 +3366,7 @@ CREATE TABLE public.rewards_tiers (
 --
 
 CREATE SEQUENCE public.rewards_tiers_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3395,6 +3410,7 @@ CREATE TABLE public.settings (
 --
 
 CREATE SEQUENCE public.settings_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3471,6 +3487,7 @@ CREATE TABLE public.specialist_invitations (
 --
 
 CREATE SEQUENCE public.specialist_invitations_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3503,6 +3520,7 @@ CREATE TABLE public.specialist_teams (
 --
 
 CREATE SEQUENCE public.specialist_teams_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3578,6 +3596,7 @@ CREATE TABLE public.stripe_accounts (
 --
 
 CREATE SEQUENCE public.stripe_accounts_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3614,6 +3633,7 @@ CREATE TABLE public.subscription_charges (
 --
 
 CREATE SEQUENCE public.subscription_charges_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3650,6 +3670,7 @@ CREATE TABLE public.time_logs (
 --
 
 CREATE SEQUENCE public.time_logs_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3686,6 +3707,7 @@ CREATE TABLE public.timesheets (
 --
 
 CREATE SEQUENCE public.timesheets_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3732,6 +3754,7 @@ CREATE TABLE public.transactions (
 --
 
 CREATE SEQUENCE public.transactions_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3767,6 +3790,7 @@ CREATE TABLE public.turnkey_pages (
 --
 
 CREATE SEQUENCE public.turnkey_pages_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -3807,6 +3831,7 @@ CREATE TABLE public.turnkey_solutions (
 --
 
 CREATE SEQUENCE public.turnkey_solutions_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -5977,16 +6002,4 @@ INSERT INTO schema_migrations (version) VALUES ('20181206194651');
 INSERT INTO schema_migrations (version) VALUES ('20181206201151');
 
 INSERT INTO schema_migrations (version) VALUES ('20181207154323');
-
-INSERT INTO schema_migrations (version) VALUES ('20181217094718');
-
-INSERT INTO schema_migrations (version) VALUES ('20181217113715');
-
-INSERT INTO schema_migrations (version) VALUES ('20181217114759');
-
-INSERT INTO schema_migrations (version) VALUES ('20181219174332');
-
-INSERT INTO schema_migrations (version) VALUES ('20181221144557');
-
-INSERT INTO schema_migrations (version) VALUES ('20181221165209');
 
