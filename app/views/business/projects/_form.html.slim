@@ -7,8 +7,7 @@
   .text-center
     h1.m-t-0.m-b-3 Is this a one-off project or a full-time role?
 
-    = f.input :type, as: :radio_pills, collection: [['Project', Project.types[:one_off]], ['Full Time', Project.types[:full_time]]], btn_class: 'btn-lg btn-default p-x-3', wrapper_html: { class: 'm-b-0' }
-
+    = f.input :type, as: :radio_pills, collection: [['RFP', Project.types[:rfp]], ['Custom', Project.types[:one_off]], ['Full Time', Project.types[:full_time]]], btn_class: 'btn-lg btn-default p-x-3', wrapper_html: { class: 'm-b-0' }
   .well.well-lg.m-t-3.project-details data-location-type=project.location_type
     h2.text-center.m-b-2.full-time Job Details
     h2.text-center.m-b-2.one-off Project Details
@@ -35,6 +34,16 @@
               value: (l(f.object.full_time_starts_on, format: :pickadate) if f.object.full_time_starts_on.present?) \
             } \
           }
+
+  .well.well-lg.m-t-3.project-budget-timing
+    h2.text-center.m-b-2 Budget & Timing
+    .row.row-compact
+      .col-xs-12.col-sm-6
+        = project.est_budget_input(f)
+      .col-xs-12.col-sm-6
+        = f.input :rfp_timing, include_blank: t('simple_form.placeholders.project.rfp_timing'), \
+            collection: Project::RFP_TIMING, \
+            input_html: { class: 'input-lg js-select', data: { filter: false } }
 
   .well.well-lg.m-t-3.project-duration data-duration-type=project.duration_type
     h2.text-center.m-b-2 Project Duration

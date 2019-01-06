@@ -10,7 +10,6 @@ class Business < ApplicationRecord
 
   has_and_belongs_to_many :jurisdictions
   has_and_belongs_to_many :industries
-  has_many :forum_questions
   has_many :projects, dependent: :destroy
   has_many :job_applications, through: :projects
   has_many :charges, through: :projects
@@ -27,8 +26,6 @@ class Business < ApplicationRecord
     where(rater_type: Specialist.name).order(created_at: :desc)
   }, through: :projects, source: :ratings
   has_many :email_threads, dependent: :destroy
-
-  has_one :forum_subscription
 
   has_one :referral, as: :referrable
   has_many :referral_tokens, as: :referrer

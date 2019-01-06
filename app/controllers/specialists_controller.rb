@@ -5,7 +5,7 @@ class SpecialistsController < ApplicationController
     redirect_to specialist_path(current_user.specialist)
   end, if: -> { user_signed_in? && current_user.specialist }, only: %i[new create]
 
-  before_action :authenticate_user!, only: %i[edit update]
+  before_action :authenticate_user!, only: %i[edit update show]
   before_action :require_specialist!, only: %i[edit update]
   before_action :require_business!, only: %i[index]
   before_action :fetch_invitation, only: %i[new create]
