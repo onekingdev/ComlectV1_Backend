@@ -287,10 +287,6 @@ class Project < ApplicationRecord
     duration_type == 'asap'
   end
 
-  def rfp?
-    type == 'rfp'
-  end
-
   def custom_duration?
     duration_type == 'custom' && !rfp?
   end

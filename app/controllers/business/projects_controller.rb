@@ -98,6 +98,7 @@ class Business::ProjectsController < ApplicationController
   # rubocop:disable Metrics/MethodLength
   def project_params
     return { invite_id: params[:invite_id] } unless params.key?(:project)
+
     params.require(:project).permit(
       :title,
       :type,
