@@ -68,6 +68,17 @@
   }
 }
 
+.btn-black {
+  background-color: #000;
+  border-color: #000;
+  color: #fff;
+  &:hover, &:focus, &:active {
+    background-color: #fff !important;
+    border-color: #fff !important;
+    color: #000 !important;
+  }
+}
+
 .btn-danger {
   text-transform: uppercase;
   border-color: #c9240e;
@@ -162,4 +173,32 @@
     padding-left: 0px;
     padding-right: 0px;
   }
+}
+
+.qna_navbar {
+  color: #fff;
+  margin: 0px;
+  margin-top: -3px;
+  padding: 7px 18px;
+  font-weight: $regular-weight !important;
+  font-size: 12px;
+  border: 2px solid #ffcc00;
+  letter-spacing: 1px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  -webkit-filter: drop-shadow(1px 1px 0px rgba(255, 255, 255, 0.5));
+  filter: drop-shadow(1px 1px 0px rgba(255, 255, 255, 0.5));
+
+  &:hover, &:focus, &:active {
+    color: #fff !important;
+    border-color: #000 !important;
+    outline: none;
+  }
+
+  @media (max-width: $grid-float-breakpoint) {
+    border: none;
+    padding: 0px;
+  }
+
 }

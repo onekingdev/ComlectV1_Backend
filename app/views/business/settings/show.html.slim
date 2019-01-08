@@ -9,6 +9,7 @@
   .row.panel.panel-default.settings
     .col-xs-12.col-sm-4
       ul.settings-nav
+        li.subscription-settings class=active_class('subscription_settings') = link_to 'Q&A Forum', business_settings_subscriptions_path, class: 'btn-link btn-block btn-md', remote: true
         li.change-password class=active_class('settings', 'passwords') = link_to 'Change Password', business_settings_password_path, class: 'btn-link btn-block btn-md', remote: true
         li.key-contact class=active_class('key_contacts') = link_to 'Key Contact', business_settings_key_contact_path, class: 'btn-link btn-block btn-md', remote: true
         li.payment-details class=active_class('payment_settings') = link_to 'Payment Details', business_settings_payment_index_path, class: 'btn-link btn-block btn-md', remote: true
