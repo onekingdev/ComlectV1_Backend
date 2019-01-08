@@ -29,20 +29,21 @@
       = render partial: "forum_answers/forum_buttons", locals: { answer: answer } if current_user
   .clearfix
   .thread.p-x-0.p-t-2.m-b-3
-    .col-sm-2.col-no-padding.text-center
-      - if current_user.photo
-        = image_tag current_user.photo_url(:thumb), size: '48x48', class: 'img-circle'
-      - else
-        = image_tag 'icon-specialist.png', size: '48x48', class: 'img-circle'
-    .col-sm-10.col-no-padding.p-r-2.p-b-2
-      = simple_form_for ForumAnswer.new do |f|
-        .col-sm-9.col-no-padding
-          = f.input :body, placeholder: "Add a comment", input_html: { class: "pull-left m-t-1", rows: 1 }
-          = f.input :reply_to, as: :hidden, input_html: { value: answer.id }
-          = f.input :forum_question_id, as: :hidden, input_html: { value: @question.id }
-        .col-sm-3.col-no-padding
-          = f.button :button, "Comment", type: :button, class: 'btn btn-primary btn-black btn-sm p-x-2 pull-right clearfix remote-submit-answer add_forum_comment m-t-1'
-    .clearfix
+    - if current_user
+      .col-sm-2.col-no-padding.text-center
+        - if current_user.photo
+          = image_tag current_user.photo_url(:thumb), size: '48x48', class: 'img-circle'
+        - else
+          = image_tag 'icon-specialist.png', size: '48x48', class: 'img-circle'
+      .col-sm-10.col-no-padding.p-r-2.p-b-2
+        = simple_form_for ForumAnswer.new do |f|
+          .col-sm-9.col-no-padding
+            = f.input :body, placeholder: "Add a comment", input_html: { class: "pull-left m-t-1", rows: 1 }
+            = f.input :reply_to, as: :hidden, input_html: { value: answer.id }
+            = f.input :forum_question_id, as: :hidden, input_html: { value: @question.id }
+          .col-sm-3.col-no-padding
+            = f.button :button, "Comment", type: :button, class: 'btn btn-primary btn-black btn-sm p-x-2 pull-right clearfix remote-submit-answer add_forum_comment m-t-1'
+      .clearfix
     - answer.replies.each do |reply|
       - reply.body = "Please sign up to view this content" if @please_sign_up
       - reply.body = "Please subscribe to view this content" if @please_subscribe
