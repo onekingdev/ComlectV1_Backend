@@ -14,7 +14,7 @@
   .container
     .col-sm-8.col-no-padding
       .answer_form_wrapper
-        - if current_user
+        - if current_specialist || current_business && current_business.qna_lvl == 2
           .col-md-12.p-x-0.forum_answer_form.p-x-1.p-y-2.m-t-3
             .profile-image.m-r-1.m-b-1.pull-left
               - if current_user.photo
@@ -44,6 +44,8 @@
       h3 Related questions
       - for q in @related_questions do
         = link_to q.title, q
+        br
+        br
     .col-sm-8.col-no-padding.answers_container.p-b-3.m-b-3
       h3.m-b-1.answers_count
         b.small

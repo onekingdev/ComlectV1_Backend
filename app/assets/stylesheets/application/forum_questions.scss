@@ -246,3 +246,11 @@ body.forum_questions.index, body.forum_questions.search, body.forum_questions.cr
     }
   }
 }
+
+body.forum_questions.show {
+  #modal {
+    .modal-header, .modal-footer { display: none; }
+    .modal-content { border-radius: 0px; }
+    .modal-body { padding: 0px; }
+  }
+}

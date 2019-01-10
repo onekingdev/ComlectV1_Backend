@@ -66,6 +66,7 @@ Rails.application.routes.draw do
       post :toggle, on: :collection
     end
   end
+  resources :flags, only: %i[new create]
 
   namespace :business do
     resource :settings, only: :show do

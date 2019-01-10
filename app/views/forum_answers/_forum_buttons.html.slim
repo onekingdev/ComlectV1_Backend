@@ -9,4 +9,5 @@
       i.fa.arrows-alt.fa-arrow-down
     span = answer.downvotes
   .forum_flag_btn.p-t-1 data-answer-id="#{answer.reply_to.present? ? answer.reply_to : answer.id}" data-toggle="tooltip" title="report"
-    i.fa.fa-flag
+    = link_to new_flag_path(forum_answer_id: answer.id), remote: true, "data-toggle": "modal", "data-target": "#modal" do
+      i.fa.fa-flag

@@ -5,16 +5,20 @@ class ForumAnswersController < ApplicationController
 
   def create
     @forum_answer = ForumAnswer.new(forum_answer_params)
-    @forum_answer.user_id = current_user.id
-    if @forum_answer.save
-      @question = @forum_answer.forum_question
-      if request.xhr?
-        render partial: 'answer', locals: { answer: @forum_answer }
+    if current_specialist || current_business && current_business.qna_lvl == 2
+      @forum_answer.user_id = current_user.id
+      if @forum_answer.save
+        @question = @forum_answer.forum_question
+        if request.xhr?
+          render partial: 'answer', locals: { answer: @forum_answer }
+        else
+          redirect_to @forum_answer.forum_question
+        end
       else
         redirect_to @forum_answer.forum_question
       end
     else
-      redirect_to @forum_answer.forum_question
+      redirect_to @forum_answer.forum_question, notice: 'Not authorized'
     end
   end
 

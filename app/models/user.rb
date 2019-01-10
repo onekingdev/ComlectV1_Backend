@@ -27,6 +27,10 @@ class User < ApplicationRecord
 
   default_scope -> { where(deleted: false) }
 
+  def business_or_specialist
+    business || specialist
+  end
+
   def photo(*args, &block)
     business ? business.logo(*args, &block) : specialist.photo(*args, &block)
   end
@@ -46,8 +50,10 @@ class User < ApplicationRecord
   def short_name
     if specialist
       [specialist.first_name.capitalize, specialist.last_name.capitalize.first].join(' ') + '.'
+    elsif business.anonymous?
+      'Anonymous'
     else
-      [business.contact_first_name.capitalize, business.contact_last_name.capitalize.first].join(' ') + '.'
+      business.business_name
     end
   end
 

@@ -10,6 +10,10 @@ class ForumAnswer < ActiveRecord::Base
   scope :direct, -> { where(reply_to: nil).order(upvotes_cnt: :desc) }
   include FileUploader[:file]
 
+  def project
+    nil
+  end
+
   def photo(*args, &block)
     user.business ? user.business.logo(*args, &block) : user.specialist.photo(*args, &block)
   end
