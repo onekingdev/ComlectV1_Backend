@@ -31,6 +31,10 @@ class User < ApplicationRecord
     business || specialist
   end
 
+  def upvotes
+    forum_votes.where(upvote: true)
+  end
+
   def photo(*args, &block)
     business ? business.logo(*args, &block) : specialist.photo(*args, &block)
   end

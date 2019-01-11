@@ -1454,7 +1454,8 @@ CREATE TABLE public.specialists (
     rewards_tier_id integer,
     rewards_tier_override_id integer,
     hubspot_contact_id character varying,
-    credits_in_cents integer DEFAULT 0
+    credits_in_cents integer DEFAULT 0,
+    forum_upvotes_for_review integer DEFAULT 0
 );
 
 
@@ -3243,7 +3244,9 @@ CREATE TABLE public.ratings (
     value integer,
     review character varying,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    forum_rating boolean DEFAULT false,
+    specialist_id integer
 );
 
 
@@ -5992,4 +5995,8 @@ INSERT INTO schema_migrations (version) VALUES ('20181221144557');
 INSERT INTO schema_migrations (version) VALUES ('20181221165209');
 
 INSERT INTO schema_migrations (version) VALUES ('20190107142827');
+
+INSERT INTO schema_migrations (version) VALUES ('20190111052406');
+
+INSERT INTO schema_migrations (version) VALUES ('20190111081217');
 

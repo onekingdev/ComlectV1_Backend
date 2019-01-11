@@ -12,6 +12,7 @@ class ForumVotesController < ApplicationController
         @existing.destroy
       else
         @existing.update(upvote: true)
+        @existing.user.specialist&.calc_forum_upvotes
       end
     else
       ForumVote.create(forum_answer_id: params[:id], user_id: current_user.id, upvote: true)

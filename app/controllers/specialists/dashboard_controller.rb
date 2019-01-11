@@ -7,6 +7,6 @@ class Specialists::DashboardController < ApplicationController
   def show
     @specialist = Specialist.preload_associations.find(current_user.specialist.id)
     @financials = Specialist::Financials.for(current_specialist)
-    @ratings = @specialist.ratings_received.preload_associations
+    @ratings = @specialist.ratings_combined
   end
 end
