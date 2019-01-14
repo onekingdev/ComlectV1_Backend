@@ -81,4 +81,47 @@ RSpec.describe JobApplication::Form do
       end
     end
   end
+
+  describe '.apply!' do
+    let(:work_experience) { create(:work_experience, :compliance) }
+
+    let(:specialist) {
+      create(
+        :specialist,
+        industry_ids: project.industry_ids,
+        jurisdiction_ids: project.jurisdiction_ids,
+        work_experiences: [work_experience]
+      )
+    }
+
+    let(:params) { attributes_for(:job_application) }
+    let(:form) { described_class.apply!(specialist, project, params) }
+
+    before do
+      allow_any_instance_of(Specialist).to receive_message_chain(
+        :stripe_account,
+        :verified?
+      ).and_return(true)
+    end
+
+    context 'when auto matching applicants' do
+      let(:project) { create(:project_one_off_hourly, :auto_match, minimum_experience: 0) }
+
+      it 'receives the correct messages' do
+        expect(Notification::Deliver).not_to receive(:project_application!)
+        expect(JobApplication::Accept).to receive(:call)
+        form
+      end
+    end
+
+    context 'when interviewing applicants' do
+      let(:project) { create(:project_one_off_hourly, :interview, minimum_experience: 0) }
+
+      it 'receives the correct messages' do
+        expect(Notification::Deliver).to receive(:project_application!)
+        expect(JobApplication::Accept).not_to receive(:call)
+        form
+      end
+    end
+  end
 end

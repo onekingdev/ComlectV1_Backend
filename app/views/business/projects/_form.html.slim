@@ -64,14 +64,14 @@
           }
       .row.row-compact.p-b-1
         .col-xs-12
-          .small.text-muted Please estimate if necessary to allow our specialists to determine their availability. You will be able to extend the deadline later.
+          .small.text-muted Note: Please estimate if necessary to allow our specialists to determine their availability. You will be able to extend the deadline later.
     .project-duration-asap
       .row.row-compact
         .col-xs-12.col-sm-4.col-sm-offset-4
           = f.input :estimated_days, as: :string, require: true, input_html: { class: 'input-lg text-center' }
       .row.row-compact.p-b-1
         .col-xs-12
-          .small.text-muted Note: This on-demand feature automatically matches you with a specialist that meets your project pre-requisites. Please select custom if you’d like to interview and hire a specialist of your choosing. Please estimate how many days your project may take to allow our specialists to determine their availability. You will be able to finish the project early or extend the deadline once the project begins.
+          .small.text-muted Note: This option will allow you to post a project without a start date. The start date will become the date you hire a specialist.
 
   .well.well-lg.m-t-3.project-salary
     h2.text-center.m-b-2 Salary
@@ -109,6 +109,15 @@
     .row.row-compact.p-b-1
       .col-xs-12
         .small.text-muted Note: Complect adds a 10% fee on top of your project value. You can read more about our Payment Terms <a class="text-muted" href="/info/terms-of-use#fees" target="_blank">here</a>.
+
+  .well.well-lg.m-t-3.project-applicant-selection
+    h2.text-center.m-b-2 Applicant Selection
+    .row.row-compact.m-y-1
+      .col-xs-12.text-center
+        = f.input :applicant_selection, as: :radio_pills, collection: [%w(Auto\ Match auto_match), %w(Interview interview)], btn_class: 'btn-default tt-u'
+    .row.row-compact.p-b-1
+      .col-xs-12
+        .small.text-muted Note: This options allows you to decide whether you want to interview applicants for your project or allow our automated matching system to pair you with a specialist that fits your applicant prerequisites.
 
   .well.well-lg.m-t-3
     h2.text-center.m-b-2 Applicant Prerequisites

@@ -3,7 +3,6 @@
 class Rating < ApplicationRecord
   belongs_to :project
   belongs_to :rater, polymorphic: true
-  belongs_to :specialist
 
   scope :by, ->(rater) { where(rater: rater) }
   scope :preload_associations, -> { preload(:project, :rater) }
@@ -30,8 +29,6 @@ class Rating < ApplicationRecord
   def update_stats
     if rater.is_a?(Specialist)
       update_rated(project.business)
-    elsif forum_rating
-      update_rated(specialist)
     else
       update_rated(project.specialist)
     end
@@ -40,10 +37,6 @@ class Rating < ApplicationRecord
   def update_rated(rated)
     count = rated.ratings_received.count
     total = rated.ratings_received.sum(:value)
-    if rated.is_a?(Specialist)
-      count = rated.forum_ratings.count
-      total += count * 5
-    end
     rated.ratings_count = count
     rated.ratings_total = total
     rated.ratings_average = count.positive? ? total / (count * 1.0) : nil
