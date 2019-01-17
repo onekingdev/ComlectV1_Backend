@@ -2,7 +2,6 @@
 
 class StripeEvent::SubscriptionCreated < StripeEvent
   def handle
-    require 'date'
     cust_id = event.data.object.customer
     end_date = Time.at(event.data.object.current_period_end.to_i).utc
     subscription_id = event.data.object.id

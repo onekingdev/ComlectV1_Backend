@@ -5,7 +5,7 @@ class ForumSubscriptionsController < ApplicationController
 
   def create
     referer = URI(request.referer).path
-    lvl = params[:lvl].to_i
+    lvl = params[:subscription][:lvl].to_i
     billing_type = params[:billing_type].to_i
     if [1, 2].include? lvl
       if current_business&.payment_sources&.any?

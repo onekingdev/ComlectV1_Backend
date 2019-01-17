@@ -9,6 +9,7 @@
 # t.timestamps null: false
 # t.integer :fee
 # t.string :stripe_customer_id
+# t.datetime :renewal_date
 
 class ForumSubscription < ActiveRecord::Base
   belongs_to :business
@@ -56,5 +57,9 @@ class ForumSubscription < ActiveRecord::Base
     subscription = Stripe::Subscription.retrieve(stripe_subscription_id)
     subscription.cancel_at_period_end = true
     subscription.save
+  end
+
+  def renewal_date_hr
+    renewal_date.strftime('%m/%d/%y')
   end
 end

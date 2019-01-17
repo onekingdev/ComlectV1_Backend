@@ -9,7 +9,7 @@
     = "PRO PACKAGE" if current_business.qna_lvl == 2
   .col-xs-3.text-center
     = "EXP. NEVER" if current_business.qna_lvl == 0
-    = "EXP. MM/DD/YY" if current_business.qna_lvl > 0
+    = current_business.forum_subscription.renewal_date_hr if current_business.qna_lvl > 0
   .col-xs-2.text-center
     button.btn.btn-sm.p-x-2.p-y-0.btn-primary(data-toggle="modal" data-target="#subscription_modal" style="margin-top: -5px;") Modify
   .col-xs-2.text-right= link_to "CANCEL", "#", "data-confirm": "<h1 class='p-t-3'>CANCELLATION CONFIRMATION</h3>Please confirm you wish to end your paid subscription to the Q&A forum. If this is incorrect, you may close this pop-up by pressing cancel.", "data-confirm-label": "Submit" if current_business.qna_lvl > 0
