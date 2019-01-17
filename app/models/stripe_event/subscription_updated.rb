@@ -3,6 +3,7 @@
 class StripeEvent::SubscriptionUpdated < StripeEvent
   def handle
     Stripe::Invoice.create(
+      # "current_period_end"
       customer: event.data.object.customer
     )
   end

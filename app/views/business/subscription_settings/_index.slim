@@ -13,5 +13,5 @@
   .col-xs-2.text-center
     button.btn.btn-sm.p-x-2.p-y-0.btn-primary(data-toggle="modal" data-target="#subscription_modal" style="margin-top: -5px;") Modify
   .col-xs-2.text-right= link_to "CANCEL", "#", "data-confirm": "<h1 class='p-t-3'>CANCELLATION CONFIRMATION</h3>Please confirm you wish to end your paid subscription to the Q&A forum. If this is incorrect, you may close this pop-up by pressing cancel.", "data-confirm-label": "Submit" if current_business.qna_lvl > 0
-
+      / = link_to 'Cancel', forum_subscriptions_cancel_path, class: 'btn btn-primary'
 = render partial: "subscription_modal"
