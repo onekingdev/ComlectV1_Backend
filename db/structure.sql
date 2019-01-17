@@ -1201,7 +1201,8 @@ CREATE TABLE public.forum_subscriptions (
     fee integer DEFAULT 0,
     stripe_customer_id character varying,
     stripe_subscription_id character varying,
-    renewal_date timestamp without time zone
+    renewal_date timestamp without time zone,
+    cancelled boolean DEFAULT false
 );
 
 
@@ -6223,4 +6224,6 @@ INSERT INTO schema_migrations (version) VALUES ('20190111052406');
 INSERT INTO schema_migrations (version) VALUES ('20190111081217');
 
 INSERT INTO schema_migrations (version) VALUES ('20190117163709');
+
+INSERT INTO schema_migrations (version) VALUES ('20190117194225');
 

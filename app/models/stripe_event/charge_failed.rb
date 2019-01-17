@@ -11,7 +11,7 @@ class StripeEvent::ChargeFailed < StripeEvent
     elsif subscription
       subscription.failed!
       subscription.forum_subscription.update_attribute(suspended: true)
-      subscription.forum_subscription.business.update_attribute(qna_lvl: 0)
+      # subscription.forum_subscription.business.update_attribute(qna_lvl: 0)
     end
   end
 end

@@ -140,4 +140,12 @@ class Business < ApplicationRecord
     # For dev testing and triggering heroku deploy
     # SyncBusinessUsersToMailchimpJob.perform_now(self)
   end
+
+  def subscription?
+    if forum_subscription && !forum_subscription.suspended
+      forum_subscription[:level]
+    else
+      0
+    end
+  end
 end

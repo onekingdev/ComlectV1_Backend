@@ -1,6 +1,6 @@
 = render partial: "forum_questions/head"
 .row
-  - if current_business && current_business.qna_lvl == 2
+  - if current_business && current_business.subscription? == 2
     .container.p-t-2.p-b-3
       h1.text-center.m-t-3.m-b-3.p-b-2 Ask a question
       = simple_form_for @forum_question do |f|

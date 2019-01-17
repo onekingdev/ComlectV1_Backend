@@ -4,9 +4,9 @@
       = @question.created_at.strftime("%B %e, %Y")
       br
       = @question.industries.collect(&:name).join(", ")
-      | , 
+      | ,
       = @question.jurisdictions.collect(&:name).join(", ")
-      | , 
+      | ,
       = @question.state
     h3 = @question.title
     p = @question.body
@@ -14,7 +14,7 @@
   .container
     .col-sm-8.col-no-padding
       .answer_form_wrapper
-        - if current_specialist || current_business && current_business.qna_lvl == 2
+        - if current_specialist || current_business && current_business.subscription? == 2
           .col-md-12.p-x-0.forum_answer_form.p-x-1.p-y-2.m-t-3
             .profile-image.m-r-1.m-b-1.pull-left
               - if current_user.photo

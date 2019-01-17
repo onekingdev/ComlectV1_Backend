@@ -50,6 +50,7 @@ class ForumSubscription < ActiveRecord::Base
       plan: return_plan_id
     }]
     stripe_sub.save
+    update(cancelled: false)
   end
 
   def cancel
@@ -57,6 +58,7 @@ class ForumSubscription < ActiveRecord::Base
     subscription = Stripe::Subscription.retrieve(stripe_subscription_id)
     subscription.cancel_at_period_end = true
     subscription.save
+    update(cancelled: true)
   end
 
   def renewal_date_hr

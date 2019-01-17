@@ -8,15 +8,15 @@
       .modal-body
         .col-md-7.left-labels
           = form_for :subscription do |f|
-            = f.radio_button :lvl, 0, checked: (current_business.qna_lvl == 0)
+            = f.radio_button :lvl, 0, checked: (current_business.subscription? == 0)
             = f.label :lvl_0, "FOREVER FREE"
             ul
               li 5 free Q&A searches a month
-            = f.radio_button :lvl, 1, checked: (current_business.qna_lvl == 1)
+            = f.radio_button :lvl, 1, checked: (current_business.subscription? == 1)
             = f.label :lvl_1, "BASIC"
             ul
               li Unlimited Q&A searches a month
-            = f.radio_button :lvl, 2, checked: (current_business.qna_lvl == 2)
+            = f.radio_button :lvl, 2, checked: (current_business.subscription? == 2)
             = f.label :lvl_2, "PRO"
             ul
               li Unlimited Q&A searches a month

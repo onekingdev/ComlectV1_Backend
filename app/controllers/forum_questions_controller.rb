@@ -14,7 +14,7 @@ class ForumQuestionsController < ApplicationController
     @related_questions = ForumQuestion.where((['body LIKE ?'] * keys.size).join(' OR '), *keys.map { |key| "%#{key}%" })
     @forum_answers = @question.forum_answers.direct
     if cb
-      if (cb.qna_lvl.zero? && cb.qna_views_left.positive?) || ([1, 2].include? cb.qna_lvl)
+      if (cb.subscription?.zero? && cb.qna_views_left.positive?) || ([1, 2].include? cb.subscription?)
         remove_views = cb.qna_viewed_questions.include?(@question.id) ? 0 : 1
         viewed_quesions = cb.qna_viewed_questions.push(@question.id).uniq
         cb.update(qna_views_left: cb.qna_views_left - remove_views, qna_viewed_questions: viewed_quesions)

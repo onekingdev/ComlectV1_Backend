@@ -1,7 +1,7 @@
 .row.full_width.pitch
   .container
-    -if current_business && current_business.qna_lvl > 0
-    - if current_business && current_business.qna_lvl == 2 || params[:action] == "search"
+    -if current_business && current_business.subscription? > 0
+    - if current_business && current_business.subscription? == 2 || params[:action] == "search"
       = render partial: "search"
       .container
         = render partial: "top_questions", locals: { grid_class: "col-md-3", industries: [4, 1, 2, 5]  }
