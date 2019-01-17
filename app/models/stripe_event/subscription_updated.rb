@@ -2,8 +2,9 @@
 
 class StripeEvent::SubscriptionUpdated < StripeEvent
   def handle
+    sub = ForumSubscription.find_by(stripe_subscription_id: event.data.object.id)
+    sub.update(renewal_date: event.data.object.current_period_end)
     Stripe::Invoice.create(
-      # "current_period_end"
       customer: event.data.object.customer
     )
   end
