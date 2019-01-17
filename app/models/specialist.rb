@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/ClassLength
 class Specialist < ApplicationRecord
   belongs_to :user, autosave: true
   belongs_to :team, foreign_key: :specialist_team_id
@@ -26,6 +27,9 @@ class Specialist < ApplicationRecord
   has_many :ratings_received, -> {
     where(rater_type: Business.name).order(created_at: :desc)
   }, through: :projects, source: :ratings
+  has_many :forum_ratings, -> {
+    where(forum_rating: true)
+  }, class_name: 'Rating'
   has_one :stripe_account, dependent: :destroy
   has_many :bank_accounts, through: :stripe_account
   has_many :email_threads, dependent: :destroy
@@ -117,6 +121,10 @@ class Specialist < ApplicationRecord
 
   def referral_token
     referral_tokens.last
+  end
+
+  def ratings_combined
+    (ratings_received.preload_associations + forum_ratings).sort_by(&:created_at)
   end
 
   def years_of_experience
@@ -212,4 +220,16 @@ class Specialist < ApplicationRecord
     # Use this for testing, also I'm just comitting this to test the heroku staging deploy process
     # SyncSpecialistUsersToMailchimpJob.perform_now(self)
   end
+
+  # rubocop:disable Style/GuardClause
+  def calc_forum_upvotes
+    if user.upvotes.count > forum_upvotes_for_review
+      update(forum_upvotes_for_review: user.upvotes.count)
+      if (forum_upvotes_for_review % 25).zero?
+        Rating.create(value: 5, review: 'Quality advice!', forum_rating: true, specialist_id: id, should_update_stats: true)
+      end
+    end
+  end
+  # rubocop:enable Style/GuardClause
 end
+# rubocop:enable Metrics/ClassLength

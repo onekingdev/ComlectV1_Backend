@@ -19,6 +19,8 @@ class Flag < ApplicationRecord
   def offending_user
     if flagged_content.is_a?(Question)
       flagged_content.specialist
+    elsif flagged_content.is_a?(ForumAnswer)
+      flagged_content.user.business_or_specialist
     else
       project.business
     end

@@ -113,7 +113,6 @@ class Business::ProjectsController < ApplicationController
       :starts_on,
       :full_time_starts_on,
       :ends_on,
-      :applicant_selection,
       :pricing_type,
       :hourly_payment_schedule,
       :fixed_payment_schedule,

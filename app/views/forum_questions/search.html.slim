@@ -1,0 +1,12 @@
+= render partial: "forum_questions/head"
+
+.row
+  .container.search_results.m-b-3
+    h1.m-b-2 = "Found #{@count} records for query \"#{@query}\""
+
+    - @questions.each do |question|
+      .well
+        = link_to question do
+          p
+            big = question.title
+          p.m-b-0 = question.body

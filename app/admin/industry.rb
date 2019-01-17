@@ -10,10 +10,13 @@ ActiveAdmin.register Industry do
     column :name do |record|
       link_to record, [:admin, record]
     end
+    column :short_name do |record|
+      link_to record.short_name, [:admin, record]
+    end
     actions
   end
 
-  permit_params :name
+  permit_params :name, :short_name
 
   controller do
     def create
