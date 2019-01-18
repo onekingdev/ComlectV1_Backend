@@ -40,6 +40,15 @@ Rails.application.routes.draw do
     resources :ima, only: %i[index create]
   end
 
+  get '/ask-a-specialist/search' => 'forum_questions#search', as: :forum_search
+  resources :forum_questions, path: 'ask-a-specialist'
+  resources :forum_answers, only: :create
+  get '/ask-a-specialist/upvote/:id' => 'forum_votes#upvote'
+  get '/ask-a-specialist/downvote/:id' => 'forum_votes#downvote'
+  get '/forum_subscriptions/create' => 'forum_subscriptions#create'
+  get '/forum_subscriptions/upgrade' => 'forum_subscriptions#upgrade'
+  get '/forum_subscriptions/cancel' => 'forum_subscriptions#cancel'
+
   resources :turnkey_pages, only: %i[index show create new], path: 'turnkey'
   resources :turnkey_solutions # , only: :create
   post '/turnkey/:id' => 'turnkey_pages#create'
@@ -57,6 +66,7 @@ Rails.application.routes.draw do
       post :toggle, on: :collection
     end
   end
+  resources :flags, only: %i[new create]
 
   namespace :business do
     resource :settings, only: :show do
@@ -68,6 +78,7 @@ Rails.application.routes.draw do
         patch :make_primary
       end
       resources :notification_settings, as: :notifications, path: 'notifications', only: %i[index update]
+      resources :subscription_settings, as: :subscriptions, path: 'subscriptions', only: %i[index update]
     end
     resources :specialists, only: :index
     concerns :favoriteable
@@ -106,8 +117,6 @@ Rails.application.routes.draw do
       post :hide
     end
   end
-
-  resources :tos_agreement, only: %i[create]
 
   namespace :specialists, path: 'specialist' do
     get '/' => 'dashboard#show', as: :dashboard
