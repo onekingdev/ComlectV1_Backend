@@ -28,6 +28,7 @@ class SyncSpecialistUsersToMailchimpJob < ActiveJob::Base
   end
 
   def add_tag_to_user(email)
+    gibbon = Gibbon::Request.new
     gibbon.lists(ENV['MAILCHIMP_SPECIALIST_ID']).members(Digest::MD5.hexdigest(email)).tags.create(
       body: {
         tags: [{ name: 'Specialists', status: 'active' }]
