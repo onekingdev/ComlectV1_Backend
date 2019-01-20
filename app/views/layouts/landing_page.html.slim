@@ -19,6 +19,7 @@ html lang=I18n.locale
       meta property="og:description" content="Complect is an online freelancing platform that connects financial services firms with financial regulatory compliance specialists with a minimum of three years direct compliance experience."
 
 body.home.index
+  = render partial: "layouts/cookies"
   .content-wrap
     #header.parallax-window class=(yield(:header_class) || 'compact') data-parallax="scroll" data-image-src=asset_path('landing/header.jpg')
       = render "navbar", user: User::Decorator.new(current_user)

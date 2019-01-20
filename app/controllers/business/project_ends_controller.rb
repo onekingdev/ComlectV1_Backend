@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Business::ProjectEndsController < ApplicationController
-  prepend_before_action :authenticate_user!
   before_action :require_business!
   before_action :find_project
 

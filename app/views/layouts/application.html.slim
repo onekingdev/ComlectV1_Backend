@@ -27,11 +27,17 @@ body class="#{controller_name} #{action_name}"
   .content-wrap
     header#header class=(yield(:header_class) || 'compact')
       = render "navbar", user: User::Decorator.new(current_user)
-      = yield :header
+      - unless current_user && current_user.cookie_agreement&.status == false
+        = yield :header
+
+    = render partial: "layouts/cookies"
 
     .container.app_container
       = render_flash
-      = yield
+      - if current_user && current_user.cookie_agreement&.status == false && params[:page] != 'privacy-policy'
+        = render partial: "layouts/cookies_required"
+      - else
+        = yield
 
     #modal.modal.fade tabindex=-1 role="dialog"
       .modal-dialog

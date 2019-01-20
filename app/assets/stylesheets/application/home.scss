@@ -18,7 +18,7 @@ body.home.index, body.home.page, body.home.partnerships {
   .ol-numerals {
     list-style-type: lower-roman;
   }
-  
+
   .nav-padding {
     padding: 0 90px;
   }
@@ -570,4 +570,20 @@ body.home.index .home-content, body.home.page .home-content {
 
 body.home.page .hero-light h4 {
   color: #FFCC33;
+}
+
+.cookies-required {
+  margin: 20%;
+}
+
+#cookie-modal {
+  display: block;
+  position: fixed;
+  bottom: 0;
+  left: 2%;
+  z-index: 200;
+}
+
+.no-button {
+  margin-left: 2%;
 }
