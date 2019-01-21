@@ -31,6 +31,7 @@ class Users::SessionsController < Devise::SessionsController
       format.js do
         signed_out = (Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name))
         set_flash_message! :notice, :signed_out if signed_out
+        cookies.delete
       end
     end
     mixpanel_track_later 'Sign Out', user: user

@@ -76,7 +76,8 @@ class Business < ApplicationRecord
 
   def self.for_signup(attributes = {}, token = nil)
     new(attributes).tap do |business|
-      business.build_user.build_tos_agreement.build_cookie_agreement unless business.user
+      business.build_user.build_tos_agreement unless business.user
+      business.build_cookie_agreement unless business.user
       referral_token = ReferralToken.find_by(token: token) if token
       business.build_referral(referral_token: referral_token) if referral_token
     end

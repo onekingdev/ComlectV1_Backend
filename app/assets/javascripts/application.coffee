@@ -21,3 +21,23 @@
 #= require_tree ./utilities
 #= require_tree ./components
 #= require_tree ./application
+
+$ ->
+
+  # if document.cookie.includes('accept_cookies')
+  #   $('#cookie-modal').remove()
+
+  $('#no-user-cookie-agree').on 'click', () ->
+    document.cookie = 'accept_cookies=true'
+    $('#cookie-modal').remove()
+
+  $('#no-user-cookie-decline').on 'click', () ->
+    $('#cookie-modal').remove()
+
+
+
+
+
+
+
+#

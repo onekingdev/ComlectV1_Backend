@@ -10,3 +10,15 @@
           .m-t-2
             = link_to 'Yes, I agree', tos_agreement_index_path(status: true, description: 'This site uses cookies to improve your experience. Please accept the use of cookies on this site. You can review our cookie policy and privacy policy here' ), :method => :post, class: 'btn btn-sm btn-primary p-x-3'
             = link_to 'No, I refuse', tos_agreement_index_path(status: false), :method => :post, class: 'btn btn-sm btn-primary p-x-3 no-button'
+- elsif !accept_cookies
+  #cookie-modal role="dialog"
+    .modal-dialog
+      .modal-content
+        .modal-body
+          p
+          | This site uses cookies to improve your experience. Please accept the use of cookies on this site. You can review our cookie policy and privacy policy
+          = link_to ' here. ', page_path("privacy-policy")
+          | If you choose to refuse, functionality of this site will be limited.
+          .m-t-2
+            #no-user-cookie-agree.btn.btn-sm.btn-primary.p-x-3 'Yes, I agree'
+            #no-user-cookie-decline.btn.btn-sm.btn-primary.p-x-3.no-button 'No, I refuse'

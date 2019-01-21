@@ -123,3 +123,17 @@
 
   }
 }
+
+#cookie-modal {
+  display: block;
+  position: fixed;
+  top: 25%;
+  left: 25%;
+  height: 800px;
+  width: 800px;
+  z-index: 200;
+}
+
+.no-button {
+  margin-left: 2%;
+}
