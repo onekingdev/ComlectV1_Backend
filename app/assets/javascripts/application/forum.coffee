@@ -1,17 +1,18 @@
-$(document).on 'click', '.submit-sub-settings', (e) ->
-  forms = $("#subscription_modal form")
-  $(forms[1]).find(".active").trigger('click') # without this radio pill inputs are not set
-  checked_plan = $(forms[0]).find("input[type=radio]:checked").val()
-  if checked_plan > 0
-    $("#subscription_billing_type").val($($(forms[1]).find("input[type=radio]:checked")[checked_plan-1]).val())
-  serialized = $(forms[0]).serializeArray()
-  $.ajax
-    type: 'GET'
-    url: '/forum_subscriptions/create'
-    data: serialized
-    success: (data) ->
-      console.log data
-      window.location = '/business/settings/subscriptions'
+# $(document).on 'click', '.submit-sub-settings', (e) ->
+#   forms = $("#subscription_modal form")
+#   $(forms[1]).find(".active").trigger('click') # without this radio pill inputs are not set
+#   checked_plan = $(forms[0]).find("input[type=radio]:checked").val()
+#   if checked_plan > 0
+#     $("#subscription_billing_type").val($($(forms[1]).find("input[type=radio]:checked")[checked_plan-1]).val())
+#   serialized = $(forms[0]).serializeArray()
+#   $.ajax
+#     type: 'GET'
+#     url: '/forum_subscriptions/create'
+#     data: serialized
+#     success: (data) ->
+#       console.log window.location
+#       # window.reload
+#       # window.location = '/business/settings/subscriptions'
 
 $(document).on 'click', '.remote-submit-answer', (e) ->
   commenting = $(e.target).hasClass("add_forum_comment")

@@ -6,7 +6,7 @@ class ForumSubscriptionsController < ApplicationController
   def create
     referer = URI(request.referer).path
     lvl = params[:subscription][:lvl].to_i
-    billing_type = params[:billing_type].to_i
+    billing_type = (params[:subscription][:pro] || params[:subscription][:basic]) == 'annual' ? 0 : 1
     if lvl.positive?
       if current_business&.payment_sources&.any?
         if !current_business.subscription?
@@ -21,6 +21,7 @@ class ForumSubscriptionsController < ApplicationController
     else
       notice = 'Incorrect options'
     end
+    binding.pry
     redirect_to referer, notice: notice
   end
 
