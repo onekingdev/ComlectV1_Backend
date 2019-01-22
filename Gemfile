@@ -102,6 +102,7 @@ gem 'stripe'
 gem 'lograge'
 
 # Sitemap
+gem 'fog-aws'
 gem 'sitemap_generator'
 
 # Other
