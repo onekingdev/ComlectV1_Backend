@@ -15,15 +15,8 @@ class User < ApplicationRecord
   has_many :payment_sources, through: :business
   has_many :project_issues, dependent: :delete_all
   has_many :notifications, dependent: :delete_all
-  has_many :forum_answers
-  has_many :forum_votes, dependent: :destroy
-  has_one :tos_agreement, dependent: :destroy
-  has_one :cookie_agreement, dependent: :destroy
 
   validates :email, presence: true, email: true
-
-  accepts_nested_attributes_for :tos_agreement
-  accepts_nested_attributes_for :cookie_agreement
 
   scope :inactive, -> {
     where('last_sign_in_at < ?', Time.zone.now - 90.days)
@@ -85,29 +78,5 @@ class User < ApplicationRecord
 
   def active_for_authentication?
     super && !suspended? && !deleted? # Extra safeguard, default_scope should prevent deleted users from being found
-  end
-
-  def create_cookie_agreement(ip_address, status, description)
-    CookieAgreement.create(
-      user: self,
-      cookie_description: description,
-      status: status,
-      agreement_date: Time.zone.now,
-      ip_address: ip_address
-    )
-  end
-
-  def update_privacy_agreement(ip_address)
-    tos_agreement.update(
-      agreement_date: Time.zone.now,
-      ip_address: ip_address
-    )
-  end
-
-  def update_cookie_agreement(ip_address)
-    cookie_agreement.update(
-      agreement_date: Time.zone.now,
-      ip_address: ip_address
-    )
   end
 end

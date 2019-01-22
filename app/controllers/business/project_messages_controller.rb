@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Business::ProjectMessagesController < ProjectMessagesController
+  prepend_before_action :authenticate_user!
   before_action :require_business!
 
   def index

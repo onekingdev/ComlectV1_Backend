@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Business::ProjectRatingsController < ::ProjectRatingsController
+  prepend_before_action :authenticate_user!
   prepend_before_action :require_business!
 
   private

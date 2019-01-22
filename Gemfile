@@ -101,6 +101,9 @@ gem 'stripe'
 # Logging
 gem 'lograge'
 
+# Sitemap
+gem 'sitemap_generator'
+
 # Other
 gem 'hubspot-ruby'
 

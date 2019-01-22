@@ -41,7 +41,7 @@ Rails.application.routes.draw do
   end
 
   resources :turnkey_pages, only: %i[index show create new], path: 'turnkey'
-  resources :turnkey_solutions # , only: :create
+  #  resources :turnkey_solutions # , only: :create
   post '/turnkey/:id' => 'turnkey_pages#create'
   patch '/turnkey/:id' => 'turnkey_pages#update'
 
@@ -106,8 +106,6 @@ Rails.application.routes.draw do
       post :hide
     end
   end
-
-  resources :tos_agreement, only: %i[create]
 
   namespace :specialists, path: 'specialist' do
     get '/' => 'dashboard#show', as: :dashboard

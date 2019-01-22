@@ -5,7 +5,7 @@ class SpecialistsController < ApplicationController
     redirect_to specialist_path(current_user.specialist)
   end, if: -> { user_signed_in? && current_user.specialist }, only: %i[new create]
 
-  before_action :authenticate_user!, only: %i[edit update]
+  before_action :authenticate_user!, only: %i[edit update show]
   before_action :require_specialist!, only: %i[edit update]
   before_action :require_business!, only: %i[index]
   before_action :fetch_invitation, only: %i[new create]
@@ -42,8 +42,6 @@ class SpecialistsController < ApplicationController
     if @specialist.save(context: :signup)
       @invitation&.accepted!(@specialist)
       sign_in @specialist.user
-      @specialist.user.update_privacy_agreement(request.remote_ip)
-      @specialist.user.update_cookie_agreement(request.remote_ip)
       mixpanel_track_later 'Sign Up'
       SpecialistMailer.welcome(@specialist).deliver_later
       cookies.delete :referral
@@ -94,9 +92,7 @@ class SpecialistsController < ApplicationController
       :lng, :phone, :linkedin_link, :public_profile, :former_regulator, :certifications, :photo, :resume,
       :zipcode, :lat, :time_zone,
       jurisdiction_ids: [], industry_ids: [], skill_names: [],
-      user_attributes: [:email, :password,
-                        tos_agreement_attributes: %i[status tos_description],
-                        cookie_agreement_attributes: %i[status cookie_description]],
+      user_attributes: %i[email password],
       work_experiences_attributes: %i[id company job_title location from to current compliance description _destroy],
       education_histories_attributes: %i[id institution degree year _destroy]
     ).merge(tos_acceptance_ip: request.remote_ip)

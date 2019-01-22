@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop:disable ClassLength
 class Specialist < ApplicationRecord
   belongs_to :user, autosave: true
   belongs_to :team, foreign_key: :specialist_team_id
@@ -46,13 +45,7 @@ class Specialist < ApplicationRecord
     }
   end
 
-  has_one :tos_agreement, through: :user
-  has_one :cookie_agreement, through: :user
   accepts_nested_attributes_for :education_histories, :work_experiences
-  accepts_nested_attributes_for :tos_agreement
-  accepts_nested_attributes_for :cookie_agreement
-  validate :tos_invalid?
-  validate :cookie_agreement_invalid?
 
   default_scope -> { joins("INNER JOIN users ON users.id = specialists.user_id AND users.deleted = 'f'") }
 
@@ -116,14 +109,6 @@ class Specialist < ApplicationRecord
   after_commit :generate_referral_token, on: :create
 
   after_create :sync_with_mailchimp
-
-  def tos_invalid?
-    errors.add(:tos_agree, 'You must agree to the terms of service to create an account') unless user.tos_agreement.status
-  end
-
-  def cookie_agreement_invalid?
-    errors.add(:cookie_agree, 'You must agree to cookies to create an account') unless user.cookie_agreement.status
-  end
 
   def self.dates_between_query
     'SUM(ROUND((COALESCE("to", NOW())::date - "from"::date)::float / 365.0)::numeric::int)'
@@ -224,6 +209,7 @@ class Specialist < ApplicationRecord
 
   def sync_with_mailchimp
     SyncSpecialistUsersToMailchimpJob.perform_later(self)
+    # Use this for testing, also I'm just comitting this to test the heroku staging deploy process
+    # SyncSpecialistUsersToMailchimpJob.perform_now(self)
   end
 end
-# rubocop:enable ClassLength
