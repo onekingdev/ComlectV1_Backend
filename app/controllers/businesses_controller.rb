@@ -5,7 +5,7 @@ class BusinessesController < ApplicationController
     redirect_to business_path(current_user.business)
   end, if: -> { user_signed_in? && current_user.business }, only: %i[new create]
 
-  before_action :authenticate_user!, only: %i[edit update]
+  before_action :authenticate_user!, only: %i[edit update show]
   before_action :require_business!, only: %i[edit update]
 
   def show
