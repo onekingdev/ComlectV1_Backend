@@ -9,7 +9,7 @@ class ForumSubscriptionsController < ApplicationController
     billing_type = (params[:subscription][:pro] || params[:subscription][:basic]) == 'annual' ? 0 : 1
     if lvl.positive?
       if current_business&.payment_sources&.any?
-        if !current_business.subscription?
+        if current_business.subscription?.zero?
           ForumSubscription.create(business: current_business, level: lvl, billing_type: billing_type)
         else
           current_business.forum_subscription.upgrade(lvl, billing_type)
@@ -21,7 +21,6 @@ class ForumSubscriptionsController < ApplicationController
     else
       notice = 'Incorrect options'
     end
-    binding.pry
     redirect_to referer, notice: notice
   end
 
