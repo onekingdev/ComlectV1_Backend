@@ -43,7 +43,7 @@
     .col-sm-3.pull-right
       h3 Related questions
       - for q in @related_questions do
-        = link_to q.title, q
+        = link_to q.title, forum_question_path(q.url)
         br
         br
     .col-sm-8.col-no-padding.answers_container.p-b-3.m-b-3

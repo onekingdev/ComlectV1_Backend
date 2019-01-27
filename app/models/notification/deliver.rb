@@ -18,6 +18,25 @@ class Notification::Deliver < Draper::Decorator
       ]
     end
 
+    def industry_forum_question!(forum_question)
+      receivers = Specialist.joins(:industries).where(industries: { id: forum_question.industries.collect(&:id) })
+      receivers.each do |specialist|
+        action_path, action_url = path_and_url :forum_question, forum_question.url
+
+        dispatcher = Dispatcher.new(
+          user: specialist.user,
+          key: :industry_forum_question,
+          action_path: action_path,
+          associated: forum_question,
+          t: { forum_question: forum_question.title }
+        )
+
+        dispatcher.deliver_notification!
+        break unless Notification.enabled?(specialist, :new_forum_question)
+        dispatcher.deliver_mail(action_url)
+      end
+    end
+
     def got_employee_invitation!(invitation)
       action_path, action_url = path_and_url(
         :new_specialist,
@@ -151,7 +170,7 @@ class Notification::Deliver < Draper::Decorator
 
     def got_project_message!(message)
       project = message.thread
-
+      # rubocop:disable Metrics/LineLength
       init, rcv, path, action_url = if message.sender == project.business
                                       [
                                         project.business, message.recipient,
@@ -163,7 +182,6 @@ class Notification::Deliver < Draper::Decorator
                                         *path_and_url(:business_project_dashboard, project, anchor: 'project-messages')
                                       ]
                                     end
-      # rubocop:disable Metrics/LineLength
       path, action_url = *path_and_url(:business_project_dashboard_interview, project, message.sender, anchor: 'project-messages') if message.sender != project.business && project.specialist.blank?
       # rubocop:enable Metrics/LineLength
       dispatcher = Dispatcher.new(
@@ -711,9 +729,8 @@ class Notification::Deliver < Draper::Decorator
   class Dispatcher
     attr_reader :user, :key, :action_path, :associated, :clear_manually, :t, :message,
                 :initiator, :initiator_name, :img_path, :message_mail, :subject, :action_label
-
-    # rubocop:disable Metrics/ParameterLists
     # rubocop:disable Naming/UncommunicativeMethodParamName
+    # rubocop:disable Metrics/ParameterLists
     def initialize(user: nil, key: nil, action_path: nil, associated: nil, clear_manually: false, t: {}, initiator: nil)
       @user = user
       @key = key
@@ -729,7 +746,6 @@ class Notification::Deliver < Draper::Decorator
       @initiator_name, @img_path = initiator_name_and_img(@initiator)
     end
     # rubocop:enable Metrics/ParameterLists
-    # rubocop:enable Naming/UncommunicativeMethodParamName
 
     def deliver_mail(action_url)
       NotificationMailer.deliver_later(
@@ -799,7 +815,6 @@ class Notification::Deliver < Draper::Decorator
       end
     end
 
-    # rubocop:disable Naming/UncommunicativeMethodParamName
     def message_mail_handler(key, t)
       if I18n.t("notification_messages.#{key}").key?(:message_mail)
         I18n.t("#{key}.message_mail", t.merge(scope: 'notification_messages'))
@@ -807,7 +822,7 @@ class Notification::Deliver < Draper::Decorator
         I18n.t("#{key}.message", t.merge(scope: 'notification_messages'))
       end
     end
-    # rubocop:enable Naming/UncommunicativeMethodParamName
   end
+  # rubocop:enable Naming/UncommunicativeMethodParamName
 end
 # rubocop:enable Metrics/ClassLength

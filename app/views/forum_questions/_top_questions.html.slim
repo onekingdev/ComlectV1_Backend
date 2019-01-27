@@ -5,4 +5,4 @@
       = industry.short_name ? industry.short_name : industry.name
       |  Questions
     - industry.forum_questions.order(:last_activity).limit(5).each do |fq|
-      p = link_to fq.title, fq
+      p = link_to fq.title, forum_question_path(fq.url)

@@ -125,7 +125,7 @@ class Specialist < ApplicationRecord
   end
 
   def ratings_combined
-    (ratings_received.preload_associations + forum_ratings).sort_by(&:created_at)
+    (ratings_received.preload_associations + forum_ratings).sort_by(&:created_at).reverse
   end
 
   def years_of_experience

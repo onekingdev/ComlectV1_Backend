@@ -9,7 +9,7 @@ class ForumQuestionsController < ApplicationController
   # rubocop:disable Metrics/AbcSize
   def show
     cb = current_business
-    @question = ForumQuestion.find(params[:id])
+    @question = ForumQuestion.find_by(url: params[:url])
     keys = @question.keywords
     @related_questions = ForumQuestion.where((['body LIKE ?'] * keys.size).join(' OR '), *keys.map { |key| "%#{key}%" })
     @forum_answers = @question.forum_answers.direct
@@ -36,7 +36,8 @@ class ForumQuestionsController < ApplicationController
   def create
     @forum_question = ForumQuestion.new(forum_question_params)
     if @forum_question.save
-      redirect_to @forum_question, notice: 'Question was successfully created.'
+      Notification::Deliver.industry_forum_question! @forum_question
+      redirect_to @forum_question
     else
       render :index
     end

@@ -24,6 +24,10 @@ en:
       action_label: Go to %{project_title} Project Dashboard
 
     # sent to specialist
+    industry_forum_question:
+      subject: New Forum Question posted matching your industry
+      message_mail: "%{forum_question}"
+      action_label: View
     got_employee_invitation:
       subject: You've been invited to join a team on Complect
       message_mail: "%{manager_full_name} has requested you join the %{team_name} team on Complect. To create your profile and have it linked with this team, please sign up directly via the link below."

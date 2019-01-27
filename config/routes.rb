@@ -41,7 +41,7 @@ Rails.application.routes.draw do
   end
 
   get '/ask-a-specialist/search' => 'forum_questions#search', as: :forum_search
-  resources :forum_questions, path: 'ask-a-specialist'
+  resources :forum_questions, path: 'ask-a-specialist', param: :url
   resources :forum_answers, only: :create
   get '/ask-a-specialist/upvote/:id' => 'forum_votes#upvote'
   get '/ask-a-specialist/downvote/:id' => 'forum_votes#downvote'
