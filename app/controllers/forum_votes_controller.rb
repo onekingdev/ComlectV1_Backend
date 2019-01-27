@@ -12,11 +12,13 @@ class ForumVotesController < ApplicationController
         @existing.destroy
       else
         @existing.update(upvote: true)
-        @existing.user.specialist&.calc_forum_upvotes
+        # @existing.user.specialist.calc_forum_upvotes
       end
     else
       ForumVote.create(forum_answer_id: params[:id], user_id: current_user.id, upvote: true)
+      # @existing.user.specialist.calc_forum_upvotes
     end
+    @forum_answer.user.specialist&.calc_forum_upvotes
     @forum_answer.update_upvotes_cnt
     render partial: 'forum_answers/forum_buttons', locals: { answer: @forum_answer }
   end

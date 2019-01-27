@@ -45,7 +45,8 @@ class Specialist < ApplicationRecord
       got_rated: true,
       not_hired: true,
       project_ended: true,
-      got_message: true
+      got_message: true,
+      new_forum_questions: true
     }
   end
 
@@ -223,10 +224,11 @@ class Specialist < ApplicationRecord
 
   # rubocop:disable Style/GuardClause
   def calc_forum_upvotes
-    if user.upvotes.count > forum_upvotes_for_review
-      update(forum_upvotes_for_review: user.upvotes.count)
+    if user.upvotes > forum_upvotes_for_review
+      update(forum_upvotes_for_review: user.upvotes)
       if (forum_upvotes_for_review % 25).zero?
-        Rating.create(value: 5, review: 'Quality advice!', forum_rating: true, specialist_id: id, should_update_stats: true)
+        rating = Rating.create(value: 5, review: 'Quality advice!', forum_rating: true, specialist_id: id, should_update_stats: true)
+        Notification::Deliver.got_rated! rating
       end
     end
   end

@@ -272,10 +272,17 @@ CREATE TABLE public.businesses (
     rewards_tier_override_id integer,
     hubspot_company_id character varying,
     hubspot_contact_id character varying,
+<<<<<<< HEAD
     credits_in_cents integer DEFAULT 0,
     qna_lvl integer DEFAULT 0,
     qna_viewed_questions integer[] DEFAULT '{}'::integer[],
     qna_views_left integer DEFAULT 5
+=======
+    qna_lvl integer DEFAULT 0,
+    qna_viewed_questions integer[] DEFAULT '{}'::integer[],
+    qna_views_left integer DEFAULT 5,
+    credits_in_cents integer DEFAULT 0
+>>>>>>> 7b42302ddc26c697eb5626e31bbeb3d8ff254bf9
 );
 
 
@@ -586,7 +593,7 @@ ALTER SEQUENCE public.feedback_requests_id_seq OWNED BY public.feedback_requests
 CREATE TABLE public.projects (
     id integer NOT NULL,
     business_id integer NOT NULL,
-    type character varying DEFAULT 'one_off'::character varying NOT NULL,
+    type character varying DEFAULT 'rfp'::character varying NOT NULL,
     status character varying DEFAULT 'draft'::character varying NOT NULL,
     title character varying NOT NULL,
     location_type character varying,
@@ -623,7 +630,10 @@ CREATE TABLE public.projects (
     solicited_business_rating boolean DEFAULT false,
     solicited_specialist_rating boolean DEFAULT false,
     duration_type character varying DEFAULT 'custom'::character varying,
-    estimated_days integer
+    estimated_days integer,
+    rfp_timing character varying,
+    est_budget numeric,
+    applicant_selection character varying DEFAULT 'auto_match'::character varying
 );
 
 
@@ -1115,7 +1125,10 @@ CREATE TABLE public.forum_answers (
 --
 
 CREATE SEQUENCE public.forum_answers_id_seq
+<<<<<<< HEAD
     AS integer
+=======
+>>>>>>> 7b42302ddc26c697eb5626e31bbeb3d8ff254bf9
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1151,7 +1164,10 @@ CREATE TABLE public.forum_questions (
 --
 
 CREATE SEQUENCE public.forum_questions_id_seq
+<<<<<<< HEAD
     AS integer
+=======
+>>>>>>> 7b42302ddc26c697eb5626e31bbeb3d8ff254bf9
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1200,9 +1216,13 @@ CREATE TABLE public.forum_subscriptions (
     updated_at timestamp without time zone NOT NULL,
     fee integer DEFAULT 0,
     stripe_customer_id character varying,
+<<<<<<< HEAD
     stripe_subscription_id character varying,
     renewal_date timestamp without time zone,
     cancelled boolean DEFAULT false
+=======
+    stripe_subscription_id character varying
+>>>>>>> 7b42302ddc26c697eb5626e31bbeb3d8ff254bf9
 );
 
 
@@ -1211,7 +1231,10 @@ CREATE TABLE public.forum_subscriptions (
 --
 
 CREATE SEQUENCE public.forum_subscriptions_id_seq
+<<<<<<< HEAD
     AS integer
+=======
+>>>>>>> 7b42302ddc26c697eb5626e31bbeb3d8ff254bf9
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1245,7 +1268,10 @@ CREATE TABLE public.forum_votes (
 --
 
 CREATE SEQUENCE public.forum_votes_id_seq
+<<<<<<< HEAD
     AS integer
+=======
+>>>>>>> 7b42302ddc26c697eb5626e31bbeb3d8ff254bf9
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1333,7 +1359,17 @@ CREATE TABLE public.job_applications (
     message character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    visibility character varying
+    visibility character varying,
+    key_deliverables character varying,
+    pricing_type character varying DEFAULT 'hourly'::character varying,
+    payment_schedule character varying,
+    fixed_budget numeric,
+    hourly_rate numeric,
+    estimated_hours integer,
+    starts_on date,
+    ends_on date,
+    estimated_days integer,
+    status character varying
 );
 
 
@@ -3711,7 +3747,10 @@ CREATE TABLE public.subscription_charges (
 --
 
 CREATE SEQUENCE public.subscription_charges_id_seq
+<<<<<<< HEAD
     AS integer
+=======
+>>>>>>> 7b42302ddc26c697eb5626e31bbeb3d8ff254bf9
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -6207,6 +6246,7 @@ INSERT INTO schema_migrations (version) VALUES ('20181206201151');
 
 INSERT INTO schema_migrations (version) VALUES ('20181207154323');
 
+<<<<<<< HEAD
 INSERT INTO schema_migrations (version) VALUES ('20181212215219');
 
 INSERT INTO schema_migrations (version) VALUES ('20181213163257');
@@ -6216,6 +6256,19 @@ INSERT INTO schema_migrations (version) VALUES ('20181213180722');
 INSERT INTO schema_migrations (version) VALUES ('20181218181633');
 
 INSERT INTO schema_migrations (version) VALUES ('20181218185020');
+=======
+INSERT INTO schema_migrations (version) VALUES ('20181217094718');
+
+INSERT INTO schema_migrations (version) VALUES ('20181217113715');
+
+INSERT INTO schema_migrations (version) VALUES ('20181217114759');
+
+INSERT INTO schema_migrations (version) VALUES ('20181219174332');
+
+INSERT INTO schema_migrations (version) VALUES ('20181221144557');
+
+INSERT INTO schema_migrations (version) VALUES ('20181221165209');
+>>>>>>> 7b42302ddc26c697eb5626e31bbeb3d8ff254bf9
 
 INSERT INTO schema_migrations (version) VALUES ('20190107142827');
 
@@ -6223,7 +6276,10 @@ INSERT INTO schema_migrations (version) VALUES ('20190111052406');
 
 INSERT INTO schema_migrations (version) VALUES ('20190111081217');
 
+<<<<<<< HEAD
 INSERT INTO schema_migrations (version) VALUES ('20190117163709');
 
 INSERT INTO schema_migrations (version) VALUES ('20190117194225');
-
+=======
+INSERT INTO schema_migrations (version) VALUES ('20190113223605');
+>>>>>>> 7b42302ddc26c697eb5626e31bbeb3d8ff254bf9

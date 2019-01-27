@@ -32,7 +32,8 @@ class User < ApplicationRecord
   end
 
   def upvotes
-    forum_votes.where(upvote: true)
+    # forum_votes.where(upvote: true)
+    ForumVote.where(upvote: true, forum_answer_id: forum_answers.collect(&:id)).count
   end
 
   def photo(*args, &block)

@@ -60,17 +60,7 @@ class Notification::Deliver < Draper::Decorator
       )
 
       dispatcher.deliver_notification!
-
-      NotificationMailer.deliver_later(
-        :notification,
-        dispatcher.user.email,
-        dispatcher.message_mail,
-        dispatcher.action_label,
-        dispatcher.initiator_name,
-        dispatcher.img_path,
-        action_url,
-        dispatcher.subject
-      )
+      dispatcher.deliver_mail(action_url)
     end
 
     def not_hired!(application)
@@ -89,21 +79,32 @@ class Notification::Deliver < Draper::Decorator
 
       dispatcher.deliver_notification!
       return unless Notification.enabled?(application.specialist, :not_hired)
-
-      NotificationMailer.deliver_later(
-        :notification,
-        dispatcher.user.email,
-        dispatcher.message_mail,
-        dispatcher.action_label,
-        dispatcher.initiator_name,
-        dispatcher.img_path,
-        action_url,
-        dispatcher.subject
-      )
+      dispatcher.deliver_mail(action_url)
     end
 
     def got_rated!(rating)
-      rating.rater == rating.project.business ? specialist_got_rated!(rating) : business_got_rated!(rating)
+      if rating.project.nil?
+        specialist_got_autorated!(rating)
+      else
+        rating.rater == rating.project.business ? specialist_got_rated!(rating) : business_got_rated!(rating)
+      end
+    end
+
+    def specialist_got_autorated!(rating)
+      action_path, action_url = path_and_url(
+        :specialists_dashboard,
+        anchor: 'ratings-reviews'
+      )
+
+      dispatcher = Dispatcher.new(
+        user: rating.specialist.user,
+        key: :got_rated,
+        action_path: action_path,
+        associated: rating
+      )
+      dispatcher.deliver_notification!
+      return unless Notification.enabled?(specialist, :got_rated)
+      dispatcher.deliver_mail(action_url)
     end
 
     def specialist_got_rated!(rating)
@@ -124,16 +125,7 @@ class Notification::Deliver < Draper::Decorator
 
       dispatcher.deliver_notification!
       return unless Notification.enabled?(specialist, :got_rated)
-      NotificationMailer.deliver_later(
-        :notification,
-        dispatcher.user.email,
-        dispatcher.message_mail,
-        dispatcher.action_label,
-        dispatcher.initiator_name,
-        dispatcher.img_path,
-        action_url,
-        dispatcher.subject
-      )
+      dispatcher.deliver_mail(action_url)
     end
 
     def business_got_rated!(rating)
@@ -154,21 +146,9 @@ class Notification::Deliver < Draper::Decorator
 
       dispatcher.deliver_notification!
       return unless Notification.enabled?(business, :got_rated)
-
-      NotificationMailer.deliver_later(
-        :notification,
-        dispatcher.user.email,
-        dispatcher.message_mail,
-        dispatcher.action_label,
-        dispatcher.initiator_name,
-        dispatcher.img_path,
-        action_url,
-        dispatcher.subject
-      )
+      dispatcher.deliver_mail(action_url)
     end
 
-    # rubocop:disable Metrics/MethodLength
-    # rubocop:disable Metrics/AbcSize
     def got_project_message!(message)
       project = message.thread
 
@@ -198,20 +178,8 @@ class Notification::Deliver < Draper::Decorator
 
       dispatcher.deliver_notification!
       return unless Notification.enabled?(rcv, :got_message)
-
-      NotificationMailer.deliver_later(
-        :notification,
-        dispatcher.user.email,
-        dispatcher.message_mail,
-        dispatcher.action_label,
-        dispatcher.initiator_name,
-        dispatcher.img_path,
-        action_url,
-        dispatcher.subject
-      )
+      dispatcher.deliver_mail(action_url)
     end
-    # rubocop:enable Metrics/MethodLength
-    # rubocop:enable Metrics/AbcSize
 
     def project_ended!(project)
       business_project_ended! project
@@ -230,17 +198,7 @@ class Notification::Deliver < Draper::Decorator
 
       dispatcher.deliver_notification!
       return unless Notification.enabled?(project.business, :project_ended)
-
-      NotificationMailer.deliver_later(
-        :notification,
-        dispatcher.user.email,
-        dispatcher.message_mail,
-        dispatcher.action_label,
-        dispatcher.initiator_name,
-        dispatcher.img_path,
-        action_url,
-        dispatcher.subject
-      )
+      dispatcher.deliver_mail(action_url)
     end
 
     def specialist_project_ended!(project)
@@ -256,17 +214,7 @@ class Notification::Deliver < Draper::Decorator
 
       dispatcher.deliver_notification!
       return unless Notification.enabled?(project.specialist, :project_ended)
-
-      NotificationMailer.deliver_later(
-        :notification,
-        dispatcher.user.email,
-        dispatcher.message_mail,
-        dispatcher.action_label,
-        dispatcher.initiator_name,
-        dispatcher.img_path,
-        action_url,
-        dispatcher.subject
-      )
+      dispatcher.deliver_mail(action_url)
     end
 
     def specialist_timesheet_disputed!(timesheet)
@@ -287,17 +235,7 @@ class Notification::Deliver < Draper::Decorator
       )
 
       dispatcher.deliver_notification!
-
-      NotificationMailer.deliver_later(
-        :notification,
-        dispatcher.user.email,
-        dispatcher.message_mail,
-        dispatcher.action_label,
-        dispatcher.initiator_name,
-        dispatcher.img_path,
-        action_url,
-        dispatcher.subject
-      )
+      dispatcher.deliver_mail(action_url)
     end
 
     def project_question!(question)
@@ -315,17 +253,7 @@ class Notification::Deliver < Draper::Decorator
       )
 
       dispatcher.deliver_notification!
-
-      NotificationMailer.deliver_later(
-        :notification,
-        dispatcher.user.email,
-        dispatcher.message_mail,
-        dispatcher.action_label,
-        dispatcher.initiator_name,
-        dispatcher.img_path,
-        action_url,
-        dispatcher.subject
-      )
+      dispatcher.deliver_mail(action_url)
     end
 
     def project_answer!(answer)
@@ -343,17 +271,7 @@ class Notification::Deliver < Draper::Decorator
       )
 
       dispatcher.deliver_notification!
-
-      NotificationMailer.deliver_later(
-        :notification,
-        dispatcher.user.email,
-        dispatcher.message_mail,
-        dispatcher.action_label,
-        dispatcher.initiator_name,
-        dispatcher.img_path,
-        action_url,
-        dispatcher.subject
-      )
+      dispatcher.deliver_mail(action_url)
     end
 
     def timesheet_submitted!(timesheet)
@@ -374,17 +292,7 @@ class Notification::Deliver < Draper::Decorator
       )
 
       dispatcher.deliver_notification!
-
-      NotificationMailer.deliver_later(
-        :notification,
-        dispatcher.user.email,
-        dispatcher.message_mail,
-        dispatcher.action_label,
-        dispatcher.initiator_name,
-        dispatcher.img_path,
-        action_url,
-        dispatcher.subject
-      )
+      dispatcher.deliver_mail(action_url)
     end
 
     def extend_project!(request)
@@ -401,17 +309,7 @@ class Notification::Deliver < Draper::Decorator
       )
 
       dispatcher.deliver_notification!
-
-      NotificationMailer.deliver_later(
-        :notification,
-        dispatcher.user.email,
-        dispatcher.message_mail,
-        dispatcher.action_label,
-        dispatcher.initiator_name,
-        dispatcher.img_path,
-        action_url,
-        dispatcher.subject
-      )
+      dispatcher.deliver_mail(action_url)
     end
 
     def extension_denied!(extension)
@@ -427,17 +325,7 @@ class Notification::Deliver < Draper::Decorator
       )
 
       dispatcher.deliver_notification!
-
-      NotificationMailer.deliver_later(
-        :notification,
-        dispatcher.user.email,
-        dispatcher.message_mail,
-        dispatcher.action_label,
-        dispatcher.initiator_name,
-        dispatcher.img_path,
-        action_url,
-        dispatcher.subject
-      )
+      dispatcher.deliver_mail(action_url)
     end
 
     def extension_accepted!(extension)
@@ -454,17 +342,7 @@ class Notification::Deliver < Draper::Decorator
       )
 
       dispatcher.deliver_notification!
-
-      NotificationMailer.deliver_later(
-        :notification,
-        dispatcher.user.email,
-        dispatcher.message_mail,
-        dispatcher.action_label,
-        dispatcher.initiator_name,
-        dispatcher.img_path,
-        action_url,
-        dispatcher.subject
-      )
+      dispatcher.deliver_mail(action_url)
     end
 
     def end_project!(request)
@@ -482,17 +360,7 @@ class Notification::Deliver < Draper::Decorator
 
       dispatcher.deliver_notification!
       return unless Notification.enabled?(project.specialist, :project_ended)
-
-      NotificationMailer.deliver_later(
-        :notification,
-        dispatcher.user.email,
-        dispatcher.message_mail,
-        dispatcher.action_label,
-        dispatcher.initiator_name,
-        dispatcher.img_path,
-        action_url,
-        dispatcher.subject
-      )
+      dispatcher.deliver_mail(action_url)
     end
 
     def end_project_denied!(request)
@@ -508,17 +376,7 @@ class Notification::Deliver < Draper::Decorator
       )
 
       dispatcher.deliver_notification!
-
-      NotificationMailer.deliver_later(
-        :notification,
-        dispatcher.user.email,
-        dispatcher.message_mail,
-        dispatcher.action_label,
-        dispatcher.initiator_name,
-        dispatcher.img_path,
-        action_url,
-        dispatcher.subject
-      )
+      dispatcher.deliver_mail(action_url)
     end
 
     def escalated!(issue)
@@ -544,17 +402,7 @@ class Notification::Deliver < Draper::Decorator
       )
 
       dispatcher.deliver_notification!
-
-      NotificationMailer.deliver_later(
-        :notification,
-        dispatcher.user.email,
-        dispatcher.message_mail,
-        dispatcher.action_label,
-        dispatcher.initiator_name,
-        dispatcher.img_path,
-        action_url,
-        dispatcher.subject
-      )
+      dispatcher.deliver_mail(action_url)
     end
 
     def invited_to_project!(invite)
@@ -592,17 +440,7 @@ class Notification::Deliver < Draper::Decorator
       )
 
       dispatcher.deliver_notification!
-
-      NotificationMailer.deliver_later(
-        :notification,
-        dispatcher.user.email,
-        dispatcher.message_mail,
-        dispatcher.action_label,
-        dispatcher.initiator_name,
-        dispatcher.img_path,
-        action_url,
-        dispatcher.subject
-      )
+      dispatcher.deliver_mail(action_url)
     end
 
     def end_project_accepted!(request)
@@ -619,17 +457,7 @@ class Notification::Deliver < Draper::Decorator
       )
 
       dispatcher.deliver_notification!
-
-      NotificationMailer.deliver_later(
-        :notification,
-        dispatcher.user.email,
-        dispatcher.message_mail,
-        dispatcher.action_label,
-        dispatcher.initiator_name,
-        dispatcher.img_path,
-        action_url,
-        dispatcher.subject
-      )
+      dispatcher.deliver_mail(action_url)
     end
 
     def start_date_lapsed!(project)
@@ -646,17 +474,7 @@ class Notification::Deliver < Draper::Decorator
       )
 
       dispatcher.deliver_notification!
-
-      NotificationMailer.deliver_later(
-        :notification,
-        dispatcher.user.email,
-        dispatcher.message_mail,
-        dispatcher.action_label,
-        dispatcher.initiator_name,
-        dispatcher.img_path,
-        action_url,
-        dispatcher.subject
-      )
+      dispatcher.deliver_mail(action_url)
     end
 
     def starts_in_48!(project)
@@ -685,17 +503,7 @@ class Notification::Deliver < Draper::Decorator
       )
 
       dispatcher.deliver_notification!
-
-      NotificationMailer.deliver_later(
-        :notification,
-        dispatcher.user.email,
-        dispatcher.message_mail,
-        dispatcher.action_label,
-        dispatcher.initiator_name,
-        dispatcher.img_path,
-        action_url,
-        dispatcher.subject
-      )
+      dispatcher.deliver_mail(action_url)
     end
 
     def business_project_starting_soon!(project)
@@ -710,17 +518,7 @@ class Notification::Deliver < Draper::Decorator
       )
 
       dispatcher.deliver_notification!
-
-      NotificationMailer.deliver_later(
-        :notification,
-        dispatcher.user.email,
-        dispatcher.message_mail,
-        dispatcher.action_label,
-        dispatcher.initiator_name,
-        dispatcher.img_path,
-        action_url,
-        dispatcher.subject
-      )
+      dispatcher.deliver_mail(action_url)
     end
 
     def apply_to_favorited!(favorite)
@@ -736,17 +534,7 @@ class Notification::Deliver < Draper::Decorator
       )
 
       dispatcher.deliver_notification!
-
-      NotificationMailer.deliver_later(
-        :notification,
-        dispatcher.user.email,
-        dispatcher.message_mail,
-        dispatcher.action_label,
-        dispatcher.initiator_name,
-        dispatcher.img_path,
-        action_url,
-        dispatcher.subject
-      )
+      dispatcher.deliver_mail(action_url)
     end
 
     def pending_project_starting_soon!(project)
@@ -764,17 +552,7 @@ class Notification::Deliver < Draper::Decorator
       )
 
       dispatcher.deliver_notification!
-
-      NotificationMailer.deliver_later(
-        :notification,
-        dispatcher.user.email,
-        dispatcher.message_mail,
-        dispatcher.action_label,
-        dispatcher.initiator_name,
-        dispatcher.img_path,
-        action_url,
-        dispatcher.subject
-      )
+      dispatcher.deliver_mail(action_url)
     end
 
     def ends_in_24!(project)
@@ -799,17 +577,7 @@ class Notification::Deliver < Draper::Decorator
       )
 
       dispatcher.deliver_notification!
-
-      NotificationMailer.deliver_later(
-        :notification,
-        dispatcher.user.email,
-        dispatcher.message_mail,
-        dispatcher.action_label,
-        dispatcher.initiator_name,
-        dispatcher.img_path,
-        action_url,
-        dispatcher.subject
-      )
+      dispatcher.deliver_mail(action_url)
     end
 
     def specialist_ends_in_24!(project)
@@ -824,17 +592,7 @@ class Notification::Deliver < Draper::Decorator
         t: { project_title: project.title }
       )
       dispatcher.deliver_notification!
-
-      NotificationMailer.deliver_later(
-        :notification,
-        dispatcher.user.email,
-        dispatcher.message_mail,
-        dispatcher.action_label,
-        dispatcher.initiator_name,
-        dispatcher.img_path,
-        action_url,
-        dispatcher.subject
-      )
+      dispatcher.deliver_mail(action_url)
     end
 
     def verification_missing!(user)
@@ -851,17 +609,7 @@ class Notification::Deliver < Draper::Decorator
         action_path: path,
         associated: user
       )
-
-      NotificationMailer.deliver_later(
-        :notification,
-        dispatcher.user.email,
-        dispatcher.message_mail,
-        dispatcher.action_label,
-        dispatcher.initiator_name,
-        dispatcher.img_path,
-        action_url,
-        dispatcher.subject
-      )
+      dispatcher.deliver_mail(action_url)
     end
 
     def payment_issue!(user)
@@ -885,17 +633,7 @@ class Notification::Deliver < Draper::Decorator
       )
 
       dispatcher.deliver_notification!
-
-      NotificationMailer.deliver_later(
-        :notification,
-        dispatcher.user.email,
-        dispatcher.message_mail,
-        dispatcher.action_label,
-        dispatcher.initiator_name,
-        dispatcher.img_path,
-        action_url,
-        dispatcher.subject
-      )
+      dispatcher.deliver_mail(action_url)
     end
 
     def payout_issue!(user)
@@ -914,17 +652,7 @@ class Notification::Deliver < Draper::Decorator
       )
 
       dispatcher.deliver_notification!
-
-      NotificationMailer.deliver_later(
-        :notification,
-        dispatcher.user.email,
-        dispatcher.message_mail,
-        dispatcher.action_label,
-        dispatcher.initiator_name,
-        dispatcher.img_path,
-        action_url,
-        dispatcher.subject
-      )
+      dispatcher.deliver_mail(action_url)
     end
 
     def transaction_processed!(transaction)
@@ -951,17 +679,7 @@ class Notification::Deliver < Draper::Decorator
       )
 
       dispatcher.deliver_notification!
-
-      NotificationMailer.deliver_later(
-        :notification,
-        dispatcher.user.email,
-        dispatcher.message_mail,
-        dispatcher.action_label,
-        dispatcher.initiator_name,
-        dispatcher.img_path,
-        action_url,
-        dispatcher.subject
-      )
+      dispatcher.deliver_mail(action_url)
     end
 
     def specialist_transaction_processed!(transaction)
@@ -986,17 +704,7 @@ class Notification::Deliver < Draper::Decorator
       )
 
       dispatcher.deliver_notification!
-
-      NotificationMailer.deliver_later(
-        :notification,
-        dispatcher.user.email,
-        dispatcher.message_mail,
-        dispatcher.action_label,
-        dispatcher.initiator_name,
-        dispatcher.img_path,
-        action_url,
-        dispatcher.subject
-      )
+      dispatcher.deliver_mail(action_url)
     end
   end
 
@@ -1022,6 +730,19 @@ class Notification::Deliver < Draper::Decorator
     end
     # rubocop:enable Metrics/ParameterLists
     # rubocop:enable Naming/UncommunicativeMethodParamName
+
+    def deliver_mail(action_url)
+      NotificationMailer.deliver_later(
+        :notification,
+        user.email,
+        message_mail,
+        action_label,
+        initiator_name,
+        img_path,
+        action_url,
+        subject
+      )
+    end
 
     def deliver_notification!
       # Re-create existing notification if necessary

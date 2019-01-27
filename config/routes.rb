@@ -50,7 +50,7 @@ Rails.application.routes.draw do
   get '/forum_subscriptions/cancel' => 'forum_subscriptions#cancel'
 
   resources :turnkey_pages, only: %i[index show create new], path: 'turnkey'
-  resources :turnkey_solutions # , only: :create
+  #  resources :turnkey_solutions # , only: :create
   post '/turnkey/:id' => 'turnkey_pages#create'
   patch '/turnkey/:id' => 'turnkey_pages#update'
 

@@ -42,6 +42,14 @@ FactoryBot.define do
       annual_salary 98_000
     end
 
+    trait :auto_match do
+      applicant_selection 'auto_match'
+    end
+
+    trait :interview do
+      applicant_selection 'interview'
+    end
+
     trait :asap_duration do
       duration_type 'asap'
       estimated_days 30

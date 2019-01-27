@@ -176,14 +176,14 @@
 }
 
 .qna_navbar {
-  color: #fff;
+  color: #fff !important;
   margin: 0px;
   margin-top: -3px;
-  padding: 7px 18px;
+  padding: 7px 18px !important;
   font-family: "Nimbus Sans";
   font-weight: $bold-weight !important;
   font-size: 12px !important;
-  border: 2px solid #ffcc00;
+  border: 2px solid #ffcc00 !important;
   letter-spacing: 1px;
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
@@ -201,5 +201,13 @@
     border: none;
     padding: 0px;
   }
-
+  &:after {
+    content: "free beta";
+    display: block;
+    position: absolute;
+    color: #030200;
+    transform: rotate(-11deg);
+    right: -11px;
+    bottom: -5px;
+  }
 }

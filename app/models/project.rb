@@ -116,6 +116,11 @@ class Project < ApplicationRecord
     full_time: 'full_time'
   }
 
+  enum applicant_selection: {
+    auto_match: 'auto_match',
+    interview: 'interview'
+  }
+
   enum location_type: {
     remote: 'remote',
     remote_and_travel: 'remote_and_travel',
