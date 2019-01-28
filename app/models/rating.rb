@@ -41,8 +41,8 @@ class Rating < ApplicationRecord
     count = rated.ratings_received.count
     total = rated.ratings_received.sum(:value)
     if rated.is_a?(Specialist)
-      count = rated.forum_ratings.count
-      total += count * 5
+      forum_count = rated.forum_ratings.count
+      total += forum_count * 5
     end
     rated.ratings_count = count
     rated.ratings_total = total
