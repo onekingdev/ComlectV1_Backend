@@ -25,8 +25,9 @@ en:
 
     # sent to specialist
     industry_forum_question:
-      subject: New Forum Question posted matching your industry
-      message_mail: "%{forum_question}"
+      subject: New Question Posted in the Forum
+      message: New question posted in the forum waiting for your answer
+      message_mail: "New question posted in the forum waiting for your answer"
       action_label: View
     got_employee_invitation:
       subject: You've been invited to join a team on Complect
