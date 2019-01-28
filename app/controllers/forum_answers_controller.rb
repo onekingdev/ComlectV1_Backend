@@ -12,13 +12,13 @@ class ForumAnswersController < ApplicationController
         if request.xhr?
           render partial: 'answer', locals: { answer: @forum_answer }
         else
-          redirect_to @forum_answer.forum_question
+          redirect_to forum_question_path(@forum_answer.forum_question.url)
         end
       else
-        redirect_to @forum_answer.forum_question
+        redirect_to forum_question_path(@forum_answer.forum_question.url)
       end
     else
-      redirect_to @forum_answer.forum_question, notice: 'Not authorized'
+      redirect_to forum_question_path(@forum_answer.forum_question.url), notice: 'Not authorized'
     end
   end
 
