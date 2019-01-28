@@ -18,23 +18,20 @@ class Notification::Deliver < Draper::Decorator
       ]
     end
 
-    def industry_forum_question!(forum_question)
-      receivers = Specialist.joins(:industries).where(industries: { id: forum_question.industries.collect(&:id) })
-      receivers.each do |specialist|
-        action_path, action_url = path_and_url :forum_question, forum_question.url
+    def industry_forum_question!(forum_question, specialist)
+      action_path, action_url = path_and_url :forum_question, forum_question.url
 
-        dispatcher = Dispatcher.new(
-          user: specialist.user,
-          key: :industry_forum_question,
-          action_path: action_path,
-          associated: forum_question,
-          t: { forum_question: forum_question.title }
-        )
+      dispatcher = Dispatcher.new(
+        user: specialist.user,
+        key: :industry_forum_question,
+        action_path: action_path,
+        associated: forum_question,
+        t: { forum_question: forum_question.title }
+      )
 
-        dispatcher.deliver_notification!
-        break unless Notification.enabled?(specialist, :new_forum_question)
-        dispatcher.deliver_mail(action_url)
-      end
+      dispatcher.deliver_notification!
+      break unless Notification.enabled?(specialist, :new_forum_question)
+      dispatcher.deliver_mail(action_url)
     end
 
     def got_employee_invitation!(invitation)
@@ -122,7 +119,7 @@ class Notification::Deliver < Draper::Decorator
         associated: rating
       )
       dispatcher.deliver_notification!
-      return unless Notification.enabled?(specialist, :got_rated)
+      return unless Notification.enabled?(rating.specialist, :got_rated)
       dispatcher.deliver_mail(action_url)
     end
 

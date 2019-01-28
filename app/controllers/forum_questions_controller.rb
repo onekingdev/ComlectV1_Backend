@@ -37,7 +37,10 @@ class ForumQuestionsController < ApplicationController
     @forum_question = ForumQuestion.new(forum_question_params)
     if @forum_question.save
       @forum_question.generate_url
-      Notification::Deliver.industry_forum_question! @forum_question
+      receivers = Specialist.joins(:industries).where(industries: { id: @forum_question.industries.collect(&:id) })
+      receivers.each do |specialist|
+        Notification::Deliver.industry_forum_question!(@forum_question, specialist)
+      end
       redirect_to forum_question_path(@forum_question.url)
     else
       render :index
