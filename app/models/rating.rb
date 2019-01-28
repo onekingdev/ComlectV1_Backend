@@ -43,6 +43,7 @@ class Rating < ApplicationRecord
     if rated.is_a?(Specialist)
       forum_count = rated.forum_ratings.count
       total += forum_count * 5
+      count += forum_count
     end
     rated.ratings_count = count
     rated.ratings_total = total
