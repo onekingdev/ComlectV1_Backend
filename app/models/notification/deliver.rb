@@ -30,7 +30,7 @@ class Notification::Deliver < Draper::Decorator
       )
 
       dispatcher.deliver_notification!
-      break unless Notification.enabled?(specialist, :new_forum_question)
+      return unless Notification.enabled?(specialist, :new_forum_question)
       dispatcher.deliver_mail(action_url)
     end
 
