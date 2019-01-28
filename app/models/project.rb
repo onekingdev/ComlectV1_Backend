@@ -113,8 +113,7 @@ class Project < ApplicationRecord
 
   enum type: {
     one_off: 'one_off',
-    full_time: 'full_time',
-    rfp: 'rfp'
+    full_time: 'full_time'
   }
 
   enum applicant_selection: {
@@ -146,12 +145,7 @@ class Project < ApplicationRecord
   ].freeze
   PAYMENT_SCHEDULES = (HOURLY_PAYMENT_SCHEDULES + FIXED_PAYMENT_SCHEDULES).uniq.freeze
   enum payment_schedule: Hash[PAYMENT_SCHEDULES].invert
-  RFP_TIMING = [
-    %w[As\ soon\ as\ possible asap],
-    %w[Within\ the\ next\ 2\ weeks two_weeks],
-    %w[Within\ a\ month month],
-    %w[Not\ sure not_sure]
-  ].freeze
+
   MINIMUM_EXPERIENCE = ((3..14).map { |n| ["#{n} yrs", n] } + [['15+ yrs', 15]]).freeze
   EXPERIENCE_RANGES = (1..15).each_with_object({}) do |n, years|
     years[n] = (n..Float::INFINITY)
@@ -293,7 +287,7 @@ class Project < ApplicationRecord
   end
 
   def custom_duration?
-    duration_type == 'custom' && !rfp?
+    duration_type == 'custom'
   end
 
   def hourly_pricing?

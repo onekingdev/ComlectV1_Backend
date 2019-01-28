@@ -1,0 +1,21 @@
+.panel-heading.p-l-0
+  h3 Subscription packages
+
+.panel-body.p-t-0.m-b-1.subscriptions-table
+  .col-xs-2.text-left
+    b Q&A Forum
+  .col-xs-3.text-center
+    = "FOREVER FREE" if current_business.subscription? == 0
+    = "BASIC PACKAGE" if current_business.subscription? == 1
+    = "PRO PACKAGE" if current_business.subscription? == 2
+    / Prints out cancelled here, because between the date of cancellation and the end of the pay period they should still have access.
+    = "(cancelled)" if current_business.forum_subscription&.cancelled
+  .col-xs-3.text-center
+    = "EXP. NEVER" if current_business.subscription? == 0
+    = "pending" if current_business.subscription? > 0 && current_business.forum_subscription.renewal_date.nil?
+    = current_business.forum_subscription.renewal_date_hr if current_business.subscription? > 0 && !current_business.forum_subscription.renewal_date.nil?
+  .col-xs-2.text-center
+    button.btn.btn-sm.p-x-2.p-y-0.btn-primary(data-toggle="modal" data-target="#subscription_modal" style="margin-top: -5px;") Modify
+  .col-xs-2.text-right= link_to "CANCEL", forum_subscriptions_cancel_path, method: "get", "data-confirm": "<h1 class='p-t-3'>CANCELLATION CONFIRMATION</h3>Please confirm you wish to end your paid subscription to the Q&A forum. If this is incorrect, you may close this pop-up by pressing cancel.", "data-confirm-label": "Submit" if current_business.subscription? > 0 && !current_business.forum_subscription.cancelled
+      / = link_to 'Cancel', forum_subscriptions_cancel_path, class: 'btn btn-primary'
+= render partial: "subscription_modal"

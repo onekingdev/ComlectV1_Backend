@@ -38,7 +38,7 @@
           i.icon-tag
           span Payment Method
         td= project.payment_schedule_humanized
-    - elsif !project.rfp?
+    - else
       tr
         th
           i.icon-trophy
@@ -53,12 +53,6 @@
           i.icon-hourglass
           span Est. Hours
         td= project.estimated_hours
-    - if project.rfp?
-      tr
-        th
-          i.icon-trophy
-          span Budget
-        td= number_to_currency(project.est_budget, precision: 0)
     tr
       th
         i.icon-folder

@@ -1,0 +1,13 @@
+.pull-left.m-l-0.forum_upvote.p-t-1 class=("active" if current_user.forum_votes.where(forum_answer_id: answer.id, upvote: true).count > 0)
+  = link_to "/ask-a-specialist/upvote/#{answer.id}" do
+    i.fa.arrows-alt.fa-arrow-up
+    | &nbsp;Upvote
+  span = answer.upvotes
+.pull-right
+  .forum_downvote.p-t-1 data-toggle="tooltip" title="downvote" class=("active" if current_user.forum_votes.where(forum_answer_id: answer.id, upvote: false).count > 0)
+    = link_to "/ask-a-specialist/downvote/#{answer.id}" do
+      i.fa.arrows-alt.fa-arrow-down
+    span = answer.downvotes
+  .forum_flag_btn.p-t-1 data-answer-id="#{answer.reply_to.present? ? answer.reply_to : answer.id}" data-toggle="tooltip" title="report"
+    = link_to new_flag_path(forum_answer_id: answer.id), remote: true, "data-toggle": "modal", "data-target": "#modal" do
+      i.fa.fa-flag

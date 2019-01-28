@@ -15,6 +15,8 @@ class User < ApplicationRecord
   has_many :payment_sources, through: :business
   has_many :project_issues, dependent: :delete_all
   has_many :notifications, dependent: :delete_all
+  has_many :forum_answers
+  has_many :forum_votes, dependent: :destroy
 
   validates :email, presence: true, email: true
 
@@ -25,11 +27,38 @@ class User < ApplicationRecord
 
   default_scope -> { where(deleted: false) }
 
+  def business_or_specialist
+    business || specialist
+  end
+
+  def upvotes
+    # forum_votes.where(upvote: true)
+    ForumVote.where(upvote: true, forum_answer_id: forum_answers.collect(&:id)).count
+  end
+
+  def photo(*args, &block)
+    business ? business.logo(*args, &block) : specialist.photo(*args, &block)
+  end
+
+  def photo_url(*args, &block)
+    business ? business.logo_url(*args, &block) : specialist.photo_url(*args, &block)
+  end
+
   def full_name
     if specialist
       [specialist.first_name, specialist.last_name].join(' ')
     else
       [business.contact_first_name, business.contact_last_name].join(' ')
+    end
+  end
+
+  def short_name
+    if specialist
+      [specialist.first_name.capitalize, specialist.last_name.capitalize.first].join(' ') + '.'
+    elsif business.anonymous?
+      'Anonymous'
+    else
+      business.business_name
     end
   end
 

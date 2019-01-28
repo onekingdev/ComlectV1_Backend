@@ -22,8 +22,19 @@
 }
 
 #business-settings, #specialist-settings {
+  .subscriptions-table {
+    b {
+      font-family: "Nimbus Sans";
+      font-weight: bold;
+      font-size: 12px;
+    }
+    padding: 0px;
+    .col-xs-2, .col-xs-3 {
+      padding: 0px !important;
+    }
+  }
   margin-top: 8px;
-
+  padding-left: 0px;
   .clipboard-button {
     display: none;
   }
