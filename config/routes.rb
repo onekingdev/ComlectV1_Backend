@@ -49,6 +49,8 @@ Rails.application.routes.draw do
   get '/forum_subscriptions/upgrade' => 'forum_subscriptions#upgrade'
   get '/forum_subscriptions/cancel' => 'forum_subscriptions#cancel'
 
+  get '/notifications_settings' => 'notifications#route'
+
   resources :turnkey_pages, only: %i[index show create new], path: 'turnkey'
   #  resources :turnkey_solutions # , only: :create
   post '/turnkey/:id' => 'turnkey_pages#create'
