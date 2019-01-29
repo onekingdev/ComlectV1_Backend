@@ -13,7 +13,7 @@
         .first_name = answer.user.short_name
         .location = answer.user.specialist ? decorate(answer.user.specialist).city_state_country : decorate(answer.user.business).city_state_country
       .timestamp
-        | Answered
+        | Answered 
         = answer.created_at.strftime("%b %Y")
       - if answer.user.specialist && current_business
         a.btn.btn-primary.btn-single.btn-sm.p-x-2.m-b-1 data-remote=true href=new_project_invite_path(specialist_id: answer.user.specialist.id) HIRE

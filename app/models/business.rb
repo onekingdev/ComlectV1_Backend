@@ -38,7 +38,8 @@ class Business < ApplicationRecord
       marketing_emails: true,
       got_rated: true,
       project_ended: true,
-      got_message: true
+      got_message: true,
+      new_forum_answers: true
     }
   end
 

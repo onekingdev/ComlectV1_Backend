@@ -24,14 +24,16 @@
             = f.hidden_field :billing_type
           = simple_form_for :subscription do |f|
             .col-md-5.no-paddings.right-labels
-              .col-xs-6.text-center.small $10/mo.
-              .col-xs-6.text-center.small $100
-              .col-xs-12.col-no-padding.text-center.m-b-2
-                = f.input :basic, as: :radio_pills, collection: [['monthly', @forum_sub.billing_type == "monthly"], ['annual', @forum_sub.billing_type == "annual"]], btn_class: 'btn-sm btn-default p-x-1', hint: false, label: "Charge"
-              .col-xs-6.text-center.small $25/mo.
-              .col-xs-6.text-center.small $275
-              .col-xs-12.col-no-padding.text-center
-                = f.input :pro, as: :radio_pills, collection: [['monthly', @forum_sub.billing_type == "monthly"], ['annual', @forum_sub.billing_type == "annual"]], btn_class: 'btn-sm btn-default p-x-1', hint: false, label: "Charge"
+              .basic_switch
+                .col-xs-6.text-center.small $10/mo.
+                .col-xs-6.text-center.small $100
+                .col-xs-12.col-no-padding.text-center.m-b-2
+                  = f.input :basic, as: :radio_pills, collection: [['monthly', @forum_sub.billing_type == "monthly"], ['annual', @forum_sub.billing_type == "annual"]], btn_class: 'btn-sm btn-default p-x-1', hint: false, label: "Charge"
+              .pro_switch
+                .col-xs-6.text-center.small $25/mo.
+                .col-xs-6.text-center.small $275
+                .col-xs-12.col-no-padding.text-center
+                  = f.input :pro, as: :radio_pills, collection: [['monthly', @forum_sub.billing_type == "monthly"], ['annual', @forum_sub.billing_type == "annual"]], btn_class: 'btn-sm btn-default p-x-1', hint: false, label: "Charge"
             .col-md-12.text-center
               = f.button :submit, class: 'btn btn-md btn-primary submit-sub-settings p-x-3 m-b-2', label: "Submit", value: "Submit"
       .modal-footer

@@ -18,6 +18,22 @@ class Notification::Deliver < Draper::Decorator
       ]
     end
 
+    def forum_answer!(forum_answer)
+      action_path, action_url = path_and_url :forum_question, forum_answer.forum_question.url
+
+      dispatcher = Dispatcher.new(
+        user: forum_answer.forum_question.business.user,
+        key: :forum_answer,
+        action_path: action_path,
+        associated: forum_answer,
+        t: { forum_answer: forum_answer.body }
+      )
+
+      dispatcher.deliver_notification!
+      return unless Notification.enabled?(forum_answer.forum_question.business, :new_forum_answers)
+      dispatcher.deliver_mail(action_url)
+    end
+
     def industry_forum_question!(forum_question, specialist)
       action_path, action_url = path_and_url :forum_question, forum_question.url
 

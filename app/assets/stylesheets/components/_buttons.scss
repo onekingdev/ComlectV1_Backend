@@ -202,12 +202,18 @@
     padding: 0px;
   }
   &:after {
+    top: -12px;
     content: "free beta";
     display: block;
     position: absolute;
-    color: #030200;
-    transform: rotate(-11deg);
-    right: -11px;
-    bottom: -5px;
+    color: #fff;
+    /* transform: rotate(-11deg); */
+    right: -13px;
+    /* bottom: -3px; */
+    background-color: #00bff3;
+    padding: 2px 5px;
+    border-radius: 6px;
+    font-size: 9px;
+    box-shadow: -2px 2px 0px 0px rgba(0, 0, 0, 0.23);
   }
 }

@@ -40,7 +40,7 @@
                 - if f.object.errors[:file].any?
                   .text-danger.m-b-1= f.object.errors[:file].to_sentence
               = f.button :button, "Reply", type: :button, class: 'btn btn-primary btn-sm btn-black p-x-3 pull-right clearfix remote-submit-answer'
-    .col-sm-3.pull-right
+    .col-sm-3.pull-right.hidden-xs
       h3 Related questions
       - for q in @related_questions do
         = link_to q.title, forum_question_path(q.url)

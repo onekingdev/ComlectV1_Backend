@@ -35,6 +35,7 @@ class ForumQuestionsController < ApplicationController
 
   def create
     @forum_question = ForumQuestion.new(forum_question_params)
+    @forum_question.business_id = current_business.id
     if @forum_question.save
       @forum_question.generate_url
       receivers = Specialist.joins(:industries).where(industries: { id: @forum_question.industries.collect(&:id) }).uniq

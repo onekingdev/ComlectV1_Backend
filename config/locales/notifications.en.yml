@@ -6,11 +6,14 @@ en:
       not_hired: Notify me when I am not selected for a project
       project_ended: Notify me when my project ends
       got_message: Notify me when I receive a message
+      new_forum_question: Notify me of new forum questions
+
     businesses:
       marketing_emails: General marketing emails
       got_rated: Notify me when I'm rated and reviewed
       project_ended: Notify me when my project ends
       got_message: Notify me when I receive a message
+      new_forum_answers: Notify me of response to forum question
 
   notification_messages:
     # sent to both
@@ -126,6 +129,11 @@ en:
       action_label: Go to %{project_title} Detailed Project Page
 
     # sent to business
+    forum_answer:
+      subject: Your question has been answered
+      message: One of our specialists has answered your question
+      message_mail: One of our specialists has answered your question
+      action_label: View
     project_question:
       subject: Question about Your Project
       message: I've submitted a question to your project.
