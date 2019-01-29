@@ -6,7 +6,7 @@
 
     - @questions.each do |question|
       .well
-        = link_to question do
+        = link_to question.url do
           p
             big = question.title
           p.m-b-0 = question.body
