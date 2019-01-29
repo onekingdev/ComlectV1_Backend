@@ -3,12 +3,14 @@
 class ForumAnswersController < ApplicationController
   before_action :authenticate_user!
 
+  # rubocop:disable Metrics/AbcSize
   def create
     @forum_answer = ForumAnswer.new(forum_answer_params)
     if current_specialist || current_business && current_business.subscription? == 2
       @forum_answer.user_id = current_user.id
       if @forum_answer.save
         @question = @forum_answer.forum_question
+        @question.update(last_activity: Time.zone.now)
         if request.xhr?
           render partial: 'answer', locals: { answer: @forum_answer }
         else
@@ -22,6 +24,7 @@ class ForumAnswersController < ApplicationController
       redirect_to forum_question_path(@forum_answer.forum_question.url), notice: 'Not authorized'
     end
   end
+  # rubocop:enable Metrics/AbcSize
 
   private
 

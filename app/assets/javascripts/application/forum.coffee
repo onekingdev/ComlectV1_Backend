@@ -65,7 +65,7 @@ $(document).on 'click', '.forum_downvote', (e) ->
 $(window).on 'load', ->
   if typeof(show_sign_up_modal) != "undefined"
     if show_sign_up_modal == true
-      $(".sign_up_navbar_link").trigger('click')
+      $(".log_in_navbar_link").trigger('click')
   if typeof(show_subscriptions) != "undefined"
     if show_subscriptions == true
       $("#subscribe-modal").modal('show')
