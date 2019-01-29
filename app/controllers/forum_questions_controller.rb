@@ -37,7 +37,7 @@ class ForumQuestionsController < ApplicationController
     @forum_question = ForumQuestion.new(forum_question_params)
     if @forum_question.save
       @forum_question.generate_url
-      receivers = Specialist.joins(:industries).where(industries: { id: @forum_question.industries.collect(&:id) })
+      receivers = Specialist.joins(:industries).where(industries: { id: @forum_question.industries.collect(&:id) }).uniq
       receivers.each do |specialist|
         Notification::Deliver.industry_forum_question!(@forum_question, specialist)
       end
