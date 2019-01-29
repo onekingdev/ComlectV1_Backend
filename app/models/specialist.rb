@@ -46,7 +46,8 @@ class Specialist < ApplicationRecord
       not_hired: true,
       project_ended: true,
       got_message: true,
-      new_forum_question: true
+      new_forum_question: true,
+      new_forum_comments: true
     }
   end
 

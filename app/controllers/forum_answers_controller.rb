@@ -9,6 +9,7 @@ class ForumAnswersController < ApplicationController
     if current_specialist || current_business && current_business.subscription? == 2
       @forum_answer.user_id = current_user.id
       if @forum_answer.save
+        Notification::Deliver.forum_comment!(ForumAnswer.find(@forum_answer.reply_to)) if @forum_answer.reply_to.present?
         @question = @forum_answer.forum_question
         @question.update(last_activity: Time.zone.now)
         if request.xhr?

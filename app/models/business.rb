@@ -39,7 +39,8 @@ class Business < ApplicationRecord
       got_rated: true,
       project_ended: true,
       got_message: true,
-      new_forum_answers: true
+      new_forum_answers: true,
+      new_forum_comments: true
     }
   end
 

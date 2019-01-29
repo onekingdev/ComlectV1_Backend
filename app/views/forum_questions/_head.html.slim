@@ -1,6 +1,10 @@
 .row.full_width.pitch
   .container
-    -if current_business && current_business.subscription? > 0
+    - if params[:action] != "index"
+      a.back_btn href="/ask-a-specialist" 
+        i.icon.maxicons1-arrowleft
+        | BACK
+    - if current_business && current_business.subscription? > 0
     - if current_business && current_business.subscription? == 2 || params[:action] == "search"
       = render partial: "search"
       .container
