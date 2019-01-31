@@ -3,6 +3,11 @@
 module ApplicationHelper
   include SimpleForm::ActionViewExtensions::FormHelper
 
+  def accept_cookies
+    cookies[:accept_cookies] = true if current_user && current_user.cookie_agreement.present? && cookies[:accept_cookies].nil?
+    cookies[:accept_cookies]
+  end
+
   def active_class(*args)
     active = args.detect do |arg|
       controller, action = arg.split('#')
