@@ -12,5 +12,10 @@ FactoryBot.define do
     before(:create) do |user, evaluator|
       user.email = "#{evaluator.email_prefix}#{user.email}"
     end
+
+    after(:create) do |user, _evaluator|
+      CookieAgreement.create(user: user, status: true)
+      TosAgreement.create(user: user, status: true)
+    end
   end
 end

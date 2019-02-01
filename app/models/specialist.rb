@@ -123,11 +123,11 @@ class Specialist < ApplicationRecord
   after_create :sync_with_mailchimp
 
   def tos_invalid?
-    errors.add(:tos_agree, 'You must agree to the terms of service to create an account') unless user.tos_agreement.status
+    errors.add(:tos_agree, 'You must agree to the terms of service to create an account') unless user.tos_agreement&.status
   end
 
   def cookie_agreement_invalid?
-    errors.add(:cookie_agree, 'You must agree to cookies to create an account') unless user.cookie_agreement.status
+    errors.add(:cookie_agree, 'You must agree to cookies to create an account') unless user.cookie_agreement&.status
   end
 
   def self.dates_between_query
