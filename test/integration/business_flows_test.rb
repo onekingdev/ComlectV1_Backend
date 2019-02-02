@@ -11,6 +11,8 @@ class BusinessFlowsTest < ActionDispatch::IntegrationTest
     attributes = attributes_for(:business)
     attributes[:user_attributes] = attributes_for(:user)
     attributes[:industry_ids] = [create(:industry).id]
+    attributes[:user_attributes][:cookie_agreement_attributes] = attributes_for(:cookie_agreement, :status => true)
+    attributes[:user_attributes][:tos_agreement_attributes] = attributes_for(:tos_agreement, :status => true)
     assert_difference 'Business.count + User.count', +2 do
       post businesses_path, business: attributes
     end
