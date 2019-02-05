@@ -125,13 +125,20 @@
 }
 
 #cookie-modal {
-  display: block;
   position: fixed;
-  top: 25%;
-  left: 25%;
-  height: 800px;
-  width: 800px;
+  bottom: 0px;
   z-index: 200;
+  width: 100%;
+  .modal-dialog {
+    margin: 0px;
+    width: 100%;
+  }
+  .modal-content {
+    border-radius: 0px;
+    border: 0px;
+    color: #fff;
+    background-color: rgba(0,0,0,.8);
+  }
 }
 
 .no-button {

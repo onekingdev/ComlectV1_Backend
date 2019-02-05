@@ -17,22 +17,29 @@
 = simple_form_for decorate(@specialist), url: specialists_path(invite_token: @invitation&.token), wrapper: :inline_form, html: { class: 'form-specialist' } do |f|
   = render 'form', f: f
 
-  .well.well-lg.m-t-3
-    .row.text-center.p-b-1
+  .well.well-lg.tos_block
+    .row.p-b-1
       - if f.object.errors[:tos_agree].any?
       .text-danger= f.object.errors[:tos_agree].first
       - if f.object.errors[:cookie_agree].any?
       .text-danger= f.object.errors[:cookie_agree].first
       div
-        input#tos-checkbox type="checkbox" name="specialist[user_attributes][tos_agreement_attributes][status]"
-        label I have read and agree to the Terms of Service and Privacy Policy.
+        input#tos-checkbox type="checkbox" name="business[user_attributes][tos_agreement_attributes][status]" 
+        | &nbsp;&nbsp;
+        label
+          | I have read and agree to the 
+          = link_to "Terms of Use", "/info/terms-of-use"
+          |  and 
+          = link_to "Privacy Policy", "/info/privacy-policy"
+          | .
       div
-        input#cookie-checkbox type="checkbox" name="specialist[user_attributes][cookie_agreement_attributes][status]"
-        label This site uses cookies. By creating an account you agree to the use of cookies on this site.
-      input type="hidden" name="specialist[user_attributes][cookie_agreement_attributes][cookie_description]" value="This site uses cookies. By creating an account you agree to the use of cookies on this site."
-      input type="hidden" name="specialist[user_attributes][tos_agreement_attributes][tos_description]" value="I have read and agree to the Terms of Service and Privacy Policy"
+        input#cookie-checkbox type="checkbox" name="business[user_attributes][cookie_agreement_attributes][status]" checked=true 
+        | &nbsp;&nbsp;
+        label This site uses cookies. By creating an account, you agree to the use of cookies on this site.
+      input type="hidden" name="business[user_attributes][cookie_agreement_attributes][cookie_description]" value="This site uses cookies. By creating an account you agree to the use of cookies on this site."
+      input type="hidden" name="business[user_attributes][tos_agreement_attributes][tos_description]" value="I have read and agree to the Terms of Service and Privacy Policy"
 
-  .row.p-t-3
+  .row
     .col-xs-12
       = f.submit 'Sign Up', class: 'btn btn-primary btn-lg col-xs-12 col-sm-2 col-sm-offset-5'
 
