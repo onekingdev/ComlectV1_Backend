@@ -58,17 +58,31 @@ h1.text-center.m-b-3.m-t-3.p-t-1.p-b-2 Sign up to post your project
         - if f.object.errors[:logo].any?
           .text-danger= f.object.errors[:logo].to_sentence
 
-  .row.p-t-3
+
+  .well.well-lg.tos_block
+    .row.p-b-1
+      - if f.object.errors[:tos_agree].any?
+      .text-danger= f.object.errors[:tos_agree].first
+      - if f.object.errors[:cookie_agree].any?
+      .text-danger= f.object.errors[:cookie_agree].first
+      div
+        input#tos-checkbox type="checkbox" name="business[user_attributes][tos_agreement_attributes][status]" 
+        | &nbsp;&nbsp;
+        label
+          | I have read and agree to the 
+          = link_to "Terms of Use", "/info/terms-of-use"
+          |  and 
+          = link_to "Privacy Policy", "/info/privacy-policy"
+          | .
+      div
+        input#cookie-checkbox type="checkbox" name="business[user_attributes][cookie_agreement_attributes][status]" checked=true 
+        | &nbsp;&nbsp;
+        label This site uses cookies. By creating an account, you agree to the use of cookies on this site.
+      input type="hidden" name="business[user_attributes][cookie_agreement_attributes][cookie_description]" value="This site uses cookies. By creating an account you agree to the use of cookies on this site."
+      input type="hidden" name="business[user_attributes][tos_agreement_attributes][tos_description]" value="I have read and agree to the Terms of Service and Privacy Policy"
+
+  .row
     .col-xs-12
       = f.submit 'Sign Up', class: 'btn btn-primary btn-lg col-xs-12 col-sm-2 col-sm-offset-5'
 
     p.text-center.text-muted.m-t-1.m-b-3.p-b-2.col-md-8.col-md-offset-2.col-sm-8.col-sm-offset-2.col-xs-12
-      'By signing up, you are agreeing to our
-      = link_to "Terms", "/info/terms-of-use", :target => "_blank"
-      '&nbsp;&
-      = link_to "Privacy Policy", "/info/privacy-policy", :target => "_blank"
-      ', the
-      = link_to "Stripe Agreement", "https://stripe.com/us/connect-account/legal", :target => "_blank"
-      '&nbsp;(for payment),
-      br
-      'and to receiving Complect email communication.

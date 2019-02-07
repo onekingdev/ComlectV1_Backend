@@ -10,6 +10,7 @@ class Business < ApplicationRecord
 
   has_and_belongs_to_many :jurisdictions
   has_and_belongs_to_many :industries
+  has_many :forum_questions
   has_many :projects, dependent: :destroy
   has_many :job_applications, through: :projects
   has_many :charges, through: :projects
@@ -27,6 +28,10 @@ class Business < ApplicationRecord
   }, through: :projects, source: :ratings
   has_many :email_threads, dependent: :destroy
 
+  has_one :forum_subscription
+  has_one :tos_agreement, through: :user
+  has_one :cookie_agreement, through: :user
+
   has_one :referral, as: :referrable
   has_many :referral_tokens, as: :referrer
 
@@ -35,7 +40,9 @@ class Business < ApplicationRecord
       marketing_emails: true,
       got_rated: true,
       project_ended: true,
-      got_message: true
+      got_message: true,
+      new_forum_answers: true,
+      new_forum_comments: true
     }
   end
 
@@ -57,6 +64,11 @@ class Business < ApplicationRecord
   validates :contact_email, format: { with: URI::MailTo::EMAIL_REGEXP }
 
   accepts_nested_attributes_for :user
+  accepts_nested_attributes_for :tos_agreement
+  accepts_nested_attributes_for :cookie_agreement
+
+  validate :tos_invalid?
+  validate :cookie_agreement_invalid?
 
   delegate :suspended?, to: :user
 
@@ -67,10 +79,19 @@ class Business < ApplicationRecord
 
   def self.for_signup(attributes = {}, token = nil)
     new(attributes).tap do |business|
-      business.build_user unless business.user
+      business.build_user.build_tos_agreement unless business.user
+      business.build_cookie_agreement unless business.user
       referral_token = ReferralToken.find_by(token: token) if token
       business.build_referral(referral_token: referral_token) if referral_token
     end
+  end
+
+  def tos_invalid?
+    errors.add(:tos_agree, 'You must agree to the terms of service to create an account') unless user.tos_agreement&.status
+  end
+
+  def cookie_agreement_invalid?
+    errors.add(:cookie_agree, 'You must agree to cookies to create an account') unless user.cookie_agreement&.status
   end
 
   def referral_token
@@ -136,5 +157,13 @@ class Business < ApplicationRecord
     SyncBusinessUsersToMailchimpJob.perform_later(self)
     # For dev testing and triggering heroku deploy
     # SyncBusinessUsersToMailchimpJob.perform_now(self)
+  end
+
+  def subscription?
+    if forum_subscription && !forum_subscription.suspended
+      forum_subscription[:level]
+    else
+      0
+    end
   end
 end

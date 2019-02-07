@@ -4,12 +4,14 @@
       .icon.maxicons1-exit
     h3.text-uppercase.text-center.m-b-3.p-x-5 Report Post
     .checkbox-lg
-      = simple_form_for Flag.new, authenticity_token: true, url: submit_flag_url(current_user, project) do |f|
+      - url = params[:forum_answer_id] ? flags_path : submit_flag_url(current_user, project)
+      = simple_form_for Flag.new, authenticity_token: true, url: url do |f|
         = f.hidden_field :question_id, value: params[:question_id].to_i if params[:question_id]
         = f.hidden_field :answer_id, value: params[:answer_id].to_i if params[:answer_id]
         - ["Inappropriate", "Harassment", "Spam"].each do |opt|
           span.checkbox
             = check_box_tag "flag[reason][#{opt.first.downcase}]", opt
             = label_tag "flag_reason_#{opt.first.downcase}", opt
+        = f.hidden_field :forum_answer_id, value: params[:forum_answer_id].to_i if params[:forum_answer_id]
         .text-center
           = f.submit 'Submit', class: 'btn btn-primary btn-md p-x-3 m-t-2'

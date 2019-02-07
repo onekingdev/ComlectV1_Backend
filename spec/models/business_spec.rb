@@ -40,7 +40,10 @@ RSpec.describe Business do
 
       subject do
         Business.for_signup(
-          attributes_for(:business).merge(user_attributes: attributes_for(:user)),
+          attributes_for(:business).merge(user_attributes: attributes_for(:user).merge(
+            cookie_agreement_attributes: attributes_for(:cookie_agreement, status: true),
+            tos_agreement_attributes: attributes_for(:tos_agreement, status: true)
+          )),
           referral_token.token
         )
       end

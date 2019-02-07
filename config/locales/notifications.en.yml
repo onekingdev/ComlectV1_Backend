@@ -6,11 +6,16 @@ en:
       not_hired: Notify me when I am not selected for a project
       project_ended: Notify me when my project ends
       got_message: Notify me when I receive a message
+      new_forum_question: Notify me of new forum questions
+      new_forum_comments: Notify me of comments to my forum answers
+
     businesses:
       marketing_emails: General marketing emails
       got_rated: Notify me when I'm rated and reviewed
       project_ended: Notify me when my project ends
       got_message: Notify me when I receive a message
+      new_forum_answers: Notify me of response to forum question
+      new_forum_comments: Notify me of comments to my forum answers
 
   notification_messages:
     # sent to both
@@ -22,8 +27,18 @@ en:
       subject: You've Received a Message
       message: I've sent you a message.
       action_label: Go to %{project_title} Project Dashboard
+    forum_comment:
+      subject: Someone Commented on Your Answer
+      message: Check out the latest comment to your answer to a question in the Q&A Forum
+      message_mail: Check out the latest comment to your answer to a question in the Q&A Forum
+      action_label: View
 
     # sent to specialist
+    industry_forum_question:
+      subject: New Question Posted in the Forum
+      message: New question posted in the forum waiting for your answer
+      message_mail: "New question posted in the forum waiting for your answer"
+      action_label: View
     got_employee_invitation:
       subject: You've been invited to join a team on Complect
       message_mail: "%{manager_full_name} has requested you join the %{team_name} team on Complect. To create your profile and have it linked with this team, please sign up directly via the link below."
@@ -121,6 +136,11 @@ en:
       action_label: Go to %{project_title} Detailed Project Page
 
     # sent to business
+    forum_answer:
+      subject: Your question has been answered
+      message: One of our specialists has answered your question
+      message_mail: One of our specialists has answered your question
+      action_label: View
     project_question:
       subject: Question about Your Project
       message: I've submitted a question to your project.

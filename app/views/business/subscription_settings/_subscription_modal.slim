@@ -1,0 +1,39 @@
+#subscription_modal.modal.fade tabindex=-1 role="dialog"
+  .modal-dialog
+    .modal-content
+      .modal-header.p-y-0
+        button.close type="button" data-dismiss="modal" aria-label="Close"
+          span aria-hidden="true" &times;
+        h4.modal-title
+      .modal-body
+        = form_for :subscription, :url => forum_subscriptions_create_path, :method => 'GET' do |f|
+          .col-md-7.left-labels
+            = f.radio_button :lvl, 0, checked: (current_business.subscription? == 0)
+            = f.label :lvl_0, "FOREVER FREE"
+            ul
+              li 5 free Q&A searches a month
+            = f.radio_button :lvl, 1, checked: (current_business.subscription? == 1)
+            = f.label :lvl_1, "BASIC"
+            ul
+              li Unlimited Q&A searches a month
+            = f.radio_button :lvl, 2, checked: (current_business.subscription? == 2)
+            = f.label :lvl_2, "PRO"
+            ul
+              li Unlimited Q&A searches a month
+              li Unlimited questions a month
+            = f.hidden_field :billing_type
+          = simple_form_for :subscription do |f|
+            .col-md-5.no-paddings.right-labels
+              .basic_switch
+                .col-xs-6.text-center.small $10/mo.
+                .col-xs-6.text-center.small $100
+                .col-xs-12.col-no-padding.text-center.m-b-2
+                  = f.input :basic, as: :radio_pills, collection: [['monthly', @forum_sub.billing_type == "monthly"], ['annual', @forum_sub.billing_type == "annual"]], btn_class: 'btn-sm btn-default p-x-1', hint: false, label: "Charge"
+              .pro_switch
+                .col-xs-6.text-center.small $25/mo.
+                .col-xs-6.text-center.small $275
+                .col-xs-12.col-no-padding.text-center
+                  = f.input :pro, as: :radio_pills, collection: [['monthly', @forum_sub.billing_type == "monthly"], ['annual', @forum_sub.billing_type == "annual"]], btn_class: 'btn-sm btn-default p-x-1', hint: false, label: "Charge"
+            .col-md-12.text-center
+              = f.button :submit, class: 'btn btn-md btn-primary submit-sub-settings p-x-3 m-b-2', label: "Submit", value: "Submit"
+      .modal-footer

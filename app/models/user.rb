@@ -15,8 +15,15 @@ class User < ApplicationRecord
   has_many :payment_sources, through: :business
   has_many :project_issues, dependent: :delete_all
   has_many :notifications, dependent: :delete_all
+  has_many :forum_answers
+  has_many :forum_votes, dependent: :destroy
+  has_one :tos_agreement, dependent: :destroy
+  has_one :cookie_agreement, dependent: :destroy
 
   validates :email, presence: true, email: true
+
+  accepts_nested_attributes_for :tos_agreement
+  accepts_nested_attributes_for :cookie_agreement
 
   scope :inactive, -> {
     where('last_sign_in_at < ?', Time.zone.now - 90.days)
@@ -25,11 +32,38 @@ class User < ApplicationRecord
 
   default_scope -> { where(deleted: false) }
 
+  def business_or_specialist
+    business || specialist
+  end
+
+  def upvotes
+    # forum_votes.where(upvote: true)
+    ForumVote.where(upvote: true, forum_answer_id: forum_answers.collect(&:id)).count
+  end
+
+  def photo(*args, &block)
+    business ? business.logo(*args, &block) : specialist.photo(*args, &block)
+  end
+
+  def photo_url(*args, &block)
+    business ? business.logo_url(*args, &block) : specialist.photo_url(*args, &block)
+  end
+
   def full_name
     if specialist
       [specialist.first_name, specialist.last_name].join(' ')
     else
       [business.contact_first_name, business.contact_last_name].join(' ')
+    end
+  end
+
+  def short_name
+    if specialist
+      [specialist.first_name.capitalize, specialist.last_name.capitalize.first].join(' ') + '.'
+    elsif business.anonymous?
+      'Anonymous'
+    else
+      business.business_name
     end
   end
 
@@ -78,5 +112,29 @@ class User < ApplicationRecord
 
   def active_for_authentication?
     super && !suspended? && !deleted? # Extra safeguard, default_scope should prevent deleted users from being found
+  end
+
+  def create_cookie_agreement(ip_address, status, description)
+    CookieAgreement.create(
+      user: self,
+      cookie_description: description,
+      status: status,
+      agreement_date: Time.zone.now,
+      ip_address: ip_address
+    )
+  end
+
+  def update_privacy_agreement(ip_address)
+    tos_agreement.update(
+      agreement_date: Time.zone.now,
+      ip_address: ip_address
+    )
+  end
+
+  def update_cookie_agreement(ip_address)
+    cookie_agreement.update(
+      agreement_date: Time.zone.now,
+      ip_address: ip_address
+    )
   end
 end

@@ -1,0 +1,21 @@
+.row.full_width.pitch
+  .container
+    - if params[:action] != "index"
+      a.back_btn href="/ask-a-specialist" 
+        i.icon.maxicons1-arrowleft
+        | BACK
+    - if current_business && current_business.subscription? > 0
+    - if current_business && current_business.subscription? == 2 || params[:action] == "search"
+      = render partial: "search"
+      .container
+        = render partial: "top_questions", locals: { grid_class: "col-md-3", industries: [4, 1, 2, 5]  }
+    - elsif current_specialist
+      h3
+        | Want to land more projects?
+        br
+        | Answer more questions. 
+        br
+        br
+        | See what your peers are saying. Learn what businesses care about. And, earn 5 star ratings for every 25 upvotes you receive on your responses.
+    - else
+      = render partial: "forum_questions/subscriptions"

@@ -1,0 +1,68 @@
+- if answer.reply_to.blank?
+  hr.forum_hr
+  .col-md-12.p-t-2.p-b-1.m-y-1.clearfix.forum_answer.col-no-padding
+    .col-md-2.profile.text-center.col-no-padding
+      .profile-image
+        - if answer.photo
+          = image_tag answer.photo_url(:thumb), size: '64x64', class: 'img-circle'
+        - else
+          = image_tag 'icon-specialist.png', size: '64x64', class: 'img-circle'
+      = render_stars answer.ratings_average, { class: "small m-t-1 m-b-1" }
+    .col-md-10
+      .metadata
+        .first_name = answer.user.short_name
+        .location = answer.user.specialist ? decorate(answer.user.specialist).city_state_country : decorate(answer.user.business).city_state_country
+      .timestamp
+        | Answered 
+        = answer.created_at.strftime("%b %Y")
+      - if answer.user.specialist && current_business
+        a.btn.btn-primary.btn-single.btn-sm.p-x-2.m-b-1 data-remote=true href=new_project_invite_path(specialist_id: answer.user.specialist.id) HIRE
+
+    .col-md-12.col-no-padding.answer_body
+      = answer.body
+      - if answer.file
+        .file= link_to answer.file_url, target: '_blank' do
+          .fa.fa-paperclip
+          '&nbsp;
+          span= answer.file.metadata['filename']
+    .forum_btns data-answer-id="#{answer.reply_to.present? ? answer.reply_to : answer.id}"
+      = render partial: "forum_answers/forum_buttons", locals: { answer: answer } if current_user
+  .clearfix
+  - if current_specialist || current_business && current_business.subscription? == 2 || answer.replies.count > 0
+    .thread.p-x-0.p-t-2.m-b-3
+      - if current_specialist || current_business && current_business.subscription? == 2
+        .col-sm-2.col-no-padding.text-center
+          - if current_user.photo
+            = image_tag current_user.photo_url(:thumb), size: '48x48', class: 'img-circle'
+          - else
+            = image_tag 'icon-specialist.png', size: '48x48', class: 'img-circle'
+        .col-sm-10.col-no-padding.p-r-2.p-b-2
+          = simple_form_for ForumAnswer.new do |f|
+            .col-sm-9.col-no-padding
+              = f.input :body, placeholder: "Add a comment", input_html: { class: "pull-left m-t-1", rows: 1 }
+              = f.input :reply_to, as: :hidden, input_html: { value: answer.id }
+              = f.input :forum_question_id, as: :hidden, input_html: { value: @question.id }
+            .col-sm-3.col-no-padding
+              = f.button :button, "Comment", type: :button, class: 'btn btn-primary btn-black btn-sm p-x-2 pull-right clearfix remote-submit-answer add_forum_comment m-t-1'
+        .clearfix
+      - answer.replies.each do |reply|
+        - reply.body = "Please sign up to view this content" if @please_sign_up
+        - reply.body = "Please subscribe to view this content" if @please_subscribe
+        = render partial: "forum_answers/answer", locals: { answer: reply }
+- else
+  .clearfix
+  .forum_reply.p-r-2
+    .col-sm-2.p-b-1.col-no-padding.text-center.p-t-2
+      - if answer.photo
+        = image_tag answer.photo_url(:thumb), size: '48x48', class: 'img-circle'
+      - else
+        = image_tag 'icon-specialist.png', size: '48x48', class: 'img-circle'
+      .first_name.m-t-1
+        b = answer.user.short_name
+        br
+        = answer.created_at.strftime("%b %Y")
+    .col-sm-10.p-y-2.p-x-0
+      .answer_body = answer.body
+      .forum_btns data-answer-id="#{answer.id}"
+        = render partial: "forum_answers/forum_buttons", locals: { answer: answer } if current_user
+    .clearfix
