@@ -11,7 +11,11 @@
     .pull-right
       small 
         | Status: 
-        span.text-primary.project-status = project.status_text == "Pending" ? "Interview" : project.status_text
+        span.text-primary.project-status
+          - if project.rfp?
+            | RFP
+          - else
+            = project.status_text == "Pending" ? "Interview" : project.status_text
   .business-profile
     .row
       .col-xs-12.col-md-3.hidden-sm.hidden-xs

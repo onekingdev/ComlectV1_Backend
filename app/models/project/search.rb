@@ -52,7 +52,7 @@ class Project::Search
     when 'full-time'
       records.full_time
     else
-      records.one_off
+      records.one_off.or(records.rfp)
     end
   end
 

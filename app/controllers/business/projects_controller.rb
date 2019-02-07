@@ -49,7 +49,7 @@ class Business::ProjectsController < ApplicationController
   def update
     respond_to do |format|
       if @project.update(project_params)
-        Project::Starting.fix_starting!(@project) unless @project.asap_duration?
+        Project::Starting.fix_starting!(@project) unless @project.asap_duration? || @project.rfp?
         redirect_path = @project.review? ? business_project_path(@project) : business_dashboard_path
         format.html { redirect_to redirect_path }
         format.js { js_redirect url_for(redirect_path) }
@@ -126,6 +126,8 @@ class Business::ProjectsController < ApplicationController
       :annual_salary,
       :fee_type,
       :invite_id,
+      :est_budget,
+      :rfp_timing,
       jurisdiction_ids: [],
       industry_ids: [],
       skill_names: []

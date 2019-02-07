@@ -19,12 +19,4 @@ class NotificationsController < ApplicationController
       format.js
     end
   end
-
-  def route
-    if current_business
-      redirect_to business_settings_notifications_path
-    elsif current_specialist
-      redirect_to specialists_settings_notifications_path
-    end
-  end
 end
