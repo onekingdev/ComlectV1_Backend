@@ -35,13 +35,17 @@
         .panel-footer
           .btn-group
             - if project.pending? && (application = project.job_applications.by(current_specialist).first)
-              = link_to project_job_application_path(project, application, redirect_to: specialists_dashboard_path(anchor: 'nojump-projects-pending')),
-                method: :delete,
-                remote: true,
-                title: 'Withdraw Application',
-                data: { confirm: "Are you sure you want to withdraw your<br>application from <b>#{project}</b>?", confirm_label: 'Confirm' },
-                class: 'btn btn-sm btn-primary' do
-                span Withdraw
+              - if project.rfp?
+                = link_to edit_project_job_application_path(project, application), class: 'btn btn-sm btn-primary' do
+                  span Edit
+              - else
+                = link_to project_job_application_path(project, application, redirect_to: specialists_dashboard_path(anchor: 'nojump-projects-pending')),
+                  method: :delete,
+                  remote: true,
+                  title: 'Withdraw Application',
+                  data: { confirm: "Are you sure you want to withdraw your<br>application from <b>#{project}</b>?", confirm_label: 'Confirm' },
+                  class: 'btn btn-sm btn-primary' do
+                  span Withdraw
               - if project.messages.business_specialist(project.business_id, current_specialist.id).blank?
                 = link_to project_path(project), class: 'btn btn-sm btn-primary'
                   span View

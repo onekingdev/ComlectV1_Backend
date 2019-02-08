@@ -5,6 +5,54 @@ require 'rails_helper'
 RSpec.describe Project::Form, type: :model do
   let!(:business) { create(:business, :with_payment_profile) }
 
+  describe 'callbacks' do
+    describe 'before_validation :assign_pricing_type_field' do
+      before { project.save }
+
+      context 'when hourly job' do
+        subject(:project) do
+          Project::Form.new(
+            type: 'one_off',
+            pricing_type: 'hourly',
+            hourly_payment_schedule: 'monthly',
+            hourly_rate: 100,
+            estimated_hours: 5,
+            fixed_payment_schedule: 'fifty_fifty',
+            fixed_budget: 500
+          )
+        end
+
+        it 'assigns fields' do
+          expect(project.payment_schedule).to eq 'monthly'
+          expect(project.hourly_rate).to eq 100
+          expect(project.estimated_hours).to eq 5
+          expect(project.fixed_budget).to be_nil
+        end
+      end
+
+      context 'when fixed job' do
+        subject(:project) do
+          Project::Form.new(
+            type: 'one_off',
+            pricing_type: 'fixed',
+            fixed_payment_schedule: 'fifty_fifty',
+            fixed_budget: 500,
+            estimated_hours: 50,
+            hourly_payment_schedule: 'monthly',
+            hourly_rate: 100
+          )
+        end
+
+        it 'assigns fields' do
+          expect(project.payment_schedule).to eq 'fifty_fifty'
+          expect(project.fixed_budget).to eq 500
+          expect(project.estimated_hours).to eq 50
+          expect(project.hourly_rate).to be_nil
+        end
+      end
+    end
+  end
+
   describe 'validations' do
     let(:form) {
       Project::Form.new(business: business).tap do |form|
