@@ -40,7 +40,8 @@ class Projects::JobApplicationsController < ApplicationController
   def create
     @job_application = JobApplication::Form.apply!(
       current_specialist,
-      @project, job_application_params
+      @project,
+      job_application_params
     )
 
     if @job_application.persisted?

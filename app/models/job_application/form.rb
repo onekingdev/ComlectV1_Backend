@@ -34,9 +34,9 @@ class JobApplication::Form < JobApplication
   end
 
   def self.apply!(specialist, project, params)
-    application = create params.merge(specialist: specialist, project: project)
+    application = new(params.merge(specialist: specialist, project: project))
 
-    unless application.draft?
+    if application.save && !application.draft?
       Favorite.remove! specialist, project
       Notification::Deliver.project_application!(application) if project.interview?
       JobApplication::Accept.(application) if project.auto_match?
