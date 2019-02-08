@@ -17,6 +17,7 @@ html lang=I18n.locale
       // Open Graph
       meta property="og:title" content="Complect – Compliance Specialists on Demand"
       meta property="og:description" content="Complect is an online freelancing platform that connects financial services firms with financial regulatory compliance specialists with a minimum of three years direct compliance experience."
+    = render partial: "layouts/fullstory" if Rails.env == "production"
 
 body.home.index
   = render partial: "layouts/cookies"

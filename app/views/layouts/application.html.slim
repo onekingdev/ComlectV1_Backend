@@ -22,6 +22,7 @@ html lang=I18n.locale
     = render 'mixpanel'
     = render 'layouts/favicons'
     = yield :html_head
+    = render partial: "layouts/fullstory" if Rails.env == "production"
 
 body class="#{controller_name} #{action_name}"
   .content-wrap

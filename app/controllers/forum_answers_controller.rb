@@ -21,7 +21,7 @@ class ForumAnswersController < ApplicationController
         else
           redirect_to forum_question_path(@forum_answer.forum_question.url)
         end
-        Notification::Deliver.forum_answer!(@forum_answer)
+        Notification::Deliver.forum_answer!(@forum_answer) unless current_business && @question.business == current_business
       else
         redirect_to forum_question_path(@forum_answer.forum_question.url)
       end

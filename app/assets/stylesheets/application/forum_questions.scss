@@ -1,4 +1,7 @@
 body.forum_questions.index, body.forum_questions.search, body.forum_questions.create, body.forum_questions.show {
+  .top_question_header {
+    height: 40px;
+  }
   .back_btn {
     position: absolute;
     margin-top: -43px;

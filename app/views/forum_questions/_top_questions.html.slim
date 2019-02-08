@@ -1,6 +1,6 @@
 - Industry.where(id: industries).each do |industry|
   div class=(grid_class)
-    h3.p-b-1
+    h3.p-b-1.top_question_header
       | Top 
       = industry.short_name ? industry.short_name : industry.name
       |  Questions
