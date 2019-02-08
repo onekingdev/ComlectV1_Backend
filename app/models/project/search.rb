@@ -80,7 +80,7 @@ class Project::Search
     min, max = project_value.to_s.split(';').map(&:to_i)
     return records if min.zero? && max.zero?
     max = Float::INFINITY if max.to_i == MAX_VALUE
-    records.where(calculated_budget: (min..max))
+    records.where(calculated_budget: (min..max)).or(records.where(est_budget: (min..max)))
   end
 
   def filter_regulator(records)
