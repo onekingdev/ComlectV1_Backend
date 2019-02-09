@@ -19,8 +19,8 @@ class Project::Form < Project
   validates(*RFP_FIELDS, presence: true, if: :rfp?)
   validates(*ONE_OFF_FIELDS, presence: true, if: :one_off?)
   validates(*FULL_TIME_FIELDS, presence: true, if: :full_time?)
-  validates(*ASAP_DURATION_FIELDS, presence: true, if: :asap_duration?)
-  validates(*CUSTOM_DURATION_FIELDS, presence: true, if: :custom_duration?)
+  validates(*ASAP_DURATION_FIELDS, presence: true, if: -> { one_off? && asap_duration? })
+  validates(*CUSTOM_DURATION_FIELDS, presence: true, if: -> { one_off? && custom_duration? })
 
   validates :hourly_rate, presence: true, if: -> { one_off? && hourly_pricing? }
   validates :fixed_budget, presence: true, if: -> { one_off? && fixed_pricing? }

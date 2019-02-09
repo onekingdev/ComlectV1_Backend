@@ -293,7 +293,7 @@ class Project < ApplicationRecord
   end
 
   def custom_duration?
-    duration_type == 'custom' && !rfp?
+    duration_type == 'custom'
   end
 
   def hourly_pricing?
