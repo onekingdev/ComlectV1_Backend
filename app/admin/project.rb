@@ -53,7 +53,7 @@ ActiveAdmin.register Project do
     redirect_to admin_project_path(resource), notice: 'Project charges rescheduled'
   end
 
-  action_item :reschedule_charges, only: :show, if: -> { resource.one_off? } do
+  action_item :reschedule_charges, only: :show, if: -> { !resource.full_time? } do
     link_to(
       'Reschedule Charges',
       reschedule_charges_admin_project_path,
@@ -61,7 +61,7 @@ ActiveAdmin.register Project do
     )
   end
 
-  action_item :create_transaction, only: :show, if: -> { resource.one_off? } do
+  action_item :create_transaction, only: :show, if: -> { !resource.full_time? } do
     link_to(
       'Create Transaction',
       admin_project_transaction_oneoff_path(resource.id)
@@ -74,7 +74,7 @@ ActiveAdmin.register Project do
       link_to project.title, [:admin, project]
     end
     column :type, sortable: :type do |project|
-      status_tag project.one_off? ? 'P' : 'J', 'yes'
+      status_tag project.full_time? ? 'J' : 'P', 'yes'
     end
     column :location do |project|
       project.remote? ? 'Remote' : project.location
@@ -276,12 +276,12 @@ ActiveAdmin.register Project do
       f.input :description, as: :text
       f.input :key_deliverables
       f.input :starts_on
-      f.input :ends_on if f.object.one_off?
-      f.input :pricing_type, collection: %w[hourly fixed] if f.object.one_off?
-      f.input :payment_schedule, collection: Project::PAYMENT_SCHEDULES if f.object.one_off?
-      f.input :fixed_budget if f.object.one_off?
-      f.input :hourly_rate if f.object.one_off?
-      f.input :estimated_hours if f.object.one_off?
+      f.input :ends_on unless f.object.full_time?
+      f.input :pricing_type, collection: %w[hourly fixed] unless f.object.full_time?
+      f.input :payment_schedule, collection: Project::PAYMENT_SCHEDULES unless f.object.full_time?
+      f.input :fixed_budget unless f.object.full_time?
+      f.input :hourly_rate unless f.object.full_time?
+      f.input :estimated_hours unless f.object.full_time?
       f.input :minimum_experience, collection: Project::MINIMUM_EXPERIENCE
       f.input :only_regulators
       f.input :annual_salary if f.object.full_time?
@@ -290,7 +290,7 @@ ActiveAdmin.register Project do
       f.input :job_applications_count, as: :readonly
     end
 
-    if f.object.one_off? && f.object.hourly_pricing?
+    if !f.object.full_time? && f.object.hourly_pricing?
       f.inputs 'Timesheets' do
         f.has_many :timesheets, sortable: :created_at do |a|
           a.input :status_changed_at, as: :readonly

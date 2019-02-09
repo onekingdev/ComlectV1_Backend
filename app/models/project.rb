@@ -82,14 +82,14 @@ class Project < ApplicationRecord
 
   scope :pending_business_rating, -> {
     complete
-      .one_off
+      .one_off.or(rfp)
       .joins("LEFT JOIN ratings ON ratings.project_id = projects.id AND ratings.rater_type = '#{Business.name}'")
       .where(ratings: { id: nil })
   }
 
   scope :pending_specialist_rating, -> {
     complete
-      .one_off
+      .one_off.or(rfp)
       .joins("LEFT JOIN ratings ON ratings.project_id = projects.id AND ratings.rater_type = '#{Specialist.name}'")
       .where(ratings: { id: nil })
   }
@@ -160,11 +160,11 @@ class Project < ApplicationRecord
   before_save :save_expires_at, if: -> { starts_on_changed? }
 
   def self.ending
-    one_off.active.joins(business: :user).select('projects.*, businesses.time_zone').find_each.find_all(&:ending?)
+    one_off.or(rfp).active.joins(business: :user).select('projects.*, businesses.time_zone').find_each.find_all(&:ending?)
   end
 
   def self.ends_in_24
-    one_off.active.where(ends_in_24: false).business_timezones.find_each.find_all do |p|
+    one_off.or(rfp).active.where(ends_in_24: false).business_timezones.find_each.find_all do |p|
       # Set to midnight
       tz = ActiveSupport::TimeZone[p[:time_zone]]
       p.ends_on.in_time_zone(tz) - 1.day <= 5.minutes.from_now
@@ -172,7 +172,7 @@ class Project < ApplicationRecord
   end
 
   def self.starts_in_48
-    one_off.where(starts_in_48: false).business_timezones.find_each.find_all do |project|
+    one_off.or(rfp).where(starts_in_48: false).business_timezones.find_each.find_all do |project|
       next if project.asap_duration?
 
       # Set to midnight
@@ -194,11 +194,11 @@ class Project < ApplicationRecord
   end
 
   def requires_business_rating?
-    one_off? && complete? && !solicited_business_rating
+    !full_time? && complete? && !solicited_business_rating
   end
 
   def requires_specialist_rating?
-    one_off? && complete? && !solicited_specialist_rating
+    !full_time? && complete? && !solicited_specialist_rating
   end
 
   def ending?
@@ -297,11 +297,11 @@ class Project < ApplicationRecord
   end
 
   def hourly_pricing?
-    one_off? && pricing_type == 'hourly'
+    !full_time? && pricing_type == 'hourly'
   end
 
   def fixed_pricing?
-    one_off? && pricing_type == 'fixed'
+    !full_time? && pricing_type == 'fixed'
   end
 
   # rubocop:disable all

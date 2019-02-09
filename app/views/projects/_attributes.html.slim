@@ -32,18 +32,18 @@
           i.icon-trophy
           span Fixed Budget
         td= number_to_currency(project.fixed_budget, precision: 0)
-    - if project.one_off?
-      tr
-        th
-          i.icon-tag
-          span Payment Method
-        td= project.payment_schedule_humanized
-    - elsif !project.rfp?
+    - if project.full_time?
       tr
         th
           i.icon-trophy
           span Annual Salary
         td= number_to_currency(project.annual_salary, precision: 0)
+    - else
+      tr
+        th
+          i.icon-tag
+          span Payment Method
+        td= project.payment_schedule_humanized
 
 .col-xs-12.col-md-6
   table.table.table-plain.table-condensed.table-flush.m-b-0

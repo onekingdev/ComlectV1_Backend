@@ -15,8 +15,6 @@ class Projects::JobApplicationsController < ApplicationController
       project: @project
     )
 
-    @job_application.valid?
-
     respond_to do |format|
       format.js
       format.html

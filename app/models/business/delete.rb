@@ -23,7 +23,7 @@ class Business::Delete < Draper::Decorator
     reasons = []
     reasons << :active_projects if business.projects.active.any?
     reasons << :full_time_projects if full_time_projects_started_within_6_months?
-    reasons << :one_off_projects if one_off_projects_ended_within_1_week?
+    reasons << :one_off_projects if rfp_or_one_off_projects_ended_within_1_week?
     NOT_PERMITTED_REASONS.slice(*reasons).values
   end
 
@@ -35,8 +35,8 @@ class Business::Delete < Draper::Decorator
     (project.starts_on + 6.months + 2.days) > Time.zone.today
   end
 
-  def one_off_projects_ended_within_1_week?
-    project = business.projects.one_off.order(:ends_on).last
+  def rfp_or_one_off_projects_ended_within_1_week?
+    project = business.projects.one_off.or(business.projects.rfp).order(:ends_on).last
     return false unless project
     (project.ends_on + 1.week) > Time.zone.today
   end

@@ -14,12 +14,10 @@ class Project::Decorator < ApplicationDecorator
   end
 
   def dashboard_path
-    go_to_dashboard = one_off? || rfp?
-
     if h.current_specialist
-      go_to_dashboard ? h.specialists_project_dashboard_path(self) : h.specialists_project_path(self)
+      full_time? ? h.specialists_project_path(self) : h.specialists_project_dashboard_path(self)
     else
-      go_to_dashboard ? h.business_project_dashboard_path(self) : h.business_project_path(self)
+      full_time? ? h.business_project_path(self) : h.business_project_dashboard_path(self)
     end
   end
 

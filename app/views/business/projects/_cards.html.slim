@@ -30,11 +30,11 @@
               i.icon-trophy
               span= project.dollars
             .item
-              - if project.one_off?
+              - if project.full_time?
+                span &nbsp;
+              - else
                 i.icon-tag
                 span= project.payment_schedule_humanized
-              - else
-                span &nbsp;
 
         .panel-footer
           .btn-group

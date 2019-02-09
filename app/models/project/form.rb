@@ -22,12 +22,12 @@ class Project::Form < Project
   validates(*ASAP_DURATION_FIELDS, presence: true, if: :asap_duration?)
   validates(*CUSTOM_DURATION_FIELDS, presence: true, if: :custom_duration?)
 
-  validates :hourly_rate, presence: true, if: :hourly_pricing?
-  validates :fixed_budget, presence: true, if: :fixed_pricing?
+  validates :hourly_rate, presence: true, if: -> { one_off? && hourly_pricing? }
+  validates :fixed_budget, presence: true, if: -> { one_off? && fixed_pricing? }
   validates :hourly_payment_schedule, :hourly_rate,
-            presence: true, if: -> { hourly_pricing? && payment_schedule.blank? }
+            presence: true, if: -> { one_off? && hourly_pricing? && payment_schedule.blank? }
   validates :fixed_payment_schedule, :fixed_budget,
-            presence: true, if: -> { fixed_pricing? && payment_schedule.blank? }
+            presence: true, if: -> { one_off? && fixed_pricing? && payment_schedule.blank? }
   validate if: -> { asap_duration? } do
     errors.add :starts_on, :duration if starts_on.present?
     errors.add :ends_on, :duration if ends_on.present?

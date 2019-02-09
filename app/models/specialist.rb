@@ -33,7 +33,7 @@ class Specialist < ApplicationRecord
   has_one :stripe_account, dependent: :destroy
   has_many :bank_accounts, through: :stripe_account
   has_many :email_threads, dependent: :destroy
-  has_many :payments, -> { for_one_off_projects }, through: :projects, source: :charges
+  has_many :payments, -> { for_rfp_or_one_off_projects }, through: :projects, source: :charges
   has_many :transactions, through: :projects
 
   has_one :referral, as: :referrable

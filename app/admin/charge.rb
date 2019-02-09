@@ -17,7 +17,7 @@ ActiveAdmin.register Charge do
   filter :updated_at
 
   collection_action :schedule_pending, method: :post do
-    Project.active_for_charges.one_off.find_each(batch_size: 20) do |project|
+    Project.active_for_charges.one_off.or(Project.rfp).find_each(batch_size: 20) do |project|
       PaymentCycle.for(project).create_charges_and_reschedule!
     end
     redirect_to admin_charges_path, notice: 'Done'

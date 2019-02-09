@@ -22,7 +22,7 @@ class Transaction < ApplicationRecord
       24.hours.ago
     )
   }
-  scope :one_off, -> { joins(:project).where(project: Project.one_off) }
+  scope :one_off, -> { joins(:project).where(project: Project.one_off.or(Project.rfp)) }
   scope :by_year, ->(year) { where('EXTRACT(year FROM processed_at) = ?', year) }
 
   def self.process_pending!

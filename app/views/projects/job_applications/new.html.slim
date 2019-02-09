@@ -17,7 +17,7 @@
 
   .panel.panel-default.panel-padded.col-xs-10.col-xs-push-1
     .panel-heading
-      h3 #{@project.one_off? || @project.rfp? ? 'Project' : 'Job' } Description
+      h3 #{@project.full_time? ? 'Job' : 'Project' } Description
     .panel-body.p-t-0= simple_format @project.description
 
   .clearfix

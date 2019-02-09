@@ -9,7 +9,7 @@ class Charge < ApplicationRecord
 
   COMPLECT_FEE_PCT = 0.10
 
-  scope :for_one_off_projects, -> { joins(:project).where(project: Project.one_off) }
+  scope :for_rfp_or_one_off_projects, -> { joins(:project).where(project: Project.one_off.or(Project.rfp)) }
   scope :real, -> { where(status: [Charge.statuses[:scheduled], Charge.statuses[:processed], Charge.statuses[:error]]) }
   scope :pending_or_errored, -> { where(status: [Charge.statuses[:scheduled], Charge.statuses[:error]]) }
   scope :upcoming, -> { where.not(status: Charge.statuses[:processed]) }
@@ -103,7 +103,7 @@ class Charge < ApplicationRecord
 
     self.total_with_fee_in_cents = amount_in_cents + business_fee_in_cents
 
-    if project.one_off?
+    unless project.full_time?
       self.running_balance_in_cents *= (1 + COMPLECT_FEE_PCT) if running_balance_in_cents
       self.specialist_amount_in_cents = amount_in_cents - specialist_fee_in_cents if specialist
     end

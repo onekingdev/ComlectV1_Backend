@@ -195,12 +195,12 @@ ActiveAdmin.register Project, namespace: :support do
       f.input :description, as: :text
       f.input :key_deliverables
       f.input :starts_on
-      f.input :ends_on if f.object.one_off?
-      f.input :pricing_type, collection: %w[hourly fixed] if f.object.one_off?
-      f.input :payment_schedule, collection: Project::PAYMENT_SCHEDULES if f.object.one_off?
-      f.input :fixed_budget if f.object.one_off?
-      f.input :hourly_rate if f.object.one_off?
-      f.input :estimated_hours if f.object.one_off?
+      f.input :ends_on unless f.object.full_time?
+      f.input :pricing_type, collection: %w[hourly fixed] unless f.object.full_time?
+      f.input :payment_schedule, collection: Project::PAYMENT_SCHEDULES unless f.object.full_time?
+      f.input :fixed_budget unless f.object.full_time?
+      f.input :hourly_rate unless f.object.full_time?
+      f.input :estimated_hours unless f.object.full_time?
       f.input :minimum_experience, collection: Project::MINIMUM_EXPERIENCE
       f.input :only_regulators
       f.input :annual_salary if f.object.full_time?
@@ -209,7 +209,7 @@ ActiveAdmin.register Project, namespace: :support do
       f.input :job_applications_count, as: :readonly
     end
 
-    if f.object.one_off? && f.object.hourly_pricing?
+    if !f.object.full_time? && f.object.hourly_pricing?
       f.inputs 'Timesheets' do
         f.has_many :timesheets, sortable: :first_submitted_at do |a|
           a.input :status_changed_at, as: :readonly
