@@ -14,10 +14,12 @@ class Project::Decorator < ApplicationDecorator
   end
 
   def dashboard_path
+    go_to_dashboard = one_off? || rfp?
+
     if h.current_specialist
-      one_off? ? h.specialists_project_dashboard_path(self) : h.specialists_project_path(self)
+      go_to_dashboard ? h.specialists_project_dashboard_path(self) : h.specialists_project_path(self)
     else
-      one_off? ? h.business_project_dashboard_path(self) : h.business_project_path(self)
+      go_to_dashboard ? h.business_project_dashboard_path(self) : h.business_project_path(self)
     end
   end
 
@@ -114,7 +116,11 @@ class Project::Decorator < ApplicationDecorator
   end
 
   def type_humanized
-    { 'one_off' => 'One-time Project', 'full_time' => 'Full-time Role', 'rfp' => 'Request For Proposal' }[type]
+    {
+      'one_off' => 'One-time Project',
+      'full_time' => 'Full-time Role',
+      'rfp' => 'Request For Proposal'
+    }[type]
   end
 
   def minimum_experience_humanized
