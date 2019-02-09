@@ -52,7 +52,7 @@
 
       .panel.panel-default.panel-padded
         .panel-heading
-          h3 #{project.one_off? ? 'Project' : 'Job' } Description
+          h3 #{project.one_off? || project.rfp? ? 'Project' : 'Job' } Description
         .panel-body.p-t-0= simple_format project.description
 
       - if project.key_deliverables.present?

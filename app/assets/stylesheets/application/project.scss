@@ -71,11 +71,27 @@ form.project_form {
     .project-salary {
       display: none;
     }
+
+    .project-budget-timing { display: none; }
+  }
+
+  &[data-project-type=rfp] {
+    .project-salary {
+      display: none;
+    }
+    .full-time { display: none; }
+    .project_key_deliverables { display: none; }
+    .project_full_time_starts_on { display: none; }
+    #project_description { min-height: 99px; }
+    .project-duration { display: none; }
+    .project-pricing { display: none; }
   }
 
   &[data-project-type=full_time] {
     .one-off { display: none; }
     .full-time { display: inherit; }
+
+    .project-budget-timing { display: none; }
 
     .project-details #project_description {
       min-height: ($input-height-large * 3) + $form-group-margin-bottom * 2;
