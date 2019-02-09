@@ -29,24 +29,6 @@
         = f.input :message, as: :text, input_html: { class: 'input-lg tt-n', rows: 7, placeholder: "* Please provide a detailed description of how you propose to tackle the client's problem or need. This is your opportunity to provide a better service than your competitors, so be thorough and detailed about the process you intend to undertake." }
         = f.input :key_deliverables, input_html: { class: 'input-lg tt-n', placeholder: "* List the key deliverables you intend to provide (e.g. report, advice, written policies and procedures, etc.)" }
 
-  .well.well-lg.m-t-3.project-pricing data-pricing-type=@job_application.pricing_type
-    h2.text-center.m-b-2 Project Pricing
-    .row.row-compact.m-y-1
-      .col-xs-12.text-center
-        = f.input :pricing_type, as: :radio_pills, collection: [%w(Hourly hourly), %w(Fixed fixed)], btn_class: 'btn-default tt-u'
-    .row.row-compact
-      .col-xs-12.col-sm-4
-        = f.input :hourly_payment_schedule, collection: Project::HOURLY_PAYMENT_SCHEDULES, include_blank: I18n.t('simple_form.placeholders.project.hourly_payment_schedule'), required: true, input_html: { class: 'input-lg js-select' }
-        = f.input :fixed_payment_schedule, collection: Project::FIXED_PAYMENT_SCHEDULES, include_blank: I18n.t('simple_form.placeholders.project.fixed_payment_schedule'), required: true, input_html: { class: 'input-lg js-select' }
-      .col-xs-12.col-sm-4
-        = f.input :hourly_rate, required: true, as: :string, input_html: { class: 'input-lg', data: { numeric: true } }
-        = f.input :fixed_budget, required: true, as: :string, input_html: { class: 'input-lg', data: { numeric: true } }
-      .col-xs-12.col-sm-4
-        = f.input :estimated_hours, as: :string, require: true, input_html: { class: 'input-lg', data: { masked: '0#' } }
-    .row.row-compact.p-b-1
-      .col-xs-12
-        .small.text-muted Note: Complect adds a 10% fee on top of your project value. You can read more about our Payment Terms <a class="text-muted" href="/info/terms-of-use#fees" target="_blank">here</a>.
-
   .well.well-lg.m-t-3.project-duration
     h2.text-center.m-b-2 Proposed Timing
     .project-duration-custom
@@ -73,6 +55,24 @@
       .row.row-compact.p-b-1
         .col-xs-12
           .small.text-muted Please estimate if necessary to allow our specialists to determine their availability. You will be able to extend the deadline later.
+
+  .well.well-lg.m-t-3.project-pricing data-pricing-type=@job_application.pricing_type
+    h2.text-center.m-b-2 Project Pricing
+    .row.row-compact.m-y-1
+      .col-xs-12.text-center
+        = f.input :pricing_type, as: :radio_pills, collection: [%w(Hourly hourly), %w(Fixed fixed)], btn_class: 'btn-default tt-u'
+    .row.row-compact
+      .col-xs-12.col-sm-4
+        = f.input :hourly_payment_schedule, collection: Project::HOURLY_PAYMENT_SCHEDULES, include_blank: I18n.t('simple_form.placeholders.project.hourly_payment_schedule'), required: true, input_html: { class: 'input-lg js-select' }
+        = f.input :fixed_payment_schedule, collection: Project::FIXED_PAYMENT_SCHEDULES, include_blank: I18n.t('simple_form.placeholders.project.fixed_payment_schedule'), required: true, input_html: { class: 'input-lg js-select' }
+      .col-xs-12.col-sm-4
+        = f.input :hourly_rate, required: true, as: :string, input_html: { class: 'input-lg', data: { numeric: true } }
+        = f.input :fixed_budget, required: true, as: :string, input_html: { class: 'input-lg', data: { numeric: true } }
+      .col-xs-12.col-sm-4
+        = f.input :estimated_hours, as: :string, require: true, input_html: { class: 'input-lg', data: { masked: '0#' } }
+    .row.row-compact.p-b-1
+      .col-xs-12
+        .small.text-muted Note: Complect adds a 10% fee on top of your project value. You can read more about our Payment Terms <a class="text-muted" href="/info/terms-of-use#fees" target="_blank">here</a>.
 
   .actions.clearfix.well-lg.well-transparent
     .col-xs-12.col-sm-4.m-b-1.md-text-right

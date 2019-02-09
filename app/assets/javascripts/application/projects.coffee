@@ -87,3 +87,37 @@ do ->
 
       for parent in parents
         $(parent).find(selector.replace('%value', 'monthly')).parents('li').addClass('hidden')
+
+do ->
+  one_day = 86400000
+  selects = ['#job_application_fixed_payment_schedule', '#job_application_hourly_payment_schedule']
+  parents = ['.job_application_fixed_payment_schedule', '.job_application_hourly_payment_schedule']
+  selector = '.multiselect-container input[type=radio][value=%value]'
+
+  $(document).on 'change', '#job_application_starts_on, #job_application_ends_on', (e) ->
+    starts = $("#job_application_starts_on").pickadate('picker').get('select')
+    ends = $("#job_application_ends_on").pickadate('picker').get('select')
+    return unless starts? && ends?
+
+    diff = ends.obj - starts.obj
+    parentSelector = ".job_application_#{$('.job-application-pricing[data-pricing-type]').attr('data-pricing-type')}_payment_schedule"
+
+    for parent in parents
+      $(parent).find(selector.replace('%value', 'upon_completion')).parents('li').removeClass('hidden')
+      $(parent).find(selector.replace('%value', 'monthly')).parents('li').removeClass('hidden')
+      $(parent).find(selector.replace('%value', 'bi_weekly')).parents('li').removeClass('hidden')
+
+    if diff < (one_day * 15)
+      for select in selects
+        $(select).val('').multiselect('refresh')
+
+      for parent in parents
+        $(parent).find(selector.replace('%value', 'monthly')).parents('li').addClass('hidden')
+        $(parent).find(selector.replace('%value', 'bi_weekly')).parents('li').addClass('hidden')
+
+    if diff < (one_day * 30)
+      for select in selects
+        $(select).val('').multiselect('refresh')
+
+      for parent in parents
+        $(parent).find(selector.replace('%value', 'monthly')).parents('li').addClass('hidden')
