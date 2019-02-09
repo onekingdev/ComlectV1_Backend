@@ -20,30 +20,30 @@
         i.icon-calendar
         span Start Date
       td= project.start_and_duration
-    - if project.hourly_pricing?
+    - if project.one_off? && project.hourly_pricing?
       tr
         th
           i.icon-trophy
           span Hourly Rate
         td= number_to_currency(project.hourly_rate, precision: 0)
-    - elsif project.fixed_pricing?
+    - elsif project.one_off? && project.fixed_pricing?
       tr
         th
           i.icon-trophy
           span Fixed Budget
         td= number_to_currency(project.fixed_budget, precision: 0)
-    - if project.full_time?
-      tr
-        th
-          i.icon-trophy
-          span Annual Salary
-        td= number_to_currency(project.annual_salary, precision: 0)
-    - else
+    - if project.one_off?
       tr
         th
           i.icon-tag
           span Payment Method
         td= project.payment_schedule_humanized
+    - elsif project.full_time?
+      tr
+        th
+          i.icon-trophy
+          span Annual Salary
+        td= number_to_currency(project.annual_salary, precision: 0)
 
 .col-xs-12.col-md-6
   table.table.table-plain.table-condensed.table-flush.m-b-0
