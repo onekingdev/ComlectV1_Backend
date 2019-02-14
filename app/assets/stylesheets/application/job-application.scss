@@ -11,6 +11,15 @@ body.job_applications {
     }
   }
   form.form-proposal {
+    .rfp_timing_btn {
+      .btn {
+        width: 120px;
+        border-right: none;
+        &:last-child {
+          border-right: 3px solid #ffcc00;
+        }
+      }
+    }
     .actions {
       text-align: center;
 

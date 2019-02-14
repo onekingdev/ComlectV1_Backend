@@ -11,7 +11,8 @@ h2.text-center.m-b-2.no-applicants class=('hidden' if job_applications.to_a.any?
           = image_tag 'icon-specialist.png', size: '100x100', class: 'img-circle'
       .name.m-t-1= specialist.first_name
       .rating.m-y-1= specialist.render_stars
-      .intro.m-b-1= simple_format application.message
+      - if !application.project.rfp?
+        .intro.m-b-1= simple_format application.message
       .footer.m-b-0
         .date Applied:<br> #{application.created_at.strftime("#{application.created_at.day.ordinalize} %b %Y")}
         .tools.m-t-1

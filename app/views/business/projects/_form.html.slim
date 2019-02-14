@@ -7,7 +7,7 @@
   .text-center
     h1.m-t-0.m-b-3 Is this a one-off project or a full-time role?
 
-    = f.input :type, as: :radio_pills, collection: [['RFP', Project.types[:rfp]], ['Custom', Project.types[:one_off]], ['Full Time', Project.types[:full_time]]], btn_class: 'btn-lg btn-default p-x-3', wrapper_html: { class: 'm-b-0' }
+    = f.input :type, as: :radio_pills, collection: [['RFP', Project.types[:rfp]], ['Custom', Project.types[:one_off]], ['Full Time', Project.types[:full_time]]], btn_class: 'btn-lg btn-default', wrapper_html: { class: 'm-b-0 project_timing_btn' }
   .well.well-lg.m-t-3.project-details data-location-type=project.location_type
     h2.text-center.m-b-2.full-time Job Details
     h2.text-center.m-b-2.one-off Project Details
@@ -123,7 +123,7 @@
     h2.text-center.m-b-2 Applicant Selection
     .row.row-compact.m-y-1
       .col-xs-12.text-center
-        = f.input :applicant_selection, as: :radio_pills, collection: [%w(Auto\ Match auto_match), %w(Interview interview)], btn_class: 'btn-default tt-u'
+        = f.input :applicant_selection, as: :radio_pills, collection: [%w(Auto\ Match auto_match), %w(Interview interview)], btn_class: 'btn-default tt-u', wrapper_html: { class: 'project_automatch_btn' }
     .row.row-compact.p-b-1
       .col-xs-12
         .small.text-muted Note: This options allows you to decide whether you want to interview applicants for your project or allow our automated matching system to pair you with a specialist that fits your applicant prerequisites.

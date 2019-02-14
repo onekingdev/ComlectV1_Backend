@@ -1,4 +1,23 @@
 form.project_form {
+  .project_timing_btn {
+    .btn {
+      width: 130px;
+      border-right: none;
+      &:last-child {
+        border-right: 3px solid #ffcc00;
+      }
+    }
+  }
+  .project_automatch_btn {
+    .btn {
+      width: 150px;
+      border-right: none;
+      &:last-child {
+        border-right: 3px solid #ffcc00;
+      }
+    }
+  }
+
   #project_description {
     min-height: ($input-height-large * 3) + $form-group-margin-bottom * 2;
   }

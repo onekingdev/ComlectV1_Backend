@@ -54,13 +54,13 @@
           }
       .row.row-compact.p-b-1
         .col-xs-12
-          .small.text-muted Please estimate if necessary to allow our specialists to determine their availability. You will be able to extend the deadline later.
+          .small.text-muted Please propose dates. You will be able to modify these dates up to the moment the business accepts your proposal.
 
   .well.well-lg.m-t-3.project-pricing data-pricing-type=@job_application.pricing_type
     h2.text-center.m-b-2 Project Pricing
     .row.row-compact.m-y-1
       .col-xs-12.text-center
-        = f.input :pricing_type, as: :radio_pills, collection: [%w(Hourly hourly), %w(Fixed fixed)], btn_class: 'btn-default tt-u'
+        = f.input :pricing_type, as: :radio_pills, collection: [%w(Hourly hourly), %w(Fixed fixed)], btn_class: 'btn-default tt-u', wrapper_html: { class: "rfp_timing_btn" }
     .row.row-compact
       .col-xs-12.col-sm-4
         = f.input :hourly_payment_schedule, collection: Project::HOURLY_PAYMENT_SCHEDULES, include_blank: I18n.t('simple_form.placeholders.project.hourly_payment_schedule'), required: true, input_html: { class: 'input-lg js-select' }

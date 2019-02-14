@@ -44,6 +44,7 @@ class Project < ApplicationRecord
   scope :pending, -> { published.where(specialist_id: nil) }
   scope :expired, -> { pending.where('expires_at < ?', Time.zone.now) }
   scope :active, -> { published.where.not(specialist_id: nil) }
+  default_scope { order('created_at DESC') }
   # TODO: Maybe add an "archived" flag so we can filter these projects more easily
   # Then in the PaymentCycle class, set archived = true when a project is complete and
   # has got all charges created.
@@ -158,6 +159,12 @@ class Project < ApplicationRecord
   end.freeze
 
   before_save :save_expires_at, if: -> { starts_on_changed? }
+
+  def populate_rfp(job_application)
+    %w[starts_on ends_on key_deliverables payment_schedule pricing_type fixed_budget hourly_rate estimated_hours].each do |m|
+      public_send("#{m}=", job_application.public_send(m))
+    end
+  end
 
   def self.ending
     one_off.or(rfp).active.joins(business: :user).select('projects.*, businesses.time_zone').find_each.find_all(&:ending?)
