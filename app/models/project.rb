@@ -44,7 +44,6 @@ class Project < ApplicationRecord
   scope :pending, -> { published.where(specialist_id: nil) }
   scope :expired, -> { pending.where('expires_at < ?', Time.zone.now) }
   scope :active, -> { published.where.not(specialist_id: nil) }
-  default_scope { order('created_at DESC') }
   # TODO: Maybe add an "archived" flag so we can filter these projects more easily
   # Then in the PaymentCycle class, set archived = true when a project is complete and
   # has got all charges created.
