@@ -6,7 +6,6 @@ class Business::HiresController < ApplicationController
 
   def new
     @job_application = @project.job_applications.find(params.require(:job_application_id))
-
     respond_to do |format|
       format.js
     end
@@ -14,7 +13,7 @@ class Business::HiresController < ApplicationController
 
   def create
     @job_application = JobApplication::Accept.(@project.job_applications.find(params.require(:job_application_id)))
-    redirect_path = @project.full_time? ? business_dashboard_path : business_project_dashboard_path(@project)
+    redirect_path = @project.one_off? ? business_project_dashboard_path(@project) : business_dashboard_path
     js_redirect redirect_path
   end
 

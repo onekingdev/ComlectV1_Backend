@@ -15,6 +15,7 @@ class Users::SessionsController < Devise::SessionsController
           set_flash_message!(:notice, :signed_in)
           sign_in(resource_name, resource)
           resource.update(inactive_for_period: false)
+          @js_redirect = after_sign_in_path_for(resource)
         else
           flash.now[:warning] = 'Invalid email or password'
         end
@@ -40,11 +41,12 @@ class Users::SessionsController < Devise::SessionsController
   protected
 
   def after_sign_in_path_for(resource)
-    if resource.business
-      business_dashboard_path
-    else
-      super
-    end
+    stored_location_for(resource) || (resource.business ? business_dashboard_path : specialist_dashboard_path)
+    # if resource.business
+    #   business_dashboard_path
+    # else
+    #   super
+    # end
   end
 
   # If you have extra params to permit, append them to the sanitizer.

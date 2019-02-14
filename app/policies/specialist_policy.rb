@@ -11,7 +11,7 @@ class SpecialistPolicy < ApplicationPolicy
 
   def freeze?
     !active_projects? &&
-      !rfp_or_one_off_projects_ended_within_1_week? &&
+      !one_off_projects_ended_within_1_week? &&
       !team_manager? &&
       manages_account?
   end
@@ -37,8 +37,8 @@ class SpecialistPolicy < ApplicationPolicy
     user.specialist == record.team&.manager
   end
 
-  def rfp_or_one_off_projects_ended_within_1_week?
-    project = record.projects.one_off.or(record.projects.rfp).order(:ends_on).last
+  def one_off_projects_ended_within_1_week?
+    project = record.projects.one_off.order(:ends_on).last
     return false unless project
     (project.ends_on + 1.week) > Time.zone.today
   end

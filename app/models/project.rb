@@ -82,14 +82,14 @@ class Project < ApplicationRecord
 
   scope :pending_business_rating, -> {
     complete
-      .one_off.or(rfp)
+      .one_off
       .joins("LEFT JOIN ratings ON ratings.project_id = projects.id AND ratings.rater_type = '#{Business.name}'")
       .where(ratings: { id: nil })
   }
 
   scope :pending_specialist_rating, -> {
     complete
-      .one_off.or(rfp)
+      .one_off
       .joins("LEFT JOIN ratings ON ratings.project_id = projects.id AND ratings.rater_type = '#{Specialist.name}'")
       .where(ratings: { id: nil })
   }
@@ -113,8 +113,7 @@ class Project < ApplicationRecord
 
   enum type: {
     one_off: 'one_off',
-    full_time: 'full_time',
-    rfp: 'rfp'
+    full_time: 'full_time'
   }
 
   enum applicant_selection: {
@@ -146,12 +145,7 @@ class Project < ApplicationRecord
   ].freeze
   PAYMENT_SCHEDULES = (HOURLY_PAYMENT_SCHEDULES + FIXED_PAYMENT_SCHEDULES).uniq.freeze
   enum payment_schedule: Hash[PAYMENT_SCHEDULES].invert
-  RFP_TIMING = [
-    %w[As\ soon\ as\ possible asap],
-    %w[Within\ the\ next\ 2\ weeks two_weeks],
-    %w[Within\ a\ month month],
-    %w[Not\ sure not_sure]
-  ].freeze
+
   MINIMUM_EXPERIENCE = ((3..14).map { |n| ["#{n} yrs", n] } + [['15+ yrs', 15]]).freeze
   EXPERIENCE_RANGES = (1..15).each_with_object({}) do |n, years|
     years[n] = (n..Float::INFINITY)
@@ -159,18 +153,12 @@ class Project < ApplicationRecord
 
   before_save :save_expires_at, if: -> { starts_on_changed? }
 
-  def populate_rfp(job_application)
-    %w[starts_on ends_on key_deliverables payment_schedule pricing_type fixed_budget hourly_rate estimated_hours].each do |m|
-      public_send("#{m}=", job_application.public_send(m))
-    end
-  end
-
   def self.ending
-    one_off.or(rfp).active.joins(business: :user).select('projects.*, businesses.time_zone').find_each.find_all(&:ending?)
+    one_off.active.joins(business: :user).select('projects.*, businesses.time_zone').find_each.find_all(&:ending?)
   end
 
   def self.ends_in_24
-    one_off.or(rfp).active.where(ends_in_24: false).business_timezones.find_each.find_all do |p|
+    one_off.active.where(ends_in_24: false).business_timezones.find_each.find_all do |p|
       # Set to midnight
       tz = ActiveSupport::TimeZone[p[:time_zone]]
       p.ends_on.in_time_zone(tz) - 1.day <= 5.minutes.from_now
@@ -178,7 +166,7 @@ class Project < ApplicationRecord
   end
 
   def self.starts_in_48
-    one_off.or(rfp).where(starts_in_48: false).business_timezones.find_each.find_all do |project|
+    one_off.where(starts_in_48: false).business_timezones.find_each.find_all do |project|
       next if project.asap_duration?
 
       # Set to midnight
@@ -200,11 +188,11 @@ class Project < ApplicationRecord
   end
 
   def requires_business_rating?
-    !full_time? && complete? && !solicited_business_rating
+    one_off? && complete? && !solicited_business_rating
   end
 
   def requires_specialist_rating?
-    !full_time? && complete? && !solicited_specialist_rating
+    one_off? && complete? && !solicited_specialist_rating
   end
 
   def ending?
@@ -303,11 +291,11 @@ class Project < ApplicationRecord
   end
 
   def hourly_pricing?
-    !full_time? && pricing_type == 'hourly'
+    one_off? && pricing_type == 'hourly'
   end
 
   def fixed_pricing?
-    !full_time? && pricing_type == 'fixed'
+    one_off? && pricing_type == 'fixed'
   end
 
   # rubocop:disable all
