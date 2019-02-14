@@ -41,7 +41,7 @@ class Users::SessionsController < Devise::SessionsController
   protected
 
   def after_sign_in_path_for(resource)
-    stored_location_for(resource) || (resource.business ? business_dashboard_path : specialist_dashboard_path)
+    stored_location_for(resource) || (resource.business ? business_dashboard_path : specialists_dashboard_path)
     # if resource.business
     #   business_dashboard_path
     # else
