@@ -41,12 +41,13 @@
           .item
             i.icon-trophy
             span= project.dollars
-          .item
-            - if project.one_off?
-              i.icon-tag
-              span= project.payment_schedule_humanized
-            - else
-              span &nbsp;
+          - if !project.payment_schedule_humanized.nil?
+            .item
+              - if project.full_time?
+                span &nbsp;
+              - else
+                i.icon-tag
+                span= project.payment_schedule_humanized
           .item
             i.icon-user
             span= pluralize project.job_applications_count, 'Applicant', 'Applicants'
@@ -58,4 +59,3 @@
             = link_to 'View', project, class: 'btn btn-md btn-primary p-x-2', target: '_blank'
           - else
             = link_to 'View Details & Apply', project, class: 'btn btn-md btn-primary p-x-2', target: '_blank'
-

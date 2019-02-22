@@ -31,7 +31,7 @@
             .item
               i.icon-trophy
               span= project.dollars
-            - if project.one_off?
+            - if project.one_off? || project.rfp?
               .item
                 i.icon-tag
                 span= project.payment_schedule_humanized
@@ -45,11 +45,11 @@
                 span= project.skills.map(&:name).join(', ')
 
         .panel-heading
-          h3 #{project.one_off? ? 'Project' : 'Job'} Description
+          h3 #{project.full_time? ? 'Job' : 'Project'} Description
         .panel-body
           p= project.description.presence || 'N/A'
 
-        - if project.one_off?
+        - if project.one_off? || project.rfp?
           .panel-heading
             h3 Key Deliverables
           .panel-body

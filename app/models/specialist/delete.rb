@@ -27,15 +27,15 @@ class Specialist::Delete
   def not_permitted_reasons
     reasons = []
     reasons << :active_projects if specialist.projects.active.any?
-    reasons << :one_off_projects if one_off_projects_ended_within_1_week?
+    reasons << :one_off_projects if rfp_or_one_off_projects_ended_within_1_week?
     reasons << :team_manager if specialist.managed_team
     NOT_PERMITTED_REASONS.slice(*reasons).values
   end
 
   private
 
-  def one_off_projects_ended_within_1_week?
-    project = specialist.projects.one_off.order(:ends_on).last
+  def rfp_one_off_projects_ended_within_1_week?
+    project = specialist.projects.one_off.or(specialist.projects.rfp).order(:ends_on).last
     return false unless project
     (project.ends_on + 1.week) > Time.zone.today
   end

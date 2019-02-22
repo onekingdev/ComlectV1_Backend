@@ -12,7 +12,7 @@ class ScheduleChargesJob < ApplicationJob
   private
 
   def schedule_all
-    Project.active_for_charges.one_off.pluck(:id).each do |project_id|
+    Project.active_for_charges.one_off.or(Project.rfp).pluck(:id).each do |project_id|
       self.class.perform_later project_id
     end
   end
