@@ -198,7 +198,7 @@ class Project < ApplicationRecord
   end
 
   def self.starts_in_48
-    one_off.or(rfp).where(starts_in_48: false).business_timezones.find_each.find_all do |project|
+    one_off.or(rfp).where(starts_in_48: false).where.not(starts_on: nil).business_timezones.find_each.find_all do |project|
       next if project.asap_duration?
 
       # Set to midnight
