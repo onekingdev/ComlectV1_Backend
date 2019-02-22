@@ -1,8 +1,11 @@
-- Industry.where(id: industries).each do |industry|
-  div class=(grid_class)
-    h3.p-b-1.top_question_header
-      | Top 
-      = industry.short_name ? industry.short_name : industry.name
-      |  Questions
-    - industry.forum_questions.order(last_activity: :desc).limit(5).each do |fq|
-      p = link_to fq.title, forum_question_path(fq.url)
+- industries.each do |ind|
+  - industry = Industry.where(id: ind)
+  - if industry.exists?
+    - industry = industry.first
+    div class=(grid_class)
+      h3.p-b-1.top_question_header
+        | Top 
+        = industry.short_name ? industry.short_name : industry.name
+        |  Questions
+      - industry.forum_questions.order(last_activity: :desc).limit(5).each do |fq|
+        p = link_to fq.title, forum_question_path(fq.url)
