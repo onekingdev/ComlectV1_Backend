@@ -42,10 +42,6 @@ FactoryBot.define do
       annual_salary 98_000
     end
 
-    trait :rfp do
-      type 'rfp'
-    end
-
     trait :auto_match do
       applicant_selection 'auto_match'
     end
