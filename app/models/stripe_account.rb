@@ -61,12 +61,7 @@ class StripeAccount < ApplicationRecord
   end
 
   def update_status_from_stripe(account)
-    update_columns(
-      status: status_from_account(account),
-      status_detail: fields_needed_message(account).presence,
-      personal_id_number: nil
-    )
-
+    update_columns status: status_from_account(account), status_detail: fields_needed_message(account).presence
     Notification::Deliver.verification_missing!(specialist.user) if verification_missing?
   end
 

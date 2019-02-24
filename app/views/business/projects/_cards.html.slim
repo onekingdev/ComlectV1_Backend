@@ -30,7 +30,7 @@
               i.icon-trophy
               span= project.dollars
             .item
-              - if project.one_off?
+              - if project.payment_schedule_humanized
                 i.icon-tag
                 span= project.payment_schedule_humanized
               - else
@@ -61,5 +61,5 @@
     .dot-pagination
     a.next-slide href="#" +
 
-  javascript:
-    slickify("#projects-#{@filter.to_s.split('_')[0]}", 3, 2, 1);
+javascript:
+  slickify("#projects-#{@filter.to_s.split('_')[0]}", 3, 2, 1);

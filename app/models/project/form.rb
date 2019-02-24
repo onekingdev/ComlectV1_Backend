@@ -11,21 +11,23 @@ class Project::Form < Project
   ONE_OFF_FIELDS = %i[key_deliverables location_type payment_schedule estimated_hours].freeze
   FULL_TIME_FIELDS = %i[full_time_starts_on annual_salary].freeze
   SHARED_FIELDS = %i[starts_on].freeze
+  RFP_FIELDS = %i[location_type est_budget rfp_timing].freeze
 
   ASAP_DURATION_FIELDS = %i[estimated_days].freeze
   CUSTOM_DURATION_FIELDS = %i[starts_on ends_on].freeze
 
+  validates(*RFP_FIELDS, presence: true, if: :rfp?)
   validates(*ONE_OFF_FIELDS, presence: true, if: :one_off?)
   validates(*FULL_TIME_FIELDS, presence: true, if: :full_time?)
-  validates(*ASAP_DURATION_FIELDS, presence: true, if: :asap_duration?)
-  validates(*CUSTOM_DURATION_FIELDS, presence: true, if: :custom_duration?)
+  validates(*ASAP_DURATION_FIELDS, presence: true, if: -> { one_off? && asap_duration? })
+  validates(*CUSTOM_DURATION_FIELDS, presence: true, if: -> { one_off? && custom_duration? })
 
-  validates :hourly_rate, presence: true, if: :hourly_pricing?
-  validates :fixed_budget, presence: true, if: :fixed_pricing?
+  validates :hourly_rate, presence: true, if: -> { one_off? && hourly_pricing? }
+  validates :fixed_budget, presence: true, if: -> { one_off? && fixed_pricing? }
   validates :hourly_payment_schedule, :hourly_rate,
-            presence: true, if: -> { hourly_pricing? && payment_schedule.blank? }
+            presence: true, if: -> { one_off? && hourly_pricing? && payment_schedule.blank? }
   validates :fixed_payment_schedule, :fixed_budget,
-            presence: true, if: -> { fixed_pricing? && payment_schedule.blank? }
+            presence: true, if: -> { one_off? && fixed_pricing? && payment_schedule.blank? }
   validate if: -> { asap_duration? } do
     errors.add :starts_on, :duration if starts_on.present?
     errors.add :ends_on, :duration if ends_on.present?
@@ -63,7 +65,7 @@ class Project::Form < Project
 
   ATTRIBUTES_FOR_COPY = %w[
     annual_salary business_id description estimated_hours fee_type fixed_budget hourly_rate key_deliverables
-    location location_type minimum_experience only_regulators payment_schedule pricing_type status title type
+    location_type location minimum_experience only_regulators payment_schedule pricing_type status title type
   ].freeze
 
   def self.copy(original, attributes = {})
@@ -109,15 +111,25 @@ class Project::Form < Project
     invite.send_message! if published_now
   end
 
-  # Clear full time fields if one_off project and vice-versa
-  # Except for fields that both types of projects use
+  # Clear unnecessary fields
   def assign_type_fields
-    clear_fields = one_off? ? FULL_TIME_FIELDS : ONE_OFF_FIELDS
-    (clear_fields - SHARED_FIELDS).each do |field|
+    fields = if one_off?
+               FULL_TIME_FIELDS - SHARED_FIELDS
+             elsif rfp?
+               FULL_TIME_FIELDS - ONE_OFF_FIELDS - RFP_FIELDS
+             else
+               ONE_OFF_FIELDS - SHARED_FIELDS
+             end
+
+    clear_fields(fields)
+    true
+  end
+
+  def clear_fields(fields)
+    fields.each do |field|
       next unless self.class.column_names.include?(field.to_s)
       self[field] = nil
     end
-    true
   end
 
   def assign_duration_type_fields

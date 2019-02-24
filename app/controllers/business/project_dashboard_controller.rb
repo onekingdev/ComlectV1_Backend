@@ -9,6 +9,10 @@ class Business::ProjectDashboardController < ApplicationController
   skip_before_action :check_unrated_project, if: -> { action_name == 'show' && @project&.requires_business_rating? }
 
   def show
+    if @project.rfp? && @specialist
+      applications = @project.job_applications.where(specialist_id: @specialist.id)
+      @project.populate_rfp(applications[0]) if applications.count.positive?
+    end
     redirect_to business_dashboard_path if @project.pending? && params[:specialist_id].blank?
   end
 

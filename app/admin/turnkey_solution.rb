@@ -82,7 +82,7 @@ ActiveAdmin.register TurnkeySolution do
           pt.input :flavor, as: :select, collection: %w[era sma fund bd]
           pt.input :industries
           pt.input :jurisdictions
-          pt.input :project_type, as: :select, collection: %w[one_off full_time]
+          pt.input :project_type, as: :select, collection: %w[rfp one_off full_time]
           pt.input :location_type, as: :select, collection: %w[remote remote_and_travel onsite]
           pt.input :public_description, as: :text
           pt.input :public_features, as: :text, label: 'Features (1 line per feature, sub-features begin with space)'

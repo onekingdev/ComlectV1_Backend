@@ -34,10 +34,12 @@ class Project::Share
   private
 
   def specialist_message_text
-    I18n.t('project_shares.message_template.from_specialist',
-           recipient_name: name,
-           sender_name: user.specialist.full_name,
-           project_job: "#{project.title} #{project.one_off? ? 'project' : 'job'}").strip
+    I18n.t(
+      'project_shares.message_template.from_specialist',
+      recipient_name: name,
+      sender_name: user.specialist.full_name,
+      project_job: "#{project.title} #{project.full_time? ? 'job' : 'project'}"
+    ).strip
   end
 
   def specialist_message_html
@@ -45,14 +47,17 @@ class Project::Share
       'project_shares.message_template.from_specialist',
       recipient_name: name,
       sender_name: user.specialist.full_name,
-      project_job: "%{project_job_link} #{project.one_off? ? 'project' : 'job'}"
+      project_job: "%{project_job_link} #{project.full_time? ? 'job' : 'project'}"
     ).strip
   end
 
   def business_message
-    type = project.one_off? ? 'project' : 'job'
-    I18n.t("project_shares.message_template.from_business.#{type}",
-           project_title: project.title,
-           company_name: user.business.business_name).strip
+    type = project.full_time? ? 'job' : 'project'
+
+    I18n.t(
+      "project_shares.message_template.from_business.#{type}",
+      project_title: project.title,
+      company_name: user.business.business_name
+    ).strip
   end
 end

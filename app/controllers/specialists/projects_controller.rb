@@ -13,6 +13,7 @@ class Specialists::ProjectsController < ApplicationController
   def index
     @filter = FILTERS[filter_param]
     @projects = __send__(@filter || :render_404)
+    @projects.map(&proc { |p| p.populate_rfp_specialist(current_specialist) })
     respond_to do |format|
       format.html do
         render partial: 'cards', locals: { projects: @projects }

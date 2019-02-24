@@ -12,6 +12,8 @@ class JobApplication::Accept < Draper::Decorator
         decorated.project.update_attribute :specialist_id, decorated.specialist_id
         decorated.project.complete! if decorated.project.full_time?
         decorated.set_start_and_end_dates if decorated.project.asap_duration?
+        decorated.copy_proposal_to_project if decorated.rfp?
+        decorated.schedule_rfp_fees
         decorated.schedule_one_off_fees
         decorated.schedule_full_time_fees
         decorated.send_specialist_notification
@@ -28,6 +30,23 @@ class JobApplication::Accept < Draper::Decorator
       starts_on: Time.zone.today,
       ends_on: Time.zone.today + project.estimated_days.days
     )
+  end
+
+  def copy_proposal_to_project
+    project.starts_on = starts_on
+    project.ends_on = ends_on
+    project.key_deliverables = key_deliverables
+    project.payment_schedule = payment_schedule
+    project.pricing_type = pricing_type
+    project.fixed_budget = fixed_budget
+    project.hourly_rate = hourly_rate
+    project.estimated_hours = estimated_hours
+    project.save
+  end
+
+  def schedule_rfp_fees
+    return unless project.rfp?
+    PaymentCycle.for(project).create_charges_and_reschedule!
   end
 
   def schedule_one_off_fees

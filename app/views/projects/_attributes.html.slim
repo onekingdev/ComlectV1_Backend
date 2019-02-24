@@ -20,13 +20,13 @@
         i.icon-calendar
         span Start Date
       td= project.start_and_duration
-    - if project.hourly_pricing?
+    - if project.one_off? && project.hourly_pricing?
       tr
         th
           i.icon-trophy
           span Hourly Rate
         td= number_to_currency(project.hourly_rate, precision: 0)
-    - elsif project.fixed_pricing?
+    - elsif project.one_off? && project.fixed_pricing?
       tr
         th
           i.icon-trophy
@@ -38,7 +38,7 @@
           i.icon-tag
           span Payment Method
         td= project.payment_schedule_humanized
-    - else
+    - elsif project.full_time?
       tr
         th
           i.icon-trophy
@@ -53,6 +53,12 @@
           i.icon-hourglass
           span Est. Hours
         td= project.estimated_hours
+    - if project.rfp?
+      tr
+        th
+          i.icon-trophy
+          span Budget
+        td= number_to_currency(project.est_budget, precision: 0)
     tr
       th
         i.icon-folder

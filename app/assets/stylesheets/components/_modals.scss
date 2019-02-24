@@ -1,5 +1,12 @@
 .modal {
   text-align: center;
+  .job_application_cnt {
+    float: right;
+    position: relative;
+    margin-top: -40px;
+    margin-right: 12px;
+    color: #999;
+  }
 }
 
 @media screen and (min-width: $screen-md-max) { 

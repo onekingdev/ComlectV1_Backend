@@ -19,7 +19,7 @@ class BusinessPolicy < ApplicationPolicy
   def freeze?
     !active_projects? &&
       !full_time_projects_started_within_6_months? &&
-      !one_off_projects_ended_within_1_week?
+      !rfp_or_one_off_projects_ended_within_1_week?
   end
 
   def owner?
@@ -44,8 +44,8 @@ class BusinessPolicy < ApplicationPolicy
     (project.starts_on + 6.months + 2.days) > Time.zone.today
   end
 
-  def one_off_projects_ended_within_1_week?
-    project = record.projects.one_off.order(:ends_on).last
+  def rfp_or_one_off_projects_ended_within_1_week?
+    project = record.projects.one_off.or(record.projects.rfp).order(:ends_on).last
     return false unless project
     (project.ends_on + 1.week) > Time.zone.today
   end

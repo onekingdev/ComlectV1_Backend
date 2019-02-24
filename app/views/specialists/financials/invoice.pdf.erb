@@ -234,7 +234,7 @@
           <td class="right-column"><%= number_to_currency(transaction.subtotal) %></td>
         </tr>
     <% end %>
-    <% if transaction.project.one_off? %>
+    <% if transaction.project.one_off? || transaction.project.rfp? %>
       <tr class="even-row subtotal">
         <td class="left-column"></td>
         <th class="middle-column bolded-text">SUBTOTAL</th>
