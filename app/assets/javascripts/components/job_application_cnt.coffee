@@ -5,5 +5,7 @@ $.onContentReady ($parent) ->
     btn = $(".job_application_message").parent().find("input[type=submit]")
     if cnt < 0
       btn.prop('disabled', true);
+      $(".job_application_cnt").css({"color": "#ef0000"});
     else
       btn.prop('disabled', false);
+      $(".job_application_cnt").css({"color": "#999"});
