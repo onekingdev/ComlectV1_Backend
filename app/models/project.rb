@@ -160,10 +160,12 @@ class Project < ApplicationRecord
   before_save :save_expires_at, if: -> { starts_on_changed? }
 
   def populate_rfp(job_application)
-    %w[starts_on ends_on key_deliverables payment_schedule pricing_type fixed_budget hourly_rate estimated_hours].each do |m|
-      public_send("#{m}=", job_application.public_send(m))
+    if rfp?
+      %w[starts_on ends_on key_deliverables payment_schedule pricing_type fixed_budget hourly_rate estimated_hours].each do |m|
+        public_send("#{m}=", job_application.public_send(m))
+      end
+      self.type = 'one_off'
     end
-    self.type = 'one_off'
     self
   end
 
