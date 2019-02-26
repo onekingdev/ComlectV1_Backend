@@ -1,6 +1,6 @@
 - content_for :header_class, 'short'
 - content_for :scripts do
-  - unless @project.solicited_business_rating || @project.active?
+  - unless @project.solicited_business_rating || @project.active? || @project.specialist.nil?
     script src="#{new_business_project_rating_url(format: :js)}"
 - content_for :title, "#{@project.title} dashboard"
 - specialist_id = @specialist.id if !@specialist.blank?
