@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.6.10
--- Dumped by pg_dump version 9.6.10
+-- Dumped from database version 9.5.3
+-- Dumped by pg_dump version 11.1
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -14,20 +14,6 @@ SELECT pg_catalog.set_config('search_path', '', false);
 SET check_function_bodies = false;
 SET client_min_messages = warning;
 SET row_security = off;
-
---
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
-
-
---
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
-
 
 --
 -- Name: postgis; Type: EXTENSION; Schema: -; Owner: -
@@ -269,10 +255,10 @@ CREATE TABLE public.businesses (
     rewards_tier_override_id integer,
     hubspot_company_id character varying,
     hubspot_contact_id character varying,
-    credits_in_cents integer DEFAULT 0,
     qna_lvl integer DEFAULT 0,
     qna_viewed_questions integer[] DEFAULT '{}'::integer[],
-    qna_views_left integer DEFAULT 5
+    qna_views_left integer DEFAULT 3,
+    credits_in_cents integer DEFAULT 0
 );
 
 
@@ -1332,6 +1318,7 @@ CREATE TABLE public.job_applications (
     estimated_hours integer,
     starts_on date,
     ends_on date,
+    estimated_days integer,
     status character varying
 );
 
@@ -6148,4 +6135,6 @@ INSERT INTO schema_migrations (version) VALUES ('20190117163709');
 INSERT INTO schema_migrations (version) VALUES ('20190117194225');
 
 INSERT INTO schema_migrations (version) VALUES ('20190127161134');
+
+INSERT INTO schema_migrations (version) VALUES ('20190226184824');
 
