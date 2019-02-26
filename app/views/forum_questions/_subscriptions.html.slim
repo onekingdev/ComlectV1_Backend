@@ -27,7 +27,7 @@
     .beta_info
       | FREE TRIAL
       br
-      | TILL MARCH 31, 2019
+      | TILL MAY 31, 2019
     - if current_business
       button.btn.btn-primary.m-t-1(data-toggle="modal" data-target="#subscription_modal" onclick="$('#subscription_lvl_1').trigger('click');") SELECT
       /= link_to "Buy Annual", forum_subscriptions_create_path(:lvl =>1, :billing_type => 0), class: "btn btn-primary m-t-1" if current_business.qna_lvl < 1
@@ -49,7 +49,7 @@
     .beta_info
       | FREE TRIAL
       br
-      | TILL MARCH 31, 2019
+      | TILL MAY 31, 2019
     /- if current_business && current_business.qna_lvl == 1
       = link_to "Upgrade Annual", forum_subscriptions_upgrade_path(:lvl => 2, :billing_type => 0), class: 'btn btn-primary m-t-1'
       = link_to "Upgrade Monthly", forum_subscriptions_upgrade_path(:lvl => 2, :billing_type => 1), class: 'btn btn-primary m-t-1'
