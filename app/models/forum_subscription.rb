@@ -19,6 +19,7 @@ class ForumSubscription < ActiveRecord::Base
   enum level: %i[free basic pro]
 
   after_create :create_subscription
+  before_destroy :cancel
 
   def return_plan_id
     environment = ENV['STRIPE_PUBLISHABLE_KEY'].start_with?('pk_test') ? 'staging' : 'production'

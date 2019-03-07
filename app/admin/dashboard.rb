@@ -5,9 +5,11 @@ ActiveAdmin.register_page 'Dashboard' do
 
   content title: 'Dashboard' do
     columns do
-      column do
-        panel 'Money Managed' do
-          h1 number_to_currency(Transaction.sum(:amount_in_cents) / 100.0)
+      if current_admin_user.super_admin?
+        column do
+          panel 'Money Managed' do
+            h1 number_to_currency(Transaction.sum(:amount_in_cents) / 100.0)
+          end
         end
       end
 

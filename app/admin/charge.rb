@@ -43,22 +43,24 @@ ActiveAdmin.register Charge do
   end
 
   index do
-    selectable_column
-    column :project, sortable: 'projects.title' do |charge|
-      link_to charge.project, [:admin, charge.project]
+    if current_admin_user.super_admin?
+      selectable_column
+      column :project, sortable: 'projects.title' do |charge|
+        link_to charge.project, [:admin, charge.project]
+      end
+      column :business, sortable: 'businesses.business_name'
+      column :specialist, sortable: 'specialists.first_name'
+      column :amount, sortable: :amount_in_cents, class: 'number' do |charge|
+        number_to_currency charge.project.full_time? ? charge.business_fee : charge.amount
+      end
+      column :status do |charge|
+        status_tag charge.status, charge.status_css_class
+      end
+      column :description
+      column :date
+      column :created_at
+      actions
     end
-    column :business, sortable: 'businesses.business_name'
-    column :specialist, sortable: 'specialists.first_name'
-    column :amount, sortable: :amount_in_cents, class: 'number' do |charge|
-      number_to_currency charge.project.full_time? ? charge.business_fee : charge.amount
-    end
-    column :status do |charge|
-      status_tag charge.status, charge.status_css_class
-    end
-    column :description
-    column :date
-    column :created_at
-    actions
   end
 
   show do

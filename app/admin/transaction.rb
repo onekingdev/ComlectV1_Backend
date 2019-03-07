@@ -31,19 +31,21 @@ ActiveAdmin.register Transaction do
   end
 
   index do
-    id_column
-    column :project, sortable: 'projects.title' do |transaction|
-      link_to transaction.project, [:admin, transaction.project]
+    if current_admin_user.super_admin?
+      id_column
+      column :project, sortable: 'projects.title' do |transaction|
+        link_to transaction.project, [:admin, transaction.project]
+      end
+      column :business, sortable: 'businesses.business_name'
+      column :specialist, sortable: 'specialists.first_name'
+      column :amount, sortable: :amount_in_cents, class: 'number' do |transaction|
+        number_to_currency transaction.amount
+      end
+      column :status do |transaction|
+        status_tag transaction.status, transaction.status_css_class
+      end
+      column :processed_at
     end
-    column :business, sortable: 'businesses.business_name'
-    column :specialist, sortable: 'specialists.first_name'
-    column :amount, sortable: :amount_in_cents, class: 'number' do |transaction|
-      number_to_currency transaction.amount
-    end
-    column :status do |transaction|
-      status_tag transaction.status, transaction.status_css_class
-    end
-    column :processed_at
   end
 
   show do
