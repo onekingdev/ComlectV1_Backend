@@ -8,7 +8,7 @@ module ActiveAdmin
 
     def authenticate_super_admin_user!
       return authenticate_admin_user! unless admin_user_signed_in?
-      render_404 unless current_admin_user.super_admin?
+      # render_404 unless current_admin_user.super_admin?
     end
 
     def authenticate_support_user!
