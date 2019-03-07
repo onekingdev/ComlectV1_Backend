@@ -20,19 +20,17 @@ ActiveAdmin.register SubscriptionCharge do
   filter :plan
 
   index do
-    if current_admin_user.super_admin?
-      id_column
-      column 'Business' do |sc|
-        sc.forum_subscription&.business
-      end
-      column :status
-      column 'Plan' do |sc|
-        sc.plan.nil? ? 'upgrade' : sc.plan
-      end
-      column 'Fee' do |sc|
-        number_to_currency((sc.amount / 100), precision: 2) if sc.amount
-      end
-      column :forum_subscription
+    id_column
+    column 'Business' do |sc|
+      sc.forum_subscription&.business
     end
+    column :status
+    column 'Plan' do |sc|
+      sc.plan.nil? ? 'upgrade' : sc.plan
+    end
+    column 'Fee' do |sc|
+      number_to_currency((sc.amount / 100), precision: 2) if sc.amount
+    end
+    column :forum_subscription
   end
 end
