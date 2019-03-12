@@ -29,7 +29,7 @@ class ForumSubscription < ActiveRecord::Base
 
   def create_subscription
     update(stripe_customer_id: business.payment_profile.stripe_customer_id)
-    trial_date = Date.new(2019, 3, 10).to_time.to_i
+    trial_date = Date.new(2019, 5, 31).to_time.to_i
     trial_end_date = trial_date > Time.now.getutc.to_i ? trial_date : nil
     begin
       Stripe::Subscription.create(
