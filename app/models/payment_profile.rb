@@ -21,7 +21,7 @@ class PaymentProfile < ApplicationRecord
   private
 
   def create_stripe_customer
-    customer = Stripe::Customer.create(description: business.business_name)
+    customer = Stripe::Customer.create(description: business.business_name, email: business.user.email)
     self.stripe_customer_id = customer.id
   rescue Stripe::StripeError => e
     errors.add :base, e.message
