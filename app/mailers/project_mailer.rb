@@ -54,7 +54,7 @@ class ProjectMailer < ApplicationMailer
     @project = project
 
     mail(
-      to: 'hanh@complect.com',
+      to: 'hanh@complect.com, james.p@complect.com, kourindouhime@gmail.com',
       subject: 'New project listed'
     )
   end
