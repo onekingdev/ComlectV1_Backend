@@ -448,7 +448,7 @@ class Project < ApplicationRecord
   end
 
   def new_project_notification
-    ProjectMailer.notify_admin_on_creation(self).deliver_later
+    ProjectMailer.notify_admin_on_creation(self).deliver_later if Rails.env.production?
   end
 end
 # rubocop:enable Metrics/ClassLength
