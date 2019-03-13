@@ -448,7 +448,9 @@ class Project < ApplicationRecord
   end
 
   def new_project_notification
-    ProjectMailer.notify_admin_on_creation(self).deliver_later if Rails.env.production?
+    environment = ENV['STRIPE_PUBLISHABLE_KEY'].start_with?('pk_test') ? 'staging' : 'production'
+    environment = 'staging' if Rails.env.development?
+    ProjectMailer.notify_admin_on_creation(self).deliver_later if environment == 'production'
   end
 end
 # rubocop:enable Metrics/ClassLength
