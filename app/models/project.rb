@@ -425,9 +425,9 @@ class Project < ApplicationRecord
   # rubocop:enable Metrics/AbcSize
 
   def new_project_notification
-    # environment = ENV['STRIPE_PUBLISHABLE_KEY'].start_with?('pk_test') ? 'staging' : 'production'
-    # environment = 'staging' if Rails.env.development?
-    ProjectMailer.notify_admin_on_creation(self).deliver_later unless draft? # if environment == 'production'
+    environment = ENV['STRIPE_PUBLISHABLE_KEY'].start_with?('pk_test') ? 'staging' : 'production'
+    environment = 'staging' if Rails.env.development?
+    ProjectMailer.notify_admin_on_creation(self).deliver_later if environment == 'production' && !draft?
   end
 
   private
