@@ -133,7 +133,7 @@ class Project < ApplicationRecord
     monthly_fee: 'monthly_fee'
   }
 
-  after_create :new_project_notification
+  # after_create :new_project_notification
 
   LOCATIONS = [%w[Remote remote], %w[Remote\ +\ Travel remote_and_travel], %w[Onsite onsite]].freeze
   # DB Views depend on these so don't modify:
@@ -424,6 +424,12 @@ class Project < ApplicationRecord
   end
   # rubocop:enable Metrics/AbcSize
 
+  def new_project_notification
+    # environment = ENV['STRIPE_PUBLISHABLE_KEY'].start_with?('pk_test') ? 'staging' : 'production'
+    # environment = 'staging' if Rails.env.development?
+    ProjectMailer.notify_admin_on_creation(self).deliver_later unless draft? # if environment == 'production'
+  end
+
   private
 
   def format_description(description, params)
@@ -445,12 +451,6 @@ class Project < ApplicationRecord
   def save_expires_at
     return if starts_on.blank?
     self.expires_at = starts_on.in_time_zone(time_zone).end_of_day
-  end
-
-  def new_project_notification
-    environment = ENV['STRIPE_PUBLISHABLE_KEY'].start_with?('pk_test') ? 'staging' : 'production'
-    environment = 'staging' if Rails.env.development?
-    ProjectMailer.notify_admin_on_creation(self).deliver_later if environment == 'production'
   end
 end
 # rubocop:enable Metrics/ClassLength

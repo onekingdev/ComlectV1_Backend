@@ -67,6 +67,7 @@ class Business::ProjectsController < ApplicationController
     if policy(@project).post?
       @project.post!
       redirect_to business_dashboard_path
+      @project.new_project_notification
     else
       redirect_to business_project_path(@project),
                   alert: I18n.t('activerecord.errors.models.project.attributes.base.no_payment')
