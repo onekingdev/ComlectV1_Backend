@@ -133,7 +133,7 @@ class Project < ApplicationRecord
     monthly_fee: 'monthly_fee'
   }
 
-  # after_create :new_project_notification
+  after_create :new_project_notification
 
   LOCATIONS = [%w[Remote remote], %w[Remote\ +\ Travel remote_and_travel], %w[Onsite onsite]].freeze
   # DB Views depend on these so don't modify:
