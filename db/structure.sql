@@ -258,7 +258,8 @@ CREATE TABLE public.businesses (
     qna_lvl integer DEFAULT 0,
     qna_viewed_questions integer[] DEFAULT '{}'::integer[],
     qna_views_left integer DEFAULT 3,
-    credits_in_cents integer DEFAULT 0
+    credits_in_cents integer DEFAULT 0,
+    username character varying
 );
 
 
@@ -1480,7 +1481,8 @@ CREATE TABLE public.specialists (
     rewards_tier_override_id integer,
     hubspot_contact_id character varying,
     credits_in_cents integer DEFAULT 0,
-    forum_upvotes_for_review integer DEFAULT 0
+    forum_upvotes_for_review integer DEFAULT 0,
+    username character varying
 );
 
 
@@ -6137,4 +6139,6 @@ INSERT INTO schema_migrations (version) VALUES ('20190117194225');
 INSERT INTO schema_migrations (version) VALUES ('20190127161134');
 
 INSERT INTO schema_migrations (version) VALUES ('20190226184824');
+
+INSERT INTO schema_migrations (version) VALUES ('20190410191210');
 

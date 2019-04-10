@@ -62,6 +62,7 @@ class Business < ApplicationRecord
   validates :linkedin_link, allow_blank: true, url: true
   validates :website, allow_blank: true, url: true
   validates :contact_email, format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :username, uniqueness: true
 
   accepts_nested_attributes_for :user
   accepts_nested_attributes_for :tos_agreement
@@ -84,6 +85,20 @@ class Business < ApplicationRecord
       referral_token = ReferralToken.find_by(token: token) if token
       business.build_referral(referral_token: referral_token) if referral_token
     end
+  end
+
+  def generate_username
+    src = "#{contact_first_name.capitalize}#{contact_last_name[0].capitalize}"
+    generated = src
+    while Business.where(username: generated).count.positive?
+      ext_num = generated.scan(/\d/).join('')
+      generated = if !ext_num.empty?
+                    "#{src}#{ext_num.to_i + 1}"
+                  else
+                    "#{src}1"
+                  end
+    end
+    generated.delete(' ')
   end
 
   def tos_invalid?

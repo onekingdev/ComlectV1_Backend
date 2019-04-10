@@ -58,6 +58,7 @@ class Specialist < ApplicationRecord
   accepts_nested_attributes_for :cookie_agreement
   validate :tos_invalid?
   validate :cookie_agreement_invalid?
+  validates :username, uniqueness: true
 
   default_scope -> { joins("INNER JOIN users ON users.id = specialists.user_id AND users.deleted = 'f'") }
 
@@ -121,6 +122,20 @@ class Specialist < ApplicationRecord
   after_commit :generate_referral_token, on: :create
 
   after_create :sync_with_mailchimp
+
+  def generate_username
+    src = "#{first_name.capitalize}#{last_name[0].capitalize}"
+    generated = src
+    while Specialist.where(username: generated).count.positive?
+      ext_num = generated.scan(/\d/).join('')
+      generated = if !ext_num.empty?
+                    "#{src}#{ext_num.to_i + 1}"
+                  else
+                    "#{src}1"
+                  end
+    end
+    generated.delete(' ')
+  end
 
   def tos_invalid?
     errors.add(:tos_agree, 'You must agree to the terms of service to create an account') unless user.tos_agreement&.status
