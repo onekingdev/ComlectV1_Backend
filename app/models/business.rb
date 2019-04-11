@@ -87,6 +87,10 @@ class Business < ApplicationRecord
     end
   end
 
+  def to_param
+    username
+  end
+
   def generate_username
     src = business.name.split(' ').map(&:capitalize).join('')
     generated = src

@@ -6,6 +6,7 @@ class TosAgreementController < ApplicationController
   def create
     status = params[:status]
     description = params[:description]
+    CookieAgreement.where(user_id: current_user.id).destroy_all
     current_user.create_cookie_agreement(request.remote_ip, status, description)
     begin
       redirect_to :back

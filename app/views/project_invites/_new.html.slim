@@ -7,7 +7,7 @@
             .icon.maxicons1-exit
         .modal-body.text-left
           h3.text-uppercase.text-center Invite to project
-          = f.hidden_field :specialist_id
+          = f.hidden_field :specialist_username, value: params[:specialist_username]
           = f.association :project, collection: invite.available_projects, input_html: { class: 'js-select input-lg', data: { show_blank: true } }, include_blank: '<New project>'
           .m-t-2= f.input :message, as: :text, input_html: { rows: 10 }, hint: 'Note: Project link will be included at the bottom of this message upon sending.'
           = f.submit invite.new_project? ? 'Create Project & Send' : 'Send', class: 'btn btn-md btn-primary p-x-3 center-block'

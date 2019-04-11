@@ -13,7 +13,7 @@ class Business::ProjectDashboardController < ApplicationController
       applications = @project.job_applications.where(specialist_id: @specialist.id)
       @project.populate_rfp(applications[0]) if applications.count.positive?
     end
-    redirect_to business_dashboard_path if @project.pending? && params[:specialist_id].blank?
+    redirect_to business_dashboard_path if @project.pending? && params[:specialist_username].blank?
   end
 
   private
@@ -27,6 +27,6 @@ class Business::ProjectDashboardController < ApplicationController
   end
 
   def find_specialist
-    @specialist = Specialist.find(params[:specialist_id]) if params[:specialist_id]
+    @specialist = Specialist.find_by(username: params[:specialist_username]) if params[:specialist_username]
   end
 end

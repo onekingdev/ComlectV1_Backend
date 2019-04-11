@@ -9,7 +9,7 @@ class BusinessesController < ApplicationController
   before_action :require_business!, only: %i[edit update]
 
   def show
-    @business = Business.includes(:industries).find(params[:id])
+    @business = Business.includes(:industries).find_by(username: params[:id])
   end
 
   def new

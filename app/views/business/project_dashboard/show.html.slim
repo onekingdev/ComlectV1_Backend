@@ -3,7 +3,7 @@
   - unless @project.solicited_business_rating || @project.active? || @project.specialist.nil?
     script src="#{new_business_project_rating_url(format: :js)}"
 - content_for :title, "#{@project.title} dashboard"
-- specialist_id = @specialist.id if !@specialist.blank?
+- specialist_username = @specialist.username if !@specialist.blank?
 
 - Project::Decorator.decorate(@project).tap do |project|
   h1.m-t-0.m-b-3.hidden-sm.hidden-xs
@@ -29,11 +29,11 @@
               button.btn.btn-default.dropdown-toggle type="button" data-toggle="dropdown"
                 .icon-magic-wand
               ul.dropdown-menu.dropdown-menu-right
-                li= link_to '#project-overview', data: { toggle: 'tab', "remote-load" => true, url: business_project_overview_path(project, specialist_id), 'toggle-sync' => true } do
+                li= link_to '#project-overview', data: { toggle: 'tab', "remote-load" => true, url: business_project_overview_path(project, specialist_username), 'toggle-sync' => true } do
                   span Overview
-                li.active= link_to '#project-messages', data: { toggle: 'tab', "remote-load" => true, url: business_project_messages_path(project, specialist_id), 'toggle-sync' => true } do
+                li.active= link_to '#project-messages', data: { toggle: 'tab', "remote-load" => true, url: business_project_messages_path(project, specialist_username), 'toggle-sync' => true } do
                   span Messages
-                li= link_to '#project-documents', data: { toggle: 'tab', "remote-load" => true, url: business_project_documents_path(project, specialist_id), 'toggle-sync' => true } do
+                li= link_to '#project-documents', data: { toggle: 'tab', "remote-load" => true, url: business_project_documents_path(project, specialist_username), 'toggle-sync' => true } do
                   span Documents
                 - if project.hourly_pricing? && project.specialist_id
                   li= link_to '#project-timesheets', data: { toggle: 'tab', "remote-load" => true, url: business_project_timesheets_path(project), 'toggle-sync' => true } do
@@ -44,11 +44,11 @@
                   li= link_to '#project-help', data: { toggle: 'tab' } do
                     span Help
             ul.nav.nav-pills.hidden-xs.small
-              = link_to '#project-overview', :class => "visible-sm", data: { toggle: 'tab', "remote-load" => true, url: business_project_overview_path(project, specialist_id), 'toggle-sync' => true } do
+              = link_to '#project-overview', :class => "visible-sm", data: { toggle: 'tab', "remote-load" => true, url: business_project_overview_path(project, specialist_username), 'toggle-sync' => true } do
                 span Overview
-              li.active= link_to '#project-messages', data: { toggle: 'tab', "remote-load" => true, url: business_project_messages_path(project, specialist_id), 'toggle-sync' => true } do
+              li.active= link_to '#project-messages', data: { toggle: 'tab', "remote-load" => true, url: business_project_messages_path(project, specialist_username), 'toggle-sync' => true } do
                 span Messages
-              li= link_to '#project-documents', data: { toggle: 'tab', "remote-load" => true, url: business_project_documents_path(project, specialist_id), 'toggle-sync' => true } do
+              li= link_to '#project-documents', data: { toggle: 'tab', "remote-load" => true, url: business_project_documents_path(project, specialist_username), 'toggle-sync' => true } do
                 span Documents
               - if project.hourly_pricing? && project.specialist_id
                 li= link_to '#project-timesheets', data: { toggle: 'tab', "remote-load" => true, url: business_project_timesheets_path(project), 'toggle-sync' => true } do

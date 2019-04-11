@@ -59,10 +59,10 @@
         .panel-footer
           .btn-group
             - if hire_again
-              a.btn.btn-sm.btn-primary.btn-single data-remote=true href=new_project_invite_path(specialist_id: specialist.id, template: 'hire_again')
+              a.btn.btn-sm.btn-primary.btn-single data-remote=true href=new_project_invite_path(specialist_username: specialist.username, template: 'hire_again')
                 span Hire Again
             - else
-              a.btn.btn-sm.btn-primary.btn-single data-remote=true href=new_project_invite_path(specialist_id: specialist.id)
+              a.btn.btn-sm.btn-primary.btn-single data-remote=true href=new_project_invite_path(specialist_username: specialist.username)
                 span Invite
 
 /- if @filter

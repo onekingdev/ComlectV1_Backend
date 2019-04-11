@@ -19,8 +19,10 @@ class DocumentsController < ApplicationController
   end
 
   def create
-    @document = if current_business && params[:specialist_id]
-                  Document.create(document_params.merge(owner: @me, project: @project, specialist_id: params[:specialist_id]))
+    @document = if current_business && params[:specialist_username]
+                  Document.create(document_params.merge(owner: @me,
+                                                        project: @project,
+                                                        specialist_id: Specialist.find_by(username: params[:specialist_username]).id))
                 else
                   Document.create(document_params.merge(owner: @me, project: @project))
                 end
@@ -64,7 +66,9 @@ class DocumentsController < ApplicationController
   end
 
   def params_or_project_specialist
-    params[:specialist_id] && @project.pending? ? Specialist.find(params[:specialist_id]) : @project.specialist
+    # rubocop:disable Metrics/LineLength
+    params[:specialist_username] && @project.pending? ? Specialist.find_by(username: params[:specialist_username]) : @project.specialist
+    # rubocop:enable Metrics/LineLength
   end
 
   def current_or_project_specialist
@@ -82,9 +86,9 @@ class DocumentsController < ApplicationController
 
   def dashboard_redirection_based_on_role
     if current_business
-      if params[:specialist_id]
+      if params[:specialist_username]
         # rubocop:disable Metrics/LineLength
-        redirect_to business_project_dashboard_interview_path(@project, params[:specialist_id].to_i, anchor: 'nojump-project-documents')
+        redirect_to business_project_dashboard_interview_path(@project, params[:specialist_username], anchor: 'nojump-project-documents')
         # rubocop:enable Metrics/LineLength
       else
         redirect_to business_project_dashboard_path(@project, anchor: 'nojump-project-documents')

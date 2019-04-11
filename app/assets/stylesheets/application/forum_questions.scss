@@ -67,6 +67,16 @@ body.forum_questions.index, body.forum_questions.search, body.forum_questions.cr
     .tooltip-inner {
       max-width: 75px; 
     }
+    .first_name {
+      a {
+        text-decoration: none;
+        color: #333333;
+        &:hover, &:focus {
+          text-decoration: none;
+          color: #333333;
+        }
+      }
+    }
   }
   .forum_btns {
     .forum_upvote, .forum_downvote, .forum_flag_btn {

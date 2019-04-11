@@ -12,16 +12,16 @@ class Business::ProjectMessagesController < ProjectMessagesController
   private
 
   def path_after_create
-    if params[:specialist_id]
-      business_project_dashboard_interview_path(@project, params[:specialist_id])
+    if params[:specialist_username]
+      business_project_dashboard_interview_path(@project, params[:specialist_username])
     else
       business_project_dashboard_path(@project)
     end
   end
 
   def user_project_messages_path
-    if params[:specialist_id]
-      business_project_messages_path(@project, params[:specialist_id].to_i)
+    if params[:specialist_username]
+      business_project_messages_path(@project, params[:specialist_username])
     else
       business_project_messages_path @project
     end

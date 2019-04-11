@@ -5,7 +5,7 @@ class ProjectInvitesController < ApplicationController
   before_action :require_business!
 
   def new
-    @specialist = Specialist.find(params.require(:specialist_id))
+    @specialist = Specialist.find_by(username: params[:specialist_username])
 
     @invite = ProjectInvite::Form.for(
       @specialist,
@@ -15,8 +15,11 @@ class ProjectInvitesController < ApplicationController
   end
 
   def create
-    @invite = ProjectInvite::Form.new_from_params(invite_params, current_business)
-
+    @specialist = Specialist.find_by(username: invite_params[:specialist_username])
+    modified_params = invite_params
+    modified_params[:specialist_id] = @specialist.id
+    modified_params.delete(:specialist_username)
+    @invite = ProjectInvite::Form.new_from_params(modified_params, current_business)
     if @invite.new_project? && @invite.save
       js_redirect new_business_project_path(invite_id: @invite.id)
     elsif @invite.existing_project? && @invite.save_and_send
@@ -29,6 +32,6 @@ class ProjectInvitesController < ApplicationController
   private
 
   def invite_params
-    params.require(:project_invite).permit(:project_id, :message, :specialist_id)
+    params.require(:project_invite).permit(:project_id, :message, :specialist_username)
   end
 end

@@ -123,6 +123,10 @@ class Specialist < ApplicationRecord
 
   after_create :sync_with_mailchimp
 
+  def to_param
+    username
+  end
+
   def generate_username
     src = "#{first_name.capitalize}#{last_name[0].capitalize}"
     generated = src

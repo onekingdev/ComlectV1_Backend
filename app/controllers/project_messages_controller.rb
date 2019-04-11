@@ -45,10 +45,11 @@ class ProjectMessagesController < ApplicationController
   private
 
   def specialist_from_params_or_project
-    if params[:specialist_id]
-      return params[:specialist_id].to_i if Specialist.find(params[:specialist_id]).applied_projects.where(id: @project.id).present?
+    if params[:specialist_username]
+      spec = Specialist.find_by(username: params[:specialist_username])
+      return spec.id if spec.applied_projects.where(id: @project.id).present?
     else
-      @project.specialist_id
+      @project.specialist.username
     end
   end
 

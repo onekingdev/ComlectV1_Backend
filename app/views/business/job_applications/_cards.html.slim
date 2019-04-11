@@ -102,7 +102,7 @@ h2.text-center.m-b-2.no-applicants class=('hidden' if job_applications.to_a.any?
         - else
           a.btn.btn-md.btn-primary.col-xs-4 href=specialist_path(specialist) target="_blank"
             span View
-        a.btn.btn-md.btn-primary.col-xs-4 href=business_project_dashboard_interview_path(application.project_id, specialist.id)
+        a.btn.btn-md.btn-primary.col-xs-4 href=business_project_dashboard_interview_path(application.project_id, specialist.username)
           span Message
         /a.btn.btn-md.btn-primary.col-xs-4 href=new_business_message_path(recipient_key: "#{Specialist.name}/#{specialist.id}", project_id: application.project_id) data-remote=true
           span Message

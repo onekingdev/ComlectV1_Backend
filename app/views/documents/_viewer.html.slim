@@ -19,7 +19,7 @@ table.table.table-striped.documents-table
             - if (doc_mess.is_a?(Message) && doc_mess.sender == @me) || (doc_mess.is_a?(Document) && doc_mess.owner == @me)
               = form_tag project_document_path(@project.id, doc_mess.id), method: :delete, onsubmit: "return confirm('Delete #{doc_mess.file.metadata['filename']}? This cannot be undone.')" do
                 = hidden_field_tag :doc_type, doc_mess.class.to_s
-                = hidden_field_tag :specialist_id, params[:specialist_id] if params[:specialist_id]
+                = hidden_field_tag :specialist_username, params[:specialist_username] if params[:specialist_username]
                 /= submit_tag nil, class: "submit-icon-trash"
                 button type="submit" class="submit-icon-trash"
                   i.icon-trash
@@ -30,7 +30,7 @@ table.table.table-striped.documents-table
       = link_to ''.html_safe, current_uri(page: n + 1), remote: true, class: "page #{"current" if n + 1 == doc_page_num}"
 
 - if @project.active? || @project.pending? 
-  - url = params[:specialist_id] ? business_project_documents_path(@project, params[:specialist_id].to_i) : project_documents_path
+  - url = params[:specialist_username] ? business_project_documents_path(@project, params[:specialist_username]) : project_documents_path
   = simple_form_for Document.new, authenticity_token: true, url: url do |f|
     .pull-right.message-form
     label.custom-fiel-field.js-custom-file-field.m-b-0.m-t-1
