@@ -4,9 +4,9 @@
     .col-md-2.profile.text-center.col-no-padding
       .profile-image
         - if answer.photo
-          = image_tag answer.photo_url(:thumb), size: '64x64', class: 'img-circle'
+          = image_tag answer.photo_url(:thumb), width: "64", class: 'img-circle'
         - else
-          = image_tag 'icon-specialist.png', size: '64x64', class: 'img-circle'
+          = image_tag 'icon-specialist.png', width: "64", class: 'img-circle'
       = render_stars answer.ratings_average, { class: "small m-t-1 m-b-1" }
     .col-md-10
       .metadata
@@ -40,9 +40,9 @@
       - if current_specialist || current_business && current_business.subscription? == 2
         .col-sm-2.col-no-padding.text-center
           - if current_user.photo
-            = image_tag current_user.photo_url(:thumb), size: '48x48', class: 'img-circle'
+            = image_tag current_user.photo_url(:thumb), width: "48", class: 'img-circle'
           - else
-            = image_tag 'icon-specialist.png', size: '48x48', class: 'img-circle'
+            = image_tag 'icon-specialist.png', width: "48", class: 'img-circle'
         .col-sm-10.col-no-padding.p-r-2.p-b-2
           = simple_form_for ForumAnswer.new do |f|
             .col-sm-9.col-no-padding
@@ -61,9 +61,9 @@
   .forum_reply.p-r-2
     .col-sm-2.p-b-1.col-no-padding.text-center.p-t-2
       - if answer.photo
-        = image_tag answer.photo_url(:thumb), size: '48x48', class: 'img-circle'
+        = image_tag answer.photo_url(:thumb), width: "48", class: 'img-circle'
       - else
-        = image_tag 'icon-specialist.png', size: '48x48', class: 'img-circle'
+        = image_tag 'icon-specialist.png', width: "48", class: 'img-circle'
       .first_name.m-t-1
         b = answer.user.short_name
         br

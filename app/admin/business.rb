@@ -5,8 +5,10 @@ ActiveAdmin.register Business do
 
   filter :user_email_cont, label: 'Login Email'
   filter :business_name, as: :string, label: 'Business Name'
+  filter :username, as: :string, label: 'Username'
 
   controller do
+    defaults finder: :find_by_username
     def destroy_resource(resource)
       User::Delete.(resource.user)
     end
@@ -39,6 +41,7 @@ ActiveAdmin.register Business do
     column :business_name, label: 'Business Name' do |business|
       link_to business.business_name, admin_projects_path(q: { business_id_eq: business.id })
     end
+    column :username, label: 'Username'
     column 'Login Email', :user, sortable: 'users.email' do |business|
       business.user.email
     end

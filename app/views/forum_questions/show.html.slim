@@ -21,9 +21,9 @@
           .col-md-12.p-x-0.forum_answer_form.p-x-1.p-y-2.m-t-3
             .profile-image.m-r-1.m-b-1.pull-left
               - if current_user.photo
-                = image_tag current_user.photo_url(:thumb), size: '48x48', class: 'img-circle'
+                = image_tag current_user.photo_url(:thumb), width: '48', class: 'img-circle'
               - else
-                = image_tag 'icon-specialist.png', size: '48x48', class: 'img-circle'
+                = image_tag 'icon-specialist.png', width: '48', class: 'img-circle'
             .metadata.pull-left
               = current_user.short_name
               br

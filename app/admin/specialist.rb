@@ -7,6 +7,7 @@ ActiveAdmin.register Specialist do
   actions :all, except: %i[new]
   filter :user_email_cont, label: 'Email'
   filter :first_name_or_last_name_cont, as: :string, label: 'Name'
+  filter :username, as: :string, label: 'Username'
 
   batch_action :send_email_to, form: {
     subject: :text,
@@ -25,6 +26,7 @@ ActiveAdmin.register Specialist do
   end
 
   controller do
+    defaults finder: :find_by_username
     def destroy_resource(resource)
       User::Delete.(resource.user)
     end
@@ -39,6 +41,7 @@ ActiveAdmin.register Specialist do
     column 'Email', :user, sortable: 'users.email' do |specialist|
       link_to specialist.user.email, admin_specialist_path(specialist)
     end
+    column :username, label: 'Username'
     column :first_name
     column :city
     column :state
