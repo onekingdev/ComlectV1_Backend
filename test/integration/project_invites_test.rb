@@ -40,7 +40,7 @@ class ProjectInvitesTest < ActionDispatch::IntegrationTest
 
     xhr :post, project_invites_path, project_invite: {
       project_id: project.id,
-      specialist_id: @specialist.id,
+      specialist_username: @specialist.username,
       message: pseudo_id
     }
 
