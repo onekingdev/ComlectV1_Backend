@@ -88,7 +88,7 @@ class Business < ApplicationRecord
   end
 
   def generate_username
-    src = "#{contact_first_name.capitalize}#{contact_last_name[0].capitalize}"
+    src = business.name.split(' ').map(&:capitalize).join('')
     generated = src
     while Business.where(username: generated).count.positive?
       ext_num = generated.scan(/\d/).join('')
