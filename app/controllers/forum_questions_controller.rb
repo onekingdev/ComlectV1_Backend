@@ -9,6 +9,7 @@ class ForumQuestionsController < ApplicationController
   # rubocop:disable Metrics/AbcSize
   def show
     cb = current_business
+    set_biz_sub if cb
     @question = ForumQuestion.find_by(url: params[:url])
     keys = @question.keywords
     @related_questions = ForumQuestion.where((['body LIKE ?'] * keys.size).join(' OR '), *keys.map { |key| "%#{key}%" })
