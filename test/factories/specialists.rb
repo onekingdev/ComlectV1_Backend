@@ -12,6 +12,7 @@ FactoryBot.define do
     time_zone { Faker::Address.time_zone }
     address_1 { Faker::Address.street_address }
     country { Faker::Address.country }
+    sequence(:username) { |n| "UserN#{n + rand(10_000)}" }
 
     trait :credit do
       credits_in_cents 6000
