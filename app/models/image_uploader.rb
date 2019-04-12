@@ -21,7 +21,7 @@ class ImageUploader < Shrine
 
   process(:store) do |io, _context|
     thumb = resize_and_pad!(io.download, 200, 200)
-    profile = resize_to_pad!(io.download, 300, 300)
+    profile = resize_and_pad!(io.download, 300, 300)
     { original: io, thumb: thumb, profile: profile }
   end
 end
