@@ -15,19 +15,12 @@ class AdminMailer < ApplicationMailer
     )
   end
 
-  def admin_file(email, subject, body, file)
-    @body = body
-
+  def metrics_csv
     attachments['metrics.csv'] = { mime_type: 'text/csv',
-                                   content: file }
+                                   content: Metrics.new.to_csv }
     mail(
-      to: email,
-      template_id: ENV.fetch('POSTMARK_TEMPLATE_ID'),
-      template_model: {
-        subject: subject,
-        message_html: render('admin_email.html'),
-        message_text: render('admin_email.text')
-      }
+      to: 'kourindouhime@gmail.com',
+      subject: "Metrics #{Time.zone.now.strftime('%d %B %Y')}"
     )
   end
 end
