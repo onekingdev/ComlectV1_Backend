@@ -49,7 +49,7 @@ class ProjectMessagesController < ApplicationController
       spec = Specialist.find_by(username: params[:specialist_username])
       return spec.id if spec.applied_projects.where(id: @project.id).present?
     else
-      @project.specialist.username
+      @project.specialist.id
     end
   end
 
