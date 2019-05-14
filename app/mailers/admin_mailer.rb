@@ -16,8 +16,8 @@ class AdminMailer < ApplicationMailer
   end
 
   def metrics_csv
-    attachments['metrics.csv'] = { mime_type: 'text/csv',
-                                   content: Metrics.new.to_csv }
+    attachments["metrics-#{Time.zone.now.strftime('%d-%B-%Y')}.csv"] = { mime_type: 'text/csv',
+                                                                         content: Metrics.new.to_csv }
     mail(
       to: 'hanh@complect.com, james@complect.com, kourindouhime@gmail.com',
       subject: "Metrics #{Time.zone.now.strftime('%d %B %Y')}"
