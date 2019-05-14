@@ -41,7 +41,9 @@ ActiveAdmin.register Business do
     column :business_name, label: 'Business Name' do |business|
       link_to business.business_name, admin_projects_path(q: { business_id_eq: business.id })
     end
-    column :username, label: 'Username'
+    column :username, label: 'Username' do |business|
+      link_to business.username, admin_user_path(business.user)
+    end
     column 'Login Email', :user, sortable: 'users.email' do |business|
       business.user.email
     end

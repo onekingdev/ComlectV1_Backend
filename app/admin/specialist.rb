@@ -41,7 +41,9 @@ ActiveAdmin.register Specialist do
     column 'Email', :user, sortable: 'users.email' do |specialist|
       link_to specialist.user.email, admin_specialist_path(specialist)
     end
-    column :username, label: 'Username'
+    column :username, label: 'Username' do |specialist|
+      link_to specialist.username, admin_user_path(specialist.user)
+    end
     column :first_name
     column :city
     column :state
