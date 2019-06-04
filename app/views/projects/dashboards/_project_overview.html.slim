@@ -62,3 +62,4 @@
       .m-t-1
         a.btn.btn-block.btn-primary.btn-sm.m-b-1 href=business_project_job_applications_path(project) Applicants
         a.btn.btn-block.btn-default.btn-sm href=new_business_project_hire_path(project, job_application_id: project.job_applications.find_by_specialist_id(Specialist.find_by_username(params[:specialist_username])).id) data-remote=true Hire
+        

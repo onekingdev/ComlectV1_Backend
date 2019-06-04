@@ -6,11 +6,12 @@
 - Project::Decorator.decorate(@project).tap do |project|
   h1.m-t-0.m-b-3.hidden-sm.hidden-xs
     = project
+    - src_project = Project.find(project.id)
     .pull-right
       small
         | Status: 
         span.text-primary.project-status 
-          - if project.rfp?
+          - if src_project.rfp?
             | RFP
           - else
             = project.status_text == "Pending" ? "Interview" : project.status_text
@@ -27,11 +28,13 @@
       br
       'Please #{extension.confirm_link 'confirm'} or #{extension.deny_link 'deny'} within one business day otherwise it will be deemed to be denied.
 
-  - if project.pending? && project.rfp?
-    - if project.job_applications.find_by_specialist_id(current_specialist.id)).ends_on < Time.zone.today
-      .alert.alert-danger.m-b-3.text-center
-        | Please be aware the specialist has proposed a project end date that was lapsed. You will want them to amend this before hiring otherwise the project will be automatically marked as completed and invoiced upon hire.
-
+  - if project.pending? && src_project.rfp?
+    - application = project.job_applications.find_by_specialist_id(current_specialist.id)
+    - if application.ends_on < Time.zone.today
+      .alert.alert-warning.m-b-3.text-center
+        | Please be aware that your proposed project end date has lapsed. You can amend it 
+        = link_to "here", edit_project_job_application_path(project, application)
+        |  to ensure you can be hired without any issues.
   .business-profile
     .row
       .col-xs-12.col-md-3.hidden-sm.hidden-xs

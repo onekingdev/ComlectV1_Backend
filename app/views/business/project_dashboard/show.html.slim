@@ -12,18 +12,17 @@
       small 
         | Status: 
         span.text-primary.project-status
-          - if project.rfp?
-            | RFP
+          - if params[:specialist_username]
+            | Interview
           - else
-            = project.status_text == "Pending" ? "Interview" : project.status_text
+            = project.status_text
 
-  - if project.pending? && params[:specialist_username] && project.rfp?
-    - application = project.job_applications.find_by_specialist_id(Specialist.find_by_username(params[:specialist_username])).id))
+  - if project.pending? && params[:specialist_username]
+    - application = project.job_applications.find_by_specialist_id(Specialist.find_by_username(params[:specialist_username]).id)
+
     - if application.ends_on < Time.zone.today
-      .alert.alert-danger.m-b-3.text-center
-        | Please be aware that your proposed project end date has lapsed. You can amend it 
-        = link_to "here", edit_project_job_application_path(project, application)
-        |  to ensure you can be hired without any issues.
+      .alert.alert-warning.m-b-3.text-center
+        | Please be aware the specialist has proposed a project end date that was lapsed. You will want them to amend this before hiring otherwise the project will be automatically marked as completed and invoiced upon hire.
 
   .business-profile
     .row
