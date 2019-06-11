@@ -23,6 +23,6 @@ ActiveAdmin.register ForumSubscription do
     column 'Business', &:business
     column :level
     column :billing_type
-    column :suspended
+    column :cancelled
   end
 end
