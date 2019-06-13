@@ -52,7 +52,12 @@ class Business::PaymentSettingsController < ApplicationController
 
   def handle_ach_update
     @payment_source.validate_microdeposits(stripe_validation_params)
-    @payment_source.errors.any? ? render(:show) : js_redirect(business_settings_payment_index_path)
+    if @payment_source.errors.any?
+      render(:show)
+    else
+      @payment_source.payment_profile.update(failed: false)
+      js_redirect(business_settings_payment_index_path)
+    end
   end
 
   def handle_cc_update

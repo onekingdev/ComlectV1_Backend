@@ -48,6 +48,7 @@ class PaymentSource < ApplicationRecord
     self.primary = primary || payment_profile.payment_sources.count <= 1
     create_source
     save
+    payment_profile.update(failed: false)
   end
 
   def make_primary!

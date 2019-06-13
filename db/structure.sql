@@ -2958,7 +2958,8 @@ CREATE TABLE public.payment_profiles (
     business_id integer,
     stripe_customer_id character varying,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    failed boolean DEFAULT false
 );
 
 
@@ -6141,4 +6142,6 @@ INSERT INTO schema_migrations (version) VALUES ('20190127161134');
 INSERT INTO schema_migrations (version) VALUES ('20190226184824');
 
 INSERT INTO schema_migrations (version) VALUES ('20190410191210');
+
+INSERT INTO schema_migrations (version) VALUES ('20190613005026');
 

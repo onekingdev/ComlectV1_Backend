@@ -37,6 +37,8 @@ body class="#{controller_name} #{action_name}"
       = render_flash
       - if current_user && current_user.cookie_agreement&.status == false && params[:page] != 'privacy-policy'
         = render partial: "layouts/cookies_required"
+      - elsif current_business && current_business.payment_profile.failed
+        = render partial: "layouts/payment_required"
       - else
         = yield
 
