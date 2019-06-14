@@ -9,7 +9,7 @@ class StripeEvent::ChargeFailed < StripeEvent
       Notification::Deliver.payment_issue! payment_profile.business.user
     end
     transaction = Transaction.where(stripe_id: event.data.object.id)
-    subscription = SubscriptionCharge.where(stripe_customer_id: event.data.object.id)
+    subscription = SubscriptionCharge.where(stripe_charge_id: event.data.object.id)
     # transaction = Transaction.find_by!(stripe_id: event.data.object.id)
     # subscription = SubscriptionCharge.find_by!(stripe_charge_id: event.data.object.id)
     if transaction.count.positive?
