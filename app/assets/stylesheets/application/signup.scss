@@ -1,0 +1,23 @@
+.signup_form, .business_step, .i_dunno {
+  display: none;
+}
+
+.business_step1, .business_step11 {
+  .choices {
+    .btn {
+      text-align: left;
+      input[type=checkbox] {
+        margin-right: 5px;
+      }
+    }
+    .btn.active {
+      background-color: #000;
+      color: #fff;
+      border-color: #000;
+      &:focus {
+        background-color: #000 !important;
+        border-color: #000 !important;
+      }
+    }
+  }
+}

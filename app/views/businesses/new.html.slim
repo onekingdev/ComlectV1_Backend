@@ -1,88 +1,128 @@
-- content_for :html_head do
-  script src="https://maps.googleapis.com/maps/api/js?key=#{ENV.fetch('GOOGLE_PLACES_API_KEY')}&libraries=places"
+.business_step.business_step1
+  h1.text-center.m-b-3.m-t-3.p-t-1 Step 1 of 5
+  .progress
+    .progress-bar role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style='width:10%'
+  h2.m-t-1.m-b-2.text-center Let’s get started! We want to learn a little more about your business. Select all that applies:
+  .choices
+  .clearfix
+  .col-md-12.m-t-2.text-center.m-b-3
+    .alert.alert-warning.i_dunno We understand this can be a confusing process and we want to make it as easy as possible, so let’s set you up with a free consultation. Select a time to speak to someone here.
+    button.btn_step11.btn.btn-primary disabled=true Continue
 
-- content_for :title, "Business sign up"
+.business_step.business_step11
+  h1.text-center.m-b-3.m-t-3.p-t-1 Step 1 of 5
+  .progress
+    .progress-bar role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style='width:20%'
+  h2.m-t-1.m-b-2.text-center Let’s get started! We want to learn a little more about your business. Select all that applies:
+  .choices
+  .clearfix
+  .col-md-12.m-t-2.text-center.m-b-3
+    button.btn_step1.btn.btn-default.m-r-2 Back
+    button.btn_step2.btn.btn-primary disabled=true Continue
 
-h1.text-center.m-b-3.m-t-3.p-t-1.p-b-2 Sign up to post your project
+.business_step.business_step2
+  h1.text-center.m-b-3.m-t-3.p-t-1 Step 2 of 5
+  .progress
+    .progress-bar role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style='width:30%'
+  h2.m-t-1.m-b-2.text-center What jurisdictions do you operate in? Select all that apply.
+  .choices
 
-= simple_form_for @business, wrapper: :inline_form do |f|
-  .well.well-lg.m-t-3
-    h2.text-center.m-b-2 Let's start with your login details
-    = f.fields_for :user, wrapper: :inline_form do |uf|
+.business_step.business_step3
+  h1.text-center.m-b-3.m-t-3.p-t-1.p-b-2 Step 3 of 5
+  h2.text-center Now, let’s see what your compliance needs might be based on the stage of your business. Select the option that best describes you:
+  .choices
+
+.business_step.business_step4
+  h1.text-center.m-b-3.m-t-3.p-t-1.p-b-2 Step 4 of 5
+  h2.text-center We believe that matching client risk appetite with consultant risk appetite helps establish a better consulting relationship. Therefore, we’ve designed this short quiz to help us better match you with our network of specialists. 
+  .choices
+
+.signup_form
+  - content_for :html_head do
+    script src="https://maps.googleapis.com/maps/api/js?key=#{ENV.fetch('GOOGLE_PLACES_API_KEY')}&libraries=places"
+
+  - content_for :title, "Business sign up"
+
+  h1.text-center.m-b-3.m-t-3.p-t-1.p-b-2 Sign up to post your project
+
+  = simple_form_for @business, wrapper: :inline_form do |f|
+    .well.well-lg.m-t-3
+      h2.text-center.m-b-2 Let's start with your login details
+      = f.fields_for :user, wrapper: :inline_form do |uf|
+        .row.row-compact
+          .col-sm-6
+            = uf.input :email, input_html: { class: 'input-lg' }
+          .col-sm-6
+            = uf.input :password, input_html: { class: 'input-lg' }
+
+    .well.well-lg.m-t-3
+      h2.text-center.m-b-2 Next, details of the key contact at your business
       .row.row-compact
         .col-sm-6
-          = uf.input :email, input_html: { class: 'input-lg' }
+          = f.input :contact_first_name, input_html: { class: 'input-lg' }
         .col-sm-6
-          = uf.input :password, input_html: { class: 'input-lg' }
+          = f.input :contact_last_name, input_html: { class: 'input-lg' }
+        .col-sm-6
+          = f.input :contact_job_title, required: false, input_html: { class: 'input-lg' }
+        .col-sm-6
+          = f.input :contact_phone, required: false, input_html: { class: 'input-lg' }
+        .col-sm-6
+          = f.input :contact_email, input_html: { class: 'input-lg' }
 
-  .well.well-lg.m-t-3
-    h2.text-center.m-b-2 Next, details of the key contact at your business
-    .row.row-compact
-      .col-sm-6
-        = f.input :contact_first_name, input_html: { class: 'input-lg' }
-      .col-sm-6
-        = f.input :contact_last_name, input_html: { class: 'input-lg' }
-      .col-sm-6
-        = f.input :contact_job_title, required: false, input_html: { class: 'input-lg' }
-      .col-sm-6
-        = f.input :contact_phone, required: false, input_html: { class: 'input-lg' }
-      .col-sm-6
-        = f.input :contact_email, input_html: { class: 'input-lg' }
+    .well.well-lg.m-t-3
+      h2.text-center.m-b-3 Tell us more about your business
 
-  .well.well-lg.m-t-3
-    h2.text-center.m-b-3 Tell us more about your business
+      = render 'fields_business_info', f: f
+      = render 'fields_location', f: f
+      = render 'fields_jurisdiction', f: f
 
-    = render 'fields_business_info', f: f
-    = render 'fields_location', f: f
-    = render 'fields_jurisdiction', f: f
+    .well.well-lg.m-t-3
+      .row.text-center.p-b-1
+        h2.m-b-3 Finally, do you wish to display the name of your business?
+        = f.input :anonymous, as: :radio_pills, collection: [['Public', false], ['Anonymous', true]], btn_class: 'btn-lg btn-default', hint: false
+        p.text-muted.small.col-xs-12.col-md-8.col-md-offset-2
+          = I18n.t('simple_form.hints.business.anonymous')
 
-  .well.well-lg.m-t-3
-    .row.text-center.p-b-1
-      h2.m-b-3 Finally, do you wish to display the name of your business?
-      = f.input :anonymous, as: :radio_pills, collection: [['Public', false], ['Anonymous', true]], btn_class: 'btn-lg btn-default', hint: false
-      p.text-muted.small.col-xs-12.col-md-8.col-md-offset-2
-        = I18n.t('simple_form.hints.business.anonymous')
+      .collapse class=("in" unless f.object.anonymous?) data-toggle-in="#business_anonymous_false" data-toggle-out="#business_anonymous_true"
 
-    .collapse class=("in" unless f.object.anonymous?) data-toggle-in="#business_anonymous_false" data-toggle-out="#business_anonymous_true"
+    .well.well-lg.m-t-3
+      .row.text-center.p-b-1
+        h2.m-b-3.p-b-2 Would you like to add your logo?
 
-  .well.well-lg.m-t-3
-    .row.text-center.p-b-1
-      h2.m-b-3.p-b-2 Would you like to add your logo?
-
-      label.custom-file-field.js-custom-file-field
-        = f.hidden_field :logo, value: f.object.logo_data? ? f.object.logo_data.to_json : nil
-        = f.file_field :logo, accept: "image/gif, image/jpeg, image/png"
-        .add-button
-        .help-block.m-t-1 Must be jpg/jpeg/png/gif<br>Max file size 2MB
-        span.selected.m-y-1= f.object.logo ? f.object.logo.data['metadata']['filename'] : nil
-        - if f.object.errors[:logo].any?
-          .text-danger= f.object.errors[:logo].to_sentence
+        label.custom-file-field.js-custom-file-field
+          = f.hidden_field :logo, value: f.object.logo_data? ? f.object.logo_data.to_json : nil
+          = f.file_field :logo, accept: "image/gif, image/jpeg, image/png"
+          .add-button
+          .help-block.m-t-1 Must be jpg/jpeg/png/gif<br>Max file size 2MB
+          span.selected.m-y-1= f.object.logo ? f.object.logo.data['metadata']['filename'] : nil
+          - if f.object.errors[:logo].any?
+            .text-danger= f.object.errors[:logo].to_sentence
 
 
-  .well.well-lg.tos_block
-    .row.p-b-1
-      - if f.object.errors[:tos_agree].any?
-      .text-danger= f.object.errors[:tos_agree].first
-      - if f.object.errors[:cookie_agree].any?
-      .text-danger= f.object.errors[:cookie_agree].first
-      div
-        input#tos-checkbox type="checkbox" name="business[user_attributes][tos_agreement_attributes][status]" 
-        | &nbsp;&nbsp;
-        label for="tos-checkbox"
-          | I have read and agree to the 
-          = link_to "Terms of Use", "/info/terms-of-use"
-          |  and 
-          = link_to "Privacy Policy", "/info/privacy-policy"
-          | .
-      div
-        input#cookie-checkbox type="checkbox" name="business[user_attributes][cookie_agreement_attributes][status]" checked=true 
-        | &nbsp;&nbsp;
-        label for="cookie-checkbox" This site uses cookies. By creating an account, you agree to the use of cookies on this site.
-      input type="hidden" name="business[user_attributes][cookie_agreement_attributes][cookie_description]" value="This site uses cookies. By creating an account you agree to the use of cookies on this site."
-      input type="hidden" name="business[user_attributes][tos_agreement_attributes][tos_description]" value="I have read and agree to the Terms of Service and Privacy Policy"
+    .well.well-lg.tos_block
+      .row.p-b-1
+        - if f.object.errors[:tos_agree].any?
+        .text-danger= f.object.errors[:tos_agree].first
+        - if f.object.errors[:cookie_agree].any?
+        .text-danger= f.object.errors[:cookie_agree].first
+        div
+          input#tos-checkbox type="checkbox" name="business[user_attributes][tos_agreement_attributes][status]" 
+          | &nbsp;&nbsp;
+          label for="tos-checkbox"
+            | I have read and agree to the 
+            = link_to "Terms of Use", "/info/terms-of-use"
+            |  and 
+            = link_to "Privacy Policy", "/info/privacy-policy"
+            | .
+        div
+          input#cookie-checkbox type="checkbox" name="business[user_attributes][cookie_agreement_attributes][status]" checked=true 
+          | &nbsp;&nbsp;
+          label for="cookie-checkbox" This site uses cookies. By creating an account, you agree to the use of cookies on this site.
+        input type="hidden" name="business[user_attributes][cookie_agreement_attributes][cookie_description]" value="This site uses cookies. By creating an account you agree to the use of cookies on this site."
+        input type="hidden" name="business[user_attributes][tos_agreement_attributes][tos_description]" value="I have read and agree to the Terms of Service and Privacy Policy"
 
-  .row
-    .col-xs-12
-      = f.submit 'Sign Up', class: 'btn btn-primary btn-lg col-xs-12 col-sm-2 col-sm-offset-5'
+    .row
+      .col-xs-12
+        = f.submit 'Sign Up', class: 'btn btn-primary btn-lg col-xs-12 col-sm-2 col-sm-offset-5'
 
-    p.text-center.text-muted.m-t-1.m-b-3.p-b-2.col-md-8.col-md-offset-2.col-sm-8.col-sm-offset-2.col-xs-12
+      p.text-center.text-muted.m-t-1.m-b-3.p-b-2.col-md-8.col-md-offset-2.col-sm-8.col-sm-offset-2.col-xs-12
