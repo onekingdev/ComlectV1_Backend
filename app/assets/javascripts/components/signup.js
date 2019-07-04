@@ -10,18 +10,23 @@ if (window.location.pathname == "/businesses/new") {
     "I don't know": []
   }
   //$(".app_container").html();
+  var step_names = ['step1', 'step11', 'step2', 'step3', 'step4', 'step41', 'step42', 'step5'];
+  var step_cookies = {};
 
   $(document).ready(function() {
+    for (var name of step_names) {
+      step_cookies[name] = Cookies.get('complect_'+name);
+    }
     $(".business_step").hide();
-    if (Cookies.get('complect_step1') == undefined) {
-      $(".business_step1").show();
-    } else if (Cookies.get('complect_step11') == undefined) {
-      $(".business_step11").show();
-      render_step11();
+    for (var name of step_names) {
+      if ((step_cookies[name] == undefined) || (step_cookies[name].length == 0)) {
+        $(".business_"+name).show();
+        break;
+      }
     }
     
     for (var str of Object.keys(step_one)) {
-      $(".business_step1 .choices").append("<div class='col-sm-4 m-b-1'><button class='btn btn-primary btn-block'><input type='checkbox'/>&nbsp;<span>"+str+"</span></button></div>")
+      $(".business_step1 .choices").append("<div class='col-sm-4 m-b-1'><button type='button' class='btn btn-primary btn-block'><input type='checkbox' name='business[step1][]'/>&nbsp;<span>"+str+"</span></button></div>")
     }
 
     var other = Cookies.get("complect_other");
@@ -33,15 +38,24 @@ if (window.location.pathname == "/businesses/new") {
       }
     }
 
-    var step1 = Cookies.get("complect_step1");
-    if (step1 != undefined) {
-      for (var num of step1.split("-")) {
-        var choice = $($(".business_step1 .btn-block")[parseInt(num)]);
-        choice.addClass("active");
-        choice.find("input[type=checkbox]").prop("checked", true);
-        step1_continue();
+    for (var name of step_names) {
+      if ((step_cookies[name] != undefined) && (name != "step2") && (name != "step11")) {
+        for (var num of step_cookies[name].split("-")) {
+          var choice = $($(".business_"+name+" .btn-block")[parseInt(num)]);
+          choice.addClass("active");
+          choice.find("input[type=checkbox]").prop("checked", true);
+        }
       }
     }
+
+    if (step_cookies["step2"] != undefined) {
+      for (var num of step_cookies["step2"].split("-")) {
+        var choice = $(".business_step2 .btn-block input[value="+num+"]").parent();
+        choice.addClass("active");
+        choice.find("input[type=checkbox]").prop("checked", true);
+      }
+    }
+    step_continue();
   });
 
   function render_step11() {
@@ -49,31 +63,57 @@ if (window.location.pathname == "/businesses/new") {
     for (var num of Cookies.get('complect_step1').split("-")) {
       nums.push(parseInt(num));
     }
-    console.log(nums);
     $(".business_step11 .choices").html("");
     for (var num of nums) {
       for (var str of step_one[Object.keys(step_one)[num]]) {
-        $(".business_step11 .choices").append("<div class='col-sm-12 m-b-1'><button data-category='"+num+"-"+step_one[Object.keys(step_one)[num]].indexOf(str)+"' class='btn btn-primary btn-block'><input type='checkbox'/>&nbsp;<span>"+str+"</span></button></div>")
+        $(".business_step11 .choices").append("<div class='col-sm-12 m-b-1'><button type='button' data-category='"+num+"-"+step_one[Object.keys(step_one)[num]].indexOf(str)+"' class='btn btn-primary btn-block'><input type='checkbox' name='business[step11][]'/>&nbsp;<span>"+str+"</span></button></div>")
+      }
+    }
+    nums = Cookies.get("complect_step11");
+    if (nums != undefined) {
+      for (var num of nums.split("_")) {
+        var active_btn = $(".btn-block[data-category='"+num+"']");
+        active_btn.addClass("active");
+        active_btn.find("input[type=checkbox]").prop("checked", true);
+      }
+    }
+    step_continue();
+  }
+
+  $(".btn_step1").on('click', function() { $(".business_step").hide(); $(".business_step1").show(); });
+  $(".btn_step11").on('click', function(e) {
+    $(".business_step").hide();
+    $(".business_step11").show();
+    render_step11();
+    e.preventDefault();
+    e.stopPropagation();
+  });
+  $(".btn_step2").on('click', function() { $(".business_step").hide(); $(".business_step2").show(); })
+  $(".btn_step3").on('click', function() { $(".business_step").hide(); $(".business_step3").show(); })
+  $(".btn_step4").on('click', function() { $(".business_step").hide(); $(".business_step4").show(); })
+  $(".btn_step41").on('click', function() { $(".business_step").hide(); $(".business_step41").show(); })
+  $(".btn_step42").on('click', function() { $(".business_step").hide(); $(".business_step42").show(); })
+  $(".btn_step5").on('click', function() { $(".business_step").hide(); $(".business_step5").show(); })
+  $(".btn_step6").on('click', function() { $(".business_step").hide(); $(".business_step6").show(); })
+
+  function step_continue() {
+    for (var name of step_names) {
+      if (name != "step5") {
+        $(".business_"+name).find(".continue").prop("disabled", !($(".business_"+name+" .choices .active").length > 0));
       }
     }
   }
 
-  $(".btn_step1").on('click', function() {
-    $(".business_step11").hide();
-    $(".business_step1").show();
-  });
-
-  $(".btn_step11").on('click', function() {
-    $(".business_step1").hide();
-    $(".business_step11").show();
-    render_step11();
-  });
-
-  function step1_continue() {
-    $(".btn_step11").prop("disabled", !($(".business_step1 .choices .active").length > 0));
-  }
-
   function toggle_choice(choice) {
+    var parent = choice.parent().parent().parent();
+    if ((parent.hasClass("business_step4")) || (parent.hasClass("business_step41")) || (parent.hasClass("business_step42"))) {
+      var all = parent.find(".btn-block");
+      all.removeClass("active");
+      for (var al of all) {
+        $(al).find("input[type=checkbox]").prop("checked", false);
+      }
+    }
+
     var cb = choice.find("input[type='checkbox']");
     if (choice.hasClass("active")) {
       choice.removeClass("active");
@@ -97,17 +137,51 @@ if (window.location.pathname == "/businesses/new") {
       choice.addClass("active");
       cb.prop("checked", true);
     }
-    step1_continue();
+
     var nums = [];
     var actives = $(".business_step1 .active");
     for (var act of actives) {
       nums.push($(".business_step1 .btn-block").index(act));
     }
+    if (parent.hasClass("business_step1")) {
+      Cookies.set("complect_step1", nums.join("-"), { expires: 365 });
+    }
+
+    nums = [];
+    actives = $(".business_step11 .active");
+    for (var act of actives) {
+      nums.push($(act).attr("data-category"));
+    }
+    if (parent.hasClass("business_step11")) {
+      Cookies.set("complect_step11", nums.join("_"), { expires: 365 });
+    }
+
+    nums = [];
+    actives = $(".business_step2 .active");
+    for (var act of actives) {
+      nums.push($(act).find("input").val());
+    }
     console.log(nums);
-    Cookies.set("complect_step1", nums.join("-"), { expires: 365 });
+    if (parent.hasClass("business_step2")) {
+      Cookies.set("complect_step2", nums.join("-"), { expires: 365 });
+    }
+
+    for (var name of step_names) {
+      if ((name != "step2") && (name != "step11")) {
+        nums = [];
+        actives = $(".business_"+name+" .active");
+        for (var act of actives) {
+          nums.push($(".business_"+name+" .btn-block").index(act));
+        }
+        if (parent.hasClass("business_"+name)) {
+          Cookies.set("complect_"+name, nums.join("-"), { expires: 365 });
+        }
+      }
+    }
+    step_continue();
   }
 
-  $(".choices").on('click', 'button', function() {
+  $(".choices").on('click', '.btn-block', function() {
     toggle_choice($(this));
   });
 
@@ -116,6 +190,15 @@ if (window.location.pathname == "/businesses/new") {
     var checked = $(this).prop("checked");
     if (checked) {
       $(this).parent().removeClass("active");
+      var parent = $(this).parent().parent().parent().parent();
+      console.log(parent);
+      if ((parent.hasClass("business_step4")) || (parent.hasClass("business_step41")) || (parent.hasClass("business_step42"))) {
+        var all = parent.find(".btn-block");
+        all.removeClass("active");
+        for (var al of all) {
+          $(al).find("input[type=checkbox]").prop("checked", false);
+        }
+      }
     } else {
       $(this).parent().addClass("active");
     }
