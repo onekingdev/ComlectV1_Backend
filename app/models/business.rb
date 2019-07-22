@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require 'validators/url_validator'
+# rubocop:disable Metrics/ClassLength
+# rubocop:disable Metrics/LineLength
 
 class Business < ApplicationRecord
   belongs_to :user
@@ -46,6 +48,69 @@ class Business < ApplicationRecord
     }
   end
 
+  serialize :business_types_a
+  serialize :business_types_b
+  serialize :business_stages
+  serialize :business_risks
+
+  STEP_ONE = {
+    'Banking': ['Investment Banking', 'Retail/Commercial Banking'],
+    'Commodities': ['Commodities Pool Operator/Commodities Trading Adviser (exempt and non-exempt)', 'Futures Commission Merchant', 'Retail Foreign Exchange Dealer', 'Introducing Broker', 'Swap Dealer'],
+    'Broker Dealer': ['Broker Rep', 'Funding Portal', 'Capital Acquisition Broker', 'Limited Purpose Broker Dealer', 'Broker Dealer', 'Alternative Trading System/Exchange'],
+    'Investment Adviser': ['Provide advice to separately managed accounts (e.g. individuals)', 'Provide advice to mutual funds', 'Provide advice to hedge funds', 'Provide advice to private equity funds', 'Provide advice to venture capital funds', 'Provide advice to ERISA accounts', 'Provide advice to Taft-Hartley accounts', 'Provide advice to municipalities or on municipal securities'],
+    'Other': [],
+    'Consulting Firm': [],
+    'Recruiter': [],
+    "I don't know": []
+  }.freeze
+
+  STEP_THREE = [
+    'startup', 'startup rescue', 'complete ongoing maintenance', 'one-off maintenance requests'
+  ].freeze
+
+  STEP_RISKS = [
+    [
+      'You head over and take a piece, because it worked out for the other two mice',
+      'You think about it, but end up playing it safe',
+      'You would have been on that cheese the moment you saw it',
+      'You need to do more research and want to see if more mice are succesful',
+      'No, thank you! Risk death? Not worth it.'
+    ],
+    [
+      'Slow down to the speed limit in case it’s a cop ',
+      'Moderate your speed to the flow of traffic ',
+      'You’d never speed ',
+      'Hope for the best, because you can’t afford to be late to this meeting',
+      'You always speed, even if cops are around, because they have to catch you first'
+    ],
+    [
+      'To win big, you sometimes have to take big risks',
+      'Measure twice, cut once',
+      'My belief in a day of reckoning keeps me on the straight and narrow',
+      'There’s a fine line between taking a calculated risk and doing something dumb',
+      'The biggest risk is not taking any risk'
+    ]
+  ].freeze
+
+  # rubocop:disable Metrics/AbcSize
+  def apply_quiz(cookies)
+    self.business_types_a = []
+    cookies[:complect_step1].split('-').map(&:to_i).each { |c| business_types_a.push(STEP_ONE.keys[c].to_s) }
+    self.business_types_b = []
+    cookies[:complect_step11].split('_').map(&proc { |p| p.split('-').map(&:to_i) }).each do |c|
+      business_types_b.push(STEP_ONE[STEP_ONE.keys[c[0]]][c[1]])
+    end
+    self.jurisdictions = Jurisdiction.where(id: cookies[:complect_step2].split('-').map(&:to_i))
+    self.business_stages = []
+    cookies[:complect_step3].split('-').map(&:to_i).each { |c| business_stages.push(STEP_THREE[c]) }
+    self.business_risks = []
+    business_risks[0] = STEP_RISKS[0][cookies[:complect_step4].to_i]
+    business_risks[1] = STEP_RISKS[1][cookies[:complect_step41].to_i]
+    business_risks[2] = STEP_RISKS[2][cookies[:complect_step42].to_i]
+    self.business_other = cookies[:complect_other] if business_types_a.include? 'Other'
+  end
+  # rubocop:enable Metrics/AbcSize
+
   alias communicable_projects projects
 
   default_scope -> { joins("INNER JOIN users ON users.id = businesses.user_id AND users.deleted = 'f'") }
@@ -54,14 +119,14 @@ class Business < ApplicationRecord
 
   EMPLOYEE_OPTIONS = %w[<10 11-50 51-100 100+].freeze
 
-  validates :contact_first_name, :contact_last_name, :contact_email, presence: true
-  validates :business_name, :industries, :employees, :description, presence: true
+  validates :contact_first_name, :contact_last_name, presence: true
+  validates :business_name, :employees, presence: true
   validates :country, :city, :state, :time_zone, presence: true
   validates :description, length: { maximum: 750 }
   validates :employees, inclusion: { in: EMPLOYEE_OPTIONS }
   validates :linkedin_link, allow_blank: true, url: true
   validates :website, allow_blank: true, url: true
-  validates :contact_email, format: { with: URI::MailTo::EMAIL_REGEXP }
+  # validates :contact_email, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :username, uniqueness: true
 
   accepts_nested_attributes_for :user
@@ -186,3 +251,5 @@ class Business < ApplicationRecord
     end
   end
 end
+# rubocop:enable Metrics/ClassLength
+# rubocop:enable Metrics/LineLength

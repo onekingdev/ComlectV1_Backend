@@ -259,7 +259,12 @@ CREATE TABLE public.businesses (
     qna_viewed_questions integer[] DEFAULT '{}'::integer[],
     qna_views_left integer DEFAULT 3,
     credits_in_cents integer DEFAULT 0,
-    username character varying
+    username character varying,
+    business_types_a character varying,
+    business_types_b character varying,
+    business_stages character varying,
+    business_risks character varying,
+    business_other character varying
 );
 
 
@@ -6144,4 +6149,6 @@ INSERT INTO schema_migrations (version) VALUES ('20190226184824');
 INSERT INTO schema_migrations (version) VALUES ('20190410191210');
 
 INSERT INTO schema_migrations (version) VALUES ('20190613005026');
+
+INSERT INTO schema_migrations (version) VALUES ('20190719004511');
 
