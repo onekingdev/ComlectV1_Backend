@@ -26,7 +26,11 @@ class BusinessesController < ApplicationController
       @business.user.update_cookie_agreement(request.remote_ip)
       mixpanel_track_later 'Sign Up'
       BusinessMailer.welcome(@business).deliver_later
-      cookies.delete :referral
+      # rubocop:disable Metrics/LineLength
+      %i[complect_email complect_first_name complect_last_name referral complect_step1 complect_step11 complect_step2 complect_step3 complect_step4 complect_step41 complect_step42 complect_other].each do |c|
+        cookies.delete c
+      end
+      # rubocop:enable Metrics/LineLength
       return redirect_to business_dashboard_path
     end
 

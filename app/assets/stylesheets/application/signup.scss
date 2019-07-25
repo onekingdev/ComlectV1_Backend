@@ -1,5 +1,11 @@
 .signup_form, .business_step, .i_dunno {
   display: none;
+  .form_error {
+    border-color: #ff0000;
+  }
+  .btn-default.back {
+    width: 120px;
+  }
 }
 
 .business_step {

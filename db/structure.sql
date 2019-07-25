@@ -260,8 +260,7 @@ CREATE TABLE public.businesses (
     qna_views_left integer DEFAULT 3,
     credits_in_cents integer DEFAULT 0,
     username character varying,
-    business_types_a character varying,
-    business_types_b character varying,
+    sub_industries character varying,
     business_stages character varying,
     business_risks character varying,
     business_other character varying
@@ -1251,7 +1250,8 @@ CREATE TABLE public.industries (
     name character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    short_name character varying
+    short_name character varying,
+    sub_industries text DEFAULT ''::text
 );
 
 
@@ -6151,4 +6151,8 @@ INSERT INTO schema_migrations (version) VALUES ('20190410191210');
 INSERT INTO schema_migrations (version) VALUES ('20190613005026');
 
 INSERT INTO schema_migrations (version) VALUES ('20190719004511');
+
+INSERT INTO schema_migrations (version) VALUES ('20190723185902');
+
+INSERT INTO schema_migrations (version) VALUES ('20190725045730');
 
