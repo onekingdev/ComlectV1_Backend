@@ -20,6 +20,7 @@
             = f.input :contact_first_name, input_html: { class: 'input-lg' }
           .col-sm-6
             = f.input :contact_last_name, input_html: { class: 'input-lg' }
+    .clearfix
     .col-md-12.m-t-2.text-center.m-b-3
       button.continue.btn_step_jump.btn.btn-primary disabled=true type="button" Continue
 
@@ -34,9 +35,10 @@
           button.btn.btn-primary.btn-block type="button"
             input type="checkbox" name="business[industry_ids][]" value=(industry.id)
             span = industry.name
+          - if industry.name == "Other"
+            input#specify_other name="business_other" placeholder="Specify other..."
     .clearfix
     .col-md-12.m-t-2.text-center.m-b-3
-      .alert.alert-warning.i_dunno We understand this can be a confusing process and we want to make it as easy as possible, so let’s set you up with a free consultation. Select a time to speak to someone here.
       button.btn_step0.btn.btn-default.m-r-2.back type="button" Back
       button.continue.btn_step11.btn.btn-primary disabled=true type="button" Continue
 
@@ -236,3 +238,7 @@
         = f.submit 'Sign Up', class: 'btn btn-primary'
 
       p.text-center.text-muted.m-t-1.m-b-3.p-b-2.col-md-8.col-md-offset-2.col-sm-8.col-sm-offset-2.col-xs-12
+
+javascript:
+  var sub_inds = JSON.parse("#{Industry.where.not(sub_industries: "").collect(&:id)}");
+  var consulting_recruiter = JSON.parse("#{Industry.where(name: ['Consulting Firm', 'Recruiter']).collect(&:id)}");

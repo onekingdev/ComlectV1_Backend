@@ -31,7 +31,12 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
     if (other != undefined) {
       for (var choice of $(".business_step1 .btn-block")) {
         if ($(choice).text().indexOf("Other") > -1) {
-          $(choice).find("span").html("Other ("+other+")");
+          if (other.length > 0) {
+            $(choice).find("span").html("Other ("+other+")");
+            $("#specify_other").val(other);
+          } else {
+            $(choice).find("span").html("Other");
+          }
         }
       }
     }
@@ -134,15 +139,50 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
   $(".btn_step1").on('click', function() { $(".business_step").hide(); $(".business_step1").show(); window.scrollTo(0,0); });
   $(".btn_step11").on('click', function(e) {
     $(".business_step").hide();
-    $(".business_step11").show();
-    render_step11();
+    var skip = true;
+    var step1_c = Cookies.get("complect_step1").split("-");
+    for (kookie of step1_c) {
+      if (sub_inds.indexOf(parseInt(kookie)) > -1) {
+        skip = false;
+      }
+    }
+    if (skip == true)  {
+      if ($(this).hasClass("back")) {
+        $(".business_step1").show();
+      } else {
+        $(".business_step2").show();
+      }
+    } else {
+      $(".business_step11").show();
+      render_step11();
+    }
+
     e.preventDefault();
     e.stopPropagation();
     window.scrollTo(0,0);
   });
 
   $(".btn_step2").on('click', function() { $(".business_step").hide(); $(".business_step2").show(); window.scrollTo(0,0); });
-  $(".btn_step3").on('click', function() { $(".business_step").hide(); $(".business_step3").show(); window.scrollTo(0,0); });
+  $(".btn_step3").on('click', function() { 
+    $(".business_step").hide();
+    var step1_c = Cookies.get("complect_step1").split("-");
+    var skip2 = false;
+    for (kookie of step1_c) {
+      if (consulting_recruiter.indexOf(parseInt(kookie)) > -1) {
+        skip2 = true;
+      }
+    }
+    if (skip2 == true) {
+      if ($(this).hasClass("back")) {
+        $(".business_step2").show();
+      } else {
+        $(".business_step4").show();
+      }
+    } else {
+      $(".business_step3").show();
+    }
+    window.scrollTo(0,0);
+   });
   $(".btn_step4").on('click', function() { $(".business_step").hide(); $(".business_step4").show(); window.scrollTo(0,0); });
   $(".btn_step41").on('click', function() { $(".business_step").hide(); $(".business_step41").show(); window.scrollTo(0,0); });
   $(".btn_step42").on('click', function() { $(".business_step").hide(); $(".business_step42").show(); window.scrollTo(0,0); });
@@ -163,7 +203,7 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
             }
           } else {
             $("#business_user_attributes_password").addClass("form_error");
-            $("#business_user_attributes_password").focus();
+            //$("#business_user_attributes_password").focus();
           }
         }
       } else {
@@ -185,6 +225,15 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
     }
   });
 
+  $("#specify_other").on("keyup", function() {
+    Cookies.set('complect_other', $(this).val(), { expires: 7 });
+    if ($(this).val().length > 0) {
+      $(this).parent().find("span").html("Other ("+$(this).val()+")");
+    } else {
+      $(this).parent().find("span").html("Other");
+    }
+  });
+
   function toggle_choice(choice) {
     // identify step with parent div
     var parent = choice.parent().parent().parent();
@@ -202,24 +251,16 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
     if (choice.hasClass("active")) {
       choice.removeClass("active");
       cb.prop("checked", false);
-      if (choice.text().indexOf("I don't know") > -1) {
-        $(".i_dunno").hide();
-      }
     } else {
       if (choice.text().indexOf("Other") > -1) {
-        var prompted = prompt("Please specify other");
-        if ((prompted == undefined) || (prompted.length < 1)) {
-          return false;
-        } else {
-          Cookies.set('complect_other', prompted, { expires: 7 });
-        }
-        choice.find("span").html("Other ("+prompted+")");
+        $("#specify_other").focus();
       }
       if (choice.text().indexOf("I don't know") > -1) {
-        $(".i_dunno").show();
+        _Modal.showPlain("<div class='modal-body'><div class='modal-fake text-center modal-wrapper m-x-1 m-y-1 p-t-2 p-x-3 gray'>We understand this can be a confusing process and <br> we want to make it as easy as possible, so let’s set you up with a free consultation.<br>Schedule a time to speak to someone. <div class='m-b-1 m-t-2'><button class='btn btn-default' data-dismiss='modal'>Cancel</button> <a href='https://calendly.com/complect' target='_blank' class='btn btn-primary'>Schedule</button></div></div>");
+      } else {
+        choice.addClass("active");
+        cb.prop("checked", true);
       }
-      choice.addClass("active");
-      cb.prop("checked", true);
     }
 
     for (var name of ["step1", "step2", "step11"]) {
