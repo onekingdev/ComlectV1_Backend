@@ -5,6 +5,8 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
     'Broker Dealer': ['Broker Rep', 'Funding Portal', 'Capital Acquisition Broker', 'Limited Purpose Broker Dealer', 'Broker Dealer', 'Alternative Trading System/Exchange'],
     'Investment Adviser': ['Provide advice to separately managed accounts (e.g. individuals)', 'Provide advice to mutual funds', 'Provide advice to hedge funds', 'Provide advice to private equity funds', 'Provide advice to venture capital funds', 'Provide advice to ERISA accounts', 'Provide advice to Taft-Hartley accounts', 'Provide advice to municipalities or on municipal securities']
   }
+  var no_pwd_focus = false;
+  var pwd_focused = false;
   //$(".app_container").html();
   var step_names = ['step0', 'step1', 'step11', 'step2', 'step3', 'step4', 'step41', 'step42', 'step5'];
   var step_cookies = {};
@@ -26,7 +28,7 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
     //for (var str of Object.keys(step_one)) {
     //  $(".business_step1 .choices").append("<div class='col-sm-4 m-b-1'><button type='button' class='btn btn-primary btn-block'><input type='checkbox' name='business[step1][]'/>&nbsp;<span>"+str+"</span></button></div>")
     //}
-
+    calc_steps();
     var other = Cookies.get("complect_other");
     if (other != undefined) {
       for (var choice of $(".business_step1 .btn-block")) {
@@ -51,7 +53,7 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
       }
     }
 
-    if (step_cookies["step1"] != undefined) {
+    if ((step_cookies["step1"] != undefined) && (step_cookies["step1"].length > 0)) {
       for (var num of step_cookies["step1"].split("-")) {
         var choice = $(".business_step1 .btn-block input[value="+num+"]").parent();
         choice.addClass("active");
@@ -60,7 +62,7 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
       render_step11();
     }
 
-    if (step_cookies["step2"] != undefined) {
+    if ((step_cookies["step2"] != undefined) && (step_cookies["step2"].length > 0)) {
       for (var num of step_cookies["step2"].split("-")) {
         var choice = $(".business_step2 .btn-block input[value="+num+"]").parent();
         choice.addClass("active");
@@ -70,8 +72,31 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
     step_continue();
   });
 
-  function render_step11() {
+  function calc_steps() {
+    var s1_c = Cookies.get("complect_step1");
+    var skip2 = false;
+    if ((s1_c != undefined) && (s1_c.length > 0)) {
+      var step1_c = s1_c.split("-");
+      for (kookie of step1_c) {
+        if (consulting_recruiter.indexOf(parseInt(kookie)) > -1) {
+          skip2 = true;
+        }
+      }
+      if (skip2 == true) {
+        $(".src_step").hide();
+        $(".alt_step").show();
+      } else {
+        $(".src_step").show();
+        $(".alt_step").hide();
+      }
+    } else {
+      $(".src_step").show();
+      $(".alt_step").hide();
+    }
+    return skip2;
+  }
 
+  function render_step11() {
     var nums = [];
     var cookies_step1 = Cookies.get('complect_step1');
     if ((cookies_step1 != undefined) && (cookies_step1.length > 0)) {
@@ -108,6 +133,7 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
       $(this).addClass("form_error");
     }
     Cookies.set("complect_email", $(this).val(), { expires: 7 });
+    no_pwd_focus = true;
     step_continue();
   });
 
@@ -127,11 +153,34 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
 
   $(".btn_step_jump").on('click', function() {
     $(".business_step").hide();
-    for (var i = 2; i < step_names.length; i++) {
+    for (var i = step_names.length; i > 0; i--) {
       var name = step_names[i];
-      if ((step_cookies[name] == undefined) || (step_cookies[name].length == 0)) {
-        $(".business_"+step_names[i-1]).show();
-        break;
+      console.log(name);
+      console.log(step_cookies[name]);
+      if ((step_cookies[name] != undefined) && (step_cookies[name].length > 0)) {
+        if (name == "step11") {
+          $(".business_step1").show();
+          break;
+        } else if (name == "step3") {
+          $(".business_step2").show();
+          break;
+        } else {
+          $(".business_"+step_names[i]).show();
+          break;
+        }
+
+        /*if (name == "step2") {
+          $(".business_step1").show();
+          break;
+        } else if (name == "step11") {
+          console.log("shou 1");
+          $(".business_step1").show();
+          break;
+        } else {
+          console.log("shou "+step_names[i-1]);
+          $(".business_"+step_names[i-1]).show();
+          break;
+        }*/
       }
     }
   });
@@ -165,14 +214,7 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
   $(".btn_step2").on('click', function() { $(".business_step").hide(); $(".business_step2").show(); window.scrollTo(0,0); });
   $(".btn_step3").on('click', function() { 
     $(".business_step").hide();
-    var step1_c = Cookies.get("complect_step1").split("-");
-    var skip2 = false;
-    for (kookie of step1_c) {
-      if (consulting_recruiter.indexOf(parseInt(kookie)) > -1) {
-        skip2 = true;
-      }
-    }
-    if (skip2 == true) {
+    if (calc_steps() == true) {
       if ($(this).hasClass("back")) {
         $(".business_step2").show();
       } else {
@@ -203,7 +245,10 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
             }
           } else {
             $("#business_user_attributes_password").addClass("form_error");
-            //$("#business_user_attributes_password").focus();
+            if ((pwd_focused == false) && (no_pwd_focus == false)) {
+              pwd_focused = true;
+              $("#business_user_attributes_password").focus();
+            }
           }
         }
       } else {
@@ -289,6 +334,7 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
       }
     }
     step_continue();
+    calc_steps();
   }
 
   $(".choices").on('click', '.btn-block', function() {
