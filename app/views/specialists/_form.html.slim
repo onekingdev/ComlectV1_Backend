@@ -1,34 +1,157 @@
-- if f.object.new_record?
-  .well.well-lg.m-t-3
-    h2.text-center.m-b-2 Let's start with your login details
+.specialist_step.specialist_step0
+  h1.text-center.m-b-3.m-t-3.p-t-1.src_step Step 1 of 7
+  .progress
+    .progress-bar role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100" style='width:5%'
+  h2.m-t-1.m-b-2.text-center Let's set up your account!
+
+  .col-xs-12
     = f.fields_for :user, wrapper: :inline_form do |uf|
-      .row.row-compact
+      .row
         .col-sm-6
           = uf.input :email, input_html: { class: 'input-lg' }
         .col-sm-6
           = uf.input :password, input_html: { class: 'input-lg' }
+        .col-sm-6
+          = f.input :first_name, input_html: { class: 'input-lg' }
+        .col-sm-6
+          = f.input :last_name, input_html: { class: 'input-lg' }
+  .clearfix
+  .col-md-12.m-t-2.text-center.m-b-3
+    button.continue.btn_step_jump.btn.btn-primary disabled=true type="button" Continue
 
-.well.well-lg.m-t-3
-  - if f.object.new_record?
-    h2.text-center.m-b-3 Next, your contact information
-  - else
-    h2.text-center.m-b-3 Your contact information
+.specialist_step.specialist_step1
+  h1.text-center.m-b-3.m-t-3.p-t-1.src_step Step 2 of 7
+  .progress
+    .progress-bar role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style='width:10%'
+  h2.m-t-1.m-b-2.text-center We want to learn a little more about your knowledge base. Select all the industries you’re familiar with:
+  .choices
+    - Industry.all.order(ApplicationHelper.order_string('name', ['Investment Adviser', 'Broker-Dealer', 'ERISA', 'Commodities', 'Banking', 'Consulting Firm', 'Recruiter', 'Other'])).each do |industry|
+      .col-sm-4.m-b-1
+        button.btn.btn-primary.btn-block type="button"
+          input type="checkbox" name="specialist[industry_ids][]" value=(industry.id)
+          span = industry.name
+        - if industry.name == "Other"
+          input#specify_other name="specialist_other" placeholder="Specify other..."
+  .clearfix
+  .col-md-12.m-t-2.text-center.m-b-3
+    button.btn_step0.btn.btn-default.m-r-2.back type="button" Back
+    button.continue.btn_step11.btn.btn-primary disabled=true type="button" Continue
 
-  h3 Contact Info
+.specialist_step.specialist_step11
+  h1.text-center.m-b-3.m-t-3.p-t-1.src_step Step 2 of 7
+  .progress
+    .progress-bar role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style='width:20%'
+  h2.m-t-1.m-b-2.text-center We want to learn a little more about your knowledge base. Select all the industries you’re familiar with:
+  .choices
+    - Industry.sorted.each do |industry|
+      - industry.sub_industries_specialist.split("\r\n").each_with_index do |sub_ind, i|
+        .col-sm-12.m-b-1
+          button.btn.btn-primary.btn-block type="button"
+            input type="checkbox" name="specialist[sub_industry_ids][]" value=("#{industry.id}_#{i}")
+            | &nbsp;
+            span = sub_ind
+  .clearfix
+  .col-md-12.m-t-2.text-center.m-b-3
+    button.btn_step1.btn.btn-default.m-r-2.back type="button" Back
+    button.continue.btn_step2.btn.btn-primary disabled=true type="button" Continue
 
-  .row.row-compact
-    .col-sm-6
-      = f.input :first_name, input_html: { class: 'input-lg' }
-    .col-sm-6
-      = f.input :last_name, input_html: { class: 'input-lg' }
-    .col-sm-6
-      = f.input :phone, required: false, input_html: { class: 'input-lg' }
-    .col-sm-6
-      = f.input :linkedin_link, required: false, input_html: { class: 'input-lg' }
+.specialist_step.specialist_step2
+  h1.text-center.m-b-3.m-t-3.p-t-1.src_step Step 3 of 7
+  .progress
+    .progress-bar role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style='width:30%'
+  h2.m-t-1.m-b-2.text-center What jurisdictions are you familiar with? Select all that apply.
+  .choices
+    - Jurisdiction.sorted.reverse.each do |jurisdiction|
+      .col-sm-12.m-b-1
+        button.btn.btn-primary.btn-block type="button"
+          input type="checkbox" name="specialist[jurisdiction_ids][]" value=(jurisdiction.id)
+          | &nbsp;
+          span = jurisdiction.name
+    /= f.collection_check_boxes :jurisdiction_ids, Jurisdiction.sorted, :id, :name, item_wrapper_class: 'btn btn-primary btn-block', label: false, boolean_style: :inline
 
-  h3 Location
+  .clearfix
+  .col-md-12.m-t-2.text-center.m-b-3
+    button.btn_step11.btn.btn-default.m-r-2.back type="button" Back
+    button.continue.btn_step3.btn.btn-primary disabled=true type="button" Continue
 
-  .row.row-compact
+.specialist_step.specialist_step3
+  h1.text-center.m-b-3.m-t-3.p-t-1.src_step Step 4 of 7
+  .progress
+    .progress-bar role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style='width:50%'
+  h2.m-t-1.m-b-2.text-center
+    | We believe that matching client risk appetite with consultant risk appetite helps establish a better consulting relationship. Therefore, we’ve designed this short quiz to help us better match you with our network of specialists. 
+
+  .choices
+    .col-sm-12
+      h2.quiz_q.m-t-1.m-b-1.text-center
+        b Question 1: 
+        | You’re a mouse and see a piece of cheese sitting in a trap, but you’ve seen two mice successfully rip off pieces already. What do you do? 
+    - choices = "You head over and take a piece, because it worked out for the other two mice", "You think about it, but end up playing it safe", "You would have been on that cheese the moment you saw it", "You need to do more research and want to see if more mice are succesful", "No, thank you! Risk death? Not worth it."
+    - choices.each_with_index do |choice,i|
+      .col-sm-12.m-b-1
+        button.btn.btn-primary.btn-block type="button"
+          input type="checkbox" name="specialist[step4][]" value=(i)
+          | &nbsp;
+          span
+            span = choice
+  .clearfix
+  .col-md-12.m-t-2.text-center.m-b-3
+    button.btn_step2.btn.btn-default.m-r-2.back type="button" Back
+    button.continue.btn_step31.btn.btn-primary disabled=true type="button" Continue
+
+.specialist_step.specialist_step31
+  h1.text-center.m-b-3.m-t-3.p-t-1.src_step Step 4 of 7
+  .progress
+    .progress-bar role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style='width:60%'
+  .choices
+    .col-sm-12
+      h2.m-t-1.m-b-2.text-center 
+        b Question 2: 
+        | You’re late for a very important meeting and clearly speeding more than the flow of traffic. Up ahead, you see a car in the median. What do you do?
+    - choices = "Slow down to the speed limit in case it’s a cop ", "Moderate your speed to the flow of traffic ", "You’d never speed ", "Hope for the best, because you can’t afford to be late to this meeting", "You always speed, even if cops are around, because they have to catch you first"
+    - choices.each_with_index do |choice,i|
+      .col-sm-12.m-b-1
+        button.btn.btn-primary.btn-block type="button"
+          input type="checkbox" name="specialist[step41][]" value=(i)
+          | &nbsp;
+          span
+            span = choice
+  .clearfix
+  .col-md-12.m-t-2.text-center.m-b-3
+    button.btn_step3.btn.btn-default.m-r-2.back type="button" Back
+    button.continue.btn_step32.btn.btn-primary disabled=true type="button" Continue
+
+.specialist_step.specialist_step32
+  h1.text-center.m-b-3.m-t-3.p-t-1.src_step Step 4 of 7
+  .progress
+    .progress-bar role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style='width:70%'
+
+  .choices
+    .col-sm-12
+      h2.m-t-1.m-b-2.text-center
+        b Question 3: 
+        | Which phrase below most closely matches how you feel about risk?
+    - choices = "To win big, you sometimes have to take big risks" , "Measure twice, cut once" , "My belief in a day of reckoning keeps me on the straight and narrow" , "There’s a fine line between taking a calculated risk and doing something dumb", "The biggest risk is not taking any risk"
+    - choices.each_with_index do |choice,i|
+      .col-sm-12.m-b-1
+        button.btn.btn-primary.btn-block type="button"
+          input type="checkbox" name="specialist[step42][]" value=(i)
+          | &nbsp;
+          span
+            span = choice
+  .clearfix
+  .col-md-12.m-t-2.text-center.m-b-3
+    button.btn_step31.btn.btn-default.m-r-2.back type="button" Back
+    button.continue.btn_step4.btn.btn-primary disabled=true type="button" Continue
+
+.specialist_step.specialist_step4
+  h1.text-center.m-b-3.m-t-3.p-t-1.src_step Step 5 of 7
+  .progress
+    .progress-bar role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style='width:80%'
+
+  h2.m-t-1.m-b-2.text-center Let's get some additional information on your profile
+
+  .row
     .col-sm-6
       = f.input :address_1,
         required: true,
@@ -52,8 +175,17 @@
     .col-sm-6
       = f.input :time_zone, include_blank: t('simple_form.placeholders.specialist.time_zone'), input_html: { class: 'input-lg js-select' }
 
-.well.well-lg.m-t-3
-  h2.text-center.m-b-3 Tell us about your professional experience
+  .clearfix
+  .col-md-12.m-t-2.text-center.m-b-3
+    button.btn_step32.btn.btn-default.m-r-2.back type="button" Back
+    button.continue.btn_step5.btn.btn-primary type="button" Continue
+
+.specialist_step.specialist_step5
+  h1.text-center.m-b-3.m-t-3.p-t-1.src_step Step 6 of 7
+  .progress
+    .progress-bar role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style='width:80%'
+
+  h2.m-t-1.m-b-2.text-center Let’s learn more about your compliance experience. This is where we help businesses filter out specialists based on years of experience, so don’t get lazy! Fill in all the relevant compliance roles you may have held to increase your chance of getting matched with jobs.
 
   - unless f.object.errors[:work_experiences].blank?
     .has-error.text-center.m-b-3
@@ -68,38 +200,29 @@
       = render 'work_experience_fields', f: wef
       .add.text-right= link_to_add_association f, :work_experiences do
         i.text-muted.fa.fa-plus title="Add another" data-toggle="tooltip"
+  .clearfix
+  .col-md-12.m-t-2.text-center.m-b-3
+    button.btn_step4.btn.btn-default.m-r-2.back type="button" Back
+    button.continue.btn_step6.btn.btn-primary type="button" Continue
 
-  h3 Areas of Expertise
+.specialist_step.specialist_step6
+  h1.text-center.m-b-3.m-t-3.p-t-1.src_step Step 7 of 7
+  .progress
+    .progress-bar role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style='width:80%'
 
-  .row.row-compact
-    .col-sm-6
-      = f.association :jurisdictions, collection: Jurisdiction.ordered_starting_from_usa, placeholder: t('simple_form.placeholders.specialist.jurisdictions'), input_html: { class: 'input-lg js-select', multiple: true }
-    .col-sm-6
-      = f.association :industries, collection: Industry.sorted.filtered, placeholder: t('simple_form.placeholders.specialist.industries'), input_html: { class: 'input-lg js-select', multiple: true }
-    .col-sm-6
-      .form-group.specialist_former_regulator
-        span.checkbox.checkbox-lg
-          = f.check_box :former_regulator
-          = f.label :former_regulator
+  h2.m-t-1.m-b-2.text-center Businesses like to know your educational background too, so let’s give them a snippet of it.
 
-.well.well-lg.m-t-3
-  .row.text-center.p-b-1
-    h2.m-b-2
-      'Highlight some of your skills
-
-    .col-xs-12.col-sm-12
-      = f.object.skills_input(f)
-      button.info-tooltip type="button" data-toggle="tooltip" title="It's important to hashtag your top 10 skills as businesses use them to search for you and set their project prerequisites. Hashtag things like specific regulation knowledge (e.g. #doddfrank) and specific jurisdictions (e.g. #NY)." i
-      .form-group.m-t-1.m-b-0
-        ul.skills-required.m-b-0
-          - f.object.skill_names.each do |skill|
-            li
-              input type='hidden' name='specialist[skill_names][]' value=skill
-              span= skill
-              span.remove data-skill=skill x
-
-.well.well-lg.m-t-3
-  h2.text-center.m-b-0 Now on to your education (almost done!)
+  /.row
+  /  .col-xs-12.col-sm-12
+  /    = f.object.skills_input(f)
+  /    button.info-tooltip type="button" data-toggle="tooltip" title="It's important to hashtag your top 10 skills as businesses use them to search for you and set their project prerequisites. Hashtag things like specific regulation knowledge (e.g. #doddfrank) and specific jurisdictions (e.g. #NY)." i
+  /    .form-group.m-t-1.m-b-0
+  /      ul.skills-required.m-b-0
+  /        - f.object.skill_names.each do |skill|
+  /          li
+  /            input type='hidden' name='specialist[skill_names][]' value=skill
+  /            span= skill
+  /            span.remove data-skill=skill x
 
   #education-histories.m-b-1.js-set-last-child data-last-child=".nested-fields:last"
     = f.simple_fields_for :education_histories do |ehf|
@@ -107,14 +230,50 @@
       = render 'education_history_fields', f: ehf
       .add.text-right= link_to_add_association f, :education_histories do
         i.fa.fa-plus.text-muted title="Add another" data-toggle="tooltip"
+  .clearfix
+  .col-md-12.m-t-2.text-center.m-b-3
+    button.btn_step5.btn.btn-default.m-r-2.back type="button" Back
+    button.continue.btn_step7.btn.btn-primary type="button" Continue
 
-.well.well-lg.m-t-3
-  h2.text-center.m-b-2 Have you got any other certifications?
+.specialist_step.specialist_step7
+  h1.text-center.m-b-3.m-t-3.p-t-1.src_step Step 8 of 7
+  .progress
+    .progress-bar role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style='width:80%'
 
-  .row
-    .col-xs-12.col-md-12= f.input :certifications, input_html: { class: 'input-lg' }
+  h2.m-t-1.m-b-2.text-center Let’s try to find some ways to set you apart from your peers and, more importantly, get you better project matches.
 
-.well.well-lg.m-t-3
+  .col-sm-6
+    .form-group.specialist_former_regulator
+      span.checkbox.checkbox-lg
+        = f.check_box :former_regulator
+        = f.label :former_regulator
+
+  h2.m-t-1.m-b-2.text-center Select the types of projects you are strongest in completing (only up to 5)
+
+  .choices
+    - Specialist::PROJECT_TYPES.each_with_index do |ptype, i|
+      .col-sm-4.m-b-1
+        button.btn.btn-primary.btn-block type="button"
+          input type="checkbox" name="specialist[project_types][]" value=(i)
+          span = ptype
+  .clearfix
+  .col-md-12.m-t-2.text-center.m-b-3
+    button.btn_step6.btn.btn-default.m-r-2.back type="button" Back
+    button.continue.btn_step8.btn.btn-primary type="button" Continue
+
+.specialist_step.specialist_step8
+  h1.text-center.m-b-3.m-t-3.p-t-1.src_step Step 9 of 7
+  .progress
+    .progress-bar role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style='width:80%'
+
+  h2.m-t-1.m-b-2.text-center Last step! Ready to join our network?
+
+  .row.text-center.p-b-1
+    h2.m-b-2 Finally, select your profile visibility
+    = f.input :public_profile, as: :radio_pills, collection: [['Public', true], ['Private', false]], btn_class: 'btn-lg btn-default p-x-3', hint: false
+    p.help-block.col-xs-12.col-md-8.col-md-offset-2.m-b-0.m-t-0
+      = t('simple_form.hints.specialist.visibility')
+
   .row.text-center
     h2.m-b-2 Upload a photo and resume to complete your profile
 
@@ -146,10 +305,27 @@
         span.selected.m-y-1.ww-break= f.object.resume ? f.object.resume.data['metadata']['filename'] : nil
         - if f.object.errors[:resume].any?
           .text-danger.m-b-1= f.object.errors[:resume].to_sentence
+          
+  .well.well-lg.tos_block
+    .row.p-b-1
+      - if f.object.errors[:tos_agree].any?
+      .text-danger= f.object.errors[:tos_agree].first
+      - if f.object.errors[:cookie_agree].any?
+      .text-danger= f.object.errors[:cookie_agree].first
+      div
+        input#tos-checkbox type="checkbox" name="specialist[user_attributes][tos_agreement_attributes][status]"
+        | &nbsp;&nbsp;
+        label for="tos-checkbox"
+          | I have read and agree to the 
+          = link_to "Terms of Use", "/info/terms-of-use"
+          |  and 
+          = link_to "Privacy Policy", "/info/privacy-policy"
+          | .
+      div
+        input#cookie-checkbox type="checkbox" name="specialist[user_attributes][cookie_agreement_attributes][status]" checked=true
+        | &nbsp;&nbsp;
+        label for="cookie-checkbox" This site uses cookies. By creating an account, you agree to the use of cookies on this site.
+      input type="hidden" name="specialist[user_attributes][cookie_agreement_attributes][cookie_description]" value="This site uses cookies. By creating an account you agree to the use of cookies on this site."
+      input type="hidden" name="specialist[user_attributes][tos_agreement_attributes][tos_description]" value="I have read and agree to the Terms of Service and Privacy Policy"
 
-.well.well-lg.m-t-3
-  .row.text-center.p-b-1
-    h2.m-b-2 Finally, select your profile visibility
-    = f.input :public_profile, as: :radio_pills, collection: [['Public', true], ['Private', false]], btn_class: 'btn-lg btn-default p-x-3', hint: false
-    p.help-block.col-xs-12.col-md-8.col-md-offset-2.m-b-0.m-t-0
-      = t('simple_form.hints.specialist.visibility')
+    = f.submit 'Sign Up', class: 'btn btn-primary btn-lg col-xs-12 col-sm-2 col-sm-offset-5'

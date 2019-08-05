@@ -1251,7 +1251,8 @@ CREATE TABLE public.industries (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     short_name character varying,
-    sub_industries text DEFAULT ''::text
+    sub_industries text DEFAULT ''::text,
+    sub_industries_specialist text DEFAULT ''::text
 );
 
 
@@ -6155,4 +6156,6 @@ INSERT INTO schema_migrations (version) VALUES ('20190719004511');
 INSERT INTO schema_migrations (version) VALUES ('20190723185902');
 
 INSERT INTO schema_migrations (version) VALUES ('20190725045730');
+
+INSERT INTO schema_migrations (version) VALUES ('20190804164816');
 

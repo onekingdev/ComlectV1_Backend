@@ -51,6 +51,10 @@ class Specialist < ApplicationRecord
     }
   end
 
+  # rubocop:disable Metrics/LineLength
+  PROJECT_TYPES = ['Email Reviews', 'Annual Audits', 'On-site Assistance', 'Marketing Review', 'Gap Analysis', 'Secondments', 'Outsourced CCO', 'Outsourced COO', 'Outsourced CFO', 'Outsourced FINOP', 'Regulatory Filing', 'Outsourced OSJ', 'Ad-hoc Consulting', 'Personal Securities Monitorin', 'AML/KYC', 'Cybersecurity', 'Internal Reviews', 'Independent Director'].freeze
+  # rubocop:enable Metrics/LineLength
+
   has_one :tos_agreement, through: :user
   has_one :cookie_agreement, through: :user
   accepts_nested_attributes_for :education_histories, :work_experiences

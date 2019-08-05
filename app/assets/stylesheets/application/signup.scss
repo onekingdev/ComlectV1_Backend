@@ -1,4 +1,4 @@
-.signup_form, .business_step, .i_dunno {
+.signup_form, .business_step, .i_dunno, .specialist_step {
   display: none;
   .form_error {
     border-color: #ff0000;
@@ -18,7 +18,7 @@
   .alt_step { display: none; }
 }
 
-.business_step {
+.business_step, .specialist_step {
   .choices {
     .btn {
       text-align: left;
@@ -47,7 +47,7 @@
   }
 }
 
-.business_step4, .business_step41, .business_step42 {
+.business_step4, .business_step41, .business_step42, .specialist_step3, .specialist_step31, .specialist_step32 {
   .choices {
     .btn {
       span {
