@@ -1,7 +1,7 @@
 if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("specialists") && $("body").hasClass("create"))) {
   var no_pwd_focus = false;
   var pwd_focused = false;
-  var step_names = ['step0', 'step1', 'step11', 'step2', 'step3', 'step31', 'step32'];
+  var step_names = ['step0', 'step1', 'step11', 'step2', 'step3', 'step31', 'step32', 'step7'];
   var step_cookies = {};
 
   function validateEmail(email) {
@@ -123,7 +123,7 @@ if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("spe
       var name = step_names[i];
       console.log(name);
       console.log(step_cookies[name]);
-      if ((step_cookies[name] != undefined) && (step_cookies[name].length > 0)) {
+      if ((step_cookies[name] != undefined) && (step_cookies[name].length > 0) && (name != "step7")) {
         if (name == "step11") {
           $(".specialist_step1").show();
           shown = true;
@@ -176,11 +176,13 @@ if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("spe
     $(".specialist_step3").show();
     window.scrollTo(0,0);
    });
+  $(".btn_step31").on('click', function() { $(".specialist_step").hide(); $(".specialist_step31").show(); window.scrollTo(0,0); });
+  $(".btn_step32").on('click', function() { $(".specialist_step").hide(); $(".specialist_step32").show(); window.scrollTo(0,0); });
   $(".btn_step4").on('click', function() { $(".specialist_step").hide(); $(".specialist_step4").show(); window.scrollTo(0,0); });
-  $(".btn_step41").on('click', function() { $(".specialist_step").hide(); $(".specialist_step41").show(); window.scrollTo(0,0); });
-  $(".btn_step42").on('click', function() { $(".specialist_step").hide(); $(".business_step42").show(); window.scrollTo(0,0); });
   $(".btn_step5").on('click', function() { $(".specialist_step").hide(); $(".specialist_step5").show(); window.scrollTo(0,0); });
   $(".btn_step6").on('click', function() { $(".specialist_step").hide(); $(".specialist_step6").show(); window.scrollTo(0,0); });
+  $(".btn_step7").on('click', function() { $(".specialist_step").hide(); $(".specialist_step7").show(); window.scrollTo(0,0); });
+  $(".btn_step8").on('click', function() { $(".specialist_step").hide(); $(".specialist_step8").show(); window.scrollTo(0,0); });
 
   function step_continue() {
     for (var name of step_names) {
@@ -205,6 +207,10 @@ if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("spe
       } else {
         if (name != "step5") {
           $(".specialist_"+name).find(".continue").prop("disabled", !($(".specialist_"+name+" .choices .active").length > 0));
+        }
+        if (name == "step7") {
+          var actives = $(".specialist_"+name+" .active");
+          $(".specialist_step7 .continue").prop("disabled", (actives.length == 0));
         }
       }
     }
@@ -234,7 +240,7 @@ if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("spe
     // identify step with parent div
     var parent = choice.parent().parent().parent();
     // force only 1 checkbox rule for risk questions
-    if ((parent.hasClass("specialist_step4")) || (parent.hasClass("specialist_step41")) || (parent.hasClass("specialist_step42"))) {
+    if ((parent.hasClass("specialist_step3")) || (parent.hasClass("specialist_step31")) || (parent.hasClass("specialist_step32"))) {
       var all = parent.find(".btn-block");
       all.removeClass("active");
       for (var al of all) {
@@ -254,8 +260,19 @@ if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("spe
       if (choice.text().indexOf("I don't know") > -1) {
         _Modal.showPlain("<div class='modal-body'><div class='modal-fake text-center modal-wrapper m-x-1 m-y-1 p-t-2 p-x-3 gray'>We understand this can be a confusing process and <br> we want to make it as easy as possible, so let’s set you up with a free consultation.<br>Schedule a time to speak to someone. <div class='m-b-1 m-t-2'><button class='btn btn-default' data-dismiss='modal'>Cancel</button> <a href='https://calendly.com/complect' target='_blank' class='btn btn-primary'>Schedule</button></div></div>");
       } else {
-        choice.addClass("active");
-        cb.prop("checked", true);
+        var dont_check = false;
+        if (parent.hasClass("specialist_step7")) {
+          var all = parent.find(".btn-block.active");
+          if (all.length > 4) {
+            dont_check = true;
+          }
+        }
+        if (dont_check == false) {
+          choice.addClass("active");
+          cb.prop("checked", true);
+        } else {
+          cb.prop("checked", false);
+        }
       }
     }
 
@@ -298,7 +315,7 @@ if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("spe
       $(this).parent().removeClass("active");
       var parent = $(this).parent().parent().parent().parent();
       console.log(parent);
-      if ((parent.hasClass("specialist_step4")) || (parent.hasClass("specialist_step41")) || (parent.hasClass("specialist_step42"))) {
+      if ((parent.hasClass("specialist_step3")) || (parent.hasClass("specialist_step31")) || (parent.hasClass("specialist_step32"))) {
         var all = parent.find(".btn-block");
         all.removeClass("active");
         for (var al of all) {
