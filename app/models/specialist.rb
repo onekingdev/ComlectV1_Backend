@@ -51,9 +51,56 @@ class Specialist < ApplicationRecord
     }
   end
 
+  serialize :sub_industries
+  serialize :specialist_risks
+  serialize :project_types
+
   # rubocop:disable Metrics/LineLength
   PROJECT_TYPES = ['Email Reviews', 'Annual Audits', 'On-site Assistance', 'Marketing Review', 'Gap Analysis', 'Secondments', 'Outsourced CCO', 'Outsourced COO', 'Outsourced CFO', 'Outsourced FINOP', 'Regulatory Filing', 'Outsourced OSJ', 'Ad-hoc Consulting', 'Personal Securities Monitorin', 'AML/KYC', 'Cybersecurity', 'Internal Reviews', 'Independent Director'].freeze
   # rubocop:enable Metrics/LineLength
+
+  STEP_RISKS = [
+    [
+      'You head over and take a piece, because it worked out for the other two mice',
+      'You think about it, but end up playing it safe',
+      'You would have been on that cheese the moment you saw it',
+      'You need to do more research and want to see if more mice are succesful',
+      'No, thank you! Risk death? Not worth it.'
+    ],
+    [
+      'Slow down to the speed limit in case it’s a cop ',
+      'Moderate your speed to the flow of traffic ',
+      'You’d never speed ',
+      'Hope for the best, because you can’t afford to be late to this meeting',
+      'You always speed, even if cops are around, because they have to catch you first'
+    ],
+    [
+      'To win big, you sometimes have to take big risks',
+      'Measure twice, cut once',
+      'My belief in a day of reckoning keeps me on the straight and narrow',
+      'There’s a fine line between taking a calculated risk and doing something dumb',
+      'The biggest risk is not taking any risk'
+    ]
+  ].freeze
+
+  # rubocop:disable Metrics/AbcSize
+  def apply_quiz(cookies)
+    step1_c = cookies[:complect_s_step1].split('-').map(&:to_i)
+    self.sub_industries = []
+    cookies[:complect_s_step11].split('-').map(&proc { |p| p.split('_').map(&:to_i) }).each do |c|
+      sub_industries.push(Industry.find(c[0]).sub_industries.split("\r\n")[c[1]]) if step1_c.include? c[0]
+    end
+    self.specialist_risks = []
+    specialist_risks[0] = STEP_RISKS[0][cookies[:complect_s_step3].to_i]
+    specialist_risks[1] = STEP_RISKS[1][cookies[:complect_s_step31].to_i]
+    specialist_risks[2] = STEP_RISKS[2][cookies[:complect_s_step32].to_i]
+    self.specialist_other = cookies[:complect_s_other] if industries.collect(&:name).include? 'Other'
+    self.project_types = []
+    cookies[:complect_s_step7].split('-').map(&:to_i).each do |c|
+      project_types.push(PROJECT_TYPES[c]) if project_types.count < 5
+    end
+  end
+  # rubocop:enable Metrics/AbcSize
 
   has_one :tos_agreement, through: :user
   has_one :cookie_agreement, through: :user

@@ -1488,7 +1488,11 @@ CREATE TABLE public.specialists (
     hubspot_contact_id character varying,
     credits_in_cents integer DEFAULT 0,
     forum_upvotes_for_review integer DEFAULT 0,
-    username character varying
+    username character varying,
+    specialist_risks character varying,
+    specialist_other character varying,
+    sub_industries character varying,
+    project_types character varying
 );
 
 
@@ -6158,4 +6162,8 @@ INSERT INTO schema_migrations (version) VALUES ('20190723185902');
 INSERT INTO schema_migrations (version) VALUES ('20190725045730');
 
 INSERT INTO schema_migrations (version) VALUES ('20190804164816');
+
+INSERT INTO schema_migrations (version) VALUES ('20190806212346');
+
+INSERT INTO schema_migrations (version) VALUES ('20190806214013');
 
