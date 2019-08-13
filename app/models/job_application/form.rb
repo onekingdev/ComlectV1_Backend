@@ -15,7 +15,8 @@ class JobApplication::Form < JobApplication
 
   RFP_FIELDS = %i[message key_deliverables pricing_type].freeze
   validates(*RFP_FIELDS, presence: true, if: :rfp?)
-
+  validates(:starts_on, presence: true, if: :rfp?)
+  validates(:ends_on, presence: true, if: :rfp?)
   validates :hourly_rate, presence: true, if: :hourly_pricing?
   validates :estimated_hours, presence: true, if: :hourly_pricing?
   validates :fixed_budget, presence: true, if: :fixed_pricing?
