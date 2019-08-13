@@ -11,7 +11,7 @@ class JobApplication::Form < JobApplication
   validate -> { errors.add :prerequisites, :no_industry }, unless: :industry?
   validate -> { errors.add :prerequisites, :no_experience }, unless: :enough_experience?
   validate -> { errors.add :prerequisites, :no_regulator }, unless: :regulator?
-  # validate -> { errors.add :prerequisites, :no_payment_info }, unless: :payment_info?
+  validate -> { errors.add :prerequisites, :no_payment_info }, unless: :payment_info?
 
   RFP_FIELDS = %i[message key_deliverables pricing_type].freeze
   validates(*RFP_FIELDS, presence: true, if: :rfp?)
