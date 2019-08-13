@@ -177,7 +177,7 @@ body.specialists.new, body.specialists.create, body.specialists.edit, body.speci
 
     .add {
       position: absolute;
-      right: 110px;
+      right: 14px;
       bottom: 1px;
     }
   }
@@ -191,9 +191,9 @@ body.specialists.new, body.specialists.create, body.specialists.edit, body.speci
 
     .add {
       position: absolute;
-      right: 114px;
+      right: 14px;
       @media (min-width: $screen-sm-max) {
-        bottom: 2px;
+        bottom: 38px;
       }
       bottom: 0px;
     }
