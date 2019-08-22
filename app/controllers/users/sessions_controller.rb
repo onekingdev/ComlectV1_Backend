@@ -39,6 +39,7 @@ class Users::SessionsController < Devise::SessionsController
   end
 
   def squarespace
+    headers['Access-Control-Allow-Credentials'] = 'true'
     headers['Access-Control-Allow-Origin'] = 'https://complect.squarespace.com'
     headers['Access-Control-Allow-Methods'] = 'POST, PUT, DELETE, GET, OPTIONS'
     headers['Access-Control-Request-Method'] = '*'
