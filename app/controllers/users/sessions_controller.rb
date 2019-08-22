@@ -39,6 +39,10 @@ class Users::SessionsController < Devise::SessionsController
   end
 
   def squarespace
+    headers['Access-Control-Allow-Origin'] = 'https://complect.squarespace.com https://complect.com https://staging.complect.com'
+    headers['Access-Control-Allow-Methods'] = 'POST, PUT, DELETE, GET, OPTIONS'
+    headers['Access-Control-Request-Method'] = '*'
+    headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
     cu = current_user
     if current_specialist
       render json: { specialist: true, business: false, name: current_specialist.to_s, unread: cu.notifications.unread.count }
