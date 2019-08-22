@@ -38,6 +38,17 @@ class Users::SessionsController < Devise::SessionsController
     mixpanel_track_later 'Sign Out', user: user
   end
 
+  def squarespace
+    cu = current_user
+    if current_specialist
+      render json: { specialist: true, business: false, name: current_specialist.to_s, unread: cu.notifications.unread.count }
+    elsif current_business
+      render json: { specialist: false, business: true, name: nil, unread: cu.notifications.unread.count }
+    else
+      render json: { specialist: false, business: false, name: nil, unread: nil }
+    end
+  end
+
   protected
 
   def after_sign_in_path_for(resource)

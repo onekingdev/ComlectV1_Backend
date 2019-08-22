@@ -16,7 +16,7 @@
   @media (max-width: $screen-md-max) {
     padding: 4px 50px;
   }
-  text-transform: uppercase;
+  //text-transform: uppercase;
   width: 100%;
   top: 0;
   position: fixed;
@@ -71,7 +71,7 @@
   }
 
   .navbar-collapse {
-    font-family: Nimbus Sans Cond;
+    font-family: Open Sans;
     font-weight: $bold-weight;
     padding: 0px 15px;
     @media (min-width: $grid-float-breakpoint) {
@@ -113,7 +113,7 @@
     letter-spacing: 1px;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
-    border-radius: 2px;
+    border-radius: 17px;
     -webkit-filter: drop-shadow(1px 1px 0px rgba(255, 255, 255, 0.5));
     filter: drop-shadow(1px 1px 0px rgba(255, 255, 255, 0.5));
 
@@ -139,10 +139,10 @@
     font-weight: $regular-weight;
     padding-left: 0;
     padding-right: 0;
-    font-size: 16px;
+    font-size: 14px;
     -webkit-filter: drop-shadow(1px 1px 0px rgba(255, 255, 255, 0.5));
     filter: drop-shadow(1px 1px 0px rgba(255, 255, 255, 0.5));
-    color: #ffc300;
+    color: #000;
 
     &:hover {
       color: $brand-primary;
@@ -190,7 +190,7 @@
     margin-left: -15px;
     background-color: #00bff3;
     padding: 1px 4px;
-    font-family: "Nimbus Sans";
+    font-family: "Open Sans";
   }
 
   .dropdown-menu {

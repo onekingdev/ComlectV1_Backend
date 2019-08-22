@@ -27,6 +27,7 @@ Rails.application.routes.draw do
 
   devise_scope :user do
     get 'users/sign_out/force' => 'users/sessions#destroy'
+    get '/squarespace' => 'users/sessions#squarespace'
   end
 
   root to: 'landing_page#show'
