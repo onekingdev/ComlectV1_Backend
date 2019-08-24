@@ -46,7 +46,13 @@ class Users::SessionsController < Devise::SessionsController
     headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
     cu = current_user
     if current_specialist
-      render json: { specialist: true, business: false, name: current_specialist.username, unread: cu.notifications.unread.count }
+      render json: {
+        specialist: true,
+        business: false,
+        name: current_specialist.username,
+        unread: cu.notifications.unread.count,
+        fullname: current_specialist.to_s
+      }
     elsif current_business
       render json: { specialist: false, business: true, name: current_business.username, unread: cu.notifications.unread.count }
     else
@@ -61,8 +67,9 @@ class Users::SessionsController < Devise::SessionsController
     headers['Access-Control-Allow-Methods'] = 'GET'
     headers['Access-Control-Request-Method'] = '*'
     headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
-    signed_out = (Devise.sign_out_all_scopes ? sign_out : sign_out(current_user))
-    render json: { signed_out: signed_out }
+    Devise.sign_out_all_scopes ? sign_out : sign_out(current_user)
+    redirect_to 'https://www.complect.com/'
+    # render json: { signed_out: signed_out }
   end
 
   protected
