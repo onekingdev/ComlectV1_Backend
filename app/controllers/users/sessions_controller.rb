@@ -26,6 +26,11 @@ class Users::SessionsController < Devise::SessionsController
 
   # DELETE /resource/sign_out
   def destroy
+    headers['Access-Control-Allow-Credentials'] = 'true'
+    headers['Access-Control-Allow-Origin'] = 'https://complect.squarespace.com'
+    headers['Access-Control-Allow-Methods'] = 'DELETE'
+    headers['Access-Control-Request-Method'] = '*'
+    headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
     user = current_user
     respond_to do |format|
       format.html { super }
@@ -41,14 +46,14 @@ class Users::SessionsController < Devise::SessionsController
   def squarespace
     headers['Access-Control-Allow-Credentials'] = 'true'
     headers['Access-Control-Allow-Origin'] = 'https://complect.squarespace.com'
-    headers['Access-Control-Allow-Methods'] = 'POST, PUT, DELETE, GET, OPTIONS'
+    headers['Access-Control-Allow-Methods'] = 'GET'
     headers['Access-Control-Request-Method'] = '*'
     headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
     cu = current_user
     if current_specialist
-      render json: { specialist: true, business: false, name: current_specialist.to_s, unread: cu.notifications.unread.count }
+      render json: { specialist: true, business: false, name: current_specialist.username, unread: cu.notifications.unread.count }
     elsif current_business
-      render json: { specialist: false, business: true, name: nil, unread: cu.notifications.unread.count }
+      render json: { specialist: false, business: true, name: current_business.username, unread: cu.notifications.unread.count }
     else
       render json: { specialist: false, business: false, name: nil, unread: nil }
     end
