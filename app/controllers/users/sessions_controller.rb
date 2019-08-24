@@ -26,11 +26,6 @@ class Users::SessionsController < Devise::SessionsController
 
   # DELETE /resource/sign_out
   def destroy
-    headers['Access-Control-Allow-Credentials'] = 'true'
-    headers['Access-Control-Allow-Origin'] = 'https://complect.squarespace.com'
-    headers['Access-Control-Allow-Methods'] = 'DELETE'
-    headers['Access-Control-Request-Method'] = '*'
-    headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
     user = current_user
     respond_to do |format|
       format.html { super }
@@ -57,6 +52,17 @@ class Users::SessionsController < Devise::SessionsController
     else
       render json: { specialist: false, business: false, name: nil, unread: nil }
     end
+  end
+
+  def squarespace_destroy
+    # for some reason with DELETE method doesn't work on devise's destroy
+    headers['Access-Control-Allow-Credentials'] = 'true'
+    headers['Access-Control-Allow-Origin'] = 'https://complect.squarespace.com'
+    headers['Access-Control-Allow-Methods'] = 'GET'
+    headers['Access-Control-Request-Method'] = '*'
+    headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+    signed_out = (Devise.sign_out_all_scopes ? sign_out : sign_out(current_user))
+    render json: { signed_out: signed_out }
   end
 
   protected
