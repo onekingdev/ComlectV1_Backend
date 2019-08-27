@@ -123,7 +123,7 @@
     h2.text-center.m-b-2 Applicant Selection
     .row.row-compact.m-y-1
       .col-xs-12.text-center
-        = f.input :applicant_selection, as: :radio_pills, collection: [%w(Auto\ Match auto_match), %w(Interview interview)], btn_class: 'btn-default tt-u', wrapper_html: { class: 'project_automatch_btn' }
+        = f.input :applicant_selection, as: :radio_pills, collection: [%w(Interview interview), %w(Auto\ Match auto_match)], btn_class: 'btn-default tt-u', wrapper_html: { class: 'project_automatch_btn' }
     .row.row-compact.p-b-1
       .col-xs-12
         .small.text-muted Note: This options allows you to decide whether you want to interview applicants for your project or allow our automated matching system to pair you with a specialist that fits your applicant prerequisites.
