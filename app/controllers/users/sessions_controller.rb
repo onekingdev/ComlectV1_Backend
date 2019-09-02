@@ -39,37 +39,14 @@ class Users::SessionsController < Devise::SessionsController
   end
 
   def squarespace
-    headers['Access-Control-Allow-Credentials'] = 'true'
-    headers['Access-Control-Allow-Origin'] = 'https://complect.squarespace.com'
-    headers['Access-Control-Allow-Methods'] = 'GET'
-    headers['Access-Control-Request-Method'] = '*'
-    headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
     cu = current_user
     if current_specialist
-      render json: {
-        specialist: true,
-        business: false,
-        name: current_specialist.username,
-        unread: cu.notifications.unread.count,
-        fullname: current_specialist.to_s
-      }
+      render json: { specialist: true, business: false, name: current_specialist.to_s, unread: cu.notifications.unread.count }
     elsif current_business
-      render json: { specialist: false, business: true, name: current_business.username, unread: cu.notifications.unread.count }
+      render json: { specialist: false, business: true, name: nil, unread: cu.notifications.unread.count }
     else
       render json: { specialist: false, business: false, name: nil, unread: nil }
     end
-  end
-
-  def squarespace_destroy
-    # for some reason with DELETE method doesn't work on devise's destroy
-    headers['Access-Control-Allow-Credentials'] = 'true'
-    headers['Access-Control-Allow-Origin'] = 'https://complect.squarespace.com'
-    headers['Access-Control-Allow-Methods'] = 'GET'
-    headers['Access-Control-Request-Method'] = '*'
-    headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
-    Devise.sign_out_all_scopes ? sign_out : sign_out(current_user)
-    redirect_to 'https://www.complect.com/'
-    # render json: { signed_out: signed_out }
   end
 
   protected

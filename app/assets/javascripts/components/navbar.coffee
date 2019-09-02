@@ -1,13 +1,13 @@
 bs_collapse = false
 
 $(document).ready ->
-  #update_navbar()
+  update_navbar()
 
 $(document).on 'scroll', ->
-  #update_navbar()
+  update_navbar()
 
 $(window).on 'resize', ->
-  #update_navbar()
+  update_navbar()
 
 update_navbar = ->
   x = window.scrollY

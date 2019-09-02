@@ -6,7 +6,7 @@ nav#nav.navbar.navbar-default
       span.icon-bar
       span.icon-bar
     a.navbar-brand href=root_path
-      = yield(:logo).presence || image_tag('logo.png', size: '226x53')
+      = yield(:logo).presence || image_tag('logo.png', size: '201x48')
   #navbar-collapse.collapse.navbar-collapse
     ul.nav.navbar-nav.nav-about
       - if !user_signed_in?
@@ -18,9 +18,9 @@ nav#nav.navbar.navbar-default
       - elsif user_signed_in? && current_user.specialist
         li= link_to 'My Dashboard', specialists_dashboard_path
       li.hidden-nav= link_to "Our blog", "https://www.blog.complect.com/", target: "_blank"
-      li.hidden-nav2= link_to "Faqs", page_path('faqs')
-      li
-        button.qna_navbar.btn.btn-primary data-href=forum_questions_path Q&A Forum
+      li.hidden-nav= link_to "Faqs", page_path('faqs')
+      li.hidden-nav2= link_to "Q&A Forum", forum_questions_path, class: "qna_navbar"
+        /button.qna_navbar.btn.btn-primary data-href=forum_questions_path Q&A Forum
 
     ul.nav.navbar-nav.navbar-right
       - if user_signed_in? && current_business
@@ -28,9 +28,9 @@ nav#nav.navbar.navbar-default
           button.btn.btn-default.navbar-btn data-href=new_business_project_path Post a Project
       - if user_signed_in?
         - if current_business
-          li.p-r-2= link_to 'Browse Specialists', specialists_path
+          li.p-x-1= link_to 'Browse Specialists', specialists_path
         - else
-          li.p-r-2= link_to 'Browse Projects', projects_path
+          li.p-x-1= link_to 'Browse Projects', projects_path
       - if user_signed_in?
         li.dropdown.preseparate
           - if (business = user.business)

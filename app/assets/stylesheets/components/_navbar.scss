@@ -1,8 +1,8 @@
 #nav {
   $spacing: 35px;
 
-  background-color: #fff;
-  padding: 0px 70px;
+  background-color: transparent;
+  padding: 20px 143px;
   @media (min-width: 1149px) and (max-width: 1378px) {
     .hidden-nav {
       display: none;
@@ -16,7 +16,7 @@
   @media (max-width: $screen-md-max) {
     padding: 4px 50px;
   }
-  text-transform: uppercase;
+  //text-transform: uppercase;
   width: 100%;
   top: 0;
   position: fixed;
@@ -52,6 +52,12 @@
 
   .navbar-right {
     position: relative;
+    li a {
+      font-weight: 600 !important;
+    }
+    .p-x-1 a {
+      color: #ffcc00;
+    }
   }
 
   .sign_in {
@@ -71,11 +77,11 @@
   }
 
   .navbar-collapse {
-    font-family: Nimbus Sans Cond;
+    font-family: Open Sans;
     font-weight: $bold-weight;
     padding: 0px 15px;
     @media (min-width: $grid-float-breakpoint) {
-      padding-top: 20px;
+      padding-top: 17px;
     }
     li {
       a {
@@ -105,15 +111,15 @@
 
   .navbar-btn {
     margin: 0px;
-    margin-top: -3px;
-    padding: 7px 18px;
-    font-weight: $regular-weight !important;
-    font-size: 12px;
+    margin-top: -6px;
+    padding: 9px 18px;
+    font-weight: 300 !important;
+    font-size: 14px;
     border: 2px solid #ffcc00;
     letter-spacing: 1px;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
-    border-radius: 2px;
+    border-radius: 27px;
     -webkit-filter: drop-shadow(1px 1px 0px rgba(255, 255, 255, 0.5));
     filter: drop-shadow(1px 1px 0px rgba(255, 255, 255, 0.5));
 
@@ -131,18 +137,22 @@
   }
 
   .btn {
-    text-transform: uppercase;
+    //text-transform: uppercase;
     font-weight: lighter;
+  }
+
+  .btn-default {
+    text-transform: none;
   }
 
   li > a {
     font-weight: $regular-weight;
     padding-left: 0;
     padding-right: 0;
-    font-size: 16px;
+    font-size: 14px;
     -webkit-filter: drop-shadow(1px 1px 0px rgba(255, 255, 255, 0.5));
     filter: drop-shadow(1px 1px 0px rgba(255, 255, 255, 0.5));
-    color: #ffc300;
+    color: #000;
 
     &:hover {
       color: $brand-primary;
@@ -156,13 +166,14 @@
 
   .navbar-nav > li {
     @media (min-width: $grid-float-breakpoint) {
-      padding-right: 23px;
+      padding-left: 18px;
       margin: 0px !important;
     }
   }
 
   .navbar-nav > li > a {
     padding: 5px 0px;
+    font-weight: 300;
     @media (max-width: $grid-float-breakpoint) {
       padding: 8px 0px;
     }
@@ -190,7 +201,11 @@
     margin-left: -15px;
     background-color: #00bff3;
     padding: 1px 4px;
-    font-family: "Nimbus Sans";
+    font-family: "Open Sans";
+  }
+
+  .dropdown {
+    padding-left: 10px !important;
   }
 
   .dropdown-menu {
@@ -276,4 +291,10 @@
 
 .home.index #nav {
   background-color: #fff;
+}
+
+body.businesses.show, body.specialists.show {
+  #nav {
+    background-color: #fff;
+  }
 }

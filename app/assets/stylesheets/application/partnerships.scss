@@ -10,89 +10,103 @@ body.home.partnerships {
 }
 
 #partnerships-header {
+  @media (min-width: $screen-md-max) {
+    padding: 0px 133px;
+    width: 100%;
+  }
+  .col-xs-6 {
+    font-family: "Open Sans";
+  }
   h1 {
-    font-family: "Muller";
-    font-weight: $black-weight;
-    font-size: 50px;
-    color: #FFC300;
-    text-align: center;
+    font-family: "Canela";
+    font-weight: 300;
+    font-size: 48px;
+    color: #000;
+    margin-top: 120px;
+    padding-bottom: 30px;
   }
   h2 {
-    font-family: "Nimbus Sans";
+    font-family: "Open Sans";
     font-weight: $bold-weight;
     text-align: center;
   }
   .partnerships-list {
     h1 {
-      text-align: left;
-      font-family: "Avenir";
-      font-size: 16px;
-      font-weight: bold;
+      text-align: center;
+      font-family: "Open Sans";
+      font-size: 14px;
+      font-weight: 300;
+      text-transform: uppercase;
       color: #000;
     }
     a {
       color: #000;
     }
     .entry {
-      img {
-        margin-bottom: 15px;
-        text-align: center;
-      }
-      overflow: hidden;
-      width: 306px;
-      height: 353px;
-      margin-top: 20px;
-//      height: 431px;
-      padding: 17px;
-      padding-bottom: 90px;
-      background: #ffffff;
-      margin-right: 30px;
-      position: relative;
-      float: left;
-      font-size: 12px;
-      font-family: "Avenir Light";
-      letter-spacing: 0px;
-      p {
-        font-size: 14px;
-        font-weight: bold;
-        background: #fff;
-        width: 100%;
-        position: absolute;
-        bottom: 0px;
-        left: 0px;
-        font-family: "Nimbus Sans";
-        color: #FFC304;
+      .wrapper {
+        box-shadow: 1px 1px 6px rgba(0,0,0,.1);
+        img {
+          margin-bottom: 15px;
+          text-align: center;
+        }
+        overflow: hidden;
+        height: 353px;
+        margin-top: 20px;
+  //      height: 431px;
         padding: 17px;
-        text-align: center;
-        margin-bottom: 0px;
+        padding-bottom: 90px;
+        background: #ffffff;
+        //margin-right: 30px;
+        position: relative;
+        float: left;
+        font-size: 12px;
+        font-family: "Avenir Light";
+        letter-spacing: 0px;
+        p {
+          font-size: 14px;
+          font-weight: bold;
+          background: #fff;
+          width: 100%;
+          position: absolute;
+          bottom: 0px;
+          left: 0px;
+          font-family: "Open Sans";
+          color: #FFC304;
+          padding: 17px;
+          text-align: center;
+          margin-bottom: 0px;
+        }
       }
     }
   }
   #partnerships-block {
     font-family: "Avenir";
-    width: 853px;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
     font-weight: bold;
     font-size: 16px;
-    border-top: 1px solid rgb(215, 210, 196);
-    .hrow {
-      border-left: 1px solid rgb(215, 210, 196);
-    }
+    //border-top: 1px solid rgb(215, 210, 196);
     .entry {
       background: #fff;
-      border-right: 1px solid rgb(215, 210, 196);
-      border-bottom: 1px solid rgb(215, 210, 196);
+      //border-right: 1px solid rgb(215, 210, 196);
+      //border-bottom: 1px solid rgb(215, 210, 196);
       border-collapse: collapse;
-      width: 213px;
-      height: 184px;
+      width: 50%;
+      @media (min-width: $screen-md-min) {
+        width: 14%;
+      }
       float: left;
       text-align: center;
       img {
-        width: 77px;
-        height: 77px;
+        width: 70%;
         margin-bottom: 20px;
         margin-top: 30px;
+      }
+      p {
+        font-family: "Open Sans";
+        font-size: 13px;
+        font-weight: 300;
       }
     }
     .entry-yellow {

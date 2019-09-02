@@ -5,6 +5,9 @@
   color: #333333;
   text-transform: none;
   overflow-y: scroll;
+  li, li a {
+    font-weight: $regular-weight !important;
+  }
   @media (max-width: $grid-float-breakpoint) {
     position: relative;
     max-width: 100%;

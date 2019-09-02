@@ -1,28 +1,31 @@
-.page-parallax data-image-src=asset_url("partnerships/partnerships_bg.jpg") data-parallax="scroll"
-  .container#partnerships-header.p-b-3
+/.page-parallax data-image-src=asset_url("partnerships/partnerships_bg.jpg") data-parallax="scroll"
+.container#partnerships-header.p-b-3
+  .col-xs-6
     h1.m-b-2.p-t-2 Partnership Network
-    h2.m-b-3.p-b-3 LEVERAGE OUR DISCOUNTS FOR YOUR BUSINESS & DAY TO DAY
-    .row
-      #partnerships-block.m-b-3
-        - i = 0
-        - for row in (@partnerships.keys | ["Become a partner"]).each_slice(4).to_a do
-          .hrow
-            - for k in row do
-              - formatted = k.to_s.downcase.gsub(' ','-').gsub('&','and')
-              .entry class=("entry-yellow" if k == "Become a partner")
-                = image_tag "partnerships/#{formatted}.png"
-                p = k
-            .clearfix
-        .clearfix
-      .partnerships-list
-        - @partnerships.each do |k,v|
-          h1.m-t-3.m-b-0
-            .anchor id=(k.to_s.downcase.gsub(' ','-').gsub('&','and'))
-            = k
-          - v.each do |partnership|
-            - href = current_user ? partnership.href : new_user_session_path
-            = link_to href, target: "_blank" do
-              .entry
+    p.m-b-3.p-b-2 Leverage our discounts for your business & day to day.
+    = link_to "Become a partner", "mailto:hanh@complect.com?subject=How Can We Partner?", class: "btn btn-primary"
+  .col-xs-6 = image_tag "partnerships.png"
+  .clearfix
+  .row
+    #partnerships-block
+      - i = 0
+      .hrow.m-t-3.p-t-3
+        - for k in @partnerships.keys.each.to_a do
+          - formatted = k.to_s.downcase.gsub(' ','-').gsub('&','and')
+          .entry 
+            = image_tag "partnerships/#{formatted}.png"
+            p = k
+      .clearfix
+    .partnerships-list.m-t-3.p-t-2
+      - @partnerships.each do |k,v|
+        h1.m-t-3.m-b-0.p-b-0.p-t-3
+          .anchor id=(k.to_s.downcase.gsub(' ','-').gsub('&','and'))
+          = k
+        - v.each do |partnership|
+          - href = current_user ? partnership.href : new_user_session_path
+          = link_to href, target: "_blank" do
+            .entry.col-lg-4.col-md-6
+              .wrapper
                 center
                   = image_tag partnership.logo_url(:original), width: '184px'
                 = partnership.description
@@ -31,4 +34,4 @@
                     = partnership.discount
                   - else
                     = partnership.discount_pub
-          .clearfix
+        .clearfix

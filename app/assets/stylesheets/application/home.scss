@@ -53,7 +53,7 @@ body.home.index, body.home.page, body.home.partnerships {
     }
 
     .dropdown-menu a {
-      color: #fff;
+      //color: #fff;
     }
   }
 
@@ -185,7 +185,7 @@ body.home.index, body.home.page, body.home.partnerships {
 
   .collapsible-list {
     li span {
-      font-family: "Nimbus Sans";
+      font-family: "Open Sans";
       font-weight: $bold-weight;
     }
     .collapse {
@@ -197,12 +197,12 @@ body.home.index, body.home.page, body.home.partnerships {
     overflow: hidden;
     font-family: "Avenir Light";
     b {
-      font-family: "Nimbus Sans";
+      font-family: "Open Sans";
       font-weight: $bold-weight;
     }
 
     .fw-700 {
-      font-family: "Nimbus Sans";
+      font-family: "Open Sans";
       font-weight: bold;
     }
 
@@ -369,11 +369,11 @@ body.home.index, body.home.page, body.home.partnerships {
       font-size: 50px;
       text-align: center;
       font-weight: $black-weight;
-      font-family: "Muller";
+      font-family: "Canela";
     }
 
     p {
-      font-family: "Nimbus Sans";
+      font-family: "Open Sans";
       font-weight: $bold-weight;
       font-size: 16px;
     }
@@ -498,7 +498,7 @@ body.home.index, body.home.page, body.home.partnerships {
         position: absolute;
         color: #999;
         font-size: 110px;
-        font-family: "Muller";
+        font-family: "Canela";
         text-align: center;
         width: 150px;
         height: 150px;
@@ -518,7 +518,7 @@ body.home.index, body.home.page, body.home.partnerships {
     color: #333333;
     text-transform: uppercase;
     margin: 77px 0 0;
-    font-family: Muller;
+    font-family: Canela;
     font-size: 30px;
     font-weight: $light-weight;
     text-align: center;
@@ -535,7 +535,7 @@ body.home.index, body.home.page, body.home.partnerships {
 }
 
 body.home.index .home-content, body.home.page .home-content {
-  font-family: "Muller";
+  font-family: "Canela";
   font-size: 16px;
 
   .small {
@@ -547,19 +547,19 @@ body.home.index .home-content, body.home.page .home-content {
     text-align: center;
     font-size: 40px;
     font-weight: 700;
-    font-family: "Nimbus Sans";
+    font-family: "Open Sans";
     font-style: bold;
   }
 
   h3 {
     font-size: 20px;
     font-weight: bold;
-    font-family: "Nimbus Sans";
+    font-family: "Open Sans";
     text-transform: uppercase;
   }
 
   h4 {
-    font-family: "Nimbus Sans";
+    font-family: "Open Sans";
     font-weight: bold;
     color: #ffcc33;
     text-transform: uppercase;
