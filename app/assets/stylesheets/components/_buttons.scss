@@ -47,7 +47,9 @@
 
 .btn-primary {
   @include button-variant-light($btn-primary-bg);
-  text-transform: uppercase;
+  //text-transform: uppercase;
+  border-radius: 27px;
+  font-weight: 500;
 
   &:focus {
     background-color: #ffcc00 !important;

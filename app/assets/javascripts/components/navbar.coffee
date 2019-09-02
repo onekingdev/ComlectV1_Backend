@@ -11,8 +11,8 @@ $(window).on 'resize', ->
 
 update_navbar = ->
   x = window.scrollY
-  y = (60-x)/2
-  z = x/60
+  y = (43-x)/2
+  z = x/43
   y = 0 if (y < 0) || ($('#header').hasClass 'short')
   z = 1 if (z > 1) || ($('#header').hasClass 'short')
     

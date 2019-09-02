@@ -74,6 +74,33 @@
     //li:first-child {
     //  }
     //}
+    .log_in_navbar_link {
+      color: #000 !important;
+      font-weight: 300 !important;
+    }
+    .sign_up_navbar_link {
+      color: #000 !important;
+      border-radius: 27px;
+      font-weight: 300 !important;
+      box-shadow: 2px 2px 7px 0 rgba(4,5,5,.25);
+      padding: 6px 34px;
+      margin-top: -3px;
+      &:hover {
+        background-color: #ffd735 !important;
+        border-color: #ffd735 !important;
+      }
+      @media (max-width: $grid-float-breakpoint) {
+        border: 0px !important;
+        text-align: left;
+        padding: 9px 0px;
+        background-color: transparent !important;
+        border-color: none !important;
+        box-shadow: none !important;
+        &:hover {
+          background-color: transparent !important;
+        }
+      }
+    }
   }
 
   .navbar-collapse {
@@ -81,7 +108,7 @@
     font-weight: $bold-weight;
     padding: 0px 15px;
     @media (min-width: $grid-float-breakpoint) {
-      padding-top: 17px;
+      padding-top: 19px;
     }
     li {
       a {
