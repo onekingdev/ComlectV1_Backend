@@ -130,7 +130,7 @@
     @include navbar-vertical-align-by-padding(53px);
     padding-left: 0;
     @media (min-width: $grid-float-breakpoint) {
-      padding-right: 30px;
+      padding-right: 10px;
     }
     -webkit-filter: drop-shadow(1px 1px 0px rgba(255, 255, 255, 1));
     filter: drop-shadow(1px 1px 0px rgba(255, 255, 255, 1));

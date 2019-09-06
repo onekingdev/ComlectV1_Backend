@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Set the host name for URL creation
-SitemapGenerator::Sitemap.default_host = 'http://www.complect.com'
+SitemapGenerator::Sitemap.default_host = 'http://app.complect.com'
 
 # SitemapGenerator::Sitemap.adapter = SitemapGenerator::S3Adapter.new(
 #   fogprovider: 'AWS',

@@ -1,52 +1,33 @@
 footer#footer
-  .clearfix
-    .col-sm-4.col-md-3
-      = image_tag "landing/footer-logo.png", :width => "146px"
-      br
-      a.social.social-facebook href="https://www.facebook.com/complect.co/" target="//blank"
-        .fa.fa-facebook
-      a.social.social-linkedin href="https://www.linkedin.com/company/complect" target="//blank"
-        .fa.fa-linkedin
-      a.social.social-twitter href="https://twitter.com/Complect_co" target="_blank"
-        .fa.fa-twitter
+  .clearfix.m-t-3.p-t-2.p-b-2
+    .col-sm-3.col-md-4.m-b-2
+      = image_tag "logo.png", :width => "180px"
 
-    .col-sm-4.col-md-3.contact-us
-      h1.m-t-0.m-b-3 CONTACT US
-      .svg-icon style=("width: 10px; position: absolute; height: 13px;")
-        svg data-type="color" preserveaspectratio=("xMidYMid meet") role="img" viewbox=("32.5 10 135.10000610351562 180") xmlns="http://www.w3.org/2000/svg"
-          g
-            path d=("M100 10c-37.3 0-67.5 30.3-67.5 67.6S100.1 190 100.1 190s67.5-75.3 67.4-112.6c0-37.2-30.2-67.4-67.5-67.4zm.1 95.6c-18.6 0-33.8-15-33.8-33.7s15-33.8 33.7-33.8 33.8 15 33.8 33.7-15 33.8-33.7 33.8z") data-color="1" fill="#FFC300"
+    .col-sm-3.col-md-3
+      h3.m-t-0.m-b-2 About
       p.m-b-2
-        | 1312 17th Street
-        br
-        | Suite 647
-        br
-        | Denver, CO 80202
-      .svg-icon style=("width: 11px; position: absolute; height: 11px;")
-        svg data-type="color" preserveaspectratio=("xMidYMid meet") role="img" viewbox=("22.599998474121094 21.900001525878906 155.5 155.5") xmlns="http://www.w3.org/2000/svg"
-          g
-            path d=("M176.3 145.6l-.8-2.3c-1.8-5.4-7.8-11-13.3-12.5l-20.2-5.4c-5.4-1.5-13.4.6-17.3 4.5l-7.4 7.4c-26.6-7.1-47.5-28.1-54.6-54.6l7.4-7.4c4-4 6-11.8 4.5-17.3L69 37.7c-1.5-5.4-7.1-11.4-12.5-13.2l-2.3-.8c-5.4-1.8-13.1 0-17.1 4.1l-11 11c-1.9 1.9-3.2 7.5-3.2 7.6-.3 34.8 13.3 68.3 37.8 92.8 24.6 24.6 57.9 38.2 92.6 37.8.2 0 5.9-1.2 7.8-3.2l11-11c4.2-4.1 6-11.8 4.2-17.2z") data-color="1" fill="#FFC300"
-      p.m-b-2
-        | 347.618.9656
-      .svg-icon style=("width: 12px; position: absolute; height: 8px;")
-        svg data-type="color" preserveaspectratio=("xMidYMid meet") role="img" viewbox=("10 39.999996185302734 180.10000610351562 120") xmlns="http://www.w3.org/2000/svg"
-          g
-            path d=("M100 103.2l90-41.4v-18c0-2.1-1.7-3.8-3.8-3.8H13.8c-2.1 0-3.8 1.7-3.8 3.8v18.4l90 41z") data-color="1" fill="#FFC300"
-            path d=("M101.6 111c-.5.2-1 .4-1.6.4-.5 0-1-.1-1.5-.4L10 70.6v85.6c0 2.1 1.7 3.8 3.8 3.8h172.5c2.1 0 3.8-1.7 3.8-3.8V70.4L101.6 111z") data-color="1" fill="#FFC300"
-      p.m-b-2
-        = link_to "info@complect.com", "mailto:info@complect.com"
+        = link_to "About us", "https://complect.squarespace.com/about"
+        = link_to "Contact", "https://complect.squarespace.com/contact"
+        = link_to "Press", "https://complect.squarespace.com/press"
 
-    .col-sm-4.col-md-3.links
-      = link_to "ABOUT US", "/info/about-us"
-      = link_to "BLOG", "https://www.blog.complect.com/", target: "_blank"
-      = link_to "FAQS", "/info/faqs"
-      = link_to "PARTNERSHIP NETWORK", partnerships_path
-      = link_to "TURNKEY SOLUTIONS", "/turnkey"
-      = link_to "PRESS", "/press"
-  .clearfix.copyright.m-t-3.p-t-3
-    | © complect 
+    .col-sm-3.col-md-3
+      h3.m-t-0.m-b-2 Channels
+      p.m-b-2
+        = link_to raw("Partnership&nbsp;network"), partnerships_path
+        = link_to "Blog", "https://www.complect.com/our-blog", target: "_blank"
+        = link_to "FAQs", "https://complect.squarespace.com/faqs"
+
+    .col-sm-3.col-md-2
+      h3.m-t-0.m-b-2 Connect
+      p.m-b-2
+        = link_to "FaceBook", "https://www.facebook.com/gocomplect/"
+        = link_to "LinkedIn", "https://www.linkedin.com/company/gocomplect", target: "_blank"
+        = link_to "Twitter", "https://twitter.com/gocomplect"
+
+  .clearfix.copyright.p-t-4.m-b-3.p-b-3
+    | © Complect 
     = Date.today.year
     |  | All Rights Reserved | 
-    = link_to 'Terms of Use', page_path('terms-of-use')
+    = link_to 'Terms of Use', "https://www.complect.com/terms-of-use", target: "_blank"
     |  | 
-    = link_to "Privacy Policy", page_path("privacy-policy")
+    = link_to "Privacy Policy", "https://www.complect.com/privacy-policy", target: "_blank"
