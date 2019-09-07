@@ -92,6 +92,7 @@ ActiveAdmin.register Project do
       project.escalated? ? status_tag('yes', :ok) : status_tag('no')
       link_to 'Issues', admin_issues_path(q: { project_id_eq: project.id }) if project.escalated?
     end
+    column :applicant_selection
     actions do |project|
       actions = []
       if project.specialist && !project.complete?
@@ -170,6 +171,7 @@ ActiveAdmin.register Project do
       row :annual_salary
       row :calculated_budget
       row :specialist
+      row :applicant_selection
       row :documents do |project|
         if project.issues.open.where(admin_user: current_admin_user).any?
           table_for project.documents do

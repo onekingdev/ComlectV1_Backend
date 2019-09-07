@@ -259,7 +259,11 @@ CREATE TABLE public.businesses (
     qna_viewed_questions integer[] DEFAULT '{}'::integer[],
     qna_views_left integer DEFAULT 3,
     credits_in_cents integer DEFAULT 0,
-    username character varying
+    username character varying,
+    sub_industries character varying,
+    business_stages character varying,
+    business_risks character varying,
+    business_other character varying
 );
 
 
@@ -604,7 +608,7 @@ CREATE TABLE public.projects (
     estimated_days integer,
     rfp_timing character varying,
     est_budget numeric,
-    applicant_selection character varying DEFAULT 'auto_match'::character varying
+    applicant_selection character varying DEFAULT 'interview'::character varying
 );
 
 
@@ -1246,7 +1250,9 @@ CREATE TABLE public.industries (
     name character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    short_name character varying
+    short_name character varying,
+    sub_industries text DEFAULT ''::text,
+    sub_industries_specialist text DEFAULT ''::text
 );
 
 
@@ -1482,7 +1488,11 @@ CREATE TABLE public.specialists (
     hubspot_contact_id character varying,
     credits_in_cents integer DEFAULT 0,
     forum_upvotes_for_review integer DEFAULT 0,
-    username character varying
+    username character varying,
+    specialist_risks character varying,
+    specialist_other character varying,
+    sub_industries character varying,
+    project_types character varying
 );
 
 
@@ -6144,4 +6154,18 @@ INSERT INTO schema_migrations (version) VALUES ('20190226184824');
 INSERT INTO schema_migrations (version) VALUES ('20190410191210');
 
 INSERT INTO schema_migrations (version) VALUES ('20190613005026');
+
+INSERT INTO schema_migrations (version) VALUES ('20190719004511');
+
+INSERT INTO schema_migrations (version) VALUES ('20190723185902');
+
+INSERT INTO schema_migrations (version) VALUES ('20190725045730');
+
+INSERT INTO schema_migrations (version) VALUES ('20190804164816');
+
+INSERT INTO schema_migrations (version) VALUES ('20190806212346');
+
+INSERT INTO schema_migrations (version) VALUES ('20190806214013');
+
+INSERT INTO schema_migrations (version) VALUES ('20190827194645');
 
