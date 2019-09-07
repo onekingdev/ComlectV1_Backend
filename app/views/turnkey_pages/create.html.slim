@@ -18,7 +18,7 @@
               | Note: Complect adds a 10% fee on top of your project value.
               br
               | You can read more about our Payment Terms 
-              = link_to "here", "/info/terms-of-use#fees", target: "_blank"
+              = link_to "here", "https://www.complect.com/terms-of-use#fees", target: "_blank"
               | 
           - else
             - str = @missing.map(&:to_s).map(&:capitalize).map { |k| k.gsub("_", " ") }

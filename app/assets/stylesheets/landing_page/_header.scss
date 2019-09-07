@@ -126,9 +126,11 @@
 
 #cookie-modal {
   position: fixed;
-  bottom: 0px;
+  bottom: 20px;
   z-index: 200;
-  width: 100%;
+  width: 250px;
+  right: 20px;
+  font-size: 12px;
   .modal-dialog {
     margin: 0px;
     width: 100%;

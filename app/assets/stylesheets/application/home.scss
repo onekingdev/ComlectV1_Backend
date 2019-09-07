@@ -189,13 +189,15 @@ body.home.index, body.home.page, body.home.partnerships {
       font-weight: $bold-weight;
     }
     .collapse {
-      font-family: "Avenir Light";
+      font-family: "Open Sans";
+      font-weight: 300;
     }
   }
 
   .hero-light {
     overflow: hidden;
-    font-family: "Avenir Light";
+    font-family: "Open Sans";
+    font-weight: 300;
     b {
       font-family: "Open Sans";
       font-weight: $bold-weight;
@@ -415,7 +417,8 @@ body.home.index, body.home.page, body.home.partnerships {
         font-size: 16px;
         margin: 10px 0px;
         color: #333333;
-        font-family: "Avenir Light";
+        font-family: "Open Sans";
+        font-weight: 300;
       }
     }
 
@@ -578,9 +581,11 @@ body.home.page .hero-light h4 {
 
 #cookie-modal {
   position: fixed;
-  bottom: 0px;
+  bottom: 20px;
   z-index: 200;
-  width: 100%;
+  width: 250px;
+  right: 20px;
+  font-size: 12px;
   .modal-dialog {
     margin: 0px;
     width: 100%;

@@ -23,7 +23,8 @@
       border-radius: 50%;
       margin-bottom: 30px;
     }
-    font-family: "Avenir Light";
+    font-family: "Open Sans";
+    font-weight: 300;
     font-size: 14px;
     span {
       font-size: 12px;
@@ -82,11 +83,12 @@
       text-transform: uppercase;
     }
     p {
-      font-family: "Avenir Light";
+      font-family: "Open Sans";
+      font-weight: 300;
       font-size: 15px;
       line-height: 17px;
       b {
-        font-family: "Avenir";
+        font-family: "Open Sans";
       }
     }
   }
@@ -111,7 +113,8 @@
       margin-bottom: 30px;
     }
     .headline {
-      font-family: 'Avenir Light';
+      font-family: 'Open Sans';
+      font-weight: 300;
       font-size: 16px;
       background-color: #ffc300;
       height: 100px;
@@ -128,7 +131,8 @@
     }
     .about-us-list {
       .entry {
-        font-family: 'Avenir Light';
+        font-family: 'Open Sans';
+        font-weight: 300;
         font-size: 14px;
         background-color: #fff;
         border: 3px solid #ffc300;

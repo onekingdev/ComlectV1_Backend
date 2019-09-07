@@ -35,7 +35,8 @@ html, body{
     }
     p {
       text-align: center;
-      font-family: 'Avenir Light';
+      font-family: 'Open Sans';
+      font-weight: 300;
       font-size: 16px;
       letter-spacing: 0em;
     }
@@ -361,7 +362,7 @@ html, body{
       margin-bottom: 0px;
       color: #000000;
       line-height: 18px;
-      font-family: 'Avenir Light';
+      font-family: 'Open Sans';
       font-weight: $regular-weight;
       padding-right: 100px;
     }

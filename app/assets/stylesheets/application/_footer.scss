@@ -55,7 +55,8 @@ body {
   color: #000;
   .contact-us {
     p {
-      font-family: "Avenir Light";
+      font-family: "Open Sans";
+      font-weight: 300;
       font-size: 14px;
       padding-left: 25px;
       @media (max-width: $screen-sm-max) {
@@ -79,7 +80,8 @@ body {
 
   .links {
     a {
-      font-family: "Avenir Light";
+      font-family: "Open Sans";
+      font-weight: 300;
       font-size: 16px;
       display: block;
       margin-bottom: 11px;
@@ -88,7 +90,7 @@ body {
 
   .copyright {
     font-family: "Open Sans";
-    font-size: 16px;
+    font-size: 14px;
     border-top: 1px solid #000;
     font-weight: 300; 
     @media (min-width: $screen-xs-max) {

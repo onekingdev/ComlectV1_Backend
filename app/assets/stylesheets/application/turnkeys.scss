@@ -2,7 +2,7 @@
   text-align: center;
   margin-bottom: 40px;
   .description_switcher p b {
-    font-family: "Avenir";
+    font-family: "Open Sans";
     font-weight: bold;
   }
   .info-tooltip {
@@ -95,10 +95,11 @@
     margin-bottom: 30px;
     li {
       text-align: left;
-      font-family: "Avenir Light";
+      font-family: "Open Sans";
+      font-weight: 300;
       font-size: 14px;
       b {
-        font-family: "Avenir";
+        font-family: "Open Sans";
         font-weight: bold;
       }
       ul {

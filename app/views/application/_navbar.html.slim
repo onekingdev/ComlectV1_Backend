@@ -2,23 +2,25 @@ nav#nav.navbar.navbar-default
   .navbar-header
     button.navbar-toggle.collapsed type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"
       span.sr-only Toggle navigataion
-      span.icon-bar
-      span.icon-bar
-      span.icon-bar
+      svg#dots-horizontal-icon--even viewbox=("0 0 25 7") style="color: #000; width: 25px; height: 7px;"
+        circle cx="3.5" cy="3.5" r="2.5" 
+        circle cx="12.5" cy="3.5" r="2.5" 
+        circle cx="21.5" cy="3.5" r="2.5" 
+
     a.navbar-brand href=root_path
       = yield(:logo).presence || image_tag('logo.png', height: '48px')
   #navbar-collapse.collapse.navbar-collapse
     ul.nav.navbar-nav.nav-about
       - if !user_signed_in?
-        li= link_to 'Our talent', "https://www.complect.com/#our-talent"
-        li= link_to 'Types of services', "https://www.complect.com/#types-of-service"
-        li= link_to 'How it Works', "https://www.complect.com/#how-it-works"
+        li= link_to 'Our Talent', "https://www.complect.com/#our-talent"
+        li= link_to 'Types Of Services', "https://www.complect.com/#types-of-service"
+        li= link_to 'How It Works', "https://www.complect.com/#how-it-works"
       - if user_signed_in? && current_user.business
         li= link_to 'My Dashboard', business_dashboard_path
       - elsif user_signed_in? && current_user.specialist
         li= link_to 'My Dashboard', specialists_dashboard_path
-      li.hidden-nav= link_to "Our blog", "https://www.complect.com/our-blog", target: "_blank"
-      li.hidden-nav= link_to "Faqs", "https://www.complect.com/faqs"
+      li.hidden-nav= link_to "Our Blog", "https://www.complect.com/our-blog", target: "_blank"
+      li.hidden-nav= link_to "FAQs", "https://www.complect.com/faqs"
       li.hidden-nav2= link_to "Q&A Forum", forum_questions_path, class: "qna_navbar"
         /button.qna_navbar.btn.btn-primary data-href=forum_questions_path Q&A Forum
 
