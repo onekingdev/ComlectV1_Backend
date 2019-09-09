@@ -38,12 +38,24 @@ class Users::SessionsController < Devise::SessionsController
     mixpanel_track_later 'Sign Out', user: user
   end
 
+  # rubocop:disable Metrics/LineLength
+  # rubocop:disable Metrics/AbcSize
   def squarespace
     headers['Access-Control-Allow-Credentials'] = 'true'
     headers['Access-Control-Allow-Origin'] = 'https://www.complect.com'
     headers['Access-Control-Allow-Methods'] = 'GET'
     headers['Access-Control-Request-Method'] = '*'
     headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+    freg_cnt = Specialist.where(former_regulator: true).count
+    @former_regulators_percent = 100
+    @former_regulators_percent = freg_cnt * 100 / Specialist.count if freg_cnt != 0
+    years_of_xp = Specialist.join_experience.all.where(work_experiences: { compliance: true }).collect(&:years_of_experience)
+    @avg_xp_years = if years_of_xp.count.positive?
+                      years_of_xp.sum / years_of_xp.count
+                    else
+                      0
+                    end
+    landing_stats = [Specialist.count, @former_regulators_percent, @avg_xp_years, Business.count]
     cu = current_user
     if current_specialist
       render json: {
@@ -54,11 +66,13 @@ class Users::SessionsController < Devise::SessionsController
         fullname: current_specialist.to_s
       }
     elsif current_business
-      render json: { specialist: false, business: true, name: current_business.username, unread: cu.notifications.unread.count }
+      render json: { specialist: false, business: true, name: current_business.username, unread: cu.notifications.unread.count, stats: landing_stats }
     else
-      render json: { specialist: false, business: false, name: nil, unread: nil }
+      render json: { specialist: false, business: false, name: nil, unread: nil, stats: landing_stats }
     end
   end
+  # rubocop:enable Metrics/LineLength
+  # rubocop:enable Metrics/AbcSize
 
   def squarespace_destroy
     # for some reason with DELETE method doesn't work on devise's destroy
