@@ -3,7 +3,7 @@
 --
 
 -- Dumped from database version 9.5.3
--- Dumped by pg_dump version 11.1
+-- Dumped by pg_dump version 11.5
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -12,6 +12,7 @@ SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
 SET check_function_bodies = false;
+SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
@@ -608,7 +609,8 @@ CREATE TABLE public.projects (
     estimated_days integer,
     rfp_timing character varying,
     est_budget numeric,
-    applicant_selection character varying DEFAULT 'interview'::character varying
+    applicant_selection character varying DEFAULT 'interview'::character varying,
+    admin_notified boolean DEFAULT false
 );
 
 
@@ -6168,4 +6170,6 @@ INSERT INTO schema_migrations (version) VALUES ('20190806212346');
 INSERT INTO schema_migrations (version) VALUES ('20190806214013');
 
 INSERT INTO schema_migrations (version) VALUES ('20190827194645');
+
+INSERT INTO schema_migrations (version) VALUES ('20190912145221');
 

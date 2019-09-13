@@ -134,6 +134,7 @@ class Project < ApplicationRecord
   }
 
   after_create :new_project_notification
+  after_update :new_project_notification
 
   LOCATIONS = [%w[Remote remote], %w[Remote\ +\ Travel remote_and_travel], %w[Onsite onsite]].freeze
   # DB Views depend on these so don't modify:
@@ -427,7 +428,13 @@ class Project < ApplicationRecord
   def new_project_notification
     environment = ENV['STRIPE_PUBLISHABLE_KEY'].start_with?('pk_test') ? 'staging' : 'production'
     environment = 'staging' if Rails.env.development?
-    ProjectMailer.notify_admin_on_creation(self).deliver_later if environment == 'production' && !draft?
+    # rubocop:disable Style/GuardClause
+    if !admin_notified && !draft? && environment == 'production'
+      ProjectMailer.notify_admin_on_creation(self).deliver_later
+      update(admin_notified: true)
+      save!
+    end
+    # rubocop:enable Style/GuardClause
   end
 
   private
