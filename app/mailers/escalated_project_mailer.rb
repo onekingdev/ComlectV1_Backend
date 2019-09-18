@@ -6,7 +6,7 @@ class EscalatedProjectMailer < ApplicationMailer
   def email_to_support(project_issue)
     @project_issue = project_issue
     @project = @project_issue.project
-    mail to: 'help@complect.co',
+    mail to: 'help@complect.com',
          template_id: ENV.fetch('POSTMARK_TEMPLATE_ID'),
          template_model: {
            subject: "The project \"#{@project.title}\" has been escalated",

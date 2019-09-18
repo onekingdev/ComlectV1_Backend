@@ -3,12 +3,12 @@
 # rubocop:disable Rails/Output
 unless AdminUser.any?
   AdminUser.create!(
-    email: 'admin@complect.co',
+    email: 'admin@complect.com',
     password: 'password',
     password_confirmation: 'password',
     super_admin: true
   )
-  puts 'Admin credentials: admin@complect.co / password (login and change it)'
+  puts 'Admin credentials: admin@complect.com / password (login and change it)'
 end
 # rubocop:enable Rails/Output
 

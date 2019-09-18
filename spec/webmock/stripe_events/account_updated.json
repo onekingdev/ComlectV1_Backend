@@ -13,7 +13,7 @@
       "object": "account",
       "business_logo": null,
       "business_name": "Complect LLC",
-      "business_url": "http://www.complect.co",
+      "business_url": "http://www.complect.com",
       "charges_enabled": true,
       "country": "US",
       "debit_negative_balances": true,
@@ -23,7 +23,7 @@
       },
       "default_currency": "usd",
       "details_submitted": true,
-      "display_name": "complect.co",
+      "display_name": "complect.com",
       "email": "test@stripe.com",
       "external_accounts": {
         "object": "list",
