@@ -63,7 +63,8 @@ class Users::SessionsController < Devise::SessionsController
         business: false,
         name: current_specialist.username,
         unread: cu.notifications.unread.count,
-        fullname: current_specialist.to_s
+        fullname: current_specialist.to_s,
+        stats: landing_stats
       }
     elsif current_business
       render json: { specialist: false, business: true, name: current_business.username, unread: cu.notifications.unread.count, stats: landing_stats }
