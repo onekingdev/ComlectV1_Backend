@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'validators/url_validator'
+# rubocop:disable Metrics/ClassLength
 
 class Business < ApplicationRecord
   belongs_to :user
@@ -46,6 +47,55 @@ class Business < ApplicationRecord
     }
   end
 
+  serialize :sub_industries
+  serialize :business_stages
+  serialize :business_risks
+
+  STEP_THREE = [
+    'startup', 'startup rescue', 'complete ongoing maintenance', 'one-off maintenance requests'
+  ].freeze
+
+  STEP_RISKS = [
+    [
+      'You head over and take a piece, because it worked out for the other two mice',
+      'You think about it, but end up playing it safe',
+      'You would have been on that cheese the moment you saw it',
+      'You need to do more research and want to see if more mice are succesful',
+      'No, thank you! Risk death? Not worth it.'
+    ],
+    [
+      'Slow down to the speed limit in case it’s a cop ',
+      'Moderate your speed to the flow of traffic ',
+      'You’d never speed ',
+      'Hope for the best, because you can’t afford to be late to this meeting',
+      'You always speed, even if cops are around, because they have to catch you first'
+    ],
+    [
+      'To win big, you sometimes have to take big risks',
+      'Measure twice, cut once',
+      'My belief in a day of reckoning keeps me on the straight and narrow',
+      'There’s a fine line between taking a calculated risk and doing something dumb',
+      'The biggest risk is not taking any risk'
+    ]
+  ].freeze
+
+  # rubocop:disable Metrics/AbcSize
+  def apply_quiz(cookies)
+    step1_c = cookies[:complect_step1].split('-').map(&:to_i)
+    self.sub_industries = []
+    cookies[:complect_step11].split('-').map(&proc { |p| p.split('_').map(&:to_i) }).each do |c|
+      sub_industries.push(Industry.find(c[0]).sub_industries.split("\r\n")[c[1]]) if step1_c.include? c[0]
+    end
+    self.business_stages = []
+    cookies[:complect_step3].split('-').map(&:to_i).each { |c| business_stages.push(STEP_THREE[c]) }
+    self.business_risks = []
+    business_risks[0] = STEP_RISKS[0][cookies[:complect_step4].to_i]
+    business_risks[1] = STEP_RISKS[1][cookies[:complect_step41].to_i]
+    business_risks[2] = STEP_RISKS[2][cookies[:complect_step42].to_i]
+    self.business_other = cookies[:complect_other] if industries.collect(&:name).include? 'Other'
+  end
+  # rubocop:enable Metrics/AbcSize
+
   alias communicable_projects projects
 
   default_scope -> { joins("INNER JOIN users ON users.id = businesses.user_id AND users.deleted = 'f'") }
@@ -54,14 +104,14 @@ class Business < ApplicationRecord
 
   EMPLOYEE_OPTIONS = %w[<10 11-50 51-100 100+].freeze
 
-  validates :contact_first_name, :contact_last_name, :contact_email, presence: true
-  validates :business_name, :industries, :employees, :description, presence: true
+  validates :contact_first_name, :contact_last_name, presence: true
+  validates :business_name, :industries, :employees, presence: true
   validates :country, :city, :state, :time_zone, presence: true
   validates :description, length: { maximum: 750 }
   validates :employees, inclusion: { in: EMPLOYEE_OPTIONS }
   validates :linkedin_link, allow_blank: true, url: true
   validates :website, allow_blank: true, url: true
-  validates :contact_email, format: { with: URI::MailTo::EMAIL_REGEXP }
+  # validates :contact_email, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :username, uniqueness: true
 
   accepts_nested_attributes_for :user
@@ -186,3 +236,4 @@ class Business < ApplicationRecord
     end
   end
 end
+# rubocop:enable Metrics/ClassLength
