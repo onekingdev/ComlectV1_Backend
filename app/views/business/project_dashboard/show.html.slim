@@ -24,6 +24,10 @@
       .alert.alert-warning.m-b-3.text-center
         | Please be aware the specialist has proposed a project end date that was lapsed. You will want them to amend this before hiring otherwise the project will be automatically marked as completed and invoiced upon hire.
 
+    div style="display: none;"
+      = Time.zone.today
+      br
+      = application.ends_on
   .business-profile
     .row
       .col-xs-12.col-md-3.hidden-sm.hidden-xs
