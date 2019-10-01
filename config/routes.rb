@@ -73,6 +73,8 @@ Rails.application.routes.draw do
   resources :flags, only: %i[new create]
 
   namespace :business do
+    get '/personalize' => 'personalize#quiz'
+    post '/personalize' => 'personalize#quiz'
     resource :settings, only: :show do
       resource :password
       resource :key_contact

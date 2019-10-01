@@ -264,7 +264,18 @@ CREATE TABLE public.businesses (
     sub_industries character varying,
     business_stages character varying,
     business_risks character varying,
-    business_other character varying
+    business_other character varying,
+    sec_or_crd character varying,
+    office_state character varying,
+    branch_offices boolean,
+    client_account_cnt integer,
+    client_types character varying,
+    aum numeric,
+    cco character varying,
+    already_covered character varying,
+    review_plan character varying,
+    annual_compliance boolean,
+    already_covered_other character varying
 );
 
 
@@ -6172,4 +6183,6 @@ INSERT INTO schema_migrations (version) VALUES ('20190806214013');
 INSERT INTO schema_migrations (version) VALUES ('20190827194645');
 
 INSERT INTO schema_migrations (version) VALUES ('20190912145221');
+
+INSERT INTO schema_migrations (version) VALUES ('20190929215310');
 

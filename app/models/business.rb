@@ -50,6 +50,9 @@ class Business < ApplicationRecord
   serialize :sub_industries
   serialize :business_stages
   serialize :business_risks
+  serialize :client_types
+  serialize :already_covered
+  serialize :cco
 
   STEP_THREE = [
     'startup', 'startup rescue', 'complete ongoing maintenance', 'one-off maintenance requests'
@@ -78,6 +81,22 @@ class Business < ApplicationRecord
       'The biggest risk is not taking any risk'
     ]
   ].freeze
+
+  # rubocop:disable Metrics/LineLength
+  QUIZ = [
+    [:sec_or_crd],
+    [:office_state],
+    [:branch_offices],
+    [:client_account_cnt],
+    [:client_types, %i[less_1mm accredited_investors qualified_purchasers institutional_investors pooled_investment]],
+    [:aum],
+    [:cco, %i[yes no dedicated]],
+    [:already_covered, %i[code_of_ethics privacy custody portfolio trading proxy valuation marketing regulatory books planning compliance other]],
+    [:review_plan, %i[no basic deluxe premium]],
+    [:annual_compliance, %i[yes no]],
+    [:finish]
+  ].freeze
+  # rubocop:enable Metrics/LineLength
 
   # rubocop:disable Metrics/AbcSize
   def apply_quiz(cookies)
@@ -140,6 +159,97 @@ class Business < ApplicationRecord
   def to_param
     username
   end
+
+  def state_or_sec
+    if aum.nil? || (!aum.nil? && (aum < 100_000_000)) || only_pooled_investment?
+      'state'
+    else
+      'sec'
+    end
+  end
+
+  def personalized?
+    current_question = 0
+    quiz_copy = QUIZ.dup
+    unless business_stages.nil?
+      quiz_copy -= %i[sec_or_crd already_covered annual_compliance] if business_stages.include? 'startup'
+      quiz_copy.each_with_index do |q, i|
+        current_question = i
+        break if q[0] == :finish || __send__(q[0]).nil?
+      end
+    end
+    quiz_copy[current_question][0] == :finish
+  end
+
+  def only_pooled_investment?
+    (!client_types.nil? && (client_types - ['pooled_investment']).count.zero?)
+  end
+
+  def pooled_investment?
+    (!client_types.nil? && (client_types.include? 'pooled_investment'))
+  end
+
+  # rubocop:disable all
+  def gap_analysis_est
+    basic = 450
+    deluxe = 1000
+    premium = 2000
+    employees_cnt = employees.scan(/\d/).join('').to_i
+    # SMALL
+    if state_or_sec == 'state'
+      if employees_cnt > 2
+        basic = 450
+        deluxe = 1250
+        premium = 2250
+      else
+        basic = 450
+        deluxe = 1000
+        premium = 2000
+      end
+    end
+    # MID
+    if state_or_sec == 'sec'
+      if !pooled_investment? && !client_account_cnt.nil? && (client_account_cnt > 500)
+        if employees_cnt <= 10
+          basic = 500
+          deluxe = 1500
+          premium = 2750
+        end
+        if (employees_cnt > 10) && (employees_cnt <= 50)
+          basic = 1000
+          deluxe = 2750
+          premium = 4500
+        end
+      end
+      if pooled_investment? && !aum.nil?
+        if aum < 500_000_000
+          basic = 2000
+          deluxe = 4500
+          premium = 7500
+        end
+        if aum >= 500_000_000
+          basic = 3500
+          deluxe = 6500
+          premium = 11_500
+        end
+      end
+      # LARGE
+      if !aum.nil? && (aum >= 1_000_000_000)
+        if !pooled_investment? && !client_account_cnt.nil? && (client_account_cnt > 500)
+          basic = 1450
+          deluxe = 4500
+          premium = 8250
+        end
+        if pooled_investment?
+          basic = 7500
+          deluxe = 8500
+          premium = 35_500
+        end
+      end
+    end
+    [basic, deluxe, premium]
+  end
+  # rubocop:enable all
 
   def generate_username
     src = business_name.split(' ').map(&:capitalize).join('')
