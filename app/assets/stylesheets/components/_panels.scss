@@ -230,14 +230,14 @@
     text-decoration: none;
 
     &.active {
-      font-weight: $bold-weight;
+      font-weight: 400;
     }
   }
 
   a {
     font-family: "Open Sans";
     font-size: 13px;
-    font-weight: 300;
+    font-weight: 400;
     color: #000;
     background-color: transparent;
     border-radius: 0;
@@ -253,7 +253,7 @@
     background-color: #fff;
     color: #ffcc00;
     font-family: "Open Sans";
-    font-weight: bold;
+    font-weight: 400;
   }
 
   li.active a {

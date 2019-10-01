@@ -49,7 +49,7 @@
   @include button-variant-light($btn-primary-bg);
   //text-transform: uppercase;
   border-radius: 27px;
-  font-weight: 500;
+  font-weight: 400;
 
   &:focus {
     background-color: #ffcc00 !important;
@@ -64,6 +64,8 @@
 }
 
 .btn-default {
+  border-radius: 27px;
+  font-weight: 400;
   text-transform: uppercase;
   &:hover, &:focus, &:active {
     border-color: #000000 !important;
@@ -137,7 +139,8 @@
 
 .btn-md {
   @include button-size($padding-md-vertical, $padding-md-horizontal, $font-size-base, $line-height-md, $btn-border-radius-md);
-  font-weight: bold;
+  font-weight: 400;
+  border-radius: 27px;
 }
 
 .btn-text {
