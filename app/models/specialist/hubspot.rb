@@ -11,7 +11,11 @@ class Specialist::Hubspot < HubspotContact
   # rubocop:disable Rails/DynamicFindBy
   def hubspot_contact
     @hubspot_contact ||= Hubspot::Contact.find_by_id(object.hubspot_contact_id.to_i) if object.hubspot_contact_id.present?
-    @hubspot_contact ||= Hubspot::Contact.create!(object.user.email)
+    begin
+      @hubspot_contact ||= Hubspot::Contact.create!(object.user.email)
+    rescue Hubspot::RequestError => e
+      logger.fatal e.inspect
+    end
   end
   # rubocop:enable Rails/DynamicFindBy
 
