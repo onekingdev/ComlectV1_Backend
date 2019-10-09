@@ -14,7 +14,7 @@ class Specialist::Hubspot < HubspotContact
     begin
       @hubspot_contact ||= Hubspot::Contact.create!(object.user.email)
     rescue Hubspot::RequestError => e
-      logger.fatal e.inspect
+      Rails.logger.fatal e.inspect
     end
   end
   # rubocop:enable Rails/DynamicFindBy
