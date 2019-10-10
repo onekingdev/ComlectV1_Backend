@@ -49,7 +49,7 @@ class Specialist::Decorator < ApplicationDecorator
     today = Time.zone.today.to_date
     decorated_work_experiences.sort_by do |exp|
       exp.current? ? today : exp.to || far_away
-    end.reverse
+    end
   end
 
   def decorated_work_experiences
