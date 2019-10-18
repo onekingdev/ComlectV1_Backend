@@ -16,7 +16,7 @@ class ForumSubscriptionsController < ApplicationController
         end
         notice = 'Subscription Confirmed'
       else
-        notice = "Please submit <a href='/business/settings/payment'>Payment Details</a> to proceed"
+        notice = "Please submit <a target='_blank' href='/business/settings/payment'>Payment Details</a> to proceed"
       end
     else
       notice = 'Incorrect options'

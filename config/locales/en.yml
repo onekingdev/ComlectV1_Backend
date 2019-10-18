@@ -41,7 +41,7 @@ en:
         project:
           attributes:
             base:
-              no_payment: Oops! We do not have payment details on file for you. Please add them before you can post a project.
+              no_payment: "Oops! We do not have <a target='_blank' href='/business/settings/payment'>payment details</a> on file for you. Please add them before you can post a project."
             location_type:
               inclusion: Please select from the list
             estimated_days:
