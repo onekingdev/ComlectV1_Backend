@@ -145,8 +145,3 @@
                 a.prev-slide href="#" Q
                 .dot-pagination.m-b-1
                 a.next-slide href="#" +
-
-/- if !current_business.personalized?
-javascript:
-  var show_business_personalize = #{!current_business.personalized?};
-  var show_business_tutorial = #{current_business.personalized? && !current_business.tutorial_complete};
