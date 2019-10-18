@@ -126,3 +126,57 @@ en:
         Visit our website to apply, and find additional projects and full time roles like these!
 
   forbidden: "We're sorry but your request appears to have triggered an error. Please review the request or try again."
+  personalize:
+    sec_or_crd: 
+      question: 'What is your firm’s SEC file number or CRD number?'
+    office_state:
+      question: 'What state is your primary office location?'
+    branch_offices:
+      question: 'Do you have any branch offices?'
+    client_account_cnt:
+      question: 'How many client accounts do you have?'
+    client_types: 
+      question: 'Select all the following clients that your firm services:'
+      info: 'For pooled investment vehicles, your fund is considered the client and not the underlying investors within the fund'
+      less_1mm: 'Natural persons with less than $1MM net worth'
+      accredited_investors: 'Natural persons with $1MM-$4.99MM networth (e.g. accredited investors and qualified clients)'
+      qualified_purchasers: 'Natural persons with $5MM+ networth (e.g. qualified purchasers)'
+      institutional_investors: 'Institutional investors (e.g. pension plans, corporate accounts)'
+      pooled_investment: 'Pooled investment vehicles, including mutual funds'
+    aum: 
+      question: 'What is your current AUM or, if you are a startup, the AUM you will be launching with to start?'
+    cco:
+      question: 'Do you have a multi-hatted CCO?'
+      info: 'This means a CCO that has other responsibilities, like CFO/COO/CIO/Founder'
+      'yes': 'Yes'
+      'no': No, I don’t have a CCO
+      no_error: "Would you like to hire a full time or outsourced CCO through Complect?"
+      dedicated: No, I have a dedicated CCO
+    already_covered:
+      question: 'Select all the following key areas of your business that is currently covered by policies and procedures within your compliance manual:'
+      code_of_ethics: Code of Ethics
+      privacy: Privacy, Cybersecurity, & Identity Theft Prevention
+      custody: Custody
+      portfolio: Portfolio Management
+      trading: Trading
+      proxy: Proxy Voting
+      valuation: Valuation
+      marketing: Marketing
+      regulatory: Regulatory Filings & Disclosures
+      books: Books & Records
+      planning: Business Continuity Planning
+      compliance: Compliance Program
+      other: Other
+    review_plan:
+      question: "Oh no! It appears there may be a gap in your compliance program. Regulators will be reviewing each of those key areas during a full scope exam. Therefore, we recommend that you have them in place. Would you like to book a gap analysis with one of our compliance specialists?"
+      info: "Our BASIC REVIEW provides a compliance manual review and update. The DELUXE REVIEW provides a high level gap analysis that includes employee interviews and limited testing. The PREMIUM REVIEW guarantees a former regulator will conduct a full compliance program review in the form of a mock audit, which you can also use to meet your annual compliance program review requirements."
+      'no': 'No'
+      basic: BASIC REVIEW
+      deluxe: DELUXE REVIEW
+      premium: PREMIUM REVIEW
+    annual_compliance:
+      question: Do you complete an annual compliance program review?
+      no_state_reg: "Not all state require an annual compliance program review, but it is a mandatory requirement once you are SEC registered and a best business practice that regulators like to see. Your compliance command center will give you the ability to conduct one yourself or hire one of our compliance specialists to conduct a review for you in the form of a mock audit!"
+      no_sec_reg: "Oh no! As an SEC registered investment adviser, Rule 204(6)-7 requires all you to review your compliance program on at least an annual basis. Not to worry though, your compliance command center will give you the ability to conduct one yourself or hire one of our compliance specialists to conduct a review for you in the form of a mock audit!"
+      'yes': "Good job! You’re on top of the ball here. Your compliance command center will centralize all your review records for when the regulators come. You should be prepared to upload all the information in one place so you have a quick way to provide information to regulators when they come knocking. We also give you the ability to hire one of our compliance specialists to conduct a review for you in the form of a mock audit."
+      'no': 'No'
