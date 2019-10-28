@@ -1,0 +1,7 @@
+= "Editing policy #{@compliance_policy.title}, upload a file"
+
+= simple_form_for @compliance_policy, url: business_compliance_policy_path(@compliance_policy) do |f|
+  = f.input :title
+  = f.simple_fields_for :compliance_policy_docs do |c|
+    = c.file_field :doc, accept: "application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+  = f.submit

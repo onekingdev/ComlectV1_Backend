@@ -264,7 +264,19 @@ CREATE TABLE public.businesses (
     sub_industries character varying,
     business_stages character varying,
     business_risks character varying,
-    business_other character varying
+    business_other character varying,
+    sec_or_crd character varying,
+    office_state character varying,
+    branch_offices boolean,
+    client_account_cnt integer,
+    client_types character varying,
+    aum numeric,
+    cco character varying,
+    already_covered character varying,
+    review_plan character varying,
+    annual_compliance boolean,
+    already_covered_other character varying,
+    tutorial_complete boolean DEFAULT false
 );
 
 
@@ -351,6 +363,70 @@ CREATE SEQUENCE public.charges_id_seq
 --
 
 ALTER SEQUENCE public.charges_id_seq OWNED BY public.charges.id;
+
+
+--
+-- Name: compliance_policies; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.compliance_policies (
+    id integer NOT NULL,
+    title character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    business_id integer
+);
+
+
+--
+-- Name: compliance_policies_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.compliance_policies_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: compliance_policies_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.compliance_policies_id_seq OWNED BY public.compliance_policies.id;
+
+
+--
+-- Name: compliance_policy_docs; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.compliance_policy_docs (
+    id integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    compliance_policy_id integer,
+    doc_data jsonb
+);
+
+
+--
+-- Name: compliance_policy_docs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.compliance_policy_docs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: compliance_policy_docs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.compliance_policy_docs_id_seq OWNED BY public.compliance_policy_docs.id;
 
 
 --
@@ -4001,6 +4077,20 @@ ALTER TABLE ONLY public.charges ALTER COLUMN id SET DEFAULT nextval('public.char
 
 
 --
+-- Name: compliance_policies id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.compliance_policies ALTER COLUMN id SET DEFAULT nextval('public.compliance_policies_id_seq'::regclass);
+
+
+--
+-- Name: compliance_policy_docs id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.compliance_policy_docs ALTER COLUMN id SET DEFAULT nextval('public.compliance_policy_docs_id_seq'::regclass);
+
+
+--
 -- Name: cookie_agreements id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -4361,6 +4451,22 @@ ALTER TABLE ONLY public.businesses
 
 ALTER TABLE ONLY public.charges
     ADD CONSTRAINT charges_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: compliance_policies compliance_policies_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.compliance_policies
+    ADD CONSTRAINT compliance_policies_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: compliance_policy_docs compliance_policy_docs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.compliance_policy_docs
+    ADD CONSTRAINT compliance_policy_docs_pkey PRIMARY KEY (id);
 
 
 --
@@ -6172,4 +6278,18 @@ INSERT INTO schema_migrations (version) VALUES ('20190806214013');
 INSERT INTO schema_migrations (version) VALUES ('20190827194645');
 
 INSERT INTO schema_migrations (version) VALUES ('20190912145221');
+
+INSERT INTO schema_migrations (version) VALUES ('20190929215310');
+
+INSERT INTO schema_migrations (version) VALUES ('20191013070720');
+
+INSERT INTO schema_migrations (version) VALUES ('20191028010601');
+
+INSERT INTO schema_migrations (version) VALUES ('20191028033710');
+
+INSERT INTO schema_migrations (version) VALUES ('20191028035845');
+
+INSERT INTO schema_migrations (version) VALUES ('20191028040525');
+
+INSERT INTO schema_migrations (version) VALUES ('20191028054616');
 

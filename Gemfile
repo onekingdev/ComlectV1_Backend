@@ -69,6 +69,7 @@ gem 'imagesLoaded_rails'
 gem 'jquery-mousewheel-rails'
 gem 'jquery-rails'
 gem 'jquery-slick-rails'
+gem 'js_cookie_rails'
 
 # Mail
 gem 'postmark-rails'

@@ -3,6 +3,10 @@
 module ApplicationHelper
   include SimpleForm::ActionViewExtensions::FormHelper
 
+  def self.order_string(field_name, arr)
+    arr.map { |val| "#{field_name}='#{val}' desc" }.join(', ')
+  end
+
   def accept_cookies
     cookies[:accept_cookies] = true if current_user && current_user.cookie_agreement.present? && cookies[:accept_cookies].nil?
     cookies[:accept_cookies]
@@ -97,7 +101,7 @@ module ApplicationHelper
   def render_flash
     classes = { alert: 'warning', notice: 'info' }
     (flash.keys & %w[warning notice alert]).map do |key|
-      content_tag 'div', raw(flash[key]), class: "alert alert-#{classes[key.to_sym]} m-b-3"
+      content_tag 'div', flash[key], class: "alert alert-#{classes[key.to_sym]} m-b-3"
     end.join("\n").html_safe
   end
 
