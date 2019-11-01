@@ -154,7 +154,7 @@
     .clearfix.m-y-3
       .alert.alert-danger.text-center.col-xs-12.col-sm-8.col-sm-push-2.m-b-0
         - if f.object.errors[:base].any?
-          = f.object.errors[:base].join(' ')
+          = raw f.object.errors[:base].join(' ')
         - else
           'Oops! You are missing important information, please add it before proceeding.
 

@@ -12,4 +12,14 @@
     right: 15px;
     cursor: pointer;
   }
+  a {
+    color: #0dafff;
+  }
+}
+
+.alert-danger {
+  a {
+    color: #000;
+    text-decoration: underline;
+  }
 }

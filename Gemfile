@@ -8,6 +8,9 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+# doc to pdf
+gem 'libreconv'
+
 # captcha
 gem 'bcrypt'
 gem 'recaptcha', require: 'recaptcha/rails'
@@ -69,7 +72,6 @@ gem 'imagesLoaded_rails'
 gem 'jquery-mousewheel-rails'
 gem 'jquery-rails'
 gem 'jquery-slick-rails'
-gem 'js_cookie_rails'
 
 # Mail
 gem 'postmark-rails'

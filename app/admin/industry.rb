@@ -11,18 +11,12 @@ ActiveAdmin.register Industry do
       link_to record, [:admin, record]
     end
     column :short_name do |record|
-      link_to record.short_name, [:admin, record] if record.short_name.present?
-    end
-    column :sub_industries do |record|
-      raw(record.sub_industries.split("\n").join('<br/>')) unless record.sub_industries.nil?
-    end
-    column :sub_industries_specialist do |record|
-      raw(record.sub_industries_specialist.split("\n").join('<br/>')) unless record.sub_industries_specialist.nil?
+      link_to record.short_name, [:admin, record]
     end
     actions
   end
 
-  permit_params :name, :short_name, :sub_industries, :sub_industries_specialist
+  permit_params :name, :short_name
 
   controller do
     def create
