@@ -9,6 +9,17 @@
       .td.col-xs-12.col-sm-4.col-md-3.va-top
         .panel.panel-default.profile-info
           .panel-heading
+            h3 Compliance manual
+          .panel-body
+            a.btn.btn-link.btn-plain.add-bank-account data-target="#modal" data-toggle="modal" data-remote=true href=new_business_compliance_policy_path
+              span Add policy
+            ul
+              - current_business.compliance_policies.each do |policy|
+                li = link_to policy.title, business_compliance_policy_path(policy), target: "_blank"
+
+
+        .panel.panel-default.profile-info
+          .panel-heading
             h3 Profile
           .panel-body
             - if business.logo
@@ -145,3 +156,8 @@
                 a.prev-slide href="#" Q
                 .dot-pagination.m-b-1
                 a.next-slide href="#" +
+
+/- if !current_business.personalized?
+javascript:
+  var show_business_personalize = #{!current_business.personalized?};
+  var show_business_tutorial = #{current_business.personalized? && !current_business.tutorial_complete};
