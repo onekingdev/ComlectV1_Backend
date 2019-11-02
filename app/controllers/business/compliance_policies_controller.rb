@@ -11,13 +11,19 @@ class Business::CompliancePoliciesController < ApplicationController
   def create
     @compliance_policy = CompliancePolicy.new(compliance_policy_params)
     @compliance_policy.business_id = current_business.id
-    redirect_to business_compliance_policy_path(@compliance_policy) if @compliance_policy.save
+    if @compliance_policy.save
+      PdfWorker.perform_async(@compliance_policy.compliance_policy_docs.order(:id).first.id)
+      redirect_to business_compliance_policy_path(@compliance_policy)
+    else
+      @compliance_policy.compliance_policy_docs.build
+      render 'new'
+    end
   end
 
   def update
     # rubocop:disable Style/GuardClause
     if @compliance_policy.update(compliance_policy_params)
-      PdfWorker.perform_async(@compliance_policy.compliance_policy_docs.order(:id).first)
+      PdfWorker.perform_async(@compliance_policy.compliance_policy_docs.order(:id).first.id)
       redirect_to business_compliance_policy_path(@compliance_policy)
     end
     # rubocop:enable Style/GuardClause
@@ -25,7 +31,14 @@ class Business::CompliancePoliciesController < ApplicationController
 
   def edit; end
 
-  def show; end
+  def show
+    @preview_doc = @compliance_policy.compliance_policy_docs.where(id: params[:docid]) if params[:docid]
+    @preview_doc = if !@preview_doc.nil?
+                     @preview_doc.first
+                   else
+                     @compliance_policy.compliance_policy_docs.first
+                   end
+  end
 
   private
 

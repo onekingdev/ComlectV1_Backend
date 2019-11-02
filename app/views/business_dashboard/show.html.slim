@@ -7,6 +7,13 @@
   #business-dashboard.row.m-b-3
     .tr
       .td.col-xs-12.col-sm-4.col-md-3.va-top
+
+        .panel.panel-default.profile-info
+          .panel-heading
+            h3 Reminders
+          .panel-body
+            
+
         .panel.panel-default.profile-info
           .panel-heading
             h3 Compliance manual
@@ -16,6 +23,7 @@
             ul
               - current_business.compliance_policies.each do |policy|
                 li = link_to policy.title, business_compliance_policy_path(policy), target: "_blank"
+
 
 
         .panel.panel-default.profile-info

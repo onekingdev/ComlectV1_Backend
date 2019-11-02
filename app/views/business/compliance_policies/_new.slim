@@ -1,7 +1,11 @@
 | New policy, upload a file
 
-= simple_form_for @compliance_policy, url: business_compliance_policies_path do |f|
+= simple_form_for @compliance_policy, wrapper: :inline_form, url: business_compliance_policies_path do |f|
+  .text-danger = f.object.errors.full_messages.first if f.object.errors.any?
   = f.input :title
+  - trig = false
   = f.simple_fields_for :compliance_policy_docs do |c|
-    = c.file_field :doc, accept: "application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    - if !trig
+      - trig = true
+      = c.file_field :doc, accept: "application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
   = f.submit

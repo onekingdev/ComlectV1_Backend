@@ -101,7 +101,7 @@ module ApplicationHelper
   def render_flash
     classes = { alert: 'warning', notice: 'info' }
     (flash.keys & %w[warning notice alert]).map do |key|
-      content_tag 'div', flash[key], class: "alert alert-#{classes[key.to_sym]} m-b-3"
+      content_tag 'div', raw(flash[key]), class: "alert alert-#{classes[key.to_sym]} m-b-3"
     end.join("\n").html_safe
   end
 

@@ -8,6 +8,10 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+# doc to pdf
+gem 'libreconv'
+gem 'pdfjs_viewer-rails'
+
 # captcha
 gem 'bcrypt'
 gem 'recaptcha', require: 'recaptcha/rails'

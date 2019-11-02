@@ -1,15 +1,17 @@
 # frozen_string_literal: true
 
-require 'rubygems'
-require 'libreconv'
-
 class PdfWorker
   include Sidekiq::Worker
   sidekiq_options retry: false
 
-  def perform(policy_doc)
+  def env_path(in_path)
+    Rails.env.production? ? in_path : "#{Rails.root}/public#{in_path}"
+  end
+
+  def perform(policy_doc_id)
+    policy_doc = CompliancePolicyDoc.find(policy_doc_id)
     tmp_fd = Tempfile.new(['pdf-', '.pdf'])
-    Libreconv.convert(policy_doc.doc_url, tmp_fd.path)
+    Libreconv.convert(env_path(policy_doc.doc_url), tmp_fd.path)
     uploader = PdfUploader.new(:store)
     file = File.new(tmp_fd)
     uploaded_file = uploader.upload(file)
