@@ -11,8 +11,15 @@
         .panel.panel-default.profile-info
           .panel-heading
             h3 Reminders
-          .panel-body
-            
+          .panel-body style="padding-top: 0px; padding-bottom: 0px;"
+            = month_calendar events: current_business.projects.time_assigned do |date, projects|
+              - if projects.count > 0
+                - titles = ""
+                - projects.each do |project|
+                  - titles += "#{project.title}<br/>"
+              .coloring style=("background-color: rgba(255, 204, 0, #{0.2*projects.count})") data-placement="top" data-toggle="tooltip" data-title=(raw(titles)) data-html="true"
+                = date.day
+
 
         .panel.panel-default.profile-info
           .panel-heading

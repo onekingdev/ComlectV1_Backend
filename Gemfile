@@ -12,6 +12,9 @@ end
 gem 'libreconv'
 gem 'pdfjs_viewer-rails'
 
+# calendar
+gem 'simple_calendar', '~> 2.0'
+
 # captcha
 gem 'bcrypt'
 gem 'recaptcha', require: 'recaptcha/rails'
