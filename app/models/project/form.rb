@@ -49,9 +49,9 @@ class Project::Form < Project
     period = public_send(attribute)
     errors.add attribute, :too_little_duration if %w[monthly bi_weekly].include?(period)
   end
-  # validate if: -> { published? && !user&.payment_info? } do
-  #  errors.add :base, :no_payment
-  # end
+  validate if: -> { published? && !user&.payment_info? } do
+    errors.add :base, :no_payment
+  end
   validates :skill_ids, length: { maximum: 10 }
   validates :minimum_experience, presence: true, inclusion: { in: EXPERIENCE_RANGES.keys }
 

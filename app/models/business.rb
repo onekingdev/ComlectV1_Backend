@@ -36,6 +36,7 @@ class Business < ApplicationRecord
 
   has_one :referral, as: :referrable
   has_many :referral_tokens, as: :referrer
+  has_many :reminders
 
   has_settings do |s|
     s.key :notifications, defaults: {

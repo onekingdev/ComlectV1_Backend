@@ -1,6 +1,20 @@
+.reminders_table {
+  tr.done {
+    text-decoration: line-through;
+    color: #BBB;
+    font-style: italic;
+  }
+}
+
 .simple-calendar {
   margin-left: -10px;
   margin-right: -10px;
+  .real_today {
+    box-shadow: inset 0px 0px 0px 3px rgba(255,0,0,1);
+  }
+  .table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: transparent;
+  }
   .calendar-heading {
     text-align: center;
   }

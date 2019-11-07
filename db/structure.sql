@@ -3455,6 +3455,40 @@ ALTER SEQUENCE public.referrals_id_seq OWNED BY public.referrals.id;
 
 
 --
+-- Name: reminders; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.reminders (
+    id integer NOT NULL,
+    body character varying,
+    business_id integer,
+    remind_at date,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    done_at timestamp without time zone
+);
+
+
+--
+-- Name: reminders_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.reminders_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: reminders_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.reminders_id_seq OWNED BY public.reminders.id;
+
+
+--
 -- Name: rewards_tiers; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -4295,6 +4329,13 @@ ALTER TABLE ONLY public.referrals ALTER COLUMN id SET DEFAULT nextval('public.re
 
 
 --
+-- Name: reminders id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reminders ALTER COLUMN id SET DEFAULT nextval('public.reminders_id_seq'::regclass);
+
+
+--
 -- Name: rewards_tiers id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -4700,6 +4741,14 @@ ALTER TABLE ONLY public.referral_tokens
 
 ALTER TABLE ONLY public.referrals
     ADD CONSTRAINT referrals_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: reminders reminders_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reminders
+    ADD CONSTRAINT reminders_pkey PRIMARY KEY (id);
 
 
 --
@@ -6295,4 +6344,8 @@ INSERT INTO schema_migrations (version) VALUES ('20191028040525');
 INSERT INTO schema_migrations (version) VALUES ('20191028054616');
 
 INSERT INTO schema_migrations (version) VALUES ('20191101200437');
+
+INSERT INTO schema_migrations (version) VALUES ('20191106180256');
+
+INSERT INTO schema_migrations (version) VALUES ('20191107010504');
 

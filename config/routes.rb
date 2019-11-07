@@ -77,6 +77,7 @@ Rails.application.routes.draw do
     get '/personalize' => 'personalize#quiz'
     post '/personalize' => 'personalize#quiz'
     resources :compliance_policies, only: %i[new update create edit show]
+    resources :reminders, only: %i[new update create destroy show]
     resource :settings, only: :show do
       resource :password
       resource :key_contact
