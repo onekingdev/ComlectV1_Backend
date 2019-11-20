@@ -1,0 +1,4 @@
+= simple_form_for @annual_review, url: (params[:action] == "edit" ? business_annual_review_path(@annual_review) : business_annual_reviews_path) do |f|
+  = f.file_field :file, accept: "application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+  = f.hidden_field :year, value: (params[:year].blank? ? @annual_review.year : params[:year])
+  = f.submit "Update"

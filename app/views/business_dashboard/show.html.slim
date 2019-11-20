@@ -42,8 +42,30 @@
             /    - titles += "#{project.title}<br/>"
             /.coloring style=("background-color: rgba(255, 204, 0, #{0.2*projects.count})") class=("today" if date == Date.today) data-placement="top" data-toggle="tooltip" data-title=(raw(titles)) data-html="true"
             /  = date.day
-
-
+        .panel.panel-default.profile-info
+          .panel-heading
+            h3 Annual review
+          .panel-body
+            = link_to "DIY", business_annual_reviews_path(kind: "diy"), class: "btn btn-primary", "data-target": "#modal", "data-toggle": "modal", "data-remote": true
+            = link_to "HIRE", business_annual_reviews_path, class: "btn btn-primary", "data-target": "#modal", "data-toggle": "modal", "data-remote": true
+            - if current_business.review_declined
+              - ((Date.today.year-4)..Date.today.year).to_a.reverse.each do |y|
+                - years_avail = current_business.annual_reviews.collect(&:year)
+                = y
+                | &nbsp;
+                - if years_avail.include? y
+                  - annual_review = current_business.annual_reviews.where(year: y).first
+                  = link_to "Edit", edit_business_annual_review_path(annual_review), class: "btn btn-sm btn-primary", "data-target": "#modal", "data-toggle": "modal", "data-remote": true
+                  | &nbsp;
+                  = link_to "View", business_annual_review_path(annual_review)
+                  | &nbsp;
+                  = link_to "Save", annual_review.file_url
+                - else
+                  | No file 
+                  = link_to "Upload", new_business_annual_review_path(year: y), class: "btn btn-sm btn-primary", "data-target": "#modal", "data-toggle": "modal", "data-remote": true
+                br/
+                /= simple_form_for business_annual_reviews_path(AnnualReview.new(year: y)) do |f|
+                  = f.file_field :file, accept: "application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
         .panel.panel-default.profile-info
           .panel-heading
             h3 Compliance manual
@@ -53,8 +75,6 @@
             ul
               - current_business.compliance_policies.each do |policy|
                 li = link_to policy.title, business_compliance_policy_path(policy), target: "_blank"
-
-
 
         .panel.panel-default.profile-info
           .panel-heading

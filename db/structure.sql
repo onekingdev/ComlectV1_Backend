@@ -113,6 +113,40 @@ ALTER SEQUENCE public.admin_users_id_seq OWNED BY public.admin_users.id;
 
 
 --
+-- Name: annual_reviews; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.annual_reviews (
+    id integer NOT NULL,
+    business_id integer,
+    file_data jsonb,
+    year integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    pdf_data jsonb
+);
+
+
+--
+-- Name: annual_reviews_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.annual_reviews_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: annual_reviews_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.annual_reviews_id_seq OWNED BY public.annual_reviews.id;
+
+
+--
 -- Name: answers; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -276,7 +310,8 @@ CREATE TABLE public.businesses (
     review_plan character varying,
     annual_compliance boolean,
     already_covered_other character varying,
-    tutorial_complete boolean DEFAULT false
+    tutorial_complete boolean DEFAULT false,
+    review_declined boolean DEFAULT false
 );
 
 
@@ -4077,6 +4112,13 @@ ALTER TABLE ONLY public.admin_users ALTER COLUMN id SET DEFAULT nextval('public.
 
 
 --
+-- Name: annual_reviews id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.annual_reviews ALTER COLUMN id SET DEFAULT nextval('public.annual_reviews_id_seq'::regclass);
+
+
+--
 -- Name: answers id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -4453,6 +4495,14 @@ ALTER TABLE ONLY public.work_experiences ALTER COLUMN id SET DEFAULT nextval('pu
 
 ALTER TABLE ONLY public.admin_users
     ADD CONSTRAINT admin_users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: annual_reviews annual_reviews_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.annual_reviews
+    ADD CONSTRAINT annual_reviews_pkey PRIMARY KEY (id);
 
 
 --
@@ -6348,4 +6398,10 @@ INSERT INTO schema_migrations (version) VALUES ('20191101200437');
 INSERT INTO schema_migrations (version) VALUES ('20191106180256');
 
 INSERT INTO schema_migrations (version) VALUES ('20191107010504');
+
+INSERT INTO schema_migrations (version) VALUES ('20191119063004');
+
+INSERT INTO schema_migrations (version) VALUES ('20191119080112');
+
+INSERT INTO schema_migrations (version) VALUES ('20191120121410');
 

@@ -2,6 +2,7 @@
 
 class Business::CompliancePoliciesController < ApplicationController
   before_action :set_cpolicy, only: %i[update edit show]
+  before_action :require_business!
 
   def new
     @compliance_policy = CompliancePolicy.new
@@ -22,7 +23,7 @@ class Business::CompliancePoliciesController < ApplicationController
 
   def update
     # rubocop:disable Style/GuardClause
-    if @compliance_policy.update(compliance_policy_params)
+    if (@compliance_policy.business_id == current_business.id) && @compliance_policy.update(compliance_policy_params)
       PdfWorker.perform_async(@compliance_policy.compliance_policy_docs.order(:id).first.id)
       redirect_to business_compliance_policy_path(@compliance_policy)
     end

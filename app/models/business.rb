@@ -29,6 +29,7 @@ class Business < ApplicationRecord
   }, through: :projects, source: :ratings
   has_many :email_threads, dependent: :destroy
   has_many :compliance_policies
+  has_many :annual_reviews
 
   has_one :forum_subscription
   has_one :tos_agreement, through: :user
@@ -191,12 +192,15 @@ class Business < ApplicationRecord
     (!client_types.nil? && (client_types.include? 'pooled_investment'))
   end
 
+  def employees_cnt
+    employees.split('-')[0].scan(/\d/).join('').to_i
+  end
+
   # rubocop:disable all
   def gap_analysis_est
     basic = 450
     deluxe = 1000
     premium = 2000
-    employees_cnt = employees.scan(/\d/).join('').to_i
     # SMALL
     if state_or_sec == 'state'
       if employees_cnt > 2
