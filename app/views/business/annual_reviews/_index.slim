@@ -6,7 +6,7 @@
       | $500 for self-guided review
     br/
     br/
-    button.btn.btn-primary Pay
+    = link_to "Pay", new_business_annual_report_path, class: "btn btn-primary"
     = link_to "Decline", business_dashboard_path(review: "declined"), class: "btn btn-default"
   - else
     = simple_form_for :annual_review_project do |f|

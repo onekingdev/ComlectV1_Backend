@@ -1,0 +1,67 @@
+= params.inspect
+
+= simple_form_for @annual_report, url: business_annual_reports_path do |f|
+  .shadow_container.m-b-3
+    h1.text-center Annual Review Guide
+
+    .col-md-6
+      = f.input :exam_start, as: :string, input_html: { value: f.object.exam_start.try(:strftime, '%m/%Y'), class: 'input-lg js-datepicker', data: { value: f.object.exam_start.to_s, format: 'mm/yyyy', months: true, years: 80 } }
+    .col-md-6
+      = f.input :exam_end, as: :string, input_html: { value: f.object.exam_end.try(:strftime, '%m/%Y'), class: 'input-lg js-datepicker', data: { value: f.object.exam_end.to_s, format: 'mm/yyyy', months: true, years: 80 } }
+    .clearfix
+    .col-md-6
+      = f.input :review_start, as: :string, input_html: { value: f.object.review_start.try(:strftime, '%m/%Y'), class: 'input-lg js-datepicker', data: { value: f.object.review_start.to_s, format: 'mm/yyyy', months: true, years: 80 } }
+    .col-md-6
+      = f.input :review_end, as: :string, input_html: { value: f.object.review_end.try(:strftime, '%m/%Y'), class: 'input-lg js-datepicker', data: { value: f.object.review_end.to_s, format: 'mm/yyyy', months: true, years: 80 } }
+    .clearfix
+  .shadow_container.m-b-3
+    h1.text-center 
+      | Key Employees Interviewed
+      button.info-tooltip type="button" data-toggle="tooltip" title="This often includes the individuals responsible for making investment decisions, trading, fee billing, marketing, IT, and compliance" i
+    = f.simple_fields_for :annual_review_employees do |c|
+      .nested_form
+        = render 'annual_review_employee_fields', f: c
+        .add.add_more = link_to_add_association f, :annual_review_employees do
+          .btn.btn-primary.m-b-1 Add more
+    .clearfix
+  .shadow_container.m-b-3
+    h1.text-center
+      | Material Business Changes
+      button.info-tooltip data-toggle="tooltip" type="button" title="Discuss any changes in key personnel, business lines, investment strategies, investment vehicles utilized, office locations, etc." i
+    = f.simple_fields_for :business_changes do |c|
+      .nested_form
+        = render 'business_change_fields', f: c
+        .add.add_more = link_to_add_association f, :business_changes do
+          .btn.btn-primary.m-b-1 Add more
+    .clearfix
+  .shadow_container.m-b-3
+    h1.text-center
+      | Material Regulatory Changes
+      button.info-tooltip data-toggle="tooltip" type="button" title="Discuss any key regulatory developments and how the business addressed them during the Review Period" i
+    = f.simple_fields_for :regulatory_changes do |c|
+      .nested_form
+        = render 'regulatory_change_fields', f: c
+        .add.add_more = link_to_add_association f, :regulatory_changes do
+          .btn.btn-primary.m-b-1 Add more
+    .clearfix
+  .shadow_container.m-b-3
+    h1.text-center Code of Ethics and Insider Trading
+    h3.text-center Select from the following issues that had no findings: 
+    .form-group
+      - I18n.translate("annual_report").map(&:last).each_with_index do |question, ind|
+        span.checkbox.checkbox-lg
+          input as="boolean" type="checkbox" name="annual_report[cof_bits][#{ind}]" id="annual_report_cof_bits_#{ind}" value="#{ind}"
+          label for="annual_report_cof_bits_#{ind}"
+            = question
+
+    h1.text-center
+      | Findings
+    = f.simple_fields_for :findings do |c|
+      .nested_form
+        = render 'finding_fields', f: c
+        .add.add_more = link_to_add_association f, :findings do
+          .btn.btn-primary.m-b-1 Add more
+    = f.input :tailored_lvl, collection: [["well", 3], ["resonably", 2], ["poorly", 1]]
+    = f.input :comments
+    = f.submit
+    

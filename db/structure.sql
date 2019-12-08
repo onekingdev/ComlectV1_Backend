@@ -122,16 +122,12 @@ CREATE TABLE public.annual_reports (
     exam_end date,
     review_start date,
     review_end date,
-    employees_interviewed text,
-    business_change text,
-    regulatory_change text,
-    regulatory_response text,
     cof_bits character varying,
-    findings text,
     tailored_lvl integer,
     comments text,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    business_id integer
 );
 
 
@@ -152,6 +148,40 @@ CREATE SEQUENCE public.annual_reports_id_seq
 --
 
 ALTER SEQUENCE public.annual_reports_id_seq OWNED BY public.annual_reports.id;
+
+
+--
+-- Name: annual_review_employees; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.annual_review_employees (
+    id integer NOT NULL,
+    name character varying,
+    title character varying,
+    department character varying,
+    annual_report_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: annual_review_employees_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.annual_review_employees_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: annual_review_employees_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.annual_review_employees_id_seq OWNED BY public.annual_review_employees.id;
 
 
 --
@@ -292,6 +322,38 @@ CREATE SEQUENCE public.bank_accounts_id_seq
 --
 
 ALTER SEQUENCE public.bank_accounts_id_seq OWNED BY public.bank_accounts.id;
+
+
+--
+-- Name: business_changes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.business_changes (
+    id integer NOT NULL,
+    change text,
+    annual_report_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: business_changes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.business_changes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: business_changes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.business_changes_id_seq OWNED BY public.business_changes.id;
 
 
 --
@@ -1196,6 +1258,40 @@ UNION
            FROM all_projects) a,
     ( SELECT NULLIF(count(*), 0) AS cnt
            FROM project_revenue) p;
+
+
+--
+-- Name: findings; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.findings (
+    id integer NOT NULL,
+    annual_report_id integer,
+    finding text,
+    action text,
+    risk_lvl integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: findings_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.findings_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: findings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.findings_id_seq OWNED BY public.findings.id;
 
 
 --
@@ -3532,6 +3628,39 @@ ALTER SEQUENCE public.referrals_id_seq OWNED BY public.referrals.id;
 
 
 --
+-- Name: regulatory_changes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.regulatory_changes (
+    id integer NOT NULL,
+    annual_report_id integer,
+    change text,
+    response text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: regulatory_changes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.regulatory_changes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: regulatory_changes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.regulatory_changes_id_seq OWNED BY public.regulatory_changes.id;
+
+
+--
 -- Name: reminders; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -4161,6 +4290,13 @@ ALTER TABLE ONLY public.annual_reports ALTER COLUMN id SET DEFAULT nextval('publ
 
 
 --
+-- Name: annual_review_employees id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.annual_review_employees ALTER COLUMN id SET DEFAULT nextval('public.annual_review_employees_id_seq'::regclass);
+
+
+--
 -- Name: annual_reviews id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -4186,6 +4322,13 @@ ALTER TABLE ONLY public.articles ALTER COLUMN id SET DEFAULT nextval('public.art
 --
 
 ALTER TABLE ONLY public.bank_accounts ALTER COLUMN id SET DEFAULT nextval('public.bank_accounts_id_seq'::regclass);
+
+
+--
+-- Name: business_changes id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.business_changes ALTER COLUMN id SET DEFAULT nextval('public.business_changes_id_seq'::regclass);
 
 
 --
@@ -4256,6 +4399,13 @@ ALTER TABLE ONLY public.favorites ALTER COLUMN id SET DEFAULT nextval('public.fa
 --
 
 ALTER TABLE ONLY public.feedback_requests ALTER COLUMN id SET DEFAULT nextval('public.feedback_requests_id_seq'::regclass);
+
+
+--
+-- Name: findings id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.findings ALTER COLUMN id SET DEFAULT nextval('public.findings_id_seq'::regclass);
 
 
 --
@@ -4420,6 +4570,13 @@ ALTER TABLE ONLY public.referrals ALTER COLUMN id SET DEFAULT nextval('public.re
 
 
 --
+-- Name: regulatory_changes id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.regulatory_changes ALTER COLUMN id SET DEFAULT nextval('public.regulatory_changes_id_seq'::regclass);
+
+
+--
 -- Name: reminders id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -4555,6 +4712,14 @@ ALTER TABLE ONLY public.annual_reports
 
 
 --
+-- Name: annual_review_employees annual_review_employees_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.annual_review_employees
+    ADD CONSTRAINT annual_review_employees_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: annual_reviews annual_reviews_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4584,6 +4749,14 @@ ALTER TABLE ONLY public.articles
 
 ALTER TABLE ONLY public.bank_accounts
     ADD CONSTRAINT bank_accounts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: business_changes business_changes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.business_changes
+    ADD CONSTRAINT business_changes_pkey PRIMARY KEY (id);
 
 
 --
@@ -4664,6 +4837,14 @@ ALTER TABLE ONLY public.favorites
 
 ALTER TABLE ONLY public.feedback_requests
     ADD CONSTRAINT feedback_requests_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: findings findings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.findings
+    ADD CONSTRAINT findings_pkey PRIMARY KEY (id);
 
 
 --
@@ -4848,6 +5029,14 @@ ALTER TABLE ONLY public.referral_tokens
 
 ALTER TABLE ONLY public.referrals
     ADD CONSTRAINT referrals_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: regulatory_changes regulatory_changes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.regulatory_changes
+    ADD CONSTRAINT regulatory_changes_pkey PRIMARY KEY (id);
 
 
 --
@@ -6463,4 +6652,22 @@ INSERT INTO schema_migrations (version) VALUES ('20191119080112');
 INSERT INTO schema_migrations (version) VALUES ('20191120121410');
 
 INSERT INTO schema_migrations (version) VALUES ('20191205023843');
+
+INSERT INTO schema_migrations (version) VALUES ('20191205203522');
+
+INSERT INTO schema_migrations (version) VALUES ('20191205235626');
+
+INSERT INTO schema_migrations (version) VALUES ('20191206010659');
+
+INSERT INTO schema_migrations (version) VALUES ('20191208014625');
+
+INSERT INTO schema_migrations (version) VALUES ('20191208014754');
+
+INSERT INTO schema_migrations (version) VALUES ('20191208014928');
+
+INSERT INTO schema_migrations (version) VALUES ('20191208015014');
+
+INSERT INTO schema_migrations (version) VALUES ('20191208015712');
+
+INSERT INTO schema_migrations (version) VALUES ('20191208015810');
 
