@@ -1,18 +1,18 @@
-= params.inspect
-
+- if !@annual_report.cof_bits.nil?
+  = @annual_report.cof_bits.to_s(2)
 = simple_form_for @annual_report, url: business_annual_reports_path do |f|
   .shadow_container.m-b-3
     h1.text-center Annual Review Guide
 
     .col-md-6
-      = f.input :exam_start, as: :string, input_html: { value: f.object.exam_start.try(:strftime, '%m/%Y'), class: 'input-lg js-datepicker', data: { value: f.object.exam_start.to_s, format: 'mm/yyyy', months: true, years: 80 } }
+      = f.input :exam_start, as: :string, input_html: { value: f.object.exam_start.try(:strftime, '%d/%m/%Y'), class: 'input-lg js-datepicker', data: { value: f.object.exam_start.to_s, format: 'dd/mm/yyyy', months: true, years: 80 } }
     .col-md-6
-      = f.input :exam_end, as: :string, input_html: { value: f.object.exam_end.try(:strftime, '%m/%Y'), class: 'input-lg js-datepicker', data: { value: f.object.exam_end.to_s, format: 'mm/yyyy', months: true, years: 80 } }
+      = f.input :exam_end, as: :string, input_html: { value: f.object.exam_end.try(:strftime, '%d/%m/%Y'), class: 'input-lg js-datepicker', data: { value: f.object.exam_end.to_s, format: 'dd/mm/yyyy', months: true, years: 80 } }
     .clearfix
     .col-md-6
-      = f.input :review_start, as: :string, input_html: { value: f.object.review_start.try(:strftime, '%m/%Y'), class: 'input-lg js-datepicker', data: { value: f.object.review_start.to_s, format: 'mm/yyyy', months: true, years: 80 } }
+      = f.input :review_start, as: :string, input_html: { value: f.object.review_start.try(:strftime, '%d/%m/%Y'), class: 'input-lg js-datepicker', data: { value: f.object.review_start.to_s, format: 'dd/mm/yyyy', months: true, years: 80 } }
     .col-md-6
-      = f.input :review_end, as: :string, input_html: { value: f.object.review_end.try(:strftime, '%m/%Y'), class: 'input-lg js-datepicker', data: { value: f.object.review_end.to_s, format: 'mm/yyyy', months: true, years: 80 } }
+      = f.input :review_end, as: :string, input_html: { value: f.object.review_end.try(:strftime, '%d/%m/%Y'), class: 'input-lg js-datepicker', data: { value: f.object.review_end.to_s, format: 'dd/mm/yyyy', months: true, years: 80 } }
     .clearfix
   .shadow_container.m-b-3
     h1.text-center 
@@ -47,13 +47,17 @@
   .shadow_container.m-b-3
     h1.text-center Code of Ethics and Insider Trading
     h3.text-center Select from the following issues that had no findings: 
-    .form-group
-      - I18n.translate("annual_report").map(&:last).each_with_index do |question, ind|
+    - I18n.translate("annual_report").map(&:last).each_with_index do |question, ind|
+      .form-group.cof_bits class=("parent_node" if [0, 7, 10, 16, 21, 24, 28, 32].include?(ind))
         span.checkbox.checkbox-lg
-          input as="boolean" type="checkbox" name="annual_report[cof_bits][#{ind}]" id="annual_report_cof_bits_#{ind}" value="#{ind}"
+          - if @annual_report.cof_str[ind].to_i == 1
+            input as="boolean" type="checkbox" name="annual_report[cof_bits][#{ind}]" id="annual_report_cof_bits_#{ind}" value="#{ind}" checked="true"
+          - else
+            input as="boolean" type="checkbox" name="annual_report[cof_bits][#{ind}]" id="annual_report_cof_bits_#{ind}" value="#{ind}"
           label for="annual_report_cof_bits_#{ind}"
             = question
-
+    .clearfix
+  .shadow_container.m-b-3
     h1.text-center
       | Findings
     = f.simple_fields_for :findings do |c|
@@ -61,7 +65,10 @@
         = render 'finding_fields', f: c
         .add.add_more = link_to_add_association f, :findings do
           .btn.btn-primary.m-b-1 Add more
-    = f.input :tailored_lvl, collection: [["well", 3], ["resonably", 2], ["poorly", 1]]
-    = f.input :comments
-    = f.submit
-    
+    .clearfix
+  .shadow_container.m-b-3
+    .col-md-12
+      = f.input :tailored_lvl, collection: [["well", 3], ["resonably", 2], ["poorly", 1]]
+      = f.input :comments
+      = f.submit
+    .clearfix

@@ -122,12 +122,12 @@ CREATE TABLE public.annual_reports (
     exam_end date,
     review_start date,
     review_end date,
-    cof_bits character varying,
     tailored_lvl integer,
     comments text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    business_id integer
+    business_id integer,
+    cof_bits integer
 );
 
 
@@ -6670,4 +6670,6 @@ INSERT INTO schema_migrations (version) VALUES ('20191208015014');
 INSERT INTO schema_migrations (version) VALUES ('20191208015712');
 
 INSERT INTO schema_migrations (version) VALUES ('20191208015810');
+
+INSERT INTO schema_migrations (version) VALUES ('20191209010949');
 

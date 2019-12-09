@@ -186,7 +186,7 @@ en:
       'yes': "Good job! You’re on top of the ball here. Your compliance command center will centralize all your review records for when the regulators come. You should be prepared to upload all the information in one place so you have a quick way to provide information to regulators when they come knocking. We also give you the ability to hire one of our compliance specialists to conduct a review for you in the form of a mock audit."
       'no': 'No'
   annual_report:
-    0: Adequacy of written code of ethics, code of conduct, and related policies and procedures **in order for them to check one of the bolded boxes, they must have checked off that they reviewed the following items below it**
+    0: Adequacy of written code of ethics, code of conduct, and related policies and procedures
     1: Check that any person supervised by the Company (e.g. employees, partners, officers, directors or occupying a similar status/performing similar functions) that provides investment advice on behalf of the adviser and has access to non-public information regarding the investment activities of the adviser or its clients’ holdings is subject to the Code of Ethics
     2: Check for any instances where it is unclear whether the Code of Ethics should be applied to certain individuals (e.g. solicitors, on-site contractors, temps, interns, etc.)
     3: Check that the code of ethics or elsewhere in the manual contains a policy regarding personal securities transactions monitoring, reporting, and preclearance requirements
