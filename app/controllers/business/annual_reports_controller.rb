@@ -22,7 +22,18 @@ class Business::AnnualReportsController < ApplicationController
       end
       @annual_report.cof_bits = total
     end
-    render 'new'
+    # render 'new'
+    respond_to do |format|
+      format.pdf do
+        render pdf: 'Annual_Report',
+               template: 'business/annual_reports/annual_report.pdf.erb',
+               locals: { annual_report: @annual_report, business: current_business },
+               margin: { top:               0,
+                         bottom:            35,
+                         left:              0,
+                         right:             0 }
+      end
+    end
   end
 
   private
