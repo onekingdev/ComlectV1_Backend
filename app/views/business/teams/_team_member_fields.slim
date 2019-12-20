@@ -1,0 +1,11 @@
+.nested-fields
+  .col-md-4
+    = f.input :name
+  .col-md-4
+    = f.input :department, placeholder: "Optional"
+  .col-md-4
+    = f.input :email
+  .clearfix
+  .col-xs-12.text-right
+    .remove_we = link_to_remove_association f, class: 'remove text-muted' do
+      .btn.btn-default.m-b-1 Remove

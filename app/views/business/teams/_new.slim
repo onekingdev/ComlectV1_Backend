@@ -1,0 +1,10 @@
+
+= simple_form_for @team, url: business_teams_path do |f|
+  = f.input :name
+  = f.simple_fields_for :team_members do |t|
+    .nested_form
+      = render 'team_member_fields', f: t
+      .add.add_more = link_to_add_association f, :team_members do
+        .btn.btn-primary.m-b-1 Add more
+  = f.submit "Confirm", class: "btn btn-primary"
+  = link_to "Back to team list", business_teams_path, class: "btn btn-default"

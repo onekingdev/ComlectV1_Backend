@@ -28,10 +28,10 @@ class Business::AnnualReportsController < ApplicationController
         render pdf: 'Annual_Report',
                template: 'business/annual_reports/annual_report.pdf.erb',
                locals: { annual_report: @annual_report, business: current_business },
-               margin: { top:               0,
-                         bottom:            35,
-                         left:              0,
-                         right:             0 }
+               margin: { top:               20,
+                         bottom:            25,
+                         left:              15,
+                         right:             15 }
       end
     end
   end

@@ -3990,6 +3990,72 @@ ALTER SEQUENCE public.subscription_charges_id_seq OWNED BY public.subscription_c
 
 
 --
+-- Name: team_members; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.team_members (
+    id integer NOT NULL,
+    team_id integer,
+    name character varying,
+    department character varying,
+    email character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: team_members_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.team_members_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: team_members_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.team_members_id_seq OWNED BY public.team_members.id;
+
+
+--
+-- Name: teams; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.teams (
+    id integer NOT NULL,
+    business_id integer,
+    name character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: teams_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.teams_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: teams_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.teams_id_seq OWNED BY public.teams.id;
+
+
+--
 -- Name: time_logs; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -4640,6 +4706,20 @@ ALTER TABLE ONLY public.subscription_charges ALTER COLUMN id SET DEFAULT nextval
 
 
 --
+-- Name: team_members id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.team_members ALTER COLUMN id SET DEFAULT nextval('public.team_members_id_seq'::regclass);
+
+
+--
+-- Name: teams id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.teams ALTER COLUMN id SET DEFAULT nextval('public.teams_id_seq'::regclass);
+
+
+--
 -- Name: time_logs id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -5109,6 +5189,22 @@ ALTER TABLE ONLY public.stripe_accounts
 
 ALTER TABLE ONLY public.subscription_charges
     ADD CONSTRAINT subscription_charges_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: team_members team_members_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.team_members
+    ADD CONSTRAINT team_members_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: teams teams_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.teams
+    ADD CONSTRAINT teams_pkey PRIMARY KEY (id);
 
 
 --
@@ -6672,4 +6768,8 @@ INSERT INTO schema_migrations (version) VALUES ('20191208015712');
 INSERT INTO schema_migrations (version) VALUES ('20191208015810');
 
 INSERT INTO schema_migrations (version) VALUES ('20191209010949');
+
+INSERT INTO schema_migrations (version) VALUES ('20191219200231');
+
+INSERT INTO schema_migrations (version) VALUES ('20191219201057');
 

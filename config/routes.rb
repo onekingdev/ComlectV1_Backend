@@ -79,6 +79,7 @@ Rails.application.routes.draw do
     resources :compliance_policies, only: %i[new update create edit show destroy]
     resources :annual_reviews, only: %i[new create show destroy index edit update]
     resources :annual_reports, only: %i[new create show index update]
+    resources :teams, only: %i[new create show index update]
     resources :reminders, only: %i[new update create destroy show]
     resource :settings, only: :show do
       resource :password

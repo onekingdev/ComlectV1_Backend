@@ -30,6 +30,7 @@ class Business < ApplicationRecord
   has_many :email_threads, dependent: :destroy
   has_many :compliance_policies
   has_many :annual_reviews
+  has_many :teams
 
   has_one :forum_subscription
   has_one :tos_agreement, through: :user
