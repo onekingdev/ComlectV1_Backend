@@ -10,7 +10,6 @@ Rails.application.routes.draw do
     end
   end
   mount Sidekiq::Web => '/sidekiq'
-  mount PdfjsViewer::Rails::Engine => '/pdfjs', as: 'pdfjs'
 
   devise_for :admin_users, ActiveAdmin::Devise.config
   begin
@@ -74,13 +73,6 @@ Rails.application.routes.draw do
   resources :flags, only: %i[new create]
 
   namespace :business do
-    get '/personalize' => 'personalize#quiz'
-    post '/personalize' => 'personalize#quiz'
-    resources :compliance_policies, only: %i[new update create edit show destroy]
-    resources :annual_reviews, only: %i[new create show destroy index edit update]
-    resources :annual_reports, only: %i[new create show index update]
-    resources :teams, only: %i[new create show index update]
-    resources :reminders, only: %i[new update create destroy show]
     resource :settings, only: :show do
       resource :password
       resource :key_contact
