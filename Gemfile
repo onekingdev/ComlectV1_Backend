@@ -10,6 +10,10 @@ end
 
 # doc to pdf
 gem 'libreconv'
+gem 'pdfjs_viewer-rails'
+
+# calendar
+gem 'simple_calendar', '~> 2.0'
 
 # captcha
 gem 'bcrypt'
@@ -72,6 +76,7 @@ gem 'imagesLoaded_rails'
 gem 'jquery-mousewheel-rails'
 gem 'jquery-rails'
 gem 'jquery-slick-rails'
+gem 'js_cookie_rails'
 
 # Mail
 gem 'postmark-rails'

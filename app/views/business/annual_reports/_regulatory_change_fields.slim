@@ -1,0 +1,9 @@
+.nested-fields
+  .col-md-6
+    = f.input :change
+  .col-md-6
+    = f.input :response
+  .clearfix
+  .col-xs-12.text-right
+    .remove_we = link_to_remove_association f, class: 'remove text-muted' do
+      .btn.btn-default.m-b-1 Remove

@@ -1,0 +1,18 @@
+.team_table {
+  width: 100%;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  td {
+    border: 2px solid #ffcc00;
+    width: 30%;
+    padding: 5px 10px;
+    b {
+      padding: 0px;
+      margin: 0px;
+    }
+  }
+  .heading td {
+    background-color: #ffcc00;
+    color: #fff;
+  }
+}
