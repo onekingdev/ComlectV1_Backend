@@ -35,7 +35,8 @@ class Specialist < ApplicationRecord
   has_many :email_threads, dependent: :destroy
   has_many :payments, -> { for_rfp_or_one_off_projects }, through: :projects, source: :charges
   has_many :transactions, through: :projects
-
+  has_many :active_projects, -> { where(status: statuses[:published]).where.not(specialist_id: nil) }, class_name: 'Project'
+  has_many :manageable_businesses, through: :active_projects, class_name: 'Business', source: :business
   has_one :referral, as: :referrable
   has_many :referral_tokens, as: :referrer
 
@@ -82,6 +83,17 @@ class Specialist < ApplicationRecord
       'The biggest risk is not taking any risk'
     ]
   ].freeze
+
+  def manageable_ria_businesses
+    industry = Industry.find_by(name: 'Investment Adviser')
+    arr = manageable_businesses
+    tgt_arr = []
+    arr.each do |b|
+      tgt_arr.push(b) if b.industries.include? industry
+    end
+    arr.uniq!
+    tgt_arr
+  end
 
   # rubocop:disable Metrics/AbcSize
   def apply_quiz(cookies)

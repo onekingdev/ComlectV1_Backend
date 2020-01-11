@@ -133,6 +133,7 @@ Rails.application.routes.draw do
 
   namespace :specialists, path: 'specialist' do
     get '/' => 'dashboard#show', as: :dashboard
+    resources :businesses, only: %i[new create show]
     resource :settings, only: :show do
       resource :password
       resource :contact_information, only: %i[show update]

@@ -104,6 +104,11 @@ class Business < ApplicationRecord
   ].freeze
   # rubocop:enable Metrics/LineLength
 
+  def ria?
+    industry = Industry.find_by(name: 'Investment Adviser')
+    industries.collect(&:id).include? industry.id
+  end
+
   # rubocop:disable Metrics/AbcSize
   def apply_quiz(cookies)
     step1_c = cookies[:complect_step1].split('-').map(&:to_i)

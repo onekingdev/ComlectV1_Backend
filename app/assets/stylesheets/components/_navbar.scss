@@ -34,6 +34,28 @@
     }
   }
 
+  li.cat {
+    font-weight: lighter;
+    padding-left: 27px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    color: #888;
+  }
+
+  li.bizmgr {
+    background-color: #555;
+    a:hover {
+      background-color: #555;
+    }
+  }
+
+  .fake_bottom {
+    width: 100%;
+    background-color: #555;
+    height: 14px;
+    position: absolute;
+  }
+
   .preseparate {
     @media (min-width: $grid-float-breakpoint) {
       border-left: 1px solid #000;

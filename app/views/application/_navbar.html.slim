@@ -55,6 +55,11 @@ nav#nav.navbar.navbar-default
               li= link_to 'Financials', specialists_financials_path
               li= link_to 'Account Settings', specialists_settings_path
               li= link_to 'Log Out', destroy_user_session_path, method: :delete
+              - if specialist.manageable_ria_businesses.count > 0
+                li.cat.bizmgr Manage business:
+                - specialist.manageable_ria_businesses.each do |ria|
+                  li.bizmgr= link_to ria.business_name, specialists_business_path(ria)
+                .fake_bottom
         li.dropdown.p-r-0
           a.dropdown-toggle href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
             span.hidden-bp Notifications&nbsp;
