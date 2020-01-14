@@ -127,7 +127,7 @@ CREATE TABLE public.annual_reports (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     business_id integer,
-    cof_bits integer
+    cof_bits bigint
 );
 
 
@@ -6776,4 +6776,6 @@ INSERT INTO schema_migrations (version) VALUES ('20191219201057');
 INSERT INTO schema_migrations (version) VALUES ('20191221035118');
 
 INSERT INTO schema_migrations (version) VALUES ('20191221040705');
+
+INSERT INTO schema_migrations (version) VALUES ('20200114210331');
 

@@ -1,6 +1,7 @@
 .nested-fields
+  = f.hidden_field :id
   .col-md-12
-    = f.input :change
+    = f.input :change, input_html: { class: 'input-lg' }
   .clearfix
   .col-xs-12.text-right
     .remove_we = link_to_remove_association f, class: 'remove text-muted' do

@@ -30,6 +30,7 @@ class Business < ApplicationRecord
   has_many :email_threads, dependent: :destroy
   has_many :compliance_policies
   has_many :annual_reviews
+  has_many :annual_reports
   has_many :teams
   has_many :active_projects, -> { where(status: statuses[:published]).where.not(specialist_id: nil) }, class_name: 'Project'
   has_many :active_specialists, through: :active_projects, class_name: 'Specialist', source: :specialist
@@ -103,6 +104,27 @@ class Business < ApplicationRecord
     [:finish]
   ].freeze
   # rubocop:enable Metrics/LineLength
+
+  def questionarrie_percentage
+    score = 0
+    total = Business::QUIZ.count - 1
+    total -= 3 if business_stages.include? 'startup'
+    Business::QUIZ.map(&:first).each do |q|
+      score += 1 if (q != :finish) && !public_send(q).nil?
+    end
+    (100.0 * score / total).to_i
+  end
+
+  def annual_review_percentage
+    if annual_reports.any?
+      tgt_report = annual_reports.order(:id).last
+      max_score = tgt_report.cof_str.length
+      cur_score = tgt_report.cof_str.split('').map(&:to_i).inject(0) { |sum, x| sum + x }
+      (cur_score * 100 / max_score).to_i
+    else
+      0
+    end
+  end
 
   def ria?
     industry = Industry.find_by(name: 'Investment Adviser')
@@ -183,7 +205,7 @@ class Business < ApplicationRecord
     current_question = 0
     quiz_copy = QUIZ.dup
     unless business_stages.nil?
-      quiz_copy -= %i[sec_or_crd already_covered annual_compliance] if business_stages.include? 'startup'
+      quiz_copy.delete_if { |s| %i[sec_or_crd already_covered annual_compliance].include? s[0] } if business_stages.include? 'startup'
       quiz_copy.each_with_index do |q, i|
         current_question = i
         break if q[0] == :finish || __send__(q[0]).nil?

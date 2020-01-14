@@ -2,14 +2,15 @@
 
 class AnnualReport < ActiveRecord::Base
   belongs_to :business
-  has_many :annual_review_employees
-  has_many :regulatory_changes
-  has_many :business_changes
-  has_many :findings
-  accepts_nested_attributes_for :annual_review_employees
-  accepts_nested_attributes_for :regulatory_changes
-  accepts_nested_attributes_for :business_changes
-  accepts_nested_attributes_for :findings
+  has_many :annual_review_employees, dependent: :destroy
+  has_many :regulatory_changes, dependent: :destroy
+  has_many :business_changes, dependent: :destroy
+  has_many :findings, dependent: :destroy
+  accepts_nested_attributes_for :annual_review_employees, allow_destroy: true
+  accepts_nested_attributes_for :regulatory_changes, allow_destroy: true
+  accepts_nested_attributes_for :business_changes, allow_destroy: true
+  accepts_nested_attributes_for :findings, allow_destroy: true
+  # after_save :destroy_empties
 
   def cof_str
     if cof_bits.nil?

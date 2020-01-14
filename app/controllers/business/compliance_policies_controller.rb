@@ -33,12 +33,17 @@ class Business::CompliancePoliciesController < ApplicationController
   def edit; end
 
   def show
-    @preview_doc = @compliance_policy.compliance_policy_docs.where(id: params[:docid]) if params[:docid]
-    @preview_doc = if !@preview_doc.nil?
-                     @preview_doc.first
-                   else
-                     @compliance_policy.compliance_policy_docs.first
-                   end
+    if current_business == @compliance_policy.business
+      @business = @compliance_policy.business
+      @preview_doc = @compliance_policy.compliance_policy_docs.where(id: params[:docid]) if params[:docid]
+      @preview_doc = if !@preview_doc.nil?
+                       @preview_doc.first
+                     else
+                       @compliance_policy.compliance_policy_docs.first
+                     end
+    else
+      redirect_to '/business'
+    end
   end
 
   private

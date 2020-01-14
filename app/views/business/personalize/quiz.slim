@@ -1,7 +1,8 @@
 - if @question[0] != :finish
-  = "Question number #{@question_id+1}"
-  br
-  br
+  h1.text-center.m-b-3.m-t-3.p-t-1.src_step = "Question #{@question_id+1} of #{@quiz_copy.count-1}"
+  .progress
+    .progress-bar role="progressbar" aria-valuenow=(current_business.questionarrie_percentage) aria-valuemin="0" aria-valuemax="100" style='width:#{(@question_id+1)*10}%'
+
   = I18n.t "personalize.#{@question[0]}.question"
   - if I18n.exists?("personalize.#{@question[0]}.info", :en)
     button.info-tooltip type="button" data-toggle="tooltip" title=(I18n.t "personalize.#{@question[0]}.info") i
@@ -62,4 +63,4 @@ br/
 
 br/
 br/
-= params["personalize"].inspect
+/= params["personalize"].inspect

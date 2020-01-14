@@ -56,15 +56,20 @@
                     - years_avail = @business.annual_reviews.collect(&:year)
                     | &nbsp;
                     tr 
-                      td = y
                       - if years_avail.include? y
                         - annual_review = @business.annual_reviews.where(year: y).first
-                        td = link_to "Edit", edit_business_annual_review_path(annual_review), class: "tblbtn", "data-target": "#modal", "data-toggle": "modal", "data-remote": true
-                        td = link_to "View", business_annual_review_path(annual_review)
-                        td = link_to "Save", annual_review.file_url
+                        td
+                          = link_to y, business_annual_review_path(annual_review)
+                        td 
+                          = link_to edit_business_annual_review_path(annual_review), class: "tblbtn", "data-target": "#modal", "data-toggle": "modal", "data-remote": true do
+                            i.icon-pencil data-toggle="tooltip" title="Edit"
+                        td = link_to business_annual_review_path(annual_review) do
+                          i.icon-magnifier data-toggle="tooltip" title="Preview"
+                        td = link_to "Save", annual_review.file_url, target: "_blank"
                       - else
+                        td = y
                         td colspan=2
-                          i No file 
+                          i No&nbsp;file 
                         td = link_to "Upload", new_business_annual_review_path(year: y), class: "tblbtn", "data-target": "#modal", "data-toggle": "modal", "data-remote": true
                     
                   /= simple_form_for business_annual_reviews_path(AnnualReview.new(year: y)) do |f|
@@ -177,38 +182,34 @@
                   = f.input :anonymous, as: :radio_pills, collection: [['Public', false], ['Private', true]], btn_class: 'btn-default btn-sm', label: false, hint: false, input_html: { data: { autosubmit: 'true' } }
 
                 .text-center.text-uppercase.small= link_to 'Edit Profile', edit_business_path, class: 'link'
-              .col-md-4.text-center
+              .col-md-4.text-center.m-b-1
+                .profile_chart
+                  .c100 class=("p#{@business.questionarrie_percentage}")
+                      span = "#{@business.questionarrie_percentage}%"
+                      .slice
+                        .bar
+                        .fill
                 b Questionnaire
-                br
-                br
+              .col-md-4.text-center.m-b-1
                 .profile_chart
-                  .c100.p100
-                      span 100%
+                  .c100.p0
+                      span 0%
                       .slice
                         .bar
                         .fill
-              .col-md-4.text-center
                 b Compliance&nbsp;Manual
-                br
-                br
+              .col-md-4.text-center.m-b-1
                 .profile_chart
-                  .c100.p50
-                      span 50%
-                      .slice
-                        .bar
-                        .fill
-              .col-md-4.text-center
-                .profile_chart
-                  .c100.p50
-                      span 50%
+                  .c100 class=("p#{@business.annual_review_percentage}")
+                      span = "#{@business.annual_review_percentage}%"
                       .slice
                         .bar
                         .fill
                 b Annual&nbsp;Review
-              .col-md-4.text-center
+              .col-md-4.text-center.m-b-1
                 .profile_chart
-                  .c100.p100
-                      span 100%
+                  .c100.p0
+                      span 0%
                       .slice
                         .bar
                         .fill

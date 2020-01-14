@@ -1,20 +1,33 @@
 .col-md-4
-  = @compliance_policy.title
-  | &nbsp;|&nbsp;
-  = link_to "Edit", edit_business_compliance_policy_path(@compliance_policy), "data-target": "#modal", "data-remote": true, "data-toggle": "modal"
-  br/
-  br/
-  table.table style="width: auto;"
+  .pull-left
+    .p-t-1
+      b = @compliance_policy.title
+  .pull-right
+    = link_to "Edit", edit_business_compliance_policy_path(@compliance_policy), "data-target": "#modal", "data-remote": true, "data-toggle": "modal", class: "btn btn-primary m-l-1"
+  .clearfix
+  br
+  table.policies_internal_table.m-b-3 style="width: auto;"
     - @compliance_policy.compliance_policy_docs.each_with_index do |doc,i|
       tr
         td 
-          = doc.created_at
+          = doc.created_at.in_time_zone(@business.tz).strftime("%b %-d %Y %I:%M %p")
           - if i == 0
-            |  (Latest)
-        td = link_to "Download", doc.doc_url
-        td = link_to "Preview", business_compliance_policy_path(@compliance_policy, docid: doc.id)
-        td = link_to "Share", "mailto:?body=Document name: #{@compliance_policy.title}%0D%0A%0D%0ADownload: #{Rails.env == 'production' ? url_for(doc.doc_url) : root_url.delete_suffix("/")+url_for(doc.doc_url)}&subject=Check this file!"
-.col-md-8
+            br
+            small
+              i Latest
+        td
+          = link_to doc.doc_url do
+            i.icon.maxicons1-download data-toggle="tooltip" title="Download"
+        td
+          - if @preview_doc.id == doc.id
+            i.icon-magnifier
+          - else
+            = link_to business_compliance_policy_path(@compliance_policy, docid: doc.id) do
+              i.icon-magnifier data-toggle="tooltip" title="Preview"
+        td
+          = link_to "mailto:?body=Document name: #{@compliance_policy.title}%0D%0A%0D%0ADownload: #{Rails.env == 'production' ? url_for(doc.doc_url) : root_url.delete_suffix("/")+url_for(doc.doc_url)}&subject=Check this file!" do
+            i.icon-share data-toggle="tooltip" title="Share"
+.col-md-8.m-b-3
   - if @preview_doc.pdf
     iframe src=(pdfjs.minimal_path(file: @preview_doc.pdf_url)) width="100%" height="500px"
   - else

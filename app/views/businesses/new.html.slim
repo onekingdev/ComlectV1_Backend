@@ -221,12 +221,12 @@
           .text-danger= f.object.errors[:logo].to_sentence
 
 
-    .row.p-b-1.col-md-push-2.col-md-8
+    .row.p-b-1.col-md-push-2.col-md-8.tos_form
       - if f.object.errors[:tos_agree].any?
       .text-danger= f.object.errors[:tos_agree].first
       - if f.object.errors[:cookie_agree].any?
       .text-danger= f.object.errors[:cookie_agree].first
-      div
+      div.m-b-1
         input#tos-checkbox type="checkbox" name="business[user_attributes][tos_agreement_attributes][status]" 
         | &nbsp;&nbsp;
         label for="tos-checkbox"
