@@ -118,9 +118,7 @@ class Business < ApplicationRecord
   def annual_review_percentage
     if annual_reports.any?
       tgt_report = annual_reports.order(:id).last
-      max_score = tgt_report.cof_str.length
-      cur_score = tgt_report.cof_str.split('').map(&:to_i).inject(0) { |sum, x| sum + x }
-      (cur_score * 100 / max_score).to_i
+      tgt_report.score
     else
       0
     end

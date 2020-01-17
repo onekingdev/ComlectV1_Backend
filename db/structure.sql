@@ -127,7 +127,8 @@ CREATE TABLE public.annual_reports (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     business_id integer,
-    cof_bits bigint
+    cof_bits bigint,
+    pdf_data jsonb
 );
 
 
@@ -1269,7 +1270,7 @@ CREATE TABLE public.findings (
     annual_report_id integer,
     finding text,
     action text,
-    risk_lvl integer,
+    risk_lvl integer DEFAULT 3,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -6778,4 +6779,8 @@ INSERT INTO schema_migrations (version) VALUES ('20191221035118');
 INSERT INTO schema_migrations (version) VALUES ('20191221040705');
 
 INSERT INTO schema_migrations (version) VALUES ('20200114210331');
+
+INSERT INTO schema_migrations (version) VALUES ('20200117080343');
+
+INSERT INTO schema_migrations (version) VALUES ('20200117095549');
 

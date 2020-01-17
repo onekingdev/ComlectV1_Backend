@@ -5,45 +5,49 @@ class Business::AnnualReportsController < ApplicationController
 
   def new
     if current_business.annual_reports.any?
-      @annual_report = current_business.annual_reports.last
+      if current_business.annual_reports.last.pdf.nil?
+        @annual_report = current_business.annual_reports.last
+      else
+        build_annual_report
+      end
     else
-      @annual_report = AnnualReport.create(business_id: current_business.id)
-      @annual_report.annual_review_employees.build
-      @annual_report.business_changes.build
-      @annual_report.regulatory_changes.build
-      @annual_report.findings.build
-      @annual_report.save
+      build_annual_report
     end
   end
 
+  def show; end
+
   def create
-    @prms = params['annual_report']['cof_bits']
-    @annual_report = AnnualReport.new(annual_report_params)
-    @cof_bits = @prms.keys.map(&:to_i) unless @prms.nil?
-    unless @cof_bits.nil?
-      total = 0
-      @cof_bits.each do |k|
-        total += (10**k).to_s.to_i(2)
-      end
-      @annual_report.cof_bits = total
-    end
-    # render 'new'
+    @annual_report = current_business.annual_reports.last
     respond_to do |format|
+      format.jpg do
+        @kit = IMGKit.new(render_to_string)
+        send_data(@kit.to_jpg, type: 'image/jpeg', disposition: 'inline')
+      end
       format.pdf do
-        render pdf: 'Annual_Report',
-               template: 'business/annual_reports/annual_report.pdf.erb',
-               locals: { annual_report: @annual_report, business: current_business },
-               margin: { top:               20,
-                         bottom:            25,
-                         left:              15,
-                         right:             15 }
+        pdf = render_to_string pdf: 'annual_report.pdf',
+                               template: 'business/annual_reports/annual_report.pdf.erb', encoding: 'UTF-8',
+                               locals: { annual_report: @annual_report, business: current_business },
+                               margin: { top:               20,
+                                         bottom:            25,
+                                         left:              15,
+                                         right:             15 }
+        uploader = PdfUploader.new(:store)
+        file = Tempfile.new(["annual_report_#{@annual_report.id}", '.pdf'])
+        file.binmode
+        file.write(pdf)
+        file.rewind
+        uploaded_file = uploader.upload(file)
+        @annual_report.update(pdf_data: uploaded_file.to_json)
+        file.delete
+        redirect_to @annual_report.pdf_url
       end
     end
   end
 
   def update
     @annual_report = AnnualReport.find(params[:id])
-    if @annual_report.business_id == current_business.id
+    if (@annual_report.business_id == current_business.id) && @annual_report.pdf.nil?
       @annual_report.update(annual_report_params)
       @prms = params['annual_report']['cof_bits']
       @cof_bits = @prms.keys.map(&:to_i) unless @prms.nil?
@@ -59,6 +63,15 @@ class Business::AnnualReportsController < ApplicationController
   end
 
   private
+
+  def build_annual_report
+    @annual_report = AnnualReport.create(business_id: current_business.id)
+    @annual_report.annual_review_employees.build
+    @annual_report.business_changes.build
+    @annual_report.regulatory_changes.build
+    @annual_report.findings.build
+    @annual_report.save
+  end
 
   def annual_report_params
     # rubocop:disable Metrics/LineLength

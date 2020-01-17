@@ -205,6 +205,7 @@ GEM
     image_processing (0.3.0)
     imagesLoaded_rails (4.1.0)
       railties (>= 3.1)
+    imgkit (1.6.2)
     inherited_resources (1.8.0)
       actionpack (>= 4.2, <= 5.2)
       has_scope (~> 0.6)
@@ -580,6 +581,7 @@ DEPENDENCIES
   ice_cube
   image_processing (~> 0.3.0)
   imagesLoaded_rails
+  imgkit
   iso_country_codes
   jbuilder (~> 2.0)
   jquery-mousewheel-rails

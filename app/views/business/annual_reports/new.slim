@@ -1,6 +1,18 @@
+
 /- if !@annual_report.cof_bits.nil?
   = @annual_report.cof_bits.to_s(2)
 h1.m-b-3.text-center Annual Review Guide
+
+.shadow_container.m-b-3
+  .p.p-x-2.text-center
+    - if @annual_report.ready?
+      = simple_form_for :dummy, url: business_annual_reports_path(format: "jpg"), html: { target: "_blank", style: "display: inline-block" } do |f|
+        = f.submit "Preview", class: "btn btn-primary m-r-2"
+      = simple_form_for :dummy, url: business_annual_reports_path(format: "pdf"), html: { target: "_blank", style: "display: inline-block"} do |f|
+        = f.submit "Generate PDF", class: "btn btn-danger m-l-2"
+    - else
+      | You will be able to preview and generate PDF once form is completed.
+
 = simple_form_for @annual_report, url: business_annual_report_path(@annual_report) do |f|
   .shadow_container.m-b-3
     .col-md-6
