@@ -1,215 +1,53 @@
+- content_for :html_head do
+  script src="https://maps.googleapis.com/maps/api/js?key=#{ENV.fetch('GOOGLE_PLACES_API_KEY')}&libraries=places"
+
+- content_for :title, "Business sign up"
+
+h1.text-center.m-b-3.m-t-3.p-t-1.p-b-2 Sign up to post your project
+
 = simple_form_for @business, wrapper: :inline_form do |f|
-  .business_step.business_step0
-    h1.text-center.m-b-3.m-t-3.p-t-1.src_step Step 1 of 7
-    h1.text-center.m-b-3.m-t-3.p-t-1.alt_step Step 1 of 6
-    .progress
-      .progress-bar role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100" style='width:5%'
-    h2.m-t-1.m-b-2.text-center Let's set up your account!
-    - content_for :html_head do
-      script src="https://maps.googleapis.com/maps/api/js?key=#{ENV.fetch('GOOGLE_PLACES_API_KEY')}&libraries=places"
+  .well.well-lg.m-t-3
+    h2.text-center.m-b-2 Let's start with your login details
+    = f.fields_for :user, wrapper: :inline_form do |uf|
+      .row.row-compact
+        .col-sm-6
+          = uf.input :email, input_html: { class: 'input-lg' }
+        .col-sm-6
+          = uf.input :password, input_html: { class: 'input-lg' }
 
-    - content_for :title, "Business sign up"
+  .well.well-lg.m-t-3
+    h2.text-center.m-b-2 Next, details of the key contact at your business
+    .row.row-compact
+      .col-sm-6
+        = f.input :contact_first_name, input_html: { class: 'input-lg' }
+      .col-sm-6
+        = f.input :contact_last_name, input_html: { class: 'input-lg' }
+      .col-sm-6
+        = f.input :contact_job_title, required: false, input_html: { class: 'input-lg' }
+      .col-sm-6
+        = f.input :contact_phone, required: false, input_html: { class: 'input-lg' }
+      .col-sm-6
+        = f.input :contact_email, input_html: { class: 'input-lg' }
 
-    .col-xs-12
-      = f.fields_for :user, wrapper: :inline_form do |uf|
-        .row
-          .col-sm-6
-            = uf.input :email, input_html: { class: 'input-lg' }
-          .col-sm-6
-            = uf.input :password, input_html: { class: 'input-lg' }
-          .col-sm-6
-            = f.input :contact_first_name, input_html: { class: 'input-lg' }
-          .col-sm-6
-            = f.input :contact_last_name, input_html: { class: 'input-lg' }
-    .clearfix
-    .col-md-12.m-t-2.text-center.m-b-3
-      button.continue.btn_step_jump.btn.btn-primary disabled=true type="button" Continue
-
-  .business_step.business_step1
-    h1.text-center.m-b-3.m-t-3.p-t-1.src_step Step 2 of 7
-    h1.text-center.m-b-3.m-t-3.p-t-1.alt_step Step 2 of 6
-    .progress
-      .progress-bar role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style='width:10%'
-    h2.m-t-1.m-b-2.text-center We want to learn a little more about your business. Select all that applies:
-    .choices
-      - Industry.all.order(ApplicationHelper.order_string('name', ['Investment Adviser', 'Broker-Dealer', 'ERISA', 'Commodities', 'Banking', 'Consulting Firm', 'Recruiter', 'Other'])).each do |industry|
-        .col-sm-4.m-b-1
-          button.btn.btn-primary.btn-block type="button"
-            input type="checkbox" name="business[industry_ids][]" value=(industry.id)
-            span = industry.name
-          - if industry.name == "Other"
-            input#specify_other name="business_other" placeholder="Specify other..."
-    .clearfix
-    .col-md-12.m-t-2.text-center.m-b-3
-      button.btn_step0.btn.btn-default.m-r-2.back type="button" Back
-      button.continue.btn_step11.btn.btn-primary disabled=true type="button" Continue
-
-  .business_step.business_step11
-    h1.text-center.m-b-3.m-t-3.p-t-1.src_step Step 2 of 7
-    h1.text-center.m-b-3.m-t-3.p-t-1.alt_step Step 2 of 6
-    .progress
-      .progress-bar role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style='width:20%'
-    h2.m-t-1.m-b-2.text-center We want to learn a little more about your business. Select all that applies:
-    .choices
-      - Industry.sorted.each do |industry|
-        - industry.sub_industries.split("\r\n").each_with_index do |sub_ind, i|
-          .col-sm-12.m-b-1
-            button.btn.btn-primary.btn-block type="button"
-              input type="checkbox" name="business[sub_industry_ids][]" value=("#{industry.id}_#{i}")
-              | &nbsp;
-              span = sub_ind
-    .clearfix
-    .col-md-12.m-t-2.text-center.m-b-3
-      button.btn_step1.btn.btn-default.m-r-2.back type="button" Back
-      button.continue.btn_step2.btn.btn-primary disabled=true type="button" Continue
-
-  .business_step.business_step2
-    h1.text-center.m-b-3.m-t-3.p-t-1.src_step Step 3 of 7
-    h1.text-center.m-b-3.m-t-3.p-t-1.alt_step Step 3 of 6
-    .progress
-      .progress-bar role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style='width:30%'
-    h2.m-t-1.m-b-2.text-center What jurisdictions do you operate in? Select all that apply.
-    .choices
-      - Jurisdiction.sorted.reverse.each do |jurisdiction|
-        .col-sm-12.m-b-1
-          button.btn.btn-primary.btn-block type="button"
-            input type="checkbox" name="business[jurisdiction_ids][]" value=(jurisdiction.id)
-            | &nbsp;
-            span = jurisdiction.name
-      /= f.collection_check_boxes :jurisdiction_ids, Jurisdiction.sorted, :id, :name, item_wrapper_class: 'btn btn-primary btn-block', label: false, boolean_style: :inline
-
-    .clearfix
-    .col-md-12.m-t-2.text-center.m-b-3
-      button.btn_step11.btn.btn-default.m-r-2.back type="button" Back
-      button.continue.btn_step3.btn.btn-primary disabled=true type="button" Continue
-
-  .business_step.business_step3
-    h1.text-center.m-b-3.m-t-3.p-t-1.src_step Step 4 of 7
-    h1.text-center.m-b-3.m-t-3.p-t-1.alt_step Step 3 of 6
-    .progress
-      .progress-bar role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style='width:40%'
-    h2.m-t-1.m-b-2.text-center
-      | Now, let’s see what your compliance needs might be based on the stage of your business
-      br
-      | Select the option that best describes you:
-    .choices
-      - choices = "Startup <span>I need set-up assistance from scratch</span>", "Startup Rescue <span>I was using someone and its gone haywire</span>", "Complete Ongoing Maintenance <span>I’m looking for full-service ongoing maintenance assistance</span>", "One-off Maintenance Requests <span>I’ve got it under control, but there’s a few things I’d like assistance with occasionally</span>"
-      - choices.each_with_index do |choice,i|
-        .col-sm-12.m-b-1
-          button.btn.btn-primary.btn-block type="button"
-            input type="checkbox" name="business[step3][]" value=(i)
-            | &nbsp;
-            span = raw(choice)
-    .clearfix
-    .col-md-12.m-t-2.text-center.m-b-3
-      button.btn_step2.btn.btn-default.m-r-2.back type="button" Back
-      button.continue.btn_step4.btn.btn-primary disabled=true type="button" Continue
-
-  .business_step.business_step4
-    h1.text-center.m-b-3.m-t-3.p-t-1.src_step Step 5 of 7
-    h1.text-center.m-b-3.m-t-3.p-t-1.alt_step Step 4 of 6
-    .progress
-      .progress-bar role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style='width:50%'
-    h2.m-t-1.m-b-2.text-center
-      | We believe that matching client risk appetite with consultant risk appetite helps establish a better consulting relationship. Therefore, we’ve designed this short quiz to help us better match you with our network of specialists. 
-
-    .choices
-      .col-sm-12
-        h2.quiz_q.m-t-1.m-b-1.text-center
-          b Question 1: 
-          | You’re a mouse and see a piece of cheese sitting in a trap, but you’ve seen two mice successfully rip off pieces already. What do you do? 
-      - choices = "You head over and take a piece, because it worked out for the other two mice", "You think about it, but end up playing it safe", "You would have been on that cheese the moment you saw it", "You need to do more research and want to see if more mice are succesful", "No, thank you! Risk death? Not worth it."
-      - choices.each_with_index do |choice,i|
-        .col-sm-12.m-b-1
-          button.btn.btn-primary.btn-block type="button"
-            input type="checkbox" name="business[step4][]" value=(i)
-            | &nbsp;
-            span
-              span = choice
-    .clearfix
-    .col-md-12.m-t-2.text-center.m-b-3
-      button.btn_step3.btn.btn-default.m-r-2.back type="button" Back
-      button.continue.btn_step41.btn.btn-primary disabled=true type="button" Continue
-
-  .business_step.business_step41
-    h1.text-center.m-b-3.m-t-3.p-t-1.src_step Step 5 of 7
-    h1.text-center.m-b-3.m-t-3.p-t-1.alt_step Step 4 of 6
-    .progress
-      .progress-bar role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style='width:60%'
-    .choices
-      .col-sm-12
-        h2.m-t-1.m-b-2.text-center 
-          b Question 2: 
-          | You’re late for a very important meeting and clearly speeding more than the flow of traffic. Up ahead, you see a car in the median. What do you do?
-      - choices = "Slow down to the speed limit in case it’s a cop ", "Moderate your speed to the flow of traffic ", "You’d never speed ", "Hope for the best, because you can’t afford to be late to this meeting", "You always speed, even if cops are around, because they have to catch you first"
-      - choices.each_with_index do |choice,i|
-        .col-sm-12.m-b-1
-          button.btn.btn-primary.btn-block type="button"
-            input type="checkbox" name="business[step41][]" value=(i)
-            | &nbsp;
-            span
-              span = choice
-    .clearfix
-    .col-md-12.m-t-2.text-center.m-b-3
-      button.btn_step4.btn.btn-default.m-r-2.back type="button" Back
-      button.continue.btn_step42.btn.btn-primary disabled=true type="button" Continue
- 
-  .business_step.business_step42
-    h1.text-center.m-b-3.m-t-3.p-t-1.src_step Step 5 of 7
-    h1.text-center.m-b-3.m-t-3.p-t-1.alt_step Step 4 of 6
-    .progress
-      .progress-bar role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style='width:70%'
-
-    .choices
-      .col-sm-12
-        h2.m-t-1.m-b-2.text-center
-          b Question 3: 
-          | Which phrase below most closely matches how you feel about risk?
-      - choices = "To win big, you sometimes have to take big risks" , "Measure twice, cut once" , "My belief in a day of reckoning keeps me on the straight and narrow" , "There’s a fine line between taking a calculated risk and doing something dumb", "The biggest risk is not taking any risk"
-      - choices.each_with_index do |choice,i|
-        .col-sm-12.m-b-1
-          button.btn.btn-primary.btn-block type="button"
-            input type="checkbox" name="business[step42][]" value=(i)
-            | &nbsp;
-            span
-              span = choice
-    .clearfix
-    .col-md-12.m-t-2.text-center.m-b-3
-      button.btn_step41.btn.btn-default.m-r-2.back type="button" Back
-      button.continue.btn_step5.btn.btn-primary disabled=true type="button" Continue
-
-  .business_step.business_step5
-    h1.text-center.m-b-3.m-t-3.p-t-1.src_step Step 6 of 7
-    h1.text-center.m-b-3.m-t-3.p-t-1.alt_step Step 5 of 6
-    .progress
-      .progress-bar role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style='width:80%'
-
-    h2.m-t-1.m-b-2.text-center Let's get some additional information on your business
+  .well.well-lg.m-t-3
+    h2.text-center.m-b-3 Tell us more about your business
 
     = render 'fields_business_info', f: f
     = render 'fields_location', f: f
-    .clearfix
-    .col-md-12.m-t-2.text-center.m-b-3
-      button.btn_step42.btn.btn-default.m-r-2.back type="button" Back
-      button.continue.btn_step6.btn.btn-primary type="button" Continue
+    = render 'fields_jurisdiction', f: f
 
-  .business_step.business_step6
-    h1.text-center.m-b-3.m-t-3.p-t-1.src_step Step 7 of 7
-    h1.text-center.m-b-3.m-t-3.p-t-1.alt_step Step 6 of 6
-    .progress
-      .progress-bar role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style='width:90%'
-
-    h2.m-t-1.m-b-2.text-center Last step! Ready for compliance made easy? 
-
+  .well.well-lg.m-t-3
     .row.text-center.p-b-1
+      h2.m-b-3 Finally, do you wish to display the name of your business?
       = f.input :anonymous, as: :radio_pills, collection: [['Public', false], ['Anonymous', true]], btn_class: 'btn-lg btn-default', hint: false
       p.text-muted.small.col-xs-12.col-md-8.col-md-offset-2
         = I18n.t('simple_form.hints.business.anonymous')
 
     .collapse class=("in" unless f.object.anonymous?) data-toggle-in="#business_anonymous_false" data-toggle-out="#business_anonymous_true"
 
+  .well.well-lg.m-t-3
     .row.text-center.p-b-1
-      h2 Add a logo
+      h2.m-b-3.p-b-2 Would you like to add your logo?
 
       label.custom-file-field.js-custom-file-field
         = f.hidden_field :logo, value: f.object.logo_data? ? f.object.logo_data.to_json : nil
@@ -221,34 +59,30 @@
           .text-danger= f.object.errors[:logo].to_sentence
 
 
-    .row.p-b-1.col-md-push-2.col-md-8.tos_form
+  .well.well-lg.tos_block
+    .row.p-b-1
       - if f.object.errors[:tos_agree].any?
       .text-danger= f.object.errors[:tos_agree].first
       - if f.object.errors[:cookie_agree].any?
       .text-danger= f.object.errors[:cookie_agree].first
-      div.m-b-1
+      div
         input#tos-checkbox type="checkbox" name="business[user_attributes][tos_agreement_attributes][status]" 
         | &nbsp;&nbsp;
         label for="tos-checkbox"
           | I have read and agree to the 
-          = link_to "Terms of Use", "/info/terms-of-use", target: "_blank"
+          = link_to "Terms of Use", "https://www.complect.com/terms-of-use", target: "_blank"
           |  and 
-          = link_to "Privacy Policy", "/info/privacy-policy", target: "_blank"
+          = link_to "Privacy Policy", "https://www.complect.com/privacy-policy", target: "_blank"
           | .
       div
-        input#cookie-checkbox type="checkbox" name="business[user_attributes][cookie_agreement_attributes][status]" checked=false style="vertical-align: top;" 
+        input#cookie-checkbox type="checkbox" name="business[user_attributes][cookie_agreement_attributes][status]" checked=true 
         | &nbsp;&nbsp;
         label for="cookie-checkbox" This site uses cookies. By creating an account, you agree to the use of cookies on this site.
       input type="hidden" name="business[user_attributes][cookie_agreement_attributes][cookie_description]" value="This site uses cookies. By creating an account you agree to the use of cookies on this site."
       input type="hidden" name="business[user_attributes][tos_agreement_attributes][tos_description]" value="I have read and agree to the Terms of Service and Privacy Policy"
 
-    .row
-      .col-md-12.m-t-2.text-center.m-b-3
-        button.btn_step5.btn.btn-default.m-r-2.back type="button" Back
-        = f.submit 'Sign Up', class: 'btn btn-primary'
+  .row
+    .col-xs-12
+      = f.submit 'Sign Up', class: 'btn btn-primary btn-lg col-xs-12 col-sm-2 col-sm-offset-5'
 
-      p.text-center.text-muted.m-t-1.m-b-3.p-b-2.col-md-8.col-md-offset-2.col-sm-8.col-sm-offset-2.col-xs-12
-
-javascript:
-  var sub_inds = JSON.parse("#{Industry.where.not(sub_industries: "").collect(&:id)}");
-  var consulting_recruiter = JSON.parse("#{Industry.where(name: ['Consulting Firm', 'Recruiter']).collect(&:id)}");
+    p.text-center.text-muted.m-t-1.m-b-3.p-b-2.col-md-8.col-md-offset-2.col-sm-8.col-sm-offset-2.col-xs-12
