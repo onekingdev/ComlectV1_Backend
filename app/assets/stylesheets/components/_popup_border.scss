@@ -1,0 +1,22 @@
+.popup_border {
+  border: 3px solid #ffcc00;
+  text-align: center;
+  padding: 20px;
+}
+
+body.business_dashboard, body.compliance_policies, body.annual_reviews {
+  .modal-content {
+    border-radius: 0px;
+  }
+  .modal-footer {
+    display: none;
+  }
+  .modal-header {
+    padding: 0px;
+    height: 0px;
+  }
+
+  .close {
+    display: none;
+  }
+}

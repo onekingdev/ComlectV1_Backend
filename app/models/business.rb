@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'validators/url_validator'
+# rubocop:disable Metrics/ClassLength
 
 class Business < ApplicationRecord
   belongs_to :user
@@ -27,6 +28,12 @@ class Business < ApplicationRecord
     where(rater_type: Specialist.name).order(created_at: :desc)
   }, through: :projects, source: :ratings
   has_many :email_threads, dependent: :destroy
+  has_many :compliance_policies
+  has_many :annual_reviews
+  has_many :annual_reports
+  has_many :teams
+  has_many :active_projects, -> { where(status: statuses[:published]).where.not(specialist_id: nil) }, class_name: 'Project'
+  has_many :active_specialists, through: :active_projects, class_name: 'Specialist', source: :specialist
 
   has_one :forum_subscription
   has_one :tos_agreement, through: :user
@@ -34,6 +41,7 @@ class Business < ApplicationRecord
 
   has_one :referral, as: :referrable
   has_many :referral_tokens, as: :referrer
+  has_many :reminders
 
   has_settings do |s|
     s.key :notifications, defaults: {
@@ -46,6 +54,111 @@ class Business < ApplicationRecord
     }
   end
 
+  serialize :sub_industries
+  serialize :business_stages
+  serialize :business_risks
+  serialize :client_types
+  serialize :already_covered
+  serialize :cco
+
+  STEP_THREE = [
+    'startup', 'startup rescue', 'complete ongoing maintenance', 'one-off maintenance requests'
+  ].freeze
+
+  STEP_RISKS = [
+    [
+      'You head over and take a piece, because it worked out for the other two mice',
+      'You think about it, but end up playing it safe',
+      'You would have been on that cheese the moment you saw it',
+      'You need to do more research and want to see if more mice are succesful',
+      'No, thank you! Risk death? Not worth it.'
+    ],
+    [
+      'Slow down to the speed limit in case it’s a cop ',
+      'Moderate your speed to the flow of traffic ',
+      'You’d never speed ',
+      'Hope for the best, because you can’t afford to be late to this meeting',
+      'You always speed, even if cops are around, because they have to catch you first'
+    ],
+    [
+      'To win big, you sometimes have to take big risks',
+      'Measure twice, cut once',
+      'My belief in a day of reckoning keeps me on the straight and narrow',
+      'There’s a fine line between taking a calculated risk and doing something dumb',
+      'The biggest risk is not taking any risk'
+    ]
+  ].freeze
+
+  # rubocop:disable Metrics/LineLength
+  QUIZ = [
+    [:sec_or_crd],
+    [:office_state],
+    [:branch_offices],
+    [:client_account_cnt],
+    [:client_types, %i[less_1mm accredited_investors qualified_purchasers institutional_investors pooled_investment]],
+    [:aum],
+    [:cco, %i[yes no dedicated]],
+    [:already_covered, %i[code_of_ethics privacy custody portfolio trading proxy valuation marketing regulatory books planning compliance other]],
+    [:review_plan, %i[no basic deluxe premium]],
+    [:annual_compliance, %i[yes no]],
+    [:finish]
+  ].freeze
+  # rubocop:enable Metrics/LineLength
+
+  def questionarrie_percentage
+    score = 0
+    total = Business::QUIZ.count - 1
+    total -= 3 if business_stages.include? 'startup'
+    Business::QUIZ.map(&:first).each do |q|
+      score += 1 if (q != :finish) && !public_send(q).nil?
+    end
+    (100.0 * score / total).to_i
+  end
+
+  def annual_review_percentage
+    if annual_reports.any?
+      tgt_report = annual_reports.order(:id).last
+      tgt_report.score
+    else
+      0
+    end
+  end
+
+  def compliance_manual_percentage
+    (completed_compliance_policies.length * 100 / I18n.translate('compliance_manual_sections').keys.length).to_i
+  end
+
+  def completed_compliance_policies
+    compliance_policies.where.not(section: nil).collect(&:section).uniq.map(&:to_sym)
+  end
+
+  def remaining_compliance_policies(protection)
+    completed_arr = protection.nil? ? completed_compliance_policies : completed_compliance_policies - [protection]
+    I18n.translate('compliance_manual_sections').except(*completed_arr)
+  end
+
+  def ria?
+    industry = Industry.find_by(name: 'Investment Adviser')
+    industries.collect(&:id).include? industry.id
+  end
+
+  # rubocop:disable Metrics/AbcSize
+  def apply_quiz(cookies)
+    step1_c = cookies[:complect_step1].split('-').map(&:to_i)
+    self.sub_industries = []
+    cookies[:complect_step11].split('-').map(&proc { |p| p.split('_').map(&:to_i) }).each do |c|
+      sub_industries.push(Industry.find(c[0]).sub_industries.split("\r\n")[c[1]]) if step1_c.include? c[0]
+    end
+    self.business_stages = []
+    cookies[:complect_step3].split('-').map(&:to_i).each { |c| business_stages.push(STEP_THREE[c]) }
+    self.business_risks = []
+    business_risks[0] = STEP_RISKS[0][cookies[:complect_step4].to_i]
+    business_risks[1] = STEP_RISKS[1][cookies[:complect_step41].to_i]
+    business_risks[2] = STEP_RISKS[2][cookies[:complect_step42].to_i]
+    self.business_other = cookies[:complect_other] if industries.collect(&:name).include? 'Other'
+  end
+  # rubocop:enable Metrics/AbcSize
+
   alias communicable_projects projects
 
   default_scope -> { joins("INNER JOIN users ON users.id = businesses.user_id AND users.deleted = 'f'") }
@@ -54,14 +167,14 @@ class Business < ApplicationRecord
 
   EMPLOYEE_OPTIONS = %w[<10 11-50 51-100 100+].freeze
 
-  validates :contact_first_name, :contact_last_name, :contact_email, presence: true
-  validates :business_name, :industries, :employees, :description, presence: true
+  validates :contact_first_name, :contact_last_name, presence: true
+  validates :business_name, :industries, :employees, presence: true
   validates :country, :city, :state, :time_zone, presence: true
   validates :description, length: { maximum: 750 }
   validates :employees, inclusion: { in: EMPLOYEE_OPTIONS }
   validates :linkedin_link, allow_blank: true, url: true
   validates :website, allow_blank: true, url: true
-  validates :contact_email, format: { with: URI::MailTo::EMAIL_REGEXP }
+  # validates :contact_email, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :username, uniqueness: true
 
   accepts_nested_attributes_for :user
@@ -90,6 +203,100 @@ class Business < ApplicationRecord
   def to_param
     username
   end
+
+  def state_or_sec
+    if aum.nil? || (!aum.nil? && (aum < 100_000_000)) || only_pooled_investment?
+      'state'
+    else
+      'sec'
+    end
+  end
+
+  def personalized?
+    current_question = 0
+    quiz_copy = QUIZ.dup
+    unless business_stages.nil?
+      quiz_copy.delete_if { |s| %i[sec_or_crd already_covered annual_compliance].include? s[0] } if business_stages.include? 'startup'
+      quiz_copy.each_with_index do |q, i|
+        current_question = i
+        break if q[0] == :finish || __send__(q[0]).nil?
+      end
+    end
+    quiz_copy[current_question][0] == :finish
+  end
+
+  def only_pooled_investment?
+    (!client_types.nil? && (client_types - ['pooled_investment']).count.zero?)
+  end
+
+  def pooled_investment?
+    (!client_types.nil? && (client_types.include? 'pooled_investment'))
+  end
+
+  def employees_cnt
+    employees.split('-')[0].scan(/\d/).join('').to_i
+  end
+
+  # rubocop:disable all
+  def gap_analysis_est
+    basic = 450
+    deluxe = 1000
+    premium = 2000
+    # SMALL
+    if state_or_sec == 'state'
+      if employees_cnt > 2
+        basic = 450
+        deluxe = 1250
+        premium = 2250
+      else
+        basic = 450
+        deluxe = 1000
+        premium = 2000
+      end
+    end
+    # MID
+    if state_or_sec == 'sec'
+      if !pooled_investment? && !client_account_cnt.nil? && (client_account_cnt > 500)
+        if employees_cnt <= 10
+          basic = 500
+          deluxe = 1500
+          premium = 2750
+        end
+        if (employees_cnt > 10) && (employees_cnt <= 50)
+          basic = 1000
+          deluxe = 2750
+          premium = 4500
+        end
+      end
+      if pooled_investment? && !aum.nil?
+        if aum < 500_000_000
+          basic = 2000
+          deluxe = 4500
+          premium = 7500
+        end
+        if aum >= 500_000_000
+          basic = 3500
+          deluxe = 6500
+          premium = 11_500
+        end
+      end
+      # LARGE
+      if !aum.nil? && (aum >= 1_000_000_000)
+        if !pooled_investment? && !client_account_cnt.nil? && (client_account_cnt > 500)
+          basic = 1450
+          deluxe = 4500
+          premium = 8250
+        end
+        if pooled_investment?
+          basic = 7500
+          deluxe = 8500
+          premium = 35_500
+        end
+      end
+    end
+    [basic, deluxe, premium]
+  end
+  # rubocop:enable all
 
   def generate_username
     src = business_name.split(' ').map(&:capitalize).join('')
@@ -186,3 +393,4 @@ class Business < ApplicationRecord
     end
   end
 end
+# rubocop:enable Metrics/ClassLength
