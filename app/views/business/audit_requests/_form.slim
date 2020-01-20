@@ -1,0 +1,11 @@
+.popup_border
+  = @audit_request.body
+  br
+  br
+
+  = simple_form_for @audit_doc, wrapper: :inline_form, url: business_audit_request_path(@audit_request), method: :patch do |f|
+    .text-danger = f.object.errors.full_messages.first if f.object.errors.any?
+    = f.file_field :file, accept: "application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document", style: "margin-left: auto; margin-right: auto"
+    = f.hidden_field :audit_request_id
+    - verb = params[:action] == "new" ? "Add" : "Update"
+    = f.submit "#{verb}", class: 'btn btn-primary m-t-2'

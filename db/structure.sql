@@ -290,6 +290,72 @@ ALTER SEQUENCE public.articles_id_seq OWNED BY public.articles.id;
 
 
 --
+-- Name: audit_docs; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.audit_docs (
+    id integer NOT NULL,
+    pdf_data jsonb,
+    file_data jsonb,
+    audit_request_id integer,
+    business_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    processed boolean DEFAULT false
+);
+
+
+--
+-- Name: audit_docs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.audit_docs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: audit_docs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.audit_docs_id_seq OWNED BY public.audit_docs.id;
+
+
+--
+-- Name: audit_requests; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.audit_requests (
+    id integer NOT NULL,
+    body character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: audit_requests_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.audit_requests_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: audit_requests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.audit_requests_id_seq OWNED BY public.audit_requests.id;
+
+
+--
 -- Name: bank_accounts; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -4387,6 +4453,20 @@ ALTER TABLE ONLY public.articles ALTER COLUMN id SET DEFAULT nextval('public.art
 
 
 --
+-- Name: audit_docs id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.audit_docs ALTER COLUMN id SET DEFAULT nextval('public.audit_docs_id_seq'::regclass);
+
+
+--
+-- Name: audit_requests id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.audit_requests ALTER COLUMN id SET DEFAULT nextval('public.audit_requests_id_seq'::regclass);
+
+
+--
 -- Name: bank_accounts id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -4824,6 +4904,22 @@ ALTER TABLE ONLY public.answers
 
 ALTER TABLE ONLY public.articles
     ADD CONSTRAINT articles_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: audit_docs audit_docs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.audit_docs
+    ADD CONSTRAINT audit_docs_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: audit_requests audit_requests_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.audit_requests
+    ADD CONSTRAINT audit_requests_pkey PRIMARY KEY (id);
 
 
 --
@@ -6789,4 +6885,10 @@ INSERT INTO schema_migrations (version) VALUES ('20200117095549');
 INSERT INTO schema_migrations (version) VALUES ('20200118000622');
 
 INSERT INTO schema_migrations (version) VALUES ('20200118201501');
+
+INSERT INTO schema_migrations (version) VALUES ('20200119192255');
+
+INSERT INTO schema_migrations (version) VALUES ('20200120025054');
+
+INSERT INTO schema_migrations (version) VALUES ('20200120122015');
 

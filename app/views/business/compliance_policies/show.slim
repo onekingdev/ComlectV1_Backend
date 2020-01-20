@@ -1,9 +1,7 @@
 .col-md-4
-  .pull-left
-    .p-t-1
-      b = @compliance_policy.section_or_title
-  .pull-right
-    = link_to "Edit", edit_business_compliance_policy_path(@compliance_policy), "data-target": "#modal", "data-remote": true, "data-toggle": "modal", class: "btn btn-primary m-l-1"
+  .p-t-1
+    b = @compliance_policy.section_or_title
+  = link_to "Update", edit_business_compliance_policy_path(@compliance_policy), "data-target": "#modal", "data-remote": true, "data-toggle": "modal", class: "btn btn-primary m-t-1"
   .clearfix
   br
   table.policies_internal_table.m-b-3 style="width: auto;"

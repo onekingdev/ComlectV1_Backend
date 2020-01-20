@@ -41,6 +41,18 @@
               /    - titles += "#{project.title}<br/>"
               /.coloring style=("background-color: rgba(255, 204, 0, #{0.2*projects.count})") class=("today" if date == Date.today) data-placement="top" data-toggle="tooltip" data-title=(raw(titles)) data-html="true"
               /  = date.day
+          .panel.panel-default
+            .panel-heading
+              h3 Audit prep
+            .panel-body.p-t-0.m-t-0
+              .text-center.m-b-1
+                .profile_chart
+                  .c100 class=("p#{@business.audit_prep_percentage}")
+                      span = "#{@business.audit_prep_percentage}%"
+                      .slice
+                        .bar
+                        .fill
+                = link_to "Update", business_audit_requests_path, class: "btn btn-primary", target: "_blank"
           .panel.panel-default.profile-info
             .panel-heading
               h3 Annual review
@@ -50,7 +62,14 @@
               .pull-right
                 = link_to "HIRE", business_annual_reviews_path, class: "btn btn-primary", "data-target": "#modal", "data-toggle": "modal", "data-remote": true
               .clearfix
-              - if @business.review_declined
+            - if @business.processed_annual_reports.any?
+              .panel-heading
+                h3 Generated
+              .panel-body.p-b-0
+                - @business.processed_annual_reports.each do |report|
+                  = link_to raw(report.created_at.strftime("%b %-d %Y %I:%M <small>%p</small>")), report.pdf_url, target: "_blank", class: "policy_list_item"
+            - if @business.review_declined
+              .panel-body
                 table.annual_review_table
                   - ((Date.today.year-4)..Date.today.year).to_a.reverse.each do |y|
                     - years_avail = @business.annual_reviews.collect(&:year)
@@ -71,7 +90,6 @@
                         td colspan=2
                           i No&nbsp;file 
                         td = link_to "Upload", new_business_annual_review_path(year: y), class: "tblbtn", "data-target": "#modal", "data-toggle": "modal", "data-remote": true
-                    
                   /= simple_form_for business_annual_reviews_path(AnnualReview.new(year: y)) do |f|
                     = f.file_field :file, accept: "application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
           .panel.panel-default.profile-info
@@ -208,8 +226,8 @@
                 b Annual&nbsp;Review
               .col-md-4.text-center.m-b-1
                 .profile_chart
-                  .c100.p0
-                      span 0%
+                  .c100 class=("p#{@business.audit_prep_percentage}")
+                      span = "#{@business.audit_prep_percentage}%"
                       .slice
                         .bar
                         .fill

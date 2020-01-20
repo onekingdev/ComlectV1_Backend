@@ -1,0 +1,19 @@
+h1.m-b-3.text-center Audit Prep
+
+- @audit_requests.each_with_index do |req,i|
+  .shadow_container.m-b-3.audit_prep_request
+    .col-sm-9.audit_request_body
+      .circled class=("inactive" if !@audit_docs.collect(&:audit_request_id).include? req.id) = i+1
+      = req.body
+    .col-sm-3.text-center
+      - if @audit_docs.collect(&:audit_request_id).include? req.id
+        - audit_doc = @audit_docs.where(audit_request_id: req.id).first
+        = link_to business_audit_request_path(req.id), class: "btn btn-default m-r-1" do
+          i.icon-magnifier data-toggle="tooltip" title="Preview"
+        = link_to audit_doc.file_url, class: "btn btn-default m-r-1", target: "_blank" do
+          i.icon.maxicons1-download data-toggle="tooltip" title="Download"
+        = link_to edit_business_audit_request_path(req.id), class: "btn btn-primary", "data-target": "#modal", "data-toggle": "modal", "data-remote": true do
+          i.icon-pencil data-toggle="tooltip" title="Edit"
+      - else
+        = link_to "Upload", new_business_audit_request_path(request: req.id), class: "btn btn-primary", "data-target": "#modal", "data-toggle": "modal", "data-remote": true
+    .clearfix

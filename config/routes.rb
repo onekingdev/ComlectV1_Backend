@@ -81,6 +81,7 @@ Rails.application.routes.draw do
     resources :annual_reports, only: %i[new create index update]
     resources :teams, only: %i[new create show edit index update]
     resources :reminders, only: %i[new update create destroy show]
+    resources :audit_requests, only: %i[index update create new edit show]
     resource :settings, only: :show do
       resource :password
       resource :key_contact
