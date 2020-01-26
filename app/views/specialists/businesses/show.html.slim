@@ -5,107 +5,10 @@
   #business-dashboard.row.m-b-3
     .tr
       .td.col-xs-12.col-sm-4.col-md-3.va-top
-        .panel.panel-default.profile-info
-          .panel-heading
-            h3 Reminders
-          .panel-body style="padding-top: 0px; padding-bottom: 0px;"
-            = month_calendar events: @business.reminders do |date, reminders|
-              - titles = ""
-              - if reminders.count > 0
-                - reminders.each do |reminder|
-                  - titles += "<pre>#{reminder.body}</pre><br/>"
-              - if titles.length > 0
-                .coloring style=("background-color: rgba(255, 204, 0, #{0.2*reminders.count})") class=("real_today" if date == Date.today) data-placement="top" data-toggle="tooltip" data-title=(raw(titles)) data-html="true"
-                  = link_to date.day, new_business_reminder_path(date: date), "data-target": "#modal", "data-toggle": "modal", "data-remote": true
-              - else
-                .coloring style=("background-color: rgba(255, 204, 0, #{0.2*reminders.count})") class=("real_today" if date == Date.today)
-                  = link_to date.day, new_business_reminder_path(date: date), "data-target": "#modal", "data-toggle": "modal", "data-remote": true
-          - if @reminders_today.any?
-            .panel-heading.m-b-05
-              h3 Today
-            .panel-body style="padding-top: 0px; padding-bottom: 0px;"
-              - @reminders_today.each do |reminder|
-                = link_to reminder.body, new_business_reminder_path(date: reminder.remind_at), "data-target": "#modal", "data-toggle": "modal", "data-remote": true, class: "upcoming_task"
-          - if @reminders_week.any?
-            .panel-heading.m-b-05
-              h3 This week
-            .panel-body style="padding-top: 0px;"
-              - @reminders_week.each do |reminder|
-                = link_to reminder.body, new_business_reminder_path(date: reminder.remind_at), "data-target": "#modal", "data-toggle": "modal", "data-remote": true, class: "upcoming_task"
-            / That will work for specialist
-            /- if projects.count > 0
-            /  - projects.each do |project|
-            /    - titles += "#{project.title}<br/>"
-            /.coloring style=("background-color: rgba(255, 204, 0, #{0.2*projects.count})") class=("today" if date == Date.today) data-placement="top" data-toggle="tooltip" data-title=(raw(titles)) data-html="true"
-            /  = date.day
-        .panel.panel-default.profile-info
-          .panel-heading
-            h3 Annual review
-          .panel-body.p-t-0.m-t-0
-            .pull-left
-              = link_to "DIY", business_annual_reviews_path(kind: "diy"), class: "btn btn-default", "data-target": "#modal", "data-toggle": "modal", "data-remote": true
-            .pull-right
-              = link_to "HIRE", business_annual_reviews_path, class: "btn btn-primary", "data-target": "#modal", "data-toggle": "modal", "data-remote": true
-            .clearfix
-            - if @business.review_declined
-              table.annual_review_table
-                - ((Date.today.year-4)..Date.today.year).to_a.reverse.each do |y|
-                  - years_avail = @business.annual_reviews.collect(&:year)
-                  | &nbsp;
-                  tr 
-                    td = y
-                    - if years_avail.include? y
-                      - annual_review = @business.annual_reviews.where(year: y).first
-                      td = link_to "Edit", edit_business_annual_review_path(annual_review), class: "tblbtn", "data-target": "#modal", "data-toggle": "modal", "data-remote": true
-                      td = link_to "View", business_annual_review_path(annual_review)
-                      td = link_to "Save", annual_review.file_url
-                    - else
-                      td colspan=2
-                        i No file 
-                      td = link_to "Upload", new_business_annual_review_path(year: y), class: "tblbtn", "data-target": "#modal", "data-toggle": "modal", "data-remote": true
-                  
-                /= simple_form_for business_annual_reviews_path(AnnualReview.new(year: y)) do |f|
-                  = f.file_field :file, accept: "application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-        .panel.panel-default.profile-info
-          .panel-heading
-            h3 Compliance manual
-          .panel-body.p-t-0
-            a.btn.btn-link.btn-plain.add-compliance-policy.m-b-1 data-target="#modal" data-toggle="modal" data-remote=true href=new_business_compliance_policy_path
-              span Add policy
-            - @business.compliance_policies.each do |policy|
-              = link_to policy.title, business_compliance_policy_path(policy), target: "_blank", class: "policy_list_item"
-
-        .panel.panel-default.profile-info
-          .panel-heading
-            h3 Profile
-          .panel-body
-            - if business.logo
-              .logo= link_to image_tag(business.logo_url(:thumb), class: 'img-responsive'), business
-            h3.text-center= link_to business.business_name, business
-            .text-center= business.render_stars
-
-            br
-
-            .list-icon
-              .item
-                i.icon-location-pin
-                span= business.city_state_country
-              .item
-                i.icon-briefcase
-                span= business.industries.map(&:name).join(', ')
-              .item
-                i.icon-globe
-                span= business.jurisdictions.map(&:name).join(', ')
-              .item
-                i.icon-people
-                span #{business.employees} Employees
-
-            = simple_form_for business, remote: true, url: update_business_path, html: { class: 'm-y-2' } do |f|
-              = hidden_field_tag 'redirect_to', business_dashboard_path
-              = f.input :anonymous, as: :radio_pills, collection: [['Public', false], ['Private', true]], btn_class: 'btn-default btn-sm', label: false, hint: false, input_html: { data: { autosubmit: 'true' } }
-
-            .text-center.text-uppercase.small= link_to 'Edit Profile', edit_business_path, class: 'link'
-
+        = render partial: "business_dashboard/reminders"
+        = render partial: "business_dashboard/audit_prep"
+        = render partial: "business_dashboard/annual_review"
+        = render partial: "business_dashboard/compliance_manual"
         .panel.panel-default.profile-info
           .panel-heading
             h3 Financials
@@ -142,6 +45,7 @@
                   = link_to 'Partnerships', partnerships_path
             .m-t-2.text-center= link_to 'Ask a question', forum_questions_path, class: 'btn btn-sm btn-primary p-x-1'
       .td.col-xs-12.col-sm-8.col-md-9.va-top
+        = render partial: "business_dashboard/ria_profile", locals: { business: business }
         .panel.panel-default.panel-padded
           .panel-heading
             h3
@@ -163,3 +67,4 @@
 javascript:
   var show_business_personalize = #{!@business.personalized?};
   var show_business_tutorial = #{@business.personalized? && !@business.tutorial_complete};
+  var personalize_js_url = "/specialist/businesses/#{@business.username}/personalize"

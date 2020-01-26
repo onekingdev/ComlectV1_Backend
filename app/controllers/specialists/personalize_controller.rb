@@ -1,34 +1,41 @@
 # frozen_string_literal: true
 
-# rubocop:disable all
-class Business::PersonalizeController < ApplicationController
-  before_action :require_business!
+class Specialists::PersonalizeController < ApplicationController
+  before_action :require_specialist!
+  before_action :set_business
+
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/LineLength
+  # rubocop:disable Metrics/BlockNesting
   def quiz
-    if current_business
+    if current_specialist
       pp = params['personalize']
       unless pp.nil?
         if Business::QUIZ.map(&:first).include? pp.keys.first.to_sym
           pp[pp.keys.first].reject!(&:empty?) if pp[pp.keys.first].class == Array
           if pp.keys.first.to_sym == :aum
-            current_business.update(pp.keys.first.to_sym => fix_aum(pp[pp.keys.first]))
+            @business.update(pp.keys.first.to_sym => fix_aum(pp[pp.keys.first]))
           else
-            current_business.update(pp.keys.first.to_sym => pp[pp.keys.first])
+            @business.update(pp.keys.first.to_sym => pp[pp.keys.first])
           end
         end
       end
       current_question = 0
       quiz_copy = Business::QUIZ.dup
-      quiz_copy.delete_if { |s| [:sec_or_crd, :already_covered, :annual_compliance].include? s[0] } if current_business.business_stages.include? 'startup'
+      quiz_copy.delete_if { |s| %i[sec_or_crd already_covered annual_compliance].include? s[0] } if @business.business_stages.include? 'startup'
       quiz_copy.each_with_index do |q, i|
         current_question = i
-        break if q[0] == :finish || current_business.send(q[0]).nil?
+        break if q[0] == :finish || @business.__send__(q[0]).nil?
       end
       @question = quiz_copy[current_question]
       @question_id = current_question
       @quiz_copy = quiz_copy
-      puts quiz_copy[current_question]
     end
+    render 'business/personalize/quiz'
   end
+  # rubocop:enable Metrics/BlockNesting
+  # rubocop:enable Metrics/LineLength
+  # rubocop:enable Metrics/AbcSize
 
   private
 
@@ -47,5 +54,8 @@ class Business::PersonalizeController < ApplicationController
     end
     result.to_i
   end
+
+  def set_business
+    @business = current_specialist.manageable_ria_businesses.find_by(username: params[:business_id])
+  end
 end
-# rubocop:enable all

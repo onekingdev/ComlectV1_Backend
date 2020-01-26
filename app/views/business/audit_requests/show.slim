@@ -11,7 +11,7 @@
           i.icon-share
           |  Share
       td
-        = link_to edit_business_audit_request_path(@audit_request), "data-target": "#modal", "data-remote": true, "data-toggle": "modal" do
+        = link_to (current_specialist ? edit_specialists_business_audit_request_path(@business.username, @audit_request) : edit_business_audit_request_path(@audit_request)), "data-target": "#modal", "data-remote": true, "data-toggle": "modal" do
           i.icon-pencil
           |  Edit
       td
@@ -25,3 +25,6 @@
     | Preview will be available in a few seconds
     javascript:
       var audit_request_render_id = #{@audit_request.id}
+    - if current_specialist
+      javascript:
+        var audit_baseurl = "/specialist/businesses/#{@business.username}/audit_requests/";

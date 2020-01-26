@@ -35,7 +35,7 @@
     <h1>I. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Executive Summary</h1>
     
     <p>
-      <%= current_business.business_name %> (or the "Company") conducted an annual review of its compliance program from <%= raw(@annual_report.exam_start.strftime("%Y&nbsp;%B&nbsp;%d")) %> through <%= raw(@annual_report.exam_end.strftime("%Y&nbsp;%B&nbsp;%d")) %>. <%= current_business.business_name %> reviews the following areas in relation to its business activities:
+      <%= @business.business_name %> (or the "Company") conducted an annual review of its compliance program from <%= raw(@annual_report.exam_start.strftime("%Y&nbsp;%B&nbsp;%d")) %> through <%= raw(@annual_report.exam_end.strftime("%Y&nbsp;%B&nbsp;%d")) %>. <%= @business.business_name %> reviews the following areas in relation to its business activities:
     </p>
     <ol style="list-style-type: upper-roman;">
       <li>Executive Summary</li>
@@ -48,7 +48,7 @@
     </ol>
 
     <p>
-      <%= current_business.business_name %> reviewed certain books and records covering the time period from <%= @annual_report.review_start.strftime("%B %d") %> through <%= @annual_report.review_end.strftime("%B %d") %> (the "Review Period"). In addition, there was a review of the Company’s written policies and procedures along with documentation demonstrating their implementation. The following key employees were interviewed to gain additional insight into the Company’s operations and to compare their practices with the written policies and procedures:
+      <%= @business.business_name %> reviewed certain books and records covering the time period from <%= @annual_report.review_start.strftime("%B %d") %> through <%= @annual_report.review_end.strftime("%B %d") %> (the "Review Period"). In addition, there was a review of the Company’s written policies and procedures along with documentation demonstrating their implementation. The following key employees were interviewed to gain additional insight into the Company’s operations and to compare their practices with the written policies and procedures:
     </p>
 
     <ul>
@@ -58,17 +58,17 @@
     </ul>
 
     <p>
-      Finally, <%= current_business.business_name %> analyzed the following:
+      Finally, <%= @business.business_name %> analyzed the following:
     </p>
 
     <ul>
       <li>the Compliance Manual;</li>
       <li>Any reviews performed by the Company to evaluate the adequacy and effectiveness of its compliance program; and</li>
-      <li>As applicable, <%= current_business.business_name %>’s responses to issues noted during its prior internal reviews or issues noted during the most recent examination by the securities regulator.</li>
+      <li>As applicable, <%= @business.business_name %>’s responses to issues noted during its prior internal reviews or issues noted during the most recent examination by the securities regulator.</li>
     </ul>
 
     <p>
-      Based on <%= current_business.business_name %>’s review, <%= current_business.business_name %>’s compliance program appears <%= ["poorly tailored", "reasonably tailored", "well-tailored"][@annual_report.tailored_lvl-1] %> relative to the scope and nature of the Company’s operations. 
+      Based on <%= @business.business_name %>’s review, <%= @business.business_name %>’s compliance program appears <%= ["poorly tailored", "reasonably tailored", "well-tailored"][@annual_report.tailored_lvl-1] %> relative to the scope and nature of the Company’s operations. 
     </p>
 
     <p>
@@ -76,7 +76,7 @@
     </p>
 
     <p>
-      This report contains specific observations and recommendations concerning the Company’s practices, including general context and references to certain securities laws. The findings are presented in three parts: (i) identification of an any perceived weaknesses or compliance issues at <%= current_business.business_name %>; (ii) how the Company intends to remediate the findings noted; and (iii) an assigned risk level of low, moderate, and high. These risk ratings generally reflect a subjective assessment as to the potential regulatory risk of the finding and is not reflective of any rating or ranking system adopted by or approved by a regulator, rating agency, or other third party. The risk ratings can be understood as follows:
+      This report contains specific observations and recommendations concerning the Company’s practices, including general context and references to certain securities laws. The findings are presented in three parts: (i) identification of an any perceived weaknesses or compliance issues at <%= @business.business_name %>; (ii) how the Company intends to remediate the findings noted; and (iii) an assigned risk level of low, moderate, and high. These risk ratings generally reflect a subjective assessment as to the potential regulatory risk of the finding and is not reflective of any rating or ranking system adopted by or approved by a regulator, rating agency, or other third party. The risk ratings can be understood as follows:
     </p>
 
     <ul style="page-break-inside: avoid;">
@@ -94,22 +94,22 @@
     <h1>II. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Objectives</h1>
 
     <p>
-      The review of <%= current_business.business_name %>’s compliance program covered areas relevant to the Company’s compliance with:
+      The review of <%= @business.business_name %>’s compliance program covered areas relevant to the Company’s compliance with:
     </p>
 
     <ul>
-      <li><% if current_business.state_or_sec == 'sec' %>the Investment Advisers Act of 1940 (“Advisers Act”)<% else %>state securities regulations<% end %></li>
+      <li><% if @business.state_or_sec == 'sec' %>the Investment Advisers Act of 1940 (“Advisers Act”)<% else %>state securities regulations<% end %></li>
       <li>internal policies and procedures,</li>
       <li>industry best practices, and</li>
       <li>the Company’s knowledge of regulatory expectations.</li>
     </ul>
 
     <p>
-      <%= current_business.business_name %>’s review included an assessment of the adequacy and effectiveness of its policies and procedures in each of the following areas:
+      <%= @business.business_name %>’s review included an assessment of the adequacy and effectiveness of its policies and procedures in each of the following areas:
     </p>
     <ul>
       <li>Proprietary trading of the Company and personal trading activities of its access persons;</li>
-      <li>Safeguards like cybersecurity controls for the protection of sensitive client records and information, as well as, <%= current_business.business_name %>’s proprietary information;</li>
+      <li>Safeguards like cybersecurity controls for the protection of sensitive client records and information, as well as, <%= @business.business_name %>’s proprietary information;</li>
       <li>Portfolio management processes, including allocation of investment opportunities among clients and consistency of portfolios with clients' investment objectives, disclosures by the Company, and applicable regulatory restrictions;</li>
       <li>Trading practices, including procedures by which the Company satisfies its best execution obligation, uses client brokerage to obtain research and other services ("soft dollar arrangements"), and allocates aggregated trades among clients;</li>
       <li>Processes to value client holdings and assess fees based on those valuations;</li>
@@ -119,17 +119,17 @@
       <li>Safeguarding of client assets from conversion or inappropriate use by employees;</li>
       <li>The accurate creation of required records and their maintenance in a manner that secures them from unauthorized alteration or use and protects them from untimely destruction;</li>
       <li>Business continuity plans; and</li>
-      <li>Any areas <%= current_business.business_name %> deemed necessary based upon the Company’s specific operational and business practice risks.</li>
+      <li>Any areas <%= @business.business_name %> deemed necessary based upon the Company’s specific operational and business practice risks.</li>
     </ul>
 
     <p>
-      While the review addressed each of the areas noted above, <%= current_business.business_name %> prioritized those areas believed to present the most risk to the Company and/or its clients.
+      While the review addressed each of the areas noted above, <%= @business.business_name %> prioritized those areas believed to present the most risk to the Company and/or its clients.
     </p>
 
     <h1>II. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Material Business Changes</h1>
 
     <p>
-      The following material changes in <%= current_business.business_name %>’s business activities occurred during the Review Period:
+      The following material changes in <%= @business.business_name %>’s business activities occurred during the Review Period:
     </p>
 
     <ul>
@@ -148,7 +148,7 @@
 
     <h1>V. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Findings and Recommendations</h1>
     <h3 style="text-align: center;">A. Code of Ethics (the “Code”) and Insider Trading</h3>
-    <p><%= current_business.business_name %>’s review of its policies and procedures related to personal securities trading, political donations, gifts and entertainment, outside business activities, and material nonpublic information resulted in no notable issues with respect to the following areas:</p>
+    <p><%= @business.business_name %>’s review of its policies and procedures related to personal securities trading, political donations, gifts and entertainment, outside business activities, and material nonpublic information resulted in no notable issues with respect to the following areas:</p>
 
     <ul>
       <% lines = [] %>
@@ -182,11 +182,11 @@
     <h1>VI. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Conclusion</h1>
 
     <p>
-      <%= current_business.business_name %> has made reasonable efforts to adequately assess our compliance program based upon the review of our books and records along with the oral representations from our employees. Where practicable, the Company only reviewed certain of its records on a sample basis. Our findings and recommendations reflect the applicable regulations, compliance requirements, and the status of our operations only as of the time of this review.
+      <%= @business.business_name %> has made reasonable efforts to adequately assess our compliance program based upon the review of our books and records along with the oral representations from our employees. Where practicable, the Company only reviewed certain of its records on a sample basis. Our findings and recommendations reflect the applicable regulations, compliance requirements, and the status of our operations only as of the time of this review.
     </p>
 
     <p>
-      This report is intended solely for the information and use of <%= current_business.business_name %>.
+      This report is intended solely for the information and use of <%= @business.business_name %>.
     </p>
 
   </body>

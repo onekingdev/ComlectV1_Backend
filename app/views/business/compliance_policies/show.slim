@@ -1,7 +1,7 @@
 .col-md-4
   .p-t-1
     b = @compliance_policy.section_or_title
-  = link_to "Update", edit_business_compliance_policy_path(@compliance_policy), "data-target": "#modal", "data-remote": true, "data-toggle": "modal", class: "btn btn-primary m-t-1"
+  = link_to "Update", (current_specialist ? edit_specialists_business_compliance_policy_path(@business.username, @compliance_policy) : edit_business_compliance_policy_path(@compliance_policy)), "data-target": "#modal", "data-remote": true, "data-toggle": "modal", class: "btn btn-primary m-t-1"
   .clearfix
   br
   table.policies_internal_table.m-b-3 style="width: auto;"
@@ -20,7 +20,7 @@
           - if @preview_doc.id == doc.id
             i.icon-magnifier
           - else
-            = link_to business_compliance_policy_path(@compliance_policy, docid: doc.id) do
+            = link_to (current_specialist ? specialists_business_compliance_policy_path(@business.username, @compliance_policy, docid: doc.id) : business_compliance_policy_path(@compliance_policy, docid: doc.id)) do
               i.icon-magnifier data-toggle="tooltip" title="Preview"
         td
           = link_to "mailto:?body=Document name: #{@compliance_policy.title}%0D%0A%0D%0ADownload: #{Rails.env == 'production' ? url_for(doc.doc_url) : root_url.delete_suffix("/")+url_for(doc.doc_url)}&subject=Check this file!" do
@@ -32,3 +32,6 @@
     | Preview will be available in a few seconds
     javascript:
       var compliance_policy_render_id = #{@compliance_policy.id}
+    - if current_specialist
+      javascript:
+        var compliance_policy_baseurl = "/specialist/businesses/#{@business.username}/compliance_policies/";

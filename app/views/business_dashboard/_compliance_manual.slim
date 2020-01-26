@@ -1,0 +1,8 @@
+.panel.panel-default.profile-info
+  .panel-heading
+    h3 Compliance manual
+  .panel-body.p-t-0
+    a.btn.btn-link.btn-plain.add-compliance-policy.m-b-1 data-target="#modal" data-toggle="modal" data-remote=true href=(current_specialist ? new_specialists_business_compliance_policy_path(@business.username) : new_business_compliance_policy_path)
+      span Add policy
+    - @business.compliance_policies.each do |policy|
+      = link_to policy.section_or_title, (current_specialist ? specialists_business_compliance_policy_path(@business.username, policy) : business_compliance_policy_path(policy)), target: "_blank", class: "policy_list_item"

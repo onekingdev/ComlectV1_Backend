@@ -39,6 +39,9 @@ class Specialist < ApplicationRecord
   has_many :manageable_businesses, through: :active_projects, class_name: 'Business', source: :business
   has_one :referral, as: :referrable
   has_many :referral_tokens, as: :referrer
+  # rubocop:disable Metrics/LineLength
+  has_many :manageable_ria_businesses, -> { joins(:industries).where('industries.id = 5') }, through: :active_projects, class_name: 'Business', source: :business
+  # rubocop:enable Metrics/LineLength
 
   has_settings do |s|
     s.key :notifications, defaults: {
@@ -84,23 +87,25 @@ class Specialist < ApplicationRecord
     ]
   ].freeze
 
-  def manageable_ria_businesses
-    industry = Industry.find_by(name: 'Investment Adviser')
-    arr = manageable_businesses
-    tgt_arr = []
-    arr.each do |b|
-      tgt_arr.push(b) if b.industries.include? industry
-    end
-    arr.uniq!
-    tgt_arr
-  end
+  # def manageable_ria_businesses
+  #  industry = Industry.find_by(name: 'Investment Adviser')
+  #  arr = manageable_businesses
+  #  tgt_arr = []
+  #  arr.each do |b|
+  #    tgt_arr.push(b) if b.industries.include? industry
+  #  end
+  #  arr.uniq!
+  #  tgt_arr
+  # end
 
   # rubocop:disable Metrics/AbcSize
   def apply_quiz(cookies)
     step1_c = cookies[:complect_s_step1].split('-').map(&:to_i)
     self.sub_industries = []
-    cookies[:complect_s_step11].split('-').map(&proc { |p| p.split('_').map(&:to_i) }).each do |c|
-      sub_industries.push(Industry.find(c[0]).sub_industries.split("\r\n")[c[1]]) if step1_c.include? c[0]
+    unless cookies[:complect_s_step11].nil?
+      cookies[:complect_s_step11].split('-').map(&proc { |p| p.split('_').map(&:to_i) }).each do |c|
+        sub_industries.push(Industry.find(c[0]).sub_industries.split("\r\n")[c[1]]) if step1_c.include? c[0]
+      end
     end
     self.specialist_risks = []
     specialist_risks[0] = STEP_RISKS[0][cookies[:complect_s_step3].to_i]

@@ -7,10 +7,14 @@ $(document).ready(function() {
     hide_annual_compliance_fields();
   }
   if (typeof(compliance_policy_render_id) != "undefined") {
+    var bsurl = "/business/compliance_policies/";
+    if (typeof(compliance_policy_baseurl) != "undefined") {
+      bsurl = compliance_policy_baseurl;
+    }
     var requestloop = setInterval(function() {
       $.ajax({
         type: 'GET',
-        url: "/business/compliance_policies/"+compliance_policy_render_id+"json",
+        url: bsurl+compliance_policy_render_id+"json",
         success: function(data) {
           if (data.preview != false) {
             $(".pdf_preview_area").html("<iframe height='500px' src='/pdfjs/minimal?file="+encodeURIComponent(data.preview)+"' width='100%'></iframe>");

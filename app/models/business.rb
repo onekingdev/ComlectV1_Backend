@@ -113,7 +113,8 @@ class Business < ApplicationRecord
     Business::QUIZ.map(&:first).each do |q|
       score += 1 if (q != :finish) && !public_send(q).nil?
     end
-    (100.0 * score / total).to_i
+    result = (100.0 * score / total).to_i
+    result > 100 ? 100 : result
   end
 
   def annual_review_percentage
@@ -155,8 +156,10 @@ class Business < ApplicationRecord
   def apply_quiz(cookies)
     step1_c = cookies[:complect_step1].split('-').map(&:to_i)
     self.sub_industries = []
-    cookies[:complect_step11].split('-').map(&proc { |p| p.split('_').map(&:to_i) }).each do |c|
-      sub_industries.push(Industry.find(c[0]).sub_industries.split("\r\n")[c[1]]) if step1_c.include? c[0]
+    unless cookies[:complect_step11].nil?
+      cookies[:complect_step11].split('-').map(&proc { |p| p.split('_').map(&:to_i) }).each do |c|
+        sub_industries.push(Industry.find(c[0]).sub_industries.split("\r\n")[c[1]]) if step1_c.include? c[0]
+      end
     end
     self.business_stages = []
     cookies[:complect_step3].split('-').map(&:to_i).each { |c| business_stages.push(STEP_THREE[c]) }

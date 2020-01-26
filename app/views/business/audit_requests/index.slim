@@ -8,12 +8,12 @@ h1.m-b-3.text-center Audit Prep
     .col-sm-3.text-center
       - if @audit_docs.collect(&:audit_request_id).include? req.id
         - audit_doc = @audit_docs.where(audit_request_id: req.id).first
-        = link_to business_audit_request_path(req.id), class: "btn btn-default m-r-1" do
+        = link_to (current_specialist ? specialists_business_audit_request_path(@business.username, req.id) : business_audit_request_path(req.id)), class: "btn btn-default m-r-1" do
           i.icon-magnifier data-toggle="tooltip" title="Preview"
         = link_to audit_doc.file_url, class: "btn btn-default m-r-1", target: "_blank" do
           i.icon.maxicons1-download data-toggle="tooltip" title="Download"
-        = link_to edit_business_audit_request_path(req.id), class: "btn btn-primary", "data-target": "#modal", "data-toggle": "modal", "data-remote": true do
+        = link_to (current_specialist ? edit_specialists_business_audit_request_path(@business.username, req.id) : edit_business_audit_request_path(req.id)), class: "btn btn-primary", "data-target": "#modal", "data-toggle": "modal", "data-remote": true do
           i.icon-pencil data-toggle="tooltip" title="Edit"
       - else
-        = link_to "Upload", new_business_audit_request_path(request: req.id), class: "btn btn-primary", "data-target": "#modal", "data-toggle": "modal", "data-remote": true
+        = link_to "Upload", (current_specialist ? new_specialists_business_audit_request_path(@business.username, request: req.id) : new_business_audit_request_path(request: req.id)), class: "btn btn-primary", "data-target": "#modal", "data-toggle": "modal", "data-remote": true
     .clearfix

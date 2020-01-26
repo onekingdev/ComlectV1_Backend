@@ -1,18 +1,19 @@
-table.table.reminders_table
-  - current_business.reminders.where(remind_at: @parsed_date).each do |reminder|
-    tr class=("done" if !reminder.done_at.nil?)
-      - if reminder.done_at.nil?
-        td width="1%" = link_to "Done", business_reminder_path(reminder, done: true), method: :patch, class: "btn btn-primary btn-sm"
-      - else
-        td width="1%" = link_to "Done", "#", class: "btn btn-disabled btn-sm"
-      td width="1%" = link_to "Delete", business_reminder_path(reminder), method: :delete, class: "btn btn-default btn-sm", "data-confirm": "Are you sure want to delete reminder?"
-      td width="99%" = reminder.body
+.popup_border
+  table.table.reminders_table
+    - @business.reminders.where(remind_at: @parsed_date).each do |reminder|
+      tr class=("done" if !reminder.done_at.nil?)
+        - if reminder.done_at.nil?
+          td width="1%" = link_to "Done", (current_specialist ? specialists_business_reminder_path(@business.username, reminder, done: true) : business_reminder_path(reminder, done: true)), method: :patch, class: "btn btn-primary btn-sm"
+        - else
+          td width="1%" = link_to "Done", "#", class: "btn btn-disabled btn-sm"
+        td width="1%" = link_to "Delete", (current_specialist ? specialists_business_reminder_path(@business.username, reminder) : business_reminder_path(reminder)), method: :delete, class: "btn btn-default btn-sm", "data-confirm": "Are you sure want to delete reminder?"
+        td width="99%" = reminder.body
 
-| New reminder for 
-= @parsed_date
+  | New reminder for 
+  = @parsed_date
 
-= simple_form_for @reminder, wrapper: :inline_form, url: business_reminders_path do |f|
-  .text-danger = f.object.errors.full_messages.first if f.object.errors.any?
-  = f.input :body
-  = f.input :remind_at
-  = f.submit
+  = simple_form_for @reminder, wrapper: :inline_form, url: (current_specialist ? specialists_business_reminders_path(@business.username) : business_reminders_path) do |f|
+    .text-danger = f.object.errors.full_messages.first if f.object.errors.any?
+    = f.input :body
+    = f.input :remind_at
+    = f.submit "Save", class: "btn btn-primary"

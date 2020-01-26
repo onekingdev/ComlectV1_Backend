@@ -3,14 +3,14 @@ h1.m-b-3.text-center Annual Review Guide
 .shadow_container.m-b-3
   .p.p-x-2.text-center
     - if @annual_report.ready?
-      = simple_form_for :dummy, url: business_annual_reports_path(format: "jpg"), html: { target: "_blank", style: "display: inline-block" } do |f|
+      = simple_form_for :dummy, url: (current_specialist ? specialists_business_annual_reports_path(@business.username, format: "jpg") : business_annual_reports_path(format: "jpg")), html: { target: "_blank", style: "display: inline-block" } do |f|
         = f.submit "Preview", class: "btn btn-primary m-r-2"
-      = simple_form_for :dummy, url: business_annual_reports_path(format: "pdf"), html: { target: "_blank", style: "display: inline-block"} do |f|
+      = simple_form_for :dummy, url: (current_specialist ? specialists_business_annual_reports_path(@business.username, format: "pdf") : business_annual_reports_path(format: "pdf")), html: { target: "_blank", style: "display: inline-block"} do |f|
         = f.submit "Generate PDF", class: "btn btn-danger m-l-2"
     - else
       | You will be able to preview and generate PDF once form is completed.
 
-= simple_form_for @annual_report, url: business_annual_report_path(@annual_report) do |f|
+= simple_form_for @annual_report, url: (current_specialist ? specialists_business_annual_report_path(@business.username, @annual_report) : business_annual_report_path(@annual_report)) do |f|
   .shadow_container.m-b-3
     .col-md-6
       = f.input :exam_start, as: :string, input_html: { value: f.object.exam_start.try(:strftime, '%d/%m/%Y'), class: 'input-lg js-datepicker', data: { value: f.object.exam_start.to_s, format: 'dd/mm/yyyy', months: true, years: 80 } }
@@ -28,8 +28,8 @@ h1.m-b-3.text-center Annual Review Guide
       button.info-tooltip type="button" data-toggle="tooltip" title="This often includes the individuals responsible for making investment decisions, trading, fee billing, marketing, IT, and compliance" i
     = f.simple_fields_for :annual_review_employees do |c|
       .nested_form
-        = render 'annual_review_employee_fields', f: c
-        .add.add_more = link_to_add_association f, :annual_review_employees do
+        = render 'business/annual_reports/annual_review_employee_fields', f: c
+        .add.add_more = link_to_add_association f, :annual_review_employees, partial: 'business/annual_reports/annual_review_employee_fields' do
           .btn.btn-primary.m-b-1 Add more
     .clearfix
   .shadow_container.m-b-3
@@ -38,8 +38,8 @@ h1.m-b-3.text-center Annual Review Guide
       button.info-tooltip data-toggle="tooltip" type="button" title="Discuss any changes in key personnel, business lines, investment strategies, investment vehicles utilized, office locations, etc." i
     = f.simple_fields_for :business_changes do |c|
       .nested_form
-        = render 'business_change_fields', f: c
-        .add.add_more = link_to_add_association f, :business_changes do
+        = render 'business/annual_reports/business_change_fields', f: c
+        .add.add_more = link_to_add_association f, :business_changes, partial: 'business/annual_reports/business_change_fields' do
           .btn.btn-primary.m-b-1 Add more
     .clearfix
   .shadow_container.m-b-3
@@ -48,8 +48,8 @@ h1.m-b-3.text-center Annual Review Guide
       button.info-tooltip data-toggle="tooltip" type="button" title="Discuss any key regulatory developments and how the business addressed them during the Review Period" i
     = f.simple_fields_for :regulatory_changes do |c|
       .nested_form
-        = render 'regulatory_change_fields', f: c
-        .add.add_more = link_to_add_association f, :regulatory_changes do
+        = render 'business/annual_reports/regulatory_change_fields', f: c
+        .add.add_more = link_to_add_association f, :regulatory_changes, partial: 'business/annual_reports/regulatory_change_fields' do
           .btn.btn-primary.m-b-1 Add more
     .clearfix
   .shadow_container.m-b-3
@@ -70,8 +70,8 @@ h1.m-b-3.text-center Annual Review Guide
       | Findings
     = f.simple_fields_for :findings do |c|
       .nested_form
-        = render 'finding_fields', f: c
-        .add.add_more = link_to_add_association f, :findings do
+        = render 'business/annual_reports/finding_fields', f: c
+        .add.add_more = link_to_add_association f, :findings, partial: 'business/annual_reports/finding_fields' do
           .btn.btn-primary.m-b-1 Add more
     .clearfix
   .shadow_container.m-b-3

@@ -1,0 +1,37 @@
+/- pth = current_business ? method(:new_business_reminder_path) : method(:new_specialists_business_reminder_path)
+.panel.panel-default.profile-info
+  .panel-heading
+    h3 Reminders
+  .panel-body style="padding-top: 0px; padding-bottom: 0px;"
+    = month_calendar events: @business.reminders do |date, reminders|
+      - titles = ""
+      - if reminders.count > 0
+        - reminders.each do |reminder|
+          - titles += "<pre>#{reminder.body}</pre><br/>"
+      - pth = current_business ? new_business_reminder_path(date: date) : new_specialists_business_reminder_path(@business.username, date: date)
+      - if titles.length > 0
+        .coloring style=("background-color: rgba(255, 204, 0, #{0.2*reminders.count})") class=("real_today" if date == Date.today) data-placement="top" data-toggle="tooltip" data-title=(raw(titles)) data-html="true"
+          = link_to date.day, pth, "data-target": "#modal", "data-toggle": "modal", "data-remote": true
+      - else
+        .coloring style=("background-color: rgba(255, 204, 0, #{0.2*reminders.count})") class=("real_today" if date == Date.today)
+          = link_to date.day, pth, "data-target": "#modal", "data-toggle": "modal", "data-remote": true
+  - if @reminders_today.any?
+    .panel-heading.m-b-05
+      h3 Today
+    .panel-body style="padding-top: 0px; padding-bottom: 0px;"
+      - @reminders_today.each do |reminder|
+        - pth = current_business ? new_business_reminder_path(date: reminder.remind_at) : new_specialists_business_reminder_path(@business.username, date: reminder.remind_at)
+        = link_to reminder.body, pth, "data-target": "#modal", "data-toggle": "modal", "data-remote": true, class: "upcoming_task"
+  - if @reminders_week.any?
+    .panel-heading.m-b-05
+      h3 This week
+    .panel-body style="padding-top: 0px;"
+      - @reminders_week.each do |reminder|
+        - pth = current_business ? new_business_reminder_path(date: reminder.remind_at) : new_specialists_business_reminder_path(@business.username, date: reminder.remind_at)
+        = link_to reminder.body, pth, "data-target": "#modal", "data-toggle": "modal", "data-remote": true, class: "upcoming_task"
+    / That will work for specialist
+    /- if projects.count > 0
+    /  - projects.each do |project|
+    /    - titles += "#{project.title}<br/>"
+    /.coloring style=("background-color: rgba(255, 204, 0, #{0.2*projects.count})") class=("today" if date == Date.today) data-placement="top" data-toggle="tooltip" data-title=(raw(titles)) data-html="true"
+    /  = date.day

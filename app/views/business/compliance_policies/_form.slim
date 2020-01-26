@@ -8,9 +8,11 @@
 
   - tgt_url = params[:action] == "new" ? business_compliance_policies_path : business_compliance_policy_path(@compliance_policy)
 
+  - tgt_url = params[:action] == "new" ? specialists_business_compliance_policies_path(@business.username) : specialists_business_compliance_policy_path(@business.username, @compliance_policy) if current_specialist
+
   = simple_form_for @compliance_policy, wrapper: :inline_form, url: tgt_url do |f|
     .text-danger = f.object.errors.full_messages.first if f.object.errors.any?
-    = f.input :section, collection: current_business.remaining_compliance_policies(@compliance_policy.section_to_sym).to_a.map(&Proc.new { |s| [s[1], s[0]] }), include_blank: "--- Specify section: ---", input_html: { class: "compliance_policy_section_trigger" }
+    = f.input :section, collection: @business.remaining_compliance_policies(@compliance_policy.section_to_sym).to_a.map(&Proc.new { |s| [s[1], s[0]] }), include_blank: "--- Specify section: ---", input_html: { class: "compliance_policy_section_trigger" }
     .policy_blank_case
       .text-center or
       br

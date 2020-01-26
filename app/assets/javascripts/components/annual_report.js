@@ -70,10 +70,14 @@ if (typeof(annual_report_loop) != "undefined") {
 
 $(document).ready(function() {
   if (typeof(annual_review_render_id) != "undefined") {
+    var bsurl = "/business/annual_reviews/";
+    if (typeof(annual_review_baseurl) != "undefined") {
+      bsurl = annual_review_baseurl;
+    }
     var requestloop = setInterval(function() {
       $.ajax({
         type: 'GET',
-        url: "/business/annual_reviews/"+annual_review_render_id+"json",
+        url: bsurl+annual_review_render_id+"json",
         success: function(data) {
           if (data.preview != false) {
             $(".pdf_preview_area").html("<iframe height='500px' src='/pdfjs/minimal?file="+encodeURIComponent(data.preview)+"' width='100%'></iframe>");

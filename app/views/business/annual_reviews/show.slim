@@ -25,3 +25,6 @@
     | Preview will be available in a few seconds
     javascript:
       var annual_review_render_id = #{@annual_review.id}
+    - if current_specialist
+      javascript:
+        var annual_review_baseurl = "/specialist/businesses/#{@business.username}/annual_reviews/";

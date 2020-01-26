@@ -1,34 +1,35 @@
 # frozen_string_literal: true
 
-class Business::AnnualReportsController < ApplicationController
-  before_action :require_business!
+class Specialists::AnnualReportsController < ApplicationController
+  before_action :require_specialist!
+  before_action :set_business
 
   def new
-    if current_business.annual_reports.any?
-      if current_business.annual_reports.last.pdf.nil?
-        @annual_report = current_business.annual_reports.last
+    if @business.annual_reports.any?
+      if @business.annual_reports.last.pdf.nil?
+        @annual_report = @business.annual_reports.last
       else
         build_annual_report
       end
     else
       build_annual_report
     end
+    render 'business/annual_reports/new'
   end
 
   def show; end
 
   def create
-    @annual_report = current_business.annual_reports.last
-    @business = current_business
+    @annual_report = @business.annual_reports.last
     respond_to do |format|
       format.jpg do
-        @kit = IMGKit.new(render_to_string)
+        @kit = IMGKit.new(render_to_string('business/annual_reports/create'))
         send_data(@kit.to_jpg, type: 'image/jpeg', disposition: 'inline')
       end
       format.pdf do
         pdf = render_to_string pdf: 'annual_report.pdf',
                                template: 'business/annual_reports/annual_report.pdf.erb', encoding: 'UTF-8',
-                               locals: { annual_report: @annual_report, business: current_business },
+                               locals: { annual_report: @annual_report, business: @business },
                                margin: { top:               20,
                                          bottom:            25,
                                          left:              15,
@@ -47,8 +48,8 @@ class Business::AnnualReportsController < ApplicationController
   end
 
   def update
-    @annual_report = AnnualReport.find(params[:id])
-    if (@annual_report.business_id == current_business.id) && @annual_report.pdf.nil?
+    @annual_report = @business.annual_reports.find(params[:id])
+    if (@annual_report.business_id == @business.id) && @annual_report.pdf.nil?
       @annual_report.update(annual_report_params)
       @prms = params['annual_report']['cof_bits']
       @cof_bits = @prms.keys.map(&:to_i) unless @prms.nil?
@@ -60,13 +61,13 @@ class Business::AnnualReportsController < ApplicationController
         @annual_report.update(cof_bits: total)
       end
     end
-    redirect_to new_business_annual_report_path
+    redirect_to new_specialists_business_annual_report_path(@business.username)
   end
 
   private
 
   def build_annual_report
-    @annual_report = AnnualReport.create(business_id: current_business.id)
+    @annual_report = AnnualReport.create(business_id: @business.id)
     @annual_report.annual_review_employees.build
     @annual_report.business_changes.build
     @annual_report.regulatory_changes.build
@@ -78,5 +79,9 @@ class Business::AnnualReportsController < ApplicationController
     # rubocop:disable Metrics/LineLength
     params.require(:annual_report).permit(:exam_start, :exam_end, :review_start, :review_end, :tailored_lvl, :cof_bits, :comments, annual_review_employees_attributes: %i[id name title department _destroy], business_changes_attributes: %i[id change _destroy], regulatory_changes_attributes: %i[id change response _destroy], findings_attributes: %i[id finding action risk_lvl _destroy])
     # rubocop:enable Metrics/LineLength
+  end
+
+  def set_business
+    @business = current_specialist.manageable_ria_businesses.find_by(username: params[:business_id])
   end
 end

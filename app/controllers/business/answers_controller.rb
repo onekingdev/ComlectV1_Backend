@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Business::AnswersController < DocumentsController
+  before_action :require_business!
   before_action :find_project
 
   def create
