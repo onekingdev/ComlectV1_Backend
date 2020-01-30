@@ -2,7 +2,162 @@
   script src="https://maps.googleapis.com/maps/api/js?key=#{ENV.fetch('GOOGLE_PLACES_API_KEY')}&libraries=places"
 
 = simple_form_for decorate(@specialist), url: update_specialist_path, wrapper: :inline_form, html: { class: 'form-specialist' } do |f|
-  = render 'form', f: f
+  - if f.object.new_record?
+    .well.well-lg.m-t-3
+      h2.text-center.m-b-2 Let's start with your login details
+      = f.fields_for :user, wrapper: :inline_form do |uf|
+        .row.row-compact
+          .col-sm-6
+            = uf.input :email, input_html: { class: 'input-lg' }
+          .col-sm-6
+            = uf.input :password, input_html: { class: 'input-lg' }
+
+  .well.well-lg.m-t-3
+    - if f.object.new_record?
+      h2.text-center.m-b-3 Next, your contact information
+    - else
+      h2.text-center.m-b-3 Your contact information
+
+    h3 Contact Info
+
+    .row.row-compact
+      .col-sm-6
+        = f.input :first_name, input_html: { class: 'input-lg' }
+      .col-sm-6
+        = f.input :last_name, input_html: { class: 'input-lg' }
+      .col-sm-6
+        = f.input :phone, required: false, input_html: { class: 'input-lg' }
+      .col-sm-6
+        = f.input :linkedin_link, required: false, input_html: { class: 'input-lg' }
+
+    h3 Location
+
+    .row.row-compact
+      .col-sm-6
+        = f.input :address_1,
+          required: true,
+          input_html: { \
+            class: 'input-lg js-place-autocomplete', \
+            data: { zipcode: '#specialist_zipcode', country: '#specialist_country', state: '#specialist_state', city: '#specialist_city', lat: '#specialist_lat', lng: '#specialist_lng' } \
+          }
+      .col-sm-6
+        = f.input :address_2, required: false, input_html: { class: 'input-lg' }
+      .col-sm-6
+        = f.input :city, as: :string, input_html: { class: 'input-lg' }
+        = f.hidden_field :lat
+        = f.hidden_field :lng
+      .col-sm-6
+        = f.input :state, as: :string, input_html: { class: 'input-lg' }
+      .col-sm-6
+        = f.input :zipcode, input_html: { class: 'input-lg' }
+      .col-sm-6
+        .form-group
+          = f.country_select :country, { include_blank: 'Select a country' }, class: 'form-control input-lg js-select'
+      .col-sm-6
+        = f.input :time_zone, include_blank: t('simple_form.placeholders.specialist.time_zone'), input_html: { class: 'input-lg js-select' }
+
+  .well.well-lg.m-t-3
+    h2.text-center.m-b-3 Tell us about your professional experience
+
+    - unless f.object.errors[:work_experiences].blank?
+      .has-error.text-center.m-b-3
+        span.help-block
+          'To be eligible, you must have 3+ years work experience in financial regulatory compliance
+
+    h3 Work Experience
+
+    #work-experiences.js-set-last-child data-last-child=".nested-fields:last"
+      = f.simple_fields_for :work_experiences do |wef|
+        / Check specialist styling when changing this section in case the hack to align the "Add another" link needs tweaking
+        = render 'work_experience_fields', f: wef
+        .add.text-right= link_to_add_association f, :work_experiences do
+          i.text-muted.fa.fa-plus title="Add another" data-toggle="tooltip"
+
+    h3 Areas of Expertise
+
+    .row.row-compact
+      .col-sm-6
+        = f.association :jurisdictions, collection: Jurisdiction.ordered_starting_from_usa, placeholder: t('simple_form.placeholders.specialist.jurisdictions'), input_html: { class: 'input-lg js-select', multiple: true }
+      .col-sm-6
+        = f.association :industries, collection: Industry.sorted.filtered, placeholder: t('simple_form.placeholders.specialist.industries'), input_html: { class: 'input-lg js-select', multiple: true }
+      .col-sm-6
+        .form-group.specialist_former_regulator
+          span.checkbox.checkbox-lg
+            = f.check_box :former_regulator
+            = f.label :former_regulator
+
+  .well.well-lg.m-t-3
+    .row.text-center.p-b-1
+      h2.m-b-2
+        'Highlight some of your skills
+
+      .col-xs-12.col-sm-12
+        = f.object.skills_input(f)
+        button.info-tooltip type="button" data-toggle="tooltip" title="It's important to hashtag your top 10 skills as businesses use them to search for you and set their project prerequisites. Hashtag things like specific regulation knowledge (e.g. #doddfrank) and specific jurisdictions (e.g. #NY)." i
+        .form-group.m-t-1.m-b-0
+          ul.skills-required.m-b-0
+            - f.object.skill_names.each do |skill|
+              li
+                input type='hidden' name='specialist[skill_names][]' value=skill
+                span= skill
+                span.remove data-skill=skill x
+
+  .well.well-lg.m-t-3
+    h2.text-center.m-b-0 Now on to your education (almost done!)
+
+    #education-histories.m-b-1.js-set-last-child data-last-child=".nested-fields:last"
+      = f.simple_fields_for :education_histories do |ehf|
+        / Check specialist styling when changing this section in case the hack to align the "Add another" link needs tweaking
+        = render 'education_history_fields', f: ehf
+        .add.text-right= link_to_add_association f, :education_histories do
+          i.fa.fa-plus.text-muted title="Add another" data-toggle="tooltip"
+
+  .well.well-lg.m-t-3
+    h2.text-center.m-b-2 Have you got any other certifications?
+
+    .row
+      .col-xs-12.col-md-12= f.input :certifications, input_html: { class: 'input-lg' }
+
+  .well.well-lg.m-t-3
+    .row.text-center
+      h2.m-b-2 Upload a photo and resume to complete your profile
+
+      .col-xs-12.col-sm-4.col-sm-push-2.col-md-3.col-md-push-3
+        h6.m-b-1.uppercase Picture
+        label.custom-file-field.js-custom-file-field
+          = f.hidden_field :photo, value: f.object.photo_data? ? f.object.photo_data.to_json : nil
+          = f.file_field :photo, accept: "image/gif, image/jpeg, image/png"
+          - if f.object.photo
+            = image_tag f.object.photo_url(:thumb), size: '100x100'
+            = f.hidden_field :delete_photo, value: 0
+            .btn-sm.btn-primary.m-t-1.delete-photo-button Delete
+          - else
+            .add-button
+          .help-block.m-t-1 Must be jpg/jpeg/png/gif<br>Max file size 2MB
+          span.selected.m-y-1.ww-break= f.object.photo ? (f.object.photo.try(:[], :original) || f.object.photo).data['metadata']['filename'] : nil
+          - if f.object.errors[:photo].any?
+            .text-danger.m-b-1= f.object.errors[:photo].to_sentence
+      .col-xs-12.col-sm-4.col-sm-push-2.col-md-3.col-md-push-3
+        h6.m-b-1.uppercase Resume
+        label.custom-file-field.js-custom-file-field
+          = f.hidden_field :resume, value: f.object.resume_data? ? f.object.resume_data.to_json : nil
+          = f.file_field :resume, accept: "application/pdf"
+          .add-button
+          - if f.object.resume
+            = f.hidden_field :delete_resume, value: 0
+            .btn-sm.btn-primary.m-t-1.delete-resume-button Delete
+          .help-block.m-t-1 Must be a pdf<br>Max file size 2MB
+          span.selected.m-y-1.ww-break= f.object.resume ? f.object.resume.data['metadata']['filename'] : nil
+          - if f.object.errors[:resume].any?
+            .text-danger.m-b-1= f.object.errors[:resume].to_sentence
+
+  .well.well-lg.m-t-3
+    .row.text-center.p-b-1
+      h2.m-b-2 Finally, select your profile visibility
+      = f.input :public_profile, as: :radio_pills, collection: [['Public', true], ['Private', false]], btn_class: 'btn-lg btn-default p-x-3', hint: false
+      p.help-block.col-xs-12.col-md-8.col-md-offset-2.m-b-0.m-t-0
+        = t('simple_form.hints.specialist.visibility')
+
 
   .row.p-t-3
     .col-xs-12

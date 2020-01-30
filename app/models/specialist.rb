@@ -232,7 +232,7 @@ class Specialist < ApplicationRecord
 
   def years_of_experience
     return @_years_of_experience if @_years_of_experience
-    @_years_of_experience = self[:years_of_experience] || (calculate_years_of_experience / 365.0).round
+    @_years_of_experience = (calculate_years_of_experience / 365.0).round
   end
 
   def calculate_years_of_experience

@@ -37,7 +37,7 @@ class Specialist::Decorator < ApplicationDecorator
 
   def years_of_experience
     return @_years_of_experience if @_years_of_experience
-    @_years_of_experience = model[:years_of_experience] || (calculate_years_of_experience / 365.0).round
+    @_years_of_experience = (calculate_years_of_experience / 365.0).round
   end
 
   def sorted_education_histories
