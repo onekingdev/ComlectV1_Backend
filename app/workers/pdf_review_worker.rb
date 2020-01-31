@@ -11,7 +11,7 @@ class PdfReviewWorker
   def perform(annual_review_id)
     policy_doc = AnnualReview.find(annual_review_id)
     tmp_fd = Tempfile.new(['pdf-', '.pdf'])
-    Libreconv.convert(env_path(policy_doc.file_url), tmp_fd.path)
+    Libreconv.convert(env_path(policy_doc.file_url.split('?')[0]), tmp_fd.path)
     uploader = PdfUploader.new(:store)
     file = File.new(tmp_fd)
     uploaded_file = uploader.upload(file)

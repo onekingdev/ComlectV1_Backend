@@ -25,7 +25,7 @@
     .progress-bar role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style='width:10%'
   h2.m-t-1.m-b-2.text-center We want to learn a little more about your knowledge base. Select all the industries you’re familiar with:
   .choices
-    - Industry.all.order(ApplicationHelper.order_string('name', ['Investment Adviser', 'Broker-Dealer', 'ERISA', 'Commodities', 'Banking', 'Consulting Firm', 'Recruiter', 'Other'])).each do |industry|
+    - Industry.all.order(:id).each do |industry|
       .col-sm-4.m-b-1
         button.btn.btn-primary.btn-block type="button"
           input type="checkbox" name="specialist[industry_ids][]" value=(industry.id)

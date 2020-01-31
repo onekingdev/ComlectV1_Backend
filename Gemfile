@@ -13,6 +13,7 @@ gem 'imgkit'
 gem 'libreconv'
 gem 'pdfjs_viewer-rails'
 gem 'wicked_pdf'
+gem 'wkhtmltoimage-binary'
 gem 'wkhtmltopdf-binary'
 
 # calendar

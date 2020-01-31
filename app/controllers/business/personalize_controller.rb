@@ -5,6 +5,7 @@ class Business::PersonalizeController < ApplicationController
   before_action :require_business!
   def quiz
     if current_business
+      @business = current_business
       pp = params['personalize']
       unless pp.nil?
         if Business::QUIZ.map(&:first).include? pp.keys.first.to_sym

@@ -11,7 +11,7 @@ class PdfAuditWorker
   def perform(audit_doc_id)
     audit_doc = AuditDoc.find(audit_doc_id)
     tmp_fd = Tempfile.new(['pdf-', '.pdf'])
-    Libreconv.convert(env_path(audit_doc.file_url), tmp_fd.path)
+    Libreconv.convert(env_path(audit_doc.file_url.split('?')[0]), tmp_fd.path)
     uploader = PdfUploader.new(:store)
     file = File.new(tmp_fd)
     uploaded_file = uploader.upload(file)
