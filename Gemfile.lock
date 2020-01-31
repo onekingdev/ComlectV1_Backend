@@ -544,7 +544,6 @@ GEM
     websocket-extensions (0.1.3)
     where-or (0.1.6)
     wicked_pdf (1.1.0)
-    wkhtmltoimage-binary (0.12.5)
     wkhtmltopdf-binary (0.12.4)
     xpath (3.1.0)
       nokogiri (~> 1.8)
@@ -639,7 +638,6 @@ DEPENDENCIES
   webpacker
   where-or
   wicked_pdf
-  wkhtmltoimage-binary
   wkhtmltopdf-binary
 
 RUBY VERSION
