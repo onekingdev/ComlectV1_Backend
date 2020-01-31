@@ -18,7 +18,7 @@ class BusinessesController < ApplicationController
 
   def create
     @business = Business.for_signup(business_params, cookies[:referral])
-    @business.apply_quiz(cookies)
+    @business.apply_quiz(cookies) if cookies.present?
     @business.username = @business.generate_username
     if @business.save
       sign_in @business.user

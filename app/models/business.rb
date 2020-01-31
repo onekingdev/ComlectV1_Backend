@@ -151,9 +151,7 @@ class Business < ApplicationRecord
     industry = Industry.find_by(name: 'Investment Adviser')
     industry.nil? ? false : industries.collect(&:id).include?(industry.id)
   end
-
-  # rubocop:disable Metrics/AbcSize
-  def apply_quiz(cookies)
+  if cookies.present?
     step1_c = cookies[:complect_step1].split('-').map(&:to_i)
     self.sub_industries = []
     unless cookies[:complect_step11].nil?
@@ -169,7 +167,6 @@ class Business < ApplicationRecord
     business_risks[2] = STEP_RISKS[2][cookies[:complect_step42].to_i]
     self.business_other = cookies[:complect_other] if industries.collect(&:name).include? 'Other'
   end
-  # rubocop:enable Metrics/AbcSize
 
   alias communicable_projects projects
 
