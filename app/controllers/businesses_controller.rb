@@ -16,9 +16,10 @@ class BusinessesController < ApplicationController
     @business = Business.for_signup
   end
 
+  # rubocop:disable Metrics/AbcSize
   def create
     @business = Business.for_signup(business_params, cookies[:referral])
-    @business.apply_quiz(cookies) if cookies.present?
+    @business.apply_quiz(cookies) if cookies[:complect_step1].present?
     @business.username = @business.generate_username
     if @business.save
       sign_in @business.user
@@ -36,6 +37,7 @@ class BusinessesController < ApplicationController
 
     render :new
   end
+  # rubocop:enable Metrics/AbcSize
 
   def edit
     @business = current_user.business
