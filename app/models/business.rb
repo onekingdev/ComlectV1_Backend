@@ -149,7 +149,7 @@ class Business < ApplicationRecord
 
   def ria?
     industry = Industry.find_by(name: 'Investment Adviser')
-    industries.collect(&:id).include? industry.id
+    industry.nil? ? false : industries.collect(&:id).include?(industry.id)
   end
 
   # rubocop:disable Metrics/AbcSize
