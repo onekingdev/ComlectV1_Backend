@@ -16,6 +16,7 @@ class Specialist::Hubspot < HubspotContact
     rescue Hubspot::RequestError => e
       Rails.logger.fatal e.inspect
     end
+    @hubspot_contact
   end
   # rubocop:enable Rails/DynamicFindBy
 
