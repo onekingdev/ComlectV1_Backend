@@ -8,6 +8,7 @@ class Specialist < ApplicationRecord
   belongs_to :rewards_tier
   belongs_to :rewards_tier_override, class_name: 'RewardsTier'
 
+  before_save :calculate_years_of_experience
   has_and_belongs_to_many :industries
   has_and_belongs_to_many :jurisdictions
   has_and_belongs_to_many :skills
@@ -35,13 +36,9 @@ class Specialist < ApplicationRecord
   has_many :email_threads, dependent: :destroy
   has_many :payments, -> { for_rfp_or_one_off_projects }, through: :projects, source: :charges
   has_many :transactions, through: :projects
-  has_many :active_projects, -> { where(status: statuses[:published]).where.not(specialist_id: nil) }, class_name: 'Project'
-  has_many :manageable_businesses, through: :active_projects, class_name: 'Business', source: :business
+
   has_one :referral, as: :referrable
   has_many :referral_tokens, as: :referrer
-  # rubocop:disable Metrics/LineLength
-  has_many :manageable_ria_businesses, -> { joins(:industries).where('industries.id = 5') }, through: :active_projects, class_name: 'Business', source: :business
-  # rubocop:enable Metrics/LineLength
 
   has_settings do |s|
     s.key :notifications, defaults: {
@@ -54,70 +51,6 @@ class Specialist < ApplicationRecord
       new_forum_comments: true
     }
   end
-
-  serialize :sub_industries
-  serialize :specialist_risks
-  serialize :project_types
-
-  # rubocop:disable Metrics/LineLength
-  PROJECT_TYPES = ['Email Reviews', 'Annual Audits', 'On-site Assistance', 'Marketing Review', 'Gap Analysis', 'Secondments', 'Outsourced CCO', 'Outsourced COO', 'Outsourced CFO', 'Outsourced FINOP', 'Regulatory Filing', 'Outsourced OSJ', 'Ad-hoc Consulting', 'Personal Securities Monitorin', 'AML/KYC', 'Cybersecurity', 'Internal Reviews', 'Independent Director'].freeze
-  # rubocop:enable Metrics/LineLength
-
-  STEP_RISKS = [
-    [
-      'You head over and take a piece, because it worked out for the other two mice',
-      'You think about it, but end up playing it safe',
-      'You would have been on that cheese the moment you saw it',
-      'You need to do more research and want to see if more mice are succesful',
-      'No, thank you! Risk death? Not worth it.'
-    ],
-    [
-      'Slow down to the speed limit in case it’s a cop ',
-      'Moderate your speed to the flow of traffic ',
-      'You’d never speed ',
-      'Hope for the best, because you can’t afford to be late to this meeting',
-      'You always speed, even if cops are around, because they have to catch you first'
-    ],
-    [
-      'To win big, you sometimes have to take big risks',
-      'Measure twice, cut once',
-      'My belief in a day of reckoning keeps me on the straight and narrow',
-      'There’s a fine line between taking a calculated risk and doing something dumb',
-      'The biggest risk is not taking any risk'
-    ]
-  ].freeze
-
-  # def manageable_ria_businesses
-  #  industry = Industry.find_by(name: 'Investment Adviser')
-  #  arr = manageable_businesses
-  #  tgt_arr = []
-  #  arr.each do |b|
-  #    tgt_arr.push(b) if b.industries.include? industry
-  #  end
-  #  arr.uniq!
-  #  tgt_arr
-  # end
-
-  # rubocop:disable Metrics/AbcSize
-  def apply_quiz(cookies)
-    step1_c = cookies[:complect_s_step1].split('-').map(&:to_i)
-    self.sub_industries = []
-    unless cookies[:complect_s_step11].nil?
-      cookies[:complect_s_step11].split('-').map(&proc { |p| p.split('_').map(&:to_i) }).each do |c|
-        sub_industries.push(Industry.find(c[0]).sub_industries.split("\r\n")[c[1]]) if step1_c.include? c[0]
-      end
-    end
-    self.specialist_risks = []
-    specialist_risks[0] = STEP_RISKS[0][cookies[:complect_s_step3].to_i]
-    specialist_risks[1] = STEP_RISKS[1][cookies[:complect_s_step31].to_i]
-    specialist_risks[2] = STEP_RISKS[2][cookies[:complect_s_step32].to_i]
-    self.specialist_other = cookies[:complect_s_other] if industries.collect(&:name).include? 'Other'
-    self.project_types = []
-    cookies[:complect_s_step7].split('-').map(&:to_i).each do |c|
-      project_types.push(PROJECT_TYPES[c]) if project_types.count < 5
-    end
-  end
-  # rubocop:enable Metrics/AbcSize
 
   has_one :tos_agreement, through: :user
   has_one :cookie_agreement, through: :user
@@ -144,21 +77,19 @@ class Specialist < ApplicationRecord
   scope :join_experience, -> {
     joins(:work_experiences)
       .where(work_experiences: { compliance: true })
-      .select("specialists.*, #{dates_between_query} AS years_of_experience")
       .group(:id)
   }
 
   scope :experience_between, ->(min, max) {
-    base_scope = join_experience.where(work_experiences: { compliance: true })
     if max
-      base_scope.having("#{dates_between_query} BETWEEN ? AND ?", min, max)
+      where('years_of_experience BETWEEN ? AND ?', min, max)
     else
-      base_scope.having("#{dates_between_query} >= ?", min)
+      where('years_of_experience >= ?', min)
     end
   }
 
   scope :by_experience, ->(dir = :desc) {
-    join_experience.order("years_of_experience #{dir}")
+    order("years_of_experience #{dir}")
   }
 
   scope :by_distance, ->(lat, lng) do
@@ -217,11 +148,6 @@ class Specialist < ApplicationRecord
     errors.add(:cookie_agree, 'You must agree to cookies to create an account') unless user.cookie_agreement&.status
   end
 
-  def self.dates_between_query
-    'SUM(ROUND((COALESCE("to", NOW())::date - "from"::date)::float / 365.0)::numeric::int)'
-  end
-  private_class_method :dates_between_query
-
   def referral_token
     referral_tokens.last
   end
@@ -230,15 +156,16 @@ class Specialist < ApplicationRecord
     (ratings_received.preload_associations + forum_ratings).sort_by(&:created_at).reverse
   end
 
-  def years_of_experience
-    return @_years_of_experience if @_years_of_experience
-    @_years_of_experience = (calculate_years_of_experience / 365.0).round
-  end
+  # def years_of_experience
+  #  return @_years_of_experience if @_years_of_experience
+  #  @_years_of_experience = (calculate_years_of_experience / 365.0).round
+  # end
 
   def calculate_years_of_experience
-    work_experiences.compliance.map do |exp|
+    yrs = work_experiences.compliance.map do |exp|
       exp.from ? ((exp.to || Time.zone.today) - exp.from).to_f : 0.0
     end.reduce(:+) || 0.0
+    self.years_of_experience = (yrs / 365.0).round
   end
 
   def messages

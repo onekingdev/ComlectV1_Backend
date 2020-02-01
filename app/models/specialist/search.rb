@@ -123,12 +123,10 @@ class Specialist::Search
     [min.to_i, max.to_i]
   end
 
-  # rubocop:disable Metrics/LineLength
   def additional_search_joins(records)
-    records = records.joins('LEFT JOIN work_experiences ON specialists.id = work_experiences.specialist_id') unless keyword.present? && sort_by == 'experience'
+    records = records.joins('LEFT JOIN work_experiences ON specialists.id = work_experiences.specialist_id')
     records = records.joins('LEFT JOIN education_histories ON specialists.id = education_histories.specialist_id')
     inner_query = 'skills_specialists LEFT JOIN skills on skills_specialists.skill_id = skills.id'
     records.joins("LEFT JOIN (#{inner_query}) on skills_specialists.specialist_id = specialists.id")
   end
-  # rubocop:enable Metrics/LineLength
 end

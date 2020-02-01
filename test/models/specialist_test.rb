@@ -20,18 +20,22 @@ class SpecialistTest < ActiveSupport::TestCase
       compliance: true,
       length: 2.years
     )
+    specialist_1.save
+    specialist_2.save
 
     assert_equal specialist_1.id, Specialist.by_experience.first.id
     specialist_1.reload.work_experiences.first.update_attribute(
       :from,
       specialist_1.work_experiences.first.to - 1.year
     )
+    specialist_1.save
 
     assert_equal specialist_2.id, Specialist.by_experience.first.id
     specialist_1.work_experiences.first.update!(
       to: nil,
       current: true
     )
+    specialist_1.save
 
     assert_equal specialist_1.id, Specialist.by_experience.first.id
   end
@@ -74,6 +78,8 @@ class SpecialistTest < ActiveSupport::TestCase
     create :work_experience, specialist_id: specialist_2.id, from: Date.new(2001, 1, 1), to: Date.new(2003, 1, 1),
                              compliance: true
 
+    specialist_1.save
+    specialist_2.save
     results = Specialist.experience_between(3, 5).to_a
     assert_equal 1, results.size
     assert_equal specialist_1.id, results.first.id
