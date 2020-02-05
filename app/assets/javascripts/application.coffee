@@ -21,6 +21,7 @@
 #= require_tree ./utilities
 #= require_tree ./components
 #= require_tree ./application
+#= require js.cookie
 
 $ ->
 

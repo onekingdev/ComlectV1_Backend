@@ -7,18 +7,25 @@
   #business-dashboard.row.m-b-3
     .tr
       .td.col-xs-12.col-sm-4.col-md-3.va-top
-        .panel.panel-default.profile-info
-          .panel-heading
-            h3 Profile
-          .panel-body
-            - if business.logo
-              .logo= link_to image_tag(business.logo_url(:thumb), class: 'img-responsive'), business
-            h3.text-center= link_to business.business_name, business
-            .text-center= business.render_stars
+        - if @business.ria?
+          = render partial: "reminders"
+          = render partial: "audit_prep"
+          = render partial: "annual_review"
+          = render partial: "compliance_manual"
+
+        - if !@business.ria? 
+          .panel.panel-default.profile-info
+            .panel-heading
+              h3 Profile
+            .panel-body
+              - if business.logo
+                .logo= link_to image_tag(business.logo_url(:thumb), class: 'img-responsive'), business
+              h3.text-center= link_to business.business_name, business
+              .text-center= business.render_stars
 
             br
 
-            .list-icon
+            .list-icon.p-x-2
               .item
                 i.icon-location-pin
                 span= business.city_state_country
@@ -32,11 +39,12 @@
                 i.icon-people
                 span #{business.employees} Employees
 
-            = simple_form_for business, remote: true, url: update_business_path, html: { class: 'm-y-2' } do |f|
+            = simple_form_for business, remote: true, url: update_business_path, html: { class: 'm-y-2 p-x-2' } do |f|
               = hidden_field_tag 'redirect_to', business_dashboard_path
               = f.input :anonymous, as: :radio_pills, collection: [['Public', false], ['Private', true]], btn_class: 'btn-default btn-sm', label: false, hint: false, input_html: { data: { autosubmit: 'true' } }
 
             .text-center.text-uppercase.small= link_to 'Edit Profile', edit_business_path, class: 'link'
+            br
 
         .panel.panel-default.profile-info
           .panel-heading
@@ -75,6 +83,8 @@
             .m-t-2.text-center= link_to 'Ask a question', forum_questions_path, class: 'btn btn-sm btn-primary p-x-1'
 
       .td.col-xs-12.col-sm-8.col-md-9.va-top
+        - if @business.ria? 
+          = render partial: "ria_profile", locals: { business: business }
         .panel.panel-default.panel-padded
           .panel-heading
             h3 My Projects
@@ -145,3 +155,9 @@
                 a.prev-slide href="#" Q
                 .dot-pagination.m-b-1
                 a.next-slide href="#" +
+
+/- if !@business.personalized?
+javascript:
+  var show_business_personalize = #{!@business.personalized?};
+  var show_business_tutorial = #{@business.personalized? && !@business.tutorial_complete};
+  var personalize_js_url = "/business/personalize";
