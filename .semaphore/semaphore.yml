@@ -15,6 +15,10 @@ blocks:
       jobs:
         - name: Setup
           commands:
+            - >-
+              git clone -branch:set-up-semaphore
+              https://github.com/complectco/complect
+            - cd complect
             - bundle install --deployment --path vendor/bundle
             - 'bundle exec rake db:migrate'
             - 'bundle exec rake db:create'
