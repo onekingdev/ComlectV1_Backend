@@ -15,10 +15,9 @@ blocks:
       jobs:
         - name: Setup
           commands:
-            - >-
-              git clone -branch:set-up-semaphore
-              https://github.com/complectco/complect
-            - cd complect
+            - checkout
+            - sem-service start postgres 11
+            - sem-version ruby 2.6.5
             - bundle install --deployment --path vendor/bundle
             - 'bundle exec rake db:migrate'
             - 'bundle exec rake db:create'
