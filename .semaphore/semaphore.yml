@@ -16,9 +16,9 @@ blocks:
         - name: Setup
           commands:
             - checkout
-            - sem-service start postgres
-            - createdb -U postgres -h 0.0.0.0 myapp_test
             - sudo apt-get install -y postgresql-10-postgis-2.4
+            - sem-service start postgres 10.6
+            - createdb -U postgres -h 0.0.0.0 myapp_test
             - >-
               psql -c 'CREATE EXTENSION postgis;' -d myapp_test -U postgres -h
               0.0.0.0
