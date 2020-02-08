@@ -16,15 +16,17 @@ blocks:
         - name: Setup
           commands:
             - checkout
-            - 'sudo apt-add-repository -y ppa:ubuntugis/ppa'
-            - sudo apt-get update
-            - sudo apt-get install -y postgresql-10-postgis-2.4
             - sem-service start postgres 11
+            - createdb -U postgres -h 0.0.0.0 myapp_test
             - sem-version ruby 2.6.5
             - bundle install --deployment --path vendor/bundle
             - createdb myapp_test
-            - psql -c 'CREATE EXTENSION postgis;' -d myapp_test
-            - psql -c 'CREATE EXTENSION postgis_topology;' -d myapp_test
+            - >-
+              psql -c 'CREATE EXTENSION postgis;' -d myapp_test -U postgres -h
+              0.0.0.0
+            - >-
+              psql -c 'CREATE EXTENSION postgis_topology;' -d myapp_test -U
+              postgres -h 0.0.0.0
             - 'bundle exec rake db:migrate'
             - 'bundle exec rake db:test:prepare'
             - nvm use stable && yarn install
