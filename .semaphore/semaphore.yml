@@ -22,7 +22,9 @@ blocks:
             - sem-service start postgres 11
             - sem-version ruby 2.6.5
             - bundle install --deployment --path vendor/bundle
-            - 'bundle exec rake db:create'
+            - createdb myapp_test
+            - psql -c 'CREATE EXTENSION postgis;' -d myapp_test
+            - psql -c 'CREATE EXTENSION postgis_topology;' -d myapp_test
             - 'bundle exec rake db:migrate'
             - 'bundle exec rake db:test:prepare'
             - nvm use stable && yarn install
