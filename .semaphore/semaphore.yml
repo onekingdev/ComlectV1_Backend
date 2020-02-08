@@ -31,8 +31,6 @@ blocks:
               | tar xvz
             - ./stripe-mock > /dev/null &
             - 'bundle exec rake sitemap:refresh'
-        - name: Run
-          commands:
             - bundle exec rubocop
             - bundle exec rake test
             - bundle exec rake spec
