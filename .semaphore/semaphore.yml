@@ -20,6 +20,12 @@ blocks:
             - sem-version ruby 2.6.5
             - bundle install --deployment --path vendor/bundle
             - 'bundle exec rake db:setup'
+            - >-
+              psql -c 'CREATE EXTENSION postgis;' -U
+              $DATABASE_POSTGRESQL_USERNAME -d $DATABASE_NAME_TEST
+            - >-
+              psql -c 'CREATE EXTENSION postgis_topology;' -U
+              $DATABASE_POSTGRESQL_USERNAME -d $DATABASE_NAME_TEST
             - 'bundle exec rake db:migrate'
             - 'bundle exec rake db:create'
             - 'bundle exec rake db:test:prepare'
