@@ -253,6 +253,7 @@ GEM
       activerecord
       kaminari-core (= 1.2.0)
     kaminari-core (1.2.0)
+    kgio (2.11.3)
     ledermann-rails-settings (2.5.0)
       activerecord (>= 4.2)
     libreconv (0.9.5)
@@ -381,6 +382,7 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     rainbow (3.0.0)
+    raindrops (0.19.1)
     rake (13.0.1)
     ransack (1.8.10)
       actionpack (>= 3.0, < 5.2)
@@ -528,6 +530,9 @@ GEM
       execjs (>= 0.3.0, < 3)
     unicode-display_width (1.6.1)
     unicode_utils (1.4.0)
+    unicorn (5.5.3)
+      kgio (~> 2.6)
+      raindrops (~> 0.7)
     warden (1.2.7)
       rack (>= 1.0)
     web-console (3.3.0)
@@ -638,6 +643,7 @@ DEPENDENCIES
   test_after_commit
   timecop
   uglifier
+  unicorn
   web-console
   webmock
   webpacker

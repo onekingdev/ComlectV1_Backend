@@ -16,6 +16,9 @@ group :development do
   gem 'rvm1-capistrano3', require: false
 end
 
+# concurrent server
+gem 'unicorn'
+
 # doc to pdf
 gem 'libreconv'
 
