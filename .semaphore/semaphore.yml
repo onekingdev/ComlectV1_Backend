@@ -16,8 +16,16 @@ blocks:
         - name: Setup
           commands:
             - checkout
-            - sem-service start postgres 10.6
-            - createdb -U postgres -h 0.0.0.0 myapp_test
+            - sudo apt-get install postgresql-10-postgis-2.4 -y
+            - sudo sed -i 's/md5/trust/g' /etc/postgresql/10/main/pg_hba.conf
+            - sudo /etc/init.d/postgresql restart
+            - createdb -U postgres -h localhost myapp_test
+            - >-
+              psql -c 'CREATE EXTENSION postgis;' -d myapp_test -U postgres -h
+              localhost
+            - >-
+              psql -c 'CREATE EXTENSION postgis_topology;' -d myapp_test -U
+              postgres -h localhost
             - sem-version ruby 2.6.5
             - bundle install --deployment --path vendor/bundle
             - 'bundle exec rake db:migrate'
