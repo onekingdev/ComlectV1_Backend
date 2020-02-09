@@ -433,6 +433,9 @@ GEM
     ruby-progressbar (1.9.0)
     rufus-scheduler (3.5.2)
       fugit (~> 1.1, >= 1.1.5)
+    rvm1-capistrano3 (1.4.0)
+      capistrano (~> 3.0)
+      sshkit (>= 1.2)
     safe_yaml (1.0.4)
     sass (3.5.6)
       sass-listen (~> 4.0.0)
@@ -620,6 +623,7 @@ DEPENDENCIES
   roda (~> 2.14.0)
   rspec-rails
   rubocop
+  rvm1-capistrano3
   sassc-rails
   scenic
   shrine (~> 2.4.0)
