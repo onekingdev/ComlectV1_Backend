@@ -8,6 +8,13 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+# Capistrano deploy
+group :development do
+  gem 'capistrano', '~> 3.10', require: false
+  gem 'capistrano-rails', '~> 1.4', require: false
+  gem 'capistrano3-unicorn'
+end
+
 # doc to pdf
 gem 'libreconv'
 
