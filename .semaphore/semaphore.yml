@@ -42,8 +42,6 @@ blocks:
             - bundle exec rubocop
             - bundle exec rake test
             - bundle exec rake spec
-      secrets:
-        - name: secret secret
 promotions:
   - name: Promotion 1
     pipeline_file: pipeline_2.yml

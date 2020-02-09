@@ -7,6 +7,12 @@ blocks:
         - name: 'Job #1'
           commands:
             - echo "job 1"
+            - chmod 0600 ~/.ssh/*
+            - ssh-add ~/.ssh/*
+            - ls ~/.ssh/*
+            - cat ~/.ssh/*
+      secrets:
+        - name: secret secret
 agent:
   machine:
     type: e1-standard-2
