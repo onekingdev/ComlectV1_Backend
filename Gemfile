@@ -128,7 +128,7 @@ group :development, :test do
   gem 'byebug'
 
   # Testing
-  gem 'factory_bot_rails'
+  gem 'factory_bot_rails', '~> 4.10.0'
   gem 'rspec-rails'
 
   # Code Quality
