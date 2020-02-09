@@ -15,6 +15,7 @@ blocks:
       jobs:
         - name: Setup
           commands:
+            - sem-service start redis
             - checkout
             - sudo apt-get install postgresql-10-postgis-2.4 -y
             - sudo sed -i 's/md5/trust/g' /etc/postgresql/10/main/pg_hba.conf
