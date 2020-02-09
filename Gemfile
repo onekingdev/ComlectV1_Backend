@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
-ruby '2.5.1'
+ruby '2.6.3'
 
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?('/')
@@ -131,7 +131,7 @@ group :development, :test do
   gem 'rspec-rails'
 
   # Code Quality
-  gem 'rubocop', require: false
+  gem 'rubocop', '~> 0.58.1', require: false
 end
 
 group :development do
