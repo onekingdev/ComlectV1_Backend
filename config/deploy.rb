@@ -3,6 +3,8 @@
 # config valid for current version and patch releases of Capistrano
 lock '~> 3.11.0'
 
+set :branch, ENV['REVISION'] || ENV['BRANCH_NAME']
+
 set :application, 'complect'
 set :repo_url, 'git@github.com:complectco/complect.git'
 
