@@ -28,7 +28,7 @@ class SyncBusinessUsersToMailchimpJob < ActiveJob::Base
 
     #  Make a second call to add a tag to the user
     begin
-      gibbon.lists(ENV['MAILCHIMP_BUSINESS_ID']).members(Digest::MD5.hexdigest(user.contact_email)).tags.create(
+      gibbon.lists(ENV['MAILCHIMP_BUSINESS_ID']).members(Digest::MD5.hexdigest(user.user.email)).tags.create(
         body: {
           tags: [{ name: 'Businesses', status: 'active' }]
         }

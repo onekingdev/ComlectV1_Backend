@@ -4,6 +4,7 @@ default: &default
   source_path: app/javascript
   source_entry_path: packs
   public_output_path: packs
+  public_root_path: public
   cache_path: tmp/cache/webpacker
 
   # Additional paths webpack should lookup modules
@@ -56,6 +57,15 @@ test:
   public_output_path: packs-test
 
 production:
+  <<: *default
+
+  # Production depends on precompilation of packs prior to booting for performance.
+  compile: false
+
+  # Cache manifest.json for performance
+  cache_manifest: true
+
+staging:
   <<: *default
 
   # Production depends on precompilation of packs prior to booting for performance.
