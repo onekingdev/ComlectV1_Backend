@@ -7,7 +7,7 @@ set :branch, ENV['REVISION'] || ENV['BRANCH_NAME']
 
 set :application, 'complect'
 set :repo_url, 'git@github.com:complectco/complect.git'
-
+set :sidekiq_config, 'config/sidekiq.yml'
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
