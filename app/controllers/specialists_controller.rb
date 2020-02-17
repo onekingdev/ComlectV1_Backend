@@ -38,6 +38,7 @@ class SpecialistsController < ApplicationController
       specialist_params.merge(invitation: @invitation),
       cookies[:referral]
     )
+    @specialist.apply_quiz(cookies)
     @specialist.username = @specialist.generate_username
     if @specialist.save(context: :signup)
       @invitation&.accepted!(@specialist)
@@ -46,7 +47,11 @@ class SpecialistsController < ApplicationController
       @specialist.user.update_cookie_agreement(request.remote_ip)
       mixpanel_track_later 'Sign Up'
       SpecialistMailer.welcome(@specialist).deliver_later
-      cookies.delete :referral
+      # rubocop:disable Metrics/LineLength
+      %i[complect_s_email complect_s_first_name complect_s_last_name referral complect_s_step1 complect_s_step11 complect_s_step2 complect_s_step3 complect_s_step31 complect_s_step32 complect_s_other complect_s_step7].each do |c|
+        cookies.delete c
+      end
+      # rubocop:enable Metrics/LineLength
       return redirect_to specialists_dashboard_path
     end
 

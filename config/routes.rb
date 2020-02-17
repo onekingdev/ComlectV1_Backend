@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     end
   end
   mount Sidekiq::Web => '/sidekiq'
+  mount PdfjsViewer::Rails::Engine => '/pdfjs', as: 'pdfjs'
 
   devise_for :admin_users, ActiveAdmin::Devise.config
   begin
@@ -73,6 +74,14 @@ Rails.application.routes.draw do
   resources :flags, only: %i[new create]
 
   namespace :business do
+    get '/personalize' => 'personalize#quiz'
+    post '/personalize' => 'personalize#quiz'
+    resources :compliance_policies, only: %i[new update create edit show destroy]
+    resources :annual_reviews, only: %i[new create show destroy index edit update]
+    resources :annual_reports, only: %i[new create index update]
+    resources :teams, only: %i[new create show edit index update]
+    resources :reminders, only: %i[new update create destroy show]
+    resources :audit_requests, only: %i[index update create new edit show]
     resource :settings, only: :show do
       resource :password
       resource :key_contact
@@ -125,6 +134,16 @@ Rails.application.routes.draw do
 
   namespace :specialists, path: 'specialist' do
     get '/' => 'dashboard#show', as: :dashboard
+    resources :businesses, only: %i[new create show] do
+      get '/personalize' => 'personalize#quiz'
+      post '/personalize' => 'personalize#quiz'
+      resources :compliance_policies, only: %i[new update create edit show destroy]
+      resources :annual_reviews, only: %i[new create show destroy index edit update]
+      resources :annual_reports, only: %i[new create index update]
+      # resources :teams, only: %i[new create show edit index update]
+      resources :reminders, only: %i[new update create destroy show]
+      resources :audit_requests, only: %i[index update create new edit show]
+    end
     resource :settings, only: :show do
       resource :password
       resource :contact_information, only: %i[show update]

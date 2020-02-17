@@ -29,8 +29,8 @@
     .col-xs-12.col-md-6
       = f.input :description, as: :text, input_html: { rows: 8, class: 'input-lg' }
     .col-xs-12.text-right
-      = link_to_remove_association f, class: 'remove text-muted' do
-        i.fa.fa-minus title="Remove" data-toggle="tooltip"
+      .remove_we = link_to_remove_association f, class: 'remove text-muted' do
+        .btn.btn-default.m-b-1 Remove
 
     .col-xs-12.col-md-6
       

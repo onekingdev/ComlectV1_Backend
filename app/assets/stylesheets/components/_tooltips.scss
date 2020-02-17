@@ -120,3 +120,12 @@
   margin-top: 0px;
   display: inline-block;
 }
+
+body.compliance_policies {
+  .tooltip {
+    min-width: 75px;
+  }
+  .tooltip-inner {
+    max-width: 75px; 
+  }
+}

@@ -8,6 +8,9 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+# conversion fun
+gem 'imgkit'
+
 # Capistrano deploy
 group :development do
   gem 'capistrano', '~> 3.10', require: false
@@ -21,6 +24,12 @@ gem 'unicorn'
 
 # doc to pdf
 gem 'libreconv'
+gem 'pdfjs_viewer-rails'
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'
+
+# calendar
+gem 'simple_calendar', '~> 2.0'
 
 # captcha
 gem 'bcrypt'
@@ -76,14 +85,13 @@ gem 'business_time'
 gem 'ice_cube'
 gem 'ledermann-rails-settings'
 gem 'pry-rails'
-gem 'wicked_pdf'
-gem 'wkhtmltopdf-binary'
 
 # Assets
 gem 'imagesLoaded_rails'
 gem 'jquery-mousewheel-rails'
 gem 'jquery-rails'
 gem 'jquery-slick-rails'
+gem 'js_cookie_rails'
 
 # Mail
 gem 'postmark-rails'
