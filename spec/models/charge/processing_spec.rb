@@ -100,6 +100,48 @@ RSpec.describe Charge::Processing, type: :model do
       end
     end
 
+    context 'when project is business fee free' do
+      let(:business) { create :business, :with_payment_profile }
+      let(:specialist) { create :specialist }
+
+      let(:project) do
+        create(
+          :project_one_off_fixed,
+          :upfront_pay,
+          :business_fee_free,
+          business: business,
+          specialist: specialist
+        )
+      end
+
+      before do
+        project.charges.create!(
+          amount_in_cents: 10_000,
+          status: Charge.statuses[:scheduled],
+          date: 5.minutes.ago,
+          process_after: 5.minutes.ago,
+          description: 'Test'
+        )
+
+        @charges = Charge::Processing.process_scheduled!
+      end
+
+      it 'creates 1 transaction' do
+        expect(@charges.size).to eq 1
+      end
+
+      it 'creates transaction with total amount' do
+        transaction = project.transactions.first
+        expect(transaction.amount_in_cents).to eq BigDecimal(10_000)
+        expect(transaction.fee_in_cents).to eq BigDecimal(1000)
+      end
+
+      it 'creates associated specialist payment transaction' do
+        transaction = project.transactions.first
+        expect(transaction.specialist_total).to eq BigDecimal(90)
+      end
+    end
+
     context 'with no disputed timesheets' do
       let(:project_1) do
         create(
