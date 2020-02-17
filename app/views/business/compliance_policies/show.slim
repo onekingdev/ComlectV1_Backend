@@ -27,7 +27,7 @@
             i.icon-share data-toggle="tooltip" title="Share"
 .col-md-8.m-b-3.pdf_preview_area
   - if @preview_doc.pdf
-    iframe src=(pdfjs.minimal_path(file: @preview_doc.pdf_url)) width="100%" height="500px"
+    iframe src=(pdfjs.minimal_path(file: @preview_doc.pdf_url.split('?')[0])) width="100%" height="500px"
   - else
     | Preview will be available in a few seconds
     javascript:
