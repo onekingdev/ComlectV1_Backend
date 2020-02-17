@@ -1,6 +1,7 @@
 GIT
   remote: https://github.com/MattFenelon/pdfjs_viewer-rails.git
-  revision: 5874dff3699f43ce8f1649331d7811a05d362db3
+  revision: da9172357d6ffd196217c8361042eaa76094cb20
+  branch: configurable_viewer_origins
   specs:
     pdfjs_viewer-rails (0.0.9)
       rails (> 4.2.0)
