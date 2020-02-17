@@ -9,6 +9,7 @@ set :application, 'complect'
 set :repo_url, 'git@github.com:complectco/complect.git'
 set :sidekiq_config, 'config/sidekiq.yml'
 set :rvm1_map_bins, %w[rake gem bundle ruby]
+set :rbenv_map_bins, %w[rake gem bundle ruby rails sidekiq sidekiqctl]
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
