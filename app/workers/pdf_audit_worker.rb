@@ -5,7 +5,7 @@ class PdfAuditWorker
   sidekiq_options retry: false
 
   def env_path(in_path)
-    Rails.env.production? ? in_path : "#{Rails.root}/public#{in_path}"
+    Rails.env.production? || Rails.env.staging? ? in_path : "#{Rails.root}/public#{in_path}"
   end
 
   def perform(audit_doc_id)

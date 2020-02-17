@@ -2,8 +2,7 @@
 
 require 'shrine'
 
-# rubocop:disable Rails/EnvironmentComparison
-if Rails.env.production? || Rails.env == 'staging'
+if Rails.env.production? || Rails.env.staging?
   require 'shrine/storage/s3'
 
   s3_options = {
@@ -25,6 +24,5 @@ else
     store: Shrine::Storage::FileSystem.new('public', prefix: 'uploads/store')
   }
 end
-# rubocop:enable Rails/EnvironmentComparison
 
 Shrine.plugin :keep_files, cached: true, replaced: true
