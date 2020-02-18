@@ -27,7 +27,6 @@ class Business::PersonalizeController < ApplicationController
       @question = quiz_copy[current_question]
       @question_id = current_question
       @quiz_copy = quiz_copy
-      puts quiz_copy[current_question]
     end
   end
 

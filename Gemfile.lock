@@ -6,6 +6,14 @@ GIT
       actionpack (>= 3.2)
       railties (>= 3.2)
 
+GIT
+  remote: https://github.com/treo/pdfjs_viewer-rails
+  revision: 95e84a0484f7e09c00a20ed34bab519e7341cebd
+  specs:
+    pdfjs_viewer-rails (0.0.9)
+      rails (> 4.2.0)
+      sass-rails (~> 5.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -312,10 +320,6 @@ GEM
     parallel (1.19.1)
     parser (2.7.0.2)
       ast (~> 2.4.0)
-    pdfjs_viewer-rails (0.3.1)
-      json (> 1.8.4)
-      rails (> 4.2.0)
-      sass-rails (~> 5.0)
     pg (0.20.0)
     pg_search (2.3.0)
       activerecord (>= 4.2)
@@ -628,7 +632,7 @@ DEPENDENCIES
   mocha
   non-stupid-digest-assets
   overcommit
-  pdfjs_viewer-rails
+  pdfjs_viewer-rails!
   pg (= 0.20.0)
   pg_search
   plaid-legacy
