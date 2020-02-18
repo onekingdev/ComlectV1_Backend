@@ -25,7 +25,7 @@ gem 'unicorn'
 
 # doc to pdf
 gem 'libreconv'
-gem 'pdfjs_viewer-rails', git: 'https://github.com/treo/pdfjs_viewer-rails'
+gem 'pdfjs_viewer-rails', git: 'https://github.com/abhishek77in/pdfjs_viewer-rails.git'
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
 

@@ -1,18 +1,19 @@
 GIT
+  remote: https://github.com/abhishek77in/pdfjs_viewer-rails.git
+  revision: c70a55e4c3034eacfd690eabddf50bf6413a12e5
+  specs:
+    pdfjs_viewer-rails (0.3.1)
+      json (> 1.8.4)
+      rails (> 4.2.0)
+      sass-rails (~> 5.0)
+
+GIT
   remote: https://github.com/bernat/best_in_place.git
   revision: bc00bb7912193ea5c9c8984455cb5fe01905e6cb
   specs:
     best_in_place (3.1.1)
       actionpack (>= 3.2)
       railties (>= 3.2)
-
-GIT
-  remote: https://github.com/treo/pdfjs_viewer-rails
-  revision: 95e84a0484f7e09c00a20ed34bab519e7341cebd
-  specs:
-    pdfjs_viewer-rails (0.0.9)
-      rails (> 4.2.0)
-      sass-rails (~> 5.0)
 
 GEM
   remote: https://rubygems.org/
