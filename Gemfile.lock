@@ -1,13 +1,4 @@
 GIT
-  remote: https://github.com/MattFenelon/pdfjs_viewer-rails.git
-  revision: da9172357d6ffd196217c8361042eaa76094cb20
-  branch: configurable_viewer_origins
-  specs:
-    pdfjs_viewer-rails (0.0.9)
-      rails (> 4.2.0)
-      sass-rails (~> 5.0)
-
-GIT
   remote: https://github.com/bernat/best_in_place.git
   revision: bc00bb7912193ea5c9c8984455cb5fe01905e6cb
   specs:
@@ -321,6 +312,10 @@ GEM
     parallel (1.19.1)
     parser (2.7.0.2)
       ast (~> 2.4.0)
+    pdfjs_viewer-rails (0.3.1)
+      json (> 1.8.4)
+      rails (> 4.2.0)
+      sass-rails (~> 5.0)
     pg (0.20.0)
     pg_search (2.3.0)
       activerecord (>= 4.2)
@@ -633,7 +628,7 @@ DEPENDENCIES
   mocha
   non-stupid-digest-assets
   overcommit
-  pdfjs_viewer-rails!
+  pdfjs_viewer-rails
   pg (= 0.20.0)
   pg_search
   plaid-legacy
