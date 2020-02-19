@@ -22,8 +22,10 @@ class Transaction::OneOff < Transaction
       amount: amount_in_cents,
       currency: 'usd',
       customer: stripe_customer_id,
-      application_fee: fee_in_cents,
-      destination: specialist.manager.stripe_account.stripe_id,
+      application_fee_amount: fee_in_cents,
+      transfer_data: {
+        destination: specialist.manager.stripe_account.stripe_id
+      },
       description: "Project: #{project.title}"
     )
   end

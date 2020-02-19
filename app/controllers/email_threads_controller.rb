@@ -7,7 +7,7 @@ class EmailThreadsController < ApplicationController
     authenticated = authenticate_with_http_basic do |u, p|
       u == ENV.fetch('POSTMARK_INBOUND_USER') && p == ENV.fetch('POSTMARK_INBOUND_PASSWORD')
     end
-    request_http_basic_authentication if !authenticated && (Rails.env.production? || Rails.env.staging?)
+    request_http_basic_authentication if !authenticated && Rails.env.production?
   }
 
   def create
