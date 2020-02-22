@@ -36,7 +36,7 @@
 .modal.plain {
   $padding: 0px;
 
-  .modal-header, .modal-footer {
+  .modal-footer {
     display: none;
   }
 
@@ -70,7 +70,7 @@
 }
 
 .modal-fake {
-  border: 3px solid #ffcc00;
+  //border: 3px solid #ffcc00;
   @media screen and (max-width: $screen-xs-min) { 
     border: none;
   }
@@ -279,10 +279,11 @@ $bootbox-width: 474px;
 
 .close {
   margin: 0;
-  line-height: 39px !important;
+  line-height: 31px !important;
   opacity: 1 !important;
   margin-top: -15px;
   font-size: 14px;
+  font-weight: 100;
   @media screen and (max-width: $screen-xs-min) { 
     margin-top: -28px;
   }

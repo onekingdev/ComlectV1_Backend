@@ -101,6 +101,6 @@ class ProjectCreationTest < ActionDispatch::IntegrationTest
     project = create :project_one_off_hourly, business: @business
     post post_business_project_path(project)
     assert project.reload.published?
-    assert_redirected_to business_dashboard_path
+    assert_redirected_to business_dashboard_path(anchor: 'projects-pending')
   end
 end

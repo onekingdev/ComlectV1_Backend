@@ -1,6 +1,3 @@
-h3
-  'Location
-
 .row.row-compact
   .col-sm-6= f.input :address_1, required: false, input_html: { class: 'input-lg js-place-autocomplete', data: { zipcode: '#business_zipcode', country: '#business_country', state: '#business_state', city: '#business_city' } }
   .col-sm-6= f.input :address_2, required: false, input_html: { class: 'input-lg' }

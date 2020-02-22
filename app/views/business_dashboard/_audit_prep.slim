@@ -1,0 +1,12 @@
+.panel.panel-default
+  .panel-heading
+    h3 Audit prep
+  .panel-body.p-t-0.m-t-0
+    .text-center.m-b-1
+      .profile_chart
+        .c100 class=("p#{@business.audit_prep_percentage}")
+            span = "#{@business.audit_prep_percentage}%"
+            .slice
+              .bar
+              .fill
+      = link_to "Update", (current_specialist ? specialists_business_audit_requests_path(@business.username) : business_audit_requests_path), class: "btn btn-primary", target: "_blank"

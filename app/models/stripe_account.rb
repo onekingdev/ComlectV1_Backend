@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/ClassLength
 class StripeAccount < ApplicationRecord
   belongs_to :specialist
   has_many :bank_accounts, dependent: :destroy
@@ -31,7 +30,7 @@ class StripeAccount < ApplicationRecord
   }.freeze
 
   FIELDS_NEEDED_MAP = {
-    'individual.id_number' => 'Personal ID Number'
+    'legal_entity.personal_id_number' => 'Personal ID Number'
   }.freeze
 
   def verification_missing?
@@ -39,9 +38,9 @@ class StripeAccount < ApplicationRecord
   end
 
   def fields_needed_message(account)
-    return 'Please add a bank account' if account.requirements&.currently_due == %w[external_account]
+    return 'Please add a bank account' if account.verification&.fields_needed == %w[external_account]
 
-    fields = (account.requirements&.currently_due || []).map do |field|
+    fields = (account.verification&.fields_needed || []).map do |field|
       next if field == 'external_account'
       FIELDS_NEEDED_MAP[field] || field.split('.')[-1]
     end.compact
@@ -54,10 +53,10 @@ class StripeAccount < ApplicationRecord
   end
 
   def status_from_account(account)
-    if account.requirements&.currently_due&.include?('external_account')
+    if account.verification&.fields_needed&.include?('external_account')
       self.class.statuses[:pending]
     else
-      account.requirements&.currently_due&.empty? ? self.class.statuses[:verified] : self.class.statuses[:fields_needed]
+      account.verification&.fields_needed&.empty? ? self.class.statuses[:verified] : self.class.statuses[:fields_needed]
     end
   end
 
@@ -94,7 +93,12 @@ class StripeAccount < ApplicationRecord
 
   def create_managed_account
     account = Stripe::Account.create(stripe_attributes)
-    update_columns(stripe_id: account.id)
+
+    update_columns(
+      stripe_id: account.id,
+      secret_key: account.keys.secret,
+      publishable_key: account.keys.publishable
+    )
   rescue Stripe::InvalidRequestError => e
     errors.add :base, e.message
     destroy # So #persisted? does not return true
@@ -102,42 +106,18 @@ class StripeAccount < ApplicationRecord
   end
 
   def stripe_attributes
-    attributes = {
-      business_type: account_type,
-      business_profile: {
-        url: "https://app.complect.com/specialists/#{specialist.username}"
-      },
+    {
       country: country,
       type: :custom,
       tos_acceptance: { date: tos_acceptance_date.to_i, ip: tos_acceptance_ip },
-      settings: {
-        payouts: {
-          debit_negative_balances: true
-        }
-      },
-      requested_capabilities: %w[legacy_payments transfers]
+      debit_negative_balances: true
     }
-
-    if individual?
-      attributes[:individual] = {
-        first_name: first_name
-      }
-    elsif company?
-      attributes[:company] = {
-        name: business_name
-      }
-    end
-
-    attributes
   end
 
   def verify_account
     account = Stripe::Account.retrieve(stripe_id)
-
-    assign_individual_fields(account) if individual?
-    assign_company_fields(account) if company?
+    assign_account_fields account
     account.save
-
     update_verification_status
   rescue Stripe::InvalidRequestError => e
     errors.add :base, translate_stripe_error(e.message)
@@ -163,55 +143,36 @@ class StripeAccount < ApplicationRecord
     account.delete
   end
 
-  INDIVIDUAL_FIELD_MAPPINGS = {
-    'individual.address.line1' => :address1,
-    'individual.address.city' => :city,
-    'individual.address.state' => :state,
-    'individual.address.postal_code' => :zipcode,
-    'individual.id_number' => :personal_id_number,
-    'individual.dob.day' => -> { dob.day },
-    'individual.dob.month' => -> { dob.month },
-    'individual.dob.year' => -> { dob.year },
-    'individual.first_name' => :first_name,
-    'individual.last_name' => :last_name,
-    'individual.ssn_last_4' => :ssn_last_4
+  FIELD_MAPPINGS = {
+    'legal_entity.type' => :account_type,
+    'legal_entity.address.city' => :city,
+    'legal_entity.address.line1' => :address1,
+    'legal_entity.address.postal_code' => :zipcode,
+    'legal_entity.address.state' => :state,
+    'legal_entity.personal_address.city' => :personal_city,
+    'legal_entity.personal_address.line1' => :personal_address1,
+    'legal_entity.personal_address.postal_code' => :personal_zipcode,
+    'legal_entity.personal_id_number' => :personal_id_number,
+    'legal_entity.dob.day' => -> { dob.day },
+    'legal_entity.dob.month' => -> { dob.month },
+    'legal_entity.dob.year' => -> { dob.year },
+    'legal_entity.first_name' => :first_name,
+    'legal_entity.last_name' => :last_name,
+    'legal_entity.ssn_last_4' => :ssn_last_4,
+    'legal_entity.business_name' => :business_name,
+    'legal_entity.business_tax_id' => :business_tax_id,
+    'tos_acceptance.date' => -> { tos_acceptance_date.to_i },
+    'tos_acceptance.ip' => :tos_acceptance_ip
   }.freeze
 
-  COMPANY_FIELD_MAPPINGS = {
-    'company.address.line1' => :address1,
-    'company.address.city' => :city,
-    'company.address.state' => :state,
-    'company.address.postal_code' => :zipcode,
-    'company.name' => :business_name,
-    'company.tax_id' => :business_tax_id
-  }.freeze
-
-  def assign_individual_fields(account)
-    INDIVIDUAL_FIELD_MAPPINGS.each do |field, value|
-      if value.is_a?(Proc)
-        assign_account_field account, field, instance_exec(&value)
-      else
-        assign_account_field account, field, public_send(value)
-      end
+  def assign_account_fields(account)
+    FIELD_MAPPINGS.each do |field, value|
+      assign_account_field account, field, value.is_a?(Proc) ? instance_exec(&value) : public_send(value)
     end
 
     return unless verification_document_data
     upload = upload_verification_document
-    account.individual.verification.document = upload.id if upload
-  end
-
-  def assign_company_fields(account)
-    COMPANY_FIELD_MAPPINGS.each do |field, value|
-      if value.is_a?(Proc)
-        assign_account_field account, field, instance_exec(&value)
-      else
-        assign_account_field account, field, public_send(value)
-      end
-    end
-
-    return unless verification_document_data
-    upload = upload_verification_document
-    account.company.verification.document = upload.id if upload
+    account.legal_entity.verification.document = upload.id if upload
   end
 
   def assign_account_field(account, field, value)
@@ -231,4 +192,3 @@ class StripeAccount < ApplicationRecord
     (STRIPE_ERRORS.detect { |regex, _m| regex.match(error) } || [nil, error])[1]
   end
 end
-# rubocop:enable Metrics/ClassLength

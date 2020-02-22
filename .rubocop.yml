@@ -11,6 +11,13 @@ AllCops:
     - 'node_modules/**/*'
     - 'vendor/**/*'
 
+Rails/UnknownEnv:
+  Environments:
+    - production
+    - development
+    - test
+    - staging
+
 Layout/EmptyLineBetweenDefs:
   AllowAdjacentOneLineDefs: true
 
