@@ -14,13 +14,28 @@ class Specialists::RemindersController < ApplicationController
   def create
     @reminder = Reminder.new(reminder_params)
     @reminder.business_id = @business.id
-    redirect_to specialists_business_path(@business.username) if @reminder.save
+    redirect_to specialists_business_path(@business.username, reminder: @reminder.remind_at.strftime('%Y-%m-%d')) if @reminder.save
   end
 
   def destroy
-    @reminder = @business.reminders.where(id: params[:id])
-    @reminder.first.destroy if @reminder.count.positive?
-    redirect_to specialists_business_path(@business.username)
+    @reminder = @business.reminders.find(id: params[:id])
+    tgt_date = @reminder&.remind_at
+    @reminder&.destroy
+    redirect_to specialists_business_path(@business.username, reminder: tgt_date&.strftime('%Y-%m-%d'))
+  end
+
+  def index
+    respond_to do |format|
+      format.pdf do
+        render pdf: 'reminders.pdf',
+               template: 'business/reminders/index.pdf.erb', encoding: 'UTF-8',
+               locals: { reminders: @business.reminders_this_year, business: @business },
+               margin: { top:               20,
+                         bottom:            25,
+                         left:              15,
+                         right:             15 }
+      end
+    end
   end
 
   # rubocop:disable Metrics/LineLength

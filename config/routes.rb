@@ -77,11 +77,11 @@ Rails.application.routes.draw do
     get '/personalize' => 'personalize#quiz'
     post '/personalize' => 'personalize#quiz'
     get '/personalize_book' => 'personalize#book'
-    resources :compliance_policies, only: %i[new update create edit show destroy]
+    resources :compliance_policies, only: %i[new update create edit show destroy index]
     resources :annual_reviews, only: %i[new create show destroy index edit update]
     resources :annual_reports, only: %i[new create index update]
     resources :teams, only: %i[new create show edit index update]
-    resources :reminders, only: %i[new update create destroy show]
+    resources :reminders, only: %i[new update create destroy show index]
     resources :audit_requests, only: %i[index update create new edit show]
     resource :settings, only: :show do
       resource :password
@@ -139,11 +139,11 @@ Rails.application.routes.draw do
       get '/personalize' => 'personalize#quiz'
       post '/personalize' => 'personalize#quiz'
       get '/personalize_book' => 'personalize#book'
-      resources :compliance_policies, only: %i[new update create edit show destroy]
+      resources :compliance_policies, only: %i[new update create edit show destroy index]
       resources :annual_reviews, only: %i[new create show destroy index edit update]
       resources :annual_reports, only: %i[new create index update]
       # resources :teams, only: %i[new create show edit index update]
-      resources :reminders, only: %i[new update create destroy show]
+      resources :reminders, only: %i[new update create destroy show index]
       resources :audit_requests, only: %i[index update create new edit show]
     end
     resource :settings, only: :show do

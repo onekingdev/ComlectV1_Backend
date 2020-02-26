@@ -1,8 +1,16 @@
 .panel.panel-default.profile-info
   .panel-heading
     h3 Compliance manual
-  .panel-body.p-t-0
-    a.btn.btn-link.btn-plain.add-compliance-policy.m-b-1 data-target="#modal" data-toggle="modal" data-remote=true href=(current_specialist ? new_specialists_business_compliance_policy_path(@business.username) : new_business_compliance_policy_path)
-      span Add policy
-    - @business.compliance_policies.each do |policy|
-      = link_to policy.section_or_title, (current_specialist ? specialists_business_compliance_policy_path(@business.username, policy) : business_compliance_policy_path(policy)), target: "_blank", class: "policy_list_item"
+  .panel-body.p-t-0.p-b-2
+    ul style="padding-left: 25px;"
+      - @business.uptodate_compliance_policies.each do |policy|
+        li = link_to policy.section_or_title, (current_specialist ? specialists_business_compliance_policy_path(@business.username, policy) : business_compliance_policy_path(policy)), target: "_blank"
+
+    - if @business.outdated_compliance_policies.any?
+      p.p-t-1 Not Recently Updated:
+      ul style="padding-left: 25px;"
+        - @business.outdated_compliance_policies.each do |policy|
+          li = link_to policy.section_or_title, (current_specialist ? specialists_business_compliance_policy_path(@business.username, policy) : business_compliance_policy_path(policy)), target: "_blank"
+
+  .text-center.p-b-2
+    = link_to "Edit", (current_specialist ? specialists_business_compliance_policies_path(@business.username) : business_compliance_policies_path), class: "btn btn-primary"

@@ -57,7 +57,7 @@
     /.coloring style=("background-color: rgba(255, 204, 0, #{0.2*projects.count})") class=("today" if date == Date.today) data-placement="top" data-toggle="tooltip" data-title=(raw(titles)) data-html="true"
     /  = date.day
   .text-center
-    = link_to "Download Calendar", "#", class: "btn btn-primary btn-sm p-x-1 m-b-2"
+    = link_to "Download Calendar", (current_business ? business_reminders_path(format: :pdf) : specialists_business_reminders_path(@business.username, format: :pdf)), class: "btn btn-primary btn-sm p-x-1 m-b-2", target: "_blank"
 
 javascript:
   var reactive_reminders = true;

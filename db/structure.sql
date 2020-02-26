@@ -484,7 +484,8 @@ CREATE TABLE public.businesses (
     already_covered_other character varying,
     tutorial_complete boolean DEFAULT false,
     review_declined boolean DEFAULT false,
-    onboard_call_booked boolean DEFAULT false
+    onboard_call_booked boolean DEFAULT false,
+    welcomed boolean DEFAULT false
 );
 
 
@@ -583,7 +584,9 @@ CREATE TABLE public.compliance_policies (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     business_id integer,
-    section character varying
+    section character varying,
+    last_uploaded timestamp without time zone,
+    pdf_data jsonb
 );
 
 
@@ -6897,4 +6900,10 @@ INSERT INTO schema_migrations (version) VALUES ('20200120122015');
 INSERT INTO schema_migrations (version) VALUES ('20200131171456');
 
 INSERT INTO schema_migrations (version) VALUES ('20200221232045');
+
+INSERT INTO schema_migrations (version) VALUES ('20200222224002');
+
+INSERT INTO schema_migrations (version) VALUES ('20200223204523');
+
+INSERT INTO schema_migrations (version) VALUES ('20200225070555');
 

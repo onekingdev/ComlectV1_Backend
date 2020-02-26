@@ -1,19 +1,29 @@
-.popup_border
-  table.table.reminders_table
-    - @business.reminders.where(remind_at: @parsed_date).order(id: :asc).each do |reminder|
-      tr class=("done" if !reminder.done_at.nil?)
-        - if reminder.done_at.nil?
-          td width="1%" = link_to "Done", (current_specialist ? specialists_business_reminder_path(@business.username, reminder, done: true) : business_reminder_path(reminder, done: true)), method: :patch, class: "btn btn-primary btn-sm"
-        - else
-          td width="1%" = link_to "Done", (current_specialist ? specialists_business_reminder_path(@business.username, reminder, done: false) : business_reminder_path(reminder, done: false)), method: :patch, class: "btn btn-disabled btn-sm"
-        td width="1%" = link_to "Delete", (current_specialist ? specialists_business_reminder_path(@business.username, reminder) : business_reminder_path(reminder)), method: :delete, class: "btn btn-default btn-sm", "data-confirm": "Are you sure want to delete reminder?"
-        td width="99%" = reminder.body
-
-  | New reminder for 
+.m-l-3.m-r-3
+  .text-center
+    h1 
+      b Edit Tasks
   = @parsed_date.strftime("%m/%d/%Y")
+  .padded-checkboxes.reactive_reminders.reminders_table.m-t-2.m-b-2
+    - @business.reminders.where(remind_at: @parsed_date).order(id: :asc).each do |reminder|
+      = check_box_tag("reminder_popup_#{reminder.id}", 1, !reminder.done_at.nil?)
+      - pth = current_business ? new_business_reminder_path(date: reminder.remind_at) : new_specialists_business_reminder_path(@business.username, date: reminder.remind_at)
+      label for=("reminder_popup_#{reminder.id}") class="css-label" style="width: 100%;"
+        .upcoming_task style="line-height: 14px;"
+          .pull-left class=("done" if reminder.done_at.present?) = reminder.body
+          .pull-right
+            = link_to "", (current_specialist ? specialists_business_reminder_path(@business.username, reminder) : business_reminder_path(reminder)), method: :delete, class: "icon-close", "data-confirm": "Are you sure want to delete reminder?", "data-toggle": "tooltip", "data-title": "delete"
+      .clearfix
 
   = simple_form_for @reminder, wrapper: :inline_form, url: (current_specialist ? specialists_business_reminders_path(@business.username) : business_reminders_path) do |f|
     .text-danger = f.object.errors.full_messages.first if f.object.errors.any?
-    = f.input :body
-    = f.input :remind_at
-    = f.submit "Save", class: "btn btn-primary"
+    .pull-left style="width: 90%;"
+      = f.input :body
+    .pull-right
+      = f.input :remind_at, as: :hidden
+      .icon-plus.m-t-1 onclick="$('#new_reminder').submit();" style="cursor: pointer"
+    .clearfix
+  .text-center
+    button.btn.btn-primary data-dismiss="modal" Done
+
+javascript:
+  var reactive_reminders = true;

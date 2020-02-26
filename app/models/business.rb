@@ -34,6 +34,8 @@ class Business < ApplicationRecord
   has_many :teams
   has_many :active_projects, -> { where(status: statuses[:published]).where.not(specialist_id: nil) }, class_name: 'Project'
   has_many :active_specialists, through: :active_projects, class_name: 'Specialist', source: :specialist
+  has_many :uptodate_compliance_policies, -> { where('last_uploaded > ?', Time.zone.today - 1.year) }, class_name: 'CompliancePolicy'
+  has_many :outdated_compliance_policies, -> { where('last_uploaded < ?', Time.zone.today - 1.year) }, class_name: 'CompliancePolicy'
 
   has_one :forum_subscription
   has_one :tos_agreement, through: :user
@@ -105,6 +107,10 @@ class Business < ApplicationRecord
     [:finish]
   ].freeze
   # rubocop:enable Metrics/LineLength
+
+  def reminders_this_year
+    reminders.where('remind_at > ?', Time.now.in_time_zone(time_zone).beginning_of_year)
+  end
 
   def questionarrie_percentage
     score = 0

@@ -1,0 +1,65 @@
+<html>
+  <head>
+    <style type="text/css">
+      body, html, table {
+        font-family: "Roboto";
+        font-size: 120px;
+        padding: 0px;
+        margin: 0px;
+      }
+
+      p { page-break-inside: avoid; }
+
+      ul, ol {
+        margin-left: 230px;
+        margin-bottom: 100px;
+      }
+      li {
+        padding-bottom: 50px;
+        page-break-inside: avoid;
+      }
+
+      table, td {
+        border-collapse: collapse;
+        border: 1px solid #000;
+        page-break-inside: avoid;
+      }
+
+      td {
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 40px;
+      }
+      
+      p {
+        font-size: 20px;
+      }
+    </style>
+    <meta charset="UTF-8">
+  </head>
+  <body>
+    <center>
+    <h1><%= business.business_name %></h1>
+    <h1><%= Time.now.in_time_zone(business.time_zone).year %></h1>
+    </center>
+    <% for i in 1..12 do %>
+      <p style="text-decoration: underline;"><%= I18n.t(:date)[:month_names][i] %></p>
+      <p>
+        <% base_date = Date.today.in_time_zone(business.time_zone) %>
+        <% tgt_from_date = Date.parse("#{base_date.year}-#{i.to_s.rjust(2, '0')}-01") %>
+        <% tgt_to_date = tgt_from_date+1.month %>
+        <% business.reminders.where("remind_at > ?", tgt_from_date).where("remind_at < ?", tgt_to_date).each do |reminder| %>
+          <% if reminder.done_at.present? %>
+            <i><%= reminder.body %></i> [Completed on <%= reminder.done_at.in_time_zone(business.time_zone).strftime('%b %-d, %Y') %>]
+          <% else %>
+            <%= reminder.body %>
+          <% end %>
+          <br/>
+        <% end %>
+      </p>
+    <% end %>
+
+  </body>
+</html>

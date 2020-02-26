@@ -4,17 +4,46 @@ class Business::CompliancePoliciesController < ApplicationController
   before_action :require_business!
   before_action :set_cpolicy, only: %i[update edit show]
 
+  def index
+    @business = current_business
+    @preview_doc = @business.compliance_policies.first
+    respond_to do |format|
+      format.json do
+        if @preview_doc.blank?
+          render json: { "preview": business_compliance_policies_path(format: :pdf) }
+        else
+          preview_out = @preview_doc.pdf ? @preview_doc.pdf_url : false
+          render json: { "preview": preview_out }
+        end
+      end
+      format.html do
+        # poof
+      end
+      format.pdf do
+        render pdf: 'compliance_manual.pdf',
+               template: 'business/compliance_policies/header.pdf.erb', encoding: 'UTF-8',
+               locals: { last_updated: Time.zone.today, business: @business },
+               margin: { top:               20,
+                         bottom:            25,
+                         left:              15,
+                         right:             15 }
+      end
+    end
+  end
+
   def new
     @business = current_business
     @compliance_policy = CompliancePolicy.new
     @compliance_policy.compliance_policy_docs.build
+    @compliance_policy.title = params[:title] if params[:title].present?
   end
 
   def create
+    @business = current_business
     @compliance_policy = CompliancePolicy.new(compliance_policy_params)
     @compliance_policy.business_id = current_business.id
     if @compliance_policy.save
-      PdfWorker.perform_async(@compliance_policy.compliance_policy_docs.order(:id).first.id)
+      PdfCompliancePolicyWorker.perform_async(@compliance_policy.compliance_policy_docs.order(:id).first.id)
       redirect_to business_compliance_policy_path(@compliance_policy)
     else
       @compliance_policy.compliance_policy_docs.build
@@ -24,7 +53,7 @@ class Business::CompliancePoliciesController < ApplicationController
 
   def update
     if (@compliance_policy.business_id == current_business.id) && @compliance_policy.update(compliance_policy_params)
-      PdfWorker.perform_async(@compliance_policy.compliance_policy_docs.order(:id).first.id)
+      PdfCompliancePolicyWorker.perform_async(@compliance_policy.compliance_policy_docs.order(:id).first.id)
       redirect_to business_compliance_policy_path(@compliance_policy)
     else
       render 'edit'

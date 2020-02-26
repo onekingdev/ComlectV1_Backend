@@ -8,8 +8,11 @@ class Specialists::CompliancePoliciesController < ApplicationController
   def new
     @compliance_policy = CompliancePolicy.new
     @compliance_policy.compliance_policy_docs.build
+    @compliance_policy.title = params[:title] if params[:title].present?
     render 'business/compliance_policies/new'
   end
+
+  def index; end
 
   def create
     @compliance_policy = CompliancePolicy.new(compliance_policy_params)

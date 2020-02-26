@@ -63,10 +63,15 @@
                 .dot-pagination.m-b-1
                 a.next-slide href="#" +
 
-/- if !@business.personalized?
-javascript:
-  var show_business_personalize = #{!@business.personalized?};
-  var show_business_tutorial = #{@business.personalized? && !@business.tutorial_complete};
-  var personalize_js_url = "/specialist/businesses/#{@business.username}/personalize";
-  var calendar_asset_path = "#{asset_path('calendar-popup.png')}";
-  var booking_path = "#{specialists_business_personalize_book_path(@business.username)}"
+- if !@business.welcomed?
+  - @business.update(welcomed: true)
+  javascript:
+    var show_business_personalize = #{!@business.personalized?};
+    var show_business_tutorial = #{@business.personalized? && !@business.tutorial_complete};
+    var personalize_js_url = "/specialist/businesses/#{@business.username}/personalize";
+    var calendar_asset_path = "#{asset_path('calendar-popup.png')}";
+    var booking_path = "#{specialists_business_personalize_book_path(@business.username)}"
+
+- if params[:reminder].present?
+  javascript:
+    var show_reminders_at_date = "#{new_specialists_business_reminder_path(@business.username, date: Date.parse(params[:reminder]))}";

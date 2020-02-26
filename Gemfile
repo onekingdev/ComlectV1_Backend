@@ -24,6 +24,7 @@ end
 gem 'unicorn'
 
 # doc to pdf
+gem 'combine_pdf'
 gem 'libreconv'
 gem 'pdfjs_viewer-rails', git: 'https://github.com/kourindouhime/pdfjs_viewer-rails.git'
 gem 'wicked_pdf'

@@ -13,13 +13,28 @@ class Business::RemindersController < ApplicationController
   def create
     @reminder = Reminder.new(reminder_params)
     @reminder.business_id = current_business.id
-    redirect_to business_dashboard_path if @reminder.save
+    redirect_to business_dashboard_path(reminder: @reminder.remind_at.strftime('%Y-%m-%d')) if @reminder.save
   end
 
   def destroy
-    @reminder = current_business.reminders.where(id: params[:id])
-    @reminder.first.destroy if @reminder.count.positive?
-    redirect_to business_dashboard_path
+    @reminder = current_business.reminders.find(params[:id])
+    tgt_date = @reminder&.remind_at
+    @reminder&.destroy
+    redirect_to business_dashboard_path(reminder: tgt_date&.strftime('%Y-%m-%d'))
+  end
+
+  def index
+    respond_to do |format|
+      format.pdf do
+        render pdf: 'reminders.pdf',
+               template: 'business/reminders/index.pdf.erb', encoding: 'UTF-8',
+               locals: { reminders: current_business.reminders_this_year, business: current_business },
+               margin: { top:               20,
+                         bottom:            25,
+                         left:              15,
+                         right:             15 }
+      end
+    end
   end
 
   # rubocop:disable Metrics/LineLength

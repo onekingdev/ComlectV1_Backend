@@ -39,6 +39,12 @@
 
 .padded-checkboxes {
   padding-left: 9px;
+  a.icon-close {
+    color: #000;
+    &:hover, &:focus {
+      text-decoration: none;
+    }
+  }
 
   input[type=checkbox] {
     position:absolute; z-index:-1000; left:-1000px; overflow: hidden; clip: rect(0 0 0 0); height:1px; width:1px; margin:-1px; padding:0; border:0;

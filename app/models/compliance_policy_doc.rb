@@ -5,4 +5,5 @@ class CompliancePolicyDoc < ActiveRecord::Base
   include PdfUploader[:pdf]
   default_scope { order(created_at: :desc) }
   validates :doc, presence: true
+  belongs_to :compliance_policy
 end
