@@ -36,11 +36,4 @@ br
 
 - if !params[:section_id].blank?
   javascript:
-    $("#compliance_policy_section").val("#{params[:section_id]}");
-    hide_annual_compliance_fields();
-
-javascript:
-  if ($(".compliance_policy_title_trigger").val().length > 0) {
-    $(".cpolicy_or_name").slideUp();
-    $(".compliance_policy_section").slideUp();
-  }
+    var hide_annual_compliance_fields_trig = true;

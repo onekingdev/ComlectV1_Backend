@@ -6,9 +6,9 @@ class CompliancePolicy < ActiveRecord::Base
   accepts_nested_attributes_for :compliance_policy_docs
   validates :compliance_policy_docs, presence: true
   validates :title, presence: true, if: :section_blank?
-  # rubocop:disable Metrics/LineLength
-  validates :section, inclusion: { in: I18n.translate('compliance_manual_sections').keys.map(&:to_s) }, uniqueness: true, if: :section_present?
-  # rubocop:enable Metrics/LineLength
+  validates :section, inclusion: { in: I18n.translate('compliance_manual_sections').keys.map(&:to_s) }, if: :section_present?
+  validate :section_business_uniqueness, if: :section_present?
+
   include PdfUploader[:pdf]
 
   before_save :wipe_title
@@ -33,5 +33,9 @@ class CompliancePolicy < ActiveRecord::Base
 
   def wipe_title
     self.title = '' if section.present?
+  end
+
+  def section_business_uniqueness
+    errors.add(:section, :section_taken) if business.compliance_policies.where(section: section).where.not(id: id).count.positive?
   end
 end

@@ -18,11 +18,19 @@ $(document).ready(function() {
         success: function(data) {
           if (data.preview != false) {
             $(".pdf_preview_area").html("<iframe height='500px' src='/pdfjs/minimal?file="+encodeURIComponent(data.preview)+"' width='100%'></iframe>");
+            $(".cpolicy_downloadbtn").attr("href", data.preview).removeClass("disabled");
+            $(".cpolicy_sharebtn").attr("href", data.email).removeClass("disabled");
             clearInterval(requestloop);
           }
         }
       });
     }, 3000)
+  }
+  if ($(".compliance_policy_title_trigger").length > 0) {
+    if ($(".compliance_policy_title_trigger").val().length > 0) {
+      $(".cpolicy_or_name").slideUp();
+      $(".compliance_policy_section").slideUp();
+    }
   }
 });
 

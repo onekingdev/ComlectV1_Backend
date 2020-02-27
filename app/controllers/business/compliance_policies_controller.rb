@@ -13,7 +13,9 @@ class Business::CompliancePoliciesController < ApplicationController
           render json: { "preview": business_compliance_policies_path(format: :pdf) }
         else
           preview_out = @preview_doc.pdf ? @preview_doc.pdf_url : false
-          render json: { "preview": preview_out }
+          # rubocop:disable Metrics/LineLength
+          render json: { "preview": preview_out, "business_name": @business.business_name, "email": "mailto:?body=Please find our Compliance Manual attached %0D%0A%0D%0ADownload: #{Rails.env.production? ? url_for(@preview_doc.pdf_url) : root_url.delete_suffix('/') + url_for(@preview_doc.pdf_url)}&subject=#{@business.business_name} Compliance Manual" }
+          # rubocop:enable Metrics/LineLength
         end
       end
       format.html do
@@ -36,6 +38,7 @@ class Business::CompliancePoliciesController < ApplicationController
     @compliance_policy = CompliancePolicy.new
     @compliance_policy.compliance_policy_docs.build
     @compliance_policy.title = params[:title] if params[:title].present?
+    @compliance_policy.section = params[:section_id] if params[:section_id].present?
   end
 
   def create

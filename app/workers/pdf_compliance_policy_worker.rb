@@ -14,9 +14,12 @@ class PdfCompliancePolicyWorker
   # rubocop:disable Metrics/AbcSize
   def perform(policy_doc_id)
     policy_doc = CompliancePolicyDoc.find(policy_doc_id)
+    tgt_compliance_policy = policy_doc.compliance_policy.business.compliance_policies.first
+    tgt_compliance_policy.update(pdf: nil)
     doc_path = env_path(policy_doc.doc_url.split('?')[0])
     tmp_fd = Tempfile.new(['pdf-', '.pdf'])
     uploader = PdfUploader.new(:store)
+
     if MIME::Types.type_for(doc_path).first.to_s == 'application/pdf'
       file = if Rails.env.production? || Rails.env.staging?
                URI.parse(doc_path).open
@@ -76,8 +79,7 @@ class PdfCompliancePolicyWorker
     merged_pdf.save tmp_pdf_path
     tmp_pdf_file.rewind
     uploaded_file = uploader.upload(File.new(tmp_pdf_file))
-    compliance_policy = policy_doc.compliance_policy.business.compliance_policies.first
-    compliance_policy.update(pdf_data: uploaded_file.to_json)
+    tgt_compliance_policy.update(pdf_data: uploaded_file.to_json)
     tmp_pdf_file.unlink
     file.delete
   end

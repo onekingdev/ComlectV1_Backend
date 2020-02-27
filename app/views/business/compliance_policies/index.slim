@@ -15,7 +15,9 @@
       p.black_href
         - tgt = @business.compliance_policies.where(section: section.to_s)
         - if tgt.count > 0
-          b = link_to I18n.translate('compliance_manual_sections')[section], (current_specialist ? specialists_business_compliance_policy_path(@business.username, tgt.first) : business_compliance_policy_path(tgt.first)), target: "_blank"
+          b 
+            = ["👍","👍🏻","👍🏼","👍🏽","👍🏾","👍🏿"].sample 
+            = link_to I18n.translate('compliance_manual_sections')[section], (current_specialist ? specialists_business_compliance_policy_path(@business.username, tgt.first) : business_compliance_policy_path(tgt.first)), target: "_blank"
         - else
           b = link_to I18n.translate('compliance_manual_sections')[section], (current_specialist ? new_specialists_business_compliance_policy_path(@business.username, section_id: section) : new_business_compliance_policy_path(section_id: section)), "data-target": "#modal", "data-remote": true, "data-toggle": "modal"
 
@@ -37,6 +39,16 @@
     - if current_specialist
       javascript:
         var compliance_policy_baseurl = "/specialist/businesses/#{@business.username}/compliance_policies";
+
+.clearfix
+.text-center.m-b-3.m-t-1
+  - if @preview_doc.present? && @preview_doc.pdf
+    = link_to "Download", @preview_doc.pdf_url, target: "_blank", class: "btn btn-default m-x-1"
+    = link_to "Share", "mailto:?body=Please find our Compliance Manual attached %0D%0A%0D%0ADownload: #{Rails.env == 'production' ? url_for(@preview_doc.pdf_url) : root_url.delete_suffix("/")+url_for(@preview_doc.pdf_url)}&subject=#{@business.business_name} Compliance Manual", class: "btn btn-primary m-x-1"
+  - else
+    .cpolicy_not_available.text-center
+    = link_to "Download", "#", class: "btn btn-default disabled m-x-1 cpolicy_downloadbtn", target: "_blank"
+    = link_to "Share", "#", class: "btn btn-primary disabled m-x-1 cpolicy_sharebtn"
 
 
 - pth = current_specialist ? new_specialists_business_compliance_policy_path(@business.username) : new_business_compliance_policy_path
