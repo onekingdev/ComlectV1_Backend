@@ -54,7 +54,7 @@ class PdfCompliancePolicyWorker
       compliance_policy.business.compliance_policies.where(section: section.to_s).each do |cpolicy|
         begin
           merged_pdf << CombinePDF.load(env_path(cpolicy.compliance_policy_docs.first.pdf_url.split('?')[0]))
-        rescue CombinePDF::EncryptionError
+        rescue StandardError
           if cpolicy.compliance_policy_docs.count > 1
             cpolicy.compliance_policy_docs.first.destroy
           else
@@ -66,7 +66,7 @@ class PdfCompliancePolicyWorker
     compliance_policy.business.compliance_policies.where.not(title: '').each do |cpolicy|
       begin
         merged_pdf << CombinePDF.load(env_path(cpolicy.compliance_policy_docs.first.pdf_url.split('?')[0]))
-      rescue CombinePDF::EncryptionError
+      rescue StandardError
         if cpolicy.compliance_policy_docs.count > 1
           cpolicy.compliance_policy_docs.first.destroy
         else

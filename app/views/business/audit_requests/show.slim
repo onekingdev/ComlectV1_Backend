@@ -22,7 +22,7 @@
   - if ((@audit_doc.pdf) && (@audit_doc.processed))
     iframe src=(pdfjs.minimal_path(file: @audit_doc.pdf_url.split('?')[0])) width="100%" height="500px"
   - else
-    | Preview will be available in a few seconds
+    .text-center = image_tag "loading.gif"
     javascript:
       var audit_request_render_id = #{@audit_request.id}
     - if current_specialist

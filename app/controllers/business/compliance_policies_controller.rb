@@ -2,7 +2,7 @@
 
 class Business::CompliancePoliciesController < ApplicationController
   before_action :require_business!
-  before_action :set_cpolicy, only: %i[update edit show]
+  before_action :set_cpolicy, only: %i[update edit show destroy]
 
   def index
     @business = current_business
@@ -31,6 +31,11 @@ class Business::CompliancePoliciesController < ApplicationController
                          right:             15 }
       end
     end
+  end
+
+  def destroy
+    @compliance_policy.destroy
+    redirect_to business_compliance_policies_path
   end
 
   def new

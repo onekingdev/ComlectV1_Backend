@@ -23,7 +23,9 @@
 
     - @business.compliance_policies.where.not(title: "").each do |section|
       p.black_href
-        b = link_to section.section_or_title, (current_specialist ? specialists_business_compliance_policy_path(section) : business_compliance_policy_path(section)), target: "_blank"
+        b 
+          = ["👍","👍🏻","👍🏼","👍🏽","👍🏾","👍🏿"].sample 
+          = link_to section.section_or_title, (current_specialist ? specialists_business_compliance_policy_path(section) : business_compliance_policy_path(section)), target: "_blank"
 
   .clearfix
   input.form-group#new_compliance_policy_name name="new_compliance_policy_name" type="text" placeholder="New Policy Name" style="width: 90%"
@@ -32,7 +34,7 @@
   - if @preview_doc.present? && @preview_doc.pdf
     iframe src=(pdfjs.minimal_path(file: @preview_doc.pdf_url.split('?')[0])) width="100%" height="500px"
   - else
-    | Preview will be available in a few seconds
+    .text-center = image_tag "loading.gif"
     javascript:
       var compliance_policy_render_id = "";
       var compliance_policy_baseurl = "/business/compliance_policies"

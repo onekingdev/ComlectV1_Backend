@@ -1,21 +1,28 @@
+.text-center.m-b-3
+  h1 style="font-family: 'Canela'; font-size: 30px; font-weight: 400;"
+    = @business.business_name
+    br
+    | Compliance Manual
+
 .col-md-4
-  .p-t-1
+  .m-b-2
     b = @compliance_policy.section_or_title
-  = link_to "Update", (current_specialist ? edit_specialists_business_compliance_policy_path(@business.username, @compliance_policy) : edit_business_compliance_policy_path(@compliance_policy)), "data-target": "#modal", "data-remote": true, "data-toggle": "modal", class: "btn btn-primary m-t-1"
+  .pull-left = link_to "Upload", (current_specialist ? edit_specialists_business_compliance_policy_path(@business.username, @compliance_policy) : edit_business_compliance_policy_path(@compliance_policy)), "data-target": "#modal", "data-remote": true, "data-toggle": "modal", class: "btn btn-default p-x-3"
+  .pull-right = link_to "Delete", (current_specialist ? specialists_business_compliance_policy_path(@business.username, @compliance_policy) : business_compliance_policy_path(@compliance_policy)), class: "btn btn-primary m-l-1 p-x-3", method: :delete, data: { confirm: '<b>Confirm Delete</b><br/><br/><br/>You are deleting this entire policy and all of its<br/>previously saved versions. Please remember to<br/>download these files for your records, if you have<br/>ever implemented this policy.<br/><br/>Would you still like to delete?', 'confirm-label' => 'Delete' }
   .clearfix
   br
-  table.policies_internal_table.m-b-3 style="width: auto;"
+  table.policies_internal_table.m-b-3.m-t-1 style="width: auto;"
     - @compliance_policy.compliance_policy_docs.each_with_index do |doc,i|
       tr
         td 
-          = doc.created_at.in_time_zone(@business.tz).strftime("%b %-d %Y %I:%M %p")
+          = doc.created_at.in_time_zone(@business.tz).strftime("%b %-d, %Y %I:%M%p")
           - if i == 0
             br
             small
               i Latest
         td
           = link_to doc.doc_url do
-            i.icon.maxicons1-download data-toggle="tooltip" title="Download"
+            i.icon-cloud-download data-toggle="tooltip" title="Download"
         td
           - if @preview_doc.id == doc.id
             i.icon-magnifier
@@ -23,13 +30,13 @@
             = link_to (current_specialist ? specialists_business_compliance_policy_path(@business.username, @compliance_policy, docid: doc.id) : business_compliance_policy_path(@compliance_policy, docid: doc.id)) do
               i.icon-magnifier data-toggle="tooltip" title="Preview"
         td
-          = link_to "mailto:?body=Document name: #{@compliance_policy.title}%0D%0A%0D%0ADownload: #{Rails.env == 'production' ? url_for(doc.doc_url) : root_url.delete_suffix("/")+url_for(doc.doc_url)}&subject=Check this file!" do
+          = link_to "mailto:?body=Please find our policies and procedures attached. %0D%0A%0D%0ADownload: #{Rails.env == 'production' ? url_for(doc.doc_url) : root_url.delete_suffix("/")+url_for(doc.doc_url)}&subject=#{@business.business_name} #{@compliance_policy.section_or_title}" do
             i.icon-share data-toggle="tooltip" title="Share"
 .col-md-8.m-b-3.pdf_preview_area
   - if @preview_doc.pdf
     iframe src=(pdfjs.minimal_path(file: @preview_doc.pdf_url.split('?')[0])) width="100%" height="500px"
   - else
-    | Preview will be available in a few seconds
+    .text-center = image_tag "loading.gif"
     javascript:
       var compliance_policy_render_id = #{@compliance_policy.id}
     - if current_specialist

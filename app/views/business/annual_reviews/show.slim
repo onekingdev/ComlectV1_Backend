@@ -22,7 +22,7 @@
   - if ((@annual_review.pdf) && (@annual_review.processed))
     iframe src=(pdfjs.minimal_path(file: @annual_review.pdf_url.split('?')[0])) width="100%" height="500px"
   - else
-    | Preview will be available in a few seconds
+    .text-center = image_tag "loading.gif"
     javascript:
       var annual_review_render_id = #{@annual_review.id}
     - if current_specialist
