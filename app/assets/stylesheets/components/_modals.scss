@@ -36,7 +36,7 @@
 .modal.plain {
   $padding: 0px;
 
-  .modal-footer {
+  .modal-header, .modal-footer {
     display: none;
   }
 
@@ -70,7 +70,7 @@
 }
 
 .modal-fake {
-  //border: 3px solid #ffcc00;
+  border: 3px solid #ffcc00;
   @media screen and (max-width: $screen-xs-min) { 
     border: none;
   }
@@ -118,7 +118,6 @@ $bootbox-width: 474px;
     width: auto;
     background-color: #fff;
     padding: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
     @media screen and (max-width: $screen-xs-min) { 
       background-color: transparent;
       padding: 0px;
@@ -127,7 +126,7 @@ $bootbox-width: 474px;
 
     .bootbox-body {
       color: #666;
-      padding-top: 20px;
+      //padding-top: 30px;
     }
   }
 
@@ -137,17 +136,15 @@ $bootbox-width: 474px;
   //  text-align: left;
 
   .bootbox-close-button {
-    color: #fff;
+    color: transparent;
     position: absolute;
-    right: -23px;
-    top: -18px;
+    right: 10px;
+    top: 10px;
     text-shadow: none;
     opacity: 1.0;
     margin-top: -10px;
     margin-right: 5px;
-    width: 30px;
-    height: 30px;
-    font-family: "Open Sans";
+    width: 16px;
 
     @media screen and (max-width: $screen-xs-min) { 
       top: 15px;
@@ -157,7 +154,7 @@ $bootbox-width: 474px;
     &:before {
       font-family: "maxicons" !important;
       position: absolute;
-      //content: "A";
+      content: "A";
       font-size: 14px;
       color: #000;
       text-shadow: 0 1px 0 #fff;
@@ -183,8 +180,7 @@ $bootbox-width: 474px;
     text-align: center;
     box-shadow: none;
     border-radius: $border-radius;
-    border: 0px;
-    //border: 3px solid #ffcc00;
+    border: 3px solid #ffcc00;
     @media screen and (max-width: $screen-xs-min) { 
       border: none;
     }
@@ -283,11 +279,10 @@ $bootbox-width: 474px;
 
 .close {
   margin: 0;
-  line-height: 31px !important;
+  line-height: 39px !important;
   opacity: 1 !important;
   margin-top: -15px;
   font-size: 14px;
-  font-weight: 100;
   @media screen and (max-width: $screen-xs-min) { 
     margin-top: -28px;
   }

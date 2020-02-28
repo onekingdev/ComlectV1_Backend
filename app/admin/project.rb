@@ -160,6 +160,7 @@ ActiveAdmin.register Project do
       row :starts_on
       row :ends_on
       row :payment_schedule
+      row :business_fee_free
       row :fixed_budget
       row :hourly_rate
       row :estimated_hours
@@ -240,6 +241,7 @@ ActiveAdmin.register Project do
     :starts_on,
     :ends_on,
     :payment_schedule,
+    :business_fee_free,
     :fixed_budget,
     :hourly_rate,
     :estimated_hours,
@@ -281,6 +283,7 @@ ActiveAdmin.register Project do
       f.input :ends_on unless f.object.full_time?
       f.input :pricing_type, collection: %w[hourly fixed] unless f.object.full_time?
       f.input :payment_schedule, collection: Project::PAYMENT_SCHEDULES unless f.object.full_time?
+      f.input :business_fee_free
       f.input :fixed_budget unless f.object.full_time?
       f.input :hourly_rate unless f.object.full_time?
       f.input :estimated_hours unless f.object.full_time?

@@ -112,7 +112,8 @@ class Charge < ApplicationRecord
   end
 
   def calculate_business_fee
-    return self.business_fee_in_cents = 0 if business.fee_free
+    return self.business_fee_in_cents = 0 if business.fee_free || project.business_fee_free
+
     self.business_fee_in_cents ||= amount_in_cents * business.rewards_tier.fee_percentage
   end
 

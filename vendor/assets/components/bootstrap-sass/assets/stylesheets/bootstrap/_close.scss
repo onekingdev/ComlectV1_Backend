@@ -9,8 +9,7 @@
   font-weight: $close-font-weight;
   line-height: 1;
   color: $close-color;
-  border: 0px;
-  //text-shadow: $close-text-shadow;
+  text-shadow: $close-text-shadow;
   @include opacity(.2);
 
   &:hover,
@@ -31,7 +30,7 @@
 button.close {
   padding: 0;
   cursor: pointer;
-  //background: transparent;
-  //border: 0;
-  //-webkit-appearance: none;
+  background: transparent;
+  border: 0;
+  -webkit-appearance: none;
 }
