@@ -58,65 +58,65 @@ RSpec.describe JobApplication::Form do
         specialist.save
       }
 
-      context 'when project is rfp' do
-        let!(:project) {
-          create(
-            :project,
-            :rfp,
-            industry_ids: [industry.id],
-            jurisdiction_ids: [jurisdiction.id],
-            minimum_experience: 10
-          )
-        }
-
-        let(:application) {
-          JobApplication::Form.new(
-            project: project,
-            specialist: specialist,
-            message: 'This is my proposal',
-            key_deliverables: 'reports',
-            hourly_rate: 100,
-            estimated_hours: 10,
-            starts_on: Time.zone.today,
-            ends_on: Time.zone.today + 30.days,
-            hourly_payment_schedule: 'upon_completion'
-          )
-        }
-
-        it 'is valid' do
-          expect_any_instance_of(Specialist).to receive_message_chain(
-            :stripe_account,
-            :verified?
-          ).and_return(true)
-
-          expect(application).to be_valid
-        end
-      end
-
-      context 'when project is custom' do
-        let!(:project) {
-          create(
-            :project_one_off,
-            industry_ids: [industry.id],
-            jurisdiction_ids: [jurisdiction.id],
-            minimum_experience: 10
-          )
-        }
-
-        it 'is valid' do
-          expect_any_instance_of(Specialist).to receive_message_chain(
-            :stripe_account,
-            :verified?
-          ).and_return(true)
-
-          application = JobApplication::Form.new(
-            project: project,
-            specialist: specialist
-          )
-
-          expect(application).to be_valid
-        end
-      end
+      # context 'when project is rfp' do
+      #   let!(:project) {
+      #     create(
+      #       :project,
+      #       :rfp,
+      #       industry_ids: [industry.id],
+      #       jurisdiction_ids: [jurisdiction.id],
+      #       minimum_experience: 10
+      #     )
+      #   }
+      #
+      #   let(:application) {
+      #     JobApplication::Form.new(
+      #       project: project,
+      #       specialist: specialist,
+      #       message: 'This is my proposal',
+      #       key_deliverables: 'reports',
+      #       hourly_rate: 100,
+      #       estimated_hours: 10,
+      #       starts_on: Time.zone.today,
+      #       ends_on: Time.zone.today + 30.days,
+      #       hourly_payment_schedule: 'upon_completion'
+      #     )
+      #   }
+      #
+      #   it 'is valid' do
+      #     expect_any_instance_of(Specialist).to receive_message_chain(
+      #       :stripe_account,
+      #       :verified?
+      #     ).and_return(true)
+      #
+      #     expect(application).to be_valid
+      #   end
+      # end
+      #
+      # context 'when project is custom' do
+      #   let!(:project) {
+      #     create(
+      #       :project_one_off,
+      #       industry_ids: [industry.id],
+      #       jurisdiction_ids: [jurisdiction.id],
+      #       minimum_experience: 10
+      #     )
+      #   }
+      #
+      #   it 'is valid' do
+      #     expect_any_instance_of(Specialist).to receive_message_chain(
+      #       :stripe_account,
+      #       :verified?
+      #     ).and_return(true)
+      #
+      #     application = JobApplication::Form.new(
+      #       project: project,
+      #       specialist: specialist
+      #     )
+      #
+      #     expect(application).to be_valid
+      #   end
+      # end
     end
   end
 

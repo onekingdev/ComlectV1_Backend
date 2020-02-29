@@ -34,6 +34,7 @@ class Project < ApplicationRecord
   accepts_nested_attributes_for :extensions
   accepts_nested_attributes_for :timesheets, allow_destroy: true
 
+  scope :time_assigned, -> { where.not(starts_on: nil).where.not(ends_on: nil) }
   scope :business_timezones, -> { joins(business: :user).select('projects.*, businesses.time_zone') }
   scope :escalated, -> { joins(:issues).where(project_issues: { status: :open }) }
   scope :not_escalated, -> { where.not(id: escalated) }
@@ -138,13 +139,8 @@ class Project < ApplicationRecord
 
   LOCATIONS = [%w[Remote remote], %w[Remote\ +\ Travel remote_and_travel], %w[Onsite onsite]].freeze
   # DB Views depend on these so don't modify:
-  HOURLY_PAYMENT_SCHEDULES = [
-    %w[Upon\ Completion upon_completion],
-    %w[Bi-Weekly bi_weekly],
-    %w[Monthly monthly]
-  ].freeze
+  HOURLY_PAYMENT_SCHEDULES = [%w[Upon\ Completion upon_completion], %w[Bi-Weekly bi_weekly], %w[Monthly monthly]].freeze
   FIXED_PAYMENT_SCHEDULES = [
-    %w[Upfront upfront],
     %w[50/50 fifty_fifty],
     %w[Upon\ Completion upon_completion],
     %w[Bi-Weekly bi_weekly],
@@ -164,6 +160,14 @@ class Project < ApplicationRecord
   end.freeze
 
   before_save :save_expires_at, if: -> { starts_on_changed? }
+
+  def start_time
+    starts_on
+  end
+
+  def end_time
+    ends_on
+  end
 
   def populate_rfp(job_application)
     if rfp?

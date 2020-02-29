@@ -1,15 +1,37 @@
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
-ruby '2.5.1'
+ruby '2.5.7'
 
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?('/')
   "https://github.com/#{repo_name}.git"
 end
 
+# conversion fun
+gem 'imgkit'
+
+# Capistrano deploy
+group :development do
+  gem 'capistrano', '~> 3.10', require: false
+  gem 'capistrano-rails', '~> 1.4', require: false
+  gem 'capistrano-sidekiq'
+  gem 'capistrano3-unicorn'
+  gem 'rvm1-capistrano3', require: false
+end
+
+# concurrent server
+gem 'unicorn'
+
 # doc to pdf
+gem 'combine_pdf'
 gem 'libreconv'
+gem 'pdfjs_viewer-rails', git: 'https://github.com/kourindouhime/pdfjs_viewer-rails.git'
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'
+
+# calendar
+gem 'simple_calendar', '~> 2.0'
 
 # captcha
 gem 'bcrypt'
@@ -48,6 +70,7 @@ gem 'coffee-rails'
 gem 'non-stupid-digest-assets'
 gem 'rack-cors', require: 'rack/cors'
 gem 'sassc-rails'
+gem 'sprockets', '~>3.0'
 gem 'uglifier'
 
 # Views
@@ -64,14 +87,13 @@ gem 'business_time'
 gem 'ice_cube'
 gem 'ledermann-rails-settings'
 gem 'pry-rails'
-gem 'wicked_pdf'
-gem 'wkhtmltopdf-binary'
 
 # Assets
 gem 'imagesLoaded_rails'
 gem 'jquery-mousewheel-rails'
 gem 'jquery-rails'
 gem 'jquery-slick-rails'
+gem 'js_cookie_rails'
 
 # Mail
 gem 'postmark-rails'
@@ -119,11 +141,11 @@ group :development, :test do
   gem 'byebug'
 
   # Testing
-  gem 'factory_bot_rails'
+  gem 'factory_bot_rails', '~> 4.10.0'
   gem 'rspec-rails'
 
   # Code Quality
-  gem 'rubocop', require: false
+  gem 'rubocop', '~> 0.58.1', require: false
 end
 
 group :development do

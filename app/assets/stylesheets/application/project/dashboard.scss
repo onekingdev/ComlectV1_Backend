@@ -279,3 +279,13 @@ body.project_dashboard.show, body.dashboards.show {
     } 
   }
 }
+
+.personalize_dot_active, .personalize_dot_inactive {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.personalize_dot_active { background-color: #ffcf00; }
+.personalize_dot_inactive { background-color: #c7c7c7; }

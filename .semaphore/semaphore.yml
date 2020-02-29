@@ -1,0 +1,47 @@
+version: v1.0
+name: Test MyApp
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+blocks:
+  - name: Just do it
+    task:
+      env_vars:
+        - name: DATABASE_URL
+          value: 'postgresql://postgres:@localhost:5432/myapp_test'
+        - name: RAILS_ENV
+          value: test
+      jobs:
+        - name: Setup
+          commands:
+            - sem-service start redis
+            - checkout
+            - sudo apt-get install postgresql-10-postgis-2.4 -y
+            - sudo sed -i 's/md5/trust/g' /etc/postgresql/10/main/pg_hba.conf
+            - sudo /etc/init.d/postgresql restart
+            - createdb -U postgres -h localhost myapp_test
+            - >-
+              psql -c 'CREATE EXTENSION postgis;' -d myapp_test -U postgres -h
+              localhost
+            - >-
+              psql -c 'CREATE EXTENSION postgis_topology;' -d myapp_test -U
+              postgres -h localhost
+            - sem-version ruby 2.6.5
+            - bundle install --deployment --path vendor/bundle
+            - 'bundle exec rake db:migrate'
+            - 'bundle exec rake db:test:prepare'
+            - nvm use stable && yarn install
+            - 'bundle exec rake webpacker:compile'
+            - >-
+              wget -qO-
+              https://github.com/stripe/stripe-mock/releases/download/v0.18.0/stripe-mock_0.18.0_linux_amd64.tar.gz
+              | tar xvz
+            - ./stripe-mock > /dev/null &
+            - 'bundle exec rake sitemap:refresh'
+            - bundle exec rubocop
+            - bundle exec rake test
+            - bundle exec rake spec
+promotions:
+  - name: Promotion 1
+    pipeline_file: pipeline_2.yml

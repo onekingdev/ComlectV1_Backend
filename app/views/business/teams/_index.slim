@@ -1,0 +1,41 @@
+.panel-heading
+  h3 Teams
+
+.panel-body.p-t-0.m-b-1
+
+  - if !@active_specialists.blank?
+    table.team_table
+      tr
+        td colspan=2
+          b Complect Specialists
+      tr.heading
+        td
+          i Name
+        td
+          i Profile
+      - @active_specialists.each do |specialist|
+        tr
+          td = specialist.full_name
+          td = link_to "Go To Profile", specialist
+  = link_to "Add department", new_business_team_path, class: "btn btn-primary"
+
+  - current_business.teams.each do |team|
+    table.team_table
+      tr
+        td colspan=3
+          .pull-left
+            b = team.name
+          .pull-right
+            b = link_to "Edit department", edit_business_team_path(team)
+      tr.heading
+        td
+          i Name
+        td
+          i Title
+        td
+          i Email
+      - team.team_members.each do |member|
+        tr
+          td = member.name
+          td = member.title
+          td = member.email
