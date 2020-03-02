@@ -5,9 +5,9 @@ h1.m-b-3.text-center style="font-family: 'Canela'; font-size: 30px; font-weight:
 
 .col-md-12.m-b-3.p-b-1
   .col-md-3
-    = link_to "Document Review", "#", class: "btn btn-primary"
+    = link_to "Document Review", (current_specialist ? specialists_business_audit_request_path(@business.username, "drl_review") : business_audit_request_path("drl_review")), class: "btn btn-primary", "data-target": "#modal", "data-toggle": "modal", "data-remote": true
   .col-md-3
-    = link_to "Mock Interviews", "#", class: "btn btn-primary"
+    = link_to "Mock Interviews", (current_specialist ? specialists_business_audit_request_path(@business.username, "mock_interview") : business_audit_request_path("mock_interview")), class: "btn btn-primary", "data-target": "#modal", "data-toggle": "modal", "data-remote": true
   .col-md-3
     = link_to "Mock Audit", "#", class: "btn btn-primary p-x-3"
   .col-md-3
@@ -35,3 +35,8 @@ h1.m-b-3.text-center style="font-family: 'Canela'; font-size: 30px; font-weight:
 - if params[:audit_request_id].present?
   javascript:
     var _audit_request_id = parseInt("#{params[:audit_request_id]}");
+
+- pth = (current_specialist ? specialists_business_audit_requests_path(@business, format: :json) : business_audit_requests_path)
+
+javascript:
+  var _audit_requests_url = "#{pth}";

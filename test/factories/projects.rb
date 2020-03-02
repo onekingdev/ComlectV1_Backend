@@ -61,6 +61,10 @@ FactoryBot.define do
       ends_on nil
     end
 
+    trait :upfront_pay do
+      payment_schedule Project.payment_schedules[:upfront]
+    end
+
     trait :monthly_pay do
       payment_schedule Project.payment_schedules[:monthly]
     end
@@ -87,6 +91,10 @@ FactoryBot.define do
 
     trait :monthly_fee do
       fee_type Project.fee_types[:monthly_fee]
+    end
+
+    trait :business_fee_free do
+      business_fee_free true
     end
   end
 end

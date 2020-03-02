@@ -13,14 +13,18 @@
     .col-xs-12
       = f.fields_for :user, wrapper: :inline_form do |uf|
         .row
-          .col-sm-6
-            = uf.input :email, input_html: { class: 'input-lg' }
-          .col-sm-6
-            = uf.input :password, input_html: { class: 'input-lg' }
-          .col-sm-6
-            = f.input :contact_first_name, input_html: { class: 'input-lg' }
-          .col-sm-6
-            = f.input :contact_last_name, input_html: { class: 'input-lg' }
+          .col-sm-6 = f.input :contact_first_name, input_html: { class: 'input-lg' }
+          .col-sm-6 = f.input :contact_last_name, input_html: { class: 'input-lg' }
+          .col-sm-6 = uf.input :email, input_html: { class: 'input-lg' }
+          .col-sm-6 = uf.input :password, input_html: { class: 'input-lg' }
+          .col-sm-6 = uf.input :password_confirmation, input_html: { class: 'input-lg' }
+          .clearfix.m-b-3
+          = render 'fields_business_info', f: f
+          = render 'fields_location', f: f
+          .clearfix.m-b-3
+          .col-sm-6 = f.input :employees, include_blank: I18n.t('simple_form.placeholders.business.employees'), collection: Business::EMPLOYEE_OPTIONS, input_html: { class: 'input-lg js-select' }
+          .col-sm-6 = f.input :client_account_cnt, as: :string, input_html: { class: 'input-lg' }, placeholder: "* Est. No. Client Accounts"
+          .col-sm-6 = f.input :total_assets, as: :string, input_html: { class: 'input-lg' }, placeholder: "* Est. Total Assets"
     .clearfix
     .col-md-12.m-t-2.text-center.m-b-3
       button.continue.btn_step_jump.btn.btn-primary disabled=true type="button" Continue
@@ -30,6 +34,26 @@
     h1.text-center.m-b-3.m-t-3.p-t-1.alt_step Step 2 of 6
     .progress
       .progress-bar role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style='width:10%'
+    h2.m-t-1.m-b-2.text-center What jurisdictions do you operate in? Select all that apply.
+    .choices
+      - Jurisdiction.sorted.reverse.each do |jurisdiction|
+        .col-sm-12.m-b-1
+          button.btn.btn-primary.btn-block type="button"
+            input type="checkbox" name="business[jurisdiction_ids][]" value=(jurisdiction.id)
+            | &nbsp;
+            span = jurisdiction.name
+      /= f.collection_check_boxes :jurisdiction_ids, Jurisdiction.sorted, :id, :name, item_wrapper_class: 'btn btn-primary btn-block', label: false, boolean_style: :inline
+
+    .clearfix
+    .col-md-12.m-t-2.text-center.m-b-3
+      button.btn_step11.btn.btn-default.m-r-2.back type="button" Back
+      button.continue.btn_step3.btn.btn-primary disabled=true type="button" Continue
+
+  .business_step.business_step2
+    h1.text-center.m-b-3.m-t-3.p-t-1.src_step Step 3 of 7
+    h1.text-center.m-b-3.m-t-3.p-t-1.alt_step Step 3 of 6
+    .progress
+      .progress-bar role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style='width:30%'
     h2.m-t-1.m-b-2.text-center We want to learn a little more about your business. Select all that applies:
     .choices
       - Industry.all.order(:id).each do |industry|
@@ -44,7 +68,7 @@
       button.btn_step0.btn.btn-default.m-r-2.back type="button" Back
       button.continue.btn_step11.btn.btn-primary disabled=true type="button" Continue
 
-  .business_step.business_step11
+  .business_step.business_step21
     h1.text-center.m-b-3.m-t-3.p-t-1.src_step Step 2 of 7
     h1.text-center.m-b-3.m-t-3.p-t-1.alt_step Step 2 of 6
     .progress
@@ -63,25 +87,6 @@
       button.btn_step1.btn.btn-default.m-r-2.back type="button" Back
       button.continue.btn_step2.btn.btn-primary disabled=true type="button" Continue
 
-  .business_step.business_step2
-    h1.text-center.m-b-3.m-t-3.p-t-1.src_step Step 3 of 7
-    h1.text-center.m-b-3.m-t-3.p-t-1.alt_step Step 3 of 6
-    .progress
-      .progress-bar role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style='width:30%'
-    h2.m-t-1.m-b-2.text-center What jurisdictions do you operate in? Select all that apply.
-    .choices
-      - Jurisdiction.sorted.reverse.each do |jurisdiction|
-        .col-sm-12.m-b-1
-          button.btn.btn-primary.btn-block type="button"
-            input type="checkbox" name="business[jurisdiction_ids][]" value=(jurisdiction.id)
-            | &nbsp;
-            span = jurisdiction.name
-      /= f.collection_check_boxes :jurisdiction_ids, Jurisdiction.sorted, :id, :name, item_wrapper_class: 'btn btn-primary btn-block', label: false, boolean_style: :inline
-
-    .clearfix
-    .col-md-12.m-t-2.text-center.m-b-3
-      button.btn_step11.btn.btn-default.m-r-2.back type="button" Back
-      button.continue.btn_step3.btn.btn-primary disabled=true type="button" Continue
 
   .business_step.business_step3
     h1.text-center.m-b-3.m-t-3.p-t-1.src_step Step 4 of 7
@@ -186,8 +191,7 @@
 
     h2.m-t-1.m-b-2.text-center Let's get some additional information on your business
 
-    = render 'fields_business_info', f: f
-    = render 'fields_location', f: f
+
     .clearfix
     .col-md-12.m-t-2.text-center.m-b-3
       button.btn_step42.btn.btn-default.m-r-2.back type="button" Back

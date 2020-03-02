@@ -139,8 +139,13 @@ class Project < ApplicationRecord
 
   LOCATIONS = [%w[Remote remote], %w[Remote\ +\ Travel remote_and_travel], %w[Onsite onsite]].freeze
   # DB Views depend on these so don't modify:
-  HOURLY_PAYMENT_SCHEDULES = [%w[Upon\ Completion upon_completion], %w[Bi-Weekly bi_weekly], %w[Monthly monthly]].freeze
+  HOURLY_PAYMENT_SCHEDULES = [
+    %w[Upon\ Completion upon_completion],
+    %w[Bi-Weekly bi_weekly],
+    %w[Monthly monthly]
+  ].freeze
   FIXED_PAYMENT_SCHEDULES = [
+    %w[Upfront upfront],
     %w[50/50 fifty_fifty],
     %w[Upon\ Completion upon_completion],
     %w[Bi-Weekly bi_weekly],
@@ -346,7 +351,7 @@ class Project < ApplicationRecord
   # rubocop:disable all
   def build_from_template(businessid, template, params)
     %i[location_type key_deliverables pricing_type hourly_rate only_regulators annual_salary
-       fee_type minimum_experience duration_type estimated_days].each do |attr|
+       fee_type minimum_experience duration_type estimated_days business_fee_free applicant_selection].each do |attr|
       public_send("#{attr}=", template.public_send(attr.to_s))
     end
     solution = template.turnkey_solution

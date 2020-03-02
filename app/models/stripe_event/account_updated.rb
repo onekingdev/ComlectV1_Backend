@@ -7,7 +7,7 @@ class StripeEvent::AccountUpdated < StripeEvent
     account = StripeAccount.find_by!(stripe_id: object.id)
     account.update_status_from_stripe stripe_account
 
-    return unless object.legal_entity.verification.status == 'unverified'
+    return if object.requirements.currently_due.empty?
     Notification::Deliver.payment_issue! account.specialist.user
   end
 end

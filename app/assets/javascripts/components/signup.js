@@ -3,6 +3,8 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
   var pwd_focused = false;
   var step_names = ['step0', 'step1', 'step11', 'step2', 'step3', 'step4', 'step41', 'step42', 'step5'];
   var step_cookies = {};
+  var required_fields_step0 = ["#business_contact_first_name", "#business_contact_last_name", "#business_business_name", "#business_address_1", "#business_city", "#business_state", "#business_country", "#business_time_zone", "#business_employees", "#business_client_account_cnt", "#business_total_assets", "#business_user_attributes_password_confirmation"];
+
 
   function validateEmail(email) {
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -10,6 +12,7 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
   }
 
   $(document).ready(function() {
+
     for (var name of step_names) {
       step_cookies[name] = Cookies.get('complect_'+name);
     }
@@ -137,7 +140,11 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
     step_continue();
   });
 
-  $("#business_user_attributes_password").on('keyup', function() {
+  $("#business_user_attributes_password, "+required_fields_step0.join(", ")).on('keyup', function() {
+    step_continue();
+  });
+
+  $("#business_user_attributes_password, "+required_fields_step0.join(", ")).on('change', function() {
     step_continue();
   });
 
@@ -217,6 +224,7 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
   $(".btn_step42").on('click', function() { $(".business_step").hide(); $(".business_step42").show(); window.scrollTo(0,0); });
   $(".btn_step5").on('click', function() { $(".business_step").hide(); $(".business_step5").show(); window.scrollTo(0,0); });
   $(".btn_step6").on('click', function() { $(".business_step").hide(); $(".business_step6").show(); window.scrollTo(0,0); });
+  
 
   function step_continue() {
     for (var name of step_names) {
@@ -225,11 +233,19 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
         if (validateEmail($("#business_user_attributes_email").val())) {
           if ($("#business_user_attributes_password").val().length > 5) {
             $("#business_user_attributes_password").removeClass("form_error");
-            if ($("#business_contact_first_name").val().length > 0) {
-              if ($("#business_contact_last_name").val().length > 0) {
-                $(".business_step0 .continue").prop("disabled", false);
+
+
+            var prop_disabled = false;
+            if ($("#business_user_attributes_password").val() != $("#business_user_attributes_password_confirmation").val()) {
+              prop_disabled = true;
+              console.log("pwd fail");
+            }
+            for (field of required_fields_step0) {
+              if (!($(field).val().length > 0)) {
+                prop_disabled = true;
               }
             }
+            $(".business_step0 .continue").prop("disabled", prop_disabled);
           } else {
             $("#business_user_attributes_password").addClass("form_error");
             if ((pwd_focused == false) && (no_pwd_focus == false)) {

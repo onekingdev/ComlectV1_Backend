@@ -194,6 +194,8 @@ class Business < ApplicationRecord
   validates :website, allow_blank: true, url: true
   # validates :contact_email, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :username, uniqueness: true
+  validates :client_account_cnt, presence: true
+  validates :total_assets, presence: true
 
   accepts_nested_attributes_for :user
   accepts_nested_attributes_for :tos_agreement

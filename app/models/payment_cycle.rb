@@ -7,6 +7,7 @@ class PaymentCycle
     'hourly/upon_completion' => PaymentCycle::Hourly::UponCompletion,
     'hourly/bi_weekly' => PaymentCycle::Hourly::BiWeekly,
     'hourly/monthly' => PaymentCycle::Hourly::Monthly,
+    'fixed/upfront' => PaymentCycle::Fixed::Upfront,
     'fixed/fifty_fifty' => PaymentCycle::Fixed::FiftyFifty,
     'fixed/upon_completion' => PaymentCycle::Fixed::UponCompletion,
     'fixed/bi_weekly' => PaymentCycle::Fixed::BiWeekly,

@@ -174,7 +174,7 @@ class Project::Decorator < ApplicationDecorator
   def fixed_payment_schedule_input(builder)
     builder.input(
       :fixed_payment_schedule,
-      collection: Project::FIXED_PAYMENT_SCHEDULES,
+      collection: Project::FIXED_PAYMENT_SCHEDULES.reject { |schedule| schedule.first == 'Upfront' },
       include_blank: I18n.t('simple_form.placeholders.project.fixed_payment_schedule'),
       required: true,
       input_html: { class: 'input-lg js-select' }
