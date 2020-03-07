@@ -2,6 +2,7 @@
 
 class BusinessDashboardController < ApplicationController
   before_action :require_business!
+  before_action :business_payment_profile?
 
   # rubocop:disable Metrics/LineLength
   # rubocop:disable Metrics/AbcSize
@@ -16,4 +17,10 @@ class BusinessDashboardController < ApplicationController
   end
   # rubocop:enable Metrics/AbcSize
   # rubocop:enable Metrics/LineLength
+
+  private
+
+  def business_payment_profile?
+    redirect_to '/business/onboarding' if current_business && !current_business.onboarding_passed
+  end
 end

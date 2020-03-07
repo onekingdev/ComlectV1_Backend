@@ -12,6 +12,14 @@ module ApplicationHelper
     cookies[:accept_cookies]
   end
 
+  def user_signed_in_onboarding?
+    if current_business && !current_business.onboarding_passed
+      false
+    else
+      user_signed_in?
+    end
+  end
+
   def active_class(*args)
     active = args.detect do |arg|
       controller, action = arg.split('#')

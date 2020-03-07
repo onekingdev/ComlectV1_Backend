@@ -158,22 +158,26 @@ class Business < ApplicationRecord
     industry.nil? ? false : industries.collect(&:id).include?(industry.id)
   end
 
+  def funds?
+    sub_industries.present? ? sub_industries.map(&proc { |x| x.downcase.include?('fund') }).include?(true) : false
+  end
+
+  def ria_dashboard?
+    ria? && ria_dashboard
+  end
+
   # rubocop:disable Metrics/AbcSize
   def apply_quiz(cookies)
-    step1_c = cookies[:complect_step1].split('-').map(&:to_i)
+    industries_step = cookies[:complect_step2].split('-').map(&:to_i)
     self.sub_industries = []
-    unless cookies[:complect_step11].nil?
-      cookies[:complect_step11].split('-').map(&proc { |p| p.split('_').map(&:to_i) }).each do |c|
-        sub_industries.push(Industry.find(c[0]).sub_industries.split("\r\n")[c[1]]) if step1_c.include? c[0]
+    unless cookies[:complect_step21].nil?
+      cookies[:complect_step21].split('-').map(&proc { |p| p.split('_').map(&:to_i) }).each do |c|
+        sub_industries.push(Industry.find(c[0]).sub_industries.split("\r\n")[c[1]]) if industries_step.include? c[0]
       end
     end
-    self.business_stages = []
-    cookies[:complect_step3].split('-').map(&:to_i).each { |c| business_stages.push(STEP_THREE[c]) }
-    self.business_risks = []
-    business_risks[0] = STEP_RISKS[0][cookies[:complect_step4].to_i]
-    business_risks[1] = STEP_RISKS[1][cookies[:complect_step41].to_i]
-    business_risks[2] = STEP_RISKS[2][cookies[:complect_step42].to_i]
+    self.business_risks = cookies[:complect_step3].split('-').map(&:to_i)
     self.business_other = cookies[:complect_other] if industries.collect(&:name).include? 'Other'
+    self.business_stages = cookies[:complect_step4]
   end
   # rubocop:enable Metrics/AbcSize
 
@@ -210,6 +214,22 @@ class Business < ApplicationRecord
   after_commit :generate_referral_token, on: :create
 
   after_create :sync_with_mailchimp
+
+  def self.fix_aum(str)
+    vocab = [%w[BN bn Billion billion Bill bill], '000000000'], \
+            [%w[Million million MM mm Mill mill], '000000']
+    result = str.to_i.to_s
+    occured = false
+    vocab.each do |v|
+      v[0].each do |word|
+        if str.include?(word) && !occured
+          result += v[1]
+          occured = true
+        end
+      end
+    end
+    result.to_i
+  end
 
   def self.for_signup(attributes = {}, token = nil)
     new(attributes).tap do |business|

@@ -486,7 +486,9 @@ CREATE TABLE public.businesses (
     review_declined boolean DEFAULT false,
     onboard_call_booked boolean DEFAULT false,
     welcomed boolean DEFAULT false,
-    total_assets numeric
+    total_assets numeric,
+    onboarding_passed boolean DEFAULT false,
+    ria_dashboard boolean DEFAULT false
 );
 
 
@@ -6921,4 +6923,8 @@ INSERT INTO schema_migrations (version) VALUES ('20200229053148');
 INSERT INTO schema_migrations (version) VALUES ('20200229114848');
 
 INSERT INTO schema_migrations (version) VALUES ('20200301120149');
+
+INSERT INTO schema_migrations (version) VALUES ('20200305092313');
+
+INSERT INTO schema_migrations (version) VALUES ('20200305192127');
 

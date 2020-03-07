@@ -5,7 +5,11 @@ class Business::PaymentSettingsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: :create
 
   def index
-    @sources = current_business.payment_sources.sorted
+    if !current_business.onboarding_passed
+      redirect_to '/business/onboarding'
+    else
+      @sources = current_business.payment_sources.sorted
+    end
   end
 
   def show

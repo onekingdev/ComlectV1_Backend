@@ -2,6 +2,7 @@
 
 class Business::AuditRequestsController < ApplicationController
   before_action :require_business!
+  before_action :set_mock_audit_template, only: ['index']
 
   def index
     @audit_requests = AuditRequest.all.order(:id)
@@ -51,6 +52,14 @@ class Business::AuditRequestsController < ApplicationController
   def project_from_params(params_solution)
     template = ProjectTemplate.find_by(identifier: params_solution)
     Project.new.build_from_template(current_business.id, template, {})
+  end
+
+  def set_mock_audit_template
+    @mock_audit = if current_business.funds?
+                    current_business.total_assets > 500_000_000 ? 'mock_audit_aum_funds' : 'mock_audit_funds'
+                  else
+                    current_business.total_assets > 500_000_000 ? 'mock_audit_aum' : 'mock_audit'
+                  end
   end
 
   def audit_doc_params

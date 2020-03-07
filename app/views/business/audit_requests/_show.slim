@@ -1,12 +1,13 @@
 .m-t-2.m-b-2.text-center
   - if @business
     - if @business.user.payment_info?
-      b = @project_description.shift
-      p = raw(@project_description.join("<br/>"))
-      b = "$#{@project_template.fixed_budget.to_i}"
+      b.m-b-2 style="font-weight: 500" = @project_description.shift
+      p.m-b-2 = raw(@project_description.join("<br/>"))
+      b style="font-family: 'Canela'; font-weight: 500; font-size: 27px;" = "$#{@project_template.fixed_budget.to_i}"
       .text-center
         br
-        .btn.btn-lg.btn-primary.btn-purchase data-identifier=(@project_template.identifier) Hire
+        br
+        .btn.btn-lg.btn-primary.btn-purchase.p-x-3 style="width: 160px" data-identifier=(@project_template.identifier) Hire
         /.btn.btn-lg.btn-primary.btn-customize data-identifier=(@project_template.identifier) Customize
       br
     - else

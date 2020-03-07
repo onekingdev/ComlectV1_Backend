@@ -77,6 +77,8 @@ Rails.application.routes.draw do
     get '/personalize' => 'personalize#quiz'
     post '/personalize' => 'personalize#quiz'
     get '/personalize_book' => 'personalize#book'
+    get '/onboarding' => 'onboarding#index'
+    post '/onboarding' => 'onboarding#index'
     resources :compliance_policies, only: %i[new update create edit show destroy index]
     resources :annual_reviews, only: %i[new create show destroy index edit update]
     resources :annual_reports, only: %i[new create index update]

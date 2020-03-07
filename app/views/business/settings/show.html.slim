@@ -14,7 +14,7 @@
         li.payment-details class=active_class('payment_settings') = link_to 'Payment Details', business_settings_payment_index_path, class: 'btn-link btn-block btn-md', remote: true
         li.subscription-settings class=active_class('subscription_settings') = link_to 'Subscriptions', business_settings_subscriptions_path, class: 'btn-link btn-block btn-md', remote: true
         li.notification-preferences class=active_class('notification_settings') = link_to 'Notification Preferences', business_settings_notifications_path, class: 'btn-link btn-block btn-md', remote: true
-        - if current_business.ria?
+        - if current_business.ria_dashboard?
           li.teams class=active_class('teams') = link_to 'Teams', business_teams_path, class: 'btn-link btn-block btn-md', remote: true
         li.referrals class=active_class('referrals') = link_to 'Refer Member', business_settings_referrals_path, class: 'btn-link btn-block btn-md', remote: true
         li.delete-account class=active_class('delete_accounts') = link_to 'Delete Account', business_settings_delete_account_path, class: 'btn-link btn-block btn-md', remote: true

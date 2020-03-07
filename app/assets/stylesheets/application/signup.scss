@@ -3,8 +3,8 @@
   .form_error {
     border-color: #ff0000;
   }
-  .btn-default.back {
-    width: 120px;
+  .btn-default.back, .btn-primary.continue {
+    width: 140px;
   }
   #specify_other {
     position: absolute;
@@ -27,6 +27,10 @@
     &:hover {
       span { color: #000; }
     }
+  }
+  ._signup_btn {
+    text-align: left;
+    border: 0px;
   }
 }
 
@@ -69,5 +73,73 @@
         }
       }
     }
+  }
+}
+
+.tolerance_quiz {
+  .irs {
+    height: 110px;
+  }
+  .irs-line {
+    left: 1.41304%;
+    width: 96.9565%;
+    height: 13px;
+    top: 45px;
+    border: 1px solid #e9e6e6;
+    border-radius: 13px;
+  }
+  .irs-bar {
+    height: 12px;
+    top: 45px;
+    border-top: 1px solid #ffe168;
+    border-bottom: 1px solid #ffe168;
+    background: #fff4ca;
+    border-radius: 12px;
+  }
+  .irs-slider {
+    background: #ffcc00;
+    border-radius: 18px;
+    top: 39px;
+    width: 13px;
+    height: 24px;
+    border: 1px solid #ffcc00;
+  }
+  .irs-single {
+    top: 70px;
+  }
+}
+
+.signup_products {
+  .col-md-4 {
+    .product {
+      border: 2px solid #999;
+      padding: 20px;
+      margin-bottom: 20px;
+      text-align: center;
+      cursor: pointer;
+      &:hover {
+        transition: all 0.2s;
+        border: 2px solid #ffcc00;
+        color: #ffcc00;
+        transform: translateY(-3px);
+      }
+    }
+    .product.active {
+      border: 2px solid #ffcc00;
+      color: #ffcc00;
+      transform: translateY(-3px);
+    }
+  }
+}
+
+.product_or_subscription {
+  .pos_header {
+    background-color: #000;
+    color: #fff;
+    width: 100%;
+    border: 2px solid #000;
+  }
+  .pos_body {
+    border: 2px solid #000;
   }
 }
