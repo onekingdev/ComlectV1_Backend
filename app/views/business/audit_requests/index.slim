@@ -9,9 +9,9 @@ h1.text-center style="font-family: 'Canela'; font-size: 30px; font-weight: 400;"
   .col-md-3
     = link_to "Mock Interviews", (current_specialist ? specialists_business_audit_request_path(@business.username, "mock_interview") : business_audit_request_path("mock_interview")), class: "btn btn-primary", "data-target": "#modal", "data-toggle": "modal", "data-remote": true, style: "width: 180px;"
   .col-md-3
-    = link_to "Mock Interviews", (current_specialist ? specialists_business_audit_request_path(@business.username, @mock_audit) : business_audit_request_path(@mock_audit)), class: "btn btn-primary", "data-target": "#modal", "data-toggle": "modal", "data-remote": true, style: "width: 180px;"
+    = link_to "Mock Audit", (current_specialist ? specialists_business_audit_request_path(@business.username, @mock_audit) : business_audit_request_path(@mock_audit)), class: "btn btn-primary", "data-target": "#modal", "data-toggle": "modal", "data-remote": true, style: "width: 180px;"
   .col-md-3
-    = link_to "Mock Interviews", (current_specialist ? specialists_business_audit_request_path(@business.username, "mock_exam") : business_audit_request_path("mock_exam")), class: "btn btn-primary", "data-target": "#modal", "data-toggle": "modal", "data-remote": true, style: "width: 180px;"
+    = link_to "Exam Assistance", (current_specialist ? specialists_business_audit_request_path(@business.username, "mock_exam") : business_audit_request_path("mock_exam")), class: "btn btn-primary", "data-target": "#modal", "data-toggle": "modal", "data-remote": true, style: "width: 180px;"
 .clearfix
 - @audit_requests.each_with_index do |req,i|
   .m-b-3.audit_prep_request id="_audit_request_#{req.id}"

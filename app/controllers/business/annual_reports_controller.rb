@@ -2,18 +2,25 @@
 
 class Business::AnnualReportsController < ApplicationController
   before_action :require_business!
+  before_action :set_mock_audit_template, only: ['new']
 
+  # rubocop:disable Style/GuardClause
   def new
-    if current_business.annual_reports.any?
-      if current_business.annual_reports.last.pdf.nil?
-        @annual_report = current_business.annual_reports.last
+    current_business.update(review_declined: true) if params[:diy].present?
+    @business = current_business
+    if @business.review_declined || @business.mock_audit_hired?
+      if current_business.annual_reports.any?
+        if current_business.annual_reports.last.pdf.nil?
+          @annual_report = current_business.annual_reports.last
+        else
+          build_annual_report
+        end
       else
         build_annual_report
       end
-    else
-      build_annual_report
     end
   end
+  # rubocop:enable Style/GuardClause
 
   def show; end
 
@@ -78,5 +85,13 @@ class Business::AnnualReportsController < ApplicationController
     # rubocop:disable Metrics/LineLength
     params.require(:annual_report).permit(:exam_start, :exam_end, :review_start, :review_end, :tailored_lvl, :cof_bits, :comments, annual_review_employees_attributes: %i[id name title department _destroy], business_changes_attributes: %i[id change _destroy], regulatory_changes_attributes: %i[id change response _destroy], findings_attributes: %i[id finding action risk_lvl _destroy])
     # rubocop:enable Metrics/LineLength
+  end
+
+  def set_mock_audit_template
+    @mock_audit = if current_business.funds?
+                    current_business.total_assets > 500_000_000 ? 'mock_audit_aum_funds' : 'mock_audit_funds'
+                  else
+                    current_business.total_assets > 500_000_000 ? 'mock_audit_aum' : 'mock_audit'
+                  end
   end
 end

@@ -29,7 +29,7 @@ class AnnualReport < ActiveRecord::Base
 
   def ready?
     result = true
-    %i[exam_start exam_end review_start review_end tailored_lvl].each do |a|
+    %i[review_start review_end tailored_lvl].each do |a|
       result = false if public_send(a).nil?
     end
     if score == 100 && result

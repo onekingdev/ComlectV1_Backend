@@ -7,7 +7,6 @@ class BusinessDashboardController < ApplicationController
   # rubocop:disable Metrics/LineLength
   # rubocop:disable Metrics/AbcSize
   def show
-    current_business.update(review_declined: true) if params[:review] == 'declined'
     @business = current_user.business
     @financials = Business::Financials.for(current_business)
     @ratings = @business.ratings_received.preload_associations

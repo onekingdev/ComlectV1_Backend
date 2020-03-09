@@ -42,6 +42,8 @@ class Business::AuditRequestsController < ApplicationController
     # end
   end
 
+  def new
+  end
   # def new
   #   @project = Project::Form.copy(project_from_params(params[:id]))
   #   render 'business/projects/new'

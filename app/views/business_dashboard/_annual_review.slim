@@ -1,10 +1,10 @@
 .panel.panel-default.profile-info
   .panel-heading
     h3 Annual review
-  .panel-body.p-t-0.m-t-0
-    .pull-left
+  .panel-body.p-y-0.m-t-0
+    /.pull-left
       = link_to "DIY", (current_specialist ? specialists_business_annual_reviews_path(@business.username, kind: "diy") : business_annual_reviews_path(kind: "diy")), class: "btn btn-default", "data-target": "#modal", "data-toggle": "modal", "data-remote": true
-    .pull-right
+    /.pull-right
       = link_to "HIRE", (current_specialist ? specialists_business_annual_reviews_path(@business.username) : business_annual_reviews_path), class: "btn btn-primary", "data-target": "#modal", "data-toggle": "modal", "data-remote": true
     .clearfix
   - if @business.processed_annual_reports.any?
@@ -13,27 +13,34 @@
     .panel-body.p-b-0
       - @business.processed_annual_reports.each do |report|
         = link_to raw(report.created_at.strftime("%b %-d %Y %I:%M <small>%p</small>")), report.pdf_url, target: "_blank", class: "policy_list_item"
-  - if @business.review_declined
-    .panel-body
-      table.annual_review_table
-        - ((Date.today.year-4)..Date.today.year).to_a.reverse.each do |y|
-          - years_avail = @business.annual_reviews.collect(&:year)
-          /| &nbsp;
-          tr 
-            - if years_avail.include? y
-              - annual_review = @business.annual_reviews.where(year: y).first
-              td
-                = link_to y, (current_specialist ? specialists_business_annual_review_path(@business.username, annual_review) : business_annual_review_path(annual_review))
-              td 
-                = link_to (current_specialist ? edit_specialists_business_annual_review_path(@business.username, annual_review) : edit_business_annual_review_path(annual_review)), class: "tblbtn", "data-target": "#modal", "data-toggle": "modal", "data-remote": true do
-                  i.icon-pencil data-toggle="tooltip" title="Edit"
-              td = link_to (current_specialist ? specialists_business_annual_review_path(@business.username, annual_review) : business_annual_review_path(annual_review)) do
-                i.icon-magnifier data-toggle="tooltip" title="Preview"
-              td = link_to "Save", annual_review.file_url, target: "_blank"
-            - else
-              td = y
-              td colspan=2
-                i No&nbsp;file 
-              td = link_to "Upload", (current_specialist ? new_specialists_business_annual_review_path(@business.username, year: y) : new_business_annual_review_path(year: y)), class: "tblbtn", "data-target": "#modal", "data-toggle": "modal", "data-remote": true
-        /= simple_form_for business_annual_reviews_path(AnnualReview.new(year: y)) do |f|
-          = f.file_field :file, accept: "application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+  .panel-body.p-y-0
+    u Current year
+    p Not started
+    u Previous 5 years
+    table.m-t-1.annual_review_table
+      - ((Date.today.year-5)..Date.today.year-1).to_a.reverse.each do |y|
+        - years_avail = @business.annual_reviews.collect(&:year)
+        /| &nbsp;
+        tr 
+          - if years_avail.include? y
+            - annual_review = @business.annual_reviews.where(year: y).first
+            td
+              = link_to y, (current_specialist ? specialists_business_annual_review_path(@business.username, annual_review) : business_annual_review_path(annual_review))
+            td 
+              = link_to (current_specialist ? edit_specialists_business_annual_review_path(@business.username, annual_review) : edit_business_annual_review_path(annual_review)), class: "tblbtn", "data-target": "#modal", "data-toggle": "modal", "data-remote": true do
+                i.icon-pencil data-toggle="tooltip" title="Edit"
+            td = link_to (current_specialist ? specialists_business_annual_review_path(@business.username, annual_review) : business_annual_review_path(annual_review)) do
+              i.icon-magnifier data-toggle="tooltip" title="Preview"
+            td = link_to "Save", annual_review.file_url, target: "_blank"
+          - else
+            td = y
+            td colspan=2
+              i No&nbsp;file 
+            td
+              = link_to (current_specialist ? new_specialists_business_annual_review_path(@business.username, year: y) : new_business_annual_review_path(year: y)), class: "tblbtn", "data-target": "#modal", "data-toggle": "modal", "data-remote": true do
+                .icon-plus
+      /= simple_form_for business_annual_reviews_path(AnnualReview.new(year: y)) do |f|
+        = f.file_field :file, accept: "application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+  .text-center.m-y-2
+    = link_to "View", (current_specialist ? new_specialists_business_annual_report_path : new_business_annual_report_path), class: "btn btn-primary btn-sm", style: "width: 150px;"
+  .clearfix

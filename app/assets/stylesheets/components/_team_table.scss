@@ -3,7 +3,7 @@
   margin-bottom: 20px;
   margin-top: 20px;
   td {
-    border: 2px solid #ffcc00;
+    border: 1px solid #000;
     width: 30%;
     padding: 5px 10px;
     b {
@@ -12,7 +12,82 @@
     }
   }
   .heading td {
-    background-color: #ffcc00;
+    background-color: #000;
+    font-weight: 400;
     color: #fff;
+    padding: 7px 10px;
+  }
+  .pull-left, .pull-right { font-weight: 600; }
+}
+
+.teams_edit_table {
+  label {display: none;}
+  width: 100%;
+  ._t_name {
+    width: 20%;
+  }
+  ._t_title {
+    width: 20%;
+  }
+  ._t_email {
+    width: 50%;
+  }
+  ._t_buttons {
+    width: 10%;
+    .icon-close {
+      font-size: 18px !important;
+      padding-bottom: 0px;
+    }
+    text-align: right;
+    padding-right: 10px;
+  }
+  a {
+    &:hover {
+      text-decoration: none;
+    }
+  }
+  .form-group { margin-bottom: -1px; }
+}
+
+.teams_form {
+  .team_name {
+    label {
+      font-weight: 500;
+    }
+  }
+  input[type=text], input[type=email] {
+    border: 1px solid #bcbcbc !important;
+  }
+  .team_team_members_name, .team_team_members_title {
+    input {
+      border-right: 0px !important;
+    }
+  }
+
+  .teams_edit_table_heading {
+    background-color: #000;
+    color: #fff;
+    font-weight: 500;
+    td {
+      padding: 10px;
+    }
+  }
+  .white_placeholder {
+    background-color: #fff;
+  }
+  .team_members_plus {
+    a {
+      color: #000;
+      &:hover, .icon-plus, &:focus {
+        text-decoration: none !important;
+      }
+    }
+    font-size: 18px;
+    text-align: right;
+    padding-right: 10px;
+  }
+
+  .btn-primary, .btn-default {
+    width: 150px;
   }
 }

@@ -10,7 +10,6 @@ class Specialists::BusinessesController < ApplicationController
     business = Business.find_by(username: params[:id])
     if current_specialist.manageable_ria_businesses.include? business
       @business = business
-      @business.update(review_declined: true) if params[:review] == 'declined'
       @financials = Business::Financials.for(@business)
       @ratings = @business.ratings_received.preload_associations
       @reminders_today = @business.reminders.where(remind_at: Time.zone.today).order(remind_at: :asc, id: :asc)

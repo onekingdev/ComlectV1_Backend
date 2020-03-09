@@ -108,6 +108,10 @@ class Business < ApplicationRecord
   ].freeze
   # rubocop:enable Metrics/LineLength
 
+  def mock_audit_hired?
+    projects.active.where(title: 'Mock Audit').any?
+  end
+
   def reminders_this_year
     reminders.where('remind_at > ?', Time.now.in_time_zone(time_zone).beginning_of_year)
   end

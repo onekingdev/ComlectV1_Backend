@@ -2,6 +2,7 @@
   h3 Teams
 
 .panel-body.p-t-0.m-b-1
+  p.m-b-2 Create teams to track and segment your employees by their respective departments and roles.
 
   - if !@active_specialists.blank?
     table.team_table
@@ -17,23 +18,21 @@
         tr
           td = specialist.full_name
           td = link_to "Go To Profile", specialist
-  = link_to "Add department", new_business_team_path, class: "btn btn-primary"
+  .text-center
+    = link_to "Add department", new_business_team_path, class: "btn btn-primary m-b-2"
 
   - current_business.teams.each do |team|
     table.team_table
       tr
         td colspan=3
           .pull-left
-            b = team.name
+            = team.name
           .pull-right
-            b = link_to "Edit department", edit_business_team_path(team)
+            = link_to "Edit department", edit_business_team_path(team)
       tr.heading
-        td
-          i Name
-        td
-          i Title
-        td
-          i Email
+        td Name
+        td Title
+        td Email
       - team.team_members.each do |member|
         tr
           td = member.name

@@ -31,10 +31,10 @@ class Business::TeamsController < ApplicationController
   private
 
   def set_team
-    @team = Team.find(params[:id])
+    @team = current_business.teams.find(params[:id])
   end
 
   def team_params
-    params.require(:team).permit(:name, team_members_attributes: %i[name title email])
+    params.require(:team).permit(:name, team_members_attributes: %i[id name title email _destroy])
   end
 end
