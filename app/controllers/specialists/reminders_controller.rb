@@ -18,7 +18,7 @@ class Specialists::RemindersController < ApplicationController
   end
 
   def destroy
-    @reminder = @business.reminders.find(id: params[:id])
+    @reminder = @business.reminders.find(params[:id])
     tgt_date = @reminder&.remind_at
     @reminder&.destroy
     redirect_to specialists_business_path(@business.username, reminder: tgt_date&.strftime('%Y-%m-%d'))

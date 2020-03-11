@@ -157,6 +157,10 @@ class Business < ApplicationRecord
     annual_reports.where.not(pdf_data: nil)
   end
 
+  def processed_annual_reviews
+    annual_reviews.where.not(pdf_data: nil)
+  end
+
   def ria?
     industry = Industry.find_by(name: 'Investment Adviser')
     industry.nil? ? false : industries.collect(&:id).include?(industry.id)

@@ -1,0 +1,20 @@
+tr 
+  - if years_avail.include? y
+    - annual_review = @business.processed_annual_reviews.where(year: y).first
+    td
+      = link_to y, (current_specialist ? specialists_business_annual_review_path(@business.username, annual_review.id) : business_annual_review_path(annual_review.id))
+    td 
+      = link_to (current_specialist ? edit_specialists_business_annual_review_path(@business.username, annual_review.id) : edit_business_annual_review_path(annual_review.id)), class: "tblbtn", "data-target": "#modal", "data-toggle": "modal", "data-remote": true do
+        i.icon-pencil data-toggle="tooltip" title="Edit"
+    td = link_to annual_review.file_url, target: "_blank" do
+      i.icon-cloud-download data-toggle="tooltip" title="Download"
+    td = link_to (current_specialist ? specialists_business_annual_review_path(@business.username, annual_review.id) : business_annual_review_path(annual_review.id)) do
+      i.icon-magnifier data-toggle="tooltip" title="Preview"
+    /td = link_to "Save", annual_review.file_url, target: "_blank"
+  - else
+    td = y
+    td colspan=2
+      i No&nbsp;file 
+    td
+      = link_to (current_specialist ? new_specialists_business_annual_review_path(@business.username, year: y) : new_business_annual_review_path(year: y)), class: "tblbtn", "data-target": "#modal", "data-toggle": "modal", "data-remote": true do
+        .icon-plus

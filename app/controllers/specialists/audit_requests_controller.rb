@@ -10,66 +10,39 @@ class Specialists::AuditRequestsController < ApplicationController
     render 'business/audit_requests/index'
   end
 
-  def new
-    @audit_request = AuditRequest.find(params[:request])
-    @audit_doc = @business.audit_docs.where(audit_request_id: @audit_request.id)
-    @audit_doc = if @audit_doc.any?
-                   @audit_doc.first
-                 else
-                   AuditDoc.new(audit_request_id: @audit_request.id)
-                 end
-    render 'business/audit_requests/new'
-  end
-
-  def edit
-    @audit_request = AuditRequest.find(params[:id])
-    @audit_doc = @business.audit_docs.where(audit_request_id: @audit_request.id)
-    @audit_doc = if @audit_doc.any?
-                   @audit_doc.first
-                 else
-                   AuditDoc.new(audit_request_id: @audit_request.id)
-                 end
-    render 'business/audit_requests/edit'
-  end
-
-  def show
-    @audit_request = AuditRequest.find(params[:id])
-    @audit_doc = @business.audit_docs.where(audit_request_id: @audit_request.id)
-    if @audit_doc.any?
-      @audit_doc = @audit_doc.first
-      respond_to do |format|
-        format.json do
-          preview_out = @audit_doc.pdf && @audit_doc.processed ? @audit_doc.pdf_url : false
-          render json: { "preview": preview_out }
-        end
-        format.html do
-          render 'business/audit_requests/show'
-          # poof
-        end
-        format.js do
-          render 'business/audit_requests/show'
-        end
-      end
-    else
-      redirect_to specialists_business_audit_requests_path(@business.username)
-    end
+  def destroy
+    @audit_doc = @business.audit_docs.find(params[:id])
+    audit_request_id = @audit_doc.audit_request_id
+    @audit_doc.destroy
+    redirect_to specialists_business_audit_requests_path(@business.username, "audit_request_id": audit_request_id)
   end
 
   def update
-    @audit_doc = @business.audit_docs.where(audit_request_id: audit_doc_params['audit_request_id'])
-    if @audit_doc.any?
-      @audit_doc = @audit_doc.first
-      @audit_doc.update(audit_doc_params)
-      @audit_doc.update(processed: false)
-    else
-      @audit_doc = AuditDoc.create(audit_doc_params)
-      @audit_doc.update(business_id: @business.id, processed: false)
-    end
-    PdfAuditWorker.perform_async(@audit_doc.id)
+    @audit_doc = AuditDoc.create(audit_doc_params)
+    @audit_doc.update(business_id: @business.id, processed: false)
     redirect_to specialists_business_audit_requests_path(@business.username)
   end
 
-  def create; end
+  def show
+    @project_template = ProjectTemplate.find_by(identifier: params[:id])
+    @project_description = @project_template.public_description.split("\r\n")
+  end
+
+  def create
+    # template = ProjectTemplate.find_by(identifier: params[:id])
+    ## if current_business && current_user.payment_info?
+    # @project = Project.new.build_from_template(@business.id, template, {})
+    # @project.save!
+    # respond_to do |format|
+    #  format.json do
+    #    render json: { url: business_project_path(@project) }
+    #  end
+    # end
+    ## redirect_to business_project_path(@project)
+    ## end
+  end
+
+  def new; end
 
   private
 

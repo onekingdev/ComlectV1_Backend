@@ -1,6 +1,6 @@
 - yyear = (params[:year].blank? ? @annual_review.year : params[:year])
 
-.popup_border.text-center
+.text-center
   .m-b-2
     b = "Upload Annual Review for #{yyear}"
   - pth = (params[:action] == "edit" ? business_annual_review_path(@annual_review) : business_annual_reviews_path)

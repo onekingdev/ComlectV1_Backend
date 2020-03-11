@@ -110,6 +110,12 @@
   }
 }
 
+@media (min-width: 768px) {
+  .modal-dialog {
+    width: 405px;
+  }
+}
+
 $bootbox-width: 474px;
 .bootbox.modal {
   $border-radius: 0;
@@ -137,6 +143,9 @@ $bootbox-width: 474px;
   //  text-align: left;
 
   .bootbox-close-button {
+    background-color: #000;
+    border-radius: 50%;
+    font-size: 30px;
     color: #fff;
     position: absolute;
     right: -23px;

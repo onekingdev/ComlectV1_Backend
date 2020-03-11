@@ -3,15 +3,16 @@ h1.text-center style="font-family: 'Canela'; font-size: 30px; font-weight: 400;"
 .col-md-10.col-md-push-1.m-t-2
   p.m-b-3.p-b-2 style="font-weight: 300" Start your regulatory examination off on the right foot by being able to respond to their document request list in a prompt manner. Regulators may consider slow or imprecise document production to be a red flag. So, prepare yourself for an examination by understanding what they will likely ask for and having it ready at your fingertips.
 
-.col-md-12.m-b-3.p-b-2
-  .col-md-3
-    = link_to "Document Review", (current_specialist ? specialists_business_audit_request_path(@business.username, "drl_review") : business_audit_request_path("drl_review")), class: "btn btn-primary", "data-target": "#modal", "data-toggle": "modal", "data-remote": true, style: "width: 180px;"
-  .col-md-3
-    = link_to "Mock Interviews", (current_specialist ? specialists_business_audit_request_path(@business.username, "mock_interview") : business_audit_request_path("mock_interview")), class: "btn btn-primary", "data-target": "#modal", "data-toggle": "modal", "data-remote": true, style: "width: 180px;"
-  .col-md-3
-    = link_to "Mock Audit", (current_specialist ? specialists_business_audit_request_path(@business.username, @mock_audit) : business_audit_request_path(@mock_audit)), class: "btn btn-primary", "data-target": "#modal", "data-toggle": "modal", "data-remote": true, style: "width: 180px;"
-  .col-md-3
-    = link_to "Exam Assistance", (current_specialist ? specialists_business_audit_request_path(@business.username, "mock_exam") : business_audit_request_path("mock_exam")), class: "btn btn-primary", "data-target": "#modal", "data-toggle": "modal", "data-remote": true, style: "width: 180px;"
+- if !current_specialist
+  .col-md-12.m-b-3.p-b-2
+    .col-md-3
+      = link_to "Document Review", (current_specialist ? specialists_business_audit_request_path(@business.username, "drl_review") : business_audit_request_path("drl_review")), class: "btn btn-primary", "data-target": "#modal", "data-toggle": "modal", "data-remote": true, style: "width: 180px;"
+    .col-md-3
+      = link_to "Mock Interviews", (current_specialist ? specialists_business_audit_request_path(@business.username, "mock_interview") : business_audit_request_path("mock_interview")), class: "btn btn-primary", "data-target": "#modal", "data-toggle": "modal", "data-remote": true, style: "width: 180px;"
+    .col-md-3
+      = link_to "Mock Audit", (current_specialist ? specialists_business_audit_request_path(@business.username, @mock_audit) : business_audit_request_path(@mock_audit)), class: "btn btn-primary", "data-target": "#modal", "data-toggle": "modal", "data-remote": true, style: "width: 180px;"
+    .col-md-3
+      = link_to "Exam Assistance", (current_specialist ? specialists_business_audit_request_path(@business.username, "mock_exam") : business_audit_request_path("mock_exam")), class: "btn btn-primary", "data-target": "#modal", "data-toggle": "modal", "data-remote": true, style: "width: 180px;"
 .clearfix
 - @audit_requests.each_with_index do |req,i|
   .m-b-3.audit_prep_request id="_audit_request_#{req.id}"

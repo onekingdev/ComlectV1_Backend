@@ -24,6 +24,8 @@ class Business::AnnualReportsController < ApplicationController
 
   def show; end
 
+  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/AbcSize
   def create
     @annual_report = current_business.annual_reports.last
     @business = current_business
@@ -46,12 +48,28 @@ class Business::AnnualReportsController < ApplicationController
         file.write(pdf)
         file.rewind
         uploaded_file = uploader.upload(file)
-        @annual_report.update(pdf_data: uploaded_file.to_json)
+        @annual_report.update(pdf_data: uploaded_file.to_json, year: @annual_report.review_end.year)
+        @annual_review = current_business.annual_reviews.where(year: @annual_report.review_end.year)
+        doc_path = env_path(@annual_report.pdf_url.split('?')[0])
+        @annual_review = if @annual_review.present?
+                           @annual_review.first
+                         else
+                           AnnualReview.create(business_id: current_business.id, year: @annual_report.review_end.year)
+                         end
+        pdf_file = if Rails.env.production? || Rails.env.staging?
+                     URI.parse(doc_path).open
+                   else
+                     File.open(doc_path)
+                   end
+        uploaded_pdf = uploader.upload(pdf_file)
+        @annual_review.update(file_data: uploaded_pdf.to_json, pdf_data: uploaded_pdf.to_json, processed: true)
         file.delete
         redirect_to @annual_report.pdf_url
       end
     end
   end
+  # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/AbcSize
 
   def update
     @annual_report = AnnualReport.find(params[:id])
@@ -78,12 +96,13 @@ class Business::AnnualReportsController < ApplicationController
     @annual_report.business_changes.build
     @annual_report.regulatory_changes.build
     @annual_report.findings.build
+    @annual_report.exam_start = Time.zone.today
     @annual_report.save
   end
 
   def annual_report_params
     # rubocop:disable Metrics/LineLength
-    params.require(:annual_report).permit(:exam_start, :exam_end, :review_start, :review_end, :tailored_lvl, :cof_bits, :comments, annual_review_employees_attributes: %i[id name title department _destroy], business_changes_attributes: %i[id change _destroy], regulatory_changes_attributes: %i[id change response _destroy], findings_attributes: %i[id finding action risk_lvl _destroy])
+    params.require(:annual_report).permit(:review_start, :review_end, :tailored_lvl, :cof_bits, :comments, annual_review_employees_attributes: %i[id name title department _destroy], business_changes_attributes: %i[id change _destroy], regulatory_changes_attributes: %i[id change response _destroy], findings_attributes: %i[id finding action risk_lvl _destroy])
     # rubocop:enable Metrics/LineLength
   end
 
@@ -93,5 +112,9 @@ class Business::AnnualReportsController < ApplicationController
                   else
                     current_business.total_assets > 500_000_000 ? 'mock_audit_aum' : 'mock_audit'
                   end
+  end
+
+  def env_path(in_path)
+    Rails.env.production? || Rails.env.staging? ? in_path : "#{Rails.root}/public#{in_path}"
   end
 end

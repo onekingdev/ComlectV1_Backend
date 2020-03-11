@@ -32,32 +32,36 @@
       = link_to (current_business ? "/business/personalize" : "/specialist/businesses/#{@business.username}/personalize") do
         .profile_chart
           .c100 class=("p#{@business.questionarrie_percentage}")
-              span = "#{@business.questionarrie_percentage}%"
-              .slice
-                .bar
-                .fill
+            span = "#{@business.questionarrie_percentage}%"
+            .slice
+              .bar
+              .fill
+        br/
         b style="font-weight: 500" Questionnaire
     .col-md-4.text-center.m-b-1
       .profile_chart
         .c100 class=("p#{@business.compliance_manual_percentage}")
-            span = "#{@business.compliance_manual_percentage}%"
-            .slice
-              .bar
-              .fill
+          span = "#{@business.compliance_manual_percentage}%"
+          .slice
+            .bar
+            .fill
+      br/
       b style="font-weight: 500" Compliance&nbsp;Manual
     .col-md-4.text-center.m-b-1
       .profile_chart
         .c100 class=("p#{@business.annual_review_percentage}")
-            span = "#{@business.annual_review_percentage}%"
-            .slice
-              .bar
-              .fill
+          span = "#{@business.annual_review_percentage}%"
+          .slice
+            .bar
+            .fill
+      br/
       b style="font-weight: 500" Annual&nbsp;Review
     .col-md-4.text-center.m-b-1
       .profile_chart
         .c100 class=("p#{@business.audit_prep_percentage}")
-            span = "#{@business.audit_prep_percentage}%"
-            .slice
-              .bar
-              .fill
+          span = "#{@business.audit_prep_percentage}%"
+          .slice
+            .bar
+            .fill
+      br/
       b style="font-weight: 500" Audit&nbsp;Prep

@@ -4,11 +4,14 @@
   margin-bottom: 20px;
   td {
     border: 2px solid #000;
-    width: 30%;
+    width: 25%;
     padding: 0px;
     text-align: center;
     padding: 6px 4px;
     //padding: 5px 10px;
+    .icon-cloud-download, .icon-pencil, .icon-magnifier, .icon-plus {
+      font-size: 20px;
+    }
     b {
       padding: 0px;
       margin: 0px;
@@ -48,6 +51,10 @@
 
   input[type=checkbox] {
     position:absolute; z-index:-1000; left:-1000px; overflow: hidden; clip: rect(0 0 0 0); height:1px; width:1px; margin:-1px; padding:0; border:0;
+    outline: none;
+    &:focus {
+      outline: none;
+    }
   }
 
   input[type=checkbox] + label {
@@ -60,10 +67,18 @@
     background-size: 22px 70px;
     vertical-align:middle;
     cursor:pointer;
+    outline: none;
+    &:focus {
+      outline: none;
+    }
+    &:before {
+      left: -1000px;
+    }
   }
 
   input[type=checkbox]:checked + label {
     background-position: 0 0;
+
   }
 
   label {
@@ -75,6 +90,14 @@
     -ms-user-select: none;
     user-select: none;
     font-weight: normal;
+    &:after {
+      display: none;
+      -webkit-appearance: none;
+    }
+    outline: none;
+    &:focus {
+      outline: none;
+    }
   }
 }
 

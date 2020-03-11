@@ -5,7 +5,8 @@ h1.text-center style="font-family: 'Canela'; font-size: 30px; font-weight: 400;"
 - if !@business.review_declined && !@business.mock_audit_hired?
   .col-md-12.m-b-3.p-b-2.text-center
     = link_to "Start DIY", (current_specialist ? new_specialists_business_annual_report_path(diy: true) : new_business_annual_report_path(diy: true)), class: "btn btn-default m-r-3", style: "width: 150px;"
-    = link_to "Mock Audit", (current_specialist ? specialists_business_audit_request_path(@business.username, @mock_audit) : business_audit_request_path(@mock_audit)), class: "btn btn-primary", "data-target": "#modal", "data-toggle": "modal", "data-remote": true, style: "width: 150px;"
+    - if !current_specialist
+      = link_to "Mock Audit", business_audit_request_path(@mock_audit), class: "btn btn-primary", "data-target": "#modal", "data-toggle": "modal", "data-remote": true, style: "width: 150px;"
 
 .clearfix
 - if @business.review_declined || @business.mock_audit_hired?
@@ -13,9 +14,17 @@ h1.text-center style="font-family: 'Canela'; font-size: 30px; font-weight: 400;"
     .p.p-x-2.text-center
       - if @annual_report.ready?
         = simple_form_for :dummy, url: (current_specialist ? specialists_business_annual_reports_path(@business.username, format: "jpg") : business_annual_reports_path(format: "jpg")), html: { target: "_blank", style: "display: inline-block" } do |f|
-          = f.submit "Preview", class: "btn btn-primary m-r-2"
-        = simple_form_for :dummy, url: (current_specialist ? specialists_business_annual_reports_path(@business.username, format: "pdf") : business_annual_reports_path(format: "pdf")), html: { target: "_blank", style: "display: inline-block"} do |f|
-          = f.submit "Generate PDF", class: "btn btn-danger m-l-2"
+          = f.submit "Preview Report", class: "btn btn-default m-r-2"
+        button.btn.btn-primary[
+          data-method="post"
+          data-remote="false"
+          data-url=(current_specialist ? specialists_business_annual_reports_path(@business.username, format: "pdf") : business_annual_reports_path(format: "pdf"))
+          data-confirm="<center><b>Generate Report</b><br/><br/>We recommend you preview your report before<br/>generating the final PDF. This is a permanent action that will save this report as the report of record for the current year. You will need to fill out this form again to generate another report.<br/><br/>Do you wish to proceed?</center>"
+          data-confirm-label="Yes"
+          data-cancel-label="No"
+        ]
+          | Generate Report
+          /= f.submit "Generate Report", class: "btn btn-primary m-l-2"
       - else
         span style="font-weight: 500; letter-spacing: 0px" You will only be able to preview the report and generate a final PDF copy for your records once this form is completed in its entirety
 
@@ -34,13 +43,13 @@ h1.text-center style="font-family: 'Canela'; font-size: 30px; font-weight: 400;"
           = f.input :review_end, as: :string, input_html: { value: f.object.review_end.try(:strftime, '%d/%m/%Y'), class: 'input-lg js-datepicker', data: { value: f.object.review_end.to_s, format: 'dd/mm/yyyy', months: true, years: 80 } }, label: "End Date"
       .clearfix
     .shadow_container.m-b-3
-      .col-md-12.m-b-2.p-x-3
+      .col-sm-12.m-b-2.p-x-3
         b
           u Material Business Changes
         br/
         small
           | *Hint: In bullet format, list any changes to your business processes, key vendors, and/or key employees during the Review Period.
-      .col-md-12.p-x-3
+      .col-md-11.p-x-3
         = f.simple_fields_for :business_changes do |c|
           .nested_form
             = render 'business/annual_reports/business_change_fields', f: c
@@ -54,7 +63,7 @@ h1.text-center style="font-family: 'Canela'; font-size: 30px; font-weight: 400;"
         br/
         small
           | *Hint: In bullet format, list any regulatory changes that impacted you during the Review Period and how the business responded.
-      .col-md-12.p-x-3
+      .col-sm-11.p-x-3
         = f.simple_fields_for :regulatory_changes do |c|
           .nested_form
             = render 'business/annual_reports/regulatory_change_fields', f: c
@@ -69,8 +78,9 @@ h1.text-center style="font-family: 'Canela'; font-size: 30px; font-weight: 400;"
         small
           | *Hint: Regulators interview employees to uncover potential discrepancies in a firm's policies and procedures and their day-to-day practices. It's important to interview those employees responsible for certain key tasks or have access to sensitive client in order to hear about their day-to-day activities in their own words.  Not sure what to ask? Consider hiring one of our compliance specialists to conduct mock interviews for you to see and learn how to do it on your own!
       .text-center.m-y-3
-        = link_to "Mock Interviews", (current_specialist ? specialists_business_audit_request_path(@business.username, "mock_interview") : business_audit_request_path("mock_interview")), class: "btn btn-primary", "data-target": "#modal", "data-toggle": "modal", "data-remote": true, style: "width: 180px;"
-      .col-md-12.p-x-3
+        - if !current_specialist
+          = link_to "Mock Interviews", business_audit_request_path("mock_interview"), class: "btn btn-primary", "data-target": "#modal", "data-toggle": "modal", "data-remote": true, style: "width: 180px;"
+      .col-sm-11.p-x-3
         = f.simple_fields_for :annual_review_employees do |c|
           .nested_form
             = render 'business/annual_reports/annual_review_employee_fields', f: c
@@ -85,16 +95,17 @@ h1.text-center style="font-family: 'Canela'; font-size: 30px; font-weight: 400;"
         small
           | *Hint: Use our check the box format to see the different areas of this section to review. Only check off topics that had no findings. Do not check off any items where you have found your compliance program to be weak or deficient. Instead, notate the issue under Finding and indicate what corrective actions you have or intend to take under Response. Still unsure what you're looking for in your review? Tap one of our specialists to help you with one off questions or completely outsource this review.
       .text-center.m-y-3
-        = link_to "Hourly Consulting", (current_specialist ? new_specialists_business_audit_request_path(@business.username) : new_business_audit_request_path), class: "btn btn-default m-r-3", "data-target": "#modal", "data-toggle": "modal", "data-remote": true, style: "width: 170px;"
-        = link_to "Mock Audit", (current_specialist ? specialists_business_audit_request_path(@business.username, @mock_audit) : business_audit_request_path(@mock_audit)), class: "btn btn-primary", "data-target": "#modal", "data-toggle": "modal", "data-remote": true, style: "width: 170px;"
-      .col-md-12.p-x-3
+        /= link_to "Hourly Consulting", (current_specialist ? new_specialists_business_audit_request_path(@business.username) : new_business_audit_request_path), class: "btn btn-default m-r-3", "data-target": "#modal", "data-toggle": "modal", "data-remote": true, style: "width: 170px;"
+        - if !current_specialist
+          = link_to "Mock Audit", business_audit_request_path(@mock_audit), class: "btn btn-primary", "data-target": "#modal", "data-toggle": "modal", "data-remote": true, style: "width: 170px;"
+      .col-sm-11.p-x-3
         = f.simple_fields_for :findings do |c|
           .nested_form
             = render 'business/annual_reports/finding_fields', f: c
             .add.add_more = link_to_add_association f, :findings, partial: 'business/annual_reports/finding_fields' do
-              .btn.btn-primary.m-b-1 Add more
+              .icon-plus
         .clearfix
-      .col-md-12.p-x-3
+      .col-sm-12.p-x-3.padded-checkboxes
         - I18n.translate("annual_report").map(&:last).each_with_index do |question, ind|
           .form-group.cof_bits class=("parent_node" if [0, 7, 10, 16, 21, 24, 28, 32].include?(ind))
             span.checkbox.checkbox-lg
@@ -115,9 +126,10 @@ h1.text-center style="font-family: 'Canela'; font-size: 30px; font-weight: 400;"
       .col-md-12.p-x-3
         = f.input :tailored_lvl, collection: [["Well", 3], ["Resonably", 2], ["Poorly", 1]], input_html: { class: 'input-lg js-select' }, label: "How tailored was the compliance program"
         = f.input :comments, input_html: { class: 'input-lg' }, label: "Additional comments"
-        .text-center
-          = f.submit "Save changes", class: "btn btn-primary save-annual-report"
       .clearfix
+    .text-center.m-y-3.p-y-3
+      = f.submit "Save changes", class: "btn btn-primary save-annual-report"
+ 
 
   .apply_changes
     i.icon.maxicons1-check.m-r-1

@@ -35,7 +35,7 @@
     <h1>I. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Executive Summary</h1>
     
     <p>
-      <%= @business.business_name %> (or the "Company") conducted an annual review of its compliance program from <%= raw(@annual_report.exam_start.strftime("%Y&nbsp;%B&nbsp;%d")) %> through <%= raw(@annual_report.exam_end.strftime("%Y&nbsp;%B&nbsp;%d")) %>. <%= @business.business_name %> reviews the following areas in relation to its business activities:
+      <%= @business.business_name %> (or the "Company") conducted an annual review of its compliance program from <%= raw(@annual_report.exam_start.strftime("%Y&nbsp;%B&nbsp;%d")) %> through <%= raw(Time.now.strftime("%Y&nbsp;%B&nbsp;%d")) %>. <%= @business.business_name %> reviews the following areas in relation to its business activities:
     </p>
     <ol style="list-style-type: upper-roman;">
       <li>Executive Summary</li>

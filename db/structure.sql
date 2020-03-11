@@ -128,7 +128,8 @@ CREATE TABLE public.annual_reports (
     updated_at timestamp without time zone NOT NULL,
     business_id integer,
     cof_bits bigint,
-    pdf_data jsonb
+    pdf_data jsonb,
+    year integer
 );
 
 
@@ -6927,4 +6928,6 @@ INSERT INTO schema_migrations (version) VALUES ('20200301120149');
 INSERT INTO schema_migrations (version) VALUES ('20200305092313');
 
 INSERT INTO schema_migrations (version) VALUES ('20200305192127');
+
+INSERT INTO schema_migrations (version) VALUES ('20200310192546');
 

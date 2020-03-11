@@ -2,14 +2,43 @@ body.annual_reports {
   .cof_bits {
     padding-left: 60px;
     padding-right: 30px;
+    label { font-weight: 300; }
   }
   .parent_node {
     padding-left: 30px;
-    label { font-weight: bold; }
     margin-top: 30px;
+    .cof_bits {
+      font-weight: 300;
+    }
+  }
+  .parent_node label:first-of-type {
+    font-weight: 500;
   }
   .info-tooltip {
     margin-left: 10px;
     margin-top: 0px;
+  }
+  .icon-plus, .icon-close {
+    font-size: 24px;
+  }
+  .nested_form {
+    a {
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+  a.add_fields {
+    color: #999;
+  }
+  .icon-plus {
+    position: absolute;
+    right: -198px;
+    margin-top: -47px;
+  }
+  .icon-close {
+    position: absolute;
+    right: -27px;
+    margin-top: -47px;
   }
 }

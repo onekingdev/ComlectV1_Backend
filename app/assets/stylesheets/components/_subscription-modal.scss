@@ -1,10 +1,20 @@
 #subscription_modal {
   color: #000;
   .close {
-    padding-top: 6px;
+    //padding-top: 6px;
+    //background-color: #000;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    position: absolute;
+    right: -6px;
+    top: -18px;
+    z-index: 10000;
+    background-image: asset_url("close.png");
+    background-size: contain;
     span {
-      font-size: 20px;
-      margin-top: 5px;
+      font-size: 30px;
+      color: #fff;
     }
   }
   .small {
@@ -32,14 +42,17 @@
       margin-top: -10px;
     }
   }
+  .modal-header {
+    height: 0px;
+  }
   .modal-dialog {
     background-color: #fff;
-    padding: 20px;
+    //padding: 20px;
   }
   .modal-content{
     box-shadow: none !important;
     border-radius: 0px !important;
-    border: 2px solid #ffcc00;
+    //border: 2px solid #ffcc00;
   }
   .modal-footer {
     padding: 0px;

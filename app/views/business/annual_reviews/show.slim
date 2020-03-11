@@ -6,7 +6,7 @@
     tr
       td
         = @annual_review.updated_at.in_time_zone(@annual_review.business.tz).strftime("%b %-d, %Y %I:%M %p")
-      td
+      /td
         = link_to "mailto:?body=Document name: #{@annual_review.year}%0D%0A%0D%0ADownload: #{Rails.env == 'production' ? url_for(@annual_review.file_url) : root_url.delete_suffix("/")+url_for(@annual_review.file_url)}&subject=Check this file!" do
           i.icon-share
           |  Share

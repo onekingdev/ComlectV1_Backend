@@ -3,19 +3,19 @@
     <style type="text/css">
       body, html, table {
         font-family: "Roboto";
-        font-size: 120px;
-        padding: 0px;
+        font-size: 16px;
+        padding: 30px;
         margin: 0px;
       }
 
       p { page-break-inside: avoid; }
 
       ul, ol {
-        margin-left: 230px;
-        margin-bottom: 100px;
+        margin-left: 30px;
+        margin-bottom: 13px;
       }
       li {
-        padding-bottom: 50px;
+        padding-bottom: 6px;
         page-break-inside: avoid;
       }
 
@@ -26,7 +26,7 @@
       }
 
       td {
-        padding: 20px;
+        padding: 3px;
       }
     </style>
     <meta charset="UTF-8">
@@ -35,7 +35,7 @@
     <h1>I. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Executive Summary</h1>
     
     <p>
-      <%= business.business_name %> (or the "Company") conducted an annual review of its compliance program from <%= annual_report.exam_start.strftime("%B %d") %> through <%= annual_report.exam_end.strftime("%B %d") %>. <%= business.business_name %> reviews the following areas in relation to its business activities:
+      <%= business.business_name %> (or the "Company") conducted an annual review of its compliance program from <%= annual_report.exam_start.strftime("%Y&nbsp;%B&nbsp;%d") %> through <%= Time.now.strftime("%Y&nbsp;%B&nbsp;%d") %>. <%= business.business_name %> reviews the following areas in relation to its business activities:
     </p>
     <ol style="list-style-type: upper-roman;">
       <li>Executive Summary</li>
