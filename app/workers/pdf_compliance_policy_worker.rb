@@ -9,9 +9,11 @@ class PdfCompliancePolicyWorker
     Rails.env.production? || Rails.env.staging? ? in_path : "#{Rails.root}/public#{in_path}"
   end
 
-  # rubocop:disable Metrics/LineLength
-  # rubocop:disable Metrics/MethodLength
   # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/PerceivedComplexity
+  # rubocop:disable Metrics/LineLength
+
   def perform(policy_doc_id)
     policy_doc = CompliancePolicyDoc.find(policy_doc_id)
     tgt_compliance_policy = policy_doc.compliance_policy.business.compliance_policies.first
@@ -53,7 +55,12 @@ class PdfCompliancePolicyWorker
     I18n.translate('compliance_manual_sections').keys.each do |section|
       compliance_policy.business.compliance_policies.where(section: section.to_s).each do |cpolicy|
         # begin
-        merged_pdf << CombinePDF.load(env_path(cpolicy.compliance_policy_docs.first.pdf_url.split('?')[0]))
+        pdf_path = env_path(cpolicy.compliance_policy_docs.first.pdf_url.split('?')[0])
+        merged_pdf << if Rails.env.production? || Rails.env.staging?
+                        CombinePDF.parse(URI.open(pdf_path).read)
+                      else
+                        CombinePDF.load(pdf_path)
+                      end
         # rescue StandardError
         if cpolicy.compliance_policy_docs.count > 1
           cpolicy.compliance_policy_docs.first.destroy
@@ -65,7 +72,12 @@ class PdfCompliancePolicyWorker
     end
     compliance_policy.business.compliance_policies.where.not(title: '').each do |cpolicy|
       # begin
-      merged_pdf << CombinePDF.load(env_path(cpolicy.compliance_policy_docs.first.pdf_url.split('?')[0]))
+      pdf_path = env_path(cpolicy.compliance_policy_docs.first.pdf_url.split('?')[0])
+      merged_pdf << if Rails.env.production? || Rails.env.staging?
+                      CombinePDF.parse(URI.open(pdf_path).read)
+                    else
+                      CombinePDF.load(pdf_path)
+                    end
       # rescue StandardError
       if cpolicy.compliance_policy_docs.count > 1
         cpolicy.compliance_policy_docs.first.destroy
@@ -85,5 +97,6 @@ class PdfCompliancePolicyWorker
   end
   # rubocop:enable Metrics/AbcSize
   # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/PerceivedComplexity
   # rubocop:enable Metrics/LineLength
 end
