@@ -261,7 +261,8 @@ $bootbox-width: 474px;
 
   &.confirm .modal-footer {
     .btn {
-      width: 35%;
+      //width: 35%;
+      width: 140px;
     }
 
     .btn + .btn {

@@ -22,9 +22,10 @@ class AnnualReport < ActiveRecord::Base
   end
 
   def score
-    max_score = cof_str.length
-    cur_score = cof_str.split('').map(&:to_i).inject(0) { |sum, x| sum + x }
-    (cur_score * 100 / max_score).to_i
+    100
+    # max_score = cof_str.length
+    # cur_score = cof_str.split('').map(&:to_i).inject(0) { |sum, x| sum + x }
+    # (cur_score * 100 / max_score).to_i
   end
 
   def ready?

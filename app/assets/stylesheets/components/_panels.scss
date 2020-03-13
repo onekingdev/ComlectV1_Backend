@@ -109,7 +109,14 @@
     a {
       color: rgba(0, 0, 0, 0.8);
     }
-
+    table {
+      a {
+        &:hover {
+          text-decoration: none !important;
+          color: #ffcc00;
+        }
+      }
+    }
     .table th span {
       font-weight: $bold-weight;
       margin-left: 10px;

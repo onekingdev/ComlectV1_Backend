@@ -108,6 +108,12 @@ class Business < ApplicationRecord
   ].freeze
   # rubocop:enable Metrics/LineLength
 
+  def compliance_manual_needs_update?
+    # rubocop:disable Metrics/LineLength
+    (I18n.t(:compliance_manual_sections).keys.map(&:to_s) - (Business.find(40).compliance_policies.collect(&:section).reject { |n| n == '' })).count.positive? || outdated_compliance_policies.any?
+    # rubocop:enable Metrics/LineLength
+  end
+
   def mock_audit_hired?
     projects.active.where(title: 'Mock Audit').any?
   end

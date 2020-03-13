@@ -21,7 +21,7 @@ class Specialists::AnnualReviewsController < ApplicationController
     @annual_review.business_id = @business.id
     if @annual_review.save
       PdfReviewWorker.perform_async(@annual_review.id)
-      redirect_to specialists_business_annual_review_path(@business.username, @annual_review)
+      redirect_to specialists_business_path(@business.username)
     else
       render 'business/annual_reviews/new'
     end
@@ -33,7 +33,7 @@ class Specialists::AnnualReviewsController < ApplicationController
         @annual_review.update(processed: false)
         PdfReviewWorker.perform_async(@annual_review.id)
       end
-      redirect_to specialists_business_annual_review_path(@business.username, @annual_review)
+      redirect_to specialists_business_path(@business.username)
     else
       render 'business/annual_reviews/new'
     end
@@ -41,26 +41,6 @@ class Specialists::AnnualReviewsController < ApplicationController
 
   def edit
     render 'business/annual_reviews/new'
-  end
-
-  def show
-    if @business == @annual_review.business
-      respond_to do |format|
-        format.json do
-          preview_out = @annual_review.pdf && @annual_review.processed ? @annual_review.pdf_url : false
-          render json: { "preview": preview_out }
-        end
-        format.html do
-          render 'business/annual_reviews/show'
-          # poof
-        end
-        format.js do
-          render 'business/annual_reviews/show'
-        end
-      end
-    else
-      redirect_to specialists_business_path(@business.username)
-    end
   end
 
   private

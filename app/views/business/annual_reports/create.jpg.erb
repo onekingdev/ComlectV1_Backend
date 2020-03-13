@@ -35,7 +35,7 @@
     <h1>I. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Executive Summary</h1>
     
     <p>
-      <%= @business.business_name %> (or the "Company") conducted an annual review of its compliance program from <%= raw(@annual_report.exam_start.strftime("%Y&nbsp;%B&nbsp;%d")) %> through <%= raw(Time.now.strftime("%Y&nbsp;%B&nbsp;%d")) %>. <%= @business.business_name %> reviews the following areas in relation to its business activities:
+      <%= @business.business_name %> (or the "Company") conducted an annual review of its compliance program from <%= raw(@annual_report.exam_start.strftime("%Y %B %d")) %> through <%= raw(Time.now.strftime("%Y %B %d")) %>. <%= @business.business_name %> reviews the following areas in relation to its business activities:
     </p>
     <ol style="list-style-type: upper-roman;">
       <li>Executive Summary</li>
@@ -48,7 +48,7 @@
     </ol>
 
     <p>
-      <%= @business.business_name %> reviewed certain books and records covering the time period from <%= @annual_report.review_start.strftime("%B %d") %> through <%= @annual_report.review_end.strftime("%B %d") %> (the "Review Period"). In addition, there was a review of the Company’s written policies and procedures along with documentation demonstrating their implementation. The following key employees were interviewed to gain additional insight into the Company’s operations and to compare their practices with the written policies and procedures:
+      <%= @business.business_name %> reviewed certain books and records covering the time period from <%= @annual_report.review_start.strftime("%Y %B %d") %> through <%= @annual_report.review_end.strftime("%Y %B %d") %> (the "Review Period"). In addition, there was a review of the Company’s written policies and procedures along with documentation demonstrating their implementation. The following key employees were interviewed to gain additional insight into the Company’s operations and to compare their practices with the written policies and procedures:
     </p>
 
     <ul>
@@ -153,7 +153,9 @@
     <ul>
       <% lines = [] %>
       <% [0, 7, 10, 16, 21, 24, 28, 32].each do |num| %>
-        <% lines.push(I18n.translate("annual_report").map(&:last)[num]) %>
+        <% if @annual_report.cof_str[num].to_i == 1 %>
+          <% lines.push(I18n.translate("annual_report").map(&:last)[num]) %>
+        <% end %>
       <% end %>
       <% lines.each do |line| %>
         <li><%= line %></li>

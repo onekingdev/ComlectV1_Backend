@@ -20,6 +20,7 @@ if (typeof(annual_report_loop) != "undefined") {
         if (prev_report_form != new_report_form) {
           prev_report_form = new_report_form;
           report_needs_update = false;
+          $(".hide_on_change").animate({width: "0px", padding: "0px", "margin-left": "0px", "margin-right": "0px", opacity: "0"}).fadeOut();
           $(".apply_changes").show();
           if ($(".apply_changes").hasClass("apply_bounce") == false) {
             $(".apply_changes").addClass("apply_bounce");
@@ -34,36 +35,36 @@ if (typeof(annual_report_loop) != "undefined") {
       var new_state = $(this).find("input").prop("checked")
       var ind = $(".cof_bits").index(this);
       var all_boxes = $(".cof_bits");
-      if ($(this).hasClass("parent_node")) {
-        for (var i = ind+1; i < $(".cof_bits").length; i++) {
-          if ($($(".cof_bits")[i]).hasClass("parent_node")) {
-            break;
-          } else {
-            $($(".cof_bits")[i]).find("input").prop("checked", new_state);
-          }
-        }
-      } else {
-        var last_parent = null;
-        var enable_parent = true;
-        for (box of all_boxes) {
-          if ($(box).hasClass("parent_node")) {
-            if (last_parent != null) {
-              $(last_parent).find("input").prop("checked", enable_parent);
-            }
-            enable_parent = true;
-            last_parent = box;
-          } else {
-            if (enable_parent) {
-              if ($(box).find("input").prop("checked") == false) {
-                enable_parent = false;
-              }
-            }
-          }
-        }
-        if (last_parent != null) {
-          $(last_parent).find("input").prop("checked", enable_parent);
-        }
-      }
+      //if ($(this).hasClass("parent_node")) {
+      //  for (var i = ind+1; i < $(".cof_bits").length; i++) {
+      //    if ($($(".cof_bits")[i]).hasClass("parent_node")) {
+      //      break;
+      //    } else {
+      //      $($(".cof_bits")[i]).find("input").prop("checked", new_state);
+      //    }
+      //  }
+      //} else {
+      //  var last_parent = null;
+      //  var enable_parent = true;
+      //  for (box of all_boxes) {
+      //    if ($(box).hasClass("parent_node")) {
+      //      if (last_parent != null) {
+      //        $(last_parent).find("input").prop("checked", enable_parent);
+      //      }
+      //      enable_parent = true;
+      //      last_parent = box;
+      //    } else {
+      //      if (enable_parent) {
+      //        if ($(box).find("input").prop("checked") == false) {
+      //          enable_parent = false;
+      //        }
+      //      }
+      //    }
+      //  }
+      //  if (last_parent != null) {
+      //    $(last_parent).find("input").prop("checked", enable_parent);
+      //  }
+      //}
     });
   });
 }

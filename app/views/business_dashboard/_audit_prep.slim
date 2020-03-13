@@ -9,4 +9,4 @@
             .slice
               .bar
               .fill
-      = link_to "View", (current_specialist ? specialists_business_audit_requests_path(@business.username) : business_audit_requests_path), class: "btn btn-primary m-t-1 p-x-3", target: "_blank"
+      = link_to "View", (current_specialist ? specialists_business_audit_requests_path(@business.username) : business_audit_requests_path), class: "btn btn-primary btn-sm m-t-1 p-x-3", target: "_blank", style: "width: 150px"

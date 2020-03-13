@@ -1,5 +1,13 @@
 .tooltip {
   min-width: 200px;
+  .tooltip-inner {
+    pre {
+      margin: 0px;
+      padding: 0px;
+      border: 0px;
+      background-color: transparent;
+    }
+  }
 }
 
 .tools .tooltip {

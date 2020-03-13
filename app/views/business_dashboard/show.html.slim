@@ -64,7 +64,7 @@
                   - else
                     = number_to_currency @financials.processed_ytd
                 'YTD
-            .m-t-2= link_to 'Details', business_financials_path, class: 'btn btn-sm btn-primary p-x-3'
+            .m-t-2= link_to 'Details', business_financials_path, class: 'btn btn-sm btn-primary p-x-3', style: "width: 150px"
 
         .panel.panel-default.profile-info
           .panel-heading
@@ -79,7 +79,7 @@
                 i.icon-share
                 span
                   = link_to 'Partnerships', partnerships_path
-            .m-t-2.text-center= link_to 'Ask a question', forum_questions_path, class: 'btn btn-sm btn-primary p-x-1'
+            .m-t-2.text-center= link_to 'Ask a question', forum_questions_path, class: 'btn btn-sm btn-primary p-x-1', style: "width: 150px"
 
       .td.col-xs-12.col-sm-8.col-md-9.va-top
         - if @business.ria_dashboard? 

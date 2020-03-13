@@ -5,8 +5,8 @@
   .col-md-4
     = f.input :action, input_html: { class: 'input-lg' }
   .col-md-4
-    = f.input :risk_lvl, collection: [["high risk", 3], ["medium risk", 2], ["low risk", 1]], input_html: { class: 'input-lg js-select' }
+    = f.input :risk_lvl, collection: [["high risk", 3], ["medium risk", 2], ["low risk", 1]], input_html: { class: 'input-lg js-select' }, label: "Risk Level"
   .clearfix
   .col-xs-12.text-right
     .remove_we = link_to_remove_association f, class: 'remove text-muted' do
-      .icon-close
+      .icon-close style="margin-top: -73px;"

@@ -1,4 +1,3 @@
-/- pth = current_business ? method(:new_business_reminder_path) : method(:new_specialists_business_reminder_path)
 .panel.panel-default.profile-info
   .panel-heading
     h3 Calendar
@@ -7,7 +6,7 @@
       - titles = ""
       - if reminders.count > 0
         - reminders.each do |reminder|
-          - titles += "<pre>#{reminder.body}</pre><br/>"
+          - titles += "<pre>#{reminder.body}</pre>"
       - pth = current_business ? new_business_reminder_path(date: date) : new_specialists_business_reminder_path(@business.username, date: date)
       - if titles.length > 0
         .coloring style=("background-color: rgba(255, 204, 0, #{0.2*reminders.count})") class=("real_today" if date == Date.today) data-placement="top" data-toggle="tooltip" data-title=(raw(titles)) data-html="true"
@@ -57,7 +56,7 @@
     /.coloring style=("background-color: rgba(255, 204, 0, #{0.2*projects.count})") class=("today" if date == Date.today) data-placement="top" data-toggle="tooltip" data-title=(raw(titles)) data-html="true"
     /  = date.day
   .text-center
-    = link_to "Download Calendar", (current_business ? business_reminders_path(format: :pdf) : specialists_business_reminders_path(@business.username, format: :pdf)), class: "btn btn-primary btn-sm p-x-1 m-b-2", target: "_blank"
+    = link_to "Download Calendar", (current_business ? business_reminders_path(format: :pdf) : specialists_business_reminders_path(@business.username, format: :pdf)), class: "btn btn-primary btn-sm p-x-1 m-b-2", target: "_blank", style: "width: 150px"
 
 javascript:
   var reactive_reminders = true;
