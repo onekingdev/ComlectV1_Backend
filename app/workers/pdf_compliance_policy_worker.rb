@@ -52,27 +52,27 @@ class PdfCompliancePolicyWorker
 
     I18n.translate('compliance_manual_sections').keys.each do |section|
       compliance_policy.business.compliance_policies.where(section: section.to_s).each do |cpolicy|
-        begin
-          merged_pdf << CombinePDF.load(env_path(cpolicy.compliance_policy_docs.first.pdf_url.split('?')[0]))
-        rescue StandardError
-          if cpolicy.compliance_policy_docs.count > 1
-            cpolicy.compliance_policy_docs.first.destroy
-          else
-            cpolicy.destroy
-          end
-        end
-      end
-    end
-    compliance_policy.business.compliance_policies.where.not(title: '').each do |cpolicy|
-      begin
+        # begin
         merged_pdf << CombinePDF.load(env_path(cpolicy.compliance_policy_docs.first.pdf_url.split('?')[0]))
-      rescue StandardError
+        # rescue StandardError
         if cpolicy.compliance_policy_docs.count > 1
           cpolicy.compliance_policy_docs.first.destroy
         else
           cpolicy.destroy
         end
+        # end
       end
+    end
+    compliance_policy.business.compliance_policies.where.not(title: '').each do |cpolicy|
+      # begin
+      merged_pdf << CombinePDF.load(env_path(cpolicy.compliance_policy_docs.first.pdf_url.split('?')[0]))
+      # rescue StandardError
+      if cpolicy.compliance_policy_docs.count > 1
+        cpolicy.compliance_policy_docs.first.destroy
+      else
+        cpolicy.destroy
+      end
+      # end
     end
     tmp_pdf_file = Tempfile.new(["compliance_manual-#{compliance_policy.id}", '.pdf'])
     tmp_pdf_path = tmp_pdf_file.path
