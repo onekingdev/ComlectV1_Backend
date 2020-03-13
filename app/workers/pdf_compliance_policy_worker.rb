@@ -54,37 +54,37 @@ class PdfCompliancePolicyWorker
 
     I18n.translate('compliance_manual_sections').keys.each do |section|
       compliance_policy.business.compliance_policies.where(section: section.to_s).each do |cpolicy|
-        # begin
+        begin
+          pdf_path = env_path(cpolicy.compliance_policy_docs.first.pdf_url.split('?')[0])
+          merged_pdf << if Rails.env.production? || Rails.env.staging?
+                          CombinePDF.parse(URI.open(pdf_path).read)
+                        else
+                          CombinePDF.load(pdf_path)
+                        end
+        rescue StandardError
+          if cpolicy.compliance_policy_docs.count > 1
+            cpolicy.compliance_policy_docs.first.destroy
+          else
+            cpolicy.destroy
+          end
+        end
+      end
+    end
+    compliance_policy.business.compliance_policies.where.not(title: '').each do |cpolicy|
+      begin
         pdf_path = env_path(cpolicy.compliance_policy_docs.first.pdf_url.split('?')[0])
         merged_pdf << if Rails.env.production? || Rails.env.staging?
                         CombinePDF.parse(URI.open(pdf_path).read)
                       else
                         CombinePDF.load(pdf_path)
                       end
-        # rescue StandardError
+      rescue StandardError
         if cpolicy.compliance_policy_docs.count > 1
           cpolicy.compliance_policy_docs.first.destroy
         else
           cpolicy.destroy
         end
-        # end
       end
-    end
-    compliance_policy.business.compliance_policies.where.not(title: '').each do |cpolicy|
-      # begin
-      pdf_path = env_path(cpolicy.compliance_policy_docs.first.pdf_url.split('?')[0])
-      merged_pdf << if Rails.env.production? || Rails.env.staging?
-                      CombinePDF.parse(URI.open(pdf_path).read)
-                    else
-                      CombinePDF.load(pdf_path)
-                    end
-      # rescue StandardError
-      if cpolicy.compliance_policy_docs.count > 1
-        cpolicy.compliance_policy_docs.first.destroy
-      else
-        cpolicy.destroy
-      end
-      # end
     end
     tmp_pdf_file = Tempfile.new(["compliance_manual-#{compliance_policy.id}", '.pdf'])
     tmp_pdf_path = tmp_pdf_file.path
