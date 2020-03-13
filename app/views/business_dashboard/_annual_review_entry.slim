@@ -1,6 +1,6 @@
 tr.tools 
   - if years_avail.include? y
-    - annual_review = @business.processed_annual_reviews.where(year: y).first
+    - annual_review = @business.annual_reviews.where(year: y).first
     td
       = y
     td 

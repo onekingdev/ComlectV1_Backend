@@ -20,7 +20,7 @@
     u Previous 5 Years
     table.m-t-1.annual_review_table
       - ((Date.today.year-5)..Date.today.year-1).to_a.reverse.each do |y|
-        - years_avail = @business.processed_annual_reviews.collect(&:year)
+        - years_avail = @business.annual_reviews.collect(&:year)
         /| &nbsp;
         = render partial: "business_dashboard/annual_review_entry", locals: {y: y, years_avail: years_avail}
 
