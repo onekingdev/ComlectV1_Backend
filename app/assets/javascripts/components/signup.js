@@ -6,6 +6,48 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
   var required_fields_step0 = ["#business_contact_first_name", "#business_contact_last_name", "#business_business_name", "#business_address_1", "#business_city", "#business_state", "#business_country", "#business_time_zone", "#business_employees", "#business_client_account_cnt", "#business_total_assets", "#business_user_attributes_password_confirmation"];
   var cookie_form_attrs = ["#business_contact_first_name", "#business_contact_last_name", "#business_user_attributes_email", "#business_business_name", "#business_contact_job_title", "#business_contact_phone", "#business_address_1", "#business_address_2", "#business_city", "#business_state", "#business_zipcode", "#business_client_account_cnt", "#business_total_assets"];
 
+  //function step_signup_continue() {
+  //  console.log("hhhheehehhehehey");
+  //}
+
+  var step_signup_continue = function() {
+    console.log("continuing");
+    for (var name of step_names) {
+      if (name == "step0") {
+        console.log("step0 continuing");
+        $(".business_step0 .continue").prop("disabled", true);
+        if (validateEmail($("#business_user_attributes_email").val())) {
+          console.log("vemaile");
+          if ($("#business_user_attributes_password").val().length > 5) {
+            $("#business_user_attributes_password").removeClass("form_error");
+
+            var prop_disabled = false;
+            if ($("#business_user_attributes_password").val() != $("#business_user_attributes_password_confirmation").val()) {
+              prop_disabled = true;
+              console.log("pwd fail");
+            }
+            for (field of required_fields_step0) {
+              if (!($(field).val().length > 0)) {
+                prop_disabled = true;
+              }
+            }
+            $(".business_step0 .continue").prop("disabled", prop_disabled);
+          } else {
+            $("#business_user_attributes_password").addClass("form_error");
+            if ((pwd_focused == false) && (no_pwd_focus == false)) {
+              pwd_focused = true;
+              $("#business_user_attributes_password").focus();
+            }
+          }
+        }
+      } else {
+        if ((name != "step3") && (name != "step5")) {
+          console.log($(".business_"+name+" .choices .active").length);
+          $(".business_"+name).find(".continue").prop("disabled", !($(".business_"+name+" .choices .active").length > 0));
+        }
+      }
+    }
+  }
 
   function validateEmail(email) {
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -123,7 +165,7 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
         choice.find("input[type=checkbox]").prop("checked", true);
       }
     }
-    step_continue();
+    step_signup_continue();
   });
 
   function render_step21() {
@@ -153,7 +195,7 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
         active_btn.find("input[type=checkbox]").prop("checked", true);
       }
     }
-    step_continue();
+    step_signup_continue();
   }
 
   $("#business_user_attributes_email").on('keyup', function(e) {
@@ -164,20 +206,23 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
     }
     Cookies.set("complect_email", $(this).val(), { expires: 7 });
     no_pwd_focus = true;
-    step_continue();
+    step_signup_continue();
   });
 
   $(cookie_form_attrs.join(", ")).on('keyup', function(e) {
-    console.log(this);
+    //console.log(this);
     Cookies.set($(this).attr('id').replace("business_", "complect_"), $(this).val(), { expires: 7 });
+    console.log("try step cont");
+    step_signup_continue();
+    console.log("step conted");
   });
 
   $("#business_user_attributes_password, "+required_fields_step0.join(", ")).on('keyup', function() {
-    step_continue();
+    step_signup_continue();
   });
 
   $("#business_user_attributes_password, "+required_fields_step0.join(", ")).on('change', function() {
-    step_continue();
+    step_signup_continue();
   });
 
   $(".btn_step_jump").on('click', function() {
@@ -188,7 +233,25 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
       console.log(name);
       console.log(step_cookies[name]);
       if (step_cookies[name] == undefined) {
-        $(".business_"+step_names[i]).show();
+        if (step_names[i] == "step21") {
+          var step2_cc = Cookies.get("complect_step2");
+          var skip = true;
+          if (step2_cc != undefined) {
+            var step2_c = step2_cc.split("-");
+            for (kookie of step2_c) {
+              if (sub_inds.indexOf(parseInt(kookie)) > -1) {
+                skip = false;
+              }
+            }
+          }
+          if (skip == true) {
+            $(".business_step3").show();
+          } else {
+            $(".business_step21").show();
+          }
+        } else {
+          $(".business_"+step_names[i]).show();
+        }
         console.log(".business_"+step_names[i]);
         shown = true;
         break;
@@ -216,7 +279,7 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
       if ($(this).hasClass("back")) {
         $(".business_step2").show();
       } else {
-        $(".business_step1").show();
+        $(".business_step3").show();
       }
     } else {
       $(".business_step21").show();
@@ -256,46 +319,12 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
     $(".btn_step6").prop("disabled", false);
   });
 
-  function step_continue() {
-    for (var name of step_names) {
-      if (name == "step0") {
-        $(".business_step0 .continue").prop("disabled", true);
-        if (validateEmail($("#business_user_attributes_email").val())) {
-          if ($("#business_user_attributes_password").val().length > 5) {
-            $("#business_user_attributes_password").removeClass("form_error");
 
-
-            var prop_disabled = false;
-            if ($("#business_user_attributes_password").val() != $("#business_user_attributes_password_confirmation").val()) {
-              prop_disabled = true;
-              console.log("pwd fail");
-            }
-            for (field of required_fields_step0) {
-              if (!($(field).val().length > 0)) {
-                prop_disabled = true;
-              }
-            }
-            $(".business_step0 .continue").prop("disabled", prop_disabled);
-          } else {
-            $("#business_user_attributes_password").addClass("form_error");
-            if ((pwd_focused == false) && (no_pwd_focus == false)) {
-              pwd_focused = true;
-              $("#business_user_attributes_password").focus();
-            }
-          }
-        }
-      } else {
-        if ((name != "step3") && (name != "step5")) {
-          $(".business_"+name).find(".continue").prop("disabled", !($(".business_"+name+" .choices .active").length > 0));
-        }
-      }
-    }
-  }
 
   $("#business_user_attributes_password, #business_contact_first_name, #business_contact_last_name, #business_user_attributes_email, "+required_fields_step0.join(", ")).on('keydown', function(e) {
     if (e.keyCode == 13) {
       e.preventDefault;
-      step_continue();
+      step_signup_continue();
       if ($(".business_step0 .continue").prop("disabled") == false) {
         $(".btn_step_jump").trigger('click');
       }
@@ -312,24 +341,24 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
     }
   });
 
-  function toggle_choice(choice) {
+  function toggle_choices(t_choice) {
     // identify step with parent div
-    var parent = choice.parent().parent().parent();
-
+    var parent = t_choice.parent().parent().parent();
+    console.log("tchoice");
     // checking / unchecking and cosmetic stuff for 'i_dunno' and 'other (...)'
-    var cb = choice.find("input[type='checkbox']");
-    if (choice.hasClass("active")) {
-      choice.removeClass("active");
+    var cb = t_choice.find("input[type='checkbox']");
+    if (t_choice.hasClass("active")) {
+      t_choice.removeClass("active");
       cb.prop("checked", false);
     } else {
-      if (choice.text().indexOf("Other") > -1) {
+      if (t_choice.text().indexOf("Other") > -1) {
         $("#specify_other").show();
         $("#specify_other").focus();
       }
-      if (choice.text().indexOf("I don't know") > -1) {
+      if (t_choice.text().indexOf("I don't know") > -1) {
         _Modal.showPlain("<div class='modal-body'><div class='modal-fake text-center modal-wrapper m-x-1 m-y-1 p-t-2 p-x-3 gray'>We understand this can be a confusing process and <br> we want to make it as easy as possible, so let’s set you up with a free consultation.<br>Schedule a time to speak to someone. <div class='m-b-1 m-t-2'><button class='btn btn-default' data-dismiss='modal'>Cancel</button> <a href='https://calendly.com/complect' target='_blank' class='btn btn-primary'>Schedule</a></div></div>");
       } else {
-        choice.addClass("active");
+        t_choice.addClass("active");
         cb.prop("checked", true);
       }
     }
@@ -359,13 +388,20 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
         }
       }
     }
-    step_continue();
+    step_signup_continue();
   }
+
+  //function toggle_choices(heh) {
+  //  console.log("TOGLIN");
+  //  console.log(heh);
+  //}
 
   $(".choices").on('click', '.btn-block', function(e) {
     e.preventDefault();
     console.log(e.target);
-    toggle_choice($(this));
+    console.log("going to toggl");
+    toggle_choices($(this));
+    //toggle_choice($(this));
   });
 
   $(".choices").on('click', "input[type='checkbox']", function(e) {
@@ -378,7 +414,7 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
     } else {
       $(this).parent().addClass("active");
     }
-    if (toggle_choice($(this).parent()) == false) {
+    if (toggle_choices($(this).parent()) == false) {
       $(this).prop("checked", false);
     }
   });
