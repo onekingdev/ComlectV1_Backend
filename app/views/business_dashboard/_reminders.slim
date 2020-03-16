@@ -3,13 +3,9 @@
     h3 Calendar
   .panel-body style="padding-top: 0px; padding-bottom: 0px;"
     = month_calendar events: @business.reminders do |date, reminders|
-      - titles = ""
-      - if reminders.count > 0
-        - reminders.each do |reminder|
-          - titles += "<pre>#{reminder.body}</pre>"
       - pth = current_business ? new_business_reminder_path(date: date) : new_specialists_business_reminder_path(@business.username, date: date)
-      - if titles.length > 0
-        .coloring style=("background-color: rgba(255, 204, 0, #{0.2*reminders.count})") class=("real_today" if date == Date.today) data-placement="top" data-toggle="tooltip" data-title=(raw(titles)) data-html="true"
+      - if reminders.count > 0
+        .coloring style=("background-color: rgba(255, 204, 0, #{0.2*reminders.count})") class=("real_today" if date == Date.today)
           = link_to date.day, pth, "data-target": "#modal", "data-toggle": "modal", "data-remote": true
       - else
         .coloring style=("background-color: rgba(255, 204, 0, #{0.2*reminders.count})") class=("real_today" if date == Date.today)

@@ -4,7 +4,7 @@
     br
     | Compliance Manual
 
-.col-md-10.col-md-push-1.m-t-2
+.col-md-10.col-md-push-1.m-t-2.m-b-3.p-b-1
   p At Complect, we believe that a strong compliance program equates to strong operations. Therefore, you can think of this Compliance Manual as your firm's operations bible. If you or members of your team were indisposed, could someone read these policies and procedures in order to continue to operate your business? That's type of comprehensiveness and customization regulators like to see.
 
   p We have started you off with 12 core areas that are commonly addressed by securities laws and, therefore, reviewed by regulators. You will want to ensure you draft policies and procedures for these topics, but feel free to add more policies, as appropriate, for your business.
@@ -12,19 +12,17 @@
 .col-md-4
   .p-t-2
     - I18n.translate('compliance_manual_sections').keys.each do |section|
-      p.black_href
+      p.black_href.m-b-2
         - tgt = @business.compliance_policies.where(section: section.to_s)
         - if tgt.count > 0
           b 
-            = ["👍","👍🏻","👍🏼","👍🏽","👍🏾","👍🏿"].sample 
             = link_to I18n.translate('compliance_manual_sections')[section], (current_specialist ? specialists_business_compliance_policy_path(@business.username, tgt.first) : business_compliance_policy_path(tgt.first)), target: "_blank"
         - else
-          b = link_to I18n.translate('compliance_manual_sections')[section], (current_specialist ? new_specialists_business_compliance_policy_path(@business.username, section_id: section) : new_business_compliance_policy_path(section_id: section)), "data-target": "#modal", "data-remote": true, "data-toggle": "modal"
+          b = link_to I18n.translate('compliance_manual_sections')[section], (current_specialist ? new_specialists_business_compliance_policy_path(@business.username, section_id: section) : new_business_compliance_policy_path(section_id: section)), target: "_blank"
 
     - @business.compliance_policies.where.not(title: "").each do |section|
-      p.black_href
+      p.black_href.m-b-2
         b 
-          = ["👍","👍🏻","👍🏼","👍🏽","👍🏾","👍🏿"].sample 
           = link_to section.section_or_title, (current_specialist ? specialists_business_compliance_policy_path(section) : business_compliance_policy_path(section)), target: "_blank"
 
   .clearfix
@@ -43,14 +41,14 @@
         var compliance_policy_baseurl = "/specialist/businesses/#{@business.username}/compliance_policies";
 
 .clearfix
-.text-center.m-b-3.m-t-1
+.text-center.m-b-3.m-t-1.m-t-3.p-t-3.p-b-2
   - if @preview_doc.present? && @preview_doc.pdf
-    = link_to "Download", @preview_doc.pdf_url, target: "_blank", class: "btn btn-default m-x-1"
-    = link_to "Share", "mailto:?body=Please find our Compliance Manual attached %0D%0A%0D%0ADownload: #{Rails.env == 'production' ? url_for(@preview_doc.pdf_url) : root_url.delete_suffix("/")+url_for(@preview_doc.pdf_url)}&subject=#{@business.business_name} Compliance Manual", class: "btn btn-primary m-x-1"
+    = link_to "Download", @preview_doc.pdf_url, target: "_blank", class: "btn btn-default m-x-1", style: "width: 140px;"
+    = link_to "Share", "mailto:?body=Please find our Compliance Manual attached %0D%0A%0D%0ADownload: #{Rails.env == 'production' ? url_for(@preview_doc.pdf_url) : root_url.delete_suffix("/")+url_for(@preview_doc.pdf_url)}&subject=#{@business.business_name} Compliance Manual", class: "btn btn-primary m-x-1", style: "width: 140px;"
   - else
     .cpolicy_not_available.text-center
-    = link_to "Download", "#", class: "btn btn-default disabled m-x-1 cpolicy_downloadbtn", target: "_blank"
-    = link_to "Share", "#", class: "btn btn-primary disabled m-x-1 cpolicy_sharebtn"
+    = link_to "Download", "#", class: "btn btn-default disabled m-x-1 cpolicy_downloadbtn", target: "_blank", style: "width: 140px;"
+    = link_to "Share", "#", class: "btn btn-primary disabled m-x-1 cpolicy_sharebtn", style: "width: 140px;"
 
 
 - pth = current_specialist ? new_specialists_business_compliance_policy_path(@business.username) : new_business_compliance_policy_path

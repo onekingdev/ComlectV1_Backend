@@ -12,7 +12,7 @@
         .panel.panel-default.profile-info
           .panel-heading
             h3 Financials
-          .panel-body.text-center
+          .panel-body.text-center.p-t-0.p-b-2
             .row.bordered-cells
               .col-xs-6.p-y-1
                 .fw-700
@@ -28,12 +28,12 @@
                   - else
                     = number_to_currency @financials.processed_ytd
                 'YTD
-            .m-t-2= link_to 'Details', business_financials_path, class: 'btn btn-sm btn-primary p-x-3', style: "width: 150px"
+            /.m-t-2= link_to 'Details', business_financials_path, class: 'btn btn-sm btn-primary p-x-3', style: "width: 150px"
 
         .panel.panel-default.profile-info
           .panel-heading
             h3 Tools & Resources
-          .panel-body
+          .panel-body.p-t-0.p-b-2
             .list-icon.p-x-2
               .item
                 i.icon-doc
@@ -43,7 +43,7 @@
                 i.icon-share
                 span
                   = link_to 'Partnerships', partnerships_path
-            .m-t-2.text-center= link_to 'Ask a question', forum_questions_path, class: 'btn btn-sm btn-primary p-x-1', style: "width: 150px"
+            .m-t-2.text-center= link_to 'Ask a Question', forum_questions_path, class: 'btn btn-sm btn-primary p-x-1', style: "width: 150px"
       .td.col-xs-12.col-sm-8.col-md-9.va-top
         = render partial: "business_dashboard/ria_profile", locals: { business: business }
         .panel.panel-default.panel-padded

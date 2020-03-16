@@ -1,17 +1,17 @@
-.text-center.m-b-3
+.text-center.m-b-3.p-b-3
   h1 style="font-family: 'Canela'; font-size: 30px; font-weight: 400;"
     = @business.business_name
     br
     | Compliance Manual
 
 .col-md-4
-  .m-b-2
+  .m-b-2.p-b-3
     b = @compliance_policy.section_or_title
-  .pull-left = link_to "Upload", (current_specialist ? edit_specialists_business_compliance_policy_path(@business.username, @compliance_policy) : edit_business_compliance_policy_path(@compliance_policy)), "data-target": "#modal", "data-remote": true, "data-toggle": "modal", class: "btn btn-default p-x-3"
-  .pull-right = link_to "Delete", (current_specialist ? specialists_business_compliance_policy_path(@business.username, @compliance_policy) : business_compliance_policy_path(@compliance_policy)), class: "btn btn-primary m-l-1 p-x-3", method: :delete, data: { confirm: '<b>Confirm Delete</b><br/><br/><br/>You are deleting this entire policy and all of its<br/>previously saved versions. Please remember to<br/>download these files for your records, if you have<br/>ever implemented this policy.<br/><br/>Would you still like to delete?', 'confirm-label' => 'Delete' }
+  = link_to "Upload", (current_specialist ? edit_specialists_business_compliance_policy_path(@business.username, @compliance_policy) : edit_business_compliance_policy_path(@compliance_policy)), "data-target": "#modal", "data-remote": true, "data-toggle": "modal", class: "btn btn-default p-x-3 m-r-1", style: "width: 140px;"
+  = link_to "Delete", (current_specialist ? specialists_business_compliance_policy_path(@business.username, @compliance_policy) : business_compliance_policy_path(@compliance_policy)), class: "btn btn-primary p-x-3", method: :delete, data: { confirm: '<b>Confirm Delete</b><br/><br/><br/>You are deleting this entire policy and all of its<br/>previously saved versions. Please remember to<br/>download these files for your records, if you have<br/>ever implemented this policy.<br/><br/>Would you still like to delete?', 'confirm-label' => 'Delete' }, style: "width: 140px;"
   .clearfix
   br
-  table.policies_internal_table.m-b-3.m-t-1 style="width: auto;"
+  table.policies_internal_table.m-b-3.m-t-3 style="width: 100%;"
     - @compliance_policy.compliance_policy_docs.each_with_index do |doc,i|
       tr
         td 
@@ -20,16 +20,16 @@
             br
             small
               i Latest
-        td
+        td.fixedw
           = link_to doc.doc_url do
             i.icon-cloud-download data-toggle="tooltip" title="Download"
-        td
+        td.fixedw
           - if @preview_doc.id == doc.id
             i.icon-magnifier
           - else
             = link_to (current_specialist ? specialists_business_compliance_policy_path(@business.username, @compliance_policy, docid: doc.id) : business_compliance_policy_path(@compliance_policy, docid: doc.id)) do
               i.icon-magnifier data-toggle="tooltip" title="Preview"
-        td
+        td.fixedw
           = link_to "mailto:?body=Please find our policies and procedures attached. %0D%0A%0D%0ADownload: #{Rails.env == 'production' ? url_for(doc.doc_url) : root_url.delete_suffix("/")+url_for(doc.doc_url)}&subject=#{@business.business_name} #{@compliance_policy.section_or_title}" do
             i.icon-share data-toggle="tooltip" title="Share"
 .col-md-8.m-b-3.pdf_preview_area

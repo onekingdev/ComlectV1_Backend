@@ -19,7 +19,7 @@
           td = specialist.full_name
           td = link_to "Go To Profile", specialist
   .text-center
-    = link_to "Add department", new_business_team_path, class: "btn btn-primary m-b-2"
+    = link_to "Add Department", new_business_team_path, class: "btn btn-primary m-b-2"
 
   - current_business.teams.each do |team|
     table.team_table
@@ -28,7 +28,7 @@
           .pull-left
             = team.name
           .pull-right
-            = link_to "Edit department", edit_business_team_path(team)
+            = link_to "Edit Department", edit_business_team_path(team)
       tr.heading
         td Name
         td Title

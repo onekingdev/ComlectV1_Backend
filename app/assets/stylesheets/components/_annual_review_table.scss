@@ -89,7 +89,7 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    font-weight: normal;
+    font-weight: 300;
     &:after {
       display: none;
       -webkit-appearance: none;
@@ -138,6 +138,10 @@
 }
 
 .policies_internal_table {
+  .fixedw {
+    width: 57px;
+    text-align: center;
+  }
   td {
     border: 1px solid #000;
     padding: 4px 8px;
@@ -146,6 +150,9 @@
       &:hover, &:focus {
         text-decoration: none;
       }
+    }
+    .icon-cloud-download, .icon-magnifier, .icon-share {
+      font-size: 20px;
     }
   }
 }

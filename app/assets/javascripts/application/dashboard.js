@@ -26,8 +26,8 @@ if ((typeof(show_business_personalize) != "undefined") && (show_business_persona
                             "<p>Let's schedule your on-boarding call.</p>"+
                             "<img src='"+calendar_asset_path+"' width='80px'>"+
                             "<div class='m-b-1 m-t-2 stepbtns'>"+
-                              "<button onclick='personalize_book();' class='btn btn-primary m-r-1 '>Book</button>"+
-                              "<button class='btn btn-default disabled'>Next</button>"+
+                              "<button style='width: 140px;' onclick='personalize_book();' class='btn btn-default m-r-1 '>Book</button>"+
+                              "<button style='width: 140px;' class='btn btn-primary disabled'>Next</button>"+
                             "</div>"+
                           "</div>"+
                           "<span class='personalize_dot_active m-r-1'></span><span class='personalize_dot_inactive'></span>"

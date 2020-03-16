@@ -9,9 +9,9 @@
       - pth = current_business ? new_business_reminder_path(date: reminder.remind_at) : new_specialists_business_reminder_path(@business.username, date: reminder.remind_at)
       label for=("reminder_popup_#{reminder.id}") class="css-label" style="width: 100%;"
         .upcoming_task style="line-height: 14px;"
-          .pull-left class=("done" if reminder.done_at.present?) = reminder.body
-          .pull-right
-            = link_to "", (current_specialist ? specialists_business_reminder_path(@business.username, reminder) : business_reminder_path(reminder)), method: :delete, class: "icon-close", "data-confirm": "Are you sure want to delete reminder?", "data-toggle": "tooltip", "data-title": "delete"
+          div style="position:relative;" class=("done" if reminder.done_at.present?) 
+            = reminder.body
+            = link_to "", (current_specialist ? specialists_business_reminder_path(@business.username, reminder) : business_reminder_path(reminder)), method: :delete, class: "icon-close"
       .clearfix
 
   = simple_form_for @reminder, wrapper: :inline_form, url: (current_specialist ? specialists_business_reminders_path(@business.username) : business_reminders_path) do |f|
@@ -23,7 +23,7 @@
       .icon-plus.m-t-1 onclick="$('#new_reminder').submit();" style="cursor: pointer"
     .clearfix
   .text-center
-    button.btn.btn-primary data-dismiss="modal" style="width: 150px" Done
+    button.btn.btn-primary.m-t-3.m-b-2 data-dismiss="modal" style="width: 150px" Done
 
 javascript:
   var reactive_reminders = true;

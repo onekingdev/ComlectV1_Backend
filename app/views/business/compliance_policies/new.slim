@@ -1,1 +1,14 @@
-= render "business/compliance_policies/form"
+.text-center.m-b-3.p-b-3
+  h1 style="font-family: 'Canela'; font-size: 30px; font-weight: 400;"
+    = @business.business_name
+    br
+    | Compliance Manual
+
+.col-md-4
+  .m-b-2
+    b = @compliance_policy.section_or_title
+  = render "business/compliance_policies/form"
+  .clearfix
+  br
+.col-md-8.m-b-3.pdf_preview_area
+  | 

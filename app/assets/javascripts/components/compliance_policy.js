@@ -56,12 +56,14 @@ $("body").on("keydown", ".compliance_policy_title_trigger", function() {
 })
 
 function new_compliance_policy_popup_from_name(name) {
-  if ($("#new_compliance_policy_pixel").length > 0) {
+  /*if ($("#new_compliance_policy_pixel").length > 0) {
     $("#new_compliance_policy_pixel").remove();
   }
   $("#footer").append("<a href='"+new_compliance_policy_url+"?title="+encodeURI(name)+"' data-toggle='modal' data-target='#modal' data-remote='true' id='new_compliance_policy_pixel'>&nbsp;</a>");
 
-  $("#new_compliance_policy_pixel").trigger("click");
+  $("#new_compliance_policy_pixel").trigger("click");*/
+  var win = window.open((new_compliance_policy_url+"?title="+encodeURI(name)), "_blank");
+  win.focus();
 }
 
 $("#new_compliance_policy_name").on('keydown', function(e) {
