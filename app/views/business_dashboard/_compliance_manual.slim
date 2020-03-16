@@ -2,11 +2,6 @@
   .panel-heading
     h3 Compliance manual
   .panel-body.p-t-0.p-b-2
-    - if @business.uptodate_compliance_policies.present?
-      ul style="padding-left: 25px;"
-        - @business.uptodate_compliance_policies.each do |policy|
-          li = link_to policy.section_or_title, (current_specialist ? specialists_business_compliance_policy_path(@business.username, policy) : business_compliance_policy_path(policy)), target: "_blank"
-
     - if @business.compliance_manual_needs_update?
       p.p-t-1
         u Not Recently Updated
