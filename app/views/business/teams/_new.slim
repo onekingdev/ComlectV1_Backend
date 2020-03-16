@@ -14,7 +14,7 @@
         td._t_email Email
         td.white_placeholder._t_buttons
       = f.simple_fields_for :team_members do |t|
-        = render :partial => 'team_member_fields', :locals => {:f => t, :fuf => @fuf}
+        = render :partial => 'team_member_fields', :locals => {:f => t, :fuf => @fuf, :plus_hack => true }
         
       .add.add_more.team_members_plus.m-t-1 = link_to_add_association @fuf, :team_members do
         .icon-plus

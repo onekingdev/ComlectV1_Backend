@@ -40,8 +40,8 @@ h1.text-center style="font-family: 'Canela'; font-size: 30px; font-weight: 400;"
         = f.simple_fields_for :business_changes do |c|
           .nested_form
             = render 'business/annual_reports/business_change_fields', f: c
-            .add.add_more = link_to_add_association f, :business_changes, partial: 'business/annual_reports/business_change_fields' do
-              .icon-plus
+        .add.add_more = link_to_add_association f, :business_changes, partial: 'business/annual_reports/business_change_fields' do
+          .icon-plus
       .clearfix
     .shadow_container.m-b-3
       .col-md-12.m-b-2.p-x-3
@@ -54,8 +54,8 @@ h1.text-center style="font-family: 'Canela'; font-size: 30px; font-weight: 400;"
         = f.simple_fields_for :regulatory_changes do |c|
           .nested_form
             = render 'business/annual_reports/regulatory_change_fields', f: c
-            .add.add_more = link_to_add_association f, :regulatory_changes, partial: 'business/annual_reports/regulatory_change_fields' do
-              .icon-plus
+        .add.add_more = link_to_add_association f, :regulatory_changes, partial: 'business/annual_reports/regulatory_change_fields' do
+          .icon-plus
       .clearfix
     .shadow_container.m-b-3
       .col-md-12.m-b-2.p-x-3
@@ -71,8 +71,8 @@ h1.text-center style="font-family: 'Canela'; font-size: 30px; font-weight: 400;"
         = f.simple_fields_for :annual_review_employees do |c|
           .nested_form
             = render 'business/annual_reports/annual_review_employee_fields', f: c
-            .add.add_more = link_to_add_association f, :annual_review_employees, partial: 'business/annual_reports/annual_review_employee_fields' do
-              .icon-plus
+        .add.add_more = link_to_add_association f, :annual_review_employees, partial: 'business/annual_reports/annual_review_employee_fields' do
+          .icon-plus
       .clearfix
     .shadow_container.m-b-3
       .col-md-12.m-b-2.p-x-3
@@ -89,8 +89,8 @@ h1.text-center style="font-family: 'Canela'; font-size: 30px; font-weight: 400;"
         = f.simple_fields_for :findings do |c|
           .nested_form
             = render 'business/annual_reports/finding_fields', f: c
-            .add.add_more = link_to_add_association f, :findings, partial: 'business/annual_reports/finding_fields' do
-              .icon-plus style="margin-top: -73px;"
+        .add.add_more = link_to_add_association f, :findings, partial: 'business/annual_reports/finding_fields' do
+          .icon-plus style="margin-top: -73px;"
         .clearfix
       .col-sm-12.p-x-3.padded-checkboxes
         - I18n.translate("annual_report").map(&:last).each_with_index do |question, ind|
