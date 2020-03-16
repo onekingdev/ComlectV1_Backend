@@ -11,6 +11,8 @@
       p.p-t-1
         u Not Recently Updated
       ul style="padding-left: 25px;"
+        - @business.missing_compliance_policies.each do |section|
+          li = link_to I18n.translate('compliance_manual_sections')[section.to_sym], (current_specialist ? new_specialists_business_compliance_policy_path(@business.username, section_id: section) : new_business_compliance_policy_path(section_id: section)), target: "_blank"
         - @business.outdated_compliance_policies.each do |policy|
           li = link_to policy.section_or_title, (current_specialist ? specialists_business_compliance_policy_path(@business.username, policy) : business_compliance_policy_path(policy)), target: "_blank"
 

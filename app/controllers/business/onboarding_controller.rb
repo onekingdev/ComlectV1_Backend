@@ -12,13 +12,12 @@ class Business::OnboardingController < ApplicationController
         current_business.update(business_stages: params[:onboarding][:business_stages])
       end
     end
-    if %w[registration rescue_consultation registration_take_two registration_and_maintenance].include?(current_business.business_stages)
+    if %w[registration registration_and_maintenance].include?(current_business.business_stages)
       @product = ProjectTemplate.find_by(identifier: current_business.business_stages)
     end
-    @product = ProjectTemplate.find_by(identifier: 'registration') if current_business.business_stages == 'registration_and_maintenance'
     @subscription = %w[registration_and_maintenance compliance_command_center].include?(current_business.business_stages)
 
-    if params['complete'].present? && current_business.payment_sources.any? && I18n.t(:business_products).keys.map(&:to_s).include?(current_business.business_stages)
+    if params['complete'].present? && current_business.can_unlock_dashboard?
       if @product.present?
         @project = create_project
         if @project.save!

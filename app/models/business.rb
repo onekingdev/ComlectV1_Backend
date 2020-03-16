@@ -2,7 +2,6 @@
 
 require 'validators/url_validator'
 # rubocop:disable Metrics/ClassLength
-
 class Business < ApplicationRecord
   belongs_to :user
 
@@ -91,7 +90,6 @@ class Business < ApplicationRecord
       'The biggest risk is not taking any risk'
     ]
   ].freeze
-
   # rubocop:disable Metrics/LineLength
   QUIZ = [
     [:sec_or_crd],
@@ -108,10 +106,12 @@ class Business < ApplicationRecord
   ].freeze
   # rubocop:enable Metrics/LineLength
 
+  def missing_compliance_policies
+    (I18n.t(:compliance_manual_sections).keys.map(&:to_s) - (compliance_policies.collect(&:section).reject { |n| n == '' }))
+  end
+
   def compliance_manual_needs_update?
-    # rubocop:disable Metrics/LineLength
-    (I18n.t(:compliance_manual_sections).keys.map(&:to_s) - (Business.find(40).compliance_policies.collect(&:section).reject { |n| n == '' })).count.positive? || outdated_compliance_policies.any?
-    # rubocop:enable Metrics/LineLength
+    missing_compliance_policies.count.positive? || outdated_compliance_policies.any?
   end
 
   def mock_audit_hired?
@@ -171,6 +171,18 @@ class Business < ApplicationRecord
     industry = Industry.find_by(name: 'Investment Adviser')
     industry.nil? ? false : industries.collect(&:id).include?(industry.id)
   end
+
+  # rubocop:disable Style/GuardClause
+  def can_unlock_dashboard?
+    if payment_sources.any?
+      if ria?
+        I18n.t(:business_products).keys.map(&:to_s).include?(business_stages)
+      else
+        true
+      end
+    end
+  end
+  # rubocop:enable Style/GuardClause
 
   def funds?
     sub_industries.present? ? sub_industries.map(&proc { |x| x.downcase.include?('fund') }).include?(true) : false
@@ -291,19 +303,21 @@ class Business < ApplicationRecord
     employees.split('-')[0].scan(/\d/).join('').to_i
   end
 
-  # rubocop:disable all
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/CyclomaticComplexity
+  # rubocop:disable Metrics/PerceivedComplexity
+  # rubocop:disable Metrics/MethodLength
   def gap_analysis_est
     basic = 450
     deluxe = 1000
     premium = 2000
     # SMALL
     if state_or_sec == 'state'
+      basic = 450
       if employees_cnt > 2
-        basic = 450
         deluxe = 1250
         premium = 2250
       else
-        basic = 450
         deluxe = 1000
         premium = 2000
       end
@@ -350,7 +364,10 @@ class Business < ApplicationRecord
     end
     [basic, deluxe, premium]
   end
-  # rubocop:enable all
+  # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/CyclomaticComplexity
+  # rubocop:enable Metrics/PerceivedComplexity
+  # rubocop:enable Metrics/AbcSize
 
   def generate_username
     src = business_name.split(' ').map(&:capitalize).join('')
