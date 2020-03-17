@@ -3,11 +3,11 @@
 .panel-heading
   h3 Teams
 
-.teams_form.panel-body.p-r-1.p-t-0
+.teams_form.panel-body.p-r-1.p-t-0.p-b-2
   = simple_form_for @team, url: tgt_url do |f|
     - @fuf = f
     = f.input :name, label: "Department Name", input_html: { style: "width: 90%;" } 
-    table.teams_edit_table.m-t-3
+    table.teams_edit_table.m-t-2
       tr.teams_edit_table_heading
         td._t_name Name
         td._t_title Title
@@ -18,6 +18,16 @@
         
       .add.add_more.team_members_plus = link_to_add_association @fuf, :team_members do
         .icon-plus
-    .text-center.m-t-3
-      = link_to "Back", business_teams_path, class: "btn btn-default m-r-3"
-      = f.submit "Save", class: "btn btn-primary"
+    .text-center.m-t-2
+      = link_to "Back", business_teams_path, class: "btn btn-primary m-r-2"
+      = f.submit "Save", class: "btn btn-primary m-r-2"
+      - if @team.id.present?
+        button.btn.btn-primary[
+          data-method="delete"
+          data-remote="false"
+          data-url=(business_team_path(@team.id))
+          data-confirm="<center><b>Delete Department</b><br/><br/>This will delete the entire department and employee entries. Consider renaming the department if the employee entries do not need to change.</center>"
+          data-confirm-label="Delete"
+          data-cancel-label="Cancel"
+        ]
+          | Delete

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Business::TeamsController < ApplicationController
-  before_action :set_team, only: %i[update edit show]
+  before_action :set_team, only: %i[update edit show destroy]
   before_action :require_business!
 
   def index
@@ -26,6 +26,11 @@ class Business::TeamsController < ApplicationController
 
   def update
     @team.update(team_params) ? redirect_to(business_teams_path) : render('new')
+  end
+
+  def destroy
+    @team.destroy
+    redirect_to business_teams_path
   end
 
   private

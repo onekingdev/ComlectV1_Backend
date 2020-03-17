@@ -140,7 +140,7 @@
 
 .btn-md {
   @include button-size($padding-md-vertical, $padding-md-horizontal, $font-size-base, $line-height-md, $btn-border-radius-md);
-  font-weight: 400;
+  font-weight: 300;
   border-radius: 27px;
 }
 
