@@ -21,11 +21,11 @@ class Business::TeamsController < ApplicationController
   def create
     @team = Team.new(team_params)
     @team.business_id = current_business.id
-    redirect_to business_teams_path if @team.save!
+    @team.save ? redirect_to(business_teams_path) : render('new')
   end
 
   def update
-    redirect_to business_teams_path if @team.update(team_params)
+    @team.update(team_params) ? redirect_to(business_teams_path) : render('new')
   end
 
   private
