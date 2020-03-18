@@ -1655,7 +1655,6 @@ CREATE TABLE public.job_applications (
     estimated_hours integer,
     starts_on date,
     ends_on date,
-    estimated_days integer,
     status character varying
 );
 
@@ -4072,6 +4071,41 @@ ALTER SEQUENCE public.subscription_charges_id_seq OWNED BY public.subscription_c
 
 
 --
+-- Name: subscriptions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.subscriptions (
+    id integer NOT NULL,
+    business_id bigint,
+    stripe_subscription_id character varying,
+    stripe_invoice_item_id character varying,
+    plan integer DEFAULT 0,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: subscriptions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.subscriptions_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: subscriptions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.subscriptions_id_seq OWNED BY public.subscriptions.id;
+
+
+--
 -- Name: team_members; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -4802,6 +4836,13 @@ ALTER TABLE ONLY public.subscription_charges ALTER COLUMN id SET DEFAULT nextval
 
 
 --
+-- Name: subscriptions id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.subscriptions ALTER COLUMN id SET DEFAULT nextval('public.subscriptions_id_seq'::regclass);
+
+
+--
 -- Name: team_members id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -5301,6 +5342,14 @@ ALTER TABLE ONLY public.stripe_accounts
 
 ALTER TABLE ONLY public.subscription_charges
     ADD CONSTRAINT subscription_charges_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: subscriptions subscriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.subscriptions
+    ADD CONSTRAINT subscriptions_pkey PRIMARY KEY (id);
 
 
 --
@@ -6930,4 +6979,6 @@ INSERT INTO schema_migrations (version) VALUES ('20200305092313');
 INSERT INTO schema_migrations (version) VALUES ('20200305192127');
 
 INSERT INTO schema_migrations (version) VALUES ('20200310192546');
+
+INSERT INTO schema_migrations (version) VALUES ('20200317092334');
 

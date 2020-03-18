@@ -54,6 +54,12 @@ Style/LambdaCall:
 Style/RegexpLiteral:
   Enabled: false
 
+Style/RescueStandardError:
+  Enabled: false
+
+Style/RescueModifier:
+  Enabled: false
+
 Style/Send:
   Enabled: true
 

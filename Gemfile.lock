@@ -78,6 +78,7 @@ GEM
     ast (2.4.0)
     auto_strip_attributes (2.5.0)
       activerecord (>= 4.0)
+    awesome_print (1.8.0)
     aws-sdk (2.3.23)
       aws-sdk-resources (= 2.3.23)
     aws-sdk-core (2.3.23)
@@ -590,6 +591,7 @@ DEPENDENCIES
   activeadmin (~> 1.2.1)
   activejob-traffic_control
   auto_strip_attributes
+  awesome_print
   aws-sdk (~> 2.3.12)
   bcrypt
   best_in_place!

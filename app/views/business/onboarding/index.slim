@@ -20,9 +20,13 @@
         = f.submit "Continue", class: "btn btn-primary p-x-3"
   - else
     h2.m-t-1.m-b-2.text-center Billing information
+    - if flash[:error]
+      .row
+        .col-md-6.col-md-offset-3.alert.alert-danger= flash[:error]
+
     = simple_form_for :checkout, path: "/business/onboarding", class: "keks" do |f|
       input type="hidden" name="complete" value="1"
-      - if @product || @subscription
+      - if @product || need_subscription?
         .product_or_subscription.col-md-6.col-md-push-3
           .pos_header.p-x-2.p-y-1
             = I18n.t(:business_products)[current_business.business_stages.to_sym]
@@ -42,14 +46,17 @@
               .pull-left One-time fee
               .pull-right = "$#{@product.fixed_budget.to_i}"
               .clearfix
-            - if @subscription
+            - if need_subscription? && !current_business.base_subscribed?
               .pull-left On-boarding fee
               .pull-right $500
               .clearfix
               .pull-left On-going cost
               .pull-right.on_going_cost $100
               .clearfix.m-t-1
-                .text-right.m-y-2 = f.input :schedule, as: :radio_pills, collection: [['monthly', true], ['annual', false]], btn_class: 'btn-sm btn-default p-x-1', hint: false, label: ""
+                .text-right.m-y-2
+                  = f.input :schedule, as: :radio_pills, collection: [['monthly', false], ['annual', false]], btn_class: 'btn-sm btn-default p-x-1', hint: false, label: ""
+            - if current_business.base_subscribed?
+              p already subscribed
             h3.m-t-0
               .pull-left Due Now
               .pull-right.pos_total = "$#{@pos_total}"

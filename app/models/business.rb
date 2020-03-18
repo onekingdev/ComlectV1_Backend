@@ -36,6 +36,7 @@ class Business < ApplicationRecord
   has_many :uptodate_compliance_policies, -> { where('last_uploaded > ?', Time.zone.today - 1.year) }, class_name: 'CompliancePolicy'
   has_many :outdated_compliance_policies, -> { where('last_uploaded < ?', Time.zone.today - 1.year) }, class_name: 'CompliancePolicy'
 
+  has_one :subscription
   has_one :forum_subscription
   has_one :tos_agreement, through: :user
   has_one :cookie_agreement, through: :user
@@ -462,6 +463,10 @@ class Business < ApplicationRecord
     else
       0
     end
+  end
+
+  def base_subscribed?
+    subscription&.stripe_invoice_item_id && subscription&.stripe_subscription_id
   end
 end
 # rubocop:enable Metrics/ClassLength
