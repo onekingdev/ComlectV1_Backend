@@ -54,7 +54,7 @@
               .pull-right.on_going_cost $100
               .clearfix.m-t-1
                 .text-right.m-y-2
-                  = f.input :schedule, as: :radio_pills, collection: [['monthly', false], ['annual', false]], btn_class: 'btn-sm btn-default p-x-1', hint: false, label: ""
+                  = f.input :schedule, as: :radio_pills, collection: [['monthly', true], ['annual', false]], btn_class: 'btn-sm btn-default p-x-1', hint: false, label: ""
             - if current_business.base_subscribed?
               p already subscribed
             h3.m-t-0
