@@ -22,7 +22,9 @@ class ForumSubscription < ActiveRecord::Base
   before_destroy :cancel
 
   def return_plan_id
-    "#{level}_#{billing_type}"
+    environment = ENV['STRIPE_PUBLISHABLE_KEY'].start_with?('pk_test') ? 'staging' : 'production'
+    environment = 'staging' if Rails.env.development?
+    "#{environment}_#{level}_#{billing_type}"
   end
 
   def create_subscription
