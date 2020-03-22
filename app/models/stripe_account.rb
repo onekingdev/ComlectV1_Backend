@@ -115,7 +115,7 @@ class StripeAccount < ApplicationRecord
           debit_negative_balances: true
         }
       },
-      requested_capabilities: %w[legacy_payments transfers]
+      requested_capabilities: %w[transfers]
     }
 
     if individual?
