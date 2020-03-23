@@ -1,0 +1,42 @@
+version: '3'
+
+volumes:
+  db-data:
+    external: false
+
+services:
+  db:
+    environment:
+      - POSTGRES_PASSWORD=1
+      - POSTGRES_USER=postgres
+      - POSTGRES_HOST=localhost
+      - EXISTING_DATA_DIR=true
+    volumes:
+      - db-data:/usr/local/pgsql/data
+    ports:
+      - '5432:5432'
+    image: postgis/postgis:9.5-3.0
+
+
+  webpacker:
+    build: .
+    environment:
+      - NODE_ENV=development
+      - RAILS_ENV=development
+      - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
+    command: ./bin/webpack-dev-server
+    volumes:
+      - .:/var/www/complect/current
+    ports:
+      - '3035:3035'
+
+  app:
+    env_file: .env.local
+    build: .
+    volumes:
+    - .:/var/www/complect/current
+    ports:
+    - '3000:3000'
+    depends_on:
+      - db
+      - webpacker

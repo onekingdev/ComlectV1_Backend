@@ -8,8 +8,15 @@ h2.text-center.m-b-3.m-t-3.p-b-2 Edit your business profile
 
     = render 'fields_business_info', f: f
     = render 'fields_location', f: f
+    .col-sm-6 = f.input :employees, include_blank: I18n.t('simple_form.placeholders.business.employees'), collection: Business::EMPLOYEE_OPTIONS, input_html: { class: 'input-lg js-select' }
+    .col-sm-6 = f.input :client_account_cnt, as: :string, input_html: { class: 'input-lg' }, placeholder: "* Est. No. Client Accounts"
+    .col-sm-6 = f.input :total_assets, as: :string, input_html: { class: 'input-lg' }, placeholder: "* Est. Total Assets"
+    .clearfix.m-b-2
+    h3
+      'Industries
+    .col-sm-6 = f.association :industries, collection: Industry.sorted, placeholder: I18n.t('simple_form.placeholders.business.industry'), input_html: { class: 'input-lg js-select', multiple: true }
+    .clearfix.m-b-2
     = render 'fields_jurisdiction', f: f
-
   .well.well-lg.m-t-3
     .row.text-center.p-b-1
       h2.m-b-3 Do you wish to display the name of your business?

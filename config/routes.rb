@@ -4,12 +4,13 @@ require 'sidekiq/web'
 require 'sidekiq-scheduler/web'
 
 Rails.application.routes.draw do
-  if Rails.env.production?
+  if Rails.env.production? || Rails.env.staging?
     Sidekiq::Web.use Rack::Auth::Basic do |username, password|
       username == ENV.fetch('SIDEKIQ_USERNAME') && password == ENV.fetch('SIDEKIQ_PASSWORD')
     end
   end
   mount Sidekiq::Web => '/sidekiq'
+  mount PdfjsViewer::Rails::Engine => '/pdfjs', as: 'pdfjs'
 
   devise_for :admin_users, ActiveAdmin::Devise.config
   begin
@@ -73,8 +74,17 @@ Rails.application.routes.draw do
   resources :flags, only: %i[new create]
 
   namespace :business do
-    resources :charges, only: :create
-
+    get '/personalize' => 'personalize#quiz'
+    post '/personalize' => 'personalize#quiz'
+    get '/personalize_book' => 'personalize#book'
+    get '/onboarding' => 'onboarding#index'
+    post '/onboarding' => 'onboarding#subscribe'
+    resources :compliance_policies, only: %i[new update create edit show destroy index]
+    resources :annual_reviews, only: %i[new create show destroy index edit update]
+    resources :annual_reports, only: %i[new create index update]
+    resources :teams, only: %i[new create show edit index update destroy]
+    resources :reminders, only: %i[new update create destroy show index]
+    resources :audit_requests, only: %i[index update create new edit show destroy]
     resource :settings, only: :show do
       resource :password
       resource :key_contact
@@ -128,6 +138,17 @@ Rails.application.routes.draw do
 
   namespace :specialists, path: 'specialist' do
     get '/' => 'dashboard#show', as: :dashboard
+    resources :businesses, only: %i[new create show] do
+      get '/personalize' => 'personalize#quiz'
+      post '/personalize' => 'personalize#quiz'
+      get '/personalize_book' => 'personalize#book'
+      resources :compliance_policies, only: %i[new update create edit show destroy index]
+      resources :annual_reviews, only: %i[new create show destroy index edit update]
+      resources :annual_reports, only: %i[new create index update]
+      # resources :teams, only: %i[new create show edit index update]
+      resources :reminders, only: %i[new update create destroy show index]
+      resources :audit_requests, only: %i[index update create new edit show destroy]
+    end
     resource :settings, only: :show do
       resource :password
       resource :contact_information, only: %i[show update]

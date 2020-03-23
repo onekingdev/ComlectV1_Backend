@@ -8,6 +8,7 @@ class Users::SessionsController < Devise::SessionsController
 
   # POST /resource/sign_in
   def create
+    Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name)
     respond_to do |format|
       format.html { super }
       format.js do
