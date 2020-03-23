@@ -73,6 +73,8 @@ Rails.application.routes.draw do
   resources :flags, only: %i[new create]
 
   namespace :business do
+    resources :charges, only: :create
+
     resource :settings, only: :show do
       resource :password
       resource :key_contact
@@ -84,6 +86,7 @@ Rails.application.routes.draw do
       resources :notification_settings, as: :notifications, path: 'notifications', only: %i[index update]
       resources :subscription_settings, as: :subscriptions, path: 'subscriptions', only: %i[index update]
     end
+
     resources :specialists, only: :index
     concerns :favoriteable
     resources :messages
