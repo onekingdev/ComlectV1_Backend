@@ -10,7 +10,7 @@ services:
       - POSTGRES_PASSWORD=1
       - POSTGRES_USER=postgres
       - POSTGRES_HOST=localhost
-      - EXISTING_DATA_DIR=true
+#      - EXISTING_DATA_DIR=true
     volumes:
       - db-data:/usr/local/pgsql/data
     ports:
