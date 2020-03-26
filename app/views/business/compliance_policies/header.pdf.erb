@@ -1,0 +1,46 @@
+<html>
+  <head>
+    <style type="text/css">
+      body, html, table {
+        font-family: "Roboto";
+        font-size: 120px;
+        padding: 0px;
+        margin: 0px;
+      }
+
+      p { page-break-inside: avoid; }
+
+      ul, ol {
+        margin-left: 230px;
+        margin-bottom: 100px;
+      }
+      li {
+        padding-bottom: 50px;
+        page-break-inside: avoid;
+      }
+
+      table, td {
+        border-collapse: collapse;
+        border: 1px solid #000;
+        page-break-inside: avoid;
+      }
+
+      td {
+        padding: 20px;
+      }
+
+      h1 { font-size: 40px;}
+      p { font-size: 20px;}
+    </style>
+    <meta charset="UTF-8">
+  </head>
+  <body>
+    <center>
+      <p>&nbsp;</p>
+      <h1 style="margin-top: 450px;"><%= business.business_name %></h1>
+      <h1>Compliance Manual</h1>
+      <p>Last updated: <%= last_updated.strftime('%b %-d, %Y') %></p>
+    </center>
+    <p style="margin-top: 400px;">This compliance manual is the private property of <%= business.business_name %> and should not be distributed or shared without the consent of the Chief Compliance Officer. It is deemed to supersede any alternate version and/or policies and procedures. </p>
+  </body>
+</html>

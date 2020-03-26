@@ -109,7 +109,14 @@
     a {
       color: rgba(0, 0, 0, 0.8);
     }
-
+    table {
+      a {
+        &:hover {
+          text-decoration: none !important;
+          color: #ffcc00;
+        }
+      }
+    }
     .table th span {
       font-weight: $bold-weight;
       margin-left: 10px;
@@ -399,7 +406,7 @@
 .panel-body {
   font-size: 13px;
   color: #333333;
-  font-weight: $regular-weight;
+  font-weight: 300;
 
   > :first-child, .list-group .list-group-item:first-child {
     margin-top: 0;

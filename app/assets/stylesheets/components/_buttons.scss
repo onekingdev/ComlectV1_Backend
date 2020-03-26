@@ -1,10 +1,11 @@
 .btn {
   //text-transform: uppercase;
   //font-weight: ;
-  font-size: 14px;
+  font-size: 12px;
   padding: 10px 20px;
   font-family: "Open Sans";
   font-weight: bold;
+  letter-spacing: 1px;
 }
 
 .btn-sm {
@@ -49,7 +50,7 @@
   @include button-variant-light($btn-primary-bg);
   //text-transform: uppercase;
   border-radius: 27px;
-  font-weight: 400;
+  font-weight: 300;
 
   &:focus {
     background-color: #ffcc00 !important;
@@ -65,8 +66,8 @@
 
 .btn-default {
   border-radius: 27px;
-  font-weight: 400;
-  text-transform: uppercase;
+  font-weight: 300;
+  //text-transform: uppercase;
   &:hover, &:focus, &:active {
     border-color: #000000 !important;
   }
@@ -139,7 +140,7 @@
 
 .btn-md {
   @include button-size($padding-md-vertical, $padding-md-horizontal, $font-size-base, $line-height-md, $btn-border-radius-md);
-  font-weight: 400;
+  font-weight: 300;
   border-radius: 27px;
 }
 

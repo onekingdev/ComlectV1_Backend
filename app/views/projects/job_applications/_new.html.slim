@@ -3,8 +3,7 @@
     .modal-content
       = simple_form_for @job_application, url: project_job_applications_path(@job_application.project), remote: true do |f|
         .modal-header
-          button.close.bootbox-close-button.m-r-1 data-dismiss="modal" type="button"
-            .icon.maxicons1-exit
+          button.close.bootbox-close-button.m-r-1 data-dismiss="modal" type="button" &nbsp;
         .modal-body.text-left
           h3.text-uppercase.text-center.m-t-1.m-b-2 Apply to This #{f.object.project.full_time? ? 'Full-time Role' : 'Project'}
           - if @job_application.errors[:prerequisites].empty?

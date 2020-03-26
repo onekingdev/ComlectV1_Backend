@@ -5,13 +5,13 @@
   - if flash[:notice]
     .alert.alert-success.m-b-3 = flash[:notice]
 
-  - if employees.present?
+  - if @employees.present?
     .panel-heading.p-a-0
       h3.m-b-1 Employees
     table.table.manage-employees
       = render 'employees', employees: employees
 
-  - if invitations.present?
+  - if @invitations.present?
     .panel-heading.p-a-0
       h3.m-b-1 Pending Invitations
     table.table.manage-employees
