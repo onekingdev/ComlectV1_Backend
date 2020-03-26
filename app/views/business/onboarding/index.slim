@@ -64,8 +64,11 @@
               .pull-left On-going cost
               .pull-right.on_going_cost $100
               .clearfix.m-t-1
-                .text-right.m-y-2
-                  = f.input :schedule, as: :radio_pills, collection: [['monthly', false], ['annual', false]], btn_class: 'btn-sm btn-default p-x-1', hint: false, label: ""
+              .pull-left style="margin-top: 25px;"
+                b Billing Frequency
+              .pull-right.m-t-2
+                = f.input :schedule, as: :radio_pills, collection: [['monthly', false], ['annual', false]], btn_class: 'btn-sm btn-default p-x-1', hint: false, label: ""
+              .clearfix
               javascript:
                 var trigger_monthly_sub = true;
             - if current_business.base_subscribed?

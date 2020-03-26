@@ -19,8 +19,11 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
 
             var prop_disabled = false;
             if ($("#business_user_attributes_password").val() != $("#business_user_attributes_password_confirmation").val()) {
+              $("#business_user_attributes_password_confirmation").addClass("form_error");
               prop_disabled = true;
               console.log("pwd fail");
+            } else {
+              $("#business_user_attributes_password_confirmation").removeClass("form_error");
             }
             for (field of required_fields_step0) {
               if (!($(field).val().length > 0)) {
