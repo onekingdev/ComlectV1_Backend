@@ -1,33 +1,32 @@
 version: '3.6'
 
 volumes:
-  db-data:
-    external: false
+  redis:
+  app:
 
 services:
-  datab:
-    image: postgres:10
+  redis:
+    image: 'redis:latest'
+    command: redis-server
     volumes:
-      - db-data:/usr/local/pgsql/data
-    environment:
-      - POSTGRES_HOST_AUTH_METHOD=trust
-#      - POSTGRES_PASSWORD=1
-#      - POSTGRES_USER=postgres
-#      - POSTGRES_HOST=localhost
-#      - EXISTING_DATA_DIR=true
-#    ports:
-#      - '5432:5432'
-    restart: always
-
+      - 'redis:/data'
+  sidekiq:
+    depends_on:
+      - 'redis'
+    build: .
+    command: bundle exec sidekiq -C config/sidekiq.yml
+    volumes:
+      - '.:/app'
+#    env_file: # uncomment for local testing only
+#      - '.env.prod' # use heroku ENVs on production/staging
   web:
-    environment:
-      - RAILS_ENV=production
-      - RACK_ENV=production
-      - POSTGRES_HOST=datab
-    build:
-      context: .
+#    env_file: # uncomment for local testing only
+#      - '.env.prod' # use heroku ENVs on production/staging
+    build: .
+    volumes:
+      - '.:/app'
     ports:
     - '3000:3000'
     depends_on:
-      - datab
+      - 'sidekiq'
 
