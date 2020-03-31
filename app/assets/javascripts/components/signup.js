@@ -7,21 +7,16 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
   var cookie_form_attrs = ["#business_contact_first_name", "#business_contact_last_name", "#business_user_attributes_email", "#business_business_name", "#business_contact_job_title", "#business_contact_phone", "#business_address_1", "#business_address_2", "#business_city", "#business_state", "#business_zipcode", "#business_client_account_cnt", "#business_total_assets"];
 
   var step_signup_continue = function() {
-    console.log("continuing");
     for (var name of step_names) {
       if (name == "step0") {
-        console.log("step0 continuing");
         $(".business_step0 .continue").prop("disabled", true);
         if (validateEmail($("#business_user_attributes_email").val())) {
-          console.log("vemaile");
           if ($("#business_user_attributes_password").val().length > 5) {
             $("#business_user_attributes_password").removeClass("form_error");
-
             var prop_disabled = false;
             if ($("#business_user_attributes_password").val() != $("#business_user_attributes_password_confirmation").val()) {
               $("#business_user_attributes_password_confirmation").addClass("form_error");
               prop_disabled = true;
-              console.log("pwd fail");
             } else {
               $("#business_user_attributes_password_confirmation").removeClass("form_error");
             }
@@ -75,7 +70,6 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
 
     function set_risks_cookie() {
       Cookies.set("complect_step3", $("#business_risks_1").val()+"-"+$("#business_risks_2").val()+"-"+$("#business_risks_3").val());
-      console.log(Cookies.get("complect_step3"));
     }
 
     $("#business_risks_1").ionRangeSlider({

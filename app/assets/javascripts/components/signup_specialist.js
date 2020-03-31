@@ -3,6 +3,48 @@ if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("spe
   var pwd_focused = false;
   var step_names = ['step0', 'step1', 'step11', 'step2', 'step3', 'step31', 'step32', 'step7'];
   var step_cookies = {};
+  var required_fields_step0 = ["#specialist_user_attributes_password", "#specialist_first_name", "#specialist_last_name", "#specialist_user_attributes_email", "#specialist_user_attributes_password_confirmation", "#specialist_address_1", "#specialist_city", "#specialist_state", "#specialist_zipcode", "#specialist_country", "#specialist_time_zone"];
+  var cookie_form_attrs = ["#specialist_first_name", "#specialist_last_name", "#specialist_user_attributes_email", "#specialist_address_1", "#specialist_city", "#specialist_state", "#specialist_zipcode", "#specialist_address_2"];
+
+  function step_signup_continue() {
+    for (var name of step_names) {
+      if (name == "step0") {
+        $(".specialist_step0 .continue").prop("disabled", true);
+        if (validateEmail($("#specialist_user_attributes_email").val())) {
+          if ($("#specialist_user_attributes_password").val().length > 5) {
+            $("#specialist_user_attributes_password").removeClass("form_error");
+            var prop_disabled = false;
+            if ($("#specialist_user_attributes_password").val() != $("#specialist_user_attributes_password_confirmation").val()) {
+              $("#specialist_user_attributes_password_confirmation").addClass("form_error");
+              prop_disabled = true;
+            } else {
+              $("#specialist_user_attributes_password_confirmation").removeClass("form_error");
+            }
+            for (field of required_fields_step0) {
+              if (!($(field).val().length > 0)) {
+                prop_disabled = true;
+              }
+            }
+            $(".specialist_step0 .continue").prop("disabled", prop_disabled);
+          } else {
+            $("#specialist_user_attributes_password").addClass("form_error");
+            if ((pwd_focused == false) && (no_pwd_focus == false)) {
+              pwd_focused = true;
+              $("#specialist_user_attributes_password").focus();
+            }
+          }
+        }
+      } else {
+        if (name != "step5") {
+          $(".specialist_"+name).find(".continue").prop("disabled", !($(".specialist_"+name+" .choices .active").length > 0));
+        }
+        if (name == "step7") {
+          var actives = $(".specialist_"+name+" .active");
+          $(".specialist_step7 .continue").prop("disabled", (actives.length == 0));
+        }
+      }
+    }
+  }
 
   function validateEmail(email) {
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -14,9 +56,10 @@ if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("spe
       step_cookies[name] = Cookies.get('complect_s_'+name);
     }
 
-    $("#specialist_user_attributes_email").val(Cookies.get("complect_s_email"));
-    $("#specialist_first_name").val(Cookies.get("complect_s_first_name"));
-    $("#specialist_last_name").val(Cookies.get("complect_s_last_name"));
+    for (cookie_attr of cookie_form_attrs) {
+      $(cookie_attr).val(Cookies.get(cookie_attr.replace("#specialist_", "complect_s_")));
+    }
+
     $(".specialist_step0").show();
     var other = Cookies.get("complect_s_other");
     if (other != undefined) {
@@ -58,7 +101,7 @@ if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("spe
         choice.find("input[type=checkbox]").prop("checked", true);
       }
     }
-    step_continue();
+    step_signup_continue();
   });
 
   function render_step11() {
@@ -88,7 +131,7 @@ if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("spe
         active_btn.find("input[type=checkbox]").prop("checked", true);
       }
     }
-    step_continue();
+    step_signup_continue();
   }
 
   $("#specialist_user_attributes_email").on('keyup', function(e) {
@@ -99,21 +142,21 @@ if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("spe
     }
     Cookies.set("complect_s_email", $(this).val(), { expires: 7 });
     no_pwd_focus = true;
-    step_continue();
+    step_signup_continue();
   });
 
-  $("#specialist_first_name").on('keyup', function(e) {
-    Cookies.set("complect_s_first_name", $(this).val(), { expires: 7 });
-    step_continue();
+  $(cookie_form_attrs.join(", ")).on('keyup', function(e) {
+    //console.log(this);
+    Cookies.set($(this).attr('id').replace("specialist_", "complect_s_"), $(this).val(), { expires: 7 });
+    step_signup_continue();
   });
 
-  $("#specialist_last_name").on('keyup', function(e) {
-    Cookies.set("complect_s_last_name", $(this).val(), { expires: 7 });
-    step_continue();
+  $("#specialist_user_attributes_password, "+required_fields_step0.join(", ")).on('keyup', function() {
+    step_signup_continue();
   });
 
-  $("#specialist_user_attributes_password").on('keyup', function() {
-    step_continue();
+  $("#specialist_user_attributes_password, "+required_fields_step0.join(", ")).on('change', function() {
+    step_signup_continue();
   });
 
   $(".btn_step_jump").on('click', function() {
@@ -193,47 +236,19 @@ if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("spe
   $(".btn_step7").on('click', function() { $(".specialist_step").hide(); $(".specialist_step7").show(); window.scrollTo(0,0); });
   $(".btn_step8").on('click', function() { $(".specialist_step").hide(); $(".specialist_step8").show(); window.scrollTo(0,0); });
 
-  function step_continue() {
-    for (var name of step_names) {
-      if (name == "step0") {
-        $(".specialist_step0 .continue").prop("disabled", true);
-        if (validateEmail($("#specialist_user_attributes_email").val())) {
-          if ($("#specialist_user_attributes_password").val().length > 5) {
-            $("#specialist_user_attributes_password").removeClass("form_error");
-            if ($("#specialist_first_name").val().length > 0) {
-              if ($("#specialist_last_name").val().length > 0) {
-                $(".specialist_step0 .continue").prop("disabled", false);
-              }
-            }
-          } else {
-            $("#specialist_user_attributes_password").addClass("form_error");
-            if ((pwd_focused == false) && (no_pwd_focus == false)) {
-              pwd_focused = true;
-              $("#specialist_user_attributes_password").focus();
-            }
-          }
-        }
-      } else {
-        if (name != "step5") {
-          $(".specialist_"+name).find(".continue").prop("disabled", !($(".specialist_"+name+" .choices .active").length > 0));
-        }
-        if (name == "step7") {
-          var actives = $(".specialist_"+name+" .active");
-          $(".specialist_step7 .continue").prop("disabled", (actives.length == 0));
-        }
-      }
-    }
-  }
-
-  $("#specialist_user_attributes_password, #specialist_first_name, #specialist_last_name, #specialist_user_attributes_email").on('keydown', function(e) {
+  $(required_fields_step0.join(", ")).on('keydown', function(e) {
     if (e.keyCode == 13) {
       e.preventDefault;
-      step_continue();
+      step_signup_continue();
       if ($(".specialist_step0 .continue").prop("disabled") == false) {
         $(".btn_step_jump").trigger('click');
       }
       return false;
     }
+  });
+
+  $("#business_user_attributes_password, "+required_fields_step0.join(", ")).on('keyup', function() {
+    step_signup_continue();
   });
 
   $("#specify_other").on("keyup", function() {
@@ -310,7 +325,7 @@ if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("spe
         }
       }
     }
-    step_continue();
+    step_signup_continue();
   }
 
   $(".choices").on('click', '.btn-block', function() {
