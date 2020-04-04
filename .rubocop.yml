@@ -11,13 +11,6 @@ AllCops:
     - 'node_modules/**/*'
     - 'vendor/**/*'
 
-Rails/UnknownEnv:
-  Environments:
-    - production
-    - development
-    - test
-    - staging
-
 Layout/EmptyLineBetweenDefs:
   AllowAdjacentOneLineDefs: true
 
@@ -52,12 +45,6 @@ Style/LambdaCall:
   Enabled: false
 
 Style/RegexpLiteral:
-  Enabled: false
-
-Style/RescueStandardError:
-  Enabled: false
-
-Style/RescueModifier:
   Enabled: false
 
 Style/Send:

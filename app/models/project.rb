@@ -34,7 +34,6 @@ class Project < ApplicationRecord
   accepts_nested_attributes_for :extensions
   accepts_nested_attributes_for :timesheets, allow_destroy: true
 
-  scope :time_assigned, -> { where.not(starts_on: nil).where.not(ends_on: nil) }
   scope :business_timezones, -> { joins(business: :user).select('projects.*, businesses.time_zone') }
   scope :escalated, -> { joins(:issues).where(project_issues: { status: :open }) }
   scope :not_escalated, -> { where.not(id: escalated) }
@@ -165,14 +164,6 @@ class Project < ApplicationRecord
   end.freeze
 
   before_save :save_expires_at, if: -> { starts_on_changed? }
-
-  def start_time
-    starts_on
-  end
-
-  def end_time
-    ends_on
-  end
 
   def populate_rfp(job_application)
     if rfp?
@@ -351,7 +342,7 @@ class Project < ApplicationRecord
   # rubocop:disable all
   def build_from_template(businessid, template, params)
     %i[location_type key_deliverables pricing_type hourly_rate only_regulators annual_salary
-       fee_type minimum_experience duration_type estimated_days business_fee_free applicant_selection].each do |attr|
+       fee_type minimum_experience duration_type estimated_days].each do |attr|
       public_send("#{attr}=", template.public_send(attr.to_s))
     end
     solution = template.turnkey_solution

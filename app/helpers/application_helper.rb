@@ -3,21 +3,9 @@
 module ApplicationHelper
   include SimpleForm::ActionViewExtensions::FormHelper
 
-  def self.order_string(field_name, arr)
-    arr.map { |val| "#{field_name}='#{val}' desc" }.join(', ')
-  end
-
   def accept_cookies
     cookies[:accept_cookies] = true if current_user && current_user.cookie_agreement.present? && cookies[:accept_cookies].nil?
     cookies[:accept_cookies]
-  end
-
-  def user_signed_in_onboarding?
-    if current_business && !current_business.onboarding_passed
-      false
-    else
-      user_signed_in?
-    end
   end
 
   def active_class(*args)
