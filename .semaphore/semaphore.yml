@@ -11,5 +11,4 @@ blocks:
         - name: docker build
           commands:
             - checkout
-            - docker build -t your-image .
-            - null
+            - docker-compose build

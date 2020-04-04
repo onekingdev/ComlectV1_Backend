@@ -1,0 +1,19 @@
+version: '3.6'
+
+volumes:
+  app:
+
+services:
+  sidekiq:
+    build: .
+    command: bundle exec sidekiq -C config/sidekiq.yml
+    volumes:
+      - '.:/app'
+  web:
+    build: .
+    volumes:
+      - '.:/app'
+    ports:
+      - '3000:3000'
+    depends_on:
+      - 'sidekiq'
