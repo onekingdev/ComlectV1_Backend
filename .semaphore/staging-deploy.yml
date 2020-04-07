@@ -20,5 +20,6 @@ blocks:
             - docker pull "$DOCKER_USERNAME"/docker-hub:$SEMAPHORE_WORKFLOW_ID
             - docker images
             - heroku container:login
+            - docker tag "$DOCKER_USERNAME"/docker-hub:$SEMAPHORE_WORKFLOW_ID registry.heroku.com/$HEROKU_APP/web
             - docker push registry.heroku.com/$HEROKU_APP/web
             - heroku container:release web --app $HEROKU_APP
