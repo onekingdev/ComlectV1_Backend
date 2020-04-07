@@ -11,16 +11,17 @@ blocks:
         - name: docker-hub
       env_vars:
         - name: HEROKU_APP
-          value: complect-docker-staging
+          value: semaphore-complect-staging
       jobs:
         - name: docker build
           commands:
             - checkout
-            - docker-compose build
-            - docker images
             - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
-            - docker tag "$DOCKER_USERNAME"/docker-hub:$SEMAPHORE_WORKFLOW_ID registry.heroku.com/$HEROKU_APP/web
-            - docker push registry.heroku.com/$HEROKU_APP/web
+            - docker-compose build
+            - docker tag docker-hub:latest "$DOCKER_USERNAME"/docker-hub:latest
+            - docker tag docker-hub:latest "$DOCKER_USERNAME"/docker-hub:$SEMAPHORE_WORKFLOW_ID
+            - docker push "$DOCKER_USERNAME"/docker-hub:latest
+            - docker push "$DOCKER_USERNAME"/docker-hub:$SEMAPHORE_WORKFLOW_ID
             - docker images
 promotions:
   - name: Staging deploy
