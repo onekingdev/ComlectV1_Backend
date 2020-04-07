@@ -17,9 +17,11 @@ blocks:
           commands:
             - checkout
             - docker-compose build
+            - docker images
             - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
-            - docker push registry.heroku.com/$HEROKU_APP/web
             - docker tag "$DOCKER_USERNAME"/docker-hub:$SEMAPHORE_WORKFLOW_ID registry.heroku.com/$HEROKU_APP/web
+            - docker push registry.heroku.com/$HEROKU_APP/web
+            - docker images
 promotions:
   - name: Staging deploy
     pipeline_file: staging-deploy.yml
