@@ -18,6 +18,7 @@ blocks:
             - checkout
             - docker-compose build
             - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+            - heroku login -i
             - heroku container:login
             - docker tag "$DOCKER_USERNAME"/docker-hub:$SEMAPHORE_WORKFLOW_ID registry.heroku.com/$HEROKU_APP/web
             - docker push registry.heroku.com/$HEROKU_APP/web
