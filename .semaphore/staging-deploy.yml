@@ -18,5 +18,7 @@ blocks:
             - checkout
             - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
             - docker pull "$DOCKER_USERNAME"/docker-hub:$SEMAPHORE_WORKFLOW_ID
+            - docker images
             - heroku container:login
+            - docker push registry.heroku.com/$HEROKU_APP/web
             - heroku container:release web --app $HEROKU_APP
