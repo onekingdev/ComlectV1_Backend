@@ -18,8 +18,8 @@ blocks:
             - checkout
             - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
             - docker-compose build
-            - docker tag docker-hub:latest "$DOCKER_USERNAME"/docker-hub:latest
-            - docker tag docker-hub:latest "$DOCKER_USERNAME"/docker-hub:$SEMAPHORE_WORKFLOW_ID
+            - docker tag complect_web:latest "$DOCKER_USERNAME"/docker-hub:latest
+            - docker tag complect_web:latest "$DOCKER_USERNAME"/docker-hub:$SEMAPHORE_WORKFLOW_ID
             - docker push "$DOCKER_USERNAME"/docker-hub:latest
             - docker push "$DOCKER_USERNAME"/docker-hub:$SEMAPHORE_WORKFLOW_ID
             - docker images
