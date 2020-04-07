@@ -12,6 +12,10 @@ blocks:
       env_vars:
         - name: HEROKU_APP
           value: semaphore-complect-staging
+        - name: RACK_ENV
+          value: production
+        - name: RAILS_ENV
+          value: production
       jobs:
         - name: 'Deploy STG'
           commands:
@@ -24,3 +28,4 @@ blocks:
             - heroku stack:set container --app $HEROKU_APP
             - docker push registry.heroku.com/$HEROKU_APP/web
             - heroku container:release web --app $HEROKU_APP
+            - heroku run --exit-code -- bundle exec rake db:migrate
