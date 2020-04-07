@@ -1,11 +1,11 @@
 version: v1.0
-name: Docker
+name: Deploy to staging
 agent:
   machine:
     type: e1-standard-2
     os_image: ubuntu1804
 blocks:
-  - name: Build
+  - name: Deploy
     task:
       secrets:
         - name: docker-hub
@@ -13,13 +13,10 @@ blocks:
         - name: HEROKU_APP
           value: complect-docker-staging
       jobs:
-        - name: docker build
+        - name: 'Deploy STG'
           commands:
             - checkout
-            - docker-compose build
             - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
             - docker pull "$DOCKER_USERNAME"/docker-hub:$SEMAPHORE_WORKFLOW_ID
             - heroku container:login
-            - docker tag "$DOCKER_USERNAME"/docker-hub:$SEMAPHORE_WORKFLOW_ID registry.heroku.com/$HEROKU_APP/web
-            - docker push registry.heroku.com/$HEROKU_APP/web
-            - heroku stack:set container --app $HEROKU_APP
+            - heroku container:release web --app $HEROKU_APP
