@@ -1,0 +1,17 @@
+version: v1.0
+name: Pipeline 2
+blocks:
+  - name: Deploy to nowhere
+    task:
+      jobs:
+        - name: 'Job #1'
+          commands:
+            - echo "job 1"
+            - chmod 0600 ~/.ssh/*
+            - ssh-add ~/.ssh/private-repo
+      secrets:
+        - name: secret secret
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804

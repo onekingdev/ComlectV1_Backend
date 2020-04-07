@@ -36,9 +36,13 @@ class Specialist < ApplicationRecord
   has_many :email_threads, dependent: :destroy
   has_many :payments, -> { for_rfp_or_one_off_projects }, through: :projects, source: :charges
   has_many :transactions, through: :projects
-
+  has_many :active_projects, -> { where(status: statuses[:published]).where.not(specialist_id: nil) }, class_name: 'Project'
+  has_many :manageable_businesses, through: :active_projects, class_name: 'Business', source: :business
   has_one :referral, as: :referrable
   has_many :referral_tokens, as: :referrer
+  # rubocop:disable Metrics/LineLength
+  has_many :manageable_ria_businesses, -> { joins(:industries).where('industries.id = 5') }, through: :active_projects, class_name: 'Business', source: :business
+  # rubocop:enable Metrics/LineLength
 
   has_settings do |s|
     s.key :notifications, defaults: {
@@ -51,6 +55,98 @@ class Specialist < ApplicationRecord
       new_forum_comments: true
     }
   end
+
+  serialize :sub_industries
+  serialize :sub_jurisdictions
+  serialize :jurisdiction_states_usa
+  serialize :jurisdiction_states_canada
+  serialize :specialist_risks
+  serialize :project_types
+
+  # rubocop:disable Metrics/LineLength
+  PROJECT_TYPES = ['Email Reviews', 'Annual Audits', 'On-site Assistance', 'Marketing Review', 'Gap Analysis', 'Secondments', 'Outsourced CCO', 'Outsourced COO', 'Outsourced CFO', 'Outsourced FINOP', 'Regulatory Filing', 'Outsourced OSJ', 'Ad-hoc Consulting', 'Personal Securities Monitorin', 'AML/KYC', 'Cybersecurity', 'Internal Reviews', 'Independent Director'].freeze
+  # rubocop:enable Metrics/LineLength
+
+  STEP_RISKS = [
+    [
+      'You head over and take a piece, because it worked out for the other two mice',
+      'You think about it, but end up playing it safe',
+      'You would have been on that cheese the moment you saw it',
+      'You need to do more research and want to see if more mice are succesful',
+      'No, thank you! Risk death? Not worth it.'
+    ],
+    [
+      'Slow down to the speed limit in case it’s a cop ',
+      'Moderate your speed to the flow of traffic ',
+      'You’d never speed ',
+      'Hope for the best, because you can’t afford to be late to this meeting',
+      'You always speed, even if cops are around, because they have to catch you first'
+    ],
+    [
+      'To win big, you sometimes have to take big risks',
+      'Measure twice, cut once',
+      'My belief in a day of reckoning keeps me on the straight and narrow',
+      'There’s a fine line between taking a calculated risk and doing something dumb',
+      'The biggest risk is not taking any risk'
+    ]
+  ].freeze
+
+  # def manageable_ria_businesses
+  #  industry = Industry.find_by(name: 'Investment Adviser')
+  #  arr = manageable_businesses
+  #  tgt_arr = []
+  #  arr.each do |b|
+  #    tgt_arr.push(b) if b.industries.include? industry
+  #  end
+  #  arr.uniq!
+  #  tgt_arr
+  # end
+
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/MethodLength
+  def apply_quiz(cookies)
+    step1_c = cookies[:complect_s_step1].split('-').map(&:to_i)
+    self.sub_industries = []
+    unless cookies[:complect_s_step21].nil?
+      cookies[:complect_s_step21].split('-').map(&proc { |p| p.split('_').map(&:to_i) }).each do |c|
+        sub_industries.push(Industry.find(c[0]).sub_industries_specialist.split("\r\n")[c[1]]) if step1_c.include? c[0]
+      end
+    end
+    self.specialist_risks = cookies[:complect_s_step4].split('-').map(&:to_i)
+    self.specialist_other = cookies[:complect_s_other] if industries.collect(&:name).include? 'Other'
+
+    unless cookies[:complect_s_states_usa].nil?
+      tgt_states = []
+      cookies[:complect_s_states_usa].split('-').each do |usa_state|
+        tgt_states.push(usa_state) if State.fetch_all_usa.include?(usa_state)
+      end
+      self.jurisdiction_states_usa = tgt_states
+    end
+
+    unless cookies[:complect_s_states_canada].nil?
+      tgt_states = []
+      cookies[:complect_s_states_canada].split('-').each do |can_state|
+        tgt_states.push(can_state) if State.fetch_all_canada.include?(can_state)
+      end
+      self.jurisdiction_states_canada = tgt_states
+    end
+
+    # rubocop:disable Style/GuardClause
+    unless cookies[:complect_s_step3].nil?
+      sub_jurs = cookies[:complect_s_step3].split('-')
+      if sub_jurs.include?('0_1') # Other
+        self.sub_jurisdictions_other = cookies[:complect_s_jur_other] unless cookies[:complect_s_jur_other].nil?
+        sub_jurs.delete('0_1')
+      end
+      self.sub_jurisdictions = []
+      sub_jurs.map(&proc { |p| p.split('_').map(&:to_i) }).each do |c|
+        sub_jurisdictions.push(Jurisdiction.find(c[0]).sub_jurisdictions_specialist.split("\r\n")[c[1]])
+      end
+    end
+    # rubocop:enable Style/GuardClause
+  end
+  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/MethodLength
 
   has_one :tos_agreement, through: :user
   has_one :cookie_agreement, through: :user

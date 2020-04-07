@@ -1,13 +1,13 @@
 h1 {
-  font-size: 18px;
+  font-size: 15px;
   font-family: "Open Sans";
-  font-weight: bold;
+  font-weight: 500;
 }
 
 h2 {
   font-family: "Open Sans";
-  font-weight: bold;
-  letter-spacing: 2px;
+  font-weight: 300;
+  //letter-spacing: 2px;
   font-size: 16px;
   margin-top: 0;
 
@@ -15,8 +15,10 @@ h2 {
     font-size: 65%;
     line-height: 1;
   }
-  font-weight: $medium-weight;
+  //font-weight: $medium-weight;
 }
+
+b { font-weight: 500 }
 
 h4 {
   font-family: "Open Sans";

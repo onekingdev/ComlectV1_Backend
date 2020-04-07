@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class State
-  def self.fetch_all
+  def self.fetch_all_usa
     ['Alabama', 'Alaska', 'Arizona',\
      'Arkansas', 'California', 'Colorado',\
      'Connecticut', 'Delaware', 'Florida',\
@@ -16,5 +16,9 @@ class State
      'South Carolina', 'South Dakota',\
      'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia',\
      'Washington', 'West Virginia', 'Wisconsin', 'Wyoming']
+  end
+
+  def self.fetch_all_canada
+    ['Alberta', 'Quebec', 'British Columbia', 'Ontario']
   end
 end

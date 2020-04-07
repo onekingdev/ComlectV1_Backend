@@ -3,8 +3,7 @@
     .modal-content
       = simple_form_for invite, remote: true do |f|
         .modal-header
-          button.close.bootbox-close-button data-dismiss="modal" type="button"
-            .icon.maxicons1-exit
+          button.close.bootbox-close-button data-dismiss="modal" type="button" &nbsp;
         .modal-body.text-left
           h3.text-uppercase.text-center Invite to project
           = f.hidden_field :specialist_username, value: params[:specialist_username]
