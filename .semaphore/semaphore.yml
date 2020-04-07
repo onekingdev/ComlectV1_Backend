@@ -12,3 +12,6 @@ blocks:
           commands:
             - checkout
             - docker-compose build
+promotions:
+  - name: Staging deploy
+    pipeline_file: staging-deploy.yml
