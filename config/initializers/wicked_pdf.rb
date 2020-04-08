@@ -10,9 +10,11 @@
 #
 # https://github.com/mileszs/wicked_pdf/blob/master/README.md
 
-# rubocop:disable Metrics/LineLength
-wkhtml_bin_path = Rails.env.production? || Rails.env.staging? ? '/usr/bin/wkhtmltopdf' : Gem.bin_path('wkhtmltopdf-binary', 'wkhtmltopdf')
-# rubocop:enable Metrics/LineLength
+wkhtml_bin_path = if Rails.env.production? || Rails.env.staging?
+                    ENV['WKHTMLTOPDF_PATH'] || '/usr/bin/wkhtmltopdf'
+                  else
+                    Gem.bin_path('wkhtmltopdf-binary', 'wkhtmltopdf')
+                  end
 
 WickedPdf.config = {
   # Path to the wkhtmltopdf executable: This usually isn't needed if using

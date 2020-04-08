@@ -20,12 +20,13 @@ RUN gem install bundler
 RUN mkdir /gems
 WORKDIR /gems
 COPY Gemfile* ./
-RUN bundle install
+RUN bundle install  --without development test
 
 ARG INSTALL_PATH=/var/www/complect/current
 ENV INSTALL_PATH $INSTALL_PATH
 WORKDIR $INSTALL_PATH
 COPY . .
+RUN bundle exec rake assets:precompile
 
 #CMD bundle exec unicorn -p 3000
 CMD bundle exec puma -C config/puma.rb
