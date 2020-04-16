@@ -225,18 +225,19 @@ en:
     32: Political contributions and fundraising
     33: Confirm that political contributions were made within the requisite time
   compliance_manual_sections:
-    code_of_ethics_and_insider_trading: Code of Ethics & Insider Trading
-    identity_theft_prevention_cybersecurity_and_safeguarding_of_information: Identity Theft Prevention, Cybersecurity, & Safeguarding of Information
-    portfolio_management: Portfolio Management
-    trading: Trading
-    proxy_voting: Proxy Voting
-    valuation_and_pricing: Valuation & Pricing
-    marketing_and_use_of_solicitors: Marketing & Use of Solicitors
-    safeguarding_client_assets: Safeguarding Client Assets
-    regulatory_filings_and_disclosures: Regulatory Filings & Disclosures
-    books_and_records: Books & Records
-    business_continuity_planning: Business Continuity Planning
     compliance_program: Compliance Program
+    business_continuity_planning: Business Continuity Planning
+    books_and_records: Books & Records
+    regulatory_filings_and_disclosures: Regulatory Filings & Disclosures
+    safeguarding_client_assets: Safeguarding Client Assets
+    marketing_and_use_of_solicitors: Marketing & Use of Solicitors
+    valuation_and_pricing: Valuation & Pricing
+    proxy_voting: Proxy Voting
+    trading: Trading
+    portfolio_management: Portfolio Management
+    identity_theft_prevention_cybersecurity_and_safeguarding_of_information: Identity Theft Prevention, Cybersecurity, & Safeguarding of Information
+    code_of_ethics_and_insider_trading: Code of Ethics & Insider Trading
+
   business_products:
     registration: Registration
     registration_and_maintenance: Registration & Maintenance

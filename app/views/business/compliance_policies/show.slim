@@ -32,13 +32,14 @@
         td.fixedw
           = link_to "mailto:?body=Please find our policies and procedures attached. %0D%0A%0D%0ADownload: #{Rails.env == 'production' ? url_for(doc.doc_url) : root_url.delete_suffix("/")+url_for(doc.doc_url)}&subject=#{@business.business_name} #{@compliance_policy.section_or_title}" do
             i.icon-share data-toggle="tooltip" title="Share"
-.col-md-8.m-b-3.pdf_preview_area
-  - if @preview_doc.pdf
-    iframe src=(pdfjs.minimal_path(file: @preview_doc.pdf_url.split('?')[0])) width="100%" height="500px"
-  - else
-    .text-center = image_tag "loading.gif"
-    javascript:
-      var compliance_policy_render_id = #{@compliance_policy.id}
-    - if current_specialist
+- if @preview_doc
+  .col-md-8.m-b-3.pdf_preview_area
+    - if @preview_doc.pdf
+      iframe src=(pdfjs.minimal_path(file: @preview_doc.pdf_url.split('?')[0])) width="100%" height="500px"
+    - else
+      .text-center = image_tag "loading.gif"
       javascript:
-        var compliance_policy_baseurl = "/specialist/businesses/#{@business.username}/compliance_policies/";
+        var compliance_policy_render_id = #{@compliance_policy.id}
+      - if current_specialist
+        javascript:
+          var compliance_policy_baseurl = "/specialist/businesses/#{@business.username}/compliance_policies/";

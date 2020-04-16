@@ -8,7 +8,7 @@ class Specialist < ApplicationRecord
   belongs_to :rewards_tier
   belongs_to :rewards_tier_override, class_name: 'RewardsTier'
 
-  before_save :calculate_years_of_experience
+  # before_save :calculate_years_of_experience
   has_and_belongs_to_many :industries
   has_and_belongs_to_many :jurisdictions
   has_and_belongs_to_many :skills
@@ -256,12 +256,12 @@ class Specialist < ApplicationRecord
   #  @_years_of_experience = (calculate_years_of_experience / 365.0).round
   # end
 
-  def calculate_years_of_experience
-    yrs = work_experiences.compliance.map do |exp|
-      exp.from ? ((exp.to || Time.zone.today) - exp.from).to_f : 0.0
-    end.reduce(:+) || 0.0
-    self.years_of_experience = (yrs / 365.0).round
-  end
+  # def calculate_years_of_experience
+  #   yrs = work_experiences.compliance.map do |exp|
+  #     exp.from ? ((exp.to || Time.zone.today) - exp.from).to_f : 0.0
+  #   end.reduce(:+) || 0.0
+  #   self.years_of_experience = (yrs / 365.0).round
+  # end
 
   def messages
     Message.where("

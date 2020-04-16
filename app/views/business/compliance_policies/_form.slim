@@ -9,12 +9,7 @@
 
 = simple_form_for @compliance_policy, wrapper: :inline_form, url: tgt_url do |f|
   .text-danger = f.object.errors.full_messages.first if f.object.errors.any?
-  = f.input :section, collection: @business.remaining_compliance_policies(@compliance_policy.section_to_sym).to_a.map(&Proc.new { |s| [s[1], s[0]] }), include_blank: "--- Specify section: ---", input_html: { class: "compliance_policy_section_trigger hidden" }
-  .policy_blank_case.hidden
-    .text-center.cpolicy_or_name
-      | or name
-      br
-      br
+  .policy_blank_case
     = f.input :title, placeholder: "Enter policy title", input_html: { class: "compliance_policy_title_trigger" }
   - trig = false
   = f.simple_fields_for :compliance_policy_docs do |c|

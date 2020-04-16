@@ -3,7 +3,7 @@
 class Specialists::CompliancePoliciesController < ApplicationController
   before_action :require_specialist!
   before_action :set_business
-  before_action :set_cpolicy, only: %i[update edit show]
+  before_action :set_cpolicy, only: %i[update edit show destroy]
 
   def new
     @compliance_policy = CompliancePolicy.new
@@ -12,13 +12,47 @@ class Specialists::CompliancePoliciesController < ApplicationController
     render 'business/compliance_policies/new'
   end
 
-  def index; end
+  # rubocop:disable Metrics/AbcSize
+  def index
+    @preview_doc = @business.compliance_policies.first
+    respond_to do |format|
+      format.json do
+        if @preview_doc.blank? || @preview_doc.pdf_data.nil?
+          render json: { "preview": specialists_business_compliance_policies_path(@business.username, format: :pdf) }
+        else
+          preview_out = @preview_doc.pdf ? @preview_doc.pdf_url : false
+          # rubocop:disable Metrics/LineLength
+          render json: { "preview": preview_out, "business_name": @business.business_name, "email": "mailto:?body=Please find our Compliance Manual attached %0D%0A%0D%0ADownload: #{Rails.env.production? ? url_for(@preview_doc.pdf_url) : root_url.delete_suffix('/') + url_for(@preview_doc.pdf_url)}&subject=#{@business.business_name} Compliance Manual" }
+          # rubocop:enable Metrics/LineLength
+        end
+      end
+      format.html do
+        render 'business/compliance_policies/index'
+        # poof
+      end
+      format.pdf do
+        render pdf: 'compliance_manual.pdf',
+               template: 'business/compliance_policies/header.pdf.erb', encoding: 'UTF-8',
+               locals: { last_updated: Time.zone.today, business: @business },
+               margin: { top:               20,
+                         bottom:            25,
+                         left:              15,
+                         right:             15 }
+      end
+    end
+  end
+  # rubocop:enable Metrics/AbcSize
+
+  def destroy
+    @compliance_policy.destroy
+    redirect_to specialists_business_compliance_policies_path(@business.username)
+  end
 
   def create
     @compliance_policy = CompliancePolicy.new(compliance_policy_params)
     @compliance_policy.business_id = @business.id
     if @compliance_policy.save
-      PdfWorker.perform_async(@compliance_policy.compliance_policy_docs.order(:id).first.id)
+      PdfCompliancePolicyWorker.perform_async(@compliance_policy.compliance_policy_docs.order(:id).first.id)
       redirect_to specialists_business_compliance_policy_path(@business.username, @compliance_policy)
     else
       @compliance_policy.compliance_policy_docs.build
@@ -28,7 +62,7 @@ class Specialists::CompliancePoliciesController < ApplicationController
 
   def update
     if (@compliance_policy.business_id == @business.id) && @compliance_policy.update(compliance_policy_params)
-      PdfWorker.perform_async(@compliance_policy.compliance_policy_docs.order(:id).first.id)
+      PdfCompliancePolicyWorker.perform_async(@compliance_policy.compliance_policy_docs.order(:id).first.id)
       redirect_to specialists_business_compliance_policy_path(@business.username, @compliance_policy)
     else
       render 'business/compliance_policies/edit'
@@ -36,6 +70,7 @@ class Specialists::CompliancePoliciesController < ApplicationController
   end
 
   def edit
+    @compliance_policy.compliance_policy_docs.build
     render 'business/compliance_policies/new'
   end
 

@@ -35,10 +35,10 @@ class Specialist::Decorator < ApplicationDecorator
     [city, state, country].map(&:presence).compact.join(', ')
   end
 
-  def years_of_experience
-    return @_years_of_experience if @_years_of_experience
-    @_years_of_experience = (calculate_years_of_experience / 365.0).round
-  end
+  # def years_of_experience
+  #   return @_years_of_experience if @_years_of_experience
+  #   @_years_of_experience = (calculate_years_of_experience / 365.0).round
+  # end
 
   def sorted_education_histories
     education_histories.where.not(year: nil).sort_by(&:year) + education_histories.where(year: nil)
@@ -87,11 +87,11 @@ class Specialist::Decorator < ApplicationDecorator
     )
   end
 
-  private
+  # private
 
-  def calculate_years_of_experience
-    work_experiences.compliance.map do |exp|
-      exp.from ? ((exp.to || Time.zone.today) - exp.from).to_f : 0.0
-    end.reduce(:+) || 0.0
-  end
+  # def calculate_years_of_experience
+  #   work_experiences.compliance.map do |exp|
+  #     exp.from ? ((exp.to || Time.zone.today) - exp.from).to_f : 0.0
+  #   end.reduce(:+) || 0.0
+  # end
 end

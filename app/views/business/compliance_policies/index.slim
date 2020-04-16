@@ -11,19 +11,10 @@
 .clearfix
 .col-md-4
   .p-t-2
-    - I18n.translate('compliance_manual_sections').keys.each do |section|
-      p.black_href.m-b-2
-        - tgt = @business.compliance_policies.where(section: section.to_s)
-        - if tgt.count > 0
-          b 
-            = link_to I18n.translate('compliance_manual_sections')[section], (current_specialist ? specialists_business_compliance_policy_path(@business.username, tgt.first) : business_compliance_policy_path(tgt.first)), target: "_blank"
-        - else
-          b = link_to I18n.translate('compliance_manual_sections')[section], (current_specialist ? new_specialists_business_compliance_policy_path(@business.username, section_id: section) : new_business_compliance_policy_path(section_id: section)), target: "_blank"
-
-    - @business.compliance_policies.where.not(title: "").each do |section|
+    - @business.sorted_compliance_policies.each do |section|
       p.black_href.m-b-2
         b 
-          = link_to section.section_or_title, (current_specialist ? specialists_business_compliance_policy_path(section) : business_compliance_policy_path(section)), target: "_blank"
+          = link_to section.section_or_title, (current_specialist ? specialists_business_compliance_policy_path(@business.username, section) : business_compliance_policy_path(section)), target: "_blank"
 
   .clearfix
   input.form-group#new_compliance_policy_name name="new_compliance_policy_name" type="text" placeholder="New Policy Name" style="width: 90%"

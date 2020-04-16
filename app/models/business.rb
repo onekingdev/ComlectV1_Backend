@@ -33,8 +33,10 @@ class Business < ApplicationRecord
   has_many :teams
   has_many :active_projects, -> { where(status: statuses[:published]).where.not(specialist_id: nil) }, class_name: 'Project'
   has_many :active_specialists, through: :active_projects, class_name: 'Specialist', source: :specialist
-  has_many :uptodate_compliance_policies, -> { where('last_uploaded > ?', Time.zone.today - 1.year) }, class_name: 'CompliancePolicy'
   has_many :outdated_compliance_policies, -> { where('last_uploaded < ?', Time.zone.today - 1.year) }, class_name: 'CompliancePolicy'
+  has_many :uptodate_compliance_policies, -> { where('last_uploaded >= ?', Time.zone.today - 1.year) }, class_name: 'CompliancePolicy'
+  has_many :missing_compliance_policies, -> { where(docs_count: 0) }, class_name: 'CompliancePolicy'
+  has_many :sorted_compliance_policies, -> { order(:created_at) }, class_name: 'CompliancePolicy'
 
   has_one :subscription
   has_one :forum_subscription
@@ -63,6 +65,17 @@ class Business < ApplicationRecord
   serialize :client_types
   serialize :already_covered
   serialize :cco
+
+  def spawn_compliance_policies
+    # rubocop:disable Style/GuardClause
+    unless compliance_policies_spawned
+      update(compliance_policies_spawned: true)
+      I18n.t(:compliance_manual_sections).map(&:to_a).map(&:last).each do |section|
+        compliance_policies.create(title: section)
+      end
+    end
+    # rubocop:enable Style/GuardClause
+  end
 
   STEP_THREE = [
     'startup', 'startup rescue', 'complete ongoing maintenance', 'one-off maintenance requests'
@@ -107,10 +120,6 @@ class Business < ApplicationRecord
   ].freeze
   # rubocop:enable Metrics/LineLength
 
-  def missing_compliance_policies
-    (I18n.t(:compliance_manual_sections).keys.map(&:to_s) - (compliance_policies.collect(&:section).reject { |n| n == '' }))
-  end
-
   def compliance_manual_needs_update?
     missing_compliance_policies.count.positive? || outdated_compliance_policies.any?
   end
@@ -144,7 +153,11 @@ class Business < ApplicationRecord
   end
 
   def compliance_manual_percentage
-    (completed_compliance_policies.length * 100 / I18n.translate('compliance_manual_sections').keys.length).to_i
+    if compliance_policies.count.positive?
+      uptodate_compliance_policies.where.not(docs_count: 0).count * 100 / compliance_policies.count
+    else
+      0
+    end
   end
 
   def audit_prep_percentage

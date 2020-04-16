@@ -212,4 +212,4 @@
 
 javascript:
   var sub_inds = JSON.parse("#{Industry.where.not(sub_industries: "").collect(&:id)}");
-  var ria_industry = parseInt("#{Industry.find_by_name('Investment Adviser').id}");
+  var ria_industry = parseInt("#{Industry.find_by_name('Investment Adviser')&.id}");

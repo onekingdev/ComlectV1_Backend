@@ -9,7 +9,7 @@ class Business::CompliancePoliciesController < ApplicationController
     @preview_doc = @business.compliance_policies.first
     respond_to do |format|
       format.json do
-        if @preview_doc.blank?
+        if @preview_doc.blank? || @preview_doc.pdf_data.nil?
           render json: { "preview": business_compliance_policies_path(format: :pdf) }
         else
           preview_out = @preview_doc.pdf ? @preview_doc.pdf_url : false
@@ -68,7 +68,9 @@ class Business::CompliancePoliciesController < ApplicationController
     end
   end
 
-  def edit; end
+  def edit
+    @compliance_policy.compliance_policy_docs.build
+  end
 
   def show
     if current_business == @compliance_policy.business

@@ -11,7 +11,6 @@ class PdfCompliancePolicyWorker
 
   # rubocop:disable Metrics/AbcSize
   # rubocop:disable Metrics/MethodLength
-  # rubocop:disable Metrics/PerceivedComplexity
   # rubocop:disable Metrics/LineLength
 
   def perform(policy_doc_id)
@@ -52,39 +51,24 @@ class PdfCompliancePolicyWorker
     merged_pdf = CombinePDF.new
     merged_pdf << CombinePDF.load(file.path)
 
-    I18n.translate('compliance_manual_sections').keys.each do |section|
-      compliance_policy.business.compliance_policies.where(section: section.to_s).each do |cpolicy|
-        begin
+    compliance_policy.business.sorted_compliance_policies.each do |cpolicy|
+      begin
+        if cpolicy.compliance_policy_docs.first.present?
           pdf_path = env_path(cpolicy.compliance_policy_docs.first.pdf_url.split('?')[0])
           merged_pdf << if Rails.env.production? || Rails.env.staging?
                           CombinePDF.parse(URI.open(pdf_path).read)
                         else
                           CombinePDF.load(pdf_path)
                         end
-        rescue StandardError
-          if cpolicy.compliance_policy_docs.count > 1
-            cpolicy.compliance_policy_docs.first.destroy
-          else
-            cpolicy.destroy
-          end
         end
-      end
-    end
-    compliance_policy.business.compliance_policies.where.not(title: '').each do |cpolicy|
-      begin
-        pdf_path = env_path(cpolicy.compliance_policy_docs.first.pdf_url.split('?')[0])
-        merged_pdf << if Rails.env.production? || Rails.env.staging?
-                        CombinePDF.parse(URI.open(pdf_path).read)
-                      else
-                        CombinePDF.load(pdf_path)
-                      end
       rescue StandardError
         if cpolicy.compliance_policy_docs.count > 1
           cpolicy.compliance_policy_docs.first.destroy
-        else
-          cpolicy.destroy
+          # else
+          #   cpolicy.destroy
         end
       end
+      cpolicy.calculate_docs
     end
     tmp_pdf_file = Tempfile.new(["compliance_manual-#{compliance_policy.id}", '.pdf'])
     tmp_pdf_path = tmp_pdf_file.path
@@ -97,6 +81,6 @@ class PdfCompliancePolicyWorker
   end
   # rubocop:enable Metrics/AbcSize
   # rubocop:enable Metrics/MethodLength
-  # rubocop:enable Metrics/PerceivedComplexity
+
   # rubocop:enable Metrics/LineLength
 end

@@ -24,15 +24,15 @@ if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("spe
             var prop_disabled = false;
             if ($("#specialist_user_attributes_password").val() != $("#specialist_user_attributes_password_confirmation").val()) {
               $("#specialist_user_attributes_password_confirmation").addClass("form_error");
-              console.log("pwd fail");
+              // console.log("pwd fail");
               prop_disabled = true;
             } else {
               $("#specialist_user_attributes_password_confirmation").removeClass("form_error");
             }
             for (field of required_fields_step0) {
               if (!($(field).val().length > 0)) {
-                console.log("just fail");
-                console.log(field);
+                // console.log("just fail");
+                // console.log(field);
                 prop_disabled = true;
               }
             }
@@ -182,14 +182,16 @@ if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("spe
         nums.push(parseInt(num));
       }
     }
-
-    $(".specialist_step21 .choices .col-sm-12").hide();
+    // console.log(nums);
+    $(".specialist_step21 .choices .col-sm-6").hide();
     for (var num of nums) {
       var cb = $(".specialist_step2 .choices input[value="+num+"]");
+      // console.log(cb);
       var cb_txt = cb.parent().text();
-      $(".specialist_step21 .choices .col-sm-12").each(function() {
+      $(".specialist_step21 .choices .col-sm-6").each(function() {
         if (parseInt($(this).find("input[type=checkbox]").val().split("_")[0]) == num) {
           $(this).show();
+          // console.log(this);
         }
       });
     }
@@ -212,12 +214,17 @@ if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("spe
         nums.push(parseInt(num));
       }
     }
+    $(".specialist_jurisdiction_states_usa").hide();
+    $(".specialist_jurisdiction_states_canada").hide();
 
-    $(".specialist_step3 .choices .col-sm-12").hide();
+    $(".specialist_step3 .choices .col-sm-4").hide();
     for (var num of nums) {
-      var cb = $(".specialist_step3 .choices input[value="+num+"]");
+      var cb = $(".specialist_step1 .choices input[value="+num+"]");
       var cb_txt = cb.parent().text();
-      $(".specialist_step3 .choices .col-sm-12").each(function() {
+      if (cb_txt.indexOf("USA") > -1) { $(".specialist_jurisdiction_states_usa").show(); }
+      if (cb_txt.indexOf("Canada") > -1) { $(".specialist_jurisdiction_states_canada").show(); }
+
+      $(".specialist_step3 .choices .col-sm-4").each(function() {
         if (parseInt($(this).find("input[type=checkbox]").val().split("_")[0]) == num) {
           $(this).show();
         }
@@ -246,7 +253,7 @@ if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("spe
   });
 
   $(cookie_form_attrs.join(", ")).on('keyup', function(e) {
-    //console.log(this);
+    //// console.log(this);
     Cookies.set($(this).attr('id').replace("specialist_", "complect_s_"), $(this).val(), { expires: 7 });
     step_signup_continue();
   });
@@ -264,11 +271,11 @@ if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("spe
     var shown = false;
     for (var i = 1; i < 6; i++) {
       var name = step_names[i];
-      console.log(name);
-      console.log(step_cookies[name]);
+      // console.log(name);
+      // console.log(step_cookies[name]);
       if (step_cookies[name] == undefined) {
         if ((name == "step21") || (name == "step2")) {
-          console.log("SHOWING STEP2");
+          // console.log("SHOWING STEP2");
           $(".specialist_step2").show();
           shown = true;
           break;
@@ -375,7 +382,7 @@ if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("spe
   function toggle_choices(t_choice) {
     // identify step with parent div
     var parent = t_choice.parent().parent().parent();
-    console.log("tchoice");
+    // console.log("tchoice");
     // checking / unchecking and cosmetic stuff for 'i_dunno' and 'other (...)'
     var cb = t_choice.find("input[type='checkbox']");
     if (t_choice.hasClass("active")) {
@@ -414,7 +421,7 @@ if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("spe
       if (parent.hasClass("specialist_"+name)) {
         if (name == "step2") { render_step21(); };
         if (name == "step1") { render_step3(); };
-        console.log(nums);
+        // console.log(nums);
         Cookies.set("complect_s_"+name, nums.join("-"), { expires: 7 });
       }
     }
@@ -449,7 +456,7 @@ if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("spe
     if (checked) {
       $(this).parent().removeClass("active");
       var parent = $(this).parent().parent().parent().parent();
-      console.log(parent);
+      // console.log(parent);
       if ((parent.hasClass("specialist_step3")) || (parent.hasClass("specialist_step31")) || (parent.hasClass("specialist_step32"))) {
         var all = parent.find(".btn-block");
         all.removeClass("active");

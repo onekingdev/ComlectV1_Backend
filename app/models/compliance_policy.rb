@@ -4,7 +4,7 @@ class CompliancePolicy < ActiveRecord::Base
   belongs_to :business
   has_many :compliance_policy_docs, dependent: :destroy
   accepts_nested_attributes_for :compliance_policy_docs
-  validates :compliance_policy_docs, presence: true
+  # validates :compliance_policy_docs, presence: true
   validates :title, presence: true, if: :section_blank?
   validates :section, inclusion: { in: I18n.translate('compliance_manual_sections').keys.map(&:to_s) }, if: :section_present?
   validate :section_business_uniqueness, if: :section_present?
@@ -27,6 +27,10 @@ class CompliancePolicy < ActiveRecord::Base
 
   def section_to_sym
     section.blank? ? nil : section.to_sym
+  end
+
+  def calculate_docs
+    update(docs_count: compliance_policy_docs.where.not(pdf_data: nil).count)
   end
 
   private

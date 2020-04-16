@@ -8,6 +8,7 @@ class BusinessDashboardController < ApplicationController
   # rubocop:disable Metrics/AbcSize
   def show
     @business = current_user.business
+    @business.spawn_compliance_policies
     @financials = Business::Financials.for(current_business)
     @ratings = @business.ratings_received.preload_associations
     @reminders_today = current_business.reminders.where(remind_at: Time.zone.today).order(remind_at: :asc, id: :asc)
