@@ -1,7 +1,7 @@
 if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("specialists") && $("body").hasClass("create"))) {
   var no_pwd_focus = false;
   var pwd_focused = false;
-  var step_names = ['step0', 'step1', 'step2', 'step21', 'step3', 'step4'];
+  var step_names = ['step0', 'step1', 'step2', 'step21', 'step3', 'step4', 'step5'];
   var step_cookies = {};
   var required_fields_step0 = ["#specialist_user_attributes_password", "#specialist_first_name", "#specialist_last_name", "#specialist_user_attributes_email", "#specialist_user_attributes_password_confirmation", "#specialist_address_1", "#specialist_city", "#specialist_state", "#specialist_zipcode", "#specialist_country", "#specialist_time_zone"];
   var cookie_form_attrs = ["#specialist_first_name", "#specialist_last_name", "#specialist_user_attributes_email", "#specialist_address_1", "#specialist_city", "#specialist_state", "#specialist_zipcode", "#specialist_address_2"];
@@ -49,6 +49,11 @@ if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("spe
         if (name != "step4") {
           $(".specialist_"+name).find(".continue").prop("disabled", !($(".specialist_"+name+" .choices .active").length > 0));
         }
+        if (name == "step5") {
+          if (typeof(Cookies.get("complect_s_step5")) != "undefined") {
+            $(".specialist_step5 .continue").prop("disabled", false);
+          }
+        }
       }
     }
   }
@@ -70,6 +75,14 @@ if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("spe
     if (typeof(step_cookies["step4"]) == "undefined") {
       step_cookies["step4"] = "3-3-3";
       Cookies.set("complect_s_step4", "3-3-3");
+    }
+
+    if (typeof(step_cookies["step5"]) == "undefined") {
+      $(".specialist_step5 .continue").hide();
+      $(".specialist_step5 .book_btn").show();
+    } else {
+      $(".specialist_step5 .book_btn").hide();
+      $(".specialist_step5 .continue").prop('disabled', false);
     }
 
     function set_risks_cookie() {
@@ -338,11 +351,26 @@ if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("spe
   $(".btn_step31").on('click', function() { $(".specialist_step").hide(); $(".specialist_step31").show(); window.scrollTo(0,0); });
   $(".btn_step32").on('click', function() { $(".specialist_step").hide(); $(".specialist_step32").show(); window.scrollTo(0,0); });
   $(".btn_step4").on('click', function() { $(".specialist_step").hide(); $(".specialist_step4").show(); window.scrollTo(0,0); });
-  $(".btn_step5").on('click', function() { $(".specialist_step").hide(); $(".specialist_step5").show(); window.scrollTo(0,0); });
+  $(".btn_step5").on('click', function() { 
+    $(".specialist_step").hide(); window.scrollTo(0,0);
+    if (typeof(Cookies.get("complect_s_step5")) == "undefined") {
+      $(".specialist_step5").show();
+    } else {
+      $(".specialist_step6").show();
+    }
+  });
   $(".btn_step6").on('click', function() { $(".specialist_step").hide(); $(".specialist_step6").show(); window.scrollTo(0,0); });
   $(".btn_step7").on('click', function() { $(".specialist_step").hide(); $(".specialist_step7").show(); window.scrollTo(0,0); });
   $(".btn_step8").on('click', function() { $(".specialist_step").hide(); $(".specialist_step8").show(); window.scrollTo(0,0); });
-
+  $(".book_btn").on('click', function(e) {
+    e.preventDefault();
+    var win = window.open("https://calendly.com/complect", '_blank');
+    win.focus();
+    Cookies.set("complect_s_step5", "1", { expires: 7 });
+    $(".specialist_step").hide();
+    $(".specialist_step6").show();
+    window.scrollTo(0,0);
+  });
   $(required_fields_step0.join(", ")).on('keydown', function(e) {
     if (e.keyCode == 13) {
       e.preventDefault;
