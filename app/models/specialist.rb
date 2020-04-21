@@ -41,7 +41,7 @@ class Specialist < ApplicationRecord
   has_one :referral, as: :referrable
   has_many :referral_tokens, as: :referrer
   # rubocop:disable Metrics/LineLength
-  has_many :manageable_ria_businesses, -> { joins(:industries).where('industries.id = 5') }, through: :active_projects, class_name: 'Business', source: :business
+  has_many :manageable_ria_businesses, -> { joins(:industries).where("industries.name = 'Investment Adviser'").where(ria_dashboard: true) }, through: :active_projects, class_name: 'Business', source: :business
   # rubocop:enable Metrics/LineLength
 
   has_settings do |s|
