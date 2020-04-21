@@ -138,6 +138,7 @@ Rails.application.routes.draw do
 
   namespace :specialists, path: 'specialist' do
     get '/' => 'dashboard#show', as: :dashboard
+    get '/locked' => 'dashboard#locked'
     resources :businesses, only: %i[new create show] do
       get '/personalize' => 'personalize#quiz'
       post '/personalize' => 'personalize#quiz'

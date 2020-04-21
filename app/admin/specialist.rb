@@ -47,6 +47,7 @@ ActiveAdmin.register Specialist do
     column :username, label: 'Username' do |specialist|
       link_to specialist.username, admin_user_path(specialist.user)
     end
+    column :dashboard_unlocked
     column :first_name
     column :city
     column :state
@@ -74,6 +75,7 @@ ActiveAdmin.register Specialist do
         end
       end
       row :name, &:full_name
+      row :dashboard_unlocked
       row :years_of_experience
       row :user
       row :visibility do |specialist|
@@ -109,6 +111,7 @@ ActiveAdmin.register Specialist do
     column :id
     column :first_name
     column :last_name
+    column :dashboard_unlocked
     column(:email) { |specialist| specialist.user.email }
     column :country
     column :state
@@ -136,7 +139,7 @@ ActiveAdmin.register Specialist do
   end
 
   permit_params :first_name, :last_name, :city, :zipcode, :state, :country, :phone, :linkedin_link, :visibility, :years_of_experience,
-                :former_regulator, :certifications, :rewards_tier_override_id,
+                :former_regulator, :certifications, :rewards_tier_override_id, :dashboard_unlocked,
                 work_experiences_attributes: %i[id _destroy company job_title location from to current compliance description],
                 education_histories_attributes: %i[institution degree year],
                 jurisdiction_ids: [], industry_ids: [], skill_ids: []
@@ -146,6 +149,7 @@ ActiveAdmin.register Specialist do
       f.input :first_name
       f.input :last_name
       f.input :years_of_experience
+      f.input :dashboard_unlocked
       f.input :city
       f.input :zipcode
       f.input :state
