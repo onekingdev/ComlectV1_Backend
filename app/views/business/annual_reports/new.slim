@@ -74,35 +74,39 @@ h1.text-center style="font-family: 'Canela'; font-size: 30px; font-weight: 400;"
         .add.add_more = link_to_add_association f, :annual_review_employees, partial: 'business/annual_reports/annual_review_employee_fields' do
           .icon-plus
       .clearfix
-    .shadow_container.m-b-3
-      .col-md-12.m-b-2.p-x-3
-        b
-          u Code of Ethics & Insider Trading
-        br/
-        small
-          | *Hint: Use our check the box format to see the different areas of this section to review. Only check off topics that had no findings. Do not check off any items where you have found your compliance program to be weak or deficient. Instead, notate the issue under Finding and indicate what corrective actions you have or intend to take under Response. Still unsure what you're looking for in your review? Tap one of our specialists to help you with one off questions or completely outsource this review.
-      .text-center.m-y-3
-        /= link_to "Hourly Consulting", (current_specialist ? new_specialists_business_audit_request_path(@business.username) : new_business_audit_request_path), class: "btn btn-default m-r-3", "data-target": "#modal", "data-toggle": "modal", "data-remote": true, style: "width: 170px;"
-        - if !current_specialist
-          = link_to "Mock Audit", business_audit_request_path(@mock_audit), class: "btn btn-primary", "data-target": "#modal", "data-toggle": "modal", "data-remote": true, style: "width: 170px;"
-      .col-sm-11.p-x-3
-        = f.simple_fields_for :findings do |c|
-          .nested_form
-            = render 'business/annual_reports/finding_fields', f: c
-        .add.add_more = link_to_add_association f, :findings, partial: 'business/annual_reports/finding_fields' do
-          .icon-plus style="margin-top: -73px;"
+    - ind = 0
+    - ComplianceCategory.all.each do |compliance_category|
+      .shadow_container.m-b-3
+        .col-md-12.m-b-2.p-x-3
+          b
+            u = compliance_category.name
+          br/
+          small
+            | *Hint: Use our check the box format to see the different areas of this section to review. Only check off topics that had no findings. Do not check off any items where you have found your compliance program to be weak or deficient. Instead, notate the issue under Finding and indicate what corrective actions you have or intend to take under Response. Still unsure what you're looking for in your review? Tap one of our specialists to help you with one off questions or completely outsource this review.
+        .text-center.m-y-3
+          /= link_to "Hourly Consulting", (current_specialist ? new_specialists_business_audit_request_path(@business.username) : new_business_audit_request_path), class: "btn btn-default m-r-3", "data-target": "#modal", "data-toggle": "modal", "data-remote": true, style: "width: 170px;"
+          - if !current_specialist
+            = link_to "Mock Audit", business_audit_request_path(@mock_audit), class: "btn btn-primary", "data-target": "#modal", "data-toggle": "modal", "data-remote": true, style: "width: 170px;"
+        .col-sm-11.p-x-3
+          = f.simple_fields_for :findings do |c|
+            - if c.object.compliance_category == compliance_category.id
+              .nested_form
+                = render partial: 'business/annual_reports/finding_fields', locals: { f: c, compliance_category: compliance_category.id }
+          .add.add_more = link_to_add_association f, :findings, partial: 'business/annual_reports/finding_fields', render_options: { locals: { compliance_category: compliance_category.id } } do
+            .icon-plus style="margin-top: -73px;"
+          .clearfix
+        .col-sm-12.p-x-3.padded-checkboxes
+          - compliance_category.checkboxes.split("\r\n").each do |cb|
+            .form-group.cof_bits class=("parent_node" if cb[0] != " ")
+              span.checkbox.checkbox-lg
+                - if @annual_report.cof_str[ind].to_i == 1
+                  input as="boolean" type="checkbox" name="annual_report[cof_bits][#{ind}]" id="annual_report_cof_bits_#{ind}" value="#{ind}" checked="true"
+                - else
+                  input as="boolean" type="checkbox" name="annual_report[cof_bits][#{ind}]" id="annual_report_cof_bits_#{ind}" value="#{ind}"
+                label for="annual_report_cof_bits_#{ind}"
+                  = cb
+            - ind += 1
         .clearfix
-      .col-sm-12.p-x-3.padded-checkboxes
-        - I18n.translate("annual_report").map(&:last).each_with_index do |question, ind|
-          .form-group.cof_bits class=("parent_node" if [0, 7, 10, 16, 21, 24, 28, 32].include?(ind))
-            span.checkbox.checkbox-lg
-              - if @annual_report.cof_str[ind].to_i == 1
-                input as="boolean" type="checkbox" name="annual_report[cof_bits][#{ind}]" id="annual_report_cof_bits_#{ind}" value="#{ind}" checked="true"
-              - else
-                input as="boolean" type="checkbox" name="annual_report[cof_bits][#{ind}]" id="annual_report_cof_bits_#{ind}" value="#{ind}"
-              label for="annual_report_cof_bits_#{ind}"
-                = question
-      .clearfix
     .shadow_container.m-b-3
       .col-md-12.m-b-2.p-x-3
         b

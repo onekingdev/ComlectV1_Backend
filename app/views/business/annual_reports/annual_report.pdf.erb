@@ -147,39 +147,44 @@
     </ul>
 
     <h1>V. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Findings and Recommendations</h1>
-    <h3 style="text-align: center;">A. Code of Ethics (the “Code”) and Insider Trading</h3>
-    <p><%= business.business_name %>’s review of its policies and procedures related to personal securities trading, political donations, gifts and entertainment, outside business activities, and material nonpublic information resulted in no notable issues with respect to the following areas:</p>
+    <% ind = 0 %>
+    <% ComplianceCategory.all.each do |compliance_category| %>
+      <% cbs = [] %>
+      <% compliance_category.checkboxes.split("\r\n").each do |cb| %>
+        <% cbs.push(cb) if ((cb[0] != " ") && (annual_report.cof_str[ind].to_i == 1)) %>
+        <% ind += 1 %>
+      <% end %>
+      <% if cbs.length.positive? %>
+        <h3 style="text-align: center;"><%= compliance_category.name %></h3>
+        <p><%= business.business_name %>’s review of its policies and procedures related to personal securities trading, political donations, gifts and entertainment, outside business activities, and material nonpublic information resulted in no notable issues with respect to the following areas:</p>
+        <ul>
+          <% cbs.each do |cb| %>
+            <li><%= cb %></li>
+          <% end %>
+        </ul>
+        <% findings = annual_report.findings.where(compliance_category: compliance_category.id) %>
+        <% if findings.count.positive? %>
+          <p>However, the Company had the following comments regarding compliance matters related to the Code and insider trading:</p>
 
-    <ul>
-      <% lines = [] %>
-      <% [0, 7, 10, 16, 21, 24, 28, 32].each do |num| %>
-        <% if annual_report.cof_str[num].to_i == 1 %>
-          <% lines.push(I18n.translate("annual_report").map(&:last)[num]) %>
+          <table>
+            <tr>
+              <td>Issue</td>
+              <td>Findings and recommendations</td>
+              <td>Risk Level</td>
+            </tr>
+            <% colors = ["#00a746", "#ffb800", "#ff0000"] %>
+            <% captions = ["Low", "Moderate", "High"] %>
+            <% findings.each do |finding| %>
+              <tr>
+                <td><%= finding.finding %></td>
+                <td><%= finding.action %></td>
+                <td style="background-color: <%= colors[finding.risk_lvl-1] %>"><%= captions[finding.risk_lvl-1] %></td>
+              </tr>
+            <% end %>
+          </table>
         <% end %>
       <% end %>
-      <% lines.each do |line| %>
-        <li><%= line %></li>
-      <% end %>
-    </ul>
-
-    <p>However, the Company had the following comments regarding compliance matters related to the Code and insider trading:</p>
-
-    <table>
-      <tr>
-        <td>Issue</td>
-        <td>Findings and recommendations</td>
-        <td>Risk Level</td>
-      </tr>
-      <% colors = ["#00a746", "#ffb800", "#ff0000"] %>
-      <% captions = ["Low", "Moderate", "High"] %>
-      <% annual_report.findings.each do |finding| %>
-        <tr>
-          <td><%= finding.finding %></td>
-          <td><%= finding.action %></td>
-          <td style="background-color: <%= colors[finding.risk_lvl-1] %>"><%= captions[finding.risk_lvl-1] %></td>
-        </tr>
-      <% end %>
-    </table>
+    <% end %>
 
     <h1>VI. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Conclusion</h1>
 
