@@ -49,6 +49,7 @@ ActiveAdmin.register Specialist do
     end
     column :dashboard_unlocked
     column :call_booked
+    column :min_hourly_rate
     column :first_name
     column :city
     column :state
@@ -78,6 +79,7 @@ ActiveAdmin.register Specialist do
       row :name, &:full_name
       row :dashboard_unlocked
       row :call_booked
+      row :min_hourly_rate
       row :years_of_experience
       row :user
       row :visibility do |specialist|
@@ -115,6 +117,7 @@ ActiveAdmin.register Specialist do
     column :last_name
     column :dashboard_unlocked
     column :call_booked
+    column :min_hourly_rate
     column(:email) { |specialist| specialist.user.email }
     column :country
     column :state
@@ -142,7 +145,7 @@ ActiveAdmin.register Specialist do
   end
 
   permit_params :first_name, :last_name, :city, :zipcode, :state, :country, :phone, :linkedin_link, :visibility, :years_of_experience,
-                :former_regulator, :certifications, :rewards_tier_override_id, :dashboard_unlocked, :call_booked,
+                :former_regulator, :certifications, :rewards_tier_override_id, :dashboard_unlocked, :call_booked, :min_hourly_rate,
                 work_experiences_attributes: %i[id _destroy company job_title location from to current compliance description],
                 education_histories_attributes: %i[institution degree year],
                 jurisdiction_ids: [], industry_ids: [], skill_ids: []
@@ -154,6 +157,7 @@ ActiveAdmin.register Specialist do
       f.input :years_of_experience
       f.input :dashboard_unlocked
       f.input :call_booked
+      f.input :min_hourly_rate
       f.input :city
       f.input :zipcode
       f.input :state
