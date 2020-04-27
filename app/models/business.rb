@@ -161,6 +161,8 @@ class Business < ApplicationRecord
   end
 
   def audit_prep_percentage
+    return AuditRequest.count if AuditRequest.count.zero?
+
     (audit_docs.count * 100 / AuditRequest.count).to_i
   end
 
