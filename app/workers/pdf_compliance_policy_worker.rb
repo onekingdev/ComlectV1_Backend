@@ -9,10 +9,7 @@ class PdfCompliancePolicyWorker
     Rails.env.production? || Rails.env.staging? ? in_path : "#{Rails.root}/public#{in_path}"
   end
 
-  # rubocop:disable Metrics/AbcSize
   # rubocop:disable Metrics/MethodLength
-  # rubocop:disable Metrics/LineLength
-
   def perform(policy_doc_id)
     policy_doc = CompliancePolicyDoc.find(policy_doc_id)
     tgt_compliance_policy = policy_doc.compliance_policy.business.compliance_policies.first
@@ -38,11 +35,16 @@ class PdfCompliancePolicyWorker
 
     pdf = ApplicationController.new.render_to_string pdf: 'compliance_manual.pdf',
                                                      template: 'business/compliance_policies/header.pdf.erb', encoding: 'UTF-8',
-                                                     locals: { last_updated: compliance_policy.last_uploaded, business: policy_doc.compliance_policy.business },
-                                                     margin: { top:               20,
-                                                               bottom:            25,
-                                                               left:              15,
-                                                               right:             15 }
+                                                     locals: {
+                                                       last_updated: compliance_policy.last_uploaded,
+                                                       business: policy_doc.compliance_policy.business
+                                                     },
+                                                     margin: {
+                                                       top: 20,
+                                                       bottom: 25,
+                                                       left: 15,
+                                                       right: 15
+                                                     }
     uploader = PdfUploader.new(:store)
     file = Tempfile.new(["compliance_manual_header_#{compliance_policy.id}", '.pdf'])
     file.binmode
@@ -79,8 +81,5 @@ class PdfCompliancePolicyWorker
     tmp_pdf_file.unlink
     file.delete
   end
-  # rubocop:enable Metrics/AbcSize
   # rubocop:enable Metrics/MethodLength
-
-  # rubocop:enable Metrics/LineLength
 end

@@ -414,7 +414,6 @@ class Project < ApplicationRecord
     result.to_i > 100_000_000
   end
 
-  # rubocop:disable Metrics/AbcSize
   def calculate_bd(bds)
     # 0 = 12000 yellow
     # 1 = 20000 gray
@@ -437,7 +436,6 @@ class Project < ApplicationRecord
     end
     [base_price + add_price, base_hours + add_hours]
   end
-  # rubocop:enable Metrics/AbcSize
 
   def new_project_notification
     environment = ENV['STRIPE_PUBLISHABLE_KEY'].start_with?('pk_test') ? 'staging' : 'production'

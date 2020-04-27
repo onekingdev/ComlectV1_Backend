@@ -72,7 +72,7 @@ Style/SymbolArray:
 ##################### Metrics ##################################
 
 Metrics/AbcSize:
-  Max: 30
+  Enabled: false
 
 Metrics/BlockLength:
   Max: 150

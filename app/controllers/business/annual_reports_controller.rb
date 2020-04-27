@@ -4,28 +4,25 @@ class Business::AnnualReportsController < ApplicationController
   before_action :require_business!
   before_action :set_mock_audit_template, only: ['new']
 
-  # rubocop:disable Style/GuardClause
   def new
     current_business.update(review_declined: true) if params[:diy].present?
     @business = current_business
-    if @business.review_declined || @business.mock_audit_hired?
-      if current_business.annual_reports.any?
-        if current_business.annual_reports.last.pdf.nil?
-          @annual_report = current_business.annual_reports.last
-        else
-          build_annual_report
-        end
+    return unless @business.review_declined || @business.mock_audit_hired?
+
+    if current_business.annual_reports.any?
+      if current_business.annual_reports.last.pdf.nil?
+        @annual_report = current_business.annual_reports.last
       else
         build_annual_report
       end
+    else
+      build_annual_report
     end
   end
-  # rubocop:enable Style/GuardClause
 
   def show; end
 
   # rubocop:disable Metrics/MethodLength
-  # rubocop:disable Metrics/AbcSize
   def create
     @annual_report = current_business.annual_reports.last
     @business = current_business
@@ -69,7 +66,6 @@ class Business::AnnualReportsController < ApplicationController
     end
   end
   # rubocop:enable Metrics/MethodLength
-  # rubocop:enable Metrics/AbcSize
 
   def update
     @annual_report = AnnualReport.find(params[:id])

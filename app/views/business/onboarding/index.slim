@@ -83,7 +83,7 @@
     .product_or_subscription.col-md-6.col-md-push-3
       .pos_header.p-x-2.p-y-1 Payment Details
       .pos_body.p-x-2.p-y-1
-        = render partial: "business/payment_settings/index"
+        = render partial: "business/onboarding/payment_form"
 
     .clearfix
     .col-md-12.m-t-2.text-center.m-b-3
@@ -91,7 +91,4 @@
         = link_to "Back", "/business/onboarding?back=1", class: "btn btn-default m-r-2 back"
       - else
         = link_to "Back", "/business/edit", class: "btn btn-default m-r-2 back"
-      - if current_business.payment_sources.any?
-        button.btn.btn-primary.p-x-3.continue onclick="$('.simple_form.checkout').submit();" Submit
-      - else
-        button.btn.btn-primary.p-x-3.continue disabled=true Submit
+      button.btn.btn-primary.p-x-3.continue#submit-ongoing Submit

@@ -121,7 +121,7 @@ gem 'sidekiq-scheduler'
 gem 'sinatra', require: nil
 
 # Payments
-gem 'plaid-legacy'
+gem 'plaid', '5.0.0'
 gem 'stripe'
 
 # Logging

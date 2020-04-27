@@ -39,8 +39,6 @@ class Users::SessionsController < Devise::SessionsController
     mixpanel_track_later 'Sign Out', user: user
   end
 
-  # rubocop:disable Metrics/LineLength
-  # rubocop:disable Metrics/AbcSize
   def squarespace
     headers['Access-Control-Allow-Credentials'] = 'true'
     headers['Access-Control-Allow-Origin'] = 'https://www.complect.com'
@@ -56,25 +54,23 @@ class Users::SessionsController < Devise::SessionsController
                     else
                       0
                     end
-    landing_stats = [Specialist.count, @former_regulators_percent, @avg_xp_years, Business.count]
-    cu = current_user
     if current_specialist
-      render json: {
-        specialist: true,
-        business: false,
+      default_result_json.merge!(
+        business: true,
         name: current_specialist.username,
-        unread: cu.notifications.unread.count,
-        fullname: current_specialist.to_s,
-        stats: landing_stats
-      }
+        unread: current_user.notifications.unread.count,
+        fullname: current_specialist.to_s
+      )
     elsif current_business
-      render json: { specialist: false, business: true, name: current_business.username, unread: cu.notifications.unread.count, stats: landing_stats }
-    else
-      render json: { specialist: false, business: false, name: nil, unread: nil, stats: landing_stats }
+      default_result_json.merge!(
+        specialist: true,
+        name: current_business.username,
+        unread: current_user.notifications.unread.count
+      )
     end
+
+    render json: default_result_json
   end
-  # rubocop:enable Metrics/LineLength
-  # rubocop:enable Metrics/AbcSize
 
   def squarespace_destroy
     # for some reason with DELETE method doesn't work on devise's destroy
@@ -97,6 +93,20 @@ class Users::SessionsController < Devise::SessionsController
     # else
     #   super
     # end
+  end
+
+  def landing_stats
+    [Specialist.count, @former_regulators_percent, @avg_xp_years, Business.count]
+  end
+
+  def default_result_json
+    {
+      specialist: false,
+      business: false,
+      name: nil,
+      unread: nil,
+      stats: landing_stats
+    }
   end
 
   # If you have extra params to permit, append them to the sanitizer.

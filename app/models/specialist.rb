@@ -63,9 +63,26 @@ class Specialist < ApplicationRecord
   serialize :specialist_risks
   serialize :project_types
 
-  # rubocop:disable Metrics/LineLength
-  PROJECT_TYPES = ['Email Reviews', 'Annual Audits', 'On-site Assistance', 'Marketing Review', 'Gap Analysis', 'Secondments', 'Outsourced CCO', 'Outsourced COO', 'Outsourced CFO', 'Outsourced FINOP', 'Regulatory Filing', 'Outsourced OSJ', 'Ad-hoc Consulting', 'Personal Securities Monitorin', 'AML/KYC', 'Cybersecurity', 'Internal Reviews', 'Independent Director'].freeze
-  # rubocop:enable Metrics/LineLength
+  PROJECT_TYPES = [
+    'Email Reviews',
+    'Annual Audits',
+    'On-site Assistance',
+    'Marketing Review',
+    'Gap Analysis',
+    'Secondments',
+    'Outsourced CCO',
+    'Outsourced COO',
+    'Outsourced CFO',
+    'Outsourced FINOP',
+    'Regulatory Filing',
+    'Outsourced OSJ',
+    'Ad-hoc Consulting',
+    'Personal Securities Monitorin',
+    'AML/KYC',
+    'Cybersecurity',
+    'Internal Reviews',
+    'Independent Director'
+  ].freeze
 
   STEP_RISKS = [
     [
@@ -102,7 +119,6 @@ class Specialist < ApplicationRecord
   #  tgt_arr
   # end
 
-  # rubocop:disable Metrics/AbcSize
   # rubocop:disable Metrics/MethodLength
   def apply_quiz(cookies)
     step1_c = cookies[:complect_s_step1].split('-').map(&:to_i)
@@ -131,21 +147,18 @@ class Specialist < ApplicationRecord
       self.jurisdiction_states_canada = tgt_states
     end
 
-    # rubocop:disable Style/GuardClause
-    unless cookies[:complect_s_step3].nil?
-      sub_jurs = cookies[:complect_s_step3].split('-')
-      if sub_jurs.include?('0_1') # Other
-        self.sub_jurisdictions_other = cookies[:complect_s_jur_other] unless cookies[:complect_s_jur_other].nil?
-        sub_jurs.delete('0_1')
-      end
-      self.sub_jurisdictions = []
-      sub_jurs.map(&proc { |p| p.split('_').map(&:to_i) }).each do |c|
-        sub_jurisdictions.push(Jurisdiction.find(c[0]).sub_jurisdictions_specialist.split("\r\n")[c[1]])
-      end
+    return if cookies[:complect_s_step3].nil?
+
+    sub_jurs = cookies[:complect_s_step3].split('-')
+    if sub_jurs.include?('0_1') # Other
+      self.sub_jurisdictions_other = cookies[:complect_s_jur_other] unless cookies[:complect_s_jur_other].nil?
+      sub_jurs.delete('0_1')
     end
-    # rubocop:enable Style/GuardClause
+    self.sub_jurisdictions = []
+    sub_jurs.map(&proc { |p| p.split('_').map(&:to_i) }).each do |c|
+      sub_jurisdictions.push(Jurisdiction.find(c[0]).sub_jurisdictions_specialist.split("\r\n")[c[1]])
+    end
   end
-  # rubocop:enable Metrics/AbcSize
   # rubocop:enable Metrics/MethodLength
 
   has_one :tos_agreement, through: :user

@@ -4,8 +4,6 @@ class Specialists::PersonalizeController < ApplicationController
   before_action :require_specialist!
   before_action :set_business
 
-  # rubocop:disable Metrics/AbcSize
-  # rubocop:disable Metrics/LineLength
   # rubocop:disable Metrics/BlockNesting
   def quiz
     if current_specialist
@@ -22,7 +20,9 @@ class Specialists::PersonalizeController < ApplicationController
       end
       current_question = 0
       quiz_copy = Business::QUIZ.dup
-      quiz_copy.delete_if { |s| %i[sec_or_crd already_covered annual_compliance].include? s[0] } if @business.business_stages.include? 'startup'
+      if @business.business_stages.include? 'startup'
+        quiz_copy.delete_if { |s| %i[sec_or_crd already_covered annual_compliance].include? s[0] }
+      end
       quiz_copy.each_with_index do |q, i|
         current_question = i
         break if q[0] == :finish || @business.__send__(q[0]).nil?
@@ -34,8 +34,6 @@ class Specialists::PersonalizeController < ApplicationController
     render 'business/personalize/quiz'
   end
   # rubocop:enable Metrics/BlockNesting
-  # rubocop:enable Metrics/LineLength
-  # rubocop:enable Metrics/AbcSize
 
   def book
     respond_to do |format|

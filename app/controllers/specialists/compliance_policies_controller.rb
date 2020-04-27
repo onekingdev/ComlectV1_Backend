@@ -12,7 +12,6 @@ class Specialists::CompliancePoliciesController < ApplicationController
     render 'business/compliance_policies/new'
   end
 
-  # rubocop:disable Metrics/AbcSize
   def index
     @preview_doc = @business.compliance_policies.first
     respond_to do |format|
@@ -41,7 +40,6 @@ class Specialists::CompliancePoliciesController < ApplicationController
       end
     end
   end
-  # rubocop:enable Metrics/AbcSize
 
   def destroy
     @compliance_policy.destroy

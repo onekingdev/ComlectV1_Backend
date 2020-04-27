@@ -112,7 +112,7 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
     if (typeof(Cookies.get("complect_step5")) != "undefined") {
       $(".signup_products[data-product="+Cookies.get("complect_step5")+"]").addClass("active");
     }
-    
+
     for (cookie_attr of cookie_form_attrs) {
       $(cookie_attr).val(Cookies.get(cookie_attr.replace("#business_", "complect_")));
     }
@@ -304,7 +304,7 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
   $(".btn_step6").on('click', function() {
     $("#new_business").submit();
   });
-  
+
   $(".signup_products .product").on("click", function() {
     $(".signup_products .product").removeClass("active");
     $(this).addClass("active");

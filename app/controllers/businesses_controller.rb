@@ -17,30 +17,34 @@ class BusinessesController < ApplicationController
     @business = Business.for_signup
   end
 
-  # rubocop:disable Metrics/AbcSize
   def create
     @business = Business.for_signup(business_params, cookies[:referral])
+
     @business.apply_quiz(cookies) if cookies[:complect_step1].present?
+
     @business.username = @business.generate_username
     @business.client_account_cnt = business_params[:client_account_cnt].to_i
     @business.total_assets = Business.fix_aum(business_params[:total_assets])
+
     if @business.save
       sign_in @business.user
+
       @business.user.update_privacy_agreement(request.remote_ip)
       @business.user.update_cookie_agreement(request.remote_ip)
+
       mixpanel_track_later 'Sign Up'
+
       BusinessMailer.welcome(@business).deliver_later
-      # rubocop:disable Metrics/LineLength
-      %i[complect_contact_first_name complect_contact_last_name complect_business_name complect_address_1 complect_city complect_state complect_step21 complect_contact_job_title complect_contact_phone complect_address_2 complect_zipcode complect_client_account_cnt complect_total_assets complect_user_attributes_email complect_first_name complect_last_name referral complect_step1 complect_step11 complect_step2 complect_step3 complect_step4 complect_step41 complect_step42 complect_other].each do |c|
+
+      %i[complect_contact_first_name complect_contact_last_name complect_business_name complect_address_1 complect_city complect_state complect_step21 complect_contact_job_title complect_contact_phone complect_address_2 complect_zipcode complect_client_account_cnt complect_total_assets complect_user_attributes_email complect_first_name complect_last_name referral complect_step1 complect_step11 complect_step2 complect_step3 complect_step4 complect_step41 complect_step42 complect_other].each do |c| # rubocop:disable Metrics/LineLength
         cookies.delete c
       end
-      # rubocop:enable Metrics/LineLength
+
       return redirect_to business_dashboard_path
     end
 
     render :new
   end
-  # rubocop:enable Metrics/AbcSize
 
   def edit
     @business = current_user.business

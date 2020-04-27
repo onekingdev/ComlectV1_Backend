@@ -3,7 +3,8 @@
 class Business::OnboardingController < ApplicationController
   before_action :authenticate_user!
   before_action :require_business!
-  before_action :assign_product, only: ['subscribe']
+  before_action :go_to_dashboard, only: :subscribe
+  before_action :assign_product, only: :subscribe
 
   include SubscriptionHelper
 
@@ -17,7 +18,9 @@ class Business::OnboardingController < ApplicationController
     @pos_total += 600 if need_subscription?
   end
 
-  def subscribe # rubocop:disable Metrics/AbcSize
+  def subscribe
+    return render :index if !current_business.onboarding_passed && params[:checkout].blank?
+
     stripe_customer = current_business.payment_profile.stripe_customer
     return redirect_to '/business/onboarding', flash: { error: 'No customer' } unless stripe_customer
     @product = find_product
@@ -72,17 +75,21 @@ class Business::OnboardingController < ApplicationController
   end
 
   def assign_product
-    # rubocop:disable Style/GuardClause
-    if params[:onboarding].present? && params[:onboarding][:business_stages].present?
-      if I18n.t(:business_products).keys.map(&:to_s).include?(params[:onboarding][:business_stages])
-        current_business.update(business_stages: params[:onboarding][:business_stages])
-      end
-    end
-    # rubocop:enable Style/GuardClause
+    return unless params[:onboarding].present? && params[:onboarding][:business_stages].present?
+
+    return unless I18n.t(:business_products).keys.map(&:to_s).include?(params[:onboarding][:business_stages])
+    current_business.update(business_stages: params[:onboarding][:business_stages])
   end
 
   def mark_passed
     current_business.update(onboarding_passed: true)
     current_business.update(ria_dashboard: true) if need_subscription?
+  end
+
+  def go_to_dashboard
+    return if (current_business.ria? && need_subscription?) || current_business.payment_sources.blank?
+
+    mark_passed
+    redirect_to(business_dashboard_path)
   end
 end

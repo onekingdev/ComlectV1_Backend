@@ -22,7 +22,6 @@ class Specialists::AnnualReportsController < ApplicationController
   def show; end
 
   # rubocop:disable Metrics/MethodLength
-  # rubocop:disable Metrics/AbcSize
   def create
     @annual_report = @business.annual_reports.last
     respond_to do |format|
@@ -65,7 +64,6 @@ class Specialists::AnnualReportsController < ApplicationController
     end
   end
   # rubocop:enable Metrics/MethodLength
-  # rubocop:enable Metrics/AbcSize
 
   def update
     @annual_report = @business.annual_reports.find(params[:id])
