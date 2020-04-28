@@ -592,6 +592,39 @@ ALTER SEQUENCE public.charges_id_seq OWNED BY public.charges.id;
 
 
 --
+-- Name: compliance_categories; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.compliance_categories (
+    id integer NOT NULL,
+    name character varying,
+    checkboxes text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: compliance_categories_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.compliance_categories_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: compliance_categories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.compliance_categories_id_seq OWNED BY public.compliance_categories.id;
+
+
+--
 -- Name: compliance_policies; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1371,7 +1404,8 @@ CREATE TABLE public.findings (
     action text,
     risk_lvl integer DEFAULT 3,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    compliance_category integer
 );
 
 
@@ -1860,7 +1894,9 @@ CREATE TABLE public.specialists (
     jurisdiction_states_canada character varying DEFAULT ''::character varying,
     sub_jurisdictions character varying,
     sub_jurisdictions_other character varying,
-    call_booked boolean DEFAULT false
+    call_booked boolean DEFAULT false,
+    dashboard_unlocked boolean DEFAULT false,
+    min_hourly_rate integer
 );
 
 
@@ -4614,6 +4650,13 @@ ALTER TABLE ONLY public.charges ALTER COLUMN id SET DEFAULT nextval('public.char
 
 
 --
+-- Name: compliance_categories id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.compliance_categories ALTER COLUMN id SET DEFAULT nextval('public.compliance_categories_id_seq'::regclass);
+
+
+--
 -- Name: compliance_policies id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -5078,6 +5121,14 @@ ALTER TABLE ONLY public.businesses
 
 ALTER TABLE ONLY public.charges
     ADD CONSTRAINT charges_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: compliance_categories compliance_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.compliance_categories
+    ADD CONSTRAINT compliance_categories_pkey PRIMARY KEY (id);
 
 
 --
@@ -7067,4 +7118,12 @@ INSERT INTO schema_migrations (version) VALUES ('20200410005704');
 INSERT INTO schema_migrations (version) VALUES ('20200410021818');
 
 INSERT INTO schema_migrations (version) VALUES ('20200417022050');
+
+INSERT INTO schema_migrations (version) VALUES ('20200420060723');
+
+INSERT INTO schema_migrations (version) VALUES ('20200426013206');
+
+INSERT INTO schema_migrations (version) VALUES ('20200426033608');
+
+INSERT INTO schema_migrations (version) VALUES ('20200426092251');
 

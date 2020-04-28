@@ -31,8 +31,6 @@ RSpec.describe 'Fixed project end scenarios', type: :request do
     let(:end_request) { create(:project_end, project: project) }
 
     before do
-      StripeMock.start
-
       Timecop.freeze(business.tz.local(2015, 12, 25)) do
         Project::Form.find(project.id).post!
         JobApplication::Accept.(job_application)
@@ -47,10 +45,6 @@ RSpec.describe 'Fixed project end scenarios', type: :request do
         expect(response).to have_http_status(:ok)
         project.reload
       end
-    end
-
-    after do
-      StripeMock.stop
     end
 
     it "creates charge for balance with today's date" do

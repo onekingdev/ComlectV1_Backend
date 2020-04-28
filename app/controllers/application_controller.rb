@@ -30,13 +30,11 @@ class ApplicationController < ActionController::Base
   private
 
   def lock_specialist
-    # rubocop:disable Style/GuardClause
-    unless current_specialist.dashboard_unlocked
-      unless (params['controller'] == 'specialists/dashboard') && (params['action'] == 'locked')
-        redirect_to specialists_locked_path if params['controller'] != 'users/sessions'
-      end
-    end
-    # rubocop:enable Style/GuardClause
+    return if current_specialist.dashboard_unlocked
+
+    return if (params['controller'] != 'specialists/dashboard') && (params['action'] != 'locked')
+
+    redirect_to specialists_locked_path if params['controller'] != 'users/sessions'
   end
 
   def storable_location?
