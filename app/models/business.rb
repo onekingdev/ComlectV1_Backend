@@ -75,8 +75,6 @@ class Business < ApplicationRecord
 
   after_commit :generate_referral_token, on: :create
 
-  after_create :sync_with_mailchimp
-
   def self.for_signup(attributes = {}, token = nil)
     new(attributes).tap do |business|
       business.build_user.build_tos_agreement unless business.user
@@ -165,12 +163,6 @@ class Business < ApplicationRecord
 
   def generate_referral_token
     GenerateReferralTokensJob.perform_later(self)
-  end
-
-  def sync_with_mailchimp
-    SyncBusinessUsersToMailchimpJob.perform_later(self)
-    # For dev testing and triggering heroku deploy
-    # SyncBusinessUsersToMailchimpJob.perform_now(self)
   end
 
   def subscription?

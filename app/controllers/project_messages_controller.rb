@@ -3,11 +3,11 @@
 class ProjectMessagesController < ApplicationController
   prepend_before_action :authenticate_user!
   before_action :find_project
+  before_action :read_messages, only: ['index']
 
   def index
     b_id = current_business ? current_business.id : @project.business_id
     s_id = current_specialist ? current_specialist.id : specialist_from_params_or_project
-
     @messages = @project.messages.business_specialist(b_id, s_id).page(params[:page]).per(20)
     respond_to do |format|
       format.html do
@@ -43,6 +43,11 @@ class ProjectMessagesController < ApplicationController
   end
 
   private
+
+  def read_messages
+    @project.messages.where(recipient_id: current_business.id).update_all(read_by_recipient: true) if current_business
+    @project.messages.where(recipient_id: current_specialist.id).update_all(read_by_recipient: true) if current_specialist
+  end
 
   def specialist_from_params_or_project
     if params[:specialist_username]

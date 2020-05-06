@@ -61,3 +61,7 @@
   user_inactive:
     cron: "*/5 * * * *"
     class: "UserInactiveJob"
+
+  message_mailer:
+    cron: "*/3 * * * *"
+    class: "MessageMailerJob"

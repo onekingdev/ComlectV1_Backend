@@ -119,8 +119,6 @@ class Specialist < ApplicationRecord
 
   after_commit :generate_referral_token, on: :create
 
-  after_create :sync_with_mailchimp
-
   def to_param
     username
   end
@@ -238,10 +236,6 @@ class Specialist < ApplicationRecord
 
   def generate_referral_token
     GenerateReferralTokensJob.perform_later(self)
-  end
-
-  def sync_with_mailchimp
-    SyncSpecialistUsersToMailchimpJob.perform_later(self)
   end
 
   # rubocop:disable Style/GuardClause
