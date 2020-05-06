@@ -1,5 +1,5 @@
 if Stripe?
-  Stripe.setPublishableKey _appConfig.stripePublishableKey
+  Stripe _appConfig.stripePublishableKey
 
 $(document).on 'submit', '#new_payment_source_ach', (e) ->
   $form = $(this)

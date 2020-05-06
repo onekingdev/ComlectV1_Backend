@@ -7,6 +7,7 @@
     .hidden-nav {
       display: none;
     }
+    padding: 4px 50px;
   }
   @media (min-width: 1149px) and (max-width: 1278px) {
     .hidden-nav2 {
@@ -31,6 +32,28 @@
     @media (max-width: $grid-float-breakpoint) {
       border-bottom: 1px solid #eaeaea;
     }
+  }
+
+  li.cat {
+    font-weight: lighter;
+    padding-left: 27px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    color: #888;
+  }
+
+  li.bizmgr {
+    background-color: #555;
+    a:hover {
+      background-color: #555;
+    }
+  }
+
+  .fake_bottom {
+    width: 100%;
+    background-color: #555;
+    height: 14px;
+    position: absolute;
   }
 
   .preseparate {

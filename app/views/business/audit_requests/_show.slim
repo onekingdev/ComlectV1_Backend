@@ -1,0 +1,32 @@
+.m-t-2.m-b-2.text-center
+  - if @business
+    - if @business.user.payment_info?
+      b.m-b-2 style="font-weight: 500" = @project_description.shift
+      p.m-b-2 = raw(@project_description.join("<br/>"))
+      b style="font-family: 'Canela'; font-weight: 500; font-size: 27px;" = "$#{@project_template.fixed_budget.to_i}"
+      .text-center
+        br
+        br
+        .btn.btn-primary.btn-purchase.p-x-3 style="width: 140px" data-identifier=(@project_template.identifier) Hire
+        /.btn.btn-lg.btn-primary.btn-customize data-identifier=(@project_template.identifier) Customize
+      br
+    - else
+      | Please add a payment method under 
+      = link_to "Payment Details", "/business/settings/payment", target: "_blank"
+      |  in your Account Settings in order to complete this purchase.
+  - else
+    | Purchases can only be made by businesses with an account with Complect.
+    br
+    - if current_specialist
+      | Please establish a separate business profile if you wish to purchase a turnkey solution
+    - else
+      | Please 
+      = link_to "log in", new_user_session_path, "data-remote" => true
+      |  or 
+      = link_to "sign up", new_user_registration_path, "data-remote" => true
+      |  in order to complete this transaction
+
+- pth = (current_specialist ? specialists_business_audit_requests_path(@business, format: :json) : business_audit_requests_path)
+
+javascript:
+  var _audit_requests_url = "#{pth}";

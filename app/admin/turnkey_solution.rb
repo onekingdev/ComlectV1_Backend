@@ -52,6 +52,9 @@ ActiveAdmin.register TurnkeySolution do
       :estimated_days,
       :key_deliverables,
       :turnkey_solution_id,
+      :business_fee_free,
+      :identifier,
+      :applicant_selection,
       industry_ids: [],
       jurisdiction_ids: []
     ]
@@ -77,6 +80,8 @@ ActiveAdmin.register TurnkeySolution do
       f.input :accounts_enabled, label: 'Request # of accounts'
       f.inputs 'Templates' do
         f.has_many :project_templates do |pt|
+          pt.input :identifier
+          pt.input :applicant_selection, as: :select, collection: %w[auto_match interview]
           pt.input :title
           pt.input :title_aum
           pt.input :flavor, as: :select, collection: %w[era sma fund bd]
@@ -88,7 +93,7 @@ ActiveAdmin.register TurnkeySolution do
           pt.input :public_features, as: :text, label: 'Features (1 line per feature, sub-features begin with space)'
           pt.input :description, as: :text
           pt.input :description_aum, as: :text
-          pt.input :payment_schedule, as: :select, collection: %w[upon_completion bi_weekly monthly fifty_fifty]
+          pt.input :payment_schedule, as: :select, collection: %w[upon_completion bi_weekly monthly fifty_fifty upfront]
           pt.input :key_deliverables
           pt.input :pricing_type, as: :select, collection: %w[hourly fixed]
           pt.input :fixed_budget
@@ -100,6 +105,7 @@ ActiveAdmin.register TurnkeySolution do
           pt.input :minimum_experience
           pt.input :duration_type, as: :select, collection: %w[asap custom]
           pt.input :estimated_days
+          pt.input :business_fee_free, as: :boolean
           pt.input :_destroy, as: :boolean, required: false, label: 'Remove'
         end
       end

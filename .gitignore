@@ -4,6 +4,7 @@
 # or operating system, you probably want to add a global ignore instead:
 #   git config --global core.excludesfile '~/.gitignore_global'
 #
+
 # Ignore local config.
 /.env.local
 
@@ -25,3 +26,4 @@ yarn-debug.log*
 yarn-error.log*
 .yarn-integrity
 .DS_Store
+.idea
