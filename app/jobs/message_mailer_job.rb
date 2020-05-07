@@ -6,9 +6,9 @@ class MessageMailerJob < ApplicationJob
   def perform(message_id = nil)
     return process_all if message_id.nil?
     message = Message.find_by(id: message_id)
+    Notification::Deliver.got_project_message!(message) unless message.read_by_recipient
     unread_messages = message.thread.messages.unread.where(recipient_id: message.recipient_id)
     unread_messages.update_all(read_by_recipient: true)
-    Notification::Deliver.got_project_message!(message)
   end
 
   private
