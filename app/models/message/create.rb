@@ -9,7 +9,7 @@ class Message::Create < Draper::Decorator
     return if project.pending? && attributes[:sender].is_a?(Specialist) && project.messages.business_specialist(project.business_id, attributes[:sender].id).blank?
     # rubocop:enable Metrics/LineLength
     new(project.messages.create(attributes)).tap do |message|
-      # Notification::Deliver.got_project_message!(message) if message.persisted?
+      #  Notification::Deliver.got_project_message!(message) if message.persisted?
     end
   end
 

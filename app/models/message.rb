@@ -7,7 +7,7 @@ class Message < ApplicationRecord
 
   scope :preload_associations, -> { preload(:thread, :sender, :recipient) }
   scope :recent, -> { order(created_at: :desc) }
-  scope :notifiable, -> { where(read_by_recipient: false).where('created_at < ?', Time.zone.now - 3.minutes) }
+  scope :notifiable, -> { where(read_by_recipient: false).where('created_at < ?', Time.zone.now - 1.minute) }
   scope :unread, -> { where(read_by_recipient: false) }
   scope :between, ->(type, id) {
     where(thread: nil)
@@ -38,6 +38,8 @@ class Message < ApplicationRecord
     SQL
     find_by_sql([query, { id: subject.id, type: subject.model_name.name }])
   end
+
+  def first_notification?; end
 
   def messages
     if thread
