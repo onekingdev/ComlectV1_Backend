@@ -28,6 +28,7 @@ class TurnkeySolution < ActiveRecord::Base
     project_templates.where(flavor: 'bd').count.positive?
   end
 
+  # rubocop:disable Metrics/AbcSize
   def validate_params(params)
     missing = []
     [[:aum, aum_enabled], [:accounts, accounts_enabled], [:state, principal_office], [:estimated_hours, hours_enabled],\
@@ -44,4 +45,5 @@ class TurnkeySolution < ActiveRecord::Base
     missing.push('BD Lines') if bd? && params['bd'].reject(&:empty?).empty?
     missing
   end
+  # rubocop:enable Metrics/AbcSize
 end

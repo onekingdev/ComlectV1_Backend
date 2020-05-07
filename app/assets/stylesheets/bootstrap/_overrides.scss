@@ -1,7 +1,7 @@
 html {
   //font-size: 13px; // So rems work better
   letter-spacing: 1px;
-  font-weight: 300; 
+  font-weight: $regular-weight; 
 }
 
 .btn.active, .btn:active {
@@ -15,35 +15,26 @@ html {
 .input-lg{
   border: none;
   border: $input-border;
-  font-weight: 300;
+  font-weight: $medium-weight;
   font-size: 12px;
   letter-spacing: 1px;
 }
 
-label {
-  font-weight: 500;
-}
-
 .btn{
   border-radius: 0px;
-  border: 2px solid #ffcc00;
+  border: 3px solid #ffcc00;
   //text-transform: none;
 }
 
 .multiselect{
-  border: 1px solid #d1d1d1;
+  border: 2px solid #e4e4e4;
   text-transform: none;
   font-size: 12px !important;
-  font-weight: 300 !important;
+  font-weight: $medium-weight !important;
 }
 
 .close {
   font-size: 14px;
-  background-color: transparent;
-  background-image: asset_url("close.png");
-  width: 30px;
-  height: 30px;
-  background-size: contain;
 }
 
 .bootstrap-switch, .bootstrap-switch-label, .bootstrap-switch-container, .bootstrap-switch-handle-on, .bootstrap-switch-handle-off {

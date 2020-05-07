@@ -5,11 +5,7 @@ class Business::PaymentSettingsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: :create
 
   def index
-    if !current_business.onboarding_passed
-      redirect_to '/business/onboarding'
-    else
-      @sources = current_business.payment_sources.sorted
-    end
+    @sources = current_business.payment_sources.sorted
   end
 
   def show
@@ -30,19 +26,6 @@ class Business::PaymentSettingsController < ApplicationController
       format.js do
         @payment_source = PaymentSource::ACHForm.new(@payment_source)
         render @payment_source.persisted? ? :show : :new
-      end
-      format.json do
-        if @payment_source.errors[:base].any?
-          content = {
-            error: true,
-            message: @payment_source.errors.full_messages.join(', ')
-          }
-          status = 442
-        else
-          content = @payment_source.to_json
-          status = :created
-        end
-        render json: content, status: status
       end
     end
   end

@@ -11,13 +11,6 @@ AllCops:
     - 'node_modules/**/*'
     - 'vendor/**/*'
 
-Rails/UnknownEnv:
-  Environments:
-    - production
-    - development
-    - test
-    - staging
-
 Layout/EmptyLineBetweenDefs:
   AllowAdjacentOneLineDefs: true
 
@@ -54,12 +47,6 @@ Style/LambdaCall:
 Style/RegexpLiteral:
   Enabled: false
 
-Style/RescueStandardError:
-  Enabled: false
-
-Style/RescueModifier:
-  Enabled: false
-
 Style/Send:
   Enabled: true
 
@@ -72,7 +59,7 @@ Style/SymbolArray:
 ##################### Metrics ##################################
 
 Metrics/AbcSize:
-  Enabled: false
+  Max: 30
 
 Metrics/BlockLength:
   Max: 150
