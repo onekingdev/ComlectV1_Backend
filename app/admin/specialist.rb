@@ -41,9 +41,15 @@ ActiveAdmin.register Specialist do
     column 'Email', :user, sortable: 'users.email' do |specialist|
       link_to specialist.user.email, admin_specialist_path(specialist)
     end
+    column :years_of_experience, label: 'Yrs. of XP' do |specialist|
+      link_to specialist.years_of_experience, admin_user_path(specialist.user)
+    end
     column :username, label: 'Username' do |specialist|
       link_to specialist.username, admin_user_path(specialist.user)
     end
+    column :dashboard_unlocked
+    column :call_booked
+    column :min_hourly_rate
     column :first_name
     column :city
     column :state
@@ -71,6 +77,10 @@ ActiveAdmin.register Specialist do
         end
       end
       row :name, &:full_name
+      row :dashboard_unlocked
+      row :call_booked
+      row :min_hourly_rate
+      row :years_of_experience
       row :user
       row :visibility do |specialist|
         status_tag specialist.is_public? ? 'Public' : 'Anonymous', specialist.is_public? ? 'yes' : nil
@@ -105,6 +115,9 @@ ActiveAdmin.register Specialist do
     column :id
     column :first_name
     column :last_name
+    column :dashboard_unlocked
+    column :call_booked
+    column :min_hourly_rate
     column(:email) { |specialist| specialist.user.email }
     column :country
     column :state
@@ -131,8 +144,8 @@ ActiveAdmin.register Specialist do
     column :updated_at
   end
 
-  permit_params :first_name, :last_name, :city, :zipcode, :state, :country, :phone, :linkedin_link, :visibility,
-                :former_regulator, :certifications, :rewards_tier_override_id,
+  permit_params :first_name, :last_name, :city, :zipcode, :state, :country, :phone, :linkedin_link, :visibility, :years_of_experience,
+                :former_regulator, :certifications, :rewards_tier_override_id, :dashboard_unlocked, :call_booked, :min_hourly_rate,
                 work_experiences_attributes: %i[id _destroy company job_title location from to current compliance description],
                 education_histories_attributes: %i[institution degree year],
                 jurisdiction_ids: [], industry_ids: [], skill_ids: []
@@ -141,6 +154,10 @@ ActiveAdmin.register Specialist do
     f.inputs name: 'Contact Information' do
       f.input :first_name
       f.input :last_name
+      f.input :years_of_experience
+      f.input :dashboard_unlocked
+      f.input :call_booked
+      f.input :min_hourly_rate
       f.input :city
       f.input :zipcode
       f.input :state
@@ -150,18 +167,18 @@ ActiveAdmin.register Specialist do
       f.input :visibility, collection: Specialist.visibilities.invert
     end
 
-    f.inputs name: 'Work Experience' do
-      f.has_many :work_experiences, heading: false, allow_destroy: true do |a|
-        a.input :company
-        a.input :job_title
-        a.input :location
-        a.input :from, as: :datepicker
-        a.input :to, as: :datepicker
-        a.input :current
-        a.input :compliance
-        a.input :description, as: :text, input_html: { class: 'autogrow', rows: 10, cols: 20 }
-      end
-    end
+    # f.inputs name: 'Work Experience' do
+    #   f.has_many :work_experiences, heading: false, allow_destroy: true do |a|
+    #     a.input :company
+    #     a.input :job_title
+    #     a.input :location
+    #     a.input :from, as: :datepicker
+    #     a.input :to, as: :datepicker
+    #     a.input :current
+    #     a.input :compliance
+    #     a.input :description, as: :text, input_html: { class: 'autogrow', rows: 10, cols: 20 }
+    #   end
+    # end
 
     f.inputs name: 'Areas of Expertise' do
       f.input :jurisdictions

@@ -1,0 +1,22 @@
+tr.tools 
+  - if years_avail.include? y
+    - annual_review = @business.annual_reviews.where(year: y).first
+    td
+      = y
+    td 
+      = link_to (current_specialist ? edit_specialists_business_annual_review_path(@business.username, annual_review.id) : edit_business_annual_review_path(annual_review.id)), class: "tblbtn", "data-target": "#modal", "data-toggle": "modal", "data-remote": true do
+        i.icon-pencil data-toggle="tooltip" title="Edit"
+    td
+      = link_to annual_review.file_url, download: "complect_annual_review_#{annual_review.year}.#{annual_review.file.data["metadata"]["filename"].split(".").last}", target: "_blank" do
+        i.icon-cloud-download data-toggle="tooltip" title="Download"
+    td
+      = link_to annual_review.pdf_url, target: "_blank" do
+        i.icon-magnifier data-toggle="tooltip" title="Preview"
+    /td = link_to "Save", annual_review.file_url, target: "_blank"
+  - else
+    td = y
+    td colspan=2
+      i No&nbsp;file 
+    td
+      = link_to (current_specialist ? new_specialists_business_annual_review_path(@business.username, year: y) : new_business_annual_review_path(year: y)), class: "tblbtn", "data-target": "#modal", "data-toggle": "modal", "data-remote": true do
+        .icon-plus data-toggle="tooltip" title="Upload"

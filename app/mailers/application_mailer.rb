@@ -10,7 +10,7 @@ class ApplicationMailer < ActionMailer::Base
   def self.deliver_later(method, *args)
     message = public_send(method, *args)
     later = ENV['ENABLE_DIRECT_MAILERS'] != '1'
-    Rails.env.production? && later ? message.deliver_later : message.deliver_now
+    (Rails.env.production? || Rails.env.staging?) && later ? message.deliver_later : message.deliver_now
   end
 
   def initialize(*args)
@@ -19,8 +19,8 @@ class ApplicationMailer < ActionMailer::Base
   end
 
   def mail(headers = {}, &block)
-    return deliver_with_template(headers) if Rails.env.production? && headers.key?(:template_id)
-    return super if Rails.env.production? || !headers.key?(:template_id)
+    return deliver_with_template(headers) if (Rails.env.production? || Rails.env.staging?) && headers.key?(:template_id)
+    return super if (Rails.env.production? || Rails.env.staging?) || !headers.key?(:template_id)
     super headers do |format|
       format.text do
         model = headers[:template_model].map { |var, value| "#{var}: #{value}" }.join("\n")

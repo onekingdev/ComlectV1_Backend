@@ -15,6 +15,9 @@ FactoryBot.define do
     city { Faker::Address.city }
     state { Faker::Address.state }
     time_zone 'Mountain Time (US & Canada)'
+    client_account_cnt 123
+    total_assets '20MM'
+
     sequence(:username) { |n| "UserN#{n + rand(10_000)}" }
     trait :with_payment_profile do
       after(:create) do |business, _evaluator|

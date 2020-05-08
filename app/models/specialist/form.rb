@@ -7,7 +7,7 @@ class Specialist::Form < Specialist
   accepts_nested_attributes_for :education_histories, allow_destroy: true, reject_if: :all_blank
 
   validates :first_name, :last_name, :country, :time_zone, :address_1, :industry_ids, :jurisdiction_ids, presence: true
-  validate :validate_minimum_experience, on: :signup
+  # validate :validate_minimum_experience, on: :signup
 
   accepts_nested_attributes_for :user
 
@@ -26,8 +26,8 @@ class Specialist::Form < Specialist
       specialist.build_user.build_tos_agreement.build_cookie_agreement unless specialist.user
       specialist.user.tos_acceptance_date = Time.zone.now
       specialist.user.tos_acceptance_ip = tos_acceptance_ip
-      specialist.work_experiences.build unless specialist.work_experiences.any?
-      specialist.education_histories.build unless specialist.education_histories.any?
+      # specialist.work_experiences.build unless specialist.work_experiences.any?
+      # specialist.education_histories.build unless specialist.education_histories.any?
       referral_token = ReferralToken.find_by(token: token) if token
       specialist.build_referral(referral_token: referral_token) if referral_token
     end

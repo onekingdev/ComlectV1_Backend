@@ -8,8 +8,8 @@ class ProcessTransactionsJob < ApplicationJob
     transaction = Transaction.ready.find_by(id: transaction_id)
     transaction&.process!
 
-    Business::Rewards.calculate! transaction.business
-    Specialist::Rewards.calculate! transaction.specialist
+    # Business::Rewards.calculate! transaction.business
+    # Specialist::Rewards.calculate! transaction.specialist
   end
 
   private

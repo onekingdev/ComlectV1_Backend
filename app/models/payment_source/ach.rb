@@ -7,9 +7,19 @@ class PaymentSource::ACH < PaymentSource
   class << self
     def plaid_or_manual(business, params)
       return add_to(business, params) if params.is_a?(String) || !params.key?(:plaid_token)
-      user = Plaid::User.exchange_token(params.require(:plaid_token), params.require(:plaid_account_id), product: :auth)
+
+      client = Plaid::Client.new(env: ENV['PLAID_ENV'],
+                                 client_id: ENV['PLAID_CLIENT_ID'],
+                                 secret: ENV['PLAID_SECRET'],
+                                 public_key: ENV['PLAID_PUBLIC_KEY'])
+      exchange_token_response = client.item.public_token.exchange(params.require(:plaid_token))
+      access_token = exchange_token_response.access_token
+      stripe_response = client.processor.stripe.bank_account_token.create(access_token, params.require(:plaid_account_id))
+      bank_account_token = stripe_response.stripe_bank_account_token
+      # user = Plaid::User.exchange_token(params.require(:plaid_token), params.require(:plaid_account_id), product: :auth)
       attributes = {
-        token: user.stripe_bank_account_token,
+        # token: user.stripe_bank_account_token,
+        token: bank_account_token,
         brand: params.require(:plaid_institution),
         last4: '****',
         validated: true

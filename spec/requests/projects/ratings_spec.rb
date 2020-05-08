@@ -7,7 +7,7 @@ RSpec.describe 'Projects::RatingsController', type: :request do
 
   describe 'GET /projects/:project_id/rating/new.js' do
     let(:business) { project.business }
-    let(:specialist) { create(:specialist) }
+    let(:specialist) { create(:specialist, call_booked: true) }
 
     let(:project) {
       create(
