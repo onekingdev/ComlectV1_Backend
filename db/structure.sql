@@ -1820,7 +1820,8 @@ CREATE TABLE public.messages (
     message character varying,
     file_data jsonb,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    read_by_recipient boolean DEFAULT false
 );
 
 
@@ -7126,4 +7127,6 @@ INSERT INTO schema_migrations (version) VALUES ('20200426013206');
 INSERT INTO schema_migrations (version) VALUES ('20200426033608');
 
 INSERT INTO schema_migrations (version) VALUES ('20200426092251');
+
+INSERT INTO schema_migrations (version) VALUES ('20200506095205');
 

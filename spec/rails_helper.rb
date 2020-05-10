@@ -57,3 +57,16 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
 end
+
+def amount_with_stripe_fee_card(amount)
+  ((BigDecimal((amount + 0.3).to_s) / (1 - 0.029)) * 100).round
+end
+
+def amount_with_stripe_fee_bank(amount)
+  stripe_fee_bank(amount) + (amount * 100).to_i
+end
+
+def stripe_fee_bank(amount)
+  fee = ((BigDecimal(amount.to_s) / (1 - 0.008)) * 100).round - (BigDecimal(amount.to_s) * 100).to_i
+  fee > 500 ? 500 : fee
+end

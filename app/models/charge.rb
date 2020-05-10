@@ -8,6 +8,11 @@ class Charge < ApplicationRecord
   has_one :specialist, through: :project
 
   COMPLECT_FEE_PCT = 0.10
+  COMPLECT_ADMIN_FEE_CENTS = 150
+  STRIPE_FEES = {
+    usd: { percent: 2.9, fixed: 0.30, ach: 0.8 },
+    cad: { percent: 2.9, fixed: 0.30 }
+  }.freeze
 
   scope :for_rfp_or_one_off_projects, -> { joins(:project).where(project: Project.one_off.or(Project.rfp)) }
   scope :real, -> { where(status: [Charge.statuses[:scheduled], Charge.statuses[:processed], Charge.statuses[:error]]) }
@@ -95,6 +100,18 @@ class Charge < ApplicationRecord
     balance - (balance * COMPLECT_FEE_PCT)
   end
 
+  def amount_with_stripe_fee(currency = :usd, source_type = :card)
+    f_fixed = STRIPE_FEES[currency.to_s.downcase.to_sym][:fixed]
+    f_percent = BigDecimal(STRIPE_FEES[currency.to_s.downcase.to_sym][:percent].to_s) / 100
+
+    if source_type == :ach
+      f_fixed = 0
+      f_percent = BigDecimal(STRIPE_FEES[:usd][:ach].to_s) / 100
+    end
+
+    ((BigDecimal((amount + f_fixed).to_s) / (1 - f_percent)) * 100).round
+  end
+
   private
 
   def calculate_fee
@@ -114,11 +131,15 @@ class Charge < ApplicationRecord
   def calculate_business_fee
     return self.business_fee_in_cents = 0 if business.fee_free || project.business_fee_free
 
-    self.business_fee_in_cents ||= amount_in_cents * business.rewards_tier.fee_percentage
+    payment_source = business.payment_sources.find_by(primary: true) || business.payment_sources.first
+    source_type = payment_source&.type == 'PaymentSource::ACH' ? :ach : :card
+
+    self.business_fee_in_cents ||= amount_with_stripe_fee(:usd, source_type) - amount_in_cents + COMPLECT_ADMIN_FEE_CENTS
   end
 
   def calculate_specialist_fee
     return unless specialist
-    self.specialist_fee_in_cents ||= amount_in_cents * specialist.rewards_tier.fee_percentage
+
+    self.specialist_fee_in_cents ||= amount_in_cents * COMPLECT_FEE_PCT
   end
 end

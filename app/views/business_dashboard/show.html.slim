@@ -1,8 +1,6 @@
 - content_for :title, 'Dashboard'
 - header_class ''
 
-= render partial: 'specialists/dashboard/rewards'
-
 - Business::Decorator.decorate(@business).tap do |business|
   #business-dashboard.row.m-b-3
     .tr
@@ -12,7 +10,7 @@
           = render partial: "compliance_manual"
           = render partial: "annual_review"
           = render partial: "audit_prep"
-        - if !@business.ria_dashboard? 
+        - if !@business.ria_dashboard?
           .panel.panel-default.profile-info
             .panel-heading
               h3 Profile
@@ -82,7 +80,7 @@
             .m-t-2.text-center= link_to 'Ask a Question', forum_questions_path, class: 'btn btn-sm btn-primary p-x-1', style: "width: 150px"
 
       .td.col-xs-12.col-sm-8.col-md-9.va-top
-        - if @business.ria_dashboard? 
+        - if @business.ria_dashboard?
           = render partial: "ria_profile", locals: { business: business }
         .panel.panel-default.panel-padded
           .panel-heading

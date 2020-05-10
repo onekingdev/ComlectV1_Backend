@@ -6,7 +6,6 @@ class Specialist < ApplicationRecord
   belongs_to :team, foreign_key: :specialist_team_id
 
   belongs_to :rewards_tier
-  belongs_to :rewards_tier_override, class_name: 'RewardsTier'
 
   # before_save :calculate_years_of_experience
   has_and_belongs_to_many :industries
@@ -332,16 +331,8 @@ class Specialist < ApplicationRecord
     transactions.processed.by_year(year).map(&:specialist_total).inject(&:+) || 0
   end
 
-  alias original_rewards_tier rewards_tier
   def rewards_tier
-    return RewardsTier.default unless original_rewards_tier
-    return rewards_tier_override if rewards_tier_override_precedence?
-    original_rewards_tier
-  end
-
-  def rewards_tier_override_precedence?
-    return false unless rewards_tier_override
-    rewards_tier_override.fee_percentage < original_rewards_tier.fee_percentage
+    RewardsTier.default
   end
 
   def generate_referral_token

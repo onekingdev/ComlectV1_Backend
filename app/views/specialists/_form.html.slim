@@ -147,7 +147,7 @@
       .progress-bar role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style='width:70%'
   .clearfix
   h2.m-t-1.m-b-2.text-center
-    | What's your compliance risk tolerance? 
+    | What's your compliance risk tolerance?
 
   .choices.tolerance_quiz
     h2.quiz_q.m-t-1.m-b-1 Select what closely describes how you feel:
@@ -170,7 +170,7 @@
     .progress
       .progress-bar role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="90" style='width:90%'
   .clearfix
-  h2.m-t-1.m-b-2.text-center 
+  h2.m-t-1.m-b-2.text-center
     | We just need to finalize your sign up with an interview to make sure that you're a good fit for our platform.
     br
     br
@@ -203,7 +203,7 @@
         span.selected.m-y-1.ww-break= f.object.resume ? f.object.resume.data['metadata']['filename'] : nil
         - if f.object.errors[:resume].any?
           .text-danger.m-b-1= f.object.errors[:resume].to_sentence
-          
+
   .row.p-b-1.col-md-push-2.col-md-8
     - if f.object.errors[:tos_agree].any?
     .text-danger= f.object.errors[:tos_agree].first
@@ -212,19 +212,19 @@
     .padded-checkboxes
       input#tos-checkbox type="checkbox" name="specialist[user_attributes][tos_agreement_attributes][status]"
       label for="tos-checkbox"
-        | I have read and agree to the 
+        | I have read and agree to the
         = link_to "Terms of Use", "/info/terms-of-use", target: "_blank"
-        |  and 
+        |  and
         = link_to "Privacy Policy", "/info/privacy-policy", target: "_blank"
         | .
     .padded-checkboxes
-      input#cookie-checkbox type="checkbox" name="specialist[user_attributes][cookie_agreement_attributes][status]" checked=false style="vertical-align: top;" 
+      input#cookie-checkbox type="checkbox" name="specialist[user_attributes][cookie_agreement_attributes][status]" checked=false style="vertical-align: top;"
       | &nbsp;&nbsp;
       label for="cookie-checkbox" This site uses cookies. By creating an account, you agree to the use of cookies on this site.
     .padded-checkboxes
       = check_box_tag("specialist[call_booked]", 1, false)
-      label for=("specialist_call_booked") class="css-label" 
-        | Confirm that I’ve booked an 
+      label for=("specialist_call_booked") class="css-label"
+        | Confirm that I’ve booked an
         = link_to "interview time", "https://calendly.com/complect", target: "_blank"
 
     input type="hidden" name="specialist[user_attributes][cookie_agreement_attributes][cookie_description]" value="This site uses cookies. By creating an account you agree to the use of cookies on this site."

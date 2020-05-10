@@ -5,9 +5,6 @@ require 'validators/url_validator'
 class Business < ApplicationRecord
   belongs_to :user
 
-  belongs_to :rewards_tier
-  belongs_to :rewards_tier_override, class_name: 'RewardsTier'
-
   has_and_belongs_to_many :jurisdictions
   has_and_belongs_to_many :industries
   has_many :forum_questions
@@ -433,18 +430,6 @@ class Business < ApplicationRecord
   def processed_transactions_amount
     year = Time.zone.now.in_time_zone(tz).year
     transactions.processed.by_year(year).map(&:subtotal).inject(&:+) || 0
-  end
-
-  alias original_rewards_tier rewards_tier
-  def rewards_tier
-    return RewardsTier.default unless original_rewards_tier
-    return rewards_tier_override if rewards_tier_override_precedence?
-    original_rewards_tier
-  end
-
-  def rewards_tier_override_precedence?
-    return false unless rewards_tier_override
-    rewards_tier_override.fee_percentage < original_rewards_tier.fee_percentage
   end
 
   def generate_referral_token
