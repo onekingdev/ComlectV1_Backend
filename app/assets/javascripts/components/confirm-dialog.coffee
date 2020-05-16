@@ -8,8 +8,8 @@ $(document).on 'confirm', '[data-confirm]', (e) ->
     className: 'confirm'
     buttons:
       cancel:
-        label: 'Cancel'
-        className: 'btn-primary btn-md'
+        label: $this.data('cancel-label') || 'Cancel'
+        className: 'btn-default btn-md'
       confirm:
         label: $this.data('confirm-label') || 'Ok'
         className: 'btn-primary btn-md'

@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/AbcSize
 class AddStripeAccountIdToSpecialists < ActiveRecord::Migration
   def change
     add_column :specialists, :stripe_account_id, :string
@@ -32,4 +31,3 @@ class AddStripeAccountIdToSpecialists < ActiveRecord::Migration
     end
   end
 end
-# rubocop:enable Metrics/AbcSize

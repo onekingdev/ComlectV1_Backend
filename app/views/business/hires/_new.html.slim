@@ -5,7 +5,7 @@
         = hidden_field_tag :job_application_id, f.object.id
         .modal-header
           button.close.bootbox-close-button data-dismiss="modal" type="button"
-            | x
+            | &nbsp;
         .modal-body
           p Are you sure you want to hire <strong>#{f.object.specialist.first_name}</strong>?
           - if f.object.project.full_time?
