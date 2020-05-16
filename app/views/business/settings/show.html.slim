@@ -3,7 +3,7 @@
 - content_for :title, "Settings"
 
 - content_for :prepend_scripts do
-  = javascript_include_tag "https://cdn.plaid.com/link/stable/link-initialize.js"
+  script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js" data-client-name="Client Name" data-key="#{ENV.fetch('PLAID_PUBLIC_KEY')}" data-product="auth" data-env="sandbox"
 
 .col-xs-12.col-sm-10.col-sm-push-1
   .row.panel.panel-default.settings
