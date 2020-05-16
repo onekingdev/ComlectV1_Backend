@@ -104,8 +104,6 @@ ActiveAdmin.register Specialist do
       row :former_regulator
       row :certifications
       row :rating, &:ratings_average
-      row :rewards_tier
-      row :rewards_tier_override
       row :created_at
       row :updated_at
     end
@@ -145,7 +143,7 @@ ActiveAdmin.register Specialist do
   end
 
   permit_params :first_name, :last_name, :city, :zipcode, :state, :country, :phone, :linkedin_link, :visibility, :years_of_experience,
-                :former_regulator, :certifications, :rewards_tier_override_id, :dashboard_unlocked, :call_booked, :min_hourly_rate,
+                :former_regulator, :certifications, :dashboard_unlocked, :call_booked, :min_hourly_rate,
                 work_experiences_attributes: %i[id _destroy company job_title location from to current compliance description],
                 education_histories_attributes: %i[institution degree year],
                 jurisdiction_ids: [], industry_ids: [], skill_ids: []
@@ -200,10 +198,6 @@ ActiveAdmin.register Specialist do
 
     f.inputs name: 'Certifications' do
       f.input :certifications
-    end
-
-    inputs name: 'Rewards' do
-      input :rewards_tier_override
     end
 
     f.actions
