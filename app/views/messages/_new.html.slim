@@ -4,7 +4,8 @@
     .modal-content
       = simple_form_for message, url: message.form_url, remote: true do |f|
         .modal-header
-          button.close.bootbox-close-button data-dismiss="modal" type="button" &nbsp;
+          button.close.bootbox-close-button data-dismiss="modal" type="button"
+            .icon.maxicons1-exit         
         .modal-body.text-left
           h3.text-uppercase.text-center.m-t-1 Send a Message
           = f.hidden_field :recipient_type

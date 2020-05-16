@@ -2,23 +2,17 @@
   .col-xs-12.col-sm-6.m-b-3
     .modal-wrapper
       .modal-fake
-        p
-          | Looking to
-          br
-          span HIRE?
-        .m-y-3
-          .icon-briefcase
+        .m-y-2 = image_tag "signup_business.png", width: "190px"
+        p style="font-family: Canela; font-weight: bold;"
+          | Looking to Hire?
         h4.m-b-2 Sign up as a
         a.btn.btn-lg.btn-block.btn-primary href=new_business_path Business
 
   .col-xs-12.col-sm-6.m-b-3
     .modal-wrapper
       .modal-fake
-        p
-          | Looking to
-          br
-          span WORK?
-        .m-y-3
-          .icon-user
+        .m-y-2 = image_tag "signup_specialist.png", width: "190px"
+        p style="font-family: Canela; font-weight: bold;"
+          | Looking to Work?
         h4.m-b-2 Sign up as a
         a.btn.btn-lg.btn-block.btn-primary href=new_specialist_path Specialist

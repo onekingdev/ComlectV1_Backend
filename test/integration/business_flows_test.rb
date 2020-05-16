@@ -18,7 +18,7 @@ class BusinessFlowsTest < ActionDispatch::IntegrationTest
     end
     assert_redirected_to business_dashboard_path
     get business_dashboard_path
-    assert_redirected_to business_onboarding_path
+    assert_response :ok
   end
 
   test "#new redirects to user's existing business" do
@@ -54,7 +54,7 @@ class BusinessFlowsTest < ActionDispatch::IntegrationTest
 
     patch(
       update_business_path,
-      business: { business_name: 'New Name', total_assets: '10MM' }
+      business: { business_name: 'New Name' }
     )
 
     assert_redirected_to business_dashboard_path

@@ -2,7 +2,6 @@
 
 class ApplicationController < ActionController::Base
   before_action :store_user_location!, if: :storable_location?
-  before_action :lock_specialist, if: :current_specialist
   include ::Pundit
   include ::MixpanelHelper
 
@@ -28,14 +27,6 @@ class ApplicationController < ActionController::Base
   }
 
   private
-
-  def lock_specialist
-    return if current_specialist.dashboard_unlocked
-
-    return if (params['controller'] != 'specialists/dashboard') && (params['action'] != 'locked')
-
-    redirect_to specialists_locked_path if params['controller'] != 'users/sessions'
-  end
 
   def storable_location?
     request.get? && is_navigational_format? && !devise_controller? && !request.xhr?

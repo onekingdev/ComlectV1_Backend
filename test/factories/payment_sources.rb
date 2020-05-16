@@ -2,8 +2,7 @@
 
 FactoryBot.define do
   factory :payment_source do
-    # stripe_id 'dummy'
-    sequence(:stripe_id) { |n| "dummy_#{n + rand(10_000)}" }
+    stripe_id 'dummy'
     brand 'visa'
     last4 '1234'
   end

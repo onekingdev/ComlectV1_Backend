@@ -6,6 +6,7 @@ class ForumQuestionsController < ApplicationController
     @forum_question = ForumQuestion.new
   end
 
+  # rubocop:disable Metrics/AbcSize
   def show
     cb = current_business
     set_biz_sub if cb
@@ -29,6 +30,7 @@ class ForumQuestionsController < ApplicationController
       end
     end
   end
+  # rubocop:enable Metrics/AbcSize
 
   def new; end
 

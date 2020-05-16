@@ -3,6 +3,7 @@
 class ForumAnswersController < ApplicationController
   before_action :authenticate_user!
 
+  # rubocop:disable Metrics/AbcSize
   # rubocop:disable Metrics/BlockNesting
   def create
     @forum_answer = ForumAnswer.new(forum_answer_params)
@@ -29,6 +30,7 @@ class ForumAnswersController < ApplicationController
     end
   end
   # rubocop:enable Metrics/BlockNesting
+  # rubocop:enable Metrics/AbcSize
 
   private
 
