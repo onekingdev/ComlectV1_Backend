@@ -46,11 +46,13 @@ RSpec.describe Charge::Processing, type: :model do
 
           it 'sets the correct amount' do
             transaction = project.transactions.first
-
             amount = (project.annual_salary * 15) - transaction.business_credit_in_cents
-            expect(transaction.amount_in_cents).to eq(amount)
+            expected_credits = business.credits_in_cents - transaction.business_credit_in_cents
 
-            expect(business.reload.credits_in_cents).to be_zero
+            aggregate_failures do
+              expect(transaction.amount_in_cents).to eq(amount)
+              expect(business.reload.credits_in_cents).to eq(expected_credits)
+            end
           end
         end
 
@@ -59,6 +61,7 @@ RSpec.describe Charge::Processing, type: :model do
 
           it 'sets the correct amount' do
             transaction = project.transactions.first
+
             expect(transaction.amount_in_cents).to eq(project.annual_salary * 15)
           end
         end
@@ -265,24 +268,25 @@ RSpec.describe Charge::Processing, type: :model do
           it 'creates transactions per project with total amount' do
             transaction_1 = project_1.transactions.first
             transaction_2 = project_2.transactions.first
-            amount_fees_by_charge_1 = transaction_1.charges.map do |ch|
-              amount_with_stripe_fee_card(ch.amount) + Charge::COMPLECT_ADMIN_FEE_CENTS
+
+            amount_1 = transaction_1.charges.map(&:amount_in_cents).reduce(:+) / 100
+            amount_in_cents_1 = amount_with_stripe_fee_card(amount_1) +
+                                Charge::COMPLECT_ADMIN_FEE_CENTS -
+                                transaction_1.business_credit_in_cents
+            amount_2 = transaction_2.charges.map(&:amount_in_cents).reduce(:+) / 100
+            amount_in_cents_2 = amount_with_stripe_fee_card(amount_2) +
+                                Charge::COMPLECT_ADMIN_FEE_CENTS -
+                                transaction_2.business_credit_in_cents
+
+            aggregate_failures do
+              expect(transaction_1.amount_in_cents).to eq(amount_in_cents_1)
+              expect(transaction_2.amount_in_cents).to eq(amount_in_cents_2)
+
+              # amount = BigDecimal(8500) - transaction_1.business_credit_in_cents - transaction_1.specialist_credit_in_cents
+              # expect(transaction_1.fee_in_cents).to eq(amount)
+
+              # expect(transaction_2.fee_in_cents).to eq amount_fees_by_charge_2.reduce(:+) - transaction_2.specialist_credit_in_cents
             end
-            amount_fees_by_charge_2 = transaction_2.charges.map do |ch|
-              amount_with_stripe_fee_card(ch.amount) + Charge::COMPLECT_ADMIN_FEE_CENTS
-            end
-            amount = amount_fees_by_charge_1.reduce(:+) - transaction_1.business_credit_in_cents
-
-            expect(transaction_1.amount_in_cents).to eq(amount)
-
-            # amount = BigDecimal(25_000) * (1 + Charge::COMPLECT_FEE_PCT)
-            amount = amount_fees_by_charge_2.reduce(:+) - transaction_2.business_credit_in_cents
-            expect(transaction_2.amount_in_cents).to eq(amount)
-
-            # amount = BigDecimal(8500) - transaction_1.business_credit_in_cents - transaction_1.specialist_credit_in_cents
-            # expect(transaction_1.fee_in_cents).to eq(amount)
-
-            # expect(transaction_2.fee_in_cents).to eq amount_fees_by_charge_2.reduce(:+) - transaction_2.specialist_credit_in_cents
           end
 
           it 'creates associated specialist payment transactions' do
@@ -293,7 +297,12 @@ RSpec.describe Charge::Processing, type: :model do
           end
 
           it 'redeems credit balance' do
-            expect(business.reload.credits_in_cents).to be_zero
+            transaction_1 = project_1.transactions.first
+            transaction_2 = project_2.transactions.first
+            total_fees = transaction_1.business_fee + transaction_2.business_fee
+            credits = business.credits_in_cents
+
+            expect(business.reload.credits_in_cents).to eq(credits - total_fees)
           end
         end
 
@@ -308,26 +317,25 @@ RSpec.describe Charge::Processing, type: :model do
           it 'creates transactions per project with total amount' do
             transaction_1 = project_1.transactions.first
             transaction_2 = project_2.transactions.first
-            amount_fees_by_charge_1 = transaction_1.charges.map do |ch|
-              amount_with_stripe_fee_card(ch.amount) + Charge::COMPLECT_ADMIN_FEE_CENTS
-            end
-            amount_fees_by_charge_2 = transaction_2.charges.map do |ch|
-              amount_with_stripe_fee_card(ch.amount) + Charge::COMPLECT_ADMIN_FEE_CENTS
-            end
-            fees_by_charge_1 = transaction_1.charges.map do |ch|
-              amount_with_stripe_fee_card(ch.amount) + Charge::COMPLECT_ADMIN_FEE_CENTS - ch.amount_in_cents
-            end
-            fees_by_charge_2 = transaction_2.charges.map do |ch|
-              amount_with_stripe_fee_card(ch.amount) + Charge::COMPLECT_ADMIN_FEE_CENTS - ch.amount_in_cents
-            end
+
+            amount_1 = transaction_1.charges.map(&:amount_in_cents).reduce(:+) / 100
+            amount_in_cents_1 = amount_with_stripe_fee_card(amount_1) +
+                                Charge::COMPLECT_ADMIN_FEE_CENTS -
+                                transaction_1.business_credit_in_cents
+            amount_2 = transaction_2.charges.map(&:amount_in_cents).reduce(:+) / 100
+            amount_in_cents_2 = amount_with_stripe_fee_card(amount_2) +
+                                Charge::COMPLECT_ADMIN_FEE_CENTS -
+                                transaction_2.business_credit_in_cents
+            amount_without_fee_1 = transaction_1.charges.map(&:amount_in_cents).reduce(:+)
+            amount_without_fee_2 = transaction_2.charges.map(&:amount_in_cents).reduce(:+)
             specialist_fee_1 = (transaction_1.charges.map(&:amount_in_cents).reduce(:+) * Charge::COMPLECT_FEE_PCT).to_i
             specialist_fee_2 = (transaction_2.charges.map(&:amount_in_cents).reduce(:+) * Charge::COMPLECT_FEE_PCT).to_i
 
             aggregate_failures do
-              expect(transaction_1.amount_in_cents).to eq(amount_fees_by_charge_1.reduce(:+))
-              expect(transaction_2.amount_in_cents).to eq(amount_fees_by_charge_2.reduce(:+))
-              expect(transaction_1.fee_in_cents).to eq(fees_by_charge_1.reduce(:+) + specialist_fee_1)
-              expect(transaction_2.fee_in_cents).to eq(fees_by_charge_2.reduce(:+) + specialist_fee_2)
+              expect(transaction_1.amount_in_cents).to eq(amount_in_cents_1)
+              expect(transaction_2.amount_in_cents).to eq(amount_in_cents_2)
+              expect(transaction_1.fee_in_cents).to eq(transaction_1.amount_in_cents - amount_without_fee_1 + specialist_fee_1)
+              expect(transaction_2.fee_in_cents).to eq(transaction_2.amount_in_cents - amount_without_fee_2 + specialist_fee_2)
             end
           end
 
@@ -352,19 +360,16 @@ RSpec.describe Charge::Processing, type: :model do
           it 'is charge %0.8 stripe fees' do
             transaction_1 = project_1.transactions.first
             transaction_2 = project_2.transactions.first
-            all_amounts_1 = transaction_1.charges.map(&:amount)
-            all_amounts_2 = transaction_2.charges.map(&:amount)
-
-            expected_fees_1 = 0
-            expected_fees_2 = 0
-            all_amounts_1.each { |n| expected_fees_1 += stripe_fee_bank(n) + Charge::COMPLECT_ADMIN_FEE_CENTS }
-            all_amounts_2.each { |n| expected_fees_2 += stripe_fee_bank(n) + Charge::COMPLECT_ADMIN_FEE_CENTS }
+            expected_amount_1 = 50_000 + stripe_fee_bank(500) + Charge::COMPLECT_ADMIN_FEE_CENTS
+            expected_amount_2 = 25_000 + stripe_fee_bank(250) + Charge::COMPLECT_ADMIN_FEE_CENTS
+            expected_fees_1 = expected_amount_1 - 50_000
+            expected_fees_2 = expected_amount_2 - 25_000
 
             aggregate_failures do
-              expect(transaction_1.amount_in_cents).to eq(50_000 + expected_fees_1)
-              expect(transaction_1.business_fee).to eq(BigDecimal(expected_fees_1) / 100)
-              expect(transaction_2.amount_in_cents).to eq(25_000 + expected_fees_2)
-              expect(transaction_2.business_fee).to eq(BigDecimal(expected_fees_2) / 100)
+              expect(transaction_1.amount_in_cents).to eq(expected_amount_1)
+              expect(transaction_1.business_fee).to eq(expected_fees_1)
+              expect(transaction_2.amount_in_cents).to eq(expected_amount_2)
+              expect(transaction_2.business_fee).to eq(expected_fees_2)
             end
           end
         end

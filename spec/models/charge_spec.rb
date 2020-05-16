@@ -33,13 +33,13 @@ RSpec.describe Charge, type: :model do
     end
   end
 
-  describe '#amount_with_stripe_fee' do
+  describe '.amount_with_stripe_fee' do
     it 'when amount includes stripe fee' do
       aggregate_failures do
+        expect(Charge.amount_with_stripe_fee(1000)).to eq(103_018)
         expect(business.charges.length).to eq(1)
-        expect(business.charges.first.amount_with_stripe_fee).to eq(103_018)
         expect(business.charges.first.amount_in_cents).to eq(100_000)
-        expect(business.charges.first.business_fee_in_cents).to eq(3168)
+        expect(business.charges.first.business_fee_in_cents).to be_zero # we calculate it in transaction
         expect(business.charges.first.specialist_fee_in_cents).to eq(10_000)
       end
     end

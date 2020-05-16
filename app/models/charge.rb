@@ -67,6 +67,14 @@ class Charge < ApplicationRecord
     total_with_fee_in_cents / 100.0
   end
 
+  def total_with_estimated_fee
+    BigDecimal(Charge.amount_with_stripe_fee(
+      amount,
+      :usd,
+      business.payment_source_type
+    ) + COMPLECT_ADMIN_FEE_CENTS) / 100
+  end
+
   def total_with_fee=(value)
     self.total_with_fee_in_cents = (BigDecimal(value) * 100).to_i
   end
@@ -100,7 +108,7 @@ class Charge < ApplicationRecord
     balance - (balance * COMPLECT_FEE_PCT)
   end
 
-  def amount_with_stripe_fee(currency = :usd, source_type = :card)
+  def self.amount_with_stripe_fee(amount, currency = :usd, source_type = :card)
     f_fixed = STRIPE_FEES[currency.to_s.downcase.to_sym][:fixed]
     f_percent = BigDecimal(STRIPE_FEES[currency.to_s.downcase.to_sym][:percent].to_s) / 100
 
@@ -115,7 +123,7 @@ class Charge < ApplicationRecord
   private
 
   def calculate_fee
-    calculate_business_fee
+    calculate_business_fee # here 0 - We do that in Transaction
     calculate_specialist_fee
 
     self.total_with_fee_in_cents = amount_in_cents + business_fee_in_cents
@@ -129,12 +137,7 @@ class Charge < ApplicationRecord
   end
 
   def calculate_business_fee
-    return self.business_fee_in_cents = 0 if business.fee_free || project.business_fee_free
-
-    payment_source = business.payment_sources.find_by(primary: true) || business.payment_sources.first
-    source_type = payment_source&.type == 'PaymentSource::ACH' ? :ach : :card
-
-    self.business_fee_in_cents ||= amount_with_stripe_fee(:usd, source_type) - amount_in_cents + COMPLECT_ADMIN_FEE_CENTS
+    self.business_fee_in_cents ||= 0 # we calculate it in transaction
   end
 
   def calculate_specialist_fee

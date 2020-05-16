@@ -75,12 +75,14 @@ RSpec.describe PaymentCycle::Hourly::Monthly, type: :model do
       it 'creates real charge for first month' do
         aggregate_failures do
           expect(@project.charges.real.count).to eq(1)
+
           charge = @project.charges.real.first
+
           expect(charge.amount).to eq(5 * @project.hourly_rate)
           expect(
             charge.process_after.in_time_zone(business.tz).to_i
           ).to eq(@project.business.tz.local(2016, 2, 2).end_of_day.to_i)
-          expect(charge.business_fee_in_cents).to eq(1674)
+          expect(charge.business_fee_in_cents).to eq(0) # we calculate it in transaction
           expect(charge.specialist_fee_in_cents).to eq(charge.amount_in_cents * Charge::COMPLECT_FEE_PCT)
         end
       end

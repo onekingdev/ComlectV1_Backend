@@ -447,5 +447,10 @@ class Business < ApplicationRecord
   def base_subscribed?
     subscription&.stripe_invoice_item_id && subscription&.stripe_subscription_id
   end
+
+  def payment_source_type
+    payment_source = payment_sources.find_by(primary: true) || payment_sources.first
+    payment_source&.type == 'PaymentSource::ACH' ? :ach : :card
+  end
 end
 # rubocop:enable Metrics/ClassLength

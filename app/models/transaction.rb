@@ -34,7 +34,7 @@ class Transaction < ApplicationRecord
   end
 
   def fee
-    if charges.size.positive?
+    if charges.length.positive?
       @_fee ||= charges.map(&:fee).reduce(:+)
     else
       (BigDecimal(fee_in_cents) / 2) / 100.0
@@ -42,15 +42,21 @@ class Transaction < ApplicationRecord
   end
 
   def business_fee
-    if charges.size.positive?
-      @business_fee ||= charges.map(&:business_fee).reduce(:+)
+    if charges.length.positive?
+      amount_charges = charges.map(&:amount_in_cents).reduce(:+)
+
+      @business_fee ||= Charge.amount_with_stripe_fee(
+        amount_charges / 100,
+        :usd,
+        business.payment_source_type
+      ) - amount_charges + Charge::COMPLECT_ADMIN_FEE_CENTS
     else
       (BigDecimal(fee_in_cents) / 2) / 100.0
     end
   end
 
   def specialist_fee
-    if charges.size.positive?
+    if charges.length.positive?
       @specialist_fee ||= charges.map(&:specialist_fee).reduce(:+)
     else
       (BigDecimal(fee_in_cents) / 2) / 100.0
@@ -66,7 +72,7 @@ class Transaction < ApplicationRecord
   end
 
   def subtotal
-    if charges.size.positive?
+    if charges.length.positive?
       BigDecimal(charges.sum(:amount_in_cents)) / 100.0
     else
       subtotal_in_cents = BigDecimal(amount_in_cents) - (business_fee * 100.0)
