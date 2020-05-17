@@ -36,20 +36,19 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
         }
       } else {
         if ((name != "step3") && (name != "step5")) {
-          console.log($(".business_"+name+" .choices .active").length);
           $(".business_"+name).find(".continue").prop("disabled", !($(".business_"+name+" .choices .active").length > 0));
         }
       }
     }
   }
 
-  function validateEmail(email) {
+  var validateEmail = function(email) {
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
   }
 
   $(document).ready(function() {
-    function num_to_opinion(n) {
+    var num_to_opinion = function(n) {
       return ["strongly<br>disagree", "somewhat disagree", "I don't know", "somewhat agree", "strongly<br>agree"][n-1];
     }
 
@@ -68,7 +67,7 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
       Cookies.set("complect_step3", "3-3-3");
     }
 
-    function set_risks_cookie() {
+    var set_risks_cookie = function() {
       Cookies.set("complect_step3", $("#business_risks_1").val()+"-"+$("#business_risks_2").val()+"-"+$("#business_risks_3").val());
     }
 
@@ -161,7 +160,7 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
     step_signup_continue();
   });
 
-  function render_step21() {
+  var render_step21 = function() {
     var nums = [];
     var cookies_step2 = Cookies.get('complect_step2');
     if ((cookies_step2 != undefined) && (cookies_step2.length > 0)) {
@@ -203,11 +202,8 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
   });
 
   $(cookie_form_attrs.join(", ")).on('keyup', function(e) {
-    //console.log(this);
     Cookies.set($(this).attr('id').replace("business_", "complect_"), $(this).val(), { expires: 7 });
-    console.log("try step cont");
     step_signup_continue();
-    console.log("step conted");
   });
 
   $("#business_user_attributes_password, "+required_fields_step0.join(", ")).on('keyup', function() {
@@ -223,8 +219,6 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
     var shown = false;
     for (var i = 1; i < 4; i++) {
       var name = step_names[i];
-      console.log(name);
-      console.log(step_cookies[name]);
       if (step_cookies[name] == undefined) {
         if (step_names[i] == "step21") {
           var step2_cc = Cookies.get("complect_step2");
@@ -245,7 +239,6 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
         } else {
           $(".business_"+step_names[i]).show();
         }
-        console.log(".business_"+step_names[i]);
         shown = true;
         break;
       }
@@ -334,10 +327,9 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
     }
   });
 
-  function toggle_choices(t_choice) {
+  var toggle_choices = function(t_choice) {
     // identify step with parent div
     var parent = t_choice.parent().parent().parent();
-    console.log("tchoice");
     // checking / unchecking and cosmetic stuff for 'i_dunno' and 'other (...)'
     var cb = t_choice.find("input[type='checkbox']");
     if (t_choice.hasClass("active")) {
@@ -364,7 +356,6 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
       }
       if (parent.hasClass("business_"+name)) {
         if (name == "step2") { render_step21(); };
-        console.log(nums);
         Cookies.set("complect_"+name, nums.join("-"), { expires: 7 });
       }
     }
@@ -384,17 +375,9 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
     step_signup_continue();
   }
 
-  //function toggle_choices(heh) {
-  //  console.log("TOGLIN");
-  //  console.log(heh);
-  //}
-
   $(".choices").on('click', '.btn-block', function(e) {
     e.preventDefault();
-    console.log(e.target);
-    console.log("going to toggl");
     toggle_choices($(this));
-    //toggle_choice($(this));
   });
 
   $(".choices").on('click', "input[type='checkbox']", function(e) {
@@ -403,7 +386,6 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
     if (checked) {
       $(this).parent().removeClass("active");
       var parent = $(this).parent().parent().parent().parent();
-      console.log(parent);
     } else {
       $(this).parent().addClass("active");
     }
@@ -422,8 +404,6 @@ if ((window.location.pathname.indexOf("/business/onboarding") > -1)) {
     });
     $(".pos_total_annual").hide();
     $("#checkout_schedule_monthly, #checkout_schedule_annual").on("change", function() {
-      console.log($(this));
-      console.log($(this).val());
       if ($(this).val() == "annual") {
         $(".pos_total").hide();
         $(".pos_total_annual").show();

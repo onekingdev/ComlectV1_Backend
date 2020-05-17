@@ -6,7 +6,7 @@ if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("spe
   var required_fields_step0 = ["#specialist_user_attributes_password", "#specialist_first_name", "#specialist_last_name", "#specialist_user_attributes_email", "#specialist_user_attributes_password_confirmation", "#specialist_address_1", "#specialist_city", "#specialist_state", "#specialist_zipcode", "#specialist_country", "#specialist_time_zone"];
   var cookie_form_attrs = ["#specialist_first_name", "#specialist_last_name", "#specialist_user_attributes_email", "#specialist_address_1", "#specialist_city", "#specialist_state", "#specialist_zipcode", "#specialist_address_2"];
 
-  function sub_jur_other_toggle() {
+  var sub_jur_other_toggle = function() {
     if ($(".specialist_step1 .choices button[data-other='yes'] input:checked").length > 0) {
       $("#sub_jur_other").show();
     } else {
@@ -14,7 +14,7 @@ if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("spe
     }
   }
 
-  function step_signup_continue() {
+  var step_signup_continue = function() {
     for (var name of step_names) {
       if (name == "step0") {
         $(".specialist_step0 .continue").prop("disabled", true);
@@ -24,15 +24,12 @@ if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("spe
             var prop_disabled = false;
             if ($("#specialist_user_attributes_password").val() != $("#specialist_user_attributes_password_confirmation").val()) {
               $("#specialist_user_attributes_password_confirmation").addClass("form_error");
-              // console.log("pwd fail");
               prop_disabled = true;
             } else {
               $("#specialist_user_attributes_password_confirmation").removeClass("form_error");
             }
             for (field of required_fields_step0) {
               if (!($(field).val().length > 0)) {
-                // console.log("just fail");
-                // console.log(field);
                 prop_disabled = true;
               }
             }
@@ -58,13 +55,13 @@ if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("spe
     }
   }
 
-  function validateEmail(email) {
+  var validateEmail = function(email) {
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
   }
 
   $(document).ready(function() {
-    function num_to_opinion(n) {
+    var num_to_opinion = function(n) {
       return ["strongly<br>disagree", "somewhat disagree", "I don't know", "somewhat agree", "strongly<br>agree"][n-1];
     }
 
@@ -85,7 +82,7 @@ if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("spe
       $(".specialist_step5 .continue").prop('disabled', false);
     }
 
-    function set_risks_cookie() {
+    var set_risks_cookie = function() {
       Cookies.set("complect_s_step4", $("#specialist_risks_1").val()+"-"+$("#specialist_risks_2").val()+"-"+$("#specialist_risks_3").val());
     }
 
@@ -187,7 +184,7 @@ if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("spe
     sub_jur_other_toggle();
   });
 
-  function render_step21() {
+  var render_step21 = function() {
     var nums = [];
     var cookies_step2 = Cookies.get('complect_s_step2');
     if ((cookies_step2 != undefined) && (cookies_step2.length > 0)) {
@@ -195,16 +192,13 @@ if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("spe
         nums.push(parseInt(num));
       }
     }
-    // console.log(nums);
     $(".specialist_step21 .choices .col-sm-6").hide();
     for (var num of nums) {
       var cb = $(".specialist_step2 .choices input[value="+num+"]");
-      // console.log(cb);
       var cb_txt = cb.parent().text();
       $(".specialist_step21 .choices .col-sm-6").each(function() {
         if (parseInt($(this).find("input[type=checkbox]").val().split("_")[0]) == num) {
           $(this).show();
-          // console.log(this);
         }
       });
     }
@@ -219,7 +213,7 @@ if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("spe
     step_signup_continue();
   }
 
-  function render_step3() {
+  var render_step3 = function() {
     var nums = [];
     var cookies_step1 = Cookies.get('complect_s_step1');
     if ((cookies_step1 != undefined) && (cookies_step1.length > 0)) {
@@ -266,7 +260,6 @@ if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("spe
   });
 
   $(cookie_form_attrs.join(", ")).on('keyup', function(e) {
-    //// console.log(this);
     Cookies.set($(this).attr('id').replace("specialist_", "complect_s_"), $(this).val(), { expires: 7 });
     step_signup_continue();
   });
@@ -284,11 +277,8 @@ if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("spe
     var shown = false;
     for (var i = 1; i < 6; i++) {
       var name = step_names[i];
-      // console.log(name);
-      // console.log(step_cookies[name]);
       if (step_cookies[name] == undefined) {
         if ((name == "step21") || (name == "step2")) {
-          // console.log("SHOWING STEP2");
           $(".specialist_step2").show();
           shown = true;
           break;
@@ -407,10 +397,9 @@ if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("spe
     Cookies.set('complect_s_jur_other', $(this).val(), { expires: 7 });
   });
 
-  function toggle_choices(t_choice) {
+  var toggle_choices = function(t_choice) {
     // identify step with parent div
     var parent = t_choice.parent().parent().parent();
-    // console.log("tchoice");
     // checking / unchecking and cosmetic stuff for 'i_dunno' and 'other (...)'
     var cb = t_choice.find("input[type='checkbox']");
     if (t_choice.hasClass("active")) {
@@ -449,7 +438,6 @@ if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("spe
       if (parent.hasClass("specialist_"+name)) {
         if (name == "step2") { render_step21(); };
         if (name == "step1") { render_step3(); };
-        // console.log(nums);
         Cookies.set("complect_s_"+name, nums.join("-"), { expires: 7 });
       }
     }
@@ -484,7 +472,6 @@ if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("spe
     if (checked) {
       $(this).parent().removeClass("active");
       var parent = $(this).parent().parent().parent().parent();
-      // console.log(parent);
       if ((parent.hasClass("specialist_step3")) || (parent.hasClass("specialist_step31")) || (parent.hasClass("specialist_step32"))) {
         var all = parent.find(".btn-block");
         all.removeClass("active");

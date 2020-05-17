@@ -34,7 +34,7 @@ class ApplicationController < ActionController::Base
 
     return if (params['controller'] != 'specialists/dashboard') && (params['action'] != 'locked')
 
-    redirect_to specialists_locked_path if params['controller'] != 'users/sessions'
+    # return redirect_to specialists_locked_path if params['controller'] != 'users/sessions'
   end
 
   def storable_location?
