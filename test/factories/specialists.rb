@@ -14,6 +14,7 @@ FactoryBot.define do
     country { Faker::Address.country }
     sequence(:username) { |n| "UserN#{n + rand(10_000)}" }
     call_booked true
+    dashboard_unlocked true
 
     trait :credit do
       credits_in_cents 6000
