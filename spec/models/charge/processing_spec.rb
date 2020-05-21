@@ -174,7 +174,7 @@ RSpec.describe Charge::Processing, type: :model do
           )
 
           project_1.charges.create!(
-            amount_in_cents: 10_000,
+            amount_in_cents: 100_000,
             status: Charge.statuses[:scheduled],
             date: 5.minutes.ago,
             process_after: 5.minutes.ago,
@@ -292,17 +292,13 @@ RSpec.describe Charge::Processing, type: :model do
           it 'creates associated specialist payment transactions' do
             transaction_1 = project_1.transactions.first
             transaction_2 = project_2.transactions.first
-            expect(transaction_1.specialist_total).to eq(BigDecimal(450))
+
+            expect(transaction_1.specialist_total).to eq(BigDecimal(4500))
             expect(transaction_2.specialist_total).to eq(BigDecimal(225))
           end
 
           it 'redeems credit balance' do
-            transaction_1 = project_1.transactions.first
-            transaction_2 = project_2.transactions.first
-            total_fees = transaction_1.business_fee + transaction_2.business_fee
-            credits = business.credits_in_cents
-
-            expect(business.reload.credits_in_cents).to eq(credits - total_fees)
+            expect(business.reload.credits_in_cents).to be_zero
           end
         end
 
@@ -360,9 +356,10 @@ RSpec.describe Charge::Processing, type: :model do
           it 'is charge %0.8 stripe fees' do
             transaction_1 = project_1.transactions.first
             transaction_2 = project_2.transactions.first
-            expected_amount_1 = 50_000 + stripe_fee_bank(500) + Charge::COMPLECT_ADMIN_FEE_CENTS
+
+            expected_amount_1 = 500_000 + stripe_fee_bank(5000) + Charge::COMPLECT_ADMIN_FEE_CENTS
             expected_amount_2 = 25_000 + stripe_fee_bank(250) + Charge::COMPLECT_ADMIN_FEE_CENTS
-            expected_fees_1 = expected_amount_1 - 50_000
+            expected_fees_1 = expected_amount_1 - 500_000
             expected_fees_2 = expected_amount_2 - 25_000
 
             aggregate_failures do

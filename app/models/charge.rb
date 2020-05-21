@@ -117,7 +117,14 @@ class Charge < ApplicationRecord
       f_percent = BigDecimal(STRIPE_FEES[:usd][:ach].to_s) / 100
     end
 
-    ((BigDecimal((amount + f_fixed).to_s) / (1 - f_percent)) * 100).round
+    res = ((BigDecimal((amount + f_fixed).to_s) / (1 - f_percent)) * 100).round
+
+    return res if source_type == :card
+
+    input_amount_cents = BigDecimal(amount.to_s) * 100
+    fee = res - input_amount_cents
+
+    fee <= 500 ? res : input_amount_cents + 500
   end
 
   private
