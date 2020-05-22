@@ -9,17 +9,15 @@ class Business::Hubspot < HubspotContact
 
   private
 
-  # rubocop:disable Rails/DynamicFindBy
   def hubspot_company
-    @hubspot_company ||= Hubspot::Company.find_by_id(object.hubspot_company_id.to_i) if object.hubspot_company_id.present?
+    @hubspot_company ||= Hubspot::Company.find_by(id: object.hubspot_company_id.to_i) if object.hubspot_company_id.present?
     @hubspot_company ||= Hubspot::Company.create!(object.business_name)
   end
 
   def hubspot_contact
-    @hubspot_contact ||= Hubspot::Contact.find_by_id(object.hubspot_contact_id.to_i) if object.hubspot_contact_id.present?
+    @hubspot_contact ||= Hubspot::Contact.find_by(id: object.hubspot_contact_id.to_i) if object.hubspot_contact_id.present?
     @hubspot_contact ||= Hubspot::Contact.create!(object.user.email)
   end
-  # rubocop:enable Rails/DynamicFindBy
 
   def sync_company
     hubspot_company.update!(
@@ -31,7 +29,6 @@ class Business::Hubspot < HubspotContact
     object.update_columns(hubspot_company_id: hubspot_company.vid)
   end
 
-  # rubocop:disable Metrics/AbcSize
   def sync_contact
     hubspot_contact.update!(
       email: object.user.email,
@@ -50,5 +47,4 @@ class Business::Hubspot < HubspotContact
 
     hubspot_company.add_contact(hubspot_contact)
   end
-  # rubocop:enable Metrics/AbcSize
 end

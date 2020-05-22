@@ -3,8 +3,6 @@
 #sign-in.m-b-3
   .modal-wrapper
     .modal-fake.gray.clearfix
-      button.close.close-absolute data-dismiss="modal" type="button"
-        .icon.maxicons1-exit
       = simple_form_for resource, remote: true, as: resource_name, url: session_path(resource_name), html: { class: 'new_session m-t-3' } do |f|
 
         - if flash[:warning]

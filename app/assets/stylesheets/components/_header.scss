@@ -95,7 +95,9 @@
   }
 
   .small-header {
-    $height: 272px;
+    $height: 232px;
+    //height: 232px;
+
     height: $height;
     //overflow: hidden;
     padding-bottom: 0;
@@ -104,7 +106,8 @@
     //$align-bottom: $height * 2 - 129; // Magic number to align cross-browser
     h1 {
       font-size: 32px;
-      line-height: 405px;
+      //line-height: 405px;
+      padding-top: 188px;
     }
 
     .tools {
@@ -127,6 +130,7 @@
     .title {
       display: block;
       height: $height;
+      padding-bottom: 0px;
       //line-height: $height;
     }
 

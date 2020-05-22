@@ -1,0 +1,66 @@
+- if @question[0] != :finish
+  h1.text-center.m-b-3.m-t-3.p-t-1.src_step = "Question #{@question_id+1} of #{@quiz_copy.count-1}"
+  .progress
+    .progress-bar role="progressbar" aria-valuenow=(@business.questionarrie_percentage) aria-valuemin="0" aria-valuemax="100" style='width:#{(@question_id+1)*10}%'
+
+  = I18n.t "personalize.#{@question[0]}.question"
+  - if I18n.exists?("personalize.#{@question[0]}.info", :en)
+    button.info-tooltip type="button" data-toggle="tooltip" title=(I18n.t "personalize.#{@question[0]}.info") i
+
+br/
+br/
+
+= simple_form_for :personalize, wrapper: :inline_form do |f|
+  - if @question[0] == :sec_or_crd
+    = f.input :sec_or_crd
+
+  - if @question[0] == :office_state
+    = f.input :office_state, collection: State.fetch_all_usa, placeholder: "Choose State", input_html: { class: 'input-lg js-select', multiple: false }
+
+  - if @question[0] == :branch_offices
+    = f.input :branch_offices, collection: [["Yes", 1], ["No", 0]], placeholder: "Choose option", input_html: { class: 'input-lg js-select', multiple: false }
+
+  - if @question[0] == :client_account_cnt
+    = f.input :client_account_cnt
+
+  - if @question[0] == :client_types
+    - client_types = @question[1].each_slice(1).to_a.map(&Proc.new { |a| a.push(I18n.t "personalize.client_types.#{a[0]}") })
+    = f.collection_check_boxes :client_types, client_types, :first, :last, item_wrapper_class: 'checkbox checkbox-lg', label: false, boolean_style: :inline
+
+  - if @question[0] == :aum
+    = f.input :aum
+    
+  - if @question[0] == :cco
+    - cco = @question[1].each_slice(1).to_a.map(&Proc.new { |a| a.unshift(I18n.t "personalize.cco.#{a[0]}") })
+    = f.input :cco, collection: cco, placeholder: "Choose option", input_html: { class: 'input-lg js-select', multiple: false }
+
+  - if @question[0] == :already_covered
+    - already_covered = @question[1].each_slice(1).to_a.map(&Proc.new { |a| a.push(I18n.t "personalize.already_covered.#{a[0]}") })
+    = f.collection_check_boxes :already_covered, already_covered, :first, :last, item_wrapper_class: 'checkbox checkbox-lg', label: false, boolean_style: :inline
+
+  - if @question[0] == :review_plan
+    - review_plan = @question[1].each_slice(1).to_a.map(&Proc.new { |a| a.unshift(I18n.t "personalize.review_plan.#{a[0]}") })
+    - est = @business.gap_analysis_est
+    - review_plan[1][0] += " #{est[0]}$"
+    - review_plan[2][0] += " #{est[1]}$"
+    - review_plan[3][0] += " #{est[2]}$"
+    = f.input :review_plan, collection: review_plan, placeholder: "Choose option", input_html: { class: 'input-lg js-select', multiple: false }
+
+  - if @question[0] == :annual_compliance
+    = f.input :annual_compliance, collection: [["Yes", 1], ["No", 0]], placeholder: "Choose option", input_html: { class: 'input-lg js-select', multiple: false }
+
+  - if @question[0] == :finish
+    - if @business.annual_compliance == true
+      p Good job! You’re on top of the ball here. Your compliance command center will centralize all your review records for when the regulators come. You should be prepared to upload all the information in one place so you have a quick way to provide information to regulators when they come knocking. We also give you the ability to hire one of our compliance specialists to conduct a review for you in the form of a mock audit.
+    - else
+      - if @business.state_or_sec == "state"
+        p Not all state require an annual compliance program review, but it is a mandatory requirement once you are SEC registered and a best business practice that regulators like to see. Your compliance command center will give you the ability to conduct one yourself or hire one of our compliance specialists to conduct a review for you in the form of a mock audit!
+      - elsif @business.state_or_sec == "sec"
+        p Oh no! As an SEC registered investment adviser, Rule 204(6)-7 requires all you to review your compliance program on at least an annual basis. Not to worry though, your compliance command center will give you the ability to conduct one yourself or hire one of our compliance specialists to conduct a review for you in the form of a mock audit!
+    = link_to 'Continue to Dashboard', (current_business ? business_dashboard_path : specialists_business_path(@business)), class: "btn btn-primary"
+  - else
+    = f.submit "Next", class: 'btn btn-primary'
+
+br/
+br/
+/= params["personalize"].inspect

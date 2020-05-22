@@ -7,6 +7,7 @@ RSpec.describe Charge::Processing, type: :model do
     let(:specialist) { create(:specialist) }
 
     context 'when full time project' do
+      let(:business) { create(:business, :with_payment_profile) }
       let(:project) do
         create(
           :project_full_time,
@@ -45,19 +46,22 @@ RSpec.describe Charge::Processing, type: :model do
 
           it 'sets the correct amount' do
             transaction = project.transactions.first
-
             amount = (project.annual_salary * 15) - transaction.business_credit_in_cents
-            expect(transaction.amount_in_cents).to eq(amount)
+            expected_credits = business.credits_in_cents - transaction.business_credit_in_cents
 
-            expect(business.reload.credits_in_cents).to be_zero
+            aggregate_failures do
+              expect(transaction.amount_in_cents).to eq(amount)
+              expect(business.reload.credits_in_cents).to eq(expected_credits)
+            end
           end
         end
 
         context 'without credit' do
-          let(:business) { create(:business, :with_payment_profile) }
+          # let(:business) { create(:business, :with_payment_profile) }
 
           it 'sets the correct amount' do
             transaction = project.transactions.first
+
             expect(transaction.amount_in_cents).to eq(project.annual_salary * 15)
           end
         end
@@ -170,7 +174,7 @@ RSpec.describe Charge::Processing, type: :model do
           )
 
           project_1.charges.create!(
-            amount_in_cents: 10_000,
+            amount_in_cents: 100_000,
             status: Charge.statuses[:scheduled],
             date: 5.minutes.ago,
             process_after: 5.minutes.ago,
@@ -191,61 +195,70 @@ RSpec.describe Charge::Processing, type: :model do
         @charges = Charge::Processing.process_scheduled!
       end
 
-      context 'when business is fee free' do
-        context 'with credits' do
-          let(:specialist) { create :specialist, :platinum_rewards, :credit }
-          let(:business) { create :business, :fee_free, :gold_rewards, :credit }
-
-          it 'creates 2 transactions' do
-            expect(@charges.size).to eq(2)
-          end
-
-          it 'creates transactions per project with total amount' do
-            transaction_1 = project_1.transactions.first
-            transaction_2 = project_2.transactions.first
-            expect(transaction_1.amount_in_cents).to eq(BigDecimal(50_000))
-            expect(transaction_2.amount_in_cents).to eq(BigDecimal(25_000))
-            expect(transaction_1.fee_in_cents).to be_zero
-            expect(transaction_2.fee_in_cents).to be_zero
-          end
-
-          it 'creates associated specialist payment transactions' do
-            transaction_1 = project_1.transactions.first
-            transaction_2 = project_2.transactions.first
-            expect(transaction_1.specialist_total).to eq(BigDecimal(465))
-            expect(transaction_2.specialist_total).to eq(BigDecimal('232.50'))
-          end
-        end
-
-        context 'without credits' do
-          let(:specialist) { create :specialist, :platinum_rewards }
-          let(:business) { create :business, :fee_free, :gold_rewards }
-
-          it 'creates 2 transactions' do
-            expect(@charges.size).to eq(2)
-          end
-
-          it 'creates transactions per project with total amount' do
-            transaction_1 = project_1.transactions.first
-            transaction_2 = project_2.transactions.first
-            expect(transaction_1.amount_in_cents).to eq(BigDecimal(50_000))
-            expect(transaction_2.amount_in_cents).to eq(BigDecimal(25_000))
-            expect(transaction_1.fee_in_cents).to eq(BigDecimal(3500))
-            expect(transaction_2.fee_in_cents).to eq(BigDecimal(1750))
-          end
-
-          it 'creates associated specialist payment transactions' do
-            transaction_1 = project_1.transactions.first
-            transaction_2 = project_2.transactions.first
-            expect(transaction_1.specialist_total).to eq(BigDecimal(465))
-            expect(transaction_2.specialist_total).to eq(BigDecimal('232.50'))
-          end
-        end
-      end
+      # TODO: completely remove "fee free" feature
+      # context 'when business is fee free' do
+      #   context 'with credits' do
+      #     let(:specialist) { create :specialist, :credit }
+      #     let(:business) { create :business, :fee_free, :credit }
+      #
+      #     it 'creates 2 transactions' do
+      #       expect(@charges.size).to eq(2)
+      #     end
+      #
+      #     it 'creates transactions per project with total amount' do
+      #       transaction_1 = project_1.transactions.first
+      #       transaction_2 = project_2.transactions.first
+      #
+      #       ap transaction_2.amount_in_cents
+      #       ap transaction_2.fee_in_cents
+      #       ap transaction_2.fee_in_cents.zero?
+      #
+      #       expect(transaction_1.amount_in_cents).to eq(BigDecimal(50_000))
+      #       expect(transaction_2.amount_in_cents).to eq(BigDecimal(25_000))
+      #       expect(transaction_1.fee_in_cents).to be_zero
+      #       expect(transaction_2.fee_in_cents).to be_zero
+      #     end
+      #
+      #     it 'creates associated specialist payment transactions' do
+      #       transaction_1 = project_1.transactions.first
+      #       transaction_2 = project_2.transactions.first
+      #
+      #       expect(transaction_1.specialist_total).to eq(BigDecimal(450))
+      #       expect(transaction_2.specialist_total).to eq(BigDecimal(225))
+      #     end
+      #   end
+      #
+      #   context 'without credits' do
+      #     let(:specialist) { create :specialist }
+      #     let(:business) { create :business, :fee_free }
+      #
+      #     it 'creates 2 transactions' do
+      #       expect(@charges.size).to eq(2)
+      #     end
+      #
+      #     it 'creates transactions per project with total amount' do
+      #       transaction_1 = project_1.transactions.first
+      #       transaction_2 = project_2.transactions.first
+      #
+      #       expect(transaction_1.amount_in_cents).to eq(BigDecimal(50_000))
+      #       expect(transaction_2.amount_in_cents).to eq(BigDecimal(25_000))
+      #       expect(transaction_1.fee_in_cents).to eq(BigDecimal(5000))
+      #       expect(transaction_2.fee_in_cents).to eq(BigDecimal(2500))
+      #     end
+      #
+      #     it 'creates associated specialist payment transactions' do
+      #       transaction_1 = project_1.transactions.first
+      #       transaction_2 = project_2.transactions.first
+      #
+      #       expect(transaction_1.specialist_total).to eq(BigDecimal(450))
+      #       expect(transaction_2.specialist_total).to eq(BigDecimal(225))
+      #     end
+      #   end
+      # end
 
       context 'when business is not fee free' do
         context 'with credits' do
-          let(:specialist) { create :specialist, :platinum_rewards, :credit }
+          let(:specialist) { create :specialist, :credit }
           let(:business) { create :business, :credit }
 
           it 'creates 2 transactions' do
@@ -256,23 +269,32 @@ RSpec.describe Charge::Processing, type: :model do
             transaction_1 = project_1.transactions.first
             transaction_2 = project_2.transactions.first
 
-            amount = BigDecimal(50_000) * (1 + Charge::COMPLECT_FEE_PCT) - transaction_1.business_credit_in_cents
-            expect(transaction_1.amount_in_cents).to eq(amount)
+            amount_1 = transaction_1.charges.map(&:amount_in_cents).reduce(:+) / 100
+            amount_in_cents_1 = amount_with_stripe_fee_card(amount_1) +
+                                Charge::COMPLECT_ADMIN_FEE_CENTS -
+                                transaction_1.business_credit_in_cents
+            amount_2 = transaction_2.charges.map(&:amount_in_cents).reduce(:+) / 100
+            amount_in_cents_2 = amount_with_stripe_fee_card(amount_2) +
+                                Charge::COMPLECT_ADMIN_FEE_CENTS -
+                                transaction_2.business_credit_in_cents
 
-            amount = BigDecimal(25_000) * (1 + Charge::COMPLECT_FEE_PCT)
-            expect(transaction_2.amount_in_cents).to eq(amount)
+            aggregate_failures do
+              expect(transaction_1.amount_in_cents).to eq(amount_in_cents_1)
+              expect(transaction_2.amount_in_cents).to eq(amount_in_cents_2)
 
-            amount = BigDecimal(8500) - transaction_1.business_credit_in_cents - transaction_1.specialist_credit_in_cents
-            expect(transaction_1.fee_in_cents).to eq(amount)
+              # amount = BigDecimal(8500) - transaction_1.business_credit_in_cents - transaction_1.specialist_credit_in_cents
+              # expect(transaction_1.fee_in_cents).to eq(amount)
 
-            expect(transaction_2.fee_in_cents).to eq BigDecimal(4250) - transaction_2.specialist_credit_in_cents
+              # expect(transaction_2.fee_in_cents).to eq amount_fees_by_charge_2.reduce(:+) - transaction_2.specialist_credit_in_cents
+            end
           end
 
           it 'creates associated specialist payment transactions' do
             transaction_1 = project_1.transactions.first
             transaction_2 = project_2.transactions.first
-            expect(transaction_1.specialist_total).to eq(BigDecimal(465))
-            expect(transaction_2.specialist_total).to eq(BigDecimal('232.50'))
+
+            expect(transaction_1.specialist_total).to eq(BigDecimal(4500))
+            expect(transaction_2.specialist_total).to eq(BigDecimal(225))
           end
 
           it 'redeems credit balance' do
@@ -281,7 +303,7 @@ RSpec.describe Charge::Processing, type: :model do
         end
 
         context 'without credits' do
-          let(:specialist) { create :specialist, :platinum_rewards }
+          let(:specialist) { create :specialist }
           let(:business) { create :business }
 
           it 'creates 2 transactions' do
@@ -291,17 +313,61 @@ RSpec.describe Charge::Processing, type: :model do
           it 'creates transactions per project with total amount' do
             transaction_1 = project_1.transactions.first
             transaction_2 = project_2.transactions.first
-            expect(transaction_1.amount_in_cents).to eq(BigDecimal(50_000) * (1 + Charge::COMPLECT_FEE_PCT))
-            expect(transaction_2.amount_in_cents).to eq(BigDecimal(25_000) * (1 + Charge::COMPLECT_FEE_PCT))
-            expect(transaction_1.fee_in_cents).to eq(BigDecimal(8500))
-            expect(transaction_2.fee_in_cents).to eq(BigDecimal(4250))
+
+            amount_1 = transaction_1.charges.map(&:amount_in_cents).reduce(:+) / 100
+            amount_in_cents_1 = amount_with_stripe_fee_card(amount_1) +
+                                Charge::COMPLECT_ADMIN_FEE_CENTS -
+                                transaction_1.business_credit_in_cents
+            amount_2 = transaction_2.charges.map(&:amount_in_cents).reduce(:+) / 100
+            amount_in_cents_2 = amount_with_stripe_fee_card(amount_2) +
+                                Charge::COMPLECT_ADMIN_FEE_CENTS -
+                                transaction_2.business_credit_in_cents
+            amount_without_fee_1 = transaction_1.charges.map(&:amount_in_cents).reduce(:+)
+            amount_without_fee_2 = transaction_2.charges.map(&:amount_in_cents).reduce(:+)
+            specialist_fee_1 = (transaction_1.charges.map(&:amount_in_cents).reduce(:+) * Charge::COMPLECT_FEE_PCT).to_i
+            specialist_fee_2 = (transaction_2.charges.map(&:amount_in_cents).reduce(:+) * Charge::COMPLECT_FEE_PCT).to_i
+
+            aggregate_failures do
+              expect(transaction_1.amount_in_cents).to eq(amount_in_cents_1)
+              expect(transaction_2.amount_in_cents).to eq(amount_in_cents_2)
+              expect(transaction_1.fee_in_cents).to eq(transaction_1.amount_in_cents - amount_without_fee_1 + specialist_fee_1)
+              expect(transaction_2.fee_in_cents).to eq(transaction_2.amount_in_cents - amount_without_fee_2 + specialist_fee_2)
+            end
           end
 
           it 'creates associated specialist payment transactions' do
             transaction_1 = project_1.transactions.first
             transaction_2 = project_2.transactions.first
-            expect(transaction_1.specialist_total).to eq(BigDecimal(465))
-            expect(transaction_2.specialist_total).to eq(BigDecimal('232.50'))
+            total_amount_1 = transaction_1.charges.map(&:amount_in_cents).reduce(:+)
+            total_amount_2 = transaction_2.charges.map(&:amount_in_cents).reduce(:+)
+            total_specialist_fee_1 = Charge::COMPLECT_FEE_PCT * total_amount_1
+            total_specialist_fee_2 = Charge::COMPLECT_FEE_PCT * total_amount_2
+
+            aggregate_failures do
+              expect(transaction_1.specialist_total).to eq(BigDecimal((total_amount_1 - total_specialist_fee_1).to_s) / 100)
+              expect(transaction_2.specialist_total).to eq(BigDecimal((total_amount_2 - total_specialist_fee_2).to_s) / 100)
+            end
+          end
+        end
+
+        context 'when ACH payment' do
+          let(:business) { create(:business, :with_payment_profile_bank) }
+
+          it 'is charge %0.8 stripe fees' do
+            transaction_1 = project_1.transactions.first
+            transaction_2 = project_2.transactions.first
+
+            expected_amount_1 = 500_000 + stripe_fee_bank(5000) + Charge::COMPLECT_ADMIN_FEE_CENTS
+            expected_amount_2 = 25_000 + stripe_fee_bank(250) + Charge::COMPLECT_ADMIN_FEE_CENTS
+            expected_fees_1 = expected_amount_1 - 500_000
+            expected_fees_2 = expected_amount_2 - 25_000
+
+            aggregate_failures do
+              expect(transaction_1.amount_in_cents).to eq(expected_amount_1)
+              expect(transaction_1.business_fee).to eq(expected_fees_1)
+              expect(transaction_2.amount_in_cents).to eq(expected_amount_2)
+              expect(transaction_2.business_fee).to eq(expected_fees_2)
+            end
           end
         end
       end

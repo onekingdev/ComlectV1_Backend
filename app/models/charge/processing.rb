@@ -62,7 +62,7 @@ class Charge::Processing
   end
 
   def business_fee_in_cents
-    @business_fee_in_cents ||= charges.map(&:business_fee_in_cents).reduce(:+)
+    @business_fee_in_cents ||= amount_with_business_fee(amount_without_fee_in_cents / 100) - amount_without_fee_in_cents
   end
 
   def specialist_fee_in_cents
@@ -95,6 +95,20 @@ class Charge::Processing
     # Do not include fee if business is fee free
     return charges.map(&:amount_in_cents).reduce(:+) if project.business.fee_free
 
-    charges.map(&:total_with_fee_in_cents).reduce(:+) - business_credit_in_cents
+    if project.full_time?
+      charges.map(&:total_with_fee_in_cents).reduce(:+) - business_credit_in_cents
+    else
+      amount_with_business_fee(amount_without_fee_in_cents / 100) - business_credit_in_cents
+    end
+  end
+
+  def amount_with_business_fee(amount)
+    return 0 if business.fee_free || project.business_fee_free
+
+    Charge.amount_with_stripe_fee(amount, :usd, business.payment_source_type) + Charge::COMPLECT_ADMIN_FEE_CENTS
+  end
+
+  def amount_without_fee_in_cents
+    charges.map(&:amount_in_cents).reduce(:+)
   end
 end

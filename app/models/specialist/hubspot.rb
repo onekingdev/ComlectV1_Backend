@@ -8,9 +8,8 @@ class Specialist::Hubspot < HubspotContact
 
   private
 
-  # rubocop:disable Rails/DynamicFindBy
   def hubspot_contact
-    @hubspot_contact ||= Hubspot::Contact.find_by_id(object.hubspot_contact_id.to_i) if object.hubspot_contact_id.present?
+    @hubspot_contact ||= Hubspot::Contact.find_by(id: object.hubspot_contact_id.to_i) if object.hubspot_contact_id.present?
     begin
       @hubspot_contact ||= Hubspot::Contact.create!(object.user.email)
     rescue Hubspot::RequestError => e
@@ -18,9 +17,7 @@ class Specialist::Hubspot < HubspotContact
     end
     @hubspot_contact
   end
-  # rubocop:enable Rails/DynamicFindBy
 
-  # rubocop:disable Metrics/AbcSize
   def sync_contact
     hubspot_contact.update!(
       email: object.user.email,
@@ -39,5 +36,4 @@ class Specialist::Hubspot < HubspotContact
 
     object.update_columns(hubspot_contact_id: hubspot_contact.vid)
   end
-  # rubocop:enable Metrics/AbcSize
 end

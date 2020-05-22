@@ -6,7 +6,7 @@ class TurnkeyPagesController < ApplicationController
   end
 
   def show
-    @states = State.fetch_all
+    @states = State.fetch_all_usa
 
     @bds = Project.all_bds
 
