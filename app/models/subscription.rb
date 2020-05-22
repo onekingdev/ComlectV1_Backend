@@ -19,10 +19,16 @@ class Subscription < ActiveRecord::Base
   end
 
   def self.subscribe(plan, customer_id)
+    plan_id = case plan.to_s.downcase
+              when 'monthly' then ENV['STRIPE_SUB_CCC_MONTHLY']
+              when 'annual' then ENV['STRIPE_SUB_CCC_ANNUAL']
+              end
+    return unless plan_id
+
     Stripe::Subscription.create(
       customer: customer_id,
       items: [
-        plan: "base_#{plan}"
+        plan: plan_id
       ]
     )
   end
