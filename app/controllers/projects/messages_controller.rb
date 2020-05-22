@@ -4,7 +4,7 @@ class Projects::MessagesController < ProjectMessagesController
   before_action :require_specialist!
 
   def index
-    Notification.clear! current_user, :specialist_got_project_message, @project
+    Notification.clear! current_user, :got_project_message, @project
     super
   end
 

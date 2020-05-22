@@ -1,28 +1,24 @@
 - content_for :title, 'Dashboard'
 - header_class ''
 
+= render partial: 'specialists/dashboard/rewards'
+
 - Business::Decorator.decorate(@business).tap do |business|
   #business-dashboard.row.m-b-3
     .tr
       .td.col-xs-12.col-sm-4.col-md-3.va-top
-        - if @business.ria_dashboard?
-          = render partial: "reminders"
-          = render partial: "compliance_manual"
-          = render partial: "annual_review"
-          = render partial: "audit_prep"
-        - if !@business.ria_dashboard?
-          .panel.panel-default.profile-info
-            .panel-heading
-              h3 Profile
-            .panel-body
-              - if business.logo
-                .logo= link_to image_tag(business.logo_url(:thumb), class: 'img-responsive'), business
-              h3.text-center= link_to business.business_name, business
-              .text-center= business.render_stars
+        .panel.panel-default.profile-info
+          .panel-heading
+            h3 Profile
+          .panel-body
+            - if business.logo
+              .logo= link_to image_tag(business.logo_url(:thumb), class: 'img-responsive'), business
+            h3.text-center= link_to business.business_name, business
+            .text-center= business.render_stars
 
             br
 
-            .list-icon.p-x-2
+            .list-icon
               .item
                 i.icon-location-pin
                 span= business.city_state_country
@@ -36,17 +32,16 @@
                 i.icon-people
                 span #{business.employees} Employees
 
-            = simple_form_for business, remote: true, url: update_business_path, html: { class: 'm-y-2 p-x-2' } do |f|
+            = simple_form_for business, remote: true, url: update_business_path, html: { class: 'm-y-2' } do |f|
               = hidden_field_tag 'redirect_to', business_dashboard_path
               = f.input :anonymous, as: :radio_pills, collection: [['Public', false], ['Private', true]], btn_class: 'btn-default btn-sm', label: false, hint: false, input_html: { data: { autosubmit: 'true' } }
 
             .text-center.text-uppercase.small= link_to 'Edit Profile', edit_business_path, class: 'link'
-            br
 
         .panel.panel-default.profile-info
           .panel-heading
             h3 Financials
-          .panel-body.text-center.p-t-0.p-b-2
+          .panel-body.text-center
             .row.bordered-cells
               .col-xs-6.p-y-1
                 .fw-700
@@ -62,12 +57,12 @@
                   - else
                     = number_to_currency @financials.processed_ytd
                 'YTD
-            .m-t-2= link_to 'Details', business_financials_path, class: 'btn btn-sm btn-primary p-x-3', style: "width: 150px"
+            .m-t-2= link_to 'Details', business_financials_path, class: 'btn btn-sm btn-primary p-x-3'
 
         .panel.panel-default.profile-info
           .panel-heading
             h3 Tools & Resources
-          .panel-body.p-t-0.p-b-2
+          .panel-body
             .list-icon.p-x-2
               .item
                 i.icon-doc
@@ -77,11 +72,9 @@
                 i.icon-share
                 span
                   = link_to 'Partnerships', partnerships_path
-            .m-t-2.text-center= link_to 'Ask a Question', forum_questions_path, class: 'btn btn-sm btn-primary p-x-1', style: "width: 150px"
+            .m-t-2.text-center= link_to 'Ask a question', forum_questions_path, class: 'btn btn-sm btn-primary p-x-1'
 
       .td.col-xs-12.col-sm-8.col-md-9.va-top
-        - if @business.ria_dashboard?
-          = render partial: "ria_profile", locals: { business: business }
         .panel.panel-default.panel-padded
           .panel-heading
             h3 My Projects
@@ -152,16 +145,3 @@
                 a.prev-slide href="#" Q
                 .dot-pagination.m-b-1
                 a.next-slide href="#" +
-
-- if !@business.welcomed?
-  - @business.update(welcomed: true)
-  javascript:
-    var show_business_personalize = #{!@business.personalized?};
-    var show_business_tutorial = #{@business.personalized? && !@business.tutorial_complete};
-    var personalize_js_url = "/business/personalize";
-    var calendar_asset_path = "#{asset_path('calendar-popup.png')}";
-    var booking_path = "#{business_personalize_book_path}"
-
-- if params[:reminder].present?
-  javascript:
-    var show_reminders_at_date = "#{new_business_reminder_path(date: Date.parse(params[:reminder]))}";

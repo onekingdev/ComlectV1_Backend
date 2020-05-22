@@ -1,7 +1,5 @@
 if Stripe?
-  Stripe _appConfig.stripePublishableKey
-  if typeof(Stripe.setPublishableKey) == 'function'
-    Stripe.setPublishableKey(_appConfig.stripePublishableKey)
+  Stripe.setPublishableKey _appConfig.stripePublishableKey
 
 $(document).on 'submit', '#new_payment_source_ach', (e) ->
   $form = $(this)

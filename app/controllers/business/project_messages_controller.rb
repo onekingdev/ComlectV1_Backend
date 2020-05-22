@@ -5,7 +5,7 @@ class Business::ProjectMessagesController < ProjectMessagesController
   before_action :require_business!
 
   def index
-    Notification.clear! current_user, :business_got_project_message, @project
+    Notification.clear! current_user, :got_project_message, @project
     super
   end
 

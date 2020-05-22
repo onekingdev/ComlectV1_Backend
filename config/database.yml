@@ -1,8 +1,5 @@
 default: &default
-  adapter: postgresql
-  host: <%=ENV['POSTGRES_HOST'] %>
-  username: <%=ENV['POSTGRES_USER'] %>
-  password: <%=ENV['POSTGRES_PASSWORD'] %>
+  adapter: 'postgresql'
   encoding: unicode
   pool: <%= ENV['DATABASE_POOL'].presence || 5 %>
 
@@ -17,7 +14,3 @@ test:
 production:
   <<: *default
   database: complect_production
-
-staging:
-  <<: *default
-  database: complect_staging

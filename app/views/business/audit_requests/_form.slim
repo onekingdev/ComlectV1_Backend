@@ -1,5 +1,0 @@
-= simple_form_for @audit_doc, wrapper: :inline_form, url: (current_specialist ? specialists_business_audit_request_path(@business.username, @audit_request) : business_audit_request_path(@audit_request)), method: :patch do |f|
-  .text-danger = f.object.errors.full_messages.first if f.object.errors.any?
-  = f.file_field :file, accept: "application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-  = f.hidden_field :audit_request_id
-  = f.submit "Upload", class: 'btn btn-primary btn-sm p-x-2'
