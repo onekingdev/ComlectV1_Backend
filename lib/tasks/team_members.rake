@@ -6,8 +6,8 @@ task team_members_names: :environment do
     next if tm.name.blank?
 
     names = tm.name.split(' ')
-    ap names
-    ap names.length
+    puts names.inspect
+    puts names.length
     next if names.length.zero?
 
     tm.first_name = names[0]
