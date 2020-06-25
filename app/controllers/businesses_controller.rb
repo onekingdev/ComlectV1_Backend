@@ -55,11 +55,12 @@ class BusinessesController < ApplicationController
     @business = Business::Form.for_user(current_user)
     respond_to do |format|
       if @business.update(edit_business_params)
+        @business.update(sub_industries: convert_sub_industries(params[:sub_industry_ids]))
         @business.update(total_assets: Business.fix_aum(edit_business_params[:total_assets]))
         if @business.delete_logo == '1'
           format.html { render :edit }
         else
-          format.html { return redirect_to_param_or business_dashboard_path }
+          format.html { return redirect_to_param_or edit_business_path }
           format.js { render nothing: true, status: :ok }
         end
       else
@@ -71,12 +72,21 @@ class BusinessesController < ApplicationController
 
   private
 
+  def convert_sub_industries(ids)
+    tgt_industries = []
+    ids.each do |sub_ind|
+      c = sub_ind.split('_').map(&:to_i)
+      tgt_industries.push(Industry.find(c[0]).sub_industries.split("\r\n")[c[1]]) if @business.industries.collect(&:id).include? c[0]
+    end
+    tgt_industries
+  end
+
   def business_params
     params.require(:business).permit(
       :contact_first_name, :contact_last_name, :contact_email, :contact_job_title, :contact_phone,
       :business_name, :employees, :description, :website, :linkedin_link, :delete_logo,
       :address_1, :address_2, :country, :city, :state, :zipcode, :time_zone,
-      :anonymous, :logo, :total_assets, :client_account_cnt,
+      :anonymous, :logo, :total_assets, :client_account_cnt, :annual_budget, :risk_tolerance,
       industry_ids: [], jurisdiction_ids: [],
       user_attributes: [
         :email, :password,

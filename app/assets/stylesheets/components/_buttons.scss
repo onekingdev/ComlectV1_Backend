@@ -14,6 +14,12 @@
   font-size: 12px;
 }
 
+.btn-solid {
+  border-radius: 5px !important;
+  font-weight: normal !important;
+  box-shadow: 0px 3px 5px 0px rgba(44,40,40,0.11);
+}
+
 .btn .icon ~ span, .btn .fa ~ span {
   margin-left: 0.4rem;
 }
@@ -31,7 +37,7 @@
 }
 
 .btn-social-linkedin {
-  $bg: #ffcc00;
+  $bg: #FFCC01;
   background-color: $bg;
   border-color: $bg;
 
@@ -50,11 +56,11 @@
   @include button-variant-light($btn-primary-bg);
   //text-transform: uppercase;
   border-radius: 27px;
-  font-weight: 300;
+  font-weight: 400;
 
   &:focus {
-    background-color: #ffcc00 !important;
-    border-color: #ffcc00 !important;
+    background-color: #FFCC01 !important;
+    border-color: #FFCC01!important;
   }
 
   &:hover, &:active {
@@ -110,8 +116,8 @@
   color: #000;
 
   &:hover {
-    background-color: #ffcc00;
-    border-color: #ffcc00;
+    background-color: #FFCC01;
+    border-color: #FFCC01;
     color: #000;
   }
 }
@@ -183,7 +189,7 @@
 
 .qna_navbar {
   position: relative;
-  color: #ffcc00 !important;
+  color: #FFCC01 !important;
   margin: 0px;
   font-family: "Open Sans";
   font-weight: $bold-weight !important;

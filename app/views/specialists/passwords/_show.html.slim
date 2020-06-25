@@ -1,5 +1,5 @@
 .panel-heading
-  h3 Change Password
+  h3 Reset Password
 
 .panel-body.p-t-0.m-b-1
   = simple_form_for user, remote: true, url: specialists_settings_password_path do |f|
@@ -13,4 +13,4 @@
       .col-xs-12
         - if saved
           .alert.alert-success.m-b-1 Password changed
-        = f.submit 'Change Password', class: 'btn btn-primary btn-block btn-lg'
+        = f.submit 'Save', class: 'btn btn-primary btn-block btn-lg'

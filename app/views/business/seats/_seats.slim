@@ -1,0 +1,36 @@
+.panel.panel-default.m-b-2
+  .panel-heading style="padding-bottom: 15px;"
+    .pull-left
+      h3 Seats
+    .pull-right style="margin-top: -16px; margin-bottom: -10px;"
+      .seats_info.m-l-2
+        h3 #{@seats_available} Available
+        .progress.m-b-0
+          .progress-bar role="progressbar" aria-valuenow="#{@seats_taken}" aria-valuemin="0" aria-valuemax="#{@seats_total}"
+        | #{@seats_taken} of #{@seats_total} assigned
+    - if params[:controller] == "business/seats"
+      .pull-right style="margin-top: -16px; margin-bottom: -10px;"
+        - pth = current_business ? new_business_seat_path : new_specialists_business_seat_path(@business.username)
+        /.btn.btn-primary.btn-solid.m-r-3 style="padding: 9px 10px;" Purchase
+        = link_to "Purchase", pth, "data-target": "#modal", "data-toggle": "modal", "data-remote": true, class: "btn btn-primary btn-solid m-r-3", style: "padding: 9px 10px;"
+    .clearfix
+  hr.m-y-0
+  .panel-content-wrapper style="height: 300px; padding: 11px 18px;" class=("fullheight" if params[:controller] == "business_dashboard")
+    table.table.table-striped.table-blue
+      thead
+        tr
+          th Name
+          th Title
+          th Department
+          - if params[:controller] == "business/seats"
+            th style="width: 1px;" &nbsp;
+      tbody
+        - @assigned_team_members&.each do |employee|
+          tr
+            td= employee.name
+            td= employee.title
+            td= employee.team&.name
+            - if params[:controller] == "business/seats"
+              td style="width: 1px; font-size: 18px;"
+                = link_to business_seat_unassign_path(seat_id: employee.id), method: :delete, data: { confirm: "<div class='bootbox-heading'>Delete Department<hr></div>Warning! This change is permanent. Deleting this department will<br/> also delete all employees linked to the department as well." } do
+                  i.icon-trash

@@ -1,0 +1,37 @@
+- tgt_url = ["edit", "update"].include?(params[:action]) ? business_team_member_path(@team_member) : business_team_members_path
+
+.m-l-2.m-r-2
+  h3.m-y-0
+    = ["edit", "update"].include?(params[:action]) ? "Edit" : "Add"
+    |  Employee
+
+  .clearfix
+  hr.m-b-0.m-t-1.hr_heading
+  = simple_form_for @team_member, url: tgt_url, remote: true do |f|
+    .col-md-12#new-employee-form-error
+    .col-md-6
+      = f.input :first_name, label: "First Name", required: true, input_html: { style: "width: 100%;" }, label_html: { class: "m-t-1" }
+    .col-md-6
+      = f.input :last_name, label: "Last Name", required: true, input_html: { style: "width: 100%;" }, label_html: { class: "m-t-1" }
+    .col-md-6
+      = f.input :title, label: "Title", input_html: { style: "width: 100%;" }, label_html: { class: "m-t-1" }
+    .col-md-6
+      = f.input :team_id, label: "Department", input_html: { style: "width: 100%;" }, label_html: { class: "m-t-1" }, collection: current_business.teams
+    .col-md-12
+      = f.input :email, label: "Email Address", input_html: { style: "width: 100%;" }, label_html: { class: "m-t-1" }
+    .col-md-6.p-r-1
+      = f.input :start_date, required: false, as: :string, input_html: { class: 'input-lg js-datepicker' }
+    .col-md-6.p-l-1
+      = f.input :end_date, required: false, as: :string, input_html: { class: 'input-lg js-datepicker' }
+    .col-md-12
+      = f.input :termination_reason, label: "Reason for Termination", input_html: { style: "width: 100%;" }, label_html: { class: "m-t-1" }
+    .clearfix
+    .pull-right
+      = f.submit ["edit", "update"].include?(params[:action]) ? "Save" : "Add", class: "btn btn-primary p-x-3 m-b-3 m-t-1"
+    .clearfix
+
+javascript:
+  setTimeout(function() {
+    document.getElementById("team_member_name").focus();
+  }, 500)
+  attach_js_datepicker($(".modal-body"));

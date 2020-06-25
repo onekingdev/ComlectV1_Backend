@@ -1,5 +1,22 @@
 if (typeof(annual_report_loop) != "undefined") {
+  $(".compliance_category_nav li").on("click", function() {
+    var title = $(this).find("a").html();
+    if ($(this).find("a").attr("data-category") != undefined) { // Categories
+      var data_cid = $(this).find("a").attr("data-category");
+      $($(".panel-settings-body h1")[0]).html(title);
+      $(".panel-settings-body .panel-default").hide();
+      $(".compliance_category_blk").hide();
+      $("#compliance_category_blk_"+data_cid).show();
+      $("#compliance_category_blk_"+data_cid+" .panel-default").show();
+    } else { // General
+      $($(".panel-settings-body h1")[0]).html("Annual Review");
+      $(".panel-settings-body .panel-default").show();
+      $(".compliance_category_blk").hide();
+    }
+  });
+
   $(document).ready(function() {
+    $(".compliance_category_blk").hide();
     setTimeout(function() {
       $(".apply_changes").on("click", function() {
         var body = $("html, body");
@@ -21,7 +38,7 @@ if (typeof(annual_report_loop) != "undefined") {
           prev_report_form = new_report_form;
           report_needs_update = false;
           $(".hide_on_change").animate({width: "0px", padding: "0px", "margin-left": "0px", "margin-right": "0px", opacity: "0"}).fadeOut();
-          $(".apply_changes").show();
+          //$(".apply_changes").show();
           if ($(".apply_changes").hasClass("apply_bounce") == false) {
             $(".apply_changes").addClass("apply_bounce");
           }

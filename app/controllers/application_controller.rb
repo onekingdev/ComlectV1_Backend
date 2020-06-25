@@ -63,10 +63,22 @@ class ApplicationController < ActionController::Base
 
   def current_business
     return @_current_business if @_current_business
-    return nil if !user_signed_in? || current_user.business.nil?
-    @_current_business = ::Business::Decorator.decorate(current_user.business)
+    return unless user_signed_in?
+
+    business = if session[:employee_business_id].present?
+                 ::Business.find_by(id: session[:employee_business_id])
+               else
+                 current_user.business
+               end
+    return unless business
+
+    define_current_business(business)
   end
   helper_method :current_business
+
+  def define_current_business(business = nil)
+    @_current_business = ::Business::Decorator.decorate(business || current_user.business)
+  end
 
   def current_specialist
     return @_current_specialist if @_current_specialist
@@ -101,6 +113,8 @@ class ApplicationController < ActionController::Base
   def require_business!
     return if user_signed_in? && current_business
     return authenticate_user! unless user_signed_in?
+    return if employee?
+
     render 'forbidden', status: :forbidden, locals: { message: 'Only business accounts can access this page' }
   end
 
@@ -108,6 +122,20 @@ class ApplicationController < ActionController::Base
     return if user_signed_in? && current_specialist
     return authenticate_user! unless user_signed_in?
     render 'forbidden', status: :forbidden, locals: { message: 'Only specialist accounts can access this page' }
+  end
+
+  def employee?
+    return unless user_signed_in? && current_specialist
+
+    current_specialist&.employee?(current_business)
+  end
+  helper_method :employee?
+
+  def redirect_to_employee
+    return unless current_specialist
+    return unless current_specialist.dashboard_unlocked
+
+    redirect_to employees_path if current_specialist&.employee?(current_business)
   end
 
   def render_404

@@ -6,4 +6,12 @@ class Reminder < ActiveRecord::Base
   def start_time
     remind_at
   end
+
+  def past_due?
+    end_date < Time.zone.today
+  end
+
+  def self.week_grid(date)
+    date
+  end
 end

@@ -3,155 +3,164 @@
 
 - Business::Decorator.decorate(@business).tap do |business|
   #business-dashboard.row.m-b-3
-    .tr
-      .td.col-xs-12.col-sm-4.col-md-3.va-top
-        - if @business.ria_dashboard?
-          = render partial: "reminders"
-          = render partial: "compliance_manual"
-          = render partial: "annual_review"
-          = render partial: "audit_prep"
-        - if !@business.ria_dashboard?
-          .panel.panel-default.profile-info
-            .panel-heading
-              h3 Profile
-            .panel-body
-              - if business.logo
-                .logo= link_to image_tag(business.logo_url(:thumb), class: 'img-responsive'), business
-              h3.text-center= link_to business.business_name, business
-              .text-center= business.render_stars
+    - if @business.ria_dashboard?
+      .col-sm-6
+        = render partial: "reminders"
+      .col-sm-3
+        = render partial: "tasks"
+      .col-sm-3
+        = render partial: "addon_alerts"
+      .clearfix
+      .col-sm-6
+        = render partial: "business/seats/seats"
+      .col-md-3.hidden
+        = render partial: "compliance_manual"
+      .col-md-3.hidden
+        = render partial: "annual_review"
+      .col-md-3.hidden
+        = render partial: "audit_prep"
+      .clearfix
+    - if !@business.ria_dashboard?
+      .panel.panel-default.profile-info
+        .panel-heading
+          h3 Profile
+        .panel-body
+          - if business.logo
+            .logo= link_to image_tag(business.logo_url(:thumb), class: 'img-responsive'), business
+          h3.text-center= link_to business.business_name, business
+          .text-center= business.render_stars
 
-            br
+        br
 
-            .list-icon.p-x-2
-              .item
-                i.icon-location-pin
-                span= business.city_state_country
-              .item
-                i.icon-briefcase
-                span= business.industries.map(&:name).join(', ')
-              .item
-                i.icon-globe
-                span= business.jurisdictions.map(&:name).join(', ')
-              .item
-                i.icon-people
-                span #{business.employees} Employees
+        .list-icon.p-x-2
+          .item
+            i.icon-location-pin
+            span= business.city_state_country
+          .item
+            i.icon-briefcase
+            span= business.industries.map(&:name).join(', ')
+          .item
+            i.icon-globe
+            span= business.jurisdictions.map(&:name).join(', ')
+          .item
+            i.icon-people
+            span #{business.employees} Employees
 
-            = simple_form_for business, remote: true, url: update_business_path, html: { class: 'm-y-2 p-x-2' } do |f|
-              = hidden_field_tag 'redirect_to', business_dashboard_path
-              = f.input :anonymous, as: :radio_pills, collection: [['Public', false], ['Private', true]], btn_class: 'btn-default btn-sm', label: false, hint: false, input_html: { data: { autosubmit: 'true' } }
+        = simple_form_for business, remote: true, url: update_business_path, html: { class: 'm-y-2 p-x-2' } do |f|
+          = hidden_field_tag 'redirect_to', business_dashboard_path
+          = f.input :anonymous, as: :radio_pills, collection: [['Public', false], ['Private', true]], btn_class: 'btn-default btn-sm', label: false, hint: false, input_html: { data: { autosubmit: 'true' } }
 
-            .text-center.text-uppercase.small= link_to 'Edit Profile', edit_business_path, class: 'link'
-            br
+        .text-center.text-uppercase.small= link_to 'Edit Profile', edit_business_path, class: 'link'
+        br
 
-        .panel.panel-default.profile-info
-          .panel-heading
-            h3 Financials
-          .panel-body.text-center.p-t-0.p-b-2
-            .row.bordered-cells
-              .col-xs-6.p-y-1
-                .fw-700
-                  - if @financials.processed_this_month > 9999
-                    = number_to_currency @financials.processed_this_month, precision: 0
-                  - else
-                    = number_to_currency @financials.processed_this_month
-                = Time.zone.now.strftime('%B')
-              .col-xs-6.p-y-1
-                .fw-700
-                  - if @financials.processed_ytd > 9999
-                    = number_to_currency @financials.processed_ytd, precision: 0
-                  - else
-                    = number_to_currency @financials.processed_ytd
-                'YTD
-            .m-t-2= link_to 'Details', business_financials_path, class: 'btn btn-sm btn-primary p-x-3', style: "width: 150px"
+    .panel.panel-default.profile-info
+      .panel-heading
+        h3 Financials
+      .panel-body.text-center.p-t-0.p-b-2
+        .row.bordered-cells
+          .col-xs-6.p-y-1
+            .fw-700
+              - if @financials.processed_this_month > 9999
+                = number_to_currency @financials.processed_this_month, precision: 0
+              - else
+                = number_to_currency @financials.processed_this_month
+            = Time.zone.now.strftime('%B')
+          .col-xs-6.p-y-1
+            .fw-700
+              - if @financials.processed_ytd > 9999
+                = number_to_currency @financials.processed_ytd, precision: 0
+              - else
+                = number_to_currency @financials.processed_ytd
+            'YTD
+        .m-t-2= link_to 'Details', business_financials_path, class: 'btn btn-sm btn-primary p-x-3', style: "width: 150px"
 
-        .panel.panel-default.profile-info
-          .panel-heading
-            h3 Tools & Resources
-          .panel-body.p-t-0.p-b-2
-            .list-icon.p-x-2
-              .item
-                i.icon-doc
-                span
-                  = link_to 'Best Practices', '/Best_Practices_Business.pdf', target: :blank
-              .item
-                i.icon-share
-                span
-                  = link_to 'Partnerships', partnerships_path
-            .m-t-2.text-center= link_to 'Ask a Question', forum_questions_path, class: 'btn btn-sm btn-primary p-x-1', style: "width: 150px"
+    .panel.panel-default.profile-info
+      .panel-heading
+        h3 Tools & Resources
+      .panel-body.p-t-0.p-b-2
+        .list-icon.p-x-2
+          .item
+            i.icon-doc
+            span
+              = link_to 'Best Practices', '/Best_Practices_Business.pdf', target: :blank
+          .item
+            i.icon-share
+            span
+              = link_to 'Partnerships', partnerships_path
+        .m-t-2.text-center= link_to 'Ask a Question', forum_questions_path, class: 'btn btn-sm btn-primary p-x-1', style: "width: 150px"
 
-      .td.col-xs-12.col-sm-8.col-md-9.va-top
-        - if @business.ria_dashboard?
-          = render partial: "ria_profile", locals: { business: business }
-        .panel.panel-default.panel-padded
-          .panel-heading
-            h3 My Projects
-            .dropdown.visible-sm.visible-xs
-              button.btn.btn-default.dropdown-toggle type="button" data-toggle="dropdown"
-                'Filter
-                span.caret
-              ul.dropdown-menu.dropdown-menu-right
-                li.active= link_to '#projects-active', data: { toggle: 'tab', "remote-load" => true, url: business_projects_path(filter: 'active'), 'toggle-sync' => true } do
-                  span Active
-                li= link_to '#projects-pending', data: { toggle: 'tab', "remote-load" => true, url: business_projects_path(filter: 'pending'), 'toggle-sync' => true } do
-                  span Pending
-                li= link_to '#projects-draft', data: { toggle: 'tab', "remote-load" => true, url: business_projects_path(filter: 'drafts'), 'toggle-sync' => true } do
-                  span Drafts
-                li= link_to '#projects-complete', data: { toggle: 'tab', "remote-load" => true, url: business_projects_path(filter: 'complete'), 'toggle-sync' => true } do
-                  span Completed
-            ul#js-project-filters.nav.nav-pills.visible-md.visible-lg
-              li.active= link_to '#projects-active', data: { toggle: 'tab', "remote-load" => true, url: business_projects_path(filter: 'active'), 'toggle-sync' => true } do
-                span Active
-              li= link_to '#projects-pending', data: { toggle: 'tab', "remote-load" => true, url: business_projects_path(filter: 'pending'), 'toggle-sync' => true } do
-                span Pending
-              li= link_to '#projects-draft', data: { toggle: 'tab', "remote-load" => true, url: business_projects_path(filter: 'drafts'), 'toggle-sync' => true } do
-                span Drafts
-              li= link_to '#projects-complete', data: { toggle: 'tab', "remote-load" => true, url: business_projects_path(filter: 'complete'), 'toggle-sync' => true } do
-                span Completed
-          .panel-body.p-b-3.p-t-2
-            .tab-content
-              #projects-active.tab-pane.active
-              #projects-pending.tab-pane
-              #projects-draft.tab-pane
-              #projects-complete.tab-pane
+    - if @business.ria_dashboard?
+      = render partial: "ria_profile", locals: { business: business }
+    .panel.panel-default.panel-padded
+      .panel-heading
+        h3 My Projects
+        .dropdown.visible-sm.visible-xs
+          button.btn.btn-default.dropdown-toggle type="button" data-toggle="dropdown"
+            'Filter
+            span.caret
+          ul.dropdown-menu.dropdown-menu-right
+            li.active= link_to '#projects-active', data: { toggle: 'tab', "remote-load" => true, url: business_projects_path(filter: 'active'), 'toggle-sync' => true } do
+              span Active
+            li= link_to '#projects-pending', data: { toggle: 'tab', "remote-load" => true, url: business_projects_path(filter: 'pending'), 'toggle-sync' => true } do
+              span Pending
+            li= link_to '#projects-draft', data: { toggle: 'tab', "remote-load" => true, url: business_projects_path(filter: 'drafts'), 'toggle-sync' => true } do
+              span Drafts
+            li= link_to '#projects-complete', data: { toggle: 'tab', "remote-load" => true, url: business_projects_path(filter: 'complete'), 'toggle-sync' => true } do
+              span Completed
+        ul#js-project-filters.nav.nav-pills.visible-md.visible-lg
+          li.active= link_to '#projects-active', data: { toggle: 'tab', "remote-load" => true, url: business_projects_path(filter: 'active'), 'toggle-sync' => true } do
+            span Active
+          li= link_to '#projects-pending', data: { toggle: 'tab', "remote-load" => true, url: business_projects_path(filter: 'pending'), 'toggle-sync' => true } do
+            span Pending
+          li= link_to '#projects-draft', data: { toggle: 'tab', "remote-load" => true, url: business_projects_path(filter: 'drafts'), 'toggle-sync' => true } do
+            span Drafts
+          li= link_to '#projects-complete', data: { toggle: 'tab', "remote-load" => true, url: business_projects_path(filter: 'complete'), 'toggle-sync' => true } do
+            span Completed
+      .panel-body.p-b-3.p-t-2
+        .tab-content
+          #projects-active.tab-pane.active
+          #projects-pending.tab-pane
+          #projects-draft.tab-pane
+          #projects-complete.tab-pane
 
-        .panel.panel-default.panel-padded
-          .panel-heading
-            h3 My Specialists
-            .dropdown.visible-sm.visible-xs
-              button.btn.btn-default.dropdown-toggle type="button" data-toggle="dropdown"
-                'Filter
-                span.caret
-              ul.dropdown-menu.dropdown-menu-right
-                li.active= link_to '#specialists-hired', data: { toggle: 'tab', "remote-load" => true, url: business_specialists_path(filter: 'hired'), 'toggle-sync' => true } do
-                  span Hired
-                li= link_to '#specialists-favorited', data: { toggle: 'tab', "remote-load" => true, url: business_specialists_path(filter: 'favorited'), 'toggle-sync' => true } do
-                  span Favorited
-            ul#js-specialist-filters.nav.nav-pills.visible-md.visible-lg
-              li.active= link_to '#specialists-hired', data: { toggle: 'tab', "remote-load" => true, url: business_specialists_path(filter: 'hired'), 'toggle-sync' => true } do
-                span Hired
-              li= link_to '#specialists-favorited', data: { toggle: 'tab', "remote-load" => true, url: business_specialists_path(filter: 'favorited'), 'toggle-sync' => true } do
-                span Favorited
-          .panel-body.p-b-3.p-t-2
-            .tab-content
-              #specialists-hired.tab-pane.active
-              #specialists-favorited.tab-pane
+    .panel.panel-default.panel-padded
+      .panel-heading
+        h3 My Specialists
+        .dropdown.visible-sm.visible-xs
+          button.btn.btn-default.dropdown-toggle type="button" data-toggle="dropdown"
+            'Filter
+            span.caret
+          ul.dropdown-menu.dropdown-menu-right
+            li.active= link_to '#specialists-hired', data: { toggle: 'tab', "remote-load" => true, url: business_specialists_path(filter: 'hired'), 'toggle-sync' => true } do
+              span Hired
+            li= link_to '#specialists-favorited', data: { toggle: 'tab', "remote-load" => true, url: business_specialists_path(filter: 'favorited'), 'toggle-sync' => true } do
+              span Favorited
+        ul#js-specialist-filters.nav.nav-pills.visible-md.visible-lg
+          li.active= link_to '#specialists-hired', data: { toggle: 'tab', "remote-load" => true, url: business_specialists_path(filter: 'hired'), 'toggle-sync' => true } do
+            span Hired
+          li= link_to '#specialists-favorited', data: { toggle: 'tab', "remote-load" => true, url: business_specialists_path(filter: 'favorited'), 'toggle-sync' => true } do
+            span Favorited
+      .panel-body.p-b-3.p-t-2
+        .tab-content
+          #specialists-hired.tab-pane.active
+          #specialists-favorited.tab-pane
 
-        .panel.panel-default.panel-padded
-          .panel-heading
-            h3
-              a.no-link name="ratings-reviews" My Ratings & Reviews
-            .detail= rating_average_text business
-          .panel-body#ratings-slick
-            .row.ratings.list-group.plain
-              - @ratings.each_slice(10).to_a.each do |a|
-                .rating-block
-                  /= render business.ratings_received.preload_associations
-                  = render partial: 'ratings/rating', collection: a
-            - if @ratings.count > 10
-              .slick-nav
-                a.prev-slide href="#" Q
-                .dot-pagination.m-b-1
-                a.next-slide href="#" +
+    .panel.panel-default.panel-padded
+      .panel-heading
+        h3
+          a.no-link name="ratings-reviews" My Ratings & Reviews
+        .detail= rating_average_text business
+      .panel-body#ratings-slick
+        .row.ratings.list-group.plain
+          - @ratings.each_slice(10).to_a.each do |a|
+            .rating-block
+              /= render business.ratings_received.preload_associations
+              = render partial: 'ratings/rating', collection: a
+        - if @ratings.count > 10
+          .slick-nav
+            a.prev-slide href="#" Q
+            .dot-pagination.m-b-1
+            a.next-slide href="#" +
 
 - if !@business.welcomed?
   - @business.update(welcomed: true)

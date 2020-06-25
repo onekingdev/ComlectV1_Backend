@@ -33,6 +33,15 @@
   border-bottom: 0px;
 }
 
+.modal-body {
+  h3 {
+    font-family: "Canela";
+    font-size: 16px;
+  }
+}
+
+.modal-footer { padding: 0px; border-top: 0px; }
+
 .modal.plain {
   $padding: 0px;
 
@@ -70,7 +79,7 @@
 }
 
 .modal-fake {
-  //border: 3px solid #ffcc00;
+  //border: 3px solid #FFCC01;
   @media screen and (max-width: $screen-xs-min) { 
     border: none;
   }
@@ -106,13 +115,13 @@
 
   .form-control {
     border-radius: 0;
-    border: 3px solid #ffcc00;
+    border: 3px solid #FFCC01;
   }
 }
 
 @media (min-width: 768px) {
   .modal-dialog {
-    width: 405px;
+    //width: 405px;
   }
 }
 
@@ -125,6 +134,7 @@ $bootbox-width: 474px;
     background-color: #fff;
     padding: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
     @media screen and (max-width: $screen-xs-min) { 
       background-color: transparent;
       padding: 0px;
@@ -133,7 +143,7 @@ $bootbox-width: 474px;
 
     .bootbox-body {
       color: #666;
-      padding-top: 20px;
+      padding-top: 10px;
     }
   }
 
@@ -143,19 +153,20 @@ $bootbox-width: 474px;
   //  text-align: left;
 
   .bootbox-close-button {
-    background-color: #000;
     border-radius: 50%;
+    background-image: url(asset_path("close.png"));
     font-size: 30px;
     color: #fff;
     position: absolute;
-    right: -23px;
-    top: -18px;
+    right: -6px;
+    top: 11px;
     text-shadow: none;
     opacity: 1.0;
     margin-top: -10px;
     margin-right: 5px;
-    width: 30px;
-    height: 30px;
+    width: 13px;
+    height: 13px;
+    background-size: contain;
     font-family: "Open Sans";
 
     @media screen and (max-width: $screen-xs-min) { 
@@ -175,6 +186,21 @@ $bootbox-width: 474px;
   }
   //}
 
+  .bootbox-heading {
+    font-family: Canela;
+    font-weight: 500;
+    color: #000;
+    text-align: left;
+    font-size: 16px;
+    hr {
+      border-top: 1px solid #F1F1F1;
+      margin-top: 10px;
+      margin-bottom: 30px;
+      margin-left: -28px;
+      margin-right: -28px;
+    }
+  }
+
   .modal-title {
     font-family: Canela;
     font-size: 18px;
@@ -187,13 +213,12 @@ $bootbox-width: 474px;
 
   .modal-content {
     @media screen and (min-width: $screen-md-min) { 
-      width: 405px;
+      width: 605px;
     }
     text-align: center;
     box-shadow: none;
-    border-radius: $border-radius;
     border: 0px;
-    //border: 3px solid #ffcc00;
+    //border: 3px solid #FFCC01;
     @media screen and (max-width: $screen-xs-min) { 
       border: none;
     }
@@ -220,7 +245,7 @@ $bootbox-width: 474px;
 
     .form-control {
       border-radius: 0;
-      border: 3px solid #ffcc00;
+      border: 3px solid #FFCC01;
     }
 
     h2 {

@@ -4,12 +4,12 @@ form.project_form {
       width: 130px;
       border-right: none;
       &:hover {
-        border-right-color: #ffcc00;
-        border-right: 1px solid #ffcc00;
-        //border-left: 3px solid #ffcc00;
+        border-right-color: #FFCC01;
+        border-right: 1px solid #FFCC01;
+        //border-left: 3px solid #FFCC01;
       }
       &:last-child {
-        border-right: 3px solid #ffcc00;
+        border-right: 3px solid #FFCC01;
       }
     }
   }
@@ -18,7 +18,7 @@ form.project_form {
       width: 150px;
       border-right: none;
       &:last-child {
-        border-right: 3px solid #ffcc00;
+        border-right: 3px solid #FFCC01;
       }
     }
   }
@@ -213,7 +213,7 @@ body.projects.show {
         }
 
         .real {
-          border: 10px solid #ffcc00;
+          border: 10px solid #FFCC01;
           border-radius: 5px;
           background-color: #fff;
         }

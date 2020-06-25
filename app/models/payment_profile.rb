@@ -18,6 +18,10 @@ class PaymentProfile < ApplicationRecord
     source.update_attribute :primary, true
   end
 
+  def default_payment_source
+    payment_sources&.find_by(primary: true)
+  end
+
   private
 
   def create_stripe_customer

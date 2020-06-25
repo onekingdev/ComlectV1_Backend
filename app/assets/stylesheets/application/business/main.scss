@@ -23,22 +23,50 @@ body.businesses.show {
   }
 }
 
-body.subscription_settings, body.businesses.create, body.business_dashboard.show, body.dashboard.show, body.settings, body.passwords, body.key_contacts, body.payment_settings, body.notification_settings, body.delete_accounts, body.financials {
-  background-image: asset_url('bg.png');
-  background-position: center top;
-  background-repeat: repeat-y;  
+body.passwords, body.key_contacts, body.payment_settings, body.faq, body.subscription_settings, body.notification_settings, body.teams, body.referrals, body.delete_accounts, body.settings, body.compliance_policies, body.annual_reports {
+  background-color: #fff;
+  #left_navbar {
+    box-shadow: 0px 2px 6px 0px rgba(0,0,0,0.16);
+  }
 }
 
-body.personalize.quiz, body.job_applications.show, body.job_applications.edit, body.job_applications.new, body.job_applications.create, body.job_applications.new, body.businesses.create, body.businesses.new, body.businesses.edit, body.projects.new, body.projects.edit, body.businesses.update, body.turnkey_pages.new, body.onboarding.index {
+#left_navbar {
+  .active {
+    background-image: url(asset_path("left_nav_cursor.png"));
+    background-repeat: no-repeat;
+    width: 67px;
+    height: 98px !important;
+    position: absolute;
+    right: -12px;
+    top: -19px;
+  }
+  a {
+    position: relative;
+    color: #000;
+    display: block;
+    height: 59px;
+    width: 59px;
+    i {
+      position: absolute;
+    }
+    &:hover {
+      i {
+        color: #ffcc01;
+      }
+    }
+  }
+}
+
+body.personalize.quiz, body.job_applications.show, body.job_applications.edit, body.job_applications.new, body.job_applications.create, body.job_applications.new, body.projects.new, body.projects.edit, body.turnkey_pages.new, body.onboarding.index {
   background-image: asset_url('bg.png');
   background-position: center top;
   background-repeat: repeat-y;
   
   .app_container{
-    -webkit-box-shadow: 0px 13px 32px 3px rgba(0,0,0,0.3);
-    -moz-box-shadow: 0px 13px 32px 3px rgba(0,0,0,0.3);
-    box-shadow: 0px 13px 32px 3px rgba(0,0,0,0.3);
-    background-color: #ffffff;
+    //-webkit-box-shadow: 0px 13px 32px 3px rgba(0,0,0,0.3);
+    //-moz-box-shadow: 0px 13px 32px 3px rgba(0,0,0,0.3);
+    //box-shadow: 0px 13px 32px 3px rgba(0,0,0,0.3);
+    //background-color: #ffffff;
     padding-top: 25px;
     margin-bottom: 100px;
   }
@@ -69,4 +97,15 @@ body.personalize.quiz, body.job_applications.show, body.job_applications.edit, b
     position: absolute;
     right: 130px;
   }
+}
+
+body {
+  background-color: #F3F5F7;
+  @media (min-width: $screen-xs-max) {
+    min-width: 1200px;
+  }
+}
+
+body.noscroll {
+  overflow-y: hidden;
 }

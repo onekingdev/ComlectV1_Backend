@@ -1,0 +1,15 @@
+.panel.panel-default.m-b-2
+  .panel-heading style="padding-bottom: 16px;"
+    .pull-left
+      h3 Complect Specialists
+    .clearfix
+  hr.m-b-0.m-t-0
+  .panel-content-wrapper style="height: 300px; padding: 11px 18px;"
+    table.table.table-striped.table-blue
+      thead
+        tr
+          th Name
+      tbody
+        - @active_specialists.each do |specialist|
+          tr
+            td= specialist.full_name

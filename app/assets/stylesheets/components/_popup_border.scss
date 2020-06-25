@@ -1,19 +1,27 @@
 .popup_border {
-  border: 3px solid #ffcc00;
+  border: 3px solid #FFCC01;
   text-align: center;
   padding: 20px;
 }
 
+.modal-content {
+  border-radius: 10px;
+}
+
+.modal-header {
+  padding: 12px 8px;
+}
+
+.modal-header {
+  height: 0px;
+  padding-top: 12px;
+  padding-right: 8px;
+  padding-bottom: 0px;
+}
+
 body.businesses.show, body.business_dashboard, body.compliance_policies, body.annual_reviews, body.audit_requests, body.annual_reports {
-  .modal-content {
-    border-radius: 0px;
-  }
   .modal-footer {
     display: none;
-  }
-  .modal-header {
-    padding: 0px;
-    height: 0px;
   }
 
   .close {
@@ -25,14 +33,14 @@ body.businesses.show, body.business_dashboard, body.compliance_policies, body.an
     //background: transparent;
     //border: 0px;
     position: absolute;
-    right: -6px;
+    right: 8px;
     z-index: 10000;
     //background-color: #000;
     color: #fff;
     border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    top: -18px;
+    width: 13px;
+    height: 13px;
+    top: 13px;
     font-size: 30px;
   }
 

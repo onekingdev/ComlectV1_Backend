@@ -500,7 +500,9 @@ CREATE TABLE public.businesses (
     total_assets numeric,
     onboarding_passed boolean DEFAULT false,
     ria_dashboard boolean DEFAULT false,
-    compliance_policies_spawned boolean DEFAULT false
+    compliance_policies_spawned boolean DEFAULT false,
+    annual_budget numeric,
+    risk_tolerance character varying
 );
 
 
@@ -3445,6 +3447,41 @@ ALTER SEQUENCE public.payment_sources_id_seq OWNED BY public.payment_sources.id;
 
 
 --
+-- Name: ported_businesses; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.ported_businesses (
+    id integer NOT NULL,
+    company character varying,
+    email character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    status character varying DEFAULT 'pending'::character varying,
+    specialist_id integer
+);
+
+
+--
+-- Name: ported_businesses_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.ported_businesses_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: ported_businesses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.ported_businesses_id_seq OWNED BY public.ported_businesses.id;
+
+
+--
 -- Name: project_ends; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -3842,7 +3879,8 @@ CREATE TABLE public.reminders (
     remind_at date,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    done_at timestamp without time zone
+    done_at timestamp without time zone,
+    end_date date
 );
 
 
@@ -3907,6 +3945,42 @@ ALTER SEQUENCE public.rewards_tiers_id_seq OWNED BY public.rewards_tiers.id;
 CREATE TABLE public.schema_migrations (
     version character varying NOT NULL
 );
+
+
+--
+-- Name: seats; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.seats (
+    id integer NOT NULL,
+    business_id bigint,
+    subscription_id bigint,
+    team_member_id bigint,
+    subscribed_at timestamp without time zone,
+    assigned_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: seats_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.seats_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: seats_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.seats_id_seq OWNED BY public.seats.id;
 
 
 --
@@ -3992,13 +4066,14 @@ CREATE TABLE public.skills_specialists (
 
 CREATE TABLE public.specialist_invitations (
     id integer NOT NULL,
-    specialist_team_id integer NOT NULL,
+    specialist_team_id integer,
     specialist_id integer,
     first_name character varying NOT NULL,
     last_name character varying NOT NULL,
     email character varying NOT NULL,
     token character varying NOT NULL,
-    status integer DEFAULT 0 NOT NULL
+    status integer DEFAULT 0 NOT NULL,
+    team_id integer
 );
 
 
@@ -4180,7 +4255,11 @@ CREATE TABLE public.subscriptions (
     stripe_invoice_item_id character varying,
     plan integer DEFAULT 0,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    kind_of integer DEFAULT 0,
+    title character varying,
+    billing_period_ends integer,
+    payment_source_id integer
 );
 
 
@@ -4215,7 +4294,12 @@ CREATE TABLE public.team_members (
     email character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    title character varying
+    title character varying,
+    start_date date,
+    end_date date,
+    termination_reason text,
+    first_name character varying,
+    last_name character varying
 );
 
 
@@ -4812,6 +4896,13 @@ ALTER TABLE ONLY public.payment_sources ALTER COLUMN id SET DEFAULT nextval('pub
 
 
 --
+-- Name: ported_businesses id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ported_businesses ALTER COLUMN id SET DEFAULT nextval('public.ported_businesses_id_seq'::regclass);
+
+
+--
 -- Name: project_ends id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -4900,6 +4991,13 @@ ALTER TABLE ONLY public.reminders ALTER COLUMN id SET DEFAULT nextval('public.re
 --
 
 ALTER TABLE ONLY public.rewards_tiers ALTER COLUMN id SET DEFAULT nextval('public.rewards_tiers_id_seq'::regclass);
+
+
+--
+-- Name: seats id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.seats ALTER COLUMN id SET DEFAULT nextval('public.seats_id_seq'::regclass);
 
 
 --
@@ -5309,6 +5407,14 @@ ALTER TABLE ONLY public.payment_sources
 
 
 --
+-- Name: ported_businesses ported_businesses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ported_businesses
+    ADD CONSTRAINT ported_businesses_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: project_ends project_ends_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5410,6 +5516,14 @@ ALTER TABLE ONLY public.reminders
 
 ALTER TABLE ONLY public.rewards_tiers
     ADD CONSTRAINT rewards_tiers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: seats seats_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.seats
+    ADD CONSTRAINT seats_pkey PRIMARY KEY (id);
 
 
 --
@@ -6187,6 +6301,20 @@ CREATE UNIQUE INDEX index_referrals_on_referrable_id_and_referrable_type ON publ
 
 
 --
+-- Name: index_seats_on_business_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_seats_on_business_id ON public.seats USING btree (business_id);
+
+
+--
+-- Name: index_seats_on_team_member_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_seats_on_team_member_id ON public.seats USING btree (team_member_id);
+
+
+--
 -- Name: index_settings_on_target_type_and_target_id_and_var; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -6212,6 +6340,13 @@ CREATE UNIQUE INDEX index_skills_specialists_on_skill_id_and_specialist_id ON pu
 --
 
 CREATE INDEX index_specialist_invitations_on_specialist_team_id ON public.specialist_invitations USING btree (specialist_team_id);
+
+
+--
+-- Name: index_specialist_invitations_on_team_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_specialist_invitations_on_team_id ON public.specialist_invitations USING btree (team_id);
 
 
 --
@@ -6296,6 +6431,13 @@ CREATE INDEX index_stripe_accounts_on_stripe_id ON public.stripe_accounts USING 
 --
 
 CREATE INDEX index_subscription_charges_on_forum_subscription_id ON public.subscription_charges USING btree (forum_subscription_id);
+
+
+--
+-- Name: index_subscriptions_on_kind_of; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_subscriptions_on_kind_of ON public.subscriptions USING btree (kind_of);
 
 
 --
@@ -7129,4 +7271,28 @@ INSERT INTO schema_migrations (version) VALUES ('20200426033608');
 INSERT INTO schema_migrations (version) VALUES ('20200426092251');
 
 INSERT INTO schema_migrations (version) VALUES ('20200506095205');
+
+INSERT INTO schema_migrations (version) VALUES ('20200513204030');
+
+INSERT INTO schema_migrations (version) VALUES ('20200525022434');
+
+INSERT INTO schema_migrations (version) VALUES ('20200602133029');
+
+INSERT INTO schema_migrations (version) VALUES ('20200603162452');
+
+INSERT INTO schema_migrations (version) VALUES ('20200604180231');
+
+INSERT INTO schema_migrations (version) VALUES ('20200613233942');
+
+INSERT INTO schema_migrations (version) VALUES ('20200613235248');
+
+INSERT INTO schema_migrations (version) VALUES ('20200615212030');
+
+INSERT INTO schema_migrations (version) VALUES ('20200615222549');
+
+INSERT INTO schema_migrations (version) VALUES ('20200616003446');
+
+INSERT INTO schema_migrations (version) VALUES ('20200616103242');
+
+INSERT INTO schema_migrations (version) VALUES ('20200617023543');
 

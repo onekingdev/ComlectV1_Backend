@@ -16,6 +16,39 @@ if (typeof(reactive_reminders) != "undefined") {
         }
       });
     });
+
+    function update_tasks_width() {
+      var full_width = $(".calendar_days").width();
+      $(".task_middle").each(function() {
+        $(this).width(parseInt($(this).attr("data-vduration"))*(full_width/7.0)-8);
+      });
+    }
+
+    $(document).ready(function() {
+      update_tasks_width();
+    });
+
+    $(window).on('resize', function() {
+      this.update_tasks_width();
+    })
+
+    $("#tasks_today_btn").on("click", function() {
+      $("#tasks_week").hide();
+      $("#tasks_today").show();
+      $("#tasks_today_btn").addClass("active");
+      $("#tasks_week_btn").removeClass("active");
+      fullheight_all();
+    });
+
+    $("#tasks_week_btn").on("click", function() {
+      $("#tasks_today").hide();
+      $("#tasks_week").show();
+      $("#tasks_today_btn").removeClass("active");
+      $("#tasks_week_btn").addClass("active");
+      fullheight_all();
+    });
+
+    $("#tasks_week").hide();
   }
 }
 

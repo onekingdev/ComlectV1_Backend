@@ -2,6 +2,7 @@
 
 class Specialist::Invitation < ApplicationRecord
   belongs_to :team, foreign_key: :specialist_team_id
+  belongs_to :department, class_name: '::Team', foreign_key: :team_id
   belongs_to :specialist
 
   enum status: { pending: 0, accepted: 1 }

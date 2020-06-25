@@ -5,19 +5,18 @@
 - content_for :prepend_scripts do
   script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js" data-client-name="Client Name" data-key="#{ENV.fetch('PLAID_PUBLIC_KEY')}" data-product="auth" data-env="sandbox"
 
-.col-xs-12.col-sm-10.col-sm-push-1
-  .row.panel.panel-default.settings
-    .col-xs-12.col-sm-4
-      ul.settings-nav
-        li.change-password class=active_class('settings', 'passwords') = link_to 'Change Password', business_settings_password_path, class: 'btn-link btn-block btn-md', remote: true
-        li.key-contact class=active_class('key_contacts') = link_to 'Key Contact', business_settings_key_contact_path, class: 'btn-link btn-block btn-md', remote: true
-        li.payment-details class=active_class('payment_settings') = link_to 'Payment Details', business_settings_payment_index_path, class: 'btn-link btn-block btn-md', remote: true
-        li.subscription-settings class=active_class('subscription_settings') = link_to 'Subscriptions', business_settings_subscriptions_path, class: 'btn-link btn-block btn-md', remote: true
-        li.notification-preferences class=active_class('notification_settings') = link_to 'Notification Preferences', business_settings_notifications_path, class: 'btn-link btn-block btn-md', remote: true
-        - if current_business.ria_dashboard?
-          li.teams class=active_class('teams') = link_to 'Teams', business_teams_path, class: 'btn-link btn-block btn-md', remote: true
-        li.referrals class=active_class('referrals') = link_to 'Refer Member', business_settings_referrals_path, class: 'btn-link btn-block btn-md', remote: true
-        li.delete-account class=active_class('delete_accounts') = link_to 'Delete Account', business_settings_delete_account_path, class: 'btn-link btn-block btn-md', remote: true
+.panel-default.settings
+  ul.settings-nav
+    li.change-password class=active_class('settings', 'passwords') = link_to 'Reset Password', business_settings_password_path, class: 'btn-link btn-block btn-md', remote: true
+    li.payment-details class=active_class('payment_settings') = link_to 'Payment Details', business_settings_payment_index_path, class: 'btn-link btn-block btn-md', remote: true
+    li.subscription-settings class=active_class('subscription_settings') = link_to 'Subscriptions', business_settings_subscriptions_path, class: 'btn-link btn-block btn-md', remote: true
+    li.notification-preferences class=active_class('notification_settings') = link_to raw('Notification&nbsp;Preferences'), business_settings_notifications_path, class: 'btn-link btn-block btn-md', remote: true
+    li.referrals class=active_class('referrals') = link_to 'Refer Member', business_settings_referrals_path, class: 'btn-link btn-block btn-md', remote: true
+    li.delete-account class=active_class('delete_accounts') = link_to 'Delete Account', business_settings_delete_account_path, class: 'btn-link btn-block btn-md', remote: true
 
-    #business-settings.col-xs-12.col-sm-8
+.col-xs-12.panel-settings-body
+  .row.panel
+
+    #business-settings.col-xs-12
       = yield(:settings).presence || render('business/passwords/show', user: @user, saved: @saved)
+.clearfix

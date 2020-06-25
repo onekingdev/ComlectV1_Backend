@@ -1,0 +1,27 @@
+li.dropdown.p-r-0
+  a.dropdown-toggle href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
+    span.hidden-bp Notifications&nbsp;
+    i.icon-bell
+    - if user.notifications.unread.any?
+      .badge.small= user.notifications.unread.count
+  ul.dropdown-menu.notifications-dropdown
+    - if user.notifications.unread.empty?
+      li.no_unread
+        p No alerts
+    - else
+      li.clearfix.notifications-header
+        .pull-left.p-x-2.p-y-1.show-bp Notifications
+        .pull-right= link_to "Mark all as read", notifications_path, "data-remote" => true
+      - user.notifications.unread.each do |notification|
+        li
+          = link_to notification, remote: true do
+            - if notification.img_path
+              = image_tag notification.img_path
+            - else
+              = image_tag "icon-specialist.png"
+            span
+              b = notification.initiator
+              br
+              = notification.message
+              br
+              small= "#{time_ago_in_words(notification.created_at)} ago"

@@ -79,12 +79,25 @@ Rails.application.routes.draw do
     get '/personalize_book' => 'personalize#book'
     get '/onboarding' => 'onboarding#index'
     post '/onboarding' => 'onboarding#subscribe'
+    get '/upgrade' => 'upgrade#index'
+    resources :upgrade
+    resources :addons, only: %i[index]
+    resources :seats, only: %i[index new] do
+      delete :unassign
+      post :assign
+    end
+    post '/seats/buy' => 'seats#buy'
     resources :compliance_policies, only: %i[new update create edit show destroy index]
     resources :annual_reviews, only: %i[new create show destroy index edit update]
     resources :annual_reports, only: %i[new create index update]
     resources :teams, only: %i[new create show edit index update destroy]
-    resources :reminders, only: %i[new update create destroy show index]
+    resources :team_members, only: %i[new create edit update destroy]
+    resources :reminders, only: %i[new update create destroy show edit index]
     resources :audit_requests, only: %i[index update create new edit show destroy]
+    resource :helps, only: :show do
+      resource :questions
+    end
+    resource :projects, only: %i[index]
     resource :settings, only: :show do
       resource :password
       resource :key_contact
@@ -136,6 +149,8 @@ Rails.application.routes.draw do
 
   resources :tos_agreement, only: %i[create]
 
+  resources :employees, path: 'employee', only: %i[new create index]
+
   namespace :specialists, path: 'specialist' do
     get '/' => 'dashboard#show', as: :dashboard
     get '/locked' => 'dashboard#locked'
@@ -143,11 +158,12 @@ Rails.application.routes.draw do
       get '/personalize' => 'personalize#quiz'
       post '/personalize' => 'personalize#quiz'
       get '/personalize_book' => 'personalize#book'
+      resources :seats, only: %i[index new]
       resources :compliance_policies, only: %i[new update create edit show destroy index]
       resources :annual_reviews, only: %i[new create show destroy index edit update]
       resources :annual_reports, only: %i[new create index update]
       # resources :teams, only: %i[new create show edit index update]
-      resources :reminders, only: %i[new update create destroy show index]
+      resources :reminders, only: %i[new update create destroy edit show index]
       resources :audit_requests, only: %i[index update create new edit show destroy]
     end
     resource :settings, only: :show do
@@ -165,6 +181,9 @@ Rails.application.routes.draw do
       resources :notification_settings, as: :notifications, path: 'notifications', only: %i[index update]
     end
 
+    resources :ported_businesses, only: %i[index new]
+    get '/ported_businesses/buy' => 'ported_businesses#buy'
+    post '/ported_businesses/buy' => 'ported_businesses#buying'
     resources :invitations, only: %i[create destroy]
     resources :projects, path: 'my-projects'
     concerns :favoriteable
@@ -175,6 +194,7 @@ Rails.application.routes.draw do
   end
 
   resources :specialists, only: %i[index new create show]
+  get '/profile/:id', to: 'specialists#show', as: 'employee_profile'
   resource :specialist, only: %i[edit] do
     patch '/' => 'specialists#update', as: :update
   end

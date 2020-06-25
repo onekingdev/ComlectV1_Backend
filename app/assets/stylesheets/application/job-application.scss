@@ -16,7 +16,7 @@ body.job_applications {
         width: 120px;
         border-right: none;
         &:last-child {
-          border-right: 3px solid #ffcc00;
+          border-right: 3px solid #FFCC01;
         }
       }
     }
@@ -46,7 +46,7 @@ body.job_applications.index {
   }
 
   .input-lg {
-    border: 2px solid #ffcc00;
+    border: 2px solid #FFCC01;
     border-radius: 0px;
     height: 42px;
     line-height: 33px;

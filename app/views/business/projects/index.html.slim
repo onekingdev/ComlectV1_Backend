@@ -1,0 +1,118 @@
+- content_for :title, 'Projects'
+- header_class ''
+
+- Business::Decorator.decorate(@business).tap do |business|
+.row.m-b-3
+  .col-md-8
+    .panel.panel-default.panel-padded
+      .panel-heading
+        h3 Projects
+        .dropdown.visible-sm.visible-xs
+          button.btn.btn-default.dropdown-toggle type="button" data-toggle="dropdown"
+            'Filter
+            span.caret
+          ul.dropdown-menu.dropdown-menu-right
+            li.active.btn.btn-shadow= link_to '#projects-active', data: { toggle: 'tab', "remote-load" => true, url: business_projects_path(filter: 'active'), 'toggle-sync' => true } do
+              span Active
+            li.btn.btn-shadow= link_to '#projects-pending', data: { toggle: 'tab', "remote-load" => true, url: business_projects_path(filter: 'pending'), 'toggle-sync' => true } do
+              span Pending
+            li.btn.btn-shadow= link_to '#projects-draft', data: { toggle: 'tab', "remote-load" => true, url: business_projects_path(filter: 'drafts'), 'toggle-sync' => true } do
+              span Drafts
+            li.btn.btn-shadow= link_to '#projects-complete', data: { toggle: 'tab', "remote-load" => true, url: business_projects_path(filter: 'complete'), 'toggle-sync' => true } do
+              span Completed
+        ul#js-project-filters.nav.nav-pills.visible-md.visible-lg
+          li.active.btn.btn-shadow= link_to '#projects-active', data: { toggle: 'tab', "remote-load" => true, url: business_projects_path(filter: 'active'), 'toggle-sync' => true } do
+            span Active
+          li.btn.btn-shadow= link_to '#projects-pending', data: { toggle: 'tab', "remote-load" => true, url: business_projects_path(filter: 'pending'), 'toggle-sync' => true } do
+            span Pending
+          li.btn.btn-shadow= link_to '#projects-draft', data: { toggle: 'tab', "remote-load" => true, url: business_projects_path(filter: 'drafts'), 'toggle-sync' => true } do
+            span Drafts
+          li.btn.btn-shadow= link_to '#projects-complete', data: { toggle: 'tab', "remote-load" => true, url: business_projects_path(filter: 'complete'), 'toggle-sync' => true } do
+            span Completed
+      hr.m-y-0
+      .panel-body.p-b-3.p-t-2
+        .tab-content
+          .panel-content-wrapper style="max-height: 300px"
+            table.table.table-striped.table-blue.addon-alerts-table
+              thead.text-center
+                tr style="text-align-last: center"
+                  th.pl-2 style='width: 30%' Project
+                  th Location
+                  th Budget
+                  th Start Date
+                  th Team
+                  th
+                    th style='width: 15%' Progress
+                    / th style='width: 15%'
+              tbody
+                - for i in 1..20 do
+                  tr
+                    td = 'Quarterly Transaction Reports Monitoring'
+                    / td.text-center= business.render_stars
+                    td.text-center = "Remote + Travel"
+                    td.text-center = "$2,133,000"
+                    td.text-center = Date.today.strftime('%b %-d, %Y') 
+                    td.text-center = image_tag "icon-business.png", style: "border-radius: 50%; width: 30px; height: 30px;"
+                    td style="text-align: end"
+                      = '85%' 
+                    td
+                      .progress. style='background-color: #ccc;'
+                        .progress-bar role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style='width:85%' 
+                    / td.text-center = '90%' 
+  
+          .clearfix
+          #projects-active.tab-pane.active
+          #projects-pending.tab-pane
+          #projects-draft.tab-pane
+          #projects-complete.tab-pane
+  .col-md-4
+    .panel.panel-default.panel-padded
+      .panel-heading
+        h3 Specialists
+      hr.m-y-0
+      .panel-body.p-b-3.p-t-2
+        .tab-content
+          .panel-content-wrapper style="max-height: 300px;"
+            table.table.table-striped.table-blue.addon-alerts-table
+              tbody
+                - for i in 1..50 do
+                  tr
+                    td.text-center = image_tag "icon-business.png", style: "border-radius: 50%; width: 30px; height: 30px;"
+                    td
+                      | John Michael
+                      br/
+                      small = 'available'
+                    td.text-center.stars_bg
+                    td.text-center = link_to "Hire", "#", class: "btn btn-primary btn-solid"
+          .clearfix
+          #specialists-hired.tab-pane.active
+          #specialists-favorited.tab-pane
+.row.m-b-3
+  .col-md-5
+    .panel.panel-default.panel-padded
+      .panel-heading
+        h3
+          a.no-link name="ratings-reviews" Ratings & Reviews
+        / .detail= rating_average_text business
+      hr.m-y-0
+      .panel-body#ratings-slick
+        .row.ratings.list-group.plain
+          .panel-content-wrapper style="max-height: 300px"
+            table.table.table-striped.table-blue.addon-alerts-table
+              thead
+                tr
+                  th Projects
+                  th Raiting
+                  th Date
+              tbody
+                - for i in 1..20 do
+                  tr
+                    td = 'Quarterly Transaction Reports Monitoring'
+                    / td.text-center= business.render_stars
+                    td.text-center.stars_bg
+                    td.text-center = Date.today.strftime('%b %-d, %Y')
+            .clearfix
+
+- if params[:reminder].present?
+  javascript:
+    var show_reminders_at_date = "#{new_business_reminder_path(date: Date.parse(params[:reminder]))}";

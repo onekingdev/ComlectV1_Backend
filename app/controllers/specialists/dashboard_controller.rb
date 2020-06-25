@@ -3,6 +3,7 @@
 class Specialists::DashboardController < ApplicationController
   before_action :authenticate_user!
   before_action :require_specialist!
+  before_action :redirect_to_employee
 
   def show
     @specialist = Specialist.preload_associations.find(current_user.specialist.id)

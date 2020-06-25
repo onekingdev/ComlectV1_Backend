@@ -4,6 +4,9 @@ class Subscription < ActiveRecord::Base
   belongs_to :business
 
   enum plan: %w[monthly annual]
+  enum kind_of: { ccc: 0, forum: 1, seats: 2 }
+
+  scope :base, -> { find_by(kind_of: 0) }
 
   # unsure stripe customer business.payment_profile.stripe_customer
   # create one-time payment via InvoiceItem to customer
@@ -18,18 +21,31 @@ class Subscription < ActiveRecord::Base
     )
   end
 
-  def self.subscribe(plan, customer_id)
-    plan_id = case plan.to_s.downcase
-              when 'monthly' then ENV['STRIPE_SUB_CCC_MONTHLY']
-              when 'annual' then ENV['STRIPE_SUB_CCC_ANNUAL']
-              end
+  def self.subscribe(plan, customer_id, options = {})
+    plan_id = get_plan_id(plan)
     return unless plan_id
 
-    Stripe::Subscription.create(
+    sub_attributes = {
       customer: customer_id,
       items: [
-        plan: plan_id
+        plan: plan_id,
+        quantity: (options[:quantity] || 1)
       ]
-    )
+    }
+    if options[:period_ends].present?
+      sub_attributes[:cancel_at] = options[:period_ends]
+      sub_attributes[:proration_behavior] = :none
+    end
+
+    Stripe::Subscription.create(sub_attributes)
+  end
+
+  def self.get_plan_id(plan)
+    case plan.to_s.downcase
+    when 'monthly' then ENV['STRIPE_SUB_CCC_MONTHLY']
+    when 'seats_monthly' then ENV['STRIPE_SUB_SEATS_MONTHLY']
+    when 'annual' then ENV['STRIPE_SUB_CCC_ANNUAL']
+    when 'seats_annual' then ENV['STRIPE_SUB_SEATS_ANNUAL']
+    end
   end
 end

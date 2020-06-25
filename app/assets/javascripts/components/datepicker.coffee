@@ -1,5 +1,5 @@
-$.onContentReady ($parent) ->
-  $('.js-datepicker', $parent).each ->
+window.attach_js_datepicker = (parent) ->
+  $('.js-datepicker', parent).each ->
     $picker = $(this)
     return if $picker.data('datepicker-initialized')
 
@@ -32,3 +32,8 @@ $.onContentReady ($parent) ->
       onSet: onSet
 
     $picker.data('datepicker-initialized', true)
+
+  return
+
+$.onContentReady ($parent) ->
+  window.attach_js_datepicker($parent);

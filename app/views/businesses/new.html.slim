@@ -20,8 +20,21 @@
           .col-sm-6 = uf.input :password, input_html: { class: 'input-lg' }
           .col-sm-6 = uf.input :password_confirmation, input_html: { class: 'input-lg' }
           .clearfix.m-b-3
-          = render 'fields_business_info', f: f
-          = render 'fields_location', f: f
+          .col-sm-6= f.input :business_name, input_html: { class: 'input-lg' }
+          .col-sm-6= f.input :contact_job_title, required: false, input_html: { class: 'input-lg' }
+          .col-sm-6= f.input :contact_phone, required: false, input_html: { class: 'input-lg' }
+          .col-sm-6= f.input :address_1, required: false, input_html: { class: 'input-lg js-place-autocomplete', data: { zipcode: '#business_zipcode', country: '#business_country', state: '#business_state', city: '#business_city' } }
+          .col-sm-6= f.input :address_2, required: false, input_html: { class: 'input-lg' }
+          .col-sm-6= f.input :city, required: false, input_html: { class: 'input-lg' }
+          .col-sm-6= f.input :state, required: false, input_html: { class: 'input-lg' }
+          .col-sm-6
+            = f.input :zipcode,
+              required: true,
+              input_html: { class: 'input-lg' }
+          .col-sm-6
+            .form-group
+              = f.country_select :country, { include_blank: 'Select a country' }, required: false, class: 'form-control input-lg js-select'
+          .col-sm-6= f.input :time_zone, include_blank: t('simple_form.placeholders.specialist.time_zone'), input_html: { class: 'input-lg js-select' }
           .clearfix.m-b-3
           .col-sm-6 = f.input :employees, include_blank: I18n.t('simple_form.placeholders.business.employees'), collection: Business::EMPLOYEE_OPTIONS, input_html: { class: 'input-lg js-select' }
           .col-sm-6 = f.input :client_account_cnt, as: :string, input_html: { class: 'input-lg' }, placeholder: "* Est. No. Client Accounts"

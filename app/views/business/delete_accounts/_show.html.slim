@@ -1,25 +1,18 @@
-.panel-heading
-  h3 Delete Account
+.col-sm-12.col-md-8.p-x-0
+  .panel-heading.m-b-3
+    h3 Delete Account
 
-.panel-body.p-t-0.m-b-1
-  - if @delete.disallowed?
-    .delete-account.text-center.p-y-2.p-x-1.m-b-2
-      | You cannot delete your account at this time because:
-      br
-      br
-      - @delete.not_permitted_reasons.each do |reason|
-        li= reason
+  .panel-body.p-t-0.m-b-1
+    p style="color: #EC428A; font-size: 14px; font-weight: bold;" Warning! This change is permanent and not reversible.
 
-  p.m-b-3.text-center
-    | We're sorry to see you leave. This is a permanent change
-    br
-    | and will delete all of your information, so consider changing
-    br
-    | your profile visibility through the dashboard instead.
+    p By deleting your account, you will purge all account information and saved documents associated with this account. This deletion cannot be reversed. Please take appropriate steps to save down to your own storage devices those records you may wish to access after the deletion of this account.
 
-  = link_to business_settings_delete_account_path,
-    method: :delete,
-    class: "btn btn-primary btn-block btn-lg #{'disabled' if @delete.disallowed?}",
-    title: 'Confirm Deletion',
-    data: { confirm: 'This action is permanent. Do you still want to delete your profile?', confirm_label: 'Delete' }
-    | Delete
+    .text-right
+      - if @delete.disallowed?
+        = link_to "Delete", "#", class: "btn btn-primary m-t-3", method: :get, data: { confirm: "<div class='bootbox-heading'>Pending Activity<hr></div>Oops, it looks like you may have projects and/or payments still in<br>progress or pending. You cannot delete your account at this time.", confirm_label: "Confirm", no_cancel: true }, style: "width: 140px;"
+      - else
+        = link_to business_settings_delete_account_path,
+          method: :delete,
+          class: "btn btn-primary m-t-3",
+          data: { confirm: "<div class='bootbox-heading'>Delete Account<hr></div>This action is permanent. Do you still want to delete your profile?", confirm_label: 'Delete' }, style: "width: 140px;"
+          | Delete

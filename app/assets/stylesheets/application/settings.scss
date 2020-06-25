@@ -1,7 +1,7 @@
-.settings-nav {
+.settings-nav, .helps-nav {
   list-style-type: none;
   padding-left: 10px;
-  border-left: 2px solid #ffcc00;
+  //border-left: 2px solid #FFCC01;
   margin-top: 24px;
   margin-bottom: 24px;
   margin-left: 15px;
@@ -11,7 +11,7 @@
   }
 
   li a {
-    font-size: 13px;
+    font-size: 16px;
     font-weight: $medium-weight;
     text-decoration: none;
   }
@@ -28,7 +28,6 @@
       font-weight: bold;
       font-size: 12px;
     }
-    padding: 0px;
     .col-xs-2, .col-xs-3 {
       padding: 0px !important;
     }
@@ -44,11 +43,11 @@
   }
 
   .multiselect-parent .btn-default {
-    border-color: #ffcc00;
+    border-color: #FFCC01;
   }
 
   input.form-control {
-    border-color: #ffcc00;
+    border-color: #FFCC01;
   }
 
   table.payment-details {
@@ -59,7 +58,7 @@
     }
 
     tr.primary {
-      border-bottom: 2px solid #ffcc00;
+      border-bottom: 2px solid #FFCC01;
     }
 
     td:first-child {
@@ -89,7 +88,7 @@
   }
 
   .delete-account {
-    border: 2px solid #ffcc00;
+    border: 2px solid #FFCC01;
 
     a {
       text-decoration: underline;
@@ -101,5 +100,24 @@ body.payment_settings #specialist-settings {
   .info-tooltip {
     margin-top: 0px;
     margin-left: 10px;
+  }
+}
+
+.payment-sources-table {
+  tr {
+    background-color: #fff !important;
+  }
+  .payment_source_primary, .payment_source_not_primary {
+    background-image: url(asset_path("checkbox_y.png"));
+    background-repeat: no-repeat;
+    width: 25px;
+    height: 25px;
+    background-size: cover;
+  }
+  .payment_source_primary {
+    background-position: 0px 0px;
+  }
+  .payment_source_not_primary {
+    background-position: 0px -98px;
   }
 }

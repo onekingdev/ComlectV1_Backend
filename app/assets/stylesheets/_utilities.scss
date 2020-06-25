@@ -9,6 +9,7 @@
 .inline-block { display: inline-block; }
 .pointer { cursor: pointer; }
 .black_href { a { color: #000; text-decoration: none; } }
+.onepxhidden { width: 1px; height: 1px; overflow: hidden; }
 //== Spacers
 
 .anchor {
@@ -137,7 +138,7 @@
   }
 }
 
-.border-left-2 { border-left: 2px solid #ffcc00; }
+.border-left-2 { border-left: 2px solid #ffcc01; }
 
 .width-110 { width: 110%; }
 

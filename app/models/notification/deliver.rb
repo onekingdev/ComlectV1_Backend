@@ -65,9 +65,9 @@ class Notification::Deliver < Draper::Decorator
       dispatcher.deliver_mail(action_url)
     end
 
-    def got_employee_invitation!(invitation)
+    def got_employee_invitation!(invitation, path = :new_specialist)
       action_path, action_url = path_and_url(
-        :new_specialist,
+        path,
         invite_token: invitation.token
       )
 
@@ -75,8 +75,8 @@ class Notification::Deliver < Draper::Decorator
         key: :got_employee_invitation,
         action_path: action_path,
         t: {
-          manager_full_name: invitation.team.manager.full_name,
-          team_name: invitation.team.name
+          manager_full_name: (invitation.team&.manager&.full_name || invitation.department&.business&.contact_full_name),
+          team_name: (invitation.team || invitation.department)&.name
         }
       )
 

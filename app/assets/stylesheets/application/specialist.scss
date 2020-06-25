@@ -5,7 +5,7 @@ body.specialists.index {
 
   .new_specialist_search {
     .input-lg {
-      border: 2px solid #ffcc00;
+      border: 2px solid #FFCC01;
       border-radius: 0px;
       height: 32px;
       line-height: 28px;
@@ -58,6 +58,10 @@ body.specialists.show {
     padding-top: 4px;
     padding-bottom: 4px;
   }
+}
+
+body.ported_businesses {
+  background-color: #fff;
 }
 
 body.specialists.new, body.specialists.create, body.specialists.edit, body.specialists.update {
@@ -152,7 +156,7 @@ body.specialists.new, body.specialists.create, body.specialists.edit, body.speci
       color: #d2d2d2;
 
       &:hover {
-        color: #ffcc00;
+        color: #FFCC01;
       }
     }
 
@@ -226,5 +230,16 @@ body.specialists.new, body.specialists.create, body.specialists.edit, body.speci
       color: lighten($text-muted, 10%);
       pointer-events: none;
     }
+  }
+}
+
+.specialists_ported_business_page {
+  label {
+    background-size: cover; position: absolute; margin-left: -50px;
+    padding: 10px;
+    margin-top: 4px;
+  }
+  b {
+    font-size: 18px;
   }
 }

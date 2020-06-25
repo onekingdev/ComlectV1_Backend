@@ -98,12 +98,12 @@
     border-radius: 12px;
   }
   .irs-slider {
-    background: #ffcc00;
+    background: #FFCC01;
     border-radius: 18px;
     top: 39px;
     width: 13px;
     height: 24px;
-    border: 1px solid #ffcc00;
+    border: 1px solid #FFCC01;
   }
   .irs-single {
     top: 70px;
@@ -120,14 +120,14 @@
       cursor: pointer;
       &:hover {
         transition: all 0.2s;
-        border: 2px solid #ffcc00;
-        color: #ffcc00;
+        border: 2px solid #FFCC01;
+        color: #FFCC01;
         transform: translateY(-3px);
       }
     }
     .product.active {
-      border: 2px solid #ffcc00;
-      color: #ffcc00;
+      border: 2px solid #FFCC01;
+      color: #FFCC01;
       transform: translateY(-3px);
     }
   }

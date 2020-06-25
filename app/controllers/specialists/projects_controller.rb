@@ -2,6 +2,7 @@
 
 class Specialists::ProjectsController < ApplicationController
   before_action :require_specialist!
+  before_action :redirect_to_employee
 
   FILTERS = {
     'active' => :active_projects,

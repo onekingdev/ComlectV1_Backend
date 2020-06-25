@@ -51,7 +51,9 @@ class Business::CompliancePoliciesController < ApplicationController
     @compliance_policy = CompliancePolicy.new(compliance_policy_params)
     @compliance_policy.business_id = current_business.id
     if @compliance_policy.save
-      PdfCompliancePolicyWorker.perform_async(@compliance_policy.compliance_policy_docs.order(:id).first.id)
+      if @compliance_policy.compliance_policy_docs.any?
+        PdfCompliancePolicyWorker.perform_async(@compliance_policy.compliance_policy_docs.order(:id).first.id)
+      end
       redirect_to business_compliance_policy_path(@compliance_policy)
     else
       @compliance_policy.compliance_policy_docs.build
@@ -61,7 +63,9 @@ class Business::CompliancePoliciesController < ApplicationController
 
   def update
     if (@compliance_policy.business_id == current_business.id) && @compliance_policy.update(compliance_policy_params)
-      PdfCompliancePolicyWorker.perform_async(@compliance_policy.compliance_policy_docs.order(:id).first.id)
+      if @compliance_policy.compliance_policy_docs.any?
+        PdfCompliancePolicyWorker.perform_async(@compliance_policy.compliance_policy_docs.order(:id).first.id)
+      end
       redirect_to business_compliance_policy_path(@compliance_policy)
     else
       render 'edit'

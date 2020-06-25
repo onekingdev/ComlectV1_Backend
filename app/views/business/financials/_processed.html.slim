@@ -1,4 +1,4 @@
-table.table.table-striped
+table.table.table-striped.table-blue
   thead
     tr
       th= link_to "Date <small><small>#{sort_by_arrow('date', default: 'desc')}</small></small>".html_safe, sort_by_url('date', default: 'desc'), remote: true
@@ -26,4 +26,4 @@ table.table.table-striped
         = link_to n+1, current_uri(page: n + 1), remote: true, class: "page #{"current" if n + 1 == charges.current_page}"
       = link_to "+", current_uri(page: charges.current_page + 1), remote: true, class: "next-slide" if charges.current_page < charges.total_pages
   .pull-md-right
-    = link_to 'Export', business_financial_path('processed', format: 'csv'), class: 'btn btn-md btn-primary p-x-3'
+    = link_to 'Export', business_financial_path('processed', format: 'csv'), class: 'btn btn-md btn-primary p-x-3 download_csv onepxhidden', style: "visibility: hidden"

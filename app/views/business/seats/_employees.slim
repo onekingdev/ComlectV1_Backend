@@ -1,0 +1,48 @@
+.panel.panel-default
+  .panel-heading
+    .pull-left
+      h3 Employees
+    .pull-right
+      .btn-group
+        i.icon-settings.employee-settings.m-l-1 data-toggle="dropdown"
+        ul.dropdown-menu.employee-dropdown style="left: -170px;"
+          li = link_to "Add Employee", new_business_team_member_path, "data-target": "#modal", "data-toggle": "modal", "data-remote": true
+          li = link_to "Download Employees", "#"
+
+    .clearfix
+  hr.m-y-0
+  .panel-content-wrapper.fullheight style="height: 300px; padding: 11px 18px;"
+    table.table.table-striped.table-blue
+      thead
+        tr
+          th Name
+          th Title
+          th Department
+          th Email
+          th Start Date
+          th End Date
+          th Assigned
+          th style="width: 1px;" &nbsp;
+      tbody.tasks-widget
+        - @employees.each do |emp|
+          tr
+            td= emp.full_name
+            td= emp.title
+            td= emp.team&.name
+            td= emp.email
+            td= emp.start_date&.strftime("%b %e, %Y")
+            td= emp.end_date&.strftime("%b %e, %Y")
+            td.padded-checkboxes
+              input type="checkbox" id="#{emp.id}_employee" checked=@assigned_team_members_ids.include?(emp.id) disabled=@assigned_team_members_ids.include?(emp.id)
+              - if @assigned_team_members_ids.include?(emp.id)
+                label.css-label for="#{emp.id}_employee" &nbsp;
+              - else
+                - if current_business.seats.available.count.zero?
+                  = link_to business_seat_assign_path(seat_id: emp.id), method: :post, data: { confirm: "<div class='bootbox-heading'>No Available Seats<hr></div>Oops! It looks like you have no available seats to assign.<br/>Please purchase additional seats to assign them to an employee.", no_cancel: true, confirm_label: "Confirm" } do
+                    label.css-label for="#{emp.id}_employee" class='assign-link-label' &nbsp;
+                - else
+                    = link_to business_seat_assign_path(seat_id: emp.id), method: :post, data: { confirm: "<div class='bootbox-heading'>Really assign?<hr></div>Are you sure?", no_cancel: true, confirm_label: "Confirm" } do
+                      label.css-label for="#{emp.id}_employee" class='assign-link-label' &nbsp;
+            td style="width: 1px; font-size: 18px;"
+              = link_to business_team_member_path(emp), method: :delete, "data-confirm": "<div class='bootbox-heading'>Delete Employee<hr></div>Warning! This change is permanent. Deleting this employee will<br>remove the employee from your employee records.", "data-confirm-label": "Confirm" do
+                i.icon-trash

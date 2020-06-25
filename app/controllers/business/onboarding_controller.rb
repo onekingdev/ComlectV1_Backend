@@ -32,8 +32,7 @@ class Business::OnboardingController < ApplicationController
 
     plan = params[:checkout][:schedule].to_s.downcase.strip rescue nil
     return redirect_to '/business/onboarding', flash: { error: 'Wrong plan' } unless Subscription.plans.key?(plan)
-
-    db_subscription = current_business.subscription || Subscription.create(plan: plan, business_id: current_business.id)
+    db_subscription = current_business.subscriptions.base.presence || Subscription.create(plan: plan, business_id: current_business.id)
 
     if db_subscription&.stripe_invoice_item_id.blank?
       one_time_item = Subscription.create_invoice_item(stripe_customer)

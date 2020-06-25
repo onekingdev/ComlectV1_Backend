@@ -8,6 +8,7 @@ class Specialist < ApplicationRecord
   belongs_to :rewards_tier
 
   # before_save :calculate_years_of_experience
+  has_many :ported_businesses
   has_and_belongs_to_many :industries
   has_and_belongs_to_many :jurisdictions
   has_and_belongs_to_many :skills
@@ -39,6 +40,7 @@ class Specialist < ApplicationRecord
   has_many :manageable_businesses, through: :active_projects, class_name: 'Business', source: :business
   has_one :referral, as: :referrable
   has_many :referral_tokens, as: :referrer
+  has_many :specialist_invitations, class_name: 'Specialist::Invitation'
   # rubocop:disable Metrics/LineLength
   has_many :manageable_ria_businesses, -> { joins(:industries).where("industries.name = 'Investment Adviser'").where(ria_dashboard: true) }, through: :active_projects, class_name: 'Business', source: :business
   # rubocop:enable Metrics/LineLength
@@ -117,8 +119,6 @@ class Specialist < ApplicationRecord
   #  arr.uniq!
   #  tgt_arr
   # end
-
-  # rubocop:disable Metrics/MethodLength
   def apply_quiz(cookies)
     step1_c = cookies[:complect_s_step1].split('-').map(&:to_i)
     self.sub_industries = []
@@ -158,7 +158,6 @@ class Specialist < ApplicationRecord
       sub_jurisdictions.push(Jurisdiction.find(c[0]).sub_jurisdictions_specialist.split("\r\n")[c[1]])
     end
   end
-  # rubocop:enable Metrics/MethodLength
 
   has_one :tos_agreement, through: :user
   has_one :cookie_agreement, through: :user
@@ -168,7 +167,7 @@ class Specialist < ApplicationRecord
   validate :tos_invalid?
   validate :cookie_agreement_invalid?
   validates :username, uniqueness: true
-  validates :call_booked, presence: true
+  validates :call_booked, presence: true, on: :signup
 
   default_scope -> { joins("INNER JOIN users ON users.id = specialists.user_id AND users.deleted = 'f'") }
 
@@ -324,6 +323,15 @@ class Specialist < ApplicationRecord
 
   def managed?
     !team.nil?
+  end
+
+  def employee?(business = nil)
+    return specialist_invitations.where.not(team_id: nil).exists? if business.nil?
+
+    teams_ids = business.teams.pluck(:id)
+    return unless teams_ids
+
+    specialist_invitations.exists?(team_id: teams_ids)
   end
 
   def processed_transactions_amount

@@ -4,20 +4,21 @@
   .panel-body.p-b-2.p-x-0
     .row
       .col-xs-12.col-sm-6
-        = f.input :routing_number, label: false, input_html: { class: 'input-lg' }
+        = f.input :routing_number, placeholder: "", input_html: { class: 'input-lg' }
       .col-xs-12.col-sm-6
-        = f.input :account_number, label: false, input_html: { class: 'input-lg' }
+        = f.input :account_number, placeholder: "", input_html: { class: 'input-lg' }
     .row
       .col-xs-12.col-sm-6
-        = f.input :account_holder_name, label: false, input_html: { class: 'input-lg' }
+        = f.input :account_holder_name, placeholder: "", label: "Account Holder Name", input_html: { class: 'input-lg' }
       .col-xs-12.col-sm-6
-        = f.input :account_holder_type, label: false, \
+        = f.input :account_number, placeholder: "", label: "Confirm Account Number", input_html: { class: 'input-lg' }
+      .col-xs-12.col-sm-6
+        = f.input :account_holder_type, placeholder: "", \
           include_blank: t('simple_form.placeholders.payment_source_ach.account_holder_type'), \
           collection: [%w(Individual individual), %w(Company company)], \
           input_html: { class: 'input-lg js-select' }
 
     .alert.alert-danger class=('hidden' if f.object.errors.empty?) = f.object.errors.full_messages.join(', ')
 
-  .text-center.m-t-0.m-b-1
-    = link_to 'Cancel', business_settings_payment_index_path, remote: true, class: 'btn btn-default btn-md p-x-3 m-r-1'
-    = f.submit 'Add Account', class: 'btn btn-primary btn-md p-x-3'
+  .text-right.m-t-0.m-b-1
+    = f.submit 'Add', class: 'btn btn-primary p-x-3', style: "width: 150px;"

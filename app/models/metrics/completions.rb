@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 module Metrics::Completions
-  # rubocop:disable Metrics/MethodLength
   def completions
     return {} if invalid?
     @metrics = {
@@ -45,5 +44,4 @@ module Metrics::Completions
       }]
     }
   end
-  # rubocop:enable Metrics/MethodLength
 end

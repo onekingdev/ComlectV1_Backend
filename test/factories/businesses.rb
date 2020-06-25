@@ -10,6 +10,7 @@ FactoryBot.define do
     business_name { Faker::Company.name }
     industries { [create(:industry)] }
     employees { Business::EMPLOYEE_OPTIONS.sample }
+    risk_tolerance { Business::RISK_TOLERANCE_OPTIONS.sample }
     description { Faker::Company.bs }
     country { Faker::Address.country }
     city { Faker::Address.city }

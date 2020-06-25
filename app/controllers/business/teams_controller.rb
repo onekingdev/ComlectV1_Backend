@@ -21,16 +21,17 @@ class Business::TeamsController < ApplicationController
   def create
     @team = Team.new(team_params)
     @team.business_id = current_business.id
-    @team.save ? redirect_to(business_teams_path) : render('new')
+    @team.save ? redirect_to(business_seats_path) : render('new')
   end
 
   def update
-    @team.update(team_params) ? redirect_to(business_teams_path) : render('new')
+    @team.update(team_params) ? redirect_to(business_seats_path) : render('new')
   end
 
   def destroy
     @team.destroy
-    redirect_to business_teams_path
+
+    redirect_to business_seats_path, notice: 'Successfully removed.'
   end
 
   private

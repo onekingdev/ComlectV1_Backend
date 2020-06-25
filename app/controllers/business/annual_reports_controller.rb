@@ -22,7 +22,6 @@ class Business::AnnualReportsController < ApplicationController
 
   def show; end
 
-  # rubocop:disable Metrics/MethodLength
   def create
     @annual_report = current_business.annual_reports.last
     @business = current_business
@@ -35,10 +34,10 @@ class Business::AnnualReportsController < ApplicationController
         pdf = render_to_string pdf: 'annual_report.pdf',
                                template: 'business/annual_reports/annual_report.pdf.erb', encoding: 'UTF-8',
                                locals: { annual_report: @annual_report, business: current_business },
-                               margin: { top:               20,
-                                         bottom:            25,
-                                         left:              15,
-                                         right:             15 }
+                               margin: { top:               0,
+                                         bottom:            0,
+                                         left:              0,
+                                         right:             0 }
         uploader = PdfUploader.new(:store)
         file = Tempfile.new(["annual_report_#{@annual_report.id}", '.pdf'])
         file.binmode
@@ -65,7 +64,6 @@ class Business::AnnualReportsController < ApplicationController
       end
     end
   end
-  # rubocop:enable Metrics/MethodLength
 
   def update
     @annual_report = AnnualReport.find(params[:id])
@@ -91,14 +89,25 @@ class Business::AnnualReportsController < ApplicationController
     @annual_report.annual_review_employees.build
     @annual_report.business_changes.build
     @annual_report.regulatory_changes.build
-    @annual_report.findings.build
+
+    findings_arr = []
+    ComplianceCategory.all.each do |cc|
+      cc.checkboxes_arr.keys.each do |cb_key|
+        cc.checkboxes_arr[cb_key].each do |_cb_ind|
+          findings_arr.push(compliance_category: cc.id, checkbox_index: cc.checkboxes_arr.keys.index(cb_key))
+        end
+      end
+    end
+
+    @annual_report.findings.build(findings_arr)
+
     @annual_report.exam_start = Time.zone.today
     @annual_report.save
   end
 
   def annual_report_params
     # rubocop:disable Metrics/LineLength
-    params.require(:annual_report).permit(:review_start, :review_end, :tailored_lvl, :cof_bits, :comments, annual_review_employees_attributes: %i[id name title department _destroy], business_changes_attributes: %i[id change _destroy], regulatory_changes_attributes: %i[id change response _destroy], findings_attributes: %i[id finding action risk_lvl _destroy compliance_category])
+    params.require(:annual_report).permit(:review_start, :review_end, :tailored_lvl, :cof_bits, :comments, annual_review_employees_attributes: %i[id name title department _destroy], business_changes_attributes: %i[id change _destroy], regulatory_changes_attributes: %i[id change response _destroy], findings_attributes: %i[id finding action risk_lvl _destroy compliance_category checkbox_index])
     # rubocop:enable Metrics/LineLength
   end
 

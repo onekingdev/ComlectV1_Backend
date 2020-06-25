@@ -1,19 +1,18 @@
-.panel-heading
-  h3 Notification Preferences
+.col-xs-12.col-md-8.p-x-0
+  .panel-heading.m-b-3
+    h3 Notification Preferences
 
-.panel-body.p-t-0.m-b-1
-  table.table.table-plain.notification-preferences
-    - settings.keys.each do |setting|
-      tr
-        td= t setting, scope: 'notification_settings.businesses'
-        td.text-right
-          input.button-switch.hidden[
-            type="checkbox"
-            data-size="small"
-            data-on-color="primary"
-            data-remote=true
-            data-url=business_settings_notification_path(setting)
-            checked=(business.settings(:notifications).send(setting))
-          ]
-
-  .text-muted Note: Email notifications cannot be turned off for any alert that requires your immediate attention (e.g. Project End Confirmation)
+  .panel-body.p-t-0.m-b-1
+    .col-sm-12.col-md-8.p-x-0
+      table.table.table-plain.notification-preferences.tasks-widget
+        - settings.keys.each do |setting|
+          tr
+            td= t setting, scope: 'notification_settings.businesses'
+            td.text-right.padded-checkboxes.reactive_notification_settings
+              input id=("#{setting}_checkbox") setting_url=(business_settings_notification_path(setting)) name=("#{setting}_checkbox") type="checkbox" value="1" checked=(business.settings(:notifications).send(setting))
+              label.css-label for=("#{setting}_checkbox") &nbsp;
+    .clearfix
+    .text-muted Note: Email notifications cannot be turned off for any alert that requires your immediate attention (e.g. Project End Confirmation)
+  
+javascript:
+  var notification_preferences_ajax_enable = true;

@@ -2,11 +2,11 @@ body.annual_reports {
   .cof_bits {
     padding-left: 60px;
     padding-right: 30px;
-    label { font-weight: 300; }
+    label { font-weight: 300; padding-left: 40px; font-size: 14px; }
   }
   .parent_node {
     padding-left: 30px;
-    margin-top: 30px;
+    margin-top: 10px;
     .cof_bits {
       font-weight: 300;
     }
@@ -18,7 +18,7 @@ body.annual_reports {
     margin-left: 10px;
     margin-top: 0px;
   }
-  .icon-plus, .icon-close {
+  .icon-plus, .icon-close, .icon-trash {
     font-size: 24px;
   }
   .nested_form {
@@ -37,7 +37,7 @@ body.annual_reports {
     margin-top: -47px;
     color: #000;
   }
-  .icon-close {
+  .icon-trash {
     position: absolute;
     right: -27px;
     margin-top: -47px;

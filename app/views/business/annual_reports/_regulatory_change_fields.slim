@@ -1,10 +1,10 @@
 .nested-fields
   = f.hidden_field :id
-  .col-md-6
+  .col-md-6.p-l-0
     = f.input :change, input_html: { class: 'input-lg' }, as: :string
   .col-md-6
     = f.input :response, input_html: { class: 'input-lg' }, as: :string
   .clearfix
   .col-xs-12.text-right
     .remove_we = link_to_remove_association f, class: 'remove text-muted' do
-      .icon-close
+      .icon-trash

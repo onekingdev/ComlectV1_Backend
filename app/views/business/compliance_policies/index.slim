@@ -1,27 +1,51 @@
-.text-center
-  h1 style="font-family: 'Canela'; font-size: 30px; font-weight: 400;"
-    = @business.business_name
-    br
-    | Compliance Manual
+h1 style="font-family: 'Canela'; font-size: 30px; font-weight: 400;"
+  | Compliance Manual
 
-.col-md-10.col-md-push-1.m-t-2.m-b-3.p-b-1
-  p At Complect, we believe that a strong compliance program equates to strong operations. Therefore, you can think of this Compliance Manual as your firm's operations bible. If you or members of your team were indisposed, could someone read these policies and procedures in order to continue to operate your business? That's type of comprehensiveness and customization regulators like to see.
+.col-md-6.p-l-0
+  .well.m-t-1 style="border: 2px solid #000;"
+    | Your firm’s policies and procedures are the backbone of its compliance program. Strong policies will address the risks that are unique to your business operations. We got you started with 12 core areas of an investment adviser’s business practice. Feel free to rename, add, or delete these policies, as appropriate.
+  .panel.panel-default
+    .panel-heading
+      .pull-left
+        h3 Policies & Procedures
+      .pull-right
+        .btn-group
+          i.icon-settings.employee-settings.m-l-1 data-toggle="dropdown"
+          ul.dropdown-menu.employee-dropdown style="left: -143px;"
+            - pth = current_specialist ? new_specialists_business_compliance_policy_path(@business.username) : new_business_compliance_policy_path
+            li = link_to "Add Policy", pth, "data-target": "#modal", "data-toggle": "modal", "data-remote": true
+            - if @preview_doc.present? && @preview_doc.pdf
+              li = link_to "Download Manual", @preview_doc.pdf_url, target: "_blank"
+              li = link_to "Share Manual", "mailto:?body=Please find our Compliance Manual attached %0D%0A%0D%0ADownload: #{Rails.env == 'production' ? url_for(@preview_doc.pdf_url) : root_url.delete_suffix("/")+url_for(@preview_doc.pdf_url)}&subject=#{@business.business_name} Compliance Manual"
+            - else
+              li = link_to "Download Manual", "#", class: "cpolicy_downloadbtn"
+              li = link_to "Share Manual", "#", class: "disabled cpolicy_sharebtn", style: "color: #999;"
 
-  p We have started you off with 12 core areas that are commonly addressed by securities laws and, therefore, reviewed by regulators. You will want to ensure you draft policies and procedures for these topics, but feel free to add more policies, as appropriate, for your business.
-.clearfix
-.col-md-4
-  .p-t-2
-    - @business.sorted_compliance_policies.each do |section|
-      p.black_href.m-b-2
-        b 
-          = link_to section.section_or_title, (current_specialist ? specialists_business_compliance_policy_path(@business.username, section) : business_compliance_policy_path(section)), target: "_blank"
+      .clearfix
+    hr.m-y-0
+    .panel-content-wrapper style="height: 450px; padding: 11px 18px;"
+      table.table.table-striped.table-blue
+        thead
+          tr
+            th Policy
+            th
+            th style="width: 1px;" &nbsp;
+        tbody
+          - @business.sorted_compliance_policies.each do |section|
+            tr
+              td
+                - if section.outdated?
+                  .outdated_policy 
+                = link_to section.section_or_title, (current_specialist ? specialists_business_compliance_policy_path(@business.username, section) : business_compliance_policy_path(section)), target: "_blank"
+              td = link_to (current_specialist ? edit_specialists_business_compliance_policy_path(@business.username, section) : edit_business_compliance_policy_path(section)), "data-target": "#modal", "data-remote": true, "data-toggle": "modal" do
+                i.icon-note
+              td
+                = link_to (current_specialist ? specialists_business_compliance_policy_path(@business.username, section) : business_compliance_policy_path(section)), method: :delete, data: { confirm: "<div class='bootbox-heading'>Delete Policy<hr></div>Warning! This change is permanent. Deleting this policy will<br>also delete all records of this policy and its version history as well.", 'confirm-label' => 'Confirm', no_cancel: true } do
+                  i.icon-trash
 
-  .clearfix
-  input.form-group#new_compliance_policy_name name="new_compliance_policy_name" type="text" placeholder="New Policy Name" style="width: 90%"
-  span.m-l-1.icon-plus.pointer#new_compliance_policy_plusbtn onclick="new_compliance_policy_popup_from_name($('#new_compliance_policy_name').val());"
-.col-md-8.m-b-3.pdf_preview_area.p-t-2
+.col-md-6.m-b-3.pdf_preview_area
   - if @preview_doc.present? && @preview_doc.pdf
-    iframe src=(pdfjs.minimal_path(file: @preview_doc.pdf_url.split('?')[0])) width="100%" height="500px"
+    iframe src=(pdfjs.minimal_path(file: @preview_doc.pdf_url.split('?')[0])) width="100%" height="840px"
   - else
     .text-center = image_tag "loading.gif"
     javascript:
@@ -33,14 +57,6 @@
 
 .clearfix
 .text-center.m-b-3.m-t-1.m-t-3.p-t-3.p-b-2
-  - if @preview_doc.present? && @preview_doc.pdf
-    = link_to "Download", @preview_doc.pdf_url, target: "_blank", class: "btn btn-default m-x-1", style: "width: 140px;"
-    = link_to "Share", "mailto:?body=Please find our Compliance Manual attached %0D%0A%0D%0ADownload: #{Rails.env == 'production' ? url_for(@preview_doc.pdf_url) : root_url.delete_suffix("/")+url_for(@preview_doc.pdf_url)}&subject=#{@business.business_name} Compliance Manual", class: "btn btn-primary m-x-1", style: "width: 140px;"
-  - else
-    .cpolicy_not_available.text-center
-    = link_to "Download", "#", class: "btn btn-default disabled m-x-1 cpolicy_downloadbtn", target: "_blank", style: "width: 140px;"
-    = link_to "Share", "#", class: "btn btn-primary disabled m-x-1 cpolicy_sharebtn", style: "width: 140px;"
-
 
 - pth = current_specialist ? new_specialists_business_compliance_policy_path(@business.username) : new_business_compliance_policy_path
 javascript:

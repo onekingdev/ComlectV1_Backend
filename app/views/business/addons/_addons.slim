@@ -1,0 +1,26 @@
+.panel.panel-default.profile-info.m-b-2
+  .panel-heading
+    .pull-left
+      h3 Add-on Alerts
+    .pull-right style="margin-top: -16px; margin-bottom: -10px;"
+      = link_to "Add-Ons", root_url(subdomain: 'marketplace'), "data-target": "#modal", "data-toggle": "modal", "data-remote": true, class: "btn btn-primary btn-solid", style: "padding: 9px 10px;"
+
+    .clearfix
+  hr.m-y-0
+  .panel-content-wrapper style="max-height: 500px"
+    table.table.table-striped.table-blue.addon-alerts-table
+      thead
+        tr
+          th style="width: 1px;" Company
+          th Notification
+          th style="width: 1px;" &nbsp;
+      tbody
+        - for i in 1..50 do
+          tr
+            td.text-center = image_tag "icon-business.png", style: "border-radius: 50%; width: 30px; height: 30px;"
+            td
+              | Something good happened
+              br/
+              small = Date.today.strftime('%b %-d, %Y')
+            td.text-center = link_to "x", "#"
+    .clearfix

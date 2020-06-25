@@ -3,6 +3,7 @@
 class ProjectsController < ApplicationController
   prepend_before_action :authenticate_user!
   before_action :require_specialist!
+  before_action :redirect_to_employee
 
   def index
     @search = Project::Search.new(search_params)

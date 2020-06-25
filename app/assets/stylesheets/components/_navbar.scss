@@ -1,13 +1,15 @@
 #nav {
   $spacing: 35px;
+  height: 75px;
+  background-color: #fff;
+  box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.21);
 
-  background-color: transparent;
-  padding: 20px 143px;
+  padding: 6px 18px;
   @media (min-width: 1149px) and (max-width: 1378px) {
     .hidden-nav {
       display: none;
     }
-    padding: 4px 50px;
+    padding: 6px 18px;
   }
   @media (min-width: 1149px) and (max-width: 1278px) {
     .hidden-nav2 {
@@ -15,7 +17,7 @@
     }
   }
   @media (max-width: $screen-md-max) {
-    padding: 4px 50px;
+    padding: 6px 18px;
   }
   //text-transform: uppercase;
   width: 100%;
@@ -63,7 +65,7 @@
       border-bottom: none;
     }
     a {
-      color: #ffcc00;
+      color: #FFCC01;
       max-width: 200px;
       white-space: nowrap;
       overflow: hidden;
@@ -79,7 +81,7 @@
       font-weight: 600 !important;
     }
     .p-x-1 a {
-      color: #ffcc00;
+      color: #FFCC01;
     }
   }
 
@@ -89,7 +91,7 @@
       //  padding: 0px 20px;
       //}
       a {
-        color: #ffcc00 !important;
+        color: #FFCC01 !important;
         -webkit-filter: none;
         filter: none;
       }
@@ -168,7 +170,7 @@
     padding: 9px 18px;
     font-weight: 300 !important;
     font-size: 14px;
-    border: 2px solid #ffcc00;
+    border: 2px solid #FFCC01;
     letter-spacing: 1px;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
@@ -177,8 +179,8 @@
     filter: drop-shadow(1px 1px 0px rgba(255, 255, 255, 0.5));
 
     &:hover, &:focus, &:active {
-      color: #ffcc00 !important;
-      border-color: #ffcc00 !important;
+      color: #FFCC01 !important;
+      border-color: #FFCC01 !important;
       outline: none;
     }
 
@@ -275,7 +277,7 @@
 
       &:hover, &:focus {
         //background-color: $brand-primary;
-        color: #ffcc00;
+        color: #FFCC01;
         background-color: #363636;
       }
     }
@@ -292,7 +294,7 @@
         margin-left: 1em;
 
         &:hover, &:focus {
-          color: #ffcc00;
+          color: #FFCC01;
           background-color: transparent;
         }
       }
@@ -306,7 +308,7 @@
     //margin-bottom: 0px;
   }
 
-  .navbar-header { height: 64px; }
+  .navbar-header { height: 76px; }
 
   @media (max-width: $screen-xs-max) {
     padding: 10px;
@@ -354,4 +356,33 @@ body.businesses.show, body.specialists.show {
   #nav {
     background-color: #fff;
   }
+}
+
+#left_navbar {
+  transform-origin: top left;
+  color: #000;
+  width: 69px;
+  min-height: 876px;
+  padding-top: 28px;
+  background-color: #fff;
+  border-radius: 8px;
+  position: fixed;
+  z-index: 1000;
+  left: 12px;
+  i {
+    font-size: 22px;
+    font-weight: normal;
+    display: block;
+    padding: 19px 23px;
+  }
+  .bottom_btns {
+    position: absolute;
+    bottom: 0px;
+  }
+}
+
+.app_container {
+  padding-left: 107px;
+  margin-right: 30px;
+  min-height: 905px;
 }

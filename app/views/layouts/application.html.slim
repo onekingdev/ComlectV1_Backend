@@ -33,7 +33,7 @@ body class="#{controller_name} #{action_name}"
 
     = render partial: "layouts/cookies"
 
-    .container.app_container
+    .app_container
       = render_flash
       - if current_user && current_user.cookie_agreement&.status == false && params[:page] != 'privacy-policy'
         = render partial: "layouts/cookies_required"
@@ -52,7 +52,7 @@ body class="#{controller_name} #{action_name}"
           .modal-body
           .modal-footer
 
-  = render 'footer'
+  /= render 'footer'
 
   = yield :prepend_scripts
   = javascript_include_tag 'application'

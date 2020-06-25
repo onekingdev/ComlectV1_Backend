@@ -2,7 +2,7 @@
 
 class Specialist::InvitationPolicy < ApplicationPolicy
   def owner?
-    record.team.manager == user.specialist
+    record.team&.manager == user.specialist
   end
 
   def destroy?

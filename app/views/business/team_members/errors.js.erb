@@ -1,0 +1,8 @@
+let container = $('body').find('#new-employee-form-error')
+
+container.addClass('alert');
+container.addClass('alert-danger');
+
+<% errors.each do |error| %>
+  container.append('<p><%= error %></p>');
+<% end %>

@@ -1,0 +1,478 @@
+<% @annual_report = annual_report if defined?(annual_report) %>
+<% @business = business if defined?(business) %>
+
+<html>
+  <head>
+    <style type="text/css">
+      body, html, table {
+        font-family: "Open Sans";
+        font-size: 16px;
+        padding: 0px;
+        margin: 0px;
+        width: 273mm;
+        overflow: hidden;
+      }
+
+      p { page-break-inside: avoid; font-size: 16px; }
+
+      ul, ol {
+        margin-left: 30px;
+        margin-bottom: 13px;
+      }
+      li {
+        padding-bottom: 6px;
+        page-break-inside: avoid;
+        font-size: 12px;
+      }
+
+      table, td {
+        border-collapse: collapse;
+        border: 1px solid #000;
+        page-break-inside: avoid;
+      }
+
+      td {
+        padding: 3px;
+      }
+
+      span.yellow {
+        background: #FFCD00;
+         border-radius: 1em;
+        -moz-border-radius: 0.8em;
+        -webkit-border-radius: 1.1em;
+        display: inline-block;
+        font-weight: bold;
+        line-height: 2.2em;
+        margin-right: 15px;
+        text-align: center;
+        width: 2.2em; 
+        font-size: 64px;
+        font-family: Canela;
+        font-weight: 700;
+      }
+
+      span.black {
+        background: #000000;
+        color: #FFCD00;
+         border-radius: 1em;
+        -moz-border-radius: 12px;
+        -webkit-border-radius: 0.8em;
+        display: inline-block;
+        font-weight: bold;
+        line-height: 1.6em;
+        margin-right: 15px;
+        text-align: center;
+        width: 1.6em; 
+        font-size: 48px;
+        font-family: Canela;
+        font-weight: 700;
+      }
+
+      td {
+        padding-top:40px;
+        padding-bottom:20px;
+        padding-right:20px;   
+      }
+
+      .page {
+        page-break-before:always;
+        width: 273mm;
+        position: relative;
+        min-height: 1455px;
+      }
+
+      .yellow {
+        background: #FFCD00;
+         border-radius: 1em;
+        -moz-border-radius: 0.8em;
+        -webkit-border-radius: 1.1em;
+        display: inline-block;
+        font-weight: bold;
+        line-height: 2.2em;
+        margin-right: 15px;
+        text-align: center;
+        width: 2.2em; 
+        font-size: 48px;
+        font-family: Canela;
+        font-weight: 700;
+      }
+
+      .black {
+        background: #000000;
+         border-radius: 1em;
+        -moz-border-radius: 0.8em;
+        -webkit-border-radius: 1.1em;
+        display: inline-block;
+        font-weight: bold;
+        line-height: 2.2em;
+        margin-right: 15px;
+        text-align: center;
+        width: 2.2em; 
+        font-size: 48px;
+        font-family: Canela;
+        font-weight: 700;
+      }
+
+      .circles {
+        width: 650px;
+        height: 650px;
+        background-color: #FFFFFF;
+        position: relative;
+        border-radius: 50%;
+        z-index: 1;
+        right: 90px;
+        top: 20px:
+      }
+
+      .circles2 {
+        width: 650px;
+        height: 650px;
+        background-color: #FFCD00;
+        position: relative;
+        border-radius: 50%;
+        z-index: 2;
+        right: -40%;
+        left: 430px;
+        top: 20px;
+      }
+
+    </style>
+    <meta charset="UTF-8">
+  </head>
+  <body>
+    <div class="container page" style="background-image: url(<%= Rails.root.to_s %>/app/assets/images/annual_report_bg.png); min-height: 100%;">
+      <div style="position: absolute; top: 30px; left: 100px;">
+        <p style="color: white; font-size: 70px;">[<%= Time.now.strftime("%Y") %>]</p>
+        <p style="color: #FFCD00; font-size: 44px; margin-top: -50px;">[<%= @business.business_name %>]</p>
+      </div>
+      <div style="float: left; top:420px;" class="circles"></div><div class="circles2" style="top:420px;"></div>
+      <h1 style="font-size: 100px; text-align: center; font-weight: 900; letter-spacing: 10px; position: relative; z-index: 3; top: -100px;">ANNUAL CPR REPORT</h1>
+      <p style="color: #FFCD00; font-size: 44px; text-align: right; font-weight: bold; letter-spacing: 2px; position: relative; right: 100px; top:150px;">PREPARED BY:</p>
+      <p style="color: white; font-size: 26px; text-align: right; position: relative; right: 110px; top:150px; margin-top: -40px;">[SPECIALIST NAME]</p>
+    </div>
+    <div class="container page" style="background-image: url(<%= Rails.root.to_s %>/app/assets/images/annual_report_bg2.png); background-size: 100%; background-clip: content-box;">
+      <p style="font-size: 56px; display: table-caption; font-weight: 700; letter-spacing: 4px; padding-left: 100px; padding-top:100px; margin-bottom: -20px;">COMPLIANCE PROGRAM REVIEW</p>
+      <div style="width: 280px; height: 280px; position: relative; left: 600px; top: -100px; border-radius: 50%; background:black; ">
+        <p style="color: #FFCD00; font-size: 64px; text-align: center; padding-top: 25%; padding-bottom: -30px;">12</p>
+        <p style="color: #FFFFFF; font-size: 16px; ; text-align: center; vertical-align: middle; max-width: 200px; margin: auto; margin-top:-20%;">core areas of the compliance program was reviewed</p>
+      </div>
+      <div style="width: 510px; height: 510px; background-color: #FFCD00; z-index: 3; position: absolute; left: 20px; bottom: 535px !important;" class="circles">
+        <p style="font-size: 106px; font-weight: bold; letter-spacing: 10px; margin-bottom: -10px; text-align: center;">[XX]%</p>
+        <p style="font-size: 20px; text-align: center; line-height: 1.5; font-weight: 700; padding-top: 10px; padding-left: 25px; width: 440px;">of the areas reviewed did not have any notable findings or recommendations for improvement</p>
+      </div>
+      <p style="padding-left: 70px; font-size: 16px; max-width: 420px; line-height: 1.5; font-weight: 700; position: relative; top: -350px;"><%= @business.business_name %> (or the "Company") conducted an annual review of its compliance program from <%= @annual_report.exam_start.strftime("%Y %B %d") %> through <%= @annual_report.review_end.strftime("%Y %B %d") %>. This report contains specific observations and recommendations concerning the Company’s practices, including general context and references to applicable securities laws.</p>
+    </div>
+    <div class="container page">
+      <h1 style="text-align: center; font-size: 48px; letter-spacing: 5px; padding-top:50px;">REPORT CONTENTS</h1>
+      <table style="border: 1px solid white; font-weight: 700; border-spacing: 0 -300px; margin-left: 50px; margin-right: 30px; width: 900px;">
+        <tr><td style="border: 1px solid white;"><span class="yellow";>01</span></td><td style="border: 1px solid white;"><p style="font-weight: 900; letter-spacing: 2px; font-size: 21px;">EXECUTIVE SUMMARY<br></p><p style="font-size: 18px;">Summary of the Annual Compliance Program Review process and results</p></td></tr>
+        <tr><td style="border: 1px solid white;"><span class="yellow">02</span></td><td style="border: 1px solid white;"><p style="font-weight: 900; letter-spacing: 2px; font-size: 21px;">MATERIAL @business CHANGES<br></p><p style="font-size: 18px;">Overview of pertinent changes within the @business that occurred since the last review</p></td></tr>
+        <tr><td style="border: 1px solid white;"><span class="yellow">03</span></td><td style="border: 1px solid white;"><p style="font-weight: 900; letter-spacing: 2px; font-size: 21px;">MATERIAL REGULATORY CHANGES<br></p><p style="font-size: 18px;">Overview of pertinent regulatory changes that effected the @business since the last review and how we addressed those changes at the time</p></td></tr>
+        <tr><td style="border: 1px solid white;"><span class="yellow">04</span></td><td style="border: 1px solid white;"><p style="font-weight: 900; letter-spacing: 2px; font-size: 21px;">FINDINGS & RECOMMENDATIONS<br></p><p style="font-size: 18px;">Itemization of the findings from this review and our recommended corrective actions</p></td></tr>
+        <tr><td style="border: 1px solid white;"><span class="yellow">05</span></td><td style="border: 1px solid white;"><p style="font-weight: 900; letter-spacing: 2px; font-size: 21px;">CONCLUSION<br></p><p style="font-size: 18px;">Summary of our perspective on this review and its purpose and limitations</p></td></tr>
+      </table>
+    </div>
+    <div class="container page">
+      <div style="background-image: url(<%= Rails.root.to_s %>/app/assets/images/annual_report_bg3.png); background-size: 100%; background-clip: content-box; height: 200px;">
+       <h1 style="padding: 100px 0px; font-size: 32px; text-align: center; font-weight: 700; letter-spacing: 5px; color: white;">EXECUTIVE SUMMARY</h1> 
+      </div>
+      <p><%= @business.business_name %> reviewed certain books and records covering the time period from <%= @annual_report.review_start.strftime("%Y %B %d") %> through <%= @annual_report.review_end.strftime("%Y %B %d") %> (the "Review Period"). This comprehensive review of our compliance program was designed to assess our compliance with the following:</p>
+      <ul>
+        <li>Securities regulations;</li>
+        <li>Internal policies and procedures;</li>
+        <li>Industry best practices; and</li>
+        <li>Knowledge of regulatory expectations.</li>
+      </ul>
+      <p>To ensure we execute on our fiduciary duty to our clients throughout each facet of our @business practice, <%= @business.business_name %> broke down the review of our compliance program into twelve core areas we deemed material to every advisory firm’s operations. These topics also encompass the risk areas highlighted by the Securities Exchange Commission (“SEC”) in their adopting release for Rule 206(4)-7 (the “Compliance Program Rule”), which provided guidance to federally registered investment advisers on the areas, at a minimum, their policies and procedures are expected to address. We assessed the adequacy and effectiveness of our policies and procedures in these areas and sample tested relevant documentation demonstrating compliance with our policies and applicable securities laws. The twelve core areas we reviewed were:</p>
+      <ul>
+        <li>Proprietary trading of the Company and personal trading activities of its access persons;</li>
+        <li>Privacy safeguards like identity theft prevention and cybersecurity controls for the protection of sensitive client records and information, as well as, the Company’s proprietary information;</li>
+        <li>Portfolio management processes like consistency of portfolios with clients' investment objectives, allocation of investment opportunities among clients, and applicable regulatory restrictions;</li>
+        <li>Trading practices, including procedures by which the Company satisfies its best execution obligation, uses client brokerage to obtain research and other services ("soft dollar arrangements"), and allocates aggregated trades among clients, when applicable;</li>
+        <li>Processes to value client holdings;</li>
+        <li>Proxy voting practices;</li>
+        <li>The timely and accurate filing and distribution of regulatory disclosures made to clients and regulators;</li>
+        <li>Marketing advisory services, including the use of solicitors;</li>
+      </ul>
+    </div>
+    <div class="container page">
+      <ul>
+        <li>Safeguarding of client assets from conversion or inappropriate use by employees;</li>
+        <li>The accurate creation of required records and their maintenance in a manner that secures them from unauthorized alteration or use and protects them from untimely destruction;</li>
+        <li>Business continuity plans; and</li>
+        <li>The establishment, maintenance and general execution of this compliance program based upon the Company’s specific operational and @business practice risks.</li>
+      </ul>
+      <p>While the review addressed each of the areas noted above, <%= @business.business_name %> prioritized areas we believed to present the most risk to the Company and/or our clients.</p>
+      <p>To ensure that the policies and procedures that establish the backbone of our compliance program were reflective our our @business practices, we interviewed the following employees to gain additional perspective into the Company’s operations and how our employees, in their own words, executed their day to day duties:</p>
+      <ul>
+        <li>[NAME INTERVIEWEE], [TITLE INTERVIEWEE] [DEPARTMENT INTERVIEWEE];</li>
+      </ul>
+      <p>Based on <%= @business.business_name %>’s review, the Company’s compliance program appears <%= ["poorly tailored", "reasonably tailored", "well-tailored"][@annual_report.tailored_lvl-1] %> tailored relative to the scope and nature of the Company’s operations.</p>
+      <p><%= @annual_report.comments %></p>
+    </div>
+    <div class="container page"">
+      <div style="background-image: url(<%= Rails.root.to_s %>/app/assets/images/annual_report_bg3.png); background-size: 100%; background-clip: content-box; height: 200px;">
+       <h1 style="padding: 100px 0px; font-size: 32px; text-align: center; font-weight: 700; letter-spacing: 5px; color: white;">MATERIAL @business CHANGES</h1> 
+      </div>
+      <p>Changes in the Company’s @business practices may have an impact on the policies and procedures that we have established. Therefore, the Company has identified any material @business changes that occurred during the Review Period and to give special consideration to whether we have properly amended our compliance policies and procedures to address any operational and compliance risks that may have arisen out of these changes.</p>
+      <p>The following material @business changes occurred during the Review Period:</p>
+      <ul>
+        <% @annual_report.business_changes.each do |change| %>
+          <li><%= change.change %></li>
+        <% end %>
+      </ul>
+    </div>
+    <div class="container page">
+      <div style="background-image: url(<%= Rails.root.to_s %>/app/assets/images/annual_report_bg3.png); background-size: 100%; background-clip: content-box; height: 200px;">
+       <h1 style="padding: 100px 0px; font-size: 32px; text-align: center; font-weight: 700; letter-spacing: 5px; color: white;">MATERIAL REGULATORY CHANGES</h1> 
+      </div>
+      <p>The regulatory landscape is constantly changing to address the ever-evolving risks of the financial industry. <%= @business.business_name %> endeavors to stay apprised of its regulatory obligations and properly address new requirements by making changes to our policies and procedures, as appropriate. </p>
+      <p>The following are the material regulatory changes we identified during the Review Period and the Company’s response to these changes:</p>
+      <ul>
+        <% @annual_report.regulatory_changes.each do |change| %>
+          <li><%= change.change %> – <%= change.response %></li>
+        <% end %>
+      </ul>
+    </div>
+    <div class="container page">
+      <div style="background-image: url(<%= Rails.root.to_s %>/app/assets/images/annual_report_bg3.png); background-size: 100%; background-clip: content-box; height: 200px;">
+       <h1 style="padding: 100px 0px; font-size: 32px; text-align: center; font-weight: 700; letter-spacing: 5px; color: white;">FINDINGS & RECOMMENDATIONS</h1> 
+      </div>
+      <p>As we reviewed each of the twelve core areas of our advisory @business, <%= @business.business_name %> notated issues that required corrective action, as well as, general items that we felt had room for improvement.</p>
+      <p>Thus, these findings and recommendations are presented in three parts:</p>
+      <ul>
+        <li>Identification of an any perceived weaknesses or compliance issues at the Company;</li>
+        <li>The recommendation for how the Company  may address the findings noted; and</li>
+        <li>An assigned risk level of low, moderate, or high to the perceived regulatory enforcement action risk the finding presents to the @business</li>
+      </ul>
+      <p><p>This risk rating is purely subjective and is not reflective of any rating or ranking system adopted by or approved by a regulator, rating agency, or other third party. The risk ratings can be understood as follows:</p>  
+      <ul style="page-break-inside: avoid;">
+        <li>
+          <span style="color: #00a746; font-weight: bold;">LOW</span> – Reflects a minor technical rule violation or recommended enhancement based on best @business practices. These findings may or may not appear within a deficiency letter during the course of a regulatory examination.
+        </li>
+        <li>
+          <span style="color: #ffb800; font-weight: bold;">MODERATE</span> – Reflects an area of concern that could attract more regulatory scrutiny. These findings are most likely to be commented on within a deficiency letter during the course of a regulatory examination.
+        </li>
+        <li>
+          <span style="color: #ff0000; font-weight: bold;">HIGH</span> – Reflects a finding of the highest level of concern and requiring immediate attention from the Company. These findings will be heavily scrutinized and may give rise to a potential enforcement action without proper additional review and remediation during the course of a regulatory examination.
+        </li>
+      </ul>
+    </div>
+    <div class="container page">
+      <table align="center" style="border: 1px solid white;">
+        <tr><td style="border: 1px solid white;"><span class="black">01</span></td><td style="border: 1px solid white;"><p style="font-weight: 900; letter-spacing: 2px; font-size: 18px; margin-bottom: -10px;">CODE OF ETHICS & INSIDER TRADING</p></td></tr>
+      </table>
+      <p>Investment advisers have a fiduciary duty to their clients that encompasses a duty of care and a duty of loyalty. The SEC has provided guidance that defines this combination of care and loyalty as the obligation for the adviser to, at all times, place the interests of their client’s ahead of their own.</p>
+      <p>Regulators recognize that a one size fits all approach is not appropriate for defining how policies and procedures at different advisory firms must be drafted to uphold this fiduciary duty. Instead, they require that advisers assess the unique risks present in their specific @business operations and develop appropriate processes to counter these risks. As a part of those controls, advisers are expected to craft a Code of Ethics for employees to abide by that, at a minimum:</p>
+      <ul>
+        <li>Requires them to comply with securities laws;</li>
+        <li>Requires the reporting and review of personal securities transactions of employees with access to nonpublic information regarding client trading activity or are involved in making investment decisions for clients (“access persons”);</li>
+        <li>Develops a process to report violations of the Code of Ethics; and</li>
+        <li>Requires them to receive and provide written acknowledgement of their receipt of  the Code of Ethics and any amendments.</li>
+      </ul>
+      <p><%= @business.business_name %>’s review of its policies and procedures related to personal securities trading, political donations, gifts and entertainment, outside @business activities, and material nonpublic information resulted in no notable issues with respect to the following areas:</p>
+      <ul>
+        <li>[BOLDED AREAS THAT ARE CHECKED OFF]</li>
+      </ul>
+      <p>However, the Company had the following observations regarding the Code and insider trading:</p>
+      <table style="width: 100%;">
+        <tr><td style="text-align: center; border: 1px solid white; background: #000000; color: #FFFFFF;"><p style="font-size: 14px; font-weight: 700;">Finding</p></td><td style="text-align: center; border: 1px solid white; background: #000000; color: #FFFFFF;"><p style="font-weight: 700; font-size: 14px;">Recommendation</p></td><td style="text-align: center; border: 1px solid white; background: #000000; color: #FFFFFF;"><p style="font-weight: 700; font-size: 14px;">Risk</p></td></tr>
+        <tr><td>[ETHICSFINDING]</td><td>[ETHICSRECOMENDATION]</td><td style="font-weight: 900; text-align: center;">[ETHICSRISK]</td></tr>
+      </table>      
+    </div>
+    <div class="container page">
+      <table align="center" style="border: 1px solid white;">
+        <tr><td style="border: 1px solid white;"><span class="black">02</span></td><td style="border: 1px solid white;"><p style="font-weight: 900; letter-spacing: 2px; font-size: 18px; margin-bottom: -10px;">IDENTITY THEFT PREVENTION, CYBERSECURITY & SAFEGUARDING OF INFORMATION</p></td></tr>
+      </table>
+      <p>Through the course of an investment advisers’ @business, they are likely to come across clients’ personal identifiable information (“PII”), such as, social security number, driver's license number, bank account number, passport number, etc. In order to protect this highly sensitive, private information regulators expect to see safeguards in the handling and protecting of the information. Additionally, advisers should be mindful of implementing controls to safeguard their own proprietary information from theft.</p>
+      <p>To safeguard this information, investment advisers are expected to establish policies and procedures that consider both physical and cybersecurity controls to protect the integrity of the data from reasonably anticipated hazards. As applicable to an adviser’s scope of services to clients, these precautionary measures may also include identity theft detection and prevention.</p>
+      <p>Finally, investment advisers must disclose to clients at the start of the relationship and on an annual basis thereafter, a privacy notice of how the adviser collects and shares their non-public PII, to the extent permitted by state and federal laws.</p>
+      <p><%= @business.business_name %>’s review of its policies and procedures related to the protection of non-public PII and the safeguarding of information resulted in no notable findings with respect to the following areas:</p>
+      <ul>
+        <li>[BOLDED AREAS THAT ARE CHECKED OFF]</li>
+      </ul>
+      <p>However, the Company had the following observations regarding identity theft prevention, cybersecurity, and the safeguarding of information:</p>
+      <table style="width: 100%;">
+        <tr><td style="text-align: center; border: 1px solid white; background: #000000; color: #FFFFFF;"><p style="font-size: 14px; font-weight: 700;">Finding</p></td><td style="text-align: center; border: 1px solid white; background: #000000; color: #FFFFFF;"><p style="font-weight: 700; font-size: 14px;">Recommendation</p></td><td style="text-align: center; border: 1px solid white; background: #000000; color: #FFFFFF;"><p style="font-weight: 700; font-size: 14px;">Risk</p></td></tr>
+        <tr><td>[IDENTITYFINDING]</td><td>[IDENTITYRECOMENDATION]</td><td style="font-weight: 900; text-align: center;">[IDENTITYSRISK]</td></tr>
+      </table>      
+    </div>
+    <div class="container page">
+     <table align="center" style="border: 1px solid white;">
+        <tr><td style="border: 1px solid white;"><span class="black">03</span></td><td style="border: 1px solid white;"><p style="font-weight: 900; letter-spacing: 2px; font-size: 18px; margin-bottom: -10px;">PORTFOLIO MANAGEMENT</p></td></tr>
+      </table>
+      <p><%= @business.business_name %>’s review of its portfolio management policies and activities resulted in no notable findings with respect to the following areas:</p>
+      <ul>
+        <li>[BOLDED AREAS THAT ARE CHECKED OFF]</li>
+      </ul>
+      <p>However, the Company had the following observations regarding its portfolio management policies and activities:</p>
+      <table style="width: 100%;">
+        <tr><td style="text-align: center; border: 1px solid white; background: #000000; color: #FFFFFF;"><p style="font-size: 14px; font-weight: 700;">Finding</p></td><td style="text-align: center; border: 1px solid white; background: #000000; color: #FFFFFF;"><p style="font-weight: 700; font-size: 14px;">Recommendation</p></td><td style="text-align: center; border: 1px solid white; background: #000000; color: #FFFFFF;"><p style="font-weight: 700; font-size: 14px;">Risk</p></td></tr>
+        <tr><td>[PORTFOLIOFINDING]</td><td>[PORTFOLIORECOMENDATION]</td><td style="font-weight: 900; text-align: center;">[PORTFOLIORISK]</td></tr>
+      </table>
+    </div>
+    <div class="container page">
+      <table align="center" style="border: 1px solid white;">
+        <tr><td style="border: 1px solid white;"><span class="black">04</span></td><td style="border: 1px solid white;"><p style="font-weight: 900; letter-spacing: 2px; font-size: 18px; margin-bottom: -10px;">TRADING</p></td></tr>
+      </table>
+      <p><%= @business.business_name %>’s review of its trading policies and activities resulted in no notable findings with respect to the following areas:</p>
+      <ul>
+        <li>[BOLDED AREAS THAT ARE CHECKED OFF]</li>
+      </ul>
+      <p>However, the Company had the following comments regarding its trading policies and activities:</p>
+      <table style="width: 100%;">
+        <tr><td style="text-align: center; border: 1px solid white; background: #000000; color: #FFFFFF;"><p style="font-size: 14px; font-weight: 700;">Finding</p></td><td style="text-align: center; border: 1px solid white; background: #000000; color: #FFFFFF;"><p style="font-weight: 700; font-size: 14px;">Recommendation</p></td><td style="text-align: center; border: 1px solid white; background: #000000; color: #FFFFFF;"><p style="font-weight: 700; font-size: 14px;">Risk</p></td></tr>
+        <tr><td>[TRADINGFINDING]</td><td>[TRADINGRECOMENDATION]</td><td style="font-weight: 900; text-align: center;">[TRADINGRISK]</td></tr>
+      </table>
+    </div>
+    <div class="container page">
+      <table align="center" style="border: 1px solid white;">
+        <tr><td style="border: 1px solid white;"><span class="black">05</span></td><td style="border: 1px solid white;"><p style="font-weight: 900; letter-spacing: 2px; font-size: 18px; margin-bottom: -10px;">VALUATION</p></td></tr>
+      </table>
+      <p><%= @business.business_name %>’s review of its policies and procedures related to valuation resulted in no notable findings with respect to the following areas:</p>
+      <ul>
+        <li>[BOLDED AREAS THAT ARE CHECKED OFF]</li>
+      </ul>
+      <p>However, the Company had the following comments regarding valuation:</p>
+      <table style="width: 100%;">
+        <tr><td style="text-align: center; border: 1px solid white; background: #000000; color: #FFFFFF;"><p style="font-size: 14px; font-weight: 700;">Finding</p></td><td style="text-align: center; border: 1px solid white; background: #000000; color: #FFFFFF;"><p style="font-weight: 700; font-size: 14px;">Recommendation</p></td><td style="text-align: center; border: 1px solid white; background: #000000; color: #FFFFFF;"><p style="font-weight: 700; font-size: 14px;">Risk</p></td></tr>
+        <tr><td>[VALUATIONFINDING]</td><td>[VALUATIONRECOMENDATION]</td><td style="font-weight: 900; text-align: center;">[VALUATIONRISK]</td></tr>
+      </table>
+    </div>
+    <div class="container page">
+      <table align="center" style="border: 1px solid white;">
+        <tr><td style="border: 1px solid white;"><span class="black">06</span></td><td style="border: 1px solid white;"><p style="font-weight: 900; letter-spacing: 2px; font-size: 18px; margin-bottom: -10px;">PROXY VOTING</p></td></tr>
+      </table>
+      <p><%= @business.business_name %>’s review of its policies and procedures related to proxy voting resulted in no notable findings with respect to the following areas:</p>
+      <ul>
+        <li>[BOLDED AREAS THAT ARE CHECKED OFF]</li>
+      </ul>
+      <p>However, the Company had the following comments regarding proxy voting:</p>
+      <table style="width: 100%;">
+        <tr><td style="text-align: center; border: 1px solid white; background: #000000; color: #FFFFFF;"><p style="font-size: 14px; font-weight: 700;">Finding</p></td><td style="text-align: center; border: 1px solid white; background: #000000; color: #FFFFFF;"><p style="font-weight: 700; font-size: 14px;">Recommendation</p></td><td style="text-align: center; border: 1px solid white; background: #000000; color: #FFFFFF;"><p style="font-weight: 700; font-size: 14px;">Risk</p></td></tr>
+        <tr><td>[PROXYFINDING]</td><td>[PROXYRECOMENDATION]</td><td style="font-weight: 900; text-align: center;">[PROXYRISK]</td></tr>
+      </table>
+    </div>
+    <div class="container page">
+      <table align="center" style="border: 1px solid white;">
+        <tr><td style="border: 1px solid white;"><span class="black">07</span></td><td style="border: 1px solid white;"><p style="font-weight: 900; letter-spacing: 2px; font-size: 18px; margin-bottom: -10px;">REGULATORY FILINGS & DISCLOSURES</p></td></tr>
+      </table>
+      <p>Investment advisers are obligated to submit certain filings and disclosures to clients and/or regulators on a periodic basis. Advisers must ensure that they have appropriate processes in place to ensure that they:</p>
+      <ul>
+        <li>Properly identify all required filings and disclosures;</li>
+        <li>Complete accurate filings and disclosures;</li>
+        <li>Submit and distribute requisite filings and disclosures on a timely basis; and</li>
+        <li>Retain supporting documentation for any calculations or disclosures.</li>
+      </ul>
+      <p>Should an investment adviser choose to deliver required disclosures electronically, their procedures should also dictate how they will meet the proper notice, access, and evidence of delivery requirements.</p>
+      <p><%= @business.business_name %>’s review of its policies and procedures related to its regulatory filings and disclosures resulted in no notable findings with respect to the following areas:</p>
+      <ul>
+        <li>[BOLDED AREAS THAT ARE CHECKED OFF]</li>
+      </ul>
+      <p>However, the Company had the following comments regarding its regulatory filings and disclosures:</p>
+      <table style="width: 100%;">
+        <tr><td style="text-align: center; border: 1px solid white; background: #000000; color: #FFFFFF;"><p style="font-size: 14px; font-weight: 700;">Finding</p></td><td style="text-align: center; border: 1px solid white; background: #000000; color: #FFFFFF;"><p style="font-weight: 700; font-size: 14px;">Recommendation</p></td><td style="text-align: center; border: 1px solid white; background: #000000; color: #FFFFFF;"><p style="font-weight: 700; font-size: 14px;">Risk</p></td></tr>
+        <tr><td>[REGULATORYFINDING]</td><td>[REGULATORYRECOMENDATION]</td><td style="font-weight: 900; text-align: center;">[REGULATORYRISK]</td></tr>
+      </table>
+    </div>
+    <div class="container page">
+      <table align="center" style="border: 1px solid white;">
+        <tr><td style="border: 1px solid white;"><span class="black">08</span></td><td style="border: 1px solid white;"><p style="font-weight: 900; letter-spacing: 2px; font-size: 18px; margin-bottom: -10px;">MARKETING & USE OF SOLICITORS</p></td></tr>
+      </table>
+      <p>Securities regulations generally prohibit investment advisers from publishing, circulating, or distributing any advertisement that contains untrue statements or those that may be deemed as false or misleading. While an advertisement is generally targeted at an audience greater than one, advisers should be mindful that general antifraud provisions subject one-on-one and client communications to these same principles.</p>
+      <p>Thus, to the extent that their use can make limited scope implications or inaccurate portrays of fact, regulators are particularly sensitive around advisers’ use of:</p>
+      <ul>
+        <li>Superlatives;</li>
+        <li>Past specific recommendations;</li>
+        <li>Performance results;</li>
+        <li>Hypothetical or backtested performance results;</li>
+        <li>Portability of performance results at a prior employer;</li>
+        <li>Partial client lists; and</li>
+        <li>Client testimonials.</li>
+      </ul>
+      <p>Therefore, investment advisers should be mindful of establishing adequate controls around the creation, review, distribution, and retention of their marketing materials.</p>
+      <p>Additionally, due to the nature of potential conflicts of interest or inadequate disclosure risks around an investment adviser’s who use solicitors, advisers must ensure solicitors are appropriately engaged in compliance with state and/or federal securities laws.</p>
+      <p><%= @business.business_name %>’s review of its policies and procedures related to its marketing and use of solicitor practices resulted in no notable findings with respect to the following areas:</p>
+      <ul>
+        <li>[BOLDED AREAS THAT ARE CHECKED OFF]</li>
+      </ul>
+      <p>However, the Company had the following comments regarding marketing and the use of solicitors:</p>
+    </div>
+    <div class="container page">
+      <table style="width: 100%;">
+        <tr><td style="text-align: center; border: 1px solid white; background: #000000; color: #FFFFFF;"><p style="font-size: 14px; font-weight: 700;">Finding</p></td><td style="text-align: center; border: 1px solid white; background: #000000; color: #FFFFFF;"><p style="font-weight: 700; font-size: 14px;">Recommendation</p></td><td style="text-align: center; border: 1px solid white; background: #000000; color: #FFFFFF;"><p style="font-weight: 700; font-size: 14px;">Risk</p></td></tr>
+        <tr><td>[MARKETINGFINDING]</td><td>[MARKETINGRECOMENDATION]</td><td style="font-weight: 900; text-align: center;">[MARKETINGRISK]</td></tr>
+      </table>
+    </div>
+    <div class="container page">
+      <table align="center" style="border: 1px solid white;">
+        <tr><td style="border: 1px solid white;"><span class="black">09</span></td><td style="border: 1px solid white;"><p style="font-weight: 900; letter-spacing: 2px; font-size: 18px; margin-bottom: -10px;">SAFEGUARDING OF CLIENT ASSETS</p></td></tr>
+      </table>
+      <p>Inherent to acting in a client’s best interest is to safeguard their assets from misappropriation. This includes, among other things, ensuring that the assets are maintained with a qualified custodian, the adviser does not have the authority to obtain possession of client assets (or conducts a surprise, independent verification of assets when they do), and that fees and expenses are properly deducted from the client.</p>
+      <p>Given the sensitivity around this topic, regulators review the adequacy of an adviser’s safeguarding controls with heightened scrutiny.</p>
+      <p><%= @business.business_name %>’s review of its policies and procedures related to safeguarding client assets resulted in no notable findings with respect to the following areas:</p>
+      <ul>
+        <li>[BOLDED AREAS THAT ARE CHECKED OFF]</li>
+      </ul>
+      <p>However, the Company had the following comments regarding the safeguarding of client assets:</p>
+      <table style="width: 100%;">
+        <tr><td style="text-align: center; border: 1px solid white; background: #000000; color: #FFFFFF;"><p style="font-size: 14px; font-weight: 700;">Finding</p></td><td style="text-align: center; border: 1px solid white; background: #000000; color: #FFFFFF;"><p style="font-weight: 700; font-size: 14px;">Recommendation</p></td><td style="text-align: center; border: 1px solid white; background: #000000; color: #FFFFFF;"><p style="font-weight: 700; font-size: 14px;">Risk</p></td></tr>
+        <tr><td>[SAFEGUARDINGFINDING]</td><td>[SAFEGUARDINGRECOMENDATION]</td><td style="font-weight: 900; text-align: center;">[SAFEGUARDINGRISK]</td></tr>
+      </table>
+    </div>
+    <div class="container page">
+      <table align="center" style="border: 1px solid white;">
+        <tr><td style="border: 1px solid white;"><span class="black">10</span></td><td style="border: 1px solid white;"><p style="font-weight: 900; letter-spacing: 2px; font-size: 18px; margin-bottom: -10px;">BOOKS & RECORDS</p></td></tr>
+      </table>
+      <p>Investment advisers must create and maintain certain true and accurate books and records relating to their advisory @business. As such, advisers are expected to establish policies and procedures that ensures this accuracy and a maintenance process that secures the records from unauthorized alteration, use, or untimely destruction. Many required records must be kept for five years after the end of the fiscal year in which the record was created or last modified.</p>
+      <p><%= @business.business_name %>’s review of its policies and procedures related to the maintenance of its books and records resulted in no notable findings with respect to the following areas:</p>
+      <ul>
+        <li>[BOLDED AREAS THAT ARE CHECKED OFF]</li>
+      </ul>
+      <p>However, the Company had the following comments regarding its books and records:</p>
+      <table style="width: 100%;">
+        <tr><td style="text-align: center; border: 1px solid white; background: #000000; color: #FFFFFF;"><p style="font-size: 14px; font-weight: 700;">Finding</p></td><td style="text-align: center; border: 1px solid white; background: #000000; color: #FFFFFF;"><p style="font-weight: 700; font-size: 14px;">Recommendation</p></td><td style="text-align: center; border: 1px solid white; background: #000000; color: #FFFFFF;"><p style="font-weight: 700; font-size: 14px;">Risk</p></td></tr>
+        <tr><td>[BOOKSFINDING]</td><td>[BOOKSRECOMENDATION]</td><td style="font-weight: 900; text-align: center;">[BOOKSRISK]</td></tr>
+      </table>
+    </div>
+    <div class="container page">
+      <table align="center" style="border: 1px solid white;">
+        <tr><td style="border: 1px solid white;"><span class="black">11</span></td><td style="border: 1px solid white;"><p style="font-weight: 900; letter-spacing: 2px; font-size: 18px; margin-bottom: -10px;">COMPLIANCE PROGRAM</p></td></tr>
+      </table>
+      <p>An investment adviser’s policies and procedures are the backbone of its compliance program, thus, regulators expect advisers to adopt and implement adequate policies and procedures that are reasonably designed to mitigate risks inherent to the adviser’s specific @business operations and prevent violations of applicable securities laws.</p>
+      <p>These policies and procedures should be well crafted to act as supervisory controls over an adviser’s employees as well. Therefore, training employees on relevant policies and procedures often goes hand in hand with properly implementing the compliance program.  An additional consideration is the appointment of a Chief Compliance Officer (“CCO”) or similar role that has the proper authority, seniority, and knowledge to establish and ensure compliance with this program. This individual should also be cognizant of fostering a non-retaliatory environment for the reporting of potential violations of the compliance program along with setting appropriate escalating responses towards those employees that are repeat offenders.</p>
+      <p>Finally, in order to ensure that the compliance program is constantly evolving to meet the unique needs of its @business risks, an investment adviser should be reviewing this program, at least annually, to ensure it remains sufficient.</p>
+      <p><%= @business.business_name %>’s review of its policies and procedures related to the establishment and maintenance of its compliance program resulted in no notable findings with respect to the following areas:</p>
+      <ul>
+        <li>[BOLDED AREAS THAT ARE CHECKED OFF]</li>
+      </ul>
+      <p>However, the Company had the following comments regarding the compliance program:</p>
+      <table style="width: 100%;">
+        <tr><td style="text-align: center; border: 1px solid white; background: #000000; color: #FFFFFF;"><p style="font-size: 14px; font-weight: 700;">Finding</p></td><td style="text-align: center; border: 1px solid white; background: #000000; color: #FFFFFF;"><p style="font-weight: 700; font-size: 14px;">Recommendation</p></td><td style="text-align: center; border: 1px solid white; background: #000000; color: #FFFFFF;"><p style="font-weight: 700; font-size: 14px;">Risk</p></td></tr>
+        <tr><td>[COMPLIANCEFINDING]</td><td>[COMPLIANCERECOMENDATION]</td><td style="font-weight: 900; text-align: center;">[COMPLIANCERISK]</td></tr>
+      </table>
+    </div>
+    <div class="container page">
+      <table align="center" style="border: 1px solid white;">
+        <tr><td style="border: 1px solid white;"><span class="black">12</span></td><td style="border: 1px solid white;"><p style="font-weight: 900; letter-spacing: 2px; font-size: 18px; margin-bottom: -10px;">BUSINESS CONTINUITY PLANNING</p></td></tr>
+      </table>
+      <p>To ensure uninterrupted service to clients, investment advisers are expected to establish, implement, and maintain a written plan that addresses different forms of @business disruptions that may occur and how the adviser can sustain their @business operations in light of these foreseeable incidents.</p>
+      <p><%= @business.business_name %>’s review of its policies and procedures related to its @business continuity planning resulted in no notable findings with respect to the following areas:</p>
+      <ul>
+        <li>[BOLDED AREAS THAT ARE CHECKED OFF]</li>
+      </ul>
+      <p>However, the Company had the following comments regarding the @business continuity plan:</p>
+      <table style="width: 100%;">
+        <tr><td style="text-align: center; border: 1px solid white; background: #000000; color: #FFFFFF;"><p style="font-size: 14px; font-weight: 700;">Finding</p></td><td style="text-align: center; border: 1px solid white; background: #000000; color: #FFFFFF;"><p style="font-weight: 700; font-size: 14px;">Recommendation</p></td><td style="text-align: center; border: 1px solid white; background: #000000; color: #FFFFFF;"><p style="font-weight: 700; font-size: 14px;">Risk</p></td></tr>
+        <tr><td>[BUSINESSFINDING]</td><td>[BUSINESSRECOMENDATION]</td><td style="font-weight: 900; text-align: center;">[BUSINESSRISK]</td></tr>
+      </table>
+    </div>
+    <div class="container page">
+      <div style="background-image: url(<%= Rails.root.to_s %>/app/assets/images/annual_report_); background-size: 100%; background-clip: content-box; height: 200px;">
+       <h1 style="padding: 100px 0px; font-size: 32px; text-align: center; font-weight: 700; letter-spacing: 5px; color: white;">CONCLUSION</h1> 
+      </div>
+      <p><%= @business.business_name %> made efforts to assess our compliance program based upon the review of our books and records along with the oral representations from our employees. Where practicable, we conducted testing of our documentation on a sample basis. Our findings and recommendations reflect our understanding of applicable regulations, compliance requirements, and @business risks posed by our current operations only as of the time of the review.</p>
+      <p>Annual compliance program reviews like this assist us in detecting not only deficiencies in our program, but also where there may be room for improvement. Therefore, the lack of or presence of findings and recommendations herein is not a direct reflection of <%= @business.business_name %>’s compliance with regulatory laws. It is our goal to find ways to enhance our compliance program, and thus, our @business practices.</p>
+      <p>This report is intended solely for the information and use of <%= @business.business_name %>.</p>
+    </div>  
+  </body>

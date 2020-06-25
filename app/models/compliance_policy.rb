@@ -33,6 +33,10 @@ class CompliancePolicy < ActiveRecord::Base
     update(docs_count: compliance_policy_docs.where.not(pdf_data: nil).count)
   end
 
+  def outdated?
+    compliance_policy_docs.where('created_at > ?', Time.zone.today - 1.year).none?
+  end
+
   private
 
   def wipe_title

@@ -28,6 +28,7 @@ class Users::SessionsController < Devise::SessionsController
   # DELETE /resource/sign_out
   def destroy
     user = current_user
+    session.delete(:employee_business_id)
     respond_to do |format|
       format.html { super }
       format.js do

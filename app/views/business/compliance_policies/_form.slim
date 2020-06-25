@@ -1,23 +1,26 @@
-- if params[:action] == "edit"
-  = "Editing policy #{@compliance_policy.section_or_title}"
-  br
-  br
-  
-- tgt_url = ["new","create"].include?(params[:action]) ? business_compliance_policies_path : business_compliance_policy_path(@compliance_policy)
+.m-l-2.m-r-2
+  h3.m-y-0
+    - if params[:action] == "edit"
+      | Edit policy
+    - if params[:action] == "new"
+      | Add Policy
+  hr.m-b-0.m-t-2.hr_heading
+  - tgt_url = ["new","create"].include?(params[:action]) ? business_compliance_policies_path : business_compliance_policy_path(@compliance_policy)
 
-- tgt_url = ["new","create"].include?(params[:action]) ? specialists_business_compliance_policies_path(@business.username) : specialists_business_compliance_policy_path(@business.username, @compliance_policy) if current_specialist
+  - tgt_url = ["new","create"].include?(params[:action]) ? specialists_business_compliance_policies_path(@business.username) : specialists_business_compliance_policy_path(@business.username, @compliance_policy) if current_specialist
 
-= simple_form_for @compliance_policy, wrapper: :inline_form, url: tgt_url do |f|
-  .text-danger = f.object.errors.full_messages.first if f.object.errors.any?
-  .policy_blank_case
-    = f.input :title, placeholder: "Enter policy title", input_html: { class: "compliance_policy_title_trigger" }
-  - trig = false
-  = f.simple_fields_for :compliance_policy_docs do |c|
-    - if !trig
-      - trig = true
-      = c.file_field :doc, accept: "application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-  = f.submit "Upload", class: 'btn btn-primary m-t-2', style: "width: 140px;"
-
+  = simple_form_for @compliance_policy, wrapper: :inline_form, url: tgt_url do |f|
+    .text-danger = f.object.errors.full_messages.first if f.object.errors.any?
+    .policy_blank_case.p-t-2
+      = f.input :title, label: "Policy Name"
+    - trig = false
+    = f.simple_fields_for :compliance_policy_docs do |c|
+      - if !trig
+        - trig = true
+        = c.file_field :doc, accept: "application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    .text-right
+      = f.submit "Add", class: 'btn btn-primary m-t-2', style: "width: 140px;"
+  .clearfix
 - if !@compliance_policy.section.blank?
   javascript:
     if (typeof(hide_annual_compliance_fields) != "undefined") {

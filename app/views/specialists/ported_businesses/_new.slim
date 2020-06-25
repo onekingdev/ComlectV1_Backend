@@ -1,0 +1,18 @@
+.m-l-2.m-r-2
+  h3.m-y-0 
+    | Add Client
+
+  .clearfix
+  hr.m-b-0.m-t-1.hr_heading
+  = simple_form_for @ported_business, url: specialists_ported_businesses_path do |f|
+    = f.input :company, label: "Company", input_html: { style: "width: 100%;" }, label_html: { class: "m-t-2" }
+    = f.input :email, label: "Email Address", input_html: { style: "width: 100%;" }, label_html: { class: "m-t-2" }
+    .clearfix.m-b-3
+    .pull-right
+      = f.submit "Submit", class: "btn btn-primary p-x-3 m-b-3 m-t-1", style: "width: 140px;"
+    .clearfix
+
+/javascript:
+/  setTimeout(function() {
+/    document.getElementById("team_name").focus();
+/  }, 500)

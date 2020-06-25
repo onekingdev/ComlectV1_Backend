@@ -1,33 +1,20 @@
 - tgt_url = ["edit", "update"].include?(params[:action]) ? business_team_path(@team) : business_teams_path
 
-.panel-heading
-  h3 Teams
+.m-l-2.m-r-2
+  h3.m-y-0 
+    = ["edit", "update"].include?(params[:action]) ? "Edit" : "Add"
+    |  Department
 
-.teams_form.panel-body.p-r-1.p-t-0.p-b-2
+  .clearfix
+  hr.m-b-0.m-t-1.hr_heading
   = simple_form_for @team, url: tgt_url do |f|
-    - @fuf = f
-    = f.input :name, label: "Department Name", input_html: { style: "width: 90%;" } 
-    table.teams_edit_table.m-t-2
-      tr.teams_edit_table_heading
-        td._t_name Name
-        td._t_title Title
-        td._t_email Email
-        td.white_placeholder._t_buttons
-      = f.simple_fields_for :team_members do |t|
-        = render :partial => 'team_member_fields', :locals => {:f => t, :fuf => @fuf, :plus_hack => true }
-        
-      .add.add_more.team_members_plus = link_to_add_association @fuf, :team_members do
-        .icon-plus
-    .text-center.m-t-2
-      = link_to "Back", business_teams_path, class: "btn btn-primary m-r-2"
-      = f.submit "Save", class: "btn btn-primary m-r-2"
-      - if @team.id.present?
-        button.btn.btn-primary[
-          data-method="delete"
-          data-remote="false"
-          data-url=(business_team_path(@team.id))
-          data-confirm="<center><b>Delete Department</b><br/><br/>This will delete the entire department and employee entries. Consider renaming the department if the employee entries do not<br/>need to change.</center>"
-          data-confirm-label="Delete"
-          data-cancel-label="Cancel"
-        ]
-          | Delete
+    = f.input :name, label: "Department", input_html: { style: "width: 100%;" }, label_html: { class: "m-t-2" }
+    .clearfix
+    .pull-right
+      = f.submit ["edit", "update"].include?(params[:action]) ? "Save" : "Add", class: "btn btn-primary p-x-3 m-b-3 m-t-1"
+    .clearfix
+
+javascript:
+  setTimeout(function() {
+    document.getElementById("ported_business_company").focus();
+  }, 1000)

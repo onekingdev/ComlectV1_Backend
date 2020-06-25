@@ -14,7 +14,8 @@ class Specialists::RemindersController < ApplicationController
   def create
     @reminder = Reminder.new(reminder_params)
     @reminder.business_id = @business.id
-    redirect_to specialists_business_path(@business.username, reminder: @reminder.remind_at.strftime('%Y-%m-%d')) if @reminder.save
+
+    redirect_to redirect_path if @reminder.save
   end
 
   def destroy
@@ -38,27 +39,51 @@ class Specialists::RemindersController < ApplicationController
     end
   end
 
-  # rubocop:disable Metrics/LineLength
   def update
-    @business.reminders.where(id: params[:id]).first.update(done_at: (params[:done] == 'false' ? nil : Time.zone.now)) if params[:done].present?
+    # reminder = @business.reminders.find_by(id: params[:id])
+    # reminder&.update(
+    #   reminder_params.merge(
+    #     done_at: (params[:done] == 'true' ? Time.zone.now : nil)
+    #   )
+    # )
+    if params[:done].present?
+      @business.reminders
+               .where(id: params[:id])
+               .first
+               .update(
+                 done_at: (params[:done] == 'false' ? nil : Time.zone.now)
+               )
+    end
     respond_to do |format|
       format.html do
-        redirect_to specialists_business_path(@business.username)
+        redirect_to redirect_path(@business.username)
       end
       format.json do
         render json: :ok
       end
     end
   end
-  # rubocop:enable Metrics/LineLength
 
   private
 
   def reminder_params
-    params.require(:reminder).permit(:body, :remind_at)
+    params.require(:reminder).permit(:body, :remind_at, :end_date)
   end
 
   def set_business
-    @business = current_specialist.manageable_ria_businesses.find_by(username: params[:business_id])
+    @business = current_business || current_specialist.manageable_ria_businesses.find_by(username: params[:business_id])
+  end
+
+  def redirect_path(reminder = nil)
+    if current_specialist&.employee?(current_business)
+      employees_path
+    else
+      opts = {
+        id: @business&.username
+      }
+      opts[:reminder] = reminder&.remind_at&.strftime('%Y-%m-%d') if reminder
+
+      specialists_business_path(opts)
+    end
   end
 end

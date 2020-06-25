@@ -1,3 +1,15 @@
+- ind = ind       # why?
+- cb_ind = cb_ind # why?
+- label = label   # why?
+- if !label.nil?
+  .form-group.cof_bits.parent_node.padded-checkboxes style="margin-left: -35px;"
+    span.checkbox.checkbox-lg
+      - if @annual_report.cof_str[ind].to_i == 1
+        input as="boolean" type="checkbox" name="annual_report[cof_bits][#{ind}]" id="annual_report_cof_bits_#{ind}" value="#{ind}" checked="true"
+      - else
+        input as="boolean" type="checkbox" name="annual_report[cof_bits][#{ind}]" id="annual_report_cof_bits_#{ind}" value="#{ind}"
+      label for="annual_report_cof_bits_#{ind}"
+        = label
 .nested-fields
   = f.hidden_field :id
   .col-md-4
@@ -6,9 +18,12 @@
     = f.input :action, input_html: { class: 'input-lg' }
   .col-md-4
     = f.input :risk_lvl, collection: [["high risk", 3], ["medium risk", 2], ["low risk", 1]], input_html: { class: 'input-lg js-select' }, label: "Risk Level"
-    - compliance_category = compliance_category # why
-    = f.input :compliance_category, input_html: { value: compliance_category }
+    - compliance_category = compliance_category # why?
+    - checkbox_index = checkbox_index           # why?
+    .onepxhidden = f.input :compliance_category, input_html: { value: compliance_category }
+    .onepxhidden = f.input :checkbox_index, input_html: { value: checkbox_index }
   .clearfix
-  .col-xs-12.text-right
-    .remove_we = link_to_remove_association f, class: 'remove text-muted' do
-      .icon-close style="margin-top: -73px;"
+  - if label.blank?
+    .col-xs-12.text-right
+      .remove_we = link_to_remove_association f, class: 'remove text-muted' do
+        .icon-trash style="margin-top: -73px;"

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 module Metrics::Postings
-  # rubocop:disable Metrics/MethodLength
   def postings
     return {} if invalid?
     @metrics = {
@@ -41,5 +40,4 @@ module Metrics::Postings
       }]
     }
   end
-  # rubocop:enable Metrics/MethodLength
 end

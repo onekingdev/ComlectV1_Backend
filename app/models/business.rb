@@ -34,8 +34,9 @@ class Business < ApplicationRecord
   has_many :uptodate_compliance_policies, -> { where('last_uploaded >= ?', Time.zone.today - 1.year) }, class_name: 'CompliancePolicy'
   has_many :missing_compliance_policies, -> { where(docs_count: 0) }, class_name: 'CompliancePolicy'
   has_many :sorted_compliance_policies, -> { order(:created_at) }, class_name: 'CompliancePolicy'
+  has_many :seats
+  has_many :subscriptions
 
-  has_one :subscription
   has_one :forum_subscription
   has_one :tos_agreement, through: :user
   has_one :cookie_agreement, through: :user
@@ -221,12 +222,14 @@ class Business < ApplicationRecord
   include ImageUploader[:logo]
 
   EMPLOYEE_OPTIONS = %w[<10 11-50 51-100 100+].freeze
+  RISK_TOLERANCE_OPTIONS = [nil, '', 'Bare minimum', 'Best efforts', 'Best business practices', 'Gold standard'].freeze
 
   validates :contact_first_name, :contact_last_name, presence: true
   validates :business_name, :industries, :employees, presence: true
   validates :country, :city, :state, :time_zone, presence: true
   validates :description, length: { maximum: 750 }
   validates :employees, inclusion: { in: EMPLOYEE_OPTIONS }
+  validates :risk_tolerance, inclusion: { in: RISK_TOLERANCE_OPTIONS }
   validates :linkedin_link, allow_blank: true, url: true
   validates :website, allow_blank: true, url: true
   # validates :contact_email, format: { with: URI::MailTo::EMAIL_REGEXP }
@@ -309,7 +312,6 @@ class Business < ApplicationRecord
 
   # rubocop:disable Metrics/CyclomaticComplexity
   # rubocop:disable Metrics/PerceivedComplexity
-  # rubocop:disable Metrics/MethodLength
   def gap_analysis_est
     basic = 450
     deluxe = 1000
@@ -367,7 +369,6 @@ class Business < ApplicationRecord
     end
     [basic, deluxe, premium]
   end
-  # rubocop:enable Metrics/MethodLength
   # rubocop:enable Metrics/CyclomaticComplexity
   # rubocop:enable Metrics/PerceivedComplexity
 
@@ -445,7 +446,7 @@ class Business < ApplicationRecord
   end
 
   def base_subscribed?
-    subscription&.stripe_invoice_item_id && subscription&.stripe_subscription_id
+    subscriptions.base.present? ? (subscriptions&.base&.stripe_invoice_item_id && subscriptions&.base&.stripe_subscription_id) : false
   end
 
   def payment_source_type

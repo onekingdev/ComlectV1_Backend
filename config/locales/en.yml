@@ -32,6 +32,10 @@ en:
         validate1: Amount 1
         validate2: Amount 2
         last4: Last 4 Digits
+      reminder:
+        body: Task
+        remind_at: Start date
+        end_date: End date
     errors:
       messages:
         blank: required field

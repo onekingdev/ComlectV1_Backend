@@ -2,7 +2,8 @@
 $('#new_payment_source_ach')
   .find('.alert-danger').text('<%= j @payment_source.errors.full_messages.to_sentence %>').removeClass('hidden');
 <% else %>
-_Modal.showPlain('<%= j render 'choose_verification_method' %>');
+var modalContent = '<%= j render 'choose_verification_method' %>';
+$('body').find(".modal-body").html(modalContent);
 <% end %>
 $(".settings-nav > li").removeClass("active");
 $(".settings-nav > .payment-details").addClass("active");

@@ -18,7 +18,7 @@
     }
   }
   .heading td {
-    background-color: #ffcc00;
+    background-color: #FFCC01;
     color: #fff;
   }
   .tblbtn {
@@ -28,7 +28,7 @@
 
 .upcoming_task {
   //width: 100%;
-  //border: 2px solid #ffcc00;
+  //border: 2px solid #FFCC01;
   padding: 5px 0px;
   //display: inline-block;
   margin-bottom: 5px !important;
@@ -57,9 +57,9 @@
     }
   }
 
-  input[type=checkbox] + label {
+  input[type=checkbox] + label, .assign-link-label {
     padding-left:22px;
-    //height:18px; 
+    //height:18px;
     display:inline-block;
     line-height: 20px;
     background-repeat:no-repeat;
@@ -78,11 +78,10 @@
 
   input[type=checkbox]:checked + label {
     background-position: 0 0;
-
   }
 
   label {
-    background-image:asset_url("checkbox.png");
+    background-image:asset_url("checkbox_y.png");
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -103,10 +102,10 @@
 
 .add-compliance-policy {
   width: 100%;
-  border: 2px solid #ffcc00 !important;
+  border: 2px solid #FFCC01 !important;
   font-size: 13px;
   -webkit-font-smoothing: antialiased;
-  padding: 5px 0px !important; 
+  padding: 5px 0px !important;
 
   span {
     color: #000;

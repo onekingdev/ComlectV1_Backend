@@ -6,41 +6,141 @@
   }
 }
 
+.tasks-widget {
+  .calendar_hr {
+    margin: 0px;
+    width: 100%;
+  }
+  .css-label {
+    position: relative;
+    padding-left: 35px !important;
+  }
+  .task_list_wrapper {
+    overflow-x: hidden;
+    overflow-y: scroll;
+  }
+  .panel-body {
+    margin-top: -1px;
+  }
+  .padded-checkboxes {
+    padding-left: 0px;
+    label {
+      background-image: url(asset_path("checkbox_y.png"));
+    }
+  }
+}
+
+.reminder_task {
+  border-top: 1px solid #E4E4E4;
+  padding-top: 16px;
+  padding-bottom: 12px;
+  .past_due {
+    color: #EC428A;
+    font-size: 10px;
+    position: absolute;
+    margin-top: -14px;
+  }
+}
+
+.btn-shadow {
+  border: 0px !important;
+  box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.05);
+  width: auto !important;
+  padding: 7px 15px;
+  font-weight: normal;
+  font-size: 10px;
+}
+
+.btn-shadow.active {
+  box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.05);
+  color: #FFCC01;
+}
+
+.calendar-dropdown {
+  left: -153px;
+}
+
+.calendar-settings {
+  cursor: pointer;
+  line-height: 34px;
+}
+
 .simple-calendar {
   margin-left: -10px;
   margin-right: -10px;
+
+  .task_nil { width: 100%; height: 15px; }
+
+  .task_0 { background-color: #EC428A };
+  .task_1 { background-color: #4EEDF0 };
+  .task_2 { background-color: #5FA1EF };
+  .task_3 { background-color: #FFCC01 };
+
+  .task_begin, .task_middle, .task_end {
+    position: absolute;
+    z-index: 800;
+    height: 13px;
+    width: 100%;
+    text-align: left;
+    font-size: 11px;
+    padding-left: 6px;
+    //margin-left: -1px;
+    //margin-right: -1px;
+    //transform: scaleX(1.02);
+    white-space: nowrap;
+    border-radius: 4px;
+    a {
+      color: #fff !important;
+      font-weight: 500;
+      letter-spacing: 0px;
+    }
+  }
+
+  .task_begin { border-bottom-left-radius: 4px; border-top-left-radius: 4px; }
+  .task_middle { }
+  .task_end { border-bottom-right-radius: 4px; border-top-right-radius: 4px; }
+
   .real_today {
-    box-shadow: inset 0px 0px 0px 3px rgba(255,0,0,1);
+    //box-shadow: inset 0px 0px 0px 3px rgba(255,0,0,1);
+    background-color: #F7FAFC;
   }
   .table-striped > tbody > tr:nth-of-type(odd) {
     background-color: transparent;
   }
   .calendar-heading {
-    text-align: center;
+    text-align: right;
+    width: 55%;
+    position: absolute;
+    z-index: 1000;
+    top: 27px;
+  }
+  .calendar_days {
+    float: left;
+    width: 100%;
   }
   .tooltip {
     min-width: auto;
   }
-  table {
-    th {
-      padding: 0px !important;
-      text-align: center;
-    }
-    td {
-      padding: 0px !important;
-      position: relative;
-      text-align: center;
-      .coloring {
-        width: 100%;
-        height: 100%;
-        padding: 4px 0px;
-      }
-      .info-tooltip {
-        margin-top: 0px !important;
-        margin-left: 0px !important;
-        position: static;
-        display: inline-block;
-      }
-    }
+
+  .day {
+    height: 63px;
+    text-align: right;
+    font-size: 8px;
+    color: #A8A8A8;
+    border: 1px solid #EAF0F4 !important;
+    width: 14.28%;
+    float: left;
+    position: relative;
+  }
+
+  .calendar_heading {
+    padding: 6px 0px !important;
+    text-align: center;
+    background-color: #F7FAFC;
+    font-size: 10px;
+    font-weight: bold;
+    color: #ACACAC;
+    float: left;
+    width: 14.28%;
   }
 }
