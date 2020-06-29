@@ -1,0 +1,37 @@
+.businesses.edit{
+    font-size: 12px;
+    @media screen {
+        
+    }
+    .panel-heading{
+        padding-bottom: 0px;
+        padding-top: 15px;
+    }
+    .input-lg, .input-group-lg > .form-control, .input-group-lg > .input-group-addon, .input-group-lg > .input-group-btn > .btn, .stripe-new .input-group-lg > .input-group-btn > .stripe-button-el{
+        height: 30px;
+        padding: 0 16px;
+        line-height: 28px;
+    }
+    .multiselect.input-lg .caret, .input-group-lg > .multiselect.form-control .caret, .input-group-lg > .multiselect.input-group-addon .caret, .input-group-lg > .input-group-btn > .multiselect.btn .caret, .stripe-new .input-group-lg > .input-group-btn > .multiselect.stripe-button-el .caret{
+        margin: 13px 0 19px 12px;
+    }
+    
+    .profiles{
+        max-height: 415px;
+    }
+
+    .products{
+        height: 256px; 
+        max-height: 256px; 
+        padding: 11px 18px;
+        overflow: auto;
+    }
+
+    #logo, #general{
+        height: 415px;
+    }
+
+    #logo{
+        overflow: auto;
+    }
+}
