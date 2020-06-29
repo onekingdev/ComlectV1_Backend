@@ -31,9 +31,9 @@ var left_navbar_fit = function() {
   $("#left_navbar").css({"transform": "scale("+tgt_scale+")"});
   var tgt_padding = (window.innerHeight-100)/8;
   if (tgt_padding > 107) { tgt_padding = 107; }
-  if ($(".panel-settings-body").length == 0) {
-    $(".app_container").css({"padding-left": tgt_padding+"px"});
-  }
+  // if ($(".panel-settings-body").length == 0) {
+  //   $(".app_container").css({"padding-left": tgt_padding+"px"});
+  // }
   //$(".panel-default.settings").css({"margin-left": "-"+(tgt_padding)+"px"});
 }
 

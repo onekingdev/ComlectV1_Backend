@@ -94,7 +94,7 @@ Rails.application.routes.draw do
     resources :team_members, only: %i[new create edit update destroy]
     resources :reminders, only: %i[new update create destroy show edit index]
     resources :audit_requests, only: %i[index update create new edit show destroy]
-    resource :helps, only: :show do
+    resource :help, only: :show do
       resource :questions
     end
     resource :projects, only: %i[index]

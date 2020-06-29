@@ -1,9 +1,9 @@
 - content_for :html_head do
-- content_for :title, "Helps"
+- content_for :title, "Help"
 
 .panel-default.helps
   ul.helps-nav
-    li.ask-question.active class=active_class('question_helps') = link_to 'Help', business_helps_questions_path, class: 'btn-link btn-block btn-md', remote: true
+    li.ask-question.active class=active_class('question_helps') = link_to 'Help', business_help_questions_path, class: 'btn-link btn-block btn-md', remote: true
     li.faqs = link_to 'FAQs', 'http://www.complect.com/faqs', target: '_blank', class: 'btn-link btn-block btn-md' 
     li.our_blog = link_to 'Our Blog', 'http://www.complect.com/our-blog', target: '_blank', class: 'btn-link btn-block btn-md'  
     li.security = link_to 'Security', 'http://www.complect.com/security', target: '_blank', class: 'btn-link btn-block btn-md' 
@@ -12,5 +12,5 @@
   .row.panel
 
     #business-helps.col-xs-12
-      = yield(:helps).presence || render('business/questions/show')
+      = yield(:help).presence || render('business/questions/show')
 .clearfix
