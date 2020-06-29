@@ -1,59 +1,59 @@
 - if @projects.empty?
   h2.text-center.m-b-2 No projects yet
+- else
+  .row
+    - @projects.map(&method(:decorate)).each do |project|
+      .card-container.col-xs-12.col-md-6.col-lg-4 data-project-id=project.id
+        .project.card.panel.panel-default class="#{project.type}-project"
+          - if project.pending?
+            a.applications-count href=project.business_project_href
+              span = project.job_applications_count
+              i.icon-user
+          a.panel-heading href=project.business_project_href
+            h4= project.title
 
-.row
-  - @projects.map(&method(:decorate)).each do |project|
-    .card-container.col-xs-12.col-md-6.col-lg-4 data-project-id=project.id
-      .project.card.panel.panel-default class="#{project.type}-project"
-        - if project.pending?
-          a.applications-count href=project.business_project_href
-            span = project.job_applications_count
-            i.icon-user
-        a.panel-heading href=project.business_project_href
-          h4= project.title
+          a.panel-body href=project.business_project_href
+            .list-icon
+              .item
+                i.icon-location-pin
+                span= project.location_details
+              .item
+                i.icon-briefcase
+                span= project.industries.map(&:name).to_sentence
+              .item
+                i.icon-globe
+                span= project.jurisdictions.map(&:name).to_sentence
+              .item
+                i.icon-calendar
+                span= project.start_and_duration
+              .item
+                i.icon-trophy
+                span= project.dollars
+              .item
+                - if project.payment_schedule_humanized
+                  i.icon-tag
+                  span= project.payment_schedule_humanized
+                - else
+                  span &nbsp;
 
-        a.panel-body href=project.business_project_href
-          .list-icon
-            .item
-              i.icon-location-pin
-              span= project.location_details
-            .item
-              i.icon-briefcase
-              span= project.industries.map(&:name).to_sentence
-            .item
-              i.icon-globe
-              span= project.jurisdictions.map(&:name).to_sentence
-            .item
-              i.icon-calendar
-              span= project.start_and_duration
-            .item
-              i.icon-trophy
-              span= project.dollars
-            .item
-              - if project.payment_schedule_humanized
-                i.icon-tag
-                span= project.payment_schedule_humanized
-              - else
-                span &nbsp;
-
-        .panel-footer
-          .btn-group
-            - if project.draft_or_review?
-              a.btn.btn-sm.btn-primary href=edit_business_project_path(project)
-                span Edit
-              = link_to business_project_path(project), class: 'btn btn-sm btn-primary'
-                span Post
-            - elsif project.pending?
-              a.btn.btn-sm.btn-primary.btn-single href=business_project_job_applications_path(project)
-                span Applicants
-            - elsif project.complete?
-              a.btn.btn-sm.btn-primary href=copy_business_project_path(project.id)
-                span Copy
-              a.btn.btn-sm.btn-primary href=project.dashboard_path
-                span View
-            - else # active/finishing projects
-              a.btn.btn-sm.btn-primary.btn-single href=project.dashboard_path
-                span View
+          .panel-footer
+            .btn-group
+              - if project.draft_or_review?
+                a.btn.btn-sm.btn-primary href=edit_business_project_path(project)
+                  span Edit
+                = link_to business_project_path(project), class: 'btn btn-sm btn-primary'
+                  span Post
+              - elsif project.pending?
+                a.btn.btn-sm.btn-primary.btn-single href=business_project_job_applications_path(project)
+                  span Applicants
+              - elsif project.complete?
+                a.btn.btn-sm.btn-primary href=copy_business_project_path(project.id)
+                  span Copy
+                a.btn.btn-sm.btn-primary href=project.dashboard_path
+                  span View
+              - else # active/finishing projects
+                a.btn.btn-sm.btn-primary.btn-single href=project.dashboard_path
+                  span View
 
 - if @projects.count > 3
   .slick-nav

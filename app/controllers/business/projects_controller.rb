@@ -14,15 +14,18 @@ class Business::ProjectsController < ApplicationController
   }.freeze
 
   def index
+    @business = current_user.business
+    @ratings = @business.ratings_received.preload_associations
     @filter   = FILTERS[params[:filter]] || :none
     @projects = Project.cards_for_user(current_user, filter: @filter)
+    @is_business_cards = request.original_fullpath.include?('business_cards')
     @projects.each do |project|
       project.populate_rfp(project.job_application) if project.rfp? && project.active?
     end
 
     respond_to do |format|
       format.html do
-        render partial: 'cards', projects: @projects if request.xhr?
+        render partial: @is_business_cards ? 'business_cards' : 'cards', projects: @projects if request.xhr?
       end
       format.js
     end

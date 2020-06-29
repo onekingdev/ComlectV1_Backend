@@ -1,0 +1,27 @@
+- remove_on_unfavorite = local_assigns.fetch(:remove_on_unfavorite, false)
+- hire_again = local_assigns.fetch(:hire_again, false)
+
+- if specialists.total_count == 0
+  h2.text-center.m-b-2 No specialists found
+- else
+  .panel-content-wrapper style="max-height: 300px;"
+    table.table.table-striped.table-blue.addon-alerts-table
+      tbody
+        - specialists.map(&method(:decorate)).each do |specialist|
+          tr
+            td.text-center = image_tag "icon-business.png", style: "border-radius: 50%; width: 30px; height: 30px;"
+              .avatar
+                - if specialist.photo
+                  = image_tag specialist.photo_url(:thumb), class: 'img-responsive'
+                - else
+                  = image_tag 'icon-specialist.png', class: 'img-responsive'
+            td
+              a href=specialist_path(specialist) target="_blank"
+                = specialist.first_name
+              br/
+              small = 'available'
+            td.text-center = specialist.render_stars
+            td.text-center 
+              a.btn.btn-primary.btn-solid data-remote=true href=new_project_invite_path(specialist_username: specialist.username, template: 'hire_again')
+                span Hire
+  .clearfix
