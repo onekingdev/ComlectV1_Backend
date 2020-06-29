@@ -62,8 +62,8 @@ body.annual_reports .panel-settings-body .panel-default {
   }
 
   .panel-heading:first-child {
-    padding-top: 30px;
-    padding-bottom: 20px;
+    padding-bottom: 0px;
+    padding-top: 15px;
     border-radius: 10px;
   }
 
@@ -204,14 +204,14 @@ body.annual_reports .panel-settings-body .panel-default {
   }
 }
 
-.panel-padded {
-  @media (min-width: $screen-xs-max) {
-    .panel-heading, .panel-body {
-      padding-left: 50px;
-      padding-right: 50px;
-    }
-  }
-}
+// .panel-padded {
+//   @media (min-width: $screen-xs-max) {
+//     .panel-heading, .panel-body {
+//       padding-left: 50px;
+//       padding-right: 50px;
+//     }
+//   }
+// }
 
 .panel-flat {
   box-shadow: none;
@@ -272,7 +272,7 @@ body.annual_reports .panel-settings-body .panel-default {
 
   a {
     font-family: "Open Sans";
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 400;
     color: #000;
     background-color: transparent;
