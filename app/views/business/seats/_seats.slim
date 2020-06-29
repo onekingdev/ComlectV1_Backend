@@ -1,20 +1,20 @@
 .panel.panel-default.m-b-2
-  .panel-heading style="padding-bottom: 15px;"
+  .panel-heading
     .pull-left
       h3 Seats
-    .pull-right style="margin-top: -16px; margin-bottom: -10px;"
+    .pull-right 
       .seats_info.m-l-2
         h3 #{@seats_available} Available
         .progress.m-b-0
           .progress-bar role="progressbar" aria-valuenow="#{@seats_taken}" aria-valuemin="0" aria-valuemax="#{@seats_total}"
         | #{@seats_taken} of #{@seats_total} assigned
     - if params[:controller] == "business/seats"
-      .pull-right style="margin-top: -16px; margin-bottom: -10px;"
+      .pull-right 
         - pth = current_business ? new_business_seat_path : new_specialists_business_seat_path(@business.username)
         /.btn.btn-primary.btn-solid.m-r-3 style="padding: 9px 10px;" Purchase
-        = link_to "Purchase", pth, "data-target": "#modal", "data-toggle": "modal", "data-remote": true, class: "btn btn-primary btn-solid m-r-3", style: "padding: 9px 10px;"
+        = link_to "Purchase", pth, "data-target": "#modal", "data-toggle": "modal", "data-remote": true, class: "btn btn-primary btn-solid m-r-3 p-y-0", style: "padding: 9px 10px;"
     .clearfix
-  hr.m-y-0
+  / hr.m-y-0
   .panel-content-wrapper style="height: 300px; padding: 11px 18px;" class=("fullheight" if params[:controller] == "business_dashboard")
     table.table.table-striped.table-blue
       thead

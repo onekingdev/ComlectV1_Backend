@@ -1,13 +1,13 @@
 .panel.panel-default.m-b-2
-  .panel-heading style="padding-bottom: 16px;"
+  .panel-heading
     .pull-left
       h3 Departments
-    .pull-right style="margin-top: -16px; margin-bottom: -10px;"
-      = link_to "Add", new_business_team_path, "data-target": "#modal", "data-toggle": "modal", "data-remote": true, class: "btn btn-primary btn-solid", style: "padding: 9px 10px;"
+    .pull-right
+      = link_to "Add", new_business_team_path, "data-target": "#modal", "data-toggle": "modal", "data-remote": true, class: "btn btn-primary btn-solid p-y-0", style: "padding: 9px 10px;"
 
     .clearfix
-  hr.m-y-0
-  .panel-content-wrapper style="height: 300px; padding: 11px 18px;"
+  / hr.m-y-0
+  .panel-content-wrapper style="height: 317px; padding: 11px 18px;"
     table.table.table-striped.table-blue
       thead
         tr
