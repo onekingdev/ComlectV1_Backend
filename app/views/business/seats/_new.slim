@@ -57,7 +57,7 @@ javascript:
     let errors = $('.errors-subscribe')
     $('.seats_purchase_form').on('ajax:beforeSend', function (e, data, status, xhr) {
       errors.addClass('hide');
-      $('#buy-seats-btn').val('processing...');
+      $('#buy-seats-btn').addClass('disabled');
     }).on('ajax:success', function (e, data, status, xhr) {
       window.location.reload();
     }).on('ajax:error', function (e, data, status, xhr) {
