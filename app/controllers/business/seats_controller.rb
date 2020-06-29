@@ -38,7 +38,7 @@ class Business::SeatsController < ApplicationController
         )
         Notification::Deliver.got_employee_invitation!(invitation, :new_employee)
       end
-      flash[:notice] = 'Successful!'
+      # flash[:notice] = 'Successful!'
     rescue => e
       flash[:alert] = e.message
     end
@@ -55,7 +55,7 @@ class Business::SeatsController < ApplicationController
         seat&.unassign
         invitation&.specialist&.update!(dashboard_unlocked: false)
 
-        flash[:notice] = 'Successful!'
+        # flash[:notice] = 'Successful!'
       end
     rescue => e
       flash[:alert] = e.message
