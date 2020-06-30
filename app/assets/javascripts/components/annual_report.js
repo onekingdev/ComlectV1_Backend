@@ -1,4 +1,16 @@
 if (typeof(annual_report_loop) != "undefined") {
+  $(".btn_save_annual_report").on('click', function(e) {
+    e.preventDefault();
+    $.ajax({
+      url: $("form.edit_annual_report").attr('action'),
+      method: "POST",
+      data: $("form.edit_annual_report").serialize()
+    }).done(function(d) {
+      coolnotify("Saved", "success");
+    }).fail(function(d) {
+      coolnotify("Error", "danger");
+    });
+  });
   $(".compliance_category_nav li").on("click", function() {
     var title = $(this).find("a").html();
     if ($(this).find("a").attr("data-category") != undefined) { // Categories

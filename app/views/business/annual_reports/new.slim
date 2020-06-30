@@ -18,14 +18,12 @@
   - if @business.review_declined || @business.mock_audit_hired?
 
     = simple_form_for @annual_report, url: (current_specialist ? specialists_business_annual_report_path(@business.username, @annual_report) : business_annual_report_path(@annual_report)) do |f|
-
-
       .panel.panel-default.m-b-2
         .panel-heading style="padding-bottom: 16px;"
           .pull-left
             h3 Review Period
           .pull-right style="margin-top: -16px; margin-bottom: -10px;"
-            = f.submit "Save", class: "btn btn-primary btn-solid", style: "padding: 9px 10px; width: 63px"
+            button.btn.btn-primary.btn-solid.btn_save_annual_report style="padding: 9px 10px; width: 63px" Save
           .clearfix
         hr.m-y-0
         .p-x-1.p-b-2
@@ -44,7 +42,8 @@
             .btn-group
               i.icon-settings.m-l-1 data-toggle="dropdown"
               ul.dropdown-menu style="transform: translateX(-80%);"
-                li = f.submit "Save", style: "border: 0px; background: none; font-weight: 400; padding: 3px 20px;"
+                li.btn_save_annual_report
+                  span style="padding: 3px 20px; font-weight: 400; display: inline-block;" Save
                 li onclick="$('.add_fields[data-association=business_change]').trigger('click');"
                   span style="padding: 3px 20px; font-weight: 400;" Add Entry
                 li = link_to "No Changes", "#"
@@ -69,7 +68,8 @@
             .btn-group
               i.icon-settings.m-l-1 data-toggle="dropdown"
               ul.dropdown-menu style="transform: translateX(-80%);"
-                li = f.submit "Save", style: "border: 0px; background: none; font-weight: 400; padding: 3px 20px;"
+                li.btn_save_annual_report
+                  span style="padding: 3px 20px; font-weight: 400; display: inline-block;" Save
                 li onclick="$('.add_fields[data-association=regulatory_change]').trigger('click');"
                   span style="padding: 3px 20px; font-weight: 400;" Add Entry
                 li = link_to "No Changes", "#"
@@ -94,10 +94,12 @@
             .btn-group
               i.icon-settings.m-l-1 data-toggle="dropdown"
               ul.dropdown-menu style="transform: translateX(-80%);"
-                li = f.submit "Save", style: "border: 0px; background: none; font-weight: 400; padding: 3px 20px;"
+                li.btn_save_annual_report
+                  span style="padding: 3px 20px; font-weight: 400; display: inline-block;" Save
                 li onclick="$('.add_fields[data-association=annual_review_employee]').trigger('click');"
                   span style="padding: 3px 20px; font-weight: 400;" Add Entry
-                li = link_to "Solo Practitioner", "#"
+                li onclick="$(this).parent().parent().parent().parent().parent().find('.icon-trash').trigger('click'); $(this).parent().parent().parent().parent().parent().find('textarea').val('');"
+                  span style="padding: 5px 20px; font-weight: 400; display: block;" Solo&nbsp;Practitioner
           .clearfix
         hr.m-y-0
         .p-x-1.p-b-2
@@ -124,7 +126,8 @@
                   .btn-group
                     i.icon-settings.m-l-1 data-toggle="dropdown"
                     ul.dropdown-menu style="transform: translateX(-80%);"
-                      li = f.submit "Save", style: "border: 0px; background: none; font-weight: 400; padding: 3px 20px;"
+                      li.btn_save_annual_report
+                        span style="padding: 3px 20px; font-weight: 400; display: inline-block;" Save
                       li = link_to "Upload Support", "#"
                       li onclick="$(this).parent().parent().parent().parent().parent().find('.add_fields[data-association=finding]').trigger('click');"
                         span style="padding: 5px 20px; font-weight: 400; display: block;" Add Finding
@@ -166,7 +169,7 @@
           .pull-left
             h3 State of Compliance Program
           .pull-right style="margin-top: -16px; margin-bottom: -10px;"
-            = f.submit "Save", class: "btn btn-primary btn-solid", style: "padding: 9px 10px; width: 63px"
+            button.btn.btn-primary.btn-solid.btn_save_annual_report style="padding: 9px 10px; width: 63px" Save
           .clearfix
         hr.m-y-0
         .p-x-1.p-b-2

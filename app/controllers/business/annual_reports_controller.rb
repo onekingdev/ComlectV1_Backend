@@ -76,7 +76,7 @@ class Business::AnnualReportsController < ApplicationController
         @cof_bits.each do |k|
           total += (10**k).to_s.to_i(2)
         end
-        @annual_report.update(cof_bits: total)
+        @annual_report.update(cof_bits: total.to_s)
       end
     end
     redirect_to new_business_annual_report_path

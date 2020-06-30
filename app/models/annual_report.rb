@@ -14,10 +14,13 @@ class AnnualReport < ActiveRecord::Base
   include PdfUploader[:pdf]
 
   def cof_str
+    total_bits = ComplianceCategory.all.collect(&:checkboxes_arr).map(&proc { |h| h.map(&proc { |s| s[1] }) }).flatten.count
     if cof_bits.nil?
-      '0000000000000000000000000000000000'
+      out_bits = ''
+      (0..total_bits).each { |_b| out_bits += '0' }
+      out_bits
     else
-      cof_bits.to_s(2).rjust(34, '0').reverse
+      cof_bits.to_i.to_s(2).rjust(total_bits, '0').reverse
     end
   end
 
@@ -55,7 +58,7 @@ class AnnualReport < ActiveRecord::Base
         end
       end
     end
-    { percentage: failed_topics * 100 / total_topics, unfailed_topics: unfailed_topics }
+    { percentage: 100 - (failed_topics * 100 / total_topics), unfailed_topics: unfailed_topics }
   end
 
   def score
