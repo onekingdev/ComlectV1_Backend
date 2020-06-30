@@ -13,7 +13,7 @@ ActiveAdmin.register ComplianceCategory do
     actions
   end
 
-  permit_params :name, :checkboxes
+  permit_params :name, :checkboxes, :description, :however, :findings_everywhere
 
   controller do
     def create

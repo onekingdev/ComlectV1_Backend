@@ -6,6 +6,8 @@ en:
       short_ord: "%@d %b %Y"
   activerecord:
     attributes:
+      compliance_category:
+        however: Findings Intro
       annual_report:
         exam_start: Examination Start Date
         exam_end: Examination End Date

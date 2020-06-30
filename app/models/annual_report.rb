@@ -21,6 +21,43 @@ class AnnualReport < ActiveRecord::Base
     end
   end
 
+  def findings_report
+    total_topics = ComplianceCategory.all.collect(&:checkboxes_arr).collect(&:keys).flatten.count
+    failed_topics = 0
+    unfailed_topics = {}
+    ind = 0
+    ComplianceCategory.all.find_each do |compliance_category|
+      @checkboxes_arr = compliance_category.checkboxes_arr
+      compliance_category.checkboxes_arr.keys.each do |cb_key|
+        cb_ind = 0
+        failed_topic = false
+        findings.each do |finding|
+          if (finding.compliance_category == compliance_category.id) && (finding.checkbox_index == @checkboxes_arr.keys.index(cb_key))
+            failed_topic = true if finding.finding.present?
+            unless @checkboxes_arr[cb_key][cb_ind].nil?
+              @checkboxes_arr[cb_key][cb_ind] = nil
+              ind += 1
+              cb_ind += 1
+            end
+          end
+          @checkboxes_arr[cb_key].each do |cb|
+            unless cb.nil?
+              ind += 1
+              cb_ind += 1
+            end
+          end
+        end
+        if failed_topic
+          failed_topics += 1
+        else
+          unfailed_topics[compliance_category.id] = [] if unfailed_topics[compliance_category].nil?
+          unfailed_topics[compliance_category.id].push(cb_key)
+        end
+      end
+    end
+    { percentage: failed_topics * 100 / total_topics, unfailed_topics: unfailed_topics }
+  end
+
   def score
     100
     # max_score = cof_str.length

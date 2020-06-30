@@ -22,7 +22,6 @@
 .panel.panel-default.m-t-3.panel-padded
   .panel-heading style="display: flex; justify-content: space-between; align-items: center"
     h3 Payment Details
-
     span  
       = link_to 'Export', "#", onclick: "window.location = $('.tab-pane.active .download_csv').attr('href')", class:" btn btn-primary btn-solid p-y-0 m-x-2 "
       ul.nav.nav-pills
@@ -30,7 +29,6 @@
           span Upcoming 
         li.btn.btn-shadow= link_to '#charges-processed', data: { toggle: 'tab', "remote-load" => true, url: business_financial_path('processed', sort_by: 'date'), 'toggle-sync' => true } do
           span Completed
-
   .panel-body
     .tab-content
       #charges-upcoming.tab-pane.clearfix.active

@@ -127,8 +127,9 @@
                       li = f.submit "Save", style: "border: 0px; background: none; font-weight: 400; padding: 3px 20px;"
                       li = link_to "Upload Support", "#"
                       li onclick="$(this).parent().parent().parent().parent().parent().find('.add_fields[data-association=finding]').trigger('click');"
-                        span style="padding: 3px 20px; font-weight: 400;" Add Finding
-                      li = link_to "No Findings", "#"
+                        span style="padding: 5px 20px; font-weight: 400; display: block;" Add Finding
+                      li onclick="$(this).parent().parent().parent().parent().parent().find('.icon-trash').trigger('click'); $(this).parent().parent().parent().parent().parent().find('textarea').val('');"
+                        span style="padding: 5px 20px; font-weight: 400; display: block;" No Findings
                 .clearfix
               hr.m-y-0
               .p-x-1.p-b-2
