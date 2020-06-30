@@ -126,6 +126,10 @@ var patch_payment_form = function() {
             stripeToken: $('#payment_form_card_token').val(),
           }
           createPaymentMethod(options).then(e2 => {
+            if (e2.redirectTo !== undefined) {
+              isLoading(true);
+              window.location.href = e2.redirectTo;
+            }
             submitMainForm();
           })
           .catch((e) => {
@@ -150,7 +154,7 @@ var patch_payment_form = function() {
   }
 };
 
-if ((window.location.pathname.indexOf("/business/onboarding") > -1)) {
+if ((window.location.pathname.indexOf("/business/onboarding") > -1) || (window.location.pathname.indexOf("/specialist/settings/payment") > -1)) {
   $(document).ready(function () {
     patch_payment_form();
   });

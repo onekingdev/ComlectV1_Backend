@@ -172,7 +172,11 @@ Rails.application.routes.draw do
       resource :referrals, only: :show
       resource :delete_account
       resources :delete_managed_accounts, only: :destroy
-      resource :payment_settings, as: :payment, path: 'payment'
+      resource :payment_settings, as: :payment, path: 'payment' do
+        get :new_card
+        post :create_card
+        delete 'delete_card/:id', to: 'payment_settings#delete_card', as: 'delete_card'
+      end
       resource :team
 
       resources :bank_accounts do
@@ -181,9 +185,10 @@ Rails.application.routes.draw do
       resources :notification_settings, as: :notifications, path: 'notifications', only: %i[index update]
     end
 
-    resources :ported_businesses, only: %i[index new]
+    resources :ported_businesses, only: %i[index new create]
     get '/ported_businesses/buy' => 'ported_businesses#buy'
-    post '/ported_businesses/buy' => 'ported_businesses#buying'
+    post '/ported_businesses/buy' => 'ported_businesses#subscribe'
+    delete '/ported_businesses/:id', to: 'ported_businesses#delete', as: 'delete_ported_businesses'
     resources :invitations, only: %i[create destroy]
     resources :projects, path: 'my-projects'
     concerns :favoriteable

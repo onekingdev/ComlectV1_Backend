@@ -8,19 +8,23 @@
     h3 style="font-family: Canela" Turnkey Consulting Suite
     p If you spend more than 15 minutes a month on invoicing and chasing down bills, our solution is the answer for you. Leverage Complect’s powerful automated fee billing and invoicing to never spend time generating and following up another invoice again. But that’s not all, by bringing clients into the Complect ecosystem, you can offer them technology solutions to complement your services.
 
-    - if params[:bought]
+    - if @active_subscription || params[:bought]
       .p-y-3
       b HOW IT WORKS
       br
       br/
       | 1. Click the Add button to add clients you wish to port into the Complect ecosystem for automated fee billing.
       br
-      | 2. Client will receive a special link to sign up to Complect. 
+      | 2. Client will receive a special link to sign up to Complect.
       br
       | 3. Complect will assist you and the client to establish project(s) on the Complect platform that matches your present engagement.
       br
       | 4. Get paid automatically at the applicable times.
       .clearfix.m-b-3
+      - if flash.notice
+        .alert.alert-success= flash.notice
+      - elsif flash[:error]
+        .alert.alert-danger= flash[:error]
       .panel.panel-default.m-b-2.col-xs-8.m-t-3 style="box-shadow: 0px 3px 6px 0px rgba(44, 40, 40, 0.11);"
         .panel-heading style="padding-bottom: 15px;"
           .pull-left
@@ -42,9 +46,9 @@
                 tr
                   td= biz.company
                   td= biz.email
-                  td Pending
+                  td= biz.status
                   td style="width: 1px; font-size: 18px;"
-                    = link_to specialists_ported_businesses_path(biz), method: :delete, data: { no_cancel: true, confirm_label: "Confirm", confirm: "<div class='bootbox-heading'>Delete Client<hr></div>Warning! Please confirm all projects with this client have ended before<br>removing the client. By deleting this client, you will be charged the<br>standard 10% project finders fee for each payment processed with<br>this client going forward." } do
+                    = link_to specialists_delete_ported_businesses_path(biz), method: :delete, data: { no_cancel: true, confirm_label: "Confirm", confirm: "<div class='bootbox-heading'>Delete Client<hr></div>Warning! Please confirm all projects with this client have ended before<br>removing the client. By deleting this client, you will be charged the<br>standard 10% project finders fee for each payment processed with<br>this client going forward." } do
                       i.icon-trash
 
     - else
@@ -66,7 +70,7 @@
             input type="checkbox"
           b Project Portal
           br
-          | Manage your client engagements through our secure project portals, where you can communicate and share documents back and forth. 
+          | Manage your client engagements through our secure project portals, where you can communicate and share documents back and forth.
           br/
           br/
         p
@@ -83,7 +87,13 @@
           b AgileCRM
           br
           | Looking for an affordable CRM system for your firm? We found one. Sign up through us and when you land a new client on our platform, we will automatically port that client’s information into your CRM for you. We’re developing additional AgileCRM integrations constantly.
-        
+
         .text-center.m-t-3.p-t-3
-          = link_to "Purchase", "/specialist/ported_businesses/buy", class: "btn btn-primary", style: "width: 140px;", "data-target": "#modal", "data-toggle": "modal", "data-remote": true
+          - if @payment_source
+            = link_to "Purchase", "/specialist/ported_businesses/buy", class: "btn btn-primary", style: "width: 140px;", "data-target": "#modal", "data-toggle": "modal", "data-remote": true
+          - else
+            p
+              | no payment source. Check
+              = link_to ' Payments Settings', specialists_settings_payment_path
+            a.btn.disabled= 'Purchase'
 .clearfix

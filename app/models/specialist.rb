@@ -44,6 +44,9 @@ class Specialist < ApplicationRecord
   # rubocop:disable Metrics/LineLength
   has_many :manageable_ria_businesses, -> { joins(:industries).where("industries.name = 'Investment Adviser'").where(ria_dashboard: true) }, through: :active_projects, class_name: 'Business', source: :business
   # rubocop:enable Metrics/LineLength
+  has_many :ported_subscriptions
+  has_many :ported_businesses
+  has_many :payment_sources, class_name: 'Specialist::PaymentSource'
 
   has_settings do |s|
     s.key :notifications, defaults: {
@@ -358,5 +361,13 @@ class Specialist < ApplicationRecord
     end
   end
   # rubocop:enable Style/GuardClause
+
+  def stripe_customer
+    payment_sources.where.not(stripe_customer_id: nil).first&.stripe_customer_id
+  end
+
+  def default_payment_source
+    payment_sources.find_by(primary: true)
+  end
 end
 # rubocop:enable Metrics/ClassLength

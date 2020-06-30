@@ -1,5 +1,6 @@
 var patch_ported = function() {
   var calculate_price = function() {
+    console.log(d);
     var d = $(".turnkey_purchase_form").serializeArray();
     if (d[0].value == "monthly") {
       $(".plan_charge_single_turnkey").html("30/mo");

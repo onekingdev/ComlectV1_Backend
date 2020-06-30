@@ -14,6 +14,7 @@ class BusinessesController < ApplicationController
   end
 
   def new
+    session[:ported_business_token] = params[:invite_token] if params[:invite_token]
     @business = Business.for_signup
   end
 
@@ -28,6 +29,16 @@ class BusinessesController < ApplicationController
 
     if @business.save
       sign_in @business.user
+
+      if session[:ported_business_token]
+        ported = PortedBusiness.find_by(
+          email: @business.user.email,
+          status: 0,
+          token: session[:ported_business_token]
+        )
+
+        session.delete(:ported_business_token) if ported&.accept(@business.id)
+      end
 
       @business.user.update_privacy_agreement(request.remote_ip)
       @business.user.update_cookie_agreement(request.remote_ip)

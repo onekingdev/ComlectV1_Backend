@@ -1,0 +1,20 @@
+- content_for :html_head do
+  script src="https://js.stripe.com/v3/"
+
+- content_for :settings do
+  .panel-heading
+    h3 Add a New Card
+
+  .panel-body.p-t-0
+    .payment_form
+      br
+      .stripe-card-form
+      br
+      .errors#card-errors
+      .form-switch
+        = form_for :payment_form, url: create_card_specialists_settings_payment_path, method: :post, html: { id: :payment_method_form } do |f|
+          = f.hidden_field :use_method, value: :card
+          = f.hidden_field :card_token
+          = f.submit 'Add', id: 'submit-ongoing'
+
+= render template: 'specialists/settings/show'

@@ -8,6 +8,7 @@ class Specialists::PaymentSettingsController < ApplicationController
 
     @account = StripeAccount::Form.for(current_specialist)
     @bank_accounts = @account.bank_accounts
+    @cards = current_specialist&.payment_sources
   end
 
   def new
@@ -44,6 +45,49 @@ class Specialists::PaymentSettingsController < ApplicationController
     account = current_specialist.stripe_account
     authorize account, :destroy?
     account.destroy
+    redirect_to specialists_settings_payment_path
+  end
+
+  def new_card; end
+
+  def create_card
+    begin
+      cus_id = current_specialist&.stripe_customer
+      unless cus_id
+        cus = Stripe::Customer.create(
+          email: current_specialist&.user&.email,
+          name: current_specialist&.user&.full_name
+        )
+        cus_id = cus.id
+      end
+      card = Stripe::Customer.create_source(cus_id, source: params[:stripeToken])
+
+      current_specialist&.payment_sources&.create!(
+        stripe_customer_id: cus_id,
+        stripe_card_id: card.id,
+        brand: card.brand,
+        exp_month: card.exp_month,
+        exp_year: card.exp_year,
+        last4: card.last4,
+        primary: current_specialist&.payment_sources&.length&.zero?
+      )
+      message = ''
+      code = :created
+    rescue => e
+      message = e.message
+      code = :unprocessable_entity
+    end
+    resp = { message: message }
+    resp[:redirectTo] = specialists_settings_payment_path
+
+    respond_to do |format|
+      format.json { render json: resp, status: code }
+    end
+  end
+
+  def delete_card
+    current_specialist&.payment_sources&.destroy(params[:id])
+
     redirect_to specialists_settings_payment_path
   end
 

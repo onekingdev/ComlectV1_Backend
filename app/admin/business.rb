@@ -102,10 +102,6 @@ ActiveAdmin.register Business do
       input :contact_phone, label: 'Phone'
     end
 
-    inputs name: 'Rewards' do
-      input :rewards_tier_override
-    end
-
     inputs name: 'Billing' do
       input :fee_free
     end

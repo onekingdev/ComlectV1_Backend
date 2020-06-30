@@ -602,7 +602,10 @@ CREATE TABLE public.compliance_categories (
     name character varying,
     checkboxes text,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    description text DEFAULT ''::text,
+    however text DEFAULT ''::text,
+    findings_everywhere text DEFAULT ''::text
 );
 
 
@@ -1407,7 +1410,8 @@ CREATE TABLE public.findings (
     risk_lvl integer DEFAULT 3,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    compliance_category integer
+    compliance_category integer,
+    checkbox_index integer
 );
 
 
@@ -3456,8 +3460,10 @@ CREATE TABLE public.ported_businesses (
     email character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    status character varying DEFAULT 'pending'::character varying,
-    specialist_id integer
+    specialist_id integer,
+    status integer DEFAULT 0,
+    token text,
+    business_id integer
 );
 
 
@@ -3479,6 +3485,43 @@ CREATE SEQUENCE public.ported_businesses_id_seq
 --
 
 ALTER SEQUENCE public.ported_businesses_id_seq OWNED BY public.ported_businesses.id;
+
+
+--
+-- Name: ported_subscriptions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.ported_subscriptions (
+    id integer NOT NULL,
+    specialist_id integer,
+    period integer DEFAULT 0,
+    subscribed_at timestamp without time zone,
+    billing_period_ends_at timestamp without time zone,
+    stripe_subscription_id text,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    status integer DEFAULT 0
+);
+
+
+--
+-- Name: ported_subscriptions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.ported_subscriptions_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: ported_subscriptions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.ported_subscriptions_id_seq OWNED BY public.ported_subscriptions.id;
 
 
 --
@@ -4095,6 +4138,45 @@ CREATE SEQUENCE public.specialist_invitations_id_seq
 --
 
 ALTER SEQUENCE public.specialist_invitations_id_seq OWNED BY public.specialist_invitations.id;
+
+
+--
+-- Name: specialist_payment_sources; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.specialist_payment_sources (
+    id integer NOT NULL,
+    specialist_id integer,
+    stripe_customer_id text,
+    stripe_card_id text,
+    brand text,
+    exp_month integer,
+    exp_year integer,
+    last4 text,
+    "primary" boolean DEFAULT false,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: specialist_payment_sources_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.specialist_payment_sources_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: specialist_payment_sources_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.specialist_payment_sources_id_seq OWNED BY public.specialist_payment_sources.id;
 
 
 --
@@ -4903,6 +4985,13 @@ ALTER TABLE ONLY public.ported_businesses ALTER COLUMN id SET DEFAULT nextval('p
 
 
 --
+-- Name: ported_subscriptions id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ported_subscriptions ALTER COLUMN id SET DEFAULT nextval('public.ported_subscriptions_id_seq'::regclass);
+
+
+--
 -- Name: project_ends id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -5019,6 +5108,13 @@ ALTER TABLE ONLY public.skills ALTER COLUMN id SET DEFAULT nextval('public.skill
 --
 
 ALTER TABLE ONLY public.specialist_invitations ALTER COLUMN id SET DEFAULT nextval('public.specialist_invitations_id_seq'::regclass);
+
+
+--
+-- Name: specialist_payment_sources id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.specialist_payment_sources ALTER COLUMN id SET DEFAULT nextval('public.specialist_payment_sources_id_seq'::regclass);
 
 
 --
@@ -5415,6 +5511,14 @@ ALTER TABLE ONLY public.ported_businesses
 
 
 --
+-- Name: ported_subscriptions ported_subscriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ported_subscriptions
+    ADD CONSTRAINT ported_subscriptions_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: project_ends project_ends_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5548,6 +5652,14 @@ ALTER TABLE ONLY public.skills
 
 ALTER TABLE ONLY public.specialist_invitations
     ADD CONSTRAINT specialist_invitations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: specialist_payment_sources specialist_payment_sources_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.specialist_payment_sources
+    ADD CONSTRAINT specialist_payment_sources_pkey PRIMARY KEY (id);
 
 
 --
@@ -5993,6 +6105,20 @@ CREATE INDEX index_payment_sources_on_type ON public.payment_sources USING btree
 
 
 --
+-- Name: index_ported_businesses_on_business_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_ported_businesses_on_business_id ON public.ported_businesses USING btree (business_id);
+
+
+--
+-- Name: index_ported_subscriptions_on_specialist_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_ported_subscriptions_on_specialist_id ON public.ported_subscriptions USING btree (specialist_id);
+
+
+--
 -- Name: index_project_ends_on_expires_at; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -6354,6 +6480,13 @@ CREATE INDEX index_specialist_invitations_on_team_id ON public.specialist_invita
 --
 
 CREATE INDEX index_specialist_invitations_on_token ON public.specialist_invitations USING btree (token);
+
+
+--
+-- Name: index_specialist_payment_sources_on_specialist_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_specialist_payment_sources_on_specialist_id ON public.specialist_payment_sources USING btree (specialist_id);
 
 
 --
@@ -7295,4 +7428,22 @@ INSERT INTO schema_migrations (version) VALUES ('20200616003446');
 INSERT INTO schema_migrations (version) VALUES ('20200616103242');
 
 INSERT INTO schema_migrations (version) VALUES ('20200617023543');
+
+INSERT INTO schema_migrations (version) VALUES ('20200624064838');
+
+INSERT INTO schema_migrations (version) VALUES ('20200626125809');
+
+INSERT INTO schema_migrations (version) VALUES ('20200629164722');
+
+INSERT INTO schema_migrations (version) VALUES ('20200630113358');
+
+INSERT INTO schema_migrations (version) VALUES ('20200630141818');
+
+INSERT INTO schema_migrations (version) VALUES ('20200630192522');
+
+INSERT INTO schema_migrations (version) VALUES ('20200630205225');
+
+INSERT INTO schema_migrations (version) VALUES ('20200630220333');
+
+INSERT INTO schema_migrations (version) VALUES ('20200630223715');
 

@@ -16,6 +16,14 @@
         i.icon.maxicons2-add
         span Add Bank Account
 
+  .panel-heading
+    h3 Payment Sources (for subscriptions only)
+    = render 'cards', cards: @cards
+
+    a.btn.btn-link.btn-plain href=new_card_specialists_settings_payment_path
+      i.icon.maxicons2-add
+      span Add a Card
+
   - if @account.persisted?
     .panel-heading.p-a-0.m-t-3
       h3.m-b-1 Personal Details

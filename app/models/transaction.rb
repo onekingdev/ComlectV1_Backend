@@ -56,6 +56,8 @@ class Transaction < ApplicationRecord
   end
 
   def specialist_fee
+    return 0 if PortedBusiness.ported?(business&.id, specialist&.id)
+
     if charges.length.positive?
       @specialist_fee ||= charges.map(&:specialist_fee).reduce(:+)
     else
