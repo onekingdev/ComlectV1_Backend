@@ -1,43 +1,75 @@
-h1.text-center style="font-family: 'Canela'; font-size: 30px; font-weight: 400;" Audit Prep
+- content_for :html_head do
+- content_for :title, "Audit Prep"
 
-.col-md-10.col-md-push-1.m-t-2
-  p.m-b-3.p-b-2 style="font-weight: 300" Start your regulatory examination off on the right foot by being able to respond to their document request list in a prompt manner. Regulators may consider slow or imprecise document production to be a red flag. So, prepare yourself for an examination by understanding what they will likely ask for and having it ready at your fingertips.
+h1 style="font-family: 'Canela'; font-size: 30px; font-weight: 400;"
+  | Audit Prep
+.pull-right style='padding: 22px; position: absolute; right: 0; background-color: #FFCC01; border-radius: 50%;'
+  .pull-right
+    span style="border: 1px solid; border-radius: 50%; padding: 0px 13px; font-size: 23px; font-weight: 400; right: 23px"
+      | i
+.row
+  .col-md-7.p-l-0
+    .well.m-t-1 style="border: 2px solid #000; color: #00000; font-weight: 400"
+      | Start your regulatory examination off on the right foot by being able to respond to their document request list in a prompt manner. Regulators  may consider slow or imprecise document production to be a red flag. So, prepare yourself for an examination by understanding what they will likely ask for and having it ready at your fingertips.
 
-- if !current_specialist
-  .col-md-12.m-b-3.p-b-2
-    .col-md-3
-      = link_to "Document Review", (current_specialist ? specialists_business_audit_request_path(@business.username, "drl_review") : business_audit_request_path("drl_review")), class: "btn btn-primary", "data-target": "#modal", "data-toggle": "modal", "data-remote": true, style: "width: 180px;"
-    .col-md-3
-      = link_to "Mock Interviews", (current_specialist ? specialists_business_audit_request_path(@business.username, "mock_interview") : business_audit_request_path("mock_interview")), class: "btn btn-primary", "data-target": "#modal", "data-toggle": "modal", "data-remote": true, style: "width: 180px;"
-    .col-md-3
-      = link_to "Mock Audit", (current_specialist ? specialists_business_audit_request_path(@business.username, @mock_audit) : business_audit_request_path(@mock_audit)), class: "btn btn-primary", "data-target": "#modal", "data-toggle": "modal", "data-remote": true, style: "width: 180px;"
-    .col-md-3
-      = link_to "Exam Assistance", (current_specialist ? specialists_business_audit_request_path(@business.username, "mock_exam") : business_audit_request_path("mock_exam")), class: "btn btn-primary", "data-target": "#modal", "data-toggle": "modal", "data-remote": true, style: "width: 180px;"
-.clearfix
-- @audit_requests.each_with_index do |req,i|
-  .m-b-3.audit_prep_request id="_audit_request_#{req.id}"
-    .col-sm-12.audit_request_body
-      .fake_checkbox.pull-left class=("checked" if @audit_docs.collect(&:audit_request_id).include?(req.id)) &nbsp;
-      b style="font-weight: 500;" = req.body
-      .clearfix.m-b-1
-      .black_href
-        - if @audit_docs.collect(&:audit_request_id).include? req.id
-          - @audit_docs.where(audit_request_id: req.id).each do |audit_doc|
-            span.m-r-1= link_to audit_doc.file.metadata["filename"], audit_doc.file_url, target: "_blank"
-            = link_to (current_specialist ? specialists_business_audit_request_path(@business.username, audit_doc.id) : business_audit_request_path(audit_doc.id)), class: "", method: :delete, data: { confirm: '<b>Confirm Delete</b><br/><br/><br/>Are you sure want to delete this file?', 'confirm-label' => 'Delete' } do
-              i.icon-trash data-toggle="tooltip" title="Delete"
-            br
-        - @audit_request = req
-        - @audit_doc = AuditDoc.new(audit_request_id: @audit_request.id)
-        .m-t-1 = render "business/audit_requests/form"
-        /= link_to "Upload", (current_specialist ? new_specialists_business_audit_request_path(@business.username, request: req.id) : new_business_audit_request_path(request: req.id)), class: "btn btn-primary", "data-target": "#modal", "data-toggle": "modal", "data-remote": true
-    .clearfix
-
-- if params[:audit_request_id].present?
-  javascript:
-    var _audit_request_id = parseInt("#{params[:audit_request_id]}");
-
-- pth = (current_specialist ? specialists_business_audit_requests_path(@business, format: :json) : business_audit_requests_path)
-
-javascript:
-  var _audit_requests_url = "#{pth}";
+.row
+  .col-md-7.p-l-0
+    .panel.panel-default
+      .panel-heading
+        .pull-left
+          h3 Policies & Procedures
+        .pull-right
+          .btn-group
+            = link_to "Save", "#", class: "btn btn-primary btn-solid p-y-0"
+        .clearfix
+      / hr.m-y-0
+      .panel-content-wrapper style="height: 450px; padding: 11px 18px;"
+        / table.table.table-striped.table-blue
+          / thead
+          /   tr
+          /     th Policy
+          /     th
+          /     th style="width: 1px;" &nbsp;
+          / tbody
+  .col-md-5.p-l-0
+    .panel.panel-default
+      .panel-heading
+        .pull-left
+          h3 Policies & Procedures
+        .pull-right
+          .btn-group
+            = link_to "Add", "#", class: "btn btn-primary btn-solid p-y-0"
+  
+        .clearfix
+      .panel-content-wrapper style="height: 450px; padding: 11px 18px;"
+        table.table.table-striped.table-blue
+          thead
+            tr
+              th Name
+              th 
+              th Modified
+              th 
+              th 
+              th 
+              th 
+          tbody
+            tr
+              td
+                = link_to '#' do
+                  i.fa.fa-folder style='font-size: 40px; color: dodgerblue'
+              td
+                | Annual Reviews
+              td
+                = DateTime.current.to_date
+              td
+                = link_to '#' do
+                  i.fa.fa-random
+              td
+                = link_to '#' do
+                  i.icon-cloud-download
+              td
+                = link_to '#' do
+                i.icon-note
+              td
+                = link_to '#' do
+                  i.icon-trash

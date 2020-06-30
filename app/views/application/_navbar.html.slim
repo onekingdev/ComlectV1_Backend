@@ -104,6 +104,7 @@ nav#nav.navbar.navbar-default
         - if params[:controller] == "business/annual_reports"
           .active
         i.icon-note
+    - if current_user.business
       = link_to business_audit_requests_path do
         - if params[:controller] == "business/audit_requests"
           .active
