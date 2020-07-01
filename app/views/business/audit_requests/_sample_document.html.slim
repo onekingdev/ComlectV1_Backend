@@ -1,0 +1,20 @@
+.col-xs-12.col-md-12.p-x-0
+  .panel-body.p-1
+    .col-sm-12.col-md-12.p-x-0
+      table.table.table-plain.notification-preferences.tasks-widget width='100%'
+        - for i in 1..10 do
+          tr style="text-align: justify"
+            td.text-right.padded-checkboxes.reactive_notification_settings
+              input id=("#{i}_checkbox") setting_url='#' name=("#{i}_checkbox") type="checkbox" value="1" checked=true
+              label.css-label for=("#{i}_checkbox") style="padding-left:18px!important" &nbsp; 
+            td Adviser organisation chart ... Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+          tr 
+            td
+            td
+              .jumbotron.jumbotron-fluid.m-y-0.p-y-2 style="border-radius: 5px; box-shadow: 0 2px 2px -2px gray;"
+                .lead.p-x-2 style='font-size: 12px'
+                  | Test text  
+    .clearfix
+  
+javascript:
+  var notification_preferences_ajax_enable = true;

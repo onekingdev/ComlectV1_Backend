@@ -3,73 +3,68 @@
 
 h1 style="font-family: 'Canela'; font-size: 30px; font-weight: 400;"
   | Audit Prep
-.pull-right style='padding: 22px; position: absolute; right: 0; background-color: #FFCC01; border-radius: 50%;'
-  .pull-right
-    span style="border: 1px solid; border-radius: 50%; padding: 0px 13px; font-size: 23px; font-weight: 400; right: 23px"
+= link_to '#', "data-target": "#modal", "data-toggle": "modal", "data-remote": true do
+  .pull-right style='padding: 16px;position: absolute;right: 0;background-color: #FFCC01;border-radius: 50% 0 0 50%; color: #000000'
+    span style="border: 1px solid;border-radius: 50%;padding: 0px 10px;font-size: 19px;font-weight: 400;right: 23px;"
       | i
 .row
-  .col-md-7.p-l-0
-    .well.m-t-1 style="border: 2px solid #000; color: #00000; font-weight: 400"
-      | Start your regulatory examination off on the right foot by being able to respond to their document request list in a prompt manner. Regulators  may consider slow or imprecise document production to be a red flag. So, prepare yourself for an examination by understanding what they will likely ask for and having it ready at your fingertips.
+.col-md-7.p-l-0
+  .well.m-t-1 style="border: 2px solid #000; color: #00000; font-weight: 400"
+    | Start your regulatory examination off on the right foot by being able to respond to their document request list in a prompt manner. Regulators  may consider slow or imprecise document production to be a red flag. So, prepare yourself for an examination by understanding what they will likely ask for and having it ready at your fingertips.
 
 .row
-  .col-md-7.p-l-0
-    .panel.panel-default
-      .panel-heading
-        .pull-left
-          h3 Policies & Procedures
-        .pull-right
-          .btn-group
-            = link_to "Save", "#", class: "btn btn-primary btn-solid p-y-0"
-        .clearfix
-      / hr.m-y-0
-      .panel-content-wrapper style="height: 450px; padding: 11px 18px;"
-        / table.table.table-striped.table-blue
-          / thead
-          /   tr
-          /     th Policy
-          /     th
-          /     th style="width: 1px;" &nbsp;
-          / tbody
-  .col-md-5.p-l-0
-    .panel.panel-default
-      .panel-heading
-        .pull-left
-          h3 Policies & Procedures
-        .pull-right
-          .btn-group
-            = link_to "Add", "#", class: "btn btn-primary btn-solid p-y-0"
-  
-        .clearfix
-      .panel-content-wrapper style="height: 450px; padding: 11px 18px;"
-        table.table.table-striped.table-blue
-          thead
-            tr
-              th Name
-              th 
-              th Modified
-              th 
-              th 
-              th 
-              th 
-          tbody
+.col-md-7.p-l-0
+  .panel.panel-default
+    .panel-heading
+      .pull-left
+        h3 Sample Document Request List
+      .pull-right
+        .btn-group
+          = link_to "Save", "#", class: "btn btn-primary btn-solid p-y-0"
+      .clearfix
+    / hr.m-y-0
+    .panel-content-wrapper style="height: 575px; padding: 11px 18px;"
+      = render partial: 'sample_document'
+.col-md-5.p-l-0
+  .panel.panel-default
+    .panel-heading
+      .pull-left
+        h3 Books & Records
+      .pull-right
+        .btn-group
+          = link_to "Add", "#", class: "btn btn-primary btn-solid p-y-0"
+
+      .clearfix
+    .panel-content-wrapper style="height: 575px; padding: 11px 18px;"
+      table.table.table-striped.table-blue
+        thead
+          tr
+            th Name
+            th 
+            th Modified
+            th 
+            th 
+            th 
+            th 
+        tbody
+          - for i in 1..10 do
             tr
               td
-                = link_to '#' do
+                = link_to '#', "data-target": "#modal", "data-toggle": "modal", "data-remote": true do
                   i.fa.fa-folder style='font-size: 40px; color: dodgerblue'
               td
                 | Annual Reviews
               td
-                = DateTime.current.to_date
+                = DateTime.current.strftime '%b %-d, %Y'
               td
-                = link_to '#' do
+                = link_to '#', "data-target": "#modal", "data-toggle": "modal", "data-remote": true do
                   i.fa.fa-random
               td
-                = link_to '#' do
+                = link_to '#', "data-target": "#modal", "data-toggle": "modal", "data-remote": true do
                   i.icon-cloud-download
               td
-                = link_to '#' do
-                i.icon-note
+                = link_to '#', "data-target": "#modal", "data-toggle": "modal", "data-remote": true do
+                  i.icon-note
               td
                 = link_to '#' do
                   i.icon-trash
