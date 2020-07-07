@@ -1,13 +1,20 @@
 # frozen_string_literal: true
 
-module BusinessDashboard
-  def tasks_calendar_grid
+module RemindersFetcher
+  class FakeTask
+    def initialize(id)
+      self.id = id
+    end
+    attr_accessor :id
+  end
+
+  def tasks_calendar_grid(remindable)
     beginning = params[:start_date] ? Date.parse(params[:start_date]).beginning_of_month : Time.zone.today.beginning_of_month
     end_of_month = beginning + 40.days
     first_day = beginning - beginning.wday.days
     last_day = end_of_month + (6 - end_of_month.wday).days
-    @grid_tasks = current_business.reminders.where('end_date >= ? AND remind_at < ?', first_day, last_day)
-    @active_projects = current_business.projects.active
+    @grid_tasks = remindable.reminders.where('end_date >= ? AND remind_at < ?', first_day, last_day)
+    @active_projects = remindable.projects.active
     @calendar_grid = {}
     (first_day..last_day).each do |cell|
       @calendar_grid[cell] = []
@@ -63,24 +70,24 @@ module BusinessDashboard
     end
   end
 
-  def reminders_past
-    current_business
+  def reminders_past(remindable)
+    remindable
       .reminders
       .where('end_date >= ? AND end_date < ?', Time.zone.today - 1.week, Time.zone.today).where(done_at: nil)
       .order(remind_at: :asc, id: :asc)
   end
 
-  def reminders_today
-    current_business
+  def reminders_today(remindable)
+    remindable
       .reminders
       .where('remind_at <= ? AND end_date >= ?', Time.zone.today, Time.zone.today)
-      .order(remind_at: :asc, id: :asc) + current_business.projects.active.where('starts_on <= ?', Time.zone.today)
+      .order(remind_at: :asc, id: :asc) + remindable.projects.active.where('starts_on <= ?', Time.zone.today)
   end
 
-  def reminders_week
-    current_business
+  def reminders_week(remindable)
+    remindable
       .reminders
       .where('end_date >= ? AND end_date <= ?', Time.zone.today.beginning_of_week, Time.zone.today.end_of_week)
-      .order(remind_at: :asc, id: :asc) + current_business.projects.active.where('starts_on <= ?', Time.zone.today)
+      .order(remind_at: :asc, id: :asc) + remindable.projects.active.where('starts_on <= ?', Time.zone.today)
   end
 end

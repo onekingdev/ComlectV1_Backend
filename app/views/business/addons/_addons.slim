@@ -2,12 +2,13 @@
   .panel-heading
     .pull-left
       h3 Add-on Alerts
+    hr.m-y-0
     .pull-right
       = link_to "Add-Ons", root_url(subdomain: 'marketplace'), "data-target": "#modal", "data-toggle": "modal", "data-remote": true, class: "btn btn-primary btn-solid p-y-0", style: "padding: 9px 10px;"
 
     .clearfix
   / hr.m-y-0
-  .panel-content-wrapper style="max-height: 300px;"
+  .panel-content-wrapper class=("fixedheight_receiver" if ["business_dashboard", "specialists/dashboard"].include?(params[:controller])) style="max-height: 400px;"
     table.table.table-striped.table-blue.addon-alerts-table
       thead
         tr

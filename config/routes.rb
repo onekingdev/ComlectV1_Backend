@@ -154,6 +154,7 @@ Rails.application.routes.draw do
   namespace :specialists, path: 'specialist' do
     get '/' => 'dashboard#show', as: :dashboard
     get '/locked' => 'dashboard#locked'
+    resources :reminders, only: %i[new update create destroy edit show index]
     resources :businesses, only: %i[new create show] do
       get '/personalize' => 'personalize#quiz'
       post '/personalize' => 'personalize#quiz'
@@ -163,7 +164,6 @@ Rails.application.routes.draw do
       resources :annual_reviews, only: %i[new create show destroy index edit update]
       resources :annual_reports, only: %i[new create index update]
       # resources :teams, only: %i[new create show edit index update]
-      resources :reminders, only: %i[new update create destroy edit show index]
       resources :audit_requests, only: %i[index update create new edit show destroy]
     end
     resource :settings, only: :show do

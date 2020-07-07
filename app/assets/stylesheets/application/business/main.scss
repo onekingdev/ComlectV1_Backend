@@ -23,10 +23,17 @@ body.businesses.show {
   }
 }
 
-body.passwords, body.key_contacts, body.payment_settings, body.faq, body.subscription_settings, body.notification_settings, body.teams, body.referrals, body.delete_accounts, body.settings, body.compliance_policies, body.annual_reports {
+body.passwords, body.key_contacts, body.payment_settings, body.faq, body.subscription_settings, body.notification_settings, body.teams, body.referrals, body.delete_accounts, body.settings, body.compliance_policies, body.annual_reports, body.sessions, body.businesses.new, body.onboarding {
   background-color: #fff;
   #left_navbar {
     box-shadow: 0px 2px 6px 0px rgba(0,0,0,0.16);
+  }
+}
+
+a {
+  &:hover, &:focus {
+    text-decoration: none;
+    color: #000;
   }
 }
 
@@ -57,7 +64,7 @@ body.passwords, body.key_contacts, body.payment_settings, body.faq, body.subscri
   }
 }
 
-body.personalize.quiz, body.job_applications.show, body.job_applications.edit, body.job_applications.new, body.job_applications.create, body.job_applications.new, body.projects.new, body.projects.edit, body.turnkey_pages.new, body.onboarding.index {
+body.personalize.quiz, body.job_applications.show, body.job_applications.edit, body.job_applications.new, body.job_applications.create, body.job_applications.new, body.projects.new, body.projects.edit, body.turnkey_pages.new {
   background-image: asset_url('bg.png');
   background-position: center top;
   background-repeat: repeat-y;
@@ -102,7 +109,7 @@ body.personalize.quiz, body.job_applications.show, body.job_applications.edit, b
 body {
   background-color: #F3F5F7;
   @media (min-width: $screen-xs-max) {
-    min-width: 1200px;
+    min-width: 1140px;
   }
 }
 

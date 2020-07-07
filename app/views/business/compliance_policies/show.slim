@@ -14,7 +14,7 @@ h1 style="font-family: 'Canela'; font-size: 30px; font-weight: 400;"
         /= link_to "Delete", (current_specialist ? specialists_business_compliance_policy_path(@business.username, @compliance_policy) : business_compliance_policy_path(@compliance_policy)), class: "btn btn-solid btn-default p-x-3", method: :delete, data: { confirm: '<b>Confirm Delete</b><br/><br/><br/>You are deleting this entire policy and all of its<br/>previously saved versions. Please remember to<br/>download these files for your records, if you have<br/>ever implemented this policy.<br/><br/>Would you still like to delete?', 'confirm-label' => 'Delete' }
       .clearfix
     hr.m-y-0
-    .panel-content-wrapper style="height: 500px; padding: 11px 18px;"
+    .panel-content-wrapper style="height: 500px;"
       table.table-blue.table.borderless.m-b-3.m-t-3 style="width: 100%;"
         thead
           tr

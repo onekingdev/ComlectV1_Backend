@@ -1,4 +1,4 @@
-.panel.panel-default.m-b-2
+.panel.panel-default.m-b-2 class=("fixedheight" if params[:controller] == "business/seats")
   .panel-heading
     .pull-left
       h3 Seats
@@ -15,7 +15,7 @@
         = link_to "Purchase", pth, "data-target": "#modal", "data-toggle": "modal", "data-remote": true, class: "btn btn-primary btn-solid m-r-3 p-y-0", style: "padding: 9px 10px;"
     .clearfix
   / hr.m-y-0
-  .panel-content-wrapper style="height: 300px; padding: 11px 18px;" class=("fullheight" if params[:controller] == "business_dashboard")
+  .panel-content-wrapper style="height: 300px;" class=("fullheight" if params[:controller] == "business_dashboard")
     table.table.table-striped.table-blue
       thead
         tr

@@ -2,27 +2,35 @@
 
 class Specialists::RemindersController < ApplicationController
   before_action :require_specialist!
-  before_action :set_business
+  before_action :set_specialist
 
   def new
     @reminder = Reminder.new
     @parsed_date = Date.parse(params[:date])
     @reminder.remind_at = @parsed_date
+    @reminder.end_date = @parsed_date
+    @action_path = specialists_reminders_path
+    render 'business/reminders/new'
+  end
+
+  def edit
+    @reminder = @specialist.reminders.find(params[:id])
+    @action_path = specialists_reminder_path(@reminder)
     render 'business/reminders/new'
   end
 
   def create
     @reminder = Reminder.new(reminder_params)
-    @reminder.business_id = @business.id
-
-    redirect_to redirect_path if @reminder.save
+    @reminder.remindable_id = @specialist.id
+    @reminder.remindable_type = 'Specialist'
+    redirect_to specialists_dashboard_path(reminder: @reminder.remind_at.strftime('%Y-%m-%d')) if @reminder.save
   end
 
   def destroy
-    @reminder = @business.reminders.find(params[:id])
+    @reminder = @specialist.reminders.find(params[:id])
     tgt_date = @reminder&.remind_at
     @reminder&.destroy
-    redirect_to specialists_business_path(@business.username, reminder: tgt_date&.strftime('%Y-%m-%d'))
+    redirect_to specialists_dashboard_path(reminder: tgt_date&.strftime('%Y-%m-%d'))
   end
 
   def index
@@ -30,7 +38,7 @@ class Specialists::RemindersController < ApplicationController
       format.pdf do
         render pdf: 'reminders.pdf',
                template: 'business/reminders/index.pdf.erb', encoding: 'UTF-8',
-               locals: { reminders: @business.reminders_this_year, business: @business },
+               locals: { remindable: @specialist },
                margin: { top:               20,
                          bottom:            25,
                          left:              15,
@@ -40,23 +48,12 @@ class Specialists::RemindersController < ApplicationController
   end
 
   def update
-    # reminder = @business.reminders.find_by(id: params[:id])
-    # reminder&.update(
-    #   reminder_params.merge(
-    #     done_at: (params[:done] == 'true' ? Time.zone.now : nil)
-    #   )
-    # )
-    if params[:done].present?
-      @business.reminders
-               .where(id: params[:id])
-               .first
-               .update(
-                 done_at: (params[:done] == 'false' ? nil : Time.zone.now)
-               )
-    end
+    @reminder = @specialist.reminders.find(params[:id])
+    @reminder.update(done_at: (params[:done] == 'false' ? nil : Time.zone.now)) if params[:done].present?
+    @reminder.update(reminder_params)
     respond_to do |format|
       format.html do
-        redirect_to redirect_path(@business.username)
+        redirect_to specialist_dashboard_path
       end
       format.json do
         render json: :ok
@@ -70,20 +67,7 @@ class Specialists::RemindersController < ApplicationController
     params.require(:reminder).permit(:body, :remind_at, :end_date)
   end
 
-  def set_business
-    @business = current_business || current_specialist.manageable_ria_businesses.find_by(username: params[:business_id])
-  end
-
-  def redirect_path(reminder = nil)
-    if current_specialist&.employee?(current_business)
-      employees_path
-    else
-      opts = {
-        id: @business&.username
-      }
-      opts[:reminder] = reminder&.remind_at&.strftime('%Y-%m-%d') if reminder
-
-      specialists_business_path(opts)
-    end
+  def set_specialist
+    @specialist = current_specialist
   end
 end

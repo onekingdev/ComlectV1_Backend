@@ -60,6 +60,15 @@ class Business::Financials
     @processed_total ||= processed_charges.sum(:total_with_fee_in_cents) / 100.0
   end
 
+  def get_budget_data(_range_axis)
+    [{ data: { 'Spent' => 2_000_000 } }, { data: { 'Annual Budget' => 3_000_000 } }]
+    # @budget_data ||= [{ data: { name: 'Spent', value: 2_000_000 } }, { data: { name: 'Annual Budget', value: 3_000_000 } }]
+    # @budget_data.each do |item|
+    #   _range_axis.push(item[:data][:value]/1000)
+    # end
+    # @library ||= [{ vAxis: { ticks: ((_range_axis.min)..(_range_axis.max)).to_a } }]
+  end
+
   private
 
   def upcoming_charges

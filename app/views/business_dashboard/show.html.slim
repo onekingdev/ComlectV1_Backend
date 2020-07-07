@@ -5,12 +5,26 @@
   #business-dashboard.row.m-b-3
     - if @business.ria_dashboard?
       .col-sm-6
-        = render partial: "reminders"
+        = render partial: "reminders", locals: { new_path: "new_business_reminder_path", edit_path: "edit_business_reminder_path", project_path: "business_project_dashboard_path", pdf_path: "business_reminders_path" }
       .col-sm-3
         = render partial: "tasks"
       .col-sm-3
-        = render partial: "addon_alerts"
+        = render partial: "business/addons/addons"
       .clearfix
+      .col-md-3
+        .panel.panel-default.profile-info
+          .panel-heading
+            h3 Annual Budget
+          .panel-body.p-y-0.m-t-0 
+            = column_chart(@financials.get_budget_data(@range_axis), legend: false)
+        .clearfix
+      .col-md-5
+        .panel.panel-default.profile-info
+          .panel-heading
+            h3 Compliance Spend
+            .seats_info YTD #{@financials.processed_ytd}
+          .panel-body.p-y-0.m-t-0
+            = line_chart User.group_by_month(:created_at, format: "%b").count, height: "245px"
       .col-sm-6
         = render partial: "business/seats/seats"
       .col-md-3.hidden
@@ -162,7 +176,7 @@
             .dot-pagination.m-b-1
             a.next-slide href="#" +
 
-- if !@business.welcomed?
+- if !@business.welcomed? && @business.ria_dashboard?
   - @business.update(welcomed: true)
   javascript:
     var show_business_personalize = #{!@business.personalized?};

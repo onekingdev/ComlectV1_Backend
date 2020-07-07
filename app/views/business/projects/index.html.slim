@@ -1,25 +1,15 @@
 - content_for :title, 'Projects'
 - header_class ''
 
-.row.m-b-3
-  .col-md-8
-    .panel.panel-default.panel-padded
-      .panel-heading
-        h3 Projects
-        .dropdown.visible-sm.visible-xs
-          button.btn.btn-default.dropdown-toggle type="button" data-toggle="dropdown"
-            'Filter
-            span.caret
-          ul.dropdown-menu.dropdown-menu-right
-            li.active.btn.btn-shadow= link_to '#projects-active', data: { toggle: 'tab', "remote-load" => true, url: business_projects_path(filter: 'active', cards: 'business_cards'), 'toggle-sync' => true } do
-              span Active
-            li.btn.btn-shadow= link_to '#projects-pending', data: { toggle: 'tab', "remote-load" => true, url: business_projects_path(filter: 'pending', cards: 'business_cards'), 'toggle-sync' => true } do
-              span Pending
-            li.btn.btn-shadow= link_to '#projects-draft', data: { toggle: 'tab', "remote-load" => true, url: business_projects_path(filter: 'drafts', cards: 'business_cards'), 'toggle-sync' => true } do
-              span Drafts
-            li.btn.btn-shadow= link_to '#projects-complete', data: { toggle: 'tab', "remote-load" => true, url: business_projects_path(filter: 'complete', cards: 'business_cards'), 'toggle-sync' => true } do
-              span Completed
-        ul#js-project-filters.nav.nav-pills.visible-md.visible-lg
+.col-md-8.p-x-0
+  .panel.panel-default.panel-padded.fixedheight
+    .panel-heading
+      h3 Projects
+      .dropdown.visible-sm.visible-xs
+        button.btn.btn-default.dropdown-toggle type="button" data-toggle="dropdown"
+          'Filter
+          span.caret
+        ul.dropdown-menu.dropdown-menu-right
           li.active.btn.btn-shadow= link_to '#projects-active', data: { toggle: 'tab', "remote-load" => true, url: business_projects_path(filter: 'active', cards: 'business_cards'), 'toggle-sync' => true } do
             span Active
           li.btn.btn-shadow= link_to '#projects-pending', data: { toggle: 'tab', "remote-load" => true, url: business_projects_path(filter: 'pending', cards: 'business_cards'), 'toggle-sync' => true } do
@@ -28,29 +18,37 @@
             span Drafts
           li.btn.btn-shadow= link_to '#projects-complete', data: { toggle: 'tab', "remote-load" => true, url: business_projects_path(filter: 'complete', cards: 'business_cards'), 'toggle-sync' => true } do
             span Completed
-      .panel-body.p-x-0.p-y-0 
-        .tab-content
-          #projects-active.tab-pane.active
-          #projects-pending.tab-pane
-          #projects-draft.tab-pane
-          #projects-complete.tab-pane
-  .col-md-4
-    .panel.panel-default.panel-padded
-      .panel-heading
-        h3 Specialists
-        ul#js-specialist-filters.nav.nav-pills.visible-md.visible-lg style="display:none!important"
-          li.active= link_to '#specialists-hired', data: { toggle: 'tab', "remote-load" => true, url: business_specialists_path(filter: 'hired', cards: 'business_cards'), 'toggle-sync' => true } do
-            span Hired
-      .panel-body.p-x-0.p-y-0 
-        .tab-content
-          #specialists-hired.tab-pane.active
-.row.m-b-3
-  .col-md-5
-    .panel.panel-default.panel-padded
-      .panel-heading
-        h3 Ratings & Reviews
-      .panel-body.p-x-0.p-y-0 
-        = render partial: 'business_rating'
+      ul#js-project-filters.nav.nav-pills.visible-md.visible-lg
+        li.active.btn.btn-shadow= link_to '#projects-active', data: { toggle: 'tab', "remote-load" => true, url: business_projects_path(filter: 'active', cards: 'business_cards'), 'toggle-sync' => true } do
+          span Active
+        li.btn.btn-shadow= link_to '#projects-pending', data: { toggle: 'tab', "remote-load" => true, url: business_projects_path(filter: 'pending', cards: 'business_cards'), 'toggle-sync' => true } do
+          span Pending
+        li.btn.btn-shadow= link_to '#projects-draft', data: { toggle: 'tab', "remote-load" => true, url: business_projects_path(filter: 'drafts', cards: 'business_cards'), 'toggle-sync' => true } do
+          span Drafts
+        li.btn.btn-shadow= link_to '#projects-complete', data: { toggle: 'tab', "remote-load" => true, url: business_projects_path(filter: 'complete', cards: 'business_cards'), 'toggle-sync' => true } do
+          span Completed
+    .panel-body.panel-content-wrapper style="max-height: 260px;"
+      .tab-content
+        #projects-active.tab-pane.active
+        #projects-pending.tab-pane
+        #projects-draft.tab-pane
+        #projects-complete.tab-pane
+.col-md-4
+  .panel.panel-default.panel-padded
+    .panel-heading
+      h3 Specialists
+      ul#js-specialist-filters.nav.nav-pills.visible-md.visible-lg style="display:none!important"
+        li.active= link_to '#specialists-hired', data: { toggle: 'tab', "remote-load" => true, url: business_specialists_path(filter: 'hired', cards: 'business_cards'), 'toggle-sync' => true } do
+          span Hired
+    .panel-content-wrapper.fixedheight_receiver
+      .tab-content
+        #specialists-hired.tab-pane.active
+.col-md-6.p-x-0
+  .panel.panel-default.panel-padded
+    .panel-heading
+      h3 Ratings & Reviews
+    .panel-content-wrapper.fullheight
+      = render partial: 'business_rating'
 
 - if params[:reminder].present?
   javascript:

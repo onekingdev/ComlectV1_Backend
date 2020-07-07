@@ -47,6 +47,7 @@ class Specialist < ApplicationRecord
   has_many :ported_subscriptions
   has_many :ported_businesses
   has_many :payment_sources, class_name: 'Specialist::PaymentSource'
+  has_many :reminders, as: :remindable
 
   has_settings do |s|
     s.key :notifications, defaults: {
@@ -122,6 +123,11 @@ class Specialist < ApplicationRecord
   #  arr.uniq!
   #  tgt_arr
   # end
+
+  def name
+    full_name
+  end
+
   def apply_quiz(cookies)
     step1_c = cookies[:complect_s_step1].split('-').map(&:to_i)
     self.sub_industries = []

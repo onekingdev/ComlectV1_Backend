@@ -8,26 +8,27 @@ class Specialists::ProjectsController < ApplicationController
     'active' => :active_projects,
     'pending' => :pending_projects,
     'favorited' => :favorited_projects,
-    'completed' => :completed_projects
+    'complete' => :completed_projects
   }.freeze
 
   def index
-    @filter = FILTERS[filter_param]
-    @projects = __send__(@filter || :render_404)
-    @projects.map(&proc { |p| p.populate_rfp_specialist(current_specialist) })
+    @filter = FILTERS[params[:filter]] || :none
+    if @filter != :none
+      @projects = __send__(@filter || :render_404)
+      @projects.map(&proc { |p| p.populate_rfp_specialist(current_specialist) })
+    end
+    @is_specialist_cards = request.original_fullpath.include?('specialist_cards')
+    @ratings = current_specialist.ratings_combined
+
     respond_to do |format|
       format.html do
-        render partial: 'cards', locals: { projects: @projects }
+        render partial: @is_specialist_cards ? 'specialist_cards' : 'cards', locals: { projects: @projects } if request.xhr?
       end
       format.js
     end
   end
 
   private
-
-  def filter_param
-    params.require(:filter)
-  end
 
   def active_projects
     base_scope current_specialist.projects.active

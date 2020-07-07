@@ -32,6 +32,10 @@ gem 'wicked_pdf'
 # calendar
 gem 'simple_calendar', '~> 2.0'
 
+# charts
+gem 'chartkick'
+gem 'groupdate'
+
 # captcha
 gem 'bcrypt'
 gem 'recaptcha', require: 'recaptcha/rails'

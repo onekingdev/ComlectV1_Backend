@@ -3,6 +3,15 @@
 
 - Specialist::Decorator.decorate(@specialist).tap do |specialist|
   #specialist-dashboard.row.m-b-3
+    .col-sm-6
+      = render partial: "business_dashboard/reminders", locals: { new_path: "new_specialists_reminder_path", edit_path: "edit_specialists_reminder_path", project_path: "specialists_project_path", pdf_path: "specialists_reminders_path" }
+    .col-sm-3 
+      = render partial: "business_dashboard/tasks"
+    .col-sm-3
+      = render partial: "business/addons/addons"
+    .clearfix
+    .col-sm-4
+      = render partial: 'employees', locals: { employees: specialist.managed_team.employees }
     .tr
       .td.col-xs-12.col-sm-4.col-md-3.va-top
         .panel.panel-default.profile-info
@@ -102,7 +111,7 @@
                   span Pending
                 li= link_to '#projects-favorited', data: { toggle: 'tab', "remote-load" => true, url: specialists_projects_path(filter: 'favorited'), 'toggle-sync' => true } do
                   span Favorite
-                li= link_to '#projects-completed', data: { toggle: 'tab', "remote-load" => true, url: specialists_projects_path(filter: 'completed'), 'toggle-sync' => true } do
+                li= link_to '#projects-complete', data: { toggle: 'tab', "remote-load" => true, url: specialists_projects_path(filter: 'completed'), 'toggle-sync' => true } do
                   span Completed
             ul#js-project-filters.nav.nav-pills.visible-md.visible-lg
               li.active= link_to '#projects-active', data: { toggle: 'tab', "remote-load" => true, url: specialists_projects_path(filter: 'active'), 'toggle-sync' => true } do
@@ -111,28 +120,11 @@
                 span Pending
               li= link_to '#projects-favorited', data: { toggle: 'tab', "remote-load" => true, url: specialists_projects_path(filter: 'favorited'), 'toggle-sync' => true } do
                 span Favorite
-              li= link_to '#projects-completed', data: { toggle: 'tab', "remote-load" => true, url: specialists_projects_path(filter: 'completed'), 'toggle-sync' => true } do
-                span Completed
+              li= link_to '#projects-complete', data: { toggle: 'tab', "remote-load" => true, url: specialists_projects_path(filter: 'completed'), 'toggle-sync' => true } do
+                span Complete
           .panel-body.p-b-3.p-t-2
             .tab-content
               #projects-active.tab-pane.active
               #projects-pending.tab-pane
               #projects-favorited.tab-pane
               #projects-completed.tab-pane
-
-        .panel.panel-default.panel-padded
-          .panel-heading
-            h3
-              a.no-link name="ratings-reviews" My Ratings & Reviews
-            .detail= rating_average_text specialist
-          .panel-body#ratings-slick
-            .row.ratings.list-group.plain
-              - @ratings.each_slice(10).to_a.each do |a|
-                .rating-block
-                  = render partial: 'ratings/rating', collection: a
-            - if @ratings.count > 10
-              .slick-nav
-                a.prev-slide href="#" Q
-                .dot-pagination.m-b-1
-                a.next-slide href="#" +
-              /= render partial: 'ratings/rating', collection: specialist.ratings_received.preload_associations

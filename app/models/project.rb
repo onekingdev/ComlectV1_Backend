@@ -227,9 +227,9 @@ class Project < ApplicationRecord
   end
 
   def self.cards_for_user(user, filter:)
-    user.business.projects.recent
-        .includes(:industries, :jurisdictions, :skills)
-        .public_send(filter)
+    (user.specialist || user.business).projects.recent
+                                      .includes(:industries, :jurisdictions, :skills)
+                                      .public_send(filter)
   end
 
   def complete!

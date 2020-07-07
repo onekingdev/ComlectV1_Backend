@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Reminder < ActiveRecord::Base
-  belongs_to :business
+  belongs_to :remindable, polymorphic: true
 
   def start_time
     remind_at

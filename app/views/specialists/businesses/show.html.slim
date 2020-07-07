@@ -2,10 +2,13 @@
 - header_class ''
 
 - Business::Decorator.decorate(@business).tap do |business|
+  .col-md-6
+    = render partial: "business_dashboard/reminders", locals: { new_path: "new_specialists_business_reminder_path", edit_path: "edit_specialists_business_reminder_path", project_path: "project_dashboard_path", pdf_path: "specialists_business_reminders_path", remote_business: true }
+  .clearfix
+
   #business-dashboard.row.m-b-3
     .tr
       .td.col-xs-12.col-sm-4.col-md-3.va-top
-        = render partial: "business_dashboard/reminders"
         = render partial: "business_dashboard/compliance_manual"
         = render partial: "business_dashboard/annual_review"
         = render partial: "business_dashboard/audit_prep"

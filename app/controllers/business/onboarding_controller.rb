@@ -83,6 +83,7 @@ class Business::OnboardingController < ApplicationController
   def mark_passed
     current_business.update(onboarding_passed: true)
     current_business.update(ria_dashboard: true) if need_subscription?
+    BusinessMailer.welcome(Business.find(current_business.id)).deliver_later
   end
 
   def go_to_dashboard

@@ -34,7 +34,7 @@ nav#nav.navbar.navbar-default
           li.p-x-1= link_to 'Browse Specialists', specialists_path
         - else
           li.p-x-1= link_to 'Browse Projects', projects_path
-      - if user_signed_in_onboarding? && !employee?
+      - if user_signed_in? && !employee?
         li.dropdown.preseparate
           - if (business = user.business)
             a.dropdown-toggle href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
@@ -60,15 +60,18 @@ nav#nav.navbar.navbar-default
               - if specialist.manageable_ria_businesses.count > 0
                 li.cat.bizmgr
                   u Manage&nbsp;Business:
+                - already_passed = []
                 - specialist.manageable_ria_businesses.each do |ria|
-                  li.bizmgr= link_to ria.business_name, specialists_business_path(ria)
+                  - if !already_passed.include?(ria.id)
+                    li.bizmgr= link_to ria.business_name, specialists_business_path(ria)
+                    - already_passed.push(ria.id)
                 .fake_bottom
         = render partial: "notifications", locals: { user: user }
       - if employee?
         li.p-r-0
           ul.nav.navbar-nav.sign_out
             li.p-r-2= link_to "Log out", users_sign_out_force_path, class: "sign_up_navbar_link btn btn-primary p-2"
-        = render partial: "notifications", locals: { user: user }
+        = render partial: "notifications", locals: { user: user } 
       - unless current_user
         li.p-r-0
           ul.nav.navbar-nav.sign_in
@@ -109,11 +112,10 @@ nav#nav.navbar.navbar-default
         - if params[:controller] == "business/audit_requests"
           .active
         i.icon-folder-alt
-    - if current_user.business
-      = link_to business_projects_path do
-        - if params[:controller] == "business/projects"
-          .active
-        i.icon-list
+    = link_to (current_user.business ? business_projects_path : specialists_projects_path) do
+      - if params[:controller] == "business/projects"
+        .active
+      i.icon-list
     - if current_user.business
       = link_to business_addons_path do
         - if params[:controller] == "business/addons"

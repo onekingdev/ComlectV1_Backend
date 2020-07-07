@@ -22,6 +22,8 @@
 #= require_tree ./components
 #= require_tree ./application
 #= require js.cookie
+#= require chartkick
+#= require Chart.bundle
 
 $ ->
 

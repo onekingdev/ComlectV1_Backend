@@ -1,12 +1,12 @@
 .reminder_task
   - if reminder.class.name == "Project"
-    - pth = business_project_dashboard_path(reminder)
+    - pth = current_specialist ? specialists_project_path(reminder) : business_project_dashboard_path(reminder)
     .padded-checkboxes.reactive_reminders
       = check_box_tag("reminder_p_#{reminder.id}", 1, true, disabled: true)
       label for=("reminder_p_#{reminder.id}") class="css-label" 
         = link_to reminder.title, pth, class: "upcoming_task", target: "_blank"
   - if reminder.class.name == "Reminder"
-    - pth = current_business ? edit_business_reminder_path(reminder) : edit_specialists_business_reminder_path(@business.username, reminder)
+    - pth = current_business ? edit_business_reminder_path(reminder) : edit_specialists_reminder_path(reminder)
     .padded-checkboxes.reactive_reminders
       = check_box_tag("reminder_#{reminder.id}", 1, !reminder.done_at.nil?)
       label for=("reminder_#{reminder.id}") class="css-label" 

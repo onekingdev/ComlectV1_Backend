@@ -19,7 +19,9 @@
         = link_to "Back", "/business/edit", class: "btn btn-default m-r-2 back"
         = f.submit "Continue", class: "btn btn-primary p-x-3"
   - else
-    h2.m-t-1.m-b-2.text-center Billing information
+    h2.m-t-1.m-b-2.text-center style="font-family: Canela; font-weight: 400; font-size: 18px;" Billing information
+    .col-md-6.col-md-offset-3.m-b-2
+      p We collect your payment details upfront for our automated fee billing and invoicing services. These details are also maintained on file for ease of in-app purchases.
     - if flash[:error]
       .row
         .col-md-6.col-md-offset-3.alert.alert-danger= flash[:error]
@@ -87,8 +89,8 @@
 
     .clearfix
     .col-md-12.m-t-2.text-center.m-b-3
-      - if current_business.ria?
+      /- if current_business.ria?
         = link_to "Back", "/business/onboarding?back=1", class: "btn btn-default m-r-2 back"
-      - else
+      /- else
         = link_to "Back", "/business/edit", class: "btn btn-default m-r-2 back"
       button.btn.btn-primary.p-x-3.continue#submit-ongoing Submit

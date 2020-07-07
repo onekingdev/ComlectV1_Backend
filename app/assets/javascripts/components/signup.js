@@ -341,7 +341,7 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
         $("#specify_other").focus();
       }
       if (t_choice.text().indexOf("I don't know") > -1) {
-        _Modal.showPlain("<div class='modal-body'><div class='modal-fake text-center modal-wrapper m-x-1 m-y-1 p-t-2 p-x-3 gray'>We understand this can be a confusing process and <br> we want to make it as easy as possible, so let’s set you up with a free consultation.<br>Schedule a time to speak to someone. <div class='m-b-1 m-t-2'><button class='btn btn-default' data-dismiss='modal'>Cancel</button> <a href='https://calendly.com/complect' target='_blank' class='btn btn-primary'>Schedule</a></div></div>");
+        _Modal.showPlain("<div class='bootbox-heading p-x-3'>Schedule Consultation<hr/></div><div class='p-x-3 m-x-3 m-t-2 p-b-3 text-center'>We understand this can be a confusing process <br> and we want to make it as easy as possible.<br>So, let’s set you up with a free consultation.<div class='m-b-1 m-t-2 text-center'><a href='https://calendly.com/complect' target='_blank' class='btn btn-primary' style='width: 140px;'>Schedule</a></div>");
       } else {
         t_choice.addClass("active");
         cb.prop("checked", true);

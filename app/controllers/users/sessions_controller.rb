@@ -13,7 +13,7 @@ class Users::SessionsController < Devise::SessionsController
       format.html { super }
       format.js do
         if (self.resource = warden.authenticate(auth_options))
-          set_flash_message!(:notice, :signed_in)
+          # set_flash_message!(:notice, :signed_in)
           sign_in(resource_name, resource)
           resource.update(inactive_for_period: false)
           @js_redirect = after_sign_in_path_for(resource)

@@ -1,3 +1,6 @@
+- action_path = @action_path
+- remote_business = remote_business ? "@business, " : ""
+
 .m-l-2.m-r-2
   h1 style="margin-top: 14px; font-size: 16px; font-family: Canela; font-weight: bold;"
     - if params[:action] == "edit"
@@ -15,12 +18,12 @@
             = reminder.body
             = link_to "", (current_specialist ? specialists_business_reminder_path(@business.username, reminder) : business_reminder_path(reminder)), method: :delete, class: "icon-close"
       .clearfix
-  - pth = (current_specialist ? specialists_business_reminders_path(@business.username) : business_reminders_path)
-  - if params[:action] == "edit"
-    - pth = (current_specialist ? specialists_business_reminder_path(@business.username, @reminder) : business_reminder_path(@reminder))
+  /- pth = (current_specialist ? specialists_business_reminders_path(@business.username) : business_reminders_path)
+  /- if params[:action] == "edit"
+  /  - pth = (current_specialist ? specialists_business_reminder_path(@business.username, @reminder) : business_reminder_path(@reminder))
 
 
-  = simple_form_for @reminder, wrapper: :inline_form, url: pth do |f|
+  = simple_form_for @reminder, wrapper: :inline_form, url: action_path do |f|
     .text-danger = f.object.errors.full_messages.first if f.object.errors.any?
 
     .col-md-12.p-x-0

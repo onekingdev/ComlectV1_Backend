@@ -16,7 +16,7 @@
         - progressBar = project.pending? ? "0" : project.percent_complete.round
         tr 
           td
-            a.p-l-2 href=project.business_project_href 
+            a.p-l-2 href=project.specialist_project_href(current_specialist)
               = project.title
           td.text-center = project.location_details
           td.text-center = project.dollars
@@ -29,5 +29,6 @@
               .progress-bar role="progressbar" aria-valuenow="#{progressBar}" aria-valuemin="0" aria-valuemax="100" style="width: #{progressBar}%"  
 
   .clearfix
+
 javascript:
   fullheight_all();

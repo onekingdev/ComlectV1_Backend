@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class EmployeesController < ApplicationController
-  include BusinessDashboard
+  include RemindersFetcher
 
   before_action :fetch_invitation, only: %i[new create]
   before_action :authenticate_user!, only: %i[index]

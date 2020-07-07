@@ -43,7 +43,7 @@ class Business < ApplicationRecord
 
   has_one :referral, as: :referrable
   has_many :referral_tokens, as: :referrer
-  has_many :reminders
+  has_many :reminders, as: :remindable
   has_many :audit_docs
 
   has_settings do |s|
@@ -247,6 +247,10 @@ class Business < ApplicationRecord
   delegate :suspended?, to: :user
 
   after_commit :generate_referral_token, on: :create
+
+  def name
+    business_name
+  end
 
   def self.fix_aum(str)
     vocab = [%w[BN bn Billion billion Bill bill], '000000000'], \

@@ -45,8 +45,6 @@ class BusinessesController < ApplicationController
 
       mixpanel_track_later 'Sign Up'
 
-      BusinessMailer.welcome(@business).deliver_later
-
       %i[complect_contact_first_name complect_contact_last_name complect_business_name complect_address_1 complect_city complect_state complect_step21 complect_contact_job_title complect_contact_phone complect_address_2 complect_zipcode complect_client_account_cnt complect_total_assets complect_user_attributes_email complect_first_name complect_last_name referral complect_step1 complect_step11 complect_step2 complect_step3 complect_step4 complect_step41 complect_step42 complect_other].each do |c| # rubocop:disable Metrics/LineLength
         cookies.delete c
       end

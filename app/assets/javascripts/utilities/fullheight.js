@@ -6,8 +6,8 @@ var fullheight_all = function() {
   });
 
   $(".fixedheight_receiver").each(function() {
-    var delta = $(this).parent().innerHeight()-$(this).outerHeight();
-    var new_height = $(this).parent().innerHeight()+($(".fixedheight").innerHeight()-$(this).parent().innerHeight())-delta;
+    var delta = $(this).parent().outerHeight()-$(this).outerHeight();
+    var new_height = $(this).parent().innerHeight()+($(".fixedheight").innerHeight()-$(this).parent().innerHeight())-delta-(parseInt($(this).css("padding-top"))*2);
     $(this).height(new_height);
   });
 }

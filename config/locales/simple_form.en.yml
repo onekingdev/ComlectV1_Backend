@@ -39,68 +39,68 @@ en:
         additional_owners: Owners with more than 25% ownership, excluding the individual responsible for the account. Separate names with commas.
     placeholders:
       user:
-        email: "* Email Address"
-        password: "* Password"
-        password_confirmation: "* Password confirmation"
+        email: "Email Address"
+        password: "Password"
+        password_confirmation: "Password confirmation"
       business:
-        contact_first_name: "* First Name"
-        contact_last_name: "* Last Name"
-        contact_email: "* Email"
+        contact_first_name: "First Name"
+        contact_last_name: "Last Name"
+        contact_email: "Email"
         contact_job_title: Job Title
         contact_phone: Phone No.
-        business_name: "* Business Name"
-        industry: "* Industry"
-        employees: "* No. Employees"
+        business_name: "Business Name"
+        industry: "Industry"
+        employees: "No. Employees"
         website: Website
         linkedin_link: LinkedIn URL
-        description: "* Business Description"
-        address_1: "* Address Line 1"
+        description: "Business Description"
+        address_1: "Address Line 1"
         address_2: Address Line 2
-        country: "* Country"
-        city: "* City"
-        state: "* State"
+        country: "Country"
+        city: "City"
+        state: "State"
         zipcode: Zipcode
         risk_tolerance: "Risk tolerance"
       specialist:
-        first_name: "* First Name"
-        last_name: "* Last Name"
-        country: "* Country"
-        state: "* State"
-        city: "* City"
-        time_zone: "* Timezone"
-        address_1: "* Address Line 1"
+        first_name: "First Name"
+        last_name: "Last Name"
+        country: "Country"
+        state: "State"
+        city: "City"
+        time_zone: "Timezone"
+        address_1: "Address Line 1"
         address_2: Address Line 2
-        zipcode: "* Zipcode"
+        zipcode: "Zipcode"
         phone: Phone Number
         linkedin_link: LinkedIn Profile URL
-        industries: "* Industries"
-        jurisdictions: "* Jurisdictions"
+        industries: "Industries"
+        jurisdictions: "Jurisdictions"
         certifications: List your other certifications (e.g. IACCP, CRCP, CFE)
       project:
-        title: "* Title"
-        location_type: "* Location"
-        location: "* City, State, Country"
-        industries: "* Industry"
-        jurisdictions: "* Jurisdiction"
-        description: "* Please provide a detailed description of what services you're looking for and relevant background information. For example: ​\n\nWe're an SEC registered adviser with 10 employees and ~$250MM AUM across 225 accounts. Our sales team is producing several new marketing materials every week and we would like to hire someone to review these materials for us as they come up. It will likely be anywhere from 3-5 a month and are primarily one pagers and 5-10 page marketing decks."
-        key_deliverables: "* Key Deliverables (e.g. report, advice, policies, etc.)"
-        minimum_experience: "* Minimum Years of Compliance Experience"
-        full_time_starts_on: "* Start Date"
+        title: "Title"
+        location_type: "Location"
+        location: "City, State, Country"
+        industries: "Industry"
+        jurisdictions: "Jurisdiction"
+        description: "Please provide a detailed description of what services you're looking for and relevant background information. For example: ​\n\nWe're an SEC registered adviser with 10 employees and ~$250MM AUM across 225 accounts. Our sales team is producing several new marketing materials every week and we would like to hire someone to review these materials for us as they come up. It will likely be anywhere from 3-5 a month and are primarily one pagers and 5-10 page marketing decks."
+        key_deliverables: "Key Deliverables (e.g. report, advice, policies, etc.)"
+        minimum_experience: "Minimum Years of Compliance Experience"
+        full_time_starts_on: "Start Date"
         skills: "Hashtag Skills (e.g. #sec #brokerdealer #finra)"
-        starts_on: "* Start Date"
-        ends_on: "* End Date"
-        annual_salary: "* Annual Salary (USD)"
-        hourly_payment_schedule: "* Payment method"
-        fixed_payment_schedule: "* Payment method"
-        hourly_rate: "* Hourly Rate"
-        fixed_budget: "* Fixed Budget"
-        estimated_days: "* Estimated No. of Days"
-        estimated_hours: "* Estimated Hours"
-        rfp_timing: "* Timing"
-        est_budget: "* Estimated budget ($ USD)"
+        starts_on: "Start Date"
+        ends_on: "End Date"
+        annual_salary: "Annual Salary (USD)"
+        hourly_payment_schedule: "Payment method"
+        fixed_payment_schedule: "Payment method"
+        hourly_rate: "Hourly Rate"
+        fixed_budget: "Fixed Budget"
+        estimated_days: "Estimated No. of Days"
+        estimated_hours: "Estimated Hours"
+        rfp_timing: "Timing"
+        est_budget: "Estimated budget ($ USD)"
       work_experiences:
-        company: "* Company Name"
-        job_title: "* Job Title"
+        company: "Company Name"
+        job_title: "Job Title"
         location: Location
         from: From
         to: To
@@ -122,14 +122,14 @@ en:
         message: Write your message here.
       job_application:
         message: You can provide a short introductory message here.
-        hourly_rate: "* Hourly Rate"
-        estimated_hours: "* Estimated Hours"
-        fixed_budget: "* Fixed Budget"
-        starts_on: "* Start Date"
-        ends_on: "* End Date"
-        estimated_days: "* Estimated No. of Days"
+        hourly_rate: "Hourly Rate"
+        estimated_hours: "Estimated Hours"
+        fixed_budget: "Fixed Budget"
+        starts_on: "Start Date"
+        ends_on: "End Date"
+        estimated_days: "Estimated No. of Days"
       rating:
-        review: "* Write a review"
+        review: "Write a review"
       stripe_account:
         business_name: Business Name
         business_tax_id: Business Tax ID

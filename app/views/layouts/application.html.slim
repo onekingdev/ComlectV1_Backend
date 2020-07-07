@@ -33,7 +33,7 @@ body class="#{controller_name} #{action_name}"
 
     = render partial: "layouts/cookies"
 
-    .app_container
+    .app_container style=("padding-left: 0px; margin-right: 0px;" if !current_user)
       = render_flash
       - if current_user && current_user.cookie_agreement&.status == false && params[:page] != 'privacy-policy'
         = render partial: "layouts/cookies_required"
