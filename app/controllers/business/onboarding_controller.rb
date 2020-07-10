@@ -32,7 +32,13 @@ class Business::OnboardingController < ApplicationController
 
     plan = params[:checkout][:schedule].to_s.downcase.strip rescue nil
     return redirect_to '/business/onboarding', flash: { error: 'Wrong plan' } unless Subscription.plans.key?(plan)
-    db_subscription = current_business.subscriptions.base.presence || Subscription.create(plan: plan, business_id: current_business.id)
+
+    db_subscription = current_business.subscriptions.base.presence || Subscription.create(
+      plan: plan,
+      business_id: current_business.id,
+      title: 'Compliance Command Center',
+      payment_source: current_business.payment_profile.default_payment_source
+    )
 
     if db_subscription&.stripe_invoice_item_id.blank?
       one_time_item = Subscription.create_invoice_item(stripe_customer)
@@ -40,8 +46,15 @@ class Business::OnboardingController < ApplicationController
     end
 
     if db_subscription&.stripe_subscription_id.blank?
-      sub = Subscription.subscribe(plan, stripe_customer)
-      db_subscription.update(stripe_subscription_id: sub.id)
+      sub = Subscription.subscribe(
+        plan,
+        stripe_customer,
+        period_ends: (Time.now.utc + 1.year).to_i
+      )
+      db_subscription.update(
+        stripe_subscription_id: sub.id,
+        billing_period_ends: sub.created
+      )
     end
 
     project = nil

@@ -22,7 +22,7 @@
   .panel-body {
     margin-top: -1px;
   }
-  .padded-checkboxes {
+  .padded-checkboxes, .padded-checkboxes-sub {
     padding-left: 0px;
     label {
       background-image: url(asset_path("checkbox_y.png"));

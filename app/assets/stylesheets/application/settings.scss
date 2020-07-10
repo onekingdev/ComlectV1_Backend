@@ -121,3 +121,9 @@ body.payment_settings #specialist-settings {
     background-position: 0px -98px;
   }
 }
+.loading {
+  background: url(asset_path('load-primary-16.gif')) no-repeat!important;
+}
+.checked {
+  background-position: 0 0!important;
+}

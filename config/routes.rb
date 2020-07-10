@@ -4,6 +4,9 @@ require 'sidekiq/web'
 require 'sidekiq-scheduler/web'
 
 Rails.application.routes.draw do
+  delete 'subscriptions/:id', to: 'subscriptions#cancel', as: 'cancel_subscription'
+  put 'subscriptions/:id', to: 'subscriptions#update', as: 'update_subscription'
+
   if Rails.env.production? || Rails.env.staging?
     Sidekiq::Web.use Rack::Auth::Basic do |username, password|
       username == ENV.fetch('SIDEKIQ_USERNAME') && password == ENV.fetch('SIDEKIQ_PASSWORD')

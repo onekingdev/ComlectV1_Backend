@@ -2,9 +2,11 @@
 
 class Subscription < ActiveRecord::Base
   belongs_to :business
+  belongs_to :payment_source
 
   enum plan: %w[monthly annual]
   enum kind_of: { ccc: 0, forum: 1, seats: 2 }
+  enum status: { active: 0, canceled: 1 }
 
   scope :base, -> { find_by(kind_of: 0) }
 

@@ -9,28 +9,10 @@
       th Billing Frequency
       th Auto-renew
       th Payment Method
+      th Status
       th &nbsp;
-    tr
-      td.text-left
-        b Q&A Forum
-      td
-        = "EXP. NEVER" if current_business.subscription? == 0
-        = "pending" if current_business.subscription? > 0 && current_business.forum_subscription.renewal_date.nil?
-        = current_business.forum_subscription.renewal_date_hr if current_business.subscription? > 0 && !current_business.forum_subscription.renewal_date.nil?
-      td
-        /= "FOREVER FREE" if current_business.subscription? == 0
-        /= "BASIC PACKAGE" if current_business.subscription? == 1
-        /= "PRO PACKAGE" if current_business.subscription? == 2
-        / Prints out cancelled here, because between the date of cancellation and the end of the pay period they should still have access.
-        = "(cancelled)" if current_business.forum_subscription&.cancelled
-      td
-        button.btn.btn-sm.p-x-2.p-y-0.btn-primary(data-toggle="modal" data-target="#subscription_modal" style="margin-top: -5px;") Modify
-      td
-        | **** **** **** 4242
-      td style="font-size: 18px;"
-        - if current_business.subscription? > 0 && !current_business.forum_subscription.cancelled
-          / = link_to 'Cancel', forum_subscriptions_cancel_path, class: 'btn btn-primary'
-          = link_to forum_subscriptions_cancel_path, method: "get", "data-confirm": "<div class='bootbox-heading'>Delete Subscription<hr></div>Please confirm you wish to cancel your subscription.<br>This subscription will be removed at the end of your<br>billing cycle on Jun 28, 2022", "data-confirm-label": "Confirm", "data-no-cancel": true do
-            i.icon-trash
-
+    - [current_business.forum_subscription].each do |forum_sub|
+      = render partial: "forum_subscription_item", locals: { sub: forum_sub }
+    - @subscriptions.each do |sub|
+      = render partial: "subscription_item", locals: { sub: sub }
 = render partial: "subscription_modal"

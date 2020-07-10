@@ -128,7 +128,7 @@ CREATE TABLE public.annual_reports (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     business_id integer,
-    cof_bits bigint,
+    cof_bits character varying,
     pdf_data jsonb,
     year integer
 );
@@ -1581,7 +1581,8 @@ CREATE TABLE public.forum_subscriptions (
     stripe_customer_id character varying,
     stripe_subscription_id character varying,
     renewal_date timestamp without time zone,
-    cancelled boolean DEFAULT false
+    cancelled boolean DEFAULT false,
+    auto_renew boolean DEFAULT false
 );
 
 
@@ -3918,12 +3919,14 @@ ALTER SEQUENCE public.regulatory_changes_id_seq OWNED BY public.regulatory_chang
 CREATE TABLE public.reminders (
     id integer NOT NULL,
     body character varying,
-    business_id integer,
+    remindable_id integer,
     remind_at date,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     done_at timestamp without time zone,
-    end_date date
+    end_date date,
+    remindable_type character varying,
+    business_id integer
 );
 
 
@@ -4341,7 +4344,9 @@ CREATE TABLE public.subscriptions (
     kind_of integer DEFAULT 0,
     title character varying,
     billing_period_ends integer,
-    payment_source_id integer
+    payment_source_id integer,
+    auto_renew boolean DEFAULT false,
+    status integer DEFAULT 0
 );
 
 
@@ -7439,6 +7444,8 @@ INSERT INTO schema_migrations (version) VALUES ('20200630113358');
 
 INSERT INTO schema_migrations (version) VALUES ('20200630141818');
 
+INSERT INTO schema_migrations (version) VALUES ('20200630161825');
+
 INSERT INTO schema_migrations (version) VALUES ('20200630192522');
 
 INSERT INTO schema_migrations (version) VALUES ('20200630205225');
@@ -7446,4 +7453,8 @@ INSERT INTO schema_migrations (version) VALUES ('20200630205225');
 INSERT INTO schema_migrations (version) VALUES ('20200630220333');
 
 INSERT INTO schema_migrations (version) VALUES ('20200630223715');
+
+INSERT INTO schema_migrations (version) VALUES ('20200701133723');
+
+INSERT INTO schema_migrations (version) VALUES ('20200705150209');
 

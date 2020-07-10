@@ -4,7 +4,9 @@ class Business::SubscriptionSettingsController < ApplicationController
   before_action :require_business!
   before_action :set_biz_sub
 
-  def index; end
+  def index
+    @subscriptions = current_business&.subscriptions&.order(id: :asc)
+  end
 
   def update
     render :index
