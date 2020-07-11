@@ -305,7 +305,6 @@ ActiveAdmin.register Project do
             b.input :description
             b.input :hours, min: 0
           end
-
           if TimesheetPolicy.new(current_admin_user, a.object).destroy?
             a.input :_destroy, as: :boolean, required: false, label: 'Remove'
           end

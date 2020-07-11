@@ -23,7 +23,7 @@
               - if current_user.photo
                 = image_tag current_user.photo_url(:thumb), width: '48', class: 'img-circle'
               - else
-                = image_tag 'icon-specialist.png', width: '48', class: 'img-circle'
+                = image_tag 'default_userpic.png', width: '48', class: 'img-circle'
             .metadata.pull-left
               = current_user.short_name
               br

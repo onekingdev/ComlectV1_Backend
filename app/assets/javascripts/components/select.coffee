@@ -3,8 +3,7 @@ $.onContentReady ($parent) ->
     $this = $(this)
     return if $this.data('multiselect')
     filtering = $this.data('filter') == 'true' || (!$this.data('filter')? && $this.find('option').length > 10)
-    window.pek = $this
-    window.kek = $this.multiselect
+    $this.multiselect
       buttonContainer: '<div class="btn-group multiselect-parent" />'
       inheritClass: true
       buttonWidth: '100%'

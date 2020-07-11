@@ -1,5 +1,5 @@
 .text-center
-  h1.m-t-0.m-b-3 Project Proposal
+  h3.m-t-0.m-b-3 style="font-family: Canela; font-weight: bold; font-size: 24px;" Project Proposal
 
 - ja_url = @job_application.persisted? ? project_job_application_path(@project.id, @job_application.id) : project_job_applications_path(@project.id)
 
@@ -9,71 +9,79 @@
   .col-xs-10.col-xs-push-1
     .alert.alert-danger class=('hidden' if f.object.errors.empty?) = f.object.errors.full_messages.join(', ')
 
-  .panel.panel-default.panel-padded.col-xs-10.col-xs-push-1
+  .panel.panel-default.panel-padded.col-xs-10.col-xs-push-1.p-x-0
     .panel-heading
       h3 Key Details & Applicant Prerequisites
+      hr.m-t-1.m-b-1 style="margin-left: -25px; margin-right: -25px;"
     .panel-body.p-t-0
       .row= render 'projects/attributes', project: decorate(@project)
 
-  .panel.panel-default.panel-padded.col-xs-10.col-xs-push-1
+  .panel.panel-default.panel-padded.col-xs-10.col-xs-push-1.p-x-0
     .panel-heading
       h3 #{@project.full_time? ? 'Job' : 'Project' } Description
+      hr.m-t-1.m-b-1 style="margin-left: -25px; margin-right: -25px;"
     .panel-body.p-t-0= simple_format @project.description
 
   .clearfix
 
-  .well.well-lg.m-t-3.project-description
-    h2.text-center.m-b-2 Proposed Project Offering
-    .row.row-compact.m-t-1
-      .col-xs-12.text-center
-        = f.input :message, as: :text, input_html: { class: 'input-lg tt-n', rows: 7, placeholder: "* Please provide a detailed description of how you propose to tackle the client's problem or need. This is your opportunity to provide a better service than your competitors, so be thorough and detailed about the process you intend to undertake." }
-        = f.input :key_deliverables, input_html: { class: 'input-lg tt-n', placeholder: "* List the key deliverables you intend to provide (e.g. report, advice, written policies and procedures, etc.)" }
 
-  .well.well-lg.m-t-3.project-duration
-    h2.text-center.m-b-2 Proposed Timing
-    .project-duration-custom
-      .row.row-compact.js-date-range
-        .col-xs-12.col-sm-6
-          = f.input :starts_on, required: true, as: :string, input_html: { \
-            class: 'input-lg js-datepicker', \
-            data: { \
-              min: Date.today.to_a[3..5].reverse, \
-              'date-from' => true, \
-              value: (l(f.object.starts_on, format: :pickadate) if f.object.starts_on) \
-            } \
-          }
-
-        .col-xs-12.col-sm-6
-          = f.input :ends_on, required: true, as: :string, input_html: { \
-            class: 'input-lg js-datepicker', \
-            data: { \
-              min: Date.today.to_a[3..5].reverse, \
-              'date-to' => true, \
-              value: (l(f.object.ends_on, format: :pickadate) if f.object.ends_on) \
-            } \
-          }
-      .row.row-compact.p-b-1
+  .panel.panel-default.panel-padded.col-xs-10.col-xs-push-1.p-x-0
+    .panel-heading
+      h3 Proposed Project Offering
+      hr.m-t-1.m-b-1 style="margin-left: -25px; margin-right: -25px;"
+    .panel-body.p-t-0.project-description
+      .row.row-compact.m-t-1
         .col-xs-12
-          .small.text-muted Please propose dates. You will be able to modify these dates up to the moment the business accepts your proposal.
+          = f.input :message, as: :text, input_html: { class: 'input-lg tt-n', rows: 7, placeholder: "* Please provide a detailed description of how you propose to tackle the client's problem or need. This is your opportunity to provide a better service than your competitors, so be thorough and detailed about the process you intend to undertake." }
+          = f.input :key_deliverables, input_html: { class: 'input-lg tt-n', placeholder: "* List the key deliverables you intend to provide (e.g. report, advice, written policies and procedures, etc.)" }, label: "Key Deliverables"
 
-  .well.well-lg.m-t-3.project-pricing data-pricing-type=@job_application.pricing_type
-    h2.text-center.m-b-2 Project Pricing
-    .row.row-compact.m-y-1
-      .col-xs-12.text-center
-        = f.input :pricing_type, as: :radio_pills, collection: [%w(Hourly hourly), %w(Fixed fixed)], btn_class: 'btn-default tt-u', wrapper_html: { class: "rfp_timing_btn" }
-    .row.row-compact
-      .col-xs-12.col-sm-4
-        = f.input :hourly_payment_schedule, collection: Project::HOURLY_PAYMENT_SCHEDULES, include_blank: I18n.t('simple_form.placeholders.project.hourly_payment_schedule'), required: true, input_html: { class: 'input-lg js-select' }
-        = f.input :fixed_payment_schedule, collection: Project::FIXED_PAYMENT_SCHEDULES, include_blank: I18n.t('simple_form.placeholders.project.fixed_payment_schedule'), required: true, input_html: { class: 'input-lg js-select' }
-      .col-xs-12.col-sm-4
-        = f.input :hourly_rate, required: true, as: :string, input_html: { class: 'input-lg', data: { numeric: true } }
-        = f.input :fixed_budget, required: true, as: :string, input_html: { class: 'input-lg', data: { numeric: true } }
-      .col-xs-12.col-sm-4
-        = f.input :estimated_hours, as: :string, require: true, input_html: { class: 'input-lg', data: { masked: '0#' } }
-    .row.row-compact.p-b-1
-      .col-xs-12
-        .small.text-muted Note: Complect adds a 10% fee on top of your project value. You can read more about our Payment Terms <a class="text-muted" href="https://www.complect.com/terms-of-use" target="_blank">here</a>.
+  .panel.panel-default.panel-padded.col-xs-10.col-xs-push-1.p-x-0
+    .panel-heading
+      h3 Proposed Timing
+      hr.m-t-1.m-b-1 style="margin-left: -25px; margin-right: -25px;"
+    .panel-body.p-t-0.m-b-3.p-b-0.project-duration
+      .project-duration-custom
+        .row.row-compact.js-date-range
+          .col-xs-12.col-sm-6
+            = f.input :starts_on, label: "Starts On", required: true, as: :string, input_html: { \
+              class: 'input-lg js-datepicker', \
+              data: { \
+                min: Date.today.to_a[3..5].reverse, \
+                'date-from' => true, \
+                value: (l(f.object.starts_on, format: :pickadate) if f.object.starts_on) \
+              } \
+            }
 
+          .col-xs-12.col-sm-6
+            = f.input :ends_on, label: 'Ends On', required: true, as: :string, input_html: { \
+              class: 'input-lg js-datepicker', \
+              data: { \
+                min: Date.today.to_a[3..5].reverse, \
+                'date-to' => true, \
+                value: (l(f.object.ends_on, format: :pickadate) if f.object.ends_on) \
+              } \
+            }
+        .row.row-compact.p-b-1
+          .col-xs-12
+            .small.text-muted Please propose dates. You will be able to modify these dates up to the moment the business accepts your proposal.
+
+  .panel.panel-default.panel-padded.col-xs-10.col-xs-push-1.p-x-0
+    .panel-heading
+      h3 Project Pricing
+      hr.m-t-1.m-b-1 style="margin-left: -25px; margin-right: -25px;"
+    .panel-body.p-t-0.project-pricing data-pricing-type=@job_application.pricing_type
+      .row.row-compact.m-y-1
+        .col-xs-12.text-center
+          = f.input :pricing_type, as: :radio_pills, collection: [%w(Hourly hourly), %w(Fixed fixed)], btn_class: 'btn-default tt-u', wrapper_html: { class: "rfp_timing_btn" }, label: raw("Pricing Type&nbsp;&nbsp;&nbsp;")
+      .row.row-compact
+        .col-xs-12.col-sm-4
+          = f.input :hourly_payment_schedule, collection: Project::HOURLY_PAYMENT_SCHEDULES, include_blank: I18n.t('simple_form.placeholders.project.hourly_payment_schedule'), required: true, input_html: { class: 'input-lg js-select' }
+          = f.input :fixed_payment_schedule, collection: Project::FIXED_PAYMENT_SCHEDULES, include_blank: I18n.t('simple_form.placeholders.project.fixed_payment_schedule'), required: true, input_html: { class: 'input-lg js-select' }
+        .col-xs-12.col-sm-4
+          = f.input :hourly_rate, required: true, as: :string, input_html: { class: 'input-lg', data: { numeric: true } }
+          = f.input :fixed_budget, required: true, as: :string, input_html: { class: 'input-lg', data: { numeric: true } }
+        .col-xs-12.col-sm-4
+          = f.input :estimated_hours, as: :string, require: true, input_html: { class: 'input-lg', data: { masked: '0#' } }
   .actions.clearfix.well-lg.well-transparent
     .col-xs-12.col-sm-4.m-b-1.md-text-right
       - if @job_application.persisted?

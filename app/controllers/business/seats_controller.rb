@@ -3,7 +3,7 @@
 class Business::SeatsController < ApplicationController
   def index
     @departments = current_business.teams
-    @active_specialists = current_business.active_specialists
+    @active_specialists = current_business.active_specialists.uniq
     teams_ids = current_business.teams.pluck(:id)
     @employees = TeamMember.where(team_id: teams_ids)
     @seats_total = current_business.seats.count
@@ -36,7 +36,7 @@ class Business::SeatsController < ApplicationController
           last_name: employee.last_name,
           email: employee.email
         )
-        Notification::Deliver.got_employee_invitation!(invitation, :new_employee)
+        Notification::Deliver.got_seat_assigned!(invitation, :new_employee)
       end
       # flash[:notice] = 'Successful!'
     rescue => e

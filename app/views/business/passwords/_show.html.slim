@@ -6,7 +6,7 @@
     = simple_form_for user, remote: true, url: business_settings_password_path do |f|
       .row
         .col-xs-12.m-b-2
-          = f.input :current_password, label: 'Old Password', input_html: { class: 'input-lg input-gray' }
+          = f.input :current_password, label: 'Old Password', placeholder: 'Old Password', input_html: { class: 'input-lg input-gray' }
         .col-xs-12.m-b-2
           = f.input :password, label: 'New Password', input_html: { class: 'input-lg  input-gray' }
         .col-xs-12.m-b-2
@@ -14,4 +14,4 @@
         .col-xs-12.text-right
           - if saved
             .alert.alert-success.m-b-1 Password changed
-          = f.submit 'Save', class: 'btn btn-primary'
+          = f.submit 'Save', class: 'btn btn-primary', style: "width: 140px;"

@@ -15,7 +15,7 @@
             - if specialist.photo
               = image_tag specialist.photo_url(:thumb), class: 'img-responsive'
             - else
-              = image_tag 'icon-specialist.png', class: 'img-responsive'
+              = image_tag 'default_userpic.png', class: 'img-responsive'
           h4.name
             = specialist.first_name
             .rating= render_stars specialist.ratings_average, class: 'small'
@@ -40,7 +40,7 @@
               - empty_lines += 1
             .item
               i.icon-folder
-              span= pluralize specialist.years_of_experience, 'Yr. Compliance Exp.', 'Yrs. Compliance Exp.'
+              span= pluralize specialist.years_of_experience, 'Yr. Experience', 'Yrs. Experience'
             - if specialist.former_regulator?
               .item
                 i.icon-flag

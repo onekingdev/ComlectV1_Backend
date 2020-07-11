@@ -66,7 +66,7 @@ var patch_payment_form = function() {
     function isLoading(state) {
       if (state === true) {
         submitButton.attr('disabled', true);
-        submitButton.text('loading...');
+        //submitButton.text('loading...');
       } else {
         submitButton.attr('disabled', false);
         submitButton.text('Submit');

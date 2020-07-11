@@ -51,7 +51,7 @@
       //line-height: 60px;
       //white-space: nowrap;
       overflow: hidden;
-      height: 70px;
+      height: 57px;
       display: flex;
       align-items: center;
       font-size: 13px;
@@ -144,19 +144,37 @@
   }
 }
 
+body.project_dashboard, body.job_applications.index, body.projects.edit, body.job_applications.show, body.projects.new {
+  @media (min-width: 1200px) {
+    .app_container {
+      width: 1010px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 0px;
+    }
+  }
+  #left_navbar { display: none; }
+}
+
 body.project_dashboard.show, body.dashboards.show {
   //-webkit-overflow-scrolling : touch !important;
   //overflow: auto !important;
   //height: 100% !important;
   //overflow: hidden;
-  background-image: asset_url('bg.png');
   background-position: center top;
   background-repeat: repeat-y;
+
+  .pull-right {
+    small {
+      font-family: "Open Sans";
+      text-transform: uppercase;
+    }
+  }
 
   h1 {
     font-size: 24px;
     font-weight: $regular-weight;
-    text-transform: uppercase;
+    font-family: "Canela";
   }
 
   #footer {

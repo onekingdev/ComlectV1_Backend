@@ -1,21 +1,21 @@
-h1 style="font-family: 'Canela'; font-size: 30px; font-weight: 400;"
+h1.m-b-2 style="font-family: 'Canela'; font-size: 30px; font-weight: 400;"
+  /.m-b-0 style="position: absolute; margin-top: -20px; font-size: 13px; font-family: 'Open Sans';"
+    b = link_to "BACK", business_compliance_policies_path
   = @compliance_policy.section_or_title
 
-.col-md-4.p-x-0
-  .m-b-2
-    b = link_to "BACK", (current_specialist ? specialists_business_compliance_policies_path(@business.username) : business_compliance_policies_path)
-  br
-  .panel.panel-default
-    .panel-heading style="padding-bottom: 19px;"
+/.col-xs-12.p-x-0
+.clearfix.col-sm-4.p-l-0
+  .panel.panel-default.fullheight.m-b-0
+    .panel-heading
       .pull-left
-        h3   Version History
-      .pull-right style="margin-top: -8px;"
-        = link_to "Upload", (current_specialist ? edit_specialists_business_compliance_policy_path(@business.username, @compliance_policy) : edit_business_compliance_policy_path(@compliance_policy)), "data-target": "#modal", "data-remote": true, "data-toggle": "modal", class: "btn btn-primary btn-solid p-x-3 m-r-1"
+        h3  Version History
+      .pull-right
+        = link_to "Upload", edit_business_compliance_policy_path(@compliance_policy), "data-target": "#modal", "data-remote": true, "data-toggle": "modal", class: "btn btn-primary btn-solid p-y-0", style: "padding: 9px 10px; margin-top: -6px;"
         /= link_to "Delete", (current_specialist ? specialists_business_compliance_policy_path(@business.username, @compliance_policy) : business_compliance_policy_path(@compliance_policy)), class: "btn btn-solid btn-default p-x-3", method: :delete, data: { confirm: '<b>Confirm Delete</b><br/><br/><br/>You are deleting this entire policy and all of its<br/>previously saved versions. Please remember to<br/>download these files for your records, if you have<br/>ever implemented this policy.<br/><br/>Would you still like to delete?', 'confirm-label' => 'Delete' }
       .clearfix
-    hr.m-y-0
-    .panel-content-wrapper style="height: 500px;"
-      table.table-blue.table.borderless.m-b-3.m-t-3 style="width: 100%;"
+    hr.m-b-0.m-t-1
+    .panel-content-wrapper.fixedheight_receiver
+      table.table-blue.table.borderless style="width: 100%;"
         thead
           tr
             th Date
@@ -44,9 +44,9 @@ h1 style="font-family: 'Canela'; font-size: 30px; font-weight: 400;"
                 = link_to "mailto:?body=Please find our policies and procedures attached. %0D%0A%0D%0ADownload: #{Rails.env == 'production' ? url_for(doc.doc_url) : root_url.delete_suffix("/")+url_for(doc.doc_url)}&subject=#{@business.business_name} #{@compliance_policy.section_or_title}" do
                   i.icon-share data-toggle="tooltip" title="Share"
 - if @preview_doc
-  .col-md-8.m-b-3.pdf_preview_area
+  .col-sm-8.m-b-3.pdf_preview_area.p-x-0
     - if @preview_doc.pdf
-      iframe src=(pdfjs.minimal_path(file: @preview_doc.pdf_url.split('?')[0])) width="100%" height="643px"
+      iframe.pdf_preview_fullheight src=(pdfjs.minimal_path(file: @preview_doc.pdf_url.split('?')[0])) width="100%" height="643px"
     - else
       .text-center = image_tag "loading.gif"
       javascript:

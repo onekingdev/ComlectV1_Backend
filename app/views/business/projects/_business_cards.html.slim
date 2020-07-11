@@ -3,30 +3,31 @@
 - else
   table.table.table-striped.table-blue.addon-alerts-table
     thead.text-center
-      tr style="text-align-last: center"
-        th style='width: 30%' Project
+      tr
+        th style='width: 30%;'
+          .p-l-2 Project
         th Location
         th Budget
         th Start Date
         th Team  
         th
-          th style='width: 15%' Progress
+        th style='width: 15%' Progress
     tbody
       - @projects.map(&method(:decorate)).each do |project|
         - progressBar = project.pending? ? "0" : project.percent_complete.round
         tr 
           td
-            a.p-l-2 href=project.business_project_href 
+            a.p-l-2 href=(current_user.specialist ? project.specialist_project_href(current_specialist) : project.business_project_href) target="_blank"
               = project.title
-          td.text-center = project.location_details
-          td.text-center = project.dollars
-          td.text-center = project.start_and_duration 
-          td.text-center = image_tag "icon-business.png", style: "border-radius: 50%; width: 30px; height: 30px;"
-          td style="text-align: end"
-            = "#{progressBar}%"
-          td
-            .progress.m-b-0 style='background-color: #ccc;'
-              .progress-bar role="progressbar" aria-valuenow="#{progressBar}" aria-valuemin="0" aria-valuemax="100" style="width: #{progressBar}%"  
+          td = project.location_details
+          td = project.dollars
+          td = project.start_and_duration 
+          td.text-center = image_tag "icon-business.png", style: "border-radius: 50%; width: 20px; height: 20px;"
+          td style="text-align: end; width: 1px;"
+            div style=" margin-right: -10px;" = "#{progressBar}%"
+          td style="width: 15%;"
+            .progress.m-b-0 style='background-color: #ccc; height: 3px;'
+              .progress-bar role="progressbar" aria-valuenow="#{progressBar}" aria-valuemin="0" aria-valuemax="100" style="width: #{progressBar}%; background-color: #{progressBar.to_i == 100 ? '#2DCE98' : '#EC428A'};"  
 
   .clearfix
 javascript:

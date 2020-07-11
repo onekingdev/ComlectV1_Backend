@@ -9,10 +9,10 @@
             big Rate & Review
           .clearfix
             - if current_business
-              = image_tag (rating.project.specialist&.photo_url(:thumb) || "icon-specialist.png"), width: '60', class: 'img-circle m-b-1'
+              = image_tag (rating.project.specialist&.photo_url(:thumb) || "default_userpic.png"), width: '60', class: 'img-circle m-b-1'
               .name= rating.project.specialist&.full_name || 'Deleted'
             - else
-              = image_tag (rating.project.business&.logo_url(:thumb) || "icon-specialist.png"), width: '60', class: 'img-circle m-b-1'
+              = image_tag (rating.project.business&.logo_url(:thumb) || "default_userpic.png"), width: '60', class: 'img-circle m-b-1'
               .name= rating.project.business || 'Deleted'
             small
               i= "(#{rating.project.title})"

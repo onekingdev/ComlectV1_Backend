@@ -2,7 +2,7 @@
   $spacing: 35px;
   height: 75px;
   background-color: #fff;
-  box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.21);
+  //box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.21);
 
   padding: 6px 18px;
   @media (min-width: 1149px) and (max-width: 1378px) {
@@ -78,7 +78,7 @@
   .navbar-right {
     position: relative;
     li a {
-      font-weight: 600 !important;
+      //font-weight: 600 !important;
     }
     .p-x-1 a {
       color: #FFCC01;
@@ -149,9 +149,10 @@
   }
 
   .icon-bell {
-    font-size: 16px;
-    font-weight: bold;
+    font-size: 20px;
+    font-weight: 400;
     line-height: 21px;
+    color: #ccc;
   }
 
   .navbar-brand {
@@ -179,8 +180,8 @@
     filter: drop-shadow(1px 1px 0px rgba(255, 255, 255, 0.5));
 
     &:hover, &:focus, &:active {
-      color: #FFCC01 !important;
-      border-color: #FFCC01 !important;
+      //color: #FFCC01 !important;
+      //border-color: #FFCC01 !important;
       outline: none;
     }
 

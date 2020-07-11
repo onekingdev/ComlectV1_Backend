@@ -2,17 +2,18 @@
 - header_class ''
 
 - Specialist::Decorator.decorate(@specialist).tap do |specialist|
-  #specialist-dashboard.row.m-b-3
+  #specialist-dashboard.row
     .col-sm-6
       = render partial: "business_dashboard/reminders", locals: { new_path: "new_specialists_reminder_path", edit_path: "edit_specialists_reminder_path", project_path: "specialists_project_path", pdf_path: "specialists_reminders_path" }
-    .col-sm-3 
+    .col-sm-3.p-x-0
       = render partial: "business_dashboard/tasks"
     .col-sm-3
       = render partial: "business/addons/addons"
     .clearfix
-    .col-sm-4
-      = render partial: 'employees', locals: { employees: specialist.managed_team.employees }
-    .tr
+    - if specialist.managed_team
+      .col-sm-4
+        = render partial: 'employees', locals: { employees: specialist.managed_team.employees }
+    /.tr
       .td.col-xs-12.col-sm-4.col-md-3.va-top
         .panel.panel-default.profile-info
           .panel-heading
@@ -23,9 +24,9 @@
             h3.text-center= link_to specialist, specialist
             .text-center= specialist.render_stars
 
-            br
+            /br
 
-            .list-icon.width-110
+            /.list-icon.width-110
               .item
                 i.icon-location-pin
                 span= specialist.city_state_country
@@ -49,19 +50,19 @@
                   i.icon-badge
                   span.ws-normal= specialist.skills[0..4].map(&:name).join(' ')
 
-            - if specialist.certifications.present?
+            /- if specialist.certifications.present?
               label.strong.m-t-2 Certifications
               = specialist.certifications_list
 
 
 
-            = simple_form_for Specialist::Form.for_user(current_user), remote: true, url: update_specialist_path, html: { class: 'm-y-2' } do |f|
+            /= simple_form_for Specialist::Form.for_user(current_user), remote: true, url: update_specialist_path, html: { class: 'm-y-2' } do |f|
               = hidden_field_tag 'redirect_to', specialists_dashboard_path
               = f.input :public_profile, as: :radio_pills, collection: [['Public', true], ['Private', false]], btn_class: 'btn-default btn-sm', label: false, hint: false, input_html: { data: { autosubmit: 'true' } }
 
-            .text-center.text-uppercase.small= link_to 'Edit Profile', edit_specialist_path, class: 'link'
+            /.text-center.text-uppercase.small= link_to 'Edit Profile', edit_specialist_path, class: 'link'
 
-        .panel.panel-default.profile-info
+        /.panel.panel-default.profile-info
           .panel-heading
             h3 Financials
           .panel-body.text-center
@@ -82,7 +83,7 @@
                 'YTD
             .m-t-2= link_to 'View Details', specialists_financials_path, class: 'btn btn-sm btn-primary p-x-3'
 
-        .panel.panel-default.profile-info
+        /.panel.panel-default.profile-info
           .panel-heading
             h3 Tools & Resources
           .panel-body
@@ -96,7 +97,7 @@
                   = link_to 'Partnerships', partnerships_path
             .m-t-2.text-center= link_to 'Answer questions', forum_questions_path, class: 'btn btn-sm btn-primary p-x-1'
 
-      .td.col-xs-12.col-sm-8.col-md-9.va-top
+      /.td.col-xs-12.col-sm-8.col-md-9.va-top
         .panel.panel-default.panel-padded
           .panel-heading
             h3 My Projects

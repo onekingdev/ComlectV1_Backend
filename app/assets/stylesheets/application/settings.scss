@@ -11,8 +11,8 @@
   }
 
   li a {
-    font-size: 16px;
-    font-weight: $medium-weight;
+    font-size: 14px;
+    font-weight: 400;
     text-decoration: none;
   }
 
@@ -122,7 +122,7 @@ body.payment_settings #specialist-settings {
   }
 }
 .loading {
-  background: url(asset_path('load-primary-16.gif')) no-repeat!important;
+  //background: url(asset_path('loading-dots.gif')) no-repeat!important;
 }
 .checked {
   background-position: 0 0!important;

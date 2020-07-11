@@ -1,4 +1,4 @@
-.panel.panel-default
+.panel.panel-default.m-b-0
   .panel-heading
     .pull-left
       h3 Employees
@@ -10,7 +10,7 @@
           li = link_to "Download Employees", "#"
 
     .clearfix
-  / hr.m-y-0
+  hr.m-b-0.m-t-1
   .panel-content-wrapper.fullheight
     table.table.table-striped.table-blue
       thead
@@ -41,8 +41,8 @@
                   = link_to business_seat_assign_path(seat_id: emp.id), method: :post, data: { confirm: "<div class='bootbox-heading'>No Available Seats<hr></div>Oops! It looks like you have no available seats to assign.<br/>Please purchase additional seats to assign them to an employee.", no_cancel: true, confirm_label: "Confirm" } do
                     label.css-label for="#{emp.id}_employee" class='assign-link-label' &nbsp;
                 - else
-                    = link_to business_seat_assign_path(seat_id: emp.id), method: :post, data: { confirm: "<div class='bootbox-heading'>Really assign?<hr></div>Are you sure?", no_cancel: true, confirm_label: "Confirm" } do
+                    = link_to business_seat_assign_path(seat_id: emp.id), method: :post, data: { confirm: "<div class='bootbox-heading'>Assign Seat<hr></div>You are granting this employee access to your<br>dashboard by assigning a seat to them. Are you<br>sure you want to assign them a seat?", no_cancel: true, confirm_label: "Confirm" } do
                       label.css-label for="#{emp.id}_employee" class='assign-link-label' &nbsp;
             td style="width: 1px; font-size: 18px;"
-              = link_to business_team_member_path(emp), method: :delete, "data-confirm": "<div class='bootbox-heading'>Delete Employee<hr></div>Warning! This change is permanent. Deleting this employee will<br>remove the employee from your employee records.", "data-confirm-label": "Confirm" do
+              = link_to business_team_member_path(emp), method: :delete, "data-confirm": "<div class='bootbox-heading'>Delete Employee<hr></div>Warning! This change is permanent. Deleting<br>this employee will remove the employee<br>from your employee records.", "data-confirm-label": "Confirm", "data-no-cancel": "true" do
                 i.icon-trash

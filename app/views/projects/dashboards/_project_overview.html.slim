@@ -1,23 +1,25 @@
 .panel-heading
   h3 Project Overview
+hr.m-b-1.m-t-1
 
 .panel-body.p-t-0.p-b-2
-  - if @project.business
-    = link_to project.business, class: 'business m-b-1 td-n d-b clearfix' do
-      = image_tag (project.business.logo_url(:thumb) || 'icon-specialist.png'), size: '60x60', class: 'img-circle'
-      .name= project.business
-  - else
-    .business.m-b-1.td-n.d-b.clearfix
-      = image_tag 'icon-specialist.png', size: '60x60', class: 'img-circle'
-      .name Deleted
+  .m-b-2
+    - if @project.business
+      = link_to project.business, class: 'business td-n d-b clearfix' do
+        = image_tag (project.business.logo_url(:thumb) || 'default_userpic.png'), size: '60x60', class: 'img-circle'
+        .name= project.business
+    - else
+      .business.m-b-1.td-n.d-b.clearfix
+        = image_tag 'default_userpic.png', size: '60x60', class: 'img-circle'
+        .name Deleted
   - specialist = @project.specialist.blank? ? current_specialist ? current_specialist : @specialist : @project.specialist
   - if specialist
     = link_to specialist, class: 'specialist m-b-1 td-n d-b' do
-      = image_tag (specialist.photo_url(:thumb) || 'icon-specialist.png'), size: '60x60', class: 'img-circle'
+      = image_tag (specialist.photo_url(:thumb) || 'default_userpic.png'), size: '60x60', class: 'img-circle'
       .name= specialist.full_name
   - else
     .specialist.m-b-1.td-n.d-b
-      = image_tag ('icon-specialist.png'), size: '60x60', class: 'img-circle'
+      = image_tag ('default_userpic.png'), size: '60x60', class: 'img-circle'
       .name Deleted
 
   label.m-t-2
@@ -47,8 +49,9 @@
           data-method="post"
           data-remote="false"
           data-url=business_project_ends_path
-          data-confirm="<br><br>Are you sure you want to end this project?"
+          data-confirm="<div class='bootbox-heading'>End Project<hr></div><div class='p-x-3'>Are you sure you want to end this project?<br>This will send a request to the specialist to<br>confirm project end and accelerate all project payments due.</div>"
           data-confirm-label="Confirm"
+          data-no-cancel="true"
         ]
           'End
         button.js-project-extension.btn.btn-block.btn-default.btn-sm[

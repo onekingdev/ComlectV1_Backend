@@ -1,18 +1,18 @@
 - tgt_url = ["edit", "update"].include?(params[:action]) ? business_team_path(@team) : business_teams_path
 
-.m-l-2.m-r-2
+.bootbox-heading
   h3.m-y-0 
     = ["edit", "update"].include?(params[:action]) ? "Edit" : "Add"
     |  Department
 
   .clearfix
-  hr.m-b-0.m-t-1.hr_heading
-  = simple_form_for @team, url: tgt_url do |f|
-    = f.input :name, label: "Department", input_html: { style: "width: 100%;" }, label_html: { class: "m-t-2" }
-    .clearfix
-    .pull-right
-      = f.submit ["edit", "update"].include?(params[:action]) ? "Save" : "Add", class: "btn btn-primary p-x-3 m-b-3 m-t-1"
-    .clearfix
+  hr.m-b-0.m-t-1
+= simple_form_for @team, url: tgt_url do |f|
+  = f.input :name, label: "Department", input_html: { style: "width: 100%;" }, label_html: { class: "m-t-2" }
+  .clearfix
+  .pull-right
+    = f.submit ["edit", "update"].include?(params[:action]) ? "Save" : "Add", class: "btn btn-primary p-x-3 m-b-1 m-t-1", style: "width: 140px;"
+  .clearfix
 
 javascript:
   setTimeout(function() {

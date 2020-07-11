@@ -215,6 +215,7 @@ if ((window.location.pathname == "/businesses/new") || ($("body").hasClass("busi
   });
 
   $(".btn_step_jump").on('click', function() {
+    $('.pac-container').css({"border-top": "0px", "box-shadow": "none"});
     $(".business_step").hide();
     var shown = false;
     for (var i = 1; i < 4; i++) {

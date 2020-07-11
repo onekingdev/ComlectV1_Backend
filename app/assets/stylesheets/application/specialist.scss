@@ -1,5 +1,4 @@
 body.specialists.index {
-  background-image: asset_url('bg.png');
   background-position: center top;
   background-repeat: repeat-y;
 
@@ -32,18 +31,8 @@ body.specialists.index {
 }
 
 body.specialists.show {
-  /*#header {
-    background-image: asset_url("header-profile.jpg");
-    background-position-y: -100px;
-
-    @media (max-width: 689px) {
-      background-size: auto 300px + 150px;
-    }
-  }*/
-
   #header {
     background-image: asset_url("header-profile.jpg");
-    //background-position-y: -120px;
     background-size: cover;
     @media (min-width: $screen-xs-max) {
       height: 381px;
@@ -65,13 +54,10 @@ body.ported_businesses {
 }
 
 body.specialists.new, body.specialists.create, body.specialists.edit, body.specialists.update {
-  background-image: asset_url('bg.png');
   background-position: center top;
   background-repeat: repeat-y;
+  background-color: #fff;
   .app_container{
-    -webkit-box-shadow: 0px 13px 32px 3px rgba(0,0,0,0.3);
-    -moz-box-shadow: 0px 13px 32px 3px rgba(0,0,0,0.3);
-    box-shadow: 0px 13px 32px 3px rgba(0,0,0,0.3);
     background-color: #ffffff;
     padding-top: 25px;
     margin-bottom: 100px;
@@ -101,7 +87,6 @@ body.specialists.new, body.specialists.create, body.specialists.edit, body.speci
 
 .card.specialist {
   .panel-heading {
-    //background-color: rgba(0, 0, 0, 0.65);
     position: relative;
 
     .avatar {

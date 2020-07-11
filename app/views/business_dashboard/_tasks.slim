@@ -2,12 +2,11 @@
   .panel-heading
     .pull-left
       h3 Tasks
-    .pull-right style="margin-top: -10px;"
-      .btn-group
-        label.btn.btn-shadow.active#tasks_today_btn Today
-        label.btn.btn-shadow#tasks_week_btn Week
+    .pull-right.nav.nav-pills style="margin-top: -4px;"
+      label.btn.btn-shadow.noshadow.active#tasks_today_btn TODAY
+      label.btn.btn-shadow.noshadow#tasks_week_btn style="border-left: 1px solid #ccc !important;" WEEK
     .clearfix
-  hr.calendar_hr
+  hr.m-b-0.m-t-1
   .task_list_wrapper#tasks_today.fixedheight_receiver
     - if @reminders_past.any?
       /.panel-heading.m-b-05

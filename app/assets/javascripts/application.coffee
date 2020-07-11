@@ -22,9 +22,6 @@
 #= require_tree ./components
 #= require_tree ./application
 #= require js.cookie
-#= require chartkick
-#= require Chart.bundle
-
 $ ->
 
   # if document.cookie.includes('accept_cookies')
@@ -36,11 +33,3 @@ $ ->
 
   $('#no-user-cookie-decline').on 'click', () ->
     $('#cookie-modal').remove()
-
-
-
-
-
-
-
-#

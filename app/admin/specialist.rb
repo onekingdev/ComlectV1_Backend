@@ -73,7 +73,7 @@ ActiveAdmin.register Specialist do
         if specialist.photo
           image_tag specialist.photo_url(:profile), height: 100
         else
-          image_tag 'icon-specialist.png', height: 100
+          image_tag 'default_userpic.png', height: 100
         end
       end
       row :name, &:full_name

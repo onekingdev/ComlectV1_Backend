@@ -42,6 +42,7 @@ body.annual_reports .panel-settings-body .panel-default {
   box-shadow: 0px 3px 6px 0px rgba(44, 40, 40, 0.11);
 }
 .panel-default {
+  font-size: 12px;
   .fw-700 {
     font-family: "Open Sans";
     font-weight: bold;
@@ -89,6 +90,7 @@ body.annual_reports .panel-settings-body .panel-default {
       text-overflow: ellipsis;
       max-width: 100%;
       overflow: hidden;
+      line-height: 18px;
 
       span {
         font-size: 16px;
@@ -124,6 +126,11 @@ body.annual_reports .panel-settings-body .panel-default {
     }
   }
 
+  .panel-content-wrapper h2 {
+    text-transform: uppercase;
+    color: #d8d8d8;
+  }
+
   .panel-body {
     padding-left: 25px;
     padding-right: 25px;
@@ -153,7 +160,7 @@ body.annual_reports .panel-settings-body .panel-default {
     }
 
     .table th {
-      font-weight: bold;
+      font-weight: 500;
       font-family: "Open Sans";
     }
 
@@ -342,7 +349,7 @@ body.annual_reports .panel-settings-body .panel-default {
 
 .list-icon {
   font-size: 12px;
-  font-weight: $regular-weight;
+  font-weight: 300;
   line-height: 24px;
   .item {
     i {

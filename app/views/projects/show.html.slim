@@ -11,7 +11,7 @@
             - if policy(project).view_full_business? && project.business.logo
               .logo= image_tag(project.business.logo_url(:thumb), class: 'img-responsive')
             - else
-              .logo.text-center= image_tag 'icon-specialist.png', size: '104x104'
+              .logo.text-center= image_tag 'default_userpic.png', size: '104x104'
           = link_to business_path(project.business) do
             h3.text-center= policy(project).public_business_info(:business_name) || project.business.industries.first.name
             .text-center= project.business.render_stars
@@ -70,7 +70,7 @@
             - if current_specialist.present?
               = simple_form_for Question.new, authenticity_token: true, url: project_questions_path(project_id: project.id) do |f|
                 = f.input :text, as: :text, label: false, input_html: {class: 'input-lg', rows: 3, placeholder: 'Enter question here'}
-                = f.submit 'Ask', class: 'btn btn-primary btn-sm p-x-4 pull-right m-b-1', data: {disable_with: 'Sending...'}
+                = f.submit 'Ask', class: 'btn btn-primary btn-sm p-x-4 pull-right m-b-1', data: {disable_with: 'Ask'}
 
               .clearfix
             - project.questions.order('id DESC').each do |question|
@@ -95,5 +95,5 @@
                   = simple_form_for Answer.new, authenticity_token: true, url: business_project_answers_path(project_id: project.id) do |f|
                     = f.input :text, as: :text, label: false, input_html: {class: 'input-lg', rows: 3, placeholder: 'Enter answer here'}
                     = f.hidden_field :question_id, value: question.id
-                    = f.submit 'Answer Question', class: 'btn btn-primary btn-sm p-x-4 pull-right m-b-1', data: {disable_with: 'Sending...'}
+                    = f.submit 'Answer Question', class: 'btn btn-primary btn-sm p-x-4 pull-right m-b-1', data: {disable_with: 'Answer Question'}
                     .clearfix

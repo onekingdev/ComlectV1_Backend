@@ -6,8 +6,8 @@
       = link_to "Add", new_business_team_path, "data-target": "#modal", "data-toggle": "modal", "data-remote": true, class: "btn btn-primary btn-solid p-y-0", style: "padding: 9px 10px;"
 
     .clearfix
-  / hr.m-y-0
-  .panel-content-wrapper style="height: 317px;"
+  hr.m-b-0.m-t-1
+  .panel-content-wrapper.fixedheight_receiver style="height: 317px;"
     table.table.table-striped.table-blue
       thead
         tr
@@ -18,5 +18,5 @@
           tr
             td = link_to dep.name, edit_business_team_path(dep), remote: true, "data-target": "#modal", "data-toggle": "modal"
             td style="width: 1px; font-size: 18px;"
-              = link_to business_team_path(dep), method: :delete, class: 'delete-department', data: { confirm: "<div class='bootbox-heading'>Delete Department<hr></div>Warning! This change is permanent. Deleting this department will<br/> also delete all employees linked to the department as well. " } do
+              = link_to business_team_path(dep), method: :delete, class: 'delete-department', data: { confirm: "<div class='bootbox-heading'>Delete Department<hr></div>Warning! This change is permanent. Deleting<br>this department will also delete all employees<br/>linked to the department as well. ", "confirm-label": "Confirm", "no-cancel": "true" } do
                 i.icon-trash

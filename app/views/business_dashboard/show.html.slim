@@ -2,30 +2,32 @@
 - header_class ''
 
 - Business::Decorator.decorate(@business).tap do |business|
-  #business-dashboard.row.m-b-3
+  #business-dashboard.row
     - if @business.ria_dashboard?
       .col-sm-6
         = render partial: "reminders", locals: { new_path: "new_business_reminder_path", edit_path: "edit_business_reminder_path", project_path: "business_project_dashboard_path", pdf_path: "business_reminders_path" }
-      .col-sm-3
+      .col-sm-3.p-x-0
         = render partial: "tasks"
       .col-sm-3
         = render partial: "business/addons/addons"
       .clearfix
       .col-md-3
-        .panel.panel-default.profile-info
+        .panel.panel-default.profile-info.m-b-0
           .panel-heading
             h3 Annual Budget
-          .panel-body.p-y-0.m-t-0 
-            = column_chart(@financials.get_budget_data(@range_axis), legend: false)
+          hr.m-b-0.m-t-1
+          .panel-content-wrapper.fullheight
+            /= column_chart(@financials.get_budget_data(@range_axis), legend: false)
         .clearfix
-      .col-md-5
-        .panel.panel-default.profile-info
+      .col-md-5.p-x-0
+        .panel.panel-default.profile-info.m-b-0
           .panel-heading
             h3 Compliance Spend
+          hr.m-b-0.m-t-1
+          .panel-content-wrapper.fullheight
             .seats_info YTD #{@financials.processed_ytd}
-          .panel-body.p-y-0.m-t-0
-            = line_chart User.group_by_month(:created_at, format: "%b").count, height: "245px"
-      .col-sm-6
+            /= line_chart User.group_by_month(:created_at, format: "%b").count, height: "245px"
+      .col-sm-4
         = render partial: "business/seats/seats"
       .col-md-3.hidden
         = render partial: "compliance_manual"
@@ -35,7 +37,25 @@
         = render partial: "audit_prep"
       .clearfix
     - if !@business.ria_dashboard?
-      .panel.panel-default.profile-info
+      .col-md-3
+        .panel.panel-default.profile-info.fixedheight
+          .panel-heading
+            h3 Annual Budget
+          hr.m-b-0.m-t-1
+          .panel-content-wrapper style="min-height: 300px;"
+            /= column_chart(@financials.get_budget_data(@range_axis), legend: false)
+        .clearfix
+      .col-md-5.p-x-0
+        .panel.panel-default.profile-info
+          .panel-heading
+            h3 Compliance Spend
+          hr.m-b-0.m-t-1
+          .panel-content-wrapper.fixedheight_receiver
+            .seats_info YTD #{@financials.processed_ytd}
+            /= line_chart User.group_by_month(:created_at, format: "%b").count, height: "245px"
+      .col-sm-4
+        = render partial: "business/addons/addons"
+      /.panel.panel-default.profile-info
         .panel-heading
           h3 Profile
         .panel-body
@@ -44,9 +64,9 @@
           h3.text-center= link_to business.business_name, business
           .text-center= business.render_stars
 
-        br
+      /  br
 
-        .list-icon.p-x-2
+      /  .list-icon.p-x-2
           .item
             i.icon-location-pin
             span= business.city_state_country
@@ -60,14 +80,14 @@
             i.icon-people
             span #{business.employees} Employees
 
-        = simple_form_for business, remote: true, url: update_business_path, html: { class: 'm-y-2 p-x-2' } do |f|
+      /  = simple_form_for business, remote: true, url: update_business_path, html: { class: 'm-y-2 p-x-2' } do |f|
           = hidden_field_tag 'redirect_to', business_dashboard_path
           = f.input :anonymous, as: :radio_pills, collection: [['Public', false], ['Private', true]], btn_class: 'btn-default btn-sm', label: false, hint: false, input_html: { data: { autosubmit: 'true' } }
 
-        .text-center.text-uppercase.small= link_to 'Edit Profile', edit_business_path, class: 'link'
+      /  .text-center.text-uppercase.small= link_to 'Edit Profile', edit_business_path, class: 'link'
         br
 
-    .panel.panel-default.profile-info
+    /.panel.panel-default.profile-info
       .panel-heading
         h3 Financials
       .panel-body.text-center.p-t-0.p-b-2
@@ -88,7 +108,7 @@
             'YTD
         .m-t-2= link_to 'Details', business_financials_path, class: 'btn btn-sm btn-primary p-x-3', style: "width: 150px"
 
-    .panel.panel-default.profile-info
+    /.panel.panel-default.profile-info
       .panel-heading
         h3 Tools & Resources
       .panel-body.p-t-0.p-b-2
@@ -103,9 +123,9 @@
               = link_to 'Partnerships', partnerships_path
         .m-t-2.text-center= link_to 'Ask a Question', forum_questions_path, class: 'btn btn-sm btn-primary p-x-1', style: "width: 150px"
 
-    - if @business.ria_dashboard?
+    /- if @business.ria_dashboard?
       = render partial: "ria_profile", locals: { business: business }
-    .panel.panel-default.panel-padded
+    /.panel.panel-default.panel-padded
       .panel-heading
         h3 My Projects
         .dropdown.visible-sm.visible-xs
@@ -137,7 +157,7 @@
           #projects-draft.tab-pane
           #projects-complete.tab-pane
 
-    .panel.panel-default.panel-padded
+    /.panel.panel-default.panel-padded
       .panel-heading
         h3 My Specialists
         .dropdown.visible-sm.visible-xs
@@ -159,7 +179,7 @@
           #specialists-hired.tab-pane.active
           #specialists-favorited.tab-pane
 
-    .panel.panel-default.panel-padded
+    /.panel.panel-default.panel-padded
       .panel-heading
         h3
           a.no-link name="ratings-reviews" My Ratings & Reviews

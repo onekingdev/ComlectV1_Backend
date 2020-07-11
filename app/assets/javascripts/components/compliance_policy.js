@@ -17,9 +17,10 @@ $(document).ready(function() {
         url: bsurl+compliance_policy_render_id+".json",
         success: function(data) {
           if (data.preview != false) {
-            $(".pdf_preview_area").html("<iframe height='500px' src='/pdfjs/minimal?file="+encodeURIComponent(data.preview)+"' width='100%'></iframe>");
+            $(".pdf_preview_area").html("<iframe class='pdf_preview_fullheight' src='/pdfjs/minimal?file="+encodeURIComponent(data.preview)+"' width='100%'></iframe>");
             $(".cpolicy_downloadbtn").attr("href", data.preview).removeClass("disabled");
             $(".cpolicy_sharebtn").attr("href", data.email).removeClass("disabled");
+            $(".pdf_preview_fullheight, .pdf_preview_area").height($($(".fullheight")[0]).height());
             clearInterval(requestloop);
           }
         }

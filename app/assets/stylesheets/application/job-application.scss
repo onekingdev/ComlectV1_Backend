@@ -36,7 +36,6 @@ body.job_applications.show {
 }
 
 body.job_applications.index {
-  background-image: asset_url('bg.png');
   background-position: center top;
   background-repeat: repeat-y;
 
@@ -46,8 +45,8 @@ body.job_applications.index {
   }
 
   .input-lg {
-    border: 2px solid #FFCC01;
-    border-radius: 0px;
+    //border: 2px solid #FFCC01;
+    //border-radius: 0px;
     height: 42px;
     line-height: 33px;
     padding: 0px 14px;
@@ -93,6 +92,11 @@ body.job_applications.index {
 .job-applications {
   .job-application {
     margin-bottom: 30px;
+    .actions {
+      .btn {
+        font-size: 12px;
+      }
+    }
   }
 
   .stars {
@@ -109,9 +113,9 @@ body.job_applications.index {
     //border-bottom-right-radius: $border-radius-base;
     display: flex;
     @include clearfix;
-    -webkit-box-shadow: 0px 13px 32px 3px rgba(0,0,0,0.2);
-    -moz-box-shadow: 0px 13px 32px 3px rgba(0,0,0,0.2);
-    box-shadow: 0px 13px 32px 3px rgba(0,0,0,0.2);
+    //-webkit-box-shadow: 0px 13px 32px 3px rgba(0,0,0,0.2);
+    //-moz-box-shadow: 0px 13px 32px 3px rgba(0,0,0,0.2);
+    //box-shadow: 0px 13px 32px 3px rgba(0,0,0,0.2);
 
     .panel-heading h3 {
       text-transform: none;
@@ -151,7 +155,10 @@ body.job_applications.index {
         font-weight: $medium-weight;
         font-size: 12px;
       }
-
+      .stars_bg {
+        margin-left: 0px;
+        transform: scale(0.7);
+      }
       .tools {
         .tool {
           padding: 2px 7px;
@@ -185,6 +192,12 @@ body.job_applications.index {
       padding: 20px 15px (($padding-md-vertical * 2) + ($font-size-base * $line-height-md));
       padding-right: 20px;
       padding-left: 20px;
+
+      .panel-heading h3 {
+        font-family: "Open Sans";
+        font-weight: 500;
+        font-size: 14px;
+      }
 
       .list-icon .item span {
         //width: calc(100% - 1.6em);

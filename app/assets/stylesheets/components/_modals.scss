@@ -21,7 +21,8 @@
 .modal-dialog {
   display: inline-block;
   text-align: left;
-  vertical-align: middle;
+  vertical-align: top;
+  margin-top: 160px;
   @media screen and (max-width: $screen-xs-min) { 
     margin: 0px !important;
     width: 100%;
@@ -38,6 +39,9 @@
     font-family: "Canela";
     font-size: 16px;
   }
+  &> .close {
+    right: 7px;
+  }
 }
 
 .modal-footer { padding: 0px; border-top: 0px; }
@@ -47,10 +51,6 @@
 
   .modal-footer {
     display: none;
-  }
-
-  .modal-body {
-    padding: $padding;
   }
 
   hr.flush {
@@ -79,7 +79,6 @@
 }
 
 .modal-fake {
-  //border: 3px solid #FFCC01;
   @media screen and (max-width: $screen-xs-min) { 
     border: none;
   }
@@ -112,27 +111,44 @@
     font-weight: $light-weight;
     font-size: 14px;
   }
-
-  .form-control {
-    //border-radius: 0;
-    //border: 3px solid #FFCC01;
-  }
-}
-
-@media (min-width: 768px) {
-  .modal-dialog {
-    //width: 405px;
-  }
 }
 
 $bootbox-width: 474px;
+
+.bootbox-close-button, .modal-content .modal-header .close {
+  background-image: url(asset_path("close.png"));
+  font-size: 30px;
+  color: #fff;
+  position: absolute;
+  right: 2px;
+  top: 19px;
+  text-shadow: none;
+  opacity: 1.0;
+  margin-top: -10px;
+  margin-right: 5px;
+  background-size: contain;
+  font-family: "Open Sans";
+
+  @media screen and (max-width: $screen-xs-min) { 
+    top: 15px;
+    right: 20px;
+  }
+
+  &:before {
+    font-family: "maxicons" !important;
+    position: absolute;
+    font-size: 14px;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+  }
+}
+
 .bootbox.modal {
   $border-radius: 0;
 
   .modal-dialog {
     width: auto;
     background-color: #fff;
-    padding: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
     border-radius: 10px;
     @media screen and (max-width: $screen-xs-min) { 
@@ -143,49 +159,8 @@ $bootbox-width: 474px;
 
     .bootbox-body {
       color: #666;
-      padding-top: 10px;
     }
   }
-
-  //.modal-header {
-  //  background-color: $panel-default-heading-bg;
-  //  color: #fff;
-  //  text-align: left;
-
-  .bootbox-close-button {
-    border-radius: 50%;
-    background-image: url(asset_path("close.png"));
-    font-size: 30px;
-    color: #fff;
-    position: absolute;
-    right: -6px;
-    top: 11px;
-    text-shadow: none;
-    opacity: 1.0;
-    margin-top: -10px;
-    margin-right: 5px;
-    width: 13px;
-    height: 13px;
-    background-size: contain;
-    font-family: "Open Sans";
-
-    @media screen and (max-width: $screen-xs-min) { 
-      top: 15px;
-      right: 20px;
-    }
-
-    &:before {
-      font-family: "maxicons" !important;
-      position: absolute;
-      //content: "A";
-      font-size: 14px;
-      color: #000;
-      text-shadow: 0 1px 0 #fff;
-      //opacity: 0.2;
-    }
-  }
-  //}
-
 
   .modal-title {
     font-family: Canela;
@@ -199,40 +174,29 @@ $bootbox-width: 474px;
 
   .modal-content {
     @media screen and (min-width: $screen-md-min) { 
-      width: 605px;
+      width: 455px;
     }
     text-align: center;
     box-shadow: none;
     border: 0px;
-    //border: 3px solid #FFCC01;
     @media screen and (max-width: $screen-xs-min) { 
       border: none;
+    }
+    strong {
+      font-weight: 500;
     }
   }
 
   .modal-body {
-    //width: 80%;
     margin-left: auto;
     margin-right: auto;
-    padding: 20px;
+    padding: 15px;
     @media screen and (max-width: $screen-xs-min) { 
       padding: 10px;
     }
-    padding-top: 0px;
     color: #000000;
     background-color: #fff;
-    border-top-left-radius: $border-radius;
-    border-top-right-radius: $border-radius;
-
-    label {
-      font-size: 14px;
-      font-weight: $light-weight;
-    }
-
-    .form-control {
-      border-radius: 0;
-      border: 3px solid #FFCC01;
-    }
+    border-radius: 10px;
 
     h2 {
       color: #000;
@@ -246,8 +210,7 @@ $bootbox-width: 474px;
     padding-top: 0px;
     border-top: 0;
     background-color: #fff;
-    border-bottom-left-radius: $border-radius;
-    border-bottom-right-radius: $border-radius;
+    border-radius: 10px;
     text-align: center;
 
     .btn {
@@ -272,7 +235,6 @@ $bootbox-width: 474px;
 
   &.confirm .modal-footer {
     .btn {
-      //width: 35%;
       width: 140px;
     }
 
@@ -292,8 +254,8 @@ $bootbox-width: 474px;
     border-top: 1px solid #F1F1F1;
     margin-top: 10px;
     margin-bottom: 30px;
-    margin-left: -28px;
-    margin-right: -28px;
+    margin-left: -15px;
+    margin-right: -15px;
   }
 }
 
@@ -324,6 +286,8 @@ $bootbox-width: 474px;
   margin-top: -15px;
   font-size: 14px;
   font-weight: 100;
+  height: 8px;
+  width: 8px;
   @media screen and (max-width: $screen-xs-min) { 
     margin-top: -28px;
   }
@@ -352,10 +316,6 @@ $bootbox-width: 474px;
   }
 
   .modal-header {
-    //background-color: $gray-dark;
-    //color: #fff;
-    //padding-top: 5px;
-    //padding-bottom: 5px;
     width: 100%;
     position: relative;
     border-bottom: 0px;
@@ -370,8 +330,8 @@ $bootbox-width: 474px;
   }
 
   h3 {
-    font-size: 14px;
-    font-weight: bold;
+    font-size: 16px;
+    font-weight: 500;
   }
 
   h4 {

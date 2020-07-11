@@ -6,7 +6,7 @@
         - if answer.photo
           = image_tag answer.photo_url(:thumb), width: "64", class: 'img-circle'
         - else
-          = image_tag 'icon-specialist.png', width: "64", class: 'img-circle'
+          = image_tag 'default_userpic.png', width: "64", class: 'img-circle'
       = render_stars answer.ratings_average, { class: "small m-t-1 m-b-1" }
     .col-md-10
       .metadata
@@ -42,7 +42,7 @@
           - if current_user.photo
             = image_tag current_user.photo_url(:thumb), width: "48", class: 'img-circle'
           - else
-            = image_tag 'icon-specialist.png', width: "48", class: 'img-circle'
+            = image_tag 'default_userpic.png', width: "48", class: 'img-circle'
         .col-sm-10.col-no-padding.p-r-2.p-b-2
           = simple_form_for ForumAnswer.new do |f|
             .col-sm-9.col-no-padding
@@ -63,7 +63,7 @@
       - if answer.photo
         = image_tag answer.photo_url(:thumb), width: "48", class: 'img-circle'
       - else
-        = image_tag 'icon-specialist.png', width: "48", class: 'img-circle'
+        = image_tag 'default_userpic.png', width: "48", class: 'img-circle'
       .first_name.m-t-1
         b = answer.user.short_name
         br

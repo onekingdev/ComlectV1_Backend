@@ -2,26 +2,28 @@
   .panel-heading
     .pull-left
       h3 Add-on Alerts
-    hr.m-y-0
     .pull-right
-      = link_to "Add-Ons", root_url(subdomain: 'marketplace'), "data-target": "#modal", "data-toggle": "modal", "data-remote": true, class: "btn btn-primary btn-solid p-y-0", style: "padding: 9px 10px;"
+      = link_to "Add-Ons", "/partnerships", class: "btn btn-primary btn-solid p-y-0", style: "padding: 9px 10px; margin-top: -6px;", target: "_blank"
 
     .clearfix
-  / hr.m-y-0
-  .panel-content-wrapper class=("fixedheight_receiver" if ["business_dashboard", "specialists/dashboard"].include?(params[:controller])) style="max-height: 400px;"
+  hr.m-b-0.m-t-1
+  .panel-content-wrapper class=("fixedheight_receiver" if ["business_dashboard", "specialists/dashboard"].include?(params[:controller])) style="min-height: 300px;"
     table.table.table-striped.table-blue.addon-alerts-table
       thead
         tr
           th style="width: 1px;" Company
-          th Notification
+          th
+            .p-l-1 Notification
           th style="width: 1px;" &nbsp;
       tbody
-        - for i in 1..50 do
-          tr
-            td.text-center = image_tag "icon-business.png", style: "border-radius: 50%; width: 30px; height: 30px;"
-            td
-              | Something good happened
+      /- for i in 1..50 do
+        tr
+          td.text-center = image_tag "icon-business.png", style: "border-radius: 50%; width: 30px; height: 30px;"
+          td
+            .p-l-1 style="line-height: 12px;"
+              = ["Something good happened", "there are 12,000 emails flagged and awaiting your review"].sample
               br/
               small = Date.today.strftime('%b %-d, %Y')
-            td.text-center = link_to "x", "#"
+          td.text-center = link_to "x", "#", style: "color: #ffcc01"
     .clearfix
+    h2.text-center NO ALERTS

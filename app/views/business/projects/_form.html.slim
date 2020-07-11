@@ -4,151 +4,171 @@
 = simple_form_for [:business, project], remote: true, authenticity_token: true, wrapper: :inline_form, html: { class: "project_form", data: { "project-type" => project.type } } do |f|
   = f.hidden_field :invite_id
 
-  .text-center
-    h1.m-t-0.m-b-3 Is this a one-off project or a full-time role?
+  .text-center style="font-size: 13px;"
+    h3.m-t-0.m-b-3 style="font-family: Canela; font-weight: bold; font-size: 24px;" Is this a one-off project or a full-time role?
 
-    = f.input :type, as: :radio_pills, collection: [['RFP', Project.types[:rfp]], ['Custom', Project.types[:one_off]], ['Full Time', Project.types[:full_time]]], btn_class: 'btn-lg btn-default', wrapper_html: { class: 'm-b-0 project_timing_btn' }
-  .well.well-lg.m-t-3.project-details data-location-type=project.location_type
-    h2.text-center.m-b-2.full-time Job Details
-    h2.text-center.m-b-2.one-off Project Details
-    .row.row-compact
-      .col-xs-12.col-sm-4
-        = f.input :title, input_html: { class: 'input-lg' }
-        = f.input :location_type, collection: Project::LOCATIONS, include_blank: I18n.t('simple_form.placeholders.project.location_type'), input_html: { class: 'input-lg js-select' }
-        = f.hidden_field :lat
-        = f.hidden_field :lng
-        = f.input :location, input_html: { class: "input-lg js-place-autocomplete", data: { lat: '#project_lat', lng: '#project_lng', self: 'full' } }
-        = project.industries_input(f)
-      .col-xs-12.col-sm-8
-        = f.input :description, as: :text, input_html: { class: 'input-lg tt-n' }
-    .row.row-compact
-      .col-xs-12.col-sm-4
-        = project.jurisdictions_input(f)
-      .col-xs-12.col-sm-8
-        = f.input :key_deliverables, input_html: { class: 'input-lg tt-n' }
-        = f.input :full_time_starts_on, \
-          input_html: { \
-            class: 'input-lg js-datepicker', \
-            data: { \
-              min: Date.today.to_a[3..5].reverse, \
-              value: (l(f.object.full_time_starts_on, format: :pickadate) if f.object.full_time_starts_on.present?) \
-            } \
-          }
+    = f.input :type, label: raw("Type&nbsp;&nbsp;&nbsp;"), as: :radio_pills, collection: [['RFP', Project.types[:rfp]], ['Custom', Project.types[:one_off]], ['Full Time', Project.types[:full_time]]], btn_class: 'btn-lg btn-default', wrapper_html: { class: 'm-b-0 project_timing_btn' }
 
-  .well.well-lg.m-t-3.project-budget-timing
-    h2.text-center.m-b-2 Budget & Timing
-    .row.row-compact
-      .col-xs-12.col-sm-6
-        = project.est_budget_input(f)
-      .col-xs-12.col-sm-6
-        = f.input :rfp_timing, include_blank: t('simple_form.placeholders.project.rfp_timing'), \
-            collection: Project::RFP_TIMING, \
-            input_html: { class: 'input-lg js-select', data: { filter: false } }
-
-  .well.well-lg.m-t-3.project-duration data-duration-type=project.duration_type
-    h2.text-center.m-b-2 Project Duration
-    .row.row-compact.m-y-1
-      .col-xs-12.text-center
-        = f.input :duration_type, as: :radio_pills, collection: [%w(Custom custom), %w(ASAP asap)], btn_class: 'btn-default tt-u'
-    .project-duration-custom
-      .row.row-compact.js-date-range
-        .col-xs-12.col-sm-6
-          = f.input :starts_on, required: true, as: :string, input_html: { \
-            class: 'input-lg js-datepicker', \
-            data: { \
-              min: Date.today.to_a[3..5].reverse, \
-              'date-from' => true, \
-              value: (l(f.object.starts_on, format: :pickadate) if f.object.starts_on) \
-            } \
-          }
-
-        .col-xs-12.col-sm-6
-          = f.input :ends_on, required: true, as: :string, input_html: { \
-            class: 'input-lg js-datepicker', \
-            data: { \
-              min: Date.today.to_a[3..5].reverse, \
-              'date-to' => true, \
-              value: (l(f.object.ends_on, format: :pickadate) if f.object.ends_on) \
-            } \
-          }
-      .row.row-compact.p-b-1
-        .col-xs-12
-          .small.text-muted Note: Please estimate if necessary to allow our specialists to determine their availability. You will be able to extend the deadline later.
-    .project-duration-asap
+  .panel.panel-default.panel-padded.col-xs-10.col-xs-push-1.p-x-0.m-t-2
+    .panel-heading
+      h3.full-time Job Details
+      h3.one-off Project Details
+      hr.m-t-1.m-b-1 style="margin-left: -25px; margin-right: -25px;"
+    .panel-body.p-t-0.project-details data-location-type=project.location_type
       .row.row-compact
-        .col-xs-12.col-sm-4.col-sm-offset-4
-          = f.input :estimated_days, as: :string, require: true, input_html: { class: 'input-lg text-center' }
+        .col-xs-12.col-sm-4
+          = f.input :title, input_html: { class: 'input-lg' }
+          = f.input :location_type, label: "Location Type", collection: Project::LOCATIONS, include_blank: I18n.t('simple_form.placeholders.project.location_type'), input_html: { class: 'input-lg js-select' }
+          = f.hidden_field :lat
+          = f.hidden_field :lng
+          = f.input :location, input_html: { class: "input-lg js-place-autocomplete", data: { lat: '#project_lat', lng: '#project_lng', self: 'full' } }
+          = project.industries_input(f)
+        .col-xs-12.col-sm-8
+          = f.input :description, as: :text, input_html: { class: 'input-lg tt-n' }
+      .row.row-compact
+        .col-xs-12.col-sm-4
+          = project.jurisdictions_input(f)
+        .col-xs-12.col-sm-8
+          = f.input :key_deliverables, label: "Key Deliverables", input_html: { class: 'input-lg tt-n' }
+          = f.input :full_time_starts_on, label: "Full Time Starts On", \
+            input_html: { \
+              class: 'input-lg js-datepicker', \
+              data: { \
+                min: Date.today.to_a[3..5].reverse, \
+                value: (l(f.object.full_time_starts_on, format: :pickadate) if f.object.full_time_starts_on.present?) \
+              } \
+            }
+
+  .panel.panel-default.panel-padded.col-xs-10.col-xs-push-1.p-x-0.project-budget-timing
+    .panel-heading
+      h3 Budget & Timing
+      hr.m-t-1.m-b-1 style="margin-left: -25px; margin-right: -25px;"
+    .panel-body.p-t-0
+      .row.row-compact
+        .col-xs-12.col-sm-6
+          = project.est_budget_input(f)
+        .col-xs-12.col-sm-6
+          = f.input :rfp_timing, label: "Project Timing", include_blank: t('simple_form.placeholders.project.rfp_timing'), \
+              collection: Project::RFP_TIMING, \
+              input_html: { class: 'input-lg js-select', data: { filter: false } }
+
+
+  .panel.panel-default.panel-padded.col-xs-10.col-xs-push-1.p-x-0.project-duration data-duration-type=project.duration_type
+    .panel-heading
+      h3 Project Duration
+      hr.m-t-1.m-b-1 style="margin-left: -25px; margin-right: -25px;"
+    .panel-body.p-t-0
+      .row.row-compact.m-y-1
+        .col-xs-12.text-center
+          = f.input :duration_type, label: raw("Duration Type&nbsp;&nbsp;&nbsp;"), as: :radio_pills, collection: [%w(Custom custom), %w(ASAP asap)], btn_class: 'btn-default tt-u'
+      .project-duration-custom
+        .row.row-compact.js-date-range
+          .col-xs-12.col-sm-6
+            = f.input :starts_on, required: true, as: :string, input_html: { \
+              class: 'input-lg js-datepicker', \
+              data: { \
+                min: Date.today.to_a[3..5].reverse, \
+                'date-from' => true, \
+                value: (l(f.object.starts_on, format: :pickadate) if f.object.starts_on) \
+              } \
+            }
+
+          .col-xs-12.col-sm-6
+            = f.input :ends_on, required: true, as: :string, input_html: { \
+              class: 'input-lg js-datepicker', \
+              data: { \
+                min: Date.today.to_a[3..5].reverse, \
+                'date-to' => true, \
+                value: (l(f.object.ends_on, format: :pickadate) if f.object.ends_on) \
+              } \
+            }
+        .row.row-compact.p-b-1
+          .col-xs-12
+            .small.text-muted Please estimate if necessary to allow our specialists to determine their availability. You will be able to extend the deadline later.
+      .project-duration-asap
+        .row.row-compact
+          .col-xs-12.col-sm-4.col-sm-offset-4.text-center
+            = f.input :estimated_days, as: :string, require: true, input_html: { class: 'input-lg text-center' }
+        .row.row-compact.p-b-1
+          .col-xs-12
+            .small.text-muted This option will allow you to post a project without a start date. The start date will become the date you hire a specialist.
+
+  .panel.panel-default.panel-padded.col-xs-10.col-xs-push-1.p-x-0.project-salary
+    .panel-heading
+      h3 Salary
+      hr.m-t-1.m-b-1 style="margin-left: -25px; margin-right: -25px;"
+    .panel-body.p-t-0
+      .row.row-compact
+        .col-xs-12.col-sm-6
+          = f.input :annual_salary, as: :string, required: true, input_html: { class: 'input-lg', data: { masked: '0#' } }
+        .col-xs-12.col-sm-6
+          = f.input :fee_type,
+            as: :radio_pills,
+            collection: [['Upfront', f.object.class.fee_types[:upfront_fee]], ['Monthly', f.object.class.fee_types[:monthly_fee]]],
+            btn_class: 'btn-lg tt-u btn-default p-x-3'
+          button.info-tooltip type="button" data-toggle="tooltip" title="Select how you'd like to pay Complect's fees" style="left: 160px; margin-top: 2px;" i
+      .row.row-compact.text-muted.small.p-b-1
+        .col-xs-12
+          | Complect offers two payment options for the full-time hiring fee:
+          br
+          '(1) 15% of first year salary payable on the new employee's start date, refundable if employee leaves within 90 days.
+          br
+          '(2) 3% of first year salary payable monthly for 6 months beginning on the new employee's start date. If employee  leaves within 6 months, monthly payments are no longer due after termination date.
+
+  .panel.panel-default.panel-padded.col-xs-10.col-xs-push-1.p-x-0.project-pricing data-pricing-type=project.pricing_type
+    .panel-heading
+      h3 Project Pricing
+      hr.m-t-1.m-b-1 style="margin-left: -25px; margin-right: -25px;"
+    .panel-body.p-t-0
+      .row.row-compact.m-y-1
+        .col-xs-12.text-center
+          = f.input :pricing_type, label: raw("Pricing Type&nbsp;&nbsp;&nbsp;"), as: :radio_pills, collection: [%w(Hourly hourly), %w(Fixed fixed)], btn_class: 'btn-default tt-u'
+      .row.row-compact
+        .col-xs-12.col-sm-4
+          = project.hourly_payment_schedule_input(f)
+          = project.fixed_payment_schedule_input(f)
+        .col-xs-12.col-sm-4
+          = project.hourly_rate_input(f)
+          = project.fixed_budget_input(f)
+        .col-xs-12.col-sm-4
+          = f.input :estimated_hours, as: :string, require: true, input_html: { class: 'input-lg', data: { masked: '0#' } }
+
+  .panel.panel-default.panel-padded.col-xs-10.col-xs-push-1.p-x-0.project-applicant-selection
+    .panel-heading
+      h3 Project Pricing
+      hr.m-t-1.m-b-1 style="margin-left: -25px; margin-right: -25px;"
+    .panel-body.p-t-0
+      .row.row-compact.m-y-1
+        .col-xs-12.text-center
+          = f.input :applicant_selection, label: raw("Applicant Selection&nbsp;&nbsp;&nbsp;"), as: :radio_pills, collection: [%w(Interview interview), %w(Auto\ Match auto_match)], btn_class: 'btn-default tt-u', wrapper_html: { class: 'project_automatch_btn' }
       .row.row-compact.p-b-1
         .col-xs-12
-          .small.text-muted Note: This option will allow you to post a project without a start date. The start date will become the date you hire a specialist.
+          .small.text-muted This options allows you to decide whether you want to interview applicants for your project or allow our automated matching system to pair you with a specialist that fits your applicant prerequisites.
 
-  .well.well-lg.m-t-3.project-salary
-    h2.text-center.m-b-2 Salary
-    .row.row-compact
-      .col-xs-12.col-sm-6
-        = f.input :annual_salary, as: :string, required: true, input_html: { class: 'input-lg', data: { masked: '0#' } }
-      .col-xs-12.col-sm-6
-        = f.input :fee_type,
-          as: :radio_pills,
-          collection: [['Upfront', f.object.class.fee_types[:upfront_fee]], ['Monthly', f.object.class.fee_types[:monthly_fee]]],
-          btn_class: 'btn-lg tt-u btn-default p-x-3'
-        button.info-tooltip type="button" data-toggle="tooltip" title="Select how you'd like to pay Complect's fees" i
-    .row.row-compact.text-muted.small.p-b-1
-      .col-xs-12
-        'Note: Complect offers two payment options for the full-time hiring fee:
-        br
-        '(1) 15% of first year salary payable on the new employee's start date, refundable if employee leaves within 90 days.
-        br
-        '(2) 3% of first year salary payable monthly for 6 months beginning on the new employee's start date. If employee  leaves within 6 months, monthly payments are no longer due after termination date.
-
-  .well.well-lg.m-t-3.project-pricing data-pricing-type=project.pricing_type
-    h2.text-center.m-b-2 Project Pricing
-    .row.row-compact.m-y-1
-      .col-xs-12.text-center
-        = f.input :pricing_type, as: :radio_pills, collection: [%w(Hourly hourly), %w(Fixed fixed)], btn_class: 'btn-default tt-u'
-    .row.row-compact
-      .col-xs-12.col-sm-4
-        = project.hourly_payment_schedule_input(f)
-        = project.fixed_payment_schedule_input(f)
-      .col-xs-12.col-sm-4
-        = project.hourly_rate_input(f)
-        = project.fixed_budget_input(f)
-      .col-xs-12.col-sm-4
-        = f.input :estimated_hours, as: :string, require: true, input_html: { class: 'input-lg', data: { masked: '0#' } }
-    .row.row-compact.p-b-1
-      .col-xs-12
-        .small.text-muted Note: Complect adds a 10% fee on top of your project value. You can read more about our Payment Terms <a class="text-muted" href="https://www.complect.com/terms-of-use" target="_blank">here</a>.
-
-  .well.well-lg.m-t-3.project-applicant-selection
-    h2.text-center.m-b-2 Applicant Selection
-    .row.row-compact.m-y-1
-      .col-xs-12.text-center
-        = f.input :applicant_selection, as: :radio_pills, collection: [%w(Interview interview), %w(Auto\ Match auto_match)], btn_class: 'btn-default tt-u', wrapper_html: { class: 'project_automatch_btn' }
-    .row.row-compact.p-b-1
-      .col-xs-12
-        .small.text-muted Note: This options allows you to decide whether you want to interview applicants for your project or allow our automated matching system to pair you with a specialist that fits your applicant prerequisites.
-
-  .well.well-lg.m-t-3
-    h2.text-center.m-b-2 Applicant Prerequisites
-    .row.row-compact.m-t-1
-      .col-xs-12.col-sm-6
-        = f.input :minimum_experience, include_blank: t('simple_form.placeholders.project.minimum_experience'), \
-          collection: Project::MINIMUM_EXPERIENCE, \
-          input_html: { class: 'input-lg js-select', data: { filter: false } }
-        .form-group.project_only_regulators
-          span.checkbox.checkbox-lg
-            = f.check_box :only_regulators
-            = f.label :only_regulators
-      .col-xs-12.col-sm-6
-        = project.skills_input(f)
-        button.info-tooltip type="button" data-toggle="tooltip" title="Only hashtag up to ten skills your desired specialist should possess. Desired skills can also be referenced in the project description." i
-        .form-group.m-t-0.m-b-0
-          ul.skills-required
-            - project.skill_names.each do |skill|
-              li
-                input type='hidden' name='project[skill_names][]' value=skill
-                span= skill
-                span.remove data-skill=skill x
+  .panel.panel-default.panel-padded.col-xs-10.col-xs-push-1.p-x-0
+    .panel-heading
+      h3 Applicant Prerequisites
+      hr.m-t-1.m-b-1 style="margin-left: -25px; margin-right: -25px;"
+    .panel-body.p-t-0
+      .row.row-compact.m-t-1
+        .col-xs-12.col-sm-6
+          = f.input :minimum_experience, label: "Minimum Experience", include_blank: t('simple_form.placeholders.project.minimum_experience'), \
+            collection: Project::MINIMUM_EXPERIENCE, \
+            input_html: { class: 'input-lg js-select', data: { filter: false } }
+          .form-group.project_only_regulators
+            span.checkbox.checkbox-lg
+              = f.check_box :only_regulators
+              = f.label :only_regulators
+        .col-xs-12.col-sm-6
+          = project.skills_input(f)
+          button.info-tooltip type="button" data-toggle="tooltip" title="Only hashtag up to ten skills your desired specialist should possess. Desired skills can also be referenced in the project description." style="left: 100px; margin-top: 2px;" i
+          .form-group.m-t-0.m-b-0
+            ul.skills-required
+              - project.skill_names.each do |skill|
+                li
+                  input type='hidden' name='project[skill_names][]' value=skill
+                  span= skill
+                  span.remove data-skill=skill x
 
   - if f.object.errors.any?
     .clearfix.m-y-3
@@ -161,31 +181,33 @@
   .actions.clearfix.well-lg.well-transparent
     .col-xs-12.col-sm-4.m-b-1.md-text-right
       - if project.persisted?
-        = link_to project, method: :delete, data: { confirm: project.confirm_delete, 'confirm-label' => 'Delete' }, class: 'btn btn-muted btn-lg' do
+        = link_to project, method: :delete, data: { confirm: project.confirm_delete, 'confirm-label' => 'Delete' }, class: 'btn btn-default btn-md' do
           span Delete
       - else
-        = link_to_back default: business_dashboard_path, data: { method: 'get', confirm: project.confirm_delete, 'confirm-label' => 'Delete' }, class: 'btn btn-muted btn-lg' do
+        = link_to_back default: business_dashboard_path, data: { method: 'get', confirm: project.confirm_delete, 'confirm-label' => 'Delete' }, class: 'btn btn-default btn-md' do
           span Delete
     - if project.published? && project.persisted?
       .col-xs-12.col-sm-4.text-center.m-b-1
-        = link_to business_project_path(project), class: 'btn btn-muted btn-lg m-r-1' do
+        = link_to business_project_path(project), class: 'btn btn-default btn-md m-r-1' do
           span Cancel
       .col-xs-12.col-sm-4.text-center.m-b-1
-        button.btn.btn-primary.btn-lg type="submit"
+        button.btn.btn-primary.btn-md type="submit"
           span Save Changes
     - else
       .col-xs-12.col-sm-4.text-center.m-b-1
         button.default-submit-offscreen type="submit" name="project[status]" value=Project.statuses[:review]
-        button.btn.btn-primary.btn-lg type="submit" name="project[status]" value=Project.statuses[:draft]
+        button.btn.btn-primary.btn-md type="submit" name="project[status]" value=Project.statuses[:draft]
           - if project.persisted?
             span Save Changes
           - else
             span Save as Draft
       .col-xs-12.col-sm-4.md-text-left.m-b-1
-        button.btn.btn-primary.btn-lg type="submit" name="project[status]" value=Project.statuses[:published]
+        button.btn.btn-primary.btn-md type="submit" name="project[status]" value=Project.statuses[:published]
           span Post
 
   .row.m-b-2.text-center
     .col-xs-12.col-sm-8.col-sm-push-2.small.text-muted
-      p You will be able to make changes to this information until you receive your first application.
-        If you need to make changes after that, contact us at <a class="text-muted" href="mailto:help@complect.com">help@complect.com</a> or on #{link_to ENV.fetch('CONTACT_PHONE'), "tel:#{ENV['CONTACT_PHONE'].to_s.gsub(/[^\d+]/, '')}", class: 'text-muted'}.
+      p 
+        | You will be able to make changes to this information until you receive your first application.
+        br
+        | If you need to make changes after that, contact us at <a class="text-muted" href="mailto:admin@complect.com">help@complect.com</a>

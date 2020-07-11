@@ -9,7 +9,7 @@
             - if specialist.photo
               = image_tag specialist.photo_url(:profile), class: 'img-responsive real'
             - else
-              = image_tag 'icon-specialist.png', class: 'img-responsive real'
+              = image_tag 'default_userpic.png', class: 'img-responsive real'
         .td.title class=css_classes
           - if policy(specialist).edit?
             .tools

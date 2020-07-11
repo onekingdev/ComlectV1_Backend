@@ -3,17 +3,16 @@
   script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js" data-client-name="Client Name" data-key="#{ENV.fetch('PLAID_PUBLIC_KEY')}" data-product="auth" data-env="sandbox"
 
 .loading.text-center
-  img(src="/assets/load-primary-16.gif" width="40px")
+  img(src="/assets/loading-dots.gif" width="40px")
 .payment_form
   h5.text-center Add a card for future payments
 
   br
   .stripe-card-form
-  br
-  .errors#card-errors
+  .clearfix.errors#card-errors
   br
 
-  .form-switch
+  .form-switch.m-b-1
     = form_for :payment_form, url: business_settings_payment_index_path, method: :post, html: { id: :payment_method_form } do |f|
       = f.hidden_field :use_method, value: :card
       = f.hidden_field :plaid_token

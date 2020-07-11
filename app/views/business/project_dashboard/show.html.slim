@@ -6,7 +6,7 @@
 - specialist_username = @specialist.username if !@specialist.blank?
 
 - Project::Decorator.decorate(@project).tap do |project|
-  h1.m-t-0.m-b-3.hidden-sm.hidden-xs
+  h1.m-t-0.m-b-1.hidden-sm.hidden-xs
     = project
     .pull-right
       small 
@@ -36,7 +36,7 @@
         .panel.panel-default.project-overview
           = render :partial => "projects/dashboards/project_overview", :locals => { project: project, specialist: @specialist }
 
-      .col-xs-12.col-md-9.unrelative
+      .col-xs-12.col-md-9.unrelative.p-l-0
         .panel.panel-default.panel-padded
           .panel-heading
             .dropdown.visible-xs
@@ -72,6 +72,7 @@
               - if project.active?
                 li= link_to '#project-help', data: { toggle: 'tab' } do
                   span Help
+          .clearfix
           .panel-body
             .tab-content
               #project-overview.project-overview.tab-pane.clearfix

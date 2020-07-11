@@ -22,7 +22,9 @@ class Specialists::ProjectsController < ApplicationController
 
     respond_to do |format|
       format.html do
-        render partial: @is_specialist_cards ? 'specialist_cards' : 'cards', locals: { projects: @projects } if request.xhr?
+        if request.xhr?
+          render partial: @is_specialist_cards ? 'business/projects/business_cards' : 'cards', locals: { projects: @projects }
+        end
       end
       format.js
     end

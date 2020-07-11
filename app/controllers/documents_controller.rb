@@ -66,9 +66,11 @@ class DocumentsController < ApplicationController
   end
 
   def params_or_project_specialist
-    # rubocop:disable Metrics/LineLength
-    params[:specialist_username] && @project.pending? ? Specialist.find_by(username: params[:specialist_username]) : @project.specialist
-    # rubocop:enable Metrics/LineLength
+    if params[:specialist_username] && @project.pending?
+      Specialist.find_by(username: params[:specialist_username])
+    else
+      @project.specialist
+    end
   end
 
   def current_or_project_specialist
@@ -87,9 +89,8 @@ class DocumentsController < ApplicationController
   def dashboard_redirection_based_on_role
     if current_business
       if params[:specialist_username]
-        # rubocop:disable Metrics/LineLength
-        redirect_to business_project_dashboard_interview_path(@project, params[:specialist_username], anchor: 'nojump-project-documents')
-        # rubocop:enable Metrics/LineLength
+        redirect_to business_project_dashboard_interview_path(@project, params[:specialist_username], \
+                                                              anchor: 'nojump-project-documents')
       else
         redirect_to business_project_dashboard_path(@project, anchor: 'nojump-project-documents')
       end

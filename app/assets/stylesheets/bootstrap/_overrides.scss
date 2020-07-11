@@ -42,13 +42,18 @@ label {
   font-size: 14px;
   background-color: transparent;
   background-image: asset_url("close.png");
-  width: 13px;
-  height: 13px;
+  width: 10px;
+  height: 10px;
   background-size: contain;
-  border-radius: 50%;
+  //border-radius: 50%;
   position: absolute;
   right: 8px;
   z-index: 10000;
+}
+
+.btn-link, .btn-link:hover, .btn-link:focus, .btn-link:active {
+  text-decoration: none;
+  color: #ffcc01;
 }
 
 .bootstrap-switch, .bootstrap-switch-label, .bootstrap-switch-container, .bootstrap-switch-handle-on, .bootstrap-switch-handle-off {
@@ -78,7 +83,7 @@ label {
   td {
     padding-top: 4px !important;
     padding-bottom: 4px !important;
-    color: #666666 !important;
+    //color: #666666 !important;
   }
 }
 
@@ -94,7 +99,7 @@ button:focus,
   outline:none !important;
   outline-color: #ffffff !important;
   outline-offset: 0px !important;
-  background-color: #fff;
+  //background-color: #fff;
   //border: 1px solid #FFCD00;
   -webkit-appearance:none;
   box-shadow: none;

@@ -8,7 +8,7 @@
             - if business.public? && business.logo
               = image_tag business.logo_url(:thumb), class: 'img-responsive real'
             - else
-              = image_tag 'icon-specialist.png', class: 'img-responsive real'
+              = image_tag 'default_userpic.png', class: 'img-responsive real'
 
         .td.title.col-xs-12.col-sm-8.col-md-9.has-logo
           - if policy(business).edit?

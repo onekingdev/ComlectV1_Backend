@@ -1,5 +1,5 @@
 .panel-heading.m-b-3
-  h3 Subscription packages
+  h3 Subscription Packages
 
 .panel-body.p-t-0.m-b-1
   table.table.table-blue.borderless
@@ -12,7 +12,8 @@
       th Status
       th &nbsp;
     - [current_business.forum_subscription].each do |forum_sub|
-      = render partial: "forum_subscription_item", locals: { sub: forum_sub }
+      - if forum_sub.present?
+        = render partial: "forum_subscription_item", locals: { sub: forum_sub }
     - @subscriptions.each do |sub|
       = render partial: "subscription_item", locals: { sub: sub }
 = render partial: "subscription_modal"

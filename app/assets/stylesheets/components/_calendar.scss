@@ -48,12 +48,12 @@
   width: auto !important;
   padding: 3px 13px;
   font-weight: normal;
-  font-size: 10px;
 }
 
 .btn-shadow.active {
   box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.05);
   color: #FFCC01;
+  font-weight: 600;
 }
 
 .calendar-dropdown {
@@ -77,6 +77,7 @@
   .task_3 { background-color: #FFCC01 };
 
   .task_begin, .task_middle, .task_end {
+    line-height: 13px;
     position: absolute;
     z-index: 800;
     height: 13px;
@@ -91,7 +92,7 @@
     border-radius: 4px;
     a {
       color: #fff !important;
-      font-weight: 500;
+      font-weight: 4  00;
       letter-spacing: 0px;
     }
   }
@@ -112,7 +113,7 @@
     width: 55%;
     position: absolute;
     z-index: 1000;
-    top: 27px;
+    top: 14px;
   }
   .calendar_days {
     float: left;

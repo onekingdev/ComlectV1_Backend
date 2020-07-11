@@ -48,3 +48,8 @@
 .multiselect-container li a {
   text-decoration: none !important;
 }
+
+.dropdown-menu > .active > a {
+  background-color: #ffcc01 !important;
+  min-height: 29px;
+}

@@ -177,6 +177,7 @@ class Specialist < ApplicationRecord
   validate :cookie_agreement_invalid?
   validates :username, uniqueness: true
   validates :call_booked, presence: true, on: :signup
+  validates :resume, presence: true, on: :signup
 
   default_scope -> { joins("INNER JOIN users ON users.id = specialists.user_id AND users.deleted = 'f'") }
 

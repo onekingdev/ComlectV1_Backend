@@ -78,9 +78,7 @@ class Business::OnboardingController < ApplicationController
   end
 
   def find_product
-    identifier = if I18n.t(:business_products).keys.map(&:to_s).include?(current_business.business_stages)
-                   current_business.business_stages
-                 end
+    identifier = current_business.business_stages if I18n.t(:business_products).stringify_keys.key?(current_business.business_stages)
     return unless identifier
 
     ProjectTemplate.find_by(identifier: identifier)

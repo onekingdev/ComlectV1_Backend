@@ -3,7 +3,7 @@
     .progress
       .progress-bar role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100" style='width:5%'
   .clearfix
-  h2.m-t-1.m-b-2.text-center Let's set up your account!
+  h2.m-t-1.m-b-2.text-center style="font-family: Canela; font-weight: 400; font-size: 18px;" Let's set up your account!
 
   .col-xs-12
     - if f.object.errors.any?
@@ -14,11 +14,12 @@
 
     = f.fields_for :user, wrapper: :inline_form do |uf|
       .row
+        .col-sm-6 = f.input :first_name, required: true, input_html: { class: 'input-lg' }, label: "First Name"
+        .col-sm-6 = f.input :last_name, required: true, input_html: { class: 'input-lg' }, label: "Last Name"
         .col-sm-6 = uf.input :email, input_html: { class: 'input-lg' }
-        .col-sm-6 = uf.input :password, input_html: { class: 'input-lg' }
-        .col-sm-6 = uf.input :password_confirmation, input_html: { class: 'input-lg' }
-        .col-sm-6 = f.input :first_name, input_html: { class: 'input-lg' }
-        .col-sm-6 = f.input :last_name, input_html: { class: 'input-lg' }
+        .col-sm-6 = uf.input :password, required: true, input_html: { class: 'input-lg' }
+        .col-sm-6 = uf.input :password_confirmation, required: true, input_html: { class: 'input-lg' }, label: "Password Confirmation"
+
         .clearfix.m-b-3
         .col-sm-6
           = f.input :address_1,
@@ -30,18 +31,19 @@
         .col-sm-6
           = f.input :address_2, required: false, input_html: { class: 'input-lg' }
         .col-sm-6
-          = f.input :city, as: :string, input_html: { class: 'input-lg' }
+          = f.input :city, required: true, as: :string, input_html: { class: 'input-lg' }
           = f.hidden_field :lat
           = f.hidden_field :lng
         .col-sm-6
-          = f.input :state, as: :string, input_html: { class: 'input-lg' }
+          = f.input :state, required: true, as: :string, input_html: { class: 'input-lg' }
         .col-sm-6
-          = f.input :zipcode, input_html: { class: 'input-lg' }
+          = f.input :zipcode, required: true, input_html: { class: 'input-lg' }
         .col-sm-6
           .form-group
+            label Country
             = f.country_select :country, { include_blank: 'Select a country' }, class: 'form-control input-lg js-select'
         .col-sm-6
-          = f.input :time_zone, include_blank: t('simple_form.placeholders.specialist.time_zone'), input_html: { class: 'input-lg js-select' }
+          = f.input :time_zone, required: true, include_blank: t('simple_form.placeholders.specialist.time_zone'), input_html: { class: 'input-lg js-select' }, label: "Time Zone"
   .clearfix
   .col-md-12.m-t-2.text-center.m-b-3
     button.continue.btn_step_jump.btn.btn-primary disabled=true type="button" Continue
@@ -51,7 +53,10 @@
     .progress
       .progress-bar role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style='width:30%'
   .clearfix
-  h2.m-t-1.m-b-2.text-center What jurisdictions does your expertise extend to?
+  h2.m-t-1.m-b-2.text-center style="font-family: Canela; font-weight: 400; font-size: 18px;"
+    | What jurisdictions does your expertise extend to?
+  .m-b-2.m-l-3
+    | Select all that apply:
   .choices.padded-checkboxes
     - Jurisdiction.sorted.reverse.each do |jurisdiction|
       .col-sm-4.m-b-1
@@ -74,12 +79,12 @@
     .progress
       .progress-bar role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style='width:10%'
   .clearfix
-  h2.m-t-1.m-b-1.text-center
+  h2.m-t-1.m-b-1.text-center style="font-family: Canela; font-weight: 400; font-size: 18px;"
     | Where is your field of expertise?
   .m-b-2.m-l-3
-    | Select all that applies:
+    | Select all that apply:
   .choices.padded-checkboxes
-    - Industry.all.order(:id).each do |industry|
+    - Industry.all.order(:id).where.not(name: ["Recruiter", "Consulting Firm", "I don't know"]).each do |industry|
       .col-sm-4.m-b-1
         button.btn-block._signup_btn type="button"
           input type="checkbox" id="specialist_industries_id_#{industry.id}" name="specialist[industry_ids][]" value=(industry.id)
@@ -97,7 +102,10 @@
     .progress
       .progress-bar role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style='width:20%'
   .clearfix
-  h2.m-t-1.m-b-2.text-center Let's get more specific. Do you have expertise with any of the following?
+  h2.m-t-1.m-b-2.text-center style="font-family: Canela; font-weight: 400; font-size: 18px;"
+    | Let's get more specific.
+  .m-b-2.m-l-3
+    | Do you have expertise with any of the following?
   .choices.padded-checkboxes
     - Industry.sorted.each do |industry|
       - industry.sub_industries_specialist.split("\r\n").each_with_index do |sub_ind, i|
@@ -116,26 +124,36 @@
     .progress
       .progress-bar role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style='width:40%'
   .clearfix
-  h2.m-t-1.m-b-2.text-center Are you a former regulator?
+  h2.m-t-1.m-b-2.text-center style="font-family: Canela; font-weight: 400; font-size: 18px;"
+    | Are you a former regulator?
+  .m-b-2.m-l-3
+    | Select all that apply:
   .choices.padded-checkboxes
+    .col-sm-4.m-b-1
+      button.btn-block._signup_btn type="button"
+        input id="no_sub_jurs" type="checkbox"
+        label for="no_sub_jurs"
+          span No
     - Jurisdiction.sorted.each do |jurisdiction|
       - jurisdiction.sub_jurisdictions_specialist.split("\r\n").each_with_index do |sub_jur, i|
+        - state_modifier = (jurisdiction.name == "USA" && sub_jur == "State") || (jurisdiction.name == "Canada" && sub_jur == "State")
         .col-sm-4.m-b-1
-          button.btn-block._signup_btn type="button"
+          button.btn-block._signup_btn type="button" style=("float: left; width: 100px;" if state_modifier)
             input id="specialist_sub_jurisdictions_id_#{i}" type="checkbox" name="specialist[sub_jurisdiction_ids][]" value=("#{jurisdiction.id}_#{i}")
             label for="specialist_sub_jurisdictions_id_#{i}"
               span = sub_jur
+          - if state_modifier
+            .p-x-0 style="float: left; width: 50%; height: 37px; margin-top: -10px;"
+              - if jurisdiction.name == "USA" && sub_jur == "State"
+                = f.input :jurisdiction_states_usa, collection: State.fetch_all_usa, placeholder: "Choose USA States", input_html: { class: 'input-lg js-select', multiple: true }, label: false
+              - if jurisdiction.name == "Canada" && sub_jur == "State"
+                = f.input :jurisdiction_states_canada, collection: State.fetch_all_canada, placeholder: "Choose Canada States", input_html: { class: 'input-lg js-select', multiple: true }, label: false
     .col-sm-12.m-b-1#sub_jur_other
       button.btn-block._signup_btn type="button"
         input id="sub_jurisdiction_other_enabled" type="checkbox" name="sub_jurisdiction_other_enabled" value="0_1"
         label for="sub_jurisdiction_other"
           span Other
         input.m-l-2 id="sub_jurisdiction_other" name="sub_jurisdiction_other" type="text"
-  .col-sm-12.m-b-1
-    = f.input :jurisdiction_states_usa, collection: State.fetch_all_usa, placeholder: "Choose USA States", input_html: { class: 'input-lg js-select', multiple: true }
-  .col-sm-12.m-b-1
-    = f.input :jurisdiction_states_canada, collection: State.fetch_all_canada, placeholder: "Choose Canada States", input_html: { class: 'input-lg js-select', multiple: true }
-
   .clearfix
   .col-md-12.m-t-2.text-center.m-b-3
     button.btn_step2.btn.btn-default.m-r-2.back type="button" Back
@@ -146,11 +164,11 @@
     .progress
       .progress-bar role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style='width:70%'
   .clearfix
-  h2.m-t-1.m-b-2.text-center
+  h2.m-t-1.m-b-2.text-center style="font-family: Canela; font-weight: 400; font-size: 18px;"
     | What's your compliance risk tolerance?
 
   .choices.tolerance_quiz
-    h2.quiz_q.m-t-1.m-b-1 Select what closely describes how you feel:
+    .m-b-2 style="margin-left: 15px;" Select what closely describes how you feel:
     .col-md-6
       p 1. I am willing to be the first to test boundaries.
       input#specialist_risks_1 name="specialist_risks_1"
@@ -188,7 +206,7 @@
       .progress-bar role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style='width:100%'
   .clearfix
 
-  h2.m-t-1.m-b-2.text-center Upload resume
+  h2.m-t-1.m-b-2.text-center style="font-family: Canela; font-weight: 400; font-size: 18px;" Upload resume
 
   .row.text-center.p-b-1
     .col-xs-12.col-sm-4.col-sm-push-4.col-md-4.col-md-push-4
@@ -212,19 +230,18 @@
     .padded-checkboxes
       input#tos-checkbox type="checkbox" name="specialist[user_attributes][tos_agreement_attributes][status]"
       label for="tos-checkbox"
-        | I have read and agree to the
+        | I have read and agree to the 
         = link_to "Terms of Use", "/info/terms-of-use", target: "_blank"
-        |  and
+        |  and 
         = link_to "Privacy Policy", "/info/privacy-policy", target: "_blank"
         | .
     .padded-checkboxes
       input#cookie-checkbox type="checkbox" name="specialist[user_attributes][cookie_agreement_attributes][status]" checked=false style="vertical-align: top;"
-      | &nbsp;&nbsp;
       label for="cookie-checkbox" This site uses cookies. By creating an account, you agree to the use of cookies on this site.
     .padded-checkboxes
       = check_box_tag("specialist[call_booked]", 1, false)
       label for=("specialist_call_booked") class="css-label"
-        | Confirm that I’ve booked an
+        | Confirm that I’ve booked an 
         = link_to "interview time", "https://calendly.com/complect", target: "_blank"
 
     input type="hidden" name="specialist[user_attributes][cookie_agreement_attributes][cookie_description]" value="This site uses cookies. By creating an account you agree to the use of cookies on this site."

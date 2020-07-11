@@ -6,3 +6,23 @@
   background-color: $brand-primary !important;
   cursor: pointer;
 }
+
+.picker__nav--prev:hover,
+.picker__nav--next:hover, .picker__day--infocus:hover, .picker__day--outfocus:hover {
+  cursor: pointer;
+  color: #000000;
+  background: none;
+}
+
+.picker__day--highlighted {
+  background-color: #ffcc01;
+  border: 1px solid #000;
+}
+
+.picker {
+  font-size: 14px;
+}
+
+.picker__month, .picker__year {
+  
+}

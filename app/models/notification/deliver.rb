@@ -65,6 +65,32 @@ class Notification::Deliver < Draper::Decorator
       dispatcher.deliver_mail(action_url)
     end
 
+    def got_seat_assigned!(invitation, path = :new_specialist)
+      action_path, action_url = path_and_url(
+        path,
+        invite_token: invitation.token
+      )
+
+      dispatcher = Dispatcher.new(
+        key: :got_seat_assigned,
+        action_path: action_path,
+        t: {
+          company_name: invitation.department.business.name
+        }
+      )
+
+      NotificationMailer.deliver_later(
+        :notification,
+        invitation.email,
+        dispatcher.message_mail,
+        dispatcher.action_label,
+        dispatcher.initiator_name,
+        dispatcher.img_path,
+        action_url,
+        dispatcher.subject
+      )
+    end
+
     def got_employee_invitation!(invitation, path = :new_specialist)
       action_path, action_url = path_and_url(
         path,
@@ -837,7 +863,7 @@ class Notification::Deliver < Draper::Decorator
     end
 
     def default_img_url
-      asset_url('/icon-specialist.png')
+      asset_url('/default_userpic.png')
     end
 
     def business_name_and_img(business)

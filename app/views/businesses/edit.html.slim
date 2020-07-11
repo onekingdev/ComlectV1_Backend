@@ -9,48 +9,47 @@
           .pull-left
             h3 Logo
           .clearfix
-        / hr.m-b-0.m-t-0
+        hr.m-b-0.m-t-1
         .panel-content-wrapper.text-center.p-y-1.p-x-1#logo
           label.custom-file-field.js-custom-file-field style="font-size: 18px;"
             = f.hidden_field :logo, value: f.object.logo_data? ? f.object.logo_data.to_json : nil
             = f.file_field :logo, accept: "image/gif, image/jpeg, image/png"
             - if f.object.logo
-              = image_tag f.object.logo_url(:thumb), size: '100x100'
+              = image_tag f.object.logo_url(:thumb), size: '162x162', style: "border-radius: 50%; margin-bottom: 10px;"
               = f.hidden_field :delete_logo, value: 0
               br
-              br
-              i.icon-pencil.m-r-2
+              i.icon-note.m-r-2
               i.icon-trash.delete-logo-button
             - else
-              = image_tag "logo_black.png", size: '162x162'
+              = image_tag "default_userpic.png", size: '162x162', style: "border-radius: 50%; margin-bottom: 10px;"
               .add-button
-                br
-                i.icon-pencil
-            .help-block.m-t-1 Must be jpg/jpeg/png/gif<br>Max file size 2MB
-            span.selected.m-y-1 = f.object.logo ? (f.object.logo.try(:[], :original) || f.object.logo).data['metadata']['filename'] : nil
+                i.icon-note
+            .help-block.m-b-0
+              small Must be jpg/jpeg/png/gif<br>Max file size 2MB
+            span.selected.m-y-1.hidden = f.object.logo ? (f.object.logo.try(:[], :original) || f.object.logo).data['metadata']['filename'] : nil
             - if f.object.errors[:logo].any?
               .text-danger= "Logo " + f.object.errors[:logo].to_sentence
-    .col-md-6
+    .col-md-6.p-x-0
       .panel.panel-default
         .panel-heading
           .pull-left
             h3 Profile
           .pull-right 
-            = f.submit "Save", class: "btn btn-primary btn-solid p-y-0"
+            = f.submit "Save", class: "btn btn-primary btn-solid p-y-0", style: "margin-top: -6px;"
           .clearfix
-        / hr.m-y-0
-        .p-y-1.p-x-1.profiles
+        hr.m-b-0.m-t-1
+        .panel-content-wrapper.fixedheight_receiver
           /.panel-content-wrapper style="height: 300px;"
           .col-sm-6= f.input :business_name, input_html: { class: 'input-lg' }
           .col-sm-6 = f.input :total_assets, as: :string, input_html: { class: 'input-lg', value: f.object.total_assets.to_i }, label: "AUM"
           .col-sm-6 = f.association :industries, collection: Industry.sorted, placeholder: I18n.t('simple_form.placeholders.business.industry'), input_html: { class: 'input-lg js-select', multiple: true }
           .col-sm-6 = f.input :client_account_cnt, as: :string, input_html: { class: 'input-lg' }, label: "Number of Accounts"
-          .col-sm-6 = f.association :jurisdictions, collection: Jurisdiction.sorted, placeholder: I18n.t('simple_form.placeholders.business.industry'), input_html: { class: 'input-lg js-select', multiple: true }
+          .col-sm-6 = f.association :jurisdictions, required: true, collection: Jurisdiction.sorted, placeholder: I18n.t('simple_form.placeholders.business.industry'), input_html: { class: 'input-lg js-select', multiple: true }
           .col-sm-6 = f.input :employees, include_blank: I18n.t('simple_form.placeholders.business.employees'), collection: Business::EMPLOYEE_OPTIONS, input_html: { class: 'input-lg js-select' }, label: "Number of Employees"
           .clearfix
-          .col-sm-6= f.input :address_1, required: false, input_html: { class: 'input-lg js-place-autocomplete', data: { zipcode: '#business_zipcode', country: '#business_country', state: '#business_state', city: '#business_city' } }, label: "Address Line 1"
+          .col-sm-6= f.input :address_1, required: true, input_html: { class: 'input-lg js-place-autocomplete', data: { zipcode: '#business_zipcode', country: '#business_country', state: '#business_state', city: '#business_city' } }, label: "Address Line 1"
           .col-sm-6= f.input :address_2, required: false, input_html: { class: 'input-lg' }, label: "Address Line 2"
-          .col-sm-6= f.input :city, required: false, input_html: { class: 'input-lg' }
+          .col-sm-6= f.input :city, required: true, input_html: { class: 'input-lg' }
           - if @business.in_usa?
             .col-sm-6= f.input :state, collection: State.fetch_all_usa, placeholder: "State", input_html: { class: 'input-lg js-select', multiple: false }
           - else
@@ -72,23 +71,24 @@
           .pull-left
             h3 General Info
           .pull-right 
-            = f.submit "Save", class: "btn btn-primary btn-solid p-y-0"
+            = f.submit "Save", class: "btn btn-primary btn-solid p-y-0", style: "margin-top: -6px;"
           .clearfix
-        / hr.m-y-0
-        .p-y-1.p-x-1#general
+        hr.m-b-0.m-t-1
+        .panel-content-wrapper.fixedheight_receiver
           .col-sm-12= f.input :annual_budget, input_html: { value: f.object.annual_budget.to_i }
           .col-sm-12= f.input :risk_tolerance, include_blank: I18n.t('simple_form.placeholders.business.risk_tolerance'), collection: Business::RISK_TOLERANCE_OPTIONS, input_html: { class: 'input-lg js-select' }
           .col-sm-12= f.input :time_zone, include_blank: t('simple_form.placeholders.specialist.time_zone'), input_html: { class: 'input-lg js-select' }
           .clearfix
+    .clearfix
     .col-md-6
       .panel.panel-default.m-x-0.m-y-0
         .panel-heading
           .pull-left
             h3 Products & Services
           .pull-right
-            = f.submit "Save", class: "btn btn-primary btn-solid p-y-0"
+            = f.submit "Save", class: "btn btn-primary btn-solid p-y-0", style: "margin-top: -6px;"
           .clearfix
-        / hr.m-y-0
+        hr.m-b-0.m-t-1
         .panel-content-wrapper.tasks-widget.products.fullheight
           .choices.padded-checkboxes.business_sub_industries
             - Industry.sorted.each do |industry|
@@ -96,7 +96,7 @@
                 .col-sm-12.m-b-1
                   input id="sub_industries_id_#{industry.id}_#{i}" type="checkbox" name="sub_industry_ids[]" value=("#{industry.id}_#{i}") checked=(current_business.sub_industries.include?(sub_ind))
                   label for="sub_industries_id_#{industry.id}_#{i}"
-                    span.p-l-2 = sub_ind
+                    span style="display: inline-block;" = sub_ind
           .clearfix
 javascript:
   var business_profile_edit_page = true;

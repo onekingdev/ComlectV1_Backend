@@ -10,6 +10,7 @@
 .pointer { cursor: pointer; }
 .black_href { a { color: #000; text-decoration: none; } }
 .onepxhidden { width: 1px; height: 1px; overflow: hidden; }
+.noshadow { box-shadow: none !important; }
 //== Spacers
 
 .anchor {
@@ -36,6 +37,7 @@
 .m-x-2 { margin-left: 2rem !important; margin-right: 2rem !important; }
 .m-x-3 { margin-left: 3rem !important; margin-right: 3rem !important; }
 .m-t-0 { margin-top: 0 !important; }
+.m-t-05 { margin-top: 5px !important; }
 .m-t-1 { margin-top: 1rem !important; }
 .m-t-2 { margin-top: 2rem !important; }
 .m-t-3 { margin-top: 3rem !important; }
@@ -64,6 +66,7 @@
 .p-x-5 { padding-left: 5rem !important; padding-right: 5rem !important; }
 .p-a-0 { padding: 0 !important; }
 .p-t-0 { padding-top: 0 !important; }
+.p-t-05 { padding-top: 5px !important; }
 .p-t-1 { padding-top: 1rem !important; }
 .p-t-2 { padding-top: 2rem !important; }
 .p-t-3 { padding-top: 3rem !important; }
@@ -74,6 +77,7 @@
 .p-r-2 { padding-right: 2rem !important; }
 .p-r-3 { padding-right: 3rem !important; }
 .p-b-0 { padding-bottom: 0 !important; }
+.p-b-05 { padding-bottom: 5px !important; }
 .p-b-1 { padding-bottom: 1rem !important; }
 .p-b-2 { padding-bottom: 2rem !important; }
 .p-b-3 { padding-bottom: 3rem !important; }

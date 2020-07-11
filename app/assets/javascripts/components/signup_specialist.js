@@ -225,6 +225,7 @@ if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("spe
     $(".specialist_jurisdiction_states_canada").hide();
 
     $(".specialist_step3 .choices .col-sm-4").hide();
+    $("#no_sub_jurs").parent().parent().show();
     for (var num of nums) {
       var cb = $(".specialist_step1 .choices input[value="+num+"]");
       var cb_txt = cb.parent().text();
@@ -273,6 +274,7 @@ if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("spe
   });
 
   $(".btn_step_jump").on('click', function() {
+    $('.pac-container').css({"border-top": "0px", "box-shadow": "none"});
     $(".specialist_step").hide();
     var shown = false;
     for (var i = 1; i < 6; i++) {
@@ -343,11 +345,11 @@ if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("spe
   $(".btn_step4").on('click', function() { $(".specialist_step").hide(); $(".specialist_step4").show(); window.scrollTo(0,0); });
   $(".btn_step5").on('click', function() { 
     $(".specialist_step").hide(); window.scrollTo(0,0);
-    if (typeof(Cookies.get("complect_s_step5")) == "undefined") {
-      $(".specialist_step5").show();
-    } else {
+    //if (typeof(Cookies.get("complect_s_step5")) == "undefined") {
+    //  $(".specialist_step5").show();
+    //} else {
       $(".specialist_step6").show();
-    }
+    //}
   });
   $(".btn_step6").on('click', function() { $(".specialist_step").hide(); $(".specialist_step6").show(); window.scrollTo(0,0); });
   $(".btn_step7").on('click', function() { $(".specialist_step").hide(); $(".specialist_step7").show(); window.scrollTo(0,0); });

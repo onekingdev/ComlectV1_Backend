@@ -13,7 +13,9 @@ class Business::HiresController < ApplicationController
   end
 
   def create
-    @job_application = JobApplication::Accept.(@project.job_applications.find(params.require(:job_application_id)))
+    if @project.pending?
+      @job_application = JobApplication::Accept.(@project.job_applications.find(params.require(:job_application_id)))
+    end
     redirect_path = @project.full_time? ? business_dashboard_path : business_project_dashboard_path(@project)
     js_redirect redirect_path
   end

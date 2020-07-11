@@ -1,10 +1,8 @@
-h1 style="font-family: 'Canela'; font-size: 30px; font-weight: 400;"
+h1.m-b-2 style="font-family: 'Canela'; font-size: 30px; font-weight: 400;"
   | Compliance Manual
 
 .col-md-6.p-l-0
-  .well.m-t-1 style="border: 2px solid #000;"
-    | Your firm’s policies and procedures are the backbone of its compliance program. Strong policies will address the risks that are unique to your business operations. We got you started with 12 core areas of an investment adviser’s business practice. Feel free to rename, add, or delete these policies, as appropriate.
-  .panel.panel-default
+  .panel.panel-default.fullheight.m-b-0
     .panel-heading
       .pull-left
         h3 Policies & Procedures
@@ -22,8 +20,8 @@ h1 style="font-family: 'Canela'; font-size: 30px; font-weight: 400;"
               li = link_to "Share Manual", "#", class: "disabled cpolicy_sharebtn", style: "color: #999;"
 
       .clearfix
-    hr.m-y-0
-    .panel-content-wrapper style="height: 450px;"
+    hr.m-y-0.m-t-1
+    .panel-content-wrapper.fixedheight_receiver
       table.table.table-striped.table-blue
         thead
           tr
@@ -38,16 +36,15 @@ h1 style="font-family: 'Canela'; font-size: 30px; font-weight: 400;"
                   .outdated_policy 
                 = link_to section.section_or_title, (current_specialist ? specialists_business_compliance_policy_path(@business.username, section) : business_compliance_policy_path(section)), target: "_blank"
               td = link_to (current_specialist ? edit_specialists_business_compliance_policy_path(@business.username, section) : edit_business_compliance_policy_path(section)), "data-target": "#modal", "data-remote": true, "data-toggle": "modal" do
-                i.icon-note
+                i.icon-note style="font-size: 18px;"
               td
-                = link_to (current_specialist ? specialists_business_compliance_policy_path(@business.username, section) : business_compliance_policy_path(section)), method: :delete, data: { confirm: "<div class='bootbox-heading'>Delete Policy<hr></div>Warning! This change is permanent. Deleting this policy will<br>also delete all records of this policy and its version history as well.", 'confirm-label' => 'Confirm', no_cancel: true } do
-                  i.icon-trash
-
-.col-md-6.m-b-3.pdf_preview_area
+                = link_to (current_specialist ? specialists_business_compliance_policy_path(@business.username, section) : business_compliance_policy_path(section)), method: :delete, data: { confirm: "<div class='bootbox-heading'>Delete Policy<hr></div>Warning! This change is permanent. Deleting<br>this policy will also delete all records of this<br>policy and its version history as well.", 'confirm-label' => 'Confirm', no_cancel: true } do
+                  i.icon-trash style="font-size: 18px;"
+.col-md-6.pdf_preview_area.p-x-0
   - if @preview_doc.present? && @preview_doc.pdf
-    iframe src=(pdfjs.minimal_path(file: @preview_doc.pdf_url.split('?')[0])) width="100%" height="840px"
+    iframe.pdf_preview_fullheight src=(pdfjs.minimal_path(file: @preview_doc.pdf_url.split('?')[0])) width="100%"
   - else
-    .text-center = image_tag "loading.gif"
+    .text-center.p-y-3 = image_tag "loading.gif", size: "50x50"
     javascript:
       var compliance_policy_render_id = "";
       var compliance_policy_baseurl = "/business/compliance_policies"
@@ -56,7 +53,6 @@ h1 style="font-family: 'Canela'; font-size: 30px; font-weight: 400;"
         var compliance_policy_baseurl = "/specialist/businesses/#{@business.username}/compliance_policies";
 
 .clearfix
-.text-center.m-b-3.m-t-1.m-t-3.p-t-3.p-b-2
 
 - pth = current_specialist ? new_specialists_business_compliance_policy_path(@business.username) : new_business_compliance_policy_path
 javascript:

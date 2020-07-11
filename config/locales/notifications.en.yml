@@ -39,6 +39,10 @@ en:
       message: New question posted in the forum waiting for your answer
       message_mail: "New question posted in the forum waiting for your answer"
       action_label: View
+    got_seat_assigned:
+      subject: You've been invited to join a team on Complect
+      message_mail: "%{company_name} has purchased a seat for you on Complect. Please sign up directly via the link below to link up to your firm's account."
+      action_label: Sign up
     got_employee_invitation:
       subject: You've been invited to join a team on Complect
       message_mail: "%{manager_full_name} has requested you join the %{team_name} team on Complect. To create your profile and have it linked with this team, please sign up directly via the link below."

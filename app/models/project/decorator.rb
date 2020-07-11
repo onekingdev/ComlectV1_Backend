@@ -31,14 +31,14 @@ class Project::Decorator < ApplicationDecorator
             f.button(
               'Cancel',
               type: 'button',
-              class: 'btn btn-primary btn-md btn-block m-t-1',
+              class: 'btn btn-primary btn-sm btn-block m-t-1',
               data: { dismiss: 'popover' }
             )
           end +
             h.content_tag(:div, class: 'col-xs-6') do
               f.submit(
                 'Extend',
-                class: 'btn btn-primary btn-md btn-block m-t-1 disabled',
+                class: 'btn btn-primary btn-sm btn-block m-t-1 disabled',
                 disabled: true
               )
             end
@@ -62,7 +62,9 @@ class Project::Decorator < ApplicationDecorator
   end
 
   def business_project_href
-    return h.business_project_path(self) if rfp? || full_time?
+    return h.edit_business_project_path(self) if draft?
+    return h.business_project_job_applications_path(self) if pending? || rfp? || full_time?
+    # return h.business_project_path(self) if rfp? || full_time?
     complete? || active? || finishing? ? h.business_project_dashboard_path(self) : h.business_project_path(self)
   end
 
@@ -155,6 +157,7 @@ class Project::Decorator < ApplicationDecorator
   def est_budget_input(builder)
     builder.input(
       :est_budget,
+      label: 'Estimated Budget',
       required: true,
       as: :string,
       input_html: { class: 'input-lg', data: { numeric: true } }
@@ -184,8 +187,9 @@ class Project::Decorator < ApplicationDecorator
   def industries_input(builder)
     builder.input(
       :industry_ids,
+      label: 'Industries',
       as: :grouped_select,
-      collection: grouped_collection_for_select(Industry.sorted.filtered),
+      collection: grouped_collection_for_select(Industry.sorted.filtered.where.not(name: "I don't know")),
       group_method: :all,
       group_label_method: :label,
       placeholder: I18n.t('simple_form.placeholders.project.industries'),
@@ -196,6 +200,7 @@ class Project::Decorator < ApplicationDecorator
   def jurisdictions_input(builder)
     builder.input(
       :jurisdiction_ids,
+      label: 'Jurisdictions',
       as: :grouped_select,
       collection: grouped_collection_for_select(Jurisdiction.ordered_starting_from_usa),
       group_method: :all,
@@ -209,6 +214,7 @@ class Project::Decorator < ApplicationDecorator
   def skills_input(builder)
     builder.input(
       :skill_selector,
+      label: 'Skills',
       placeholder: I18n.t('simple_form.placeholders.project.skills'),
       input_html: {
         class: 'input-lg tt-n',

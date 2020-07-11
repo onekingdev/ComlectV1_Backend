@@ -9,7 +9,7 @@
           - if @job_application.errors[:prerequisites].empty?
             = f.input :message, required: false, label: 'Introductory Message:', as: :text, input_html: { rows: 10, maxlength: 200 }
             .job_application_cnt 150
-            = f.submit 'Apply', class: 'btn btn-primary btn-md p-x-3 center-block', data: { disable_with: 'Applying...' }
+            = f.submit 'Apply', class: 'btn btn-primary btn-md p-x-3 center-block', data: { disable_with: 'Apply' }
             p.text-center.m-t-2.small.text-muted
               'By clicking 'Apply' you are agreeing to our <a href="https://www.complect.com/terms-of-use" target="_blank">Terms of Use</a>
               br

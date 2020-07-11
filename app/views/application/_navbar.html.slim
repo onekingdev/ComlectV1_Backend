@@ -15,57 +15,38 @@ nav#nav.navbar.navbar-default
         li= link_to 'Our Talent', "https://www.complect.com/#our-talent"
         li= link_to 'Types Of Services', "https://www.complect.com/#types-of-service"
         li= link_to 'How It Works', "https://www.complect.com/#how-it-works"
-      - if user_signed_in_onboarding? && current_user.business && !employee?
-        li= link_to 'My Dashboard', business_dashboard_path
-      - elsif user_signed_in_onboarding? && current_user.specialist && !employee?
-        li= link_to 'My Dashboard', specialists_dashboard_path
       - unless employee?
-        li.hidden-nav= link_to "Our Blog", "https://www.complect.com/our-blog", target: "_blank"
-        li.hidden-nav= link_to "FAQs", "https://www.complect.com/faqs"
-        li.hidden-nav2= link_to "Q&A Forum", forum_questions_path, class: "qna_navbar"
         /button.qna_navbar.btn.btn-primary data-href=forum_questions_path Q&A Forum
 
     ul.nav.navbar-nav.navbar-right
       - if user_signed_in_onboarding? && current_business && !employee?
         li
-          button.btn.btn-default.navbar-btn style="margin-top: -10px;" data-href=new_business_project_path Post a Project
+          = link_to "Post a Project", new_business_project_path, class: "btn btn-primary btn-md", target: "_blank", style: "padding: 10px 20px; width: 140px; margin-top: -11px;"
       - if user_signed_in_onboarding? && !employee?
-        - if current_business
-          li.p-x-1= link_to 'Browse Specialists', specialists_path
-        - else
+        - if current_specialist
           li.p-x-1= link_to 'Browse Projects', projects_path
       - if user_signed_in? && !employee?
-        li.dropdown.preseparate
-          - if (business = user.business)
-            a.dropdown-toggle href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
-              'My Company
-              i.icon.maxicons1-down
-            ul.dropdown-menu
-              li= link_to 'Profile', business
-              li= link_to 'Account Settings', business_settings_path
-              - if current_business.ria_dashboard?
-                li= link_to 'Teams', business_teams_path
-              li= link_to 'Financials', business_financials_path
-              li= link_to 'Log Out', destroy_user_session_path, method: :delete
-          - elsif (specialist = user.specialist)
-            a.dropdown-toggle href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
-              = specialist.to_s
-              | &nbsp;
-              i.icon.maxicons1-down
-            ul.dropdown-menu
-              li= link_to 'Profile', specialist
-              li= link_to 'Account Settings', specialists_settings_path
-              li= link_to 'Financials', specialists_financials_path
-              li= link_to 'Log Out', destroy_user_session_path, method: :delete
-              - if specialist.manageable_ria_businesses.count > 0
-                li.cat.bizmgr
-                  u Manage&nbsp;Business:
-                - already_passed = []
-                - specialist.manageable_ria_businesses.each do |ria|
-                  - if !already_passed.include?(ria.id)
-                    li.bizmgr= link_to ria.business_name, specialists_business_path(ria)
-                    - already_passed.push(ria.id)
-                .fake_bottom
+        - if (business = user.business)
+          li = link_to 'Log Out', destroy_user_session_path, method: :delete, class: "btn btn-default", style: "padding: 10px 20px; width: 140px; margin-top: -11px;"
+        - elsif (specialist = user.specialist)
+          a.dropdown-toggle href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
+            = specialist.to_s
+            | &nbsp;
+            i.icon.maxicons1-down
+          ul.dropdown-menu
+            li= link_to 'Profile', specialist
+            li= link_to 'Account Settings', specialists_settings_path
+            li= link_to 'Financials', specialists_financials_path
+            li= link_to 'Log Out', destroy_user_session_path, method: :delete
+            - if specialist.manageable_ria_businesses.count > 0
+              li.cat.bizmgr
+                u Manage&nbsp;Business:
+              - already_passed = []
+              - specialist.manageable_ria_businesses.each do |ria|
+                - if !already_passed.include?(ria.id)
+                  li.bizmgr= link_to ria.business_name, specialists_business_path(ria)
+                  - already_passed.push(ria.id)
+              .fake_bottom
         = render partial: "notifications", locals: { user: user }
       - if employee?
         li.p-r-0
@@ -93,7 +74,7 @@ nav#nav.navbar.navbar-default
       / = link_to specialist_path(id: current_user.specialist) do
       = link_to employee_profile_path(id: current_user.specialist) do
         i.icon-user
-    - if current_user.business
+    - if current_user.business && current_user.business.ria_dashboard?
       = link_to business_seats_path do
         - if params[:controller] == "business/seats"
           .active
@@ -101,13 +82,11 @@ nav#nav.navbar.navbar-default
       = link_to business_compliance_policies_path do
         - if params[:controller] == "business/compliance_policies"
           .active
-        i.icon-notebook
-    - if current_user.business && current_user.business.ria_dashboard?
+        i.icon-book-open
       = link_to new_business_annual_report_path do
         - if params[:controller] == "business/annual_reports"
           .active
-        i.icon-note
-    - if current_user.business
+        i.icon-notebook
       = link_to business_audit_requests_path do
         - if params[:controller] == "business/audit_requests"
           .active
@@ -121,7 +100,7 @@ nav#nav.navbar.navbar-default
         - if params[:controller] == "business/addons"
           .active
         i.icon-grid
-    .bottom_btns
+    .bottom_btns.p-b-2
       - if current_user.specialist && !employee?
         = link_to specialists_ported_businesses_path do
           - if params[:controller] == "specialists/ported_businesses"
