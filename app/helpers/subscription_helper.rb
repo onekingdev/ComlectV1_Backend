@@ -5,6 +5,10 @@ module SubscriptionHelper
     %w[registration_and_maintenance compliance_command_center].include?(current_business&.business_stages)
   end
 
+  def need_product?
+    %w[registration registration_and_maintenance].include?(current_business&.business_stages)
+  end
+
   def card_formatted(payment_source)
     return unless payment_source
 

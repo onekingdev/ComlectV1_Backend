@@ -5,10 +5,13 @@ class Business::OnboardingController < ApplicationController
   before_action :require_business!
   before_action :go_to_dashboard, only: :subscribe
   before_action :assign_product, only: :subscribe
+  before_action :render_index, only: :subscribe
 
   include SubscriptionHelper
 
   def index
+    return redirect_to business_dashboard_path if current_business.onboarding_passed
+
     @pos_total = 0
     @product = find_product
     @sources = current_business.payment_sources.sorted
@@ -19,10 +22,9 @@ class Business::OnboardingController < ApplicationController
   end
 
   def subscribe
-    return render :index if !current_business.onboarding_passed && params[:checkout].blank?
-
     stripe_customer = current_business.payment_profile.stripe_customer
     return redirect_to '/business/onboarding', flash: { error: 'No customer' } unless stripe_customer
+
     @product = find_product
 
     if current_business.base_subscribed?
@@ -30,35 +32,35 @@ class Business::OnboardingController < ApplicationController
       return redirect_to business_dashboard_path, flash: { success: 'Already subscribed' }
     end
 
-    plan = params[:checkout][:schedule].to_s.downcase.strip rescue nil
-    return redirect_to '/business/onboarding', flash: { error: 'Wrong plan' } unless Subscription.plans.key?(plan)
+    if need_subscription?
+      plan = params[:checkout][:schedule].to_s.downcase.strip rescue nil
+      return redirect_to '/business/onboarding', flash: { error: 'Wrong plan' } unless Subscription.plans.key?(plan)
 
-    db_subscription = current_business.subscriptions.base.presence || Subscription.create(
-      plan: plan,
-      business_id: current_business.id,
-      title: 'Compliance Command Center',
-      payment_source: current_business.payment_profile.default_payment_source
-    )
-
-    if db_subscription&.stripe_invoice_item_id.blank?
-      one_time_item = Subscription.create_invoice_item(stripe_customer)
-      db_subscription.update(stripe_invoice_item_id: one_time_item.id)
-    end
-
-    if db_subscription&.stripe_subscription_id.blank?
-      sub = Subscription.subscribe(
-        plan,
-        stripe_customer,
-        period_ends: (Time.now.utc + 1.year).to_i
+      db_subscription = current_business.subscriptions.base.presence || Subscription.create(
+        plan: plan,
+        business_id: current_business.id,
+        title: 'Compliance Command Center',
+        payment_source: current_business.payment_profile.default_payment_source
       )
-      db_subscription.update(
-        stripe_subscription_id: sub.id,
-        billing_period_ends: sub.created
-      )
+
+      add_one_time_payment(db_subscription)
+
+      if db_subscription&.stripe_subscription_id.blank?
+        sub = Subscription.subscribe(
+          plan,
+          stripe_customer,
+          period_ends: (Time.now.utc + 1.year).to_i
+        )
+        db_subscription.update(
+          stripe_subscription_id: sub.id,
+          billing_period_ends: sub.created
+        )
+      end
     end
 
     project = nil
-    if @product.present?
+
+    if need_product? && @product.present?
       project = create_project
 
       return redirect_to '/business/onboarding', flash: { error: project.errors&.full_messages&.first } unless project.save
@@ -78,7 +80,9 @@ class Business::OnboardingController < ApplicationController
   end
 
   def find_product
-    identifier = current_business.business_stages if I18n.t(:business_products).stringify_keys.key?(current_business.business_stages)
+    return unless products?
+
+    identifier = current_business.business_stages
     return unless identifier
 
     ProjectTemplate.find_by(identifier: identifier)
@@ -87,7 +91,8 @@ class Business::OnboardingController < ApplicationController
   def assign_product
     return unless params[:onboarding].present? && params[:onboarding][:business_stages].present?
 
-    return unless I18n.t(:business_products).keys.map(&:to_s).include?(params[:onboarding][:business_stages])
+    return unless products?(params[:onboarding][:business_stages])
+
     current_business.update(business_stages: params[:onboarding][:business_stages])
   end
 
@@ -100,7 +105,24 @@ class Business::OnboardingController < ApplicationController
   def go_to_dashboard
     return if (current_business.ria? && need_subscription?) || current_business.payment_sources.blank?
 
+    return if need_product? && @product.blank?
+
     mark_passed
     redirect_to(business_dashboard_path)
+  end
+
+  def products?(keys = nil)
+    I18n.t(:business_products).stringify_keys.key?(keys || current_business.business_stages)
+  end
+
+  def add_one_time_payment(db_subscription)
+    return if db_subscription&.stripe_invoice_item_id.present?
+
+    one_time_item = Subscription.create_invoice_item(current_business.payment_profile.stripe_customer)
+    db_subscription.update(stripe_invoice_item_id: one_time_item.id)
+  end
+
+  def render_index
+    render :index if !current_business.onboarding_passed && need_subscription? && params[:checkout].blank?
   end
 end
