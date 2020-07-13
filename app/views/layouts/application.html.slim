@@ -24,7 +24,7 @@ html lang=I18n.locale
     = yield :html_head
     = render partial: "layouts/fullstory" if Rails.env == "production"
 
-body class="#{controller_name} #{action_name}"
+body class="#{controller_name} #{action_name} #{yield(:body_class)}"
   .content-wrap
     header#header class=(yield(:header_class) || 'compact')
       = render "navbar", user: User::Decorator.new(current_user)

@@ -8,9 +8,10 @@
   .col-xs-12
     - if f.object.errors.any?
       .clearfix.m-y-3
-        .alert.alert-danger.text-center.col-xs-12.col-sm-8.col-sm-push-2.m-b-0
+        /= f.object.errors.messages.except(:base).values.inspect
+        .alert.alert-info.col-xs-12.col-sm-12.m-b-0
           = raw f.object.errors[:base].join('<br/>')
-          = raw f.object.errors.messages.except(:base).to_a.join(" ").gsub(".", " ").gsub("_", " ").gsub("required field", "required field<br/>")
+          = raw f.object.errors.messages.except(:base).values.join("<br>")
 
     = f.fields_for :user, wrapper: :inline_form do |uf|
       .row
@@ -206,7 +207,9 @@
       .progress-bar role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style='width:100%'
   .clearfix
 
-  h2.m-t-1.m-b-2.text-center style="font-family: Canela; font-weight: 400; font-size: 18px;" Upload resume
+  h2.m-t-1.m-b-2.text-center style="font-family: Canela; font-weight: 400; font-size: 18px;"
+    | Upload resume
+    span style="color: #ED60A6;" *
 
   .row.text-center.p-b-1
     .col-xs-12.col-sm-4.col-sm-push-4.col-md-4.col-md-push-4
@@ -217,7 +220,7 @@
         - if f.object.resume
           = f.hidden_field :delete_resume, value: 0
           .btn-sm.btn-primary.m-t-1.delete-resume-button Delete
-        .help-block.m-t-1 Must be a pdf<br>Max file size 2MB
+        .help-block.m-t-1 Must be a pdf<br>Max file size 10MB
         span.selected.m-y-1.ww-break= f.object.resume ? f.object.resume.data['metadata']['filename'] : nil
         - if f.object.errors[:resume].any?
           .text-danger.m-b-1= f.object.errors[:resume].to_sentence

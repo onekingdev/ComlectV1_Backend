@@ -85,7 +85,10 @@ en:
               too_large: Too large (max is 2 MB)
             resume:
               invalid: Not a PDF file
-              too_large: Too large (max is 2 MB)
+              too_large: Resume file size is too large. Please upload a file 2MB or less.
+              blank: Resume is missing.
+            call_booked:
+              blank: Ensure you've booked an interview call with us.
         rating:
           attributes:
             review:

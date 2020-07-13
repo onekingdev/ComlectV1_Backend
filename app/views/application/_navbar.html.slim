@@ -24,11 +24,11 @@ nav#nav.navbar.navbar-default
           = link_to "Post a Project", new_business_project_path, class: "btn btn-primary btn-md", target: "_blank", style: "padding: 10px 20px; width: 140px; margin-top: -11px;"
       - if user_signed_in_onboarding? && !employee?
         - if current_specialist
-          li.p-x-1= link_to 'Browse Projects', projects_path
+          li= link_to 'Browse Projects', projects_path, class: "btn btn-primary btn-md", target: "_blank", style: "padding: 10px 20px; width: 160px; margin-top: -11px;"
       - if user_signed_in? && !employee?
-        - if (business = user.business)
-          li = link_to 'Log Out', destroy_user_session_path, method: :delete, class: "btn btn-default", style: "padding: 10px 20px; width: 140px; margin-top: -11px;"
-        - elsif (specialist = user.specialist)
+        li = link_to 'Log Out', destroy_user_session_path, method: :delete, class: "btn btn-default", style: "padding: 10px 20px; width: 140px; margin-top: -11px;"
+        //- if (business = user.business)
+        /- elsif (specialist = user.specialist)
           a.dropdown-toggle href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
             = specialist.to_s
             | &nbsp;
@@ -62,18 +62,13 @@ nav#nav.navbar.navbar-default
 - if user_signed_in_onboarding?
   #left_navbar
     = link_to current_user.business ? business_dashboard_path : specialists_dashboard_path do
-      - if params[:controller] == "business_dashboard"
+      - if ["business_dashboard", "specialists/dashboard"].include?(params[:controller])
         .active
       i.icon-home
-    - if current_user.business
-      = link_to edit_business_path do
-        - if params[:controller] == "businesses"
-          .active
-        i.icon-user
-    - if current_user.specialist
-      / = link_to specialist_path(id: current_user.specialist) do
-      = link_to employee_profile_path(id: current_user.specialist) do
-        i.icon-user
+    = link_to current_user.business ? edit_business_path : employee_profile_path(id: current_user.specialist) do
+      - if ["businesses", "specialists"].include?(params[:controller])
+        .active
+      i.icon-user
     - if current_user.business && current_user.business.ria_dashboard?
       = link_to business_seats_path do
         - if params[:controller] == "business/seats"
@@ -92,7 +87,7 @@ nav#nav.navbar.navbar-default
           .active
         i.icon-folder-alt
     = link_to (current_user.business ? business_projects_path : specialists_projects_path) do
-      - if params[:controller] == "business/projects"
+      - if ["business/projects", "specialists/projects"].include?(params[:controller])
         .active
       i.icon-list
     - if current_user.business
@@ -116,6 +111,11 @@ nav#nav.navbar.navbar-default
           .active
         i.icon-settings
       - unless employee?
+      - if current_user.specialist # TODO: Hide from seat specialists
+        = link_to specialists_financials_path do
+          - if params[:controller] == "specialists/financials"
+            .active
+          i.icon-credit-card
       - if current_user.business
         = link_to business_financials_path do
           - if params[:controller] == "business/financials"

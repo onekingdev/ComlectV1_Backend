@@ -202,7 +202,7 @@ Rails.application.routes.draw do
   end
 
   resources :specialists, only: %i[index new create show]
-  get '/profile/:id', to: 'specialists#show', as: 'employee_profile'
+  get '/profile/:id', to: 'specialists#edit', as: 'employee_profile'
   resource :specialist, only: %i[edit] do
     patch '/' => 'specialists#update', as: :update
   end

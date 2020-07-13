@@ -164,7 +164,7 @@ class Specialist < ApplicationRecord
     end
     self.sub_jurisdictions = []
     sub_jurs.map(&proc { |p| p.split('_').map(&:to_i) }).each do |c|
-      sub_jurisdictions.push(Jurisdiction.find(c[0]).sub_jurisdictions_specialist.split("\r\n")[c[1]])
+      sub_jurisdictions.push(Jurisdiction.find(c[0]).sub_jurisdictions_specialist.split("\r\n")[c[1]]) if c[0] != 0
     end
   end
 

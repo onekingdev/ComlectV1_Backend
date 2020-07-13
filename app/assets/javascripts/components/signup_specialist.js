@@ -423,6 +423,13 @@ if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("spe
           }
         }
         if (dont_check == false) {
+          if (parent.hasClass("specialist_step3")) {
+            if (cb.attr("id") != "no_sub_jurs") {
+              $("#no_sub_jurs:checked").trigger("click");
+            } else {
+              $(".specialist_step3 ._signup_btn.active").each(function() { $(this).trigger("click"); })
+            }
+          }
           t_choice.addClass("active");
           cb.prop("checked", true);
         } else {

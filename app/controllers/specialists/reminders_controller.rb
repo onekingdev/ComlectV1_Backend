@@ -53,7 +53,7 @@ class Specialists::RemindersController < ApplicationController
     @reminder.update(reminder_params)
     respond_to do |format|
       format.html do
-        redirect_to specialist_dashboard_path
+        redirect_to specialists_dashboard_path
       end
       format.json do
         render json: :ok

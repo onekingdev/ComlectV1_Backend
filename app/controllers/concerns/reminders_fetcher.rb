@@ -73,21 +73,31 @@ module RemindersFetcher
   def reminders_past(remindable)
     remindable
       .reminders
-      .where('end_date >= ? AND end_date < ?', Time.zone.today - 1.week, Time.zone.today).where(done_at: nil)
+      .where('end_date >= ? AND end_date < ?',
+             Time.zone.today.in_time_zone(remindable.time_zone) - 1.week,
+             Time.zone.today.in_time_zone(remindable.time_zone)).where(done_at: nil)
       .order(remind_at: :asc, id: :asc)
   end
 
   def reminders_today(remindable)
     remindable
       .reminders
-      .where('remind_at <= ? AND end_date >= ?', Time.zone.today, Time.zone.today)
-      .order(remind_at: :asc, id: :asc) + remindable.projects.active.where('starts_on <= ?', Time.zone.today)
+      .where('remind_at <= ? AND end_date >= ?',
+             Time.zone.today.in_time_zone(remindable.time_zone),
+             Time.zone.today.in_time_zone(remindable.time_zone))
+      .order(remind_at: :asc, id: :asc) +
+      remindable.projects.active.where('starts_on <= ?',
+                                       Time.zone.today.in_time_zone(remindable.time_zone))
   end
 
   def reminders_week(remindable)
     remindable
       .reminders
-      .where('end_date >= ? AND end_date <= ?', Time.zone.today.beginning_of_week, Time.zone.today.end_of_week)
-      .order(remind_at: :asc, id: :asc) + remindable.projects.active.where('starts_on <= ?', Time.zone.today)
+      .where('end_date >= ? AND end_date <= ?',
+             Time.zone.today.beginning_of_week.in_time_zone(remindable.time_zone),
+             Time.zone.today.end_of_week.in_time_zone(remindable.time_zone))
+      .order(remind_at: :asc, id: :asc) +
+      remindable.projects.active.where('starts_on <= ?',
+                                       Time.zone.today.in_time_zone(remindable.time_zone))
   end
 end
