@@ -153,6 +153,8 @@ Rails.application.routes.draw do
   resources :tos_agreement, only: %i[create]
 
   resources :employees, path: 'employee', only: %i[new create index]
+  get '/employees/mirror/:business_id', to: 'employees#mirror', as: 'mirror_business'
+  get '/employees/stop-mirror', to: 'employees#stop_mirror', as: 'stop_mirror_business'
 
   namespace :specialists, path: 'specialist' do
     get '/' => 'dashboard#show', as: :dashboard

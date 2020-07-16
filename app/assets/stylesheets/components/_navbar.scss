@@ -358,7 +358,14 @@ body.businesses.show, body.specialists.show {
     background-color: #fff;
   }
 }
+$mirror-orange: #FFCC01;
 
+.stop-mirror-link {
+  color: $mirror-orange;
+  padding-left: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
 #left_navbar {
   transform-origin: top left;
   color: #000;
@@ -370,6 +377,11 @@ body.businesses.show, body.specialists.show {
   position: fixed;
   z-index: 1000;
   left: 12px;
+
+  &.mirror-bg {
+    background-color: $mirror-orange;
+  }
+
   i {
     font-size: 22px;
     font-weight: normal;

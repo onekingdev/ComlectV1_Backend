@@ -8,7 +8,6 @@ class SpecialistsController < ApplicationController
   before_action :authenticate_user!, only: %i[edit update show]
   before_action :require_specialist!, only: %i[edit update]
   before_action :require_business!, only: %i[index]
-  before_action :redirect_to_employee, except: :show
   before_action :fetch_invitation, only: %i[new create]
 
   def index

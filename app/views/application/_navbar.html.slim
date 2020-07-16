@@ -15,20 +15,19 @@ nav#nav.navbar.navbar-default
         li= link_to 'Our Talent', "https://www.complect.com/#our-talent"
         li= link_to 'Types Of Services', "https://www.complect.com/#types-of-service"
         li= link_to 'How It Works', "https://www.complect.com/#how-it-works"
-      - unless employee?
         /button.qna_navbar.btn.btn-primary data-href=forum_questions_path Q&A Forum
 
     ul.nav.navbar-nav.navbar-right
-      - if user_signed_in_onboarding? && current_business && !employee?
+      - if user_signed_in_onboarding? && current_business
         li
           = link_to "Post a Project", new_business_project_path, class: "btn btn-primary btn-md", target: "_blank", style: "padding: 10px 20px; width: 140px; margin-top: -11px;"
-      - if user_signed_in_onboarding? && !employee?
+      - if user_signed_in_onboarding? && !seat?
         - if current_specialist
-          li= link_to 'Browse Projects', projects_path, class: "btn btn-primary btn-md", target: "_blank", style: "padding: 10px 20px; width: 160px; margin-top: -11px;"
-      - if user_signed_in? && !employee?
+          li= link_to 'Browse Projects', projects_path
+      - if user_signed_in? && !seat?
         li = link_to 'Log Out', destroy_user_session_path, method: :delete, class: "btn btn-default", style: "padding: 10px 20px; width: 140px; margin-top: -11px;"
-        //- if (business = user.business)
-        /- elsif (specialist = user.specialist)
+        // - if (business = user.business)
+        / - elsif (specialist = user.specialist)
           a.dropdown-toggle href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
             = specialist.to_s
             | &nbsp;
@@ -48,11 +47,11 @@ nav#nav.navbar.navbar-default
                   - already_passed.push(ria.id)
               .fake_bottom
         = render partial: "notifications", locals: { user: user }
-      - if employee?
+      - if seat?
         li.p-r-0
           ul.nav.navbar-nav.sign_out
             li.p-r-2= link_to "Log out", users_sign_out_force_path, class: "sign_up_navbar_link btn btn-primary p-2"
-        = render partial: "notifications", locals: { user: user } 
+        = render partial: "notifications", locals: { user: user }
       - unless current_user
         li.p-r-0
           ul.nav.navbar-nav.sign_in
@@ -60,7 +59,9 @@ nav#nav.navbar.navbar-default
             li.p-r-0= link_to "Sign Up", new_user_registration_path, "data-dismiss" => "modal", "data-remote" => true, class: "sign_up_navbar_link btn btn-primary"
 
 - if user_signed_in_onboarding?
-  #left_navbar
+  - if mirror?
+    = link_to 'back', stop_mirror_business_path, class: 'stop-mirror-link'
+  #left_navbar class=('mirror-bg' if mirror?)
     = link_to current_user.business ? business_dashboard_path : specialists_dashboard_path do
       - if ["business_dashboard", "specialists/dashboard"].include?(params[:controller])
         .active
@@ -96,7 +97,7 @@ nav#nav.navbar.navbar-default
           .active
         i.icon-grid
     .bottom_btns.p-b-2
-      - if current_user.specialist && !employee?
+      - if current_user.specialist && !seat?
         = link_to specialists_ported_businesses_path do
           - if params[:controller] == "specialists/ported_businesses"
             .active
@@ -110,8 +111,7 @@ nav#nav.navbar.navbar-default
         - if request.url.include?("/settings")
           .active
         i.icon-settings
-      - unless employee?
-      - if current_user.specialist # TODO: Hide from seat specialists
+      - if current_user.specialist && !seat? # TODO: Hide from seat specialists
         = link_to specialists_financials_path do
           - if params[:controller] == "specialists/financials"
             .active

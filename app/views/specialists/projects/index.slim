@@ -39,7 +39,7 @@
       .panel.panel-default.panel-padded
         .panel-heading
           h3 Ratings & Reviews
-        .panel-body.p-x-0.p-y-0 
+        .panel-body.p-x-0.p-y-0
           = render partial: 'business_rating'
   .clearfix
 .col-md-6.p-x-0
@@ -60,7 +60,7 @@
           .dot-pagination.m-b-1
           a.next-slide href="#" +
         /= render partial: 'ratings/rating', collection: specialist.ratings_received.preload_associations
-- if current_specialist.manageable_ria_businesses.count > 0
+- if @businesses_to_manage.length.positive?
   .col-md-4
     .panel.panel-default.panel-padded.m-b-0
       .panel-heading
@@ -73,11 +73,11 @@
               th Business
           tbody
             - already_passed = []
-            - current_specialist.manageable_ria_businesses.each do |ria|
-              - if !already_passed.include?(ria.id)
+            - @businesses_to_manage.each do |business|
+              - if !already_passed.include?(business.id)
                 tr
-                  td = link_to ria.business_name, specialists_business_path(ria)
-                - already_passed.push(ria.id)
+                  td = link_to business.business_name, mirror_business_path(business.id)
+                - already_passed.push(business.id)
             .fake_bottom
 
 - if params[:reminder].present?

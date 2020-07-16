@@ -11,9 +11,9 @@ class EmployeesController < ApplicationController
 
   def index
     @business = current_business
-    @reminders_today = reminders_today
-    @reminders_week = reminders_week
-    @reminders_past = reminders_past
+    @reminders_today = reminders_today(current_business)
+    @reminders_week = reminders_week(current_business)
+    @reminders_past = reminders_past(current_business)
     @ratings = current_business.ratings_received.preload_associations
   end
 
@@ -77,7 +77,22 @@ class EmployeesController < ApplicationController
   end
 
   def init_tasks_calendar_grid
-    tasks_calendar_grid
+    tasks_calendar_grid(current_business)
+  end
+
+  def mirror
+    business = current_specialist.businesses_to_manage.find_by(id: params[:business_id])
+    return redirect_to specialists_projects_path unless business
+
+    impersonate_user(business.user)
+
+    redirect_to business_projects_path
+  end
+
+  def stop_mirror
+    stop_impersonating_user
+
+    redirect_to specialists_projects_path
   end
 
   def attributes_to_delete

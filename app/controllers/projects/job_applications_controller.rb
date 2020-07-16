@@ -2,7 +2,6 @@
 
 class Projects::JobApplicationsController < ApplicationController
   before_action :require_specialist!, except: 'show'
-  before_action :redirect_to_employee, only: :new
   before_action :find_project
 
   def show

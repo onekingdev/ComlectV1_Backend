@@ -5,7 +5,6 @@ class Specialists::DashboardController < ApplicationController
 
   before_action :authenticate_user!
   before_action :require_specialist!
-  before_action :redirect_to_employee
   before_action :beginning_of_week
   before_action :init_tasks_calendar_grid
 

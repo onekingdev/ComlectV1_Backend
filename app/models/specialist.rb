@@ -335,13 +335,21 @@ class Specialist < ApplicationRecord
     !team.nil?
   end
 
-  def employee?(business = nil)
+  def employee?; end
+
+  def seat?(business = nil)
     return specialist_invitations.where.not(team_id: nil).exists? if business.nil?
 
     teams_ids = business.teams.pluck(:id)
     return unless teams_ids
 
     specialist_invitations.exists?(team_id: teams_ids)
+  end
+
+  def businesses_to_manage
+    teams_ids = specialist_invitations.where.not(team_id: nil).pluck(:team_id)
+
+    Business.joins(:teams).where('teams.id in (?)', teams_ids)
   end
 
   def processed_transactions_amount

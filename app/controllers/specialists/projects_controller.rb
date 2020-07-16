@@ -2,7 +2,6 @@
 
 class Specialists::ProjectsController < ApplicationController
   before_action :require_specialist!
-  before_action :redirect_to_employee
 
   FILTERS = {
     'active' => :active_projects,
@@ -19,6 +18,11 @@ class Specialists::ProjectsController < ApplicationController
     end
     @is_specialist_cards = request.original_fullpath.include?('specialist_cards')
     @ratings = current_specialist.ratings_combined
+    @businesses_to_manage = if current_specialist.seat?
+                              current_specialist.businesses_to_manage
+                            else
+                              current_specialist.manageable_ria_businesses
+                            end
 
     respond_to do |format|
       format.html do

@@ -113,7 +113,6 @@ class ApplicationController < ActionController::Base
   def require_business!
     return if user_signed_in? && current_business
     return authenticate_user! unless user_signed_in?
-    return if employee?
 
     render 'forbidden', status: :forbidden, locals: { message: 'Only business accounts can access this page' }
   end
@@ -125,18 +124,31 @@ class ApplicationController < ActionController::Base
   end
 
   def employee?
-    return unless user_signed_in? && current_specialist
+    false
+    # return unless user_signed_in? && current_specialist
 
-    current_specialist&.employee?(current_business)
+    # current_specialist&.employee?(current_business)
   end
   helper_method :employee?
 
-  def redirect_to_employee
-    return unless current_specialist
-    return unless current_specialist.dashboard_unlocked
+  def mirror?
+    return false if true_user.nil? || current_business_or_specialist.nil?
 
-    redirect_to employees_path if current_specialist&.employee?(current_business)
+    true_user.id != current_business_or_specialist.user&.id
   end
+  helper_method :mirror?
+
+  def seat?
+    current_specialist&.seat?
+  end
+  helper_method :seat?
+
+  # def redirect_to_employee
+  #   return unless current_specialist
+  #   return unless current_specialist.dashboard_unlocked
+  #
+  #   redirect_to employees_path if current_specialist&.employee?(current_business)
+  # end
 
   def render_404
     render file: 'public/404', status: :not_found
