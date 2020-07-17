@@ -1,3 +1,20 @@
+.radio-pills-as-nav {
+  .btn {
+    font-weight: normal !important;
+    font-size: 12px !important;
+    letter-spacing: 1px !important;
+    border-left: 1px solid #ccc !important;
+    &:first-child {
+      border-left: 0px !important;
+    }
+  }
+  .btn.active {
+    background: none !important;
+    color: #ffcc01 !important;
+    font-weight: 600 !important;
+  }
+}
+
 .btn {
   //text-transform: uppercase;
   //font-weight: ;

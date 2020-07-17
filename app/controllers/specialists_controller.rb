@@ -67,10 +67,13 @@ class SpecialistsController < ApplicationController
 
     respond_to do |format|
       if @specialist.update(edit_specialist_params)
+        @specialist.update(sub_industries: convert_sub_industries(params[:sub_industry_ids])) if params[:sub_industry_ids].present?
+        @specialist.update(sub_jurisdictions: convert_sub_jurisdictions(params[:sub_jurisdiction_ids]))
+        @specialist.update(annual_revenue_goal: Business.fix_aum(edit_specialist_params[:annual_revenue_goal]))
         if @specialist.delete_photo? || @specialist.delete_resume?
           format.html { render :edit }
         else
-          format.html { return redirect_to_param_or specialists_dashboard_path }
+          format.html { return redirect_to_param_or employee_profile_path(id: @specialist) }
           format.js { render nothing: true, status: :ok }
         end
       else
@@ -81,6 +84,30 @@ class SpecialistsController < ApplicationController
   end
 
   private
+
+  def convert_sub_industries(ids)
+    return [] if ids.blank?
+    tgt_industries = []
+    ids.each do |sub_ind|
+      c = sub_ind.split('_').map(&:to_i)
+      if @specialist.industries.collect(&:id).include? c[0]
+        tgt_industries.push(Industry.find(c[0]).sub_industries_specialist.split("\r\n")[c[1]])
+      end
+    end
+    tgt_industries
+  end
+
+  def convert_sub_jurisdictions(ids)
+    return [] if ids.blank?
+    tgt_jurisdictions = []
+    ids.each do |sub_ind|
+      c = sub_ind.split('_').map(&:to_i)
+      if @specialist.jurisdictions.collect(&:id).include? c[0]
+        tgt_jurisdictions.push(Jurisdiction.find(c[0]).sub_jurisdictions_specialist.split("\r\n")[c[1]])
+      end
+    end
+    tgt_jurisdictions
+  end
 
   def fetch_invitation
     @invitation = Specialist::Invitation.find_by(
@@ -97,7 +124,8 @@ class SpecialistsController < ApplicationController
     params.require(:specialist).permit(
       :delete_photo, :delete_resume, :first_name, :last_name, :country, :address_1, :address_2, :state, :city,
       :lng, :phone, :linkedin_link, :public_profile, :former_regulator, :certifications, :photo, :resume,
-      :zipcode, :lat, :time_zone, :call_booked,
+      :zipcode, :lat, :time_zone, :call_booked, :annual_revenue_goal, :risk_tolerance, :automatching_available,
+      jurisdiction_states_usa: [], jurisdiction_states_canada: [],
       jurisdiction_ids: [], industry_ids: [], skill_names: [],
       user_attributes: [:email, :password,
                         tos_agreement_attributes: %i[status tos_description],

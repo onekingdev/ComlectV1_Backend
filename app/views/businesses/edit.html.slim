@@ -2,6 +2,9 @@
   script src="https://maps.googleapis.com/maps/api/js?key=#{ENV.fetch('GOOGLE_PLACES_API_KEY')}&libraries=places"
 = simple_form_for @business, url: update_business_path, wrapper: :inline_form do |f|
 
+  .text-danger.text-center
+    b = f.object.errors.full_messages.first if f.object.errors.any?
+
   .row 
     .col-md-3
       .panel.panel-default.fixedheight

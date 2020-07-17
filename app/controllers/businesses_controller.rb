@@ -82,6 +82,7 @@ class BusinessesController < ApplicationController
   private
 
   def convert_sub_industries(ids)
+    return [] if ids.blank?
     tgt_industries = []
     ids.each do |sub_ind|
       c = sub_ind.split('_').map(&:to_i)

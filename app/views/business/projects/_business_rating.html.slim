@@ -3,14 +3,17 @@
 - else
   table.table.table-striped.table-blue.addon-alerts-table
     thead.text-center
-      tr style="text-align-last: center"
-        th Projects
-        th Raiting
+      tr
+        th 
+          .p-l-2 Project
+        th
+          | Rating
         th Date
     tbody
       - @ratings.map().each do |rating|
         tr
-          td.text-center = rating.project.title
-          td.text-center = render_stars rating.value
-          td.text-center = rating.created_at.strftime '%b %-d, %Y'
+          td
+            .p-l-2 = rating.project.title
+          td = render_stars rating.value
+          td = rating.created_at.strftime '%b %-d, %Y'
   .clearfix

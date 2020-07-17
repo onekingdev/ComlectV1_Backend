@@ -38,6 +38,16 @@ en:
         body: Task
         remind_at: Start date
         end_date: End date
+      specialist:
+        first_name: First Name
+        last_name: Last Name
+        address_1: Address Line 1
+        address_2: Address Line 2
+        zipcode: Zip
+        phone: Phone Number
+        annual_revenue_goal: Annual Revenue Goal
+        risk_tolerance: Risk Tolerance
+        time_zone: Time Zone
     errors:
       messages:
         blank: required field

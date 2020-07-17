@@ -221,16 +221,16 @@ if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("spe
         nums.push(parseInt(num));
       }
     }
-    $(".specialist_jurisdiction_states_usa").hide();
-    $(".specialist_jurisdiction_states_canada").hide();
+    $(".specialist_jurisdiction_states_usa").parent().hide();
+    $(".specialist_jurisdiction_states_canada").parent().hide();
 
     $(".specialist_step3 .choices .col-sm-4").hide();
     $("#no_sub_jurs").parent().parent().show();
     for (var num of nums) {
       var cb = $(".specialist_step1 .choices input[value="+num+"]");
       var cb_txt = cb.parent().text();
-      if (cb_txt.indexOf("USA") > -1) { $(".specialist_jurisdiction_states_usa").show(); }
-      if (cb_txt.indexOf("Canada") > -1) { $(".specialist_jurisdiction_states_canada").show(); }
+      if (cb_txt.indexOf("USA") > -1) { $(".specialist_jurisdiction_states_usa").parent(); }
+      if (cb_txt.indexOf("Canada") > -1) { $(".specialist_jurisdiction_states_canada").parent(); }
 
       $(".specialist_step3 .choices .col-sm-4").each(function() {
         if (parseInt($(this).find("input[type=checkbox]").val().split("_")[0]) == num) {

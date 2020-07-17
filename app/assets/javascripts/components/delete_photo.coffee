@@ -16,5 +16,7 @@ $(".delete-logo-button").on 'click', (e) ->
   e.preventDefault()
   $("#business_delete_logo").val 1
   $("#business_logo").val ""
+  $("#specialist_delete_photo").val 1
+  $("#specialist_photo").val ""
   $(this).parents("form").submit()
   return
