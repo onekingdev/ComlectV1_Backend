@@ -6,10 +6,10 @@
   .text-danger.text-center
     b = f.object.errors.full_messages.first if f.object.errors.any?
 
-  .row 
+  .row
     .col-md-3
       .panel.panel-default.fixedheight
-        .panel-heading 
+        .panel-heading
           .pull-left
             h3 Picture
           .clearfix
@@ -71,7 +71,7 @@
         .panel-heading
           .pull-left
             h3 General Info
-          .pull-right 
+          .pull-right
             = f.submit "Save", class: "btn btn-primary btn-solid p-y-0", style: "margin-top: -6px;"
           .clearfix
         hr.m-b-0.m-t-1
@@ -95,7 +95,7 @@
             - Industry.sorted.each do |industry|
               - industry.sub_industries_specialist.split("\r\n").each_with_index do |sub_ind, i|
                 .col-sm-12.m-b-1
-                  input id="sub_industries_id_#{industry.id}_#{i}" type="checkbox" name="sub_industry_ids[]" value=("#{industry.id}_#{i}") checked=(current_specialist.sub_industries.include?(sub_ind))
+                  input id="sub_industries_id_#{industry.id}_#{i}" type="checkbox" name="sub_industry_ids[]" value=("#{industry.id}_#{i}") checked=(current_specialist.sub_industries&.include?(sub_ind))
                   label for="sub_industries_id_#{industry.id}_#{i}"
                     span style="display: inline-block;" = sub_ind
           .clearfix
