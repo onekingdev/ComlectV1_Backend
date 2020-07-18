@@ -335,7 +335,9 @@ class Specialist < ApplicationRecord
     !team.nil?
   end
 
-  def employee?; end
+  def employee?
+    team.present?
+  end
 
   def seat?(business = nil)
     return specialist_invitations.where.not(team_id: nil).exists? if business.nil?
@@ -347,9 +349,14 @@ class Specialist < ApplicationRecord
   end
 
   def businesses_to_manage
-    teams_ids = specialist_invitations.where.not(team_id: nil).pluck(:team_id)
+    if employee?
+      projects_ids = active_projects.pluck(:business_id).compact
+      Business.where(id: projects_ids).all
+    else
+      teams_ids = specialist_invitations.where.not(team_id: nil).pluck(:team_id).compact
 
-    Business.joins(:teams).where('teams.id in (?)', teams_ids)
+      Business.joins(:teams).where('teams.id in (?)', teams_ids)
+    end
   end
 
   def processed_transactions_amount

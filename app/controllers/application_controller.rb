@@ -124,10 +124,7 @@ class ApplicationController < ActionController::Base
   end
 
   def employee?
-    false
-    # return unless user_signed_in? && current_specialist
-
-    # current_specialist&.employee?(current_business)
+    current_specialist&.employee?
   end
   helper_method :employee?
 
