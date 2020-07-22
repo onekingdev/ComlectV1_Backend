@@ -70,6 +70,11 @@ nav#nav.navbar.navbar-default
       - if ["businesses", "specialists"].include?(params[:controller])
         .active
       i.icon-user
+    - if current_user.specialist && !current_user.specialist.seat?
+      = link_to specialists_settings_team_path do
+        - if params[:controller] == "specialists/teams"
+          .active
+        i.icon-people
     - if current_user.business && current_user.business.ria_dashboard?
       = link_to business_seats_path do
         - if params[:controller] == "business/seats"
@@ -91,11 +96,10 @@ nav#nav.navbar.navbar-default
       - if ["business/projects", "specialists/projects"].include?(params[:controller])
         .active
       i.icon-list
-    - if current_user.business
-      = link_to business_addons_path do
-        - if params[:controller] == "business/addons"
-          .active
-        i.icon-grid
+    = link_to (current_user.business ? business_addons_path : specialists_addons_path) do
+      - if ["business/addons", "specialists/addons"].include?(params[:controller])
+        .active
+      i.icon-grid
     .bottom_btns.p-b-2
       - if current_user.specialist && !seat?
         = link_to specialists_ported_businesses_path do

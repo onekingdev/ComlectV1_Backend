@@ -42,7 +42,7 @@ SitemapGenerator::Sitemap.create do
   HomeController::PAGES.each do |page|
     add page_path(page)
   end
-  add '/partnerships'
+  add '/marketplace'
   add '/press'
   add turnkey_pages_path
   TurnkeyPage.all.each do |t|

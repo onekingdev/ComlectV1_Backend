@@ -1,5 +1,0 @@
-var $specialist = $('#specialist-settings');
-$specialist.html('<%= j render('show', employees: @employees, team: @team, invitations: @invitations) %>');
-$(document).trigger('newContent', $specialist);
-$('.settings-nav > li').removeClass('active');
-$('.settings-nav > .manage-employees').addClass('active');

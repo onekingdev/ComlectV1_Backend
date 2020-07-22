@@ -4,10 +4,11 @@
       = invitation.full_name
     td.col-xs-6
       = invitation.email
-    td.col-xs-2
+    td Pending
+    td.col-xs-2 style="font-size: 18px;"
       = link_to specialists_invitation_path(invitation),
       remote: true,
       method: :delete,
       title: 'Confirm Deletion',
-      data: { confirm: 'Are you sure you want to delete this invitation?', confirm_label: 'Delete' } do
+      data: { confirm: "<div class='bootbox-heading'>Delete Invitation<hr></div><div class='p-x-3'>Are you sure you want to delete this invitation?</div>", confirm_label: 'Confirm', no_cancel: true } do
         i.icon-trash.pull-right

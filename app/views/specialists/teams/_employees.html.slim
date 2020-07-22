@@ -4,10 +4,10 @@
       = specialist.full_name
     td.col-xs-6
       = specialist.user.email
-    td.col-xs-2
+    td Active
+    td.col-xs-2 style="font-size: 18px;"
       = link_to specialists_settings_delete_managed_account_path(specialist),
       remote: true,
       method: :delete,
-      title: 'Confirm Deletion',
-      data: { confirm: "Are you sure you want to delete #{specialist.full_name}'s account?", confirm_label: 'Delete' } do
+      data: { confirm: "<div class='bootbox-heading'>Delete Employee<hr></div><div class='p-x-3'>Warning! This change is permanent. Deleting this employee will remove the employee from your account and records.</div>", confirm_label: 'Confirm', no_cancel: true } do
         i.icon-trash.pull-right

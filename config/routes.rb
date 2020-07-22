@@ -38,7 +38,7 @@ Rails.application.routes.draw do
   root to: 'landing_page#show'
   get 'info/:page' => 'home#page', as: :page
   get 'app_config' => 'home#app_config', format: 'js'
-  get 'partnerships' => 'home#partnerships'
+  get 'marketplace' => 'home#partnerships'
   get 'press' => 'home#press'
   get 'r/:token' => 'referrals#show', as: :referrals
 
@@ -160,6 +160,7 @@ Rails.application.routes.draw do
     get '/' => 'dashboard#show', as: :dashboard
     get '/locked' => 'dashboard#locked'
     resources :reminders, only: %i[new update create destroy edit show index]
+    resources :addons, only: %i[index]
     resources :businesses, only: %i[new create show] do
       get '/personalize' => 'personalize#quiz'
       post '/personalize' => 'personalize#quiz'

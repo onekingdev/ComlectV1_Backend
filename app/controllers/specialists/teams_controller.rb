@@ -6,6 +6,7 @@ class Specialists::TeamsController < ApplicationController
   def show
     @specialist = current_specialist
     @team = @specialist.managed_team
+    @team = Specialist::Team.create(manager_id: @specialist.id, name: 'Employees') if @team.blank?
     @employees = @team.employees
     @invitations = @team.invitations.pending
   end
