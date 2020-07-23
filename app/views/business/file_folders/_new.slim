@@ -1,0 +1,35 @@
+.bootbox-heading style="min-width: 500px;"
+  .pull-left
+    | Add File
+  .pull-right.nav.nav-pills
+    #audit_file_folder_tab.btn-shadow.active onclick="audit_file_switch_to_folder();" Folder
+    #audit_file_doc_tab.btn-shadow onclick="audit_file_switch_to_doc();" Document
+  .clearfix
+  hr.m-b-1
+= simple_form_for @file_folder, url: business_file_folders_path do |f|
+  = f.hidden_field :parent_id, value: params[:folder_id]
+  = f.input :name
+  .text-right.m-b-1.m-t-2
+    = f.submit 'Save', class: "btn btn-primary", style: "width: 140px;"
+= simple_form_for @file_doc, url: business_file_docs_path do |f|
+  = f.hidden_field :file_folder_id, value: params[:folder_id]
+  = f.file_field :file
+  .text-right.m-b-1.m-t-2
+    = f.submit 'Save', class: "btn btn-primary", style: "width: 140px;"
+
+javascript:
+  document.getElementById("new_file_doc").style.display = "none";
+
+  var audit_file_switch_to_doc = function() {
+    document.getElementById("audit_file_folder_tab").classList.remove("active");
+    document.getElementById("audit_file_doc_tab").classList.add("active");
+    document.getElementById("new_file_doc").style.display = "block";
+    document.getElementById("new_file_folder").style.display = "none";
+  }
+
+  var audit_file_switch_to_folder = function() {
+    document.getElementById("audit_file_doc_tab").classList.remove("active");
+    document.getElementById("audit_file_folder_tab").classList.add("active");
+    document.getElementById("new_file_doc").style.display = "none";
+    document.getElementById("new_file_folder").style.display = "block";
+  }

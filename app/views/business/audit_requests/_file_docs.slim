@@ -1,0 +1,28 @@
+- file_docs.each do |doc|
+  tr
+    td
+      div.text-center style="margin-left: -10px; margin-right: -10px;"
+        = link_to doc.file_url.split('?')[0], target: "_blank" do
+          i.fa.fa-file-code-o style='color: dodgerblue'
+    td
+      div style="margin-left: -20px; margin-right: -20px;"
+        = link_to doc.name, doc.file_url.split('?')[0], target: "_blank"
+    td
+      div style="margin-left: -10px; margin-right: -10px;"
+        = doc.updated_at.strftime '%b %-d, %Y'
+    td
+      div style="margin-left: -10px; margin-right: -10px;"
+        = link_to edit_business_file_doc_path(doc, move: true), "data-target": "#modal", "data-toggle": "modal", "data-remote": true do
+          i.fa.fa-random
+    td
+      div style="margin-left: -10px; margin-right: -10px;"
+        = link_to doc.file_url.split('?')[0], download: doc.name do
+          i.icon-cloud-download
+    td
+      div style="margin-left: -10px; margin-right: -10px;"
+        = link_to edit_business_file_doc_path(doc), "data-target": "#modal", "data-toggle": "modal", "data-remote": true do
+          i.icon-note
+    td
+      div style="margin-left: -10px; margin-right: -10px;"
+        = link_to business_file_doc_path(doc), method: :delete, data: { confirm: "<div class='bootbox-heading'>Delete File<hr></div>Warning! This change is permanent.", no_cancel: true, 'confirm-label': 'Confirm' } do
+          i.icon-trash

@@ -1,0 +1,11 @@
+.bootbox-heading style="min-width: 500px;"
+  | Edit File
+  hr.m-b-1
+= simple_form_for @file_doc, url: business_file_doc_path(@file_doc), method: :put do |f|
+  - if params[:move].blank?
+    = f.input :name
+    = f.file_field :file
+  - else
+    = f.input :file_folder_id, collection: current_business.generate_folders_tree(nil)
+  .text-right.m-b-1.m-t-2
+    = f.submit 'Save', class: "btn btn-primary", style: "width: 140px;"

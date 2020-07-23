@@ -15,7 +15,28 @@ $(document).ready(function() {
   });
 
   $(".audit_requests.index, .audit_requests.show").on("click", ".btn-customize", function() {
-    console.log("hey");
     window.location = _audit_requests_url+"/new?id="+$(this).attr("data-identifier");
   });
+
+  if (typeof(patch_audit_prep) != "undefined") {
+    $(".audit_comments_form textarea").on("keyup", function() {
+      if ($(this).val().length > 0) {
+        $(this).parent().find(".fake_checkbox").addClass("checked");
+      } else {
+        $(this).parent().find(".fake_checkbox").removeClass("checked");
+      }
+    });
+    $(".audit_comments_form .savebtn").on("click", function(e) {
+      e.preventDefault();
+      $.ajax({
+        url: $("form.audit_comments_form").attr('action'),
+        method: "PUT",
+        data: $("form.audit_comments_form").serialize()
+      }).done(function(d) {
+        coolnotify("Saved", "success");
+      }).fail(function(d) {
+        coolnotify("Error", "danger");
+      });
+    });
+  }
 })

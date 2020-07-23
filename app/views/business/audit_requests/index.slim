@@ -1,65 +1,52 @@
 - content_for :html_head do
 - content_for :title, "Audit Prep"
 
-h1 style="font-family: 'Canela'; font-size: 30px; font-weight: 400;"
+h1.m-b-2 style="font-family: 'Canela'; font-size: 30px; font-weight: 400;"
   | Audit Prep
-= link_to '#', "data-target": "#modal", "data-toggle": "modal", "data-remote": true do
+/= link_to '#', "data-target": "#modal", "data-toggle": "modal", "data-remote": true do
   .pull-right style='padding: 16px;position: absolute;right: 0;background-color: #FFCC01;border-radius: 50% 0 0 50%; color: #000000'
     span style="border: 1px solid;border-radius: 50%;padding: 0px 10px;font-size: 19px;font-weight: 400;right: 23px;"
       | i
 .row
 .col-md-7.p-l-0
-  .panel.panel-default
-    .panel-heading
-      .pull-left
-        h3 Sample Document Request List
-      .pull-right
-        .btn-group
-          = link_to "Save", "#", class: "btn btn-primary btn-solid p-y-0"
-      .clearfix
-    / hr.m-y-0
-    .panel-content-wrapper style="height: 575px; padding: 11px 18px;"
-      = render partial: 'sample_document'
+  = form_tag(business_audit_requests_path, method: :put, class: "audit_comments_form")  do
+    .panel.panel-default.fullheight
+      .panel-heading
+        .pull-left
+          h3 Sample Document Request List
+        .pull-right
+          .btn-group
+            button.btn.btn-primary.btn-solid.p-y-0.savebtn Save
+        .clearfix
+      hr.m-y-0.m-t-1
+      .panel-content-wrapper.fixedheight_receiver style="position: relative;"
+        = render partial: 'sample_document', locals: { audit_requests: @audit_requests }
 .col-md-5.p-l-0
-  .panel.panel-default
+  .panel.panel-default.fullheight
     .panel-heading
       .pull-left
         h3 Books & Records
       .pull-right
         .btn-group
-          = link_to "Add", "#", class: "btn btn-primary btn-solid p-y-0"
-
+          = link_to "Add", new_business_file_folder_path, class: "btn btn-primary btn-solid p-y-0", "data-target": "#modal", "data-toggle": "modal", "data-remote": true
       .clearfix
-    .panel-content-wrapper style="height: 575px; padding: 11px 18px;"
-      table.table.table-striped.table-blue
+    hr.m-y-0.m-t-1
+    .panel-content-wrapper.fixedheight_receiver
+      table.table.table-striped.table-blue.files-table
         thead
           tr
-            th Name
             th 
-            th Modified
+            th
+              div style="margin-left: -20px;" Name
+            th
+              div style="margin-left: -10px;" Modified
             th 
             th 
             th 
             th 
         tbody
-          - for i in 1..10 do
-            tr
-              td
-                = link_to '#', "data-target": "#modal", "data-toggle": "modal", "data-remote": true do
-                  i.fa.fa-folder style='font-size: 40px; color: dodgerblue'
-              td
-                | Annual Reviews
-              td
-                = DateTime.current.strftime '%b %-d, %Y'
-              td
-                = link_to '#', "data-target": "#modal", "data-toggle": "modal", "data-remote": true do
-                  i.fa.fa-random
-              td
-                = link_to '#', "data-target": "#modal", "data-toggle": "modal", "data-remote": true do
-                  i.icon-cloud-download
-              td
-                = link_to '#', "data-target": "#modal", "data-toggle": "modal", "data-remote": true do
-                  i.icon-note
-              td
-                = link_to '#' do
-                  i.icon-trash
+          = render partial: "file_folders", locals: { file_folders: @file_folders }
+          = render partial: "file_docs", locals: { file_docs: @file_docs }
+
+javascript:
+  var patch_audit_prep = true;

@@ -36,6 +36,8 @@ class Business < ApplicationRecord
   has_many :sorted_compliance_policies, -> { order(:created_at) }, class_name: 'CompliancePolicy'
   has_many :seats
   has_many :subscriptions
+  has_many :file_folders
+  has_many :file_docs
 
   has_one :forum_subscription
   has_one :tos_agreement, through: :user
@@ -44,7 +46,7 @@ class Business < ApplicationRecord
   has_one :referral, as: :referrable
   has_many :referral_tokens, as: :referrer
   has_many :reminders, as: :remindable
-  has_many :audit_docs
+  has_many :audit_comments
 
   has_settings do |s|
     s.key :notifications, defaults: {
@@ -161,7 +163,7 @@ class Business < ApplicationRecord
   def audit_prep_percentage
     return AuditRequest.count if AuditRequest.count.zero?
 
-    (audit_docs.count * 100 / AuditRequest.count).to_i
+    (audit_comments.where.not(body: '').where.not(body: nil).count * 100 / AuditRequest.count).to_i
   end
 
   def completed_compliance_policies
@@ -456,6 +458,18 @@ class Business < ApplicationRecord
   def payment_source_type
     payment_source = payment_sources.find_by(primary: true) || payment_sources.first
     payment_source&.type == 'PaymentSource::ACH' ? :ach : :card
+  end
+
+  def generate_folders_tree(except_id)
+    options = [] # [[id, name]]
+    file_folders.root.each do |ff|
+      next unless ff.id != except_id
+      options.push([' - ' + ff.name, ff.id])
+      ff.all_children_recursion.each do |cr|
+        options.push([' -- ' + cr.name, cr.id])
+      end
+    end
+    options
   end
 end
 # rubocop:enable Metrics/ClassLength

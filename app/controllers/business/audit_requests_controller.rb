@@ -6,20 +6,24 @@ class Business::AuditRequestsController < ApplicationController
 
   def index
     @audit_requests = AuditRequest.all.order(:id)
-    @audit_docs = current_business.audit_docs
+    @audit_comments = {}
+    @file_folders = current_business.file_folders.root
+    @file_docs = current_business.file_docs.root
+    current_business.audit_comments.each do |comment|
+      @audit_comments[comment.audit_request_id] = comment.body
+    end
   end
 
-  def destroy
-    @audit_doc = current_business.audit_docs.find(params[:id])
-    audit_request_id = @audit_doc.audit_request_id
-    @audit_doc.destroy
-    redirect_to business_audit_requests_path("audit_request_id": audit_request_id)
-  end
+  def destroy; end
 
   def update
-    @audit_doc = AuditDoc.create(audit_doc_params)
-    @audit_doc.update(business_id: current_business.id, processed: false)
-    redirect_to business_audit_requests_path
+    params['audit_comments'].each do |k, v|
+      if v.present?
+        audit_comment = current_business.audit_comments.find_or_create_by(audit_request_id: k.to_i)
+        audit_comment.update(body: v)
+      end
+    end
+    render text: 'ok'
   end
 
   def show
@@ -42,12 +46,7 @@ class Business::AuditRequestsController < ApplicationController
     # end
   end
 
-  def new
-  end
-  # def new
-  #   @project = Project::Form.copy(project_from_params(params[:id]))
-  #   render 'business/projects/new'
-  # end
+  def new; end
 
   private
 
@@ -62,9 +61,5 @@ class Business::AuditRequestsController < ApplicationController
                   else
                     current_business.total_assets > 500_000_000 ? 'mock_audit_aum' : 'mock_audit'
                   end
-  end
-
-  def audit_doc_params
-    params.require(:audit_doc).permit(:file, :audit_request_id)
   end
 end

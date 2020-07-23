@@ -83,6 +83,8 @@ Rails.application.routes.draw do
     get '/onboarding' => 'onboarding#index'
     post '/onboarding' => 'onboarding#subscribe'
     get '/upgrade' => 'upgrade#index'
+    resources :file_folders
+    resources :file_docs
     resources :upgrade
     resources :addons, only: %i[index]
     resources :seats, only: %i[index new] do
@@ -97,6 +99,7 @@ Rails.application.routes.draw do
     resources :team_members, only: %i[new create edit update destroy]
     resources :reminders, only: %i[new update create destroy show edit index]
     resources :audit_requests, only: %i[index update create new edit show destroy]
+    put '/audit_requests' => 'audit_requests#update'
     resource :help, only: :show do
       resource :questions
     end
