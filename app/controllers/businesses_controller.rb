@@ -68,6 +68,8 @@ class BusinessesController < ApplicationController
       if @business.update(edit_business_params)
         @business.update(sub_industries: convert_sub_industries(params[:sub_industry_ids]))
         @business.update(total_assets: Business.fix_aum(edit_business_params[:total_assets]))
+        @business.update(annual_budget: Business.fix_aum(edit_business_params[:annual_budget]))
+
         if @business.delete_logo == '1'
           format.html { render :edit }
         else

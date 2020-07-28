@@ -8,6 +8,10 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+# graphs
+gem 'c3-rails'
+gem 'd3-rails', '~> 3.5.17'
+
 # conversion fun
 gem 'imgkit'
 

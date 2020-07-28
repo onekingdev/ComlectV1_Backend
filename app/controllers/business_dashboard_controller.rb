@@ -2,6 +2,7 @@
 
 class BusinessDashboardController < ApplicationController
   include RemindersFetcher
+  include ChartData
 
   before_action :require_business!
   before_action :business_payment_profile?
@@ -10,12 +11,17 @@ class BusinessDashboardController < ApplicationController
 
   def show
     @range_axis = []
-
+    @financials = Business::Financials.for(current_business)
     @business = current_user.business
+    @compliance_spend = ['Spent'] + transactions_monthly
     @seats_total = current_business.seats.count
     @seats_available = current_business.seats.available.count
     @seats_taken = @seats_total - @seats_available
     @business.spawn_compliance_policies
+    if current_business.ria_dashboard?
+      assigned_team_members_ids = current_business.seats.pluck(:team_member_id).compact
+      @assigned_team_members = TeamMember.where(id: assigned_team_members_ids)
+    end
     @financials = Business::Financials.for(current_business)
     @ratings = @business.ratings_received.preload_associations
     @reminders_today = reminders_today(current_business)

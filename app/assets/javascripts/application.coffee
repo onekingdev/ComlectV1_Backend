@@ -22,6 +22,9 @@
 #= require_tree ./components
 #= require_tree ./application
 #= require js.cookie
+#= require d3
+#= require c3
+
 $ ->
 
   # if document.cookie.includes('accept_cookies')

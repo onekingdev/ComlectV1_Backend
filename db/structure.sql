@@ -297,6 +297,40 @@ ALTER SEQUENCE public.articles_id_seq OWNED BY public.articles.id;
 
 
 --
+-- Name: audit_comments; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.audit_comments (
+    id integer NOT NULL,
+    audit_request_id integer,
+    business_id integer,
+    body text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: audit_comments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.audit_comments_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: audit_comments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.audit_comments_id_seq OWNED BY public.audit_comments.id;
+
+
+--
 -- Name: audit_docs; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -913,6 +947,76 @@ CREATE SEQUENCE public.feedback_requests_id_seq
 --
 
 ALTER SEQUENCE public.feedback_requests_id_seq OWNED BY public.feedback_requests.id;
+
+
+--
+-- Name: file_docs; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.file_docs (
+    id integer NOT NULL,
+    business_id integer,
+    file_folder_id integer,
+    file_data jsonb,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    name character varying
+);
+
+
+--
+-- Name: file_docs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.file_docs_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: file_docs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.file_docs_id_seq OWNED BY public.file_docs.id;
+
+
+--
+-- Name: file_folders; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.file_folders (
+    id integer NOT NULL,
+    business_id integer,
+    name character varying,
+    parent_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    locked boolean DEFAULT false
+);
+
+
+--
+-- Name: file_folders_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.file_folders_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: file_folders_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.file_folders_id_seq OWNED BY public.file_folders.id;
 
 
 --
@@ -1904,7 +2008,10 @@ CREATE TABLE public.specialists (
     sub_jurisdictions_other character varying,
     call_booked boolean DEFAULT false,
     dashboard_unlocked boolean DEFAULT false,
-    min_hourly_rate integer
+    min_hourly_rate integer,
+    annual_revenue_goal numeric,
+    risk_tolerance character varying,
+    automatching_available boolean DEFAULT false
 );
 
 
@@ -4115,7 +4222,7 @@ CREATE TABLE public.specialist_invitations (
     specialist_team_id integer,
     specialist_id integer,
     first_name character varying NOT NULL,
-    last_name character varying NOT NULL,
+    last_name character varying,
     email character varying NOT NULL,
     token character varying NOT NULL,
     status integer DEFAULT 0 NOT NULL,
@@ -4780,6 +4887,13 @@ ALTER TABLE ONLY public.articles ALTER COLUMN id SET DEFAULT nextval('public.art
 
 
 --
+-- Name: audit_comments id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.audit_comments ALTER COLUMN id SET DEFAULT nextval('public.audit_comments_id_seq'::regclass);
+
+
+--
 -- Name: audit_docs id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -4882,6 +4996,20 @@ ALTER TABLE ONLY public.favorites ALTER COLUMN id SET DEFAULT nextval('public.fa
 --
 
 ALTER TABLE ONLY public.feedback_requests ALTER COLUMN id SET DEFAULT nextval('public.feedback_requests_id_seq'::regclass);
+
+
+--
+-- Name: file_docs id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.file_docs ALTER COLUMN id SET DEFAULT nextval('public.file_docs_id_seq'::regclass);
+
+
+--
+-- Name: file_folders id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.file_folders ALTER COLUMN id SET DEFAULT nextval('public.file_folders_id_seq'::regclass);
 
 
 --
@@ -5276,6 +5404,14 @@ ALTER TABLE ONLY public.articles
 
 
 --
+-- Name: audit_comments audit_comments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.audit_comments
+    ADD CONSTRAINT audit_comments_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: audit_docs audit_docs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5393,6 +5529,22 @@ ALTER TABLE ONLY public.favorites
 
 ALTER TABLE ONLY public.feedback_requests
     ADD CONSTRAINT feedback_requests_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: file_docs file_docs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.file_docs
+    ADD CONSTRAINT file_docs_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: file_folders file_folders_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.file_folders
+    ADD CONSTRAINT file_folders_pkey PRIMARY KEY (id);
 
 
 --
@@ -7457,4 +7609,20 @@ INSERT INTO schema_migrations (version) VALUES ('20200630223715');
 INSERT INTO schema_migrations (version) VALUES ('20200701133723');
 
 INSERT INTO schema_migrations (version) VALUES ('20200705150209');
+
+INSERT INTO schema_migrations (version) VALUES ('20200715003410');
+
+INSERT INTO schema_migrations (version) VALUES ('20200715034355');
+
+INSERT INTO schema_migrations (version) VALUES ('20200719214711');
+
+INSERT INTO schema_migrations (version) VALUES ('20200722151132');
+
+INSERT INTO schema_migrations (version) VALUES ('20200722221907');
+
+INSERT INTO schema_migrations (version) VALUES ('20200722233313');
+
+INSERT INTO schema_migrations (version) VALUES ('20200723011130');
+
+INSERT INTO schema_migrations (version) VALUES ('20200723030449');
 

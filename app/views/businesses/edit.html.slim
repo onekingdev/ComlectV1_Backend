@@ -78,7 +78,7 @@
           .clearfix
         hr.m-b-0.m-t-1
         .panel-content-wrapper.fixedheight_receiver
-          .col-sm-12= f.input :annual_budget, input_html: { value: f.object.annual_budget.to_i }
+          .col-sm-12= f.input :annual_budget, as: :string, input_html: { value: f.object.annual_budget.to_i }
           .col-sm-12= f.input :risk_tolerance, include_blank: I18n.t('simple_form.placeholders.business.risk_tolerance'), collection: Business::RISK_TOLERANCE_OPTIONS, input_html: { class: 'input-lg js-select' }
           .col-sm-12= f.input :time_zone, include_blank: t('simple_form.placeholders.specialist.time_zone'), input_html: { class: 'input-lg js-select' }
           .clearfix
