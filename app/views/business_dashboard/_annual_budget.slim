@@ -1,6 +1,9 @@
 .panel.panel-default.profile-info.m-b-0
   .panel-heading
-    h3 Annual Budget
+    - if current_user.specialist
+      h3 Annual Earnings Goal
+    - else
+      h3 Annual Budget
   hr.m-b-0.m-t-1
   .panel-content-wrapper.fullheight
     #annual_budget_chart style="width: 100%; height: 100%;"
@@ -8,10 +11,10 @@
 .clearfix
 javascript:
   var annual_budget_spent = parseInt("#{@financials.processed_ytd}");
-  var annual_budget_total = parseInt("#{current_business.annual_budget.to_i}");
+  var annual_budget_total = parseInt("#{current_business ? current_business.annual_budget.to_i : current_specialist.annual_revenue_goal.to_i}");
   var annual_budget_max = annual_budget_spent;
   if (annual_budget_spent < annual_budget_total) { annual_budget_max = annual_budget_total; }
   var annual_budget_chart_columns = [
-        ['Spent', annual_budget_spent, 0],
-        ['Annual Budget', 0, annual_budget_total]
+        ["#{current_user.specialist ? 'Earned' : 'Spent'}", annual_budget_spent, 0],
+        ["#{current_user.specialist ? 'Annual Goal' : 'Annual Budget'}", 0, annual_budget_total]
       ];

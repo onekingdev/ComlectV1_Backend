@@ -1,4 +1,7 @@
 if (typeof(annual_report_loop) != "undefined") {
+  if (typeof(annual_report_is_not_ready) != "undefined") {
+    $(".hide_on_change").animate({width: "0px", padding: "0px", "margin-left": "0px", "margin-right": "0px", opacity: "0"}).fadeOut();
+  }
   $(".btn_save_annual_report").on('click', function(e) {
     e.preventDefault();
     $.ajax({
@@ -6,7 +9,10 @@ if (typeof(annual_report_loop) != "undefined") {
       method: "POST",
       data: $("form.edit_annual_report").serialize()
     }).done(function(d) {
-      coolnotify("Saved", "success");
+      if (d == "ready") {
+        $(".hide_on_change").animate({width: "150px", padding: "10px 20px", "margin-left": "auto", "margin-right": "0px", opacity: "1"}).fadeIn();
+      }
+      //coolnotify(d, "success");
     }).fail(function(d) {
       coolnotify("Error", "danger");
     });

@@ -18,28 +18,51 @@
     .errors-subscribe.alert.alert-danger.hide
     table.table.m-t-3.borderless
       tr
-        td style="width: 1px;" Turnkey&nbsp;Consulting&nbsp;Suite
+        td style="width: 1px;" Onboarding&nbsp;Fee
         td.text-right
         td.text-center
           | $
-          span.plan_charge_single_turnkey 30/mo
+          span 500
         td
           | =
         td style="width: 1px;"
           | $
-          span.plan_charge_total 30/mo
+          span 500
+      tr
+        td style="width: 1px;" Annual&nbsp;Fee
+        td.text-right
+        td.text-center
+          | $
+          span.plan_charge_single_turnkey 50
+        td
+          | =
+        td style="width: 1px;"
+          | $
+          span.plan_charge_total 50
       tr
         td
         td
         td.text-center
-          b TOTAL
+          b TOTAL&nbsp;TODAY
         td
           b
             | =
         td style="width: 1px;"
           b
             | $
-            span.plan_charge_total 30/mo
+            span.plan_charge_total_today 550
+      tr
+        td
+        td
+        td.text-center
+          b TOTAL&nbsp;RECURRING
+        td
+          b
+            | =
+        td style="width: 1px;"
+          b
+            | $
+            span.plan_charge_total_recurring 50/mo
     .clearfix
     .pull-right
       / = link_to "Purchase", specialists_ported_businesses_path(bought: true), class: "btn btn-primary m-b-3", style: "width: 140px;"
@@ -49,8 +72,8 @@
       | *Note: This subscription product is an annual contract with the option to bill monthly or annually.
 
 javascript:
-  var patch_ported_enable = true;
-  if (typeof(patch_ported) != "undefined") { patch_ported(); }
+  var patch_ccc_enable = true;
+  if (typeof(patch_ccc) != "undefined") { patch_ccc(); }
   /*var patch_seats_enable = true;
   $(document).ready(function () {
     let errors = $('.errors-subscribe')

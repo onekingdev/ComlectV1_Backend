@@ -471,5 +471,14 @@ class Business < ApplicationRecord
     end
     options
   end
+
+  def create_annual_review_folder_if_none
+    annual_review_folder = file_folders.where(name: 'Annual Review')
+    if annual_review_folder.blank?
+      FileFolder.create(business_id: id, name: 'Annual Review', locked: true)
+    else
+      annual_review_folder.first
+    end
+  end
 end
 # rubocop:enable Metrics/ClassLength

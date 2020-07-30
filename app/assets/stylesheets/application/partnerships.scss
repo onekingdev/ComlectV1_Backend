@@ -7,11 +7,12 @@ body.home.partnerships {
       width: auto;
     }
   }
+  #left_navbar { display: none; }
 }
 
 #partnerships-header {
   @media (min-width: $screen-md-max) {
-    padding: 0px 133px;
+    padding: 0px;
     width: 100%;
   }
   .col-xs-6 {
@@ -31,6 +32,12 @@ body.home.partnerships {
     text-align: center;
   }
   .partnerships-list {
+    background-color: #fff;
+    //position: absolute;
+    width: 100%;
+    left: 0px;
+    padding: 0px 100px;
+    z-index: -1;
     h1 {
       text-align: center;
       font-family: "Open Sans";
@@ -88,15 +95,21 @@ body.home.partnerships {
     margin-right: auto;
     font-weight: bold;
     font-size: 16px;
+    padding: 20px 100px;
+    left: 0;
+    position: absolute;
+    background-color: #394ad3;
+    
     //border-top: 1px solid rgb(215, 210, 196);
     .entry {
-      background: #fff;
+      color: #fff;
+      //background: #fff;
       //border-right: 1px solid rgb(215, 210, 196);
       //border-bottom: 1px solid rgb(215, 210, 196);
       border-collapse: collapse;
       width: 50%;
       @media (min-width: $screen-md-min) {
-        width: 14%;
+        width: 20%;
       }
       float: left;
       text-align: center;
@@ -108,7 +121,7 @@ body.home.partnerships {
       p {
         font-family: "Open Sans";
         font-size: 13px;
-        font-weight: 300;
+        font-weight: 500;
       }
     }
     .entry-yellow {

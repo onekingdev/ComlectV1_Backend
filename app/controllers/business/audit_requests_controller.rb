@@ -5,6 +5,7 @@ class Business::AuditRequestsController < ApplicationController
   before_action :set_mock_audit_template, only: ['index']
 
   def index
+    current_business.create_annual_review_folder_if_none
     @audit_requests = AuditRequest.all.order(:id)
     @audit_comments = {}
     @file_folders = current_business.file_folders.root

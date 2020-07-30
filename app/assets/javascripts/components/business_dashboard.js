@@ -8,7 +8,9 @@ $(document).ready(function() {
         groups: [["Spent", "Annual Budget"]],
         colors: {
           "Spent": '#ffcc01',
-          "Annual Budget": "#4EEDF0"
+          "Earned": '#ffcc01',
+          "Annual Budget": "#4EEDF0",
+          "Annual Goal": "#4EEDF0"
         }
       },
       bar: {
@@ -27,9 +29,6 @@ $(document).ready(function() {
       },
       grid: {
         y: { show: true }
-      },
-      tooltip: {
-        show: false
       }
     });
   }
@@ -44,7 +43,8 @@ $(document).ready(function() {
         ],
         type: 'spline',
         colors: {
-          "Spent": "#ffcc01"
+          "Spent": "#ffcc01",
+          "Earned": "#ffcc01"
         }
       },
       axis: {

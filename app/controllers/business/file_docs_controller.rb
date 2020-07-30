@@ -17,6 +17,12 @@ class Business::FileDocsController < ApplicationController
     redirect_to route_to_folder(@file_doc.file_folder_id)
   end
 
+  def destroy
+    folder_id = @file_doc.file_folder_id
+    @file_doc.destroy
+    redirect_to route_to_folder(folder_id)
+  end
+
   private
 
   def file_doc_params

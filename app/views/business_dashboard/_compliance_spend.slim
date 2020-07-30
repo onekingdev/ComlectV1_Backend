@@ -1,6 +1,9 @@
 .panel.panel-default.profile-info
   .panel-heading
-    h3 Compliance Spend
+    - if current_user.specialist
+      h3 Monthly Earnings
+    - else
+      h3 Compliance Spend
   hr.m-b-0.m-t-1
   .panel-content-wrapper.fullheight
     .seats_info style="position: absolute; left: 100px;" YTD #{@financials.processed_ytd}

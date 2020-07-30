@@ -83,6 +83,7 @@ Rails.application.routes.draw do
     get '/onboarding' => 'onboarding#index'
     post '/onboarding' => 'onboarding#subscribe'
     get '/upgrade' => 'upgrade#index'
+    get '/upgrade/buy' => 'upgrade#buy'
     resources :file_folders
     resources :file_docs
     resources :upgrade

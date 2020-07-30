@@ -4,7 +4,7 @@ class FileFolder < ActiveRecord::Base
   belongs_to :business
   belongs_to :parent, class_name: 'FileFolder'
   has_many :file_folders, class_name: 'FileFolder', foreign_key: :parent_id
-  has_many :file_docs
+  has_many :file_docs, dependent: :destroy
   scope :root, -> { where(parent_id: nil) }
   validates :name, uniqueness: { scope: %i[business_id parent_id] }
   validate :parent_belongs_to_business

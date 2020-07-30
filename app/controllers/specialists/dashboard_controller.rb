@@ -2,6 +2,7 @@
 
 class Specialists::DashboardController < ApplicationController
   include RemindersFetcher
+  include ChartData
 
   before_action :authenticate_user!
   before_action :require_specialist!
@@ -14,6 +15,7 @@ class Specialists::DashboardController < ApplicationController
     @reminders_today = reminders_today(current_specialist)
     @reminders_week = reminders_week(current_specialist)
     @reminders_past = reminders_past(current_specialist)
+    @compliance_spend = ['Earned'] + transactions_monthly(@specialist)
   end
 
   def locked

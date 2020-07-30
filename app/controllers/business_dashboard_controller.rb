@@ -13,7 +13,7 @@ class BusinessDashboardController < ApplicationController
     @range_axis = []
     @financials = Business::Financials.for(current_business)
     @business = current_user.business
-    @compliance_spend = ['Spent'] + transactions_monthly
+    @compliance_spend = ['Spent'] + transactions_monthly(@business)
     @seats_total = current_business.seats.count
     @seats_available = current_business.seats.available.count
     @seats_taken = @seats_total - @seats_available

@@ -3,14 +3,15 @@
     td
       div.text-center style="margin-left: -10px; margin-right: -10px;"
         = link_to business_file_folder_path(folder) do
-          i.fa.fa-folder style='color: dodgerblue'
+          = image_tag "file_folder.png", width: "40px"
     td
       div style="margin-left: -20px; margin-right: -20px;"
         = link_to folder.name, business_file_folder_path(folder)
     td
       div style="margin-left: -10px; margin-right: -10px;"
         = folder.updated_at.strftime '%b %-d, %Y'
-    td colspan=2
+    td
+    td
       div style="margin-left: -10px; margin-right: -10px;"
         = link_to edit_business_file_folder_path(folder, move: true), "data-target": "#modal", "data-toggle": "modal", "data-remote": true do
           i.fa.fa-random
@@ -24,5 +25,9 @@
           i.icon-note
     td
       div style="margin-left: -10px; margin-right: -10px;"
-        = link_to business_file_folder_path(folder), method: :delete, data: { confirm: "<div class='bootbox-heading'>Delete File<hr></div>Warning! This change is permanent.<br>All files within this folder will also be deleted as well.", no_cancel: true, 'confirm-label': 'Confirm' } do
-          i.icon-trash
+        - if folder.locked?
+          = link_to business_file_folder_path(folder), method: :delete, data: { confirm: "<div class='bootbox-heading'>Cannot Delete Folder<hr></div>Oops! This folder cannot be deleted, because it is in use by one of your<br>compliance tools.", no_cancel: true, 'confirm-label': 'Confirm' } do
+            i.icon-trash
+        - else
+          = link_to business_file_folder_path(folder), method: :delete, data: { confirm: "<div class='bootbox-heading'>Delete Folder<hr></div>Warning! This change is permanent.<br>All files within this folder will also be deleted as well.", no_cancel: true, 'confirm-label': 'Confirm' } do
+            i.icon-trash

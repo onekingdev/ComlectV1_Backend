@@ -126,7 +126,7 @@
                     ul.dropdown-menu style="transform: translateX(-80%);"
                       li.btn_save_annual_report
                         span style="padding: 3px 20px; font-weight: 400; display: inline-block;" Save
-                      li = link_to "Upload Support", "#"
+                      /li = link_to "Upload Support", "#"
                       li onclick="$(this).parent().parent().parent().parent().parent().find('.add_fields[data-association=finding]').trigger('click');"
                         span style="padding: 5px 20px; font-weight: 400; display: block;" Add Finding
                       li onclick="$(this).parent().parent().parent().parent().parent().find('.icon-trash').trigger('click'); $(this).parent().parent().parent().parent().parent().find('textarea').val('');"
@@ -182,19 +182,18 @@
     .text-center.m-b-1
       .onepxhidden
         button.btn.btn-primary.save-annual-report onclick="$('.edit_annual_report').submit();" style="width: 140px;" Save
-      - if @annual_report.ready?
-        = simple_form_for :dummy, url: business_annual_reports_path(format: "jpg"), html: { target: "_blank", style: "display: inline-block" } do |f|
-          = f.submit "Preview Report", class: "btn btn-primary m-x-2 hide_on_change"
-        button.btn.btn-primary.hide_on_change[
-          data-method="post"
-          data-remote="false"
-          data-url=business_annual_reports_path(format: "pdf")
-          data-confirm="<center><b>Generate Report</b><br/><br/>We recommend you preview your report before<br/>generating the final PDF. This is a permanent action that will save this report as the report of record for the current year. You will need to fill out this form again to generate another report.<br/><br/>Do you wish to proceed?</center>"
-          data-confirm-label="Yes"
-          data-cancel-label="No"
-        ]
-          | Generate Report
-          /= f.submit "Generate Report", class: "btn btn-primary m-l-2"
+      = simple_form_for :dummy, url: business_annual_reports_path(format: "jpg"), html: { target: "_blank", style: "display: inline-block" } do |f|
+        = f.submit "Preview Report", class: "btn btn-primary m-x-2 hide_on_change"
+      button.btn.btn-primary.hide_on_change[
+        data-method="post"
+        data-remote="false"
+        data-url=business_annual_reports_path(format: "pdf")
+        data-confirm="<center><b>Generate Report</b><br/><br/>We recommend you preview your report before<br/>generating the final PDF. This is a permanent action that will save this report as the report of record for the current year. You will need to fill out this form again to generate another report.<br/><br/>Do you wish to proceed?</center>"
+        data-confirm-label="Yes"
+        data-cancel-label="No"
+      ]
+        | Generate Report
+        /= f.submit "Generate Report", class: "btn btn-primary m-l-2"
 
     .apply_changes
       i.icon.maxicons1-check.m-r-1
@@ -202,3 +201,7 @@
 
 javascript:
   var annual_report_loop = true;
+
+- if !@annual_report.ready?
+  javascript:
+    var annual_report_is_not_ready = true;

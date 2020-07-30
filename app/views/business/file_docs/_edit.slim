@@ -1,5 +1,8 @@
 .bootbox-heading style="min-width: 500px;"
-  | Edit File
+  - if params[:move].blank?
+    | Edit File
+  - else
+    | Move File
   hr.m-b-1
 = simple_form_for @file_doc, url: business_file_doc_path(@file_doc), method: :put do |f|
   - if params[:move].blank?

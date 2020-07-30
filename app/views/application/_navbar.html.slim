@@ -23,7 +23,7 @@ nav#nav.navbar.navbar-default
           = link_to "Post a Project", new_business_project_path, class: "btn btn-primary btn-md", target: "_blank", style: "padding: 10px 20px; width: 140px; margin-top: -11px;"
       - if user_signed_in_onboarding? && !seat?
         - if current_specialist
-          li= link_to 'Browse Projects', projects_path
+          li= link_to 'Browse Projects', projects_path, class: "btn btn-primary btn-md", target: "_blank", style: "padding: 10px 20px; width: 160px; margin-top: -11px;"
       - if user_signed_in? && !seat?
         li = link_to 'Log Out', destroy_user_session_path, method: :delete, class: "btn btn-default", style: "padding: 10px 20px; width: 140px; margin-top: -11px;"
         // - if (business = user.business)

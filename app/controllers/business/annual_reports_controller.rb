@@ -60,6 +60,12 @@ class Business::AnnualReportsController < ApplicationController
         uploaded_pdf = uploader.upload(pdf_file)
         @annual_review.update(file_data: uploaded_pdf.to_json, pdf_data: uploaded_pdf.to_json, processed: true)
         file.delete
+
+        current_business.file_docs.create(
+          name: generate_safe_filename("Annual Compliance Program Review #{@annual_report.exam_start.year}") + '.pdf',
+          file_data: uploaded_pdf.to_json,
+          file_folder_id: current_business.create_annual_review_folder_if_none.id
+        )
         redirect_to @annual_report.pdf_url
       end
     end
@@ -79,10 +85,31 @@ class Business::AnnualReportsController < ApplicationController
         @annual_report.update(cof_bits: total.to_s)
       end
     end
-    redirect_to new_business_annual_report_path
+    respond_to do |format|
+      format.html do
+        if request.xhr?
+          render text: @annual_report.ready? ? 'ready' : 'saved'
+        else
+          redirect_to new_business_annual_report_path
+        end
+      end
+    end
   end
 
   private
+
+  def generate_safe_filename(src_name)
+    generated = src_name
+    num = ''
+    while current_business.file_docs.where(
+      file_folder_id: current_business.create_annual_review_folder_if_none.id,
+      name: "#{generated}.pdf"
+    ).count.positive?
+      num = num == '' ? 1 : num + 1
+      generated = "#{src_name}_#{num}"
+    end
+    generated
+  end
 
   def build_annual_report
     @annual_report = AnnualReport.create(business_id: current_business.id)

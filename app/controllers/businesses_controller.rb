@@ -49,7 +49,7 @@ class BusinessesController < ApplicationController
         cookies.delete c
       end
 
-      FileFolder.create(business_id: @business.id, name: 'Annual Review', locked: true)
+      current_business.create_annual_review_folder_if_none
 
       return redirect_to business_dashboard_path
     end

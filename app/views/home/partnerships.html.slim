@@ -1,22 +1,26 @@
 /.page-parallax data-image-src=asset_url("partnerships/partnerships_bg.jpg") data-parallax="scroll"
-.container#partnerships-header.p-b-3
+#partnerships-header.p-b-3
   .col-xs-6
-    h1.m-b-2.p-t-2 Partnership Network
-    p.m-b-3.p-b-2 Leverage our discounts for your business & day to day.
-    = link_to "Become a partner", "mailto:hanh@complect.com?subject=How Can We Partner?", class: "btn btn-primary"
-  .col-xs-6 = image_tag "partnerships.png"
+    h1.m-b-2.p-t-2 
+      | Add-On 
+      br
+      | Marketplace
+    p.m-b-3.p-b-2 
+      | RESOURCES FOR MAINTAINING, AUTOMATING,
+      br
+      | AND INTEGRATING YOUR COMPLIANCE PROGRAM
+  .col-xs-6.p-b-3 = image_tag "partnerships.png", class: "img-responsive"
   .clearfix
   .row
     #partnerships-block
       - i = 0
-      .hrow.m-t-3.p-t-3
-        - for k in @partnerships.keys.each.to_a do
-          - formatted = k.to_s.downcase.gsub(' ','-').gsub('&','and')
-          .entry 
-            = image_tag "partnerships/#{formatted}.png"
-            p = k
+      - for k in @partnerships.keys.each.to_a do
+        - formatted = k.to_s.downcase.gsub(' ','-').gsub('&','and')
+        .entry 
+          /= image_tag "partnerships/#{formatted}.png"
+          p = raw(k.to_s.gsub(' ', '&nbsp;'))
       .clearfix
-    .partnerships-list.m-t-3.p-t-2
+    .partnerships-list.m-t-3.p-t-2.p-b-3
       - @partnerships.each do |k,v|
         h1.m-t-3.m-b-0.p-b-0.p-t-3
           .anchor id=(k.to_s.downcase.gsub(' ','-').gsub('&','and'))
@@ -35,3 +39,9 @@
                   - else
                     = partnership.discount_pub
         .clearfix
+
+javascript:
+  var elem = document.createElement('div');
+  elem.style.cssText = 'position:absolute;width:50%;height:720px;z-index:-2;background:#ffcc01';
+  document.body.appendChild(elem);
+  var redirect_logo_to_app = true;
