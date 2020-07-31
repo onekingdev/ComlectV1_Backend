@@ -202,6 +202,6 @@
 javascript:
   var annual_report_loop = true;
 
-- if !@annual_report.ready?
+- if !@annual_report.nil? && !@annual_report.ready?
   javascript:
     var annual_report_is_not_ready = true;
