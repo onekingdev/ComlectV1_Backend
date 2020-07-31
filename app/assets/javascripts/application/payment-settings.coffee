@@ -8,14 +8,15 @@ $(document).on 'submit', '#new_payment_source_ach', (e) ->
   return if $form.hasClass('js-payment-country')
   e.preventDefault()
   $form.find('.alert-danger').text('').addClass('hidden')
-  Stripe.bankAccount.createToken
+  Stripe.createToken('bank_account', {
     country: $('#payment_source_ach_country').val(),
     currency: $('#payment_source_ach_currency').val(),
     routing_number: $('#payment_source_ach_routing_number').val(),
     account_number: $('#payment_source_ach_account_number').val(),
     account_holder_name: $('#payment_source_ach_account_holder_name').val(),
     account_holder_type: $('#payment_source_ach_account_holder_type').val()
-  , (status, response) ->
+  })
+  .then(status, response) ->
     if response.error
       $form.find('.alert-danger').text(response.error.message).removeClass('hidden')
     else
