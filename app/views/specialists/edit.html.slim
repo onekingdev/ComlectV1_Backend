@@ -95,7 +95,7 @@
             - Industry.sorted.each do |industry|
               - industry.sub_industries_specialist.split("\r\n").each_with_index do |sub_ind, i|
                 .col-sm-12.m-b-1
-                  input id="sub_industries_id_#{industry.id}_#{i}" type="checkbox" name="sub_industry_ids[]" value=("#{industry.id}_#{i}") checked=(current_specialist.sub_industries&.include?(sub_ind))
+                  input id="sub_industries_id_#{industry.id}_#{i}" type="checkbox" name="sub_industry_ids[]" value=("#{industry.id}_#{i}") checked=(current_specialist.sub_industries.nil? ? false : current_specialist.sub_industries&.include?(sub_ind))
                   label for="sub_industries_id_#{industry.id}_#{i}"
                     span style="display: inline-block;" = sub_ind
           .clearfix
@@ -118,7 +118,7 @@
               - jurisdiction.sub_jurisdictions_specialist.split("\r\n").each_with_index do |sub_jur, i|
                 - state_modifier = (jurisdiction.name == "USA" && sub_jur == "State") || (jurisdiction.name == "Canada" && sub_jur == "State")
                 .m-b-1 style=("float: left; width: 30%;" if state_modifier) class=(state_modifier ? "col-sm-6" : "col-sm-12")
-                  input id="sub_jurisdictions_id_#{jurisdiction.id}_#{i}" type="checkbox" name="sub_jurisdiction_ids[]" value=("#{jurisdiction.id}_#{i}") checked=(current_specialist.sub_jurisdictions.include?(sub_jur))
+                  input id="sub_jurisdictions_id_#{jurisdiction.id}_#{i}" type="checkbox" name="sub_jurisdiction_ids[]" value=("#{jurisdiction.id}_#{i}") checked=(current_specialist.sub_jurisdictions.nil? ? false : current_specialist.sub_jurisdictions.include?(sub_jur))
                   label for="sub_jurisdictions_id_#{jurisdiction.id}_#{i}"
                     span = sub_jur
                 - if state_modifier

@@ -97,7 +97,7 @@
             - Industry.sorted.each do |industry|
               - industry.sub_industries.split("\r\n").each_with_index do |sub_ind, i|
                 .col-sm-12.m-b-1
-                  input id="sub_industries_id_#{industry.id}_#{i}" type="checkbox" name="sub_industry_ids[]" value=("#{industry.id}_#{i}") checked=(current_business.sub_industries.include?(sub_ind))
+                  input id="sub_industries_id_#{industry.id}_#{i}" type="checkbox" name="sub_industry_ids[]" value=("#{industry.id}_#{i}") checked=(current_business.sub_industries.nil? ? false : current_business.sub_industries.include?(sub_ind))
                   label for="sub_industries_id_#{industry.id}_#{i}"
                     span style="display: inline-block;" = sub_ind
           .clearfix
