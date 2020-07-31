@@ -1,14 +1,21 @@
-if Stripe?
-  Stripe _appConfig.stripePublishableKey
-  if typeof(Stripe.setPublishableKey) == 'function'
-    Stripe.setPublishableKey(_appConfig.stripePublishableKey)
+#if Stripe?
+#  Stripe _appConfig.stripePublishableKey
+#  if typeof(Stripe.setPublishableKey) == 'function'
+#    Stripe.setPublishableKey(_appConfig.stripePublishableKey)
 
+$(document).ready(
+  if Stripe?
+    stripe = Stripe _appConfig.stripePublishableKey
+    if typeof(Stripe.setPublishableKey) == 'function'
+      Stripe.setPublishableKey(_appConfig.stripePublishableKey)
+);
 $(document).on 'submit', '#new_payment_source_ach', (e) ->
   $form = $(this)
   return if $form.hasClass('js-payment-country')
   e.preventDefault()
   $form.find('.alert-danger').text('').addClass('hidden')
-  Stripe.createToken('bank_account', {
+  stripe = Stripe _appConfig.stripePublishableKey unless stripe
+  stripe.createToken('bank_account', {
     country: $('#payment_source_ach_country').val(),
     currency: $('#payment_source_ach_currency').val(),
     routing_number: $('#payment_source_ach_routing_number').val(),
@@ -16,7 +23,7 @@ $(document).on 'submit', '#new_payment_source_ach', (e) ->
     account_holder_name: $('#payment_source_ach_account_holder_name').val(),
     account_holder_type: $('#payment_source_ach_account_holder_type').val()
   })
-  .then(status, response) ->
+  .then (response) ->
     if response.error
       $form.find('.alert-danger').text(response.error.message).removeClass('hidden')
     else
@@ -25,14 +32,16 @@ $(document).on 'submit', '#new_payment_source_ach', (e) ->
         method: 'POST'
         dataType: 'script'
         data:
-          'payment_source_ach[token]': response.id
-          'payment_source_ach[stripe_id]': response.bank_account.id
-          'payment_source_ach[country]': response.bank_account.country
-          'payment_source_ach[currency]': response.bank_account.currency
-          'payment_source_ach[brand]': response.bank_account.bank_name
-          'payment_source_ach[last4]': response.bank_account.last4
-          'payment_source_ach[account_holder_name]': response.bank_account.account_holder_name
-          'payment_source_ach[account_holder_type]': response.bank_account.account_holder_type
+          'payment_source_ach[token]': response.token.id
+          'payment_source_ach[stripe_id]': response.token.bank_account.id
+          'payment_source_ach[country]': response.token.bank_account.country
+          'payment_source_ach[currency]': response.token.bank_account.currency
+          'payment_source_ach[brand]': response.token.bank_account.bank_name
+          'payment_source_ach[last4]': response.token.bank_account.last4
+          'payment_source_ach[account_holder_name]': response.token.bank_account.account_holder_name
+          'payment_source_ach[account_holder_type]': response.token.bank_account.account_holder_type
+      .then (res) ->
+        window.location.reload
 
 $(document).on 'click', '.js-plaid-link', (e) ->
   e.preventDefault()
