@@ -14,7 +14,7 @@
             h3 Picture
           .clearfix
         hr.m-b-0.m-t-1
-        .panel-content-wrapper.text-center.p-y-1.p-x-1#logo
+        .panel-content-wrapper.text-center.p-y-1.p-x-1#logo style="min-height: 270px;"
           label.custom-file-field.js-custom-file-field style="font-size: 18px;"
             = f.hidden_field :photo, value: f.object.photo_data? ? f.object.photo_data.to_json : nil
             = f.file_field :photo, accept: "image/gif, image/jpeg, image/png"

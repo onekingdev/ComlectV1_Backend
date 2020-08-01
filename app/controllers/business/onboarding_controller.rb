@@ -68,7 +68,7 @@ class Business::OnboardingController < ApplicationController
 
     mark_passed
 
-    redirect_to project ? business_project_path(project) : business_dashboard_path
+    redirect_to business_dashboard_path
   rescue => e
     redirect_to business_onboarding_path, flash: { error: (e.message if e.class.name != 'NoMethodError') }
   end

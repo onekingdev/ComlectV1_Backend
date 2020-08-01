@@ -85,7 +85,7 @@
   .m-b-2.m-l-3
     | Select all that apply:
   .choices.padded-checkboxes
-    - Industry.all.order(:id).where.not(name: ["Recruiter", "Consulting Firm", "I don't know"]).each do |industry|
+    - Industry.sorted.where.not(name: ["Recruiter", "Consulting Firm", "I don't know"]).each do |industry|
       .col-sm-4.m-b-1
         button.btn-block._signup_btn type="button"
           input type="checkbox" id="specialist_industries_id_#{industry.id}" name="specialist[industry_ids][]" value=(industry.id)

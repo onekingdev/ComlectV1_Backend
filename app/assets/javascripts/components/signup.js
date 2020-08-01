@@ -408,12 +408,12 @@ if ((window.location.pathname.indexOf("/business/onboarding") > -1)) {
       if ($(this).val() == "annual") {
         $(".pos_total").hide();
         $(".pos_total_annual").show();
-        $(".on_going_cost").html("$1000");
+        $(".on_going_cost").html("$500");
       }
       if ($(this).val() == "monthly") {
         $(".pos_total").show();
         $(".pos_total_annual").hide();
-        $(".on_going_cost").html("$100");
+        $(".on_going_cost").html("$50");
       }
     })
     if (typeof(trigger_monthly_sub) != "undefined") {
