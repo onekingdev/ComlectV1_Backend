@@ -1,4 +1,9 @@
 body.annual_reports {
+  .field_remover {
+    span {
+      padding: 5px 20px; font-weight: 400; display: block;
+    }
+  }
   .cof_bits {
     padding-left: 60px;
     padding-right: 30px;

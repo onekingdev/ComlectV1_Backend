@@ -123,4 +123,9 @@ $(document).ready(function() {
       });
     }, 3000)
   }
+
+  $(".field_remover").on("click", function(e) {
+    $(this).parent().parent().parent().parent().parent().find('.icon-trash').trigger('click');
+    $(this).parent().parent().parent().parent().parent().find('textarea').val('');
+  })
 })

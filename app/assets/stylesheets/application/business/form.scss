@@ -7,8 +7,6 @@ form#new_business, form.edit_business {
     @include clearfix;
 
     .checkbox {
-      @include make-sm-column(3);
-      @include make-xs-column(6);
       margin-top: 0;
       padding-left: 20px; // Restore awesome-bootstrap-checkbox padding
     }

@@ -6,36 +6,35 @@
     - if @business.ria_dashboard?
       .col-sm-6
         = render partial: "reminders", locals: { new_path: "new_business_reminder_path", edit_path: "edit_business_reminder_path", project_path: "business_project_dashboard_path", pdf_path: "business_reminders_path" }
-      .col-sm-3.p-x-0
+      .col-xs-3.p-x-0
         = render partial: "tasks"
-      .col-sm-3
+      .col-xs-3
         = render partial: "business/addons/addons"
       .clearfix
-      .col-md-3
+      .col-xs-3
         = render partial: "annual_budget"
-      .col-md-5.p-x-0
+      .col-xs-5.p-x-0
         = render partial: "compliance_spend"
-      .col-sm-4
+      .col-xs-4
         = render partial: "business/seats/seats"
-      .col-md-3.hidden
+      .col-xs-3.hidden
         = render partial: "compliance_manual"
-      .col-md-3.hidden
+      .col-xs-3.hidden
         = render partial: "annual_review"
-      .col-md-3.hidden
+      .col-xs-3.hidden
         = render partial: "audit_prep"
       .clearfix
     - if !@business.ria_dashboard?
-      .col-md-3
+      .col-xs-3
         = render partial: "annual_budget"
-      .col-md-5.p-x-0
+      .col-xs-5.p-x-0
         = render partial: "compliance_spend"
-      .col-sm-4
+      .col-xs-4
         = render partial: "business/addons/addons"
 
-- if !@business.welcomed? && @business.ria_dashboard?
-  - @business.update(welcomed: true)
+- if !@business.onboard_call_booked && @business.ria_dashboard?
   javascript:
-    var show_business_personalize = #{!@business.personalized?};
+    var show_business_personalize = #{!@business.onboard_call_booked};
     var show_business_tutorial = #{@business.personalized? && !@business.tutorial_complete};
     var personalize_js_url = "/business/personalize";
     var calendar_asset_path = "#{asset_path('calendar-popup.png')}";
@@ -44,3 +43,7 @@
 - if params[:reminder].present?
   javascript:
     var show_reminders_at_date = "#{new_business_reminder_path(date: Date.parse(params[:reminder]))}";
+
+- if !@business.ria_dashboard?
+  javascript:
+    var non_ria_dashboard_fix = true;

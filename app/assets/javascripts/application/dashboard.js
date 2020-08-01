@@ -19,7 +19,10 @@ if ((typeof(show_business_personalize) != "undefined") && (show_business_persona
                           "<br><button style='width: 140px;' onclick='personalize_book();' class='btn btn-primary m-y-2 clearfix'>Book</button>"+
                         '</div>'+
                       '</div>';
-  _Modal.showPlain(nice_template);
+  $("#modal").modal({backdrop: 'static', keyboard: false});
+  $("#modal .modal-body").html(nice_template);
+  $("button.close").hide();
+  //_Modal.showPlain(nice_template);
 }
 
 if ((typeof(show_business_tutorial) != "undefined") && (show_business_tutorial == true)) {
@@ -31,4 +34,7 @@ if ((typeof(show_business_tutorial) != "undefined") && (show_business_tutorial =
 }
 */
 
+if (typeof(non_ria_dashboard_fix) != "undefined") {
+  $(".fullheight").addClass("fixedheight").removeClass("fullheight").css({"height": "300px"});
 
+}

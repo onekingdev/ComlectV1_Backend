@@ -257,7 +257,7 @@ class Business < ApplicationRecord
   def self.fix_aum(str)
     vocab = [%w[BN bn Billion billion Bill bill], '000000000'], \
             [%w[Million million MM mm Mill mill], '000000']
-    result = str.to_i.to_s
+    result = str.gsub(/,/i, '').to_i.to_s
     occured = false
     vocab.each do |v|
       v[0].each do |word|

@@ -28,9 +28,9 @@
           .col-md-12.m-b-2.m-t-2
             | Hint: For annual reviews, this time period typically spans a calendar or fiscal year and will be referred to hereafter as "the Review Period."
           .col-md-6
-            = f.input :review_start, as: :string, input_html: { value: f.object.review_start.try(:strftime, '%d/%m/%Y'), class: 'input-lg js-datepicker', data: { value: f.object.review_start.to_s, format: 'dd/mm/yyyy', months: true, years: 80 } }, label: "Start Date"
+            = f.input :review_start, as: :string, input_html: { value: f.object.review_start.try(:strftime, '%m/%d/%Y'), class: 'input-lg js-datepicker', data: { value: f.object.review_start.to_s, format: 'mm/dd/yyyy', months: true, years: 80 } }, label: "Start Date"
           .col-md-6
-            = f.input :review_end, as: :string, input_html: { value: f.object.review_end.try(:strftime, '%d/%m/%Y'), class: 'input-lg js-datepicker', data: { value: f.object.review_end.to_s, format: 'dd/mm/yyyy', months: true, years: 80 } }, label: "End Date"
+            = f.input :review_end, as: :string, input_html: { value: f.object.review_end.try(:strftime, '%m/%d/%Y'), class: 'input-lg js-datepicker', data: { value: f.object.review_end.to_s, format: 'mm/dd/yyyy', months: true, years: 80 } }, label: "End Date"
           .clearfix
       .panel.panel-default.m-b-2
         .panel-heading
@@ -44,7 +44,8 @@
                   span style="padding: 3px 20px; font-weight: 400; display: inline-block;" Save
                 li onclick="$('.add_fields[data-association=business_change]').trigger('click');"
                   span style="padding: 3px 20px; font-weight: 400;" Add Entry
-                li = link_to "No Changes", "#"
+                li.field_remover
+                  span No Changes
           .clearfix
         hr.m-b-0.m-t-1
         .p-x-1.p-b-2
@@ -70,7 +71,8 @@
                   span style="padding: 3px 20px; font-weight: 400; display: inline-block;" Save
                 li onclick="$('.add_fields[data-association=regulatory_change]').trigger('click');"
                   span style="padding: 3px 20px; font-weight: 400;" Add Entry
-                li = link_to "No Changes", "#"
+                li.field_remover
+                  span No Changes
           .clearfix
         hr.m-b-0.m-t-1
         .p-x-1.p-b-2
@@ -96,8 +98,8 @@
                   span style="padding: 3px 20px; font-weight: 400; display: inline-block;" Save
                 li onclick="$('.add_fields[data-association=annual_review_employee]').trigger('click');"
                   span style="padding: 3px 20px; font-weight: 400;" Add Entry
-                li onclick="$(this).parent().parent().parent().parent().parent().find('.icon-trash').trigger('click'); $(this).parent().parent().parent().parent().parent().find('textarea').val('');"
-                  span style="padding: 5px 20px; font-weight: 400; display: block;" Solo&nbsp;Practitioner
+                li.field_remover
+                  span Solo&nbsp;Practitioner
           .clearfix
         hr.m-b-0.m-t-1
         .p-x-1.p-b-2
@@ -129,7 +131,7 @@
                       /li = link_to "Upload Support", "#"
                       li onclick="$(this).parent().parent().parent().parent().parent().find('.add_fields[data-association=finding]').trigger('click');"
                         span style="padding: 5px 20px; font-weight: 400; display: block;" Add Finding
-                      li onclick="$(this).parent().parent().parent().parent().parent().find('.icon-trash').trigger('click'); $(this).parent().parent().parent().parent().parent().find('textarea').val('');"
+                      li.field_remover
                         span style="padding: 5px 20px; font-weight: 400; display: block;" No Findings
                 .clearfix
               hr.m-b-0.m-t-1

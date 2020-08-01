@@ -6,9 +6,9 @@
       .btn-group style="margin-top: -8px;"
         /= f.input :plan, as: :radio_pills, collection: [%w(Monthly monthly), %w[Annual annual]], btn_class: 'btn-shadow'
         .btn-group data-toggle="buttons" 
-          label.btn.btn-shadow.active#add_payment_debit_credit
+          label.btn.btn-shadow.noshadow.active#add_payment_debit_credit
             | Debit/Credit
-          label.btn.btn-shadow#add_payment_bank_account
+          label.btn.btn-shadow.noshadow#add_payment_bank_account style="border-left: 1px solid #ccc !important;"
             | Bank Account
 
   .clearfix

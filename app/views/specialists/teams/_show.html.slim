@@ -12,12 +12,13 @@
       /- if flash[:notice]
         .alert.alert-success.m-b-3 = flash[:notice]
 
-      table.table.manage-employees.table-blue
+      table.table.manage-employees.table-blue.table-striped
         tr
           th Name
           th Email
           th Status
           th
+        tr
         = render 'employees', employees: employees if @employees.present?
         = render 'invitations', invitations: invitations if @invitations.present?
 
