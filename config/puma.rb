@@ -18,7 +18,7 @@ on_worker_boot do
 end
 
 on_restart do
-  Sidekiq.redis.shutdown(&:close) unless ENV['HEROKU_BRANCH'] == 'master'
+  Sidekiq.redis.shutdown(&:close) # unless ENV['HEROKU_BRANCH'] == 'master'
 end
 
 rackup DefaultRackup
