@@ -18,7 +18,7 @@ class Specialists::InvitationsController < ApplicationController
 
   def destroy
     @specialist = current_specialist
-    @team = @specialist.managed_team
+    @team = @specialist.managed_team || @specialist.team
     @invitation = @team.invitations.find(params[:id])
 
     authorize @invitation, :destroy?
