@@ -8,7 +8,7 @@ worker_timeout 3500 unless ENV['RAILS_ENV'] == 'production'
 preload_app!
 
 before_fork do
-  @sidekiq_pid ||= spawn('bundle exec sidekiq -C config/sidekiq.yml') unless ENV['HEROKU_BRANCH'] == 'master'
+  @sidekiq_pid ||= spawn('bundle exec sidekiq -C config/sidekiq.yml') # unless ENV['HEROKU_BRANCH'] == 'master'
 end
 
 on_worker_boot do
