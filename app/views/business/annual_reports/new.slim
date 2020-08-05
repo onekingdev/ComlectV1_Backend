@@ -139,28 +139,25 @@
                 .col-md-12.m-b-2.m-t-2
                   | Hint: You can add more findings within this topic area by clicking “Add Finding” in the dropdown menu. Findings do not need to be related to a specific checklist item.
               .col-sm-12.p-r-3.p-l-1
+                - @checkboxes_arr[cb_key].each do |cb|
+                  .form-group.cof_bits.parent_node.padded-checkboxes style="margin-left: -35px;"
+                    span.checkbox.checkbox-lg
+                      - if @annual_report.cof_str[ind].to_i == 1
+                        input as="boolean" type="checkbox" name="annual_report[cof_bits][#{ind}]" id="annual_report_cof_bits_#{ind}" value="#{ind}" checked="true"
+                      - else
+                        input as="boolean" type="checkbox" name="annual_report[cof_bits][#{ind}]" id="annual_report_cof_bits_#{ind}" value="#{ind}"
+                      label for="annual_report_cof_bits_#{ind}"
+                        = cb
+                  - if !@checkboxes_arr[cb_key][cb_ind].nil?
+                    - @checkboxes_arr[cb_key][cb_ind] = nil
+                    - ind += 1 
+                    - cb_ind += 1
                 = f.simple_fields_for :findings do |c|
                   - if ((c.object.compliance_category == compliance_category.id) && (c.object.checkbox_index == @checkboxes_arr.keys.index(cb_key)))
                     .nested_form
-                      = render partial: 'business/annual_reports/finding_fields', locals: { f: c, compliance_category: compliance_category.id, checkbox_index: @checkboxes_arr.keys.index(cb_key), ind: ind, cb_ind: cb_ind, label: @checkboxes_arr[cb_key][cb_ind] }
-                      - if !@checkboxes_arr[cb_key][cb_ind].nil?
-                        - @checkboxes_arr[cb_key][cb_ind] = nil
-                        - ind += 1 
-                        - cb_ind += 1
+                      = render partial: 'business/annual_reports/finding_fields', locals: { f: c, compliance_category: compliance_category.id, checkbox_index: @checkboxes_arr.keys.index(cb_key) }
                 .clearfix
               .col-sm-12.p-r-3.p-l-1.p-b-2
-                - @checkboxes_arr[cb_key].each do |cb|
-                  - if cb != nil
-                    .form-group.cof_bits.parent_node.padded-checkboxes style="margin-left: -35px;"
-                      span.checkbox.checkbox-lg
-                        - if @annual_report.cof_str[ind].to_i == 1
-                          input as="boolean" type="checkbox" name="annual_report[cof_bits][#{ind}]" id="annual_report_cof_bits_#{ind}" value="#{ind}" checked="true"
-                        - else
-                          input as="boolean" type="checkbox" name="annual_report[cof_bits][#{ind}]" id="annual_report_cof_bits_#{ind}" value="#{ind}"
-                        label for="annual_report_cof_bits_#{ind}"
-                          = cb
-                    - ind += 1
-                    - cb_ind += 1
                 .add.add_more = link_to_add_association f, :findings, partial: 'business/annual_reports/finding_fields', render_options: { locals: { compliance_category: compliance_category.id, checkbox_index: @checkboxes_arr.keys.index(cb_key) } } do
                   .icon-plus.onepxhidden
               .clearfix

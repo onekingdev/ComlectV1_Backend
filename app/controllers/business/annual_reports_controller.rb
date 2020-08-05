@@ -120,9 +120,9 @@ class Business::AnnualReportsController < ApplicationController
     findings_arr = []
     ComplianceCategory.all.each do |cc|
       cc.checkboxes_arr.keys.each do |cb_key|
-        cc.checkboxes_arr[cb_key].each do |_cb_ind|
-          findings_arr.push(compliance_category: cc.id, checkbox_index: cc.checkboxes_arr.keys.index(cb_key))
-        end
+        # cc.checkboxes_arr[cb_key].each do |_cb_ind|
+        findings_arr.push(compliance_category: cc.id, checkbox_index: cc.checkboxes_arr.keys.index(cb_key))
+        # end
       end
     end
 
