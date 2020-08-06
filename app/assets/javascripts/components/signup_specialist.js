@@ -229,8 +229,8 @@ if ((window.location.pathname == "/specialists/new") || ($("body").hasClass("spe
     for (var num of nums) {
       var cb = $(".specialist_step1 .choices input[value="+num+"]");
       var cb_txt = cb.parent().text();
-      if (cb_txt.indexOf("USA") > -1) { $(".specialist_jurisdiction_states_usa").parent(); }
-      if (cb_txt.indexOf("Canada") > -1) { $(".specialist_jurisdiction_states_canada").parent(); }
+      if (cb_txt.indexOf("USA") > -1) { $(".specialist_jurisdiction_states_usa").parent().show(); }
+      if (cb_txt.indexOf("Canada") > -1) { $(".specialist_jurisdiction_states_canada").parent().show(); }
 
       $(".specialist_step3 .choices .col-sm-4").each(function() {
         if (parseInt($(this).find("input[type=checkbox]").val().split("_")[0]) == num) {
