@@ -2,6 +2,7 @@
 
 class Specialists::PortedBusinessesController < ApplicationController
   before_action :require_specialist!
+  before_action :go_to_dashboard
 
   def index
     @active_subscription = current_specialist&.ported_subscriptions&.active&.first
@@ -87,5 +88,9 @@ class Specialists::PortedBusinessesController < ApplicationController
     else
       ENV['STRIPE_TCS_ANNUAL']
     end
+  end
+
+  def go_to_dashboard
+    redirect_to specialists_dashboard_path if employee?
   end
 end

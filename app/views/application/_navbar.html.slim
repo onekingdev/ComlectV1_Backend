@@ -101,7 +101,7 @@ nav#nav.navbar.navbar-default
         .active
       i.icon-grid
     .bottom_btns.p-b-2
-      - if current_user.specialist && !seat?
+      - if current_user.specialist && !seat? && !employee?
         = link_to specialists_ported_businesses_path do
           - if params[:controller] == "specialists/ported_businesses"
             .active
