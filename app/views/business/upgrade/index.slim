@@ -3,71 +3,68 @@
     ul.settings-nav
       li= link_to raw("Compliance Command<br>Center"), "#"
   .clearfix
+  .panel-settings-body.tasks-widget style="font-size: 13px;"
+    .col-xs-12 style="margin-top: 8px;"
+      .row.panel
+        h3 style="font-family: Canela; font-size: 22px;" Compliance Command Center
+        p Unlock features to help you manage your compliance program through a single, integrated dashboard. We make it easy to keep a constant 30,000 foot view on your compliance program, regardless of whether you are doing everything yourself or choose to delegate responsibilities.
 
-  .col-xs-12.panel-settings-body.tasks-widget style="font-size: 13px;"
-    .row.panel.p-x-1
-      h3 style="font-family: Canela" Compliance Command Center
-      p Unlock features to help you manage your compliance program through a single, integrated dashboard. We make it easy to keep a constant 30,000 foot view on your compliance program, regardless of whether you are doing everything yourself or choose to delegate responsibilities.
+        .col-xs-10.padded-checkboxes.specialists_ported_business_page style="padding-left: 60px;"
+          h3.p-t-2.p-b-1 style="font-family: Canela" $500 onboarding fee + $50/month or $500/year
+          p
+            label
+              input type="checkbox"
+            b White glove onboarding experience
+            br
+            | We conduct a high level gap analysis on all of our Compliance Command Center users in order to learn more about you and provide real assistance and customization when setting up your compliance program onto our system.
+            br
+          p
+            label
+              input type="checkbox"
+            b Compliance Calendar
+            br
+            | If your compliance calendar doesn’t reflect tasks from your policies and procedures, then it’s doing half of its job. We personally customize yours and make it possible for you to delegate tasks to internal resources or our specialists.
+            br/
+          p
+            label
+              input type="checkbox"
+            b Compliance Manual
+            br
+            | Track, update, and share your policies and procedure individually or collectively as a manual with relevant employees/departments. We keep a complete audit trail of changes and we flag policies that have not been updated in over a year.
+            br/
+          p
+            label
+              input type="checkbox"
+            b Annual Review
+            br
+            | Review your compliance program with our step by step guide and  generate a thorough report as documentation of the review at a click of a button.
+          p
+            label
+              input type="checkbox"
+            b Audit Prep
+            br
+            | Map, store, and easily access required books and records. Be prepared for a regulatory exam by not only knowing what the regulators will typically ask for, but mapping out where you keep it all or storing it on our platform. 2GB of free storage.
+          p
+            label
+              input type="checkbox"
+            b Assign Projects Internally or Outsource
+            br
+            | Whether you keep compliance completely in-house, outsource it, or implement a mixture of the two, we make it easy to create and manage all your work streams in one spot and it all feeds into the compliance calendar too.
+          p
+            label
+              input type="checkbox"
+            b Fully Customized Compliance Consulting Solutions
+            br
+            | Engage with a compliance consultant on your terms. For those who don’t want a cookie cutter package, we help you scope out and price outsourced solutions tailored to your needs, internal resources, and budget.
 
-      .col-xs-10.padded-checkboxes.specialists_ported_business_page style="padding-left: 60px;"
-        h3.p-y-2 style="font-family: Canela" $500 onboarding fee + $50/month or $500/year
-        p
-          label
-            input type="checkbox"
-          b White glove onboarding experience
-          br
-          | We conduct a high level gap analysis on all of our Compliance Command Center users in order to learn more about you and provide real assistance and customization when setting up your compliance program onto our system.
-          br
-          br
-        p
-          label
-            input type="checkbox"
-          b Compliance Calendar
-          br
-          | If your compliance calendar doesn’t reflect tasks from your policies and procedures, then it’s doing half of its job. We personally customize yours and make it possible for you to delegate tasks to internal resources or our specialists.
-          br/
-          br/
-        p
-          label
-            input type="checkbox"
-          b Compliance Manual
-          br
-          | Track, update, and share your policies and procedure individually or collectively as a manual with relevant employees/departments. We keep a complete audit trail of changes and we flag policies that have not been updated in over a year.
-          br/
-          br/
-        p
-          label
-            input type="checkbox"
-          b Annual Review
-          br
-          | Review your compliance program with our step by step guide and  generate a thorough report as documentation of the review at a click of a button.
-        p
-          label
-            input type="checkbox"
-          b Audit Prep
-          br
-          | Map, store, and easily access required books and records. Be prepared for a regulatory exam by not only knowing what the regulators will typically ask for, but mapping out where you keep it all or storing it on our platform. 2GB of free storage.
-        p
-          label
-            input type="checkbox"
-          b Assign Projects Internally or Outsource
-          br
-          | Whether you keep compliance completely in-house, outsource it, or implement a mixture of the two, we make it easy to create and manage all your work streams in one spot and it all feeds into the compliance calendar too.
-        p
-          label
-            input type="checkbox"
-          b Fully Customized Compliance Consulting Solutions
-          br
-          | Engage with a compliance consultant on your terms. For those who don’t want a cookie cutter package, we help you scope out and price outsourced solutions tailored to your needs, internal resources, and budget.
-
-          .text-center.m-t-3.p-t-3
-            - if @payment_source
-              = link_to "Purchase", "/business/upgrade/buy", class: "btn btn-primary", style: "width: 140px;", "data-target": "#modal", "data-toggle": "modal", "data-remote": true
-            - else
-              p
-                | no payment source. Check
-                = link_to ' Payments Settings', business_settings_payment_index_path
-              a.btn.disabled= 'Purchase'
+            .text-center.m-t-3.p-t-3
+              - if @payment_source
+                = link_to "Purchase", "/business/upgrade/buy", class: "btn btn-primary", style: "width: 140px;", "data-target": "#modal", "data-toggle": "modal", "data-remote": true
+              - else
+                p
+                  | no payment source. Check
+                  = link_to ' Payments Settings', business_settings_payment_index_path
+                a.btn.disabled= 'Purchase'
     .clearfix
 
 - else
