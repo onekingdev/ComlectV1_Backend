@@ -15,7 +15,7 @@
         = render partial: "business_dashboard/annual_budget"
       .col-md-5.p-x-0
         = render partial: "business_dashboard/compliance_spend"
-    - if specialist.managed_team && !seat?
+    - if specialist.managed_team && !seat? && !employee?
       .col-sm-4
         = render partial: 'employees', locals: { employees: specialist.managed_team.employees }
     /.tr
