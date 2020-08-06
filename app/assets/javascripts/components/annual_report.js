@@ -125,7 +125,9 @@ $(document).ready(function() {
   }
 
   $(".field_remover").on("click", function(e) {
-    $(this).parent().parent().parent().parent().parent().find('.icon-trash').trigger('click');
-    $(this).parent().parent().parent().parent().parent().find('textarea').val('');
+    var most_parent = $(this).parent().parent().parent().parent().parent();
+    most_parent.find('.icon-trash').trigger('click');
+    most_parent.find('textarea').val('');
+    most_parent.find('input[type=checkbox]').prop("checked", true);
   })
 })
