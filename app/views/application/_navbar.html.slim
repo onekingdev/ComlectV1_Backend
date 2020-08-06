@@ -70,7 +70,7 @@ nav#nav.navbar.navbar-default
       - if ["businesses", "specialists"].include?(params[:controller])
         .active
       i.icon-user
-    - if current_user.specialist && !current_user.specialist.seat?
+    - if current_user.specialist && !current_user.specialist.seat? && !employee?
       = link_to specialists_settings_team_path do
         - if params[:controller] == "specialists/teams"
           .active
