@@ -13,6 +13,14 @@ var patch_ccc = function() {
     }
   }
   $(".turnkey_purchase_form input").on('change', calculate_price);
+  $('.business-upgrade-ccc').on('ajax:success', function(e, data, status, xhr){
+    console.log(data.message);
+    window.location.href = '/business/settings/subscriptions';
+  }).on('ajax:error',function(e, xhr, status, error){
+    // show alert message
+    console.log('error message');
+    console.log(xhr.responseJSON.message);
+  });
 }
 
 $(document).ready(function() {
