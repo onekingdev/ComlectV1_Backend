@@ -38,6 +38,7 @@ class Business::Delete < Draper::Decorator
   def rfp_or_one_off_projects_ended_within_1_week?
     project = business.projects.one_off.or(business.projects.rfp).order(:ends_on).last
     return false unless project
+    return false if project.ends_on.nil?
     (project.ends_on + 1.week) > Time.zone.today
   end
 end
