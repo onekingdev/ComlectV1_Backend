@@ -16,7 +16,7 @@
         = f.input :account_holder_type, placeholder: "", \
           include_blank: t('simple_form.placeholders.payment_source_ach.account_holder_type'), \
           collection: [%w(Individual individual), %w(Company company)], \
-          input_html: { class: 'input-lg js-select' }
+          input_html: { class: 'input-lg js-select', style: 'padding: 0' }
 
     .alert.alert-danger class=('hidden' if f.object.errors.empty?) = f.object.errors.full_messages.join(', ')
 
