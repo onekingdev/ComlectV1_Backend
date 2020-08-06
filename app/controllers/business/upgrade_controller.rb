@@ -33,6 +33,10 @@ class Business::UpgradeController < ApplicationController
           stripe_subscription_id: sub.id,
           billing_period_ends: sub.created
         )
+        current_business.update(
+          onboarding_passed: true,
+          ria_dashboard: true
+        )
       end
 
       message = 'subscribed'
