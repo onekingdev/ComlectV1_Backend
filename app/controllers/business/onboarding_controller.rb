@@ -8,6 +8,7 @@ class Business::OnboardingController < ApplicationController
   before_action :render_index, only: :subscribe
 
   include SubscriptionHelper
+  include SubscriptionCommon
 
   def index
     return redirect_to business_dashboard_path if current_business.onboarding_passed
@@ -113,13 +114,6 @@ class Business::OnboardingController < ApplicationController
 
   def products?(keys = nil)
     I18n.t(:business_products).stringify_keys.key?(keys || current_business.business_stages)
-  end
-
-  def add_one_time_payment(db_subscription)
-    return if db_subscription&.stripe_invoice_item_id.present?
-
-    one_time_item = Subscription.create_invoice_item(current_business.payment_profile.stripe_customer)
-    db_subscription.update(stripe_invoice_item_id: one_time_item.id)
   end
 
   def render_index
