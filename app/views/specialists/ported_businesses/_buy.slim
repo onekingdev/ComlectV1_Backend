@@ -43,7 +43,7 @@
     .clearfix
     .pull-right
       / = link_to "Purchase", specialists_ported_businesses_path(bought: true), class: "btn btn-primary m-b-3", style: "width: 140px;"
-      input.btn.btn-primary.p-x-3.m-b-3#buy-turnkeys-btn(type='submit' value='Purchase' style="width: 140px")
+      input.btn.btn-primary.p-x-3.m-b-3#buy-turnkeys-btn(type='submit' value='Purchase' style="width: 140px" data-disable-with="submitting")
     .clearfix
     small style="font-size: 9px;"
       | *Note: This subscription product is an annual contract with the option to bill monthly or annually.

@@ -11,6 +11,14 @@ var patch_ported = function() {
     }
   }
   $(".turnkey_purchase_form input").on('change', calculate_price);
+  $('.turnkey_purchase_form').on('ajax:success', function(e, data, status, xhr){
+    console.log(data.message);
+    window.location.reload();
+  }).on('ajax:error',function(e, xhr, status, error){
+    // show alert message
+    console.log('error message');
+    console.log(xhr.responseJSON.message);
+  });
 }
 
 $(document).ready(function() {
