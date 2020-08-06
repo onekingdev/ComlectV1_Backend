@@ -1,4 +1,4 @@
-- if current_business.ria? && !current_business.ria_dashboard?
+- if current_business.ria? && !current_business.ria_dashboard? && !current_business.base_subscribed?
   .panel-default.settings
     ul.settings-nav
       li= link_to raw("Compliance Command<br>Center"), "#"
