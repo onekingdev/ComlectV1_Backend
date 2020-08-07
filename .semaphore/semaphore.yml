@@ -18,7 +18,7 @@ blocks:
             - docker-compose -f docker-compose-ci.yml run --rm ci bundle exec rake db:create
             - docker-compose -f docker-compose-ci.yml run --rm ci bundle exec rake db:migrate
             - docker-compose -f docker-compose-ci.yml run --rm ci bundle exec rubocop
-            - docker-compose -f docker-compose-ci.yml run --rm ci bundle exec rspec spec/models/project_spec.rb
+            - docker-compose -f docker-compose-ci.yml run --rm ci bundle exec rspec
             - ./.semaphore/docker-push-if-needed.sh
 
 promotions:
