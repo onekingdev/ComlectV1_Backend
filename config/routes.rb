@@ -177,6 +177,9 @@ Rails.application.routes.draw do
       # resources :teams, only: %i[new create show edit index update]
       resources :audit_requests, only: %i[index update create new edit show destroy]
     end
+    resource :help, only: :show do
+      resource :questions
+    end
     resource :settings, only: :show do
       resource :password
       resource :contact_information, only: %i[show update]

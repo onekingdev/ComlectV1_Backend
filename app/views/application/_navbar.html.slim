@@ -125,7 +125,12 @@ nav#nav.navbar.navbar-default
           - if params[:controller] == "business/financials"
             .active
           i.icon-credit-card
-      = link_to business_help_path do
-        - if params[:controller] == "business/helps"
-          .active
-        i.icon-question
+        = link_to business_help_path do
+          - if params[:controller] == "business/helps"
+            .active
+          i.icon-question
+      - if current_user.specialist
+        = link_to specialists_help_path do
+          - if params[:controller] == "specialist/helps"
+            .active
+          i.icon-question

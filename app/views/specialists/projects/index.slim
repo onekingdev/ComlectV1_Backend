@@ -28,7 +28,7 @@
         li.btn.btn-shadow= link_to '#projects-complete', data: { toggle: 'tab', "remote-load" => true, url: specialists_projects_path(filter: 'complete', cards: 'specialist_cards'), 'toggle-sync' => true } do
           span Completed
     hr.m-b-0.m-t-1
-    .panel-body.panel-content-wrapper style="min-height: 250px; max-height: 260px;"
+    .panel-body.panel-content-wrapper style="height: 260px;"
       .tab-content
         #projects-active.tab-pane.active
         #projects-pending.tab-pane
