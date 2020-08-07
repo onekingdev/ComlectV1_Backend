@@ -5,7 +5,7 @@ agent:
     type: e1-standard-2
     os_image: ubuntu1804
 blocks:
-  - name: 'Build images, run tests and linters'
+  - name: Build
     task:
       jobs:
         - name: docker-compose build
@@ -17,8 +17,9 @@ blocks:
             - 'docker-compose -f docker-compose-ci.yml run --rm ci bundle exec rake db:migrate'
             - docker-compose -f docker-compose-ci.yml run --rm ci bundle exec rubocop
             - docker-compose -f docker-compose-ci.yml run --rm ci bundle exec rspec spec/models/project_spec.rb
-            - docker-compose -f docker-compose-ci.yml down --remove-orphans
-  - name: Prepare Staging artifacts
+  - name: Push Staging Images
+    dependencies:
+      - Build
     run:
       when: branch = 'staging'
     task:
@@ -32,7 +33,9 @@ blocks:
             - docker tag complect_worker registry.heroku.com/semaphore-complect-staging/worker
             - docker push registry.heroku.com/semaphore-complect-staging/web
             - docker push registry.heroku.com/semaphore-complect-staging/worker
-  - name: Prepare Production artifacts
+  - name: Push Production Images
+    dependencies:
+      - Build
     run:
       when: branch = 'master'
     task:
