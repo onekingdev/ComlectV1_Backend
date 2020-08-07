@@ -22,6 +22,8 @@ blocks:
     run:
       when: branch = 'staging'
     task:
+      secrets:
+        - name: docker-hub
       jobs:
         - name: push docker images
           commands:
@@ -30,12 +32,12 @@ blocks:
             - docker tag complect_worker registry.heroku.com/semaphore-complect-staging/worker
             - docker push registry.heroku.com/semaphore-complect-staging/web
             - docker push registry.heroku.com/semaphore-complect-staging/worker
-      secrets:
-        - name: docker-hub
   - name: Prepare Production artifacts
     run:
       when: branch = 'master'
     task:
+      secrets:
+        - name: docker-hub
       jobs:
         - name: push docker images
           commands:
