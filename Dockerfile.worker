@@ -1,0 +1,19 @@
+FROM ruby:2.5.7
+
+WORKDIR /complect
+
+RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends \
+  postgresql-client \
+  build-essential \
+  nodejs \
+  libreoffice \
+  wkhtmltopdf
+
+RUN gem install bundler
+
+COPY Gemfile* ./
+RUN bundle install --without development test
+
+COPY . .
+
+CMD bundle exec sidekiq -C config/sidekiq.yml

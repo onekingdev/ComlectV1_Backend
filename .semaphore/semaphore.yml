@@ -5,32 +5,48 @@ agent:
     type: e1-standard-2
     os_image: ubuntu1804
 blocks:
-  - name: Build
+  - name: Build images, run tests and linters
     task:
-      secrets:
-        - name: docker-hub
-      env_vars:
-        - name: HEROKU_APP
-          value: semaphore-complect-staging
-        - name: RACK_ENV
-          value: production
-        - name: RAILS_ENV
-          value: production
       jobs:
-        - name: docker build
+        - name: docker-compose build
           commands:
             - checkout
-            - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
-            - docker-compose build
-            - docker tag complect_web:latest "$DOCKER_USERNAME"/docker-hub:latest
-            - docker tag complect_web:latest "$DOCKER_USERNAME"/docker-hub:$SEMAPHORE_WORKFLOW_ID
-            - docker push "$DOCKER_USERNAME"/docker-hub:latest
-            - docker push "$DOCKER_USERNAME"/docker-hub:$SEMAPHORE_WORKFLOW_ID
-            - docker images
+            - docker-compose -f docker-compose-ci.yml build
+            - docker-compose -f docker-compose-ci.yml up -d postgres redis && sleep 3
+            - docker-compose -f docker-compose-ci.yml run --rm ci bundle exec rake db:create
+            - docker-compose -f docker-compose-ci.yml run --rm ci bundle exec rake db:migrate
+            - docker-compose -f docker-compose-ci.yml run --rm ci bundle exec rubocop
+            - docker-compose -f docker-compose-ci.yml run --rm ci bundle exec rspec spec/models/project_spec.rb
+            - docker-compose -f docker-compose-ci.yml down --remove-orphans
+  - name: Prepare Staging artifacts
+    run:
+      when: "branch = 'staging'"
+    task:
+      jobs:
+        - name: push docker images
+          commands:
+            - heroku container:login
+            - docker tag complect_web registry.heroku.com/semaphore-complect-staging/web
+            - docker tag complect_worker registry.heroku.com/semaphore-complect-staging/worker
+            - docker push registry.heroku.com/semaphore-complect-staging/web
+            - docker push registry.heroku.com/semaphore-complect-staging/worker
+  - name: Prepare Production artifacts
+    run:
+      when: "branch = 'master'"
+    task:
+      jobs:
+        - name: push docker images
+          commands:
+            - heroku container:login
+            - docker tag complect_web registry.heroku.com/docker-production/web
+            - docker tag complect_worker registry.heroku.com/docker-production/worker
+            - docker push registry.heroku.com/docker-production/web
+            - docker push registry.heroku.com/docker-production/worker
+
 promotions:
   - name: Staging deploy
     pipeline_file: staging-deploy.yml
-#    auto_promote:
-#      when: "result = 'passed' and branch = 'staging'"
+    auto_promote:
+      when: "result = 'passed' and branch = 'staging'"
   - name: Production deploy
     pipeline_file: production-deploy.yml

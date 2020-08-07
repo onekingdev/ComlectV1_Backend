@@ -15,15 +15,6 @@ gem 'd3-rails', '~> 3.5.17'
 # conversion fun
 gem 'imgkit'
 
-# Capistrano deploy
-group :development do
-  gem 'capistrano', '~> 3.10', require: false
-  gem 'capistrano-rails', '~> 1.4', require: false
-  gem 'capistrano-sidekiq'
-  gem 'capistrano3-unicorn'
-  gem 'rvm1-capistrano3', require: false
-end
-
 # concurrent server
 gem 'unicorn'
 
