@@ -14,4 +14,10 @@ RUN gem install bundler
 COPY Gemfile* ./
 RUN bundle install
 
+RUN curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.13.0 && \
+  ln -sf $HOME/.yarn/bin/yarn /usr/local/bin/yarn && \
+  ln -sf $HOME/.yarn/bin/yarnpkg /usr/local/bin/yarnpkg
+
 COPY . .
+
+RUN bundle exec rake assets:precompile
