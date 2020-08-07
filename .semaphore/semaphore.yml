@@ -7,6 +7,8 @@ agent:
 blocks:
   - name: Build
     task:
+      secrets:
+        - name: docker-hub
       jobs:
         - name: docker-compose build
           commands:
