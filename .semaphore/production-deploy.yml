@@ -17,9 +17,9 @@ blocks:
         - name: RAILS_ENV
           value: production
       jobs:
-        - name: 'Deploy PROD'
+        - name: Deploy PROD
           commands:
             - checkout
-            - heroku container:login
-            - heroku container:release web worker --app $HEROKU_APP
-            - heroku run --exit-code -- bundle exec rake db:migrate
+            - 'heroku container:login'
+            - 'heroku container:release web worker --app $HEROKU_APP'
+            - 'heroku run --exit-code -- bundle exec rake db:migrate'

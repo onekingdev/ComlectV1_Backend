@@ -5,7 +5,7 @@ agent:
     type: e1-standard-2
     os_image: ubuntu1804
 blocks:
-  - name: Build images, run tests and linters
+  - name: 'Build images, run tests and linters'
     task:
       jobs:
         - name: docker-compose build
@@ -13,40 +13,41 @@ blocks:
             - checkout
             - docker-compose -f docker-compose-ci.yml build
             - docker-compose -f docker-compose-ci.yml up -d postgres redis && sleep 3
-            - docker-compose -f docker-compose-ci.yml run --rm ci bundle exec rake db:create
-            - docker-compose -f docker-compose-ci.yml run --rm ci bundle exec rake db:migrate
+            - 'docker-compose -f docker-compose-ci.yml run --rm ci bundle exec rake db:create'
+            - 'docker-compose -f docker-compose-ci.yml run --rm ci bundle exec rake db:migrate'
             - docker-compose -f docker-compose-ci.yml run --rm ci bundle exec rubocop
             - docker-compose -f docker-compose-ci.yml run --rm ci bundle exec rspec spec/models/project_spec.rb
             - docker-compose -f docker-compose-ci.yml down --remove-orphans
   - name: Prepare Staging artifacts
     run:
-      when: "branch = 'staging'"
+      when: branch = 'staging'
     task:
       jobs:
         - name: push docker images
           commands:
-            - heroku container:login
+            - 'heroku container:login'
             - docker tag complect_web registry.heroku.com/semaphore-complect-staging/web
             - docker tag complect_worker registry.heroku.com/semaphore-complect-staging/worker
             - docker push registry.heroku.com/semaphore-complect-staging/web
             - docker push registry.heroku.com/semaphore-complect-staging/worker
+      secrets:
+        - name: docker-hub
   - name: Prepare Production artifacts
     run:
-      when: "branch = 'master'"
+      when: branch = 'master'
     task:
       jobs:
         - name: push docker images
           commands:
-            - heroku container:login
+            - 'heroku container:login'
             - docker tag complect_web registry.heroku.com/docker-production/web
             - docker tag complect_worker registry.heroku.com/docker-production/worker
             - docker push registry.heroku.com/docker-production/web
             - docker push registry.heroku.com/docker-production/worker
-
 promotions:
   - name: Staging deploy
     pipeline_file: staging-deploy.yml
     auto_promote:
-      when: "result = 'passed' and branch = 'staging'"
+      when: result = 'passed' and branch = 'staging'
   - name: Production deploy
     pipeline_file: production-deploy.yml
