@@ -11,7 +11,7 @@ blocks:
         - name: docker-hub
       env_vars:
         - name: HEROKU_APP
-          value: docker-production
+          value: complect-docker-production
         - name: RACK_ENV
           value: production
         - name: RAILS_ENV
