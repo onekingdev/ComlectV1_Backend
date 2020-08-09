@@ -25,5 +25,5 @@ Using PostgreSQL via a `DATABASE_URL` environment variable.
 Using bower at `vendor/assets/components`.
 
 ### Docker on Heroku
-* `heroku container:push --recursive -a <Heroku App ID>`
+* `heroku container:push web worker -a <Heroku App ID>`
 * `heroku container:release web worker -a <Heroku App ID>`
