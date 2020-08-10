@@ -9,14 +9,42 @@ nav#nav.navbar.navbar-default
 
     a.navbar-brand href="https://www.complect.com/" target="_blank"
       = yield(:logo).presence || image_tag('logo.png', height: '48px')
+    - if !current_user
+      .nav-dropdown
+        button.nav-dropbtn Products
+        .nav-dropdown-content style="width: 850px;"
+          .col style="width: 280px;"
+            h3 Mission
+            = link_to "About Us", "https://www.complect.com/about-us", target: "_blank"
+            p Built by compliance for compliance
+          .col style="width: 300px;"
+            h3 Products
+            = link_to "Compliance Command Center", "https://www.complect.com/#comp-kdok9b3r", target: "_blank"
+            p One tool to rule them all
+            = link_to "Marketplace", "https://www.complect.com/#comp-kdok9xtp", target: "_blank"
+            p Compliance specialists on demand
+            = link_to "Turnkey Consulting Suite", "https://www.complect.com/#comp-kdokb3hw", target: "_blank"
+            p 360 support for solo specialists and boutique firms
+          .col style="width: 200px;"
+            h3 Support
+            = link_to "FAQs", "https://www.complect.com/faqs", target: "_blank"
+            = link_to "Demo", "https://calendly.com/complect", target: "_blank"
+      .nav-dropdown
+        button.nav-dropbtn Resources
+        .nav-dropdown-content style="width: 690px;"
+          .col style="width: 250px;"
+            h3 Insights
+            = link_to "The Guide", "https://www.complect.com/blog", target: "_blank"
+            p Our blog on all things financial regulatory compliance
+          .col style="width: 260px;"
+            h3 Events
+            = link_to "Compliance Connect 2021", "https://www.complect.com/compliance-connect-2021", target: "_blank"
+            p Learn how to optimize your business, compliantly
+          .col style="width: 130px;"
+            h3 Security
+            = link_to "Security", "https://www.complect.com/security", target: "_blank"
+      = link_to "Pricing", "https://www.complect.com/pricing", target: "_blank", class: "nav-dropbtn"
   #navbar-collapse.collapse.navbar-collapse
-    ul.nav.navbar-nav.nav-about
-      - if !user_signed_in_onboarding?
-        li= link_to 'Our Talent', "https://www.complect.com/#our-talent"
-        li= link_to 'Types Of Services', "https://www.complect.com/#types-of-service"
-        li= link_to 'How It Works', "https://www.complect.com/#how-it-works"
-        /button.qna_navbar.btn.btn-primary data-href=forum_questions_path Q&A Forum
-
     ul.nav.navbar-nav.navbar-right
       - if user_signed_in_onboarding? && current_business
         li

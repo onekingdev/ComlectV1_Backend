@@ -45,7 +45,7 @@ en:
       action_label: Sign up
     got_employee_invitation:
       subject: You've been invited to join a team on Complect
-      message_mail: "%{manager_full_name} has requested you join the %{team_name} team on Complect. To create your profile and have it linked with this team, please sign up directly via the link below."
+      message_mail: "%{manager_full_name} has requested you join their consulting team on Complect. To create your profile and have it linked with this team, please sign up directly via the link below."
       action_label: Sign up
     got_hired_project:
       subject: You've been Selected for a Project!

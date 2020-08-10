@@ -13,7 +13,7 @@
       - @ratings.map().each do |rating|
         tr
           td
-            .p-l-2 = rating.project.title
+            .p-l-2 = rating.project.title if rating.project
           td = render_stars rating.value
           td = rating.created_at.strftime '%b %-d, %Y'
   .clearfix
