@@ -142,16 +142,18 @@ ActiveAdmin.register Specialist do
     column :updated_at
   end
 
-  permit_params :first_name, :last_name, :city, :zipcode, :state, :country, :phone, :linkedin_link, :visibility, :years_of_experience,
+  permit_params :resume, :resume_data, :first_name, :last_name, :city, :zipcode, :state, :country, :phone, :linkedin_link,
+                :visibility, :years_of_experience,
                 :former_regulator, :certifications, :dashboard_unlocked, :call_booked, :min_hourly_rate,
                 work_experiences_attributes: %i[id _destroy company job_title location from to current compliance description],
                 education_histories_attributes: %i[institution degree year],
                 jurisdiction_ids: [], industry_ids: [], skill_ids: []
 
-  form do |f|
+  form html: { enctype: 'multipart/form-data' } do |f|
     f.inputs name: 'Contact Information' do
       f.input :first_name
       f.input :last_name
+      f.input :resume, as: :file, label: 'Resume'
       f.input :years_of_experience
       f.input :dashboard_unlocked
       f.input :call_booked
