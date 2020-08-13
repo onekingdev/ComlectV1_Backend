@@ -1,6 +1,6 @@
 .reminder_task
   - if reminder.class.name == "Project"
-    - pth = current_specialist ? specialists_project_path(reminder) : business_project_dashboard_path(reminder)
+    - pth = current_specialist ? project_path(reminder) : business_project_dashboard_path(reminder)
     .padded-checkboxes.reactive_reminders
       = check_box_tag("reminder_p_#{reminder.id}", 1, true, disabled: true)
       label for=("reminder_p_#{reminder.id}") class="css-label" 
