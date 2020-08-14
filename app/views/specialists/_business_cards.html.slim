@@ -26,7 +26,7 @@
               span Hire
             div style="position: absolute; transform: scale(0.4); margin-left: -124px; margin-top: -22px;"
               = specialist.render_stars
-      - specialists.map(&method(:decorate)).each do |specialist| # REPEAT BELOW IS ONLY FOR QUICK DEMO, DELETE IN PRODUCTION
+      /- specialists.map(&method(:decorate)).each do |specialist| # REPEAT BELOW IS ONLY FOR QUICK DEMO, DELETE IN PRODUCTION
         tr
           td.text-center style="width: 1px;" = image_tag "icon-business.png", style: "border-radius: 50%; width: 30px; height: 30px;"
             .avatar
