@@ -19,5 +19,5 @@ tr
   td= sub.status
   td style="font-size: 18px;"
     - if sub.active?
-      = link_to cancel_subscription_path(sub), method: "delete", "data-confirm": "<div class='bootbox-heading'>Delete Subscription<hr></div>Please confirm you wish to cancel your subscription.<br>This subscription will be removed at the end of your<br>billing cycle on Jun 28, 2022", "data-confirm-label": "Confirm", "data-no-cancel": true do
+      = link_to cancel_subscription_path(sub), method: "delete", "data-confirm": "<div class='bootbox-heading'>Delete Subscription<hr></div>Please confirm you wish to cancel your subscription.<br>This subscription will be removed at the end of your<br>billing cycle on #{Time.at(sub&.billing_period_ends || 0)&.strftime('%b %e, %Y')}", "data-confirm-label": "Confirm", "data-no-cancel": true do
         i.icon-trash
