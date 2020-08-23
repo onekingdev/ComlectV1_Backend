@@ -15,5 +15,5 @@ tr
   td style="font-size: 18px;"
     - if current_business.subscription? > 0 && !current_business.forum_subscription.cancelled
       / = link_to 'Cancel', forum_subscriptions_cancel_path, class: 'btn btn-primary'
-      = link_to forum_subscriptions_cancel_path, method: "get", "data-confirm": "<div class='bootbox-heading'>Delete Subscription<hr></div>Please confirm you wish to cancel your subscription.<br>This subscription will be removed at the end of your<br>billing cycle on #{sub&.renewal_date&.strftime('%b %e, %Y')}", "data-confirm-label": "Confirm", "data-no-cancel": true do
+      = link_to forum_subscriptions_cancel_path, method: "get", "data-confirm": "<div class='bootbox-heading'>Delete Subscription<hr></div>Please confirm you wish to cancel your subscription.<br>This subscription will be removed at the end of your<br>billing cycle on #{((sub&.renewal_date || sub.created_at) + 1.year)&.strftime('%b %e, %Y')}", "data-confirm-label": "Confirm", "data-no-cancel": true do
         i.icon-trash
