@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 12.2
--- Dumped by pg_dump version 12.2
+-- Dumped from database version 10.13 (Ubuntu 10.13-1.pgdg18.04+1)
+-- Dumped by pg_dump version 10.13 (Ubuntu 10.13-1.pgdg18.04+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -15,6 +15,20 @@ SET check_function_bodies = false;
 SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
 
 --
 -- Name: postgis; Type: EXTENSION; Schema: -; Owner: -
@@ -68,7 +82,7 @@ CREATE FUNCTION public.set_point_from_lat_lng() RETURNS trigger
 
 SET default_tablespace = '';
 
-SET default_table_access_method = heap;
+SET default_with_oids = false;
 
 --
 -- Name: admin_users; Type: TABLE; Schema: public; Owner: -
@@ -328,42 +342,6 @@ CREATE SEQUENCE public.audit_comments_id_seq
 --
 
 ALTER SEQUENCE public.audit_comments_id_seq OWNED BY public.audit_comments.id;
-
-
---
--- Name: audit_docs; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.audit_docs (
-    id integer NOT NULL,
-    pdf_data jsonb,
-    file_data jsonb,
-    audit_request_id integer,
-    business_id integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    processed boolean DEFAULT false
-);
-
-
---
--- Name: audit_docs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.audit_docs_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: audit_docs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.audit_docs_id_seq OWNED BY public.audit_docs.id;
 
 
 --
@@ -676,7 +654,8 @@ CREATE TABLE public.compliance_policies (
     section character varying,
     last_uploaded timestamp without time zone,
     pdf_data jsonb,
-    docs_count integer DEFAULT 0
+    docs_count integer DEFAULT 0,
+    "position" integer
 );
 
 
@@ -4032,8 +4011,7 @@ CREATE TABLE public.reminders (
     updated_at timestamp without time zone NOT NULL,
     done_at timestamp without time zone,
     end_date date,
-    remindable_type character varying,
-    business_id integer
+    remindable_type character varying
 );
 
 
@@ -4894,13 +4872,6 @@ ALTER TABLE ONLY public.audit_comments ALTER COLUMN id SET DEFAULT nextval('publ
 
 
 --
--- Name: audit_docs id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.audit_docs ALTER COLUMN id SET DEFAULT nextval('public.audit_docs_id_seq'::regclass);
-
-
---
 -- Name: audit_requests id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -5409,14 +5380,6 @@ ALTER TABLE ONLY public.articles
 
 ALTER TABLE ONLY public.audit_comments
     ADD CONSTRAINT audit_comments_pkey PRIMARY KEY (id);
-
-
---
--- Name: audit_docs audit_docs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.audit_docs
-    ADD CONSTRAINT audit_docs_pkey PRIMARY KEY (id);
 
 
 --
@@ -6944,28 +6907,28 @@ CREATE UNIQUE INDEX unique_schema_migrations ON public.schema_migrations USING b
 -- Name: projects calculate_budget; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER calculate_budget BEFORE INSERT OR UPDATE ON public.projects FOR EACH ROW EXECUTE FUNCTION public.projects_calculate_budget();
+CREATE TRIGGER calculate_budget BEFORE INSERT OR UPDATE ON public.projects FOR EACH ROW EXECUTE PROCEDURE public.projects_calculate_budget();
 
 
 --
 -- Name: projects trigger_projects_on_lat_lng; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER trigger_projects_on_lat_lng BEFORE INSERT OR UPDATE OF lat, lng ON public.projects FOR EACH ROW EXECUTE FUNCTION public.set_point_from_lat_lng();
+CREATE TRIGGER trigger_projects_on_lat_lng BEFORE INSERT OR UPDATE OF lat, lng ON public.projects FOR EACH ROW EXECUTE PROCEDURE public.set_point_from_lat_lng();
 
 
 --
 -- Name: specialists trigger_specialists_on_lat_lng; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER trigger_specialists_on_lat_lng BEFORE INSERT OR UPDATE OF lat, lng ON public.specialists FOR EACH ROW EXECUTE FUNCTION public.set_point_from_lat_lng();
+CREATE TRIGGER trigger_specialists_on_lat_lng BEFORE INSERT OR UPDATE OF lat, lng ON public.specialists FOR EACH ROW EXECUTE PROCEDURE public.set_point_from_lat_lng();
 
 
 --
 -- Name: projects tsvectorupdate; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER tsvectorupdate BEFORE INSERT OR UPDATE ON public.projects FOR EACH ROW EXECUTE FUNCTION tsvector_update_trigger('tsv', 'pg_catalog.english', 'title', 'description');
+CREATE TRIGGER tsvectorupdate BEFORE INSERT OR UPDATE ON public.projects FOR EACH ROW EXECUTE PROCEDURE tsvector_update_trigger('tsv', 'pg_catalog.english', 'title', 'description');
 
 
 --
@@ -7508,10 +7471,6 @@ INSERT INTO schema_migrations (version) VALUES ('20200118201501');
 
 INSERT INTO schema_migrations (version) VALUES ('20200119192255');
 
-INSERT INTO schema_migrations (version) VALUES ('20200120025054');
-
-INSERT INTO schema_migrations (version) VALUES ('20200120122015');
-
 INSERT INTO schema_migrations (version) VALUES ('20200131171456');
 
 INSERT INTO schema_migrations (version) VALUES ('20200221232045');
@@ -7625,4 +7584,6 @@ INSERT INTO schema_migrations (version) VALUES ('20200722233313');
 INSERT INTO schema_migrations (version) VALUES ('20200723011130');
 
 INSERT INTO schema_migrations (version) VALUES ('20200723030449');
+
+INSERT INTO schema_migrations (version) VALUES ('20200828043028');
 
