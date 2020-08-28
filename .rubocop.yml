@@ -154,3 +154,6 @@ Rails/ReversibleMigration:
 
 Rails/SkipsModelValidations:
   Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
