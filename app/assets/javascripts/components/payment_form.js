@@ -108,10 +108,6 @@ var patch_payment_form = function() {
     $('.payment_form').show();
     isLoading(false);
 
-    $('#coupon-apply').on('click', function(e) {
-      
-      });
-
     $('.plaid-link').on('click', function(e) {
       e.preventDefault();
 
