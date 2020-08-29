@@ -4,11 +4,8 @@ var patch_payment_form = function() {
     let elements = stripe.elements();
     let card = elements.create('card');
     let displayError = $('#card-errors');
-    let displayCouponError = $('#card-errors');
     let form = $('#payment_method_form');
     let submitButton = $('#submit-ongoing');
-    let valid_coupon = false;
-    let cardToken = '';
 
     isLoading(true);
 
