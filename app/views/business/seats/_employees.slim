@@ -7,7 +7,7 @@
         i.icon-settings.employee-settings.m-l-1 data-toggle="dropdown"
         ul.dropdown-menu.employee-dropdown style="left: -170px;"
           li = link_to "Add Employee", new_business_team_member_path, "data-target": "#modal", "data-toggle": "modal", "data-remote": true
-          li = link_to "Download Employees", "#"
+          li = link_to "Download Employees", business_seats_path(format: 'csv')
 
     .clearfix
   hr.m-b-0.m-t-1

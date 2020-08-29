@@ -98,6 +98,17 @@ class Business::CompliancePoliciesController < ApplicationController
     end
   end
 
+  def sort
+    params[:compliance_policy].each_with_index do |id, index|
+      CompliancePolicy.where(id: id).update_all(position: index + 1)
+    end
+    PdfCompliancePolicyWorker.perform_async(current_business.compliance_policies.first.compliance_policy_docs.order(:id).first.id)
+    @preview_doc = current_business.compliance_policies.first
+    respond_to do |format|
+      format.js
+    end
+  end
+
   private
 
   def set_cpolicy

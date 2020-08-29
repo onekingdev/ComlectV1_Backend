@@ -1,5 +1,7 @@
 #= require jquery
 #= require jquery_ujs
+#= require jquery-ui/widget
+#= require jquery-ui/sortable
 #= require jquery.slick
 #= require jquery.mousewheel
 #= require cocoon

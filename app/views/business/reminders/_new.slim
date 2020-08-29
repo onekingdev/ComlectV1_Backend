@@ -29,7 +29,7 @@
     = f.input :body
   .col-md-6.p-l-0
     = f.input :remind_at, required: true, as: :string, input_html: { \
-      class: 'input-lg js-datepicker', \
+      class: 'input-lg js-datepicker date', \
       data: { \
         value: (l(f.object.remind_at, format: :pickadate) if f.object.remind_at) \
       } \
@@ -37,16 +37,66 @@
 
   .col-md-6.p-r-0
     = f.input :end_date, required: true, as: :string, input_html: { \
-      class: 'input-lg js-datepicker', \
-      data: { \
-        value: (l(f.object.end_date, format: :pickadate) if f.object.end_date) \
-      } \
+      class: 'input-lg js-datepicker date', \
+      data: {\
+        min: [2020,6,23], \
+        'date-to' => true, \
+        value: (l(f.object.end_date, format: :pickadate) if f.object.end_date.present?) \
+                    } \
     }
   .col-md-12.text-center
-    = f.submit "Add Task", class: "btn btn-primary p-x-3 m-t-1 m-b-1"
+    = f.submit f.object.new_record? ? "Add Task" : "Edit Task", class: "btn btn-primary p-x-3 m-t-1 m-b-1"
+    - unless f.object.new_record?
+      = link_to 'Delete', business_reminder_path(f.object), class: "btn btn-primary p-x-3 m-t-1 m-b-1 m-l-2",
+              remote: false,
+              method: :delete,
+              title: 'Confirm Deletion',
+              data: {confirm: "<div class='bootbox-heading'>Delete Task<hr></div><div class='p-x-3'>Are you sure you want to delete this task?</div>", confirm_label: 'Confirm', no_cancel: true}
   .clearfix
 javascript:
   var reactive_reminders = true;
-  if (typeof(attach_js_datepicker) != "undefined") {
-    attach_js_datepicker($(".modal-body"));
+  // if (typeof (attach_js_datepicker) != "undefined") {
+  //     attach_js_datepicker($(".modal-body"));
+  // }
+  var from_$input = $('#reminder_remind_at').pickadate({
+          format: $(this).data('format') || 'mmmm d, yyyy',
+          formatSubmit: 'yyyy-mm-dd',
+          hiddenName: true,
+      }),
+      from_picker = from_$input.pickadate('picker')
+
+  var to_$input = $('#reminder_end_date').pickadate({
+          format: $(this).data('format') || 'mmmm d, yyyy',
+          formatSubmit: 'yyyy-mm-dd',
+          hiddenName: true,
+      }),
+      to_picker = to_$input.pickadate('picker')
+
+
+  // Check if there’s a “from” or “to” date to start with.
+  if (from_picker.get('value')) {
+      to_picker.set('min', from_picker.get('select'))
+
   }
+  if (to_picker.get('value')) {
+      from_picker.set('max', to_picker.get('select'))
+  }
+  // When something is selected, update the “from” and “to” limits.
+  from_picker.on('set', function (event) {
+
+      if (event.select) {
+          to_picker.set('min', from_picker.get('select'))
+      } else if ('clear' in event) {
+          to_picker.set('min', false)
+      }
+
+  })
+
+  to_picker.on('set', function (event) {
+      if (event.select) {
+          from_picker.set('max', to_picker.get('select'))
+      } else if ('clear' in event) {
+          from_picker.set('max', false)
+      }
+  })
+

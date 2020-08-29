@@ -33,7 +33,7 @@ class Business < ApplicationRecord
   has_many :outdated_compliance_policies, -> { where('last_uploaded < ?', Time.zone.today - 1.year) }, class_name: 'CompliancePolicy'
   has_many :uptodate_compliance_policies, -> { where('last_uploaded >= ?', Time.zone.today - 1.year) }, class_name: 'CompliancePolicy'
   has_many :missing_compliance_policies, -> { where(docs_count: 0) }, class_name: 'CompliancePolicy'
-  has_many :sorted_compliance_policies, -> { order(:created_at) }, class_name: 'CompliancePolicy'
+  has_many :sorted_compliance_policies, -> { order(:position) }, class_name: 'CompliancePolicy'
   has_many :seats
   has_many :subscriptions
   has_many :file_folders
