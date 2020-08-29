@@ -94,11 +94,7 @@ Rails.application.routes.draw do
       post :assign
     end
     post '/seats/buy' => 'seats#buy'
-    resources :compliance_policies, only: %i[new update create edit show destroy index] do
-      collection do
-        put :sort
-      end
-    end
+    resources :compliance_policies, only: %i[new update create edit show destroy index]
     resources :annual_reviews, only: %i[new create show destroy index edit update]
     resources :annual_reports, only: %i[new create index update]
     resources :teams, only: %i[new create show edit index update destroy]
@@ -117,6 +113,9 @@ Rails.application.routes.draw do
       resource :delete_account
       resources :payment_settings, as: :payment, path: 'payment' do
         patch :make_primary
+        collection do
+          post :apply_coupon
+        end
       end
       resources :notification_settings, as: :notifications, path: 'notifications', only: %i[index update]
       resources :subscription_settings, as: :subscriptions, path: 'subscriptions', only: %i[index update]

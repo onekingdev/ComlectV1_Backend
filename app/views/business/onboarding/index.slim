@@ -83,6 +83,12 @@
               .clearfix
     .clearfix.m-b-3
     .product_or_subscription.col-md-6.col-md-push-3
+      .pos_header.p-x-2.p-y-1 Add Coupon
+      .pos_body.p-x-2.p-y-1
+        .form-group
+        input.form-control#coupon-input type="text" placeholder="Enter Coupon"
+    
+      .m-b-3
       .pos_header.p-x-2.p-y-1 Payment Details
       .pos_body.p-x-2.p-y-1
         = render partial: "business/onboarding/payment_form"
