@@ -22,9 +22,7 @@ class Business::PaymentSettingsController < ApplicationController
 
   def create
     @payment_source = payment_source_type.plaid_or_manual current_business, stripe_params
-    puts "PARAMS:::::::::::::::::::::::::::::::::::::::::::::::::::: ", params[:coupon_id]
     @payment_source.update(coupon_id: params[:coupon_id])
-    puts "Payment Source Attributre:::::::::::::::::::::::::::::::::::::::::::::::::::: ", @payment_source.coupon_id
     respond_to do |format|
       format.html do
         alert = @payment_source.errors[:base].any? ? @payment_source.errors[:base].to_sentence : nil
