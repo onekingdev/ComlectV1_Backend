@@ -1,4 +1,4 @@
-var patch_profile_edit = function(logo_input, target_form, user_type, ) {
+var patch_profile_edit = function(logo_input, target_form, user_type) {
   logo_input.on("change", function() {
     target_form.submit();
   });

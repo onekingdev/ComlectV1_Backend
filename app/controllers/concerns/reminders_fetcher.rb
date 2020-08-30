@@ -61,7 +61,7 @@ module RemindersFetcher
           safe_arr[i] = FakeTask.new(0) if a.nil?
         end
         @calendar_grid[date] = safe_arr
-        prev_day = if prev_day.wday == 5
+        prev_day = if prev_day.wday == 6
                      nil
                    else
                      date
