@@ -9,10 +9,8 @@ class Business::CompliancePoliciesController < ApplicationController
     @preview_doc = @business.compliance_policies.first
     respond_to do |format|
       format.json do
-        if @preview_doc.blank?
+        if @preview_doc.blank? || @preview_doc.pdf_data.nil?
           render json: { "preview": business_compliance_policies_path(format: :pdf) }
-        elsif @preview_doc.pdf_data.nil?
-          render json: { "preview": false }
         else
           preview_out = @preview_doc.pdf ? @preview_doc.pdf_url : false
           # rubocop:disable Metrics/LineLength
@@ -97,17 +95,6 @@ class Business::CompliancePoliciesController < ApplicationController
       end
     else
       redirect_to '/business'
-    end
-  end
-
-  def sort
-    params[:compliance_policy].each_with_index do |id, index|
-      current_business.compliance_policies.where(id: id).update_all(position: index + 1)
-    end
-    PdfCompliancePolicyWorker.perform_async(current_business.compliance_policies.first.compliance_policy_docs.order(:id).first.id)
-    @preview_doc = current_business.compliance_policies.first
-    respond_to do |format|
-      format.js
     end
   end
 

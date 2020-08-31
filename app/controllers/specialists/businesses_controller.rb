@@ -22,6 +22,6 @@ class Specialists::BusinessesController < ApplicationController
   private
 
   def beginning_of_week
-    Date.beginning_of_week = :monday
+    Date.beginning_of_week = :sunday
   end
 end
