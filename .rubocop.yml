@@ -154,3 +154,4 @@ Rails/ReversibleMigration:
 
 Rails/SkipsModelValidations:
   Enabled: false
+

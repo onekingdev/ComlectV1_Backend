@@ -28,32 +28,24 @@ h1.m-b-2 style="font-family: 'Canela'; font-size: 30px; font-weight: 400;"
             th Policy
             th
             th style="width: 1px;" &nbsp;
-        tbody
+        tbody.compliance_list data-url=sort_business_compliance_policies_path
           - @business.sorted_compliance_policies.each do |section|
-            tr
+            tr id=dom_id(section)
               td
                 - if section.outdated?
-                  .outdated_policy 
+                  .outdated_policy
                 = link_to section.section_or_title, (current_specialist ? specialists_business_compliance_policy_path(@business.username, section) : business_compliance_policy_path(section)), target: "_blank"
               td = link_to (current_specialist ? edit_specialists_business_compliance_policy_path(@business.username, section) : edit_business_compliance_policy_path(section)), "data-target": "#modal", "data-remote": true, "data-toggle": "modal" do
                 i.icon-note style="font-size: 18px;"
               td
                 = link_to (current_specialist ? specialists_business_compliance_policy_path(@business.username, section) : business_compliance_policy_path(section)), method: :delete, data: { confirm: "<div class='bootbox-heading'>Delete Policy<hr></div>Warning! This change is permanent. Deleting<br>this policy will also delete all records of this<br>policy and its version history as well.", 'confirm-label' => 'Confirm', no_cancel: true } do
                   i.icon-trash style="font-size: 18px;"
-.col-md-6.pdf_preview_area.p-x-0
-  - if @preview_doc.present? && @preview_doc.pdf
-    iframe.pdf_preview_fullheight src=(pdfjs.minimal_path(file: @preview_doc.pdf_url.split('?')[0])) width="100%"
-  - else
-    .text-center.p-y-3 = image_tag "loading.gif", size: "50x50"
-    javascript:
-      var compliance_policy_render_id = "";
-      var compliance_policy_baseurl = "/business/compliance_policies"
-    - if current_specialist
-      javascript:
-        var compliance_policy_baseurl = "/specialist/businesses/#{@business.username}/compliance_policies";
+.view_pdf
+  = render 'pdf_preview'
 
 .clearfix
 
 - pth = current_specialist ? new_specialists_business_compliance_policy_path(@business.username) : new_business_compliance_policy_path
 javascript:
   var new_compliance_policy_url = "#{pth}";
+

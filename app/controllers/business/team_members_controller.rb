@@ -19,6 +19,23 @@ class Business::TeamMembersController < ApplicationController
     end
   end
 
+  def edit
+    @team_member = TeamMember.find_by(id: params[:id])
+  end
+
+  def update
+    @team_member = TeamMember.find_by(id: params[:id])
+    respond_to do |format|
+      format.js do
+        if @team_member.update(member_params)
+          render 'business/team_members/reload'
+        else
+          render 'business/team_members/errors', locals: { errors: @team_member.errors.full_messages }
+        end
+      end
+    end
+  end
+
   def destroy
     TeamMember.destroy(params[:id])
 
