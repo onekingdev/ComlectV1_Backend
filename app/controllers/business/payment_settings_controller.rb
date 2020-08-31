@@ -2,7 +2,7 @@
 
 class Business::PaymentSettingsController < ApplicationController
   before_action :require_business!
-  skip_before_action :verify_authenticity_token, only: [:create, :apply_coupon]
+  skip_before_action :verify_authenticity_token, only: %i[create apply_coupon]
 
   def index
     if !current_business.onboarding_passed
@@ -51,13 +51,13 @@ class Business::PaymentSettingsController < ApplicationController
   def apply_coupon
     coupon = JSON.parse(request.body.read, symbolize_names: true)[:coupon]
     if coupon.present?
-      if Stripe::Coupon.list().select {|x| x.id == coupon}.present?
-        render json: {message: "Coupon code applied successfully.", is_valid: true}, status: :ok
+      if Stripe::Coupon.list.select { |x| x.id == coupon }.present?
+        render json: { message: 'Coupon code applied successfully.', is_valid: true }, status: :ok
       else
-        render json: {message: "Entered Coupon code is not valid.", is_valid: false}, status: 422
+        render json: { message: 'Entered Coupon code is not valid.', is_valid: false }, status: :unprocessable_entity
       end
     else
-      render json: {message: "Please enter the code first.", is_valid: false}, status: 400
+      render json: { message: 'Please enter the code first.', is_valid: false }, status: :bad_request
     end
   end
 
