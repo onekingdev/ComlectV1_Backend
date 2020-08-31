@@ -61,7 +61,7 @@ module RemindersFetcher
           safe_arr[i] = FakeTask.new(0) if a.nil?
         end
         @calendar_grid[date] = safe_arr
-        prev_day = if prev_day.wday == 5
+        prev_day = if prev_day.wday == 6
                      nil
                    else
                      date
@@ -73,8 +73,7 @@ module RemindersFetcher
   def reminders_past(remindable)
     remindable
       .reminders
-      .where('end_date >= ? AND end_date < ?',
-             Time.zone.today.in_time_zone(remindable.time_zone) - 1.week,
+      .where('end_date < ?',
              Time.zone.today.in_time_zone(remindable.time_zone)).where(done_at: nil)
       .order(remind_at: :asc, id: :asc)
   end
@@ -93,7 +92,7 @@ module RemindersFetcher
   def reminders_week(remindable)
     remindable
       .reminders
-      .where('end_date >= ? AND end_date <= ?',
+      .where('end_date >= ? AND remind_at <= ?',
              Time.zone.today.beginning_of_week.in_time_zone(remindable.time_zone),
              Time.zone.today.end_of_week.in_time_zone(remindable.time_zone))
       .order(remind_at: :asc, id: :asc) +
