@@ -108,6 +108,7 @@ gem 'jbuilder', '~> 2.0'
 
 # Background jobs
 gem 'activejob-traffic_control'
+gem 'acts_as_list'
 gem 'sidekiq'
 gem 'sidekiq-failures'
 gem 'sidekiq-scheduler'
@@ -117,6 +118,7 @@ gem 'sinatra', require: nil
 gem 'plaid', '5.0.0'
 gem 'stripe'
 
+gem 'jquery-ui-rails', '~> 5.0', '>= 5.0.5'
 # Logging
 gem 'lograge'
 

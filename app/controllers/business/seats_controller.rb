@@ -12,6 +12,13 @@ class Business::SeatsController < ApplicationController
     assigned_team_members_ids = current_business.seats.pluck(:team_member_id).compact
     @assigned_team_members = TeamMember.where(id: assigned_team_members_ids)
     @assigned_team_members_ids = @assigned_team_members.pluck(:id)
+    respond_to do |format|
+      format.html
+      format.csv do
+        # Override paging to get all records
+        send_data TeamMember.to_csv(@employees, @assigned_team_members_ids), filename: 'employees.csv'
+      end
+    end
   end
 
   def new; end

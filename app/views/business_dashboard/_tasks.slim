@@ -25,7 +25,7 @@
   .task_list_wrapper#tasks_week.fixedheight_receiver
     - if @reminders_week.any?
       .panel-body style="padding-top: 0px; padding-bottom: 0px;"
-        - @reminders_today.each do |reminder|
+        - @reminders_week.each do |reminder|
           = render partial: "business_dashboard/task", locals: { reminder: reminder }
         .clearfix
     /- if @reminders_week.any?
