@@ -73,8 +73,7 @@ module RemindersFetcher
   def reminders_past(remindable)
     remindable
       .reminders
-      .where('end_date >= ? AND end_date < ?',
-             Time.zone.today.in_time_zone(remindable.time_zone) - 1.week,
+      .where('end_date < ?',
              Time.zone.today.in_time_zone(remindable.time_zone)).where(done_at: nil)
       .order(remind_at: :asc, id: :asc)
   end

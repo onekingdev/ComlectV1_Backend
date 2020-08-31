@@ -8,36 +8,22 @@
     .clearfix
   hr.m-b-0.m-t-1
   .task_list_wrapper#tasks_today.fixedheight_receiver
-    - if @reminders_past.any?
-      /.panel-heading.m-b-05
-        h3 Past Due
-      .panel-body style="padding-top: 0px; padding-bottom: 0px;"
+    .panel-body style="padding-top: 0px; padding-bottom: 0px;"
+      - if @reminders_past.any?
         - @reminders_past.each do |reminder|
           = render partial: "business_dashboard/task", locals: { reminder: reminder }
         .clearfix
-    - if @reminders_today.any?
-      /.panel-heading.m-b-05
-        h3 Today
-      .panel-body style="padding-top: 0px; padding-bottom: 0px;"
+      - if @reminders_today.any?
         - @reminders_today.each do |reminder|
           = render partial: "business_dashboard/task", locals: { reminder: reminder }
         .clearfix
   .task_list_wrapper#tasks_week.fixedheight_receiver
-    - if @reminders_week.any?
-      .panel-body style="padding-top: 0px; padding-bottom: 0px;"
+    .panel-body style="padding-top: 0px; padding-bottom: 0px;"
+      - if @reminders_past.any?
+        - @reminders_past.each do |reminder|
+          = render partial: "business_dashboard/task", locals: { reminder: reminder }
+        .clearfix
+      - if @reminders_week.any?
         - @reminders_week.each do |reminder|
           = render partial: "business_dashboard/task", locals: { reminder: reminder }
         .clearfix
-    /- if @reminders_week.any?
-      .panel-heading.m-b-05
-        h3 This week
-      .panel-body.p-b-1 style="padding-top: 0px;"
-        - @reminders_week.each do |reminder|
-          = render partial: "business_dashboard/task", locals: { reminder: reminder }
-        .clearfix
-      / That will work for specialist
-      /- if projects.count > 0
-      /  - projects.each do |project|
-      /    - titles += "#{project.title}<br/>"
-      /.coloring style=("background-color: rgba(255, 204, 0, #{0.2*projects.count})") class=("today" if date == Date.today) data-placement="top" data-toggle="tooltip" data-title=(raw(titles)) data-html="true"
-      /  = date.day

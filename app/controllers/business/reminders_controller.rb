@@ -49,7 +49,7 @@ class Business::RemindersController < ApplicationController
   def update
     @reminder = current_business.reminders.find(params[:id])
     @reminder.update(done_at: (params[:done] == 'false' ? nil : Time.zone.now)) if params[:done].present?
-    @reminder.update(reminder_params)
+    @reminder.update(reminder_params) if params[:reminder]
     respond_to do |format|
       format.html do
         redirect_to business_dashboard_path
