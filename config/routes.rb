@@ -117,6 +117,9 @@ Rails.application.routes.draw do
       resource :delete_account
       resources :payment_settings, as: :payment, path: 'payment' do
         patch :make_primary
+        collection do
+          post :apply_coupon
+        end
       end
       resources :notification_settings, as: :notifications, path: 'notifications', only: %i[index update]
       resources :subscription_settings, as: :subscriptions, path: 'subscriptions', only: %i[index update]
