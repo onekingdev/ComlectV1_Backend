@@ -33,7 +33,7 @@ var patch_payment_form = function() {
     }
 
     function setCouponError(message) {
-      displayError.text(message);
+      displayCouponError.text(message);
       isLoading(false);
     }
 
@@ -41,8 +41,7 @@ var patch_payment_form = function() {
       return new Promise((resolve, reject) => {
         if($("#coupon-input").val()==""){
           resolve("");
-        }
-        else{
+        } else{
           fetch('/business/settings/payment/apply_coupon', {
             method: 'POST',
             body: JSON.stringify({
@@ -53,9 +52,8 @@ var patch_payment_form = function() {
               if (data.is_valid){
                 couponId = data.coupon_id;
                 resolve(data.message);
-              }
-              else{
-                  reject(data.message);
+              } else{
+                reject(data.message);
               }
           })
         }
@@ -168,14 +166,10 @@ var patch_payment_form = function() {
                 window.location.href = "/business/settings/payment";
               }
             })
-            .catch((e) => {
-              setError(e.responseJSON.message);
-            });
+            .catch((e) => setError(e.responseJSON.message));
           })
           .catch((e) => setError(e.error.message));
-        }).catch((e) => {
-            setCouponError(e)
-        });
+        }).catch((e) => setCouponError(e));
       } else {
         const options = {
           payment_source_ach: {
