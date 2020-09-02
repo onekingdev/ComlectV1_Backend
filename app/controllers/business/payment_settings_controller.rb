@@ -84,14 +84,14 @@ class Business::PaymentSettingsController < ApplicationController
   private
 
   def found_in_coupons(code)
-    Stripe::Coupon.list.each do |coupon|
+    Stripe::Coupon.list(limit: 10).each do |coupon|
       return coupon.id if coupon.id == code
     end
     false
   end
 
   def found_in_promotions(code)
-    Stripe::PromotionCode.list.each do |promo|
+    Stripe::PromotionCode.list(limit: 10).each do |promo|
       return promo.coupon.id if promo.code == code
     end
     false
