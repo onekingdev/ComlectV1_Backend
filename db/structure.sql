@@ -3513,8 +3513,7 @@ CREATE TABLE public.payment_sources (
     currency character varying,
     account_holder_name character varying,
     account_holder_type character varying,
-    validated boolean DEFAULT false NOT NULL,
-    coupon_id character varying
+    validated boolean DEFAULT false NOT NULL
 );
 
 
