@@ -32,6 +32,11 @@ var patch_payment_form = function() {
       isLoading(false);
     }
 
+    function setCouponError(message) {
+      displayError.text(message);
+      isLoading(false);
+    }
+
     function verifyCoupon(){
       return new Promise((resolve, reject) => {
         if($("#coupon-input").val()==""){
@@ -47,7 +52,6 @@ var patch_payment_form = function() {
             .then((data) => {
               if (data.is_valid){
                 couponId = data.coupon_id;
-                console.log("Coupon:::::::::::: ", data.coupon_id);
                 resolve(data.message);
               }
               else{
@@ -170,8 +174,7 @@ var patch_payment_form = function() {
           })
           .catch((e) => setError(e.error.message));
         }).catch((e) => {
-            displayCouponError.text(e);
-            isLoading(false);
+            setCouponError(e)
         });
       } else {
         const options = {
