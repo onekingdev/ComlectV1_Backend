@@ -1,0 +1,114 @@
+<%= render 'public_header' %>
+<div class="container">
+  <div id="page-content">
+    <div class="public-page-header clearfix">
+      <div class="page-header-icon">
+        <%= image_tag 'logo_black.png' %>
+      </div>
+      <div class="page-header-title">
+        <p class="title-text">
+          <b> Q&A Forum </b>
+        </p>
+        <p class="title-desc">
+          General compliance question-and-answer service
+        </p>
+      </div>
+    </div>
+    <div class="details-content">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="row">
+            <div class="col-sm-6">
+              <h3>Product Details</h3>
+              <p class="product-desc">
+                For less than a cup of coffee a day, use this forum to ask any compliance questions and have them answered
+                by Complect's network of seasoned compliance specialists. This is also a great way to see different
+                specialists' view points, consulting style, and find a specialist that's a good fit for your firm for one
+                off projects or on-going engagements.
+              </p>
+              <h3>
+                Integration Details
+              </h3>
+              <ul>
+                <li> Single sign-on with Complect log in details</li>
+                <li>Automated payments</li>
+                <li>Integrated compliance spend tracking</li>
+                <li>Add-on alert notifications</li>
+              </ul>
+              <h3> Availability Limitations </h3>
+              <p class="product-desc">
+                None
+              </p>
+              <h3>
+                Documentation
+              </h3>
+              <p class="product-desc">
+                None
+              </p>
+            </div>
+            <div class="col-sm-6">
+              <div class="pricing-plan">
+                <h3>Plans and Pricing</h3>
+                <ul>
+                  <li>
+                    <div class="clearfix accord-header">
+                      <span class="pull-left">FOREVER  FREE</span>
+                      <span class="pull-right">$0/MO</span>
+                    </div>
+                    <ul class="plan-description">
+                      <li>
+                        <p>
+                          Add our Q&A Forum to your dashboard for free! Be able to search and view up to five questions and answers a month through our unpaid service.
+                        </p>
+                        <a class="btn btn-sm btn-warning-custom"> Purchase </a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <div class="clearfix accord-header">
+                      <span class="pull-left">BASIC </span>
+                      <span class="pull-right">$10/MO</span>
+                    </div>
+                    <ul class="plan-description">
+                      <li>
+                        <p>
+                          Unlimited access to search our Q&A Forum. View questions that have been asked by your peers in similar circumstances.
+                        </p>
+                        <a class="btn btn-sm btn-warning-custom"> Purchase </a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <div class="clearfix accord-header">
+                      <span class="pull-left">PRO</span>
+                      <span class="pull-right">$25/MO</span>
+                    </div>
+                    <ul class="plan-description">
+                      <li>
+                        <p>
+                          Don't just rely on others' questions, unlock the ability to ask your own! Advice at your fingertips from our entire network of specialists.
+                        </p>
+                        <a class="btn btn-sm btn-warning-custom"> Purchase </a>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%#= render 'home/public_footer' %>
+
+<%= content_for :scripts do %>
+  <script type="text/javascript">
+      $('.accord-header').click(function() {
+          $(".plan-description").slideUp('fast');
+          $(this).next().slideDown('fats');
+      });
+  </script>
+<% end %>
+
