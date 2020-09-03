@@ -90,7 +90,7 @@ class Business::PaymentSettingsController < ApplicationController
   end
 
   def found_in_promotions(code)
-    Stripe::PromotionCode.list(limit: 10).auto_paging_each do |promo|
+    Stripe::PromotionCode.list(limit: 100).auto_paging_each do |promo|
       return promo.coupon.id if promo.code == code
     end
     false

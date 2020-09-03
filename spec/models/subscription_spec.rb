@@ -24,15 +24,14 @@ RSpec.describe Subscription, type: :model do
   describe '.subscribe' do
     let(:business) { create(:business, :with_payment_profile) }
 
-    before { create_stripe_plans }
-
-    before do
+    before {
+      create_stripe_plans
       @coupon = Stripe::Coupon.create(
         percent_off: 25,
         duration: 'repeating',
         duration_in_months: 3
       )
-    end
+    }
 
     context 'when ccc subscription' do
       it 'creates sub' do
@@ -44,8 +43,6 @@ RSpec.describe Subscription, type: :model do
 
     context 'monthly subscription when no coupon' do
       it 'creates a stripe subscription without coupon' do
-        # This doesn't touch stripe's servers nor the internet!
-        # Specify :source in place of :card (with same value) to return customer with source data
         subscription = described_class.subscribe('monthly', business.payment_profile.stripe_customer, {})
         expect(subscription.object).to eq('subscription')
       end
@@ -53,8 +50,6 @@ RSpec.describe Subscription, type: :model do
 
     context 'monthly subscription when coupon discount available' do
       it 'creates a stripe subscription with coupon' do
-        # This doesn't touch stripe's servers nor the internet!
-        # Specify :source in place of :card (with same value) to return customer with source data
         subscription = described_class.subscribe('monthly', business.payment_profile.stripe_customer, {}, @coupon.id)
         expect(subscription.discount.coupon.id).to eq(@coupon.id)
       end
@@ -62,8 +57,6 @@ RSpec.describe Subscription, type: :model do
 
     context 'Annual subscription when no coupon' do
       it 'creates a stripe subscription without coupon' do
-        # This doesn't touch stripe's servers nor the internet!
-        # Specify :source in place of :card (with same value) to return customer with source data
         subscription = described_class.subscribe('annual', business.payment_profile.stripe_customer, {})
         expect(subscription.object).to eq('subscription')
       end
@@ -71,8 +64,6 @@ RSpec.describe Subscription, type: :model do
 
     context 'Annual subscription when coupon discount available' do
       it 'creates a stripe subscription with coupon' do
-        # This doesn't touch stripe's servers nor the internet!
-        # Specify :source in place of :card (with same value) to return customer with source data
         subscription = described_class.subscribe('annual', business.payment_profile.stripe_customer, {}, @coupon.id)
         expect(subscription.discount.coupon.id).to eq(@coupon.id)
       end
@@ -80,8 +71,6 @@ RSpec.describe Subscription, type: :model do
 
     context 'Seats monthly subscription when no coupon' do
       it 'creates a stripe subscription without coupon' do
-        # This doesn't touch stripe's servers nor the internet!
-        # Specify :source in place of :card (with same value) to return customer with source data
         subscription = described_class.subscribe('seats_monthly', business.payment_profile.stripe_customer, {})
         expect(subscription.object).to eq('subscription')
       end
@@ -89,8 +78,6 @@ RSpec.describe Subscription, type: :model do
 
     context 'Seats monthly subscription when coupon discount available' do
       it 'creates a stripe subscription with coupon' do
-        # This doesn't touch stripe's servers nor the internet!
-        # Specify :source in place of :card (with same value) to return customer with source data
         subscription = described_class.subscribe('seats_monthly', business.payment_profile.stripe_customer, {}, @coupon.id)
         expect(subscription.discount.coupon.id).to eq(@coupon.id)
       end
@@ -98,8 +85,6 @@ RSpec.describe Subscription, type: :model do
 
     context 'Seats Annual subscription when no coupon' do
       it 'creates a stripe subscription without coupon' do
-        # This doesn't touch stripe's servers nor the internet!
-        # Specify :source in place of :card (with same value) to return customer with source data
         subscription = described_class.subscribe('seats_annual', business.payment_profile.stripe_customer, {})
         expect(subscription.object).to eq('subscription')
       end
@@ -107,8 +92,6 @@ RSpec.describe Subscription, type: :model do
 
     context 'Seats Annual subscription when coupon discount available' do
       it 'creates a stripe subscription with coupon' do
-        # This doesn't touch stripe's servers nor the internet!
-        # Specify :source in place of :card (with same value) to return customer with source data
         subscription = described_class.subscribe('seats_annual', business.payment_profile.stripe_customer, {}, @coupon.id)
         expect(subscription.discount.coupon.id).to eq(@coupon.id)
       end
