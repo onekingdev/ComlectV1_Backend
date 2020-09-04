@@ -93,7 +93,7 @@ module RemindersFetcher
     remindable
       .reminders
       .where('end_date >= ? AND remind_at <= ?',
-             Time.zone.today.beginning_of_week.in_time_zone(remindable.time_zone),
+             Time.zone.today.in_time_zone(remindable.time_zone),
              Time.zone.today.end_of_week.in_time_zone(remindable.time_zone))
       .order(remind_at: :asc, id: :asc) +
       remindable.projects.active.where('starts_on <= ?',

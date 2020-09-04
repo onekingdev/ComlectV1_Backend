@@ -1,5 +1,5 @@
 - edit_url = account.new_record? ? new_specialists_settings_payment_path : edit_specialists_settings_payment_path
-= simple_form_for account, url: specialists_settings_payment_path, html: { data: { edit_url: edit_url }} do |f|
+= simple_form_for account, url: specialists_settings_payment_path, html: {novalidate: false, data: { edit_url: edit_url }} do |f|
   - if f.object.status_detail.present?
     .alert.alert-warning= f.object.status_detail
   - elsif f.object.errors[:base].any?
@@ -76,7 +76,7 @@
       - if f.object.required?(:personal_id_number)
         .col-xs-12.col-sm-6
           .form-group.tight.with-tooltip
-            = f.input :personal_id_number, required: false, label: false, input_html: { class: 'input-lg' }, wrapper: false
+            = f.input :personal_id_number, required: true, label: false, input_html: { class: 'input-lg' }, wrapper: false
             button.info-tooltip.info-tooltip-lg.m-t-0.m-l-1 type="button" data-toggle="tooltip" title="Provide your full ID number, such as your SSN, SIN, HKID or NRIC." i
 
   - if f.object.status == 'fields_needed' && f.object.status_detail == 'Verification missing'

@@ -41,7 +41,6 @@ Rails.application.routes.draw do
   get 'marketplace' => 'home#partnerships'
   get 'press' => 'home#press'
   get 'r/:token' => 'referrals#show', as: :referrals
-  get 'q-and-a-forum' => 'home#q_and_a_forum', as: :q_and_a_forum
 
   namespace :partners, only: [] do
     resources :ima, only: %i[index create]
@@ -195,6 +194,7 @@ Rails.application.routes.draw do
         get :new_card
         post :create_card
         delete 'delete_card/:id', to: 'payment_settings#delete_card', as: 'delete_card'
+        patch 'make_primary/:id', to: 'payment_settings#make_primary', as: 'make_primary'
       end
       resource :team
 

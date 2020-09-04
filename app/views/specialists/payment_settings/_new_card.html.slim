@@ -1,0 +1,29 @@
+.m-l-2.m-r-2
+  .pull-left
+    h3.m-y-0 Add Payment
+  .pull-right
+    .btn-group style="margin-top: -8px;"
+      /= f.input :plan, as: :radio_pills, collection: [%w(Monthly monthly), %w[Annual annual]], btn_class: 'btn-shadow'
+      .btn-group data-toggle="buttons"
+        label.btn.btn-shadow.noshadow.active#add_payment_debit_credit
+          | Debit/Credit
+        label.btn.btn-shadow.noshadow#add_payment_bank_account style="border-left: 1px solid #ccc !important;"
+          | Bank Account
+
+  .clearfix
+  hr.m-b-0.m-t-1.hr_heading
+  .clearfix
+  .payment_debit_credit_form.m-y-3
+    = render partial: "specialists/payment_settings/payment_form"
+    button.btn.btn-primary.p-x-3.continue#submit-ongoing Submit
+  .payment_bank_account_form.m-y-3
+    = render partial: "specialists/payment_settings/new_bank_account_form"
+
+
+javascript:
+ if (typeof(patch_payments_popup) != "undefined") {
+     patch_payments_popup();
+     patch_payment_form();
+ } else {
+     var enable_patch_payments_popup = true;
+ }

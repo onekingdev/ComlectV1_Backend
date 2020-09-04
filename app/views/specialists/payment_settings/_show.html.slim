@@ -1,32 +1,50 @@
 .panel-heading
   h3 Payment Details
 
-.col-xs-6
-  .panel-body.p-t-0
-    - if @account.error?
-      .alert.alert-danger= @account.status_detail
-
-    - if @account.persisted?
-      = render 'accounts', accounts: @bank_accounts
-      - if @bank_accounts.size == 1
-        .m-t-1
-          .p.small If you need to remove your primary bank account, please add an additional bank account and make that your primary. You can delete old bank accounts after the new primary bank account is assigned.
-
-      .m-t-2
-        a.btn.btn-link.btn-plain href=new_specialists_settings_bank_account_path
-          i.icon.maxicons2-add
-          span Add Bank Account
-  .panel-heading
-    h3 Payment Sources (for subscriptions only)
+.col-sm-6
+  = link_to "Add Payment",new_card_specialists_settings_payment_path, class: "btn btn-primary m-b-3", "data-target": "#modal", "data-toggle": "modal", "data-remote": true
+  table.table.m-b-1.table-blue.borderless.payment-sources-table
+    tr
+      th Payment Method
+      th Make Primary
+      th &nbsp;
     = render 'cards', cards: @cards
+    = render 'accounts', accounts: @bank_accounts
+/ .col-xs-6
+/   .panel-body.p-t-0
+/     - if @account.error?
+/       .alert.alert-danger= @account.status_detail
+/
+/     - if @account.persisted?
+/       = render 'accounts', accounts: @bank_accounts
+/       - if @bank_accounts.size == 1
+/         .m-t-1
+/           .p.small If you need to remove your primary bank account, please add an additional bank account and make that your primary. You can delete old bank accounts after the new primary bank account is assigned.
 
-    a.btn.btn-link.btn-plain href=new_card_specialists_settings_payment_path
-      i.icon.maxicons2-add
-      span Add a Card
-.col-xs-6
+/     - if @account.error?
+/       .alert.alert-danger= @account.status_detail
+/
+/     - if @account.persisted?
+/       = render 'accounts', accounts: @bank_accounts
+/       - if @bank_accounts.size == 1
+/         .m-t-1
+/           .p.small If you need to remove your primary bank account, please add an additional bank account and make that your primary. You can delete old bank accounts after the new primary bank account is assigned.
+/
+/       .m-t-2
+/         a.btn.btn-link.btn-plain href=new_specialists_settings_bank_account_path
+/           i.icon.maxicons2-add
+/           span Add Bank Account
+/   .panel-heading
+/     h3 Payment Sources (for subscriptions only)
+/     = render 'cards', cards: @cards
+/
+/     a.btn.btn-link.btn-plain href=new_card_specialists_settings_payment_path
+/       i.icon.maxicons2-add
+/       span Add a Card
+.col-xs-6.aml-kyc
   - if @account.persisted?
     .panel-heading.p-a-0.m-t-3
-      h3.m-b-1 Personal Details
+      h3.m-b-2.aml-kyc-text AML/KYC DETAILS
     - if @account.status_detail.present?
       .alert.alert-warning
         = @account.status_detail
@@ -93,7 +111,7 @@
             input.form-control.input-lg readonly=true value=@account.personal_city
 
     .text-right.m-b-1.p-b-1
-      = link_to 'Edit', edit_specialists_settings_payment_path, class: 'btn btn-primary btn-block btn-lg'
+      = link_to 'Edit', edit_specialists_settings_payment_path, class: 'btn btn-primary btn-block btn-lg', remote: true
 
     p.small Note: While identity verification information may be edited at any time, if your bank account information changes, please add a new bank account and select that as your primary bank account.
 
