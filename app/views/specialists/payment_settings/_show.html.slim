@@ -9,7 +9,7 @@
       th Make Primary
       th &nbsp;
     = render 'cards', cards: @cards
-    = render 'accounts', accounts: @bank_accounts
+    / = render 'accounts', accounts: @bank_accounts
 / .col-xs-6
 /   .panel-body.p-t-0
 /     - if @account.error?
@@ -43,77 +43,14 @@
 /       span Add a Card
 .col-xs-6.aml-kyc
   - if @account.persisted?
-    .panel-heading.p-a-0.m-t-3
+    = render 'specialists/bank_accounts/new', {account: @bank_account, current_account: @current_bank_account}
+
+    .aml-kcy-edit.bank-item
       h3.m-b-2.aml-kyc-text AML/KYC DETAILS
-    - if @account.status_detail.present?
-      .alert.alert-warning
-        = @account.status_detail
+      p.small.text-center.p-l-2 Note: Please ensure that your AML/KYC details match with the account owner details of your receiving fund bank account. You can edit this information as necessary to ensure they match
+      .text-center.m-b-1.p-b-1
+        = link_to 'Edit', edit_specialists_settings_payment_path, class: 'btn btn-primary btn btn-primary btn-lg',style: "width: 140px;", remote: true
 
-    .row
-      .col-xs-12.col-sm-6
-        .form-group
-          input.form-control.input-lg readonly=true value=Stripe::SUPPORTED_COUNTRIES[@account.country.to_sym]
-      .col-xs-12.col-sm-6
-        .form-group
-          input.form-control.input-lg readonly=true value=@account.account_type.capitalize
-
-      - if @account.company?
-        .col-xs-12.col-sm-6
-          .form-group
-            input.form-control.input-lg readonly=true value=@account.business_name
-        .col-xs-12.col-sm-6
-          .form-group
-            input.form-control.input-lg readonly=true value=@account.business_tax_id
-
-      .col-xs-12.col-sm-6
-        .form-group
-          input.form-control.input-lg readonly=true value=@account.address1
-      .col-xs-12.col-sm-6
-        .form-group
-          input.form-control.input-lg readonly=true value=@account.zipcode
-      .col-xs-12.col-sm-6
-        .form-group
-          input.form-control.input-lg readonly=true value=@account.city
-      .col-xs-12.col-sm-6
-        .form-group
-          input.form-control.input-lg readonly=true value=@account.state
-
-      .col-xs-12.col-sm-6
-        .form-group
-          input.form-control.input-lg readonly=true value=@account.first_name
-      .col-xs-12.col-sm-6
-        .form-group
-          input.form-control.input-lg readonly=true value=@account.last_name
-
-      .col-xs-12.col-sm-6
-        .form-group
-          input.form-control.input-lg readonly=true value=l(@account.dob, format: :pickadate)
-
-      .col-xs-12.col-sm-6
-        .form-group
-          input.form-control.input-lg readonly=true value=@account.personal_id_number
-
-      - if @account.verification_document
-        .col-xs-12.col-sm-6
-          .form-group
-            .fa.fa-file-text-o
-            |  Verification provided
-
-      - if @account.required?(:personal_city)
-        .col-xs-12.col-sm-6
-          .form-group
-            input.form-control.input-lg readonly=true value=@account.personal_address1
-        .col-xs-12.col-sm-6
-          .form-group
-            input.form-control.input-lg readonly=true value=@account.personal_zipcode
-        .col-xs-12.col-sm-6
-          .form-group
-            input.form-control.input-lg readonly=true value=@account.personal_city
-
-    .text-right.m-b-1.p-b-1
-      = link_to 'Edit', edit_specialists_settings_payment_path, class: 'btn btn-primary btn-block btn-lg', remote: true
-
-    p.small Note: While identity verification information may be edited at any time, if your bank account information changes, please add a new bank account and select that as your primary bank account.
 
   - else
     = render 'new', account: @account

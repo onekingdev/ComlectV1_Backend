@@ -7,7 +7,8 @@ class Specialists::PaymentSettingsController < ApplicationController
     redirect_to specialists_settings_path if current_specialist.team
 
     @account = StripeAccount::Form.for(current_specialist)
-    @bank_accounts = @account.bank_accounts
+    @bank_account = BankAccount::Create.new(stripe_account: current_specialist.stripe_account)
+    @current_bank_account = current_specialist.bank_accounts.where(primary: true).last
     @cards = current_specialist&.payment_sources
   end
 
