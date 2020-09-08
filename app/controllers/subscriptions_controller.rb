@@ -57,7 +57,7 @@ class SubscriptionsController < ApplicationController
 
   private
 
-  def cancel_stripe_subscription cancel_at
+  def cancel_stripe_subscription(cancel_at)
     sub = Stripe::Subscription.retrieve(@subscription.stripe_subscription_id)
     sub.cancel_at = cancel_at.to_i
     sub.proration_behavior = 'none'
