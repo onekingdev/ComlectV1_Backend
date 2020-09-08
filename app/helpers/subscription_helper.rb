@@ -14,7 +14,7 @@ module SubscriptionHelper
 
     res = [payment_source.brand, '****']
 
-    res << '**** ****'
+    res << '**** ****' if payment_source.is_a?(PaymentSource) && payment_source.type.nil?
     res << payment_source.last4
     res.join(' ')
   end

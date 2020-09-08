@@ -39,23 +39,23 @@ var patch_payment_form = function() {
 
     function verifyCoupon(){
       return new Promise((resolve, reject) => {
-        if($("#coupon-input").val()=="" || (typeof $("#coupon-input").val()=="undefined")){
-          resolve("");
-        } else {
-          fetch('/business/settings/payment/apply_coupon', {
-            method: 'POST',
-            body: JSON.stringify({
-              coupon: $("#coupon-input").val(),
-            })})
-            .then((response) => response.json())
-            .then((data) => {
-              if (data.is_valid){
-                couponId = data.coupon_id;
-                resolve(data.message);
-              } else {
-                reject(data.message);
-              }
-          })
+          if ($("#coupon-input").val()) {
+              fetch('/business/settings/payment/apply_coupon', {
+                  method: 'POST',
+                  body: JSON.stringify({
+                      coupon: $("#coupon-input").val(),
+                  })})
+                  .then((response) => response.json())
+                  .then((data) => {
+                      if (data.is_valid){
+                          couponId = data.coupon_id;
+                          resolve(data.message);
+                      } else {
+                          reject(data.message);
+                      }
+                  })
+          } else {
+              resolve("");
         }
       });  
     }
