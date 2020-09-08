@@ -48,7 +48,7 @@ var patch_payment_form = function() {
                   })})
                   .then((response) => response.json())
                   .then((data) => {
-                      if (data.is_valid){
+                      if (data.is_valid) {
                           couponId = data.coupon_id;
                           resolve(data.message);
                       } else {
