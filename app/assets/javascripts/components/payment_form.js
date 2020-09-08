@@ -39,11 +39,12 @@ var patch_payment_form = function() {
 
     function verifyCoupon(){
       return new Promise((resolve, reject) => {
-          if ($("#coupon-input").val()) {
+          let couponValue = $("#coupon-input").val();
+          if (couponValue && couponValue.trim()) {
               fetch('/business/settings/payment/apply_coupon', {
                   method: 'POST',
                   body: JSON.stringify({
-                      coupon: $("#coupon-input").val(),
+                      coupon: couponValue.trim(),
                   })})
                   .then((response) => response.json())
                   .then((data) => {
