@@ -7,8 +7,7 @@ class Specialists::PaymentSettingsController < ApplicationController
     redirect_to specialists_settings_path if current_specialist.team
 
     @account = StripeAccount::Form.for(current_specialist)
-    @bank_account = BankAccount::Create.new(stripe_account: current_specialist.stripe_account)
-    @current_bank_account = current_specialist.bank_accounts.where(primary: true).last
+    @bank_accounts = @account.bank_accounts
     @cards = current_specialist&.payment_sources
   end
 
@@ -49,13 +48,7 @@ class Specialists::PaymentSettingsController < ApplicationController
     redirect_to specialists_settings_payment_path
   end
 
-  def new_card
-    stripe_account = @stripe_account ||= current_specialist.stripe_account
-    @bank_account = BankAccount::Create.new(stripe_account: stripe_account)
-    respond_to do |format|
-      format.js
-    end
-  end
+  def new_card; end
 
   def create_card
     begin
@@ -95,12 +88,6 @@ class Specialists::PaymentSettingsController < ApplicationController
   def delete_card
     current_specialist&.payment_sources&.destroy(params[:id])
 
-    redirect_to specialists_settings_payment_path
-  end
-
-  def make_primary
-    @source = current_specialist&.payment_sources&.find(params[:id])
-    @source.make_primary!
     redirect_to specialists_settings_payment_path
   end
 

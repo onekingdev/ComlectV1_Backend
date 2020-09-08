@@ -14,7 +14,7 @@ module SubscriptionHelper
 
     res = [payment_source.brand, '****']
 
-    res << '**** ****' if payment_source.type.nil?
+    res << '**** ****'
     res << payment_source.last4
     res.join(' ')
   end
@@ -25,6 +25,20 @@ module SubscriptionHelper
         db_sub.billing_period_ends
       else
         (db_sub.billing_period_ends + 1.year).to_i
+      end
+    else
+      res = db_sub.created_at.change(year: Time.now.utc.year)
+      res = (res + 1.year) if res.to_i < Time.now.utc.to_i
+      res.to_i
+    end
+  end
+
+  def specialist_billing_date(db_sub)
+    if db_sub.billing_period_ends_at.present?
+      if db_sub.billing_period_ends_at.to_i > Time.now.utc.to_i
+        db_sub.billing_period_ends_at
+      else
+        (db_sub.billing_period_ends_at + 1.year).to_i
       end
     else
       res = db_sub.created_at.change(year: Time.now.utc.year)
