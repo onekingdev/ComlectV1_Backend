@@ -1,0 +1,37 @@
+.clearfix.m-b-3
+  - if flash.notice
+    .alert.alert-success= flash.notice
+  - elsif flash[:error]
+    .alert.alert-danger= flash[:error]
+= simple_form_for @payment_source, url: validate_specialists_settings_payment_path(@payment_source) do |f|
+  .panel-body.p-t-0.p-b-2
+    .row
+      .col-xs-12.col-sm-6
+        = f.input :country, as: :string, disabled: true, input_html: { class: 'input-lg' }
+      .col-xs-12.col-sm-6
+        = f.input :currency, disabled: true, input_html: { class: 'input-lg' }
+    .row
+      .col-xs-12.col-sm-6
+        = f.input :account_holder_type, disabled: true, input_html: { class: 'input-lg' }
+      .col-xs-12.col-sm-6
+        = f.input :last4, disabled: true, input_html: { class: 'input-lg' }
+
+    - if @payment_source.validated?
+      .alert.alert-success Validated Bank Account
+    - else
+      .panel-heading.p-x-0.m-t-2.m-b-1
+        h3 Validate this account
+
+      p In order to verify your bank account, we've sent you two micro-deposits. These may take 3-4 days to appear in your account. Once you receive them, enter the amounts below to validate your bank account.
+      .row
+        .col-xs-12.col-sm-6
+          = f.input :validate1, input_html: { class: 'input-lg' }
+        .col-xs-12.col-sm-6
+          = f.input :validate2, input_html: { class: 'input-lg' }
+
+    .alert.alert-danger class=('hidden' if f.object.errors.empty?) = f.object.errors.full_messages.join(', ')
+
+  - unless @payment_source.validated?
+    .text-center.m-b-3.m-t-0
+      = link_to 'Cancel', specialists_settings_payment_path, class: 'btn btn-default btn-md p-x-3 m-r-1'
+      = f.submit 'Validate', class: 'btn btn-primary btn-md p-x-3'

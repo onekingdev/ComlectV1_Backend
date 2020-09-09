@@ -50,8 +50,7 @@ class Business::OnboardingController < ApplicationController
         sub = Subscription.subscribe(
           plan,
           stripe_customer,
-          { period_ends: (Time.now.utc + 1.year).to_i },
-          current_business.payment_profile.default_payment_source.coupon_id
+          period_ends: (Time.now.utc + 1.year).to_i
         )
         db_subscription.update(
           stripe_subscription_id: sub.id,

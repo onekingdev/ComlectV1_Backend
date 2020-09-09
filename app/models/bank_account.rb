@@ -15,6 +15,7 @@ class BankAccount < ApplicationRecord
     account = Stripe::Account.retrieve(stripe_account.stripe_id)
     ba = account.external_accounts.create(external_account: stripe_attributes)
     self.stripe_id = ba.id
+    self.primary = true
     true
   rescue Stripe::InvalidRequestError => e
     errors.add :base, e.message
@@ -27,7 +28,8 @@ class BankAccount < ApplicationRecord
       country: country,
       currency: currency,
       routing_number: routing_number,
-      account_number: account_number
+      account_number: account_number,
+      default_for_currency: true
     }
   end
 end
