@@ -21,10 +21,8 @@
       br
       | 4. Get paid automatically at the applicable times.
       .clearfix.m-b-3
-      - if flash.notice
-        .alert.alert-success= flash.notice
-      - elsif flash[:error]
-        .alert.alert-danger= flash[:error]
+      - if flash[:error]
+        .alert.alert-danger.col-xs-8= flash[:error]
       .panel.panel-default.m-b-2.col-xs-8.m-t-3 style="box-shadow: 0px 3px 6px 0px rgba(44, 40, 40, 0.11);"
         .panel-heading style="padding-bottom: 15px;"
           .pull-left
@@ -46,7 +44,7 @@
                 tr
                   td= biz.company
                   td= biz.email
-                  td= biz.status
+                  td= biz.status.capitalize
                   td style="width: 1px; font-size: 18px;"
                     = link_to specialists_delete_ported_businesses_path(biz), method: :delete, data: { no_cancel: true, confirm_label: "Confirm", confirm: "<div class='bootbox-heading'>Delete Client<hr></div>Warning! Please confirm all projects with this client have ended before<br>removing the client. By deleting this client, you will be charged the<br>standard 10% project finders fee for each payment processed with<br>this client going forward." } do
                       i.icon-trash

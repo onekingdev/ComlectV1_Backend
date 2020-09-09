@@ -6,7 +6,8 @@ var patch_payment_form = function() {
     let displayError = $('#card-errors');
     let form = $('#payment_method_form');
     let submitButton = $('#submit-ongoing');
-    let cardToken = '';
+    let displayCouponError = $('#coupon-errors');
+    let couponId;
 
     isLoading(true);
 
@@ -30,6 +31,36 @@ var patch_payment_form = function() {
       displayError.text(message);
       isLoading(false);
     }
+
+    function setCouponError(message) {
+      displayCouponError.text(message);
+      isLoading(false);
+    }
+
+    function verifyCoupon(){
+      return new Promise((resolve, reject) => {
+          let couponValue = $("#coupon-input").val();
+          if (couponValue && couponValue.trim()) {
+              fetch('/business/settings/payment/apply_coupon', {
+                  method: 'POST',
+                  body: JSON.stringify({
+                      coupon: couponValue.trim(),
+                  })})
+                  .then((response) => response.json())
+                  .then((data) => {
+                      if (data.is_valid) {
+                          couponId = data.coupon_id;
+                          resolve(data.message);
+                      } else {
+                          reject(data.message);
+                      }
+                  })
+          } else {
+              resolve("");
+        }
+      });  
+    }
+
     function createCardToken() {
       return new Promise((resolve, reject) => {
         stripe.createToken(card).then(function (result) {
@@ -47,6 +78,7 @@ var patch_payment_form = function() {
       return new Promise((resolve, reject) => {
         data = {
           authenticity_token: form.find('input[name="authenticity_token"]').val(),
+          coupon_id: options.coupon
         }
         if (options.stripeToken !== undefined || options.stripeToken !== '' || options.stripeToken !== null) {
           data.stripeToken = options.stripeToken
@@ -80,7 +112,6 @@ var patch_payment_form = function() {
     $('.loading').hide();
     $('.payment_form').show();
     isLoading(false);
-
 
     $('.plaid-link').on('click', function(e) {
       e.preventDefault();
@@ -119,33 +150,34 @@ var patch_payment_form = function() {
     submitButton.on('click', function(e) {
       e.preventDefault();
       isLoading(true);
-
       if ($('#payment_form_use_method').val() === 'card') {
-        createCardToken().then(e => {
-          const options = {
-            stripeToken: $('#payment_form_card_token').val(),
-          }
-          createPaymentMethod(options).then(e2 => {
-            if (e2.redirectTo !== undefined) {
-              isLoading(true);
-              window.location.href = e2.redirectTo;
+        verifyCoupon().then(q => {
+          createCardToken().then(e => {
+            const options = {
+              stripeToken: $('#payment_form_card_token').val(),
+              coupon: couponId
             }
-            submitMainForm();
-            if (window.location.pathname.indexOf("/business/settings") > -1) {
-              window.location.href = "/business/settings/payment";
-            }
+            createPaymentMethod(options).then(e2 => {
+              if (e2.redirectTo !== undefined) {
+                isLoading(true);
+                window.location.href = e2.redirectTo;
+              }
+              submitMainForm();
+              if (window.location.pathname.indexOf("/business/settings") > -1) {
+                window.location.href = "/business/settings/payment";
+              }
+            })
+            .catch((e) => setError(e.responseJSON.message));
           })
-          .catch((e) => {
-            setError(e.responseJSON.message);
-          });
-        })
-        .catch((e) => setError(e.error.message));
+          .catch((e) => setError(e.error.message));
+        }).catch((e) => setCouponError(e));
       } else {
         const options = {
           payment_source_ach: {
             plaid_token: $('#payment_form_plaid_token').val(),
             plaid_account_id: $('#payment_form_plaid_account_id').val(),
-            plaid_institution: $('#payment_form_plaid_institution').val()
+            plaid_institution: $('#payment_form_plaid_institution').val(),
+            coupon: coupon
           }
         }
         createPaymentMethod(options).then(res => {
