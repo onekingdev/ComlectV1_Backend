@@ -1,113 +1,133 @@
-- edit_url = account.new_record? ? new_specialists_settings_payment_path : edit_specialists_settings_payment_path
-= simple_form_for account, url: specialists_settings_payment_path, html: { data: { edit_url: edit_url }} do |f|
-  - if f.object.status_detail.present?
-    .alert.alert-warning= f.object.status_detail
-  - elsif f.object.errors[:base].any?
-    .alert.alert-warning= f.object.errors[:base].to_sentence
-
-  .panel-body.p-b-2.p-x-0
-    .row
-      .col-xs-12.col-sm-6
-        - if f.object.new_record?
-          = f.country_select :country,
-            { only: Stripe::SUPPORTED_COUNTRIES.except(:JP).keys.map(&:to_s) },
-            { class: 'form-control input-lg js-select' }
-        - else
-          .form-group
-            input.form-control.input-lg disabled=true value=Stripe::SUPPORTED_COUNTRIES[f.object.country.to_sym]
-
-      .col-xs-12.col-sm-6
-        - if Stripe::INDIVIDUAL_ONLY_COUNTRIES.include?(f.object.country)
-          = f.hidden_field :account_type, value: StripeAccount.account_types[:individual]
-          .form-group
-            input.form-control.input-lg disabled=true value='Individual'
-        - elsif f.object.new_record?
-          = f.input :account_type,
-            required: false,
-            label: false,
-            collection: [%w(Individual individual), %w(Company company)],
-            input_html: { class: 'input-lg js-select' },
-            wrapper_html: { class: 'm-b-2' }
-        - else
-          .form-group
-            input.form-control.input-lg disabled=true value=f.object.account_type.capitalize
-
-      - if f.object.company?
+.panel-body.bank-item
+  h3.m-b-2.aml-kyc-text AML/KYC DETAILS
+  - edit_url = account.new_record? ? new_specialists_settings_payment_path : edit_specialists_settings_bank_account_path(account)
+  = simple_form_for account, url: specialists_settings_payment_path, html: {novalidate: false, data: { edit_url: edit_url }}, remote: true do |f|
+    - if f.object.status_detail.present?
+      .alert.alert-warning= f.object.status_detail
+    - elsif f.object.errors[:base].any?
+      .alert.alert-warning= f.object.errors[:base].to_sentence
+    .panel-body.p-b-2.p-x-0
+      .row
         .col-xs-12.col-sm-6
-          = f.input :business_name, label: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
+          - if f.object.new_record?
+            = f.label :country, label: 'Country Of Account'
+            = f.country_select :country,
+              { only: Stripe::SUPPORTED_COUNTRIES.except(:JP).keys.map(&:to_s) },
+              { class: 'form-control input-lg js-select' }
+          - else
+            .form-group
+              = f.label :country, label: 'Country Of Account'
+              input.form-control.input-lg disabled=true value=Stripe::SUPPORTED_COUNTRIES[f.object.country.to_sym]
+
         .col-xs-12.col-sm-6
-          = f.input :business_tax_id, label: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
+          - if Stripe::INDIVIDUAL_ONLY_COUNTRIES.include?(f.object.country)
+            = f.hidden_field :account_type, value: StripeAccount.account_types[:individual]
+            .form-group
+              = f.label :account_type, label: 'Type of Account'
+              input.form-control.input-lg disabled=true value='Individual'
+          - elsif f.object.new_record?
+            = f.label :account_type, label: 'Type of Account'
+            = f.input :account_type,
+              required: false,
+              label: false,
+              collection: [%w(Individual individual), %w(Company company)],
+              input_html: { class: 'input-lg js-select' },
+              wrapper_html: { class: 'm-b-2' }
+          - else
+            .form-group
+              = f.label :account_type, label: 'Type of Account'
+              input.form-control.input-lg disabled=true value=f.object.account_type.capitalize
 
-  .panel-heading.p-a-0
-    h3 Billing Address
+        - if f.object.company?
+          .col-xs-12.col-sm-6
+            = f.label :business_name
+            = f.input :business_name, label: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
+          .col-xs-12.col-sm-6
+            = f.label :business_tax_id
+            = f.input :business_tax_id, label: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
 
-  .panel-body.p-b-2.p-x-0
-    .row
-      .col-xs-12.col-sm-6
-        = f.input :address1, required: false, label: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
-      .col-xs-12.col-sm-6
-        = f.input :zipcode, required: false, label: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
-      .col-xs-12.col-sm-6
-        = f.input :city, required: false, label: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
-      .col-xs-12.col-sm-6
-        = f.input :state, required: false, label: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
-
-  .panel-heading.p-a-0
-    h3 Personal Details
-
-  .panel-body.p-b-2.p-x-0
-    .row
-      .col-xs-12.col-sm-6
-        .form-group
-          input.form-control.input-lg disabled=true value=f.object.first_name
-      .col-xs-12.col-sm-6
-        .form-group
-          input.form-control.input-lg disabled=true value=f.object.last_name
-
-    .row
-      .col-xs-12.col-sm-6
-        = f.input :dob,
-          wrapper: :vertical_tight,
-          required: false,
-          as: :string,
-          label: false,
-          input_html: { class: 'input-lg js-datepicker', data: { max: 18.years.ago.to_a[3..5].reverse, years: 80, months: true, value: (l(f.object.dob, format: :pickadate) if f.object.dob.present?) } }
-
-      - if f.object.required?(:personal_id_number)
-        .col-xs-12.col-sm-6
-          .form-group.tight.with-tooltip
-            = f.input :personal_id_number, required: false, label: false, input_html: { class: 'input-lg' }, wrapper: false
-            button.info-tooltip.info-tooltip-lg.m-t-0.m-l-1 type="button" data-toggle="tooltip" title="Provide your full ID number, such as your SSN, SIN, HKID or NRIC." i
-
-  - if f.object.status == 'fields_needed' && f.object.status_detail == 'Verification missing'
-    .panel-heading.p-a-0
-      h3
-        | ID Verification Document&nbsp;
-        button.info-tooltip type="button" data-toggle="tooltip" title="Provide a color copy of your passport or driver's license" i
+    / .panel-heading.p-a-0
+    /   h3 Billing Address
 
     .panel-body.p-b-2.p-x-0
       .row
         .col-xs-12.col-sm-6
-          = f.hidden_field :verification_document_cache, value: f.object.verification_document_data.present? ? f.object.verification_document : nil
-          = f.input :verification_document_data, required: false, as: :file, label: false
+          = f.label :address1
+          = f.input :address1, required: false, label: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
+        .col-xs-12.col-sm-6
+          = f.label :zipcode
+          = f.input :zipcode, required: false, label: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
+        .col-xs-12.col-sm-6
+          = f.label :city
+          = f.input :city, required: false, label: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
+        .col-xs-12.col-sm-6
+          = f.label :state
+          = f.input :state, required: false, label: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
 
-  .panel-body.p-b-0.p-x-0
-    - if f.object.required?(:personal_city)
-      h2.text-center.m-y-2 Personal Address
+    / .panel-heading.p-a-0
+    /   h3 Personal Details
+
+    .panel-body.p-b-2.p-x-0
+      .row
+        .col-xs-12.col-sm-6
+          .form-group
+            = f.label :first_name
+            input.form-control.input-lg disabled=true value=f.object.first_name
+        .col-xs-12.col-sm-6
+          .form-group
+            = f.label :last_name
+            input.form-control.input-lg disabled=true value=f.object.last_name
 
       .row
         .col-xs-12.col-sm-6
-          = f.input :personal_address1, label: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
-        .col-xs-12.col-sm-6
-          = f.input :personal_zipcode, label: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
+          = f.label :dob, 'Birthday'
+          = f.input :dob,
+            wrapper: :vertical_tight,
+            required: false,
+            as: :string,
+            label: false,
+            input_html: { class: 'input-lg js-datepicker', data: { max: 18.years.ago.to_a[3..5].reverse, years: 80, months: true, value: (l(f.object.dob, format: :pickadate) if f.object.dob.present?) } }
 
-      .row
-        .col-xs-12.col-sm-6
-          = f.input :personal_city, label: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
+        - if f.object.required?(:personal_id_number)
+          .col-xs-12.col-sm-6
+            .form-group.tight.with-tooltip
+              = f.label :personal_id_number, 'Personal ID Number (e.g.SSN)'
+              = f.input :personal_id_number, required: true, label: false, input_html: { class: 'input-lg' }, wrapper: false
+              button.info-tooltip.info-tooltip-lg.m-t-0.m-l-1 type="button" data-toggle="tooltip" title="Provide your full ID number, such as your SSN, SIN, HKID or NRIC." i
 
-  .text-center.p-b-1
-    - if f.object.persisted?
-      = link_to 'Cancel', specialists_settings_payment_path, class: 'btn btn-default btn-md p-x-3 m-r-1'
-      = f.submit 'Save', class: 'btn btn-primary btn-md p-x-3'
-    - else
-      = f.submit 'Save', class: 'btn btn-primary p-x-3 btn-block btn-lg'
+    - if f.object.status == 'fields_needed' && f.object.status_detail == 'Verification missing'
+      .panel-heading.p-a-0
+        h3
+          | ID Verification Document&nbsp;
+          button.info-tooltip type="button" data-toggle="tooltip" title="Provide a color copy of your passport or driver's license" i
+
+      .panel-body.p-b-2.p-x-0
+        .row
+          .col-xs-12.col-sm-6
+            = f.hidden_field :verification_document_cache, value: f.object.verification_document_data.present? ? f.object.verification_document : nil
+            = f.label :verification_document_data
+            = f.input :verification_document_data, required: false, as: :file, label: false
+
+    .panel-body.p-b-0.p-x-0
+      - if f.object.required?(:personal_city)
+        / h2.text-center.m-y-2 Personal Address
+
+        .row
+          .col-xs-12.col-sm-6
+            = f.label :personal_address1
+            = f.input :personal_address1, label: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
+          .col-xs-12.col-sm-6
+            = f.label :personal_zipcode
+            = f.input :personal_zipcode, label: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
+
+        .row
+          .col-xs-12.col-sm-6
+            = f.label :personal_city
+            = f.input :personal_city, label: false, input_html: { class: 'input-lg' }, wrapper: :vertical_tight
+
+    .text-center.p-b-1
+      - if f.object.persisted?
+        = link_to 'Cancel', specialists_settings_payment_path, class: 'btn btn-default btn-md p-x-3 m-r-1'
+        = f.submit 'Save', class: 'btn btn-primary btn-md p-x-3'
+      - else
+        = f.submit 'Save', class: 'btn btn-primary p-x-3 btn-block btn-lg'

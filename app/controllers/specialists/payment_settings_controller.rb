@@ -5,9 +5,10 @@ class Specialists::PaymentSettingsController < ApplicationController
 
   def show
     redirect_to specialists_settings_path if current_specialist.team
-
+    @payment_source = current_specialist.payment_sources.find_by(id: params[:payment_source]) if params[:payment_source].present?
     @account = StripeAccount::Form.for(current_specialist)
-    @bank_accounts = @account.bank_accounts
+    @bank_account = BankAccount::Create.new(stripe_account: current_specialist.stripe_account)
+    @current_bank_account = current_specialist.bank_accounts.where(primary: true).last
     @cards = current_specialist&.payment_sources
   end
 
@@ -48,7 +49,14 @@ class Specialists::PaymentSettingsController < ApplicationController
     redirect_to specialists_settings_payment_path
   end
 
-  def new_card; end
+  def new_card
+    stripe_account = @stripe_account ||= current_specialist.stripe_account
+    country = stripe_account.present? ? stripe_account.country : current_specialist.country
+    @payment_source = current_specialist.payment_sources.new(country: country)
+    respond_to do |format|
+      format.js
+    end
+  end
 
   def create_card
     begin
@@ -79,7 +87,44 @@ class Specialists::PaymentSettingsController < ApplicationController
     end
     resp = { message: message }
     resp[:redirectTo] = specialists_settings_payment_path
+    respond_to do |format|
+      format.json { render json: resp, status: code }
+    end
+  end
 
+  def create_bank
+    begin
+      cus_id = current_specialist.stripe_customer
+      unless cus_id
+        cus = Stripe::Customer.create(
+          email: current_specialist.user.email,
+          name: current_specialist.user.full_name
+        )
+        cus_id = cus.id
+      end
+      bank = Stripe::Customer.create_source(cus_id, source: params[:payment_source][:token])
+      payment_source = current_specialist&.payment_sources&.create!(
+          stripe_customer_id: cus_id,
+          stripe_card_id: bank.id,
+          last4: bank.last4,
+          country: bank.country,
+          brand: params[:payment_source][:brand],
+          bank_account: true,
+          currency: bank.currency,
+          account_holder_name: bank.account_holder_name,
+          account_holder_type: bank.account_holder_type,
+          primary: current_specialist&.payment_sources&.length&.zero?
+      )
+      message = ''
+      code = :created
+      url = specialists_settings_payment_path(payment_source: payment_source.id)
+    rescue => e
+      url = specialists_settings_payment_path
+      message = e.message
+      code = :unprocessable_entity
+    end
+    resp = { message: message }
+    resp[:redirectTo] = url
     respond_to do |format|
       format.json { render json: resp, status: code }
     end
@@ -89,6 +134,24 @@ class Specialists::PaymentSettingsController < ApplicationController
     current_specialist&.payment_sources&.destroy(params[:id])
 
     redirect_to specialists_settings_payment_path
+  end
+
+  def make_primary
+    @source = current_specialist&.payment_sources&.find(params[:id])
+    @source.make_primary!
+    redirect_to specialists_settings_payment_path
+  end
+
+  def validate
+    @payment_source = current_specialist.payment_sources.find(params[:id])
+    response = @payment_source.validate_microdeposits(params[:specialist_payment_source])
+    if response[:success] == true
+      flash[:notice] = 'Validate Successfully'
+      redirect_to specialists_settings_payment_path
+    else
+      flash[:error] = response[:message]
+      redirect_to specialists_settings_payment_path(payment_source: @payment_source.id)
+    end
   end
 
   private
