@@ -27,6 +27,7 @@ h1.m-b-2 style="font-family: 'Canela'; font-size: 30px; font-weight: 400;"
           tr
             th Policy
             th
+            th
             th style="width: 1px;" &nbsp;
         tbody.compliance_list data-url=sort_business_compliance_policies_path
           - @business.sorted_compliance_policies.each do |section|
@@ -37,8 +38,14 @@ h1.m-b-2 style="font-family: 'Canela'; font-size: 30px; font-weight: 400;"
                 = link_to section.section_or_title, (current_specialist ? specialists_business_compliance_policy_path(@business.username, section) : business_compliance_policy_path(section)), target: "_blank"
               td = link_to (current_specialist ? edit_specialists_business_compliance_policy_path(@business.username, section) : edit_business_compliance_policy_path(section)), "data-target": "#modal", "data-remote": true, "data-toggle": "modal" do
                 i.icon-note style="font-size: 18px;"
+              - if section.ban
+                td = link_to (current_specialist ? unban_specialists_business_compliance_policy_path(@business.username, section) : unban_business_compliance_policy_path(section)), method: :put do
+                  i.icon-action-undo style="font-size: 18px;"
+              - else
+                td = link_to (current_specialist ? ban_specialists_business_compliance_policy_path(@business.username, section) : ban_business_compliance_policy_path(section)), method: :put do
+                  i.icon-ban style="font-size: 18px;"
               td
-                = link_to (current_specialist ? specialists_business_compliance_policy_path(@business.username, section) : business_compliance_policy_path(section)), method: :delete, data: { confirm: "<div class='bootbox-heading'>Delete Policy<hr></div>Warning! This change is permanent. Deleting<br>this policy will also delete all records of this<br>policy and its version history as well.", 'confirm-label' => 'Confirm', no_cancel: true } do
+                = link_to (current_specialist ? specialists_business_compliance_policy_path(@business.username, section) : business_compliance_policy_path(section)), method: :delete, data: {confirm: "<div class='bootbox-heading'>Delete Policy<hr></div>Warning! This change is permanent. Deleting<br>this policy will also delete all records of this<br>policy and its version history as well.", 'confirm-label' => 'Confirm', no_cancel: true} do
                   i.icon-trash style="font-size: 18px;"
 .view_pdf
   = render 'pdf_preview'

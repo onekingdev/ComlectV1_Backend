@@ -2,6 +2,9 @@ h1.m-b-2 style="font-family: 'Canela'; font-size: 30px; font-weight: 400;"
   /.m-b-0 style="position: absolute; margin-top: -20px; font-size: 13px; font-family: 'Open Sans';"
     b = link_to "BACK", business_compliance_policies_path
   = @compliance_policy.section_or_title
+  - if @compliance_policy.ban?
+    = link_to (current_specialist ? unban_specialists_business_compliance_policy_path(@business.username, @compliance_policy) : unban_business_compliance_policy_path(@compliance_policy)), method: :put do
+      i.icon-action-undo style="font-size: 24px; margin-left: 30px;"
 
 /.col-xs-12.p-x-0
 .clearfix.col-sm-4.p-l-0

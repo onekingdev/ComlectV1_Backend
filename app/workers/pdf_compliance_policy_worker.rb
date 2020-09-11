@@ -53,7 +53,7 @@ class PdfCompliancePolicyWorker
     merged_pdf = CombinePDF.new
     merged_pdf << CombinePDF.load(file.path)
 
-    compliance_policy.business.sorted_compliance_policies.each do |cpolicy|
+    compliance_policy.business.sorted_unban_compliance_policies.each do |cpolicy|
       begin
         if cpolicy.compliance_policy_docs.first.present?
           pdf_path = env_path(cpolicy.compliance_policy_docs.first.pdf_url.split('?')[0])
@@ -74,6 +74,8 @@ class PdfCompliancePolicyWorker
     end
     tmp_pdf_file = Tempfile.new(["compliance_manual-#{compliance_policy.id}", '.pdf'])
     tmp_pdf_path = tmp_pdf_file.path
+    merged_pdf.number_pages(number_format: ' %s ', location: :bottom, font_size: 12,
+                            margin_from_height: 5, start_at: 1, page_range: (1..-1))
     merged_pdf.save tmp_pdf_path
     tmp_pdf_file.rewind
     uploaded_file = uploader.upload(File.new(tmp_pdf_file))

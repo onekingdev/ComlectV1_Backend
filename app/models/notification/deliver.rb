@@ -499,12 +499,17 @@ class Notification::Deliver < Draper::Decorator
         path,
         invite_token: ported&.token
       )
-
+      spec_name = (ported&.specialist&.user&.full_name || 'some specialist')
+      subj = "You've Been Invited to Join Complect"
+      msg = "As your compliance consultant, #{spec_name} has requested you create a free profile on "\
+            'Complect to automate your fee billing and invoicing process. You will also have access to '\
+            'additional, optional tech solutions to help manage your compliance program! To create your '\
+            'profile, please sign up directly via the link below'
       dispatcher = Dispatcher.new(
         key: :got_employee_invitation,
         action_path: action_path,
         t: {
-          manager_full_name: (ported&.specialist&.user&.full_name || 'some specialist'),
+          manager_full_name: spec_name,
           team_name: 'No team name'
         }
       )
@@ -512,12 +517,12 @@ class Notification::Deliver < Draper::Decorator
       NotificationMailer.deliver_later(
         :notification,
         ported.email,
-        dispatcher.message_mail,
+        msg,
         dispatcher.action_label,
         dispatcher.initiator_name,
         dispatcher.img_path,
         action_url,
-        dispatcher.subject
+        subj
       )
     end
 

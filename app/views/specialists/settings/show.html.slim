@@ -8,6 +8,7 @@
     li.change-password class=active_class('settings', 'passwords') = link_to 'Reset Password', specialists_settings_password_path, class: 'btn-link btn-block btn-md', remote: true
     - if current_specialist.manager?
       li.payment-details class=active_class('payment_settings') = link_to 'Payment Details', specialists_settings_payment_path, class: 'btn-link btn-block btn-md', remote: true
+      li.subscription-settings class=active_class('subscription_settings') = link_to 'Subscriptions', specialists_settings_subscriptions_path, class: 'btn-link btn-block btn-md', remote: false
     li.notification-preferences class=active_class('notification_settings') = link_to 'Notification Preferences', specialists_settings_notifications_path, class: 'btn-link btn-block btn-md', remote: true
     - if current_specialist.manager?
       /li.manage-employees class=active_class('manage_employees') = link_to 'Manage Employees', current_specialist.managed_team ? specialists_settings_team_path : new_specialists_settings_team_path, class: 'btn-link btn-block btn-md', remote: true
