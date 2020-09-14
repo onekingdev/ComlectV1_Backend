@@ -24,8 +24,8 @@ class BusinessDashboardController < ApplicationController
     end
     @financials = Business::Financials.for(current_business)
     @ratings = @business.ratings_received.preload_associations
-    @reminders_today = reminders_today(current_business)
-    @reminders_week = reminders_week(current_business)
+    @reminders_today = reminders_today(current_business, @calendar_grid)
+    @reminders_week = reminders_week(current_business, @calendar_grid)
     @reminders_past = reminders_past(current_business)
     @current_year_annual_review = @business.processed_annual_reviews.where(year: Time.zone.today.year)
   end

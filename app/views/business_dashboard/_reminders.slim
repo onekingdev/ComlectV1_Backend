@@ -11,10 +11,7 @@
       .btn-group
         i.icon-settings.calendar-settings.m-l-1 data-toggle="dropdown"
         ul.dropdown-menu.calendar-dropdown
-          /- pth = current_business ? new_business_reminder_path(date: Date.today) : new_specialists_business_reminder_path(@business.username, Date.today)
           li = link_to "Add Task", eval("#{new_path}(date: Date.today)"), "data-target": "#modal", "data-toggle": "modal", "data-remote": true
-          /eval("#{new_path}(date: Date.today)")
-          /li = link_to "Download Calendar", (current_business ? business_reminders_path(format: :pdf) : specialists_business_reminders_path(@business.username, format: :pdf)), target: "_blank"
           li = link_to "Download Calendar", eval("#{pdf_path}(format: :pdf)"), target: "_blank"
 
     .clearfix
@@ -22,18 +19,16 @@
     - week_rendered_ids = []
     = month_calendar do |date, reminders|
       - week_rendered_ids = [] if ((date.wday+6) % 7) == 0
-      .coloring class=("real_today" if date == Date.today)
-        /- pth = current_business ? new_business_reminder_path(date: date) : new_specialists_business_reminder_path(@business.username, date)
+      .coloring class=("real_today" if date == Time.zone.today.in_time_zone(current_business.time_zone).to_date)
         = link_to date.day, eval("#{new_path}(date: date)"), "data-target": "#modal", "data-toggle": "modal", "data-remote": true
         - if !@calendar_grid[date].nil?
           - @calendar_grid[date].each_with_index do |task,i|
             - if task.class.name != "FakeTask"
-              - if task.class.name == "Reminder" && !week_rendered_ids.include?(task.id)
+              - if ["Reminder", "RemindersFetcher::RecurringReminder"].include?(task.class.name) && !week_rendered_ids.include?(task.id)
                 - week_rendered_ids.push(task.id)
-                /- pth = current_business ? edit_business_reminder_path(task) : edit_specialists_business_reminder_path(@business.username, task)
                 - visual_duration = task.end_date.mjd-date.mjd+1
                 - visual_duration = 7-((date.wday+6) % 7) if visual_duration > (7-((date.wday+6) % 7))
-                .task_middle data-vduration=(visual_duration) style="top: #{i*13+10}px;" class=("task_2 #{'task_begin' if task.remind_at == date} #{'task_end' if task.end_date == date}") = link_to task.body, eval("#{edit_path}(task)"), "data-target": "#modal", "data-toggle": "modal", "data-remote": true
+                .task_middle data-vduration=(visual_duration) style="top: #{i*13+10}px;" class=("task_2 #{'task_begin' if task.remind_at == date} #{'task_end' if task.end_date == date}") = link_to task.body, task.class.name == "Reminder" ? eval("#{edit_path}(task)") : eval("#{edit_path}(task.src_id, date: date.strftime('%Y-%m-%d'), oid: task.id.split('_')[1])"), "data-target": "#modal", "data-toggle": "modal", "data-remote": true
               - if task.class.name == "Project" && !week_rendered_ids.include?("p_#{task.id}")
                 - week_rendered_ids.push("p_#{task.id}")
                 - visual_duration = task.ends_on.mjd-date.mjd+1

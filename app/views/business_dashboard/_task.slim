@@ -5,11 +5,16 @@
       = check_box_tag("reminder_p_#{reminder.id}", 1, true, disabled: true)
       label for=("reminder_p_#{reminder.id}") class="css-label" 
         = link_to reminder.title, pth, class: "upcoming_task", target: "_blank"
-  - if reminder.class.name == "Reminder"
+  - if ["Reminder", "RemindersFetcher::RecurringReminder"].include?(reminder.class.name)
     - pth = current_business ? edit_business_reminder_path(reminder) : edit_specialists_reminder_path(reminder)
+    - if reminder.class.name == "RemindersFetcher::RecurringReminder"
+      - pth = current_business ? edit_business_reminder_path(reminder.src_id, date: reminder.remind_at.strftime('%Y-%m-%d'), oid: reminder.id.split("_")[1]) : edit_specialists_reminder_path(reminder.src_id, date: reminder.remind_at.strftime('%Y-%m-%d'), oid: reminder.id.split("_")[1])
     .padded-checkboxes.reactive_reminders
-      = check_box_tag("reminder_#{reminder.id}", 1, !reminder.done_at.nil?)
+      - if reminder.class.name == "RemindersFetcher::RecurringReminder"
+        = check_box_tag("reminder_#{reminder.id}", 1, reminder.done_occurencies.include?(reminder.id.split("_")[1].to_i))
+      - else
+        = check_box_tag("reminder_#{reminder.id}", 1, !reminder.done_at.nil?)
       label for=("reminder_#{reminder.id}") class="css-label" 
-        - if reminder.past_due?
+        - if reminder.rly_past_due
           b.past_due Past&nbsp;due
         = link_to reminder.body, pth, "data-target": "#modal", "data-toggle": "modal", "data-remote": true, class: "upcoming_task"
