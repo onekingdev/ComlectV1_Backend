@@ -14,9 +14,13 @@ class Specialists::PortedBusinessesController < ApplicationController
   def create
     @ported_business = current_specialist&.ported_businesses&.new(ported_params)
     if @ported_business.save
-      Notification::Deliver.invite_business_to_join!(@ported_business)
-
-      flash[:notice] = 'Company has been invited!'
+      if User.joins(:business).where(email: ported_params[:email].parameterize).exists?
+        flash[:error] = 'This business already appears to be on our platform, '\
+                        'we will need to contact the both of you for further review'
+        AdminMailer.new_ported_client_review(id: @ported_business.id).deliver_later
+      else
+        Notification::Deliver.invite_business_to_join!(@ported_business)
+      end
     else
       flash[:error] = @ported_business.errors.full_messages.join(' and ')
     end

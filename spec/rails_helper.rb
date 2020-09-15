@@ -57,6 +57,7 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
   config.include StripeHelper
+  config.include Devise::Test::ControllerHelpers, type: :controller
 end
 
 def amount_with_stripe_fee_card(amount)

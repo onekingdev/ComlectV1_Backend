@@ -7,7 +7,7 @@
   .text-center style="font-size: 13px;"
     h3.m-t-0.m-b-3 style="font-family: Canela; font-weight: bold; font-size: 24px;" Is this a one-off project or a full-time role?
 
-    = f.input :type, label: raw("Type&nbsp;&nbsp;&nbsp;"), as: :radio_pills, collection: [['RFP', Project.types[:rfp]], ['Custom', Project.types[:one_off]], ['Full Time', Project.types[:full_time]]], btn_class: 'btn-lg btn-default', wrapper_html: { class: 'm-b-0 project_timing_btn' }
+    = f.input :type, label: raw("Type&nbsp;&nbsp;&nbsp;"), as: :radio_pills, collection: [['RFP', Project.types[:rfp]], ['Custom', Project.types[:one_off]], ['Full Time', Project.types[:full_time]], ['Internal', Project.types[:internal]]], btn_class: 'btn-lg btn-default', wrapper_html: { class: 'm-b-0 project_timing_btn' }
 
   .panel.panel-default.panel-padded.col-xs-10.col-xs-push-1.p-x-0.m-t-2
     .panel-heading
@@ -23,6 +23,8 @@
           = f.hidden_field :lng
           = f.input :location, input_html: { class: "input-lg js-place-autocomplete", data: { lat: '#project_lat', lng: '#project_lng', self: 'full' } }
           = project.industries_input(f)
+          = f.input :specialist, label: "Employee", collection: current_business.all_employees, include_blank: I18n.t('simple_form.placeholders.project.employee'), input_html: { class: 'input-lg js-select' }
+          = f.input :color, label: "Color Code", collection: Project::COLORS, include_blank: I18n.t('simple_form.placeholders.project.color'), input_html: { class: 'input-lg js-select' }
         .col-xs-12.col-sm-8
           = f.input :description, as: :text, input_html: { class: 'input-lg tt-n' }
       .row.row-compact
@@ -135,7 +137,7 @@
 
   .panel.panel-default.panel-padded.col-xs-10.col-xs-push-1.p-x-0.project-applicant-selection
     .panel-heading
-      h3 Project Pricing
+      h3 Specialist Selection
       hr.m-t-1.m-b-1 style="margin-left: -25px; margin-right: -25px;"
     .panel-body.p-t-0
       .row.row-compact.m-y-1
@@ -145,7 +147,7 @@
         .col-xs-12
           .small.text-muted This options allows you to decide whether you want to interview applicants for your project or allow our automated matching system to pair you with a specialist that fits your applicant prerequisites.
 
-  .panel.panel-default.panel-padded.col-xs-10.col-xs-push-1.p-x-0
+  .panel.panel-default.panel-padded.col-xs-10.col-xs-push-1.p-x-0.applicant_prerequisites
     .panel-heading
       h3 Applicant Prerequisites
       hr.m-t-1.m-b-1 style="margin-left: -25px; margin-right: -25px;"
@@ -206,7 +208,7 @@
           span Post
 
   .row.m-b-2.text-center
-    .col-xs-12.col-sm-8.col-sm-push-2.small.text-muted
+    .col-xs-12.col-sm-8.col-sm-push-2.small.text-muted.project-edit-info
       p 
         | You will be able to make changes to this information until you receive your first application.
         br

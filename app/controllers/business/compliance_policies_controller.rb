@@ -2,7 +2,7 @@
 
 class Business::CompliancePoliciesController < ApplicationController
   before_action :require_business!
-  before_action :set_cpolicy, only: %i[update edit show destroy]
+  before_action :set_cpolicy, only: %i[update edit show destroy ban unban]
 
   def index
     @business = current_business
@@ -108,6 +108,34 @@ class Business::CompliancePoliciesController < ApplicationController
     @preview_doc = current_business.compliance_policies.first
     respond_to do |format|
       format.js
+    end
+  end
+
+  def ban
+    if current_business == @compliance_policy.business
+      @compliance_policy.update(ban: true)
+      PdfCompliancePolicyWorker.perform_async(@compliance_policy.compliance_policy_docs.order(:id).first.id)
+      respond_to do |format|
+        format.html do
+          redirect_to business_compliance_policies_path
+        end
+      end
+    else
+      redirect_to '/business'
+    end
+  end
+
+  def unban
+    if current_business == @compliance_policy.business
+      @compliance_policy.update(ban: false)
+      PdfCompliancePolicyWorker.perform_async(@compliance_policy.compliance_policy_docs.order(:id).first.id)
+      respond_to do |format|
+        format.html do
+          redirect_to business_compliance_policies_path
+        end
+      end
+    else
+      redirect_to '/business'
     end
   end
 

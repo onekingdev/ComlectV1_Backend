@@ -1,11 +1,15 @@
 <html>
   <head>
     <style type="text/css">
+      @font-face {
+          font-family: 'Canela';
+          src: url('<%= Rails.root.join("public", "fonts", "Canela-Medium.otf") %>') format('opentype');
+      }
       body, html, table {
-        font-family: "Open Sans";
         font-size: 120px;
         padding: 0px;
         margin: 0px;
+        font-family: Canela, arial, Sans-Serif, serif;
       }
 
       p { page-break-inside: avoid; }

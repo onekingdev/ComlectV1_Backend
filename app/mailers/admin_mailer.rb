@@ -23,4 +23,17 @@ class AdminMailer < ApplicationMailer
       subject: "Metrics #{Time.zone.now.strftime('%d %B %Y')}"
     )
   end
+
+  def new_ported_client_review(ported_business_id)
+    pb = PortedBusiness.find_by(ported_business_id)
+    return unless pb
+
+    body = "#{Time.zone.now.strftime('%d %B %Y')}: #{pb.specialist.name} wants to add #{pb.company} (#{pb.email}) as a ported company."
+
+    mail(
+      to: 'alex.mamonchik@gmail.com',
+      subject: 'Ported client review',
+      body: body
+    )
+  end
 end

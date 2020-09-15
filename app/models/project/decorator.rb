@@ -94,6 +94,8 @@ class Project::Decorator < ApplicationDecorator
                annual_salary
              elsif rfp?
                est_budget
+             elsif internal?
+               'N/A'
              else
                hourly_pricing? ? hourly_rate : fixed_budget
              end

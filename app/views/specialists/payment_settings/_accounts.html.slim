@@ -1,18 +1,16 @@
-table.table.payment-details.m-b-1
-  - accounts.each do |account|
-    tr
-      td
-        i.icon-credit-card
-      td
-        '#{'*' * (account.account_number.size - 4).abs} #{account.account_number.reverse[0..3].reverse}
-      td
-        - if account.primary?
-          strong Primary
-        - else
-          = form_for account, url: specialists_settings_bank_account_make_primary_path(account), html: { class: 'd-ib' } do |f|
-            = f.hidden_field :primary, value: true
-            button.btn-plain.td-u Make Primary
-      td.text-right
-        - if policy(account).destroy?
-          = link_to specialists_settings_bank_account_path(account), method: :delete, class: 'btn-link m-l-1', data: { confirm: 'Are you sure you want to delete this account?', 'confirm-label' => 'Delete' } do
-            i.icon.maxicons1-exit.text-muted
+
+- accounts.each do |account|
+  tr
+    td
+      '#{'*' * (account.account_number.size - 4).abs} #{account.account_number.reverse[0..3].reverse}
+    td
+      - if account.primary?
+        .payment_source_primary
+      - else
+        = form_for account, url: specialists_settings_bank_account_make_primary_path(account), html: {class: 'd-ib'} do |f|
+          = f.hidden_field :primary, value: true
+          button.btn-plain.td-u.payment_source_not_primary
+    td.text-right style="font-size: 18px;"
+      - if policy(account).destroy?
+        = link_to specialists_settings_bank_account_path(account), method: :delete, class: 'btn-link m-l-1', data: { confirm: 'Are you sure you want to delete this account?', 'confirm-label' => 'Delete' } do
+          i.icon-trash

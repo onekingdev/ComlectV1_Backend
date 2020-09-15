@@ -9,8 +9,8 @@
     - src_project = Project.find(project.id)
     .pull-right
       small
-        | Status: 
-        span.text-primary.project-status 
+        | Status:
+        span.text-primary.project-status
           - if src_project.rfp?
             | RFP
           - else
@@ -32,7 +32,7 @@
     - application = project.job_applications.find_by_specialist_id(current_specialist.id)
     - if application.ends_on < Time.zone.today
       .alert.alert-warning.m-b-3.text-center
-        | Please be aware that your proposed project end date has lapsed. You can amend it 
+        | Please be aware that your proposed project end date has lapsed. You can amend it
         = link_to "here", edit_project_job_application_path(project, application)
         |  to ensure you can be hired without any issues.
   .business-profile
@@ -51,7 +51,7 @@
                 li= link_to '#project-overview', data: { toggle: 'tab', "remote-load" => true, url: business_project_overview_path(project), 'toggle-sync' => true } do
                   span Overview
                 li.active= link_to '#project-messages', data: { toggle: 'tab', "remote-load" => true, url: project_messages_path(project), 'toggle-sync' => true } do
-                  span Messages
+                  span Messagesee
                 li= link_to '#project-documents', data: { toggle: 'tab', "remote-load" => true, url: project_documents_path(project), 'toggle-sync' => true } do
                   span Documents
                 - if project.hourly_pricing? && project.specialist_id

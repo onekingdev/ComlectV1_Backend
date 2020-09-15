@@ -57,3 +57,27 @@
     }
   }
 }
+
+.aml-kyc {
+  .aml-kyc-text{
+    text-align: center;
+  }
+
+  .bank-item {
+    border: 2px solid #FFCA01;
+    margin-bottom: 15px;
+  }
+  h3 {
+    font-size: 16px;
+  }
+  .add_bank_account {
+    h3 {
+      font-size: 16px;
+    }
+  }
+
+  .bank_account {
+    padding: 15px;
+  }
+
+}
