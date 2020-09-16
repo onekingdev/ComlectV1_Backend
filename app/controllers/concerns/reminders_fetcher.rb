@@ -21,7 +21,6 @@ module RemindersFetcher
     end
 
     @active_projects.each do |task|
-      next unless task.starts_on.present? && task.ends_on.present?
       (task.starts_on..task.ends_on).each do |d|
         @calendar_grid[d].push(task) if @calendar_grid.include?(d)
       end
@@ -62,7 +61,11 @@ module RemindersFetcher
           safe_arr[i] = FakeTask.new(0) if a.nil?
         end
         @calendar_grid[date] = safe_arr
-        prev_day = prev_day.wday == 6 ? nil : date
+        prev_day = if prev_day.wday == 6
+                     nil
+                   else
+                     date
+                   end
       end
     end
   end
