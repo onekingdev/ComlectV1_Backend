@@ -59,6 +59,15 @@ class ProjectMailer < ApplicationMailer
     )
   end
 
+  def send_email_to_specialist(project)
+    @project = project
+
+    mail(
+      to: @project.specialist.user.email,
+      subject: 'You have Been Assigned A Project'
+    )
+  end
+
   private
 
   def add_project_link(project, text, url, format = :html)

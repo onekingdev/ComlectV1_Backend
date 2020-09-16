@@ -7,7 +7,7 @@
   .text-center style="font-size: 13px;"
     h3.m-t-0.m-b-3 style="font-family: Canela; font-weight: bold; font-size: 24px;" Is this a one-off project or a full-time role?
 
-    = f.input :type, label: raw("Type&nbsp;&nbsp;&nbsp;"), as: :radio_pills, collection: [['RFP', Project.types[:rfp]], ['Custom', Project.types[:one_off]], ['Full Time', Project.types[:full_time]], ['Internal', Project.types[:internal]]], btn_class: 'btn-lg btn-default', wrapper_html: { class: 'm-b-0 project_timing_btn' }
+    = f.input :type, label: raw("Type&nbsp;&nbsp;&nbsp;"), as: :radio_pills, collection: current_business.project_types, btn_class: 'btn-lg btn-default', wrapper_html: { class: 'm-b-0 project_timing_btn' }
 
   .panel.panel-default.panel-padded.col-xs-10.col-xs-push-1.p-x-0.m-t-2
     .panel-heading
@@ -23,7 +23,7 @@
           = f.hidden_field :lng
           = f.input :location, input_html: { class: "input-lg js-place-autocomplete", data: { lat: '#project_lat', lng: '#project_lng', self: 'full' } }
           = project.industries_input(f)
-          = f.input :specialist, label: "Employee", collection: current_business.all_employees, include_blank: I18n.t('simple_form.placeholders.project.employee'), input_html: { class: 'input-lg js-select' }
+          = f.input :specialist_id, label: "Employee", collection: current_business.all_employees, include_blank: I18n.t('simple_form.placeholders.project.employee'), input_html: { class: 'input-lg js-select' }
           = f.input :color, label: "Color Code", collection: Project::COLORS, include_blank: I18n.t('simple_form.placeholders.project.color'), input_html: { class: 'input-lg js-select' }
         .col-xs-12.col-sm-8
           = f.input :description, as: :text, input_html: { class: 'input-lg tt-n' }

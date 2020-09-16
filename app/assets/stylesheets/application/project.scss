@@ -92,7 +92,7 @@ form.project_form {
       display: none;
     }
 
-    .project-salary, .project_specialist, .project_color {
+    .project-salary, .project_specialist_id, .project_color {
       display: none;
     }
 
@@ -122,7 +122,7 @@ form.project_form {
     .project-salary {
       display: none;
     }
-    .full-time, .project_specialist, .project_color { display: none; }
+    .full-time, .project_specialist_id, .project_color { display: none; }
     .project_key_deliverables { display: none; }
     .project_full_time_starts_on { display: none; }
     #project_description { min-height: 99px; }
@@ -134,7 +134,7 @@ form.project_form {
     .one-off { display: none; }
     .full-time { display: inherit; }
 
-    .project-budget-timing, .project_specialist, .project_color { display: none; }
+    .project-budget-timing, .project_specialist_id, .project_color { display: none; }
 
     .project-details #project_description {
       min-height: ($input-height-large * 3) + $form-group-margin-bottom * 2;
