@@ -136,6 +136,23 @@ class Notification::Deliver < Draper::Decorator
       dispatcher.deliver_mail(action_url)
     end
 
+    def got_assigned!(project)
+      action_path, action_url = path_and_url :project_dashboard, project
+      key = :got_assigned_project
+      specialist = project.specialist
+      dispatcher = Dispatcher.new(
+        user: specialist.user,
+        key: key,
+        action_path: action_path,
+        associated: project,
+        initiator: project.business,
+        t: { project_title: project.title }
+      )
+
+      dispatcher.deliver_notification!
+      dispatcher.deliver_mail(action_url)
+    end
+
     def not_hired!(application)
       project = application.project
       action_path, action_url = path_and_url :projects

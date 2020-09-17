@@ -3,6 +3,7 @@
 # rubocop:disable Metrics/ClassLength
 class Project < ApplicationRecord
   self.inheritance_column = '_none'
+  attr_accessor :color
 
   belongs_to :business
   belongs_to :specialist
@@ -115,7 +116,8 @@ class Project < ApplicationRecord
   enum type: {
     one_off: 'one_off',
     full_time: 'full_time',
-    rfp: 'rfp'
+    rfp: 'rfp',
+    internal: 'internal'
   }
 
   enum applicant_selection: {
@@ -136,8 +138,11 @@ class Project < ApplicationRecord
 
   after_create :new_project_notification
   after_update :new_project_notification
+  after_create :send_email, if: :internal?
+  before_create :check_specialist, if: :internal?
 
   LOCATIONS = [%w[Remote remote], %w[Remote\ +\ Travel remote_and_travel], %w[Onsite onsite]].freeze
+  COLORS = [%w[CB00FF CB00FF], %w[B3FF00 B3FF00], %w[F7862B F7862B], %w[0033FF 0033FF], %w[FFB8FD FFB8FD]].freeze
   # DB Views depend on these so don't modify:
   HOURLY_PAYMENT_SCHEDULES = [
     %w[Upon\ Completion upon_completion],
@@ -317,7 +322,11 @@ class Project < ApplicationRecord
   end
 
   def active?
-    published? && specialist_id.present? && (hard_ends_on.future? || escalated?)
+    if ends_on.present?
+      published? && specialist_id.present? && (hard_ends_on.future? || escalated?)
+    else
+      published? && specialist_id.present?
+    end
   end
 
   def finishing?
@@ -447,6 +456,19 @@ class Project < ApplicationRecord
       save!
     end
     # rubocop:enable Style/GuardClause
+  end
+
+  def send_email
+    Notification::Deliver.got_assigned! self
+  end
+
+  def check_specialist
+    if business.hired_specialists.map(&:id).include? specialist_id
+      true
+    else
+      errors.add :base, 'Invalid specialist'
+      false
+    end
   end
 
   private

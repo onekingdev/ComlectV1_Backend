@@ -9,13 +9,28 @@
             font-family: 'Canela';
             src: url('<%= Rails.root.join("public", "fonts", "Canela-Medium.otf") %>') format('opentype');
         }
+
+        @font-face {
+            font-family: 'Canela Bold';
+            src: url('<%= Rails.root.join("public", "fonts", "Canela-Bold.otf") %>') format('opentype');
+        }
+
+        @font-face {
+            font-family: 'open sans bold';
+            src: url('<%= Rails.root.join("public", "fonts", "OpenSans-Bold.ttf") %>') format('opentype');
+        }
+
+        @font-face {
+            font-family: 'open sans regular';
+            src: url('<%= Rails.root.join("public", "fonts", "OpenSans-Regular.ttf") %>') format('opentype');
+        }
       body, html, table {
         font-size: 16px;
         padding: 0px;
         margin: 0px;
         width: 273mm;
         overflow: hidden;
-        font-family: Canela, arial, Sans-Serif, serif;
+        /*font-family: "Open Sans";*/
       }
 
       p { page-break-inside: avoid; font-size: 21px; word-wrap: break-word; }
@@ -46,15 +61,15 @@
         -moz-border-radius: 0.8em;
         -webkit-border-radius: 1.1em;
         display: inline-block;
-        font-weight: bold;
         line-height: 2.2em;
         margin-right: 15px;
         text-align: center;
         width: 2.2em; 
         font-size: 64px;
-        font-family: Canela;
-        font-weight: 700;
+        font-family: 'Canela Bold';
+        font-weight: bold;
       }
+
 
       span.black {
         background: #000000;
@@ -69,8 +84,7 @@
         text-align: center;
         width: 2em; 
         font-size: 90px;
-        font-family: Canela;
-        font-weight: 700;
+        font-family: 'Canela Bold';
       }
 
       td {
@@ -92,14 +106,12 @@
         -moz-border-radius: 0.8em;
         -webkit-border-radius: 1.1em;
         display: inline-block;
-        font-weight: bold;
         line-height: 2.2em;
         margin-right: 15px;
         text-align: center;
         width: 2.2em; 
         font-size: 70px;
-        font-family: Canela;
-        font-weight: 700;
+        font-family: 'Canela Bold';
       }
 
       .black {
@@ -159,47 +171,49 @@
         line-height: 1.5;
       }
 
+      .texty {
+          font-family: 'open sans regular';
+      }
+
     </style>
     <meta charset="UTF-8">
   </head>
   <body>
     <div class="container page" style="background-image: url(<%= Rails.root.to_s %>/app/assets/images/annual_report_bg.png); height: 1460px;">
       <div style="position: absolute; top: 30px; left: 100px; width: 700px;">
-        <p style="color: white; font-size: 70px;"><b><%= @annual_report.exam_start.year %></b></p>
-        <p style="color: #FFCD00; font-size: 40px; margin-top: -60px;"><b><%= @business.business_name %></b></p>
+        <p style="color: white; font-size: 70px; font-family: 'Open Sans Extrabold'"><b><%= @annual_report.exam_start.year %></b></p>
+        <p style="color: #FFCD00; font-size: 40px; font-family: 'Open Sans Semibold'; margin-top: -60px;"><b><%= @business.business_name %></b></p>
       </div>
       <div style="float: left; top:420px;" class="circles"></div><div class="circles2" style="top:420px;"></div>
-      <h1 style="font-size: 130px; text-align: center; letter-spacing: 10px; position: relative; z-index: 3; top: -150px; font-weight: bold;"><b>ANNUAL CPR REPORT</b></h1>
-      <p style="color: #FFCD00; font-size: 44px; text-align: right; font-weight: bold; letter-spacing: 2px; position: relative; right: 100px; top:100px;">PREPARED BY:</p>
-      <p style="color: white; font-size: 26px; text-align: right; position: relative; right: 100px; top:100px; margin-top: -40px; font-weight: bold;"><%= @business.business_name %></p>
+      <h1 style="font-size: 130px; text-align: center; letter-spacing: 10px; position: relative; z-index: 3; top: -150px; font-family: 'Open Sans Extrabold'"><b>ANNUAL CPR REPORT</b></h1>
     </div>
     <div class="container page" style="background-image: url(<%= Rails.root.to_s %>/app/assets/images/annual_report_bg2.png); background-size: 100%; background-clip: content-box; height: 1460px;">
-      <p style="font-size: 60px; display: table-caption; font-weight: 700; letter-spacing: 4px; padding-left: 100px; padding-top:100px; margin-bottom: -20px; font-weight: 900;"><b>COMPLIANCE PROGRAM REVIEW</b></p>
+      <p style="font-size: 60px; display: table-caption; letter-spacing: 4px; padding-left: 100px; padding-top:100px; margin-bottom: -20px; font-weight: bold; font-family: 'open sans bold'"><b>COMPLIANCE PROGRAM REVIEW</b></p>
       <div style="width: 330px; height: 330px; position: relative; left: 600px; top: -120px; border-radius: 50%; background:black; ">
-        <p style="color: #FFCD00; font-size: 64px; text-align: center; padding-top: 25%; padding-bottom: -30px; font-family: Canela;">12</p>
-        <p style="color: #FFFFFF; font-size: 20px; ; text-align: center; vertical-align: middle; max-width: 240px; margin: auto; margin-top:-50px; line-height: 1.5;">core areas of the compliance program was reviewed</p>
+        <p style="color: #FFCD00; font-size: 64px; text-align: center; padding-top: 25%; padding-bottom: -30px; font-family: 'Canela Bold';">12</p>
+        <p style="color: #FFFFFF; font-size: 20px; ; text-align: center; vertical-align: middle; max-width: 240px; margin: auto; margin-top:-50px; line-height: 1.5;font-family: 'open sans regular'">core areas of the compliance program was reviewed</p>
       </div>
       <div style="width: 530px; height: 530px; background-color: #FFCD00; z-index: 3; position: absolute; left: -40px; bottom: 500px !important;" class="circles">
-        <p style="font-size: 106px; font-weight: bold; letter-spacing: 10px; margin-bottom: -20px; text-align: center; padding-top:40px; font-family: Canela;"><%= @annual_report.findings_report[:percentage] %>%</p>
-        <p style="font-size: 24px; text-align: center; line-height: 1.5; padding-top: 10px; padding-left: 60px; width: 400px;">of the areas reviewed did not have any notable findings or recommendations for improvement</p>
+        <p style="font-size: 106px; font-weight: bold; letter-spacing: 10px; margin-bottom: -20px; text-align: center; padding-top:40px; font-family: 'Canela Bold';"><%= @annual_report.findings_report[:percentage] %>%</p>
+        <p style="font-size: 24px; text-align: center; line-height: 1.5; padding-top: 10px; padding-left: 60px; width: 400px;font-family: 'open sans regular'">of the areas reviewed did not have any notable findings or recommendations for improvement</p>
       </div>
-      <p style="padding-left: 70px; font-size: 20px; max-width: 560px; line-height: 1.5; position: relative; bottom: -300px;"><%= @business.business_name %> (or the "Company") conducted an annual review of its compliance program from <%= @annual_report.created_at.strftime("%Y %B %d") %> through <%= @annual_report.updated_at.strftime("%Y %B %d") %>. This report contains specific observations and recommendations concerning the Company’s practices, including general context and references to applicable securities laws.</p>
+      <p style="padding-left: 70px; font-size: 20px; max-width: 560px; line-height: 1.5; position: relative; bottom: -300px;font-family: 'Open Sans Semibold'"><%= @business.business_name %> (or the "Company") conducted an annual review of its compliance program from <%= @annual_report.created_at.strftime("%Y %B %d") %> through <%= @annual_report.updated_at.strftime("%Y %B %d") %>. This report contains specific observations and recommendations concerning the Company’s practices, including general context and references to applicable securities laws.</p>
     </div>
     <div class="container page">
-      <h1 style="text-align: center; font-size: 48px; letter-spacing: 5px; padding: 30px 0px; padding-top: 130px;">REPORT CONTENTS</h1>
+      <h1 style="text-align: center; font-size: 48px; letter-spacing: 5px; padding: 30px 0px; padding-top: 130px;font-family: 'open sans bold'; font-weight: bold">REPORT CONTENTS</h1>
       <table style="border: 1px solid white; font-weight: 700; border-spacing: 0 -300px; margin: 0 auto; width: 820px;">
-        <tr><td style="border: 1px solid white;"><span class="yellow";>01</span></td><td style="border: 1px solid white;"><p style="letter-spacing: 2px; font-size: 30px; margin-bottom: 10px;"><b>EXECUTIVE SUMMARY</b><br></p><p style="font-size: 20px;">Summary of the Annual Compliance Program Review process and results</p></td></tr>
-        <tr><td style="border: 1px solid white;"><span class="yellow">02</span></td><td style="border: 1px solid white;"><p style="letter-spacing: 2px; font-size: 30px; margin-bottom: 10px;"><b>MATERIAL BUSINESS CHANGES</b><br></p><p style="font-size: 20px;">Overview of pertinent changes within the business that occurred since the last review</p></td></tr>
-        <tr><td style="border: 1px solid white;"><span class="yellow">03</span></td><td style="border: 1px solid white;"><p style="letter-spacing: 2px; font-size: 30px; margin-bottom: 10px;"><b>MATERIAL REGULATORY CHANGES</b><br></p><p style="font-size: 20px;">Overview of pertinent regulatory changes that effected the business since the last review and how we addressed those changes at the time</p></td></tr>
-        <tr><td style="border: 1px solid white;"><span class="yellow">04</span></td><td style="border: 1px solid white;"><p style="letter-spacing: 2px; font-size: 30px; margin-bottom: 10px;"><b>FINDINGS & RECOMMENDATIONS</b><br></p><p style="font-size: 20px;">Itemization of the findings from this review and our recommended corrective actions</p></td></tr>
-        <tr><td style="border: 1px solid white;"><span class="yellow">05</span></td><td style="border: 1px solid white;"><p style="letter-spacing: 2px; font-size: 30px; margin-bottom: 10px;"><b>CONCLUSION</b><br></p><p style="font-size: 20px;">Summary of our perspective on this review and its purpose and limitations</p></td></tr>
+        <tr><td style="border: 1px solid white;"><span class="yellow";>01</span></td><td style="border: 1px solid white;"><p style="letter-spacing: 2px; font-size: 30px; margin-bottom: 10px; font-family: 'open sans bold'"><b>EXECUTIVE SUMMARY</b><br></p><p style="font-size: 20px;font-family: 'Open Sans Semibold'">Summary of the Annual Compliance Program Review process and results</p></td></tr>
+        <tr><td style="border: 1px solid white;"><span class="yellow">02</span></td><td style="border: 1px solid white;"><p style="font-family: 'open sans bold'; letter-spacing: 2px; font-size: 30px; margin-bottom: 10px;"><b>MATERIAL BUSINESS CHANGES</b><br></p><p style="font-size: 20px; font-family: 'Open Sans Semibold'">Overview of pertinent changes within the business that occurred since the last review</p></td></tr>
+        <tr><td style="border: 1px solid white;"><span class="yellow">03</span></td><td style="border: 1px solid white;"><p style="font-family: 'open sans bold'; letter-spacing: 2px; font-size: 30px; margin-bottom: 10px;"><b>MATERIAL REGULATORY CHANGES</b><br></p><p style="font-size: 20px;font-family: 'Open Sans Semibold'">Overview of pertinent regulatory changes that effected the business since the last review and how we addressed those changes at the time</p></td></tr>
+        <tr><td style="border: 1px solid white;"><span class="yellow">04</span></td><td style="border: 1px solid white;"><p style="font-family: 'open sans bold'; letter-spacing: 2px; font-size: 30px; margin-bottom: 10px;"><b>FINDINGS & RECOMMENDATIONS</b><br></p><p style="font-size: 20px;font-family: 'Open Sans Semibold'">Itemization of the findings from this review and our recommended corrective actions</p></td></tr>
+        <tr><td style="border: 1px solid white;"><span class="yellow">05</span></td><td style="border: 1px solid white;"><p style="font-family: 'open sans bold'; letter-spacing: 2px; font-size: 30px; margin-bottom: 10px;"><b>CONCLUSION</b><br></p><p style="font-size: 20px;font-family: 'Open Sans Semibold'">Summary of our perspective on this review and its purpose and limitations</p></td></tr>
       </table>
     </div>
-    <div class="container page texty">
+    <div class="container page texty" style="font-family: 'open sans regular'">
       <div style="background-image: url(<%= Rails.root.to_s %>/app/assets/images/annual_report_bg3.png); background-size: 100%; background-clip: content-box; height: 230px;">
-       <h1 style="padding: 100px 0px; font-size: 38px; text-align: center; font-weight: 900; letter-spacing: 5px; color: white;"><b>EXECUTIVE SUMMARY</b></h1> 
+       <h1 style="padding: 100px 0px; font-size: 38px; text-align: center; font-weight: 900; letter-spacing: 5px; color: white;font-family: 'open sans bold'"><b>EXECUTIVE SUMMARY</b></h1>
       </div>
-      <p style="padding-top: 20px;"><%= @business.business_name %> reviewed certain books and records covering the time period from <%= @annual_report.review_start.strftime("%Y %B %d") %> through <%= @annual_report.review_end.strftime("%Y %B %d") %> (the "Review Period"). This comprehensive review of our compliance program was designed to assess our compliance with the following:</p>
+      <p style="padding-top: 20px;font-family: 'open sans regular'"><%= @business.business_name %> reviewed certain books and records covering the time period from <%= @annual_report.review_start.strftime("%Y %B %d") %> through <%= @annual_report.review_end.strftime("%Y %B %d") %> (the "Review Period"). This comprehensive review of our compliance program was designed to assess our compliance with the following:</p>
       <ul>
         <li>Securities regulations;</li>
         <li>Internal policies and procedures;</li>
@@ -218,7 +232,7 @@
         <li>Marketing advisory services, including the use of solicitors;</li>
       </ul>
     </div>
-    <div class="container page texty" style="padding-top: 50px;">
+    <div class="container page texty" style="padding-top: 50px; font-family: 'open sans regular'">
       <ul>
         <li>Safeguarding of client assets from conversion or inappropriate use by employees;</li>
         <li>The accurate creation of required records and their maintenance in a manner that secures them from unauthorized alteration or use and protects them from untimely destruction;</li>
@@ -239,7 +253,7 @@
     </div>
     <div class="container page texty">
       <div style="background-image: url(<%= Rails.root.to_s %>/app/assets/images/annual_report_bg3.png); background-size: 100%; background-clip: content-box; height: 230px;">
-       <h1 style="padding: 100px 0px; font-size: 38px; text-align: center; font-weight: 700; letter-spacing: 5px; color: white;">MATERIAL BUSINESS CHANGES</h1> 
+       <h1 style="padding: 100px 0px; font-size: 38px; text-align: center; font-weight: 700; letter-spacing: 5px; color: white; font-family: 'open sans bold'">MATERIAL BUSINESS CHANGES</h1>
       </div>
       <p style="padding-top:20px;">Changes in the Company’s business practices may have an impact on the policies and procedures that we have established. Therefore, the Company has identified any material business changes that occurred during the Review Period and to give special consideration to whether we have properly amended our compliance policies and procedures to address any operational and compliance risks that may have arisen out of these changes.</p>
       <% if @annual_report.business_changes.where.not(change: nil).where.not(change: "").present? %>
@@ -255,7 +269,7 @@
     </div>
     <div class="container page texty">
       <div style="background-image: url(<%= Rails.root.to_s %>/app/assets/images/annual_report_bg3.png); background-size: 100%; background-clip: content-box; height: 230px;">
-       <h1 style="padding: 100px 0px; font-size: 38px; text-align: center; font-weight: 700; letter-spacing: 5px; color: white;">MATERIAL REGULATORY CHANGES</h1> 
+       <h1 style="padding: 100px 0px; font-size: 38px; text-align: center; font-weight: 700; letter-spacing: 5px; color: white; font-family: 'open sans bold'">MATERIAL REGULATORY CHANGES</h1>
       </div>
       <p style="padding-top:20px;">The regulatory landscape is constantly changing to address the ever-evolving risks of the financial industry. <%= @business.business_name %> endeavors to stay apprised of its regulatory obligations and properly address new requirements by making changes to our policies and procedures, as appropriate. </p>
       <% if @annual_report.regulatory_changes.where.not(change: nil).where.not(change: "").present? %>
@@ -297,7 +311,7 @@
     <% ComplianceCategory.all.each_with_index do |compliance_category,cc_i| %>
       <div class="container page texty">
         <table align="center" style="border: 1px solid white; font-weight: 700; border-spacing: 0 -300px; margin: 0 auto; width: 820px;">
-          <tr><td style="border: 1px solid white;"><span class="black"><%= (cc_i+1).to_s.rjust(2, "0") %></span></td><td style="border: 1px solid white;"><p style="font-weight: 900; letter-spacing: 2px; font-size: 32px; margin-bottom: -10px; position: absolute; left: 330px; top: 65px;"><%= compliance_category.name.upcase %></p></td></tr>
+          <tr><td style="border: 1px solid white;"><span class="black"><%= (cc_i+1).to_s.rjust(2, "0") %></span></td><td style="border: 1px solid white;"><p style="font-weight: 900; letter-spacing: 2px; font-size: 32px; margin-bottom: -10px; position: absolute; left: 330px; top: 65px; font-family: 'open sans bold'"><%= compliance_category.name.upcase %></p></td></tr>
         </table>
         <% unfailed_topics = @annual_report.findings_report[:unfailed_topics][compliance_category.id] %>
         <% if unfailed_topics.nil? %>
@@ -316,12 +330,12 @@
             <p><%= raw(compliance_category.however.split("\n").map(&Proc.new { |n| n[0..2] == " - " ? "<span class='bulletpoint'></span>#{n[2..n.length]}" : n }).join("<br>").gsub("[business_name]", @business.business_name)) %></p>
           <% end %>
           <table style="width: 90%; margin: 0 auto; margin-top: 50px;">
-            <tr><td style="text-align: center; border: 2px solid white; border-left: 2px solid black; border-bottom: 2px solid black; background: #000000; color: #FFFFFF;"><p style="font-size: 20px; font-weight: 700;">Finding</p></td><td style="text-align: center; border: 2px solid white; background: #000000; color: #FFFFFF; border-left: 2px solid black; border-bottom: 2px solid black;"><p style="font-weight: 700; font-size: 20px;">Recommendation</p></td><td style="text-align: center; border: 2px solid white; background: #000000; color: #FFFFFF; border-bottom: 2px solid black; border-right: 2px solid black;"><p style="font-weight: 700; font-size: 20px;">Risk</p></td></tr>
+            <tr><td style="text-align: center; border: 2px solid white; border-left: 2px solid black; border-bottom: 2px solid black; background: #000000; color: #FFFFFF; font-family: 'Open Sans Semibold'"><p style="font-size: 20px; font-weight: 700;font-family: 'Open Sans Semibold'">Finding</p></td><td style="text-align: center; border: 2px solid white; background: #000000; color: #FFFFFF; border-left: 2px solid black; border-bottom: 2px solid black;font-family: 'Open Sans Semibold'"><p style="font-weight: 700; font-size: 20px;">Recommendation</p></td><td style="text-align: center; border: 2px solid white; background: #000000; color: #FFFFFF; border-bottom: 2px solid black; border-right: 2px solid black;"><p style="font-weight: 700; font-size: 20px;font-family: 'Open Sans Semibold'">Risk</p></td></tr>
             <% this_findings.each do |finding| %>
               <tr>
                 <td style="padding-left: 10px; border: 2px solid black; font-size: 20px;"><%= finding.finding %></td>
                 <td style="padding-left: 10px; border: 2px solid black; font-size: 20px;"><%= finding.action %></td>
-                <td style="font-weight: 900; text-align: center; border: 2px solid black; font-size: 20px; background-color: <%= risk_colors[finding.risk_lvl-1] %>"><%= risk_captions[finding.risk_lvl-1] %></td>
+                <td style="font-family: 'open sans bold';font-weight: 900; text-align: center; border: 2px solid black; font-size: 20px; background-color: <%= risk_colors[finding.risk_lvl-1] %>"><%= risk_captions[finding.risk_lvl-1] %></td>
               </tr>
             <% end %>
           </table>
@@ -331,7 +345,7 @@
 
     <div class="container page texty">
       <div style="background-image: url(<%= Rails.root.to_s %>/app/assets/images/annual_report_bg3.png); background-size: 100%; background-clip: content-box; height: 230px;">
-       <h1 style="padding: 100px 0px; font-size: 38px; text-align: center; font-weight: 700; letter-spacing: 5px; color: white;">CONCLUSION</h1> 
+       <h1 style="padding: 100px 0px; font-size: 38px; text-align: center; font-weight: 700; letter-spacing: 5px; color: white;font-family: 'open sans bold'">CONCLUSION</h1>
       </div>
       <p style="padding-top:20px;"><%= @business.business_name %> made efforts to assess our compliance program based upon the review of our books and records along with the oral representations from our employees. Where practicable, we conducted testing of our documentation on a sample basis. Our findings and recommendations reflect our understanding of applicable regulations, compliance requirements, and business risks posed by our current operations only as of the time of the review.</p>
       <p>Annual compliance program reviews like this assist us in detecting not only deficiencies in our program, but also where there may be room for improvement. Therefore, the lack of or presence of findings and recommendations herein is not a direct reflection of <%= @business.business_name %>’s compliance with regulatory laws. It is our goal to find ways to enhance our compliance program, and thus, our business practices.</p>

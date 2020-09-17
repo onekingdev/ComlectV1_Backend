@@ -51,7 +51,7 @@ class DocumentsController < ApplicationController
   end
 
   def find_project
-    @project = current_business_or_specialist.communicable_projects.find(params[:project_id])
+    @project = current_business_or_specialist.projects.find(params[:project_id])
   end
 
   def sorted_documents
