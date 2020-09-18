@@ -1,8 +1,9 @@
+.form_error {
+  border: 1px solid #ff0000;
+}
+
 .signup_form, .business_step, .i_dunno, .specialist_step {
   display: none;
-  .form_error {
-    border-color: #ff0000;
-  }
   .btn-default.back, .btn-primary.continue {
     width: 140px;
   }

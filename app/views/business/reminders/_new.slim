@@ -2,101 +2,94 @@
 - remote_business = remote_business ? "@business, " : ""
 
 .bootbox-heading
-  - if params[:action] == "edit"
-    | Edit Task
-  - if params[:action] == "new"
-    | New Task
-  hr.m-b-1
-/.padded-checkboxes.reactive_reminders.reminders_table.m-t-2.m-b-2
-  /- @business.reminders.where(remind_at: @parsed_date).order(id: :asc).each do |reminder|
-    = check_box_tag("reminder_popup_#{reminder.id}", 1, !reminder.done_at.nil?)
-    - pth = current_business ? new_business_reminder_path(date: reminder.remind_at) : new_specialists_business_reminder_path(@business.username, date: reminder.remind_at)
-    label for=("reminder_popup_#{reminder.id}") class="css-label" style="width: 100%;"
-      .upcoming_task style="line-height: 14px;"
-        div style="position:relative;" class=("done" if reminder.done_at.present?) 
-          = reminder.body
-          = link_to "", (current_specialist ? specialists_business_reminder_path(@business.username, reminder) : business_reminder_path(reminder)), method: :delete, class: "icon-close"
-    .clearfix
-/- pth = (current_specialist ? specialists_business_reminders_path(@business.username) : business_reminders_path)
-/- if params[:action] == "edit"
-/  - pth = (current_specialist ? specialists_business_reminder_path(@business.username, @reminder) : business_reminder_path(@reminder))
+  .pull-left
+    - if params[:action] == "edit"
+      | Edit Task
+    - if params[:action] == "new"
+      | New Task
+  - if @occurence
+    .pull-right.nav.nav-pills style="margin-top: -4px;"
+      label.btn.btn-shadow.noshadow.active.task_occurence_btn OCCURENCE
+      label.btn.btn-shadow.noshadow.task_series_btn SERIES
 
-
-= simple_form_for @reminder, wrapper: :inline_form, url: action_path do |f|
-  .text-danger = f.object.errors.full_messages.first if f.object.errors.any?
-
-  .col-md-12.p-x-0
-    = f.input :body
-  .col-md-6.p-l-0
-    = f.input :remind_at, required: true, as: :string, input_html: { \
-      class: 'input-lg js-datepicker date', \
-      data: { \
-        value: (l(f.object.remind_at, format: :pickadate) if f.object.remind_at) \
-      } \
-    }
-
-  .col-md-6.p-r-0
-    = f.input :end_date, required: true, as: :string, input_html: { \
-      class: 'input-lg js-datepicker date', \
-      data: {\
-        min: [2020,6,23], \
-        'date-to' => true, \
-        value: (l(f.object.end_date, format: :pickadate) if f.object.end_date.present?) \
-                    } \
-    }
-  .col-md-12.text-center
-    = f.submit f.object.new_record? ? "Add Task" : "Edit Task", class: "btn btn-primary p-x-3 m-t-1 m-b-1"
-    - unless f.object.new_record?
-      = link_to 'Delete', business_reminder_path(f.object), class: "btn btn-primary p-x-3 m-t-1 m-b-1 m-l-2",
-              remote: false,
-              method: :delete,
-              title: 'Confirm Deletion',
-              data: {confirm: "<div class='bootbox-heading'>Delete Task<hr></div><div class='p-x-3'>Are you sure you want to delete this task?</div>", confirm_label: 'Confirm', no_cancel: true}
   .clearfix
+  hr.m-b-1
+= render partial: "business/reminders/form", locals: { reminder: @reminder }
+- if @occurence
+  = render partial: "business/reminders/form", locals: { reminder: @occurence }
+  javascript:
+    if (typeof($) != "undefined") {
+      $(".new_reminder, .edit_reminder").first().hide();
+      $(".task_occurence_btn").on("click", function() {
+        $(".new_reminder, .edit_reminder").first().hide();
+        $(".new_reminder, .edit_reminder").last().show();
+        $(".bootbox-heading .nav-pills label").removeClass("active");
+        $(this).addClass("active");
+      });
+      $(".task_series_btn").on("click", function() {
+        $(".new_reminder, .edit_reminder").first().show();
+        $(".new_reminder, .edit_reminder").last().hide();
+        $(".bootbox-heading .nav-pills label").removeClass("active");
+        $(this).addClass("active");
+      });
+    }
 javascript:
   var reactive_reminders = true;
-  // if (typeof (attach_js_datepicker) != "undefined") {
-  //     attach_js_datepicker($(".modal-body"));
-  // }
-  var from_$input = $('#reminder_remind_at').pickadate({
-          format: $(this).data('format') || 'mmmm d, yyyy',
-          formatSubmit: 'yyyy-mm-dd',
-          hiddenName: true,
-      }),
-      from_picker = from_$input.pickadate('picker')
+  if (typeof($) != "undefined") {
+    $(".new_reminder, .edit_reminder").each(function() {
+      patch_reminder_datepickers($(this));
+      update_reminder_form($(this));
+    });
+    patch_js_select($(".new_reminder, .edit_reminder"));
 
-  var to_$input = $('#reminder_end_date').pickadate({
-          format: $(this).data('format') || 'mmmm d, yyyy',
-          formatSubmit: 'yyyy-mm-dd',
-          hiddenName: true,
-      }),
-      to_picker = to_$input.pickadate('picker')
+    $(".new_reminder, .edit_reminder").each(function() {
+      var _this = this;
+      $(this).find("select").on("change", function() {
+        update_reminder_form($(_this));
+      })
+    })
 
-
-  // Check if there’s a “from” or “to” date to start with.
-  if (from_picker.get('value')) {
-      to_picker.set('min', from_picker.get('select'))
-
+    $(".add_task_btn").on("click", function(e) {
+      var formselector = $(e.target).parent().parent();
+      e.preventDefault();
+      var emptiness = formselector.find("input:visible,select:visible").filter(function() { return !this.value; });
+      var end_by = formselector.find(".reminder_end_by input:visible").filter(function() { return !this.value; });
+      var repeats = formselector.find(".reminder_repeats select:visible").filter(function() { return !this.value; });
+      if ((emptiness.length == 0) || (emptiness.length-end_by.length == 0) || (emptiness.length-repeats.length == 0)) {
+        switch(formselector.find("select[name='reminder[repeats]']").val()) {
+          case "Daily":
+            formselector.find(".reminder_repeat_every").last().remove();
+            formselector.find(".reminder_repeat_on, .reminder_on_type").remove();
+            break;
+          case "Weekly":
+            formselector.find(".reminder_repeat_on").first().remove();
+            formselector.find(".reminder_repeat_every").last().remove();
+            formselector.find(".reminder_on_type").remove();
+            break;
+          case "Monthly":
+            formselector.find(".reminder_repeat_every").last().remove();
+            switch(formselector.find("select[name='reminder[on_type]']").val()) {
+              case "Day":
+                formselector.find(".reminder_repeat_on").last().remove();
+                break;
+              default:
+                formselector.find(".reminder_repeat_on").first().remove();
+            }
+            break;
+          case "Yearly":
+            formselector.find(".reminder_repeat_every").first().remove();
+            switch(formselector.find("select[name='reminder[on_type]']").val()) {
+              case "Day":
+                formselector.find(".reminder_repeat_on").last().remove();
+                break;
+              default:
+                formselector.find(".reminder_repeat_on").first().remove();
+            }
+            break;
+        }
+        formselector.submit();
+      } else {
+        emptiness.addClass("form_error");
+      }
+    })
   }
-  // if (to_picker.get('value')) {
-  //     from_picker.set('max', to_picker.get('select'))
-  // }
-  // When something is selected, update the “from” and “to” limits.
-  from_picker.on('set', function (event) {
-
-      if (event.select) {
-          to_picker.set('min', from_picker.get('select'))
-      } else if ('clear' in event) {
-          to_picker.set('min', false)
-      }
-
-  })
-
-  to_picker.on('set', function (event) {
-      if (event.select) {
-          from_picker.set('max', to_picker.get('select'))
-      } else if ('clear' in event) {
-          from_picker.set('max', false)
-      }
-  })
-

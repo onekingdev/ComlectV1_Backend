@@ -13,13 +13,17 @@
         - @reminders_past.each do |reminder|
           = render partial: "business_dashboard/task", locals: { reminder: reminder }
         .clearfix
-      - if @reminders_today.any?
+      - if @reminders_today.count.positive?
         - @reminders_today.each do |reminder|
           = render partial: "business_dashboard/task", locals: { reminder: reminder }
         .clearfix
   .task_list_wrapper#tasks_week.fixedheight_receiver
     .panel-body style="padding-top: 0px; padding-bottom: 0px;"
-      - if @reminders_week.any?
+      - if @reminders_week.count.positive?
         - @reminders_week.each do |reminder|
           = render partial: "business_dashboard/task", locals: { reminder: reminder }
         .clearfix
+
+- if current_specialist
+  javascript:
+    var reminders_bsurl = "/specialist/reminders/";
