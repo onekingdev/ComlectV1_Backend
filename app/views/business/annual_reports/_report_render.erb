@@ -189,13 +189,13 @@
     </div>
     <div class="container page" style="background-image: url(<%= Rails.root.to_s %>/app/assets/images/annual_report_bg2.png); background-size: 100%; background-clip: content-box; height: 1460px;">
       <p style="font-size: 60px; display: table-caption; letter-spacing: 4px; padding-left: 100px; padding-top:100px; margin-bottom: -20px; font-weight: bold; font-family: 'open sans bold'"><b>COMPLIANCE PROGRAM REVIEW</b></p>
-      <div style="width: 330px; height: 330px; position: relative; left: 600px; top: -120px; border-radius: 50%; background:black; ">
-        <p style="color: #FFCD00; font-size: 64px; text-align: center; padding-top: 25%; padding-bottom: -30px; font-family: 'Canela Bold';">12</p>
-        <p style="color: #FFFFFF; font-size: 20px; ; text-align: center; vertical-align: middle; max-width: 240px; margin: auto; margin-top:-50px; line-height: 1.5;font-family: 'open sans regular'">core areas of the compliance program was reviewed</p>
+      <div style="width: 330px; height: 330px; position: relative; left: 570px; top: -120px; border-radius: 50%; background:black; ">
+        <p style="color: #FFCD00; font-size: 68px; text-align: center; padding-top: 25%; padding-bottom: -30px; font-family: 'Canela Bold';">12</p>
+        <p style="color: #FFFFFF; font-size: 22px; ; text-align: center; vertical-align: middle; max-width: 230px; margin: auto; margin-top:-50px; line-height: 1.5;font-family: 'open sans regular'">core areas of the compliance program was reviewed</p>
       </div>
-      <div style="width: 530px; height: 530px; background-color: #FFCD00; z-index: 3; position: absolute; left: -40px; bottom: 500px !important;" class="circles">
-        <p style="font-size: 106px; font-weight: bold; letter-spacing: 10px; margin-bottom: -20px; text-align: center; padding-top:40px; font-family: 'Canela Bold';"><%= @annual_report.findings_report[:percentage] %>%</p>
-        <p style="font-size: 24px; text-align: center; line-height: 1.5; padding-top: 10px; padding-left: 60px; width: 400px;font-family: 'open sans regular'">of the areas reviewed did not have any notable findings or recommendations for improvement</p>
+      <div style="width: 530px; height: 530px; background-color: #FFCD00; z-index: 3; position: absolute; left: -20px; bottom: 500px !important;" class="circles">
+        <p style="font-size: 112px; font-weight: bold; letter-spacing: 10px; margin-bottom: -20px; text-align: center; padding-top:40px; font-family: 'Canela Bold';"><%= @annual_report.findings_report[:percentage] %>%</p>
+        <p style="font-size: 26px; text-align: center; line-height: 1.5; padding-top: 10px; padding-left: 60px; width: 400px;font-family: 'open sans regular'">of the areas reviewed did not have any notable findings or recommendations for improvement</p>
       </div>
       <p style="padding-left: 70px; font-size: 20px; max-width: 560px; line-height: 1.5; position: relative; bottom: -300px;font-family: 'Open Sans Semibold'"><%= @business.business_name %> (or the "Company") conducted an annual review of its compliance program from <%= @annual_report.created_at.strftime("%Y %B %d") %> through <%= @annual_report.updated_at.strftime("%Y %B %d") %>. This report contains specific observations and recommendations concerning the Company’s practices, including general context and references to applicable securities laws.</p>
     </div>

@@ -10,7 +10,6 @@ filter_project_form = (val) ->
     $('.project-details .project_title').prependTo $($('.project-details .col-sm-8')[0])
     $(".project_jurisdiction_ids").appendTo $($('.project-details .col-sm-4')[0])
   else
-    console.log("here");
     $('.project-details .project_title').prependTo $($('.project-details .col-sm-4')[0])
     $(".project_jurisdiction_ids").prependTo $($('.project-details .col-sm-4')[1])
   return

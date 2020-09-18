@@ -140,6 +140,7 @@ class Project < ApplicationRecord
   after_update :new_project_notification
   after_create :send_email, if: :internal?
   before_create :check_specialist, if: :internal?
+  before_create :remove_specialist, unless: :internal?
 
   LOCATIONS = [%w[Remote remote], %w[Remote\ +\ Travel remote_and_travel], %w[Onsite onsite]].freeze
   COLORS = [%w[CB00FF CB00FF], %w[B3FF00 B3FF00], %w[F7862B F7862B], %w[0033FF 0033FF], %w[FFB8FD FFB8FD]].freeze
@@ -463,12 +464,24 @@ class Project < ApplicationRecord
   end
 
   def check_specialist
-    if business.hired_specialists.map(&:id).include? specialist_id
-      true
+    assigned_team_members_ids = business.seats.pluck(:team_member_id).compact
+    assigned_team_members = TeamMember.where(id: assigned_team_members_ids).pluck(:email).compact
+    if specialist
+      email = specialist.user.present? ? specialist.user.email : ''
+      if assigned_team_members.include? email
+        true
+      else
+        errors.add :base, 'Invalid specialist'
+        false
+      end
     else
       errors.add :base, 'Invalid specialist'
       false
     end
+  end
+
+  def remove_specialist
+    self.specialist_id = nil
   end
 
   private

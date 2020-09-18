@@ -318,9 +318,13 @@ class Business < ApplicationRecord
   end
 
   def all_employees
+    assigned_team_members_ids = seats.pluck(:team_member_id).compact
+    assigned_team_members = TeamMember.where(id: assigned_team_members_ids)
     employee_array = []
-    active_specialists.uniq.each do |employee|
-      employee_array << [employee.full_name, employee.id]
+    assigned_team_members.each do |employee|
+      user = User.find_by(email: employee.email)
+      specialist = user.specialist if user.present?
+      employee_array << [specialist.full_name, specialist.id] if specialist.present?
     end
     employee_array
   end
