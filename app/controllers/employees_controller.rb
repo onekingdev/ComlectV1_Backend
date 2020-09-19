@@ -77,7 +77,8 @@ class EmployeesController < ApplicationController
   end
 
   def init_tasks_calendar_grid
-    tasks_calendar_grid(current_business)
+    tasks_calendar_grid(current_business,
+                        params[:start_date] ? Date.parse(params[:start_date]).beginning_of_month : Time.zone.today.beginning_of_month)
   end
 
   def mirror

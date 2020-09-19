@@ -10,7 +10,8 @@ class Specialists::BusinessesController < ApplicationController
   def show
     @business = Business.find_by(username: params[:id])
     return unless current_specialist.manageable_ria_businesses.include? @business
-    tasks_calendar_grid(@business)
+    tasks_calendar_grid(@business,
+                        params[:start_date] ? Date.parse(params[:start_date]).beginning_of_month : Time.zone.today.beginning_of_month)
     @financials = Business::Financials.for(@business)
     @ratings = @business.ratings_received.preload_associations
     @reminders_today = reminders_today(@business)

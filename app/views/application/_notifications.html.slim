@@ -15,7 +15,7 @@ li.dropdown.p-r-0
       - user.notifications.unread.each do |notification|
         li
           = link_to notification, remote: true do
-            - if notification.img_path
+            - if notification.img_path && notification.img_path != "/default_userpic.png"
               = image_tag notification.img_path
             - else
               = image_tag "default_userpic.png"

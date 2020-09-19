@@ -3,7 +3,6 @@
 # rubocop:disable Metrics/ClassLength
 class Project < ApplicationRecord
   self.inheritance_column = '_none'
-  attr_accessor :color
 
   belongs_to :business
   belongs_to :specialist
@@ -116,8 +115,7 @@ class Project < ApplicationRecord
   enum type: {
     one_off: 'one_off',
     full_time: 'full_time',
-    rfp: 'rfp',
-    internal: 'internal'
+    rfp: 'rfp'
   }
 
   enum applicant_selection: {
@@ -138,9 +136,6 @@ class Project < ApplicationRecord
 
   after_create :new_project_notification
   after_update :new_project_notification
-  after_create :send_email, if: :internal?
-  before_create :check_specialist, if: :internal?
-  before_create :remove_specialist, unless: :internal?
 
   LOCATIONS = [%w[Remote remote], %w[Remote\ +\ Travel remote_and_travel], %w[Onsite onsite]].freeze
   # DB Views depend on these so don't modify:
@@ -322,11 +317,7 @@ class Project < ApplicationRecord
   end
 
   def active?
-    if ends_on.present?
-      published? && specialist_id.present? && (hard_ends_on.future? || escalated?)
-    else
-      published? && specialist_id.present?
-    end
+    published? && specialist_id.present? && (hard_ends_on.future? || escalated?)
   end
 
   def finishing?
@@ -456,31 +447,6 @@ class Project < ApplicationRecord
       save!
     end
     # rubocop:enable Style/GuardClause
-  end
-
-  def send_email
-    Notification::Deliver.got_assigned! self
-  end
-
-  def check_specialist
-    assigned_team_members_ids = business.seats.pluck(:team_member_id).compact
-    assigned_team_members = TeamMember.where(id: assigned_team_members_ids).pluck(:email).compact
-    if specialist
-      email = specialist.user.present? ? specialist.user.email : ''
-      if assigned_team_members.include? email
-        true
-      else
-        errors.add :base, 'Invalid specialist'
-        false
-      end
-    else
-      errors.add :base, 'Invalid specialist'
-      false
-    end
-  end
-
-  def remove_specialist
-    self.specialist_id = nil
   end
 
   private

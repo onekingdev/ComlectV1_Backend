@@ -24,9 +24,10 @@ class BusinessDashboardController < ApplicationController
     end
     @financials = Business::Financials.for(current_business)
     @ratings = @business.ratings_received.preload_associations
-    @reminders_today = reminders_today(current_business)
-    @reminders_week = reminders_week(current_business)
     @reminders_past = reminders_past(current_business)
+    @reminders_today = reminders_today(current_business, @calendar_grid)
+    @reminders_week = reminders_week(current_business, @calendar_grid)
+    @calendar_grid = tasks_calendar_grid(current_business, Date.parse(params[:start_date]).beginning_of_month) if params[:start_date]
     @current_year_annual_review = @business.processed_annual_reviews.where(year: Time.zone.today.year)
   end
 
@@ -41,6 +42,6 @@ class BusinessDashboardController < ApplicationController
   end
 
   def init_tasks_calendar_grid
-    tasks_calendar_grid(current_business)
+    @calendar_grid = tasks_calendar_grid(current_business, Time.zone.today.beginning_of_month)
   end
 end

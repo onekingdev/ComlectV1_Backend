@@ -133,8 +133,6 @@ class Business::ProjectsController < ApplicationController
       :fee_type,
       :invite_id,
       :est_budget,
-      :color,
-      :specialist_id,
       :rfp_timing,
       jurisdiction_ids: [],
       industry_ids: [],
