@@ -317,6 +317,18 @@ class Business < ApplicationRecord
     employees.split('-')[0].scan(/\d/).join('').to_i
   end
 
+  def all_employees
+    assigned_team_members_ids = seats.pluck(:team_member_id).compact
+    assigned_team_members = TeamMember.where(id: assigned_team_members_ids)
+    employee_array = []
+    assigned_team_members.each do |employee|
+      user = User.find_by(email: employee.email)
+      specialist = user.specialist if user.present?
+      employee_array << [specialist.full_name, specialist.id] if specialist.present?
+    end
+    employee_array
+  end
+
   # rubocop:disable Metrics/CyclomaticComplexity
   # rubocop:disable Metrics/PerceivedComplexity
   def gap_analysis_est
@@ -454,6 +466,12 @@ class Business < ApplicationRecord
 
   def base_subscribed?
     subscriptions.base.present? ? (subscriptions&.base&.stripe_invoice_item_id && subscriptions&.base&.stripe_subscription_id) : false
+  end
+
+  def project_types
+    project_base_option = [['RFP', Project.types[:rfp]], ['Custom', Project.types[:one_off]], ['Full Time', Project.types[:full_time]]]
+    project_base_option << ['Internal', Project.types[:internal]] if subscriptions.base.present?
+    project_base_option
   end
 
   def payment_source_type

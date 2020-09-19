@@ -52,6 +52,11 @@ en:
       message: Congrats! You've been hired. Click here to visit the project dashboard to get started.
       message_mail: Congrats! You've been hired. Click the link to visit the project dashboard to get started.
       action_label: Go to %{project_title} Project Dashboard
+    got_assigned_project:
+      subject: You have been assigned a project
+      message: Congrats! You've been assigned a project on Complect.
+      message_mail: Congrats! You've been assigned a project on Complect.
+      action_label: Click on the link to get started %{project_title}
     got_hired_job:
       subject: You Got the Job!
       message: Congrats! You've been hired for the %{project_title} role. Reach out to the business with any questions or concerns.

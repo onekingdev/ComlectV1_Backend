@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/ModuleLength
 module RemindersFetcher
   class FakeTask
     def initialize(id)
@@ -9,44 +8,47 @@ module RemindersFetcher
     attr_accessor :id
   end
 
-  def tasks_calendar_grid(remindable, beginning)
+  def tasks_calendar_grid(remindable)
+    beginning = params[:start_date] ? Date.parse(params[:start_date]).beginning_of_month : Time.zone.today.beginning_of_month
     end_of_month = beginning + 40.days
     first_day = beginning - beginning.wday.days
     last_day = end_of_month + (6 - end_of_month.wday).days
-    @grid_tasks = remindable.reminders.where('end_date >= ? AND remind_at < ?', first_day, last_day).where(repeats: nil)
-    @recurring_tasks = remindable.reminders.where('remind_at < ?', last_day).where.not(repeats: nil)
+    @grid_tasks = remindable.reminders.where('end_date >= ? AND remind_at < ?', first_day, last_day)
     @active_projects = remindable.projects.active
-    calendar_grid = {}
+    @calendar_grid = {}
     (first_day..last_day).each do |cell|
-      calendar_grid[cell] = []
+      @calendar_grid[cell] = []
     end
 
     @active_projects.each do |task|
+      next unless task.starts_on.present? && task.ends_on.present?
       (task.starts_on..task.ends_on).each do |d|
-        calendar_grid[d].push(task) if calendar_grid.include?(d)
+        @calendar_grid[d].push(task) if @calendar_grid.include?(d)
       end
     end
 
     @grid_tasks.each do |task|
       (task.remind_at..task.end_date).each do |d|
-        calendar_grid[d].push(task) if calendar_grid.include?(d)
+        @calendar_grid[d].push(task) if @calendar_grid.include?(d)
       end
     end
 
-    calendar_grid = populate_recurring_tasks(@recurring_tasks, last_day, calendar_grid)
-
     prev_day = nil
-    calendar_grid.keys.each do |date|
+    @calendar_grid.keys.each do |date|
       if prev_day.nil?
         prev_day = date
       else
-        # fantastic sorting
+        # weird sorting
         safe_arr = []
         additive_arr = []
-        calendar_grid[date].each do |task|
+        @calendar_grid[date].each do |task|
           next unless task.id != 0
-          prev_task_index = calendar_grid[prev_day].collect(&:id).index(task.id)
-          !prev_task_index.nil? ? safe_arr[prev_task_index] = task : additive_arr.push(task)
+          prev_task_index = @calendar_grid[prev_day].collect(&:id).index(task.id)
+          if !prev_task_index.nil?
+            safe_arr[prev_task_index] = task
+          else
+            additive_arr.push(task)
+          end
         end
         safe_arr.each_with_index do |a, i|
           safe_arr[i] = additive_arr.shift if a.nil?
@@ -56,93 +58,42 @@ module RemindersFetcher
             safe_arr.push(a)
           end
         end
-        safe_arr.each_with_index { |a, i| safe_arr[i] = FakeTask.new(0) if a.nil? }
-        calendar_grid[date] = safe_arr
+        safe_arr.each_with_index do |a, i|
+          safe_arr[i] = FakeTask.new(0) if a.nil?
+        end
+        @calendar_grid[date] = safe_arr
         prev_day = prev_day.wday == 6 ? nil : date
       end
     end
-    calendar_grid
-  end
-
-  def populate_calendar(date_cursor, task, occurence_idx, calendar_grid)
-    recurring_reminder = RecurringReminder.new(task, "#{task.id}_#{occurence_idx}", date_cursor)
-    (date_cursor..(date_cursor + (task.duration - 1).days)).each do |d|
-      calendar_grid[d].push(recurring_reminder) if calendar_grid.key?(d)
-    end
-    calendar_grid
-  end
-
-  def populate_recurring_tasks(tasks, last_day, calendar_grid)
-    tasks.each do |task|
-      occurence_idx = 0
-      date_cursor = task.remind_at
-      while (task.end_by.blank? || (task.end_by.present? && (date_cursor < task.end_by))) && (date_cursor < last_day)
-        if %w[Daily Weekly Monthly Yearly].include?(task.repeats)
-          unless task.skip_occurencies.include?(occurence_idx)
-            calendar_grid = populate_calendar(date_cursor, task, occurence_idx, calendar_grid)
-          end
-          occurence_idx += 1
-        end
-        case task.repeats
-        when ''
-          date_cursor = last_day
-        when 'Daily'
-          date_cursor += task.repeat_every.day
-        when 'Weekly'
-          date_cursor += (task.repeat_every * 7).day
-        when 'Monthly'
-          date_cursor += task.repeat_every.months
-          date_cursor = date_cursor.beginning_of_month
-          date_cursor = if task.on_type == 'Day'
-                          date_cursor.change(day: task.repeat_on)
-                        else
-                          Reminder.find_month_day(date_cursor, task.on_type, task.repeat_on)
-                        end
-        when 'Yearly'
-          date_cursor += 1.year
-          date_cursor = date_cursor.change(month: task.repeat_every)
-          date_cursor = date_cursor.beginning_of_month
-          date_cursor = if task.on_type == 'Day'
-                          date_cursor.change(day: task.repeat_on)
-                        else
-                          Reminder.find_month_day(date_cursor, task.on_type, task.repeat_on)
-                        end
-        end
-      end
-    end
-    calendar_grid
   end
 
   def reminders_past(remindable)
-    recurring_past_dues = []
-    remindable.reminders.where.not(repeats: nil).each do |task|
-      task.detect_past_dues.each do |d|
-        recurring_past_dues.push(RecurringReminder.new(task, "#{task.id}_#{d[1]}", d[0]))
-      end
-    end
-
     remindable
-      .reminders.where(repeats: nil)
+      .reminders
       .where('end_date < ?',
              Time.zone.today.in_time_zone(remindable.time_zone)).where(done_at: nil)
-      .order(remind_at: :asc, id: :asc) + recurring_past_dues
+      .order(remind_at: :asc, id: :asc)
   end
 
-  def reminders_today(remindable, calendar_grid)
-    today_tasks = []
-    calendar_grid.each do |k, v|
-      today_tasks = v if k == Time.zone.today.in_time_zone(remindable.time_zone).to_date
-    end
-    today_tasks
+  def reminders_today(remindable)
+    remindable
+      .reminders
+      .where('remind_at <= ? AND end_date >= ?',
+             Time.zone.today.in_time_zone(remindable.time_zone),
+             Time.zone.today.in_time_zone(remindable.time_zone))
+      .order(remind_at: :asc, id: :asc) +
+      remindable.projects.active.where('starts_on <= ?',
+                                       Time.zone.today.in_time_zone(remindable.time_zone))
   end
 
-  def reminders_week(remindable, calendar_grid)
-    week_tasks = []
-    beginning_of_week = Time.zone.today.in_time_zone(remindable.time_zone).beginning_of_week.to_date
-    calendar_grid.each do |k, v|
-      week_tasks += v if k >= beginning_of_week && k <= beginning_of_week + 6.days
-    end
-    week_tasks.uniq
+  def reminders_week(remindable)
+    remindable
+      .reminders
+      .where('end_date >= ? AND remind_at <= ?',
+             Time.zone.today.in_time_zone(remindable.time_zone),
+             Time.zone.today.end_of_week.in_time_zone(remindable.time_zone))
+      .order(remind_at: :asc, id: :asc) +
+      remindable.projects.active.where('starts_on <= ?',
+                                       Time.zone.today.in_time_zone(remindable.time_zone))
   end
 end
-# rubocop:enable Metrics/ModuleLength

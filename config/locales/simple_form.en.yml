@@ -81,6 +81,8 @@ en:
         location_type: "Location"
         location: "City, State, Country"
         industries: "Industry"
+        employee: "Employee"
+        color: "Color"
         jurisdictions: "Jurisdiction"
         description: "Please provide a detailed description of what services you're looking for and relevant background information. For example: ​\n\nWe're an SEC registered adviser with 10 employees and ~$250MM AUM across 225 accounts. Our sales team is producing several new marketing materials every week and we would like to hire someone to review these materials for us as they come up. It will likely be anywhere from 3-5 a month and are primarily one pagers and 5-10 page marketing decks."
         key_deliverables: "Key Deliverables (e.g. report, advice, policies, etc.)"

@@ -12,10 +12,9 @@ class Specialists::DashboardController < ApplicationController
   def show
     @specialist = Specialist.preload_associations.find(current_user.specialist.id)
     @financials = Specialist::Financials.for(current_specialist)
-    @reminders_today = reminders_today(current_specialist, @calendar_grid)
-    @reminders_week = reminders_week(current_specialist, @calendar_grid)
+    @reminders_today = reminders_today(current_specialist)
+    @reminders_week = reminders_week(current_specialist)
     @reminders_past = reminders_past(current_specialist)
-    @calendar_grid = tasks_calendar_grid(current_specialist, Date.parse(params[:start_date]).beginning_of_month) if params[:start_date]
     @compliance_spend = ['Earned'] + transactions_monthly(@specialist)
   end
 
@@ -30,6 +29,6 @@ class Specialists::DashboardController < ApplicationController
   end
 
   def init_tasks_calendar_grid
-    @calendar_grid = tasks_calendar_grid(current_specialist, Time.zone.today.beginning_of_month)
+    tasks_calendar_grid(current_specialist)
   end
 end
