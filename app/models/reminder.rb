@@ -51,10 +51,6 @@ class Reminder < ActiveRecord::Base
       self.on_type = nil
       self.repeat_on = nil
     when 'Weekly'
-      sunday_fix = remind_at.wday
-      sunday_fix = 7 if sunday_fix.zero?
-      self.remind_at = remind_at - (sunday_fix - repeat_on).days
-      self.end_date = remind_at + (duration - 1).days
       self.on_type = nil
     end
   end
@@ -66,6 +62,9 @@ class Reminder < ActiveRecord::Base
     when 'Daily'
       date_cursor += repeat_every.day
     when 'Weekly'
+      sunday_fix = date_cursor.wday
+      sunday_fix = 7 if sunday_fix.zero?
+      date_cursor -= (sunday_fix - repeat_on).days
       date_cursor += (repeat_every * 7).day
     when 'Monthly'
       date_cursor += repeat_every.months
