@@ -1,4 +1,4 @@
-$(document).on 'change', '#project_type_rfp, #project_type_one_off, #project_type_full_time', (e) ->
+$(document).on 'change', '#project_type_rfp, #project_type_one_off, #project_type_full_time, #project_type_internal', (e) ->
   $this = $(this)
   $this.parents('form').attr('data-project-type', $this.val())
 

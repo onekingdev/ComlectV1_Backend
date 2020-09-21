@@ -69,7 +69,7 @@ class ProjectMessagesController < ApplicationController
   end
 
   def find_project
-    @project = sender.communicable_projects.find(params[:project_id])
+    @project = sender.projects.find(params[:project_id])
   rescue ActiveRecord::RecordNotFound
     head(:not_found) && return
   end

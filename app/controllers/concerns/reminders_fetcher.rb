@@ -21,6 +21,7 @@ module RemindersFetcher
     end
 
     @active_projects.each do |task|
+      next unless task.starts_on.present? && task.ends_on.present?
       (task.starts_on..task.ends_on).each do |d|
         calendar_grid[d].push(task) if calendar_grid.include?(d)
       end

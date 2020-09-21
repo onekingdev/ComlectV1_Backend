@@ -33,7 +33,7 @@
                 - week_rendered_ids.push("p_#{task.id}")
                 - visual_duration = task.ends_on.mjd-date.mjd+1
                 - visual_duration = 7-((date.wday+6) % 7) if visual_duration > (7-((date.wday+6) % 7))
-                .task_middle data-vduration=(visual_duration) style="top: #{i*15+10}px;" class=("task_0 #{'task_begin' if task.starts_on == date} #{'task_end' if task.ends_on == date}") = link_to task.title, eval("#{project_path}(task)"), target: "_blank"
+                .task_middle data-vduration=(visual_duration) style="background-color: #{task.color.present? ? task.color : '#EC428A'}; top: #{i*15+10}px;" class=("#{'task_begin' if task.starts_on == date} #{'task_end' if task.ends_on == date}") = link_to task.title, eval("#{project_path}(task)"), target: "_blank"
 
 javascript:
   var reactive_reminders = true;

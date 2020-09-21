@@ -9,6 +9,7 @@ class Subscription < ActiveRecord::Base
   enum status: { active: 0, canceled: 1 }
 
   scope :base, -> { find_by(kind_of: 0) }
+  scope :active, -> { find_by(status: 0) }
 
   # unsure stripe customer business.payment_profile.stripe_customer
   # create one-time payment via InvoiceItem to customer

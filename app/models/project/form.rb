@@ -6,7 +6,7 @@ class Project::Form < Project
   validates :title, :description, presence: true
   validates :location_type, inclusion: { in: Project::LOCATIONS.map(&:second) }, allow_blank: true
   validates :location, presence: true, if: :location_required?
-  validates :jurisdiction_ids, :industry_ids, presence: true
+  validates :jurisdiction_ids, :industry_ids, presence: true, unless: :internal?
 
   ONE_OFF_FIELDS = %i[key_deliverables location_type payment_schedule estimated_hours].freeze
   FULL_TIME_FIELDS = %i[full_time_starts_on annual_salary].freeze
@@ -53,7 +53,7 @@ class Project::Form < Project
     errors.add :base, :no_payment
   end
   validates :skill_ids, length: { maximum: 10 }
-  validates :minimum_experience, presence: true, inclusion: { in: EXPERIENCE_RANGES.keys }
+  validates :minimum_experience, presence: true, inclusion: { in: EXPERIENCE_RANGES.keys }, unless: :internal?
 
   before_validation :assign_type_fields
   before_validation :assign_duration_type_fields
@@ -65,7 +65,7 @@ class Project::Form < Project
 
   ATTRIBUTES_FOR_COPY = %w[
     annual_salary business_id description estimated_hours fee_type fixed_budget hourly_rate key_deliverables
-    location_type location minimum_experience only_regulators payment_schedule pricing_type status title type
+    location_type location color minimum_experience only_regulators payment_schedule pricing_type status title type
   ].freeze
 
   def self.copy(original, attributes = {})

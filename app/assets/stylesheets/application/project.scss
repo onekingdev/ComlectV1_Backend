@@ -92,6 +92,25 @@ form.project_form {
       display: none;
     }
 
+    .project-salary, .project_specialist_id, .project_color {
+      display: none;
+    }
+
+    .project-budget-timing { display: none; }
+  }
+
+  &[data-project-type=internal] {
+    .one-off { display: inherit; }
+    .full-time { display: none; }
+
+    .form-group.project_full_time_starts_on {
+      display: none;
+    }
+
+    .project_location_type, .project_industry_ids, .project_jurisdiction_ids, .project-budget-timing, .project-applicant-selection, .project-pricing, .applicant_prerequisites, .project-edit-info {
+      display: none;
+    }
+
     .project-salary {
       display: none;
     }
@@ -103,7 +122,7 @@ form.project_form {
     .project-salary {
       display: none;
     }
-    .full-time { display: none; }
+    .full-time, .project_specialist_id, .project_color { display: none; }
     .project_key_deliverables { display: none; }
     .project_full_time_starts_on { display: none; }
     #project_description { min-height: 99px; }
@@ -115,7 +134,7 @@ form.project_form {
     .one-off { display: none; }
     .full-time { display: inherit; }
 
-    .project-budget-timing { display: none; }
+    .project-budget-timing, .project_specialist_id, .project_color { display: none; }
 
     .project-details #project_description {
       min-height: ($input-height-large * 3) + $form-group-margin-bottom * 2;
