@@ -78,7 +78,7 @@ module RemindersFetcher
       date_cursor = task.remind_at
       while (task.end_by.blank? || (task.end_by.present? && (date_cursor < task.end_by))) && (date_cursor < last_day)
         if %w[Daily Weekly Monthly Yearly].include?(task.repeats)
-          unless task.skip_occurencies.include?(occurence_idx)
+          unless task.skip_occurencies.include?(occurence_idx.to_s)
             calendar_grid = populate_calendar(date_cursor, task, occurence_idx, calendar_grid)
           end
           occurence_idx += 1
