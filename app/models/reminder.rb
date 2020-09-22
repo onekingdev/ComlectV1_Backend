@@ -92,7 +92,8 @@ class Reminder < ActiveRecord::Base
     occurence_idx = 0
     date_cursor = remind_at
     while date_cursor + (duration - 1).days < Time.zone.today.in_time_zone(remindable.time_zone).to_date
-      unless skip_occurencies.include?(occurence_idx) || done_occurencies.include?(occurence_idx)
+      unless (skip_occurencies.presence || []).include?(occurence_idx) ||
+             (done_occurencies.presence || []).include?(occurence_idx)
         past_dues.push([date_cursor, occurence_idx])
       end
       occurence_idx += 1
