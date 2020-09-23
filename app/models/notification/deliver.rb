@@ -438,7 +438,7 @@ class Notification::Deliver < Draper::Decorator
       project = request.project
       action_path, action_url = path_and_url :project_dashboard, project
       key = project.fixed_pricing? ? :end_project_fixed : :end_project_hourly
-
+      key = :end_project_fixed if project.internal?
       dispatcher = Dispatcher.new(
         user: project.specialist.user,
         key: key,
