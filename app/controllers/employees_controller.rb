@@ -38,7 +38,7 @@ class EmployeesController < ApplicationController
       @specialist.user.update_privacy_agreement(request.remote_ip)
       @specialist.user.update_cookie_agreement(request.remote_ip)
       # mixpanel_track_later 'Sign Up'
-      SpecialistMailer.welcome(@specialist).deliver_later
+      # SpecialistMailer.welcome(@specialist).deliver_later
 
       attributes_to_delete.each { |c| cookies.delete c }
       return redirect_to specialists_dashboard_path

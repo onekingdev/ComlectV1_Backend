@@ -2,7 +2,7 @@
 
 class Business::FileFoldersController < ApplicationController
   before_action :require_business!
-  before_action :set_folder, only: %i[destroy edit update show]
+  before_action :set_folder, only: %i[destroy edit update show download_folder]
 
   def new
     @file_folder = FileFolder.new
@@ -34,6 +34,13 @@ class Business::FileFoldersController < ApplicationController
   def show
     @file_folders = @file_folder.file_folders
     @file_docs = @file_folder.file_docs
+  end
+
+  def download_folder
+    filename = "#{@file_folder.name}.zip"
+    temp_file = Tempfile.new(filename)
+    zip_data = @file_folder.create_zip(@file_folder, temp_file)
+    send_data(zip_data, type: 'application/zip', filename: filename)
   end
 
   private

@@ -11,13 +11,12 @@
       div style="margin-left: -10px; margin-right: -10px;"
         = folder.updated_at.strftime '%b %-d, %Y'
     td
-    td
       div style="margin-left: -10px; margin-right: -10px;"
         = link_to edit_business_file_folder_path(folder, move: true), "data-target": "#modal", "data-toggle": "modal", "data-remote": true do
           i.fa.fa-random
-    /td
+    td
       div style="margin-left: -10px; margin-right: -10px;"
-        = link_to '#', "data-target": "#modal", "data-toggle": "modal", "data-remote": true do
+        = link_to download_folder_business_file_folder_path(folder) do
           i.icon-cloud-download
     td
       div style="margin-left: -10px; margin-right: -10px;"

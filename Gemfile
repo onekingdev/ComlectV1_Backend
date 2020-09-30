@@ -42,8 +42,10 @@ gem 'deep_pluck'
 gem 'faker'
 gem 'pg', '0.20.0'
 gem 'pg_search'
+gem 'rubyzip'
 gem 'scenic'
 gem 'where-or'
+gem 'zip-zip'
 
 # Orchestration
 gem 'dotenv-rails'
