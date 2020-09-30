@@ -526,7 +526,7 @@ CREATE TABLE public.businesses (
     compliance_policies_spawned boolean DEFAULT false,
     annual_budget numeric,
     risk_tolerance character varying,
-    reminders_mailed_at date
+    reminders_mailed_at timestamp without time zone
 );
 
 
@@ -1047,7 +1047,8 @@ CREATE TABLE public.projects (
     est_budget numeric,
     applicant_selection character varying DEFAULT 'interview'::character varying,
     admin_notified boolean DEFAULT false,
-    business_fee_free boolean DEFAULT false
+    business_fee_free boolean DEFAULT false,
+    color character varying
 );
 
 
@@ -1982,7 +1983,7 @@ CREATE TABLE public.specialists (
     annual_revenue_goal numeric,
     risk_tolerance character varying,
     automatching_available boolean DEFAULT false,
-    reminders_mailed_at date
+    reminders_mailed_at timestamp without time zone
 );
 
 
@@ -3502,7 +3503,8 @@ CREATE TABLE public.payment_sources (
     currency character varying,
     account_holder_name character varying,
     account_holder_type character varying,
-    validated boolean DEFAULT false NOT NULL
+    validated boolean DEFAULT false NOT NULL,
+    coupon_id character varying
 );
 
 
@@ -7582,5 +7584,11 @@ INSERT INTO schema_migrations (version) VALUES ('20200914113651');
 
 INSERT INTO schema_migrations (version) VALUES ('20200914144201');
 
+INSERT INTO schema_migrations (version) VALUES ('20200916052649');
+
 INSERT INTO schema_migrations (version) VALUES ('20200918212506');
+
+INSERT INTO schema_migrations (version) VALUES ('20200922124235');
+
+INSERT INTO schema_migrations (version) VALUES ('20200929162556');
 
