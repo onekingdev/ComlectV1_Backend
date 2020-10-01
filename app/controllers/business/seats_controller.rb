@@ -2,7 +2,7 @@
 
 class Business::SeatsController < ApplicationController
   def index
-    @departments = current_business.teams
+    @departments = current_business.viewable_teams
     @active_specialists = current_business.active_specialists.uniq
     teams_ids = current_business.teams.pluck(:id)
     @employees = TeamMember.where(team_id: teams_ids)

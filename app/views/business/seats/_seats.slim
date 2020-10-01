@@ -29,7 +29,7 @@
           tr
             td= employee.full_name
             td= employee.title
-            td= employee.team&.name
+            td= employee.team.display? ? employee.team&.name : '' if employee.team.present?
             - if params[:controller] == "business/seats"
               td style="width: 1px; font-size: 18px;"
                 = link_to business_seat_unassign_path(seat_id: employee.id), method: :delete, data: { confirm: "<div class='bootbox-heading'>Revoke Seat<hr></div>This will remove seat access from this employee.", "confirm-label": "Confirm", "no-cancel": "true" } do
