@@ -4,9 +4,8 @@ module RemindersFetcher
   class FakeTask
     def initialize(id)
       self.id = id
-      self.body = nil
     end
-    attr_accessor :id, :body
+    attr_accessor :id
   end
 
   def tasks_calendar_grid(remindable, beginning)
@@ -110,7 +109,7 @@ module RemindersFetcher
     calendar_grid.each do |k, v|
       today_tasks = v if k == Time.zone.today.in_time_zone(remindable.time_zone).to_date
     end
-    today_tasks.delete_if { |x| x.class.name == 'RemindersFetcher::FakeTask' }
+    today_tasks
   end
 
   def reminders_week(remindable, calendar_grid)
@@ -119,6 +118,6 @@ module RemindersFetcher
     calendar_grid.each do |k, v|
       week_tasks += v if k >= beginning_of_week && k <= beginning_of_week + 6.days
     end
-    week_tasks.uniq.delete_if { |x| x.class.name == 'RemindersFetcher::FakeTask' }
+    week_tasks.uniq
   end
 end
