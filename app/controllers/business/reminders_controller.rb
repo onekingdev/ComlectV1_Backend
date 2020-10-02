@@ -48,6 +48,7 @@ class Business::RemindersController < ApplicationController
     else
       @reminder&.destroy
     end
+
     redirect_to business_dashboard_path(reminder: tgt_date&.strftime('%Y-%m-%d'))
   end
 

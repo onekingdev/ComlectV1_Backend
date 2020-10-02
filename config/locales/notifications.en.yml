@@ -21,11 +21,11 @@ en:
     # sent to both
     got_rated:
       subject: You Have Been Rated and Reviewed
-      message: I've rated and reviewed you!
+      message: You've just been rated and reviewed you. See what was said about you.
       action_label: Go to Main Dashboard
     got_project_message:
       subject: You've Received a Message
-      message: I've sent you a message.
+      message: There's a message waiting for you.
       action_label: Go to %{project_title} Project Dashboard
     forum_comment:
       subject: Someone Commented on Your Answer
@@ -87,7 +87,7 @@ en:
       action_label: Go to Financials Page
     extend_project:
       subject: Project Extension Request
-      message: I think we need more time to complete the project. Please confirm the extension request within one business day before the request expires.
+      message: More time has been requested to complete the project. Please confirm the extension request within one business day before the request expires.
       action_label: Go to %{project_title} Project Dashboard
     end_project_fixed:
       subject: Project Early Termination Request
@@ -160,15 +160,15 @@ en:
       action_label: Go to %{project_title} Detailed Job View
     project_application:
       subject: You Have a New Applicant!
-      message: I just applied to your project. Thanks for considering me for your compliance needs.
+      message: Someone new has applied to your project. Head to your dashboard to check them out.
       action_label: Go to %{project_title} Applicant Pool
     job_application:
       subject: You Have a New Applicant!
-      message: I just applied to your job. Thanks for considering me for your compliance needs.
+      message: Someone new has applied to your job. Head to your dashboard to check them out.
       action_label: Go to %{project_title} Applicant Pool
     timesheet_submitted:
       subject: You've Received a Timesheet for Review
-      message: I've submitted a timesheet. Please review within one business day or the timesheet will be deemed accepted.
+      message: A timesheet has been submitted. Please review within one business day or the timesheet will be deemed accepted.
       action_label: Go to %{project_title} Project Dashboard
     business_project_starting_soon:
       subject: Your Project is Starting Soon

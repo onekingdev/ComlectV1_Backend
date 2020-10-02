@@ -16,9 +16,3 @@ task team_members_names: :environment do
   end
   puts 'done!'
 end
-
-task add_business_user_as_employee: :environment do
-  Business.all.each do |business|
-    business&.add_as_employee
-  end
-end

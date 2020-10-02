@@ -34,12 +34,9 @@ class ProjectEnd < ApplicationRecord
       :ends_on,
       Time.zone.now.in_time_zone(project.business.tz)
     )
-    if project.internal?
-      project.complete!
-    else
-      reset_upcoming_charges
-      project.fixed_pricing? ? trigger_fixed_project_end : trigger_hourly_project_end
-    end
+
+    reset_upcoming_charges
+    project.fixed_pricing? ? trigger_fixed_project_end : trigger_hourly_project_end
   end
 
   def trigger_fixed_project_end
