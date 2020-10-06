@@ -43,7 +43,7 @@ hr.m-b-1.m-t-1
       = project.pending? ? "0" : project.percent_complete.round
       |  %
   - if current_business
-    - if !project.complete? && !project.end_requests.any?(&:confirmed?) && !project.pending?
+    - if !project.complete? && !project.end_requests.any?(&:confirmed?) && !project.pending? && project.starts_on <= Time.zone.now.in_time_zone(current_business.time_zone).to_date
       .project-extension-picker-container.m-t-1
         button.btn.btn-block.btn-primary.btn-sm.m-b-1[
           data-method="post"

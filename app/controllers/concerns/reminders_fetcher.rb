@@ -15,7 +15,7 @@ module RemindersFetcher
     last_day = end_of_month + (6 - end_of_month.wday).days
     @grid_tasks = remindable.reminders.where('end_date >= ? AND remind_at < ?', first_day, last_day).where(repeats: nil)
     @recurring_tasks = remindable.reminders.where('remind_at < ?', last_day).where.not(repeats: nil)
-    @active_projects = remindable.projects.active
+    @active_projects = remindable.projects
     calendar_grid = {}
     (first_day..last_day).each do |cell|
       calendar_grid[cell] = []
