@@ -21,7 +21,7 @@ en:
     # sent to both
     got_rated:
       subject: You Have Been Rated and Reviewed
-      message: You've just been rated and reviewed you. See what was said about you.
+      message: You've just been rated and reviewed. See what was said about you.
       action_label: Go to Main Dashboard
     got_project_message:
       subject: You've Received a Message
