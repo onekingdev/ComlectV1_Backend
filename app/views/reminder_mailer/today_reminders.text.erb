@@ -1,13 +1,10 @@
 Hi <%= @remindable.name %>, here’s your to do list for today:
 
 <% @past_dues.each do |task| %>
-  * (Past due) <%= task.body %>
+  * (Past due) <%= task %>
 <% end %>
 <% @todays.each do |task| %>
-  * <%= task.body %>
+  * <%= task %>
 <% end %>
 
 If you need help, reach out to see how we can help you outsource some of these tasks.
-
-Best,
-Complect

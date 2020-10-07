@@ -3,8 +3,8 @@
 class ReminderMailer < ApplicationMailer
   def send_today(remindable, past_dues, todays)
     @remindable = remindable
-    @past_dues = past_dues
-    @todays = todays
+    @past_dues = JSON.parse(past_dues)
+    @todays = JSON.parse(todays)
     mail(
       to: remindable.user.email,
       template_id: ENV.fetch('POSTMARK_TEMPLATE_ID'),
