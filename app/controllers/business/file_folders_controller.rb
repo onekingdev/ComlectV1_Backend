@@ -53,7 +53,9 @@ class Business::FileFoldersController < ApplicationController
   def check_zip
     respond_to do |format|
       format.json do
-        render json: { "complete": @file_folder.zip.present? }
+        path = nil
+        path = @file_folder.zip.url if @file_folder.zip.present?
+        render json: { "complete": @file_folder.zip.present?, path: path }
       end
     end
   end
