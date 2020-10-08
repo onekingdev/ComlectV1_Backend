@@ -10,7 +10,6 @@ $('.download-folder').addClass('hide');
                     $('.loading').addClass('hide');
                     $('.download-folder').removeClass('hide');
                     clearInterval(requestloop);
-                    alert("here");
                     $('#js-zip-download').modal('show');
                     $('.download-zip').attr("href", "<%= download_folder_business_file_folder_path(params[:id]) %>")
                 }
