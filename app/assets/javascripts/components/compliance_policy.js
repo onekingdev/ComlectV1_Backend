@@ -7,7 +7,7 @@ $(document).ready(function() {
     hide_annual_compliance_fields();
   }
   if (typeof(compliance_policy_render_id) != "undefined") {
-    var bsurl = "/business/compliance_policies/";
+    var bsurl = "u/bsiness/compliance_policies/";
     if (typeof(compliance_policy_baseurl) != "undefined") {
       bsurl = compliance_policy_baseurl;
     }

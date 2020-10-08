@@ -440,6 +440,7 @@ GEM
       unicode-display_width (~> 1.0, >= 1.0.1)
     ruby-progressbar (1.10.1)
     ruby-rc4 (0.1.5)
+    rubyzip (2.3.0)
     rufus-scheduler (3.6.0)
       fugit (~> 1.1, >= 1.1.6)
     safe_yaml (1.0.5)
@@ -568,6 +569,8 @@ GEM
       activesupport
     xpath (3.2.0)
       nokogiri (~> 1.8)
+    zip-zip (0.3)
+      rubyzip (>= 1.0.0)
 
 PLATFORMS
   ruby
@@ -642,6 +645,7 @@ DEPENDENCIES
   roda (~> 2.14.0)
   rspec-rails
   rubocop (~> 0.58.1)
+  rubyzip
   sassc-rails
   scenic
   shrine (~> 2.4.0)
@@ -667,6 +671,7 @@ DEPENDENCIES
   webpacker
   where-or
   wicked_pdf
+  zip-zip
 
 RUBY VERSION
    ruby 2.5.7p206

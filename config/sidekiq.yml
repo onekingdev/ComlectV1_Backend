@@ -67,5 +67,5 @@
     class: "MessageMailerJob"
 
   reminder_mailer:
-    cron: "0 * * * *"
+    cron: "*/5 * * * *"
     class: "ReminderMailerJob"
