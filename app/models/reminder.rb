@@ -3,6 +3,7 @@
 class Reminder < ActiveRecord::Base
   belongs_to :remindable, polymorphic: true
 
+  TOTAL_MONTH = 1..12
   REPEATS = %w[Daily Weekly Monthly Yearly].freeze
   ONTYPES = %w[Day First Second Third Fourth].freeze
 
@@ -100,5 +101,38 @@ class Reminder < ActiveRecord::Base
       date_cursor = next_occurence(date_cursor)
     end
     past_dues
+  end
+
+  def detect_all_occurrences(date)
+    occurrences = []
+    occurrence_idx = 0
+    date_cursor = remind_at
+    while date_cursor + (duration - 1).days <= date.to_date
+      occurrences.push([date_cursor, occurrence_idx]) unless (skip_occurencies.presence || []).include?(occurrence_idx)
+      occurrence_idx += 1
+      date_cursor = next_occurence(date_cursor)
+    end
+    occurrences
+  end
+
+  def self.get_all_reminders(remindable, tgt_from_date, tgt_to_date)
+    data_recurring = []
+    reminders = remindable.reminders.where('remind_at > ? AND remind_at < ?', tgt_from_date, tgt_to_date).where(repeats: nil) || []
+    recurring_tasks = remindable.reminders.where('remind_at < ?', tgt_to_date).where.not(repeats: nil)
+    recurring_tasks.each do |task|
+      end_by_date = tgt_to_date
+      unless task.end_by.nil?
+        end_by_date = task.end_by if task.end_by < tgt_to_date
+      end
+      occurrences = task.detect_all_occurrences(end_by_date) # [[date, id]...]
+      occurrences.each do |occurrence|
+        if occurrence[0] >= tgt_from_date && occurrence[0] <= tgt_to_date
+          data_recurring << RecurringReminder.new(task, "#{task.id}_#{occurrence[1]}", occurrence[0])
+        end
+      end
+    end
+    projects_complete = remindable.projects.complete.where('completed_at > ?', tgt_from_date).where('completed_at < ?', tgt_to_date)
+    projects_active = remindable.projects.active.where('starts_on > ?', tgt_from_date).where('starts_on < ?', tgt_to_date)
+    (reminders + data_recurring + projects_complete + projects_active).sort_by { |e| e.remind_at.strftime('%Y-%m-%d') }
   end
 end

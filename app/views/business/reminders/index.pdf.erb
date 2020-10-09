@@ -45,23 +45,24 @@
       p {
         font-size: 20px;
       }
+
+      .page-break { display:block; clear:both; page-break-after:always; }
     </style>
     <meta charset="UTF-8">
   </head>
   <body>
+  <% (remindable.created_at.year..Date.today.year).each do |year| %>
     <center>
     <h1><%= remindable.name %></h1>
-    <h1><%= Time.now.in_time_zone(remindable.time_zone).year %> Compliance Calendar</h1>
+    <h1><%= year %> Compliance Calendar</h1>
     </center>
-    <% for i in 1..12 do %>
+    <% Reminder::TOTAL_MONTH.each do |i| %>
       <p style="text-decoration: underline;"><%= I18n.t(:date)[:month_names][i] %></p>
-      <% base_date = Date.today.in_time_zone(remindable.time_zone) %>
+      <% base_date = Date.new(year, 01, 01) %>
       <% tgt_from_date = Date.parse("#{base_date.year}-#{i.to_s.rjust(2, '0')}-01") %>
       <% tgt_to_date = tgt_from_date+1.month %>
-      <% reminders = remindable.reminders.where("remind_at > ?", tgt_from_date).where("remind_at < ?", tgt_to_date) %>
-      <% projects_complete = remindable.projects.complete.where("completed_at > ?", tgt_from_date).where("completed_at < ?", tgt_to_date) %>
-      <% projects_active = remindable.projects.active.where("starts_on > ?", tgt_from_date).where("starts_on < ?", tgt_to_date) %>
-      <% if reminders.count.positive? || projects_complete.count.positive? || projects_active.count.positive? %>
+      <% reminders = Reminder.get_all_reminders(remindable, tgt_from_date, tgt_to_date) %>
+      <% if reminders.count.positive? %>
         <p>
           <table>
             <tr class="heading">
@@ -73,31 +74,16 @@
             <% reminders.each do |reminder| %>
               <tr>
                 <td><%= reminder.body %></td>
-                <td><%= reminder.remind_at.in_time_zone(remindable.time_zone).strftime('%b %-d, %Y') %></td>
-                <td><%= reminder.end_date.in_time_zone(remindable.time_zone).strftime('%b %-d, %Y') %></td>
-                <td><%= reminder.done_at.in_time_zone(remindable.time_zone).strftime('%b %-d, %Y') if reminder.done_at.present? %></td>
-              </tr>
-            <% end %>
-            <% projects_complete.each do |reminder| %>
-              <tr>
-                <td><%= reminder.title %></td>
-                <td><%= reminder.starts_on.in_time_zone(remindable.time_zone).strftime('%b %-d, %Y') %></td>
-                <td><%= reminder.ends_on.in_time_zone(remindable.time_zone).strftime('%b %-d, %Y') %></td>
-                <td><%= reminder.completed_at.in_time_zone(remindable.time_zone).strftime('%b %-d, %Y') %></td>
-              </tr>
-            <% end %>
-            <% projects_active.each do |reminder| %>
-              <tr>
-                <td><%= reminder.title %></td>
-                <td><%= reminder.starts_on.in_time_zone(remindable.time_zone).strftime('%b %-d, %Y') %></td>
-                <td><%= reminder.ends_on.in_time_zone(remindable.time_zone).strftime('%b %-d, %Y') %></td>
-                <td></td>
+                <td><%= reminder&.remind_at&.in_time_zone(remindable.time_zone)&.strftime('%b %-d, %Y') %></td>
+                <td><%= reminder&.end_date&.in_time_zone(remindable.time_zone)&.strftime('%b %-d, %Y') %></td>
+                <td><%= reminder&.done_at&.in_time_zone(remindable.time_zone)&.strftime('%b %-d, %Y') if reminder.done_at.present? %></td>
               </tr>
             <% end %>
           </table>
         </p>
       <% end %>
     <% end %>
-
+    <div class="page-break"></div>
+    <% end %>
   </body>
 </html>

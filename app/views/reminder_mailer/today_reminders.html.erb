@@ -2,10 +2,10 @@
 
 <ul>
   <% @past_dues.each do |task| %>
-    <li><i>(Past due)</i> <%= task %></li>
+    <li><i>(Past due)</i><%= task.body %></li>
   <% end %>
   <% @todays.each do |task| %>
-    <li><%= task %></li>
+    <li><%= task.body %></li>
   <% end %>
 </ul>
 

@@ -4,9 +4,8 @@ module RemindersFetcher
   class FakeTask
     def initialize(id)
       self.id = id
-      self.body = nil
     end
-    attr_accessor :id, :body
+    attr_accessor :id
   end
 
   def tasks_calendar_grid(remindable, beginning)
