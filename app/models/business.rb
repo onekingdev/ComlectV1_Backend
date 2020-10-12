@@ -86,7 +86,7 @@ class Business < ApplicationRecord
     team_member.first_name = contact_first_name
     team_member.last_name =  contact_last_name
     team_member.business_member = true
-    team_member.title = contact_job_title
+    team_member.title = contact_job_title.presence || 'Compliance Officer'
     team_member.transaction do
       team_member.save
       assign_team(team_member)
