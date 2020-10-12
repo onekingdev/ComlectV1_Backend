@@ -318,4 +318,9 @@ body.projects.show {
   min-width: 100px;
 }
 
+.documents-container {
+  height: 262px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
 @import "project/*";

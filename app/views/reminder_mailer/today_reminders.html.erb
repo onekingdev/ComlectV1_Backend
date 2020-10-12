@@ -2,13 +2,11 @@
 
 <ul>
   <% @past_dues.each do |task| %>
-    <li><i>(Past due)</i><%= task.body %></li>
+    <li><i>(Past due)</i> <%= task %></li>
   <% end %>
   <% @todays.each do |task| %>
-    <li><%= task.body %></li>
+    <li><%= task %></li>
   <% end %>
 </ul>
 
 <p>If you need help, reach out to see how we can help you outsource some of these tasks.</p>
-
-<p>Best,<br/>Complect</p>

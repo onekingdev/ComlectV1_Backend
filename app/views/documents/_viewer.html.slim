@@ -1,28 +1,29 @@
-table.table.table-striped.documents-table
-  thead
-    tr
-      th= link_to "Name <small><small>#{sort_by_arrow('Name')}</small></small>".html_safe, sort_by_url('Name'), remote: true
-      th.added-by.hidden-xs= link_to "Added By <small><small>#{sort_by_arrow('Added By')}</small></small>".html_safe, sort_by_url('Added By'), remote: true
-      th.hidden-xs= link_to "Date Added <small><small>#{sort_by_arrow('Date Added', default: 'desc')}</small></small>".html_safe, sort_by_url('Date Added'), remote: true
-  tbody
-    - @show_docs.each do |doc_mess|
-      - if doc_mess.file
-        tr
-          td
-            .file= link_to doc_mess.file_url, target: '_blank' do
-              span= doc_mess.file.metadata['filename']
-          td.hidden-xs
-            = doc_mess.is_a?(Message) ? doc_mess.sender.to_s : doc_mess.owner.to_s
-          td.hidden-xs
-            = doc_mess.created_at.in_time_zone(@me.time_zone).strftime('%b %-d, %Y %I:%M %p')
-          td.text-right
-            - if (doc_mess.is_a?(Message) && doc_mess.sender == @me) || (doc_mess.is_a?(Document) && doc_mess.owner == @me)
-              = form_tag project_document_path(@project.id, doc_mess.id), method: :delete, onsubmit: "return confirm('Delete #{doc_mess.file.metadata['filename']}? This cannot be undone.')" do
-                = hidden_field_tag :doc_type, doc_mess.class.to_s
-                = hidden_field_tag :specialist_username, params[:specialist_username] if params[:specialist_username]
-                /= submit_tag nil, class: "submit-icon-trash"
-                button type="submit" class="submit-icon-trash"
-                  i.icon-trash
+.documents-container
+  table.table.table-striped.documents-table
+    thead
+      tr
+        th= link_to "Name <small><small>#{sort_by_arrow('Name')}</small></small>".html_safe, sort_by_url('Name'), remote: true
+        th.added-by.hidden-xs= link_to "Added By <small><small>#{sort_by_arrow('Added By')}</small></small>".html_safe, sort_by_url('Added By'), remote: true
+        th.hidden-xs= link_to "Date Added <small><small>#{sort_by_arrow('Date Added', default: 'desc')}</small></small>".html_safe, sort_by_url('Date Added'), remote: true
+    tbody
+      - @show_docs.each do |doc_mess|
+        - if doc_mess.file
+          tr
+            td
+              .file= link_to doc_mess.file_url, target: '_blank' do
+                span= doc_mess.file.metadata['filename']
+            td.hidden-xs
+              = doc_mess.is_a?(Message) ? doc_mess.sender.to_s : doc_mess.owner.to_s
+            td.hidden-xs
+              = doc_mess.created_at.in_time_zone(@me.time_zone).strftime('%b %-d, %Y %I:%M %p')
+            td.text-right
+              - if (doc_mess.is_a?(Message) && doc_mess.sender == @me) || (doc_mess.is_a?(Document) && doc_mess.owner == @me)
+                = form_tag project_document_path(@project.id, doc_mess.id), method: :delete, onsubmit: "return confirm('Delete #{doc_mess.file.metadata['filename']}? This cannot be undone.')" do
+                  = hidden_field_tag :doc_type, doc_mess.class.to_s
+                  = hidden_field_tag :specialist_username, params[:specialist_username] if params[:specialist_username]
+                  /= submit_tag nil, class: "submit-icon-trash"
+                  button type="submit" class="submit-icon-trash"
+                    i.icon-trash
 
 .dot-pagination.text-center.m-t-2.clearfix
   - if @docs_and_messages.size > 10

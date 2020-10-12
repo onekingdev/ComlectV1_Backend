@@ -49,7 +49,7 @@
                   span Messages
                 li= link_to '#project-documents', data: { toggle: 'tab', "remote-load" => true, url: business_project_documents_path(project, specialist_username), 'toggle-sync' => true } do
                   span Documents
-                - if project.hourly_pricing? && project.specialist_id
+                - if project.hourly_pricing? && project.specialist_id && !project.internal?
                   li= link_to '#project-timesheets', data: { toggle: 'tab', "remote-load" => true, url: business_project_timesheets_path(project), 'toggle-sync' => true } do
                     span Time Sheets
                 li= link_to '#project-details', data: { toggle: 'tab' } do
@@ -64,7 +64,7 @@
                 span Messages
               li= link_to '#project-documents', data: { toggle: 'tab', "remote-load" => true, url: business_project_documents_path(project, specialist_username), 'toggle-sync' => true } do
                 span Documents
-              - if project.hourly_pricing? && project.specialist_id
+              - if project.hourly_pricing? && project.specialist_id && !project.internal?
                 li= link_to '#project-timesheets', data: { toggle: 'tab', "remote-load" => true, url: business_project_timesheets_path(project), 'toggle-sync' => true } do
                   span Time Sheets
               li= link_to '#project-details', data: { toggle: 'tab' } do
@@ -78,7 +78,7 @@
               #project-overview.project-overview.tab-pane.clearfix
               #project-messages.tab-pane.clearfix.active
               #project-documents.tab-pane.clearfix
-              - if project.hourly_pricing?
+              - if project.hourly_pricing? && !project.internal?
                 #project-timesheets.tab-pane.clearfix
               #project-details.tab-pane.clearfix
                 = render 'projects/dashboards/project_details', project: project

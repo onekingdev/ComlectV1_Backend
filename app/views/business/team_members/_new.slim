@@ -16,13 +16,18 @@
   .col-md-6.p-l-0
     = f.input :title, label: "Title", input_html: { style: "width: 100%;" }, label_html: { class: "m-t-1" }
   .col-md-6.p-r-0
-    = f.input :team_id, label: "Department", input_html: { class: "js-select-ajax", style: "width: 100%;" }, label_html: { class: "m-t-1" }, collection: current_business.teams
-  .col-md-12.p-x-0
-    = f.input :email, label: "Email Address", input_html: { style: "width: 100%;" }, label_html: { class: "m-t-1" }
-  .col-md-6.p-r-1.p-l-0
-    = f.input :start_date, required: false, as: :string, input_html: { class: 'input-lg js-datepicker' }
-  .col-md-6.p-l-1.p-r-0
-    = f.input :end_date, required: false, as: :string, input_html: { class: 'input-lg js-datepicker' }
+    = f.input :team_id, label: "Department", input_html: { class: "js-select-ajax", style: "width: 100%;" }, label_html: { class: "m-t-1" }, collection: current_business.viewable_teams
+  .col-md-6.p-l-0
+    = f.input :email, label: "Email Address", input_html: {style: "width: 100%;"}, label_html: {class: "m-t-1"}
+  .col-md-6.p-r-0
+    span.custom-checkbox style="margin-top: 45px;margin-bottom: 20px; display: block;"
+      = f.check_box :access_person, input_html: {style: "width: 100%;"}, label_html: {class: "m-t-1"}
+      = f.label :access_person
+      button.info-tooltip type="button" data-toggle="tooltip" title="Employee involved in making investment recommendations or with access to nonpublic information about client transactions." style="right: 120px; margin-top: 2px;" i
+  .col-md-6.p-l-0
+    = f.input :start_date, required: false, as: :string, input_html: {class: 'input-lg js-datepicker', style: "width: 100%;"}
+  .col-md-6.p-r-0
+    = f.input :end_date, required: false, as: :string, input_html: {class: 'input-lg js-datepicker', style: "width: 100%;"}
   .col-md-12.p-x-0
     = f.input :termination_reason, label: "Reason for Termination", input_html: { style: "width: 100%;" }, label_html: { class: "m-t-1" }
   .clearfix
@@ -31,6 +36,7 @@
   .clearfix
 
 javascript:
+  $('.info-tooltip').tooltip();
   attach_js_datepicker($(".modal-body"));
   $(".js-select-ajax").multiselect({
     buttonContainer: '<div class="btn-group multiselect-parent" />',

@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.5.3
+-- Dumped from database version 9.6.19
 -- Dumped by pg_dump version 11.5
 
 SET statement_timeout = 0;
@@ -17,6 +17,69 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
+-- Name: tiger; Type: SCHEMA; Schema: -; Owner: -
+--
+
+CREATE SCHEMA tiger;
+
+
+--
+-- Name: tiger_data; Type: SCHEMA; Schema: -; Owner: -
+--
+
+CREATE SCHEMA tiger_data;
+
+
+--
+-- Name: topology; Type: SCHEMA; Schema: -; Owner: -
+--
+
+CREATE SCHEMA topology;
+
+
+--
+-- Name: address_standardizer; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS address_standardizer WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION address_standardizer; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION address_standardizer IS 'Used to parse an address into constituent elements. Generally used to support geocoding address normalization step.';
+
+
+--
+-- Name: address_standardizer_data_us; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS address_standardizer_data_us WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION address_standardizer_data_us; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION address_standardizer_data_us IS 'Address Standardizer US dataset example';
+
+
+--
+-- Name: fuzzystrmatch; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS fuzzystrmatch WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION fuzzystrmatch; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION fuzzystrmatch IS 'determine similarities and distance between strings';
+
+
+--
 -- Name: postgis; Type: EXTENSION; Schema: -; Owner: -
 --
 
@@ -28,6 +91,48 @@ CREATE EXTENSION IF NOT EXISTS postgis WITH SCHEMA public;
 --
 
 COMMENT ON EXTENSION postgis IS 'PostGIS geometry, geography, and raster spatial types and functions';
+
+
+--
+-- Name: postgis_sfcgal; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS postgis_sfcgal WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION postgis_sfcgal; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION postgis_sfcgal IS 'PostGIS SFCGAL functions';
+
+
+--
+-- Name: postgis_tiger_geocoder; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS postgis_tiger_geocoder WITH SCHEMA tiger;
+
+
+--
+-- Name: EXTENSION postgis_tiger_geocoder; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION postgis_tiger_geocoder IS 'PostGIS tiger geocoder and reverse geocoder';
+
+
+--
+-- Name: postgis_topology; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS postgis_topology WITH SCHEMA topology;
+
+
+--
+-- Name: EXTENSION postgis_topology; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION postgis_topology IS 'PostGIS topology spatial types and functions';
 
 
 --
@@ -324,41 +429,6 @@ ALTER SEQUENCE public.audit_comments_id_seq OWNED BY public.audit_comments.id;
 
 
 --
--- Name: audit_docs; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.audit_docs (
-    id integer NOT NULL,
-    pdf_data jsonb,
-    file_data jsonb,
-    audit_request_id integer,
-    business_id integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    processed boolean DEFAULT false
-);
-
-
---
--- Name: audit_docs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.audit_docs_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: audit_docs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.audit_docs_id_seq OWNED BY public.audit_docs.id;
-
-
---
 -- Name: audit_requests; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -496,10 +566,10 @@ CREATE TABLE public.businesses (
     rewards_tier_override_id integer,
     hubspot_company_id character varying,
     hubspot_contact_id character varying,
+    credits_in_cents integer DEFAULT 0,
     qna_lvl integer DEFAULT 0,
     qna_viewed_questions integer[] DEFAULT '{}'::integer[],
     qna_views_left integer DEFAULT 3,
-    credits_in_cents integer DEFAULT 0,
     username character varying,
     sub_industries character varying,
     business_stages character varying,
@@ -526,7 +596,7 @@ CREATE TABLE public.businesses (
     compliance_policies_spawned boolean DEFAULT false,
     annual_budget numeric,
     risk_tolerance character varying,
-    reminders_mailed_at date
+    reminders_mailed_at timestamp without time zone
 );
 
 
@@ -1047,7 +1117,8 @@ CREATE TABLE public.projects (
     est_budget numeric,
     applicant_selection character varying DEFAULT 'interview'::character varying,
     admin_notified boolean DEFAULT false,
-    business_fee_free boolean DEFAULT false
+    business_fee_free boolean DEFAULT false,
+    color character varying
 );
 
 
@@ -1801,7 +1872,6 @@ CREATE TABLE public.job_applications (
     estimated_hours integer,
     starts_on date,
     ends_on date,
-    estimated_days integer,
     status character varying
 );
 
@@ -1982,7 +2052,7 @@ CREATE TABLE public.specialists (
     annual_revenue_goal numeric,
     risk_tolerance character varying,
     automatching_available boolean DEFAULT false,
-    reminders_mailed_at date
+    reminders_mailed_at timestamp without time zone
 );
 
 
@@ -3502,7 +3572,8 @@ CREATE TABLE public.payment_sources (
     currency character varying,
     account_holder_name character varying,
     account_holder_type character varying,
-    validated boolean DEFAULT false NOT NULL
+    validated boolean DEFAULT false NOT NULL,
+    coupon_id character varying
 );
 
 
@@ -4368,7 +4439,10 @@ CREATE TABLE public.subscription_charges (
     updated_at timestamp without time zone NOT NULL,
     stripe_subscription_id character varying,
     forum_subscription_id integer,
-    amount integer
+    amount integer,
+    chargeable_id integer,
+    chargeable_type character varying,
+    title character varying
 );
 
 
@@ -4835,13 +4909,6 @@ ALTER TABLE ONLY public.articles ALTER COLUMN id SET DEFAULT nextval('public.art
 --
 
 ALTER TABLE ONLY public.audit_comments ALTER COLUMN id SET DEFAULT nextval('public.audit_comments_id_seq'::regclass);
-
-
---
--- Name: audit_docs id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.audit_docs ALTER COLUMN id SET DEFAULT nextval('public.audit_docs_id_seq'::regclass);
 
 
 --
@@ -5353,14 +5420,6 @@ ALTER TABLE ONLY public.articles
 
 ALTER TABLE ONLY public.audit_comments
     ADD CONSTRAINT audit_comments_pkey PRIMARY KEY (id);
-
-
---
--- Name: audit_docs audit_docs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.audit_docs
-    ADD CONSTRAINT audit_docs_pkey PRIMARY KEY (id);
 
 
 --
@@ -6948,7 +7007,7 @@ ALTER TABLE ONLY public.project_issues
 -- PostgreSQL database dump complete
 --
 
-SET search_path TO "$user", public;
+SET search_path TO "$user", public, tiger;
 
 INSERT INTO schema_migrations (version) VALUES ('20160603200743');
 
@@ -7452,10 +7511,6 @@ INSERT INTO schema_migrations (version) VALUES ('20200118201501');
 
 INSERT INTO schema_migrations (version) VALUES ('20200119192255');
 
-INSERT INTO schema_migrations (version) VALUES ('20200120025054');
-
-INSERT INTO schema_migrations (version) VALUES ('20200120122015');
-
 INSERT INTO schema_migrations (version) VALUES ('20200131171456');
 
 INSERT INTO schema_migrations (version) VALUES ('20200221232045');
@@ -7582,5 +7637,13 @@ INSERT INTO schema_migrations (version) VALUES ('20200914113651');
 
 INSERT INTO schema_migrations (version) VALUES ('20200914144201');
 
+INSERT INTO schema_migrations (version) VALUES ('20200916052649');
+
 INSERT INTO schema_migrations (version) VALUES ('20200918212506');
+
+INSERT INTO schema_migrations (version) VALUES ('20200922124235');
+
+INSERT INTO schema_migrations (version) VALUES ('20200925050217');
+
+INSERT INTO schema_migrations (version) VALUES ('20200929162556');
 

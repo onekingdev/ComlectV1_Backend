@@ -290,6 +290,10 @@ class Project < ApplicationRecord
     [business, specialist]
   end
 
+  def body
+    title
+  end
+
   def to_s
     title
   end
