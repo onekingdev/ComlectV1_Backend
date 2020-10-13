@@ -1,0 +1,11 @@
+#js-zip-download.modal.fade.bootbox
+  .modal-dialog
+    .modal-content style="text-align: left;"
+      .modal-body
+        button.bootbox-close-button.close data-dismiss="modal" aria-hidden="true" style="margin-top: -10px"
+        .bootbox-body
+          .bootbox-heading
+            | Download Zip Folder
+            hr.m-b-1
+          = link_to '#', class: 'download-zip btn btn-primary btn-solid p-y-0 savebtn' do
+            = 'Download'
