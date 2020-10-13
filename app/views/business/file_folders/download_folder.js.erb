@@ -1,8 +1,8 @@
 $('.loading').removeClass('hide');
 $('.download-folder').addClass('hide');
-//    if (typeof requestloop != "undefined" && requestloop != null) {
-//      clearInterval(requestloop);
-//    }
+    if (typeof requestloop != "undefined" && requestloop != null) {
+      clearInterval(requestloop);
+    }
     var requestloop = setInterval(function () {
         $.ajax({
             type: 'GET',
