@@ -16,7 +16,7 @@ let requestloop = setInterval(function () {
     });
 }, 3000);
 
-function download(path, filename) {
+function download_zip(path, filename) {
     let element = document.createElement('a');
     element.setAttribute('href', path);
     element.setAttribute('download', filename);
