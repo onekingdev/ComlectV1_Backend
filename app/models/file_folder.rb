@@ -67,8 +67,7 @@ class FileFolder < ActiveRecord::Base
       path = "#{Rails.root}/public#{entry.file_url.split('?').first}"
       File.open(path)
     else
-      require 'open-uri'
-      URI.parse(entry.file_url).open
+      URI.open(entry.file_url)
     end
   end
 end
