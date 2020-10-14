@@ -67,7 +67,14 @@ class FileFolder < ActiveRecord::Base
       path = "#{Rails.root}/public#{entry.file_url.split('?').first}"
       File.open(path)
     else
-      URI.open(entry.file_url)
+      io = URI.open(entry.file_url)
+      if io.is_a?(StringIO)
+        downloaded = Tempfile.new
+        File.write(downloaded.path, io)
+      else
+        downloaded = io
+      end
+      downloaded
     end
   end
 end
