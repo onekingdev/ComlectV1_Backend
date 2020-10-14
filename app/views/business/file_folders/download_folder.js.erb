@@ -1,21 +1,28 @@
-$('.loading').removeClass('hide');
-$('.download-folder').addClass('hide');
-    if (typeof requestloop != "undefined" && requestloop != null) {
-      clearInterval(requestloop);
-    }
-    var requestloop = setInterval(function () {
-        $.ajax({
-            type: 'GET',
-            url: '/business/file_folders/'+ "<%= params[:id] %>" +'/check_zip',
-            format: 'json',
-            success: function (data) {
-                if (data.complete) {
-                    $('.loading').addClass('hide');
-                    $('.download-folder').removeClass('hide');
-                    clearInterval(requestloop);
-                    window.location.href = data.path;
-                }
+$(".loading-<%= @file_folder.id %>").removeClass('hide');
+$(".download-folder-<%= @file_folder.id %>").addClass('hide');
+let requestloop = setInterval(function () {
+    $.ajax({
+        type: 'GET',
+        url: '/business/file_folders/' + "<%= params[:id] %>" + '/check_zip',
+        format: 'json',
+        success: function (data) {
+            if (data.complete) {
+                clearInterval(requestloop);
+                download(data.path, "<%= @file_folder.name %>.zip");
+                $(".loading-<%= @file_folder.id %>").addClass('hide');
+                $(".download-folder-<%= @file_folder.id %>").removeClass('hide');
             }
-        });
-    }, 3000)
+        }
+    });
+}, 3000);
+
+function download(path, filename) {
+    let element = document.createElement('a');
+    element.setAttribute('href', path);
+    element.setAttribute('download', filename);
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+}
 

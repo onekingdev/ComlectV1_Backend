@@ -16,9 +16,9 @@
           i.fa.fa-random
     td
       div style="margin-left: -10px; margin-right: -10px;"
-        = link_to download_folder_business_file_folder_path(folder), class: 'download-folder', "data-remote": true do
+        = link_to download_folder_business_file_folder_path(folder), class: "download-folder-#{folder.id}", "data-remote": true do
           i.icon-cloud-download
-        .loading.text-center.hide
+        .text-center.hide class="loading-#{folder.id}"
           img(src="/assets/loading-dots.gif" width="20px")
     td
       div style="margin-left: -10px; margin-right: -10px;"

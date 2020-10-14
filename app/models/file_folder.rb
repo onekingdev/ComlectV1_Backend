@@ -27,7 +27,6 @@ class FileFolder < ActiveRecord::Base
     folder.zip = uploaded_file
     folder.zip_data = uploaded_file.to_json
     folder.save
-    File.close(temp_file.path)
     temp_file.unlink
     temp_file.delete
   end
