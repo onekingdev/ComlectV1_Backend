@@ -8,7 +8,7 @@ let requestloop = setInterval(function () {
         success: function (data) {
             if (data.complete) {
                 clearInterval(requestloop);
-                download(data.path, "<%= @file_folder.name %>.zip");
+                download_zip(data.path, "<%= @file_folder.name %>.zip");
                 $(".loading-<%= @file_folder.id %>").addClass('hide');
                 $(".download-folder-<%= @file_folder.id %>").removeClass('hide');
             }
