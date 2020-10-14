@@ -9,7 +9,7 @@ class Business::CompliancePoliciesController < ApplicationController
     @preview_doc = @business.compliance_policies.first
     respond_to do |format|
       format.json do
-        if @preview_doc.blank?
+        if @preview_doc.blank? || @preview_doc.compliance_policy_docs.count.zero?
           render json: { "preview": business_compliance_policies_path(format: :pdf) }
         elsif @preview_doc.pdf_data.nil?
           render json: { "preview": false }

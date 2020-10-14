@@ -4,7 +4,10 @@
 class Project < ApplicationRecord
   self.inheritance_column = '_none'
   # attr_accessor :color
-
+  alias_attribute :remind_at, :starts_on
+  alias_attribute :end_date, :ends_on
+  alias_attribute :done_at, :completed_at
+  alias_attribute :body, :title
   belongs_to :business
   belongs_to :specialist
   has_one :user, through: :business
@@ -175,6 +178,10 @@ class Project < ApplicationRecord
     starts_on
   end
 
+  def body
+    title
+  end
+
   def end_time
     ends_on
   end
@@ -281,6 +288,10 @@ class Project < ApplicationRecord
 
   def parties
     [business, specialist]
+  end
+
+  def body
+    title
   end
 
   def to_s

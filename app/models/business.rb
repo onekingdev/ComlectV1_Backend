@@ -28,6 +28,7 @@ class Business < ApplicationRecord
   has_many :annual_reviews
   has_many :annual_reports
   has_many :teams
+  has_many :viewable_teams, -> { where(display: true) }, class_name: 'Team'
   has_many :active_projects, -> { where(status: statuses[:published]).where.not(specialist_id: nil) }, class_name: 'Project'
   has_many :active_specialists, through: :active_projects, class_name: 'Specialist', source: :specialist
   has_many :outdated_compliance_policies, -> { where('last_uploaded < ?', Time.zone.today - 1.year) }, class_name: 'CompliancePolicy'
@@ -67,6 +68,8 @@ class Business < ApplicationRecord
   serialize :already_covered
   serialize :cco
 
+  after_create :add_as_employee
+
   def spawn_compliance_policies
     # rubocop:disable Style/GuardClause
     unless compliance_policies_spawned
@@ -76,6 +79,18 @@ class Business < ApplicationRecord
       end
     end
     # rubocop:enable Style/GuardClause
+  end
+
+  def add_as_employee
+    team_member = TeamMember.find_or_initialize_by(email: user.email, business_member: true)
+    team_member.first_name = contact_first_name
+    team_member.last_name =  contact_last_name
+    team_member.business_member = true
+    team_member.title = contact_job_title.presence || 'Compliance Officer'
+    team_member.transaction do
+      team_member.save
+      assign_team(team_member)
+    end
   end
 
   STEP_THREE = [
@@ -216,6 +231,12 @@ class Business < ApplicationRecord
     self.business_risks = cookies[:complect_step3].split('-').map(&:to_i)
     self.business_other = cookies[:complect_other] if industries.collect(&:name).include? 'Other'
     self.business_stages = cookies[:complect_step4]
+  end
+
+  def assign_team(team_member)
+    team = teams.find_or_create_by(name: 'Misc', display: false)
+    team_member.team_id = team.id
+    team_member.save
   end
 
   alias communicable_projects projects

@@ -1,0 +1,32 @@
+.custom-checkbox {
+  input[type='checkbox'] {
+    opacity: 0;
+    height: 0;
+    width: 0;
+    display: none;
+
+    & + label {
+      position: relative;
+      padding-left: 25px;
+      &:before {
+        content: "";
+        background-image: asset_url('checkbox_y.png');
+        background-position: 0 -437px;
+        background-repeat: no-repeat;
+        background-size: cover;
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+    }
+
+    &:checked + label {
+      &:before {
+        background-image: asset_url('checkbox_y.png');
+        background-position: 0 0;
+      }
+    }
+  }
+}
