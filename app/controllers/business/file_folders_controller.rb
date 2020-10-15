@@ -41,7 +41,7 @@ class Business::FileFoldersController < ApplicationController
       format.js do
         @file_folder.zip = nil
         @file_folder.save
-        ZipFolderWorker.perform_async(params[:id])
+        ZipFolderWorker.perform_async(params[:id], current_user.id)
       end
     end
   end
