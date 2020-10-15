@@ -86,7 +86,10 @@ Rails.application.routes.draw do
     get '/upgrade' => 'upgrade#index'
     get '/upgrade/buy' => 'upgrade#buy'
     post '/upgrade/buy' => 'upgrade#subscribe'
-    resources :file_folders
+    resources :file_folders do
+      get :download_folder, on: :member
+      get :check_zip, on: :member
+    end
     resources :file_docs
     resources :upgrade
     resources :addons, only: %i[index]

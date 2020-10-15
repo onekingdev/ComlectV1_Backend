@@ -2,7 +2,7 @@
 
 class Business::FileFoldersController < ApplicationController
   before_action :require_business!
-  before_action :set_folder, only: %i[destroy edit update show]
+  before_action :set_folder, only: %i[destroy edit update show download_folder check_zip]
 
   def new
     @file_folder = FileFolder.new
@@ -34,6 +34,25 @@ class Business::FileFoldersController < ApplicationController
   def show
     @file_folders = @file_folder.file_folders
     @file_docs = @file_folder.file_docs
+  end
+
+  def download_folder
+    respond_to do |format|
+      format.js do
+        @file_folder.zip = nil
+        @file_folder.save
+        ZipFolderWorker.perform_async(params[:id])
+      end
+    end
+  end
+
+  def check_zip
+    respond_to do |format|
+      format.json do
+        path = @file_folder.zip.present? ? @file_folder.zip.url : nil
+        render json: { complete: @file_folder.zip.present?, path: path }
+      end
+    end
   end
 
   private
