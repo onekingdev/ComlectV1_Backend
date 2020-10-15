@@ -7,7 +7,7 @@ class Business::TeamMembersController < ApplicationController
 
   def create
     @team_member = TeamMember.create(member_params)
-
+    current_business.assign_team(@team_member) unless @team_member.team
     respond_to do |format|
       format.js do
         if @team_member.valid?
@@ -28,6 +28,7 @@ class Business::TeamMembersController < ApplicationController
     respond_to do |format|
       format.js do
         if @team_member.update(member_params)
+          current_business.assign_team(@team_member) unless @team_member.team
           render 'business/team_members/reload'
         else
           render 'business/team_members/errors', locals: { errors: @team_member.errors.full_messages }
@@ -44,6 +45,6 @@ class Business::TeamMembersController < ApplicationController
 
   def member_params
     params.require(:team_member)
-          .permit(:first_name, :last_name, :title, :team_id, :email, :start_date, :end_date, :termination_reason)
+          .permit(:first_name, :last_name, :title, :team_id, :access_person, :email, :start_date, :end_date, :termination_reason)
   end
 end

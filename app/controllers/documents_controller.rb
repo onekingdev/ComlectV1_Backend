@@ -7,7 +7,7 @@ class DocumentsController < ApplicationController
   # paths are absolute since this controller is inherited by other controllers
   def index
     @docs_and_messages = sorted_documents
-    @show_docs = docs_of_current_page
+    @show_docs = sorted_documents
     respond_to do |format|
       format.html do
         render partial: '/documents/viewer'
@@ -75,11 +75,6 @@ class DocumentsController < ApplicationController
 
   def current_or_project_specialist
     @project.pending? ? current_specialist : @project.specialist
-  end
-
-  def docs_of_current_page
-    current_page_num = params[:page].blank? ? 1 : params[:page].to_i
-    @docs_and_messages[((current_page_num - 1) * 10)..(current_page_num * 10)]
   end
 
   def document_params

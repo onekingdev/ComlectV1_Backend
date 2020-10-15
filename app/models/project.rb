@@ -4,7 +4,10 @@
 class Project < ApplicationRecord
   self.inheritance_column = '_none'
   # attr_accessor :color
-
+  alias_attribute :remind_at, :starts_on
+  alias_attribute :end_date, :ends_on
+  alias_attribute :done_at, :completed_at
+  alias_attribute :body, :title
   belongs_to :business
   belongs_to :specialist
   has_one :user, through: :business
@@ -140,6 +143,7 @@ class Project < ApplicationRecord
   after_update :new_project_notification
   after_create :send_email, if: :internal?
   before_create :check_specialist, if: :internal?
+  before_create :fix_internal_asap, if: :internal?
   before_create :remove_specialist, unless: :internal?
 
   LOCATIONS = [%w[Remote remote], %w[Remote\ +\ Travel remote_and_travel], %w[Onsite onsite]].freeze
@@ -173,6 +177,10 @@ class Project < ApplicationRecord
 
   def start_time
     starts_on
+  end
+
+  def body
+    title
   end
 
   def end_time
@@ -281,6 +289,10 @@ class Project < ApplicationRecord
 
   def parties
     [business, specialist]
+  end
+
+  def body
+    title
   end
 
   def to_s
@@ -477,6 +489,12 @@ class Project < ApplicationRecord
       errors.add :base, 'Invalid specialist'
       false
     end
+  end
+
+  def fix_internal_asap
+    return if duration_type != 'asap'
+    self.starts_on = Time.zone.now.in_time_zone(business.time_zone)
+    self.ends_on = starts_on + estimated_days.days
   end
 
   def remove_specialist

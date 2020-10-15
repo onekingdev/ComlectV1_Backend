@@ -19,7 +19,7 @@ class EscalatedProjectMailer < ApplicationMailer
     @project = project_issue.project
     @user = project_issue.user
     mail to: @user.email,
-         template_id: ENV.fetch('POSTMARK_TEMPLATE_ID'),
+         template_id: ENV.fetch('POSTMARK_PERSONAL_TEMPLATE_ID'),
          template_model: {
            subject: "The project \"#{@project.title}\" has been escalated",
            message_html: render('message_to_user.html'),
