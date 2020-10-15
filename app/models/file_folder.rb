@@ -18,9 +18,9 @@ class FileFolder < ActiveRecord::Base
   end
 
   def create_zip(folder, user_id)
-    directory_name = Rails.root.join("tmp/zip_archiver_#{user_id}")
+    directory_name = "/tmp/zip_archiver_#{user_id}_#{folder.id}"
     Dir.mkdir(directory_name) unless File.exist?(directory_name)
-    zipfile_name = Rails.root.join("#{directory_name}/#{folder.name}.zip")
+    zipfile_name = "#{directory_name}/#{folder.name}.zip"
     File.delete(zipfile_name) if File.exist?(zipfile_name)
     Zip::File.open(zipfile_name, Zip::File::CREATE) do |zip|
       write_entries folder.file_folders + folder.file_docs, '', zip
