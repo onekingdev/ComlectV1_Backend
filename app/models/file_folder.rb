@@ -17,18 +17,19 @@ class FileFolder < ActiveRecord::Base
     end
   end
 
-  def create_zip(folder, temp_file)
-    Zip::OutputStream.open(temp_file) { |zos| }
-    Zip::File.open(temp_file.path, Zip::File::CREATE) do |zip|
+  def create_zip(folder)
+    zipfile_name = Rails.root.join("tmp/#{folder.name}.zip")
+    File.delete(zipfile_name) if File.exist?(zipfile_name)
+    Zip::File.open(zipfile_name, Zip::File::CREATE) do |zip|
       write_entries folder.file_folders + folder.file_docs, '', zip
     end
     uploader = FileUploader.new(:store)
-    uploaded_file = uploader.upload(File.open(temp_file.path))
+    uploaded_file = uploader.upload(File.open(zipfile_name))
     folder.zip = uploaded_file
     folder.zip_data = uploaded_file.to_json
     folder.save
-    temp_file.unlink
-    temp_file.delete
+    zipfile_name.unlink if File.exist? zipfile_name
+    zipfile_name.delete if File.exist? zipfile_name
   end
 
   private
