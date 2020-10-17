@@ -217,7 +217,7 @@ class Project < ApplicationRecord
   end
 
   def self.ending
-    one_off.or(rfp).active.joins(business: :user).select('projects.*, businesses.time_zone').find_each.find_all(&:ending?)
+    one_off.or(rfp).or(internal).active.joins(business: :user).select('projects.*, businesses.time_zone').find_each.find_all(&:ending?)
   end
 
   def self.ends_in_24
