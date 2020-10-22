@@ -4,6 +4,7 @@ class Users::SessionsController < Devise::SessionsController
   # before_action :configure_sign_in_params, only: [:create]
   skip_before_action :verify_authenticity_token, only: :destroy
 
+  before_action :eat_redirect, only: :create
   respond_to :js, :html
 
   # POST /resource/sign_in
@@ -88,7 +89,7 @@ class Users::SessionsController < Devise::SessionsController
   protected
 
   def after_sign_in_path_for(resource)
-    stored_location_for(resource) || (resource.business ? business_dashboard_path : specialists_dashboard_path)
+    @eaten_redirect || (resource.business ? business_dashboard_path : specialists_dashboard_path)
     # if resource.business
     #   business_dashboard_path
     # else
@@ -98,6 +99,10 @@ class Users::SessionsController < Devise::SessionsController
 
   def landing_stats
     [Specialist.count, @former_regulators_percent, @avg_xp_years, Business.count]
+  end
+
+  def eat_redirect
+    @eaten_redirect = session['user_return_to']
   end
 
   def default_result_json

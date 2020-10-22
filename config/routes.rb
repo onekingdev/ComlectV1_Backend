@@ -42,6 +42,7 @@ Rails.application.routes.draw do
   get 'marketplace' => 'home#partnerships'
   get 'press' => 'home#press'
   get 'r/:token' => 'referrals#show', as: :referrals
+  get 'q-and-a-forum' => 'home#q_and_a_forum', as: :q_and_a_forum
 
   namespace :partners, only: [] do
     resources :ima, only: %i[index create]

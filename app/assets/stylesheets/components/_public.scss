@@ -1,0 +1,37 @@
+footer {
+  &.public {
+    padding: 30px 0;
+    background: #333333;
+    margin-top: 15px;
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    h4 {
+      color: white;
+      font-weight: 400;
+      font-family: Arial, Sans-Serif, sans-serif;
+    }
+    a {
+      color: #f1f1f1;
+      display: block;
+      padding: 5px 0;
+      &:hover {
+        color: #ffcc00;
+      }
+    }
+    .public-copyright {
+      margin:  25px 0 0 0;
+      color: #ffffff;
+      a {
+        display: inline-block;
+      }
+    }
+    .social-link {
+      a {
+        margin-right: 10px;
+      }
+    }
+  }
+}

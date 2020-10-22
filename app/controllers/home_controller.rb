@@ -38,4 +38,8 @@ class HomeController < ApplicationController
       format.js
     end
   end
+
+  def q_and_a_forum
+    # render layout: 'public'
+  end
 end
