@@ -9,6 +9,8 @@ class Notification < ApplicationRecord
   scope :associated_with, ->(associated) { where(associated: associated) }
   scope :fetch, ->(key, associated) { with_key(key).associated_with(associated) }
   scope :clear_automatically, -> { where(clear_manually: false) }
+  scope :forum, -> { where(key: %w[forum_comment forum_answer industry_forum_question]) }
+  scope :not_forum, -> { where.not(key: %w[forum_comment forum_answer industry_forum_question]) }
 
   def self.enabled?(who, notification)
     who.settings(:notifications).public_send(notification)

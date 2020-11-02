@@ -8,22 +8,31 @@
     .clearfix
   hr.m-b-0.m-t-1
   .panel-content-wrapper class=("fixedheight_receiver" if ["business_dashboard", "specialists/dashboard"].include?(params[:controller])) style="min-height: 300px;"
-    table.table.table-striped.table-blue.addon-alerts-table
-      thead
-        tr
-          th style="width: 1px;" Company
-          th
-            .p-l-1 Notification
-          th style="width: 1px;" &nbsp;
-      tbody
-      /- for i in 1..50 do
-        tr
-          td.text-center = image_tag "icon-business.png", style: "border-radius: 50%; width: 30px; height: 30px;"
-          td
-            .p-l-1 style="line-height: 12px;"
-              = ["Something good happened", "there are 12,000 emails flagged and awaiting your review"].sample
-              br/
-              small = Date.today.strftime('%b %-d, %Y')
-          td.text-center = link_to "x", "#", style: "color: #ffcc01"
-    .clearfix
-    h2.text-center NO ALERTS
+    - if current_user.notifications.unread.forum.any?
+      table.table.table-striped.table-blue.addon-alerts-table
+        thead
+          tr
+            th style="width: 1px; padding-right: 0px !important;" Company
+            th style="padding-left: 0px !important;"
+              .p-l-1 Notification
+            th style="width: 1px; padding-left: 0px !important; padding-right: 0px !important;" &nbsp;
+        tbody
+          - current_user.notifications.unread.forum.each do |notification|
+            tr
+              td.text-center
+                - if notification.img_path && notification.img_path != "/default_userpic.png"
+                  = image_tag notification.img_path, style: "border-radius: 50%; width: 30px; height: 30px;"
+                - else
+                  = image_tag "default_userpic.png", style: "border-radius: 50%; width: 30px; height: 30px;"
+              td style="padding-left: 0px !important;"
+                .p-l-1 style="line-height: 12px;"
+                  = link_to notification do
+                    b = notification.initiator
+                    br
+                    = notification.message
+                    br
+                  small= "#{time_ago_in_words(notification.created_at)} ago"
+              td.text-center style="padding-left: 0px !important;" = link_to "x", notification, style: "color: #ffcc01", class: "notification_destroyer"
+          .clearfix
+    - else
+      h2.text-center NO ALERTS

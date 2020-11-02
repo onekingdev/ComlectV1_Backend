@@ -3,12 +3,8 @@
   .close {
     //padding-top: 6px;
     //background-color: #000;
-    width: 30px;
-    height: 30px;
     border-radius: 50%;
     position: absolute;
-    right: -6px;
-    top: -18px;
     z-index: 10000;
     background-image: asset_url("close.png");
     background-size: contain;

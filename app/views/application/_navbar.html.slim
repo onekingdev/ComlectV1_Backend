@@ -74,12 +74,12 @@ nav#nav.navbar.navbar-default
                   li.bizmgr= link_to ria.business_name, specialists_business_path(ria)
                   - already_passed.push(ria.id)
               .fake_bottom
-        = render partial: "notifications", locals: { user: user }
+        = render partial: "notifications", locals: { user: user, notifications: user.notifications.unread.not_forum }
       - if seat?
         li.p-r-0
           ul.nav.navbar-nav.sign_out
             li.p-r-2= link_to "Log out", users_sign_out_force_path, class: "sign_up_navbar_link btn btn-primary p-2"
-        = render partial: "notifications", locals: { user: user }
+        = render partial: "notifications", locals: { user: user, notifications: user.notifications.unread.not_forum  }
       - unless current_user
         li.p-r-0
           ul.nav.navbar-nav.sign_in

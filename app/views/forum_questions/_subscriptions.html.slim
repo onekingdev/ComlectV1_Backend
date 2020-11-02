@@ -29,9 +29,8 @@
       br
       | &nbsp;
     - if current_business
-      button.btn.btn-primary.m-t-1(data-toggle="modal" data-target="#subscription_modal" onclick="$('#subscription_lvl_1').trigger('click');") SELECT
-      /= link_to "Buy Annual", forum_subscriptions_create_path(:lvl =>1, :billing_type => 0), class: "btn btn-primary m-t-1" if current_business.qna_lvl < 1
-      /= link_to "Buy Monthly", forum_subscriptions_create_path(:lvl =>1, :billing_type => 1), class: "btn btn-primary m-t-1" if current_business.qna_lvl < 1
+      - if current_business.forum_subscription.blank?
+        button.btn.btn-primary.m-t-1(data-toggle="modal" data-target="#subscription_modal" onclick="$('#subscription_lvl_1').trigger('click');") SELECT
     - else
       = link_to "Sign Up", new_user_session_path, "data-dismiss" => "modal", "data-remote" => true, class: "btn btn-primary m-t-1"
 .col-md-4.sub_block
