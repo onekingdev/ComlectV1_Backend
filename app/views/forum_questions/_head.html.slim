@@ -4,7 +4,6 @@
       a.back_btn href="/ask-a-specialist" 
         i.icon.maxicons1-arrowleft
         | BACK
-    - if current_business && current_business.subscription? > 0
     - if current_business && current_business.subscription? == 2 || params[:action] == "search"
       = render partial: "search"
       .container
@@ -17,5 +16,3 @@
         br
         br
         | See what your peers are saying. Learn what businesses care about. And, earn 5 star ratings for every 25 upvotes you receive on your responses.
-    - else
-      = render partial: "forum_questions/subscriptions"

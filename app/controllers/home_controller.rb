@@ -3,6 +3,7 @@
 class HomeController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :authenticate_user!, only: :q_and_a_forum
+  before_action :collect_marketplace, only: %i[marketplace q_and_a_forum]
 
   PAGES = %w[
     faqs
@@ -18,17 +19,7 @@ class HomeController < ApplicationController
     render params[:page]
   end
 
-  def partnerships
-    @partnerships = {}
-
-    Partnership.all.order(:id).each do |partnership|
-      category = partnership.category.to_sym
-      @partnerships[category] = [] unless @partnerships.key?(category)
-      @partnerships[category].push(partnership)
-    end
-
-    @partnerships
-  end
+  def marketplace; end
 
   def press
     @articles = Article.order(published_at: :desc)
@@ -41,7 +32,22 @@ class HomeController < ApplicationController
   end
 
   def q_and_a_forum
+    # render layout: 'public'
     @forum_sub = current_business.forum_subscription
     @forum_sub = OpenStruct.new(billing_type: 'annual') if @forum_sub.nil?
+  end
+
+  private
+
+  def collect_marketplace
+    @marketplace = {}
+
+    Partnership.all.order(:id).each do |partnership|
+      category = partnership.category.to_sym
+      @marketplace[category] = [] unless @marketplace.key?(category)
+      @marketplace[category].push(partnership)
+    end
+
+    @marketplace
   end
 end

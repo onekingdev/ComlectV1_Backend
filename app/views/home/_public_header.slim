@@ -1,14 +1,11 @@
-.public-header
-  .public-menu
-    .container
-      ul
-        li
-          = link_to 'General', '/'
-        li
-          = link_to 'Portfolio Management', '/'
-        li
-          = link_to 'Client Management', '/'
-        li
-          = link_to 'Back Office', '/'
-        li
-          = link_to 'Cybersecurity', '/'
+.row
+  #partnerships-block
+    - i = 0
+    - for k in @marketplace.keys.each.to_a do
+      - formatted = k.to_s.downcase.gsub(' ','-').gsub('&','and')
+      .entry 
+        /= image_tag "partnerships/#{formatted}.png"
+        p = raw(k.to_s.gsub(' ', '&nbsp;'))
+    .clearfix
+br/
+br/
