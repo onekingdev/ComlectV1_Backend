@@ -94,7 +94,7 @@ class Reminder < ActiveRecord::Base
     date_cursor = remind_at
     while date_cursor + (duration - 1).days < Time.zone.today.in_time_zone(remindable.time_zone).to_date
       unless (skip_occurencies.presence || []).include?(occurence_idx) ||
-             (done_occurencies.presence || []).include?(occurence_idx)
+             (done_occurencies.keys.presence || []).include?(occurence_idx)
         past_dues.push([date_cursor, occurence_idx])
       end
       occurence_idx += 1
@@ -125,10 +125,11 @@ class Reminder < ActiveRecord::Base
         end_by_date = task.end_by if task.end_by < tgt_to_date
       end
       occurrences = task.detect_all_occurrences(end_by_date) # [[date, id]...]
-      occurrences.each do |occurrence|
-        if occurrence[0] >= tgt_from_date && occurrence[0] <= tgt_to_date
-          data_recurring << RecurringReminder.new(task, "#{task.id}_#{occurrence[1]}", occurrence[0])
-        end
+      occurrences.each_with_index do |occurrence, i|
+        next unless occurrence[0] >= tgt_from_date && occurrence[0] <= tgt_to_date
+        sample = RecurringReminder.new(task, "#{task.id}_#{occurrence[1]}", occurrence[0])
+        sample.done_at, sample.note = task.done_occurencies[i] if task.done_occurencies.key?(i)
+        data_recurring << sample
       end
     end
     projects_complete = remindable.projects.complete.where('completed_at > ?', tgt_from_date).where('completed_at < ?', tgt_to_date)

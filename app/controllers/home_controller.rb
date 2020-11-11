@@ -32,7 +32,6 @@ class HomeController < ApplicationController
   end
 
   def q_and_a_forum
-    # render layout: 'public'
     @forum_sub = current_business.forum_subscription
     @forum_sub = OpenStruct.new(billing_type: 'annual') if @forum_sub.nil?
   end

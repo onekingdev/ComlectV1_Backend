@@ -35,7 +35,7 @@ class Business::RemindersController < ApplicationController
     @reminder.remindable_type = 'Business'
     @reminder.repeats = nil if @reminder.repeats.blank?
     @reminder.skip_occurencies = []
-    @reminder.done_occurencies = []
+    @reminder.done_occurencies = {}
     skip_occurence(current_business) if params[:src_id]
     redirect_to business_dashboard_path(reminder: @reminder.remind_at.strftime('%Y-%m-%d')) if @reminder.save
   end
@@ -68,7 +68,7 @@ class Business::RemindersController < ApplicationController
 
   def update
     @reminder = current_business.reminders.find(params[:id])
-    change_reminder_state if params[:done].present?
+    change_reminder_state(params[:note]) if params[:done].present?
     @reminder.update(reminder_params) if params[:reminder]
     @reminder.update(repeats: nil) if @reminder.repeats.blank?
     respond_to do |format|

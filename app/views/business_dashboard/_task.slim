@@ -12,7 +12,7 @@
         - pth = current_business ? edit_business_reminder_path(reminder.src_id, date: reminder.remind_at.strftime('%Y-%m-%d'), oid: reminder.id.split("_")[1]) : edit_specialists_reminder_path(reminder.src_id, date: reminder.remind_at.strftime('%Y-%m-%d'), oid: reminder.id.split("_")[1])
       .padded-checkboxes.reactive_reminders
         - if reminder.class.name == "RecurringReminder"
-          = check_box_tag("reminder_#{reminder.id}", 1, (reminder.done_occurencies.presence || [])&.include?(reminder.id.split("_")[1].to_i))
+          = check_box_tag("reminder_#{reminder.id}", 1, (reminder.done_occurencies.keys.presence || [])&.include?(reminder.id.split("_")[1].to_i))
         - else
           = check_box_tag("reminder_#{reminder.id}", 1, !reminder.done_at.nil?)
         label for=("reminder_#{reminder.id}") class="css-label"

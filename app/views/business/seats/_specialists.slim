@@ -11,6 +11,6 @@
           th Name
       tbody
         - @active_specialists.each do |specialist|
-          - if !specialist.seat?(current_business)
+          - unless specialist.seat?(current_business)
             tr
               td= specialist.full_name

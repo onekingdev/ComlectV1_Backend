@@ -51,7 +51,7 @@
     <meta charset="UTF-8">
   </head>
   <body>
-  <% (remindable.created_at.year..Date.today.year).each do |year| %>
+  <% (remindable.created_at.year..(Date.today.year+1)).each do |year| %>
     <center>
     <h1><%= remindable.name %></h1>
     <h1><%= year %> Compliance Calendar</h1>
@@ -70,6 +70,7 @@
               <td>Starts</td>
               <td>Ends</td>
               <td>Completed</td>
+              <td>Note</td>
             </tr>
             <% reminders.each do |reminder| %>
               <tr>
@@ -77,6 +78,7 @@
                 <td><%= reminder&.remind_at&.in_time_zone(remindable.time_zone)&.strftime('%b %-d, %Y') %></td>
                 <td><%= reminder&.end_date&.in_time_zone(remindable.time_zone)&.strftime('%b %-d, %Y') %></td>
                 <td><%= reminder&.done_at&.in_time_zone(remindable.time_zone)&.strftime('%b %-d, %Y') if reminder.done_at.present? %></td>
+                <td><%= reminder&.note if reminder.class.name != "Project" %></td>
               </tr>
             <% end %>
           </table>

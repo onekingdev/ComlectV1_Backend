@@ -1,24 +1,45 @@
 if (typeof(reactive_reminders) != "undefined") {
   if (reactive_reminders) {
     $("body").on("change", ".reactive_reminders input", function() {
-      var tgt_checked = $(this).prop("checked");
-      var splitted_name = $(this).attr("name").split("_");
-      var tgt_reminder_id = parseInt(splitted_name[1]);
-      var bsurl = "/business/reminders/";
-      if (typeof(reminders_bsurl) != "undefined") {
-        bsurl = reminders_bsurl;
-      }
-      var tgt_url = bsurl+tgt_reminder_id+".json?done="+JSON.stringify(tgt_checked);
-      if (splitted_name.length == 3) {
-        tgt_url += "&oid="+parseInt(splitted_name[2]);
-      }
-      $.ajax({
-        type: 'PATCH',
-        url: tgt_url,
-        success: function(data) {
-          console.log(data);
+      var _this = this;
+      var options = {
+        message: "Would you like to add any notes? <br/><br/><textarea class='form-control text optional input-lg' id='reminder_notes_textarea'></textarea><br/>",
+        backdrop: true,
+        closeButton: true,
+        className: 'confirm',
+        buttons: {
+          cancel: {
+            label: 'Cancel',
+            className: 'btn-default btn'
+          },
+          confirm: {
+            label: 'Ok',
+            className: 'btn-primary btn',
+            callback: function() {
+              var tgt_checked = $(_this).prop("checked");
+              var splitted_name = $(_this).attr("name").split("_");
+              var tgt_reminder_id = parseInt(splitted_name[1]);
+              var bsurl = "/business/reminders/";
+              if (typeof(reminders_bsurl) != "undefined") {
+                bsurl = reminders_bsurl;
+              }
+              var tgt_url = bsurl+tgt_reminder_id+".json?done="+JSON.stringify(tgt_checked);
+              if (splitted_name.length == 3) {
+                tgt_url += "&oid="+parseInt(splitted_name[2]);
+              }
+              $.ajax({
+                type: 'PATCH',
+                url: tgt_url,
+                data: { "note": $("#reminder_notes_textarea").val() },
+                success: function(data) {
+                  console.log(data);
+                }
+              });
+            }
+          }
         }
-      });
+      }
+      bootbox.dialog(options);
     });
 
     function update_tasks_width() {

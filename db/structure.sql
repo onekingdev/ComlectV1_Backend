@@ -1045,7 +1045,8 @@ CREATE TABLE public.file_folders (
     parent_id integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    locked boolean DEFAULT false
+    locked boolean DEFAULT false,
+    zip_data jsonb
 );
 
 
@@ -4064,7 +4065,8 @@ CREATE TABLE public.reminders (
     repeat_on integer,
     on_type character varying,
     skip_occurencies text DEFAULT ''::text,
-    done_occurencies text
+    done_occurencies text,
+    note character varying DEFAULT ''::character varying
 );
 
 
@@ -4521,7 +4523,9 @@ CREATE TABLE public.team_members (
     end_date date,
     termination_reason text,
     first_name character varying,
-    last_name character varying
+    last_name character varying,
+    access_person boolean DEFAULT false,
+    business_member boolean DEFAULT false
 );
 
 
@@ -4553,7 +4557,8 @@ CREATE TABLE public.teams (
     business_id integer,
     name character varying,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    display boolean DEFAULT true
 );
 
 
@@ -7643,7 +7648,15 @@ INSERT INTO schema_migrations (version) VALUES ('20200918212506');
 
 INSERT INTO schema_migrations (version) VALUES ('20200922124235');
 
+INSERT INTO schema_migrations (version) VALUES ('20200923045825');
+
+INSERT INTO schema_migrations (version) VALUES ('20200923060320');
+
 INSERT INTO schema_migrations (version) VALUES ('20200925050217');
 
 INSERT INTO schema_migrations (version) VALUES ('20200929162556');
+
+INSERT INTO schema_migrations (version) VALUES ('20201007134635');
+
+INSERT INTO schema_migrations (version) VALUES ('20201110132337');
 
