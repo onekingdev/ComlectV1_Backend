@@ -9,7 +9,7 @@ task reminder_done_tohash: :environment do
     else
       tgt_hash = {}
       reminder.done_occurencies&.each do |num|
-        tgt_hash[num] = [reminder.updated_at.in_time_zone(remindable.time_zone), '']
+        tgt_hash[num] = [reminder.updated_at.in_time_zone(reminder.remindable.time_zone), '']
       end
       reminder.done_occurencies = tgt_hash
     end
