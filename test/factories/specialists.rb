@@ -6,7 +6,6 @@ FactoryBot.define do
     # association :rewards_tier
     industries { [create(:industry)] }
     jurisdictions { [create(:jurisdiction)] }
-    work_experiences { [create(:work_experience)] }
     payment_sources { [create(:specialist_payment_source)] }
     first_name { Faker::Name.first_name }
     last_name { Faker::Name.last_name }

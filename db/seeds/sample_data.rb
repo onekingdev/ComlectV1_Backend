@@ -48,19 +48,6 @@ ActiveRecord::Base.transaction do
       industry_ids: industry_ids.sample(rand(industry_ids.size) + 1),
       jurisdiction_ids: jurisdiction_ids.sample(rand(jurisdiction_ids.size) + 1)
     )
-    from_years = rand(3..12)
-    from = from_years.years.ago
-    current = rand(2) == 1
-    specialist.work_experiences.create!(
-      company: Faker::Company.name,
-      job_title: Faker::Company.profession,
-      location: Faker::Address.country,
-      from: from,
-      to: current ? nil : from + (rand(from_years - 1) + 1).years,
-      current: current,
-      compliance: true,
-      description: Faker::Company.industry
-    )
     specialist_ids << specialist.id
   end
 

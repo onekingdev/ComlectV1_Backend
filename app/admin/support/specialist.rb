@@ -54,18 +54,6 @@ ActiveAdmin.register Specialist, namespace: :support do
       f.input :phone
       f.input :linkedin_link
     end
-    f.inputs name: 'Work Experience' do
-      f.has_many :work_experiences, heading: false, allow_destroy: true do |a|
-        a.input :company
-        a.input :job_title
-        a.input :location
-        a.input :from
-        a.input :to
-        a.input :current
-        a.input :compliance
-        a.input :description, as: :text, input_html: { class: 'autogrow', rows: 10, cols: 20, maxlength: 10 }
-      end
-    end
     f.inputs name: 'Areas of Expertise' do
       f.input :jurisdictions
       f.input :industries
@@ -73,13 +61,6 @@ ActiveAdmin.register Specialist, namespace: :support do
     end
     f.inputs name: 'Skills' do
       f.input :skills
-    end
-    f.inputs name: 'Education' do
-      f.has_many :education_histories, heading: false, allow_destroy: true do |a|
-        a.input :institution
-        a.input :degree
-        a.input :year
-      end
     end
     f.inputs name: 'Certifications' do
       f.input :certifications

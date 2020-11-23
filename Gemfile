@@ -128,9 +128,6 @@ gem 'lograge'
 gem 'fog-aws'
 gem 'sitemap_generator'
 
-# Other
-gem 'hubspot-ruby'
-
 group :development, :test do
   # Logging
   gem 'awesome_print'

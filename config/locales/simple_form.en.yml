@@ -100,17 +100,6 @@ en:
         estimated_hours: "Estimated Hours"
         rfp_timing: "Timing"
         est_budget: "Estimated budget ($ USD)"
-      work_experiences:
-        company: "Company Name"
-        job_title: "Job Title"
-        location: Location
-        from: From
-        to: To
-        description: Describe this role
-      education_histories:
-        institution: Institution Name
-        degree: Degree
-        year: Grad year
       specialist_search:
         keyword: Keyword
         jurisdiction_ids: Jurisdiction
