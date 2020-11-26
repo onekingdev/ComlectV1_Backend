@@ -23,7 +23,7 @@ RSpec.describe 'Deleting account', type: :request do
         )
 
         expect(response).to have_http_status(:ok)
-        expect(response.body).to match(/Invalid email or password/i)
+        expect(response.body).to match(/\/users\/sign_in/i)
       end
 
       it 'marks user as deleted' do

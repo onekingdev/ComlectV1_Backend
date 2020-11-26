@@ -39,7 +39,7 @@ class ProjectCreationTest < ActionDispatch::IntegrationTest
   test 'redirects draft saving to dashboard' do
     attributes = attributes_for(:project_full_time).merge(status: 'draft')
     post business_projects_path, project: attributes
-    assert_redirected_to business_dashboard_path(anchor: 'projects-pending')
+    assert_redirected_to business_projects_path(anchor: 'projects-pending')
   end
 
   test 'redirects review and post to review page' do
@@ -101,6 +101,6 @@ class ProjectCreationTest < ActionDispatch::IntegrationTest
     project = create :project_one_off_hourly, business: @business
     post post_business_project_path(project)
     assert project.reload.published?
-    assert_redirected_to business_dashboard_path(anchor: 'projects-pending')
+    assert_redirected_to business_projects_path(anchor: 'projects-pending')
   end
 end

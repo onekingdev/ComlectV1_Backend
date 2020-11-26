@@ -4441,10 +4441,7 @@ CREATE TABLE public.subscription_charges (
     updated_at timestamp without time zone NOT NULL,
     stripe_subscription_id character varying,
     forum_subscription_id integer,
-    amount integer,
-    chargeable_id integer,
-    chargeable_type character varying,
-    title character varying
+    amount integer
 );
 
 
@@ -7651,8 +7648,6 @@ INSERT INTO schema_migrations (version) VALUES ('20200922124235');
 INSERT INTO schema_migrations (version) VALUES ('20200923045825');
 
 INSERT INTO schema_migrations (version) VALUES ('20200923060320');
-
-INSERT INTO schema_migrations (version) VALUES ('20200925050217');
 
 INSERT INTO schema_migrations (version) VALUES ('20200929162556');
 
