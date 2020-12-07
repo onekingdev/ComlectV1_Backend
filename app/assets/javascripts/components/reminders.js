@@ -10,7 +10,10 @@ if (typeof(reactive_reminders) != "undefined") {
         buttons: {
           cancel: {
             label: 'Cancel',
-            className: 'btn-default btn'
+            className: 'btn-default btn',
+            callback: function() {
+              $(_this).prop("checked", false);
+            }
           },
           confirm: {
             label: 'Ok',

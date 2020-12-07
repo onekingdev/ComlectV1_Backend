@@ -129,7 +129,9 @@ class SpecialistsController < ApplicationController
       jurisdiction_ids: [], industry_ids: [], skill_names: [],
       user_attributes: [:email, :password,
                         tos_agreement_attributes: %i[status tos_description],
-                        cookie_agreement_attributes: %i[status cookie_description]]
+                        cookie_agreement_attributes: %i[status cookie_description]],
+      work_experiences_attributes: %i[id company job_title location from to current compliance description _destroy],
+      education_histories_attributes: %i[id institution degree year _destroy]
     ).merge(tos_acceptance_ip: request.remote_ip)
   end
 
