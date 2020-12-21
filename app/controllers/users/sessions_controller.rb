@@ -11,7 +11,19 @@ class Users::SessionsController < Devise::SessionsController
   def create
     Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name)
     respond_to do |format|
-      format.html { super }
+      format.html do
+        if (self.resource = warden.authenticate!(auth_options))
+          # set_flash_message!(:notice, :signed_in)
+          sign_in(resource_name, resource)
+          resource.update(inactive_for_period: false)
+          respond_with resource, location: after_sign_in_path_for(resource)
+        else
+          flash.now[:warning] = 'Invalid email or password'
+          self.resource = resource_class.new(sign_in_params)
+
+          render 'new'
+        end
+      end
       format.js do
         if (self.resource = warden.authenticate(auth_options))
           # set_flash_message!(:notice, :signed_in)

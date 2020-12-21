@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
 
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
-  protect_from_forgery with: :exception
+  protect_from_forgery prepend: true
 
   # Use lambda not symbol so render_403 uses the default message
   # as opposed to getting passed a Pundit::NotAuthorizedError object
