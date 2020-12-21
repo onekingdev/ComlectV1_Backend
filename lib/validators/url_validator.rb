@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class UrlValidator < ActiveModel::EachValidator
+class Validators::UrlValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
     record.errors[attribute] << url_error_message unless valid?(value)
   end
