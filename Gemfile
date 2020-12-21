@@ -67,7 +67,7 @@ gem 'coffee-rails'
 gem 'rack-cors', require: 'rack/cors'
 # gem 'sassc-rails'
 gem 'sprockets', '~>3.0'
-# gem 'uglifier'
+gem 'uglifier'
 
 # Views
 gem 'activemodel-serializers-xml', git: 'https://github.com/rails/activemodel-serializers-xml'
