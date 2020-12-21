@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreatePortedSubscriptions < ActiveRecord::Migration
+class CreatePortedSubscriptions < ActiveRecord::Migration[6.0]
   def change
     create_table :ported_subscriptions do |t|
       t.integer :specialist_id

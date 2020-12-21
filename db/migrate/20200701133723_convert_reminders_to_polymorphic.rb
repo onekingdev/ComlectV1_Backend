@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ConvertRemindersToPolymorphic < ActiveRecord::Migration
+class ConvertRemindersToPolymorphic < ActiveRecord::Migration[6.0]
   def change
     rename_column :reminders, :business_id, :remindable_id
     add_column :reminders, :remindable_type, :string

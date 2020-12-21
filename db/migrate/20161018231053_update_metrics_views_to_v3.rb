@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class UpdateMetricsViewsToV3 < ActiveRecord::Migration
+class UpdateMetricsViewsToV3 < ActiveRecord::Migration[6.0]
   def change
     replace_view :metrics_jobs_installment_pay, version: 3, revert_to_version: 2
     replace_view :metrics_jobs_posted, version: 2, revert_to_version: 1

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateWorkExperiences < ActiveRecord::Migration
+class CreateWorkExperiences < ActiveRecord::Migration[6.0]
   def change
     create_table :work_experiences do |t|
       t.references :specialist, index: true
