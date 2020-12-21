@@ -24,7 +24,6 @@ RSpec.describe Charge::Processing, type: :model do
             project: project,
             specialist: specialist
           )
-
           Project::Form.find(project.id).post!
           JobApplication::Accept.(job_application)
         end

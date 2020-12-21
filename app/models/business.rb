@@ -5,8 +5,8 @@ require 'validators/url_validator'
 class Business < ApplicationRecord
   belongs_to :user
 
-  has_and_belongs_to_many :jurisdictions
-  has_and_belongs_to_many :industries
+  has_and_belongs_to_many :jurisdictions, optional: true
+  has_and_belongs_to_many :industries, optional: true
   has_many :forum_questions
   has_many :projects, dependent: :destroy
   has_many :job_applications, through: :projects
@@ -120,21 +120,6 @@ class Business < ApplicationRecord
       'The biggest risk is not taking any risk'
     ]
   ].freeze
-  # rubocop:disable Metrics/LineLength
-  QUIZ = [
-    [:sec_or_crd],
-    [:office_state],
-    [:branch_offices],
-    [:client_account_cnt],
-    [:client_types, %i[less_1mm accredited_investors qualified_purchasers institutional_investors pooled_investment]],
-    [:aum],
-    [:cco, %i[yes no dedicated]],
-    [:already_covered, %i[code_of_ethics privacy custody portfolio trading proxy valuation marketing regulatory books planning compliance other]],
-    [:review_plan, %i[no basic deluxe premium]],
-    [:annual_compliance, %i[yes no]],
-    [:finish]
-  ].freeze
-  # rubocop:enable Metrics/LineLength
 
   def compliance_manual_needs_update?
     missing_compliance_policies.count.positive? || outdated_compliance_policies.any?
@@ -146,17 +131,6 @@ class Business < ApplicationRecord
 
   def reminders_this_year
     reminders.where('remind_at > ?', Time.now.in_time_zone(time_zone).beginning_of_year)
-  end
-
-  def questionarrie_percentage
-    score = 0
-    total = Business::QUIZ.count - 1
-    total -= 3 if business_stages.present? && (business_stages.include? 'startup')
-    Business::QUIZ.map(&:first).each do |q|
-      score += 1 if (q != :finish) && !public_send(q).nil?
-    end
-    result = (100.0 * score / total).to_i
-    result > 100 ? 100 : result
   end
 
   def annual_review_percentage
@@ -313,19 +287,6 @@ class Business < ApplicationRecord
     end
   end
 
-  def personalized?
-    current_question = 0
-    quiz_copy = QUIZ.dup
-    unless business_stages.nil?
-      quiz_copy.delete_if { |s| %i[sec_or_crd already_covered annual_compliance].include? s[0] } if business_stages.include? 'startup'
-      quiz_copy.each_with_index do |q, i|
-        current_question = i
-        break if q[0] == :finish || __send__(q[0]).nil?
-      end
-    end
-    quiz_copy[current_question][0] == :finish
-  end
-
   def only_pooled_investment?
     (!client_types.nil? && (client_types - ['pooled_investment']).count.zero?)
   end
@@ -479,7 +440,7 @@ class Business < ApplicationRecord
 
   def subscription?
     if forum_subscription && !forum_subscription.suspended
-      forum_subscription[:level]
+      forum_subscription.read_attribute_before_type_cast(:level)
     else
       0
     end
@@ -497,7 +458,7 @@ class Business < ApplicationRecord
 
   def payment_source_type
     payment_source = payment_sources.find_by(primary: true) || payment_sources.first
-    payment_source&.type == 'PaymentSource::ACH' ? :ach : :card
+    payment_source&.type == 'PaymentSource::Ach' ? :ach : :card
   end
 
   def generate_folders_tree(except_id)

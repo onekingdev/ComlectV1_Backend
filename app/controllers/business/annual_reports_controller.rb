@@ -85,15 +85,15 @@ class Business::AnnualReportsController < ApplicationController
         @annual_report.update(cof_bits: total.to_s)
       end
     end
-    respond_to do |format|
-      format.html do
-        if request.xhr?
-          render text: @annual_report.ready? ? 'ready' : 'saved'
-        else
-          redirect_to new_business_annual_report_path
-        end
-      end
+    # respond_to do |format|
+    # format.html do
+    if request.xhr?
+      render plain: @annual_report.ready? ? 'ready' : 'saved'
+    else
+      redirect_to new_business_annual_report_path
     end
+    # end
+    # end
   end
 
   private

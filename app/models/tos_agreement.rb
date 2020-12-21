@@ -2,6 +2,6 @@
 
 class TosAgreement < ActiveRecord::Base
   belongs_to :user
-  belongs_to :business
-  belongs_to :specialist
+  belongs_to :business, optional: true
+  belongs_to :specialist, optional: true
 end

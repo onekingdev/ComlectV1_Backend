@@ -145,8 +145,6 @@ ActiveAdmin.register Specialist do
   permit_params :resume, :resume_data, :first_name, :last_name, :city, :zipcode, :state, :country, :phone, :linkedin_link,
                 :visibility, :years_of_experience,
                 :former_regulator, :certifications, :dashboard_unlocked, :call_booked, :min_hourly_rate,
-                work_experiences_attributes: %i[id _destroy company job_title location from to current compliance description],
-                education_histories_attributes: %i[institution degree year],
                 jurisdiction_ids: [], industry_ids: [], skill_ids: []
 
   form html: { enctype: 'multipart/form-data' } do |f|
@@ -167,19 +165,6 @@ ActiveAdmin.register Specialist do
       f.input :visibility, collection: Specialist.visibilities.invert
     end
 
-    # f.inputs name: 'Work Experience' do
-    #   f.has_many :work_experiences, heading: false, allow_destroy: true do |a|
-    #     a.input :company
-    #     a.input :job_title
-    #     a.input :location
-    #     a.input :from, as: :datepicker
-    #     a.input :to, as: :datepicker
-    #     a.input :current
-    #     a.input :compliance
-    #     a.input :description, as: :text, input_html: { class: 'autogrow', rows: 10, cols: 20 }
-    #   end
-    # end
-
     f.inputs name: 'Areas of Expertise' do
       f.input :jurisdictions
       f.input :industries
@@ -188,14 +173,6 @@ ActiveAdmin.register Specialist do
 
     f.inputs name: 'Skills' do
       f.input :skills
-    end
-
-    f.inputs name: 'Education' do
-      f.has_many :education_histories, heading: false, allow_destroy: true do |a|
-        a.input :institution
-        a.input :degree
-        a.input :year
-      end
     end
 
     f.inputs name: 'Certifications' do

@@ -13,6 +13,6 @@ class Projects::ProjectEndsController < ApplicationController
   private
 
   def find_project
-    @project = current_specialist.projects.preload_associations.find(params[:project_id])
+    @project = current_specialist.projects.preload_association.find(params[:project_id])
   end
 end

@@ -5,7 +5,7 @@ class Message < ApplicationRecord
   belongs_to :sender, polymorphic: true
   belongs_to :recipient, polymorphic: true
 
-  scope :preload_associations, -> { preload(:thread, :sender, :recipient) }
+  scope :preload_association, -> { preload(:thread, :sender, :recipient) }
   scope :recent, -> { order(created_at: :desc) }
   scope :notifiable, -> { where(read_by_recipient: false).where('created_at < ?', Time.zone.now - 1.minute) }
   scope :unread, -> { where(read_by_recipient: false) }

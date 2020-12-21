@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
-require File.expand_path('boot', __dir__)
+require_relative 'boot'
+
+# require File.expand_path('boot', __dir__)
 
 require 'rails/all'
 
@@ -10,6 +12,8 @@ Bundler.require(*Rails.groups)
 
 module Complect
   class Application < Rails::Application
+    config.load_defaults 6.0
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
@@ -25,8 +29,6 @@ module Complect
 
     config.action_mailer.default_url_options = { host: ENV.fetch('DEFAULT_URL_HOST') }
 
-    # Do not swallow errors in after_commit/after_rollback callbacks.
-    config.active_record.raise_in_transactional_callbacks = true
     # SQL schema to take advantage of pg's more advanced features
     config.active_record.schema_format = :sql
 
@@ -41,7 +43,7 @@ module Complect
     # Use Sidekiq for asynchronous operations.
     config.active_job.queue_adapter = :sidekiq
 
-    config.middleware.insert_before 0, 'Rack::Cors' do
+    config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins(/https:\/\/.+?\.complect\.com?/)
         resource '*', headers: :any, methods: :get

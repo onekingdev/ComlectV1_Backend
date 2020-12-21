@@ -13,11 +13,11 @@ class Business::PaymentSettingsController < ApplicationController
   end
 
   def show
-    @payment_source = PaymentSource::ACHForm.find_for(current_business, params[:id])
+    @payment_source = PaymentSource::AchForm.find_for(current_business, params[:id])
   end
 
   def new
-    @payment_source = PaymentSource::ACHForm.new_for(current_business, stripe_params(optional: true))
+    @payment_source = PaymentSource::AchForm.new_for(current_business, stripe_params(optional: true))
   end
 
   def create
@@ -29,7 +29,7 @@ class Business::PaymentSettingsController < ApplicationController
         redirect_to business_settings_payment_index_path, alert: alert
       end
       format.js do
-        @payment_source = PaymentSource::ACHForm.new(@payment_source)
+        @payment_source = PaymentSource::AchForm.new(@payment_source)
         render @payment_source.persisted? ? :show : :new
       end
       format.json do
@@ -122,7 +122,7 @@ class Business::PaymentSettingsController < ApplicationController
     root.permit(
       :stripe_id, :country, :currency, :brand, :account_holder_name, :account_holder_type, :last4, :token,
       :plaid_token, :plaid_account_id, :plaid_institution
-    ).merge(type: PaymentSource::ACH.name)
+    ).merge(type: PaymentSource::Ach.name)
   end
 
   def stripe_validation_params
