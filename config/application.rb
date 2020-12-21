@@ -26,7 +26,12 @@ module Complect
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
     config.eager_load_paths << Rails.root.join('lib')
-
+    config.autoload_paths += Dir[
+      Rails.root.join('app', 'policies', '*.rb'),
+      Rails.root.join('lib', '*.rb'),
+      Rails.root.join('lib', 'extensions', '*.rb'),
+      Rails.root.join('lib', 'validators', '*.rb')
+  ]
     config.action_mailer.default_url_options = { host: ENV.fetch('DEFAULT_URL_HOST') }
 
     # SQL schema to take advantage of pg's more advanced features
