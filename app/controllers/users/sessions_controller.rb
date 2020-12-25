@@ -24,16 +24,6 @@ class Users::SessionsController < Devise::SessionsController
           render 'new'
         end
       end
-      format.js do
-        if (self.resource = warden.authenticate(auth_options))
-          # set_flash_message!(:notice, :signed_in)
-          sign_in(resource_name, resource)
-          resource.update(inactive_for_period: false)
-          @js_redirect = after_sign_in_path_for(resource)
-        else
-          flash.now[:warning] = 'Invalid email or password'
-        end
-      end
     end
     mixpanel_track_later 'Sign In' if signed_in?
   end
