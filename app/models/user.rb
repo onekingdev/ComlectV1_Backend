@@ -35,6 +35,8 @@ class User < ApplicationRecord
 
   default_scope -> { where(deleted: false) }
 
+  serialize :muted_projects
+
   def business_or_specialist
     business || specialist
   end

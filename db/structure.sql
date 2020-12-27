@@ -358,8 +358,8 @@ ALTER SEQUENCE public.answers_id_seq OWNED BY public.answers.id;
 CREATE TABLE public.ar_internal_metadata (
     key character varying NOT NULL,
     value character varying,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -2090,7 +2090,9 @@ CREATE TABLE public.users (
     tos_acceptance_ip character varying,
     deleted boolean DEFAULT false NOT NULL,
     deleted_at timestamp without time zone,
-    inactive_for_period boolean DEFAULT false
+    inactive_for_period boolean DEFAULT false,
+    muted_projects text DEFAULT '--- []
+'::text
 );
 
 
@@ -4446,7 +4448,10 @@ CREATE TABLE public.subscription_charges (
     updated_at timestamp without time zone NOT NULL,
     stripe_subscription_id character varying,
     forum_subscription_id integer,
-    amount integer
+    amount integer,
+    chargeable_id integer,
+    chargeable_type character varying,
+    title character varying
 );
 
 
@@ -7022,7 +7027,7 @@ ALTER TABLE ONLY public.project_issues
 -- PostgreSQL database dump complete
 --
 
-SET search_path TO "$user", public, topology;
+SET search_path TO "$user", public, tiger;
 
 INSERT INTO "schema_migrations" (version) VALUES
 ('20160603200743'),
@@ -7344,9 +7349,11 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200922124235'),
 ('20200923045825'),
 ('20200923060320'),
+('20200925050217'),
 ('20200929162556'),
 ('20201007134635'),
 ('20201110132337'),
-('20201210160135');
+('20201210160135'),
+('20201225213003');
 
 

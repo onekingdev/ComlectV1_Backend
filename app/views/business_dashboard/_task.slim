@@ -3,9 +3,11 @@
     - if reminder.class.name == "Project"
       - pth = current_specialist ? project_dashboard_path(reminder) : business_project_dashboard_path(reminder)
       .padded-checkboxes.reactive_reminders
-        = check_box_tag("reminder_p_#{reminder.id}", 1, true, disabled: true)
+        = check_box_tag("reminder_p_#{reminder.id}", 1, reminder.complete?, disabled: true)
         label for=("reminder_p_#{reminder.id}") class="css-label"
           = link_to reminder.title, pth, class: "upcoming_task", target: "_blank"
+        small style="position: absolute; right: 10px;"
+          b.p-l-1 = link_to current_user.muted_projects.include?(reminder.id) ? "unmute" : "mute", "/mute_project/#{reminder.id}"
     - if ["Reminder", "RecurringReminder"].include?(reminder.class.name)
       - pth = current_business ? edit_business_reminder_path(reminder) : edit_specialists_reminder_path(reminder)
       - if reminder.class.name == "RecurringReminder"
