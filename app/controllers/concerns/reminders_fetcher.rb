@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/ModuleLength
 module RemindersFetcher
   class FakeTask
     def initialize(id)
@@ -7,6 +8,17 @@ module RemindersFetcher
       self.body = nil
     end
     attr_accessor :id, :body
+  end
+
+  def tasks_calendar_grid2(remindable, beginning)
+    end_of_month = beginning + 40.days
+    first_day = beginning - beginning.wday.days
+    last_day = end_of_month + (6 - end_of_month.wday).days
+    @grid_tasks = remindable.reminders.where('end_date >= ? AND remind_at < ?', first_day, last_day).where(repeats: nil)
+    @recurring_tasks = remindable.reminders.where('remind_at < ?', last_day).where.not(repeats: nil)
+    @active_projects = remindable.projects
+    calendar_grid = populate_recurring_tasks2(@recurring_tasks, last_day)
+    calendar_grid + @active_projects + @grid_tasks
   end
 
   def tasks_calendar_grid(remindable, beginning)
@@ -73,6 +85,24 @@ module RemindersFetcher
     calendar_grid
   end
 
+  def populate_recurring_tasks2(tasks, last_day)
+    output_tasks = []
+    tasks.each do |task|
+      occurence_idx = 0
+      date_cursor = task.remind_at
+      while (task.end_by.blank? || (task.end_by.present? && (date_cursor < task.end_by))) && (date_cursor < last_day)
+        if %w[Daily Weekly Monthly Yearly].include?(task.repeats)
+          unless (task.skip_occurencies.presence || [])&.include?(occurence_idx)
+            output_tasks.push(RecurringReminder.new(task, "#{task.id}_#{occurence_idx}", date_cursor))
+          end
+          occurence_idx += 1
+        end
+        date_cursor = task.repeats == '' ? last_day : task.next_occurence(date_cursor)
+      end
+    end
+    output_tasks
+  end
+
   def populate_recurring_tasks(tasks, last_day, calendar_grid)
     tasks.each do |task|
       occurence_idx = 0
@@ -122,3 +152,5 @@ module RemindersFetcher
     week_tasks.uniq.delete_if { |x| x.class.name == 'RemindersFetcher::FakeTask' }
   end
 end
+
+# rubocop:enable Metrics/ModuleLength
