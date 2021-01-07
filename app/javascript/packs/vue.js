@@ -1,8 +1,11 @@
-import Vue from 'vue'
-import App from './vue/App.vue'
+import Vue from 'vue/dist/vue.esm.js'
+import BusinessDashboardPage from './vue/BusinessDashboardPage.vue'
 
 Vue.config.productionTip = false
 
 new Vue({
-  render: h => h(App),
-}).$mount('#app')
+  el: document.getElementById('app'),
+  components: {
+    BusinessDashboardPage
+  }
+})
