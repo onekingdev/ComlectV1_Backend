@@ -14,3 +14,5 @@ Rails.application.config.assets.paths << Rails.root.join('vendor/assets/fonts')
 Rails.application.config.assets.precompile << 'landing_page.css'
 Rails.application.config.assets.precompile << 'landing.js'
 Rails.application.config.assets.precompile << %r{.*.(?:eot|svg|ttf|woff|woff2)$}
+
+Rails.application.config.assets.precompile << 'vue.css'
