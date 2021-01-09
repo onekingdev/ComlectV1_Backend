@@ -10,9 +10,9 @@
         <dd>Tasks</dd>
         <dt><span class="task-is-project">📄</span></dt>
         <dd>Projects</dd>
-        <dt><span class="task-is-overdue">📄</span></dt>
+        <dt><span class="task-is-overdue">⚠️</span></dt>
         <dd>Overdue</dd>
-        <dt><span class="task-is-complete">📄</span></dt>
+        <dt><span class="task-is-complete">✅</span></dt>
         <dd>Complete</dd>
       </dl>
     </div>
@@ -45,6 +45,12 @@ const isOverdue = task => DateTime.fromISO(task.starts_on || task.remind_at) <= 
 const isComplete = task => task.completed_at || task.done_at
 
 export default {
+  props: {
+    pdfUrl: {
+      type: String,
+      required: true
+    }
+  },
   computed: {
     calendarOptions() {
       return {
@@ -55,6 +61,16 @@ export default {
             .then(response => response.json())
             .then(result => successCallback(result.map(toEvent)))
             .catch(errorCallback)
+        },
+        customButtons: {
+          pdfButton: {
+            text: 'Export',
+            click: () => window.location = this.pdfUrl
+          }
+        },
+        headerToolbar: {
+          right: 'prev,next today pdfButton',
+          center: 'title'
         }
       }
     }
