@@ -23,7 +23,7 @@
 import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import { DateTime } from 'luxon'
-import { isProject, isTask, isOverdue, isComplete, toEvent } from '../common/TaskHelper'
+import { isProject, isTask, isOverdue, isComplete, toEvent } from '../../common/TaskHelper'
 
 const endpointUrl = '/api/business/tasks/'
 const jsToSql = date => DateTime.fromJSDate(date).toSQLDate()
@@ -61,7 +61,7 @@ export default {
         },
         headerToolbar: {
           right: 'prev,next today pdfButton',
-          center: 'title'
+          left: 'title'
         }
       }
     }
