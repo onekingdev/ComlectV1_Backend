@@ -10,10 +10,7 @@ module RemindersFetcher
     attr_accessor :id, :body
   end
 
-  def tasks_calendar_grid2(remindable, beginning)
-    end_of_month = beginning + 40.days
-    first_day = beginning - beginning.wday.days
-    last_day = end_of_month + (6 - end_of_month.wday).days
+  def tasks_calendar_grid2(remindable, first_day, last_day)
     @grid_tasks = remindable.reminders.where('end_date >= ? AND remind_at < ?', first_day, last_day).where(repeats: nil)
     @recurring_tasks = remindable.reminders.where('remind_at < ?', last_day).where.not(repeats: nil)
     @active_projects = remindable.projects

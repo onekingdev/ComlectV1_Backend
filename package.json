@@ -3,9 +3,14 @@
     "node": "10.18.0"
   },
   "dependencies": {
+    "@fullcalendar/bootstrap": "^5.5.0",
+    "@fullcalendar/core": "^5.5.0",
+    "@fullcalendar/daygrid": "^5.5.0",
+    "@fullcalendar/vue": "^5.5.0",
     "@popperjs/core": "^2.6.0",
     "@rails/webpacker": "^3.5.5",
     "bootstrap": "^5.0.0-beta1",
+    "luxon": "^1.25.0",
     "pug": "^3.0.0",
     "pug-plain-loader": "^1.1.0",
     "stimulus": "^1.0.1",

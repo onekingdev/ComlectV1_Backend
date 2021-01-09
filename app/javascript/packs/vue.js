@@ -1,5 +1,5 @@
 import Vue from 'vue/dist/vue.esm.js'
-import BusinessDashboardPage from './vue/BusinessDashboardPage.vue'
+import BusinessDashboardPage from './vue/business/DashboardPage.vue'
 
 Vue.config.productionTip = false
 

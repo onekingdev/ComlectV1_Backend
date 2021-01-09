@@ -7,7 +7,6 @@ class BusinessDashboard2Controller < ApplicationController
   before_action :require_business!
   before_action :business_payment_profile?
   before_action :beginning_of_week
-  before_action :init_tasks_calendar_grid
 
   def show
     @range_axis = []
@@ -38,6 +37,10 @@ class BusinessDashboard2Controller < ApplicationController
     end
   end
 
+  def show_2
+    render :html => '<business-dashboard-page></business-dashboard-page>'.html_safe, :layout => 'vue'
+  end
+
   private
 
   def beginning_of_week
@@ -46,9 +49,5 @@ class BusinessDashboard2Controller < ApplicationController
 
   def business_payment_profile?
     redirect_to '/business/onboarding' if current_business && !current_business.onboarding_passed
-  end
-
-  def init_tasks_calendar_grid
-    @calendar_grid = tasks_calendar_grid2(current_business, Time.zone.today.beginning_of_month)
   end
 end

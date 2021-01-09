@@ -65,7 +65,7 @@ Rails.application.routes.draw do
     patch '/' => 'businesses#update', as: :update
   end
   get '/business' => 'business_dashboard#show', as: :business_dashboard
-  get '/business2' => 'business_dashboard2#show', as: :business_dashboard2
+  get '/business2' => 'business_dashboard2#show_2', as: :business_dashboard2
 
   concern :favoriteable do
     resources :favorites, only: [] do
@@ -251,5 +251,6 @@ Rails.application.routes.draw do
 
   namespace :api do
     resources :skills, only: :index
+    get "/business/tasks/:date_from/:date_to" => "business#index"
   end
 end
