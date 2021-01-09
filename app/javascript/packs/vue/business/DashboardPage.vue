@@ -23,26 +23,10 @@
 import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import { DateTime } from 'luxon'
+import { isProject, isTask, isOverdue, isComplete, toEvent } from '../common/TaskHelper'
 
 const endpointUrl = '/api/business/tasks/'
 const jsToSql = date => DateTime.fromJSDate(date).toSQLDate()
-const toEvent = task => ({
-  ...task,
-  start: task.starts_on || task.remind_at,
-  end: task.ends_on,
-  title: task.title || task.body,
-  classNames: [
-    isComplete(task) ? 'task-is-complete'
-    : isOverdue(task) ? 'task-is-overdue'
-    : isProject(task) ? 'task-is-project'
-    : isTask(task) ? 'task-is-task' : ''
-  ]
-})
-
-const isProject = task => task.hasOwnProperty('only_regulators') && task.hasOwnProperty('key_deliverables')
-const isTask = task => task.hasOwnProperty('remindable_type') && task.hasOwnProperty('skip_occurencies')
-const isOverdue = task => DateTime.fromISO(task.starts_on || task.remind_at) <= DateTime.local()
-const isComplete = task => task.completed_at || task.done_at
 
 export default {
   props: {
@@ -59,7 +43,14 @@ export default {
           const fromTo = jsToSql(info.start) + '/' + jsToSql(info.end)
           fetch(`${endpointUrl}${fromTo}`, { headers: {'Accept': 'application/json'}})
             .then(response => response.json())
-            .then(result => successCallback(result.map(toEvent)))
+            .then(result => successCallback(result.map(task => ({
+              ...toEvent(task),
+              classNames: [
+                isComplete(task) ? 'task-is-complete'
+                : isOverdue(task) ? 'task-is-overdue'
+                : isProject(task) ? 'task-is-project'
+                : isTask(task) ? 'task-is-task' : ''
+              ]}))))
             .catch(errorCallback)
         },
         customButtons: {
