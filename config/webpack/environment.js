@@ -27,13 +27,4 @@ environment.loaders.prepend('pug', {
     }]
 })
 
-environment.config.merge({
-    resolve: {
-        alias: {
-            '@': path.resolve(__dirname, '..', '..', 'app/javascript/packs/vue'),
-            'vue$': 'vue/dist/vue.esm.js'
-        }
-    }
-})
-
 module.exports = environment
