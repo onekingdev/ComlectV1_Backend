@@ -1,5 +1,5 @@
-<template>
-  <FullCalendar :options="calendarOptions"/>
+<template lang="pug">
+  FullCalendar(:options="calendarOptions")
 </template>
 
 <script>
