@@ -1,5 +1,16 @@
 <template lang="pug">
-  FullCalendar(:options="calendarOptions")
+  div
+    .row
+      .col-sm
+        span {{currentMonth}}
+      .col-sm
+        a.btn.btn-primary(@click.prevent="prev" href) <
+        a.btn.btn-primary(@click.prevent="next" href) >
+      .col-sm
+        a.btn.btn-primary.float-end(:href="pdfUrl") Export
+    .row
+      .col-sm
+        FullCalendar(:options="calendarOptions" ref="FullCalendar")
 </template>
 
 <script>
@@ -18,7 +29,29 @@ export default {
       required: true
     }
   },
+  data() {
+    return {
+      currentMonth: ''
+    }
+  },
+  methods: {
+    prev() {
+      this.calendarObject.prev(), this.updateCurrentMonth()
+    },
+    next() {
+      this.calendarObject.next(), this.updateCurrentMonth()
+    },
+    updateCurrentMonth() {
+      this.currentMonth = DateTime.fromJSDate(this.calendarObject.getDate()).toFormat('MMMM yyyy')
+    }
+  },
+  mounted() {
+    this.updateCurrentMonth()
+  },
   computed: {
+    calendarObject() {
+      return this.$refs.FullCalendar.getApi()
+    },
     calendarOptions() {
       return {
         plugins: [dayGridPlugin],
@@ -36,16 +69,7 @@ export default {
               ]}))))
             .catch(errorCallback)
         },
-        customButtons: {
-          pdfButton: {
-            text: 'Export',
-            click: () => window.location = this.pdfUrl
-          }
-        },
-        headerToolbar: {
-          right: 'prev,next today pdfButton',
-          left: 'title'
-        }
+        headerToolbar: false
       }
     }
   },

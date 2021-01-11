@@ -1,7 +1,7 @@
 <template lang="pug">
   div
     h3 Upcoming
-      a(href="#" class="btn btn-primary float-end") New Task
+      a.btn.btn-primary.float-end(href) New Task
     h4 Tasks
     TaskTable(:tasks="tasks")
     h4 Projects
