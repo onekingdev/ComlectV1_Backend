@@ -3,13 +3,14 @@
 class BusinessDashboard2Controller < ApplicationController
   include RemindersFetcher
   include ChartData
+  include ActionView::Helpers::TagHelper
 
   before_action :require_business!
   before_action :business_payment_profile?
   before_action :beginning_of_week
 
   def show
-    render :html => '<business-dashboard-page></business-dashboard-page>'.html_safe, :layout => 'vue'
+    render html: content_tag('business-dashboard-page', '', "pdf-url": business_reminders_path(format: :pdf)).html_safe, layout: 'vue'
   end
 
   private

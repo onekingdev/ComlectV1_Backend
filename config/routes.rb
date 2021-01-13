@@ -251,6 +251,6 @@ Rails.application.routes.draw do
 
   namespace :api do
     resources :skills, only: :index
-    get "/business/tasks/:date_from/:date_to" => "business#index"
+    get '/business/tasks/:date_from/:date_to' => 'business#index'
   end
 end
