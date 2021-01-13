@@ -7,7 +7,7 @@
         a.btn.btn-primary(@click.prevent="prev" href) <
         a.btn.btn-primary(@click.prevent="next" href) >
       .col-sm
-        a.btn.btn-primary.float-end(:href="pdfUrl") Export
+        a.btn.btn-primary.float-end(:href="pdfUrl" target="_blank") Export
     .row
       .col-sm
         FullCalendar(:options="calendarOptions" ref="FullCalendar")
