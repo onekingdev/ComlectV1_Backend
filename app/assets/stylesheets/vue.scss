@@ -1,5 +1,64 @@
 @import "../../../node_modules/bootstrap/scss/bootstrap.scss";
+@import "_vue_utilities.scss";
+
+html {
+  font-size: 12px;
+}
 
 .text-danger {
-    color: plum !important;
+  color: plum !important;
+}
+
+#sidebarMenu {
+  background-color: #1b1c29;
+  color: #fff;
+  ion-icon {
+    font-size: 15px;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+  a {
+    color: #fff;
+    font-weight: 500;
+    text-decoration: none;
+  }
+  h3 {
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 1px;
+    font-weight: 400;
+    color: #f6f6f6;
+    padding-left: 10px;
+    padding-top: 15px;
+    padding-bottom: 5px;
+  }
+  a.btn {
+    width: 100%;
+    text-align: left;
+    margin-top: 5px;
+  }
+  a.btn:hover {
+    background-color: #2f304f;
+  }
+}
+
+#main-content {
+  background-color: #f6f6f8;
+}
+
+#top_navbar {
+  background-color: #fff;
+  border-bottom: 1px solid #dfe0e6;
+  font-size: 14px;
+  .nav-item {
+    padding-left: 2.5rem;
+    a {
+      color: #3a3b3c;
+    }
+  }
+}
+
+#profile_dropdown {
+  border-left: 1px solid #e3e5e9;
+  border-right: 1px solid #e3e5e9;
 }
