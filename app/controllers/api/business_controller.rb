@@ -7,7 +7,7 @@ class Api::BusinessController < ApplicationController
   before_action :require_business!, only: %i[index]
 
   def index
-    @tasks = tasks_calendar_grid2(current_business, Date.parse(params[:date_from]), Date.parse(params[:date_to]))
-    render json: @tasks.to_json
+    tasks, projects = tasks_calendar_grid2(current_business, Date.parse(params[:date_from]), Date.parse(params[:date_to]))
+    render json: { tasks: tasks, projects: projects }
   end
 end

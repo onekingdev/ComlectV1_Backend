@@ -2,7 +2,7 @@
   .container
     .row
       .col-md-12.p-t-3.d-flex.justify-content-between.p-b-1
-        h2 <b>Welcome</b>, {current_business}
+        h2 <b>Welcome kek</b>, {{currentBusiness}}
         div
           .dropdown.m-r-1(style="display: inline-block;")
             button#dropdownMenuButton.btn.btn-secondary.dropdown-toggle(type="button" data-bs-toggle="dropdown" aria-expanded="false")
@@ -17,8 +17,7 @@
           a.btn.btn-primary Customize
       .col-md-7.col-sm-12
         .card
-          .card-body
-            Calendar(v-bind="{pdfUrl}")
+          Calendar(v-bind="{pdfUrl}")
       .col-md-5.col-sm-12
         .card
           UpcomingTasks
@@ -31,6 +30,10 @@ import UpcomingTasks from '@/business/dashboard/UpcomingTasks'
 export default {
   props: {
     pdfUrl: {
+      type: String,
+      required: true
+    },
+    currentBusiness: {
       type: String,
       required: true
     }

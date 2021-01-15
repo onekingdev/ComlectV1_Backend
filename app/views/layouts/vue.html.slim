@@ -97,25 +97,21 @@ body class="#{controller_name} #{action_name}"
               .navbar-nav
                 a.btn.btn-primary style="margin-top: 18px;" Find an Expert
                 .dropdown#notifications_dropdown
-                  ion-icon#dropdownNotificationsButton(name='notifications-outline' data-bs-toggle="dropdown" aria-expanded="false")
-                    | Dropdown button
-                  ul.dropdown-menu(aria-labelledby="dropdownNotificationsButton")
-                    li
-                      a.dropdown-item(href="#") Action
-                    li
-                      a.dropdown-item(href="#") Another action
-                    li
-                      a.dropdown-item(href="#") Something else here
+                  ion-icon(name='notifications-outline')
                 .dropdown#profile_dropdown.p-x-2
-
-                  - if current_business
-                    = image_tag (current_business.logo_url(:thumb) || 'default_userpic.png'), size: "25x25", style: "border-radius: 50%;margin-right: 15px;"
-                    = current_business
-                  - if current_specialist
-                    = image_tag (current_specialist.photo_url(:thumb) || 'default_userpic.png'), size: "25x25", style: "border-radius: 50%; margin-right: 15px;"
-                    = current_specialist.full_name
-                  ion-icon.m-l-1(name='chevron-down-outline')
-
+                  #profile_dropdown_btn(data-bs-toggle="dropdown" aria-expanded="false")
+                    - if current_business
+                      = image_tag (current_business.logo_url(:thumb) || 'default_userpic.png'), size: "25x25", style: "border-radius: 50%;margin-right: 15px;"
+                      = current_business
+                    - if current_specialist
+                      = image_tag (current_specialist.photo_url(:thumb) || 'default_userpic.png'), size: "25x25", style: "border-radius: 50%; margin-right: 15px;"
+                      = current_specialist.full_name
+                    ion-icon.m-l-1(name='chevron-down-outline')
+                  ul.dropdown-menu(aria-labelledby="profile_dropdown_btn")
+                    li
+                      a.dropdown-item(href="#") Edit Profile
+                    li
+                      a.dropdown-item(href="#") Sign Out
                 #helps.p-x-2
                   ion-icon(name='help-circle-outline' style="vertical-align: middle; margin-right: 8px;")
                   | Help

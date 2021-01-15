@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    .row
+    .card-header.d-flex.justify-content-between
       .col-sm
         span {{currentMonth}}
       .col-sm
@@ -8,7 +8,7 @@
         a.btn.btn-primary(@click.prevent="next" href) >
       .col-sm
         a.btn.btn-primary.float-end(:href="pdfUrl" target="_blank") Export
-    .row
+    .card-body
       .col-sm
         FullCalendar(:options="calendarOptions" ref="FullCalendar")
 </template>
@@ -60,7 +60,7 @@ export default {
           const fromTo = jsToSql(info.start) + '/' + jsToSql(info.end)
           fetch(`${endpointUrl}${fromTo}`, { headers: {'Accept': 'application/json'}})
             .then(response => response.json())
-            .then(result => successCallback(result.map(task => ({
+            .then(result => successCallback(result.tasks.concat(result.projects).map(task => ({
               ...toEvent(task),
               classNames: [
                 isComplete(task) ? 'task-is-complete'
