@@ -2,8 +2,7 @@
   div
     .card-header.d-flex.justify-content-between
       h3 Upcoming
-      CreateTaskModal
-        button.btn.btn-primary.float-end New Task
+      a.btn.btn-primary.float-end(href) New Task
     .card-body
       h4 Tasks
       TaskTable(:tasks="tasks")
@@ -13,7 +12,6 @@
 
 <script>
 import TaskTable from './TaskTable'
-import CreateTaskModal from '@/common/CreateTaskModal'
 
 export default {
   computed: {
@@ -25,7 +23,6 @@ export default {
     }
   },
   components: {
-    CreateTaskModal,
     TaskTable
   }
 }

@@ -29,10 +29,12 @@ html lang=I18n.locale
 body class="#{controller_name} #{action_name}"
   #app
     .container-fluid
-      .row
+      .row(style='min-height: 100vh;')
         nav#sidebarMenu.col-md-3.col-lg-2.d-md-block.sidebar.collapse
           .position-sticky.pt-3
-            h3(data-bs-toggle='collapse' role="button" data-bs-target='#overview_collapse' aria-expanded='false' aria-controls='overview_collapse') Overview
+            h3.d-flex.justify-content-between(data-bs-toggle='collapse' role="button" data-bs-target='#overview_collapse' aria-expanded='false' aria-controls='overview_collapse')
+              | Overview
+              ion-icon(name='chevron-down-outline')
             ul.nav.flex-column#overview_collapse.collapse.show
               li.nav-item
                 a.btn.active(aria-current='page' href='#')
@@ -47,7 +49,9 @@ body class="#{controller_name} #{action_name}"
                   ion-icon(name='checkbox-outline')
                   | Tasks
 
-            h3(data-bs-toggle='collapse' role="button" data-bs-target='#program_management_collapse' aria-expanded='false' aria-controls='program_management_collapse') Program Management
+            h3.d-flex.justify-content-between(data-bs-toggle='collapse' role="button" data-bs-target='#program_management_collapse' aria-expanded='false' aria-controls='program_management_collapse')
+              | Program Management
+              ion-icon(name='chevron-down-outline')
             ul.nav.flex-column#program_management_collapse.collapse.show
               li.nav-item
                 a.btn.active(aria-current='page' href='#')
@@ -62,7 +66,9 @@ body class="#{controller_name} #{action_name}"
                   ion-icon(name='document-text-outline')
                   | Filings
 
-            h3(data-bs-toggle='collapse' role="button" data-bs-target='#addons_collapse' aria-expanded='false' aria-controls='addons_collapse') Add-ons
+            h3.d-flex.justify-content-between(data-bs-toggle='collapse' role="button" data-bs-target='#addons_collapse' aria-expanded='false' aria-controls='addons_collapse')
+              | Add-ons
+              ion-icon(name='chevron-down-outline')
             ul.nav.flex-column#addons_collapse.collapse.show
               li.nav-item
                 a.btn.active(aria-current='page' href='#')
@@ -108,6 +114,8 @@ body class="#{controller_name} #{action_name}"
                   - if current_specialist
                     = image_tag (current_specialist.photo_url(:thumb) || 'default_userpic.png'), size: "25x25", style: "border-radius: 50%; margin-right: 15px;"
                     = current_specialist.full_name
+                  ion-icon.m-l-1(name='chevron-down-outline')
+
                 #helps.p-x-2
                   ion-icon(name='help-circle-outline' style="vertical-align: middle; margin-right: 8px;")
                   | Help
