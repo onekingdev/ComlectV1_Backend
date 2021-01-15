@@ -5,6 +5,8 @@ import bootstrap from 'bootstrap/dist/js/bootstrap.esm.js'
 
 Vue.config.productionTip = false
 
+Vue.config.ignoredElements = ['ion-icon']
+
 new Vue({
   el: document.getElementById('app'),
   components: {
