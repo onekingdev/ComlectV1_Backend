@@ -1,22 +1,27 @@
 <template lang="pug">
-  .row
-    .col-md-12
-      h2 <b>Welcome</b>, {current_business}
-      .dropdown
-        button#dropdownMenuButton.btn.btn-secondary.dropdown-toggle(type="button" data-bs-toggle="dropdown" aria-expanded="false")
-          | Dropdown button
-        ul.dropdown-menu(aria-labelledby="dropdownMenuButton")
-          li
-            a.dropdown-item(href="#") Action
-          li
-            a.dropdown-item(href="#") Another action
-          li
-            a.dropdown-item(href="#") Something else here
-      .btn.btn-default Customize
-    .col-md-7.col-sm-12
-      Calendar(v-bind="{pdfUrl}")
-    .col-md-5.col-sm-12
-      UpcomingTasks
+  .container
+    .row
+      .col-md-12.p-t-3.d-flex.justify-content-between.p-b-1
+        h2 <b>Welcome</b>, {current_business}
+        div
+          .dropdown.m-r-1(style="display: inline-block;")
+            button#dropdownMenuButton.btn.btn-secondary.dropdown-toggle(type="button" data-bs-toggle="dropdown" aria-expanded="false")
+              | Admin View
+            ul.dropdown-menu(aria-labelledby="dropdownMenuButton")
+              li
+                a.dropdown-item(href="#") Action
+              li
+                a.dropdown-item(href="#") Another action
+              li
+                a.dropdown-item(href="#") Something else here
+          a.btn.btn-primary Customize
+      .col-md-7.col-sm-12
+        .card
+          .card-body
+            Calendar(v-bind="{pdfUrl}")
+      .col-md-5.col-sm-12
+        .card
+          UpcomingTasks
 </template>
 
 <script>

@@ -1,11 +1,13 @@
 <template lang="pug">
   div
-    h3 Upcoming
+    .card-header.d-flex.justify-content-between
+      h3 Upcoming
       a.btn.btn-primary.float-end(href) New Task
-    h4 Tasks
-    TaskTable(:tasks="tasks")
-    h4 Projects
-    TaskTable(:tasks="projects")
+    .card-body
+      h4 Tasks
+      TaskTable(:tasks="tasks")
+      h4 Projects
+      TaskTable(:tasks="projects")
 </template>
 
 <script>

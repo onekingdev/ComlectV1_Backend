@@ -19,7 +19,7 @@ html {
   }
   a {
     color: #fff;
-    font-weight: 500;
+    font-weight: 400;
     text-decoration: none;
   }
   h3 {
@@ -52,13 +52,25 @@ html {
   font-size: 14px;
   .nav-item {
     padding-left: 2.5rem;
+    padding-top: 20px;
+    padding-bottom: 20px;
     a {
       color: #3a3b3c;
     }
+  }
+  .btn { height: 30px; }
+  #notifications_dropdown {
+    font-size: 22px;
+    padding: 20px 20px 0px 20px;
+  }
+  #helps {
+    padding-top: 22px;
   }
 }
 
 #profile_dropdown {
   border-left: 1px solid #e3e5e9;
   border-right: 1px solid #e3e5e9;
+  padding-top: 22px;
+  padding-bottom: 20px;
 }

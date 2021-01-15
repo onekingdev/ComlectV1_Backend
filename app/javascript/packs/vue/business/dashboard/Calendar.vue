@@ -54,6 +54,7 @@ export default {
     },
     calendarOptions() {
       return {
+        dayMaxEvents: true,
         plugins: [dayGridPlugin],
         events: (info, successCallback, errorCallback) => {
           const fromTo = jsToSql(info.start) + '/' + jsToSql(info.end)
