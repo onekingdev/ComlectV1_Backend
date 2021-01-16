@@ -2,7 +2,7 @@
   table.table
     thead
       tr
-        th Name
+        th Title
         th Due date
     tbody
       tr(v-for="(task, i) in taskEvents" :key="i")
