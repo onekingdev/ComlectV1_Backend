@@ -55,12 +55,23 @@ export default {
     }
   },
   methods: {
+    makeToast(title, str) {
+      this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
+    },
     submit() {
       fetch('/api/business/tasks', {
         method: 'POST',
         headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
         body: JSON.stringify(this.task)
-      }).then(r => r)
+      }).then(response => {
+        if (response.status === 422) {
+          response.json().then(errors => Object.keys(errors)
+            .map(prop => errors[prop].map(error => this.makeToast('Error', `${prop}: ${error}`))))
+        } else {
+          this.makeToast('Success', 'The task has been created')
+          this.$bvModal.hide(this.id)
+        }
+      })
     }
   },
   computed: {
