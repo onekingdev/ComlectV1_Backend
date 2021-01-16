@@ -5,32 +5,34 @@
 
     b-modal.fade(:id="id" title="New task")
       label.form-label Task name
-      input.form-control(type=text placeholder="Enter the name of your task")
+      input.form-control(v-model="task.body" type=text placeholder="Enter the name of your task")
 
       label.form-label Link to
-      Treeselect(v-model="linkTo" :multiple="false" :options="linkToOptions" placeholder="Select projects, annual reviews, or policies to link the task to")
+      Treeselect(v-model="task.link_to" :multiple="false" :options="linkToOptions" placeholder="Select projects, annual reviews, or policies to link the task to")
       .form-text.text-muted Optional
 
       label.form-label Assignee
-      Treeselect(v-model="assignee" :multiple="false" :options="assigneeOptions" placeholder="Select an assignee")
+      Treeselect(v-model="task.assignee" :multiple="false" :options="assigneeOptions" placeholder="Select an assignee")
 
       b-row(no-gutters)
         .col-sm
           label.form-label Start Date
-          b-form-datepicker(v-model="startDate" :placeholder="dateFormat")
+          b-form-datepicker(v-model="task.remind_at" :placeholder="dateFormat")
           .form-text.text-muted Optional
         .col-sm
           label.form-label Due Date
-          b-form-datepicker(v-model="dueDate" :placeholder="dateFormat")
+          b-form-datepicker(v-model="task.end_date" :placeholder="dateFormat")
 
       label.form-label Repeats
-      b-form-select(v-model="repeats" :options="['Does not repeat', 'Weekly', 'Monthly']")
+      b-form-select(v-model="task.repeats" :options="['Does not repeat', 'Weekly', 'Monthly']")
 
       label.form-label Description
       textarea.form-control(rows=3)
       .form-text.text-muted Optional
 
-      //- cancel, create
+      template(slot="modal-footer")
+        button.btn.btn-primary(@click="submit") Create
+        button.btn.btn-secondary(@click="$bvModal.hide(id)") Cancel
 </template>
 
 <script>
@@ -42,11 +44,23 @@ export default {
   data() {
     return {
       id: `modal_${rnd()}`,
-      linkTo: null,
-      assignee: null,
-      startDate: null,
-      dueDate: null,
-      repeats: null
+      task: {
+        body: null,
+        link_to: null,
+        assignee: null,
+        remind_at: null,
+        end_date: null,
+        repeats: null,
+      }
+    }
+  },
+  methods: {
+    submit() {
+      fetch('/api/business/tasks', {
+        method: 'POST',
+        headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+        body: JSON.stringify(this.task)
+      }).then(r => r)
     }
   },
   computed: {
