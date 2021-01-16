@@ -4,16 +4,10 @@
       .col-md-12.p-t-3.d-flex.justify-content-between.p-b-1
         h2 <b>Welcome</b>, {{currentBusiness}}
         div
-          .dropdown.m-r-1(style="display: inline-block;")
-            button#dropdownMenuButton.btn.btn-secondary.dropdown-toggle(type="button" data-bs-toggle="dropdown" aria-expanded="false")
-              | Admin View
-            ul.dropdown-menu(aria-labelledby="dropdownMenuButton")
-              li
-                a.dropdown-item(href="#") Action
-              li
-                a.dropdown-item(href="#") Another action
-              li
-                a.dropdown-item(href="#") Something else here
+          b-dropdown.m-r-1(text='Admin View')
+            b-dropdown-item Action
+            b-dropdown-item Another action
+            b-dropdown-item Something else here
           a.btn.btn-primary Customize
       .col-md-7.col-sm-12
         .card
