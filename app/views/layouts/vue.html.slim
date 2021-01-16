@@ -99,7 +99,7 @@ body class="#{controller_name} #{action_name}"
                 .dropdown#notifications_dropdown
                   ion-icon(name='notifications-outline')
                 .dropdown#profile_dropdown.p-x-2
-                  #profile_dropdown_btn(data-toggle="dropdown" aria-expanded="false")
+                  #profile_dropdown_btn(@click="isProfileMenuOpen = !isProfileMenuOpen" :aria-expanded="isProfileMenuOpen")
                     - if current_business
                       = image_tag (current_business.logo_url(:thumb) || 'default_userpic.png'), size: "25x25", style: "border-radius: 50%;margin-right: 15px;"
                       = current_business
@@ -107,7 +107,7 @@ body class="#{controller_name} #{action_name}"
                       = image_tag (current_specialist.photo_url(:thumb) || 'default_userpic.png'), size: "25x25", style: "border-radius: 50%; margin-right: 15px;"
                       = current_specialist.full_name
                     ion-icon.m-l-1(name='chevron-down-outline')
-                  ul.dropdown-menu(aria-labelledby="profile_dropdown_btn")
+                  ul.dropdown-menu(aria-labelledby="profile_dropdown_btn" :class="{ show: isProfileMenuOpen }")
                     li
                       a.dropdown-item(href="#") Edit Profile
                     li

@@ -15,6 +15,11 @@ Vue.component('Treeselect', Treeselect)
 
 new Vue({
   el: document.getElementById('app'),
+  data() {
+    return {
+      isProfileMenuOpen: false
+    }
+  },
   components: {
     BusinessDashboardPage
   }
