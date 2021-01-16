@@ -15,7 +15,7 @@ module RemindersFetcher
     @recurring_tasks = remindable.reminders.where('remind_at < ?', last_day).where.not(repeats: nil)
     @active_projects = remindable.projects
     calendar_grid = populate_recurring_tasks2(@recurring_tasks, last_day)
-    calendar_grid + @active_projects + @grid_tasks
+    [calendar_grid + @grid_tasks, @active_projects]
   end
 
   def tasks_calendar_grid(remindable, beginning)
