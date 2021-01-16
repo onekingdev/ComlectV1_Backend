@@ -1,4 +1,5 @@
 import Vue from 'vue/dist/vue.esm.js'
+import store from '@/store/index'
 import BusinessDashboardPage from './vue/business/dashboard/Page.vue'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import Treeselect from '@riophae/vue-treeselect'
@@ -15,6 +16,7 @@ Vue.component('Treeselect', Treeselect)
 
 new Vue({
   el: document.getElementById('app'),
+  store,
   data() {
     return {
       isProfileMenuOpen: false
