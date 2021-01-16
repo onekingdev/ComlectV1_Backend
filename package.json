@@ -9,6 +9,7 @@
     "@fullcalendar/vue": "^5.5.0",
     "@rails/webpacker": "^3.5.5",
     "@riophae/vue-treeselect": "^0.4.0",
+    "bootstrap-vue": "^2.21.2",
     "luxon": "^1.25.0",
     "nan": "^2.14.2",
     "pug": "^3.0.0",

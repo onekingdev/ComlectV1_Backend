@@ -74,3 +74,6 @@ html {
   padding-top: 22px;
   padding-bottom: 20px;
 }
+
+@import '../../../node_modules/bootstrap/scss/bootstrap.scss';
+@import '../../../node_modules/bootstrap-vue/src/index.scss';
