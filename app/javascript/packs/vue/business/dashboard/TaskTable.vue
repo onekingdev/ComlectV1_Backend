@@ -6,12 +6,13 @@
         th Due date
     tbody
       tr(v-for="(task, i) in taskEvents" :key="i")
-        td {{ task.start }}
         td {{ task.title }}
+        td {{ task.start }}
 </template>
 
 <script>
-import { toEvent } from '../../common/TaskHelper'
+import { toEvent } from '@/common/TaskHelper'
+import { DateTime } from 'luxon'
 
 export default {
   props: {
@@ -23,6 +24,10 @@ export default {
   computed: {
     taskEvents() {
       return this.tasks.map(toEvent)
+        .map(e => ({
+          ...e,
+          start: DateTime.fromSQL(e.start).toLocaleString()
+        }))
     }
   }
 }

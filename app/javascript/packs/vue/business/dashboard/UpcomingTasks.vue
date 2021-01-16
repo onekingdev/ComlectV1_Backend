@@ -12,17 +12,29 @@
 </template>
 
 <script>
+const endpointUrl = '/api/business/tasks/'
+
 import TaskTable from './TaskTable'
 import CreateTaskModal from '@/common/CreateTaskModal'
+import { DateTime } from 'luxon'
+import { isProject, isTask, isOverdue, isComplete, toEvent, cssClass } from '@/common/TaskHelper'
 
 export default {
-  computed: {
-    tasks() {
-      return []
-    },
-    projects() {
-      return []
+  data() {
+    return {
+      tasks: [],
+      projects: []
     }
+  },
+  created() {
+    const fromTo = DateTime.local().startOf('month').toSQLDate() + '/' + DateTime.local().endOf('month').toSQLDate()
+    fetch(`${endpointUrl}${fromTo}`, { headers: {'Accept': 'application/json'}})
+      .then(response => response.json())
+      .then(result => {
+        this.tasks = result.tasks
+        this.projects = result.projects
+      })
+      // .catch(errorCallback)
   },
   components: {
     CreateTaskModal,
