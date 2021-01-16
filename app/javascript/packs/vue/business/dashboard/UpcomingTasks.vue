@@ -1,9 +1,9 @@
 <template lang="pug">
   div
     .card-header.d-flex.justify-content-between
-      h3 Upcoming
+      h3.m-y-0 Upcoming
       CreateTaskModal
-        button.btn.btn-primary.float-end New Task
+        button.btn.btn-dark.float-end New Task
     .card-body
       h4 Tasks
       TaskTable(:tasks="tasks")

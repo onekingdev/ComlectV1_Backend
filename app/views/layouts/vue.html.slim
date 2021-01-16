@@ -30,9 +30,9 @@ body class="#{controller_name} #{action_name}"
   #app
     .container-fluid
       .row(style='min-height: 100vh;')
-        nav#sidebarMenu.col-md-3.col-lg-2.d-md-block.sidebar.collapse
+        nav#sidebarMenu.col-md-3.col-lg-2.d-md-block.sidebar.collapse.px-0
           .position-sticky.pt-3
-            h3.d-flex.justify-content-between(data-bs-toggle='collapse' role="button" data-bs-target='#overview_collapse' aria-expanded='false' aria-controls='overview_collapse')
+            h3.d-flex.justify-content-between(data-toggle='collapse' role="button" data-target='#overview_collapse' aria-expanded='false' aria-controls='overview_collapse')
               | Overview
               ion-icon(name='chevron-down-outline')
             ul.nav.flex-column#overview_collapse.collapse.show
@@ -49,7 +49,7 @@ body class="#{controller_name} #{action_name}"
                   ion-icon(name='checkbox-outline')
                   | Tasks
 
-            h3.d-flex.justify-content-between(data-bs-toggle='collapse' role="button" data-bs-target='#program_management_collapse' aria-expanded='false' aria-controls='program_management_collapse')
+            h3.d-flex.justify-content-between(data-toggle='collapse' role="button" data-target='#program_management_collapse' aria-expanded='false' aria-controls='program_management_collapse')
               | Program Management
               ion-icon(name='chevron-down-outline')
             ul.nav.flex-column#program_management_collapse.collapse.show
@@ -66,7 +66,7 @@ body class="#{controller_name} #{action_name}"
                   ion-icon(name='document-text-outline')
                   | Filings
 
-            h3.d-flex.justify-content-between(data-bs-toggle='collapse' role="button" data-bs-target='#addons_collapse' aria-expanded='false' aria-controls='addons_collapse')
+            h3.d-flex.justify-content-between(data-toggle='collapse' role="button" data-target='#addons_collapse' aria-expanded='false' aria-controls='addons_collapse')
               | Add-ons
               ion-icon(name='chevron-down-outline')
             ul.nav.flex-column#addons_collapse.collapse.show
@@ -82,8 +82,8 @@ body class="#{controller_name} #{action_name}"
                 a.btn.active(aria-current='page' href='#')
                   ion-icon(name='settings-outline')
                   | Settings
-        main.col-md-9.ms-sm-auto.col-lg-10#main-content
-          nav.navbar.navbar-expand-lg.navbar-light.p-y-0 style="margin: 0px -9px"
+        main.col-md-9.col-lg-10#main-content.px-0
+          nav.navbar.navbar-expand-lg.navbar-light.p-0
             button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarNavAltMarkup' aria-controls='navbarNavAltMarkup' aria-expanded='false' aria-label='Toggle navigation')
               span.navbar-toggler-icon
             #top_navbar.collapse.navbar-collapse.d-flex.justify-content-between
@@ -99,7 +99,7 @@ body class="#{controller_name} #{action_name}"
                 .dropdown#notifications_dropdown
                   ion-icon(name='notifications-outline')
                 .dropdown#profile_dropdown.p-x-2
-                  #profile_dropdown_btn(data-bs-toggle="dropdown" aria-expanded="false")
+                  #profile_dropdown_btn(data-toggle="dropdown" aria-expanded="false")
                     - if current_business
                       = image_tag (current_business.logo_url(:thumb) || 'default_userpic.png'), size: "25x25", style: "border-radius: 50%;margin-right: 15px;"
                       = current_business
@@ -115,7 +115,7 @@ body class="#{controller_name} #{action_name}"
                 #helps.p-x-2
                   ion-icon(name='help-circle-outline' style="vertical-align: middle; margin-right: 8px;")
                   | Help
-            button.navbar-toggler.position-absolute.d-md-none.collapsed(type='button' data-bs-toggle='collapse' data-bs-target='#sidebarMenu' aria-controls='sidebarMenu' aria-expanded='false' aria-label='Toggle navigation')
+            button.navbar-toggler.position-absolute.d-md-none.collapsed(type='button' data-toggle='collapse' data-target='#sidebarMenu' aria-controls='sidebarMenu' aria-expanded='false' aria-label='Toggle navigation')
               span.navbar-toggler-icon
           = yield
 
