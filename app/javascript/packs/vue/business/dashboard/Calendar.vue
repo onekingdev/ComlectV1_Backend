@@ -17,7 +17,7 @@
 import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import { DateTime } from 'luxon'
-import { isProject, isTask, isOverdue, isComplete, toEvent } from '../../common/TaskHelper'
+import { isProject, isTask, isOverdue, isComplete, toEvent, cssClass } from '@/common/TaskHelper'
 
 const endpointUrl = '/api/business/tasks/'
 const jsToSql = date => DateTime.fromJSDate(date).toSQLDate()
@@ -62,12 +62,8 @@ export default {
             .then(response => response.json())
             .then(result => successCallback(result.tasks.concat(result.projects).map(task => ({
               ...toEvent(task),
-              classNames: [
-                isComplete(task) ? 'task-is-complete'
-                : isOverdue(task) ? 'task-is-overdue'
-                : isProject(task) ? 'task-is-project'
-                : isTask(task) ? 'task-is-task' : ''
-              ]}))))
+              classNames: [cssClass(task)]
+            }))))
             .catch(errorCallback)
         },
         headerToolbar: false

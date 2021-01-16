@@ -10,5 +10,9 @@ const toEvent = (task) => ({
   end: task.ends_on,
   title: task.title || task.body
 })
+const cssClass = task => isComplete(task) ? 'task-is-complete'
+                       : isOverdue(task) ? 'task-is-overdue'
+                       : isProject(task) ? 'task-is-project'
+                       : isTask(task) ? 'task-is-task' : ''
 
-export { isProject, isTask, isOverdue, isComplete, toEvent }
+export { isProject, isTask, isOverdue, isComplete, toEvent, cssClass }
