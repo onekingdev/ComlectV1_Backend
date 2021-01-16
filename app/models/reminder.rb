@@ -12,6 +12,8 @@ class Reminder < ActiveRecord::Base
 
   before_validation :fix_recurring_schedule
 
+  validates :body, presence: true
+
   def start_time
     remind_at
   end
