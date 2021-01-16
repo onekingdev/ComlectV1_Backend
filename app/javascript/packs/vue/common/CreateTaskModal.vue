@@ -40,18 +40,20 @@ const rnd = () => Math.random().toFixed(10).toString().replace('.', '')
 const toOption = id => ({ id, label: id })
 const dateFormat = 'MM/DD/YYYY'
 
+const initialTask = () => ({
+  body: null,
+  link_to: null,
+  assignee: null,
+  remind_at: null,
+  end_date: null,
+  repeats: null,
+})
+
 export default {
   data() {
     return {
       id: `modal_${rnd()}`,
-      task: {
-        body: null,
-        link_to: null,
-        assignee: null,
-        remind_at: null,
-        end_date: null,
-        repeats: null,
-      }
+      task: initialTask()
     }
   },
   methods: {
@@ -70,6 +72,7 @@ export default {
         } else {
           this.makeToast('Success', 'The task has been created')
           this.$bvModal.hide(this.id)
+          this.task = initialTask()
         }
       })
     }
