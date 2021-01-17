@@ -15,14 +15,21 @@
       .col-md-5.col-sm-12.pl-0
         .card
           UpcomingTasks
-    .row.p-x-1
+    .row.p-x-1.p-y-3
       .col-sm-12
         ProjectTable
+    .row.p-x-1
+      .col-md-6.col-sm-12
+        RecentActivity
+      .col-md-6.col-sm-12
+        AddonNotifications
 </template>
 
 <script>
 import Calendar from './Calendar'
 import ProjectTable from './ProjectTable'
+import RecentActivity from './RecentActivity'
+import AddonNotifications from './AddonNotifications'
 import UpcomingTasks from '@/business/dashboard/UpcomingTasks'
 
 export default {
@@ -39,7 +46,9 @@ export default {
   components: {
     Calendar,
     ProjectTable,
-    UpcomingTasks
+    UpcomingTasks,
+    RecentActivity,
+    AddonNotifications
   }
 }
 </script>
