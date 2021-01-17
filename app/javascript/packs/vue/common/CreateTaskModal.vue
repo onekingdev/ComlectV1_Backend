@@ -8,11 +8,11 @@
       input.form-control(v-model="task.body" type=text placeholder="Enter the name of your task")
 
       label.form-label Link to
-      Treeselect(v-model="task.link_to" :multiple="false" :options="linkToOptions" placeholder="Select projects, annual reviews, or policies to link the task to")
+      ComboBox(V-model="task.link_to" :options="linkToOptions" placeholder="Select projects, annual reviews, or policies to link the task to")
       .form-text.text-muted Optional
 
       label.form-label Assignee
-      Treeselect(v-model="task.assignee" :multiple="false" :options="assigneeOptions" placeholder="Select an assignee")
+      ComboBox(V-model="task.assignee" :options="assigneeOptions" placeholder="Select an assignee")
 
       b-row(no-gutters)
         .col-sm
@@ -24,15 +24,15 @@
           DatePicker(v-model="task.end_date" :placeholder="dateFormat")
 
       label.form-label Repeats
-      b-form-select(v-model="task.repeats" :options="['Does not repeat', 'Weekly', 'Monthly']")
+      Dropdown(v-model="task.repeats" :options="['Does not repeat', 'Weekly', 'Monthly']")
 
       label.form-label Description
       textarea.form-control(rows=3)
       .form-text.text-muted Optional
 
       template(slot="modal-footer")
+        button.btn(@click="$bvModal.hide(id)") Cancel
         button.btn.btn-primary(@click="submit") Create
-        button.btn.btn-secondary(@click="$bvModal.hide(id)") Cancel
 </template>
 
 <script>
