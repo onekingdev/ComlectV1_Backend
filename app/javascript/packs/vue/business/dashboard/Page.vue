@@ -15,10 +15,14 @@
       .col-md-5.col-sm-12.pl-0
         .card
           UpcomingTasks
+    .row.p-x-1
+      .col-sm-12
+        ProjectTable
 </template>
 
 <script>
 import Calendar from './Calendar'
+import ProjectTable from './ProjectTable'
 import UpcomingTasks from '@/business/dashboard/UpcomingTasks'
 
 export default {
@@ -34,6 +38,7 @@ export default {
   },
   components: {
     Calendar,
+    ProjectTable,
     UpcomingTasks
   }
 }
