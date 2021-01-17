@@ -17,11 +17,11 @@
       b-row(no-gutters)
         .col-sm
           label.form-label Start Date
-          b-form-datepicker(v-model="task.remind_at" :placeholder="dateFormat")
+          DatePicker(v-model="task.remind_at" :placeholder="dateFormat")
           .form-text.text-muted Optional
         .col-sm
           label.form-label Due Date
-          b-form-datepicker(v-model="task.end_date" :placeholder="dateFormat")
+          DatePicker(v-model="task.end_date" :placeholder="dateFormat")
 
       label.form-label Repeats
       b-form-select(v-model="task.repeats" :options="['Does not repeat', 'Weekly', 'Monthly']")
