@@ -1,9 +1,9 @@
 <template lang="pug">
-  div
-    div(v-b-modal="id")
+  div.d-inline-block
+    div.d-inline-block(v-b-modal="id")
       slot
 
-    b-modal.fade(:id="id" title="New task")
+    b-modal.fade(:id="id" title="New task" @show="resetTask")
       label.form-label Task name
       input.form-control(v-model="task.body" type=text placeholder="Enter the name of your task")
       Errors(:errors="errors.body")
@@ -20,7 +20,7 @@
       b-row(no-gutters)
         .col-sm
           label.form-label Start Date
-          DatePicker(:value="task.remind_at" @input="task.remind_at = $event, updateEndDate($event)" :placeholder="dateFormat")
+          DatePicker(v-model="task.remind_at" :placeholder="dateFormat")
           Errors(:errors="errors.remind_at")
           .form-text.text-muted Optional
         .col-sm
@@ -90,7 +90,7 @@ const index = (text, i) => ({ text, value: 1 + i })
 const flattenErrors = errorsResponse => Object.keys(errorsResponse)
   .reduce((result, property) => [...result, ...errorsResponse[property].map(error => ({ property, error }))], [])
 
-const initialTask = () => ({
+const initialTask = defaults => ({
   body: null,
   link_to: null,
   assignee: null,
@@ -100,7 +100,8 @@ const initialTask = () => ({
   repeat_every: null,
   repeat_on: null,
   on_type: null,
-  description: ""
+  description: "",
+  ...(defaults || {})
 })
 
 const REPEAT_NONE = '',
@@ -118,6 +119,9 @@ const REPEAT_NONE = '',
   REPEAT_OPTIONS = [REPEAT_NONE, REPEAT_DAILY, REPEAT_WEEKLY, REPEAT_MONTHLY, REPEAT_YEARLY]
 
 export default {
+  props: {
+    remindAt: String
+  },
   data() {
     return {
       id: `modal_${rnd()}`,
@@ -126,13 +130,6 @@ export default {
     }
   },
   methods: {
-    updateEndDate(value) {
-      const start = DateTime.fromSQL(value),
-        end = DateTime.fromSQL(this.task.end_date)
-      if (!start.invalid && (end.invalid || (end.startOf('day') < start.startOf('day')))) {
-        this.task.end_date = value
-      }
-    },
     makeToast(title, str) {
       this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
     },
@@ -152,11 +149,15 @@ export default {
         } else if (response.status === 201) {
           this.makeToast('Success', 'The task has been created')
           this.$bvModal.hide(this.id)
-          this.task = initialTask()
+          this.resetTask()
         } else {
           this.makeToast('Error', 'Couldn\'t submit form')
         }
       })
+    },
+    resetTask() {
+      const props = this.remindAt ? { remind_at: this.remindAt } : undefined
+      this.task = initialTask(props)
     }
   },
   computed: {
@@ -179,6 +180,16 @@ export default {
       return ['John', 'Doe', 'Another specialist'].map(toOption)
     },
     dateFormat: () => dateFormat
+  },
+  watch: {
+    'task.remind_at': {
+      handler: function(value, oldVal) {
+        const start = DateTime.fromSQL(value), end = DateTime.fromSQL(this.task.end_date)
+        if (!start.invalid && (end.invalid || (end.startOf('day') < start.startOf('day')))) {
+          this.task.end_date = value
+        }
+      }
+    }
   },
   components: {
     Errors: {

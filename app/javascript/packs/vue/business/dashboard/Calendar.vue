@@ -2,7 +2,7 @@
   div
     .card-header.d-flex.justify-content-between
       div(style="vertical-align: middle")
-        h3.m-y-0 
+        h3.m-y-0
           | {{currentMonth}}
           small(style="vertical-align: middle")
             ion-icon.m-x-1(name='chevron-back-outline' @click.prevent="prev")
@@ -11,13 +11,18 @@
         a.btn.btn-default.float-end(:href="pdfUrl" target="_blank") Export
     .card-body
       FullCalendar(:options="calendarOptions" ref="FullCalendar")
+        template(v-slot:dayCellContent="arg")
+          CreateTaskModal(:remind-at="jsToSql(arg.date)")
+            a.fc-daygrid-day-number(v-html="dayContent(arg.date)" href @click.prevent)
 </template>
 
 <script>
 import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
+import interactionPlugin from '@fullcalendar/interaction'
 import { DateTime } from 'luxon'
 import { isProject, isTask, isOverdue, isComplete, toEvent, cssClass } from '@/common/TaskHelper'
+import CreateTaskModal from '@/common/CreateTaskModal'
 
 const endpointUrl = '/api/business/tasks/'
 const jsToSql = date => DateTime.fromJSDate(date).toSQLDate()
@@ -35,6 +40,12 @@ export default {
     }
   },
   methods: {
+    dayContent(arg) {
+      return DateTime.fromJSDate(arg).toFormat('d')
+    },
+    jsToSql(arg) {
+      return jsToSql(arg)
+    },
     prev() {
       this.calendarObject.prev(), this.updateCurrentMonth()
     },
@@ -57,7 +68,7 @@ export default {
         firstDay: 1,
         dayMaxEvents: 2,
         aspectRatio: 1.09,
-        plugins: [dayGridPlugin],
+        plugins: [dayGridPlugin, interactionPlugin],
         events: (info, successCallback, errorCallback) => {
           const fromTo = jsToSql(info.start) + '/' + jsToSql(info.end)
           fetch(`${endpointUrl}${fromTo}`, { headers: {'Accept': 'application/json'}})
@@ -73,7 +84,8 @@ export default {
     }
   },
   components: {
-    FullCalendar
+    FullCalendar,
+    CreateTaskModal
   }
 }
 </script>
