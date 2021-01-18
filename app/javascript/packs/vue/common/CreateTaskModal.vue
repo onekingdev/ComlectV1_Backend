@@ -1,9 +1,9 @@
 <template lang="pug">
   div.d-inline-block
-    div.d-inline-block(v-b-modal="id")
+    div.d-inline-block(v-b-modal="modalId")
       slot
 
-    b-modal.fade(:id="id" title="New task" @show="resetTask")
+    b-modal.fade(:id="modalId" title="New task" @show="resetTask")
       label.form-label Task name
       input.form-control(v-model="task.body" type=text placeholder="Enter the name of your task")
       Errors(:errors="errors.body")
@@ -76,7 +76,7 @@
       .form-text.text-muted Optional
 
       template(slot="modal-footer")
-        button.btn(@click="$bvModal.hide(id)") Cancel
+        button.btn(@click="$bvModal.hide(modalId)") Cancel
         button.btn.btn-primary(@click="submit") Create
 </template>
 
@@ -124,7 +124,7 @@ export default {
   },
   data() {
     return {
-      id: `modal_${rnd()}`,
+      modalId: `modal_${rnd()}`,
       task: initialTask(),
       errors: []
     }
@@ -148,7 +148,7 @@ export default {
           })
         } else if (response.status === 201) {
           this.makeToast('Success', 'The task has been created')
-          this.$bvModal.hide(this.id)
+          this.$bvModal.hide(this.modalId)
           this.resetTask()
         } else {
           this.makeToast('Error', 'Couldn\'t submit form')
