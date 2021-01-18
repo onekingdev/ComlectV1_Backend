@@ -23,8 +23,46 @@
           label.form-label Due Date
           DatePicker(v-model="task.end_date" :placeholder="dateFormat")
 
-      label.form-label Repeats
-      Dropdown(v-model="task.repeats" :options="['Does not repeat', 'Weekly', 'Monthly']")
+      b-row(no-gutters)
+        .col-sm
+          label.form-label Repeats
+          Dropdown(v-model="task.repeats" :options="repeatsOptions")
+        //- Daily
+        .col-sm(v-if="task.repeats === repeatsValues.REPEAT_DAILY")
+          label.form-label Every
+          input.form-control(type="number" min="1" max="1000" step="1" v-model="task.repeat_every")
+          .form-text Day(s)
+        //- Weekly
+        .col-sm(v-if="task.repeats === repeatsValues.REPEAT_WEEKLY")
+          label.form-label Every
+          input.form-control(type="number" min="1" max="1000" step="1" v-model="task.repeat_every")
+          .form-text Week(s)
+        .col-sm(v-if="task.repeats === repeatsValues.REPEAT_WEEKLY")
+          label.form-label Day
+          Dropdown(v-model="task.repeat_on" :options="daysOfWeek")
+        //- Monthly
+        .col-sm(v-if="task.repeats === repeatsValues.REPEAT_MONTHLY")
+          label.form-label Every
+          input.form-control(type="number" min="1" max="1000" step="1" v-model="task.repeat_every")
+          .form-text Months(s)
+        .col-sm(v-if="task.repeats === repeatsValues.REPEAT_MONTHLY")
+          label.form-label On
+          Dropdown(v-model="task.on_type" :options="['Day', 'First', 'Second', 'Third', 'Fourth']")
+        .col-sm(v-if="task.repeats === repeatsValues.REPEAT_MONTHLY")
+          label.form-label Day
+          input.form-control(v-model="task.repeat_on" v-if="task.on_type === 'Day'" type="number" min="1" max="31" step="1")
+          Dropdown(v-model="task.repeat_on" v-else :options="daysOfWeek")
+        //- Yearly
+        .col-sm(v-if="task.repeats === repeatsValues.REPEAT_YEARLY")
+          label.form-label Every
+          Dropdown(v-model="task.repeat_every" :options="months")
+        .col-sm(v-if="task.repeats === repeatsValues.REPEAT_YEARLY")
+          label.form-label On
+          Dropdown(v-model="task.on_type" :options="['Day', 'First', 'Second', 'Third', 'Fourth']")
+        .col-sm(v-if="task.repeats === repeatsValues.REPEAT_YEARLY")
+          label.form-label Day
+          input.form-control(v-model="task.repeat_on" v-if="task.on_type === 'Day'" type="number" min="1" max="31" step="1")
+          Dropdown(v-model="task.repeat_on" v-else :options="daysOfWeek")
 
       label.form-label Description
       textarea.form-control(rows=3)
@@ -46,8 +84,25 @@ const initialTask = () => ({
   assignee: null,
   remind_at: null,
   end_date: null,
-  repeats: null,
+  repeats: REPEAT_NONE,
+  repeat_every: null,
+  repeat_on: null,
+  on_type: null
 })
+
+const REPEAT_NONE = '',
+  REPEAT_DAILY = 'Daily',
+  REPEAT_WEEKLY = 'Weekly',
+  REPEAT_MONTHLY = 'Monthly',
+  REPEAT_YEARLY = 'Yearly',
+  REPEAT_LABELS = {
+    [REPEAT_NONE]: 'Does not repeat',
+    [REPEAT_DAILY]: 'Daily',
+    [REPEAT_WEEKLY]: 'Weekly',
+    [REPEAT_MONTHLY]: 'Monthly',
+    [REPEAT_YEARLY]: 'Yearly',
+  },
+  REPEAT_OPTIONS = [REPEAT_NONE, REPEAT_DAILY, REPEAT_WEEKLY, REPEAT_MONTHLY, REPEAT_YEARLY]
 
 export default {
   data() {
@@ -78,6 +133,16 @@ export default {
     }
   },
   computed: {
+    daysOfWeek() {
+      return ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] // @TODO USA week start?
+    },
+    months() {
+      return ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+    },
+    repeatsValues() {
+      return {REPEAT_NONE, REPEAT_DAILY, REPEAT_WEEKLY, REPEAT_MONTHLY, REPEAT_YEARLY}
+    },
+    repeatsOptions: () => REPEAT_OPTIONS.map(value => ({ value, text: REPEAT_LABELS[value] })),
     linkToOptions() {
       return [{...toOption('Projects'), children: ['Some project', 'Another', 'One'].map(toOption)},
         {...toOption('Annual Reviews'), children: ['Annual Review 2018', 'Annual Review 1337', 'Some Review'].map(toOption)},

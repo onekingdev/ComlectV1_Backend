@@ -12,7 +12,6 @@ Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 
 Vue.config.productionTip = false
-
 Vue.config.ignoredElements = ['ion-icon']
 
 Vue.component('Treeselect', Treeselect)
