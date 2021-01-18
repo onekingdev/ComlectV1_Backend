@@ -1,9 +1,9 @@
 <template lang="pug">
-  div.d-inline-block
-    div.d-inline-block(v-b-modal="modalId")
+  div(:class="{'d-inline-block':!wide}")
+    div(v-b-modal="modalId" :class="{'d-inline-block':!wide}")
       slot
 
-    b-modal.fade(:id="modalId" title="New task" @show="resetTask")
+    b-modal.fade(:id="modalId" :title="id ? 'Updating task' : 'New task'" @show="resetTask")
       label.form-label Task name
       input.form-control(v-model="task.body" type=text placeholder="Enter the name of your task")
       Errors(:errors="errors.body")
@@ -120,7 +120,12 @@ const REPEAT_NONE = '',
 
 export default {
   props: {
-    remindAt: String
+    id: Number,
+    remindAt: String,
+    wide: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {
@@ -146,8 +151,8 @@ export default {
             Object.keys(this.errors)
               .map(prop => this.errors[prop].map(err => this.makeToast(`Error`, `${prop}: ${err}`)))
           })
-        } else if (response.status === 201) {
-          this.makeToast('Success', 'The task has been created')
+        } else if (response.status === 201 || response.status === 200) {
+          this.makeToast('Success', 'The task has been saved')
           this.$bvModal.hide(this.modalId)
           this.resetTask()
         } else {
