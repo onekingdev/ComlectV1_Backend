@@ -32,6 +32,6 @@ class Api::BusinessController < ApplicationController
   private
 
   def reminder_params
-    params.permit(:body, :remind_at, :end_date, :repeats, :end_by, :repeat_every, :repeat_on, :on_type)
+    params.permit(:body, :remind_at, :end_date, :repeats, :end_by, :repeat_every, :repeat_on, :on_type, :description)
   end
 end

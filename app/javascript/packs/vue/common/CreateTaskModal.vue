@@ -6,27 +6,22 @@
     b-modal.fade(:id="id" title="New task")
       label.form-label Task name
       input.form-control(v-model="task.body" type=text placeholder="Enter the name of your task")
-      Errors(:errors="errors.body")
 
       label.form-label Link to
       ComboBox(V-model="task.link_to" :options="linkToOptions" placeholder="Select projects, annual reviews, or policies to link the task to")
       .form-text.text-muted Optional
-      Errors(:errors="errors.link_to")
 
       label.form-label Assignee
       ComboBox(V-model="task.assignee" :options="assigneeOptions" placeholder="Select an assignee")
-      Errors(:errors="errors.assignee")
 
       b-row(no-gutters)
         .col-sm
           label.form-label Start Date
           DatePicker(v-model="task.remind_at" :placeholder="dateFormat")
-          Errors(:errors="errors.remind_at")
           .form-text.text-muted Optional
         .col-sm
           label.form-label Due Date
           DatePicker(v-model="task.end_date" :placeholder="dateFormat")
-          Errors(:errors="errors.end_date")
 
       b-row(no-gutters)
         .col-sm
@@ -68,12 +63,10 @@
           label.form-label Day
           input.form-control(v-model="task.repeat_on" v-if="task.on_type === 'Day'" type="number" min="1" max="31" step="1")
           Dropdown(v-model="task.repeat_on" v-else :options="daysOfWeek")
-      Errors(:errors="errors.repeats || errors.repeat_every || errors.repeat_on || errors.on_type")
 
       label.form-label Description
       textarea.form-control(rows=3)
       .form-text.text-muted Optional
-      //- Errors
 
       template(slot="modal-footer")
         button.btn(@click="$bvModal.hide(id)") Cancel
@@ -85,8 +78,6 @@ const rnd = () => Math.random().toFixed(10).toString().replace('.', '')
 const toOption = id => ({ id, label: id })
 const dateFormat = 'MM/DD/YYYY'
 const index = (text, i) => ({ text, value: 1 + i })
-const flattenErrors = errorsResponse => Object.keys(errorsResponse)
-  .reduce((result, property) => [...result, ...errorsResponse[property].map(error => ({ property, error }))], [])
 
 const initialTask = () => ({
   body: null,
@@ -118,8 +109,7 @@ export default {
   data() {
     return {
       id: `modal_${rnd()}`,
-      task: initialTask(),
-      errors: []
+      task: initialTask()
     }
   },
   methods: {
@@ -127,24 +117,18 @@ export default {
       this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
     },
     submit() {
-      this.errors = []
       fetch('/api/business/tasks', {
         method: 'POST',
         headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
         body: JSON.stringify(this.task)
       }).then(response => {
         if (response.status === 422) {
-          response.json().then(errors => {
-            this.errors = errors
-            Object.keys(this.errors)
-              .map(prop => this.errors[prop].map(err => this.makeToast(`Error`, `${prop}: ${err}`)))
-          })
-        } else if (response.status === 201) {
+          response.json().then(errors => Object.keys(errors)
+            .map(prop => errors[prop].map(error => this.makeToast('Error', `${prop}: ${error}`))))
+        } else {
           this.makeToast('Success', 'The task has been created')
           this.$bvModal.hide(this.id)
           this.task = initialTask()
-        } else {
-          this.makeToast('Error', 'Couldn\'t submit form')
         }
       })
     }
@@ -169,14 +153,6 @@ export default {
       return ['John', 'Doe', 'Another specialist'].map(toOption)
     },
     dateFormat: () => dateFormat
-  },
-  components: {
-    Errors: {
-      template: `<div v-if="errors && errors[0]" v-text="errors[0]" class="d-block invalid-feedback" role="alert" aria-live="assertive" aria-atomic="true"/>`,
-      props: {
-        errors: Array
-      }
-    }
   }
 }
 </script>
