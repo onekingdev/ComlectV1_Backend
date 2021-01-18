@@ -84,5 +84,19 @@ html {
 
 .btn.btn-default { border: 1px solid #dadadc; background-color: #fff; }
 
+table.table, table.table thead tr th {
+  border: 0px;
+  color: #767779;
+  font-weight: 400;
+}
+
+.task_table {
+  tbody ion-icon {
+    font-size: 20px;
+    vertical-align: middle;
+    color: #d2d3d8;
+  }
+}
+
 @import '../../../node_modules/bootstrap/scss/bootstrap.scss';
 @import '../../../node_modules/bootstrap-vue/src/index.scss';

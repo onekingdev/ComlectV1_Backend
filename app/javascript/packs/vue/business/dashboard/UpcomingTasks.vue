@@ -5,9 +5,9 @@
       CreateTaskModal
         button.btn.btn-dark.float-end New Task
     .card-body
-      h4 Tasks
+      b Tasks
       TaskTable(:tasks="tasks")
-      h4 Projects
+      b Projects
       TaskTable(:tasks="projects")
 </template>
 

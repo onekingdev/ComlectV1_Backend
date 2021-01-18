@@ -1,12 +1,14 @@
 <template lang="pug">
-  table.table
+  table.table.task_table
     thead
       tr
         th Name
         th Due date
     tbody
       tr(v-for="(task, i) in taskEvents" :key="i")
-        td {{ task.title }}
+        td 
+          ion-icon.m-r-1(name='checkmark-circle-outline')
+          | {{ task.title }}
         td {{ task.end }}
 </template>
 
