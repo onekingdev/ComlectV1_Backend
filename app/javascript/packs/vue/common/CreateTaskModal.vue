@@ -78,6 +78,8 @@ const rnd = () => Math.random().toFixed(10).toString().replace('.', '')
 const toOption = id => ({ id, label: id })
 const dateFormat = 'MM/DD/YYYY'
 const index = (text, i) => ({ text, value: 1 + i })
+const flattenErrors = errorsResponse => Object.keys(errorsResponse)
+  .reduce((result, property) => [...result, ...errorsResponse[property].map(error => ({ property, error }))], [])
 
 const initialTask = () => ({
   body: null,
@@ -109,7 +111,8 @@ export default {
   data() {
     return {
       id: `modal_${rnd()}`,
-      task: initialTask()
+      task: initialTask(),
+      errors: []
     }
   },
   methods: {
@@ -117,18 +120,23 @@ export default {
       this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
     },
     submit() {
+      this.errors = []
       fetch('/api/business/tasks', {
         method: 'POST',
         headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
         body: JSON.stringify(this.task)
       }).then(response => {
         if (response.status === 422) {
-          response.json().then(errors => Object.keys(errors)
-            .map(prop => errors[prop].map(error => this.makeToast('Error', `${prop}: ${error}`))))
-        } else {
+          response.json().then(errors => {
+            this.errors = flattenErrors(errors)
+            this.errors.map((error, i) => this.makeToast(`Error ${1+i}`, `${error.property}: ${error.error}`))
+          })
+        } else if (response.status === 201) {
           this.makeToast('Success', 'The task has been created')
           this.$bvModal.hide(this.id)
           this.task = initialTask()
+        } else {
+          this.makeToast('Error', 'Couldn\'t submit form')
         }
       })
     }
