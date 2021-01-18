@@ -77,6 +77,7 @@
 const rnd = () => Math.random().toFixed(10).toString().replace('.', '')
 const toOption = id => ({ id, label: id })
 const dateFormat = 'MM/DD/YYYY'
+const index = (text, i) => ({ text, value: 1 + i })
 
 const initialTask = () => ({
   body: null,
@@ -134,10 +135,10 @@ export default {
   },
   computed: {
     daysOfWeek() {
-      return ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] // @TODO USA week start?
+      return ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map(index)
     },
     months() {
-      return ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+      return ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'].map(index)
     },
     repeatsValues() {
       return {REPEAT_NONE, REPEAT_DAILY, REPEAT_WEEKLY, REPEAT_MONTHLY, REPEAT_YEARLY}
