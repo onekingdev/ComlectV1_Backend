@@ -7,7 +7,7 @@
     tbody
       tr(v-for="(task, i) in taskEvents" :key="i")
         td {{ task.title }}
-        td {{ task.start }}
+        td {{ task.end }}
 </template>
 
 <script>
@@ -26,7 +26,8 @@ export default {
       return this.tasks.map(toEvent)
         .map(e => ({
           ...e,
-          start: DateTime.fromSQL(e.start).toLocaleString()
+          start: DateTime.fromSQL(e.start).toLocaleString(),
+          end: DateTime.fromSQL(e.end).toLocaleString()
         }))
     }
   }

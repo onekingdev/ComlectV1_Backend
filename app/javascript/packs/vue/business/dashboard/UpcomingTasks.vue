@@ -27,7 +27,7 @@ export default {
     }
   },
   created() {
-    const fromTo = DateTime.local().startOf('month').toSQLDate() + '/' + DateTime.local().endOf('month').toSQLDate()
+    const fromTo = DateTime.local().toSQLDate() + '/' + DateTime.local().plus({days: 7}).toSQLDate()
     fetch(`${endpointUrl}${fromTo}`, { headers: {'Accept': 'application/json'}})
       .then(response => response.json())
       .then(result => {

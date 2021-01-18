@@ -14,8 +14,8 @@ module RemindersFetcher
     @grid_tasks = remindable.reminders.where('end_date >= ? AND remind_at < ?', first_day, last_day).where(repeats: nil)
     @recurring_tasks = remindable.reminders.where('remind_at < ?', last_day).where.not(repeats: nil)
     @active_projects = remindable.projects
-    calendar_grid = populate_recurring_tasks2(@recurring_tasks, last_day)
-    [calendar_grid + @grid_tasks, @active_projects]
+    calendar_grid = populate_recurring_tasks2(@recurring_tasks, first_day, last_day)
+    [(calendar_grid + @grid_tasks).sort_by(&:end_date), @active_projects]
   end
 
   def tasks_calendar_grid(remindable, beginning)
@@ -82,7 +82,8 @@ module RemindersFetcher
     calendar_grid
   end
 
-  def populate_recurring_tasks2(tasks, last_day)
+  # rubocop:disable Metrics/BlockNesting
+  def populate_recurring_tasks2(tasks, first_day, last_day)
     output_tasks = []
     tasks.each do |task|
       occurence_idx = 0
@@ -90,7 +91,7 @@ module RemindersFetcher
       while (task.end_by.blank? || (task.end_by.present? && (date_cursor < task.end_by))) && (date_cursor < last_day)
         if %w[Daily Weekly Monthly Yearly].include?(task.repeats)
           unless (task.skip_occurencies.presence || [])&.include?(occurence_idx)
-            output_tasks.push(RecurringReminder.new(task, "#{task.id}_#{occurence_idx}", date_cursor))
+            output_tasks.push(RecurringReminder.new(task, "#{task.id}_#{occurence_idx}", date_cursor)) if date_cursor >= first_day
           end
           occurence_idx += 1
         end
@@ -99,6 +100,7 @@ module RemindersFetcher
     end
     output_tasks
   end
+  # rubocop:enable Metrics/BlockNesting
 
   def populate_recurring_tasks(tasks, last_day, calendar_grid)
     tasks.each do |task|

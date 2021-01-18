@@ -7,7 +7,7 @@ const isComplete = task => task.completed_at || task.done_at
 const toEvent = (task) => ({
   ...task,
   start: task.starts_on || task.remind_at,
-  end: task.ends_on,
+  end: ( task.end_date || task.ends_on )+" 20:00:00",
   title: task.title || task.body
 })
 const cssClass = task => isComplete(task) ? 'task-is-complete'

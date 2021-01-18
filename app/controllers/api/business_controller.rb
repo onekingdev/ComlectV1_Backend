@@ -6,7 +6,7 @@ class Api::BusinessController < ApplicationController
   before_action :authenticate_user!
   before_action :require_business!
 
-  skip_before_action :verify_authenticity_token # TODO proper authentication
+  skip_before_action :verify_authenticity_token # TODO: proper authentication
 
   def tasks_by_date
     tasks, projects = tasks_calendar_grid2(current_business, Date.parse(params[:date_from]), Date.parse(params[:date_to]))
@@ -23,9 +23,9 @@ class Api::BusinessController < ApplicationController
     # skip_occurence(current_business) if params[:src_id]
 
     if @reminder.save
-      render json: @reminder, status: 201
+      render json: @reminder, status: :created
     else
-      render json: @reminder.errors, status: 422
+      render json: @reminder.errors, status: :unprocessable_entity
     end
   end
 

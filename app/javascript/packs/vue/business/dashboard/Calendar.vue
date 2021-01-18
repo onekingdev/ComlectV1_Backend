@@ -54,7 +54,9 @@ export default {
     },
     calendarOptions() {
       return {
-        dayMaxEvents: true,
+        firstDay: 1,
+        dayMaxEvents: 2,
+        aspectRatio: 1.09,
         plugins: [dayGridPlugin],
         events: (info, successCallback, errorCallback) => {
           const fromTo = jsToSql(info.start) + '/' + jsToSql(info.end)
@@ -117,4 +119,6 @@ export default {
 .fc-daygrid-day-top { display: block !important; }
 .fc-col-header-cell-cushion  { font-weight: 400 !important; color: #666667 !important; }
 .fc-col-header-cell .fc-scrollgrid-sync-inner { text-align: left !important; }
+.fc-event-time, .fc-daygrid-event-dot { display: none; }
+.fc-daygrid-day-frame { min-height: 74px !important; }
 </style>
