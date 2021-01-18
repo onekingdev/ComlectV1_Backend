@@ -62,7 +62,7 @@ class Reminder < ActiveRecord::Base
     when 'Yearly'
       self.on_type = 'Day' if on_type.blank?
     end
-    self.end_date = remind_at if remind_at > end_date
+    self.end_date = remind_at if remind_at.present? && remind_at > end_date
     self.repeat_every = 1 if repeats.present? && (repeat_every.nil? || repeat_every.zero?)
   end
 
