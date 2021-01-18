@@ -20,7 +20,7 @@
       b-row(no-gutters)
         .col-sm
           label.form-label Start Date
-          DatePicker(v-model="task.remind_at" :placeholder="dateFormat")
+          DatePicker(:value="task.remind_at" @input="task.remind_at = $event, updateEndDate($event)" :placeholder="dateFormat")
           Errors(:errors="errors.remind_at")
           .form-text.text-muted Optional
         .col-sm
@@ -81,6 +81,8 @@
 </template>
 
 <script>
+import { DateTime } from 'luxon'
+
 const rnd = () => Math.random().toFixed(10).toString().replace('.', '')
 const toOption = id => ({ id, label: id })
 const dateFormat = 'MM/DD/YYYY'
@@ -124,6 +126,13 @@ export default {
     }
   },
   methods: {
+    updateEndDate(value) {
+      const start = DateTime.fromSQL(value),
+        end = DateTime.fromSQL(this.task.end_date)
+      if (!start.invalid && (end.invalid || (end.startOf('day') < start.startOf('day')))) {
+        this.task.end_date = value
+      }
+    },
     makeToast(title, str) {
       this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
     },
