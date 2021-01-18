@@ -5,10 +5,16 @@
       CreateTaskModal
         button.btn.btn-dark.float-end New Task
     .card-body
-      b Tasks
-      TaskTable(:tasks="tasks")
-      b Projects
-      TaskTable(:tasks="projects")
+      b.d-flex.justify-content-between(role="button" v-b-toggle.upcoming_tasks_collapse="")
+        | Tasks
+        ion-icon(name='chevron-down-outline')
+      b-collapse#upcoming_tasks_collapse(:visible="true")
+        TaskTable(:tasks="tasks")
+      b.d-flex.justify-content-between(role="button" v-b-toggle.upcoming_projects_collapse="") 
+        | Projects
+        ion-icon(name='chevron-down-outline')
+      b-collapse#upcoming_projects_collapse(:visible="true")
+        TaskTable(:tasks="projects")
 </template>
 
 <script>
