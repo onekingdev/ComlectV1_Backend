@@ -55,7 +55,12 @@ class Reminder < ActiveRecord::Base
       self.repeat_on = nil
     when 'Weekly'
       self.on_type = nil
+    when 'Monthly'
+      self.on_type = 'Day' if on_type.blank?
+    when 'Yearly'
+      self.on_type = 'Day' if on_type.blank?
     end
+    self.repeat_every = 1 if repeats.present? && (repeat_every.nil? || repeat_every.zero?)
   end
 
   def next_occurence(date_cursor)
