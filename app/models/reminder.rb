@@ -13,6 +13,8 @@ class Reminder < ActiveRecord::Base
   before_validation :fix_recurring_schedule
 
   validates :body, presence: true
+  validates :remind_at, presence: true
+  validates :end_date, presence: true
 
   def start_time
     remind_at
@@ -60,6 +62,7 @@ class Reminder < ActiveRecord::Base
     when 'Yearly'
       self.on_type = 'Day' if on_type.blank?
     end
+    self.end_date = remind_at if remind_at > end_date
     self.repeat_every = 1 if repeats.present? && (repeat_every.nil? || repeat_every.zero?)
   end
 
