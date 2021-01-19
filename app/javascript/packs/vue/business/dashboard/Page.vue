@@ -11,10 +11,10 @@
           a.btn.btn-default Customize
       .col-md-7.col-sm-12
         .card
-          Calendar(v-bind="{pdfUrl}")
+          Calendar(v-bind="{pdfUrl}" @created="newEtag" :etag="etag")
       .col-md-5.col-sm-12.pl-0
         .card
-          UpcomingTasks
+          UpcomingTasks(@created="newEtag" :etag="etag")
     .row.p-x-1.p-y-3
       .col-sm-12
         ProjectTable
@@ -33,6 +33,16 @@ import AddonNotifications from './AddonNotifications'
 import UpcomingTasks from '@/business/dashboard/UpcomingTasks'
 
 export default {
+  data() {
+    return {
+      etag: Math.random()
+    }
+  },
+  methods: {
+    newEtag() {
+      this.etag = Math.random()
+    }
+  },
   props: {
     pdfUrl: {
       type: String,

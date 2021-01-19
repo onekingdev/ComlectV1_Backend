@@ -12,7 +12,7 @@
     .card-body
       FullCalendar(:options="calendarOptions" ref="FullCalendar")
         template(v-slot:dayCellContent="arg")
-          CreateTaskModal(:remind-at="jsToSql(arg.date)")
+          CreateTaskModal(:remind-at="jsToSql(arg.date)" @created="$emit('created')")
             a.fc-daygrid-day-number(v-html="dayContent(arg.date)" href @click.prevent)
 </template>
 
@@ -32,7 +32,8 @@ export default {
     pdfUrl: {
       type: String,
       required: true
-    }
+    },
+    etag: Number
   },
   data() {
     return {
@@ -54,6 +55,9 @@ export default {
     },
     updateCurrentMonth() {
       this.currentMonth = DateTime.fromJSDate(this.calendarObject.getDate()).toFormat('MMMM yyyy')
+    },
+    refetchEvents() {
+      this.calendarObject.refetchEvents()
     }
   },
   mounted() {
@@ -80,6 +84,13 @@ export default {
             .catch(errorCallback)
         },
         headerToolbar: false
+      }
+    }
+  },
+  watch: {
+    etag: {
+      handler: function(newVal, oldVal) {
+        this.refetchEvents()
       }
     }
   },
