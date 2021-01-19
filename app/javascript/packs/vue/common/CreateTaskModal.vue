@@ -1,6 +1,6 @@
 <template lang="pug">
-  div(:class="{'d-inline-block':!wide}")
-    div(v-b-modal="modalId" :class="{'d-inline-block':!wide}")
+  div.d-inline-block
+    div.d-inline-block(v-b-modal="modalId")
       slot
 
     b-modal.fade(:id="modalId" :title="taskId ? 'Updating task' : 'New task'" @show="resetTask")
@@ -121,11 +121,7 @@ const REPEAT_NONE = '',
 export default {
   props: {
     taskId: Number,
-    remindAt: String,
-    wide: {
-      type: Boolean,
-      default: false
-    }
+    remindAt: String
   },
   data() {
     return {
