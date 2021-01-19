@@ -9,7 +9,7 @@
         | Tasks
         ion-icon(name='chevron-down-outline')
       b-collapse#upcoming_tasks_collapse(:visible="true")
-        TaskTable(:tasks="tasks")
+        TaskTable(:tasks="tasks" @created="$emit('created')")
       b.d-flex.justify-content-between(role="button" v-b-toggle.upcoming_projects_collapse="")
         | Projects
         ion-icon(name='chevron-down-outline')

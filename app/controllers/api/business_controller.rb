@@ -29,6 +29,24 @@ class Api::BusinessController < ApplicationController
     end
   end
 
+  def task_view
+    @reminder = current_business.reminders.find(params[:id])
+    render json: @reminder, status: :ok
+  end
+
+  def task_update
+    @reminder = current_business.reminders.find(params[:id])
+    @reminder.update(reminder_params)
+    @reminder.update(repeats: nil) if @reminder.repeats.blank?
+    # skip_occurence(current_business) if params[:src_id]
+
+    if @reminder.save
+      render json: @reminder, status: :ok
+    else
+      render json: @reminder.errors, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def reminder_params

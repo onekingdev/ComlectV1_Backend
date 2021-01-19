@@ -3,7 +3,7 @@
     div(v-b-modal="modalId" :class="{'d-inline-block':!wide}")
       slot
 
-    b-modal.fade(:id="modalId" :title="id ? 'Updating task' : 'New task'" @show="resetTask")
+    b-modal.fade(:id="modalId" :title="taskId ? 'Updating task' : 'New task'" @show="resetTask")
       label.form-label Task name
       input.form-control(v-model="task.body" type=text placeholder="Enter the name of your task")
       Errors(:errors="errors.body")
@@ -77,7 +77,7 @@
 
       template(slot="modal-footer")
         button.btn(@click="$bvModal.hide(modalId)") Cancel
-        button.btn.btn-primary(@click="submit") Create
+        button.btn.btn-primary(@click="submit") {{ taskId ? 'Save' : 'Create' }}
 </template>
 
 <script>
@@ -120,7 +120,7 @@ const REPEAT_NONE = '',
 
 export default {
   props: {
-    id: Number,
+    taskId: Number,
     remindAt: String,
     wide: {
       type: Boolean,
@@ -140,7 +140,8 @@ export default {
     },
     submit() {
       this.errors = []
-      fetch('/api/business/tasks', {
+      const toId = this.taskId ? `/${this.taskId}` : ''
+      fetch('/api/business/tasks' + toId, {
         method: 'POST',
         headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
         body: JSON.stringify(this.task)
@@ -162,8 +163,15 @@ export default {
       })
     },
     resetTask() {
-      const props = this.remindAt ? { remind_at: this.remindAt } : undefined
-      this.task = initialTask(props)
+      if (this.taskId) {
+        fetch(`/api/business/tasks/${this.taskId}`, {
+          method: 'GET',
+          headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}
+        }).then(response => response.json())
+          .then(result => Object.assign(this.task, result))
+      } else {
+        this.task = initialTask(this.remindAt ? { remind_at: this.remindAt } : undefined)
+      }
     }
   },
   computed: {
