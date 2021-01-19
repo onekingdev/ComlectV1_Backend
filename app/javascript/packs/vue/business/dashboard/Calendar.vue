@@ -12,14 +12,14 @@
     .card-body
       FullCalendar(:options="calendarOptions" ref="FullCalendar")
         template(v-slot:dayCellContent="arg")
-          CreateTaskModal(:remind-at="jsToSql(arg.date)" @created="$emit('created')")
+          TaskFormModal(:remind-at="jsToSql(arg.date)" @created="$emit('created')")
             a.fc-daygrid-day-number(v-html="dayContent(arg.date)" href @click.prevent)
         template(v-slot:eventContent="arg")
           .fc-event-main-frame
             //- .fc-event-time
             .fc-event-title-container
               .fc-event-title.fc-sticky
-                CreateTaskModal(v-if="arg.event.extendedProps.remind_at" :task-id="+arg.event.id" @created="$emit('created')") {{arg.event.title}}
+                TaskFormModal(v-if="arg.event.extendedProps.remind_at" :task-id="+arg.event.id" @created="$emit('created')") {{arg.event.title}}
                 span(v-else) {{arg.event.title}}
 </template>
 
@@ -29,7 +29,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { DateTime } from 'luxon'
 import { isProject, isTask, isOverdue, isComplete, toEvent, cssClass } from '@/common/TaskHelper'
-import CreateTaskModal from '@/common/CreateTaskModal'
+import TaskFormModal from '@/common/TaskFormModal'
 
 const endpointUrl = '/api/business/tasks/'
 const jsToSql = date => DateTime.fromJSDate(date).toSQLDate()
@@ -103,7 +103,7 @@ export default {
   },
   components: {
     FullCalendar,
-    CreateTaskModal
+    TaskFormModal
   }
 }
 </script>

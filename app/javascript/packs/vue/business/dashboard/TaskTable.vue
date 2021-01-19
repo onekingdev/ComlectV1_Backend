@@ -8,7 +8,7 @@
       tr(v-for="(task, i) in taskEvents" :key="i")
         td
           ion-icon.m-r-1(name='checkmark-circle-outline')
-          CreateTaskModal(v-if="task.remind_at" :task-id="task.id" @created="$emit('created')") {{ task.title }}
+          TaskFormModal(v-if="task.remind_at" :task-id="task.id" @created="$emit('created')") {{ task.title }}
           span(v-else) {{ task.title }}
         td {{ task.end }}
 </template>
@@ -16,7 +16,7 @@
 <script>
 import { toEvent } from '@/common/TaskHelper'
 import { DateTime } from 'luxon'
-import CreateTaskModal from '@/common/CreateTaskModal'
+import TaskFormModal from '@/common/TaskFormModal'
 
 export default {
   props: {
@@ -36,7 +36,7 @@ export default {
     }
   },
   components: {
-    CreateTaskModal
+    TaskFormModal
   }
 }
 </script>

@@ -2,7 +2,7 @@
   div
     .card-header.d-flex.justify-content-between
       h3.m-y-0 Upcoming
-      CreateTaskModal(@created="$emit('created')")
+      TaskFormModal(@created="$emit('created')")
         button.btn.btn-dark.float-end New Task
     .card-body
       b.d-flex.justify-content-between(role="button" v-b-toggle.upcoming_tasks_collapse="")
@@ -21,7 +21,7 @@
 const endpointUrl = '/api/business/tasks/'
 
 import TaskTable from './TaskTable'
-import CreateTaskModal from '@/common/CreateTaskModal'
+import TaskFormModal from '@/common/TaskFormModal'
 import { DateTime } from 'luxon'
 import { isProject, isTask, isOverdue, isComplete, toEvent, cssClass } from '@/common/TaskHelper'
 
@@ -51,7 +51,7 @@ export default {
     }
   },
   components: {
-    CreateTaskModal,
+    TaskFormModal,
     TaskTable
   },
   watch: {
