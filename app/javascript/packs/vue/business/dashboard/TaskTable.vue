@@ -8,7 +8,7 @@
       tr(v-for="(task, i) in taskEvents" :key="i")
         td
           ion-icon.m-r-1(name='checkmark-circle-outline')
-          TaskFormModal(v-if="task.remind_at" :task-id="task.id" @created="$emit('created')") {{ task.title }}
+          TaskFormModal(v-if="task.remind_at" :task-id="task.id" @saved="$emit('saved')") {{ task.title }}
           span(v-else) {{ task.title }}
         td {{ task.end }}
 </template>

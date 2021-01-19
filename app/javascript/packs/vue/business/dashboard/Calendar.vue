@@ -12,14 +12,14 @@
     .card-body
       FullCalendar(:options="calendarOptions" ref="FullCalendar")
         template(v-slot:dayCellContent="arg")
-          TaskFormModal(:remind-at="jsToSql(arg.date)" @created="$emit('created')")
+          TaskFormModal(:remind-at="jsToSql(arg.date)" @saved="$emit('saved')")
             a.fc-daygrid-day-number(v-html="dayContent(arg.date)" href @click.prevent)
         template(v-slot:eventContent="arg")
           .fc-event-main-frame
             //- .fc-event-time
             .fc-event-title-container
               .fc-event-title.fc-sticky
-                TaskFormModal(v-if="arg.event.extendedProps.remind_at" :task-id="+arg.event.id" @created="$emit('created')") {{arg.event.title}}
+                TaskFormModal(v-if="arg.event.extendedProps.remind_at" :task-id="+arg.event.id" @saved="$emit('saved')") {{arg.event.title}}
                 span(v-else) {{arg.event.title}}
 </template>
 

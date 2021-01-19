@@ -149,7 +149,7 @@ export default {
               .map(prop => this.errors[prop].map(err => this.makeToast(`Error`, `${prop}: ${err}`)))
           })
         } else if (response.status === 201 || response.status === 200) {
-          this.$emit('created')
+          this.$emit('saved')
           this.makeToast('Success', 'The task has been saved')
           this.$bvModal.hide(this.modalId)
           this.resetTask()

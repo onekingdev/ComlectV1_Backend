@@ -11,10 +11,10 @@
           a.btn.btn-default Customize
       .col-md-7.col-sm-12
         .card
-          Calendar(v-bind="{pdfUrl}" @created="newEtag" :etag="etag")
+          Calendar(v-bind="{pdfUrl}" @saved="newEtag" :etag="etag")
       .col-md-5.col-sm-12.pl-0
         .card
-          UpcomingTasks(@created="newEtag" :etag="etag")
+          UpcomingTasks(@saved="newEtag" :etag="etag")
     .row.p-x-1.p-y-3
       .col-sm-12
         ProjectTable

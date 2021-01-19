@@ -2,14 +2,14 @@
   div
     .card-header.d-flex.justify-content-between
       h3.m-y-0 Upcoming
-      TaskFormModal(@created="$emit('created')")
+      TaskFormModal(@saved="$emit('saved')")
         button.btn.btn-dark.float-end New Task
     .card-body
       b.d-flex.justify-content-between(role="button" v-b-toggle.upcoming_tasks_collapse="")
         | Tasks
         ion-icon(name='chevron-down-outline')
       b-collapse#upcoming_tasks_collapse(:visible="true")
-        TaskTable(:tasks="tasks" @created="$emit('created')")
+        TaskTable(:tasks="tasks" @saved="$emit('saved')")
       b.d-flex.justify-content-between(role="button" v-b-toggle.upcoming_projects_collapse="")
         | Projects
         ion-icon(name='chevron-down-outline')
