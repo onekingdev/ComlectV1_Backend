@@ -254,6 +254,7 @@ Rails.application.routes.draw do
     get '/business/tasks/:id' => 'business#task_view'
     post '/business/tasks/:id' => 'business#task_update'
     get '/business/tasks/:date_from/:date_to' => 'business#tasks_by_date'
+    get '/business/overdue_tasks' => 'business#tasks_overdue'
     post '/business/tasks' => 'business#task_create'
   end
 end

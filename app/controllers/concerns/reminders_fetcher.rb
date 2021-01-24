@@ -127,11 +127,11 @@ module RemindersFetcher
       end
     end
 
-    remindable
+    (remindable
       .reminders.where(repeats: nil)
       .where('end_date < ?',
              Time.zone.today.in_time_zone(remindable.time_zone)).where(done_at: nil)
-      .order(remind_at: :asc, id: :asc) + recurring_past_dues
+      .order(remind_at: :asc, id: :asc) + recurring_past_dues).sort_by(&:end_date)
   end
 
   def reminders_today(remindable, calendar_grid)

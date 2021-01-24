@@ -6,6 +6,10 @@ html {
   background-color: #f6f6f8;
 }
 
+*:focus {
+  outline: -webkit-focus-ring-color auto 0px;
+}
+
 #sidebarMenu {
   background-color: #1b1c29;
   color: #fff;
@@ -87,7 +91,7 @@ html {
 table.table, table.table thead tr th {
   border: 0px;
   color: #767779;
-  font-weight: 400;
+  font-weight: 500;
 }
 
 .task_table {
@@ -96,6 +100,17 @@ table.table, table.table thead tr th {
     vertical-align: middle;
     color: #d2d3d8;
   }
+  .overdue {
+    &:before {
+      content: ' ⚠️ ';
+    }
+    color: #b08a2b;
+  }
+}
+
+.white-card-body {
+  background-color: #fff;
+  border-top: 2px solid #e9ebee;
 }
 
 @import '../../../node_modules/bootstrap/scss/bootstrap.scss';

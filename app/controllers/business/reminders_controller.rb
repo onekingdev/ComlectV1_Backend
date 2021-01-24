@@ -2,6 +2,7 @@
 
 class Business::RemindersController < ApplicationController
   include RemindersUpdater
+  include ActionView::Helpers::TagHelper
 
   before_action :require_business!
   before_action :set_business
@@ -54,6 +55,9 @@ class Business::RemindersController < ApplicationController
 
   def index
     respond_to do |format|
+      format.html do
+        render html: content_tag('reminders-page', ''), layout: 'vue'
+      end
       format.pdf do
         render pdf: 'reminders.pdf',
                template: 'business/reminders/index.pdf.erb', encoding: 'UTF-8',

@@ -13,6 +13,10 @@ class Api::BusinessController < ApplicationController
     render json: { tasks: tasks, projects: projects }
   end
 
+  def tasks_overdue
+    render json: { tasks: reminders_past(current_business) }
+  end
+
   def task_create
     @reminder = Reminder.new(reminder_params)
     @reminder.remindable_id = current_business.id

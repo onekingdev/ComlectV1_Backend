@@ -19,6 +19,7 @@
 
 <script>
 const endpointUrl = '/api/business/tasks/'
+const overdueEndpointUrl = '/api/business/overdue_tasks'
 
 import TaskTable from './TaskTable'
 import TaskFormModal from '@/common/TaskFormModal'
@@ -41,13 +42,19 @@ export default {
   methods: {
     refetch() {
       const fromTo = DateTime.local().toSQLDate() + '/' + DateTime.local().plus({days: 7}).toSQLDate()
-      fetch(`${endpointUrl}${fromTo}`, { headers: {'Accept': 'application/json'}})
+      
+      fetch(overdueEndpointUrl, { headers: {'Accept': 'application/json'} })
         .then(response => response.json())
         .then(result => {
           this.tasks = result.tasks
-          this.projects = result.projects
-        })
-        // .catch(errorCallback)
+        }).then(fetch(`${endpointUrl}${fromTo}`, { headers: {'Accept': 'application/json'}})
+          .then(response => response.json())
+          .then(result => {
+            this.tasks = this.tasks.concat(result.tasks)
+            this.projects = result.projects
+          })
+        )
+        // .catch(errorCallback) 
     }
   },
   components: {

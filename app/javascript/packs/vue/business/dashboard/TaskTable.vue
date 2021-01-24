@@ -10,13 +10,14 @@
           ion-icon.m-r-1(name='checkmark-circle-outline')
           TaskFormModal(v-if="task.remind_at" :task-id="task.id" @saved="$emit('saved')") {{ task.title }}
           span(v-else) {{ task.title }}
-        td {{ task.end }}
+        td(:class="{ overdue: isOverdue(task) }") {{ task.end }}
 </template>
 
 <script>
 import { toEvent } from '@/common/TaskHelper'
 import { DateTime } from 'luxon'
 import TaskFormModal from '@/common/TaskFormModal'
+import { isOverdue } from '@/common/TaskHelper'
 
 export default {
   props: {
@@ -37,6 +38,9 @@ export default {
   },
   components: {
     TaskFormModal
+  },
+  methods: {
+    isOverdue: isOverdue
   }
 }
 </script>
