@@ -31,7 +31,7 @@ import { DateTime } from 'luxon'
 import { isProject, isTask, isOverdue, isComplete, toEvent, cssClass } from '@/common/TaskHelper'
 import TaskFormModal from '@/common/TaskFormModal'
 
-const endpointUrl = '/api/business/tasks/'
+const endpointUrl = '/api/business/reminders/'
 const jsToSql = date => DateTime.fromJSDate(date).toSQLDate()
 
 export default {

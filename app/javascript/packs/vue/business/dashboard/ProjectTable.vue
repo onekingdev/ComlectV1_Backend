@@ -29,7 +29,7 @@
 <script>
 import { DateTime } from 'luxon'
 
-const endpointUrl = '/api/business/tasks/'
+const endpointUrl = '/api/business/reminders/'
 
 export default {
   data() {

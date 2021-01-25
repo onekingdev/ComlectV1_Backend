@@ -19,8 +19,8 @@
 </template>
 
 <script>
-const endpointUrl = '/api/business/tasks/'
-const overdueEndpointUrl = '/api/business/overdue_tasks'
+const endpointUrl = '/api/business/reminders/'
+const overdueEndpointUrl = '/api/business/overdue_reminders'
 import { DateTime } from 'luxon'
 
 import TaskTable from '../dashboard/TaskTable'

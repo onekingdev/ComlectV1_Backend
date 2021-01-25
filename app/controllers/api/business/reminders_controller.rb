@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::BusinessController < ApplicationController
+class Api::Business::RemindersController < ApplicationController
   include RemindersFetcher
 
   before_action :authenticate_user!
@@ -8,16 +8,16 @@ class Api::BusinessController < ApplicationController
 
   skip_before_action :verify_authenticity_token # TODO: proper authentication
 
-  def tasks_by_date
+  def by_date
     tasks, projects = tasks_calendar_grid2(current_business, Date.parse(params[:date_from]), Date.parse(params[:date_to]))
     render json: { tasks: tasks, projects: projects }
   end
 
-  def tasks_overdue
+  def overdue
     render json: { tasks: reminders_past(current_business) }
   end
 
-  def task_create
+  def create
     @reminder = Reminder.new(reminder_params)
     @reminder.remindable_id = current_business.id
     @reminder.remindable_type = 'Business'
@@ -33,12 +33,12 @@ class Api::BusinessController < ApplicationController
     end
   end
 
-  def task_view
+  def show
     @reminder = current_business.reminders.find(params[:id])
     render json: @reminder, status: :ok
   end
 
-  def task_update
+  def update
     @reminder = current_business.reminders.find(params[:id])
     @reminder.update(reminder_params)
     @reminder.update(repeats: nil) if @reminder.repeats.blank?
