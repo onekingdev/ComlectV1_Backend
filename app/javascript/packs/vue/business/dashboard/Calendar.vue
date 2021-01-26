@@ -135,11 +135,11 @@ export default {
 .task-is-overdue .fc-event-title:before {
   content: ' ⚠️ ';
 }
-.task-is-complete,
+/* .task-is-complete,
 .task-is-complete .fc-event-title {
-  //background-color: #1ab27f !important;
-  //color: #e6f5ef;
-}
+  background-color: #1ab27f !important;
+  color: #e6f5ef;
+} */
 .task-is-complete .fc-event-title:before {
   content: ' ✅ ';
 }
