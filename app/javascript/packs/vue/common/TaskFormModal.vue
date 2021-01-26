@@ -104,7 +104,7 @@ const initialTask = defaults => ({
   ...(defaults || {})
 })
 
-const REPEAT_NONE = '',
+const REPEAT_NONE = null,
   REPEAT_DAILY = 'Daily',
   REPEAT_WEEKLY = 'Weekly',
   REPEAT_MONTHLY = 'Monthly',

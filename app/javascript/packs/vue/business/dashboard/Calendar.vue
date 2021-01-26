@@ -19,7 +19,7 @@
             //- .fc-event-time
             .fc-event-title-container
               .fc-event-title.fc-sticky
-                TaskFormModal(v-if="arg.event.extendedProps.remind_at" :task-id="+arg.event.id" @saved="$emit('saved')") {{arg.event.title}}
+                TaskFormModal(v-if="arg.event.extendedProps.remind_at" :task-id="arg.event.extendedProps.taskId" @saved="$emit('saved')") {{arg.event.title}}
                 span(v-else) {{arg.event.title}}
 </template>
 
@@ -28,7 +28,7 @@ import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { DateTime } from 'luxon'
-import { isProject, isTask, isOverdue, isComplete, toEvent, cssClass } from '@/common/TaskHelper'
+import { toEvent, cssClass } from '@/common/TaskHelper'
 import TaskFormModal from '@/common/TaskFormModal'
 
 const endpointUrl = '/api/business/reminders/'
@@ -135,11 +135,11 @@ export default {
 .task-is-overdue .fc-event-title:before {
   content: ' ⚠️ ';
 }
-.task-is-complete,
+/* .task-is-complete,
 .task-is-complete .fc-event-title {
-  //background-color: #1ab27f !important;
-  //color: #e6f5ef;
-}
+  background-color: #1ab27f !important;
+  color: #e6f5ef;
+} */
 .task-is-complete .fc-event-title:before {
   content: ' ✅ ';
 }
