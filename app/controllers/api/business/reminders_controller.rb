@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Api::Business::RemindersController < ApplicationController
+  include RemindersUpdater
   include RemindersFetcher
 
   before_action :authenticate_user!
@@ -40,6 +41,7 @@ class Api::Business::RemindersController < ApplicationController
 
   def update
     @reminder = current_business.reminders.find(params[:id])
+    change_reminder_state if params[:done].present?
     @reminder.update(reminder_params)
     @reminder.update(repeats: nil) if @reminder.repeats.blank?
     # skip_occurence(current_business) if params[:src_id]
