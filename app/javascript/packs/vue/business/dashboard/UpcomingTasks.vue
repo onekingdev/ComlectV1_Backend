@@ -21,10 +21,9 @@
 const endpointUrl = '/api/business/reminders/'
 const overdueEndpointUrl = '/api/business/overdue_reminders'
 
-import TaskTable from './TaskTable'
+import TaskTable from '@/common/TaskTable'
 import TaskFormModal from '@/common/TaskFormModal'
 import { DateTime } from 'luxon'
-import { isProject, isTask, isOverdue, isComplete, toEvent, cssClass } from '@/common/TaskHelper'
 
 export default {
   props: {
@@ -42,7 +41,7 @@ export default {
   methods: {
     refetch() {
       const fromTo = DateTime.local().toSQLDate() + '/' + DateTime.local().plus({days: 7}).toSQLDate()
-      
+
       fetch(overdueEndpointUrl, { headers: {'Accept': 'application/json'} })
         .then(response => response.json())
         .then(result => {
@@ -54,7 +53,7 @@ export default {
             this.projects = result.projects
           })
         )
-        // .catch(errorCallback) 
+        // .catch(errorCallback)
     }
   },
   components: {
