@@ -14,7 +14,7 @@
         | Projects
         ion-icon(name='chevron-down-outline')
       b-collapse#upcoming_projects_collapse(:visible="true")
-        TaskTable(:tasks="projects")
+        ProjectTable(:projects="projects")
 </template>
 
 <script>
@@ -22,6 +22,7 @@ const endpointUrl = '/api/business/reminders/'
 const overdueEndpointUrl = '/api/business/overdue_reminders'
 
 import TaskTable from '@/common/TaskTable'
+import ProjectTable from '@/common/ProjectTable'
 import TaskFormModal from '@/common/TaskFormModal'
 import { DateTime } from 'luxon'
 
@@ -58,7 +59,8 @@ export default {
   },
   components: {
     TaskFormModal,
-    TaskTable
+    TaskTable,
+    ProjectTable
   },
   watch: {
     etag: {

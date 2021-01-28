@@ -7,18 +7,15 @@
     tbody
       tr(v-for="(task, i) in taskEvents" :key="i")
         td
-          ion-icon.m-r-1.pointer(v-if="task.remind_at" @click="markDone(task)" name='checkmark-circle-outline')
-          ion-icon.m-r-1(v-else name='checkmark-circle-outline')
-          TaskFormModal(v-if="task.remind_at" :task-id="task.taskId" @saved="$emit('saved')") {{ task.title }}
-          span(v-else) {{ task.title }}
+          ion-icon.m-r-1.pointer(@click="markDone(task)" name='checkmark-circle-outline')
+          TaskFormModal(:task-id="task.taskId" @saved="$emit('saved')") {{ task.title }}
         td(:class="{ overdue: isOverdue(task) }") {{ task.end }}
 </template>
 
 <script>
-import { toEvent } from '@/common/TaskHelper'
 import { DateTime } from 'luxon'
 import TaskFormModal from '@/common/TaskFormModal'
-import { isOverdue, splitReminderOccurenceId } from '@/common/TaskHelper'
+import { toEvent, isOverdue, splitReminderOccurenceId } from '@/common/TaskHelper'
 
 export default {
   props: {
