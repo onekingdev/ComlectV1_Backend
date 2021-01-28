@@ -8,7 +8,7 @@
       tr(v-for="(task, i) in taskEvents" :key="i")
         td
           ion-icon.m-r-1.pointer(@click="markDone(task)" name='checkmark-circle-outline')
-          TaskFormModal(:task-id="task.taskId" @saved="$emit('saved')") {{ task.title }}
+          TaskFormModal(:task-id="task.taskId" :occurence-id="task.oid" @saved="$emit('saved')") {{ task.title }}
         td(:class="{ overdue: isOverdue(task) }") {{ task.end }}
 </template>
 

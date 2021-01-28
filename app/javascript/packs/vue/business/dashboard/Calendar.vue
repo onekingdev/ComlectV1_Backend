@@ -19,7 +19,7 @@
             //- .fc-event-time
             .fc-event-title-container
               .fc-event-title.fc-sticky
-                TaskFormModal(v-if="arg.event.extendedProps.remind_at" :task-id="arg.event.extendedProps.taskId" @saved="$emit('saved')") {{arg.event.title}}
+                TaskFormModal(v-if="arg.event.extendedProps.remind_at" :task-id="arg.event.extendedProps.taskId" :occurence-id="arg.event.extendedProps.oid" @saved="$emit('saved')") {{arg.event.title}}
                 span(v-else) {{arg.event.title}}
 </template>
 

@@ -166,8 +166,6 @@ CREATE FUNCTION public.set_point_from_lat_lng() RETURNS trigger
 
 SET default_tablespace = '';
 
-SET default_with_oids = false;
-
 --
 -- Name: admin_users; Type: TABLE; Schema: public; Owner: -
 --
@@ -1961,6 +1959,42 @@ CREATE TABLE public.jurisdictions_specialists (
     jurisdiction_id integer NOT NULL,
     specialist_id integer NOT NULL
 );
+
+
+--
+-- Name: local_projects; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.local_projects (
+    id bigint NOT NULL,
+    business_id integer,
+    title character varying,
+    description text,
+    starts_on date,
+    ends_on date,
+    status character varying,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: local_projects_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.local_projects_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: local_projects_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.local_projects_id_seq OWNED BY public.local_projects.id;
 
 
 --
@@ -5100,6 +5134,13 @@ ALTER TABLE ONLY public.jurisdictions ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
+-- Name: local_projects id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.local_projects ALTER COLUMN id SET DEFAULT nextval('public.local_projects_id_seq'::regclass);
+
+
+--
 -- Name: messages id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -5641,6 +5682,14 @@ ALTER TABLE ONLY public.job_applications
 
 ALTER TABLE ONLY public.jurisdictions
     ADD CONSTRAINT jurisdictions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: local_projects local_projects_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.local_projects
+    ADD CONSTRAINT local_projects_pkey PRIMARY KEY (id);
 
 
 --
@@ -7356,6 +7405,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20201110132337'),
 ('20201210160135'),
 ('20201225213003'),
-('20210118192309');
+('20210118192309'),
+('20210128050645');
 
 

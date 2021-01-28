@@ -17,7 +17,15 @@
           UpcomingTasks(@saved="newEtag" :etag="etag")
     .row.p-x-1.p-y-3
       .col-sm-12
-        ProjectTable
+        .card
+          .card-header.d-flex.justify-content-between
+            h3 Projects
+            div
+              LocalProjectModal(@saved="$emit('saved')")
+                button.btn.btn-dark.float-end New Project
+              a.btn.float-end(href="/business/projects") View all
+          .card-body
+            ProjectTable(:projects="projects")
     .row.p-x-1
       .col-md-6.col-sm-12
         RecentActivity
@@ -31,17 +39,31 @@ import ProjectTable from './ProjectTable'
 import RecentActivity from './RecentActivity'
 import AddonNotifications from './AddonNotifications'
 import UpcomingTasks from '@/business/dashboard/UpcomingTasks'
+import LocalProjectModal from '../projects/LocalProjectModal'
+
+const endpointProjectsUrl = '/api/business/projects/'
 
 export default {
   data() {
     return {
-      etag: Math.random()
+      etag: Math.random(),
+      projects: []
     }
   },
   methods: {
     newEtag() {
       this.etag = Math.random()
+    },
+    refetch() {
+      fetch(endpointProjectsUrl, { headers: {'Accept': 'application/json'} })
+        .then(response => response.json())
+        .then(result => {
+          this.projects = result.projects
+        })
     }
+  },
+  created() {
+    this.refetch()
   },
   props: {
     pdfUrl: {
@@ -58,7 +80,8 @@ export default {
     ProjectTable,
     UpcomingTasks,
     RecentActivity,
-    AddonNotifications
+    AddonNotifications,
+    LocalProjectModal
   }
 }
 </script>

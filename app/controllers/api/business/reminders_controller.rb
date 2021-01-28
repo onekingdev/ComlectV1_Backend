@@ -44,7 +44,7 @@ class Api::Business::RemindersController < ApplicationController
     change_reminder_state if params[:done].present?
     @reminder.update(reminder_params)
     @reminder.update(repeats: nil) if @reminder.repeats.blank?
-    # skip_occurence(current_business) if params[:src_id]
+    skip_occurence(current_business) if params[:src_id]
 
     if @reminder.save
       render json: @reminder, status: :ok

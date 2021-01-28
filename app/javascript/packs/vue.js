@@ -1,7 +1,8 @@
 import Vue from 'vue/dist/vue.esm.js'
 import store from '@/store/index'
 import BusinessDashboardPage from './vue/business/dashboard/Page.vue'
-import RemindersPage from './vue/business/reminders/Page.vue'
+import BusinessRemindersPage from './vue/business/reminders/Page.vue'
+import BusinessProjectsPage from './vue/business/projects/Page.vue'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
@@ -30,6 +31,7 @@ new Vue({
   },
   components: {
     BusinessDashboardPage,
-    RemindersPage
+    BusinessRemindersPage,
+    BusinessProjectsPage
   }
 })

@@ -77,7 +77,11 @@
 
       template(slot="modal-footer")
         button.btn(@click="$bvModal.hide(modalId)") Cancel
-        button.btn.btn-primary(@click="submit") {{ taskId ? 'Save' : 'Create' }}
+        button.btn.btn-dark(v-if="!taskId" @click="submit()") Create
+        button.btn.btn-dark(v-else-if="null === occurenceId" @click="submit()") Save
+        b-dropdown(v-else variant="dark" text="Save")
+          b-dropdown-item(@click="submit(true)") Save Occurence
+          b-dropdown-item(@click="submit()") Save Series
 </template>
 
 <script>
@@ -121,6 +125,7 @@ const REPEAT_NONE = null,
 export default {
   props: {
     taskId: Number,
+    occurenceId: Number,
     remindAt: String
   },
   data() {
@@ -134,10 +139,11 @@ export default {
     makeToast(title, str) {
       this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
     },
-    submit() {
+    submit(saveOccurence) {
       this.errors = []
-      const toId = this.taskId ? `/${this.taskId}` : ''
-      fetch('/api/business/reminders' + toId, {
+      const toId = (!saveOccurence && this.taskId) ? `/${this.taskId}` : ''
+      const occurenceParams = saveOccurence ? `?oid=${this.occurenceId}&src_id=${this.taskId}` : ''
+      fetch('/api/business/reminders' + toId + occurenceParams, {
         method: 'POST',
         headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
         body: JSON.stringify(this.task)
