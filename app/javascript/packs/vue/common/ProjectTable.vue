@@ -6,9 +6,7 @@
         th Due date
     tbody
       tr(v-for="(project, i) in projectList" :key="i")
-        td
-          ion-icon.m-r-1(name='checkmark-circle-outline')
-          span {{ project.title }}
+        td {{ project.title }}
         td(:class="{ overdue: isOverdue(project) }") {{ project.end }}
 </template>
 
