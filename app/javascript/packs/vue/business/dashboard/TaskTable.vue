@@ -7,7 +7,8 @@
     tbody
       tr(v-for="(task, i) in taskEvents" :key="i")
         td
-          ion-icon.m-r-1(name='checkmark-circle-outline')
+          ion-icon.m-r-1.pointer(v-if="task.remind_at" @click="markDone(task)" name='checkmark-circle-outline')
+          ion-icon.m-r-1(v-else name='checkmark-circle-outline')
           TaskFormModal(v-if="task.remind_at" :task-id="task.taskId" @saved="$emit('saved')") {{ task.title }}
           span(v-else) {{ task.title }}
         td(:class="{ overdue: isOverdue(task) }") {{ task.end }}
@@ -26,6 +27,17 @@ export default {
       required: true
     }
   },
+  methods: {
+    isOverdue,
+    markDone(task) {
+      const { taskId, oid } = splitReminderOccurenceId(task.id)
+      const oidParam = oid !== null ? `&oid=${oid}` : ''
+      fetch(`/api/business/reminders/${taskId}?done=1${oidParam}`, {
+        method: 'POST',
+        headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}
+      }).then(response => this.$emit('saved'))
+    }
+  },
   computed: {
     taskEvents() {
       return this.tasks.map(toEvent)
@@ -39,9 +51,12 @@ export default {
   },
   components: {
     TaskFormModal
-  },
-  methods: {
-    isOverdue: isOverdue
   }
 }
 </script>
+
+<style scoped>
+.pointer {
+  cursor: pointer;
+}
+</style>
