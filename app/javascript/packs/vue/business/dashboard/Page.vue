@@ -21,8 +21,9 @@
           .card-header.d-flex.justify-content-between
             h3 Projects
             div
-              button.btn.btn-dark.float-end New Project
-              button.btn.float-end View all
+              LocalProjectModal(@saved="$emit('saved')")
+                button.btn.btn-dark.float-end New Project
+              a.btn.float-end(href="/business/projects") View all
           .card-body
             ProjectTable(:projects="projects")
     .row.p-x-1
@@ -38,6 +39,7 @@ import ProjectTable from './ProjectTable'
 import RecentActivity from './RecentActivity'
 import AddonNotifications from './AddonNotifications'
 import UpcomingTasks from '@/business/dashboard/UpcomingTasks'
+import LocalProjectModal from '../projects/LocalProjectModal'
 
 const endpointProjectsUrl = '/api/business/projects/'
 
@@ -78,7 +80,8 @@ export default {
     ProjectTable,
     UpcomingTasks,
     RecentActivity,
-    AddonNotifications
+    AddonNotifications,
+    LocalProjectModal
   }
 }
 </script>

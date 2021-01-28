@@ -19,7 +19,7 @@ class Api::Business::ProjectsController < ApplicationController
     # projects.each do |project|
     #   project.populate_rfp(project.job_application) if project.rfp? && project.active?
     # end
-    render json: { projects: current_business.projects }
+    render json: { projects: (current_business.projects + current_business.local_projects).sort_by(&:ends_on) }
   end
 
   private

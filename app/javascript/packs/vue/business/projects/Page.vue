@@ -8,7 +8,8 @@
             p Plan projects with employees or hire specialists for additional help
           div
             a.btn.btn-default Post Project
-            a.btn.m-l-1.btn-dark New Project
+            LocalProjectModal(@saved="$emit('saved')")
+              a.btn.m-l-1.btn-dark New Project
 
     b-tabs(content-class="mt-0")
       b-tab(title="My Projects" active="")
@@ -37,6 +38,7 @@
 const endpointUrl = '/api/business/projects/'
 import { DateTime } from 'luxon'
 import ProjectTable from '../dashboard/ProjectTable'
+import LocalProjectModal from './LocalProjectModal'
 
 export default {
   data() {
@@ -57,7 +59,8 @@ export default {
     }
   },
   components: {
-    ProjectTable
+    ProjectTable,
+    LocalProjectModal
   }
 }
 </script>
