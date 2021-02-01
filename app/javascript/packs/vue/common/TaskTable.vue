@@ -7,7 +7,7 @@
     tbody
       tr(v-for="(task, i) in taskEvents" :key="i")
         td
-          ion-icon.m-r-1.pointer(@click="markDone(task)" name='checkmark-circle-outline')
+          ion-icon.m-r-1.pointer(@click="toggleDone(task)" v-bind:class="{ done_task: task.done_at }" name='checkmark-circle-outline')
           TaskFormModal(:task-id="task.taskId" :occurence-id="task.oid" @saved="$emit('saved')") {{ task.title }}
         td(:class="{ overdue: isOverdue(task) }") {{ task.end }}
 </template>
@@ -26,10 +26,11 @@ export default {
   },
   methods: {
     isOverdue,
-    markDone(task) {
+    toggleDone(task) {
       const { taskId, oid } = splitReminderOccurenceId(task.id)
       const oidParam = oid !== null ? `&oid=${oid}` : ''
-      fetch(`/api/business/reminders/${taskId}?done=1${oidParam}`, {
+      var target_state = (!(!!task.done_at)).toString()
+      fetch(`/api/business/reminders/${taskId}?done=${target_state}${oidParam}`, {
         method: 'POST',
         headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}
       }).then(response => this.$emit('saved'))

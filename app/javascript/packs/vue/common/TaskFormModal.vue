@@ -3,7 +3,7 @@
     div.d-inline-block(v-b-modal="modalId")
       slot
 
-    b-modal.fade(:id="modalId" :title="taskId ? 'Updating task' : 'New task'" @show="resetTask")
+    b-modal.fade(:id="modalId" :title="taskId ? task.body : 'New task'" @show="resetTask")
       label.form-label Task name
       input.form-control(v-model="task.body" type=text placeholder="Enter the name of your task")
       Errors(:errors="errors.body")
@@ -77,6 +77,8 @@
 
       template(slot="modal-footer")
         button.btn(@click="$bvModal.hide(modalId)") Cancel
+        button.btn(v-if="taskId && !task.done_at") Mark as Complete
+        button.btn(v-if="taskId && task.done_at") Mark as Incomplete
         button.btn.btn-dark(v-if="!taskId" @click="submit()") Create
         button.btn.btn-dark(v-else-if="null === occurenceId" @click="submit()") Save
         b-dropdown(v-else variant="dark" text="Save")
