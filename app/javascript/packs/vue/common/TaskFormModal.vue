@@ -78,8 +78,8 @@
       template(slot="modal-footer")
         .d-flex.justify-content-between(style="width: 100%")
           div
-            button.btn.btn-default(v-if="taskId" @click="deleteTask(task)") Delete Task
-            b-dropdown(v-if="taskId" variant="dark" text="Delete Task")
+            button.btn.btn-default(v-if="null === occurenceId" @click="deleteTask(task)") Delete Task
+            b-dropdown(v-else-if="taskId" variant="dark" text="Delete Task")
               b-dropdown-item(@click="deleteTask(task, true)") Delete Occurence
               b-dropdown-item(@click="deleteTask(task)") Delete Series
           div
@@ -156,9 +156,13 @@ export default {
     },
     toggleDone(task) {
       const { taskId, oid } = splitReminderOccurenceId(task.id)
+      console.log(task.id)
+      console.log(taskId)
+      console.log(oid)
       const oidParam = oid !== null ? `&oid=${oid}` : ''
       var target_state = (!(!!task.done_at)).toString()
-      fetch(`/api/business/reminders/${taskId}?done=${target_state}${oidParam}`, {
+      var src_id_params = oid !== null ? `&src_id=${this.taskId}` : ''
+      fetch(`/api/business/reminders/${taskId}?done=${target_state}${oidParam}${src_id_params}`, {
         method: 'POST',
         headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}
       }).then(response => this.$emit('saved'))
