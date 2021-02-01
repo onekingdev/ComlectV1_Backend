@@ -77,8 +77,8 @@
 
       template(slot="modal-footer")
         button.btn(@click="$bvModal.hide(modalId)") Cancel
-        button.btn(v-if="taskId && !task.done_at") Mark as Complete
-        button.btn(v-if="taskId && task.done_at") Mark as Incomplete
+        button.btn.btn-default(v-if="taskId && !task.done_at" @click="toggleDone(task)") Mark as Complete
+        button.btn.btn-default(v-if="taskId && task.done_at" @click="toggleDone(task)") Mark as Incomplete
         button.btn.btn-dark(v-if="!taskId" @click="submit()") Create
         button.btn.btn-dark(v-else-if="null === occurenceId" @click="submit()") Save
         b-dropdown(v-else variant="dark" text="Save")
@@ -88,6 +88,7 @@
 
 <script>
 import { DateTime } from 'luxon'
+import { splitReminderOccurenceId } from '@/common/TaskHelper'
 
 const rnd = () => Math.random().toFixed(10).toString().replace('.', '')
 const toOption = id => ({ id, label: id })
@@ -138,6 +139,15 @@ export default {
     }
   },
   methods: {
+    toggleDone(task) {
+      const { taskId, oid } = splitReminderOccurenceId(task.id)
+      const oidParam = oid !== null ? `&oid=${oid}` : ''
+      var target_state = (!(!!task.done_at)).toString()
+      fetch(`/api/business/reminders/${taskId}?done=${target_state}${oidParam}`, {
+        method: 'POST',
+        headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}
+      }).then(response => this.$emit('saved'))
+    },
     makeToast(title, str) {
       this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
     },
