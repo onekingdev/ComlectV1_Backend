@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateReminders < ActiveRecord::Migration[6.0]
+class CreateReminders < ActiveRecord::Migration
   def change
     create_table :reminders do |t|
       t.string :body

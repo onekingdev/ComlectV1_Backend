@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddShortNameToIndustries < ActiveRecord::Migration[6.0]
+class AddShortNameToIndustries < ActiveRecord::Migration
   def change
     add_column :industries, :short_name, :string, default: nil
   end

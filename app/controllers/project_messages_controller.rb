@@ -69,7 +69,9 @@ class ProjectMessagesController < ApplicationController
   end
 
   def find_project
-    @project = sender.projects.find(params[:project_id])
+    projects = sender.projects.where(id: params[:project_id])
+    projects = sender.applied_projects.where(id: params[:project_id]) if projects.count.zero?
+    @project = projects.first
   rescue ActiveRecord::RecordNotFound
     head(:not_found) && return
   end

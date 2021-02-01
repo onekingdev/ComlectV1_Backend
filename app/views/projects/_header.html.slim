@@ -17,6 +17,8 @@
             - if application.rfp?
               = link_to edit_project_job_application_path(project, application), class: 'tool-icon m-l-2' do
                 i.icon-pencil data-toggle="tooltip" title="#{raw('edit&nbsp;application')}"
+              = link_to project_dashboard_path(project), class: 'tool-icon m-l-2' do
+                i.icon-bubble data-toggle="tooltip" title="Messages"
             - else
               = link_to project_job_application_path(project, application),
                 method: :delete,

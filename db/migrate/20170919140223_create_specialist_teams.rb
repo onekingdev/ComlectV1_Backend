@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateSpecialistTeams < ActiveRecord::Migration[6.0]
+class CreateSpecialistTeams < ActiveRecord::Migration
   def change
     create_table :specialist_teams do |t|
       t.belongs_to :manager, index: true, null: false

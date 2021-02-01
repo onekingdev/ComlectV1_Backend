@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddFeaturesToProjectTemplates < ActiveRecord::Migration[6.0]
+class AddFeaturesToProjectTemplates < ActiveRecord::Migration
   def change
     remove_column :turnkey_solutions, :features
     add_column :project_templates, :public_features, :text

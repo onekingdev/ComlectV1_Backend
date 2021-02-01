@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateBankAccounts < ActiveRecord::Migration[6.0]
+class CreateBankAccounts < ActiveRecord::Migration
   def change
     create_table :bank_accounts do |t|
       t.references :stripe_account, index: true

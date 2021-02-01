@@ -1,0 +1,80 @@
+- content_for :title, 'Dashboard'
+- header_class ''
+
+- Business::Decorator.decorate(@business).tap do |business|
+  .col-md-6
+    = render partial: "business_dashboard/reminders", locals: { new_path: "new_specialists_business_reminder_path", edit_path: "edit_specialists_business_reminder_path", project_path: "project_dashboard_path", pdf_path: "specialists_business_reminders_path", remote_business: true }
+  .clearfix
+
+  #business-dashboard.row.m-b-3
+    .tr
+      .td.col-xs-12.col-sm-4.col-md-3.va-top
+        = render partial: "business_dashboard/compliance_manual"
+        = render partial: "business_dashboard/annual_review"
+        = render partial: "business_dashboard/audit_prep"
+        .panel.panel-default.profile-info
+          .panel-heading
+            h3 Financials
+          .panel-body.text-center.p-t-0.p-b-2
+            .row.bordered-cells
+              .col-xs-6.p-y-1
+                .fw-700
+                  - if @financials.processed_this_month > 9999
+                    = number_to_currency @financials.processed_this_month, precision: 0
+                  - else
+                    = number_to_currency @financials.processed_this_month
+                = Time.zone.now.strftime('%B')
+              .col-xs-6.p-y-1
+                .fw-700
+                  - if @financials.processed_ytd > 9999
+                    = number_to_currency @financials.processed_ytd, precision: 0
+                  - else
+                    = number_to_currency @financials.processed_ytd
+                'YTD
+            /.m-t-2= link_to 'Details', business_financials_path, class: 'btn btn-sm btn-primary p-x-3', style: "width: 150px"
+
+        .panel.panel-default.profile-info
+          .panel-heading
+            h3 Tools & Resources
+          .panel-body.p-t-0.p-b-2
+            .list-icon.p-x-2
+              .item
+                i.icon-doc
+                span
+                  = link_to 'Best Practices', '/Best_Practices_Business.pdf', target: :blank
+              .item
+                i.icon-share
+                span
+                  = link_to 'Partnerships', "/marketplace"
+            .m-t-2.text-center= link_to 'Ask a Question', forum_questions_path, class: 'btn btn-sm btn-primary p-x-1', style: "width: 150px"
+      .td.col-xs-12.col-sm-8.col-md-9.va-top
+        = render partial: "business_dashboard/ria_profile", locals: { business: business }
+        .panel.panel-default.panel-padded
+          .panel-heading
+            h3
+              a.no-link name="ratings-reviews" My Ratings & Reviews
+            .detail= rating_average_text business
+          .panel-body#ratings-slick
+            .row.ratings.list-group.plain
+              - @ratings.each_slice(10).to_a.each do |a|
+                .rating-block
+                  /= render business.ratings_received.preload_associations
+                  = render partial: 'ratings/rating', collection: a
+            - if @ratings.count > 10
+              .slick-nav
+                a.prev-slide href="#" Q
+                .dot-pagination.m-b-1
+                a.next-slide href="#" +
+
+- if !@business.welcomed?
+  - @business.update(welcomed: true)
+  javascript:
+    var show_business_personalize = #{!@business.personalized?};
+    var show_business_tutorial = #{@business.personalized? && !@business.tutorial_complete};
+    var personalize_js_url = "/specialist/businesses/#{@business.username}/personalize";
+    var calendar_asset_path = "#{asset_path('calendar-popup.png')}";
+    var booking_path = "#{specialists_business_personalize_book_path(@business.username)}"
+
+- if params[:reminder].present?
+  javascript:
+    var show_reminders_at_date = "#{new_specialists_business_reminder_path(@business.username, date: Date.parse(params[:reminder]))}";

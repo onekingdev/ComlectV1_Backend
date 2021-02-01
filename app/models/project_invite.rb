@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 class ProjectInvite < ApplicationRecord
-  belongs_to :business, optional: true
+  belongs_to :business
   belongs_to :project
-  belongs_to :specialist, optional: true
+  belongs_to :specialist
 
   enum status: { not_sent: 'not_sent', sent: 'sent' }
 

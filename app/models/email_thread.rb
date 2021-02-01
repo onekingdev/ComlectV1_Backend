@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class EmailThread < ApplicationRecord
-  belongs_to :business, optional: true
-  belongs_to :specialist, optional: true
+  belongs_to :business
+  belongs_to :specialist
 
   before_create :set_thread_key
 

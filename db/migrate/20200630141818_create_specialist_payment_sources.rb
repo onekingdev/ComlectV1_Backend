@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateSpecialistPaymentSources < ActiveRecord::Migration[6.0]
+class CreateSpecialistPaymentSources < ActiveRecord::Migration
   def change
     create_table :specialist_payment_sources do |t|
       t.integer :specialist_id
