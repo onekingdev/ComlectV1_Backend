@@ -9,8 +9,9 @@ class ReminderMailerJob < ApplicationJob
     remindable.update(reminders_mailed_at: Time.zone.now.in_time_zone(remindable.time_zone))
     calendar_grid = tasks_calendar_grid(remindable, Time.zone.now.in_time_zone(remindable.time_zone).beginning_of_month
     .to_date)
-    todays = projectdel(reminders_today(remindable, calendar_grid)).collect(&:body)
-    past_dues = projectdel(reminders_past(remindable)).collect(&:body)
+    mutes = remindable.user.muted_projects
+    todays = collect_safe(projectdel(reminders_today(remindable, calendar_grid), mutes))
+    past_dues = collect_safe(projectdel(reminders_past(remindable), mutes))
     tsize = todays.length + past_dues.length
     ReminderMailer.deliver_later(:send_today, remindable, past_dues.to_json, todays.to_json) if tsize.positive?
   end
@@ -26,7 +27,11 @@ class ReminderMailerJob < ApplicationJob
     end
   end
 
-  def projectdel(tasks_arr)
-    tasks_arr.delete_if { |p| p.class.name == 'Project' && p.status == 'complete' }
+  def collect_safe(arr)
+    arr.collect(&proc { |p| { kind: p.class.name, body: p.body, id: p.id } })
+  end
+
+  def projectdel(tasks_arr, mutes)
+    tasks_arr.delete_if { |p| p.class.name == 'Project' && (p.status == 'complete' || mutes.include?(p.id)) }
   end
 end

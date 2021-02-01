@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreatePaymentSources < ActiveRecord::Migration
+class CreatePaymentSources < ActiveRecord::Migration[6.0]
   def change
     create_table :payment_sources do |t|
       t.references :payment_profile, index: true

@@ -18,12 +18,14 @@ RSpec.describe 'Deleting account', type: :request do
       it 'cannot login anymore' do
         post(
           user_session_path,
-          'user[email]' => business.user.email,
-          'user[password]' => 'password'
+          params: {
+            'user[email]' => business.user.email,
+            'user[password]' => 'password'
+          }
         )
 
         expect(response).to have_http_status(:ok)
-        expect(response.body).to match(/Invalid email or password/i)
+        expect(response.body).to match(/\/users\/sign_in/i)
       end
 
       it 'marks user as deleted' do

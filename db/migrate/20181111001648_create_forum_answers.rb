@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateForumAnswers < ActiveRecord::Migration
+class CreateForumAnswers < ActiveRecord::Migration[6.0]
   def change
     create_table :forum_answers do |t|
       t.integer :user_id

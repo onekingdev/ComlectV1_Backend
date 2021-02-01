@@ -5,11 +5,11 @@ if (typeof(annual_report_loop) != "undefined") {
   $(".btn_save_annual_report").on('click', function(e) {
     e.preventDefault();
     $.ajax({
-      url: $("form.edit_annual_report").attr('action'),
+      url: $("form.edit_annual_report").attr('action')+".json",
       method: "POST",
       data: $("form.edit_annual_report").serialize()
     }).done(function(d) {
-      if (d == "ready") {
+      if (d.status == "ready") {
         $(".hide_on_change").animate({width: "150px", padding: "10px 20px", "margin-left": "auto", "margin-right": "0px", opacity: "1"}).fadeIn();
       }
       //coolnotify(d, "success");

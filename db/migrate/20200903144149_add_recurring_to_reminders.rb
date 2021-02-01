@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddRecurringToReminders < ActiveRecord::Migration
+class AddRecurringToReminders < ActiveRecord::Migration[6.0]
   def change
     add_column :reminders, :repeats, :string, default: nil # daily weekly monthly yearly
     add_column :reminders, :end_by, :date, default: nil

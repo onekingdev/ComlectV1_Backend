@@ -18,7 +18,7 @@ RSpec.describe 'Business::ProjectRatingsController', type: :request do
       )
     }
 
-    subject { get new_business_project_rating_path(project, format: :js) }
+    subject { get new_business_project_rating_path(project), xhr: true }
 
     before do
       sign_in business.user
@@ -45,8 +45,8 @@ RSpec.describe 'Business::ProjectRatingsController', type: :request do
     subject do
       post(
         business_project_rating_path(project),
-        rating: { value: 5, review: 'Nice working with him' },
-        format: :js
+        params: { rating: { value: 5, review: 'Nice working with him' } },
+        xhr: true
       )
     end
 

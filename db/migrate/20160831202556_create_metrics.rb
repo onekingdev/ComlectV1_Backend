@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateMetrics < ActiveRecord::Migration
+class CreateMetrics < ActiveRecord::Migration[6.0]
   def change
     create_view :metrics_projects_posted
     create_view :metrics_projects_value

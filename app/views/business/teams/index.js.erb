@@ -1,5 +1,0 @@
-var $business = $('#business-settings');
-$business.html('<%= j render('index', business: @business, settings: @settings) %>');
-$(document).trigger('newContent', $business);
-$(".settings-nav > li").removeClass("active");
-$(".settings-nav > .teams").addClass("active");

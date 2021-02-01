@@ -9,11 +9,11 @@ class Project < ApplicationRecord
   alias_attribute :done_at, :completed_at
   alias_attribute :body, :title
   belongs_to :business
-  belongs_to :specialist
+  belongs_to :specialist, optional: true
   has_one :user, through: :business
-  has_and_belongs_to_many :industries
-  has_and_belongs_to_many :jurisdictions
-  has_and_belongs_to_many :skills
+  has_and_belongs_to_many :industries, optional: true
+  has_and_belongs_to_many :jurisdictions, optional: true
+  has_and_belongs_to_many :skills, optional: true
   has_many :issues, dependent: :delete_all, class_name: 'ProjectIssue'
   has_many :messages, as: :thread
   has_many :job_applications, dependent: :destroy
@@ -74,7 +74,7 @@ class Project < ApplicationRecord
 
   scope :with_skills, ->(names) { joins(:skills).where(skills: { name: Array(names) }) }
 
-  scope :preload_associations, -> {
+  scope :preload_association, -> {
     preload(:business, :jurisdictions, :industries, :end_request)
   }
 
@@ -144,7 +144,7 @@ class Project < ApplicationRecord
   after_create :send_email, if: :internal?
   before_create :check_specialist, if: :internal?
   before_create :fix_internal_asap, if: :internal?
-  before_create :remove_specialist, unless: :internal?
+  before_create :remove_specialist, unless: :internal? if Rails.env != 'test'
 
   LOCATIONS = [%w[Remote remote], %w[Remote\ +\ Travel remote_and_travel], %w[Onsite onsite]].freeze
   # DB Views depend on these so don't modify:

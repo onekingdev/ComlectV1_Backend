@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateAnnualReports < ActiveRecord::Migration
+class CreateAnnualReports < ActiveRecord::Migration[6.0]
   def change
     create_table :annual_reports do |t|
       t.date :exam_start

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class Favorite < ApplicationRecord
-  belongs_to :owner, polymorphic: true
-  belongs_to :favorited, polymorphic: true
+  belongs_to :owner, polymorphic: true, optional: true
+  belongs_to :favorited, polymorphic: true, optional: true
 
   validates :favorited_id, uniqueness: { scope: %i[owner_id owner_type favorited_type] }
 

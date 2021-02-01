@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddActivityMetricsViews < ActiveRecord::Migration
+class AddActivityMetricsViews < ActiveRecord::Migration[6.0]
   def change
     create_view :metrics_avg_staffing_times
     create_view :metrics_escalated_projects

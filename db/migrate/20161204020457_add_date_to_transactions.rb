@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddDateToTransactions < ActiveRecord::Migration
+class AddDateToTransactions < ActiveRecord::Migration[6.0]
   def change
     add_column :transactions, :date, :datetime
     add_index :transactions, :date

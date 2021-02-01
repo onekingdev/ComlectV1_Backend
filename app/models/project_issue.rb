@@ -3,7 +3,7 @@
 class ProjectIssue < ApplicationRecord
   belongs_to :project
   belongs_to :user
-  belongs_to :admin_user
+  belongs_to :admin_user, optional: true
 
   enum status: { open: 'open', closed: 'closed' }
 

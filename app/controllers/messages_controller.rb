@@ -21,7 +21,7 @@ class MessagesController < ApplicationController
 
   def show
     direct, thread_type, thread_id = params.require(:thread_key).split('/')
-    scope = @sender.messages.recent.preload_associations
+    scope = @sender.messages.recent.preload_association
     if direct == 'direct'
       @thread = scope.between(thread_type, thread_id).first
     else

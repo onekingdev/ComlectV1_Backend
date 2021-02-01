@@ -2,8 +2,8 @@
 
 class Charge < ApplicationRecord
   belongs_to :project
-  belongs_to :stripe_transaction, class_name: 'Transaction', foreign_key: 'transaction_id'
-  belongs_to :referenceable, polymorphic: true
+  belongs_to :stripe_transaction, class_name: 'Transaction', foreign_key: 'transaction_id', optional: true
+  belongs_to :referenceable, polymorphic: true, optional: true
   has_one :business, through: :project
   has_one :specialist, through: :project
 

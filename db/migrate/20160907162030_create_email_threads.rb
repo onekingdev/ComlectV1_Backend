@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateEmailThreads < ActiveRecord::Migration
+class CreateEmailThreads < ActiveRecord::Migration[6.0]
   def change
     create_table :email_threads do |t|
       t.references :business, index: true

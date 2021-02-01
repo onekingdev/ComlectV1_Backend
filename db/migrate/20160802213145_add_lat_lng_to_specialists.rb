@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddLatLngToSpecialists < ActiveRecord::Migration
+class AddLatLngToSpecialists < ActiveRecord::Migration[6.0]
   def change
     change_table :specialists do |t|
       t.decimal :lat, precision: 9, scale: 5

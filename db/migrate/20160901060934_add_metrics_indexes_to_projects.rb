@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddMetricsIndexesToProjects < ActiveRecord::Migration
+class AddMetricsIndexesToProjects < ActiveRecord::Migration[6.0]
   def change
     add_index :projects, :type
     add_index :projects, :pricing_type
