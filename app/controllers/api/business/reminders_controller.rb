@@ -39,6 +39,15 @@ class Api::Business::RemindersController < ApplicationController
     render json: @reminder, status: :ok
   end
 
+  def destroy
+    @reminder = current_business.reminders.find(params[:id])
+    if params[:oid]
+      @reminder.update(skip_occurencies: @reminder.skip_occurencies + [params[:oid].to_i])
+    else
+      @reminder&.destroy
+    end
+  end
+
   def update
     @reminder = current_business.reminders.find(params[:id])
     change_reminder_state if params[:done].present?

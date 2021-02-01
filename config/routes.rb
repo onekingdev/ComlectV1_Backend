@@ -253,6 +253,7 @@ Rails.application.routes.draw do
     resources :skills, only: :index
     namespace :business do
       get '/reminders/:id' => 'reminders#show'
+      delete '/reminders/:id' => 'reminders#destroy'
       post '/reminders/:id' => 'reminders#update'
       get '/reminders/:date_from/:date_to' => 'reminders#by_date'
       get '/overdue_reminders' => 'reminders#overdue'

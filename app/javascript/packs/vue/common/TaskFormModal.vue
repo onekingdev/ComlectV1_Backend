@@ -76,14 +76,21 @@
       .form-text.text-muted Optional
 
       template(slot="modal-footer")
-        button.btn(@click="$bvModal.hide(modalId)") Cancel
-        button.btn.btn-default(v-if="taskId && !task.done_at" @click="toggleDone(task)") Mark as Complete
-        button.btn.btn-default(v-if="taskId && task.done_at" @click="toggleDone(task)") Mark as Incomplete
-        button.btn.btn-dark(v-if="!taskId" @click="submit()") Create
-        button.btn.btn-dark(v-else-if="null === occurenceId" @click="submit()") Save
-        b-dropdown(v-else variant="dark" text="Save")
-          b-dropdown-item(@click="submit(true)") Save Occurence
-          b-dropdown-item(@click="submit()") Save Series
+        .d-flex.justify-content-between(style="width: 100%")
+          div
+            button.btn.btn-default(v-if="taskId" @click="deleteTask(task)") Delete Task
+            b-dropdown(v-if="taskId" variant="dark" text="Delete Task")
+              b-dropdown-item(@click="deleteTask(task, true)") Delete Occurence
+              b-dropdown-item(@click="deleteTask(task)") Delete Series
+          div
+            button.btn(@click="$bvModal.hide(modalId)") Cancel
+            button.btn.btn-default.m-r-1(v-if="taskId && !task.done_at" @click="toggleDone(task)") Mark as Complete
+            button.btn.btn-default.m-r-1(v-if="taskId && task.done_at" @click="toggleDone(task)") Mark as Incomplete
+            button.btn.btn-dark(v-if="!taskId" @click="submit()") Create
+            button.btn.btn-dark(v-else-if="null === occurenceId" @click="submit()") Save
+            b-dropdown(v-else variant="dark" text="Save")
+              b-dropdown-item(@click="submit(true)") Save Occurence
+              b-dropdown-item(@click="submit()") Save Series
 </template>
 
 <script>
@@ -139,6 +146,14 @@ export default {
     }
   },
   methods: {
+    deleteTask(task, deleteOccurence) {
+      const { taskId, oid } = splitReminderOccurenceId(task.id)
+      const occurenceParams = deleteOccurence ? `?oid=${this.occurenceId}` : ''
+      fetch('/api/business/reminders/' + this.taskId + occurenceParams, {
+        method: 'DELETE',
+        headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}
+      }).then(response => this.$emit('saved'))
+    },
     toggleDone(task) {
       const { taskId, oid } = splitReminderOccurenceId(task.id)
       const oidParam = oid !== null ? `&oid=${oid}` : ''
