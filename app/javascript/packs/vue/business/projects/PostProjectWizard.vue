@@ -1,84 +1,87 @@
 <template lang="pug">
   div
-    h3 Post Project
+    h2 Post Project
     p Tell us more about your project and get connected to our experienced specialists.
     WizardProgress(v-bind="{step,steps}")
+    .row.no-gutters
+      .col-md-6.p-t-2(v-if="step === steps[0]")
 
-    .container(v-if="step === steps[0]")
+        label.form-label Title
+        input.form-control(v-model="project.title" type=text)
+        Errors(:errors="errors.title")
 
-      label.form-label Title
-      input.form-control(v-model="project.title" type=text)
-      Errors(:errors="errors.title")
+        b-row(no-gutters)
+          .col-sm
+            label.form-label Start Date
+            DatePicker(v-model="project.starts_on")
+            Errors(:errors="errors.starts_on")
+          .col-sm
+            label.form-label Due Date
+            DatePicker(v-model="project.ends_on")
+            Errors(:errors="errors.ends_on")
 
-      b-row(no-gutters)
-        .col-sm
-          label.form-label Start Date
-          DatePicker(v-model="project.starts_on")
-          Errors(:errors="errors.starts_on")
-        .col-sm
-          label.form-label Due Date
-          DatePicker(v-model="project.ends_on")
-          Errors(:errors="errors.ends_on")
+        label.form-label Description
+        textarea.form-control(v-model="project.description" rows=3)
+        Errors(:errors="errors.description")
+        .form-text.text-muted Project post information for the specialist
 
-      label.form-label Description
-      textarea.form-control(v-model="project.description" rows=3)
-      Errors(:errors="errors.description")
-      .form-text.text-muted Project post information for the specialist
+        label.form-label Industry
+        Dropdown(v-model="project.industry_ids" :options="['Industry', 'Investment Advisor']")
+        Errors(:errors="errors.industry_ids")
 
-      label.form-label Industry
-      Dropdown(v-model="project.industry_ids" :options="['Industry', 'Investment Advisor']")
-      Errors(:errors="errors.industry_ids")
+        label.form-label Jurisdiction
+        Dropdown(v-model="project.jurisdiction_ids" :options="['USA', 'China', 'Russia']")
+        Errors(:errors="errors.jurisdiction_ids")
 
-      label.form-label Jurisdiction
-      Dropdown(v-model="project.jurisdiction_ids" :options="['USA', 'China', 'Russia']")
-      Errors(:errors="errors.jurisdiction_ids")
+    .row.no-gutters
+      .col-md-6.p-t-2(v-if="step === steps[1]")
 
-    .container(v-if="step === steps[1]")
+        label.form-label Minimum Experience
+        Dropdown(v-model="project.minimum_experience" :options="[1, 2, 3, 4, 5, 6, 7, 8, 9]")
+        Errors(:errors="errors.minimum_experience")
 
-      label.form-label Minimum Experience
-      Dropdown(v-model="project.minimum_experience" :options="[1, 2, 3, 4, 5, 6, 7, 8, 9]")
-      Errors(:errors="errors.minimum_experience")
+        b-form-checkbox.m-y-1(v-model="project.only_regulators") Only former regulators
+        Errors(:errors="errors.only_regulators")
 
-      b-form-checkbox(v-model="project.only_regulators") Only former regulators
-      Errors(:errors="errors.only_regulators")
+        label.form-label Skills
+        ComboBox(v-model="project.skill_selector" :options="skillsOptions" :multiple="true")
+        Errors(:errors="errors.skill_selector")
 
-      label.form-label Skills
-      ComboBox(v-model="project.skill_selector" :options="skillsOptions" :multiple="true")
-      Errors(:errors="errors.skill_selector")
+    .row.no-gutters
+      .col-md-6.p-t-2(v-if="step === steps[2]")
 
-    .container(v-if="step === steps[2]")
+        b-row.no-gutters
+          .card.col-sm.cursor-pointer(v-for="(type, i) in pricingTypes" :class="cardClass(type, i)" :key="i" @click="project.pricing_type = type.label")
+            .card-body
+              h5.card-title {{type.label}}
+              p.card-text {{type.text}}
 
-      b-row
-        .card.col-sm.cursor-pointer(v-for="(type, i) in pricingTypes" :class="cardClass(type)" :key="i" @click="project.pricing_type = type.label")
-          .card-body
-            h5.card-title {{type.label}}
-            p.card-text {{type.text}}
+        .m-t-1(v-if="project.pricing_type === pricingTypes[0].label")
+          label.form-label Estimated Budget
+          input.form-control(v-model="project.fixed_budget" type=text)
+          Errors(:errors="errors.fixed_budget")
+          //- @todo $ prefixes in input
 
-      div(v-if="project.pricing_type === pricingTypes[0].label")
-        label.form-label Estimated Budget
-        input.form-control(v-model="project.fixed_budget" type=text)
-        Errors(:errors="errors.fixed_budget")
-        //- @todo $ prefixes in input
+          label.form-label Method of Payment
+          Dropdown(v-model="project.fixed_payment_schedule" :options="[]")
+          Errors(:errors="errors.fixed_payment_schedule")
 
-        label.form-label Method of Payment
-        Dropdown(v-model="project.fixed_payment_schedule" :options="[]")
-        Errors(:errors="errors.fixed_payment_schedule")
+        div(v-else)
+          label.form-label Hourly Rate
+          input.form-control(v-model="project.hourly_rate" type=text)
+          Errors(:errors="errors.hourly_rate")
+          //- @todo hourly rate: range (2 vals) instead of 1 field
 
-      div(v-else)
-        label.form-label Hourly Rate
-        input.form-control(v-model="project.hourly_rate" type=text)
-        Errors(:errors="errors.hourly_rate")
-        //- @todo hourly rate: range (2 vals) instead of 1 field
+          label.form-label Method of Payment
+          Dropdown(v-model="project.hourly_payment_schedule" :options="['upon_completion', 'bi_weekly', 'monthly']")
+          Errors(:errors="errors.hourly_payment_schedule")
 
-        label.form-label Method of Payment
-        Dropdown(v-model="project.hourly_payment_schedule" :options="[]")
-        Errors(:errors="errors.hourly_payment_schedule")
-
-    .container
-      button.btn(@click.prevent) Exit
-      button.btn.btn-dark(v-if="prevEnabled" @click="prev") Previous
-      button.btn.btn-dark(v-if="nextEnabled" @click="next") Next
-      button.btn.btn-dark(v-else @click="submit") Submit
+    .row.no-gutters
+      .col-md-6.text-right.m-t-1
+        button.btn.m-r-1(@click.prevent) Exit
+        button.btn.btn-dark.m-r-1(v-if="prevEnabled" @click="prev") Previous
+        button.btn.btn-dark(v-if="nextEnabled" @click="next") Next
+        button.btn.btn-dark(v-else @click="submit") Submit
 </template>
 
 <script>
@@ -136,8 +139,8 @@ export default {
         this.step = this.steps[this.currentStep - 1]
       }
     },
-    cardClass(type) {
-      return { 'border-dark': this.project.pricing_type === type.label }
+    cardClass(type, i) {
+      return { 'border-dark': this.project.pricing_type === type.label, 'm-r-1': i === 0 }
     },
     preValidateStep() {
       this.errors = {}
