@@ -258,7 +258,7 @@ Rails.application.routes.draw do
       get '/reminders/:date_from/:date_to' => 'reminders#by_date'
       get '/overdue_reminders' => 'reminders#overdue'
       post '/reminders' => 'reminders#create'
-      resources :projects, only: %i[index show]
+      resources :projects, only: %i[index show create]
       resources :local_projects, only: %i[index create]
     end
   end

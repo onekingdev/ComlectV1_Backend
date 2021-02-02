@@ -3,6 +3,7 @@
 class Api::Business::ProjectsController < ApplicationController
   before_action :authenticate_user!
   before_action :require_business!
+  before_action :build_project, only: %i[create]
 
   skip_before_action :verify_authenticity_token # TODO: proper authentication
 
@@ -19,10 +20,30 @@ class Api::Business::ProjectsController < ApplicationController
     # projects.each do |project|
     #   project.populate_rfp(project.job_application) if project.rfp? && project.active?
     # end
-    render json: { projects: (current_business.projects + current_business.local_projects).sort_by(&:ends_on) }
+    render json: {
+      projects: (current_business.projects + current_business.local_projects).sort_by { |i| [i.ends_on ? 0 : 1, i.ends_on] }
+    }
+  end
+
+  def create
+    if policy(@project).post?
+      @project.post!
+      @project.new_project_notification
+      render json: @project, status: :created
+    else
+      render json: {
+        errors: project.errors, alert: I18n.t('activerecord.errors.models.project.attributes.base.no_payment')
+      }, status: :unprocessable_entity
+    end
   end
 
   private
+
+  def build_project
+    @project = Project::Form.new(business: current_user.business).tap do |project|
+      project.assign_attributes project_params
+    end
+  end
 
   def project_params
     return { invite_id: params[:invite_id] } unless params.key?(:project)
