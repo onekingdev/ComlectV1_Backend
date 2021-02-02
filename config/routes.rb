@@ -65,6 +65,7 @@ Rails.application.routes.draw do
     patch '/' => 'businesses#update', as: :update
   end
   get '/business' => 'business_dashboard#show', as: :business_dashboard
+  get '/business2' => 'business_dashboard2#show', as: :business_dashboard2
 
   concern :favoriteable do
     resources :favorites, only: [] do
@@ -250,5 +251,15 @@ Rails.application.routes.draw do
 
   namespace :api do
     resources :skills, only: :index
+    namespace :business do
+      get '/reminders/:id' => 'reminders#show'
+      delete '/reminders/:id' => 'reminders#destroy'
+      post '/reminders/:id' => 'reminders#update'
+      get '/reminders/:date_from/:date_to' => 'reminders#by_date'
+      get '/overdue_reminders' => 'reminders#overdue'
+      post '/reminders' => 'reminders#create'
+      resources :projects, only: %i[index show]
+      resources :local_projects, only: %i[index create]
+    end
   end
 end
