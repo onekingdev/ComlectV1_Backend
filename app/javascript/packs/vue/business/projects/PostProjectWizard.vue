@@ -26,17 +26,17 @@
       .form-text.text-muted Project post information for the specialist
 
       label.form-label Industry
-      Dropdown(v-model="project.industry_ids" :options="[]")
+      Dropdown(v-model="project.industry_ids" :options="['Industry', 'Investment Advisor']")
       Errors(:errors="errors.industry_ids")
 
       label.form-label Jurisdiction
-      Dropdown(v-model="project.jurisdiction_ids" :options="[]")
+      Dropdown(v-model="project.jurisdiction_ids" :options="['USA', 'China', 'Russia']")
       Errors(:errors="errors.jurisdiction_ids")
 
     .container(v-if="step === steps[1]")
 
       label.form-label Minimum Experience
-      Dropdown(v-model="project.minimum_experience" :options="[]")
+      Dropdown(v-model="project.minimum_experience" :options="[1, 2, 3, 4, 5, 6, 7, 8, 9]")
       Errors(:errors="errors.minimum_experience")
 
       b-form-checkbox(v-model="project.only_regulators") Only former regulators
@@ -78,12 +78,13 @@
       button.btn(@click.prevent) Exit
       button.btn.btn-dark(v-if="prevEnabled" @click="prev") Previous
       button.btn.btn-dark(v-if="nextEnabled" @click="next") Next
-      button.btn.btn-dark(v-else @click.prevent) Submit
+      button.btn.btn-dark(v-else @click="submit") Submit
 </template>
 
 <script>
 import WizardProgress from '@/common/WizardProgress'
 
+const REQUIRED = 'This field is required'
 const STEPS = ['Project Details', 'Expertise', 'Budget']
 const PRICING_TYPES = [{
   label: 'Fixed Price',
@@ -125,7 +126,9 @@ export default {
   methods: {
     next() {
       if (this.nextEnabled) {
-        this.step = this.steps[1 + this.currentStep]
+        if (this.preValidateStep()) {
+          this.step = this.steps[1 + this.currentStep]
+        }
       }
     },
     prev() {
@@ -135,6 +138,51 @@ export default {
     },
     cardClass(type) {
       return { 'border-dark': this.project.pricing_type === type.label }
+    },
+    preValidateStep() {
+      this.errors = {}
+      if (this.currentStep === 0) {
+        ['title', 'starts_on'].map(f => {
+          if (!this.project[f]) {
+            this.errors[f] = [REQUIRED]
+          }
+        });
+        ['industry_ids', 'jurisdiction_ids'].map(f => {
+          if (!this.project[f].length) {
+            this.errors[f] = [REQUIRED]
+          }
+        })
+      } else if (this.currentStep === 1) {
+        if (!this.project.minimum_experience) {
+          this.errors.minimum_experience = [REQUIRED]
+        }
+      }
+      return !Object.keys(this.errors).length
+    },
+    makeToast(title, str) {
+      this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
+    },
+    submit() {
+      this.errors = {}
+      fetch('/api/business/projects', {
+        method: 'POST',
+        headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+        body: JSON.stringify(this.project)
+      }).then(response => {
+        if (response.status === 422) {
+          response.json().then(errors => {
+            this.errors = errors
+            Object.keys(this.errors)
+              .map(prop => this.errors[prop].map(err => this.makeToast(`Error`, `${prop}: ${err}`)))
+          })
+        } else if (response.status === 201 || response.status === 200) {
+          this.$emit('saved')
+          this.makeToast('Success', 'The project has been saved')
+          // this.resetProject()
+        } else {
+          this.makeToast('Error', 'Couldn\'t submit form')
+        }
+      })
     }
   },
   computed: {
