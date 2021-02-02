@@ -7,7 +7,11 @@ export default {
   props: {
     value: {},
     placeholder: String,
-    options: {}
+    options: {},
+    multiple: {
+      type: Boolean,
+      default: false
+    }
   },
   methods: {
     input(val) {
@@ -20,7 +24,7 @@ export default {
         value: this.value,
         placeholder: this.placeholder,
         options: this.options,
-        multiple: false
+        multiple: this.multiple
       }
     }
   }

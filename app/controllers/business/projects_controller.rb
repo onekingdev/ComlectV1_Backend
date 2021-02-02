@@ -25,6 +25,10 @@ class Business::ProjectsController < ApplicationController
     end
   end
 
+  def new
+    render html: content_tag('business-post-project-page', '').html_safe, layout: 'vue'
+  end
+
   def show
     @project = policy_scope(Project)
                .includes(:industries, :jurisdictions, :skills, business: %i[industries jurisdictions])

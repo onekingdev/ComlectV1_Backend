@@ -7,7 +7,7 @@
             h2 <b>Projects</b>
             p Plan projects with employees or hire specialists for additional help
           div
-            a.btn.btn-default Post Project
+            a.btn.btn-default(href='/business/projects/new') Post Project
             LocalProjectModal(@saved="$emit('saved')")
               a.btn.m-l-1.btn-dark New Project
 

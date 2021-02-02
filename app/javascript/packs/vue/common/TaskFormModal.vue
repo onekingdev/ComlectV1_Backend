@@ -20,12 +20,12 @@
       b-row(no-gutters)
         .col-sm
           label.form-label Start Date
-          DatePicker(v-model="task.remind_at" :placeholder="dateFormat")
+          DatePicker(v-model="task.remind_at")
           Errors(:errors="errors.remind_at")
           .form-text.text-muted Optional
         .col-sm
           label.form-label Due Date
-          DatePicker(v-model="task.end_date" :placeholder="dateFormat")
+          DatePicker(v-model="task.end_date")
           Errors(:errors="errors.end_date")
 
       b-row(no-gutters)
@@ -99,7 +99,6 @@ import { splitReminderOccurenceId } from '@/common/TaskHelper'
 
 const rnd = () => Math.random().toFixed(10).toString().replace('.', '')
 const toOption = id => ({ id, label: id })
-const dateFormat = 'MM/DD/YYYY'
 const index = (text, i) => ({ text, value: 1 + i })
 const flattenErrors = errorsResponse => Object.keys(errorsResponse)
   .reduce((result, property) => [...result, ...errorsResponse[property].map(error => ({ property, error }))], [])
@@ -225,8 +224,7 @@ export default {
     },
     assigneeOptions() {
       return ['John', 'Doe', 'Another specialist'].map(toOption)
-    },
-    dateFormat: () => dateFormat
+    }
   },
   watch: {
     'task.remind_at': {
@@ -235,14 +233,6 @@ export default {
         if (!start.invalid && (end.invalid || (end.startOf('day') < start.startOf('day')))) {
           this.task.end_date = value
         }
-      }
-    }
-  },
-  components: {
-    Errors: {
-      template: `<div v-if="errors && errors[0]" v-text="errors[0]" class="d-block invalid-feedback" role="alert" aria-live="assertive" aria-atomic="true"/>`,
-      props: {
-        errors: Array
       }
     }
   }

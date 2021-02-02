@@ -1,0 +1,164 @@
+<template lang="pug">
+  div
+    h3 Post Project
+    p Tell us more about your project and get connected to our experienced specialists.
+    WizardProgress(v-bind="{step,steps}")
+
+    .container(v-if="step === steps[0]")
+
+      label.form-label Title
+      input.form-control(v-model="project.title" type=text)
+      Errors(:errors="errors.title")
+
+      b-row(no-gutters)
+        .col-sm
+          label.form-label Start Date
+          DatePicker(v-model="project.starts_on")
+          Errors(:errors="errors.starts_on")
+        .col-sm
+          label.form-label Due Date
+          DatePicker(v-model="project.ends_on")
+          Errors(:errors="errors.ends_on")
+
+      label.form-label Description
+      textarea.form-control(v-model="project.description" rows=3)
+      Errors(:errors="errors.description")
+      .form-text.text-muted Project post information for the specialist
+
+      label.form-label Industry
+      Dropdown(v-model="project.industry_ids" :options="[]")
+      Errors(:errors="errors.industry_ids")
+
+      label.form-label Jurisdiction
+      Dropdown(v-model="project.jurisdiction_ids" :options="[]")
+      Errors(:errors="errors.jurisdiction_ids")
+
+    .container(v-if="step === steps[1]")
+
+      label.form-label Minimum Experience
+      Dropdown(v-model="project.minimum_experience" :options="[]")
+      Errors(:errors="errors.minimum_experience")
+
+      b-form-checkbox(v-model="project.only_regulators") Only former regulators
+      Errors(:errors="errors.only_regulators")
+
+      label.form-label Skills
+      ComboBox(v-model="project.skill_selector" :options="skillsOptions" :multiple="true")
+      Errors(:errors="errors.skill_selector")
+
+    .container(v-if="step === steps[2]")
+
+      b-row
+        .card.col-sm.cursor-pointer(v-for="(type, i) in pricingTypes" :class="cardClass(type)" :key="i" @click="project.pricing_type = type.label")
+          .card-body
+            h5.card-title {{type.label}}
+            p.card-text {{type.text}}
+
+      div(v-if="project.pricing_type === pricingTypes[0].label")
+        label.form-label Estimated Budget
+        input.form-control(v-model="project.fixed_budget" type=text)
+        Errors(:errors="errors.fixed_budget")
+        //- @todo $ prefixes in input
+
+        label.form-label Method of Payment
+        Dropdown(v-model="project.fixed_payment_schedule" :options="[]")
+        Errors(:errors="errors.fixed_payment_schedule")
+
+      div(v-else)
+        label.form-label Hourly Rate
+        input.form-control(v-model="project.hourly_rate" type=text)
+        Errors(:errors="errors.hourly_rate")
+        //- @todo hourly rate: range (2 vals) instead of 1 field
+
+        label.form-label Method of Payment
+        Dropdown(v-model="project.hourly_payment_schedule" :options="[]")
+        Errors(:errors="errors.hourly_payment_schedule")
+
+    .container
+      button.btn(@click.prevent) Exit
+      button.btn.btn-dark(v-if="prevEnabled" @click="prev") Previous
+      button.btn.btn-dark(v-if="nextEnabled" @click="next") Next
+      button.btn.btn-dark(v-else @click.prevent) Submit
+</template>
+
+<script>
+import WizardProgress from '@/common/WizardProgress'
+
+const STEPS = ['Project Details', 'Expertise', 'Budget']
+const PRICING_TYPES = [{
+  label: 'Fixed Price',
+  text: 'Budget-friendly approach for scoped projects.'
+}, {
+  label: 'Hourly Price',
+  text: 'Pay by the hour. Provides more flexibility.'
+}]
+
+const initialProject = () => ({
+  // 1
+  title: null,
+  starts_on: null,
+  ends_on: null,
+  // details: null, @todo nonexistent field
+  description: null,
+  industry_ids: [],
+  jurisdiction_ids: [],
+  // 2
+  minimum_experience: null,
+  only_regulators: null,
+  skill_selector: [],
+  // 3
+  pricing_type: PRICING_TYPES[0].label,
+  fixed_budget: null,
+  hourly_rate: null,
+  fixed_payment_schedule: null,
+  hourly_payment_schedule: null,
+})
+
+export default {
+  data() {
+    return {
+      step: STEPS[0],
+      project: initialProject(),
+      errors: {}
+    }
+  },
+  methods: {
+    next() {
+      if (this.nextEnabled) {
+        this.step = this.steps[1 + this.currentStep]
+      }
+    },
+    prev() {
+      if (this.prevEnabled) {
+        this.step = this.steps[this.currentStep - 1]
+      }
+    },
+    cardClass(type) {
+      return { 'border-dark': this.project.pricing_type === type.label }
+    }
+  },
+  computed: {
+    steps: () => STEPS,
+    pricingTypes: () => PRICING_TYPES,
+    skillsOptions: () => ['SEC', 'Policy Writing', 'FINRA'].map(id => ({ id, label: id })),
+    currentStep() {
+      return this.steps.indexOf(this.step)
+    },
+    nextEnabled() {
+      return this.currentStep < this.steps.length - 1
+    },
+    prevEnabled() {
+      return this.currentStep > 0
+    }
+  },
+  components: {
+    WizardProgress
+  }
+}
+</script>
+
+<style scoped>
+.cursor-pointer {
+  cursor: pointer;
+}
+</style>

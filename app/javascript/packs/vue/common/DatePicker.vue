@@ -6,7 +6,6 @@
 export default {
   props: {
     value: {},
-    placeholder: {}
   },
   methods: {
     input(val) {
@@ -17,7 +16,7 @@ export default {
     options() {
       return {
         dateFormatOptions: { year: 'numeric', month: 'numeric', day: 'numeric' },
-        placeholder: this.placeholder,
+        placeholder: 'MM/DD/YYYY',
         value: this.value,
         hideHeader: true
       }

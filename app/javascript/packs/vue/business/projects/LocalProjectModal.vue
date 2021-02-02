@@ -11,11 +11,11 @@
       b-row(no-gutters)
         .col-sm
           label.form-label Start Date
-          DatePicker(v-model="project.starts_on" :placeholder="dateFormat")
+          DatePicker(v-model="project.starts_on")
           Errors(:errors="errors.starts_on")
         .col-sm
           label.form-label Due Date
-          DatePicker(v-model="project.ends_on" :placeholder="dateFormat")
+          DatePicker(v-model="project.ends_on")
           Errors(:errors="errors.ends_on")
 
       label.form-label Description
