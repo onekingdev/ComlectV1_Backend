@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Specialist::PaymentSource < ActiveRecord::Base
-  belongs_to :specialist
+  belongs_to :specialist, optional: true
   attr_accessor :routing_number, :account_number, :validate1, :validate2
 
   def primary?

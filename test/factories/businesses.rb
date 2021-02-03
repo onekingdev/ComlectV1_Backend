@@ -30,7 +30,7 @@ FactoryBot.define do
       after(:create) do |business, _evaluator|
         profile = business&.payment_profile || create(:payment_profile, business: business)
         profile.payment_sources.first.update(
-          type: 'PaymentSource::ACH',
+          type: 'PaymentSource::Ach',
           brand: 'Chase',
           validated: true,
           primary: true

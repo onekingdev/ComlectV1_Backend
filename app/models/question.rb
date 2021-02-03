@@ -2,7 +2,7 @@
 
 class Question < ApplicationRecord
   belongs_to :project
-  belongs_to :specialist
+  belongs_to :specialist, optional: true
   has_one :answer
   has_many :flags, as: :flagged_content, dependent: :nullify
 

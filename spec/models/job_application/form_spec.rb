@@ -16,48 +16,6 @@ RSpec.describe JobApplication::Form do
         )
       }
 
-      let!(:experience1) {
-        create(
-          :work_experience,
-          :compliance,
-          specialist: specialist,
-          from: Date.new(2014, 7, 14),
-          to: Date.new(2016, 10, 3)
-        )
-      }
-
-      let!(:experience2) {
-        create(
-          :work_experience,
-          :compliance,
-          specialist: specialist,
-          from: Date.new(2012, 11, 7),
-          to: Date.new(2014, 6, 7)
-        )
-      }
-
-      let!(:experience3) {
-        create(
-          :work_experience,
-          :compliance,
-          specialist: specialist,
-          from: Date.new(2006, 4, 1),
-          to: Date.new(2012, 11, 1)
-        )
-      }
-
-      let!(:experience4) {
-        create(
-          :work_experience,
-          :compliance,
-          :current,
-          specialist: specialist,
-          from: Date.new(2016, 11, 1),
-          to: nil
-        )
-        specialist.save
-      }
-
       # context 'when project is rfp' do
       #   let!(:project) {
       #     create(
@@ -121,14 +79,11 @@ RSpec.describe JobApplication::Form do
   end
 
   describe '.apply!' do
-    let(:work_experience) { create(:work_experience, :compliance) }
-
     let(:specialist) {
       create(
         :specialist,
         industry_ids: project.industry_ids,
-        jurisdiction_ids: project.jurisdiction_ids,
-        work_experiences: [work_experience]
+        jurisdiction_ids: project.jurisdiction_ids
       )
     }
 

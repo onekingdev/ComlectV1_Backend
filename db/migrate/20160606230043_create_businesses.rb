@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateBusinesses < ActiveRecord::Migration
+class CreateBusinesses < ActiveRecord::Migration[6.0]
   def change
     create_table :businesses do |t|
       t.references :user, index: true

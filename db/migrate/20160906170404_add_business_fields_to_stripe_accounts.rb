@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddBusinessFieldsToStripeAccounts < ActiveRecord::Migration
+class AddBusinessFieldsToStripeAccounts < ActiveRecord::Migration[6.0]
   def change
     change_table :stripe_accounts do |t|
       t.string :account_type, null: false, default: 'individual'

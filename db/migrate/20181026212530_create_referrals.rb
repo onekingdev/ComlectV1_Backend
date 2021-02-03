@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateReferrals < ActiveRecord::Migration
+class CreateReferrals < ActiveRecord::Migration[6.0]
   def change
     create_table :referrals do |t|
       t.integer :referral_token_id, null: false

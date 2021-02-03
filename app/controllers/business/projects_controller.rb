@@ -15,7 +15,7 @@ class Business::ProjectsController < ApplicationController
 
   def index
     @business = current_user.business
-    @ratings = @business.ratings_received.preload_associations
+    @ratings = @business.ratings_received.preload_association
     @filter   = FILTERS[params[:filter]] || :none
     @projects = Project.cards_for_user(current_user, filter: @filter)
     @is_business_cards = request.original_fullpath.include?('business_cards')

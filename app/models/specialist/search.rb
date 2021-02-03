@@ -27,7 +27,7 @@ class Specialist::Search
 
   def results
     return @results if @results
-    @results = Specialist.preload_associations.public_profiles.distinct
+    @results = Specialist.preload_association.public_profiles.distinct
     @results = search(@results)
     @results = filter_industry(@results)
     @results = filter_jurisdiction(@results)
@@ -48,10 +48,6 @@ class Specialist::Search
       'specialists.first_name',
       'specialists.last_name',
       'specialists.certifications',
-      'work_experiences.description',
-      'work_experiences.company',
-      'work_experiences.job_title',
-      'education_histories.institution',
       'skills.name'
     ]
 
@@ -124,8 +120,6 @@ class Specialist::Search
   end
 
   def additional_search_joins(records)
-    records = records.joins('LEFT JOIN work_experiences ON specialists.id = work_experiences.specialist_id')
-    records = records.joins('LEFT JOIN education_histories ON specialists.id = education_histories.specialist_id')
     inner_query = 'skills_specialists LEFT JOIN skills on skills_specialists.skill_id = skills.id'
     records.joins("LEFT JOIN (#{inner_query}) on skills_specialists.specialist_id = specialists.id")
   end
