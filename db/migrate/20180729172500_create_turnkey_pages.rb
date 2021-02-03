@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateTurnkeyPages < ActiveRecord::Migration[6.0]
+class CreateTurnkeyPages < ActiveRecord::Migration
   def change
     create_table :turnkey_pages do |t|
       t.string :title

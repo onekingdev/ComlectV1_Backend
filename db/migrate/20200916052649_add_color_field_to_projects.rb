@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddColorFieldToProjects < ActiveRecord::Migration[6.0]
+class AddColorFieldToProjects < ActiveRecord::Migration
   def change
     add_column :projects, :color, :string
   end

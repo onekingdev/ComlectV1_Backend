@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateForumSubscriptions < ActiveRecord::Migration[6.0]
+class CreateForumSubscriptions < ActiveRecord::Migration
   def change
     create_table :forum_subscriptions do |t|
       t.belongs_to :business, index: true

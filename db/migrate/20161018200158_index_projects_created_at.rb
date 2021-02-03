@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class IndexProjectsCreatedAt < ActiveRecord::Migration[6.0]
+class IndexProjectsCreatedAt < ActiveRecord::Migration
   def change
     add_index :projects, :created_at
   end

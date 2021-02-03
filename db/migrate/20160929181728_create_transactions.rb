@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateTransactions < ActiveRecord::Migration[6.0]
+class CreateTransactions < ActiveRecord::Migration
   def change
     create_table :transactions do |t|
       t.string :stripe_id

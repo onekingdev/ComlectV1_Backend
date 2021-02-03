@@ -37,10 +37,16 @@ Rails.application.routes.draw do
   end
 
   root to: 'landing_page#show'
+  get 'info/:page' => 'home#page', as: :page
   get 'app_config' => 'home#app_config', format: 'js'
   get 'marketplace' => 'home#marketplace'
+  get 'press' => 'home#press'
   get 'r/:token' => 'referrals#show', as: :referrals
   get 'q-and-a-forum' => 'home#q_and_a_forum', as: :q_and_a_forum
+
+  namespace :partners, only: [] do
+    resources :ima, only: %i[index create]
+  end
 
   get '/ask-a-specialist/search' => 'forum_questions#search', as: :forum_search
   resources :forum_questions, path: 'ask-a-specialist', param: :url
@@ -57,7 +63,6 @@ Rails.application.routes.draw do
   #  resources :turnkey_solutions # , only: :create
   post '/turnkey/:id' => 'turnkey_pages#create'
   patch '/turnkey/:id' => 'turnkey_pages#update'
-  get '/mute_project/:id' => 'project_mutes#toggle'
 
   resources :feedback_requests, only: %i[create new]
   resources :businesses, only: %i[new create show]
@@ -65,7 +70,6 @@ Rails.application.routes.draw do
     patch '/' => 'businesses#update', as: :update
   end
   get '/business' => 'business_dashboard#show', as: :business_dashboard
-  get '/business2' => 'business_dashboard2#show', as: :business_dashboard2
 
   concern :favoriteable do
     resources :favorites, only: [] do
@@ -117,6 +121,7 @@ Rails.application.routes.draw do
     resource :projects, only: %i[index]
     resource :settings, only: :show do
       resource :password
+      resource :key_contact
       # resource :referrals, only: :show
       resource :delete_account
       resources :payment_settings, as: :payment, path: 'payment' do
@@ -177,6 +182,22 @@ Rails.application.routes.draw do
     get '/locked' => 'dashboard#locked'
     resources :reminders, only: %i[new update create destroy edit show index]
     resources :addons, only: %i[index]
+    resources :businesses, only: %i[new create show] do
+      get '/personalize' => 'personalize#quiz'
+      post '/personalize' => 'personalize#quiz'
+      get '/personalize_book' => 'personalize#book'
+      resources :seats, only: %i[index new]
+      resources :compliance_policies, only: %i[new update create edit show destroy index] do
+        member do
+          put :ban
+          put :unban
+        end
+      end
+      resources :annual_reviews, only: %i[new create show destroy index edit update]
+      resources :annual_reports, only: %i[new create index update]
+      # resources :teams, only: %i[new create show edit index update]
+      resources :audit_requests, only: %i[index update create new edit show destroy]
+    end
     resource :help, only: :show do
       resource :questions
     end
@@ -251,15 +272,5 @@ Rails.application.routes.draw do
 
   namespace :api do
     resources :skills, only: :index
-    namespace :business do
-      get '/reminders/:id' => 'reminders#show'
-      delete '/reminders/:id' => 'reminders#destroy'
-      post '/reminders/:id' => 'reminders#update'
-      get '/reminders/:date_from/:date_to' => 'reminders#by_date'
-      get '/overdue_reminders' => 'reminders#overdue'
-      post '/reminders' => 'reminders#create'
-      resources :projects, only: %i[index show create]
-      resources :local_projects, only: %i[index create]
-    end
   end
 end

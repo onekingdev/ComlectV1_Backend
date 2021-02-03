@@ -7,7 +7,6 @@ git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?('/')
   "https://github.com/#{repo_name}.git"
 end
-gem 'bootsnap', require: false
 
 # graphs
 gem 'c3-rails'
@@ -26,7 +25,7 @@ gem 'pdfjs_viewer-rails', git: 'https://github.com/kourindouhime/pdfjs_viewer-ra
 gem 'wicked_pdf'
 
 # calendar
-gem 'simple_calendar' # , '~> 2.0'
+gem 'simple_calendar', '~> 2.0'
 
 # captcha
 gem 'bcrypt'
@@ -34,7 +33,7 @@ gem 'recaptcha', require: 'recaptcha/rails'
 
 # Rails
 gem 'font_assets'
-gem 'rails', '6.0.3.4'
+gem 'rails', '4.2.10'
 gem 'webpacker'
 
 # ActiveRecord
@@ -45,6 +44,7 @@ gem 'pg', '0.20.0'
 gem 'pg_search'
 gem 'rubyzip'
 gem 'scenic'
+gem 'where-or'
 gem 'zip-zip'
 
 # Orchestration
@@ -58,22 +58,21 @@ gem 'pretender'
 gem 'pundit'
 
 # Admin
-gem 'activeadmin' # , '~> 1.2.1'
+gem 'activeadmin', '~> 1.2.1'
 gem 'best_in_place', git: 'https://github.com/bernat/best_in_place.git'
 
 # Asset processing
 gem 'coffee-rails'
-# gem 'non-stupid-digest-assets'
+gem 'non-stupid-digest-assets'
 gem 'rack-cors', require: 'rack/cors'
-# gem 'sassc-rails'
+gem 'sassc-rails'
 gem 'sprockets', '~>3.0'
 gem 'uglifier'
 
 # Views
-gem 'activemodel-serializers-xml', git: 'https://github.com/rails/activemodel-serializers-xml'
 gem 'cocoon'
 gem 'country_select'
-gem 'draper' # , '3.0.0.pre1'
+gem 'draper'
 gem 'iso_country_codes'
 gem 'simple_form'
 gem 'slim-rails'
@@ -99,15 +98,15 @@ gem 'postmark-rails'
 gem 'gibbon'
 
 # Image uploads
-gem 'aws-sdk' # , '~> 2.3.12'
-gem 'fastimage' # , '~> 2.0.0'
-gem 'image_processing' # , '~> 0.3.0'
-gem 'mini_magick' # , '~> 4.5.1'
-gem 'roda' # , '~> 2.14.0'
-gem 'shrine', git: 'https://github.com/kourindouhime/shrine' # , '~> 2.4.0'
+gem 'aws-sdk', '~> 2.3.12'
+gem 'fastimage', '~> 2.0.0'
+gem 'image_processing', '~> 0.3.0'
+gem 'mini_magick', '~> 4.5.1'
+gem 'roda', '~> 2.14.0'
+gem 'shrine', '~> 2.4.0'
 
 # API builder
-gem 'jbuilder' # , '~> 2.0'
+gem 'jbuilder', '~> 2.0'
 
 # Background jobs
 gem 'activejob-traffic_control'
@@ -121,7 +120,7 @@ gem 'sinatra', require: nil
 gem 'plaid', '5.0.0'
 gem 'stripe'
 
-gem 'jquery-ui-rails' # , '~> 5.0', '>= 5.0.5'
+gem 'jquery-ui-rails', '~> 5.0', '>= 5.0.5'
 # Logging
 gem 'lograge'
 
@@ -129,10 +128,13 @@ gem 'lograge'
 gem 'fog-aws'
 gem 'sitemap_generator'
 
+# Other
+gem 'hubspot-ruby'
+
 group :development, :test do
   # Logging
   gem 'awesome_print'
-  # gem 'quiet_assets'
+  gem 'quiet_assets'
 
   # Debugging
   gem 'byebug'
@@ -156,10 +158,7 @@ group :development do
 
   # Testing
   gem 'meta_request'
-  gem 'overcommit' # , '~> 0.52.1', require: false
-
-  # rails5 wants this
-  gem 'listen'
+  gem 'overcommit', '~> 0.52.1', require: false
 end
 
 group :test do
@@ -167,8 +166,8 @@ group :test do
   gem 'database_cleaner'
   gem 'mocha'
   gem 'poltergeist'
-  gem 'rails-controller-testing'
   gem 'stripe-ruby-mock', require: 'stripe_mock'
+  gem 'test_after_commit'
   gem 'timecop'
   gem 'webmock'
 end

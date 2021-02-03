@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddStatesToSpecialists < ActiveRecord::Migration[6.0]
+class AddStatesToSpecialists < ActiveRecord::Migration
   def change
     add_column :specialists, :jurisdiction_states_usa, :string, default: ''
     add_column :specialists, :jurisdiction_states_canada, :string, default: ''

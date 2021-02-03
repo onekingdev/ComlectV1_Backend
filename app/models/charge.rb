@@ -2,8 +2,8 @@
 
 class Charge < ApplicationRecord
   belongs_to :project
-  belongs_to :stripe_transaction, class_name: 'Transaction', foreign_key: 'transaction_id', optional: true
-  belongs_to :referenceable, polymorphic: true, optional: true
+  belongs_to :stripe_transaction, class_name: 'Transaction', foreign_key: 'transaction_id'
+  belongs_to :referenceable, polymorphic: true
   has_one :business, through: :project
   has_one :specialist, through: :project
 
@@ -150,7 +150,7 @@ class Charge < ApplicationRecord
   def calculate_specialist_fee
     return unless specialist
 
-    self.specialist_fee_in_cents = 0 if PortedBusiness.ported?(business&.id, specialist&.id)
+    self.specialist_fee_in_cents = 0 if specialist&.zero_fee || PortedBusiness.ported?(business&.id, specialist&.id)
 
     self.specialist_fee_in_cents ||= amount_in_cents * COMPLECT_FEE_PCT
   end

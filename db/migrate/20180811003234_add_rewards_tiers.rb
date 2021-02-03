@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddRewardsTiers < ActiveRecord::Migration[6.0]
+class AddRewardsTiers < ActiveRecord::Migration
   def change
     create_table :rewards_tiers do |t|
       t.string :name, null: false

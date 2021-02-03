@@ -3,10 +3,10 @@
 class Rating < ApplicationRecord
   belongs_to :project
   belongs_to :rater, polymorphic: true
-  belongs_to :specialist, optional: true
+  belongs_to :specialist
 
   scope :by, ->(rater) { where(rater: rater) }
-  scope :preload_association, -> { preload(:project, :rater) }
+  scope :preload_associations, -> { preload(:project, :rater) }
 
   attr_accessor :should_update_stats
 
