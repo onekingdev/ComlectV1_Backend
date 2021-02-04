@@ -26,11 +26,11 @@
         .form-text.text-muted Project post information for the specialist
 
         label.form-label Industry
-        Dropdown(v-model="project.industry_ids" :options="['Industry', 'Investment Advisor']")
+        Dropdown(v-model="project.industry_ids" :options="industryIdsOptions")
         Errors(:errors="errors.industry_ids")
 
         label.form-label Jurisdiction
-        Dropdown(v-model="project.jurisdiction_ids" :options="['USA', 'China', 'Russia']")
+        Dropdown(v-model="project.jurisdiction_ids" :options="jurisdictionIdsOptions")
         Errors(:errors="errors.jurisdiction_ids")
 
     .row.no-gutters
@@ -97,6 +97,8 @@ const PRICING_TYPES = [{
   text: 'Pay by the hour. Provides more flexibility.'
 }]
 
+const toOption = () => ({ id: value, name: text }) => ({ value, text })
+
 const initialProject = () => ({
   // 1
   title: null,
@@ -119,6 +121,16 @@ const initialProject = () => ({
 })
 
 export default {
+  props: {
+    industryIds: {
+      type: Array,
+      required: true
+    },
+    jurisdictionIds: {
+      type: Array,
+      required: true
+    }
+  },
   data() {
     return {
       step: STEPS[0],
@@ -192,6 +204,12 @@ export default {
     steps: () => STEPS,
     pricingTypes: () => PRICING_TYPES,
     skillsOptions: () => ['SEC', 'Policy Writing', 'FINRA'].map(id => ({ id, label: id })),
+    industryIdsOptions() {
+      return this.industryIds.map(toOption())
+    },
+    jurisdictionIdsOptions() {
+      return this.jurisdictionIds.map(toOption())
+    },
     currentStep() {
       return this.steps.indexOf(this.step)
     },

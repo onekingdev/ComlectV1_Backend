@@ -26,7 +26,11 @@ class Business::ProjectsController < ApplicationController
   end
 
   def new
-    render html: content_tag('business-post-project-page', '').html_safe, layout: 'vue'
+    render html: content_tag('business-post-project-page',
+                             '',
+                             ':industry-ids': [].to_json,
+                             ':jurisdiction-ids': [].to_json).html_safe,
+           layout: 'vue'
   end
 
   def show
