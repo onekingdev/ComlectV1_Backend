@@ -122,8 +122,11 @@ const LOCATION_TYPES = [{
 }]
 const RFP_TIMING_OPTIONS = [{
   value: 'asap', text: 'As soon as possible',
+},{
   value: 'two_weeks', text: 'Within the next 2 weeks',
+},{
   value: 'month', text: 'Within a month',
+},{
   value: 'not_sure', text: 'Not sure'
 }]
 
