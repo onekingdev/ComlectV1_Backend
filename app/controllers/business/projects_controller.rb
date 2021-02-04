@@ -28,8 +28,8 @@ class Business::ProjectsController < ApplicationController
   def new
     render html: content_tag('business-post-project-page',
                              '',
-                             ':industry-ids': [].to_json,
-                             ':jurisdiction-ids': [].to_json).html_safe,
+                             ':industry-ids': Industry.all.map(&Proc.new { |ind| {id: ind.id, name: ind.name } }).to_json,
+                             ':jurisdiction-ids': Jurisdiction.all.map(&Proc.new { |ind| {id: ind.id, name: ind.name } }).to_json).html_safe,
            layout: 'vue'
   end
 
