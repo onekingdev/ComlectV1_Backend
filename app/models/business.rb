@@ -8,7 +8,8 @@ class Business < ApplicationRecord
   has_and_belongs_to_many :jurisdictions, optional: true
   has_and_belongs_to_many :industries, optional: true
   has_many :forum_questions
-  has_many :projects, dependent: :destroy
+  has_many :projects
+  has_many :local_projects
   has_many :job_applications, through: :projects
   has_many :charges, through: :projects
   has_many :transactions, through: :projects
