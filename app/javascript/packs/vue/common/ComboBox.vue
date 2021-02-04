@@ -23,6 +23,7 @@ export default {
       return {
         value: this.value,
         placeholder: this.placeholder,
+        // @see defining options: https://vue-treeselect.js.org/#basic-features
         options: this.options,
         multiple: this.multiple
       }

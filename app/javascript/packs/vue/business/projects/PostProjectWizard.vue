@@ -25,12 +25,24 @@
         Errors(:errors="errors.description")
         .form-text.text-muted Project post information for the specialist
 
+        label.form-label Project Timing
+        Dropdown(v-model="project.rfp_timing" :options="rfpTimingOptions")
+        Errors(:errors="errors.rfp_timing")
+
+        label.form-label Location Type
+        Dropdown(v-model="project.location_type" :options="locationTypes")
+        Errors(:errors="errors.location_type")
+
+        label.form-label Location
+        input.form-control(v-model="project.location" type=text)
+        Errors(:errors="errors.location")
+
         label.form-label Industry
-        Dropdown(v-model="project.industry_ids" :options="industryIdsOptions")
+        ComboBox(v-model="project.industry_ids" :options="industryIdsOptions" :multiple="true")
         Errors(:errors="errors.industry_ids")
 
         label.form-label Jurisdiction
-        Dropdown(v-model="project.jurisdiction_ids" :options="jurisdictionIdsOptions")
+        ComboBox(v-model="project.jurisdiction_ids" :options="jurisdictionIdsOptions" :multiple="true")
         Errors(:errors="errors.jurisdiction_ids")
 
     .row.no-gutters
@@ -51,22 +63,22 @@
       .col-md-6.p-t-2(v-if="step === steps[2]")
 
         b-row.no-gutters
-          .card.col-sm.cursor-pointer(v-for="(type, i) in pricingTypes" :class="cardClass(type, i)" :key="i" @click="project.pricing_type = type.label")
+          .card.col-sm.cursor-pointer(v-for="(type, i) in pricingTypes" :class="cardClass(type, i)" :key="i" @click="project.pricing_type = type.id")
             .card-body
               h5.card-title {{type.label}}
               p.card-text {{type.text}}
 
-        .m-t-1(v-if="project.pricing_type === pricingTypes[0].label")
+        .m-t-1(v-if="project.pricing_type === pricingTypes[0].id")
           label.form-label Estimated Budget
-          input.form-control(v-model="project.fixed_budget" type=text)
-          Errors(:errors="errors.fixed_budget")
+          input.form-control(v-model="project.est_budget" type=text)
+          Errors(:errors="errors.est_budget")
           //- @todo $ prefixes in input
 
           label.form-label Method of Payment
           Dropdown(v-model="project.fixed_payment_schedule" :options="[]")
           Errors(:errors="errors.fixed_payment_schedule")
 
-        div(v-else)
+        .m-t-1(v-else)
           label.form-label Hourly Rate
           input.form-control(v-model="project.hourly_rate" type=text)
           Errors(:errors="errors.hourly_rate")
@@ -81,7 +93,7 @@
         button.btn.m-r-1(@click.prevent) Exit
         button.btn.btn-dark.m-r-1(v-if="prevEnabled" @click="prev") Previous
         button.btn.btn-dark(v-if="nextEnabled" @click="next") Next
-        button.btn.btn-dark(v-else @click="submit") Submit
+        button.btn.btn-dark(v-else @click="preValidateStep() && submit()") Submit
 </template>
 
 <script>
@@ -90,14 +102,32 @@ import WizardProgress from '@/common/WizardProgress'
 const REQUIRED = 'This field is required'
 const STEPS = ['Project Details', 'Expertise', 'Budget']
 const PRICING_TYPES = [{
+  id: 'fixed',
   label: 'Fixed Price',
   text: 'Budget-friendly approach for scoped projects.'
 }, {
+  id: 'hourly',
   label: 'Hourly Price',
   text: 'Pay by the hour. Provides more flexibility.'
 }]
+const LOCATION_TYPES = [{
+  value: 'remote',
+  text: 'Remote'
+}, {
+  value: 'remote_and_travel',
+  text: 'Remote + Travel'
+}, {
+  value: 'onsite',
+  text: 'Onsite'
+}]
+const RFP_TIMING_OPTIONS = [{
+  value: 'asap', text: 'As soon as possible',
+  value: 'two_weeks', text: 'Within the next 2 weeks',
+  value: 'month', text: 'Within a month',
+  value: 'not_sure', text: 'Not sure'
+}]
 
-const toOption = () => ({ id: value, name: text }) => ({ value, text })
+const toOption = ({ id, name: label }) => ({ id, label })
 
 const initialProject = () => ({
   // 1
@@ -106,15 +136,18 @@ const initialProject = () => ({
   ends_on: null,
   // details: null, @todo nonexistent field
   description: null,
+  rfp_timing: null,
   industry_ids: [],
   jurisdiction_ids: [],
+  location_type: null,
+  location: null,
   // 2
   minimum_experience: null,
   only_regulators: null,
   skill_selector: [],
   // 3
-  pricing_type: PRICING_TYPES[0].label,
-  fixed_budget: null,
+  pricing_type: PRICING_TYPES[0].id,
+  est_budget: null,
   hourly_rate: null,
   fixed_payment_schedule: null,
   hourly_payment_schedule: null,
@@ -152,16 +185,19 @@ export default {
       }
     },
     cardClass(type, i) {
-      return { 'border-dark': this.project.pricing_type === type.label, 'm-r-1': i === 0 }
+      return { 'border-dark': this.project.pricing_type === type.id, 'm-r-1': i === 0 }
     },
     preValidateStep() {
       this.errors = {}
       if (this.currentStep === 0) {
-        ['title', 'starts_on'].map(f => {
+        ['title', 'description', 'starts_on', 'location_type'].map(f => {
           if (!this.project[f]) {
             this.errors[f] = [REQUIRED]
           }
-        });
+        })
+        if (this.project.location_type !== this.locationTypes[0].value && !this.project.location) {
+          this.errors.location_type = [REQUIRED]
+        }
         ['industry_ids', 'jurisdiction_ids'].map(f => {
           if (!this.project[f].length) {
             this.errors[f] = [REQUIRED]
@@ -170,6 +206,12 @@ export default {
       } else if (this.currentStep === 1) {
         if (!this.project.minimum_experience) {
           this.errors.minimum_experience = [REQUIRED]
+        }
+      } else {
+        if (this.project.pricing_type === this.pricingTypes[0].id && !this.project.est_budget) {
+          this.errors.est_budget = [REQUIRED]
+        // } else if (!this.project.hou) {
+
         }
       }
       return !Object.keys(this.errors).length
@@ -203,12 +245,14 @@ export default {
   computed: {
     steps: () => STEPS,
     pricingTypes: () => PRICING_TYPES,
+    locationTypes: () => LOCATION_TYPES,
+    rfpTimingOptions: () => RFP_TIMING_OPTIONS,
     skillsOptions: () => ['SEC', 'Policy Writing', 'FINRA'].map(id => ({ id, label: id })),
     industryIdsOptions() {
-      return this.industryIds.map(toOption())
+      return this.industryIds.map(toOption)
     },
     jurisdictionIdsOptions() {
-      return this.jurisdictionIds.map(toOption())
+      return this.jurisdictionIds.map(toOption)
     },
     currentStep() {
       return this.steps.indexOf(this.step)

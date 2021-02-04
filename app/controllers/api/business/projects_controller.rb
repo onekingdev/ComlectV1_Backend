@@ -48,7 +48,7 @@ class Api::Business::ProjectsController < ApplicationController
   def project_params
     return { invite_id: params[:invite_id] } unless params.key?(:project)
 
-    params.require(:project).permit(
+    params.permit(
       :title,
       :type,
       :location_type,
