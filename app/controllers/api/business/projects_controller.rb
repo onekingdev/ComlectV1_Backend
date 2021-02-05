@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-class Api::Business::ProjectsController < ApplicationController
-  before_action :authenticate_user!
+class Api::Business::ProjectsController < ApiController
   before_action :require_business!
   before_action :build_project, only: %i[create]
 

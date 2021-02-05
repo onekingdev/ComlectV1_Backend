@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-class Api::Business::LocalProjectsController < ApplicationController
-  before_action :authenticate_user!
+class Api::Business::LocalProjectsController < ApiController
   before_action :require_business!
 
   skip_before_action :verify_authenticity_token # TODO: proper authentication

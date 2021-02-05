@@ -1295,6 +1295,7 @@ GEM
     js_cookie_rails (2.2.0)
       railties (>= 3.1)
     json (2.3.1)
+    jwt (2.2.2)
     kaminari (1.2.1)
       activesupport (>= 4.1.0)
       kaminari-actionview (= 1.2.1)
@@ -1677,6 +1678,7 @@ DEPENDENCIES
   jquery-slick-rails
   jquery-ui-rails
   js_cookie_rails
+  jwt
   ledermann-rails-settings
   libreconv
   listen
@@ -1733,4 +1735,4 @@ RUBY VERSION
    ruby 2.5.7p206
 
 BUNDLED WITH
-   2.1.4
+   2.2.7

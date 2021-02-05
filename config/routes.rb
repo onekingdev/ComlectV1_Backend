@@ -251,6 +251,11 @@ Rails.application.routes.draw do
 
   namespace :api do
     resources :skills, only: :index
+    resources :users, only: [] do
+      collection do
+        post :sign_in, to: 'authentication#create'
+      end
+    end
     namespace :business do
       get '/reminders/:id' => 'reminders#show'
       delete '/reminders/:id' => 'reminders#destroy'

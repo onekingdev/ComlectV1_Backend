@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
-class Api::Business::RemindersController < ApplicationController
+class Api::Business::RemindersController < ApiController
   include RemindersUpdater
   include RemindersFetcher
 
-  before_action :authenticate_user!
   before_action :require_business!
 
   skip_before_action :verify_authenticity_token # TODO: proper authentication
