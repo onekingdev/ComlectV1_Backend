@@ -8,6 +8,7 @@ import ComboBox from '@/common/ComboBox'
 import Dropdown from '@/common/Dropdown'
 import Errors from '@/common/Errors'
 import filters from '@/filters'
+import { extractToastMessage } from '@/common/Toast'
 
 const data = () => ({
   isProfileMenuOpen: false
@@ -32,7 +33,13 @@ const init = configuration => {
   return new Vue({
     el: document.getElementById('app'),
     ...(configuration || {}),
-    data
+    data,
+    created() {
+      const toast = extractToastMessage()
+      if (toast) {
+        this.$bvToast.toast(toast, { autoHideDelay: 5000 })
+      }
+    }
   })
 }
 

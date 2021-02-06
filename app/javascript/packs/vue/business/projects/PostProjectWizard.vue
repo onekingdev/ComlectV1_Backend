@@ -98,6 +98,7 @@
 
 <script>
 import WizardProgress from '@/common/WizardProgress'
+import { redirectWithToast } from '@/common/Toast'
 
 const REQUIRED = 'This field is required'
 const STEPS = ['Project Details', 'Expertise', 'Budget']
@@ -240,8 +241,7 @@ export default {
           })
         } else if (response.status === 201 || response.status === 200) {
           this.$emit('saved')
-          this.makeToast('Success', 'The project has been saved')
-          // this.resetProject()
+          redirectWithToast('/business/projects', 'The project has been saved')
         } else {
           this.makeToast('Error', 'Couldn\'t submit form')
         }
