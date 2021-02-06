@@ -1122,7 +1122,8 @@ CREATE TABLE public.projects (
     applicant_selection character varying DEFAULT 'interview'::character varying,
     admin_notified boolean DEFAULT false,
     business_fee_free boolean DEFAULT false,
-    color character varying
+    color character varying,
+    local_project_id integer
 );
 
 
@@ -7408,6 +7409,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20201225213003'),
 ('20210118192309'),
 ('20210128050645'),
-('20210203192622');
+('20210203192622'),
+('20210205083649');
 
 

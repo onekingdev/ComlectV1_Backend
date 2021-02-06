@@ -56,8 +56,8 @@
         Errors(:errors="errors.only_regulators")
 
         label.form-label Skills
-        ComboBox(v-model="project.skill_selector" :options="skillsOptions" :multiple="true")
-        Errors(:errors="errors.skill_selector")
+        ComboBox(v-model="project.skill_names" :options="skillsOptions" :multiple="true")
+        Errors(:errors="errors.skill_names")
 
     .row.no-gutters
       .col-md-6.p-t-2(v-if="step === steps[2]")
@@ -147,7 +147,7 @@ const initialProject = () => ({
   // 2
   minimum_experience: null,
   only_regulators: null,
-  skill_selector: [],
+  skill_names: [],
   // 3
   pricing_type: PRICING_TYPES[0].id,
   est_budget: null,
