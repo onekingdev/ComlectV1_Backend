@@ -14,7 +14,7 @@ class BusinessDashboard2Controller < ApplicationController
                              '',
                              "pdf-url": business_reminders_path(format: :pdf),
                              "current-business": current_business).html_safe,
-           layout: 'vue'
+           layout: 'vue_business'
   end
 
   private

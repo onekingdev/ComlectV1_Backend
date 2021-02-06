@@ -18,7 +18,7 @@ class Business::ProjectsController < ApplicationController
   def index
     respond_to do |format|
       format.html do
-        render html: content_tag('business-projects-page', '').html_safe, layout: 'vue'
+        render html: content_tag('business-projects-page', '').html_safe, layout: 'vue_business'
         # render partial: @is_business_cards ? 'business_cards' : 'cards', projects: @projects if request.xhr?
       end
       format.js
@@ -31,7 +31,7 @@ class Business::ProjectsController < ApplicationController
                              ':industry-ids': Industry.all.map(&proc { |ind| { id: ind.id, name: ind.name } }).to_json,
                              ':jurisdiction-ids': Jurisdiction.all.map(&proc { |ind| { id: ind.id, name: ind.name } }).to_json)
       .html_safe,
-           layout: 'vue'
+           layout: 'vue_business'
   end
 
   def show

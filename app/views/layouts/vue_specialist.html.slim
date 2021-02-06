@@ -1,0 +1,124 @@
+doctype html
+html lang=I18n.locale
+  head
+    script(src='https://unpkg.com/ionicons@5.2.3/dist/ionicons.js')
+
+    title
+      - if content_for?(:title)
+        = yield(:title) + " | "
+      | Complect
+    - if content_for?(:meta)
+      = yield :meta
+    - else
+      meta content="Complect is an online freelancing platform that connects financial services firms with financial regulatory compliance specialists with a minimum of three years direct compliance experience." name="description"
+      meta content="regulatory compliance hire freelance outsourcing platform finance cco complect" name="keywords"
+      // Open Graph
+      meta property="og:title" content="Complect – Compliance Specialists on Demand"
+      meta property="og:description" content="Complect is an online freelancing platform that connects financial services firms with financial regulatory compliance specialists with a minimum of three years direct compliance experience."
+    meta name="viewport" content="width=1024"
+    = stylesheet_link_tag 'vue'
+    = csrf_meta_tags
+    script src='//d2wy8f7a9ursnm.cloudfront.net/bugsnag-3.min.js' data-apikey="#{ENV['BUGSNAG_API_KEY']}"
+    = javascript_include_tag '/app_config.js'
+    = render 'google_analytics'
+    = render 'mixpanel'
+    = render 'layouts/favicons'
+    = yield :html_head
+    = render partial: "layouts/fullstory" if Rails.env == "production"
+
+body class="#{controller_name} #{action_name}"
+  #app
+    .container-fluid
+      .row(style='min-height: 100vh;')
+        nav#sidebarMenu.col-md-3.col-lg-2.d-md-block.sidebar.collapse.px-0
+          .fixed-top.pt-3.col-md-3.col-lg-2.px-1
+            h3.d-flex.justify-content-between(role="button" v-b-toggle.overview_collapse="")
+              | Overview
+              ion-icon(name='chevron-down-outline')
+            b-collapse#overview_collapse(:visible="true")
+              ul.nav.flex-column
+                li.nav-item
+                  a.btn.active(aria-current='page' href='/business2')
+                    ion-icon(name='globe-outline')
+                    | Dashboard
+                li.nav-item
+                  a.btn.active(aria-current='page' href='/business/projects')
+                    ion-icon(name='list-outline')
+                    | Projects
+                li.nav-item
+                  a.btn.active(aria-current='page' href='/business/reminders')
+                    ion-icon(name='checkbox-outline')
+                    | Tasks
+
+            h3.d-flex.justify-content-between(role="button" v-b-toggle.program_management_collapse="")
+              | Program Management
+              ion-icon(name='chevron-down-outline')
+            b-collapse#program_management_collapse(:visible="true")
+              ul.nav.flex-column
+                li.nav-item
+                  a.btn.active(aria-current='page' href='#')
+                    ion-icon(name='newspaper-outline')
+                    | Policies and Procedures
+                li.nav-item
+                  a.btn.active(aria-current='page' href='#')
+                    ion-icon(name='document-text-outline')
+                    | Annual Review
+                li.nav-item
+                  a.btn.active(aria-current='page' href='#')
+                    ion-icon(name='document-text-outline')
+                    | Filings
+
+            h3.d-flex.justify-content-between(role="button" v-b-toggle.addons_collapse="")
+              | Add-ons
+              ion-icon(name='chevron-down-outline')
+            b-collapse#addons_collapse(:visible="true")
+              ul.nav.flex-column
+                li.nav-item
+                  a.btn.active(aria-current='page' href='#')
+                    ion-icon(name='layers-outline')
+                    | My Add-Ons
+                li.nav-item
+                  a.btn.active(aria-current='page' href='#')
+                    ion-icon(name='storefront-outline')
+                    | Add-On Marketplace
+                li.nav-item
+                  a.btn.active(aria-current='page' href='#')
+                    ion-icon(name='settings-outline')
+                    | Settings
+        main.col-md-9.col-lg-10#main-content.px-0
+          nav.navbar.navbar-expand-lg.navbar-light.p-0
+            button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarNavAltMarkup' aria-controls='navbarNavAltMarkup' aria-expanded='false' aria-label='Toggle navigation')
+              span.navbar-toggler-icon
+            #top_navbar.collapse.navbar-collapse.d-flex.justify-content-between
+              .navbar-nav
+                a.nav-item.nav-link.active(href='#')
+                  | Home 
+                  span.sr-only (current)
+                a.nav-item.nav-link(href='#') Reports
+                a.nav-item.nav-link(href='#') Community
+              .navbar-nav
+                a.btn.btn-primary style="margin-top: 18px;" Browse Projects
+                .dropdown#notifications_dropdown
+                  ion-icon(name='notifications-outline')
+                .dropdown#profile_dropdown.p-x-2
+                  #profile_dropdown_btn(@click="isProfileMenuOpen = !isProfileMenuOpen" :aria-expanded="isProfileMenuOpen")
+                    - if current_specialist
+                      = image_tag (current_specialist.photo_url(:thumb) || 'default_userpic.png'), size: "25x25", style: "border-radius: 50%; margin-right: 15px;"
+                      = current_specialist.full_name
+                    ion-icon.m-l-1(name='chevron-down-outline')
+                  ul.dropdown-menu(aria-labelledby="profile_dropdown_btn" :class="{ show: isProfileMenuOpen }")
+                    li
+                      a.dropdown-item(href="#") Edit Profile
+                    li
+                      a.dropdown-item(href="#") Sign Out
+                #helps.p-x-2
+                  ion-icon(name='help-circle-outline' style="vertical-align: middle; margin-right: 8px;")
+                  | Help
+            button.navbar-toggler.position-absolute.d-md-none.collapsed(type='button' data-toggle='collapse' data-target='#sidebarMenu' aria-controls='sidebarMenu' aria-expanded='false' aria-label='Toggle navigation')
+              span.navbar-toggler-icon
+          = yield
+
+  = yield :prepend_scripts
+  = javascript_pack_tag 'vue-specialist'
+  = yield :scripts
+  = render 'drift'

@@ -106,9 +106,6 @@ body class="#{controller_name} #{action_name}"
                     - if current_business
                       = image_tag (current_business.logo_url(:thumb) || 'default_userpic.png'), size: "25x25", style: "border-radius: 50%;margin-right: 15px;"
                       = current_business
-                    - if current_specialist
-                      = image_tag (current_specialist.photo_url(:thumb) || 'default_userpic.png'), size: "25x25", style: "border-radius: 50%; margin-right: 15px;"
-                      = current_specialist.full_name
                     ion-icon.m-l-1(name='chevron-down-outline')
                   ul.dropdown-menu(aria-labelledby="profile_dropdown_btn" :class="{ show: isProfileMenuOpen }")
                     li
@@ -123,6 +120,6 @@ body class="#{controller_name} #{action_name}"
           = yield
 
   = yield :prepend_scripts
-  = javascript_pack_tag current_business ? "vue-business" : "vue-specialist"
+  = javascript_pack_tag 'vue-business'
   = yield :scripts
   = render 'drift'
