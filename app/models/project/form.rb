@@ -32,6 +32,9 @@ class Project::Form < Project
     errors.add :starts_on, :duration if starts_on.present?
     errors.add :ends_on, :duration if ends_on.present?
   end
+  validate if: -> { local_project_id.present? } do
+    errors.add :local_project_id, :invalid if business.local_projects.where(id: local_project_id).count.zero?
+  end
   validate if: -> { custom_duration? } do
     errors.add :estimated_days, :duration if estimated_days.present?
   end
