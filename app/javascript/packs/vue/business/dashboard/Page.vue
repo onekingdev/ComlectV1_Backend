@@ -21,7 +21,7 @@
           .card-header.d-flex.justify-content-between
             h3 Projects
             div
-              LocalProjectModal(@saved="$emit('saved')")
+              LocalProjectModal(@saved="refetch")
                 button.btn.btn-dark.float-end New Project
               a.btn.float-end(href="/business/projects") View all
           .card-body
@@ -57,9 +57,7 @@ export default {
     refetch() {
       fetch(endpointProjectsUrl, { headers: {'Accept': 'application/json'} })
         .then(response => response.json())
-        .then(result => {
-          this.projects = result.projects
-        })
+        .then(result => this.projects = result.projects)
     }
   },
   created() {

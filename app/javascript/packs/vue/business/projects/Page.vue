@@ -8,7 +8,7 @@
             p Plan projects with employees or hire specialists for additional help
           div
             a.btn.btn-default(href='/business/projects/new') Post Project
-            LocalProjectModal(@saved="$emit('saved')")
+            LocalProjectModal(@saved="refetch")
               a.btn.m-l-1.btn-dark New Project
 
     b-tabs(content-class="mt-0")
@@ -35,10 +35,10 @@
 </template>
 
 <script>
-const endpointUrl = '/api/business/projects/'
-import { DateTime } from 'luxon'
 import ProjectTable from '../dashboard/ProjectTable'
 import LocalProjectModal from './LocalProjectModal'
+
+const endpointUrl = '/api/business/projects/'
 
 export default {
   data() {
@@ -50,12 +50,10 @@ export default {
     this.refetch()
   },
   methods: {
-    refetch() {      
+    refetch() {
       fetch(endpointUrl, { headers: {'Accept': 'application/json'} })
         .then(response => response.json())
-        .then(result => {
-          this.projects = result.projects
-        })
+        .then(result => this.projects = result.projects)
     }
   },
   components: {
