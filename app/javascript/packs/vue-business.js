@@ -7,11 +7,6 @@ import BusinessProjectsPage from './vue/business/projects/Page.vue'
 
 init({
   store,
-  data() {
-    return {
-      isProfileMenuOpen: false
-    }
-  },
   components: {
     BusinessDashboardPage,
     BusinessRemindersPage,

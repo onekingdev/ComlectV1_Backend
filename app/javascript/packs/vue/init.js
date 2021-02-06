@@ -9,6 +9,10 @@ import Dropdown from '@/common/Dropdown'
 import Errors from '@/common/Errors'
 import filters from '@/filters'
 
+const data = () => ({
+  isProfileMenuOpen: false
+})
+
 const init = configuration => {
   Vue.use(BootstrapVue)
   Vue.use(IconsPlugin)
@@ -27,7 +31,8 @@ const init = configuration => {
 
   return new Vue({
     el: document.getElementById('app'),
-    ...(configuration || {})
+    ...(configuration || {}),
+    data
   })
 }
 
