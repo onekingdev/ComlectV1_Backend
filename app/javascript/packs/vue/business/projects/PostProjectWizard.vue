@@ -129,10 +129,13 @@ const RFP_TIMING_OPTIONS = [{
 },{
   value: 'not_sure', text: 'Not sure'
 }]
+const DEFAULT_TYPE = 'rfp'
 
 const toOption = ({ id, name: label }) => ({ id, label })
 
 const initialProject = () => ({
+  // common defaults
+  type: DEFAULT_TYPE,
   // 1
   title: null,
   starts_on: null,
@@ -193,7 +196,7 @@ export default {
     preValidateStep() {
       this.errors = {}
       if (this.currentStep === 0) {
-        ['title', 'description', 'starts_on', 'location_type'].map(f => {
+        ['title', 'description', 'starts_on', 'location_type', 'rfp_timing'].map(f => {
           if (!this.project[f]) {
             this.errors[f] = [REQUIRED]
           }
