@@ -48,7 +48,6 @@ class Api::Business::ProjectsController < ApiController
     return { invite_id: params[:invite_id] } unless params.key?(:project)
 
     params.permit(
-      :local_project_id,
       :title,
       :type,
       :location_type,

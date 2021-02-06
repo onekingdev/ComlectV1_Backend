@@ -7,12 +7,11 @@
     tbody
       tr(v-for="(project, i) in projectList" :key="i")
         td {{ project.title }}
-        td(:class="{ overdue: isOverdue(project) }") {{ project.end }}
+        td(:class="{ overdue: isOverdue(project) }") {{ project.ends_on | asDate }}
 </template>
 
 <script>
 import { toEvent, isOverdue } from '@/common/TaskHelper'
-import { DateTime } from 'luxon'
 
 export default {
   props: {
@@ -27,11 +26,6 @@ export default {
   computed: {
     projectList() {
       return this.projects.map(toEvent)
-        .map(e => ({
-          ...e,
-          start: DateTime.fromSQL(e.start).toLocaleString(),
-          end: DateTime.fromSQL(e.end).toLocaleString()
-        }))
     }
   }
 }
