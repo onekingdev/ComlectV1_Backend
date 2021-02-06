@@ -39,7 +39,8 @@ class Business::ProjectsController < ApplicationController
                .includes(:industries, :jurisdictions, :skills, business: %i[industries jurisdictions])
                .find(params[:id])
 
-    render template: 'projects/show'
+    render html: content_tag('project-show-page', '', ':project': @project.to_json).html_safe,
+           layout: 'vue_business'
   end
 
   def create
