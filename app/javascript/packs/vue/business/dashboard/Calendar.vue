@@ -1,5 +1,6 @@
 <template lang="pug">
   div
+    TaskFormModal(id="CalendarTaskFormModal" v-bind="nowEditingTask" @saved="$emit('saved')")
     .card-header.d-flex.justify-content-between
       div(style="vertical-align: middle")
         h3.m-y-0
@@ -19,7 +20,7 @@
             //- .fc-event-time
             .fc-event-title-container
               .fc-event-title.fc-sticky
-                TaskFormModal(v-if="arg.event.extendedProps.remind_at" :task-id="arg.event.extendedProps.taskId" :occurence-id="arg.event.extendedProps.oid" @saved="$emit('saved')") {{arg.event.title}}
+                span.pointer(@click="openModal(arg.event.extendedProps.taskId, arg.event.extendedProps.oid)" v-if="arg.event.extendedProps.remind_at") {{arg.event.title}}
                 span(v-else) {{arg.event.title}}
 </template>
 
@@ -44,10 +45,18 @@ export default {
   },
   data() {
     return {
-      currentMonth: ''
+      currentMonth: '',
+      nowEditingTask: {
+        taskId: null,
+        occurenceId: null
+      }
     }
   },
   methods: {
+    openModal(taskId, occurenceId) {
+      Object.assign(this.nowEditingTask, { taskId, occurenceId })
+      this.$nextTick(() => this.$bvModal.show('CalendarTaskFormModal'))
+    },
     dayContent(arg) {
       return DateTime.fromJSDate(arg).toFormat('d')
     },

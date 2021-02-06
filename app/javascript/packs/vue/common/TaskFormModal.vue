@@ -100,8 +100,6 @@ import { splitReminderOccurenceId } from '@/common/TaskHelper'
 const rnd = () => Math.random().toFixed(10).toString().replace('.', '')
 const toOption = id => ({ id, label: id })
 const index = (text, i) => ({ text, value: 1 + i })
-const flattenErrors = errorsResponse => Object.keys(errorsResponse)
-  .reduce((result, property) => [...result, ...errorsResponse[property].map(error => ({ property, error }))], [])
 
 const initialTask = defaults => ({
   body: null,
@@ -133,20 +131,20 @@ const REPEAT_NONE = null,
 
 export default {
   props: {
+    id: String,
     taskId: Number,
     occurenceId: Number,
     remindAt: String
   },
   data() {
     return {
-      modalId: `modal_${rnd()}`,
+      modalId: this.id || `modal_${rnd()}`,
       task: initialTask(),
       errors: []
     }
   },
   methods: {
     deleteTask(task, deleteOccurence) {
-      const { taskId, oid } = splitReminderOccurenceId(task.id)
       const occurenceParams = deleteOccurence ? `?oid=${this.occurenceId}` : ''
       fetch('/api/business/reminders/' + this.taskId + occurenceParams, {
         method: 'DELETE',

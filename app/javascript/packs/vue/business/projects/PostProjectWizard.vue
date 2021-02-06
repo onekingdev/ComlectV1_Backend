@@ -63,7 +63,7 @@
       .col-md-6.p-t-2(v-if="step === steps[2]")
 
         b-row.no-gutters
-          .card.col-sm.cursor-pointer(v-for="(type, i) in pricingTypes" :class="cardClass(type, i)" :key="i" @click="project.pricing_type = type.id")
+          .card.col-sm.pointer(v-for="(type, i) in pricingTypes" :class="cardClass(type, i)" :key="i" @click="project.pricing_type = type.id")
             .card-body
               h5.card-title {{type.label}}
               p.card-text {{type.text}}
@@ -275,9 +275,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.cursor-pointer {
-  cursor: pointer;
-}
-</style>

@@ -120,5 +120,9 @@ table.table, table.table thead tr th {
   border-top: 2px solid #e9ebee;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 @import '../../../node_modules/bootstrap/scss/bootstrap.scss';
 @import '../../../node_modules/bootstrap-vue/src/index.scss';
