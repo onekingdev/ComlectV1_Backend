@@ -16,8 +16,8 @@
         td {{ project.fixed_budget || project.hourly_rate }}
         td
           span.badge.badge-primary {{ project.status }}
-        td {{ project.starts_on }}
-        td {{ project.ends_on }}
+        td {{ project.starts_on | asDate }}
+        td {{ project.ends_on | asDate }}
 </template>
 
 <script>
