@@ -9,7 +9,7 @@
         th Start Date
         th End Date
     tbody
-      tr(v-for="project in projects" :key="project.id")
+      tr(v-for="project in projects" :key="key(project)")
         td {{ project.assignee }}
         td {{ project.title }}
         td {{ project.fixed_budget || project.hourly_rate }}
@@ -20,9 +20,7 @@
 </template>
 
 <script>
-import { DateTime } from 'luxon'
-
-const endpointUrl = '/api/business/reminders/'
+const key = project => `${project.id}${project.type ? '-p' : '-l'}`
 
 export default {
   props: {
@@ -30,6 +28,9 @@ export default {
       type: Array,
       required: true
     }
+  },
+  methods: {
+    key
   }
 }
 </script>
