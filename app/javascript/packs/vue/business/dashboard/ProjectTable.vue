@@ -9,9 +9,10 @@
         th Start Date
         th End Date
     tbody
-      tr(v-for="project in projects" :key="key(project)")
+      tr(v-for="project in projectsHrefs" :key="key(project)")
         td {{ project.assignee }}
-        td {{ project.title }}
+        td
+          a.text-dark(:href="project.href") {{project.title}}
         td {{ project.fixed_budget || project.hourly_rate }}
         td
           span.badge.badge-primary {{ project.status }}
@@ -31,6 +32,11 @@ export default {
   },
   methods: {
     key
+  },
+  computed: {
+    projectsHrefs() {
+      return this.projects.map(p => ({...p, href: this.$store.getters.url('URL_PROJECT_SHOW', p.id) }))
+    }
   }
 }
 </script>

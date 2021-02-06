@@ -21,7 +21,7 @@
             .fc-event-title-container
               .fc-event-title.fc-sticky
                 span.pointer(@click="openModal(arg.event.extendedProps.taskId, arg.event.extendedProps.oid)" v-if="arg.event.extendedProps.remind_at") {{arg.event.title}}
-                span(v-else) {{arg.event.title}}
+                a.text-dark(v-else :href="arg.event.extendedProps.href" target="_blank") {{arg.event.title}}
 </template>
 
 <script>
@@ -93,7 +93,10 @@ export default {
           const fromTo = jsToSql(info.start) + '/' + jsToSql(info.end)
           fetch(`${endpointUrl}${fromTo}`, { headers: {'Accept': 'application/json'}})
             .then(response => response.json())
-            .then(result => successCallback(result.tasks.concat(result.projects).map(task => ({
+            .then(result => successCallback(result.tasks.concat(result.projects.map(project => ({
+              ...project,
+              href: this.$store.getters.url('URL_PROJECT_SHOW', project.id)
+            }))).map(task => ({
               ...toEvent(task),
               classNames: [cssClass(task)]
             }))))
