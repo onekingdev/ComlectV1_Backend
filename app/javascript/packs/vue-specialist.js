@@ -1,3 +1,8 @@
-import init from './vue/init'
+import init from '@/init'
+import ProjectIndexPage from '@/specialist/projects/IndexPage'
 
-init()
+init({
+  components: {
+    ProjectIndexPage
+  }
+})

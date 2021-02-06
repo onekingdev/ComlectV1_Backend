@@ -266,5 +266,8 @@ Rails.application.routes.draw do
       resources :projects, only: %i[index show create]
       resources :local_projects, only: %i[index create]
     end
+    namespace :specialist do
+      get '/projects' => 'projects#index'
+    end
   end
 end
