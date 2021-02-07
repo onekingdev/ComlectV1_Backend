@@ -29,7 +29,7 @@
     .col-sm-9
       b-card.m-2
         h3 Browse Projects
-      b-card.m-2(v-for="project in projects" :title="project.title" :sub-title="project.subTitle" :key="project.id")
+      b-card.m-2(v-for="project in projects" :title="project.title" :sub-title="project.subTitle" :key="project.uid")
         b-card-text {{project.description}}
 
         ul.list-group.list-group-horizontal
@@ -50,15 +50,35 @@
             br
             | -
 
-        b-button(href="#" variant="primary" style="float: right") View Details
+        b-button(@click="openProjectDetails(project.id)" variant="primary" style="float: right") View Details
+
+    b-modal#ShowProjectModal(hide-footer @show="loadProject" @hide="closeModal")
+      template(#modal-title) Project Details
+      .d-block.text-center(v-if="project")
+        h3 {{ project.title }}
+        dl.row
+          dt.col-sm-3 Location
+          dd.col-sm-9
+          dt.col-sm-3 Industry
+          dd.col-sm-9
+          dt.col-sm-3 Start Date
+          dd.col-sm-9 {{ project.starts_on | asDate }}
+          dt.col-sm-3 End Date
+          dd.col-sm-9 {{ project.ends_on | asDate }}
+          dt.col-sm-3 Key Deliverables
+          dd.col-sm-9 {{ project.key_deliverables }}
+        p {{ project.description }}
+
+      b-button.mt-3(block @click="$bvModal.hide('ShowProjectModal')") Close
 </template>
 
 <script>
+const frontendUrl = '/projects'
 const endpointUrl = '/api/specialist/projects'
 
 const parse = p => ({
   ...p,
-  id: p.id + (p.starts_on ? '-p' : '-lp'),
+  uid: p.id + (p.starts_on ? '-p' : '-lp'),
   subTitle: `${p.location_type}`
 })
 
@@ -83,10 +103,22 @@ const initialFilter = () => ({
 })
 
 export default {
+  props: {
+    initialOpenId: {
+      type: Number
+    }
+  },
   data() {
     return {
       projects: [],
-      filter: initialFilter()
+      project: null,
+      filter: initialFilter(),
+      openId: null
+    }
+  },
+  created() {
+    if (this.initialOpenId) {
+      this.openProjectDetails(this.initialOpenId)
     }
   },
   methods: {
@@ -94,6 +126,20 @@ export default {
       fetch(endpointUrl + this.filterQuery, { headers: {'Accept': 'application/json'}})
         .then(response => response.json())
         .then(result => this.projects = result.map(parse))
+    },
+    loadProject() {
+      fetch(endpointUrl + '/' + this.openId, { headers: {'Accept': 'application/json'}})
+        .then(response => response.json())
+        .then(result => this.project = result)
+    },
+    openProjectDetails(id) {
+      this.openId = id
+      history.pushState({}, '', `${frontendUrl}/${id}`)
+      this.$nextTick(() => this.$bvModal.show('ShowProjectModal'))
+    },
+    closeModal() {
+      this.openId = null
+      history.pushState({}, '', frontendUrl)
     }
   },
   computed: {

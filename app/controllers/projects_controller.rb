@@ -11,6 +11,6 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    @project = policy_scope(Project).find(params[:id])
+    render html: content_tag('project-index-page', '', ':initial-open-id': params[:id]).html_safe, layout: 'vue_specialist'
   end
 end

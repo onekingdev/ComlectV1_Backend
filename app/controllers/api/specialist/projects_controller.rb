@@ -9,6 +9,10 @@ class Api::Specialist::ProjectsController < ApiController
     render json: Project::Search.new(search_params).results
   end
 
+  def show
+    render json: policy_scope(Project).find(params[:id])
+  end
+
   private
 
   def search_params

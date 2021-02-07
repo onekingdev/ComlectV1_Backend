@@ -268,6 +268,7 @@ Rails.application.routes.draw do
     end
     namespace :specialist do
       get '/projects' => 'projects#index'
+      get '/projects/:id' => 'projects#show'
     end
   end
 end
