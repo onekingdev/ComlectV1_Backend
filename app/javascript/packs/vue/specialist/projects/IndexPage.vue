@@ -29,6 +29,14 @@
     .col-sm-9
       b-card.m-2
         h3 Browse Projects
+      b-card.m-2
+        .row
+          .col-sm
+            b-form-group.mb-0(label="Search" label-for="search-input")
+              b-form-input#search-input(v-model="search" placeholder="Enter project type, keywords, etc.")
+          .col-sm
+            b-form-group.mb-0(label="Sort By" label-for="sort-input")
+              b-form-select#sort-input(value="Newest" :options="['Newest']")
       b-card.m-2(v-for="project in projects" :title="project.title" :sub-title="project.subTitle" :key="project.uid")
         b-card-text {{project.description}}
 
@@ -113,7 +121,8 @@ export default {
       project: null,
       filter: initialFilter(),
       openId: null,
-      isSidebarOpen: false
+      isSidebarOpen: false,
+      search: null
     }
   },
   created() {
