@@ -12,7 +12,7 @@ class Api::Specialist::ProjectsController < ApiController
   private
 
   def search_params
-    project_search_params = params[:project_search]
+    project_search_params = params
     return {} unless project_search_params
     project_search_params.permit(
       :project_type, :sort_by, :keyword, :experience, :regulator, :location_type, :location, :location_range,
