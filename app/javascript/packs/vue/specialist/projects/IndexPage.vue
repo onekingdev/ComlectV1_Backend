@@ -52,9 +52,8 @@
 
         b-button(@click="openProjectDetails(project.id)" variant="primary" style="float: right") View Details
 
-    b-modal#ShowProjectModal(hide-footer @show="loadProject" @hide="closeModal")
-      template(#modal-title) Project Details
-      .d-block.text-center(v-if="project")
+    b-sidebar#ProjectSidebar(@hidden="closeSidebar" v-model="isSidebarOpen" title="Project Details" backdrop-variant='dark' backdrop right width="60%")
+      .p-3(v-if="project")
         h3 {{ project.title }}
         dl.row
           dt.col-sm-3 Location
@@ -69,7 +68,7 @@
           dd.col-sm-9 {{ project.key_deliverables }}
         p {{ project.description }}
 
-      b-button.mt-3(block @click="$bvModal.hide('ShowProjectModal')") Close
+        b-button(@click="isSidebarOpen = false") Close
 </template>
 
 <script>
@@ -113,7 +112,8 @@ export default {
       projects: [],
       project: null,
       filter: initialFilter(),
-      openId: null
+      openId: null,
+      isSidebarOpen: false
     }
   },
   created() {
@@ -127,19 +127,21 @@ export default {
         .then(response => response.json())
         .then(result => this.projects = result.map(parse))
     },
-    loadProject() {
-      fetch(endpointUrl + '/' + this.openId, { headers: {'Accept': 'application/json'}})
-        .then(response => response.json())
-        .then(result => this.project = result)
-    },
     openProjectDetails(id) {
       this.openId = id
       history.pushState({}, '', `${frontendUrl}/${id}`)
-      this.$nextTick(() => this.$bvModal.show('ShowProjectModal'))
+      fetch(endpointUrl + '/' + this.openId, { headers: {'Accept': 'application/json'}})
+        .then(response => response.json())
+        .then(result => {
+          this.project = result
+          this.isSidebarOpen = true
+        })
     },
-    closeModal() {
+    closeSidebar() {
       this.openId = null
+      this.project = null
       history.pushState({}, '', frontendUrl)
+      this.isSidebarOpen = false
     }
   },
   computed: {
@@ -168,7 +170,19 @@ export default {
       handler(val, oldVal) {
         this.refetch()
       }
+    },
+    'isSidebarOpen': {
+      immediate: true,
+      handler(val, oldVal) {
+        document.body.classList[val ? 'add' : 'remove']('overflow-y-hidden')
+      }
     }
   }
 }
 </script>
+
+<style>
+.overflow-y-hidden {
+  overflow-y: hidden !important;
+}
+</style>
