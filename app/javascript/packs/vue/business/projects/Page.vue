@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import ProjectTable from '../dashboard/ProjectTable'
+import ProjectTable from '@/common/ProjectTable'
 import LocalProjectModal from './LocalProjectModal'
 
 const endpointUrl = '/api/business/projects/'

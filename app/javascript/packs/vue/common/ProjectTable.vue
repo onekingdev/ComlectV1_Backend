@@ -1,18 +1,27 @@
 <template lang="pug">
-  table.table.task_table
+  table.table
     thead
       tr
-        th Name
-        th Due date
+        th Assignee(s)
+        th Title
+        th Cost
+        th Status
+        th Start Date
+        th End Date
     tbody
-      tr(v-for="(project, i) in projectList" :key="i")
+      tr(v-for="project in projectsHrefs" :key="key(project)")
+        td {{ project.assignee }}
         td
-          a.text-dark(:href="project.href" target="_blank") {{project.title}}
-        td(:class="{ overdue: isOverdue(project) }") {{ project.ends_on | asDate }}
+          a.text-dark(:href="project.href") {{project.title}}
+        td {{ project.fixed_budget || project.hourly_rate }}
+        td
+          span.badge.badge-primary {{ project.status }}
+        td {{ project.starts_on | asDate }}
+        td {{ project.ends_on | asDate }}
 </template>
 
 <script>
-import { toEvent, isOverdue } from '@/common/TaskHelper'
+const key = project => `${project.id}${project.type ? '-p' : '-l'}`
 
 export default {
   props: {
@@ -22,14 +31,11 @@ export default {
     }
   },
   methods: {
-    isOverdue
+    key
   },
   computed: {
-    projectList() {
-      return this.projects.map(project => ({
-        ...toEvent(project),
-        href: this.$store.getters.url('URL_PROJECT_SHOW', project.id)
-      }))
+    projectsHrefs() {
+      return this.projects.map(p => ({...p, href: this.$store.getters.url('URL_PROJECT_SHOW', p.id) }))
     }
   }
 }
