@@ -30,62 +30,7 @@ body class="#{controller_name} #{action_name}"
   #app
     .container-fluid
       .row(style='min-height: 100vh;')
-        nav#sidebarMenu.col-md-3.col-lg-2.d-md-block.sidebar.collapse.px-0
-          .fixed-top.pt-3.col-md-3.col-lg-2.px-1
-            h3.d-flex.justify-content-between(role="button" v-b-toggle.overview_collapse="")
-              | Overview
-              ion-icon(name='chevron-down-outline')
-            b-collapse#overview_collapse(:visible="true")
-              ul.nav.flex-column
-                li.nav-item
-                  a.btn.active(aria-current='page' href='/business2')
-                    ion-icon(name='globe-outline')
-                    | Dashboard
-                li.nav-item
-                  a.btn.active(aria-current='page' href='/business/projects')
-                    ion-icon(name='list-outline')
-                    | Projects
-                li.nav-item
-                  a.btn.active(aria-current='page' href='/business/reminders')
-                    ion-icon(name='checkbox-outline')
-                    | Tasks
-
-            h3.d-flex.justify-content-between(role="button" v-b-toggle.program_management_collapse="")
-              | Program Management
-              ion-icon(name='chevron-down-outline')
-            b-collapse#program_management_collapse(:visible="true")
-              ul.nav.flex-column
-                li.nav-item
-                  a.btn.active(aria-current='page' href='#')
-                    ion-icon(name='newspaper-outline')
-                    | Policies and Procedures
-                li.nav-item
-                  a.btn.active(aria-current='page' href='#')
-                    ion-icon(name='document-text-outline')
-                    | Annual Review
-                li.nav-item
-                  a.btn.active(aria-current='page' href='#')
-                    ion-icon(name='document-text-outline')
-                    | Filings
-
-            h3.d-flex.justify-content-between(role="button" v-b-toggle.addons_collapse="")
-              | Add-ons
-              ion-icon(name='chevron-down-outline')
-            b-collapse#addons_collapse(:visible="true")
-              ul.nav.flex-column
-                li.nav-item
-                  a.btn.active(aria-current='page' href='#')
-                    ion-icon(name='layers-outline')
-                    | My Add-Ons
-                li.nav-item
-                  a.btn.active(aria-current='page' href='#')
-                    ion-icon(name='storefront-outline')
-                    | Add-On Marketplace
-                li.nav-item
-                  a.btn.active(aria-current='page' href='#')
-                    ion-icon(name='settings-outline')
-                    | Settings
-        main.col-md-9.col-lg-10#main-content.px-0
+        main#main-content.px-0
           nav.navbar.navbar-expand-lg.navbar-light.p-0
             button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarNavAltMarkup' aria-controls='navbarNavAltMarkup' aria-expanded='false' aria-label='Toggle navigation')
               span.navbar-toggler-icon
