@@ -47,31 +47,13 @@
         b-button(@click="openProjectDetails(project.id)" variant="primary" style="float: right") View Details
 
     b-sidebar#ProjectSidebar(@hidden="closeSidebar" v-model="isSidebarOpen" backdrop-variant='dark' backdrop right width="60%")
-      .p-3(v-if="project")
-        h2 Project Details
-        h3 {{ project.title }}
-        dl.row
-          dt.col-sm-3 Location
-          dd.col-sm-9
-          dt.col-sm-3 Industry
-          dd.col-sm-9
-          dt.col-sm-3 Start Date
-          dd.col-sm-9 {{ project.starts_on | asDate }}
-          dt.col-sm-3 End Date
-          dd.col-sm-9 {{ project.ends_on | asDate }}
-          dt.col-sm-3 Key Deliverables
-          dd.col-sm-9 {{ project.key_deliverables }}
-        p {{ project.description }}
-        ProjectFigures(:project="project")
-        hr
-        h2 Skills
-        hr
-        h2 Client Details
-        b-button(@click="isSidebarOpen = false") Close
+      ProjectDetails(v-if="project" :project="project")
+      b-button.m-3(@click="isSidebarOpen = false") Close
 </template>
 
 <script>
 import ProjectFigures from './ProjectFigures'
+import ProjectDetails from './ProjectDetails'
 
 const frontendUrl = '/projects'
 const endpointUrl = '/api/specialist/projects'
@@ -181,7 +163,8 @@ export default {
     }
   },
   components: {
-    ProjectFigures
+    ProjectFigures,
+    ProjectDetails
   }
 }
 </script>
