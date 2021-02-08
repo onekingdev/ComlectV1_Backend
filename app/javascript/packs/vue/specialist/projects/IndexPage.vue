@@ -37,7 +37,9 @@
           .col-sm
             b-form-group.mb-0(label="Sort By" label-for="sort-input")
               b-form-select#sort-input(value="Newest" :options="['Newest']")
-      b-card.m-2(v-for="project in projects" :title="project.title" :sub-title="project.subTitle" :key="project.uid")
+      b-card.m-2(v-for="project in projects" :title="project.title" :key="project.uid")
+        h6.card-subtitle.text-muted.mb-2 {{project.subTitle}} | Start {{project.starts_on|asDate}}
+
         b-card-text {{project.description}}
 
         ul.list-group.list-group-horizontal
