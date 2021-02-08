@@ -42,28 +42,13 @@
 
         b-card-text {{project.description}}
 
-        ul.list-group.list-group-horizontal
-          li.list-group-item(v-if="project.pricing_type === 'fixed'")
-            | Fixed Budget
-            br
-            | {{ (project.est_budget || project.fixed_budget) | usdWhole }}
-          li.list-group-item(v-else)
-            | Hourly
-            br
-            | $ {{ project.hourly_rate | usdWhole }}
-          li.list-group-item
-            | Experience
-            br
-            | {{ project.minimum_experience }}
-          li.list-group-item
-            | Jurisdiction
-            br
-            | -
+        ProjectFigures(:project="project")
 
         b-button(@click="openProjectDetails(project.id)" variant="primary" style="float: right") View Details
 
-    b-sidebar#ProjectSidebar(@hidden="closeSidebar" v-model="isSidebarOpen" title="Project Details" backdrop-variant='dark' backdrop right width="60%")
+    b-sidebar#ProjectSidebar(@hidden="closeSidebar" v-model="isSidebarOpen" backdrop-variant='dark' backdrop right width="60%")
       .p-3(v-if="project")
+        h2 Project Details
         h3 {{ project.title }}
         dl.row
           dt.col-sm-3 Location
@@ -77,11 +62,17 @@
           dt.col-sm-3 Key Deliverables
           dd.col-sm-9 {{ project.key_deliverables }}
         p {{ project.description }}
-
+        ProjectFigures(:project="project")
+        hr
+        h2 Skills
+        hr
+        h2 Client Details
         b-button(@click="isSidebarOpen = false") Close
 </template>
 
 <script>
+import ProjectFigures from './ProjectFigures'
+
 const frontendUrl = '/projects'
 const endpointUrl = '/api/specialist/projects'
 
@@ -188,6 +179,9 @@ export default {
         document.body.classList[val ? 'add' : 'remove']('overflow-y-hidden')
       }
     }
+  },
+  components: {
+    ProjectFigures
   }
 }
 </script>
