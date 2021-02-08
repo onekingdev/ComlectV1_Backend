@@ -46,11 +46,11 @@
           li.list-group-item(v-if="project.pricing_type === 'fixed'")
             | Fixed Budget
             br
-            | $ {{ project.est_budget || project.fixed_budget }}
+            | {{ (project.est_budget || project.fixed_budget) | usdWhole }}
           li.list-group-item(v-else)
             | Hourly
             br
-            | $ {{ project.hourly_rate }}
+            | $ {{ project.hourly_rate | usdWhole }}
           li.list-group-item
             | Experience
             br
