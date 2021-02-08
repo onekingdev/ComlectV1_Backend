@@ -48,7 +48,7 @@
 
     b-sidebar#ProjectSidebar(@hidden="closeSidebar" v-model="isSidebarOpen" backdrop-variant='dark' backdrop right width="60%")
       ProjectDetails(v-if="project" :project="project")
-      b-button.m-3(@click="isSidebarOpen = false") Close
+      b-button.m-3(variant="default" @click="isSidebarOpen = false") Close
 </template>
 
 <script>

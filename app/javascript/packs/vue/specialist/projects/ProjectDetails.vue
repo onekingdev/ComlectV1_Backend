@@ -1,6 +1,9 @@
 <template lang="pug">
   .p-3
     h2 Project Details
+    a.btn.btn-default(href="#") Save
+    a.btn.btn-default(href="#") Share
+    a.btn.btn-dark(href="#") Apply
     h3 {{ project.title }}
     dl.row
       dt.col-sm-3 Location
