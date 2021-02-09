@@ -8,8 +8,8 @@
             h3 Terms
             InputText(v-model="form.fixed_price" :errors="errors.fixed_price") Fixed Price
             h3 Pitch
-            InputText(v-model="form.cover_letter" :errors="errors.cover_letter") Cover Letter
-            InputText(v-model="form.additional_information" :errors="errors.additional_information") Additional Information
+            InputTextarea(v-model="form.cover_letter" :errors="errors.cover_letter" :rows="7") Cover Letter
+            InputTextarea(v-model="form.additional_information" :errors="errors.additional_information") Additional Information
             h3 Attachments
             .card
               .card-body

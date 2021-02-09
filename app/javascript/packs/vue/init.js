@@ -8,6 +8,7 @@ import ComboBox from '@/common/ComboBox'
 import Dropdown from '@/common/Dropdown'
 import Errors from '@/common/Errors'
 import InputText from '@/common/InputText'
+import InputTextarea from '@/common/InputTextarea'
 import filters from '@/filters'
 import { extractToastMessage } from '@/common/Toast'
 
@@ -31,6 +32,7 @@ const init = configuration => {
   Vue.component('Dropdown', Dropdown)
   Vue.component('Errors', Errors)
   Vue.component('InputText', InputText)
+  Vue.component('InputTextarea', InputTextarea)
 
   return new Vue({
     el: document.getElementById('app'),
