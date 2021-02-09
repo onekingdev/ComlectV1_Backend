@@ -6,11 +6,10 @@
         .row
           .col-sm
             h3 Terms
-            InputText(v-model="form.fixed_budget" :errors="errors.fixed_budget") Fixed Price
-            hr
+            InputText(v-model="form.fixed_price" :errors="errors.fixed_price") Fixed Price
             h3 Pitch
-            InputTextarea(v-model="form.message" :errors="errors.message" :rows="7") Cover Letter
-            InputTextarea(v-model="form.additional_information" :errors="errors.additional_information") Additional Information
+            InputText(v-model="form.cover_letter" :errors="errors.cover_letter") Cover Letter
+            InputText(v-model="form.additional_information" :errors="errors.additional_information") Additional Information
             h3 Attachments
             .card
               .card-body
@@ -28,10 +27,10 @@
 import ProjectDetails from './ProjectDetails'
 
 const initialForm = () => ({
-  fixed_budget: null,
-  hourly_rate: null,
-  message: null,
-  additional_information: null // @todo nonexistent field
+  fixed_price: null,
+  or_hourl_price: null,
+  cover_letter: null,
+  additional_information: null
 })
 
 export default {

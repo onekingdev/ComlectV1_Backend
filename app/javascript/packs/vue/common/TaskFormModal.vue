@@ -68,7 +68,9 @@
           Dropdown(v-model="task.repeat_on" v-else :options="daysOfWeek")
       Errors(:errors="errors.repeats || errors.repeat_every || errors.repeat_on || errors.on_type")
 
-      InputTextarea(v-model="task.description" :errors="errors.description") Description
+      label.form-label Description
+      textarea.form-control(v-model="task.description" rows=3)
+      Errors(:errors="errors.description")
       .form-text.text-muted Optional
 
       template(slot="modal-footer")
