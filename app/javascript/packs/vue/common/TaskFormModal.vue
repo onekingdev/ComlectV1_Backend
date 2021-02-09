@@ -4,9 +4,7 @@
       slot
 
     b-modal.fade(:id="modalId" :title="taskId ? task.body : 'New task'" @show="resetTask")
-      label.form-label Task name
-      input.form-control(v-model="task.body" type=text placeholder="Enter the name of your task")
-      Errors(:errors="errors.body")
+      InputText(v-model="task.body" :errors="errors.body" placeholder="Enter the name of your task") Task Name
 
       label.form-label Link to
       ComboBox(V-model="task.link_to" :options="linkToOptions" placeholder="Select projects, annual reviews, or policies to link the task to")

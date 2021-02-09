@@ -44,6 +44,11 @@
         b-button(@click="openProjectDetails(project.id)" variant="primary" style="float: right") View Details
 
     b-sidebar#ProjectSidebar(@hidden="closeSidebar" v-model="isSidebarOpen" backdrop-variant='dark' backdrop right width="60%")
+      div.m-3
+        a.btn.btn-default(href="#") Save
+        a.btn.btn-default(href="#") Share
+        a.btn.btn-dark(v-if="project" :href="applyUrl(project)") Apply
+        h2 Project Details
       ProjectDetails(v-if="project" :project="project")
       b-button.m-3(variant="default" @click="isSidebarOpen = false") Close
 </template>
@@ -123,6 +128,9 @@ export default {
       this.project = null
       history.pushState({}, '', frontendUrl)
       this.isSidebarOpen = false
+    },
+    applyUrl(project) {
+      return `/projects/${project.id}/applications/new`
     }
   },
   computed: {
