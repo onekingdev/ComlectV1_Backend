@@ -3,7 +3,7 @@
     h2 Project Details
     a.btn.btn-default(href="#") Save
     a.btn.btn-default(href="#") Share
-    a.btn.btn-dark(href="#") Apply
+    a.btn.btn-dark(:href="applyUrl") Apply
     h3 {{ project.title }}
     dl.row
       dt.col-sm-3 Location
@@ -32,6 +32,11 @@ export default {
     project: {
       type: Object,
       required: true
+    }
+  },
+  computed: {
+    applyUrl() {
+      return `/projects/${this.project.id}/applications/new`
     }
   },
   components: {

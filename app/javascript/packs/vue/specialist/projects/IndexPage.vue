@@ -39,11 +39,8 @@
               b-form-select#sort-input(value="Newest" :options="['Newest']")
       b-card.m-2(v-for="project in projects" :title="project.title" :key="project.uid")
         h6.card-subtitle.text-muted.mb-2 {{project.subTitle}} | Start {{project.starts_on|asDate}}
-
         b-card-text {{project.description}}
-
         ProjectFigures(:project="project")
-
         b-button(@click="openProjectDetails(project.id)" variant="primary" style="float: right") View Details
 
     b-sidebar#ProjectSidebar(@hidden="closeSidebar" v-model="isSidebarOpen" backdrop-variant='dark' backdrop right width="60%")
