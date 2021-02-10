@@ -64,7 +64,7 @@ const endpointUrl = '/api/specialist/projects'
 const parse = p => ({
   ...p,
   uid: p.id + (p.starts_on ? '-p' : '-lp'),
-  subTitle: `${p.location_type}`
+  subTitle: [p.location_type, ...p.industries.map(({ name }) => name)].join(' | ')
 })
 
 const PRICING_TYPE_OPTIONS = [{ label: 'Fixed Price', value: 'fixed' }, { label: 'Hourly', value: 'hourly' }]
