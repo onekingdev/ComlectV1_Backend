@@ -29,50 +29,34 @@
     .col-sm-9
       b-card.m-2
         h3 Browse Projects
-      b-card.m-2(v-for="project in projects" :title="project.title" :sub-title="project.subTitle" :key="project.uid")
+      b-card.m-2
+        .row
+          .col-sm
+            b-form-group.mb-0(label="Search" label-for="search-input")
+              b-form-input#search-input(v-model="search" placeholder="Enter project type, keywords, etc.")
+          .col-sm
+            b-form-group.mb-0(label="Sort By" label-for="sort-input")
+              b-form-select#sort-input(value="Newest" :options="['Newest']")
+      b-card.m-2(v-for="project in projects" :title="project.title" :key="project.uid")
+        h6.card-subtitle.text-muted.mb-2 {{project.subTitle}} | Start {{project.starts_on|asDate}}
         b-card-text {{project.description}}
-
-        ul.list-group.list-group-horizontal
-          li.list-group-item(v-if="project.pricing_type === 'fixed'")
-            | Fixed Budget
-            br
-            | $ {{ project.est_budget || project.fixed_budget }}
-          li.list-group-item(v-else)
-            | Hourly
-            br
-            | $ {{ project.hourly_rate }}
-          li.list-group-item
-            | Experience
-            br
-            | {{ project.minimum_experience }}
-          li.list-group-item
-            | Jurisdiction
-            br
-            | -
-
+        ProjectFigures(:project="project")
         b-button(@click="openProjectDetails(project.id)" variant="primary" style="float: right") View Details
 
-    b-modal#ShowProjectModal(hide-footer @show="loadProject" @hide="closeModal")
-      template(#modal-title) Project Details
-      .d-block.text-center(v-if="project")
-        h3 {{ project.title }}
-        dl.row
-          dt.col-sm-3 Location
-          dd.col-sm-9
-          dt.col-sm-3 Industry
-          dd.col-sm-9
-          dt.col-sm-3 Start Date
-          dd.col-sm-9 {{ project.starts_on | asDate }}
-          dt.col-sm-3 End Date
-          dd.col-sm-9 {{ project.ends_on | asDate }}
-          dt.col-sm-3 Key Deliverables
-          dd.col-sm-9 {{ project.key_deliverables }}
-        p {{ project.description }}
-
-      b-button.mt-3(block @click="$bvModal.hide('ShowProjectModal')") Close
+    b-sidebar#ProjectSidebar(@hidden="closeSidebar" v-model="isSidebarOpen" backdrop-variant='dark' backdrop right width="60%")
+      div.m-3
+        a.btn.btn-default(href="#") Save
+        a.btn.btn-default(href="#") Share
+        a.btn.btn-dark(v-if="project" :href="applyUrl(project)") Apply
+        h2 Project Details
+      ProjectDetails(v-if="project" :project="project")
+      b-button.m-3(variant="default" @click="isSidebarOpen = false") Close
 </template>
 
 <script>
+import ProjectFigures from './ProjectFigures'
+import ProjectDetails from './ProjectDetails'
+
 const frontendUrl = '/projects'
 const endpointUrl = '/api/specialist/projects'
 
@@ -83,13 +67,13 @@ const parse = p => ({
 })
 
 const PRICING_TYPE_OPTIONS = [{ label: 'Fixed Price', value: 'fixed' }, { label: 'Hourly', value: 'hourly' }]
-const EXPERIENCE_OPTIONS = [{ label: 'Junior', value: [0, 3] },{ label: 'Intermediate', value: [4, 6] },{ label: 'Expert', value: [7, 9] }]
-const BUDGET_OPTIONS = [{ label: 'Less than $100', value: [0, 100] },
-                        { label: '$100 - $250', value: [100, 250] },
-                        { label: '$250 - $500', value: [250, 500] },
-                        { label: '$500 - $1000', value: [500, 1000] },
-                        { label: '$1k - $5k', value: [1000, 5000] },
-                        { label: '$5k+', value: [5000, 99999999] }]
+const EXPERIENCE_OPTIONS = [{ label: 'Junior', value: "[0,3]" },{ label: 'Intermediate', value: "[4,8]" },{ label: 'Expert', value: "[8,12]" }]
+const BUDGET_OPTIONS = [{ label: 'Less than $100', value: "[0,100]" },
+                        { label: '$100 - $250', value: "[100,250]" },
+                        { label: '$250 - $500', value: "[250,500]" },
+                        { label: '$500 - $1000', value: "[500,1000]" },
+                        { label: '$1k - $5k', value: "[1000,5000]" },
+                        { label: '$5k+', value: "[5000,99999999]" }]
 const DURATION_OPTIONS = [{ label: 'Less than 1 month', value: '' },
                           { label: '1 to 3 months', value: '' },
                           { label: '3 to 6 months', value: '' },
@@ -113,7 +97,9 @@ export default {
       projects: [],
       project: null,
       filter: initialFilter(),
-      openId: null
+      openId: null,
+      isSidebarOpen: false,
+      search: null
     }
   },
   created() {
@@ -127,19 +113,24 @@ export default {
         .then(response => response.json())
         .then(result => this.projects = result.map(parse))
     },
-    loadProject() {
-      fetch(endpointUrl + '/' + this.openId, { headers: {'Accept': 'application/json'}})
-        .then(response => response.json())
-        .then(result => this.project = result)
-    },
     openProjectDetails(id) {
       this.openId = id
       history.pushState({}, '', `${frontendUrl}/${id}`)
-      this.$nextTick(() => this.$bvModal.show('ShowProjectModal'))
+      fetch(endpointUrl + '/' + this.openId, { headers: {'Accept': 'application/json'}})
+        .then(response => response.json())
+        .then(result => {
+          this.project = result
+          this.isSidebarOpen = true
+        })
     },
-    closeModal() {
+    closeSidebar() {
       this.openId = null
+      this.project = null
       history.pushState({}, '', frontendUrl)
+      this.isSidebarOpen = false
+    },
+    applyUrl(project) {
+      return `/projects/${project.id}/applications/new`
     }
   },
   computed: {
@@ -168,7 +159,23 @@ export default {
       handler(val, oldVal) {
         this.refetch()
       }
+    },
+    'isSidebarOpen': {
+      immediate: true,
+      handler(val, oldVal) {
+        document.body.classList[val ? 'add' : 'remove']('overflow-y-hidden')
+      }
     }
+  },
+  components: {
+    ProjectFigures,
+    ProjectDetails
   }
 }
 </script>
+
+<style>
+.overflow-y-hidden {
+  overflow-y: hidden !important;
+}
+</style>

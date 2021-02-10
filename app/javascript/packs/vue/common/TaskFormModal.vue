@@ -4,9 +4,7 @@
       slot
 
     b-modal.fade(:id="modalId" :title="taskId ? task.body : 'New task'" @show="resetTask")
-      label.form-label Task name
-      input.form-control(v-model="task.body" type=text placeholder="Enter the name of your task")
-      Errors(:errors="errors.body")
+      InputText(v-model="task.body" :errors="errors.body" placeholder="Enter the name of your task") Task Name
 
       label.form-label Link to
       ComboBox(V-model="task.link_to" :options="linkToOptions" placeholder="Select projects, annual reviews, or policies to link the task to")
@@ -70,9 +68,7 @@
           Dropdown(v-model="task.repeat_on" v-else :options="daysOfWeek")
       Errors(:errors="errors.repeats || errors.repeat_every || errors.repeat_on || errors.on_type")
 
-      label.form-label Description
-      textarea.form-control(v-model="task.description" rows=3)
-      Errors(:errors="errors.description")
+      InputTextarea(v-model="task.description" :errors="errors.description") Description
       .form-text.text-muted Optional
 
       template(slot="modal-footer")
