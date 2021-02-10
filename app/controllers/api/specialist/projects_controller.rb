@@ -2,26 +2,25 @@
 
 class Api::Specialist::ProjectsController < ApiController
   before_action :require_specialist!
-
   skip_before_action :verify_authenticity_token # TODO: proper authentication
 
   def index
-    render json: Project::Search.new(search_params).results
+    results = Project::Search.new(search_params).results
+    respond_with paginate results, each_serializer: ProjectSerializer
   end
 
   def show
-    render json: policy_scope(Project).find(params[:id])
+    project =  policy_scope(Project).find(params[:id])
+    respond_with project, each_serializer: ProjectSerializer
   end
 
   private
 
   def search_params
-    project_search_params = params
-    return {} unless project_search_params
-    project_search_params.permit(
-      :project_type, :sort_by, :keyword, :experience, :regulator, :location_type, :location, :location_range,
-      :lat, :lng, :project_value, :page,
-      industry_ids: [], jurisdiction_ids: [], skill_names: []
+    params.permit(
+      :project_type, :sort_by, :keyword, :regulator, :location_type, :location, :location_range,
+      :lat, :lng, :page, :pricing_type,
+      industry_ids: [], jurisdiction_ids: [], skill_names: [], experience: [], budget: []
     )
   end
 end
