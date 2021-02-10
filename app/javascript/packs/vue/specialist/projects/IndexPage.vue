@@ -42,6 +42,7 @@
         b-card-text {{project.description}}
         ProjectFigures(:project="project")
         b-button(@click="openProjectDetails(project.id)" variant="primary" style="float: right") View Details
+      b-card.m-2.text-danger(v-if="!projects.length" title="No projects")
 
     b-sidebar#ProjectSidebar(@hidden="closeSidebar" v-model="isSidebarOpen" backdrop-variant='dark' backdrop right width="60%")
       div.m-3
@@ -67,13 +68,13 @@ const parse = p => ({
 })
 
 const PRICING_TYPE_OPTIONS = [{ label: 'Fixed Price', value: 'fixed' }, { label: 'Hourly', value: 'hourly' }]
-const EXPERIENCE_OPTIONS = [{ label: 'Junior', value: "[0,3]" },{ label: 'Intermediate', value: "[4,8]" },{ label: 'Expert', value: "[8,12]" }]
-const BUDGET_OPTIONS = [{ label: 'Less than $100', value: "[0,100]" },
-                        { label: '$100 - $250', value: "[100,250]" },
-                        { label: '$250 - $500', value: "[250,500]" },
-                        { label: '$500 - $1000', value: "[500,1000]" },
-                        { label: '$1k - $5k', value: "[1000,5000]" },
-                        { label: '$5k+', value: "[5000,99999999]" }]
+const EXPERIENCE_OPTIONS = [{ label: 'Junior', value: [0, 3] },{ label: 'Intermediate', value: [4, 8] },{ label: 'Expert', value: [8, 12] }]
+const BUDGET_OPTIONS = [{ label: 'Less than $100', value: [0, 100] },
+                        { label: '$100 - $250', value: [100, 250] },
+                        { label: '$250 - $500', value: [250, 500] },
+                        { label: '$500 - $1000', value: [500, 1000] },
+                        { label: '$1k - $5k', value: [1000, 5000] },
+                        { label: '$5k+', value: [5000, 99999999] }]
 const DURATION_OPTIONS = [{ label: 'Less than 1 month', value: '' },
                           { label: '1 to 3 months', value: '' },
                           { label: '3 to 6 months', value: '' },
@@ -140,16 +141,17 @@ export default {
     durationOptions: () => DURATION_OPTIONS,
     filterQuery() {
       let query = []
-      const flattenRanges = param => (result, option, i) => this.filter[param][i] ? [...result, option.value[0], option.value[1]] : result
-      const budget = this.budgetOptions.reduce(flattenRanges('budget'), [])
-      if (budget.length) {
-        query.push('project_value=' + Math.min(...budget) + '%3B' + Math.max(...budget))
-      }
-      const experience = this.experienceOptions.reduce(flattenRanges('experience'), [])
-      if (experience.length) {
-        query.push('experience=' + Math.min(...experience) + '%3B' + Math.max(...experience))
-      }
-      return '?' + query.join('&')
+
+      const getCheckedItems = (options, property) => options.reduce((result, option, i) => this.filter[property][i] ? [...result, option] : result, [])
+      const buildParam = param => ({ value }) => `${param}[]=${value[0]},${value[1]}`
+
+      const pricingTypes = getCheckedItems(this.pricingTypeOptions, 'pricing_type')
+      query.push(pricingTypes.length === 1 ? `pricing_type=${pricingTypes[0].value}` : '')
+
+      getCheckedItems(this.experienceOptions, 'experience').map(buildParam('experience')).map(arg => query.push(arg))
+      getCheckedItems(this.budgetOptions, 'budget').map(buildParam('budget')).map(arg => query.push(arg))
+
+      return query.length ? ('?' + query.join('&')) : ''
     }
   },
   watch: {

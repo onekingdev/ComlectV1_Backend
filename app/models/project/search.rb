@@ -20,7 +20,7 @@ class Project::Search
     end
     self.sort_by = 'newest' if sort_by.blank?
     self.project_type = 'one-off' if project_type.blank?
-    self.budget = "[0,#{MAX_VALUE}]" if budget.blank?
+    self.budget = ["0,#{MAX_VALUE}"] if budget.blank?
     self.industry_ids ||= []
     self.industry_ids.map!(&:presence).compact!
     self.jurisdiction_ids ||= []
@@ -77,7 +77,7 @@ class Project::Search
   end
 
   def filter_budget(records)
-    return records unless budget.blank?
+    return records if budget.blank?
 
     project_budget = budget.join(',').split(',').map(&:to_i)
     min, max = project_budget.min, project_budget.max
