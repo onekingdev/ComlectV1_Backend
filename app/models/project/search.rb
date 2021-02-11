@@ -72,7 +72,7 @@ class Project::Search
     return records unless experience
 
     experience = self.experience.join(',').split(',').map(&:to_i)
-    min, max = experience.min, experience.max
+    min, max = experience.minmax
     records.where(minimum_experience: min..max)
   end
 
@@ -80,7 +80,7 @@ class Project::Search
     return records if budget.blank?
 
     project_budget = budget.join(',').split(',').map(&:to_i)
-    min, max = project_budget.min, project_budget.max
+    min, max = project_budget.minmax
     records.where(calculated_budget: (min..max)).or(records.where(est_budget: (min..max)))
   end
 
@@ -131,7 +131,7 @@ class Project::Search
   end
 
   def filter_pricing_type(records)
-    return records unless pricing_type.present?
+    return records if pricing_type.blank?
 
     records.where(pricing_type: pricing_type)
   end

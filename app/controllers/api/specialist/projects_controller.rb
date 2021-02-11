@@ -10,7 +10,7 @@ class Api::Specialist::ProjectsController < ApiController
   end
 
   def show
-    project =  policy_scope(Project).find(params[:id])
+    project = policy_scope(Project).find(params[:id])
     respond_with project, each_serializer: ProjectSerializer
   end
 

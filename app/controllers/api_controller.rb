@@ -23,7 +23,7 @@ class ApiController < ApplicationController
   end
 
   def paginate(scope, **options)
-    @pagy, paginated_scope = pagy_array(scope.to_a, options.merge({ items: per_page, page: page}))
+    @pagy, paginated_scope = pagy_array(scope.to_a, options.merge(items: per_page, page: page))
     paginated_scope
   end
 

@@ -21,7 +21,8 @@
             a.btn.btn-light Save Draft
             a.btn.btn-dark Submit Proposal
           .col-sm
-            ProjectDetails(v-if="project" :project="project")
+            Get(:project='`/api/specialist/projects/${projectId}`'): template(v-slot="{project}")
+              ProjectDetails(:project="project")
 </template>
 
 <script>
@@ -46,18 +47,7 @@ export default {
   data() {
     return {
       form: initialForm(),
-      errors: {},
-      project: null
-    }
-  },
-  created() {
-    this.loadProject()
-  },
-  methods: {
-    loadProject() {
-      fetch(endpointUrl + '/' + this.projectId, { headers: {'Accept': 'application/json'}})
-        .then(response => response.json())
-        .then(result => this.project = result)
+      errors: {}
     }
   },
   components: {
