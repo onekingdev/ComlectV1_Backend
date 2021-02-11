@@ -263,18 +263,12 @@ Rails.application.routes.draw do
       get '/reminders/:date_from/:date_to' => 'reminders#by_date'
       get '/overdue_reminders' => 'reminders#overdue'
       post '/reminders' => 'reminders#create'
-      resources :projects, only: %i[index show create] do
-        resources :job_applications, path: 'applications', only: %i[index] do
-          post :shortlist
-          post :hide
-        end
-      end
+      resources :projects, only: %i[index show create]
       resources :local_projects, only: %i[index create]
     end
     namespace :specialist do
-      resources :projects, only: %i[index show] do
-        resources :job_applications, path: 'applications', only: %i[show update create destroy]
-      end
+      get '/projects' => 'projects#index'
+      get '/projects/:id' => 'projects#show'
     end
   end
 end

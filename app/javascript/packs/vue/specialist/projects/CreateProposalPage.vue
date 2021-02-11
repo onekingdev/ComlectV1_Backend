@@ -21,11 +21,13 @@
             a.btn.btn-light Save Draft
             a.btn.btn-dark Submit Proposal
           .col-sm
-            ProjectDetails(:project="project")
+            ProjectDetails(v-if="project" :project="project")
 </template>
 
 <script>
 import ProjectDetails from './ProjectDetails'
+
+const endpointUrl = '/api/specialist/projects'
 
 const initialForm = () => ({
   fixed_budget: null,
@@ -36,15 +38,26 @@ const initialForm = () => ({
 
 export default {
   props: {
-    project: {
-      type: Object,
+    projectId: {
+      type: Number,
       required: true
     }
   },
   data() {
     return {
       form: initialForm(),
-      errors: {}
+      errors: {},
+      project: null
+    }
+  },
+  created() {
+    this.loadProject()
+  },
+  methods: {
+    loadProject() {
+      fetch(endpointUrl + '/' + this.projectId, { headers: {'Accept': 'application/json'}})
+        .then(response => response.json())
+        .then(result => this.project = result)
     }
   },
   components: {
