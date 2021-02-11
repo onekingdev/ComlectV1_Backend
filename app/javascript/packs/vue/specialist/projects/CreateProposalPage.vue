@@ -19,7 +19,8 @@
                   a.btn.btn-light Upload Files
             a.btn Cancel
             a.btn.btn-light Save Draft
-            a.btn.btn-dark Submit Proposal
+            Post(:action="`/api/specialist/projects/${projectId}/applications`" :model="form" @errors="errors = $event" @saved="() => {}")
+              button.btn.btn-dark Submit Proposal
           .col-sm
             Get(:project='`/api/specialist/projects/${projectId}`'): template(v-slot="{project}")
               ProjectDetails(:project="project")
@@ -27,8 +28,6 @@
 
 <script>
 import ProjectDetails from './ProjectDetails'
-
-const endpointUrl = '/api/specialist/projects'
 
 const initialForm = () => ({
   fixed_budget: null,

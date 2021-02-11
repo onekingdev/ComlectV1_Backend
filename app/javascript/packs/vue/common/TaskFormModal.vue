@@ -149,9 +149,6 @@ export default {
     },
     toggleDone(task) {
       const { taskId, oid } = splitReminderOccurenceId(task.id)
-      console.log(task.id)
-      console.log(taskId)
-      console.log(oid)
       const oidParam = oid !== null ? `&oid=${oid}` : ''
       var target_state = (!(!!task.done_at)).toString()
       var src_id_params = oid !== null ? `&src_id=${this.taskId}` : ''
