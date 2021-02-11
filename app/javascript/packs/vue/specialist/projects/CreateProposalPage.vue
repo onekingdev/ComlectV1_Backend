@@ -3,7 +3,7 @@
     .card
       .card-body
         h2 Create Proposal
-        .row
+        Get(:project='`/api/specialist/projects/${projectId}`'): template(v-slot="{project}"): div.row
           .col-sm
             h3 Terms
             InputText(v-model="form.fixed_budget" :errors="errors.fixed_budget") Fixed Price
@@ -19,7 +19,8 @@
                   a.btn.btn-light Upload Files
             a.btn Cancel
             a.btn.btn-light Save Draft
-            a.btn.btn-dark Submit Proposal
+            Post(:action="`/api/specialist/projects/${projectId}/applications`" :model="form" @errors="errors = $event" @saved="() => {}")
+              button.btn.btn-dark Submit Proposal
           .col-sm
             ProjectDetails(:project="project")
 </template>
@@ -36,8 +37,8 @@ const initialForm = () => ({
 
 export default {
   props: {
-    project: {
-      type: Object,
+    projectId: {
+      type: Number,
       required: true
     }
   },
