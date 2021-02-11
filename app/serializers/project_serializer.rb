@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ProjectSerializer < ApplicationSerializer
   attributes :id,
              :business_id,
@@ -76,4 +78,3 @@ class ProjectSerializer < ApplicationSerializer
     end
   end
 end
-

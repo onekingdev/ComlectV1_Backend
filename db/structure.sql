@@ -738,7 +738,8 @@ CREATE TABLE public.compliance_policies (
     pdf_data jsonb,
     docs_count integer DEFAULT 0,
     "position" integer,
-    ban boolean DEFAULT false
+    ban boolean DEFAULT false,
+    description text DEFAULT ''::text
 );
 
 
@@ -792,6 +793,41 @@ CREATE SEQUENCE public.compliance_policy_docs_id_seq
 --
 
 ALTER SEQUENCE public.compliance_policy_docs_id_seq OWNED BY public.compliance_policy_docs.id;
+
+
+--
+-- Name: compliance_policy_sections; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.compliance_policy_sections (
+    id bigint NOT NULL,
+    compliance_policy_id integer,
+    parent_id integer,
+    name character varying,
+    description text,
+    "order" integer,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: compliance_policy_sections_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.compliance_policy_sections_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: compliance_policy_sections_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.compliance_policy_sections_id_seq OWNED BY public.compliance_policy_sections.id;
 
 
 --
@@ -5017,6 +5053,13 @@ ALTER TABLE ONLY public.compliance_policy_docs ALTER COLUMN id SET DEFAULT nextv
 
 
 --
+-- Name: compliance_policy_sections id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.compliance_policy_sections ALTER COLUMN id SET DEFAULT nextval('public.compliance_policy_sections_id_seq'::regclass);
+
+
+--
 -- Name: cookie_agreements id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -5548,6 +5591,14 @@ ALTER TABLE ONLY public.compliance_policies
 
 ALTER TABLE ONLY public.compliance_policy_docs
     ADD CONSTRAINT compliance_policy_docs_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: compliance_policy_sections compliance_policy_sections_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.compliance_policy_sections
+    ADD CONSTRAINT compliance_policy_sections_pkey PRIMARY KEY (id);
 
 
 --
@@ -7410,6 +7461,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210118192309'),
 ('20210128050645'),
 ('20210203192622'),
-('20210205083649');
+('20210205083649'),
+('20210210173529'),
+('20210211082102');
 
 
