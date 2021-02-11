@@ -8,6 +8,7 @@ class CreateCompliancePolicySections < ActiveRecord::Migration[6.0]
       t.string :name
       t.text :description
       t.integer :order
+      t.integer :business_id
 
       t.timestamps
     end
