@@ -14,16 +14,17 @@ class JobApplication::Form < JobApplication
   validate -> { errors.add :prerequisites, :no_payment_info }, unless: :payment_info? if Rails.env.production? || Rails.env.staging?
 
   RFP_FIELDS = %i[message key_deliverables pricing_type].freeze
-  validates(*RFP_FIELDS, presence: true, if: :rfp?)
-  validates(:starts_on, presence: true, if: :rfp?)
-  validates(:ends_on, presence: true, if: :rfp?)
-  validates :hourly_rate, presence: true, if: :hourly_pricing?
-  validates :estimated_hours, presence: true, if: :hourly_pricing?
+  validates :message, presence: true
+  # validates(*RFP_FIELDS, presence: true, if: :rfp?)
+  # validates(:starts_on, presence: true, if: :rfp?)
+  # validates(:ends_on, presence: true, if: :rfp?)
+  # validates :hourly_rate, presence: true, if: :hourly_pricing?
+  # validates :estimated_hours, presence: true, if: :hourly_pricing?
   validates :fixed_budget, presence: true, if: :fixed_pricing?
-  validates :hourly_payment_schedule, :hourly_rate,
-            presence: true, if: -> { hourly_pricing? && payment_schedule.blank? }
-  validates :fixed_payment_schedule, :fixed_budget,
-            presence: true, if: -> { fixed_pricing? && payment_schedule.blank? }
+  # validates :hourly_payment_schedule, :hourly_rate,
+  #          presence: true, if: -> { hourly_pricing? && payment_schedule.blank? }
+  # validates :fixed_payment_schedule, :fixed_budget,
+  #          presence: true, if: -> { fixed_pricing? && payment_schedule.blank? }
   validate if: -> { starts_on.present? } do
     errors.add :starts_on, :past if starts_on.in_time_zone(project.business.tz).to_date < project.business.tz.today
   end

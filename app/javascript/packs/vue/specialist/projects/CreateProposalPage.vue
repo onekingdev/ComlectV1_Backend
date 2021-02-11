@@ -19,11 +19,9 @@
                   a.btn.btn-light Upload Files
             a.btn Cancel
             a.btn.btn-light Save Draft
-            Post(:action="`/api/specialist/projects/${projectId}/applications`" :model="form" @errors="errors = $event" @saved="() => {}")
-              button.btn.btn-dark Submit Proposal
+            a.btn.btn-dark Submit Proposal
           .col-sm
-            Get(:project='`/api/specialist/projects/${projectId}`'): template(v-slot="{project}")
-              ProjectDetails(:project="project")
+            ProjectDetails(:project="project")
 </template>
 
 <script>
@@ -38,8 +36,8 @@ const initialForm = () => ({
 
 export default {
   props: {
-    projectId: {
-      type: Number,
+    project: {
+      type: Object,
       required: true
     }
   },
