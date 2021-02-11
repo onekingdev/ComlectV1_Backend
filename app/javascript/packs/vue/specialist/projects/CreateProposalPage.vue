@@ -3,7 +3,7 @@
     .card
       .card-body
         h2 Create Proposal
-        Get(:project='`/api/specialist/projects/${projectId}`'): template(v-slot="{project}"): div.row
+        .row
           .col-sm
             h3 Terms
             InputText(v-model="form.fixed_budget" :errors="errors.fixed_budget") Fixed Price
@@ -22,7 +22,8 @@
             Post(:action="`/api/specialist/projects/${projectId}/applications`" :model="form" @errors="errors = $event" @saved="() => {}")
               button.btn.btn-dark Submit Proposal
           .col-sm
-            ProjectDetails(:project="project")
+            Get(:project='`/api/specialist/projects/${projectId}`'): template(v-slot="{project}")
+              ProjectDetails(:project="project")
 </template>
 
 <script>

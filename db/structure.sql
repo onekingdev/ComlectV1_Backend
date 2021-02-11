@@ -1950,7 +1950,8 @@ CREATE TABLE public.job_applications (
     estimated_hours integer,
     starts_on date,
     ends_on date,
-    status character varying
+    status character varying,
+    role_details text DEFAULT ''::text
 );
 
 
@@ -7516,6 +7517,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210205083649'),
 ('20210210173529'),
 ('20210211082102'),
-('20210211121353');
+('20210211121353'),
+('20210211201513');
 
 

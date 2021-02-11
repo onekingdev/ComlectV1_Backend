@@ -57,7 +57,8 @@ class Api::Specialist::JobApplicationsController < ApiController
       :fixed_budget,
       :estimated_hours,
       :status,
-      :fixed_budget
+      :fixed_budget,
+      :role_details
     )
   end
 
