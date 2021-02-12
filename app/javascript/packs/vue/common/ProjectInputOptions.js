@@ -31,4 +31,25 @@ const RFP_TIMING_OPTIONS = [{
   value: 'not_sure', text: 'Not sure'
 }]
 
-export { PRICING_TYPES, PRICING_TYPES_OPTIONS, LOCATION_TYPES, RFP_TIMING_OPTIONS }
+const FIXED_PAYMENT_SCHEDULE_OPTIONS = {
+  upfront: 'Upfront',
+  fifty_fifty: '50/50',
+  upon_completion: 'Upon Completion',
+  bi_weekly: 'Bi-Weekly',
+  monthly: 'Monthly'
+}
+
+const HOURLY_PAYMENT_SCHEDULE_OPTIONS = {
+  upon_completion: 'Upon Completion',
+  bi_weekly: 'Bi-Weekly',
+  monthly: 'Monthly'
+}
+
+export {
+  PRICING_TYPES,
+  PRICING_TYPES_OPTIONS,
+  LOCATION_TYPES,
+  RFP_TIMING_OPTIONS,
+  FIXED_PAYMENT_SCHEDULE_OPTIONS,
+  HOURLY_PAYMENT_SCHEDULE_OPTIONS,
+}

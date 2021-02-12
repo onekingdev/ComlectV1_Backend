@@ -72,10 +72,9 @@
           label.form-label Estimated Budget
           input.form-control(v-model="project.est_budget" type=text)
           Errors(:errors="errors.est_budget")
-          //- @todo $ prefixes in input
 
           label.form-label Method of Payment
-          Dropdown(v-model="project.fixed_payment_schedule" :options="[]")
+          Dropdown(v-model="project.fixed_payment_schedule" :options="fixedPaymentScheduleOptions")
           Errors(:errors="errors.fixed_payment_schedule")
 
         .m-t-1(v-else)
@@ -85,7 +84,7 @@
           //- @todo hourly rate: range (2 vals) instead of 1 field
 
           label.form-label Method of Payment
-          Dropdown(v-model="project.hourly_payment_schedule" :options="['upon_completion', 'bi_weekly', 'monthly']")
+          Dropdown(v-model="project.hourly_payment_schedule" :options="hourlyPaymentScheduleOptions")
           Errors(:errors="errors.hourly_payment_schedule")
 
     .row.no-gutters
@@ -99,7 +98,13 @@
 <script>
 import WizardProgress from '@/common/WizardProgress'
 import { redirectWithToast } from '@/common/Toast'
-import { PRICING_TYPES, LOCATION_TYPES, RFP_TIMING_OPTIONS } from '@/common/ProjectInputOptions'
+import {
+  PRICING_TYPES,
+  LOCATION_TYPES,
+  RFP_TIMING_OPTIONS,
+  FIXED_PAYMENT_SCHEDULE_OPTIONS,
+  HOURLY_PAYMENT_SCHEDULE_OPTIONS
+} from '@/common/ProjectInputOptions'
 
 const REQUIRED = 'This field is required'
 const STEPS = ['Project Details', 'Expertise', 'Budget']
@@ -226,6 +231,8 @@ export default {
     pricingTypes: () => PRICING_TYPES,
     locationTypes: () => LOCATION_TYPES,
     rfpTimingOptions: () => RFP_TIMING_OPTIONS,
+    fixedPaymentScheduleOptions: () => FIXED_PAYMENT_SCHEDULE_OPTIONS,
+    hourlyPaymentScheduleOptions: () => HOURLY_PAYMENT_SCHEDULE_OPTIONS,
     skillsOptions: () => ['SEC', 'Policy Writing', 'FINRA'].map(id => ({ id, label: id })),
     industryIdsOptions() {
       return this.industryIds.map(toOption)
