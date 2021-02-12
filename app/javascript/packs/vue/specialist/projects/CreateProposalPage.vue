@@ -6,11 +6,22 @@
         Get(:project='`/api/specialist/projects/${projectId}`'): template(v-slot="{project}"): div.row
           .col-sm
             h3 Terms
-            InputText(v-model="form.fixed_budget" :errors="errors.fixed_budget") Fixed Price
+            .row
+              .col-sm: InputDate(v-model="form.starts_on" :errors="errors.starts_on") Start Date
+              .col-sm: InputDate(v-model="form.ends_on" :errors="errors.ends_on") Due Date
+            InputSelect(v-model="form.pricing_type" :errors="errors.pricing_type" :options="pricingTypesOptions") Pricing Type
+            div(v-if="isFixedBudget")
+              InputText(v-model="form.fixed_budget" :errors="errors.fixed_budget") Fixed Budget
+              InputSelect(v-model="form.fixed_payment_schedule" :errors="errors.fixed_payment_schedule" :options="fixedPaymentScheduleOptions") Payment Schedule
+            div(v-else)
+              InputText(v-model="form.hourly_rate" :errors="errors.hourly_rate") Hourly Rate
+              InputText(v-model="form.estimated_hours" :errors="errors.estimated_hours") Estimated Hours
+              InputSelect(v-model="form.hourly_payment_schedule" :errors="errors.hourly_payment_schedule" :options="hourlyPaymentScheduleOptions") Payment Schedule
             hr
             h3 Pitch
             InputTextarea(v-model="form.message" :errors="errors.message" :rows="7") Cover Letter
-            InputTextarea(v-model="form.additional_information" :errors="errors.additional_information") Additional Information
+            InputTextarea(v-model="form.key_deliverables" :errors="errors.key_deliverables" :rows="4") Key Deliverables
+            InputTextarea(v-model="form.role_details" :errors="errors.role_details" :rows="4") Role Details
             h3 Attachments
             .card
               .card-body
@@ -27,12 +38,27 @@
 
 <script>
 import ProjectDetails from './ProjectDetails'
+import {
+  PRICING_TYPES_OPTIONS,
+  FIXED_PAYMENT_SCHEDULE_OPTIONS,
+  HOURLY_PAYMENT_SCHEDULE_OPTIONS
+} from '@/common/ProjectInputOptions'
+
+const FIXED_BUDGET = Object.keys(PRICING_TYPES_OPTIONS)[0]
 
 const initialForm = () => ({
-  fixed_budget: null,
   hourly_rate: null,
+  starts_on: null,
+  ends_on: null,
+  pricing_type: FIXED_BUDGET,
+  fixed_budget: null,
+  fixed_payment_schedule: null,
+  hourly_rate: null,
+  hourly_payment_schedule: null,
+  estimated_hours: null,
   message: null,
-  additional_information: null // @todo nonexistent field
+  key_deliverables: null,
+  role_details: null,
 })
 
 export default {
@@ -47,6 +73,14 @@ export default {
       form: initialForm(),
       errors: {}
     }
+  },
+  computed: {
+    pricingTypesOptions: () => PRICING_TYPES_OPTIONS,
+    fixedPaymentScheduleOptions: () => FIXED_PAYMENT_SCHEDULE_OPTIONS,
+    hourlyPaymentScheduleOptions: () => HOURLY_PAYMENT_SCHEDULE_OPTIONS,
+    isFixedBudget() {
+      return FIXED_BUDGET === this.form.pricing_type
+    },
   },
   components: {
     ProjectDetails
