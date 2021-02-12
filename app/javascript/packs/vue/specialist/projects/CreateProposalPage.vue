@@ -12,11 +12,11 @@
             InputSelect(v-model="form.pricing_type" :errors="errors.pricing_type" :options="pricingTypesOptions") Pricing Type
             div(v-if="isFixedBudget")
               InputText(v-model="form.fixed_budget" :errors="errors.fixed_budget") Fixed Budget
-              InputSelect(v-model="form.fixed_payment_schedule" :errors="errors.fixed_payment_schedule" :options="fixedPaymentScheduleOptions") Payment Schedule
+              InputSelect(v-model="form.payment_schedule" :errors="errors.payment_schedule" :options="fixedPaymentScheduleOptions") Payment Schedule
             div(v-else)
               InputText(v-model="form.hourly_rate" :errors="errors.hourly_rate") Hourly Rate
               InputText(v-model="form.estimated_hours" :errors="errors.estimated_hours") Estimated Hours
-              InputSelect(v-model="form.hourly_payment_schedule" :errors="errors.hourly_payment_schedule" :options="hourlyPaymentScheduleOptions") Payment Schedule
+              InputSelect(v-model="form.payment_schedule" :errors="errors.payment_schedule" :options="hourlyPaymentScheduleOptions") Payment Schedule
             hr
             h3 Pitch
             InputTextarea(v-model="form.message" :errors="errors.message" :rows="7") Cover Letter
@@ -52,9 +52,8 @@ const initialForm = () => ({
   ends_on: null,
   pricing_type: FIXED_BUDGET,
   fixed_budget: null,
-  fixed_payment_schedule: null,
+  payment_schedule: null,
   hourly_rate: null,
-  hourly_payment_schedule: null,
   estimated_hours: null,
   message: null,
   key_deliverables: null,
