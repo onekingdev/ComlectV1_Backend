@@ -10,6 +10,7 @@ import Errors from '@/common/Errors'
 import InputDate from '@/common/InputDate'
 import InputText from '@/common/InputText'
 import InputTextarea from '@/common/InputTextarea'
+import InputSelect from '@/common/InputSelect'
 import Get from '@/common/rest/Get'
 import Post from '@/common/rest/Post'
 import filters from '@/filters'
@@ -37,6 +38,7 @@ const init = configuration => {
   Vue.component('InputDate', InputDate)
   Vue.component('InputText', InputText)
   Vue.component('InputTextarea', InputTextarea)
+  Vue.component('InputSelect', InputSelect)
   Vue.component('Get', Get)
   Vue.component('Post', Post)
 
