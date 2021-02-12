@@ -7,6 +7,7 @@ import Breadcrumbs from '@/common/Breadcrumbs'
 import ComboBox from '@/common/ComboBox'
 import Dropdown from '@/common/Dropdown'
 import Errors from '@/common/Errors'
+import InputDate from '@/common/InputDate'
 import InputText from '@/common/InputText'
 import InputTextarea from '@/common/InputTextarea'
 import Get from '@/common/rest/Get'
@@ -33,6 +34,7 @@ const init = configuration => {
   Vue.component('ComboBox', ComboBox)
   Vue.component('Dropdown', Dropdown)
   Vue.component('Errors', Errors)
+  Vue.component('InputDate', InputDate)
   Vue.component('InputText', InputText)
   Vue.component('InputTextarea', InputTextarea)
   Vue.component('Get', Get)
