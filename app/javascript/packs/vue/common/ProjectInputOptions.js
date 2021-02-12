@@ -10,26 +10,18 @@ const PRICING_TYPES = [{
 
 const PRICING_TYPES_OPTIONS = Object.fromEntries(PRICING_TYPES.map(type => [type.id, type.label]))
 
-const LOCATION_TYPES = [{
-  value: 'remote',
-  text: 'Remote'
-}, {
-  value: 'remote_and_travel',
-  text: 'Remote + Travel'
-}, {
-  value: 'onsite',
-  text: 'Onsite'
-}]
+const LOCATION_TYPES = {
+  remote: 'Remote',
+  remote_and_travel: 'Remote + Travel',
+  onsite: 'Onsite'
+}
 
-const RFP_TIMING_OPTIONS = [{
-  value: 'asap', text: 'As soon as possible',
-},{
-  value: 'two_weeks', text: 'Within the next 2 weeks',
-},{
-  value: 'month', text: 'Within a month',
-},{
-  value: 'not_sure', text: 'Not sure'
-}]
+const RFP_TIMING_OPTIONS = {
+  asap: 'As soon as possible',
+  two_weeks: 'Within the next 2 weeks',
+  month: 'Within a month',
+  not_sure: 'Not sure'
+}
 
 const FIXED_PAYMENT_SCHEDULE_OPTIONS = {
   upfront: 'Upfront',

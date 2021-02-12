@@ -6,36 +6,17 @@
     .row.no-gutters
       .col-md-6.p-t-2(v-if="step === steps[0]")
 
-        label.form-label Title
-        input.form-control(v-model="project.title" type=text)
-        Errors(:errors="errors.title")
+        InputText(v-model="project.title" :errors="errors.title") Title
+        .row
+          .col-sm: InputDate(v-model="project.starts_on" :errors="errors.starts_on") Start Date
+          .col-sm: InputDate(v-model="project.ends_on" :errors="errors.ends_on") Due Date
 
-        b-row(no-gutters)
-          .col-sm
-            label.form-label Start Date
-            DatePicker(v-model="project.starts_on")
-            Errors(:errors="errors.starts_on")
-          .col-sm
-            label.form-label Due Date
-            DatePicker(v-model="project.ends_on")
-            Errors(:errors="errors.ends_on")
-
-        label.form-label Description
-        textarea.form-control(v-model="project.description" rows=3)
-        Errors(:errors="errors.description")
+        InputTextarea(v-model="project.description" :errors="errors.description") Description
         .form-text.text-muted Project post information for the specialist
 
-        label.form-label Project Timing
-        Dropdown(v-model="project.rfp_timing" :options="rfpTimingOptions")
-        Errors(:errors="errors.rfp_timing")
-
-        label.form-label Location Type
-        Dropdown(v-model="project.location_type" :options="locationTypes")
-        Errors(:errors="errors.location_type")
-
-        label.form-label Location
-        input.form-control(v-model="project.location" type=text)
-        Errors(:errors="errors.location")
+        InputSelect(v-model="project.rfp_timing" :errors="errors.rfp_timing" :options="rfpTimingOptions") Project Timing
+        InputSelect(v-model="project.location_type" :errors="errors.location_type" :options="locationTypes") Location Type
+        InputText(v-model="project.location" :errors="errors.location") Location
 
         label.form-label Industry
         ComboBox(v-model="project.industry_ids" :options="industryIdsOptions" :multiple="true")
@@ -47,10 +28,7 @@
 
     .row.no-gutters
       .col-md-6.p-t-2(v-if="step === steps[1]")
-
-        label.form-label Minimum Experience
-        Dropdown(v-model="project.minimum_experience" :options="[1, 2, 3, 4, 5, 6, 7, 8, 9]")
-        Errors(:errors="errors.minimum_experience")
+        InputSelect(v-model="project.minimum_experience" :errors="errors.minimum_experience" :options="experienceOptions") Minimum Experience
 
         b-form-checkbox.m-y-1(v-model="project.only_regulators") Only former regulators
         Errors(:errors="errors.only_regulators")
@@ -69,23 +47,12 @@
               p.card-text {{type.text}}
 
         .m-t-1(v-if="project.pricing_type === pricingTypes[0].id")
-          label.form-label Estimated Budget
-          input.form-control(v-model="project.est_budget" type=text)
-          Errors(:errors="errors.est_budget")
-
-          label.form-label Method of Payment
-          Dropdown(v-model="project.fixed_payment_schedule" :options="fixedPaymentScheduleOptions")
-          Errors(:errors="errors.fixed_payment_schedule")
+          InputText(v-model="project.est_budget" :errors="errors.est_budget") Estimated Budget
+          InputSelect(v-model="project.fixed_payment_schedule" :errors="errors.fixed_payment_schedule" :options="fixedPaymentScheduleOptions") Method of Payment
 
         .m-t-1(v-else)
-          label.form-label Hourly Rate
-          input.form-control(v-model="project.hourly_rate" type=text)
-          Errors(:errors="errors.hourly_rate")
-          //- @todo hourly rate: range (2 vals) instead of 1 field
-
-          label.form-label Method of Payment
-          Dropdown(v-model="project.hourly_payment_schedule" :options="hourlyPaymentScheduleOptions")
-          Errors(:errors="errors.hourly_payment_schedule")
+          InputText(v-model="project.hourly_rate" :errors="errors.hourly_rate") Hourly Rate
+          InputSelect(v-model="project.hourly_payment_schedule" :errors="errors.hourly_payment_schedule" :options="hourlyPaymentScheduleOptions") Method of Payment
 
     .row.no-gutters
       .col-md-6.text-right.m-t-1
@@ -180,8 +147,8 @@ export default {
             this.errors[f] = [REQUIRED]
           }
         })
-        if (this.project.location_type !== this.locationTypes[0].value && !this.project.location) {
-          this.errors.location_type = [REQUIRED]
+        if (this.project.location_type !== Object.keys(this.locationTypes)[0] && !this.project.location) {
+          this.errors.location = [REQUIRED]
         }
         ['industry_ids', 'jurisdiction_ids'].map(f => {
           if (!this.project[f].length) {
@@ -191,12 +158,6 @@ export default {
       } else if (this.currentStep === 1) {
         if (!this.project.minimum_experience) {
           this.errors.minimum_experience = [REQUIRED]
-        }
-      } else {
-        if (this.project.pricing_type === this.pricingTypes[0].id && !this.project.est_budget) {
-          this.errors.est_budget = [REQUIRED]
-        // } else if (!this.project.hou) {
-
         }
       }
       return !Object.keys(this.errors).length
@@ -233,6 +194,7 @@ export default {
     rfpTimingOptions: () => RFP_TIMING_OPTIONS,
     fixedPaymentScheduleOptions: () => FIXED_PAYMENT_SCHEDULE_OPTIONS,
     hourlyPaymentScheduleOptions: () => HOURLY_PAYMENT_SCHEDULE_OPTIONS,
+    experienceOptions: () => Object.fromEntries([0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(val => [val, val])),
     skillsOptions: () => ['SEC', 'Policy Writing', 'FINRA'].map(id => ({ id, label: id })),
     industryIdsOptions() {
       return this.industryIds.map(toOption)
