@@ -268,7 +268,6 @@ Rails.application.routes.draw do
           post :shortlist
           post :hide
         end
-        resources :hires, only: %i[create]
       end
       resources :local_projects, only: %i[index create]
     end

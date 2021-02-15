@@ -45,7 +45,7 @@ class Api::Specialist::JobApplicationsController < ApiController
   private
 
   def job_application_params
-    params.permit(
+    params.require(:job_application).permit(
       :message,
       :key_deliverables,
       :pricing_type,
