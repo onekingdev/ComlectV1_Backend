@@ -16,13 +16,7 @@ class Business::ProjectsController < ApplicationController
   }.freeze
 
   def index
-    respond_to do |format|
-      format.html do
-        render html: content_tag('business-projects-page', '').html_safe, layout: 'vue_business'
-        # render partial: @is_business_cards ? 'business_cards' : 'cards', projects: @projects if request.xhr?
-      end
-      format.js
-    end
+    render html: content_tag('business-projects-page', '').html_safe, layout: 'vue_business'
   end
 
   def new
