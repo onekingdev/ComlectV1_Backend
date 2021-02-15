@@ -41,7 +41,7 @@ import AddonNotifications from './AddonNotifications'
 import UpcomingTasks from '@/business/dashboard/UpcomingTasks'
 import LocalProjectModal from '../projects/LocalProjectModal'
 
-const endpointProjectsUrl = '/api/business/projects/'
+const endpointProjectsUrl = '/api/business/local_projects/'
 
 export default {
   data() {

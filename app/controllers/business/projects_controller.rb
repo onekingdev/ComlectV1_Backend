@@ -35,9 +35,10 @@ class Business::ProjectsController < ApplicationController
   end
 
   def show
-    @project = policy_scope(Project)
-               .includes(:industries, :jurisdictions, :skills, business: %i[industries jurisdictions])
-               .find(params[:id])
+    # @project = policy_scope(Project)
+    #           .includes(:industries, :jurisdictions, :skills, business: %i[industries jurisdictions])
+    #           .find(params[:id])
+    @project = current_business.local_projects.includes(:projects).find(params[:id])
 
     render html: content_tag('project-show-page', '', ':project': @project.to_json).html_safe,
            layout: 'vue_business'

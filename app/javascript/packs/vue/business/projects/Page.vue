@@ -38,7 +38,7 @@
 import ProjectTable from '@/common/ProjectTable'
 import LocalProjectModal from './LocalProjectModal'
 
-const endpointUrl = '/api/business/projects/'
+const endpointUrl = '/api/business/local_projects/'
 
 export default {
   data() {
