@@ -34,8 +34,12 @@ class Business::ProjectsController < ApplicationController
     #           .find(params[:id])
     @project = current_business.local_projects.includes(:projects).find(params[:id])
 
-    render html: content_tag('project-show-page', '', ':project': @project.to_json).html_safe,
-           layout: 'vue_business'
+    render html: content_tag(
+      'project-show-page',
+      '',
+      ':project': @project.to_json(include: { visible_project: {} }),
+      'current-business': current_business
+    ).html_safe, layout: 'vue_business'
   end
 
   def create
