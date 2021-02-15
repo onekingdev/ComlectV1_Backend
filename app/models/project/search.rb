@@ -68,20 +68,19 @@ class Project::Search
   end
 
   def filter_experience(records)
-    experience = self.experience
-    return records unless experience
-
-    experience = self.experience.join(',').split(',').map(&:to_i)
-    min, max = experience.minmax
-    records.where(minimum_experience: min..max)
+    return records if experience.blank?
+    conditions = experience.each_with_index.map do |_checkbox, i|
+      "minimum_experience BETWEEN :from_#{i} AND :to_#{i}"
+    end.join(' OR ')
+    records.where(conditions, compile_params(experience))
   end
 
   def filter_budget(records)
     return records if budget.blank?
-
-    project_budget = budget.join(',').split(',').map(&:to_i)
-    min, max = project_budget.minmax
-    records.where(calculated_budget: (min..max)).or(records.where(est_budget: (min..max)))
+    conditions = budget.each_with_index.map do |_checkbox, i|
+      "(calculated_budget BETWEEN :from_#{i} AND :to_#{i}) OR (est_budget BETWEEN :from_#{i} AND :to_#{i})"
+    end.join(' OR ')
+    records.where(conditions, compile_params(budget))
   end
 
   def filter_regulator(records)
@@ -137,6 +136,14 @@ class Project::Search
   end
 
   private
+
+  def compile_params(input_arr)
+    input_arr.each_with_index.each_with_object({}) { |(checkbox, i), hash|
+      from, to = checkbox.split(',')
+      hash[:"from_#{i}"] = from
+      hash[:"to_#{i}"] = to
+    }
+  end
 
   def location_ranges
     min, max = location_range.to_s.split(';').map(&:presence)

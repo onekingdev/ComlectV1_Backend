@@ -5,40 +5,27 @@ class Api::Business::LocalProjectsController < ApiController
 
   skip_before_action :verify_authenticity_token # TODO: proper authentication
 
-  FILTERS = {
-    'active'   => :active,
-    'pending'  => :pending,
-    'drafts'   => :draft_and_in_review,
-    'complete' => :complete
-  }.freeze
-
   def index
-    # filter   = FILTERS[params[:filter]] || :none
-    # projects = Project.cards_for_user(current_user, filter: filter)
-    # projects.each do |project|
-    #   project.populate_rfp(project.job_application) if project.rfp? && project.active?
-    # end
-    render json: { projects: current_business.local_projects }
+    respond_with paginate(current_business.local_projects), each_serializer: LocalProjectSerializer
   end
 
   def show
-    render json: { project: current_business.local_projects.find(params[:id]) }
+    local_project = current_business.local_projects.find(params[:id])
+    respond_with local_project, serializer: LocalProjectSerializer
   end
 
   def create
-    project = LocalProject.new(project_params)
-    project.business_id = current_business.id
-    project.status = 'active'
-    if project.save
-      render json: project, status: :created
+    local_project = current_business.local_projects.build(local_project_params.merge(status: 'active'))
+    if local_project.save
+      render json: local_project, status: :created
     else
-      render json: project.errors, status: :unprocessable_entity
+      render json: local_project.errors, status: :unprocessable_entity
     end
   end
 
   private
 
-  def project_params
+  def local_project_params
     params.require(:local_project).permit(
       :title,
       :description,

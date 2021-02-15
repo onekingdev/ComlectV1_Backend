@@ -11,7 +11,7 @@ class Api::Specialist::ProjectsController < ApiController
 
   def show
     project = policy_scope(Project).find(params[:id])
-    respond_with project, each_serializer: ProjectSerializer
+    respond_with project, serializer: ProjectSerializer
   end
 
   private

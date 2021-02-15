@@ -6,32 +6,19 @@ class Api::Business::ProjectsController < ApiController
 
   skip_before_action :verify_authenticity_token # TODO: proper authentication
 
-  FILTERS = {
-    'active'   => :active,
-    'pending'  => :pending,
-    'drafts'   => :draft_and_in_review,
-    'complete' => :complete
-  }.freeze
-
-  def index
-    # filter   = FILTERS[params[:filter]] || :none
-    # projects = Project.cards_for_user(current_user, filter: filter)
-    # projects.each do |project|
-    #   project.populate_rfp(project.job_application) if project.rfp? && project.active?
-    # end
-    render json: {
-      projects: (current_business.projects + current_business.local_projects).sort_by { |i| [i.ends_on ? 0 : 1, i.ends_on] }
-    }
-  end
-
   def create
     if policy(@project).post?
       @project.post!
       @project.new_project_notification
-      render json: @project, status: :created
+      unless @project.local_project_id
+        local_project_params = @project.attributes.slice('business_id', 'title', 'description', 'starts_on', 'ends_on', 'status')
+        local_project = LocalProject.create(local_project_params)
+        @project.update(local_project_id: local_project.id)
+      end
+      respond_with @project, serilaizer: ProjectSerializer
     else
       render json: {
-        errors: project.errors, alert: I18n.t('activerecord.errors.models.project.attributes.base.no_payment')
+        errors: @project.errors, alert: I18n.t('activerecord.errors.models.project.attributes.base.no_payment')
       }, status: :unprocessable_entity
     end
   end
@@ -45,8 +32,6 @@ class Api::Business::ProjectsController < ApiController
   end
 
   def project_params
-    return { invite_id: params[:invite_id] } unless params.key?(:project)
-
     params.permit(
       :local_project_id,
       :title,
