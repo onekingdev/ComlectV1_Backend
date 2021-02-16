@@ -18,10 +18,9 @@
               InputText(v-model="form.estimated_hours" :errors="errors.estimated_hours") Estimated Hours
               InputSelect(v-model="form.payment_schedule" :errors="errors.payment_schedule" :options="hourlyPaymentScheduleOptions") Payment Schedule
             hr
-            h3 Pitch
-            InputTextarea(v-model="form.message" :errors="errors.message" :rows="7") Cover Letter
-            InputTextarea(v-model="form.key_deliverables" :errors="errors.key_deliverables" :rows="4") Key Deliverables
+            h3 Role
             InputTextarea(v-model="form.role_details" :errors="errors.role_details" :rows="4") Role Details
+            InputTextarea(v-model="form.key_deliverables" :errors="errors.key_deliverables" :rows="4") Key Deliverables
             h3 Attachments
             .card
               .card-body

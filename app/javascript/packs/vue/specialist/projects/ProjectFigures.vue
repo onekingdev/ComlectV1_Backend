@@ -9,9 +9,9 @@
       br
       | {{ project.hourly_rate | usdWhole }}
     li.list-group-item
-      | Experience
+      | Payment Schedule
       br
-      | {{ project.minimum_experience }}
+      | {{ paymentScheduleReadable }}
     li.list-group-item
       | Jurisdiction
       br
@@ -19,11 +19,18 @@
 </template>
 
 <script>
+import { FIXED_PAYMENT_SCHEDULE_OPTIONS } from '@/common/ProjectInputOptions'
+
 export default {
   props: {
     project: {
       type: Object,
       required: true
+    }
+  },
+  computed: {
+    paymentScheduleReadable() {
+      return FIXED_PAYMENT_SCHEDULE_OPTIONS[this.project.payment_schedule]
     }
   }
 }

@@ -10,9 +10,11 @@
       dd.col-sm-9 {{ project.starts_on | asDate }}
       dt.col-sm-3 End Date
       dd.col-sm-9 {{ project.ends_on | asDate }}
-      dt.col-sm-3 Key Deliverables
-      dd.col-sm-9 {{ project.key_deliverables }}
-    p {{ project.description }}
+      dt.col-sm-3 Min. Experience
+      dd.col-sm-9 {{ project.minimum_experience }}
+      dt.col-sm-3 Description
+      dd.col-sm-9 {{ project.description }}
+    p Role details
     ProjectFigures(:project="project")
     hr
     h2 Skills
