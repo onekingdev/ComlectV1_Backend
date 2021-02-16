@@ -1,19 +1,15 @@
 # frozen_string_literal: true
 
 class Business::JobApplicationsController < ApplicationController
+  include ActionView::Helpers::TagHelper
+
   before_action :require_business!
 
   def index
     @project = current_business.projects.preload_association.find_by(id: params[:project_id])
-    return render_404 unless @project
-    respond_to do |format|
-      format.html do
-        if request.xhr?
-          @job_applications = applications_list
-          render partial: 'cards', locals: { job_applications: @job_applications }
-        end
-      end
-    end
+    @applications = applications_list.to_json(include: { specialist: {} })
+    render html: content_tag('applications-index-page', '', ':applications': @applications).html_safe,
+           layout: 'vue_business'
   end
 
   def shortlist

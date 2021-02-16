@@ -42,6 +42,7 @@ class Api::Business::ProjectsController < ApiController
       :lng,
       :description,
       :key_deliverables,
+      :role_details,
       :duration_type,
       :estimated_days,
       :starts_on,

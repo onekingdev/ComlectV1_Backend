@@ -57,7 +57,7 @@ export default {
     refetch() {
       fetch(endpointProjectsUrl, { headers: {'Accept': 'application/json'} })
         .then(response => response.json())
-        .then(result => this.projects = result.projects)
+        .then(result => this.projects = result)
     }
   },
   created() {

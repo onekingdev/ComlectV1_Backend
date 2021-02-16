@@ -7,6 +7,7 @@ class Project::Form < Project
   validates :location_type, inclusion: { in: Project::LOCATIONS.map(&:second) }, allow_blank: true
   validates :location, presence: true, if: :location_required?
   validates :jurisdiction_ids, :industry_ids, presence: true, unless: :internal?
+  validates :role_details, presence: true
 
   ONE_OFF_FIELDS = %i[key_deliverables location_type payment_schedule estimated_hours].freeze
   FULL_TIME_FIELDS = %i[full_time_starts_on annual_salary].freeze
