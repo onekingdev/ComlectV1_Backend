@@ -14,7 +14,7 @@
       dd.col-sm-9 {{ project.minimum_experience }}
       dt.col-sm-3 Description
       dd.col-sm-9 {{ project.description }}
-    p Role details
+    p {{ project.role_details }}
     ProjectFigures(:project="project")
     hr
     h2 Skills
