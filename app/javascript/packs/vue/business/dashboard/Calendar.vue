@@ -21,7 +21,7 @@
             .fc-event-title-container
               .fc-event-title.fc-sticky
                 span.pointer(@click="openModal(arg.event.extendedProps.taskId, arg.event.extendedProps.oid)" v-if="arg.event.extendedProps.remind_at") {{arg.event.title}}
-                a.text-dark(v-else :href="arg.event.extendedProps.href" target="_blank") {{arg.event.title}}
+                a(v-else :href="arg.event.extendedProps.href" target="_blank") {{arg.event.title}}
 </template>
 
 <script>
@@ -126,9 +126,8 @@ export default {
   background-color: #047aff !important;
   color: #dae9fe;
 }
-.task-is-project .fc-event-title:before {
-  content: '📄';
-}
+.task-is-project .fc-event-title:before { content: '📄'; }
+.task-id-project a { color: #fff; }
 .task-is-task { border: 1px solid #bfe5d5; }
 .task-is-task,
 .task-is-task .fc-event-title {
@@ -154,6 +153,17 @@ export default {
 } */
 .task-is-complete .fc-event-title:before {
   content: ' ✅ ';
+}
+.task-is-complete {
+  background-color: #e2e8f0;
+  border: 1px solid #dee1e7;
+  color: #454648;
+}
+.fc-event-title {
+  font-weight: 400 !important;
+}
+.fc-daygrid-dot-event {
+  padding: 2px 3px;
 }
 .fc-day-today { background-color: #f3f6f9 !important; }
 .fc-daygrid-day-number { color: #666667 !important; font-size: 11px; }
