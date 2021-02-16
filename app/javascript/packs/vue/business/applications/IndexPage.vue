@@ -17,14 +17,64 @@
             tbody
               tr(v-for="application in applications" :key="application.id")
                 td {{ application.specialist.first_name }} {{ application.specialist.last_name }}
-                td: a(href="#") View
+                td
+                  a.btn.btn-dark(v-b-modal="modalId") View
+                  b-modal.fade(:id="modalId" title="View Proposal")
+                    .card
+                      .card-header
+                        | {{ application.specialist.first_name }} {{ application.specialist.last_name }}
+                        br
+                        | {{ application.specialist.address_1 }} {{ application.specialist.address_2 }}
+                      .card-body
+                        ul.list-group.list-group-horizontal
+                          li.list-group-item(v-if="application.pricing_type === 'fixed'")
+                            | Bid Price
+                            br
+                            | {{ application.fixed_budget | usdWhole }}
+                          li.list-group-item(v-else)
+                            | Hourly
+                            br
+                            | {{ application.hourly_rate | usdWhole }}
+                          li.list-group-item
+                            | Payment Schedule
+                            br
+                            | {{ paymentScheduleReadable(application) }}
+                          li.list-group-item
+                            | Jurisdiction
+                            br
+                            //- |
+                        dl.row
+                          dt.col-sm-3 Start Date
+                          dd.col-sm-9 {{ application.starts_on | asDate }}
+                          dt.col-sm-3 Due Date
+                          dd.col-sm-9 {{ application.ends_on | asDate }}
+                          dt.col-sm-3 Role Details
+                          dd.col-sm-9 {{ application.role_details }}
+                          dt.col-sm-3 Key Deliverables
+                          dd.col-sm-9 {{ application.key_deliverables }}
+                          dt.col-sm-3 Attachments
+                          dd.col-sm-9
+                    template(slot="modal-footer")
 </template>
 
 <script>
+import { FIXED_PAYMENT_SCHEDULE_OPTIONS } from '@/common/ProjectInputOptions'
+
 export default {
   props: {
     applications: Array,
     required: true
+  },
+  data() {
+    return {
+      modalId: null
+    }
+  },
+  created() {
+    this.modalId = 'modal_' + Math.random().toFixed(9) + Math.random().toFixed(7)
+  },
+  computed: {
+    paymentScheduleReadable: application => FIXED_PAYMENT_SCHEDULE_OPTIONS[application.payment_schedule]
   }
 }
 </script>
