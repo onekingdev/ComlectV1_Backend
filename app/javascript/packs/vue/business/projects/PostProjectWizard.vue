@@ -12,6 +12,7 @@
           .col-sm: InputDate(v-model="project.ends_on" :errors="errors.ends_on") Due Date
 
         InputTextarea(v-model="project.description" :errors="errors.description") Description
+        InputTextarea(v-model="project.role_details" :errors="errors.role_details") Role Details
         .form-text.text-muted Project post information for the specialist
 
         InputSelect(v-model="project.rfp_timing" :errors="errors.rfp_timing" :options="rfpTimingOptions") Project Timing
@@ -86,8 +87,8 @@ const initialProject = () => ({
   title: null,
   starts_on: null,
   ends_on: null,
-  // details: null, @todo nonexistent field
   description: null,
+  role_details: null,
   rfp_timing: null,
   industry_ids: [],
   jurisdiction_ids: [],
@@ -142,7 +143,7 @@ export default {
     preValidateStep() {
       this.errors = {}
       if (this.currentStep === 0) {
-        ['title', 'description', 'starts_on', 'location_type', 'rfp_timing'].map(f => {
+        ['title', 'description', 'role_details', 'starts_on', 'location_type', 'rfp_timing'].map(f => {
           if (!this.project[f]) {
             this.errors[f] = [REQUIRED]
           }
