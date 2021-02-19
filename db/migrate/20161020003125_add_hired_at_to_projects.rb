@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddHiredAtToProjects < ActiveRecord::Migration[6.0]
+class AddHiredAtToProjects < ActiveRecord::Migration
   def change
     add_column :projects, :hired_at, :datetime
     add_index :projects, :hired_at

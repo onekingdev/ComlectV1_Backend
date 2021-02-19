@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ProjectsFullTextIndex < ActiveRecord::Migration[6.0]
+class ProjectsFullTextIndex < ActiveRecord::Migration
   def up
     add_column :projects, :tsv, :tsvector
     add_index :projects, :tsv, using: 'gin'

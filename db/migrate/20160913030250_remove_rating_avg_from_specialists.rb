@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class RemoveRatingAvgFromSpecialists < ActiveRecord::Migration[6.0]
+class RemoveRatingAvgFromSpecialists < ActiveRecord::Migration
   def change
     remove_column :specialists, :rating_avg, :decimal
   end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateSeats < ActiveRecord::Migration[6.0]
+class CreateSeats < ActiveRecord::Migration
   def change
     create_table :seats do |t|
       t.bigint :business_id

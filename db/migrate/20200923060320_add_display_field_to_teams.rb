@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddDisplayFieldToTeams < ActiveRecord::Migration[6.0]
+class AddDisplayFieldToTeams < ActiveRecord::Migration
   def change
     add_column :teams, :display, :boolean, default: true
   end

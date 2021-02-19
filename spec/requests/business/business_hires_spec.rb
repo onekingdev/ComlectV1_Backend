@@ -24,7 +24,7 @@ RSpec.describe 'hiring a specialist', type: :request do
         post business_project_hires_path(
           project,
           job_application_id: job_application.id
-        ), xhr: true
+        ), format: :js
       end
 
       it 'notifies specialists not hired' do

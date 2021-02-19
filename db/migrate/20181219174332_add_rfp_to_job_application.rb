@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddRfpToJobApplication < ActiveRecord::Migration[6.0]
+class AddRfpToJobApplication < ActiveRecord::Migration
   def change
     add_column :job_applications, :key_deliverables, :string
     add_column :job_applications, :pricing_type, :string, default: 'hourly'

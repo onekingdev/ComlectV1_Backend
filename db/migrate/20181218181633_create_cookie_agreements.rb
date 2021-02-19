@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateCookieAgreements < ActiveRecord::Migration[6.0]
+class CreateCookieAgreements < ActiveRecord::Migration
   def change
     create_table :cookie_agreements do |t|
       t.datetime :agreement_date

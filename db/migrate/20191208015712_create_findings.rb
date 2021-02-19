@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateFindings < ActiveRecord::Migration[6.0]
+class CreateFindings < ActiveRecord::Migration
   def change
     create_table :findings do |t|
       t.integer :annual_report_id

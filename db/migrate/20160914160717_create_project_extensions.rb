@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateProjectExtensions < ActiveRecord::Migration[6.0]
+class CreateProjectExtensions < ActiveRecord::Migration
   def change
     create_table :project_extensions do |t|
       t.references :project, index: true

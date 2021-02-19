@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ChangeTransactionsStatusDefault < ActiveRecord::Migration[6.0]
+class ChangeTransactionsStatusDefault < ActiveRecord::Migration
   def change
     change_column_default :transactions, :status, 'pending'
     reversible do |dir|

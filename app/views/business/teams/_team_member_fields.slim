@@ -1,0 +1,11 @@
+table.teams_edit_table
+  tr.nested-fields
+    td._t_name
+      = f.input :name
+    td._t_title
+      = f.input :title
+    td._t_email
+      = f.input :email
+    td._t_buttons
+      .remove_we = link_to_remove_association f, class: 'remove' do
+        .icon-close
