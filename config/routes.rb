@@ -274,9 +274,8 @@ Rails.application.routes.draw do
       resources :projects, only: [] do
         resources :timesheets, except: [:new, :edit], controller: 'timesheets'
       end
+      resources :specialists, only: :index
     end
-
-
     namespace :specialist do
       resources :projects, only: [] do
         resources :timesheets, except: [:new, :edit], controller: 'timesheets'
