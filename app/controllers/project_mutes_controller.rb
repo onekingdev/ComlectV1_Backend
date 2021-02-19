@@ -15,7 +15,7 @@ class ProjectMutesController < ApplicationController
     if current_user.business
       redirect_to business_dashboard_path, notice: "Project is #{muted_or}: #{@project.title}"
     else
-      redirect_to specialist_dashboard_path, notice: "Project is #{muted_or}: #{@project.title}"
+      redirect_to specialists_dashboard_path, notice: "Project is #{muted_or}: #{@project.title}"
     end
   end
 
