@@ -3,18 +3,16 @@
 # rubocop:disable Metrics/ClassLength
 class Specialist < ApplicationRecord
   belongs_to :user, autosave: true
-  belongs_to :team, foreign_key: :specialist_team_id
+  belongs_to :team, foreign_key: :specialist_team_id, optional: true
 
-  belongs_to :rewards_tier
+  belongs_to :rewards_tier, optional: true
 
   # before_save :calculate_years_of_experience
   has_many :ported_businesses
-  has_and_belongs_to_many :industries
-  has_and_belongs_to_many :jurisdictions
-  has_and_belongs_to_many :skills
+  has_and_belongs_to_many :industries, optional: true
+  has_and_belongs_to_many :jurisdictions, optional: true
+  has_and_belongs_to_many :skills, optional: true
   has_one :managed_team, class_name: 'Team', foreign_key: :manager_id
-  has_many :work_experiences, dependent: :destroy
-  has_many :education_histories, dependent: :delete_all
   has_many :favorites, as: :owner, dependent: :destroy
   has_many :favorited_by, as: :favorited, dependent: :destroy, class_name: 'Favorite'
   has_many :favorited_projects, class_name: 'Project', through: :favorites, source: :favorited, source_type: 'Project'
@@ -170,32 +168,23 @@ class Specialist < ApplicationRecord
 
   has_one :tos_agreement, through: :user
   has_one :cookie_agreement, through: :user
-  accepts_nested_attributes_for :education_histories, :work_experiences
   accepts_nested_attributes_for :tos_agreement
   accepts_nested_attributes_for :cookie_agreement
   validate :tos_invalid?
   validate :cookie_agreement_invalid?
   validates :username, uniqueness: true
   validates :call_booked, presence: true, on: :signup
-  validates :resume, presence: true, on: :signup
+  validates :resume, presence: true, on: :signup if Rails.env != 'test'
 
   default_scope -> { joins("INNER JOIN users ON users.id = specialists.user_id AND users.deleted = 'f'") }
 
-  scope :preload_associations, -> {
+  scope :preload_association, -> {
     preload(
       :user,
-      :work_experiences,
-      :education_histories,
       :industries,
       :jurisdictions,
       :skills
     )
-  }
-
-  scope :join_experience, -> {
-    joins(:work_experiences)
-      .where(work_experiences: { compliance: true })
-      .group(:id)
   }
 
   scope :experience_between, ->(min, max) {
@@ -268,20 +257,8 @@ class Specialist < ApplicationRecord
   end
 
   def ratings_combined
-    (ratings_received.preload_associations + forum_ratings).sort_by(&:created_at).reverse
+    (ratings_received.preload_association + forum_ratings).sort_by(&:created_at).reverse
   end
-
-  # def years_of_experience
-  #  return @_years_of_experience if @_years_of_experience
-  #  @_years_of_experience = (calculate_years_of_experience / 365.0).round
-  # end
-
-  # def calculate_years_of_experience
-  #   yrs = work_experiences.compliance.map do |exp|
-  #     exp.from ? ((exp.to || Time.zone.today) - exp.from).to_f : 0.0
-  #   end.reduce(:+) || 0.0
-  #   self.years_of_experience = (yrs / 365.0).round
-  # end
 
   def messages
     Message.where("

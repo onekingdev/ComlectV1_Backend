@@ -86,12 +86,11 @@ class Business::AnnualReportsController < ApplicationController
       end
     end
     respond_to do |format|
+      format.json do
+        render json: { status: @annual_report.ready? ? 'ready' : 'saved' }
+      end
       format.html do
-        if request.xhr?
-          render text: @annual_report.ready? ? 'ready' : 'saved'
-        else
-          redirect_to new_business_annual_report_path
-        end
+        redirect_to new_business_annual_report_path
       end
     end
   end

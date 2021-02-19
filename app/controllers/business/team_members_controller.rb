@@ -1,12 +1,14 @@
 # frozen_string_literal: true
 
 class Business::TeamMembersController < ApplicationController
+  before_action :set_team_member, only: %i[update edit destroy]
+  before_action :require_business!
+
   def new
     @team_member = TeamMember.new
   end
 
   def create
-    @team_member = TeamMember.create(member_params)
     current_business.assign_team(@team_member) unless @team_member.team
     respond_to do |format|
       format.js do
@@ -19,12 +21,9 @@ class Business::TeamMembersController < ApplicationController
     end
   end
 
-  def edit
-    @team_member = TeamMember.find_by(id: params[:id])
-  end
+  def edit; end
 
   def update
-    @team_member = TeamMember.find_by(id: params[:id])
     respond_to do |format|
       format.js do
         if @team_member.update(member_params)
@@ -41,6 +40,13 @@ class Business::TeamMembersController < ApplicationController
     TeamMember.destroy(params[:id])
 
     redirect_to business_seats_path, notice: 'Successfully removed.'
+  end
+
+  private
+
+  def set_team_member
+    vulnerable_member = TeamMember.find(params[:id])
+    @team_member = vulnerable_member if vulnerable_member.team.business_id == current_business.id
   end
 
   def member_params

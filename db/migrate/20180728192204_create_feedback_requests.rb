@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateFeedbackRequests < ActiveRecord::Migration
+class CreateFeedbackRequests < ActiveRecord::Migration[6.0]
   def change
     create_table :feedback_requests do |t|
       t.string :name

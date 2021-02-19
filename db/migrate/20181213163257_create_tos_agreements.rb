@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateTosAgreements < ActiveRecord::Migration
+class CreateTosAgreements < ActiveRecord::Migration[6.0]
   def change
     create_table :tos_agreements do |t|
       t.datetime :agreement_date

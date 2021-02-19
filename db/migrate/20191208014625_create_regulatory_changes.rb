@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateRegulatoryChanges < ActiveRecord::Migration
+class CreateRegulatoryChanges < ActiveRecord::Migration[6.0]
   def change
     create_table :regulatory_changes do |t|
       t.integer :annual_report_id

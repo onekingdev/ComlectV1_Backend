@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateJobApplications < ActiveRecord::Migration
+class CreateJobApplications < ActiveRecord::Migration[6.0]
   def change
     create_table :job_applications do |t|
       t.references :specialist, index: true

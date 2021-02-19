@@ -4,11 +4,6 @@ class Business::TeamsController < ApplicationController
   before_action :set_team, only: %i[update edit show destroy]
   before_action :require_business!
 
-  def index
-    @teams = current_business.teams
-    @active_specialists = current_business.active_specialists
-  end
-
   def new
     @team = Team.new
     @team.team_members.build
