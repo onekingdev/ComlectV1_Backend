@@ -12,9 +12,11 @@ class ProjectMutesController < ApplicationController
     else
       current_user.update(muted_projects: current_user.muted_projects + [@project.id])
     end
-    path_to = current_user.business ? business_dashboard_path : specialist_dashboard_path
-
-    redirect_to path_to, notice: "Project is #{muted_or}: #{@project.title}"
+    if current_user.business
+      redirect_to business_dashboard_path, notice: "Project is #{muted_or}: #{@project.title}"
+    else
+      redirect_to specialists_dashboard_path, notice: "Project is #{muted_or}: #{@project.title}"
+    end
   end
 
   private

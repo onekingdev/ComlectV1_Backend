@@ -3,10 +3,14 @@
 class ApiController < ApplicationController
   include Pagy::Backend
   respond_to :json
+  include Pundit
+
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   before_action :set_default_format
   before_action :authenticate_user!
   after_action :add_pagination_headers
+  self.responder = ::ApiResponder
 
   private
 
@@ -33,5 +37,9 @@ class ApiController < ApplicationController
 
   def add_pagination_headers
     pagy_headers_merge(@pagy) if @pagy
+  end
+
+  def user_not_authorized
+    respond_with  error: 'You are not authorized to perform that action', status: 403
   end
 end

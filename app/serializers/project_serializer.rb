@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class ProjectSerializer < ApplicationSerializer
+  has_many :skills, serializer: SkillSerializer
+  has_many :jurisdictions, serializer: JurisdictionSerializer
+  has_many :industries, serializer: IndustrySerializer
   attributes :id,
              :business_id,
              :type,
@@ -50,31 +53,4 @@ class ProjectSerializer < ApplicationSerializer
              :skills,
              :jurisdictions,
              :industries
-
-  def skills
-    object.skills.map do |skill|
-      {
-        id: skill.id,
-        name: skill.name
-      }
-    end
-  end
-
-  def jurisdictions
-    object.jurisdictions.map do |jurisdiction|
-      {
-        id: jurisdiction.id,
-        name: jurisdiction.name
-      }
-    end
-  end
-
-  def industries
-    object.industries.map do |industrie|
-      {
-        id: industrie.id,
-        name: industrie.name
-      }
-    end
-  end
 end

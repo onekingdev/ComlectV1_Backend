@@ -41,7 +41,9 @@
           table.table(v-else)
             thead
               tr
-                th Name
+                th
+                  | Name
+                  img.img-icon(src='@/assets/svg_example.svg')
                 th
             tbody
               tr(v-for="application in applications" :key="application.id")
@@ -116,3 +118,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.img-icon {
+  max-height: 1.5em;
+  max-width: 1.5em;
+}
+</style>
