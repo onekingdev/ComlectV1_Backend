@@ -57,11 +57,7 @@
                   b-modal.fade(:id="modalId" title="View Proposal" no-stacking)
                     .card
                       .card-header
-                        | {{ application.specialist.first_name }} {{ application.specialist.last_name }}
-                        br
-                        | {{ application.specialist.address_1 }} {{ application.specialist.address_2 }}
-                        br
-                        StarRating(:stars="5")
+                        SpecialistDetails(:specialist="application.specialist")
                       .card-body
                         ul.list-group.list-group-horizontal
                           li.list-group-item(v-if="application.pricing_type === 'fixed'")
@@ -99,9 +95,7 @@
                     p Please confirm the applicant you wish to hire.
                     .card
                       .card-body
-                        h3 {{ application.specialist.first_name }} {{ application.specialist.last_name }}
-                        p {{ application.specialist.address_1 }} {{ application.specialist.address_2 }}
-                        StarRating(:stars="3")
+                        SpecialistDetails(:specialist="application.specialist")
                     template(#modal-footer="{ ok, cancel, hide }")
                       button.btn.btn-light(@click="hide") Cancel
                       button.btn.btn-outline-dark(@click="goBack") Go Back
@@ -111,6 +105,7 @@
 
 <script>
 import { FIXED_PAYMENT_SCHEDULE_OPTIONS } from '@/common/ProjectInputOptions'
+import SpecialistDetails from './SpecialistDetails'
 
 export default {
   props: {
@@ -152,6 +147,9 @@ export default {
     hireUrl() {
       return this.$store.getters.url('URL_API_PROJECT_HIRES', this.project.id)
     }
+  },
+  components: {
+    SpecialistDetails
   }
 }
 </script>
