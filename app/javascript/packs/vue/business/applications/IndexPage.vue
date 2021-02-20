@@ -2,8 +2,37 @@
   .row
     .col-sm
       .card
-        .card-header Requirements
+        .card-header
+          | Post Details
+          a.btn.btn-outline-dark(href="#") Edit
         .card-body
+          dl.row
+            dt.col-sm-3 Title
+            dd.col-sm-9 {{ project.title }}
+            dt.col-sm-3 Start Date
+            dd.col-sm-9 {{ project.starts_on | asDate }}
+            dt.col-sm-3 Due Date
+            dd.col-sm-9 {{ project.ends_on | asDate }}
+            dt.col-sm-3 Description
+            dd.col-sm-9 {{ project.description }}
+            dt.col-sm-3 Role Details
+            dd.col-sm-9 {{ project.role_details }}
+            dt.col-sm-3 Industry
+            dd.col-sm-9 {{ project.industries | names }}
+            dt.col-sm-3 Jurisdiction
+            dd.col-sm-9 {{ project.jurisdictions | names }}
+            dt.col-sm-3 Key Deliverables
+            dd.col-sm-9 {{ project.key_deliverables }}
+            dt.col-sm-3 Minimum Experience
+            dd.col-sm-9 {{ 'Year' | plural(project.minimum_experience) }}
+            dt.col-sm-3 Former Regulator?
+            dd.col-sm-9 {{ project.only_regulators | yesNo }}
+            dt.col-sm-3 Skills
+            dd.col-sm-9 {{ project.skills | names }}
+            dt.col-sm-3 Estimated Budget
+            dd.col-sm-9 {{ (project.est_budget || project.fixed_budget) | usdWhole }}
+            dt.col-sm-3 Payment Schedule
+            dd.col-sm-9 {{ paymentScheduleReadable(project) }}
     .col-sm
       .card
         .card-header Applicants
@@ -54,7 +83,10 @@
                           dd.col-sm-9 {{ application.key_deliverables }}
                           dt.col-sm-3 Attachments
                           dd.col-sm-9
-                    template(slot="modal-footer")
+                    template(#modal-footer="{ ok, cancel, hide }")
+                      a.btn.btn-light(@click="hide") Close
+                      a.btn.btn-outline-dark Deny Proposal
+                      a.btn.btn-dark Accept Proposal
 </template>
 
 <script>
@@ -62,8 +94,14 @@ import { FIXED_PAYMENT_SCHEDULE_OPTIONS } from '@/common/ProjectInputOptions'
 
 export default {
   props: {
-    applications: Array,
-    required: true
+    applications: {
+      type: Array,
+      required: true
+    },
+    project: {
+      type: Object,
+      required: true
+    }
   },
   data() {
     return {

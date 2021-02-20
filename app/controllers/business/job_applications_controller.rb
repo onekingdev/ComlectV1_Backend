@@ -8,7 +8,12 @@ class Business::JobApplicationsController < ApplicationController
   def index
     @project = current_business.projects.preload_association.find_by(id: params[:project_id])
     @applications = applications_list.to_json(include: { specialist: {}, project: {} })
-    render html: content_tag('applications-index-page', '', ':applications': @applications).html_safe,
+    render html: content_tag(
+      'applications-index-page',
+      '',
+      ':applications': @applications,
+      ':project': @project.to_json(include: { jurisdictions: {}, industries: {}, skills: {} })
+    ).html_safe,
            layout: 'vue_business'
   end
 

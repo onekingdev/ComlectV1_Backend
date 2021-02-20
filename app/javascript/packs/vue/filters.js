@@ -10,7 +10,8 @@ const filters = {
   plural: (name, items) => {
     const quantity = Array.isArray(items) ? items.length : items
     return `${quantity} ${name}` + (1 === quantity ? '' : 's')
-  }
+  },
+  yesNo: val => val ? 'Yes' : 'No'
 }
 
 export default filters
