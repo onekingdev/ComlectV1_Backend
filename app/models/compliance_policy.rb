@@ -4,6 +4,7 @@ class CompliancePolicy < ActiveRecord::Base
   acts_as_list
   belongs_to :business
   has_many :compliance_policy_docs, dependent: :destroy
+  has_many :compliance_policy_sections, dependent: :destroy
   accepts_nested_attributes_for :compliance_policy_docs
   # validates :compliance_policy_docs, presence: true
   validates :title, presence: true, if: :section_blank?
