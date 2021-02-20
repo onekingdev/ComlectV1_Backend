@@ -89,7 +89,7 @@
                           dd.col-sm-9
                     template(#modal-footer="{ ok, cancel, hide }")
                       button.btn.btn-light(@click="hide") Close
-                      button.btn.btn-outline-dark(@click="denyProposal") Deny Proposal
+                      button.btn.btn-outline-dark(v-if="!hasSpecialist(application.project)" @click="denyProposal") Deny Proposal
                       button.btn.btn-dark(v-if="!hasSpecialist(application.project)" v-b-modal="confirmModalId") Accept Proposal
                   b-modal.fade(:id="confirmModalId" title="Accept Proposal")
                     p Please confirm the applicant you wish to hire.

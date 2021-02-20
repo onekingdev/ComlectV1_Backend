@@ -13,8 +13,8 @@ export default {
   },
   computed: {
     src() {
-      return (this.user && this.user.photoData && this.user.photoData.storage && this.user.photoData.id)
-        ? `/uploads/${this.user.photoData.storage}/${this.user.photoData.id}`
+      return (this.user && this.user.photo_data && this.user.photo_data.storage && this.user.photo_data.id)
+        ? `/uploads/${this.user.photo_data.storage}/${this.user.photo_data.id}`
         : null
     },
     placeholderText() {
