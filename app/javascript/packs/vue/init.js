@@ -11,6 +11,7 @@ import InputDate from '@/common/InputDate'
 import InputText from '@/common/InputText'
 import InputTextarea from '@/common/InputTextarea'
 import InputSelect from '@/common/InputSelect'
+import StarRating from '@/common/StarRating'
 import UserAvatar from '@/common/UserAvatar'
 import Get from '@/common/rest/Get'
 import Post from '@/common/rest/Post'
@@ -40,6 +41,7 @@ const init = configuration => {
   Vue.component('InputText', InputText)
   Vue.component('InputTextarea', InputTextarea)
   Vue.component('InputSelect', InputSelect)
+  Vue.component('StarRating', StarRating)
   Vue.component('UserAvatar', UserAvatar)
   Vue.component('Get', Get)
   Vue.component('Post', Post)
