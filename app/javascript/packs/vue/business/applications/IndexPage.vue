@@ -54,12 +54,14 @@
                   a(href="#" @click.prevent v-b-modal="modalId")
                     img.img-icon(src='@/assets/magnifier.svg')
                     | View
-                  b-modal.fade(:id="modalId" title="View Proposal")
+                  b-modal.fade(:id="modalId" title="View Proposal" no-stacking)
                     .card
                       .card-header
                         | {{ application.specialist.first_name }} {{ application.specialist.last_name }}
                         br
                         | {{ application.specialist.address_1 }} {{ application.specialist.address_2 }}
+                        br
+                        StarRating(:stars="5")
                       .card-body
                         ul.list-group.list-group-horizontal
                           li.list-group-item(v-if="application.pricing_type === 'fixed'")
@@ -90,9 +92,21 @@
                           dt.col-sm-3 Attachments
                           dd.col-sm-9
                     template(#modal-footer="{ ok, cancel, hide }")
-                      a.btn.btn-light(@click="hide") Close
-                      a.btn.btn-outline-dark Deny Proposal
-                      a.btn.btn-dark Accept Proposal
+                      button.btn.btn-light(@click="hide") Close
+                      button.btn.btn-outline-dark(@click="denyProposal") Deny Proposal
+                      button.btn.btn-dark(v-if="!hasSpecialist(application.project)" v-b-modal="confirmModalId") Accept Proposal
+                  b-modal.fade(:id="confirmModalId" title="Accept Proposal")
+                    p Please confirm the applicant you wish to hire.
+                    .card
+                      .card-body
+                        h3 {{ application.specialist.first_name }} {{ application.specialist.last_name }}
+                        p {{ application.specialist.address_1 }} {{ application.specialist.address_2 }}
+                        StarRating(:stars="3")
+                    template(#modal-footer="{ ok, cancel, hide }")
+                      button.btn.btn-light(@click="hide") Cancel
+                      button.btn.btn-outline-dark(@click="goBack") Go Back
+                      Post(:action="hireUrl + '?job_application_id=' + application.id" :model="{}" @saved="saved")
+                        button.btn.btn-dark Confirm
 </template>
 
 <script>
@@ -117,8 +131,27 @@ export default {
   created() {
     this.modalId = 'modal_' + Math.random().toFixed(9) + Math.random().toFixed(7)
   },
+  methods: {
+    saved() {
+      this.$bvToast.toast('Specialist added to project.', { title: 'Success', autoHideDelay: 5000 })
+      this.$bvModal.hide(this.confirmModalId)
+    },
+    goBack() {
+      this.$bvModal.hide(this.confirmModalId)
+      this.$bvModal.show(this.modalId)
+    },
+    denyProposal() {
+    }
+  },
   computed: {
-    paymentScheduleReadable: () => application => FIXED_PAYMENT_SCHEDULE_OPTIONS[application.payment_schedule]
+    paymentScheduleReadable: () => application => FIXED_PAYMENT_SCHEDULE_OPTIONS[application.payment_schedule],
+    hasSpecialist: () => project => !!project.specialist_id,
+    confirmModalId() {
+      return (this.modalId || '') + '_confirm'
+    },
+    hireUrl() {
+      return this.$store.getters.url('URL_API_PROJECT_HIRES', this.project.id)
+    }
   }
 }
 </script>

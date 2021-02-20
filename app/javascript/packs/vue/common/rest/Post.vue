@@ -27,7 +27,7 @@ export default {
             Object.keys(errors)
               .map(prop => errors[prop].map(err => this.makeToast(`Error`, `${prop}: ${err}`)))
             this.$emit('errors', errors)
-          })
+          }).catch(() => this.makeToast('Error', 'Couldn\'t submit form: Unknown error'))
         } else if (response.status === 201 || response.status === 200) {
           this.$emit('saved')
           this.makeToast('Success', 'Saved')
