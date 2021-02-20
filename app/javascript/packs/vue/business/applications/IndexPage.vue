@@ -49,7 +49,9 @@
               tr(v-for="application in applications" :key="application.id")
                 td {{ application.specialist.first_name }} {{ application.specialist.last_name }}
                 td
-                  a.btn.btn-dark(v-b-modal="modalId") View
+                  a(href="#" @click.prevent v-b-modal="modalId")
+                    img.img-icon(src='@/assets/magnifier.svg')
+                    | View
                   b-modal.fade(:id="modalId" title="View Proposal")
                     .card
                       .card-header
