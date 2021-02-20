@@ -47,7 +47,9 @@
                 th
             tbody
               tr(v-for="application in applications" :key="application.id")
-                td {{ application.specialist.first_name }} {{ application.specialist.last_name }}
+                td
+                  UserAvatar(:user="application.specialist")
+                  | {{ application.specialist.first_name }} {{ application.specialist.last_name }}
                 td
                   a(href="#" @click.prevent v-b-modal="modalId")
                     img.img-icon(src='@/assets/magnifier.svg')
