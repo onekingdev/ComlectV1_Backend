@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TimesheetSerializer < ApplicationSerializer
   has_many :time_logs, serializer: TimeLogSerializer
   attributes :id,
