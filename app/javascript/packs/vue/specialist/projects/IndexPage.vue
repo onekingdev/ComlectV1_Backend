@@ -41,7 +41,7 @@
         h6.card-subtitle.text-muted.mb-2 {{project.subTitle}} | Start {{project.starts_on|asDate}}
         b-card-text {{project.description}}
         ProjectFigures(:project="project")
-        b-button(@click="openProjectDetails(project.id)" variant="primary" style="float: right") View Details
+        b-button(@click="openDetails(project.id)" variant="primary" style="float: right") View Details
       b-card.m-2.text-danger(v-if="!projects.length" title="No projects")
 
     b-sidebar#ProjectSidebar(@hidden="closeSidebar" v-model="isSidebarOpen" backdrop-variant='dark' backdrop right width="60%")
@@ -105,7 +105,7 @@ export default {
   },
   created() {
     if (this.initialOpenId) {
-      this.openProjectDetails(this.initialOpenId)
+      this.openDetails(this.initialOpenId)
     }
   },
   methods: {
@@ -114,7 +114,7 @@ export default {
         .then(response => response.json())
         .then(result => this.projects = result.map(parse))
     },
-    openProjectDetails(id) {
+    openDetails(id) {
       this.openId = id
       history.pushState({}, '', `${frontendUrl}/${id}`)
       fetch(endpointUrl + '/' + this.openId, { headers: {'Accept': 'application/json'}})
