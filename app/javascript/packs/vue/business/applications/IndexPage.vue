@@ -106,6 +106,7 @@
 <script>
 import { FIXED_PAYMENT_SCHEDULE_OPTIONS } from '@/common/ProjectInputOptions'
 import SpecialistDetails from './SpecialistDetails'
+import { redirectWithToast } from '@/common/Toast'
 
 export default {
   props: {
@@ -128,7 +129,7 @@ export default {
   },
   methods: {
     saved() {
-      this.$bvToast.toast('Specialist added to project.', { title: 'Success', autoHideDelay: 5000 })
+      redirectWithToast(this.$store.getters.url('URL_PROJECT_SHOW', this.project.local_project_id), 'Specialist added to project.')
       this.$bvModal.hide(this.confirmModalId)
     },
     goBack() {
