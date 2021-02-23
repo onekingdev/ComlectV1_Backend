@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Specialists::ProjectsController < ApplicationController
+  include ActionView::Helpers::TagHelper
+
   before_action :require_specialist!
 
   FILTERS = {
@@ -11,27 +13,8 @@ class Specialists::ProjectsController < ApplicationController
   }.freeze
 
   def index
-    @filter = FILTERS[params[:filter]] || :none
-    if @filter != :none
-      @projects = __send__(@filter || :render_404)
-      @projects.map(&proc { |p| p.populate_rfp_specialist(current_specialist) })
-    end
-    @is_specialist_cards = request.original_fullpath.include?('specialist_cards')
-    @ratings = current_specialist.ratings_combined
-    @businesses_to_manage = if current_specialist.seat?
-                              current_specialist.businesses_to_manage
-                            else
-                              current_specialist.manageable_ria_businesses
-                            end
-
-    respond_to do |format|
-      format.html do
-        if request.xhr?
-          render partial: @is_specialist_cards ? 'business/projects/business_cards' : 'cards', locals: { projects: @projects }
-        end
-      end
-      format.js
-    end
+    render html: content_tag('my-projects-page', '').html_safe,
+           layout: 'vue_specialist'
   end
 
   private

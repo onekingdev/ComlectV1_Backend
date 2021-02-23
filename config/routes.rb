@@ -272,13 +272,13 @@ Rails.application.routes.draw do
         resources :hires, only: %i[create]
       end
       resources :projects, only: [] do
-        resources :timesheets, except: [:new, :edit], controller: 'timesheets'
+        resources :timesheets, except: %i[new edit], controller: 'timesheets'
       end
       resources :specialists, only: :index
     end
     namespace :specialist do
       resources :projects, only: [] do
-        resources :timesheets, except: [:new, :edit], controller: 'timesheets'
+        resources :timesheets, except: %i[new edit], controller: 'timesheets'
       end
       resources :projects, only: %i[index show] do
         resources :job_applications, path: 'applications', only: %i[show update create destroy]
