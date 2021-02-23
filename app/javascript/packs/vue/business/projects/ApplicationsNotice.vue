@@ -1,8 +1,8 @@
 <template lang="pug">
-  Get(:applications='apiUrl'): template(v-slot="{applications}")
+  Get(v-if="show" :applications='apiUrl'): template(v-slot="{applications}")
     .alert.alert-warning(v-if="applications.length")
       h4.alert-heading {{ 'application' | plural(applications) }} received.
-      p There are currently {{ 'applicant' | plural(applications) }} for your project.
+      p There {{ applications | isAre }} currently {{ 'applicant' | plural(applications) }} for your project.
       a.btn.btn-light(:href="viewApplicantsUrl") View
 </template>
 
@@ -15,6 +15,9 @@ export default {
     }
   },
   computed: {
+    show() {
+      return !this.project.visible_project.specialist_id
+    },
     apiUrl() {
       return this.$store.getters.url('URL_API_PROJECT_APPLICATIONS', this.project.visible_project.id)
     },

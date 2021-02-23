@@ -11,7 +11,8 @@ const filters = {
     const quantity = Array.isArray(items) ? items.length : items
     return `${quantity} ${name}` + (1 === quantity ? '' : 's')
   },
-  yesNo: val => val ? 'Yes' : 'No'
+  yesNo: val => val ? 'Yes' : 'No',
+  isAre: items => (Array.isArray(items) ? items.length : items) === 1 ? 'is' : 'are'
 }
 
 export default filters
