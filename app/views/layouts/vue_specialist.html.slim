@@ -30,6 +30,21 @@ body class="#{controller_name} #{action_name}"
   #app
     .container-fluid
       .row(style='min-height: 100vh;')
+        nav#sidebarMenu.col-md-3.col-lg-2.d-md-block.sidebar.collapse.px-0
+          .fixed-top.pt-3.col-md-3.col-lg-2.px-1
+            h3.d-flex.justify-content-between(role="button" v-b-toggle.overview_collapse="")
+              | Overview
+              ion-icon(name='chevron-down-outline')
+            b-collapse#overview_collapse(:visible="true")
+              ul.nav.flex-column
+                li.nav-item
+                  a.btn.active(aria-current='page' href='/specialist')
+                    ion-icon(name='globe-outline')
+                    | Dashboard
+                li.nav-item
+                  a.btn.active(aria-current='page' href='/specialist/my-projects')
+                    ion-icon(name='list-outline')
+                    | Projects
         main#main-content.px-0
           nav.navbar.navbar-expand-lg.navbar-light.p-0
             button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarNavAltMarkup' aria-controls='navbarNavAltMarkup' aria-expanded='false' aria-label='Toggle navigation')

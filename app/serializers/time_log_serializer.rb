@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class TimeLogSerializer < ApplicationSerializer
   attributes :id,
              :timesheet_id,
