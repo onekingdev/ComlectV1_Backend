@@ -18,6 +18,7 @@
     ProjectFigures(:project="project")
     hr
     h2 Skills
+    p {{ project.skills | names }}
     hr
     h2 Client Details
 </template>

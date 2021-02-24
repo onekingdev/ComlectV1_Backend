@@ -80,9 +80,10 @@ const DEFAULT_TYPE = 'rfp'
 
 const toOption = ({ id, name: label }) => ({ id, label })
 
-const initialProject = () => ({
+const initialProject = (local_project_id) => ({
   // common defaults
   type: DEFAULT_TYPE,
+  local_project_id,
   // 1
   title: null,
   starts_on: null,
@@ -115,12 +116,16 @@ export default {
     jurisdictionIds: {
       type: Array,
       required: true
+    },
+    localProjectId: {
+      type: Number,
+      default: null
     }
   },
   data() {
     return {
       step: STEPS[0],
-      project: initialProject(),
+      project: initialProject(this.localProjectId),
       errors: {}
     }
   },

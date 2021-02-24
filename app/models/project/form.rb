@@ -12,7 +12,7 @@ class Project::Form < Project
   ONE_OFF_FIELDS = %i[key_deliverables location_type payment_schedule estimated_hours].freeze
   FULL_TIME_FIELDS = %i[full_time_starts_on annual_salary].freeze
   SHARED_FIELDS = %i[starts_on].freeze
-  RFP_FIELDS = %i[location_type est_budget rfp_timing].freeze
+  RFP_FIELDS = %i[location_type rfp_timing].freeze
 
   ASAP_DURATION_FIELDS = %i[estimated_days].freeze
   CUSTOM_DURATION_FIELDS = %i[starts_on ends_on].freeze

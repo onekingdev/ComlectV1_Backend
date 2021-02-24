@@ -23,7 +23,8 @@ class Business::ProjectsController < ApplicationController
     render html: content_tag('business-post-project-page',
                              '',
                              ':industry-ids': Industry.all.map(&proc { |ind| { id: ind.id, name: ind.name } }).to_json,
-                             ':jurisdiction-ids': Jurisdiction.all.map(&proc { |ind| { id: ind.id, name: ind.name } }).to_json)
+                             ':jurisdiction-ids': Jurisdiction.all.map(&proc { |ind| { id: ind.id, name: ind.name } }).to_json,
+                             ':local-project-id': params[:local_project_id])
       .html_safe,
            layout: 'vue_business'
   end
