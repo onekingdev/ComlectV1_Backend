@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateFileDocs < ActiveRecord::Migration
+class CreateFileDocs < ActiveRecord::Migration[6.0]
   def change
     create_table :file_docs do |t|
       t.integer :business_id

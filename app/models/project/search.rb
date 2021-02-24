@@ -33,7 +33,7 @@ class Project::Search
 
   def results
     return @results if @results
-    @results = Project.preload_associations.pending
+    @results = Project.preload_association.pending
     @results = filter_type(@results)
     @results = filter_industry(@results)
     @results = filter_jurisdiction(@results)

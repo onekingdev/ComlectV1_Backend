@@ -4,7 +4,7 @@ class Business::JobApplicationsController < ApplicationController
   before_action :require_business!
 
   def index
-    @project = current_business.projects.preload_associations.find_by(id: params[:project_id])
+    @project = current_business.projects.preload_association.find_by(id: params[:project_id])
     return render_404 unless @project
     respond_to do |format|
       format.html do
@@ -29,7 +29,7 @@ class Business::JobApplicationsController < ApplicationController
   private
 
   def applications_list
-    scope = sort_applications(@project.job_applications.preload_associations)
+    scope = sort_applications(@project.job_applications.preload_association)
     case params[:filter]
     when 'shortlisted'
       scope.shortlisted

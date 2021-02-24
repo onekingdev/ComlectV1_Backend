@@ -161,7 +161,7 @@ ActiveAdmin.setup do |config|
   # You can add before, after and around filters to all of your
   # Active Admin resources and pages from here.
   #
-  config.before_filter -> { Time.zone = 'Mountain Time (US & Canada)' }
+  config.before_action -> { Time.zone = 'Mountain Time (US & Canada)' }
 
   # == Localize Date/Time Format
   #

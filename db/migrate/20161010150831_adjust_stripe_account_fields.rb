@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AdjustStripeAccountFields < ActiveRecord::Migration
+class AdjustStripeAccountFields < ActiveRecord::Migration[6.0]
   def change
     rename_column :stripe_accounts, :postal_code, :zipcode
     remove_column :stripe_accounts, :account_country, :string

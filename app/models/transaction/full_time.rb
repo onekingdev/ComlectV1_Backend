@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Transaction::FullTime < Transaction
-  belongs_to :charge_source, class_name: 'PaymentSource'
+  belongs_to :charge_source, class_name: 'PaymentSource', optional: true
 
   scope :current, -> { where(status: nil) }
   scope :current_for, ->(project_id) do

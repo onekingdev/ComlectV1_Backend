@@ -13,7 +13,7 @@ RSpec.describe 'JobApplications', type: :request do
 
     it 'sends confirmation email to specialist' do
       expect do
-        delete project_job_application_path(project, job_application), format: :js
+        delete project_job_application_path(project, job_application), xhr: true
         expect(response).to have_http_status(200)
       end.to change { ActionMailer::Base.deliveries.count }.by(1)
     end

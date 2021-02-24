@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateAuditComments < ActiveRecord::Migration
+class CreateAuditComments < ActiveRecord::Migration[6.0]
   def change
     create_table :audit_comments do |t|
       t.integer :audit_request_id

@@ -10,7 +10,7 @@ class Specialists::DashboardController < ApplicationController
   before_action :init_tasks_calendar_grid
 
   def show
-    @specialist = Specialist.preload_associations.find(current_user.specialist.id)
+    @specialist = Specialist.preload_association.find(current_user.specialist.id)
     @financials = Specialist::Financials.for(current_specialist)
     @reminders_today = reminders_today(current_specialist, @calendar_grid)
     @reminders_week = reminders_week(current_specialist, @calendar_grid)

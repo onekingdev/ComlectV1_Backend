@@ -35,27 +35,6 @@ class Specialist::Decorator < ApplicationDecorator
     [city, state, country].map(&:presence).compact.join(', ')
   end
 
-  # def years_of_experience
-  #   return @_years_of_experience if @_years_of_experience
-  #   @_years_of_experience = (calculate_years_of_experience / 365.0).round
-  # end
-
-  def sorted_education_histories
-    education_histories.where.not(year: nil).sort_by(&:year) + education_histories.where(year: nil)
-  end
-
-  def sorted_work_experiences
-    far_away = 10.years.ago.to_date
-    today = Time.zone.today.to_date
-    decorated_work_experiences.sort_by do |exp|
-      exp.current? ? today : exp.to || far_away
-    end
-  end
-
-  def decorated_work_experiences
-    work_experiences.map { |exp| WorkExperience::Decorator.new(exp) }
-  end
-
   def render_stars
     h.render_stars ratings_average
   end
@@ -86,12 +65,4 @@ class Specialist::Decorator < ApplicationDecorator
       }
     )
   end
-
-  # private
-
-  # def calculate_years_of_experience
-  #   work_experiences.compliance.map do |exp|
-  #     exp.from ? ((exp.to || Time.zone.today) - exp.from).to_f : 0.0
-  #   end.reduce(:+) || 0.0
-  # end
 end
