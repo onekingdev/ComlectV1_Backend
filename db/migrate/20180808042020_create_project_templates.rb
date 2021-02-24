@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateProjectTemplates < ActiveRecord::Migration[6.0]
+class CreateProjectTemplates < ActiveRecord::Migration
   def change
     create_table :project_templates do |t|
       t.string :title

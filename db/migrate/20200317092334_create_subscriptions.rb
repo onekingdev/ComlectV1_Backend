@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateSubscriptions < ActiveRecord::Migration[6.0]
+class CreateSubscriptions < ActiveRecord::Migration
   def change
     create_table :subscriptions do |t|
       t.bigint :business_id

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class PortedBusiness < ActiveRecord::Base
-  belongs_to :specialist, optional: true
+  belongs_to :specialist
 
   before_create :generate_token
 

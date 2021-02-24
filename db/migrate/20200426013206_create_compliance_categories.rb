@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateComplianceCategories < ActiveRecord::Migration[6.0]
+class CreateComplianceCategories < ActiveRecord::Migration
   def change
     create_table :compliance_categories do |t|
       t.string :name

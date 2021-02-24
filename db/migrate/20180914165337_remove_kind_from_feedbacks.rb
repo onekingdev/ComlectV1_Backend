@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class RemoveKindFromFeedbacks < ActiveRecord::Migration[6.0]
+class RemoveKindFromFeedbacks < ActiveRecord::Migration
   def change
     remove_column :feedback_requests, :kind
   end

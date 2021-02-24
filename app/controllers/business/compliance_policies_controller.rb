@@ -112,22 +112,30 @@ class Business::CompliancePoliciesController < ApplicationController
   end
 
   def ban
-    @compliance_policy.update(ban: true)
-    PdfCompliancePolicyWorker.perform_async(@compliance_policy.compliance_policy_docs.order(:id).first.id)
-    respond_to do |format|
-      format.html do
-        redirect_to business_compliance_policies_path
+    if current_business == @compliance_policy.business
+      @compliance_policy.update(ban: true)
+      PdfCompliancePolicyWorker.perform_async(@compliance_policy.compliance_policy_docs.order(:id).first.id)
+      respond_to do |format|
+        format.html do
+          redirect_to business_compliance_policies_path
+        end
       end
+    else
+      redirect_to '/business'
     end
   end
 
   def unban
-    @compliance_policy.update(ban: false)
-    PdfCompliancePolicyWorker.perform_async(@compliance_policy.compliance_policy_docs.order(:id).first.id)
-    respond_to do |format|
-      format.html do
-        redirect_to business_compliance_policies_path
+    if current_business == @compliance_policy.business
+      @compliance_policy.update(ban: false)
+      PdfCompliancePolicyWorker.perform_async(@compliance_policy.compliance_policy_docs.order(:id).first.id)
+      respond_to do |format|
+        format.html do
+          redirect_to business_compliance_policies_path
+        end
       end
+    else
+      redirect_to '/business'
     end
   end
 

@@ -3,7 +3,7 @@
 class Seat < ActiveRecord::Base
   belongs_to :business
   belongs_to :subscription
-  belongs_to :team_member, dependent: :destroy, optional: true
+  belongs_to :team_member, dependent: :destroy
 
   scope :available, -> { where(team_member_id: [nil, 0], assigned_at: nil) }
   scope :taken, -> { where.not(team_member_id: [nil, 0], assigned_at: nil) }

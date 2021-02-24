@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateReferralTokens < ActiveRecord::Migration[6.0]
+class CreateReferralTokens < ActiveRecord::Migration
   def change
     create_table :referral_tokens do |t|
       t.integer :referrals_count, null: false, default: 0

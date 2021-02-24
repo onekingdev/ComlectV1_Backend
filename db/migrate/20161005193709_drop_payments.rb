@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class DropPayments < ActiveRecord::Migration[6.0]
+class DropPayments < ActiveRecord::Migration
   def change
     drop_table :payments
   end

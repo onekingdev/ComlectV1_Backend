@@ -2,8 +2,8 @@
 
 class ProjectTemplate < ActiveRecord::Base
   belongs_to :turnkey_solution
-  has_and_belongs_to_many :industries, optional: true
-  has_and_belongs_to_many :jurisdictions, optional: true
+  has_and_belongs_to_many :industries
+  has_and_belongs_to_many :jurisdictions
 
   def features_array
     new_arr = []

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddDiscourseUsernameToUsers < ActiveRecord::Migration[6.0]
+class AddDiscourseUsernameToUsers < ActiveRecord::Migration
   def change
     add_column :businesses, :discourse_username, :string
     add_index :businesses, :discourse_username
