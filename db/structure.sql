@@ -166,8 +166,6 @@ CREATE FUNCTION public.set_point_from_lat_lng() RETURNS trigger
 
 SET default_tablespace = '';
 
-SET default_with_oids = false;
-
 --
 -- Name: admin_users; Type: TABLE; Schema: public; Owner: -
 --
@@ -740,7 +738,8 @@ CREATE TABLE public.compliance_policies (
     pdf_data jsonb,
     docs_count integer DEFAULT 0,
     "position" integer,
-    ban boolean DEFAULT false
+    ban boolean DEFAULT false,
+    description text DEFAULT ''::text
 );
 
 
@@ -794,6 +793,78 @@ CREATE SEQUENCE public.compliance_policy_docs_id_seq
 --
 
 ALTER SEQUENCE public.compliance_policy_docs_id_seq OWNED BY public.compliance_policy_docs.id;
+
+
+--
+-- Name: compliance_policy_risks; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.compliance_policy_risks (
+    id bigint NOT NULL,
+    name character varying,
+    level integer,
+    description text,
+    compliance_policy_id integer,
+    status character varying,
+    business_id integer,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: compliance_policy_risks_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.compliance_policy_risks_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: compliance_policy_risks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.compliance_policy_risks_id_seq OWNED BY public.compliance_policy_risks.id;
+
+
+--
+-- Name: compliance_policy_sections; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.compliance_policy_sections (
+    id bigint NOT NULL,
+    compliance_policy_id integer,
+    parent_id integer,
+    name character varying,
+    description text,
+    "order" integer,
+    business_id integer,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: compliance_policy_sections_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.compliance_policy_sections_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: compliance_policy_sections_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.compliance_policy_sections_id_seq OWNED BY public.compliance_policy_sections.id;
 
 
 --
@@ -1124,7 +1195,9 @@ CREATE TABLE public.projects (
     applicant_selection character varying DEFAULT 'interview'::character varying,
     admin_notified boolean DEFAULT false,
     business_fee_free boolean DEFAULT false,
-    color character varying
+    color character varying,
+    local_project_id integer,
+    role_details text DEFAULT ''::text
 );
 
 
@@ -1878,7 +1951,8 @@ CREATE TABLE public.job_applications (
     estimated_hours integer,
     starts_on date,
     ends_on date,
-    status character varying
+    status character varying,
+    role_details text DEFAULT ''::text
 );
 
 
@@ -1961,6 +2035,42 @@ CREATE TABLE public.jurisdictions_specialists (
     jurisdiction_id integer NOT NULL,
     specialist_id integer NOT NULL
 );
+
+
+--
+-- Name: local_projects; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.local_projects (
+    id bigint NOT NULL,
+    business_id integer,
+    title character varying,
+    description text,
+    starts_on date,
+    ends_on date,
+    status character varying,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: local_projects_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.local_projects_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: local_projects_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.local_projects_id_seq OWNED BY public.local_projects.id;
 
 
 --
@@ -2058,7 +2168,8 @@ CREATE TABLE public.specialists (
     annual_revenue_goal numeric,
     risk_tolerance character varying,
     automatching_available boolean DEFAULT false,
-    reminders_mailed_at timestamp without time zone
+    reminders_mailed_at timestamp without time zone,
+    zero_fee boolean DEFAULT false
 );
 
 
@@ -4073,7 +4184,8 @@ CREATE TABLE public.reminders (
     on_type character varying,
     skip_occurencies text DEFAULT ''::text,
     done_occurencies text,
-    note character varying DEFAULT ''::character varying
+    note character varying DEFAULT ''::character varying,
+    description text DEFAULT ''::text
 );
 
 
@@ -4980,6 +5092,20 @@ ALTER TABLE ONLY public.compliance_policy_docs ALTER COLUMN id SET DEFAULT nextv
 
 
 --
+-- Name: compliance_policy_risks id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.compliance_policy_risks ALTER COLUMN id SET DEFAULT nextval('public.compliance_policy_risks_id_seq'::regclass);
+
+
+--
+-- Name: compliance_policy_sections id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.compliance_policy_sections ALTER COLUMN id SET DEFAULT nextval('public.compliance_policy_sections_id_seq'::regclass);
+
+
+--
 -- Name: cookie_agreements id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -5096,6 +5222,13 @@ ALTER TABLE ONLY public.job_applications ALTER COLUMN id SET DEFAULT nextval('pu
 --
 
 ALTER TABLE ONLY public.jurisdictions ALTER COLUMN id SET DEFAULT nextval('public.jurisdictions_id_seq'::regclass);
+
+
+--
+-- Name: local_projects id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.local_projects ALTER COLUMN id SET DEFAULT nextval('public.local_projects_id_seq'::regclass);
 
 
 --
@@ -5507,6 +5640,22 @@ ALTER TABLE ONLY public.compliance_policy_docs
 
 
 --
+-- Name: compliance_policy_risks compliance_policy_risks_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.compliance_policy_risks
+    ADD CONSTRAINT compliance_policy_risks_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: compliance_policy_sections compliance_policy_sections_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.compliance_policy_sections
+    ADD CONSTRAINT compliance_policy_sections_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: cookie_agreements cookie_agreements_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5640,6 +5789,14 @@ ALTER TABLE ONLY public.job_applications
 
 ALTER TABLE ONLY public.jurisdictions
     ADD CONSTRAINT jurisdictions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: local_projects local_projects_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.local_projects
+    ADD CONSTRAINT local_projects_pkey PRIMARY KEY (id);
 
 
 --
@@ -7354,5 +7511,15 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20201007134635'),
 ('20201110132337'),
 ('20201210160135'),
-('20201225213003');
-                                                        
+('20201225213003'),
+('20210118192309'),
+('20210128050645'),
+('20210203192622'),
+('20210205083649'),
+('20210210173529'),
+('20210211082102'),
+('20210211121353'),
+('20210211201513'),
+('20210216123812');
+
+

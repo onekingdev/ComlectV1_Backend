@@ -125,6 +125,14 @@ gem 'jquery-ui-rails' # , '~> 5.0', '>= 5.0.5'
 # Logging
 gem 'lograge'
 
+gem 'jwt'
+
+# Serialization
+gem 'active_model_serializers'
+
+# Pagination
+gem 'pagy'
+
 # Sitemap
 gem 'fog-aws'
 gem 'sitemap_generator'
