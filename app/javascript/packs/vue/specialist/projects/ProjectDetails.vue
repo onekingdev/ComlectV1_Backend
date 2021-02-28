@@ -21,9 +21,11 @@
     p {{ project.skills | names }}
     hr
     h2 Client Details
+    ClientDetails(:business="project.business")
 </template>
 
 <script>
+import ClientDetails from './ClientDetails'
 import ProjectFigures from './ProjectFigures'
 
 export default {
@@ -34,6 +36,7 @@ export default {
     }
   },
   components: {
+    ClientDetails,
     ProjectFigures
   }
 }

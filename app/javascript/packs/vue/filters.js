@@ -12,7 +12,8 @@ const filters = {
     return `${quantity} ${name}` + (1 === quantity ? '' : 's')
   },
   yesNo: val => val ? 'Yes' : 'No',
-  isAre: items => (Array.isArray(items) ? items.length : items) === 1 ? 'is' : 'are'
+  isAre: items => (Array.isArray(items) ? items.length : items) === 1 ? 'is' : 'are',
+  commas: arr => arr.filter(v => !!v).join(', '),
 }
 
 export default filters
