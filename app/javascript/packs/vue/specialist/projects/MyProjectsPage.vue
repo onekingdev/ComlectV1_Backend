@@ -8,7 +8,7 @@
         .col-sm
           select.custom-select
             option(value) Year: All
-      table.table
+      Get(:projects="projectsUrl"): template(v-slot="{projects}"): table.table
         thead
           tr
             th Title
@@ -19,12 +19,12 @@
             th End Date
         tbody
           tr(v-for="project in projects" :key="project.id")
-            td
-            td
-            td
-            td
-            td
-            td
+            td {{ project.title }}
+            td {{ project.business.business_name }}
+            td {{ (project.fixed_budget || project.est_budget) | usdWhole }}
+            td {{ project.status }}
+            td {{ project.starts_on | asDate }}
+            td {{ project.ends_on | asDate }}
     b-tab(title="Contacts")
       p Contacts
     b-tab(title="Ratings and Reviews")
@@ -34,8 +34,8 @@
 <script>
 export default {
   computed: {
-    projects() {
-      return []
+    projectsUrl() {
+      return this.$store.getters.url('URL_MY_PROJECTS')
     }
   }
 }
