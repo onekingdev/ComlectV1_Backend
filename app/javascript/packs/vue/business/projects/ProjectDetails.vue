@@ -27,7 +27,7 @@ export default {
   },
   computed: {
     postHref() {
-      return '/business/projects/new?local_project_id=' + this.project.id // @todo to store
+      return this.$store.getters.url('URL_POST_LOCAL_PROJECT', this.project.id)
     }
   }
 }
