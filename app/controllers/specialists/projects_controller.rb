@@ -17,6 +17,11 @@ class Specialists::ProjectsController < ApplicationController
            layout: 'vue_specialist'
   end
 
+  def show
+    render html: content_tag('my-project-show-page', '', ':id': params[:id]).html_safe,
+           layout: 'vue_specialist'
+  end
+
   private
 
   def active_projects

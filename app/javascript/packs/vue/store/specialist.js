@@ -3,10 +3,12 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-const URL_MY_PROJECTS = '/api/specialist/projects/my'
+const URL_MY_PROJECT_SHOW = '/specialist/my-projects/:id'
+const URL_API_MY_PROJECTS = '/api/specialist/projects/my'
 
 const URLS = {
-  URL_MY_PROJECTS,
+  URL_MY_PROJECT_SHOW,
+  URL_API_MY_PROJECTS,
 }
 
 const store = new Vuex.Store({

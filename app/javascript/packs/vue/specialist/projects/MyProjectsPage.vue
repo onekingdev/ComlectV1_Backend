@@ -8,7 +8,7 @@
         .col-sm
           select.custom-select
             option(value) Year: All
-      Get(:projects="projectsUrl"): template(v-slot="{projects}"): table.table
+      Get(:projects="apiProjectsUrl"): template(v-slot="{projects}"): table.table
         thead
           tr
             th Title
@@ -19,7 +19,7 @@
             th End Date
         tbody
           tr(v-for="project in projects" :key="project.id")
-            td {{ project.title }}
+            td: a(:href="linkProjectUrl(project.id)") {{ project.title }}
             td {{ project.business.business_name }}
             td {{ (project.fixed_budget || project.est_budget) | usdWhole }}
             td {{ project.status }}
@@ -34,8 +34,11 @@
 <script>
 export default {
   computed: {
-    projectsUrl() {
-      return this.$store.getters.url('URL_MY_PROJECTS')
+    apiProjectsUrl() {
+      return this.$store.getters.url('URL_API_MY_PROJECTS')
+    },
+    linkProjectUrl() {
+      return id => this.$store.getters.url('URL_MY_PROJECT_SHOW', id)
     }
   }
 }
