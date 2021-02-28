@@ -14,6 +14,10 @@ class Api::Specialist::ProjectsController < ApiController
     respond_with project, serializer: ProjectSerializer
   end
 
+  def my
+    respond_with paginate current_specialist.projects, each_serializer: ProjectSerializer
+  end
+
   private
 
   def search_params

@@ -277,6 +277,7 @@ Rails.application.routes.draw do
       resources :specialists, only: :index
     end
     namespace :specialist do
+      get '/projects/my' => 'projects#my'
       resources :projects, only: [] do
         resources :timesheets, except: %i[new edit], controller: 'timesheets'
       end
