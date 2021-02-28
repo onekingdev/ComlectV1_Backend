@@ -3,7 +3,7 @@
     .row.p-x-1
       .col-md-12.p-t-3.p-b-1
         Breadcrumbs(:items="breadcrumbs")
-        Wizard(v-bind="{industryIds,jurisdictionIds,localProjectId}")
+        Wizard(v-bind="{industryIds,jurisdictionIds,localProject}")
 </template>
 
 <script>
@@ -19,8 +19,8 @@ export default {
       type: Array,
       required: true
     },
-    localProjectId: {
-      type: Number
+    localProject: {
+      type: Object
     }
   },
   components: {

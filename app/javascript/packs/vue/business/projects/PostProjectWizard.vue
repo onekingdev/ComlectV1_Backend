@@ -80,15 +80,15 @@ const DEFAULT_TYPE = 'rfp'
 
 const toOption = ({ id, name: label }) => ({ id, label })
 
-const initialProject = (local_project_id) => ({
+const initialProject = (localProject) => ({
   // common defaults
   type: DEFAULT_TYPE,
-  local_project_id,
+  local_project_id: (localProject && localProject.id) || null,
   // 1
-  title: null,
-  starts_on: null,
-  ends_on: null,
-  description: null,
+  title: (localProject && localProject.title) || null,
+  starts_on: (localProject && localProject.starts_on) || null,
+  ends_on: (localProject && localProject.ends_on) || null,
+  description: (localProject && localProject.description) || null,
   role_details: null,
   rfp_timing: null,
   industry_ids: [],
@@ -117,15 +117,14 @@ export default {
       type: Array,
       required: true
     },
-    localProjectId: {
-      type: Number,
-      default: null
+    localProject: {
+      type: Object
     }
   },
   data() {
     return {
       step: STEPS[0],
-      project: initialProject(this.localProjectId),
+      project: initialProject(this.localProject),
       errors: {}
     }
   },

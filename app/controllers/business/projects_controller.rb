@@ -24,7 +24,7 @@ class Business::ProjectsController < ApplicationController
                              '',
                              ':industry-ids': Industry.all.map(&proc { |ind| { id: ind.id, name: ind.name } }).to_json,
                              ':jurisdiction-ids': Jurisdiction.all.map(&proc { |ind| { id: ind.id, name: ind.name } }).to_json,
-                             ':local-project-id': params[:local_project_id])
+                             ':local-project': LocalProject.find(params[:local_project_id]).to_json)
       .html_safe,
            layout: 'vue_business'
   end
