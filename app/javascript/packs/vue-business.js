@@ -1,5 +1,5 @@
 import init from './vue/init'
-import store from '@/store/index'
+import store from '@/store/business'
 import BusinessDashboardPage from './vue/business/dashboard/Page.vue'
 import BusinessRemindersPage from './vue/business/reminders/Page.vue'
 import BusinessPostProjectPage from './vue/business/projects/PostProjectPage.vue'
