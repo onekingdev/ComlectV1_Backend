@@ -2,6 +2,7 @@
   Get(:project="projectUrl"): template(v-slot="{project}")
     Breadcrumbs(:items="['Projects', project.title]")
     h1 {{ project.title }}
+    a.btn.btn-outline-dark.float-right(v-if="showTimesheetBtn(project)" :href="timesheetUrl") My Timesheet
     h3 {{ project.business.business_name }}
     b-tabs
       b-tab(title="Overview" active)
@@ -47,6 +48,12 @@ export default {
   computed: {
     projectUrl() {
       return this.$store.getters.url('URL_API_MY_PROJECT', this.id)
+    },
+    timesheetUrl() {
+      return this.$store.getters.url('URL_PROJECT_TIMESHEET', this.id)
+    },
+    showTimesheetBtn() {
+      return project => 'hourly' === project.pricing_type
     }
   }
 }
