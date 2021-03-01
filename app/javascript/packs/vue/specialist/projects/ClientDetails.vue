@@ -7,9 +7,9 @@
     .card-body
       dl.row
         dt.col-sm-3 Industry
-        dd.col-sm-9
+        dd.col-sm-9 {{ business.industries | names}}
         dt.col-sm-3 Jurisdictions
-        dd.col-sm-9
+        dd.col-sm-9 {{ business.jurisdictions | names}}
         dt.col-sm-3 Employees
         dd.col-sm-9 {{ business.employees }}
         dt.col-sm-3 Description
