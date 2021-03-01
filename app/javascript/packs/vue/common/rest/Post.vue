@@ -13,13 +13,17 @@ export default {
     model: {
       type: Object,
       required: true
+    },
+    headers: {
+      type: Object,
+      default: () => ({})
     }
   },
   methods: {
     submit() {
       fetch(this.action, {
         method: 'POST',
-        headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+        headers: {'Accept': 'application/json', 'Content-Type': 'application/json', ...this.headers},
         body: JSON.stringify(this.model)
       }).then(response => {
         if (response.status === 422) {
