@@ -27,7 +27,7 @@
       .row(v-for="(row, i) in entry.time_logs_attributes" :key="i")
         .col-sm-12
           hr
-          InputText(v-model="row.description" :errors="errors['time_logs.description']") Description
+          InputText(v-model="row.description" :errors="errors['time_logs.description']" placeholder="Describe the task") Description
         .col-md-4
           InputDate(v-model="row.date" :errors="errors['time_logs.date']") Date
         .col-md-4
@@ -39,7 +39,7 @@
       hr
       p.text-right Total Due: {{ totalDue | usdWhole }}
       template(slot="modal-footer")
-        button.btn.btn-light Cancel
+        button.btn.btn-light(@click="$bvModal.hide('timesheets-modal')") Cancel
         button.btn.btn-outline-dark Save Draft
         Post(:action="timesheetsUrl" :model="entry" :headers="headers" @errors="errors = $event" @saved="saved")
           button.btn.btn-dark Send
@@ -93,6 +93,7 @@ export default {
       this.reloadTable()
       this.$bvModal.hide('timesheets-modal')
       Object.assign(this.entry, initialEntry())
+      this.$bvToast.toast('Time logged and awaiting approval', { title: 'Success', autoHideDelay: 5000 })
     },
     reloadTable() {
       this.isTableVisible = false, setTimeout(() => this.isTableVisible = true, 0)
