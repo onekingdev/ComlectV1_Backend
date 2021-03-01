@@ -15,7 +15,7 @@ class Api::Business::ProjectsController < ApiController
         local_project = LocalProject.create(local_project_params)
         @project.update(local_project_id: local_project.id)
       end
-      respond_with @project, serilaizer: ProjectSerializer
+      respond_with @project, serializer: ProjectSerializer
     else
       render json: {
         errors: @project.errors, alert: I18n.t('activerecord.errors.models.project.attributes.base.no_payment')
