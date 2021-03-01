@@ -4,6 +4,7 @@ import ProjectIndexPage from '@/specialist/projects/IndexPage'
 import CreateProposalPage from '@/specialist/projects/CreateProposalPage'
 import MyProjectsPage from '@/specialist/projects/MyProjectsPage'
 import MyProjectShowPage from '@/specialist/projects/MyProjectShowPage'
+import ProjectTimesheetsPage from '@/specialist/projects/ProjectTimesheetsPage'
 
 init({
   store,
@@ -12,5 +13,6 @@ init({
     CreateProposalPage,
     MyProjectsPage,
     MyProjectShowPage,
+    ProjectTimesheetsPage,
   }
 })

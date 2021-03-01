@@ -7,12 +7,14 @@ const URL_MY_PROJECT_SHOW = '/specialist/my-projects/:id'
 const URL_API_MY_PROJECT = '/api/specialist/projects/:id'
 const URL_API_MY_PROJECTS = '/api/specialist/projects/my'
 const URL_PROJECT_TIMESHEET = '/projects/:id/timesheets'
+const URL_API_PROJECT_TIMESHEET = '/api/specialist/projects/:id/timesheets'
 
 const URLS = {
   URL_MY_PROJECT_SHOW,
   URL_API_MY_PROJECT,
   URL_API_MY_PROJECTS,
   URL_PROJECT_TIMESHEET,
+  URL_API_PROJECT_TIMESHEET,
 }
 
 const store = new Vuex.Store({
