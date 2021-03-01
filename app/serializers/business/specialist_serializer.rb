@@ -9,7 +9,7 @@ class Business::SpecialistSerializer < ApplicationSerializer
              :first_name,
              :last_name,
              :former_regulator,
-             :resume_data,
+             :resume_url,
              :certifications,
              :visibility,
              :ratings_count,
