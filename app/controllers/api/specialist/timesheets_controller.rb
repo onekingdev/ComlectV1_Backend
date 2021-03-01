@@ -18,7 +18,7 @@ class Api::Specialist::TimesheetsController < ApiController
     authorize @project.timesheets.new
     timesheet = @project.timesheets.create(timesheet_params)
     if timesheet.errors.any?
-      respond_with errors: timesheet.errors, status: :unprocessable_entity
+      respond_with(timesheet.errors, status: :unprocessable_entity)
     else
       Notification::Deliver.timesheet_submitted!(timesheet) if timesheet.submitted?
       respond_with timesheet, serializer: TimesheetSerializer, location: nil
