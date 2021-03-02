@@ -1,7 +1,7 @@
 <template lang="pug">
   div
-    Breadcrumbs(:items="['Projects', project.name, 'My Timesheet']")
-    table.table
+    Breadcrumbs(:items="['Projects', project.title, 'My Timesheet']")
+    Get(:timesheets="url('URL_API_PROJECT_TIMESHEETS', project.id)"): template(v-slot="{timesheets}"): table.table
       thead
         tr
           th Date of Entry
@@ -11,8 +11,29 @@
           th Payment to Date
           th
       tbody
-        tr(v-for="timesheet in enrichedTimesheets" :key="timesheet.id")
-          td {{ timesheet.created_at | asDate }}
+        tr(v-for="timesheet in enrichTimesheets(timesheets)" :key="timesheet.id")
+          td
+            a(v-b-modal="`TimesheetModal${timesheet.id}`" href="#") {{ timesheet.created_at | asDate }}
+            b-modal(:id="`TimesheetModal${timesheet.id}`" title="Entry Details")
+              label.form-label Date of Entry
+              p {{ today | asDate }}
+              .row(v-for="(row, i) in timesheet.time_logs" :key="i")
+                .col-sm-12
+                  hr
+                  label.form-label Description
+                  p {{ row.description }}
+                .col-md-6
+                  label.form-label Date
+                  p {{ row.date | asDate }}
+                .col-md-6
+                  label.form-label Time
+                  p {{ (row.hours * 60) | minToHour }}
+              hr
+              p.text-right Total Due: {{ totalDue | usdWhole }}
+              template(slot="modal-footer")
+                button.btn.btn-light Cancel
+                button.btn.btn-outline-dark Reject
+                button.btn.btn-dark Approve
           td {{ timesheet.status }}
           td {{ timesheet.total_time | minToHour }}
           td {{ timesheet.total_due | usdWhole }}
@@ -21,26 +42,32 @@
 </template>
 
 <script>
+import { DateTime } from 'luxon'
+import { mapGetters } from 'vuex'
+
+const today = () => DateTime.local().toISODate()
+
 export default {
   props: {
     project: {
       type: Object,
       required: true
-    },
-    timesheets: {
-      type: Array,
-      required: true
     }
   },
   computed: {
-    enrichedTimesheets() {
-      return this.timesheets.map(t => ({
+    ...mapGetters(['url']),
+    enrichTimesheets() {
+      return timesheets => timesheets.map(t => ({
         ...t,
         total_time: 0,
         total_due: 0,
         payment_to_date: 0
       }))
-    }
+    },
+    totalDue() {
+      return 0
+    },
+    today
   }
 }
 </script>

@@ -10,5 +10,6 @@ class TimesheetSerializer < ApplicationSerializer
              :status_changed_at,
              :first_submitted_at,
              :expires_at,
-             :last_submitted_at
+             :last_submitted_at,
+             :time_logs
 end

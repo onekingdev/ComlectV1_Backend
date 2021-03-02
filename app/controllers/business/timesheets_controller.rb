@@ -7,12 +7,8 @@ class Business::TimesheetsController < ApplicationController
   before_action :find_project
 
   def index
-    render html: content_tag(
-      'timesheets-show-page',
-      '',
-      ':project': @project.to_json,
-      ':timesheets': @project.timesheets.sorted.not_pending.to_json
-    ).html_safe, layout: 'vue_business'
+    render html: content_tag('timesheets-show-page', '', ':project': @project.to_json).html_safe,
+           layout: 'vue_business'
   end
 
   def update
