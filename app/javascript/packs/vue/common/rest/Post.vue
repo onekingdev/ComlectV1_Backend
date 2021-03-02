@@ -17,12 +17,16 @@ export default {
     headers: {
       type: Object,
       default: () => ({})
+    },
+    method: {
+      type: String,
+      default: 'POST'
     }
   },
   methods: {
     submit() {
       fetch(this.action, {
-        method: 'POST',
+        method: this.method,
         headers: {'Accept': 'application/json', 'Content-Type': 'application/json', ...this.headers},
         body: JSON.stringify(this.model)
       }).then(response => {
