@@ -23,6 +23,11 @@ class Api::Business::ProjectsController < ApiController
     end
   end
 
+  def show
+    @project = current_business.projects.find(params[:id])
+    respond_with @project, serializer: ProjectSerializer
+  end
+
   private
 
   def build_project

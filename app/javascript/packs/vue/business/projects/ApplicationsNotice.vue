@@ -16,13 +16,13 @@ export default {
   },
   computed: {
     show() {
-      return !this.project.visible_project.specialist_id
+      return !this.project.specialist_id
     },
     apiUrl() {
-      return this.$store.getters.url('URL_API_PROJECT_APPLICATIONS', this.project.visible_project.id)
+      return this.$store.getters.url('URL_API_PROJECT_APPLICATIONS', this.project.id)
     },
     viewApplicantsUrl() {
-      return this.$store.getters.url('URL_PROJECT_APPLICATIONS', this.project.visible_project.id)
+      return this.$store.getters.url('URL_PROJECT_APPLICATIONS', this.project.id)
     }
   }
 }

@@ -8,6 +8,7 @@ const URL_PROJECT_APPLICATIONS = `${URL_PROJECT_SHOW}/applications`
 const URL_API_PROJECT_APPLICATIONS = `/api${URL_PROJECT_APPLICATIONS}`
 const URL_API_PROJECT_HIRES = `/api${URL_PROJECT_SHOW}/hires`
 const URL_POST_LOCAL_PROJECT = '/business/projects/new?local_project_id=:id'
+const URL_PROJECT_TIMESHEETS = `${URL_PROJECT_SHOW}/timesheets`
 
 const URLS = {
   URL_PROJECT_SHOW,
@@ -15,6 +16,7 @@ const URLS = {
   URL_API_PROJECT_APPLICATIONS,
   URL_API_PROJECT_HIRES,
   URL_POST_LOCAL_PROJECT,
+  URL_PROJECT_TIMESHEETS,
 }
 
 const store = new Vuex.Store({

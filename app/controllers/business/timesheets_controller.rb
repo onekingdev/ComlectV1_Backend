@@ -1,19 +1,18 @@
 # frozen_string_literal: true
 
 class Business::TimesheetsController < ApplicationController
+  include ActionView::Helpers::TagHelper
+
   before_action :require_business!
   before_action :find_project
 
   def index
-    @timesheets = @project.timesheets.sorted.not_pending
-    respond_to do |format|
-      format.html { render partial: 'index' }
-      format.js
-    end
-  end
-
-  def show
-    @timesheet = @project.timesheets.find(params[:id])
+    render html: content_tag(
+      'timesheets-show-page',
+      '',
+      ':project': @project.to_json,
+      ':timesheets': @project.timesheets.sorted.not_pending.to_json
+    ).html_safe, layout: 'vue_business'
   end
 
   def update

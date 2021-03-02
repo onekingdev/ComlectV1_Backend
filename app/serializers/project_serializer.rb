@@ -5,6 +5,7 @@ class ProjectSerializer < ApplicationSerializer
   has_many :jurisdictions, serializer: JurisdictionSerializer
   has_many :industries, serializer: IndustrySerializer
   has_one :business, serializer: Specialist::BusinessSerializer
+  has_many :timesheets
   attributes :id,
              :business_id,
              :type,
