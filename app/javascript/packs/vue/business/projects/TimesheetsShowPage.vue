@@ -22,12 +22,15 @@
                   hr
                   label.form-label Description
                   p {{ row.description }}
-                .col-md-6
+                .col-md-4
                   label.form-label Date
                   p {{ row.date | asDate }}
-                .col-md-6
-                  label.form-label Time
-                  p {{ (row.hours * 60) | minToHour }}
+                .col-md-4
+                  label.form-label Hours
+                  p {{ row.hours }}
+                .col-md-4
+                  label.form-label Minutes
+                  p {{ row.minutes || 0 }}
               hr
               p.text-right Total Due: {{ totalDue | usdWhole }}
               template(slot="modal-footer")
