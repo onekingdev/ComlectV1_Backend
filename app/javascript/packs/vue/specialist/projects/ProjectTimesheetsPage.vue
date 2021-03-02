@@ -40,8 +40,9 @@
       p.text-right Total Due: {{ totalDue | usdWhole }}
       template(slot="modal-footer")
         button.btn.btn-light(@click="$bvModal.hide('timesheets-modal')") Cancel
-        button.btn.btn-outline-dark Save Draft
-        Post(:action="timesheetsUrl" :model="entry" :headers="headers" @errors="errors = $event" @saved="saved")
+        Post(:action="timesheetsUrl" :model="{...entry,status:'pending'}" :headers="headers" @errors="errors = $event" @saved="saved")
+          button.btn.btn-outline-dark Save Draft
+        Post(:action="timesheetsUrl" :model="{...entry,status:'submitted'}" :headers="headers" @errors="errors = $event" @saved="saved")
           button.btn.btn-dark Send
 </template>
 
