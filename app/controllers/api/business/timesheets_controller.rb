@@ -35,7 +35,7 @@ class Api::Business::TimesheetsController < ApiController
   private
 
   def timesheet_params
-    params.require(:timesheet).permit(:approve, :dispute)
+    params.permit(:approve, :dispute)
   end
 
   def find_project

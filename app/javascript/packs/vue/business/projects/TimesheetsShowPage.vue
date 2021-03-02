@@ -34,9 +34,11 @@
               hr
               p.text-right Total Due: {{ totalDue | usdWhole }}
               template(slot="modal-footer")
-                button.btn.btn-light Cancel
-                button.btn.btn-outline-dark Reject
-                button.btn.btn-dark Approve
+                button.btn.btn-light(@click="$bvModal.hide(`TimesheetModal${timesheet.id}`)") Cancel
+                Post(:model="{dispute:1}" v-bind="buttonConfig(timesheet.id)")
+                  button.btn.btn-outline-dark Reject
+                Post(:model="{approve:1}" v-bind="buttonConfig(timesheet.id)")
+                  button.btn.btn-dark Approve
           td {{ timesheet.status }}
           td {{ timesheet.total_time | minToHour }}
           td {{ timesheet.total_due | usdWhole }}
@@ -55,6 +57,10 @@ export default {
     project: {
       type: Object,
       required: true
+    },
+    token: {
+      type: String,
+      required: true
     }
   },
   computed: {
@@ -66,6 +72,13 @@ export default {
         total_due: 0,
         payment_to_date: 0
       }))
+    },
+    buttonConfig() {
+      return timesheetId => ({
+        action: this.url('URL_API_PROJECT_TIMESHEETS', this.project.id) + '/' + timesheetId,
+        method: 'PUT',
+        headers: { Authorization: this.token }
+      })
     },
     totalDue() {
       return 0
