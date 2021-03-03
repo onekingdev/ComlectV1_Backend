@@ -27,7 +27,23 @@
           ProjectTable(:projects="projects")
       b-tab(title="Contacts")
         .card-body.white-card-body
-          p Contacts
+          table.table
+            thead
+              tr
+                th Name
+                th Location
+                th Status
+                th Rating
+                th
+            tbody
+              tr(v-for="contact in contacts" :key="contact.id")
+                td {{ contact.name }}
+                td {{ contact.location }}
+                td {{ contact.status }}
+                td: StarRating(:stars="contact.rating")
+                td &hellip;
+              tr(v-if="!contacts.length")
+                td(colspan=5) No contacts
       b-tab(title="Ratings and Reviews")
         .card-body.white-card-body
           p Ratings and Reviews
@@ -54,6 +70,25 @@ export default {
       fetch(endpointUrl, { headers: {'Accept': 'application/json'} })
         .then(response => response.json())
         .then(result => this.projects = result)
+    }
+  },
+  computed: {
+    contacts() {
+      return this.projects.reduce((result, project) => {
+        for (const p in project.projects) {
+          const spec = project.projects[p].specialist
+          if (spec && !result.find(s => s.id === spec.id)) {
+            result.push({
+              id: spec.id,
+              name: spec.first_name + ' ' + spec.last_name,
+              location: [spec.country, spec.state, spec.city].filter(a => a).join(', '),
+              status: spec.visibility,
+              rating: 5
+            })
+          }
+        }
+        return result
+      }, [])
     }
   },
   components: {
