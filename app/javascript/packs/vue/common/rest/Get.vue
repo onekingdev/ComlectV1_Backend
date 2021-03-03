@@ -7,6 +7,9 @@
 import Vue from 'vue'
 
 export default {
+  props: {
+    callback: Function
+  },
   data() {
     return {
       slotProps: {}
@@ -15,7 +18,7 @@ export default {
   created() {
     Object.keys(this.$attrs).map(prop => fetch(this.$attrs[prop], { headers: {'Accept': 'application/json'}})
           .then(response => response.json())
-          .then(result => Vue.set(this.slotProps, prop, result)))
+          .then(result => Vue.set(this.slotProps, prop, this.callback ? this.callback(result) : result)))
   },
   computed: {
     everythingLoaded() {
