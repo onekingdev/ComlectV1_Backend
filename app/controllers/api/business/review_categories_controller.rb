@@ -46,7 +46,7 @@ class Api::Business::ReviewCategoriesController < ApiController
         :name, items: [
           :body,
           :checked,
-          findings:[]
+          findings: []
         ]
       ]
     )
