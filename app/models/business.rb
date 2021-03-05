@@ -29,7 +29,6 @@ class Business < ApplicationRecord
   has_many :compliance_policies
   has_many :compliance_policy_risks
   has_many :compliance_policy_sections
-  has_many :annual_reviews
   has_many :annual_reports
   has_many :teams
   has_many :viewable_teams, -> { where(display: true) }, class_name: 'Team'

@@ -275,6 +275,11 @@ Rails.application.routes.draw do
         resources :timesheets, except: %i[new edit], controller: 'timesheets'
       end
       resources :specialists, only: :index
+      resources :annual_reports, only: %i[index show create update destroy]
+      get '/annual_reports/:id/clone' => 'annual_reports#clone'
+      scope 'annual_reports/:report_id' do
+        resources :review_categories, path: 'review_categories', only: %i[index create update destroy]
+      end
     end
     namespace :specialist do
       get '/projects/my' => 'projects#my'

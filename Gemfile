@@ -39,6 +39,7 @@ gem 'webpacker'
 
 # ActiveRecord
 gem 'auto_strip_attributes'
+gem 'deep_cloneable'
 gem 'deep_pluck'
 gem 'faker'
 gem 'pg', '0.20.0'
