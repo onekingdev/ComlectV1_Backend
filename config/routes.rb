@@ -271,6 +271,9 @@ Rails.application.routes.draw do
         end
         resources :hires, only: %i[create]
       end
+      resources :compliance_policies, only: %i[index show create update]
+      get '/compliance_policies/:id/publish' => 'compliance_policies#publish'
+      get '/compliance_policies/:id/download' => 'compliance_policies#download'
       resources :projects, only: [] do
         resources :timesheets, except: %i[new edit], controller: 'timesheets'
       end
