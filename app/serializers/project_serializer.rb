@@ -56,5 +56,6 @@ class ProjectSerializer < ApplicationSerializer
              :skills,
              :jurisdictions,
              :industries,
-             :specialist
+             :specialist,
+             :business
 end
