@@ -15,7 +15,7 @@ class Api::Business::LocalProjectsController < ApiController
   end
 
   def create
-    local_project = current_business.local_projects.build(local_project_params.merge(status: 'active'))
+    local_project = current_business.local_projects.build(local_project_params)
     if local_project.save
       render json: local_project, status: :created
     else

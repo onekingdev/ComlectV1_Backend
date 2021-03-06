@@ -1908,7 +1908,6 @@ CREATE TABLE public.local_projects (
     description text,
     starts_on date,
     ends_on date,
-    status character varying,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
 );
@@ -7379,5 +7378,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210226220020'),
 ('20210226220403'),
 ('20210226223208'),
-('20210301091555');
+('20210301091555'),
+('20210306222201');
+
 

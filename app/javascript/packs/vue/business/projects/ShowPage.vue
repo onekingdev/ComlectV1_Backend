@@ -6,8 +6,8 @@
     b-tabs(content-class="mt-0")
       b-tab(title="Overview" active)
         .card-body.white-card-body
-          ApplicationsNotice(:project="project.visible_project")
-          Get(:project="`/api/business/projects/${project.visible_project.id}`"): template(v-slot="{project}")
+          ApplicationsNotice(:project="project.visible_project" v-if="project.visible_project")
+          Get(v-if="project.visible_project" :project="`/api/business/projects/${project.visible_project.id}`"): template(v-slot="{project}")
             TimesheetsNotice(:project="project")
           ProjectDetails(:project="project")
       b-tab(title="Tasks")

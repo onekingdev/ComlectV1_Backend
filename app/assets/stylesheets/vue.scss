@@ -42,8 +42,31 @@ html {
     text-align: left;
     margin-top: 5px;
   }
-  a.btn:hover {
+  a.btn:hover, a.btn.active {
     background-color: #2f304f;
+  }
+}
+
+.b-form-datepicker {
+  .form-control, .form-control:focus {
+    border: 0px;
+    box-shadow: none;
+    .rounded-circle {
+      border-radius: 0px !important;
+    }
+    .btn-primary.active:not(:disabled):not(.disabled) {
+      background-color: #eceff4;
+      border: 0px !important;
+    }
+    .btn:focus {
+      box-shadow: none !important;
+    }
+    .btn-outline-primary {
+      color: #000;
+    }
+    .btn-outline-primary:hover {
+      background: #ECEFF4;
+    }
   }
 }
 

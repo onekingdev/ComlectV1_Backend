@@ -11,7 +11,7 @@ class Api::Business::ProjectsController < ApiController
       @project.post!
       @project.new_project_notification
       unless @project.local_project_id
-        local_project_params = @project.attributes.slice('business_id', 'title', 'description', 'starts_on', 'ends_on', 'status')
+        local_project_params = @project.attributes.slice('business_id', 'title', 'description', 'starts_on', 'ends_on')
         local_project = LocalProject.create(local_project_params)
         @project.update(local_project_id: local_project.id)
       end

@@ -1,9 +1,9 @@
 <template lang="pug">
   div
-    TaskFormModal(id="CalendarTaskFormModal" v-bind="nowEditingTask" @saved="$emit('saved')")
-    .card-header.d-flex.justify-content-between
+    .card-header.d-flex.justify-content-between.p-t-0
       div(style="vertical-align: middle")
         h3.m-y-0
+          TaskFormModal(id="CalendarTaskFormModal" v-bind="nowEditingTask" @saved="$emit('saved')")
           | {{currentMonth}}
           small(style="vertical-align: middle")
             ion-icon.m-x-1(name='chevron-back-outline' @click.prevent="prev")

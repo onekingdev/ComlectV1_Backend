@@ -29,4 +29,11 @@ const splitReminderOccurenceId = val => {
     : { taskId: val, oid: null }
 }
 
-export { isProject, isTask, isOverdue, isComplete, toEvent, cssClass, splitReminderOccurenceId }
+const badgeClass = project => project.status == "Active" ? 'badge-light'
+                            : project.status == "Pending" ? 'badge-secondary'
+                            : project.status == "In Progress" ? "badge-light"
+                            : project.status == "Complete" ? "badge-success"
+                            : project.status == "Draft" ? 'badge-secondary'
+                            : isOverdue(project) ? "badge-warning" : ''
+
+export { isProject, isTask, isOverdue, isComplete, toEvent, cssClass, splitReminderOccurenceId, badgeClass }
