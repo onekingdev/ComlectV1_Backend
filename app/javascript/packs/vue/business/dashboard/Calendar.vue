@@ -20,6 +20,10 @@
             //- .fc-event-time
             .fc-event-title-container
               .fc-event-title.fc-sticky
+                span(v-for="icon in arg.event.extendedProps.icons")
+                  span(v-if="icon != ''")
+                    ion-icon(v-bind:name="icon")
+                    | &nbsp;
                 span.pointer(@click="openModal(arg.event.extendedProps.taskId, arg.event.extendedProps.oid)" v-if="arg.event.extendedProps.remind_at") {{arg.event.title}}
                 a(v-else :href="arg.event.extendedProps.href" target="_blank") {{arg.event.title}}
 </template>
@@ -126,7 +130,6 @@ export default {
   background-color: #047aff !important;
   color: #dae9fe;
 }
-.task-is-project .fc-event-title:before { content: '📄'; }
 .task-id-project a { color: #fff; }
 .task-is-task { border: 1px solid #bfe5d5; }
 .task-is-task,
@@ -134,26 +137,17 @@ export default {
   background-color: #1ab27f !important;
   color: #fff;
 }
-.task-is-task .fc-event-title:before {
-  content: ' ✅ ';
-}
 .task-is-overdue { border: 1px solid #dedfe4; }
 .task-is-overdue,
 .task-is-overdue .fc-event-title {
   background-color: #fff7e4 !important;
   color: #5b5a56;
 }
-.task-is-overdue .fc-event-title:before {
-  content: ' ⚠️ ';
-}
 /* .task-is-complete,
 .task-is-complete .fc-event-title {
   background-color: #1ab27f !important;
   color: #e6f5ef;
 } */
-.task-is-complete .fc-event-title:before {
-  content: ' ✅ ';
-}
 .task-is-complete {
   background-color: #e2e8f0;
   border: 1px solid #dee1e7;

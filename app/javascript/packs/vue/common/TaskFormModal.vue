@@ -91,7 +91,7 @@
 
 <script>
 import { DateTime } from 'luxon'
-import { splitReminderOccurenceId } from '@/common/TaskHelper'
+import { splitReminderOccurenceId, iconName } from '@/common/TaskHelper'
 
 const rnd = () => Math.random().toFixed(10).toString().replace('.', '')
 const toOption = id => ({ id, label: id })
@@ -130,7 +130,8 @@ export default {
     id: String,
     taskId: Number,
     occurenceId: Number,
-    remindAt: String
+    remindAt: String,
+    icon: String
   },
   data() {
     return {

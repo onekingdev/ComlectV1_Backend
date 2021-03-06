@@ -16,12 +16,17 @@ const toEvent = (task) => ({
   ...splitReminderOccurenceId(task.id),
   start: task.starts_on || task.remind_at,
   end: ( task.end_date || task.ends_on )+" 20:00:00",
-  title: task.title || task.body
+  title: task.title || task.body,
+  icons: iconArray(task)
 })
 const cssClass = task => isComplete(task) ? 'task-is-complete'
                        : isOverdue(task) ? 'task-is-overdue'
                        : isProject(task) ? 'task-is-project'
                        : isTask(task) ? 'task-is-task' : ''
+const iconArray = (task) => [
+    isComplete(task) ? 'checkbox-outline' : isOverdue(task) ? 'warning-outline' : '',
+    isProject(task) ? 'list-outline' : isTask(task) ? 'checkbox-outline' : ''
+  ]
 const splitReminderOccurenceId = val => {
   const matches = [...`${val}`.matchAll(/(\d+)_(\d+)/ig)]
   return (matches && matches[0])
@@ -29,4 +34,4 @@ const splitReminderOccurenceId = val => {
     : { taskId: val, oid: null }
 }
 
-export { isProject, isTask, isOverdue, isComplete, toEvent, cssClass, splitReminderOccurenceId }
+export { isProject, isTask, isOverdue, isComplete, toEvent, cssClass, splitReminderOccurenceId, iconName }
