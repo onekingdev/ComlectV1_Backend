@@ -139,6 +139,12 @@ class Project < ApplicationRecord
     monthly_fee: 'monthly_fee'
   }
 
+  enum role: {
+    basic: 0,
+    admin: 1,
+    trusted: 2
+  }
+
   after_create :new_project_notification
   after_update :new_project_notification
   after_create :send_email, if: :internal?

@@ -218,13 +218,14 @@ CREATE TABLE public.annual_reports (
     exam_end date,
     review_start date,
     review_end date,
+    tailored_lvl integer,
+    comments text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     business_id integer,
+    cof_bits character varying,
     pdf_data jsonb,
-    year integer,
-    material_business_changes text DEFAULT ''::text,
-    name character varying DEFAULT ''::character varying
+    year integer
 );
 
 
@@ -279,6 +280,41 @@ CREATE SEQUENCE public.annual_review_employees_id_seq
 --
 
 ALTER SEQUENCE public.annual_review_employees_id_seq OWNED BY public.annual_review_employees.id;
+
+
+--
+-- Name: annual_reviews; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.annual_reviews (
+    id integer NOT NULL,
+    business_id integer,
+    file_data jsonb,
+    year integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    pdf_data jsonb,
+    processed boolean DEFAULT false
+);
+
+
+--
+-- Name: annual_reviews_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.annual_reviews_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: annual_reviews_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.annual_reviews_id_seq OWNED BY public.annual_reviews.id;
 
 
 --
@@ -461,6 +497,38 @@ CREATE SEQUENCE public.bank_accounts_id_seq
 --
 
 ALTER SEQUENCE public.bank_accounts_id_seq OWNED BY public.bank_accounts.id;
+
+
+--
+-- Name: business_changes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.business_changes (
+    id integer NOT NULL,
+    change text,
+    annual_report_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: business_changes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.business_changes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: business_changes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.business_changes_id_seq OWNED BY public.business_changes.id;
 
 
 --
@@ -661,17 +729,17 @@ ALTER SEQUENCE public.compliance_categories_id_seq OWNED BY public.compliance_ca
 
 CREATE TABLE public.compliance_policies (
     id integer NOT NULL,
-    name character varying,
+    title character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     business_id integer,
+    section character varying,
+    last_uploaded timestamp without time zone,
     pdf_data jsonb,
+    docs_count integer DEFAULT 0,
     "position" integer,
     ban boolean DEFAULT false,
-    description text DEFAULT ''::text,
-    src_id integer,
-    status character varying DEFAULT 'draft'::character varying,
-    sections jsonb
+    description text DEFAULT ''::text
 );
 
 
@@ -761,6 +829,42 @@ CREATE SEQUENCE public.compliance_policy_risks_id_seq
 --
 
 ALTER SEQUENCE public.compliance_policy_risks_id_seq OWNED BY public.compliance_policy_risks.id;
+
+
+--
+-- Name: compliance_policy_sections; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.compliance_policy_sections (
+    id bigint NOT NULL,
+    compliance_policy_id integer,
+    parent_id integer,
+    name character varying,
+    description text,
+    "order" integer,
+    business_id integer,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: compliance_policy_sections_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.compliance_policy_sections_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: compliance_policy_sections_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.compliance_policy_sections_id_seq OWNED BY public.compliance_policy_sections.id;
 
 
 --
@@ -1093,7 +1197,8 @@ CREATE TABLE public.projects (
     business_fee_free boolean DEFAULT false,
     color character varying,
     local_project_id integer,
-    role_details text DEFAULT ''::text
+    role_details text DEFAULT ''::text,
+    role integer DEFAULT 0
 );
 
 
@@ -1528,6 +1633,42 @@ UNION
 
 
 --
+-- Name: findings; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.findings (
+    id integer NOT NULL,
+    annual_report_id integer,
+    finding text,
+    action text,
+    risk_lvl integer DEFAULT 3,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    compliance_category integer,
+    checkbox_index integer
+);
+
+
+--
+-- Name: findings_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.findings_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: findings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.findings_id_seq OWNED BY public.findings.id;
+
+
+--
 -- Name: flags; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1908,6 +2049,7 @@ CREATE TABLE public.local_projects (
     description text,
     starts_on date,
     ends_on date,
+    status character varying,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
 );
@@ -3997,6 +4139,7 @@ CREATE TABLE public.regulatory_changes (
     id integer NOT NULL,
     annual_report_id integer,
     change text,
+    response text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -4064,40 +4207,6 @@ CREATE SEQUENCE public.reminders_id_seq
 --
 
 ALTER SEQUENCE public.reminders_id_seq OWNED BY public.reminders.id;
-
-
---
--- Name: review_categories; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.review_categories (
-    id bigint NOT NULL,
-    annual_report_id integer,
-    complete boolean DEFAULT false,
-    name character varying DEFAULT ''::character varying,
-    review_topics jsonb,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
-);
-
-
---
--- Name: review_categories_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.review_categories_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: review_categories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.review_categories_id_seq OWNED BY public.review_categories.id;
 
 
 --
@@ -4900,6 +5009,13 @@ ALTER TABLE ONLY public.annual_review_employees ALTER COLUMN id SET DEFAULT next
 
 
 --
+-- Name: annual_reviews id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.annual_reviews ALTER COLUMN id SET DEFAULT nextval('public.annual_reviews_id_seq'::regclass);
+
+
+--
 -- Name: answers id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -4932,6 +5048,13 @@ ALTER TABLE ONLY public.audit_requests ALTER COLUMN id SET DEFAULT nextval('publ
 --
 
 ALTER TABLE ONLY public.bank_accounts ALTER COLUMN id SET DEFAULT nextval('public.bank_accounts_id_seq'::regclass);
+
+
+--
+-- Name: business_changes id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.business_changes ALTER COLUMN id SET DEFAULT nextval('public.business_changes_id_seq'::regclass);
 
 
 --
@@ -4974,6 +5097,13 @@ ALTER TABLE ONLY public.compliance_policy_docs ALTER COLUMN id SET DEFAULT nextv
 --
 
 ALTER TABLE ONLY public.compliance_policy_risks ALTER COLUMN id SET DEFAULT nextval('public.compliance_policy_risks_id_seq'::regclass);
+
+
+--
+-- Name: compliance_policy_sections id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.compliance_policy_sections ALTER COLUMN id SET DEFAULT nextval('public.compliance_policy_sections_id_seq'::regclass);
 
 
 --
@@ -5030,6 +5160,13 @@ ALTER TABLE ONLY public.file_docs ALTER COLUMN id SET DEFAULT nextval('public.fi
 --
 
 ALTER TABLE ONLY public.file_folders ALTER COLUMN id SET DEFAULT nextval('public.file_folders_id_seq'::regclass);
+
+
+--
+-- Name: findings id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.findings ALTER COLUMN id SET DEFAULT nextval('public.findings_id_seq'::regclass);
 
 
 --
@@ -5229,13 +5366,6 @@ ALTER TABLE ONLY public.reminders ALTER COLUMN id SET DEFAULT nextval('public.re
 
 
 --
--- Name: review_categories id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.review_categories ALTER COLUMN id SET DEFAULT nextval('public.review_categories_id_seq'::regclass);
-
-
---
 -- Name: rewards_tiers id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -5407,6 +5537,14 @@ ALTER TABLE ONLY public.annual_review_employees
 
 
 --
+-- Name: annual_reviews annual_reviews_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.annual_reviews
+    ADD CONSTRAINT annual_reviews_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: answers answers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5455,6 +5593,14 @@ ALTER TABLE ONLY public.bank_accounts
 
 
 --
+-- Name: business_changes business_changes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.business_changes
+    ADD CONSTRAINT business_changes_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: businesses businesses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5500,6 +5646,14 @@ ALTER TABLE ONLY public.compliance_policy_docs
 
 ALTER TABLE ONLY public.compliance_policy_risks
     ADD CONSTRAINT compliance_policy_risks_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: compliance_policy_sections compliance_policy_sections_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.compliance_policy_sections
+    ADD CONSTRAINT compliance_policy_sections_pkey PRIMARY KEY (id);
 
 
 --
@@ -5564,6 +5718,14 @@ ALTER TABLE ONLY public.file_docs
 
 ALTER TABLE ONLY public.file_folders
     ADD CONSTRAINT file_folders_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: findings findings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.findings
+    ADD CONSTRAINT findings_pkey PRIMARY KEY (id);
 
 
 --
@@ -5788,14 +5950,6 @@ ALTER TABLE ONLY public.regulatory_changes
 
 ALTER TABLE ONLY public.reminders
     ADD CONSTRAINT reminders_pkey PRIMARY KEY (id);
-
-
---
--- Name: review_categories review_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.review_categories
-    ADD CONSTRAINT review_categories_pkey PRIMARY KEY (id);
 
 
 --
@@ -7368,17 +7522,6 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210211121353'),
 ('20210211201513'),
 ('20210216123812'),
-('20210219194005'),
-('20210219221153'),
-('20210222204415'),
-('20210222204529'),
-('20210226200129'),
-('20210226200705'),
-('20210226201238'),
-('20210226220020'),
-('20210226220403'),
-('20210226223208'),
-('20210301091555'),
-('20210306222201');
+('20210305105030');
 
 

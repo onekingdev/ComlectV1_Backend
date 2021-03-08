@@ -264,26 +264,17 @@ Rails.application.routes.draw do
       get '/overdue_reminders' => 'reminders#overdue'
       post '/reminders' => 'reminders#create'
       resources :local_projects, only: %i[index create show]
-      resources :projects, only: %i[index show create] do
+      resources :projects, only: %i[index show create update] do
         resources :job_applications, path: 'applications', only: %i[index] do
           post :shortlist
           post :hide
         end
         resources :hires, only: %i[create]
       end
-      resources :compliance_policies, only: %i[index show create update]
-      get '/compliance_policies/:id/publish' => 'compliance_policies#publish'
-      get '/compliance_policies/:id/download' => 'compliance_policies#download'
       resources :projects, only: [] do
         resources :timesheets, except: %i[new edit], controller: 'timesheets'
       end
       resources :specialists, only: :index
-      resources :annual_reports, only: %i[index show create update destroy]
-      get '/annual_reports/:id/clone' => 'annual_reports#clone'
-      scope 'annual_reports/:report_id' do
-        resources :review_categories, path: 'review_categories', only: %i[index create update destroy]
-      end
-      resources :ratings, only: %i[index]
     end
     namespace :specialist do
       get '/projects/my' => 'projects#my'
