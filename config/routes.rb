@@ -283,6 +283,7 @@ Rails.application.routes.draw do
       scope 'annual_reports/:report_id' do
         resources :review_categories, path: 'review_categories', only: %i[index create update destroy]
       end
+      resources :ratings, only: %i[index]
     end
     namespace :specialist do
       get '/projects/my' => 'projects#my'

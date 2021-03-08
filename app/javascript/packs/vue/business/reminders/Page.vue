@@ -8,14 +8,15 @@
             a.btn.btn-default Download
             a.btn.m-l-1.btn-dark New Task
     .card-body.white-card-body
-      div
-        b-dropdown.m-r-1(text='Show: All Tasks')
-          b-dropdown-item All Tasks
-          b-dropdown-item My Tasks
-          b-dropdown-item Completed Tasks
-        b-dropdown.m-r-1(text='All Links')
-          b-dropdown-item All Links
-      TaskTable(:tasks="tasks" @saved="$emit('saved')")
+      .container
+        div
+          b-dropdown.m-r-1(text='Show: All Tasks')
+            b-dropdown-item All Tasks
+            b-dropdown-item My Tasks
+            b-dropdown-item Completed Tasks
+          b-dropdown.m-r-1(text='All Links')
+            b-dropdown-item All Links
+        TaskTable(:tasks="tasks" @saved="$emit('saved')")
 </template>
 
 <script>

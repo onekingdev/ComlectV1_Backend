@@ -147,5 +147,42 @@ table.table, table.table thead tr th {
   cursor: pointer;
 }
 
+.nav-tabs {
+  .nav-item {
+    a {
+      border: 0px;
+      padding-left: 0px;
+      padding-right: 0px;
+      margin-left: 27px;
+      color: #919396;
+    }
+    .nav-link.active {
+      background: none !important;
+      border-bottom: 4px solid #ffcc00;
+    }
+  }
+}
+
+.userpic_small {
+  width: 35px;
+  border-radius: 50%;
+  height: 35px;
+}
+
+.rating_table {
+  width: 100%;
+  h3 { font-size: 16px; color: #0A79FF }
+  color: #7A7B7E;
+  i { color: #373839; }
+  tr {
+    td { 
+      padding-top: 20px;
+      &:first-child, &:last-child { width: 1px; }
+      vertical-align: top;
+    }
+    border-bottom: 2px solid #E4E6EB;
+  }
+}
+
 @import '../../../node_modules/bootstrap/scss/bootstrap.scss';
 @import '../../../node_modules/bootstrap-vue/src/index.scss';

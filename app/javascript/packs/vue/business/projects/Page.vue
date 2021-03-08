@@ -14,39 +14,54 @@
     b-tabs(content-class="mt-0")
       b-tab(title="My Projects" active="")
         .card-body.white-card-body
-          div
-            b-dropdown.m-r-1(text='Filter by: All')
-              b-dropdown-item All
-              b-dropdown-item In Progress
-              b-dropdown-item Pending
-              b-dropdown-item Overdue
-              b-dropdown-item Complete
-            b-dropdown.m-r-1(text='Year: All')
-              b-dropdown-item 2021
-              b-dropdown-item 2020
-          ProjectTable(:projects="projects")
+          .container
+            div
+              b-dropdown.m-r-1(text='Filter by: All')
+                b-dropdown-item All
+                b-dropdown-item In Progress
+                b-dropdown-item Pending
+                b-dropdown-item Overdue
+                b-dropdown-item Complete
+              b-dropdown.m-r-1(text='Year: All')
+                b-dropdown-item 2021
+                b-dropdown-item 2020
+            ProjectTable(:projects="projects")
       b-tab(title="Contacts")
         .card-body.white-card-body
-          table.table
-            thead
-              tr
-                th Name
-                th Location
-                th Status
-                th Rating
-                th
-            tbody
-              tr(v-for="contact in contacts" :key="contact.id")
-                td {{ contact.name }}
-                td {{ contact.location }}
-                td {{ contact.status }}
-                td: StarRating(:stars="contact.rating")
-                td &hellip;
-              tr(v-if="!contacts.length")
-                td(colspan=5) No contacts
+          .container
+            table.table
+              thead
+                tr
+                  th Name
+                  th Location
+                  th Status
+                  th Rating
+                  th
+              tbody
+                tr(v-for="contact in contacts" :key="contact.id")
+                  td {{ contact.name }}
+                  td {{ contact.location }}
+                  td 
+                    .badge.badge-success {{ contact.status }}
+                  td: StarRating(:stars="contact.rating")
+                  td &hellip;
+                tr(v-if="!contacts.length")
+                  td(colspan=5) No contacts
       b-tab(title="Ratings and Reviews")
         .card-body.white-card-body
-          p Ratings and Reviews
+          .container
+            table.rating_table
+              tbody
+                tr(v-for="rating in ratings")
+                  td
+                    img.m-r-1.userpic_small(v-bind:src="rating.rater_pic")
+                  td 
+                    h3 {{rating.project_title}}
+                    p {{rating.rater_name}} | {{rating.created_at | asDate}}
+                    p 
+                      i "{{rating.review}}"
+                  td: StarRating(:stars="rating.value")
+
 
 </template>
 
@@ -55,11 +70,13 @@ import ProjectTable from '@/common/ProjectTable'
 import LocalProjectModal from './LocalProjectModal'
 
 const endpointUrl = '/api/business/local_projects/'
+const ratingsUrl = '/api/business/ratings'
 
 export default {
   data() {
     return {
-      projects: []
+      projects: [],
+      ratings: []
     }
   },
   created() {
@@ -70,6 +87,9 @@ export default {
       fetch(endpointUrl, { headers: {'Accept': 'application/json'} })
         .then(response => response.json())
         .then(result => this.projects = result)
+      fetch(ratingsUrl, { headers: {'Accept': 'application/json'} })
+        .then(response => response.json())
+        .then(result => this.ratings = result)
     }
   },
   computed: {
