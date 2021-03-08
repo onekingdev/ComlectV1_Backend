@@ -26,7 +26,7 @@ const cssClass = task => isComplete(task) ? 'task-is-complete'
 const iconArray = (task) => [
   isComplete(task) ? 'checkbox-outline' : isOverdue(task) ? 'warning-outline' : null,
   isProject(task) ? 'list-outline' : isTask(task) ? 'checkbox-outline' : null
-].filter(i => i)
+].filter(i => i).filter((v, i, a) => a.indexOf(v) === i)
 const splitReminderOccurenceId = val => {
   const matches = [...`${val}`.matchAll(/(\d+)_(\d+)/ig)]
   return (matches && matches[0])
