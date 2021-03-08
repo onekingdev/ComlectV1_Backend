@@ -38,15 +38,15 @@ body class="#{controller_name} #{action_name}"
             b-collapse#overview_collapse(:visible="true")
               ul.nav.flex-column
                 li.nav-item
-                  a.btn.active(aria-current='page' href='/business2')
+                  a.btn(aria-current='page' href='/business2' class="#{'active' if params[:controller] == 'business_dashboard2'}")
                     ion-icon(name='globe-outline')
                     | Dashboard
                 li.nav-item
-                  a.btn.active(aria-current='page' href='/business/projects')
+                  a.btn(aria-current='page' href='/business/projects' class="#{'active' if params[:controller] == 'business/projects'}")
                     ion-icon(name='list-outline')
                     | Projects
                 li.nav-item
-                  a.btn.active(aria-current='page' href='/business/reminders')
+                  a.btn(aria-current='page' href='/business/reminders' class="#{'active' if params[:controller] == 'business/reminders'}")
                     ion-icon(name='checkbox-outline')
                     | Tasks
 
@@ -56,15 +56,15 @@ body class="#{controller_name} #{action_name}"
             b-collapse#program_management_collapse(:visible="true")
               ul.nav.flex-column
                 li.nav-item
-                  a.btn.active(aria-current='page' href='#')
+                  a.btn(aria-current='page' href='#')
                     ion-icon(name='newspaper-outline')
                     | Policies and Procedures
                 li.nav-item
-                  a.btn.active(aria-current='page' href='#')
+                  a.btn(aria-current='page' href='#')
                     ion-icon(name='document-text-outline')
                     | Annual Review
                 li.nav-item
-                  a.btn.active(aria-current='page' href='#')
+                  a.btn(aria-current='page' href='#')
                     ion-icon(name='document-text-outline')
                     | Filings
 
@@ -74,15 +74,15 @@ body class="#{controller_name} #{action_name}"
             b-collapse#addons_collapse(:visible="true")
               ul.nav.flex-column
                 li.nav-item
-                  a.btn.active(aria-current='page' href='#')
+                  a.btn(aria-current='page' href='#')
                     ion-icon(name='layers-outline')
                     | My Add-Ons
                 li.nav-item
-                  a.btn.active(aria-current='page' href='#')
+                  a.btn(aria-current='page' href='#')
                     ion-icon(name='storefront-outline')
                     | Add-On Marketplace
                 li.nav-item
-                  a.btn.active(aria-current='page' href='#')
+                  a.btn(aria-current='page' href='#')
                     ion-icon(name='settings-outline')
                     | Settings
         main.col-md-9.col-lg-10#main-content.px-0

@@ -8,8 +8,8 @@
       input.form-control(v-model="project.title" type=text placeholder="Enter the name of your project")
       Errors(:errors="errors.title")
 
-      b-row(no-gutters)
-        .col-sm
+      b-row.m-t-1(no-gutters)
+        .col-sm.m-r-1
           label.form-label Start Date
           DatePicker(v-model="project.starts_on")
           Errors(:errors="errors.starts_on")
@@ -18,14 +18,15 @@
           DatePicker(v-model="project.ends_on")
           Errors(:errors="errors.ends_on")
 
-      label.form-label Description
+      label.m-t-1.form-label Description
       textarea.form-control(v-model="project.description" rows=3)
       Errors(:errors="errors.description")
       .form-text.text-muted Optional
 
       template(slot="modal-footer")
         button.btn(@click="$bvModal.hide(modalId)") Cancel
-        button.btn.btn-primary(@click="submit") {{ projectId ? 'Save' : 'Create' }}
+        button.btn.btn-default Save as Draft
+        button.btn.btn-dark(@click="submit") {{ projectId ? 'Save' : 'Create' }}
 </template>
 
 <script>

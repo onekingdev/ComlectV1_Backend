@@ -16,17 +16,28 @@ const toEvent = (task) => ({
   ...splitReminderOccurenceId(task.id),
   start: task.starts_on || task.remind_at,
   end: ( task.end_date || task.ends_on )+" 20:00:00",
-  title: task.title || task.body
+  title: task.title || task.body,
+  icons: iconArray(task)
 })
 const cssClass = task => isComplete(task) ? 'task-is-complete'
                        : isOverdue(task) ? 'task-is-overdue'
                        : isProject(task) ? 'task-is-project'
                        : isTask(task) ? 'task-is-task' : ''
+const iconArray = (task) => [
+  isComplete(task) ? 'checkbox-outline' : isOverdue(task) ? 'warning-outline' : null,
+  isProject(task) ? 'list-outline' : isTask(task) ? 'checkbox-outline' : null
+].filter(i => i).filter((v, i, a) => a.indexOf(v) === i)
 const splitReminderOccurenceId = val => {
   const matches = [...`${val}`.matchAll(/(\d+)_(\d+)/ig)]
   return (matches && matches[0])
     ? { taskId: +matches[0][1], oid: +matches[0][2] }
     : { taskId: val, oid: null }
 }
+const badgeClass = project => project.status == "Active" ? 'badge-light'
+                            : project.status == "Pending" ? 'badge-secondary'
+                            : project.status == "In Progress" ? "badge-light"
+                            : project.status == "Complete" ? "badge-success"
+                            : project.status == "Draft" ? 'badge-secondary'
+                            : isOverdue(project) ? "badge-warning" : ''
 
-export { isProject, isTask, isOverdue, isComplete, toEvent, cssClass, splitReminderOccurenceId }
+export { isProject, isTask, isOverdue, isComplete, toEvent, cssClass, splitReminderOccurenceId, iconArray, badgeClass }

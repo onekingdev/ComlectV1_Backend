@@ -7,23 +7,23 @@
       .col-md-6.p-t-2(v-if="step === steps[0]")
 
         InputText(v-model="project.title" :errors="errors.title") Title
-        .row
+        .row.m-t-1
           .col-sm: InputDate(v-model="project.starts_on" :errors="errors.starts_on") Start Date
           .col-sm: InputDate(v-model="project.ends_on" :errors="errors.ends_on") Due Date
 
-        InputTextarea(v-model="project.description" :errors="errors.description") Description
-        InputTextarea(v-model="project.role_details" :errors="errors.role_details") Role Details
+        InputTextarea.m-t-1(v-model="project.description" :errors="errors.description") Description
+        InputTextarea.m-t-1(v-model="project.role_details" :errors="errors.role_details") Role Details
         .form-text.text-muted Project post information for the specialist
 
-        InputSelect(v-model="project.rfp_timing" :errors="errors.rfp_timing" :options="rfpTimingOptions") Project Timing
-        InputSelect(v-model="project.location_type" :errors="errors.location_type" :options="locationTypes") Location Type
-        InputText(v-model="project.location" :errors="errors.location") Location
+        InputSelect.m-t-1(v-model="project.rfp_timing" :errors="errors.rfp_timing" :options="rfpTimingOptions") Project Timing
+        InputSelect.m-t-1(v-model="project.location_type" :errors="errors.location_type" :options="locationTypes") Location Type
+        InputText.m-t-1(v-model="project.location" :errors="errors.location") Location
 
-        label.form-label Industry
+        label.m-t-1.form-label Industry
         ComboBox(v-model="project.industry_ids" :options="industryIdsOptions" :multiple="true")
         Errors(:errors="errors.industry_ids")
 
-        label.form-label Jurisdiction
+        label.m-t-1.form-label Jurisdiction
         ComboBox(v-model="project.jurisdiction_ids" :options="jurisdictionIdsOptions" :multiple="true")
         Errors(:errors="errors.jurisdiction_ids")
 
@@ -49,16 +49,16 @@
 
         .m-t-1(v-if="project.pricing_type === pricingTypes[0].id")
           InputText(v-model="project.est_budget" :errors="errors.est_budget") Estimated Budget
-          InputSelect(v-model="project.fixed_payment_schedule" :errors="errors.fixed_payment_schedule" :options="fixedPaymentScheduleOptions") Method of Payment
+          InputSelect.m-t-1(v-model="project.fixed_payment_schedule" :errors="errors.fixed_payment_schedule" :options="fixedPaymentScheduleOptions") Method of Payment
 
         .m-t-1(v-else)
           InputText(v-model="project.hourly_rate" :errors="errors.hourly_rate") Hourly Rate
-          InputSelect(v-model="project.hourly_payment_schedule" :errors="errors.hourly_payment_schedule" :options="hourlyPaymentScheduleOptions") Method of Payment
+          InputSelect.m-t-1(v-model="project.hourly_payment_schedule" :errors="errors.hourly_payment_schedule" :options="hourlyPaymentScheduleOptions") Method of Payment
 
     .row.no-gutters
       .col-md-6.text-right.m-t-1
         button.btn.m-r-1(@click.prevent) Exit
-        button.btn.btn-dark.m-r-1(v-if="prevEnabled" @click="prev") Previous
+        button.btn.btn-default.m-r-1(v-if="prevEnabled" @click="prev") Previous
         button.btn.btn-dark(v-if="nextEnabled" @click="next") Next
         button.btn.btn-dark(v-else @click="preValidateStep() && submit()") Submit
 </template>
