@@ -15,7 +15,7 @@
           a.text-dark(:href="project.href") {{project.title}}
         td {{ project.cost }}
         td
-          span.badge(v-bind:class="badgeClass(project)") {{ project.status }}
+          span.badge(:class="badgeClass(project)") {{ project.status }}
         td {{ project.starts_on | asDate }}
         td(:class="{ overdue: isOverdue(project) }") {{ project.ends_on | asDate }}
 </template>
