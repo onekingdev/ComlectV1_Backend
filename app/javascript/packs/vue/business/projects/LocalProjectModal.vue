@@ -65,11 +65,11 @@ export default {
     },
     submit(asDraft) {
       this.errors = []
-      const toId = this.projectId ? `/${this.projectId}` : ''
-      fetch('/api/business/local_projects' + toId, {
+      const toId = this.projectId ? `/${this.projectId}` : '', draftParam = asDraft ? '?draft=1' : ''
+      fetch('/api/business/local_projects' + toId + draftParam, {
         method: this.projectId ? 'PUT' : 'POST',
         headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
-        body: JSON.stringify(asDraft ? {...this.project, status: 'draft'} : this.project)
+        body: JSON.stringify(this.project)
       }).then(response => {
         if (response.status === 422) {
           response.json().then(errors => {

@@ -8,7 +8,7 @@
             h2 {{ project.title }}
             p {{ currentBusiness }}
           div
-            p.text-right.m-b-2 [v] Show on Calendar 
+            p.text-right.m-b-2: b-form-checkbox Show on Calendar
             b-dropdown.m-r-1(text='Actions')
               li: LocalProjectModal(@saved="refetch" :project-id="project.id" :inline="false")
                 button.dropdown-item Edit
