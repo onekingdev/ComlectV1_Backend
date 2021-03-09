@@ -1,15 +1,43 @@
 <template lang="pug">
   div
-    Breadcrumbs(:items="['Projects', project.title]")
-    h2 {{ project.title }}
-    h3 {{ currentBusiness }}
+    .container
+      .row.p-x-1
+        .col-md-12.p-t-3.d-flex.justify-content-between.p-b-1
+          div
+            Breadcrumbs(:items="['Projects', project.title]")
+            h2 {{ project.title }}
+            p {{ currentBusiness }}
+          div
+            p.text-right.m-b-2 [v] Show on Calendar 
+            b-dropdown.m-r-1(text='Actions')
+              b-dropdown-item Edit
+              b-dropdown-item Delete Project
+            a.m-r-1.btn.btn-default(:href='postHref') Post Project
+            a.btn.btn-dark Complete Project
     b-tabs(content-class="mt-0")
       b-tab(title="Overview" active)
-        .card-body.white-card-body
-          ApplicationsNotice(:project="project.visible_project" v-if="project.visible_project")
-          Get(v-if="project.visible_project" :project="`/api/business/projects/${project.visible_project.id}`"): template(v-slot="{project}")
-            TimesheetsNotice(:project="project")
-          ProjectDetails(:project="project")
+        .white-card-body.p-y-1
+          .container
+            .row.p-x-1
+              .col-md-7.col-sm-12
+                .card
+                  ApplicationsNotice(:project="project.visible_project" v-if="project.visible_project")
+                  Get(v-if="project.visible_project" :project="`/api/business/projects/${project.visible_project.id}`"): template(v-slot="{project}")
+                    TimesheetsNotice(:project="project")
+                  ProjectDetails(:project="project")
+              .col-md-5.col-sm-12.pl-0
+                .card
+                  .card-header.d-flex.justify-content-between
+                    h3.m-y-0 Collaborators
+                    a.btn View All
+                  .card-body
+          .container.m-t-1
+            .row.p-x-1
+              .col-md-12
+                .card
+                  .card-header
+                    h3 Discussion
+                  .card-body No comments posted
       b-tab(title="Tasks")
         .card-body.white-card-body
       b-tab(title="Documents")
@@ -40,6 +68,11 @@ export default {
     ApplicationsNotice,
     TimesheetsNotice,
     ProjectDetails
+  },
+  computed: {
+    postHref() {
+      return this.$store.getters.url('URL_POST_LOCAL_PROJECT', this.project.id)
+    }
   }
 }
 </script>

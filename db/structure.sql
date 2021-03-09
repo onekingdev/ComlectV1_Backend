@@ -1909,7 +1909,8 @@ CREATE TABLE public.local_projects (
     starts_on date,
     ends_on date,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    status character varying DEFAULT 'inprogress'::character varying
 );
 
 
@@ -7379,6 +7380,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210226220403'),
 ('20210226223208'),
 ('20210301091555'),
-('20210306222201');
+('20210306222201'),
+('20210309155436');
 
 

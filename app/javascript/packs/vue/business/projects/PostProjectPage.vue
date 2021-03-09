@@ -1,5 +1,5 @@
 <template lang="pug">
-  .container
+  .container.white-card-body
     .row.p-x-1
       .col-md-12.p-t-3.p-b-1
         Breadcrumbs(:items="breadcrumbs")
