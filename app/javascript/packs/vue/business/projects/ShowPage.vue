@@ -20,11 +20,13 @@
         .white-card-body.p-y-1
           .container
             .row.p-x-1
+              .col-sm-12
+                ApplicationsNotice(:project="project.visible_project" v-if="project.visible_project")
+                Get(v-if="project.visible_project" :etag="etag" :project="`/api/business/projects/${project.visible_project.id}`"): template(v-slot="{project}")
+                  TimesheetsNotice(:project="project")
+            .row.p-x-1
               .col-md-7.col-sm-12
                 .card
-                  ApplicationsNotice(:project="project.visible_project" v-if="project.visible_project")
-                  Get(v-if="project.visible_project" :etag="etag" :project="`/api/business/projects/${project.visible_project.id}`"): template(v-slot="{project}")
-                    TimesheetsNotice(:project="project")
                   ProjectDetails(:project="project" @saved="refetch")
               .col-md-5.col-sm-12.pl-0
                 .card
