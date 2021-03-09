@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateAnnualReviews < ActiveRecord::Migration[6.0]
+class CreateAnnualReviews < ActiveRecord::Migration
   def change
     create_table :annual_reviews do |t|
       t.integer :business_id

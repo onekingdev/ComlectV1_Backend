@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddLatLngToProjects < ActiveRecord::Migration[6.0]
+class AddLatLngToProjects < ActiveRecord::Migration
   def change
     change_table :projects do |t|
       t.decimal :lat, precision: 9, scale: 5

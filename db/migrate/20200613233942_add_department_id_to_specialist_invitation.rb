@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddDepartmentIdToSpecialistInvitation < ActiveRecord::Migration[6.0]
+class AddDepartmentIdToSpecialistInvitation < ActiveRecord::Migration
   def change
     add_column :specialist_invitations, :team_id, :integer
 

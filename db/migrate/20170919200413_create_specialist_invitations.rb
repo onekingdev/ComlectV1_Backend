@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateSpecialistInvitations < ActiveRecord::Migration[6.0]
+class CreateSpecialistInvitations < ActiveRecord::Migration
   def change
     # rubocop:disable Rails/CreateTableWithTimestamps
     create_table :specialist_invitations do |t|

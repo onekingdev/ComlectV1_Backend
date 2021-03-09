@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateFinancialsViews < ActiveRecord::Migration[6.0]
+class CreateFinancialsViews < ActiveRecord::Migration
   def change
     create_view :financials_actual
     create_view :financials_forecasted

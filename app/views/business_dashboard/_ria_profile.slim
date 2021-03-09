@@ -1,0 +1,67 @@
+.panel.panel-default.profile-info
+  .panel-heading
+    h3 My Profile
+  .panel-body
+    .col-md-4
+      - if business.logo
+        .logo= link_to image_tag(business.logo_url(:thumb), class: 'img-responsive'), business
+      h3.text-center= link_to business.business_name, business
+      .text-center= business.render_stars
+
+      br
+      .list-icon
+        .item
+          i.icon-location-pin
+          span= business.city_state_country
+        .item
+          i.icon-briefcase
+          span= business.industries.map(&:name).join(', ')
+        .item
+          i.icon-globe
+          span= business.jurisdictions.map(&:name).join(', ')
+        .item
+          i.icon-people
+          span #{business.employees} Employees
+
+      = simple_form_for business, remote: true, url: update_business_path, html: { class: 'm-y-2' } do |f|
+        = hidden_field_tag 'redirect_to', business_dashboard_path
+        = f.input :anonymous, as: :radio_pills, collection: [['Public', false], ['Private', true]], btn_class: 'btn-default btn-sm', label: false, hint: false, input_html: { data: { autosubmit: 'true' } }
+
+      .text-center.text-uppercase.small= link_to 'Edit Profile', edit_business_path, class: 'link'
+    .col-md-4.text-center.m-b-1
+      = link_to (current_business ? "/business/personalize" : "/specialist/businesses/#{@business.username}/personalize") do
+        .profile_chart
+          .c100 class=("p#{@business.questionarrie_percentage}")
+            span = "#{@business.questionarrie_percentage}%"
+            .slice
+              .bar
+              .fill
+        br/
+        b style="font-weight: 500" Questionnaire
+    .col-md-4.text-center.m-b-1
+      .profile_chart
+        .c100 class=("p#{@business.compliance_manual_percentage}")
+          span = "#{@business.compliance_manual_percentage}%"
+          .slice
+            .bar
+            .fill
+      br/
+      b style="font-weight: 500" Compliance&nbsp;Manual
+    .col-md-4.text-center.m-b-1
+      .profile_chart
+        .c100 class=("p#{@business.annual_review_percentage}")
+          span = "#{@business.annual_review_percentage}%"
+          .slice
+            .bar
+            .fill
+      br/
+      b style="font-weight: 500" Annual&nbsp;Review
+    .col-md-4.text-center.m-b-1
+      .profile_chart
+        .c100 class=("p#{@business.audit_prep_percentage}")
+          span = "#{@business.audit_prep_percentage}%"
+          .slice
+            .bar
+            .fill
+      br/
+      b style="font-weight: 500" Audit&nbsp;Prep

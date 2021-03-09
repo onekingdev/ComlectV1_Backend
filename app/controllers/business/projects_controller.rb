@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class Business::ProjectsController < ApplicationController
-  include ActionView::Helpers::TagHelper
-
   before_action :authenticate_user!
   before_action :require_business!, only: %i[index new create edit update]
   before_action :set_project, only: %i[edit update destroy post]
@@ -16,32 +14,29 @@ class Business::ProjectsController < ApplicationController
   }.freeze
 
   def index
-    render html: content_tag('business-projects-page', '').html_safe, layout: 'vue_business'
-  end
+    @business = current_user.business
+    @ratings = @business.ratings_received.preload_associations
+    @filter   = FILTERS[params[:filter]] || :none
+    @projects = Project.cards_for_user(current_user, filter: @filter)
+    @is_business_cards = request.original_fullpath.include?('business_cards')
+    @projects.each do |project|
+      project.populate_rfp(project.job_application) if project.rfp? && project.active?
+    end
 
-  def new
-    @local_project = params[:local_project_id] ? LocalProject.find(params[:local_project_id]) : nil
-    render html: content_tag('business-post-project-page',
-                             '',
-                             ':industry-ids': Industry.all.map(&proc { |ind| { id: ind.id, name: ind.name } }).to_json,
-                             ':jurisdiction-ids': Jurisdiction.all.map(&proc { |ind| { id: ind.id, name: ind.name } }).to_json,
-                             ':local-project': @local_project.to_json)
-      .html_safe,
-           layout: 'vue_business'
+    respond_to do |format|
+      format.html do
+        render partial: @is_business_cards ? 'business_cards' : 'cards', projects: @projects if request.xhr?
+      end
+      format.js
+    end
   end
 
   def show
-    # @project = policy_scope(Project)
-    #           .includes(:industries, :jurisdictions, :skills, business: %i[industries jurisdictions])
-    #           .find(params[:id])
-    @project = current_business.local_projects.includes(:projects).find(params[:id])
+    @project = policy_scope(Project)
+               .includes(:industries, :jurisdictions, :skills, business: %i[industries jurisdictions])
+               .find(params[:id])
 
-    render html: content_tag(
-      'project-show-page',
-      '',
-      ':project-id': @project.id,
-      'current-business': current_business
-    ).html_safe, layout: 'vue_business'
+    render template: 'projects/show'
   end
 
   def create

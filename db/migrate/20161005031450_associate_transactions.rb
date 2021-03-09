@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AssociateTransactions < ActiveRecord::Migration[6.0]
+class AssociateTransactions < ActiveRecord::Migration
   def change
     add_reference :charges, :transaction, index: true
     add_reference :payments, :transaction, index: true
