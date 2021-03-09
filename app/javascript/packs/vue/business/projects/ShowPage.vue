@@ -1,5 +1,5 @@
 <template lang="pug">
-  div
+  Get(:etag="etag" :project="`/api/business/local_projects/${projectId}`"): template(v-slot="{project}")
     .container
       .row.p-x-1
         .col-md-12.p-t-3.d-flex.justify-content-between.p-b-1
@@ -12,7 +12,7 @@
             b-dropdown.m-r-1(text='Actions')
               b-dropdown-item Edit
               b-dropdown-item Delete Project
-            a.m-r-1.btn.btn-default(:href='postHref') Post Project
+            a.m-r-1.btn.btn-default(:href='postHref(project)') Post Project
             a.btn.btn-dark Complete Project
     b-tabs(content-class="mt-0")
       b-tab(title="Overview" active)
@@ -22,9 +22,9 @@
               .col-md-7.col-sm-12
                 .card
                   ApplicationsNotice(:project="project.visible_project" v-if="project.visible_project")
-                  Get(v-if="project.visible_project" :project="`/api/business/projects/${project.visible_project.id}`"): template(v-slot="{project}")
+                  Get(v-if="project.visible_project" :etag="etag" :project="`/api/business/projects/${project.visible_project.id}`"): template(v-slot="{project}")
                     TimesheetsNotice(:project="project")
-                  ProjectDetails(:project="project")
+                  ProjectDetails(:project="project" @saved="refetch")
               .col-md-5.col-sm-12.pl-0
                 .card
                   .card-header.d-flex.justify-content-between
@@ -59,15 +59,17 @@
 import ApplicationsNotice from './ApplicationsNotice'
 import TimesheetsNotice from './TimesheetsNotice'
 import ProjectDetails from './ProjectDetails'
+import EtaggerMixin from '@/mixins/EtaggerMixin'
 
 export default {
+  mixins: [EtaggerMixin],
   props: {
     currentBusiness: {
       type: String,
       required: true
     },
-    project: {
-      type: Object,
+    projectId: {
+      type: Number,
       required: true
     }
   },
@@ -78,7 +80,7 @@ export default {
   },
   computed: {
     postHref() {
-      return this.$store.getters.url('URL_POST_LOCAL_PROJECT', this.project.id)
+      return project => this.$store.getters.url('URL_POST_LOCAL_PROJECT', project.id)
     }
   }
 }

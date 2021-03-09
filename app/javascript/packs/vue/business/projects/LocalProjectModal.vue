@@ -1,9 +1,9 @@
 <template lang="pug">
-  div.d-inline-block
-    div.d-inline-block(v-b-modal="modalId")
+  div(:class="{'d-inline-block':inline}")
+    div(v-b-modal="modalId" :class="{'d-inline-block':inline}")
       slot
 
-    b-modal.fade(:id="modalId" :title="projectId ? 'Updating project' : 'New project'" @show="resetProject")
+    b-modal.fade(:id="modalId" :title="projectId ? 'Edit project' : 'New project'" @show="resetProject")
       label.form-label Title
       input.form-control(v-model="project.title" type=text placeholder="Enter the name of your project")
       Errors(:errors="errors.title")
@@ -35,21 +35,22 @@ import { DateTime } from 'luxon'
 const rnd = () => Math.random().toFixed(10).toString().replace('.', '')
 const dateFormat = 'MM/DD/YYYY'
 const index = (text, i) => ({ text, value: 1 + i })
-const flattenErrors = errorsResponse => Object.keys(errorsResponse)
-  .reduce((result, property) => [...result, ...errorsResponse[property].map(error => ({ property, error }))], [])
 
-const initialProject = defaults => ({
+const initialProject = () => ({
   title: "",
   starts_on: null,
   ends_on: null,
-  description: "",
-  ...(defaults || {})
+  description: ""
 })
 
 export default {
   props: {
     projectId: Number,
-    remindAt: String
+    remindAt: String,
+    inline: {
+      type: Boolean,
+      default: true
+    }
   },
   data() {
     return {
@@ -66,7 +67,7 @@ export default {
       this.errors = []
       const toId = this.projectId ? `/${this.projectId}` : ''
       fetch('/api/business/local_projects' + toId, {
-        method: 'POST',
+        method: this.projectId ? 'PUT' : 'POST',
         headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
         body: JSON.stringify(this.project)
       }).then(response => {
