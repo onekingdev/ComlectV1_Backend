@@ -29,7 +29,7 @@
                   a.btn.btn-light Upload Files
             a.btn Cancel
             a.btn.btn-light Save Draft
-            Post(:action="`/api/specialist/projects/${projectId}/applications`" :model="form" @errors="errors = $event" @saved="() => {}")
+            Post(:action="`/api/specialist/projects/${projectId}/applications`" :model="form" @errors="errors = $event" @saved="saved")
               button.btn.btn-dark Submit Proposal
           .col-sm
             ProjectDetails(:project="project")
@@ -37,6 +37,7 @@
 
 <script>
 import ProjectDetails from './ProjectDetails'
+import { redirectWithToast } from '@/common/Toast'
 import {
   PRICING_TYPES_OPTIONS,
   FIXED_PAYMENT_SCHEDULE_OPTIONS,
@@ -71,6 +72,11 @@ export default {
     return {
       form: initialForm(),
       errors: {}
+    }
+  },
+  methods: {
+    saved() {
+      redirectWithToast(this.$store.getters.url('URL_MY_PROJECT_SHOW', ''), 'Proposal sent')
     }
   },
   computed: {
