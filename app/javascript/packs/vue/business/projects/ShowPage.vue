@@ -10,7 +10,8 @@
           div
             p.text-right.m-b-2 [v] Show on Calendar 
             b-dropdown.m-r-1(text='Actions')
-              b-dropdown-item Edit
+              li: LocalProjectModal(@saved="refetch" :project-id="project.id" :inline="false")
+                button.dropdown-item Edit
               b-dropdown-item Delete Project
             a.m-r-1.btn.btn-default(:href='postHref(project)') Post Project
             a.btn.btn-dark Complete Project
@@ -60,6 +61,7 @@ import ApplicationsNotice from './ApplicationsNotice'
 import TimesheetsNotice from './TimesheetsNotice'
 import ProjectDetails from './ProjectDetails'
 import EtaggerMixin from '@/mixins/EtaggerMixin'
+import LocalProjectModal from './LocalProjectModal'
 
 export default {
   mixins: [EtaggerMixin],
@@ -75,6 +77,7 @@ export default {
   },
   components: {
     ApplicationsNotice,
+    LocalProjectModal,
     TimesheetsNotice,
     ProjectDetails
   },
