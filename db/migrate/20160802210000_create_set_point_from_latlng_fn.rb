@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateSetPointFromLatlngFn < ActiveRecord::Migration
+class CreateSetPointFromLatlngFn < ActiveRecord::Migration[6.0]
   def up
     execute '
       CREATE OR REPLACE FUNCTION set_point_from_lat_lng() RETURNS trigger AS $func$

@@ -3,11 +3,7 @@
 class Specialist::Form < Specialist
   include ApplicationForm
 
-  accepts_nested_attributes_for :work_experiences, allow_destroy: true
-  accepts_nested_attributes_for :education_histories, allow_destroy: true
-
   validates :first_name, :last_name, :country, :time_zone, :address_1, :industry_ids, :jurisdiction_ids, presence: true, on: :signup
-  # validate :validate_minimum_experience, on: :signup
   # validates :industry_ids, :jurisdiction_ids, presence: false, allow_blank: true, on: :employee
 
   accepts_nested_attributes_for :user
@@ -27,8 +23,6 @@ class Specialist::Form < Specialist
       specialist.build_user.build_tos_agreement.build_cookie_agreement unless specialist.user
       specialist.user.tos_acceptance_date = Time.zone.now
       specialist.user.tos_acceptance_ip = tos_acceptance_ip
-      # specialist.work_experiences.build unless specialist.work_experiences.any?
-      # specialist.education_histories.build unless specialist.education_histories.any?
       referral_token = ReferralToken.find_by(token: token) if token
       specialist.build_referral(referral_token: referral_token) if referral_token
     end
@@ -74,11 +68,6 @@ class Specialist::Form < Specialist
   end
 
   private
-
-  def validate_minimum_experience
-    experience = work_experiences.select(&:compliance?).map(&:years).reduce(:+) || 0
-    errors.add :work_experiences, :too_short if experience < 3
-  end
 
   def destroy_photo
     self.photo = nil if @delete_photo == '1'

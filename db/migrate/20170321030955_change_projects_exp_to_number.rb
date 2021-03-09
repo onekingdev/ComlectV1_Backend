@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ChangeProjectsExpToNumber < ActiveRecord::Migration
+class ChangeProjectsExpToNumber < ActiveRecord::Migration[6.0]
   def up
     add_column :projects, :min_exp_int, :integer
     Project.select(:id, :minimum_experience).each do |project|

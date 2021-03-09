@@ -10,6 +10,7 @@
       .clearfix.m-y-3
         /= f.object.errors.messages.except(:base).values.inspect
         .alert.alert-info.col-xs-12.col-sm-12.m-b-0
+          = f.object.errors.inspect
           = raw f.object.errors[:base].join('<br/>')
           = raw f.object.errors.messages.except(:base).values.join("<br>")
 

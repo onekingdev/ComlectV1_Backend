@@ -3,9 +3,9 @@
 class Document < ApplicationRecord
   include FileUploader[:file]
   belongs_to :project
-  belongs_to :owner, polymorphic: true
+  belongs_to :owner, polymorphic: true, optional: true
   validates :file_data, presence: true
-  belongs_to :specialist # recipient if uploaded by business @ interview
+  belongs_to :specialist, optional: true # recipient if uploaded by business @ interview
 
   def file_name
     file_data['metadata']['filename']

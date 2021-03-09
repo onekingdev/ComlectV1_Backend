@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddPresonalizeToBusinesses < ActiveRecord::Migration
+class AddPresonalizeToBusinesses < ActiveRecord::Migration[6.0]
   def change
     add_column :businesses, :sec_or_crd, :string, default: nil
     add_column :businesses, :office_state, :string, default: nil

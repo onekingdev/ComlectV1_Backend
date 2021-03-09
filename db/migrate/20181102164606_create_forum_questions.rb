@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateForumQuestions < ActiveRecord::Migration
+class CreateForumQuestions < ActiveRecord::Migration[6.0]
   def change
     create_table :forum_questions do |t|
       t.string :title

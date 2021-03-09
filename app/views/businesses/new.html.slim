@@ -78,7 +78,7 @@
       .m-b-2.m-l-3
         | Select all that apply:
       .choices.padded-checkboxes
-        - ai = Industry.all.order(:id)
+        - ai = Industry.all.order(:id).to_a
         - ai[ai.length-1], ai[ai.length-2] = ai[ai.length-2], ai[ai.length-1]
         - ai.each do |industry|
           .col-sm-4.m-b-1

@@ -23,7 +23,7 @@ class BusinessDashboardController < ApplicationController
       @assigned_team_members = TeamMember.where(id: assigned_team_members_ids)
     end
     @financials = Business::Financials.for(current_business)
-    @ratings = @business.ratings_received.preload_associations
+    @ratings = @business.ratings_received.preload_association
     @reminders_past = reminders_past(current_business)
     @reminders_today = reminders_today(current_business, @calendar_grid)
     @reminders_week = reminders_week(current_business, @calendar_grid)

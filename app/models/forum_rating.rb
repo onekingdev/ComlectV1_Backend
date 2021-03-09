@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 class ForumRating < ActiveRecord::Base
-  belongs_to :specialist
+  belongs_to :specialist, optional: true
 end

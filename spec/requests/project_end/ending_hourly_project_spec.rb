@@ -27,7 +27,7 @@ RSpec.describe 'Hourly project end scenarios', type: :request do
       context 'business approves timesheet' do
         before do
           sign_in business.user
-          put business_project_timesheet_path(project, timesheet, format: :js, timesheet: { approve: '1' })
+          put business_project_timesheet_path(project, timesheet), xhr: true, params: { timesheet: { approve: '1' } }
           expect(response).to have_http_status(:ok)
           project.reload
         end
@@ -40,7 +40,7 @@ RSpec.describe 'Hourly project end scenarios', type: :request do
       context 'business disputes timesheet' do
         before do
           sign_in business.user
-          put business_project_timesheet_path(project, timesheet, timesheet: { dispute: '1' }, format: :js)
+          put business_project_timesheet_path(project, timesheet), params: { timesheet: { dispute: '1' } }, xhr: true
           expect(response).to have_http_status(:ok)
           sign_out
           sign_in specialist.user
@@ -49,12 +49,13 @@ RSpec.describe 'Hourly project end scenarios', type: :request do
         it 'specialist can add more timesheets' do
           expect do
             post(
-              project_timesheets_path(project),
-              timesheet: {
-                save: '1',
-                time_logs_attributes: [attributes_for(:time_log)]
+              project_timesheets_path(project), params: {
+                timesheet: {
+                  save: '1',
+                  time_logs_attributes: [attributes_for(:time_log)]
+                }
               },
-              format: :js
+                                                xhr: true
             )
 
             expect(response).to have_http_status(:created)
@@ -65,12 +66,13 @@ RSpec.describe 'Hourly project end scenarios', type: :request do
           log = timesheet.time_logs.last
 
           put(
-            project_timesheet_path(project, timesheet),
-            timesheet: {
-              submit: '1',
-              time_logs_attributes: [{ id: log.id, hours: 2 }]
+            project_timesheet_path(project, timesheet), params: {
+              timesheet: {
+                submit: '1',
+                time_logs_attributes: [{ id: log.id, hours: 2 }]
+              }
             },
-            format: :js
+                                                        xhr: true
           )
 
           expect(response).to have_http_status(:ok)
@@ -100,12 +102,13 @@ RSpec.describe 'Hourly project end scenarios', type: :request do
 
         expect do
           post(
-            project_timesheets_path(project),
-            timesheet: {
-              save: '1',
-              time_logs_attributes: [{ description: 'Dummy', hours: 5 }]
+            project_timesheets_path(project), params: {
+              timesheet: {
+                save: '1',
+                time_logs_attributes: [{ description: 'Dummy', hours: 5 }]
+              }
             },
-            format: :js
+                                              xhr: true
           )
 
           expect(response).to have_http_status(:forbidden)
@@ -164,10 +167,11 @@ RSpec.describe 'Hourly project end scenarios', type: :request do
 
           put business_project_timesheet_path(
             project,
-            last_timesheet,
-            timesheet: { dispute: '1' },
-            format: :js
-          )
+            last_timesheet
+          ), params: {
+            timesheet: { dispute: '1' }
+          },
+             xhr: true
           expect(response).to have_http_status(:ok)
 
           sign_out
@@ -185,12 +189,8 @@ RSpec.describe 'Hourly project end scenarios', type: :request do
         before do
           sign_in business.user
 
-          put business_project_timesheet_path(
-            project,
-            last_timesheet,
-            format: :js,
-            timesheet: { approve: '1' }
-          )
+          put business_project_timesheet_path(project, last_timesheet),
+              params: { timesheet: { approve: '1' } }, xhr: true
           expect(response).to have_http_status(:ok)
 
           project.reload
