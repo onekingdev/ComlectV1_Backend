@@ -1,5 +1,5 @@
 <template lang="pug">
-  span(v-if="everythingLoaded")
+  div(v-if="everythingLoaded")
     slot(v-bind="slotProps")
 </template>
 
@@ -8,17 +8,26 @@ import Vue from 'vue'
 
 export default {
   props: {
-    callback: Function
+    callback: {
+      type: Function,
+      default: result => result
+    },
+    etag: {
+      type: Number,
+      default: Math.random()
+    }
   },
   data() {
     return {
       slotProps: {}
     }
   },
-  created() {
-    Object.keys(this.$attrs).map(prop => fetch(this.$attrs[prop], { headers: {'Accept': 'application/json'}})
-          .then(response => response.json())
-          .then(result => Vue.set(this.slotProps, prop, this.callback ? this.callback(result) : result)))
+  methods: {
+    refetch() {
+      Object.keys(this.$attrs).map(prop => fetch(this.$attrs[prop], { headers: {'Accept': 'application/json'}})
+            .then(response => response.json())
+            .then(result => Vue.set(this.slotProps, prop, this.callback(result))))
+    }
   },
   computed: {
     everythingLoaded() {
@@ -26,6 +35,14 @@ export default {
             setProps = Object.keys(this.slotProps).length,
             nonEmptyProps = Object.values(this.slotProps).filter(o => typeof(o) === "object").length
       return totalProps === setProps && setProps === nonEmptyProps
+    }
+  },
+  watch: {
+    etag: {
+      handler: function() {
+        this.refetch()
+      },
+      immediate: true
     }
   }
 }
