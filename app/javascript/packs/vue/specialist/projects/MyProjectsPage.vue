@@ -58,13 +58,19 @@ export default {
       return id => this.$store.getters.url('URL_MY_PROJECT_SHOW', id)
     },
     getContacts() {
-      return projects => projects.map(project => ({
-        id: project.business.id,
-        name: project.business.business_name,
-        location: [project.business.city, project.business.country, project.business.state].filter(l => l).join(', '),
-        status: null,
-        rating: 5
-      }))
+      return projects => projects.reduce((contacts, project) => {
+        const alreadyThere = contacts.find(contact => contact.id === project.business.id)
+        if (!alreadyThere) {
+          contacts.push({
+            id: project.business.id,
+            name: project.business.business_name,
+            location: [project.business.city, project.business.country, project.business.state].filter(l => l).join(', '),
+            status: null,
+            rating: 5
+          })
+        }
+        return contacts
+      }, [])
     }
   }
 }
