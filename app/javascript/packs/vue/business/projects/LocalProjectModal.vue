@@ -63,7 +63,7 @@ export default {
       this.errors = []
       const toId = this.projectId ? `/${this.projectId}` : ''
       fetch('/api/business/local_projects' + toId, {
-        method: 'POST',
+        method: this.projectId ? 'PUT' : 'POST',
         headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
         body: JSON.stringify(this.project)
       }).then(response => {

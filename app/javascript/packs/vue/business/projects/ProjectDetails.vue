@@ -2,7 +2,8 @@
   div
     .card-header.d-flex.justify-content-between
       h3.m-y-0 Project Details
-      a.btn.btn-default(href) Edit
+      LocalProjectModal(@saved="$emit('saved')" :project-id="project.id")
+        button.btn.btn-default Edit
     .card-body
       h3
       dl.row
@@ -19,12 +20,17 @@
 </template>
 
 <script>
+import LocalProjectModal from './LocalProjectModal'
+
 export default {
   props: {
     project: {
       type: Object,
       required: true
     }
+  },
+  components: {
+    LocalProjectModal
   }
 }
 </script>
