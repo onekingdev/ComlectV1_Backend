@@ -51,9 +51,15 @@
           InputText(v-model="project.est_budget" :errors="errors.est_budget") Estimated Budget
           InputSelect.m-t-1(v-model="project.fixed_payment_schedule" :errors="errors.fixed_payment_schedule" :options="fixedPaymentScheduleOptions") Method of Payment
 
-        .m-t-1(v-else)
-          InputText(v-model="project.hourly_rate" :errors="errors.hourly_rate") Hourly Rate
-          InputSelect.m-t-1(v-model="project.hourly_payment_schedule" :errors="errors.hourly_payment_schedule" :options="hourlyPaymentScheduleOptions") Method of Payment
+        div(v-else)
+          .m-t-1
+            InputText(v-model="project.hourly_rate" :errors="errors.hourly_rate") Estimated Hourly Rate
+          .m-t-1
+            InputText(v-model="project.upper_hourly_rate" :errors="errors.upper_hourly_rate") Upper Hourly Rate
+          .m-t-1
+            InputText(v-model="project.estimated_hours" :errors="errors.estimated_hours") Estimated hours
+          .m-t-1
+            InputSelect.m-t-1(v-model="project.hourly_payment_schedule" :errors="errors.hourly_payment_schedule" :options="hourlyPaymentScheduleOptions") Method of Payment
 
     .row.no-gutters
       .col-md-6.text-right.m-t-1

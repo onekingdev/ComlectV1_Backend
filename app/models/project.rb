@@ -145,6 +145,7 @@ class Project < ApplicationRecord
   before_create :check_specialist, if: :internal?
   before_create :fix_internal_asap, if: :internal?
   before_create :remove_specialist, unless: :internal? if Rails.env != 'test'
+  before_create :calculate_budget
 
   LOCATIONS = [%w[Remote remote], %w[Remote\ +\ Travel remote_and_travel], %w[Onsite onsite]].freeze
   # DB Views depend on these so don't modify:
@@ -502,6 +503,10 @@ class Project < ApplicationRecord
   end
 
   private
+
+  def calculate_budget
+    self.calculated_budget = hourly_pricing? ? (hourly_rate + upper_hourly_rate / 2) * estimated_hours : fixed_budget
+  end
 
   def format_description(description, params)
     description.gsub!('{state}', params[:state]) if params.include? :state

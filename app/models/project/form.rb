@@ -24,6 +24,8 @@ class Project::Form < Project
   validates(*CUSTOM_DURATION_FIELDS, presence: true, if: -> { one_off? && custom_duration? })
 
   validates :hourly_rate, presence: true, if: -> { hourly_pricing? }
+  validates :upper_hourly_rate, presence: true, if: -> { hourly_pricing? }
+  validates :estimated_hours, presence: true, if: -> { hourly_pricing? }
   validates :est_budget, presence: true, if: -> { fixed_pricing? }
   validates :hourly_payment_schedule, :hourly_rate,
             presence: true, if: -> { hourly_pricing? && payment_schedule.blank? }

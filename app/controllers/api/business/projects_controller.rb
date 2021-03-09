@@ -58,6 +58,7 @@ class Api::Business::ProjectsController < ApiController
       :hourly_payment_schedule,
       :fixed_payment_schedule,
       :hourly_rate,
+      :upper_hourly_rate,
       :fixed_budget,
       :estimated_hours,
       :minimum_experience,

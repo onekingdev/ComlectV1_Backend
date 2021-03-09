@@ -39,7 +39,7 @@ class Business::ProjectsController < ApplicationController
     render html: content_tag(
       'project-show-page',
       '',
-      ':project-id': @project.id,
+      ':project': @project.to_json(include: { visible_project: {} }),
       'current-business': current_business
     ).html_safe, layout: 'vue_business'
   end
