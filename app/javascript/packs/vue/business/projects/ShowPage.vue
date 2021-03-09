@@ -31,6 +31,13 @@
                     h3.m-y-0 Collaborators
                     a.btn View All
                   .card-body
+                    table.rating_table
+                      tbody
+                        tr
+                          td
+                            //img.m-r-1.userpic_small(v-bind:src="project['business']['logo']")
+                          td
+                          td
           .container.m-t-1
             .row.p-x-1
               .col-md-12
