@@ -9,11 +9,12 @@
             p {{ currentBusiness }}
           div
             p.text-right.m-b-2: b-form-checkbox Show on Calendar
-            b-dropdown.m-r-1(text='Actions')
+            b-dropdown.m-r-1(text='Actions' variant='default')
               li: LocalProjectModal(@saved="refetch" :project-id="project.id" :inline="false")
                 button.dropdown-item Edit
               b-dropdown-item Delete Project
             a.m-r-1.btn.btn-default(:href='postHref(project)') Post Project
+            a.m-r-1.btn.btn-default(v-if="project.visible_project" :href='viewHref(project.visible_project)') View Post
             a.btn.btn-dark Complete Project
     b-tabs(content-class="mt-0")
       b-tab(title="Overview" active)
@@ -86,6 +87,9 @@ export default {
   computed: {
     postHref() {
       return project => this.$store.getters.url('URL_POST_LOCAL_PROJECT', project.id)
+    },
+    viewHref() {
+      return project => this.$store.getters.url('URL_PROJECT_POST', project.id)
     }
   }
 }

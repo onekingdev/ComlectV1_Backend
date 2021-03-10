@@ -147,6 +147,8 @@ Rails.application.routes.draw do
       resource :project_overview, path: 'overview(/:specialist_username)', only: :show
     end
 
+    get 'project_posts/:id' => 'projects#show_post'
+
     resources :projects do
       post :post, on: :member
       get :copy, on: :member
