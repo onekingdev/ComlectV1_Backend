@@ -73,7 +73,10 @@ body class="#{controller_name} #{action_name}"
                     li
                       a.dropdown-item(href="#") Edit Profile
                     li
-                      a.dropdown-item(href="#") Sign Out
+                      form(method="POST" action=destroy_user_session_path)
+                        input(type="hidden" name="authenticity_token" value=form_authenticity_token)
+                        input(type="hidden" name="_method" value="delete")
+                        input.dropdown-item(type="submit" value="Sign Out")
                 #helps.p-x-2
                   ion-icon(name='help-circle-outline' style="vertical-align: middle; margin-right: 8px;")
                   | Help
