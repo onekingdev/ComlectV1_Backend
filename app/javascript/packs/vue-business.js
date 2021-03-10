@@ -6,7 +6,6 @@ import BusinessPostProjectPage from './vue/business/projects/PostProjectPage.vue
 import BusinessProjectsPage from './vue/business/projects/Page.vue'
 import ProjectShowPage from '@/business/projects/ShowPage'
 import ProjectShowPostPage from '@/business/projects/ShowPostPage'
-import ApplicationsIndexPage from '@/business/applications/IndexPage'
 import RemindersPage from '@/business/reminders/Page'
 import TimesheetsShowPage from '@/business/projects/TimesheetsShowPage'
 
@@ -19,7 +18,6 @@ init({
     BusinessPostProjectPage,
     ProjectShowPage,
     ProjectShowPostPage,
-    ApplicationsIndexPage,
     RemindersPage,
     TimesheetsShowPage,
   }

@@ -22,7 +22,7 @@ export default {
       return this.$store.getters.url('URL_API_PROJECT_APPLICATIONS', this.project.id)
     },
     viewApplicantsUrl() {
-      return this.$store.getters.url('URL_PROJECT_APPLICATIONS', this.project.id)
+      return this.$store.getters.url('URL_PROJECT_POST', this.project.id)
     }
   }
 }

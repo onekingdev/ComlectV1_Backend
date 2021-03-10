@@ -13,8 +13,8 @@
               li: LocalProjectModal(@saved="refetch" :project-id="project.id" :inline="false")
                 button.dropdown-item Edit
               b-dropdown-item Delete Project
-            a.m-r-1.btn.btn-default(:href='postHref(project)') Post Project
             a.m-r-1.btn.btn-default(v-if="project.visible_project" :href='viewHref(project.visible_project)') View Post
+            a.m-r-1.btn.btn-default(v-else :href='postHref(project)') Post Project
             a.btn.btn-dark Complete Project
     b-tabs(content-class="mt-0")
       b-tab(title="Overview" active)
