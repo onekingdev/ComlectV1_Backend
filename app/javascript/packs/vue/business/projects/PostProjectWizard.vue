@@ -57,8 +57,6 @@
           .m-t-1
             InputText(v-model="project.upper_hourly_rate" :errors="errors.upper_hourly_rate") Upper Hourly Rate
           .m-t-1
-            InputText(v-model="project.estimated_hours" :errors="errors.estimated_hours") Estimated hours
-          .m-t-1
             InputSelect.m-t-1(v-model="project.hourly_payment_schedule" :errors="errors.hourly_payment_schedule" :options="hourlyPaymentScheduleOptions") Method of Payment
 
     .row.no-gutters

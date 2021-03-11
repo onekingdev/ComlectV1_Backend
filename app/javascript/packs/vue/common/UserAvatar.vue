@@ -13,7 +13,9 @@ export default {
   },
   computed: {
     src() {
-      return this.user && this.user.photo
+      return (this.user && this.user.photo_data && this.user.photo_data.storage && this.user.photo_data.id)
+        ? `/uploads/${this.user.photo_data.storage}/${this.user.photo_data.id}`
+        : null
     },
     placeholderText() {
       return initialSymbol(this.user.first_name) + ' ' + initialSymbol(this.user.last_name)

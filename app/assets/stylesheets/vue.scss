@@ -184,5 +184,37 @@ table.table, table.table thead tr th {
   }
 }
 
+.b-toaster-slot {
+  max-width: 280px !important;
+}
+.b-toast {
+  background-color: #303132;
+  border-radius: 0px;
+  max-width: 280px !important;
+  .toast {
+    border: 0px;
+    .toast-header, .toast-body {
+      border-radius: 0px;
+      border: 0px;
+      background-color: #303132;
+      color: #fff;
+      button.close {
+        color: #fff;
+        opacity: 1;
+      }
+    }
+    .toast-header {
+      padding-top: 10px;
+      padding-bottom: 0px;
+      font-size: 14px;
+      font-weight: 300;
+    }
+    .toast-body {
+      padding-top: 0px;
+      padding-bottom: 10px;
+    }
+  }
+}
+
 @import '../../../node_modules/bootstrap/scss/bootstrap.scss';
 @import '../../../node_modules/bootstrap-vue/src/index.scss';
