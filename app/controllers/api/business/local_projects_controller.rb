@@ -27,7 +27,7 @@ class Api::Business::LocalProjectsController < ApiController
     if @local_project.update(local_project_params)
       respond_with @local_project, serializer: LocalProjectSerializer
     else
-      respond_with errors: @local_project.errors, status: :unprocessable_entity
+      render json: @local_project.errors, status: :unprocessable_entity
     end
   end
 
