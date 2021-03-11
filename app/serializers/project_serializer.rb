@@ -22,7 +22,6 @@ class ProjectSerializer < ApplicationSerializer
              :payment_schedule,
              :fixed_budget,
              :hourly_rate,
-             :upper_hourly_rate,
              :estimated_hours,
              :only_regulators,
              :annual_salary,

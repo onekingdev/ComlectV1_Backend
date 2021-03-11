@@ -117,14 +117,6 @@ export default {
         }
       }
     }
-  },
-  components: {
-    Errors: {
-      template: `<div v-if="errors && errors[0]" v-text="errors[0]" class="d-block invalid-feedback" role="alert" aria-live="assertive" aria-atomic="true"/>`,
-      props: {
-        errors: Array
-      }
-    }
   }
 }
 </script>

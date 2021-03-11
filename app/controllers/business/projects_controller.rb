@@ -44,6 +44,17 @@ class Business::ProjectsController < ApplicationController
     ).html_safe, layout: 'vue_business'
   end
 
+  def show_post
+    @project = current_business.projects.find(params[:id])
+
+    render html: content_tag(
+      'project-show-post-page',
+      '',
+      ':project-id': @project.id,
+      'current-business': current_business
+    ).html_safe, layout: 'vue_business'
+  end
+
   def create
     respond_to do |format|
       if @project.save

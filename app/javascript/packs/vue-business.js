@@ -5,7 +5,7 @@ import BusinessRemindersPage from './vue/business/reminders/Page.vue'
 import BusinessPostProjectPage from './vue/business/projects/PostProjectPage.vue'
 import BusinessProjectsPage from './vue/business/projects/Page.vue'
 import ProjectShowPage from '@/business/projects/ShowPage'
-import ApplicationsIndexPage from '@/business/applications/IndexPage'
+import ProjectShowPostPage from '@/business/projects/ShowPostPage'
 import RemindersPage from '@/business/reminders/Page'
 import TimesheetsShowPage from '@/business/projects/TimesheetsShowPage'
 
@@ -17,7 +17,7 @@ init({
     BusinessProjectsPage,
     BusinessPostProjectPage,
     ProjectShowPage,
-    ApplicationsIndexPage,
+    ProjectShowPostPage,
     RemindersPage,
     TimesheetsShowPage,
   }

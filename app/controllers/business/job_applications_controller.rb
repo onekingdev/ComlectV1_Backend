@@ -5,18 +5,6 @@ class Business::JobApplicationsController < ApplicationController
 
   before_action :require_business!
 
-  def index
-    @project = current_business.projects.preload_association.find_by(id: params[:project_id])
-    @applications = applications_list.to_json(include: { specialist: {}, project: {} })
-    render html: content_tag(
-      'applications-index-page',
-      '',
-      ':applications': @applications,
-      ':project': @project.to_json(include: { jurisdictions: {}, industries: {}, skills: {} })
-    ).html_safe,
-           layout: 'vue_business'
-  end
-
   def shortlist
     @job_application = current_business.job_applications.find(params[:job_application_id])
     @job_application.shortlisted? ? @job_application.undecided! : @job_application.shortlisted!
