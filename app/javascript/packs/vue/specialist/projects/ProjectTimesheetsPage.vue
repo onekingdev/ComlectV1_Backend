@@ -3,7 +3,7 @@
     Get(:project="projectUrl"): template(v-slot="{project}")
       Breadcrumbs(:items="['Projects', project.title, 'My Timesheet']")
     button.btn.btn-dark(v-b-modal.timesheets-modal) Log Time
-    Get(v-if="isTableVisible" :timesheets="timesheetsUrl" :callback="enrich"): template(v-slot="{timesheets}")
+    div(v-if="isTableVisible"): Get(:timesheets="timesheetsUrl"): template(v-slot="{timesheets}")
       table.table
         thead
           tr
@@ -17,9 +17,9 @@
           tr(v-for="row in timesheets" :key="row.id")
             td {{ row.created_at | asDate }}
             td {{ row.status }}
-            td {{ row.total_duration | minToHour }}
-            td {{ row.total_due | usdWhole }}
-            td {{ row.payment_to_date | usdWhole }}
+            td {{ enrich(row).total_duration | minToHour }}
+            td {{ enrich(row).total_due | usdWhole }}
+            td {{ enrich(row).payment_to_date | usdWhole }}
             td ...
     b-modal.fade(id="timesheets-modal" title="Log Time")
       label.form-label Date of Entry
@@ -79,13 +79,13 @@ export default {
     }
   },
   methods: {
-    enrich(timesheets) {
-      return timesheets.map(row => ({
+    enrich(row) {
+      return {
         ...row,
         total_duration: totalDuration(row.time_logs),
         total_due: totalDue(totalDuration(row.time_logs), row.hourly_rate),
         payment_to_date: 0 // @todo payment_to_date calculation
-      }))
+      }
     },
     addRow() {
       this.entry.time_logs_attributes.push(newEntryRow())

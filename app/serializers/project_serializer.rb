@@ -22,7 +22,6 @@ class ProjectSerializer < ApplicationSerializer
              :payment_schedule,
              :fixed_budget,
              :hourly_rate,
-             :upper_hourly_rate,
              :estimated_hours,
              :only_regulators,
              :annual_salary,
@@ -54,10 +53,8 @@ class ProjectSerializer < ApplicationSerializer
              :business_fee_free,
              :color,
              :local_project_id,
-             :role_details,
              :skills,
              :jurisdictions,
              :industries,
-             :specialist,
-             :business
+             :specialist
 end

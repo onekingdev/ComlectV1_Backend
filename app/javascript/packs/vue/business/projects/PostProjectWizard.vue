@@ -1,31 +1,29 @@
 <template lang="pug">
   div
-    ModelLoader(:url="projectId ? endpointUrl : undefined" :default="defaultProject" @loaded="loadProject" :callback="transformBackendModel")
-    Breadcrumbs(:items="['Projects', pageTitle]")
-    h2 {{ pageTitle }}
+    h2 Post Project
     p Tell us more about your project and get connected to our experienced specialists.
     WizardProgress(v-bind="{step,steps}")
     .row.no-gutters
       .col-md-6.p-t-2(v-if="step === steps[0]")
 
         InputText(v-model="project.title" :errors="errors.title") Title
-        .row.m-t-1
+        .row
           .col-sm: InputDate(v-model="project.starts_on" :errors="errors.starts_on") Start Date
           .col-sm: InputDate(v-model="project.ends_on" :errors="errors.ends_on") Due Date
 
-        InputTextarea.m-t-1(v-model="project.description" :errors="errors.description") Description
-        InputTextarea.m-t-1(v-model="project.role_details" :errors="errors.role_details") Role Details
+        InputTextarea(v-model="project.description" :errors="errors.description") Description
+        InputTextarea(v-model="project.role_details" :errors="errors.role_details") Role Details
         .form-text.text-muted Project post information for the specialist
 
-        InputSelect.m-t-1(v-model="project.rfp_timing" :errors="errors.rfp_timing" :options="rfpTimingOptions") Project Timing
-        InputSelect.m-t-1(v-model="project.location_type" :errors="errors.location_type" :options="locationTypes") Location Type
-        InputText.m-t-1(v-model="project.location" :errors="errors.location") Location
+        InputSelect(v-model="project.rfp_timing" :errors="errors.rfp_timing" :options="rfpTimingOptions") Project Timing
+        InputSelect(v-model="project.location_type" :errors="errors.location_type" :options="locationTypes") Location Type
+        InputText(v-model="project.location" :errors="errors.location") Location
 
-        label.m-t-1.form-label Industry
+        label.form-label Industry
         ComboBox(v-model="project.industry_ids" :options="industryIdsOptions" :multiple="true")
         Errors(:errors="errors.industry_ids")
 
-        label.m-t-1.form-label Jurisdiction
+        label.form-label Jurisdiction
         ComboBox(v-model="project.jurisdiction_ids" :options="jurisdictionIdsOptions" :multiple="true")
         Errors(:errors="errors.jurisdiction_ids")
 
@@ -51,20 +49,16 @@
 
         .m-t-1(v-if="project.pricing_type === pricingTypes[0].id")
           InputText(v-model="project.est_budget" :errors="errors.est_budget") Estimated Budget
-          InputSelect.m-t-1(v-model="project.payment_schedule" :errors="errors.payment_schedule" :options="fixedPaymentScheduleOptions") Method of Payment
+          InputSelect(v-model="project.fixed_payment_schedule" :errors="errors.fixed_payment_schedule" :options="fixedPaymentScheduleOptions") Method of Payment
 
-        div(v-else)
-          .m-t-1
-            InputText(v-model="project.hourly_rate" :errors="errors.hourly_rate") Estimated Hourly Rate
-          .m-t-1
-            InputText(v-model="project.upper_hourly_rate" :errors="errors.upper_hourly_rate") Upper Hourly Rate
-          .m-t-1
-            InputSelect.m-t-1(v-model="project.payment_schedule" :errors="errors.payment_schedule" :options="hourlyPaymentScheduleOptions") Method of Payment
+        .m-t-1(v-else)
+          InputText(v-model="project.hourly_rate" :errors="errors.hourly_rate") Hourly Rate
+          InputSelect(v-model="project.hourly_payment_schedule" :errors="errors.hourly_payment_schedule" :options="hourlyPaymentScheduleOptions") Method of Payment
 
     .row.no-gutters
       .col-md-6.text-right.m-t-1
         button.btn.m-r-1(@click.prevent) Exit
-        button.btn.btn-default.m-r-1(v-if="prevEnabled" @click="prev") Previous
+        button.btn.btn-dark.m-r-1(v-if="prevEnabled" @click="prev") Previous
         button.btn.btn-dark(v-if="nextEnabled" @click="next") Next
         button.btn.btn-dark(v-else @click="preValidateStep() && submit()") Submit
 </template>
@@ -109,14 +103,12 @@ const initialProject = (localProject) => ({
   pricing_type: PRICING_TYPES[0].id,
   est_budget: null,
   hourly_rate: null,
-  payment_schedule: null,
+  fixed_payment_schedule: null,
+  hourly_payment_schedule: null,
 })
 
 export default {
   props: {
-    projectId: {
-      type: Number
-    },
     industryIds: {
       type: Array,
       required: true
@@ -137,9 +129,6 @@ export default {
     }
   },
   methods: {
-    loadProject(project) {
-      this.project = Object.assign({}, this.project, project)
-    },
     next() {
       if (this.nextEnabled) {
         if (this.preValidateStep()) {
@@ -183,8 +172,8 @@ export default {
     },
     submit() {
       this.errors = {}
-      fetch(this.endpointUrl, {
-        method: this.projectId ? 'PUT' : 'POST',
+      fetch('/api/business/projects', {
+        method: 'POST',
         headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
         body: JSON.stringify(this.project)
       }).then(response => {
@@ -196,8 +185,7 @@ export default {
           })
         } else if (response.status === 201 || response.status === 200) {
           this.$emit('saved')
-          const redirectUrl = `/business/projects/${this.project.local_project_id || ''}`
-          redirectWithToast(redirectUrl, 'The project has been saved')
+          redirectWithToast('/business/projects', 'The project has been saved')
         } else {
           this.makeToast('Error', 'Couldn\'t submit form')
         }
@@ -205,27 +193,6 @@ export default {
     }
   },
   computed: {
-    transformBackendModel() {
-      const getColumn = (array, column) => array.map(i => i[column]),
-        fromDecimal = val => +val || null
-      return model => ({
-        ...model,
-        "skill_names":      getColumn(model.skills, 'name'),
-        "industry_ids":     getColumn(model.industries, 'id'),
-        "jurisdiction_ids": getColumn(model.jurisdictions, 'id'),
-        "est_budget":       fromDecimal(model.est_budget),
-        "only_regulators":  !!model.only_regulators,
-      })
-    },
-    pageTitle() {
-      return this.projectId ? 'Edit Project' : 'Post Project'
-    },
-    defaultProject() {
-      return () => initialProject(this.localProject)
-    },
-    endpointUrl() {
-      return '/api/business/projects/' + (this.projectId || '')
-    },
     steps: () => STEPS,
     pricingTypes: () => PRICING_TYPES,
     locationTypes: () => LOCATION_TYPES,

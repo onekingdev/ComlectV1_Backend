@@ -10,7 +10,7 @@ class Api::Business::JobApplicationsController < ApiController
   def index
     @project = current_business.projects.preload_association.find_by(id: params[:project_id])
     return render_404 unless @project
-    render json: applications_list, each_serializer: Business::JobApplicationSerializer
+    render json: applications_list
   end
 
   def shortlist

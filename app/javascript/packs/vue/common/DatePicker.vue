@@ -1,5 +1,5 @@
 <template lang="pug">
-  b-form-datepicker(v-bind="options" @input="input" :show-decade-nav="false" :hide-header="true")
+  b-form-datepicker(v-bind="options" @input="input")
 </template>
 
 <script>
@@ -15,11 +15,10 @@ export default {
   computed: {
     options() {
       return {
-        dateFormatOptions: { year: 'numeric', month: 'numeric', day: 'numeric', weekday: 'narrow' },
+        dateFormatOptions: { year: 'numeric', month: 'numeric', day: 'numeric' },
         placeholder: 'MM/DD/YYYY',
         value: this.value,
-        hideHeader: true,
-        showDecadeNav: false
+        hideHeader: true
       }
     }
   }

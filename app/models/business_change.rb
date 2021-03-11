@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-class ReviewCategory < ApplicationRecord
+class BusinessChange < ActiveRecord::Base
   belongs_to :annual_report
 end

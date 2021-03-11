@@ -3,6 +3,7 @@
 class Api::Business::ProjectsController < ApiController
   before_action :require_business!
   before_action :build_project, only: %i[create]
+  before_action :find_project, only: %i[show update]
 
   skip_before_action :verify_authenticity_token # TODO: proper authentication
 
@@ -11,7 +12,7 @@ class Api::Business::ProjectsController < ApiController
       @project.post!
       @project.new_project_notification
       unless @project.local_project_id
-        local_project_params = @project.attributes.slice('business_id', 'title', 'description', 'starts_on', 'ends_on')
+        local_project_params = @project.attributes.slice('business_id', 'title', 'description', 'starts_on', 'ends_on', 'status')
         local_project = LocalProject.create(local_project_params)
         @project.update(local_project_id: local_project.id)
       end
@@ -24,16 +25,14 @@ class Api::Business::ProjectsController < ApiController
   end
 
   def update
-    @project = current_business.projects.find(params[:id])
     if @project.update(project_params)
       respond_with @project, serializer: ProjectSerializer
     else
-      render json: @project.errors, status: :unprocessable_entity
+      respond_with errors: @project.errors, status: :unprocessable_entity
     end
   end
 
   def show
-    @project = current_business.projects.find(params[:id])
     respond_with @project, serializer: ProjectSerializer
   end
 
@@ -67,7 +66,6 @@ class Api::Business::ProjectsController < ApiController
       :hourly_payment_schedule,
       :fixed_payment_schedule,
       :hourly_rate,
-      :upper_hourly_rate,
       :fixed_budget,
       :estimated_hours,
       :minimum_experience,
@@ -84,5 +82,9 @@ class Api::Business::ProjectsController < ApiController
       industry_ids: [],
       skill_names: []
     )
+  end
+
+  def find_project
+    @project = current_business.projects.find(params[:id])
   end
 end
