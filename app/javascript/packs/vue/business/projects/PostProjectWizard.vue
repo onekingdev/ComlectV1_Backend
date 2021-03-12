@@ -1,6 +1,7 @@
 <template lang="pug">
   div
-    h2 Post Project
+    Breadcrumbs(:items="['Projects', pageTitle]")
+    h2 {{ pageTitle }}
     p Tell us more about your project and get connected to our experienced specialists.
     WizardProgress(v-bind="{step,steps}")
     .row.no-gutters
@@ -115,6 +116,9 @@ const initialProject = (localProject) => ({
 
 export default {
   props: {
+    projectId: {
+      type: Number
+    },
     industryIds: {
       type: Array,
       required: true
@@ -199,6 +203,9 @@ export default {
     }
   },
   computed: {
+    pageTitle() {
+      return this.projectId ? 'Edit Project' : 'Post Project'
+    },
     steps: () => STEPS,
     pricingTypes: () => PRICING_TYPES,
     locationTypes: () => LOCATION_TYPES,
