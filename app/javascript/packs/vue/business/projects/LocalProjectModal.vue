@@ -3,7 +3,8 @@
     div(v-b-modal="modalId" :class="{'d-inline-block':inline}")
       slot
 
-    b-modal.fade(:id="modalId" :title="projectId ? 'Edit project' : 'New project'" @show="resetProject")
+    b-modal.fade(:id="modalId" :title="projectId ? 'Edit project' : 'New project'" @show="refetch")
+      ModelLoader(:url="projectId ? submitUrl : undefined" :default="initialProject" :etag="etag" @loaded="loadProject"): div
       label.form-label Title
       input.form-control(v-model="project.title" type=text placeholder="Enter the name of your project")
       Errors(:errors="errors.title")
@@ -33,6 +34,7 @@
 
 <script>
 import { DateTime } from 'luxon'
+import EtaggerMixin from '@/mixins/EtaggerMixin'
 
 const rnd = () => Math.random().toFixed(10).toString().replace('.', '')
 const dateFormat = 'MM/DD/YYYY'
@@ -46,6 +48,7 @@ const initialProject = () => ({
 })
 
 export default {
+  mixins: [EtaggerMixin],
   props: {
     projectId: Number,
     remindAt: String,
@@ -62,6 +65,9 @@ export default {
     }
   },
   methods: {
+    loadProject(project) {
+      this.project = Object.assign({}, this.project, project)
+    },
     makeToast(title, str) {
       this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
     },
@@ -69,21 +75,11 @@ export default {
       this.$emit('saved')
       this.makeToast('Success', 'The project has been saved')
       this.$bvModal.hide(this.modalId)
-      this.resetProject()
-    },
-    resetProject() {
-      if (this.projectId) {
-        fetch(this.submitUrl, {
-          method: 'GET',
-          headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}
-        }).then(response => response.json())
-          .then(result => this.project = Object.assign({}, this.project, result))
-      } else {
-        this.project = initialProject()
-      }
+      this.refetch()
     }
   },
   computed: {
+    initialProject: () => initialProject,
     canBeDraft() {
       return !this.projectId || ('draft' === this.project.status)
     },
