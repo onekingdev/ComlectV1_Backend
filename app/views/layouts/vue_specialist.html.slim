@@ -25,8 +25,7 @@ html lang=I18n.locale
     = render 'layouts/favicons'
     = yield :html_head
     = render partial: "layouts/fullstory" if Rails.env == "production"
-
-- hide_menu = [["projects", "index"]].include? [params[:controller], params[:action]]
+- hide_menu = [["projects", "index"], ["projects", "show"], ["projects/job_applications", "new"]].include? [params[:controller], params[:action]]
 
 body class="#{controller_name} #{action_name}"
   #app
@@ -80,8 +79,8 @@ body class="#{controller_name} #{action_name}"
                 #helps.p-x-2
                   ion-icon(name='help-circle-outline' style="vertical-align: middle; margin-right: 8px;")
                   | Help
-            button.navbar-toggler.position-absolute.d-md-none.collapsed(type='button' data-toggle='collapse' data-target='#sidebarMenu' aria-controls='sidebarMenu' aria-expanded='false' aria-label='Toggle navigation')
-              span.navbar-toggler-icon
+              button.navbar-toggler.position-absolute.d-md-none.collapsed(type='button' data-toggle='collapse' data-target='#sidebarMenu' aria-controls='sidebarMenu' aria-expanded='false' aria-label='Toggle navigation')
+                span.navbar-toggler-icon
           = yield
 
   = yield :prepend_scripts

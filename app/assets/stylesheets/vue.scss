@@ -14,6 +14,23 @@ html {
   border-top: 4px solid #2F304F;
 }
 
+#sidebarMenu_alt {
+  h3 {
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 1px;
+    font-weight: 400;
+    color: #373839;
+    padding-bottom: 5px;
+  }
+}
+
+.badge {
+  border: 1px solid #E5E5EA;
+  padding: 4px 9px !important;
+  font-weight: normal !important;
+}
+
 #sidebarMenu {
   background-color: #1b1c29;
   color: #fff;
@@ -21,11 +38,6 @@ html {
     font-size: 15px;
     margin-right: 8px;
     vertical-align: middle;
-  }
-  a {
-    color: #fff;
-    font-weight: 400;
-    text-decoration: none;
   }
   h3 {
     text-transform: uppercase;
@@ -36,6 +48,11 @@ html {
     padding-left: 10px;
     padding-top: 15px;
     padding-bottom: 5px;
+  }
+  a {
+    color: #fff;
+    font-weight: 400;
+    text-decoration: none;
   }
   a.btn {
     width: 100%;
@@ -181,6 +198,58 @@ table.table, table.table thead tr th {
       vertical-align: top;
     }
     border-bottom: 2px solid #E4E6EB;
+  }
+}
+
+.borderless { border: 0px !important; }
+
+#ProjectSidebar {
+  .b-sidebar-header { display: none; }
+}
+
+.project-figures {
+  li {
+    border-top: 0px;
+    border-left: 0px;
+    border-bottom: 0px;
+    &:last-child {
+      border: 0px;
+    }
+    &:first-child {
+      padding-left: 0px;
+    }
+  }
+}
+
+.b-toaster-slot {
+  max-width: 280px !important;
+}
+.b-toast {
+  background-color: #303132;
+  border-radius: 0px;
+  max-width: 280px !important;
+  .toast {
+    border: 0px;
+    .toast-header, .toast-body {
+      border-radius: 0px;
+      border: 0px;
+      background-color: #303132;
+      color: #fff;
+      button.close {
+        color: #fff;
+        opacity: 1;
+      }
+    }
+    .toast-header {
+      padding-top: 10px;
+      padding-bottom: 0px;
+      font-size: 14px;
+      font-weight: 300;
+    }
+    .toast-body {
+      padding-top: 0px;
+      padding-bottom: 10px;
+    }
   }
 }
 

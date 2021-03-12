@@ -1,6 +1,6 @@
 <template lang="pug">
   .container
-    .card
+    .card.m-t-2
       .card-body
         h2 Create Proposal
         Get(:project='`/api/specialist/projects/${projectId}`'): template(v-slot="{project}"): div.row

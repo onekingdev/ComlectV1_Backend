@@ -26,8 +26,8 @@
 
       template(slot="modal-footer")
         button.btn(@click="$bvModal.hide(modalId)") Cancel
-        Post(v-if="canBeDraft" :action="`${submitUrl}?draft=1`" :model="project" :method="httpMethod" @errors="errors = $event" @saved="saved")
-          button.btn.btn-default Save as Draft
+        //- Post(v-if="canBeDraft" :action="`${submitUrl}?draft=1`" :model="project" :method="httpMethod" @errors="errors = $event" @saved="saved")
+        //-   button.btn.btn-default Save as Draft
         Post(:action="submitUrl" :model="project" :method="httpMethod" @errors="errors = $event" @saved="saved")
           button.btn.btn-dark {{ projectId ? 'Save' : 'Create' }}
 </template>

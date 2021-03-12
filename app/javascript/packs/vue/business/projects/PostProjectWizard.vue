@@ -1,5 +1,6 @@
 <template lang="pug">
   div
+    ModelLoader(:url="projectId ? endpointUrl : undefined" :default="defaultProject" @loaded="loadProject")
     Breadcrumbs(:items="['Projects', pageTitle]")
     h2 {{ pageTitle }}
     p Tell us more about your project and get connected to our experienced specialists.
@@ -57,8 +58,6 @@
             InputText(v-model="project.hourly_rate" :errors="errors.hourly_rate") Estimated Hourly Rate
           .m-t-1
             InputText(v-model="project.upper_hourly_rate" :errors="errors.upper_hourly_rate") Upper Hourly Rate
-          .m-t-1
-            InputText(v-model="project.estimated_hours" :errors="errors.estimated_hours") Estimated hours
           .m-t-1
             InputSelect.m-t-1(v-model="project.hourly_payment_schedule" :errors="errors.hourly_payment_schedule" :options="hourlyPaymentScheduleOptions") Method of Payment
 
@@ -139,6 +138,9 @@ export default {
     }
   },
   methods: {
+    loadProject(project) {
+      this.project = Object.assign({}, this.project, project)
+    },
     next() {
       if (this.nextEnabled) {
         if (this.preValidateStep()) {
@@ -182,8 +184,8 @@ export default {
     },
     submit() {
       this.errors = {}
-      fetch('/api/business/projects', {
-        method: 'POST',
+      fetch(this.endpointUrl, {
+        method: this.projectId ? 'PUT' : 'POST',
         headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
         body: JSON.stringify(this.project)
       }).then(response => {
@@ -205,6 +207,12 @@ export default {
   computed: {
     pageTitle() {
       return this.projectId ? 'Edit Project' : 'Post Project'
+    },
+    defaultProject() {
+      return () => initialProject(this.localProject)
+    },
+    endpointUrl() {
+      return '/api/business/projects/' + (this.projectId || '')
     },
     steps: () => STEPS,
     pricingTypes: () => PRICING_TYPES,

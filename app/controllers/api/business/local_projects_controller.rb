@@ -15,7 +15,7 @@ class Api::Business::LocalProjectsController < ApiController
 
   def create
     local_project = current_business.local_projects.build(local_project_params)
-    local_project.status = 'draft' if params[:draft].present?
+    # local_project.status = 'draft' if params[:draft].present?
     if local_project.save
       render json: local_project, status: :created
     else

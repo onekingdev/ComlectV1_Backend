@@ -145,7 +145,7 @@ class Project < ApplicationRecord
   before_create :check_specialist, if: :internal?
   before_create :fix_internal_asap, if: :internal?
   before_create :remove_specialist, unless: :internal? if Rails.env != 'test'
-  before_create :calculate_budget
+  # before_create :calculate_budget
 
   LOCATIONS = [%w[Remote remote], %w[Remote\ +\ Travel remote_and_travel], %w[Onsite onsite]].freeze
   # DB Views depend on these so don't modify:
