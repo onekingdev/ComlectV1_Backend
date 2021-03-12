@@ -25,8 +25,10 @@
 
       template(slot="modal-footer")
         button.btn(@click="$bvModal.hide(modalId)") Cancel
-        // button.btn.btn-default(v-if="!projectId" @click="submit(true)") Save as Draft
-        button.btn.btn-dark(@click="submit()") {{ projectId ? 'Save' : 'Create' }}
+        Post(v-if="canBeDraft" :action="`${submitUrl}?draft=1`" :model="project" :method="httpMethod" @errors="errors = $event" @saved="saved")
+          button.btn.btn-default Save as Draft
+        Post(:action="submitUrl" :model="project" :method="httpMethod" @errors="errors = $event" @saved="saved")
+          button.btn.btn-dark {{ projectId ? 'Save' : 'Create' }}
 </template>
 
 <script>
@@ -63,43 +65,35 @@ export default {
     makeToast(title, str) {
       this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
     },
-    submit(asDraft) {
-      this.errors = []
-      const toId = this.projectId ? `/${this.projectId}` : '', draftParam = asDraft ? '?draft=1' : ''
-      fetch('/api/business/local_projects' + toId + draftParam, {
-        method: this.projectId ? 'PUT' : 'POST',
-        headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
-        body: JSON.stringify(this.project)
-      }).then(response => {
-        if (response.status === 422) {
-          response.json().then(errors => {
-            this.errors = errors
-            Object.keys(this.errors)
-              .map(prop => this.errors[prop].map(err => this.makeToast(`Error`, `${prop}: ${err}`)))
-          })
-        } else if (response.status === 201 || response.status === 200) {
-          this.$emit('saved')
-          this.makeToast('Success', 'The project has been saved')
-          this.$bvModal.hide(this.modalId)
-          this.resetProject()
-        } else {
-          this.makeToast('Error', 'Couldn\'t submit form')
-        }
-      })
+    saved() {
+      this.$emit('saved')
+      this.makeToast('Success', 'The project has been saved')
+      this.$bvModal.hide(this.modalId)
+      this.resetProject()
     },
     resetProject() {
       if (this.projectId) {
-        fetch(`/api/business/local_projects/${this.projectId}`, {
+        fetch(this.submitUrl, {
           method: 'GET',
           headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}
         }).then(response => response.json())
-          .then(result => Object.assign(this.project, result))
+          .then(result => this.project = Object.assign({}, this.project, result))
       } else {
         this.project = initialProject()
       }
     }
   },
   computed: {
+    canBeDraft() {
+      return !this.projectId || ('draft' === this.project.status)
+    },
+    submitUrl() {
+      const toId = this.projectId ? `/${this.projectId}` : ''
+      return '/api/business/local_projects' + toId
+    },
+    httpMethod() {
+      return this.projectId ? 'PUT' : 'POST'
+    },
     daysOfWeek() {
       return ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map(index)
     },
@@ -115,14 +109,6 @@ export default {
         if (!start.invalid && (end.invalid || (end.startOf('day') < start.startOf('day')))) {
           this.project.ends_on = value
         }
-      }
-    }
-  },
-  components: {
-    Errors: {
-      template: `<div v-if="errors && errors[0]" v-text="errors[0]" class="d-block invalid-feedback" role="alert" aria-live="assertive" aria-atomic="true"/>`,
-      props: {
-        errors: Array
       }
     }
   }
