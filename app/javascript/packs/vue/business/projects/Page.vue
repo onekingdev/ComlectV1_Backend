@@ -8,7 +8,7 @@
             p Plan projects with employees or hire specialists for additional help
           div
             a.btn.btn-default(href='/business/projects/new') Post Project
-            LocalProjectModal(@saved="refetch")
+            LocalProjectModal(@saved="newEtag")
               a.btn.m-l-1.btn-dark New Project
 
     b-tabs(content-class="mt-0")

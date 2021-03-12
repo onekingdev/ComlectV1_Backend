@@ -3,7 +3,7 @@
     div(v-b-modal="modalId" :class="{'d-inline-block':inline}")
       slot
 
-    b-modal.fade(:id="modalId" :title="projectId ? 'Edit project' : 'New project'" @show="refetch")
+    b-modal.fade(:id="modalId" :title="projectId ? 'Edit project' : 'New project'" @show="newEtag")
       ModelLoader(:url="projectId ? submitUrl : undefined" :default="initialProject" :etag="etag" @loaded="loadProject"): div
       label.form-label Title
       input.form-control(v-model="project.title" type=text placeholder="Enter the name of your project")
@@ -75,7 +75,7 @@ export default {
       this.$emit('saved')
       this.makeToast('Success', 'The project has been saved')
       this.$bvModal.hide(this.modalId)
-      this.refetch()
+      this.newEtag()
     }
   },
   computed: {

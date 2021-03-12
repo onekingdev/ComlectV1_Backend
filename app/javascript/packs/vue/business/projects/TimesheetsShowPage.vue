@@ -69,7 +69,7 @@ export default {
     saved(timesheet, message) {
       this.$bvToast.toast(message, { title: message, autoHideDelay: 5000 })
       this.$bvModal.hide(`TimesheetModal${timesheet.id}`)
-      this.refetch()
+      this.newEtag()
     }
   },
   computed: {

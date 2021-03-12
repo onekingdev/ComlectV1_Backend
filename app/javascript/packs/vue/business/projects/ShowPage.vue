@@ -10,7 +10,7 @@
           div
             p.text-right.m-b-2: b-form-checkbox Show on Calendar
             b-dropdown.m-r-1(text='Actions' variant='default')
-              li: LocalProjectModal(@saved="refetch" :project-id="project.id" :inline="false")
+              li: LocalProjectModal(@saved="newEtag" :project-id="project.id" :inline="false")
                 button.dropdown-item Edit
               b-dropdown-item Delete Project
             a.m-r-1.btn.btn-default(v-if="project.visible_project" :href='viewHref(project.visible_project)') View Post
@@ -28,7 +28,7 @@
             .row.p-x-1
               .col-md-7.col-sm-12
                 .card
-                  ProjectDetails(:project="project" @saved="refetch")
+                  ProjectDetails(:project="project" @saved="newEtag")
               .col-md-5.col-sm-12.pl-0
                 .card
                   .card-header.d-flex.justify-content-between
