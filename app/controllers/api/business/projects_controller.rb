@@ -23,6 +23,15 @@ class Api::Business::ProjectsController < ApiController
     end
   end
 
+  def update
+    @project = current_business.projects.find(params[:id])
+    if @project.update(project_params)
+      respond_with @project, serializer: ProjectSerializer
+    else
+      render json: @project.errors, status: :unprocessable_entity
+    end
+  end
+
   def show
     @project = current_business.projects.find(params[:id])
     respond_with @project, serializer: ProjectSerializer

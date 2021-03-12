@@ -148,6 +148,7 @@ Rails.application.routes.draw do
     end
 
     get 'project_posts/:id' => 'projects#show_post'
+    get 'project_posts/:id/edit' => 'projects#edit'
 
     resources :projects do
       post :post, on: :member
@@ -266,7 +267,7 @@ Rails.application.routes.draw do
       get '/overdue_reminders' => 'reminders#overdue'
       post '/reminders' => 'reminders#create'
       resources :local_projects, only: %i[index create show update]
-      resources :projects, only: %i[index show create] do
+      resources :projects, only: %i[index show create update] do
         resources :job_applications, path: 'applications', only: %i[index] do
           post :shortlist
           post :hide
