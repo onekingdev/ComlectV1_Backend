@@ -26,7 +26,7 @@
       template(slot="modal-footer")
         button.btn(@click="$bvModal.hide(modalId)") Cancel
         button.btn.btn-default(v-if="!projectId" @click="submit(true)") Save as Draft
-        button.btn.btn-dark(@click="submit()") {{ projectId ? 'Save' : 'Create' }}
+        button.btn.btn-dark(@click="submit") {{ projectId ? 'Save' : 'Create' }}
 </template>
 
 <script>
@@ -115,6 +115,14 @@ export default {
         if (!start.invalid && (end.invalid || (end.startOf('day') < start.startOf('day')))) {
           this.project.ends_on = value
         }
+      }
+    }
+  },
+  components: {
+    Errors: {
+      template: `<div v-if="errors && errors[0]" v-text="errors[0]" class="d-block invalid-feedback" role="alert" aria-live="assertive" aria-atomic="true"/>`,
+      props: {
+        errors: Array
       }
     }
   }
