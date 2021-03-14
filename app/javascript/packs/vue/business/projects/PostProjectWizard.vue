@@ -210,9 +210,9 @@ export default {
         fromDecimal = val => +val || null
       return model => ({
         ...model,
-        "skill_names":      getColumn(skills, 'name'),
-        "industry_ids":     getColumn(industries, 'id'),
-        "jurisdiction_ids": getColumn(jurisdictions, 'id'),
+        "skill_names":      getColumn(model.skills, 'name'),
+        "industry_ids":     getColumn(model.industries, 'id'),
+        "jurisdiction_ids": getColumn(model.jurisdictions, 'id'),
         "est_budget":       fromDecimal(model.est_budget),
         "only_regulators":  !!model.only_regulators,
       })
