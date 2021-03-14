@@ -148,7 +148,7 @@ Rails.application.routes.draw do
     end
 
     get 'project_posts/:id' => 'projects#show_post'
-    get 'project_posts/:id/edit' => 'projects#edit'
+    get 'project_posts/:id/edit' => 'projects#update_post'
 
     resources :projects do
       post :post, on: :member

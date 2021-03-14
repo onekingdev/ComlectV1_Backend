@@ -3,6 +3,14 @@
 </template>
 
 <script>
+const onlyKnownProperties = (apiModel, initialModel) => {
+  // only leave properties that are present in initial model
+  const entries = Object.keys(initialModel)
+    .map(property => [property, apiModel.hasOwnProperty(property) ? apiModel[property] : initialModel[property]])
+  const newValues = Object.fromEntries(entries)
+  return { ...initialModel, ...newValues }
+}
+
 export default {
   props: {
     url: String,
@@ -13,6 +21,10 @@ export default {
     etag: {
       type: Number,
       default: Math.random()
+    },
+    callback: {
+      type: Function,
+      default: result => result
     }
   },
   data() {
@@ -28,7 +40,7 @@ export default {
           headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}
         }).then(response => response.json())
           .then(result => {
-            this.$emit('loaded', result)
+            this.$emit('loaded', onlyKnownProperties(this.callback(result), this.default()))
             this.loaded = true
           })
       } else {

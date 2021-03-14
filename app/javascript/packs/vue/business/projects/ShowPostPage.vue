@@ -7,7 +7,7 @@
       .col-sm
         .card
           .card-header
-            button.btn.btn-outline-dark.float-right Edit
+            a.btn.btn-outline-dark.float-right(:href="`/business/project_posts/${project.id}/edit`") Edit
             h3 Post Details
           .card-body
             dl.row
