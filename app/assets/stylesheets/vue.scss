@@ -14,6 +14,23 @@ html {
   border-top: 4px solid #2F304F;
 }
 
+#sidebarMenu_alt {
+  h3 {
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 1px;
+    font-weight: 400;
+    color: #373839;
+    padding-bottom: 5px;
+  }
+}
+
+.badge {
+  border: 1px solid #E5E5EA;
+  padding: 4px 9px !important;
+  font-weight: normal !important;
+}
+
 #sidebarMenu {
   background-color: #1b1c29;
   color: #fff;
@@ -21,11 +38,6 @@ html {
     font-size: 15px;
     margin-right: 8px;
     vertical-align: middle;
-  }
-  a {
-    color: #fff;
-    font-weight: 400;
-    text-decoration: none;
   }
   h3 {
     text-transform: uppercase;
@@ -37,13 +49,41 @@ html {
     padding-top: 15px;
     padding-bottom: 5px;
   }
+  a {
+    color: #fff;
+    font-weight: 400;
+    text-decoration: none;
+  }
   a.btn {
     width: 100%;
     text-align: left;
     margin-top: 5px;
   }
-  a.btn:hover {
+  a.btn:hover, a.btn.active {
     background-color: #2f304f;
+  }
+}
+
+.b-form-datepicker {
+  .form-control, .form-control:focus {
+    border: 0px;
+    box-shadow: none;
+    .rounded-circle {
+      border-radius: 0px !important;
+    }
+    .btn-primary.active:not(:disabled):not(.disabled) {
+      background-color: #eceff4;
+      border: 0px !important;
+    }
+    .btn:focus {
+      box-shadow: none !important;
+    }
+    .btn-outline-primary {
+      color: #000;
+    }
+    .btn-outline-primary:hover {
+      background: #ECEFF4;
+    }
   }
 }
 
@@ -122,6 +162,95 @@ table.table, table.table thead tr th {
 
 .pointer {
   cursor: pointer;
+}
+
+.nav-tabs {
+  .nav-item {
+    a {
+      border: 0px;
+      padding-left: 0px;
+      padding-right: 0px;
+      margin-left: 27px;
+      color: #919396;
+    }
+    .nav-link.active {
+      background: none !important;
+      border-bottom: 4px solid #ffcc00;
+    }
+  }
+}
+
+.userpic_small {
+  width: 35px;
+  border-radius: 50%;
+  height: 35px;
+}
+
+.rating_table {
+  width: 100%;
+  h3 { font-size: 16px; color: #0A79FF }
+  color: #7A7B7E;
+  i { color: #373839; }
+  tr {
+    td { 
+      padding-top: 20px;
+      &:first-child, &:last-child { width: 1px; }
+      vertical-align: top;
+    }
+    border-bottom: 2px solid #E4E6EB;
+  }
+}
+
+.borderless { border: 0px !important; }
+
+#ProjectSidebar {
+  .b-sidebar-header { display: none; }
+}
+
+.project-figures {
+  li {
+    border-top: 0px;
+    border-left: 0px;
+    border-bottom: 0px;
+    &:last-child {
+      border: 0px;
+    }
+    &:first-child {
+      padding-left: 0px;
+    }
+  }
+}
+
+.b-toaster-slot {
+  max-width: 280px !important;
+}
+.b-toast {
+  background-color: #303132;
+  border-radius: 0px;
+  max-width: 280px !important;
+  .toast {
+    border: 0px;
+    .toast-header, .toast-body {
+      border-radius: 0px;
+      border: 0px;
+      background-color: #303132;
+      color: #fff;
+      button.close {
+        color: #fff;
+        opacity: 1;
+      }
+    }
+    .toast-header {
+      padding-top: 10px;
+      padding-bottom: 0px;
+      font-size: 14px;
+      font-weight: 300;
+    }
+    .toast-body {
+      padding-top: 0px;
+      padding-bottom: 10px;
+    }
+  }
 }
 
 @import '../../../node_modules/bootstrap/scss/bootstrap.scss';

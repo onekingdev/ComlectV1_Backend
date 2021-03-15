@@ -147,6 +147,9 @@ Rails.application.routes.draw do
       resource :project_overview, path: 'overview(/:specialist_username)', only: :show
     end
 
+    get 'project_posts/:id' => 'projects#show_post'
+    get 'project_posts/:id/edit' => 'projects#update_post'
+
     resources :projects do
       post :post, on: :member
       get :copy, on: :member
@@ -263,7 +266,7 @@ Rails.application.routes.draw do
       get '/reminders/:date_from/:date_to' => 'reminders#by_date'
       get '/overdue_reminders' => 'reminders#overdue'
       post '/reminders' => 'reminders#create'
-      resources :local_projects, only: %i[index create show]
+      resources :local_projects, only: %i[index create show update]
       resources :projects, only: %i[index show create update] do
         resources :job_applications, path: 'applications', only: %i[index] do
           post :shortlist
@@ -271,12 +274,21 @@ Rails.application.routes.draw do
         end
         resources :hires, only: %i[create]
       end
+      resources :compliance_policies, only: %i[index show create update]
+      get '/compliance_policies/:id/publish' => 'compliance_policies#publish'
+      get '/compliance_policies/:id/download' => 'compliance_policies#download'
       resources :projects, only: [] do
         resources :timesheets, except: %i[new edit], controller: 'timesheets'
       end
       resources :specialist_roles, only: :update
       resources :specialists, only: :index
       post '/seats/:seat_id/assign', to: 'seats#assign'
+      resources :annual_reports, only: %i[index show create update destroy]
+      get '/annual_reports/:id/clone' => 'annual_reports#clone'
+      scope 'annual_reports/:report_id' do
+        resources :review_categories, path: 'review_categories', only: %i[index create update destroy]
+      end
+      resources :ratings, only: %i[index]
     end
     namespace :specialist do
       get '/projects/my' => 'projects#my'

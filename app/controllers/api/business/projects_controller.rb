@@ -12,7 +12,7 @@ class Api::Business::ProjectsController < ApiController
       @project.post!
       @project.new_project_notification
       unless @project.local_project_id
-        local_project_params = @project.attributes.slice('business_id', 'title', 'description', 'starts_on', 'ends_on', 'status')
+        local_project_params = @project.attributes.slice('business_id', 'title', 'description', 'starts_on', 'ends_on')
         local_project = LocalProject.create(local_project_params)
         @project.update(local_project_id: local_project.id)
       end
@@ -66,6 +66,7 @@ class Api::Business::ProjectsController < ApiController
       :hourly_payment_schedule,
       :fixed_payment_schedule,
       :hourly_rate,
+      :upper_hourly_rate,
       :fixed_budget,
       :estimated_hours,
       :minimum_experience,

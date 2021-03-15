@@ -1,0 +1,151 @@
+<html>
+  <head>
+    <style type="text/css">
+        @font-face {
+            font-family: 'Canela';
+            src: url('<%= Rails.root.join("public", "fonts", "Canela-Medium.otf") %>') format('opentype');
+        }
+
+        @font-face {
+            font-family: 'Canela Bold';
+            src: url('<%= Rails.root.join("public", "fonts", "Canela-Bold.otf") %>') format('opentype');
+        }
+        @font-face {
+            font-family: 'Canela Black';
+            src: url('<%= Rails.root.join("public", "fonts", "Canela-Black.otf") %>') format('opentype');
+        }
+
+        @font-face {
+            font-family: 'open sans bold';
+            src: url('<%= Rails.root.join("public", "fonts", "OpenSans-Bold.ttf") %>') format('opentype');
+        }
+
+        @font-face {
+            font-family: 'open sans regular';
+            src: url('<%= Rails.root.join("public", "fonts", "OpenSans-Regular.ttf") %>') format('opentype');
+        }
+      body, html, table {
+        font-size: 16px;
+        padding: 0px;
+        margin: 0px;
+        width: 273mm;
+        overflow: hidden;
+        /*font-family: "Open Sans";*/
+      }
+
+      p { page-break-inside: avoid; font-size: 21px; word-wrap: break-word; }
+
+      ul, ol {
+        margin: 20px 70px;
+        margin-right: 160px;
+      }
+      li {
+        padding-bottom: 6px;
+        page-break-inside: avoid;
+        font-size: 21px;
+      }
+
+      table, td {
+        border-collapse: collapse;
+        border: 1px solid #000;
+        page-break-inside: avoid;
+      }
+
+      td {
+        padding: 3px;
+      }
+
+      span.yellow {
+        background: #FFCD00;
+         border-radius: 1em;
+        -moz-border-radius: 0.8em;
+        -webkit-border-radius: 1.1em;
+        display: inline-block;
+        line-height: 2.2em;
+        margin-right: 15px;
+        text-align: center;
+        width: 2.2em; 
+        font-size: 64px;
+        font-family: 'Canela Bold';
+        font-weight: bold;
+      }
+
+
+      span.black {
+        background: #000000;
+        color: #FFCD00;
+         border-radius: 1em;
+        -moz-border-radius: 12px;
+        -webkit-border-radius: 1.8em;
+        display: inline-block;
+        font-weight: bold;
+        line-height: 2em;
+        margin-right: 15px;
+        text-align: center;
+        width: 2em; 
+        font-size: 90px;
+        font-family: 'Canela Bold';
+      }
+
+      td {
+        padding-top:40px;
+        padding-bottom:20px;
+        padding-right:20px;   
+      }
+
+      .page {
+        page-break-before:always;
+        width: 273mm;
+        position: relative;
+        clear: both;
+      }
+
+      .black {
+        background: #000000;
+         border-radius: 1em;
+        -moz-border-radius: 0.8em;
+        -webkit-border-radius: 1.1em;
+        display: inline-block;
+        font-weight: bold;
+        line-height: 2.2em;
+        margin-right: 15px;
+        text-align: center;
+        width: 2.2em; 
+        font-size: 48px;
+        font-family: Canela;
+        font-weight: 700;
+      }
+
+      .bulletpoint {
+        width: 8px;
+        height: 8px;
+        background-color: black;
+        border-radius: 50%;
+        margin: 0 30px;
+        margin-right: 10px;
+        display: inline-block;
+        margin-bottom: 3px;
+        margin-left: 30px;
+      }
+
+      .texty > p {
+        margin: 0px 60px;
+        margin-top: 20px;
+        line-height: 1.5;
+      }
+
+      .texty {
+          font-family: 'open sans regular';
+      }
+
+    </style>
+    <meta charset="UTF-8">
+  </head>
+    <body>
+      <h1><%= @cpolicy.name %></h1>
+      <h2><%= @cpolicy.description %></h2>
+      <% JSON.parse(@cpolicy.sections).each do |section| %>
+        <%= render partial: "business/compliance_policies/section", locals: { section: section } %>
+      <% end %>
+    </body>
+  </html>

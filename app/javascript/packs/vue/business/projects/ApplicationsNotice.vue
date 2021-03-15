@@ -3,7 +3,14 @@
     .alert.alert-warning(v-if="applications.length")
       h4.alert-heading {{ 'application' | plural(applications) }} received.
       p There {{ applications | isAre }} currently {{ 'applicant' | plural(applications) }} for your project.
-      a.btn.btn-light(:href="viewApplicantsUrl") View
+      a.btn.btn-light(:href="viewPostUrl") View
+    .alert.alert-info(v-else)
+      div(v-if="project.status == 'pending'")
+        h4.alert-heading Your project is currently posted on the job board as of {{ project.created_at | asDate }}.
+        p Keep an eye out! Specialists may reach out to you soon.
+      div(v-else)
+        h4.alert-heading Yout project is currently draft
+      a.btn.btn-light(:href="viewPostUrl") View
 </template>
 
 <script>
@@ -21,8 +28,8 @@ export default {
     apiUrl() {
       return this.$store.getters.url('URL_API_PROJECT_APPLICATIONS', this.project.id)
     },
-    viewApplicantsUrl() {
-      return this.$store.getters.url('URL_PROJECT_APPLICATIONS', this.project.id)
+    viewPostUrl() {
+      return this.$store.getters.url('URL_PROJECT_POST', this.project.id)
     }
   }
 }

@@ -1,5 +1,5 @@
 <template lang="pug">
-  table.table
+  table.table.task_table
     thead
       tr
         th Assignee(s)
@@ -13,15 +13,16 @@
         td {{ project.assignee }}
         td
           a.text-dark(:href="project.href") {{project.title}}
-        td {{ project.fixed_budget || project.hourly_rate }}
+        td {{ project.cost }}
         td
-          span.badge.badge-primary {{ project.status }}
+          span.badge(:class="badgeClass(project)") {{ project.status }}
         td {{ project.starts_on | asDate }}
-        td {{ project.ends_on | asDate }}
+        td(:class="{ overdue: isOverdue(project) }") {{ project.ends_on | asDate }}
 </template>
 
 <script>
 const key = project => `${project.id}${project.type ? '-p' : '-l'}`
+import { isOverdue, badgeClass } from '@/common/TaskHelper'
 
 export default {
   props: {
@@ -31,7 +32,9 @@ export default {
     }
   },
   methods: {
-    key
+    key,
+    isOverdue,
+    badgeClass
   },
   computed: {
     projectsHrefs() {

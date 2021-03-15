@@ -1,7 +1,7 @@
 <template lang="pug">
   div
     Breadcrumbs(:items="['Projects', project.title, 'My Timesheet']")
-    Get(:timesheets="url('URL_API_PROJECT_TIMESHEETS', project.id)"): template(v-slot="{timesheets}"): table.table
+    Get(:timesheets="url('URL_API_PROJECT_TIMESHEETS', project.id)" :etag="etag" :callback="enrichTimesheets"): template(v-slot="{timesheets}"): table.table
       thead
         tr
           th Date of Entry
@@ -11,7 +11,7 @@
           th Payment to Date
           th
       tbody
-        tr(v-for="timesheet in enrichTimesheets(timesheets)" :key="timesheet.id")
+        tr(v-for="timesheet in timesheets" :key="timesheet.id")
           td
             a(v-b-modal="`TimesheetModal${timesheet.id}`" href="#") {{ timesheet.created_at | asDate }}
             b-modal(:id="`TimesheetModal${timesheet.id}`" title="Entry Details")
@@ -35,9 +35,9 @@
               p.text-right Total Due: {{ totalDue | usdWhole }}
               template(slot="modal-footer")
                 button.btn.btn-light(@click="$bvModal.hide(`TimesheetModal${timesheet.id}`)") Cancel
-                Post(:model="{dispute:1}" v-bind="buttonConfig(timesheet.id)")
+                Post(:model="{dispute:1}" v-bind="buttonConfig(timesheet.id)" @saved="saved(timesheet, 'Disputed')")
                   button.btn.btn-outline-dark Reject
-                Post(:model="{approve:1}" v-bind="buttonConfig(timesheet.id)")
+                Post(:model="{approve:1}" v-bind="buttonConfig(timesheet.id)" @saved="saved(timesheet, 'Approved')")
                   button.btn.btn-dark Approve
           td {{ timesheet.status }}
           td {{ timesheet.total_time | minToHour }}
@@ -49,10 +49,12 @@
 <script>
 import { DateTime } from 'luxon'
 import { mapGetters } from 'vuex'
+import EtaggerMixin from '@/mixins/EtaggerMixin'
 
 const today = () => DateTime.local().toISODate()
 
 export default {
+  mixins: [EtaggerMixin],
   props: {
     project: {
       type: Object,
@@ -61,6 +63,13 @@ export default {
     token: {
       type: String,
       required: true
+    }
+  },
+  methods: {
+    saved(timesheet, message) {
+      this.$bvToast.toast(message, { title: message, autoHideDelay: 5000 })
+      this.$bvModal.hide(`TimesheetModal${timesheet.id}`)
+      this.newEtag()
     }
   },
   computed: {

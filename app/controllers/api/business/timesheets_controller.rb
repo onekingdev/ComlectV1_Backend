@@ -17,14 +17,13 @@ class Api::Business::TimesheetsController < ApiController
   def update
     timesheet = @project.timesheets.find(params[:id])
     authorize timesheet, :process?
-
-    if timesheet_params[:dispute] == '1'
+    if timesheet_params[:dispute] == 1
       timesheet.disputed!
       Notification::Deliver.specialist_timesheet_disputed! timesheet
-      @project.update(:ends_on, @project.ends_on + 1.day) if @project.past_ends_on?
+      @project.update(ends_on: @project.ends_on + 1.day) if @project.past_ends_on?
     end
 
-    if timesheet_params[:approve] == '1'
+    if timesheet_params[:approve] == 1
       timesheet.approved!
       @project.time_logs.update_all hourly_rate: @project.hourly_rate
       @project.time_logs.update_all 'total_amount = hourly_rate * hours'

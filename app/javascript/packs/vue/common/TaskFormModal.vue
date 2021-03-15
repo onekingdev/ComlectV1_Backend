@@ -6,17 +6,17 @@
     b-modal.fade(:id="modalId" :title="taskId ? task.body : 'New task'" @show="resetTask")
       InputText(v-model="task.body" :errors="errors.body" placeholder="Enter the name of your task") Task Name
 
-      label.form-label Link to
+      label.m-t-1.form-label Link to
       ComboBox(V-model="task.link_to" :options="linkToOptions" placeholder="Select projects, annual reviews, or policies to link the task to")
       .form-text.text-muted Optional
       Errors(:errors="errors.link_to")
 
-      label.form-label Assignee
+      label.m-t-1.form-label Assignee
       ComboBox(V-model="task.assignee" :options="assigneeOptions" placeholder="Select an assignee")
       Errors(:errors="errors.assignee")
 
-      b-row(no-gutters)
-        .col-sm
+      b-row.m-t-1(no-gutters)
+        .col-sm.m-r-1
           label.form-label Start Date
           DatePicker(v-model="task.remind_at")
           Errors(:errors="errors.remind_at")
@@ -26,49 +26,49 @@
           DatePicker(v-model="task.end_date")
           Errors(:errors="errors.end_date")
 
-      b-row(no-gutters)
+      b-row.m-t-1(no-gutters)
         .col-sm
           label.form-label Repeats
           Dropdown(v-model="task.repeats" :options="repeatsOptions")
         //- Daily
-        .col-sm(v-if="task.repeats === repeatsValues.REPEAT_DAILY")
+        .col-sm.m-l-1(v-if="task.repeats === repeatsValues.REPEAT_DAILY")
           label.form-label Every
           input.form-control(type="number" min="1" max="1000" step="1" v-model="task.repeat_every")
           .form-text Day(s)
         //- Weekly
-        .col-sm(v-if="task.repeats === repeatsValues.REPEAT_WEEKLY")
+        .col-sm.m-l-1(v-if="task.repeats === repeatsValues.REPEAT_WEEKLY")
           label.form-label Every
           input.form-control(type="number" min="1" max="1000" step="1" v-model="task.repeat_every")
           .form-text Week(s)
-        .col-sm(v-if="task.repeats === repeatsValues.REPEAT_WEEKLY")
+        .col-sm.m-l-1(v-if="task.repeats === repeatsValues.REPEAT_WEEKLY")
           label.form-label Day
           Dropdown(v-model="task.repeat_on" :options="daysOfWeek")
         //- Monthly
-        .col-sm(v-if="task.repeats === repeatsValues.REPEAT_MONTHLY")
+        .col-sm.m-l-1(v-if="task.repeats === repeatsValues.REPEAT_MONTHLY")
           label.form-label Every
           input.form-control(type="number" min="1" max="1000" step="1" v-model="task.repeat_every")
           .form-text Months(s)
-        .col-sm(v-if="task.repeats === repeatsValues.REPEAT_MONTHLY")
+        .col-sm.m-l-1(v-if="task.repeats === repeatsValues.REPEAT_MONTHLY")
           label.form-label On
           Dropdown(v-model="task.on_type" :options="['Day', 'First', 'Second', 'Third', 'Fourth']")
-        .col-sm(v-if="task.repeats === repeatsValues.REPEAT_MONTHLY")
+        .col-sm.m-l-1(v-if="task.repeats === repeatsValues.REPEAT_MONTHLY")
           label.form-label Day
           input.form-control(v-model="task.repeat_on" v-if="task.on_type === 'Day'" type="number" min="1" max="31" step="1")
           Dropdown(v-model="task.repeat_on" v-else :options="daysOfWeek")
         //- Yearly
-        .col-sm(v-if="task.repeats === repeatsValues.REPEAT_YEARLY")
+        .col-sm.m-l-1(v-if="task.repeats === repeatsValues.REPEAT_YEARLY")
           label.form-label Every
           Dropdown(v-model="task.repeat_every" :options="months")
-        .col-sm(v-if="task.repeats === repeatsValues.REPEAT_YEARLY")
+        .col-sm.m-l-1(v-if="task.repeats === repeatsValues.REPEAT_YEARLY")
           label.form-label On
           Dropdown(v-model="task.on_type" :options="['Day', 'First', 'Second', 'Third', 'Fourth']")
-        .col-sm(v-if="task.repeats === repeatsValues.REPEAT_YEARLY")
+        .col-sm.m-l-1(v-if="task.repeats === repeatsValues.REPEAT_YEARLY")
           label.form-label Day
           input.form-control(v-model="task.repeat_on" v-if="task.on_type === 'Day'" type="number" min="1" max="31" step="1")
           Dropdown(v-model="task.repeat_on" v-else :options="daysOfWeek")
       Errors(:errors="errors.repeats || errors.repeat_every || errors.repeat_on || errors.on_type")
 
-      InputTextarea(v-model="task.description" :errors="errors.description") Description
+      InputTextarea.m-t-1(v-model="task.description" :errors="errors.description") Description
       .form-text.text-muted Optional
 
       template(slot="modal-footer")

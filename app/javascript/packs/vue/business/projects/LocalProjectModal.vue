@@ -1,15 +1,16 @@
 <template lang="pug">
-  div.d-inline-block
-    div.d-inline-block(v-b-modal="modalId")
+  div(:class="{'d-inline-block':inline}")
+    div(v-b-modal="modalId" :class="{'d-inline-block':inline}")
       slot
 
-    b-modal.fade(:id="modalId" :title="projectId ? 'Updating project' : 'New project'" @show="resetProject")
+    b-modal.fade(:id="modalId" :title="projectId ? 'Edit project' : 'New project'" @show="newEtag")
+      ModelLoader(:url="projectId ? submitUrl : undefined" :default="initialProject" :etag="etag" @loaded="loadProject"): div
       label.form-label Title
       input.form-control(v-model="project.title" type=text placeholder="Enter the name of your project")
       Errors(:errors="errors.title")
 
-      b-row(no-gutters)
-        .col-sm
+      b-row.m-t-1(no-gutters)
+        .col-sm.m-r-1
           label.form-label Start Date
           DatePicker(v-model="project.starts_on")
           Errors(:errors="errors.starts_on")
@@ -18,37 +19,43 @@
           DatePicker(v-model="project.ends_on")
           Errors(:errors="errors.ends_on")
 
-      label.form-label Description
+      label.m-t-1.form-label Description
       textarea.form-control(v-model="project.description" rows=3)
       Errors(:errors="errors.description")
       .form-text.text-muted Optional
 
       template(slot="modal-footer")
         button.btn(@click="$bvModal.hide(modalId)") Cancel
-        button.btn.btn-primary(@click="submit") {{ projectId ? 'Save' : 'Create' }}
+        //- Post(v-if="canBeDraft" :action="`${submitUrl}?draft=1`" :model="project" :method="httpMethod" @errors="errors = $event" @saved="saved")
+        //-   button.btn.btn-default Save as Draft
+        Post(:action="submitUrl" :model="project" :method="httpMethod" @errors="errors = $event" @saved="saved")
+          button.btn.btn-dark {{ projectId ? 'Save' : 'Create' }}
 </template>
 
 <script>
 import { DateTime } from 'luxon'
+import EtaggerMixin from '@/mixins/EtaggerMixin'
 
 const rnd = () => Math.random().toFixed(10).toString().replace('.', '')
 const dateFormat = 'MM/DD/YYYY'
 const index = (text, i) => ({ text, value: 1 + i })
-const flattenErrors = errorsResponse => Object.keys(errorsResponse)
-  .reduce((result, property) => [...result, ...errorsResponse[property].map(error => ({ property, error }))], [])
 
-const initialProject = defaults => ({
+const initialProject = () => ({
   title: "",
   starts_on: null,
   ends_on: null,
-  description: "",
-  ...(defaults || {})
+  description: ""
 })
 
 export default {
+  mixins: [EtaggerMixin],
   props: {
     projectId: Number,
-    remindAt: String
+    remindAt: String,
+    inline: {
+      type: Boolean,
+      default: true
+    }
   },
   data() {
     return {
@@ -58,46 +65,31 @@ export default {
     }
   },
   methods: {
+    loadProject(project) {
+      this.project = Object.assign({}, this.project, project)
+    },
     makeToast(title, str) {
       this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
     },
-    submit() {
-      this.errors = []
-      const toId = this.projectId ? `/${this.projectId}` : ''
-      fetch('/api/business/local_projects' + toId, {
-        method: 'POST',
-        headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
-        body: JSON.stringify(this.project)
-      }).then(response => {
-        if (response.status === 422) {
-          response.json().then(errors => {
-            this.errors = errors
-            Object.keys(this.errors)
-              .map(prop => this.errors[prop].map(err => this.makeToast(`Error`, `${prop}: ${err}`)))
-          })
-        } else if (response.status === 201 || response.status === 200) {
-          this.$emit('saved')
-          this.makeToast('Success', 'The project has been saved')
-          this.$bvModal.hide(this.modalId)
-          this.resetProject()
-        } else {
-          this.makeToast('Error', 'Couldn\'t submit form')
-        }
-      })
-    },
-    resetProject() {
-      if (this.projectId) {
-        fetch(`/api/business/local_projects/${this.projectId}`, {
-          method: 'GET',
-          headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}
-        }).then(response => response.json())
-          .then(result => Object.assign(this.project, result))
-      } else {
-        this.project = initialProject()
-      }
+    saved() {
+      this.$emit('saved')
+      this.makeToast('Success', 'The project has been saved')
+      this.$bvModal.hide(this.modalId)
+      this.newEtag()
     }
   },
   computed: {
+    initialProject: () => initialProject,
+    canBeDraft() {
+      return !this.projectId || ('draft' === this.project.status)
+    },
+    submitUrl() {
+      const toId = this.projectId ? `/${this.projectId}` : ''
+      return '/api/business/local_projects' + toId
+    },
+    httpMethod() {
+      return this.projectId ? 'PUT' : 'POST'
+    },
     daysOfWeek() {
       return ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map(index)
     },
@@ -113,14 +105,6 @@ export default {
         if (!start.invalid && (end.invalid || (end.startOf('day') < start.startOf('day')))) {
           this.project.ends_on = value
         }
-      }
-    }
-  },
-  components: {
-    Errors: {
-      template: `<div v-if="errors && errors[0]" v-text="errors[0]" class="d-block invalid-feedback" role="alert" aria-live="assertive" aria-atomic="true"/>`,
-      props: {
-        errors: Array
       }
     }
   }

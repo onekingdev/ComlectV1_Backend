@@ -39,9 +39,31 @@ class Business::ProjectsController < ApplicationController
     render html: content_tag(
       'project-show-page',
       '',
-      ':project': @project.to_json(include: { visible_project: {} }),
+      ':project-id': @project.id,
       'current-business': current_business
     ).html_safe, layout: 'vue_business'
+  end
+
+  def show_post
+    @project = current_business.projects.find(params[:id])
+
+    render html: content_tag(
+      'project-show-post-page',
+      '',
+      ':project-id': @project.id,
+      'current-business': current_business
+    ).html_safe, layout: 'vue_business'
+  end
+
+  def update_post
+    project = current_business.projects.find(params[:id])
+    render html: content_tag('business-post-project-page',
+                             '',
+                             ':project-id': project.id,
+                             ':industry-ids': Industry.all.map(&proc { |ind| { id: ind.id, name: ind.name } }).to_json,
+                             ':jurisdiction-ids': Jurisdiction.all.map(&proc { |ind| { id: ind.id, name: ind.name } }).to_json)
+      .html_safe,
+           layout: 'vue_business'
   end
 
   def create
