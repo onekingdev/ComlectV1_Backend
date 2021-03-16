@@ -464,37 +464,6 @@ ALTER SEQUENCE public.bank_accounts_id_seq OWNED BY public.bank_accounts.id;
 
 
 --
--- Name: business_specialists_roles; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.business_specialists_roles (
-    id bigint NOT NULL,
-    business_id bigint NOT NULL,
-    specialist_id bigint NOT NULL,
-    role integer DEFAULT 0
-);
-
-
---
--- Name: business_specialists_roles_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.business_specialists_roles_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: business_specialists_roles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.business_specialists_roles_id_seq OWNED BY public.business_specialists_roles.id;
-
-
---
 -- Name: businesses; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1966,36 +1935,6 @@ ALTER SEQUENCE public.local_projects_id_seq OWNED BY public.local_projects.id;
 
 
 --
--- Name: local_projects_specialists; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.local_projects_specialists (
-    id bigint NOT NULL,
-    local_project_id bigint NOT NULL,
-    specialist_id bigint NOT NULL
-);
-
-
---
--- Name: local_projects_specialists_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.local_projects_specialists_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: local_projects_specialists_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.local_projects_specialists_id_seq OWNED BY public.local_projects_specialists.id;
-
-
---
 -- Name: messages; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2091,8 +2030,7 @@ CREATE TABLE public.specialists (
     risk_tolerance character varying,
     automatching_available boolean DEFAULT false,
     reminders_mailed_at timestamp without time zone,
-    zero_fee boolean DEFAULT false,
-    seat_role integer DEFAULT 0
+    zero_fee boolean DEFAULT false
 );
 
 
@@ -3754,8 +3692,7 @@ CREATE TABLE public.project_extensions (
     expires_at timestamp without time zone,
     status character varying,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    requester character varying
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -4330,8 +4267,7 @@ CREATE TABLE public.specialist_invitations (
     email character varying NOT NULL,
     token character varying NOT NULL,
     status integer DEFAULT 0 NOT NULL,
-    team_id integer,
-    role integer DEFAULT 0
+    team_id integer
 );
 
 
@@ -5001,13 +4937,6 @@ ALTER TABLE ONLY public.bank_accounts ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
--- Name: business_specialists_roles id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.business_specialists_roles ALTER COLUMN id SET DEFAULT nextval('public.business_specialists_roles_id_seq'::regclass);
-
-
---
 -- Name: businesses id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -5166,13 +5095,6 @@ ALTER TABLE ONLY public.jurisdictions ALTER COLUMN id SET DEFAULT nextval('publi
 --
 
 ALTER TABLE ONLY public.local_projects ALTER COLUMN id SET DEFAULT nextval('public.local_projects_id_seq'::regclass);
-
-
---
--- Name: local_projects_specialists id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.local_projects_specialists ALTER COLUMN id SET DEFAULT nextval('public.local_projects_specialists_id_seq'::regclass);
 
 
 --
@@ -5535,14 +5457,6 @@ ALTER TABLE ONLY public.bank_accounts
 
 
 --
--- Name: business_specialists_roles business_specialists_roles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.business_specialists_roles
-    ADD CONSTRAINT business_specialists_roles_pkey PRIMARY KEY (id);
-
-
---
 -- Name: businesses businesses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5724,14 +5638,6 @@ ALTER TABLE ONLY public.jurisdictions
 
 ALTER TABLE ONLY public.local_projects
     ADD CONSTRAINT local_projects_pkey PRIMARY KEY (id);
-
-
---
--- Name: local_projects_specialists local_projects_specialists_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.local_projects_specialists
-    ADD CONSTRAINT local_projects_specialists_pkey PRIMARY KEY (id);
 
 
 --
@@ -6098,20 +6004,6 @@ CREATE INDEX index_bank_accounts_on_stripe_account_id ON public.bank_accounts US
 
 
 --
--- Name: index_business_specialists_roles_on_business_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_business_specialists_roles_on_business_id ON public.business_specialists_roles USING btree (business_id);
-
-
---
--- Name: index_business_specialists_roles_on_specialist_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_business_specialists_roles_on_specialist_id ON public.business_specialists_roles USING btree (specialist_id);
-
-
---
 -- Name: index_businesses_industries_on_business_id_and_industry_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -6312,20 +6204,6 @@ CREATE UNIQUE INDEX index_jurisdictions_on_name ON public.jurisdictions USING bt
 --
 
 CREATE UNIQUE INDEX index_jurisdictions_projects_on_jurisdiction_id_and_project_id ON public.jurisdictions_projects USING btree (jurisdiction_id, project_id);
-
-
---
--- Name: index_local_projects_specialists_on_local_project_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_local_projects_specialists_on_local_project_id ON public.local_projects_specialists USING btree (local_project_id);
-
-
---
--- Name: index_local_projects_specialists_on_specialist_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_local_projects_specialists_on_specialist_id ON public.local_projects_specialists USING btree (specialist_id);
 
 
 --
@@ -7120,14 +6998,6 @@ CREATE TRIGGER tsvectorupdate BEFORE INSERT OR UPDATE ON public.projects FOR EAC
 
 
 --
--- Name: local_projects_specialists fk_rails_05ae228387; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.local_projects_specialists
-    ADD CONSTRAINT fk_rails_05ae228387 FOREIGN KEY (local_project_id) REFERENCES public.local_projects(id);
-
-
---
 -- Name: cookie_agreements fk_rails_1a26beb8cc; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7136,27 +7006,11 @@ ALTER TABLE ONLY public.cookie_agreements
 
 
 --
--- Name: local_projects_specialists fk_rails_2cd11c2911; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.local_projects_specialists
-    ADD CONSTRAINT fk_rails_2cd11c2911 FOREIGN KEY (specialist_id) REFERENCES public.specialists(id);
-
-
---
 -- Name: tos_agreements fk_rails_6e25fd106a; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.tos_agreements
     ADD CONSTRAINT fk_rails_6e25fd106a FOREIGN KEY (user_id) REFERENCES public.users(id);
-
-
---
--- Name: business_specialists_roles fk_rails_77436698dd; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.business_specialists_roles
-    ADD CONSTRAINT fk_rails_77436698dd FOREIGN KEY (specialist_id) REFERENCES public.specialists(id);
 
 
 --
@@ -7173,14 +7027,6 @@ ALTER TABLE ONLY public.stripe_accounts
 
 ALTER TABLE ONLY public.project_issues
     ADD CONSTRAINT fk_rails_80e6243750 FOREIGN KEY (admin_user_id) REFERENCES public.admin_users(id);
-
-
---
--- Name: business_specialists_roles fk_rails_a4e1c0f49f; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.business_specialists_roles
-    ADD CONSTRAINT fk_rails_a4e1c0f49f FOREIGN KEY (business_id) REFERENCES public.businesses(id);
 
 
 --
@@ -7537,11 +7383,6 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210301091555'),
 ('20210306222201'),
 ('20210309155436'),
-('20210309175424'),
-('20210311181533'),
-('20210311184609'),
-('20210311184928'),
-('20210312165913'),
-('20210315233431');
+('20210309175424');
 
 

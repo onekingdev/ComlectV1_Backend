@@ -7,7 +7,7 @@ const EtaggerMixin = {
     }
   },
   methods: {
-    newEtag() {
+    refetch() {
       this.etag = etagInit()
     }
   }

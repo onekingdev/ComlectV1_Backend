@@ -1,0 +1,57 @@
+.table {
+    display: table;
+}
+
+.table__row{
+    display: table-row;
+
+}
+.table__cell {
+    display: table-cell;
+    padding: .8rem 1.5rem;
+    border-bottom: solid 1px #ced4da;
+}
+
+.table__cell_title {
+    color: var(--gray);
+}
+
+.table__cell_name {
+    color: var(--blue);
+}
+
+.dropdow-items {
+    display: none;
+}
+
+.status {
+    padding: .3rem .5rem;
+    width: 6rem;
+    text-align: center;
+    border-radius: 3px;
+}
+
+.status__draft {
+    border: solid 1px #ced4da;
+}
+.status__published {
+    color: rgba(40, 167, 69, 1);
+    background-color: rgba(40, 167, 69, .2);
+}
+
+
+.level {
+
+}
+
+.level__low {
+    color: var(--green);
+}
+
+.level__medium {
+    color: var(--yellow);
+}
+
+.level__high {
+    color: var(--red);
+}
