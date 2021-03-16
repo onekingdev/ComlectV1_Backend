@@ -9,7 +9,7 @@ class Api::Business::ProjectsController < ApiController
 
   def create
     if policy(@project).post? && @project.validate
-      @project.post! if @project.status != 'draft'
+      @project.post! if project_params[:status] != 'draft'
       @project.new_project_notification
       unless @project.local_project_id
         local_project_params = @project.attributes.slice('business_id', 'title', 'description', 'starts_on', 'ends_on')
