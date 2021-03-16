@@ -63,10 +63,13 @@
 
     .row.no-gutters
       .col-md-6.text-right.m-t-1
+        button.btn.btn-outline-dark.float-left(v-if="prevEnabled" @click="prev") Previous
         button.btn.m-r-1(@click.prevent) Exit
-        button.btn.btn-default.m-r-1(v-if="prevEnabled" @click="prev") Previous
+        Post(v-if="saveDraftEnabled" :action="endpointUrl" :model="draftProject" :method="method" @saved="saved" @errors="errors = $event")
+          button.btn.btn-outline-dark.m-r-1 Save as Draft
         button.btn.btn-dark(v-if="nextEnabled" @click="next") Next
-        button.btn.btn-dark(v-else @click="preValidateStep() && submit()") Submit
+        Post(v-else :action="endpointUrl" :model="project" :method="method" @saved="saved" @errors="errors = $event")
+          button.btn.btn-dark Submit
 </template>
 
 <script>
@@ -182,30 +185,18 @@ export default {
     makeToast(title, str) {
       this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
     },
-    submit() {
-      this.errors = {}
-      fetch(this.endpointUrl, {
-        method: this.projectId ? 'PUT' : 'POST',
-        headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
-        body: JSON.stringify(this.project)
-      }).then(response => {
-        if (response.status === 422) {
-          response.json().then(errors => {
-            this.errors = errors
-            Object.keys(this.errors)
-              .map(prop => this.errors[prop].map(err => this.makeToast(`Error`, `${prop}: ${err}`)))
-          })
-        } else if (response.status === 201 || response.status === 200) {
-          this.$emit('saved')
-          const redirectUrl = `/business/projects/${this.project.local_project_id || ''}`
-          redirectWithToast(redirectUrl, 'The project has been saved')
-        } else {
-          this.makeToast('Error', 'Couldn\'t submit form')
-        }
-      })
+    saved() {
+      const redirectUrl = `/business/projects/${this.project.local_project_id || ''}`
+      redirectWithToast(redirectUrl, 'The project has been saved')
     }
   },
   computed: {
+    draftProject() {
+      return { ...this.project, status: 'draft' }
+    },
+    method() {
+      return this.projectId ? 'PUT' : 'POST'
+    },
     transformBackendModel() {
       const getColumn = (array, column) => array.map(i => i[column]),
         fromDecimal = val => +val || null
@@ -249,6 +240,9 @@ export default {
     },
     prevEnabled() {
       return this.currentStep > 0
+    },
+    saveDraftEnabled() {
+      return this.project.status !== 'published'
     },
     datepickerOptions() {
       return {
