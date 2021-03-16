@@ -8,7 +8,7 @@ export default {
     value: {},
     options: {
       type: Object,
-      required: true
+      default: () => ({})
     }
   },
   methods: {

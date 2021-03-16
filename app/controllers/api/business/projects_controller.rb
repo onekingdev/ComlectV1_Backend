@@ -24,7 +24,6 @@ class Api::Business::ProjectsController < ApiController
 
   def update
     @project = Project::Form.find(@project.id)
-    project_params = project_params.merge(status: 'draft') if params[:draft].present?
     if @project.update(project_params)
       respond_with @project, serializer: ProjectSerializer
     else
@@ -41,7 +40,6 @@ class Api::Business::ProjectsController < ApiController
   def build_project
     @project = Project::Form.new(business: current_user.business).tap do |project|
       project.assign_attributes project_params
-      project.status = params[:draft].present? ? 'draft' : 'published'
     end
   end
 
@@ -72,6 +70,7 @@ class Api::Business::ProjectsController < ApiController
       :estimated_hours,
       :minimum_experience,
       :only_regulators,
+      :status,
       :annual_salary,
       :fee_type,
       :invite_id,
