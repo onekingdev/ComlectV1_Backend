@@ -42,6 +42,7 @@ class Api::Business::LocalProjectsController < ApiController
       :title,
       :description,
       :starts_on,
+      :status,
       :ends_on
     )
   end
