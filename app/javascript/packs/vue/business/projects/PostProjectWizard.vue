@@ -37,7 +37,8 @@
         Errors(:errors="errors.only_regulators")
 
         label.form-label Skills
-        ComboBox(v-model="project.skill_names" :options="skillsOptions" :multiple="true")
+        Get(skills="/api/skills" :callback="getSkillOptions"): template(v-slot="{skills}")
+          ComboBox(v-model="project.skill_names" :options="skills" :multiple="true")
         Errors(:errors="errors.skill_names")
 
     .row.no-gutters
@@ -192,6 +193,9 @@ export default {
     },
     back() {
       window.history.back()
+    },
+    getSkillOptions(skills) {
+      return skills.map(({ id, name }) => ({ id, label: name }))
     }
   },
   computed: {
