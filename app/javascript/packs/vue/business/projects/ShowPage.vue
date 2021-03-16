@@ -1,21 +1,14 @@
 <template lang="pug">
   Get(:etag="etag" :project="`/api/business/local_projects/${projectId}`"): template(v-slot="{project}")
-    .container
-      .row.p-x-1
-        .col-md-12.p-t-3.d-flex.justify-content-between.p-b-1
-          div
-            Breadcrumbs(:items="['Projects', project.title]")
-            h2 {{ project.title }}
-            p {{ currentBusiness }}
-          div
-            p.text-right.m-b-2: b-form-checkbox Show on Calendar
-            b-dropdown.m-r-1(text='Actions' variant='default')
-              li: LocalProjectModal(@saved="newEtag" :project-id="project.id" :inline="false")
-                button.dropdown-item Edit
-              b-dropdown-item Delete Project
-            a.m-r-1.btn.btn-default(v-if="project.visible_project" :href='viewHref(project.visible_project)') View Post
-            a.m-r-1.btn.btn-default(v-else :href='postHref(project)') Post Project
-            a.btn.btn-dark Complete Project
+    CommonHeader(:title="project.title" :sub="currentBusiness" :breadcrumbs="['Projects', project.title]")
+      p.text-right.m-b-2: b-form-checkbox Show on Calendar
+      b-dropdown.m-r-1(text='Actions' variant='default')
+        li: LocalProjectModal(@saved="newEtag" :project-id="project.id" :inline="false")
+          button.dropdown-item Edit
+        b-dropdown-item Delete Project
+      a.m-r-1.btn.btn-default(v-if="project.visible_project" :href='viewHref(project.visible_project)') View Post
+      a.m-r-1.btn.btn-default(v-else :href='postHref(project)') Post Project
+      a.btn.btn-dark Complete Project
     b-tabs(content-class="mt-0")
       b-tab(title="Overview" active)
         .white-card-body.p-y-1

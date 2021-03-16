@@ -43,6 +43,7 @@
       b-tab(title="Proposal")
         Get(:application="applicationUrl(project.id, applicationId)"): template(v-slot="{application}")
           PropertiesTable(title="Proposal" :properties="proposalProps(application)")
+            button.btn.btn-outline-dark.float-right Edit
 </template>
 
 <script>
