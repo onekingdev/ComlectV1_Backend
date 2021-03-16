@@ -42,8 +42,10 @@
 <script>
 export default {
   props: {
-    id: Number,
-    required: true
+    id: {
+      type: Number,
+      required: true
+    }
   },
   computed: {
     projectUrl() {
