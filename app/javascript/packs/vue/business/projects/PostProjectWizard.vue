@@ -65,11 +65,9 @@
       .col-md-6.text-right.m-t-1
         button.btn.btn-outline-dark.float-left(v-if="prevEnabled" @click="prev") Previous
         button.btn.m-r-1(@click.prevent) Exit
-        Post(v-if="saveDraftEnabled" :action="endpointUrl" :model="draftProject" :method="method" @saved="saved" @errors="errors = $event")
-          button.btn.btn-outline-dark.m-r-1 Save as Draft
+        button.btn.btn-outline-dark.m-r-1(v-if="saveDraftEnabled" @click="preValidateStep() && submit(true)") Save as Draft
         button.btn.btn-dark(v-if="nextEnabled" @click="next") Next
-        Post(v-else :action="endpointUrl" :model="project" :method="method" @saved="saved" @errors="errors = $event")
-          button.btn.btn-dark Submit
+        button.btn.btn-dark(v-else @click="preValidateStep() && submit()") Post Project
 </template>
 
 <script>
@@ -185,18 +183,30 @@ export default {
     makeToast(title, str) {
       this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
     },
-    saved() {
-      const redirectUrl = `/business/projects/${this.project.local_project_id || ''}`
-      redirectWithToast(redirectUrl, 'The project has been saved')
+    submit(asDraft) {
+      this.errors = {}
+      fetch(this.endpointUrl, {
+        method: this.projectId ? 'PUT' : 'POST',
+        headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+        body: JSON.stringify(asDraft ? { ...this.project, status: 'draft' } : this.project)
+      }).then(response => {
+        if (response.status === 422) {
+          response.json().then(errors => {
+            this.errors = errors
+            Object.keys(this.errors)
+              .map(prop => this.errors[prop].map(err => this.makeToast(`Error`, `${prop}: ${err}`)))
+          })
+        } else if (response.status === 201 || response.status === 200) {
+          this.$emit('saved')
+          const redirectUrl = `/business/projects/${this.project.local_project_id || ''}`
+          redirectWithToast(redirectUrl, 'The project has been saved')
+        } else {
+          this.makeToast('Error', 'Couldn\'t submit form')
+        }
+      })
     }
   },
   computed: {
-    draftProject() {
-      return { ...this.project, status: 'draft' }
-    },
-    method() {
-      return this.projectId ? 'PUT' : 'POST'
-    },
     transformBackendModel() {
       const getColumn = (array, column) => array.map(i => i[column]),
         fromDecimal = val => +val || null

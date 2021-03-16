@@ -10,6 +10,7 @@ class Project < ApplicationRecord
   alias_attribute :body, :title
   belongs_to :business
   belongs_to :specialist, optional: true
+  belongs_to :local_project, optional: true
   has_one :user, through: :business
   has_and_belongs_to_many :industries, optional: true
   has_and_belongs_to_many :jurisdictions, optional: true

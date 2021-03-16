@@ -9,7 +9,7 @@ class Api::Business::ProjectsController < ApiController
 
   def create
     if policy(@project).post? && @project.validate
-      @project.post!
+      @project.post! if @project.status != 'draft'
       @project.new_project_notification
       unless @project.local_project_id
         local_project_params = @project.attributes.slice('business_id', 'title', 'description', 'starts_on', 'ends_on')
@@ -25,6 +25,7 @@ class Api::Business::ProjectsController < ApiController
   def update
     @project = Project::Form.find(@project.id)
     if @project.update(project_params)
+      @project.post! if project_params[:status] != 'draft'
       respond_with @project, serializer: ProjectSerializer
     else
       render json: @project.errors, status: :unprocessable_entity
