@@ -8,7 +8,7 @@ class Api::Business::ProjectsController < ApiController
   skip_before_action :verify_authenticity_token # TODO: proper authentication
 
   def create
-    if policy(@project).post?
+    if policy(@project).post? && @project.validate
       @project.post!
       @project.new_project_notification
       unless @project.local_project_id
@@ -18,17 +18,16 @@ class Api::Business::ProjectsController < ApiController
       end
       respond_with @project, serializer: ProjectSerializer
     else
-      render json: {
-        errors: @project.errors, alert: I18n.t('activerecord.errors.models.project.attributes.base.no_payment')
-      }, status: :unprocessable_entity
+      render json: @project.errors, status: :unprocessable_entity
     end
   end
 
   def update
+    @project = Project::Form.find(@project.id)
     if @project.update(project_params)
       respond_with @project, serializer: ProjectSerializer
     else
-      respond_with errors: @project.errors, status: :unprocessable_entity
+      render json: @project.errors, status: :unprocessable_entity
     end
   end
 
