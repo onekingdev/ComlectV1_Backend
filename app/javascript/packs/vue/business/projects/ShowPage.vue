@@ -36,11 +36,11 @@
                     h3.m-y-0 Collaborators
                     a.btn.btn-default View All
                   .card-body
-                    table
+                    table.rating_table
                       tbody
                         tr(v-for="collaborator in collaborators(project.visible_project)" :key="collaborator.id")
                           td
-                            UserAvatar(:user="collaborator")
+                            img.m-r-1.userpic_small(v-if="collaborator.photo" :src="collaborator.photo")
                             b {{ collaborator.first_name }} {{collaborator.last_name }},
                             | Specialist
                           td
@@ -64,11 +64,12 @@
                   .card-header.d-flex.justify-content-between
                     h3.m-y-0 Collaborators
                   .card-body
-                    table
+                    table.rating_table
                       tbody
                         tr(v-for="collaborator in collaborators(project.visible_project)" :key="collaborator.id")
                           td
-                            UserAvatar(:user="collaborator")
+                            button.btn.btn-default.float-right View Contract
+                            img.m-r-1.userpic_small(v-if="collaborator.photo" :src="collaborator.photo")
                             b {{ collaborator.first_name }} {{collaborator.last_name }},
                             | Specialist
                           td
