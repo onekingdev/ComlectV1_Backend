@@ -40,6 +40,7 @@ class Api::Business::ProjectsController < ApiController
   def build_project
     @project = Project::Form.new(business: current_user.business).tap do |project|
       project.assign_attributes project_params
+      project.status = params[:draft].present? ? 'draft' : 'published'
     end
   end
 
@@ -70,7 +71,6 @@ class Api::Business::ProjectsController < ApiController
       :estimated_hours,
       :minimum_experience,
       :only_regulators,
-      :status,
       :annual_salary,
       :fee_type,
       :invite_id,
