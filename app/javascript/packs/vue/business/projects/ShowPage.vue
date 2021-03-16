@@ -8,7 +8,15 @@
         b-dropdown-item Delete Project
       a.m-r-1.btn.btn-default(v-if="project.visible_project" :href='viewHref(project.visible_project)') View Post
       a.m-r-1.btn.btn-default(v-else :href='postHref(project)') Post Project
-      a.btn.btn-dark Complete Project
+      button.btn.btn-dark(v-b-modal.CompleteProjectModal) Complete Project
+        b-modal.fade(id="CompleteProjectModal" title="Complete Project" no-stacking)
+          p ✔ The following project will be marked as complete.
+          p {{ project.title }}
+          p: b Do you want to continue?
+          template(slot="modal-footer")
+            button.btn(@click="$bvModal.hide('CompleteProjectModal')") Cancel
+            Post(:action="completeUrl(project)" :model="{}" @saved="completeSuccess" @errors="completeErrors")
+              button.btn.btn-dark.m-r-1 Confirm
     b-tabs(content-class="mt-0")
       b-tab(title="Overview" active)
         .white-card-body.p-y-1
@@ -26,14 +34,15 @@
                 .card
                   .card-header.d-flex.justify-content-between
                     h3.m-y-0 Collaborators
-                    a.btn View All
+                    a.btn.btn-default View All
                   .card-body
-                    table.rating_table
+                    table
                       tbody
-                        tr
+                        tr(v-for="collaborator in collaborators(project.visible_project)" :key="collaborator.id")
                           td
-                            //img.m-r-1.userpic_small(v-bind:src="project['business']['logo']")
-                          td
+                            UserAvatar(:user="collaborator")
+                            b {{ collaborator.first_name }} {{collaborator.last_name }},
+                            | Specialist
                           td
           .container.m-t-1
             .row.p-x-1
@@ -47,7 +56,22 @@
       b-tab(title="Documents")
         .card-body.white-card-body
       b-tab(title="Collaborators")
-        .card-body.white-card-body
+        .white-card-body.p-y-1
+          .container
+            .row.p-x-1
+              .col-sm-12
+                .card
+                  .card-header.d-flex.justify-content-between
+                    h3.m-y-0 Collaborators
+                  .card-body
+                    table
+                      tbody
+                        tr(v-for="collaborator in collaborators(project.visible_project)" :key="collaborator.id")
+                          td
+                            UserAvatar(:user="collaborator")
+                            b {{ collaborator.first_name }} {{collaborator.last_name }},
+                            | Specialist
+                          td
       b-tab(title="Activity")
         .card-body.white-card-body
 </template>
@@ -77,13 +101,27 @@ export default {
     TimesheetsNotice,
     ProjectDetails
   },
+  methods: {
+    completeSuccess() {
+      alert('Complete success')
+    },
+    completeErrors(errors) {
+      alert('Complete error')
+    },
+    collaborators(project) {
+      return [project.specialist]
+    },
+  },
   computed: {
     postHref() {
       return project => this.$store.getters.url('URL_POST_LOCAL_PROJECT', project.id)
     },
     viewHref() {
       return project => this.$store.getters.url('URL_PROJECT_POST', project.id)
-    }
+    },
+    completeUrl() {
+      return project => '/api/projects/' + project.id + '/end'
+    },
   }
 }
 </script>

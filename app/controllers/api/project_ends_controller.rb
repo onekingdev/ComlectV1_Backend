@@ -9,7 +9,7 @@ class Api::ProjectEndsController < ApiController
   skip_before_action :verify_authenticity_token # TODO: proper authentication
 
   def create
-    if ProjectEnd::Request.process! @project
+    if ProjectEnd::Request.process!(@project, @current_someone)
       render json: { success: 'Project End has been requested', project: @project }
     else
       render json: { error: 'Error' }

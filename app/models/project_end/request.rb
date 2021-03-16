@@ -6,7 +6,7 @@ class ProjectEnd::Request < Draper::Decorator
 
   extend NotificationsHelper
 
-  def self.process!(project)
+  def self.process!(project, someone)
     return if project.end_requests.any?(&:confirmed?)
 
     # Delete previous request if any
@@ -14,7 +14,7 @@ class ProjectEnd::Request < Draper::Decorator
     expires_at = BufferDate.for(project.business.tz.now, time_zone: project.business.tz)
     new(create!(project: project,
                 expires_at: expires_at,
-                requester: (current_business || current_specialist).class.name)).tap do |request|
+                requester: someone.class.name)).tap do |request|
       Notification::Deliver.end_project! request
     end
   end
