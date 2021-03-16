@@ -17,7 +17,7 @@
             button.btn(@click="$bvModal.hide('CompleteProjectModal')") Cancel
             Post(:action="completeUrl(project)" :model="{}" @saved="completeSuccess" @errors="completeErrors")
               button.btn.btn-dark.m-r-1 Confirm
-    b-tabs(content-class="mt-0")
+    b-tabs(content-class="mt-0" v-model="tabIndex" @activate-tab="showingContract = null")
       b-tab(title="Overview" active)
         .white-card-body.p-y-1
           .container
@@ -34,7 +34,7 @@
                 .card
                   .card-header.d-flex.justify-content-between
                     h3.m-y-0 Collaborators
-                    a.btn.btn-default View All
+                    button.btn.btn-default(@click="tabIndex = 3") View All
                   .card-body
                     table.rating_table
                       tbody
@@ -64,15 +64,17 @@
                   .card-header.d-flex.justify-content-between
                     h3.m-y-0 Collaborators
                   .card-body
-                    table.rating_table
+                    table.rating_table(v-if="!showingContract")
                       tbody
                         tr(v-for="collaborator in collaborators(project.visible_project)" :key="collaborator.id")
                           td
-                            button.btn.btn-default.float-right View Contract
+                            button.btn.btn-default.float-right(@click="showingContract = collaborator") View Contract
                             img.m-r-1.userpic_small(v-if="collaborator.photo" :src="collaborator.photo")
                             b {{ collaborator.first_name }} {{collaborator.last_name }},
                             | Specialist
                           td
+                    div(v-else)
+                      Breadcrumbs(:items="['Collaborators', `${showingContract.first_name} ${showingContract.last_name}`]")
       b-tab(title="Activity")
         .card-body.white-card-body
 </template>
@@ -94,6 +96,12 @@ export default {
     projectId: {
       type: Number,
       required: true
+    }
+  },
+  data() {
+    return {
+      tabIndex: 0,
+      showingContract: null
     }
   },
   components: {
