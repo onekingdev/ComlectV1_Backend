@@ -1,6 +1,8 @@
 <template lang="pug">
   div
-    h2 Post Project
+    ModelLoader(:url="projectId ? endpointUrl : undefined" :default="defaultProject" @loaded="loadProject" :callback="transformBackendModel")
+    Breadcrumbs(:items="['Projects', pageTitle]")
+    h2 {{ pageTitle }}
     p Tell us more about your project and get connected to our experienced specialists.
     WizardProgress(v-bind="{step,steps}")
     .row.no-gutters
@@ -56,8 +58,6 @@
             InputText(v-model="project.hourly_rate" :errors="errors.hourly_rate") Estimated Hourly Rate
           .m-t-1
             InputText(v-model="project.upper_hourly_rate" :errors="errors.upper_hourly_rate") Upper Hourly Rate
-          .m-t-1
-            InputText(v-model="project.estimated_hours" :errors="errors.estimated_hours") Estimated hours
           .m-t-1
             InputSelect.m-t-1(v-model="project.hourly_payment_schedule" :errors="errors.hourly_payment_schedule" :options="hourlyPaymentScheduleOptions") Method of Payment
 
@@ -115,6 +115,9 @@ const initialProject = (localProject) => ({
 
 export default {
   props: {
+    projectId: {
+      type: Number
+    },
     industryIds: {
       type: Array,
       required: true
@@ -135,6 +138,9 @@ export default {
     }
   },
   methods: {
+    loadProject(project) {
+      this.project = Object.assign({}, this.project, project)
+    },
     next() {
       if (this.nextEnabled) {
         if (this.preValidateStep()) {
@@ -178,8 +184,8 @@ export default {
     },
     submit() {
       this.errors = {}
-      fetch('/api/business/projects', {
-        method: 'POST',
+      fetch(this.endpointUrl, {
+        method: this.projectId ? 'PUT' : 'POST',
         headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
         body: JSON.stringify(this.project)
       }).then(response => {
@@ -191,7 +197,8 @@ export default {
           })
         } else if (response.status === 201 || response.status === 200) {
           this.$emit('saved')
-          redirectWithToast('/business/projects', 'The project has been saved')
+          const redirectUrl = `/business/projects/${this.project.local_project_id || ''}`
+          redirectWithToast(redirectUrl, 'The project has been saved')
         } else {
           this.makeToast('Error', 'Couldn\'t submit form')
         }
@@ -199,6 +206,27 @@ export default {
     }
   },
   computed: {
+    transformBackendModel() {
+      const getColumn = (array, column) => array.map(i => i[column]),
+        fromDecimal = val => +val || null
+      return model => ({
+        ...model,
+        "skill_names":      getColumn(model.skills, 'name'),
+        "industry_ids":     getColumn(model.industries, 'id'),
+        "jurisdiction_ids": getColumn(model.jurisdictions, 'id'),
+        "est_budget":       fromDecimal(model.est_budget),
+        "only_regulators":  !!model.only_regulators,
+      })
+    },
+    pageTitle() {
+      return this.projectId ? 'Edit Project' : 'Post Project'
+    },
+    defaultProject() {
+      return () => initialProject(this.localProject)
+    },
+    endpointUrl() {
+      return '/api/business/projects/' + (this.projectId || '')
+    },
     steps: () => STEPS,
     pricingTypes: () => PRICING_TYPES,
     locationTypes: () => LOCATION_TYPES,

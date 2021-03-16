@@ -16,6 +16,7 @@ import StarRating from '@/common/StarRating'
 import UserAvatar from '@/common/UserAvatar'
 import Get from '@/common/rest/Get'
 import Post from '@/common/rest/Post'
+import ModelLoader from '@/common/rest/ModelLoader'
 import filters from '@/filters'
 import { extractToastMessage } from '@/common/Toast'
 
@@ -47,6 +48,7 @@ const init = configuration => {
   Vue.component('UserAvatar', UserAvatar)
   Vue.component('Get', Get)
   Vue.component('Post', Post)
+  Vue.component('ModelLoader', ModelLoader)
 
   return new Vue({
     el: document.getElementById('app'),

@@ -3,6 +3,7 @@
 class Api::Business::ProjectsController < ApiController
   before_action :require_business!
   before_action :build_project, only: %i[create]
+  before_action :find_project, only: %i[show update]
 
   skip_before_action :verify_authenticity_token # TODO: proper authentication
 
@@ -23,8 +24,15 @@ class Api::Business::ProjectsController < ApiController
     end
   end
 
+  def update
+    if @project.update(project_params)
+      respond_with @project, serializer: ProjectSerializer
+    else
+      respond_with errors: @project.errors, status: :unprocessable_entity
+    end
+  end
+
   def show
-    @project = current_business.projects.find(params[:id])
     respond_with @project, serializer: ProjectSerializer
   end
 
@@ -75,5 +83,9 @@ class Api::Business::ProjectsController < ApiController
       industry_ids: [],
       skill_names: []
     )
+  end
+
+  def find_project
+    @project = current_business.projects.find(params[:id])
   end
 end

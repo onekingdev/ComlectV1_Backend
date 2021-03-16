@@ -9,9 +9,6 @@ import ProjectShowPostPage from '@/business/projects/ShowPostPage'
 import RemindersPage from '@/business/reminders/Page'
 import TimesheetsShowPage from '@/business/projects/TimesheetsShowPage'
 
-import BusinessPoliciesPage from './vue/business/policies/Page.vue'
-import BusinessPoliciesCreatePage from './vue/business/policies/PolicyCreate.vue'
-
 init({
   store,
   components: {
@@ -23,8 +20,5 @@ init({
     ProjectShowPostPage,
     RemindersPage,
     TimesheetsShowPage,
-
-    BusinessPoliciesPage,
-    BusinessPoliciesCreatePage
   }
 })
