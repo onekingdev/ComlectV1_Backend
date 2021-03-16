@@ -6,8 +6,12 @@ class ProjectSerializer < ApplicationSerializer
   has_many :industries, serializer: IndustrySerializer
   has_one :business, serializer: Specialist::BusinessSerializer
   has_one :specialist, serializer: Business::SpecialistSerializer
+  has_one :end_request, serializer: ProjectEndSerializer
+  has_one :extension, serializer: ProjectExtensionSerializer
   has_many :timesheets
   attributes :id,
+             :end_request,
+             :extension,
              :business_id,
              :type,
              :status,
