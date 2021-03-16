@@ -38,7 +38,7 @@
 
         label.form-label Skills
         Get(skills="/api/skills" :callback="getSkillOptions"): template(v-slot="{skills}")
-          ComboBox(v-model="project.skill_names" :options="skills" :multiple="true")
+          ComboBox(v-model="project.skill_names" :multiple="true" :id-as-label="true" :tree-props="comboboxProps(skills)" @input="inputSkills")
         Errors(:errors="errors.skill_names")
 
     .row.no-gutters
@@ -143,6 +143,22 @@ export default {
     }
   },
   methods: {
+    inputSkills() {
+      const e = document.getElementsByClassName('vue-treeselect__input')[0]
+      e && (e.value = '')
+    },
+    comboboxProps(skills) {
+      return {
+        async: true,
+        loadOptions: ({ action, searchQuery, callback }) => {
+          if (action === 'ASYNC_SEARCH') {
+            callback(null, [{ id: searchQuery, label: searchQuery }, ...skills])
+          } else {
+            callback(null, skills)
+          }
+        }
+      }
+    },
     loadProject(project) {
       this.project = Object.assign({}, this.project, project)
     },
@@ -195,7 +211,7 @@ export default {
       window.history.back()
     },
     getSkillOptions(skills) {
-      return skills.map(({ id, name }) => ({ id, label: name }))
+      return skills.map(({ name }) => ({ id: name, label: name }))
     }
   },
   computed: {
