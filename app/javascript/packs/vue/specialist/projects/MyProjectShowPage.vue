@@ -1,9 +1,7 @@
 <template lang="pug">
   Get(:project="projectUrl"): template(v-slot="{project}")
-    Breadcrumbs(:items="['Projects', project.title]")
-    h1 {{ project.title }}
-    a.btn.btn-outline-dark.float-right(v-if="showTimesheetBtn(project)" :href="timesheetUrl") My Timesheet
-    h3 {{ project.business.business_name }}
+    CommonHeader(:title="project.title" :sub="project.business.business_name" :breadcrumbs="['Projects', project.title]")
+      a.btn.btn-outline-dark.float-right(v-if="showTimesheetBtn(project)" :href="timesheetUrl") My Timesheet
     b-tabs(v-if="isApproved(project)")
       b-tab(title="Overview" active)
         .row
