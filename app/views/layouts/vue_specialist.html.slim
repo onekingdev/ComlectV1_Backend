@@ -40,11 +40,11 @@ body class="#{controller_name} #{action_name}"
               b-collapse#overview_collapse(:visible="true")
                 ul.nav.flex-column
                   li.nav-item
-                    a.btn.active(aria-current='page' href='/specialist')
+                    a.btn(aria-current='page' href='/specialist' class="#{'active' if params[:controller] == 'specialists/dashboard'}")
                       ion-icon(name='globe-outline')
                       | Dashboard
                   li.nav-item
-                    a.btn.active(aria-current='page' href='/specialist/my-projects')
+                    a.btn.active(aria-current='page' href='/specialist/my-projects' class="#{'active' if params[:controller] == 'specialists/projects'}")
                       ion-icon(name='list-outline')
                       | Projects
         main#main-content.col-md-9.px-0 class=(hide_menu ? "col-lg-12" : "col-lg-10")
