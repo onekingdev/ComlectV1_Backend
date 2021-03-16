@@ -68,7 +68,7 @@
         Post(v-if="saveDraftEnabled" :action="endpointUrl" :model="draftProject" :method="method" @saved="saved" @errors="errors = $event")
           button.btn.btn-outline-dark.m-r-1 Save as Draft
         button.btn.btn-dark(v-if="nextEnabled" @click="next") Next
-        Post(v-else :action="endpointUrl" :model="project" :method="method" @saved="saved" @errors="errors = $event")
+        Post(v-else :action="endpointUrl" :model="publishedProject" :method="method" @saved="saved" @errors="errors = $event")
           button.btn.btn-dark Submit
 </template>
 
@@ -194,6 +194,10 @@ export default {
   computed: {
     draftProject() {
       return { ...this.project, status: 'draft' }
+    },
+    publishedProject() {
+      const { status, ...result } = this.project
+      return result
     },
     method() {
       return this.projectId ? 'PUT' : 'POST'
