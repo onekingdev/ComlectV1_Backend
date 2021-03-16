@@ -24,6 +24,7 @@ class Api::Business::ProjectsController < ApiController
 
   def update
     @project = Project::Form.find(@project.id)
+    project_params = project_params.merge(status: 'draft') if params[:draft].present?
     if @project.update(project_params)
       respond_with @project, serializer: ProjectSerializer
     else

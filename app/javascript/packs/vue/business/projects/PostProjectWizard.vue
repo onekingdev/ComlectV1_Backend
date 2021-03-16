@@ -10,8 +10,8 @@
 
         InputText(v-model="project.title" :errors="errors.title") Title
         .row.m-t-1
-          .col-sm: InputDate(v-model="project.starts_on" :errors="errors.starts_on") Start Date
-          .col-sm: InputDate(v-model="project.ends_on" :errors="errors.ends_on") Due Date
+          .col-sm: InputDate(v-model="project.starts_on" :errors="errors.starts_on" :options="datepickerOptions") Start Date
+          .col-sm: InputDate(v-model="project.ends_on" :errors="errors.ends_on" :options="datepickerOptions") Due Date
 
         InputTextarea.m-t-1(v-model="project.description" :errors="errors.description") Description
         InputTextarea.m-t-1(v-model="project.role_details" :errors="errors.role_details") Role Details
@@ -249,6 +249,11 @@ export default {
     },
     prevEnabled() {
       return this.currentStep > 0
+    },
+    datepickerOptions() {
+      return {
+        min: new Date
+      }
     }
   },
   components: {
