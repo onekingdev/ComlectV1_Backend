@@ -24,8 +24,9 @@ class Api::Business::ProjectsController < ApiController
 
   def update
     @project = Project::Form.find(@project.id)
+    src_status = @project.status
     if @project.update(project_params)
-      @project.post! if project_params[:status] != 'draft'
+      @project.post! if project_params[:status] != 'draft' || src_status == 'published'
       respond_with @project, serializer: ProjectSerializer
     else
       render json: @project.errors, status: :unprocessable_entity
