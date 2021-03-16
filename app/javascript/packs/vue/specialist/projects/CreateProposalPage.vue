@@ -49,39 +49,51 @@ import {
 } from '@/common/ProjectInputOptions'
 
 const FIXED_BUDGET = Object.keys(PRICING_TYPES_OPTIONS)[0]
+const HOURLY_RATE = Object.keys(PRICING_TYPES_OPTIONS)[1]
 
-const initialForm = () => ({
+const initialForm = (project) => ({
   hourly_rate: null,
-  starts_on: null,
-  ends_on: null,
-  pricing_type: FIXED_BUDGET,
-  fixed_budget: null,
-  fixed_payment_schedule: null,
-  hourly_rate: null,
-  hourly_payment_schedule: null,
+  starts_on: (project && project.starts_on) || null,
+  ends_on: (project && project.ends_on ) || null,
+  pricing_type: (project && calcPricingType(project)) || null,
+  fixed_budget: (project && project.est_budget) || null,
+  fixed_payment_schedule: (project && project.pricing_type == "fixed" && FIXED_PAYMENT_SCHEDULE_OPTIONS[project.payment_schedule]) || null,
+  hourly_rate: (project && project.hourly_rate) || null,
+  hourly_payment_schedule: (project && project.pricing_type == "hourly" && HOURLY_PAYMENT_SCHEDULE_OPTIONS[project.payment_schedule]) || null,
   estimated_hours: null,
   message: null,
   key_deliverables: null,
   role_details: null,
 })
+const calcPricingType = function(project) {
+  if (project.pricing_type == "fixed") {
+    return FIXED_BUDGET
+  } else if (project.pricing_type == "hourly") {
+    return HOURLY_RATE
+  }
+}
 
 export default {
   props: {
     projectId: {
       type: Number,
       required: true
+    },
+    project: {
+      type: Object
     }
   },
   data() {
     return {
-      form: initialForm(),
+      form: initialForm(this.project),
       errors: {}
     }
   },
   methods: {
     saved() {
       redirectWithToast(this.$store.getters.url('URL_MY_PROJECT_SHOW', ''), 'Proposal sent')
-    }
+    },
+    calcPricingType
   },
   computed: {
     pricingTypesOptions: () => PRICING_TYPES_OPTIONS,
