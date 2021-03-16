@@ -2,14 +2,14 @@
 
 # frozen_string_literal: true
 
-class Api::ProjectExtensionsController < ApiController
+class Api::ProjectEndsController < ApiController
   before_action :require_someone!
   before_action :find_project
 
   skip_before_action :verify_authenticity_token # TODO: proper authentication
 
   def create
-    if ProjectEnd::Request.process!(@project, @current_someone)
+    if ProjectEnd::Request.process! @project
       render json: { success: 'Project End has been requested', project: @project }
     else
       render json: { error: 'Error' }
