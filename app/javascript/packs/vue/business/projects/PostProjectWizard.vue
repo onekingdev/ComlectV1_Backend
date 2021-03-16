@@ -64,7 +64,7 @@
     .row.no-gutters
       .col-md-6.text-right.m-t-1
         button.btn.btn-outline-dark.float-left(v-if="prevEnabled" @click="prev") Previous
-        button.btn.m-r-1(@click.prevent) Exit
+        button.btn.m-r-1(@click="back") Exit
         Post(v-if="saveDraftEnabled" :action="endpointUrl" :model="draftProject" :method="method" @saved="saved" @errors="errors = $event")
           button.btn.btn-outline-dark.m-r-1 Save as Draft
         button.btn.btn-dark(v-if="nextEnabled" @click="next") Next
@@ -189,6 +189,9 @@ export default {
     saved() {
       const redirectUrl = `/business/projects/${this.project.local_project_id || ''}`
       redirectWithToast(redirectUrl, 'The project has been saved')
+    },
+    back() {
+      window.history.back()
     }
   },
   computed: {
