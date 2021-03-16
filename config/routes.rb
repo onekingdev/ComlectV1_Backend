@@ -261,7 +261,7 @@ Rails.application.routes.draw do
     end
     scope 'projects/:project_id' do
       # resources :project_messages, path: 'messages(/:specialist_username)'
-      # resources :project_ends, path: 'end'
+      resources :project_ends, path: 'end', only: %i[create update]
       resources :project_extensions, path: 'extension', only: %i[create update]
       # resource :project_rating, path: 'rating'
       # resource :project_overview, path: 'overview(/:specialist_username)', only: :show

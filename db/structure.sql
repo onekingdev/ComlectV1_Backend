@@ -3720,7 +3720,8 @@ CREATE TABLE public.project_ends (
     status character varying,
     expires_at timestamp without time zone,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    requester character varying
 );
 
 
@@ -7542,6 +7543,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210311184609'),
 ('20210311184928'),
 ('20210312165913'),
-('20210315233431');
+('20210315233431'),
+('20210316121459');
 
 
