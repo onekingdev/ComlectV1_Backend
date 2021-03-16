@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateLocalProjectsSpecialists < ActiveRecord::Migration[6.0]
   def change
     create_table :local_projects_specialists do |t|

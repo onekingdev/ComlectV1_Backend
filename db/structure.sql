@@ -3754,7 +3754,8 @@ CREATE TABLE public.project_extensions (
     expires_at timestamp without time zone,
     status character varying,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    requester character varying
 );
 
 
@@ -7540,6 +7541,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210311181533'),
 ('20210311184609'),
 ('20210311184928'),
-('20210312165913');
+('20210312165913'),
+('20210315233431');
 
 

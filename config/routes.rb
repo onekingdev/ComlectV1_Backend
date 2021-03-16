@@ -259,6 +259,13 @@ Rails.application.routes.draw do
         post :sign_in, to: 'authentication#create'
       end
     end
+    scope 'projects/:project_id' do
+      # resources :project_messages, path: 'messages(/:specialist_username)'
+      # resources :project_ends, path: 'end'
+      resources :project_extensions, path: 'extension', only: %i[create update]
+      # resource :project_rating, path: 'rating'
+      # resource :project_overview, path: 'overview(/:specialist_username)', only: :show
+    end
     namespace :business do
       get '/reminders/:id' => 'reminders#show'
       delete '/reminders/:id' => 'reminders#destroy'

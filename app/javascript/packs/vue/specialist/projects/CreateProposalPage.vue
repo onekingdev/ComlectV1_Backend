@@ -1,38 +1,42 @@
 <template lang="pug">
   .container
     .card.m-t-2
-      .card-body
-        h2 Create Proposal
-        Get(:project='`/api/specialist/projects/${projectId}`'): template(v-slot="{project}"): div.row
-          .col-sm
+      .card-header
+        .col-md-12
+          h3 Create Proposal
+      .card-header
+        Get(:project='`/api/specialist/projects/${projectId}`'): template(v-slot="{project}"): div.row.pl-3
+          .col-md-6
             h3 Terms
             .row
               .col-sm: InputDate(v-model="form.starts_on" :errors="errors.starts_on") Start Date
               .col-sm: InputDate(v-model="form.ends_on" :errors="errors.ends_on") Due Date
-            InputSelect(v-model="form.pricing_type" :errors="errors.pricing_type" :options="pricingTypesOptions") Pricing Type
+            InputSelect.m-t-1(v-model="form.pricing_type" :errors="errors.pricing_type" :options="pricingTypesOptions") Pricing Type
             div(v-if="isFixedBudget")
-              InputText(v-model="form.fixed_budget" :errors="errors.fixed_budget") Fixed Budget
-              InputSelect(v-model="form.fixed_payment_schedule" :errors="errors.fixed_payment_schedule" :options="fixedPaymentScheduleOptions") Payment Schedule
+              InputText.m-t-1(v-model="form.fixed_budget" :errors="errors.fixed_budget") Fixed Budget
+              InputSelect.m-t-1(v-model="form.fixed_payment_schedule" :errors="errors.fixed_payment_schedule" :options="fixedPaymentScheduleOptions") Payment Schedule
             div(v-else)
-              InputText(v-model="form.hourly_rate" :errors="errors.hourly_rate") Hourly Rate
-              InputText(v-model="form.estimated_hours" :errors="errors.estimated_hours") Estimated Hours
-              InputSelect(v-model="form.hourly_payment_schedule" :errors="errors.hourly_payment_schedule" :options="hourlyPaymentScheduleOptions") Payment Schedule
+              InputText.m-t-1(v-model="form.hourly_rate" :errors="errors.hourly_rate") Hourly Rate
+              InputText.m-t-1(v-model="form.estimated_hours" :errors="errors.estimated_hours") Estimated Hours
+              InputSelect.m-t-1(v-model="form.hourly_payment_schedule" :errors="errors.hourly_payment_schedule" :options="hourlyPaymentScheduleOptions") Payment Schedule
             hr
             h3 Role
-            InputTextarea(v-model="form.role_details" :errors="errors.role_details" :rows="4") Role Details
-            InputTextarea(v-model="form.key_deliverables" :errors="errors.key_deliverables" :rows="4") Key Deliverables
-            h3 Attachments
-            .card
+            InputTextarea.m-t-1(v-model="form.role_details" :errors="errors.role_details" :rows="4") Role Details
+            InputTextarea.m-t-1(v-model="form.key_deliverables" :errors="errors.key_deliverables" :rows="4") Key Deliverables
+            h3.m-t-1 Attachments
+            .card.m-b-1
               .card-body
                 p
                   | Drop files here or
                   a.btn.btn-light Upload Files
-            a.btn Cancel
-            a.btn.btn-light Save Draft
-            Post(:action="`/api/specialist/projects/${projectId}/applications`" :model="form" @errors="errors = $event" @saved="saved")
-              button.btn.btn-dark Submit Proposal
-          .col-sm
-            ProjectDetails(:project="project")
+            .text-right
+              a.m-r-1.btn Cancel
+              a.m-r-1.btn.btn-default Save Draft
+              Post(:action="`/api/specialist/projects/${projectId}/applications`" :model="form" @errors="errors = $event" @saved="saved")
+                button.btn.btn-dark Submit Proposal
+          .col-md-6
+            .card
+              ProjectDetails(:project="project")
 </template>
 
 <script>
