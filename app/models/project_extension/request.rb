@@ -12,13 +12,17 @@ class ProjectExtension::Request < Draper::Decorator
     # Delete previous request if any
     pending.where(project_id: project).delete_all
     expires_at = BufferDate.for(project.business.tz.now, time_zone: project.business.tz)
-    new(create!(project: project, expires_at: expires_at, new_end_date: new_end_date)).tap do |request|
+    new(create!(project: project,
+                expires_at: expires_at,
+                new_end_date: new_end_date,
+                requester: (current_business || current_specialist).class.name)).tap do |request|
       Notification::Deliver.extend_project! request
     end
   end
 
-  def self.confirm_or_deny!(project, params)
+  def self.confirm_or_deny!(project, params, confirmer)
     extension = project.extension
+    return false if confirmer.class.name == extension.requester
     if params[:confirm]
       extension.confirm!
       Notification::Deliver.extension_accepted! extension

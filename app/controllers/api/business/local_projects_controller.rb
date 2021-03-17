@@ -6,7 +6,7 @@ class Api::Business::LocalProjectsController < ApiController
   skip_before_action :verify_authenticity_token # TODO: proper authentication
 
   def index
-    respond_with paginate(current_business.local_projects), each_serializer: LocalProjectSerializer
+    respond_with current_business.local_projects, each_serializer: LocalProjectSerializer
   end
 
   def show
@@ -15,7 +15,7 @@ class Api::Business::LocalProjectsController < ApiController
 
   def create
     local_project = current_business.local_projects.build(local_project_params)
-    local_project.status = 'draft' if params[:draft].present?
+    # local_project.status = 'draft' if params[:draft].present?
     if local_project.save
       render json: local_project, status: :created
     else
@@ -27,7 +27,7 @@ class Api::Business::LocalProjectsController < ApiController
     if @local_project.update(local_project_params)
       respond_with @local_project, serializer: LocalProjectSerializer
     else
-      respond_with errors: @local_project.errors, status: :unprocessable_entity
+      render json: @local_project.errors, status: :unprocessable_entity
     end
   end
 
@@ -42,6 +42,7 @@ class Api::Business::LocalProjectsController < ApiController
       :title,
       :description,
       :starts_on,
+      :status,
       :ends_on
     )
   end
