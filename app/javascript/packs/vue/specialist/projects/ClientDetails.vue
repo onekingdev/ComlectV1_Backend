@@ -1,5 +1,5 @@
 <template lang="pug">
-  .card
+  .card.m-t-1
     .card-header
       | {{ business.business_name }}
       br

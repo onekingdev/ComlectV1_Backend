@@ -1,57 +1,75 @@
 <template lang="pug">
-  .row
-    .col-sm-3
-      b-card.m-2(title="Filters")
-        h5.d-flex.justify-content-between(role="button" v-b-toggle.collapse_pricing_type)
-          | Job Type
-          ion-icon(name='chevron-down-outline')
-        b-collapse#collapse_pricing_type(visible)
-          b-form-checkbox(v-for="(option, i) in pricingTypeOptions" v-model="filter.pricing_type[i]") {{option.label}}
-        hr
-        h5.d-flex.justify-content-between(role="button" v-b-toggle.collapse_experience)
-          | Experience Level
-          ion-icon(name='chevron-down-outline')
-        b-collapse#collapse_experience(visible)
-          b-form-checkbox(v-for="(option, i) in experienceOptions" v-model="filter.experience[i]") {{option.label}}
-        hr
-        h5.d-flex.justify-content-between(@click="refetch" role="button" v-b-toggle.collapse_budget)
-          | Budget
-          ion-icon(name='chevron-down-outline')
-        b-collapse#collapse_budget(visible)
-          b-form-checkbox(v-for="(option, i) in budgetOptions" v-model="filter.budget[i]") {{option.label}}
-        hr
-        h5.d-flex.justify-content-between(role="button" v-b-toggle.collapse_duration)
-          | Estimated Duration
-          ion-icon(name='chevron-down-outline')
-        b-collapse#collapse_duration(visible)
-          b-form-checkbox(v-for="(option, i) in durationOptions" v-model="filter.duration[i]") {{option.label}}
+  .container
+    .row
+      .col-md-2.px-0.m-t-2
+        .card#sidebarMenu_alt
+          .card-header(style='border-bottom: 0px;')
+            b Filters
+          .card-body
+            h3.d-flex.justify-content-between(role="button" v-b-toggle.collapse_pricing_type)
+              | Job Type
+              ion-icon(name='chevron-down-outline')
+            b-collapse#collapse_pricing_type(visible)
+              b-form-checkbox(v-for="(option, i) in pricingTypeOptions" v-model="filter.pricing_type[i]") {{option.label}}
+            hr
+            h3.d-flex.justify-content-between(role="button" v-b-toggle.collapse_experience)
+              | Experience Level
+              ion-icon(name='chevron-down-outline')
+            b-collapse#collapse_experience(visible)
+              b-form-checkbox(v-for="(option, i) in experienceOptions" v-model="filter.experience[i]") {{option.label}}
+            hr
+            //h3.d-flex.justify-content-between(@click="refetch" role="button" v-b-toggle.collapse_budget)
+              | Budget
+              ion-icon(name='chevron-down-outline')
+            //b-collapse#collapse_budget(visible)
+              b-form-checkbox(v-for="(option, i) in budgetOptions" v-model="filter.budget[i]") {{option.label}}
+            //hr
+            h3.d-flex.justify-content-between(role="button" v-b-toggle.collapse_duration)
+              | Estimated Duration
+              ion-icon(name='chevron-down-outline')
+            b-collapse#collapse_duration(visible)
+              b-form-checkbox(v-for="(option, i) in durationOptions" v-model="filter.duration[i]") {{option.label}}
 
-    .col-sm-9
-      b-card.m-2
-        h3 Browse Projects
-      b-card.m-2
-        .row
-          .col-sm
-            b-form-group.mb-0(label="Search" label-for="search-input")
-              b-form-input#search-input(v-model="search" placeholder="Enter project type, keywords, etc.")
-          .col-sm
-            b-form-group.mb-0(label="Sort By" label-for="sort-input")
-              b-form-select#sort-input(value="Newest" :options="['Newest']")
-      b-card.m-2(v-for="project in projects" :title="project.title" :key="project.uid")
-        h6.card-subtitle.text-muted.mb-2 {{project.subTitle}} | Start {{project.starts_on|asDate}}
-        b-card-text {{project.description}}
-        ProjectFigures(:project="project")
-        b-button(@click="openDetails(project.id)" variant="primary" style="float: right") View Details
-      b-card.m-2.text-danger(v-if="!projects.length" title="No projects")
+      .col-md-10.m-t-2
+        .card
+          .card-header
+            .col-md-12
+              h3 Browse Projects
+          .card-header
+            .col-md-12
+              .row.py-2
+                .col-sm-10
+                  b-form-group(label="Search" label-for="search-input")
+                    b-form-input#search-input(v-model="search" placeholder="Enter project type, keywords, etc.")
+                .col-sm-2
+                  b-form-group(label="Sort By" label-for="sort-input")
+                    b-form-select#sort-input(value="Newest" :options="['Newest']")
+          .card-header(v-for="project in projects" :key="project.uid")
+            .col-md-12
+              h3.m-b-1
+                a(@click="openDetails(project.id)") {{project.title}}
+              h6.pb-1.card-subtitle.text-muted.mb-2 {{project.subTitle}} | Start {{project.starts_on|asDate}}
+              .badge.badge-default.m-r-1(v-for="skill in project.skills") {{ skill.name }}
+              b-card-text.m-t-1 {{project.description}}
+              .d-flex.justify-content-between
+                ProjectFigures(:project="project")
+                div.m-t-1
+                  b-button(@click="openDetails(project.id)" variant="default") View Details
+          .card-body.m-2.text-danger(v-if="!projects.length" title="No projects")
 
     b-sidebar#ProjectSidebar(@hidden="closeSidebar" v-model="isSidebarOpen" backdrop-variant='dark' backdrop right width="60%")
-      div.m-3
-        a.btn.btn-default(href="#") Save
-        a.btn.btn-default(href="#") Share
-        a.btn.btn-dark(v-if="project" :href="applyUrl(project)") Apply
-        h2 Project Details
-      ProjectDetails(v-if="project" :project="project")
-      b-button.m-3(variant="default" @click="isSidebarOpen = false") Close
+      .card
+        .card-header.borderless
+          .d-flex.justify-content-between
+            b-button(variant="default" @click="isSidebarOpen = false") < Close
+            div
+              a.btn.btn-default(href="#") Save
+              a.btn.btn-default.m-l-1(href="#") Share
+          .d-flex.justify-content-between.m-t-1
+            h4 Project Details
+            div
+              a.btn.btn-dark(v-if="project" :href="applyUrl(project)") Apply
+        ProjectDetails(v-if="project" :project="project")
 </template>
 
 <script>

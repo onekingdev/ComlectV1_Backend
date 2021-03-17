@@ -14,8 +14,11 @@ import InputNumber from '@/common/InputNumber'
 import InputSelect from '@/common/InputSelect'
 import StarRating from '@/common/StarRating'
 import UserAvatar from '@/common/UserAvatar'
+import PropertiesTable from '@/common/PropertiesTable'
+import CommonHeader from '@/common/CommonHeader'
 import Get from '@/common/rest/Get'
 import Post from '@/common/rest/Post'
+import ModelLoader from '@/common/rest/ModelLoader'
 import filters from '@/filters'
 import { extractToastMessage } from '@/common/Toast'
 
@@ -45,8 +48,11 @@ const init = configuration => {
   Vue.component('InputSelect', InputSelect)
   Vue.component('StarRating', StarRating)
   Vue.component('UserAvatar', UserAvatar)
+  Vue.component('PropertiesTable', PropertiesTable)
+  Vue.component('CommonHeader', CommonHeader)
   Vue.component('Get', Get)
   Vue.component('Post', Post)
+  Vue.component('ModelLoader', ModelLoader)
 
   return new Vue({
     el: document.getElementById('app'),
