@@ -225,6 +225,11 @@
     background-color: rgba(0, 123, 255, .2);
 }
 
+.actions-dropdown__item.delete:hover,
+.actions-dropdown__item.delete:active {
+    background-color: rgba(255, 0, 0, .2);
+}
+
 /* ---------- Policy History ---------- */
 .policy-history {
     margin-bottom: 2rem;

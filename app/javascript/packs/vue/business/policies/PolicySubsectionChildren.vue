@@ -32,7 +32,7 @@
                 type: Object,
                 required: false,
             },
-            subSectionID: {
+            subSectionsID: {
                 type: Number,
                 required: true,
             }

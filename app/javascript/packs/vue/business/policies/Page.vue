@@ -70,7 +70,7 @@ export default {
             return this.$store.getters.policies;
         },
     },
-    beforeCreate() {
+    beforeCreate() { // or mounted?
         this.$store
             .dispatch("getPolicies")
             .then((response) => {

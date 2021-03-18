@@ -30,8 +30,7 @@ export default {
     },
   },
   actions: {
-    createPolicy({ commit, getters }, payload) {
-      console.log('payload', payload);
+    async createPolicy({ commit, getters }, payload) {
       commit("clearError");
       commit("setLoading", true);
 
@@ -44,7 +43,6 @@ export default {
             payload.sections,
             //   getters.user.id,
         );
-        console.log('newPolicy', newPolicy);
 
         setTimeout(() => {
           commit("setLoading", false);
@@ -59,8 +57,7 @@ export default {
         throw error;
       }
     },
-    createSection({ commit, getters }, payload) {
-      console.log('payload', payload);
+    async createSection({ commit, getters }, payload) {
       commit("clearError");
       commit("setLoading", true);
 
@@ -69,15 +66,10 @@ export default {
           id: payload.id,
           title: payload.title,
           description: payload.description
-          //   getters.user.id,
         };
 
         setTimeout(() => {
           commit("setLoading", false);
-          // commit("createPolicy", {
-          //   ...newSection,
-          //   //   id: policy.key,
-          // });
           commit('updatePolicy', { ...newSection })
         }, 3000);
       } catch (error) {
@@ -86,7 +78,7 @@ export default {
         throw error;
       }
     },
-    createSectionChild({ commit, getters }, payload) {
+    async createSectionChild({ commit, getters }, payload) {
       console.log('payload', payload);
       commit("clearError");
       commit("setLoading", true);
@@ -124,7 +116,7 @@ export default {
     //             response.json()
     //         })
     //         .then(result => console.log(result))
-    //         .catch(err => console.log(err))
+    //         .catch(error => console.log(error))
     //     return data;
     // },
     async getPolicies ({commit, getters}, payload) {
@@ -136,7 +128,7 @@ export default {
                 response.json()
             })
             .then(result => console.log(result))
-            .catch(err => console.log(err))
+            .catch(error => console.log(error))
         return data;
     },
   },
