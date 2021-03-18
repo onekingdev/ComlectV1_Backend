@@ -2,7 +2,7 @@
   div
     label.form-label
       slot
-    DatePicker(:value="value" @input="$emit('input', $event)" :placeholder="placeholder" :options="options")
+    DatePicker(:value="value" @input="$emit('input', $event)" :placeholder="placeholder")
     Errors(:errors="errors")
 </template>
 
@@ -11,11 +11,7 @@ export default {
   props: {
     value: String,
     errors: Array,
-    placeholder: String,
-    options: {
-      type: Object,
-      default: () => ({})
-    }
+    placeholder: String
   }
 }
 </script>

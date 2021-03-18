@@ -7,7 +7,7 @@
       InputText(v-model="task.body" :errors="errors.body" placeholder="Enter the name of your task") Task Name
 
       label.m-t-1.form-label Link to
-      ComboBox(V-model="task.link_to" :options="linkToOptions" placeholder="Select projects, annual reviews, or policies to link the task to")
+      ComboBox(V-model="task.link_to" :options="linkToOptions" placeholder="Select projects, annual reviews, or CompliancePolicies to link the task to")
       .form-text.text-muted Optional
       Errors(:errors="errors.link_to")
 
