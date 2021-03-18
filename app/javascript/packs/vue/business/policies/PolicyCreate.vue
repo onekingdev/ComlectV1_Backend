@@ -175,9 +175,10 @@ export default {
                 // Save data to store
                 this.$store
                     .dispatch("createPolicy", dataToSend)
-                    .then(() => {
+                    .then((response) => {
                         // this.$router.push("/list");
-                        console.log("Policy successfull saved!");
+                        // console.log("Policy successfull saved!");
+                        console.log(response)
                     })
                     .catch((err) => {
                         console.log(err);

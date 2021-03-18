@@ -127,6 +127,18 @@ export default {
     //         .catch(err => console.log(err))
     //     return data;
     // },
+    async getPolicies ({commit, getters}, payload) {
+        const endpointUrl = '/api/business/compliance_policies/'
+
+        const data = await fetch(`${endpointUrl}`, { headers: {'Accept': 'application/json'}})
+            .then(response => {
+                console.log(response)
+                response.json()
+            })
+            .then(result => console.log(result))
+            .catch(err => console.log(err))
+        return data;
+    },
   },
   getters: {
     policies(state) {

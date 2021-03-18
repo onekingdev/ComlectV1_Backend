@@ -28,7 +28,10 @@
                                         .container
                                             div Setup
                         .col-12
-                            div {{ policiesList2 }}
+                            div {{ policiesListComputed }}
+                            .test-block block
+                                .test-block__module element
+                                .test-block__module.test-block__module_modificator modificator
 
 </template>
 
@@ -38,39 +41,62 @@ import PoliciesModal from "./PoliciesModal";
 import DragDropComponent from "./DragDropComponent";
 
 export default {
-  components: {
-    PolicyTable,
-    PoliciesModal,
-    DragDropComponent,
-  },
-  data() {
-    return {
-      title: "test123",
-      searchInput: "",
-      policies: [],
-      id: 1,
-      policy: {},
-    };
-  },
-  methods: {
-    search() {
-      this.policiesList = this.policy.compliance_policy.find((pol) => {
-        pol.name === this.searchInput;
-      });
+    components: {
+        PolicyTable,
+        PoliciesModal,
+        DragDropComponent,
     },
-  },
-  computed: {
-    policiesList: () => {
-      // return this.$store.dispach('getPolicyById', this.id)
+    data() {
+        return {
+            title: "test123",
+            searchInput: "",
+            policies: [],
+            id: 1,
+            policy: {},
+        };
     },
-
-    policiesList2() {
-      return this.$store.getters.policies;
+    methods: {
+        search() {
+            this.policiesList = this.policy.compliance_policy.find((pol) => {
+                pol.name === this.searchInput;
+            });
+        },
     },
-  },
+    computed: {
+        policiesList: () => {
+            // return this.$store.dispach('getPolicyById', this.id)
+        },
+        policiesListComputed() {
+            return this.$store.getters.policies;
+        },
+    },
+    beforeCreate() {
+        this.$store
+            .dispatch("getPolicies")
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
 };
 </script>
 
 <style>
 @import "./styles.css";
+</style>
+
+<style lang="scss">
+    .test-block {
+        border: solid 1px black;
+
+        &__element {
+            font-size: 1.5rem;
+
+            &_modificator {
+                background-color: lightblue;
+            }
+        }
+    }
 </style>
