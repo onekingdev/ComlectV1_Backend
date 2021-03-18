@@ -34,9 +34,9 @@
                         .table__cell
                             .actions
                                 button.px-0.actions__btn(@click="isActive = !isActive", :class="{ active: isActive }")
-                                b-icon(icon="three-dots")
+                                    b-icon(icon="three-dots")
                                 ul.actions-dropdown(:class="{ active: isActive }")
-                                    li.actions-dropdown__item.save(@click="saveSubSectionChild") Save it
+                                    li.actions-dropdown__item.save Save it
                                     li.actions-dropdown__item.move-up Move up
                                     li.actions-dropdown__item.delete Delete
                     .table__row
@@ -59,10 +59,10 @@
                             .dropdown-toggle.active
                                 b-icon.mr-2(icon='chevron-compact-right')
                                 | Code of Ethics and Personal Tranding
-                            ul.dropdow-items
-                                .li 1.Code of Ethhics
-                                .li 2.Personal Tranding Policy
-                                .li Firm Review of Personal Tanserfersing
+                            ul.dropdown-items
+                                .li.dropdown-item 1.Code of Ethhics
+                                .li.dropdown-item 2.Personal Tranding Policy
+                                .li.dropdown-item Firm Review of Personal Tanserfersing
                         .table__cell
                             .status.status__draft Draft
                         .table__cell 1/20/2021
@@ -80,11 +80,11 @@
                             .dropdown-toggle.active
                                 b-icon.mr-2(icon='chevron-compact-right')
                                 | Code of Ethics and Personal Trading Policy
-                            ul.dropdow-items
-                                .li 1.Code of Ethhics
-                                .li 2.Personal Tranding Policy
-                                .li Firm Review of Personal Tanserfersing
-                                .li 1.Code of Ethhics
+                            ul.dropdown-items
+                                .li.dropdown-item 1.Code of Ethhics
+                                .li.dropdown-item 2.Personal Tranding Policy
+                                .li.dropdown-item Firm Review of Personal Tanserfersing
+                                .li.dropdown-item 1.Code of Ethhics
                         .table__cell
                             .status.status__published Published
                         .table__cell 1/20/21
@@ -141,6 +141,7 @@
         data() {
             return {
                 searchInput: '',
+                isActive: false,
             }
         },
         methods: {
