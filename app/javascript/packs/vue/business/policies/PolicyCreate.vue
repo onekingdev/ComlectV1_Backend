@@ -47,10 +47,17 @@
                                                         .policy-details__name Description
                                                         .policy-details__text-editor(@click="toggleVueEditorHandler", v-if="!toggleVueEditor") {{ content }}
                                                         vue-editor.policy-details__text-editor(v-if="toggleVueEditor", v-model="content")
-                                                        button.policy-details__btn.mr-3.btn.btn-default(v-if="subSections.length === 0", @click="addSection")
+                                                        button.policy-details__btn.mr-3.btn.btn-default(@click="addSection")
                                                             b-icon.mr-2(icon='plus-circle-fill')
                                                             | Add Section
-                                                    component(v-for="subSection in subSections", v-bind:is="subSection.component", :key="subSection.id", :subSection="subSection", :policyID="policyID", @clickedAddSection="addSectionFromChild", @clickedDeleteSection="deleteSection", @clickedSaveIt="onClickSaveSubsection")
+                                                    SubsectionPolicy(
+                                                        :section="section"
+                                                        :index="index"
+                                                        v-for="(section, index) in sections"
+                                                        :key="section.id"
+                                                        @addSection="addSection"
+                                                        @deleteSection="deleteSection")
+                                                    <!--component(v-for="subSection in subSections", v-bind:is="subSection.component", :key="subSection.id", :subSection="subSection", :policyID="policyID", @clickedAddSection="addSectionFromChild", @clickedDeleteSection="deleteSection", @clickedSaveIt="onClickSaveSubsection")-->
                                             HistoryPolicy
                                         b-tab(title="Risks")
                                             .policy-details
@@ -92,7 +99,7 @@ export default {
             title: "New Policy",
             toggleVueEditor: false,
             component: "",
-            subSections: [],
+            sections: [],
             count: 0,
             policyID: Math.floor(Math.random() * 100),
             ownerId: 13,
@@ -107,6 +114,26 @@ export default {
         }
     },
     methods: {
+        addSection(event) {
+            if(event) event.target.style.display = 'none';
+            const id = Math.floor(Math.random() * 100)
+
+            this.sections.push({
+                // component: SubsectionPolicy,
+                id: this.count++,
+                title: `Task_${id}`,
+                    description: `Ipsa odit esse cumque fugit saepe iste. Corrupti dolor repudiandae facilis alias!
+                                        Molestias sapiente rerum ipsum enim doloremque, dicta excepturi rem aut.`,
+                children: [],
+            })
+        },
+        deleteSection(index) {
+            this.sections.splice(index, 1)
+        },
+
+
+
+
         saveContent: function() {
             // You have the content to save
             console.log(this.content);
@@ -119,21 +146,24 @@ export default {
             this.content = "";
             this.toggleVueEditor = !this.toggleVueEditor;
         },
-        addSection(event){
-            // if(event) event.target.style.display = 'none';
-            this.subSections.push({
-                component: SubsectionPolicy,
-                id: this.count++
-            })
-        },
+        // addSection(event){
+        //     if(event) event.target.style.display = 'none';
+        //     this.subSections.push({
+        //         component: SubsectionPolicy,
+        //         id: this.count++
+        //     })
+        //     this.subSection = {
+        //         id: this.count
+        //     };
+        // },
         addSectionFromChild (event) {
             this.$emit('clicked', event)
             this.addSection()
         },
-        deleteSection(subSectionID) {
-            console.log(subSectionID)
-            this.subSections.splice(this.index, 1)
-        },
+        // deleteSection() {
+        //     this.subSections.splice(this.index, 1)
+        //     this.count--
+        // },
         onClickSaveSubsection(event){
             console.log('From parent Component', event)
         },
