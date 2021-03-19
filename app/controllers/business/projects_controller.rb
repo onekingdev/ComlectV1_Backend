@@ -55,17 +55,6 @@ class Business::ProjectsController < ApplicationController
     ).html_safe, layout: 'vue_business'
   end
 
-  def update_post
-    project = current_business.projects.find(params[:id])
-    render html: content_tag('business-post-project-page',
-                             '',
-                             ':project-id': project.id,
-                             ':industry-ids': Industry.all.map(&proc { |ind| { id: ind.id, name: ind.name } }).to_json,
-                             ':jurisdiction-ids': Jurisdiction.all.map(&proc { |ind| { id: ind.id, name: ind.name } }).to_json)
-      .html_safe,
-           layout: 'vue_business'
-  end
-
   def create
     respond_to do |format|
       if @project.save
