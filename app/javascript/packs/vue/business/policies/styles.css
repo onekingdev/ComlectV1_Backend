@@ -163,7 +163,16 @@
 }
 .policy-details__input {
     flex-grow: 1;
-    border: none;
+    margin-right: 1rem;
+    border: solid 1px transparent;
+    transition: all 200ms ease-in;
+}
+.policy-details__input:hover,
+.policy-details__input:active {
+    border-color: #ced4da;
+}
+.policy-details__text-editor {
+    cursor: pointer;
 }
 
 .policy-details-subsection {
@@ -267,6 +276,11 @@
 .policy-history__date {
     color: #919396;
 }
+
+/* ---------- Modal ---------- */
+/*.modal-dialog {*/
+    /*top: 15%;*/
+/*}*/
 
 /* ---------- Buttons ---------- */
 button.btn {

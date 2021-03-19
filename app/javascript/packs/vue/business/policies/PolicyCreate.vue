@@ -17,9 +17,9 @@
                                         button.btn.btn-default.mr-3 Draft
                                         h3.policy__main-title.m-y-0 {{ title }}
                                     .d-flex.justify-content-end.align-items-center
-                                        a.link.btn.mr-3(@click="saveContent") Save Draft
+                                        a.link.btn.mr-3(@click="saveDraft") Save Draft
                                         button.btn.btn.btn-default.mr-3 Download
-                                        button.btn.btn-dark.mr-3(@click="saveContent") Publish
+                                        button.btn.btn-dark.mr-3(@click="publish") Publish
                                         button.btn.btn__close.mr-3
                                             b-icon(icon='x')
                     .row
@@ -46,7 +46,7 @@
                                                             input.policy-details__input(v-model="title")
                                                         .policy-details__name Description
                                                         .policy-details__text-editor(@click="toggleVueEditorHandler", v-if="!toggleVueEditor") {{ content }}
-                                                        vue-editor.policy-details__text-editor(v-if="toggleVueEditor", v-model="content")
+                                                        vue-editor.policy-details__text-editor(v-if="toggleVueEditor", v-model="content", @blur="handleBlur")
                                                         button.policy-details__btn.mr-3.btn.btn-default(@click="addSection")
                                                             b-icon.mr-2(icon='plus-circle-fill')
                                                             | Add Section
@@ -119,11 +119,9 @@ export default {
             const id = Math.floor(Math.random() * 100)
 
             this.sections.push({
-                // component: SubsectionPolicy,
                 id: this.count++,
-                title: `Task_${id}`,
-                    description: `Ipsa odit esse cumque fugit saepe iste. Corrupti dolor repudiandae facilis alias!
-                                        Molestias sapiente rerum ipsum enim doloremque, dicta excepturi rem aut.`,
+                title: `${this.title}-№-${this.count}-${id}`,
+                description: this.content,
                 children: [],
             })
         },
@@ -131,42 +129,23 @@ export default {
             this.sections.splice(index, 1)
         },
 
-
-
-
-        saveContent: function() {
+        saveDraft: function() {
             // You have the content to save
             console.log(this.content);
-            // this.toggleVueEditor = !this.toggleVueEditor;
-
             this.createPolicy();
-            //   this.content = this.content.replace(/<[^>]*>?/gm, "");
+        },
+        publish: function() {
+            // You have the content to save
+            console.log(this.content);
+            this.createPolicy();
         },
         toggleVueEditorHandler() {
-            this.content = "";
             this.toggleVueEditor = !this.toggleVueEditor;
         },
-        // addSection(event){
-        //     if(event) event.target.style.display = 'none';
-        //     this.subSections.push({
-        //         component: SubsectionPolicy,
-        //         id: this.count++
-        //     })
-        //     this.subSection = {
-        //         id: this.count
-        //     };
-        // },
-        addSectionFromChild (event) {
-            this.$emit('clicked', event)
-            this.addSection()
+        handleBlur() {
+            this.toggleVueEditorHandler()
         },
-        // deleteSection() {
-        //     this.subSections.splice(this.index, 1)
-        //     this.count--
-        // },
-        onClickSaveSubsection(event){
-            console.log('From parent Component', event)
-        },
+
         createPolicy() {
             if (this.title && this.content) {
                 const dataToSend = {
@@ -201,22 +180,25 @@ export default {
                 };
                 console.log(dataToSend);
 
-                // Save data to store
+                // SAVE DATA TO STORE
                 this.$store
                     .dispatch("createPolicy", dataToSend)
                     .then((response) => {
                         // this.$router.push("/list");
                         // console.log("Policy successfull saved!");
-                        console.log(response)
+                        console.log('response', response)
                     })
                     .catch((err) => {
-                        console.log(err);
+                        console.log(err)
                     });
             }
         },
     },
     mounted() {
         this.createPolicy();
+        this.$store.dispatch('getPolicies', {})
+            .then((response) => { console.log('response', response) })
+            .catch((err) => { console.log(err) });
     }
 };
 </script>

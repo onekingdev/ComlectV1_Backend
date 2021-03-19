@@ -33,7 +33,6 @@
 
 <script>
 import { VueEditor } from "vue2-editor";
-import PolicySubsectionChildren from "./PolicySubsectionChildren";
 
 export default {
     name: 'PolicySubsection',
@@ -65,9 +64,7 @@ export default {
             toggleVueEditor: false,
             isActive: false,
             subSectionID: Math.floor(Math.random() * 100),
-            subSectionsChildrens: [],
             count: 0,
-            subSections: [],
         }
     },
     computed: {
@@ -83,20 +80,19 @@ export default {
             this.$emit('deleteSection', this.index)
         },
         addSection(event) {
-            if (!this.parentSection) this.$emit('addSection', event)
-            // console.log('this.parentSection', this.parentSection)
-            // console.log('this.section.children', this.section.children)
-            // console.log('this.section', this.section)
+            if (!this.parentSection) {
+                this.$emit('addSection', event)
+                return
+            }
 
             if (typeof this.parentSection.children !== 'undefined') {
                 if(event) event.target.style.display = 'none';
                 const id = Math.floor(Math.random() * 100)
 
                 this.parentSection.children.push({
-                    id: this.count++,
-                    title: `Task_${id}`,
-                    description: `Ipsa odit esse cumque fugit saepe iste. Corrupti dolor repudiandae facilis alias!
-                                        Molestias sapiente rerum ipsum enim doloremque, dicta excepturi rem aut.`,
+                    id: this.count++ + id,
+                    title: `${this.title}-№-${this.count}-${id}`,
+                    description: this.content,
                     children: [],
                 })
             }
@@ -107,69 +103,29 @@ export default {
             this.section.children.push({
                 // component: SubsectionPolicy,
                 id: this.count++,
-                title: `Sub Section Task_${id}`,
-                description: `Ipsa odit esse cumque fugit saepe iste. Corrupti dolor repudiandae facilis alias!
-                                Molestias sapiente rerum ipsum enim doloremque, dicta excepturi rem aut.`,
+                title: `${this.title}--${id}`,
+                description: this.content,
                 children: [],
             })
 
         },
 
-
-
         toggleVueEditorHandler() {
-            if (!this.content) {
-                this.content = "";
-                this.toggleVueEditor = !this.toggleVueEditor;
-            }
-        },
-        // addSection (event) {
-        //     if(event) event.target.style.display = 'none';
-        //     this.$emit('clickedAddSection', 'someValue')
-        // },
-        addSectionChild (event) {
-            if(event) event.target.style.display = 'none';
-            this.subSectionsChildrens.push({
-                component: PolicySubsectionChildren,
-                id: this.count++,
-                subSectionsID: this.subSectionID,
-            })
+            this.toggleVueEditor = !this.toggleVueEditor;
         },
         moveUpSubsection () {
             console.log('moveUpSubsection')
             this.$emit('clickedmoveUpSection', 'someValue')
         },
-        // deleteSubsection () {
-        //     console.log('deleteSubsection')
-        //     this.$emit('clickedDeleteSection', this.subSectionID)
-        // },
-        onClickButton (event) {
-            console.log(event)
-            this.$emit('clicked', 'someValue')
-            this.addSection()
-        },
-        onClickSaveSubsection(event){
-            console.log(event)
-        },
+
         saveSubsection () {
-            const dataSubsectionToSend = {
-                id: this.count,
-                policyID: this.policyID,
-                subSectionsID: Math.floor(Math.random() * 100),
-                title: this.subSectionName,
-                description: this.content,
-                children: [],
-            };
-            console.log(dataSubsectionToSend);
-
-            this.$emit('clickedSaveIt', dataSubsectionToSend)
-
             // SAVE DATA TO POLICY
             this.$store
-                .dispatch("createSection", dataSubsectionToSend)
-                .then(() => {
+                .dispatch("createSection", this.section)
+                .then((response) => {
                     // this.$router.push("/list");
-                    console.log("Section is successfull saved!");
+                    // console.log("Section is successfull saved!");
+                    console.log('response', response)
                 })
                 .catch((err) => {
                     console.log(err);

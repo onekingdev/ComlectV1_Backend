@@ -18,15 +18,10 @@ export default {
       state.policies.push(payload);
     },
     updatePolicy(state, payload) {
-      state.policies[payload.id].sections.push(payload);
+      state.policies[0].sections.push(payload);
     },
     createSections(state, payload) {
       state.sections.push(payload);
-    },
-    createSectionsChilds(state, payload) {
-      state.sections.forEach((section) => {
-        if (section[payload.id] === payload.parentSectionID) section[payload.parentSectionID].children.push(payload)
-      })
     },
   },
   actions: {
@@ -58,6 +53,7 @@ export default {
       }
     },
     async createSection({ commit, getters }, payload) {
+      console.log(payload)
       commit("clearError");
       commit("setLoading", true);
 
@@ -65,7 +61,8 @@ export default {
         const newSection = {
           id: payload.id,
           title: payload.title,
-          description: payload.description
+          description: payload.description,
+          children: payload.children
         };
 
         setTimeout(() => {
@@ -78,37 +75,8 @@ export default {
         throw error;
       }
     },
-    async createSectionChild({ commit, getters }, payload) {
-      console.log('payload', payload);
-      commit("clearError");
-      commit("setLoading", true);
-
-      try {
-        const newSection = {
-          id: payload.id,
-          title: payload.title,
-          description: payload.description,
-          parentSectionID: payload.parentSectionID,
-          //   getters.user.id,
-        };
-        console.log('newSection', newSection);
-
-        setTimeout(() => {
-          commit("setLoading", false);
-          // commit("createPolicy", {
-          //   ...newSection,
-          //   //   id: policy.key,
-          // });
-          commit('createSectionsChilds', { ...newSection })
-        }, 3000);
-      } catch (error) {
-        commit("setError", error.message);
-        commit("setLoading", false);
-        throw error;
-      }
-    },
     // async getPolicyById ({commit, getters}, payload) {
-    //     const endpointUrl = '/api//business/compliance_policies/'
+    //     const endpointUrl = '/api/business/compliance_policies/'
     //
     //     const data = await fetch(`${endpointUrl}1`, { headers: {'Accept': 'application/json'}})
     //         .then(response => {
@@ -120,6 +88,7 @@ export default {
     //     return data;
     // },
     async getPolicies ({commit, getters}, payload) {
+      console.log(payload)
         const endpointUrl = '/api/business/compliance_policies/'
 
         const data = await fetch(`${endpointUrl}`, { headers: {'Accept': 'application/json'}})
