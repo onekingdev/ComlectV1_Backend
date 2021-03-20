@@ -1,6 +1,5 @@
 <template lang="pug">
-  div
-    ModelLoader(:url="projectId ? endpointUrl : undefined" :default="defaultProject" @loaded="loadProject" :callback="transformBackendModel")
+  ModelLoader(:url="projectId ? endpointUrl : undefined" :default="defaultProject" @loaded="loadProject" :callback="transformBackendModel")
     Breadcrumbs(:items="['Projects', pageTitle]")
     h2 {{ pageTitle }}
     p Tell us more about your project and get connected to our experienced specialists.
