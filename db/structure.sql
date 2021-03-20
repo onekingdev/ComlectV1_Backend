@@ -1111,7 +1111,6 @@ CREATE TABLE public.projects (
     extended_at timestamp without time zone,
     starts_in_48 boolean DEFAULT false,
     ends_in_24 boolean DEFAULT false,
-    minimum_experience integer,
     expires_at timestamp without time zone,
     solicited_business_rating boolean DEFAULT false,
     solicited_specialist_rating boolean DEFAULT false,
@@ -1125,7 +1124,8 @@ CREATE TABLE public.projects (
     color character varying,
     local_project_id integer,
     role_details text DEFAULT ''::text,
-    upper_hourly_rate numeric
+    upper_hourly_rate numeric,
+    minimum_experience integer DEFAULT 0
 );
 
 
@@ -2079,7 +2079,6 @@ CREATE TABLE public.specialists (
     specialist_other character varying,
     sub_industries character varying,
     project_types character varying,
-    years_of_experience integer,
     jurisdiction_states_usa character varying DEFAULT ''::character varying,
     jurisdiction_states_canada character varying DEFAULT ''::character varying,
     sub_jurisdictions character varying,
@@ -2092,7 +2091,8 @@ CREATE TABLE public.specialists (
     automatching_available boolean DEFAULT false,
     reminders_mailed_at timestamp without time zone,
     zero_fee boolean DEFAULT false,
-    seat_role integer DEFAULT 0
+    seat_role integer DEFAULT 0,
+    experience integer DEFAULT 0
 );
 
 
@@ -6610,13 +6610,6 @@ CREATE INDEX index_projects_on_hourly_rate ON public.projects USING btree (hourl
 
 
 --
--- Name: index_projects_on_minimum_experience; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_projects_on_minimum_experience ON public.projects USING btree (minimum_experience);
-
-
---
 -- Name: index_projects_on_only_regulators; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7544,6 +7537,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210311184928'),
 ('20210312165913'),
 ('20210315233431'),
-('20210316121459');
+('20210316121459'),
+('20210320105303');
 
 

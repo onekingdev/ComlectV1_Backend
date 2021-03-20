@@ -18,7 +18,7 @@ class Business::SpecialistSerializer < ApplicationSerializer
              :ratings_average,
              :time_zone,
              :username,
-             :years_of_experience,
+             :experience,
              :min_hourly_rate,
              :location,
              :seat_role

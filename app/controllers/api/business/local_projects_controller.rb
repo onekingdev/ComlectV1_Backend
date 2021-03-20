@@ -6,7 +6,7 @@ class Api::Business::LocalProjectsController < ApiController
   skip_before_action :verify_authenticity_token # TODO: proper authentication
 
   def index
-    respond_with paginate(current_business.local_projects), each_serializer: LocalProjectSerializer
+    respond_with current_business.local_projects, each_serializer: LocalProjectSerializer
   end
 
   def show

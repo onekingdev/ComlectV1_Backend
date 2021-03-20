@@ -38,9 +38,9 @@ const HOURLY_PAYMENT_SCHEDULE_OPTIONS = {
 }
 
 const MINIMUM_EXPERIENCE_OPTIONS = {
-  junior: "Junior",
-  intermediate: "Intermediate",
-  expert: "Expert"
+  junior: 0,
+  intermediate: 1,
+  expert: 2
 }
 
 export {
