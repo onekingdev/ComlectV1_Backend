@@ -36,19 +36,17 @@ export default {
             payload.title,
             payload.description,
             payload.sections,
-            //   getters.user.id,
         );
 
         commit("setLoading", false);
         commit("createPolicy", {
           ...newPolicy,
-          //   id: policy.key,
         });
 
         const data = await fetch('/api/business/compliance_policies', {
           method: 'POST',
           headers: {
-            'Authorization': this.token,
+            // 'Authorization': 'Bearer test',
             'Accept': 'application/json',
             'Content-Type': 'application/json'},
           body: JSON.stringify({
