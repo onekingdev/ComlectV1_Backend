@@ -181,7 +181,7 @@ en:
       no_error: "Would you like to hire a full time or outsourced CCO through Complect?"
       dedicated: No, I have a dedicated CCO
     already_covered:
-      question: 'Select all the following key areas of your business that is currently covered by CompliancePolicies and procedures within your compliance manual:'
+      question: 'Select all the following key areas of your business that is currently covered by policies and procedures within your compliance manual:'
       code_of_ethics: Code of Ethics
       privacy: Privacy, Cybersecurity, & Identity Theft Prevention
       custody: Custody
@@ -209,14 +209,14 @@ en:
       'yes': "Good job! You’re on top of the ball here. Your compliance command center will centralize all your review records for when the regulators come. You should be prepared to upload all the information in one place so you have a quick way to provide information to regulators when they come knocking. We also give you the ability to hire one of our compliance specialists to conduct a review for you in the form of a mock audit."
       'no': 'No'
   annual_report:
-    0: Adequacy of written code of ethics, code of conduct, and related CompliancePolicies and procedures
+    0: Adequacy of written code of ethics, code of conduct, and related policies and procedures
     1: Check that any person supervised by the Company (e.g. employees, partners, officers, directors or occupying a similar status/performing similar functions) that provides investment advice on behalf of the adviser and has access to non-public information regarding the investment activities of the adviser or its clients’ holdings is subject to the Code of Ethics
     2: Check for any instances where it is unclear whether the Code of Ethics should be applied to certain individuals (e.g. solicitors, on-site contractors, temps, interns, etc.)
     3: Check that the code of ethics or elsewhere in the manual contains a policy regarding personal securities transactions monitoring, reporting, and preclearance requirements
     4: Check that the code of ethics or elsewhere in the manual contains a policy regarding the giving and receiving of gifts and entertainment and preclearance requirements, as necessary
     5: Check that the code of ethics or elsewhere in the manual contains a policy addressing outside business activities and preclearance requirements, as necessary
-    6: Check whether the Company provides any training on the CompliancePolicies and procedures
-    7: Documentation regarding employees’ receipt and understanding of the code of ethics, code of conduct, and/or related CompliancePolicies and procedures
+    6: Check whether the Company provides any training on the policies and procedures
+    7: Documentation regarding employees’ receipt and understanding of the code of ethics, code of conduct, and/or related policies and procedures
     8: Confirm that the Company has a process for tracking employees’ acknowledgements of receipt of the code and any amendments
     9: Test the submission of the aforementioned documentation and, as applicable, that they were submitted within any deadlines of at least 10% of the Company’s employees
     10: Personal securities transaction reporting by employees (e.g., initial and annual holdings reports, quarterly transaction reports, trade preclearance requests, exempt account documentation etc.)
@@ -225,7 +225,7 @@ en:
     13: If larger than a one man advisory firm, confirm that the whoever is reviewing the personal securities transactions is being reviewed by a third party 
     14: If larger than a one man advisory firm, confirm that the whoever is granting trade preclearances has someone else preclear their trades 
     15: Test the personal securities transaction reporting, trading, and the preclearance requests of at least 10% of the Company’s employees 
-    16: Adequacy of written insider trading CompliancePolicies and procedures and related CompliancePolicies (such as value-added investors, expert networks, and virtual data rooms, etc.)
+    16: Adequacy of written insider trading policies and procedures and related policies (such as value-added investors, expert networks, and virtual data rooms, etc.)
     17: Check that the code of ethics or elsewhere in the manual contains a policy regarding insider trading 
     18: Check that the insider trading policy addresses the use of expert networks if they are utilized by the adviser
     19: Check that the insider trading policy addresses the use of virtual data rooms if they are utilized by the adviser

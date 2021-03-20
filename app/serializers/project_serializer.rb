@@ -6,8 +6,12 @@ class ProjectSerializer < ApplicationSerializer
   has_many :industries, serializer: IndustrySerializer
   has_one :business, serializer: Specialist::BusinessSerializer
   has_one :specialist, serializer: Business::SpecialistSerializer
+  has_one :end_request, serializer: ProjectEndSerializer
+  has_one :extension, serializer: ProjectExtensionSerializer
   has_many :timesheets
   attributes :id,
+             :end_request,
+             :extension,
              :business_id,
              :type,
              :status,
@@ -22,6 +26,7 @@ class ProjectSerializer < ApplicationSerializer
              :payment_schedule,
              :fixed_budget,
              :hourly_rate,
+             :upper_hourly_rate,
              :estimated_hours,
              :only_regulators,
              :annual_salary,
@@ -53,6 +58,7 @@ class ProjectSerializer < ApplicationSerializer
              :business_fee_free,
              :color,
              :local_project_id,
+             :role_details,
              :skills,
              :jurisdictions,
              :industries,

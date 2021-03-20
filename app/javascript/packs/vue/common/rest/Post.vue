@@ -25,6 +25,7 @@ export default {
   },
   methods: {
     submit() {
+      this.$emit('errors', [])
       fetch(this.action, {
         method: this.method,
         headers: {'Accept': 'application/json', 'Content-Type': 'application/json', ...this.headers},
