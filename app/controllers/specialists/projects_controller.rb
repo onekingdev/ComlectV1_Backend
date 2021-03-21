@@ -4,7 +4,6 @@ class Specialists::ProjectsController < ApplicationController
   include ActionView::Helpers::TagHelper
 
   before_action :require_specialist!
-  before_action :find_project, only: %i[show]
 
   FILTERS = {
     'active' => :active_projects,
@@ -19,22 +18,11 @@ class Specialists::ProjectsController < ApplicationController
   end
 
   def show
-    @application = @project.job_applications.where(specialist_id: current_specialist.id).first
-    render html: content_tag('my-project-show-page',
-                             '',
-                             ':id': params[:id],
-                             ':specialist-id': current_specialist.id,
-                             ':application-id': @application.id).html_safe,
+    render html: content_tag('my-project-show-page', '', ':id': params[:id]).html_safe,
            layout: 'vue_specialist'
   end
 
   private
-
-  def find_project
-    projects = current_specialist.projects.where(id: params[:id])
-    projects = current_specialist.applied_projects.where(id: params[:id]) if projects.blank?
-    @project = projects.first
-  end
 
   def active_projects
     base_scope current_specialist.projects.active
