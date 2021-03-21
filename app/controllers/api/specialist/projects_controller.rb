@@ -15,7 +15,8 @@ class Api::Specialist::ProjectsController < ApiController
   end
 
   def my
-    respond_with paginate current_specialist.projects, each_serializer: ProjectSerializer
+    respond_with paginate current_specialist.projects.active +
+                          current_specialist.applied_projects.visible, each_serializer: ProjectSerializer
   end
 
   private

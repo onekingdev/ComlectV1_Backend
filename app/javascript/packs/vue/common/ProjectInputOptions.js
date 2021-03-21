@@ -37,6 +37,12 @@ const HOURLY_PAYMENT_SCHEDULE_OPTIONS = {
   monthly: 'Monthly'
 }
 
+const MINIMUM_EXPERIENCE_OPTIONS = {
+  junior: "Junior",
+  intermediate: "Intermediate",
+  expert: "Expert"
+}
+
 export {
   PRICING_TYPES,
   PRICING_TYPES_OPTIONS,
@@ -44,4 +50,5 @@ export {
   RFP_TIMING_OPTIONS,
   FIXED_PAYMENT_SCHEDULE_OPTIONS,
   HOURLY_PAYMENT_SCHEDULE_OPTIONS,
+  MINIMUM_EXPERIENCE_OPTIONS,
 }

@@ -1,6 +1,7 @@
 <template lang="pug">
-  div
-    h2 Post Project
+  ModelLoader(:url="projectId ? endpointUrl : undefined" :default="defaultProject" @loaded="loadProject" :callback="transformBackendModel")
+    Breadcrumbs(:items="['Projects', pageTitle]")
+    h2 {{ pageTitle }}
     p Tell us more about your project and get connected to our experienced specialists.
     WizardProgress(v-bind="{step,steps}")
     .row.no-gutters
@@ -8,8 +9,8 @@
 
         InputText(v-model="project.title" :errors="errors.title") Title
         .row.m-t-1
-          .col-sm: InputDate(v-model="project.starts_on" :errors="errors.starts_on") Start Date
-          .col-sm: InputDate(v-model="project.ends_on" :errors="errors.ends_on") Due Date
+          .col-sm: InputDate(v-model="project.starts_on" :errors="errors.starts_on" :options="datepickerOptions") Start Date
+          .col-sm: InputDate(v-model="project.ends_on" :errors="errors.ends_on" :options="datepickerOptions") Due Date
 
         InputTextarea.m-t-1(v-model="project.description" :errors="errors.description") Description
         InputTextarea.m-t-1(v-model="project.role_details" :errors="errors.role_details") Role Details
@@ -35,7 +36,8 @@
         Errors(:errors="errors.only_regulators")
 
         label.form-label Skills
-        ComboBox(v-model="project.skill_names" :options="skillsOptions" :multiple="true")
+        Get(skills="/api/skills" :callback="getSkillOptions"): template(v-slot="{skills}")
+          ComboBox(v-model="project.skill_names" :multiple="true" :id-as-label="true" :tree-props="comboboxProps(skills)" @input="inputSkills")
         Errors(:errors="errors.skill_names")
 
     .row.no-gutters
@@ -57,16 +59,17 @@
           .m-t-1
             InputText(v-model="project.upper_hourly_rate" :errors="errors.upper_hourly_rate") Upper Hourly Rate
           .m-t-1
-            InputText(v-model="project.estimated_hours" :errors="errors.estimated_hours") Estimated hours
-          .m-t-1
             InputSelect.m-t-1(v-model="project.hourly_payment_schedule" :errors="errors.hourly_payment_schedule" :options="hourlyPaymentScheduleOptions") Method of Payment
 
     .row.no-gutters
       .col-md-6.text-right.m-t-1
-        button.btn.m-r-1(@click.prevent) Exit
-        button.btn.btn-default.m-r-1(v-if="prevEnabled" @click="prev") Previous
+        button.btn.btn-outline-dark.float-left(v-if="prevEnabled" @click="prev") Previous
+        button.btn.m-r-1(@click="back") Exit
+        Post(v-if="saveDraftEnabled" :action="endpointUrl" :model="draftProject" :method="method" @saved="saved" @errors="errors = $event")
+          button.btn.btn-outline-dark.m-r-1 Save as Draft
         button.btn.btn-dark(v-if="nextEnabled" @click="next") Next
-        button.btn.btn-dark(v-else @click="preValidateStep() && submit()") Submit
+        Post(v-else :action="endpointUrl" :model="publishedProject" :method="method" @saved="saved" @errors="errors = $event")
+          button.btn.btn-dark Submit
 </template>
 
 <script>
@@ -77,7 +80,8 @@ import {
   LOCATION_TYPES,
   RFP_TIMING_OPTIONS,
   FIXED_PAYMENT_SCHEDULE_OPTIONS,
-  HOURLY_PAYMENT_SCHEDULE_OPTIONS
+  HOURLY_PAYMENT_SCHEDULE_OPTIONS,
+  MINIMUM_EXPERIENCE_OPTIONS,
 } from '@/common/ProjectInputOptions'
 
 const REQUIRED = 'This field is required'
@@ -111,10 +115,14 @@ const initialProject = (localProject) => ({
   hourly_rate: null,
   fixed_payment_schedule: null,
   hourly_payment_schedule: null,
+  status: null,
 })
 
 export default {
   props: {
+    projectId: {
+      type: Number
+    },
     industryIds: {
       type: Array,
       required: true
@@ -135,6 +143,25 @@ export default {
     }
   },
   methods: {
+    inputSkills() {
+      const e = document.getElementsByClassName('vue-treeselect__input')[0]
+      e && (e.value = '')
+    },
+    comboboxProps(skills) {
+      return {
+        async: true,
+        loadOptions: ({ action, searchQuery, callback }) => {
+          if (action === 'ASYNC_SEARCH') {
+            callback(null, [{ id: searchQuery, label: searchQuery }, ...skills])
+          } else {
+            callback(null, skills)
+          }
+        }
+      }
+    },
+    loadProject(project) {
+      this.project = Object.assign({}, this.project, project)
+    },
     next() {
       if (this.nextEnabled) {
         if (this.preValidateStep()) {
@@ -176,36 +203,56 @@ export default {
     makeToast(title, str) {
       this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
     },
-    submit() {
-      this.errors = {}
-      fetch('/api/business/projects', {
-        method: 'POST',
-        headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
-        body: JSON.stringify(this.project)
-      }).then(response => {
-        if (response.status === 422) {
-          response.json().then(errors => {
-            this.errors = errors
-            Object.keys(this.errors)
-              .map(prop => this.errors[prop].map(err => this.makeToast(`Error`, `${prop}: ${err}`)))
-          })
-        } else if (response.status === 201 || response.status === 200) {
-          this.$emit('saved')
-          redirectWithToast('/business/projects', 'The project has been saved')
-        } else {
-          this.makeToast('Error', 'Couldn\'t submit form')
-        }
-      })
+    saved() {
+      const redirectUrl = `/business/projects/${this.project.local_project_id || ''}`
+      redirectWithToast(redirectUrl, 'The project has been saved')
+    },
+    back() {
+      window.history.back()
+    },
+    getSkillOptions(skills) {
+      return skills.map(({ name }) => ({ id: name, label: name }))
     }
   },
   computed: {
+    draftProject() {
+      return { ...this.project, status: 'draft' }
+    },
+    publishedProject() {
+      const { status, ...result } = this.project
+      return result
+    },
+    method() {
+      return this.projectId ? 'PUT' : 'POST'
+    },
+    transformBackendModel() {
+      const getColumn = (array, column) => array.map(i => i[column]),
+        fromDecimal = val => +val || null
+      return model => ({
+        ...model,
+        "skill_names":      getColumn(model.skills, 'name'),
+        "industry_ids":     getColumn(model.industries, 'id'),
+        "jurisdiction_ids": getColumn(model.jurisdictions, 'id'),
+        "est_budget":       fromDecimal(model.est_budget),
+        "only_regulators":  !!model.only_regulators,
+      })
+    },
+    pageTitle() {
+      return this.projectId ? 'Edit Project' : 'Post Project'
+    },
+    defaultProject() {
+      return () => initialProject(this.localProject)
+    },
+    endpointUrl() {
+      return '/api/business/projects/' + (this.projectId || '')
+    },
     steps: () => STEPS,
     pricingTypes: () => PRICING_TYPES,
     locationTypes: () => LOCATION_TYPES,
     rfpTimingOptions: () => RFP_TIMING_OPTIONS,
     fixedPaymentScheduleOptions: () => FIXED_PAYMENT_SCHEDULE_OPTIONS,
     hourlyPaymentScheduleOptions: () => HOURLY_PAYMENT_SCHEDULE_OPTIONS,
-    experienceOptions: () => Object.fromEntries([0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(val => [val, val])),
+    experienceOptions: () => MINIMUM_EXPERIENCE_OPTIONS,
     skillsOptions: () => ['SEC', 'Policy Writing', 'FINRA'].map(id => ({ id, label: id })),
     industryIdsOptions() {
       return this.industryIds.map(toOption)
@@ -221,6 +268,14 @@ export default {
     },
     prevEnabled() {
       return this.currentStep > 0
+    },
+    saveDraftEnabled() {
+      return this.project.status !== 'published'
+    },
+    datepickerOptions() {
+      return {
+        min: new Date
+      }
     }
   },
   components: {

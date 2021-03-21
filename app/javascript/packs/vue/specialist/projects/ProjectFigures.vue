@@ -1,5 +1,5 @@
 <template lang="pug">
-  ul.list-group.list-group-horizontal
+  ul.list-group.list-group-horizontal.project-figures
     li.list-group-item(v-if="project.pricing_type === 'fixed'")
       | Fixed Budget
       br
@@ -7,7 +7,7 @@
     li.list-group-item(v-else)
       | Hourly
       br
-      | {{ project.hourly_rate | usdWhole }}
+      | {{ project.hourly_rate | usdWhole }} - {{ project.upper_hourly_rate | usdWhole }}
     li.list-group-item
       | Payment Schedule
       br
