@@ -38,7 +38,7 @@ class Project::Search
     @results = filter_industry(@results)
     @results = filter_jurisdiction(@results)
     @results = filter_experience(@results)
-    @results = filter_budget(@results)
+    # @results = filter_budget(@results)
     @results = filter_regulator(@results)
     @results = filter_location(@results)
     @results = filter_skills(@results)

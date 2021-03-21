@@ -3,12 +3,13 @@
 class Api::Business::ProjectsController < ApiController
   before_action :require_business!
   before_action :build_project, only: %i[create]
+  before_action :find_project, only: %i[show update]
 
   skip_before_action :verify_authenticity_token # TODO: proper authentication
 
   def create
-    if policy(@project).post?
-      @project.post!
+    if policy(@project).post? && @project.validate
+      @project.post! if project_params[:status] != 'draft'
       @project.new_project_notification
       unless @project.local_project_id
         local_project_params = @project.attributes.slice('business_id', 'title', 'description', 'starts_on', 'ends_on')
@@ -17,14 +18,22 @@ class Api::Business::ProjectsController < ApiController
       end
       respond_with @project, serializer: ProjectSerializer
     else
-      render json: {
-        errors: @project.errors, alert: I18n.t('activerecord.errors.models.project.attributes.base.no_payment')
-      }, status: :unprocessable_entity
+      render json: @project.errors, status: :unprocessable_entity
+    end
+  end
+
+  def update
+    @project = Project::Form.find(@project.id)
+    src_status = @project.status
+    if @project.update(project_params)
+      @project.post! if project_params[:status] != 'draft' || src_status == 'published'
+      respond_with @project, serializer: ProjectSerializer
+    else
+      render json: @project.errors, status: :unprocessable_entity
     end
   end
 
   def show
-    @project = current_business.projects.find(params[:id])
     respond_with @project, serializer: ProjectSerializer
   end
 
@@ -63,11 +72,11 @@ class Api::Business::ProjectsController < ApiController
       :estimated_hours,
       :minimum_experience,
       :only_regulators,
-      :status,
       :annual_salary,
       :fee_type,
       :invite_id,
       :est_budget,
+      :status,
       :color,
       :specialist_id,
       :rfp_timing,
@@ -75,5 +84,9 @@ class Api::Business::ProjectsController < ApiController
       industry_ids: [],
       skill_names: []
     )
+  end
+
+  def find_project
+    @project = current_business.projects.find(params[:id])
   end
 end
