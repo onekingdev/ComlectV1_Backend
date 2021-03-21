@@ -199,14 +199,14 @@ class Specialist < ApplicationRecord
 
   scope :experience_between, ->(min, max) {
     if max
-      where('years_of_experience BETWEEN ? AND ?', min, max)
+      where('experience BETWEEN ? AND ?', min, max)
     else
-      where('years_of_experience >= ?', min)
+      where('experience >= ?', min)
     end
   }
 
   scope :by_experience, ->(dir = :desc) {
-    order("years_of_experience #{dir}")
+    order("experience #{dir}")
   }
 
   scope :by_distance, ->(lat, lng) do

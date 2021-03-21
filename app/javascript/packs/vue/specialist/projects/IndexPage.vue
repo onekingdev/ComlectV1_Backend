@@ -86,7 +86,7 @@ const parse = p => ({
 })
 
 const PRICING_TYPE_OPTIONS = [{ label: 'Fixed Price', value: 'fixed' }, { label: 'Hourly', value: 'hourly' }]
-const EXPERIENCE_OPTIONS = [{ label: 'Junior', value: [0, 3] },{ label: 'Intermediate', value: [4, 8] },{ label: 'Expert', value: [8, 12] }]
+const EXPERIENCE_OPTIONS = [{ label: 'Junior', value: [0, 0] },{ label: 'Intermediate', value: [1, 1] },{ label: 'Expert', value: [2, 2] }]
 const BUDGET_OPTIONS = [{ label: 'Less than $100', value: [0, 100] },
                         { label: '$100 - $250', value: [100, 250] },
                         { label: '$250 - $500', value: [250, 500] },

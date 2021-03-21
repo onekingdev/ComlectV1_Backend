@@ -1,7 +1,7 @@
 High Order Components (HOC) for working with REST API
 =====================================================
 
-Many features are implemented as forms, and therefore, 90%+ API interactions fall into these three scenarios:
+Because almost all features are implemented as forms, API interactions fall into these three scenarios:
   1) retrieving data from API (GET) to render single model or list of models
   2) retrieving data from API (GET) to fill model editing form fields
   3) saving when creating (POST) or editing (PUT) a single entry from a form, or standalone button
