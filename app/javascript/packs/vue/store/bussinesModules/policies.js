@@ -45,7 +45,7 @@ export default {
           ...newPolicy,
         });
 
-        /*
+
         const data = await fetch('/api/business/compliance_policies', {
           method: 'POST',
           headers: {
@@ -53,7 +53,10 @@ export default {
             'Accept': 'application/json',
             'Content-Type': 'application/json'},
           body: JSON.stringify({
-            compliance_policy: newPolicy
+            compliance_policy: {
+              name: 'test2021',
+              ...newPolicy
+            }
           })
         }).then(response => {
           console.log(response)
@@ -68,7 +71,7 @@ export default {
           throw error;
         })
 
-        console.log('data', data) */
+        console.log('data', data)
 
       } catch (error) {
         commit("setError", error.message);

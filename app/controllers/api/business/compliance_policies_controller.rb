@@ -3,6 +3,7 @@
 class Api::Business::CompliancePoliciesController < ApiController
   before_action :require_business!
   before_action :find_cpolicy, only: %i[publish show update download]
+  skip_before_action :verify_authenticity_token # TODO: proper authentication
 
   def index
     respond_with current_business.compliance_policies.root,

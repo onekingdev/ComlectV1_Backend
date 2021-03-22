@@ -3,6 +3,7 @@
 class Business::CompliancePoliciesController < ApplicationController
     include ActionView::Helpers::TagHelper
 
+
   before_action :require_business!
   before_action :set_cpolicy, only: %i[update edit show destroy ban unban]
 

@@ -18,7 +18,7 @@
                   .card-body.white-card-body
                     .container
                       //PolicyTable
-                      Get(policies="/api/business/compliance_policies/" :etag="etag" :callback="getContacts"): template(v-slot="{policies}"): table.table
+                      Get(policies="/api/business/compliance_policies"): template(v-slot="{policies}"): table.table
                         thead
                           tr
                             th Name
@@ -31,8 +31,8 @@
                           tr(v-for="policy in policies" :key="policy.id")
                             td {{ policy.name }}
                             td: .badge.badge-success {{ policy.status }}
-                            td
-                            td
+                            td {{ policy.updated_at}}
+                            td {{ policy.created_at}}
                             td &hellip;
                             td
                           tr(v-if="!policies.length")

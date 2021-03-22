@@ -67,6 +67,7 @@
         // console.log(this.$router)
 
         window.location.href = `${window.location.href}/create`;
+        return;
 
         const toId = this.policy.id ? `/${this.policy.id}` : '', draftParam = asDraft ? '?draft=1' : ''
         fetch('/api/business/compliance_policies' + toId + draftParam, {
@@ -84,7 +85,7 @@
             this.$emit('saved')
             this.makeToast('Success', 'The project has been saved')
             this.$bvModal.hide(this.modalId)
-            this.resetProject()
+            // this.resetProject()
           } else {
             this.makeToast('Error', 'Couldn\'t submit form')
           }
