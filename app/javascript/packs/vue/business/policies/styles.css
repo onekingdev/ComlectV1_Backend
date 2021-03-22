@@ -172,7 +172,13 @@
   border-color: #ced4da;
 }
 .policy-details__text-editor {
+  border: solid 1px transparent;
   cursor: pointer;
+  transition: all 200ms ease-in;
+}
+.policy-details__text-editor:hover,
+.policy-details__text-editor:active {
+  border: solid 1px #e9ebee;
 }
 
 .policy-details-subsection {

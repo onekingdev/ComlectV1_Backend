@@ -7,14 +7,16 @@
             .li(v-for="(policySection, i) in policy.sections" :key="i") {{ policySection.title }}
               ul.dropdow-items.d-block(v-if="policySection.children")
                 .li(v-for="(policySectionChild, i) in policySection.children" :key="i") {{ policySectionChild.title }}
-    DraggableTree(:data="data" draggable crossTree)
+    DraggableTree(:data="policies" draggable crossTree)
       div(slot-scope="{data, store, vm}")
         //- data is node
         //- store is the tree
         //- vm is node Vue instance, you can get node level by vm.level
         template(v-if="!data.isDragPlaceHolder")
-          b(v-if="data.children && data.children.length" @click="store.toggleOpen(data)") {{data.open ? '-' : '+'}}&nbsp;
-          span {{data.text}}
+          b(v-if="data.children && data.children.length" @click="store.toggleOpen(data)")
+            b-icon.mr-2(v-if="data.open" icon="chevron-compact-down")
+            b-icon.mr-2(v-else icon="chevron-compact-right")
+          span.link {{data.title}}
 </template>
 <script>
   import { DraggableTree } from "vue-draggable-nested-tree";
@@ -73,22 +75,3 @@
     },
   };
 </script>
-
-<!--<style>-->
-<!--@import "./styles.css";-->
-<!--</style>-->
-
-<!--<style scoped>-->
-<!--.table__cell {-->
-<!--width: 20%;-->
-<!--}-->
-<!--.icon-searh {-->
-<!--position: absolute;-->
-<!--top: 50%;-->
-<!--left: 0.5rem;-->
-<!--transform: translateY(-50%);-->
-<!--}-->
-<!--.form-control {-->
-<!--padding-left: 2rem;-->
-<!--}-->
-<!--</style>-->

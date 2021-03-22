@@ -17,7 +17,7 @@
               li.actions-dropdown__item.move-up(@click="moveUpSubsection") Move up
               li.actions-dropdown__item.delete(@click="deleteSubSection") Delete
       .policy-details__name.mb-0 Description
-      .policy-details__text-editor(@click="toggleVueEditorHandler", v-if="!toggleVueEditor") {{ content }}
+      .policy-details__text-editor(@click="toggleVueEditorHandler", v-if="!toggleVueEditor", v-b-tooltip.hover.left title="Click to edit text") {{ content }}
       vue-editor.policy-details__text-editor(v-if="toggleVueEditor", v-model="content", @blur="handleBlur")
       div(v-if="section.children && section.children.length > 0")
         PolicySubsection(

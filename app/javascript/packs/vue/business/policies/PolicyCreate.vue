@@ -45,7 +45,7 @@
                             .d-flex
                               input.policy-details__input(v-model="title")
                             .policy-details__name Description
-                            .policy-details__text-editor(@click="toggleVueEditorHandler", v-if="!toggleVueEditor") {{ content }}
+                            .policy-details__text-editor(@click="toggleVueEditorHandler", v-if="!toggleVueEditor", v-b-tooltip.hover.left title="Click to edit text") {{ content }}
                             vue-editor.policy-details__text-editor(v-if="toggleVueEditor", v-model="content", @blur="handleBlur")
                             button.policy-details__btn.mr-3.btn.btn-default(@click="addSection")
                               b-icon.mr-2(icon='plus-circle-fill')
@@ -198,7 +198,20 @@
         return this.$store.getters.loading;
       },
       policiesComputed() {
-        return this.$store.getters.policies;
+        const policies = this.$store.getters.policies
+        let tmp
+        const newPolicies = policies.map(el => {
+          tmp = el['sections']
+          el['children'] = tmp;
+          return el
+        });
+        return newPolicies;
+      }
+    },
+    watch: {
+      policiesComputed (oldVal, newVal) {
+        console.log('oldVal', oldVal)
+        console.log('newVal', newVal)
       }
     },
     mounted() {
