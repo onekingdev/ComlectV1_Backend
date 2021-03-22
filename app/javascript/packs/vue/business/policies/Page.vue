@@ -17,26 +17,27 @@
                 b-tab(title="Compilance Manual" active)
                   .card-body.white-card-body
                     .container
-                      //PolicyTable
-                      Get(policies="/api/business/compliance_policies"): template(v-slot="{policies}"): table.table
-                        thead
-                          tr
-                            th Name
-                            th Status
-                            th Last Modified
-                            th Date Created
-                            th Risk Level
-                            th
-                        tbody
-                          tr(v-for="policy in policies" :key="policy.id")
-                            td {{ policy.name }}
-                            td: .badge.badge-success {{ policy.status }}
-                            td {{ policy.updated_at}}
-                            td {{ policy.created_at}}
-                            td &hellip;
-                            td
-                          tr(v-if="!policies.length")
-                            td.text-center(colspan=6) No policies
+                      PolicyTable(:policies="policiesListComputed")
+                      <!--Get(policies="/api/business/compliance_policies"): template(v-slot="{policies}"): table.table-->
+                        <!--thead-->
+                          <!--tr-->
+                            <!--th Name-->
+                            <!--th Status-->
+                            <!--th Last Modified-->
+                            <!--th Date Created-->
+                            <!--th Risk Level-->
+                            <!--th-->
+                        <!--tbody-->
+                          <!--tr(v-for="policy in policies" :key="policy.id")-->
+                            <!--td ({{ policy.id }}) {{ policy.name }}-->
+                            <!--td: .badge.badge-success {{ policy.status }}-->
+                            <!--td {{ policy.updated_at}}-->
+                            <!--td {{ policy.created_at}}-->
+                            <!--td &hellip;-->
+                            <!--td-->
+                          <!--tr(v-if="!policies.length")-->
+                            <!--td.text-center(colspan=6) No policies-->
+
                       // DragDropComponent(policy="policy")
                 b-tab(title="Archive")
                   .card-body.white-card-body
@@ -47,7 +48,7 @@
                     .container
                       div Setup
             .col-12
-              div {{ policiesListComputed }}
+              pre {{ policiesListComputed }}
               .test-block block
                 .test-block__element element
                 .test-block__element.test-block__element_modificator modificator
@@ -77,32 +78,18 @@
       };
     },
     methods: {
-      search() {
-        this.policiesList = this.policy.compliance_policy.find((pol) => {
-          pol.name === this.searchInput;
-        });
+      makeToast(title, str) {
+        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
       },
-      getContacts(projects) {
-        console.log(projects)
-        return projects.reduce((result, project) => {
-          for (const p in project.projects) {
-            const spec = project.projects[p].specialist
-            if (spec && !result.find(s => s.id === spec.id)) {
-              result.push({
-                id: spec.id,
-                name: spec.first_name + ' ' + spec.last_name,
-                location: [spec.country, spec.state, spec.city].filter(a => a).join(', '),
-                status: spec.visibility,
-                rating: 5
-              })
-            }
-          }
-          return result
-        }, [])
+      search() {
+        this.policiesListComputed = this.policy.find((el) => {
+          if (el.name === el.searchInput)
+          return el;
+        });
       },
     },
     computed: {
-      policiesList: () => {
+      policyById: () => {
         // return this.$store.dispach('getPolicyById', this.id)
       },
       policiesListComputed() {
@@ -113,10 +100,11 @@
       this.$store
         .dispatch("getPolicies")
         .then((response) => {
-          console.log(response);
+          // console.log(response);
         })
         .catch((err) => {
-          console.log(err);
+          console.error(err);
+          this.makeToast('Error', err.message)
         });
     }
   };

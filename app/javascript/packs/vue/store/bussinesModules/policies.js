@@ -25,6 +25,9 @@ export default {
     createSections(state, payload) {
       state.sections.push(payload);
     },
+    getPoliciesListFromDB(state, payload) {
+      state.policies = payload;
+    }
   },
   actions: {
     async createPolicy({ commit, getters }, payload) {
@@ -139,17 +142,33 @@ export default {
     //     return data;
     // },
     async getPolicies ({commit, getters}, payload) {
-      console.log(payload)
-      const endpointUrl = '/api/business/compliance_policies/'
+      commit("clearError");
+      commit("setLoading", true);
 
-      const data = await fetch(`${endpointUrl}`, { headers: {'Accept': 'application/json'}})
-        .then(response => {
-          console.log(response)
-          response.json()
-        })
-        .then(result => console.log(result))
-        .catch(error => console.log(error))
-      return data;
+
+      try {
+        const endpointUrl = '/api/business/compliance_policies'
+        const data = await fetch(`${endpointUrl}`, { headers: {'Accept': 'application/json'}})
+          .then(response => {
+            return response.json()
+          })
+          .then(response => {
+            commit('getPoliciesListFromDB', response)
+            return response
+          })
+          .catch(error => {
+            console.error(error)
+            throw error
+          })
+          .finally(() => commit("setLoading", false))
+
+        return data;
+
+      } catch (error) {
+        commit("setError", error.message);
+        commit("setLoading", false);
+        throw error;
+      }
     },
   },
   getters: {

@@ -24,19 +24,19 @@
               | Risk Level
               b-icon.ml-2(icon='chevron-expand')
             .table__cell
-          .table__row
-            .table__cell.table__cell_name Introduction
+          .table__row(v-for="policy in policies" :key="policy.id")
+            .table__cell.table__cell_name {{ policy.name }}
             .table__cell
-              .status.status__published Published
-            .table__cell 1/20/2021
-            .table__cell 1/20/2021
+              .status.status__draft {{ policy.status }}
+            .table__cell {{ dateToHuman(policy.updated_at) }}
+            .table__cell {{ dateToHuman(policy.created_at) }}
             .table__cell N/A
             .table__cell
               .actions
                 button.px-0.actions__btn(@click="isActive = !isActive", :class="{ active: isActive }")
                   b-icon(icon="three-dots")
                 ul.actions-dropdown(:class="{ active: isActive }")
-                  li.actions-dropdown__item.save Save it
+                  <!--li.actions-dropdown__item.save Save it-->
                   li.actions-dropdown__item.move-up Move up
                   li.actions-dropdown__item.delete Delete
           .table__row
@@ -131,13 +131,10 @@
 </template>
 
 <script>
+  import { DateTime } from 'luxon'
+  const dateFormat = 'MM/DD/YYYY';
   export default {
-    props: {
-      policies: {
-        type: Object,
-        required: false
-      }
-    },
+    props: ['policies'],
     data() {
       return {
         searchInput: '',
@@ -145,7 +142,10 @@
       }
     },
     methods: {
-
+      dateToHuman (date) {
+        return date
+        // return DateTime.fromSQL(date, dateFormat)
+      },
     },
     computed: {
 
