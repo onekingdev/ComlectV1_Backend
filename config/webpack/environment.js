@@ -11,13 +11,22 @@ environment.plugins.prepend(
 environment.loaders.prepend('vue', {
     test: /\.vue$/,
     use: [{
-        loader: 'vue-loader'
+        loader: 'vue-loader',
     }]
 })
 
 environment.loaders.prepend('css', {
     test: /\.css$/,
     use: ['style-loader', 'css-loader']
+})
+
+environment.loaders.prepend('scss', {
+    test: /\.scss$/,
+    use: [
+        'vue-style-loader',
+        'css-loader',
+        'sass-loader'
+    ]
 })
 
 environment.loaders.prepend('pug', {
