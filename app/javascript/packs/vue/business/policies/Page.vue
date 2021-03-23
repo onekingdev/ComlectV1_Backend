@@ -48,10 +48,12 @@
                     .container
                       div Setup
             .col-12
+              .test test asdasdasd фывыasdas asdsa
               pre {{ policiesListComputed }}
               .test-block block
                 .test-block__element element
                 .test-block__element.test-block__element_modificator modificator
+                .ssadasdasd asdsad
 
 </template>
 
