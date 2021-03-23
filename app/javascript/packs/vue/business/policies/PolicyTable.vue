@@ -4,8 +4,8 @@
       .col-4
         .position-relative
           b-icon.icon-searh(icon='search')
-          input.form-control(type="text" placeholder="Search" v-model="searchInput")
-      .col-4 {{ searchInput }}
+          input.form-control(type="text" placeholder="Search" v-model="searchInput", @keyup="searching")
+      .col-4(v-if="policies.length !== 0 && searchInput") Found {{ policies.length }} results
     .row
       .col-12
         .table
@@ -146,6 +146,9 @@
         return date
         // return DateTime.fromSQL(date, dateFormat)
       },
+      searching () {
+        this.$emit('searching', this.searchInput)
+      }
     },
     computed: {
 

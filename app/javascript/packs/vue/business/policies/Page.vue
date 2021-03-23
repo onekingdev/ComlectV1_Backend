@@ -17,7 +17,8 @@
                 b-tab(title="Compilance Manual" active)
                   .card-body.white-card-body
                     .container
-                      PolicyTable(:policies="policiesListComputed")
+                      //Loading
+                      PolicyTable(:policies="filteredList", @searching="searching")
                       <!--Get(policies="/api/business/compliance_policies"): template(v-slot="{policies}"): table.table-->
                         <!--thead-->
                           <!--tr-->
@@ -37,7 +38,6 @@
                             <!--td-->
                           <!--tr(v-if="!policies.length")-->
                             <!--td.text-center(colspan=6) No policies-->
-
                       // DragDropComponent(policy="policy")
                 b-tab(title="Archive")
                   .card-body.white-card-body
@@ -48,7 +48,7 @@
                     .container
                       div Setup
             .col-12
-              .test test asdasdasd фывыasdas asdsa
+              pre {{ filteredList }}
               pre {{ policiesListComputed }}
               .test-block block
                 .test-block__element element
@@ -62,6 +62,7 @@
   import PoliciesModal from "./PoliciesModal";
   import DragDropComponent from "./DragDropComponent";
   import EtaggerMixin from '@/mixins/EtaggerMixin'
+  // import Loading from '@/common/Loading/Loading'
 
   export default {
     mixins: [EtaggerMixin],
@@ -69,6 +70,7 @@
       PolicyTable,
       PoliciesModal,
       DragDropComponent,
+      // Loading
     },
     data() {
       return {
@@ -83,15 +85,17 @@
       makeToast(title, str) {
         this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
       },
-      search() {
-        this.policiesListComputed = this.policy.find((el) => {
-          if (el.name === el.searchInput)
-          return el;
-        });
-      },
+      searching (value) {
+        this.searchInput = value;
+      }
     },
     computed: {
-      policyById: () => {
+      filteredList () {
+        return this.policiesListComputed.filter(policy => {
+            return policy.name.toLowerCase().includes(this.searchInput.toLowerCase())
+        })
+      },
+      policyById () {
         // return this.$store.dispach('getPolicyById', this.id)
       },
       policiesListComputed() {
