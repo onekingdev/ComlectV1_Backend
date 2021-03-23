@@ -41,8 +41,8 @@ ActiveAdmin.register Specialist do
     column 'Email', :user, sortable: 'users.email' do |specialist|
       link_to specialist.user.email, admin_specialist_path(specialist)
     end
-    column :years_of_experience, label: 'Yrs. of XP' do |specialist|
-      link_to specialist.years_of_experience, admin_user_path(specialist.user)
+    column :experience, label: 'experience' do |specialist|
+      link_to specialist.experience, admin_user_path(specialist.user)
     end
     column :username, label: 'Username' do |specialist|
       link_to specialist.username, admin_user_path(specialist.user)
@@ -80,7 +80,7 @@ ActiveAdmin.register Specialist do
       row :dashboard_unlocked
       row :call_booked
       row :min_hourly_rate
-      row :years_of_experience
+      row :experience
       row :user
       row :visibility do |specialist|
         status_tag specialist.is_public? ? 'Public' : 'Anonymous', specialist.is_public? ? 'yes' : nil
@@ -124,7 +124,7 @@ ActiveAdmin.register Specialist do
     column :phone
     column(:photo) { |specialist| specialist.photo.present? }
     column :linkedin_link
-    column :years_of_experience
+    column :experience
     column :former_regulator
     column :certifications
     column :visibility
@@ -143,7 +143,7 @@ ActiveAdmin.register Specialist do
   end
 
   permit_params :resume, :resume_data, :first_name, :last_name, :city, :zipcode, :state, :country, :phone, :linkedin_link,
-                :visibility, :years_of_experience,
+                :visibility, :experience,
                 :former_regulator, :certifications, :dashboard_unlocked, :call_booked, :min_hourly_rate,
                 jurisdiction_ids: [], industry_ids: [], skill_ids: []
 
@@ -152,7 +152,7 @@ ActiveAdmin.register Specialist do
       f.input :first_name
       f.input :last_name
       f.input :resume, as: :file, label: 'Resume'
-      f.input :years_of_experience
+      f.input :experience
       f.input :dashboard_unlocked
       f.input :call_booked
       f.input :min_hourly_rate

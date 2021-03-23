@@ -15,7 +15,7 @@ class JobApplication < ApplicationRecord
 
   scope :preload_association, -> { preload(specialist: :user) }
   scope :by, ->(specialist) { where(specialist_id: specialist) }
-  scope :order_by_experience, -> { order('years_of_experience DESC') }
+  scope :order_by_experience, -> { order('experience DESC') }
   scope :order_by_rating, -> {
     joins(:specialist).order('specialists.ratings_average DESC NULLS LAST')
   }

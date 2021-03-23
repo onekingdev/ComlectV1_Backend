@@ -1,22 +1,15 @@
 <template lang="pug">
   Get(:etag="etag" :project="`/api/business/local_projects/${projectId}`"): template(v-slot="{project}")
-    .container
-      .row.p-x-1
-        .col-md-12.p-t-3.d-flex.justify-content-between.p-b-1
-          div
-            Breadcrumbs(:items="['Projects', project.title]")
-            h2 {{ project.title }}
-            p {{ currentBusiness }}
-          div
-            p.text-right.m-b-2: b-form-checkbox Show on Calendar
-            b-dropdown.m-r-1(text='Actions' variant='default')
-              li: LocalProjectModal(@saved="refetch" :project-id="project.id" :inline="false")
-                button.dropdown-item Edit
-              b-dropdown-item Delete Project
-            a.m-r-1.btn.btn-default(v-if="project.visible_project" :href='viewHref(project.visible_project)') View Post
-            a.m-r-1.btn.btn-default(v-else :href='postHref(project)') Post Project
-            a.btn.btn-dark Complete Project
-    b-tabs(content-class="mt-0")
+    CommonHeader(:title="project.title" :sub="currentBusiness" :breadcrumbs="['Projects', project.title]")
+      p.text-right.m-b-2: b-form-checkbox Show on Calendar
+      b-dropdown.m-r-1(text='Actions' variant='default')
+        li: LocalProjectModal(@saved="newEtag" :project-id="project.id" :inline="false")
+          button.dropdown-item Edit
+        b-dropdown-item Delete Project
+      a.m-r-1.btn.btn-default(v-if="project.visible_project" :href='viewHref(project.visible_project)') View Post
+      a.m-r-1.btn.btn-default(v-else :href='postHref(project)') Post Project
+      button.btn.btn-dark Complete Project
+    b-tabs(content-class="mt-0" v-model="tab")
       b-tab(title="Overview" active)
         .white-card-body.p-y-1
           .container
@@ -25,23 +18,27 @@
                 ApplicationsNotice(:project="project.visible_project" v-if="project.visible_project")
                 Get(v-if="project.visible_project" :etag="etag" :project="`/api/business/projects/${project.visible_project.id}`"): template(v-slot="{project}")
                   TimesheetsNotice(:project="project")
+                  EndContractNotice(:project="project" @saved="completeSuccess" @errors="completeErrors")
             .row.p-x-1
               .col-md-7.col-sm-12
                 .card
-                  ProjectDetails(:project="project" @saved="refetch")
+                  ProjectDetails(:project="project" @saved="newEtag")
               .col-md-5.col-sm-12.pl-0
                 .card
                   .card-header.d-flex.justify-content-between
                     h3.m-y-0 Collaborators
-                    a.btn View All
+                    button.btn.btn-default(@click="viewContract()") View All
                   .card-body
                     table.rating_table
                       tbody
-                        tr
+                        tr(v-for="contract in getContracts(project.projects)" :key="contract.specialist.id")
                           td
-                            //img.m-r-1.userpic_small(v-bind:src="project['business']['logo']")
+                            img.m-r-1.userpic_small(v-if="contract.specialist.photo" :src="contract.specialist.photo")
+                            b {{ contract.specialist.first_name }} {{ contract.specialist.last_name }},
+                            |  Specialist
                           td
-                          td
+                            b-dropdown.float-right(text="..." variant="default")
+                              b-dropdown-item(@click="viewContract(contract)") View Contract
           .container.m-t-1
             .row.p-x-1
               .col-md-12
@@ -54,17 +51,43 @@
       b-tab(title="Documents")
         .card-body.white-card-body
       b-tab(title="Collaborators")
-        .card-body.white-card-body
+        .white-card-body.p-y-1
+          .container
+            .row.p-x-1
+              .col-sm-12
+                .card(v-if="!showingContract")
+                  .card-header.d-flex.justify-content-between
+                    h3.m-y-0 Collaborators
+                  .card-body
+                    table.rating_table
+                      tbody
+                        tr(v-for="contract in getContracts(project.projects)" :key="contract.specialist.id")
+                          td
+                            button.btn.btn-default.float-right(@click="showingContract = contract") View Contract
+                            img.m-r-1.userpic_small(v-if="contract.specialist.photo" :src="contract.specialist.photo")
+                            b {{ contract.specialist.first_name }} {{contract.specialist.last_name }},
+                            |  Specialist
+                          td
+                div(v-else)
+                  .row: .col-sm-12
+                    EndContractModal(:project="showingContract" @saved="completeSuccess" @errors="completeErrors")
+                      button.btn.btn-dark.float-right End Contract
+                    Breadcrumbs.m-y-1(:items="['Collaborators', `${showingContract.specialist.first_name} ${showingContract.specialist.last_name}`]")
+                  .row: .col-sm-12
+                    PropertiesTable(title="Contract Details" :properties="contractDetails(showingContract)")
       b-tab(title="Activity")
         .card-body.white-card-body
 </template>
 
 <script>
+import { fields, readablePaymentSchedule } from '@/common/ProposalFields'
 import ApplicationsNotice from './ApplicationsNotice'
 import TimesheetsNotice from './TimesheetsNotice'
+import EndContractNotice from './EndContractNotice'
 import ProjectDetails from './ProjectDetails'
 import EtaggerMixin from '@/mixins/EtaggerMixin'
 import LocalProjectModal from './LocalProjectModal'
+import EndContractModal from './EndContractModal'
 
 export default {
   mixins: [EtaggerMixin],
@@ -78,11 +101,37 @@ export default {
       required: true
     }
   },
+  data() {
+    return {
+      tab: 0,
+      showingContract: null
+    }
+  },
   components: {
     ApplicationsNotice,
     LocalProjectModal,
     TimesheetsNotice,
+    EndContractNotice,
+    EndContractModal,
     ProjectDetails
+  },
+  methods: {
+    completeSuccess() {
+      this.newEtag()
+      this.$bvToast.toast('Project End has been requested', { title: 'Success', autoHideDelay: 5000 })
+    },
+    completeErrors(errors) {
+      errors.length && this.$bvToast.toast('Cannot request End project', { title: 'Error', autoHideDelay: 5000 })
+    },
+    getContracts(projects) {
+      return projects.filter(project => !!project.specialist)
+    },
+    viewContract(collaborator) {
+      this.tab = 3
+      this.showingContract = collaborator || null
+    },
+    contractDetails: fields,
+    readablePaymentSchedule
   },
   computed: {
     postHref() {
@@ -90,7 +139,7 @@ export default {
     },
     viewHref() {
       return project => this.$store.getters.url('URL_PROJECT_POST', project.id)
-    }
+    },
   }
 }
 </script>

@@ -7,7 +7,7 @@ FactoryBot.define do
     industries { [create(:industry)] }
     jurisdictions { [create(:jurisdiction)] }
     payment_sources { [create(:specialist_payment_source)] }
-    years_of_experience { 10 }
+    experience { 1 }
     first_name { Faker::Name.first_name }
     last_name { Faker::Name.last_name }
     time_zone { Faker::Address.time_zone }

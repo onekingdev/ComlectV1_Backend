@@ -10,6 +10,7 @@ class Project < ApplicationRecord
   alias_attribute :body, :title
   belongs_to :business
   belongs_to :specialist, optional: true
+  belongs_to :local_project, optional: true
   has_one :user, through: :business
   has_and_belongs_to_many :industries, optional: true
   has_and_belongs_to_many :jurisdictions, optional: true
@@ -145,7 +146,7 @@ class Project < ApplicationRecord
   before_create :check_specialist, if: :internal?
   before_create :fix_internal_asap, if: :internal?
   before_create :remove_specialist, unless: :internal? if Rails.env != 'test'
-  before_create :calculate_budget
+  # before_create :calculate_budget
 
   LOCATIONS = [%w[Remote remote], %w[Remote\ +\ Travel remote_and_travel], %w[Onsite onsite]].freeze
   # DB Views depend on these so don't modify:
@@ -169,8 +170,8 @@ class Project < ApplicationRecord
     %w[Within\ a\ month month],
     %w[Not\ sure not_sure]
   ].freeze
-  MINIMUM_EXPERIENCE = ((3..14).map { |n| ["#{n} yrs", n] } + [['15+ yrs', 15]]).freeze
-  EXPERIENCE_RANGES = (1..15).each_with_object({}) do |n, years|
+  MINIMUM_EXPERIENCE = [['Junior', 0], ['Intermediate', 1], ['Expert', 2]].freeze
+  EXPERIENCE_RANGES = (0..2).each_with_object({}) do |n, years|
     years[n] = (n..Float::INFINITY)
   end.freeze
 
