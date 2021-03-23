@@ -148,7 +148,6 @@ Rails.application.routes.draw do
     end
 
     get 'project_posts/:id' => 'projects#show_post'
-    get 'project_posts/:id/edit' => 'projects#update_post'
 
     resources :projects do
       post :post, on: :member
@@ -259,17 +258,6 @@ Rails.application.routes.draw do
         post :sign_in, to: 'authentication#create'
       end
     end
-    scope 'projects/:project_id' do
-      # resources :project_messages, path: 'messages(/:specialist_username)'
-      resources :project_ends, path: 'end', only: %i[create update]
-      resources :project_extensions, path: 'extension', only: %i[create update]
-      # resource :project_rating, path: 'rating'
-      # resource :project_overview, path: 'overview(/:specialist_username)', only: :show
-    end
-
-    get 'local_projects/:project_id/messages' => 'project_messages#index'
-    post 'local_projects/:project_id/messages' => 'project_messages#create'
-    resources :direct_messages, path: 'messages(/:recipient_username)', only: %i[index create]
     namespace :business do
       get '/reminders/:id' => 'reminders#show'
       delete '/reminders/:id' => 'reminders#destroy'
@@ -278,23 +266,20 @@ Rails.application.routes.draw do
       get '/overdue_reminders' => 'reminders#overdue'
       post '/reminders' => 'reminders#create'
       resources :local_projects, only: %i[index create show update]
-      resources :projects, only: %i[index show create update] do
-        resources :project_messages, path: 'messages', only: %i[index create]
+      resources :projects, only: %i[index show create] do
         resources :job_applications, path: 'applications', only: %i[index] do
           post :shortlist
           post :hide
         end
         resources :hires, only: %i[create]
       end
-      resources :compliance_policies, only: %i[index show create update]
+      resources :compliance_policies, only: %i[index show create update destroy]
       get '/compliance_policies/:id/publish' => 'compliance_policies#publish'
       get '/compliance_policies/:id/download' => 'compliance_policies#download'
       resources :projects, only: [] do
         resources :timesheets, except: %i[new edit], controller: 'timesheets'
       end
-      resources :specialist_roles, only: :update
       resources :specialists, only: :index
-      post '/seats/:seat_id/assign', to: 'seats#assign'
       resources :annual_reports, only: %i[index show create update destroy]
       get '/annual_reports/:id/clone' => 'annual_reports#clone'
       scope 'annual_reports/:report_id' do
@@ -304,9 +289,10 @@ Rails.application.routes.draw do
     end
     namespace :specialist do
       get '/projects/my' => 'projects#my'
-      resources :projects, only: %i[index show] do
-        resources :project_messages, path: 'messages', only: %i[index create]
+      resources :projects, only: [] do
         resources :timesheets, except: %i[new edit], controller: 'timesheets'
+      end
+      resources :projects, only: %i[index show] do
         resources :job_applications, path: 'applications', only: %i[show update create destroy]
       end
     end
