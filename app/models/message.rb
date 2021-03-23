@@ -18,6 +18,7 @@ class Message < ApplicationRecord
     where(recipient_id: s_id, sender_id: b_id, recipient_type: 'Specialist', sender_type: 'Business')
       .recent.or(where(recipient_id: b_id, sender_id: s_id, recipient_type: 'Business', sender_type: 'Specialist').recent)
   }
+  scope :direct, -> { where(thread_id: nil) }
 
   include FileUploader[:file]
 

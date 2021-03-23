@@ -110,6 +110,14 @@ class ApplicationController < ActionController::Base
     render 'application/js_redirect', status: status
   end
 
+  def require_someone!
+    if current_business || current_specialist
+      @current_someone = current_business || current_specialist
+    else
+      render 'forbidden', status: :forbidden, locals: { message: 'Only registered users can access this page' }
+    end
+  end
+
   def require_business!
     return if user_signed_in? && current_business
     return authenticate_user! unless user_signed_in?

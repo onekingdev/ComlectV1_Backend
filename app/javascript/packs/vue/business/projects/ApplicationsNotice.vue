@@ -5,8 +5,11 @@
       p There {{ applications | isAre }} currently {{ 'applicant' | plural(applications) }} for your project.
       a.btn.btn-light(:href="viewPostUrl") View
     .alert.alert-info(v-else)
-      h4.alert-heading Your project is currently posted on the job board as of {{ project.created_at | asDate }}.
-      p Keep an eye out! Specialists may reach out to you soon.
+      div(v-if="project.status == 'published'")
+        h4.alert-heading Your project is currently posted on the job board as of {{ project.created_at | asDate }}.
+        p Keep an eye out! Specialists may reach out to you soon.
+      div(v-else)
+        h4.alert-heading Yout project is currently draft
       a.btn.btn-light(:href="viewPostUrl") View
 </template>
 
