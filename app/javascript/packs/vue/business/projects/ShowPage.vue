@@ -9,7 +9,7 @@
       a.m-r-1.btn.btn-default(v-if="project.visible_project" :href='viewHref(project.visible_project)') View Post
       a.m-r-1.btn.btn-default(v-else :href='postHref(project)') Post Project
       button.btn.btn-dark Complete Project
-    b-tabs(content-class="mt-0" v-model="tab")
+    b-tabs(content-class="mt-0" v-model="tabIndex")
       b-tab(title="Overview" active)
         .white-card-body.p-y-1
           .container
@@ -130,7 +130,7 @@ export default {
   },
   data() {
     return {
-      tab: 0,
+      tabIndex: 0,
       showingContract: null
     }
   },
@@ -153,7 +153,7 @@ export default {
       return projects.filter(project => !!project.specialist)
     },
     viewContract(collaborator) {
-      this.tab = 3
+      this.tabIndex = 3
       this.showingContract = collaborator || null
     },
     contractDetails: fields,
