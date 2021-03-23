@@ -71,7 +71,7 @@ class JobApplication::Form < JobApplication
   end
 
   def enough_experience?
-    exp = Specialist.by_experience.find(specialist.id).years_of_experience.to_f
+    exp = Specialist.by_experience.find(specialist.id).experience
     exp >= project.minimum_experience
   end
 

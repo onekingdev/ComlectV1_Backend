@@ -1,5 +1,6 @@
 <template lang="pug">
   Treeselect(@input="input" v-bind="args")
+    template(v-if="idAsLabel" v-slot:value-label="{node}") {{node.id}}
 </template>
 
 <script>
@@ -8,6 +9,14 @@ export default {
     value: {},
     placeholder: String,
     options: {},
+    idAsLabel: {
+      type: Boolean,
+      default: false
+    },
+    treeProps: {
+      type: Object,
+      default: () => ({})
+    },
     multiple: {
       type: Boolean,
       default: false
@@ -25,7 +34,8 @@ export default {
         placeholder: this.placeholder,
         // @see defining options: https://vue-treeselect.js.org/#basic-features
         options: this.options,
-        multiple: this.multiple
+        multiple: this.multiple,
+        ...this.treeProps
       }
     }
   }

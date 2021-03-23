@@ -46,6 +46,10 @@ class Specialist < ApplicationRecord
   has_many :ported_businesses
   has_many :payment_sources, class_name: 'Specialist::PaymentSource'
   has_many :reminders, as: :remindable
+  has_many :local_projects_specialists, foreign_key: :specialist_id
+  has_many :local_projects, through: :local_projects_specialists
+  has_many :business_specialists_roles, foreign_key: :specialist_id
+  has_many :specialist_roles, source: :specialist, through: :business_specialists_roles
 
   has_settings do |s|
     s.key :notifications, defaults: {
@@ -58,6 +62,12 @@ class Specialist < ApplicationRecord
       new_forum_comments: true
     }
   end
+
+  enum seat_role: {
+    basic: 0,
+    admin: 1,
+    trusted: 2
+  }
 
   serialize :sub_industries
   serialize :sub_jurisdictions
@@ -189,14 +199,14 @@ class Specialist < ApplicationRecord
 
   scope :experience_between, ->(min, max) {
     if max
-      where('years_of_experience BETWEEN ? AND ?', min, max)
+      where('experience BETWEEN ? AND ?', min, max)
     else
-      where('years_of_experience >= ?', min)
+      where('experience >= ?', min)
     end
   }
 
   scope :by_experience, ->(dir = :desc) {
-    order("years_of_experience #{dir}")
+    order("experience #{dir}")
   }
 
   scope :by_distance, ->(lat, lng) do
