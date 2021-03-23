@@ -48,7 +48,6 @@ export default {
           ...newPolicy,
         });
 
-
         const data = await fetch('/api/business/compliance_policies', {
           method: 'POST',
           headers: {
@@ -95,10 +94,47 @@ export default {
           payload.sections,
         );
 
-        commit("setLoading", false);
-        commit("updatePolicy", {
-          ...updatePolicy,
-        });
+        console.log('updatePolicy', updatePolicy)
+
+
+        console.log(JSON.stringify({
+          compliance_policy: {
+            name: updatePolicy.title,
+            ...updatePolicy
+          }
+        }))
+
+        const data = await fetch('/api/business/compliance_policies/' + payload.policyID, {
+          method: 'PUT',
+          headers: {
+            // 'Authorization': 'Bearer test',
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            compliance_policy: {
+              name: payload.title,
+              ...updatePolicy
+            }
+          })
+        }).then(response => {
+          console.log(response)
+          if (!response.ok)
+            throw new Error(`Could't update policy (${response.status})`);
+          return response.json()
+        }).then(response => {
+          console.log(response)
+
+          commit("updatePolicy", {
+            ...updatePolicy,
+          });
+
+          return response
+        }).catch (error => {
+          console.error(error)
+          throw error;
+        })
+          .finally(() => commit("setLoading", false))
+
 
       } catch (error) {
         commit("setError", error.message);

@@ -44,7 +44,7 @@
 
         if (!this.policy.name) {
           this.errors.push('Name is required.');
-          this.makeToast('Success', 'Name is required.')
+          this.makeToast('Error', 'Name is required.')
           return;
         }
         console.log(this.policy);

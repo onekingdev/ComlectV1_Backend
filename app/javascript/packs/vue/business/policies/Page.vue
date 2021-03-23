@@ -48,12 +48,12 @@
                     .container
                       div Setup
             .col-12
-              pre {{ filteredList }}
+              <!--pre {{ filteredList }}-->
               pre {{ policiesListComputed }}
-              .test-block block
-                .test-block__element element
-                .test-block__element.test-block__element_modificator modificator
-                .ssadasdasd asdsad
+              <!--.test-block block-->
+                <!--.test-block__element element-->
+                <!--.test-block__element.test-block__element_modificator modificator-->
+                <!--.ssadasdasd asdsad-->
 
 </template>
 

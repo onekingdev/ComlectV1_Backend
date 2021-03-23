@@ -8,24 +8,30 @@
       .col-4(v-if="policies.length !== 0 && searchInput") Found {{ policies.length }} results
     .row
       .col-12
-        .table
+        .table(v-if="policies.length !== 0")
           .table__row
             .table__cell.table__cell_title Name
-            .table__cell.table__cell_title
+            .table__cell.table__cell_title.table__cell_clickable
               | Status
               b-icon.ml-2(icon='chevron-expand')
-            .table__cell.table__cell_title
+            .table__cell.table__cell_title.table__cell_clickable
               | Last Modified
               b-icon.ml-2(icon='chevron-expand')
-            .table__cell.table__cell_title
+            .table__cell.table__cell_title.table__cell_clickable
               | Date Created
               b-icon.ml-2(icon='chevron-expand')
-            .table__cell.table__cell_title
+            .table__cell.table__cell_title.table__cell_clickable
               | Risk Level
               b-icon.ml-2(icon='chevron-expand')
             .table__cell
           .table__row(v-for="policy in policies" :key="policy.id")
-            .table__cell.table__cell_name {{ policy.name }}
+            .table__cell.table__cell_name(v-if="policy.sections.length !== 0")
+              .dropdown-toggle(:id="'#sectionIcon-'+policy.id", @click="toogleSections(policy.id)")
+                b-icon.mr-2(icon='chevron-compact-right')
+                | {{ policy.name }}
+              ul.dropdown-items(:id="'#section-'+policy.id")
+                .li.dropdown-item(v-for="(section, sectionIndex) in policy.sections" :key="sectionIndex") {{ section.title }}
+            .table__cell.table__cell_name(v-else) {{ policy.name }}
             .table__cell
               .status.status__draft {{ policy.status }}
             .table__cell {{ dateToHuman(policy.updated_at) }}
@@ -33,106 +39,22 @@
             .table__cell N/A
             .table__cell
               .actions
-                button.px-0.actions__btn(@click="isActive = !isActive", :class="{ active: isActive }")
+                button.px-0.actions__btn(:id="'#actionIcon-'+policy.id", @click="toogleActions(policy.id)")
                   b-icon(icon="three-dots")
-                ul.actions-dropdown(:class="{ active: isActive }")
-                  <!--li.actions-dropdown__item.save Save it-->
+                ul.actions-dropdown(:id="'#action-'+policy.id")
+                  li.actions-dropdown__item.edit
+                    a.link(:href="'/policies/create/'+policy.id") Edit
                   li.actions-dropdown__item.move-up Move up
                   li.actions-dropdown__item.delete Delete
+        .table(v-else)
           .table__row
-            .table__cell.table__cell_name
-              .dropdown-toggle Managment Oversight
-            .table__cell
-              .status.status__draft Draft
-            .table__cell 1/20/2021
-            .table__cell 1/20/2021
-            .table__cell
-              .level.level__low
-                b-icon.mr-2(icon="exclamation-triangle-fill")
-                | Low
-            .table__cell
-              .actions
-                button.btn.px-0
-                  b-icon(icon="three-dots")
-          .table__row
-            .table__cell.table__cell_name
-              .dropdown-toggle.active
-                b-icon.mr-2(icon='chevron-compact-right')
-                | Code of Ethics and Personal Tranding
-              ul.dropdown-items
-                .li.dropdown-item 1.Code of Ethhics
-                .li.dropdown-item 2.Personal Tranding Policy
-                .li.dropdown-item Firm Review of Personal Tanserfersing
-            .table__cell
-              .status.status__draft Draft
-            .table__cell 1/20/2021
-            .table__cell 1/20/2021
-            .table__cell
-              .level.level__medium
-                b-icon.mr-2(icon="exclamation-triangle-fill")
-                | Medium
-            .table__cell
-              .actions
-                button.btn.px-0
-                  b-icon(icon="three-dots")
-          .table__row
-            .table__cell.table__cell_name
-              .dropdown-toggle.active
-                b-icon.mr-2(icon='chevron-compact-right')
-                | Code of Ethics and Personal Trading Policy
-              ul.dropdown-items
-                .li.dropdown-item 1.Code of Ethhics
-                .li.dropdown-item 2.Personal Tranding Policy
-                .li.dropdown-item Firm Review of Personal Tanserfersing
-                .li.dropdown-item 1.Code of Ethhics
-            .table__cell
-              .status.status__published Published
-            .table__cell 1/20/21
-            .table__cell 1/20/21
-            .table__cell
-              .level.level__high
-                b-icon.mr-2(icon="exclamation-triangle-fill")
-                | High
-            .table__cell
-              .actions
-                button.btn.px-0
-                  b-icon(icon="three-dots")
-          .table__row
-            .table__cell.table__cell_name
-              .dropdown-toggle
-                b-icon.mr-2(icon='chevron-compact-right')
-                | Code of Ethics and Personal Trading Policy
-            .table__cell
-              .status.status__published Published
-            .table__cell 1/20/21
-            .table__cell 1/20/21
-            .table__cell
-              .level.level__high
-                b-icon.mr-2(icon="exclamation-triangle-fill")
-                | High
-            .table__cell
-              .actions
-                button.btn.px-0
-                  b-icon(icon="three-dots")
-          .table__row
-            .table__cell.table__cell_name New Policy
-            .table__cell
-            .table__cell
-            .table__cell
-            .table__cell
-            .table__cell
-          .table__row
-            .table__cell.table__cell_name New Policy
-            .table__cell
-            .table__cell
-            .table__cell
-            .table__cell
-            .table__cell
+            .table__cell.text-center
+              h3 Policies not exist
 </template>
 
 <script>
   import { DateTime } from 'luxon'
-  const dateFormat = 'MM/DD/YYYY';
+
   export default {
     props: ['policies'],
     data() {
@@ -142,16 +64,28 @@
       }
     },
     methods: {
-      dateToHuman (date) {
-        return date
-        // return DateTime.fromSQL(date, dateFormat)
+      dateToHuman (value) {
+        const date = DateTime.fromJSDate(new Date(value))
+        if (!date.invalid) {
+          return date.toFormat('dd/MM/yyyy')
+        }
+        if (date.invalid) {
+          return value
+        }
       },
       searching () {
         this.$emit('searching', this.searchInput)
-      }
+      },
+      toogleActions(value) {
+        document.getElementById(`#action-${value}`).classList.toggle('active');
+        document.getElementById(`#actionIcon-${value}`).classList.toggle('active');
+      },
+      toogleSections(value) {
+        document.getElementById(`#section-${value}`).classList.toggle('active');
+        document.getElementById(`#sectionIcon-${value}`).classList.toggle('active');
+      },
     },
     computed: {
-
     }
   }
 </script>

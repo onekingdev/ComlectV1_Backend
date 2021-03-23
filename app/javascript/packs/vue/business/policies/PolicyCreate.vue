@@ -113,9 +113,7 @@
 
       },
       publish () {
-        // You have the content to save
-        // console.log(this.content);
-        // this.createPolicy();
+
       },
 
       createPolicy(newPolicy) {
@@ -150,7 +148,7 @@
       },
       updatePolicy() {
         const dataToSend = {
-          policyID: this.policyID,
+          policyID: 1,
           ownerId: this.ownerId,
           title: this.title,
           description: this.content,
@@ -209,13 +207,13 @@
       }
     },
     watch: {
-      policiesComputed (oldVal, newVal) {
-        console.log('oldVal', oldVal)
-        console.log('newVal', newVal)
-      }
+      // policiesComputed (oldVal, newVal) {
+      //   console.log('oldVal', oldVal)
+      //   console.log('newVal', newVal)
+      // }
     },
     mounted() {
-      this.createPolicy();
+      // this.createPolicy();
       /*
       this.$store.dispatch('getPolicies', {})
         .then((response) => {
