@@ -171,7 +171,7 @@ class Project < ApplicationRecord
     %w[Not\ sure not_sure]
   ].freeze
   MINIMUM_EXPERIENCE = [['Junior', 0], ['Intermediate', 1], ['Expert', 2]].freeze
-  EXPERIENCE_RANGES = (1..15).each_with_object({}) do |n, years|
+  EXPERIENCE_RANGES = (0..2).each_with_object({}) do |n, years|
     years[n] = (n..Float::INFINITY)
   end.freeze
 
