@@ -10,7 +10,7 @@
 <script>
 export default {
   props: {
-    value: [String, Number],
+    value: String,
     errors: Array,
     placeholder: String,
     options: {
