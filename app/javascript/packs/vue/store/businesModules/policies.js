@@ -263,6 +263,45 @@ export default {
         throw error;
       }
     },
+    moveUpPolicy({ commit, getters }, payload) {
+      commit("clearError");
+      commit("setLoading", true);
+
+      try {
+        payload.forEach((record) => {
+          fetch('/api/business/compliance_policies/' + record.policyId, {
+              method: 'PATCH',
+              headers: {
+                // 'Authorization': 'Bearer test',
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'},
+              body: JSON.stringify({
+                compliance_policy: {
+                  id: record.policyId,
+                  position: record.position,
+                }
+              })
+            }).then(response => {
+              console.log(response)
+              if (!response.ok)
+                throw new Error(`Could't update policy (${response.status})`);
+              return response.json()
+            }).then(response => {
+              console.log(response)
+              return response
+            }).catch (error => {
+              console.error(error)
+              throw error;
+            })
+              .finally(() => commit("setLoading", false))
+        })
+
+      } catch (error) {
+        commit("setError", error.message);
+        commit("setLoading", false);
+        throw error;
+      }
+    },
   },
   getters: {
     policies(state) {

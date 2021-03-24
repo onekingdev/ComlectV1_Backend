@@ -91,6 +91,35 @@
       },
       moveUp(policyId) {
         console.log(policyId)
+        const index = this.policies.findIndex(record => record.id === policyId);
+        // policies[index] = payload;
+        const curPos = this.policies[index].position
+        const newPos = this.policies[index - 1].position
+
+        this.policies[index - 1].position = curPos
+        this.policies[index].position = newPos
+
+        const arrToChange = [
+          {
+            policyId: this.policies[index - 1].id,
+            position: this.policies[index - 1].position
+          },
+          {
+            policyId: this.policies[index].id,
+            position: this.policies[index].position
+          }
+        ]
+
+        this.$store
+          .dispatch("moveUpPolicy", arrToChange)
+          .then((response) => {
+            console.log('response', response)
+            this.makeToast('Success', 'Policy succesfully moved.')
+          })
+          .catch((err) => {
+            console.log(err)
+            this.makeToast('Error', err.message)
+          });
       },
       deletePolicy(policyId) {
         console.log(policyId)
@@ -105,7 +134,10 @@
             console.error(err);
             this.makeToast('Error', err.message)
           });
-      }
+      },
+      makeToast(title, str) {
+        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
+      },
     },
     computed: {
 
