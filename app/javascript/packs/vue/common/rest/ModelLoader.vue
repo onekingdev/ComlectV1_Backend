@@ -1,5 +1,5 @@
 <template lang="pug">
-  slot(v-if="loaded")
+  div(v-if="loaded"): slot
 </template>
 
 <script>

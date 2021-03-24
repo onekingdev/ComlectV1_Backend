@@ -1111,7 +1111,6 @@ CREATE TABLE public.projects (
     extended_at timestamp without time zone,
     starts_in_48 boolean DEFAULT false,
     ends_in_24 boolean DEFAULT false,
-    minimum_experience integer,
     expires_at timestamp without time zone,
     solicited_business_rating boolean DEFAULT false,
     solicited_specialist_rating boolean DEFAULT false,
@@ -1125,7 +1124,8 @@ CREATE TABLE public.projects (
     color character varying,
     local_project_id integer,
     role_details text DEFAULT ''::text,
-    upper_hourly_rate numeric
+    upper_hourly_rate numeric,
+    minimum_experience integer DEFAULT 0
 );
 
 
@@ -2079,7 +2079,6 @@ CREATE TABLE public.specialists (
     specialist_other character varying,
     sub_industries character varying,
     project_types character varying,
-    years_of_experience integer,
     jurisdiction_states_usa character varying DEFAULT ''::character varying,
     jurisdiction_states_canada character varying DEFAULT ''::character varying,
     sub_jurisdictions character varying,
@@ -2092,7 +2091,8 @@ CREATE TABLE public.specialists (
     automatching_available boolean DEFAULT false,
     reminders_mailed_at timestamp without time zone,
     zero_fee boolean DEFAULT false,
-    seat_role integer DEFAULT 0
+    seat_role integer DEFAULT 0,
+    experience integer DEFAULT 0
 );
 
 
@@ -4562,9 +4562,7 @@ CREATE TABLE public.subscriptions (
     billing_period_ends integer,
     payment_source_id integer,
     auto_renew boolean DEFAULT false,
-    status integer DEFAULT 0,
-    specialist_id bigint,
-    specialist_payment_source_id bigint
+    status integer DEFAULT 0
 );
 
 
@@ -6612,13 +6610,6 @@ CREATE INDEX index_projects_on_hourly_rate ON public.projects USING btree (hourl
 
 
 --
--- Name: index_projects_on_minimum_experience; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_projects_on_minimum_experience ON public.projects USING btree (minimum_experience);
-
-
---
 -- Name: index_projects_on_only_regulators; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -6892,19 +6883,6 @@ CREATE INDEX index_time_logs_on_timesheet_id ON public.time_logs USING btree (ti
 
 
 --
--- Name: index_subscriptions_on_specialist_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_subscriptions_on_specialist_id ON public.subscriptions USING btree (specialist_id);
-
-
---
--- Name: index_subscriptions_on_specialist_payment_source_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_subscriptions_on_specialist_payment_source_id ON public.subscriptions USING btree (specialist_payment_source_id);
-
---
 -- Name: index_timesheets_on_first_submitted_at; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7163,16 +7141,9 @@ ALTER TABLE ONLY public.local_projects_specialists
 -- Name: tos_agreements fk_rails_6e25fd106a; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-
 ALTER TABLE ONLY public.tos_agreements
     ADD CONSTRAINT fk_rails_6e25fd106a FOREIGN KEY (user_id) REFERENCES public.users(id);
---
--- Name: subscriptions fk_rails_61927ae2df; Type: FK CONSTRAINT; Schema: public; Owner: -
---
 
-
-ALTER TABLE ONLY public.subscriptions
-    ADD CONSTRAINT fk_rails_61927ae2df FOREIGN KEY (specialist_payment_source_id) REFERENCES public.specialist_payment_sources(id);
 
 --
 -- Name: business_specialists_roles fk_rails_77436698dd; Type: FK CONSTRAINT; Schema: public; Owner: -
@@ -7205,12 +7176,6 @@ ALTER TABLE ONLY public.project_issues
 ALTER TABLE ONLY public.business_specialists_roles
     ADD CONSTRAINT fk_rails_a4e1c0f49f FOREIGN KEY (business_id) REFERENCES public.businesses(id);
 
---
--- Name: subscriptions fk_rails_dafea693de; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.subscriptions
-    ADD CONSTRAINT fk_rails_dafea693de FOREIGN KEY (specialist_id) REFERENCES public.specialists(id);
 
 --
 -- PostgreSQL database dump complete
@@ -7573,7 +7538,6 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210312165913'),
 ('20210315233431'),
 ('20210316121459'),
-('20210317135216'),
-('20210321120504');
+('20210320105303');
 
 

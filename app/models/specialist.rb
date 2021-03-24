@@ -50,7 +50,6 @@ class Specialist < ApplicationRecord
   has_many :local_projects, through: :local_projects_specialists
   has_many :business_specialists_roles, foreign_key: :specialist_id
   has_many :specialist_roles, source: :specialist, through: :business_specialists_roles
-  has_many :subscriptions, foreign_key: :specialist_id
 
   has_settings do |s|
     s.key :notifications, defaults: {
@@ -200,14 +199,14 @@ class Specialist < ApplicationRecord
 
   scope :experience_between, ->(min, max) {
     if max
-      where('years_of_experience BETWEEN ? AND ?', min, max)
+      where('experience BETWEEN ? AND ?', min, max)
     else
-      where('years_of_experience >= ?', min)
+      where('experience >= ?', min)
     end
   }
 
   scope :by_experience, ->(dir = :desc) {
-    order("years_of_experience #{dir}")
+    order("experience #{dir}")
   }
 
   scope :by_distance, ->(lat, lng) do

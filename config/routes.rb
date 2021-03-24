@@ -266,6 +266,10 @@ Rails.application.routes.draw do
       # resource :project_rating, path: 'rating'
       # resource :project_overview, path: 'overview(/:specialist_username)', only: :show
     end
+
+    get 'local_projects/:project_id/messages' => 'project_messages#index'
+    post 'local_projects/:project_id/messages' => 'project_messages#create'
+    resources :direct_messages, path: 'messages(/:recipient_username)', only: %i[index create]
     namespace :business do
       get '/reminders/:id' => 'reminders#show'
       delete '/reminders/:id' => 'reminders#destroy'
@@ -275,13 +279,14 @@ Rails.application.routes.draw do
       post '/reminders' => 'reminders#create'
       resources :local_projects, only: %i[index create show update]
       resources :projects, only: %i[index show create update] do
+        resources :project_messages, path: 'messages', only: %i[index create]
         resources :job_applications, path: 'applications', only: %i[index] do
           post :shortlist
           post :hide
         end
         resources :hires, only: %i[create]
       end
-      resources :compliance_policies, only: %i[index show create update]
+      resources :compliance_policies, only: %i[index show create update destroy]
       get '/compliance_policies/:id/publish' => 'compliance_policies#publish'
       get '/compliance_policies/:id/download' => 'compliance_policies#download'
       resources :projects, only: [] do
@@ -296,25 +301,14 @@ Rails.application.routes.draw do
         resources :review_categories, path: 'review_categories', only: %i[index create update destroy]
       end
       resources :ratings, only: %i[index]
-      post '/upgrade/subscribe' => 'upgrade#subscribe'
-      resources :payment_settings, only: [:create, :update, :destroy]
-      put '/payment_settings/make_primary/:id' => 'payment_settings#make_primary'
     end
     namespace :specialist do
       get '/projects/my' => 'projects#my'
-      resources :projects, only: [] do
-        resources :timesheets, except: %i[new edit], controller: 'timesheets'
-      end
       resources :projects, only: %i[index show] do
+        resources :project_messages, path: 'messages', only: %i[index create]
+        resources :timesheets, except: %i[new edit], controller: 'timesheets'
         resources :job_applications, path: 'applications', only: %i[show update create destroy]
       end
-      post '/upgrade/subscribe' => 'upgrade#subscribe'
-      delete '/upgrade/cancel' => 'upgrade#cancel'
-      post '/payment_settings/create_card' => 'payment_settings#create_card'
-      post '/payment_settings/create_bank' => 'payment_settings#create_bank'
-      delete '/payment_settings/delete_source/:id' => 'payment_settings#delete_source'
-      put '/payment_settings/make_primary/:id' => 'payment_settings#make_primary'
-      put '/payment_settings/validate/:id' => 'payment_settings#validate'
     end
   end
 end

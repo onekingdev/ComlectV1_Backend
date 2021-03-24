@@ -1,6 +1,5 @@
 <template lang="pug">
-  div
-    ModelLoader(:url="projectId ? endpointUrl : undefined" :default="defaultProject" @loaded="loadProject" :callback="transformBackendModel")
+  ModelLoader(:url="projectId ? endpointUrl : undefined" :default="defaultProject" @loaded="loadProject" :callback="transformBackendModel")
     Breadcrumbs(:items="['Projects', pageTitle]")
     h2 {{ pageTitle }}
     p Tell us more about your project and get connected to our experienced specialists.
@@ -81,7 +80,8 @@ import {
   LOCATION_TYPES,
   RFP_TIMING_OPTIONS,
   FIXED_PAYMENT_SCHEDULE_OPTIONS,
-  HOURLY_PAYMENT_SCHEDULE_OPTIONS
+  HOURLY_PAYMENT_SCHEDULE_OPTIONS,
+  MINIMUM_EXPERIENCE_OPTIONS,
 } from '@/common/ProjectInputOptions'
 
 const REQUIRED = 'This field is required'
@@ -252,7 +252,7 @@ export default {
     rfpTimingOptions: () => RFP_TIMING_OPTIONS,
     fixedPaymentScheduleOptions: () => FIXED_PAYMENT_SCHEDULE_OPTIONS,
     hourlyPaymentScheduleOptions: () => HOURLY_PAYMENT_SCHEDULE_OPTIONS,
-    experienceOptions: () => Object.fromEntries([0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(val => [val, val])),
+    experienceOptions: () => MINIMUM_EXPERIENCE_OPTIONS,
     skillsOptions: () => ['SEC', 'Policy Writing', 'FINRA'].map(id => ({ id, label: id })),
     industryIdsOptions() {
       return this.industryIds.map(toOption)

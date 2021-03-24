@@ -20,7 +20,7 @@
                 span.ws-normal= specialist.jurisdictions.map(&:name).join(', ')
               .item
                 i.icon-folder
-                span.ws-normal= pluralize specialist.years_of_experience, 'Yr. Experience', 'Yrs. Experience'
+                span.ws-normal= pluralize specialist.experience, 'Yr. Experience', 'Yrs. Experience'
               - if specialist.former_regulator?
                 .item
                   i.icon-flag

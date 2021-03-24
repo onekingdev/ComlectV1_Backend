@@ -47,7 +47,7 @@ ActiveRecord::Base.transaction do
       lng: Faker::Address.longitude,
       industry_ids: industry_ids.sample(rand(industry_ids.size) + 1),
       jurisdiction_ids: jurisdiction_ids.sample(rand(jurisdiction_ids.size) + 1),
-      years_of_experience: 8
+      experience: 1
     )
     specialist_ids << specialist.id
   end

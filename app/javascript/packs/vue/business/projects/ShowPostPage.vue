@@ -36,7 +36,7 @@
                   dt.col-sm-3 Key Deliverables
                   dd.col-sm-9 {{ project.key_deliverables }}
                   dt.col-sm-3 Minimum Experience
-                  dd.col-sm-9 {{ 'Year' | plural(project.minimum_experience) }}
+                  dd.col-sm-9 {{ project.experience | capital }}
                   dt.col-sm-3 Former Regulator?
                   dd.col-sm-9 {{ project.regulators_only | yesNo }}
                   dt.col-sm-3 Skills

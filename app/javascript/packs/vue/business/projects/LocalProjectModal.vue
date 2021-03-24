@@ -4,25 +4,25 @@
       slot
 
     b-modal.fade(:id="modalId" :title="projectId ? 'Edit project' : 'New project'" @show="newEtag")
-      ModelLoader(:url="projectId ? submitUrl : undefined" :default="initialProject" :etag="etag" @loaded="loadProject"): div
-      label.form-label Title
-      input.form-control(v-model="project.title" type=text placeholder="Enter the name of your project")
-      Errors(:errors="errors.title")
+      ModelLoader(:url="projectId ? submitUrl : undefined" :default="initialProject" :etag="etag" @loaded="loadProject")
+        label.form-label Title
+        input.form-control(v-model="project.title" type=text placeholder="Enter the name of your project")
+        Errors(:errors="errors.title")
 
-      b-row.m-t-1(no-gutters)
-        .col-sm.m-r-1
-          label.form-label Start Date
-          DatePicker(v-model="project.starts_on")
-          Errors(:errors="errors.starts_on")
-        .col-sm
-          label.form-label Due Date
-          DatePicker(v-model="project.ends_on")
-          Errors(:errors="errors.ends_on")
+        b-row.m-t-1(no-gutters)
+          .col-sm.m-r-1
+            label.form-label Start Date
+            DatePicker(v-model="project.starts_on")
+            Errors(:errors="errors.starts_on")
+          .col-sm
+            label.form-label Due Date
+            DatePicker(v-model="project.ends_on")
+            Errors(:errors="errors.ends_on")
 
-      label.m-t-1.form-label Description
-      textarea.form-control(v-model="project.description" rows=3)
-      Errors(:errors="errors.description")
-      .form-text.text-muted Optional
+        label.m-t-1.form-label Description
+        textarea.form-control(v-model="project.description" rows=3)
+        Errors(:errors="errors.description")
+        .form-text.text-muted Optional
 
       template(slot="modal-footer")
         button.btn(@click="$bvModal.hide(modalId)") Cancel

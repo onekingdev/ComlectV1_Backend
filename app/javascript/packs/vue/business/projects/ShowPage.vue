@@ -9,7 +9,7 @@
       a.m-r-1.btn.btn-default(v-if="project.visible_project" :href='viewHref(project.visible_project)') View Post
       a.m-r-1.btn.btn-default(v-else :href='postHref(project)') Post Project
       button.btn.btn-dark Complete Project
-    b-tabs(content-class="mt-0" v-model="tabIndex")
+    b-tabs(content-class="mt-0" v-model="tab")
       b-tab(title="Overview" active)
         .white-card-body.p-y-1
           .container
@@ -18,6 +18,7 @@
                 ApplicationsNotice(:project="project.visible_project" v-if="project.visible_project")
                 Get(v-if="project.visible_project" :etag="etag" :project="`/api/business/projects/${project.visible_project.id}`"): template(v-slot="{project}")
                   TimesheetsNotice(:project="project")
+                  EndContractNotice(:project="project" @saved="completeSuccess" @errors="completeErrors")
             .row.p-x-1
               .col-md-7.col-sm-12
                 .card
@@ -69,38 +70,8 @@
                           td
                 div(v-else)
                   .row: .col-sm-12
-                    button.btn.btn-dark.float-right(v-b-modal.EndContractModal) End Contract
-                      b-modal.fade(id="EndContractModal" title="End Contract")
-                        p ℹ️ Ending this contract will remove this specialist as a collaborator to the project, revoke and permissions granted due to the project, and payout the full contract price.
-                        p: b Do you want to continue?
-                        .card
-                          .card-header
-                            .row
-                              .col-sm
-                                img.m-r-1.userpic_small(v-if="showingContract.specialist.photo" :src="showingContract.specialist.photo")
-                                h3 {{ showingContract.specialist.first_name }} {{showingContract.specialist.last_name }}
-                                p Specialist
-                              .col-sm
-                                span.float-right Outstanding Due <br> {{ 500 | usdWhole }}
-                          .card-header
-                            p
-                              b Project name
-                              span.float-right {{ showingContract.title }}
-                            p
-                              b Payment method
-                              span.float-right {{ readablePaymentSchedule(showingContract.payment_schedule) }}
-                            p
-                              b Date Issued
-                              span.float-right
-                            p
-                              b Payment Method
-                              span.float-right Transfer to Visa
-                          .card-header
-                            p.text-right.text-muted *Transactional fees lorem ipsum dolor.
-                        template(slot="modal-footer")
-                          button.btn(@click="$bvModal.hide('EndContractModal')") Cancel
-                          Post(:action="completeUrl(showingContract)" :model="{}" @saved="completeSuccess" @errors="completeErrors")
-                            button.btn.btn-dark.m-r-1 Confirm
+                    EndContractModal(:project="showingContract" @saved="completeSuccess" @errors="completeErrors")
+                      button.btn.btn-dark.float-right End Contract
                     Breadcrumbs.m-y-1(:items="['Collaborators', `${showingContract.specialist.first_name} ${showingContract.specialist.last_name}`]")
                   .row: .col-sm-12
                     PropertiesTable(title="Contract Details" :properties="contractDetails(showingContract)")
@@ -112,9 +83,11 @@
 import { fields, readablePaymentSchedule } from '@/common/ProposalFields'
 import ApplicationsNotice from './ApplicationsNotice'
 import TimesheetsNotice from './TimesheetsNotice'
+import EndContractNotice from './EndContractNotice'
 import ProjectDetails from './ProjectDetails'
 import EtaggerMixin from '@/mixins/EtaggerMixin'
 import LocalProjectModal from './LocalProjectModal'
+import EndContractModal from './EndContractModal'
 
 export default {
   mixins: [EtaggerMixin],
@@ -130,7 +103,7 @@ export default {
   },
   data() {
     return {
-      tabIndex: 0,
+      tab: 0,
       showingContract: null
     }
   },
@@ -138,12 +111,13 @@ export default {
     ApplicationsNotice,
     LocalProjectModal,
     TimesheetsNotice,
+    EndContractNotice,
+    EndContractModal,
     ProjectDetails
   },
   methods: {
     completeSuccess() {
       this.newEtag()
-      this.$bvModal.hide('EndContractModal')
       this.$bvToast.toast('Project End has been requested', { title: 'Success', autoHideDelay: 5000 })
     },
     completeErrors(errors) {
@@ -153,7 +127,7 @@ export default {
       return projects.filter(project => !!project.specialist)
     },
     viewContract(collaborator) {
-      this.tabIndex = 3
+      this.tab = 3
       this.showingContract = collaborator || null
     },
     contractDetails: fields,
@@ -165,9 +139,6 @@ export default {
     },
     viewHref() {
       return project => this.$store.getters.url('URL_PROJECT_POST', project.id)
-    },
-    completeUrl() {
-      return project => '/api/projects/' + project.id + '/end'
     },
   }
 }
