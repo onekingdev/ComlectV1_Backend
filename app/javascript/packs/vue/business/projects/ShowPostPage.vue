@@ -6,7 +6,9 @@
           Breadcrumbs(:items="['Project', project.title, 'Job Post']")
         .col-md-12.d-flex.justify-content-between.p-b-1.m-t-2
           div
-            h2 {{ project.title }}
+            h2
+              span.badge.badge-default.m-r-1(v-if="'draft' === project.status") Draft
+              | {{ project.title }}
           div
             button.btn.btn-outline-dark.float-right Delete Post
     .white-card-body.p-y-1
