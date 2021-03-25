@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
 
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
-  protect_from_forgery prepend: true
+  protect_from_forgery with: :exception
 
   # Use lambda not symbol so render_403 uses the default message
   # as opposed to getting passed a Pundit::NotAuthorizedError object
@@ -108,14 +108,6 @@ class ApplicationController < ActionController::Base
   def js_redirect(path, status: :ok)
     @path = path
     render 'application/js_redirect', status: status
-  end
-
-  def require_someone!
-    if current_business || current_specialist
-      @current_someone = current_business || current_specialist
-    else
-      render 'forbidden', status: :forbidden, locals: { message: 'Only registered users can access this page' }
-    end
   end
 
   def require_business!

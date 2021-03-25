@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddReadToMessages < ActiveRecord::Migration[6.0]
+class AddReadToMessages < ActiveRecord::Migration
   def change
     add_column :messages, :read_by_recipient, :boolean, default: false
     reversible do |dir|

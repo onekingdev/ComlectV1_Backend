@@ -5,7 +5,7 @@ class Message < ApplicationRecord
   belongs_to :sender, polymorphic: true
   belongs_to :recipient, polymorphic: true
 
-  scope :preload_association, -> { preload(:thread, :sender, :recipient) }
+  scope :preload_associations, -> { preload(:thread, :sender, :recipient) }
   scope :recent, -> { order(created_at: :desc) }
   scope :notifiable, -> { where(read_by_recipient: false).where('created_at < ?', Time.zone.now - 1.minute) }
   scope :unread, -> { where(read_by_recipient: false) }
@@ -18,7 +18,6 @@ class Message < ApplicationRecord
     where(recipient_id: s_id, sender_id: b_id, recipient_type: 'Specialist', sender_type: 'Business')
       .recent.or(where(recipient_id: b_id, sender_id: s_id, recipient_type: 'Business', sender_type: 'Specialist').recent)
   }
-  scope :direct, -> { where(thread_id: nil) }
 
   include FileUploader[:file]
 

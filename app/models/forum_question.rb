@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class ForumQuestion < ActiveRecord::Base
-  has_and_belongs_to_many :industries, optional: true
-  has_and_belongs_to_many :jurisdictions, optional: true
+  has_and_belongs_to_many :industries
+  has_and_belongs_to_many :jurisdictions
   belongs_to :business
   has_many :forum_answers
   validates :jurisdictions, :industries, :title, :body, :state, :business_id, presence: true

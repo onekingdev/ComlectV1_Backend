@@ -21,9 +21,7 @@ class User < ApplicationRecord
   has_one :cookie_agreement, dependent: :destroy
 
   validates :email, presence: true
-  validates :email, email: true, if: :email_present?
-
-  delegate :present?, to: :email, prefix: true
+  validates :email, email: true, if: 'email.present?'
 
   accepts_nested_attributes_for :tos_agreement
   accepts_nested_attributes_for :cookie_agreement

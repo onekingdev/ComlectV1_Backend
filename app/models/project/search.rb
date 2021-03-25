@@ -11,20 +11,20 @@ class Project::Search
   MAX_VALUE = 50_000
 
   attr_accessor :project_type, :sort_by, :keyword, :jurisdiction_ids, :industry_ids, :skill_names, :experience,
-                :regulator, :location_type, :location, :lat, :lng, :location_range, :budget, :skill_selector,
-                :page, :per_page, :pricing_type
-
+                :regulator, :location_type, :location, :lat, :lng, :location_range, :project_value, :skill_selector,
+                :page, :per
   def initialize(attributes = HashWithIndifferentAccess.new)
+    self.page = 1
+    self.per = 12
     attributes.each do |attr, value|
       public_send "#{attr}=", value.presence
     end
     self.sort_by = 'newest' if sort_by.blank?
     self.project_type = 'one-off' if project_type.blank?
-    self.budget = ["0,#{MAX_VALUE}"] if budget.blank?
+    self.project_value = "0;#{MAX_VALUE}" if project_value.blank?
     self.industry_ids ||= []
     self.industry_ids.map!(&:presence).compact!
     self.jurisdiction_ids ||= []
-    self.jurisdiction_ids.map!(&:presence).compact!
     self.jurisdiction_ids.map!(&:presence).compact!
     self.skill_names ||= []
     self.skill_names.map!(&:presence).compact!
@@ -33,18 +33,18 @@ class Project::Search
 
   def results
     return @results if @results
-    @results = Project.preload_association.pending
+    @results = Project.preload_associations.pending
     @results = filter_type(@results)
     @results = filter_industry(@results)
     @results = filter_jurisdiction(@results)
     @results = filter_experience(@results)
-    # @results = filter_budget(@results)
+    @results = filter_value(@results)
     @results = filter_regulator(@results)
     @results = filter_location(@results)
     @results = filter_skills(@results)
-    @results = filter_pricing_type(@results)
     @results = sort(@results)
     @results = search(@results)
+    @results = paginate(@results)
   end
 
   def filter_type(records)
@@ -68,19 +68,19 @@ class Project::Search
   end
 
   def filter_experience(records)
-    return records if experience.blank?
-    conditions = experience.each_with_index.map do |_checkbox, i|
-      "minimum_experience BETWEEN :from_#{i} AND :to_#{i}"
-    end.join(' OR ')
-    records.where(conditions, compile_params(experience))
+    min, max = experience.to_s.split(';').map(&:to_i)
+    min = MIN_EXPERIENCE if min.blank? || min < MIN_EXPERIENCE
+    max = MAX_EXPERIENCE if max.blank?
+    max = min if max < min
+    max = 100 if max == MAX_EXPERIENCE # Future-proof "any experience above 15"
+    records.where(minimum_experience: min..max)
   end
 
-  def filter_budget(records)
-    return records if budget.blank?
-    conditions = budget.each_with_index.map do |_checkbox, i|
-      "(calculated_budget BETWEEN :from_#{i} AND :to_#{i}) OR (est_budget BETWEEN :from_#{i} AND :to_#{i})"
-    end.join(' OR ')
-    records.where(conditions, compile_params(budget))
+  def filter_value(records)
+    min, max = project_value.to_s.split(';').map(&:to_i)
+    return records if min.zero? && max.zero?
+    max = Float::INFINITY if max.to_i == MAX_VALUE
+    records.where(calculated_budget: (min..max)).or(records.where(est_budget: (min..max)))
   end
 
   def filter_regulator(records)
@@ -129,21 +129,11 @@ class Project::Search
     end
   end
 
-  def filter_pricing_type(records)
-    return records if pricing_type.blank?
-
-    records.where(pricing_type: pricing_type)
+  def paginate(records)
+    records.page(page).per(per)
   end
 
   private
-
-  def compile_params(input_arr)
-    input_arr.each_with_index.each_with_object({}) { |(checkbox, i), hash|
-      from, to = checkbox.split(',')
-      hash[:"from_#{i}"] = from
-      hash[:"to_#{i}"] = to
-    }
-  end
 
   def location_ranges
     min, max = location_range.to_s.split(';').map(&:presence)

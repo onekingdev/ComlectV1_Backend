@@ -18,9 +18,6 @@ Rails/UnknownEnv:
     - test
     - staging
 
-Rails/CreateTableWithTimestamps:
-  Enabled: false
-
 Layout/EmptyLineBetweenDefs:
   AllowAdjacentOneLineDefs: true
 

@@ -20,7 +20,7 @@
                 span.ws-normal= specialist.jurisdictions.map(&:name).join(', ')
               .item
                 i.icon-folder
-                span.ws-normal= pluralize specialist.experience, 'Yr. Experience', 'Yrs. Experience'
+                span.ws-normal= pluralize specialist.years_of_experience, 'Yr. Experience', 'Yrs. Experience'
               - if specialist.former_regulator?
                 .item
                   i.icon-flag
@@ -37,6 +37,34 @@
             - if specialist.resume
               .m-t-2
                 .text-center.text-uppercase.small= link_to 'View Resume', specialist.resume_url, class: 'link', target: '_blank'
+
+      .col-xs-12.col-sm-8.col-md-9
+        .panel.panel-default.panel-padded
+          .panel-heading
+            h3 Experience
+          .panel-body.work-experiences
+            .list-group.plain
+              - specialist.sorted_work_experiences.each do |experience|
+                .list-group-item.p-a-0
+                  .list-group-item-heading
+                    .detail= experience.month_year_span
+                    .company= experience.company
+                    .job-title= experience.job_title
+                  .list-group-item-text
+                    = simple_format experience.description
+
+        .panel.panel-default.panel-padded
+          .panel-heading
+            h3 Education
+          .panel-body.education-histories
+            .list-group.plain
+              - specialist.sorted_education_histories.each do |education|
+                .list-group-item.p-a-0
+                  .list-group-item-heading
+                    .detail= education.year
+                    .institution= education.institution
+                    .degree= education.degree
+                  .list-group-item-text
 
         .panel.panel-default.panel-padded
           .panel-heading

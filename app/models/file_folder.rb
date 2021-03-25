@@ -2,7 +2,7 @@
 
 class FileFolder < ActiveRecord::Base
   belongs_to :business
-  belongs_to :parent, class_name: 'FileFolder', optional: true
+  belongs_to :parent, class_name: 'FileFolder'
   has_many :file_folders, class_name: 'FileFolder', foreign_key: :parent_id
   has_many :file_docs, dependent: :destroy
   include FileUploader[:zip]

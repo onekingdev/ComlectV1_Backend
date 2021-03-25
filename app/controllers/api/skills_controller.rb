@@ -3,7 +3,9 @@
 class Api::SkillsController < ApiController
   def index
     @skills = skill_search(params[:q])
-    respond_with paginate @skills, each_serializer: SkillSerializer
+    respond_to do |format|
+      format.json
+    end
   end
 
   private

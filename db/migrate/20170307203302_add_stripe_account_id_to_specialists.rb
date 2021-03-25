@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddStripeAccountIdToSpecialists < ActiveRecord::Migration[6.0]
+class AddStripeAccountIdToSpecialists < ActiveRecord::Migration
   def change
     add_column :specialists, :stripe_account_id, :string
     add_column :specialists, :stripe_secret_key, :string

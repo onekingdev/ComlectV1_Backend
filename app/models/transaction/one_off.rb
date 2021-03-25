@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Transaction::OneOff < Transaction
-  belongs_to :payment_target, class_name: 'StripeAccount', optional: true
+  belongs_to :payment_target, class_name: 'StripeAccount'
 
   def process!
     super do

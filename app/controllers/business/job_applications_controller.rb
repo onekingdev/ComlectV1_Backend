@@ -1,9 +1,20 @@
 # frozen_string_literal: true
 
 class Business::JobApplicationsController < ApplicationController
-  include ActionView::Helpers::TagHelper
-
   before_action :require_business!
+
+  def index
+    @project = current_business.projects.preload_associations.find_by(id: params[:project_id])
+    return render_404 unless @project
+    respond_to do |format|
+      format.html do
+        if request.xhr?
+          @job_applications = applications_list
+          render partial: 'cards', locals: { job_applications: @job_applications }
+        end
+      end
+    end
+  end
 
   def shortlist
     @job_application = current_business.job_applications.find(params[:job_application_id])
@@ -18,7 +29,7 @@ class Business::JobApplicationsController < ApplicationController
   private
 
   def applications_list
-    scope = sort_applications(@project.job_applications.preload_association)
+    scope = sort_applications(@project.job_applications.preload_associations)
     case params[:filter]
     when 'shortlisted'
       scope.shortlisted

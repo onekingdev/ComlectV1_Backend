@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateTurnkeySolutions < ActiveRecord::Migration[6.0]
+class CreateTurnkeySolutions < ActiveRecord::Migration
   def change
     create_table :turnkey_solutions do |t|
       t.string :title

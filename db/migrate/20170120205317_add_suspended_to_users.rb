@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddSuspendedToUsers < ActiveRecord::Migration[6.0]
+class AddSuspendedToUsers < ActiveRecord::Migration
   def change
     rename_column :users, :deleted, :suspended
     rename_column :users, :deleted_at, :suspended_at

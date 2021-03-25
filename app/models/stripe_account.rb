@@ -2,7 +2,7 @@
 
 # rubocop:disable Metrics/ClassLength
 class StripeAccount < ApplicationRecord
-  belongs_to :specialist, optional: true
+  belongs_to :specialist
   has_many :bank_accounts, dependent: :destroy
   has_many :transactions, dependent: :nullify, foreign_key: 'payment_target_id'
 

@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class Projects::JobApplicationsController < ApplicationController
-  include ActionView::Helpers::TagHelper
-
   before_action :require_specialist!, except: 'show'
   before_action :find_project
 
@@ -12,10 +10,15 @@ class Projects::JobApplicationsController < ApplicationController
   end
 
   def new
-    render html: content_tag('create-proposal-page',
-                             '',
-                             ':project-id' => @project.id,
-                             ':project': @project.to_json).html_safe, layout: 'vue_specialist'
+    @job_application = JobApplication::Form.new(
+      specialist: current_specialist,
+      project: @project
+    )
+
+    respond_to do |format|
+      format.js
+      format.html
+    end
   end
 
   def edit

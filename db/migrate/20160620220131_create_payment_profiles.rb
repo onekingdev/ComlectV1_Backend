@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreatePaymentProfiles < ActiveRecord::Migration[6.0]
+class CreatePaymentProfiles < ActiveRecord::Migration
   def change
     create_table :payment_profiles do |t|
       t.references :business, index: true

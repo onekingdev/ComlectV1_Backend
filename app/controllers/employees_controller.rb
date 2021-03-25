@@ -14,7 +14,7 @@ class EmployeesController < ApplicationController
     @reminders_today = reminders_today(current_business)
     @reminders_week = reminders_week(current_business)
     @reminders_past = reminders_past(current_business)
-    @ratings = current_business.ratings_received.preload_association
+    @ratings = current_business.ratings_received.preload_associations
   end
 
   def new

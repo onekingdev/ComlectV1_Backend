@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateAnnualReviewEmployees < ActiveRecord::Migration[6.0]
+class CreateAnnualReviewEmployees < ActiveRecord::Migration
   def change
     create_table :annual_review_employees do |t|
       t.string :name

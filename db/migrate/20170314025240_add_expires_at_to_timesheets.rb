@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddExpiresAtToTimesheets < ActiveRecord::Migration[6.0]
+class AddExpiresAtToTimesheets < ActiveRecord::Migration
   def change
     add_column :timesheets, :expires_at, :datetime
     reversible do |dir|

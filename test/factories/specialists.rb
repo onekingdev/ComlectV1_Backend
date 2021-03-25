@@ -3,23 +3,19 @@
 FactoryBot.define do
   factory :specialist do
     association :user, email_prefix: 'specialist'
-    association :rewards_tier
+    # association :rewards_tier
     industries { [create(:industry)] }
     jurisdictions { [create(:jurisdiction)] }
+    work_experiences { [create(:work_experience)] }
     payment_sources { [create(:specialist_payment_source)] }
-    experience { 1 }
     first_name { Faker::Name.first_name }
     last_name { Faker::Name.last_name }
     time_zone { Faker::Address.time_zone }
     address_1 { Faker::Address.street_address }
     country { Faker::Address.country }
-    state { Faker::Address.country }
-    city { Faker::Address.country }
-    zipcode { '10001' }
-
     sequence(:username) { |n| "UserN#{n + rand(10_000)}" }
-    call_booked { true }
-    dashboard_unlocked { true }
+    call_booked true
+    dashboard_unlocked true
 
     trait :credit do
       credits_in_cents 6000

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreatePortedBusinesses < ActiveRecord::Migration[6.0]
+class CreatePortedBusinesses < ActiveRecord::Migration
   def change
     create_table :ported_businesses do |t|
       t.string :company
