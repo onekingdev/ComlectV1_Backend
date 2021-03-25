@@ -13,7 +13,7 @@ class Api::Specialist::JobApplicationsController < ApiController
   end
 
   def update
-    job_application = current_specialist.job_applications.find(params[:id])
+    job_application = JobApplication::Form.where(specialist_id: current_specialist.id, id: params[:id]).first
     if @project.rfp? && job_application.update(job_application_params)
       render json: job_application, status: :created
     else

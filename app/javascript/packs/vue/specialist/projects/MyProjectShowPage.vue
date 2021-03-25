@@ -86,15 +86,25 @@
       b-tab(title="Activity")
     b-tabs(v-else)
       b-tab(title="Overview")
-        PropertiesTable(title="Post Details" :properties="overviewProps(project)")
+        .white-card-body.p-y-1
+          .container
+            .row.p-x-1
+              .col-md-12
+                PropertiesTable(title="Post Details" :properties="overviewProps(project)")
       b-tab(title="Proposal")
-        Get(:application="applicationUrl(project.id, applicationId)"): template(v-slot="{application}")
-          PropertiesTable(title="Proposal" :properties="proposalProps(application)")
-            button.btn.btn-outline-dark.float-right Edit
+        .white-card-body.p-y-1
+          .container
+            .row.p-x-1
+              .col-md-12
+                Get(:application="applicationUrl(project.id, applicationId)"): template(v-slot="{application}")
+                  PropertiesTable(title="Proposal" :properties="proposalProps(application)")
+                    EditProposalModal(:project-id="project.id" :application-id="applicationId")
+                      button.btn.btn-outline-dark.float-right Edit
 </template>
 
 <script>
 import { readablePaymentSchedule, fields } from '@/common/ProposalFields'
+import EditProposalModal from '@/specialist/projects/EditProposalModal'
 
 const overviewProps = project => {
   return [{ name: 'Owner', value: project.business && project.business.business_name },
@@ -184,6 +194,9 @@ export default {
     showTimesheetBtn() {
       return project => 'hourly' === project.pricing_type
     }
+  },
+  components: {
+    EditProposalModal
   }
 }
 </script>
