@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
-import policies from "./businesModules/policies";
+import policies from "./bussinesModules/policies";
 import shared from "./shared";
 
 Vue.use(Vuex);
