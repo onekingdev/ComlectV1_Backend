@@ -9,7 +9,7 @@ class Api::ProjectExtensionsController < ApiController
   skip_before_action :verify_authenticity_token # TODO: proper authentication
 
   def create
-    if ProjectExtension::Request.process! @project, params.require(:project_extension).require(:new_end_date)
+    if ProjectExtension::Request.process! @project, params.require(:new_end_date)
       render json: { success: 'A project extension has been requested', project: @project }
     else
       render json: { error: 'Error' }
