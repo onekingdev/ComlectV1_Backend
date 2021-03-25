@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddAchFieldsToPaymentSources < ActiveRecord::Migration
+class AddAchFieldsToPaymentSources < ActiveRecord::Migration[6.0]
   def change
     change_table :payment_sources do |t|
       t.string :type

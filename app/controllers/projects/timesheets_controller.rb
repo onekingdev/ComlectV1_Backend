@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 
 class Projects::TimesheetsController < ApplicationController
+  include ActionView::Helpers::TagHelper
+
   before_action :require_specialist!
   before_action :find_project
 
   def index
-    @timesheet = Timesheet::Form.new_for(@project)
-    @timesheets = @project.timesheets.sorted
-
-    respond_to do |format|
-      format.html { render partial: 'index' }
-      format.js
-    end
+    render html: content_tag('project-timesheets-page',
+                             '',
+                             ':id': params[:project_id],
+                             'token': JsonWebToken.encode(sub: current_user.id)).html_safe,
+           layout: 'vue_specialist'
   end
 
   def show

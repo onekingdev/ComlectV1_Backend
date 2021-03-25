@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddLastTryToTransactions < ActiveRecord::Migration
+class AddLastTryToTransactions < ActiveRecord::Migration[6.0]
   def change
     add_column :transactions, :last_try_at, :datetime
     add_index :transactions, :last_try_at

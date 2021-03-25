@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateSubscriptionCharges < ActiveRecord::Migration
+class CreateSubscriptionCharges < ActiveRecord::Migration[6.0]
   def change
     create_table :subscription_charges do |t|
       t.string :stripe_charge_id

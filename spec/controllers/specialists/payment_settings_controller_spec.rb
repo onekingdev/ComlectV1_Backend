@@ -37,7 +37,7 @@ RSpec.describe Specialists::PaymentSettingsController, type: :controller do
     context 'when payment source given' do
       it 'will assign payment source' do
         payment_source = specialist.payment_sources.first
-        get :show, payment_source: payment_source.id
+        get :show, params: { payment_source: payment_source.id }
         expect(assigns(:payment_source).id).to eq(payment_source.id)
       end
     end
@@ -55,7 +55,7 @@ RSpec.describe Specialists::PaymentSettingsController, type: :controller do
         },
         format: :json
       }
-      post :create_bank, params
+      post :create_bank, params: params
       expect(response.status).to eq(201)
     end
 
@@ -86,7 +86,7 @@ RSpec.describe Specialists::PaymentSettingsController, type: :controller do
         format: :json
       }
 
-      post :create_bank, params
+      post :create_bank, params: params
       expect(response.status).to eq(201)
     end
   end
@@ -100,7 +100,7 @@ RSpec.describe Specialists::PaymentSettingsController, type: :controller do
         stripeToken: token,
         format: :json
       }
-      post :create_card, params
+      post :create_card, params: params
       expect(response.status).to eq(201)
     end
 
@@ -124,14 +124,14 @@ RSpec.describe Specialists::PaymentSettingsController, type: :controller do
         format: :json
       }
 
-      post :create_card, params
+      post :create_card, params: params
       expect(response.status).to eq(201)
     end
   end
 
   describe 'patch new' do
     it 'make a payment source primary' do
-      patch :make_primary, id: specialist.payment_sources.first.id
+      patch :make_primary, params: { id: specialist.payment_sources.first.id }
       expect(response).to redirect_to(specialists_settings_payment_path)
     end
   end
@@ -162,7 +162,7 @@ RSpec.describe Specialists::PaymentSettingsController, type: :controller do
         },
         id: payment_source.id
       }
-      patch :validate, data
+      patch :validate, params: data
       expect(response).to redirect_to(specialists_settings_payment_path)
     end
   end

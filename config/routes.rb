@@ -37,16 +37,10 @@ Rails.application.routes.draw do
   end
 
   root to: 'landing_page#show'
-  get 'info/:page' => 'home#page', as: :page
   get 'app_config' => 'home#app_config', format: 'js'
   get 'marketplace' => 'home#marketplace'
-  get 'press' => 'home#press'
   get 'r/:token' => 'referrals#show', as: :referrals
   get 'q-and-a-forum' => 'home#q_and_a_forum', as: :q_and_a_forum
-
-  namespace :partners, only: [] do
-    resources :ima, only: %i[index create]
-  end
 
   get '/ask-a-specialist/search' => 'forum_questions#search', as: :forum_search
   resources :forum_questions, path: 'ask-a-specialist', param: :url
@@ -71,6 +65,7 @@ Rails.application.routes.draw do
     patch '/' => 'businesses#update', as: :update
   end
   get '/business' => 'business_dashboard#show', as: :business_dashboard
+  get '/business2' => 'business_dashboard2#show', as: :business_dashboard2
 
   concern :favoriteable do
     resources :favorites, only: [] do
@@ -122,7 +117,6 @@ Rails.application.routes.draw do
     resource :projects, only: %i[index]
     resource :settings, only: :show do
       resource :password
-      resource :key_contact
       # resource :referrals, only: :show
       resource :delete_account
       resources :payment_settings, as: :payment, path: 'payment' do
@@ -152,6 +146,9 @@ Rails.application.routes.draw do
       resource :project_rating, path: 'rating'
       resource :project_overview, path: 'overview(/:specialist_username)', only: :show
     end
+
+    get 'project_posts/:id' => 'projects#show_post'
+    get 'project_posts/:id/edit' => 'projects#update_post'
 
     resources :projects do
       post :post, on: :member
@@ -183,22 +180,6 @@ Rails.application.routes.draw do
     get '/locked' => 'dashboard#locked'
     resources :reminders, only: %i[new update create destroy edit show index]
     resources :addons, only: %i[index]
-    resources :businesses, only: %i[new create show] do
-      get '/personalize' => 'personalize#quiz'
-      post '/personalize' => 'personalize#quiz'
-      get '/personalize_book' => 'personalize#book'
-      resources :seats, only: %i[index new]
-      resources :compliance_policies, only: %i[new update create edit show destroy index] do
-        member do
-          put :ban
-          put :unban
-        end
-      end
-      resources :annual_reviews, only: %i[new create show destroy index edit update]
-      resources :annual_reports, only: %i[new create index update]
-      # resources :teams, only: %i[new create show edit index update]
-      resources :audit_requests, only: %i[index update create new edit show destroy]
-    end
     resource :help, only: :show do
       resource :questions
     end
@@ -273,5 +254,61 @@ Rails.application.routes.draw do
 
   namespace :api do
     resources :skills, only: :index
+    resources :users, only: [] do
+      collection do
+        post :sign_in, to: 'authentication#create'
+      end
+    end
+    scope 'projects/:project_id' do
+      # resources :project_messages, path: 'messages(/:specialist_username)'
+      resources :project_ends, path: 'end', only: %i[create update]
+      resources :project_extensions, path: 'extension', only: %i[create update]
+      # resource :project_rating, path: 'rating'
+      # resource :project_overview, path: 'overview(/:specialist_username)', only: :show
+    end
+
+    get 'local_projects/:project_id/messages' => 'project_messages#index'
+    post 'local_projects/:project_id/messages' => 'project_messages#create'
+    resources :direct_messages, path: 'messages(/:recipient_username)', only: %i[index create]
+    namespace :business do
+      get '/reminders/:id' => 'reminders#show'
+      delete '/reminders/:id' => 'reminders#destroy'
+      post '/reminders/:id' => 'reminders#update'
+      get '/reminders/:date_from/:date_to' => 'reminders#by_date'
+      get '/overdue_reminders' => 'reminders#overdue'
+      post '/reminders' => 'reminders#create'
+      resources :local_projects, only: %i[index create show update]
+      resources :projects, only: %i[index show create update] do
+        resources :project_messages, path: 'messages', only: %i[index create]
+        resources :job_applications, path: 'applications', only: %i[index] do
+          post :shortlist
+          post :hide
+        end
+        resources :hires, only: %i[create]
+      end
+      resources :compliance_policies, only: %i[index show create update]
+      get '/compliance_policies/:id/publish' => 'compliance_policies#publish'
+      get '/compliance_policies/:id/download' => 'compliance_policies#download'
+      resources :projects, only: [] do
+        resources :timesheets, except: %i[new edit], controller: 'timesheets'
+      end
+      resources :specialist_roles, only: :update
+      resources :specialists, only: :index
+      post '/seats/:seat_id/assign', to: 'seats#assign'
+      resources :annual_reports, only: %i[index show create update destroy]
+      get '/annual_reports/:id/clone' => 'annual_reports#clone'
+      scope 'annual_reports/:report_id' do
+        resources :review_categories, path: 'review_categories', only: %i[index create update destroy]
+      end
+      resources :ratings, only: %i[index]
+    end
+    namespace :specialist do
+      get '/projects/my' => 'projects#my'
+      resources :projects, only: %i[index show] do
+        resources :project_messages, path: 'messages', only: %i[index create]
+        resources :timesheets, except: %i[new edit], controller: 'timesheets'
+        resources :job_applications, path: 'applications', only: %i[show update create destroy]
+      end
+    end
   end
 end

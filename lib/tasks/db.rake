@@ -16,7 +16,6 @@ namespace :db do
       businesses_jurisdictions
       charges
       documents
-      education_histories
       email_threads
       favorites
       flags
@@ -48,7 +47,6 @@ namespace :db do
       timesheets
       transactions
       users
-      work_experiences
     ]
 
     tables.each do |table|

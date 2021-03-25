@@ -16,7 +16,7 @@ RSpec.describe 'Creating a project', type: :request do
 
   context 'when rfp' do
     subject do
-      post business_projects_path, project: {
+      post business_projects_path, params: { project: {
         status: 'published',
         title: 'RFP',
         description: 'I need an RFTP',
@@ -31,17 +31,17 @@ RSpec.describe 'Creating a project', type: :request do
         minimum_experience: Project::MINIMUM_EXPERIENCE.first.last,
         pricing_type: 'hourly',
         est_budget: '10000'
-      }
+      } }
     end
 
     it 'redirects to the business dashboard' do
-      expect(response).to redirect_to(business_dashboard_path(anchor: 'projects-pending'))
+      expect(response).to redirect_to(business_projects_path(anchor: 'projects-pending'))
     end
   end
 
   context 'when one_off' do
     subject do
-      post business_projects_path, project: {
+      post business_projects_path, params: { project: {
         status: 'published',
         title: 'Foo',
         description: 'bar baz',
@@ -58,11 +58,11 @@ RSpec.describe 'Creating a project', type: :request do
         estimated_hours: '2',
         pricing_type: 'hourly',
         hourly_payment_schedule: 'upon_completion'
-      }
+      } }
     end
 
     it 'redirects to the business dashboard' do
-      expect(response).to redirect_to(business_dashboard_path(anchor: 'projects-pending'))
+      expect(response).to redirect_to(business_projects_path(anchor: 'projects-pending'))
     end
   end
 end

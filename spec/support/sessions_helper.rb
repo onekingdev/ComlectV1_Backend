@@ -2,7 +2,7 @@
 
 module SessionsHelper
   def sign_in(user, password = 'password')
-    post user_session_path, 'user[email]' => user.email, 'user[password]' => password
+    post user_session_path, params: { 'user[email]' => user.email, 'user[password]' => password }
     expect(response).to have_http_status(:found)
   end
 

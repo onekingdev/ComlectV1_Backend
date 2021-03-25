@@ -3,9 +3,10 @@
 class Specialist::Invitation < ApplicationRecord
   belongs_to :team, foreign_key: :specialist_team_id
   belongs_to :department, class_name: '::Team', foreign_key: :team_id
-  belongs_to :specialist
+  belongs_to :specialist, optional: true
 
   enum status: { pending: 0, accepted: 1 }
+  enum role: { basic: 0, admin: 1, trusted: 2 }
 
   before_create :generate_token
 

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddCountryFieldToSpecialistPaymentSources < ActiveRecord::Migration
+class AddCountryFieldToSpecialistPaymentSources < ActiveRecord::Migration[6.0]
   def change
     add_column :specialist_payment_sources, :validated, :boolean, default: false
     add_column :specialist_payment_sources, :bank_account, :boolean, default: false

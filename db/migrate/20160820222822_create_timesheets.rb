@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateTimesheets < ActiveRecord::Migration
+class CreateTimesheets < ActiveRecord::Migration[6.0]
   def change
     create_table :timesheets do |t|
       t.references :project, index: true

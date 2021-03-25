@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateFlags < ActiveRecord::Migration
+class CreateFlags < ActiveRecord::Migration[6.0]
   def change
     create_table :flags do |t|
       t.references :flagged_content, index: true, polymorphic: true

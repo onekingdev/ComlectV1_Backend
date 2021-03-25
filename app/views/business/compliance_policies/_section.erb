@@ -1,0 +1,7 @@
+<div style="padding-left: 30px;">
+  <h1><%= section["title"] %></h1>
+  <h2><%= section["desc"] %></h2>
+  <% section["children"].each do |child| %>
+    <%= render partial: 'business/compliance_policies/section', locals: { section: child } %>
+  <% end %>
+</div>

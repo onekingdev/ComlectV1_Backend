@@ -1,4 +1,4 @@
 # frozen_string_literal: true
 
-class PaymentSource::ACHPolicy < PaymentSourcePolicy
+class PaymentSource::AchPolicy < PaymentSourcePolicy
 end

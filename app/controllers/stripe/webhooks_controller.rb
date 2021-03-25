@@ -9,6 +9,6 @@ class Stripe::WebhooksController < ApplicationController
       params[:account],
       connect: params[:connect] == '1'
     )
-    render nothing: true, status: :ok
+    head :ok
   end
 end
