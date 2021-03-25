@@ -308,6 +308,7 @@ Rails.application.routes.draw do
         resources :project_messages, path: 'messages', only: %i[index create]
         resources :timesheets, except: %i[new edit], controller: 'timesheets'
         resources :job_applications, path: 'applications', only: %i[show update create destroy]
+        get :local
       end
     end
   end
