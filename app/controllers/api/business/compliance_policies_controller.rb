@@ -76,11 +76,12 @@ class Api::Business::CompliancePoliciesController < ApiController
     params[:compliance_policy].permit(
       :name,
       :description,
+      :position,
       sections: [
-        :title, :desc, children: [
-          :title, :desc, children: [
-            :title, :desc, children: [
-              :title, :desc, children: []
+        :title, :description, children: [
+          :title, :description, children: [
+            :title, :description, children: [
+              :title, :description, children: []
             ]
           ]
         ]
