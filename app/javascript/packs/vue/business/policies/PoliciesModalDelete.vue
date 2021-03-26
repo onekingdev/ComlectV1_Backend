@@ -66,6 +66,10 @@
             this.policy.name = ''
 
             // window.location.href = `${window.location.href}/create`;
+            console.log(window.location)
+            if (window.location.href === `${window.location.origin}/business/compliance_policies/${this.policyId}`) {
+              window.location.href = `${window.location.origin}/business/compliance_policies/`
+            }
           } else {
             this.makeToast('Error', 'Couldn\'t submit form')
           }

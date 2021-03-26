@@ -4,8 +4,8 @@
       slot
 
     b-modal.fade(:id="modalId" title="New policy")
-      label.form-label New policy
-      input.form-control(v-model="policy.name" type="text" placeholder="Enter the name of your policy" @keyup.enter="submit")
+      label.form-label New policy name
+      input.form-control(v-model="policy.name" type="text" placeholder="Enter the name of your policy" @keyup.enter="submit" autofocus)
       Errors(:errors="errors.title")
 
       template(slot="modal-footer")
@@ -92,6 +92,6 @@
           errors: Array
         }
       }
-    }
+    },
   }
 </script>

@@ -20,15 +20,16 @@
                     a.link.btn.mr-3(@click="saveDraft") Save Draft
                     button.btn.btn.btn-default.mr-3(@click="download") Download
                     button.btn.btn-dark.mr-3(@click="publish") Publish
-                    button.btn.btn__close.mr-3(@click="deletePolicy")
-                      b-icon(icon='x')
+                    PoliciesModalDelete(:policyId="policy.id")
+                      button.btn.btn__close.mr-3
+                        b-icon(icon='x')
           .row
             .col-12.px-0
               b-tabs(content-class="mt-0")
                 .policy-actions
                   b-dropdown.bg-white(text='Actions', variant="secondary", right)
-                    b-dropdown-item Delete all
-                    b-dropdown-item Save all
+                    b-dropdown-item(@click="deleteAll") Delete all
+                    <!--b-dropdown-item Save all-->
                 .col-12.px-lg-5.px-md-3
                   .card-body.white-card-body.p-0.position-relative
                     b-tab(title="Details" active)
@@ -81,6 +82,7 @@
   import { VueEditor } from "vue2-editor";
   import SubsectionPolicy from "./PolicySubsection";
   import HistoryPolicy from "./PolicyHistory";
+  import PoliciesModalDelete from "./PoliciesModalDelete";
 
   export default {
     props: {
@@ -98,6 +100,7 @@
       VueEditor,
       SubsectionPolicy,
       HistoryPolicy,
+      PoliciesModalDelete
     },
     data() {
       return {
@@ -153,6 +156,9 @@
       },
       deletePolicy() {
         console.log(`delete${this.policyId}`)
+      },
+      deleteAll(){
+        this.policy = {}
       },
 
       createPolicy(newPolicy) {
