@@ -697,7 +697,7 @@ CREATE TABLE public.compliance_policies (
     updated_at timestamp without time zone NOT NULL,
     business_id integer,
     pdf_data jsonb,
-    "position" integer,
+    "position" double precision,
     ban boolean DEFAULT false,
     description text DEFAULT ''::text,
     src_id integer,
@@ -929,6 +929,109 @@ CREATE SEQUENCE public.email_threads_id_seq
 --
 
 ALTER SEQUENCE public.email_threads_id_seq OWNED BY public.email_threads.id;
+
+
+--
+-- Name: exam_request_files; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.exam_request_files (
+    id bigint NOT NULL,
+    exam_request_id integer,
+    file_data jsonb,
+    name character varying,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: exam_request_files_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.exam_request_files_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: exam_request_files_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.exam_request_files_id_seq OWNED BY public.exam_request_files.id;
+
+
+--
+-- Name: exam_requests; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.exam_requests (
+    id bigint NOT NULL,
+    name character varying,
+    details text,
+    text_items jsonb,
+    complete boolean DEFAULT false,
+    shared boolean DEFAULT false,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: exam_requests_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.exam_requests_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: exam_requests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.exam_requests_id_seq OWNED BY public.exam_requests.id;
+
+
+--
+-- Name: exams; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.exams (
+    id bigint NOT NULL,
+    name character varying,
+    starts_on date,
+    ends_on date,
+    share_uuid character varying,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    business_id integer
+);
+
+
+--
+-- Name: exams_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.exams_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: exams_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.exams_id_seq OWNED BY public.exams.id;
 
 
 --
@@ -5079,6 +5182,27 @@ ALTER TABLE ONLY public.email_threads ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
+-- Name: exam_request_files id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.exam_request_files ALTER COLUMN id SET DEFAULT nextval('public.exam_request_files_id_seq'::regclass);
+
+
+--
+-- Name: exam_requests id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.exam_requests ALTER COLUMN id SET DEFAULT nextval('public.exam_requests_id_seq'::regclass);
+
+
+--
+-- Name: exams id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.exams ALTER COLUMN id SET DEFAULT nextval('public.exams_id_seq'::regclass);
+
+
+--
 -- Name: favorites id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -5621,6 +5745,30 @@ ALTER TABLE ONLY public.education_histories
 
 ALTER TABLE ONLY public.email_threads
     ADD CONSTRAINT email_threads_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: exam_request_files exam_request_files_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.exam_request_files
+    ADD CONSTRAINT exam_request_files_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: exam_requests exam_requests_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.exam_requests
+    ADD CONSTRAINT exam_requests_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: exams exams_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.exams
+    ADD CONSTRAINT exams_pkey PRIMARY KEY (id);
 
 
 --
@@ -7538,6 +7686,11 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210312165913'),
 ('20210315233431'),
 ('20210316121459'),
-('20210320105303');
+('20210320105303'),
+('20210323154622'),
+('20210323174434'),
+('20210323180114'),
+('20210323180130'),
+('20210326130422');
 
 
