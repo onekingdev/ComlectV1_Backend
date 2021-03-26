@@ -144,6 +144,7 @@
         this.$store
           .dispatch("publishPolicy", { policyId: this.policyId })
           .then(response => {
+            console.log(response)
             this.makeToast('Success', 'Policy succesfully published.')
           })
           .catch((err) => {
