@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     saved() {
-      this.$bvToast.toast('Success', { title: 'Extension requested', autoHideDelay: 5000 })
+      this.$bvToast.toast('Success', { title: 'A project extension has been requested', autoHideDelay: 5000 })
     }
   },
   computed: {

@@ -9,10 +9,11 @@ class Api::ProjectExtensionsController < ApiController
   skip_before_action :verify_authenticity_token # TODO: proper authentication
 
   def create
+    return render json: { new_end_date: ['Required field'] }, status: :unprocessable_entity if params[:new_end_date].blank?
     if ProjectExtension::Request.process!(@project, params.require(:new_end_date), @current_someone)
-      render json: { success: 'A project extension has been requested', project: @project }
+      render json: { project: @project }
     else
-      render json: { error: 'Error' }
+      render json: { new_end_date: ['Internal error'] }, status: :unprocessable_entity
     end
   end
 
