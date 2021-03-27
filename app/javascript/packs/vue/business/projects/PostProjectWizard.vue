@@ -200,9 +200,6 @@ export default {
       }
       return !Object.keys(this.errors).length
     },
-    makeToast(title, str) {
-      this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
-    },
     saved() {
       const redirectUrl = `/business/projects/${this.project.local_project_id || ''}`
       redirectWithToast(redirectUrl, 'The project has been saved')

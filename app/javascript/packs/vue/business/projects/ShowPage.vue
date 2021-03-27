@@ -19,7 +19,7 @@
                 Get(v-if="project.visible_project" :etag="etag" :project="`/api/business/projects/${project.visible_project.id}`"): template(v-slot="{project}")
                   TimesheetsNotice(:project="project")
                   EndContractNotice(:project="project" @saved="completeSuccess" @errors="completeErrors")
-                  ExtendDeadlineNotice(:project="project")
+                  ExtendDeadlineNotice(:project="project" @saved="newEtag")
             .row.p-x-1
               .col-md-7.col-sm-12
                 .card
@@ -121,10 +121,10 @@ export default {
   methods: {
     completeSuccess() {
       this.newEtag()
-      this.$bvToast.toast('Project End has been requested', { title: 'Success', autoHideDelay: 5000 })
+      this.toast('Success', 'Project End has been requested')
     },
     completeErrors(errors) {
-      errors.length && this.$bvToast.toast('Cannot request End project', { title: 'Error', autoHideDelay: 5000 })
+      errors.length && this.toast('Error', 'Cannot request End project')
     },
     getContracts(projects) {
       return projects.filter(project => !!project.specialist)
