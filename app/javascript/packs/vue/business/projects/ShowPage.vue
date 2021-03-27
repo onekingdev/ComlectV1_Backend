@@ -19,6 +19,7 @@
                 Get(v-if="project.visible_project" :etag="etag" :project="`/api/business/projects/${project.visible_project.id}`"): template(v-slot="{project}")
                   TimesheetsNotice(:project="project")
                   EndContractNotice(:project="project" @saved="completeSuccess" @errors="completeErrors")
+                  ExtendDeadlineNotice(:project="project")
             .row.p-x-1
               .col-md-7.col-sm-12
                 .card
@@ -81,13 +82,14 @@
 
 <script>
 import { fields, readablePaymentSchedule } from '@/common/ProposalFields'
-import ApplicationsNotice from './ApplicationsNotice'
-import TimesheetsNotice from './TimesheetsNotice'
-import EndContractNotice from './EndContractNotice'
+import ApplicationsNotice from './alerts/ApplicationsNotice'
+import TimesheetsNotice from './alerts/TimesheetsNotice'
+import EndContractNotice from './alerts/EndContractNotice'
 import ProjectDetails from './ProjectDetails'
 import EtaggerMixin from '@/mixins/EtaggerMixin'
 import LocalProjectModal from './LocalProjectModal'
 import EndContractModal from './EndContractModal'
+import ExtendDeadlineNotice from './alerts/ExtendDeadlineNotice'
 
 export default {
   mixins: [EtaggerMixin],
@@ -109,6 +111,7 @@ export default {
   },
   components: {
     ApplicationsNotice,
+    ExtendDeadlineNotice,
     LocalProjectModal,
     TimesheetsNotice,
     EndContractNotice,
