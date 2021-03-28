@@ -18,12 +18,12 @@ export default {
       state.policies.push(payload);
     },
     updatePolicy(state, payload) {
-      const index = state.policies.findIndex(record => record.policyID === payload.policyID);
+      const index = state.policies.findIndex(record => record.id === payload.policyID);
       state.policies[index] = payload;
       // state.policies.map(record => (record.policyID === payload.policyID) ? payload : record)
     },
     deletePolicy(state, payload) {
-      const index = state.policies.findIndex(record => record.policyID === payload.policyID);
+      const index = state.policies.findIndex(record => record.id === payload.policyID);
       state.policies.splice(index, 1)
     },
     getPoliciesListFromDB(state, payload) {
@@ -308,7 +308,7 @@ export default {
         const data = await fetch(`${endpointUrl}${payload.policyId}`, { method: 'DELETE', headers: {'Accept': 'application/json'}})
           .then(response => response.json())
           .then(response => {
-            commit('deletePolicy', {id: response.id})
+            commit('deletePolicy', {policyID: response.id})
             return response
           })
           .catch(error => {

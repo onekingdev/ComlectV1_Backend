@@ -74,6 +74,7 @@
             this.$emit('saved')
             this.makeToast('Success', 'The project has been saved')
             this.$bvModal.hide(this.modalId)
+            this.policy.name = ''
 
             // window.location.href = `${window.location.href}/create`;
           } else {

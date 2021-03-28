@@ -9,7 +9,7 @@
                 h2: b Policies and Procedures
               div
                 a.btn.btn-default.mr-3(href='#') Export
-                PoliciesModal(@saved="updateList")
+                PoliciesModalCreate(@saved="updateList")
                   button.btn.btn-dark.float-end New policy
           .row
             .col-12
@@ -59,7 +59,7 @@
 
 <script>
   import PolicyTable from "./PolicyTable";
-  import PoliciesModal from "./PoliciesModal";
+  import PoliciesModalCreate from "./PoliciesModalCreate";
   import DragDropComponent from "./DragDropComponent";
   import EtaggerMixin from '@/mixins/EtaggerMixin'
   // import Loading from '@/common/Loading/Loading'
@@ -68,7 +68,7 @@
     mixins: [EtaggerMixin],
     components: {
       PolicyTable,
-      PoliciesModal,
+      PoliciesModalCreate,
       DragDropComponent,
       // Loading
     },
