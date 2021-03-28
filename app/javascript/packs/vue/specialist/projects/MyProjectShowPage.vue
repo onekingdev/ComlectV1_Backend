@@ -2,15 +2,13 @@
   Get(:project="projectUrl"): template(v-slot="{project}")
     CommonHeader(:title="project.title" :sub="project.business.business_name" :breadcrumbs="['Projects', project.title]")
       a.btn.btn-outline-dark.float-right(v-if="showTimesheetBtn(project)" :href="timesheetUrl") My Timesheet
-    Get(v-if="isApproved(project)" :localProject="projectUrl + '/local'"): template(v-slot="{localProject}"): b-tabs(v-model="tab" content-class="mt-0")
+    b-tabs(v-if="isApproved(project)" v-model="tab" content-class="mt-0")
       b-tab(title="Overview")
         .white-card-body.p-y-1
           .container
             .row.p-x-1
-              .col-sm-12
-                ExtensionRequestedAlert(:project="project")
               .col-md-7.col-sm-12
-                PropertiesTable(title="Project Details" :properties="acceptedOverviewProps(localProject)")
+                PropertiesTable(title="Project Details" :properties="acceptedOverviewProps(project)")
               .col-md-5.col-sm-12.pl-0
                 .card
                   .card-header.d-flex.justify-content-between
@@ -19,7 +17,7 @@
                   .card-body
                     table.rating_table
                       tbody
-                        tr(v-for="contract in getContracts(localProject)" :key="contract.specialist.id")
+                        tr(v-for="contract in getContracts(project)" :key="contract.specialist.id")
                           td
                             img.m-r-1.userpic_small(v-if="contract.specialist.photo" :src="contract.specialist.photo")
                             b {{ contract.specialist.first_name }} {{ contract.specialist.last_name }},
@@ -40,7 +38,7 @@
                   .card-body
                     table.rating_table
                       tbody
-                        tr(v-for="contract in getContracts(localProject)" :key="contract.specialist.id")
+                        tr(v-for="contract in getContracts(project)" :key="contract.specialist.id")
                           td
                             button.btn.btn-default.float-right(@click="showingContract = contract") View Contract
                             img.m-r-1.userpic_small(v-if="contract.specialist.photo" :src="contract.specialist.photo")
@@ -88,26 +86,15 @@
       b-tab(title="Activity")
     b-tabs(v-else)
       b-tab(title="Overview")
-        .white-card-body.p-y-1
-          .container
-            .row.p-x-1
-              .col-md-12
-                PropertiesTable(title="Post Details" :properties="overviewProps(project)")
+        PropertiesTable(title="Post Details" :properties="overviewProps(project)")
       b-tab(title="Proposal")
-        .white-card-body.p-y-1
-          .container
-            .row.p-x-1
-              .col-md-12
-                Get(:application="applicationUrl(project.id, applicationId)"): template(v-slot="{application}")
-                  PropertiesTable(title="Proposal" :properties="proposalProps(application)")
-                    EditProposalModal(:project-id="project.id" :application-id="applicationId")
-                      button.btn.btn-outline-dark.float-right Edit
+        Get(:application="applicationUrl(project.id, applicationId)"): template(v-slot="{application}")
+          PropertiesTable(title="Proposal" :properties="proposalProps(application)")
+            button.btn.btn-outline-dark.float-right Edit
 </template>
 
 <script>
 import { readablePaymentSchedule, fields } from '@/common/ProposalFields'
-import EditProposalModal from '@/specialist/projects/EditProposalModal'
-import ExtensionRequestedAlert from './alerts/ExtensionRequestedAlert'
 
 const overviewProps = project => {
   return [{ name: 'Owner', value: project.business && project.business.business_name },
@@ -173,14 +160,14 @@ export default {
       return '/api/projects/' + project.id + '/end'
     },
     getContracts(project) {
-      return [project.visible_project]
+      return [project]
     },
     completeSuccess() {
       this.$bvModal.hide('EndContractModal')
-      this.toast('Success', 'Project End has been requested')
+      this.$bvToast.toast('Project End has been requested', { title: 'Success', autoHideDelay: 5000 })
     },
     completeErrors(errors) {
-      errors.length && this.toast('Error', 'Cannot request End project')
+      errors.length && this.$bvToast.toast('Cannot request End project', { title: 'Error', autoHideDelay: 5000 })
     },
     viewContract(collaborator) {
       this.tab = 3
@@ -197,10 +184,6 @@ export default {
     showTimesheetBtn() {
       return project => 'hourly' === project.pricing_type
     }
-  },
-  components: {
-    ExtensionRequestedAlert,
-    EditProposalModal
   }
 }
 </script>

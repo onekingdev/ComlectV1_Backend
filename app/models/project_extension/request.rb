@@ -6,7 +6,7 @@ class ProjectExtension::Request < Draper::Decorator
 
   include NotificationsHelper
 
-  def self.process!(project, new_end_date, someone)
+  def self.process!(project, new_end_date)
     return if project.end_requests.any?(&:confirmed?)
 
     # Delete previous request if any
@@ -15,7 +15,7 @@ class ProjectExtension::Request < Draper::Decorator
     new(create!(project: project,
                 expires_at: expires_at,
                 new_end_date: new_end_date,
-                requester: someone.class.name)).tap do |request|
+                requester: (current_business || current_specialist).class.name)).tap do |request|
       Notification::Deliver.extend_project! request
     end
   end
