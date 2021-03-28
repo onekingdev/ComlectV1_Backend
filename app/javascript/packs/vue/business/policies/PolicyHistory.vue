@@ -6,8 +6,8 @@
       .policy-history__version-info {{ policy.id - 1 === data.id ? 'Current Version' : 'Previous Version' }}
       .policy-history__author Published by ***
       .policy-history__date Last updated {{ dateToHuman(data.updated_at) }}
-    .policy-history__body(v-else)
-      h3 Version History is empty
+    .policy-history__body.text-center.pl-0(v-if="policy.versions.length === 0")
+      h4 Version History is empty
 </template>
 
 <script>

@@ -4,7 +4,8 @@
       .row
         .col-12.col-lg-3.px-0(v-if="leftMenu")
           .card-body.white-card-body.left-tree
-            button.btn.btn-dark.mb-3.mr-3(@click="createPolicy('new')") New Policy
+            PoliciesModalCreate(@saved="updateList")
+              button.btn.btn-dark.mb-3.mr-3 New Policy
             DragDropComponent(:policies="policiesComputed")
         .col
           .row
@@ -82,6 +83,7 @@
   import { VueEditor } from "vue2-editor";
   import SubsectionPolicy from "./PolicySubsection";
   import HistoryPolicy from "./PolicyHistory";
+  import PoliciesModalCreate from "./PoliciesModalCreate";
   import PoliciesModalDelete from "./PoliciesModalDelete";
 
   export default {
@@ -100,6 +102,7 @@
       VueEditor,
       SubsectionPolicy,
       HistoryPolicy,
+      PoliciesModalCreate,
       PoliciesModalDelete
     },
     data() {
@@ -239,6 +242,20 @@
         this.toggleVueEditorHandler()
       },
 
+      updateList () {
+        this.$store
+          .dispatch("getPolicies")
+          .then((response) => {
+            console.log('response 1', response);
+            this.policies = response
+            this.policy = response.find(el => el.id === this.policyId)
+          })
+          .catch((err) => {
+            console.error(err);
+            this.makeToast('Error', err.message)
+          });
+      },
+
       makeToast(title, str) {
         this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
       },
@@ -269,17 +286,7 @@
       // }
     },
     mounted() {
-      this.$store
-        .dispatch("getPolicies")
-        .then((response) => {
-          console.log('response 1', response);
-          this.policies = response
-          this.policy = response.find(el => el.id === this.policyId)
-        })
-        .catch((err) => {
-          console.error(err);
-          this.makeToast('Error', err.message)
-        });
+      this.updateList ()
       // this.$store
       //   .dispatch("getPolicyById", { policyId: this.policyId })
       //   .then((response) => {
