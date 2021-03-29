@@ -1,8 +1,8 @@
 <template lang="pug">
   .card
-    .card-header
-      slot
+    .card-header.d-flex.justify-content-between
       h3 {{ title }}
+      slot
     .card-body
       .row(v-for="(property, i) in propertiesList" :key="i")
         .col-sm-3: span.text-muted {{ property.name }}

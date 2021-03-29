@@ -19,6 +19,7 @@
                 Get(v-if="project.visible_project" :etag="etag" :project="`/api/business/projects/${project.visible_project.id}`"): template(v-slot="{project}")
                   TimesheetsNotice(:project="project")
                   EndContractNotice(:project="project" @saved="completeSuccess" @errors="completeErrors")
+                  ExtendDeadlineNotice(:project="project" @saved="newEtag")
             .row.p-x-1
               .col-md-7.col-sm-12
                 .card
@@ -81,13 +82,14 @@
 
 <script>
 import { fields, readablePaymentSchedule } from '@/common/ProposalFields'
-import ApplicationsNotice from './ApplicationsNotice'
-import TimesheetsNotice from './TimesheetsNotice'
-import EndContractNotice from './EndContractNotice'
+import ApplicationsNotice from './alerts/ApplicationsNotice'
+import TimesheetsNotice from './alerts/TimesheetsNotice'
+import EndContractNotice from './alerts/EndContractNotice'
 import ProjectDetails from './ProjectDetails'
 import EtaggerMixin from '@/mixins/EtaggerMixin'
 import LocalProjectModal from './LocalProjectModal'
 import EndContractModal from './EndContractModal'
+import ExtendDeadlineNotice from './alerts/ExtendDeadlineNotice'
 
 export default {
   mixins: [EtaggerMixin],
@@ -109,6 +111,7 @@ export default {
   },
   components: {
     ApplicationsNotice,
+    ExtendDeadlineNotice,
     LocalProjectModal,
     TimesheetsNotice,
     EndContractNotice,
@@ -118,10 +121,10 @@ export default {
   methods: {
     completeSuccess() {
       this.newEtag()
-      this.$bvToast.toast('Project End has been requested', { title: 'Success', autoHideDelay: 5000 })
+      this.toast('Success', 'Project End has been requested')
     },
     completeErrors(errors) {
-      errors.length && this.$bvToast.toast('Cannot request End project', { title: 'Error', autoHideDelay: 5000 })
+      errors.length && this.toast('Error', 'Cannot request End project')
     },
     getContracts(projects) {
       return projects.filter(project => !!project.specialist)
