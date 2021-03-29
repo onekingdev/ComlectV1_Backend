@@ -211,7 +211,7 @@
           .then((response) => {
             // this.$router.push("/list");
             // console.log("Policy successfull saved!");
-            // console.log('response', response)
+            console.log('response', response)
           })
           .catch((error) => {
             console.log(error)
@@ -246,12 +246,12 @@
         this.$store
           .dispatch("getPolicies")
           .then((response) => {
-            console.log('response 1', response);
+            // console.log('response 1', response);
             this.policies = response
             this.policy = response.find(el => el.id === this.policyId)
           })
           .catch((err) => {
-            console.error(err);
+            // console.error(err);
             this.makeToast('Error', err.message)
           });
       },
@@ -277,7 +277,7 @@
       },
       policiesComputed() {
         const policies = this.$store.getters.policies
-        console.log('policies', policies)
+        console.log('policiesComputed', policies)
         let tmp
         const newPolicies = policies.map(el => {
           tmp = el['name'];
@@ -286,7 +286,7 @@
           el['children'] = tmp;
           return el
         });
-        console.log('newPolicies', newPolicies)
+        console.log('New policiesComputed', newPolicies)
         return newPolicies;
       }
     },

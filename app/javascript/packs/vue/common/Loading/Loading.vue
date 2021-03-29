@@ -7,8 +7,15 @@
 
 <script>
   export default {
-    loading() {
-      return this.$store.getters.loading;
+    data() {
+      return {
+
+      }
     },
+    computed: {
+      loading() {
+        return this.$store.getters.loading;
+      },
+    }
   }
 </script>

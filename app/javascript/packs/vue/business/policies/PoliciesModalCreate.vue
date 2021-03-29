@@ -59,28 +59,56 @@
         // this.$router.push('BusinessPoliciesCreatePage')
         // console.log(this.$router)
 
-        fetch('/api/business/compliance_policies', {
-          method: 'POST',
-          headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
-          body: JSON.stringify(this.policy)
-        }).then(response => {
-          if (response.status === 422) {
-            response.json().then(errors => {
-              this.errors = errors
-              Object.keys(this.errors)
-                .map(prop => this.errors[prop].map(err => this.makeToast(`Error`, `${prop}: ${err}`)))
-            })
-          } else if (response.status === 201 || response.status === 200) {
-            this.$emit('saved')
-            this.makeToast('Success', 'The project has been saved')
-            this.$bvModal.hide(this.modalId)
-            this.policy.name = ''
+        // this.$store.dispatch('CREATE_POLICY', {
+        //   name: this.policy.name
+        // });
+        // return
 
-            // window.location.href = `${window.location.href}/create`;
-          } else {
-            this.makeToast('Error', 'Couldn\'t submit form')
-          }
-        })
+        this.$store
+          .dispatch('createPolicy', {
+            name: this.policy.name
+          })
+          .then((response) => {
+            if (response.errors) {
+              this.makeToast('Error', `${response.status}`)
+              Object.keys(response.errors)
+                .map(prop => response.errors[prop].map(err => this.makeToast(`Error`, `${prop}: ${err}`)))
+            }
+            if(!response.errors) {
+              this.makeToast('Success', `Policy successfully created!`)
+              this.$emit('saved')
+              this.$bvModal.hide(this.modalId)
+              this.policy.name = ''
+            }
+          })
+          .catch((error) => {
+            console.log(error)
+            this.makeToast('Error', error)
+          });
+        return
+
+        // fetch('/api/business/compliance_policies', {
+        //   method: 'POST',
+        //   headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+        //   body: JSON.stringify(this.policy)
+        // }).then(response => {
+        //   if (response.status === 422) {
+        //     response.json().then(errors => {
+        //       this.errors = errors
+        //       Object.keys(this.errors)
+        //         .map(prop => this.errors[prop].map(err => this.makeToast(`Error`, `${prop}: ${err}`)))
+        //     })
+        //   } else if (response.status === 201 || response.status === 200) {
+        //     this.$emit('saved')
+        //     this.makeToast('Success', 'The project has been saved')
+        //     this.$bvModal.hide(this.modalId)
+        //     this.policy.name = ''
+        //
+        //     // window.location.href = `${window.location.href}/create`;
+        //   } else {
+        //     this.makeToast('Error', 'Couldn\'t submit form')
+        //   }
+        // })
       },
     },
     computed: {

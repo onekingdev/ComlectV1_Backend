@@ -8,6 +8,7 @@
       .col-4(v-if="policies.length !== 0 && searchInput") Found {{ policies.length }} results
     .row
       .col-12
+        Loading
         .table(v-if="policies.length !== 0")
           .table__row
             .table__cell.table__cell_title Name
@@ -25,7 +26,7 @@
               b-icon.ml-2(icon='chevron-expand')
             .table__cell
           .table__row(v-for="policy in policies" :key="policy.id")
-            .table__cell.table__cell_name(v-if="policy.sections.length !== 0")
+            .table__cell.table__cell_name(v-if="policy.sections && policy.sections.length !== 0")
               .dropdown-toggle(:id="'#sectionIcon-'+policy.id", @click="toogleSections(policy.id)")
                 b-icon.mr-2(icon='chevron-compact-right')
                 | {{ policy.name }}
@@ -54,12 +55,14 @@
 </template>
 
 <script>
+  import Loading from '../../common/Loading/Loading'
   import PoliciesModalDelete from './PoliciesModalDelete'
   import { DateTime } from 'luxon'
 
   export default {
     props: ['policies'],
     components: {
+      Loading,
       PoliciesModalDelete
     },
     data() {

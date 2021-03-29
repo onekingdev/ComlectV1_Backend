@@ -103,7 +103,7 @@
     computed: {
       filteredList () {
         return this.policiesListComputed.filter(policy => {
-            return policy.name.toLowerCase().includes(this.searchInput.toLowerCase())
+            return policy.name?.toLowerCase().includes(this.searchInput.toLowerCase())
         })
       },
       policyById () {
