@@ -29,4 +29,5 @@ yarn-error.log*
 .idea
 yarn.lock
 .vscode
+.history
 
