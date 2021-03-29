@@ -51,6 +51,10 @@
         this.$emit('deleteConfirmed')
         this.$bvModal.hide(this.modalId)
 
+        if (window.location.href === `${window.location.origin}/business/compliance_policies/${this.policyId}`) {
+          window.location.href = `${window.location.origin}/business/compliance_policies/`
+        }
+
         // fetch('/api/business/compliance_policies/' + this.policyId, {
         //   method: 'DELETE',
         //   headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
@@ -69,9 +73,7 @@
         //
         //
         //     // window.location.href = `${window.location.href}/create`;
-        //     if (window.location.href === `${window.location.origin}/business/compliance_policies/${this.policyId}`) {
-        //       window.location.href = `${window.location.origin}/business/compliance_policies/`
-        //     }
+
         //   } else {
         //     this.makeToast('Error', 'Couldn\'t submit form')
         //   }

@@ -21,7 +21,7 @@
                     a.link.btn.mr-3(@click="saveDraft") Save Draft
                     button.btn.btn.btn-default.mr-3(@click="download") Download
                     button.btn.btn-dark.mr-3(@click="publish") Publish
-                    PoliciesModalDelete(:policyId="policy.id")
+                    PoliciesModalDelete(:policyId="policy.id", @deleteConfirmed="deletePolicy(policy.id)")
                       button.btn.btn__close.mr-3
                         b-icon(icon='x')
           .row
@@ -254,6 +254,17 @@
             console.error(err);
             this.makeToast('Error', err.message)
           });
+      },
+
+      deletePolicy(policyId) {
+        this.$store
+          .dispatch('deletePolicyById', { policyId })
+          .then(response => {
+            this.makeToast('Success', `Policy successfully deleted!`)
+          })
+          .catch(error => {
+            this.makeToast('Error', `Couldn't submit form! ${error}`)
+          })
       },
 
       makeToast(title, str) {
