@@ -9,7 +9,7 @@
                 h2: b Policies and Procedures
               div
                 a.btn.btn-default.mr-3(href='#') Export
-                PoliciesModalCreate(@saved="updateList")
+                PoliciesModal(@saved="updateList")
                   button.btn.btn-dark.float-end New policy
           .row
             .col-12
@@ -38,6 +38,7 @@
                             <!--td-->
                           <!--tr(v-if="!policies.length")-->
                             <!--td.text-center(colspan=6) No policies-->
+                      // DragDropComponent(policy="policy")
                 b-tab(title="Archive")
                   .card-body.white-card-body
                     .container
@@ -58,7 +59,8 @@
 
 <script>
   import PolicyTable from "./PolicyTable";
-  import PoliciesModalCreate from "./PoliciesModalCreate";
+  import PoliciesModal from "./PoliciesModal";
+  import DragDropComponent from "./DragDropComponent";
   import EtaggerMixin from '@/mixins/EtaggerMixin'
   // import Loading from '@/common/Loading/Loading'
 
@@ -66,7 +68,8 @@
     mixins: [EtaggerMixin],
     components: {
       PolicyTable,
-      PoliciesModalCreate,
+      PoliciesModal,
+      DragDropComponent,
       // Loading
     },
     data() {
@@ -100,14 +103,14 @@
     computed: {
       filteredList () {
         return this.policiesListComputed.filter(policy => {
-            return policy.name?.toLowerCase().includes(this.searchInput.toLowerCase())
+            return policy.name.toLowerCase().includes(this.searchInput.toLowerCase())
         })
       },
       policyById () {
         // return this.$store.dispach('getPolicyById', this.id)
       },
       policiesListComputed() {
-        const policies = this.$store.getters.policiesList;
+        const policies = this.$store.getters.policies;
         policies.sort((a, b) => a.position - b.position)
         return policies;
       },
@@ -122,7 +125,7 @@
           console.error(err);
           this.makeToast('Error', err.message)
         });
-    },
+    }
   };
 </script>
 

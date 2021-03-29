@@ -1,16 +1,15 @@
-import axios from '../../services/axios'
-import store from '../../store/business'
+import axios from '@/services/axios'
+import store from 'store'
 
-export async function createPolicy(newPolicy) {
+export async function createPolicy(email, password, name) {
   return axios
-    .post('/business/compliance_policies', {
-      compliance_policy: {
-        name: newPolicy.name,
-      }
+    .post('/api/business/compliance_policies/create', {
+      email,
+      password,
+      name,
     })
     .then(response => {
       if (response) {
-        console.log('response', response)
         const { accessToken } = response.data
         if (accessToken) {
           store.set('accessToken', accessToken)

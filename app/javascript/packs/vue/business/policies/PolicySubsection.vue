@@ -39,6 +39,10 @@
   export default {
     name: 'PolicySubsection',
     props: {
+      policyID: {
+        type: Number,
+        required: false,
+      },
       length: {
         type: Number,
         required: false,
@@ -117,7 +121,7 @@
       },
       handleBlur(e) {
         console.log(e)
-        if (e?.target?.nodeName !== "INPUT")
+        if (e.target.nodeName !== "INPUT")
           this.toggleVueEditorHandler()
 
         if (this.parentSection) {

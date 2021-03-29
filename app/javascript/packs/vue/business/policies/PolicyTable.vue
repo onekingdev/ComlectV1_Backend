@@ -8,7 +8,6 @@
       .col-4(v-if="policies.length !== 0 && searchInput") Found {{ policies.length }} results
     .row
       .col-12
-        Loading
         .table(v-if="policies.length !== 0")
           .table__row
             .table__cell.table__cell_title Name
@@ -26,7 +25,7 @@
               b-icon.ml-2(icon='chevron-expand')
             .table__cell
           .table__row(v-for="policy in policies" :key="policy.id")
-            .table__cell.table__cell_name(v-if="policy.sections && policy.sections.length !== 0")
+            .table__cell.table__cell_name(v-if="policy.sections.length !== 0")
               .dropdown-toggle(:id="'#sectionIcon-'+policy.id", @click="toogleSections(policy.id)")
                 b-icon.mr-2(icon='chevron-compact-right')
                 | {{ policy.name }}
@@ -47,7 +46,7 @@
                     a.link(:href="'/business/compliance_policies/'+policy.id") Edit
                   li.actions-dropdown__item.move-up(@click="moveUp(policy.id)") Move up
                   li.actions-dropdown__item.delete
-                    PoliciesModalDelete(@saved="updateList", :policyId="policy.id", @deleteConfirmed="deletePolicy(policy.id)") Delete
+                    PoliciesModalDelete(@saved="updateList", :policyId="policy.id") Delete
         .table(v-else)
           .table__row
             .table__cell.text-center
@@ -55,14 +54,12 @@
 </template>
 
 <script>
-  import Loading from '../../common/Loading/Loading'
   import PoliciesModalDelete from './PoliciesModalDelete'
   import { DateTime } from 'luxon'
 
   export default {
     props: ['policies'],
     components: {
-      Loading,
       PoliciesModalDelete
     },
     data() {
@@ -93,7 +90,7 @@
         document.getElementById(`#sectionIcon-${value}`).classList.toggle('active');
       },
       moveUp(policyId) {
-        // console.log(policyId)
+        console.log(policyId)
         const index = this.policies.findIndex(record => record.id === policyId);
         // policies[index] = payload;
         const curPos = this.policies[index].position
@@ -104,11 +101,11 @@
 
         const arrToChange = [
           {
-            id: this.policies[index - 1].id,
+            policyId: this.policies[index - 1].id,
             position: this.policies[index - 1].position
           },
           {
-            id: this.policies[index].id,
+            policyId: this.policies[index].id,
             position: this.policies[index].position
           }
         ]
@@ -116,23 +113,16 @@
         this.$store
           .dispatch("moveUpPolicy", arrToChange)
           .then((response) => {
-            // console.log('response', response)
+            console.log('response', response)
             this.makeToast('Success', 'Policy succesfully moved.')
           })
           .catch((err) => {
-            // console.error(err)
+            console.log(err)
             this.makeToast('Error', err.message)
           });
       },
       deletePolicy(policyId) {
-        this.$store
-          .dispatch('deletePolicyById', { policyId })
-          .then(response => {
-            this.makeToast('Success', `Policy successfully deleted!`)
-          })
-          .catch(error => {
-            this.makeToast('Error', `Couldn't submit form! ${error}`)
-          })
+        console.log(policyId)
       },
       updateList () {
         this.$store
