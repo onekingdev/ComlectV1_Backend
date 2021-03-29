@@ -93,7 +93,7 @@
         document.getElementById(`#sectionIcon-${value}`).classList.toggle('active');
       },
       moveUp(policyId) {
-        console.log(policyId)
+        // console.log(policyId)
         const index = this.policies.findIndex(record => record.id === policyId);
         // policies[index] = payload;
         const curPos = this.policies[index].position
@@ -104,11 +104,11 @@
 
         const arrToChange = [
           {
-            policyId: this.policies[index - 1].id,
+            id: this.policies[index - 1].id,
             position: this.policies[index - 1].position
           },
           {
-            policyId: this.policies[index].id,
+            id: this.policies[index].id,
             position: this.policies[index].position
           }
         ]
@@ -116,11 +116,11 @@
         this.$store
           .dispatch("moveUpPolicy", arrToChange)
           .then((response) => {
-            console.log('response', response)
+            // console.log('response', response)
             this.makeToast('Success', 'Policy succesfully moved.')
           })
           .catch((err) => {
-            console.log(err)
+            // console.error(err)
             this.makeToast('Error', err.message)
           });
       },

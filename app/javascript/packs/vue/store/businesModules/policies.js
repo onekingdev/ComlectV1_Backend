@@ -10,19 +10,17 @@
 //   },
 // }
 
-// class Policy {
-//   constructor(policyID = null, ownerId = null, title, description, sections = null) {
-//     this.policyID = policyID;
-//     this.ownerId = ownerId;
-//     this.title = title;
-//     this.description = description;
-//     this.sections = sections;
-//   }
-// }
-
 class Policy {
-  constructor(name) {
-    this.title = name;
+  constructor(created_at, description, id, name, position, sections = null, src_id, status, updated_at) {
+    this.createdAt = created_at,
+    this.description = description,
+    this.id = id,
+    this.title = name,
+    this.position = position,
+    this.sections = sections,
+    this.srcId = src_id,
+    this.status = status,
+    this.updatedAt = updated_at
   }
 }
 
@@ -36,15 +34,15 @@ export default {
       state.policies.push(payload);
     },
     updatePolicy(state, payload) {
-      const index = state.policies.findIndex(record => record.id === payload.policyID);
+      const index = state.policies.findIndex(record => record.id === payload.id);
       state.policies[index] = payload;
-      // state.policies.map(record => (record.policyID === payload.policyID) ? payload : record)
+      // state.policies.map(record => (record.id === payload.id) ? payload : record)
     },
     deletePolicy(state, payload) {
-      const index = state.policies.findIndex(record => record.id === payload.policyID);
+      const index = state.policies.findIndex(record => record.id === payload.id);
       state.policies.splice(index, 1)
     },
-    getPoliciesListFromDB(state, payload) {
+    updatePoliciesList(state, payload) {
       state.policies = payload;
     }
   },
@@ -72,15 +70,6 @@ export default {
       commit("setLoading", true);
 
       try {
-        const newPolicy = new Policy(
-          // payload.policyID,
-          // payload.ownerId,
-          // payload.title,
-          // payload.description,
-          // payload.sections,
-          payload.name,
-        );
-
         const data = await fetch('/api/business/compliance_policies', {
           method: 'POST',
           headers: {
@@ -95,17 +84,25 @@ export default {
           return response.json()
         }).then(response => {
           if (response.errors) return response
-          commit("createPolicy", {
-            ...newPolicy,
-          });
+          const newPolicy = new Policy(
+            response.created_at,
+            response.description,
+            response.id,
+            response.name,
+            response.position,
+            response.sections,
+            response.src_id,
+            response.status,
+            response.updated_at
+          );
+          commit("createPolicy", newPolicy);
+          console.log('newPolicy', newPolicy)
           return response
         }).catch (error => {
           throw error;
         })
           .finally(() => commit("setLoading", false))
-
         return data
-
       } catch (error) {
         commit("setError", error.message);
         commit("setLoading", false);
@@ -117,45 +114,31 @@ export default {
       commit("setLoading", true);
 
       try {
-        const updatePolicy = new Policy(
-          payload.policyID,
-          payload.ownerId,
-          payload.title,
-          payload.description,
-          payload.sections,
-        );
-
-        // console.log('updatePolicy', updatePolicy)
-
-        // console.log(JSON.stringify({
-        //   compliance_policy: {
-        //     name: updatePolicy.title,
-        //     ...updatePolicy
-        //   }
-        // }))
-
-        const data = await fetch('/api/business/compliance_policies/' + payload.policyID, {
+        const data = await fetch('/api/business/compliance_policies/' + payload.id, {
           method: 'PUT',
           headers: {
             // 'Authorization': 'Bearer test',
             'Accept': 'application/json',
             'Content-Type': 'application/json'},
-          body: JSON.stringify({
-            compliance_policy: {
-              name: payload.title,
-              ...updatePolicy
-            }
-          })
+          body: JSON.stringify({...payload})
         }).then(response => {
           // console.log(response)
           if (!response.ok)
             throw new Error(`Could't update policy (${response.status})`);
           return response.json()
         }).then(response => {
-          // console.log(response)
-          commit("updatePolicy", {
-            ...updatePolicy,
-          });
+          const updatePolicy = new Policy(
+            response.created_at,
+            response.description,
+            response.id,
+            response.name,
+            response.position,
+            response.sections,
+            response.src_id,
+            response.status,
+            response.updated_at
+          );
+          commit("updatePolicy", {...updatePolicy});
           return response
         }).catch (error => {
           // console.error(error)
@@ -221,7 +204,7 @@ export default {
           return response.json()
         }).then(response => {
           commit("updatePolicy", {
-            policyID: response.id,
+            id: response.id,
             ...response,
           });
           return response
@@ -247,7 +230,7 @@ export default {
             return response.json()
           })
           .then(response => {
-            commit('getPoliciesListFromDB', response)
+            commit('updatePoliciesList', response)
             return response
           })
           .catch(error => {
@@ -295,7 +278,7 @@ export default {
 
       try {
         payload.forEach((record) => {
-          fetch('/api/business/compliance_policies/' + record.policyId, {
+          fetch('/api/business/compliance_policies/' + record.id, {
               method: 'PATCH',
               headers: {
                 // 'Authorization': 'Bearer test',
@@ -303,20 +286,20 @@ export default {
                 'Content-Type': 'application/json'},
               body: JSON.stringify({
                 compliance_policy: {
-                  // id: record.policyId,
+                  // id: record.id,
                   position: record.position,
                 }
               })
             }).then(response => {
-              console.log(response)
+              // console.log(response)
               if (!response.ok)
                 throw new Error(`Could't update policy (${response.status})`);
               return response.json()
             }).then(response => {
-              console.log(response)
+              // console.log(response)
               return response
             }).catch (error => {
-              console.error(error)
+              // console.error(error)
               throw error;
             })
               .finally(() => commit("setLoading", false))
@@ -337,7 +320,7 @@ export default {
         const data = await fetch(`${endpointUrl}${payload.policyId}`, { method: 'DELETE', headers: {'Accept': 'application/json'}})
           .then(response => response.json())
           .then(response => {
-            commit('deletePolicy', {policyID: response.id})
+            commit('deletePolicy', {id: response.id})
             return response
           })
           .catch(error => {
@@ -356,7 +339,7 @@ export default {
     },
   },
   getters: {
-    policies(state) {
+    policiesList(state) {
       return state.policies;
     },
   },

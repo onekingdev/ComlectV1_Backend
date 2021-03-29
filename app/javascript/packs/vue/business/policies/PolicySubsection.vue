@@ -39,10 +39,6 @@
   export default {
     name: 'PolicySubsection',
     props: {
-      policyID: {
-        type: Number,
-        required: false,
-      },
       length: {
         type: Number,
         required: false,

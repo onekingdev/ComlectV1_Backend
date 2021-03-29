@@ -38,7 +38,6 @@
                             <!--td-->
                           <!--tr(v-if="!policies.length")-->
                             <!--td.text-center(colspan=6) No policies-->
-                      // DragDropComponent(policy="policy")
                 b-tab(title="Archive")
                   .card-body.white-card-body
                     .container
@@ -60,7 +59,6 @@
 <script>
   import PolicyTable from "./PolicyTable";
   import PoliciesModalCreate from "./PoliciesModalCreate";
-  import DragDropComponent from "./DragDropComponent";
   import EtaggerMixin from '@/mixins/EtaggerMixin'
   // import Loading from '@/common/Loading/Loading'
 
@@ -69,7 +67,6 @@
     components: {
       PolicyTable,
       PoliciesModalCreate,
-      DragDropComponent,
       // Loading
     },
     data() {
@@ -110,7 +107,7 @@
         // return this.$store.dispach('getPolicyById', this.id)
       },
       policiesListComputed() {
-        const policies = this.$store.getters.policies;
+        const policies = this.$store.getters.policiesList;
         policies.sort((a, b) => a.position - b.position)
         return policies;
       },
@@ -125,7 +122,7 @@
           console.error(err);
           this.makeToast('Error', err.message)
         });
-    }
+    },
   };
 </script>
 

@@ -2,7 +2,7 @@
   draggable.dragArea(tag='ul' :list='policies' :group="{ name: 'g1' }")
     li(v-for='el in policies' :key='el.title')
       p.link
-        b-icon.mr-2(v-if="el.children.length !== 0" icon="chevron-compact-down")
+        b-icon.mr-2(v-if="el.children && el.children.length !== 0" icon="chevron-compact-down")
         b-icon.mr-2(v-else icon="chevron-compact-right")
         | {{ el.title }}
       nested-draggable(:policies='el.children')
@@ -10,12 +10,7 @@
 <script>
   import draggable from "vuedraggable";
   export default {
-    props: {
-      policies: {
-        required: true,
-        type: Array
-      }
-    },
+    props: ['policies'],
     components: {
       draggable
     },

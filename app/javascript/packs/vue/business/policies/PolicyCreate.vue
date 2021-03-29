@@ -6,7 +6,8 @@
           .card-body.white-card-body.left-tree
             PoliciesModalCreate(@saved="updateList")
               button.btn.btn-dark.mb-3.mr-3 New Policy
-            DragDropComponent(:policies="policiesComputed")
+            nested-draggable(:policies='policiesComputed')
+              rawdisplayer(:value='policiesComputed' title='List')
         .col
           .row
             .col-md-12.px-0
@@ -47,15 +48,16 @@
                             .d-flex
                               input.policy-details__input(v-model="policy.name")
                             .policy-details__name Description
-                            .policy-details__text-editor(@click="toggleVueEditorHandler", v-if="!toggleVueEditor", v-b-tooltip.hover.left title="Click to edit text", v-html="policy.description")
+                            .policy-details__text-editor(@click="toggleVueEditorHandler", v-if="!toggleVueEditor", v-b-tooltip.hover.left title="Click to edit text", v-html="policy.description ? policy.description : description")
                             vue-editor.policy-details__text-editor(v-if="toggleVueEditor", v-model="policy.description", @blur="handleBlur")
                             button.policy-details__btn.mr-3.btn.btn-default(v-if="policy.sections.length === 0" @click="addSection")
                               b-icon.mr-2(icon='plus-circle-fill')
                               | Add Section
                           SubsectionPolicy(
+                          v-if="policy.sections"
                           :section="section"
                           :index="index"
-                          :length = "policy.sections.length"
+                          :length = "policy.sections ? policy.sections.length : 0"
                           v-for="(section, index) in policy.sections"
                           :key="section.id"
                           @addSection="addSection"
@@ -79,7 +81,7 @@
 </template>
 
 <script>
-  import DragDropComponent from "./DragDropComponent";
+  import nestedDraggable from "./infra/nested";
   import { VueEditor } from "vue2-editor";
   import SubsectionPolicy from "./PolicySubsection";
   import HistoryPolicy from "./PolicyHistory";
@@ -98,12 +100,12 @@
       // },
     },
     components: {
-      DragDropComponent,
+      nestedDraggable,
       VueEditor,
       SubsectionPolicy,
       HistoryPolicy,
       PoliciesModalCreate,
-      PoliciesModalDelete
+      PoliciesModalDelete,
     },
     data() {
       return {
@@ -111,11 +113,8 @@
         description: "N/A",
         title: "New Policy",
         toggleVueEditor: false,
-        component: "",
-        // policyID: 0,
         sections: [],
         count: 0,
-        ownerId: 13,
         policy: {
           "id": this.policyId,
           "name": "New Policy",
@@ -161,49 +160,47 @@
         console.log(`delete${this.policyId}`)
       },
       deleteAll(){
-        this.policy = {}
+        console.log(`delete all`)
       },
 
-      createPolicy(newPolicy) {
-        // this.policyID = Math.floor(Math.random() * 100)
-
-        if (newPolicy) {
-          this.sections = [];
-          document.querySelector('.policy-details__btn').style.display = 'block';
-        }
-        if (this.title && this.description) {
-          const dataToSend = {
-            policyID: this.policyId,
-            ownerId: this.ownerId,
-            title: this.title,
-            description: this.description,
-            sections: this.sections,
-          };
-          console.log(dataToSend);
-
-          // SAVE DATA TO STORE
-          this.$store
-            .dispatch("createPolicy", dataToSend)
-            .then((response) => {
-              // this.$router.push("/list");
-              // console.log("Policy successfull saved!");
-              // console.log('response', response)
-            })
-            .catch((err) => {
-              // console.log(err)
-            });
-        }
-      },
+      // createPolicy(newPolicy) {
+      //   // this.policyID = Math.floor(Math.random() * 100)
+      //
+      //   if (newPolicy) {
+      //     this.sections = [];
+      //     document.querySelector('.policy-details__btn').style.display = 'block';
+      //   }
+      //   if (this.name && this.description) {
+      //     const dataToSend = {
+      //       policyId: this.policyId,
+      //       ownerId: this.ownerId,
+      //       name: this.name,
+      //       description: this.description,
+      //       sections: this.sections,
+      //     };
+      //     console.log(dataToSend);
+      //
+      //     // SAVE DATA TO STORE
+      //     this.$store
+      //       .dispatch("createPolicy", dataToSend)
+      //       .then((response) => {
+      //         // this.$router.push("/list");
+      //         // console.log("Policy successfull saved!");
+      //         // console.log('response', response)
+      //       })
+      //       .catch((err) => {
+      //         // console.log(err)
+      //       });
+      //   }
+      // },
       updatePolicy() {
         const dataToSend = {
-          policyID: this.policy.id,
-          ownerId: this.ownerId,
-          title: this.policy.title,
+          id: this.policy.id,
+          name: this.policy.title,
           description: this.policy.description,
           sections: this.policy.sections,
         };
-        console.log('updatePolicy dataToSend');
-        console.log(dataToSend);
+        console.log('updatePolicy dataToSend', dataToSend);
 
         // UPDATE STORE
         this.$store
@@ -249,6 +246,7 @@
             // console.log('response 1', response);
             this.policies = response
             this.policy = response.find(el => el.id === this.policyId)
+            console.log(this.policy)
           })
           .catch((err) => {
             // console.error(err);
@@ -276,25 +274,23 @@
         return this.$store.getters.loading;
       },
       policiesComputed() {
-        const policies = this.$store.getters.policies
-        console.log('policiesComputed', policies)
-        let tmp
-        const newPolicies = policies.map(el => {
+        const policies = this.$store.getters.policiesList
+        let tmp;
+        const newPoliciesList = policies.map(el => {
           tmp = el['name'];
           el['title'] = tmp;
           tmp = el['sections']
           el['children'] = tmp;
+          if(!el['sections']) el['sections'] = []
           return el
         });
-        console.log('New policiesComputed', newPolicies)
-        return newPolicies;
+        return newPoliciesList;
       }
     },
     watch: {
-      // policiesComputed (oldVal, newVal) {
-      //   console.log('oldVal', oldVal)
-      //   console.log('newVal', newVal)
-      // }
+      policiesComputed (record) {
+        console.log('record', record)
+      }
     },
     mounted() {
       this.updateList ()
