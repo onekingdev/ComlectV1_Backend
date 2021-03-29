@@ -216,6 +216,8 @@ export default {
           throw error;
         }).finally(() => commit("setLoading", false))
 
+        return data;
+
       } catch (error) {
         commit("setError", error.message);
         commit("setLoading", false);

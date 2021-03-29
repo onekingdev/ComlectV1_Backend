@@ -150,7 +150,10 @@
           .dispatch("publishPolicy", { policyId: this.policyId })
           .then(response => {
             console.log(response)
-            this.makeToast('Success', 'Policy succesfully published.')
+            this.makeToast('Success', 'Policy succesfully published. Please wait you will be redirected to the new Draft')
+            setTimeout(() => {
+              window.location.href = `${window.location.origin}/business/compliance_policies/${response.id}`
+            }, 2000)
           })
           .catch((err) => {
             this.makeToast('Error', err.message)
