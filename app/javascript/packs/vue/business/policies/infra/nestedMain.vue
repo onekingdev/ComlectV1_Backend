@@ -25,7 +25,7 @@
               a.link(:href="'/business/compliance_policies/'+el.id") Edit
             li.actions-dropdown__item.move-up(@click="moveUp(el.id)") Move up
             li.actions-dropdown__item.delete
-              PoliciesModalDelete(@saved="updateList", :elId="el.id", @deleteConfirmed="deleteel(el.id)") Delete
+              PoliciesModalDelete(@saved="updateList", :policyId="el.id", @deleteConfirmed="deletePolicy(el.id)") Delete
 </template>
 <script>
   import draggable from "vuedraggable";
@@ -37,11 +37,6 @@
     components: {
       draggable,
       PoliciesModalDelete
-    },
-    data() {
-      return {
-        policyId: 0
-      }
     },
     methods: {
       updateList () {
@@ -57,6 +52,7 @@
       },
       checkMove: function(evt){
         console.log('checkMove')
+        console.log(evt.relatedContext)
         console.log(evt)
         console.log(evt.draggedContext)
         console.log(evt.draggedContext.element)
