@@ -3,7 +3,7 @@
     .table__row(v-for='el in policies' :key='el.title')
       .table__cell.table__cell_name(v-if="el.sections && el.sections.length !== 0")
         .dropdown-toggle(
-          :id="'#sectionIcon-'+el.id", @click="toogleSections(el.id)"
+          :id="'#nested-sectionIcon-'+el.id", @click="toogleSections(el.id)"
           :class="[el.sections && el.sections.length !== 0 || el.children && el.children.length !== 0 ? 'active' : '']"
           )
           b-icon.mr-2(v-if="el.sections && el.sections.length !== 0 || el.children && el.children.length !== 0" icon="chevron-compact-down")
@@ -18,9 +18,9 @@
       .table__cell(v-if="el.created_at") N/A
       .table__cell
         .actions
-          button.px-0.actions__btn(:id="'#actionIcon-'+el.id", @click="toogleActions(el.id)")
+          button.px-0.actions__btn(:id="'#nested-actionIcon-'+el.id", @click="toogleActions(el.id)")
             b-icon(icon="three-dots")
-          ul.actions-dropdown(:id="'#action-'+el.id")
+          ul.actions-dropdown(:id="'#nested-action-'+el.id")
             li.actions-dropdown__item.edit
               a.link(:href="'/business/compliance_policies/'+el.id") Edit
             li.actions-dropdown__item.move-up(@click="moveUp(el.id)") Move up
@@ -37,6 +37,11 @@
     components: {
       draggable,
       PoliciesModalDelete
+    },
+    data() {
+      return {
+        policyId: 0
+      }
     },
     methods: {
       updateList () {
@@ -66,56 +71,56 @@
           return value
         }
       },
-    },
-    toogleActions(value) {
-      document.getElementById(`#action-${value}`).classList.toggle('active');
-      document.getElementById(`#actionIcon-${value}`).classList.toggle('active');
-    },
-    toogleSections(value) {
-      document.getElementById(`#section-${value}`).classList.toggle('active');
-      document.getElementById(`#sectionIcon-${value}`).classList.toggle('active');
-    },
-    moveUp(policyId) {
-      // console.log(policyId)
-      const index = this.policies.findIndex(record => record.id === policyId);
-      // policies[index] = payload;
-      const curPos = this.policies[index].position
-      const newPos = this.policies[index - 1].position
+      toogleActions(value) {
+        document.getElementById(`#nested-action-${value}`).classList.toggle('active');
+        document.getElementById(`#nested-actionIcon-${value}`).classList.toggle('active');
+      },
+      toogleSections(value) {
+        document.getElementById(`#nested-section-${value}`).classList.toggle('active');
+        document.getElementById(`#nested-sectionIcon-${value}`).classList.toggle('active');
+      },
+      moveUp(policyId) {
+        // console.log(policyId)
+        const index = this.policies.findIndex(record => record.id === policyId);
+        // policies[index] = payload;
+        const curPos = this.policies[index].position
+        const newPos = this.policies[index - 1].position
 
-      this.policies[index - 1].position = curPos
-      this.policies[index].position = newPos
+        this.policies[index - 1].position = curPos
+        this.policies[index].position = newPos
 
-      const arrToChange = [
-        {
-          id: this.policies[index - 1].id,
-          position: this.policies[index - 1].position
-        },
-        {
-          id: this.policies[index].id,
-          position: this.policies[index].position
-        }
-      ]
+        const arrToChange = [
+          {
+            id: this.policies[index - 1].id,
+            position: this.policies[index - 1].position
+          },
+          {
+            id: this.policies[index].id,
+            position: this.policies[index].position
+          }
+        ]
 
-      this.$store
-        .dispatch("moveUpPolicy", arrToChange)
-        .then((response) => {
-          // console.log('response', response)
-          this.makeToast('Success', 'Policy succesfully moved.')
-        })
-        .catch((err) => {
-          // console.error(err)
-          this.makeToast('Error', err.message)
-        });
-    },
-    deletePolicy(policyId) {
-      this.$store
-        .dispatch('deletePolicyById', { policyId })
-        .then(response => {
-          this.makeToast('Success', `Policy successfully deleted!`)
-        })
-        .catch(error => {
-          this.makeToast('Error', `Couldn't submit form! ${error}`)
-        })
+        this.$store
+          .dispatch("moveUpPolicy", arrToChange)
+          .then((response) => {
+            // console.log('response', response)
+            this.makeToast('Success', 'Policy succesfully moved.')
+          })
+          .catch((err) => {
+            // console.error(err)
+            this.makeToast('Error', err.message)
+          });
+      },
+      deletePolicy(policyId) {
+        this.$store
+          .dispatch('deletePolicyById', { policyId })
+          .then(response => {
+            this.makeToast('Success', `Policy successfully deleted!`)
+          })
+          .catch(error => {
+            this.makeToast('Error', `Couldn't submit form! ${error}`)
+          })
+      },
     },
   };
 </script>
