@@ -19,7 +19,7 @@
                   .card-body
                     table.rating_table
                       tbody
-                        tr(v-for="contract in getContracts(localProject)" :key="contract.specialist.id")
+                        tr(v-for="contract in localProject.projects" :key="contract.specialist.id")
                           td
                             img.m-r-1.userpic_small(v-if="contract.specialist.photo" :src="contract.specialist.photo")
                             b {{ contract.specialist.first_name }} {{ contract.specialist.last_name }},
@@ -40,7 +40,7 @@
                   .card-body
                     table.rating_table
                       tbody
-                        tr(v-for="contract in getContracts(localProject)" :key="contract.specialist.id")
+                        tr(v-for="contract in localProject.projects" :key="contract.specialist.id")
                           td
                             button.btn.btn-default.float-right(@click="showingContract = contract") View Contract
                             img.m-r-1.userpic_small(v-if="contract.specialist.photo" :src="contract.specialist.photo")
@@ -173,9 +173,6 @@ export default {
     },
     completeUrl(project) {
       return '/api/projects/' + project.id + '/end'
-    },
-    getContracts(project) {
-      return [project.projects[0]]
     },
     completeSuccess() {
       this.$bvModal.hide('EndContractModal')
