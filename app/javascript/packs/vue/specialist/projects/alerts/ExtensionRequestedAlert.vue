@@ -1,18 +1,22 @@
 <template lang="pug">
-  .alert.alert-warning(v-if="isVisible")
-    h4.alert-heading {{ project.business.business_name }} has requested to extend the deadline to {{ project.extension.ends_on | asDate }}
-    p
-      Post(:action="apiUrl" method="PUT" :model="{confirm:true}" @saved="toast('Accepted', 'Yes'), $emit('saved')")
-        button.btn.btn-default.float-right Accept
-      Post(:action="apiUrl" method="PUT" :model="{deny:true}" @saved="toast('Denied', 'Da'), $emit('saved')")
-        button.btn.btn-default.float-right.m-r-1 Deny
-      | Would you like to proceed?
-      EditContractModal(:project-id="project.id" :is-specialist="true")
-        button.btn.btn-outline-dark.float-right View
+  div(v-if="project.extension")
+    .alert.alert-warning(v-if="onlyDeadlineChanged")
+      h4.alert-heading {{ project.business.business_name }} has requested to extend the deadline to {{ project.extension.ends_on | asDate }}
+      p
+        Post(:action="apiUrl" method="PUT" :model="{confirm:true}" @saved="toast('Success', 'Deadline extended'), $emit('saved')")
+          button.btn.btn-default.float-right Accept
+        Post(:action="apiUrl" method="PUT" :model="{deny:true}" @saved="toast('Denied', 'Deadline extension denied'), $emit('saved')")
+          button.btn.btn-default.float-right.m-r-1 Deny
+        | Would you like to proceed?
+    .alert.alert-warning(v-else)
+      h4.alert-heading Contract change requested
+      p
+        | Would you like to proceed?
+        ApproveContractChangesModal(:project="project")
 </template>
 
 <script>
-import EditContractModal from '@/business/projects/EditContractModal'
+import ApproveContractChangesModal from '@/common/projects/ApproveContractChangesModal'
 
 export default {
   props: {
@@ -22,15 +26,16 @@ export default {
     }
   },
   computed: {
-    isVisible() {
-      return this.project.extension
+    onlyDeadlineChanged() {
+      return !this.project.extension.hourly_rate && !this.project.extension.fixed_budget
+          && !this.project.extension.key_deliverables && !this.project.extension.role_details
     },
     apiUrl() {
-      return '/api/projects/' + this.project.id + '/extension'
+      return '/api/projects/' + this.project.id + '/extension/' + 1
     }
   },
   components: {
-    EditContractModal
+    ApproveContractChangesModal
   }
 }
 </script>
