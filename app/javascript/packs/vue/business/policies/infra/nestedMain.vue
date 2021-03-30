@@ -39,6 +39,9 @@
       PoliciesModalDelete
     },
     methods: {
+      makeToast(title, str) {
+        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
+      },
       updateList () {
         this.$store
           .dispatch("getPolicies")
