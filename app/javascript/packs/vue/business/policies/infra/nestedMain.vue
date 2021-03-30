@@ -1,9 +1,9 @@
 <template lang="pug">
   draggable.table.dragArea(tag='div' :list='policies' :group="{ name: 'g1' }" :move="checkMove")
-    .table__row(v-for='el in policies' :key='el.title')
+    .table__row(v-for='(el, indexEl) in policies' :key='el.title')
       .table__cell.table__cell_name(v-if="el.sections && el.sections.length !== 0")
         .dropdown-toggle(
-          :id="'#nested-sectionIcon-'+el.id", @click="toogleSections(el.id)"
+          :id="`#nested-sectionIcon-${el.id ? el.id : el.indexEl}`", @click="toogleSections(el.id ? el.id : el.indexEl)"
           :class="[el.sections && el.sections.length !== 0 || el.children && el.children.length !== 0 ? 'active' : '']"
           )
           b-icon.mr-2(v-if="el.sections && el.sections.length !== 0 || el.children && el.children.length !== 0" icon="chevron-compact-down")
@@ -16,16 +16,16 @@
       .table__cell(v-if="el.updated_at") {{ dateToHuman(el.updated_at) }}
       .table__cell(v-if="el.created_at") {{ dateToHuman(el.created_at) }}
       .table__cell(v-if="el.created_at") N/A
-      .table__cell
+      .table__cell(v-if="el.created_at")
         .actions
-          button.px-0.actions__btn(:id="'#nested-actionIcon-'+el.id", @click="toogleActions(el.id)")
+          button.px-0.actions__btn(:id="`#nested-actionIcon-${el.id ? el.id : el.indexEl}`", @click="toogleActions(el.id ? el.id : el.indexEl)")
             b-icon(icon="three-dots")
-          ul.actions-dropdown(:id="'#nested-action-'+el.id")
+          ul.actions-dropdown(:id="`#nested-action-${el.id ? el.id : el.indexEl}`")
             li.actions-dropdown__item.edit
               a.link(:href="'/business/compliance_policies/'+el.id") Edit
-            li.actions-dropdown__item.move-up(@click="moveUp(el.id)") Move up
+            li.actions-dropdown__item.move-up(@click="moveUp(el.id ? el.id : el.indexEl)") Move up
             li.actions-dropdown__item.delete
-              PoliciesModalDelete(@saved="updateList", :policyId="el.id", @deleteConfirmed="deletePolicy(el.id)") Delete
+              PoliciesModalDelete(@saved="updateList", :policyId="el.id ? el.id : el.indexEl", @deleteConfirmed="deletePolicy(el.id ? el.id : el.indexEl)") Delete
 </template>
 <script>
   import draggable from "vuedraggable";
