@@ -1,7 +1,7 @@
 <template lang="pug">
-  .alert(v-if="isSuggestionVisible || hasExtension" :class="alertClass")
-    div(v-if="hasExtension")
-      h4.alert-heading Project extension requested.
+  .alert(v-if="isSuggestionVisible || hasUpdate" :class="alertClass")
+    div(v-if="hasUpdate")
+      h4.alert-heading Project update requested.
       p Waiting for specialist to accept or decline.
     div(v-else-if="isSuggestionVisible")
       h4.alert-heading The project's due date is tomorrow.
@@ -40,9 +40,9 @@ export default {
   },
   computed: {
     alertClass() {
-      return this.hasExtension ? 'alert-info' : this.isSuggestionVisible ? 'alert-warning' : ''
+      return this.hasUpdate ? 'alert-info' : this.isSuggestionVisible ? 'alert-warning' : ''
     },
-    hasExtension() {
+    hasUpdate() {
       return this.project.extension
     },
     isSuggestionVisible() {

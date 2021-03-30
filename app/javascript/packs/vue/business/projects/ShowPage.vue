@@ -16,10 +16,10 @@
             .row.p-x-1
               .col-sm-12
                 ApplicationsNotice(:project="project.visible_project" v-if="project.visible_project")
-                Get(v-if="project.visible_project" :etag="etag" :project="`/api/business/projects/${project.visible_project.id}`"): template(v-slot="{project}")
-                  TimesheetsNotice(:project="project")
-                  EndContractNotice(:project="project" @saved="completeSuccess" @errors="completeErrors")
-                  ExtendDeadlineNotice(:project="project" @saved="newEtag")
+                Get(v-for="marketProject in project.projects" :etag="etag" :marketProject="`/api/business/projects/${marketProject.id}`"): template(v-slot="{marketProject}")
+                  TimesheetsNotice(:project="marketProject")
+                  EndContractNotice(:project="marketProject" @saved="completeSuccess" @errors="completeErrors")
+                  ExtendDeadlineNotice(:project="marketProject" @saved="newEtag")
             .row.p-x-1
               .col-md-7.col-sm-12
                 .card
@@ -76,8 +76,7 @@
                     Breadcrumbs.m-y-1(:items="['Collaborators', `${showingContract.specialist.first_name} ${showingContract.specialist.last_name}`]")
                   .row: .col-sm-12
                     PropertiesTable(title="Contract Details" :properties="contractDetails(showingContract)")
-                      EditContractModal(:project-id="showingContract.id")
-                        button.btn.btn-outline-dark.float-right Edit
+                      EditContractModal(:project="showingContract")
       b-tab(title="Activity")
         .card-body.white-card-body
 </template>

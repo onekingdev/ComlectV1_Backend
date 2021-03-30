@@ -45,7 +45,6 @@ const FIXED_BUDGET = Object.keys(PRICING_TYPES_OPTIONS)[0]
 const HOURLY_RATE = Object.keys(PRICING_TYPES_OPTIONS)[1]
 
 const initialForm = (project) => ({
-  hourly_rate: null,
   starts_on: (project && project.starts_on) || null,
   ends_on: (project && project.ends_on ) || null,
   pricing_type: (project && calcPricingType(project)) || null,
@@ -54,7 +53,6 @@ const initialForm = (project) => ({
   hourly_rate: (project && project.hourly_rate) || null,
   hourly_payment_schedule: (project && project.pricing_type == "hourly" && HOURLY_PAYMENT_SCHEDULE_OPTIONS[project.payment_schedule]) || null,
   estimated_hours: null,
-  message: null,
   key_deliverables: null,
   role_details: null,
 })
