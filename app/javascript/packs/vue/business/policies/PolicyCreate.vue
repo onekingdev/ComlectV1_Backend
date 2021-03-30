@@ -282,14 +282,6 @@
       makeToast(title, str) {
         this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
       },
-
-      checkMove: function(evt){
-        console.log('checkMove')
-        console.log(evt)
-        console.log(evt.draggedContext)
-        console.log(evt.draggedContext.element)
-        return (evt.draggedContext.element.name!=='apple');
-      },
     },
     computed: {
       loading() {

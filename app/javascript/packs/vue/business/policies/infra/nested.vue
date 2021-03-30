@@ -1,5 +1,5 @@
 <template lang="pug">
-  draggable.dragArea(tag='div' :list='policies' :group="{ name: 'g1' }")
+  draggable.dragArea(tag='div' :list='policies' :group="{ name: 'g1' }", :move="checkMove")
       .table(v-for='el in policies' :key='el.title')
         .table__row
           .table__cell.table__cell_name.px-0.pl-1.w-100
@@ -17,10 +17,19 @@
   import draggable from "vuedraggable";
   export default {
     props: ['policies'],
+    name: "nested-draggable",
     components: {
       draggable
     },
-    name: "nested-draggable"
+    methods: {
+      checkMove: function(evt){
+        console.log('checkMove')
+        console.log(evt)
+        console.log(evt.draggedContext)
+        console.log(evt.draggedContext.element)
+        return (evt.draggedContext.element.name!=='apple');
+      },
+    }
   };
 </script>
 <style scoped>

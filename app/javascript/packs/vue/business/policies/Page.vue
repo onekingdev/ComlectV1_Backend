@@ -38,6 +38,10 @@
                             <!--td-->
                           <!--tr(v-if="!policies.length")-->
                             <!--td.text-center(colspan=6) No policies-->
+                      .row
+                        .col-12
+                          nested-draggable(:policies='policiesListComputed')
+                      rawdisplayer(:value='policiesListComputed' title='List')
                 b-tab(title="Archive")
                   .card-body.white-card-body
                     .container
@@ -61,6 +65,8 @@
   import PoliciesModalCreate from "./PoliciesModalCreate";
   import EtaggerMixin from '@/mixins/EtaggerMixin'
   // import Loading from '@/common/Loading/Loading'
+  import nestedDraggable from "./infra/nestedMain";
+  import rawdisplayer from "./infra/raw-displayer";
 
   export default {
     mixins: [EtaggerMixin],
@@ -68,6 +74,8 @@
       PolicyTable,
       PoliciesModalCreate,
       // Loading,
+      nestedDraggable,
+      rawdisplayer,
     },
     data() {
       return {
@@ -95,7 +103,7 @@
             console.error(err);
             this.makeToast('Error', err.message)
           });
-      }
+      },
     },
     computed: {
       filteredList () {
