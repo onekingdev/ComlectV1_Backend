@@ -16,7 +16,7 @@
             .row.p-x-1
               .col-sm-12
                 ApplicationsNotice(:project="project.visible_project" v-if="project.visible_project")
-                Get(v-for="marketProject in project.projects" :etag="etag" :marketProject="`/api/business/projects/${marketProject.id}`"): template(v-slot="{marketProject}")
+                Get(v-for="marketProject in project.projects" :etag="etag" :marketProject="`/api/business/projects/${marketProject.id}`"): template(v-slot="{marketProject}" :key="marketProject.id")
                   TimesheetsNotice(:project="marketProject")
                   EndContractNotice(:project="marketProject" @saved="completeSuccess" @errors="completeErrors")
                   ExtendDeadlineNotice(:project="marketProject" @saved="newEtag")
