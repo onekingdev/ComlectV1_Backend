@@ -53,6 +53,7 @@ export default {
     saved() {
       this.$bvModal.hide('EditContractModal')
       this.toast('Success', 'Modification requested.')
+      this.$emit('saved')
     }
   }
 }

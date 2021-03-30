@@ -16,7 +16,7 @@
             .row.p-x-1
               .col-sm-12
                 ApplicationsNotice(:project="project.visible_project" v-if="project.visible_project")
-                Get(v-for="marketProject in project.projects" :etag="etag" :marketProject="`/api/business/projects/${marketProject.id}`"): template(v-slot="{marketProject}" :key="marketProject.id")
+                Get(v-for="marketProject in project.projects" :etag="etag" :marketProject="`/api/business/projects/${marketProject.id}`" :key="marketProject.id"): template(v-slot="{marketProject}")
                   TimesheetsNotice(:project="marketProject")
                   EndContractNotice(:project="marketProject" @saved="completeSuccess" @errors="completeErrors")
                   ExtendDeadlineNotice(:project="marketProject" @saved="newEtag")
@@ -76,7 +76,7 @@
                     Breadcrumbs.m-y-1(:items="['Collaborators', `${showingContract.specialist.first_name} ${showingContract.specialist.last_name}`]")
                   .row: .col-sm-12
                     PropertiesTable(title="Contract Details" :properties="contractDetails(showingContract)")
-                      EditContractModal(:project="showingContract")
+                      EditContractModal(:project="showingContract" @saved="newEtag")
       b-tab(title="Activity")
         .card-body.white-card-body
 </template>
