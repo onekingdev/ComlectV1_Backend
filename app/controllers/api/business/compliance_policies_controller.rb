@@ -34,7 +34,7 @@ class Api::Business::CompliancePoliciesController < ApiController
   end
 
   def destroy
-    if @cpolicy.destroy
+    if @cpolicy.archived && @cpolicy.destroy
       respond_with @cpolicy, serializer: CompliancePolicySerializer
     else
       head :bad_request
@@ -77,11 +77,20 @@ class Api::Business::CompliancePoliciesController < ApiController
       :name,
       :description,
       :position,
+      :archived,
       sections: [
         :title, :description, children: [
           :title, :description, children: [
             :title, :description, children: [
-              :title, :description, children: []
+              :title, :description, children: [
+                :title, :description, children: [
+                  :title, :description, children: [
+                    :title, :description, children: [
+                      :title, :description, children: []
+                    ]
+                  ]
+                ]
+              ]
             ]
           ]
         ]
