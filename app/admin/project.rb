@@ -33,7 +33,7 @@ ActiveAdmin.register Project do
       if changed.second > changed.first
         extension = ProjectExtension.new(
           project: project,
-          ends_on: changed.second
+          new_end_date: changed.second
         )
 
         extension.__send__(:trigger_project_extension)
