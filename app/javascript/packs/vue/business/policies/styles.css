@@ -411,17 +411,17 @@
 
 /* ---------- Buttons ---------- */
 
-a.btn,
+/*a.btn,*/
 button.btn {
   padding: .5rem 1.2rem;
   font-weight: 600;
   transition: all 200ms ease-in;
 }
-a.btn {
-  padding: .6rem 1.2rem;
-}
-a.btn:hover,
-a.btn:active,
+/*a.btn {*/
+  /*padding: .6rem 1.2rem;*/
+/*}*/
+/*a.btn:hover,*/
+/*a.btn:active,*/
 button.btn:hover,
 button.btn:active {
   opacity: .6;
