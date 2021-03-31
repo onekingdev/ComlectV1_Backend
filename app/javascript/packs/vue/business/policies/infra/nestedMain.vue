@@ -1,16 +1,16 @@
 <template lang="pug">
   draggable.dragArea(tag='tbody' :list='policies' :group="{ name: 'g1' }" :move="checkMove" @end="onEnd")
-    .table__row(v-for='(el, indexEl) in policies' :key='el.title ? el.title : el.name')
-      .table__cell.table__cell_name(v-if="el.sections && el.sections.length !== 0")
+    .table__row(v-for='el in policies' :key='el.title')
+      .table__cell.table__cell_name(v-if="el.children && el.children.length !== 0")
         .dropdown-toggle(
-          :id="`#nested-sectionIcon-${el.id ? el.id : el.indexEl}`", @click="toogleSections(el.id ? el.id : el.indexEl)"
-          :class="[el.sections && el.sections.length !== 0 || el.children && el.children.length !== 0 ? 'active' : '']"
+          :id="`#nested-sectionIcon-${el.id}`", @click="toogleSections(el.id)"
+          :class="[el.children && el.children.length !== 0 ? 'active' : '']"
           )
-          b-icon.mr-2(v-if="el.sections && el.sections.length !== 0 || el.children && el.children.length !== 0" icon="chevron-compact-down")
+          b-icon.mr-2(v-if="el.children && el.children.length !== 0" icon="chevron-compact-down")
           b-icon.mr-2(v-else icon="chevron-compact-right")
-          | {{ el.title ? el.title : el.name }}
-        nested-draggable(:policies='el.children ? el.children : el.sections' :policyTitle="el.title")
-      .table__cell.table__cell_name(v-else) {{ el.title ? el.title : el.name }}
+          | {{ el.title }}
+        nested-draggable(:policies="el.children" :policyTitle="el.title")
+      .table__cell.table__cell_name(v-else) {{ el.title }}
       .table__cell(v-if="el.status")
         .status.status__draft {{ el.status }}
       .table__cell(v-if="el.updated_at") {{ dateToHuman(el.updated_at) }}
@@ -18,14 +18,14 @@
       .table__cell(v-if="el.created_at") N/A
       .table__cell(v-if="el.created_at")
         .actions
-          button.px-0.actions__btn(:id="`#nested-actionIcon-${el.id ? el.id : el.indexEl}`", @click="toogleActions(el.id ? el.id : el.indexEl)")
+          button.px-0.actions__btn(:id="`#nested-actionIcon-${el.id}`", @click="toogleActions(el.id)")
             b-icon(icon="three-dots")
-          ul.actions-dropdown(:id="`#nested-action-${el.id ? el.id : el.indexEl}`")
+          ul.actions-dropdown(:id="`#nested-action-${el.id}`")
             li.actions-dropdown__item.edit
               a.link(:href="'/business/compliance_policies/'+el.id") Edit
-            li.actions-dropdown__item.move-up(@click="moveUp(el.id ? el.id : el.indexEl)") Move up
+            li.actions-dropdown__item.move-up(@click="moveUp(el.id)") Move up
             li.actions-dropdown__item.delete
-              PoliciesModalDelete(@saved="updateList", :policyId="el.id ? el.id : el.indexEl", @deleteConfirmed="deletePolicy(el.id ? el.id : el.indexEl)") Delete
+              PoliciesModalDelete(@saved="updateList", :policyId="el.id", @deleteConfirmed="deletePolicy(el.id)") Delete
 </template>
 <script>
   import draggable from "vuedraggable";
@@ -91,12 +91,7 @@
         if(evt.draggedContext.element.id && !evt.relatedContext.element.id) {
           return false;
         }
-        if(evt.draggedContext.element.id && evt.relatedContext.element.id) {
-          // const oldIndex = evt.draggedContext.element.id
-          // const newIndex = evt.relatedContext.element.id
-          // this.movePolicy(oldIndex, newIndex)
-          // return
-        }
+
         console.log('relatedContext')
         console.log(evt.relatedContext)
         console.log('draggedContext:')
@@ -201,8 +196,8 @@
 </script>
 <style scoped>
   .dragArea {
-    min-height: 50px;
-    outline: 1px dashed;
+    /*min-height: 50px;*/
+    outline: 1px dashed transparent;
     transition: all 200ms ease-in;
   }
   .dragArea:hover,
