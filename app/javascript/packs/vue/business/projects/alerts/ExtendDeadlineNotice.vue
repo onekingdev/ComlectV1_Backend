@@ -28,7 +28,10 @@ export default {
   },
   data() {
     return {
-      form: { ends_on: null },
+      form: {
+        ends_on_only: true,
+        ends_on: null
+      },
       errors: {}
     }
   },
