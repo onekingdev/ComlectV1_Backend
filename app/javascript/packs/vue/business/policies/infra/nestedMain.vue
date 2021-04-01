@@ -149,34 +149,20 @@
         document.getElementById(`#nested-sectionIcon-${value}`).classList.toggle('active');
       },
       moveUp(policyId) {
-        // console.log(policyId)
         const index = this.policies.findIndex(record => record.id === policyId);
-        // policies[index] = payload;
-        const oldPos = this.policies[index].position
-        const newPos = this.policies[index - 1].position
-
-        this.policies[index - 1].position = oldPos
-        this.policies[index].position = newPos
-
-        const arrToChange = [
-          {
-            id: this.policies[index - 1].id,
-            position: this.policies[index - 1].position
-          },
-          {
-            id: this.policies[index].id,
-            position: this.policies[index].position
-          }
-        ]
+        const newPos = this.policies[index - 1].position - 0.01
 
         this.$store
-          .dispatch("moveUpPolicy", arrToChange)
+          .dispatch("movePolicy", {
+            id: this.policies[index].id,
+            position: newPos
+          })
           .then((response) => {
-            // console.log('response', response)
+            console.log('response', response)
             this.makeToast('Success', 'Policy succesfully moved.')
           })
           .catch((err) => {
-            // console.error(err)
+            console.error(err)
             this.makeToast('Error', err.message)
           });
       },
