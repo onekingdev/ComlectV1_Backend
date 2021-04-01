@@ -3,11 +3,13 @@
     div(v-b-modal="modalId" :class="{'d-inline-block':inline}")
       slot
 
-    b-modal.fade(:id="modalId" title="Archive Policy")
+    b-modal.fade(:id="modalId" title="Publish Policy")
       .d-block
-        p The policy will be added to your compilance manual and employees will be able to view the new policy.
-      p
-        b Do you want to continue?
+        p
+          b-icon.mr-3(icon="exclamation-circle-fill" scale="2" variant="info")
+          | The policy will be added to your compilance manual and employees will be able to view the new policy.
+        p
+          b Do you want to continue?
       Errors(:errors="errors.title")
 
       template(slot="modal-footer")
@@ -21,10 +23,6 @@
     props: {
       inline: {
         type: Boolean,
-        default: true
-      },
-      policyId: {
-        type: Number,
         default: true
       },
     },

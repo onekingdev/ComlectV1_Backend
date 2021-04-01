@@ -24,7 +24,8 @@
                   .d-flex.justify-content-end.align-items-center
                     a.link.btn.mr-3(@click="saveDraft") Save Draft
                     button.btn.btn.btn-default.mr-3(@click="download") Download
-                    button.btn.btn-dark.mr-3(@click="publish") Publish
+                    PoliciesModalPublish(@publishConfirmed="publishPolicy")
+                      button.btn.btn-dark.mr-3 Publish
                     PoliciesModalDelete(:policyId="policy.id", @deleteConfirmed="deletePolicy(policy.id)")
                       button.btn.btn__close.mr-3
                         b-icon(icon='x')
@@ -96,6 +97,7 @@
   import PoliciesModalDelete from "./Modals/PoliciesModalDelete";
   import PoliciesModalArchive from "./Modals/PoliciesModalArchive";
   import PoliciesModalRemoveSubsection from "./Modals/PoliciesModalRemoveSubsection";
+  import PoliciesModalPublish from "./Modals/PoliciesModalPublish";
 
   export default {
     props: {
@@ -118,6 +120,7 @@
       PoliciesModalDelete,
       PoliciesModalArchive,
       PoliciesModalRemoveSubsection,
+      PoliciesModalPublish
     },
     data() {
       return {
@@ -157,7 +160,7 @@
             this.makeToast('Error', err.message)
           });
       },
-      publish () {
+      publishPolicy () {
         this.$store
           .dispatch("publishPolicy", { policyId: this.policyId })
           .then(response => {
