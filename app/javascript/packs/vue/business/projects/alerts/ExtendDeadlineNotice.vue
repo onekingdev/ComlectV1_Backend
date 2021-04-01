@@ -47,7 +47,7 @@ export default {
           && this.project.extension.requester.startsWith('Business')
     },
     isSuggestionVisible() {
-      return this.project.specialist_id
+      return this.project.specialist_id && DateTime.local().plus({ days: 1 }).toSQLDate() === this.project.ends_on
     },
     datepickerOptions() {
       return {
