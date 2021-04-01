@@ -68,12 +68,9 @@ export default {
     loadProject(project) {
       this.project = Object.assign({}, this.project, project)
     },
-    makeToast(title, str) {
-      this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
-    },
     saved() {
       this.$emit('saved')
-      this.makeToast('Success', 'The project has been saved')
+      this.toast('Success', 'The project has been saved')
       this.$bvModal.hide(this.modalId)
       this.newEtag()
     }
