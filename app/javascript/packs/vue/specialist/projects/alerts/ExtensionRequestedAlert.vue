@@ -1,5 +1,5 @@
 <template lang="pug">
-  div(v-if="project.extension")
+  div(v-if="isVisible")
     .alert.alert-warning(v-if="onlyDeadlineChanged")
       h4.alert-heading {{ project.business.business_name }} has requested to extend the deadline to {{ project.extension.ends_on | asDate }}
       p
@@ -26,6 +26,10 @@ export default {
     }
   },
   computed: {
+    isVisible() {
+      return this.project.extension && this.project.extension.requester
+          && this.project.extension.requester.startsWith('Business')
+    },
     onlyDeadlineChanged() {
       return !this.project.extension.hourly_rate && !this.project.extension.fixed_budget
           && !this.project.extension.key_deliverables && !this.project.extension.role_details
