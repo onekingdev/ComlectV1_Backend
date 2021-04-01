@@ -102,7 +102,7 @@
         },
         set(value) {
           console.log(value)
-          this.$store.dispatch("updatePolicyById", {
+          this.$store.dispatch("updatePolicySectionsById", {
             id: this.policy.id,
             sections: value
           });

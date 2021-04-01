@@ -15,7 +15,7 @@
             ul.actions-dropdown(:class="{ active: isActive }")
               <!--li.actions-dropdown__item.save(@click="saveSubsection") Save it-->
               li.actions-dropdown__item.move-up(@click="moveUpSubsection") Move up
-              li.actions-dropdown__item.delete(@click="deleteSubSection") Delete
+              PoliciesModalRemoveSubsection(@removeSubsectionConfirmed="deleteSubSection") Delete
       .policy-details__name.mb-0 Description
       .policy-details__text-editor(@click="toggleVueEditorHandler", v-if="!toggleVueEditor", v-b-tooltip.hover.left title="Click to edit text", v-html="section.description ? section.description : description")
       vue-editor.policy-details__text-editor(v-if="toggleVueEditor", v-model="section.description", @blur="handleBlur")
@@ -35,6 +35,7 @@
 
 <script>
   import { VueEditor } from "vue2-editor";
+  import PoliciesModalRemoveSubsection from "./Modals/PoliciesModalRemoveSubsection"
 
   export default {
     name: 'PolicySubsection',
@@ -57,6 +58,7 @@
     },
     components: {
       VueEditor,
+      PoliciesModalRemoveSubsection,
     },
     data() {
       return {

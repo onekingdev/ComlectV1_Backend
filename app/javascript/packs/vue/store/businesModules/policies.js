@@ -33,7 +33,7 @@ export default {
       state.policies.push(payload);
     },
     updatePolicy(state, payload) {
-      // const index = state.policies.findIndex(record => record.id === payload.id);
+      // const index = state.policies.findIndex(record => record.id === payload.id); // not reactive
       // state.policies[index] = payload;
       const newArr = state.policies.map(record => (record.id === payload.id) ? payload : record)
       state.policies = newArr
@@ -48,6 +48,8 @@ export default {
     updatePolicySectionsById(state, payload) {
       const index = state.policies.findIndex(record => record.id === payload.id);
       state.policies[index].sections.push(payload.sections);
+      // const policy = state.policies.find(record => record.id === payload.id);
+      // policy.sections.push(payload.sections);
     }
   },
   actions: {
