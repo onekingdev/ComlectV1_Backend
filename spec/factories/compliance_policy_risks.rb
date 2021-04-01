@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :risk do
+  factory :compliance_policy_risk do
     name 'MyString'
     level 1
     description 'MyText'
