@@ -43,10 +43,11 @@ export default {
       return this.hasUpdate ? 'alert-info' : this.isSuggestionVisible ? 'alert-warning' : ''
     },
     hasUpdate() {
-      return this.project.extension
+      return this.project.extension && this.project.extension.requester
+          && this.project.extension.requester.startsWith('Business')
     },
     isSuggestionVisible() {
-      return true
+      return this.project.specialist_id
     },
     datepickerOptions() {
       return {

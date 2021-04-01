@@ -3,9 +3,9 @@
     .alert.alert-warning(v-if="onlyDeadlineChanged")
       h4.alert-heading {{ project.business.business_name }} has requested to extend the deadline to {{ project.extension.ends_on | asDate }}
       p
-        Post(:action="apiUrl" method="PUT" :model="{confirm:true}" @saved="toast('Success', 'Deadline extended'), $emit('saved')")
+        Post(:action="apiUrl" method="PUT" :model="{confirm:true}" @saved="saved(true)")
           button.btn.btn-default.float-right Accept
-        Post(:action="apiUrl" method="PUT" :model="{deny:true}" @saved="toast('Denied', 'Deadline extension denied'), $emit('saved')")
+        Post(:action="apiUrl" method="PUT" :model="{deny:true}" @saved="saved(false)")
           button.btn.btn-default.float-right.m-r-1 Deny
         | Would you like to proceed?
     .alert.alert-warning(v-else)
@@ -23,6 +23,12 @@ export default {
     project: {
       type: Object,
       required: true
+    }
+  },
+  methods: {
+    saved(isAccepted) {
+      this.toast('Success', isAccepted ? 'Deadline extended' : 'Deadline extension denied')
+      this.$emit('saved')
     }
   },
   computed: {

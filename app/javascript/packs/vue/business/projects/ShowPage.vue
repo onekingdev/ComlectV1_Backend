@@ -20,6 +20,7 @@
                   TimesheetsNotice(:project="marketProject")
                   EndContractNotice(:project="marketProject" @saved="completeSuccess" @errors="completeErrors")
                   ExtendDeadlineNotice(:project="marketProject" @saved="newEtag")
+                  ContractChangeRequestedAlert(:project="marketProject" @saved="newEtag")
             .row.p-x-1
               .col-md-7.col-sm-12
                 .card
@@ -90,6 +91,7 @@ import ProjectDetails from './ProjectDetails'
 import EtaggerMixin from '@/mixins/EtaggerMixin'
 import LocalProjectModal from './LocalProjectModal'
 import EndContractModal from './EndContractModal'
+import ContractChangeRequestedAlert from './alerts/ContractChangeRequestedAlert'
 import ExtendDeadlineNotice from './alerts/ExtendDeadlineNotice'
 import EditContractModal from '@/common/projects/EditContractModal'
 
@@ -113,6 +115,7 @@ export default {
   },
   components: {
     ApplicationsNotice,
+    ContractChangeRequestedAlert,
     ExtendDeadlineNotice,
     LocalProjectModal,
     TimesheetsNotice,

@@ -29,9 +29,9 @@
             .card-body
       template(#modal-footer="{ hide }")
         a.m-r-1.btn(@click="hide") Cancel
-        Post(:action="`/api/projects/${project.id}/extension/1`" method="PUT" :model="{deny:true}" @saved="toast('Rejected', 'Rejected')")
+        Post(:action="`/api/projects/${project.id}/extension/1`" method="PUT" :model="{deny:true}" @saved="saved(false)")
           button.btn.btn-outline-dark Reject
-        Post(:action="`/api/projects/${project.id}/extension/1`" method="PUT" :model="{confirm:true}" @saved="toast('Accepted', 'Accepted')")
+        Post(:action="`/api/projects/${project.id}/extension/1`" method="PUT" :model="{confirm:true}" @saved="saved(true)")
           button.btn.btn-dark Accept
 </template>
 
@@ -44,6 +44,11 @@ export default {
     }
   },
   methods: {
+    saved(isAccepted) {
+      this.toast('Success', isAccepted ? 'Accepted' : 'Rejected')
+      this.$bvModal.hide('ApproveContractChangesModal')
+      this.$emit('saved')
+    },
     inputClass(property) {
       const differs = property => this.project[property] && this.project.extension[property] &&
                                   this.project[property] != this.project.extension[property]
