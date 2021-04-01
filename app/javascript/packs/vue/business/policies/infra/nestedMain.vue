@@ -35,7 +35,7 @@
   import PoliciesModalDelete from "../Modals/PoliciesModalDelete";
   import PoliciesModalArchive from "../Modals/PoliciesModalArchive";
   export default {
-    props: ['policies', 'policyTitle'],
+    props: ['policies', 'policyTitle', 'policiesList'],
     name: "nested-draggable",
     components: {
       draggable,
@@ -65,10 +65,10 @@
           });
       },
       movePolicy(oldIndex, newIndex) {
-        const newPos = this.policiesList[newIndex].position - 0.01
+        const newPos = this.policiesList[oldIndex].position - 0.01
         this.$store
           .dispatch("movePolicy", {
-            id: this.policiesList[oldIndex].id,
+            id: this.policiesList[newIndex].id,
             position: newPos
           })
           .then((response) => {
@@ -181,9 +181,7 @@
       },
     },
     computed: {
-      policiesList() {
-        return this.$store.getters.policiesList
-      }
+
     }
   };
 </script>
