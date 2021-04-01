@@ -9,7 +9,7 @@
           b-icon.mr-2(v-if="el.children && el.children.length !== 0" icon="chevron-compact-down")
           b-icon.mr-2(v-else icon="chevron-compact-right")
           | {{ el.title }}
-        nested-draggable(:policies="el.children" :policyTitle="el.title")
+        nested-draggable(:policies="el.children" :policyTitle="el.title" :policiesList="policiesList")
       .table__cell.table__cell_name(v-else) {{ el.title }}
       .table__cell(v-if="el.status")
         .status.status__draft {{ el.status }}
@@ -101,7 +101,7 @@
       onEnd(evt){
         console.log('event', evt)
 
-        if (!this.policyTitle) {
+        if (!this.policyTitle && this.oldIndex && this.newIndex) {
           this.movePolicy(this.oldIndex, this.newIndex)
           return
         }
