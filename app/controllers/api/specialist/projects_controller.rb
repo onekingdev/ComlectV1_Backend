@@ -19,11 +19,6 @@ class Api::Specialist::ProjectsController < ApiController
                           current_specialist.applied_projects.visible, each_serializer: ProjectSerializer
   end
 
-  def local
-    project = policy_scope(Project).find(params[:project_id])
-    respond_with project.local_project, serializer: LocalProjectSerializer
-  end
-
   private
 
   def search_params
