@@ -17,66 +17,7 @@
                 b-tab(title="Compilance Manual" active)
                   .card-body.white-card-body
                     .container
-                      //Loading
                       PolicyTable(:policies="filteredList", @searching="searching")
-                      <!--Get(policies="/api/business/compliance_policies"): template(v-slot="{policies}"): table.table-->
-                        <!--thead-->
-                          <!--tr-->
-                            <!--th Name-->
-                            <!--th Status-->
-                            <!--th Last Modified-->
-                            <!--th Date Created-->
-                            <!--th Risk Level-->
-                            <!--th-->
-                        <!--tbody-->
-                          <!--tr(v-for="policy in policies" :key="policy.id")-->
-                            <!--td ({{ policy.id }}) {{ policy.name }}-->
-                            <!--td: .badge.badge-success {{ policy.status }}-->
-                            <!--td {{ policy.updated_at}}-->
-                            <!--td {{ policy.created_at}}-->
-                            <!--td &hellip;-->
-                            <!--td-->
-                          <!--tr(v-if="!policies.length")-->
-                            <!--td.text-center(colspan=6) No policies-->
-                      .row
-                        .col-12
-                          .table(v-if="policiesListComputed.length !== 0")
-                            .table__row
-                              .table__cell.table__cell_title Name
-                              .table__cell.table__cell_title.table__cell_clickable
-                                | Status
-                                b-icon.ml-2(icon='chevron-expand')
-                              .table__cell.table__cell_title.table__cell_clickable
-                                | Last Modified
-                                b-icon.ml-2(icon='chevron-expand')
-                              .table__cell.table__cell_title.table__cell_clickable
-                                | Date Created
-                                b-icon.ml-2(icon='chevron-expand')
-                              .table__cell.table__cell_title.table__cell_clickable
-                                | Risk Level
-                                b-icon.ml-2(icon='chevron-expand')
-                              .table__cell
-                            nested-draggable(:policies='filteredList')
-                          .table(v-else)
-                            .table__row
-                              .table__cell.text-center
-                                h3 Policies not exist
-                      <!--rawdisplayer(:value='policiesListComputed' title='List')-->
-                      <!--.row-->
-                        <!--.col-12-->
-                          <!--h3 Draggable table-->
-                          <!--table.table.table-striped-->
-                            <!--thead.thead-dark-->
-                              <!--tr-->
-                                <!--th(scope='col') Id-->
-                                <!--th(scope='col') Name-->
-                                <!--th(scope='col') Sport-->
-                            <!--draggable(v-model='policiesListComputed' tag='tbody')-->
-                              <!--tr(v-for='item in policiesListComputed' :key='item.title')-->
-                                <!--td(scope='row') {{ item.id }}-->
-                                <!--td {{ item.name }}-->
-                                <!--td {{ item.status }}-->
-                        <!--rawdisplayer.col-3(:value='policiesListComputed' title='List')-->
                 b-tab(title="Archive")
                   .card-body.white-card-body
                     .container
@@ -85,34 +26,18 @@
                   .card-body.white-card-body
                     .container
                       div Setup
-            .col-12
-              <!--pre {{ filteredList }}-->
-              <!--pre {{ policiesListComputed }}-->
-              <!--.test-block block-->
-                <!--.test-block__element element-->
-                <!--.test-block__element.test-block__element_modificator modificator-->
-                <!--.ssadasdasd asdsad-->
-
 </template>
 
 <script>
   import PolicyTable from "./PolicyTable";
-  import PoliciesModalCreate from "./PoliciesModalCreate"
   import EtaggerMixin from '@/mixins/EtaggerMixin'
-  // import Loading from '@/common/Loading/Loading'
-  import nestedDraggable from "./infra/nestedMain"
-  import rawdisplayer from "./infra/raw-displayer"
-  // import draggable from "vuedraggable"
+  import PoliciesModalCreate from "./Modals/PoliciesModalCreate"
 
   export default {
     mixins: [EtaggerMixin],
     components: {
       PolicyTable,
       PoliciesModalCreate,
-      // Loading,
-      nestedDraggable,
-      rawdisplayer,
-      // draggable
     },
     data() {
       return {

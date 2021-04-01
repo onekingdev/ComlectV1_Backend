@@ -89,8 +89,8 @@
   import { VueEditor } from "vue2-editor";
   import SubsectionPolicy from "./PolicySubsection";
   import HistoryPolicy from "./PolicyHistory";
-  import PoliciesModalCreate from "./PoliciesModalCreate";
-  import PoliciesModalDelete from "./PoliciesModalDelete";
+  import PoliciesModalCreate from "./Modals/PoliciesModalCreate";
+  import PoliciesModalDelete from "./Modals/PoliciesModalDelete";
 
   export default {
     props: {

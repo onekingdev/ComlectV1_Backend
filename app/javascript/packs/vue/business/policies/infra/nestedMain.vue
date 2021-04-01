@@ -24,19 +24,23 @@
             li.actions-dropdown__item.edit
               a.link(:href="'/business/compliance_policies/'+el.id") Edit
             li.actions-dropdown__item.move-up(@click="moveUp(el.id)") Move up
+            li.actions-dropdown__item.archive
+              PoliciesModalArchive(@saved="updateList", :policyId="el.id", @archiveConfirmed="archivePolicy(el.id)") Archive
             li.actions-dropdown__item.delete
               PoliciesModalDelete(@saved="updateList", :policyId="el.id", @deleteConfirmed="deletePolicy(el.id)") Delete
 </template>
 <script>
   import draggable from "vuedraggable";
   import { DateTime } from 'luxon'
-  import PoliciesModalDelete from "../PoliciesModalDelete";
+  import PoliciesModalDelete from "../Modals/PoliciesModalDelete";
+  import PoliciesModalArchive from "../Modals/PoliciesModalArchive";
   export default {
     props: ['policies', 'policyTitle'],
     name: "nested-draggable",
     components: {
       draggable,
-      PoliciesModalDelete
+      PoliciesModalDelete,
+      PoliciesModalArchive
     },
     data() {
       return {
@@ -181,6 +185,16 @@
           .dispatch('deletePolicyById', { policyId })
           .then(response => {
             this.makeToast('Success', `Policy successfully deleted!`)
+          })
+          .catch(error => {
+            this.makeToast('Error', `Couldn't submit form! ${error}`)
+          })
+      },
+      archivePolicy(policyId) {
+        this.$store
+          .dispatch('archivePolicyById', { policyId })
+          .then(response => {
+            this.makeToast('Success', `Policy successfully archived!`)
           })
           .catch(error => {
             this.makeToast('Error', `Couldn't submit form! ${error}`)

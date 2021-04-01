@@ -393,6 +393,32 @@ export default {
         throw error;
       }
     },
+    async archivePolicyById ({commit, getters}, payload) {
+      commit("clearError");
+      commit("setLoading", true);
+
+      try {
+        const endpointUrl = '/api/business/compliance_policies/'
+        const data = await fetch(`${endpointUrl}${payload.policyId}/?archived=true`, { method: 'PATCH', headers: {'Accept': 'application/json'}})
+          .then(response => response.json())
+          .then(response => {
+            commit('updatePolicyById', {id: response.id})
+            return response
+          })
+          .catch(error => {
+            console.error(error)
+            throw error
+          })
+          .finally(() => commit("setLoading", false))
+
+        return data;
+
+      } catch (error) {
+        commit("setError", error.message);
+        commit("setLoading", false);
+        throw error;
+      }
+    },
   },
   getters: {
     policiesList(state) {
