@@ -3,12 +3,16 @@
     div(v-b-modal="modalId" :class="{'d-inline-block':inline}")
       slot
 
-    b-modal.fade(:id="modalId" title="Archive Policy")
-      .d-block
+    b-modal.fade(:id="modalId" :title="archiveStatus ? 'Archive Policy' : 'Unarchive Policy'")
+      .d-block(v-if="archiveStatus")
         p
           b-icon.mr-3(icon="exclamation-triangle-fill" scale="2" variant="warning")
           | Archiving the policy will archive the policy along with its related sections, subsections, and risks.
         p Any talks linked to the policy will remain linked unless the policy is deleted
+      .d-block(v-else)
+        p
+          b-icon.mr-3(icon="exclamation-triangle-fill" scale="2" variant="warning")
+          | Unarchiving the policy will place it back into the compilance manual.
       p
         b Do you want to continue?
       Errors(:errors="errors.title")
@@ -30,6 +34,10 @@
       //   type: Number,
       //   default: true
       // },
+      archiveStatus: {
+        type: Boolean,
+        default: true
+      },
     },
     data() {
       return {
