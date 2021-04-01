@@ -26,10 +26,10 @@
         type: Boolean,
         default: true
       },
-      policyId: {
-        type: Number,
-        default: true
-      },
+      // policyId: {
+      //   type: Number,
+      //   default: true
+      // },
     },
     data() {
       return {
@@ -53,9 +53,9 @@
         this.$emit('archiveConfirmed')
         this.$bvModal.hide(this.modalId)
 
-        if (window.location.href === `${window.location.origin}/business/compliance_policies/${this.policyId}`) {
-          window.location.href = `${window.location.origin}/business/compliance_policies/`
-        }
+        // if (window.location.href === `${window.location.origin}/business/compliance_policies/${this.policyId}`) {
+        //   window.location.href = `${window.location.origin}/business/compliance_policies/`
+        // }
       },
     },
     computed: {

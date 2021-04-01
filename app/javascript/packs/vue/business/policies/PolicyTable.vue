@@ -29,7 +29,7 @@
               b-icon.ml-2(icon='chevron-expand')
             .table__cell
           nested-draggable(:policies='policies')
-        .table(v-if="policies.length === 0")
+        .table(v-if="!loading && policies.length === 0")
           .table__row
             .table__cell.text-center
               h3 Policies not exist
