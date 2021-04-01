@@ -73,7 +73,7 @@ class Api::Business::CompliancePoliciesController < ApiController
   private
 
   def cpolicy_params
-    params[:compliance_policy].permit(
+    params.permit(
       :name,
       :description,
       :position,

@@ -1,13 +1,12 @@
 <template lang="pug">
   div(:class="{'d-inline-block':inline}")
-    //li.actions-dropdown__item.delete
-    div(v-b-modal="modalId" :class="{'d-inline-block':inline, 'd-flex':flex}")
+    div(v-b-modal="modalId" :class="{'d-inline-block':inline}")
       slot
 
     b-modal.fade(:id="modalId" title="Remove Subsection")
       .d-block
         p
-          b-icon.mr-3(icon="exclamation-circle-fill" scale="2" variant="danger")
+          b-icon.mr-3(icon="exclamation-circle-fill" scale="2" variant="warning")
           | Removing this subsection will permamently delete any items populated withing it.
       p
         b Do you want to continue?
@@ -15,19 +14,19 @@
 
       template(slot="modal-footer")
         button.btn(@click="$bvModal.hide(modalId)") Cancel
-        button.btn.btn-danger(@click="submit") Confirm
+        button.btn.btn-dark(@click="submit") Confirm
 </template>
 
 <script>
   const rnd = () => Math.random().toFixed(10).toString().replace('.', '')
   export default {
     props: {
-      flex: {
-        type: Boolean,
-        default: false
-      },
       inline: {
         type: Boolean,
+        default: true
+      },
+      policyId: {
+        type: Number,
         default: true
       },
     },
@@ -52,6 +51,10 @@
 
         this.$emit('removeSubsectionConfirmed')
         this.$bvModal.hide(this.modalId)
+
+        // if (window.location.href === `${window.location.origin}/business/compliance_policies/${this.policyId}`) {
+        //   window.location.href = `${window.location.origin}/business/compliance_policies/`
+        // }
       },
     },
     computed: {

@@ -65,18 +65,29 @@
           });
       },
       movePolicy(oldIndex, newIndex) {
-        const newPos = this.policiesList[newIndex].position - 0.01
+        const oldPos = this.policiesList[oldIndex].position
+        const newPos = this.policiesList[newIndex].position
+
+        const oldPolicy = {
+          id: this.policiesList[oldIndex].id,
+          position: newPos
+        }
+
+        const newPolicy = {
+          id: this.policiesList[newIndex].id,
+          position: oldPos
+        }
+
+        const arrToChange = [ oldPolicy, newPolicy ]
+
         this.$store
-          .dispatch("movePolicy", {
-            id: this.policiesList[oldIndex].id,
-            position: newPos
-          })
+          .dispatch("moveUpPolicy", arrToChange)
           .then((response) => {
             console.log('response in nested', response)
             this.makeToast('Success', 'Policy succesfully moved.')
           })
           .catch((err) => {
-            console.error(err)
+            // console.error(err)
             this.makeToast('Error', err.message)
           });
       },
@@ -138,20 +149,34 @@
         document.getElementById(`#nested-sectionIcon-${value}`).classList.toggle('active');
       },
       moveUp(policyId) {
+        // console.log(policyId)
         const index = this.policies.findIndex(record => record.id === policyId);
-        const newPos = this.policies[index - 1].position - 0.01
+        // policies[index] = payload;
+        const oldPos = this.policies[index].position
+        const newPos = this.policies[index - 1].position
+
+        this.policies[index - 1].position = oldPos
+        this.policies[index].position = newPos
+
+        const arrToChange = [
+          {
+            id: this.policies[index - 1].id,
+            position: this.policies[index - 1].position
+          },
+          {
+            id: this.policies[index].id,
+            position: this.policies[index].position
+          }
+        ]
 
         this.$store
-          .dispatch("movePolicy", {
-            id: this.policies[index].id,
-            position: newPos
-          })
+          .dispatch("moveUpPolicy", arrToChange)
           .then((response) => {
-            console.log('response', response)
+            // console.log('response', response)
             this.makeToast('Success', 'Policy succesfully moved.')
           })
           .catch((err) => {
-            console.error(err)
+            // console.error(err)
             this.makeToast('Error', err.message)
           });
       },
@@ -167,7 +192,7 @@
       },
       archivePolicy(policyId) {
         this.$store
-          .dispatch('archivePolicyById', { policyId, archived: true })
+          .dispatch('archivePolicyById', { policyId })
           .then(response => {
             this.makeToast('Success', `Policy successfully archived!`)
           })

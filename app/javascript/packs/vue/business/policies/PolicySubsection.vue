@@ -14,9 +14,8 @@
             b-icon(icon="three-dots")
             ul.actions-dropdown(:class="{ active: isActive }")
               <!--li.actions-dropdown__item.save(@click="saveSubsection") Save it-->
-              li.actions-dropdown__item.move-up(@click="moveUpSubsection(section)") Move up
-              PoliciesModalRemoveSubsection(@removeSubsectionConfirmed="deleteSubSection")
-                li.actions-dropdown__item.delete Delete
+              li.actions-dropdown__item.move-up(@click="moveUpSubsection") Move up
+              li.actions-dropdown__item.delete(@click="deleteSubSection") Delete
       .policy-details__name.mb-0 Description
       .policy-details__text-editor(@click="toggleVueEditorHandler", v-if="!toggleVueEditor", v-b-tooltip.hover.left title="Click to edit text", v-html="section.description ? section.description : description")
       vue-editor.policy-details__text-editor(v-if="toggleVueEditor", v-model="section.description", @blur="handleBlur")
@@ -36,7 +35,6 @@
 
 <script>
   import { VueEditor } from "vue2-editor";
-  import PoliciesModalRemoveSubsection from "./Modals/PoliciesModalRemoveSubsection"
 
   export default {
     name: 'PolicySubsection',
@@ -59,12 +57,11 @@
     },
     components: {
       VueEditor,
-      PoliciesModalRemoveSubsection,
     },
     data() {
       return {
         description: "N/A",
-        title: "New section name",
+        title: "New Policy",
         toggleVueEditor: false,
         isActive: false,
         count: 0,
@@ -132,34 +129,9 @@
           console.log(this.parentSection.children)
         }
       },
-      moveUpSubsection (section) {
+      moveUpSubsection () {
         console.log('moveUpSubsection')
-        console.log(section)
-        if(!section) return
-
-        const index = this.parentSection.children.findIndex(sec => sec.title === section.title)
-        const prevSections = this.parentSection.children[index - 1]
-        if (prevSections) {
-          this.parentSection.children[index - 1] = {
-            title: this.section.title,
-            description: this.section.description,
-            children: this.section.children
-          }
-          this.parentSection.children[index] = prevSections
-
-          const newArr = this.parentSection.children
-          this.parentSection.children = newArr
-
-          // const newArr = this.parentSection.children.map(record => {
-          //   if (record.title === payload.title) {
-          //     return section
-          //   } else {
-          //     return record
-          //   }
-          // })
-          // this.parentSection.children = newArr
-        }
-        // this.$emit('clickedmoveUpSection', 'someValue')
+        this.$emit('clickedmoveUpSection', 'someValue')
       },
 
       // saveSubsection () {

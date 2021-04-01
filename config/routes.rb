@@ -289,6 +289,7 @@ Rails.application.routes.draw do
       resources :compliance_policies, only: %i[index show create update destroy]
       get '/compliance_policies/:id/publish' => 'compliance_policies#publish'
       get '/compliance_policies/:id/download' => 'compliance_policies#download'
+      resources :risks, only: %i[index show create update destroy]
       resources :projects, only: [] do
         resources :timesheets, except: %i[new edit], controller: 'timesheets'
       end

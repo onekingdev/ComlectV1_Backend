@@ -33,10 +33,9 @@ export default {
       state.policies.push(payload);
     },
     updatePolicy(state, payload) {
-      // const index = state.policies.findIndex(record => record.id === payload.id); // not reactive
-      // state.policies[index] = payload;
-      const newArr = state.policies.map(record => (record.id === payload.id) ? payload : record)
-      state.policies = newArr
+      const index = state.policies.findIndex(record => record.id === payload.id);
+      state.policies[index] = payload;
+      // state.policies.map(record => (record.id === payload.id) ? payload : record)
     },
     deletePolicy(state, payload) {
       const index = state.policies.findIndex(record => record.id === payload.id);
@@ -45,11 +44,9 @@ export default {
     updatePoliciesList(state, payload) {
       state.policies = payload;
     },
-    updatePolicySectionsById(state, payload) {
+    updatePolicyById(state, payload) {
       const index = state.policies.findIndex(record => record.id === payload.id);
       state.policies[index].sections.push(payload.sections);
-      // const policy = state.policies.find(record => record.id === payload.id);
-      // policy.sections.push(payload.sections);
     }
   },
   actions: {
@@ -255,9 +252,9 @@ export default {
         throw error;
       }
     },
-    updatePolicySectionsById ({commit, getters}, payload) {
+    updatePolicyById ({commit, getters}, payload) {
       console.log('payload', payload)
-      commit('updatePolicySectionsById', {
+      commit('updatePolicyById', {
         ...payload
       })
     },
@@ -286,91 +283,89 @@ export default {
         throw error;
       }
     },
-    async movePolicy({ commit, getters }, payload) {
+    async moveUpPolicy({ commit, getters }, payload) {
       commit("clearError");
       commit("setLoading", true);
 
-      try {
-        const data = fetch('/api/business/compliance_policies/' + payload.id, {
+      // try {
+      //   payload.forEach((record) => {
+      //     fetch('/api/business/compliance_policies/' + record.id, {
+      //         method: 'PATCH',
+      //         headers: {
+      //           // 'Authorization': 'Bearer test',
+      //           'Accept': 'application/json',
+      //           'Content-Type': 'application/json'},
+      //         body: JSON.stringify({
+      //           compliance_policy: {
+      //             // id: record.id,
+      //             position: record.position,
+      //           }
+      //         })
+      //       }).then(response => {
+      //         // console.log(response)
+      //         if (!response.ok)
+      //           throw new Error(`Could't update policy (${response.status})`);
+      //         return response.json()
+      //       }).then(response => {
+      //         return response
+      //       }).catch (error => {
+      //         // console.error(error)
+      //         throw error;
+      //       })
+      //         .finally(() => commit("setLoading", false))
+      //   })
+      //
+      // } catch (error) {
+      //   commit("setError", error.message);
+      //   commit("setLoading", false);
+      //   throw error;
+      // }
+
+      const [policy1, policy2] = [...payload]
+      console.log(policy1, policy2)
+
+      const data = await Promise.all([
+        fetch('/api/business/compliance_policies/' + policy1.id, {
           method: 'PATCH',
           headers: {
             // 'Authorization': 'Bearer test',
             'Accept': 'application/json',
             'Content-Type': 'application/json'},
           body: JSON.stringify({
-            position: payload.position,
+              position: policy1.position,
+          }),
+        }),
+        fetch('/api/business/compliance_policies/' + policy2.id, {
+          method: 'PATCH',
+          headers: {
+            // 'Authorization': 'Bearer test',
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            position: policy2.position,
           })
-        }).then(response => {
-          // console.log(response)
-          if (!response.ok)
-            throw new Error(`Could't update policy (${response.status})`);
-          return response.json()
-        }).then(response => {
-          commit('updatePolicy', {
+        }),
+      ]).then(function (responses) {
+        // Get a JSON object from each of the responses
+        return Promise.all(responses.map(function (response) {
+          return response.json();
+        }));
+      }).then(function (data) {
+        // Log the data to the console
+        // You would do something with both sets of data here
+        console.log(data);
+        data.forEach(function (response) {
+          commit('updatePolicyById', {
             ...response
           })
-          return response
-        }).catch (error => {
-          // console.error(error)
-          throw error;
         })
-          .finally(() => commit("setLoading", false))
+      }).catch(function (error) {
+        // if there's an error, log it
+        console.log(error);
+      });
 
-        return data;
-
-      } catch (error) {
-        commit("setError", error.message);
-        commit("setLoading", false);
-        throw error;
-      }
-
-      // FOR MULTIPLE REQUEST - NOT SUPPORT BACK END
-      // const [policy1, policy2] = [...payload]
-      // console.log(policy1, policy2)
-      //
-      // const data = await Promise.all([
-      //   fetch('/api/business/compliance_policies/' + policy1.id, {
-      //     method: 'PATCH',
-      //     headers: {
-      //       // 'Authorization': 'Bearer test',
-      //       'Accept': 'application/json',
-      //       'Content-Type': 'application/json'},
-      //     body: JSON.stringify({
-      //         position: policy1.position,
-      //     }),
-      //   }),
-      //   fetch('/api/business/compliance_policies/' + policy2.id, {
-      //     method: 'PATCH',
-      //     headers: {
-      //       // 'Authorization': 'Bearer test',
-      //       'Accept': 'application/json',
-      //       'Content-Type': 'application/json'
-      //     },
-      //     body: JSON.stringify({
-      //       position: policy2.position,
-      //     })
-      //   }),
-      // ]).then(function (responses) {
-      //   // Get a JSON object from each of the responses
-      //   return Promise.all(responses.map(function (response) {
-      //     return response.json();
-      //   }));
-      // }).then(function (data) {
-      //   // Log the data to the console
-      //   // You would do something with both sets of data here
-      //   console.log(data);
-      //   data.forEach(function (response) {
-      //     commit('updatePolicyById', {
-      //       ...response
-      //     })
-      //   })
-      // }).catch(function (error) {
-      //   // if there's an error, log it
-      //   console.log(error);
-      // })
-      //   .finally(() => commit("setLoading", false))
-      //
-      // console.log(data);
+      console.log(data);
     },
     async deletePolicyById ({commit, getters}, payload) {
       commit("clearError");
@@ -404,13 +399,7 @@ export default {
 
       try {
         const endpointUrl = '/api/business/compliance_policies/'
-        const data = await fetch(`${endpointUrl}${payload.policyId}`, {
-          method: 'POST',
-          headers: {'Accept': 'application/json'},
-          body: JSON.stringify({
-            archived: payload.archived
-          })
-        })
+        const data = await fetch(`${endpointUrl}${payload.policyId}/?archived=true`, { method: 'PATCH', headers: {'Accept': 'application/json'}})
           .then(response => response.json())
           .then(response => {
             commit('updatePolicyById', {id: response.id})

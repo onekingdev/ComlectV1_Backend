@@ -21,7 +21,7 @@
                 b-tab(title="Archive")
                   .card-body.white-card-body
                     .container
-                      PolicyTable(:policies="archivedList", @searching="searching")
+                      div Archive
                 b-tab(title="Setup")
                   .card-body.white-card-body
                     .container
@@ -73,9 +73,6 @@
             return policy.name?.toLowerCase().includes(this.searchInput.toLowerCase())
         })
       },
-      archivedList () {
-        return this.policiesListComputed.filter(policy => policy.archived)
-      },
       policyById () {
         // return this.$store.dispach('getPolicyById', this.id)
       },
@@ -102,7 +99,7 @@
         },
         set(value) {
           console.log(value)
-          this.$store.dispatch("updatePolicySectionsById", {
+          this.$store.dispatch("updatePolicyById", {
             id: this.policy.id,
             sections: value
           });
