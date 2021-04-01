@@ -33,10 +33,11 @@ export default {
       state.policies.push(payload);
     },
     updatePolicy(state, payload) {
-      // const index = state.policies.findIndex(record => record.id === payload.id); // not reactive
-      // state.policies[index] = payload;
-      const newArr = state.policies.map(record => (record.id === payload.id) ? payload : record)
-      state.policies = newArr
+      const index = state.policies.findIndex(record => record.id === payload.id);
+      state.policies.splice(index, 1, payload)
+      // state.policies[index] = payload; // not reactive might be
+      // const newArr = state.policies.map(record => (record.id === payload.id) ? payload : record)
+      // state.policies = newArr
     },
     deletePolicy(state, payload) {
       const index = state.policies.findIndex(record => record.id === payload.id);
@@ -406,7 +407,10 @@ export default {
         const endpointUrl = '/api/business/compliance_policies/'
         const data = await fetch(`${endpointUrl}${payload.policyId}`, {
           method: 'PATCH',
-          headers: {'Accept': 'application/json'},
+          headers: {
+            // 'Authorization': 'Bearer test',
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'},
           body: JSON.stringify({
             archived: payload.archived
           })
