@@ -1,7 +1,7 @@
 <template lang="pug">
   .alert.alert-warning(v-if="isVisible")
     h4.alert-heading Contract change requested
-    p
+    p.d-flex.justify-content-between
       | Would you like to proceed?
       ApproveContractChangesModal(:project="project" @saved="$emit('saved')")
 </template>

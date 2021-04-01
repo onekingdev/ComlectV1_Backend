@@ -17,6 +17,7 @@ class ProjectExtension::Request < Draper::Decorator
                 ends_on: params[:ends_on],
                 starts_on: (params[:starts_on] || project.starts_on),
                 role_details: (params[:role_details] || project.role_details),
+                ends_on_only: (params[:ends_on_only] || false),
                 key_deliverables: (params[:key_deliverables] || project.key_deliverables),
                 fixed_budget: (project.fixed_budget? ? (params[:fixed_budget] || project.fixed_budget) : nil),
                 hourly_rate: (project.hourly_rate? ? (params[:hourly_rate] || project.hourly_rate) : nil),

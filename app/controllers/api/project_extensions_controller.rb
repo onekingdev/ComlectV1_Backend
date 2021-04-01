@@ -39,7 +39,8 @@ class Api::ProjectExtensionsController < ApiController
       :role_details,
       :key_deliverables,
       :fixed_budget,
-      :hourly_rate
+      :hourly_rate,
+      :ends_on_only
     )
   end
 end

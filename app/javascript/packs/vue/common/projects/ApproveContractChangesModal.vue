@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    button.btn.btn-outline-dark(v-b-modal="'ApproveContractChangesModal'") View
+    button.btn.btn-default(v-b-modal="'ApproveContractChangesModal'") View
     b-modal(id="ApproveContractChangesModal" title="View Changes")
       .row
         .col-md-12
