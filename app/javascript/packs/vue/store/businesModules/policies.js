@@ -417,7 +417,7 @@ export default {
         })
           .then(response => response.json())
           .then(response => {
-            commit('updatePolicyById', {id: response.id})
+            commit('updatePolicy', {...response})
             return response
           })
           .catch(error => {
