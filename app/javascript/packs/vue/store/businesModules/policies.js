@@ -33,9 +33,10 @@ export default {
       state.policies.push(payload);
     },
     updatePolicy(state, payload) {
-      const index = state.policies.findIndex(record => record.id === payload.id);
-      state.policies[index] = payload;
-      // state.policies.map(record => (record.id === payload.id) ? payload : record)
+      // const index = state.policies.findIndex(record => record.id === payload.id);
+      // state.policies[index] = payload;
+      const newArr = state.policies.map(record => (record.id === payload.id) ? payload : record)
+      state.policies = newArr
     },
     deletePolicy(state, payload) {
       const index = state.policies.findIndex(record => record.id === payload.id);

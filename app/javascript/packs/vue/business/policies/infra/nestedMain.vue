@@ -65,29 +65,18 @@
           });
       },
       movePolicy(oldIndex, newIndex) {
-        const oldPos = this.policiesList[oldIndex].position
-        const newPos = this.policiesList[newIndex].position
-
-        const oldPolicy = {
-          id: this.policiesList[oldIndex].id,
-          position: newPos
-        }
-
-        const newPolicy = {
-          id: this.policiesList[newIndex].id,
-          position: oldPos
-        }
-
-        const arrToChange = [ oldPolicy, newPolicy ]
-
+        const newPos = this.policiesList[newIndex].position - 0.01
         this.$store
-          .dispatch("moveUpPolicy", arrToChange)
+          .dispatch("movePolicy", {
+            id: this.policiesList[oldIndex].id,
+            position: newPos
+          })
           .then((response) => {
             console.log('response in nested', response)
             this.makeToast('Success', 'Policy succesfully moved.')
           })
           .catch((err) => {
-            // console.error(err)
+            console.error(err)
             this.makeToast('Error', err.message)
           });
       },
