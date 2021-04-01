@@ -34,15 +34,18 @@ export default {
         if (response.status === 422) {
           response.json().then(errors => {
             Object.keys(errors)
-              .map(prop => errors[prop].map(err => this.toast(`Error`, `${prop}: ${err}`)))
+              .map(prop => errors[prop].map(err => this.makeToast(`Error`, `${prop}: ${err}`)))
             this.$emit('errors', errors)
-          }).catch(() => this.toast('Error', 'Couldn\'t submit form: Unknown error'))
+          }).catch(() => this.makeToast('Error', 'Couldn\'t submit form: Unknown error'))
         } else if (response.status === 201 || response.status === 200) {
           this.$emit('saved')
         } else {
-          this.toast('Error', 'Couldn\'t submit form')
+          this.makeToast('Error', 'Couldn\'t submit form')
         }
       })
+    },
+    makeToast(title, str) {
+      this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
     }
   }
 }

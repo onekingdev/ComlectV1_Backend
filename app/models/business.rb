@@ -7,6 +7,7 @@ class Business < ApplicationRecord
 
   has_and_belongs_to_many :jurisdictions, optional: true
   has_and_belongs_to_many :industries, optional: true
+  has_many :risks
   has_many :forum_questions
   has_many :local_projects
   has_many :projects
