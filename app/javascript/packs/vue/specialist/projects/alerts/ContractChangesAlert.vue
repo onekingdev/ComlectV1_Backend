@@ -14,7 +14,8 @@ export default {
   },
   computed: {
     hasUpdate() {
-      return this.project.extension
+      return this.project.extension && this.project.extension.requester
+          && this.project.extension.requester.startsWith('Business')
     }
   }
 }
