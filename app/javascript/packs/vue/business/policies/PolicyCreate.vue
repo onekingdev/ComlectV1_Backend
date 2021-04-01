@@ -20,7 +20,7 @@
                     button.btn.btn__menu.mr-3(@click="leftMenu = !leftMenu")
                       b-icon(icon='list')
                     button.btn.mr-3(:class="policy.status === 'published' ? 'btn-success' : 'btn-default'") {{ policy.status }}
-                    h3.policy__main-title.m-y-0 {{ policy.name }}
+                    h3.policy__main-title.m-y-0 {{ policy.title }}
                   .d-flex.justify-content-end.align-items-center
                     a.link.btn.mr-3(@click="saveDraft") Save Draft
                     button.btn.btn.btn-default.mr-3(@click="download") Download
@@ -33,7 +33,10 @@
               b-tabs(content-class="mt-0")
                 .policy-actions
                   b-dropdown.bg-white(text='Actions', variant="secondary", right)
-                    b-dropdown-item(@click="deleteAll") Delete all
+                    b-dropdown-item
+                      PoliciesModalArchive(@archiveConfirmed="archivePolicy") Archive Policy
+                    b-dropdown-item
+                      PoliciesModalRemoveSubsection(@removeSubsectionConfirmed="deleteAllSections") Delete sections
                     <!--b-dropdown-item Save all-->
                 .col-12.px-lg-5.px-md-3
                   .card-body.white-card-body.p-0.position-relative
@@ -49,7 +52,7 @@
                           .policy-details-section
                             .policy-details__name Name
                             .d-flex
-                              input.policy-details__input(v-model="policy.name")
+                              input.policy-details__input(v-model="policy.title")
                             .policy-details__name Description
                             .policy-details__text-editor(@click="toggleVueEditorHandler", v-if="!toggleVueEditor", v-b-tooltip.hover.left title="Click to edit text", v-html="policy.description ? policy.description : description")
                             vue-editor.policy-details__text-editor(v-if="toggleVueEditor", v-model="policy.description", @blur="handleBlur")
@@ -91,6 +94,8 @@
   import HistoryPolicy from "./PolicyHistory";
   import PoliciesModalCreate from "./Modals/PoliciesModalCreate";
   import PoliciesModalDelete from "./Modals/PoliciesModalDelete";
+  import PoliciesModalArchive from "./Modals/PoliciesModalArchive";
+  import PoliciesModalRemoveSubsection from "./Modals/PoliciesModalRemoveSubsection";
 
   export default {
     props: {
@@ -111,6 +116,8 @@
       HistoryPolicy,
       PoliciesModalCreate,
       PoliciesModalDelete,
+      PoliciesModalArchive,
+      PoliciesModalRemoveSubsection,
     },
     data() {
       return {
@@ -122,7 +129,7 @@
         count: 0,
         policy: {
           "id": this.policyId,
-          "name": "New Policy",
+          "title": "New Policy",
           "created_at": "",
           "updated_at": "",
           "position": 0,
@@ -164,11 +171,31 @@
             this.makeToast('Error', err.message)
           });
       },
-      deletePolicy() {
-        console.log(`delete${this.policyId}`)
+      deletePolicy(policyId) {
+        console.log(`delete ${policyId}`)
+        this.$store
+          .dispatch('deletePolicyById', { policyId })
+          .then(response => {
+            this.makeToast('Success', `Policy successfully deleted!`)
+          })
+          .catch(error => {
+            this.makeToast('Error', `Couldn't submit form! ${error}`)
+          })
       },
-      deleteAll(){
+      archivePolicy() {
+        console.log(`archive ${this.policyId}`)
+        this.$store
+          .dispatch('archivePolicyById', { policyId: this.policyId, archived: true })
+          .then(response => {
+            this.makeToast('Success', `Policy successfully archived!`)
+          })
+          .catch(error => {
+            this.makeToast('Error', `Couldn't submit form! ${error}`)
+          })
+      },
+      deleteAllSections(){
         console.log(`delete all`)
+        this.policy.sections = []
       },
 
       // createPolicy(newPolicy) {

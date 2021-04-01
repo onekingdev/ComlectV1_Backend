@@ -1,5 +1,6 @@
 <template lang="pug">
-  li.actions-dropdown__item.delete
+  div(:class="{'d-inline-block':inline}")
+    //li.actions-dropdown__item.delete
     div(v-b-modal="modalId" :class="{'d-inline-block':inline, 'd-flex':flex}")
       slot
 
@@ -23,11 +24,11 @@
     props: {
       flex: {
         type: Boolean,
-        default: true
+        default: false
       },
       inline: {
         type: Boolean,
-        default: false
+        default: true
       },
     },
     data() {
