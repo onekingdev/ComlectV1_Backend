@@ -21,7 +21,7 @@
                 b-tab(title="Archive")
                   .card-body.white-card-body
                     .container
-                      div Archive
+                      PolicyTable(:policies="archivedList", @searching="searching")
                 b-tab(title="Setup")
                   .card-body.white-card-body
                     .container
@@ -72,6 +72,9 @@
         return this.policiesListComputed.filter(policy => {
             return policy.name?.toLowerCase().includes(this.searchInput.toLowerCase())
         })
+      },
+      archivedList () {
+        return this.policiesListComputed.filter(policy => policy.archived)
       },
       policyById () {
         // return this.$store.dispach('getPolicyById', this.id)

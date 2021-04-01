@@ -399,7 +399,13 @@ export default {
 
       try {
         const endpointUrl = '/api/business/compliance_policies/'
-        const data = await fetch(`${endpointUrl}${payload.policyId}/?archived=true`, { method: 'PATCH', headers: {'Accept': 'application/json'}})
+        const data = await fetch(`${endpointUrl}${payload.policyId}`, {
+          method: 'POST',
+          headers: {'Accept': 'application/json'},
+          body: JSON.stringify({
+            archived: payload.archived
+          })
+        })
           .then(response => response.json())
           .then(response => {
             commit('updatePolicyById', {id: response.id})

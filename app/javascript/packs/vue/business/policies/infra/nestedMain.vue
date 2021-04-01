@@ -192,7 +192,7 @@
       },
       archivePolicy(policyId) {
         this.$store
-          .dispatch('archivePolicyById', { policyId })
+          .dispatch('archivePolicyById', { policyId, archived: true })
           .then(response => {
             this.makeToast('Success', `Policy successfully archived!`)
           })
