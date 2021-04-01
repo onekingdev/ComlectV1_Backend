@@ -116,7 +116,7 @@
       return {
         leftMenu: true,
         description: "N/A",
-        title: "New Policy Sutitle",
+        title: "New Policy Subtitle",
         toggleVueEditor: false,
         sections: [],
         count: 0,
