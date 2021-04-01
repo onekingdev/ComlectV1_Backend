@@ -1,9 +1,9 @@
 <template lang="pug">
-  .alert(v-if="isSuggestionVisible || hasUpdate" :class="alertClass")
-    div(v-if="hasUpdate")
+  div(v-if="isSuggestionVisible || hasUpdate || isVisible")
+    .alert.alert-info(v-if="hasUpdate")
       h4.alert-heading Project update requested.
       p Waiting for specialist to accept or decline.
-    div(v-else-if="isSuggestionVisible")
+    .alert.alert-warning(v-else-if="isSuggestionVisible")
       h4.alert-heading The project's due date is tomorrow.
       p
         button.btn.btn-default.float-right(v-b-modal="'ExtendDeadlineModal'") Extend
@@ -14,10 +14,16 @@
             button.btn.btn-default.float-right(@click="hide") Cancel
             Post(:action="submitUrl" :model="form" @errors="errors = $event" @saved="saved")
               button.btn.btn-dark.float-right Confirm
+    .alert.alert-warning(v-else-if="isVisible")
+      h4.alert-heading Contract change requested
+      p.d-flex.justify-content-between
+        | Would you like to proceed?
+        ApproveContractChangesModal(:project="project" @saved="$emit('saved')")
 </template>
 
 <script>
 import { DateTime } from 'luxon'
+import ApproveContractChangesModal from '@/common/projects/ApproveContractChangesModal'
 
 export default {
   props: {
@@ -42,9 +48,6 @@ export default {
     }
   },
   computed: {
-    alertClass() {
-      return this.hasUpdate ? 'alert-info' : this.isSuggestionVisible ? 'alert-warning' : ''
-    },
     hasUpdate() {
       return this.project.extension && this.project.extension.requester
           && this.project.extension.requester.startsWith('Business')
@@ -59,7 +62,14 @@ export default {
     },
     submitUrl() {
       return '/api/projects/' + this.project.id + '/extension'
+    },
+    isVisible() {
+      return this.project.extension && this.project.extension.requester
+          && this.project.extension.requester.startsWith('Specialist')
     }
+  },
+  components: {
+    ApproveContractChangesModal
   }
 }
 </script>
