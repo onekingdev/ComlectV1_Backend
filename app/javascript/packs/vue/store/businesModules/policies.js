@@ -15,7 +15,7 @@ class Policy {
     this.createdAt = created_at,
     this.description = description,
     this.id = id,
-    this.title = name,
+    this.name = name,
     this.position = position,
     this.sections = sections,
     this.srcId = src_id,
