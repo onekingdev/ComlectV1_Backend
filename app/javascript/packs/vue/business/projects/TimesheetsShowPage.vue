@@ -67,7 +67,7 @@ export default {
   },
   methods: {
     saved(timesheet, message) {
-      this.$bvToast.toast(message, { title: message, autoHideDelay: 5000 })
+      this.toast(message, message)
       this.$bvModal.hide(`TimesheetModal${timesheet.id}`)
       this.newEtag()
     }
