@@ -144,7 +144,7 @@
     <body>
       <h1><%= @cpolicy.name %></h1>
       <h2><%= @cpolicy.description %></h2>
-      <% JSON.parse(@cpolicy.sections).each do |section| %>
+      <% @cpolicy.sections.each do |section| %>
         <%= render partial: "business/compliance_policies/section", locals: { section: section } %>
       <% end %>
     </body>

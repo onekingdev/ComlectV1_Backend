@@ -3854,17 +3854,12 @@ ALTER SEQUENCE public.project_ends_id_seq OWNED BY public.project_ends.id;
 CREATE TABLE public.project_extensions (
     id integer NOT NULL,
     project_id integer,
-    ends_on date,
+    new_end_date date,
     expires_at timestamp without time zone,
     status character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    requester character varying,
-    starts_on date,
-    fixed_budget numeric,
-    hourly_rate numeric,
-    role_details text,
-    key_deliverables character varying
+    requester character varying
 );
 
 
@@ -7696,8 +7691,6 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210323174434'),
 ('20210323180114'),
 ('20210323180130'),
-('20210326130422'),
-('20210329160613'),
-('20210329192005');
+('20210326130422');
 
 
