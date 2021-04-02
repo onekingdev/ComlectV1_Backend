@@ -99,7 +99,6 @@
 
         // 3. MOVE Section of POLICY INSIDE this POLICY
         if(this.policyTitle) {
-          console.log(this.policyTitle)
           this.sections = evt.relatedContext.list
         }
 
@@ -121,16 +120,11 @@
 
         if(this.policyTitle && this.sections) {
           const policy = this.policiesList.find(policy => policy['title'] === this.policyTitle)
-          // console.log('policy')
-          // console.log(policy)
-          // console.log({
-          //   id: policy.id,
-          //   sections: this.sections
-          // })
-          // this.$store.dispatch("updatePolicy", {
-          //   id: policy.id,
-          //   sections: this.sections
-          // });
+
+          this.$store.dispatch("updatePolicy", {
+            id: policy.id,
+            sections: this.sections
+          });
         }
       },
       dateToHuman(value) {

@@ -105,11 +105,12 @@
         }
       },
     },
-    beforeCreate() { // or mounted?
+    // beforeCreate() { // or mounted?
+    mounted() { // or beforeCreate?
       this.$store
         .dispatch("getPolicies")
         .then((response) => {
-          console.log('response', response);
+          console.log('response mounted', response);
         })
         .catch((err) => {
           console.error(err);
