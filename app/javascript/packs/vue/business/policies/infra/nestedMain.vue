@@ -83,22 +83,33 @@
           });
       },
       checkMove: function(evt){
-        if(evt.draggedContext.element.id && !evt.relatedContext.element.id) {
-          return false;
-        }
+        console.log('relatedContext', evt.relatedContext)
+        console.log('draggedContext:', evt.draggedContext)
 
-        console.log('relatedContext')
-        console.log(evt.relatedContext)
-        console.log('draggedContext:')
-        console.log(evt.draggedContext)
-
-        if(this.policyTitle) {
-          this.sections = evt.relatedContext.list
-        }
+        // 1. MOVE ROOT POLICY TO ANOTHER PLACE
         if(!this.policyTitle) {
           this.draggedContext = evt.draggedContext
           this.relatedContext = evt.relatedContext
         }
+
+        // 2. MOVE ROOT POLICY INSIDE ANOTHER POLICY
+        if(evt.draggedContext.element.id && !evt.relatedContext.element.id) {
+          return false;
+        }
+
+        // 3. MOVE Section of POLICY INSIDE this POLICY
+        if(this.policyTitle) {
+          console.log(this.policyTitle)
+          this.sections = evt.relatedContext.list
+        }
+
+        // 4. MOVE Section of POLICY INSIDE another POLICY
+        // 5. MOVE Section Child of POLICY INSIDE this POLICY
+        // 6. MOVE Section Child of POLICY INSIDE another POLICY
+        // 7. MOVE UP Section POLICY INSIDE this POLICY
+        // 8. MOVE DOWN Section POLICY INSIDE this POLICY
+        // 9. MOVE UP Section Child POLICY INSIDE this POLICY
+        // 10. MOVE DOWN Section Child POLICY INSIDE this POLICY
       },
       onEnd(evt){
         console.log('event', evt)
@@ -116,10 +127,10 @@
           //   id: policy.id,
           //   sections: this.sections
           // })
-          this.$store.dispatch("updatePolicy", {
-            id: policy.id,
-            sections: this.sections
-          });
+          // this.$store.dispatch("updatePolicy", {
+          //   id: policy.id,
+          //   sections: this.sections
+          // });
         }
       },
       dateToHuman(value) {
