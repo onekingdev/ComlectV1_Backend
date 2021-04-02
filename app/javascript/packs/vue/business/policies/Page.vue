@@ -93,29 +93,11 @@
       policyById () {
         // return this.$store.dispach('getPolicyById', this.id)
       },
-      // policiesListComputed() {
-      //   const policies = this.$store.getters.policiesList;
-      //   policies.sort((a, b) => a.position - b.position)
-      //   return policies;
-      // },
       policiesListComputed: {
         get() {
-          const policies = this.$store.getters.policiesList
-          let tmp;
-          const newPoliciesList = policies.map(el => {
-            tmp = el['name'];
-            el['title'] = tmp;
-            tmp = el['sections']
-            el['children'] = tmp;
-            if (!el['sections']) el['sections'] = []
-            return el
-          });
-          newPoliciesList.sort((a, b) => a.position - b.position)
-          console.log('newPoliciesList', newPoliciesList)
-          return newPoliciesList;
+          return this.$store.getters.policiesListNested
         },
         set(value) {
-          console.log(value)
           this.$store.dispatch("updatePolicySectionsById", {
             id: this.policy.id,
             sections: value
@@ -127,7 +109,7 @@
       this.$store
         .dispatch("getPolicies")
         .then((response) => {
-          // console.log(response);
+          console.log('response', response);
         })
         .catch((err) => {
           console.error(err);

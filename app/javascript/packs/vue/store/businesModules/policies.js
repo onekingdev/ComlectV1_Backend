@@ -290,8 +290,6 @@ export default {
     async movePolicy({ commit, getters }, payload) {
       commit("clearError");
       commit("setLoading", true);
-      console.log('payload')
-      console.log(payload)
 
       try {
         const data = fetch('/api/business/compliance_policies/' + payload.id, {
@@ -440,6 +438,19 @@ export default {
   getters: {
     policiesList(state) {
       return state.policies;
+    },
+    policiesListNested(state) {
+      let tmp;
+      const newPoliciesList = state.policies.map(el => {
+        tmp = el['name'];
+        el['title'] = tmp;
+        tmp = el['sections']
+        el['children'] = tmp;
+        if (!el['sections']) el['sections'] = []
+        return el
+      });
+      newPoliciesList.sort((a, b) => a.position - b.position)
+      return newPoliciesList;
     },
     policyById (state) {
       return policyId => {
