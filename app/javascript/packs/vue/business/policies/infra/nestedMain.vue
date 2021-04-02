@@ -26,7 +26,7 @@
             li.actions-dropdown__item.move-up(@click="moveUp(el.id)") Move up
             li.actions-dropdown__item.archive
               PoliciesModalArchive(@saved="updateList", :policyId="el.id", :archiveStatus="!el.archived" @archiveConfirmed="archivePolicy(el.id, !el.archived)") {{ !el.archived ? 'Archive' : 'Unarchive' }}
-            li.actions-dropdown__item.delete
+            li.actions-dropdown__item.delete(v-if="el.archived")
               PoliciesModalDelete(@saved="updateList", :policyId="el.id", @deleteConfirmed="deletePolicy(el.id)") Delete
 </template>
 <script>
