@@ -94,7 +94,7 @@ export default {
       this.reloadTable()
       this.$bvModal.hide('timesheets-modal')
       Object.assign(this.entry, initialEntry())
-      this.$bvToast.toast('Time logged and awaiting approval', { title: 'Success', autoHideDelay: 5000 })
+      this.toast('Success', 'Time logged and awaiting approval')
     },
     reloadTable() {
       this.isTableVisible = false, setTimeout(() => this.isTableVisible = true, 0)

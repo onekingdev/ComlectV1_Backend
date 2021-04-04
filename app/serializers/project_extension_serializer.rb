@@ -3,8 +3,14 @@
 class ProjectExtensionSerializer < ApplicationSerializer
   attributes :id,
              :project_id,
-             :new_end_date,
+             :requester,
+             :ends_on,
              :expires_at,
              :status,
-             :requester
+             :requester,
+             :starts_on,
+             :fixed_budget,
+             :hourly_rate,
+             :role_details,
+             :key_deliverables
 end

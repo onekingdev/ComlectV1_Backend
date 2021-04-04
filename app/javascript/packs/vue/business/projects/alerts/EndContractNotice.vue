@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import EndContractModal from './EndContractModal'
+import EndContractModal from '../EndContractModal'
 
 export default {
   props: {
