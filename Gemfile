@@ -127,7 +127,6 @@ gem 'jquery-ui-rails' # , '~> 5.0', '>= 5.0.5'
 gem 'lograge'
 
 gem 'jwt'
-gem 'otp-jwt'
 
 # Serialization
 gem 'active_model_serializers'

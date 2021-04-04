@@ -6,15 +6,7 @@ class Api::AuthenticationController < ApiController
   def create
     user = User.find_first_by_auth_conditions(email: params[:user][:email])
     if user&.valid_password?(params[:user][:password])
-      unless params[:otp_secret]
-        user.email_otp
-        render json: { message: 'You have received one time passcode on your email to verify login' } and return
-      end
-      if user.verify_otp(params[:otp_secret])
-        render json: { token: JsonWebToken.encode(sub: user.id) }
-      else
-        render json: { errors: { invalid: 'Invalid secret key' } }, status: :unprocessable_entity
-      end
+      render json: { token: JsonWebToken.encode(sub: user.id) }
     else
       render json: { errors:
                     { invalid: I18n.t('devise.failure.invalid', authentication_keys: 'email') } }, status: :unprocessable_entity
