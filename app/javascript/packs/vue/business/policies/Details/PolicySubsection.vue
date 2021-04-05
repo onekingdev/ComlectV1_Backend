@@ -36,7 +36,7 @@
 
 <script>
   import { VueEditor } from "vue2-editor";
-  import PoliciesModalRemoveSubsection from "./Modals/PoliciesModalRemoveSubsection"
+  import PoliciesModalRemoveSubsection from "../Modals/PoliciesModalRemoveSubsection"
 
   export default {
     name: 'PolicySubsection',

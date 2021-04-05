@@ -5,24 +5,33 @@
 
     b-modal.fade(:id="modalId" :title="riskId ? 'Edit risk' : 'New risk'" @show="newEtag")
       ModelLoader(:url="riskId ? submitUrl : undefined" :default="initialrisk" :etag="etag" @loaded="loadrisk")
-        label.form-label Title
-        input.form-control(v-model="risk.title" type=text placeholder="Enter the name of your risk")
-        Errors(:errors="errors.title")
+        <!--label.form-label Risk-->
+        b-form-group#input-group-1(label='Risk:' label-for='input-3')
+          b-form-select#select-1(v-model='risk.risks' :options='risk.options' @change="onChange" required)
+          <!--InputSelect.m-t-1(v-model="risk.risks" :errors="errors.risks" :options="risk.options" @change="onChange") Risk-->
+          Errors(:errors="errors.risk")
+          pre {{ risk.risks }}
+
+        b-row.m-t-1(no-gutters, v-if="isActive")
+          .col
+            label.form-label Risk Name
+            input.form-control(v-model="risk.name" type=text placeholder="Enter the name of your risk")
+            Errors(:errors="errors.risk")
 
         b-row.m-t-1(no-gutters)
           .col-sm.m-r-1
-            label.form-label Start Date
-            DatePicker(v-model="risk.starts_on")
-            Errors(:errors="errors.starts_on")
+            InputSelect(v-model="risk.impact" :errors="errors.impact" :options="risk.levelOptions") Impact
+            Errors(:errors="errors.impact")
           .col-sm
-            label.form-label Due Date
-            DatePicker(v-model="risk.ends_on")
-            Errors(:errors="errors.ends_on")
+            InputSelect(v-model="risk.likelihood" :errors="errors.likelihood" :options="risk.levelOptions") Likelihood
+            Errors(:errors="errors.likelihood")
 
-        label.m-t-1.form-label Description
-        textarea.form-control(v-model="risk.description" rows=3)
-        Errors(:errors="errors.description")
-        .form-text.text-muted Optional
+        b-row.m-t-1(no-gutters)
+          .col
+            label.m-t-1.form-label Risk Level
+            p
+              b-icon.mr-3(icon="exclamation-triangle-fill" scale="1" variant="danger")
+              | High
 
       template(slot="modal-footer")
         button.btn(@click="$bvModal.hide(modalId)") Cancel
@@ -41,10 +50,21 @@ const dateFormat = 'MM/DD/YYYY'
 const index = (text, i) => ({ text, value: 1 + i })
 
 const initialrisk = () => ({
-  title: "",
-  starts_on: null,
-  ends_on: null,
-  description: ""
+  name: "",
+  impact: null,
+  likelihood: null,
+  compliance_policy_ids: [],
+  options: {
+    risk0: 'New Risk',
+    risk1: 'risk1',
+    risk2: 'risk2',
+    risk3: 'risk3',
+  },
+  levelOptions: {
+    0: 'Low',
+    1: 'Medium',
+    2: 'High',
+  }
 })
 
 export default {
@@ -55,28 +75,36 @@ export default {
     inline: {
       type: Boolean,
       default: true
-    }
+    },
+    risksList: Array
   },
   data() {
     return {
       modalId: `modal_${rnd()}`,
       risk: initialrisk(),
-      errors: []
+      errors: [],
+      isActive: false
     }
   },
   methods: {
     loadrisk(risk) {
-      this.risk = Object.assign({}, this.risk, risk)
+      this.risk = Object.assign({}, this.risk.risksList, risk)
     },
     makeToast(title, str) {
       this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
     },
     saved() {
+      console.log('this.riskId', this.riskId)
+      console.log('risk', risk)
       this.$emit('saved')
       this.makeToast('Success', 'The risk has been saved')
       this.$bvModal.hide(this.modalId)
       this.newEtag()
-    }
+    },
+    onChange(e){
+      if (e === 'risk0') this.isActive = true
+      else this.isActive = false
+    },
   },
   computed: {
     initialrisk: () => initialrisk,
@@ -85,7 +113,7 @@ export default {
     },
     submitUrl() {
       const toId = this.riskId ? `/${this.riskId}` : ''
-      return '/api/business/local_risks' + toId
+      return '/api/business/risks' + toId
     },
     httpMethod() {
       return this.riskId ? 'PUT' : 'POST'
@@ -98,15 +126,6 @@ export default {
     },
     dateFormat: () => dateFormat
   },
-  watch: {
-    'risk.starts_on': {
-      handler: function(value, oldVal) {
-        const start = DateTime.fromSQL(value), end = DateTime.fromSQL(this.risk.ends_on)
-        if (!start.invalid && (end.invalid || (end.startOf('day') < start.startOf('day')))) {
-          this.risk.ends_on = value
-        }
-      }
-    }
-  }
+  watch: {}
 }
 </script>

@@ -17,28 +17,28 @@
                 b-tab(title="Compilance Manual" active)
                   .card-body.white-card-body
                     .container
-                      PolicyTable(:policies="filteredUnArchivedList", @searching="searching")
+                      PoliciesTable(:policies="filteredUnArchivedList", @searching="searching")
                 b-tab(title="Archive")
                   .card-body.white-card-body
                     .container
-                      PolicyTable(:policies="filteredArchivedList", @searching="searchingArchived")
+                      PoliciesTable(:policies="filteredArchivedList", @searching="searchingArchived")
                 b-tab(title="Setup")
                   .card-body.white-card-body
                     .container
-                      PolicySetup
+                      PoliciesSetup
 </template>
 
 <script>
-  import PolicyTable from "./PolicyTable";
-  import PolicySetup from "./PolicySetup";
+  import PoliciesTable from "./PoliciesTable";
+  import PoliciesSetup from "./PoliciesSetup";
   import EtaggerMixin from '@/mixins/EtaggerMixin'
   import PoliciesModalCreate from "./Modals/PoliciesModalCreate"
 
   export default {
     mixins: [EtaggerMixin],
     components: {
-      PolicyTable,
-      PolicySetup,
+      PoliciesTable,
+      PoliciesSetup,
       PoliciesModalCreate,
     },
     data() {

@@ -72,7 +72,7 @@
                           <!--component(v-for="subSection in subSections", v-bind:is="subSection.component", :key="subSection.id", :subSection="subSection", :policyID="policyID", @clickedAddSection="addSectionFromChild", @clickedDeleteSection="deleteSection", @clickedSaveIt="onClickSaveSubsection")-->
                       HistoryPolicy(:policy="policy")
                     b-tab(title="Risks")
-                      PolicyRisks
+                      PolicyRisks(:policyId="policyId")
                     b-tab(title="Tasks")
                       .policy-details
                         h3.policy-details__title Tasks
@@ -86,17 +86,17 @@
 </template>
 
 <script>
-  import nestedDraggable from "./infra/nested";
-  import rawdisplayer from "./infra/raw-displayer";
+  import nestedDraggable from "../infra/nested";
+  import rawdisplayer from "../infra/raw-displayer";
   import { VueEditor } from "vue2-editor";
   import SubsectionPolicy from "./PolicySubsection";
   import HistoryPolicy from "./PolicyHistory";
-  import PolicyRisks from "./PolicyRisks";
-  import PoliciesModalCreate from "./Modals/PoliciesModalCreate";
-  import PoliciesModalDelete from "./Modals/PoliciesModalDelete";
-  import PoliciesModalArchive from "./Modals/PoliciesModalArchive";
-  import PoliciesModalRemoveSubsection from "./Modals/PoliciesModalRemoveSubsection";
-  import PoliciesModalPublish from "./Modals/PoliciesModalPublish";
+  import PolicyRisks from "../Risks/PolicyRisks";
+  import PoliciesModalCreate from "../Modals/PoliciesModalCreate";
+  import PoliciesModalDelete from "../Modals/PoliciesModalDelete";
+  import PoliciesModalArchive from "../Modals/PoliciesModalArchive";
+  import PoliciesModalRemoveSubsection from "../Modals/PoliciesModalRemoveSubsection";
+  import PoliciesModalPublish from "../Modals/PoliciesModalPublish";
 
   export default {
     props: {
