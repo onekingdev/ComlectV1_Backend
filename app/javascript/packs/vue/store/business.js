@@ -37,6 +37,13 @@ const store = new Vuex.Store({
 
   modules: {
     policies,
+    // policies: {
+    //   namespaced: true,
+    //   ...policies,
+    //   // archives: {
+    //   //
+    //   // }
+    // },
     shared,
   },
 });

@@ -172,12 +172,14 @@
         console.log('relatedContext', this.relatedContext)
         console.log('draggedContext:', this.draggedContext)
         console.log('policiesList:', this.policiesList)
+        console.log('policiesClonedList:', this.policiesClonedList)
         console.log('realValue:', this.realValue)
         console.log('this.policy:', this.policy)
         console.log('this.policyId:', this.policyId)
         console.log('this.policyTitle:', this.policyTitle)
         console.log('this.parentSection:', this.parentSection)
         console.log('this.parentSection:', this.parentSection?.parentSection)
+        console.log('defaultPoliciesList', this.defaultPoliciesList)
 
         if (!this.policyTitle) {
           this.movePolicy()
@@ -230,7 +232,7 @@
         // })
 
         if(targetPolicy) {
-          this.policiesList.forEach(function(policy, index) {
+          this.policiesClonedList.forEach(function(policy, index) {
             if(targetPolicy.id !== policy.id) {
               if(policy.title === targetTitle)
               {
@@ -306,12 +308,12 @@
         document.getElementById(`#nested-sectionIcon-${value}`).classList.toggle('active');
       },
       moveUp(policyId) {
-        const index = this.policies.findIndex(record => record.id === policyId);
-        const newPos = this.policies[index - 1].position - 0.01
+        const index = this.realValue.findIndex(record => record.id === policyId);
+        const newPos = this.realValue[index - 1].position - 0.01
 
         this.$store
           .dispatch("movePolicy", {
-            id: this.policies[index].id,
+            id: this.realValue[index].id,
             position: newPos
           })
           .then((response) => {
@@ -366,12 +368,15 @@
       realValue() {
         return this.value ? this.value : this.list;
       },
+      policiesClonedList() {
+        return this.$store.getters.policiesClonedList
+      }
     },
-    watch: {
-      policiesList (value) {
-        console.log('watch policies', value)
-      },
-    },
+    // watch: {
+    //   policiesListDefault (oldValue, newValue) {
+    //     console.log('watch policies', oldValue, newValue)
+    //   },
+    // },
   };
 </script>
 <style scoped>

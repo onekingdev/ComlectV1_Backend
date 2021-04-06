@@ -53,7 +53,11 @@ export default {
       state.policies[index].sections.push(payload.sections);
       // const policy = state.policies.find(record => record.id === payload.id);
       // policy.sections.push(payload.sections);
-    }
+    },
+    clonePoliciesList(state, payload) {
+      // state.policiesClone = Object.freeze(payload)
+      state.policiesClone = Object.assign({}, payload)
+    },
   },
   actions: {
     // async CREATE_POLICY({ commit, rootState }, { payload }) {
@@ -242,6 +246,7 @@ export default {
           })
           .then(response => {
             commit('updatePoliciesList', response)
+            commit('clonePoliciesList', response)
             return response
           })
           .catch(error => {
@@ -453,6 +458,9 @@ export default {
       });
       newPoliciesList.sort((a, b) => a.position - b.position)
       return newPoliciesList;
+    },
+    policiesClonedList(state) {
+      return state.policiesClone;
     },
     policyById (state) {
       return policyId => {
