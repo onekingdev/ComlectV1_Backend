@@ -207,10 +207,27 @@
               if(children.title === targetTitle) targetPolicy = policy
               children.children.forEach(function(children, index) {
                 if(children.title === targetTitle) targetPolicy = policy
+                children.children.forEach(function(children, index) {
+                  if(children.title === targetTitle) targetPolicy = policy
+                })
               })
             })
           })
         })
+
+        // const searchTargetPolicy = function(array, searchTitle, policy) {
+        //   array.children.forEach(function(el, index) {
+        //     if(el.title === searchTitle) targetPolicy = policy
+        //     if(el.children) el.children.forEach(function(children, index) {
+        //       if(children.title === targetTitle) targetPolicy = policy
+        //     })
+        //   })
+        // }
+        //
+        // this.policiesList.forEach(function(policy, index, arr) {
+        //   if(policy.title === targetTitle) targetPolicy = policy
+        //   searchTargetPolicy(policy, targetTitle, arr);
+        // })
 
         if(targetPolicy) {
           this.policiesList.forEach(function(policy, index) {
@@ -244,14 +261,6 @@
             }
           })
         }
-
-        // function searchTargetPolicy(array, searchTitle) {
-        //   array.children.forEach(function(el, index) {
-        //     if(el.title === searchTitle) {
-        //       targetPolicy = policy
-        //     }
-        //   })
-        // }
 
         console.log('targetPolicy', targetPolicy)
         console.log('targetPolicyDetele', targetPolicyDetele)
