@@ -9,7 +9,7 @@
             .row
               .col-12
                 .table
-                  nested-draggable(:policies='policiesComputed' @movePolicy="movePolicy")
+                  nested-draggable(v-model='policiesComputed', :policiesList="policiesListNested" :shortTable="true")
             <!--rawdisplayer(:value='policiesComputed' title='List')-->
         .col
           .row
@@ -86,7 +86,7 @@
 </template>
 
 <script>
-  import nestedDraggable from "../infra/nested";
+  import nestedDraggable from "../infra/nestedMain";
   import rawdisplayer from "../infra/raw-displayer";
   import { VueEditor } from "vue2-editor";
   import SubsectionPolicy from "./PolicySubsection";
@@ -386,6 +386,9 @@
       policyById() {
         const id = this.policyId
         return this.$store.getters.policyById(id)
+      },
+      policiesListNested () {
+        return this.$store.getters.policiesListNested
       }
     },
     watch: {

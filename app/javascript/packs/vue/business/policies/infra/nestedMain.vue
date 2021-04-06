@@ -10,14 +10,21 @@
           b-icon.mr-2(v-if="el.children && el.children.length !== 0" icon="chevron-compact-down")
           b-icon.mr-2(v-else icon="chevron-compact-right")
           | {{ el.title }}
-        nested-draggable(:list="el.children" :policy="el" :policyId="el.id ? el.id : parentSection.id" :policiesList="policiesList" :parentSection="el")
+        nested-draggable(
+        :list="el.children"
+        :policy="el"
+        :policyId="el.id ? el.id : parentSection.id"
+        :policyTitle="el.title"
+        :policiesList="policiesList"
+        :parentSection="el"
+        )
       .table__cell.table__cell_name(v-else) {{ el.title }}
-      .table__cell(v-if="el.status")
+      .table__cell(v-if="!shortTable && el.status")
         .status.status__draft {{ el.status }}
-      .table__cell(v-if="el.updated_at") {{ dateToHuman(el.updated_at) }}
-      .table__cell(v-if="el.created_at") {{ dateToHuman(el.created_at) }}
-      .table__cell(v-if="el.created_at") N/A
-      .table__cell(v-if="el.created_at")
+      .table__cell(v-if="!shortTable && el.updated_at") {{ dateToHuman(el.updated_at) }}
+      .table__cell(v-if="!shortTable && el.created_at") {{ dateToHuman(el.created_at) }}
+      .table__cell(v-if="!shortTable && el.created_at") N/A
+      .table__cell(v-if="!shortTable && el.created_at")
         .actions
           button.px-0.actions__btn(:id="`#nested-actionIcon-${el.id}`", @click="toogleActions(el.id)")
             b-icon(icon="three-dots")
@@ -71,6 +78,11 @@
         required: false,
         type: Object,
         default: null
+      },
+      shortTable: {
+        required: false,
+        type: Boolean,
+        default: false
       },
     },
     name: "nested-draggable",
@@ -166,10 +178,10 @@
         console.log('this.parentSection:', this.parentSection)
         console.log('this.parentSection:', this.parentSection.parentSection)
 
-        // if (!this.policyTitle) {
-        //   this.movePolicy()
-        //   return
-        // }
+        if (!this.policyTitle) {
+          this.movePolicy()
+          return
+        }
         //
         // if(this.policyTitle && this.sections) {
         //   const policy = this.policiesList.find(policy => policy['title'] === this.policyTitle)
@@ -183,7 +195,9 @@
         const targetTitle = this.relatedContext.element.title;
         console.log('targetTitle', targetTitle)
         let targetPolicy = null
+        let targetPolicyDetele = null
 
+        // HADCODED - NEED REWRITE
         this.policiesList.forEach(function(policy, index) {
           if(policy.title === targetTitle) targetPolicy = policy
           policy.children.forEach(function(children, index) {
@@ -197,6 +211,39 @@
           })
         })
 
+        if(targetPolicy) {
+          this.policiesList.forEach(function(policy, index) {
+            if(targetPolicy.id !== policy.id) {
+              if(policy.title === targetTitle)
+              {
+                targetPolicyDetele = policy
+                policy.splice(index, 1)
+              }
+              policy.children.forEach(function(children, index) {
+                if(children.title === targetTitle)
+                {
+                  targetPolicyDetele = policy
+                  policy.children.splice(index, 1)
+                }
+                children.children.forEach(function(children, index) {
+                  if(children.title === targetTitle)
+                  {
+                    targetPolicyDetele = policy
+                    children.children.splice(index, 1)
+                  }
+                  children.children.forEach(function(children, index) {
+                    if(children.title === targetTitle)
+                    {
+                      targetPolicyDetele = policy
+                      children.children.splice(index, 1)
+                    }
+                  })
+                })
+              })
+            }
+          })
+        }
+
         // function searchTargetPolicy(array, searchTitle) {
         //   array.children.forEach(function(el, index) {
         //     if(el.title === searchTitle) {
@@ -206,12 +253,27 @@
         // }
 
         console.log('targetPolicy', targetPolicy)
+        console.log('targetPolicyDetele', targetPolicyDetele)
 
         if(targetPolicy) {
           this.$store.dispatch("updatePolicy", {
             id: targetPolicy.id,
             sections: targetPolicy.children
-          });
+          })
+            .then((response) => {
+              console.log('response in nested updating a tree', response)
+              this.makeToast('Success', 'Changes succesfully saved.')
+            })
+        }
+        if(targetPolicyDetele) {
+          this.$store.dispatch("updatePolicy", {
+            id: targetPolicyDetele.id,
+            sections: targetPolicyDetele.children
+          })
+            .then((response) => {
+              console.log('response in nested updating a tree', response)
+              this.makeToast('Success', 'Changes succesfully saved.')
+            })
         }
       },
       dateToHuman(value) {

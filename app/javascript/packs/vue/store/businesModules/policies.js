@@ -457,6 +457,12 @@ export default {
       return policyId => {
         return state.policies.find(policy => policy.id === policyId)
       }
-    }
+    },
+    policiesListArchived (state, getters) {
+      return getters.policiesListNested.filter(policy => policy.archived)
+    },
+    policiesListUnArchived (state, getters) {
+      return getters.policiesListNested.filter(policy => !policy.archived)
+    },
   },
 };

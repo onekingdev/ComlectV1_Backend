@@ -33,7 +33,7 @@
           .table__row
             .table__cell.text-center
               h3 Policies not exist
-    rawdisplayer(:value='policiesComputed' title='List')
+    <!--rawdisplayer(:value='policiesComputed' title='List')-->
 </template>
 
 <script>
