@@ -116,8 +116,8 @@
 }
 
 .status__published {
-  color: rgba(100, 206, 171, 1);
-  background-color: rgba(213, 251, 239, 1);
+  color: rgba(40, 167, 69, 1);
+  background-color: rgba(40, 167, 69, .2);
 }
 
 
@@ -126,18 +126,15 @@
 }
 
 .level__low {
-  color: #1ab27f;
-  /*color: var(--green);*/
+  color: var(--green);
 }
 
 .level__medium {
-  color: #ffc900;
-  /*color: var(--yellow);*/
+  color: var(--yellow);
 }
 
 .level__high {
-  color: #ce1938;
-  /*color: var(--red);*/
+  color: var(--red);
 }
 
 

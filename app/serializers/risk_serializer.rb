@@ -8,5 +8,6 @@ class RiskSerializer < ApplicationSerializer
              :updated_at,
              :impact,
              :likelihood,
-             :compliance_policies
+             :compliance_policies,
+             :risk_level
 end

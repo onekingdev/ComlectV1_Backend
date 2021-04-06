@@ -33,7 +33,6 @@
   import PoliciesSetup from "./PoliciesSetup";
   import EtaggerMixin from '@/mixins/EtaggerMixin'
   import PoliciesModalCreate from "./Modals/PoliciesModalCreate"
-  // import { mapGetters } from 'vuex'
 
   export default {
     mixins: [EtaggerMixin],
@@ -75,10 +74,6 @@
       },
     },
     computed: {
-      // ...mapGetters({
-      //   archivedList: 'policies/policiesListArchived',
-      //   unArchivedList: 'policies/policiesListUnArchived',
-      // }),
       filteredUnArchivedList () {
         return this.unArchivedList.filter(policy => {
             return policy.name?.toLowerCase().includes(this.searchInput.toLowerCase())
