@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'validators/email_validator'
+require 'otp/mailer'
 
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
@@ -36,6 +37,13 @@ class User < ApplicationRecord
   default_scope -> { where(deleted: false) }
 
   serialize :muted_projects
+
+  OTP_DIGITS = 6
+  include OTP::ActiveRecord
+
+  def email_otp
+    OTP::Mailer.otp(email, otp, self).deliver_later
+  end
 
   def business_or_specialist
     business || specialist

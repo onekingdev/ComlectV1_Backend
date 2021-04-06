@@ -22,7 +22,13 @@ class ProjectExtension < ApplicationRecord
   private
 
   def trigger_project_extension
-    project.update(ends_on: new_end_date, ends_in_24: false)
+    project.update(ends_on: ends_on,
+                   ends_in_24: false,
+                   starts_on: starts_on,
+                   fixed_budget: fixed_budget,
+                   hourly_rate: hourly_rate,
+                   role_details: role_details,
+                   key_deliverables: key_deliverables)
     return if project.internal?
     reset_upcoming_charges
     PaymentCycle.for(project).create_charges_and_reschedule!
