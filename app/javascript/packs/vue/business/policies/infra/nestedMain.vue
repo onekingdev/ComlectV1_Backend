@@ -1,7 +1,7 @@
 <template lang="pug">
   <!--draggable.dragArea(tag='tbody' :list='policies' :group="{ name: 'g1' }" :move="checkMove" @end="onEnd")-->
   draggable.dragArea(v-bind="dragOptions" tag="tbody" :list="list" :value="value" :move="checkMove" @end="onEnd" @input="emitter")
-    .table__row(v-for='el in realValue' :key='el.title')
+    .table__row(v-for='el in realValue' :key='el.title' :data-id-policy="el.id")
       .table__cell.table__cell_name(v-if="el.children && el.children.length !== 0")
         .dropdown-toggle(
           :id="`#nested-sectionIcon-${el.id}`", @click="toogleSections(el.id)"
@@ -10,7 +10,7 @@
           b-icon.mr-2(v-if="el.children && el.children.length !== 0" icon="chevron-compact-down")
           b-icon.mr-2(v-else icon="chevron-compact-right")
           | {{ el.title }}
-        nested-draggable(:id="`#nested-section-${el.id}`" :list="el.children", :policiesList="policiesList", :policy="el", :policyTitle="el.title")
+        nested-draggable(:list="el.children" :policy="el" :policyId="el.id ? el.id : parentSection.id" :policiesList="policiesList" :parentSection="el")
       .table__cell.table__cell_name(v-else) {{ el.title }}
       .table__cell(v-if="el.status")
         .status.status__draft {{ el.status }}
@@ -60,6 +60,16 @@
       policyTitle: {
         required: false,
         type: String,
+        default: null
+      },
+      policyId: {
+        required: false,
+        type: Number,
+        default: null
+      },
+      parentSection: {
+        required: false,
+        type: Object,
         default: null
       },
     },
@@ -145,20 +155,62 @@
       },
       onEnd(evt){
         // console.log('event', evt)
+        // let idPolicy = null
+        //
         console.log('relatedContext', this.relatedContext)
         console.log('draggedContext:', this.draggedContext)
+        console.log('policiesList:', this.policiesList)
+        console.log('realValue:', this.realValue)
+        console.log('this.policy:', this.policy)
+        console.log('this.policyId:', this.policyId)
+        console.log('this.parentSection:', this.parentSection)
+        console.log('this.parentSection:', this.parentSection.parentSection)
 
-        if (!this.policyTitle) {
-          this.movePolicy()
-          return
-        }
+        // if (!this.policyTitle) {
+        //   this.movePolicy()
+        //   return
+        // }
+        //
+        // if(this.policyTitle && this.sections) {
+        //   const policy = this.policiesList.find(policy => policy['title'] === this.policyTitle)
+        //
+        //   this.$store.dispatch("updatePolicy", {
+        //     id: policy.id,
+        //     sections: this.sections
+        //   });
+        // }
 
-        if(this.policyTitle && this.sections) {
-          const policy = this.policiesList.find(policy => policy['title'] === this.policyTitle)
+        const targetTitle = this.relatedContext.element.title;
+        console.log('targetTitle', targetTitle)
+        let targetPolicy = null
 
+        this.policiesList.forEach(function(policy, index) {
+          if(policy.title === targetTitle) targetPolicy = policy
+          policy.children.forEach(function(children, index) {
+            if(children.title === targetTitle) targetPolicy = policy
+            children.children.forEach(function(children, index) {
+              if(children.title === targetTitle) targetPolicy = policy
+              children.children.forEach(function(children, index) {
+                if(children.title === targetTitle) targetPolicy = policy
+              })
+            })
+          })
+        })
+
+        // function searchTargetPolicy(array, searchTitle) {
+        //   array.children.forEach(function(el, index) {
+        //     if(el.title === searchTitle) {
+        //       targetPolicy = policy
+        //     }
+        //   })
+        // }
+
+        console.log('targetPolicy', targetPolicy)
+
+        if(targetPolicy) {
           this.$store.dispatch("updatePolicy", {
-            id: policy.id,
-            sections: this.sections
+            id: targetPolicy.id,
+            sections: targetPolicy.children
           });
         }
       },
@@ -241,7 +293,7 @@
       // this.list  when input != v-model
       realValue() {
         return this.value ? this.value : this.list;
-      }
+      },
     }
   };
 </script>
