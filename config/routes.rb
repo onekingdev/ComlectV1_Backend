@@ -83,6 +83,8 @@ Rails.application.routes.draw do
     get '/upgrade' => 'upgrade#index'
     get '/upgrade/buy' => 'upgrade#buy'
     post '/upgrade/buy' => 'upgrade#subscribe'
+    resources :risks, only: %i[index show]
+    get '/reports/risks' => 'reports#risks'
     resources :file_folders do
       get :download_folder, on: :member
       get :check_zip, on: :member
