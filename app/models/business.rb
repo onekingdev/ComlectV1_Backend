@@ -53,6 +53,7 @@ class Business < ApplicationRecord
   has_many :referral_tokens, as: :referrer
   has_many :reminders, as: :remindable
   has_many :audit_comments
+  has_one :compliance_policy_configuration, dependent: :destroy
 
   has_settings do |s|
     s.key :notifications, defaults: {
