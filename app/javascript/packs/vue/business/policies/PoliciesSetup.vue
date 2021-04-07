@@ -16,7 +16,7 @@
               placeholder="Choose a file or drop it here..."
               drop-placeholder="Drop file here..."
               @change="onFileChange")
-              b-button Remove
+              b-button(@click='onRemove') Remove
         b-form-group#input-groupAddress(label='Address:' label-for='inputAddress')
           b-form-input#inputAddress(v-model='form.address'  required)
         b-form-group#input-groupPhone(label='Phone:' label-for='inputPhone')
@@ -130,8 +130,15 @@
         })
       },
       onFileChange(e) {
+        // Show preview
         const file = e.target.files[0];
         this.url = URL.createObjectURL(file);
+
+        this.form.logo = file;
+      },
+      onRemove() {
+        this.url = null,
+        this.form.logo = null
       }
     },
     computed: {
@@ -148,14 +155,14 @@
 
           // update form
           this.url = response.logo_data
-          this.form = {
+          // this.form = {
             // logo: response.logo_data,
             // address: response.address,
             // phone: response.phone,
             // email: response.email,
             // disclosure: trresponse.disclosure,
             // body: response.body,
-          }
+          // }
 
           console.log('this.form after response', this.form)
         })
@@ -163,12 +170,36 @@
           console.error(error)
           // this.makeToast('Error', `Couldn't submit form! ${error}`)
         })
+
+      // fetch('/api/users/sign_in', {
+      //   method: 'POST',
+      //   headers: {
+      //     // 'Authorization': 'Bearer test',
+      //     'Accept': 'application/json',
+      //     'Content-Type': 'application/json'},
+      //   body: JSON.stringify({
+      //     "user": {
+      //       "email": "seriousbusiness@example.com",
+      //       "password": "gtxtymrf",
+      //     }
+      //   })
+      // }).then(response => {
+      //   return response.json()
+      // }).then(response => {
+      //   if (response.errors) return response
+      //   console.log('login', response)
+      //   return response
+      // }).catch (error => {
+      //   throw error;
+      // })
     }
   }
 </script>
 
 <style scoped>
   .preview {
+    position: relative;
+    z-index: 1;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -180,7 +211,27 @@
     border-radius: 3px;
   }
 
+  .preview::after {
+    display: block;
+    position: absolute;
+    z-index: 0;
+    top: 60%;
+    left: 80%;
+    margin: auto;
+    width: 100%;
+    height: 100%;
+    content: 'PREVIEW';
+    color: #ced4da;
+    text-transform: uppercase;
+    font-size: 2rem;
+    font-weight: bold;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    transform-origin: center;
+  }
+
   .preview img {
+    position: relative;
+    z-index: 2;
     max-width: 100%;
     max-height: 500px;
   }

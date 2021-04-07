@@ -10,6 +10,8 @@
 //   },
 // }
 
+const TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYxOTAyMDQwOH0.lnBshrpoodRs2E-cr2l8yXM3fsqUcH1V8hWrEK4H2BU'
+
 class Policy {
   constructor(created_at, description, id, name, position, sections = null, src_id, status, updated_at) {
     this.created_at = created_at,
@@ -480,9 +482,9 @@ export default {
         const data = await fetch('/api/business/compliance_policy_configuration', {
           method: 'PATCH',
           headers: {
-            // 'Authorization': 'Bearer test',
+            'Authorization': `Bearer ${TOKEN}`,
             'Accept': 'application/json',
-            'Content-Type': 'application/json'},
+            'Content-Type': 'multipart/form-data'},
           body: JSON.stringify({
             logo_data: payload.logo,
             address: payload.address,
