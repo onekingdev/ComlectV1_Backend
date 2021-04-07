@@ -3,10 +3,11 @@
     h3.policy-details__title Risks
     .policy-actions
       button.btn.btn.btn-default.mr-3 Download
-      PolicyRisksModal
+      PolicyRisksModal(:risks="risksComputed" :policyId="policyId")
         button.btn.btn-dark Add Risk
     .policy-details__body
-      Get(risks="/api/business/risks" :etag="etag" :callback="getRisks"): template(v-slot="{risks}"): table.table
+      Loading
+      table.table(v-if="!loading")
         thead
           tr
             th(width="40%") Risk
@@ -16,21 +17,31 @@
             th Date created
             th
         tbody
-          tr(v-for="risk in risks" :key="risk.id")
+          tr(v-for="risk in risksComputed" :key="risk.id")
             td ({{ risk.id }}) {{ risk.name }}
             td {{ showLevel(risk.impact) }}
             td {{ showLevel(risk.likelihood) }}
-            td rl
-            td {{ risk.created_at }}
-            td &hellip;
-          tr(v-if="!risks.length")
+            td
+              b-badge(:variant="badgeVariant(risk.risk_level)")
+                b-icon-exclamation-triangle-fill.mr-2
+                | {{ showLevel(risk.risk_level)  }}
+            td {{ dateToHuman(risk.created_at) }}
+            td
+              .actions
+                b-dropdown(size="sm" text="***" class="m-0 p-0" variant="light" right)
+                  PolicyRisksModal(:risks="risksComputed" :policyId="policyId" :riskId="risk.id" :inline="false")
+                    b-dropdown-item-button Edit
+                  b-dropdown-item-button(@click="deleteRisk(risk.id)") Delete
+          tr(v-if="!risksComputed.length")
             td.text-center(colspan=5)
               h4.py-2 No risks
 </template>
 
 <script>
+  import Loading from '@/common/Loading/Loading'
   import PolicyRisksModal from '../Modals/Risks/PolicyRisksModal'
   import EtaggerMixin from '@/mixins/EtaggerMixin'
+  import { DateTime } from 'luxon'
 
   export default {
     mixins: [EtaggerMixin],
@@ -40,9 +51,13 @@
         required: true
       },
     },
+    components: {
+      Loading,
+      PolicyRisksModal
+    },
     data() {
       return {
-        levelOptions: ['low', 'medium', 'high']
+        levelOptions: ['low', 'medium', 'high'],
       }
     },
     methods: {
@@ -50,12 +65,47 @@
         console.log('risks', risks)
         return risks
       },
+      badgeVariant(num) {
+        if (num === 0) return 'success'
+        if (num === 1) return 'warning'
+        if (num === 2) return 'danger'
+      },
       showLevel(num) {
+        // this.riskLevelColor(num)
         return this.levelOptions[num]
       },
+      dateToHuman(value) {
+        const date = DateTime.fromJSDate(new Date(value))
+        if (!date.invalid) {
+          return date.toFormat('dd/MM/yyyy')
+        }
+        if (date.invalid) {
+          return value
+        }
+      },
+      deleteRisk(id){
+
+      },
     },
-    components: {
-      PolicyRisksModal
+    computed: {
+      loading() {
+        return this.$store.getters.loading;
+      },
+      risksComputed() {
+        return this.$store.getters.risksList
+      }
+    },
+    mounted() {
+      this.$store
+        .dispatch('getRisks')
+        .then(response => {
+          console.log('response', response)
+          // this.makeToast('Success', `Policy successfully deleted!`)
+        })
+        .catch(error => {
+          console.error(error)
+          // this.makeToast('Error', `Couldn't submit form! ${error}`)
+        })
     }
   }
 </script>
