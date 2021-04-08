@@ -46,7 +46,20 @@
                 .card
                   .card-header
                     h3 Discussion
-                  .card-body No comments posted
+                  Get(:messages="messagesUrl(project)" :etag="etag"): template(v-slot="{messages}")
+                    .card-body(v-if="!messages.length")
+                      | No comments posted
+                      hr
+                    .card-body(v-else)
+                      div(v-for="message in messages" :key="message.id")
+                        p
+                          span.float-right {{ message.created_at | asDate }}
+                          | {{ message.message }}
+                        hr
+                  .card-body
+                    InputTextarea(v-model="newComment.message" placeholder="Make a comment or leave a note..." :errors="newCommentErrors && newCommentErrors.message") Comment
+                    Post(v-bind="postCommentProps(project)" @saved="commentSaved" @errors="newCommentErrors = $event")
+                      button.btn.btn-default Add Comment
       b-tab(title="Tasks")
         .card-body.white-card-body
       b-tab(title="Documents")
@@ -103,12 +116,18 @@ export default {
     projectId: {
       type: Number,
       required: true
+    },
+    token: {
+      type: String,
+      required: true
     }
   },
   data() {
     return {
       tab: 0,
-      showingContract: null
+      showingContract: null,
+      newComment: { message: null },
+      newCommentErrors: null
     }
   },
   methods: {
@@ -118,6 +137,18 @@ export default {
     },
     completeErrors(errors) {
       errors.length && this.toast('Error', 'Cannot request End project')
+    },
+    commentSaved() {
+      this.newEtag()
+      this.toast('Success', 'Comment added')
+      this.newComment.message = null
+    },
+    postCommentProps(project) {
+      return {
+        action: this.messagesUrl(project),
+        model: { message: this.newComment },
+        headers: { Authorization: this.token },
+      }
     },
     getContracts(projects) {
       return projects.filter(project => !!project.specialist)
@@ -135,6 +166,9 @@ export default {
     },
     viewHref() {
       return project => this.$store.getters.url('URL_PROJECT_POST', project.id)
+    },
+    messagesUrl() {
+      return project => `/api/local_projects/${project.id}/messages`
     },
   },
   components: {
