@@ -193,20 +193,25 @@ export default {
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'},
-        }).then(response => {
+        })
+          .then(response => {
           console.log(response)
           if (!response.ok)
             throw new Error(`Could't download policy (${response.status})`);
-          return response.json()
-        }).then(response => {
-          console.log(response)
-          return response
-        }).catch (error => {
+          return response.blob()
+        })
+          .then(myBlob => {
+            const fileURL = URL.createObjectURL(myBlob);
+            //Open the URL on new Window
+            window.open(fileURL);
+            return myBlob
+        })
+        .catch (error => {
           console.error(error)
           throw error;
         }).finally(() => commit("setLoading", false))
 
-        console.log('data', data)
+        return data
 
       } catch (error) {
         commit("setError", error.message);
