@@ -10,7 +10,11 @@ class Api::ProjectMessagesController < ApiController
 
   def create
     message = Message::Create.(@project, message_params.merge(sender: @current_someone, recipient: nil), @current_someone, nil)
-    render json: message.to_json
+    if message.persisted?
+      render json: message.to_json
+    else
+      render json: { errors: message.errors.to_json }
+    end
   end
 
   private
