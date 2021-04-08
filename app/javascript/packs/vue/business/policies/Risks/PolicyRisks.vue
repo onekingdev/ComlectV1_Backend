@@ -10,12 +10,12 @@
       table.table(v-if="!loading")
         thead
           tr
-            th(width="40%") Risk
+            th(width="55%") Risk
             th Impact
             th Likelihood
             th Risk level
-            th Date created
-            th
+            th.text-right Date created
+            th(width="10%")
         tbody
           tr(v-for="risk in risksComputed" :key="risk.id")
             td ({{ risk.id }}) {{ risk.name }}
@@ -25,7 +25,7 @@
               b-badge(:variant="badgeVariant(risk.risk_level)")
                 b-icon-exclamation-triangle-fill.mr-2
                 | {{ showLevel(risk.risk_level)  }}
-            td {{ dateToHuman(risk.created_at) }}
+            td.text-right {{ dateToHuman(risk.created_at) }}
             td
               .actions
                 b-dropdown(size="sm" text="***" class="m-0 p-0" variant="light" right)
@@ -83,8 +83,18 @@
           return value
         }
       },
-      deleteRisk(id){
-
+      deleteRisk(riskId) {
+        this.$store
+          .dispatch('deleteRisk', { id: riskId })
+          .then(response => {
+            this.makeToast('Success', `Risk successfully deleted!`)
+          })
+          .catch(error => {
+            this.makeToast('Error', `Couldn't delete risk! ${error}`)
+          })
+      },
+      makeToast(title, str) {
+        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
       },
     },
     computed: {

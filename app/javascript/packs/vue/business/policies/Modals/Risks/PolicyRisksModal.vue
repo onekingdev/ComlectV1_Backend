@@ -6,11 +6,11 @@
     b-modal.fade(:id="modalId" :title="riskId ? 'Edit risk' : 'New risk'" @show="newEtag")
       ModelLoader(:url="riskId ? submitUrl : undefined" :default="initialrisk" :etag="etag" @loaded="loadrisk")
         <!--label.form-label Risk-->
-        b-form-group#input-group-1(label='Risk:' label-for='input-3')
+        b-form-group#input-group-1(label='Risk' label-for='select-1')
           b-form-select#select-1(v-model='risk.risks' :options='options' @change="onChange" required)
           Errors(:errors="errors.risk")
 
-        b-row.m-t-1(no-gutters, v-if="isActive")
+        b-row.m-t-1(no-gutters, v-if="isActive || risk.name")
           .col
             label.form-label Risk Name
             input.form-control(v-model="risk.name" type=text placeholder="Enter the name of your risk")
@@ -18,11 +18,13 @@
 
         b-row.m-t-1(no-gutters)
           .col-sm.m-r-1
-            InputSelect(v-model="risk.impact" :errors="errors.impact" :options="levelOptions" @change="onRiskChange") Impact
-            Errors(:errors="errors.impact")
+            b-form-group#input-group-2(label='Impact' label-for='select-2')
+              b-form-select#select-2(v-model="risk.impact" :errors="errors.impact" :options="levelOptions" @change="onRiskChange")
+              Errors(:errors="errors.impact")
           .col-sm
-            InputSelect(v-model="risk.likelihood" :errors="errors.likelihood" :options="levelOptions" @change="onRiskChange") Likelihood
-            Errors(:errors="errors.likelihood")
+            b-form-group#input-group-3(label='Likelihood' label-for='select-3')
+              b-form-select#select-3(v-model="risk.likelihood" :errors="errors.likelihood" :options="levelOptions" @change="onRiskChange")
+              Errors(:errors="errors.likelihood")
 
         b-row.m-t-1(no-gutters)
           .col
@@ -72,14 +74,14 @@ export default {
       risk: initialrisk(),
       errors: [],
       isActive: false,
-      options: {
-        0: 'New Risk',
-      },
-      levelOptions: {
-        0: 'Low',
-        1: 'Medium',
-        2: 'High',
-      },
+      options: [
+        { value: null, text: 'New Risk' },
+      ],
+      levelOptions: [
+        { value: 0, text: 'Low' },
+        { value: 1, text: 'Medium' },
+        { value: 2, text: 'High' },
+      ],
       badgeVariant: 'secondary',
       riskLevelName: '---'
     }
@@ -87,6 +89,7 @@ export default {
   methods: {
     loadrisk(risk) {
       this.risk = Object.assign({}, this.risk, risk)
+      this.onRiskChange()
     },
     makeToast(title, str) {
       this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
@@ -110,7 +113,7 @@ export default {
       console.log(dataToSend)
 
       let method;
-      if(!this.policyId) {
+      if(!this.riskId) {
         method = 'createRisk'
       } else {
         method = 'updateRisk'
@@ -135,19 +138,17 @@ export default {
 
       // this.$emit('saved', this.risk)
     },
-    onChange(e){
-      if (e === '0') this.isActive = true
+    onChange(event){
+      if (event === null) this.isActive = true
       else this.isActive = false
     },
     onRiskChange(e){
-      console.log('change')
-      console.log(e)
-      const riskLevelNum = this.riskLevel(risk.likelihood, risk.impact)
+      const riskLevelNum = this.riskLevel(this.risk.likelihood, this.risk.impact)
       this.riskLevelColor(riskLevelNum)
       this.getRiskLevelName(riskLevelNum)
     },
     getRiskLevelName(num) {
-      this.riskLevelName = this.levelOptions[num]
+      this.riskLevelName = this.levelOptions[num].text
     },
     riskLevel(likelihood, impact) {
       if ((likelihood > 0) && (impact === 2)) {

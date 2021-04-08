@@ -525,7 +525,7 @@ export default {
       try {
         const endpointUrl = '/api/business/risks'
         const data = await fetch(`${endpointUrl}/${payload.id}`, {
-          method: 'POST',
+          method: 'PUT',
           headers: {
             // 'Authorization': 'Bearer test',
             'Accept': 'application/json',
@@ -558,18 +558,17 @@ export default {
       try {
         const endpointUrl = '/api/business/risks'
         const data = await fetch(`${endpointUrl}/${payload.id}`, {
-          method: 'POST',
+          method: 'DELETE',
           headers: {
             // 'Authorization': 'Bearer test',
             'Accept': 'application/json',
             'Content-Type': 'application/json'},
-          body: JSON.stringify(payload)
         }).then(response => {
           if (!response.ok)
             throw new Error(`Could't update Risk (${response.status})`);
           return response.json()
         }).then(response => {
-          commit("updateRisk", {...response});
+          commit("deleteRisk", {...response});
           return response
         }).catch (error => {
           console.error(error)
