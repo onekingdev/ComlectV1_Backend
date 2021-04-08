@@ -27,6 +27,10 @@
                           td
                             b-dropdown.float-right(text="..." variant="default")
                               b-dropdown-item(@click="viewContract(contract)") View Contract
+          .container.m-t-1
+            .row.p-x-1
+              .col-md-12
+                DiscussionCard(:project="project" :token="token")
       b-tab(title="Tasks")
       b-tab(title="Documents")
       b-tab(title="Collaborators")
@@ -108,6 +112,7 @@
 <script>
 import { readablePaymentSchedule, fields } from '@/common/ProposalFields'
 import ChangeContractAlerts from '@/common/projects/ChangeContractAlerts'
+import DiscussionCard from '@/common/projects/DiscussionCard'
 import EditContractModal from '@/common/projects/EditContractModal'
 import EditProposalModal from '@/specialist/projects/EditProposalModal'
 import EtaggerMixin from '@/mixins/EtaggerMixin'
@@ -153,6 +158,10 @@ export default {
     },
     applicationId: {
       type: Number,
+      required: true
+    },
+    token: {
+      type: String,
       required: true
     }
   },
@@ -201,6 +210,7 @@ export default {
   },
   components: {
     ChangeContractAlerts,
+    DiscussionCard,
     EditContractModal,
     EditProposalModal
   }
