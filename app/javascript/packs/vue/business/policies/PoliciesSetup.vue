@@ -150,7 +150,7 @@
       this.$store
         .dispatch('getPolicyConfig')
         .then(response => {
-          console.log('response', response)
+          // console.log('response', response)
           // this.makeToast('Success', `Policy successfully deleted!`)
 
           // update form
@@ -164,7 +164,7 @@
             // body: response.body,
           // }
 
-          console.log('this.form after response', this.form)
+          // console.log('this.form after response', this.form)
         })
         .catch(error => {
           console.error(error)

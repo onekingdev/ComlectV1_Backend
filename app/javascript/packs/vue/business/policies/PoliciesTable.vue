@@ -18,10 +18,10 @@
             .table__cell.table__cell_title.table__cell_clickable
               | Status
               b-icon.ml-2(icon='chevron-expand')
-            .table__cell.table__cell_title.table__cell_clickable
+            .table__cell.table__cell_title.table__cell_clickable.text-right
               | Last Modified
               b-icon.ml-2(icon='chevron-expand')
-            .table__cell.table__cell_title.table__cell_clickable
+            .table__cell.table__cell_title.table__cell_clickable.text-right
               | Date Created
               b-icon.ml-2(icon='chevron-expand')
             .table__cell.table__cell_title.table__cell_clickable

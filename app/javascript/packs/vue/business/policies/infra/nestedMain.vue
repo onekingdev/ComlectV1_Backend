@@ -20,22 +20,21 @@
         )
       .table__cell.table__cell_name(v-else) {{ el.title }}
       .table__cell(v-if="!shortTable && el.status")
-        .status.status__draft {{ el.status }}
-      .table__cell(v-if="!shortTable && el.updated_at") {{ dateToHuman(el.updated_at) }}
-      .table__cell(v-if="!shortTable && el.created_at") {{ dateToHuman(el.created_at) }}
+        b-badge.status(:variant="statusVariant") {{ el.status }}
+      .table__cell.text-right(v-if="!shortTable && el.updated_at") {{ dateToHuman(el.updated_at) }}
+      .table__cell.text-right(v-if="!shortTable && el.created_at") {{ dateToHuman(el.created_at) }}
       .table__cell(v-if="!shortTable && el.created_at") N/A
       .table__cell(v-if="!shortTable && el.created_at")
         .actions
-          button.px-0.actions__btn(:id="`#nested-actionIcon-${el.id}`", @click="toogleActions(el.id)")
-            b-icon(icon="three-dots")
-          ul.actions-dropdown(:id="`#nested-action-${el.id}`")
-            li.actions-dropdown__item.edit
-              a.link(:href="'/business/compliance_policies/'+el.id") Edit
-            li.actions-dropdown__item.move-up(@click="moveUp(el.id)") Move up
-            li.actions-dropdown__item.archive
-              PoliciesModalArchive(@saved="updateList", :policyId="el.id", :archiveStatus="!el.archived" @archiveConfirmed="archivePolicy(el.id, !el.archived)") {{ !el.archived ? 'Archive' : 'Unarchive' }}
-            li.actions-dropdown__item.delete(v-if="el.archived")
-              PoliciesModalDelete(@saved="updateList", :policyId="el.id", @deleteConfirmed="deletePolicy(el.id)") Delete
+          b-dropdown(size="sm" variant="light" class="m-0 p-0" right)
+            template(#button-content)
+              b-icon(icon="three-dots")
+            b-dropdown-item(:href="'/business/compliance_policies/'+el.id") Edit
+            b-dropdown-item(@click="moveUp(el.id)") Move up
+            PoliciesModalArchive(@saved="updateList", :policyId="el.id", :archiveStatus="!el.archived" @archiveConfirmed="archivePolicy(el.id, !el.archived)")
+              b-dropdown-item(href='#') {{ !el.archived ? 'Archive' : 'Unarchive' }}
+            PoliciesModalDelete(@saved="updateList", :policyId="el.id", @deleteConfirmed="deletePolicy(el.id)")
+              b-dropdown-item(href='#') Delete
 </template>
 <script>
   import draggable from "vuedraggable";
@@ -97,6 +96,7 @@
         children: [],
         draggedContext: {},
         relatedContext: {},
+        statusVariant: 'light'
       }
     },
     methods: {
