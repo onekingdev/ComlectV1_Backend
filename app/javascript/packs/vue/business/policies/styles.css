@@ -458,8 +458,17 @@ button.btn__close {
   font-weight: 600;
 }
 
+.delete a,
+.delete a,
+.delete button,
+.delete button{
+  transition: all 200ms ease-in;
+}
+
 .delete a:hover,
-.delete a:active {
+.delete a:active,
+.delete button:hover,
+.delete button:active{
   background-color: rgba(255, 0, 0, .2);
 }
 

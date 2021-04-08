@@ -31,7 +31,7 @@
                 b-dropdown(size="sm" text="***" class="m-0 p-0" variant="light" right)
                   PolicyRisksModal(:risks="risksComputed" :policyId="policyId" :riskId="risk.id" :inline="false")
                     b-dropdown-item-button Edit
-                  b-dropdown-item-button(@click="deleteRisk(risk.id)") Delete
+                  b-dropdown-item-button.delete(@click="deleteRisk(risk.id)") Delete
           tr(v-if="!risksComputed.length")
             td.text-center(colspan=5)
               h4.py-2 No risks

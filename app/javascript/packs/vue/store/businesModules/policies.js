@@ -689,7 +689,7 @@ export default {
 
     // RISKS
     risksList(state) {
-      return state.risks;
+      return state.risks.sort((a, b) => a.id - b.id);
     },
   },
 };

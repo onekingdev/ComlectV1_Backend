@@ -47,12 +47,12 @@ const dateFormat = 'MM/DD/YYYY'
 const index = (text, i) => ({ text, value: 1 + i })
 
 const initialrisk = () => ({
-  id: null,
   name: "",
+  id: null,
   impact: 0,
   likelihood: 0,
-  risk_level: 0,
-  compliance_policies: []
+  compliance_policies: [],
+  compliance_policy_ids: []
 })
 
 export default {
@@ -105,12 +105,8 @@ export default {
         return;
       }
 
-      const dataToSend = {
-        compliance_policies: [this.policyId],
-        ...this.risk
-      }
-
-      console.log(dataToSend)
+      this.risk.compliance_policy_ids = this.risk.compliance_policies.map(policy => policy.id)
+      if (!this.risk.compliance_policy_ids.includes(this.policyId)) this.risk.compliance_policy_ids.push(this.policyId)
 
       let method;
       if(!this.riskId) {
@@ -120,7 +116,7 @@ export default {
       }
 
       this.$store
-        .dispatch(method, dataToSend)
+        .dispatch(method, {...this.risk})
         .then(response => {
           console.log('response', response)
           if (response.errors) {
