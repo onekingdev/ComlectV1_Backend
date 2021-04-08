@@ -40,7 +40,8 @@ class Business::ProjectsController < ApplicationController
       'project-show-page',
       '',
       ':project-id': @project.id,
-      'current-business': current_business
+      'current-business': current_business,
+      'token': JsonWebToken.encode(sub: current_business.id)
     ).html_safe, layout: 'vue_business'
   end
 

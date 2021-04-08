@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Api::ProjectMessagesController < ApiController
-  before_action :require_someone
+  before_action :require_someone!
   before_action :find_project
 
   def index
@@ -9,13 +9,21 @@ class Api::ProjectMessagesController < ApiController
   end
 
   def create
-    message = Message::Create.(@project, message_params.merge(sender: @someone, recipient: nil), @someone, nil)
-    render json: message.to_json
+    message = Message::Create.(@project, message_params.merge(sender: @current_someone, recipient: nil), @current_someone, nil)
+    if message.persisted?
+      render json: message.to_json
+    else
+      render json: { errors: message.errors.to_json }
+    end
   end
 
   private
 
   def find_project
-    @project = @someone.local_projects.find(params[:project_id])
+    @project = @current_someone.local_projects.find(params[:project_id])
+  end
+
+  def message_params
+    params.require(:message).permit(:message, :file)
   end
 end
