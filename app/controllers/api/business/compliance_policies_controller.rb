@@ -2,8 +2,7 @@
 
 class Api::Business::CompliancePoliciesController < ApiController
   before_action :require_business!
-  before_action :find_cpolicy, only: %i[publish show update download destroy]
-  skip_before_action :verify_authenticity_token # TODO: proper authentication
+  before_action :find_cpolicy, only: %i[publish show update download]
 
   def index
     respond_with current_business.compliance_policies.root,
@@ -31,14 +30,6 @@ class Api::Business::CompliancePoliciesController < ApiController
 
   def show
     respond_with @cpolicy, serializer: CompliancePolicySerializer
-  end
-
-  def destroy
-    if @cpolicy.archived && @cpolicy.destroy
-      respond_with @cpolicy, serializer: CompliancePolicySerializer
-    else
-      head :bad_request
-    end
   end
 
   def create
@@ -73,24 +64,14 @@ class Api::Business::CompliancePoliciesController < ApiController
   private
 
   def cpolicy_params
-    params.permit(
+    params[:compliance_policy].permit(
       :name,
       :description,
-      :position,
-      :archived,
       sections: [
-        :title, :description, children: [
-          :title, :description, children: [
-            :title, :description, children: [
-              :title, :description, children: [
-                :title, :description, children: [
-                  :title, :description, children: [
-                    :title, :description, children: [
-                      :title, :description, children: []
-                    ]
-                  ]
-                ]
-              ]
+        :title, :desc, children: [
+          :title, :desc, children: [
+            :title, :desc, children: [
+              :title, :desc, children: []
             ]
           ]
         ]

@@ -22,7 +22,7 @@ class Business::ProjectExtensionsControllerTest < ActionDispatch::IntegrationTes
     assert_difference 'ProjectExtension.count', +1 do
       post(
         business_project_extensions_path(@project),
-        project_extension: { new_end_date: new_end_date }
+        project_extension: { ends_on: new_end_date }
       )
     end
     assert @project.extensions.first.pending?

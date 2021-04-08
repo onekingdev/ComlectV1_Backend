@@ -11,6 +11,5 @@ class CompliancePolicySerializer < ApplicationSerializer
              :src_id,
              :status,
              :sections,
-             :versions,
-             :archived
+             :versions
 end
