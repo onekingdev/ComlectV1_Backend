@@ -458,6 +458,11 @@ button.btn__close {
   font-weight: 600;
 }
 
+.delete a:hover,
+.delete a:active {
+  background-color: rgba(255, 0, 0, .2);
+}
+
 .link {
   color: var(--blue);
 }
