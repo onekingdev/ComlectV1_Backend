@@ -48,7 +48,7 @@ const initialProject = () => ({
 })
 
 export default {
-  mixins: [EtaggerMixin],
+  mixins: [EtaggerMixin()],
   props: {
     projectId: Number,
     remindAt: String,

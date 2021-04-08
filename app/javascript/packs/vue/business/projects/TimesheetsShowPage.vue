@@ -54,7 +54,7 @@ import EtaggerMixin from '@/mixins/EtaggerMixin'
 const today = () => DateTime.local().toISODate()
 
 export default {
-  mixins: [EtaggerMixin],
+  mixins: [EtaggerMixin()],
   props: {
     project: {
       type: Object,

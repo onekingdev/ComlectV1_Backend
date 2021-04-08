@@ -141,7 +141,7 @@ const acceptedOverviewProps = project => [
 ]
 
 export default {
-  mixins: [EtaggerMixin],
+  mixins: [EtaggerMixin()],
   props: {
     id: {
       type: Number,
