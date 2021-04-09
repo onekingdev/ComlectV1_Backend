@@ -1,0 +1,29 @@
+.policy-details {
+  &__title {
+
+  }
+  &__input {
+
+  }
+}
+
+.policy-history {
+  &__ver {
+    border: solid 1px red;
+  }
+  &__version-info {}
+  &__author {}
+  &__date {}
+}
+
+.test-block {
+  border: solid 1px black;
+
+  &__element {
+    font-size: 1.5rem;
+
+    &_modificator {
+      background-color: lightblue;
+    }
+  }
+}

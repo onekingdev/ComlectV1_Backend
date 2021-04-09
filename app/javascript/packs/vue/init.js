@@ -21,7 +21,6 @@ import Post from '@/common/rest/Post'
 import ModelLoader from '@/common/rest/ModelLoader'
 import filters from '@/filters'
 import { extractToastMessage } from '@/common/Toast'
-import ToasterMixin from '@/mixins/ToasterMixin'
 
 const data = () => ({
   isProfileMenuOpen: false
@@ -30,8 +29,6 @@ const data = () => ({
 const init = configuration => {
   Vue.use(BootstrapVue)
   Vue.use(IconsPlugin)
-
-  Vue.mixin(ToasterMixin)
 
   Vue.config.productionTip = false
   Vue.config.ignoredElements = ['ion-icon']
@@ -59,12 +56,13 @@ const init = configuration => {
 
   return new Vue({
     el: document.getElementById('app'),
-    mixins: [ToasterMixin],
     ...(configuration || {}),
     data,
     created() {
       const toast = extractToastMessage()
-      toast && this.toast('', toast)
+      if (toast) {
+        this.$bvToast.toast(toast, { autoHideDelay: 5000 })
+      }
     }
   })
 }
