@@ -312,7 +312,9 @@
 }
 
 .actions .delete .dropdown-item:hover,
-.actions .delete .dropdown-item:active
+.actions .delete .dropdown-item:active,
+.policy-actions .delete .dropdown-item:hover,
+.policy-actions .delete .dropdown-item:active,
 .actions-dropdown__item.delete:hover,
 .actions-dropdown__item.delete:active {
   background-color: rgba(255, 0, 0, .2);
@@ -467,6 +469,7 @@ button.btn__close {
   font-weight: 600;
 }
 
+.policy-actions .dropdown-item,
 .delete button,
 .delete button{
   transition: all 200ms ease-in;

@@ -291,8 +291,8 @@
           })
         }
 
-        // console.log('targetPolicy', targetPolicy)
-        // console.log('targetPolicyDetele', targetPolicyDetele)
+        console.log('targetPolicy', targetPolicy)
+        console.log('targetPolicyDetele', targetPolicyDetele)
 
         if(targetPolicy) {
           this.$store.dispatch("updatePolicy", {
@@ -359,7 +359,7 @@
           .dispatch('archivePolicyById', { policyId, archived: archiveStatus })
           .then(response => {
             console.log('response', response)
-            this.makeToast('Success', `Policy successfully archived!`)
+            this.makeToast('Success', `Policy successfully ${archiveStatus ? 'archived' : 'unarchived'}!`)
           })
           .catch(error => {
             console.error(error)

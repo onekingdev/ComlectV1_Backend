@@ -34,10 +34,10 @@
               b-tabs(content-class="mt-0")
                 .policy-actions
                   b-dropdown.bg-white(text='Actions', variant="secondary", right)
-                    b-dropdown-item
-                      PoliciesModalArchive(@archiveConfirmed="archivePolicy") Archive Policy
-                    b-dropdown-item
-                      PoliciesModalRemoveSubsection(@removeSubsectionConfirmed="deleteAllSections") Delete sections
+                    PoliciesModalArchive(:archiveStatus="!policy.archived" @archiveConfirmed="archivePolicy(policy.id, !policy.archived)" :inline="false")
+                      b-dropdown-item {{ !policy.archived ? 'Archive' : 'Unarchive' }} Policy
+                    PoliciesModalRemoveSubsection(@removeSubsectionConfirmed="deleteAllSections", :inline="false")
+                      b-dropdown-item.delete Delete sections
                     <!--b-dropdown-item Save all-->
                 .col-12.px-lg-5.px-md-3
                   .card-body.white-card-body.p-0.position-relative
@@ -185,14 +185,15 @@
             this.makeToast('Error', `Couldn't submit form! ${error}`)
           })
       },
-      archivePolicy() {
-        console.log(`archive ${this.policyId}`)
+      archivePolicy(policyId, archiveStatus) {
         this.$store
-          .dispatch('archivePolicyById', { policyId: this.policyId, archived: true })
+          .dispatch('archivePolicyById', { policyId: this.policyId, archived: archiveStatus })
           .then(response => {
-            this.makeToast('Success', `Policy successfully archived!`)
+            console.log('response', response)
+            this.makeToast('Success', `Policy successfully ${archiveStatus ? 'archived' : 'unarchived'}!`)
           })
           .catch(error => {
+            console.error(error)
             this.makeToast('Error', `Couldn't submit form! ${error}`)
           })
       },
