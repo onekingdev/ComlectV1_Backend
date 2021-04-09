@@ -1,30 +1,30 @@
 <template lang="pug">
   draggable.dragArea(
-    v-bind="dragOptions"
-    tag="tbody" :list="list"
-    :value="value"
-    :move="checkMove"
-    :policiesList="policiesList"
-    ghost-class="alert-secondary"
-    @end="onEnd"
-    @input="emitter"
+  v-bind="dragOptions"
+  tag="tbody" :list="list"
+  :value="value"
+  :move="checkMove"
+  :policiesList="policiesList"
+  ghost-class="alert-secondary"
+  @end="onEnd"
+  @input="emitter"
   )
     .table__row(v-for='el in realValue' :key='el.title' :data-id-policy="el.id")
-      .table__cell.table__cell_name(v-if="el.children && el.children.length !== 0")
+      .table__cell.table__cell_name(v-show="el.children.length !== 0")
         .dropdown-toggle(:class="{ active: open }" @click="open = !open")
           b-icon.mr-2(v-if="el.children && el.children.length !== 0 && open" icon="chevron-compact-down")
           b-icon.mr-2(v-else icon="chevron-compact-right")
           | {{ el.title }}
         nested-draggable(
-          v-if="open"
-          :list="el.children"
-          :policy="el"
-          :policyId="el.id ? el.id : parentSection.id"
-          :policyTitle="el.title"
-          :parentSection="el"
-          :policiesList="policiesList"
+        v-show="open"
+        :list="el.children"
+        :policy="el"
+        :policyId="el.id ? el.id : parentSection.id"
+        :policyTitle="el.title"
+        :parentSection="el"
+        :policiesList="policiesList"
         )
-      .table__cell.table__cell_name(v-else) {{ el.title }}
+      .table__cell.table__cell_name(v-show="el.children.length === 0") {{ el.title }}
       .table__cell(v-if="!shortTable && el.status")
         b-badge.status(:variant="statusVariant") {{ el.status }}
       .table__cell.text-right(v-if="!shortTable && el.updated_at") {{ dateToHuman(el.updated_at) }}
@@ -140,58 +140,76 @@
           });
       },
       checkMove: function(evt){
-        console.log('relatedContext', evt.relatedContext)
-        console.log('draggedContext:', evt.draggedContext)
+        // console.log('relatedContext', evt.relatedContext)
+        // console.log('draggedContext:', evt.draggedContext)
+
+        // 1) Detect the draggable element
+        const currentElement = evt.draggedContext.element.id ? 'Policy' : 'Section'
+        console.log('currentElement', currentElement)
+
+        this.draggedContext = evt.draggedContext
+        this.relatedContext = evt.relatedContext
+
+        if (currentElement === 'Policy') {
+
+        }
+
+        if (currentElement === 'Section') {
+
+        }
 
         // 0. MOVE ON THE SAME PLACE
-        if(!evt.draggedContext.element && !evt.relatedContext.element) {
-          return false;
-        }
+        // if(!evt.draggedContext.element && !evt.relatedContext.element) {
+        //   console.log('0')
+        //   return false;
+        // }
 
         // 1. MOVE ROOT POLICY TO ANOTHER PLACE
-        if(!this.policyTitle) {
-          this.draggedContext = evt.draggedContext
-          this.relatedContext = evt.relatedContext
-        }
+        // if(!this.policyTitle) {
+        //   this.draggedContext = evt.draggedContext
+        //   this.relatedContext = evt.relatedContext
+        // }
 
         // 2. MOVE ROOT POLICY INSIDE ANOTHER POLICY
-        if(evt.draggedContext.element.id && !evt.relatedContext.element.id) {
-          return false;
-        }
+        // if(evt.draggedContext.element.id && !evt.relatedContext.element.id) {
+        //   return false;
+        // }
 
         // 3. MOVE Section of POLICY INSIDE this POLICY
-        if(this.policyTitle && this.policy.id) {
-          this.sections = evt.relatedContext.list
-        }
+        // if(this.policyTitle && this.policy.id) {
+        //   this.sections = evt.relatedContext.list
+        // }
 
         // 4. MOVE Section of POLICY INSIDE another POLICY
         // 5. MOVE Section Child of POLICY INSIDE this POLICY
-        if(!evt.draggedContext.element.id) {
-          this.draggedContext = evt.draggedContext
-          this.relatedContext = evt.relatedContext
-          this.children = evt.relatedContext.list
-        }
+        // if(!evt.draggedContext.element.id) {
+        //   this.draggedContext = evt.draggedContext
+        //   this.relatedContext = evt.relatedContext
+        //   this.children = evt.relatedContext.list
+        // }
         // 6. MOVE Section Child of POLICY INSIDE another POLICY
         // 7. MOVE UP Section POLICY INSIDE this POLICY
         // 8. MOVE DOWN Section POLICY INSIDE this POLICY
         // 9. MOVE UP Section Child POLICY INSIDE this POLICY
         // 10. MOVE DOWN Section Child POLICY INSIDE this POLICY
+
+        // 11. MOVE Section of POLICY OUTSIDE DRAG AREA
+        // if(evt.relatedContext.element.id && evt.draggedContext) return false;
       },
       onEnd(evt){
-        // console.log('event', evt)
-        // let idPolicy = null
-        //
+        console.log('event', evt.target)
+
         console.log('relatedContext', this.relatedContext)
         console.log('draggedContext:', this.draggedContext)
         console.log('policiesList:', this.policiesList)
-        // console.log('policiesClonedList:', this.policiesClonedList)
-        // console.log('realValue:', this.realValue)
-        // console.log('this.policy:', this.policy)
-        // console.log('this.policyId:', this.policyId)
-        // console.log('this.policyTitle:', this.policyTitle)
-        // console.log('this.parentSection:', this.parentSection)
-        // console.log('this.parentSection:', this.parentSection?.parentSection)
-        // console.log('defaultPoliciesList', this.defaultPoliciesList)
+        console.log('policiesClonedList:', this.policiesClonedList)
+        console.log('realValue:', this.realValue)
+        console.log('this.policy:', this.policy)
+        console.log('this.policyId:', this.policyId)
+        console.log('this.policyTitle:', this.policyTitle)
+        console.log('this.parentSection:', this.parentSection)
+        console.log('this.parentSection:', this.parentSection?.parentSection)
+        console.log('defaultPoliciesList', this.defaultPoliciesList)
 
         if (!this.policyTitle) {
           this.movePolicy()
@@ -200,7 +218,7 @@
         if(!this.draggedContext && !this.relatedContext) {
           return;
         }
-        //
+
         // if(this.policyTitle && this.sections) {
         //   const policy = this.policiesList.find(policy => policy['title'] === this.policyTitle)
         //
@@ -208,6 +226,8 @@
         //     id: policy.id,
         //     sections: this.sections
         //   });
+        //
+        //   return;
         // }
 
         const targetTitle = this.relatedContext.element.title;
@@ -349,7 +369,6 @@
       emitter(value) {
         console.log('emit value', value)
         this.$emit("input", value);
-        this.onEnd()
       },
     },
     computed: {
@@ -367,11 +386,11 @@
         return this.value ? this.value : this.list;
       },
     },
-    // watch: {
-    //   policiesListDefault (oldValue, newValue) {
-    //     console.log('watch policies', oldValue, newValue)
-    //   },
-    // },
+    watch: {
+      realValue (value) {
+        console.log('watch realValue', value)
+      },
+    },
     // mounted() {
     //   defaultPoliciesList = this.policiesList
     // }

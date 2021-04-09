@@ -606,7 +606,7 @@ export default {
           return response.json()
         }).then(response => {
           if (response.errors) return response
-          console.log('getPolicyConfig', response)
+          // console.log('getPolicyConfig', response)
           return response
         }).catch (error => {
           throw error;
