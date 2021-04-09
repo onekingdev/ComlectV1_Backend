@@ -16,10 +16,9 @@
             .row.p-x-1
               .col-sm-12
                 ApplicationsNotice(:project="project.visible_project" v-if="project.visible_project")
-                Get(v-for="marketProject in project.projects" :etag="etag" :marketProject="`/api/business/projects/${marketProject.id}`" :key="marketProject.id"): template(v-slot="{marketProject}")
-                  TimesheetsNotice(:project="marketProject")
-                  EndContractNotice(:project="marketProject" @saved="completeSuccess" @errors="completeErrors")
-                  ChangeContractAlerts(:project="marketProject" @saved="newEtag" for="Business")
+                Get(v-if="project.visible_project" :etag="etag" :project="`/api/business/projects/${project.visible_project.id}`"): template(v-slot="{project}")
+                  TimesheetsNotice(:project="project")
+                  EndContractNotice(:project="project" @saved="completeSuccess" @errors="completeErrors")
             .row.p-x-1
               .col-md-7.col-sm-12
                 .card
@@ -43,7 +42,10 @@
           .container.m-t-1
             .row.p-x-1
               .col-md-12
-                DiscussionCard(:project="project" :token="token")
+                .card
+                  .card-header
+                    h3 Discussion
+                  .card-body No comments posted
       b-tab(title="Tasks")
         .card-body.white-card-body
       b-tab(title="Documents")
@@ -73,27 +75,22 @@
                     Breadcrumbs.m-y-1(:items="['Collaborators', `${showingContract.specialist.first_name} ${showingContract.specialist.last_name}`]")
                   .row: .col-sm-12
                     PropertiesTable(title="Contract Details" :properties="contractDetails(showingContract)")
-                      EditContractModal(:project="showingContract" @saved="newEtag(), tab = 0")
       b-tab(title="Activity")
         .card-body.white-card-body
 </template>
 
 <script>
 import { fields, readablePaymentSchedule } from '@/common/ProposalFields'
-import DiscussionCard from '@/common/projects/DiscussionCard'
-import ApplicationsNotice from './alerts/ApplicationsNotice'
-import TimesheetsNotice from './alerts/TimesheetsNotice'
-import EndContractNotice from './alerts/EndContractNotice'
+import ApplicationsNotice from './ApplicationsNotice'
+import TimesheetsNotice from './TimesheetsNotice'
+import EndContractNotice from './EndContractNotice'
 import ProjectDetails from './ProjectDetails'
 import EtaggerMixin from '@/mixins/EtaggerMixin'
 import LocalProjectModal from './LocalProjectModal'
 import EndContractModal from './EndContractModal'
-import ChangeContractAlerts from '@/common/projects/ChangeContractAlerts'
-import EditContractModal from '@/common/projects/EditContractModal'
-
 
 export default {
-  mixins: [EtaggerMixin()],
+  mixins: [EtaggerMixin],
   props: {
     currentBusiness: {
       type: String,
@@ -102,25 +99,29 @@ export default {
     projectId: {
       type: Number,
       required: true
-    },
-    token: {
-      type: String,
-      required: true
     }
   },
   data() {
     return {
       tab: 0,
-      showingContract: null,
+      showingContract: null
     }
+  },
+  components: {
+    ApplicationsNotice,
+    LocalProjectModal,
+    TimesheetsNotice,
+    EndContractNotice,
+    EndContractModal,
+    ProjectDetails
   },
   methods: {
     completeSuccess() {
       this.newEtag()
-      this.toast('Success', 'Project End has been requested')
+      this.$bvToast.toast('Project End has been requested', { title: 'Success', autoHideDelay: 5000 })
     },
     completeErrors(errors) {
-      errors.length && this.toast('Error', 'Cannot request End project')
+      errors.length && this.$bvToast.toast('Cannot request End project', { title: 'Error', autoHideDelay: 5000 })
     },
     getContracts(projects) {
       return projects.filter(project => !!project.specialist)
@@ -139,17 +140,6 @@ export default {
     viewHref() {
       return project => this.$store.getters.url('URL_PROJECT_POST', project.id)
     },
-  },
-  components: {
-    ApplicationsNotice,
-    ChangeContractAlerts,
-    DiscussionCard,
-    LocalProjectModal,
-    TimesheetsNotice,
-    EndContractNotice,
-    EndContractModal,
-    ProjectDetails,
-    EditContractModal
   }
 }
 </script>
