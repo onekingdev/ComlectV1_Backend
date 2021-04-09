@@ -165,28 +165,28 @@
         // }
 
         // 1. MOVE ROOT POLICY TO ANOTHER PLACE
-        // if(!this.policyTitle) {
-        //   this.draggedContext = evt.draggedContext
-        //   this.relatedContext = evt.relatedContext
-        // }
+        if(!this.policyTitle) {
+          this.draggedContext = evt.draggedContext
+          this.relatedContext = evt.relatedContext
+        }
 
         // 2. MOVE ROOT POLICY INSIDE ANOTHER POLICY
-        // if(evt.draggedContext.element.id && !evt.relatedContext.element.id) {
-        //   return false;
-        // }
+        if(evt.draggedContext.element.id && !evt.relatedContext.element.id) {
+          return false;
+        }
 
         // 3. MOVE Section of POLICY INSIDE this POLICY
-        // if(this.policyTitle && this.policy.id) {
-        //   this.sections = evt.relatedContext.list
-        // }
+        if(this.policyTitle && this.policy.id) {
+          this.sections = evt.relatedContext.list
+        }
 
         // 4. MOVE Section of POLICY INSIDE another POLICY
         // 5. MOVE Section Child of POLICY INSIDE this POLICY
-        // if(!evt.draggedContext.element.id) {
-        //   this.draggedContext = evt.draggedContext
-        //   this.relatedContext = evt.relatedContext
-        //   this.children = evt.relatedContext.list
-        // }
+        if(!evt.draggedContext.element.id) {
+          this.draggedContext = evt.draggedContext
+          this.relatedContext = evt.relatedContext
+          this.children = evt.relatedContext.list
+        }
         // 6. MOVE Section Child of POLICY INSIDE another POLICY
         // 7. MOVE UP Section POLICY INSIDE this POLICY
         // 8. MOVE DOWN Section POLICY INSIDE this POLICY
