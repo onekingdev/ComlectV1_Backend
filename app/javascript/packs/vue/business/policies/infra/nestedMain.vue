@@ -10,7 +10,7 @@
   @input="emitter"
   )
     .table__row(v-for='el in realValue' :key='el.title' :data-id-policy="el.id")
-      .table__cell.table__cell_name(v-show="el.children.length !== 0")
+      .table__cell.table__cell_name(v-show="el.children && el.children.length !== 0")
         .dropdown-toggle(:class="{ active: open }" @click="open = !open")
           b-icon.mr-2(v-if="el.children && el.children.length !== 0 && open" icon="chevron-compact-down")
           b-icon.mr-2(v-else icon="chevron-compact-right")
@@ -202,7 +202,6 @@
         console.log('relatedContext', this.relatedContext)
         console.log('draggedContext:', this.draggedContext)
         console.log('policiesList:', this.policiesList)
-        console.log('policiesClonedList:', this.policiesClonedList)
         console.log('realValue:', this.realValue)
         console.log('this.policy:', this.policy)
         console.log('this.policyId:', this.policyId)

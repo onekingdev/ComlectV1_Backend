@@ -669,7 +669,7 @@ export default {
         el['title'] = tmp;
         tmp = el['sections']
         el['children'] = tmp;
-        if (!el['sections']) el['sections'] = []
+        if (!el['sections'] || el['sections'].length === 0) el['children'] = []
         return el
       });
       newPoliciesList.sort((a, b) => a.position - b.position)
