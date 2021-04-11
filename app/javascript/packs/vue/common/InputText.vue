@@ -2,7 +2,7 @@
   div
     label.form-label
       slot
-    input.form-control(:value="value" @input="$emit('input', $event.target.value)" type="text" :placeholder="placeholder")
+    input.form-control(:disabled="disabled" :value="value" @input="$emit('input', $event.target.value)" type="text" :placeholder="placeholder")
     Errors(:errors="errors")
 </template>
 
@@ -11,7 +11,8 @@ export default {
   props: {
     value: [String, Number],
     errors: Array,
-    placeholder: String
+    placeholder: String,
+    disabled: Boolean
   }
 }
 </script>

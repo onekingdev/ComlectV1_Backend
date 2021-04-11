@@ -54,7 +54,7 @@ import EtaggerMixin from '@/mixins/EtaggerMixin'
 const today = () => DateTime.local().toISODate()
 
 export default {
-  mixins: [EtaggerMixin],
+  mixins: [EtaggerMixin()],
   props: {
     project: {
       type: Object,
@@ -67,7 +67,7 @@ export default {
   },
   methods: {
     saved(timesheet, message) {
-      this.$bvToast.toast(message, { title: message, autoHideDelay: 5000 })
+      this.toast(message, message)
       this.$bvModal.hide(`TimesheetModal${timesheet.id}`)
       this.newEtag()
     }

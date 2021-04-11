@@ -68,7 +68,7 @@ import LocalProjectModal from './LocalProjectModal'
 import EtaggerMixin from '@/mixins/EtaggerMixin'
 
 export default {
-  mixins: [EtaggerMixin],
+  mixins: [EtaggerMixin()],
   methods: {
     getContacts(projects) {
       return projects.reduce((result, project) => {
