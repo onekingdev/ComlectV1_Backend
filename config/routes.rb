@@ -83,6 +83,8 @@ Rails.application.routes.draw do
     get '/upgrade' => 'upgrade#index'
     get '/upgrade/buy' => 'upgrade#buy'
     post '/upgrade/buy' => 'upgrade#subscribe'
+    resources :risks, only: %i[index show]
+    get '/reports/risks' => 'reports#risks'
     resources :file_folders do
       get :download_folder, on: :member
       get :check_zip, on: :member
@@ -273,6 +275,7 @@ Rails.application.routes.draw do
     post 'local_projects/:project_id/messages' => 'project_messages#create'
     resources :direct_messages, path: 'messages(/:recipient_username)', only: %i[index create]
     namespace :business do
+      resource :compliance_policy_configuration, only: %i[show update]
       get '/reminders/:id' => 'reminders#show'
       delete '/reminders/:id' => 'reminders#destroy'
       post '/reminders/:id' => 'reminders#update'
@@ -288,9 +291,10 @@ Rails.application.routes.draw do
         end
         resources :hires, only: %i[create]
       end
-      resources :compliance_policies, only: %i[index show create update]
+      resources :compliance_policies, only: %i[index show create update destroy]
       get '/compliance_policies/:id/publish' => 'compliance_policies#publish'
       get '/compliance_policies/:id/download' => 'compliance_policies#download'
+      resources :risks, only: %i[index show create update destroy]
       resources :projects, only: [] do
         resources :timesheets, except: %i[new edit], controller: 'timesheets'
       end
