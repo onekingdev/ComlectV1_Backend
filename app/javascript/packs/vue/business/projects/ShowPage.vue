@@ -70,6 +70,9 @@
                   .row: .col-sm-12
                     EndContractModal(:project="showingContract" @saved="completeSuccess" @errors="completeErrors")
                       button.btn.btn-dark.float-right End Contract
+                    b-dropdown.m-x-1.float-right(text="Actions" variant="default")
+                      b-dropdown-item(v-b-modal="'IssueModal'") Report Issue
+                    IssueModal(:project-id="showingContract.id" :token="token")
                     Breadcrumbs.m-y-1(:items="['Collaborators', `${showingContract.specialist.first_name} ${showingContract.specialist.last_name}`]")
                   .row: .col-sm-12
                     PropertiesTable(title="Contract Details" :properties="contractDetails(showingContract)")
@@ -90,7 +93,7 @@ import LocalProjectModal from './LocalProjectModal'
 import EndContractModal from './EndContractModal'
 import ChangeContractAlerts from '@/common/projects/ChangeContractAlerts'
 import EditContractModal from '@/common/projects/EditContractModal'
-
+import IssueModal from './IssueModal'
 
 export default {
   mixins: [EtaggerMixin()],
@@ -149,7 +152,8 @@ export default {
     EndContractNotice,
     EndContractModal,
     ProjectDetails,
-    EditContractModal
+    EditContractModal,
+    IssueModal
   }
 }
 </script>

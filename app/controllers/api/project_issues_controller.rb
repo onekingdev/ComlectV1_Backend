@@ -21,7 +21,7 @@ class Api::ProjectIssuesController < ApiController
 
   def issue_params
     params.permit(
-      :issue
+      :issue, :desired_resolution
     )
   end
 end
