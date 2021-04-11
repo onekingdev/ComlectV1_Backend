@@ -374,6 +374,12 @@
   color: #919396;
 }
 
+.policy-history__btn-download {
+  position: absolute;
+  top: 2rem;
+  right: 1rem;
+}
+
 /* ---------- Left Tree ---------- */
 .left-tree {
   height: 100%;
