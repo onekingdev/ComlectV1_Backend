@@ -7,6 +7,10 @@ class RiskSerializer < ApplicationSerializer
              :updated_at,
              :impact,
              :likelihood,
-             :compliance_policy_ids,
+             :compliance_policies,
              :risk_level
+
+  def compliance_policies
+    object.compliance_policies.select(:id, :name)
+  end
 end
