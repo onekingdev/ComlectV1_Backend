@@ -43,7 +43,7 @@
           .container.m-t-1
             .row.p-x-1
               .col-md-12
-                DiscussionCard(:project="project" :token="token")
+                DiscussionCard(:project-id="project.id" :token="token")
       b-tab(title="Tasks")
         .card-body.white-card-body
       b-tab(title="Documents")
