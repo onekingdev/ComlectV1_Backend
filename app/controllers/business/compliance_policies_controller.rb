@@ -10,25 +10,10 @@ class Business::CompliancePoliciesController < ApplicationController
     render html: content_tag('business-policies-page', '').html_safe, layout: 'vue_business'
   end
 
-  def new
-    @local_project = params[:local_project_id] ? LocalProject.find(params[:local_project_id]) : nil
-    render html: content_tag('business-post-project-page',
-                             '',
-                             ':industry-ids': Industry.all.map(&proc { |ind| { id: ind.id, name: ind.name } }).to_json,
-                             ':jurisdiction-ids': Jurisdiction.all.map(&proc { |ind| { id: ind.id, name: ind.name } }).to_json,
-                             ':local-project': @local_project.to_json)
-      .html_safe,
-           layout: 'vue_business'
-  end
-
   def destroy
     @compliance_policy.destroy
     redirect_to business_compliance_policies_path
   end
-
-  # def create
-  #   render html: content_tag('business-policies-create-page', '').html_safe, layout: 'vue_business'
-  # end
 
   def update
     if (@compliance_policy.business_id == current_business.id) && @compliance_policy.update(compliance_policy_params)
