@@ -1,6 +1,7 @@
 <template lang="pug">
   div(:class="{'d-inline-block':inline}")
-    div(v-b-modal="modalId" :class="{'d-inline-block':inline}")
+    //li.actions-dropdown__item.delete
+    div(v-b-modal="modalId" :class="{'d-inline-block':inline, 'd-flex':flex}")
       slot
 
     b-modal.fade(:id="modalId" title="Remove Subsection")

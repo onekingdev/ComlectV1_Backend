@@ -17,6 +17,7 @@ class Api::Business::HiresController < ApiController
       specialist.business_specialists_roles.create(
         business_id: job_application.object.project.business.id
       )
+      LocalProjectsSpecialist.create(local_project_id: @project.local_project.id, specialist_id: specialist.id)
     end
     render json: job_application, status: (job_application.blank? ? :unprocessable_entity : :created)
   end
