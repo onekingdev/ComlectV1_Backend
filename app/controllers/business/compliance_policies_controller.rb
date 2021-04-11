@@ -10,74 +10,8 @@ class Business::CompliancePoliciesController < ApplicationController
     render html: content_tag('business-policies-page', '').html_safe, layout: 'vue_business'
   end
 
-  def new
-    @local_project = params[:local_project_id] ? LocalProject.find(params[:local_project_id]) : nil
-    render html: content_tag('business-post-project-page',
-                             '',
-                             ':industry-ids': Industry.all.map(&proc { |ind| { id: ind.id, name: ind.name } }).to_json,
-                             ':jurisdiction-ids': Jurisdiction.all.map(&proc { |ind| { id: ind.id, name: ind.name } }).to_json,
-                             ':local-project': @local_project.to_json)
-      .html_safe,
-           layout: 'vue_business'
-  end
-
-  def destroy
-    @compliance_policy.destroy
-    redirect_to business_compliance_policies_path
-  end
-
-  # def create
-  #   render html: content_tag('business-policies-create-page', '').html_safe, layout: 'vue_business'
-  # end
-
-  def update
-    if (@compliance_policy.business_id == current_business.id) && @compliance_policy.update(compliance_policy_params)
-      if @compliance_policy.compliance_policy_docs.any?
-        PdfCompliancePolicyWorker.perform_async(@compliance_policy.compliance_policy_docs.order(:id).first.id)
-      end
-      redirect_to business_compliance_policy_path(@compliance_policy)
-    else
-      render 'edit'
-    end
-  end
-
-  def edit
-    @compliance_policy.compliance_policy_docs.build
-  end
-
   def show
     render html: content_tag('business-policies-create-page', '', ':policy-id': params[:id]).html_safe, layout: 'vue_business'
-  end
-
-  def sort
-    params[:compliance_policy].each_with_index do |id, index|
-      current_business.compliance_policies.where(id: id).update_all(position: index + 1)
-    end
-    PdfCompliancePolicyWorker.perform_async(current_business.compliance_policies.first.compliance_policy_docs.order(:id).first.id)
-    @preview_doc = current_business.compliance_policies.first
-    respond_to do |format|
-      format.js
-    end
-  end
-
-  def ban
-    @compliance_policy.update(ban: true)
-    PdfCompliancePolicyWorker.perform_async(@compliance_policy.compliance_policy_docs.order(:id).first.id)
-    respond_to do |format|
-      format.html do
-        redirect_to business_compliance_policies_path
-      end
-    end
-  end
-
-  def unban
-    @compliance_policy.update(ban: false)
-    PdfCompliancePolicyWorker.perform_async(@compliance_policy.compliance_policy_docs.order(:id).first.id)
-    respond_to do |format|
-      format.html do
-        redirect_to business_compliance_policies_path
-      end
-    end
   end
 
   private
@@ -85,9 +19,5 @@ class Business::CompliancePoliciesController < ApplicationController
   def set_cpolicy
     @business = current_business
     @compliance_policy = current_business.compliance_policies.find(params[:id])
-  end
-
-  def compliance_policy_params
-    params.require(:compliance_policy).permit(:title, :section, compliance_policy_docs_attributes: [:doc])
   end
 end
