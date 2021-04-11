@@ -14,7 +14,7 @@ export default {
     errors: Array,
     placeholder: String,
     options: {
-      type: [Array, Object],
+      type: Object,
       required: true
     }
   }

@@ -5,6 +5,9 @@ class Api::AuthenticationController < ApiController
 
   def create
     user = User.find_first_by_auth_conditions(email: params[:user][:email])
+
+    respond_with errors: 'Please, confirm your email' and return unless user.email_confirmed
+
     if user&.valid_password?(params[:user][:password])
       unless params[:otp_secret]
         user.email_otp
