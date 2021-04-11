@@ -10,24 +10,21 @@
   @input="emitter"
   )
     .table__row(v-for='el in realValue' :key='el.title' :data-id-policy="el.id")
-      .table__cell.table__cell_name(v-if="el.children && el.children.length !== 0")
-        .dropdown-toggle(
-          :id="`#nested-sectionIcon-${el.id}`", @click="toogleSections(el.id)"
-          :class="[el.children && el.children.length !== 0 ? 'active' : '']"
-          )
-          b-icon.mr-2(v-if="el.children && el.children.length !== 0" icon="chevron-compact-down")
+      .table__cell.table__cell_name(v-show="el.children && el.children.length !== 0")
+        .dropdown-toggle(:class="{ active: open }" @click="open = !open")
+          b-icon.mr-2(v-if="el.children && el.children.length !== 0 && open" icon="chevron-compact-down")
           b-icon.mr-2(v-else icon="chevron-compact-right")
           | {{ el.title }}
         nested-draggable(
+        v-show="open"
         :list="el.children"
         :policy="el"
         :policyId="el.id ? el.id : parentSection.id"
         :policyTitle="el.title"
         :parentSection="el"
         :policiesList="policiesList"
-        @input="emitter"
         )
-      .table__cell.table__cell_name(v-else) {{ el.title }}
+      .table__cell.table__cell_name(v-show="el.children.length === 0") {{ el.title }}
       .table__cell(v-if="!shortTable && el.status")
         b-badge.status(:variant="statusVariant") {{ el.status }}
       .table__cell.text-right(v-if="!shortTable && el.updated_at") {{ dateToHuman(el.updated_at) }}
@@ -105,7 +102,8 @@
         children: [],
         draggedContext: {},
         relatedContext: {},
-        statusVariant: 'light'
+        statusVariant: 'light',
+        open: true
       }
     },
     methods: {
@@ -145,10 +143,26 @@
         // console.log('relatedContext', evt.relatedContext)
         // console.log('draggedContext:', evt.draggedContext)
 
-        // 0. MOVE ON THE SAME PLACE
-        if(!evt.draggedContext.element && !evt.relatedContext.element) {
-          return false;
+        // 1) Detect the draggable element
+        const currentElement = evt.draggedContext.element.id ? 'Policy' : 'Section'
+        console.log('currentElement', currentElement)
+
+        this.draggedContext = evt.draggedContext
+        this.relatedContext = evt.relatedContext
+
+        if (currentElement === 'Policy') {
+
         }
+
+        if (currentElement === 'Section') {
+
+        }
+
+        // 0. MOVE ON THE SAME PLACE
+        // if(!evt.draggedContext.element && !evt.relatedContext.element) {
+        //   console.log('0')
+        //   return false;
+        // }
 
         // 1. MOVE ROOT POLICY TO ANOTHER PLACE
         if(!this.policyTitle) {
@@ -178,22 +192,23 @@
         // 8. MOVE DOWN Section POLICY INSIDE this POLICY
         // 9. MOVE UP Section Child POLICY INSIDE this POLICY
         // 10. MOVE DOWN Section Child POLICY INSIDE this POLICY
+
+        // 11. MOVE Section of POLICY OUTSIDE DRAG AREA
+        // if(evt.relatedContext.element.id && evt.draggedContext) return false;
       },
       onEnd(evt){
-        // console.log('event', evt)
-        // let idPolicy = null
-        //
+        console.log('event', evt.target)
+
         console.log('relatedContext', this.relatedContext)
         console.log('draggedContext:', this.draggedContext)
         console.log('policiesList:', this.policiesList)
-        // console.log('policiesClonedList:', this.policiesClonedList)
-        // console.log('realValue:', this.realValue)
-        // console.log('this.policy:', this.policy)
-        // console.log('this.policyId:', this.policyId)
-        // console.log('this.policyTitle:', this.policyTitle)
-        // console.log('this.parentSection:', this.parentSection)
-        // console.log('this.parentSection:', this.parentSection?.parentSection)
-        // console.log('defaultPoliciesList', this.defaultPoliciesList)
+        console.log('realValue:', this.realValue)
+        console.log('this.policy:', this.policy)
+        console.log('this.policyId:', this.policyId)
+        console.log('this.policyTitle:', this.policyTitle)
+        console.log('this.parentSection:', this.parentSection)
+        console.log('this.parentSection:', this.parentSection?.parentSection)
+        console.log('defaultPoliciesList', this.defaultPoliciesList)
 
         if (!this.policyTitle) {
           this.movePolicy()
@@ -202,7 +217,7 @@
         if(!this.draggedContext && !this.relatedContext) {
           return;
         }
-        //
+
         // if(this.policyTitle && this.sections) {
         //   const policy = this.policiesList.find(policy => policy['title'] === this.policyTitle)
         //
@@ -210,6 +225,8 @@
         //     id: policy.id,
         //     sections: this.sections
         //   });
+        //
+        //   return;
         // }
 
         const targetTitle = this.relatedContext.element.title;
@@ -248,6 +265,7 @@
         //   if(policy.title === targetTitle) targetPolicy = policy
         //   searchTargetPolicy(policy, targetTitle, arr);
         // })
+        let newSection;
 
         if(targetPolicy) {
           this.policiesList.forEach(function(policy) {
@@ -272,8 +290,8 @@
           })
         }
 
-        // console.log('targetPolicy', targetPolicy)
-        // console.log('targetPolicyDetele', targetPolicyDetele)
+        console.log('targetPolicy', targetPolicy)
+        console.log('targetPolicyDetele', targetPolicyDetele)
 
         if(targetPolicy) {
           this.$store.dispatch("updatePolicy", {
@@ -288,7 +306,7 @@
         if(targetPolicyDetele) {
           this.$store.dispatch("updatePolicy", {
             id: targetPolicyDetele.id,
-            sections: targetPolicyDetele.children
+            sections: newSection
           })
             .then((response) => {
               console.log('response deleting', response)
@@ -340,7 +358,7 @@
           .dispatch('archivePolicyById', { policyId, archived: archiveStatus })
           .then(response => {
             console.log('response', response)
-            this.makeToast('Success', `Policy successfully archived!`)
+            this.makeToast('Success', `Policy successfully ${archiveStatus ? 'archived' : 'unarchived'}!`)
           })
           .catch(error => {
             console.error(error)
@@ -350,7 +368,6 @@
       emitter(value) {
         console.log('emit value', value)
         this.$emit("input", value);
-        this.checkMove()
       },
     },
     computed: {
@@ -368,11 +385,11 @@
         return this.value ? this.value : this.list;
       },
     },
-    // watch: {
-    //   policiesListDefault (oldValue, newValue) {
-    //     console.log('watch policies', oldValue, newValue)
-    //   },
-    // },
+    watch: {
+      realValue (value) {
+        console.log('watch realValue', value)
+      },
+    },
     // mounted() {
     //   defaultPoliciesList = this.policiesList
     // }

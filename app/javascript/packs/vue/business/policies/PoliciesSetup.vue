@@ -103,11 +103,16 @@
       },
       onSubmit(event) {
         event.preventDefault()
+        // this.form.append('address', this.form.address),
+        // this.form.append('phone', this.form.phone),
+        // this.form.append('email', this.form.email),
+        // this.form.append('disclosure', this.form.disclosure),
+        // this.form.append('body', this.form.body),
         this.$store
           .dispatch('postPolicyConfig', this.form)
           .then(response => {
             console.log('response', response)
-            this.makeToast('Success', `Policy Configsuccessfully sended!`)
+            this.makeToast('Success', `Policy Config successfully sended!`)
           })
           .catch(error => {
             console.error(error)
@@ -134,6 +139,10 @@
         const file = e.target.files[0];
         this.url = URL.createObjectURL(file);
 
+        // let data = new FormData();
+        // data.append('logo', file);
+        //
+        // this.form = data;
         this.form.logo = file;
       },
       onRemove() {
@@ -154,7 +163,7 @@
           // this.makeToast('Success', `Policy successfully deleted!`)
 
           // update form
-          this.url = response.logo_data
+          // this.url = response.logo_data
           // this.form = {
             // logo: response.logo_data,
             // address: response.address,

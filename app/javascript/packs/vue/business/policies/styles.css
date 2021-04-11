@@ -55,6 +55,10 @@
   color: var(--blue);
 }
 
+.table__cell_name:hover {
+  cursor: pointer;
+}
+
 .table__cell_clickable {
   cursor: pointer;
 }
@@ -289,6 +293,7 @@
   display: block;
 }
 
+.actions .dropdown-item,
 .actions-dropdown__item {
   display: flex;
   padding: .7rem 1.5rem;
@@ -298,12 +303,18 @@
   transition: all 200ms ease-in;
 }
 
+.actions .dropdown-item:hover,
+.actions .dropdown-item:active
 .actions-dropdown__item:hover,
 .actions-dropdown__item:active {
   /*color: var(--white);*/
   background-color: rgba(0, 123, 255, .2);
 }
 
+.actions .delete .dropdown-item:hover,
+.actions .delete .dropdown-item:active,
+.policy-actions .delete .dropdown-item:hover,
+.policy-actions .delete .dropdown-item:active,
 .actions-dropdown__item.delete:hover,
 .actions-dropdown__item.delete:active {
   background-color: rgba(255, 0, 0, .2);
@@ -458,15 +469,12 @@ button.btn__close {
   font-weight: 600;
 }
 
-.delete a,
-.delete a,
+.policy-actions .dropdown-item,
 .delete button,
 .delete button{
   transition: all 200ms ease-in;
 }
 
-.delete a:hover,
-.delete a:active,
 .delete button:hover,
 .delete button:active{
   background-color: rgba(255, 0, 0, .2);

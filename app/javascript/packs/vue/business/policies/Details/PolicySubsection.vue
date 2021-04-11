@@ -10,13 +10,12 @@
           button.policy-details__btn.mr-3.btn.btn-default(v-if="section.children.length === 0", @click="addSubSection")
             b-icon.mr-2(icon='plus-circle-fill')
             | Add Subsection
-          button.px-0.actions__btn(@click="isActive = !isActive", :class="{ active: isActive }")
-            b-icon(icon="three-dots")
-            ul.actions-dropdown(:class="{ active: isActive }")
-              <!--li.actions-dropdown__item.save(@click="saveSubsection") Save it-->
-              li.actions-dropdown__item.move-up(@click="moveUpSubsection(section)") Move up
-              PoliciesModalRemoveSubsection(@removeSubsectionConfirmed="deleteSubSection")
-                li.actions-dropdown__item.delete Delete
+          b-dropdown(size="sm" variant="light" class="m-0 p-0" right)
+            template(#button-content)
+              b-icon(icon="three-dots")
+            b-dropdown-item(@click="moveUpSubsection(section)") Move up
+            PoliciesModalRemoveSubsection(@removeSubsectionConfirmed="deleteSubSection" :inline="false")
+              b-dropdown-item.delete Delete
       .policy-details__name.mb-0 Description
       .policy-details__text-editor(@click="toggleVueEditorHandler", v-if="!toggleVueEditor", v-b-tooltip.hover.left title="Click to edit text", v-html="section.description ? section.description : description")
       vue-editor.policy-details__text-editor(v-if="toggleVueEditor", v-model="section.description", @blur="handleBlur")
