@@ -200,6 +200,13 @@
       deleteAllSections(){
         console.log(`delete all`)
         this.policy.sections = []
+
+        // this.policiesComputed = {
+        //   id: this.policy.id,
+        //   children: this.policy.sections,
+        // }
+
+        this.updatePolicy()
       },
 
       // createPolicy(newPolicy) {
@@ -247,7 +254,8 @@
           .then((response) => {
             // this.$router.push("/list");
             // console.log("Policy successfull saved!");
-            console.log('response', response)
+            this.makeToast('Success', `Policy successfully updated!`)
+            console.log('response updatePolicy', response)
           })
           .catch((error) => {
             console.log(error)
@@ -271,8 +279,7 @@
           description: this.description,
           children: [],
         }
-        console.log('this.policy.sections')
-        console.log(this.policy.sections)
+        console.log('this.policy.sections', this.policy.sections)
       },
       deleteSection(index) {
         this.policy.sections.splice(index, 1)
