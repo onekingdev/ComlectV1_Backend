@@ -6,6 +6,7 @@
       .policy-history__version-info {{ policy.id - 1 === data.id ? 'Current Version' : 'Previous Version' }}
       .policy-history__author Published by ***
       .policy-history__date Last updated {{ dateToHuman(data.updated_at) }}
+      b-button.btn.policy-history__btn-download(@click="download(policy.id)") Download
     .policy-history__body.text-center.pl-0(v-if="policy.versions.length === 0")
       h4 Version History is empty
 </template>
@@ -20,6 +21,9 @@
       }
     },
     methods: {
+      makeToast(title, str) {
+        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
+      },
       dateToHuman (value) {
         const date = DateTime.fromJSDate(new Date(value))
         if (!date.invalid) {
@@ -28,6 +32,18 @@
         if (date.invalid) {
           return value
         }
+      },
+      download (policyId) {
+        this.$store
+          .dispatch("downloadPolicy", { policyId })
+          .then((myBlob) => {
+            // console.log('response', myBlob)
+            this.makeToast('Success', 'Policy succesfully downloaded.')
+          })
+          .catch((err) => {
+            // console.log(err)
+            this.makeToast('Error', err.message)
+          });
       },
     }
   };

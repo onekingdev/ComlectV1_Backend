@@ -44,7 +44,7 @@
   import { DateTime } from 'luxon'
 
   export default {
-    mixins: [EtaggerMixin],
+    mixins: [EtaggerMixin()],
     props: {
       policyId: {
         type: Number,

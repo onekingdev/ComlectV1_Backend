@@ -56,7 +56,7 @@ const initialrisk = () => ({
 })
 
 export default {
-  mixins: [EtaggerMixin],
+  mixins: [EtaggerMixin()],
   props: {
     risks: Array,
     riskId: Number,

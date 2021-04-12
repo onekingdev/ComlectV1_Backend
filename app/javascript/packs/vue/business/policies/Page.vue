@@ -36,7 +36,7 @@
   // import { mapGetters } from 'vuex'
 
   export default {
-    mixins: [EtaggerMixin],
+    mixins: [EtaggerMixin()],
     components: {
       PoliciesTable,
       PoliciesSetup,
