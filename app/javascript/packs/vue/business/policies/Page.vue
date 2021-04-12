@@ -125,16 +125,16 @@
   @import "./styles.scss";
 </style>
 
-<style lang="scss">
-  .test-block {
-    border: solid 1px black;
+<!--<style lang="scss">-->
+  <!--.test-block {-->
+    <!--border: solid 1px black;-->
 
-    &__element {
-      font-size: 1.5rem;
+    <!--&__element {-->
+      <!--font-size: 1.5rem;-->
 
-      &_modificator {
-        background-color: lightblue;
-      }
-    }
-  }
-</style>
+      <!--&_modificator {-->
+        <!--background-color: lightblue;-->
+      <!--}-->
+    <!--}-->
+  <!--}-->
+<!--</style>-->
