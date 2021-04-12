@@ -6,11 +6,11 @@
     b-modal.fade(:id="modalId" :title="riskId ? 'Edit risk' : 'New risk'" @show="newEtag")
       ModelLoader(:url="riskId ? submitUrl : undefined" :default="initialrisk" :etag="etag" @loaded="loadrisk")
 
-        b-form-group#input-group-1(label='Risk' label-for='select-1')
-          b-form-select#select-1(v-model='risk.risks' :options='options' @change="onChange" required)
-          Errors(:errors="errors.risk")
+        <!--b-form-group#input-group-1(label='Risk' label-for='select-1')-->
+          <!--b-form-select#select-1(v-model='risk.risks' :options='options' @change="onChange" required)-->
+          <!--Errors(:errors="errors.risk")-->
 
-        b-row.m-t-1(no-gutters, v-if="isActive || risk.name")
+        b-row.m-t-1(no-gutters)
           .col
             label.form-label Risk Name
             input.form-control(v-model="risk.name" type=text placeholder="Enter the name of your risk")
@@ -85,11 +85,13 @@ export default {
   },
   methods: {
     loadrisk(risk) {
+      console.log('risk', risk)
+      console.log('this.risk', this.risk)
       this.risk = Object.assign({}, this.risk, risk)
       this.onRiskChange()
 
-      this.options = [{ value: null, text: 'New Risk' }]
-      this.options = this.options.concat(this.risksComputedAsOptions)
+      // this.options = [{ value: null, text: 'New Risk' }]
+      // this.options = this.options.concat(this.risksComputedAsOptions)
     },
     makeToast(title, str) {
       this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
@@ -134,23 +136,23 @@ export default {
 
       // this.$emit('saved', this.risk)
     },
-    onChange(event){
-      // CATCH RISK NEW OR FROM CREATED
-      if (event === null) {
-        this.isActive = true
-        this.risk = initialrisk()
-        this.badgeVariant = 'secondary'
-        this.riskLevelName = '---'
-        return;
-      }
-      else  {
-        this.isActive = false
-      }
-
-      const resultRisk = this.risks.find(risk => risk.id === event)
-      this.risk = resultRisk
-      this.onRiskChange()
-    },
+    // onChange(event){
+    //   // CATCH RISK NEW OR FROM CREATED
+    //   if (event === null) {
+    //     this.isActive = true
+    //     this.risk = initialrisk()
+    //     this.badgeVariant = 'secondary'
+    //     this.riskLevelName = '---'
+    //     return;
+    //   }
+    //   else  {
+    //     this.isActive = false
+    //   }
+    //
+    //   const resultRisk = this.risks.find(risk => risk.id === event)
+    //   this.risk = resultRisk
+    //   this.onRiskChange()
+    // },
     onRiskChange(){
       const riskLevelNum = this.riskLevel(this.risk.likelihood, this.risk.impact)
       this.riskLevelColor(riskLevelNum)
