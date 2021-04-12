@@ -111,7 +111,7 @@ class ApplicationController < ActionController::Base
   end
 
   def require_someone!
-    if current_business || current_specialist
+    if user_signed_in? && (current_business || current_specialist)
       @current_someone = current_business || current_specialist
     else
       render 'forbidden', status: :forbidden, locals: { message: 'Only registered users can access this page' }
