@@ -1,7 +1,8 @@
 <template lang="pug">
   div.row
-    .col-12.col-lg-8
+    .col-12
       Loading
+    .col-12.col-lg-8
       b-form(@submit='onSubmit' @reset='onReset' v-if='!loading && show')
         b-form-group#input-group-1
           h4 Logo
@@ -13,6 +14,7 @@
             .col
               b-form-file(v-model="form.logo"
               :state="Boolean(form.logo)"
+              accept="image/*"
               placeholder="Choose a file or drop it here..."
               drop-placeholder="Drop file here..."
               @change="onFileChange")
@@ -66,8 +68,8 @@
         b-form-group
           b-button.btn.mr-2(type='reset') Reset
           b-button.btn.btn-dark(type='submit' variant='primary') Save
-      b-card.mt-3(header='Form Data Result')
-        pre.m-0 {{ form }}
+      <!--b-card.mt-3(header='Form Data Result')-->
+        <!--pre.m-0 {{ form }}-->
 </template>
 
 <script>
@@ -103,13 +105,17 @@
       },
       onSubmit(event) {
         event.preventDefault()
-        // this.form.append('address', this.form.address),
-        // this.form.append('phone', this.form.phone),
-        // this.form.append('email', this.form.email),
-        // this.form.append('disclosure', this.form.disclosure),
-        // this.form.append('body', this.form.body),
+
+        let data = new FormData();
+        data.append('name', 'logo');
+        data.append('file', this.form.logo);
+        data.append('address', this.form.address),
+        data.append('phone', this.form.phone),
+        data.append('email', this.form.email),
+        data.append('disclosure', this.form.disclosure),
+        data.append('body', this.form.body),
         this.$store
-          .dispatch('postPolicyConfig', this.form)
+          .dispatch('postPolicyConfig', data)
           .then(response => {
             console.log('response', response)
             this.makeToast('Success', `Policy Config successfully sended!`)
@@ -138,12 +144,6 @@
         // Show preview
         const file = e.target.files[0];
         this.url = URL.createObjectURL(file);
-
-        // let data = new FormData();
-        // data.append('logo', file);
-        //
-        // this.form = data;
-        this.form.logo = file;
       },
       onRemove() {
         this.url = null,
