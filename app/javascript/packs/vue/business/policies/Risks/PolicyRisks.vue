@@ -28,7 +28,9 @@
             td.text-right {{ dateToHuman(risk.created_at) }}
             td
               .actions
-                b-dropdown(size="sm" text="***" class="m-0 p-0" variant="light" right)
+                b-dropdown(size="sm" variant="light" class="m-0 p-0" right)
+                  template(#button-content)
+                    b-icon(icon="three-dots")
                   PolicyRisksModal(:risks="risksComputed" :policyId="policyId" :riskId="risk.id" :inline="false")
                     b-dropdown-item-button Edit
                   b-dropdown-item-button.delete(@click="deleteRisk(risk.id)") Delete
