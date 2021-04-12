@@ -29,14 +29,14 @@ environment.loaders.prepend('css', {
     use: ['style-loader', 'css-loader']
 })
 
-environment.loaders.prepend('scss', {
-    test: /\.scss$/,
-    use: [
-        'vue-style-loader',
-        'css-loader',
-        'sass-loader'
-    ]
-})
+// environment.loaders.prepend('scss', {
+//     test: /\.scss$/,
+//     use: [
+//         'vue-style-loader',
+//         'css-loader',
+//         'sass-loader'
+//     ]
+// })
 
 environment.loaders.prepend('pug', {
     test: /\.pug$/,
