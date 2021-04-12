@@ -121,9 +121,9 @@
   @import "./styles.css";
 </style>
 
-<style>
-  @import "./styles.scss";
-</style>
+<!--<style>-->
+  <!--@import "./styles.scss";-->
+<!--</style>-->
 
 <!--<style lang="scss">-->
   <!--.test-block {-->
