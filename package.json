@@ -4,7 +4,6 @@
   },
   "dependencies": {
     "@babel/core": "^7.13.10",
-    "@babel/core": "^7.13.10",
     "@fullcalendar/bootstrap": "^5.5.0",
     "@fullcalendar/core": "^5.5.0",
     "@fullcalendar/daygrid": "^5.5.0",
@@ -13,6 +12,7 @@
     "@rails/webpacker": "^3.5.5",
     "@riophae/vue-treeselect": "^0.4.0",
     "axios": "^0.21.1",
+    "babel-loader": "^7.1.5",
     "babel-plugin-transform-runtime": "^6.23.0",
     "bootstrap-vue": "^2.21.2",
     "luxon": "^1.25.0",
