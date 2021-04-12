@@ -27,5 +27,6 @@ ENV NODE_PATH $NODE_HOME/lib/node_modules
 ENV PATH $NODE_HOME/bin:$PATH
 
 RUN curl https://nodejs.org/dist/v$NODE_VERSION/$NODE_PACKAGE.tar.gz | tar -xzC /opt/
+RUN npm config set unsafe-perm true
 RUN npm install
 RUN bundle exec rake assets:precompile
