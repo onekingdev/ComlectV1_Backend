@@ -22,3 +22,27 @@
 .link {
   color: var(--blue);
 }
+
+.status {
+  padding: .3rem .5rem;
+  /*width: 6rem;*/
+  font-size: 1rem;
+  text-align: center;
+  text-transform: capitalize;
+  border-radius: 3px;
+}
+
+.status__draft {
+  border: solid 1px #ced4da;
+}
+
+.status__published {
+  color: rgba(100, 206, 171, 1);
+  background-color: rgba(213, 251, 239, 1);
+}
+
+@media (min-width: 576px) {
+  .modal-dialog {
+    max-width: 1200px;
+  }
+}

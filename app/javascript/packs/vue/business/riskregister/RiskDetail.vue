@@ -44,13 +44,17 @@
                     b-card(header-tag='header' header-class='d-flex')
                       template(#header)
                         h3.mb-0.font-weight-bold Controls
-                        b-button.ml-auto(href='#' variant='light') Add Control
+                        RiskContols.ml-auto(:riskId="risk.id" :inline="false")
+                          button.btn.btn-light Add Control
                       b-card-text
+                        PoliciesTable(:riskPolicies="risk.compliance_policies")
+                      b-card-text(v-if="!risk.compliance_policies.length")
                         div.no-results.text-center
                           b-icon(icon="files" scale="5" variant="dark")
                           p.no-results__title: b No results found
                           p Add a policy as a control to get started
-                          b-button(href='#' variant='dark') Add Control
+                          RiskContols(:riskId="risk.id" :inline="false")
+                            button.btn.btn-dark Add Control
 
 
 </template>
@@ -59,13 +63,17 @@
   import Loading from '@/common/Loading/Loading'
   import RiskModalDelete from "./Modals/RiskModalDelete";
   import RisksAddEditModal from './Modals/RisksAddEditModal'
+  import RiskContols from './Modals/RiskContols'
+  import PoliciesTable from './PoliciesTable'
 
   export default {
     props: ['riskId'],
     components: {
       Loading,
       RiskModalDelete,
-      RisksAddEditModal
+      RisksAddEditModal,
+      RiskContols,
+      PoliciesTable
     },
     data() {
       return {
@@ -80,7 +88,7 @@
           name: "",
           risk_level: null,
           updated_at: "",
-        }
+        },
       }
     },
     methods: {
@@ -119,8 +127,21 @@
         .catch((err) => {
           console.error(err);
           this.makeToast('Error', err.message)
-        });
+        })
+        .finally(() => {
+          // AFTER PREV REQUEST SEND NEW
+          this.$store
+            .dispatch("getPolicies")
+            .then((response) => {
+              console.log('response mounted', response);
+            })
+            .catch((err) => {
+              console.error(err);
+              this.makeToast('Error', err.message)
+            });
+        })
     },
+
   };
 </script>
 
