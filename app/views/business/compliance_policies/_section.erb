@@ -1,7 +1,13 @@
 <div style="padding-left: 30px;">
-  <h1><%= section["title"] %></h1>
-  <h2><%= section["desc"] %></h2>
+  <% if level == 1 %>
+    <h2><%= @numberer.to_s+". " %><%= section["title"] %></h2>
+    <% @numberer += 1 %>
+  <% elsif level >= 2 %>
+    <h3><u><%= @letter_src[@letterer].upcase+". " if level == 2 %><%= section["title"] %></u></h3>
+    <% @letterer += 1 if level == 2 %>
+  <% end %>
+  <p><%= raw(section["description"].html_safe) %></p>
   <% section["children"].each do |child| %>
-    <%= render partial: 'business/compliance_policies/section', locals: { section: child } %>
+    <%= render partial: 'business/compliance_policies/section', locals: { section: child, level: level+1 } %>
   <% end %>
 </div>
