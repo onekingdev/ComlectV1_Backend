@@ -1,0 +1,24 @@
+/* ---------- Risr Register page ---------- */
+.dropdown-toggle {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.dropdown-toggle::after {
+  display: none;
+}
+
+.dropdown-toggle svg {
+  fill: #000;
+  transition: all 200ms ease-in;
+}
+
+.dropdown-toggle.active svg {
+  /*transform: rotate(90deg);*/
+  transform: rotate(0);
+}
+
+.link {
+  color: var(--blue);
+}
