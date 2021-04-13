@@ -43,7 +43,7 @@
 
     },
     mounted() {
-      console.log(riskId)
+      console.log(this.riskId)
     },
   };
 </script>
