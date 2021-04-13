@@ -40,9 +40,3 @@
   color: rgba(100, 206, 171, 1);
   background-color: rgba(213, 251, 239, 1);
 }
-
-@media (min-width: 576px) {
-  .modal-dialog {
-    max-width: 1200px;
-  }
-}

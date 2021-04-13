@@ -3,7 +3,7 @@
     div(v-b-modal="modalId" :class="{'d-inline-block':inline}")
       slot
 
-    b-modal.fade(:id="modalId" title="Select Control(s)" @show="newEtag")
+    b-modal.fade(:id="modalId" modal-class="modal-select-control" title="Select Control(s)" @show="newEtag")
       ModelLoader(:url="riskId ? submitUrl : undefined" :default="initialrisk" :etag="etag" @loaded="loadrisk")
 
         b-row.m-t-1(no-gutters)
@@ -230,3 +230,10 @@
   }
 </script>
 
+<style>
+  @media (min-width: 576px) {
+    .modal-select-control .modal-dialog {
+      max-width: 1200px;
+    }
+  }
+</style>
