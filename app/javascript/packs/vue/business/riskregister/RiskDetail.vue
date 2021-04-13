@@ -1,37 +1,103 @@
 <template lang="pug">
   div
     .container
-      .row
+      .row(v-if="loading")
+        .col-12
+          Loading
+      .row(v-if="!loading")
         .col-12
           .row.p-x-1
-            .col-md-12.d-flex.justify-content-between.p-t-3.p-b-3
+            .col-md-12.d-flex.justify-content-between.p-t-3.p-b-1
               div
-                h2: b {{ pageTitle }} / Risk Name Here
+                h2: b {{ pageTitle }} / {{ risk.name }}
+                h2
+                  b-badge.mr-2(:variant="badgeVariant(risk.risk_level)") {{ showLevel(risk.risk_level) }}
+                  b {{ risk.name }}
               div
-                button.btn.btn-default.mr-3 Export
-                button.btn.btn-dark Actions
+                b-dropdown.bg-white(text='Actions', variant="secondary", right)
+                  RiskModalDelete(@deleteConfirmed="deleteRisk", :riskId="risk.id", :inline="false")
+                    b-dropdown-item.delete Delete risk
           .row
             .col-12
               .card-body.white-card-body
+                div.mb-3
+                  b-card-group(deck)
+                    b-card(header-tag='header' header-class='d-flex')
+                      template(#header)
+                        h3.mb-0.font-weight-bold Risk Details
+                        RisksAddEditModal(:riskId="risk.id" :inline="false")
+                          b-dropdown-item-button Edit
+                      b-card-text
+                        .row
+                          .col-lg-2.col-md-3.col-4.pr-0
+                            b-list-group.text-secondary
+                              b-list-group-item.border.border-white.pb-0.pt-0 Title
+                              b-list-group-item.border.border-white.pb-0 Impact
+                              b-list-group-item.border.border-white.pb-0 Likelihood
+                          .col.pl-0
+                            b-list-group
+                              b-list-group-item.border.border-white.pb-0.pt-0 {{ risk.name }}
+                              b-list-group-item.border.border-white.pb-0 {{ showLevel(risk.impact) }}
+                              b-list-group-item.border.border-white.pb-0 {{ showLevel(risk.likelihood) }}
+                div
+                  b-card-group(deck)
+                    b-card(header-tag='header' header-class='d-flex')
+                      template(#header)
+                        h3.mb-0.font-weight-bold Controls
+                        b-button.ml-auto(href='#' variant='light') Add Control
+                      b-card-text
+                        div.no-results.text-center
+                          b-icon(icon="files" scale="5" variant="dark")
+                          p.no-results__title: b No results found
+                          p Add a policy as a control to get started
+                          b-button(href='#' variant='dark') Add Control
+
 
 </template>
 
 <script>
-  // import nestedDraggable from "../infra/nestedMain";
+  import Loading from '@/common/Loading/Loading'
+  import RiskModalDelete from "./Modals/RiskModalDelete";
+  import RisksAddEditModal from './Modals/RisksAddEditModal'
 
   export default {
     props: ['riskId'],
     components: {
-
+      Loading,
+      RiskModalDelete,
+      RisksAddEditModal
     },
     data() {
       return {
-        pageTitle: 'Risk Register'
+        pageTitle: 'Risk Register',
+        levelOptions: ['Low', 'Medium', 'High'],
+        risk: {
+          compliance_policies: [],
+          created_at: "",
+          id: null,
+          impact: null,
+          likelihood: null,
+          name: "",
+          risk_level: null,
+          updated_at: "",
+        }
       }
     },
     methods: {
       makeToast(title, str) {
         this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
+      },
+      deleteRisk() {
+        console.log('delete risk', this.riskId)
+      },
+      badgeVariant(num) {
+        if (num === 0) return 'success'
+        if (num === 1) return 'warning'
+        if (num === 2) return 'danger'
+      },
+      showLevel(num) {
+        // this.riskLevelColor(num)
+        return this.levelOptions[num]
       },
     },
     computed: {
@@ -43,7 +109,33 @@
 
     },
     mounted() {
-      console.log(this.riskId)
+      // console.log(this.riskId)
+      this.$store
+        .dispatch("getRiskById", { riskId: this.riskId })
+        .then((response) => {
+          this.risk = response;
+          console.log('response mounted', response);
+        })
+        .catch((err) => {
+          console.error(err);
+          this.makeToast('Error', err.message)
+        });
     },
   };
 </script>
+
+<style scoped>
+  .no-results {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 20rem;
+  }
+  .no-results__title {
+    font-size: 1.3rem;
+  }
+  .no-results svg {
+    margin-bottom: 4rem;
+  }
+</style>

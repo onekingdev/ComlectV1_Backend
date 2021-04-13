@@ -46,7 +46,7 @@
                   b-dropdown(size="sm" variant="light" class="m-0 p-0" right)
                     template(#button-content)
                       b-icon(icon="three-dots")
-                    PolicyRisksModal(:risks="risksComputed" :riskId="risk.id" :inline="false")
+                    RisksAddEditModal(:risks="risksComputed" :riskId="risk.id" :inline="false")
                       b-dropdown-item-button Edit
                     b-dropdown-item-button.delete(@click="deleteRisk(risk.id)") Delete
             tr(v-if="!filteredRisksComputed.length")
@@ -56,7 +56,7 @@
 
 <script>
   import Loading from '@/common/Loading/Loading'
-  import PolicyRisksModal from './Modals/PolicyRisksModal'
+  import RisksAddEditModal from './Modals/RisksAddEditModal'
   import EtaggerMixin from '@/mixins/EtaggerMixin'
   import { DateTime } from 'luxon'
 
@@ -67,7 +67,7 @@
     },
     components: {
       Loading,
-      PolicyRisksModal
+      RisksAddEditModal
     },
     data() {
       return {

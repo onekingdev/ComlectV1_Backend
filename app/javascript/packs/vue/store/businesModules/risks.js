@@ -173,12 +173,41 @@ export default {
         throw error;
       }
     },
+    async getRiskById ({commit, getters}, payload) {
+      commit("clearError");
+      commit("setLoading", true);
 
+      try {
+        const endpointUrl = '/api/business/risks/'
+        const data = await fetch(`${endpointUrl}${payload.riskId}`, { headers: {'Accept': 'application/json'}})
+          .then(response => response.json())
+          .then(response => {
+            return response
+          })
+          .catch(error => {
+            console.error(error)
+            throw error
+          })
+          .finally(() => commit("setLoading", false))
+
+        return data;
+
+      } catch (error) {
+        commit("setError", error.message);
+        commit("setLoading", false);
+        throw error;
+      }
+    },
   },
   getters: {
     // RISKS
     risksList(state) {
       return state.risks.sort((a, b) => a.id - b.id);
+    },
+    riskById (state) {
+      return riskId => {
+        return state.risks.find(risk => risk.id === riskId)
+      }
     },
   },
 };
