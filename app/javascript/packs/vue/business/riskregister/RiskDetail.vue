@@ -6,7 +6,7 @@
           .row.p-x-1
             .col-md-12.d-flex.justify-content-between.p-t-3.p-b-3
               div
-                h2: b {{ pageTitle }}
+                h2: b {{ pageTitle }} / Risk Name Here
               div
                 button.btn.btn-default.mr-3 Export
                 button.btn.btn-dark Actions
