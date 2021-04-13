@@ -24,11 +24,11 @@
           tbody
             tr(v-for="risk in filteredRisksComputed" :key="risk.id")
               td
-                .dropdown-toggle.link.mb-1(:id="`#sectionIcon-${risk.id}`", :class="{ active: open }", @click="toogleSections(risk.id)")
-                  b-icon.mr-2(v-if="risk.compliance_policies && risk.compliance_policies.length !== 0" icon="chevron-compact-down")
-                  b-icon.mr-2(v-else icon="chevron-compact-right")
+                .d-flex.align-items-center
+                  .dropdown-toggle.link(v-if="risk.compliance_policies.length !== 0" :id="`#sectionIcon-${risk.id}`", @click="toogleSections(risk.id)")
+                    b-icon.mr-2(icon="chevron-compact-right")
                   a.link(:href="`/business/risks/${risk.id}`") {{ risk.name }}
-                .d-flex.mb-2(v-if="risk.compliance_policies")
+                .dropdown-items.mb-2(v-if="risk.compliance_policies" :id="`#section-${risk.id}`")
                   ul.list-unstyled.ml-3
                     li.mb-2(v-for="policy in risk.compliance_policies" :key="policy.id")
                       a.link(:href="`/business/compliance_policies/${policy.id}`")
