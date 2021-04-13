@@ -630,8 +630,17 @@ export default {
           headers: {
             'Authorization': `Bearer ${TOKEN}`,
             'Accept': 'application/json',
-            'Content-Type': 'image/png'},
-          body: payload
+          //   'Content-Type': 'image/png'},
+          // body: payload
+            'Content-Type': 'multipart/form-data'},
+          body: JSON.stringify({
+            logo: payload.logo,
+            address: payload.address,
+            phone: payload.phone,
+            email: payload.email,
+            disclosure: payload.disclosure,
+            body: payload.body
+          })
         }).then(response => {
           if (!response.ok)  throw new Error(`Could't create policy config (${response.status})`)
           return response.json()

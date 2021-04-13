@@ -109,16 +109,18 @@
       onSubmit(event) {
         event.preventDefault()
 
-        let data = new FormData();
+        // let data = new FormData();
         // data.append('name', 'logo');
-        data.append('logo', this.form.logo);
-        data.append('address', this.form.address),
-        data.append('phone', this.form.phone),
-        data.append('email', this.form.email),
-        data.append('disclosure', this.form.disclosure),
-        data.append('body', this.form.body),
+        // data.append('logo', this.form.logo);
+        // this.form.logo = data
+        // data.append('address', this.form.address),
+        // data.append('phone', this.form.phone),
+        // data.append('email', this.form.email),
+        // data.append('disclosure', this.form.disclosure),
+        // data.append('body', this.form.body),
         this.$store
-          .dispatch('postPolicyConfig', data)
+          // .dispatch('postPolicyConfig', data)
+          .dispatch('postPolicyConfig', this.form)
           .then(response => {
             console.log('response', response)
             this.makeToast('Success', `Policy Config successfully sended!`)
