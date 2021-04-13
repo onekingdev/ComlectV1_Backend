@@ -25,8 +25,8 @@
                     b-card(header-tag='header' header-class='d-flex')
                       template(#header)
                         h3.mb-0.font-weight-bold Risk Details
-                        RisksAddEditModal(:riskId="risk.id" :inline="false")
-                          b-dropdown-item-button Edit
+                        RisksAddEditModal.ml-auto(:riskId="risk.id" :inline="false")
+                          button.btn.btn-light Edit
                       b-card-text
                         .row
                           .col-lg-2.col-md-3.col-4.pr-0
