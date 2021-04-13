@@ -620,6 +620,7 @@ export default {
       }
     },
     async postPolicyConfig({ commit, getters }, payload) {
+      console.log('payload', payload)
       commit("clearError");
       commit("setLoading", true);
 
@@ -629,15 +630,8 @@ export default {
           headers: {
             'Authorization': `Bearer ${TOKEN}`,
             'Accept': 'application/json',
-            'Content-Type': 'multipart/form-data'},
-          body: JSON.stringify({
-            logo_data: payload.logo,
-            address: payload.address,
-            phone: payload.phone,
-            email: payload.email,
-            disclosure: payload.disclosure,
-            body: payload.body
-          })
+            'Content-Type': 'image/png'},
+          body: payload
         }).then(response => {
           if (!response.ok)  throw new Error(`Could't create policy config (${response.status})`)
           return response.json()

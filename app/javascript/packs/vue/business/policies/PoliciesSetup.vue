@@ -1,7 +1,8 @@
 <template lang="pug">
   div.row
-    .col-12.col-lg-8
+    .col-12
       Loading
+    .col-12.col-lg-8
       b-form(@submit='onSubmit' @reset='onReset' v-if='!loading && show')
         b-form-group#input-group-1
           h4 Logo
@@ -13,20 +14,24 @@
             .col
               b-form-file(v-model="form.logo"
               :state="Boolean(form.logo)"
+              accept="image/*"
               placeholder="Choose a file or drop it here..."
               drop-placeholder="Drop file here..."
               @change="onFileChange")
               b-button(@click='onRemove') Remove
-        b-form-group#input-groupAddress(label='Address:' label-for='inputAddress')
-          b-form-input#inputAddress(v-model='form.address'  required)
-        b-form-group#input-groupPhone(label='Phone:' label-for='inputPhone')
-          b-form-input#inputPhone(v-model='form.phone'  required)
-        b-form-group#input-groupEmail(label='Email:' label-for='inputEmail')
-          b-form-input#inputEmail(v-model='form.email'  required)
+        <!--b-form-group#input-groupAddress(label='Address:' label-for='inputAddress')-->
+          <!--b-form-input#inputAddress(v-model='form.address'  required)-->
+        <!--b-form-group#input-groupPhone(label='Phone:' label-for='inputPhone')-->
+          <!--b-form-input#inputPhone(v-model='form.phone'  required)-->
+        <!--b-form-group#input-groupEmail(label='Email:' label-for='inputEmail')-->
+          <!--b-form-input#inputEmail(v-model='form.email'  required)-->
 
         b-form-group(id="input-group-4" v-slot="{ ariaDescribedby }")
           h4 Display Settings
           p Select what you want to display on the cover page
+          b-form-checkbox(v-model='form.address') Address
+          b-form-checkbox(v-model='form.phone') Phone
+          b-form-checkbox(v-model='form.email') Email
           b-form-checkbox(v-model='form.disclosure') Disclosure
 
         <!--b-form-group-->
@@ -85,10 +90,10 @@
           // checked: [],
 
           logo: null,
-          address: '',
-          phone: '',
-          email: '',
-          disclosure: true,
+          address: false,
+          phone: false,
+          email: false,
+          disclosure: false,
           body: ''
         },
         // fonts: [{ text: 'Select One', value: null }, 'Times new Roman', 'Arial'],
@@ -103,13 +108,17 @@
       },
       onSubmit(event) {
         event.preventDefault()
-        // this.form.append('address', this.form.address),
-        // this.form.append('phone', this.form.phone),
-        // this.form.append('email', this.form.email),
-        // this.form.append('disclosure', this.form.disclosure),
-        // this.form.append('body', this.form.body),
+
+        let data = new FormData();
+        // data.append('name', 'logo');
+        data.append('logo', this.form.logo);
+        data.append('address', this.form.address),
+        data.append('phone', this.form.phone),
+        data.append('email', this.form.email),
+        data.append('disclosure', this.form.disclosure),
+        data.append('body', this.form.body),
         this.$store
-          .dispatch('postPolicyConfig', this.form)
+          .dispatch('postPolicyConfig', data)
           .then(response => {
             console.log('response', response)
             this.makeToast('Success', `Policy Config successfully sended!`)
@@ -138,12 +147,6 @@
         // Show preview
         const file = e.target.files[0];
         this.url = URL.createObjectURL(file);
-
-        // let data = new FormData();
-        // data.append('logo', file);
-        //
-        // this.form = data;
-        this.form.logo = file;
       },
       onRemove() {
         this.url = null,
