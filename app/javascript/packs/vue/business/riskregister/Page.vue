@@ -9,7 +9,7 @@
                 h2: b {{ pageTitle }}
               div
                 a.btn.btn-default.mr-3(href='#') Export
-                PolicyRisksModal
+                RisksAddEditModal
                   button.btn.btn-dark Add Risk
           .row
             .col-12
@@ -21,13 +21,13 @@
 <script>
   import EtaggerMixin from '@/mixins/EtaggerMixin'
   import RisksTable from './RisksTable'
-  import PolicyRisksModal from './Modals/PolicyRisksModal'
+  import RisksAddEditModal from './Modals/RisksAddEditModal'
 
   export default {
     mixins: [EtaggerMixin()],
     components: {
       RisksTable,
-      PolicyRisksModal
+      RisksAddEditModal
     },
     data() {
       return {
