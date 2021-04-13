@@ -26,8 +26,8 @@
               b-dropdown(size="sm" variant="light" class="m-0 p-0" right)
                 template(#button-content)
                   b-icon(icon="three-dots")
-                b-dropdown-item-button Edit
-                b-dropdown-item-button.delete Delete
+                <!--b-dropdown-item-button Edit-->
+                b-dropdown-item-button.delete(@click="deleteControl(policy.id)") Delete
 </template>
 
 <script>
@@ -49,6 +49,9 @@
         if (date.invalid) {
           return value
         }
+      },
+      deleteControl(policyId) {
+        this.$emit('deleteControl', policyId)
       },
     },
     computed: {

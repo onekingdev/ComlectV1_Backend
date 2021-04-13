@@ -47,7 +47,7 @@
                         RiskContols.ml-auto(:riskId="risk.id" :inline="false")
                           button.btn.btn-light Add Control
                       b-card-text
-                        PoliciesTable(:riskPolicies="risk.compliance_policies")
+                        PoliciesTable(:riskPolicies="risk.compliance_policies", @deleteControl="updateRisk")
                       b-card-text(v-if="!risk.compliance_policies.length")
                         div.no-results.text-center
                           b-icon(icon="files" scale="5" variant="dark")
@@ -107,6 +107,23 @@
         // this.riskLevelColor(num)
         return this.levelOptions[num]
       },
+      updateRisk(policyId) {
+        const index = this.risk.compliance_policies.findIndex(record => record.id === policyId);
+        this.risk.compliance_policies.splice(index, 1)
+
+        this.risk.compliance_policy_ids = this.risk.compliance_policies.map(policy => policy.id)
+
+        this.$store
+          .dispatch('updateRisk', {...this.risk})
+          .then(response => {
+            console.log('response', response)
+            this.makeToast('Success', 'The risk has been updated!')
+          })
+          .catch(error => {
+            console.error(error)
+            this.makeToast('Error', `Couldn't submit form! ${error}`)
+          })
+      }
     },
     computed: {
       loading() {
