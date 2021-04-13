@@ -267,6 +267,7 @@ Rails.application.routes.draw do
       resources :project_extensions, path: 'extension', only: %i[create update]
       resources :project_issues, path: 'issues', only: %i[create]
       resources :documents, only: %i[index create destroy]
+      resource :project_rating, path: 'rating', only: [:create]
       # resource :project_rating, path: 'rating'
       # resource :project_overview, path: 'overview(/:specialist_username)', only: :show
     end
@@ -274,6 +275,7 @@ Rails.application.routes.draw do
     get 'local_projects/:project_id/messages' => 'project_messages#index'
     post 'local_projects/:project_id/messages' => 'project_messages#create'
     resources :direct_messages, path: 'messages(/:recipient_username)', only: %i[index create]
+    resources :project_ratings, only: %i[index]
     namespace :business do
       resource :compliance_policy_configuration, only: %i[show update]
       get '/reminders/:id' => 'reminders#show'
@@ -306,7 +308,6 @@ Rails.application.routes.draw do
       scope 'annual_reports/:report_id' do
         resources :review_categories, path: 'review_categories', only: %i[index create update destroy]
       end
-      resources :ratings, only: %i[index]
     end
     namespace :specialist do
       get '/projects/my' => 'projects#my'
