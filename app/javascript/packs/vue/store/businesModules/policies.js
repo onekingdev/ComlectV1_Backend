@@ -29,6 +29,7 @@ class Policy {
 export default {
   state: {
     policies: [],
+    risks: [],
   },
   mutations: {
     // POLICIES
@@ -54,6 +55,22 @@ export default {
       state.policies[index].sections.push(payload.sections);
       // const policy = state.policies.find(record => record.id === payload.id);
       // policy.sections.push(payload.sections);
+    },
+
+    // RISKS
+    updatetRisksList(state, payload) {
+      state.risks = payload;
+    },
+    addRisk(state, payload) {
+      state.risks.push(payload)
+    },
+    updateRisk(state, payload) {
+      const index = state.risks.findIndex(record => record.id === payload.id);
+      state.risks.splice(index, 1, payload)
+    },
+    deleteRisk(state, payload) {
+      const index = state.risks.findIndex(record => record.id === payload.id);
+      state.risks.splice(index, 1)
     },
   },
   actions: {
@@ -444,6 +461,134 @@ export default {
       }
     },
 
+    // RISKS
+    async getRisks ({commit}) {
+      commit("clearError");
+      commit("setLoading", true);
+
+      try {
+        const endpointUrl = '/api/business/risks'
+        const data = await fetch(`${endpointUrl}`, { headers: {'Accept': 'application/json'}})
+          .then(response => {
+            return response.json()
+          })
+          .then(response => {
+            commit('updatetRisksList', response)
+            return response
+          })
+          .catch(error => {
+            console.error(error)
+            throw error
+          })
+          .finally(() => commit("setLoading", false))
+
+        return data;
+
+      } catch (error) {
+        commit("setError", error.message);
+        commit("setLoading", false);
+        throw error;
+      }
+    },
+    async createRisk({ commit, getters }, payload) {
+      commit("clearError");
+      commit("setLoading", true);
+
+      try {
+        const endpointUrl = '/api/business/risks'
+        const data = await fetch(`${endpointUrl}`, {
+          method: 'POST',
+          headers: {
+            // 'Authorization': 'Bearer test',
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'},
+          body: JSON.stringify(payload)
+        }).then(response => {
+          if (!response.ok)
+            throw new Error(`Could't publish Risk (${response.status})`);
+          return response.json()
+        }).then(response => {
+          commit("addRisk", {...response});
+          return response
+        }).catch (error => {
+          console.error(error)
+          throw error;
+        }).finally(() => commit("setLoading", false))
+
+        return data;
+
+      } catch (error) {
+        commit("setError", error.message);
+        commit("setLoading", false);
+        throw error;
+      }
+    },
+    async updateRisk({ commit, getters }, payload) {
+      commit("clearError");
+      commit("setLoading", true);
+
+      try {
+        const endpointUrl = '/api/business/risks'
+        const data = await fetch(`${endpointUrl}/${payload.id}`, {
+          method: 'PUT',
+          headers: {
+            // 'Authorization': 'Bearer test',
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'},
+          body: JSON.stringify(payload)
+        }).then(response => {
+          if (!response.ok)
+            throw new Error(`Could't update Risk (${response.status})`);
+          return response.json()
+        }).then(response => {
+          commit("updateRisk", {...response});
+          return response
+        }).catch (error => {
+          console.error(error)
+          throw error;
+        }).finally(() => commit("setLoading", false))
+
+        return data;
+
+      } catch (error) {
+        commit("setError", error.message);
+        commit("setLoading", false);
+        throw error;
+      }
+    },
+    async deleteRisk({ commit, getters }, payload) {
+      commit("clearError");
+      commit("setLoading", true);
+
+      try {
+        const endpointUrl = '/api/business/risks'
+        const data = await fetch(`${endpointUrl}/${payload.id}`, {
+          method: 'DELETE',
+          headers: {
+            // 'Authorization': 'Bearer test',
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'},
+        }).then(response => {
+          if (!response.ok)
+            throw new Error(`Could't update Risk (${response.status})`);
+          return response.json()
+        }).then(response => {
+          commit("deleteRisk", {...response});
+          return response
+        }).catch (error => {
+          console.error(error)
+          throw error;
+        }).finally(() => commit("setLoading", false))
+
+        return data;
+
+      } catch (error) {
+        commit("setError", error.message);
+        commit("setLoading", false);
+        throw error;
+      }
+    },
+
     // CONFIG PAGE (SETUP)
     async getPolicyConfig({ commit, getters }, payload) {
       commit("clearError");
@@ -485,8 +630,17 @@ export default {
           headers: {
             'Authorization': `Bearer ${TOKEN}`,
             'Accept': 'application/json',
-            'Content-Type': 'image/png'},
-          body: payload
+          //   'Content-Type': 'image/png'},
+          // body: payload
+            'Content-Type': 'multipart/form-data'},
+          body: JSON.stringify({
+            logo: payload.logo,
+            address: payload.address,
+            phone: payload.phone,
+            email: payload.email,
+            disclosure: payload.disclosure,
+            body: payload.body
+          })
         }).then(response => {
           if (!response.ok)  throw new Error(`Could't create policy config (${response.status})`)
           return response.json()
@@ -534,6 +688,11 @@ export default {
     },
     policiesListUnArchived (state, getters) {
       return getters.policiesListNested.filter(policy => !policy.archived)
+    },
+
+    // RISKS
+    risksList(state) {
+      return state.risks.sort((a, b) => a.id - b.id);
     },
   },
 };
