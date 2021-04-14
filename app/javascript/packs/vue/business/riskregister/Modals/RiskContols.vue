@@ -38,8 +38,8 @@
                       b-dropdown(size="sm" variant="light" class="m-0 p-0" right)
                         template(#button-content)
                           b-icon(icon="three-dots")
-                        b-dropdown-item-button Edit
-                        b-dropdown-item-button.delete Delete
+                        b-dropdown-item(:href="`/business/compliance_policies/${policy.id}`") Edit
+                        <!--b-dropdown-item-button.delete Delete-->
                 tr(v-if="!policiesComputed.length")
                   td.text-center(colspan=5)
                     h4.py-2 No policy
