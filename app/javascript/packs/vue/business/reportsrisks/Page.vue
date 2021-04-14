@@ -7,9 +7,8 @@
             .col-md-12.p-t-3.d-flex.justify-content-between.p-b-1
               div
                 h2: b {{ pageTitle }}
-                p Find the right consultant for the right job
           .row
-            .col-12 sadsd
+            .col-12 sadasd
 </template>
 
 <script>
@@ -19,7 +18,7 @@
     },
     data() {
       return {
-        pageTitle: "Specialist Marketplace",
+        pageTitle: "Reports",
       };
     },
     methods: {
@@ -37,3 +36,4 @@
 <style>
   @import "./styles.css";
 </style>
+
