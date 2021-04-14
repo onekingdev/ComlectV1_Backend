@@ -7,48 +7,49 @@
       ModelLoader(:url="riskId ? submitUrl : undefined" :default="initialrisk" :etag="etag" @loaded="loadrisk")
 
         b-row.m-t-1(no-gutters)
-          table.table
-            thead
-              tr
-                th(width="10")
-                  <!--b-form-checkbox(v-model='form.checked[]')-->
-                th(width="55%") Policy
-                th Status
-                  b-icon.ml-2(icon='chevron-expand')
-                th.text-right Last modified
-                  b-icon.ml-2(icon='chevron-expand')
-                th.text-right Date created
-                  b-icon.ml-2(icon='chevron-expand')
-                th(width="10%")
-            tbody
-              tr(v-for="(policy, index) in policiesComputed" :key="policy.id")
-                td
-                  b-form-checkbox(v-model='form.checked[index]' @change="onChange")
-                td
-                  a.link(:href="`/business/compliance_policies/${policy.id}`")
-                    ion-icon.mr-2(name="document-text-outline")
-                    | {{ policy.name }}
-                td
-                  b-badge.status(:variant="statusVariant") {{ policy.status }}
-                td.text-right {{ dateToHuman(policy.updated_at) }}
-                td.text-right {{ dateToHuman(policy.created_at) }}
-                td
-                  .actions
-                    b-dropdown(size="sm" variant="light" class="m-0 p-0" right)
-                      template(#button-content)
-                        b-icon(icon="three-dots")
-                      b-dropdown-item-button Edit
-                      b-dropdown-item-button.delete Delete
-              tr(v-if="!policiesComputed.length")
-                td.text-center(colspan=5)
-                  h4.py-2 No policy
-        b-row.m-t-1(no-gutters)
-          .col
-            label.m-t-1.form-label {{ countSelected }} Items Selected
+          b-card(style="width: 100%")
+            table.table
+              thead
+                tr
+                  th(width="10")
+                    <!--b-form-checkbox(v-model='form.checked[]')-->
+                  th(width="55%") Policy
+                  th Status
+                    b-icon.ml-2(icon='chevron-expand')
+                  th.text-right Last modified
+                    b-icon.ml-2(icon='chevron-expand')
+                  th.text-right Date created
+                    b-icon.ml-2(icon='chevron-expand')
+                  th(width="10%")
+              tbody
+                tr(v-for="(policy, index) in policiesComputed" :key="policy.id")
+                  td
+                    b-form-checkbox(v-model='form.checked[index]' @change="onChange")
+                  td
+                    a.link(:href="`/business/compliance_policies/${policy.id}`")
+                      ion-icon.mr-2(name="document-text-outline")
+                      | {{ policy.name }}
+                  td
+                    b-badge.status(:variant="statusVariant") {{ policy.status }}
+                  td.text-right {{ dateToHuman(policy.updated_at) }}
+                  td.text-right {{ dateToHuman(policy.created_at) }}
+                  td
+                    .actions
+                      b-dropdown(size="sm" variant="light" class="m-0 p-0" right)
+                        template(#button-content)
+                          b-icon(icon="three-dots")
+                        b-dropdown-item-button Edit
+                        b-dropdown-item-button.delete Delete
+                tr(v-if="!policiesComputed.length")
+                  td.text-center(colspan=5)
+                    h4.py-2 No policy
 
       template(slot="modal-footer")
-        button.btn(@click="$bvModal.hide(modalId)") Cancel
-        button.btn.btn-dark(@click="submit") Add
+        .col
+          label.m-t-1.form-label.font-weight-bold {{ countSelected }} Items Selected
+        .col-justify-content-end
+          button.btn(@click="$bvModal.hide(modalId)") Cancel
+          button.btn.btn-dark(@click="submit") Add
 </template>
 
 <script>
@@ -104,28 +105,30 @@
     },
     methods: {
       loadrisk(risk) {
-        console.log('risk', risk)
-        console.log('this.risk', this.risk)
+        // console.log('risk', risk)
+        // console.log('this.risk', this.risk)
         this.risk = Object.assign({}, this.risk, risk)
         // this.onRiskChange()
-        // this.countingSelected()
 
         // this.options = [{ value: null, text: 'New Risk' }]
         // this.options = this.options.concat(this.risksComputedAsOptions)
 
-        console.log('this.form.checked', this.form.checked)
-        console.log('policiesComputed', this.policiesComputed)
-
+        // console.log('this.form.checked', this.form.checked)
+        // console.log('policiesComputed', this.policiesComputed)
 
         this.form.checked = this.policiesComputed.map((policy, index) => {
-          if(risk.compliance_policies[index]) {
-            if (policy.id === risk.compliance_policies[index].id) {
-              return true
-            }
-          } else {
-            return false
-          }
+          // console.log(policy, index)
+
+          let result;
+          risk.compliance_policies.forEach((el) => {
+            if (el.id === policy.id) result = true
+            else result = false
+          })
+          return result
         })
+
+        this.countingSelected()
+
         console.log('this.form.checked', this.form.checked)
       },
       makeToast(title, str) {
@@ -156,18 +159,24 @@
 
       },
       countingSelected() {
-        this.countSelected = this.form.checked.reduce((acc, currentValue) => currentValue ? acc++ : acc--, 0)
+        // this.countSelected = this.form.checked.reduce((acc, currentValue) => currentValue ? acc++ : acc--, 0)
+        this.countSelected = 0
+        this.form.checked.forEach((el) => {
+          if (el === true) this.countSelected++
+        })
+        // console.log('this.countSelected', this.countSelected)
       },
       onChange(event){
-        console.log(event)
-        console.log('this.form.checked', this.form.checked)
+        // console.log(event)
+        // console.log('this.form.checked', this.form.checked)
 
         this.risk.compliance_policy_ids = []
         this.policiesComputed.forEach((policy, index) => {
           if (this.form.checked[index]) this.risk.compliance_policy_ids.push(policy.id)
         })
 
-        console.log(this.risk.compliance_policy_ids)
+        // console.log(this.risk.compliance_policy_ids)
+        this.countingSelected()
       },
       onRiskChange(){
         const riskLevelNum = this.riskLevel(this.risk.likelihood, this.risk.impact)
