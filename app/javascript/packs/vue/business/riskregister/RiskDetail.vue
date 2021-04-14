@@ -9,13 +9,13 @@
           .row.p-x-1
             .col-md-12.d-flex.justify-content-between.p-t-3.p-b-1
               div
-                h2: b {{ pageTitle }} / {{ risk.name }}
+                h2: b {{ pageTitle }} / {{ riskComputed.name }}
                 h2
-                  b-badge.mr-2(:variant="badgeVariant(risk.risk_level)") {{ showLevel(risk.risk_level) }}
-                  b {{ risk.name }}
+                  b-badge.mr-2(:variant="badgeVariant(riskComputed.risk_level)") {{ showLevel(riskComputed.risk_level) }}
+                  b {{ riskComputed.name }}
               div
                 b-dropdown.bg-white(text='Actions', variant="secondary", right)
-                  RiskModalDelete(@deleteConfirmed="deleteRisk", :riskId="risk.id", :inline="false")
+                  RiskModalDelete(@deleteConfirmed="deleteRisk", :riskId="riskComputed.id", :inline="false")
                     b-dropdown-item.delete Delete risk
           .row
             .col-12
@@ -25,7 +25,7 @@
                     b-card(header-tag='header' header-class='d-flex')
                       template(#header)
                         h3.mb-0.font-weight-bold Risk Details
-                        RisksAddEditModal.ml-auto(:riskId="risk.id" :inline="false")
+                        RisksAddEditModal.ml-auto(:riskId="riskComputed.id" :inline="false")
                           button.btn.btn-light Edit
                       b-card-text
                         .row
@@ -36,24 +36,24 @@
                               b-list-group-item.border.border-white.pb-0 Likelihood
                           .col.pl-0
                             b-list-group
-                              b-list-group-item.border.border-white.pb-0.pt-0 {{ risk.name }}
-                              b-list-group-item.border.border-white.pb-0 {{ showLevel(risk.impact) }}
-                              b-list-group-item.border.border-white.pb-0 {{ showLevel(risk.likelihood) }}
+                              b-list-group-item.border.border-white.pb-0.pt-0 {{ riskComputed.name }}
+                              b-list-group-item.border.border-white.pb-0 {{ showLevel(riskComputed.impact) }}
+                              b-list-group-item.border.border-white.pb-0 {{ showLevel(riskComputed.likelihood) }}
                 div
                   b-card-group(deck)
                     b-card(header-tag='header' header-class='d-flex')
                       template(#header)
                         h3.mb-0.font-weight-bold Controls
-                        RiskContols.ml-auto(:riskId="risk.id" :inline="false")
-                          button.btn.btn-light {{ !risk.compliance_policies.length ? 'Add' : 'Edit' }} Control
+                        RiskContols.ml-auto(:riskId="riskComputed.id" :inline="false")
+                          button.btn.btn-light {{ !riskComputed.compliance_policies.length ? 'Add' : 'Edit' }} Control
                       b-card-text
-                        PoliciesTable(:riskPolicies="risk.compliance_policies", @deleteControl="updateRisk")
-                      b-card-text(v-if="!risk.compliance_policies.length")
+                        PoliciesTable(:riskPolicies="riskComputed.compliance_policies", @deleteControl="updateRisk")
+                      b-card-text(v-if="!riskComputed.compliance_policies.length")
                         div.no-results.text-center
                           b-icon(icon="files" scale="5" variant="dark")
                           p.no-results__title: b No results found
                           p Add a policy as a control to get started
-                          RiskContols(:riskId="risk.id" :inline="false")
+                          RiskContols(:riskId="riskComputed.id" :inline="false")
                             button.btn.btn-dark Add Control
 
 
@@ -109,12 +109,12 @@
       },
       updateRisk(policyId) {
         const index = this.risk.compliance_policies.findIndex(record => record.id === policyId);
-        this.risk.compliance_policies.splice(index, 1)
+        this.riskComputed.compliance_policies.splice(index, 1)
 
-        this.risk.compliance_policy_ids = this.risk.compliance_policies.map(policy => policy.id)
+        this.riskComputed.compliance_policy_ids = this.riskComputed.compliance_policies.map(policy => policy.id)
 
         this.$store
-          .dispatch('updateRisk', {...this.risk})
+          .dispatch('updateRisk', {...this.riskComputed})
           .then(response => {
             console.log('response', response)
             this.makeToast('Success', 'The risk has been updated!')
@@ -143,8 +143,8 @@
       this.$store
         .dispatch("getRiskById", { riskId: this.riskId })
         .then((response) => {
-          this.risk = response;
-          console.log('response mounted', response);
+          // this.risk = response;
+          console.log('response mounted getRiskById', response);
         })
         .catch((err) => {
           console.error(err);
@@ -155,7 +155,7 @@
           this.$store
             .dispatch("getPolicies")
             .then((response) => {
-              console.log('response mounted', response);
+              console.log('response mounted getPolicies', response);
             })
             .catch((err) => {
               console.error(err);

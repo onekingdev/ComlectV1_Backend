@@ -27,7 +27,7 @@
 export default {
   state: {
     risks: [],
-    // currentRisk: {}
+    currentRisk: {}
   },
   mutations: {
     // RISKS
@@ -45,9 +45,9 @@ export default {
       const index = state.risks.findIndex(record => record.id === payload.id);
       state.risks.splice(index, 1)
     },
-    // updateCurrentRisk(state, payload) {
-    //   state.currentRisk = payload
-    // }
+    updateCurrentRisk(state, payload) {
+      state.currentRisk = payload
+    }
   },
   actions: {
     // RISKS
@@ -125,18 +125,22 @@ export default {
             'Accept': 'application/json',
             'Content-Type': 'application/json'},
           body: JSON.stringify(payload)
-        }).then(response => {
+        })
+          .then(response => {
           if (!response.ok)
             throw new Error(`Could't update Risk (${response.status})`);
           return response.json()
-        }).then(response => {
+        })
+          .then(response => {
           commit("updateRisk", {...response});
-          // commit("updateCurrentRisk", response);
+          commit("updateCurrentRisk", response);
           return response
-        }).catch (error => {
+        })
+          .catch (error => {
           console.error(error)
           throw error;
-        }).finally(() => commit("setLoading", false))
+        })
+          .finally(() => commit("setLoading", false))
 
         return data;
 
@@ -187,7 +191,7 @@ export default {
         const data = await fetch(`${endpointUrl}${payload.riskId}`, { headers: {'Accept': 'application/json'}})
           .then(response => response.json())
           .then(response => {
-            // commit('updateCurrentRisk', response)
+            commit('updateCurrentRisk', response)
             return response
           })
           .catch(error => {
@@ -215,8 +219,8 @@ export default {
         return state.risks.find(risk => risk.id === riskId)
       }
     },
-    // getCurrentRisk(state) {
-    //   return state.currentRisk
-    // }
+    getCurrentRisk(state) {
+      return state.currentRisk
+    }
   },
 };
