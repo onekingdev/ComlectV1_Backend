@@ -45,7 +45,7 @@
                       template(#header)
                         h3.mb-0.font-weight-bold Controls
                         RiskContols.ml-auto(:riskId="risk.id" :inline="false")
-                          button.btn.btn-light Add Control
+                          button.btn.btn-light {{ !risk.compliance_policies.length ? 'Add' : 'Edit' }} Control
                       b-card-text
                         PoliciesTable(:riskPolicies="risk.compliance_policies", @deleteControl="updateRisk")
                       b-card-text(v-if="!risk.compliance_policies.length")

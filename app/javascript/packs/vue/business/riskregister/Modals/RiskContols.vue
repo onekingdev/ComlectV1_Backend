@@ -23,7 +23,7 @@
             tbody
               tr(v-for="(policy, index) in policiesComputed" :key="policy.id")
                 td
-                  b-form-checkbox(v-model='form.checked[index]')
+                  b-form-checkbox(v-model='form.checked[index]' @change="onChange")
                 td
                   a.link(:href="`/business/compliance_policies/${policy.id}`")
                     ion-icon.mr-2(name="document-text-outline")
@@ -44,7 +44,7 @@
                   h4.py-2 No policy
         b-row.m-t-1(no-gutters)
           .col
-            label.m-t-1.form-label 0 Items Selected
+            label.m-t-1.form-label {{ countSelected }} Items Selected
 
       template(slot="modal-footer")
         button.btn(@click="$bvModal.hide(modalId)") Cancel
@@ -99,17 +99,23 @@
           checked: [],
         },
         statusVariant: 'light',
+        countSelected: 0,
       }
     },
     methods: {
       loadrisk(risk) {
-        console.log('risk', risk)
-        console.log('this.risk', this.risk)
+        // console.log('risk', risk)
+        // console.log('this.risk', this.risk)
         this.risk = Object.assign({}, this.risk, risk)
         this.onRiskChange()
 
         // this.options = [{ value: null, text: 'New Risk' }]
         // this.options = this.options.concat(this.risksComputedAsOptions)
+
+        // console.log('this.form.checked', this.form.checked)
+        // console.log('policiesComputed', this.policiesComputed)
+        this.form.checked = this.policiesComputed.map((policy, index) => policy.id === risk.compliance_policies[index]?.id)
+        // console.log('this.form.checked', this.form.checked)
       },
       makeToast(title, str) {
         this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
@@ -117,26 +123,11 @@
       submit(e) {
         e.preventDefault()
         this.errors = [];
-        if (!this.risk.name) {
-          this.errors.push([
-            'Field is required.'
-          ]);
-          this.makeToast('Error', 'Field is required.')
-          return;
-        }
 
-        this.risk.compliance_policy_ids = this.risk.compliance_policies.map(policy => policy.id)
-        if (!this.risk.compliance_policy_ids.includes(this.policyId)) this.risk.compliance_policy_ids.push(this.policyId)
-
-        let method;
-        if(!this.riskId && !this.risk.id) {
-          method = 'createRisk'
-        } else {
-          method = 'updateRisk'
-        }
+        // this.risk.compliance_policy_ids = this.risk.compliance_policies.map(policy => policy.id)
 
         this.$store
-          .dispatch(method, {...this.risk})
+          .dispatch('updateRisk', {...this.risk})
           .then(response => {
             console.log('response', response)
             if (response.errors) {
@@ -152,25 +143,23 @@
             this.makeToast('Error', `Couldn't submit form! ${error}`)
           })
 
-        // this.$emit('saved', this.risk)
       },
-      // onChange(event){
-      //   // CATCH RISK NEW OR FROM CREATED
-      //   if (event === null) {
-      //     this.isActive = true
-      //     this.risk = initialrisk()
-      //     this.badgeVariant = 'secondary'
-      //     this.riskLevelName = '---'
-      //     return;
-      //   }
-      //   else  {
-      //     this.isActive = false
-      //   }
-      //
-      //   const resultRisk = this.risks.find(risk => risk.id === event)
-      //   this.risk = resultRisk
-      //   this.onRiskChange()
-      // },
+      countingSelected() {
+        this.countSelected = this.form.checked.reduce((acc, selected, i) => {
+          console.log(acc, selected, i)
+        }, 0);
+      },
+      onChange(event){
+        console.log(event)
+        console.log('this.form.checked', this.form.checked)
+
+        this.risk.compliance_policy_ids = []
+        this.policiesComputed.forEach((policy, index) => {
+          if (this.form.checked[index]) this.risk.compliance_policy_ids.push(policy.id)
+        })
+
+        console.log(this.risk.compliance_policy_ids)
+      },
       onRiskChange(){
         const riskLevelNum = this.riskLevel(this.risk.likelihood, this.risk.impact)
         this.riskLevelColor(riskLevelNum)
@@ -227,6 +216,9 @@
       },
     },
     watch: {},
+    mounted() {
+
+    }
   }
 </script>
 
