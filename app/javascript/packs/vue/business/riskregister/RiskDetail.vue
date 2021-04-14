@@ -129,6 +129,11 @@
       loading() {
         return this.$store.getters.loading;
       },
+      riskComputed() {
+        return this.$store.getters.getCurrentRisk;
+        // const id = this.riskId;
+        // return this.$store.getters.riskById(id);
+      },
     },
     watch: {
 

@@ -27,6 +27,7 @@
 export default {
   state: {
     risks: [],
+    // currentRisk: {}
   },
   mutations: {
     // RISKS
@@ -44,6 +45,9 @@ export default {
       const index = state.risks.findIndex(record => record.id === payload.id);
       state.risks.splice(index, 1)
     },
+    // updateCurrentRisk(state, payload) {
+    //   state.currentRisk = payload
+    // }
   },
   actions: {
     // RISKS
@@ -127,6 +131,7 @@ export default {
           return response.json()
         }).then(response => {
           commit("updateRisk", {...response});
+          // commit("updateCurrentRisk", response);
           return response
         }).catch (error => {
           console.error(error)
@@ -182,6 +187,7 @@ export default {
         const data = await fetch(`${endpointUrl}${payload.riskId}`, { headers: {'Accept': 'application/json'}})
           .then(response => response.json())
           .then(response => {
+            // commit('updateCurrentRisk', response)
             return response
           })
           .catch(error => {
@@ -209,5 +215,8 @@ export default {
         return state.risks.find(risk => risk.id === riskId)
       }
     },
+    // getCurrentRisk(state) {
+    //   return state.currentRisk
+    // }
   },
 };

@@ -104,18 +104,29 @@
     },
     methods: {
       loadrisk(risk) {
-        // console.log('risk', risk)
-        // console.log('this.risk', this.risk)
+        console.log('risk', risk)
+        console.log('this.risk', this.risk)
         this.risk = Object.assign({}, this.risk, risk)
-        this.onRiskChange()
+        // this.onRiskChange()
+        // this.countingSelected()
 
         // this.options = [{ value: null, text: 'New Risk' }]
         // this.options = this.options.concat(this.risksComputedAsOptions)
 
-        // console.log('this.form.checked', this.form.checked)
-        // console.log('policiesComputed', this.policiesComputed)
-        this.form.checked = this.policiesComputed.map((policy, index) => policy.id === risk.compliance_policies[index]?.id)
-        // console.log('this.form.checked', this.form.checked)
+        console.log('this.form.checked', this.form.checked)
+        console.log('policiesComputed', this.policiesComputed)
+
+
+        this.form.checked = this.policiesComputed.map((policy, index) => {
+          if(risk.compliance_policies[index]) {
+            if (policy.id === risk.compliance_policies[index].id) {
+              return true
+            }
+          } else {
+            return false
+          }
+        })
+        console.log('this.form.checked', this.form.checked)
       },
       makeToast(title, str) {
         this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
@@ -145,9 +156,7 @@
 
       },
       countingSelected() {
-        this.countSelected = this.form.checked.reduce((acc, selected, i) => {
-          console.log(acc, selected, i)
-        }, 0);
+        this.countSelected = this.form.checked.reduce((acc, currentValue) => currentValue ? acc++ : acc--, 0)
       },
       onChange(event){
         console.log(event)
