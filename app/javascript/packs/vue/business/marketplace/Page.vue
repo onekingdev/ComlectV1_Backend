@@ -73,7 +73,7 @@
                   .row
                     .col-9
                       h3.m-b-1
-                        a(@click="openDetails(project.id)") Chris Jakson
+                        a.link(:href="#" @click="openDetails(project.id)") Chris Jakson
                       h6.pb-1.card-subtitle.text-muted.mb-2  Maiami, FL | Investrment Advisor Industry
                       .d-flex.py-2
                         b-icon(icon='star-fill' variant="warning" font-scale="1.5")
