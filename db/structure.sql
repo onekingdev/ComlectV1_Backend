@@ -562,10 +562,7 @@ CREATE TABLE public.businesses (
     compliance_policies_spawned boolean DEFAULT false,
     annual_budget numeric,
     risk_tolerance character varying,
-    reminders_mailed_at timestamp without time zone,
-    crd_number character varying,
-    account_created boolean DEFAULT false,
-    apartment character varying
+    reminders_mailed_at timestamp without time zone
 );
 
 
@@ -2234,8 +2231,7 @@ CREATE TABLE public.users (
     muted_projects text DEFAULT '--- []
 '::text,
     otp_secret character varying,
-    otp_counter integer,
-    email_confirmed boolean DEFAULT false
+    otp_counter integer
 );
 
 
@@ -7705,8 +7701,4 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210326130422'),
 ('20210329160613'),
 ('20210329192005'),
-('20210404131222'),
-('20210410142233'),
-('20210415142648');
-
-
+('20210404131222');

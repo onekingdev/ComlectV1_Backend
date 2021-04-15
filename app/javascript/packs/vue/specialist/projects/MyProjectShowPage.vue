@@ -30,7 +30,7 @@
           .container.m-t-1
             .row.p-x-1
               .col-md-12
-                DiscussionCard(:project="project" :token="token")
+                DiscussionCard(:project-id="project.local_project_id" :token="token")
       b-tab(title="Tasks")
       b-tab(title="Documents")
       b-tab(title="Collaborators")

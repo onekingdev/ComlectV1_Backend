@@ -34,7 +34,7 @@ class ApplicationController < ActionController::Base
 
     return if (params['controller'] == 'specialists/dashboard') && (params['action'] == 'locked')
 
-    return redirect_to specialists_locked_path if params['controller'] != 'users/sessions' && params['controller'] != 'api/specialists'
+    return redirect_to specialists_locked_path if params['controller'] != 'users/sessions'
   end
 
   def storable_location?
@@ -111,7 +111,7 @@ class ApplicationController < ActionController::Base
   end
 
   def require_someone!
-    if current_business || current_specialist
+    if user_signed_in? && (current_business || current_specialist)
       @current_someone = current_business || current_specialist
     else
       render 'forbidden', status: :forbidden, locals: { message: 'Only registered users can access this page' }

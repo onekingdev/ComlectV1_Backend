@@ -46,8 +46,7 @@ class Specialist < ApplicationRecord
   has_many :ported_businesses
   has_many :payment_sources, class_name: 'Specialist::PaymentSource'
   has_many :reminders, as: :remindable
-  has_many :local_projects_specialists, foreign_key: :specialist_id
-  has_many :local_projects, through: :local_projects_specialists
+  has_and_belongs_to_many :local_projects
   has_many :business_specialists_roles, foreign_key: :specialist_id
   has_many :specialist_roles, source: :specialist, through: :business_specialists_roles
 
@@ -180,10 +179,9 @@ class Specialist < ApplicationRecord
   has_one :cookie_agreement, through: :user
   accepts_nested_attributes_for :tos_agreement
   accepts_nested_attributes_for :cookie_agreement
-  accepts_nested_attributes_for :user
-  #validate :tos_invalid?
-  #validate :cookie_agreement_invalid?
-  validates :username, uniqueness: true, allow_blank: true
+  validate :tos_invalid?
+  validate :cookie_agreement_invalid?
+  validates :username, uniqueness: true
   validates :call_booked, presence: true, on: :signup
   validates :resume, presence: true, on: :signup if Rails.env != 'test'
 
