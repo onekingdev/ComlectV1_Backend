@@ -8,7 +8,7 @@
             p.marketplace__subtitle Find the right consultant for the right job
     .container
       .row
-        .col-md-3
+        .col-lg-3
           .card#sidebarMenu_alt
             .card-header(style='border-bottom: 0px;')
               b Filters
@@ -48,7 +48,7 @@
               b-collapse#collapse_fromer_regulator(visible)
                 b-form-checkbox(v-for="(option, i) in fromer_regulatorOptions" v-model="filter.fromer_regulator[i]" :key="'fr'+i") {{option.label}}
 
-        .col-md-9
+        .col-lg-9
           .card
             .card-header
               .col-md-12
@@ -67,11 +67,11 @@
 
             .card-header
               .row.py-2.px-4
-                .col-md-2
+                .col-lg-2.col-3
                   b-img(v-bind="mainProps" rounded="circle" alt="image_desc" src="https://loremflickr.com/100/100/cat?lock=1")
-                .col-md-10
+                .col-lg-10.col-9
                   .row
-                    .col-9
+                    .col-md-9.col
                       h3.m-b-1
                         a.link(href="#" @click="openDetails(project.id)") Chris Jakson
                       h6.pb-1.card-subtitle.text-muted.mb-2  Maiami, FL | Investrment Advisor Industry
@@ -85,10 +85,11 @@
                         .badge.badge-default.m-r-1 Auditing
                         .badge.badge-default.m-r-1 Compilance Reporting
                         .badge.badge-default.m-r-1 Mock Interviews
-                    .col-3.justify-content-end
-                      .d-flex.align-items-center.justify-content-end
+                    .col-md-3.col.justify-content-end
+                      .d-flex.align-items-center.justify-content-lg-end
                         b-icon.linkedin.mr-3(icon='linkedin' font-scale="1.5")
                         b-button(variant="default") Message
+                .offset-lg-2.col-lg-10.col
                   b-card-text.m-t-1
                     | Hi, my name Chris Jakson Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
                     | laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
