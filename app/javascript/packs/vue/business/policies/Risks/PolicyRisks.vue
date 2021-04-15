@@ -10,7 +10,7 @@
       table.table(v-if="!loading")
         thead
           tr
-            th(width="55%") Risk
+            th(width="55%") Risk Name
             th Impact
             th Likelihood
             th Risk level
@@ -50,6 +50,10 @@
     props: {
       policyId: {
         type: Number,
+        required: true
+      },
+      policy: {
+        type: Object,
         required: true
       },
     },
@@ -105,7 +109,7 @@
       },
       risksComputed() {
         return this.$store.getters.risksList
-      }
+      },
     },
     mounted() {
       this.$store
