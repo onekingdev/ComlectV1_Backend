@@ -17,10 +17,10 @@ const businesPolicies = {
   BusinessPoliciesCreatePage,
 }
 
-import BusinessMarketplacePage from './vue/business/marketplace/Page.vue'
+import BusinessReportsRisksPage from './vue/business/reportsRisks/Page.vue'
 
-const businesMarketplace = {
-  BusinessMarketplacePage,
+const BusinessReportsRisks = {
+  BusinessReportsRisksPage,
 }
 
 init({
@@ -36,6 +36,6 @@ init({
     TimesheetsShowPage,
 
     ...businesPolicies,
-    ...businesMarketplace
+    ...BusinessReportsRisks
   }
 })

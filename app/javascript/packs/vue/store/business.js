@@ -2,7 +2,6 @@ import Vue from "vue";
 import Vuex from "vuex";
 
 import policies from "./businesModules/policies";
-import specialistsMarketplace from "./businesModules/specialistsMarketplace";
 import shared from "./shared";
 
 Vue.use(Vuex);
@@ -38,7 +37,6 @@ const store = new Vuex.Store({
 
   modules: {
     policies,
-    specialistsMarketplace,
     // policies: {
     //   namespaced: true,
     //   ...policies,
