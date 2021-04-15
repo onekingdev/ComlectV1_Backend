@@ -229,6 +229,9 @@
       this.tooltipDir = 'bottom'
     },
     methods: {
+      makeToast(title, str) {
+        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
+      },
       refetch() {
         fetch(endpointUrl + this.filterQuery, { headers: {'Accept': 'application/json'}})
           .then(response => response.json())
@@ -276,7 +279,15 @@
       }
     },
     mounted() {
-
+      this.$store
+        .dispatch("getSpecialists")
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((err) => {
+          console.error(err);
+          this.makeToast('Error', err.message)
+        });
     },
   };
 </script>
