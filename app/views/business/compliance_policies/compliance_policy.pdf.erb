@@ -30,7 +30,11 @@
         margin: 0px;
         width: 273mm;
         overflow: hidden;
-        /*font-family: "Open Sans";*/
+        font-family: "Open Sans";
+      }
+
+      body {
+        padding: 30px;
       }
 
       p { page-break-inside: avoid; font-size: 21px; word-wrap: break-word; }
@@ -142,10 +146,13 @@
     <meta charset="UTF-8">
   </head>
     <body>
-      <h1><%= @cpolicy.name %></h1>
-      <h2><%= @cpolicy.description %></h2>
+      <h1><b><%= @cpolicy.name %></b></h1>
+      <p><%= raw(@cpolicy.description.html_safe) %></p>
+      <% @numberer = 1 %>
+      <% @letter_src = " abcdefghijklmnopqrstuvwxyz" %>
+      <% @letterer = 1 %>
       <% @cpolicy.sections.each do |section| %>
-        <%= render partial: "business/compliance_policies/section", locals: { section: section } %>
+        <%= render partial: "business/compliance_policies/section", locals: { section: section, level: 1 } %>
       <% end %>
     </body>
   </html>

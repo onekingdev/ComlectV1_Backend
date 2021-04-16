@@ -14,7 +14,6 @@
             .col
               b-form-file(v-model="form.logo"
               :state="Boolean(form.logo)"
-              ref="inputFile"
               accept="image/*"
               placeholder="Choose a file or drop it here..."
               drop-placeholder="Drop file here..."
@@ -78,7 +77,6 @@
 
 <script>
   import Loading from '@/common/Loading/Loading'
-  import axios from 'axios'
   export default {
     components: {
       Loading,
@@ -101,20 +99,12 @@
         // fonts: [{ text: 'Select One', value: null }, 'Times new Roman', 'Arial'],
         show: true,
         // text: '',
-        url: null,
-        inputFile: null
+        url: null
       }
     },
     methods: {
       makeToast(title, str) {
         this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
-      },
-      onFileChange(e) {
-        // Show preview
-        const file = e.target.files[0];
-        this.url = URL.createObjectURL(file);
-
-        this.form.logo = this.$refs.inputFile.files[0];
       },
       onSubmit(event) {
         event.preventDefault()
@@ -128,39 +118,17 @@
         // data.append('email', this.form.email),
         // data.append('disclosure', this.form.disclosure),
         // data.append('body', this.form.body),
-
-        const params = {
-          'logo': this.form.logo,
-          'address': this.form.address,
-          'phone': this.form.phone,
-          'email': this.form.email,
-          'disclosure': this.form.disclosure,
-          'body': this.form.body,
-        }
-        console.log('params', params)
-
-        let formData = new FormData()
-
-        Object.entries(params).forEach(
-          ([key, value]) => formData.append(key, value)
-        )
-        console.log('formData', formData)
-
-        // Finally, sending the POST request with our beloved Axios
-        axios.defaults.baseURL = '/api';
-        axios.defaults.headers.common['Authorization'] = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYxOTAyMDQwOH0.lnBshrpoodRs2E-cr2l8yXM3fsqUcH1V8hWrEK4H2BU';
-        // axios.defaults.headers.post['Content-Type'] = 'application/json';
-
-        axios
-          .patch('/business/compliance_policy_configuration', formData)
+        this.$store
+          // .dispatch('postPolicyConfig', data)
+          .dispatch('postPolicyConfig', this.form)
           .then(response => {
-            console.log('axios response', response)
+            console.log('response', response)
+            this.makeToast('Success', `Policy Config successfully sended!`)
           })
           .catch(error => {
-            console.error('axios error', error)
-            this.errored = true
+            console.error(error)
+            this.makeToast('Error', `Couldn't submit form! ${error}`)
           })
-          .finally(() => console.log('axios finished'))
       },
       onReset(event) {
         event.preventDefault()
@@ -176,6 +144,11 @@
         this.$nextTick(() => {
           this.show = true
         })
+      },
+      onFileChange(e) {
+        // Show preview
+        const file = e.target.files[0];
+        this.url = URL.createObjectURL(file);
       },
       onRemove() {
         this.url = null,
