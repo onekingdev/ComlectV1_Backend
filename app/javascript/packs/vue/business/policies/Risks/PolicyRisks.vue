@@ -17,7 +17,7 @@
             th.text-right Date created
             th(width="10%")
         tbody
-          tr(v-for="risk in risksComputed" :key="risk.id")
+          tr(v-for="risk in policy.risks" :key="risk.id")
             td ({{ risk.id }}) {{ risk.name }}
             td {{ showLevel(risk.impact) }}
             td {{ showLevel(risk.likelihood) }}
@@ -34,7 +34,7 @@
                   PolicyRisksModal(:risks="risksComputed" :policyId="policyId" :riskId="risk.id" :inline="false")
                     b-dropdown-item-button Edit
                   b-dropdown-item-button.delete(@click="deleteRisk(risk.id)") Delete
-          tr(v-if="!risksComputed.length")
+          tr(v-if="policy.risks && !policy.risks.length")
             td.text-center(colspan=5)
               h4.py-2 No risks
 </template>
@@ -90,13 +90,25 @@
         }
       },
       deleteRisk(riskId) {
+        const riskById = this.$store.getters.riskById(riskId)
+        const index = riskById.compliance_policies.findIndex(risk => risk.id === riskId)
+        riskById.compliance_policies.splice(index, 1)
+        this.policy.risks.splice(index, 1)
+
+        const dataToSend = {
+          id: riskId,
+          compliance_policy_ids: riskById.compliance_policies.map(pol => pol.id)
+        };
+
         this.$store
-          .dispatch('deleteRisk', { id: riskId })
+          .dispatch('updateRisk', {...dataToSend})
           .then(response => {
-            this.makeToast('Success', `Risk successfully deleted!`)
+            console.log('response', response)
+            this.makeToast('Success', 'Changes saved')
           })
           .catch(error => {
-            this.makeToast('Error', `Couldn't delete risk! ${error}`)
+            console.error(error)
+            this.makeToast('Error', `Couldn't submit form! ${error}`)
           })
       },
       makeToast(title, str) {
