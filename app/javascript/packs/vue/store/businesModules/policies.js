@@ -333,9 +333,7 @@ export default {
             throw new Error(`Could't update policy (${response.status})`);
           return response.json()
         }).then(response => {
-          commit('updatePolicy', {
-            ...response
-          })
+          commit('updatePolicy', response)
           return response
         }).catch (error => {
           // console.error(error)

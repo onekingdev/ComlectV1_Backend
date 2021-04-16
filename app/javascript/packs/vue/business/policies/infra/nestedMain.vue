@@ -386,9 +386,9 @@
       },
     },
     watch: {
-      realValue (value) {
-        console.log('watch realValue', value)
-      },
+      // realValue (value) {
+      //   console.log('watch realValue', value)
+      // },
     },
     // mounted() {
     //   defaultPoliciesList = this.policiesList
