@@ -120,13 +120,15 @@
         event.preventDefault()
 
         const params = {
-          'logo': this.form.logo,
+          // 'logo': this.form.logo,
           'address': this.form.address,
           'phone': this.form.phone,
           'email': this.form.email,
           'disclosure': this.form.disclosure,
           'body': this.form.body,
         }
+        // Add logo if it exist
+        if (this.form.logo) params.logo = this.form.logo
 
         let formData = new FormData()
 
@@ -136,7 +138,7 @@
         console.log('formData', formData)
 
         axios.defaults.baseURL = '/api';
-        axios.defaults.headers.common['Authorization'] = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYxOTAyMDQwOH0.lnBshrpoodRs2E-cr2l8yXM3fsqUcH1V8hWrEK4H2BU';
+        axios.defaults.headers.common['Authorization'] = 'TOKEN';
         // axios.defaults.headers.post['Content-Type'] = 'application/json';
         // Finally, sending the request with our beloved Axios
         axios
@@ -154,11 +156,12 @@
       onReset(event) {
         event.preventDefault()
         // Reset our form values
+        this.url = null,
         this.form.logo = null,
-        this.form.address = '',
-        this.form.phone = '',
-        this.form.email = '',
-        this.form.disclosure = true,
+        this.form.address = false,
+        this.form.phone = false,
+        this.form.email = false,
+        this.form.disclosure = false,
         this.form.body = ''
         // Trick to reset/clear native browser form validation state
         this.show = false
@@ -184,9 +187,9 @@
           // this.makeToast('Success', `Policy successfully deleted!`)
 
           // update form
-          if (response.logo_data) this.url = response.logo_data.thumb.id
+          this.url = response.logo
           this.form = {
-            // logo: response.logo_data,
+            // logo: response.logo,
             address: response.address,
             phone: response.phone,
             email: response.email,
