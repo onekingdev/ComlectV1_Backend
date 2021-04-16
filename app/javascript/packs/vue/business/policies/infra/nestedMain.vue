@@ -9,14 +9,14 @@
   @end="onEnd"
   @input="emitter"
   )
-    .table__row(v-for='el in realValue' :key='el.title' :data-id-policy="el.id")
+    .table__row(v-for='(el, index) in realValue' :key='el.title' :data-id-policy="el.id")
       .table__cell.table__cell_name(v-show="el.children && el.children.length !== 0")
         .d-flex.align-items-center
-          .dropdown-toggle.link(v-if="el.children && el.children.length !== 0" :id="`#sectionIcon-${el.id}`", @click="toogleSections(el.id)")
+          .dropdown-toggle.link(v-if="el.children && el.children.length !== 0" :id="`#sectionIcon-${el.id ? el.id : index}`", @click="toogleSections(el.id ? el.id : index)")
             b-icon.mr-2(icon="chevron-compact-right")
           a.link(v-if="el.id" :href="`/business/compliance_policies/${el.id}`") {{ el.title }}
           .link(v-else) {{ el.title }}
-        .dropdown-items.mb-2(v-if="el.children && el.children.length" :id="`#section-${el.id}`")
+        .dropdown-items.mb-2(v-if="el.children && el.children.length" :id="`#section-${el.id ? el.id : index}`")
           nested-draggable(
           v-show="open"
           :list="el.children"
@@ -374,8 +374,8 @@
         this.$emit("input", value);
       },
       toogleSections(value) {
-        console.log(value)
-        console.log(document.getElementById(`#section-${value}`))
+        // console.log(value)
+        // console.log(document.getElementById(`#section-${value}`))
         document.getElementById(`#section-${value}`).classList.toggle('active');
         document.getElementById(`#sectionIcon-${value}`).classList.toggle('active');
       },
