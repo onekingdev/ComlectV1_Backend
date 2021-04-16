@@ -12,11 +12,15 @@
     .table__row(v-for='el in realValue' :key='el.title' :data-id-policy="el.id")
       .table__cell.table__cell_name(v-show="el.children && el.children.length !== 0")
         .d-flex.align-items-center
-          .dropdown-toggle.link(v-if="el.children && el.children.length !== 0" :id="`#sectionIcon-${el.id ? el.id : randomNum}`", @click="toogleSections(el.id ? el.id : randomNum)")
+          .dropdown-toggle.link(
+            v-if="el.children && el.children.length !== 0"
+            :id="`#sectionIcon-${el.id ? el.id : randomNum}`"
+            @click="toogleSections(el.id ? el.id : randomNum)"
+            :class="{active : shortTable}")
             b-icon.mr-2(icon="chevron-compact-right")
           a.link(v-if="el.id" :href="`/business/compliance_policies/${el.id}`") {{ el.title }}
           .link(v-else) {{ el.title }}
-        .dropdown-items.mb-2(v-if="el.children && el.children.length" :id="`#section-${el.id ? el.id : randomNum}`")
+        .dropdown-items.mb-2(v-if="el.children && el.children.length" :id="`#section-${el.id ? el.id : randomNum}`" :class="{active : shortTable}")
           nested-draggable(
           v-show="open"
           :list="el.children"
@@ -25,6 +29,7 @@
           :policyTitle="el.title"
           :parentSection="el"
           :policiesList="policiesList"
+          :shortTable="shortTable"
           )
       .table__cell.table__cell_name(v-show="el.children && el.children.length === 0")
         a.link(v-if="el.id" :href="`/business/compliance_policies/${el.id}`") {{ el.title }}
