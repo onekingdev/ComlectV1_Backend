@@ -72,7 +72,7 @@
                           <!--component(v-for="subSection in subSections", v-bind:is="subSection.component", :key="subSection.id", :subSection="subSection", :policyID="policyID", @clickedAddSection="addSectionFromChild", @clickedDeleteSection="deleteSection", @clickedSaveIt="onClickSaveSubsection")-->
                       HistoryPolicy(:policy="policy")
                     b-tab(title="Risks")
-                      PolicyRisks(:policyId="policyId" :policy="policy")
+                      PolicyRisks(:policyId="policyId")
                     b-tab(title="Tasks")
                       .policy-details
                         h3.policy-details__title Tasks
