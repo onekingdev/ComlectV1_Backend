@@ -65,6 +65,10 @@
                       | Mock audit
                       ion-icon.ml-2(name='close-outline')
 
+            .card-header(v-if="loading")
+              .row.py-2.px-4
+                .col
+                  Loading
             .card-header(v-if="!loading && specialistsList" v-for="specialist in specialistsList" :key="specialist.id")
               .row.py-2.px-4
                 .col-lg-2.col-3
@@ -91,40 +95,13 @@
                         b-icon.linkedin.mr-3(icon='linkedin' font-scale="1.5")
                         b-button(variant="default") Message
                 .offset-lg-2.col-lg-10.col
-                  b-card-text.m-t-1
-                    | Hi, my name Chris Jakson Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                    | laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                  b-card-text.m-t-1(v-if="specialist.description") {{specialist.description}}
+                  b-card-text.m-t-1(v-else)
+                  | Hi, my name Chris Jakson Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  | laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
                   .d-flex.justify-content-between
-                    ul.list-group.list-group-horizontal.w-100.project-figures.specialist-figures
-                      li.list-group-item
-                        ion-icon.float-left.mt-3.mr-3(name="cash-outline")
-                        | Hourly rate
-                        br
-                        b ${{ specialist.min_hourly_rate ? specialist.min_hourly_rate : 0 }}
-                      li.list-group-item
-                        ion-icon.float-left.mt-3.mr-3(name="analytics-outline")
-                        | Expirience
-                        br
-                        b {{ specialist.experience }}
-                      li.list-group-item
-                        ion-icon.float-left.mt-3.mr-3(name="earth-outline")
-                        | Jurisdiction
-                        br
-                        b(v-if="specialist.jurisdictions" v-for="jur in specialist.jurisdictions") &nbsp;{{ jur.name }}&nbsp;
-            .card-body.m-2.text-danger(title="No specialists")
-
-            .card-header(v-for="project in projects" :key="project.uid")
-              .col-md-12
-                h3.m-b-1
-                  a(@click="openDetails(project.id)") {{project.title}}
-                h6.pb-1.card-subtitle.text-muted.mb-2 {{project.subTitle}} | Start {{project.starts_on|asDate}}
-                .badge.badge-default.m-r-1(v-for="skill in project.skills") {{ skill.name }}
-                b-card-text.m-t-1 {{project.description}}
-                .d-flex.justify-content-between
-                  SpecialistFigures(:project="project")
-                  div.m-t-1
-                    b-button(@click="openDetails(project.id)" variant="default") View Details
-            .card-body.m-2.text-danger(v-if="!projects.length" title="No projects")
+                    SpecialistFigures(:specialist="specialist")
+            .card-body.m-2.text-danger(v-if="!specialistsList.length"  title="No specialists")
 
       b-sidebar#ProjectSidebar(@hidden="closeSidebar" v-model="isSidebarOpen" backdrop-variant='dark' backdrop right width="60%")
         .card
@@ -142,6 +119,7 @@
 </template>
 
 <script>
+  import Loading from '@/common/Loading/Loading'
   import SpecialistFigures from './SpecialistFigures'
   import SpecialistDetails from './SpecialistDetails'
 
@@ -187,7 +165,9 @@
 
   export default {
     components: {
-      VueRangeSlider
+      Loading,
+      VueRangeSlider,
+      SpecialistFigures
     },
     data() {
       return {

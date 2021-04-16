@@ -1,16 +1,10 @@
-// class Specialist {
-//   constructor(created_at, description, id, name, position, sections = null, src_id, status, updated_at) {
-//     this.created_at = created_at,
-//       this.description = description,
-//       this.id = id,
-//       this.name = name,
-//       this.position = position,
-//       this.sections = sections,
-//       this.srcId = src_id,
-//       this.status = status,
-//       this.updated_at = updated_at
-//   }
-// }
+import axios from 'axios'
+
+const instance = axios.create({
+  baseURL: '/api',
+  timeout: 1000,
+  headers: {'X-Custom-Header': 'foobar'}
+});
 
 export default {
   state: {
@@ -26,29 +20,21 @@ export default {
       commit("clearError");
       commit("setLoading", true);
 
-      try {
-        const endpointUrl = '/api/business/specialists'
-        const data = await fetch(`${endpointUrl}`, { headers: {'Accept': 'application/json'}})
-          .then(response => {
-            return response.json()
-          })
-          .then(response => {
-            commit('updateSpecialistsList', response)
-            return response
-          })
-          .catch(error => {
-            console.error(error)
-            throw error
-          })
-          .finally(() => commit("setLoading", false))
+      instance.get('/business/specialists')
+        .then(function (response) {
+          // handle success
+          commit('updateSpecialistsList', response.data)
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+          throw error
+        })
+        .then(function () {
+          // always executed
+          commit("setLoading", false)
+        });
 
-        return data;
-
-      } catch (error) {
-        commit("setError", error.message);
-        commit("setLoading", false);
-        throw error;
-      }
     },
   },
   getters: {
