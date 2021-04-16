@@ -31,7 +31,7 @@
                 b-dropdown(size="sm" variant="light" class="m-0 p-0" right)
                   template(#button-content)
                     b-icon(icon="three-dots")
-                  PolicyRisksModal(:risks="risksComputed" :policyId="policyId" :riskId="risk.id" :inline="false" @saved="savedConfirmed")
+                  PolicyRisksModal(:risks="risksComputed" :policyId="policyId" :riskId="risk.id" :inline="false")
                     b-dropdown-item-button Edit
                   b-dropdown-item-button.delete(@click="deleteRisk(risk.id)") Delete
           tr(v-if="policyById.risks && !policyById.risks.length")
