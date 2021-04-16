@@ -333,9 +333,7 @@ export default {
             throw new Error(`Could't update policy (${response.status})`);
           return response.json()
         }).then(response => {
-          commit('updatePolicy', {
-            ...response
-          })
+          commit('updatePolicy', response)
           return response
         }).catch (error => {
           // console.error(error)
@@ -530,7 +528,7 @@ export default {
       try {
         const endpointUrl = '/api/business/risks'
         const data = await fetch(`${endpointUrl}/${payload.id}`, {
-          method: 'PUT',
+          method: 'PATCH',
           headers: {
             // 'Authorization': 'Bearer test',
             'Accept': 'application/json',
@@ -693,6 +691,11 @@ export default {
     // RISKS
     risksList(state) {
       return state.risks.sort((a, b) => a.id - b.id);
+    },
+    riskById (state) {
+      return riskId => {
+        return state.risks.find(risk => risk.id === riskId)
+      }
     },
   },
 };

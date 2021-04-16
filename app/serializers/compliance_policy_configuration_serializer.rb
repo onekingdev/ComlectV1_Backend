@@ -1,14 +1,10 @@
 # frozen_string_literal: true
 
 class CompliancePolicyConfigurationSerializer < ApplicationSerializer
-  attributes :logo,
+  attributes :logo_data,
              :address,
              :phone,
              :email,
              :disclosure,
              :body
-
-  def logo
-    object.logo_url(:original)
-  end
 end
