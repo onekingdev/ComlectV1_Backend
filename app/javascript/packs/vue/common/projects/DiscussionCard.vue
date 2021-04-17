@@ -26,8 +26,8 @@ const DISCUSSION_UPDATE_PERIOD = 20000
 export default {
   mixins: [EtaggerMixin()],
   props: {
-    projectId: {
-      type: Number,
+    project: {
+      type: Object,
       required: true
     },
     token: {
@@ -60,7 +60,7 @@ export default {
       }
     },
     messagesUrl() {
-      return `/api/local_projects/${this.projectId}/messages`
+      return `/api/local_projects/${this.project.id}/messages`
     },
   }
 }

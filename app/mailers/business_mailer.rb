@@ -13,4 +13,17 @@ class BusinessMailer < ApplicationMailer
       }
     )
   end
+
+  def verify_email(user, otp_code)
+    @otp_code = otp_code
+    @user = user
+
+    mail(
+      to: @user.email,
+      template_model: {
+        subject: 'Confirm your email',
+        message_html: render_to_string(template: 'business_mailer/verify_email')
+      }
+    )
+  end
 end
