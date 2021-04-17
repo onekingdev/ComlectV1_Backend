@@ -13,7 +13,7 @@ class Business::OnboardingController < ApplicationController
   include SubscriptionCommon
 
   def index
-    render html: content_tag('business-onboarding-page', '').html_safe, layout: 'vue_business'
+    render html: content_tag('business-onboarding-page', '').html_safe, layout: 'vue_onboarding'
   end
 
   def subscribe
