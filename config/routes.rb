@@ -178,6 +178,8 @@ Rails.application.routes.draw do
   get '/employees/stop-mirror', to: 'employees#stop_mirror', as: 'stop_mirror_business'
 
   namespace :specialists, path: 'specialist' do
+    get '/onboarding' => 'onboarding#index'
+    post '/onboarding' => 'onboarding#subscribe'
     get '/' => 'dashboard#show', as: :dashboard
     get '/locked' => 'dashboard#locked'
     resources :reminders, only: %i[new update create destroy edit show index]

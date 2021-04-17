@@ -30,69 +30,14 @@ body class="#{controller_name} #{action_name}"
   #app
     .container-fluid
       .row(style='min-height: 100vh;')
-        nav#sidebarMenu.col-md-3.col-lg-2.d-md-block.sidebar.collapse.px-0
-          .fixed-top.pt-3.col-md-3.col-lg-2.px-1
-            h3.d-flex.justify-content-between(role="button" v-b-toggle.overview_collapse="")
-              | Overview
-              ion-icon(name='chevron-down-outline')
-            b-collapse#overview_collapse(:visible="true")
-              ul.nav.flex-column
-                li.nav-item
-                  a.btn(aria-current='page' href='/business2' class="#{'active' if params[:controller] == 'business_dashboard2'}")
-                    ion-icon(name='globe-outline')
-                    | Dashboard
-                li.nav-item
-                  a.btn(aria-current='page' href='/business/projects' class="#{'active' if params[:controller] == 'business/projects'}")
-                    ion-icon(name='list-outline')
-                    | Projects
-                li.nav-item
-                  a.btn(aria-current='page' href='/business/reminders' class="#{'active' if params[:controller] == 'business/reminders'}")
-                    ion-icon(name='checkbox-outline')
-                    | Tasks
-
-            h3.d-flex.justify-content-between(role="button" v-b-toggle.program_management_collapse="")
-              | Program Management
-              ion-icon(name='chevron-down-outline')
-            b-collapse#program_management_collapse(:visible="true")
-              ul.nav.flex-column
-                li.nav-item
-                  a.btn(aria-current='page' href='/business/compliance_policies' class="#{'active' if params[:controller] == 'business/compliance_policies'}")
-                    ion-icon(name='newspaper-outline')
-                    | Policies and Procedures
-                li.nav-item
-                  a.btn(aria-current='page' href='#')
-                    ion-icon(name='document-text-outline')
-                    | Annual Review
-                li.nav-item
-                  a.btn(aria-current='page' href='#')
-                    ion-icon(name='document-text-outline')
-                    | Filings
-
-            h3.d-flex.justify-content-between(role="button" v-b-toggle.addons_collapse="")
-              | Add-ons
-              ion-icon(name='chevron-down-outline')
-            b-collapse#addons_collapse(:visible="true")
-              ul.nav.flex-column
-                li.nav-item
-                  a.btn(aria-current='page' href='#')
-                    ion-icon(name='layers-outline')
-                    | My Add-Ons
-                li.nav-item
-                  a.btn(aria-current='page' href='#')
-                    ion-icon(name='storefront-outline')
-                    | Add-On Marketplace
-                li.nav-item
-                  a.btn(aria-current='page' href='#')
-                    ion-icon(name='settings-outline')
-                    | Settings
-        main.col-md-9.col-lg-10#main-content.px-0
+        main.col-md-12.col-lg-12#main-content.px-0
           nav.navbar.navbar-expand-lg.navbar-light.p-0
             button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarNavAltMarkup' aria-controls='navbarNavAltMarkup' aria-expanded='false' aria-label='Toggle navigation')
               span.navbar-toggler-icon
             #top_navbar.collapse.navbar-collapse.d-flex.justify-content-between
               .navbar-nav
                 a.nav-item.nav-link.active(href='#')
-                  | Home 
+                  | Home
                   span.sr-only (current)
                 a.nav-item.nav-link(href='#') Documents
                 a.nav-item.nav-link(href='#') Reports
@@ -123,6 +68,6 @@ body class="#{controller_name} #{action_name}"
           = yield
 
   = yield :prepend_scripts
-  = javascript_pack_tag 'vue-business'
+  = javascript_pack_tag 'vue-onboarding'
   = yield :scripts
   = render 'drift'
