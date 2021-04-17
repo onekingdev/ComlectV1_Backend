@@ -46,8 +46,7 @@ class Specialist < ApplicationRecord
   has_many :ported_businesses
   has_many :payment_sources, class_name: 'Specialist::PaymentSource'
   has_many :reminders, as: :remindable
-  has_many :local_projects_specialists, foreign_key: :specialist_id
-  has_many :local_projects, through: :local_projects_specialists
+  has_and_belongs_to_many :local_projects
   has_many :business_specialists_roles, foreign_key: :specialist_id
   has_many :specialist_roles, source: :specialist, through: :business_specialists_roles
 

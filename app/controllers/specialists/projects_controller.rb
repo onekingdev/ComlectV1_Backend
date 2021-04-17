@@ -24,7 +24,7 @@ class Specialists::ProjectsController < ApplicationController
                              '',
                              ':id': params[:id],
                              ':specialist-id': current_specialist.id,
-                             'token': JsonWebToken.encode(sub: current_specialist.id),
+                             'token': JsonWebToken.encode(sub: current_user.id),
                              ':application-id': @application.id).html_safe,
            layout: 'vue_specialist'
   end
