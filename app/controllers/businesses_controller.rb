@@ -21,7 +21,7 @@ class BusinessesController < ApplicationController
   end
 
   def new
-    render html: content_tag('business-signup-page', '').html_safe, layout: 'vue_business'
+    render html: content_tag('business-signup-page', '').html_safe, layout: 'vue_onboarding'
   end
 
   def create
