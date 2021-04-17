@@ -179,10 +179,9 @@ class Specialist < ApplicationRecord
   has_one :cookie_agreement, through: :user
   accepts_nested_attributes_for :tos_agreement
   accepts_nested_attributes_for :cookie_agreement
-  accepts_nested_attributes_for :user
-  # validate :tos_invalid?
-  # validate :cookie_agreement_invalid?
-  validates :username, uniqueness: true, allow_blank: true
+  validate :tos_invalid?
+  validate :cookie_agreement_invalid?
+  validates :username, uniqueness: true
   validates :call_booked, presence: true, on: :signup
   validates :resume, presence: true, on: :signup if Rails.env != 'test'
 

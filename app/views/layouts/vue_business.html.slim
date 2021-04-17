@@ -64,9 +64,9 @@ body class="#{controller_name} #{action_name}"
                     ion-icon(name='document-text-outline')
                     | Annual Review
                 li.nav-item
-                  a.btn(aria-current='page' href='#')
-                    ion-icon(name='document-text-outline')
-                    | Filings
+                  a.btn(aria-current='page' href='/business/risks' class="#{'active' if params[:controller] == 'business/risks'}")
+                    ion-icon(name='warning-outline')
+                    | Risk Register
 
             h3.d-flex.justify-content-between(role="button" v-b-toggle.addons_collapse="")
               | Add-ons
