@@ -1,4 +1,4 @@
-// import axios from '@/axios'
+// import axios from 'axios'
 import store from '../../store/business'
 
 const axios = axios.create({
