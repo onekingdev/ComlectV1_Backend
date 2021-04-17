@@ -21,6 +21,6 @@ class RatingSerializer < ApplicationSerializer
   end
 
   def rater_pic
-    object.rater.class.name == 'Specialist' ? object.rater.photo_url(:thumb) : object.rater.logo_url(:thumb)
+    object.rater.class.name.include?('Specialist') ? object.rater.photo_url(:thumb) : object.rater.logo_url(:thumb)
   end
 end

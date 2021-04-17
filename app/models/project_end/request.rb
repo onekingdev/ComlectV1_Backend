@@ -15,7 +15,7 @@ class ProjectEnd::Request < Draper::Decorator
     new(create!(project: project,
                 expires_at: expires_at,
                 requester: someone.class.name)).tap do |request|
-      if someone.class.name == 'Business'
+      if someone.class.name.include?('Business')
         request.confirm!
         Notification::Deliver.end_project_accepted! request
       else

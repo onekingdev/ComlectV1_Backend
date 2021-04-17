@@ -19,16 +19,19 @@
               drop-placeholder="Drop file here..."
               @change="onFileChange")
               b-button(@click='onRemove') Remove
-        b-form-group#input-groupAddress(label='Address:' label-for='inputAddress')
-          b-form-input#inputAddress(v-model='form.address'  required)
-        b-form-group#input-groupPhone(label='Phone:' label-for='inputPhone')
-          b-form-input#inputPhone(v-model='form.phone'  required)
-        b-form-group#input-groupEmail(label='Email:' label-for='inputEmail')
-          b-form-input#inputEmail(v-model='form.email'  required)
+        <!--b-form-group#input-groupAddress(label='Address:' label-for='inputAddress')-->
+          <!--b-form-input#inputAddress(v-model='form.address'  required)-->
+        <!--b-form-group#input-groupPhone(label='Phone:' label-for='inputPhone')-->
+          <!--b-form-input#inputPhone(v-model='form.phone'  required)-->
+        <!--b-form-group#input-groupEmail(label='Email:' label-for='inputEmail')-->
+          <!--b-form-input#inputEmail(v-model='form.email'  required)-->
 
         b-form-group(id="input-group-4" v-slot="{ ariaDescribedby }")
           h4 Display Settings
           p Select what you want to display on the cover page
+          b-form-checkbox(v-model='form.address') Address
+          b-form-checkbox(v-model='form.phone') Phone
+          b-form-checkbox(v-model='form.email') Email
           b-form-checkbox(v-model='form.disclosure') Disclosure
 
         <!--b-form-group-->
@@ -68,8 +71,8 @@
         b-form-group
           b-button.btn.mr-2(type='reset') Reset
           b-button.btn.btn-dark(type='submit' variant='primary') Save
-      <!--b-card.mt-3(header='Form Data Result')-->
-        <!--pre.m-0 {{ form }}-->
+      b-card.mt-3(header='Form Data Result')
+        pre.m-0 {{ form }}
 </template>
 
 <script>
@@ -87,10 +90,10 @@
           // checked: [],
 
           logo: null,
-          address: '',
-          phone: '',
-          email: '',
-          disclosure: true,
+          address: false,
+          phone: false,
+          email: false,
+          disclosure: false,
           body: ''
         },
         // fonts: [{ text: 'Select One', value: null }, 'Times new Roman', 'Arial'],
@@ -106,16 +109,18 @@
       onSubmit(event) {
         event.preventDefault()
 
-        let data = new FormData();
-        data.append('name', 'logo');
-        data.append('file', this.form.logo);
-        data.append('address', this.form.address),
-        data.append('phone', this.form.phone),
-        data.append('email', this.form.email),
-        data.append('disclosure', this.form.disclosure),
-        data.append('body', this.form.body),
+        // let data = new FormData();
+        // data.append('name', 'logo');
+        // data.append('logo', this.form.logo);
+        // this.form.logo = data
+        // data.append('address', this.form.address),
+        // data.append('phone', this.form.phone),
+        // data.append('email', this.form.email),
+        // data.append('disclosure', this.form.disclosure),
+        // data.append('body', this.form.body),
         this.$store
-          .dispatch('postPolicyConfig', data)
+          // .dispatch('postPolicyConfig', data)
+          .dispatch('postPolicyConfig', this.form)
           .then(response => {
             console.log('response', response)
             this.makeToast('Success', `Policy Config successfully sended!`)

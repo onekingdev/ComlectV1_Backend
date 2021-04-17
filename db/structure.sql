@@ -562,7 +562,10 @@ CREATE TABLE public.businesses (
     compliance_policies_spawned boolean DEFAULT false,
     annual_budget numeric,
     risk_tolerance character varying,
-    reminders_mailed_at timestamp without time zone
+    reminders_mailed_at timestamp without time zone,
+    crd_number character varying,
+    account_created boolean DEFAULT false,
+    apartment character varying
 );
 
 
@@ -702,7 +705,8 @@ CREATE TABLE public.compliance_policies (
     description text DEFAULT ''::text,
     src_id integer,
     status character varying DEFAULT 'draft'::character varying,
-    sections jsonb
+    sections jsonb,
+    archived boolean DEFAULT false
 );
 
 
@@ -723,6 +727,73 @@ CREATE SEQUENCE public.compliance_policies_id_seq
 --
 
 ALTER SEQUENCE public.compliance_policies_id_seq OWNED BY public.compliance_policies.id;
+
+
+--
+-- Name: compliance_policies_risks; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.compliance_policies_risks (
+    id bigint NOT NULL,
+    risk_id bigint NOT NULL,
+    compliance_policy_id bigint NOT NULL
+);
+
+
+--
+-- Name: compliance_policies_risks_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.compliance_policies_risks_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: compliance_policies_risks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.compliance_policies_risks_id_seq OWNED BY public.compliance_policies_risks.id;
+
+
+--
+-- Name: compliance_policy_configurations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.compliance_policy_configurations (
+    id bigint NOT NULL,
+    business_id integer,
+    logo_data jsonb,
+    address boolean,
+    phone boolean,
+    email boolean,
+    disclosure boolean,
+    body text,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: compliance_policy_configurations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.compliance_policy_configurations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: compliance_policy_configurations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.compliance_policy_configurations_id_seq OWNED BY public.compliance_policy_configurations.id;
 
 
 --
@@ -756,42 +827,6 @@ CREATE SEQUENCE public.compliance_policy_docs_id_seq
 --
 
 ALTER SEQUENCE public.compliance_policy_docs_id_seq OWNED BY public.compliance_policy_docs.id;
-
-
---
--- Name: compliance_policy_risks; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.compliance_policy_risks (
-    id bigint NOT NULL,
-    name character varying,
-    level integer,
-    description text,
-    compliance_policy_id integer,
-    status character varying,
-    business_id integer,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
-);
-
-
---
--- Name: compliance_policy_risks_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.compliance_policy_risks_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: compliance_policy_risks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.compliance_policy_risks_id_seq OWNED BY public.compliance_policy_risks.id;
 
 
 --
@@ -837,7 +872,7 @@ CREATE TABLE public.documents (
     id integer NOT NULL,
     owner_id integer,
     owner_type character varying,
-    project_id integer NOT NULL,
+    local_project_id integer NOT NULL,
     file_data jsonb,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
@@ -2231,7 +2266,8 @@ CREATE TABLE public.users (
     muted_projects text DEFAULT '--- []
 '::text,
     otp_secret character varying,
-    otp_counter integer
+    otp_counter integer,
+    email_confirmed boolean DEFAULT false
 );
 
 
@@ -3866,7 +3902,8 @@ CREATE TABLE public.project_extensions (
     fixed_budget numeric,
     hourly_rate numeric,
     role_details text,
-    key_deliverables character varying
+    key_deliverables character varying,
+    ends_on_only boolean DEFAULT false
 );
 
 
@@ -4307,6 +4344,40 @@ CREATE SEQUENCE public.rewards_tiers_id_seq
 --
 
 ALTER SEQUENCE public.rewards_tiers_id_seq OWNED BY public.rewards_tiers.id;
+
+
+--
+-- Name: risks; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.risks (
+    id bigint NOT NULL,
+    name character varying,
+    impact integer,
+    business_id integer,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    likelihood integer
+);
+
+
+--
+-- Name: risks_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.risks_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: risks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.risks_id_seq OWNED BY public.risks.id;
 
 
 --
@@ -5147,17 +5218,24 @@ ALTER TABLE ONLY public.compliance_policies ALTER COLUMN id SET DEFAULT nextval(
 
 
 --
+-- Name: compliance_policies_risks id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.compliance_policies_risks ALTER COLUMN id SET DEFAULT nextval('public.compliance_policies_risks_id_seq'::regclass);
+
+
+--
+-- Name: compliance_policy_configurations id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.compliance_policy_configurations ALTER COLUMN id SET DEFAULT nextval('public.compliance_policy_configurations_id_seq'::regclass);
+
+
+--
 -- Name: compliance_policy_docs id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.compliance_policy_docs ALTER COLUMN id SET DEFAULT nextval('public.compliance_policy_docs_id_seq'::regclass);
-
-
---
--- Name: compliance_policy_risks id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.compliance_policy_risks ALTER COLUMN id SET DEFAULT nextval('public.compliance_policy_risks_id_seq'::regclass);
 
 
 --
@@ -5455,6 +5533,13 @@ ALTER TABLE ONLY public.rewards_tiers ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
+-- Name: risks id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.risks ALTER COLUMN id SET DEFAULT nextval('public.risks_id_seq'::regclass);
+
+
+--
 -- Name: seats id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -5707,19 +5792,27 @@ ALTER TABLE ONLY public.compliance_policies
 
 
 --
+-- Name: compliance_policies_risks compliance_policies_risks_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.compliance_policies_risks
+    ADD CONSTRAINT compliance_policies_risks_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: compliance_policy_configurations compliance_policy_configurations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.compliance_policy_configurations
+    ADD CONSTRAINT compliance_policy_configurations_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: compliance_policy_docs compliance_policy_docs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.compliance_policy_docs
     ADD CONSTRAINT compliance_policy_docs_pkey PRIMARY KEY (id);
-
-
---
--- Name: compliance_policy_risks compliance_policy_risks_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.compliance_policy_risks
-    ADD CONSTRAINT compliance_policy_risks_pkey PRIMARY KEY (id);
 
 
 --
@@ -6059,6 +6152,14 @@ ALTER TABLE ONLY public.rewards_tiers
 
 
 --
+-- Name: risks risks_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.risks
+    ADD CONSTRAINT risks_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: seats seats_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -6338,6 +6439,20 @@ CREATE INDEX index_charges_on_transaction_id ON public.charges USING btree (tran
 
 
 --
+-- Name: index_compliance_policies_risks_on_compliance_policy_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_compliance_policies_risks_on_compliance_policy_id ON public.compliance_policies_risks USING btree (compliance_policy_id);
+
+
+--
+-- Name: index_compliance_policies_risks_on_risk_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_compliance_policies_risks_on_risk_id ON public.compliance_policies_risks USING btree (risk_id);
+
+
+--
 -- Name: index_cookie_agreements_on_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -6345,17 +6460,17 @@ CREATE INDEX index_cookie_agreements_on_user_id ON public.cookie_agreements USIN
 
 
 --
+-- Name: index_documents_on_local_project_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_documents_on_local_project_id ON public.documents USING btree (local_project_id);
+
+
+--
 -- Name: index_documents_on_owner_type_and_owner_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_documents_on_owner_type_and_owner_id ON public.documents USING btree (owner_type, owner_id);
-
-
---
--- Name: index_documents_on_project_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_documents_on_project_id ON public.documents USING btree (project_id);
 
 
 --
@@ -7333,6 +7448,22 @@ ALTER TABLE ONLY public.business_specialists_roles
 
 
 --
+-- Name: compliance_policies_risks fk_rails_c295f383a5; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.compliance_policies_risks
+    ADD CONSTRAINT fk_rails_c295f383a5 FOREIGN KEY (risk_id) REFERENCES public.risks(id);
+
+
+--
+-- Name: compliance_policies_risks fk_rails_ec44012ae5; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.compliance_policies_risks
+    ADD CONSTRAINT fk_rails_ec44012ae5 FOREIGN KEY (compliance_policy_id) REFERENCES public.compliance_policies(id);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
@@ -7701,4 +7832,14 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210326130422'),
 ('20210329160613'),
 ('20210329192005'),
-('20210404131222');
+('20210331224316'),
+('20210401163159'),
+('20210401163637'),
+('20210401192628'),
+('20210404131222'),
+('20210407003049'),
+('20210408131105'),
+('20210410142233'),
+('20210415142648');
+
+

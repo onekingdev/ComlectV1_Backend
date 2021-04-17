@@ -11,18 +11,20 @@ import TimesheetsShowPage from '@/business/projects/TimesheetsShowPage'
 
 import BusinessPoliciesPage from './vue/business/policies/Page.vue'
 import BusinessPoliciesCreatePage from './vue/business/policies/Details/PolicyCreate.vue'
+// import BusinessPoliciesCreatePageSubsection from './vue/business/policies/PolicySubsection.vue'
+// import BusinessPoliciesCreatePageHistory from './vue/business/policies/PolicyTable.vue'
 
 const businesPolicies = {
   BusinessPoliciesPage,
   BusinessPoliciesCreatePage,
+  // BusinessPoliciesCreatePageSubsection,
+  // BusinessPoliciesCreatePageHistory
 }
 
-import BusinessRisksPage from './vue/business/riskregister/Page.vue'
-import BusinessRisksPageDetail from './vue/business/riskregister/RiskDetail.vue'
+import UserSignUpPage from './vue/auth/SignUp/Business/Page.vue'
 
-const businesRisks = {
-  BusinessRisksPage,
-  BusinessRisksPageDetail
+const auth = {
+  UserSignUpPage,
 }
 
 init({
@@ -38,6 +40,6 @@ init({
     TimesheetsShowPage,
 
     ...businesPolicies,
-    ...businesRisks
+    ...auth
   }
 })
