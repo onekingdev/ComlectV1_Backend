@@ -9,10 +9,6 @@ class Business::RisksController < ApplicationController
     render html: content_tag('business-risks-page', '').html_safe, layout: 'vue_business'
   end
 
-  #def show
-  #  render html: content_tag('business-risk-page', '').html_safe, layout: 'vue_business'
-  #end
-
   def show
     render html: content_tag('business-risks-page-detail', '', ':risk-id': params[:id]).html_safe, layout: 'vue_business'
   end
@@ -23,5 +19,4 @@ class Business::RisksController < ApplicationController
     @business = current_business
     @risk = current_business.risks.find(params[:id])
   end
-
 end
