@@ -22,7 +22,7 @@
               .invalid-feedback.d-block(v-if="errors['user.password']") 'Password' {{ ...errors['user.password'] }}
             b-form-group#input-group-5(label='Repeat Password:' label-for='input-5')
               b-form-input#input-5(v-model='form.passwordConfirm' type='password' placeholder='Repeat Password' required)
-              .invalid-feedback.d-block(v-if="errors['user.passwordConfirm']") 'Repeat Password' {{ ...errors['user.passwordConfirm'] }}
+              .invalid-feedback.d-block(v-if="errors.passwordConfirm") {{ errors.passwordConfirm }}
             b-form-group
               p By sining up, I accept the&nbsp;
                 a.link(href="#") Complect Term of Service&nbsp;
@@ -104,13 +104,16 @@
       makeToast(title, str) {
         this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
       },
-      etValidationState({ dirty, validated, valid = null }) {
-        return dirty || validated ? valid : null;
-      },
       onSubmit(event) {
         event.preventDefault()
         // clear errors
         this.errors = []
+
+        if (this.form.password !== this.form.passwordConfirm) {
+          this.errors = { passwordConfirm : 'Passwords are different!'}
+          this.makeToast('Error', `Passwords are different!`)
+          return
+        }
 
         const dataToSend = {
           "business": {
