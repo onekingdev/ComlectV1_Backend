@@ -29,7 +29,8 @@ class BusinessesController < ApplicationController
                              ':jurisdiction-ids': Jurisdiction.all.map(&proc { |ind|
                                                                           { id: ind.id,
                                                                             name: ind.name }
-                                                                        }).to_json).html_safe,
+                                                                        }).to_json,
+                             ':sub-industry-ids': sub_industries(false).to_json).html_safe,
            layout: 'vue_onboarding'
   end
 
