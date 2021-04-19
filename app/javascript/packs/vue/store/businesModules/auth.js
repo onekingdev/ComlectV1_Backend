@@ -20,7 +20,9 @@ export default {
         commit("clearError");
         commit("setLoading", true);
 
-        const response = await axios.post('/api/businesses', payload)
+        const endPoint = payload.business ? 'businesses' : 'specialists'
+
+        const response = await axios.post(`/api/${endPoint}`, payload)
         return response.data
 
       } catch (error) {

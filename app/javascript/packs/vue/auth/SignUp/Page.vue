@@ -2,11 +2,33 @@
   .col-xl-4.col-lg-6.col-md-8.m-x-auto
     .card-body.white-card-body.registration
       Loading
+      #step0.form(v-if='!loading' :class="step0 ? 'd-block' : 'd-none'")
+        h1.text-center Let's get you started!
+        p.text-center Create your FREE account
+        div
+          b-form(@submit='onSubmit0' v-if='show')
+            b-form-group
+              .row
+                .col.pr-2.text-center
+                  .account-select(@click="selectType('business')" :class="userType === 'business' ? 'active' : ''")
+                    h3.account-select__title.mb-3 I am a business
+                    ion-icon.mb-3(name="people-circle-outline" size="large")
+                    p.account-select__subtitle Looking to effectively manage my compilance program and find expetrise
+                .col.pl-2.text-center
+                  .account-select(@click="selectType('specialist')" :class="userType === 'specialist' ? 'active' : ''")
+                    h3.account-select__title.mb-3 I am a specialist
+                    ion-icon.mb-3(name="person-circle-outline" size="large")
+                    p.account-select__subtitle Looking to work with potential clients on compilance projects
+            b-button.w-100(type='submit' variant='dark') Next
+            hr
+            b-form-group.text-center
+              p Already have a Complect account?&nbsp;
+                a.link(href="#") Sign In
       #step1.form(v-if='!loading' :class="step1 ? 'd-block' : 'd-none'")
         h1.text-center Let's get you started!
         p.text-center Create your FREE account
         div
-          b-form(@submit='onSubmit' v-if='show')
+          b-form(@submit='onSubmit1' v-if='show')
             .row
               .col.pr-2
                 b-form-group#input-group-1(label='First Name:' label-for='input-1')
@@ -32,7 +54,7 @@
             hr
             b-form-group.text-center
               p Already have a Complect account?&nbsp;
-                a.link(href="#") Sign Up
+                a.link(href="#") Sign In
           b-card.mt-3(header='Form Data Result')
             pre.m-0 {{ form }}
       #step2.form(v-if='!loading'  :class="step2 ? 'd-block' : 'd-none'")
@@ -64,7 +86,8 @@
         h1.text-center You successfuly registered!
         p.text-center You will be redirect to finish steps for updating your account
         .text-center
-            ion-icon(name="checkmark-circle-outline" size="large")
+          b-icon( icon="circle-fill" animation="throb" font-scale="4")
+            <!--ion-icon(name="checkmark-circle-outline" size="large")-->
 </template>
 
 <script>
@@ -84,9 +107,10 @@
       return {
         userId: '',
         otpSecret: '',
+        userType: '',
         form: {
-          firstName: 'Alex2',
-          lastName: 'GangBang',
+          firstName: 'Alex',
+          lastName: 'Willkinson',
           email: Math.floor(Math.random() * 100) + 'fine@email.com',
           password: 'user666',
           passwordConfirm: 'user666',
@@ -102,7 +126,8 @@
         },
         show: true,
         errors: {},
-        step1: true,
+        step0: true,
+        step1: false,
         step2: false,
         step3: false,
       }
@@ -111,7 +136,18 @@
       makeToast(title, str) {
         this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
       },
-      onSubmit(event) {
+      selectType(type){
+        this.userType = type
+      },
+      onSubmit0(event){
+        event.preventDefault()
+        if (!this.userType) return
+
+        // open step 1
+        this.step0 = false
+        this.step1 = true
+      },
+      onSubmit1(event) {
         event.preventDefault()
         // clear errors
         this.errors = []
@@ -122,32 +158,44 @@
           return
         }
 
-        const dataToSend = {
-          "business": {
-            "contact_first_name": this.form.firstName,
-            "contact_last_name": this.form.lastName,
-            "user_attributes": {
-              "email": this.form.email,
-              "password": this.form.password
+        let dataToSend;
+
+        // FOR BUSSINES
+        if (this.userType === 'business') {
+          dataToSend = {
+            "business": {
+              "contact_first_name": this.form.firstName,
+              "contact_last_name": this.form.lastName,
+              "user_attributes": {
+                "email": this.form.email,
+                "password": this.form.password
+              }
             }
           }
         }
+        // FOR SPECIALIST
+        if (this.userType === 'specialist') {
+          dataToSend = {
+            "specialist": {
+              "first_name": this.form.firstName,
+              "last_name": this.form.lastName,
+              "user_attributes": {
+                "email": this.form.email,
+                "password": this.form.password
+              }
+            }
+          }
+        }
+
         console.log('dataToSend', dataToSend)
         this.$store.dispatch('singUp', dataToSend)
           .then((response) => {
-            console.log('response 222', response)
+
             if (response.errors) {
-
               const properties = Object.keys(response.errors);
-              console.log('properties', properties);
-
               for (const type of Object.keys(response.errors)) {
-                console.log('err', type);
-                console.log('err2222', response.errors[type]);
                 this.errors = response.errors[type]
-
                 this.makeToast('Error', `Form has errors! Please recheck fields! ${error}`)
-
                 // Object.keys(response.errors[type]).map(prop => response.errors[prop].map(err => this.makeToast(`Error`, `${prop}: ${err}`)))
               }
 
@@ -209,6 +257,11 @@
               // open step 3
               this.step2 = false
               this.step3 = true
+
+              setTimeout(() => {
+                if (this.userType === 'business') window.location.href = `${window.location.origin}/businesses/new`
+                if (this.userType === 'specialist') window.location.href = `${window.location.origin}/specialists/new`
+              }, 5000)
             }
 
           })
@@ -255,6 +308,28 @@
   }
   .link{
     color: var(--blue)
+  }
+
+  .account-select {
+    padding: 2rem 2.5rem;
+    border: solid 1px #dcdee4;
+    border-radius: 5px;
+    transition: all 200ms ease;
+  }
+  .account-select:hover,
+  .account-select:active {
+    background-color: #f6f6f8;
+    cursor: pointer;
+  }
+  .account-select.active {
+    border-color: black;
+    background-color: #f6f6f8;
+  }
+  .account-select__title {}
+  .account-select__subtitle {
+    margin: auto;
+    max-width: 65%;
+    color: #7f8184;
   }
 
   ion-icon {
