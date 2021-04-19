@@ -1,10 +1,15 @@
 # frozen_string_literal: true
 
 class Users::RegistrationsController < Devise::RegistrationsController
+  include ActionView::Helpers::TagHelper
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
 
   respond_to :js, :html
+
+  def new
+    render html: content_tag('business-signup-page', '').html_safe, layout: 'vue_onboarding'
+  end
 
   # GET /resource/sign_up
   # def new
