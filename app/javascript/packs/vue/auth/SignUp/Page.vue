@@ -39,24 +39,24 @@
         h1.text-center Confirm your email!
         p.text-center We send a 6 digit code to email.com. Please enter it below.
         div
-          b-form(@submit='onSubmitStep2' @change="onChange" v-if='show')
+          b-form(@submit='onSubmitStep2' @keyup="onChange" v-if='show' autocomplete="off")
             b-form-group
-              .col-lg-2.m-x-auto
+              .col.text-center
                 ion-icon(name="mail-outline" size="large")
             b-form-group
               .row
                 .col-12.mx-0
-                  .d-flex.justify-content-space-around.mx-auto.w-50
-                    b-form-input#inputCode1.code-input(v-model='form2.codePart1' type='text' required)
-                    b-form-input#inputCode2.code-input(v-model='form2.codePart2' type='text' required)
-                    b-form-input#inputCode3.code-input(v-model='form2.codePart3' type='text' required)
-                    b-form-input#inputCode4.code-input(v-model='form2.codePart4' type='text' required)
-                    b-form-input#inputCode5.code-input(v-model='form2.codePart5' type='text' required)
-                    b-form-input#inputCode6.code-input(v-model='form2.codePart6' type='text' required)
+                  .d-flex.justify-content-space-around.mx-auto.w-75
+                    b-form-input#inputCode1.code-input.ml-auto(v-model='form2.codePart1' type='number' maxlength="1" required)
+                    b-form-input#inputCode2.code-input(v-model='form2.codePart2' type='number' maxlength="1" required)
+                    b-form-input#inputCode3.code-input(v-model='form2.codePart3' type='number' maxlength="1" required)
+                    b-form-input#inputCode4.code-input(v-model='form2.codePart4' type='number' maxlength="1" required)
+                    b-form-input#inputCode5.code-input(v-model='form2.codePart5' type='number' maxlength="1" required)
+                    b-form-input#inputCode6.code-input.mr-auto(v-model='form2.codePart6' type='number' maxlength="1" required)
+                  .invalid-feedback.d-block.text-center(v-if="errors.code") {{ errors.code }}
               .row
                 .col
                   input(v-model='form2.code' type='hidden')
-                  .invalid-feedback.d-block(v-if="errors.code") {{ errors.code }}
             b-button.w-100(type='submit' variant='dark') Submit
           b-card.mt-3(header='Form Data Result')
             pre.m-0 {{ form2 }}
@@ -74,13 +74,20 @@
     components: {
       Loading,
     },
+    // created() {
+    //   const urlUserId = location.search.split('userid=')[1]
+    //   if(urlUserId) this.userId = urlUserId
+    //   const otpSecret = location.search.split('otp_secret=')[1]
+    //   if(otpSecret) this.otpSecret = otpSecret
+    // },
     data() {
       return {
         userId: '',
+        otpSecret: '',
         form: {
           firstName: 'Alex2',
           lastName: 'GangBang',
-          email: 'fine@email.com',
+          email: Math.floor(Math.random() * 100) + 'fine@email.com',
           password: 'user666',
           passwordConfirm: 'user666',
         },
@@ -170,6 +177,13 @@
 
         const urlUserId = location.search.split('userid=')[1]
         if(urlUserId) this.userId = urlUserId
+        // const otpSecret = location.search.split('otp_secret=')[1]
+        // if(otpSecret) this.otpSecret = otpSecret
+
+        if(this.form2.code.length !== 6) {
+          this.makeToast('Error', `Code length incorrect!`)
+          return
+        }
 
         const dataToSend = {
           userId: this.userId,
@@ -181,13 +195,13 @@
           .then((response) => {
             console.log('response 222', response)
 
-            if(response.errors) {
-              this.errors.code = response.message
+            if(!response.token) {
+              this.errors = {code: response.message}
               this.makeToast('Error', `Errors ${response.message}`)
               return
             }
 
-            if(!response.errors) {
+            if(response.token) {
               this.makeToast('Success', `${response.message}`)
               localStorage.setItem('app.currentUser', JSON.stringify(response.token));
               this.$store.commit('updateToken', response.token)
@@ -201,6 +215,19 @@
           .catch((error) => this.makeToast('Error', `Couldn't submit form! ${error}`))
       },
       onChange(e){
+        this.errors = []
+
+        if (e.target.value.length === 1) {
+          e.target.nextElementSibling?.focus()
+        }
+
+        // CATCH COPY PASTE CASE
+        if (e.target.value.length > 1) {
+          for(let i=1; i <= 6; i++) {
+            this.form2['codePart'+i] = e.target.value.charAt(i-1)
+          }
+        }
+
         this.form2.code = this.form2.codePart1 + this.form2.codePart2 + this.form2.codePart3 + this.form2.codePart4 + this.form2.codePart5 + this.form2.codePart6
       },
     },
@@ -231,13 +258,26 @@
   }
 
   ion-icon {
-    font-size: 64px;
+    /*font-size: 15rem!important;*/
+    filter: drop-shadow(5px 5px 5px lightgray);
   }
 
   .code-input {
-    width: 3rem;
-    height: 5rem;
     margin-right: .5rem;
+    width: 5rem;
+    height: 6rem;
+    font-size: 1.8rem;
     text-align: center;
+  }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+  }
+
+  input[type=number] {
+    -moz-appearance:textfield; /* Firefox */
   }
 </style>
