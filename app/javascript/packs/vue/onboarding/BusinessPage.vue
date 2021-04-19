@@ -43,7 +43,8 @@
           .row
             .col.pr-2
               b-form-group#input-group-4(label='Industry' label-for='select-4')
-                b-form-select#select-4(v-model='form.industry' :options='options' required)
+                multiselect#select-4(v-model="form.industry" :options="options" required)
+                <!--b-form-select#select-4(v-model='form.industry' :options='options' required)-->
                 .invalid-feedback.d-block(v-if="errors.industry") {{ errors.industry }}
             .col.pl-2
               b-form-group#input-group-5(label='Sub-Industry' label-for='select-5')
@@ -99,10 +100,12 @@
 
 <script>
   import Loading from '@/common/Loading/Loading'
+  import Multiselect from 'vue-multiselect'
 
   export default {
     components: {
       Loading,
+      Multiselect
     },
     data() {
       return {
