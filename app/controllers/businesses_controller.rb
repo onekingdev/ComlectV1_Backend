@@ -30,7 +30,8 @@ class BusinessesController < ApplicationController
                                                                           { id: ind.id,
                                                                             name: ind.name }
                                                                         }).to_json,
-                             ':sub-industry-ids': sub_industries(false).to_json).html_safe,
+                             ':sub-industry-ids': sub_industries(false).to_json,
+                             ':states': State.fetch_all_usa.to_json).html_safe,
            layout: 'vue_onboarding'
   end
 
