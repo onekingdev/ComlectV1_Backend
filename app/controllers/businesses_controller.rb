@@ -21,7 +21,16 @@ class BusinessesController < ApplicationController
   end
 
   def new
-    render html: content_tag('business-onboarding-page', '').html_safe, layout: 'vue_onboarding'
+    render html: content_tag('business-onboarding-page', '',
+                             ':industry-ids': Industry.all.map(&proc { |ind|
+                                                                  { id: ind.id,
+                                                                    name: ind.name }
+                                                                }).to_json,
+                             ':jurisdiction-ids': Jurisdiction.all.map(&proc { |ind|
+                                                                          { id: ind.id,
+                                                                            name: ind.name }
+                                                                        }).to_json).html_safe,
+           layout: 'vue_onboarding'
   end
 
   def create
