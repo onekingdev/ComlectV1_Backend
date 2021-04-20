@@ -37,21 +37,139 @@
         h4.m-t-1 Payment Method
         div
           a.btn.btn-light Add Bank Account
+    .card-body
+      dl.row
+        dt.col-sm-7
+          b-form-group(v-slot='{ ariaDescribedby }')
+            b-form-radio-group(v-model='cardSelected' :options='cardOptions' :aria-describedby='ariaDescribedby' name='radios-stacked' stacked)
+          h3 Credit Card (primary)
+        dd.col-sm-5.text-right
+          | **** **** **** 8900 Visa
+          a.btn.btn-light.ml-2 Remove
+    .card-header
+      div
+        StripeCheckout(:pk="pk")
+      hr
+      div
+        .row
+          .col
+            b-form-group#inputBilling-group-1(label='Name on Card' label-for='inputBilling-1')
+              b-form-input#inputBilling-1(v-model='cardDetail.nameOnCard' type='text' placeholder='Name on Card' required)
+              .invalid-feedback.d-block(v-if="errors.nameOnCard") {{ errors.nameOnCard }}
+        .row
+          .col-8.pr-2
+            b-form-group#inputBilling-group-2(label='Card Number' label-for='inputBilling-2')
+              b-form-input#inputBilling-2(v-model='cardDetail.cardNumber' type='text' placeholder='Card Number' required)
+              .invalid-feedback.d-block(v-if="errors.cardNumber") {{ errors.cardNumber }}
+          .col-1.px-2
+            b-form-group#inputBilling-group-3(label='Exp date' label-for='inputBilling-3')
+              b-form-input#inputBilling-3(v-model='cardDetail.expDate' type='text' placeholder='MM' required)
+              .invalid-feedback.d-block(v-if="errors.expDate") {{ errorMonths.expDateMonth }}
+          .col-1.px-2
+            b-form-group#inputBilling-group-4(label='.' label-for='inputBilling-4')
+              b-form-input#inputBilling-4(v-model='cardDetail.expDateYear' type='text' placeholder='YY' required)
+              .invalid-feedback.d-block(v-if="errors.expDateYear") {{ errors.expDateYear }}
+          .col-2.pl-2
+            b-form-group#inputBilling-group-5(label='CVC/CVV' label-for='inputBilling-5')
+              b-form-input#inputBilling-5(v-model='cardDetail.CVV' type='text' placeholder='3 or 4 digits' required)
+              .invalid-feedback.d-block(v-if="errors.CVV") {{ errors.CVV }}
+        .row
+          .col.pr-2
+            b-form-group#inputBilling-group-6(label='Country' label-for='inputBilling-6')
+              b-form-input#inputBilling-6(v-model='cardDetail.country' type='text' placeholder='Country' required)
+              .invalid-feedback.d-block(v-if="errors.country") {{ errors.country }}
+          .col.pl-2
+            b-form-group#inputBilling-group-7(label='Zip' label-for='inputBilling-7')
+              b-form-input#inputBilling-7(v-model='cardDetail.zip' type='text' placeholder='Enter zip code' required)
+              .invalid-feedback.d-block(v-if="errors.zip") {{ errors.zip }}
+        .row
+          .col.text-right
+            b-button(type='button' variant='secondary' @click="addCardDetail") Add
+      hr
+      div
+        p stripe-checkout:
+        stripe-checkout(ref='checkoutRef' mode='payment' :pk='publishableKey' :line-items='lineItems' :success-url='successURL' :cancel-url='cancelURL' @loading='v => loading = v')
+        button(@click='submit') Pay now!
+      hr
+      div
+        p stripe-element-card:
+        stripe-element-card(ref="elementRef"
+        :pk="pk"
+        @token="tokenCreated")
+        button(@click="submit") Generate token
+
     //PurchaseSummary
 
 </template>
 
 <script>
-import PurchaseSummary from './PurchaseSummary'
-export default {
-  props: ['billingTypeSelected', 'billingTypeOptions', 'plan'],
-  components: {
-    PurchaseSummary,
-  },
-  computed: {
-    planComputed() {
-      return this.plan
+  import { StripeCheckout, StripeElementCard  } from '@vue-stripe/vue-stripe';
+  import PurchaseSummary from './PurchaseSummary'
+
+  export default {
+    props: ['billingTypeSelected', 'billingTypeOptions', 'plan'],
+    components: {
+      StripeCheckout,
+      PurchaseSummary,
+      StripeElementCard
+    },
+    data() {
+      this.publishableKey = 'pk_test_01vxEQv9T5FIIKTu1GkHW41D';
+      return {
+        loading: false,
+        lineItems: [
+          {
+            price: 'price_1IiDiaGXaxE41NmqapXysseR', // The id of the one-time price you created in your Stripe dashboard
+            quantity: 1,
+          },
+        ],
+        successURL: 'https://example.com/success',
+        cancelURL: 'https://example.com/cancel',
+        token: null,
+        cardDetail: {
+          nameOnCard: '',
+          cardNumber: '',
+          expDate: '',
+          expDateYear: '',
+          CVV: '',
+          country: '',
+          zip: '',
+        },
+        cards: [],
+        cardSelected: '1',
+        cardOptions: [
+          { text: 'Credit Card (primary)', value: '1' },
+          { text: 'Credit Card (secondary)', value: '2' },
+          { text: 'Credit Card (third)', value: '3' },
+        ],
+        errors: [],
+      };
+    },
+    methods: {
+      // submit () {
+      //   // You will be redirected to Stripe's secure checkout page
+      //   this.$refs.checkoutRef.redirectToCheckout();
+      // },
+      submit () {
+        // this will trigger the process
+        this.$refs.elementRef.submit();
+      },
+      tokenCreated (token) {
+        console.log(token);
+        // handle the token
+        // send it to your server
+      },
+      addCardDetail() {
+        console.log(this.cardDetail)
+      }
+    },
+    computed: {
+      planComputed() {
+        return this.plan
+      },
+      pk() {
+        return 'pk_test_01vxEQv9T5FIIKTu1GkHW41D'
+      }
     }
   }
-}
 </script>
