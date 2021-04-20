@@ -562,10 +562,7 @@ CREATE TABLE public.businesses (
     compliance_policies_spawned boolean DEFAULT false,
     annual_budget numeric,
     risk_tolerance character varying,
-    reminders_mailed_at timestamp without time zone,
-    crd_number character varying,
-    account_created boolean DEFAULT false,
-    apartment character varying
+    reminders_mailed_at timestamp without time zone
 );
 
 
@@ -700,13 +697,12 @@ CREATE TABLE public.compliance_policies (
     updated_at timestamp without time zone NOT NULL,
     business_id integer,
     pdf_data jsonb,
-    "position" double precision,
+    "position" integer,
     ban boolean DEFAULT false,
     description text DEFAULT ''::text,
     src_id integer,
     status character varying DEFAULT 'draft'::character varying,
-    sections jsonb,
-    archived boolean DEFAULT false
+    sections jsonb
 );
 
 
@@ -727,73 +723,6 @@ CREATE SEQUENCE public.compliance_policies_id_seq
 --
 
 ALTER SEQUENCE public.compliance_policies_id_seq OWNED BY public.compliance_policies.id;
-
-
---
--- Name: compliance_policies_risks; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.compliance_policies_risks (
-    id bigint NOT NULL,
-    risk_id bigint NOT NULL,
-    compliance_policy_id bigint NOT NULL
-);
-
-
---
--- Name: compliance_policies_risks_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.compliance_policies_risks_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: compliance_policies_risks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.compliance_policies_risks_id_seq OWNED BY public.compliance_policies_risks.id;
-
-
---
--- Name: compliance_policy_configurations; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.compliance_policy_configurations (
-    id bigint NOT NULL,
-    business_id integer,
-    logo_data jsonb,
-    address boolean,
-    phone boolean,
-    email boolean,
-    disclosure boolean,
-    body text,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
-);
-
-
---
--- Name: compliance_policy_configurations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.compliance_policy_configurations_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: compliance_policy_configurations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.compliance_policy_configurations_id_seq OWNED BY public.compliance_policy_configurations.id;
 
 
 --
@@ -827,6 +756,42 @@ CREATE SEQUENCE public.compliance_policy_docs_id_seq
 --
 
 ALTER SEQUENCE public.compliance_policy_docs_id_seq OWNED BY public.compliance_policy_docs.id;
+
+
+--
+-- Name: compliance_policy_risks; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.compliance_policy_risks (
+    id bigint NOT NULL,
+    name character varying,
+    level integer,
+    description text,
+    compliance_policy_id integer,
+    status character varying,
+    business_id integer,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: compliance_policy_risks_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.compliance_policy_risks_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: compliance_policy_risks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.compliance_policy_risks_id_seq OWNED BY public.compliance_policy_risks.id;
 
 
 --
@@ -872,7 +837,7 @@ CREATE TABLE public.documents (
     id integer NOT NULL,
     owner_id integer,
     owner_type character varying,
-    local_project_id integer NOT NULL,
+    project_id integer NOT NULL,
     file_data jsonb,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
@@ -964,109 +929,6 @@ CREATE SEQUENCE public.email_threads_id_seq
 --
 
 ALTER SEQUENCE public.email_threads_id_seq OWNED BY public.email_threads.id;
-
-
---
--- Name: exam_request_files; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.exam_request_files (
-    id bigint NOT NULL,
-    exam_request_id integer,
-    file_data jsonb,
-    name character varying,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
-);
-
-
---
--- Name: exam_request_files_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.exam_request_files_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: exam_request_files_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.exam_request_files_id_seq OWNED BY public.exam_request_files.id;
-
-
---
--- Name: exam_requests; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.exam_requests (
-    id bigint NOT NULL,
-    name character varying,
-    details text,
-    text_items jsonb,
-    complete boolean DEFAULT false,
-    shared boolean DEFAULT false,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
-);
-
-
---
--- Name: exam_requests_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.exam_requests_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: exam_requests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.exam_requests_id_seq OWNED BY public.exam_requests.id;
-
-
---
--- Name: exams; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.exams (
-    id bigint NOT NULL,
-    name character varying,
-    starts_on date,
-    ends_on date,
-    share_uuid character varying,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
-    business_id integer
-);
-
-
---
--- Name: exams_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.exams_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: exams_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.exams_id_seq OWNED BY public.exams.id;
 
 
 --
@@ -2264,10 +2126,7 @@ CREATE TABLE public.users (
     deleted_at timestamp without time zone,
     inactive_for_period boolean DEFAULT false,
     muted_projects text DEFAULT '--- []
-'::text,
-    otp_secret character varying,
-    otp_counter integer,
-    email_confirmed boolean DEFAULT false
+'::text
 );
 
 
@@ -3892,18 +3751,12 @@ ALTER SEQUENCE public.project_ends_id_seq OWNED BY public.project_ends.id;
 CREATE TABLE public.project_extensions (
     id integer NOT NULL,
     project_id integer,
-    ends_on date,
+    new_end_date date,
     expires_at timestamp without time zone,
     status character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    requester character varying,
-    starts_on date,
-    fixed_budget numeric,
-    hourly_rate numeric,
-    role_details text,
-    key_deliverables character varying,
-    ends_on_only boolean DEFAULT false
+    requester character varying
 );
 
 
@@ -4347,40 +4200,6 @@ ALTER SEQUENCE public.rewards_tiers_id_seq OWNED BY public.rewards_tiers.id;
 
 
 --
--- Name: risks; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.risks (
-    id bigint NOT NULL,
-    name character varying,
-    impact integer,
-    business_id integer,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
-    likelihood integer
-);
-
-
---
--- Name: risks_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.risks_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: risks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.risks_id_seq OWNED BY public.risks.id;
-
-
---
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -4743,7 +4562,9 @@ CREATE TABLE public.subscriptions (
     billing_period_ends integer,
     payment_source_id integer,
     auto_renew boolean DEFAULT false,
-    status integer DEFAULT 0
+    status integer DEFAULT 0,
+    specialist_id bigint,
+    specialist_payment_source_id bigint
 );
 
 
@@ -5218,24 +5039,17 @@ ALTER TABLE ONLY public.compliance_policies ALTER COLUMN id SET DEFAULT nextval(
 
 
 --
--- Name: compliance_policies_risks id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.compliance_policies_risks ALTER COLUMN id SET DEFAULT nextval('public.compliance_policies_risks_id_seq'::regclass);
-
-
---
--- Name: compliance_policy_configurations id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.compliance_policy_configurations ALTER COLUMN id SET DEFAULT nextval('public.compliance_policy_configurations_id_seq'::regclass);
-
-
---
 -- Name: compliance_policy_docs id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.compliance_policy_docs ALTER COLUMN id SET DEFAULT nextval('public.compliance_policy_docs_id_seq'::regclass);
+
+
+--
+-- Name: compliance_policy_risks id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.compliance_policy_risks ALTER COLUMN id SET DEFAULT nextval('public.compliance_policy_risks_id_seq'::regclass);
 
 
 --
@@ -5264,27 +5078,6 @@ ALTER TABLE ONLY public.education_histories ALTER COLUMN id SET DEFAULT nextval(
 --
 
 ALTER TABLE ONLY public.email_threads ALTER COLUMN id SET DEFAULT nextval('public.email_threads_id_seq'::regclass);
-
-
---
--- Name: exam_request_files id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.exam_request_files ALTER COLUMN id SET DEFAULT nextval('public.exam_request_files_id_seq'::regclass);
-
-
---
--- Name: exam_requests id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.exam_requests ALTER COLUMN id SET DEFAULT nextval('public.exam_requests_id_seq'::regclass);
-
-
---
--- Name: exams id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.exams ALTER COLUMN id SET DEFAULT nextval('public.exams_id_seq'::regclass);
 
 
 --
@@ -5530,13 +5323,6 @@ ALTER TABLE ONLY public.review_categories ALTER COLUMN id SET DEFAULT nextval('p
 --
 
 ALTER TABLE ONLY public.rewards_tiers ALTER COLUMN id SET DEFAULT nextval('public.rewards_tiers_id_seq'::regclass);
-
-
---
--- Name: risks id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.risks ALTER COLUMN id SET DEFAULT nextval('public.risks_id_seq'::regclass);
 
 
 --
@@ -5792,27 +5578,19 @@ ALTER TABLE ONLY public.compliance_policies
 
 
 --
--- Name: compliance_policies_risks compliance_policies_risks_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.compliance_policies_risks
-    ADD CONSTRAINT compliance_policies_risks_pkey PRIMARY KEY (id);
-
-
---
--- Name: compliance_policy_configurations compliance_policy_configurations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.compliance_policy_configurations
-    ADD CONSTRAINT compliance_policy_configurations_pkey PRIMARY KEY (id);
-
-
---
 -- Name: compliance_policy_docs compliance_policy_docs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.compliance_policy_docs
     ADD CONSTRAINT compliance_policy_docs_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: compliance_policy_risks compliance_policy_risks_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.compliance_policy_risks
+    ADD CONSTRAINT compliance_policy_risks_pkey PRIMARY KEY (id);
 
 
 --
@@ -5845,30 +5623,6 @@ ALTER TABLE ONLY public.education_histories
 
 ALTER TABLE ONLY public.email_threads
     ADD CONSTRAINT email_threads_pkey PRIMARY KEY (id);
-
-
---
--- Name: exam_request_files exam_request_files_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.exam_request_files
-    ADD CONSTRAINT exam_request_files_pkey PRIMARY KEY (id);
-
-
---
--- Name: exam_requests exam_requests_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.exam_requests
-    ADD CONSTRAINT exam_requests_pkey PRIMARY KEY (id);
-
-
---
--- Name: exams exams_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.exams
-    ADD CONSTRAINT exams_pkey PRIMARY KEY (id);
 
 
 --
@@ -6152,14 +5906,6 @@ ALTER TABLE ONLY public.rewards_tiers
 
 
 --
--- Name: risks risks_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.risks
-    ADD CONSTRAINT risks_pkey PRIMARY KEY (id);
-
-
---
 -- Name: seats seats_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -6439,20 +6185,6 @@ CREATE INDEX index_charges_on_transaction_id ON public.charges USING btree (tran
 
 
 --
--- Name: index_compliance_policies_risks_on_compliance_policy_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_compliance_policies_risks_on_compliance_policy_id ON public.compliance_policies_risks USING btree (compliance_policy_id);
-
-
---
--- Name: index_compliance_policies_risks_on_risk_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_compliance_policies_risks_on_risk_id ON public.compliance_policies_risks USING btree (risk_id);
-
-
---
 -- Name: index_cookie_agreements_on_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -6460,17 +6192,17 @@ CREATE INDEX index_cookie_agreements_on_user_id ON public.cookie_agreements USIN
 
 
 --
--- Name: index_documents_on_local_project_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_documents_on_local_project_id ON public.documents USING btree (local_project_id);
-
-
---
 -- Name: index_documents_on_owner_type_and_owner_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_documents_on_owner_type_and_owner_id ON public.documents USING btree (owner_type, owner_id);
+
+
+--
+-- Name: index_documents_on_project_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_documents_on_project_id ON public.documents USING btree (project_id);
 
 
 --
@@ -7153,6 +6885,19 @@ CREATE INDEX index_time_logs_on_timesheet_id ON public.time_logs USING btree (ti
 
 
 --
+-- Name: index_subscriptions_on_specialist_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_subscriptions_on_specialist_id ON public.subscriptions USING btree (specialist_id);
+
+
+--
+-- Name: index_subscriptions_on_specialist_payment_source_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_subscriptions_on_specialist_payment_source_id ON public.subscriptions USING btree (specialist_payment_source_id);
+
+--
 -- Name: index_timesheets_on_first_submitted_at; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7411,9 +7156,16 @@ ALTER TABLE ONLY public.local_projects_specialists
 -- Name: tos_agreements fk_rails_6e25fd106a; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
+
 ALTER TABLE ONLY public.tos_agreements
     ADD CONSTRAINT fk_rails_6e25fd106a FOREIGN KEY (user_id) REFERENCES public.users(id);
+--
+-- Name: subscriptions fk_rails_61927ae2df; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
 
+
+ALTER TABLE ONLY public.subscriptions
+    ADD CONSTRAINT fk_rails_61927ae2df FOREIGN KEY (specialist_payment_source_id) REFERENCES public.specialist_payment_sources(id);
 
 --
 -- Name: business_specialists_roles fk_rails_77436698dd; Type: FK CONSTRAINT; Schema: public; Owner: -
@@ -7446,22 +7198,12 @@ ALTER TABLE ONLY public.project_issues
 ALTER TABLE ONLY public.business_specialists_roles
     ADD CONSTRAINT fk_rails_a4e1c0f49f FOREIGN KEY (business_id) REFERENCES public.businesses(id);
 
-
 --
--- Name: compliance_policies_risks fk_rails_c295f383a5; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.compliance_policies_risks
-    ADD CONSTRAINT fk_rails_c295f383a5 FOREIGN KEY (risk_id) REFERENCES public.risks(id);
-
-
---
--- Name: compliance_policies_risks fk_rails_ec44012ae5; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: subscriptions fk_rails_dafea693de; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.compliance_policies_risks
-    ADD CONSTRAINT fk_rails_ec44012ae5 FOREIGN KEY (compliance_policy_id) REFERENCES public.compliance_policies(id);
-
+ALTER TABLE ONLY public.subscriptions
+    ADD CONSTRAINT fk_rails_dafea693de FOREIGN KEY (specialist_id) REFERENCES public.specialists(id);
 
 --
 -- PostgreSQL database dump complete
@@ -7824,22 +7566,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210312165913'),
 ('20210315233431'),
 ('20210316121459'),
+('20210317135216'),                                      
 ('20210320105303'),
-('20210323154622'),
-('20210323174434'),
-('20210323180114'),
-('20210323180130'),
-('20210326130422'),
-('20210329160613'),
-('20210329192005'),
-('20210331224316'),
-('20210401163159'),
-('20210401163637'),
-('20210401192628'),
-('20210404131222'),
-('20210407003049'),
-('20210408131105'),
-('20210410142233'),
-('20210415142648');
+('20210321120504');
 
 

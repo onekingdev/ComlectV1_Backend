@@ -9,28 +9,6 @@ import ProjectShowPostPage from '@/business/projects/ShowPostPage'
 import RemindersPage from '@/business/reminders/Page'
 import TimesheetsShowPage from '@/business/projects/TimesheetsShowPage'
 
-import BusinessPoliciesPage from './vue/business/policies/Page.vue'
-import BusinessPoliciesCreatePage from './vue/business/policies/Details/PolicyCreate.vue'
-// import BusinessPoliciesCreatePageSubsection from './vue/business/policies/PolicySubsection.vue'
-// import BusinessPoliciesCreatePageHistory from './vue/business/policies/PolicyTable.vue'
-
-const businesPolicies = {
-  BusinessPoliciesPage,
-  BusinessPoliciesCreatePage,
-  // BusinessPoliciesCreatePageSubsection,
-  // BusinessPoliciesCreatePageHistory
-}
-
-// import BusinessSignupPage from './vue/auth/SignUp/Business/Page.vue'
-// // import SpecialistOnboardingPage from './vue/auth/SignUp/Business/Onboarding/SpecialistPage.vue'
-// // import BusinessOnboardingPage from './vue/auth/SignUp/Business/Onboarding/BusinessPage.vue'
-//
-// const auth = {
-//   BusinessSignupPage,
-//   // SpecialistOnboardingPage,
-//   // BusinessOnboardingPage
-// }
-
 init({
   store,
   components: {
@@ -42,8 +20,5 @@ init({
     ProjectShowPostPage,
     RemindersPage,
     TimesheetsShowPage,
-
-    ...businesPolicies,
-    // ...auth
   }
 })

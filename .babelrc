@@ -1,19 +1,18 @@
 {
   "presets": [
-    ["@babel/preset-env", {
+    ["env", {
       "modules": false,
       "targets": {
         "browsers": "> 1%",
         "uglify": true
       },
-      "useBuiltIns": false
+      "useBuiltIns": true
     }]
   ],
 
   "plugins": [
     "syntax-dynamic-import",
-    "@babel/plugin-proposal-object-rest-spread",
-    ["transform-class-properties", { "spec": true }],
-    ["@babel/plugin-transform-runtime", { "regenerator": true }]
+    "transform-object-rest-spread",
+    ["transform-class-properties", { "spec": true }]
   ]
 }

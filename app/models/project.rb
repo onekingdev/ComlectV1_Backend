@@ -28,6 +28,7 @@ class Project < ApplicationRecord
   has_many :transactions, dependent: :destroy
   has_many :extensions, dependent: :destroy, class_name: 'ProjectExtension'
   has_one :extension, -> { pending }, class_name: 'ProjectExtension'
+  has_many :documents, dependent: :destroy
   has_many :questions, dependent: :destroy
   has_many :answers, through: :questions, dependent: :destroy
   has_many :favorites, as: :favorited, dependent: :destroy, class_name: 'Favorite'
