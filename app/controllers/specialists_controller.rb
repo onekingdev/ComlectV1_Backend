@@ -33,6 +33,10 @@ class SpecialistsController < ApplicationController
     @specialist = Specialist::Form.signup(attributes)
   end
 
+  def new
+    render html: content_tag('specialist-onboarding-page', '').html_safe, layout: 'vue_onboarding'
+  end
+
   def create
     @specialist = Specialist::Form.signup(
       specialist_params.merge(invitation: @invitation),

@@ -29,12 +29,23 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def sub_industries(specialist)
+    industries = {}
+    Industry.sorted.each do |industry|
+      sub_ind_txt = specialist ? industry.sub_industries_specialist : industry.sub_industries
+      sub_ind_txt.split("\r\n").each_with_index do |sub_ind, i|
+        industries["#{industry.id}_#{i}"] = sub_ind
+      end
+    end
+    industries
+  end
+
   def lock_specialist
     return if current_specialist.dashboard_unlocked
 
     return if (params['controller'] == 'specialists/dashboard') && (params['action'] == 'locked')
 
-    return redirect_to specialists_locked_path if params['controller'] != 'users/sessions'
+    return redirect_to specialists_locked_path if params['controller'] != 'users/sessions' && params['controller'] != 'api/specialists'
   end
 
   def storable_location?
@@ -111,7 +122,7 @@ class ApplicationController < ActionController::Base
   end
 
   def require_someone!
-    if current_business || current_specialist
+    if user_signed_in? && (current_business || current_specialist)
       @current_someone = current_business || current_specialist
     else
       render 'forbidden', status: :forbidden, locals: { message: 'Only registered users can access this page' }

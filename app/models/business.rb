@@ -7,6 +7,7 @@ class Business < ApplicationRecord
 
   has_and_belongs_to_many :jurisdictions, optional: true
   has_and_belongs_to_many :industries, optional: true
+  has_many :risks
   has_many :forum_questions
   has_many :local_projects
   has_many :projects
@@ -52,6 +53,7 @@ class Business < ApplicationRecord
   has_many :referral_tokens, as: :referrer
   has_many :reminders, as: :remindable
   has_many :audit_comments
+  has_one :compliance_policy_configuration, dependent: :destroy
 
   has_settings do |s|
     s.key :notifications, defaults: {
@@ -226,15 +228,15 @@ class Business < ApplicationRecord
   RISK_TOLERANCE_OPTIONS = [nil, '', 'Bare minimum', 'Best efforts', 'Best business practices', 'Gold standard'].freeze
 
   validates :contact_first_name, :contact_last_name, presence: true
-  validates :business_name, :industries, :employees, presence: true
-  validates :country, :city, :state, :time_zone, presence: true
+  validates :business_name, :industries, presence: true, if: -> { account_created }
+  validates :city, :state, presence: true, if: -> { account_created }
   validates :description, length: { maximum: 750 }
-  validates :employees, inclusion: { in: EMPLOYEE_OPTIONS }
-  validates :risk_tolerance, inclusion: { in: RISK_TOLERANCE_OPTIONS }
+  # validates :employees, inclusion: { in: EMPLOYEE_OPTIONS }
+  validates :risk_tolerance, inclusion: { in: RISK_TOLERANCE_OPTIONS }, if: -> { account_created }
   validates :linkedin_link, allow_blank: true, url: true
   validates :website, allow_blank: true, url: true
   # validates :contact_email, format: { with: URI::MailTo::EMAIL_REGEXP }
-  validates :username, uniqueness: true
+  validates :username, uniqueness: true, allow_blank: true
   # validates :client_account_cnt, presence: true
   # validates :total_assets, presence: true
 
@@ -242,8 +244,8 @@ class Business < ApplicationRecord
   accepts_nested_attributes_for :tos_agreement
   accepts_nested_attributes_for :cookie_agreement
 
-  validate :tos_invalid?
-  validate :cookie_agreement_invalid?
+  # validate :tos_invalid?
+  # validate :cookie_agreement_invalid?
 
   delegate :suspended?, to: :user
 

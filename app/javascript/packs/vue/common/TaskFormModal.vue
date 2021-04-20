@@ -157,9 +157,6 @@ export default {
         headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}
       }).then(response => this.$emit('saved'))
     },
-    makeToast(title, str) {
-      this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
-    },
     submit(saveOccurence) {
       this.errors = []
       const toId = (!saveOccurence && this.taskId) ? `/${this.taskId}` : ''
@@ -173,15 +170,15 @@ export default {
           response.json().then(errors => {
             this.errors = errors
             Object.keys(this.errors)
-              .map(prop => this.errors[prop].map(err => this.makeToast(`Error`, `${prop}: ${err}`)))
+              .map(prop => this.errors[prop].map(err => this.toast(`Error`, `${prop}: ${err}`)))
           })
         } else if (response.status === 201 || response.status === 200) {
           this.$emit('saved')
-          this.makeToast('Success', 'The task has been saved')
+          this.toast('Success', 'The task has been saved')
           this.$bvModal.hide(this.modalId)
           this.resetTask()
         } else {
-          this.makeToast('Error', 'Couldn\'t submit form')
+          this.toast('Error', 'Couldn\'t submit form')
         }
       })
     },

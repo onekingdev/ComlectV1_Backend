@@ -25,7 +25,7 @@ class Project::Decorator < ApplicationDecorator
     url = h.business_project_extensions_path(project)
 
     h.form_for project.extensions.new, url: url, html: { class: 'js-project-extension-popover' } do |f|
-      f.hidden_field(:new_end_date,
+      f.hidden_field(:ends_on,
                      data: { min: ends_on.present? ? (ends_on + 1).to_a(zero_based_month: true) : '' }, class: 'new_end_date') +
         h.content_tag(:div, class: 'row row-compact') do
           h.content_tag(:div, class: 'col-xs-6') do

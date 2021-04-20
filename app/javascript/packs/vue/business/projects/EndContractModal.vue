@@ -1,7 +1,7 @@
 <template lang="pug">
-  div.d-inline-block
+  div.d-inline-block.float-right
     div.d-inline-block(v-b-modal="modalId"): slot
-    b-modal.fade(:id="modalId" title="End Contract")
+    b-modal.fade(:id="modalId" title="End Contract" no-stacking)
       p ℹ️ Ending this contract will remove this specialist as a collaborator to the project, revoke and permissions granted due to the project, and payout the full contract price.
       p: b Do you want to continue?
       .card
@@ -28,10 +28,19 @@
             span.float-right Transfer to Visa
         .card-header
           p.text-right.text-muted *Transactional fees lorem ipsum dolor.
-      template(slot="modal-footer")
-        button.btn(@click="close") Cancel
-        Post(:action="completeUrl" :model="{}" @saved="close(), $emit('saved')" @errors="$emit('errors', $event)")
+      template(#modal-footer="{ hide }")
+        button.btn.btn-default(@click="hide") Cancel
+        Post(:action="completeUrl" :model="{}" @saved="contractEnded" @errors="$emit('errors', $event)")
           button.btn.btn-dark.m-r-1 Confirm
+    b-modal(:id="modalId + '_review'" title="Write a Review")
+      p Please rate/describe your experience and leave any additional comments for the specialist!
+      InputRating(v-model="review.rating") Rating
+      InputTextarea(v-model="review.comment" placeholder="Describe your overall experience and leave any notes for the specialist")
+      .form-text.text-muted Optional
+      template(#modal-footer="{ hide }")
+        button.btn.btn-default(@click="hide") Cancel
+        Post(:action="ratingUrl" :model="review" @saved="ratingSaved" @errors="$emit('errors', $event)")
+          button.btn.btn-dark Submit
 </template>
 
 <script>
@@ -45,17 +54,32 @@ export default {
     }
   },
   data() {
-    return { modalId: 'EndContactModal_' + Math.random().toFixed(12).replace('.', '') }
+    return {
+      modalId: 'EndContractModal_' + Math.random().toFixed(12).replace('.', ''),
+      review: {
+        rating: null,
+        comment: null
+      }
+    }
   },
   methods: {
     readablePaymentSchedule,
-    close() {
+    contractEnded() {
+      this.$emit('saved')
       this.$bvModal.hide(this.modalId)
+      this.$bvModal.show(this.modalId + '_review')
+    },
+    ratingSaved() {
+      this.$emit('saved')
+      this.$bvModal.hide(this.modalId + '_review')
     }
   },
   computed: {
     completeUrl() {
       return '/api/projects/' + this.project.id + '/end'
+    },
+    ratingUrl() {
+      return '/api/projects/' + this.project.id + '/rating'
     }
   }
 }

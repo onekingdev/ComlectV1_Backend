@@ -18,7 +18,7 @@ class Projects::ProjectExtensionsControllerTest < ActionDispatch::IntegrationTes
 
   test 'accepted request extends project end date' do
     new_end_date = @project.ends_on + 1.week
-    @project.extensions.create! new_end_date: new_end_date
+    @project.extensions.create! ends_on: new_end_date
     patch project_extension_path(@project), confirm: '1', format: :js
     assert_equal new_end_date, @project.reload.ends_on
   end

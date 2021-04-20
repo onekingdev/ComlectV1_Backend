@@ -4,6 +4,7 @@ class CompliancePolicy < ActiveRecord::Base
   acts_as_list
   belongs_to :business
   has_many :versions, -> { order(created_at: :desc) }, class_name: 'CompliancePolicy', foreign_key: :src_id
+  has_and_belongs_to_many :risks
   validates :name, presence: true
   include PdfUploader[:pdf]
 
