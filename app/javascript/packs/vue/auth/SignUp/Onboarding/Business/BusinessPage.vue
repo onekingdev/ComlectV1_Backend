@@ -5,23 +5,23 @@
         h2 Set Up Your Account
         hr
         .steps
-          .step(:class="currentStep === 1 ? 'active' : ''")
+          .step(:class="navStep1 ? 'active' : ''")
             h4.step__name 1. CRD Number
-          .step(:class="currentStep === 2 ? 'active' : ''")
+          .step(:class="navStep2 ? 'active' : ''")
             h4.step__name 2. Company Information
-          .step(:class="currentStep === 3 ? 'active' : ''")
+          .step(:class="navStep3 ? 'active' : ''")
             h4.step__name 3. Choose plan
       Loading
       b-form(@submit='onSubmit' v-if='show')
         #step1.form(v-if='!loading' :class="step1 ? 'd-block' : 'd-none'")
           h3 Do you have a CRD number?
-            b-icon.h5.ml-2(icon="exclamation-circle-fill" variant="info")
+            b-icon.h5.ml-2.mb-1(icon="exclamation-circle-fill" variant="secondary")
           p The CRD number will be used to gather additional information about your business.
           div
             b-form-group(v-slot='{ ariaDescribedby }')
-              b-form-radio-group(v-model='form.selected' :options='form.options' :aria-describedby='ariaDescribedby' name='radios-stacked' stacked)
-            b-form-group(label='What is your CRD number?' v-if="form.selected === 'yes'")
-              b-form-input.w-lg-50(v-model="form.crd" placeholder="Enter your CRD number")
+              b-form-radio-group(v-model='form.CRDnumberSelected' :options='form.CRDnumberOptions' :aria-describedby='ariaDescribedby' name='radios-stacked' stacked)
+            b-form-group(label='What is your CRD number?' v-if="form.CRDnumberSelected === 'yes'")
+              b-form-input.w-50(v-model="form.CRDnumber" placeholder="Enter your CRD number")
           .text-right
             b-button(type='button' variant='dark' @click="nextStep(2)") Next
         #step2.form(v-if='!loading'  :class="step2 ? 'd-block' : 'd-none'")
@@ -111,7 +111,14 @@
                 .invalid-feedback.d-block(v-if="errors.city") {{ errors.city }}
             .col-xl-4.pl-xl-2
               b-form-group#input-group-13(label='State' label-for='select-13')
-                b-form-select#select-13(v-model='form.state' :options='options' required)
+                <!--b-form-select#select-13(v-model='form.state' :options='options' required)-->
+                multiselect#select-13(
+                v-model="form.state"
+                :options="form.stateOptions"
+                :searchable="true",
+                :multiple="false"
+                placeholder="Select state",
+                required)
                 .invalid-feedback.d-block(v-if="errors.state") {{ errors.state }}
           .text-right
             b-button.mr-2(type='button' variant='light' @click="prevStep(1)") Go back
@@ -140,6 +147,9 @@
                     li.billing-plan__item(v-for="feature in plan.features")
                       b-icon.h4.mr-2.mb-0(icon="check-circle-fill" variant="success")
                       | {{ feature }}
+          .row
+            .col.text-right
+              b-button.mr-2(type='button' variant='light' @click="prevStep(2)") Go back
 
     b-sidebar#BillingPlanSidebar(@hidden="closeSidebar" v-model="isSidebarOpen" backdrop-variant='dark' backdrop left width="60%")
       .card
@@ -172,13 +182,13 @@
     },
     created() {
       console.log('industryIds', this.industryIds)
-      console.log('jurisdictionIds', this.jurisdictionIds)
+      console.log('subIndustryIds', this.subIndustryIds)
       console.log('jurisdictionIds', this.jurisdictionIds)
       console.log('states', this.states)
-      this.form.industryOptions = this.industryIds;
-      // this.form.subIndustryOptions = this.subIndustryIds;
-      this.form.jurisdictionOptions = this.jurisdictionIds;
-      // this.form.state = this.state;
+      if(this.industryIds) this.form.industryOptions = this.industryIds;
+      // if(this.subIndustryIds) this.form.subIndustryOptions = this.subIndustryIds;
+      if(this.jurisdictionIds) this.form.jurisdictionOptions = this.jurisdictionIds;
+      if(this.stateOptions) this.form.state = this.states;
     },
     data() {
       return {
@@ -186,18 +196,18 @@
         otpSecret: '',
         userType: '',
         form: {
-          crd: '',
-          selected: 'no',
-          options: [
+          CRDnumber: '',
+          CRDnumberSelected: 'no',
+          CRDnumberOptions: [
             { text: 'No', value: 'no' },
             { text: 'Yes', value: 'yes' },
           ],
           companyName: '',
           aum: '',
           numAcc: '',
-          industry: this.options,
+          industry: '',
           industryOptions: [],
-          subIndustry: this.options,
+          subIndustry: '',
           subIndustryOptions: [],
           jurisdiction: '',
           jurisdictionOptions: [],
@@ -207,7 +217,8 @@
           aptUnit: '',
           zip: '',
           city: '',
-          state: this.options,
+          state: '',
+          stateOptions: [],
         },
         // options: [
         //   { value: null, text: 'Please select an option' },
@@ -222,6 +233,9 @@
         step2: false,
         step3: false,
         currentStep: 1,
+        navStep1: true,
+        navStep2: false,
+        navStep3: false,
         buttons: [
           { caption: 'Billed Annually', state: true },
           { caption: 'Billed Monthly', state: false },
@@ -290,23 +304,25 @@
       },
       prevStep(stepNum) {
         this['step'+(stepNum+1)] = false
-        this['step'+(stepNum-1)] = true
+        this['navStep'+(stepNum+1)] = false
+        this['step'+stepNum] = true
         this.currentStep = stepNum
       },
       nextStep(stepNum) {
         this['step'+(stepNum-1)] = false
+        this['navStep'+stepNum] = true
         this['step'+stepNum] = true
         this.currentStep = stepNum
       },
       openDetails(id) {
         this.openId = id
-        history.pushState({}, '', `${'new'}/${id}`)
+        // history.pushState({}, '', `${'new'}/${id}`)
         this.isSidebarOpen = true
       },
       closeSidebar() {
         this.openId = null
         this.project = null
-        history.pushState({}, '', '')
+        // history.pushState({}, '', '')
         this.isSidebarOpen = false
       },
     },
@@ -383,6 +399,31 @@
     color: #303132;
     border-color: #303132;
     font-weight: bold;
+  }
+
+  /*RADIO BUTTONS*/
+  .custom-control-label{
+    line-height: 2.1;
+  }
+  .custom-control-input:not(:disabled):active ~ .custom-control-label::before,
+  .custom-control-input:checked ~ .custom-control-label::before {
+    color: #fff;
+    border-color: #303132;
+    background-color: #303132;
+  }
+  .custom-control-label::before,
+  .custom-control-label::after {
+    left: -2rem;
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  .custom-radio .custom-control-input:checked ~ .custom-control-label::after {
+    background-image: none;
+    background-color: black;
+    padding: 2px;
+    border: solid 3px white;
+    border-radius: 50%;
+    box-shadow: 0 0 0px 2px black;
   }
 </style>
 
