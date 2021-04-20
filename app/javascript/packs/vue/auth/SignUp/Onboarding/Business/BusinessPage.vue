@@ -59,7 +59,7 @@
             .col.pl-2
               b-form-group#input-group-5(label='Sub-Industry' label-for='select-5')
                 <!--b-form-select#select-5(v-model='form.subIndustry' :options='options' required)-->
-                multiselect#select-4(
+                multiselect#select-5(
                 v-model="form.subIndustry"
                 :options="form.subIndustryOptions"
                 :multiple="true"
@@ -72,7 +72,7 @@
             .col.pr-2
               b-form-group#input-group-6(label='Jurisdiction' label-for='select-6')
                 <!--b-form-select#select-6(v-model='form.jurisdiction' :options='options' required)-->
-                multiselect#select-4(
+                multiselect#select-6(
                 v-model="form.jurisdiction"
                 :options="form.jurisdictionOptions"
                 :multiple="true"
@@ -138,7 +138,7 @@
           .row
             .col-xl-4(v-for='(plan, index) in billingPlan')
               b-card.w-100.mb-2.billing-plan(:class="[index === 0 ? 'billing-plan_low' : '', index === 1 ? 'billing-plan_medium' : '', index === 2 ? 'billing-plan_high' : '' ]")
-                b-button.mb-3(type='button' variant='light' @click="openDetails(plan[index])") Select Plan
+                b-button.mb-3(type='button' variant='outline-primary' @click="openDetails(plan)") Select Plan
                 b-card-text
                   h4.billing-plan__name {{ plan.name }}
                   p.billing-plan__descr {{ plan.description }}
@@ -153,21 +153,21 @@
             .col.text-right
               b-button.mr-2(type='button' variant='light' @click="prevStep(2)") Go back
 
-    b-sidebar#BillingPlanSidebar(@hidden="closeSidebar" v-model="isSidebarOpen" backdrop-variant='dark' backdrop left width="60%")
+    b-sidebar#BillingPlanSidebar(@hidden="closeSidebar" v-model="isSidebarOpen" backdrop-variant='dark' backdrop left width="60%" )
       .card
         .card-header.borderless
           .d-flex.justify-content-between
             b-button(variant="default" @click="isSidebarOpen = false")
               b-icon.mr-2(icon="chevron-left" variant="dark")
               | Back
-          .d-block
-            h3 Time to power up
+          .d-block.m-t-1
+            h2 Time to power up
             p Review and confirm your subscription
-          .d-flex.justify-content-between.m-t-1
-            h4 Project Details
-            div
-              a.btn.btn-dark Apply
-        BillingDetails
+        BillingDetails(
+        :billingTypeSelected="billingTypeSelected"
+        :billingTypeOptions="billingTypeOptions"
+        :plan="selectedPlan"
+        )
 </template>
 
 <script>
@@ -256,6 +256,7 @@
             description: 'Try out our product for free!',
             coast: 'FREE',
             users: '1 admin user',
+            usersCount: 1,
             features: [
               'Compilance Calendar',
               'Project Management',
@@ -266,6 +267,7 @@
             description: 'Small teams and startups',
             coast: '$125/mo',
             users: '3 free users plus $10/mo per person',
+            usersCount: 3,
             features: [
               'Compilance Calendar',
               'Project Management',
@@ -281,6 +283,7 @@
             description: 'Medium-sized organizations',
             coast: '$250/mo',
             users: '10 free users plus $10/mo per person',
+            usersCount: 10,
             features: [
               'Compilance Calendar',
               'Project Management',
@@ -296,6 +299,7 @@
         ],
         openId: null,
         isSidebarOpen: false,
+        selectedPlan: [],
       }
     },
     methods: {
@@ -328,6 +332,7 @@
         this.openId = id
         // history.pushState({}, '', `${'new'}/${id}`)
         this.isSidebarOpen = true
+        this.selectedPlan = id;
       },
       closeSidebar() {
         this.openId = null
