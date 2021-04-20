@@ -126,14 +126,18 @@
           .row
             .col.mb-2.text-center
               h2.mb-3 Choose your plan
-              b-button-group.mb-3(size='lg')
-                b-button(v-for='(btn, idx) in buttons' :key='idx' :pressed.sync='btn.state' :variant='btn.state ? "dark":"light"') {{ btn.caption }}
+              b-form-group.mb-5(v-slot="{ ariaDescribedby }")
+                b-form-radio-group(id="btn-radios-plan"
+                v-model="billingTypeSelected"
+                :options="billingTypeOptions"
+                :aria-describedby="ariaDescribedby"
+                button-variant="outline-primary"
+                size="lg"
+                name="radio-btn-outline"
+                buttons)
           .row
             .col-xl-4(v-for='(plan, index) in billingPlan')
-              b-card.w-100.mb-2.billing-plan(
-              class=index === 0 && 'billing-plan_low'
-              class=index === 1 && 'billing-plan_medium'
-              class=index === 2 && 'billing-plan_high')
+              b-card.w-100.mb-2.billing-plan(:class="[index === 0 ? 'billing-plan_low' : '', index === 1 ? 'billing-plan_medium' : '', index === 2 ? 'billing-plan_high' : '' ]")
                 b-button.mb-3(type='button' variant='light' @click="openDetails(plan[index])") Select Plan
                 b-card-text
                   h4.billing-plan__name {{ plan.name }}
@@ -234,16 +238,17 @@
         options: ['list', 'of', 'options'],
         show: true,
         errors: {},
-        step1: true,
+        step1: false,
         step2: false,
-        step3: false,
-        currentStep: 1,
-        navStep1: true,
+        step3: true,
+        currentStep: 3,
+        navStep1: false,
         navStep2: false,
-        navStep3: false,
-        buttons: [
-          { caption: 'Billed Annually', state: true },
-          { caption: 'Billed Monthly', state: false },
+        navStep3: true,
+        billingTypeSelected: 'annually',
+        billingTypeOptions: [
+          { text: 'Billed Annually', value: 'annually' },
+          { text: 'Billed Monthly', value: 'monthly' },
         ],
         billingPlan: [
           {
@@ -335,9 +340,6 @@
       loading() {
         return this.$store.getters.loading;
       },
-      btnStates() {
-        return this.buttons.map(btn => btn.state)
-      }
     },
   }
 </script>
@@ -410,6 +412,12 @@
     color: #303132;
     border-color: #303132;
     font-weight: bold;
+  }
+  .btn-outline-primary:hover:not(:disabled):not(.disabled),
+  .btn-outline-primary.active:not(:disabled):not(.disabled) {
+    color: #fff;
+    background-color: #303132;
+    border-color: #303132;
   }
 
   /*RADIO BUTTONS*/
