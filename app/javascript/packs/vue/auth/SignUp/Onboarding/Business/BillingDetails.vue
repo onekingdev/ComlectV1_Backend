@@ -168,7 +168,7 @@
         return this.plan
       },
       pk() {
-        return 'pk_test_01vxEQv9T5FIIKTu1GkHW41D'
+        return process.env.STRIPE_PUBLISHABLE_KEY
       }
     }
   }
