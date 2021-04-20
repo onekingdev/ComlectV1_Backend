@@ -1,9 +1,9 @@
 <template lang="pug">
-  div.position-relative
+  div
     .card-header
       .row
         .col
-          h4 Plan
+          h4.m-t-1 Plan
         .col.text-right
           b-form-group(v-slot="{ ariaDescribedby }")
             b-form-radio-group(id="btn-radios-plan"
@@ -20,7 +20,7 @@
           h4.m-t-1 {{ planComputed.name }}
           p {{ planComputed.description }}
         .col.text-right
-          h4 {{ planComputed.coast }}
+          h4.m-t-1 {{ planComputed.coast }}
           p {{ planComputed.users }}
     .card-header
       .d-flex.justify-content-between
@@ -35,21 +35,20 @@
     .card-header
       .d-flex.justify-content-between
         h4.m-t-1 Payment Method
-        div
-          a.btn.btn-light Add Bank Account
-    .card-body
-      dl.row
+        div.m-t-1
+          a.btn.btn-light(@click="addBankAccount") Add Bank Account
+    .card-body(v-if="cardOptions")
+      dl.row(v-for="(card, i) in cardOptions")
         dt.col-sm-7
-          b-form-group(v-slot='{ ariaDescribedby }')
-            b-form-radio-group(v-model='cardSelected' :options='cardOptions' :aria-describedby='ariaDescribedby' name='radios-stacked' stacked)
-          h3 Credit Card (primary)
-        dd.col-sm-5.text-right
-          | **** **** **** 8900 Visa
-          a.btn.btn-light.ml-2 Remove
+          input.mr-2.mt-1(id="card+i" type='radio' name='card.value' value='card.value' :checked="i===1")
+          label(for='card+i') {{ card.text }}
+        dd.col-sm-5.text-right.m-b-0
+          | {{ card.number }} {{ card.type }}
+          a.link.ml-2(:href="'/remove/card/' + card.id") Remove
     .card-header
-      div
-        StripeCheckout(:pk="pk")
-      hr
+      <!--div-->
+        <!--StripeCheckout(:pk="pk")-->
+      <!--hr-->
       div
         .row
           .col
@@ -85,32 +84,28 @@
         .row
           .col.text-right
             b-button(type='button' variant='secondary' @click="addCardDetail") Add
+      <!--hr-->
+      <!--div-->
+        <!--p stripe-checkout:-->
+        <!--stripe-checkout(ref='checkoutRef' mode='payment' :pk='publishableKey' :line-items='lineItems' :success-url='successURL' :cancel-url='cancelURL' @loading='v => loading = v')-->
+        <!--button(@click='submit') Pay now!-->
       hr
       div
-        p stripe-checkout:
-        stripe-checkout(ref='checkoutRef' mode='payment' :pk='publishableKey' :line-items='lineItems' :success-url='successURL' :cancel-url='cancelURL' @loading='v => loading = v')
-        button(@click='submit') Pay now!
-      hr
-      div
-        p stripe-element-card:
+        <!--p stripe-element-card:-->
         stripe-element-card(ref="elementRef"
         :pk="pk"
         @token="tokenCreated")
         button(@click="submit") Generate token
 
-    //PurchaseSummary
-
 </template>
 
 <script>
   import { StripeCheckout, StripeElementCard  } from '@vue-stripe/vue-stripe';
-  import PurchaseSummary from './PurchaseSummary'
 
   export default {
     props: ['billingTypeSelected', 'billingTypeOptions', 'plan'],
     components: {
       StripeCheckout,
-      PurchaseSummary,
       StripeElementCard
     },
     data() {
@@ -138,9 +133,9 @@
         cards: [],
         cardSelected: '1',
         cardOptions: [
-          { text: 'Credit Card (primary)', value: '1' },
-          { text: 'Credit Card (secondary)', value: '2' },
-          { text: 'Credit Card (third)', value: '3' },
+          { text: 'Credit Card (primary)', value: '1', number: '**** **** **** 8900', type: 'Visa', id: '1' },
+          { text: 'Credit Card (secondary)', value: '2', number: '**** **** **** 8888', type: 'MasterCard', id: '2' },
+          { text: 'Credit Card (third)', value: '3', number: '**** **** **** 1111', type: 'Visa', id: '3' },
         ],
         errors: [],
       };
@@ -161,6 +156,16 @@
       },
       addCardDetail() {
         console.log(this.cardDetail)
+        this.cardOptions = Object.assign(this.cardOptions, {
+          text: this.cardDetail.nameOnCard,
+          value: this.cardOptions.length + 1,
+          number: this.cardDetail.cardNumber,
+          type: 'Visa',
+          id: Math.floor(Math.random()) * 100
+        })
+      },
+      addBankAccount() {
+
       }
     },
     computed: {

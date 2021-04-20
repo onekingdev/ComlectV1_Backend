@@ -1,19 +1,32 @@
 <template lang="pug">
   .card.m-t-1.purchase-summary
     .card-header
-      | _name }}
-      br
-      | {.countr.cit.state] | commas }}
-    .card-body
-      dl.row
-        dt.col-sm-3 Industry
-        dd.col-sm-9 .industries | names}}
-        dt.col-sm-3 Jurisdictions
-        dd.col-sm-9 .jurisdictions | names}}
-        dt.col-sm-3 Employees
-        dd.col-sm-9 .employees }}
-        dt.col-sm-3 Description
-        dd.col-sm-9 .description }}
+      | Purchase Summary
+    .card-body.pb-0
+      dl.row.mb-0
+        dt.col-sm-6
+          b Busines plan
+        dd.col-sm-6.text-right $250
+        dt.col-sm-6 10 Users (10 Free)
+        dd.col-sm-6.text-right +$0
+        dt.col-sm-6.text-success Billed Annualy
+        dd.col-sm-6.text-right.text-success You saved $50
+    hr
+    .card-body.py-0
+      dl.row.mb-0
+        dt.col-sm-6
+          b Tax
+        dd.col-sm-6.text-right.m-b-0
+          b $32.20
+    hr
+    .card-body.pt-0
+      dl.row.mb-0
+        dt.col-sm-6
+          b Total
+        dd.col-sm-6.text-right.m-b-0
+          b $492.20
+    .card-footer
+      b-button.w-100(type='button' variant='dark') Complite purchase
 </template>
 
 <script>
@@ -25,9 +38,10 @@ export default {
 <style scoped>
   .purchase-summary {
     position: absolute;
-    right: 20rem;
-    top: 0;
-    width: 20rem;
-    transform: translateY(-50%);
+    z-index: 1050;
+    right: 5rem;
+    top: 30%;
+    width: 30rem;
+    transform: translateY(-30%);
   }
 </style>

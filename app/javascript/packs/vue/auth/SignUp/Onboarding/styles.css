@@ -71,3 +71,7 @@
   align-items: center;
   margin-bottom: 1rem;
 }
+
+.link {
+  color: var(--blue);
+}

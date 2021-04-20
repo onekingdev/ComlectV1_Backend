@@ -153,7 +153,7 @@
             .col.text-right
               b-button.mr-2(type='button' variant='light' @click="prevStep(2)") Go back
 
-    b-sidebar#BillingPlanSidebar(@hidden="closeSidebar" v-model="isSidebarOpen" backdrop-variant='dark' backdrop left width="60%" )
+    b-sidebar#BillingPlanSidebar(@hidden="closeSidebar" v-model="isSidebarOpen" backdrop-variant='dark' backdrop left no-header width="60%")
       .card
         .card-header.borderless
           .d-flex.justify-content-between
@@ -168,19 +168,22 @@
         :billingTypeOptions="billingTypeOptions"
         :plan="selectedPlan"
         )
+    PurchaseSummary(v-if="isSidebarOpen")
 </template>
 
 <script>
   import Loading from '@/common/Loading/Loading'
   import Multiselect from 'vue-multiselect'
   import BillingDetails from './BillingDetails'
+  import PurchaseSummary from './PurchaseSummary'
 
   export default {
     props: ['industryIds', 'jurisdictionIds', 'subIndustryIds', 'states'],
     components: {
       Loading,
       Multiselect,
-      BillingDetails
+      BillingDetails,
+      PurchaseSummary
     },
     created() {
       console.log('industryIds', this.industryIds)
