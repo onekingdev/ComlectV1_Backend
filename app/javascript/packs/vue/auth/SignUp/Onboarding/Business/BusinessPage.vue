@@ -115,8 +115,6 @@
                 multiselect#select-13(
                 v-model="form.state"
                 :options="form.stateOptions"
-                :searchable="true",
-                :multiple="false"
                 placeholder="Select state",
                 required)
                 .invalid-feedback.d-block(v-if="errors.state") {{ errors.state }}
@@ -187,8 +185,15 @@
       console.log('states', this.states)
       if(this.industryIds) this.form.industryOptions = this.industryIds;
       // if(this.subIndustryIds) this.form.subIndustryOptions = this.subIndustryIds;
+      for (const [key, value] of Object.entries(this.subIndustryIds)) {
+        // console.log(`${key}: ${value}`);
+        this.form.subIndustryOptions.push({
+          value: key,
+          name: value
+        })
+      }
       if(this.jurisdictionIds) this.form.jurisdictionOptions = this.jurisdictionIds;
-      if(this.stateOptions) this.form.state = this.states;
+      if(this.states) this.form.stateOptions = this.states;
     },
     data() {
       return {
@@ -346,11 +351,14 @@
   }
   .multiselect__placeholder {
     margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 2px;
   }
   .multiselect__tags {
     min-height: 20px;
-    padding: 3px 40px 3px 10px;
+    padding: 5px 40px 0 10px;
     margin-bottom: 0;
+    border-color: #ced4da;
   }
   .multiselect__tag {
     padding: 2px 26px 2px 10px;
@@ -378,8 +386,11 @@
   .multiselect__select {
     height: 30px;
   }
+  .multiselect__single {
+    margin-bottom: 0;
+  }
 
-  /* ALERTS*/
+    /* ALERTS*/
  .alert-primary {
    color: #303132;
    background-color: #ecf4ff;
