@@ -11,20 +11,29 @@
   )
     .table__row(v-for='el in realValue' :key='el.title' :data-id-policy="el.id")
       .table__cell.table__cell_name(v-show="el.children && el.children.length !== 0")
-        .dropdown-toggle(:class="{ active: open }" @click="open = !open")
-          b-icon.mr-2(v-if="el.children && el.children.length !== 0 && open" icon="chevron-compact-down")
-          b-icon.mr-2(v-else icon="chevron-compact-right")
-          | {{ el.title }}
-        nested-draggable(
-        v-show="open"
-        :list="el.children"
-        :policy="el"
-        :policyId="el.id ? el.id : parentSection.id"
-        :policyTitle="el.title"
-        :parentSection="el"
-        :policiesList="policiesList"
-        )
-      .table__cell.table__cell_name(v-show="el.children.length === 0") {{ el.title }}
+        .d-flex.align-items-center
+          .dropdown-toggle.link(
+            v-if="el.children && el.children.length !== 0"
+            :id="`#sectionIcon-${el.id ? el.id : randomNum}`"
+            @click="toogleSections(el.id ? el.id : randomNum)"
+            :class="{active : shortTable}")
+            b-icon.mr-2(icon="chevron-compact-right")
+          a.link(v-if="el.id" :href="`/business/compliance_policies/${el.id}`") {{ el.title }}
+          .link(v-else) {{ el.title }}
+        .dropdown-items.mb-2(v-if="el.children && el.children.length" :id="`#section-${el.id ? el.id : randomNum}`" :class="{active : shortTable}")
+          nested-draggable(
+          v-show="open"
+          :list="el.children"
+          :policy="el"
+          :policyId="el.id ? el.id : parentSection.id"
+          :policyTitle="el.title"
+          :parentSection="el"
+          :policiesList="policiesList"
+          :shortTable="shortTable"
+          )
+      .table__cell.table__cell_name(v-show="el.children && el.children.length === 0")
+        a.link(v-if="el.id" :href="`/business/compliance_policies/${el.id}`") {{ el.title }}
+        .link(v-else) {{ el.title }}
       .table__cell(v-if="!shortTable && el.status")
         b-badge.status(:variant="statusVariant") {{ el.status }}
       .table__cell.text-right(v-if="!shortTable && el.updated_at") {{ dateToHuman(el.updated_at) }}
@@ -103,7 +112,8 @@
         draggedContext: {},
         relatedContext: {},
         statusVariant: 'light',
-        open: true
+        open: true,
+        randomNum: 0
       }
     },
     methods: {
@@ -369,6 +379,12 @@
         console.log('emit value', value)
         this.$emit("input", value);
       },
+      toogleSections(value) {
+        // console.log(value)
+        // console.log(document.getElementById(`#section-${value}`))
+        document.getElementById(`#section-${value}`).classList.toggle('active');
+        document.getElementById(`#sectionIcon-${value}`).classList.toggle('active');
+      },
     },
     computed: {
       dragOptions() {
@@ -386,13 +402,14 @@
       },
     },
     watch: {
-      realValue (value) {
-        console.log('watch realValue', value)
-      },
+      // realValue (value) {
+      //   console.log('watch realValue', value)
+      // },
     },
-    // mounted() {
-    //   defaultPoliciesList = this.policiesList
-    // }
+    mounted() {
+      // defaultPoliciesList = this.policiesList
+      this.randomNum = Math.floor(Math.random() * 100)
+    }
   };
 </script>
 <style scoped>

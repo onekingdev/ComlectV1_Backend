@@ -11,7 +11,7 @@
                 .table
                   nested-draggable(v-model='policiesComputed', :policiesList="policiesListNested" :shortTable="true")
             <!--rawdisplayer(:value='policiesComputed' title='List')-->
-        .col
+        .col(v-if="policy")
           .row
             .col-md-12.px-0
               .card-body.white-card-body.p-3.px-4
@@ -19,11 +19,11 @@
                   .d-flex.align-items-center
                     button.btn.btn__menu.mr-3(@click="leftMenu = !leftMenu")
                       b-icon(icon='list')
-                    button.btn.mr-3(:class="policy.status === 'published' ? 'btn-success' : 'btn-default'") {{ policy.status }}
+                    b-badge.btn.mr-3(variant="light") {{ policy.status }}
                     h3.policy__main-title.m-y-0 {{ policy.title }}
                   .d-flex.justify-content-end.align-items-center
                     a.link.btn.mr-3(@click="saveDraft") Save Draft
-                    button.btn.btn.btn-default.mr-3(@click="download") Download
+                    button.btn.btn-default.mr-3(@click="download") Download
                     PoliciesModalPublish(@publishConfirmed="publishPolicy")
                       button.btn.btn-dark.mr-3 Publish
                     PoliciesModalDelete(:policyId="policy.id", @deleteConfirmed="deletePolicy(policy.id)")
@@ -130,18 +130,22 @@
         toggleVueEditor: false,
         sections: [],
         count: 0,
-        policy: {
-          "id": this.policyId,
-          "title": "New Policy",
-          "created_at": "",
-          "updated_at": "",
-          "position": 0,
-          "description": "N/A",
-          "src_id": null,
-          "status": "draft",
-          "sections": [],
-          "versions": []
-        }
+        // policy: {
+        //   archived: '',
+        //   children: [],
+        //   created_at: '',
+        //   description: '',
+        //   id: this.policyId,
+        //   name: '',
+        //   position: '',
+        //   risks: '',
+        //   sections: [],
+        //   src_id: '',
+        //   status: '',
+        //   title: 'New Policy',
+        //   updated_at: '',
+        //   versions: '',
+        // }
       }
     },
     methods: {
@@ -292,14 +296,14 @@
         this.toggleVueEditorHandler()
       },
 
-      updateList () {
+      updateList() {
         this.$store
           .dispatch("getPolicies")
           .then((response) => {
             // console.log('response 1', response);
             this.policies = response
-            this.policy = response.find(el => el.id === this.policyId)
-            console.log(this.policy)
+            // this.policy = response.find(el => el.id === this.policyId)
+            // console.log('this.policy in create page', this.policy)
           })
           .catch((err) => {
             // console.error(err);
@@ -369,6 +373,10 @@
       //   });
       //   return newPoliciesList;
       // },
+      policy(){
+        const id = this.policyId
+        return this.$store.getters.policyById(id)
+      },
       policiesComputed: {
         get() {
           const policies = this.$store.getters.policiesList
