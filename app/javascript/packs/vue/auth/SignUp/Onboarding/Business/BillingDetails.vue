@@ -7,20 +7,22 @@
         .col.text-right
           b-form-group(v-slot="{ ariaDescribedby }")
             b-form-radio-group(id="btn-radios-plan"
-            v-model="billingTypeSelected"
+            :checked="billingTypeSelected"
             :options="billingTypeOptions"
             :aria-describedby="ariaDescribedby"
             button-variant="outline-primary"
             size="lg"
             name="radio-btn-outline"
-            buttons)
+            buttons
+            @change="onBiliingChange"
+            )
     .card-header
       .row
         .col
           h4.m-t-1 {{ planComputed.name }}
           p {{ planComputed.description }}
         .col.text-right
-          h4.m-t-1 {{ planComputed.coast }}
+          h4.m-t-1 {{ billingTypeSelected === 'annually' ?  planComputed.coastAnnuallyFormatted : planComputed.coastMonthlyFormatted }}
           p {{ planComputed.users }}
     .card-header
       .d-flex.justify-content-between
@@ -31,7 +33,7 @@
           dt.col-sm-3
           dd.col-sm-9
             b-form-group
-              b-form-input(v-model="planComputed.usersCount" type="number" min="1" max="100")
+              b-form-input(v-model="additionalUsersCount" type="number" min="1" max="100" @keyup="onChangeUserCount")
     .card-header
       .d-flex.justify-content-between
         h4.m-t-1 Payment Method
@@ -138,6 +140,7 @@
           { text: 'Credit Card (third)', value: '3', number: '**** **** **** 1111', type: 'Visa', id: '3' },
         ],
         errors: [],
+        additionalUsersCount: 0
       };
     },
     methods: {
@@ -166,6 +169,13 @@
       },
       addBankAccount() {
 
+      },
+      onBiliingChange(event){
+        this.$emit('updateBiliing', event)
+      },
+      onChangeUserCount() {
+        const value = this.additionalUsersCount
+        this.$emit('updateAdditionalUsers', value)
       }
     },
     computed: {

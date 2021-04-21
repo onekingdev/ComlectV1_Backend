@@ -5,33 +5,67 @@
     .card-body.pb-0
       dl.row.mb-0
         dt.col-sm-6
-          b Busines plan
-        dd.col-sm-6.text-right $250
-        dt.col-sm-6 10 Users (10 Free)
-        dd.col-sm-6.text-right +$0
-        dt.col-sm-6.text-success Billed Annualy
-        dd.col-sm-6.text-right.text-success You saved $50
-    hr
-    .card-body.py-0
+          b {{ planComputed.name }} plan
+        dd.col-sm-6.text-right {{ billingTypeSelected === 'annually' ?  planComputed.coastAnnuallyFormatted : planComputed.coastMonthlyFormatted }}
+        dt.col-sm-6 {{ planComputed.usersCount }} Users ({{ planComputed.usersCount }} Free)
+        dd.col-sm-6.text-right {{ planComputed.additionalUserCoast }}
+        dt.col-sm-6.text-success(v-if="billingTypeSelected === 'annually'") Billed Annualy
+        dd.col-sm-6.text-right.text-success(v-if="billingTypeSelected === 'annually'") You saved {{ planComputed.saved }}
+    hr(v-if="planComputed.tax")
+    .card-body.py-0(v-if="planComputed.tax")
       dl.row.mb-0
         dt.col-sm-6
           b Tax
         dd.col-sm-6.text-right.m-b-0
-          b $32.20
+          b {{ planComputed.tax }}
     hr
     .card-body.pt-0
       dl.row.mb-0
         dt.col-sm-6
           b Total
         dd.col-sm-6.text-right.m-b-0
-          b $492.20
+          b {{ planComputed.total }}
     .card-footer
       b-button.w-100(type='button' variant='dark') Complite purchase
 </template>
 
 <script>
 export default {
-  props: []
+  props: ['billingTypeSelected', 'billingTypeOptions', 'plan', 'additionalUsers'],
+  data() {
+    return {
+
+    }
+  },
+  methods: {
+    countTotalCoast(planType, coastMonthly, coastAnnually, usersCount, usersCoast) {
+      // console.log(planType, coastMonthly, coastAnnually, usersCount, usersCoast)
+      let finalCoast;
+      if (planType === 'monthly') {
+        finalCoast = coastMonthly + usersCount * usersCoast
+      }
+      if (planType === 'annually') {
+        finalCoast = coastAnnually + usersCount * usersCoast
+      }
+      return `$${finalCoast}`
+    },
+  },
+  computed: {
+    planComputed() {
+      return {
+        ...this.plan,
+        additionalUserCoast: `+$${this.additionalUsers * this.plan.additionalUserMonthly}`,
+        saved: `$${Math.abs(this.plan.coastAnnually - this.plan.coastMonthly * 12)}`,
+        // tax: '$0.00',
+        total: this.countTotalCoast(this.billingTypeSelected, this.plan.coastMonthly, this.plan.coastAnnually, this.additionalUsers, this.plan.additionalUserMonthly),
+      }
+    },
+  },
+  // watch: {
+    // billingTypeSelected: function(newVal, oldVal) {
+      // console.log('Prop changed: ', newVal, ' | was: ', oldVal)
+    // }
+  // }
 }
 </script>
 

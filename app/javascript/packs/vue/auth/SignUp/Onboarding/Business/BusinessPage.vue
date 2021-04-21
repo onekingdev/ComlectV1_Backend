@@ -142,7 +142,7 @@
                 b-card-text
                   h4.billing-plan__name {{ plan.name }}
                   p.billing-plan__descr {{ plan.description }}
-                  h5.billing-plan__coast {{ plan.coast }}
+                  h5.billing-plan__coast {{ billingTypeSelected === 'annually' ?  plan.coastAnnuallyFormatted : plan.coastMonthlyFormatted }}
                   p.billing-plan__users {{ plan.users }}
                   hr
                   ul.list-unstyled.billing-plan__list
@@ -167,8 +167,16 @@
         :billingTypeSelected="billingTypeSelected"
         :billingTypeOptions="billingTypeOptions"
         :plan="selectedPlan"
+        @updateBiliing="onBiliingChange"
+        @updateAdditionalUsers="updateAdditionalUsers"
         )
-    PurchaseSummary(v-if="isSidebarOpen")
+    PurchaseSummary(
+    v-if="isSidebarOpen"
+    :billingTypeSelected="billingTypeSelected"
+    :billingTypeOptions="billingTypeOptions"
+    :plan="selectedPlan"
+    :additionalUsers="additionalUsers"
+    )
 </template>
 
 <script>
@@ -186,10 +194,10 @@
       PurchaseSummary
     },
     created() {
-      console.log('industryIds', this.industryIds)
-      console.log('subIndustryIds', this.subIndustryIds)
-      console.log('jurisdictionIds', this.jurisdictionIds)
-      console.log('states', this.states)
+      // console.log('industryIds', this.industryIds)
+      // console.log('subIndustryIds', this.subIndustryIds)
+      // console.log('jurisdictionIds', this.jurisdictionIds)
+      // console.log('states', this.states)
       if(this.industryIds) this.form.industryOptions = this.industryIds;
       // if(this.subIndustryIds) this.form.subIndustryOptions = this.subIndustryIds;
       for (const [key, value] of Object.entries(this.subIndustryIds)) {
@@ -241,13 +249,13 @@
         options: ['list', 'of', 'options'],
         show: true,
         errors: {},
-        step1: false,
+        step1: true,
         step2: false,
-        step3: true,
-        currentStep: 3,
-        navStep1: false,
+        step3: false,
+        currentStep: 1,
+        navStep1: true,
         navStep2: false,
-        navStep3: true,
+        navStep3: false,
         billingTypeSelected: 'annually',
         billingTypeOptions: [
           { text: 'Billed Annually', value: 'annually' },
@@ -255,22 +263,38 @@
         ],
         billingPlan: [
           {
+            id: 1,
+            api_id: 'price_1IiE98GXaxE41NmqMgX2ln1u',
             name: 'Starter',
             description: 'Try out our product for free!',
             coast: 'FREE',
+            coastMonthly: 'FREE',
+            coastMonthlyFormatted: `FREE`,
+            coastAnnually: 'FREE',
+            coastAnnuallyFormatted: `FREE`,
             users: '1 admin user',
-            usersCount: 1,
+            usersCount: 0,
+            additionalUserMonthly: 0,
+            additionalUserAnnually: 0,
             features: [
               'Compilance Calendar',
               'Project Management',
             ]
           },
           {
+            id: 2,
+            api_id: 'price_1IiYD7GXaxE41Nmqu9aE7eRC',
             name: 'Team',
             description: 'Small teams and startups',
             coast: '$125/mo',
-            users: '3 free users plus $10/mo per person',
+            coastMonthly: 145,
+            coastMonthlyFormatted: `$145/mo`,
+            coastAnnually: 1500,
+            coastAnnuallyFormatted: `$1500`,
+            users: '3 free users plus $15/mo per person',
             usersCount: 3,
+            additionalUserMonthly: 15,
+            additionalUserAnnually: 120,
             features: [
               'Compilance Calendar',
               'Project Management',
@@ -282,11 +306,19 @@
             ]
           },
           {
+            id: 3,
+            api_id: 'price_1IiYDOGXaxE41Nmq4Uc27JUf',
             name: 'Business',
             description: 'Medium-sized organizations',
             coast: '$250/mo',
-            users: '10 free users plus $10/mo per person',
+            coastMonthly: 270,
+            coastMonthlyFormatted: `$270/mo`,
+            coastAnnually: 3000,
+            coastAnnuallyFormatted: `$3000`,
+            users: '10 free users plus $15/mo per person',
             usersCount: 10,
+            additionalUserMonthly: 15,
+            additionalUserAnnually: 120,
             features: [
               'Compilance Calendar',
               'Project Management',
@@ -303,6 +335,7 @@
         openId: null,
         isSidebarOpen: false,
         selectedPlan: [],
+        additionalUsers: 0,
       }
     },
     methods: {
@@ -343,6 +376,13 @@
         // history.pushState({}, '', '')
         this.isSidebarOpen = false
       },
+      onBiliingChange(event) {
+        this.billingTypeSelected = event
+      },
+      updateAdditionalUsers(event){
+        // console.log('users', event)
+        this.additionalUsers = event
+      }
     },
     computed: {
       loading() {
