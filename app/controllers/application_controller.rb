@@ -29,6 +29,17 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def sub_industries(specialist)
+    industries = {}
+    Industry.sorted.each do |industry|
+      sub_ind_txt = specialist ? industry.sub_industries_specialist : industry.sub_industries
+      sub_ind_txt.split("\r\n").each_with_index do |sub_ind, i|
+        industries["#{industry.id}_#{i}"] = sub_ind
+      end
+    end
+    industries
+  end
+
   def lock_specialist
     return if current_specialist.dashboard_unlocked
 
