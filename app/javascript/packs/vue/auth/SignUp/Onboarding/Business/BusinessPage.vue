@@ -119,8 +119,8 @@
                 required)
                 .invalid-feedback.d-block(v-if="errors.state") {{ errors.state }}
           .text-right
-            b-button.mr-2(type='button' variant='light' @click="prevStep(1)") Go back
-            b-button.mr-2(type='button' variant='outline-primary' @click="nextStep(3)") Skip this step
+            b-button.mr-2(type='button' variant='outline-primary' @click="prevStep(1)") Go back
+            <!--b-button.mr-2(type='button' variant='outline-primary' @click="nextStep(3)") Skip this step-->
             b-button(type='button' variant='dark' @click="nextStep(3)") Next
         #step3.form(v-if='!loading'  :class="step3 ? 'd-block' : 'd-none'")
           .row
@@ -151,7 +151,7 @@
                       | {{ feature }}
           .row
             .col.text-right
-              b-button.mr-2(type='button' variant='light' @click="prevStep(2)") Go back
+              b-button.mr-2(type='button' variant='outline-primary' @click="prevStep(2)") Go back
 
     b-sidebar#BillingPlanSidebar(@hidden="closeSidebar" v-model="isSidebarOpen" backdrop-variant='dark' backdrop left no-header width="60%")
       .card
