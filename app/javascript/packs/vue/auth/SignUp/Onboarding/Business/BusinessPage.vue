@@ -83,8 +83,8 @@
                 .invalid-feedback.d-block(v-if="errors.jurisdiction") {{ errors.jurisdiction }}
             .col.pl-2
               b-form-group#input-group-7(label='Company Website' label-for='input-7' description="Optional")
-                b-form-input#input-7.form-control(v-model='formStep2.companyWebsite' type='text' placeholder='Company Website')
-                .invalid-feedback.d-block(v-if="errors.companyWebsite") {{ errors.companyWebsite }}
+                b-form-input#input-7.form-control(v-model='formStep2.website' type='text' placeholder='Company Website')
+                .invalid-feedback.d-block(v-if="errors.website") {{ errors.website }}
           .row
             .col-xl-6.pr-xl-2
               b-form-group#input-group-8(label='Phone Number' label-for='input-8')
@@ -233,7 +233,7 @@
           subIndustryOptions: [],
           jurisdiction: '',
           jurisdictionOptions: [],
-          companyWebsite: '',
+          website: '',
           phoneNumber: '',
           businessAddress: '',
           aptUnit: '',
@@ -380,36 +380,63 @@
           this.checkCDRinfo()
           return
         }
+        if (stepNum === 2 && this.formStep1.CRDnumberSelected === 'no') {
+          this['step'+(stepNum-1)] = false
+          this['navStep'+stepNum] = true
+          this['step'+stepNum] = true
+          this.currentStep = stepNum
+        }
 
         if (stepNum === 3) {
           // CLEAR ERRORS
           this.errors = []
 
           const dataToSend = {
+            // contact_first_name: 'x',
+            // contact_last_name: 'x',
+            // contact_email: 'x',
+            // contact_job_title: 'x',
+            // contact_phone: 'x',
             business_name: this.formStep2.companyName,
-            industry_ids: this.formStep2.industry.map(ind => ind.id),
+            website: this.formStep2.website,
+            aum: this.formStep2.aum,
+            apartment: this.formStep2.aptUnit,
+            client_account_cnt: this.formStep2.numAcc,
+            // logo: 'x',
+            address_1: this.formStep2.businessAddress,
+            // country: 'x',
             city: this.formStep2.city,
             state: this.formStep2.state,
-
-            // apartment: null,
-            // aum: null,
-            // business_name: "Proper business name",
-            // city: "Bamboozleburg",
-            // client_account_cnt: null,
-            // crd_number: null,
-            // id: 64,
-            // industries: [],
-            // jurisdictions: [],
-            // state: "Idle",
-            // sub_industries: [],
-            // username: "ProperBusinessName",
+            zipcode: this.formStep2.zip,
+            crd_number: this.formStep1.CRDnumber,
+            industry_ids: this.formStep2.industry.map(record => record.id),
+            sub_industry_ids: this.formStep2.subIndustry.map(record => record.id),
+            jurisdiction_ids: this.formStep2.jurisdiction.map(record => record.id),
           }
 
           this.$store
             .dispatch('updateBusinnesInfo', dataToSend)
             .then(response => {
               console.log('response', response)
-              this.makeToast('Success', `Company info successfully sended!`)
+
+              if(response.errors) {
+                this.makeToast('Error', `Something wrong!`)
+
+                for (const type of Object.keys(response.errors)) {
+                  this.errors = response.errors[type]
+                  this.makeToast('Error', `Form has errors! Please recheck fields! ${response.errors[type]}`)
+                }
+
+                return
+              }
+
+              if(!response.errors) {
+                this['step'+(stepNum-1)] = false
+                this['navStep'+stepNum] = true
+                this['step'+stepNum] = true
+                this.currentStep = stepNum
+                this.makeToast('Success', `Company info successfully sended!`)
+              }
             })
             .catch(error => {
               console.error(error)
@@ -419,10 +446,7 @@
             })
         }
 
-        this['step'+(stepNum-1)] = false
-        this['navStep'+stepNum] = true
-        this['step'+stepNum] = true
-        this.currentStep = stepNum
+
       },
       openDetails(id) {
         this.openId = id
