@@ -252,13 +252,13 @@
         options: ['list', 'of', 'options'],
         show: true,
         errors: {},
-        step1: false,
+        step1: true,
         step2: false,
-        step3: true,
-        currentStep: 3,
+        step3: false,
+        currentStep: 1,
         navStep1: true,
-        navStep2: true,
-        navStep3: true,
+        navStep2: false,
+        navStep3: false,
         billingTypeSelected: 'annually',
         billingTypeOptions: [
           { text: 'Billed Annually', value: 'annually' },
@@ -473,7 +473,7 @@
 
         const dataToSend = {
           turnkey: {
-            "plan": billingTypeSelected === 'annually' ? 'team_tier_annual' : 'team_tier_monthly'
+            "plan": this.billingTypeSelected === 'annually' ? 'team_tier_annual' : 'team_tier_monthly'
           }
         }
 
