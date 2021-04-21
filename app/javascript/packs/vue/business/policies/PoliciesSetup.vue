@@ -14,7 +14,6 @@
             .col
               b-form-file(v-model="form.logo"
               :state="Boolean(form.logo)"
-              ref="inputFile"
               accept="image/*"
               placeholder="Choose a file or drop it here..."
               drop-placeholder="Drop file here..."
@@ -72,13 +71,12 @@
         b-form-group
           b-button.btn.mr-2(type='reset') Reset
           b-button.btn.btn-dark(type='submit' variant='primary') Save
-      <!--b-card.mt-3(header='Form Data Result')-->
-        <!--pre.m-0 {{ form }}-->
+      b-card.mt-3(header='Form Data Result')
+        pre.m-0 {{ form }}
 </template>
 
 <script>
   import Loading from '@/common/Loading/Loading'
-  import axios from 'axios'
   export default {
     components: {
       Loading,
@@ -101,73 +99,56 @@
         // fonts: [{ text: 'Select One', value: null }, 'Times new Roman', 'Arial'],
         show: true,
         // text: '',
-        url: null,
-        inputFile: null
+        url: null
       }
     },
     methods: {
       makeToast(title, str) {
         this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
       },
-      onFileChange(e) {
-        // Show preview
-        const file = e.target.files[0];
-        this.url = URL.createObjectURL(file);
-
-        this.form.logo = this.$refs.inputFile.files[0];
-      },
       onSubmit(event) {
         event.preventDefault()
 
-        const params = {
-          // 'logo': this.form.logo,
-          'address': this.form.address,
-          'phone': this.form.phone,
-          'email': this.form.email,
-          'disclosure': this.form.disclosure,
-          'body': this.form.body,
-        }
-        // Add logo if it exist
-        if (this.form.logo) params.logo = this.form.logo
-
-        let formData = new FormData()
-
-        Object.entries(params).forEach(
-          ([key, value]) => formData.append(key, value)
-        )
-        console.log('formData', formData)
-
-        axios.defaults.baseURL = '/api';
-        axios.defaults.headers.common['Authorization'] = 'TOKEN';
-        // axios.defaults.headers.post['Content-Type'] = 'application/json';
-        // Finally, sending the request with our beloved Axios
-        axios
-          .patch('/business/compliance_policy_configuration', formData)
+        // let data = new FormData();
+        // data.append('name', 'logo');
+        // data.append('logo', this.form.logo);
+        // this.form.logo = data
+        // data.append('address', this.form.address),
+        // data.append('phone', this.form.phone),
+        // data.append('email', this.form.email),
+        // data.append('disclosure', this.form.disclosure),
+        // data.append('body', this.form.body),
+        this.$store
+          // .dispatch('postPolicyConfig', data)
+          .dispatch('postPolicyConfig', this.form)
           .then(response => {
-            console.log('axios response', response)
-            this.makeToast('Success', `Config successfully saved!`)
+            console.log('response', response)
+            this.makeToast('Success', `Policy Config successfully sended!`)
           })
           .catch(error => {
-            console.error('axios error', error)
-            this.makeToast('Error', `Something wrong! ${error}`)
+            console.error(error)
+            this.makeToast('Error', `Couldn't submit form! ${error}`)
           })
-          .finally(() => console.log('request finished'))
       },
       onReset(event) {
         event.preventDefault()
         // Reset our form values
-        this.url = null,
         this.form.logo = null,
-        this.form.address = false,
-        this.form.phone = false,
-        this.form.email = false,
-        this.form.disclosure = false,
+        this.form.address = '',
+        this.form.phone = '',
+        this.form.email = '',
+        this.form.disclosure = true,
         this.form.body = ''
         // Trick to reset/clear native browser form validation state
         this.show = false
         this.$nextTick(() => {
           this.show = true
         })
+      },
+      onFileChange(e) {
+        // Show preview
+        const file = e.target.files[0];
+        this.url = URL.createObjectURL(file);
       },
       onRemove() {
         this.url = null,
@@ -187,15 +168,15 @@
           // this.makeToast('Success', `Policy successfully deleted!`)
 
           // update form
-          this.url = response.logo
-          this.form = {
-            // logo: response.logo,
-            address: response.address,
-            phone: response.phone,
-            email: response.email,
-            disclosure: response.disclosure,
-            body: response.body,
-          }
+          // this.url = response.logo_data
+          // this.form = {
+            // logo: response.logo_data,
+            // address: response.address,
+            // phone: response.phone,
+            // email: response.email,
+            // disclosure: trresponse.disclosure,
+            // body: response.body,
+          // }
 
           // console.log('this.form after response', this.form)
         })

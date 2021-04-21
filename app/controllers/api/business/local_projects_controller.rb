@@ -6,8 +6,7 @@ class Api::Business::LocalProjectsController < ApiController
   skip_before_action :verify_authenticity_token # TODO: proper authentication
 
   def index
-    projects = current_business.local_projects.includes(projects: %i[industries skills jurisdictions end_request extension timesheets])
-    respond_with projects, each_serializer: LocalProjectSerializer
+    respond_with current_business.local_projects, each_serializer: LocalProjectSerializer
   end
 
   def show
