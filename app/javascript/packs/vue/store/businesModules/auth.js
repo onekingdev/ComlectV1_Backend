@@ -1,5 +1,5 @@
-// import axios from '../../services/axios'
-import axios from 'axios'
+import axios from '../../services/axios'
+// import axios from 'axios'
 
 export default {
   state: {
@@ -22,7 +22,7 @@ export default {
 
         const endPoint = payload.business ? 'businesses' : 'specialists'
 
-        const response = await axios.post(`/api/${endPoint}`, payload)
+        const response = await axios.post(`/${endPoint}`, payload)
         return response.data
 
       } catch (error) {
@@ -37,7 +37,7 @@ export default {
         commit("clearError");
         commit("setLoading", true);
 
-        const response = await axios.put(`/api/users/${payload.userId}/confirm_email`, {
+        const response = await axios.put(`/users/${payload.userId}/confirm_email`, {
           "otp_secret": payload.code
         })
         return response.data
@@ -54,7 +54,24 @@ export default {
         commit("clearError");
         commit("setLoading", true);
 
-        const response = await axios.put(`/api/crd/`, payload)
+        const response = await axios.put(`/crd/`, payload)
+        return response.data
+
+      } catch (error) {
+        console.error(error);
+        throw error
+      } finally {
+        commit("setLoading", false)
+      }
+    },
+    async updateBusinnesInfo({commit}, payload) {
+      try {
+        commit("clearError");
+        commit("setLoading", true);
+        console.log('payload', payload)
+
+        const response = await axios.patch(`/business`, payload)
+        console.log('axios response', response)
         return response.data
 
       } catch (error) {
