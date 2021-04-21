@@ -19,7 +19,6 @@ axios.interceptors.request.use((request) => {
       request.headers['Authorization'] = `${JSON.parse(jwtToken)}`
       // request.headers['X-Auth-Token'] = jwtToken
   }
-  console.log('request in interceptor', request)
   return request
 })
 

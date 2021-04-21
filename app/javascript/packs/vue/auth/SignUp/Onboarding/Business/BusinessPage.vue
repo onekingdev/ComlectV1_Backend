@@ -176,6 +176,7 @@
     :billingTypeOptions="billingTypeOptions"
     :plan="selectedPlan"
     :additionalUsers="additionalUsers"
+    @complitePurchaseConfirmed="selectPlanAndComplitePurchase"
     )
 </template>
 
@@ -251,13 +252,13 @@
         options: ['list', 'of', 'options'],
         show: true,
         errors: {},
-        step1: true,
+        step1: false,
         step2: false,
-        step3: false,
-        currentStep: 1,
+        step3: true,
+        currentStep: 3,
         navStep1: true,
-        navStep2: false,
-        navStep3: false,
+        navStep2: true,
+        navStep3: true,
         billingTypeSelected: 'annually',
         billingTypeOptions: [
           { text: 'Billed Annually', value: 'annually' },
@@ -445,8 +446,6 @@
               return
             })
         }
-
-
       },
       openDetails(id) {
         this.openId = id
@@ -466,6 +465,35 @@
       updateAdditionalUsers(event){
         // console.log('users', event)
         this.additionalUsers = event
+      },
+      selectPlanAndComplitePurchase (selectedPlan) {
+        console.log(selectedPlan)
+        // CLEAR ERRORS
+        this.errors = []
+
+        const dataToSend = {
+          turnkey: {
+            "plan": billingTypeSelected === 'annually' ? 'team_tier_annual' : 'team_tier_monthly'
+          }
+        }
+
+        this.$store
+          .dispatch('updateSubscribe', dataToSend)
+          .then(response => {
+            console.log('response', response)
+
+            if(response.errors) {
+              this.makeToast('Error', `Something wrong!`)
+            }
+
+            if(!response.errors) {
+              this.makeToast('Success', `Update subscribe successfully finished!`)
+            }
+          })
+          .catch(error => {
+            console.error(error)
+            this.makeToast('Error', `Something wrong! ${error}`)
+          })
       }
     },
     computed: {

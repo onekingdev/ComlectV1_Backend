@@ -71,7 +71,22 @@ export default {
         console.log('payload', payload)
 
         const response = await axios.patch(`/business`, payload)
-        console.log('axios response', response)
+        return response.data
+
+      } catch (error) {
+        console.error(error);
+        throw error
+      } finally {
+        commit("setLoading", false)
+      }
+    },
+    async updateSubscribe({commit}, payload) {
+      try {
+        commit("clearError");
+        commit("setLoading", true);
+        console.log('payload', payload)
+
+        const response = await axios.post(`/upgrade/subscribe`, payload)
         return response.data
 
       } catch (error) {
