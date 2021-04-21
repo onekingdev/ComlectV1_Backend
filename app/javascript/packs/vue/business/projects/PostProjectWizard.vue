@@ -18,7 +18,7 @@
 
         InputSelect.m-t-1(v-model="project.rfp_timing" :errors="errors.rfp_timing" :options="rfpTimingOptions") Project Timing
         InputSelect.m-t-1(v-model="project.location_type" :errors="errors.location_type" :options="locationTypes") Location Type
-        InputText.m-t-1(v-model="project.location" :errors="errors.location") Location
+        InputText.m-t-1(v-model="project.location" v-if="isLocationVisible" :errors="errors.location") Location
 
         label.m-t-1.form-label Industry
         ComboBox(v-model="project.industry_ids" :options="industryIdsOptions" :multiple="true")
@@ -273,6 +273,9 @@ export default {
       return {
         min: new Date
       }
+    },
+    isLocationVisible() {
+      return 'onsite' === this.project.location_type
     }
   },
   components: {
