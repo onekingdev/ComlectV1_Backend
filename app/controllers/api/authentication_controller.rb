@@ -14,7 +14,13 @@ class Api::AuthenticationController < ApiController
         render(json: { message: 'You have received one time passcode on your email to verify login' }) && return
       end
       if user.verify_otp(params[:otp_secret])
-        render json: { token: JsonWebToken.encode(sub: user.id) }
+        if user.business
+          render json: { token: JsonWebToken.encode(sub: user.id),
+                         business: BusinessSerializer.new(user.business).serializable_hash }
+        elsif user.specialist
+          render json: { token: JsonWebToken.encode(sub: user.id),
+                         specialist: SpecialistSerializer.new(user.specialist).serializable_hash }
+        end
       else
         render json: { errors: { invalid: 'Invalid secret key' } }, status: :unprocessable_entity
       end

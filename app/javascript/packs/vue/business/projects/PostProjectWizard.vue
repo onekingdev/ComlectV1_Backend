@@ -16,7 +16,6 @@
         InputTextarea.m-t-1(v-model="project.role_details" :errors="errors.role_details") Role Details
         .form-text.text-muted Project post information for the specialist
 
-        InputSelect.m-t-1(v-model="project.rfp_timing" :errors="errors.rfp_timing" :options="rfpTimingOptions") Project Timing
         InputSelect.m-t-1(v-model="project.location_type" :errors="errors.location_type" :options="locationTypes") Location Type
         InputText.m-t-1(v-model="project.location" v-if="isLocationVisible" :errors="errors.location") Location
 
@@ -78,7 +77,6 @@ import { redirectWithToast } from '@/common/Toast'
 import {
   PRICING_TYPES,
   LOCATION_TYPES,
-  RFP_TIMING_OPTIONS,
   FIXED_PAYMENT_SCHEDULE_OPTIONS,
   HOURLY_PAYMENT_SCHEDULE_OPTIONS,
   MINIMUM_EXPERIENCE_OPTIONS,
@@ -100,7 +98,6 @@ const initialProject = (localProject) => ({
   ends_on: (localProject && localProject.ends_on) || null,
   description: (localProject && localProject.description) || null,
   role_details: null,
-  rfp_timing: null,
   industry_ids: [],
   jurisdiction_ids: [],
   location_type: null,
@@ -180,7 +177,7 @@ export default {
     preValidateStep() {
       this.errors = {}
       if (this.currentStep === 0) {
-        ['title', 'description', 'role_details', 'starts_on', 'location_type', 'rfp_timing'].map(f => {
+        ['title', 'description', 'role_details', 'starts_on', 'location_type'].map(f => {
           if (!this.project[f]) {
             this.errors[f] = [REQUIRED]
           }
@@ -246,7 +243,6 @@ export default {
     steps: () => STEPS,
     pricingTypes: () => PRICING_TYPES,
     locationTypes: () => LOCATION_TYPES,
-    rfpTimingOptions: () => RFP_TIMING_OPTIONS,
     fixedPaymentScheduleOptions: () => FIXED_PAYMENT_SCHEDULE_OPTIONS,
     hourlyPaymentScheduleOptions: () => HOURLY_PAYMENT_SCHEDULE_OPTIONS,
     experienceOptions: () => MINIMUM_EXPERIENCE_OPTIONS,
