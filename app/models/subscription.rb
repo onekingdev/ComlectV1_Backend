@@ -1,10 +1,24 @@
 # frozen_string_literal: true
 
 class Subscription < ActiveRecord::Base
-  belongs_to :business
-  belongs_to :payment_source
+  belongs_to :business, optional: true
+  belongs_to :payment_source, optional: true
+  belongs_to :specialist, optional: true
+  belongs_to :specialist_payment_source, class_name: 'Specialist::PaymentSource',
+                                         foreign_key: :specialist_payment_source_id, optional: true
 
-  enum plan: %w[monthly annual]
+  SPECIALIST_PLANS = %w[specialist_pro specialist_freemium].freeze
+
+  enum plan: %w[
+    monthly
+    annual
+    team_tier_monthly
+    team_tier_annual
+    business_tier_monthly
+    business_tier_annual
+    specialist_pro
+  ]
+
   enum kind_of: { ccc: 0, forum: 1, seats: 2 }
   enum status: { active: 0, canceled: 1 }
 
@@ -49,6 +63,11 @@ class Subscription < ActiveRecord::Base
     when 'seats_monthly' then ENV['STRIPE_SUB_SEATS_MONTHLY']
     when 'annual' then ENV['STRIPE_SUB_CCC_ANNUAL']
     when 'seats_annual' then ENV['STRIPE_SUB_SEATS_ANNUAL']
+    when 'team_tier_monthly' then ENV['STRIPE_SUB_CCC_TEAM_TIER_MONTHLY']
+    when 'team_tier_annual' then ENV['STRIPE_SUB_CCC_TEAM_TIER_ANNUAL']
+    when 'business_tier_monthly' then ENV['STRIPE_SUB_CCC_BUSINESS_TIER_MONTHLY']
+    when 'business_tier_annual' then ENV['STRIPE_SUB_CCC_BUSINESS_TIER_ANNUAL']
+    when 'specialist_pro' then ENV['STRIPE_SUB_SPECIALIST_PRO']
     end
   end
 end
