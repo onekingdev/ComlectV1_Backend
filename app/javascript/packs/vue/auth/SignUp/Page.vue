@@ -116,7 +116,7 @@
         form: {
           firstName: 'Alex',
           lastName: 'Willkinson',
-          email: Math.floor(Math.random() * 100) + 'fine@email.com',
+          email: Math.floor(Math.random() * 1000) + 'fine@email.com',
           password: 'user666',
           passwordConfirm: 'user666',
         },
@@ -195,6 +195,7 @@
         console.log('dataToSend', dataToSend)
         this.$store.dispatch('singUp', dataToSend)
           .then((response) => {
+            console.log('response', response)
 
             if (response.errors) {
               const properties = Object.keys(response.errors);
@@ -256,17 +257,18 @@
 
             if(response.token) {
               this.makeToast('Success', `${response.message}`)
-              localStorage.setItem('app.currentUser', JSON.stringify(response.token));
-              this.$store.commit('updateToken', response.token)
+              // localStorage.setItem('app.currentUser', JSON.stringify(response.token));
+              // this.$store.commit('updateToken', response.token)
 
               // open step 3
               this.step2 = false
               this.step3 = true
 
-              setTimeout(() => {
-                if (this.userType === 'business') window.location.href = `${window.location.origin}/businesses/new`
-                if (this.userType === 'specialist') window.location.href = `${window.location.origin}/specialists/new`
-              }, 5000)
+              // Redirect to finish steps
+              // setTimeout(() => {
+              //   if (this.userType === 'business') window.location.href = `${window.location.origin}/businesses/new`
+              //   if (this.userType === 'specialist') window.location.href = `${window.location.origin}/specialists/new`
+              // }, 5000)
             }
 
           })

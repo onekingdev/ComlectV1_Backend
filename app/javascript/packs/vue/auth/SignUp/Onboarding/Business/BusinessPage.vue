@@ -3,7 +3,7 @@
     TopNavbar
     main.row#main-content
       .col-xl-10.col-md-9.m-x-auto
-        .card-body.white-card-body.registration.p-5
+        .card-body.white-card-body.registration-onboarding.p-5
           .div
             h2 Set Up Your Account
             hr

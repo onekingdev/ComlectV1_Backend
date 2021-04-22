@@ -77,8 +77,6 @@
                   .row: .col-sm-12
                     PropertiesTable(title="Contract Details" :properties="contractDetails(showingContract)")
                       EditContractModal(:project="showingContract" @saved="newEtag(), tab = 0")
-      b-tab(title="Activity")
-        .card-body.white-card-body
 </template>
 
 <script>

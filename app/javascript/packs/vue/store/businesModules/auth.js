@@ -41,6 +41,12 @@ export default {
         const response = await axios.put(`/users/${payload.userId}/confirm_email`, {
           "otp_secret": payload.code
         })
+        if (response.data) {
+          localStorage.setItem('app.currentUser', JSON.stringify(response.data.token));
+          if(response.data.token) commit('updateToken', response.data.token)
+          if(response.data.business) commit('updateUser', response.data.business)
+          if(response.data.specialist) commit('updateUser', response.data.specialist)
+        }
         return response.data
 
       } catch (error) {

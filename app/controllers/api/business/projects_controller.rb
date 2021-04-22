@@ -79,7 +79,6 @@ class Api::Business::ProjectsController < ApiController
       :status,
       :color,
       :specialist_id,
-      :rfp_timing,
       jurisdiction_ids: [],
       industry_ids: [],
       skill_names: []
