@@ -4,6 +4,7 @@ import Vuex from "vuex";
 import policies from "./businesModules/policies";
 import risks from "./businesModules/risks";
 import shared from "./shared";
+import auth from "./businesModules/auth";
 
 Vue.use(Vuex);
 
@@ -49,6 +50,7 @@ const store = new Vuex.Store({
     //   // }
     // },
     shared,
+    auth,
   },
 });
 
