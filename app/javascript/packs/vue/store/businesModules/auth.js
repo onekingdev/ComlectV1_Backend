@@ -13,6 +13,9 @@ export default {
     updateToken(state, payload) {
       state.accessToken = payload;
     },
+    loggedIn(state, payload) {
+      state.loggedIn = payload
+    }
   },
   actions: {
     async singUp({commit}, payload) {
@@ -23,6 +26,23 @@ export default {
 
         const endPoint = payload.business ? 'businesses' : 'specialists'
         const response = await axios.post(`/${endPoint}`, payload)
+        return response.data
+
+      } catch (error) {
+        console.error(error);
+        throw error
+      } finally {
+        commit("setLoading", false)
+      }
+    },
+    async singOut({commit}, payload) {
+      console.log('payload', payload)
+      try {
+        commit("clearError");
+        commit("setLoading", true);
+
+        const endPoint = payload.business ? 'businesses' : 'specialists'
+        const response = await axios.delete(`/${endPoint}`, payload)
         return response.data
 
       } catch (error) {
@@ -44,6 +64,7 @@ export default {
           if(response.data.token) {
             commit('updateToken', response.data.token)
             localStorage.setItem('app.currentUser', JSON.stringify(response.data.token));
+            commit('loggedIn', true)
           }
           if(response.data.business) commit('updateUser', response.data.business)
           if(response.data.specialist) commit('updateUser', response.data.specialist)
@@ -94,7 +115,8 @@ export default {
         commit("setLoading", true);
         console.log('payload', payload)
 
-        const response = await axios.post(`/upgrade/subscribe`, payload)
+        const endPoint = payload.business ? 'business' : 'specialist'
+        const response = await axios.post(`/${endPoint}/upgrade/subscribe`, { plan: payload.plan })
         return response.data
 
       } catch (error) {
@@ -109,7 +131,7 @@ export default {
     getUser(state) {
       return state.user;
     },
-    logIn(state) {
+    loggedIn(state) {
       return state.loggedIn
     },
     accessToken(state) {

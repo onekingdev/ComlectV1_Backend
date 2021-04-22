@@ -1,7 +1,7 @@
 <template lang="pug">
   div
     template(v-if='childDataLoaded')
-      BusinessPage(:userInfo='childdata')
+      component(v-bind:is="component" :userInfo='childdata', :industryIds="industryIds", :jurisdictionIds="jurisdictionIds", :subIndustryIds="subIndustryIds", :states="states")
     .container-fluid(v-if='!childDataLoaded')
       TopNavbar
       main.row#main-content
@@ -100,12 +100,15 @@
   import Loading from '@/common/Loading/Loading'
   import TopNavbar from "./TopNavbar";
   import BusinessPage from "./Onboarding/Business/BusinessPage";
+  import SpecialistPage from "./Onboarding/Specialist/SpecialistPage";
 
   export default {
+    props: ['industryIds', 'jurisdictionIds', 'subIndustryIds', 'states'],
     components: {
       TopNavbar,
       Loading,
       BusinessPage,
+      SpecialistPage
     },
     // created() {
     //   const urlUserId = location.search.split('userid=')[1]
@@ -142,6 +145,7 @@
         step3: false,
         childDataLoaded: false,
         childdata : [],
+        component: ''
       }
     },
     methods: {
@@ -220,9 +224,9 @@
               this.makeToast('Success', `${response.message}`)
 
                 // ?userid=14&otp_secret=123456
-              const url = new URL(window.location);
-              url.searchParams.set('userid', response.userid);
-              window.history.pushState({}, '', url);
+              // const url = new URL(window.location);
+              // url.searchParams.set('userid', response.userid);
+              // window.history.pushState({}, '', url);
 
               // open step 2
               this.step1 = false
@@ -299,6 +303,13 @@
       },
 
       fetchINitData(data){
+        if (this.userType === 'business') {
+          this.component = BusinessPage;
+        }
+        if (this.userType === 'specialist') {
+          this.component = SpecialistPage;
+        }
+
         //fetch from server then
         this.childdata = data;
         this.childDataLoaded = true;

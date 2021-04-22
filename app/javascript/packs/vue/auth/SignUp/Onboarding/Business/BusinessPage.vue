@@ -1,6 +1,6 @@
 <template lang="pug">
   .container-fluid
-    TopNavbar
+    TopNavbar(:userInfo="userInfo")
     main.row#main-content
       .col-xl-10.col-md-9.m-x-auto
         .card-body.white-card-body.registration-onboarding.p-5
@@ -480,6 +480,7 @@
         this.errors = []
 
         const dataToSend = {
+          business,
           "plan": this.billingTypeSelected === 'annually' ? 'team_tier_annual' : 'team_tier_monthly'
         }
 
@@ -506,7 +507,7 @@
       loading() {
         return this.$store.getters.loading;
       },
-    },
+    }
   }
 </script>
 
