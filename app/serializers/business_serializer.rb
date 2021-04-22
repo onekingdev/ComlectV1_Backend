@@ -2,8 +2,6 @@
 
 class BusinessSerializer < ApplicationSerializer
   attributes :id,
-             :contact_first_name,
-             :contact_last_name,
              :business_name,
              :city,
              :state,

@@ -7,13 +7,7 @@ class Api::EmailConfirmationController < ApiController
     user = User.find(params[:user_id])
     if !user.email_confirmed && user.verify_otp(params[:otp_secret])
       user.update(email_confirmed: true)
-      if user.business
-        render json: { message: 'Email was successfully confirmed', token: JsonWebToken.encode(sub: user.id),
-                       business: BusinessSerializer.new(user.business).serializable_hash }
-      elsif user.specialist
-        render json: { message: 'Email was successfully confirmed', token: JsonWebToken.encode(sub: user.id),
-                       specialist: SpecialistSerializer.new(user.specialist).serializable_hash }
-      end
+      render json: { message: 'Email was successfully confirmed', token: JsonWebToken.encode(sub: user.id) }
     else
       respond_with message: 'Invalid 6 digits code'
     end

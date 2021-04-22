@@ -7,7 +7,10 @@ class Message < ApplicationRecord
 
   scope :preload_association, -> { preload(:thread, :sender, :recipient) }
   scope :recent, -> { order(created_at: :desc) }
-  scope :notifiable, -> { where(read_by_recipient: false).where('created_at < ?', Time.zone.now - 1.minute) }
+  scope :notifiable, -> {
+                       where(read_by_recipient: false).where('created_at < ?',
+                                                             Time.zone.now - 1.minute).where.not(recipient_id: nil)
+                     }
   scope :unread, -> { where(read_by_recipient: false) }
   scope :between, ->(type, id) {
     where(thread: nil)

@@ -1,4 +1,5 @@
 import axios from '../../services/axios'
+// import axios from 'axios'
 
 export default {
   state: {
@@ -16,12 +17,12 @@ export default {
   },
   actions: {
     async singUp({commit}, payload) {
-      console.log('payload', payload)
       try {
         commit("clearError");
         commit("setLoading", true);
 
         const endPoint = payload.business ? 'businesses' : 'specialists'
+
         const response = await axios.post(`/${endPoint}`, payload)
         return response.data
 
@@ -40,14 +41,6 @@ export default {
         const response = await axios.put(`/users/${payload.userId}/confirm_email`, {
           "otp_secret": payload.code
         })
-        if (response.data) {
-          if(response.data.token) {
-            commit('updateToken', response.data.token)
-            localStorage.setItem('app.currentUser', JSON.stringify(response.data.token));
-          }
-          if(response.data.business) commit('updateUser', response.data.business)
-          if(response.data.specialist) commit('updateUser', response.data.specialist)
-        }
         return response.data
 
       } catch (error) {
@@ -111,9 +104,6 @@ export default {
     },
     logIn(state) {
       return state.loggedIn
-    },
-    accessToken(state) {
-      return state.accessToken
-    },
+    }
   },
 };
