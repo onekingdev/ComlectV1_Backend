@@ -63,9 +63,10 @@ input[type=number] {
 }
 
 /* ---------- Registration page ---------- */
-/*.registration {*/
-  /*margin-top: 2rem;*/
-/*}*/
+.registration-onboarding {
+  margin-top: 2rem;
+}
+
 .steps {
   display: flex;
   justify-content: space-between;

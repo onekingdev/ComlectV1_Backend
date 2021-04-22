@@ -1,106 +1,111 @@
 <template lang="pug">
-  .container-fluid
-    TopNavbar
-    main.row#main-content
-      .col-xl-4.col-lg-6.col-md-8.m-x-auto
-        .card-body.white-card-body.registration
-          Loading
-          #step0.form(v-if='!loading' :class="step0 ? 'd-block' : 'd-none'")
-            h1.text-center Let's get you started!
-            p.text-center Create your FREE account
-            div
-              b-form(@submit='onSubmit0' v-if='show')
-                b-form-group
+  div
+    template(v-if='childDataLoaded')
+      BusinessPage(:userInfo='childdata')
+    .container-fluid(v-if='!childDataLoaded')
+      TopNavbar
+      main.row#main-content
+        .col-xl-4.col-lg-6.col-md-8.m-x-auto
+          .card-body.white-card-body.registration
+            Loading
+            #step0.form(v-if='!loading' :class="step0 ? 'd-block' : 'd-none'")
+              h1.text-center Let's get you started!
+              p.text-center Create your FREE account
+              div
+                b-form(@submit='onSubmit0' v-if='show')
+                  b-form-group
+                    .row
+                      .col.pr-2.text-center
+                        .account-select(@click="selectType('business')" :class="userType === 'business' ? 'active' : ''")
+                          h3.account-select__title.mb-3 I am a business
+                          ion-icon.mb-3(name="people-circle-outline" size="large")
+                          p.account-select__subtitle Looking to effectively manage my compilance program and find expetrise
+                      .col.pl-2.text-center
+                        .account-select(@click="selectType('specialist')" :class="userType === 'specialist' ? 'active' : ''")
+                          h3.account-select__title.mb-3 I am a specialist
+                          ion-icon.mb-3(name="person-circle-outline" size="large")
+                          p.account-select__subtitle Looking to work with potential clients on compilance projects
+                  b-button.w-100(type='submit' variant='dark') Next
+                  hr
+                  b-form-group.text-center
+                    p Already have a Complect account?&nbsp;
+                      a.link(href="#") Sign In
+            #step1.form(v-if='!loading' :class="step1 ? 'd-block' : 'd-none'")
+              h1.text-center Let's get you started!
+              p.text-center Create your FREE account
+              div
+                b-form(@submit='onSubmit1' v-if='show')
                   .row
-                    .col.pr-2.text-center
-                      .account-select(@click="selectType('business')" :class="userType === 'business' ? 'active' : ''")
-                        h3.account-select__title.mb-3 I am a business
-                        ion-icon.mb-3(name="people-circle-outline" size="large")
-                        p.account-select__subtitle Looking to effectively manage my compilance program and find expetrise
-                    .col.pl-2.text-center
-                      .account-select(@click="selectType('specialist')" :class="userType === 'specialist' ? 'active' : ''")
-                        h3.account-select__title.mb-3 I am a specialist
-                        ion-icon.mb-3(name="person-circle-outline" size="large")
-                        p.account-select__subtitle Looking to work with potential clients on compilance projects
-                b-button.w-100(type='submit' variant='dark') Next
-                hr
-                b-form-group.text-center
-                  p Already have a Complect account?&nbsp;
-                    a.link(href="#") Sign In
-          #step1.form(v-if='!loading' :class="step1 ? 'd-block' : 'd-none'")
-            h1.text-center Let's get you started!
-            p.text-center Create your FREE account
-            div
-              b-form(@submit='onSubmit1' v-if='show')
-                .row
-                  .col.pr-2
-                    b-form-group#input-group-1(label='First Name:' label-for='input-1')
-                      b-form-input#input-1(v-model='form.firstName' type='text' placeholder='First Name' min="3" required)
-                  .col.pl-2
-                    b-form-group#input-group-2(label='Last Name:' label-for='input-2')
-                      b-form-input#input-2(v-model='form.lastName' type='text' placeholder='Last Name' min="3" required)
-                b-form-group#input-group-3(label='Email:' label-for='input-3')
-                  b-form-input#input-3(v-model='form.email' type='email' placeholder='Email' required)
-                  .invalid-feedback.d-block(v-if="errors['user.email']") 'Email' {{ ...errors['user.email'] }}
-                b-form-group#input-group-4(label='Password:' label-for='input-4')
-                  b-form-input#input-4(v-model='form.password' type='password' placeholder='Password' required)
-                  .invalid-feedback.d-block(v-if="errors['user.password']") 'Password' {{ ...errors['user.password'] }}
-                b-form-group#input-group-5(label='Repeat Password:' label-for='input-5')
-                  b-form-input#input-5(v-model='form.passwordConfirm' type='password' placeholder='Repeat Password' required)
-                  .invalid-feedback.d-block(v-if="errors.passwordConfirm") {{ errors.passwordConfirm }}
-                b-form-group
-                  p By sining up, I accept the&nbsp;
-                    a.link(href="#") Complect Term of Service&nbsp;
-                    | and acknowledge the&nbsp;
-                    a.link(href="#") Privacy Policy
-                b-button.w-100(type='submit' variant='dark') Sign Up
-                hr
-                b-form-group.text-center
-                  p Already have a Complect account?&nbsp;
-                    a.link(href="#") Sign In
-              b-card.mt-3(header='Form Data Result')
-                pre.m-0 {{ form }}
-          #step2.form(v-if='!loading'  :class="step2 ? 'd-block' : 'd-none'")
-            h1.text-center Confirm your email!
-            p.text-center We send a 6 digit code to email.com. Please enter it below.
-            div
-              b-form(@submit='onSubmitStep2' @keyup="onChange" v-if='show' autocomplete="off")
-                b-form-group
-                  .col.text-center
-                    ion-icon(name="mail-outline" size="large")
-                b-form-group
-                  .row
-                    .col-12.mx-0
-                      .d-flex.justify-content-space-around.mx-auto.w-75
-                        b-form-input#inputCode1.code-input.ml-auto(v-model='form2.codePart1' type='number' maxlength="1" required)
-                        b-form-input#inputCode2.code-input(v-model='form2.codePart2' type='number' maxlength="1" required)
-                        b-form-input#inputCode3.code-input(v-model='form2.codePart3' type='number' maxlength="1" required)
-                        b-form-input#inputCode4.code-input(v-model='form2.codePart4' type='number' maxlength="1" required)
-                        b-form-input#inputCode5.code-input(v-model='form2.codePart5' type='number' maxlength="1" required)
-                        b-form-input#inputCode6.code-input.mr-auto(v-model='form2.codePart6' type='number' maxlength="1" required)
-                      .invalid-feedback.d-block.text-center(v-if="errors.code") {{ errors.code }}
-                  .row
-                    .col
-                      input(v-model='form2.code' type='hidden')
-                b-button.w-100(type='submit' variant='dark') Submit
-              b-card.mt-3(header='Form Data Result')
-                pre.m-0 {{ form2 }}
-          #step3.form(v-if='!loading'  :class="step3 ? 'd-block' : 'd-none'")
-            h1.text-center You successfuly registered!
-            p.text-center You will be redirect to finish steps for updating your account
-            .text-center
-              b-icon( icon="circle-fill" animation="throb" font-scale="4")
-                <!--ion-icon(name="checkmark-circle-outline" size="large")-->
+                    .col.pr-2
+                      b-form-group#input-group-1(label='First Name:' label-for='input-1')
+                        b-form-input#input-1(v-model='form.firstName' type='text' placeholder='First Name' min="3" required)
+                    .col.pl-2
+                      b-form-group#input-group-2(label='Last Name:' label-for='input-2')
+                        b-form-input#input-2(v-model='form.lastName' type='text' placeholder='Last Name' min="3" required)
+                  b-form-group#input-group-3(label='Email:' label-for='input-3')
+                    b-form-input#input-3(v-model='form.email' type='email' placeholder='Email' required)
+                    .invalid-feedback.d-block(v-if="errors['user.email']") 'Email' {{ ...errors['user.email'] }}
+                  b-form-group#input-group-4(label='Password:' label-for='input-4')
+                    b-form-input#input-4(v-model='form.password' type='password' placeholder='Password' required)
+                    .invalid-feedback.d-block(v-if="errors['user.password']") 'Password' {{ ...errors['user.password'] }}
+                  b-form-group#input-group-5(label='Repeat Password:' label-for='input-5')
+                    b-form-input#input-5(v-model='form.passwordConfirm' type='password' placeholder='Repeat Password' required)
+                    .invalid-feedback.d-block(v-if="errors.passwordConfirm") {{ errors.passwordConfirm }}
+                  b-form-group
+                    p By sining up, I accept the&nbsp;
+                      a.link(href="#") Complect Term of Service&nbsp;
+                      | and acknowledge the&nbsp;
+                      a.link(href="#") Privacy Policy
+                  b-button.w-100(type='submit' variant='dark') Sign Up
+                  hr
+                  b-form-group.text-center
+                    p Already have a Complect account?&nbsp;
+                      a.link(href="#") Sign In
+                b-card.mt-3(header='Form Data Result')
+                  pre.m-0 {{ form }}
+            #step2.form(v-if='!loading'  :class="step2 ? 'd-block' : 'd-none'")
+              h1.text-center Confirm your email!
+              p.text-center We send a 6 digit code to email.com. Please enter it below.
+              div
+                b-form(@submit='onSubmitStep2' @keyup="onChange" v-if='show' autocomplete="off")
+                  b-form-group
+                    .col.text-center
+                      ion-icon(name="mail-outline" size="large")
+                  b-form-group
+                    .row
+                      .col-12.mx-0
+                        .d-flex.justify-content-space-around.mx-auto.w-75
+                          b-form-input#inputCode1.code-input.ml-auto(v-model='form2.codePart1' type='number' maxlength="1" required)
+                          b-form-input#inputCode2.code-input(v-model='form2.codePart2' type='number' maxlength="1" required)
+                          b-form-input#inputCode3.code-input(v-model='form2.codePart3' type='number' maxlength="1" required)
+                          b-form-input#inputCode4.code-input(v-model='form2.codePart4' type='number' maxlength="1" required)
+                          b-form-input#inputCode5.code-input(v-model='form2.codePart5' type='number' maxlength="1" required)
+                          b-form-input#inputCode6.code-input.mr-auto(v-model='form2.codePart6' type='number' maxlength="1" required)
+                        .invalid-feedback.d-block.text-center(v-if="errors.code") {{ errors.code }}
+                    .row
+                      .col
+                        input(v-model='form2.code' type='hidden')
+                  b-button.w-100(type='submit' variant='dark') Submit
+                b-card.mt-3(header='Form Data Result')
+                  pre.m-0 {{ form2 }}
+            #step3.form(v-if='!loading'  :class="step3 ? 'd-block' : 'd-none'")
+              h1.text-center You successfuly registered!
+              p.text-center You will be redirect to finish steps for updating your account
+              .text-center
+                b-icon( icon="circle-fill" animation="throb" font-scale="4")
+                  <!--ion-icon(name="checkmark-circle-outline" size="large")-->
 </template>
 
 <script>
   import Loading from '@/common/Loading/Loading'
   import TopNavbar from "./TopNavbar";
+  import BusinessPage from "./Onboarding/Business/BusinessPage";
 
   export default {
     components: {
       TopNavbar,
       Loading,
+      BusinessPage,
     },
     // created() {
     //   const urlUserId = location.search.split('userid=')[1]
@@ -116,7 +121,7 @@
         form: {
           firstName: 'Alex',
           lastName: 'Willkinson',
-          email: Math.floor(Math.random() * 100) + 'fine@email.com',
+          email: Math.floor(Math.random() * 1000) + 'fine@email.com',
           password: 'user666',
           passwordConfirm: 'user666',
         },
@@ -135,6 +140,8 @@
         step1: false,
         step2: false,
         step3: false,
+        childDataLoaded: false,
+        childdata : [],
       }
     },
     methods: {
@@ -195,6 +202,7 @@
         console.log('dataToSend', dataToSend)
         this.$store.dispatch('singUp', dataToSend)
           .then((response) => {
+            console.log('response', response)
 
             if (response.errors) {
               const properties = Object.keys(response.errors);
@@ -228,8 +236,8 @@
         // clear errors
         this.errors = []
 
-        const urlUserId = location.search.split('userid=')[1]
-        if(urlUserId) this.userId = urlUserId
+        // const urlUserId = location.search.split('userid=')[1]
+        // if(urlUserId) this.userId = urlUserId
         // const otpSecret = location.search.split('otp_secret=')[1]
         // if(otpSecret) this.otpSecret = otpSecret
 
@@ -246,8 +254,6 @@
 
         this.$store.dispatch('confirmEmail', dataToSend)
           .then((response) => {
-            console.log('response 222', response)
-
             if(!response.token) {
               this.errors = {code: response.message}
               this.makeToast('Error', `Errors ${response.message}`)
@@ -256,17 +262,20 @@
 
             if(response.token) {
               this.makeToast('Success', `${response.message}`)
-              localStorage.setItem('app.currentUser', JSON.stringify(response.token));
-              this.$store.commit('updateToken', response.token)
+              // localStorage.setItem('app.currentUser', JSON.stringify(response.token));
+              // this.$store.commit('updateToken', response.token)
 
               // open step 3
               this.step2 = false
               this.step3 = true
 
-              setTimeout(() => {
-                if (this.userType === 'business') window.location.href = `${window.location.origin}/businesses/new`
-                if (this.userType === 'specialist') window.location.href = `${window.location.origin}/specialists/new`
-              }, 5000)
+              this.fetchINitData(response)
+
+              // Redirect to finish steps
+              // setTimeout(() => {
+              //   if (this.userType === 'business') window.location.href = `${window.location.origin}/businesses/new`
+              //   if (this.userType === 'specialist') window.location.href = `${window.location.origin}/specialists/new`
+              // }, 5000)
             }
 
           })
@@ -288,6 +297,13 @@
 
         this.form2.code = this.form2.codePart1 + this.form2.codePart2 + this.form2.codePart3 + this.form2.codePart4 + this.form2.codePart5 + this.form2.codePart6
       },
+
+      fetchINitData(data){
+        //fetch from server then
+        this.childdata = data;
+        this.childDataLoaded = true;
+        console.log('data', data) //has some values
+      }
     },
     computed: {
       loading() {

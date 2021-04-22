@@ -3,7 +3,7 @@
     TopNavbar
     main.row#main-content
       .col-xl-10.col-md-9.m-x-auto
-        .card-body.white-card-body.registration.p-5
+        .card-body.white-card-body.registration-onboarding.p-5
           .div
             h2 Set Up Your Account
             hr
@@ -191,7 +191,7 @@
   import PurchaseSummary from './PurchaseSummary'
 
   export default {
-    props: ['industryIds', 'jurisdictionIds', 'subIndustryIds', 'states'],
+    props: ['industryIds', 'jurisdictionIds', 'subIndustryIds', 'states', 'userInfo'],
     components: {
       Loading,
       TopNavbar,
@@ -200,18 +200,21 @@
       PurchaseSummary
     },
     created() {
+      console.log('userInfo', this.userInfo)
       // console.log('industryIds', this.industryIds)
       // console.log('subIndustryIds', this.subIndustryIds)
       // console.log('jurisdictionIds', this.jurisdictionIds)
       // console.log('states', this.states)
       if(this.industryIds) this.formStep2.industryOptions = this.industryIds;
       // if(this.subIndustryIds) this.formStep2.subIndustryOptions = this.subIndustryIds;
-      for (const [key, value] of Object.entries(this.subIndustryIds)) {
-        // console.log(`${key}: ${value}`);
-        this.formStep2.subIndustryOptions.push({
-          value: key,
-          name: value
-        })
+      if(this.subIndustryIds) {
+        for (const [key, value] of Object.entries(this.subIndustryIds)) {
+          // console.log(`${key}: ${value}`);
+          this.formStep2.subIndustryOptions.push({
+            value: key,
+            name: value
+          })
+        }
       }
       if(this.jurisdictionIds) this.formStep2.jurisdictionOptions = this.jurisdictionIds;
       if(this.states) this.formStep2.stateOptions = this.states;

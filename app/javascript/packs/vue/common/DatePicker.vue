@@ -19,7 +19,7 @@ export default {
   computed: {
     datepickerOptions() {
       return {
-        dateFormatOptions: { year: 'numeric', month: 'numeric', day: 'numeric', weekday: 'narrow' },
+        dateFormatOptions: { year: 'numeric', month: 'numeric', day: 'numeric' },
         placeholder: 'MM/DD/YYYY',
         value: this.value,
         hideHeader: true,
