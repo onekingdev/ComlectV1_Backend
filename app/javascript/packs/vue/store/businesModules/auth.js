@@ -126,6 +126,23 @@ export default {
         commit("setLoading", false)
       }
     },
+    async generatePaymentMethod({commit, getters}, payload) {
+      try {
+        commit("clearError");
+        commit("setLoading", true);
+        console.log('payload', payload)
+
+        const endPoint = payload.business ? 'business' : 'specialist'
+        const response = await axios.post(`/${endPoint}/payment_settings`, { stripeToken: payload.stripeToken })
+        return response.data
+
+      } catch (error) {
+        console.error(error);
+        throw error
+      } finally {
+        commit("setLoading", false)
+      }
+    },
   },
   getters: {
     getUser(state) {
