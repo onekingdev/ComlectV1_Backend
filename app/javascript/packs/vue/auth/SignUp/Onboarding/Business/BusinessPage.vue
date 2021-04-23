@@ -489,7 +489,7 @@
         }
 
         const dataToSend = {
-          business: 'business',
+          userType: 'business',
           planName,
           paymentSourceId : '',
         }
