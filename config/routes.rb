@@ -288,7 +288,7 @@ Rails.application.routes.draw do
       post '/reminders' => 'reminders#create'
       resources :local_projects, only: %i[index create show update destroy]
       get 'local_projects/:id/complete' => 'local_projects#complete'
-      resources :projects, only: %i[index show create update] do
+      resources :projects, only: %i[index show create update destroy] do
         resources :project_messages, path: 'messages', only: %i[index create]
         resources :job_applications, path: 'applications', only: %i[index] do
           post :shortlist
