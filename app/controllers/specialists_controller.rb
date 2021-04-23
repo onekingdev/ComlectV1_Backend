@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class SpecialistsController < ApplicationController
+  include ActionView::Helpers::TagHelper
+
   before_action -> do
     redirect_to specialist_path(current_user.specialist)
   end, if: -> { user_signed_in? && current_user.specialist }, only: %i[create]
