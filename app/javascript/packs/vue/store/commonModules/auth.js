@@ -115,8 +115,10 @@ export default {
         commit("setLoading", true);
         console.log('payload', payload)
 
-        const endPoint = payload.business ? 'business' : 'specialist'
-        const response = await axios.post(`/${endPoint}/upgrade/subscribe`, { plan: payload.plan })
+        const { userType, paymentSourceId, planName } = { ...payload }
+
+        const endPoint = userType ? 'business' : 'specialist'
+        const response = await axios.post(`/${endPoint}/upgrade/subscribe/${paymentSourceId}`, { plan: planName })
         return response.data
 
       } catch (error) {
@@ -132,10 +134,16 @@ export default {
         commit("setLoading", true);
         console.log('payload', payload)
 
+        // WAIT LONGER
+        axios.defaults.timeout = 5000;
+
         const endPoint = payload.business ? 'business' : 'specialist'
-        const response = await axios.post(`/${endPoint}/payment_settings?stripeToken=${payload.stripeToken}`)
+        // const response = await axios.post(`/${endPoint}/payment_settings?stripeToken=${payload.stripeToken}`)
+        const response = await axios.post(`/${endPoint}/payment_settings`, null, { params: {
+            stripeToken: payload.stripeToken,
+          }})
         console.log('stripeToken response', response)
-        return response.data
+        return response
 
       } catch (error) {
         console.error(error);

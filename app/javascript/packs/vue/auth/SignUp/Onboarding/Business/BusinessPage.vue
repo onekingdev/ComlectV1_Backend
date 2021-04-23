@@ -81,7 +81,7 @@
                     :multiple="true"
                     track-by="name",
                     label="name",
-                    placeholder="Select Sub-Industry",
+                    placeholder="Select Jurisdiction",
                     required)
                     .invalid-feedback.d-block(v-if="errors.jurisdiction") {{ errors.jurisdiction }}
                 .col.pl-2
@@ -200,7 +200,7 @@
       PurchaseSummary
     },
     created() {
-      console.log('userInfo', this.userInfo)
+      // console.log('userInfo', this.userInfo)
       // console.log('industryIds', this.industryIds)
       // console.log('subIndustryIds', this.subIndustryIds)
       // console.log('jurisdictionIds', this.jurisdictionIds)
@@ -475,13 +475,23 @@
         this.additionalUsers = event
       },
       selectPlanAndComplitePurchase (selectedPlan) {
-        console.log('selectedPlan', selectedPlan)
+        // console.log('selectedPlan', selectedPlan)
+        // console.log('this.billingTypeSelected', this.billingTypeSelected)
         // CLEAR ERRORS
         this.errors = []
 
+        let planName;
+        if (selectedPlan.id === 2) {
+          planName = this.billingTypeSelected === 'annually' ? 'team_tier_annual' : 'team_tier_monthly';
+        }
+        if (selectedPlan.id === 3) {
+          planName = this.billingTypeSelected === 'annually' ? 'business_tier_annual' : 'business_tier_monthly'
+        }
+
         const dataToSend = {
-          business,
-          "plan": this.billingTypeSelected === 'annually' ? 'team_tier_annual' : 'team_tier_monthly'
+          userType: 'business',
+          planName,
+          paymentSourceId : '',
         }
 
         this.$store
