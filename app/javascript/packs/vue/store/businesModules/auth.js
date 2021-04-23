@@ -133,7 +133,7 @@ export default {
         console.log('payload', payload)
 
         const endPoint = payload.business ? 'business' : 'specialist'
-        const response = await axios.post(`/${endPoint}/payment_settings`, payload.stripeToken)
+        const response = await axios.post(`/${endPoint}/payment_settings?stripeToken=${payload.stripeToken}`)
         console.log('stripeToken response', response)
         return response.data
 

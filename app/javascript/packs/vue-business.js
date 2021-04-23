@@ -29,6 +29,7 @@ const businesRisks = {
 // // import SpecialistOnboardingPage from './vue/auth/SignUp/Business/Onboarding/SpecialistPage.vue'
 // // import BusinessOnboardingPage from './vue/auth/SignUp/Business/Onboarding/BusinessPage.vue'
 //
+
 // const auth = {
 //   BusinessSignupPage,
 //   // SpecialistOnboardingPage,
@@ -47,7 +48,6 @@ init({
     RemindersPage,
     TimesheetsShowPage,
 
-    ...auth,
     ...businesPolicies,
     ...businesRisks
   }

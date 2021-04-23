@@ -475,7 +475,7 @@
         this.additionalUsers = event
       },
       selectPlanAndComplitePurchase (selectedPlan) {
-        console.log(selectedPlan)
+        console.log('selectedPlan', selectedPlan)
         // CLEAR ERRORS
         this.errors = []
 
