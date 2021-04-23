@@ -2,7 +2,7 @@
 
 class Api::Business::LocalProjectsController < ApiController
   before_action :require_business!
-  before_action :find_project, only: %i[show update]
+  before_action :find_project, only: %i[show update destroy]
   skip_before_action :verify_authenticity_token # TODO: proper authentication
 
   def index
@@ -31,6 +31,16 @@ class Api::Business::LocalProjectsController < ApiController
       respond_with @local_project, serializer: LocalProjectSerializer
     else
       render json: @local_project.errors, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    ongoing_contracts = @local_project.projects.where(status: 'published').where.not(specialist_id: nil)
+    if ongoing_contracts.count.positive?
+      respond_with ongoing_contracts, each_serializer: ProjectSerializer, status: :unprocessable_entity
+    else
+      @local_project.destroy
+      respond_with @local_project, status: :ok
     end
   end
 
