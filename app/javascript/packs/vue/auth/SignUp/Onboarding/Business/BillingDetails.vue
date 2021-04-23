@@ -98,6 +98,9 @@
         :pk="pk"
         @token="tokenCreated")
         button(@click="submit") Generate token
+      .row
+        .col.text-right
+          b-button(type='button' variant='secondary' @click="submit") Add
 
 </template>
 
@@ -144,18 +147,35 @@
       };
     },
     methods: {
+      makeToast(title, str) {
+        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
+      },
       // submit () {
       //   // You will be redirected to Stripe's secure checkout page
       //   this.$refs.checkoutRef.redirectToCheckout();
       // },
       submit () {
         // this will trigger the process
-        this.$refs.elementRef.submit();
+        this.$refs.elementRef.submit()
       },
       tokenCreated (token) {
         console.log(token);
         // handle the token
         // send it to your server
+        const dataToSend = {
+          business: 'business',
+          stripeToken: token.id,
+        }
+
+        this.$store
+          .dispatch('generatePaymentMethod', dataToSend)
+          .then(response => {
+            console.log('response', response)
+          })
+          .catch(error => {
+            console.error(error)
+            this.makeToast('Error', `Something wrong! ${error}`)
+          })
       },
       addCardDetail() {
         console.log(this.cardDetail)
