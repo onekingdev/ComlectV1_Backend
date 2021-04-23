@@ -25,10 +25,7 @@
       props: ['userInfo'],
       created(){
         const token = localStorage.getItem('app.currentUser');
-        if (token) {
-          this.$store.commit('updateToken', token)
-          this.$store.commit('loggedIn', true)
-        }
+        if (token) this.$store.commit('loggedIn', true)
       },
       data() {
         return {
