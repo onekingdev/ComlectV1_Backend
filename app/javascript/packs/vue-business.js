@@ -25,6 +25,17 @@ const businesRisks = {
   BusinessRisksPageDetail
 }
 
+// import BusinessSignupPage from './vue/auth/SignUp/Business/Page.vue'
+// // import SpecialistOnboardingPage from './vue/auth/SignUp/Business/Onboarding/SpecialistPage.vue'
+// // import BusinessOnboardingPage from './vue/auth/SignUp/Business/Onboarding/BusinessPage.vue'
+//
+
+// const auth = {
+//   BusinessSignupPage,
+//   // SpecialistOnboardingPage,
+//   // BusinessOnboardingPage
+// }
+
 init({
   store,
   components: {
