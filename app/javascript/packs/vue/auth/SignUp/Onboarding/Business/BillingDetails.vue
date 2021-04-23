@@ -143,7 +143,7 @@
           { text: 'Credit Card (third)', value: '3', number: '**** **** **** 1111', type: 'Visa', id: '3' },
         ],
         errors: [],
-        additionalUsersCount: 0
+        additionalUsersCount: 0,
       };
     },
     methods: {
@@ -171,6 +171,7 @@
           .dispatch('generatePaymentMethod', dataToSend)
           .then(response => {
             console.log('response', response)
+            this.$emit('complitedPaymentMethod', response)
           })
           .catch(error => {
             console.error(error)

@@ -172,6 +172,7 @@
             :plan="selectedPlan"
             @updateBiliing="onBiliingChange"
             @updateAdditionalUsers="updateAdditionalUsers"
+            @complitedPaymentMethod="complitedPaymentMethod"
             )
         PurchaseSummary(
         v-if="isSidebarOpen"
@@ -179,7 +180,8 @@
         :billingTypeOptions="billingTypeOptions"
         :plan="selectedPlan"
         :additionalUsers="additionalUsers"
-        @complitePurchaseConfirmed="selectPlanAndComplitePurchase"
+        @complitePurchaseConfirmed="selectPlanAndComplitePurchase",
+        :disabled="disabled"
         )
 </template>
 
@@ -347,6 +349,7 @@
         isSidebarOpen: false,
         selectedPlan: [],
         additionalUsers: 0,
+        paymentSourceId: null,
       }
     },
     methods: {
@@ -474,6 +477,9 @@
         // console.log('users', event)
         this.additionalUsers = event
       },
+      complitedPaymentMethod(response) {
+        this.paymentSourceId = response.id
+      },
       selectPlanAndComplitePurchase (selectedPlan) {
         // console.log('selectedPlan', selectedPlan)
         // console.log('this.billingTypeSelected', this.billingTypeSelected)
@@ -491,7 +497,7 @@
         const dataToSend = {
           userType: 'business',
           planName,
-          paymentSourceId : '',
+          paymentSourceId : this.paymentSourceId,
         }
 
         this.$store
