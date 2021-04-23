@@ -200,7 +200,7 @@
       PurchaseSummary
     },
     created() {
-      console.log('userInfo', this.userInfo)
+      // console.log('userInfo', this.userInfo)
       // console.log('industryIds', this.industryIds)
       // console.log('subIndustryIds', this.subIndustryIds)
       // console.log('jurisdictionIds', this.jurisdictionIds)
@@ -260,10 +260,10 @@
         options: ['list', 'of', 'options'],
         show: true,
         errors: {},
-        step1: false,
+        step1: true,
         step2: false,
-        step3: true,
-        currentStep: 3,
+        step3: false,
+        currentStep: 1,
         navStep1: true,
         navStep2: false,
         navStep3: false,
@@ -475,13 +475,23 @@
         this.additionalUsers = event
       },
       selectPlanAndComplitePurchase (selectedPlan) {
-        console.log('selectedPlan', selectedPlan)
+        // console.log('selectedPlan', selectedPlan)
+        // console.log('this.billingTypeSelected', this.billingTypeSelected)
         // CLEAR ERRORS
         this.errors = []
 
+        let planName;
+        if (selectedPlan.id === 2) {
+          planName = this.billingTypeSelected === 'annually' ? 'team_tier_annual' : 'team_tier_monthly';
+        }
+        if (selectedPlan.id === 3) {
+          planName = this.billingTypeSelected === 'annually' ? 'business_tier_annual' : 'business_tier_monthly'
+        }
+
         const dataToSend = {
-          business,
-          "plan": this.billingTypeSelected === 'annually' ? 'team_tier_annual' : 'team_tier_monthly'
+          userType: 'business',
+          planName,
+          paymentSourceId : '',
         }
 
         this.$store
