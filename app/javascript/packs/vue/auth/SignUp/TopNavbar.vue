@@ -13,7 +13,10 @@
                 li
                   a.dropdown-item(href="#") Edit Profile
                 li
-                  a.dropdown-item(href="#") Sign Out
+                  form(method="POST" action="/users/sign_out")
+                        input(type="hidden" name="authenticity_token" value=form_authenticity_token)
+                        input(type="hidden" name="_method" value="delete")
+                        input.dropdown-item(type="submit" value="Sign Out")
             .p-x-2(v-else)
               a.btn.btn-dark(href="/users/sign_in") Sign in
         button.navbar-toggler.position-absolute.d-md-none.collapsed(type='button' data-toggle='collapse' data-target='#sidebarMenu' aria-controls='sidebarMenu' aria-expanded='false' aria-label='Toggle navigation')
@@ -25,10 +28,7 @@
       props: ['userInfo'],
       created(){
         const token = localStorage.getItem('app.currentUser');
-        if (token) {
-          this.$store.commit('updateToken', token)
-          this.$store.commit('loggedIn', true)
-        }
+        if (token) this.$store.commit('loggedIn', true)
       },
       data() {
         return {

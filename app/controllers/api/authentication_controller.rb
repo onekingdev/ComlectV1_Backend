@@ -2,6 +2,7 @@
 
 class Api::AuthenticationController < ApiController
   skip_before_action :authenticate_user!, only: [:create]
+  skip_before_action :verify_authenticity_token
 
   def create
     user = User.find_first_by_auth_conditions(email: params[:user][:email])
@@ -14,6 +15,7 @@ class Api::AuthenticationController < ApiController
         render(json: { message: 'You have received one time passcode on your email to verify login' }) && return
       end
       if user.verify_otp(params[:otp_secret])
+        sign_in(:user, user)
         if user.business
           render json: { token: JsonWebToken.encode(sub: user.id),
                          business: BusinessSerializer.new(user.business).serializable_hash }

@@ -47,7 +47,7 @@ class Api::Business::PaymentSettingsController < ApiController
   private
 
   def payment_source_type
-    params.key?(:stripeToken) ? PaymentSource : PaymentSource::ACH
+    params.key?(:stripeToken) ? PaymentSource : PaymentSource::Ach
   end
 
   def stripe_params(optional: false)
