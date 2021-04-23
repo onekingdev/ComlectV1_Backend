@@ -115,8 +115,10 @@ export default {
         commit("setLoading", true);
         console.log('payload', payload)
 
-        const endPoint = payload.business ? 'business' : 'specialist'
-        const response = await axios.post(`/${endPoint}/upgrade/subscribe`, { plan: payload.plan })
+        const { userType, paymentSourceId, planName } = { ...payload }
+
+        const endPoint = userType ? 'business' : 'specialist'
+        const response = await axios.post(`/${endPoint}/upgrade/subscribe/${paymentSourceId}`, { plan: planName })
         return response.data
 
       } catch (error) {
