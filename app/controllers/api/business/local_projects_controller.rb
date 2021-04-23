@@ -2,7 +2,8 @@
 
 class Api::Business::LocalProjectsController < ApiController
   before_action :require_business!
-  before_action :find_project, only: %i[show update destroy]
+  before_action :find_project, only: %i[show update destroy complete]
+  before_action :ongoing_contracts, only: %i[destroy complete]
   skip_before_action :verify_authenticity_token # TODO: proper authentication
 
   def index
@@ -35,11 +36,19 @@ class Api::Business::LocalProjectsController < ApiController
   end
 
   def destroy
-    ongoing_contracts = @local_project.projects.where(status: 'published').where.not(specialist_id: nil)
-    if ongoing_contracts.count.positive?
-      respond_with ongoing_contracts, each_serializer: ProjectSerializer, status: :unprocessable_entity
+    if @ongoing_contracts.count.positive?
+      respond_with @ongoing_contracts, each_serializer: ProjectSerializer, status: :unprocessable_entity
     else
       @local_project.destroy
+      respond_with @local_project, status: :ok
+    end
+  end
+
+  def complete
+    if @ongoing_contracts.count.positive?
+      respond_with @ongoing_contracts, each_serializer: ProjectSerializer, status: :unprocessable_entity
+    else
+      @local_project.update(status: 'complete')
       respond_with @local_project, status: :ok
     end
   end
@@ -57,6 +66,10 @@ class Api::Business::LocalProjectsController < ApiController
     elsif local_project_params[:hide_on_calendar] == false
       current_user.show_local_project(lproject.id)
     end
+  end
+
+  def ongoing_contracts
+    @ongoing_contracts = @local_project.projects.where(status: 'published').where.not(specialist_id: nil)
   end
 
   def local_project_params
