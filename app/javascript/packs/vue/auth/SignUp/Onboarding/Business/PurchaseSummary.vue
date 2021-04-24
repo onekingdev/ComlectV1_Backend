@@ -26,12 +26,12 @@
         dd.col-sm-6.text-right.m-b-0
           b {{ planComputed.total }}
     .card-footer
-      b-button.w-100(type='button' variant='dark' @click="complitePurchase") Complite purchase
+      b-button.w-100(type='button' variant='dark' @click="complitePurchase" :disabled="disabled") Complite purchase
 </template>
 
 <script>
 export default {
-  props: ['billingTypeSelected', 'billingTypeOptions', 'plan', 'additionalUsers'],
+  props: ['billingTypeSelected', 'billingTypeOptions', 'plan', 'additionalUsers', 'disabled'],
   data() {
     return {
 

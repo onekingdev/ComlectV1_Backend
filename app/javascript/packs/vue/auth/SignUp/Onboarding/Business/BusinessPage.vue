@@ -322,6 +322,7 @@
         selectedPlan: [],
         additionalUsers: 0,
         paymentSourceId: null,
+        disabled: true,
       }
     },
     methods: {
@@ -461,6 +462,7 @@
       },
       complitedPaymentMethod(response) {
         this.paymentSourceId = response.id
+        this.disabled = false;
       },
       selectPlanAndComplitePurchase (selectedPlan) {
         // console.log('selectedPlan', selectedPlan)
@@ -499,6 +501,7 @@
             console.error(error)
             this.makeToast('Error', `Something wrong! ${error}`)
           })
+          .finally(() => this.disabled = true)
       }
     },
     computed: {
