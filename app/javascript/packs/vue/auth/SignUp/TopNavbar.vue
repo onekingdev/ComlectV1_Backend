@@ -27,7 +27,7 @@
     export default {
       props: ['userInfo'],
       created(){
-        const token = localStorage.getItem('app.currentUser');
+        const token = localStorage.getItem('app.currentUser.token');
         if (token) {
           this.$store.commit('updateToken', token)
           this.$store.commit('loggedIn', true)
@@ -40,7 +40,8 @@
       },
       methods: {
         signOut() {
-
+          localStorage.removeItem('app.currentUser');
+          localStorage.removeItem('app.currentUser.token');
         }
       },
       computed: {

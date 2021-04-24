@@ -1,14 +1,17 @@
 import axios from '../../services/axios'
 
+const currentUserLocalStorage = localStorage.getItem('app.currentUser') ? localStorage.getItem('app.currentUser') : ''
+const accessTokenLocalStorage = localStorage.getItem('app.currentUser.token') ? localStorage.getItem('app.currentUser.token') : ''
+
 export default {
   state: {
-    user: [],
+    currentUser: {},
     accessToken: '',
     loggedIn: false,
   },
   mutations: {
     updateUser(state, payload) {
-      state.user = payload;
+      state.currentUser = payload;
     },
     updateToken(state, payload) {
       state.accessToken = payload;
@@ -19,7 +22,6 @@ export default {
   },
   actions: {
     async singUp({commit}, payload) {
-      console.log('payload', payload)
       try {
         commit("clearError");
         commit("setLoading", true);
@@ -63,11 +65,17 @@ export default {
         if (response.data) {
           if(response.data.token) {
             commit('updateToken', response.data.token)
-            localStorage.setItem('app.currentUser', JSON.stringify(response.data.token));
+            localStorage.setItem('app.currentUser.token', JSON.stringify(response.data.token));
             commit('loggedIn', true)
           }
-          if(response.data.business) commit('updateUser', response.data.business)
-          if(response.data.specialist) commit('updateUser', response.data.specialist)
+          if(response.data.business) {
+            localStorage.setItem('app.currentUser', JSON.stringify(response.data.business));
+            commit('updateUser', response.data.business)
+          }
+          if(response.data.specialist) {
+            localStorage.setItem('app.currentUser', JSON.stringify(response.data.specialist));
+            commit('updateUser', response.data.specialist)
+          }
         }
         return response.data
 
@@ -155,7 +163,7 @@ export default {
   },
   getters: {
     getUser(state) {
-      return state.user;
+      return state.currentUser;
     },
     loggedIn(state) {
       return state.loggedIn
