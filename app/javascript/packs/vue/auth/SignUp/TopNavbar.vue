@@ -12,7 +12,7 @@
               ul.dropdown-menu.dropdown-menu-right(aria-labelledby="profile_dropdown_btn" :class="{ show: isProfileMenuOpen }")
                 li
                   a.dropdown-item(href="#") Edit Profile
-                li
+                li(@click="signOut")
                   form(method="POST" action="/users/sign_out")
                         input(type="hidden" name="authenticity_token" value=form_authenticity_token)
                         input(type="hidden" name="_method" value="delete")
