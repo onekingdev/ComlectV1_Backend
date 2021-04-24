@@ -222,6 +222,46 @@
       }
       if(this.jurisdictionIds) this.formStep2.jurisdictionOptions = this.jurisdictionIds;
       if(this.states) this.formStep2.stateOptions = this.states;
+
+      const accountInfo = localStorage.getItem('app.currentUser');
+      const accountInfoParsed = JSON.parse(accountInfo);
+      // console.log(JSON.parse(accountInfo))
+      if(accountInfo) {
+        this.formStep2.companyName = accountInfoParsed.business_name;
+        // this.formStep2.website = accountInfoParsed;
+        this.formStep2.aum = accountInfoParsed.aum;
+        this.formStep2.aptUnit = accountInfoParsed.apartment;
+        this.formStep2.numAcc = accountInfoParsed.client_account_cnt;
+        // this.formStep2.businessAddress = accountInfoParsed;
+        this.formStep2.city = accountInfoParsed.city;
+        this.formStep2.state = accountInfoParsed.state;
+        this.formStep2.zip = accountInfoParsed.zip;
+        // this.formStep1.CRDnumber = accountInfo;
+        this.formStep2.industry = accountInfoParsed.industries;
+        this.formStep2.subIndustry = accountInfoParsed.sub_industries;
+        this.formStep2.jurisdiction = accountInfoParsed.jurisdictions;
+      }
+
+
+      const url = new URL(window.location);
+      let stepNum = url.searchParams.get('step');
+      this.currentStep = stepNum;
+      if (stepNum === 2) {
+        this.step1 = false;
+        this.step2 = true;
+        this.step3 = false;
+        this.navStep1 = false;
+        this.navStep2 = true;
+        this.navStep3 = false;
+      }
+      if (stepNum === 3) {
+        this.step1 = false;
+        this.step2 = false;
+        this.step3 = true;
+        this.navStep1 = false;
+        this.navStep2 = false;
+        this.navStep3 = true;
+      }
     },
     data() {
       return {
@@ -313,11 +353,17 @@
 
         console.log(dataToSend)
       },
+      navigation(stepNum){
+        const url = new URL(window.location);
+        url.searchParams.set('step', stepNum);
+        window.history.pushState({}, '', url);
+      },
       prevStep(stepNum) {
         this['step'+(stepNum+1)] = false
         this['navStep'+(stepNum+1)] = false
         this['step'+stepNum] = true
         this.currentStep = stepNum
+        this.navigation(this.currentStep)
       },
       nextStep(stepNum) {
         if (this.formStep1.CRDnumberSelected === 'yes') {
@@ -329,6 +375,7 @@
           this['navStep'+stepNum] = true
           this['step'+stepNum] = true
           this.currentStep = stepNum
+          this.navigation(this.currentStep)
         }
 
         if (stepNum === 3) {
@@ -381,6 +428,7 @@
                 this['navStep'+stepNum] = true
                 this['step'+stepNum] = true
                 this.currentStep = stepNum
+                this.navigation(this.currentStep)
                 this.makeToast('Success', `Company info successfully sended!`)
               }
             })
