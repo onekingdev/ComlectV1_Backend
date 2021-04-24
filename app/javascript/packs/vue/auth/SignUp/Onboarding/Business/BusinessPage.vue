@@ -336,30 +336,32 @@
           this.errors = []
 
           const dataToSend = {
-            // contact_first_name: 'x',
-            // contact_last_name: 'x',
-            // contact_email: 'x',
-            // contact_job_title: 'x',
-            // contact_phone: 'x',
-            business_name: this.formStep2.companyName,
-            website: this.formStep2.website,
-            aum: this.formStep2.aum,
-            apartment: this.formStep2.aptUnit,
-            client_account_cnt: this.formStep2.numAcc,
-            // logo: 'x',
-            address_1: this.formStep2.businessAddress,
-            // country: 'x',
-            city: this.formStep2.city,
-            state: this.formStep2.state,
-            zipcode: this.formStep2.zip,
-            crd_number: this.formStep1.CRDnumber,
-            industry_ids: this.formStep2.industry.map(record => record.id),
-            sub_industry_ids: this.formStep2.subIndustry.map(record => record.id),
-            jurisdiction_ids: this.formStep2.jurisdiction.map(record => record.id),
+            business: {
+              // contact_first_name: 'x',
+              // contact_last_name: 'x',
+              // contact_email: 'x',
+              // contact_job_title: 'x',
+              // contact_phone: 'x',
+              business_name: this.formStep2.companyName,
+              website: this.formStep2.website,
+              aum: this.formStep2.aum,
+              apartment: this.formStep2.aptUnit,
+              client_account_cnt: this.formStep2.numAcc,
+              // logo: 'x',
+              address_1: this.formStep2.businessAddress,
+              // country: 'x',
+              city: this.formStep2.city,
+              state: this.formStep2.state,
+              zipcode: this.formStep2.zip,
+              crd_number: this.formStep1.CRDnumber,
+              industry_ids: this.formStep2.industry.map(record => record.id),
+              sub_industry_ids: this.formStep2.subIndustry.map(record => record.id),
+              jurisdiction_ids: this.formStep2.jurisdiction.map(record => record.id),
+            }
           }
 
           this.$store
-            .dispatch('updateBusinnesInfo', dataToSend)
+            .dispatch('updateAccountInfo', dataToSend)
             .then(response => {
               console.log('response', response)
 

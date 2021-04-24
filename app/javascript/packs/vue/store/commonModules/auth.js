@@ -101,13 +101,17 @@ export default {
         commit("setLoading", false)
       }
     },
-    async updateBusinnesInfo({commit}, payload) {
+    async updateAccountInfo({commit}, payload) {
       try {
         commit("clearError");
         commit("setLoading", true);
-        console.log('payload', payload)
 
-        const response = await axios.patch(`/business`, payload)
+        const endPointUserType = payload.business ? 'business' : 'specialist'
+        const response = await axios.patch(`/${endPointUserType}`, payload[endPointUserType])
+        if(response.data) {
+          localStorage.setItem('app.currentUser', JSON.stringify(response.data));
+          commit('updateUser', response.data)
+        }
         return response.data
 
       } catch (error) {
