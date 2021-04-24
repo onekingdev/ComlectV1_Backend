@@ -313,7 +313,7 @@ Rails.application.routes.draw do
       end
       resources :ratings, only: %i[index]
       post '/upgrade/subscribe' => 'upgrade#subscribe'
-      resources :payment_settings, only: %i[create update destroy]
+      resources :payment_settings, only: %i[create update destroy index]
       put '/payment_settings/make_primary/:id' => 'payment_settings#make_primary'
     end
     namespace :specialist do
