@@ -5,8 +5,8 @@ const accessTokenLocalStorage = localStorage.getItem('app.currentUser.token') ? 
 
 export default {
   state: {
-    currentUser: {},
-    accessToken: '',
+    currentUser: currentUserLocalStorage ? JSON.parse(currentUserLocalStorage) : {},
+    accessToken: accessTokenLocalStorage ? JSON.parse(accessTokenLocalStorage) : '',
     loggedIn: false,
   },
   mutations: {

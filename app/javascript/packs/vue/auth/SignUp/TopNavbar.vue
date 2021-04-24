@@ -7,7 +7,7 @@
           .navbar-nav.align-items-center
             .dropdown#profile_dropdown.p-x-2(v-if="loggedIn")
               #profile_dropdown_btn(@click="isProfileMenuOpen = !isProfileMenuOpen" :aria-expanded="isProfileMenuOpen")
-                span {{ userName ? userName : 'John Doe' }}
+                span {{ userName }}
                 ion-icon.m-l-1(name='chevron-down-outline')
               ul.dropdown-menu.dropdown-menu-right(aria-labelledby="profile_dropdown_btn" :class="{ show: isProfileMenuOpen }")
                 li
@@ -52,7 +52,7 @@
           return this.$store.getters.getUser;
         },
         userName() {
-          return this.userInfo ? `${this.userInfo.contact_first_name} ${this.userInfo.contact_last_name}` : this.currentUser.name
+          return this.currentUser.contact_first_name ? `${this.currentUser.contact_first_name} ${this.currentUser.contact_last_name}` : `${this.currentUser.first_name} ${this.currentUser.last_name}`
         }
       },
     }
