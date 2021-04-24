@@ -39,14 +39,14 @@
         h4.m-t-1 Payment Method
         div.m-t-1
           a.btn.btn-light(@click="addBankAccount") Add Bank Account
-    .card-body.d-none(v-if="cardOptions")
+    .card-body(v-if="cardOptions")
       dl.row(v-for="(card, i) in cardOptions")
         dt.col-sm-7
-          input.mr-2.mt-1(id="card+i" type='radio' name='card.value' value='card.value' :checked="i===1")
-          label(for='card+i') {{ card.text }}
+          input.mr-2.mt-1(:id="'card'+i" type='radio' :name='card.value' :value='card.value')
+          label(:for="'card'+i") {{ card.text }}
         dd.col-sm-5.text-right.m-b-0
           | {{ card.number }} {{ card.type }}
-          a.link.ml-2(:href="'/remove/card/' + card.id") Remove
+          a.link.ml-2(@click="deleteCard(card.id)") Remove
     .card-header
       <!--div-->
         <!--StripeCheckout(:pk="pk")-->
@@ -136,12 +136,13 @@
           zip: '',
         },
         cards: [],
-        cardSelected: '1',
-        cardOptions: [
-          { text: 'Credit Card (primary)', value: '1', number: '**** **** **** 8900', type: 'Visa', id: '1' },
-          { text: 'Credit Card (secondary)', value: '2', number: '**** **** **** 8888', type: 'MasterCard', id: '2' },
-          { text: 'Credit Card (third)', value: '3', number: '**** **** **** 1111', type: 'Visa', id: '3' },
-        ],
+        cardSelected: null,
+        cardOptions: [],
+        // cardOptions: [
+        //   { text: 'Credit Card (primary)', value: '1', number: '**** **** **** 8900', type: 'Visa', id: '1' },
+        //   { text: 'Credit Card (secondary)', value: '2', number: '**** **** **** 8888', type: 'MasterCard', id: '2' },
+        //   { text: 'Credit Card (third)', value: '3', number: '**** **** **** 1111', type: 'Visa', id: '3' },
+        // ],
         errors: [],
         additionalUsersCount: 0,
       };
@@ -188,6 +189,23 @@
           id: Math.floor(Math.random()) * 100
         })
       },
+      deleteCard(cardId) {
+        const dataToSend = {
+          userType: 'business',
+          id: cardId,
+        }
+
+        this.$store
+          .dispatch('deletePaymentMethod', dataToSend)
+          .then(response => {
+            console.log('response', response)
+            const index = response.findIndex(record => record.id === payload.id);
+            this.cardOptions.splice(index, 1)
+          })
+          .catch(error => {
+            console.error(error)
+          })
+      },
       addBankAccount() {
 
       },
@@ -206,6 +224,25 @@
       pk() {
         return process.env.STRIPE_PUBLISHABLE_KEY
       }
+    },
+    mounted() {
+      const dataToSend = {
+        userType: 'business',
+      }
+
+      this.$store
+        .dispatch('getPaymentMethod', dataToSend)
+        .then(response => {
+          console.log('response', response)
+          const newOptions = response.map((card, index) => {
+            return { text: `Credit Card${index===0 ? ' (primary)' : ''}`, value: index, number: `**** **** **** ${card.last4}`, type: card.brand, id: card.id }
+          })
+          this.cardOptions = newOptions
+          this.cardSelected = 0
+        })
+        .catch(error => {
+          console.error(error)
+        })
     }
   }
 </script>

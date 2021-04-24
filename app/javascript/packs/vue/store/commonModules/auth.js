@@ -164,6 +164,38 @@ export default {
         commit("setLoading", false)
       }
     },
+    async getPaymentMethod({commit, getters}, payload) {
+      try {
+        commit("clearError");
+        commit("setLoading", true);
+
+        const { userType } = {...payload}
+        const response = await axios.get(`/${userType}/payment_settings`)
+        return response.data
+
+      } catch (error) {
+        console.error(error);
+        throw error
+      } finally {
+        commit("setLoading", false)
+      }
+    },
+    async deletePaymentMethod({commit, getters}, payload) {
+      try {
+        commit("clearError");
+        commit("setLoading", true);
+
+        const { userType, id } = {...payload}
+        const response = await axios.delete(`/${userType}/payment_settings/${id}`)
+        return response.data
+
+      } catch (error) {
+        console.error(error);
+        throw error
+      } finally {
+        commit("setLoading", false)
+      }
+    },
   },
   getters: {
     getUser(state) {
