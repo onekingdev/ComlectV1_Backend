@@ -139,7 +139,7 @@
                     name="radio-btn-outline"
                     buttons)
               .row
-                .col-xl-4(v-for='(plan, index) in billingPlan')
+                .col-xl-4(v-for='(plan, index) in billingPlans')
                   b-card.w-100.mb-2.billing-plan(:class="[index === 0 ? 'billing-plan_low' : '', index === 1 ? 'billing-plan_medium' : '', index === 2 ? 'billing-plan_high' : '' ]")
                     b-button.mb-3(type='button' variant='outline-primary' @click="openDetails(plan)") Select Plan
                     b-card-text
@@ -191,6 +191,8 @@
   import Multiselect from 'vue-multiselect'
   import BillingDetails from './BillingDetails'
   import PurchaseSummary from './PurchaseSummary'
+
+  import data from './BillingPlansData.json'
 
   export default {
     props: ['industryIds', 'jurisdictionIds', 'subIndustryIds', 'states', 'userInfo'],
@@ -274,77 +276,7 @@
           { text: 'Billed Annually', value: 'annually' },
           { text: 'Billed Monthly', value: 'monthly' },
         ],
-        billingPlan: [
-          {
-            id: 1,
-            api_id: 'price_1IiE98GXaxE41NmqMgX2ln1u',
-            name: 'Starter',
-            description: 'Try out our product for free!',
-            coast: 'FREE',
-            coastMonthly: 'FREE',
-            coastMonthlyFormatted: `FREE`,
-            coastAnnually: 'FREE',
-            coastAnnuallyFormatted: `FREE`,
-            users: '1 admin user',
-            usersCount: 0,
-            additionalUserMonthly: 0,
-            additionalUserAnnually: 0,
-            features: [
-              'Compilance Calendar',
-              'Project Management',
-            ]
-          },
-          {
-            id: 2,
-            api_id: 'price_1IiYD7GXaxE41Nmqu9aE7eRC',
-            name: 'Team',
-            description: 'Small teams and startups',
-            coast: '$125/mo',
-            coastMonthly: 145,
-            coastMonthlyFormatted: `$145/mo`,
-            coastAnnually: 1500,
-            coastAnnuallyFormatted: `$1500`,
-            users: '3 free users plus $15/mo per person',
-            usersCount: 3,
-            additionalUserMonthly: 15,
-            additionalUserAnnually: 120,
-            features: [
-              'Compilance Calendar',
-              'Project Management',
-              'Policies and Procedures',
-              '1 Internal Review per year',
-              'Exam Management',
-              '5GB storage for books and records',
-              'Unlimited intefrations',
-            ]
-          },
-          {
-            id: 3,
-            api_id: 'price_1IiYDOGXaxE41Nmq4Uc27JUf',
-            name: 'Business',
-            description: 'Medium-sized organizations',
-            coast: '$250/mo',
-            coastMonthly: 270,
-            coastMonthlyFormatted: `$270/mo`,
-            coastAnnually: 3000,
-            coastAnnuallyFormatted: `$3000`,
-            users: '10 free users plus $15/mo per person',
-            usersCount: 10,
-            additionalUserMonthly: 15,
-            additionalUserAnnually: 120,
-            features: [
-              'Compilance Calendar',
-              'Project Management',
-              'Policies and Procedures',
-              '1 Internal Review per year',
-              'Exam Management',
-              'Auditor Portal',
-              '10GB storage for books and records',
-              'Unlimited intefrations',
-              'Free Personalized Onboarding'
-            ]
-          },
-        ],
+        billingPlans: data.billingPlans,
         openId: null,
         isSidebarOpen: false,
         selectedPlan: [],
