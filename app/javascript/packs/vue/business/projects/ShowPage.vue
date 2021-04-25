@@ -47,9 +47,7 @@
       b-tab(title="Tasks")
         .card-body.white-card-body
       b-tab(title="Documents")
-        .card-body.white-card-body
-          button.btn.btn-light Upload File
-          DocumentList
+        DocumentList(:project="project")
       b-tab(title="Collaborators")
         .white-card-body.p-y-1
           .container

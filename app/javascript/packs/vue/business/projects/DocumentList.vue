@@ -1,20 +1,46 @@
 <template lang="pug">
-  .row.p-x-1
-    .alert.alert-info.col-md-4(v-for="document in documents" :key="document.id")
-      button.btn.btn-default.float-right(v-if="document.isEditable") &hellip;
-      p {{ document.name }}
-      p: a(href='#') Download
+  .card-body.white-card-body
+    input(type="file" name="file" @change="onFileChanged")
+    Get(:documents="url" :etag="etag"): template(v-slot="{documents}"): .row.p-x-1
+      .alert.alert-info.col-md-4(v-for="document in documents" :key="document.id")
+        p {{ document.file_data.metadata.filename }}
+        p: a(:href='document.file_data.id') Download
 </template>
 
 <script>
+import EtaggerMixin from '@/mixins/EtaggerMixin'
+
+const uploadFile = async function(url, file) {
+  const formData  = new FormData()
+  formData.append('file', file)
+  return await fetch(url, {
+    method: 'POST',
+    body: formData
+  })
+}
+
 export default {
+  mixins: [EtaggerMixin()],
+  props: {
+    project: {
+      type: Object,
+      required: true
+    }
+  },
+  methods: {
+    async onFileChanged(event) {
+      const file = event.target.files && event.target.files[0]
+      if (file) {
+        const success = (await uploadFile(this.url, file)).ok
+        const message = success ? 'Document uploaded' : 'Document upload failed'
+        this.toast('Document Upload', message, !success)
+        this.newEtag()
+      }
+    }
+  },
   computed: {
-    documents() {
-      return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(id => ({
-        id,
-        name: 'document ' + id + '.pdf',
-        isEditable: Math.random() > 0.5
-      }))
+    url() {
+      return `/api/projects/${this.project.id}/documents`
     }
   }
 }
