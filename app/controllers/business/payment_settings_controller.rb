@@ -112,7 +112,7 @@ class Business::PaymentSettingsController < ApplicationController
   end
 
   def payment_source_type
-    params.key?(:stripeToken) ? PaymentSource : PaymentSource::Ach
+    params.key?(:stripeToken) ? PaymentSource : PaymentSource::ACH
   end
 
   def stripe_params(optional: false)

@@ -3,7 +3,7 @@ import Vuex from "vuex";
 
 import policies from "./businesModules/policies";
 import risks from "./businesModules/risks";
-import shared from "./commonModules/shared";
+import shared from "./shared";
 
 Vue.use(Vuex);
 
