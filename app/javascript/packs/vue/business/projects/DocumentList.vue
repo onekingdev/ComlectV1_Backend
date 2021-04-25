@@ -4,7 +4,7 @@
     Get(:documents="url" :etag="etag"): template(v-slot="{documents}"): .row.p-x-1
       .alert.alert-info.col-md-4(v-for="document in documents" :key="document.id")
         p {{ document.file_data.metadata.filename }}
-        p: a(:href='document.file_data.id') Download
+        p: a(:href='getDocumentUrl(document)' target="_blank") Download
 </template>
 
 <script>
@@ -36,6 +36,9 @@ export default {
         this.toast('Document Upload', message, !success)
         this.newEtag()
       }
+    },
+    getDocumentUrl(document) {
+      return `/uploads/${document.file_data.storage}/${document.file_data.id}`
     }
   },
   computed: {
