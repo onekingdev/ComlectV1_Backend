@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
 class SpecialistsController < ApplicationController
+  include ActionView::Helpers::TagHelper
+
   before_action -> do
     redirect_to specialist_path(current_user.specialist)
-  end, if: -> { user_signed_in? && current_user.specialist }, only: %i[new create]
+  end, if: -> { user_signed_in? && current_user.specialist }, only: %i[create]
 
   before_action :authenticate_user!, only: %i[edit update show]
   before_action :require_specialist!, only: %i[edit update]
@@ -24,13 +26,17 @@ class SpecialistsController < ApplicationController
   end
 
   def new
-    attributes = {
-      first_name: @invitation&.first_name,
-      last_name: @invitation&.last_name,
-      user_attributes: { email: @invitation&.email }
-    }
-
-    @specialist = Specialist::Form.signup(attributes)
+    render html: content_tag('specialist-onboarding-page', '',
+                             ':industry-ids': Industry.all.map(&proc { |ind|
+                                                                  { id: ind.id,
+                                                                    name: ind.name }
+                                                                }).to_json,
+                             ':jurisdiction-ids': Jurisdiction.all.map(&proc { |ind|
+                                                                          { id: ind.id,
+                                                                            name: ind.name }
+                                                                        }).to_json,
+                             ':sub-industry-ids': sub_industries(true).to_json,
+                             ':states': State.fetch_all_usa.to_json).html_safe, layout: 'vue_onboarding'
   end
 
   def create

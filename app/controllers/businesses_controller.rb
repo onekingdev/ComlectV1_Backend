@@ -1,21 +1,38 @@
 # frozen_string_literal: true
 
 class BusinessesController < ApplicationController
+  include ActionView::Helpers::TagHelper
+
   before_action -> do
     # sign_out(current_user) if current_user
     redirect_to business_path(current_user.business)
-  end, if: -> { user_signed_in? && current_user.business }, only: %i[new create]
+  end, if: -> { user_signed_in? && current_user.business }, only: %i[create]
 
   before_action :authenticate_user!, only: %i[edit update show]
   before_action :require_business!, only: %i[edit update]
 
-  def show
-    @business = Business.includes(:industries).find_by(username: params[:id])
-  end
+  # def show
+  #   @business = Business.includes(:industries).find_by(username: params[:id])
+  # end
 
   def new
     session[:ported_business_token] = params[:invite_token] if params[:invite_token]
     @business = Business.for_signup
+  end
+
+  def new
+    render html: content_tag('business-onboarding-page', '',
+                             ':industry-ids': Industry.all.map(&proc { |ind|
+                                                                  { id: ind.id,
+                                                                    name: ind.name }
+                                                                }).to_json,
+                             ':jurisdiction-ids': Jurisdiction.all.map(&proc { |ind|
+                                                                          { id: ind.id,
+                                                                            name: ind.name }
+                                                                        }).to_json,
+                             ':sub-industry-ids': sub_industries(false).to_json,
+                             ':states': State.fetch_all_usa.to_json).html_safe,
+           layout: 'vue_onboarding'
   end
 
   def create

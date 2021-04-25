@@ -178,6 +178,8 @@ Rails.application.routes.draw do
   get '/employees/stop-mirror', to: 'employees#stop_mirror', as: 'stop_mirror_business'
 
   namespace :specialists, path: 'specialist' do
+    get '/onboarding' => 'onboarding#index'
+    post '/onboarding' => 'onboarding#subscribe'
     get '/' => 'dashboard#show', as: :dashboard
     get '/locked' => 'dashboard#locked'
     resources :reminders, only: %i[new update create destroy edit show index]
@@ -284,8 +286,9 @@ Rails.application.routes.draw do
       get '/reminders/:date_from/:date_to' => 'reminders#by_date'
       get '/overdue_reminders' => 'reminders#overdue'
       post '/reminders' => 'reminders#create'
-      resources :local_projects, only: %i[index create show update]
-      resources :projects, only: %i[index show create update] do
+      resources :local_projects, only: %i[index create show update destroy]
+      get 'local_projects/:id/complete' => 'local_projects#complete'
+      resources :projects, only: %i[index show create update destroy] do
         resources :project_messages, path: 'messages', only: %i[index create]
         resources :job_applications, path: 'applications', only: %i[index] do
           post :shortlist

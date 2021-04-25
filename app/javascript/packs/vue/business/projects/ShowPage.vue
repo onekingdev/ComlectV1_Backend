@@ -48,6 +48,8 @@
         .card-body.white-card-body
       b-tab(title="Documents")
         .card-body.white-card-body
+          button.btn.btn-light Upload File
+          DocumentList
       b-tab(title="Collaborators")
         .white-card-body.p-y-1
           .container
@@ -86,6 +88,7 @@ import ApplicationsNotice from './alerts/ApplicationsNotice'
 import TimesheetsNotice from './alerts/TimesheetsNotice'
 import EndContractNotice from './alerts/EndContractNotice'
 import ProjectDetails from './ProjectDetails'
+import DocumentList from './DocumentList'
 import EtaggerMixin from '@/mixins/EtaggerMixin'
 import LocalProjectModal from './LocalProjectModal'
 import DeleteLocalProjectModal from './DeleteLocalProjectModal'
@@ -152,6 +155,7 @@ export default {
     EndContractNotice,
     EndContractModal,
     ProjectDetails,
+    DocumentList,
     EditContractModal,
     IssueModal
   }
