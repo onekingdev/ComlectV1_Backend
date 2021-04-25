@@ -5,7 +5,7 @@
       b-dropdown.m-r-1(text='Actions' variant='default')
         li: LocalProjectModal(@saved="newEtag" :project-id="project.id" :inline="false")
           button.dropdown-item Edit
-        li: DeleteLocalProjectModal(@deleted="() => {}")
+        li: DeleteLocalProjectModal(:project="project")
       a.m-r-1.btn.btn-default(v-if="project.visible_project" :href='viewHref(project.visible_project)') View Post
       a.m-r-1.btn.btn-default(v-else :href='postHref(project)') Post Project
       button.btn.btn-dark Complete Project
