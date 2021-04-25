@@ -1,6 +1,8 @@
 <template lang="pug">
   .card-body.white-card-body
-    input(type="file" name="file" @change="onFileChanged")
+    label
+      a.btn.btn-default Upload File
+      input(type="file" name="file" @change="onFileChanged" style="display: none")
     Get(:documents="url" :etag="etag"): template(v-slot="{documents}"): .row.p-x-1
       .alert.alert-info.col-md-4(v-for="document in documents" :key="document.id")
         p {{ document.file_data.metadata.filename }}
