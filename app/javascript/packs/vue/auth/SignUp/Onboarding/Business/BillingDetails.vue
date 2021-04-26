@@ -23,7 +23,7 @@
           p {{ planComputed.description }}
         .col.text-right
           h4.m-t-1 {{ billingTypeSelected === 'annually' ?  planComputed.coastAnnuallyFormatted : planComputed.coastMonthlyFormatted }}
-          p {{ planComputed.users }}
+          p {{ billingTypeSelected === 'annually' ?  planComputed.usersCount + ' free users plus $' + planComputed.additionalUserAnnually + '/year per person' : planComputed.usersCount + ' free users plus $' + planComputed.additionalUserMonthly + '/mo per person' }}
     .card-header
       .d-flex.justify-content-between
         div

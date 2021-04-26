@@ -7,7 +7,7 @@
         dt.col-sm-6
           b {{ planComputed.name }} plan
         dd.col-sm-6.text-right {{ billingTypeSelected === 'annually' ?  planComputed.coastAnnuallyFormatted : planComputed.coastMonthlyFormatted }}
-        dt.col-sm-6 {{ planComputed.usersCount }} Users ({{ planComputed.usersCount }} Free)
+        dt.col-sm-6 {{ additionalUsers }} Users ({{ planComputed.usersCount }} Free)
         dd.col-sm-6.text-right {{ planComputed.additionalUserCoast }}
         dt.col-sm-6.text-success(v-if="billingTypeSelected === 'annually'") Billed Annualy
         dd.col-sm-6.text-right.text-success(v-if="billingTypeSelected === 'annually'") You saved {{ planComputed.saved }}
@@ -38,14 +38,27 @@ export default {
     }
   },
   methods: {
-    countTotalCoast(planType, coastMonthly, coastAnnually, usersCount, usersCoastMonthly, usersCoastAnnually) {
-      // console.log(planType, coastMonthly, coastAnnually, usersCount, usersCoast)
+    calcAdditionalUserCoast(planType, usersCount, usersFreeCount, usersCoastMonthly, usersCoastAnnually) {
       let finalCoast;
+      if (usersCount <= usersFreeCount) return `+$0`
       if (planType === 'monthly') {
-        finalCoast = coastMonthly + usersCount * usersCoastMonthly
+        finalCoast = (usersCount-usersFreeCount) * usersCoastMonthly
       }
       if (planType === 'annually') {
-        finalCoast = coastAnnually + usersCount * usersCoastAnnually
+        finalCoast = (usersCount-usersFreeCount) * usersCoastAnnually
+      }
+      return `+$${finalCoast}`
+    },
+    countTotalCoast(planType, coastMonthly, coastAnnually, usersCount, usersFreeCount, usersCoastMonthly, usersCoastAnnually) {
+      // console.log(planType, coastMonthly, coastAnnually, usersCount, usersCoast)
+      let finalCoast, finalUserCoast = 0;
+      if (planType === 'monthly') {
+        if (usersCount > usersFreeCount) finalUserCoast = (usersCount-usersFreeCount) * usersCoastMonthly
+        finalCoast = coastMonthly + finalUserCoast
+      }
+      if (planType === 'annually') {
+        if (usersCount > usersFreeCount)  finalUserCoast = (usersCount-usersFreeCount) * usersCoastAnnually
+        finalCoast = coastAnnually + finalUserCoast
       }
       return `$${finalCoast}`
     },
@@ -58,10 +71,10 @@ export default {
     planComputed() {
       return {
         ...this.plan,
-        additionalUserCoast: `+$${this.additionalUsers * this.plan.additionalUserMonthly}`,
+        additionalUserCoast: this.calcAdditionalUserCoast(this.billingTypeSelected, this.additionalUsers, this.plan.usersCount, this.plan.additionalUserMonthly, this.plan.additionalUserAnnually),
         saved: `$${Math.abs(this.plan.coastAnnually - this.plan.coastMonthly * 12)}`,
         // tax: '$0.00',
-        total: this.countTotalCoast(this.billingTypeSelected, this.plan.coastMonthly, this.plan.coastAnnually, this.additionalUsers, this.plan.additionalUserMonthly, this.plan.additionalUserAnnually),
+        total: this.countTotalCoast(this.billingTypeSelected, this.plan.coastMonthly, this.plan.coastAnnually, this.additionalUsers, this.plan.usersCount, this.plan.additionalUserMonthly, this.plan.additionalUserAnnually),
       }
     },
   },
