@@ -526,12 +526,15 @@
           .then(response => {
             console.log('response', response)
 
-            if(response.errors) {
-              this.makeToast('Error', `Something wrong!`)
-            }
-
-            if(!response.errors) {
-              this.makeToast('Success', `Update seat subscribe successfully finished!`)
+            for(let i=0; i <= response.length; i++) {
+              if(response[i].data.errors) {
+                for (const type of Object.keys(response[i].data.errors)) {
+                  this.makeToast('Error', `Something wrong! ${response[i].data.errors[type]}`)
+                }
+              }
+              if(!response[i].data.errors) {
+                this.makeToast('Success', `Update seat subscribe successfully finished!`)
+              }
             }
           })
           .catch(error => {
