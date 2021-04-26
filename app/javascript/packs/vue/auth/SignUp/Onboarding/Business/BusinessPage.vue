@@ -34,22 +34,22 @@
               h3 Tell us more about your business
               .row
                 .col-xl-6.pr-xl-2
-                  b-form-group#input-group-1(label='Company Name' label-for='input-1')
-                    b-form-input#input-1(v-model='formStep2.companyName' type='text' placeholder='Company Name' required)
+                  b-form-group#inputB-group-1(label='Company Name' label-for='inputB-1')
+                    b-form-input#inputB-1(v-model='formStep2.companyName' type='text' placeholder='Company Name' required)
                     .invalid-feedback.d-block(v-if="errors.companyName") {{ errors.companyName }}
               .row
                 .col.pr-2
-                  b-form-group#input-group-2(label='AUM' label-for='input-2')
-                    b-form-input#input-2(v-model='formStep2.aum' type='text' placeholder='AUM' required)
+                  b-form-group#inputB-group-2(label='AUM' label-for='inputB-2')
+                    b-form-input#inputB-2(v-model='formStep2.aum' type='text' placeholder='AUM' required)
                     .invalid-feedback.d-block(v-if="errors.aum") {{ errors.aum }}
                 .col.pl-2
-                  b-form-group#input-group-3(label='Number of Accounts' label-for='input-3')
-                    b-form-input#input-3(v-model='formStep2.numAcc' type='text' placeholder='Number of Accounts' required)
+                  b-form-group#inputB-group-3(label='Number of Accounts' label-for='inputB-3')
+                    b-form-input#inputB-3(v-model='formStep2.numAcc' type='text' placeholder='Number of Accounts' required)
                     .invalid-feedback.d-block(v-if="errors.numAcc") {{ errors.numAcc }}
               .row
                 .col.pr-2
-                  b-form-group#input-group-4(label='Industry' label-for='select-4')
-                    multiselect#select-4(
+                  b-form-group#inputB-group-4(label='Industry' label-for='selectB-4')
+                    multiselect#selectB-4(
                     v-model="formStep2.industry"
                     :options="formStep2.industryOptions"
                     :multiple="true"
@@ -57,12 +57,12 @@
                     label="name",
                     placeholder="Select Industry",
                     required)
-                    <!--b-form-select#select-4(v-model='formStep2.industry' :options='options' required)-->
+                    <!--b-form-select#selectB-4(v-model='formStep2.industry' :options='options' required)-->
                     .invalid-feedback.d-block(v-if="errors.industry") {{ errors.industry }}
                 .col.pl-2
-                  b-form-group#input-group-5(label='Sub-Industry' label-for='select-5')
-                    <!--b-form-select#select-5(v-model='formStep2.subIndustry' :options='options' required)-->
-                    multiselect#select-5(
+                  b-form-group#inputB-group-5(label='Sub-Industry' label-for='selectB-5')
+                    <!--b-form-select#selectB-5(v-model='formStep2.subIndustry' :options='options' required)-->
+                    multiselect#selectB-5(
                     v-model="formStep2.subIndustry"
                     :options="formStep2.subIndustryOptions"
                     :multiple="true"
@@ -73,9 +73,9 @@
                     .invalid-feedback.d-block(v-if="errors.subIndustry") {{ errors.subIndustry }}
               .row
                 .col.pr-2
-                  b-form-group#input-group-6(label='Jurisdiction' label-for='select-6')
-                    <!--b-form-select#select-6(v-model='formStep2.jurisdiction' :options='options' required)-->
-                    multiselect#select-6(
+                  b-form-group#inputB-group-6(label='Jurisdiction' label-for='selectB-6')
+                    <!--b-form-select#selectB-6(v-model='formStep2.jurisdiction' :options='options' required)-->
+                    multiselect#selectB-6(
                     v-model="formStep2.jurisdiction"
                     :options="formStep2.jurisdictionOptions"
                     :multiple="true"
@@ -85,37 +85,37 @@
                     required)
                     .invalid-feedback.d-block(v-if="errors.jurisdiction") {{ errors.jurisdiction }}
                 .col.pl-2
-                  b-form-group#input-group-7(label='Company Website' label-for='input-7' description="Optional")
-                    b-form-input#input-7.form-control(v-model='formStep2.website' type='text' placeholder='Company Website')
+                  b-form-group#inputB-group-7(label='Company Website' label-for='inputB-7' description="Optional")
+                    b-form-input#inputB-7.form-control(v-model='formStep2.website' type='text' placeholder='Company Website')
                     .invalid-feedback.d-block(v-if="errors.website") {{ errors.website }}
               .row
                 .col-xl-6.pr-xl-2
-                  b-form-group#input-group-8(label='Phone Number' label-for='input-8')
-                    b-form-input#input-8(v-model='formStep2.phoneNumber' type='text' placeholder='Phone Number' required)
+                  b-form-group#inputB-group-8(label='Phone Number' label-for='inputB-8')
+                    b-form-input#inputB-8(v-model='formStep2.phoneNumber' type='text' placeholder='Phone Number' required)
                     .invalid-feedback.d-block(v-if="errors.phoneNumber") {{ errors.phoneNumber }}
               hr
               .row
                 .col-xl-9.pr-xl-2
-                  b-form-group#input-group-9(label='Business Address' label-for='input-9')
-                    b-form-input#input-9(v-model='formStep2.businessAddress' placeholder='Business Address' required)
+                  b-form-group#inputB-group-9(label='Business Address' label-for='inputB-9')
+                    b-form-input#inputB-9(v-model='formStep2.businessAddress' placeholder='Business Address' required)
                     .invalid-feedback.d-block(v-if="errors.businessAddress") {{ errors.businessAddress }}
                 .col-xl-3.pl-xl-2
-                  b-form-group#input-group-10(label='Apt/Unit:' label-for='input-10')
-                    b-form-input#input-10(v-model='formStep2.aptUnit' type='text' placeholder='Apt/Unit' required)
+                  b-form-group#inputB-group-10(label='Apt/Unit:' label-for='inputB-10')
+                    b-form-input#inputB-10(v-model='formStep2.aptUnit' type='text' placeholder='Apt/Unit' required)
                     .invalid-feedback.d-block(v-if="errors.aptUnit") {{ errors.aptUnit }}
               .row
                 .col-xl-4.pr-xl-2
-                  b-form-group#input-group-11(label='Zip' label-for='input-11')
-                    b-form-input#input-11(v-model='formStep2.zip' placeholder='Zip' required)
+                  b-form-group#inputB-group-11(label='Zip' label-for='inputB-11')
+                    b-form-input#inputB-11(v-model='formStep2.zip' placeholder='Zip' required)
                     .invalid-feedback.d-block(v-if="errors.zip") {{ errors.zip }}
                 .col-xl-4.px-xl-2
-                  b-form-group#input-group-12(label='City' label-for='input-12')
-                    b-form-input#input-12(v-model='formStep2.city' type='text' placeholder='City' required)
+                  b-form-group#inputB-group-12(label='City' label-for='inputB-12')
+                    b-form-input#inputB-12(v-model='formStep2.city' type='text' placeholder='City' required)
                     .invalid-feedback.d-block(v-if="errors.city") {{ errors.city }}
                 .col-xl-4.pl-xl-2
-                  b-form-group#input-group-13(label='State' label-for='select-13')
-                    <!--b-form-select#select-13(v-model='formStep2.state' :options='options' required)-->
-                    multiselect#select-13(
+                  b-form-group#inputB-group-13(label='State' label-for='selectB-13')
+                    <!--b-form-select#selectB-13(v-model='formStep2.state' :options='options' required)-->
+                    multiselect#selectB-13(
                     v-model="formStep2.state"
                     :options="formStep2.stateOptions"
                     placeholder="Select state",
@@ -267,7 +267,7 @@
       return {
         userId: '',
         otpSecret: '',
-        userType: '',
+        userType: 'business',
         formStep1: {
           CRDnumber: '',
           CRDnumberSelected: 'no',
@@ -479,7 +479,7 @@
         }
 
         const dataToSend = {
-          userType: 'business',
+          userType: this.userType,
           planName,
           paymentSourceId : this.paymentSourceId,
         }
@@ -515,7 +515,7 @@
         let planName = this.billingTypeSelected === 'annually' ? 'seats_annual' : 'seats_monthly'
 
         const dataToSend = {
-          userType: 'business',
+          userType: this.userType,
           planName,
           paymentSourceId : this.paymentSourceId,
           countPayedUsers,
@@ -526,12 +526,15 @@
           .then(response => {
             console.log('response', response)
 
-            if(response.errors) {
-              this.makeToast('Error', `Something wrong!`)
-            }
-
-            if(!response.errors) {
-              this.makeToast('Success', `Update seat subscribe successfully finished!`)
+            for(let i=0; i <= response.length; i++) {
+              if(response[i].data.errors) {
+                for (const type of Object.keys(response[i].data.errors)) {
+                  this.makeToast('Error', `Something wrong! ${response[i].data.errors[type]}`)
+                }
+              }
+              if(!response[i].data.errors) {
+                this.makeToast('Success', `Update seat subscribe successfully finished!`)
+              }
             }
           })
           .catch(error => {

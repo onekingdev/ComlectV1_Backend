@@ -2,8 +2,7 @@
   "billingPlans": [
     {
       "id": 1,
-      "api_id": "price_1IiE98GXaxE41NmqMgX2ln1u",
-      "name": "Starter",
+      "name": "Standart",
       "description": "Try out our product for free!",
       "coast": "FREE",
       "coastMonthly": "FREE",
@@ -21,14 +20,13 @@
     },
     {
       "id": 2,
-      "api_id": "price_1IiYD7GXaxE41Nmqu9aE7eRC",
-      "name": "Team",
-      "description": "Small teams and startups",
+      "name": "All Access Membership",
+      "description": "Full access to all features and resources",
       "coast": "$125/mo",
-      "coastMonthly": 145,
-      "coastMonthlyFormatted": "$145/mo",
-      "coastAnnually": 1500,
-      "coastAnnuallyFormatted": "$1500",
+      "coastMonthly": 450,
+      "coastMonthlyFormatted": "$450/year",
+      "coastAnnually": 450,
+      "coastAnnuallyFormatted": "$450",
       "users": "3 free users plus $15/mo per person",
       "usersCount": 3,
       "additionalUserMonthly": 15,
@@ -36,37 +34,10 @@
       "features": [
         "Compilance Calendar",
         "Project Management",
-        "Policies and Procedures",
-        "1 Internal Review per year",
-        "Exam Management",
-        "5GB storage for books and records",
-        "Unlimited intefrations"
-      ]
-    },
-    {
-      "id": 3,
-      "api_id": "rice_1IiYDOGXaxE41Nmq4Uc27JUf",
-      "name": "Business",
-      "description": "Medium-sized organizations",
-      "coast": "$250/mo",
-      "coastMonthly": 270,
-      "coastMonthlyFormatted": "$270/mo",
-      "coastAnnually": 3000,
-      "coastAnnuallyFormatted": "$3000",
-      "users": "10 free users plus $15/mo per person",
-      "usersCount": 10,
-      "additionalUserMonthly": 15,
-      "additionalUserAnnually": 120,
-      "features": [
-        "Compilance Calendar",
-        "Project Management",
-        "Policies and Procedures",
-        "1 Internal Review per year",
-        "Exam Management",
-        "Auditor Portal",
-        "10GB storage for books and records",
-        "Unlimited intefrations",
-        "Free Personalized Onboardig"
+        "Job Board",
+        "Specialist Marketplace Profile",
+        "Access to Complect Community and Free resource Library",
+        "Client Account Access"
       ]
     }
   ]

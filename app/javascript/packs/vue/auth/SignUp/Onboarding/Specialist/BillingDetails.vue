@@ -23,7 +23,7 @@
           p {{ planComputed.description }}
         .col.text-right
           h4.m-t-1 {{ billingTypeSelected === 'annually' ?  planComputed.coastAnnuallyFormatted : planComputed.coastMonthlyFormatted }}
-          p {{ planComputed.users }}
+          p {{ billingTypeSelected === 'annually' ?  planComputed.usersCount + ' free users plus $' + planComputed.additionalUserAnnually + '/year per person' : planComputed.usersCount + ' free users plus $' + planComputed.additionalUserMonthly + '/mo per person' }}
     .card-header
       .d-flex.justify-content-between
         div
@@ -39,14 +39,14 @@
         h4.m-t-1 Payment Method
         div.m-t-1
           a.btn.btn-light(@click="addBankAccount") Add Bank Account
-    .card-body.d-none(v-if="cardOptions")
+    .card-body(v-if="cardOptions")
       dl.row(v-for="(card, i) in cardOptions")
         dt.col-sm-7
-          input.mr-2.mt-1(id="card+i" type='radio' name='card.value' value='card.value' :checked="i===1")
-          label(for='card+i') {{ card.text }}
+          input.mr-2.mt-1(:id="'card'+card.id" type='radio' name='card' :value='card.id' v-model="cardSelected" @click="onPaymentMethodChange(card.id)")
+          label(:for="'card'+card.id") {{ card.text }}
         dd.col-sm-5.text-right.m-b-0
           | {{ card.number }} {{ card.type }}
-          a.link.ml-2(:href="'/remove/card/' + card.id") Remove
+          a.link.ml-2(href="#" @click.stop="deletePaymentMethod(card.id)") Remove
     .card-header
       <!--div-->
       <!--StripeCheckout(:pk="pk")-->
@@ -92,15 +92,17 @@
       <!--stripe-checkout(ref='checkoutRef' mode='payment' :pk='publishableKey' :line-items='lineItems' :success-url='successURL' :cancel-url='cancelURL' @loading='v => loading = v')-->
       <!--button(@click='submit') Pay now!-->
       //hr
-      div
+      div(v-show="isActive")
         <!--p stripe-element-card:-->
         stripe-element-card(ref="elementRef"
         :pk="pk"
         @token="tokenCreated")
         <!--button(@click="submit") Generate token-->
-      .row
-        .col.text-right
-          b-button(type='button' variant='secondary' @click="submit") Add
+        .row
+          .col.text-right
+            b-button(type='button' variant='outline-primary' @click="submit")
+              b-icon.mr-2(icon="arrow-clockwise" animation="spin" font-scale="1" v-show="loading")
+              | Add
 
 </template>
 
@@ -114,17 +116,18 @@
       StripeElementCard
     },
     data() {
-      this.publishableKey = 'pk_test_01vxEQv9T5FIIKTu1GkHW41D';
+      // this.publishableKey = 'pk_test_01vxEQv9T5FIIKTu1GkHW41D';
       return {
-        loading: false,
-        lineItems: [
-          {
-            price: 'price_1IiDiaGXaxE41NmqapXysseR', // The id of the one-time price you created in your Stripe dashboard
-            quantity: 1,
-          },
-        ],
-        successURL: 'https://example.com/success',
-        cancelURL: 'https://example.com/cancel',
+        userType: 'specialist',
+        // loading: false,
+        // lineItems: [
+        //   {
+        //     price: 'price_1IiDiaGXaxE41NmqapXysseR', // The id of the one-time price you created in your Stripe dashboard
+        //     quantity: 1,
+        //   },
+        // ],
+        // successURL: 'https://example.com/success',
+        // cancelURL: 'https://example.com/cancel',
         token: null,
         cardDetail: {
           nameOnCard: '',
@@ -136,14 +139,16 @@
           zip: '',
         },
         cards: [],
-        cardSelected: '1',
-        cardOptions: [
-          { text: 'Credit Card (primary)', value: '1', number: '**** **** **** 8900', type: 'Visa', id: '1' },
-          { text: 'Credit Card (secondary)', value: '2', number: '**** **** **** 8888', type: 'MasterCard', id: '2' },
-          { text: 'Credit Card (third)', value: '3', number: '**** **** **** 1111', type: 'Visa', id: '3' },
-        ],
+        cardSelected: null,
+        cardOptions: [],
+        // cardOptions: [
+        //   { text: 'Credit Card (primary)', value: '1', number: '**** **** **** 8900', type: 'Visa', id: '1' },
+        //   { text: 'Credit Card (secondary)', value: '2', number: '**** **** **** 8888', type: 'MasterCard', id: '2' },
+        //   { text: 'Credit Card (third)', value: '3', number: '**** **** **** 1111', type: 'Visa', id: '3' },
+        // ],
         errors: [],
         additionalUsersCount: 0,
+        isActive: false,
       };
     },
     methods: {
@@ -172,24 +177,48 @@
           .then(response => {
             console.log('response', response)
             this.$emit('complitedPaymentMethod', response)
+            this.makeToast('Success', `Payment Method successfully added!`)
+            this.isActive = false
+            this.cardOptions.push({ text: `Credit Card${this.cardOptions.length===0 ? ' (primary)' : ''}`, value: response.id, number: `**** **** **** ${response.last4}`, type: response.brand, id: response.id })
+            this.cardSelected = response.id
           })
           .catch(error => {
             console.error(error)
             this.makeToast('Error', `Something wrong! ${error}`)
           })
       },
-      addCardDetail() {
-        console.log(this.cardDetail)
-        this.cardOptions = Object.assign(this.cardOptions, {
-          text: this.cardDetail.nameOnCard,
-          value: this.cardOptions.length + 1,
-          number: this.cardDetail.cardNumber,
-          type: 'Visa',
-          id: Math.floor(Math.random()) * 100
-        })
+      // addCardDetail() {
+      //   console.log(this.cardDetail)
+      // this.cardOptions = Object.assign(this.cardOptions, {
+      //   text: this.cardDetail.nameOnCard,
+      //   value: this.cardOptions.length + 1,
+      //   number: this.cardDetail.cardNumber,
+      //   type: 'Visa',
+      //   id: Math.floor(Math.random()) * 100
+      // })
+      // },
+      deletePaymentMethod(cardId) {
+        const dataToSend = {
+          userType: this.userType,
+          id: cardId,
+        }
+
+        this.$store
+          .dispatch('deletePaymentMethod', dataToSend)
+          .then(response => {
+            console.log('response', response)
+            const index = this.cardOptions.findIndex(record => record.id === payload.id);
+            this.cardOptions.splice(index, 1)
+            if (response.message)
+              this.makeToast('Success', `${response.message}`)
+          })
+          .catch(error => {
+            console.error(error)
+            this.makeToast('Error', `Something wrong! ${error}`)
+          })
       },
       addBankAccount() {
-
+        this.isActive = true
       },
       onBiliingChange(event){
         this.$emit('updateBiliing', event)
@@ -197,15 +226,43 @@
       onChangeUserCount() {
         const value = this.additionalUsersCount
         this.$emit('updateAdditionalUsers', value)
+      },
+      onPaymentMethodChange(cardId){
+        console.log(cardId)
+        console.log(this.cardSelected)
+        this.$emit('complitedPaymentMethod', {
+          id: cardId
+        })
       }
     },
     computed: {
+      loading() {
+        return this.$store.getters.loading;
+      },
       planComputed() {
         return this.plan
       },
       pk() {
         return process.env.STRIPE_PUBLISHABLE_KEY
       }
+    },
+    mounted() {
+      // const dataToSend = {
+      //   userType: this.userType,
+      // }
+      //
+      // this.$store
+      //   .dispatch('getPaymentMethod', dataToSend)
+      //   .then(response => {
+      //     console.log('response', response)
+      //     const newOptions = response.map((card, index) => {
+      //       return { text: `Credit Card${index===0 ? ' (primary)' : ''}`, value: card.id, number: `**** **** **** ${card.last4}`, type: card.brand, id: card.id }
+      //     })
+      //     this.cardOptions = newOptions
+      //   })
+      //   .catch(error => {
+      //     console.error(error)
+      //   })
     }
   }
 </script>
