@@ -409,9 +409,10 @@
               sub_industry_ids: this.formStep1.subIndustry.map(record => record.id),
               jurisdiction_ids: this.formStep1.jurisdiction.map(record => record.id),
 
-              // first_name: '',
-              // last_name: '',
+              first_name: 'Alex556',
+              last_name: 'Willkinson556',
               former_regulator: this.formStep1.regulator,
+              skill_names: this.formStep2.skills,
               // certifications: '',
               resume: '',
               experience: this.formStep2.expirience,
@@ -419,11 +420,11 @@
           }
           console.log('params', params)
           // Add resume if it exist
-          if (this.formStep2.file1) params.resume = this.formStep2.file1
+          if (this.formStep2.file1) params.specialist.resume = this.formStep2.file1
 
           let formData = new FormData()
 
-          Object.entries(params).forEach(
+          Object.entries(params.specialist).forEach(
             ([key, value]) => formData.append(key, value)
           )
           console.log('formData', formData)

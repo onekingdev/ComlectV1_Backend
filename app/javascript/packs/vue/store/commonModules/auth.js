@@ -110,7 +110,13 @@ export default {
         commit("setLoading", true);
 
         const endPointUserType = payload.business ? 'business' : 'specialist'
-        const response = await axios.patch(`/${endPointUserType}`, payload[endPointUserType])
+        const config = {
+          headers: {
+            'Content-Type': endPointUserType === 'specialist' ? 'multipart/form-data' : 'application/json',
+          },
+          data: payload[endPointUserType],
+        };
+        const response = await axios.patch(`/${endPointUserType}`, config)
         // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
         if(response.data) {
           localStorage.setItem('app.currentUser', JSON.stringify(response.data));
