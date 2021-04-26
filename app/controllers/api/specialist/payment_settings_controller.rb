@@ -3,6 +3,10 @@
 class Api::Specialist::PaymentSettingsController < ApiController
   before_action :require_specialist!
 
+  def index
+    respond_with current_specialist.payment_sources, each_serializer: ::Specialist::PaymentSourceSerializer
+  end
+
   def create_card
     cus_id = current_specialist&.stripe_customer
     unless cus_id

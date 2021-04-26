@@ -153,6 +153,7 @@ export default {
       try {
         commit("clearError");
         commit("setLoading", true);
+        console.log('payload', payload)
 
         const { userType, paymentSourceId, planName, countPayedUsers } = { ...payload }
 
@@ -167,8 +168,7 @@ export default {
           }}));
 
         const response = await Promise.all([...promises]).then(function (values) {
-          // console.log(values);
-          return values
+          console.log(values);
         });
         return response
 

@@ -2,6 +2,7 @@
   "billingPlans": [
     {
       "id": 1,
+      "api_id": "price_1IiE98GXaxE41NmqMgX2ln1u",
       "name": "Starter",
       "description": "Try out our product for free!",
       "coast": "FREE",
@@ -20,6 +21,7 @@
     },
     {
       "id": 2,
+      "api_id": "price_1IiYD7GXaxE41Nmqu9aE7eRC",
       "name": "Team",
       "description": "Small teams and startups",
       "coast": "$125/mo",
@@ -43,6 +45,7 @@
     },
     {
       "id": 3,
+      "api_id": "rice_1IiYDOGXaxE41Nmq4Uc27JUf",
       "name": "Business",
       "description": "Medium-sized organizations",
       "coast": "$250/mo",

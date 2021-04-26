@@ -118,7 +118,6 @@
     data() {
       // this.publishableKey = 'pk_test_01vxEQv9T5FIIKTu1GkHW41D';
       return {
-        userType: 'business',
         // loading: false,
         // lineItems: [
         //   {
@@ -199,7 +198,7 @@
       // },
       deletePaymentMethod(cardId) {
         const dataToSend = {
-          userType: this.userType,
+          userType: 'business',
           id: cardId,
         }
 
@@ -248,7 +247,7 @@
     },
     mounted() {
       const dataToSend = {
-        userType: this.userType,
+        userType: 'business',
       }
 
       this.$store
