@@ -154,7 +154,7 @@ export default {
         commit("setLoading", true);
 
         // WAIT LONGER
-        axios.defaults.timeout = 5000;
+        axios.defaults.timeout = 10000;
 
         const endPoint = payload.business ? 'business' : 'specialist'
         // const response = await axios.post(`/${endPoint}/payment_settings?stripeToken=${payload.stripeToken}`)
