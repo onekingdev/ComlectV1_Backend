@@ -105,22 +105,22 @@
               p Select one that the best matches your level of your expertise.
               b-form-group
                 b-button-group(size='lg')
-                  b-button.text-left(type='button' variant='outline-primary')
+                  b-button.text-left(type='button' variant='outline-primary' @click="onExpirienceChange('junior')")
                     b Junior
                     br
                     | Begining consulting with some experience in the field.
-                  b-button.text-left(type='button' variant='outline-primary')
+                  b-button.text-left(type='button' variant='outline-primary' @click="onExpirienceChange('intermediate')")
                     b Intermediate
                     br
                     | Good expirience and knowlage of the industry.
-                  b-button.text-left(type='button' variant='outline-primary')
+                  b-button.text-left(type='button' variant='outline-primary' @click="onExpirienceChange('expert')")
                     b Expert
                     br
                     | Deep understanding of industry with varied experience.
               hr
               h3.mb-3 (Optional) Upload you resume:
               b-form-group.mt-3
-                b-form-file(v-model='formStep2.file1' :state='Boolean(formStep2.file1)' placeholder='Choose a file or drop it here...' drop-placeholder='Drop file here...')
+                b-form-file(v-model='formStep2.file1' :state='Boolean(formStep2.file1)' accept="application/pdf" placeholder='Choose a file or drop it here...' drop-placeholder='Drop file here...')
                 .mt-3 Selected file: {{ formStep2.file1 ? formStep2.file1.name : '' }}
               .text-right
                 b-button.mr-2(type='button' variant='outline-primary' @click="prevStep(1)") Go back
@@ -281,6 +281,7 @@
           skills: [],
           skillsTags: [],
           file1: null,
+          expirience: '',
 
           companyName: '',
           aum: '',
@@ -345,6 +346,9 @@
         this.formStep2.skillsTags.push(tag)
         this.formStep2.skills.push(tag)
       },
+      onExpirienceChange(value){
+        this.formStep2.expirience = value;
+      },
       onSubmit(event){
         event.preventDefault()
         console.log(this.form)
@@ -399,33 +403,33 @@
           // CLEAR ERRORS
           this.errors = []
 
-          const dataToSend = {
-            business: {
-              // contact_first_name: 'x',
-              // contact_last_name: 'x',
-              // contact_email: 'x',
-              // contact_job_title: 'x',
-              // contact_phone: 'x',
-              business_name: this.formStep2.companyName,
-              website: this.formStep2.website,
-              aum: this.formStep2.aum,
-              apartment: this.formStep2.aptUnit,
-              client_account_cnt: this.formStep2.numAcc,
-              // logo: 'x',
-              address_1: this.formStep2.businessAddress,
-              // country: 'x',
-              city: this.formStep2.city,
-              state: this.formStep2.state,
-              zipcode: this.formStep2.zip,
-              crd_number: this.formStep1.regulator,
-              industry_ids: this.formStep2.industry.map(record => record.id),
-              sub_industry_ids: this.formStep2.subIndustry.map(record => record.id),
-              jurisdiction_ids: this.formStep2.jurisdiction.map(record => record.id),
+          const params = {
+            specialist: {
+              industry_ids: this.formStep1.industry.map(record => record.id),
+              sub_industry_ids: this.formStep1.subIndustry.map(record => record.id),
+              jurisdiction_ids: this.formStep1.jurisdiction.map(record => record.id),
+
+              // first_name: '',
+              // last_name: '',
+              former_regulator: this.formStep1.regulator,
+              // certifications: '',
+              resume: '',
+              experience: this.formStep2.expirience,
             }
           }
+          console.log('params', params)
+          // Add resume if it exist
+          if (this.formStep2.file1) params.resume = this.formStep2.file1
+
+          let formData = new FormData()
+
+          Object.entries(params).forEach(
+            ([key, value]) => formData.append(key, value)
+          )
+          console.log('formData', formData)
 
           this.$store
-            .dispatch('updateAccountInfo', dataToSend)
+            .dispatch('updateAccountInfo', formData)
             .then(response => {
               console.log('response', response)
 
