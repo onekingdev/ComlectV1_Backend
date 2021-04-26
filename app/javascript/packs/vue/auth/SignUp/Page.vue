@@ -102,6 +102,8 @@
   import BusinessPage from "./Onboarding/Business/BusinessPage";
   import SpecialistPage from "./Onboarding/Specialist/SpecialistPage";
 
+  const random = Math.floor(Math.random() * 1000);
+
   export default {
     props: ['industryIds', 'jurisdictionIds', 'subIndustryIds', 'states'],
     components: {
@@ -122,9 +124,9 @@
         otpSecret: '',
         userType: '',
         form: {
-          firstName: 'Alex',
-          lastName: 'Willkinson',
-          email: Math.floor(Math.random() * 1000) + 'fine@email.com',
+          firstName: `Alex${random}`,
+          lastName: `Willkinson${random}`,
+          email: `${random}fine@email.com`,
           password: 'user666',
           passwordConfirm: 'user666',
         },
@@ -265,6 +267,7 @@
             }
 
             if(response.token) {
+              console.log('response with succes token', response)
               this.makeToast('Success', `${response.message}`)
               // localStorage.setItem('app.currentUser', JSON.stringify(response.token));
               // this.$store.commit('updateToken', response.token)
@@ -273,6 +276,7 @@
               this.step2 = false
               this.step3 = true
 
+              // Fetch data and show correct component to continue sign up
               this.fetchINitData(response)
 
               // Redirect to finish steps

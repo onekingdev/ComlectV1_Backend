@@ -30,47 +30,47 @@
 </template>
 
 <script>
-export default {
-  props: ['billingTypeSelected', 'billingTypeOptions', 'plan', 'additionalUsers', 'disabled'],
-  data() {
-    return {
-
-    }
-  },
-  methods: {
-    countTotalCoast(planType, coastMonthly, coastAnnually, usersCount, usersCoastMonthly, usersCoastAnnually) {
-      // console.log(planType, coastMonthly, coastAnnually, usersCount, usersCoast)
-      let finalCoast;
-      if (planType === 'monthly') {
-        finalCoast = coastMonthly + usersCount * usersCoastMonthly
-      }
-      if (planType === 'annually') {
-        finalCoast = coastAnnually + usersCount * usersCoastAnnually
-      }
-      return `$${finalCoast}`
-    },
-    complitePurchase() {
-      const value = this.planComputed
-      this.$emit('complitePurchaseConfirmed', value)
-    }
-  },
-  computed: {
-    planComputed() {
+  export default {
+    props: ['billingTypeSelected', 'billingTypeOptions', 'plan', 'additionalUsers', 'disabled'],
+    data() {
       return {
-        ...this.plan,
-        additionalUserCoast: `+$${this.additionalUsers * this.plan.additionalUserMonthly}`,
-        saved: `$${Math.abs(this.plan.coastAnnually - this.plan.coastMonthly * 12)}`,
-        // tax: '$0.00',
-        total: this.countTotalCoast(this.billingTypeSelected, this.plan.coastMonthly, this.plan.coastAnnually, this.additionalUsers, this.plan.additionalUserMonthly, this.plan.additionalUserAnnually),
+
       }
     },
-  },
-  // watch: {
+    methods: {
+      countTotalCoast(planType, coastMonthly, coastAnnually, usersCount, usersCoastMonthly, usersCoastAnnually) {
+        // console.log(planType, coastMonthly, coastAnnually, usersCount, usersCoast)
+        let finalCoast;
+        if (planType === 'monthly') {
+          finalCoast = coastMonthly + usersCount * usersCoastMonthly
+        }
+        if (planType === 'annually') {
+          finalCoast = coastAnnually + usersCount * usersCoastAnnually
+        }
+        return `$${finalCoast}`
+      },
+      complitePurchase() {
+        const value = this.planComputed
+        this.$emit('complitePurchaseConfirmed', value)
+      }
+    },
+    computed: {
+      planComputed() {
+        return {
+          ...this.plan,
+          additionalUserCoast: `+$${this.additionalUsers * this.plan.additionalUserMonthly}`,
+          saved: `$${Math.abs(this.plan.coastAnnually - this.plan.coastMonthly * 12)}`,
+          // tax: '$0.00',
+          total: this.countTotalCoast(this.billingTypeSelected, this.plan.coastMonthly, this.plan.coastAnnually, this.additionalUsers, this.plan.additionalUserMonthly, this.plan.additionalUserAnnually),
+        }
+      },
+    },
+    // watch: {
     // billingTypeSelected: function(newVal, oldVal) {
-      // console.log('Prop changed: ', newVal, ' | was: ', oldVal)
+    // console.log('Prop changed: ', newVal, ' | was: ', oldVal)
     // }
-  // }
-}
+    // }
+  }
 </script>
 
 <style scoped>

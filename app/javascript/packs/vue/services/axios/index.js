@@ -15,7 +15,7 @@ axios.interceptors.request.use((request) => {
       // request.headers.AccessToken = accessToken
   }
 
-  const jwtToken = window.localStorage.getItem('app.currentUser')
+  const jwtToken = window.localStorage.getItem('app.currentUser.token')
   if (jwtToken) {
       request.headers['Authorization'] = `${JSON.parse(jwtToken)}`
       // request.headers['X-Auth-Token'] = jwtToken
