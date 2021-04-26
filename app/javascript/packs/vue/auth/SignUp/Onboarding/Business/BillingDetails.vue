@@ -179,6 +179,7 @@
             this.makeToast('Success', `Payment Method successfully added!`)
             this.isActive = false
             this.cardOptions.push({ text: `Credit Card${this.cardOptions.length===0 ? ' (primary)' : ''}`, value: response.id, number: `**** **** **** ${response.last4}`, type: response.brand, id: response.id })
+            this.cardSelected = response.id
           })
           .catch(error => {
             console.error(error)
