@@ -134,6 +134,8 @@ export default {
         const { userType, paymentSourceId, planName } = { ...payload }
 
         const endPoint = userType ? 'business' : 'specialist'
+        // WAIT LONGER
+        axios.defaults.timeout = 10000;
         const response = await axios.post(`/${endPoint}/upgrade/subscribe`, { plan: planName }, { params: {
             payment_source_id: paymentSourceId
           }})
