@@ -149,6 +149,36 @@ export default {
         commit("setLoading", false)
       }
     },
+    async updateSeatsSubscribe({commit}, payload) {
+      try {
+        commit("clearError");
+        commit("setLoading", true);
+        console.log('payload', payload)
+
+        const { userType, paymentSourceId, planName, countPayedUsers } = { ...payload }
+
+        const endPoint = userType ? 'business' : 'specialist'
+
+        let ids = [];
+        for(let i=1; i <= countPayedUsers; i++) {
+          ids.push(i)
+        }
+        const promises = ids.map(() => axios.post(`/${endPoint}/upgrade/subscribe`, { plan: planName }, { params: {
+            payment_source_id: paymentSourceId
+          }}));
+
+        const response = await Promise.all([...promises]).then(function (values) {
+          console.log(values);
+        });
+        return response
+
+      } catch (error) {
+        console.error(error);
+        throw error
+      } finally {
+        commit("setLoading", false)
+      }
+    },
     async generatePaymentMethod({commit, getters}, payload) {
       try {
         commit("clearError");
