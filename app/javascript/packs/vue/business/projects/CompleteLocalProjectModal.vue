@@ -1,5 +1,5 @@
 <template lang="pug">
-  .d-inline-block
+  .d-inline-block(v-if="project.status !== 'complete'")
     button.btn.btn-dark(v-b-modal="'CompleteLocalProjectModal'") Complete Project
     b-modal#CompleteLocalProjectModal.fade(title="Complete Project" :hide-footer="!!hasSpecialist")
       div(v-if="hasSpecialist")
@@ -13,12 +13,7 @@
 
       template(#modal-footer="{ hide }")
         button.btn(@click="hide") Cancel
-        Post(
-          :action="url"
-          :model="{ status: 'complete' }"
-          @saved="toast('Success', 'Project completed')"
-          method="PUT"
-        )
+        Put(:action="url" :model="{ status: 'complete' }" @saved="completed(), hide()")
           button.btn.btn-default Confirm
 </template>
 
@@ -30,9 +25,15 @@ export default {
       required: true
     }
   },
+  methods: {
+    completed() {
+      this.toast('Success', 'Project completed')
+      this.$emit('saved')
+    }
+  },
   computed: {
     url() {
-      return '/api/business/local_project/' + this.project.id
+      return '/api/business/local_projects/' + this.project.id + '/complete'
     },
     hasSpecialist() {
       return this.project.projects[0] && this.project.projects[0].specialist_id && this.project.projects[0].specialist

@@ -8,7 +8,7 @@
         li: DeleteLocalProjectModal(:project="project")
       a.m-r-1.btn.btn-default(v-if="project.visible_project" :href='viewHref(project.visible_project)') View Post
       a.m-r-1.btn.btn-default(v-else :href='postHref(project)') Post Project
-      CompleteLocalProjectModal(:project="project")
+      CompleteLocalProjectModal(:project="project" @saved="newEtag")
     b-tabs(content-class="mt-0" v-model="tab")
       b-tab(title="Overview" active)
         .white-card-body.p-y-1
