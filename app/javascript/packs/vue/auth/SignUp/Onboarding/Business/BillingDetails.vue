@@ -42,8 +42,8 @@
     .card-body(v-if="cardOptions")
       dl.row(v-for="(card, i) in cardOptions")
         dt.col-sm-7
-          input.mr-2.mt-1(:id="'card'+i" type='radio' :name='card.value' :value='card.value')
-          label(:for="'card'+i") {{ card.text }}
+          input.mr-2.mt-1(:id="'card'+card.id" type='radio' name='card' :value='card.id' v-model="cardSelected" @click="onPaymentMethodChange(card.id)")
+          label(:for="'card'+card.id") {{ card.text }}
         dd.col-sm-5.text-right.m-b-0
           | {{ card.number }} {{ card.type }}
           a.link.ml-2(href="#" @click.stop="deletePaymentMethod(card.id)") Remove
@@ -185,16 +185,16 @@
             this.makeToast('Error', `Something wrong! ${error}`)
           })
       },
-      addCardDetail() {
-        console.log(this.cardDetail)
-        this.cardOptions = Object.assign(this.cardOptions, {
-          text: this.cardDetail.nameOnCard,
-          value: this.cardOptions.length + 1,
-          number: this.cardDetail.cardNumber,
-          type: 'Visa',
-          id: Math.floor(Math.random()) * 100
-        })
-      },
+      // addCardDetail() {
+      //   console.log(this.cardDetail)
+        // this.cardOptions = Object.assign(this.cardOptions, {
+        //   text: this.cardDetail.nameOnCard,
+        //   value: this.cardOptions.length + 1,
+        //   number: this.cardDetail.cardNumber,
+        //   type: 'Visa',
+        //   id: Math.floor(Math.random()) * 100
+        // })
+      // },
       deletePaymentMethod(cardId) {
         const dataToSend = {
           userType: 'business',
@@ -224,6 +224,13 @@
       onChangeUserCount() {
         const value = this.additionalUsersCount
         this.$emit('updateAdditionalUsers', value)
+      },
+      onPaymentMethodChange(cardId){
+        console.log(cardId)
+        console.log(this.cardSelected)
+        this.$emit('complitedPaymentMethod', {
+          id: cardId
+        })
       }
     },
     computed: {
@@ -250,7 +257,6 @@
             return { text: `Credit Card${index===0 ? ' (primary)' : ''}`, value: card.id, number: `**** **** **** ${card.last4}`, type: card.brand, id: card.id }
           })
           this.cardOptions = newOptions
-          this.cardSelected = 0
         })
         .catch(error => {
           console.error(error)
