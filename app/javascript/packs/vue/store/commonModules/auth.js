@@ -108,6 +108,7 @@ export default {
       try {
         commit("clearError");
         commit("setLoading", true);
+        console.log('payload', payload)
 
         const endPointUserType = payload.business ? 'business' : 'specialist'
         const config = {

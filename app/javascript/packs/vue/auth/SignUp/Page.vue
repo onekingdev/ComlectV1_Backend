@@ -15,12 +15,12 @@
                 b-form(@submit='onSubmit0' v-if='show')
                   b-form-group
                     .row
-                      .col.pr-2.text-center
+                      .col.pr-md-2.text-center
                         .account-select(@click="selectType('business')" :class="userType === 'business' ? 'active' : ''")
                           h3.account-select__title.mb-3 I am a business
                           ion-icon.mb-3(name="people-circle-outline" size="large")
                           p.account-select__subtitle Looking to effectively manage my compilance program and find expetrise
-                      .col.pl-2.text-center
+                      .col.pl-md-2.text-center
                         .account-select(@click="selectType('specialist')" :class="userType === 'specialist' ? 'active' : ''")
                           h3.account-select__title.mb-3 I am a specialist
                           ion-icon.mb-3(name="person-circle-outline" size="large")
