@@ -7,12 +7,12 @@
           .navbar-nav.align-items-center
             .dropdown#profile_dropdown.p-x-2(v-if="loggedIn")
               #profile_dropdown_btn(@click="isProfileMenuOpen = !isProfileMenuOpen" :aria-expanded="isProfileMenuOpen")
-                span {{ userName }}
+                span {{ userName ? userName : 'John Doe' }}
                 ion-icon.m-l-1(name='chevron-down-outline')
               ul.dropdown-menu.dropdown-menu-right(aria-labelledby="profile_dropdown_btn" :class="{ show: isProfileMenuOpen }")
                 li
                   a.dropdown-item(href="#") Edit Profile
-                li(@click="signOut")
+                li
                   form(method="POST" action="/users/sign_out")
                         input(type="hidden" name="authenticity_token" value=form_authenticity_token)
                         input(type="hidden" name="_method" value="delete")
@@ -27,7 +27,7 @@
     export default {
       props: ['userInfo'],
       created(){
-        const token = localStorage.getItem('app.currentUser.token');
+        const token = localStorage.getItem('app.currentUser');
         if (token) {
           this.$store.commit('updateToken', token)
           this.$store.commit('loggedIn', true)
@@ -40,8 +40,7 @@
       },
       methods: {
         signOut() {
-          localStorage.removeItem('app.currentUser');
-          localStorage.removeItem('app.currentUser.token');
+
         }
       },
       computed: {
@@ -52,7 +51,7 @@
           return this.$store.getters.getUser;
         },
         userName() {
-          return this.currentUser.contact_first_name ? `${this.currentUser.contact_first_name} ${this.currentUser.contact_last_name}` : `${this.currentUser.first_name} ${this.currentUser.last_name}`
+          return this.userInfo ? `${this.userInfo.contact_first_name} ${this.userInfo.contact_last_name}` : this.currentUser.name
         }
       },
     }
