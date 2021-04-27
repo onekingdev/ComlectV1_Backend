@@ -3,6 +3,10 @@
 class Api::Business::PaymentSettingsController < ApiController
   before_action :require_business!
 
+  def index
+    respond_with current_business.payment_sources, each_serializer: ::Business::PaymentSourceSerializer
+  end
+
   def create
     payment_source = payment_source_type.plaid_or_manual current_business, stripe_params
 

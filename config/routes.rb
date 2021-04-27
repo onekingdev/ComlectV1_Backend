@@ -287,7 +287,7 @@ Rails.application.routes.draw do
       get '/overdue_reminders' => 'reminders#overdue'
       post '/reminders' => 'reminders#create'
       resources :local_projects, only: %i[index create show update destroy]
-      put 'local_projects/:id/complete' => 'local_projects#complete'
+      get 'local_projects/:id/complete' => 'local_projects#complete'
       resources :projects, only: %i[index show create update destroy] do
         resources :project_messages, path: 'messages', only: %i[index create]
         resources :job_applications, path: 'applications', only: %i[index] do
@@ -313,7 +313,7 @@ Rails.application.routes.draw do
       end
       resources :ratings, only: %i[index]
       post '/upgrade/subscribe' => 'upgrade#subscribe'
-      resources :payment_settings, only: %i[create update destroy]
+      resources :payment_settings, only: %i[create update destroy index]
       put '/payment_settings/make_primary/:id' => 'payment_settings#make_primary'
     end
     namespace :specialist do
@@ -331,6 +331,7 @@ Rails.application.routes.draw do
       delete '/payment_settings/delete_source/:id' => 'payment_settings#delete_source'
       put '/payment_settings/make_primary/:id' => 'payment_settings#make_primary'
       put '/payment_settings/validate/:id' => 'payment_settings#validate'
+      get '/payment_settings' => 'payment_settings#index'
     end
     resources :businesses, only: [:create]
     resource :business, only: %i[update] do
