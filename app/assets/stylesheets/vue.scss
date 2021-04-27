@@ -253,5 +253,108 @@ table.table, table.table thead tr th {
   }
 }
 
+.reviews {
+  &__list {
+    &-icon {
+      color: #cecfd2;
+      font-size: 20px;
+      &.checked {
+        color: #5be36a;
+      }
+    }
+    &-link {
+      font-size: 16px;
+      margin: 10px 0;
+      display: block;
+      color: #000;
+      font-weight: 300;
+      &--active {
+        color: #047aff;
+        font-weight: normal;
+      }
+      &:hover {
+        color: #047aff;
+        font-weight: normal;
+        text-decoration: none;
+      }
+    }
+  }
+  &__input {
+    border: none;
+    width: 100%;
+  }
+  &__topic {
+    &-body {
+      font-size: 16px;
+      font-weight: 500;
+    }
+    &-name {
+      font-size: 18px;
+      font-weight: 500;
+    }
+  }
+  &__checkbox {
+    margin-top: 10px;
+    &-item {
+      line-height: 1;
+      padding: 2px 5px;
+      font-size: 16px;
+      text-align: center;
+      border: 1px solid #dee2e6;
+      &.checked {
+        color: #fff;
+      }
+      &--true {
+        &.checked {
+          border-color: #5be36a;
+          background: #5be36a;
+        }
+      }
+      &--false {
+        &.checked {
+          border-color: #e35b6f;
+          background: #e35b6f;
+        }
+      }
+    }
+  }
+  &__tabs {
+    .nav-tabs {
+      margin-bottom: 2rem;
+      background-color: white;
+      border-top: 1px solid #dee2e6;
+      .nav-item .nav-link, .policy .nav-tabs .nav-item .nav-link.active {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        font-weight: 600;
+      }
+    }
+  }
+  &__card {
+    border-radius: 10px;
+    border: 2px solid #e9ebee;
+    &--internal {
+      border-top: initial;
+      border-bottom: 2px solid #e9ebee;
+      &-top {
+        border-bottom: initial;
+      }
+    }
+  }
+  &-table {
+    &__progress {
+      &-bar {
+        background: #c3c3c3;
+        width: 150px;
+        height: 15px;
+        &__item {
+          height: 100%;
+          background: #6fca65;
+        }
+      }
+    }
+  }
+}
+
 @import '../../../node_modules/bootstrap/scss/bootstrap.scss';
 @import '../../../node_modules/bootstrap-vue/src/index.scss';

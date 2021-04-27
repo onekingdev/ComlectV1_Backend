@@ -2267,7 +2267,8 @@ CREATE TABLE public.users (
 '::text,
     otp_secret character varying,
     otp_counter integer,
-    email_confirmed boolean DEFAULT false
+    email_confirmed boolean DEFAULT false,
+    hidden_local_projects jsonb DEFAULT '[]'::jsonb
 );
 
 
@@ -7148,13 +7149,6 @@ CREATE INDEX index_subscriptions_on_kind_of ON public.subscriptions USING btree 
 
 
 --
--- Name: index_time_logs_on_timesheet_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_time_logs_on_timesheet_id ON public.time_logs USING btree (timesheet_id);
-
-
---
 -- Name: index_subscriptions_on_specialist_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7166,6 +7160,14 @@ CREATE INDEX index_subscriptions_on_specialist_id ON public.subscriptions USING 
 --
 
 CREATE INDEX index_subscriptions_on_specialist_payment_source_id ON public.subscriptions USING btree (specialist_payment_source_id);
+
+
+--
+-- Name: index_time_logs_on_timesheet_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_time_logs_on_timesheet_id ON public.time_logs USING btree (timesheet_id);
+
 
 --
 -- Name: index_timesheets_on_first_submitted_at; Type: INDEX; Schema: public; Owner: -
@@ -7423,19 +7425,20 @@ ALTER TABLE ONLY public.local_projects_specialists
 
 
 --
--- Name: tos_agreements fk_rails_6e25fd106a; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-
-ALTER TABLE ONLY public.tos_agreements
-    ADD CONSTRAINT fk_rails_6e25fd106a FOREIGN KEY (user_id) REFERENCES public.users(id);
---
 -- Name: subscriptions fk_rails_61927ae2df; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-
 ALTER TABLE ONLY public.subscriptions
     ADD CONSTRAINT fk_rails_61927ae2df FOREIGN KEY (specialist_payment_source_id) REFERENCES public.specialist_payment_sources(id);
+
+
+--
+-- Name: tos_agreements fk_rails_6e25fd106a; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tos_agreements
+    ADD CONSTRAINT fk_rails_6e25fd106a FOREIGN KEY (user_id) REFERENCES public.users(id);
+
 
 --
 -- Name: business_specialists_roles fk_rails_77436698dd; Type: FK CONSTRAINT; Schema: public; Owner: -
@@ -7468,12 +7471,6 @@ ALTER TABLE ONLY public.project_issues
 ALTER TABLE ONLY public.business_specialists_roles
     ADD CONSTRAINT fk_rails_a4e1c0f49f FOREIGN KEY (business_id) REFERENCES public.businesses(id);
 
---
--- Name: subscriptions fk_rails_dafea693de; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.subscriptions
-    ADD CONSTRAINT fk_rails_dafea693de FOREIGN KEY (specialist_id) REFERENCES public.specialists(id);
 
 --
 -- Name: compliance_policies_risks fk_rails_c295f383a5; Type: FK CONSTRAINT; Schema: public; Owner: -
@@ -7481,6 +7478,14 @@ ALTER TABLE ONLY public.subscriptions
 
 ALTER TABLE ONLY public.compliance_policies_risks
     ADD CONSTRAINT fk_rails_c295f383a5 FOREIGN KEY (risk_id) REFERENCES public.risks(id);
+
+
+--
+-- Name: subscriptions fk_rails_dafea693de; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.subscriptions
+    ADD CONSTRAINT fk_rails_dafea693de FOREIGN KEY (specialist_id) REFERENCES public.specialists(id);
 
 
 --
@@ -7852,7 +7857,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210312165913'),
 ('20210315233431'),
 ('20210316121459'),
-('20210317135216'),                                      
+('20210317135216'),
 ('20210320105303'),
 ('20210321120504'),
 ('20210323154622'),
@@ -7870,6 +7875,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210407003049'),
 ('20210408131105'),
 ('20210410142233'),
-('20210415142648');
+('20210415142648'),
+('20210423114454');
 
 

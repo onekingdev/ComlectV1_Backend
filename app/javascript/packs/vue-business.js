@@ -8,6 +8,9 @@ import ProjectShowPage from '@/business/projects/ShowPage'
 import ProjectShowPostPage from '@/business/projects/ShowPostPage'
 import RemindersPage from '@/business/reminders/Page'
 import TimesheetsShowPage from '@/business/projects/TimesheetsShowPage'
+import BusinessAnnualsPage from './vue/business/annual/Page.vue'
+import BusinessAnnualReviewPage from './vue/business/annual/PageCurrentReviewCategory.vue'
+import BusinessAnnualGeneralPage from './vue/business/annual/PageCurrentGeneral.vue'
 
 import BusinessPoliciesPage from './vue/business/policies/Page.vue'
 import BusinessPoliciesCreatePage from './vue/business/policies/Details/PolicyCreate.vue'
@@ -17,12 +20,6 @@ const businesPolicies = {
   BusinessPoliciesCreatePage,
 }
 
-import BusinessReportsRisksPage from './vue/business/reportsrisks/Page.vue'
-
-const BusinessReportsRisks = {
-  BusinessReportsRisksPage,
-}
-
 import BusinessRisksPage from './vue/business/riskregister/Page.vue'
 import BusinessRisksPageDetail from './vue/business/riskregister/RiskDetail.vue'
 
@@ -30,6 +27,17 @@ const businesRisks = {
   BusinessRisksPage,
   BusinessRisksPageDetail
 }
+
+// import BusinessSignupPage from './vue/auth/SignUp/Business/Page.vue'
+// // import SpecialistOnboardingPage from './vue/auth/SignUp/Business/Onboarding/SpecialistPage.vue'
+// // import BusinessOnboardingPage from './vue/auth/SignUp/Business/Onboarding/BusinessPage.vue'
+//
+
+// const auth = {
+//   BusinessSignupPage,
+//   // SpecialistOnboardingPage,
+//   // BusinessOnboardingPage
+// }
 
 init({
   store,
@@ -42,9 +50,10 @@ init({
     ProjectShowPostPage,
     RemindersPage,
     TimesheetsShowPage,
-
+    BusinessAnnualsPage,
+    BusinessAnnualReviewPage,
+    BusinessAnnualGeneralPage,
     ...businesPolicies,
-    ...BusinessReportsRisks,
-    ...businesRisks,
+    ...businesRisks
   }
 })

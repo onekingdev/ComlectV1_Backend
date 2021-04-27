@@ -105,13 +105,9 @@ class Project::Decorator < ApplicationDecorator
 
   def start_and_duration
     return 'ASAP' if asap_duration?
-    string = rfp? && pending? ? rfp_timing_humanized : starts_on&.strftime('%b %d, %Y')
+    string = starts_on&.strftime('%b %d, %Y')
     return string if full_time? || rfp?
     ends_on.present? ? "#{string} (#{duration})" : string.to_s
-  end
-
-  def rfp_timing_humanized
-    Project::RFP_TIMING.map(&proc { |e| e[0] if e[1] == rfp_timing }).compact[0]
   end
 
   def duration
