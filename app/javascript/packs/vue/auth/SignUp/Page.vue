@@ -29,7 +29,7 @@
                   hr
                   b-form-group.text-center
                     p Already have a Complect account?&nbsp;
-                      a.link(href="#") Sign In
+                      a.link(href="/users/sign_in") Sign In
             #step1.form(v-if='!loading' :class="step1 ? 'd-block' : 'd-none'")
               h1.text-center Let's get you started!
               p.text-center Create your FREE account

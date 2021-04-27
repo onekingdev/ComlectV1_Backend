@@ -78,7 +78,7 @@
                   :taggable="true",
                   @tag="addTag"
                   required)
-                    .invalid-feedback.d-block(v-if="errors.regulator") {{ errors.regulator }}
+                  .invalid-feedback.d-block(v-if="errors.regulator") {{ errors.regulator }}
               .text-right
                 b-button(type='button' variant='dark' @click="nextStep(2)") Next
             #step2.form(v-if='!loading'  :class="step2 ? 'd-block' : 'd-none'")
@@ -99,7 +99,7 @@
                 :taggable="true",
                 @tag="addSkillsTag"
                 required)
-                  .invalid-feedback.d-block(v-if="errors.skills") {{ errors.skills }}
+                .invalid-feedback.d-block(v-if="errors.skills") {{ errors.skills }}
               hr
               h3 What's your expirience?
               p Select one that the best matches your level of your expertise.
@@ -353,27 +353,6 @@
         event.preventDefault()
         console.log(this.form)
       },
-      checkCDRinfo() {
-        // CLEAR ERRORS
-        this.errors = []
-
-        const dataToSend = {
-          crd: this.formStep1.regulator
-        }
-
-        // this.$store
-        //   .dispatch('getInfoByregulator', dataToSend)
-        //   .then(response => {
-        //     console.log('response', response)
-        //     this.makeToast('Success', `CRD Number successfully sended!`)
-        //   })
-        //   .catch(error => {
-        //     console.error(error)
-        //     this.makeToast('Error', `Something wrong! ${error}`)
-        //   })
-
-        console.log(dataToSend)
-      },
       navigation(stepNum){
         const url = new URL(window.location);
         url.searchParams.set('step', stepNum);
@@ -387,11 +366,20 @@
         this.navigation(this.currentStep)
       },
       nextStep(stepNum) {
-        if (this.formStep1.regulatorSelected === 'yes') {
-          // this.checkCDRinfo()
+        // CLEAR ERRORS
+        this.errors = []
+
+        if (this.formStep1.regulatorSelected === 'yes' && !this.formStep1.regulator.length) {
+          this.errors = Object.assign({}, this.errors, { regulator: `Field can't be empty!` })
           return
         }
-        if (stepNum === 2 && this.formStep1.regulatorSelected === 'no') {
+        if (stepNum === 2 && this.formStep1.regulatorSelected === 'no' || this.formStep1.regulator) {
+
+          if (!this.formStep1.industry) this.errors = Object.assign({}, this.errors, { industry: `Field can't be empty!` })
+          if (!this.formStep1.subIndustry) this.errors = Object.assign({}, this.errors, { subIndustry: `Field can't be empty!` })
+          if (!this.formStep1.jurisdiction) this.errors = Object.assign({}, this.errors, { jurisdiction: `Field can't be empty!` })
+          if (!this.formStep1.industry || !this.formStep1.subIndustry || !this.formStep1.jurisdiction ) return
+
           this['step'+(stepNum-1)] = false
           this['navStep'+stepNum] = true
           this['step'+stepNum] = true
@@ -400,8 +388,6 @@
         }
 
         if (stepNum === 3) {
-          // CLEAR ERRORS
-          this.errors = []
 
           // const params = {
           //   specialist: {
