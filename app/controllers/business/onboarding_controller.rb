@@ -49,7 +49,7 @@ class Business::OnboardingController < ApplicationController
         )
         db_subscription.update(
           stripe_subscription_id: sub.id,
-          billing_period_ends: sub.cancel_at
+          billing_period_ends: sub.created
         )
       end
     end

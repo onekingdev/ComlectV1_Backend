@@ -110,16 +110,21 @@
                           .card
                             .card-body
                               SpecialistDetails(:specialist="application.specialist")
+                              InputSelect(v-model="specialist_role" :options="specialistRoleOptions") Select Role
+                              .form-text.text-muted Determines the permissions the specialist will have access to
                           template(#modal-footer="{ ok, cancel, hide }")
                             button.btn.btn-light(@click="hide") Cancel
                             button.btn.btn-outline-dark(@click="goBack") Go Back
-                            Post(:action="hireUrl + '?job_application_id=' + application.id" :model="{}" @saved="saved(project.local_project_id)")
+                            Post(:action="hireUrl + '?job_application_id=' + application.id" :model="{specialist_role}" @saved="saved(project.local_project_id)")
                               button.btn.btn-dark Confirm
 </template>
 
 <script>
 import SpecialistDetails from './SpecialistDetails'
-import { FIXED_PAYMENT_SCHEDULE_OPTIONS } from '@/common/ProjectInputOptions'
+import {
+  FIXED_PAYMENT_SCHEDULE_OPTIONS,
+  SPECIALIST_ROLE_OPTIONS,
+} from '@/common/ProjectInputOptions'
 import { redirectWithToast } from '@/common/Toast'
 
 export default {
@@ -131,7 +136,8 @@ export default {
   },
   data() {
     return {
-      modalId: null
+      modalId: null,
+      specialist_role: Object.keys(SPECIALIST_ROLE_OPTIONS)[0]
     }
   },
   created() {
@@ -160,6 +166,7 @@ export default {
       return this.$store.getters.url('URL_API_PROJECT_HIRES', this.projectId)
     },
     paymentScheduleReadable: () => application => FIXED_PAYMENT_SCHEDULE_OPTIONS[application.payment_schedule],
+    specialistRoleOptions: () => SPECIALIST_ROLE_OPTIONS,
     hasSpecialist: () => project => !!project.specialist_id,
     confirmModalId() {
       return (this.modalId || '') + '_confirm'
