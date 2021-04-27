@@ -38,8 +38,8 @@ const MINIMUM_EXPERIENCE_OPTIONS = {
 
 const SPECIALIST_ROLE_OPTIONS = {
   'basic': 'Basic',
-  'advanced': 'Advanced',
-  'admin': 'Administrator'
+  'trusted': 'Trusted',
+  'admin': 'Admin'
 }
 
 export {
