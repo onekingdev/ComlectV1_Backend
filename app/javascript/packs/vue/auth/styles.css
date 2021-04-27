@@ -130,6 +130,9 @@ input[type=number] {
 .billing-plan_high {
   box-shadow: 0 -5px 0 #2e304f;
 }
+.billing-plan_default {
+  box-shadow: 0 -5px 0 #dcdee4;
+}
 .billing-plan__name {
   margin-bottom: .6rem;
   font-weight: bold;

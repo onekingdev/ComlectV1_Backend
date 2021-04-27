@@ -139,13 +139,13 @@
                     b-button(type='button' variant='outline-primary') Continue With Free Plan
               .row.justify-content-center
                 .col-xl-3(v-for='(plan, index) in billingPlans')
-                  b-card.w-100.mb-2.billing-plan(:class="[index === 0 ? 'billing-plan_low' : '', index === 1 ? 'billing-plan_medium' : '', index === 2 ? 'billing-plan_high' : '' ]")
+                  b-card.w-100.mb-2.billing-plan(:class="[index === 0 ? 'billing-plan_default' : '', index === 1 ? 'billing-plan_high' : '' ]")
                     b-button.mb-3(type='button' variant='outline-primary' @click="openDetails(plan)") Select Plan
                     b-card-text
                       h4.billing-plan__name {{ plan.name }}
                       p.billing-plan__descr {{ plan.description }}
                       h5.billing-plan__coast {{ billingTypeSelected === 'annually' ?  plan.coastAnnuallyFormatted : plan.coastMonthlyFormatted }}
-                      p.billing-plan__users {{ billingTypeSelected === 'annually' ?  plan.usersCount + ' free users plus $' + plan.additionalUserAnnually + '/year per person' : plan.usersCount + ' free users plus $' + plan.additionalUserMonthly + '/mo per person' }}
+                      <!--p.billing-plan__users {{ billingTypeSelected === 'annually' ?  plan.usersCount + ' free users plus $' + plan.additionalUserAnnually + '/year per person' : plan.usersCount + ' free users plus $' + plan.additionalUserMonthly + '/mo per person' }}-->
                       hr
                       ul.list-unstyled.billing-plan__list
                         li.billing-plan__item(v-for="feature in plan.features")
@@ -312,10 +312,10 @@
         options: ['list', 'of', 'options'],
         show: true,
         errors: {},
-        step1: true,
+        step1: false,
         step2: false,
-        step3: false,
-        currentStep: 1,
+        step3: true,
+        currentStep: 3,
         navStep1: true,
         navStep2: false,
         navStep3: false,
