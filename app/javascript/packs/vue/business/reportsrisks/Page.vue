@@ -7,7 +7,7 @@
             .col-md-12.p-t-3.d-flex.justify-content-between.p-b-1
               div
                 h2: b {{ pageTitle }}
-          .row
+          .row(v-if="loading")
             .col
               .card-body.white-card-body
                 Loading
@@ -110,6 +110,9 @@
       loading() {
         return this.$store.getters.loading;
       },
+      riskHeatmap() {
+
+      },
       riskSummary() {
         const riskList = this.$store.getters.risksList
         const totalLength = riskList.length;
@@ -143,7 +146,14 @@
       },
     },
     mounted() {
-
+      function Create2DArray(rows, columns) {
+        var x = new Array(rows);
+        for (var i = 0; i < rows; i++) {
+          x[i] = new Array(columns);
+        }
+        return x;
+      }
+      console.log(Create2DArray(2, [1,2]))
     },
   };
 </script>
