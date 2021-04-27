@@ -106,5 +106,5 @@
 </script>
 
 <style scoped>
-
+  @import "../styles.css";
 </style>

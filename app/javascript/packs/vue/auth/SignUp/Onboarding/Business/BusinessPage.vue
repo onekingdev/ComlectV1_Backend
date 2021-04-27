@@ -655,5 +655,5 @@
 </style>
 
 <style scoped>
-  @import "../../styles.css";
+  @import "../../../styles.css";
 </style>
