@@ -23,17 +23,17 @@
           p {{ planComputed.description }}
         .col.text-right
           h4.m-t-1 {{ billingTypeSelected === 'annually' ?  planComputed.coastAnnuallyFormatted : planComputed.coastMonthlyFormatted }}
-          p {{ billingTypeSelected === 'annually' ?  planComputed.usersCount + ' free users plus $' + planComputed.additionalUserAnnually + '/year per person' : planComputed.usersCount + ' free users plus $' + planComputed.additionalUserMonthly + '/mo per person' }}
-    .card-header
-      .d-flex.justify-content-between
-        div
-          h4.m-t-1 Users
-          p Enter the amount of applicable employees to join your plan
-        dl.row.m-t-2
-          dt.col-sm-3
-          dd.col-sm-9
-            b-form-group
-              b-form-input(v-model="additionalUsersCount" type="number" min="1" max="100" @keyup="onChangeUserCount")
+          <!--p {{ billingTypeSelected === 'annually' ?  planComputed.usersCount + ' free users plus $' + planComputed.additionalUserAnnually + '/year per person' : planComputed.usersCount + ' free users plus $' + planComputed.additionalUserMonthly + '/mo per person' }}-->
+    <!--.card-header-->
+      <!--.d-flex.justify-content-between-->
+        <!--div-->
+          <!--h4.m-t-1 Users-->
+          <!--p Enter the amount of applicable employees to join your plan-->
+        <!--dl.row.m-t-2-->
+          <!--dt.col-sm-3-->
+          <!--dd.col-sm-9-->
+            <!--b-form-group-->
+              <!--b-form-input(v-model="additionalUsersCount" type="number" min="1" max="100" @keyup="onChangeUserCount")-->
     .card-header
       .d-flex.justify-content-between
         h4.m-t-1 Payment Method
@@ -49,48 +49,48 @@
           a.link.ml-2(href="#" @click.stop="deletePaymentMethod(card.id)") Remove
     .card-header
       <!--div-->
-        <!--StripeCheckout(:pk="pk")-->
+      <!--StripeCheckout(:pk="pk")-->
       <!--hr-->
       <!--div-->
-        <!--.row-->
-          <!--.col-->
-            <!--b-form-group#inputBilling-group-1(label='Name on Card' label-for='inputBilling-1')-->
-              <!--b-form-input#inputBilling-1(v-model='cardDetail.nameOnCard' type='text' placeholder='Name on Card' required)-->
-              <!--.invalid-feedback.d-block(v-if="errors.nameOnCard") {{ errors.nameOnCard }}-->
-        <!--.row-->
-          <!--.col-8.pr-2-->
-            <!--b-form-group#inputBilling-group-2(label='Card Number' label-for='inputBilling-2')-->
-              <!--b-form-input#inputBilling-2(v-model='cardDetail.cardNumber' type='text' placeholder='Card Number' required)-->
-              <!--.invalid-feedback.d-block(v-if="errors.cardNumber") {{ errors.cardNumber }}-->
-          <!--.col-1.px-2-->
-            <!--b-form-group#inputBilling-group-3(label='Exp date' label-for='inputBilling-3')-->
-              <!--b-form-input#inputBilling-3(v-model='cardDetail.expDate' type='text' placeholder='MM' required)-->
-              <!--.invalid-feedback.d-block(v-if="errors.expDate") {{ errorMonths.expDateMonth }}-->
-          <!--.col-1.px-2-->
-            <!--b-form-group#inputBilling-group-4(label='.' label-for='inputBilling-4')-->
-              <!--b-form-input#inputBilling-4(v-model='cardDetail.expDateYear' type='text' placeholder='YY' required)-->
-              <!--.invalid-feedback.d-block(v-if="errors.expDateYear") {{ errors.expDateYear }}-->
-          <!--.col-2.pl-2-->
-            <!--b-form-group#inputBilling-group-5(label='CVC/CVV' label-for='inputBilling-5')-->
-              <!--b-form-input#inputBilling-5(v-model='cardDetail.CVV' type='text' placeholder='3 or 4 digits' required)-->
-              <!--.invalid-feedback.d-block(v-if="errors.CVV") {{ errors.CVV }}-->
-        <!--.row-->
-          <!--.col.pr-2-->
-            <!--b-form-group#inputBilling-group-6(label='Country' label-for='inputBilling-6')-->
-              <!--b-form-input#inputBilling-6(v-model='cardDetail.country' type='text' placeholder='Country' required)-->
-              <!--.invalid-feedback.d-block(v-if="errors.country") {{ errors.country }}-->
-          <!--.col.pl-2-->
-            <!--b-form-group#inputBilling-group-7(label='Zip' label-for='inputBilling-7')-->
-              <!--b-form-input#inputBilling-7(v-model='cardDetail.zip' type='text' placeholder='Enter zip code' required)-->
-              <!--.invalid-feedback.d-block(v-if="errors.zip") {{ errors.zip }}-->
-        <!--.row-->
-          <!--.col.text-right-->
-            <!--b-button(type='button' variant='secondary' @click="addCardDetail") Add-->
+      <!--.row-->
+      <!--.col-->
+      <!--b-form-group#inputBilling-group-1(label='Name on Card' label-for='inputBilling-1')-->
+      <!--b-form-input#inputBilling-1(v-model='cardDetail.nameOnCard' type='text' placeholder='Name on Card' required)-->
+      <!--.invalid-feedback.d-block(v-if="errors.nameOnCard") {{ errors.nameOnCard }}-->
+      <!--.row-->
+      <!--.col-8.pr-2-->
+      <!--b-form-group#inputBilling-group-2(label='Card Number' label-for='inputBilling-2')-->
+      <!--b-form-input#inputBilling-2(v-model='cardDetail.cardNumber' type='text' placeholder='Card Number' required)-->
+      <!--.invalid-feedback.d-block(v-if="errors.cardNumber") {{ errors.cardNumber }}-->
+      <!--.col-1.px-2-->
+      <!--b-form-group#inputBilling-group-3(label='Exp date' label-for='inputBilling-3')-->
+      <!--b-form-input#inputBilling-3(v-model='cardDetail.expDate' type='text' placeholder='MM' required)-->
+      <!--.invalid-feedback.d-block(v-if="errors.expDate") {{ errorMonths.expDateMonth }}-->
+      <!--.col-1.px-2-->
+      <!--b-form-group#inputBilling-group-4(label='.' label-for='inputBilling-4')-->
+      <!--b-form-input#inputBilling-4(v-model='cardDetail.expDateYear' type='text' placeholder='YY' required)-->
+      <!--.invalid-feedback.d-block(v-if="errors.expDateYear") {{ errors.expDateYear }}-->
+      <!--.col-2.pl-2-->
+      <!--b-form-group#inputBilling-group-5(label='CVC/CVV' label-for='inputBilling-5')-->
+      <!--b-form-input#inputBilling-5(v-model='cardDetail.CVV' type='text' placeholder='3 or 4 digits' required)-->
+      <!--.invalid-feedback.d-block(v-if="errors.CVV") {{ errors.CVV }}-->
+      <!--.row-->
+      <!--.col.pr-2-->
+      <!--b-form-group#inputBilling-group-6(label='Country' label-for='inputBilling-6')-->
+      <!--b-form-input#inputBilling-6(v-model='cardDetail.country' type='text' placeholder='Country' required)-->
+      <!--.invalid-feedback.d-block(v-if="errors.country") {{ errors.country }}-->
+      <!--.col.pl-2-->
+      <!--b-form-group#inputBilling-group-7(label='Zip' label-for='inputBilling-7')-->
+      <!--b-form-input#inputBilling-7(v-model='cardDetail.zip' type='text' placeholder='Enter zip code' required)-->
+      <!--.invalid-feedback.d-block(v-if="errors.zip") {{ errors.zip }}-->
+      <!--.row-->
+      <!--.col.text-right-->
+      <!--b-button(type='button' variant='secondary' @click="addCardDetail") Add-->
       <!--hr-->
       <!--div-->
-        <!--p stripe-checkout:-->
-        <!--stripe-checkout(ref='checkoutRef' mode='payment' :pk='publishableKey' :line-items='lineItems' :success-url='successURL' :cancel-url='cancelURL' @loading='v => loading = v')-->
-        <!--button(@click='submit') Pay now!-->
+      <!--p stripe-checkout:-->
+      <!--stripe-checkout(ref='checkoutRef' mode='payment' :pk='publishableKey' :line-items='lineItems' :success-url='successURL' :cancel-url='cancelURL' @loading='v => loading = v')-->
+      <!--button(@click='submit') Pay now!-->
       //hr
       div(v-show="isActive")
         <!--p stripe-element-card:-->
@@ -118,7 +118,7 @@
     data() {
       // this.publishableKey = 'pk_test_01vxEQv9T5FIIKTu1GkHW41D';
       return {
-        userType: 'business',
+        userType: 'specialist',
         // loading: false,
         // lineItems: [
         //   {
@@ -189,13 +189,13 @@
       },
       // addCardDetail() {
       //   console.log(this.cardDetail)
-        // this.cardOptions = Object.assign(this.cardOptions, {
-        //   text: this.cardDetail.nameOnCard,
-        //   value: this.cardOptions.length + 1,
-        //   number: this.cardDetail.cardNumber,
-        //   type: 'Visa',
-        //   id: Math.floor(Math.random()) * 100
-        // })
+      // this.cardOptions = Object.assign(this.cardOptions, {
+      //   text: this.cardDetail.nameOnCard,
+      //   value: this.cardOptions.length + 1,
+      //   number: this.cardDetail.cardNumber,
+      //   type: 'Visa',
+      //   id: Math.floor(Math.random()) * 100
+      // })
       // },
       deletePaymentMethod(cardId) {
         const dataToSend = {

@@ -2,10 +2,8 @@ import Vue from "vue";
 import Vuex from "vuex";
 
 import policies from "./businesModules/policies";
-import annual from "./businesModules/annual"
 import risks from "./businesModules/risks";
-import shared from "./shared";
-import auth from "./businesModules/auth";
+import shared from "./commonModules/shared";
 
 Vue.use(Vuex);
 
@@ -51,11 +49,6 @@ const store = new Vuex.Store({
     //   // }
     // },
     shared,
-    annual: {
-      namespaced: true,
-      ...annual,
-    },
-    auth,
   },
 });
 

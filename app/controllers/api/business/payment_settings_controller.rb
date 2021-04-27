@@ -3,13 +3,17 @@
 class Api::Business::PaymentSettingsController < ApiController
   before_action :require_business!
 
+  def index
+    respond_with current_business.payment_sources, each_serializer: ::Business::PaymentSourceSerializer
+  end
+
   def create
     payment_source = payment_source_type.plaid_or_manual current_business, stripe_params
 
     if payment_source.errors.any?
       respond_with message: { message: payment_source.errors.full_messages.join(', ') }, status: 442
     else
-      respond_with payment_source, serilaizer: ::Business::PaymentSourceSerializer
+      respond_with payment_source, serializer: ::Business::PaymentSourceSerializer
     end
   end
 
@@ -26,13 +30,13 @@ class Api::Business::PaymentSettingsController < ApiController
       payment_source.update_from_stripe params[:stripeToken]
     end
 
-    respond_with payment_source, serilaizer: ::Business::PaymentSourceSerializer
+    respond_with payment_source, serializer: ::Business::PaymentSourceSerializer
   end
 
   def make_primary
     payment_source = current_business.payment_sources.find(params[:id])
     payment_source.make_primary!
-    respond_with payment_source, serilaizer: ::Business::PaymentSourceSerializer
+    respond_with payment_source, serializer: ::Business::PaymentSourceSerializer
   end
 
   def destroy

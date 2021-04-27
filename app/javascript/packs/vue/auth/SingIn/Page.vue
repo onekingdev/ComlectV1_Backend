@@ -1,36 +1,37 @@
 <template lang="pug">
   div
-    template(v-if='childDataLoaded')
-      component(v-bind:is="component" :userInfo='childdata', :industryIds="industryIds", :jurisdictionIds="jurisdictionIds", :subIndustryIds="subIndustryIds", :states="states")
     .container-fluid(v-if='!childDataLoaded')
       TopNavbar
       main.row#main-content
         .col-xl-4.col-lg-6.col-md-8.m-x-auto
           .card-body.white-card-body.registration
             Loading
-            #step0.form(v-if='!loading' :class="step0 ? 'd-block' : 'd-none'")
-              h1.text-center Let's get you started!
-              p.text-center Create your FREE account
+            #step1.form(v-if='!loading' :class="step1 ? 'd-block' : 'd-none'")
+              h1.text-center Confirm your email!
+              p.text-center We send a 6 digit code to email.com. Please enter it below.
               div
-                b-form(@submit='onSubmit0' v-if='show')
+                b-form(@submit='onSubmitStep2' @keyup="onChange" v-if='show' autocomplete="off")
+                  b-form-group
+                    .col.text-center
+                      ion-icon(name="mail-outline" size="large")
                   b-form-group
                     .row
-                      .col.pr-md-2.text-center
-                        .account-select(@click="selectType('business')" :class="userType === 'business' ? 'active' : ''")
-                          h3.account-select__title.mb-3 I am a business
-                          ion-icon.mb-3(name="people-circle-outline" size="large")
-                          p.account-select__subtitle Looking to effectively manage my compilance program and find expetrise
-                      .col.pl-md-2.text-center
-                        .account-select(@click="selectType('specialist')" :class="userType === 'specialist' ? 'active' : ''")
-                          h3.account-select__title.mb-3 I am a specialist
-                          ion-icon.mb-3(name="person-circle-outline" size="large")
-                          p.account-select__subtitle Looking to work with potential clients on compilance projects
-                  b-button.w-100(type='submit' variant='dark') Next
-                  hr
-                  b-form-group.text-center
-                    p Already have a Complect account?&nbsp;
-                      a.link(href="/users/sign_in") Sign In
-            #step1.form(v-if='!loading' :class="step1 ? 'd-block' : 'd-none'")
+                      .col-12.mx-0
+                        .d-flex.justify-content-space-around.mx-auto.w-75
+                          b-form-input#inputCode1.code-input.ml-auto(v-model='form2.codePart1' type='number' maxlength="1" required)
+                          b-form-input#inputCode2.code-input(v-model='form2.codePart2' type='number' maxlength="1" required)
+                          b-form-input#inputCode3.code-input(v-model='form2.codePart3' type='number' maxlength="1" required)
+                          b-form-input#inputCode4.code-input(v-model='form2.codePart4' type='number' maxlength="1" required)
+                          b-form-input#inputCode5.code-input(v-model='form2.codePart5' type='number' maxlength="1" required)
+                          b-form-input#inputCode6.code-input.mr-auto(v-model='form2.codePart6' type='number' maxlength="1" required)
+                        .invalid-feedback.d-block.text-center(v-if="errors.code") {{ errors.code }}
+                    .row
+                      .col
+                        input(v-model='form2.code' type='hidden')
+                  b-button.w-100(type='submit' variant='dark') Submit
+                b-card.mt-3(header='Form Data Result')
+                  pre.m-0 {{ form2 }}
+            #step2.form(v-if='!loading'  :class="step2 ? 'd-block' : 'd-none'")
               h1.text-center Let's get you started!
               p.text-center Create your FREE account
               div
@@ -63,34 +64,9 @@
                       a.link(href="#") Sign In
                 b-card.mt-3(header='Form Data Result')
                   pre.m-0 {{ form }}
-            #step2.form(v-if='!loading'  :class="step2 ? 'd-block' : 'd-none'")
-              h1.text-center Confirm your email!
-              p.text-center We send a 6 digit code to email.com. Please enter it below.
-              div
-                b-form(@submit='onSubmitStep2' @keyup="onChange" v-if='show' autocomplete="off")
-                  b-form-group
-                    .col.text-center
-                      ion-icon(name="mail-outline" size="large")
-                  b-form-group
-                    .row
-                      .col-12.mx-0
-                        .d-flex.justify-content-space-around.mx-auto.w-75
-                          b-form-input#inputCode1.code-input.ml-auto(v-model='form2.codePart1' type='number' maxlength="1" required)
-                          b-form-input#inputCode2.code-input(v-model='form2.codePart2' type='number' maxlength="1" required)
-                          b-form-input#inputCode3.code-input(v-model='form2.codePart3' type='number' maxlength="1" required)
-                          b-form-input#inputCode4.code-input(v-model='form2.codePart4' type='number' maxlength="1" required)
-                          b-form-input#inputCode5.code-input(v-model='form2.codePart5' type='number' maxlength="1" required)
-                          b-form-input#inputCode6.code-input.mr-auto(v-model='form2.codePart6' type='number' maxlength="1" required)
-                        .invalid-feedback.d-block.text-center(v-if="errors.code") {{ errors.code }}
-                    .row
-                      .col
-                        input(v-model='form2.code' type='hidden')
-                  b-button.w-100(type='submit' variant='dark') Submit
-                b-card.mt-3(header='Form Data Result')
-                  pre.m-0 {{ form2 }}
             #step3.form(v-if='!loading'  :class="step3 ? 'd-block' : 'd-none'")
-              h1.text-center You successfuly registered!
-              p.text-center You will be redirect to finish steps for updating your account
+              h1.text-center You successfuly logged in!
+              p.text-center You will be redirect to the dashboard!
               .text-center
                 b-icon( icon="circle-fill" animation="throb" font-scale="4")
                   <!--ion-icon(name="checkmark-circle-outline" size="large")-->
@@ -99,8 +75,6 @@
 <script>
   import Loading from '@/common/Loading/Loading'
   import TopNavbar from "./TopNavbar";
-  import BusinessPage from "./Onboarding/Business/BusinessPage";
-  import SpecialistPage from "./Onboarding/Specialist/SpecialistPage";
 
   const random = Math.floor(Math.random() * 1000);
 
@@ -109,8 +83,6 @@
     components: {
       TopNavbar,
       Loading,
-      BusinessPage,
-      SpecialistPage
     },
     // created() {
     //   const urlUserId = location.search.split('userid=')[1]
@@ -141,8 +113,7 @@
         },
         show: true,
         errors: {},
-        step0: true,
-        step1: false,
+        step1: true,
         step2: false,
         step3: false,
         childDataLoaded: false,
