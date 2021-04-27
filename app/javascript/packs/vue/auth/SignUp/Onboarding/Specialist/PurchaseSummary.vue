@@ -7,10 +7,10 @@
         dt.col-sm-6
           b {{ planComputed.name }} plan
         dd.col-sm-6.text-right {{ billingTypeSelected === 'annually' ?  planComputed.coastAnnuallyFormatted : planComputed.coastMonthlyFormatted }}
-        dt.col-sm-6 {{ additionalUsers }} Users ({{ planComputed.usersCount }} Free)
-        dd.col-sm-6.text-right {{ planComputed.additionalUserCoast }}
-        dt.col-sm-6.text-success(v-if="billingTypeSelected === 'annually'") Billed Annualy
-        dd.col-sm-6.text-right.text-success(v-if="billingTypeSelected === 'annually'") You saved {{ planComputed.saved }}
+        <!--dt.col-sm-6 {{ additionalUsers }} Users ({{ planComputed.usersCount }} Free)-->
+        <!--dd.col-sm-6.text-right {{ planComputed.additionalUserCoast }}-->
+        dt.col-sm-6.text-success {{ billingTypeSelected === 'annually' ? 'Billed Annualy' : 'Billed Monthly' }}
+        <!--dd.col-sm-6.text-right.text-success(v-if="billingTypeSelected === 'annually'") You saved {{ planComputed.saved }}-->
     hr(v-if="planComputed.tax")
     .card-body.py-0(v-if="planComputed.tax")
       dl.row.mb-0
@@ -76,8 +76,8 @@
       planComputed() {
         return {
           ...this.plan,
-          additionalUserCoast: this.calcAdditionalUserCoast(this.billingTypeSelected, this.additionalUsers, this.plan.usersCount, this.plan.additionalUserMonthly, this.plan.additionalUserAnnually),
-          saved: `$${Math.abs(this.plan.coastAnnually - this.plan.coastMonthly * 12)}`,
+          // additionalUserCoast: this.calcAdditionalUserCoast(this.billingTypeSelected, this.additionalUsers, this.plan.usersCount, this.plan.additionalUserMonthly, this.plan.additionalUserAnnually),
+          // saved: `$${Math.abs(this.plan.coastAnnually - this.plan.coastMonthly * 12)}`,
           // tax: '$0.00',
           total: this.countTotalCoast(this.billingTypeSelected, this.plan.coastMonthly, this.plan.coastAnnually, this.additionalUsers, this.plan.usersCount, this.plan.additionalUserMonthly, this.plan.additionalUserAnnually),
         }

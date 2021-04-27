@@ -23,17 +23,17 @@
           p {{ planComputed.description }}
         .col.text-right
           h4.m-t-1 {{ billingTypeSelected === 'annually' ?  planComputed.coastAnnuallyFormatted : planComputed.coastMonthlyFormatted }}
-          p {{ billingTypeSelected === 'annually' ?  planComputed.usersCount + ' free users plus $' + planComputed.additionalUserAnnually + '/year per person' : planComputed.usersCount + ' free users plus $' + planComputed.additionalUserMonthly + '/mo per person' }}
-    .card-header
-      .d-flex.justify-content-between
-        div
-          h4.m-t-1 Users
-          p Enter the amount of applicable employees to join your plan
-        dl.row.m-t-2
-          dt.col-sm-3
-          dd.col-sm-9
-            b-form-group
-              b-form-input(v-model="additionalUsersCount" type="number" min="1" max="100" @keyup="onChangeUserCount")
+          <!--p {{ billingTypeSelected === 'annually' ?  planComputed.usersCount + ' free users plus $' + planComputed.additionalUserAnnually + '/year per person' : planComputed.usersCount + ' free users plus $' + planComputed.additionalUserMonthly + '/mo per person' }}-->
+    <!--.card-header-->
+      <!--.d-flex.justify-content-between-->
+        <!--div-->
+          <!--h4.m-t-1 Users-->
+          <!--p Enter the amount of applicable employees to join your plan-->
+        <!--dl.row.m-t-2-->
+          <!--dt.col-sm-3-->
+          <!--dd.col-sm-9-->
+            <!--b-form-group-->
+              <!--b-form-input(v-model="additionalUsersCount" type="number" min="1" max="100" @keyup="onChangeUserCount")-->
     .card-header
       .d-flex.justify-content-between
         h4.m-t-1 Payment Method
