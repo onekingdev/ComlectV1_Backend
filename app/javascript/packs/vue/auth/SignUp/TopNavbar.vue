@@ -21,8 +21,8 @@
                         input.dropdown-item(type="submit" value="Sign Out")
             .p-x-2(v-else)
               a.btn.btn-dark(href="/users/sign_in") Sign in
-        button.navbar-toggler.position-absolute.d-md-none.collapsed(type='button' data-toggle='collapse' data-target='#sidebarMenu' aria-controls='sidebarMenu' aria-expanded='false' aria-label='Toggle navigation')
-          span.navbar-toggler-icon
+        <!--button.navbar-toggler.position-absolute.d-md-none.collapsed(type='button' data-toggle='collapse' data-target='#sidebarMenu' aria-controls='sidebarMenu' aria-expanded='false' aria-label='Toggle navigation')-->
+          <!--span.navbar-toggler-icon-->
 </template>
 
 <script>
