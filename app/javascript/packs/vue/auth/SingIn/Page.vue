@@ -83,8 +83,6 @@
     components: {
       TopNavbar,
       Loading,
-      BusinessPage,
-      SpecialistPage
     },
     // created() {
     //   const urlUserId = location.search.split('userid=')[1]

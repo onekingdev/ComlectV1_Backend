@@ -23,7 +23,7 @@
               a.btn.btn-dark(href="/users/sign_in") Sign in
         button.navbar-toggler.position-absolute.d-md-none.collapsed(type='button' data-toggle='collapse' data-target='#sidebarMenu' aria-controls='sidebarMenu' aria-expanded='false' aria-label='Toggle navigation')
           span.navbar-toggler-icon
-      nav.navbar.navbar-expand-lg.navbar-light.p-0
+      nav.navbar.navbar-expand-lg.navbar-light.p-0.d-none
         .navbar-header
           button.navbar-toggle.collapsed(aria-expanded='false' data-target='#navbar-collapse' data-toggle='collapse' type='button')
             span.sr-only Toggle navigataion
