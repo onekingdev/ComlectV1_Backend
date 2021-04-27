@@ -55,7 +55,7 @@ class Api::SpecialistsController < ApiController
     params.require(:specialist).permit(
       :first_name, :last_name,
       :former_regulator, :certifications, :resume,
-      :experience,
+      :experience, :specialist_other,
       jurisdiction_ids: [], industry_ids: [],
       user_attributes: %i[
         email password

@@ -161,28 +161,22 @@ export default {
         commit("setLoading", true);
 
         const { userType, paymentSourceId, planName, countPayedUsers } = { ...payload }
+
         const endPoint = userType === 'business' ? 'business' : 'specialist'
 
-        // WAIT LONGER
-        axios.defaults.timeout = 10000;
-        const response = await axios.post(`/${endPoint}/upgrade/subscribe`, { plan: planName }, { params: {
-            payment_source_id: paymentSourceId, cnt: countPayedUsers
-          }})
-        return response.data
+        let ids = [];
+        for(let i=1; i <= countPayedUsers; i++) {
+          ids.push(i)
+        }
+        const promises = ids.map(() => axios.post(`/${endPoint}/upgrade/subscribe`, { plan: planName }, { params: {
+            payment_source_id: paymentSourceId
+          }}));
 
-        // let ids = [];
-        // for(let i=1; i <= countPayedUsers; i++) {
-        //   ids.push(i)
-        // }
-        // const promises = ids.map(() => axios.post(`/${endPoint}/upgrade/subscribe`, { plan: planName }, { params: {
-        //     payment_source_id: paymentSourceId
-        //   }}));
-        //
-        // const response = await Promise.all([...promises]).then(function (values) {
-        //   // console.log(values);
-        //   return values
-        // });
-        // return response
+        const response = await Promise.all([...promises]).then(function (values) {
+          // console.log(values);
+          return values
+        });
+        return response
 
       } catch (error) {
         console.error(error);
