@@ -153,12 +153,6 @@
               // open step 2
               this.step1 = false
               this.step2 = true
-
-              const dashboard = response.business ? '/business2' : '/specialist'
-
-              setTimeout(() => {
-                window.location.href = `${dashboard}`;
-              }, 3000)
             }
           })
           .catch((error) => this.makeToast('Error', `Couldn't submit form! ${error}`))
@@ -202,6 +196,12 @@
               // open step 3
               this.step2 = false
               this.step3 = true
+
+              const dashboard = response.business ? '/business2' : '/specialist'
+
+              setTimeout(() => {
+                window.location.href = `${dashboard}`;
+              }, 3000)
             }
           })
           .catch((error) => this.makeToast('Error', `Couldn't submit form! ${error}`))
