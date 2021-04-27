@@ -108,14 +108,13 @@ export default {
       try {
         commit("clearError");
         commit("setLoading", true);
-        console.log('payload', payload)
 
         const endPointUserType = payload.business ? 'business' : 'specialist'
         const config = {
           headers: {
             'Content-Type': endPointUserType === 'specialist' ? 'multipart/form-data' : 'application/json',
           },
-          data: payload[endPointUserType],
+          [endPointUserType]: payload[endPointUserType],
         };
         const response = await axios.patch(`/${endPointUserType}`, config)
         // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
@@ -140,7 +139,7 @@ export default {
 
         const { userType, paymentSourceId, planName } = { ...payload }
 
-        const endPoint = userType ? 'business' : 'specialist'
+        const endPoint = userType === 'business' ? 'business' : 'specialist'
         // WAIT LONGER
         axios.defaults.timeout = 10000;
         const response = await axios.post(`/${endPoint}/upgrade/subscribe`, { plan: planName }, { params: {
@@ -163,7 +162,7 @@ export default {
 
         const { userType, paymentSourceId, planName, countPayedUsers } = { ...payload }
 
-        const endPoint = userType ? 'business' : 'specialist'
+        const endPoint = userType === 'business' ? 'business' : 'specialist'
 
         let ids = [];
         for(let i=1; i <= countPayedUsers; i++) {
@@ -190,14 +189,17 @@ export default {
       try {
         commit("clearError");
         commit("setLoading", true);
+        console.log('payload', payload)
 
         // WAIT LONGER
         axios.defaults.timeout = 10000;
 
-        const endPoint = payload.business ? 'business' : 'specialist'
+        const { userType, stripeToken } = { ...payload }
+
+        const endPoint = userType === 'business' ? 'business' : 'specialist'
         // const response = await axios.post(`/${endPoint}/payment_settings?stripeToken=${payload.stripeToken}`)
         const response = await axios.post(`/${endPoint}/payment_settings`, null, { params: {
-            stripeToken: payload.stripeToken,
+            stripeToken: stripeToken,
           }})
         // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
         return response.data

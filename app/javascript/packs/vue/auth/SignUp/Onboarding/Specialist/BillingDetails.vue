@@ -168,7 +168,7 @@
         // handle the token
         // send it to your server
         const dataToSend = {
-          business: 'business',
+          userType: this.userType,
           stripeToken: token.id,
         }
 
@@ -247,22 +247,22 @@
       }
     },
     mounted() {
-      // const dataToSend = {
-      //   userType: this.userType,
-      // }
-      //
-      // this.$store
-      //   .dispatch('getPaymentMethod', dataToSend)
-      //   .then(response => {
-      //     console.log('response', response)
-      //     const newOptions = response.map((card, index) => {
-      //       return { text: `Credit Card${index===0 ? ' (primary)' : ''}`, value: card.id, number: `**** **** **** ${card.last4}`, type: card.brand, id: card.id }
-      //     })
-      //     this.cardOptions = newOptions
-      //   })
-      //   .catch(error => {
-      //     console.error(error)
-      //   })
+      const dataToSend = {
+        userType: this.userType,
+      }
+
+      this.$store
+        .dispatch('getPaymentMethod', dataToSend)
+        .then(response => {
+          console.log('response', response)
+          const newOptions = response.map((card, index) => {
+            return { text: `Credit Card${index===0 ? ' (primary)' : ''}`, value: card.id, number: `**** **** **** ${card.last4}`, type: card.brand, id: card.id }
+          })
+          this.cardOptions = newOptions
+        })
+        .catch(error => {
+          console.error(error)
+        })
     }
   }
 </script>

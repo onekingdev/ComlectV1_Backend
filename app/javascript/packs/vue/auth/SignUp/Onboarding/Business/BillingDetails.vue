@@ -168,7 +168,7 @@
         // handle the token
         // send it to your server
         const dataToSend = {
-          business: 'business',
+          userType: this.userType,
           stripeToken: token.id,
         }
 

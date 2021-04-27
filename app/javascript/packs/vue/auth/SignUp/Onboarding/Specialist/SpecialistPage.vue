@@ -389,7 +389,7 @@
 
         if (stepNum === 3) {
 
-          // const params = {
+          // const dataToSend = {
           //   specialist: {
           //     industry_ids: this.formStep1.industry.map(record => record.id),
           //     sub_industry_ids: this.formStep1.subIndustry.map(record => record.id),
@@ -398,25 +398,14 @@
           //     first_name: 'Alex556',
           //     last_name: 'Willkinson556',
           //     former_regulator: this.formStep1.regulator,
-          //     // skill_names: this.formStep2.skills,
-          //     skill_names: 'css',
+          //     skill_names: this.formStep2.skills,
           //     // certifications: '',
-          //     resume: '',
+          //     // resume: '',
           //     experience: this.formStep2.expirience,
           //   }
           // }
-          // console.log('params', params)
-          // // Add resume if it exist
-          // if (this.formStep2.file1) params.specialist.resume = this.formStep2.file1
-          //
-          // let formData = new FormData()
-          //
-          // Object.entries(params.specialist).forEach(
-          //   ([key, value]) => formData.append(key, value)
-          // )
-          // console.log('formData', formData)
 
-          const dataToSend = {
+          const params = {
             specialist: {
               industry_ids: this.formStep1.industry.map(record => record.id),
               sub_industry_ids: this.formStep1.subIndustry.map(record => record.id),
@@ -427,13 +416,23 @@
               former_regulator: this.formStep1.regulator,
               skill_names: this.formStep2.skills,
               // certifications: '',
-              // resume: '',
+              resume: '',
               experience: this.formStep2.expirience,
             }
           }
+          console.log('params', params)
+          // Add resume if it exist
+          if (this.formStep2.file1) params.specialist.resume = this.formStep2.file1
+
+          let formData = new FormData()
+
+          Object.entries(params.specialist).forEach(
+            ([key, value]) => formData.append(key, value)
+          )
+          console.log('formData', formData)
 
           this.$store
-            .dispatch('updateAccountInfo', dataToSend)
+            .dispatch('updateAccountInfo', formData)
             .then(response => {
               console.log('response', response)
 
