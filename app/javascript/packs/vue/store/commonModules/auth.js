@@ -28,9 +28,20 @@ export default {
 
         const response = await axios.post(`/users/sign_in`, payload)
         // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
-        if(response.data) {
-          localStorage.setItem('app.currentUser', JSON.stringify({ userid: response.data.userid }));
-          commit('updateUser', { userid: response.data.userid })
+        if (response.data) {
+          if(response.data.token) {
+            commit('updateToken', response.data.token)
+            localStorage.setItem('app.currentUser.token', JSON.stringify(response.data.token));
+            commit('loggedIn', true)
+          }
+          if(response.data.business) {
+            localStorage.setItem('app.currentUser', JSON.stringify(response.data.business));
+            commit('updateUser', response.data.business)
+          }
+          if(response.data.specialist) {
+            localStorage.setItem('app.currentUser', JSON.stringify(response.data.specialist));
+            commit('updateUser', response.data.specialist)
+          }
         }
         return response.data
 
@@ -49,10 +60,6 @@ export default {
         const endPoint = payload.business ? 'businesses' : 'specialists'
         const response = await axios.post(`/${endPoint}`, payload)
         // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
-        if(response.data) {
-          localStorage.setItem('app.currentUser', JSON.stringify({ userid: response.data.userid }));
-          commit('updateUser', { userid: response.data.userid })
-        }
         return response.data
 
       } catch (error) {

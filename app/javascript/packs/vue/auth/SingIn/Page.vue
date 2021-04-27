@@ -75,11 +75,11 @@
     //   const otpSecret = location.search.split('otp_secret=')[1]
     //   if(otpSecret) this.otpSecret = otpSecret
 
-      const currentUserLocalStorage = localStorage.getItem('app.currentUser') ? localStorage.getItem('app.currentUser') : '';
-      if (currentUserLocalStorage) {
-        const currentUser = JSON.parse(currentUserLocalStorage);
-        this.userId = currentUser.userid;
-      }
+      // const currentUserLocalStorage = localStorage.getItem('app.currentUser') ? localStorage.getItem('app.currentUser') : '';
+      // if (currentUserLocalStorage) {
+      //   const currentUser = JSON.parse(currentUserLocalStorage);
+      //   this.userId = currentUser.userid;
+      // }
     },
     data() {
       return {
