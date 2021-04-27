@@ -7,6 +7,24 @@
           .card-body.white-card-body.registration
             Loading
             #step1.form(v-if='!loading' :class="step1 ? 'd-block' : 'd-none'")
+              h1.text-center Let's get you started!
+              <!--p.text-center Create your FREE account-->
+              div
+                b-form(@submit='onSubmit1' v-if='show')
+                  b-form-group#input-group-1(label='Email:' label-for='input-1')
+                    b-form-input#input-1(v-model='form.email' type='email' placeholder='Email' required)
+                    .invalid-feedback.d-block(v-if="errors['user.email']") 'Email' {{ ...errors['user.email'] }}
+                  b-form-group#input-group-2(label='Password:' label-for='input-2')
+                    b-form-input#input-2(v-model='form.password' type='password' placeholder='Password' required)
+                    .invalid-feedback.d-block(v-if="errors['user.password']") 'Email' {{ ...errors['user.password'] }}
+                  b-button.w-100(type='submit' variant='dark') Sign In
+                  hr
+                  b-form-group.text-center
+                    p Forget your password?&nbsp;
+                      a.link(href="#") Restore
+                b-card.mt-3(header='Form Data Result')
+                  pre.m-0 {{ form }}
+            #step2.form(v-if='!loading' :class="step2 ? 'd-block' : 'd-none'")
               h1.text-center Confirm your email!
               p.text-center We send a 6 digit code to email.com. Please enter it below.
               div
@@ -31,39 +49,6 @@
                   b-button.w-100(type='submit' variant='dark') Submit
                 b-card.mt-3(header='Form Data Result')
                   pre.m-0 {{ form2 }}
-            #step2.form(v-if='!loading'  :class="step2 ? 'd-block' : 'd-none'")
-              h1.text-center Let's get you started!
-              p.text-center Create your FREE account
-              div
-                b-form(@submit='onSubmit1' v-if='show')
-                  .row
-                    .col.pr-2
-                      b-form-group#input-group-1(label='First Name:' label-for='input-1')
-                        b-form-input#input-1(v-model='form.firstName' type='text' placeholder='First Name' min="3" required)
-                    .col.pl-2
-                      b-form-group#input-group-2(label='Last Name:' label-for='input-2')
-                        b-form-input#input-2(v-model='form.lastName' type='text' placeholder='Last Name' min="3" required)
-                  b-form-group#input-group-3(label='Email:' label-for='input-3')
-                    b-form-input#input-3(v-model='form.email' type='email' placeholder='Email' required)
-                    .invalid-feedback.d-block(v-if="errors['user.email']") 'Email' {{ ...errors['user.email'] }}
-                  b-form-group#input-group-4(label='Password:' label-for='input-4')
-                    b-form-input#input-4(v-model='form.password' type='password' placeholder='Password' required)
-                    .invalid-feedback.d-block(v-if="errors['user.password']") 'Password' {{ ...errors['user.password'] }}
-                  b-form-group#input-group-5(label='Repeat Password:' label-for='input-5')
-                    b-form-input#input-5(v-model='form.passwordConfirm' type='password' placeholder='Repeat Password' required)
-                    .invalid-feedback.d-block(v-if="errors.passwordConfirm") {{ errors.passwordConfirm }}
-                  b-form-group
-                    p By sining up, I accept the&nbsp;
-                      a.link(href="#") Complect Term of Service&nbsp;
-                      | and acknowledge the&nbsp;
-                      a.link(href="#") Privacy Policy
-                  b-button.w-100(type='submit' variant='dark') Sign Up
-                  hr
-                  b-form-group.text-center
-                    p Already have a Complect account?&nbsp;
-                      a.link(href="#") Sign In
-                b-card.mt-3(header='Form Data Result')
-                  pre.m-0 {{ form }}
             #step3.form(v-if='!loading'  :class="step3 ? 'd-block' : 'd-none'")
               h1.text-center You successfuly logged in!
               p.text-center You will be redirect to the dashboard!
@@ -84,23 +69,26 @@
       TopNavbar,
       Loading,
     },
-    // created() {
+    created() {
     //   const urlUserId = location.search.split('userid=')[1]
     //   if(urlUserId) this.userId = urlUserId
     //   const otpSecret = location.search.split('otp_secret=')[1]
     //   if(otpSecret) this.otpSecret = otpSecret
-    // },
+
+      const currentUserLocalStorage = localStorage.getItem('app.currentUser') ? localStorage.getItem('app.currentUser') : '';
+      if (currentUserLocalStorage) {
+        const currentUser = JSON.parse(currentUserLocalStorage);
+        this.userId = currentUser.userid;
+      }
+    },
     data() {
       return {
         userId: '',
         otpSecret: '',
         userType: '',
         form: {
-          firstName: `Alex${random}`,
-          lastName: `Willkinson${random}`,
-          email: `${random}fine@email.com`,
-          password: 'user666',
-          passwordConfirm: 'user666',
+          email: '',
+          password: '',
         },
         form2: {
           codePart1: '',
@@ -128,56 +116,23 @@
       selectType(type){
         this.userType = type
       },
-      onSubmit0(event){
-        event.preventDefault()
-        if (!this.userType) return
-
-        // open step 1
-        this.step0 = false
-        this.step1 = true
-      },
       onSubmit1(event) {
         event.preventDefault()
         // clear errors
         this.errors = []
 
-        if (this.form.password !== this.form.passwordConfirm) {
-          this.errors = { passwordConfirm : 'Passwords are different!'}
-          this.makeToast('Error', `Passwords are different!`)
-          return
-        }
-
         let dataToSend;
 
-        // FOR BUSSINES
-        if (this.userType === 'business') {
-          dataToSend = {
-            "business": {
-              "contact_first_name": this.form.firstName,
-              "contact_last_name": this.form.lastName,
-              "user_attributes": {
-                "email": this.form.email,
-                "password": this.form.password
-              }
-            }
-          }
-        }
-        // FOR SPECIALIST
-        if (this.userType === 'specialist') {
-          dataToSend = {
-            "specialist": {
-              "first_name": this.form.firstName,
-              "last_name": this.form.lastName,
-              "user_attributes": {
-                "email": this.form.email,
-                "password": this.form.password
-              }
-            }
-          }
+        dataToSend = {
+          "user": {
+            "email": this.form.email,
+            "password": this.form.password
+          },
         }
 
         console.log('dataToSend', dataToSend)
-        this.$store.dispatch('singUp', dataToSend)
+
+        this.$store.dispatch('singIn', dataToSend)
           .then((response) => {
             console.log('response', response)
 
@@ -188,7 +143,6 @@
                 this.makeToast('Error', `Form has errors! Please recheck fields! ${error}`)
                 // Object.keys(response.errors[type]).map(prop => response.errors[prop].map(err => this.makeToast(`Error`, `${prop}: ${err}`)))
               }
-
               return
             }
 
@@ -196,14 +150,15 @@
               this.userId = response.userid
               this.makeToast('Success', `${response.message}`)
 
-                // ?userid=14&otp_secret=123456
-              // const url = new URL(window.location);
-              // url.searchParams.set('userid', response.userid);
-              // window.history.pushState({}, '', url);
-
               // open step 2
               this.step1 = false
               this.step2 = true
+
+              const dashboard = response.business ? '/business2' : '/specialist'
+
+              setTimeout(() => {
+                window.location.href = `${dashboard}`;
+              }, 3000)
             }
           })
           .catch((error) => this.makeToast('Error', `Couldn't submit form! ${error}`))
@@ -213,50 +168,41 @@
         // clear errors
         this.errors = []
 
-        // const urlUserId = location.search.split('userid=')[1]
-        // if(urlUserId) this.userId = urlUserId
-        // const otpSecret = location.search.split('otp_secret=')[1]
-        // if(otpSecret) this.otpSecret = otpSecret
-
         if(this.form2.code.length !== 6) {
           this.makeToast('Error', `Code length incorrect!`)
           return
         }
 
         const dataToSend = {
-          userId: this.userId,
-          code: this.form2.code
+          "user": {
+            "email": this.form.email,
+            "password": this.form.password
+          },
+          "otp_secret": this.form2.code
         }
-        console.log('dataToSend', dataToSend)
 
-        this.$store.dispatch('confirmEmail', dataToSend)
+        this.$store.dispatch('singIn', dataToSend)
           .then((response) => {
-            if(!response.token) {
-              this.errors = {code: response.message}
-              this.makeToast('Error', `Errors ${response.message}`)
+            console.log('response', response)
+
+            if (response.errors) {
+              const properties = Object.keys(response.errors);
+              for (const type of Object.keys(response.errors)) {
+                this.errors = response.errors[type]
+                this.makeToast('Error', `Form has errors! Please recheck fields! ${error}`)
+                // Object.keys(response.errors[type]).map(prop => response.errors[prop].map(err => this.makeToast(`Error`, `${prop}: ${err}`)))
+              }
               return
             }
 
-            if(response.token) {
-              console.log('response with succes token', response)
+            if (!response.errors) {
+              this.userId = response.userid
               this.makeToast('Success', `${response.message}`)
-              // localStorage.setItem('app.currentUser', JSON.stringify(response.token));
-              // this.$store.commit('updateToken', response.token)
 
               // open step 3
               this.step2 = false
               this.step3 = true
-
-              // Fetch data and show correct component to continue sign up
-              this.fetchINitData(response)
-
-              // Redirect to finish steps
-              // setTimeout(() => {
-              //   if (this.userType === 'business') window.location.href = `${window.location.origin}/businesses/new`
-              //   if (this.userType === 'specialist') window.location.href = `${window.location.origin}/specialists/new`
-              // }, 5000)
             }
-
           })
           .catch((error) => this.makeToast('Error', `Couldn't submit form! ${error}`))
       },
@@ -276,20 +222,6 @@
 
         this.form2.code = this.form2.codePart1 + this.form2.codePart2 + this.form2.codePart3 + this.form2.codePart4 + this.form2.codePart5 + this.form2.codePart6
       },
-
-      fetchINitData(data){
-        if (this.userType === 'business') {
-          this.component = BusinessPage;
-        }
-        if (this.userType === 'specialist') {
-          this.component = SpecialistPage;
-        }
-
-        //fetch from server then
-        this.childdata = data;
-        this.childDataLoaded = true;
-        console.log('data', data) //has some values
-      }
     },
     computed: {
       loading() {

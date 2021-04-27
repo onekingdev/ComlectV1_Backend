@@ -21,6 +21,26 @@ export default {
     }
   },
   actions: {
+    async singIn({commit}, payload) {
+      try {
+        commit("clearError");
+        commit("setLoading", true);
+
+        const response = await axios.post(`/users/sign_in`, payload)
+        // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
+        if(response.data) {
+          localStorage.setItem('app.currentUser', JSON.stringify({ userid: response.data.userid }));
+          commit('updateUser', { userid: response.data.userid })
+        }
+        return response.data
+
+      } catch (error) {
+        console.error(error);
+        throw error
+      } finally {
+        commit("setLoading", false)
+      }
+    },
     async singUp({commit}, payload) {
       try {
         commit("clearError");
@@ -29,6 +49,10 @@ export default {
         const endPoint = payload.business ? 'businesses' : 'specialists'
         const response = await axios.post(`/${endPoint}`, payload)
         // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
+        if(response.data) {
+          localStorage.setItem('app.currentUser', JSON.stringify({ userid: response.data.userid }));
+          commit('updateUser', { userid: response.data.userid })
+        }
         return response.data
 
       } catch (error) {
