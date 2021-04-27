@@ -85,8 +85,13 @@
               b-alert.d-none(show variant="primary" dismissible)
                 h4 Verify information
                 p.mb-0 The following fields were filled in based on the CRD number you provided. Please carefully review each field before proceeding.
-              h3 Tell us more about yourself:
-              p Enter any relevant skills and education to better match with ideal clients.
+              div.d-flex.justify-content-between
+                .text-left
+                  h3 Tell us more about yourself:
+                  p Enter any relevant skills and education to better match with ideal clients.
+                .text-right
+                  SpecialistModalSkipStep(@skipConfirmed="skipStep(3)", :inline="false")
+                    b-button.mr-2(type='button' variant='outline-primary') Skip this step
               b-form-group(label='Skills' label-for='selectS-7')
                 multiselect#selectS-7(
                 v-model="formStep2.skills"
@@ -185,6 +190,7 @@
   import Multiselect from 'vue-multiselect'
   import BillingDetails from './BillingDetails'
   import PurchaseSummary from './PurchaseSummary'
+  import SpecialistModalSkipStep from './Modals/SpecialistModalSkipStep'
 
   import data from './BillingPlansData.json'
 
@@ -195,7 +201,8 @@
       TopNavbar,
       Multiselect,
       BillingDetails,
-      PurchaseSummary
+      PurchaseSummary,
+      SpecialistModalSkipStep
     },
     created() {
       // console.log('userInfo', this.userInfo)
@@ -462,6 +469,20 @@
 
               return
             })
+        }
+      },
+      skipStep(stepNum){
+        this['step'+(stepNum-1)] = false
+        this['navStep'+stepNum] = true
+        this['step'+stepNum] = true
+        this.currentStep = stepNum
+        this.navigation(this.currentStep)
+
+        this.formStep2 = {
+            skills: [],
+            skillsTags: [],
+            file1: null,
+            expirience: '',
         }
       },
       openDetails(id) {
