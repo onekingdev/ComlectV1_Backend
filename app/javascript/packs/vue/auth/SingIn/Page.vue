@@ -196,9 +196,11 @@
               // open step 3
               this.step2 = false
               this.step3 = true
+            }
 
+
+            if (response.token) {
               const dashboard = response.business ? '/business2' : '/specialist'
-
               setTimeout(() => {
                 window.location.href = `${dashboard}`;
               }, 3000)
