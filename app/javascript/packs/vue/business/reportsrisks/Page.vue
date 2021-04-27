@@ -17,6 +17,9 @@
                 .card-header
                   h3.m-y-0 Risk Heatmap
                 .card-body
+                  <!--ul-->
+                    <!--li(v-for="(row, idx) in riskHeatmap" :key="idx")-->
+                      <!--span(v-for="(value, idc) in row[0]" :key="idc") {{ value }} |-->
                   .risks-heatmap
                     .risks-heatmap__impact Impact
                     .risks-heatmap__box-row
@@ -90,6 +93,15 @@
 <script>
   import Loading from '@/common/Loading/Loading'
   import RisksTable from '../riskregister/RisksTable.vue'
+
+  function create2DArray(rows, columns) {
+    var x = new Array(rows);
+    for (var i = 0; i < rows; i++) {
+      x[i] = new Array(columns);
+    }
+    return x;
+  }
+
   export default {
     components: {
       Loading,
@@ -110,11 +122,39 @@
       loading() {
         return this.$store.getters.loading;
       },
+      riskList() {
+        return this.$store.getters.risksList
+      },
       riskHeatmap() {
+        // let riskHeatmapArray = []
+        //
+        // this.riskList.map((val, ind) => {
+        //   console.log(val, ind)
+        //   let count = 0;
+        //   let arr2level = [0, 0, 0]
+        //   if (val.impact === 0) {
+        //     if (val.risk_level === 0) {}
+        //     if (val.risk_level === 1) {}
+        //     if (val.risk_level === 2) {}
+        //   }
+        //   if (val.impact === 1) {
+        //     if (val.risk_level === 0) {}
+        //     if (val.risk_level === 1) {}
+        //     if (val.risk_level === 2) {}
+        //   }
+        //   if (val.impact === 2) {
+        //     if (val.risk_level === 0) {}
+        //     if (val.risk_level === 1) {}
+        //     if (val.risk_level === 2) {}
+        //   }
+        //   riskHeatmapArray.push(arr2level)
+        // })
 
+        return create2DArray(3, [0, 0, 0])
+        // return riskHeatmapArray
       },
       riskSummary() {
-        const riskList = this.$store.getters.risksList
+        const riskList = this.riskList
         const totalLength = riskList.length;
         const totalPercent = 100;
         let counterHigh = 0;
@@ -146,14 +186,7 @@
       },
     },
     mounted() {
-      function Create2DArray(rows, columns) {
-        var x = new Array(rows);
-        for (var i = 0; i < rows; i++) {
-          x[i] = new Array(columns);
-        }
-        return x;
-      }
-      console.log(Create2DArray(2, [1,2]))
+      console.log(create2DArray(3, [0, 0, 0]))
     },
   };
 </script>
