@@ -128,15 +128,15 @@
         return {
           hight: {
             count: counterHigh,
-            percent: totalLength * (counterHigh / totalPercent)
+            percent: totalPercent / totalLength * counterHigh
           },
           medium: {
             count: counterMedium,
-            percent: totalLength * (counterMedium / totalPercent)
+            percent: totalPercent / totalLength * counterMedium
           },
           low: {
             count: counterLow,
-            percent: totalLength * (counterLow / totalPercent)
+            percent: totalPercent / totalLength * counterLow
           },
           total: {
             count: totalLength,
