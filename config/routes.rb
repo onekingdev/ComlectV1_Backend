@@ -261,7 +261,6 @@ Rails.application.routes.draw do
     resources :users, only: [] do
       collection do
         post :sign_in, to: 'authentication#create'
-        post :password, to: 'passwords#create'
       end
     end
     scope 'projects/:project_id' do
