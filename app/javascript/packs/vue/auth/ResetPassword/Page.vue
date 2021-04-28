@@ -85,7 +85,9 @@
         let dataToSend;
 
         dataToSend = {
-          "email": this.form.email,
+          "user" : {
+            "email": this.form.email,
+          }
         }
 
         console.log('dataToSend', dataToSend)
@@ -114,9 +116,9 @@
               this.step2 = true
             }
 
-            // setTimeout(() => {
-            //   window.location.href = `/users/sign_in`;
-            // }, 3000)
+            setTimeout(() => {
+              window.location.href = `/users/sign_in`;
+            }, 3000)
           })
           .catch((error) => {
             console.error('error', error)

@@ -262,6 +262,7 @@ Rails.application.routes.draw do
       collection do
         post :sign_in, to: 'authentication#create'
         post :password, to: 'passwords#create'
+        put :password, to: 'passwords#update'
       end
     end
     scope 'projects/:project_id' do
