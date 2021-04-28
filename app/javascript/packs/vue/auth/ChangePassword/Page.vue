@@ -7,22 +7,21 @@
           .card-body.white-card-body.registration
             Loading
             #step1.form(v-if='!loading' :class="step1 ? 'd-block' : 'd-none'")
-              h1.text-center Reset password via email
-              p.text-center Enter the email address used to log in to your Complect
-                br
-                | account and we'll send you a link to reset your password. If you
-                br
-                | are a business, we'll send the email to your key contact.
+              h1.text-center Change your passwod
+              p.text-center Enter the new password and repeat
               div
                 b-alert(:show='dismissCountDown' dismissible fade variant='danger' @dismiss-count-down='countDownChanged')
                   | {{ error }}
                   br
                   | This alert will dismiss after {{ dismissCountDown }} seconds...
                 b-form(@submit='onSubmit1' v-if='show')
-                  b-form-group#input-group-1(label='Email Address:' label-for='input-1')
-                    b-form-input#input-1(v-model='form.email' type='email' placeholder='Email' required)
-                    .invalid-feedback.d-block(v-if="errors['user.email']") 'Email Address' {{ ...errors['user.email'] }}
-                  b-button.w-100(type='submit' variant='dark') Reset
+                  b-form-group#input-group-4(label='Password:' label-for='input-4')
+                    b-form-input#input-4(v-model='form.password' type='password' placeholder='Password' required)
+                    .invalid-feedback.d-block(v-if="errors['user.password']") 'Password' {{ ...errors['user.password'] }}
+                  b-form-group#input-group-5(label='Repeat Password:' label-for='input-5')
+                    b-form-input#input-5(v-model='form.passwordConfirm' type='password' placeholder='Repeat Password' required)
+                    .invalid-feedback.d-block(v-if="errors.passwordConfirm") {{ errors.passwordConfirm }}
+                  b-button.w-100(type='submit' variant='dark') Save
                   hr
                   b-form-group.text-center.forgot-password.m-t-1
                     .m-t-1
@@ -41,16 +40,19 @@
 <script>
   import Loading from '@/common/Loading/Loading'
   import TopNavbar from "../SingIn/TopNavbar";
-  import ResetPasswordModal from './Modals/ResetPasswordModal'
 
   const random = Math.floor(Math.random() * 1000);
 
   export default {
-    props: ['industryIds', 'jurisdictionIds', 'subIndustryIds', 'states'],
     components: {
       Loading,
       TopNavbar,
-      ResetPasswordModal,
+    },
+    created() {
+      const url = new URL(window.location);
+      const resetPasswordToken = url.searchParams.get('reset_password_token');
+      this.resetPasswordToken = resetPasswordToken;
+      console.log('resetPasswordToken', this.resetPasswordToken)
     },
     data() {
       return {
@@ -58,7 +60,8 @@
         otpSecret: '',
         userType: '',
         form: {
-          email: '',
+          password: '',
+          passwordConfirm: '',
         },
         show: true,
         error: '',
@@ -68,6 +71,7 @@
         dismissSecs: 8,
         dismissCountDown: 0,
         showDismissibleAlert: false,
+        resetPasswordToken: '',
       }
     },
     methods: {
@@ -82,15 +86,25 @@
         // clear errors
         this.errors = []
 
+        if (this.form.password !== this.form.passwordConfirm) {
+          this.errors = { passwordConfirm : 'Passwords are different!'}
+          this.makeToast('Error', `Passwords are different!`)
+          return
+        }
+
         let dataToSend;
 
         dataToSend = {
-          "email": this.form.email,
+          "user": {
+            "reset_password_token": this.resetPasswordToken,
+            "password": this.form.password,
+            "password_confirmation": this.form.passwordConfirm
+          }
         }
 
         console.log('dataToSend', dataToSend)
 
-        this.$store.dispatch('resetEmail', dataToSend)
+        this.$store.dispatch('changeEmail', dataToSend)
           .then((response) => {
             console.log('response', response)
 
@@ -114,9 +128,9 @@
               this.step2 = true
             }
 
-            // setTimeout(() => {
-            //   window.location.href = `/users/sign_in`;
-            // }, 3000)
+            setTimeout(() => {
+              window.location.href = `/users/sign_in`;
+            }, 6000)
           })
           .catch((error) => {
             console.error('error', error)
