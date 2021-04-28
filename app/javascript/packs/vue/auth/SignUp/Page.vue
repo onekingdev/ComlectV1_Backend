@@ -61,8 +61,8 @@
                   b-form-group.text-center
                     p Already have a Complect account?&nbsp;
                       a.link(href="#") Sign In
-                b-card.mt-3(header='Form Data Result')
-                  pre.m-0 {{ form }}
+                <!--b-card.mt-3(header='Form Data Result')-->
+                  <!--pre.m-0 {{ form }}-->
             #step2.form(v-if='!loading'  :class="step2 ? 'd-block' : 'd-none'")
               h1.text-center Confirm your email!
               p.text-center We send a 6 digit code to email.com. Please enter it below.
@@ -86,8 +86,8 @@
                       .col
                         input(v-model='form2.code' type='hidden')
                   b-button.w-100(type='submit' variant='dark') Submit
-                b-card.mt-3(header='Form Data Result')
-                  pre.m-0 {{ form2 }}
+                <!--b-card.mt-3(header='Form Data Result')-->
+                  <!--pre.m-0 {{ form2 }}-->
             #step3.form(v-if='!loading'  :class="step3 ? 'd-block' : 'd-none'")
               h1.text-center You successfuly registered!
               p.text-center You will be redirect to finish steps for updating your account
