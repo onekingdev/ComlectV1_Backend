@@ -6,6 +6,10 @@ class Users::PasswordsController < Devise::PasswordsController
     render html: content_tag('reset-password-page', '').html_safe, layout: 'vue_onboarding'
   end
 
+  def edit
+    render html: content_tag('change-password-page', '').html_safe, layout: 'vue_onboarding'
+  end
+
   def create
     user = User.find_by(email: resource_params[:email])
     resource_params[:email] = user.business.contact_email if user&.business&.contact_email.present?
