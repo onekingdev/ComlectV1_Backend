@@ -15,12 +15,12 @@
                 b-form(@submit='onSubmit0' v-if='show')
                   b-form-group
                     .row
-                      .col.pr-2.text-center
+                      .col.pr-md-2.text-center
                         .account-select(@click="selectType('business')" :class="userType === 'business' ? 'active' : ''")
                           h3.account-select__title.mb-3 I am a business
                           ion-icon.mb-3(name="people-circle-outline" size="large")
                           p.account-select__subtitle Looking to effectively manage my compilance program and find expetrise
-                      .col.pl-2.text-center
+                      .col.pl-md-2.text-center
                         .account-select(@click="selectType('specialist')" :class="userType === 'specialist' ? 'active' : ''")
                           h3.account-select__title.mb-3 I am a specialist
                           ion-icon.mb-3(name="person-circle-outline" size="large")
@@ -29,7 +29,7 @@
                   hr
                   b-form-group.text-center
                     p Already have a Complect account?&nbsp;
-                      a.link(href="#") Sign In
+                      a.link(href="/users/sign_in") Sign In
             #step1.form(v-if='!loading' :class="step1 ? 'd-block' : 'd-none'")
               h1.text-center Let's get you started!
               p.text-center Create your FREE account
@@ -102,6 +102,8 @@
   import BusinessPage from "./Onboarding/Business/BusinessPage";
   import SpecialistPage from "./Onboarding/Specialist/SpecialistPage";
 
+  const random = Math.floor(Math.random() * 1000);
+
   export default {
     props: ['industryIds', 'jurisdictionIds', 'subIndustryIds', 'states'],
     components: {
@@ -122,9 +124,9 @@
         otpSecret: '',
         userType: '',
         form: {
-          firstName: 'Alex',
-          lastName: 'Willkinson',
-          email: Math.floor(Math.random() * 1000) + 'fine@email.com',
+          firstName: `Alex${random}`,
+          lastName: `Willkinson${random}`,
+          email: `${random}fine@email.com`,
           password: 'user666',
           passwordConfirm: 'user666',
         },
@@ -265,6 +267,7 @@
             }
 
             if(response.token) {
+              console.log('response with succes token', response)
               this.makeToast('Success', `${response.message}`)
               // localStorage.setItem('app.currentUser', JSON.stringify(response.token));
               // this.$store.commit('updateToken', response.token)
@@ -273,6 +276,7 @@
               this.step2 = false
               this.step3 = true
 
+              // Fetch data and show correct component to continue sign up
               this.fetchINitData(response)
 
               // Redirect to finish steps
@@ -328,5 +332,5 @@
 </script>
 
 <style scoped>
-  @import "./styles.css";
+  @import "../styles.css";
 </style>
