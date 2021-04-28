@@ -383,6 +383,11 @@
           // CLEAR ERRORS
           this.errors = []
 
+          if (!this.formStep2.industry) this.errors = Object.assign({}, this.errors, { industry: `Field can't be empty!` })
+          if (!this.formStep2.subIndustry) this.errors = Object.assign({}, this.errors, { subIndustry: `Field can't be empty!` })
+          if (!this.formStep2.jurisdiction) this.errors = Object.assign({}, this.errors, { jurisdiction: `Field can't be empty!` })
+          if (!this.formStep2.industry || !this.formStep2.subIndustry || !this.formStep2.jurisdiction ) return
+
           const dataToSend = {
             business: {
               // contact_first_name: 'x',
