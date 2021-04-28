@@ -17,7 +17,7 @@
                 b-form(@submit='onSubmit1' v-if='show')
                   b-form-group#input-group-4(label='Password:' label-for='input-4')
                     b-form-input#input-4(v-model='form.password' type='password' placeholder='Password' required)
-                    .invalid-feedback.d-block(v-if="errors['user.password']") 'Password' {{ ...errors['user.password'] }}
+                    .invalid-feedback.d-block(v-if="errors.password") 'Password' {{ errors.password }}
                   b-form-group#input-group-5(label='Repeat Password:' label-for='input-5')
                     b-form-input#input-5(v-model='form.passwordConfirm' type='password' placeholder='Repeat Password' required)
                     .invalid-feedback.d-block(v-if="errors.passwordConfirm") {{ errors.passwordConfirm }}
@@ -102,19 +102,14 @@
           }
         }
 
-        console.log('dataToSend', dataToSend)
-
         this.$store.dispatch('changeEmail', dataToSend)
           .then((response) => {
-            console.log('response', response)
 
             if (response.errors) {
-              const properties = Object.keys(response.errors);
-              console.log('properties', properties)
-              for (const type of Object.keys(response.errors)) {
-                this.errors = response.errors[type]
-                this.makeToast('Error', `Form has errors! Please recheck fields! ${error}`)
-                // Object.keys(response.errors[type]).map(prop => response.errors[prop].map(err => this.makeToast(`Error`, `${prop}: ${err}`)))
+              for (const [key, value] of Object.entries(response.errors)) {
+                console.log(`${key}: ${value}`);
+                this.makeToast('Error', `${key}: ${value}`)
+                this.errors = Object.assign(this.errors, { [key]: value })
               }
               return
             }
