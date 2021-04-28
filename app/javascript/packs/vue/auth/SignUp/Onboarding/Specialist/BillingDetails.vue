@@ -116,7 +116,6 @@
       StripeElementCard
     },
     data() {
-      // this.publishableKey = 'pk_test_01vxEQv9T5FIIKTu1GkHW41D';
       return {
         userType: 'specialist',
         // loading: false,
