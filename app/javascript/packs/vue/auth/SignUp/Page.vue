@@ -70,7 +70,7 @@
                 b-form(@submit='onSubmitStep2' @keyup="onChange" v-if='show' autocomplete="off")
                   b-form-group
                     .col.text-center
-                      ion-icon(name="mail-outline" size="large")
+                      ion-icon(name="mail-outline")
                   b-form-group
                     .row
                       .col-12.mx-0
