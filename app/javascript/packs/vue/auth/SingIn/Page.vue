@@ -24,9 +24,12 @@
                     .invalid-feedback.d-block(v-if="errors['user.password']") 'Email' {{ ...errors['user.password'] }}
                   b-button.w-100(type='submit' variant='dark') Sign In
                   hr
-                  b-form-group.text-center
-                    p Forget your password?&nbsp;
-                      a.link(href="#") Restore
+                  b-form-group.text-center.forgot-password.m-t-1
+                    <!--p Forget your password?&nbsp;-->
+                      <!--a.link(href="#") Restore-->
+                    a.link.o-8.forgot-password(data-remote='true' href='/users/password/new') Forgot Password
+                    h4.text-uppercase.m-t-1.m-b-1 Don’t have an account yet?&nbsp;
+                      a.link(data-remote='true' href='/users/sign_up') sign up here
                 b-card.mt-3(header='Form Data Result')
                   pre.m-0 {{ form }}
             #step2.form(v-if='!loading' :class="step2 ? 'd-block' : 'd-none'")
