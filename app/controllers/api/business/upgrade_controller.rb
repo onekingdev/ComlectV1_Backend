@@ -36,6 +36,7 @@ class Api::Business::UpgradeController < ApiController
             stripe_subscription_id: sub.id,
             billing_period_ends: sub.cancel_at
           )
+          current_business.update(onboarding_passed: true)
         end
         processed_subs.push(db_subscription)
       end

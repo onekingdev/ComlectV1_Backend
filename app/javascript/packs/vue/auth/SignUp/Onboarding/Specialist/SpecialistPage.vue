@@ -89,9 +89,9 @@
                 .text-left
                   h3 Tell us more about yourself:
                   p Enter any relevant skills and education to better match with ideal clients.
-                <!--.text-right-->
-                  <!--SpecialistModalSkipStep(@skipConfirmed="skipStep(3)", :inline="false")-->
-                    <!--b-button.mr-2(type='button' variant='outline-primary') Skip this step-->
+                .text-right
+                  SpecialistModalSkipStep(@skipConfirmed="skipStep(3)", :inline="false")
+                    b-button.mr-2(type='button' variant='outline-primary') Skip this step
               b-form-group(label='Skills' label-for='selectS-7')
                 multiselect#selectS-7(
                 v-model="formStep2.skills"
@@ -110,23 +110,23 @@
               p Select one that the best matches your level of your expertise.
               b-form-group
                 b-button-group.flex-wrap(size='lg')
-                  b-button.text-left(type='button' variant='outline-primary' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onExpirienceChange(0)")
+                  b-button.text-left(type='button' variant='outline-primary' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onExpirienceChange('junior')")
                     b Junior
                     br
                     | Begining consulting with some experience in the field.
-                  b-button.text-left(type='button' variant='outline-primary' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onExpirienceChange(1)")
+                  b-button.text-left(type='button' variant='outline-primary' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onExpirienceChange('intermediate')")
                     b Intermediate
                     br
                     | Good expirience and knowlage of the industry.
-                  b-button.text-left(type='button' variant='outline-primary' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onExpirienceChange(2)")
+                  b-button.text-left(type='button' variant='outline-primary' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onExpirienceChange('expert')")
                     b Expert
                     br
                     | Deep understanding of industry with varied experience.
               hr
               h3.mb-3 (Optional) Upload you resume:
               b-form-group.mt-3
-                b-form-file(v-model='formStep2.file' :state='Boolean(formStep2.file)' accept="application/pdf" placeholder='Choose a file or drop it here...' drop-placeholder='Drop file here...')
-                .mt-3 Selected file: {{ formStep2.file ? formStep2.file.name : '' }}
+                b-form-file(v-model='formStep2.file1' :state='Boolean(formStep2.file1)' accept="application/pdf" placeholder='Choose a file or drop it here...' drop-placeholder='Drop file here...')
+                .mt-3 Selected file: {{ formStep2.file1 ? formStep2.file1.name : '' }}
               .text-right
                 b-button.mr-2(type='button' variant='outline-primary' @click="prevStep(1)") Go back
                 b-button(type='button' variant='dark' @click="nextStep(3)") Next
@@ -287,7 +287,7 @@
         formStep2: {
           skills: [],
           skillsTags: [],
-          file: null,
+          file1: null,
           expirience: '',
 
           companyName: '',
@@ -396,24 +396,20 @@
 
         if (stepNum === 3) {
 
-          // let formData = new FormData()
-          // formData.append('file', this.formStep2.file)
-
           // const dataToSend = {
           //   specialist: {
           //     industry_ids: this.formStep1.industry.map(record => record.id),
           //     sub_industry_ids: this.formStep1.subIndustry.map(record => record.id),
           //     jurisdiction_ids: this.formStep1.jurisdiction.map(record => record.id),
           //
-          //     first_name: this.currentUser.first_name,
-          //     last_name: this.currentUser.last_name,
-          //     former_regulator: this.formStep1.regulatorSelected === 'yes',
-          //     specialist_other: this.formStep1.regulator.join(', '),
-          //     experience: this.formStep2.expirience,
+          //     first_name: 'Alex556',
+          //     last_name: 'Willkinson556',
+          //     former_regulator: this.formStep1.regulator,
+          //     skill_names: this.formStep2.skills,
           //     // certifications: '',
-          //     resume: formData,
-          //   },
-          //   skill_names: this.formStep2.skills.map(skill => skill.name),
+          //     // resume: '',
+          //     experience: this.formStep2.expirience,
+          //   }
           // }
 
           const params = {
@@ -422,44 +418,41 @@
               sub_industry_ids: this.formStep1.subIndustry.map(record => record.id),
               jurisdiction_ids: this.formStep1.jurisdiction.map(record => record.id),
 
-              first_name: this.currentUser.first_name,
-              last_name: this.currentUser.last_name,
-              former_regulator: this.formStep1.regulatorSelected === 'yes',
-              specialist_other: this.formStep1.regulator.join(', '),
-              experience: this.formStep2.expirience,
+              first_name: 'Alex556',
+              last_name: 'Willkinson556',
+              former_regulator: this.formStep1.regulator,
+              skill_names: this.formStep2.skills,
               // certifications: '',
-              resume: this.formStep2.file ? this.formStep2.file : '',
-            },
-            skill_names: this.formStep2.skills.map(skill => skill.name),
+              resume: '',
+              experience: this.formStep2.expirience,
+            }
           }
+          console.log('params', params)
+          // Add resume if it exist
+          if (this.formStep2.file1) params.specialist.resume = this.formStep2.file1
 
           let formData = new FormData()
-          // Object.entries(params).forEach(
-          //   ([key, value]) => formData.append(key, JSON.stringify(value))
-          // )
-          // console.log('formData', formData)
 
-          // Object.entries(params).forEach(
-          //   ([keyP, valueP]) => {
-          //     const newObj = {}
-          //     Object.entries(valueP).forEach(
-          //       ([key, value]) => {
-          //         Object.assign(newObj, { [key]: value })
-          //         console.log(newObj)
-          //       })
-          //     formData.append(keyP, JSON.stringify(newObj))
-          //   })
-
-          Object.keys(params).map(e => {
-            console.log('e')
-            console.log(e)
-            formData.append(e, params[e])
-          })
+          Object.entries(params.specialist).forEach(
+            ([key, value]) => formData.append(key, value)
+          )
+          console.log('formData', formData)
 
           this.$store
             .dispatch('updateAccountInfo', formData)
             .then(response => {
               console.log('response', response)
+
+              if(response.errors) {
+                this.makeToast('Error', `Something wrong!`)
+
+                for (const type of Object.keys(response.errors)) {
+                  this.errors = response.errors[type]
+                  this.makeToast('Error', `Form has errors! Please recheck fields! ${response.errors[type]}`)
+                }
+
+                return
+              }
 
               if(!response.errors) {
                 this['step'+(stepNum-1)] = false
@@ -473,6 +466,8 @@
             .catch(error => {
               console.error(error)
               this.makeToast('Error', `Something wrong! ${error}`)
+
+              return
             })
         }
       },
@@ -486,7 +481,7 @@
         this.formStep2 = {
             skills: [],
             skillsTags: [],
-            file: null,
+            file1: null,
             expirience: '',
         }
       },
@@ -597,9 +592,6 @@
       loading() {
         return this.$store.getters.loading;
       },
-      currentUser() {
-        return this.$store.getters.getUser
-      }
     }
   }
 </script>
