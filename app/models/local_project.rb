@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class LocalProject < ApplicationRecord
+  attr_accessor :hide_on_calendar
   has_many :projects
   belongs_to :business
   has_one :visible_project, -> { order(id: :desc).where(specialist_id: nil).limit(1) }, class_name: 'Project'

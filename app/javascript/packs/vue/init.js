@@ -19,6 +19,7 @@ import PropertiesTable from '@/common/PropertiesTable'
 import CommonHeader from '@/common/CommonHeader'
 import Get from '@/common/rest/Get'
 import Post from '@/common/rest/Post'
+import Delete from '@/common/rest/Delete'
 import ModelLoader from '@/common/rest/ModelLoader'
 import filters from '@/filters'
 import { extractToastMessage } from '@/common/Toast'
@@ -57,6 +58,7 @@ const init = configuration => {
   Vue.component('CommonHeader', CommonHeader)
   Vue.component('Get', Get)
   Vue.component('Post', Post)
+  Vue.component('Delete', Delete)
   Vue.component('ModelLoader', ModelLoader)
 
   return new Vue({
