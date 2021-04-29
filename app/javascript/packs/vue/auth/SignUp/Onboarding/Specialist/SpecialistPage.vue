@@ -226,21 +226,15 @@
 
       const accountInfo = localStorage.getItem('app.currentUser');
       const accountInfoParsed = JSON.parse(accountInfo);
-      // console.log(JSON.parse(accountInfo))
+      console.log(JSON.parse(accountInfo))
       if(accountInfo) {
-        this.formStep2.companyName = accountInfoParsed.business_name;
-        // this.formStep2.website = accountInfoParsed;
-        this.formStep2.aum = accountInfoParsed.aum;
-        this.formStep2.aptUnit = accountInfoParsed.apartment;
-        this.formStep2.numAcc = accountInfoParsed.client_account_cnt;
-        // this.formStep2.businessAddress = accountInfoParsed;
-        this.formStep2.city = accountInfoParsed.city;
-        this.formStep2.state = accountInfoParsed.state;
-        this.formStep2.zip = accountInfoParsed.zip;
-        // this.formStep1.regulator = accountInfo;
-        this.formStep2.industry = accountInfoParsed.industries;
-        this.formStep2.subIndustry = accountInfoParsed.sub_industries;
-        this.formStep2.jurisdiction = accountInfoParsed.jurisdictions;
+        this.formStep1.industry = accountInfoParsed.industries;
+        this.formStep1.subIndustry = accountInfoParsed.sub_industries;
+        this.formStep1.jurisdiction = accountInfoParsed.jurisdictions;
+        this.formStep1.regulatorSelected = accountInfoParsed.former_regulator ? 'yes' : 'no';
+
+        this.formStep2.skills = accountInfoParsed.skill_names;
+        this.formStep2.experience = accountInfoParsed.experience;
       }
 
 
@@ -397,9 +391,12 @@
 
         if (stepNum === 3) {
 
+          console.log('this.formStep2.file')
+          console.log(this.formStep2.file)
+
           // let formData = new FormData()
           // formData.append('file', this.formStep2.file)
-          //
+
           // const dataToSend = {
           //   specialist: {
           //     industry_ids: this.formStep1.industry.map(record => record.id),
@@ -412,7 +409,7 @@
           //     specialist_other: this.formStep1.regulator.join(', '),
           //     experience: this.formStep2.expirience,
           //     // certifications: '',
-          //     resume: formData,
+          //     resume: formData ? JSON.stringify(formData) : '',
           //   },
           //   skill_names: this.formStep2.skills.map(skill => skill.name),
           // }
@@ -437,7 +434,7 @@
 
           let formData = new FormData()
           Object.entries(params).forEach(
-            ([key, value]) => formData.append(key, JSON.stringify(value))
+            ([key, value]) => formData.append(key, value)
           )
           console.log('formData', formData)
 

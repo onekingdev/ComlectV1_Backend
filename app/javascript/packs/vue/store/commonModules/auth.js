@@ -202,7 +202,7 @@ export default {
             'Content-Type': 'multipart/form-data'
           }
         };
-        const response = await axios.patch(`/specialist`, payload)
+        const response = await axios.patch(`/specialist`, payload, config)
         if(response.data) {
           localStorage.setItem('app.currentUser', JSON.stringify(response.data));
           commit('updateUser', response.data)
