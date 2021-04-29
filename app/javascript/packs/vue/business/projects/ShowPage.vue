@@ -5,7 +5,7 @@
       b-dropdown.m-r-1(text='Actions' variant='default')
         li: LocalProjectModal(@saved="newEtag" :project-id="project.id" :inline="false")
           button.dropdown-item Edit
-        li: DeleteLocalProjectModal(:project="project")
+        b-dropdown-item Delete Project
       a.m-r-1.btn.btn-default(v-if="project.visible_project" :href='viewHref(project.visible_project)') View Post
       a.m-r-1.btn.btn-default(v-else :href='postHref(project)') Post Project
       button.btn.btn-dark Complete Project
@@ -47,7 +47,7 @@
       b-tab(title="Tasks")
         .card-body.white-card-body
       b-tab(title="Documents")
-        DocumentList(:project="project")
+        .card-body.white-card-body
       b-tab(title="Collaborators")
         .white-card-body.p-y-1
           .container
@@ -86,10 +86,8 @@ import ApplicationsNotice from './alerts/ApplicationsNotice'
 import TimesheetsNotice from './alerts/TimesheetsNotice'
 import EndContractNotice from './alerts/EndContractNotice'
 import ProjectDetails from './ProjectDetails'
-import DocumentList from './DocumentList'
 import EtaggerMixin from '@/mixins/EtaggerMixin'
 import LocalProjectModal from './LocalProjectModal'
-import DeleteLocalProjectModal from './DeleteLocalProjectModal'
 import EndContractModal from './EndContractModal'
 import ChangeContractAlerts from '@/common/projects/ChangeContractAlerts'
 import EditContractModal from '@/common/projects/EditContractModal'
@@ -148,12 +146,10 @@ export default {
     ChangeContractAlerts,
     DiscussionCard,
     LocalProjectModal,
-    DeleteLocalProjectModal,
     TimesheetsNotice,
     EndContractNotice,
     EndContractModal,
     ProjectDetails,
-    DocumentList,
     EditContractModal,
     IssueModal
   }
