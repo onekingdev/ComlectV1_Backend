@@ -52,27 +52,13 @@
               .map(prop => response.errors[prop].map(err => this.makeToast(`Error`, `${prop}: ${err}`)))
             return
           }
-          this.makeToast('Success', `Policy successfully created!`)
+          this.makeToast('Success', `Annual Review Successfully created!`)
           this.$emit('saved')
           this.$bvModal.hide(this.modalId)
-          this.annual_review = {
-            name: '',
-            review_start: '',
-            review_end: ''
-          }
         } catch (error) {
           this.makeToast('Error', error.message)
         }
       },
-    },
-    computed: {
-
-    },
-    watch: {
-
-    },
-    mounted() {
-      // this.focusInput()
     },
   }
 </script>

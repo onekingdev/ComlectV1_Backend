@@ -47,6 +47,22 @@ export default {
           throw new Error(`Could't create review (${response.status})`);
         }
         const data = await response.json()
+        if (data) commit('SET_NEW_REVIEW', new AnnualReview(
+          data.annual_review_employees,
+          data.business_id,
+          data.created_at,
+          data.exam_end,
+          data.exam_start,
+          data.id,
+          data.material_business_changes,
+          data.pdf_url,
+          data.regulatory_changes,
+          data.review_categories,
+          data.review_end,
+          data.review_start,
+          data.updated_at,
+          data.year
+        ))
         return data
       } catch (error) {
         commit("setError", error.message, {
