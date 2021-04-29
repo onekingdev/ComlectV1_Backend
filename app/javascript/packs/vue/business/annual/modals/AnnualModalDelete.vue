@@ -4,11 +4,14 @@
       slot
 
     b-modal.fade(:id="modalId" title="Delete Annual Review")
-      .d-flex
-        b-icon.mr-3(icon="x-circle" scale="2" variant="danger")
-        p Removing this annual review will delete any progress and tasks associated with the file.
-      p
-        b Do you want to continue?
+      .row
+        .col-md-1.text-center.px-0
+          b-icon.mt-2.ml-3(icon="exclamation-circle-fill" scale="2" variant="danger")
+        .col
+          p Removing this annual review will delete any progress and tasks associated with the file.
+            br
+            b Do you want to continue?
+
       Errors(:errors="errors.title")
 
       template(slot="modal-footer")
@@ -24,19 +27,10 @@
         type: Boolean,
         default: true
       },
-      policyId: {
-        type: Number,
-        default: true
-      },
     },
     data() {
       return {
         modalId: `modal_${rnd()}`,
-        policy: {
-          name: '',
-          description: 'N/A',
-          sections: [],
-        },
         errors: []
       }
     },
