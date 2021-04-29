@@ -60,7 +60,7 @@ class Api::Business::UpgradeController < ApiController
   end
 
   def turnkey_params
-    params.permit(:plan)
+    params.permit(:plan, :cnt)
   end
 
   def payment_source
