@@ -244,13 +244,14 @@
 
 
       const url = new URL(window.location);
-      let stepNum = url.searchParams.get('step');
+      const stepNum = +url.searchParams.get('step');
       this.currentStep = stepNum;
+
       if (stepNum === 2) {
         this.step1 = false;
         this.step2 = true;
         this.step3 = false;
-        this.navStep1 = false;
+        this.navStep1 = true;
         this.navStep2 = true;
         this.navStep3 = false;
       }
@@ -258,8 +259,8 @@
         this.step1 = false;
         this.step2 = false;
         this.step3 = true;
-        this.navStep1 = false;
-        this.navStep2 = false;
+        this.navStep1 = true;
+        this.navStep2 = true;
         this.navStep3 = true;
       }
     },
