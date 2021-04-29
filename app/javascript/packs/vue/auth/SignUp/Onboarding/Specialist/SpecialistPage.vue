@@ -434,7 +434,7 @@
 
           let formData = new FormData()
           Object.entries(params).forEach(
-            ([key, value]) => formData.append(key, value)
+            ([key, value]) => formData.append(key, JSON.stringify(value))
           )
           console.log('formData', formData)
 
