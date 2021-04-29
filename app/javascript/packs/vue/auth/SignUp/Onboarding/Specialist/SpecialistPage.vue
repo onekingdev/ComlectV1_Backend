@@ -433,6 +433,7 @@
             },
             skill_names: this.formStep2.skills.map(skill => skill.name),
           }
+          console.log('formData', formData)
 
           let formData = new FormData()
           Object.entries(params).forEach(
