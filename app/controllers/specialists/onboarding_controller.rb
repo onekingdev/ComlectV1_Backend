@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Specialist::OnboardingController < ApplicationController
+class Specialists::OnboardingController < ApplicationController
   include ActionView::Helpers::TagHelper
 
   before_action :authenticate_user!

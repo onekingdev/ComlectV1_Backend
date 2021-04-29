@@ -18,13 +18,14 @@
           b-form(@submit='onSubmit' v-if='show')
             #step1.form(v-if='!loading' :class="step1 ? 'd-block' : 'd-none'")
               h3 Do you have a CRD number?
-                b-icon.h5.ml-2.mb-1(icon="exclamation-circle-fill" variant="secondary")
+                b-icon.h5.ml-2.mb-1(icon="exclamation-circle-fill" variant="secondary" v-b-tooltip.hover title="Automated update company info by CRD number")
               p The CRD number will be used to gather additional information about your business.
               div
                 b-form-group(v-slot='{ ariaDescribedby }')
                   b-form-radio-group(v-model='formStep1.CRDnumberSelected' :options='formStep1.CRDnumberOptions' :aria-describedby='ariaDescribedby' name='radios-stacked' stacked)
                 b-form-group(label='What is your CRD number?' v-if="formStep1.CRDnumberSelected === 'yes'")
                   b-form-input.w-50(v-model="formStep1.CRDnumber" placeholder="Enter your CRD number")
+                  .invalid-feedback.d-block(v-if="errors.CRDnumber") {{ errors.CRDnumber }}
               .text-right
                 b-button(type='button' variant='dark' @click="nextStep(2)") Next
             #step2.form(v-if='!loading'  :class="step2 ? 'd-block' : 'd-none'")
@@ -337,6 +338,11 @@
       checkCDRinfo() {
         // CLEAR ERRORS
         this.errors = []
+
+        if (!this.formStep1.CRDnumber) {
+          this.errors = { CRDnumber: `Can't be empty!` }
+          return
+        }
 
         const dataToSend = {
           crd: this.formStep1.CRDnumber
