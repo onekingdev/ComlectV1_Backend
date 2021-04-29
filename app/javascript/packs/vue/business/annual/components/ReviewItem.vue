@@ -1,29 +1,32 @@
 <template lang="pug">
   tr
     td
-      a(:href="`/business/annual_reviews/${item.id}`")
+      a.link(:href="`/business/annual_reviews/${item.id}`")
         | {{ item.year }} Annual Review
     td
-      .reviews-table__progress.d-flex
-        .reviews-table__progress-numbers
-          | {{ item.progress }}/{{ item.review_categories.length }}
-        .reviews-table__progress-bar.d-flex
-          .reviews-table__progress-bar__item(:style="`width: ${progressWidth}%`")
-    td {{ item.findings }}
-    td {{ dateToHuman(item.updated_at) }}
-    td {{ dateToHuman(item.created_at) }}
-    td
-      a(:href="item.pdf_url")
-        b-icon.ml-2(icon='b ox-arrow-down')
+      <!--.reviews-table__progress.d-flex-->
+        <!--.reviews-table__progress-numbers-->
+          <!--| {{ item.progress }}/{{ item.review_categories.length }}-->
+        <!--.reviews-table__progress-bar.d-flex-->
+          <!--.reviews-table__progress-bar__item(:style="`width: ${progressWidth}%`")-->
+      .reviews-table__progress.d-flex.align-items-center
+        .reviews-table__progress-numbers.mr-2(:class="progressWidth === 100 ? 'text-success' : 'text-dark'") {{ item.progress }}/{{ item.review_categories.length }}
+        b-progress.w-100(:value="progressWidth" :max="100" show-progress variant="success")
+    td.text-right {{ item.findings }}
+    td.text-right {{ dateToHuman(item.updated_at) }}
+    td.text-right {{ dateToHuman(item.created_at) }}
+    td.text-right
+      a.link(:href="item.pdf_url")
+        b-icon.mr-2(icon='box-arrow-down')
         | Download
-    td
+    td.text-right
       .actions
         b-dropdown(size="sm" variant="light" class="m-0 p-0" right)
           template(#button-content)
             b-icon(icon="three-dots")
           b-dropdown-item(:href="`/business/annual_reviews/${item.id}`") Edit
           b-dropdown-item() Dublicate
-          b-dropdown-item() Delete
+          b-dropdown-item.delete Delete
 </template>
 
 <script>
@@ -34,7 +37,8 @@ export default {
   computed: {
     progressWidth() {
       const part = 100 / +this.item.review_categories.length
-      return +part * +this.item.progress
+      // return +part * +this.item.progress
+      return Math.floor(Math.random() * 100)
     }
   },
   methods: {

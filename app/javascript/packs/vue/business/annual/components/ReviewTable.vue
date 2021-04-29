@@ -2,18 +2,18 @@
   table.table.reviews-table
     thead
       tr
-        th
+        th(width="25%")
           | Name
-        th(@click="sortSelect('progress', 'number')")
+        th(@click="sortSelect('progress', 'number')" width="25%")
           | Progress
           b-icon.ml-2(icon='chevron-expand')
-        th(@click="sortSelect('findings', 'number')")
+        th(@click="sortSelect('findings', 'number')").text-right
           | Findings
           b-icon.ml-2(icon='chevron-expand')
-        th(@click="sortSelect('updated_at', 'date')")
+        th(@click="sortSelect('updated_at', 'date')").text-right
           | Last Modified
           b-icon.ml-2(icon='chevron-expand')
-        th(@click="sortSelect('created_at', 'date')")
+        th(@click="sortSelect('created_at', 'date')").text-right
           | Date Create
           b-icon.ml-2(icon='chevron-expand')
     tbody
