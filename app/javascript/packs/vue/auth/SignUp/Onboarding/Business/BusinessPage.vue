@@ -339,7 +339,7 @@
         // CLEAR ERRORS
         this.errors = []
 
-        if (!this.formStep1.CRDnumber) {
+        if (!this.formStep1.CRDnumber && this.CRDnumberSelected === 'yes') {
           this.errors = { CRDnumber: `Can't be empty!` }
           return
         }

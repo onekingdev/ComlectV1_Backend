@@ -193,6 +193,29 @@ export default {
         commit("setLoading", false)
       }
     },
+    async updateAccountInfoWithFile({commit}, payload) {
+      try {
+        commit("clearError");
+        commit("setLoading", true);
+        const config = {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        };
+        const response = await axios.patch(`/specialist`, payload)
+        if(response.data) {
+          localStorage.setItem('app.currentUser', JSON.stringify(response.data));
+          commit('updateUser', response.data)
+        }
+        return response.data
+
+      } catch (error) {
+        console.error(error);
+        throw error
+      } finally {
+        commit("setLoading", false)
+      }
+    },
     async updateSubscribe({commit}, payload) {
       try {
         commit("clearError");

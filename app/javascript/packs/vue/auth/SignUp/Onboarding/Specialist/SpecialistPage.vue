@@ -399,7 +399,7 @@
 
           // let formData = new FormData()
           // formData.append('file', this.formStep2.file)
-
+          //
           // const dataToSend = {
           //   specialist: {
           //     industry_ids: this.formStep1.industry.map(record => record.id),
@@ -435,10 +435,10 @@
           }
 
           let formData = new FormData()
-          // Object.entries(params).forEach(
-          //   ([key, value]) => formData.append(key, JSON.stringify(value))
-          // )
-          // console.log('formData', formData)
+          Object.entries(params).forEach(
+            ([key, value]) => formData.append(key, JSON.stringify(value))
+          )
+          console.log('formData', formData)
 
           // Object.entries(params).forEach(
           //   ([keyP, valueP]) => {
@@ -451,14 +451,8 @@
           //     formData.append(keyP, JSON.stringify(newObj))
           //   })
 
-          Object.keys(params).map(e => {
-            console.log('e')
-            console.log(e)
-            formData.append(e, params[e])
-          })
-
           this.$store
-            .dispatch('updateAccountInfo', formData)
+            .dispatch('updateAccountInfoWithFile', formData)
             .then(response => {
               console.log('response', response)
 
