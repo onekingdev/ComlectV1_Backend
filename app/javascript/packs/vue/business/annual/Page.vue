@@ -4,7 +4,7 @@
       .row
         .col-12
           .row.p-x-1
-            .col-md-12.p-t-3.d-flex.justify-content-between.p-b-1
+            .col-md-12.p-t-3.d-flex.justify-content-between.p-b-1.p-x-0
               div
                 h2 Internal Reviews
               div

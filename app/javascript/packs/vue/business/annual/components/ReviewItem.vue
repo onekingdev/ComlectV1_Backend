@@ -25,8 +25,8 @@
           template(#button-content)
             b-icon(icon="three-dots")
           b-dropdown-item(:href="`/business/annual_reviews/${item.id}`") Edit
-          b-dropdown-item() Dublicate
-          b-dropdown-item.delete Delete
+          b-dropdown-item(@click="duplicateReview(item.id)") Dublicate
+          b-dropdown-item(@click="deleteReview(item.id)").delete Delete
 </template>
 
 <script>
@@ -50,6 +50,16 @@ export default {
       if (date.invalid) {
         return value
       }
+    },
+    duplicateReview(reviewId){
+      this.$store.dispatch('annual/duplicateReview', { id: reviewId })
+        .then(response => console.log(response))
+        .catch(error => console.error(error))
+    },
+    deleteReview(reviewId){
+      this.$store.dispatch('annual/deleteReview', { id: reviewId })
+        .then(response => console.log(response))
+        .catch(error => console.error(error))
     }
   }
 }
