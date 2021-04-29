@@ -26,14 +26,20 @@
             b-icon(icon="three-dots")
           b-dropdown-item(:href="`/business/annual_reviews/${item.id}`") Edit
           b-dropdown-item(@click="duplicateReview(item.id)") Dublicate
-          b-dropdown-item(@click="deleteReview(item.id)").delete Delete
+          AnnualModalDelete(@deleteConfirmed="deleteReview(item.id)", :inline="false")
+            b-dropdown-item.delete Delete
 </template>
 
 <script>
 import { DateTime } from 'luxon'
+import AnnualModalDelete from '../modals/AnnualModalDelete'
+
 export default {
   name: "ReviewItem",
   props: ['item'],
+  components: {
+    AnnualModalDelete
+  },
   computed: {
     progressWidth() {
       const part = 100 / +this.item.review_categories.length
