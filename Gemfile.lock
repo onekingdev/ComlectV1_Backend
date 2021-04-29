@@ -1730,6 +1730,7 @@ DEPENDENCIES
   rspec-rails
   rubocop (~> 0.58.1)
   rubyzip
+  sassc-rails
   scenic
   shrine!
   sidekiq
