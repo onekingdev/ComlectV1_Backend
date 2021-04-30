@@ -7,8 +7,8 @@
             div
               h3 Internal Review&nbsp;
                 span.separator /&nbsp;
-                b Annual Review {{ review.year ? review.year : review.id }}
-              h2: b Annual Review {{ review.year ? review.year : review.id }}
+                b Annual Review {{ review ? review.year : '' }}
+              h2: b Annual Review {{ review ? review.year : '' }}
             div
               button.btn.btn-default.mr-3 Download
               button.btn.btn-dark.mr-3 Save and Exit
@@ -138,8 +138,10 @@ export default {
       }
       try {
         await this.updateAnnual(data)
-        this.makeToast('Success', "Saved changes to annual review.")
-        await this.getCurrentReviewReview(this.annualId)
+          .then((response) => console.log(response))
+          .catch(error => console.error(error))
+        // this.makeToast('Success', "Saved changes to annual review.")
+        // await this.getCurrentReviewReview(this.annualId)
       } catch (error) {
         this.makeToast('Error', error.message)
       }
