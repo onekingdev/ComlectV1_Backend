@@ -5,9 +5,15 @@
         .row
           .col-md-12.p-t-1.d-flex.justify-content-between
             div
-              h2: b Annual Review {{review.year}}
+              h3 Internal Review&nbsp;
+                span.separator /&nbsp;
+                b Annual Review {{ review ? review.year : '' }}
+              h2: b Annual Review {{ review ? review.year : '' }}
             div
-              button.btn.btn-default.float-end Download
+              button.btn.btn-default.mr-3 Download
+              button.btn.btn-dark.mr-3 Save and Exit
+              button.btn.btn-light
+                b-icon(icon="x")
     .reviews__tabs
       b-tabs(content-class="mt-0")
         b-tab(title="Detail" active)
@@ -20,22 +26,26 @@
                   :reviews-categories="review.review_categories"
                 )
               .col-md-9
-                .card-body.white-card-body.reviews__card
-                  .reviews__card--internal.p-y-1
+                .card-body.white-card-body.reviews__card.px-5
+                  .reviews__card--internal.p-y-1.d-flex
                     h3
                       | {{ currentCategory.name }}
+                      b-badge.ml-2(variant="light") 0 Tasks
+                    AnnualModalDeleteCategory.ml-auto(@deleteConfirmed="deleteCategory", :inline="false")
+                      b-button(variant="light") Delete
                   .reviews__topiclist(v-if="currentCategory.review_topics")
                     template(v-for="(currentTopic, i) in currentCategory.review_topics")
                       .reviews__card--internal.p-y-1(:key="`${currentCategory.name}-${i}`")
-                        .row
-                          .col-md-11
+                        .row.m-b-2
+                          .col-md-10
                             input.reviews__input.reviews__topic-name(v-model="currentTopic.name")
-                          .col-md-1
+                          .col-md-2.text-right
                             b-dropdown(size="xs" variant="light" class="m-0 p-0" right)
                               template(#button-content)
                                 | Actions
+                                b-icon.ml-2(icon="chevron-down")
                               b-dropdown-item(@click="addTopicItem(i)") Add item
-                              b-dropdown-item(@click="deleteTopic(i)") Delete Topic
+                              b-dropdown-item(@click="deleteTopic(i)").delete Delete Topic
                         template(v-for="(topicItem, topicItemIndex) in currentTopic.items")
                           .row(:key="`${currentCategory.name}-${i}-${topicItemIndex}`")
                             .col-md-1
@@ -46,14 +56,14 @@
                                   b-icon(icon="x")
                             .col-md-10
                               textarea.reviews__input.reviews__topic-body(v-model="topicItem.body")
-                            .col-md-1
+                            .col-md-1.text-right
                               b-dropdown(size="xs" variant="light" class="m-0 p-0" right)
                                 template(#button-content)
                                   b-icon(icon="three-dots")
                                 b-dropdown-item(@click="addFindings(i, topicItemIndex)") Log Finding
-                                b-dropdown-item(@click="deleteTopicItem(i, topicItemIndex)") Delete item
+                                b-dropdown-item.delete(@click="deleteTopicItem(i, topicItemIndex)") Delete item
                             .col-md-11.offset-md-1(v-if="topicItem.findings.length")
-                              label.form-label findings
+                              label.form-label Finding
                             template(v-for="(finding, findingIndex) in topicItem.findings")
                               .col-md-10.offset-md-1(:key="`${currentTopic.name}-${i}-${topicItemIndex}-${findingIndex}`")
                                 textarea.form-control(v-model="currentCategory.review_topics[i].items[topicItemIndex].findings[findingIndex]" type="text")
@@ -62,20 +72,31 @@
                     | New Topic
                   .white-card-body.p-y-1
                     .d-flex.justify-content-end
-                      button.btn.btn-default.float-end(@click="saveCategory") Save
-                      button.btn.btn-dark.float-end Mark Complete
+                      button.btn.btn-default.mr-2(@click="saveCategory") Save
+                      AnnualModalComplite(@compliteConfirmed="markComplete", :inline="false")
+                        button.btn.btn-dark Mark Complete
+        b-tab(title="Tasks")
+          div Tasks
+        b-tab(title="Documents")
+          div Documents
+        b-tab(title="Activity")
+          div Activity
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex"
 import { VueEditor } from "vue2-editor"
 import ReviewsList from "./components/ReviewsList";
+import AnnualModalComplite from './modals/AnnualModalComplite'
+import AnnualModalDeleteCategory from './modals/AnnualModalDeleteCategory'
 
 export default {
   props: ['annualId', 'revcatId'],
   components: {
     ReviewsList,
-    VueEditor
+    VueEditor,
+    AnnualModalComplite,
+    AnnualModalDeleteCategory
   },
   data () {
     return {
@@ -121,6 +142,21 @@ export default {
         this.makeToast('Error', error.message)
       }
     },
+    async markComplete () {
+      const reviewCategory = this.currentCategory
+      const data = {
+        annualId: this.annualId,
+        complete: true,
+        ...reviewCategory,
+      }
+      try {
+        await this.updateReviewCategory(data)
+        // this.makeToast('Success', "Saved changes to annual review.")
+        // await this.getCurrentReviewReview(this.annualId)
+      } catch (error) {
+        this.makeToast('Error', error.message)
+      }
+    },
     addTopic() {
       const reviewCategory = this.currentCategory
       if (!reviewCategory.review_topics) {
@@ -152,6 +188,9 @@ export default {
     },
     deleteTopic(i) {
       this.currentCategory.review_topics.splice(i, 1);
+    },
+    deleteCategory() {
+      console.log('this.currentCategory', this.currentCategory)
     },
     makeToast(title, str) {
       this.$bvToast.toast(str, { title, autoHideDelay: 5000 })

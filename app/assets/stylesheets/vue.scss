@@ -280,8 +280,15 @@ table.table, table.table thead tr th {
     }
   }
   &__input {
-    border: none;
+    //border: none;
     width: 100%;
+    border: 1px solid transparent;
+    transition: all 200ms ease-in;
+
+    &:hover,
+    &:active {
+      border: 1px solid #dee2e6;
+    }
   }
   &__topic {
     &-body {
@@ -297,24 +304,40 @@ table.table, table.table thead tr th {
     margin-top: 10px;
     &-item {
       line-height: 1;
-      padding: 2px 5px;
+      padding: 2px 7px;
       font-size: 16px;
       text-align: center;
       border: 1px solid #dee2e6;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: all 200ms ease-in;
       &.checked {
         color: #fff;
       }
       &--true {
         &.checked {
-          border-color: #5be36a;
-          background: #5be36a;
+          color: white;
+          border-color: #1ab27f;
+          background: #1ab27f;
         }
       }
       &--false {
         &.checked {
-          border-color: #e35b6f;
-          background: #e35b6f;
+          color: white;
+          border-color: #ce1938;
+          background: #ce1938;
         }
+      }
+
+      &:hover,
+      &:active {
+        color: #2e304f;
+        background-color: #dee2e6;
+        border-color: #dee2e6;
+      }
+
+      &:not(:last-child) {
+        margin-right: .5rem;
       }
     }
   }

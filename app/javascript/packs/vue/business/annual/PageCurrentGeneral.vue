@@ -93,7 +93,7 @@
 <script>
 import { mapGetters, mapActions } from "vuex"
 import { VueEditor } from "vue2-editor"
-import ReviewsList from "./components/ReviewsList";
+import ReviewsList from "./components/ReviewsList"
 import AnnualModalComplite from './modals/AnnualModalComplite'
 
 export default {
