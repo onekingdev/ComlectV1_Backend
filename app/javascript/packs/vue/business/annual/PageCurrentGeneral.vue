@@ -77,7 +77,8 @@
                           | to conduct mock interviews for you to see and learn how to do it on your own!
                   .d-flex.justify-content-end.p-y-1
                     button.btn.btn-default.m-r-1(@click="saveGeneral") Save
-                    button.btn.btn-dark Mark Complete
+                    AnnualModalComplite(@compliteConfirmed="markComplete", :inline="false")
+                      button.btn.btn-dark Mark Complete
         b-tab(title="Tasks")
           div Tasks
         b-tab(title="Documents")
@@ -90,12 +91,14 @@
 import { mapGetters, mapActions } from "vuex"
 import { VueEditor } from "vue2-editor"
 import ReviewsList from "./components/ReviewsList";
+import AnnualModalComplite from './modals/AnnualModalComplite'
 
 export default {
   props: ['annualId'],
   components: {
     ReviewsList,
-    VueEditor
+    VueEditor,
+    AnnualModalComplite
   },
   data () {
     return {
@@ -136,6 +139,20 @@ export default {
       try {
         await this.updateAnnual(data)
         this.makeToast('Success', "Saved changes to annual review.")
+        await this.getCurrentReviewReview(this.annualId)
+      } catch (error) {
+        this.makeToast('Error', error.message)
+      }
+    },
+    async markComplete () {
+      const review = this.review
+      const data = {
+        id: review.id,
+        complete: true,
+      }
+      try {
+        await this.updateAnnual(data)
+        this.makeToast('Success', "Annual review marked as complete!")
         await this.getCurrentReviewReview(this.annualId)
       } catch (error) {
         this.makeToast('Error', error.message)

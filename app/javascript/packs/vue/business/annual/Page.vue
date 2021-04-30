@@ -26,6 +26,11 @@
           .col-12
             Loading
             ReviewTable(v-if="!loading" :reviews="reviews")
+            table.table.reviews-table(v-if="!reviews.length && !loading")
+              tbody
+                tr
+                  td.text-center
+                    h3 Annual Reviews not exist
 </template>
 
 <script>

@@ -4,9 +4,11 @@
       slot
 
     b-modal.fade(:id="modalId" title="New Review")
-      label.form-label Name
-      input.form-control(v-model="annual_review.name" type="text" placeholder="Enter the name of your review" ref="input")
       .row
+        .col-12.m-b-2
+          label.form-label Name
+          input.form-control(v-model="annual_review.name" type="text" placeholder="Enter the name of your review" ref="input")
+      .row.m-b-2
         .col-6
           label.form-label Start Date
           DatePicker(v-model="annual_review.review_start")
