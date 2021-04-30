@@ -287,9 +287,9 @@ export default {
 
         const { userType, stripeToken } = { ...payload }
 
-        const endPoint = userType === 'business' ? 'business' : 'specialist'
+        const endPoint = userType === 'business' ? 'business/payment_settings' : 'specialist/payment_settings/create_card'
         // const response = await axios.post(`/${endPoint}/payment_settings?stripeToken=${payload.stripeToken}`)
-        const response = await axios.post(`/${endPoint}/payment_settings`, null, { params: {
+        const response = await axios.post(`/${endPoint}`, null, { params: {
             stripeToken: stripeToken,
           }})
         // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
