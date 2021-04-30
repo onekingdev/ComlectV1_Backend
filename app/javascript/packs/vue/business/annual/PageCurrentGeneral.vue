@@ -55,6 +55,7 @@
                         p List any changes to your business processes, key vendors, and/or key employees during the Review Period
                       .col-12.m-b-2
                         VueEditor(v-model="review.material_business_changes" :editor-toolbar="customToolbar")
+                        .invalid-feedback.d-block(v-if="errors.material_business_changes") {{ errors.material_business_changes }}
                   .reviews__card--internal.p-y-1
                     .row
                       .col-md-12
@@ -64,10 +65,12 @@
                     .row.m-b-2
                       .col-6
                         label.form-label Change
-                        textarea.form-control(v-model="review.regulatory_changes[0].change" type="text" placeholder="Describe the change")
+                        textarea.form-control(v-model="review.regulatory_changes[0].change" placeholder="Describe the change")
+                        .invalid-feedback.d-block(v-if="errors.regulatory_changes") {{ errors.regulatory_changes.change }}
                       .col-6
                         label.form-label Response
-                        textarea.form-control(v-model="review.regulatory_changes[1].change" type="text" placeholder="Describe the response")
+                        textarea.form-control(v-model="review.regulatory_changes[1].change" placeholder="Describe the response")
+                        .invalid-feedback.d-block(v-if="errors.regulatory_changes") {{ errors.regulatory_changes.change }}
                   .reviews__card--internal.p-y-1
                     .row
                       .col-md-12
@@ -107,7 +110,8 @@ export default {
         ["blockquote"],
         [{ list: "bullet" }],
         ["link"]
-      ]
+      ],
+      errors: {}
     }
   },
   computed: {
@@ -128,6 +132,8 @@ export default {
       getCurrentReviewReview: 'annual/getCurrentReview'
     }),
     async saveGeneral () {
+      this.errors = {}
+
       const review = this.review
       const data = {
         id: review.id,
@@ -138,10 +144,26 @@ export default {
       }
       try {
         await this.updateAnnual(data)
-          .then((response) => console.log(response))
-          .catch(error => console.error(error))
-        // this.makeToast('Success', "Saved changes to annual review.")
+          .then((response) => {
+            console.log('response', response)
+            if (response.errors) {
+              for (const [key, value] of Object.entries(response.errors)) {
+                console.log(`${key}: ${value}`);
+                this.makeToast('Error', `${key}: ${value}`)
+                this.errors = Object.assign(this.errors, { [key]: value })
+              }
+              console.log(this.errors)
+              return
+            }
+
+            if (!response.errors) {
+              this.makeToast('Success', "Saved changes to annual review.")
+            }
+          })
+          .catch((error) => console.error(error))
+
         // await this.getCurrentReviewReview(this.annualId)
+
       } catch (error) {
         this.makeToast('Error', error.message)
       }
@@ -154,8 +176,23 @@ export default {
       }
       try {
         await this.updateAnnual(data)
-        this.makeToast('Success', "Annual review marked as complete!")
-        await this.getCurrentReviewReview(this.annualId)
+          .then((response) => {
+            if (response.errors) {
+              for (const [key, value] of Object.entries(response.errors)) {
+                console.log(`${key}: ${value}`);
+                this.makeToast('Error', `${key}: ${value}`)
+                this.errors = Object.assign(this.errors, { [key]: value })
+              }
+              return
+            }
+
+            if (!response.errors) {
+              this.makeToast('Success', "Saved changes to annual review.")
+            }
+          })
+          .catch((error) => console.error(error))
+        // this.makeToast('Success', "Annual review marked as complete!")
+        // await this.getCurrentReviewReview(this.annualId)
       } catch (error) {
         this.makeToast('Error', error.message)
       }
