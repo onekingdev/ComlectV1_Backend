@@ -61,7 +61,8 @@ export default {
           data.review_end,
           data.review_start,
           data.updated_at,
-          data.year
+          data.year,
+          data.name
         ))
         return data
       } catch (error) {
@@ -112,7 +113,8 @@ export default {
             annualItem.review_end,
             annualItem.review_start,
             annualItem.updated_at,
-            annualItem.year
+            annualItem.year,
+            annualItem.name
           ))
         }
         commit('SET_REVIEWS', reviews)
@@ -165,7 +167,8 @@ export default {
           data.review_end,
           data.review_start,
           data.updated_at,
-          data.year
+          data.year,
+          data.name
         ))
         return data
       } catch (error) {
@@ -241,7 +244,8 @@ export default {
           response.data.review_end,
           response.data.review_start,
           response.data.updated_at,
-          response.data.year
+          response.data.year,
+          response.data.name
         ))
         return response.data
       } catch (error) {

@@ -2,7 +2,7 @@
   tr
     td
       a.link(:href="`/business/annual_reviews/${item.id}`")
-        | {{ item.id }}-{{ item.year }} Annual Review
+        | {{ item.year }} {{ item.name }}
     td
       <!--.reviews-table__progress.d-flex-->
         <!--.reviews-table__progress-numbers-->

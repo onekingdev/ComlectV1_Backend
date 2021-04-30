@@ -5,9 +5,15 @@
         .row
           .col-md-12.p-t-1.d-flex.justify-content-between
             div
-              h2: b Annual Review {{review.year}}
+              h3 Internal Review&nbsp;
+                span.separator /&nbsp;
+                b Annual Review {{ review.year ? review.year : review.id }}
+              h2: b Annual Review {{ review.year ? review.year : review.id }}
             div
-              button.btn.btn-default.float-end Download
+              button.btn.btn-default.mr-3 Download
+              button.btn.btn-dark.mr-3 Save and Exit
+              button.btn.btn-light
+                b-icon(icon="x")
     .reviews__tabs
       b-tabs(content-class="mt-0")
         b-tab(title="Detail" active)
@@ -19,9 +25,13 @@
                   :reviews-categories="review.review_categories"
                   :general="true"
                 )
-              .col-md-9
-                .card-body.white-card-body.reviews__card
-                  .reviews__card--internal.p-y-1
+              .col-md-9.position-relative
+                .annual-actions
+                  b-dropdown.bg-white(text='Actions', variant="secondary", right)
+                    b-dropdown-item Duplicate
+                    b-dropdown-item.delete Delete report
+                .card-body.white-card-body.reviews__card.p-xl-5
+                  .reviews__card--internal.p-b-1
                     h3
                       | General
                   .reviews__card--internal.p-y-1
@@ -30,6 +40,7 @@
                         h4
                           b Review Period
                         p For annual reviews, this time period typically spans a calendar or fiscal year and wil be referred to hereafter as "the Review Period
+                    .row.m-b-2
                       .col-6
                         label.form-label Start Date
                         DatePicker(v-model="review.review_start")
@@ -38,28 +49,41 @@
                         DatePicker(v-model="review.review_end")
                   .reviews__card--internal.p-y-1
                     .row
-                      .col-md-12
+                      .col-md-12.m-b-2
                         h4
                           b Material Business Changes
                         p List any changes to your business processes, key vendors, and/or key employees during the Review Period
-                      .col-12
+                      .col-12.m-b-2
                         VueEditor(v-model="review.material_business_changes" :editor-toolbar="customToolbar")
-                  .p-y-1
+                  .reviews__card--internal.p-y-1
                     .row
                       .col-md-12
                         h4
                           b Material Regulatory Changes
                         p List any regulatory changes that impacted you during the Review Period and how the business responded.
+                    .row.m-b-2
                       .col-6
                         label.form-label Change
                         textarea.form-control(v-model="review.regulatory_changes[0].change" type="text" placeholder="Describe the change")
                       .col-6
                         label.form-label Response
                         textarea.form-control(v-model="review.regulatory_changes[1].change" type="text" placeholder="Describe the response")
-                  .white-card-body.p-y-1
-                    .d-flex.justify-content-end
-                      button.btn.btn-default.float-end(@click="saveGeneral") Save
-                      button.btn.btn-dark.float-end Mark Complete
+                  .reviews__card--internal.p-y-1
+                    .row
+                      .col-md-12
+                        h4 Key Employees Interviewed
+                        p Regulators interview emploees to uncover potential discrepancies in a firm's policies and procedures and their day-to-day practicies. It's important to interview those employees responsible for certain key tasks or have access to sensitive client in order to hear about their day-to-day activities in their own.words. Not sure what to ask? Consider&nbsp;
+                          a.link(href="#") hiring one of our compilance specialists&nbsp;
+                          | to conduct mock interviews for you to see and learn how to do it on your own!
+                  .d-flex.justify-content-end.p-y-1
+                    button.btn.btn-default.m-r-1(@click="saveGeneral") Save
+                    button.btn.btn-dark Mark Complete
+        b-tab(title="Tasks")
+          div Tasks
+        b-tab(title="Documents")
+          div Documents
+        b-tab(title="Activity")
+          div Activity
 </template>
 
 <script>
@@ -123,3 +147,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .separator {
+    color: #ffc107;
+  }
+</style>

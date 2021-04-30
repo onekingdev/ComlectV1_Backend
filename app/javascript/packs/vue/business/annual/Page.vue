@@ -24,20 +24,26 @@
               a.link(href="#") 7/24/2020
         .row
           .col-12
-            ReviewTable(:reviews="reviews")
+            Loading
+            ReviewTable(v-if="!loading" :reviews="reviews")
 </template>
 
 <script>
 import { mapGetters } from "vuex"
+import Loading from '@/common/Loading/Loading'
 import AnnualModalCreate from "./modals/AnnualModalCreate"
 import ReviewTable from "./components/ReviewTable"
 
 export default {
   components: {
+    Loading,
     ReviewTable,
     AnnualModalCreate
   },
   computed: {
+    loading() {
+      return this.$store.getters.loading;
+    },
     ...mapGetters({
       reviews: 'annual/reviews'
     })

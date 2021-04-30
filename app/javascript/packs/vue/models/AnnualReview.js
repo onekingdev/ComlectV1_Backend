@@ -1,5 +1,5 @@
 export default class AnnualReview {
-  constructor(annual_review_employees, business_id, created_at, exam_end, exam_start, id, material_business_changes, pdf_url, regulatory_changes, review_categories, review_end, review_start, updated_at, year) {
+  constructor(annual_review_employees, business_id, created_at, exam_end, exam_start, id, material_business_changes, pdf_url, regulatory_changes, review_categories, review_end, review_start, updated_at, year, name) {
     this.annual_review_employees = annual_review_employees
     this.business_id = business_id
     this.created_at = created_at
@@ -25,6 +25,7 @@ export default class AnnualReview {
     this.review_start = review_start
     this.updated_at = updated_at
     this.year = year
+    this.name = name
     this.findings = this.findingsCalculate(review_categories)
     this.progress = review_categories.filter(item => item.complete).length
   }

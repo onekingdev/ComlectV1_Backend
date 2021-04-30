@@ -1,4 +1,10 @@
 /* ---------- Annual Review ---------- */
+.annual-actions {
+  position: absolute;
+  top: -5.3rem;
+  right: 2rem;
+}
+
 a.link,
 .link {
   color: var(--blue);

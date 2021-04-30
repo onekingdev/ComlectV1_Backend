@@ -21,6 +21,9 @@
 
 <script>
   const rnd = () => Math.random().toFixed(10).toString().replace('.', '')
+  var today = new Date();
+  var year = today.getFullYear();
+
   export default {
     props: {
       inline: {
@@ -33,6 +36,7 @@
         modalId: `modal_${rnd()}`,
         annual_review: {
           name: '',
+          year: year,
           review_start: '',
           review_end: ''
         }
@@ -44,6 +48,12 @@
       },
       async submit(e) {
         e.preventDefault();
+
+        if (!this.annual_review.name || !this.annual_review.review_start || !this.annual_review.review_end) {
+          this.makeToast('Error', `Please check all fields!`)
+          return
+        }
+
         try {
           const response = await this.$store.dispatch('annual/createReview', this.annual_review)
           if (response.errors) {
