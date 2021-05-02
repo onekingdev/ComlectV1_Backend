@@ -17,6 +17,12 @@ const businesPolicies = {
   BusinessPoliciesCreatePage,
 }
 
+import BusinessMarketplacePage from './vue/business/marketplace/Page.vue'
+
+const businesMarketplace = {
+  BusinessMarketplacePage,
+}
+
 import BusinessRisksPage from './vue/business/riskregister/Page.vue'
 import BusinessRisksPageDetail from './vue/business/riskregister/RiskDetail.vue'
 
@@ -38,6 +44,7 @@ init({
     TimesheetsShowPage,
 
     ...businesPolicies,
+    ...businesMarketplace,
     ...businesRisks
   }
 })

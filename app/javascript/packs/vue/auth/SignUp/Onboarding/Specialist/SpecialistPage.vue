@@ -512,7 +512,13 @@
         // CLEAR ERRORS
         this.errors = []
 
-        let planName = 'specialist_pro';
+        let planName;
+        if (selectedPlan.id === 2) {
+          planName = this.billingTypeSelected === 'annually' ? 'team_tier_annual' : 'team_tier_monthly';
+        }
+        if (selectedPlan.id === 3) {
+          planName = this.billingTypeSelected === 'annually' ? 'business_tier_annual' : 'business_tier_monthly'
+        }
 
         const dataToSend = {
           userType: this.userType,
