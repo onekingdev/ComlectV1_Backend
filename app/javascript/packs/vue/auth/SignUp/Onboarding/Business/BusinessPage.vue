@@ -517,6 +517,11 @@
               this.makeToast('Success', `Update subscribe successfully finished!`)
               this.paySeats(selectedPlan)
               this.overlayStatus = 'Account successfully purchased, you will be redirect to the dashboard...'
+
+              // const dashboard = userType === 'business' ? '/business2' : '/specialist'
+              // setTimeout(() => {
+              //   window.location.href = `${dashboard}`;
+              // }, 3000)
             }
           })
           .catch(error => {
