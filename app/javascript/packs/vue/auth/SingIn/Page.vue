@@ -59,10 +59,12 @@
                   <!--pre.m-0 {{ form2 }}-->
             #step3.form(v-if='!loading'  :class="step3 ? 'd-block' : 'd-none'")
               h1.text-center You successfuly logged in!
-              p.text-center You will be redirect to the dashboard!
+              p.text-center.m-b-2 You will be redirect to the dashboard!
+                b-icon.ml-2(icon="circle-fill" animation="throb" font-scale="1")
               .text-center
-                b-icon( icon="circle-fill" animation="throb" font-scale="4")
-                  <!--ion-icon(name="checkmark-circle-outline" size="large")-->
+                ion-icon(name="checkmark-circle-outline")
+              p.text-center If you don't want to wait. Please&nbsp;
+                a.link(:href="dashboardLink") click here
 </template>
 
 <script>
@@ -119,6 +121,7 @@
         dismissSecs: 8,
         dismissCountDown: 0,
         showDismissibleAlert: false,
+        dashboardLink: ''
       }
     },
     methods: {
@@ -142,15 +145,11 @@
           },
         }
 
-        console.log('dataToSend', dataToSend)
-
         this.$store.dispatch('singIn', dataToSend)
           .then((response) => {
-            console.log('response', response)
 
             if (response.errors) {
               const properties = Object.keys(response.errors);
-              console.log('properties', properties)
               for (const type of Object.keys(response.errors)) {
                 this.errors = response.errors[type]
                 this.makeToast('Error', `Form has errors! Please recheck fields! ${error}`)
@@ -171,7 +170,6 @@
           .catch((error) => {
             console.error('error', error)
             for (const type of Object.keys(error.errors)) {
-              console.log('type', type)
               this.makeToast('Error', `${error.errors[type]}`)
               this.error = `Error! ${error.errors[type]}`
             }
@@ -198,7 +196,6 @@
 
         this.$store.dispatch('singIn', dataToSend)
           .then((response) => {
-            console.log('response', response)
 
             if (response.errors) {
               const properties = Object.keys(response.errors);
@@ -210,18 +207,15 @@
               return
             }
 
-            if (!response.errors) {
-              this.userId = response.userid
-              this.makeToast('Success', `${response.message}`)
-
+            if (!response.errors && response.token) {
               // open step 3
               this.step2 = false
               this.step3 = true
-            }
 
+              this.makeToast('Success', `You will be redirect to the dashboard!`)
 
-            if (response.token) {
               const dashboard = response.business ? '/business2' : '/specialist'
+              this.dashboardLink = dashboard
               setTimeout(() => {
                 window.location.href = `${dashboard}`;
               }, 3000)
