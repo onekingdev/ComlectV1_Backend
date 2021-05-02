@@ -3,6 +3,7 @@
     TopNavbar(:userInfo="userInfo")
     main.row#main-content
       .col-xl-10.col-md-9.m-x-auto
+        Overlay(v-show="overlay", :status="overlayStatus")
         .card-body.white-card-body.registration-onboarding.p-5
           .div
             h2 Set Up Your Account
@@ -192,6 +193,7 @@
   import Multiselect from 'vue-multiselect'
   import BillingDetails from './BillingDetails'
   import PurchaseSummary from './PurchaseSummary'
+  import Overlay from '../Overlay'
 
   import data from './BillingPlansData.json'
 
@@ -202,7 +204,8 @@
       TopNavbar,
       Multiselect,
       BillingDetails,
-      PurchaseSummary
+      PurchaseSummary,
+      Overlay
     },
     created() {
       // console.log('userInfo', this.userInfo)
@@ -306,13 +309,13 @@
         options: ['list', 'of', 'options'],
         show: true,
         errors: {},
-        step1: true,
+        step1: false,
         step2: false,
-        step3: false,
-        currentStep: 1,
+        step3: true,
+        currentStep: 3,
         navStep1: true,
-        navStep2: false,
-        navStep3: false,
+        navStep2: true,
+        navStep3: true,
         billingTypeSelected: 'annually',
         billingTypeOptions: [
           { text: 'Billed Annually', value: 'annually' },
@@ -325,6 +328,8 @@
         additionalUsers: 0,
         paymentSourceId: null,
         disabled: true,
+        overlay: false,
+        overlayStatus: '',
       }
     },
     methods: {
@@ -482,6 +487,9 @@
         // CLEAR ERRORS
         this.errors = []
 
+        this.overlay = true
+        this.overlayStatus = 'Setting up account. Subscribing a plan...'
+
         let planName;
         if (selectedPlan.id === 2) {
           planName = this.billingTypeSelected === 'annually' ? 'team_tier_annual' : 'team_tier_monthly';
@@ -508,13 +516,18 @@
             if(!response.errors) {
               this.makeToast('Success', `Update subscribe successfully finished!`)
               this.paySeats(selectedPlan)
+              this.overlayStatus = 'Account successfully purchased, you will be redirect to the dashboard...'
             }
           })
           .catch(error => {
             console.error(error)
             this.makeToast('Error', `Something wrong! ${error}`)
           })
-          .finally(() => this.disabled = true)
+          .finally(() => {
+            this.disabled = true
+            // this.overlay = false
+            // this.overlayStatus = ''
+          })
       },
       paySeats(selectedPlan) {
         const freeUsers = selectedPlan.usersCount;
@@ -523,6 +536,8 @@
         if (neededUsers <= freeUsers) return
         const countPayedUsers = neededUsers - freeUsers
         console.log(countPayedUsers)
+
+        this.overlayStatus = 'Subscribing additional seats...'
 
         let planName = this.billingTypeSelected === 'annually' ? 'seats_annual' : 'seats_monthly'
 

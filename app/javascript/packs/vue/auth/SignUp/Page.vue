@@ -67,14 +67,14 @@
               h1.text-center Confirm your email!
               p.text-center We send a 6 digit code to email.com. Please enter it below.
               div
-                b-form(@submit='onSubmitStep2' @keyup="onChange" v-if='show' autocomplete="off")
+                b-form(@submit='onSubmitStep2' @keydown="onCodeChange" v-if='show' autocomplete="off")
                   b-form-group
                     .col.text-center
                       ion-icon(name="mail-outline")
                   b-form-group
                     .row
                       .col-12.mx-0
-                        .d-flex.justify-content-space-around.mx-auto.w-75
+                        .d-flex.justify-content-space-around.mx-auto
                           b-form-input#inputCode1.code-input.ml-auto(v-model='form2.codePart1' type='number' maxlength="1" required)
                           b-form-input#inputCode2.code-input(v-model='form2.codePart2' type='number' maxlength="1" required)
                           b-form-input#inputCode3.code-input(v-model='form2.codePart3' type='number' maxlength="1" required)
@@ -85,15 +85,15 @@
                     .row
                       .col
                         input(v-model='form2.code' type='hidden')
-                  b-button.w-100(type='submit' variant='dark') Submit
+                  b-button.w-100(type='submit' variant='dark' ref="codesubmit") Submit
                 <!--b-card.mt-3(header='Form Data Result')-->
                   <!--pre.m-0 {{ form2 }}-->
             #step3.form(v-if='!loading'  :class="step3 ? 'd-block' : 'd-none'")
               h1.text-center You successfuly registered!
               p.text-center You will be redirect to finish steps for updating your account
+                b-icon.ml-2(icon="circle-fill" animation="throb" font-scale="1")
               .text-center
-                b-icon( icon="circle-fill" animation="throb" font-scale="4")
-                  <!--ion-icon(name="checkmark-circle-outline" size="large")-->
+                ion-icon(name="checkmark-circle-outline")
 </template>
 
 <script>
@@ -102,7 +102,7 @@
   import BusinessPage from "./Onboarding/Business/BusinessPage";
   import SpecialistPage from "./Onboarding/Specialist/SpecialistPage";
 
-  const random = Math.floor(Math.random() * 1000);
+  // const random = Math.floor(Math.random() * 1000);
 
   export default {
     props: ['industryIds', 'jurisdictionIds', 'subIndustryIds', 'states'],
@@ -112,23 +112,17 @@
       BusinessPage,
       SpecialistPage
     },
-    // created() {
-    //   const urlUserId = location.search.split('userid=')[1]
-    //   if(urlUserId) this.userId = urlUserId
-    //   const otpSecret = location.search.split('otp_secret=')[1]
-    //   if(otpSecret) this.otpSecret = otpSecret
-    // },
     data() {
       return {
         userId: '',
         otpSecret: '',
         userType: '',
         form: {
-          firstName: `Alex${random}`,
-          lastName: `Willkinson${random}`,
-          email: `${random}fine@email.com`,
-          password: 'user666',
-          passwordConfirm: 'user666',
+          firstName: ``,
+          lastName: ``,
+          email: ``,
+          password: '',
+          passwordConfirm: '',
         },
         form2: {
           codePart1: '',
@@ -289,21 +283,44 @@
           })
           .catch((error) => this.makeToast('Error', `Couldn't submit form! ${error}`))
       },
-      onChange(e){
+      onCodeChange(e){
         this.errors = []
 
-        if (e.target.value.length === 1) {
-          e.target.nextElementSibling?.focus()
+        if (e.keyCode === 8 || e.keyCode === 46) {
+          // BACKSPACE === 8 DELETE === 46
+          e.preventDefault();
+          if(e.target.previousElementSibling) {
+            e.target.value = ''
+            e.target.previousElementSibling.focus()
+          }
+        }
+
+        if (e.target.value.length < 6) {
+          e.preventDefault();
+          e.target.value = e.key
+          if(e.target.nextElementSibling) {
+            e.target.nextElementSibling.value = ''
+            e.target.nextElementSibling.focus()
+          }
+
+          if(!e.target.nextElementSibling) {
+            this.$refs.codesubmit.focus();
+          }
         }
 
         // CATCH COPY PASTE CASE
-        if (e.target.value.length > 1) {
+        if (e.target.value.length === 6) {
           for(let i=1; i <= 6; i++) {
             this.form2['codePart'+i] = e.target.value.charAt(i-1)
           }
         }
 
         this.form2.code = this.form2.codePart1 + this.form2.codePart2 + this.form2.codePart3 + this.form2.codePart4 + this.form2.codePart5 + this.form2.codePart6
+
+        if (e.keyCode === 13) {
+          // ENTER KEY CODE
+          this.onSubmitStep2(e)
+        }
       },
 
       fetchINitData(data){
