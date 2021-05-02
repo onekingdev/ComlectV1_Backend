@@ -54,7 +54,7 @@
                     .row
                       .col
                         input(v-model='form2.code' type='hidden')
-                  b-button.w-100(type='submit' variant='dark') Submit
+                  b-button.w-100(type='submit' variant='dark' ref="codesubmit") Submit
                 <!--b-card.mt-3(header='Form Data Result')-->
                   <!--pre.m-0 {{ form2 }}-->
             #step3.form(v-if='!loading'  :class="step3 ? 'd-block' : 'd-none'")
