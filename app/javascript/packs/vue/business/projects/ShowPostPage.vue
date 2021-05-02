@@ -10,7 +10,13 @@
               span.badge.badge-default.m-r-1(v-if="'draft' === project.status") Draft
               | {{ project.title }}
           div
-            button.btn.btn-outline-dark.float-right Delete Post
+            button.btn.btn-outline-dark.float-right(v-b-modal="'DeletePostModal'") Delete Post
+            b-modal#DeletePostModal.fade(title="Delete Post")
+              | Do you want to delete project post?
+              template(#modal-footer="{hide}")
+                button.btn.btn-default(@click="hide") Cancel
+                Delete(:url="url" @deleted="deleted")
+                  button.btn.btn-dark Delete
     .white-card-body.p-y-1
       .container
         .row.p-x-1
@@ -110,16 +116,21 @@
                           .card
                             .card-body
                               SpecialistDetails(:specialist="application.specialist")
+                              InputSelect(v-model="specialist_role" :options="specialistRoleOptions") Select Role
+                              .form-text.text-muted Determines the permissions the specialist will have access to
                           template(#modal-footer="{ ok, cancel, hide }")
                             button.btn.btn-light(@click="hide") Cancel
                             button.btn.btn-outline-dark(@click="goBack") Go Back
-                            Post(:action="hireUrl + '?job_application_id=' + application.id" :model="{}" @saved="saved(project.local_project_id)")
+                            Post(:action="hireUrl + '?job_application_id=' + application.id" :model="{specialist_role}" @saved="saved(project.local_project_id)")
                               button.btn.btn-dark Confirm
 </template>
 
 <script>
 import SpecialistDetails from './SpecialistDetails'
-import { FIXED_PAYMENT_SCHEDULE_OPTIONS } from '@/common/ProjectInputOptions'
+import {
+  FIXED_PAYMENT_SCHEDULE_OPTIONS,
+  SPECIALIST_ROLE_OPTIONS,
+} from '@/common/ProjectInputOptions'
 import { redirectWithToast } from '@/common/Toast'
 
 export default {
@@ -131,7 +142,8 @@ export default {
   },
   data() {
     return {
-      modalId: null
+      modalId: null,
+      specialist_role: Object.keys(SPECIALIST_ROLE_OPTIONS)[0]
     }
   },
   created() {
@@ -141,6 +153,10 @@ export default {
     saved(id) {
       redirectWithToast(this.$store.getters.url('URL_PROJECT_SHOW', id), 'Specialist added to project.')
       this.$bvModal.hide(this.confirmModalId)
+    },
+    deleted() {
+      redirectWithToast('/business/projects', 'Project post deleted')
+      this.$bvModal.hide('DeletePostModal')
     },
     goBack() {
       this.$bvModal.hide(this.confirmModalId)
@@ -160,6 +176,7 @@ export default {
       return this.$store.getters.url('URL_API_PROJECT_HIRES', this.projectId)
     },
     paymentScheduleReadable: () => application => FIXED_PAYMENT_SCHEDULE_OPTIONS[application.payment_schedule],
+    specialistRoleOptions: () => SPECIALIST_ROLE_OPTIONS,
     hasSpecialist: () => project => !!project.specialist_id,
     confirmModalId() {
       return (this.modalId || '') + '_confirm'

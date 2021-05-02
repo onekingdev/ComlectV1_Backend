@@ -135,6 +135,9 @@ gem 'active_model_serializers'
 # Pagination
 gem 'pagy'
 
+gem 'typhoeus'
+gem 'activerecord-import'
+gem 'charlock_holmes'
 # Sitemap
 gem 'fog-aws'
 gem 'sitemap_generator'
