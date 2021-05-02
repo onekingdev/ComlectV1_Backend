@@ -229,7 +229,7 @@
           })
           .catch((error) => this.makeToast('Error', `Couldn't submit form! ${error}`))
       },
-      onChange(e){
+      onCodeChange(e){
         this.errors = []
 
         if (e.keyCode === 8 || e.keyCode === 46) {
