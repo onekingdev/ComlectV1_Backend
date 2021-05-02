@@ -1,19 +1,19 @@
 <template lang="pug">
-  div
-    transition(type="animation"  name="ma")
-      .overlay
-        .container-fluid
-          .row
-            .col-xl-3.m-x-auto
-              .overlay-text
-                h2.m-b-2 {{ status }}
-                b-icon(v-if="loading" icon="arrow-clockwise" animation="spin" font-scale="7.5")
-                b-icon(v-if="!loading" icon="check-circle-fill" variant="success" font-scale="7.5")
+  transition(type="animation"  name="ma")
+    .overlay(v-if="show")
+      .container-fluid
+        .row
+          .col-xl-3.m-x-auto
+            .overlay-text
+              h2.m-b-2 {{ statusText }}
+              b-icon(v-if="loading" icon="arrow-clockwise" animation="spin" font-scale="7.5")
+              b-icon(v-if="!loading && status === 'success'" icon="check-circle-fill" variant="success" font-scale="7.5")
+              b-icon(v-if="!loading && status === 'error'" icon="x-circle-fill" variant="danger" font-scale="7.5")
 </template>
 
 <script>
   export default {
-    props: ['status'],
+    props: ['status', 'statusText', 'show'],
     data() {
       return {
 
