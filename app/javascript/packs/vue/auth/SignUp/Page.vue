@@ -289,10 +289,9 @@
         if (e.keyCode === 8 || e.keyCode === 46) {
           // BACKSPACE === 8 DELETE === 46
           e.preventDefault();
-          if(e.target.previousElementSibling) {
-            e.target.value = ''
-            e.target.previousElementSibling.focus()
-          }
+          e.target.value = ''
+          e.target.previousElementSibling?.focus()
+          return
         }
 
         if (e.target.value.length < 6) {
