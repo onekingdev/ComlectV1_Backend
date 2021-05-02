@@ -27,7 +27,6 @@ export default {
         commit("setLoading", true);
 
         const response = await axios.post(`/users/sign_in`, payload)
-        console.log('response', response)
         // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
         if (response.data) {
           if(response.data.token) {
