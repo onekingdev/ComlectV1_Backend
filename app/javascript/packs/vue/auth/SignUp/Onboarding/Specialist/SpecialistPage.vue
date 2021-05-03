@@ -510,7 +510,13 @@
         // CLEAR ERRORS
         this.errors = []
 
-        let planName = 'specialist_pro';
+        let planName;
+        if (selectedPlan.id === 0) {
+          planName = 'free';
+        }
+        if (selectedPlan.id === 1) {
+          planName = 'specialist_pro';
+        }
 
         const dataToSend = {
           userType: this.userType,
@@ -529,7 +535,7 @@
 
             if(!response.errors) {
               this.makeToast('Success', `Update subscribe successfully finished!`)
-              this.paySeats(selectedPlan)
+              // this.paySeats(selectedPlan)
             }
           })
           .catch(error => {
@@ -538,45 +544,45 @@
           })
           .finally(() => this.disabled = true)
       },
-      paySeats(selectedPlan) {
-        const freeUsers = selectedPlan.usersCount;
-        const neededUsers = +this.additionalUsers;
-        // console.log(neededUsers, freeUsers)
-        if (neededUsers <= freeUsers) return
-        const countPayedUsers = neededUsers - freeUsers
-        // console.log(countPayedUsers)
-
-        let planName = this.billingTypeSelected === 'annually' ? 'seats_annual' : 'seats_monthly'
-
-        const dataToSend = {
-          userType: this.userType,
-          planName,
-          paymentSourceId : this.paymentSourceId,
-          countPayedUsers,
-        }
-
-        this.$store
-          .dispatch('updateSeatsSubscribe', dataToSend)
-          .then(response => {
-            // console.log('response', response)
-
-            for(let i=0; i <= response.length; i++) {
-              if(response[i].data.errors) {
-                for (const type of Object.keys(response[i].data.errors)) {
-                  this.makeToast('Error', `Something wrong! ${response[i].data.errors[type]}`)
-                }
-              }
-              if(!response[i].data.errors) {
-                this.makeToast('Success', `Update seat subscribe successfully finished!`)
-              }
-            }
-          })
-          .catch(error => {
-            console.error(error)
-            this.makeToast('Error', `Something wrong! ${error}`)
-          })
-          .finally(() => this.disabled = true)
-      },
+      // paySeats(selectedPlan) {
+      //   const freeUsers = selectedPlan.usersCount;
+      //   const neededUsers = +this.additionalUsers;
+      //   // console.log(neededUsers, freeUsers)
+      //   if (neededUsers <= freeUsers) return
+      //   const countPayedUsers = neededUsers - freeUsers
+      //   // console.log(countPayedUsers)
+      //
+      //   let planName = this.billingTypeSelected === 'annually' ? 'seats_annual' : 'seats_monthly'
+      //
+      //   const dataToSend = {
+      //     userType: this.userType,
+      //     planName,
+      //     paymentSourceId : this.paymentSourceId,
+      //     countPayedUsers,
+      //   }
+      //
+      //   this.$store
+      //     .dispatch('updateSeatsSubscribe', dataToSend)
+      //     .then(response => {
+      //       // console.log('response', response)
+      //
+      //       for(let i=0; i <= response.length; i++) {
+      //         if(response[i].data.errors) {
+      //           for (const type of Object.keys(response[i].data.errors)) {
+      //             this.makeToast('Error', `Something wrong! ${response[i].data.errors[type]}`)
+      //           }
+      //         }
+      //         if(!response[i].data.errors) {
+      //           this.makeToast('Success', `Update seat subscribe successfully finished!`)
+      //         }
+      //       }
+      //     })
+      //     .catch(error => {
+      //       console.error(error)
+      //       this.makeToast('Error', `Something wrong! ${error}`)
+      //     })
+      //     .finally(() => this.disabled = true)
+      // },
     },
     computed: {
       loading() {
