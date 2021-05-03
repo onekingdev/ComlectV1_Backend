@@ -511,10 +511,10 @@
         this.errors = []
 
         let planName;
-        if (selectedPlan.id === 0) {
+        if (selectedPlan.id === 1) {
           planName = 'free';
         }
-        if (selectedPlan.id === 1) {
+        if (selectedPlan.id === 2) {
           planName = 'specialist_pro';
         }
 
@@ -530,7 +530,11 @@
             // console.log('response', response)
 
             if(response.errors) {
-              this.makeToast('Error', `Something wrong!`)
+              for (const [key, value] of Object.entries(response.errors)) {
+                console.log(`${key}: ${value}`);
+                this.makeToast('Error', `${key}: ${value}`)
+                this.errors = Object.assign(this.errors, { [key]: value })
+              }
             }
 
             if(!response.errors) {
