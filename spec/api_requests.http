@@ -1,0 +1,31 @@
+##### Specialist onboarding: uploading CV
+
+PATCH http://127.0.0.1:3000/api/specialist HTTP/1.1
+Accept: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjUsImV4cCI6MTYyMTE3OTUyNX0.DGq1ZVTCd5eIgk2XcnxAXsvVSaEGm5R2TKyA2xZGLwQ
+Content-Type: multipart/form-data; boundary=---------------------------214522369813304455832470438367
+
+-----------------------------214522369813304455832470438367
+Content-Disposition: form-data; name="specialist[first_name]"
+
+Michael
+-----------------------------214522369813304455832470438367
+Content-Disposition: form-data; name="specialist[last_name]"
+
+Michaelovich
+-----------------------------214522369813304455832470438367
+Content-Disposition: form-data; name="skill_names[]"
+
+first skill
+-----------------------------214522369813304455832470438367
+Content-Disposition: form-data; name="skill_names[]"
+
+some_other skill
+-----------------------------214522369813304455832470438367
+Content-Disposition: form-data; name="specialist[resume]"; filename="myCV.pdf"
+Content-Type: application/pdf
+
+%PDF-1.0
+1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj 2 0 obj<</Type/Pages/Kids[3 0 R]/Count 1>>endobj 3 0 obj<</Type/Page/MediaBox[0 0 3 3]>>endobj
+trailer<</Size 4/Root 1 0 R>>
+-----------------------------214522369813304455832470438367--

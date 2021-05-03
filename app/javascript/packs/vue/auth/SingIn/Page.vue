@@ -36,7 +36,7 @@
               h1.text-center Confirm your email!
               p.text-center We send a 6 digit code to email.com. Please enter it below.
               div
-                b-form(@submit='onSubmitStep2' @keyup="onChange" v-if='show' autocomplete="off")
+                b-form(@submit='onSubmitStep2' @keyup="onCodeChange" v-if='show' autocomplete="off")
                   b-form-group
                     .col.text-center
                       ion-icon(name="mail-outline")
@@ -54,15 +54,17 @@
                     .row
                       .col
                         input(v-model='form2.code' type='hidden')
-                  b-button.w-100(type='submit' variant='dark') Submit
+                  b-button.w-100(type='submit' variant='dark' ref="codesubmit") Submit
                 <!--b-card.mt-3(header='Form Data Result')-->
                   <!--pre.m-0 {{ form2 }}-->
             #step3.form(v-if='!loading'  :class="step3 ? 'd-block' : 'd-none'")
               h1.text-center You successfuly logged in!
-              p.text-center You will be redirect to the dashboard!
+              p.text-center.m-b-2 You will be redirect to the dashboard!
+                b-icon.ml-2(icon="circle-fill" animation="throb" font-scale="1")
               .text-center
-                b-icon( icon="circle-fill" animation="throb" font-scale="4")
-                  <!--ion-icon(name="checkmark-circle-outline" size="large")-->
+                ion-icon(name="checkmark-circle-outline")
+              p.text-center If you don't want to wait. Please&nbsp;
+                a.link(:href="dashboardLink") click here
 </template>
 
 <script>
@@ -119,6 +121,7 @@
         dismissSecs: 8,
         dismissCountDown: 0,
         showDismissibleAlert: false,
+        dashboardLink: ''
       }
     },
     methods: {
@@ -142,15 +145,11 @@
           },
         }
 
-        console.log('dataToSend', dataToSend)
-
         this.$store.dispatch('singIn', dataToSend)
           .then((response) => {
-            console.log('response', response)
 
             if (response.errors) {
               const properties = Object.keys(response.errors);
-              console.log('properties', properties)
               for (const type of Object.keys(response.errors)) {
                 this.errors = response.errors[type]
                 this.makeToast('Error', `Form has errors! Please recheck fields! ${error}`)
@@ -171,7 +170,6 @@
           .catch((error) => {
             console.error('error', error)
             for (const type of Object.keys(error.errors)) {
-              console.log('type', type)
               this.makeToast('Error', `${error.errors[type]}`)
               this.error = `Error! ${error.errors[type]}`
             }
@@ -198,7 +196,6 @@
 
         this.$store.dispatch('singIn', dataToSend)
           .then((response) => {
-            console.log('response', response)
 
             if (response.errors) {
               const properties = Object.keys(response.errors);
@@ -210,18 +207,15 @@
               return
             }
 
-            if (!response.errors) {
-              this.userId = response.userid
-              this.makeToast('Success', `${response.message}`)
-
+            if (!response.errors && response.token) {
               // open step 3
               this.step2 = false
               this.step3 = true
-            }
 
+              this.makeToast('Success', `You will be redirect to the dashboard!`)
 
-            if (response.token) {
               const dashboard = response.business ? '/business2' : '/specialist'
+              this.dashboardLink = dashboard
               setTimeout(() => {
                 window.location.href = `${dashboard}`;
               }, 3000)
@@ -229,21 +223,43 @@
           })
           .catch((error) => this.makeToast('Error', `Couldn't submit form! ${error}`))
       },
-      onChange(e){
+      onCodeChange(e){
         this.errors = []
 
-        if (e.target.value.length === 1) {
-          e.target.nextElementSibling?.focus()
+        if (e.keyCode === 8 || e.keyCode === 46) {
+          // BACKSPACE === 8 DELETE === 46
+          e.preventDefault();
+          e.target.value = ''
+          e.target.previousElementSibling?.focus()
+          return
+        }
+
+        if (e.target.value.length < 6) {
+          e.preventDefault();
+          e.target.value = e.key
+          if(e.target.nextElementSibling) {
+            e.target.nextElementSibling.value = ''
+            e.target.nextElementSibling.focus()
+          }
+
+          if(!e.target.nextElementSibling) {
+            this.$refs.codesubmit.focus();
+          }
         }
 
         // CATCH COPY PASTE CASE
-        if (e.target.value.length > 1) {
+        if (e.target.value.length === 6) {
           for(let i=1; i <= 6; i++) {
             this.form2['codePart'+i] = e.target.value.charAt(i-1)
           }
         }
 
         this.form2.code = this.form2.codePart1 + this.form2.codePart2 + this.form2.codePart3 + this.form2.codePart4 + this.form2.codePart5 + this.form2.codePart6
+
+        if (e.keyCode === 13) {
+          // ENTER KEY CODE
+          this.onSubmitStep2(e)
+        }
       },
       countDownChanged(dismissCountDown) {
         this.dismissCountDown = dismissCountDown

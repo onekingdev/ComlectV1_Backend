@@ -233,7 +233,7 @@
         this.formStep1.jurisdiction = accountInfoParsed.jurisdictions;
         this.formStep1.regulatorSelected = accountInfoParsed.former_regulator ? 'yes' : 'no';
 
-        this.formStep2.skills = accountInfoParsed.skill_names;
+        this.formStep2.skills = accountInfoParsed.skill_names || [];
         this.formStep2.experience = accountInfoParsed.experience;
       }
 
@@ -433,9 +433,11 @@
           console.log('formData', formData)
 
           let formData = new FormData()
-          Object.entries(params).forEach(
-            ([key, value]) => formData.append(key, JSON.stringify(value))
-          )
+          Object.keys(params.specialist)
+            .map(specAttr => formData.append(`specialist[${specAttr}]`, params.specialist[specAttr]))
+          params.skill_names
+            .map(skillName => formData.append(`skill_names[]`, skillName))
+
           console.log('formData', formData)
 
           // Object.entries(params).forEach(
@@ -512,13 +514,7 @@
         // CLEAR ERRORS
         this.errors = []
 
-        let planName;
-        if (selectedPlan.id === 2) {
-          planName = this.billingTypeSelected === 'annually' ? 'team_tier_annual' : 'team_tier_monthly';
-        }
-        if (selectedPlan.id === 3) {
-          planName = this.billingTypeSelected === 'annually' ? 'business_tier_annual' : 'business_tier_monthly'
-        }
+        let planName = 'specialist_pro';
 
         const dataToSend = {
           userType: this.userType,
