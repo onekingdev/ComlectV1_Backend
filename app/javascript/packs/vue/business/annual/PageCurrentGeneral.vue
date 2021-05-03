@@ -78,6 +78,36 @@
                         p Regulators interview emploees to uncover potential discrepancies in a firm's policies and procedures and their day-to-day practicies. It's important to interview those employees responsible for certain key tasks or have access to sensitive client in order to hear about their day-to-day activities in their own.words. Not sure what to ask? Consider&nbsp;
                           a.link(href="#") hiring one of our compilance specialists&nbsp;
                           | to conduct mock interviews for you to see and learn how to do it on your own!
+                    .row.m-b-2
+                      .col-md-12
+                        b-form
+                          .row(v-if="review.annual_review_employees && review.annual_review_employees.length")
+                            .col-4
+                              label Employee Name
+                            .col-4.px-0
+                              label Title/Role
+                            .col-4
+                              label Department
+                          template(v-for="(annualReviewEmployee, annualReviewEmployeeIndex) in review.annual_review_employees")
+                            .row(v-for="" :key="`${annualReviewEmployeeIndex}`")
+                              .col-4
+                                b-input-group.m-b-1
+                                  b-form-input.mb-2.mr-sm-2.mb-sm-0(v-model="annualReviewEmployee.name" placeholder='Enter Name')
+                              .col-4.px-0
+                                b-input-group.m-b-1
+                                  b-form-input.mb-2.mr-sm-2.mb-sm-0(v-model="annualReviewEmployee.title"  placeholder='Enter Title')
+                              .col-4
+                                b-input-group.m-b-1
+                                  b-form-input.mb-2.mr-sm-2.mb-sm-0(v-model="annualReviewEmployee.department"  placeholder='Enter Department of the organization')
+                                  b-dropdown(size="xs" variant="light" class="m-0 p-0" right)
+                                    template(#button-content)
+                                      b-icon(icon="three-dots")
+                                    b-dropdown-item Duplicate Entry
+                                    b-dropdown-item.delete(@click="deleteEntry(annualReviewEmployeeIndex)") Delete Entry
+                          b-input-group
+                            b-button(variant='primary' class="btn-default" @click="addEntry")
+                              b-icon.mr-2(icon='plus-circle-fill')
+                              | Add Entry
                   .d-flex.justify-content-end.p-y-1
                     button.btn.btn-default.m-r-1(@click="saveGeneral") Save
                     AnnualModalComplite(@compliteConfirmed="markComplete", :inline="false")
@@ -140,7 +170,8 @@ export default {
         review_start: review.review_start,
         review_end: review.review_end,
         regulatory_changes_attributes: review.regulatory_changes,
-        material_business_changes: review.material_business_changes
+        material_business_changes: review.material_business_changes,
+        annual_review_employees_attributes: review.annual_review_employees
       }
       try {
         await this.updateAnnual(data)
@@ -196,6 +227,16 @@ export default {
       } catch (error) {
         this.makeToast('Error', error.message)
       }
+    },
+    addEntry(){
+      this.review.annual_review_employees.push({
+        name: '',
+        title: '',
+        department: ''
+      })
+    },
+    deleteEntry(i) {
+      this.review.annual_review_employees.splice(i, 1);
     },
     makeToast(title, str) {
       this.$bvToast.toast(str, { title, autoHideDelay: 5000 })

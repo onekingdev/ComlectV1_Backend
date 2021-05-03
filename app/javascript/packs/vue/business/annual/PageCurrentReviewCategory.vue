@@ -30,7 +30,7 @@
                   .reviews__card--internal.p-y-1.d-flex
                     h3
                       | {{ currentCategory.name }}
-                      b-badge.ml-2(variant="light") 0 Tasks
+                      b-badge.ml-2(variant="light") {{ currentCategory.review_topics.length }} Tasks
                     AnnualModalDeleteCategory.ml-auto(@deleteConfirmed="deleteCategory", :inline="false")
                       b-button(variant="light") Delete
                   .reviews__topiclist(v-if="currentCategory.review_topics")
