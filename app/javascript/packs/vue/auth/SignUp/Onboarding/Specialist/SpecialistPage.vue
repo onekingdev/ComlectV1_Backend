@@ -512,7 +512,7 @@
 
         let planName;
         if (selectedPlan.id === 1) {
-          planName = 'free';
+          planName = 'specialist_free';
         }
         if (selectedPlan.id === 2) {
           planName = 'specialist_pro';
