@@ -359,7 +359,7 @@
       },
       onSubmit(event){
         event.preventDefault()
-        console.log(this.form)
+        // console.log(this.form)
       },
       navigation(stepNum){
         const url = new URL(window.location);
@@ -450,7 +450,7 @@
           this.$store
             .dispatch('updateAccountInfo', dataToSend)
             .then(response => {
-              console.log('response', response)
+              // console.log('response', response)
 
               if(!response.errors) {
                 this['step'+(stepNum-1)] = false
@@ -505,7 +505,7 @@
         this.disabled = false;
       },
       selectPlanAndComplitePurchase (selectedPlan) {
-        console.log('selectedPlan', selectedPlan)
+        // console.log('selectedPlan', selectedPlan)
         // console.log('this.billingTypeSelected', this.billingTypeSelected)
         // CLEAR ERRORS
         this.errors = []
@@ -521,7 +521,7 @@
         this.$store
           .dispatch('updateSubscribe', dataToSend)
           .then(response => {
-            console.log('response', response)
+            // console.log('response', response)
 
             if(response.errors) {
               this.makeToast('Error', `Something wrong!`)
@@ -541,10 +541,10 @@
       paySeats(selectedPlan) {
         const freeUsers = selectedPlan.usersCount;
         const neededUsers = +this.additionalUsers;
-        console.log(neededUsers, freeUsers)
+        // console.log(neededUsers, freeUsers)
         if (neededUsers <= freeUsers) return
         const countPayedUsers = neededUsers - freeUsers
-        console.log(countPayedUsers)
+        // console.log(countPayedUsers)
 
         let planName = this.billingTypeSelected === 'annually' ? 'seats_annual' : 'seats_monthly'
 
@@ -558,7 +558,7 @@
         this.$store
           .dispatch('updateSeatsSubscribe', dataToSend)
           .then(response => {
-            console.log('response', response)
+            // console.log('response', response)
 
             for(let i=0; i <= response.length; i++) {
               if(response[i].data.errors) {
