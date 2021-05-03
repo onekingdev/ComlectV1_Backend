@@ -12,7 +12,7 @@
             div
               button.btn.btn-default.mr-3 Download
               button.btn.btn-dark.mr-3 Save and Exit
-              button.btn.btn-light
+              button.btn.btn__close
                 b-icon(icon="x")
     .reviews__tabs
       b-tabs(content-class="mt-0")
@@ -29,7 +29,7 @@
                 .annual-actions
                   b-dropdown.bg-white(text='Actions', variant="secondary", right)
                     b-dropdown-item Duplicate
-                    b-dropdown-item.delete Delete report
+                    b-dropdown-item.delete Delete all categories
                 .card-body.white-card-body.reviews__card.p-xl-5
                   .reviews__card--internal.p-b-1
                     h3

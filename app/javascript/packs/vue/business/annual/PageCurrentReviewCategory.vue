@@ -11,9 +11,10 @@
               h2: b Annual Review {{ review ? review.year : '' }}
             div
               button.btn.btn-default.mr-3 Download
-              button.btn.btn-dark.mr-3 Save and Exit
-              button.btn.btn-light
-                b-icon(icon="x")
+              button.btn.btn-dark.mr-3(@click="saveAndExit") Save and Exit
+              AnnualModalDelete(@deleteConfirmed="deleteReview(review.id)")
+                button.btn.btn__close
+                  b-icon(icon="x")
     .reviews__tabs
       b-tabs(content-class="mt-0")
         b-tab(title="Detail" active)
@@ -25,13 +26,17 @@
                   :current-id="revcatId"
                   :reviews-categories="review.review_categories"
                 )
-              .col-md-9
+              .col-md-9.position-relative
+                .annual-actions
+                  b-dropdown.bg-white(text='Actions', variant="secondary", right)
+                    b-dropdown-item Duplicate
+                    b-dropdown-item.delete Delete all categories
                 .card-body.white-card-body.reviews__card.px-5
                   .reviews__card--internal.p-y-1.d-flex
                     h3
                       | {{ currentCategory.name }}
                       b-badge.ml-2(variant="light") {{ currentCategory.review_topics ? currentCategory.review_topics.length : 0 }} Tasks
-                    AnnualModalDeleteCategory.ml-auto(@deleteConfirmed="deleteCategory", :inline="false")
+                    AnnualModalDeleteCategory.ml-auto(@deleteConfirmed="deleteCategory(currentCategory.id)", :inline="false")
                       b-button(variant="light") Delete
                   .reviews__topiclist(v-if="currentCategory.review_topics")
                     template(v-for="(currentTopic, i) in currentCategory.review_topics")
@@ -90,6 +95,7 @@ import { mapGetters, mapActions } from "vuex"
 import { VueEditor } from "vue2-editor"
 import ReviewsList from "./components/ReviewsList";
 import AnnualModalComplite from './modals/AnnualModalComplite'
+import AnnualModalDelete from './modals/AnnualModalDelete'
 import AnnualModalDeleteCategory from './modals/AnnualModalDeleteCategory'
 
 export default {
@@ -98,6 +104,7 @@ export default {
     ReviewsList,
     VueEditor,
     AnnualModalComplite,
+    AnnualModalDelete,
     AnnualModalDeleteCategory
   },
   data () {
@@ -153,8 +160,8 @@ export default {
       }
       try {
         await this.updateReviewCategory(data)
-        // this.makeToast('Success', "Saved changes to annual review.")
-        // await this.getCurrentReviewReview(this.annualId)
+        this.makeToast('Success', "Saved changes to annual review.")
+        await this.getCurrentReviewReview(this.annualId)
       } catch (error) {
         this.makeToast('Error', error.message)
       }
@@ -191,11 +198,20 @@ export default {
     deleteTopic(i) {
       this.currentCategory.review_topics.splice(i, 1);
     },
-    deleteCategory() {
-      console.log('this.currentCategory', this.currentCategory)
+    deleteCategory(id) {
+      console.log('currentCategory id: ', id)
     },
     createTask(i){
       console.log('createTask: ', i)
+    },
+    saveAndExit() {
+      this.saveCategory()
+      window.location.href = `${window.location.origin}/business/annual_reviews/`
+    },
+    deleteReview(reviewId){
+      this.$store.dispatch('annual/deleteReview', { id: reviewId })
+        .then(response => this.toast('Success', `The annual review has been deleted! ${response.id}`))
+        .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
     },
     makeToast(title, str) {
       this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
