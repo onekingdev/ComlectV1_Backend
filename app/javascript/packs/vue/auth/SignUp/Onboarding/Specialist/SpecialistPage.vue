@@ -231,10 +231,10 @@
         this.formStep1.industry = accountInfoParsed.industries;
         this.formStep1.subIndustry = accountInfoParsed.sub_industries;
         this.formStep1.jurisdiction = accountInfoParsed.jurisdictions;
-        this.formStep1.regulatorSelected = accountInfoParsed.former_regulator ? 'yes' : 'no';
+        // this.formStep1.regulatorSelected = accountInfoParsed.former_regulator ? 'yes' : 'no';
 
         // this.formStep2.skills = accountInfoParsed.skill_names;
-        this.formStep2.experience = accountInfoParsed.experience;
+        // this.formStep2.experience = accountInfoParsed.experience;
       }
 
 
@@ -381,8 +381,7 @@
           this.errors = Object.assign({}, this.errors, { regulator: `Field can't be empty!` })
           return
         }
-        if (stepNum === 2 && this.formStep1.regulatorSelected === 'no' || this.formStep1.regulator) {
-
+        if (stepNum === 2) {
           if (!this.formStep1.industry) this.errors = Object.assign({}, this.errors, { industry: `Field can't be empty!` })
           if (!this.formStep1.subIndustry) this.errors = Object.assign({}, this.errors, { subIndustry: `Field can't be empty!` })
           if (!this.formStep1.jurisdiction) this.errors = Object.assign({}, this.errors, { jurisdiction: `Field can't be empty!` })
@@ -453,14 +452,14 @@
             .then(response => {
               console.log('response', response)
 
-              // if(!response.errors) {
-              //   this['step'+(stepNum-1)] = false
-              //   this['navStep'+stepNum] = true
-              //   this['step'+stepNum] = true
-              //   this.currentStep = stepNum
-              //   this.navigation(this.currentStep)
-              //   this.makeToast('Success', `Company info successfully sended!`)
-              // }
+              if(!response.errors) {
+                this['step'+(stepNum-1)] = false
+                this['navStep'+stepNum] = true
+                this['step'+stepNum] = true
+                this.currentStep = stepNum
+                this.navigation(this.currentStep)
+                this.makeToast('Success', `Company info successfully sended!`)
+              }
             })
             .catch(error => {
               console.error(error)
