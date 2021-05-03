@@ -109,15 +109,15 @@
               h3.onboarding__title.m-t-2 What's your expirience?
               p.onboarding__sub-title Select one that the best matches your level of your expertise.
               b-form-group(class="onboarding-group")
-                b-button.exp__btn.text-left(type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onExpirienceChange(0)")
+                b-button.exp__btn.text-left(type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onExpirienceChange($event, 0)")
                   b.exp__btn--main Junior
                   br
                   span.exp__btn--sub Begining consulting with some experience in the field.
-                b-button.exp__btn.text-left(type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onExpirienceChange(1)")
+                b-button.exp__btn.text-left(type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onExpirienceChange($event, 1)")
                   b.exp__btn--main Intermediate
                   br
                   span.exp__btn--sub Good expirience and knowlage of the industry.
-                b-button.exp__btn.text-left(type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onExpirienceChange(2)")
+                b-button.exp__btn.text-left(type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onExpirienceChange($event, 2)")
                   b.exp__btn--main Expert
                   br
                   span.exp__btn--sub Deep understanding of industry with varied experience.
@@ -348,7 +348,13 @@
         this.formStep2.skillsTags.push(tag)
         this.formStep2.skills.push(tag)
       },
-      onExpirienceChange(value){
+      onExpirienceChange(event, value){
+        document.querySelectorAll('.exp__btn').forEach((el) => el.classList.remove('active'))
+        if (event.target.classList.contains('exp__btn')) {
+          event.target.classList.toggle('active')
+        } else {
+          event.target.closest(".exp__btn").classList.toggle('active')
+        }
         this.formStep2.expirience = value;
       },
       onSubmit(event){
@@ -398,19 +404,17 @@
           formData.append('file', this.formStep2.file)
 
           const dataToSend = {
-            specialist: {
-              industry_ids: this.formStep1.industry.map(record => record.id),
-              sub_industry_ids: this.formStep1.subIndustry.map(record => record.id),
-              jurisdiction_ids: this.formStep1.jurisdiction.map(record => record.id),
+            industry_ids: this.formStep1.industry.map(record => record.id),
+            sub_industry_ids: this.formStep1.subIndustry.map(record => record.id),
+            jurisdiction_ids: this.formStep1.jurisdiction.map(record => record.id),
 
-              first_name: this.currentUser.first_name,
-              last_name: this.currentUser.last_name,
-              former_regulator: this.formStep1.regulatorSelected === 'yes',
-              specialist_other: this.formStep1.regulator.join(', '),
-              experience: this.formStep2.expirience,
-              // certifications: '',
-              resume: formData ? JSON.stringify(formData) : '',
-            },
+            first_name: this.currentUser.first_name,
+            last_name: this.currentUser.last_name,
+            former_regulator: this.formStep1.regulatorSelected === 'yes',
+            specialist_other: this.formStep1.regulator.join(', '),
+            experience: this.formStep2.expirience,
+            // certifications: '',
+            resume: formData ? JSON.stringify(formData) : '',
             skill_names: this.formStep2.skills.map(skill => skill.name),
           }
 
@@ -450,7 +454,7 @@
           //   })
 
           this.$store
-            .dispatch('updateAccountInfoWithFile', dataToSend)
+            .dispatch('updateAccountInfo', dataToSend)
             .then(response => {
               console.log('response', response)
 

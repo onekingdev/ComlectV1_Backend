@@ -183,9 +183,10 @@ input[type=number] {
   background-color: white;
 }
 .exp__btn:hover,
-.exp__btn:active {
-  color: white;
-  background-color: #2e304f;
+.exp__btn:active,
+.exp__btn.active {
+  color: white!important;
+  background-color: #2e304f!important;
 }
 .exp__btn:not(:last-child) {
   margin-right: 1rem;
@@ -195,7 +196,8 @@ input[type=number] {
   color: #797b7e;
 }
 .exp__btn:hover .exp__btn--sub,
-.exp__btn:active .exp__btn--sub {
+.exp__btn:active .exp__btn--sub,
+.exp__btn.active .exp__btn--sub {
   color: inherit;
 }
 
