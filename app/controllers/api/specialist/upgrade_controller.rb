@@ -27,6 +27,7 @@ class Api::Specialist::UpgradeController < ApiController
         stripe_subscription_id: sub.id,
         billing_period_ends: sub.cancel_at
       )
+      current_specialist.update(dashboard_unlocked: true)
     end
 
     respond_with message: { message: 'You have successfully subscribed' }, status: :created

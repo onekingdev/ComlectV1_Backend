@@ -1,5 +1,5 @@
 <template lang="pug">
-  .container-fluid
+  .container-fluid.onboarding
     TopNavbar(:userInfo="userInfo")
     main.row#main-content
       .col-xl-10.col-md-9.m-x-auto
@@ -87,12 +87,12 @@
                 p.mb-0 The following fields were filled in based on the CRD number you provided. Please carefully review each field before proceeding.
               div.d-flex.justify-content-between
                 .text-left
-                  h3 Tell us more about yourself:
-                  p Enter any relevant skills and education to better match with ideal clients.
+                  h3.onboarding__title Tell us more about yourself:
+                  p.onboarding__sub-title Enter any relevant skills and education to better match with ideal clients.
                 <!--.text-right-->
                   <!--SpecialistModalSkipStep(@skipConfirmed="skipStep(3)", :inline="false")-->
                     <!--b-button.mr-2(type='button' variant='outline-primary') Skip this step-->
-              b-form-group(label='Skills' label-for='selectS-7')
+              b-form-group(label='Skills' class="onboarding-group" label-for='selectS-7')
                 multiselect#selectS-7(
                 v-model="formStep2.skills"
                 :options="formStep2.skillsTags"
@@ -106,28 +106,28 @@
                 required)
                 .invalid-feedback.d-block(v-if="errors.skills") {{ errors.skills }}
               hr
-              h3 What's your expirience?
-              p Select one that the best matches your level of your expertise.
-              b-form-group
-                b-button-group.flex-wrap(size='lg')
-                  b-button.text-left(type='button' variant='outline-primary' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onExpirienceChange(0)")
-                    b Junior
-                    br
-                    | Begining consulting with some experience in the field.
-                  b-button.text-left(type='button' variant='outline-primary' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onExpirienceChange(1)")
-                    b Intermediate
-                    br
-                    | Good expirience and knowlage of the industry.
-                  b-button.text-left(type='button' variant='outline-primary' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onExpirienceChange(2)")
-                    b Expert
-                    br
-                    | Deep understanding of industry with varied experience.
+              h3.onboarding__title.m-t-2 What's your expirience?
+              p.onboarding__sub-title Select one that the best matches your level of your expertise.
+              b-form-group(class="onboarding-group")
+                b-button.exp__btn.text-left(type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onExpirienceChange(0)")
+                  b.exp__btn--main Junior
+                  br
+                  span.exp__btn--sub Begining consulting with some experience in the field.
+                b-button.exp__btn.text-left(type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onExpirienceChange(1)")
+                  b.exp__btn--main Intermediate
+                  br
+                  span.exp__btn--sub Good expirience and knowlage of the industry.
+                b-button.exp__btn.text-left(type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onExpirienceChange(2)")
+                  b.exp__btn--main Expert
+                  br
+                  span.exp__btn--sub Deep understanding of industry with varied experience.
               hr
-              h3.mb-3 (Optional) Upload you resume:
-              b-form-group.mt-3
+              h3.onboarding__title.m-b-3.m-t-2 (Optional) Upload you resume:
+              b-form-group.m-t-3(class="onboarding-group")
                 b-form-file(v-model='formStep2.file' :state='Boolean(formStep2.file)' accept="application/pdf" placeholder='Choose a file or drop it here...' drop-placeholder='Drop file here...')
                 .mt-3 Selected file: {{ formStep2.file ? formStep2.file.name : '' }}
-              .text-right
+              hr
+              .text-right.m-t-2
                 b-button.mr-2(type='button' variant='outline-primary' @click="prevStep(1)") Go back
                 b-button(type='button' variant='dark' @click="nextStep(3)") Next
             #step3.form(v-if='!loading'  :class="step3 ? 'd-block' : 'd-none'")
@@ -394,27 +394,10 @@
           console.log('this.formStep2.file')
           console.log(this.formStep2.file)
 
-          // let formData = new FormData()
-          // formData.append('file', this.formStep2.file)
+          let formData = new FormData()
+          formData.append('file', this.formStep2.file)
 
-          // const dataToSend = {
-          //   specialist: {
-          //     industry_ids: this.formStep1.industry.map(record => record.id),
-          //     sub_industry_ids: this.formStep1.subIndustry.map(record => record.id),
-          //     jurisdiction_ids: this.formStep1.jurisdiction.map(record => record.id),
-          //
-          //     first_name: this.currentUser.first_name,
-          //     last_name: this.currentUser.last_name,
-          //     former_regulator: this.formStep1.regulatorSelected === 'yes',
-          //     specialist_other: this.formStep1.regulator.join(', '),
-          //     experience: this.formStep2.expirience,
-          //     // certifications: '',
-          //     resume: formData ? JSON.stringify(formData) : '',
-          //   },
-          //   skill_names: this.formStep2.skills.map(skill => skill.name),
-          // }
-
-          const params = {
+          const dataToSend = {
             specialist: {
               industry_ids: this.formStep1.industry.map(record => record.id),
               sub_industry_ids: this.formStep1.subIndustry.map(record => record.id),
@@ -426,17 +409,34 @@
               specialist_other: this.formStep1.regulator.join(', '),
               experience: this.formStep2.expirience,
               // certifications: '',
-              resume: this.formStep2.file ? this.formStep2.file : '',
+              resume: formData ? JSON.stringify(formData) : '',
             },
             skill_names: this.formStep2.skills.map(skill => skill.name),
           }
-          console.log('formData', formData)
 
-          let formData = new FormData()
-          Object.entries(params).forEach(
-            ([key, value]) => formData.append(key, JSON.stringify(value))
-          )
-          console.log('formData', formData)
+          // const params = {
+          //   specialist: {
+          //     industry_ids: this.formStep1.industry.map(record => record.id),
+          //     sub_industry_ids: this.formStep1.subIndustry.map(record => record.id),
+          //     jurisdiction_ids: this.formStep1.jurisdiction.map(record => record.id),
+          //
+          //     first_name: this.currentUser.first_name,
+          //     last_name: this.currentUser.last_name,
+          //     former_regulator: this.formStep1.regulatorSelected === 'yes',
+          //     specialist_other: this.formStep1.regulator.join(', '),
+          //     experience: this.formStep2.expirience,
+          //     // certifications: '',
+          //     resume: this.formStep2.file ? this.formStep2.file : '',
+          //   },
+          //   skill_names: this.formStep2.skills.map(skill => skill.name),
+          // }
+          // console.log('formData', formData)
+          //
+          // let formData = new FormData()
+          // Object.entries(params).forEach(
+          //   ([key, value]) => formData.append(key, JSON.stringify(value))
+          // )
+          // console.log('formData', formData)
 
           // Object.entries(params).forEach(
           //   ([keyP, valueP]) => {
@@ -450,7 +450,7 @@
           //   })
 
           this.$store
-            .dispatch('updateAccountInfoWithFile', formData)
+            .dispatch('updateAccountInfoWithFile', dataToSend)
             .then(response => {
               console.log('response', response)
 
@@ -512,13 +512,7 @@
         // CLEAR ERRORS
         this.errors = []
 
-        let planName;
-        if (selectedPlan.id === 2) {
-          planName = this.billingTypeSelected === 'annually' ? 'team_tier_annual' : 'team_tier_monthly';
-        }
-        if (selectedPlan.id === 3) {
-          planName = this.billingTypeSelected === 'annually' ? 'business_tier_annual' : 'business_tier_monthly'
-        }
+        let planName = 'specialist_pro';
 
         const dataToSend = {
           userType: this.userType,
