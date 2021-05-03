@@ -341,8 +341,6 @@
         this.formStep1.regulator.push(tag)
       },
       addSkillsTag (newTag) {
-        console.log(this.formStep2.skillsTags)
-        console.log(this.formStep2.skills)
         const tag = {
           name: newTag,
           code: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))
