@@ -177,7 +177,7 @@ export default {
           }
         };
         const data = { [endPointUserType]: payload[endPointUserType] };
-        const response = await axios.patch(`/${endPointUserType}`, data, config)
+        const response = await axios.patch(`/${endPointUserType}`, payload)
         // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
         if(response.data) {
           localStorage.setItem('app.currentUser', JSON.stringify(response.data));

@@ -397,24 +397,19 @@
 
         if (stepNum === 3) {
 
-          console.log('this.formStep2.file')
-          console.log(this.formStep2.file)
-
-          let formData = new FormData()
-          formData.append('file', this.formStep2.file)
-
           const dataToSend = {
-            industry_ids: this.formStep1.industry.map(record => record.id),
-            sub_industry_ids: this.formStep1.subIndustry.map(record => record.id),
-            jurisdiction_ids: this.formStep1.jurisdiction.map(record => record.id),
+            specialist: {
+              industry_ids: this.formStep1.industry.map(record => record.id),
+              sub_industry_ids: this.formStep1.subIndustry.map(record => record.id),
+              jurisdiction_ids: this.formStep1.jurisdiction.map(record => record.id),
 
-            first_name: this.currentUser.first_name,
-            last_name: this.currentUser.last_name,
-            former_regulator: this.formStep1.regulatorSelected === 'yes',
-            specialist_other: this.formStep1.regulator.join(', '),
-            experience: this.formStep2.expirience,
-            // certifications: '',
-            resume: formData ? JSON.stringify(formData) : '',
+              first_name: this.currentUser.first_name,
+              last_name: this.currentUser.last_name,
+              former_regulator: this.formStep1.regulatorSelected === 'yes',
+              specialist_other: this.formStep1.regulator.join(', '),
+              experience: this.formStep2.expirience,
+              resume: '',
+            },
             skill_names: this.formStep2.skills.map(skill => skill.name),
           }
 
@@ -458,14 +453,14 @@
             .then(response => {
               console.log('response', response)
 
-              if(!response.errors) {
-                this['step'+(stepNum-1)] = false
-                this['navStep'+stepNum] = true
-                this['step'+stepNum] = true
-                this.currentStep = stepNum
-                this.navigation(this.currentStep)
-                this.makeToast('Success', `Company info successfully sended!`)
-              }
+              // if(!response.errors) {
+              //   this['step'+(stepNum-1)] = false
+              //   this['navStep'+stepNum] = true
+              //   this['step'+stepNum] = true
+              //   this.currentStep = stepNum
+              //   this.navigation(this.currentStep)
+              //   this.makeToast('Success', `Company info successfully sended!`)
+              // }
             })
             .catch(error => {
               console.error(error)
