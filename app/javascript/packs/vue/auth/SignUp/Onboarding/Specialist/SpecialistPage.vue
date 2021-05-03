@@ -190,7 +190,7 @@
   import Multiselect from 'vue-multiselect'
   import BillingDetails from './BillingDetails'
   import PurchaseSummary from './PurchaseSummary'
-  import SpecialistModalSkipStep from './Modals/SpecialistModalSkipStep'
+  // import SpecialistModalSkipStep from './Modals/SpecialistModalSkipStep'
 
   import data from './BillingPlansData.json'
 
@@ -202,7 +202,7 @@
       Multiselect,
       BillingDetails,
       PurchaseSummary,
-      SpecialistModalSkipStep
+      // SpecialistModalSkipStep
     },
     created() {
       // console.log('userInfo', this.userInfo)
@@ -468,20 +468,20 @@
             })
         }
       },
-      skipStep(stepNum){
-        this['step'+(stepNum-1)] = false
-        this['navStep'+stepNum] = true
-        this['step'+stepNum] = true
-        this.currentStep = stepNum
-        this.navigation(this.currentStep)
-
-        this.formStep2 = {
-            skills: [],
-            skillsTags: [],
-            file: null,
-            expirience: '',
-        }
-      },
+      // skipStep(stepNum){
+      //   this['step'+(stepNum-1)] = false
+      //   this['navStep'+stepNum] = true
+      //   this['step'+stepNum] = true
+      //   this.currentStep = stepNum
+      //   this.navigation(this.currentStep)
+      //
+      //   this.formStep2 = {
+      //       skills: [],
+      //       skillsTags: [],
+      //       file: null,
+      //       expirience: '',
+      //   }
+      // },
       openDetails(id) {
         this.openId = id
         // history.pushState({}, '', `${'new'}/${id}`)
