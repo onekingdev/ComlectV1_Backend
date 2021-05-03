@@ -295,9 +295,14 @@ table.table, table.table thead tr th {
       font-size: 16px;
       font-weight: 500;
     }
+    &-label{
+      color: #828487;
+    }
     &-name {
+      padding: .5rem;
       font-size: 18px;
       font-weight: 500;
+      border-radius: 5px;
     }
   }
   &__checkbox {

@@ -3,12 +3,13 @@
     div(v-b-modal="modalId" :class="{'d-inline-block':inline}")
       slot
 
-    b-modal.fade(:id="modalId" title="Complie Section")
+    b-modal.fade(:id="modalId" :title="completedStatus ? 'Incomplie Section' : 'Complie Section'")
       .row
         .col-md-1.text-center.px-0
-          b-icon.mt-2.ml-3(icon="check-circle-fill" scale="2" variant="success")
+          b-icon.mt-2.ml-3(v-if="!completedStatus" icon="check-circle-fill" scale="2" variant="success")
+          b-icon.mt-2.ml-3(v-if="completedStatus" icon="exclamation-circle-fill" scale="2" variant="danger")
         .col
-          p Confirm will make "General" section as complite.
+          p Confirm will make "{{ name }}" section as complite.
             br
             b Do you want to continue?
 
@@ -27,6 +28,14 @@
         type: Boolean,
         default: true
       },
+      completedStatus: {
+        type: Boolean,
+        default: true
+      },
+      name: {
+        type: String,
+        default: 'General'
+      }
     },
     data() {
       return {

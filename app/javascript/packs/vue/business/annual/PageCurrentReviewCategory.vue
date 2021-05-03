@@ -30,7 +30,7 @@
                   .reviews__card--internal.p-y-1.d-flex
                     h3
                       | {{ currentCategory.name }}
-                      b-badge.ml-2(variant="light") {{ currentCategory.review_topics.length }} Tasks
+                      b-badge.ml-2(variant="light") {{ currentCategory.review_topics ? currentCategory.review_topics.length : 0 }} Tasks
                     AnnualModalDeleteCategory.ml-auto(@deleteConfirmed="deleteCategory", :inline="false")
                       b-button(variant="light") Delete
                   .reviews__topiclist(v-if="currentCategory.review_topics")
@@ -38,6 +38,7 @@
                       .reviews__card--internal.p-y-1(:key="`${currentCategory.name}-${i}`")
                         .row.m-b-2
                           .col-md-10
+                            label.reviews__topic-label Topic Title
                             input.reviews__input.reviews__topic-name(v-model="currentTopic.name")
                           .col-md-2.text-right
                             b-dropdown(size="xs" variant="light" class="m-0 p-0" right)
@@ -68,14 +69,14 @@
                             template(v-for="(finding, findingIndex) in topicItem.findings")
                               .col-md-10.offset-md-1(:key="`${currentTopic.name}-${i}-${topicItemIndex}-${findingIndex}`")
                                 textarea.form-control(v-model="currentCategory.review_topics[i].items[topicItemIndex].findings[findingIndex]" type="text")
-                  button.btn.btn-default(@click="addTopic")
+                  button.btn.btn-default.m-y-2(@click="addTopic")
                     b-icon.mr-2(icon='plus-circle-fill')
                     | New Topic
                   .white-card-body.p-y-1
                     .d-flex.justify-content-end
                       button.btn.btn-default.mr-2(@click="saveCategory") Save
-                      AnnualModalComplite(@compliteConfirmed="markComplete", :inline="false")
-                        button.btn.btn-dark Mark Complete
+                      AnnualModalComplite(@compliteConfirmed="markComplete", :completedStatus="currentCategory.complete" :name="currentCategory.name" :inline="false")
+                        button.btn(:class="currentCategory.complete ? 'btn-default' : 'btn-dark'") Mark {{ currentCategory.complete ? 'Incomplete' : 'Complete' }}
         b-tab(title="Tasks")
           div Tasks
         b-tab(title="Documents")
@@ -148,7 +149,7 @@ export default {
       const data = {
         annualId: this.annualId,
         ...reviewCategory,
-        complete: true,
+        complete: !reviewCategory.complete,
       }
       try {
         await this.updateReviewCategory(data)
