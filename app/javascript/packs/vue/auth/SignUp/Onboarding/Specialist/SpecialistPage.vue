@@ -123,9 +123,9 @@
                   span.exp__btn--sub Deep understanding of industry with varied experience.
               hr
               h3.onboarding__title.m-b-3.m-t-2 (Optional) Upload you resume:
-              b-form-group.m-t-3(class="onboarding-group")
+              b-form-group.m-t-2(class="onboarding-group")
                 b-form-file(v-model='formStep2.file' :state='Boolean(formStep2.file)' accept="application/pdf" placeholder='Choose a file or drop it here...' drop-placeholder='Drop file here...')
-                .mt-3 Selected file: {{ formStep2.file ? formStep2.file.name : '' }}
+                .m-t-3 Selected file: {{ formStep2.file ? formStep2.file.name : '' }}
               hr
               .text-right.m-t-2
                 b-button.mr-2(type='button' variant='outline-primary' @click="prevStep(1)") Go back
@@ -233,7 +233,7 @@
         this.formStep1.jurisdiction = accountInfoParsed.jurisdictions;
         this.formStep1.regulatorSelected = accountInfoParsed.former_regulator ? 'yes' : 'no';
 
-        this.formStep2.skills = accountInfoParsed.skill_names;
+        // this.formStep2.skills = accountInfoParsed.skill_names;
         this.formStep2.experience = accountInfoParsed.experience;
       }
 
@@ -341,6 +341,8 @@
         this.formStep1.regulator.push(tag)
       },
       addSkillsTag (newTag) {
+        console.log(this.formStep2.skillsTags)
+        console.log(this.formStep2.skills)
         const tag = {
           name: newTag,
           code: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))
