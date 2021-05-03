@@ -43,8 +43,7 @@ export default {
   computed: {
     progressWidth() {
       const part = 100 / +this.item.review_categories.length
-      // return +part * +this.item.progress
-      return Math.floor(Math.random() * 100)
+      return +part * +this.item.progress
     }
   },
   methods: {
