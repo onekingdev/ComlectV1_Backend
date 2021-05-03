@@ -2,7 +2,7 @@
 
 class ApplicationController < ActionController::Base
   before_action :store_user_location!, if: :storable_location?
-  before_action :lock_specialist, if: :current_specialist
+  # before_action :lock_specialist, if: :current_specialist
   include ::Pundit
   include ::MixpanelHelper
 
@@ -44,13 +44,8 @@ class ApplicationController < ActionController::Base
     return if current_specialist.dashboard_unlocked
 
     return if (params['controller'] == 'specialists/dashboard') && (params['action'] == 'locked')
-    return if params['controller'] == 'specialists/onboarding'
-    return if params['controller'] == 'api/specialists'
-    return if params['controller'] == 'api/specialist/payment_settings'
-    return if params['controller'] == 'users/sessions'
-    return if params['controller'] == 'api/specialist/upgrade'
 
-    redirect_to specialists_onboarding_path
+    return redirect_to specialists_locked_path if params['controller'] != 'users/sessions' && params['controller'] != 'api/specialists'
   end
 
   def storable_location?

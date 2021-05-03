@@ -3,7 +3,6 @@
     TopNavbar(:userInfo="userInfo")
     main.row#main-content
       .col-xl-10.col-md-9.m-x-auto
-        Overlay(v-if="overlay", :status="overlayStatus", :statusText="overlayStatusText", :show="overlay")
         .card-body.white-card-body.registration-onboarding.p-5
           .div
             h2 Set Up Your Account
@@ -193,7 +192,6 @@
   import Multiselect from 'vue-multiselect'
   import BillingDetails from './BillingDetails'
   import PurchaseSummary from './PurchaseSummary'
-  import Overlay from '../Overlay'
 
   import data from './BillingPlansData.json'
 
@@ -204,8 +202,7 @@
       TopNavbar,
       Multiselect,
       BillingDetails,
-      PurchaseSummary,
-      Overlay
+      PurchaseSummary
     },
     created() {
       // console.log('userInfo', this.userInfo)
@@ -328,9 +325,6 @@
         additionalUsers: 0,
         paymentSourceId: null,
         disabled: true,
-        overlay: false,
-        overlayStatus: '',
-        overlayStatusText: '',
       }
     },
     methods: {
@@ -339,7 +333,7 @@
       },
       onSubmit(event){
         event.preventDefault()
-        // console.log(this.form)
+        console.log(this.form)
       },
       checkCDRinfo() {
         // CLEAR ERRORS
@@ -357,7 +351,7 @@
         this.$store
           .dispatch('getInfoByCRDNumber', dataToSend)
           .then(response => {
-            // console.log('response', response)
+            console.log('response', response)
             this.makeToast('Success', `CRD Number successfully sended!`)
           })
           .catch(error => {
@@ -365,7 +359,7 @@
             this.makeToast('Error', `Something wrong! ${error}`)
           })
 
-        // console.log(dataToSend)
+        console.log(dataToSend)
       },
       navigation(stepNum){
         const url = new URL(window.location);
@@ -429,7 +423,7 @@
           this.$store
             .dispatch('updateAccountInfo', dataToSend)
             .then(response => {
-              // console.log('response', response)
+              console.log('response', response)
 
               if(response.errors) {
                 this.makeToast('Error', `Something wrong!`)
@@ -483,13 +477,10 @@
         this.disabled = false;
       },
       selectPlanAndComplitePurchase (selectedPlan) {
-        // console.log('selectedPlan', selectedPlan)
+        console.log('selectedPlan', selectedPlan)
         // console.log('this.billingTypeSelected', this.billingTypeSelected)
         // CLEAR ERRORS
         this.errors = []
-
-        this.overlay = true
-        this.overlayStatusText = 'Setting up account. Subscribing a plan...'
 
         let planName;
         if (selectedPlan.id === 2) {
@@ -508,48 +499,30 @@
         this.$store
           .dispatch('updateSubscribe', dataToSend)
           .then(response => {
-            // console.log('response', response)
+            console.log('response', response)
 
-            if(response.errors) throw new Error(`Response error!`)
+            if(response.errors) {
+              this.makeToast('Error', `Something wrong!`)
+            }
 
             if(!response.errors) {
               this.makeToast('Success', `Update subscribe successfully finished!`)
               this.paySeats(selectedPlan)
-
-              // OVERLAY
-              if(+this.additionalUsers === 0) {
-                this.overlayStatusText = 'Account successfully purchased, you will be redirect to the dashboard...'
-                this.overlayStatus = 'success'
-                // this.overlay = false
-                const dashboard = this.userType === 'business' ? '/business2' : '/specialist'
-                setTimeout(() => {
-                  window.location.href = `${dashboard}`;
-                }, 3000)
-              }
             }
           })
           .catch(error => {
             console.error(error)
             this.makeToast('Error', `Something wrong! ${error}`)
-
-            // OVERLAY
-            this.overlayStatus = 'error'
-            this.overlayStatusText = `Something wrong! ${error}`
-            setTimeout(() => {
-              this.overlay = false
-            }, 3000)
           })
           .finally(() => this.disabled = true)
       },
       paySeats(selectedPlan) {
         const freeUsers = selectedPlan.usersCount;
         const neededUsers = +this.additionalUsers;
-        // console.log(neededUsers, freeUsers)
+        console.log(neededUsers, freeUsers)
         if (neededUsers <= freeUsers) return
         const countPayedUsers = neededUsers - freeUsers
-        // console.log(countPayedUsers)
-
-        this.overlayStatusText = 'Subscribing additional seats...'
+        console.log(countPayedUsers)
 
         let planName = this.billingTypeSelected === 'annually' ? 'seats_annual' : 'seats_monthly'
 
@@ -563,37 +536,22 @@
         this.$store
           .dispatch('updateSeatsSubscribe', dataToSend)
           .then(response => {
-            // console.log('response', response)
+            console.log('response', response)
 
-            if(response.errors) {
-              for (const type of Object.keys(response[i].data.errors)) {
-                this.makeToast('Error', `Something wrong! ${response[i].data.errors[type]}`)
+            for(let i=0; i <= response.length; i++) {
+              if(response[i].data.errors) {
+                for (const type of Object.keys(response[i].data.errors)) {
+                  this.makeToast('Error', `Something wrong! ${response[i].data.errors[type]}`)
+                }
               }
-            }
-
-            if(!response.errors) {
-              this.makeToast('Success', `Update seat subscribe successfully finished!`)
-
-              // OVERLAY
-              this.overlayStatusText = `Account and ${countPayedUsers} seats successfully purchased, you will be redirect to the dashboard...`
-              this.overlayStatus = 'success'
-              // this.overlay = false
-              const dashboard = this.userType === 'business' ? '/business2' : '/specialist'
-              setTimeout(() => {
-                window.location.href = `${dashboard}`;
-              }, 3000)
+              if(!response[i].data.errors) {
+                this.makeToast('Success', `Update seat subscribe successfully finished!`)
+              }
             }
           })
           .catch(error => {
             console.error(error)
             this.makeToast('Error', `Something wrong! ${error}`)
-
-            // OVERLAY
-            this.overlayStatus = 'error'
-            this.overlayStatusText = `Something wrong! ${error}`
-            setTimeout(() => {
-              this.overlay = false
-            }, 3000)
           })
           .finally(() => this.disabled = true)
       },
