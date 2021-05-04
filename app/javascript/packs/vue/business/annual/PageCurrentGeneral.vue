@@ -113,7 +113,7 @@
                     AnnualModalComplite(@compliteConfirmed="markComplete", :inline="false")
                       button.btn.btn-dark Mark Complete
         b-tab(title="Tasks")
-          div Tasks
+          PageTasks
         b-tab(title="Documents")
           div Documents
         b-tab(title="Activity")
@@ -125,13 +125,15 @@ import { mapGetters, mapActions } from "vuex"
 import { VueEditor } from "vue2-editor"
 import ReviewsList from "./components/ReviewsList"
 import AnnualModalComplite from './modals/AnnualModalComplite'
+import PageTasks from './PageTasks'
 
 export default {
   props: ['annualId'],
   components: {
     ReviewsList,
     VueEditor,
-    AnnualModalComplite
+    AnnualModalComplite,
+    PageTasks
   },
   data () {
     return {

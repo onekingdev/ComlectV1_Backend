@@ -20,7 +20,7 @@
 </template>
 
 <script>
-  const endpointUrl = '/api/business/reminders'
+  const endpointUrl = '/api/business/reminders/'
   const overdueEndpointUrl = '/api/business/overdue_reminders'
   import { DateTime } from 'luxon'
   import TaskTable from '@/common/TaskTable'
@@ -42,8 +42,14 @@
           .then(response => response.json())
           .then(result => {
             this.tasks = result.tasks
+          }).then(fetch(`${endpointUrl}${fromTo}`, { headers: {'Accept': 'application/json'}})
+          .then(response => response.json())
+          .then(result => {
+            this.tasks = this.tasks.concat(result.tasks)
+            this.projects = result.projects
           })
-          .catch(error => console.log(error))
+        )
+        // .catch(errorCallback)
       }
     },
     components: {
