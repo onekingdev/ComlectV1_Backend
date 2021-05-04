@@ -76,10 +76,10 @@
         default: true
       },
       reviews: {
-        type: Object,
+        type: Array,
         required: false,
-        default: []
-      },
+        default: () => []
+      }
     },
     components: {
       VueEditor,

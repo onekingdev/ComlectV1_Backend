@@ -84,7 +84,7 @@
                       AnnualModalComplite(@compliteConfirmed="markComplete", :completedStatus="currentCategory.complete" :name="currentCategory.name" :inline="false")
                         button.btn(:class="currentCategory.complete ? 'btn-default' : 'btn-dark'") Mark {{ currentCategory.complete ? 'Incomplete' : 'Complete' }}
         b-tab(title="Tasks")
-          div Tasks
+          PageTasks
         b-tab(title="Documents")
           div Documents
         b-tab(title="Activity")
@@ -99,6 +99,7 @@ import AnnualModalComplite from './modals/AnnualModalComplite'
 import AnnualModalDelete from './modals/AnnualModalDelete'
 import AnnualModalDeleteCategory from './modals/AnnualModalDeleteCategory'
 import AnnualModalCreateTask from './modals/AnnualModalCreateTask'
+import PageTasks from './PageTasks'
 
 export default {
   props: ['annualId', 'revcatId'],
@@ -108,7 +109,8 @@ export default {
     AnnualModalComplite,
     AnnualModalDelete,
     AnnualModalDeleteCategory,
-    AnnualModalCreateTask
+    AnnualModalCreateTask,
+    PageTasks
   },
   data () {
     return {
