@@ -36,6 +36,12 @@ const MINIMUM_EXPERIENCE_OPTIONS = {
   2: "Expert"
 }
 
+const SPECIALIST_ROLE_OPTIONS = {
+  'basic': 'Basic',
+  'trusted': 'Trusted',
+  'admin': 'Admin'
+}
+
 export {
   PRICING_TYPES,
   PRICING_TYPES_OPTIONS,
@@ -43,4 +49,5 @@ export {
   FIXED_PAYMENT_SCHEDULE_OPTIONS,
   HOURLY_PAYMENT_SCHEDULE_OPTIONS,
   MINIMUM_EXPERIENCE_OPTIONS,
+  SPECIALIST_ROLE_OPTIONS,
 }

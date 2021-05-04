@@ -253,5 +253,136 @@ table.table, table.table thead tr th {
   }
 }
 
+.reviews {
+  &__list {
+    &-icon {
+      color: #cecfd2;
+      font-size: 20px;
+      &.checked {
+        color: #1ab27f;
+      }
+    }
+    &-link {
+      font-size: 16px;
+      margin: 10px 0;
+      display: block;
+      color: #000;
+      font-weight: 300;
+      &--active {
+        color: #047aff;
+        font-weight: normal;
+      }
+      &:hover {
+        color: #047aff;
+        font-weight: normal;
+        text-decoration: none;
+      }
+    }
+  }
+  &__input {
+    //border: none;
+    width: 100%;
+    border: 1px solid transparent;
+    transition: all 200ms ease-in;
+
+    &:hover,
+    &:active {
+      border: 1px solid #dee2e6;
+    }
+  }
+  &__topic {
+    &-body {
+      font-size: 16px;
+      font-weight: 500;
+    }
+    &-label{
+      color: #828487;
+    }
+    &-name {
+      padding: .5rem;
+      font-size: 18px;
+      font-weight: 500;
+      border-radius: 5px;
+    }
+  }
+  &__checkbox {
+    margin-top: 10px;
+    &-item {
+      line-height: 1;
+      padding: 2px 7px;
+      font-size: 16px;
+      text-align: center;
+      border: 1px solid #dee2e6;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: all 200ms ease-in;
+      &.checked {
+        color: #fff;
+      }
+      &--true {
+        &.checked {
+          color: white;
+          border-color: #1ab27f;
+          background: #1ab27f;
+        }
+      }
+      &--false {
+        &.checked {
+          color: white;
+          border-color: #ce1938;
+          background: #ce1938;
+        }
+      }
+
+      &:hover,
+      &:active {
+        color: #2e304f;
+        background-color: #dee2e6;
+        border-color: #dee2e6;
+      }
+
+      &:not(:last-child) {
+        margin-right: .5rem;
+      }
+    }
+  }
+  &__tabs {
+    .nav-tabs {
+      margin-bottom: 2rem;
+      background-color: white;
+      border-top: 1px solid #dee2e6;
+      .nav-item .nav-link, .policy .nav-tabs .nav-item .nav-link.active {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        font-weight: 600;
+      }
+    }
+  }
+  &__card {
+    border-radius: 10px;
+    border: 2px solid #e9ebee;
+    &--internal {
+      border-top: initial;
+      border-bottom: 2px solid #e9ebee;
+      &-top {
+        border-bottom: initial;
+      }
+    }
+  }
+  &-table {
+    &__progress {
+      &-bar {
+        background: #c3c3c3;
+        width: 150px;
+        height: 15px;
+        &__item {
+          height: 100%;
+          background: #6fca65;
+        }
+      }
+    }
+  }
+}
+
 @import '../../../node_modules/bootstrap/scss/bootstrap.scss';
 @import '../../../node_modules/bootstrap-vue/src/index.scss';

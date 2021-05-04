@@ -106,6 +106,7 @@ Rails.application.routes.draw do
         put :unban
       end
     end
+    get 'annual_reviews/:id/:revcat', to: 'annual_reviews#revcat'
     resources :annual_reviews, only: %i[new create show destroy index edit update]
     resources :annual_reports, only: %i[new create index update]
     resources :teams, only: %i[new create show edit index update destroy]
@@ -289,7 +290,7 @@ Rails.application.routes.draw do
       get '/overdue_reminders' => 'reminders#overdue'
       post '/reminders' => 'reminders#create'
       resources :local_projects, only: %i[index create show update destroy]
-      get 'local_projects/:id/complete' => 'local_projects#complete'
+      put 'local_projects/:id/complete' => 'local_projects#complete'
       resources :projects, only: %i[index show create update destroy] do
         resources :project_messages, path: 'messages', only: %i[index create]
         resources :job_applications, path: 'applications', only: %i[index] do

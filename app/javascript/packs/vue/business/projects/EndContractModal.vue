@@ -1,5 +1,5 @@
 <template lang="pug">
-  div.d-inline-block.float-right
+  div.d-inline-block(:class="{ 'float-right': right }")
     div.d-inline-block(v-b-modal="modalId"): slot
     b-modal.fade(:id="modalId" title="End Contract" no-stacking)
       p ℹ️ Ending this contract will remove this specialist as a collaborator to the project, revoke and permissions granted due to the project, and payout the full contract price.
@@ -51,6 +51,10 @@ export default {
     project: {
       type: Object,
       required: true
+    },
+    right: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
