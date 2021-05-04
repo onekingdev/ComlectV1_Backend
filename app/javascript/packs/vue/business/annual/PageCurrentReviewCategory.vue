@@ -7,8 +7,8 @@
             div
               h3 Internal Review&nbsp;
                 span.separator /&nbsp;
-                b {{ review ? review.year : '' }} {{ review.name }}
-              h2: b {{ review ? review.year : '' }} {{ review.name }}
+                b {{ review ? review.year : '' }} {{ review ? review.name : '' }}
+              h2: b {{ review ? review.year : '' }} {{ review ? review.name : '' }}
             div
               button.btn.btn-default.mr-3 Download
               button.btn.btn-dark.mr-3(@click="saveAndExit") Save and Exit
