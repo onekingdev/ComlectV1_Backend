@@ -51,7 +51,8 @@
                                 | Actions
                                 b-icon.ml-2(icon="chevron-down")
                               b-dropdown-item(@click="addTopicItem(i)") Add item
-                              b-dropdown-item(@click="createTask(i)") Create task
+                              AnnualModalCreateTask(@saved="createTask(i)" :inline="false")
+                                b-dropdown-item Create task
                               b-dropdown-item(@click="deleteTopic(i)").delete Delete Topic
                         template(v-for="(topicItem, topicItemIndex) in currentTopic.items")
                           .row(:key="`${currentCategory.name}-${i}-${topicItemIndex}`")
@@ -73,7 +74,7 @@
                               label.form-label Finding
                             template(v-for="(finding, findingIndex) in topicItem.findings")
                               .col-md-10.offset-md-1(:key="`${currentTopic.name}-${i}-${topicItemIndex}-${findingIndex}`")
-                                textarea.form-control(v-model="currentCategory.review_topics[i].items[topicItemIndex].findings[findingIndex]" type="text")
+                                textarea.form-control.m-b-1(v-model="currentCategory.review_topics[i].items[topicItemIndex].findings[findingIndex]" type="text")
                   button.btn.btn-default.m-y-2(@click="addTopic")
                     b-icon.mr-2(icon='plus-circle-fill')
                     | New Topic
@@ -97,6 +98,7 @@ import ReviewsList from "./components/ReviewsList";
 import AnnualModalComplite from './modals/AnnualModalComplite'
 import AnnualModalDelete from './modals/AnnualModalDelete'
 import AnnualModalDeleteCategory from './modals/AnnualModalDeleteCategory'
+import AnnualModalCreateTask from './modals/AnnualModalCreateTask'
 
 export default {
   props: ['annualId', 'revcatId'],
@@ -105,7 +107,8 @@ export default {
     VueEditor,
     AnnualModalComplite,
     AnnualModalDelete,
-    AnnualModalDeleteCategory
+    AnnualModalDeleteCategory,
+    AnnualModalCreateTask
   },
   data () {
     return {

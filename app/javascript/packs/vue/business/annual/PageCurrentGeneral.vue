@@ -193,7 +193,7 @@ export default {
           })
           .catch((error) => console.error(error))
 
-        // await this.getCurrentReviewReview(this.annualId)
+        await this.getCurrentReviewReview(this.annualId)
 
       } catch (error) {
         this.makeToast('Error', error.message)
@@ -222,8 +222,8 @@ export default {
             }
           })
           .catch((error) => console.error(error))
-        // this.makeToast('Success', "Annual review marked as complete!")
-        // await this.getCurrentReviewReview(this.annualId)
+        this.makeToast('Success', "Annual review marked as complete!")
+        await this.getCurrentReviewReview(this.annualId)
       } catch (error) {
         this.makeToast('Error', error.message)
       }
