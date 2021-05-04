@@ -8,9 +8,6 @@ import ProjectShowPage from '@/business/projects/ShowPage'
 import ProjectShowPostPage from '@/business/projects/ShowPostPage'
 import RemindersPage from '@/business/reminders/Page'
 import TimesheetsShowPage from '@/business/projects/TimesheetsShowPage'
-import BusinessAnnualsPage from './vue/business/annual/Page.vue'
-import BusinessAnnualReviewPage from './vue/business/annual/PageCurrentReviewCategory.vue'
-import BusinessAnnualGeneralPage from './vue/business/annual/PageCurrentGeneral.vue'
 
 import BusinessPoliciesPage from './vue/business/policies/Page.vue'
 import BusinessPoliciesCreatePage from './vue/business/policies/Details/PolicyCreate.vue'
@@ -39,9 +36,7 @@ init({
     ProjectShowPostPage,
     RemindersPage,
     TimesheetsShowPage,
-    BusinessAnnualsPage,
-    BusinessAnnualReviewPage,
-    BusinessAnnualGeneralPage,
+
     ...businesPolicies,
     ...businesRisks
   }

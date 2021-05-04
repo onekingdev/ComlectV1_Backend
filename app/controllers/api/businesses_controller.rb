@@ -16,13 +16,15 @@ class Api::BusinessesController < ApiController
   end
 
   def update
-    business = current_business
-    if business.update(edit_business_params)
-      business.username = business.generate_username
-      business.update(sub_industries: convert_sub_industries(params[:sub_industry_ids]))
-      respond_with business, serializer: BusinessSerializer
+    if edit_business_params.key?('crd_number')
+      build_business
+      respond_with current_business, serializer: BusinessSerializer
+    elsif current_business.update(edit_business_params)
+      current_business.username = current_business.generate_username
+      current_business.update(sub_industries: convert_sub_industries(params[:sub_industry_ids]))
+      respond_with current_business, serializer: BusinessSerializer
     else
-      respond_with errors: { business: business.errors.messages }
+      respond_with errors: { business: current_business.errors.messages }
     end
   end
 
@@ -54,5 +56,16 @@ class Api::BusinessesController < ApiController
 
   def edit_business_params
     business_params.except(:user_attributes)
+  end
+
+  def build_business
+    potential_business = PotentialBusiness.find_by(crd_number: edit_business_params[:crd_number])
+    if potential_business
+      business_attrs = potential_business.attributes.except('id', 'created_at', 'updated_at')
+      current_business.assign_attributes(business_attrs)
+      current_business.save(validate: false)
+    else
+      current_business.update_attribute('crd_number', edit_business_params[:crd_number])
+    end
   end
 end
