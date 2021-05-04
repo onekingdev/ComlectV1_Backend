@@ -339,7 +339,7 @@
       },
       onSubmit(event){
         event.preventDefault()
-        console.log(this.form)
+        // console.log(this.form)
       },
       checkCDRinfo() {
         // CLEAR ERRORS
@@ -357,7 +357,7 @@
         this.$store
           .dispatch('getInfoByCRDNumber', dataToSend)
           .then(response => {
-            console.log('response', response)
+            // console.log('response', response)
             this.makeToast('Success', `CRD Number successfully sended!`)
           })
           .catch(error => {
@@ -365,7 +365,7 @@
             this.makeToast('Error', `Something wrong! ${error}`)
           })
 
-        console.log(dataToSend)
+        // console.log(dataToSend)
       },
       navigation(stepNum){
         const url = new URL(window.location);
@@ -429,7 +429,7 @@
           this.$store
             .dispatch('updateAccountInfo', dataToSend)
             .then(response => {
-              console.log('response', response)
+              // console.log('response', response)
 
               if(response.errors) {
                 this.makeToast('Error', `Something wrong!`)
@@ -483,7 +483,7 @@
         this.disabled = false;
       },
       selectPlanAndComplitePurchase (selectedPlan) {
-        console.log('selectedPlan', selectedPlan)
+        // console.log('selectedPlan', selectedPlan)
         // console.log('this.billingTypeSelected', this.billingTypeSelected)
         // CLEAR ERRORS
         this.errors = []
@@ -508,7 +508,7 @@
         this.$store
           .dispatch('updateSubscribe', dataToSend)
           .then(response => {
-            console.log('response', response)
+            // console.log('response', response)
 
             if(response.errors) throw new Error(`Response error!`)
 
@@ -544,10 +544,10 @@
       paySeats(selectedPlan) {
         const freeUsers = selectedPlan.usersCount;
         const neededUsers = +this.additionalUsers;
-        console.log(neededUsers, freeUsers)
+        // console.log(neededUsers, freeUsers)
         if (neededUsers <= freeUsers) return
         const countPayedUsers = neededUsers - freeUsers
-        console.log(countPayedUsers)
+        // console.log(countPayedUsers)
 
         this.overlayStatusText = 'Subscribing additional seats...'
 
@@ -563,7 +563,7 @@
         this.$store
           .dispatch('updateSeatsSubscribe', dataToSend)
           .then(response => {
-            console.log('response', response)
+            // console.log('response', response)
 
             if(response.errors) {
               for (const type of Object.keys(response[i].data.errors)) {
