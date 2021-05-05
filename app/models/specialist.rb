@@ -49,6 +49,7 @@ class Specialist < ApplicationRecord
   has_and_belongs_to_many :local_projects
   has_many :business_specialists_roles, foreign_key: :specialist_id
   has_many :specialist_roles, source: :specialist, through: :business_specialists_roles
+  has_many :subscriptions, foreign_key: :specialist_id
 
   has_settings do |s|
     s.key :notifications, defaults: {
@@ -179,9 +180,10 @@ class Specialist < ApplicationRecord
   has_one :cookie_agreement, through: :user
   accepts_nested_attributes_for :tos_agreement
   accepts_nested_attributes_for :cookie_agreement
-  validate :tos_invalid?
-  validate :cookie_agreement_invalid?
-  validates :username, uniqueness: true
+  accepts_nested_attributes_for :user
+  # validate :tos_invalid?
+  # validate :cookie_agreement_invalid?
+  validates :username, uniqueness: true, allow_blank: true
   validates :call_booked, presence: true, on: :signup
   validates :resume, presence: true, on: :signup if Rails.env != 'test'
 

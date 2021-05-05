@@ -3,7 +3,7 @@
 class Api::Business::ProjectsController < ApiController
   before_action :require_business!
   before_action :build_project, only: %i[create]
-  before_action :find_project, only: %i[show update]
+  before_action :find_project, only: %i[show update destroy]
 
   skip_before_action :verify_authenticity_token # TODO: proper authentication
 
@@ -30,6 +30,15 @@ class Api::Business::ProjectsController < ApiController
       respond_with @project, serializer: ProjectSerializer
     else
       render json: @project.errors, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    if @project.specialist_id.nil? && @project.destroy
+      respond_with @project, serializer: ProjectSerializer
+    else
+      render json: (@project.errors.keys.count.positive? ? @project.errors : { error: 'project_has_specialist' }.to_json),
+             status: :unprocessable_entity
     end
   end
 
@@ -79,7 +88,6 @@ class Api::Business::ProjectsController < ApiController
       :status,
       :color,
       :specialist_id,
-      :rfp_timing,
       jurisdiction_ids: [],
       industry_ids: [],
       skill_names: []

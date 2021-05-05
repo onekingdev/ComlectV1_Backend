@@ -16,13 +16,6 @@ const LOCATION_TYPES = {
   onsite: 'Onsite'
 }
 
-const RFP_TIMING_OPTIONS = {
-  asap: 'As soon as possible',
-  two_weeks: 'Within the next 2 weeks',
-  month: 'Within a month',
-  not_sure: 'Not sure'
-}
-
 const FIXED_PAYMENT_SCHEDULE_OPTIONS = {
   upfront: 'Upfront',
   fifty_fifty: '50/50',
@@ -43,12 +36,18 @@ const MINIMUM_EXPERIENCE_OPTIONS = {
   2: "Expert"
 }
 
+const SPECIALIST_ROLE_OPTIONS = {
+  'basic': 'Basic',
+  'trusted': 'Trusted',
+  'admin': 'Admin'
+}
+
 export {
   PRICING_TYPES,
   PRICING_TYPES_OPTIONS,
   LOCATION_TYPES,
-  RFP_TIMING_OPTIONS,
   FIXED_PAYMENT_SCHEDULE_OPTIONS,
   HOURLY_PAYMENT_SCHEDULE_OPTIONS,
   MINIMUM_EXPERIENCE_OPTIONS,
+  SPECIALIST_ROLE_OPTIONS,
 }

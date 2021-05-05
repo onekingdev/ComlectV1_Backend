@@ -777,8 +777,8 @@ class Notification::Deliver < Draper::Decorator
     end
 
     def transaction_processed!(transaction)
-      business_transaction_processed! transaction if transaction.business
-      specialist_transaction_processed! transaction if transaction.specialist
+      business_transaction_processed! transaction if transaction.business&.user
+      specialist_transaction_processed! transaction if transaction.specialist&.user
     end
 
     def business_transaction_processed!(transaction)

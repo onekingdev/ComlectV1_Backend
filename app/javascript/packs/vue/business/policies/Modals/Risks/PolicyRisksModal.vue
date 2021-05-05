@@ -122,6 +122,7 @@ export default {
           if (response.errors) {
 
           } else {
+            this.$emit('saved', response)
             this.makeToast('Success', 'The risk has been saved')
             this.$bvModal.hide(this.modalId)
             this.newEtag()

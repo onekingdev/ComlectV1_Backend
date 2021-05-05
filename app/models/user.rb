@@ -150,4 +150,12 @@ class User < ApplicationRecord
       ip_address: ip_address
     )
   end
+
+  def hide_local_project(project_id)
+    update(hidden_local_projects: (hidden_local_projects | [project_id]))
+  end
+
+  def show_local_project(project_id)
+    update(hidden_local_projects: (hidden_local_projects - [project_id]))
+  end
 end

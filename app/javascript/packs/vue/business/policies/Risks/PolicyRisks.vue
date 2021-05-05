@@ -3,22 +3,22 @@
     h3.policy-details__title Risks
     .policy-actions
       button.btn.btn.btn-default.mr-3 Download
-      PolicyRisksModal(:risks="risksComputed" :policyId="policyId")
+      PolicyRisksModal(:risks="risksComputed" :policyId="policyId" @saved="savedConfirmed")
         button.btn.btn-dark Add Risk
     .policy-details__body
       Loading
       table.table(v-if="!loading")
         thead
           tr
-            th(width="55%") Risk
+            th(width="55%") Risk Name
             th Impact
             th Likelihood
             th Risk level
             th.text-right Date created
             th(width="10%")
-        tbody
-          tr(v-for="risk in risksComputed" :key="risk.id")
-            td ({{ risk.id }}) {{ risk.name }}
+        tbody.text-dark
+          tr(v-for="risk in policyById.risks" :key="risk.id")
+            td {{ risk.name }}
             td {{ showLevel(risk.impact) }}
             td {{ showLevel(risk.likelihood) }}
             td
@@ -34,7 +34,7 @@
                   PolicyRisksModal(:risks="risksComputed" :policyId="policyId" :riskId="risk.id" :inline="false")
                     b-dropdown-item-button Edit
                   b-dropdown-item-button.delete(@click="deleteRisk(risk.id)") Delete
-          tr(v-if="!risksComputed.length")
+          tr(v-if="policyById.risks && !policyById.risks.length")
             td.text-center(colspan=5)
               h4.py-2 No risks
 </template>
@@ -59,7 +59,7 @@
     },
     data() {
       return {
-        levelOptions: ['low', 'medium', 'high'],
+        levelOptions: ['Low', 'Medium', 'High'],
       }
     },
     methods: {
@@ -86,14 +86,34 @@
         }
       },
       deleteRisk(riskId) {
+        const riskById = this.$store.getters.riskById(riskId)
+        const index = riskById.compliance_policies.findIndex(risk => risk.id === riskId)
+        riskById.compliance_policies.splice(index, 1)
+        this.policyById.risks.splice(index, 1)
+
+        const dataToSend = {
+          id: riskId,
+          compliance_policy_ids: riskById.compliance_policies.map(pol => pol.id)
+        };
+
         this.$store
-          .dispatch('deleteRisk', { id: riskId })
+          .dispatch('updateRisk', {...dataToSend})
           .then(response => {
-            this.makeToast('Success', `Risk successfully deleted!`)
+            console.log('response', response)
+            this.makeToast('Success', 'Changes saved')
           })
           .catch(error => {
-            this.makeToast('Error', `Couldn't delete risk! ${error}`)
+            console.error(error)
+            this.makeToast('Error', `Couldn't submit form! ${error}`)
           })
+      },
+      savedConfirmed(value){
+        console.log('savedConfirmed value', value)
+        //HOOK
+        // const index = this.policyById.risks.findIndex(record => record.id === value.id);
+        // console.log('index', index)
+        // if (index) this.policyById.risks.splice(index, 1, value)
+        this.policyById.risks.push(value)
       },
       makeToast(title, str) {
         this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
@@ -105,6 +125,10 @@
       },
       risksComputed() {
         return this.$store.getters.risksList
+      },
+      policyById(){
+        const id = this.policyId
+        return this.$store.getters.policyById(id)
       }
     },
     mounted() {
