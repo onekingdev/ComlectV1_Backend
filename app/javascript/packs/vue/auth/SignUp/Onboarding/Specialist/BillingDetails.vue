@@ -4,25 +4,25 @@
       .row
         .col
           h4.m-t-1 Plan
-        <!--.col.text-right-->
-          <!--b-form-group(v-slot="{ ariaDescribedby }")-->
-            <!--b-form-radio-group(id="btn-radios-plan"-->
-            <!--:checked="billingTypeSelected"-->
-            <!--:options="billingTypeOptions"-->
-            <!--:aria-describedby="ariaDescribedby"-->
-            <!--button-variant="outline-primary"-->
-            <!--size="lg"-->
-            <!--name="radio-btn-outline"-->
-            <!--buttons-->
-            <!--@change="onBiliingChange"-->
-            <!--)-->
+        .col.text-right
+          b-form-group(v-slot="{ ariaDescribedby }")
+            b-form-radio-group(id="btn-radios-plan"
+            :checked="billingTypeSelected"
+            :options="billingTypeOptions"
+            :aria-describedby="ariaDescribedby"
+            button-variant="outline-primary"
+            size="lg"
+            name="radio-btn-outline"
+            buttons
+            @change="onBiliingChange"
+            )
     .card-header
       .row
         .col
           h4.m-t-1 {{ planComputed.name }}
           p {{ planComputed.description }}
         .col.text-right
-          h4.m-t-2 {{ billingTypeSelected === 'annually' ?  planComputed.coastAnnuallyFormatted : planComputed.coastMonthlyFormatted }}
+          h4.m-t-1 {{ billingTypeSelected === 'annually' ?  planComputed.coastAnnuallyFormatted : planComputed.coastMonthlyFormatted }}
           <!--p {{ billingTypeSelected === 'annually' ?  planComputed.usersCount + ' free users plus $' + planComputed.additionalUserAnnually + '/year per person' : planComputed.usersCount + ' free users plus $' + planComputed.additionalUserMonthly + '/mo per person' }}-->
     <!--.card-header-->
       <!--.d-flex.justify-content-between-->
@@ -163,7 +163,7 @@
         this.$refs.elementRef.submit()
       },
       tokenCreated (token) {
-        // console.log(token);
+        console.log(token);
         // handle the token
         // send it to your server
         const dataToSend = {
@@ -174,7 +174,7 @@
         this.$store
           .dispatch('generatePaymentMethod', dataToSend)
           .then(response => {
-            // console.log('response', response)
+            console.log('response', response)
             this.$emit('complitedPaymentMethod', response)
             this.makeToast('Success', `Payment Method successfully added!`)
             this.isActive = false
@@ -253,7 +253,7 @@
       this.$store
         .dispatch('getPaymentMethod', dataToSend)
         .then(response => {
-          // console.log('response', response)
+          console.log('response', response)
           const newOptions = response.map((card, index) => {
             return { text: `Credit Card${index===0 ? ' (primary)' : ''}`, value: card.id, number: `**** **** **** ${card.last4}`, type: card.brand, id: card.id }
           })
