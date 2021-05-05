@@ -7,7 +7,17 @@ class Specialists::OnboardingController < ApplicationController
   before_action :require_specialist!
 
   def index
-    render html: content_tag('specialist-onboarding-page', '').html_safe, layout: 'vue_onboarding'
+    render html: content_tag('specialist-onboarding-page', '',
+                             ':industry-ids': Industry.all.map(&proc { |ind|
+                                                                  { id: ind.id,
+                                                                    name: ind.name }
+                                                                }).to_json,
+                             ':jurisdiction-ids': Jurisdiction.all.map(&proc { |ind|
+                                                                          { id: ind.id,
+                                                                            name: ind.name }
+                                                                        }).to_json,
+                             ':sub-industry-ids': sub_industries(true).to_json,
+                             ':states': State.fetch_all_usa.to_json).html_safe, layout: 'vue_onboarding'
   end
 
   def subscribe
