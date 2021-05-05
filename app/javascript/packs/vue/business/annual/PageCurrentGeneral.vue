@@ -103,7 +103,7 @@
                                   b-dropdown(size="xs" variant="light" class="m-0 p-0" right)
                                     template(#button-content)
                                       b-icon(icon="three-dots")
-                                    b-dropdown-item Duplicate Entry
+                                    b-dropdown-item(@click="duplicateEntry(annualReviewEmployeeIndex-1)") Duplicate Entry
                                     b-dropdown-item.delete(@click="deleteEntry(annualReviewEmployeeIndex)") Delete Entry
                           b-input-group
                             b-button(variant='primary' class="btn-default" @click="addEntry")
@@ -243,6 +243,9 @@ export default {
         title: '',
         department: ''
       })
+    },
+    duplicateEntry(i) {
+      this.review.annual_review_employees.push({...this.review.annual_review_employees[i+1]})
     },
     deleteEntry(i) {
       this.review.annual_review_employees.splice(i, 1);

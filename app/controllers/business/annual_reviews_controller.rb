@@ -2,6 +2,8 @@
 
 class Business::AnnualReviewsController < ApplicationController
   include ActionView::Helpers::TagHelper
+
+  # before_action :set_review, only: %i[update edit show]
   before_action :require_business!
 
   def index
@@ -22,4 +24,9 @@ class Business::AnnualReviewsController < ApplicationController
                              ':revcat-id': params[:revcat])
       .html_safe, layout: 'vue_business'
   end
+  #
+  # def set_review
+  #   @business = current_business
+  #   @annual_review = current_business.annual_reviews.find(params[:id])
+  # end
 end
