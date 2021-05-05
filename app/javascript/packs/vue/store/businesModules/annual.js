@@ -379,6 +379,42 @@ export default {
           root: true
         })
       }
+    },
+    async deleteReviewCategory({ commit }, payload) {
+      commit("clearError", null, {
+        root: true
+      });
+      commit("setLoading", true, {
+        root: true
+      });
+      try {
+        const response = await fetch(`/api/business/annual_reports/${payload.annualId}/review_categories/${payload.id}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${TOKEN}`,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        })
+        if (!response.ok) {
+          throw new Error(`Could't create review category (${response.status})`);
+        }
+        const data = await response.json()
+        return data
+      } catch (error) {
+        commit("setError", error.message, {
+          root: true
+        });
+        commit("setLoading", false, {
+          root: true
+        });
+        throw error;
+      } finally {
+        commit("setLoading", false, {
+          root: true
+        })
+      }
     }
   },
   getters: {

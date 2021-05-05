@@ -205,6 +205,12 @@ export default {
     },
     deleteCategory(id) {
       console.log('currentCategory id: ', id)
+      this.$store.dispatch('annual/deleteReviewCategory', { annualId: this.review.id, id: id })
+        .then(response => {
+          this.toast('Success', `The annual review category has been deleted! ${response.id}`)
+          window.location.href = `${window.location.origin}/business/annual_reviews/${response.annual_report_id}`
+        })
+        .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
     },
     createTask(i){
       console.log('createTask: ', i)
