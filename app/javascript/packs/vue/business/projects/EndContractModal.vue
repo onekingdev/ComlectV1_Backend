@@ -39,7 +39,8 @@
       .form-text.text-muted Optional
       template(#modal-footer="{ hide }")
         button.btn.btn-default(@click="hide") Cancel
-        Post(:action="ratingUrl" :model="review" @saved="ratingSaved" @errors="$emit('errors', $event)")
+        button.btn.btn-dark(v-if="review.value === null" title="Please rate your experience" disabled) Submit
+        Post(v-else :action="ratingUrl" :model="review" @saved="ratingSaved" @errors="$emit('errors', $event)")
           button.btn.btn-dark Submit
 </template>
 
