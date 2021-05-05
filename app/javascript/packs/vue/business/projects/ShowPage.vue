@@ -5,10 +5,10 @@
       b-dropdown.m-r-1(text='Actions' variant='default')
         li: LocalProjectModal(@saved="newEtag" :project-id="project.id" :inline="false")
           button.dropdown-item Edit
-        li: DeleteLocalProjectModal(:project="project")
+        b-dropdown-item Delete Project
       a.m-r-1.btn.btn-default(v-if="project.visible_project" :href='viewHref(project.visible_project)') View Post
       a.m-r-1.btn.btn-default(v-else :href='postHref(project)') Post Project
-      CompleteLocalProjectModal(:project="project" @saved="newEtag")
+      button.btn.btn-dark Complete Project
     b-tabs(content-class="mt-0" v-model="tab")
       b-tab(title="Overview" active)
         .white-card-body.p-y-1
@@ -18,7 +18,7 @@
                 ApplicationsNotice(:project="project.visible_project" v-if="project.visible_project")
                 Get(v-for="marketProject in project.projects" :etag="etag" :marketProject="`/api/business/projects/${marketProject.id}`" :key="marketProject.id"): template(v-slot="{marketProject}")
                   TimesheetsNotice(:project="marketProject")
-                  EndContractNotice(:project="marketProject" @saved="contractEnded" @errors="contractEndErrors")
+                  EndContractNotice(:project="marketProject" @saved="completeSuccess" @errors="completeErrors")
                   ChangeContractAlerts(:project="marketProject" @saved="newEtag" for="Business")
             .row.p-x-1
               .col-md-7.col-sm-12
@@ -47,7 +47,7 @@
       b-tab(title="Tasks")
         .card-body.white-card-body
       b-tab(title="Documents")
-        DocumentList(:project="project")
+        .card-body.white-card-body
       b-tab(title="Collaborators")
         .white-card-body.p-y-1
           .container
@@ -68,7 +68,7 @@
                           td
                 div(v-else)
                   .row: .col-sm-12
-                    EndContractModal(:project="showingContract" @saved="contractEnded" @errors="contractEndErrors")
+                    EndContractModal(:project="showingContract" @saved="completeSuccess" @errors="completeErrors")
                       button.btn.btn-dark.float-right End Contract
                     b-dropdown.m-x-1.float-right(text="Actions" variant="default")
                       b-dropdown-item(v-b-modal="'IssueModal'") Report Issue
@@ -77,6 +77,8 @@
                   .row: .col-sm-12
                     PropertiesTable(title="Contract Details" :properties="contractDetails(showingContract)")
                       EditContractModal(:project="showingContract" @saved="newEtag(), tab = 0")
+      b-tab(title="Activity")
+        .card-body.white-card-body
 </template>
 
 <script>
@@ -86,11 +88,8 @@ import ApplicationsNotice from './alerts/ApplicationsNotice'
 import TimesheetsNotice from './alerts/TimesheetsNotice'
 import EndContractNotice from './alerts/EndContractNotice'
 import ProjectDetails from './ProjectDetails'
-import DocumentList from './DocumentList'
 import EtaggerMixin from '@/mixins/EtaggerMixin'
 import LocalProjectModal from './LocalProjectModal'
-import CompleteLocalProjectModal from './CompleteLocalProjectModal'
-import DeleteLocalProjectModal from './DeleteLocalProjectModal'
 import EndContractModal from './EndContractModal'
 import ChangeContractAlerts from '@/common/projects/ChangeContractAlerts'
 import EditContractModal from '@/common/projects/EditContractModal'
@@ -119,11 +118,11 @@ export default {
     }
   },
   methods: {
-    contractEnded() {
+    completeSuccess() {
       this.newEtag()
       this.toast('Success', 'Project End has been requested')
     },
-    contractEndErrors(errors) {
+    completeErrors(errors) {
       errors.length && this.toast('Error', 'Cannot request End project')
     },
     getContracts(projects) {
@@ -149,13 +148,10 @@ export default {
     ChangeContractAlerts,
     DiscussionCard,
     LocalProjectModal,
-    CompleteLocalProjectModal,
-    DeleteLocalProjectModal,
     TimesheetsNotice,
     EndContractNotice,
     EndContractModal,
     ProjectDetails,
-    DocumentList,
     EditContractModal,
     IssueModal
   }

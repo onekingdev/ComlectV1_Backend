@@ -84,7 +84,8 @@
 }
 
 .dropdown-toggle.active svg {
-  transform: rotate(90deg);
+  /*transform: rotate(90deg);*/
+  transform: rotate(0);
 }
 
 .dropdown-items {

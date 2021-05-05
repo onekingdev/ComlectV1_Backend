@@ -64,9 +64,9 @@ body class="#{controller_name} #{action_name}"
                     ion-icon(name='document-text-outline')
                     | Annual Review
                 li.nav-item
-                  a.btn(aria-current='page' href='/business/risks' class="#{'active' if params[:controller] == 'business/risks'}")
-                    ion-icon(name='warning-outline')
-                    | Risk Register
+                  a.btn(aria-current='page' href='#')
+                    ion-icon(name='document-text-outline')
+                    | Filings
 
             h3.d-flex.justify-content-between(role="button" v-b-toggle.addons_collapse="")
               | Add-ons
@@ -92,20 +92,20 @@ body class="#{controller_name} #{action_name}"
             #top_navbar.collapse.navbar-collapse.d-flex.justify-content-between
               .navbar-nav
                 a.nav-item.nav-link.active(href='#')
-                  | Home
+                  | Home 
                   span.sr-only (current)
                 a.nav-item.nav-link(href='#') Documents
                 a.nav-item.nav-link(href='#') Reports
                 a.nav-item.nav-link(href='#') Community
               .navbar-nav
-                a.btn.btn-primary style="margin-top: 18px;" Find an Expert
+                a.btn.btn-primary(href='/business/specialists' style="margin-top: 18px;")  Find an Expert
                 .dropdown#notifications_dropdown
                   ion-icon(name='notifications-outline')
                 .dropdown#profile_dropdown.p-x-2
                   #profile_dropdown_btn(@click="isProfileMenuOpen = !isProfileMenuOpen" :aria-expanded="isProfileMenuOpen")
                     - if current_business
                       = image_tag (current_business.logo_url(:thumb) || 'default_userpic.png'), size: "25x25", style: "border-radius: 50%;margin-right: 15px;"
-                      | #{current_business.contact_first_name} #{current_business.contact_last_name}
+                      = current_business
                     ion-icon.m-l-1(name='chevron-down-outline')
                   ul.dropdown-menu(aria-labelledby="profile_dropdown_btn" :class="{ show: isProfileMenuOpen }")
                     li

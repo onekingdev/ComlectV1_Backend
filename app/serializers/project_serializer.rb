@@ -52,6 +52,7 @@ class ProjectSerializer < ApplicationSerializer
              :solicited_specialist_rating,
              :duration_type,
              :estimated_days,
+             :rfp_timing,
              :est_budget,
              :applicant_selection,
              :business_fee_free,

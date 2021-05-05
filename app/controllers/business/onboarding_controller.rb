@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class Business::OnboardingController < ApplicationController
-  include ActionView::Helpers::TagHelper
-
   before_action :authenticate_user!
   before_action :require_business!
   before_action :go_to_dashboard, only: :subscribe
@@ -13,7 +11,15 @@ class Business::OnboardingController < ApplicationController
   include SubscriptionCommon
 
   def index
-    render html: content_tag('business-onboarding-page', '').html_safe, layout: 'vue_onboarding'
+    return redirect_to business_dashboard_path if current_business.onboarding_passed
+
+    @pos_total = 0
+    @product = find_product
+    @sources = current_business.payment_sources.sorted
+    @pos_total += @product.fixed_budget.to_i if @product
+    @pos_total_annual = @pos_total
+    @pos_total_annual += 1500 if need_subscription?
+    @pos_total += 600 if need_subscription?
   end
 
   def subscribe
@@ -49,7 +55,7 @@ class Business::OnboardingController < ApplicationController
         )
         db_subscription.update(
           stripe_subscription_id: sub.id,
-          billing_period_ends: sub.cancel_at
+          billing_period_ends: sub.created
         )
       end
     end

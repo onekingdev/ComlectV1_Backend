@@ -1,27 +1,23 @@
-import instance from 'axios'
-import store  from '../../store/business'
-// import { createToast } from "../../mixins/ToasterMixin";
+// import axios from '@/axios'
+import store from '../../store/business'
 
-const axios = instance.create({
+const axios = axios.create({
   baseURL: '/api',
   timeout: 1000,
   headers: {'Accept': 'application/json'}
 })
 
 axios.interceptors.request.use((request) => {
-  // const accessToken = store.get('accessToken')
-  const accessToken = store.getters['accessToken']
+  const accessToken = store.get('accessToken')
   if (accessToken) {
-      request.headers.Authorization = `${accessToken}`
-      // request.headers.AccessToken = accessToken
+      request.headers.Authorization = `Bearer ${accessToken}`
+      request.headers.AccessToken = accessToken
   }
 
-  const jwtToken = window.localStorage.getItem('app.currentUser.token')
+  const jwtToken = window.localStorage.getItem('app.currentUser')
   if (jwtToken) {
-      request.headers['Authorization'] = `${JSON.parse(jwtToken)}`
-      // request.headers['X-Auth-Token'] = jwtToken
+      request.headers['X-Auth-Token'] = jwtToken
   }
-
   return request
 })
 
@@ -30,10 +26,8 @@ axios.interceptors.response.use(undefined, (error) => {
   const { response } = error
   const { data } = response
   if (data) {
-    console.log('data interceprots', data)
-    // createToast.toast('Error', data, true)
+    console.log(data)
   }
-  throw data
 })
 
 export default axios
