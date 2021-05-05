@@ -15,6 +15,12 @@
               hr
               .row
                 .col
+                  .d-flex.align-items-center
+                    ion-icon.m-r-1(name="chevron-down-outline" size="small")
+                    b-badge.m-r-1(variant="light") 0
+                    h3 Compilance Program
+              .row
+                .col
                   table.table.task_table
                     thead
                       tr
