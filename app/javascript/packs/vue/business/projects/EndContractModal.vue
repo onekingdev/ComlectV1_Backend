@@ -34,8 +34,8 @@
           button.btn.btn-dark.m-r-1 Confirm
     b-modal(:id="modalId + '_review'" title="Write a Review")
       p Please rate/describe your experience and leave any additional comments for the specialist!
-      InputRating(v-model="review.rating") Rating
-      InputTextarea(v-model="review.comment" placeholder="Describe your overall experience and leave any notes for the specialist")
+      InputRating(v-model="review.value") Rating
+      InputTextarea(v-model="review.review" placeholder="Describe your overall experience and leave any notes for the specialist")
       .form-text.text-muted Optional
       template(#modal-footer="{ hide }")
         button.btn.btn-default(@click="hide") Cancel
@@ -61,8 +61,8 @@ export default {
     return {
       modalId: 'EndContractModal_' + Math.random().toFixed(12).replace('.', ''),
       review: {
-        rating: null,
-        comment: null
+        value: null,
+        review: null
       }
     }
   },
