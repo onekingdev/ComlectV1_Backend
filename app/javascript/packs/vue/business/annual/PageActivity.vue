@@ -7,7 +7,7 @@
             .reviews__card--internal.p-y-1
               .row.m-b-2
                 .col-md-12.d-flex.justify-content-between
-                  h2: b Activity
+                  h2 Activity
                   div
                     a.btn.btn-default Download
                     a.btn.m-l-1.btn-dark Create Activity

@@ -7,11 +7,12 @@
             .reviews__card--internal.p-y-1
               .row.m-b-2
                 .col-md-12.d-flex.justify-content-between
-                  h2: b Tasks
+                  h2 Tasks
                   div
                     a.btn.btn-default.m-r-1 Download
                     AnnualModalCreateTask(@saved="createTask(i)")
                       a.btn.btn-dark Create task
+              hr
               .row
                 .col
                   table.table.task_table
@@ -50,8 +51,8 @@
                           b-dropdown(size="xs" variant="light" class="m-0 p-0" right)
                             template(#button-content)
                               b-icon(icon="three-dots")
-                            b-dropdown-item Some action
-                            b-dropdown-item(@click="deleteTask(i)").delete Delete Task
+                            b-dropdown-item {{ task.done_at ? 'Incomplite' : 'Complite' }}
+                            b-dropdown-item(@click="deleteTask(task.id)").delete Delete Task
 
 </template>
 
@@ -85,10 +86,12 @@
         fetch(overdueEndpointUrl, { headers: {'Accept': 'application/json'} })
           .then(response => response.json())
           .then(result => {
+            console.log('result', result)
             this.tasks = result.tasks
           }).then(fetch(`${endpointUrl}${fromTo}`, { headers: {'Accept': 'application/json'}})
           .then(response => response.json())
           .then(result => {
+            console.log('result2', result)
             this.tasks = this.tasks.concat(result.tasks)
             this.projects = result.projects
           })
@@ -110,8 +113,17 @@
       createTask(i){
         console.log('createTask: ', i)
       },
-      deleteTask(i){
-        console.log('delete', i)
+      deleteTask(id){
+        fetch(`${endpointUrl}${id}`, { method: 'DELETE', headers: {'Accept': 'application/json'} })
+          .then(response => response.json())
+          .then(response => {
+            console.log('result', response)
+            this.makeToast('Success', `Task successfully deleted!`)
+          })
+        .catch(error => this.makeToast('Error', `${error.message}`))
+      },
+      makeToast(title, str) {
+        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
       },
     },
     computed: {
