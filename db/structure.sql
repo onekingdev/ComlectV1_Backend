@@ -4298,7 +4298,9 @@ CREATE TABLE public.reminders (
     skip_occurencies text DEFAULT ''::text,
     done_occurencies text,
     note character varying DEFAULT ''::character varying,
-    description text DEFAULT ''::text
+    description text DEFAULT ''::text,
+    linkable_id integer,
+    linkable_type character varying
 );
 
 
@@ -7940,6 +7942,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210410142233'),
 ('20210415142648'),
 ('20210423114454'),
-('20210502165601');
+('20210502165601'),
+('20210505154804');
 
 

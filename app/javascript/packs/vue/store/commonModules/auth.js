@@ -154,7 +154,7 @@ export default {
         commit("clearError");
         commit("setLoading", true);
 
-        const response = await axios.put(`/crd/`, payload)
+        const response = await axios.patch(`/business`, payload)
         // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
         return response.data
 

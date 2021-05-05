@@ -30,7 +30,7 @@
               .text-right
                 b-button(type='button' variant='dark' @click="nextStep(2)") Next
             #step2.form(v-if='!loading'  :class="step2 ? 'd-block' : 'd-none'")
-              b-alert(show variant="primary" dismissible)
+              b-alert(v-if="formStep1.CRDnumber && formStep1.CRDnumber.length" show variant="primary" dismissible)
                 h4 Verify information
                 p.mb-0 The following fields were filled in based on the CRD number you provided. Please carefully review each field before proceeding.
               h3 Tell us more about your business
@@ -148,7 +148,8 @@
                       h4.billing-plan__name {{ plan.name }}
                       p.billing-plan__descr {{ plan.description }}
                       h5.billing-plan__coast {{ billingTypeSelected === 'annually' ?  plan.coastAnnuallyFormatted : plan.coastMonthlyFormatted }}
-                      p.billing-plan__users {{ billingTypeSelected === 'annually' ?  plan.usersCount + ' free users plus $' + plan.additionalUserAnnually + '/year per person' : plan.usersCount + ' free users plus $' + plan.additionalUserMonthly + '/mo per person' }}
+                      p.billing-plan__users(v-if="plan.id === 1") 0 free users
+                      p.billing-plan__users(v-if="plan.id !== 1") {{ billingTypeSelected === 'annually' ?  plan.usersCount + ' free users plus $' + plan.additionalUserAnnually + '/year per person' : plan.usersCount + ' free users plus $' + plan.additionalUserMonthly + '/mo per person' }}
                       hr
                       ul.list-unstyled.billing-plan__list
                         li.billing-plan__item(v-for="feature in plan.features")
@@ -341,24 +342,44 @@
         event.preventDefault()
         // console.log(this.form)
       },
-      checkCDRinfo() {
+      checkCDRinfo(stepNum) {
         // CLEAR ERRORS
         this.errors = []
 
-        if (!this.formStep1.CRDnumber && this.CRDnumberSelected === 'yes') {
+        if (!this.formStep1.CRDnumber.length) {
           this.errors = { CRDnumber: `Can't be empty!` }
           return
         }
 
         const dataToSend = {
-          crd: this.formStep1.CRDnumber
+          crd_number: this.formStep1.CRDnumber
         }
 
         this.$store
           .dispatch('getInfoByCRDNumber', dataToSend)
           .then(response => {
             // console.log('response', response)
-            this.makeToast('Success', `CRD Number successfully sended!`)
+            // this.makeToast('Success', `CRD Number successfully sended!`)
+
+            this.formStep1.CRDnumber = response.crd_number
+            this.formStep2.companyName = response.business_name
+            this.formStep2.website = response.website
+            this.formStep2.aum = response.aum
+            this.formStep2.aptUnit = response.apartment
+            this.formStep2.numAcc = response.client_account_cnt
+            this.formStep2.address_1 = response.businessAddress
+            this.formStep2.city = response.city
+            this.formStep2.state = response.state
+            this.formStep2.zipcode = response.zip
+            this.formStep2.industry = response.industries
+            this.formStep2.subIndustry = response.sub_industries
+            this.formStep2.jurisdiction = response.jurisdictions
+
+            this['step'+(stepNum-1)] = false
+            this['navStep'+stepNum] = true
+            this['step'+stepNum] = true
+            this.currentStep = stepNum
+            this.navigation(this.currentStep)
           })
           .catch(error => {
             console.error(error)
@@ -380,11 +401,16 @@
         this.navigation(this.currentStep)
       },
       nextStep(stepNum) {
-        if (this.formStep1.CRDnumberSelected === 'yes') {
-          this.checkCDRinfo()
-          return
-        }
-        if (stepNum === 2 && this.formStep1.CRDnumberSelected === 'no') {
+        // CLEAR ERRORS
+        this.errors = []
+
+        if (stepNum === 2) {
+          if (this.formStep1.CRDnumberSelected === 'yes') {
+            this.checkCDRinfo(stepNum)
+            return
+          }
+          if (this.formStep1.CRDnumberSelected === 'no') this.formStep1.CRDnumber = ''
+
           this['step'+(stepNum-1)] = false
           this['navStep'+stepNum] = true
           this['step'+stepNum] = true
@@ -393,8 +419,6 @@
         }
 
         if (stepNum === 3) {
-          // CLEAR ERRORS
-          this.errors = []
 
           if (!this.formStep2.industry) this.errors = Object.assign({}, this.errors, { industry: `Field can't be empty!` })
           if (!this.formStep2.subIndustry) this.errors = Object.assign({}, this.errors, { subIndustry: `Field can't be empty!` })
@@ -403,6 +427,7 @@
 
           const dataToSend = {
             business: {
+              crd_number: this.formStep1.CRDnumber ? this.formStep1.CRDnumber : '',
               // contact_first_name: 'x',
               // contact_last_name: 'x',
               // contact_email: 'x',
@@ -419,12 +444,14 @@
               city: this.formStep2.city,
               state: this.formStep2.state,
               zipcode: this.formStep2.zip,
-              crd_number: this.formStep1.CRDnumber,
+              // crd_number: this.formStep1.CRDnumber,
               industry_ids: this.formStep2.industry.map(record => record.id),
-              sub_industry_ids: this.formStep2.subIndustry.map(record => record.id),
+              sub_industry_ids: this.formStep2.subIndustry.map(record => record.value),
               jurisdiction_ids: this.formStep2.jurisdiction.map(record => record.id),
             }
           }
+          // console.log('subIndustry', this.formStep2.subIndustry)
+          // console.log('dataToSend', dataToSend)
 
           this.$store
             .dispatch('updateAccountInfo', dataToSend)
