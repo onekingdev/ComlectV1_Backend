@@ -8,9 +8,9 @@
           b {{ planComputed.name }} plan
         dd.col-sm-6.text-right {{ billingTypeSelected === 'annually' ?  planComputed.coastAnnuallyFormatted : planComputed.coastMonthlyFormatted }}
         dt.col-sm-6 {{ additionalUsers }} Users ({{ planComputed.usersCount }} Free)
-        dd.col-sm-6.text-right {{ planComputed.additionalUserCoast }}
-        dt.col-sm-6.text-success(v-if="billingTypeSelected === 'annually'") Billed Annualy
-        dd.col-sm-6.text-right.text-success(v-if="billingTypeSelected === 'annually'") You saved {{ planComputed.saved }}
+        dd.col-sm-6.text-right {{ planComputed.additionalUserCoast !== '+$0' ? planComputed.additionalUserCoast : 'FREE' }}
+        dt.col-sm-6.text-success(v-if="billingTypeSelected === 'annually' && planComputed.id !== 1") Billed Annualy
+        dd.col-sm-6.text-right.text-success(v-if="billingTypeSelected === 'annually' && planComputed.id !== 1") You saved {{ planComputed.saved }}
     hr(v-if="planComputed.tax")
     .card-body.py-0(v-if="planComputed.tax")
       dl.row.mb-0
@@ -49,7 +49,7 @@ export default {
       if (planType === 'annually') {
         finalCoast = (usersCount-usersFreeCount) * usersCoastAnnually
       }
-      return `+$${finalCoast}`
+      return finalCoast !== 'FREE0' ? `+$${finalCoast}` : 'FREE'
     },
     countTotalCoast(planType, coastMonthly, coastAnnually, usersCount, usersFreeCount, usersCoastMonthly, usersCoastAnnually) {
       // console.log(planType, coastMonthly, coastAnnually, usersCount, usersCoast)
@@ -62,7 +62,7 @@ export default {
         if (usersCount > usersFreeCount)  finalUserCoast = (usersCount-usersFreeCount) * usersCoastAnnually
         finalCoast = coastAnnually + finalUserCoast
       }
-      return `$${finalCoast}`
+      return finalCoast !== 'FREE0' ? `+$${finalCoast}` : 'FREE'
     },
     complitePurchase() {
       const value = this.planComputed

@@ -149,22 +149,22 @@ export default {
         commit("setLoading", false)
       }
     },
-    async getInfoByCRDNumber({commit}, payload) {
-      try {
-        commit("clearError");
-        commit("setLoading", true);
-
-        const response = await axios.post(`/business`, payload)
-        // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
-        return response.data
-
-      } catch (error) {
-        console.error(error);
-        throw error
-      } finally {
-        commit("setLoading", false)
-      }
-    },
+    // async getInfoByCRDNumber({commit}, payload) {
+    //   try {
+    //     commit("clearError");
+    //     commit("setLoading", true);
+    //
+    //     const response = await axios.patch(`/business`, payload)
+    //     // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
+    //     return response.data
+    //
+    //   } catch (error) {
+    //     console.error(error);
+    //     throw error
+    //   } finally {
+    //     commit("setLoading", false)
+    //   }
+    // },
     async updateAccountInfo({commit}, payload) {
       try {
         commit("clearError");
