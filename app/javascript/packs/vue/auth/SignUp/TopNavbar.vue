@@ -10,7 +10,8 @@
             .dropdown#profile_dropdown.p-x-1.p-x-md-2(v-if="loggedIn")
               #profile_dropdown_btn(@click="isProfileMenuOpen = !isProfileMenuOpen" :aria-expanded="isProfileMenuOpen")
                 span {{ userName }}
-                ion-icon.m-l-1(name='chevron-down-outline' size="small")
+                b-icon.m-l-1(icon="chevron-down")
+                <!--ion-icon.m-l-1(name='chevron-down-outline' size="small")-->
               ul.dropdown-menu.dropdown-menu-right(aria-labelledby="profile_dropdown_btn" :class="{ show: isProfileMenuOpen }")
                 li
                   a.dropdown-item(href="#") Edit Profile

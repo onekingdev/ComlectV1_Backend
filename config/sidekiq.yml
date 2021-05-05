@@ -69,3 +69,7 @@
   reminder_mailer:
     cron: "0 * * * *"
     class: "ReminderMailerJob"
+
+  sec_gov_data_upload_job:
+    cron: '0 0 10 * *'
+    class: 'SecGovDataUploaderJob'

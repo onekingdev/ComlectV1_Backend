@@ -5,7 +5,7 @@
         .col
           h4.m-t-1 Plan
         .col.text-right
-          b-form-group(v-slot="{ ariaDescribedby }")
+          b-form-group(v-if="planComputed.id !== 1", v-slot="{ ariaDescribedby }")
             b-form-radio-group(id="btn-radios-plan"
             :checked="billingTypeSelected"
             :options="billingTypeOptions"
@@ -22,9 +22,9 @@
           h4.m-t-1 {{ planComputed.name }}
           p {{ planComputed.description }}
         .col.text-right
-          h4.m-t-1 {{ billingTypeSelected === 'annually' ?  planComputed.coastAnnuallyFormatted : planComputed.coastMonthlyFormatted }}
-          p {{ billingTypeSelected === 'annually' ?  planComputed.usersCount + ' free users plus $' + planComputed.additionalUserAnnually + '/year per person' : planComputed.usersCount + ' free users plus $' + planComputed.additionalUserMonthly + '/mo per person' }}
-    .card-header
+          h4(:class="planComputed.id !== 1 ? 'm-t-1' : 'm-t-2'") {{ billingTypeSelected === 'annually' ?  planComputed.coastAnnuallyFormatted : planComputed.coastMonthlyFormatted }}
+          p(v-if="planComputed.id !== 1") {{ billingTypeSelected === 'annually' ?  planComputed.usersCount + ' free users plus $' + planComputed.additionalUserAnnually + '/year per person' : planComputed.usersCount + ' free users plus $' + planComputed.additionalUserMonthly + '/mo per person' }}
+    .card-header(v-if="planComputed.id !== 1")
       .d-flex.justify-content-between
         div
           h4.m-t-1 Users
