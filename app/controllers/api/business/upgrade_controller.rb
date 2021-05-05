@@ -10,38 +10,42 @@ class Api::Business::UpgradeController < ApiController
 
     processed_subs = []
 
-    begin
-      seat_sub = %w[seats_monthly seats_annual].include?(turnkey_params[:plan])
-      seat_count = turnkey_params.to_h.key?(:cnt) ? turnkey_params[:cnt].to_i : 1
-      total_seats = current_business&.seats&.count
+    if turnkey_params[:plan] != 'free'
+      begin
+        seat_sub = %w[seats_monthly seats_annual].include?(turnkey_params[:plan])
+        seat_count = turnkey_params.to_h.key?(:cnt) ? turnkey_params[:cnt].to_i : 1
+        total_seats = current_business&.seats&.count
 
-      cancel_subscriptions(active_subscriptions) if active_subscriptions.count.positive? && !seat_sub
+        cancel_subscriptions(active_subscriptions) if active_subscriptions.count.positive? && !seat_sub
 
-      (1..seat_count).to_a.each do |i|
-        db_subscription = Subscription.create(
-          plan: turnkey_params[:plan]&.parameterize,
-          business_id: current_business.id,
-          kind_of: (seat_sub ? :seats : :ccc),
-          title: (seat_sub ? "Seat ##{total_seats + i}" : 'Compliance Command Center'),
-          payment_source: payment_source
-        )
-
-        if db_subscription&.stripe_subscription_id.blank?
-          sub = Subscription.subscribe(
-            turnkey_params[:plan]&.parameterize,
-            stripe_customer,
-            period_ends: (Time.now.utc + 1.year).to_i
+        (1..seat_count).to_a.each do |i|
+          db_subscription = Subscription.create(
+            plan: turnkey_params[:plan]&.parameterize,
+            business_id: current_business.id,
+            kind_of: (seat_sub ? :seats : :ccc),
+            title: (seat_sub ? "Seat ##{total_seats + i}" : 'Compliance Command Center'),
+            payment_source: payment_source
           )
-          db_subscription.update(
-            stripe_subscription_id: sub.id,
-            billing_period_ends: sub.cancel_at
-          )
-          current_business.update(onboarding_passed: true)
+
+          if db_subscription&.stripe_subscription_id.blank?
+            sub = Subscription.subscribe(
+              turnkey_params[:plan]&.parameterize,
+              stripe_customer,
+              period_ends: (Time.now.utc + 1.year).to_i
+            )
+            db_subscription.update(
+              stripe_subscription_id: sub.id,
+              billing_period_ends: sub.cancel_at
+            )
+            current_business.update(onboarding_passed: true)
+          end
+          processed_subs.push(db_subscription)
         end
-        processed_subs.push(db_subscription)
+      rescue Stripe::StripeError => e
+        render json: { error: e.message, processed: serialize_subs(processed_subs) }, status: :unprocessable_entity && return
       end
-    rescue Stripe::StripeError => e
-      render json: { error: e.message, processed: serialize_subs(processed_subs) }, status: :unprocessable_entity && return
+    else
+      current_business.update(onboarding_passed: true)
     end
     render json: { message: 'subscribed', processed: serialize_subs(processed_subs) }, status: :created
   end

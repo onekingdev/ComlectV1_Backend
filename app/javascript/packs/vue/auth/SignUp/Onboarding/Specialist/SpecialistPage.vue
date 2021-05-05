@@ -1,8 +1,9 @@
 <template lang="pug">
-  .container-fluid
+  .container-fluid.onboarding
     TopNavbar(:userInfo="userInfo")
     main.row#main-content
       .col-xl-10.col-md-9.m-x-auto
+        Overlay(v-if="overlay", :status="overlayStatus", :statusText="overlayStatusText", :show="overlay")
         .card-body.white-card-body.registration-onboarding.p-lg-5
           .div
             h2 Set Up Your Account
@@ -87,12 +88,12 @@
                 p.mb-0 The following fields were filled in based on the CRD number you provided. Please carefully review each field before proceeding.
               div.d-flex.justify-content-between
                 .text-left
-                  h3 Tell us more about yourself:
-                  p Enter any relevant skills and education to better match with ideal clients.
+                  h3.onboarding__title Tell us more about yourself:
+                  p.onboarding__sub-title Enter any relevant skills and education to better match with ideal clients.
                 <!--.text-right-->
                   <!--SpecialistModalSkipStep(@skipConfirmed="skipStep(3)", :inline="false")-->
                     <!--b-button.mr-2(type='button' variant='outline-primary') Skip this step-->
-              b-form-group(label='Skills' label-for='selectS-7')
+              b-form-group(label='Skills' class="onboarding-group" label-for='selectS-7')
                 multiselect#selectS-7(
                 v-model="formStep2.skills"
                 :options="formStep2.skillsTags"
@@ -106,28 +107,28 @@
                 required)
                 .invalid-feedback.d-block(v-if="errors.skills") {{ errors.skills }}
               hr
-              h3 What's your expirience?
-              p Select one that the best matches your level of your expertise.
-              b-form-group
-                b-button-group.flex-wrap(size='lg')
-                  b-button.text-left(type='button' variant='outline-primary' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onExpirienceChange(0)")
-                    b Junior
-                    br
-                    | Begining consulting with some experience in the field.
-                  b-button.text-left(type='button' variant='outline-primary' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onExpirienceChange(1)")
-                    b Intermediate
-                    br
-                    | Good expirience and knowlage of the industry.
-                  b-button.text-left(type='button' variant='outline-primary' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onExpirienceChange(2)")
-                    b Expert
-                    br
-                    | Deep understanding of industry with varied experience.
+              h3.onboarding__title.m-t-2 What's your expirience?
+              p.onboarding__sub-title Select one that the best matches your level of your expertise.
+              b-form-group(class="onboarding-group")
+                b-button.exp__btn.text-left(type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onExpirienceChange($event, 0)")
+                  b.exp__btn--main Junior
+                  br
+                  span.exp__btn--sub Begining consulting with some experience in the field.
+                b-button.exp__btn.text-left(type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onExpirienceChange($event, 1)")
+                  b.exp__btn--main Intermediate
+                  br
+                  span.exp__btn--sub Good expirience and knowlage of the industry.
+                b-button.exp__btn.text-left(type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onExpirienceChange($event, 2)")
+                  b.exp__btn--main Expert
+                  br
+                  span.exp__btn--sub Deep understanding of industry with varied experience.
               hr
-              h3.mb-3 (Optional) Upload you resume:
-              b-form-group.mt-3
+              h3.onboarding__title.m-b-3.m-t-2 (Optional) Upload you resume:
+              b-form-group.m-t-2(class="onboarding-group")
                 b-form-file(v-model='formStep2.file' :state='Boolean(formStep2.file)' accept="application/pdf" placeholder='Choose a file or drop it here...' drop-placeholder='Drop file here...')
-                .mt-3 Selected file: {{ formStep2.file ? formStep2.file.name : '' }}
-              .text-right
+                .m-t-3 Selected file: {{ formStep2.file ? formStep2.file.name : '' }}
+              hr
+              .text-right.m-t-2
                 b-button.mr-2(type='button' variant='outline-primary' @click="prevStep(1)") Go back
                 b-button(type='button' variant='dark' @click="nextStep(3)") Next
             #step3.form(v-if='!loading'  :class="step3 ? 'd-block' : 'd-none'")
@@ -190,7 +191,8 @@
   import Multiselect from 'vue-multiselect'
   import BillingDetails from './BillingDetails'
   import PurchaseSummary from './PurchaseSummary'
-  import SpecialistModalSkipStep from './Modals/SpecialistModalSkipStep'
+  // import SpecialistModalSkipStep from './Modals/SpecialistModalSkipStep'
+  import Overlay from '../Overlay'
 
   import data from './BillingPlansData.json'
 
@@ -202,7 +204,8 @@
       Multiselect,
       BillingDetails,
       PurchaseSummary,
-      SpecialistModalSkipStep
+      // SpecialistModalSkipStep,
+      Overlay
     },
     created() {
       // console.log('userInfo', this.userInfo)
@@ -231,9 +234,9 @@
         this.formStep1.industry = accountInfoParsed.industries;
         this.formStep1.subIndustry = accountInfoParsed.sub_industries;
         this.formStep1.jurisdiction = accountInfoParsed.jurisdictions;
-        this.formStep1.regulatorSelected = accountInfoParsed.former_regulator ? 'yes' : 'no';
+        // this.formStep1.regulatorSelected = accountInfoParsed.former_regulator ? 'yes' : 'no';
 
-        this.formStep2.skills = accountInfoParsed.skill_names;
+        this.formStep2.skills = accountInfoParsed.skill_names || [];
         this.formStep2.experience = accountInfoParsed.experience;
       }
 
@@ -326,6 +329,9 @@
         additionalUsers: 0,
         paymentSourceId: null,
         disabled: true,
+        overlay: false,
+        overlayStatus: '',
+        overlayStatusText: '',
       }
     },
     methods: {
@@ -348,12 +354,18 @@
         this.formStep2.skillsTags.push(tag)
         this.formStep2.skills.push(tag)
       },
-      onExpirienceChange(value){
+      onExpirienceChange(event, value){
+        document.querySelectorAll('.exp__btn').forEach((el) => el.classList.remove('active'))
+        if (event.target.classList.contains('exp__btn')) {
+          event.target.classList.toggle('active')
+        } else {
+          event.target.closest(".exp__btn").classList.toggle('active')
+        }
         this.formStep2.expirience = value;
       },
       onSubmit(event){
         event.preventDefault()
-        console.log(this.form)
+        // console.log(this.form)
       },
       navigation(stepNum){
         const url = new URL(window.location);
@@ -375,8 +387,7 @@
           this.errors = Object.assign({}, this.errors, { regulator: `Field can't be empty!` })
           return
         }
-        if (stepNum === 2 && this.formStep1.regulatorSelected === 'no' || this.formStep1.regulator) {
-
+        if (stepNum === 2) {
           if (!this.formStep1.industry) this.errors = Object.assign({}, this.errors, { industry: `Field can't be empty!` })
           if (!this.formStep1.subIndustry) this.errors = Object.assign({}, this.errors, { subIndustry: `Field can't be empty!` })
           if (!this.formStep1.jurisdiction) this.errors = Object.assign({}, this.errors, { jurisdiction: `Field can't be empty!` })
@@ -390,29 +401,6 @@
         }
 
         if (stepNum === 3) {
-
-          console.log('this.formStep2.file')
-          console.log(this.formStep2.file)
-
-          // let formData = new FormData()
-          // formData.append('file', this.formStep2.file)
-
-          // const dataToSend = {
-          //   specialist: {
-          //     industry_ids: this.formStep1.industry.map(record => record.id),
-          //     sub_industry_ids: this.formStep1.subIndustry.map(record => record.id),
-          //     jurisdiction_ids: this.formStep1.jurisdiction.map(record => record.id),
-          //
-          //     first_name: this.currentUser.first_name,
-          //     last_name: this.currentUser.last_name,
-          //     former_regulator: this.formStep1.regulatorSelected === 'yes',
-          //     specialist_other: this.formStep1.regulator.join(', '),
-          //     experience: this.formStep2.expirience,
-          //     // certifications: '',
-          //     resume: formData ? JSON.stringify(formData) : '',
-          //   },
-          //   skill_names: this.formStep2.skills.map(skill => skill.name),
-          // }
 
           const params = {
             specialist: {
@@ -430,29 +418,19 @@
             },
             skill_names: this.formStep2.skills.map(skill => skill.name),
           }
-          console.log('formData', formData)
 
           let formData = new FormData()
-          Object.entries(params).forEach(
-            ([key, value]) => formData.append(key, JSON.stringify(value))
-          )
-          console.log('formData', formData)
+          Object.keys(params.specialist)
+            .map(specAttr => formData.append(`specialist[${specAttr}]`, params.specialist[specAttr]))
+          params.skill_names
+            .map(skillName => formData.append(`skill_names[]`, skillName))
 
-          // Object.entries(params).forEach(
-          //   ([keyP, valueP]) => {
-          //     const newObj = {}
-          //     Object.entries(valueP).forEach(
-          //       ([key, value]) => {
-          //         Object.assign(newObj, { [key]: value })
-          //         console.log(newObj)
-          //       })
-          //     formData.append(keyP, JSON.stringify(newObj))
-          //   })
+          console.log('formData', formData)
 
           this.$store
             .dispatch('updateAccountInfoWithFile', formData)
             .then(response => {
-              console.log('response', response)
+              // console.log('response', response)
 
               if(!response.errors) {
                 this['step'+(stepNum-1)] = false
@@ -469,20 +447,20 @@
             })
         }
       },
-      skipStep(stepNum){
-        this['step'+(stepNum-1)] = false
-        this['navStep'+stepNum] = true
-        this['step'+stepNum] = true
-        this.currentStep = stepNum
-        this.navigation(this.currentStep)
-
-        this.formStep2 = {
-            skills: [],
-            skillsTags: [],
-            file: null,
-            expirience: '',
-        }
-      },
+      // skipStep(stepNum){
+      //   this['step'+(stepNum-1)] = false
+      //   this['navStep'+stepNum] = true
+      //   this['step'+stepNum] = true
+      //   this.currentStep = stepNum
+      //   this.navigation(this.currentStep)
+      //
+      //   this.formStep2 = {
+      //       skills: [],
+      //       skillsTags: [],
+      //       file: null,
+      //       expirience: '',
+      //   }
+      // },
       openDetails(id) {
         this.openId = id
         // history.pushState({}, '', `${'new'}/${id}`)
@@ -507,17 +485,20 @@
         this.disabled = false;
       },
       selectPlanAndComplitePurchase (selectedPlan) {
-        console.log('selectedPlan', selectedPlan)
+        // console.log('selectedPlan', selectedPlan)
         // console.log('this.billingTypeSelected', this.billingTypeSelected)
         // CLEAR ERRORS
         this.errors = []
 
+        this.overlay = true
+        this.overlayStatusText = 'Setting up account. Subscribing a plan...'
+
         let planName;
-        if (selectedPlan.id === 2) {
-          planName = this.billingTypeSelected === 'annually' ? 'team_tier_annual' : 'team_tier_monthly';
+        if (selectedPlan.id === 1) {
+          planName = 'specialist_free';
         }
-        if (selectedPlan.id === 3) {
-          planName = this.billingTypeSelected === 'annually' ? 'business_tier_annual' : 'business_tier_monthly'
+        if (selectedPlan.id === 2) {
+          planName = 'specialist_pro';
         }
 
         const dataToSend = {
@@ -529,62 +510,84 @@
         this.$store
           .dispatch('updateSubscribe', dataToSend)
           .then(response => {
-            console.log('response', response)
+            // console.log('response', response)
 
             if(response.errors) {
-              this.makeToast('Error', `Something wrong!`)
+              for (const [key, value] of Object.entries(response.errors)) {
+                console.log(`${key}: ${value}`);
+                this.makeToast('Error', `${key}: ${value}`)
+                this.errors = Object.assign(this.errors, { [key]: value })
+              }
             }
 
             if(!response.errors) {
               this.makeToast('Success', `Update subscribe successfully finished!`)
-              this.paySeats(selectedPlan)
-            }
-          })
-          .catch(error => {
-            console.error(error)
-            this.makeToast('Error', `Something wrong! ${error}`)
-          })
-          .finally(() => this.disabled = true)
-      },
-      paySeats(selectedPlan) {
-        const freeUsers = selectedPlan.usersCount;
-        const neededUsers = +this.additionalUsers;
-        console.log(neededUsers, freeUsers)
-        if (neededUsers <= freeUsers) return
-        const countPayedUsers = neededUsers - freeUsers
-        console.log(countPayedUsers)
+              // this.paySeats(selectedPlan)
 
-        let planName = this.billingTypeSelected === 'annually' ? 'seats_annual' : 'seats_monthly'
-
-        const dataToSend = {
-          userType: this.userType,
-          planName,
-          paymentSourceId : this.paymentSourceId,
-          countPayedUsers,
-        }
-
-        this.$store
-          .dispatch('updateSeatsSubscribe', dataToSend)
-          .then(response => {
-            console.log('response', response)
-
-            for(let i=0; i <= response.length; i++) {
-              if(response[i].data.errors) {
-                for (const type of Object.keys(response[i].data.errors)) {
-                  this.makeToast('Error', `Something wrong! ${response[i].data.errors[type]}`)
-                }
-              }
-              if(!response[i].data.errors) {
-                this.makeToast('Success', `Update seat subscribe successfully finished!`)
+              // OVERLAY
+              if(+this.additionalUsers === 0) {
+                this.overlayStatusText = 'Account successfully purchased, you will be redirect to the dashboard...'
+                this.overlayStatus = 'success'
+                // this.overlay = false
+                const dashboard = this.userType === 'business' ? '/business2' : '/specialist'
+                setTimeout(() => {
+                  window.location.href = `${dashboard}`;
+                }, 3000)
               }
             }
           })
           .catch(error => {
             console.error(error)
             this.makeToast('Error', `Something wrong! ${error}`)
+
+            // OVERLAY
+            this.overlayStatus = 'error'
+            this.overlayStatusText = `Something wrong! ${error}`
+            setTimeout(() => {
+              this.overlay = false
+            }, 3000)
           })
           .finally(() => this.disabled = true)
       },
+      // paySeats(selectedPlan) {
+      //   const freeUsers = selectedPlan.usersCount;
+      //   const neededUsers = +this.additionalUsers;
+      //   // console.log(neededUsers, freeUsers)
+      //   if (neededUsers <= freeUsers) return
+      //   const countPayedUsers = neededUsers - freeUsers
+      //   // console.log(countPayedUsers)
+      //
+      //   let planName = this.billingTypeSelected === 'annually' ? 'seats_annual' : 'seats_monthly'
+      //
+      //   const dataToSend = {
+      //     userType: this.userType,
+      //     planName,
+      //     paymentSourceId : this.paymentSourceId,
+      //     countPayedUsers,
+      //   }
+      //
+      //   this.$store
+      //     .dispatch('updateSeatsSubscribe', dataToSend)
+      //     .then(response => {
+      //       // console.log('response', response)
+      //
+      //       for(let i=0; i <= response.length; i++) {
+      //         if(response[i].data.errors) {
+      //           for (const type of Object.keys(response[i].data.errors)) {
+      //             this.makeToast('Error', `Something wrong! ${response[i].data.errors[type]}`)
+      //           }
+      //         }
+      //         if(!response[i].data.errors) {
+      //           this.makeToast('Success', `Update seat subscribe successfully finished!`)
+      //         }
+      //       }
+      //     })
+      //     .catch(error => {
+      //       console.error(error)
+      //       this.makeToast('Error', `Something wrong! ${error}`)
+      //     })
+      //     .finally(() => this.disabled = true)
+      // },
     },
     computed: {
       loading() {

@@ -3853,6 +3853,47 @@ ALTER SEQUENCE public.ported_subscriptions_id_seq OWNED BY public.ported_subscri
 
 
 --
+-- Name: potential_businesses; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.potential_businesses (
+    id bigint NOT NULL,
+    crd_number character varying,
+    contact_phone character varying,
+    business_name character varying,
+    website character varying,
+    address_1 character varying,
+    city character varying,
+    state character varying,
+    zipcode character varying,
+    apartment character varying,
+    client_account_cnt integer,
+    aum numeric,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: potential_businesses_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.potential_businesses_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: potential_businesses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.potential_businesses_id_seq OWNED BY public.potential_businesses.id;
+
+
+--
 -- Name: project_ends; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -5438,6 +5479,13 @@ ALTER TABLE ONLY public.ported_subscriptions ALTER COLUMN id SET DEFAULT nextval
 
 
 --
+-- Name: potential_businesses id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.potential_businesses ALTER COLUMN id SET DEFAULT nextval('public.potential_businesses_id_seq'::regclass);
+
+
+--
 -- Name: project_ends id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -6040,6 +6088,14 @@ ALTER TABLE ONLY public.ported_businesses
 
 ALTER TABLE ONLY public.ported_subscriptions
     ADD CONSTRAINT ported_subscriptions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: potential_businesses potential_businesses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.potential_businesses
+    ADD CONSTRAINT potential_businesses_pkey PRIMARY KEY (id);
 
 
 --
@@ -6698,6 +6754,13 @@ CREATE INDEX index_ported_businesses_on_business_id ON public.ported_businesses 
 --
 
 CREATE INDEX index_ported_subscriptions_on_specialist_id ON public.ported_subscriptions USING btree (specialist_id);
+
+
+--
+-- Name: index_potential_businesses_on_crd_number; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_potential_businesses_on_crd_number ON public.potential_businesses USING btree (crd_number);
 
 
 --
@@ -7876,6 +7939,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210408131105'),
 ('20210410142233'),
 ('20210415142648'),
-('20210423114454');
+('20210423114454'),
+('20210502165601');
 
 

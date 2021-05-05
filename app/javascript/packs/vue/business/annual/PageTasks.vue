@@ -10,7 +10,7 @@
                   h2 Tasks
                   div
                     a.btn.btn-default.m-r-1 Download
-                    AnnualModalCreateTask(@saved="createTask(i)")
+                    AnnualModalCreateTask(@saved="refetch()")
                       a.btn.btn-dark Create task
               hr
               .row
@@ -67,6 +67,9 @@
   const overdueEndpointUrl = '/api/business/overdue_reminders'
 
   export default {
+    props: {
+      etag: Number
+    },
     components: {
       TaskFormModal,
       AnnualModalCreateTask
@@ -137,5 +140,12 @@
           }))
       }
     },
+    watch: {
+      etag: {
+        handler: function(newVal, outline) {
+          this.refetch()
+        }
+      }
+    }
   }
 </script>

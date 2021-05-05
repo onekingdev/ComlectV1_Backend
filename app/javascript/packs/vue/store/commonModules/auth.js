@@ -27,7 +27,6 @@ export default {
         commit("setLoading", true);
 
         const response = await axios.post(`/users/sign_in`, payload)
-        console.log('response', response)
         // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
         if (response.data) {
           if(response.data.token) {
@@ -178,7 +177,7 @@ export default {
           }
         };
         const data = { [endPointUserType]: payload[endPointUserType] };
-        const response = await axios.patch(`/${endPointUserType}`, data, config)
+        const response = await axios.patch(`/${endPointUserType}`, payload)
         // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
         if(response.data) {
           localStorage.setItem('app.currentUser', JSON.stringify(response.data));
@@ -220,7 +219,6 @@ export default {
       try {
         commit("clearError");
         commit("setLoading", true);
-        console.log('payload', payload)
 
         const { userType, paymentSourceId, planName } = { ...payload }
 
@@ -249,7 +247,7 @@ export default {
         const endPoint = userType === 'business' ? 'business' : 'specialist'
 
         // WAIT LONGER
-        axios.defaults.timeout = 10000;
+        axios.defaults.timeout = 60000;
         const response = await axios.post(`/${endPoint}/upgrade/subscribe`, { plan: planName, cnt: countPayedUsers }, { params: {
             payment_source_id: paymentSourceId
           }})
@@ -280,16 +278,15 @@ export default {
       try {
         commit("clearError");
         commit("setLoading", true);
-        console.log('payload', payload)
 
         // WAIT LONGER
         axios.defaults.timeout = 10000;
 
         const { userType, stripeToken } = { ...payload }
 
-        const endPoint = userType === 'business' ? 'business' : 'specialist'
+        const endPoint = userType === 'business' ? 'business/payment_settings' : 'specialist/payment_settings/create_card'
         // const response = await axios.post(`/${endPoint}/payment_settings?stripeToken=${payload.stripeToken}`)
-        const response = await axios.post(`/${endPoint}/payment_settings`, null, { params: {
+        const response = await axios.post(`/${endPoint}`, null, { params: {
             stripeToken: stripeToken,
           }})
         // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
