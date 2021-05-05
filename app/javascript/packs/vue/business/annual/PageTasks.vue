@@ -9,8 +9,9 @@
                 .col-md-12.d-flex.justify-content-between
                   h2: b Tasks
                   div
-                    a.btn.btn-default Download
-                    a.btn.m-l-1.btn-dark Create Task
+                    a.btn.btn-default.m-r-1 Download
+                    AnnualModalCreateTask(@saved="createTask(i)")
+                      a.btn.btn-dark Create task
               .row
                 .col
                   table.table.task_table
@@ -55,15 +56,19 @@
 </template>
 
 <script>
+  import { DateTime } from 'luxon'
+  import { toEvent, isOverdue, splitReminderOccurenceId } from '@/common/TaskHelper'
+
+  import TaskFormModal from '@/common/TaskFormModal'
+  import AnnualModalCreateTask from './modals/AnnualModalCreateTask'
+
   const endpointUrl = '/api/business/reminders/'
   const overdueEndpointUrl = '/api/business/overdue_reminders'
-  import { DateTime } from 'luxon'
-  import TaskFormModal from '@/common/TaskFormModal'
-  import { toEvent, isOverdue, splitReminderOccurenceId } from '@/common/TaskHelper'
 
   export default {
     components: {
-      TaskFormModal
+      TaskFormModal,
+      AnnualModalCreateTask
     },
     data() {
       return {
@@ -102,6 +107,9 @@
         }).then(response => this.$emit('saved'))
       },
 
+      createTask(i){
+        console.log('createTask: ', i)
+      },
       deleteTask(i){
         console.log('delete', i)
       },

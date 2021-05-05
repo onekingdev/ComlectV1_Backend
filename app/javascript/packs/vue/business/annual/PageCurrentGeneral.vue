@@ -12,8 +12,9 @@
             div
               button.btn.btn-default.mr-3 Download
               button.btn.btn-dark.mr-3 Save and Exit
-              button.btn.btn__close
-                b-icon(icon="x")
+              AnnualModalDelete(@deleteConfirmed="deleteReview(review.id)")
+                button.btn.btn__close
+                  b-icon(icon="x")
     .reviews__tabs
       b-tabs(content-class="mt-0")
         b-tab(title="Detail" active)
@@ -115,9 +116,9 @@
         b-tab(title="Tasks")
           PageTasks
         b-tab(title="Documents")
-          div Documents
+          PageDocuments
         b-tab(title="Activity")
-          div Activity
+          PageActivity
 </template>
 
 <script>
@@ -125,7 +126,10 @@ import { mapGetters, mapActions } from "vuex"
 import { VueEditor } from "vue2-editor"
 import ReviewsList from "./components/ReviewsList"
 import AnnualModalComplite from './modals/AnnualModalComplite'
+import AnnualModalDelete from './modals/AnnualModalDelete'
 import PageTasks from './PageTasks'
+import PageDocuments from './PageDocuments'
+import PageActivity from './PageActivity'
 
 export default {
   props: ['annualId'],
@@ -133,7 +137,10 @@ export default {
     ReviewsList,
     VueEditor,
     AnnualModalComplite,
-    PageTasks
+    AnnualModalDelete,
+    PageTasks,
+    PageDocuments,
+    PageActivity
   },
   data () {
     return {
@@ -239,6 +246,14 @@ export default {
     },
     deleteEntry(i) {
       this.review.annual_review_employees.splice(i, 1);
+    },
+    deleteReview(reviewId){
+      this.$store.dispatch('annual/deleteReview', { id: reviewId })
+        .then(response => {
+          this.toast('Success', `The annual review has been deleted! ${response.id}`)
+          window.location.href = `${window.location.origin}/business/annual_reviews`
+        })
+        .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
     },
     makeToast(title, str) {
       this.$bvToast.toast(str, { title, autoHideDelay: 5000 })

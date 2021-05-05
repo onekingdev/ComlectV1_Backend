@@ -86,9 +86,9 @@
         b-tab(title="Tasks")
           PageTasks
         b-tab(title="Documents")
-          div Documents
+          PageDocuments
         b-tab(title="Activity")
-          div Activity
+          PageActivity
 </template>
 
 <script>
@@ -100,6 +100,8 @@ import AnnualModalDelete from './modals/AnnualModalDelete'
 import AnnualModalDeleteCategory from './modals/AnnualModalDeleteCategory'
 import AnnualModalCreateTask from './modals/AnnualModalCreateTask'
 import PageTasks from './PageTasks'
+import PageDocuments from './PageDocuments'
+import PageActivity from './PageActivity'
 
 export default {
   props: ['annualId', 'revcatId'],
@@ -110,7 +112,9 @@ export default {
     AnnualModalDelete,
     AnnualModalDeleteCategory,
     AnnualModalCreateTask,
-    PageTasks
+    PageTasks,
+    PageDocuments,
+    PageActivity
   },
   data () {
     return {
@@ -221,7 +225,10 @@ export default {
     },
     deleteReview(reviewId){
       this.$store.dispatch('annual/deleteReview', { id: reviewId })
-        .then(response => this.toast('Success', `The annual review has been deleted! ${response.id}`))
+        .then(response => {
+          this.toast('Success', `The annual review has been deleted! ${response.id}`)
+          window.location.href = `${window.location.origin}/business/annual_reviews`
+        })
         .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
     },
     makeToast(title, str) {
