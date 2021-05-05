@@ -495,7 +495,7 @@
 
         let planName;
         if (selectedPlan.id === 1) {
-          planName = 'free';
+          planName = 'specialist_free';
         }
         if (selectedPlan.id === 2) {
           planName = 'specialist_pro';
@@ -515,8 +515,9 @@
             if(response.errors) {
               for (const [key, value] of Object.entries(response.errors)) {
                 console.log(`${key}: ${value}`);
-                this.makeToast('Error', `${key}: ${value}`)
-                this.errors = Object.assign(this.errors, { [key]: value })
+                // this.makeToast('Error', `${key}: ${value}`)
+                // this.errors = Object.assign(this.errors, { [key]: value })
+                throw new Error(`${[key]} ${value}`)
               }
             }
 
