@@ -3,7 +3,6 @@
     TopNavbar(:userInfo="userInfo")
     main.row#main-content
       .col-xl-10.col-md-9.m-x-auto
-        Overlay(v-if="overlay", :status="overlayStatus", :statusText="overlayStatusText", :show="overlay")
         .card-body.white-card-body.registration-onboarding.p-5
           .div
             h2 Set Up Your Account
@@ -30,7 +29,7 @@
               .text-right
                 b-button(type='button' variant='dark' @click="nextStep(2)") Next
             #step2.form(v-if='!loading'  :class="step2 ? 'd-block' : 'd-none'")
-              b-alert(v-if="formStep1.CRDnumber && formStep1.CRDnumber.length" show variant="primary" dismissible)
+              b-alert(show variant="primary" dismissible)
                 h4 Verify information
                 p.mb-0 The following fields were filled in based on the CRD number you provided. Please carefully review each field before proceeding.
               h3 Tell us more about your business
@@ -148,8 +147,7 @@
                       h4.billing-plan__name {{ plan.name }}
                       p.billing-plan__descr {{ plan.description }}
                       h5.billing-plan__coast {{ billingTypeSelected === 'annually' ?  plan.coastAnnuallyFormatted : plan.coastMonthlyFormatted }}
-                      p.billing-plan__users(v-if="plan.id === 1") 0 free users
-                      p.billing-plan__users(v-if="plan.id !== 1") {{ billingTypeSelected === 'annually' ?  plan.usersCount + ' free users plus $' + plan.additionalUserAnnually + '/year per person' : plan.usersCount + ' free users plus $' + plan.additionalUserMonthly + '/mo per person' }}
+                      p.billing-plan__users {{ billingTypeSelected === 'annually' ?  plan.usersCount + ' free users plus $' + plan.additionalUserAnnually + '/year per person' : plan.usersCount + ' free users plus $' + plan.additionalUserMonthly + '/mo per person' }}
                       hr
                       ul.list-unstyled.billing-plan__list
                         li.billing-plan__item(v-for="feature in plan.features")
@@ -194,7 +192,6 @@
   import Multiselect from 'vue-multiselect'
   import BillingDetails from './BillingDetails'
   import PurchaseSummary from './PurchaseSummary'
-  import Overlay from '../Overlay'
 
   import data from './BillingPlansData.json'
 
@@ -205,8 +202,7 @@
       TopNavbar,
       Multiselect,
       BillingDetails,
-      PurchaseSummary,
-      Overlay
+      PurchaseSummary
     },
     created() {
       // console.log('userInfo', this.userInfo)
@@ -329,9 +325,6 @@
         additionalUsers: 0,
         paymentSourceId: null,
         disabled: true,
-        overlay: false,
-        overlayStatus: '',
-        overlayStatusText: '',
       }
     },
     methods: {
@@ -340,34 +333,34 @@
       },
       onSubmit(event){
         event.preventDefault()
-        // console.log(this.form)
+        console.log(this.form)
       },
-      // checkCDRinfo() {
-      //   // CLEAR ERRORS
-      //   this.errors = []
-      //
-      //   if (!this.formStep1.CRDnumber.length) {
-      //     this.errors = { CRDnumber: `Can't be empty!` }
-      //     // return
-      //   }
+      checkCDRinfo() {
+        // CLEAR ERRORS
+        this.errors = []
 
-        // const dataToSend = {
-        //   crd: this.formStep1.CRDnumber
-        // }
-        //
-        // this.$store
-        //   .dispatch('getInfoByCRDNumber', dataToSend)
-        //   .then(response => {
-        //     // console.log('response', response)
-        //     this.makeToast('Success', `CRD Number successfully sended!`)
-        //   })
-        //   .catch(error => {
-        //     console.error(error)
-        //     this.makeToast('Error', `Something wrong! ${error}`)
-        //   })
+        if (!this.formStep1.CRDnumber && this.CRDnumberSelected === 'yes') {
+          this.errors = { CRDnumber: `Can't be empty!` }
+          return
+        }
 
-        // console.log(dataToSend)
-      // },
+        const dataToSend = {
+          crd: this.formStep1.CRDnumber
+        }
+
+        this.$store
+          .dispatch('getInfoByCRDNumber', dataToSend)
+          .then(response => {
+            console.log('response', response)
+            this.makeToast('Success', `CRD Number successfully sended!`)
+          })
+          .catch(error => {
+            console.error(error)
+            this.makeToast('Error', `Something wrong! ${error}`)
+          })
+
+        console.log(dataToSend)
+      },
       navigation(stepNum){
         const url = new URL(window.location);
         url.searchParams.set('step', stepNum);
@@ -381,16 +374,11 @@
         this.navigation(this.currentStep)
       },
       nextStep(stepNum) {
-        // CLEAR ERRORS
-        this.errors = []
-
-        if (stepNum === 2) {
-          if (this.formStep1.CRDnumberSelected === 'yes' && !this.formStep1.CRDnumber) {
-            this.errors = { CRDnumber: `Can't be empty!` }
-            return
-          }
-          if (this.formStep1.CRDnumberSelected === 'no') this.formStep1.CRDnumber = ''
-
+        if (this.formStep1.CRDnumberSelected === 'yes') {
+          this.checkCDRinfo()
+          return
+        }
+        if (stepNum === 2 && this.formStep1.CRDnumberSelected === 'no') {
           this['step'+(stepNum-1)] = false
           this['navStep'+stepNum] = true
           this['step'+stepNum] = true
@@ -399,6 +387,8 @@
         }
 
         if (stepNum === 3) {
+          // CLEAR ERRORS
+          this.errors = []
 
           if (!this.formStep2.industry) this.errors = Object.assign({}, this.errors, { industry: `Field can't be empty!` })
           if (!this.formStep2.subIndustry) this.errors = Object.assign({}, this.errors, { subIndustry: `Field can't be empty!` })
@@ -407,7 +397,6 @@
 
           const dataToSend = {
             business: {
-              crd: this.formStep1.CRDnumber ? this.formStep1.CRDnumber : '',
               // contact_first_name: 'x',
               // contact_last_name: 'x',
               // contact_email: 'x',
@@ -424,7 +413,7 @@
               city: this.formStep2.city,
               state: this.formStep2.state,
               zipcode: this.formStep2.zip,
-              // crd_number: this.formStep1.CRDnumber,
+              crd_number: this.formStep1.CRDnumber,
               industry_ids: this.formStep2.industry.map(record => record.id),
               sub_industry_ids: this.formStep2.subIndustry.map(record => record.id),
               jurisdiction_ids: this.formStep2.jurisdiction.map(record => record.id),
@@ -434,7 +423,7 @@
           this.$store
             .dispatch('updateAccountInfo', dataToSend)
             .then(response => {
-              // console.log('response', response)
+              console.log('response', response)
 
               if(response.errors) {
                 this.makeToast('Error', `Something wrong!`)
@@ -488,13 +477,10 @@
         this.disabled = false;
       },
       selectPlanAndComplitePurchase (selectedPlan) {
-        // console.log('selectedPlan', selectedPlan)
+        console.log('selectedPlan', selectedPlan)
         // console.log('this.billingTypeSelected', this.billingTypeSelected)
         // CLEAR ERRORS
         this.errors = []
-
-        this.overlay = true
-        this.overlayStatusText = 'Setting up account. Subscribing a plan...'
 
         let planName;
         if (selectedPlan.id === 2) {
@@ -513,48 +499,30 @@
         this.$store
           .dispatch('updateSubscribe', dataToSend)
           .then(response => {
-            // console.log('response', response)
+            console.log('response', response)
 
-            if(response.errors) throw new Error(`Response error!`)
+            if(response.errors) {
+              this.makeToast('Error', `Something wrong!`)
+            }
 
             if(!response.errors) {
               this.makeToast('Success', `Update subscribe successfully finished!`)
               this.paySeats(selectedPlan)
-
-              // OVERLAY
-              if(+this.additionalUsers === 0) {
-                this.overlayStatusText = 'Account successfully purchased, you will be redirect to the dashboard...'
-                this.overlayStatus = 'success'
-                // this.overlay = false
-                const dashboard = this.userType === 'business' ? '/business2' : '/specialist'
-                setTimeout(() => {
-                  window.location.href = `${dashboard}`;
-                }, 3000)
-              }
             }
           })
           .catch(error => {
             console.error(error)
             this.makeToast('Error', `Something wrong! ${error}`)
-
-            // OVERLAY
-            this.overlayStatus = 'error'
-            this.overlayStatusText = `Something wrong! ${error}`
-            setTimeout(() => {
-              this.overlay = false
-            }, 3000)
           })
           .finally(() => this.disabled = true)
       },
       paySeats(selectedPlan) {
         const freeUsers = selectedPlan.usersCount;
         const neededUsers = +this.additionalUsers;
-        // console.log(neededUsers, freeUsers)
+        console.log(neededUsers, freeUsers)
         if (neededUsers <= freeUsers) return
         const countPayedUsers = neededUsers - freeUsers
-        // console.log(countPayedUsers)
-
-        this.overlayStatusText = 'Subscribing additional seats...'
+        console.log(countPayedUsers)
 
         let planName = this.billingTypeSelected === 'annually' ? 'seats_annual' : 'seats_monthly'
 
@@ -568,37 +536,22 @@
         this.$store
           .dispatch('updateSeatsSubscribe', dataToSend)
           .then(response => {
-            // console.log('response', response)
+            console.log('response', response)
 
-            if(response.errors) {
-              for (const type of Object.keys(response[i].data.errors)) {
-                this.makeToast('Error', `Something wrong! ${response[i].data.errors[type]}`)
+            for(let i=0; i <= response.length; i++) {
+              if(response[i].data.errors) {
+                for (const type of Object.keys(response[i].data.errors)) {
+                  this.makeToast('Error', `Something wrong! ${response[i].data.errors[type]}`)
+                }
               }
-            }
-
-            if(!response.errors) {
-              this.makeToast('Success', `Update seat subscribe successfully finished!`)
-
-              // OVERLAY
-              this.overlayStatusText = `Account and ${countPayedUsers} seats successfully purchased, you will be redirect to the dashboard...`
-              this.overlayStatus = 'success'
-              // this.overlay = false
-              const dashboard = this.userType === 'business' ? '/business2' : '/specialist'
-              setTimeout(() => {
-                window.location.href = `${dashboard}`;
-              }, 3000)
+              if(!response[i].data.errors) {
+                this.makeToast('Success', `Update seat subscribe successfully finished!`)
+              }
             }
           })
           .catch(error => {
             console.error(error)
             this.makeToast('Error', `Something wrong! ${error}`)
-
-            // OVERLAY
-            this.overlayStatus = 'error'
-            this.overlayStatusText = `Something wrong! ${error}`
-            setTimeout(() => {
-              this.overlay = false
-            }, 3000)
           })
           .finally(() => this.disabled = true)
       },

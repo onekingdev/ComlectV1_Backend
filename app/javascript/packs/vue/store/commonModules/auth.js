@@ -27,6 +27,7 @@ export default {
         commit("setLoading", true);
 
         const response = await axios.post(`/users/sign_in`, payload)
+        console.log('response', response)
         // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
         if (response.data) {
           if(response.data.token) {
@@ -149,22 +150,22 @@ export default {
         commit("setLoading", false)
       }
     },
-    // async getInfoByCRDNumber({commit}, payload) {
-    //   try {
-    //     commit("clearError");
-    //     commit("setLoading", true);
-    //
-    //     const response = await axios.patch(`/business`, payload)
-    //     // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
-    //     return response.data
-    //
-    //   } catch (error) {
-    //     console.error(error);
-    //     throw error
-    //   } finally {
-    //     commit("setLoading", false)
-    //   }
-    // },
+    async getInfoByCRDNumber({commit}, payload) {
+      try {
+        commit("clearError");
+        commit("setLoading", true);
+
+        const response = await axios.put(`/crd/`, payload)
+        // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
+        return response.data
+
+      } catch (error) {
+        console.error(error);
+        throw error
+      } finally {
+        commit("setLoading", false)
+      }
+    },
     async updateAccountInfo({commit}, payload) {
       try {
         commit("clearError");
@@ -177,7 +178,7 @@ export default {
           }
         };
         const data = { [endPointUserType]: payload[endPointUserType] };
-        const response = await axios.patch(`/${endPointUserType}`, payload)
+        const response = await axios.patch(`/${endPointUserType}`, data, config)
         // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
         if(response.data) {
           localStorage.setItem('app.currentUser', JSON.stringify(response.data));
@@ -219,6 +220,7 @@ export default {
       try {
         commit("clearError");
         commit("setLoading", true);
+        console.log('payload', payload)
 
         const { userType, paymentSourceId, planName } = { ...payload }
 
@@ -247,7 +249,7 @@ export default {
         const endPoint = userType === 'business' ? 'business' : 'specialist'
 
         // WAIT LONGER
-        axios.defaults.timeout = 60000;
+        axios.defaults.timeout = 10000;
         const response = await axios.post(`/${endPoint}/upgrade/subscribe`, { plan: planName, cnt: countPayedUsers }, { params: {
             payment_source_id: paymentSourceId
           }})
@@ -278,15 +280,16 @@ export default {
       try {
         commit("clearError");
         commit("setLoading", true);
+        console.log('payload', payload)
 
         // WAIT LONGER
         axios.defaults.timeout = 10000;
 
         const { userType, stripeToken } = { ...payload }
 
-        const endPoint = userType === 'business' ? 'business/payment_settings' : 'specialist/payment_settings/create_card'
+        const endPoint = userType === 'business' ? 'business' : 'specialist'
         // const response = await axios.post(`/${endPoint}/payment_settings?stripeToken=${payload.stripeToken}`)
-        const response = await axios.post(`/${endPoint}`, null, { params: {
+        const response = await axios.post(`/${endPoint}/payment_settings`, null, { params: {
             stripeToken: stripeToken,
           }})
         // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
