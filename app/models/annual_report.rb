@@ -2,7 +2,6 @@
 
 class AnnualReport < ActiveRecord::Base
   belongs_to :business
-  has_many :reminders, as: :linkable
   has_many :annual_review_employees, dependent: :destroy
   has_many :regulatory_changes, dependent: :destroy
   has_many :review_categories, dependent: :destroy
