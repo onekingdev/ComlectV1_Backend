@@ -116,12 +116,12 @@
                           .card
                             .card-body
                               SpecialistDetails(:specialist="application.specialist")
-                              InputSelect(v-model="specialist_role" :options="specialistRoleOptions") Select Role
+                              InputSelect(v-model="role" :options="specialistRoleOptions") Select Role
                               .form-text.text-muted Determines the permissions the specialist will have access to
                           template(#modal-footer="{ ok, cancel, hide }")
                             button.btn.btn-light(@click="hide") Cancel
                             button.btn.btn-outline-dark(@click="goBack") Go Back
-                            Post(:action="hireUrl + '?job_application_id=' + application.id" :model="{specialist_role}" @saved="saved(project.local_project_id)")
+                            Post(:action="hireUrl + '?job_application_id=' + application.id" :model="{role}" @saved="saved(project.local_project_id)")
                               button.btn.btn-dark Confirm
 </template>
 
@@ -143,7 +143,7 @@ export default {
   data() {
     return {
       modalId: null,
-      specialist_role: Object.keys(SPECIALIST_ROLE_OPTIONS)[0]
+      role: Object.keys(SPECIALIST_ROLE_OPTIONS)[0]
     }
   },
   created() {

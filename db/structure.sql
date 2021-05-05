@@ -31,13 +31,6 @@ CREATE SCHEMA topology;
 
 
 --
--- Name: SCHEMA topology; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON SCHEMA topology IS 'PostGIS Topology schema';
-
-
---
 -- Name: address_standardizer; Type: EXTENSION; Schema: -; Owner: -
 --
 
@@ -173,14 +166,12 @@ CREATE FUNCTION public.set_point_from_lat_lng() RETURNS trigger
 
 SET default_tablespace = '';
 
-SET default_with_oids = false;
-
 --
 -- Name: admin_users; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.admin_users (
-    id bigint NOT NULL,
+    id integer NOT NULL,
     email character varying DEFAULT ''::character varying NOT NULL,
     encrypted_password character varying DEFAULT ''::character varying NOT NULL,
     reset_password_token character varying,
@@ -191,8 +182,8 @@ CREATE TABLE public.admin_users (
     last_sign_in_at timestamp without time zone,
     current_sign_in_ip inet,
     last_sign_in_ip inet,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     super_admin boolean DEFAULT false,
     suspended boolean DEFAULT false
 );
@@ -222,13 +213,13 @@ ALTER SEQUENCE public.admin_users_id_seq OWNED BY public.admin_users.id;
 --
 
 CREATE TABLE public.annual_reports (
-    id bigint NOT NULL,
+    id integer NOT NULL,
     exam_start date,
     exam_end date,
     review_start date,
     review_end date,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     business_id integer,
     pdf_data jsonb,
     year integer,
@@ -261,13 +252,13 @@ ALTER SEQUENCE public.annual_reports_id_seq OWNED BY public.annual_reports.id;
 --
 
 CREATE TABLE public.annual_review_employees (
-    id bigint NOT NULL,
+    id integer NOT NULL,
     name character varying,
     title character varying,
     department character varying,
     annual_report_id integer,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -295,11 +286,11 @@ ALTER SEQUENCE public.annual_review_employees_id_seq OWNED BY public.annual_revi
 --
 
 CREATE TABLE public.answers (
-    id bigint NOT NULL,
-    question_id bigint NOT NULL,
+    id integer NOT NULL,
+    question_id integer NOT NULL,
     text text,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -329,8 +320,8 @@ ALTER SEQUENCE public.answers_id_seq OWNED BY public.answers.id;
 CREATE TABLE public.ar_internal_metadata (
     key character varying NOT NULL,
     value character varying,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -339,14 +330,14 @@ CREATE TABLE public.ar_internal_metadata (
 --
 
 CREATE TABLE public.articles (
-    id bigint NOT NULL,
+    id integer NOT NULL,
     src_title character varying,
     published_at date,
     title character varying,
     image_data jsonb,
     src_href character varying,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     pdf_data jsonb,
     open_pdf boolean DEFAULT false
 );
@@ -376,12 +367,12 @@ ALTER SEQUENCE public.articles_id_seq OWNED BY public.articles.id;
 --
 
 CREATE TABLE public.audit_comments (
-    id bigint NOT NULL,
+    id integer NOT NULL,
     audit_request_id integer,
     business_id integer,
     body text,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -409,10 +400,10 @@ ALTER SEQUENCE public.audit_comments_id_seq OWNED BY public.audit_comments.id;
 --
 
 CREATE TABLE public.audit_requests (
-    id bigint NOT NULL,
+    id integer NOT NULL,
     body character varying,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -440,16 +431,16 @@ ALTER SEQUENCE public.audit_requests_id_seq OWNED BY public.audit_requests.id;
 --
 
 CREATE TABLE public.bank_accounts (
-    id bigint NOT NULL,
-    stripe_account_id bigint,
+    id integer NOT NULL,
+    stripe_account_id integer,
     stripe_id character varying,
     "primary" boolean DEFAULT false NOT NULL,
     country character varying,
     currency character varying,
     routing_number character varying,
     account_number character varying,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -508,8 +499,8 @@ ALTER SEQUENCE public.business_specialists_roles_id_seq OWNED BY public.business
 --
 
 CREATE TABLE public.businesses (
-    id bigint NOT NULL,
-    user_id bigint,
+    id integer NOT NULL,
+    user_id integer,
     contact_first_name character varying,
     contact_last_name character varying,
     contact_email character varying,
@@ -527,8 +518,8 @@ CREATE TABLE public.businesses (
     state character varying,
     zipcode character varying,
     anonymous boolean DEFAULT false NOT NULL,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     logo_data jsonb,
     time_zone character varying,
     ratings_count integer DEFAULT 0 NOT NULL,
@@ -602,8 +593,8 @@ ALTER SEQUENCE public.businesses_id_seq OWNED BY public.businesses.id;
 --
 
 CREATE TABLE public.businesses_industries (
-    business_id bigint NOT NULL,
-    industry_id bigint NOT NULL
+    business_id integer NOT NULL,
+    industry_id integer NOT NULL
 );
 
 
@@ -612,8 +603,8 @@ CREATE TABLE public.businesses_industries (
 --
 
 CREATE TABLE public.businesses_jurisdictions (
-    business_id bigint NOT NULL,
-    jurisdiction_id bigint NOT NULL
+    business_id integer NOT NULL,
+    jurisdiction_id integer NOT NULL
 );
 
 
@@ -622,23 +613,23 @@ CREATE TABLE public.businesses_jurisdictions (
 --
 
 CREATE TABLE public.charges (
-    id bigint NOT NULL,
-    project_id bigint NOT NULL,
+    id integer NOT NULL,
+    project_id integer NOT NULL,
     amount_in_cents integer NOT NULL,
     process_after timestamp without time zone NOT NULL,
     status character varying DEFAULT 'scheduled'::character varying NOT NULL,
     status_detail character varying,
     description character varying,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     date timestamp without time zone NOT NULL,
-    transaction_id bigint,
+    transaction_id integer,
     fee_in_cents integer,
     total_with_fee_in_cents integer,
     running_balance_in_cents integer,
     specialist_amount_in_cents integer DEFAULT 0 NOT NULL,
+    referenceable_id integer,
     referenceable_type character varying,
-    referenceable_id bigint,
     business_fee_in_cents integer,
     specialist_fee_in_cents integer
 );
@@ -668,11 +659,11 @@ ALTER SEQUENCE public.charges_id_seq OWNED BY public.charges.id;
 --
 
 CREATE TABLE public.compliance_categories (
-    id bigint NOT NULL,
+    id integer NOT NULL,
     name character varying,
     checkboxes text,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     description text DEFAULT ''::text,
     however text DEFAULT ''::text,
     findings_everywhere text DEFAULT ''::text
@@ -703,10 +694,10 @@ ALTER SEQUENCE public.compliance_categories_id_seq OWNED BY public.compliance_ca
 --
 
 CREATE TABLE public.compliance_policies (
-    id bigint NOT NULL,
+    id integer NOT NULL,
     name character varying,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     business_id integer,
     pdf_data jsonb,
     "position" double precision,
@@ -810,9 +801,9 @@ ALTER SEQUENCE public.compliance_policy_configurations_id_seq OWNED BY public.co
 --
 
 CREATE TABLE public.compliance_policy_docs (
-    id bigint NOT NULL,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    id integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     compliance_policy_id integer,
     doc_data jsonb,
     pdf_data jsonb
@@ -843,14 +834,14 @@ ALTER SEQUENCE public.compliance_policy_docs_id_seq OWNED BY public.compliance_p
 --
 
 CREATE TABLE public.cookie_agreements (
-    id bigint NOT NULL,
+    id integer NOT NULL,
     agreement_date timestamp without time zone,
     cookie_description character varying,
     status boolean,
     ip_address character varying,
-    user_id bigint,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    user_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -878,13 +869,13 @@ ALTER SEQUENCE public.cookie_agreements_id_seq OWNED BY public.cookie_agreements
 --
 
 CREATE TABLE public.documents (
-    id bigint NOT NULL,
+    id integer NOT NULL,
+    owner_id integer,
     owner_type character varying,
-    owner_id bigint,
-    local_project_id bigint NOT NULL,
+    local_project_id integer NOT NULL,
     file_data jsonb,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     specialist_id integer
 );
 
@@ -913,13 +904,13 @@ ALTER SEQUENCE public.documents_id_seq OWNED BY public.documents.id;
 --
 
 CREATE TABLE public.education_histories (
-    id bigint NOT NULL,
-    specialist_id bigint,
+    id integer NOT NULL,
+    specialist_id integer,
     institution character varying,
     degree character varying,
     year integer,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -947,12 +938,12 @@ ALTER SEQUENCE public.education_histories_id_seq OWNED BY public.education_histo
 --
 
 CREATE TABLE public.email_threads (
-    id bigint NOT NULL,
-    business_id bigint,
-    specialist_id bigint,
+    id integer NOT NULL,
+    business_id integer,
+    specialist_id integer,
     thread_key character varying,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -976,17 +967,120 @@ ALTER SEQUENCE public.email_threads_id_seq OWNED BY public.email_threads.id;
 
 
 --
+-- Name: exam_request_files; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.exam_request_files (
+    id bigint NOT NULL,
+    exam_request_id integer,
+    file_data jsonb,
+    name character varying,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: exam_request_files_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.exam_request_files_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: exam_request_files_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.exam_request_files_id_seq OWNED BY public.exam_request_files.id;
+
+
+--
+-- Name: exam_requests; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.exam_requests (
+    id bigint NOT NULL,
+    name character varying,
+    details text,
+    text_items jsonb,
+    complete boolean DEFAULT false,
+    shared boolean DEFAULT false,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: exam_requests_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.exam_requests_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: exam_requests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.exam_requests_id_seq OWNED BY public.exam_requests.id;
+
+
+--
+-- Name: exams; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.exams (
+    id bigint NOT NULL,
+    name character varying,
+    starts_on date,
+    ends_on date,
+    share_uuid character varying,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    business_id integer
+);
+
+
+--
+-- Name: exams_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.exams_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: exams_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.exams_id_seq OWNED BY public.exams.id;
+
+
+--
 -- Name: favorites; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.favorites (
-    id bigint NOT NULL,
+    id integer NOT NULL,
+    owner_id integer,
     owner_type character varying,
-    owner_id bigint,
+    favorited_id integer,
     favorited_type character varying,
-    favorited_id bigint,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -1014,7 +1108,7 @@ ALTER SEQUENCE public.favorites_id_seq OWNED BY public.favorites.id;
 --
 
 CREATE TABLE public.feedback_requests (
-    id bigint NOT NULL,
+    id integer NOT NULL,
     name character varying,
     email character varying,
     phone character varying,
@@ -1023,8 +1117,8 @@ CREATE TABLE public.feedback_requests (
     description text,
     ip inet,
     user_agent character varying,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -1052,12 +1146,12 @@ ALTER SEQUENCE public.feedback_requests_id_seq OWNED BY public.feedback_requests
 --
 
 CREATE TABLE public.file_docs (
-    id bigint NOT NULL,
+    id integer NOT NULL,
     business_id integer,
     file_folder_id integer,
     file_data jsonb,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     name character varying
 );
 
@@ -1086,12 +1180,12 @@ ALTER SEQUENCE public.file_docs_id_seq OWNED BY public.file_docs.id;
 --
 
 CREATE TABLE public.file_folders (
-    id bigint NOT NULL,
+    id integer NOT NULL,
     business_id integer,
     name character varying,
     parent_id integer,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     locked boolean DEFAULT false,
     zip_data jsonb
 );
@@ -1121,8 +1215,8 @@ ALTER SEQUENCE public.file_folders_id_seq OWNED BY public.file_folders.id;
 --
 
 CREATE TABLE public.projects (
-    id bigint NOT NULL,
-    business_id bigint NOT NULL,
+    id integer NOT NULL,
+    business_id integer NOT NULL,
     type character varying DEFAULT 'rfp'::character varying NOT NULL,
     status character varying DEFAULT 'draft'::character varying NOT NULL,
     title character varying NOT NULL,
@@ -1140,14 +1234,14 @@ CREATE TABLE public.projects (
     only_regulators boolean,
     annual_salary integer,
     fee_type character varying DEFAULT 'upfront_fee'::character varying,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     tsv tsvector,
     calculated_budget numeric,
     lat numeric(9,5),
     lng numeric(9,5),
     point public.geography,
-    specialist_id bigint,
+    specialist_id integer,
     job_applications_count integer DEFAULT 0 NOT NULL,
     published_at timestamp without time zone,
     completed_at timestamp without time zone,
@@ -1155,7 +1249,6 @@ CREATE TABLE public.projects (
     extended_at timestamp without time zone,
     starts_in_48 boolean DEFAULT false,
     ends_in_24 boolean DEFAULT false,
-    minimum_experience integer,
     expires_at timestamp without time zone,
     solicited_business_rating boolean DEFAULT false,
     solicited_specialist_rating boolean DEFAULT false,
@@ -1169,7 +1262,8 @@ CREATE TABLE public.projects (
     color character varying,
     local_project_id integer,
     role_details text DEFAULT ''::text,
-    upper_hourly_rate numeric
+    upper_hourly_rate numeric,
+    minimum_experience integer DEFAULT 0
 );
 
 
@@ -1608,14 +1702,14 @@ UNION
 --
 
 CREATE TABLE public.flags (
-    id bigint NOT NULL,
+    id integer NOT NULL,
+    flagged_content_id integer,
     flagged_content_type character varying,
-    flagged_content_id bigint,
+    flagger_id integer,
     flagger_type character varying,
-    flagger_id bigint,
     reason text,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -1643,13 +1737,13 @@ ALTER SEQUENCE public.flags_id_seq OWNED BY public.flags.id;
 --
 
 CREATE TABLE public.forum_answers (
-    id bigint NOT NULL,
+    id integer NOT NULL,
     user_id integer,
     body text,
     forum_question_id integer,
     reply_to integer,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     upvotes_cnt integer DEFAULT 0,
     file_data jsonb
 );
@@ -1679,13 +1773,13 @@ ALTER SEQUENCE public.forum_answers_id_seq OWNED BY public.forum_answers.id;
 --
 
 CREATE TABLE public.forum_questions (
-    id bigint NOT NULL,
+    id integer NOT NULL,
     title character varying,
     body text,
     state character varying,
     business_id integer,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     last_activity timestamp without time zone,
     url character varying
 );
@@ -1715,8 +1809,8 @@ ALTER SEQUENCE public.forum_questions_id_seq OWNED BY public.forum_questions.id;
 --
 
 CREATE TABLE public.forum_questions_industries (
-    forum_question_id bigint NOT NULL,
-    industry_id bigint NOT NULL
+    forum_question_id integer NOT NULL,
+    industry_id integer NOT NULL
 );
 
 
@@ -1725,8 +1819,8 @@ CREATE TABLE public.forum_questions_industries (
 --
 
 CREATE TABLE public.forum_questions_jurisdictions (
-    forum_question_id bigint NOT NULL,
-    jurisdiction_id bigint NOT NULL
+    forum_question_id integer NOT NULL,
+    jurisdiction_id integer NOT NULL
 );
 
 
@@ -1735,13 +1829,13 @@ CREATE TABLE public.forum_questions_jurisdictions (
 --
 
 CREATE TABLE public.forum_subscriptions (
-    id bigint NOT NULL,
-    business_id bigint,
+    id integer NOT NULL,
+    business_id integer,
     billing_type integer DEFAULT 0,
     level integer DEFAULT 0,
     suspended boolean DEFAULT false,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     fee integer DEFAULT 0,
     stripe_customer_id character varying,
     stripe_subscription_id character varying,
@@ -1775,12 +1869,12 @@ ALTER SEQUENCE public.forum_subscriptions_id_seq OWNED BY public.forum_subscript
 --
 
 CREATE TABLE public.forum_votes (
-    id bigint NOT NULL,
+    id integer NOT NULL,
     user_id integer,
     forum_answer_id integer,
     upvote boolean DEFAULT true,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -1808,10 +1902,10 @@ ALTER SEQUENCE public.forum_votes_id_seq OWNED BY public.forum_votes.id;
 --
 
 CREATE TABLE public.industries (
-    id bigint NOT NULL,
+    id integer NOT NULL,
     name character varying,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     short_name character varying,
     sub_industries text DEFAULT ''::text,
     sub_industries_specialist text DEFAULT ''::text
@@ -1842,8 +1936,8 @@ ALTER SEQUENCE public.industries_id_seq OWNED BY public.industries.id;
 --
 
 CREATE TABLE public.industries_project_templates (
-    project_template_id bigint NOT NULL,
-    industry_id bigint NOT NULL
+    project_template_id integer NOT NULL,
+    industry_id integer NOT NULL
 );
 
 
@@ -1852,8 +1946,8 @@ CREATE TABLE public.industries_project_templates (
 --
 
 CREATE TABLE public.industries_projects (
-    industry_id bigint NOT NULL,
-    project_id bigint NOT NULL
+    industry_id integer NOT NULL,
+    project_id integer NOT NULL
 );
 
 
@@ -1862,8 +1956,8 @@ CREATE TABLE public.industries_projects (
 --
 
 CREATE TABLE public.industries_specialists (
-    industry_id bigint NOT NULL,
-    specialist_id bigint NOT NULL
+    industry_id integer NOT NULL,
+    specialist_id integer NOT NULL
 );
 
 
@@ -1872,12 +1966,12 @@ CREATE TABLE public.industries_specialists (
 --
 
 CREATE TABLE public.job_applications (
-    id bigint NOT NULL,
-    specialist_id bigint,
-    project_id bigint,
+    id integer NOT NULL,
+    specialist_id integer,
+    project_id integer,
     message character varying,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     visibility character varying,
     key_deliverables character varying,
     pricing_type character varying DEFAULT 'hourly'::character varying,
@@ -1916,10 +2010,10 @@ ALTER SEQUENCE public.job_applications_id_seq OWNED BY public.job_applications.i
 --
 
 CREATE TABLE public.jurisdictions (
-    id bigint NOT NULL,
+    id integer NOT NULL,
     name character varying,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     sub_jurisdictions_specialist text DEFAULT ''::text
 );
 
@@ -1948,8 +2042,8 @@ ALTER SEQUENCE public.jurisdictions_id_seq OWNED BY public.jurisdictions.id;
 --
 
 CREATE TABLE public.jurisdictions_project_templates (
-    project_template_id bigint NOT NULL,
-    jurisdiction_id bigint NOT NULL
+    project_template_id integer NOT NULL,
+    jurisdiction_id integer NOT NULL
 );
 
 
@@ -1958,8 +2052,8 @@ CREATE TABLE public.jurisdictions_project_templates (
 --
 
 CREATE TABLE public.jurisdictions_projects (
-    jurisdiction_id bigint NOT NULL,
-    project_id bigint NOT NULL
+    jurisdiction_id integer NOT NULL,
+    project_id integer NOT NULL
 );
 
 
@@ -1968,8 +2062,8 @@ CREATE TABLE public.jurisdictions_projects (
 --
 
 CREATE TABLE public.jurisdictions_specialists (
-    jurisdiction_id bigint NOT NULL,
-    specialist_id bigint NOT NULL
+    jurisdiction_id integer NOT NULL,
+    specialist_id integer NOT NULL
 );
 
 
@@ -2044,17 +2138,17 @@ ALTER SEQUENCE public.local_projects_specialists_id_seq OWNED BY public.local_pr
 --
 
 CREATE TABLE public.messages (
-    id bigint NOT NULL,
+    id integer NOT NULL,
+    thread_id integer,
     thread_type character varying,
-    thread_id bigint,
+    sender_id integer,
     sender_type character varying,
-    sender_id bigint,
+    recipient_id integer,
     recipient_type character varying,
-    recipient_id bigint,
     message character varying,
     file_data jsonb,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     read_by_recipient boolean DEFAULT false
 );
 
@@ -2083,8 +2177,8 @@ ALTER SEQUENCE public.messages_id_seq OWNED BY public.messages.id;
 --
 
 CREATE TABLE public.specialists (
-    id bigint NOT NULL,
-    user_id bigint,
+    id integer NOT NULL,
+    user_id integer,
     first_name character varying,
     last_name character varying,
     country character varying,
@@ -2098,8 +2192,8 @@ CREATE TABLE public.specialists (
     resume_data jsonb,
     certifications character varying,
     visibility character varying DEFAULT 'public'::character varying NOT NULL,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     lat numeric(9,5),
     lng numeric(9,5),
     point public.geography,
@@ -2112,7 +2206,7 @@ CREATE TABLE public.specialists (
     address_2 character varying,
     discourse_username character varying,
     discourse_user_id integer,
-    specialist_team_id bigint,
+    specialist_team_id integer,
     rewards_tier_id integer,
     rewards_tier_override_id integer,
     hubspot_contact_id character varying,
@@ -2123,7 +2217,6 @@ CREATE TABLE public.specialists (
     specialist_other character varying,
     sub_industries character varying,
     project_types character varying,
-    experience integer,
     jurisdiction_states_usa character varying DEFAULT ''::character varying,
     jurisdiction_states_canada character varying DEFAULT ''::character varying,
     sub_jurisdictions character varying,
@@ -2136,7 +2229,8 @@ CREATE TABLE public.specialists (
     automatching_available boolean DEFAULT false,
     reminders_mailed_at timestamp without time zone,
     zero_fee boolean DEFAULT false,
-    seat_role integer DEFAULT 0
+    seat_role integer DEFAULT 0,
+    experience integer DEFAULT 0
 );
 
 
@@ -2145,7 +2239,7 @@ CREATE TABLE public.specialists (
 --
 
 CREATE TABLE public.users (
-    id bigint NOT NULL,
+    id integer NOT NULL,
     email character varying DEFAULT ''::character varying NOT NULL,
     encrypted_password character varying DEFAULT ''::character varying NOT NULL,
     reset_password_token character varying,
@@ -2160,8 +2254,8 @@ CREATE TABLE public.users (
     confirmed_at timestamp without time zone,
     confirmation_sent_at timestamp without time zone,
     unconfirmed_email character varying,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     suspended boolean DEFAULT false NOT NULL,
     suspended_at timestamp without time zone,
     tos_acceptance_date timestamp without time zone,
@@ -2280,15 +2374,15 @@ UNION
 --
 
 CREATE TABLE public.project_issues (
-    id bigint NOT NULL,
-    project_id bigint,
-    user_id bigint,
+    id integer NOT NULL,
+    project_id integer,
+    user_id integer,
     issue text,
     desired_resolution text,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     status character varying DEFAULT 'open'::character varying NOT NULL,
-    admin_user_id bigint
+    admin_user_id integer
 );
 
 
@@ -3537,16 +3631,16 @@ UNION
 --
 
 CREATE TABLE public.notifications (
-    id bigint NOT NULL,
-    user_id bigint,
+    id integer NOT NULL,
+    user_id integer,
     message character varying,
     action_path character varying,
     read_at timestamp without time zone,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     key character varying,
+    associated_id integer,
     associated_type character varying,
-    associated_id bigint,
     clear_manually boolean DEFAULT false NOT NULL,
     initiator character varying,
     img_path character varying
@@ -3577,15 +3671,15 @@ ALTER SEQUENCE public.notifications_id_seq OWNED BY public.notifications.id;
 --
 
 CREATE TABLE public.partnerships (
-    id bigint NOT NULL,
+    id integer NOT NULL,
     company character varying,
     description text,
     discount character varying,
     discount_pub character varying,
     href character varying,
     logo_data jsonb,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     category character varying
 );
 
@@ -3614,11 +3708,11 @@ ALTER SEQUENCE public.partnerships_id_seq OWNED BY public.partnerships.id;
 --
 
 CREATE TABLE public.payment_profiles (
-    id bigint NOT NULL,
-    business_id bigint,
+    id integer NOT NULL,
+    business_id integer,
     stripe_customer_id character varying,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     failed boolean DEFAULT false
 );
 
@@ -3647,16 +3741,16 @@ ALTER SEQUENCE public.payment_profiles_id_seq OWNED BY public.payment_profiles.i
 --
 
 CREATE TABLE public.payment_sources (
-    id bigint NOT NULL,
-    payment_profile_id bigint,
+    id integer NOT NULL,
+    payment_profile_id integer,
     stripe_id character varying NOT NULL,
     brand character varying NOT NULL,
     exp_month integer,
     exp_year integer,
     last4 character varying NOT NULL,
     "primary" boolean DEFAULT false NOT NULL,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     type character varying,
     country character varying,
     currency character varying,
@@ -3691,11 +3785,11 @@ ALTER SEQUENCE public.payment_sources_id_seq OWNED BY public.payment_sources.id;
 --
 
 CREATE TABLE public.ported_businesses (
-    id bigint NOT NULL,
+    id integer NOT NULL,
     company character varying,
     email character varying,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     specialist_id integer,
     status integer DEFAULT 0,
     token text,
@@ -3727,14 +3821,14 @@ ALTER SEQUENCE public.ported_businesses_id_seq OWNED BY public.ported_businesses
 --
 
 CREATE TABLE public.ported_subscriptions (
-    id bigint NOT NULL,
+    id integer NOT NULL,
     specialist_id integer,
     period integer DEFAULT 0,
     subscribed_at timestamp without time zone,
     billing_period_ends_at timestamp without time zone,
     stripe_subscription_id text,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     status integer DEFAULT 0
 );
 
@@ -3804,12 +3898,12 @@ ALTER SEQUENCE public.potential_businesses_id_seq OWNED BY public.potential_busi
 --
 
 CREATE TABLE public.project_ends (
-    id bigint NOT NULL,
-    project_id bigint,
+    id integer NOT NULL,
+    project_id integer,
     status character varying,
     expires_at timestamp without time zone,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     requester character varying
 );
 
@@ -3838,13 +3932,13 @@ ALTER SEQUENCE public.project_ends_id_seq OWNED BY public.project_ends.id;
 --
 
 CREATE TABLE public.project_extensions (
-    id bigint NOT NULL,
-    project_id bigint,
+    id integer NOT NULL,
+    project_id integer,
     ends_on date,
     expires_at timestamp without time zone,
     status character varying,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     requester character varying,
     starts_on date,
     fixed_budget numeric,
@@ -3879,14 +3973,14 @@ ALTER SEQUENCE public.project_extensions_id_seq OWNED BY public.project_extensio
 --
 
 CREATE TABLE public.project_invites (
-    id bigint NOT NULL,
-    business_id bigint NOT NULL,
-    project_id bigint,
-    specialist_id bigint NOT NULL,
+    id integer NOT NULL,
+    business_id integer NOT NULL,
+    project_id integer,
+    specialist_id integer NOT NULL,
     message character varying,
     status character varying DEFAULT 'not_sent'::character varying NOT NULL,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -3933,7 +4027,7 @@ ALTER SEQUENCE public.project_issues_id_seq OWNED BY public.project_issues.id;
 --
 
 CREATE TABLE public.project_templates (
-    id bigint NOT NULL,
+    id integer NOT NULL,
     title character varying,
     project_type character varying,
     location_type character varying,
@@ -3952,8 +4046,8 @@ CREATE TABLE public.project_templates (
     flavor character varying,
     key_deliverables character varying,
     pricing_type character varying,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     title_aum character varying,
     description_aum character varying,
     public_description text,
@@ -4007,8 +4101,8 @@ ALTER SEQUENCE public.projects_id_seq OWNED BY public.projects.id;
 --
 
 CREATE TABLE public.projects_skills (
-    project_id bigint NOT NULL,
-    skill_id bigint NOT NULL
+    project_id integer NOT NULL,
+    skill_id integer NOT NULL
 );
 
 
@@ -4017,11 +4111,11 @@ CREATE TABLE public.projects_skills (
 --
 
 CREATE TABLE public.questions (
-    id bigint NOT NULL,
-    project_id bigint NOT NULL,
+    id integer NOT NULL,
+    project_id integer NOT NULL,
     text text,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     specialist_id integer
 );
 
@@ -4050,14 +4144,14 @@ ALTER SEQUENCE public.questions_id_seq OWNED BY public.questions.id;
 --
 
 CREATE TABLE public.ratings (
-    id bigint NOT NULL,
-    project_id bigint,
+    id integer NOT NULL,
+    project_id integer,
+    rater_id integer,
     rater_type character varying,
-    rater_id bigint,
     value integer,
     review character varying,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     forum_rating boolean DEFAULT false,
     specialist_id integer
 );
@@ -4087,14 +4181,14 @@ ALTER SEQUENCE public.ratings_id_seq OWNED BY public.ratings.id;
 --
 
 CREATE TABLE public.referral_tokens (
-    id bigint NOT NULL,
+    id integer NOT NULL,
     referrals_count integer DEFAULT 0 NOT NULL,
     amount_in_cents integer NOT NULL,
     token character varying NOT NULL,
     referrer_id integer NOT NULL,
     referrer_type character varying NOT NULL,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -4122,12 +4216,12 @@ ALTER SEQUENCE public.referral_tokens_id_seq OWNED BY public.referral_tokens.id;
 --
 
 CREATE TABLE public.referrals (
-    id bigint NOT NULL,
+    id integer NOT NULL,
     referral_token_id integer NOT NULL,
     referrable_id integer NOT NULL,
     referrable_type character varying NOT NULL,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -4155,11 +4249,11 @@ ALTER SEQUENCE public.referrals_id_seq OWNED BY public.referrals.id;
 --
 
 CREATE TABLE public.regulatory_changes (
-    id bigint NOT NULL,
+    id integer NOT NULL,
     annual_report_id integer,
     change text,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -4187,12 +4281,12 @@ ALTER SEQUENCE public.regulatory_changes_id_seq OWNED BY public.regulatory_chang
 --
 
 CREATE TABLE public.reminders (
-    id bigint NOT NULL,
+    id integer NOT NULL,
     body character varying,
     remindable_id integer,
     remind_at date,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     done_at timestamp without time zone,
     end_date date,
     remindable_type character varying,
@@ -4204,7 +4298,9 @@ CREATE TABLE public.reminders (
     skip_occurencies text DEFAULT ''::text,
     done_occurencies text,
     note character varying DEFAULT ''::character varying,
-    description text DEFAULT ''::text
+    description text DEFAULT ''::text,
+    linkable_id integer,
+    linkable_type character varying
 );
 
 
@@ -4266,12 +4362,12 @@ ALTER SEQUENCE public.review_categories_id_seq OWNED BY public.review_categories
 --
 
 CREATE TABLE public.rewards_tiers (
-    id bigint NOT NULL,
+    id integer NOT NULL,
     name character varying NOT NULL,
     fee_percentage numeric(2,2) NOT NULL,
     amount int4range NOT NULL,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -4342,14 +4438,14 @@ CREATE TABLE public.schema_migrations (
 --
 
 CREATE TABLE public.seats (
-    id bigint NOT NULL,
+    id integer NOT NULL,
     business_id bigint,
     subscription_id bigint,
     team_member_id bigint,
     subscribed_at timestamp without time zone,
     assigned_at timestamp without time zone,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -4380,8 +4476,8 @@ CREATE TABLE public.settings (
     id integer NOT NULL,
     var character varying NOT NULL,
     value text,
-    target_type character varying NOT NULL,
     target_id integer NOT NULL,
+    target_type character varying NOT NULL,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
@@ -4392,7 +4488,6 @@ CREATE TABLE public.settings (
 --
 
 CREATE SEQUENCE public.settings_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -4412,10 +4507,10 @@ ALTER SEQUENCE public.settings_id_seq OWNED BY public.settings.id;
 --
 
 CREATE TABLE public.skills (
-    id bigint NOT NULL,
+    id integer NOT NULL,
     name character varying NOT NULL,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -4443,8 +4538,8 @@ ALTER SEQUENCE public.skills_id_seq OWNED BY public.skills.id;
 --
 
 CREATE TABLE public.skills_specialists (
-    skill_id bigint NOT NULL,
-    specialist_id bigint NOT NULL
+    skill_id integer NOT NULL,
+    specialist_id integer NOT NULL
 );
 
 
@@ -4453,9 +4548,9 @@ CREATE TABLE public.skills_specialists (
 --
 
 CREATE TABLE public.specialist_invitations (
-    id bigint NOT NULL,
+    id integer NOT NULL,
     specialist_team_id integer,
-    specialist_id bigint,
+    specialist_id integer,
     first_name character varying NOT NULL,
     last_name character varying,
     email character varying NOT NULL,
@@ -4490,7 +4585,7 @@ ALTER SEQUENCE public.specialist_invitations_id_seq OWNED BY public.specialist_i
 --
 
 CREATE TABLE public.specialist_payment_sources (
-    id bigint NOT NULL,
+    id integer NOT NULL,
     specialist_id integer,
     stripe_customer_id text,
     stripe_card_id text,
@@ -4499,8 +4594,8 @@ CREATE TABLE public.specialist_payment_sources (
     exp_year integer,
     last4 text,
     "primary" boolean DEFAULT false,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     validated boolean DEFAULT false,
     bank_account boolean DEFAULT false,
     country character varying,
@@ -4534,11 +4629,11 @@ ALTER SEQUENCE public.specialist_payment_sources_id_seq OWNED BY public.speciali
 --
 
 CREATE TABLE public.specialist_teams (
-    id bigint NOT NULL,
-    manager_id bigint NOT NULL,
+    id integer NOT NULL,
+    manager_id integer NOT NULL,
     name character varying NOT NULL,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -4585,8 +4680,8 @@ ALTER SEQUENCE public.specialists_id_seq OWNED BY public.specialists.id;
 --
 
 CREATE TABLE public.stripe_accounts (
-    id bigint NOT NULL,
-    specialist_id bigint,
+    id integer NOT NULL,
+    specialist_id integer,
     status character varying DEFAULT 'Pending'::character varying NOT NULL,
     city character varying,
     address1 character varying,
@@ -4600,8 +4695,8 @@ CREATE TABLE public.stripe_accounts (
     tos_acceptance_date timestamp without time zone,
     tos_acceptance_ip character varying,
     personal_id_number character varying,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     account_type character varying DEFAULT 'individual'::character varying NOT NULL,
     stripe_id character varying,
     business_name character varying,
@@ -4641,15 +4736,18 @@ ALTER SEQUENCE public.stripe_accounts_id_seq OWNED BY public.stripe_accounts.id;
 --
 
 CREATE TABLE public.subscription_charges (
-    id bigint NOT NULL,
+    id integer NOT NULL,
     stripe_charge_id character varying,
     status integer,
     plan character varying,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     stripe_subscription_id character varying,
-    forum_subscription_id bigint,
-    amount integer
+    forum_subscription_id integer,
+    amount integer,
+    chargeable_id integer,
+    chargeable_type character varying,
+    title character varying
 );
 
 
@@ -4677,13 +4775,13 @@ ALTER SEQUENCE public.subscription_charges_id_seq OWNED BY public.subscription_c
 --
 
 CREATE TABLE public.subscriptions (
-    id bigint NOT NULL,
+    id integer NOT NULL,
     business_id bigint,
     stripe_subscription_id character varying,
     stripe_invoice_item_id character varying,
     plan integer DEFAULT 0,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     kind_of integer DEFAULT 0,
     title character varying,
     billing_period_ends integer,
@@ -4719,12 +4817,12 @@ ALTER SEQUENCE public.subscriptions_id_seq OWNED BY public.subscriptions.id;
 --
 
 CREATE TABLE public.team_members (
-    id bigint NOT NULL,
+    id integer NOT NULL,
     team_id integer,
     name character varying,
     email character varying,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     title character varying,
     start_date date,
     end_date date,
@@ -4760,11 +4858,11 @@ ALTER SEQUENCE public.team_members_id_seq OWNED BY public.team_members.id;
 --
 
 CREATE TABLE public.teams (
-    id bigint NOT NULL,
+    id integer NOT NULL,
     business_id integer,
     name character varying,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     display boolean DEFAULT true
 );
 
@@ -4793,12 +4891,12 @@ ALTER SEQUENCE public.teams_id_seq OWNED BY public.teams.id;
 --
 
 CREATE TABLE public.time_logs (
-    id bigint NOT NULL,
-    timesheet_id bigint,
+    id integer NOT NULL,
+    timesheet_id integer,
     description character varying,
     hours numeric,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     hourly_rate numeric,
     total_amount numeric,
     date date
@@ -4829,11 +4927,11 @@ ALTER SEQUENCE public.time_logs_id_seq OWNED BY public.time_logs.id;
 --
 
 CREATE TABLE public.timesheets (
-    id bigint NOT NULL,
-    project_id bigint,
+    id integer NOT NULL,
+    project_id integer,
     status character varying DEFAULT 'pending'::character varying NOT NULL,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     status_changed_at timestamp without time zone,
     first_submitted_at timestamp without time zone,
     expires_at timestamp without time zone,
@@ -4865,14 +4963,14 @@ ALTER SEQUENCE public.timesheets_id_seq OWNED BY public.timesheets.id;
 --
 
 CREATE TABLE public.tos_agreements (
-    id bigint NOT NULL,
+    id integer NOT NULL,
     agreement_date timestamp without time zone,
     tos_description character varying,
     status boolean,
     ip_address character varying,
-    user_id bigint,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    user_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -4900,18 +4998,18 @@ ALTER SEQUENCE public.tos_agreements_id_seq OWNED BY public.tos_agreements.id;
 --
 
 CREATE TABLE public.transactions (
-    id bigint NOT NULL,
+    id integer NOT NULL,
     stripe_id character varying,
     type character varying,
     amount_in_cents integer,
     processed_at timestamp without time zone,
     status character varying DEFAULT 'pending'::character varying,
-    charge_source_id bigint,
-    payment_target_id bigint,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
-    project_id bigint,
-    parent_transaction_id bigint,
+    charge_source_id integer,
+    payment_target_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    project_id integer,
+    parent_transaction_id integer,
     status_detail character varying,
     fee_in_cents integer DEFAULT 0 NOT NULL,
     date timestamp without time zone,
@@ -4946,13 +5044,13 @@ ALTER SEQUENCE public.transactions_id_seq OWNED BY public.transactions.id;
 --
 
 CREATE TABLE public.turnkey_pages (
-    id bigint NOT NULL,
+    id integer NOT NULL,
     title character varying,
     url character varying,
     description text,
     cost character varying,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     header_text character varying
 );
 
@@ -4981,7 +5079,7 @@ ALTER SEQUENCE public.turnkey_pages_id_seq OWNED BY public.turnkey_pages.id;
 --
 
 CREATE TABLE public.turnkey_solutions (
-    id bigint NOT NULL,
+    id integer NOT NULL,
     title character varying,
     turnkey_page_id integer,
     range character varying,
@@ -4990,8 +5088,8 @@ CREATE TABLE public.turnkey_solutions (
     industries_enabled boolean,
     jurisdictions_enabled boolean,
     hours_enabled boolean,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     info_dot character varying,
     accounts_enabled boolean DEFAULT false
 );
@@ -5040,8 +5138,8 @@ ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 --
 
 CREATE TABLE public.work_experiences (
-    id bigint NOT NULL,
-    specialist_id bigint,
+    id integer NOT NULL,
+    specialist_id integer,
     company character varying,
     job_title character varying,
     location character varying,
@@ -5050,8 +5148,8 @@ CREATE TABLE public.work_experiences (
     current boolean DEFAULT false NOT NULL,
     compliance boolean DEFAULT false NOT NULL,
     description character varying,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -5212,6 +5310,27 @@ ALTER TABLE ONLY public.education_histories ALTER COLUMN id SET DEFAULT nextval(
 --
 
 ALTER TABLE ONLY public.email_threads ALTER COLUMN id SET DEFAULT nextval('public.email_threads_id_seq'::regclass);
+
+
+--
+-- Name: exam_request_files id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.exam_request_files ALTER COLUMN id SET DEFAULT nextval('public.exam_request_files_id_seq'::regclass);
+
+
+--
+-- Name: exam_requests id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.exam_requests ALTER COLUMN id SET DEFAULT nextval('public.exam_requests_id_seq'::regclass);
+
+
+--
+-- Name: exams id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.exams ALTER COLUMN id SET DEFAULT nextval('public.exams_id_seq'::regclass);
 
 
 --
@@ -5782,6 +5901,30 @@ ALTER TABLE ONLY public.email_threads
 
 
 --
+-- Name: exam_request_files exam_request_files_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.exam_request_files
+    ADD CONSTRAINT exam_request_files_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: exam_requests exam_requests_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.exam_requests
+    ADD CONSTRAINT exam_requests_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: exams exams_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.exams
+    ADD CONSTRAINT exams_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: favorites favorites_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -6075,14 +6218,6 @@ ALTER TABLE ONLY public.rewards_tiers
 
 ALTER TABLE ONLY public.risks
     ADD CONSTRAINT risks_pkey PRIMARY KEY (id);
-
-
---
--- Name: schema_migrations schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.schema_migrations
-    ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
 
 
 --
@@ -6813,13 +6948,6 @@ CREATE INDEX index_projects_on_hourly_rate ON public.projects USING btree (hourl
 
 
 --
--- Name: index_projects_on_minimum_experience; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_projects_on_minimum_experience ON public.projects USING btree (minimum_experience);
-
-
---
 -- Name: index_projects_on_only_regulators; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -6953,13 +7081,6 @@ CREATE INDEX index_seats_on_team_member_id ON public.seats USING btree (team_mem
 
 
 --
--- Name: index_settings_on_target_type_and_target_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_settings_on_target_type_and_target_id ON public.settings USING btree (target_type, target_id);
-
-
---
 -- Name: index_settings_on_target_type_and_target_id_and_var; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -6978,13 +7099,6 @@ CREATE UNIQUE INDEX index_skills_on_name ON public.skills USING btree (name);
 --
 
 CREATE UNIQUE INDEX index_skills_specialists_on_skill_id_and_specialist_id ON public.skills_specialists USING btree (skill_id, specialist_id);
-
-
---
--- Name: index_specialist_invitations_on_specialist_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_specialist_invitations_on_specialist_id ON public.specialist_invitations USING btree (specialist_id);
 
 
 --
@@ -7062,13 +7176,6 @@ CREATE INDEX index_specialists_on_point ON public.specialists USING gist (point)
 --
 
 CREATE INDEX index_specialists_on_ratings_average ON public.specialists USING btree (ratings_average);
-
-
---
--- Name: index_specialists_on_specialist_team_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_specialists_on_specialist_team_id ON public.specialists USING btree (specialist_team_id);
 
 
 --
@@ -7321,6 +7428,13 @@ CREATE UNIQUE INDEX industries_specialists_unique ON public.industries_specialis
 --
 
 CREATE UNIQUE INDEX jurisdictions_specialists_unique ON public.jurisdictions_specialists USING btree (jurisdiction_id, specialist_id);
+
+
+--
+-- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX unique_schema_migrations ON public.schema_migrations USING btree (version);
 
 
 --
@@ -7773,6 +7887,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200922124235'),
 ('20200923045825'),
 ('20200923060320'),
+('20200925050217'),
 ('20200929162556'),
 ('20201007134635'),
 ('20201110132337'),
@@ -7788,6 +7903,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210211201513'),
 ('20210216123812'),
 ('20210219194005'),
+('20210219221153'),
 ('20210222204415'),
 ('20210222204529'),
 ('20210226200129'),
@@ -7809,6 +7925,10 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210317135216'),
 ('20210320105303'),
 ('20210321120504'),
+('20210323154622'),
+('20210323174434'),
+('20210323180114'),
+('20210323180130'),
 ('20210326130422'),
 ('20210329160613'),
 ('20210329192005'),
@@ -7822,6 +7942,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210410142233'),
 ('20210415142648'),
 ('20210423114454'),
-('20210502165601');
+('20210502165601'),
+('20210505154804');
 
 
