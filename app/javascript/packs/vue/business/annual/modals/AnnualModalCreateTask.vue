@@ -98,6 +98,19 @@
   var year = today.getFullYear();
   const toOption = id => ({ id, label: id })
 
+  // const initialTask = defaults => ({
+  //   body: null,
+  //   link_to: null,
+  //   assignee: null,
+  //   year: year,
+  //   remind_at: null,
+  //   end_date: null,
+  //   description: '',
+  //   comment: '',
+  //   file: null,
+  //   ...(defaults || {})
+  // })
+
   export default {
     mixins: [EtaggerMixin()],
     props: {
@@ -172,7 +185,7 @@
             this.$emit('saved')
             this.toast('Success', 'The task has been saved')
             this.$bvModal.hide(this.modalId)
-            this.resetTask()
+            // this.resetTask()
           } else {
             this.toast('Error', 'Couldn\'t submit form')
           }
@@ -204,7 +217,18 @@
       },
       getDocumentUrl(document) {
         return `/uploads/${document.file_data.storage}/${document.file_data.id}`
-      }
+      },
+      // resetTask() {
+      //   if (this.taskId) {
+      //     fetch(`/api/business/reminders/${this.taskId}`, {
+      //       method: 'GET',
+      //       headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}
+      //     }).then(response => response.json())
+      //       .then(result => Object.assign(this.task, result))
+      //   } else {
+      //     this.task = initialTask(this.remindAt ? { remind_at: this.remindAt } : undefined)
+      //   }
+      // }
     },
     computed: {
       reviewsOptions () {

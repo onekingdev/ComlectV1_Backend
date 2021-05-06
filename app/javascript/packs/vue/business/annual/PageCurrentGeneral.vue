@@ -29,8 +29,10 @@
               .col-md-9.position-relative
                 .annual-actions
                   b-dropdown.bg-white(text='Actions', variant="secondary", right)
-                    b-dropdown-item Duplicate
-                    b-dropdown-item.delete Delete all categories
+                    AnnualModalEdit(:review="review" :inline="false")
+                      b-dropdown-item Edit
+                    AnnualModalDelete(@deleteConfirmed="deleteReview(review.id)" :inline="false")
+                      b-dropdown-item.delete Delete
                 .card-body.white-card-body.reviews__card.p-xl-5
                   .reviews__card--internal.p-b-1
                     h3
@@ -103,7 +105,7 @@
                                   b-dropdown(size="xs" variant="light" class="m-0 p-0" right)
                                     template(#button-content)
                                       b-icon(icon="three-dots")
-                                    b-dropdown-item Duplicate Entry
+                                    b-dropdown-item(@click="duplicateEntry(annualReviewEmployeeIndex-1)") Duplicate Entry
                                     b-dropdown-item.delete(@click="deleteEntry(annualReviewEmployeeIndex)") Delete Entry
                           b-input-group
                             b-button(variant='primary' class="btn-default" @click="addEntry")
@@ -126,6 +128,7 @@ import { mapGetters, mapActions } from "vuex"
 import { VueEditor } from "vue2-editor"
 import ReviewsList from "./components/ReviewsList"
 import AnnualModalComplite from './modals/AnnualModalComplite'
+import AnnualModalEdit from './modals/AnnualModalEdit'
 import AnnualModalDelete from './modals/AnnualModalDelete'
 import PageTasks from './PageTasks'
 import PageDocuments from './PageDocuments'
@@ -137,6 +140,7 @@ export default {
     ReviewsList,
     VueEditor,
     AnnualModalComplite,
+    AnnualModalEdit,
     AnnualModalDelete,
     PageTasks,
     PageDocuments,
@@ -243,6 +247,9 @@ export default {
         title: '',
         department: ''
       })
+    },
+    duplicateEntry(i) {
+      this.review.annual_review_employees.push({...this.review.annual_review_employees[i+1]})
     },
     deleteEntry(i) {
       this.review.annual_review_employees.splice(i, 1);
