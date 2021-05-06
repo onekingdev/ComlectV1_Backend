@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::Business::FileFoldersController < ApplicationController
+class Api::Business::FileFoldersController < ApiController
   before_action :require_business!
   before_action :set_folder, only: %i[destroy edit update show download_folder check_zip list_tree]
 
