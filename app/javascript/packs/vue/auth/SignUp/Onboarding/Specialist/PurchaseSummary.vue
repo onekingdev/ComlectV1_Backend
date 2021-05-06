@@ -9,7 +9,7 @@
         dd.col-sm-6.text-right {{ billingTypeSelected === 'annually' ?  planComputed.coastAnnuallyFormatted : planComputed.coastMonthlyFormatted }}
         <!--dt.col-sm-6 {{ additionalUsers }} Users ({{ planComputed.usersCount }} Free)-->
         <!--dd.col-sm-6.text-right {{ planComputed.additionalUserCoast }}-->
-        dt.col-sm-6.text-success {{ billingTypeSelected === 'annually' ? 'Billed Annualy' : 'Billed Monthly' }}
+        <!--dt.col-sm-6.text-success {{ billingTypeSelected === 'annually' ? 'Billed Annualy' : 'Billed Monthly' }}-->
         <!--dd.col-sm-6.text-right.text-success(v-if="billingTypeSelected === 'annually'") You saved {{ planComputed.saved }}-->
     hr(v-if="planComputed.tax")
     .card-body.py-0(v-if="planComputed.tax")
@@ -49,7 +49,7 @@
         if (planType === 'annually') {
           finalCoast = (usersCount-usersFreeCount) * usersCoastAnnually
         }
-        return `+$${finalCoast}`
+        return finalCoast !== 'FREE0' ? `+$${finalCoast}` : 'FREE'
       },
       countTotalCoast(planType, coastMonthly, coastAnnually, usersCount, usersFreeCount, usersCoastMonthly, usersCoastAnnually) {
         // console.log(planType, coastMonthly, coastAnnually, usersCount, usersCoast)
@@ -62,7 +62,7 @@
           if (usersCount > usersFreeCount)  finalUserCoast = (usersCount-usersFreeCount) * usersCoastAnnually
           finalCoast = coastAnnually + finalUserCoast
         }
-        return `$${finalCoast}`
+        return finalCoast !== 'FREE0' ? `+$${finalCoast}` : 'FREE'
       },
       complitePurchase() {
         const value = this.planComputed

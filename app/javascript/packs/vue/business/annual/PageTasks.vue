@@ -10,15 +10,9 @@
                   h2 Tasks
                   div
                     a.btn.btn-default.m-r-1 Download
-                    AnnualModalCreateTask(@saved="refetch()")
+                    AnnualModalCreateTask(@saved="createTask(i)")
                       a.btn.btn-dark Create task
               hr
-              .row
-                .col
-                  .d-flex.align-items-center
-                    ion-icon.m-r-1(name="chevron-down-outline" size="small")
-                    b-badge.m-r-1(variant="light") 0
-                    h3 Compilance Program
               .row
                 .col
                   table.table.task_table
@@ -47,7 +41,7 @@
                       tr(v-for="(task, i) in tasks" :key="i")
                         td
                           ion-icon.m-r-1.pointer(@click="toggleDone(task)" v-bind:class="{ done_task: task.done_at }" name='checkmark-circle-outline')
-                          TaskFormModal(:task-id="task.taskId" :occurence-id="task.oid" @saved="$emit('saved')") {{ task.body }}
+                          TaskFormModal(:task-id="task.id" :occurence-id="task.oid" @saved="$emit('saved')") {{ task.body }}
                         td {{ task.assignee }}
                         td.text-right(:class="{ overdue: isOverdue(task) }") {{ task.remind_at }}
                         td.text-right(:class="{ overdue: isOverdue(task) }") {{ task.end_date }}
@@ -73,9 +67,6 @@
   const overdueEndpointUrl = '/api/business/overdue_reminders'
 
   export default {
-    props: {
-      etag: Number
-    },
     components: {
       TaskFormModal,
       AnnualModalCreateTask
@@ -146,12 +137,5 @@
           }))
       }
     },
-    watch: {
-      etag: {
-        handler: function(newVal, outline) {
-          this.refetch()
-        }
-      }
-    }
   }
 </script>
