@@ -11,7 +11,7 @@
               h2: b {{ review ? review.year : '' }} {{ review ? review.name : '' }}
             div
               button.btn.btn-default.mr-3 Download
-              button.btn.btn-dark.mr-3 Save and Exit
+              button.btn.btn-dark.mr-3(@click="saveGeneral(true)") Save and Exit
               AnnualModalDelete(@deleteConfirmed="deleteReview(review.id)")
                 button.btn.btn__close
                   b-icon(icon="x")
@@ -174,7 +174,7 @@ export default {
       updateAnnual: 'annual/updateReview',
       getCurrentReviewReview: 'annual/getCurrentReview'
     }),
-    async saveGeneral () {
+    async saveGeneral (exit) {
       this.errors = {}
 
       const review = this.review
@@ -202,6 +202,12 @@ export default {
 
             if (!response.errors) {
               this.makeToast('Success', "Saved changes to annual review.")
+
+              if(exit) {
+                setTimeout(() => {
+                  window.location.href = `${window.location.origin}/business/annual_reviews`
+                }, 3000)
+              }
             }
           })
           .catch((error) => console.error(error))
