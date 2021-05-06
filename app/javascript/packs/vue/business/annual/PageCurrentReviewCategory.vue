@@ -98,7 +98,7 @@ import { mapGetters, mapActions } from "vuex"
 import { VueEditor } from "vue2-editor"
 import ReviewsList from "./components/ReviewsList";
 import AnnualModalComplite from './modals/AnnualModalComplite'
-import AnnualModalEdit from './modals/AnnualModalDelete'
+import AnnualModalEdit from './modals/AnnualModalEdit'
 import AnnualModalDelete from './modals/AnnualModalDelete'
 import AnnualModalDeleteCategory from './modals/AnnualModalDeleteCategory'
 import AnnualModalCreateTask from './modals/AnnualModalCreateTask'
