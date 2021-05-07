@@ -23,7 +23,7 @@ class Api::Business::FileFoldersController < ApiController
 
   def destroy
     @file_folder.destroy unless @file_folder.locked?
-    if @file_folder.persisted
+    if @file_folder.persisted?
       respond_with errors: @file_folder.errors, status: :unprocessable_entity
     else
       respond_with message: 'Deleted ok', status: :ok
