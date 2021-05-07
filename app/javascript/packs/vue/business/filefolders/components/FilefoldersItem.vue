@@ -14,6 +14,8 @@
         b-dropdown(size="sm" variant="light" class="m-0 p-0" right)
           template(#button-content)
             b-icon(icon="three-dots")
+          FoldersModalEdit(@editConfirmed="moveToFileFolder", :item="item", :inline="false")
+            b-dropdown-item Edit
           b-dropdown-item(@click="downloadFileFolder(item.id)") Download
           FoldersModalMoveTo(@moveToConfirmed="moveToFileFolder", :itemId="item.id", :inline="false")
             b-dropdown-item Move to
@@ -25,6 +27,7 @@
 import { mapGetters, mapActions, mapMutations } from "vuex"
 import { DateTime } from 'luxon'
 import FoldersModalMoveTo from '../modals/FoldersModalMoveTo'
+import FoldersModalEdit from '../modals/FoldersModalEdit'
 import FilefoldersModalDelete from '../modals/FilefoldersModalDelete'
 
 export default {
@@ -32,6 +35,7 @@ export default {
   props: ['item', 'itemType'],
   components: {
     FoldersModalMoveTo,
+    FoldersModalEdit,
     FilefoldersModalDelete
   },
   methods: {

@@ -4,7 +4,7 @@
       tr
         th(width="40%")
           | Name
-        th(@click="sortSelect('progress', 'number')").text-right
+        th(@click="sortSelect('progress', 'number')" width="25%").text-right
           | Owner
           b-icon.ml-2(icon='chevron-expand')
         th(@click="sortSelect('findings', 'number')").text-right
