@@ -25,6 +25,7 @@ import ModelLoader from '@/common/rest/ModelLoader'
 import filters from '@/filters'
 import { extractToastMessage } from '@/common/Toast'
 import ToasterMixin from '@/mixins/ToasterMixin'
+import RedirectMixin from '@/mixins/RedirectMixin'
 
 const data = () => ({
   isProfileMenuOpen: false
@@ -35,6 +36,7 @@ const init = configuration => {
   Vue.use(IconsPlugin)
 
   Vue.mixin(ToasterMixin)
+  Vue.mixin(RedirectMixin)
 
   Vue.config.productionTip = false
   Vue.config.ignoredElements = ['ion-icon']
@@ -65,7 +67,7 @@ const init = configuration => {
 
   return new Vue({
     el: document.getElementById('app'),
-    mixins: [ToasterMixin],
+    mixins: [ToasterMixin, RedirectMixin],
     ...(configuration || {}),
     data,
     created() {
