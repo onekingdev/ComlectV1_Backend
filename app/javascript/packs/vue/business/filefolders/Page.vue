@@ -6,7 +6,10 @@
           div
             h2 {{ pageTitle }}
           div
-            a.btn.btn-default(href='#') Download ZIP
+            button.btn.btn-default(@click="zipping" :disabled="disabled")
+              b-icon.m-r-1(v-if="disabled" icon="arrow-counterclockwise" animation="spin-reverse-pulse" font-scale="1")
+              b-icon.m-r-1(v-else icon="file-zip" font-scale="1")
+              | Download ZIP
     .container-fluid.p-x-0
       .row
         .col-12.px-0
@@ -34,7 +37,7 @@
 </template>
 
 <script>
-  import { mapGetters } from "vuex"
+  import { mapActions, mapGetters } from "vuex"
   import Loading from '@/common/Loading/Loading'
   import FoldersModalCreate from './modals/FoldersModalCreate'
   import FilefoldersTable from './components/FilefoldersTable'
@@ -50,12 +53,17 @@
         pageTitle: "Books and Records",
         file: null,
         inputFile: null,
+        disabled: false,
+        zipStatus: false
       };
     },
     created() {
 
     },
     methods: {
+      ...mapActions({
+        startZipping: 'filefolders/startZipping',
+      }),
       makeToast(title, str) {
         this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
       },
@@ -98,6 +106,39 @@
             console.error(error)
             this.makeToast('Error', `Something wrong! ${error}`)
           })
+      },
+      async zipping() {
+        try {
+          console.log('zipping')
+          this.disabled = true
+          await this.$store.dispatch('filefolders/startZipping')
+            .then(response => console.log(response))
+            .catch(error => console.error(response))
+            .finally(() => this.zippinTimerChecker())
+        } catch (error) {
+          this.makeToast('Error', error.message)
+        }
+      },
+      async zippinTimerChecker(){
+        try {
+          console.log('zipping')
+          this.disabled = true
+          await this.$store.dispatch('filefolders/checkZipping')
+            .then(response => {
+              console.log(response)
+              this.zipStatus = true
+            })
+            .catch(error => console.error(response))
+            .finally(() => {
+              if(!this.zipStatus) {
+                setTimeout(() => {
+                  this.zippinTimerChecker()
+                }, 3000)
+              }
+            })
+        } catch (error) {
+          this.makeToast('Error', error.message)
+        }
       }
     },
     computed: {

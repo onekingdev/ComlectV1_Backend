@@ -156,6 +156,36 @@ export default {
         commit("setLoading", false, { root: true })
       }
     },
+    async startZipping({ commit, getters }) {
+      commit("clearError", null, { root: true });
+      // commit("setLoading", true, { root: true });
+      try {
+        console.log(commit, getters)
+        const response = await axios.get(`/file_folders/${getters.currentFolder}/download_folder`)
+        return response.data
+      } catch (error) {
+        commit("setError", error.message, { root: true });
+        // commit("setLoading", false, { root: true });
+        throw error;
+      } finally {
+        // commit("setLoading", false, { root: true })
+      }
+    },
+    async checkZipping({ commit, getters }) {
+      commit("clearError", null, { root: true });
+      // commit("setLoading", true, { root: true });
+      try {
+        console.log(commit, getters)
+        const response = await axios.get(`/file_folders/${getters.currentFolder}/check_zip`)
+        return response.data
+      } catch (error) {
+        commit("setError", error.message, { root: true });
+        // commit("setLoading", false, { root: true });
+        throw error;
+      } finally {
+        // commit("setLoading", false, { root: true })
+      }
+    },
   },
   getters: {
     filefolders: state => state.filefolders,
