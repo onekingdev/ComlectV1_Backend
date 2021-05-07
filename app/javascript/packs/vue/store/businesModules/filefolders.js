@@ -13,8 +13,11 @@ export default {
     SET_FILEFOLDERS (state, payload) {
       state.filefolders = payload
     },
-    SET_SUBFOLDER (state, payload) {
+    SET_FOLDER (state, payload) {
       state.filefolders.folders.push(payload)
+    },
+    SET_NEW_FILE (state, payload) {
+      state.filefolders.files.push(payload)
     },
     UPDATE_FILEFOLDERS (state, payload) {
       const index = state.filefolders.findIndex(record => record.id === payload.id);
@@ -30,8 +33,9 @@ export default {
       state.currentFolder = payload
     },
     DELETE_FILEFOLDERS (state, payload) {
-      const index = state.filefolders.findIndex(record => record.id === payload.id);
-      state.filefolders.splice(index, 1)
+      const type = payload.itemType === 'folder' ? 'folders' : 'files';
+      const index = state.filefolders[type].findIndex(record => record.id === payload.data.id);
+      state.filefolders[type].splice(index, 1)
     },
   },
   actions: {
@@ -41,11 +45,7 @@ export default {
       try {
         const response = await axios.post(`/business/file_folders`, payload)
         console.log(response.data)
-        if (response.data && !payload.parent_id) commit('SET_NEW_FILEFOLDERS', new FileFolders(
-          response.data.files,
-          response.data.folders,
-        ))
-        if (response.data && response.data.parent_id) commit('SET_SUBFOLDER', response.data)
+        if (response.data) commit('SET_FOLDER', response.data)
         return response.data
       } catch (error) {
         commit("setError", error.message, { root: true });
@@ -75,13 +75,15 @@ export default {
         commit("setLoading", false, { root: true })
       }
     },
-    async deleteFolder({ commit }, payload) {
+    async deleteFileFolder({ commit }, payload) {
       commit("clearError", null, { root: true });
       commit("setLoading", true, { root: true });
       try {
-        const response = await axios.delete(`/business/file_folders/${payload.id}`)
+        const { id, itemType  } = payload
+        const endpoint = itemType === 'folder' ? 'file_folders' : 'file_docs'
+        const response = await axios.delete(`/business/${endpoint}/${id}`)
         console.log(response.data)
-        if (response.data) commit('DELETE_FILEFOLDERS', response.data )
+        if (response.data) commit('DELETE_FILEFOLDERS', { itemType, data: response.data } )
         return response.data
       } catch (error) {
         commit("setError", error.message, { root: true });
@@ -96,16 +98,13 @@ export default {
       commit("setLoading", true, { root: true });
       try {
         const config = {
+          timeout: 5000,
           headers: {
             'Content-Type': 'multipart/form-data'
           }
         };
         const response = await axios.post(`/business/file_docs`, payload, config)
-        console.log(response.data)
-        if (response.data) commit('SET_FILEFOLDERS', new FileFolders(
-          response.data.files,
-          response.data.folders,
-        ))
+        if (response.data) commit('SET_NEW_FILE', response.data)
         return response.data
       } catch (error) {
         commit("setError", error.message, { root: true });

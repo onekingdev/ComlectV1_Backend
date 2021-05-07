@@ -7,7 +7,7 @@
       .row
         .col-12.m-b-2
           label.form-label Name
-          input.form-control(v-model="file_folder.name" type="text" placeholder="Enter the name of your folder" ref="input")
+          input.form-control(v-model="file_folder.name" type="text" placeholder="Enter the name of your folder" ref="input" v-on:keyup.enter="submit")
           Errors(:errors="errors.name")
 
       template(slot="modal-footer")
@@ -75,6 +75,7 @@
           this.makeToast('Success', `Folder successfully created!`)
           this.$emit('saved')
           this.$bvModal.hide(this.modalId)
+          this.file_folder.name = ''
         } catch (error) {
           this.makeToast('Error', error.message)
         }

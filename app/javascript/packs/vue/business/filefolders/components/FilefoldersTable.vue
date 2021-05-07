@@ -16,8 +16,8 @@
         th
 
     tbody
-      FilefoldersItem(v-if="filefolders.folders" v-for="item in filefolders.folders" :key="item.id" :item="item" :itemType="'folder'")
-      FilefoldersItem(v-if="filefolders.files" v-for="item in filefolders.files" :key="item.id" :item="item" :itemType="'file'")
+      FilefoldersItem(v-if="filefolders.folders" v-for="item in filefolders.folders" :key="'folder-'+item.id" :item="item" :itemType="'folder'")
+      FilefoldersItem(v-if="filefolders.files" v-for="item in filefolders.files" :key="'file-'+item.id" :item="item" :itemType="'file'")
 </template>
 
 <script>

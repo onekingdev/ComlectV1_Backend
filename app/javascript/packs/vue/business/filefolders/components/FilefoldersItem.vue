@@ -1,11 +1,13 @@
 <template lang="pug">
   tr
     td
-      a.link.d-flex.align-items-center(:href='"/business/file_folders/" + item.id' @click="openFolder($event, item.id)")
+      a.link.d-flex.align-items-center(:href="itemType === 'file' ? item.file_addr : '#'" :target="itemType === 'file' ? '_blank' : '_self'" @click="openFolder($event, item.id, item.file_addr)")
         ion-icon.m-r-1(:name="itemType === 'folder' ? 'folder-outline' : 'document-outline'" size="small")
         | {{ item.name }}
-    td.text-right owner
-    td.text-right 0
+    td.text-right {{ item.owner }}
+    td.text-right
+      div(v-if="itemType === 'folder'") -
+      div(v-else) {{ item.size ? item.size : 0}}
     td.text-right {{ dateToHuman(item.updated_at) }}
     td.text-right
       .actions
@@ -13,9 +15,9 @@
           template(#button-content)
             b-icon(icon="three-dots")
           b-dropdown-item(@click="downloadFileFolder(item.id)") Download
-          FoldersModalMoveTo(@moveToConfirmed="moveToFileFolder(item.id)", :itemId="item.id", :inline="false")
+          FoldersModalMoveTo(@moveToConfirmed="moveToFileFolder", :itemId="item.id", :inline="false")
             b-dropdown-item Move to
-          FilefoldersModalDelete(@deleteConfirmed="deleteFileFolder(item.id)", :inline="false")
+          FilefoldersModalDelete(@deleteConfirmed="deleteFileFolder(item.id, itemType)" :inline="false")
             b-dropdown-item.delete Delete
 </template>
 
@@ -37,7 +39,9 @@ export default {
       setCurrentReviewFolder: 'filefolders/SET_CUREENT_FOLDER'
     }),
     ...mapActions({
+      getFileFolders: 'filefolders/getFileFolders',
       getCurrentReviewFileFoldersById: 'filefolders/getFileFoldersById',
+      deleteFileFolder: 'filefolders/deleteFileFolder',
     }),
     dateToHuman(value) {
       const date = DateTime.fromJSDate(new Date(value))
@@ -48,7 +52,9 @@ export default {
         return value
       }
     },
-    openFolder(e, folderId) {
+    openFolder(e, folderId, fileAddr) {
+      if (fileAddr) return
+
       e.preventDefault()
       console.log('folderId', folderId)
 
@@ -60,17 +66,15 @@ export default {
     },
     downloadFileFolder(filefolderId){
       this.$store.dispatch('annual/duplicateReview', { id: filefolderId })
-        .then(response => this.toast('Success', `The annual review has been duplicated! ${response.id}`))
+        .then(response => this.toast('Success', ` ${response.message}`))
         .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
     },
-    moveToFileFolder(filefolderId){
-      // this.$store.dispatch('annual/duplicateReview', { id: filefolderId })
-      //   .then(response => this.toast('Success', `The annual review has been duplicated! ${response.id}`))
-      //   .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
+    async moveToFileFolder(){
+      await this.getFileFolders
     },
-    deleteFileFolder(filefolderId){
-      this.$store.dispatch('filefolders/deleteFolder', { id: filefolderId })
-        .then(response => this.toast('Success', `The annual review has been deleted! ${response.id}`))
+    deleteFileFolder(filefolderId, itemType){
+      this.$store.dispatch('filefolders/deleteFileFolder', { id: filefolderId, itemType })
+        .then(response => this.toast('Success', `${response.message}`))
         .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
     }
   }

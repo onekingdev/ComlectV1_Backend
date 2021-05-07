@@ -15,23 +15,21 @@
               .row.m-b-1
                 .col-12
                   h4.m-b-1 All Documents
-                  label.btn.btn-dark.btn-file.m-r-1
-                    | Upload
-                    input(type='file' style='display: none;')
-                  <!--b-button.m-r-1(variant="dark" @click="uploadFile") Upload-->
-                  <!--b-form-file(v-model="file" ref="inputFile" class="mt-3" plain variant="dark" @change="onFileChange")-->
+                    <!--span.separator(v-if="pageFolderName") &nbsp/&nbsp;-->
+                    <!--span(v-if="pageFolderName") {{ pageFolderName }}-->
+                  input(ref="inputFile" type="file" hidden @change="uploadFile")
+                  b-button.m-r-1(variant="dark" @click="selectFile") Upload
                   FoldersModalCreate
                     b-button(variant="light") New Folder
               .row
                 .col-12
                   Loading
-                  FilefoldersTable(v-if="!loading && filefolders" :filefolders="filefolders")
+                  FilefoldersTable(v-if="!loading && filefolders.files && filefolders.folders" :filefolders="filefolders")
                   table.table.reviews-table(v-if="!filefolders.files && !filefolders.folders && !loading")
                     tbody
                       tr
                         td.text-center
                           h3 Documents not exist
-                  <!--pre {{ filefolders }}-->
 
 </template>
 
@@ -61,28 +59,36 @@
       makeToast(title, str) {
         this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
       },
-      onFileChange(){
+      selectFile() {
+        let fileInputElement = this.$refs.inputFile;
+        fileInputElement.click();
+
+        // Do something with chosen file
         this.file = this.$refs.inputFile.files[0];
       },
       uploadFile(){
+        this.file = this.$refs.inputFile.files[0];
+
         const params = {
           file_doc: {
-            file_folder_id: 1,
+            // file_folder_id: this.parentFolderId,
             file: this.file,
             name: this.file.name
           }
         }
 
+        if (this.parentFolderId) params.file_doc.file_folder_id = this.parentFolderId
+
         let formData = new FormData()
         Object.keys(params.file_doc)
           .map(specAttr => formData.append(`file_doc[${specAttr}]`, params.file_doc[specAttr]))
 
-        console.log('formData', formData)
+        // console.log('formData', formData)
 
         this.$store
           .dispatch('filefolders/uploadFile', formData)
           .then(response => {
-            console.log('response', response)
+            // console.log('response', response)
 
             if(!response.errors) {
               this.makeToast('Success', `File successfully sended!`)
@@ -101,7 +107,14 @@
       ...mapGetters({
         filefolders: 'filefolders/filefolders',
         currentFileFolders: 'filefolders/currentFileFolders',
-      })
+        parentFolderId: 'filefolders/currentFolder'
+      }),
+      pageFolderName() {
+        if (!this.parentFolderId) return ''
+        return this.filefolders.folders.find(folder => {
+          if (folder.id === this.parentFolderId) return folder.name
+        })
+      }
     },
     async mounted () {
       try {
@@ -115,4 +128,10 @@
 
 <style>
   @import "./styles.css";
+</style>
+
+<style scoped>
+  .separator {
+    color: #ffc107;
+  }
 </style>
