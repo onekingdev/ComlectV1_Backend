@@ -156,6 +156,20 @@ export default {
         commit("setLoading", false, { root: true })
       }
     },
+    async getFileFoldersListTree({ commit }, payload) {
+      commit("clearError", null, { root: true });
+      // commit("setLoading", true, { root: true });
+      try {
+        const response = await axios.get(`/business/file_folders/${payload}/list_tree`)
+        return response.data
+      } catch (error) {
+        commit("setError", error.message, { root: true });
+        // commit("setLoading", false, { root: true });
+        throw error;
+      } finally {
+        // commit("setLoading", false, { root: true })
+      }
+    },
     async startZipping({ commit, getters }) {
       commit("clearError", null, { root: true });
       // commit("setLoading", true, { root: true });

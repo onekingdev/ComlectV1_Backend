@@ -3,11 +3,12 @@
     div(v-b-modal="modalId" :class="{'d-inline-block':inline}")
       slot
 
-    b-modal.fade(:id="modalId" title="Move To")
+    b-modal.fade(:id="modalId" title="Move To" @shown="getData")
       .row
         .col-12.m-b-2
           label.form-label Destination
-          b-form-select(v-model="file_folder.destination" :errors="errors.destination" :options="destinationOptions")
+          <!--ComboBox(v-model="file_folder.destination" :options="treeList" placeholder="Select target destination")-->
+          b-form-select(v-model="file_folder.destination" :errors="errors.destination" :options="treeList")
           Errors(:errors="errors.name")
 
       template(slot="modal-footer")
@@ -18,8 +19,10 @@
 <script>
   import { mapGetters } from "vuex"
   import Errors from '@/common/Errors'
+  import ComboBox from '@/common/ComboBox'
 
   const rnd = () => Math.random().toFixed(10).toString().replace('.', '')
+  const toOption = id => ({ id, label: id })
 
   export default {
     props: {
@@ -34,6 +37,7 @@
     },
     components: {
       Errors,
+      ComboBox
     },
     data() {
       return {
@@ -41,6 +45,7 @@
         file_folder: {
           destination: null,
         },
+        treeList: null,
         errors: []
       }
     },
@@ -52,7 +57,15 @@
         return this.filefolders.folders.map(folder => {
           return { value: folder.id, text: folder.name }
         })
-      }
+      },
+      linkToOptions() {
+
+        return [
+                {...toOption('Projects'), children: ['Some project', 'Another', 'One'].map(toOption)},
+                {...toOption('Annual Reviews'), children: ['Annual Review 2018', 'Annual Review 1337', 'Some Review'].map(toOption)},
+                {...toOption('Policies'), children: ['Pol', 'Icy', 'Policy 3'].map(toOption)}
+               ]
+      },
     },
     methods: {
       makeToast(title, str) {
@@ -87,6 +100,65 @@
           this.makeToast('Error', error.message)
         }
       },
+      getData() {
+        this.$store.dispatch('filefolders/getFileFoldersListTree', this.itemId)
+          .then(response => {
+            console.log(response)
+            this.treeList = response.map(folder => {
+              return { value: folder[1], text: folder[0] }
+            })
+
+            // let objectOption = {}
+            // let objectOptionArr = []
+            //
+            // for(const [ name, id ] of this.treeList) {
+            //   console.log(name, id)
+            //
+            //   if (name.match(/ - /)) {
+            //     for (const prop of Object.getOwnPropertyNames(objectOption)) {
+            //       delete objectOption[prop];
+            //     }
+            //     objectOptionArr = []
+            //     objectOption = { ...{ id, label: name.slice(3) } , children: [] }
+            //   }
+            //   if (name.match(/ -- /)) {
+            //     objectOptionArr.push({ id, label: name.slice(3)})
+            //     objectOption = Object.assign(objectOption, {children: objectOptionArr} )
+            //   }
+            // }
+            //
+            // console.log('objectOption')
+            // console.log(objectOption)
+            //
+            // return
+            //
+            //
+            // const treeListOptions = this.treeList.map(node => {
+            //   const [ name, id ] = node;
+            //   console.log(name, id)
+            //   console.log('reg:' + name + '-result:', name.match(/ - /))
+            //   console.log('reg:' + name + '-result2:', name.match(/ -- /))
+            //
+            //   let objectOption = {}
+            //   let objectOptionArr = []
+            //
+            //   if (name.match(/ - /)) {
+            //     objectOption = { ...{ id, label: name.slice(3) } , children: [] }
+            //   }
+            //   if (name.match(/ -- /)) {
+            //     objectOptionArr.push({ id, label: name.slice(3)})
+            //     objectOption = Object.assign(objectOption, {children: objectOptionArr} )
+            //   }
+            //
+            //   console.log('objectOption')
+            //   console.log(objectOption)
+            //   if (objectOption) return objectOption
+            // })
+            //
+            // this.treeList = treeListOptions
+          })
+          .catch(error => console.error(error))
+      }
     },
   }
 </script>
