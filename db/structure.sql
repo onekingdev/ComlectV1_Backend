@@ -1219,10 +1219,10 @@ CREATE TABLE public.projects (
     business_id integer NOT NULL,
     type character varying DEFAULT 'rfp'::character varying NOT NULL,
     status character varying DEFAULT 'draft'::character varying NOT NULL,
-    title character varying NOT NULL,
+    title character varying,
     location_type character varying,
     location character varying,
-    description character varying NOT NULL,
+    description character varying,
     key_deliverables character varying,
     starts_on date,
     ends_on date,
@@ -7943,6 +7943,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210415142648'),
 ('20210423114454'),
 ('20210502165601'),
-('20210505154804');
+('20210505154804'),
+('20210508134939');
 
 

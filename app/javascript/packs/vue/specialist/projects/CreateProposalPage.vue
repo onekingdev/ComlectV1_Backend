@@ -30,7 +30,7 @@
                   | Drop files here or
                   a.btn.btn-light Upload Files
             .text-right
-              a.m-r-1.btn Cancel
+              a.m-r-1.btn(@click="back") Cancel
               a.m-r-1.btn.btn-default Save Draft
               Post(:action="`/api/specialist/projects/${projectId}/applications`" :model="form" @errors="errors = $event" @saved="saved")
                 button.btn.btn-dark Submit Proposal
