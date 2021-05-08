@@ -54,7 +54,8 @@
         file: null,
         inputFile: null,
         disabled: false,
-        zipStatus: false
+        zipStatus: false,
+        zipCounter: 0,
       };
     },
     created() {
@@ -112,9 +113,12 @@
           console.log('zipping')
           this.disabled = true
           await this.$store.dispatch('filefolders/startZipping')
-            .then(response => console.log(response))
+            .then(response => {
+              console.log(response)
+              this.zippinTimerChecker()
+            })
             .catch(error => console.error(response))
-            .finally(() => this.zippinTimerChecker())
+            // .finally(() => this.zippinTimerChecker()) // FOR TESTS
         } catch (error) {
           this.makeToast('Error', error.message)
         }
@@ -127,13 +131,21 @@
             .then(response => {
               console.log(response)
               this.zipStatus = true
+              this.zipCounter = 11
             })
             .catch(error => console.error(response))
             .finally(() => {
-              if(!this.zipStatus) {
-                setTimeout(() => {
-                  this.zippinTimerChecker()
-                }, 3000)
+              // If automatic requests less or equal 10
+              if (this.zipCounter <= 10) {
+                if(!this.zipStatus) {
+                  setTimeout(() => {
+                    this.zippinTimerChecker()
+                    this.zipCounter++
+                  }, 5000)
+                }
+              } else {
+                this.disabled = false
+                this.makeToast('Error', 'Requests for checking is too much!')
               }
             })
         } catch (error) {
