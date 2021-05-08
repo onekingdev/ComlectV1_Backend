@@ -1,14 +1,14 @@
 <template lang="pug">
   tr
-    td
+    td.align-middle
       a.link.d-flex.align-items-center(:href="itemType === 'file' ? item.file_addr : '#'" :target="itemType === 'file' ? '_blank' : '_self'" @click="openFolder($event, item.id, item.file_addr)")
         ion-icon.m-r-1(:name="itemType === 'folder' ? 'folder-outline' : 'document-outline'" size="small")
         | {{ item.name }}
-    td.text-right {{ item.owner }}
-    td.text-right
+    td.align-middle.text-right {{ item.owner }}
+    td.align-middle.text-right
       div(v-if="itemType === 'folder'") -
       div(v-else) {{ item.size ? item.size : 0}}
-    td.text-right {{ dateToHuman(item.updated_at) }}
+    td.align-middle.text-right {{ dateToHuman(item.updated_at) }}
     td.text-right
       .actions
         b-dropdown(size="sm" variant="light" class="m-0 p-0" right)
@@ -86,5 +86,7 @@ export default {
 </script>
 
 <style scoped>
-
+  ion-icon {
+    color: #565759;
+  }
 </style>
