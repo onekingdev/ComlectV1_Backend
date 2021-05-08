@@ -201,6 +201,9 @@ export default {
       const redirectUrl = `/business/projects/${this.project.local_project_id || ''}`
       redirectWithToast(redirectUrl, 'The project has been saved')
     },
+    back() {
+      window.history.back()
+    },
     getSkillOptions(skills) {
       return skills.map(({ name }) => ({ id: name, label: name }))
     }

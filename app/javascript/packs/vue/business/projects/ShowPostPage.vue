@@ -57,10 +57,7 @@
             .card
               .card-header: h3 Applicants
               .card-body: Get(:applications="applicationsUrl"): template(v-slot="{applications}")
-                p(v-if="!applications.length")
-                  | No Applicants to Display
-                  br
-                  img(src='@/assets/no-applicants.svg' style="width: 100%; max-width: 300px")
+                p(v-if="!applications.length") No applicants
                 table.table(v-else)
                   thead
                     tr
