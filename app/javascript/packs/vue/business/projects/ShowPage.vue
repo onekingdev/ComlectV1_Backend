@@ -1,7 +1,7 @@
 <template lang="pug">
   Get(:etag="etag" :project="`/api/business/local_projects/${projectId}`"): template(v-slot="{project}")
     CommonHeader(:title="project.title" :sub="currentBusiness" :breadcrumbs="['Projects', project.title]")
-      p.text-right.m-b-2: b-form-checkbox Show on Calendar
+      p.text-right.m-b-2: ShowOnCalendarToggle(:project="project")
       b-dropdown.m-r-1(text='Actions' variant='default')
         li: LocalProjectModal(@saved="newEtag" :project-id="project.id" :inline="false")
           button.dropdown-item Edit
@@ -92,6 +92,7 @@ import LocalProjectModal from './LocalProjectModal'
 import CompleteLocalProjectModal from './CompleteLocalProjectModal'
 import DeleteLocalProjectModal from './DeleteLocalProjectModal'
 import EndContractModal from './EndContractModal'
+import ShowOnCalendarToggle from './ShowOnCalendarToggle'
 import ChangeContractAlerts from '@/common/projects/ChangeContractAlerts'
 import EditContractModal from '@/common/projects/EditContractModal'
 import IssueModal from './IssueModal'
@@ -155,6 +156,7 @@ export default {
     EndContractNotice,
     EndContractModal,
     ProjectDetails,
+    ShowOnCalendarToggle,
     DocumentList,
     EditContractModal,
     IssueModal
