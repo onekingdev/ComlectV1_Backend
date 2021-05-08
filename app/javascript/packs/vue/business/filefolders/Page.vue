@@ -109,6 +109,8 @@
           })
       },
       async zipping() {
+        if (!this.parentFolderId) return
+
         try {
           console.log('zipping')
           this.disabled = true
