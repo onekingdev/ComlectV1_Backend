@@ -35,7 +35,7 @@
 
 <script>
 import Calendar from './Calendar'
-import ProjectTable from '@/common/ProjectTable'
+import ProjectTable from '../projects/ProjectTable'
 import RecentActivity from './RecentActivity'
 import AddonNotifications from './AddonNotifications'
 import UpcomingTasks from '@/business/dashboard/UpcomingTasks'
