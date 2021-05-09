@@ -67,6 +67,12 @@ const init = configuration => {
   Vue.component('Delete', Delete)
   Vue.component('ModelLoader', ModelLoader)
 
+  Vue.directive('google-maps-autocomplete', {
+    inserted(el) {
+      new google.maps.places.Autocomplete(el)
+    }
+  })
+
   return new Vue({
     el: document.getElementById('app'),
     mixins: [ToasterMixin, RedirectMixin, HistoryMixin],

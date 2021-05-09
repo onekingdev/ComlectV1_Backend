@@ -17,7 +17,10 @@
         .form-text.text-muted Project post information for the specialist
 
         InputSelect.m-t-1(v-model="project.location_type" :errors="errors.location_type" :options="locationTypes") Location Type
-        InputText.m-t-1(v-model="project.location" v-if="isLocationVisible" :errors="errors.location") Location
+        div.m-t-1(v-if="isLocationVisible")
+          label.form-label Location
+          input.form-control(v-model="project.location" type="text" v-google-maps-autocomplete)
+          Errors(:errors="errors.location")
 
         label.m-t-1.form-label Industry
         ComboBox(v-model="project.industry_ids" :options="industryIdsOptions" :multiple="true")
