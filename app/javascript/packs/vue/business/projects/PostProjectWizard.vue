@@ -67,7 +67,8 @@
       .col-md-6.text-right.m-t-1
         button.btn.btn-outline-dark.float-left(v-if="prevEnabled" @click="prev") Previous
         button.btn.m-r-1(@click="back") Exit
-        Post(v-if="saveDraftEnabled" :action="endpointUrl" :model="draftProject" :method="method" @saved="saved" @errors="errors = $event")
+        button.btn.btn-outline-dark.m-r-1(v-if="saveDraftEnabled && !canSaveDraft" @click="toast('Error', 'Please enter title')") Save as Draft
+        Post(v-else-if="saveDraftEnabled" :action="endpointUrl" :model="draftProject" :method="method" @saved="saved" @errors="errors = $event")
           button.btn.btn-outline-dark.m-r-1 Save as Draft
         button.btn.btn-dark(v-if="nextEnabled" @click="next") Next
         Post(v-else :action="endpointUrl" :model="publishedProject" :method="method" @saved="saved" @errors="errors = $event")
@@ -268,6 +269,9 @@ export default {
     },
     saveDraftEnabled() {
       return this.project.status !== 'published'
+    },
+    canSaveDraft() {
+      return this.project.title && this.project.title.length
     },
     datepickerOptions() {
       return {
