@@ -1,31 +1,22 @@
-// import * as business from '../../services/business'
-//
-// const mapAuthProviders = {
-//   business: {
-//     login: jwt.login,
-//     register: jwt.register,
-//     currentAccount: jwt.currentAccount,
-//     logout: jwt.logout,
-//     createPolicy: jwt.createPolicy,
-//   },
-// }
+import axios from '@/services/axios'
+// import store from '@/store/commonModules/shared'
+import * as jwt from '@/services/business'
+
+const mapAuthProviders = {
+  jwt: {
+    login: jwt.login,
+    register: jwt.register,
+    currentAccount: jwt.currentAccount,
+    logout: jwt.logout,
+    createPolicy: jwt.createPolicy,
+    updatePolicySetup: jwt.updatePolicySetup,
+  },
+}
+
+import Policy from "../../models/Policy";
 
 // HOOK TO NOT REWITE ALL REQUESTS
 const TOKEN = localStorage.getItem('app.currentUser.token') ? JSON.parse(localStorage.getItem('app.currentUser.token')) : ''
-
-class Policy {
-  constructor(created_at, description, id, name, position, sections = null, src_id, status, updated_at) {
-    this.created_at = created_at,
-    this.description = description,
-    this.id = id,
-    this.name = name,
-    this.position = position,
-    this.sections = sections,
-    this.srcId = src_id,
-    this.status = status,
-    this.updated_at = updated_at
-  }
-}
 
 export default {
   state: {
@@ -486,44 +477,86 @@ export default {
         throw error;
       }
     },
-    async postPolicyConfig({ commit, getters }, payload) {
-      console.log('payload', payload)
-      commit("clearError");
-      commit("setLoading", true);
-
+    // async postPolicyConfig({ commit, getters }, payload) {
+    //   console.log('payload', payload)
+    //   commit("clearError");
+    //   commit("setLoading", true);
+    //
+    //   try {
+    //     const data = await fetch('/api/business/compliance_policy_configuration', {
+    //       method: 'PATCH',
+    //       headers: {
+    //         'Authorization': `Bearer ${TOKEN}`,
+    //         'Accept': 'application/json',
+    //       //   'Content-Type': 'image/png'},
+    //       // body: payload
+    //         'Content-Type': 'multipart/form-data'},
+    //       body: JSON.stringify({
+    //         logo: payload.logo,
+    //         address: payload.address,
+    //         phone: payload.phone,
+    //         email: payload.email,
+    //         disclosure: payload.disclosure,
+    //         body: payload.body
+    //       })
+    //     }).then(response => {
+    //       if (!response.ok)  throw new Error(`Could't create policy config (${response.status})`)
+    //       return response.json()
+    //     }).then(response => {
+    //       if (response.errors) return response
+    //       console.log('postPolicyConfig', response)
+    //       return response
+    //     }).catch (error => {
+    //       throw error;
+    //     })
+    //       .finally(() => commit("setLoading", false))
+    //     return data
+    //   } catch (error) {
+    //     commit("setError", error.message);
+    //     commit("setLoading", false);
+    //     throw error;
+    //   }
+    // },
+    async postPolicyConfig({state, commit, rootState}, payload) {
       try {
-        const data = await fetch('/api/business/compliance_policy_configuration', {
-          method: 'PATCH',
-          headers: {
-            'Authorization': `Bearer ${TOKEN}`,
-            'Accept': 'application/json',
-          //   'Content-Type': 'image/png'},
-          // body: payload
-            'Content-Type': 'multipart/form-data'},
-          body: JSON.stringify({
-            logo: payload.logo,
-            address: payload.address,
-            phone: payload.phone,
-            email: payload.email,
-            disclosure: payload.disclosure,
-            body: payload.body
+        commit("clearError");
+        commit("setLoading", true);
+        // const config = {
+        //   headers: {
+        //     'Content-Type': 'multipart/form-data'
+        //   }
+        // };
+        // const response = await axios.patch(`/business/compliance_policy_configuration`, payload, config)
+        // return response.data
+
+        // const response =  await mapAuthProviders.jwt.updatePolicySetup(payload)
+        // console.log(store)
+        // console.log(store.settings)
+        // console.log('state', state)
+        // console.log('rootState', rootState)
+        // console.log(rootState.shared)
+        // console.log(rootState.shared.settings)
+        // console.log(rootState.shared.settings.authProvider)
+        // console.log(rootState.settings)
+        // console.log(rootState.settings.authProvider)
+        const updatePolicySetup = mapAuthProviders[rootState.shared.settings.authProvider].updatePolicySetup
+        updatePolicySetup(payload)
+          .then((success) => {
+            if (success) {
+              console.log('success', success)
+              return success
+            }
+            if (!success) {
+              console.log('Not success', success)
+            }
+            commit("clearError");
+            commit("setLoading", false);
           })
-        }).then(response => {
-          if (!response.ok)  throw new Error(`Could't create policy config (${response.status})`)
-          return response.json()
-        }).then(response => {
-          if (response.errors) return response
-          console.log('postPolicyConfig', response)
-          return response
-        }).catch (error => {
-          throw error;
-        })
-          .finally(() => commit("setLoading", false))
-        return data
       } catch (error) {
-        commit("setError", error.message);
-        commit("setLoading", false);
-        throw error;
+        console.error('error', error);
+        throw error
+      } finally {
+        commit("setLoading", false)
       }
     },
   },

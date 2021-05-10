@@ -3,8 +3,8 @@
     .row
       .col-12
         .container
-          .row.p-x-1
-            .col-md-12.p-t-3.d-flex.justify-content-between.p-b-1
+          .row
+            .col-md-12.d-flex.justify-content-between.p-t-3.p-b-1
               div
                 h2: b Policies and Procedures
               div
