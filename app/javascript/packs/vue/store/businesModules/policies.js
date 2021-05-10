@@ -10,7 +10,8 @@
 //   },
 // }
 
-const TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYxOTAyMDQwOH0.lnBshrpoodRs2E-cr2l8yXM3fsqUcH1V8hWrEK4H2BU'
+// HOOK TO NOT REWITE ALL REQUESTS
+const TOKEN = localStorage.getItem('app.currentUser.token') ? JSON.parse(localStorage.getItem('app.currentUser.token')) : ''
 
 class Policy {
   constructor(created_at, description, id, name, position, sections = null, src_id, status, updated_at) {
@@ -84,7 +85,7 @@ export default {
         const data = await fetch('/api/business/compliance_policies', {
           method: 'POST',
           headers: {
-            // 'Authorization': 'Bearer test',
+            'Authorization': `Bearer ${TOKEN}`,
             'Accept': 'application/json',
             'Content-Type': 'application/json'},
           body: JSON.stringify({
@@ -128,7 +129,7 @@ export default {
         const data = await fetch('/api/business/compliance_policies/' + payload.id, {
           method: 'PUT',
           headers: {
-            // 'Authorization': 'Bearer test',
+            'Authorization': `Bearer ${TOKEN}`,
             'Accept': 'application/json',
             'Content-Type': 'application/json'},
           body: JSON.stringify({...payload})
@@ -174,6 +175,7 @@ export default {
         const data = await fetch(`${endpointUrl}${payload.policyId}/download`, {
           method: 'GET',
           headers: {
+            'Authorization': `Bearer ${TOKEN}`,
             'Accept': 'application/json',
             'Content-Type': 'application/json'},
         })
@@ -211,7 +213,7 @@ export default {
         const data = await fetch(`${endpointUrl}${payload.policyId}/publish`, {
           method: 'GET',
           headers: {
-            // 'Authorization': 'Bearer test',
+            'Authorization': `Bearer ${TOKEN}`,
             'Accept': 'application/json',
             'Content-Type': 'application/json'},
         }).then(response => {
@@ -243,7 +245,11 @@ export default {
 
       try {
         const endpointUrl = '/api/business/compliance_policies'
-        const data = await fetch(`${endpointUrl}`, { headers: {'Accept': 'application/json'}})
+        const data = await fetch(`${endpointUrl}`, {
+          headers: {
+            'Authorization': `Bearer ${TOKEN}`,
+            'Accept': 'application/json'
+          }})
           .then(response => {
             return response.json()
           })
@@ -277,7 +283,11 @@ export default {
 
       try {
         const endpointUrl = '/api/business/compliance_policies/'
-        const data = await fetch(`${endpointUrl}${payload.policyId}`, { headers: {'Accept': 'application/json'}})
+        const data = await fetch(`${endpointUrl}${payload.policyId}`, {
+          headers: {
+          'Authorization': `Bearer ${TOKEN}`,
+          'Accept': 'application/json'
+          }})
           .then(response => response.json())
           .then(response => {
             return response
@@ -304,7 +314,7 @@ export default {
         const data = fetch('/api/business/compliance_policies/' + payload.id, {
           method: 'PATCH',
           headers: {
-            // 'Authorization': 'Bearer test',
+            'Authorization': `Bearer ${TOKEN}`,
             'Accept': 'application/json',
             'Content-Type': 'application/json'},
           body: JSON.stringify({
@@ -340,7 +350,7 @@ export default {
       //   fetch('/api/business/compliance_policies/' + policy1.id, {
       //     method: 'PATCH',
       //     headers: {
-      //       // 'Authorization': 'Bearer test',
+      //       'Authorization': `Bearer ${TOKEN}`,
       //       'Accept': 'application/json',
       //       'Content-Type': 'application/json'},
       //     body: JSON.stringify({
@@ -350,7 +360,7 @@ export default {
       //   fetch('/api/business/compliance_policies/' + policy2.id, {
       //     method: 'PATCH',
       //     headers: {
-      //       // 'Authorization': 'Bearer test',
+      //       'Authorization': `Bearer ${TOKEN}`,
       //       'Accept': 'application/json',
       //       'Content-Type': 'application/json'
       //     },
@@ -386,7 +396,12 @@ export default {
 
       try {
         const endpointUrl = '/api/business/compliance_policies/'
-        const data = await fetch(`${endpointUrl}${payload.policyId}`, { method: 'DELETE', headers: {'Accept': 'application/json'}})
+        const data = await fetch(`${endpointUrl}${payload.policyId}`, {
+          method: 'DELETE',
+          headers: {
+          'Authorization': `Bearer ${TOKEN}`,
+          'Accept': 'application/json'
+        }})
           .then(response => response.json())
           .then(response => {
             commit('deletePolicy', {id: response.id})
@@ -415,7 +430,7 @@ export default {
         const data = await fetch(`${endpointUrl}${payload.policyId}`, {
           method: 'PATCH',
           headers: {
-            // 'Authorization': 'Bearer test',
+            'Authorization': `Bearer ${TOKEN}`,
             'Accept': 'application/json',
             'Content-Type': 'application/json'},
           body: JSON.stringify({
@@ -450,7 +465,7 @@ export default {
         const data = await fetch('/api/business/compliance_policy_configuration', {
           method: 'GET',
           headers: {
-            // 'Authorization': 'Bearer test',
+            'Authorization': `Bearer ${TOKEN}`,
             'Accept': 'application/json',
             'Content-Type': 'application/json'}
         }).then(response => {
