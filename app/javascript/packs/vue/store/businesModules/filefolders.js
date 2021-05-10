@@ -17,6 +17,10 @@ export default {
     SET_FOLDER (state, payload) {
       state.filefolders.folders.push(payload)
     },
+    UPDATE_FOLDER (state, payload) {
+      const index = state.filefolders.folders.findIndex(record => record.id === payload.id);
+      state.filefolders.folders.splice(index, 1, payload)
+    },
     SET_NEW_FILE (state, payload) {
       state.filefolders.files.push(payload)
     },
@@ -69,11 +73,11 @@ export default {
       try {
         const response = await axios.patch(`/business/file_folders/${payload.id}`, payload.data)
         // console.log(response.data)
-        if (response.data && !payload.parent_id) commit('SET_NEW_FILEFOLDERS', new FileFolders(
-          response.data.files,
-          response.data.folders,
-        ))
-        if (response.data && response.data.parent_id) commit('SET_SUBFOLDER', response.data)
+        // if (response.data && !payload.parent_id) commit('SET_NEW_FILEFOLDERS', new FileFolders(
+        //   response.data.files,
+        //   response.data.folders,
+        // ))
+        if (response.data) commit('UPDATE_FOLDER', response.data)
         return response.data
       } catch (error) {
         commit("setError", error.message, { root: true });

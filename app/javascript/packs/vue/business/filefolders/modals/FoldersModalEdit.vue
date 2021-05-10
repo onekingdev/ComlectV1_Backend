@@ -115,7 +115,7 @@
               .map(prop => response.errors[prop].map(err => this.makeToast(`Error`, `${prop}: ${err}`)))
             return
           }
-          this.makeToast('Success', `Folder successfully created!`)
+          this.makeToast('Success', `Folder successfully updated!`)
           this.$emit('editConfirmed')
           this.$bvModal.hide(this.modalId)
 
