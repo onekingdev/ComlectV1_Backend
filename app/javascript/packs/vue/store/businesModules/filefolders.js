@@ -147,7 +147,7 @@ export default {
       commit("clearError", null, { root: true });
       commit("setLoading", true, { root: true });
       try {
-        const response = await axios.get(`/business/file_folders1`)
+        const response = await axios.get(`/business/file_folders`)
         // console.log(response.data)
         if (response.data) commit('SET_FILEFOLDERS', new FileFolders(
           response.data.files,
