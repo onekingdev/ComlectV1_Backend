@@ -77,8 +77,8 @@ import { redirectWithToast } from '@/common/Toast'
 import {
   PRICING_TYPES,
   LOCATION_TYPES,
-  FIXED_PAYMENT_SCHEDULE_OPTIONS,
-  HOURLY_PAYMENT_SCHEDULE_OPTIONS,
+  FIXED_PAYMENT_SCHEDULE_OPTIONS_FILTERED,
+  HOURLY_PAYMENT_SCHEDULE_OPTIONS_FILTERED,
   MINIMUM_EXPERIENCE_OPTIONS,
 } from '@/common/ProjectInputOptions'
 
@@ -201,9 +201,6 @@ export default {
       const redirectUrl = `/business/projects/${this.project.local_project_id || ''}`
       redirectWithToast(redirectUrl, 'The project has been saved')
     },
-    back() {
-      window.history.back()
-    },
     getSkillOptions(skills) {
       return skills.map(({ name }) => ({ id: name, label: name }))
     }
@@ -243,8 +240,12 @@ export default {
     steps: () => STEPS,
     pricingTypes: () => PRICING_TYPES,
     locationTypes: () => LOCATION_TYPES,
-    fixedPaymentScheduleOptions: () => FIXED_PAYMENT_SCHEDULE_OPTIONS,
-    hourlyPaymentScheduleOptions: () => HOURLY_PAYMENT_SCHEDULE_OPTIONS,
+    fixedPaymentScheduleOptions() {
+      return FIXED_PAYMENT_SCHEDULE_OPTIONS_FILTERED(this.project.starts_on, this.project.ends_on)
+    },
+    hourlyPaymentScheduleOptions() {
+      return HOURLY_PAYMENT_SCHEDULE_OPTIONS_FILTERED(this.project.starts_on, this.project.ends_on)
+    },
     experienceOptions: () => MINIMUM_EXPERIENCE_OPTIONS,
     skillsOptions: () => ['SEC', 'Policy Writing', 'FINRA'].map(id => ({ id, label: id })),
     industryIdsOptions() {

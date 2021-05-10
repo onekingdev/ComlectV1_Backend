@@ -2,7 +2,7 @@
   div.d-inline-block(:class="{ 'float-right': right }")
     div.d-inline-block(v-b-modal="modalId"): slot
     b-modal.fade(:id="modalId" title="End Contract" no-stacking)
-      p ℹ️ Ending this contract will remove this specialist as a collaborator to the project, revoke and permissions granted due to the project, and payout the full contract price.
+      p ℹ️ Ending this contract will remove this specialist as a collaborator to the project, revoke their permissions to access your account, and payout the full contract price.
       p: b Do you want to continue?
       .card
         .card-header

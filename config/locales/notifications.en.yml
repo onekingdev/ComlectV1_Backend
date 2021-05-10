@@ -166,6 +166,10 @@ en:
       subject: You Have a New Applicant!
       message: Someone new has applied to your job. Head to your dashboard to check them out.
       action_label: Go to %{project_title} Applicant Pool
+    job_application_declined:
+      subject: Your job application has been declined.
+      message: Your job application for project %{project_title} has been declined.
+      action_label: Browse more projects
     timesheet_submitted:
       subject: You've Received a Timesheet for Review
       message: A timesheet has been submitted. Please review within one business day or the timesheet will be deemed accepted.
