@@ -164,9 +164,11 @@ export default {
     //     .then(response => this.toast('Success', `${response.message}`))
     //     .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
     // },
-    async deleteFileFolderItem(filefolderId, itemType) {
+    async deleteFileFolderItem(id, itemType) {
       try {
-        this.deleteFileFolder({ id: filefolderId, itemType })
+        this.deleteFileFolder({id, itemType})
+          .then(response => this.toast('Success', `${response.message}`))
+          .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
       } catch (error) {
         this.makeToast('Error', error.message)
       }
