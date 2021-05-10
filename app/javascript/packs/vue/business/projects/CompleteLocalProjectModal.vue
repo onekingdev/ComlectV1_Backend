@@ -13,7 +13,7 @@
 
       template(#modal-footer="{ hide }")
         button.btn(@click="hide") Cancel
-        Put(:action="url" :model="{ status: 'complete' }" @saved="hide(), completed()")
+        Put(:action="url" :model="{ status: 'complete' }" @saved="completed(), hide()")
           button.btn.btn-default Confirm
 </template>
 
@@ -29,7 +29,6 @@ export default {
     completed() {
       this.toast('Success', 'Project completed')
       this.$emit('saved')
-      this.redirect('/business/projects')
     }
   },
   computed: {
