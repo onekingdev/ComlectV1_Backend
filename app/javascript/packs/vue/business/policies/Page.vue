@@ -22,7 +22,7 @@
             .card-body.white-card-body
               .container
                 PoliciesTable(:policies="filteredArchivedList", @searching="searchingArchived")
-          b-tab(title="Setup")
+          b-tab(title="Setup" lazy)
             .card-body.white-card-body
               .container
                 PoliciesSetup
