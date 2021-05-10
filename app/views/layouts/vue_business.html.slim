@@ -91,10 +91,10 @@ body class="#{controller_name} #{action_name}"
               span.navbar-toggler-icon
             #top_navbar.collapse.navbar-collapse.d-flex.justify-content-between
               .navbar-nav
-                a.nav-item.nav-link.active(href='#')
+                a.nav-item.nav-link(href='#')
                   | Home
                   span.sr-only (current)
-                a.nav-item.nav-link(href='#') Documents
+                a.nav-item.nav-link(href='/business/file_folders' class="#{'active' if params[:controller] == 'business/file_folders'}") Documents
                 a.nav-item.nav-link(href='/business/reports/risks') Reports
                 a.nav-item.nav-link(href='#') Community
               .navbar-nav

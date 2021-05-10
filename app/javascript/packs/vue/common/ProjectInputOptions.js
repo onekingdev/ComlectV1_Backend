@@ -1,5 +1,3 @@
-import { DateTime } from 'luxon'
-
 const PRICING_TYPES = [{
   id: 'fixed',
   label: 'Fixed Price',
@@ -32,19 +30,6 @@ const HOURLY_PAYMENT_SCHEDULE_OPTIONS = {
   monthly: 'Monthly'
 }
 
-const FIXED_PAYMENT_SCHEDULE_OPTIONS_FILTERED = (from, to) => filterPaymentScheduleOptions(FIXED_PAYMENT_SCHEDULE_OPTIONS, from, to)
-const HOURLY_PAYMENT_SCHEDULE_OPTIONS_FILTERED = (from, to) => filterPaymentScheduleOptions(HOURLY_PAYMENT_SCHEDULE_OPTIONS, from, to)
-
-const filterPaymentScheduleOptions = (options, dateFrom, dateTo) => {
-  let maxDays = 1
-  if (dateFrom && dateTo) {
-    const from = DateTime.fromSQL(dateFrom), to = DateTime.fromSQL(dateTo)
-    maxDays = from.isValid && to.isValid && to.diff(from, 'days').as('days') || 1
-  }
-  return Object.fromEntries(Object.entries(options)
-    .filter(([key]) => ({ bi_weekly: 14, monthly: 30 }[key] || 0) < maxDays))
-}
-
 const MINIMUM_EXPERIENCE_OPTIONS = {
   0: "Junior",
   1: "Intermediate",
@@ -63,8 +48,6 @@ export {
   LOCATION_TYPES,
   FIXED_PAYMENT_SCHEDULE_OPTIONS,
   HOURLY_PAYMENT_SCHEDULE_OPTIONS,
-  FIXED_PAYMENT_SCHEDULE_OPTIONS_FILTERED,
-  HOURLY_PAYMENT_SCHEDULE_OPTIONS_FILTERED,
   MINIMUM_EXPERIENCE_OPTIONS,
   SPECIALIST_ROLE_OPTIONS,
 }
