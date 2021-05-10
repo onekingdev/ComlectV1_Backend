@@ -1,7 +1,7 @@
 <template lang="pug">
   tr
     td.align-middle
-      a.link.d-flex.align-items-center(:href="itemType === 'file' ? item.file_addr : '#'" :target="itemType === 'file' ? '_blank' : '_self'" @click="openFolder($event, item.id, item.file_addr)")
+      a.link.d-flex.align-items-center(:href="itemType === 'file' ? item.file_addr : '#'" :target="itemType === 'file' ? '_blank' : '_self'" @click="openFolder($event, item.id, item.file_addr, item.name)")
         ion-icon.m-r-1(:name="itemType === 'folder' ? 'folder-outline' : 'document-outline'" size="small")
         | {{ item.name }}
     td.align-middle.text-right {{ item.owner }}
@@ -62,11 +62,12 @@ export default {
         return value
       }
     },
-    openFolder(e, folderId, fileAddr) {
+    openFolder(e, folderId, fileAddr, folderName) {
       if (fileAddr) return
 
       e.preventDefault()
       console.log('folderId', folderId)
+      if (folderName) this.$store.commit('filefolders/SET_CUREENT_FOLDER_NAME', folderName)
 
       // const url = new URL(window.location);
       // window.history.pushState({}, '', `${url}/${folderId}`);

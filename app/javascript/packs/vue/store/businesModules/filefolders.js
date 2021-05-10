@@ -8,6 +8,7 @@ export default {
     filefolders: [],
     currentFileFolders: null,
     currentFolder: null,
+    currentFolderName: null,
   },
   mutations: {
     SET_FILEFOLDERS (state, payload) {
@@ -36,6 +37,9 @@ export default {
       const type = payload.itemType === 'folder' ? 'folders' : 'files';
       const index = state.filefolders[type].findIndex(record => record.id === payload.data.id);
       state.filefolders[type].splice(index, 1)
+    },
+    SET_CUREENT_FOLDER_NAME (state, payload) {
+      state.currentFolderName = payload
     },
   },
   actions: {
@@ -204,6 +208,7 @@ export default {
   getters: {
     filefolders: state => state.filefolders,
     currentFileFolders: state => state.currentFileFolders,
-    currentFolder: state => state.currentFolder
+    currentFolder: state => state.currentFolder,
+    currentFolderName: state => state.currentFolderName
   },
 };

@@ -17,9 +17,14 @@
             .container
               .row.m-b-1
                 .col-12
-                  h4.m-b-1 All Documents
-                    <!--span.separator(v-if="pageFolderName") &nbsp/&nbsp;-->
-                    <!--span(v-if="pageFolderName") {{ pageFolderName }}-->
+                  .d-flex.align-items-center
+                    a.btn.btn-default.m-r-1.p-0(v-if="currentFolderId" @click.stop="backToRoot")
+                      b-icon(icon="arrow-left-square" font-scale="1")
+                    h4.m-b-0 All Documents
+                      span.separator(v-if="currentFolderName") &nbsp/&nbsp;
+                      span(v-if="currentFolderName") {{ currentFolderName }}
+              .row.m-b-1
+                .col-12
                   input(ref="inputFile" type="file" hidden @change="uploadFile")
                   b-button.m-r-1(variant="dark" @click="selectFile") Upload
                   FoldersModalCreate
@@ -56,6 +61,7 @@
         disabled: false,
         zipStatus: false,
         zipCounter: 0,
+        pageFolderName: ''
       };
     },
     created() {
@@ -80,13 +86,13 @@
 
         const params = {
           file_doc: {
-            // file_folder_id: this.parentFolderId,
+            // file_folder_id: this.currentFolderId,
             file: this.file,
             name: this.file.name
           }
         }
 
-        if (this.parentFolderId) params.file_doc.file_folder_id = this.parentFolderId
+        if (this.currentFolderId) params.file_doc.file_folder_id = this.currentFolderId
 
         let formData = new FormData()
         Object.keys(params.file_doc)
@@ -109,7 +115,7 @@
           })
       },
       async zipping() {
-        if (!this.parentFolderId) return
+        if (!this.currentFolderId) return
 
         try {
           // console.log('zipping')
@@ -151,7 +157,7 @@
 
                 // const url = response.path
                 // this.forceFileDownload(response.path)
-                this.download(response.path, `Books and Records ${this.parentFolderId}.zip`);
+                this.download(response.path, `Books and Records ${this.currentFolderId}.zip`);
                 this.disabled = false
               }
             })
@@ -187,7 +193,18 @@
         a.href = dataurl;
         a.setAttribute("download", filename);
         a.click();
-      }
+      },
+      async backToRoot (e) {
+        try {
+          await this.$store.dispatch('filefolders/getFileFolders')
+            .then(() => {
+              this.$store.commit('filefolders/SET_CUREENT_FOLDER', null)
+              this.$store.commit('filefolders/SET_CUREENT_FOLDER_NAME', null)
+            })
+        } catch (error) {
+          this.makeToast('Error', error.message)
+        }
+      },
     },
     computed: {
       loading() {
@@ -196,14 +213,15 @@
       ...mapGetters({
         filefolders: 'filefolders/filefolders',
         currentFileFolders: 'filefolders/currentFileFolders',
-        parentFolderId: 'filefolders/currentFolder'
+        currentFolderId: 'filefolders/currentFolder',
+        currentFolderName: 'filefolders/currentFolderName'
       }),
-      pageFolderName() {
-        if (!this.parentFolderId) return ''
-        return this.filefolders.folders.find(folder => {
-          if (folder.id === this.parentFolderId) return folder.name
-        })
-      }
+      // pageFolderName() {
+      //   if (!this.currentFolderId) return ''
+      //   return this.filefolders.folders.find(folder => {
+      //     if (folder.id === this.currentFolderId) return folder.name
+      //   })
+      // }
     },
     async mounted () {
       try {
