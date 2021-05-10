@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import ProjectTable from './ProjectTable'
+import ProjectTable from '@/common/ProjectTable'
 import LocalProjectModal from './LocalProjectModal'
 import EtaggerMixin from '@/mixins/EtaggerMixin'
 

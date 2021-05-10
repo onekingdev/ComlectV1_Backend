@@ -17,10 +17,7 @@
         .form-text.text-muted Project post information for the specialist
 
         InputSelect.m-t-1(v-model="project.location_type" :errors="errors.location_type" :options="locationTypes") Location Type
-        div.m-t-1(v-if="isLocationVisible")
-          label.form-label Location
-          input.form-control(v-model="project.location" type="text" v-google-maps-autocomplete)
-          Errors(:errors="errors.location")
+        InputText.m-t-1(v-model="project.location" v-if="isLocationVisible" :errors="errors.location") Location
 
         label.m-t-1.form-label Industry
         ComboBox(v-model="project.industry_ids" :options="industryIdsOptions" :multiple="true")
@@ -67,8 +64,7 @@
       .col-md-6.text-right.m-t-1
         button.btn.btn-outline-dark.float-left(v-if="prevEnabled" @click="prev") Previous
         button.btn.m-r-1(@click="back") Exit
-        button.btn.btn-outline-dark.m-r-1(v-if="saveDraftEnabled && !canSaveDraft" @click="toast('Error', 'Please enter title')") Save as Draft
-        Post(v-else-if="saveDraftEnabled" :action="endpointUrl" :model="draftProject" :method="method" @saved="saved" @errors="errors = $event")
+        Post(v-if="saveDraftEnabled" :action="endpointUrl" :model="draftProject" :method="method" @saved="saved" @errors="errors = $event")
           button.btn.btn-outline-dark.m-r-1 Save as Draft
         button.btn.btn-dark(v-if="nextEnabled" @click="next") Next
         Post(v-else :action="endpointUrl" :model="publishedProject" :method="method" @saved="saved" @errors="errors = $event")
@@ -81,8 +77,8 @@ import { redirectWithToast } from '@/common/Toast'
 import {
   PRICING_TYPES,
   LOCATION_TYPES,
-  FIXED_PAYMENT_SCHEDULE_OPTIONS_FILTERED,
-  HOURLY_PAYMENT_SCHEDULE_OPTIONS_FILTERED,
+  FIXED_PAYMENT_SCHEDULE_OPTIONS,
+  HOURLY_PAYMENT_SCHEDULE_OPTIONS,
   MINIMUM_EXPERIENCE_OPTIONS,
 } from '@/common/ProjectInputOptions'
 
@@ -205,6 +201,9 @@ export default {
       const redirectUrl = `/business/projects/${this.project.local_project_id || ''}`
       redirectWithToast(redirectUrl, 'The project has been saved')
     },
+    back() {
+      window.history.back()
+    },
     getSkillOptions(skills) {
       return skills.map(({ name }) => ({ id: name, label: name }))
     }
@@ -244,12 +243,8 @@ export default {
     steps: () => STEPS,
     pricingTypes: () => PRICING_TYPES,
     locationTypes: () => LOCATION_TYPES,
-    fixedPaymentScheduleOptions() {
-      return FIXED_PAYMENT_SCHEDULE_OPTIONS_FILTERED(this.project.starts_on, this.project.ends_on)
-    },
-    hourlyPaymentScheduleOptions() {
-      return HOURLY_PAYMENT_SCHEDULE_OPTIONS_FILTERED(this.project.starts_on, this.project.ends_on)
-    },
+    fixedPaymentScheduleOptions: () => FIXED_PAYMENT_SCHEDULE_OPTIONS,
+    hourlyPaymentScheduleOptions: () => HOURLY_PAYMENT_SCHEDULE_OPTIONS,
     experienceOptions: () => MINIMUM_EXPERIENCE_OPTIONS,
     skillsOptions: () => ['SEC', 'Policy Writing', 'FINRA'].map(id => ({ id, label: id })),
     industryIdsOptions() {
@@ -269,9 +264,6 @@ export default {
     },
     saveDraftEnabled() {
       return this.project.status !== 'published'
-    },
-    canSaveDraft() {
-      return this.project.title && this.project.title.length
     },
     datepickerOptions() {
       return {
