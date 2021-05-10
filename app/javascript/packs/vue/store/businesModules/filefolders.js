@@ -91,7 +91,7 @@ export default {
       commit("clearError", null, { root: true });
       commit("setLoading", true, { root: true });
       try {
-        console.log('payload', payload)
+        // console.log('payload', payload)
         const { id, itemType  } = payload
         const endpoint = itemType === 'folder' ? 'file_folders' : 'file_docs'
         const response = await axios.delete(`/business/${endpoint}/${id}`)
