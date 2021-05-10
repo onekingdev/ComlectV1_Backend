@@ -112,7 +112,7 @@
         if (!this.parentFolderId) return
 
         try {
-          console.log('zipping')
+          // console.log('zipping')
           this.disabled = true
           await this.$store.dispatch('filefolders/startZipping')
             .then(response => {
@@ -132,7 +132,7 @@
       },
       async zippinTimerChecker(){
         try {
-          console.log('zipping')
+          // console.log('zipping')
           this.disabled = true
           await this.$store.dispatch('filefolders/checkZipping')
             .then(response => {
