@@ -17,7 +17,7 @@ class Api::Business::FileDocsController < ApiController
 
   def update
     if @file_doc.update(file_doc_params)
-      respond_with @file_doc, serializer: FileDocSerializer, status: :updated
+      respond_with @file_doc, serializer: FileDocSerializer, status: :ok
     else
       respond_with errors: @file_doc.errors, status: :unprocessable_entity
     end

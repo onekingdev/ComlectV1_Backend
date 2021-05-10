@@ -199,12 +199,13 @@ export default {
         // commit("setLoading", false, { root: true })
       }
     },
-    async startZipping({ commit, getters }) {
+    async startZipping({ commit, getters }, payload) {
       commit("clearError", null, { root: true });
       // commit("setLoading", true, { root: true });
       try {
         // console.log(commit, getters)
-        const response = await axios.get(`/business/file_folders/${getters.currentFolder}/download_folder`)
+        const id = payload.id ? payload.id : getters.currentFolder
+        const response = await axios.get(`/business/file_folders/${id}/download_folder`)
         return response.data
       } catch (error) {
         commit("setError", error.message, { root: true });
@@ -214,12 +215,13 @@ export default {
         // commit("setLoading", false, { root: true })
       }
     },
-    async checkZipping({ commit, getters }) {
+    async checkZipping({ commit, getters }, payload) {
       commit("clearError", null, { root: true });
       // commit("setLoading", true, { root: true });
       try {
         // console.log(commit, getters)
-        const response = await axios.get(`/business/file_folders/${getters.currentFolder}/check_zip`)
+        const id = payload.id ? payload.id : getters.currentFolder
+        const response = await axios.get(`/business/file_folders/${id}/check_zip`)
         return response.data
       } catch (error) {
         commit("setError", error.message, { root: true });

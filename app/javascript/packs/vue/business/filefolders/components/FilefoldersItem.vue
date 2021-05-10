@@ -1,9 +1,13 @@
 <template lang="pug">
   tr
     td.align-middle
-      a.link.d-flex.align-items-center(:href="itemType === 'file' ? item.file_addr : '#'" :target="itemType === 'file' ? '_blank' : '_self'" @click="openFolder($event, item.id, item.file_addr, item.name)")
-        ion-icon.m-r-1(:name="itemType === 'folder' ? 'folder-outline' : 'document-outline'" size="small")
-        | {{ item.name }}
+      .d-flex.align-items-center
+        a.link.d-flex.align-items-center(:href="itemType === 'file' ? item.file_addr : '#'" :target="itemType === 'file' ? '_blank' : '_self'" @click="openFolder($event, item.id, item.file_addr, item.name)")
+          ion-icon.m-r-1(:name="itemType === 'folder' ? 'folder-outline' : 'document-outline'" size="small")
+          | {{ item.name }}
+        span.m-l-1(v-if="disabled")
+          b-icon.m-r-1(icon="arrow-counterclockwise" animation="spin-reverse-pulse" font-scale="1")
+          | Zipping...
     td.align-middle.text-right {{ item.owner }}
     td.align-middle.text-right
       div(v-if="itemType === 'folder'") -
@@ -17,7 +21,9 @@
           b-dropdown-item(v-if="item.locked" :disabled="item.locked" v-b-tooltip.hover.left="'Cant be edited!'") Edit
           FoldersModalEdit(v-else @editConfirmed="moveToFileFolder", :item="item", :inline="false")
             b-dropdown-item Edit
-          b-dropdown-item(@click="downloadFileFolder(item.id)") Download
+          b-dropdown-item(@click="zipping(item.id, item.name)" :disabled="disabled")
+            b-icon.m-r-1(v-if="disabled" icon="arrow-counterclockwise" animation="spin-reverse-pulse" font-scale="1")
+            | Download
           b-dropdown-item(v-if="item.locked" :disabled="item.locked" v-b-tooltip.hover.left="'Cant be moved!'") Move to
           FoldersModalMoveTo(v-else @moveToConfirmed="moveToFileFolder", :item="item", :inline="false")
             b-dropdown-item Move to
@@ -44,6 +50,11 @@ export default {
     FoldersModalEdit,
     FilefoldersModalDelete
   },
+  data () {
+    return {
+      disabled: false
+    }
+  },
   methods: {
     ...mapMutations({
       setCurrentReviewFolder: 'filefolders/SET_CUREENT_FOLDER'
@@ -53,6 +64,9 @@ export default {
       getCurrentReviewFileFoldersById: 'filefolders/getFileFoldersById',
       deleteFileFolder: 'filefolders/deleteFileFolder',
     }),
+    makeToast(title, str) {
+      this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
+    },
     dateToHuman(value) {
       const date = DateTime.fromJSDate(new Date(value))
       if (!date.invalid) {
@@ -79,6 +93,59 @@ export default {
       // this.$store.dispatch('annual/duplicateReview', { id: filefolderId })
       //   .then(response => this.toast('Success', ` ${response.message}`))
       //   .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
+    },
+    async zipping(itemId, itemName) {
+      if (!itemId) return
+
+      try {
+        // console.log('zipping')
+        this.disabled = true
+        await this.$store.dispatch('filefolders/startZipping', { id: itemId })
+          .then(response => {
+            // console.log(response)
+            this.makeToast('Success', `${response.message}`)
+
+            setTimeout(() => {
+              this.zippinTimerChecker(itemId, itemName)
+              this.zipCounter++
+            }, 5000)
+          })
+          .catch(error => console.error(response))
+        // .finally(() => this.zippinTimerChecker()) // FOR TESTS
+      } catch (error) {
+        this.makeToast('Error', error.message)
+      }
+    },
+    async zippinTimerChecker(itemId, itemName){
+      try {
+        this.disabled = true
+        await this.$store.dispatch('filefolders/checkZipping', { id: itemId })
+          .then(response => {
+            if (!response.complete) {
+              setTimeout(() => {
+                this.zippinTimerChecker(itemId, itemName)
+                this.zipCounter++
+              }, 5000)
+            }
+
+            if (response.complete) {
+              this.zipStatus = true
+              this.makeToast('Success', 'Zipping completed! Dowloading started.')
+
+              this.download(response.path, `${itemName} ${itemId}.zip`);
+              this.disabled = false
+            }
+          })
+          .catch(error => console.error(error))
+      } catch (error) {
+        this.makeToast('Error', error.message)
+      }
+    },
+    download(dataurl, filename) {
+      var a = document.createElement("a");
+      a.href = dataurl;
+      a.setAttribute("download", filename);
+      a.click();
     },
     async moveToFileFolder(){
       await this.getFileFolders
