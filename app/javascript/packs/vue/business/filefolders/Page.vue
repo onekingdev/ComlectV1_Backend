@@ -112,6 +112,8 @@
           .catch(error => {
             console.error(error)
             this.makeToast('Error', `Something wrong! ${error}`)
+            this.zipStatus = false
+            this.disabled = false
           })
       },
       async zipping() {
@@ -130,7 +132,11 @@
                 this.zipCounter++
               }, 5000)
             })
-            .catch(error => console.error(response))
+            .catch(error => {
+              console.error(response)
+              this.zipStatus = false
+              this.disabled = false
+            })
             // .finally(() => this.zippinTimerChecker()) // FOR TESTS
         } catch (error) {
           this.makeToast('Error', error.message)

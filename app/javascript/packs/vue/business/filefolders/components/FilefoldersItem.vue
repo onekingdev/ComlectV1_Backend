@@ -52,6 +52,7 @@ export default {
   },
   data () {
     return {
+      zipCounter: 0,
       disabled: false
     }
   },
@@ -110,7 +111,11 @@ export default {
               this.zipCounter++
             }, 5000)
           })
-          .catch(error => console.error(response))
+          .catch(error => {
+            console.error(response)
+            this.zipStatus = false
+            this.disabled = false
+          })
         // .finally(() => this.zippinTimerChecker()) // FOR TESTS
       } catch (error) {
         this.makeToast('Error', error.message)
@@ -136,7 +141,11 @@ export default {
               this.disabled = false
             }
           })
-          .catch(error => console.error(error))
+          .catch(error => {
+            console.error(error)
+            this.zipStatus = false
+            this.disabled = false
+          })
       } catch (error) {
         this.makeToast('Error', error.message)
       }
