@@ -30,9 +30,9 @@
         type: Boolean,
         default: true
       },
-      itemId: {
-        type: Number,
-        default: true
+      item: {
+        type: Object,
+        required: true,
       },
     },
     components: {
@@ -79,6 +79,35 @@
           return
         }
 
+        // IF THIS ITEM IS FILE
+        if (this.item.file_addr) {
+          const params = {
+            file_doc: {
+              file_folder_id: this.file_folder.destination
+            }
+          }
+
+          // if (this.currentFolderId) params.file_doc.file_folder_id = this.currentFolderId
+
+          let formData = new FormData()
+          Object.keys(params.file_doc)
+            .map(specAttr => formData.append(`file_doc[${specAttr}]`, params.file_doc[specAttr]))
+          this.$store
+            .dispatch('filefolders/updateFile', { id: this.item.id, data: formData })
+            .then(response => {
+              if(!response.errors) {
+                this.makeToast('Success', `File successfully updated!`)
+              }
+            })
+            .catch(error => {
+              console.error(error)
+              this.makeToast('Error', `Something wrong! ${error}`)
+            })
+
+          return
+        }
+
+        // IF THIS ITEM IS A FOLDER
         const data = {
           "file_folder": {
             "parent_id": this.file_folder.destination
@@ -86,7 +115,7 @@
         }
 
         try {
-          const response = await this.$store.dispatch('filefolders/updateFolder', { id: this.itemId, data  })
+          const response = await this.$store.dispatch('filefolders/updateFolder', { id: this.item.id, data  })
           if (response.errors) {
             this.makeToast('Error', `${response.status}`)
             Object.keys(response.errors)
@@ -101,7 +130,7 @@
         }
       },
       getData() {
-        this.$store.dispatch('filefolders/getFileFoldersListTree', this.itemId)
+        this.$store.dispatch('filefolders/getFileFoldersListTree', this.item.id)
           .then(response => {
             console.log(response)
             this.treeList = response.map(folder => {
@@ -157,7 +186,10 @@
             //
             // this.treeList = treeListOptions
           })
-          .catch(error => console.error(error))
+          .catch(error => {
+            console.error(error)
+            if (!this.treeList) this.treeList = this.destinationOptions
+          })
       }
     },
   }

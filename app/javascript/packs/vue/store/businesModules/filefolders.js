@@ -20,6 +20,10 @@ export default {
     SET_NEW_FILE (state, payload) {
       state.filefolders.files.push(payload)
     },
+    UPDATE_FILE (state, payload) {
+      const index = state.filefolders.files.findIndex(record => record.id === payload.id);
+      state.filefolders.files.splice(index, 1, payload)
+    },
     UPDATE_FILEFOLDERS (state, payload) {
       const index = state.filefolders.findIndex(record => record.id === payload.id);
       state.filefolders.splice(index, 1, payload)
@@ -109,6 +113,27 @@ export default {
         };
         const response = await axios.post(`/business/file_docs`, payload, config)
         if (response.data) commit('SET_NEW_FILE', response.data)
+        return response.data
+      } catch (error) {
+        commit("setError", error.message, { root: true });
+        commit("setLoading", false, { root: true });
+        throw error;
+      } finally {
+        commit("setLoading", false, { root: true })
+      }
+    },
+    async updateFile({ commit }, payload) {
+      commit("clearError", null, { root: true });
+      commit("setLoading", true, { root: true });
+      try {
+        const config = {
+          timeout: 5000,
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        };
+        const response = await axios.patch(`/business/file_docs/${payload.id}`, payload.data, config)
+        if (response.data) commit('UPDATE_FILE', response.data)
         return response.data
       } catch (error) {
         commit("setError", error.message, { root: true });

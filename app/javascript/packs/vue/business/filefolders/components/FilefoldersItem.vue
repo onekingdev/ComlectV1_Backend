@@ -19,7 +19,7 @@
             b-dropdown-item Edit
           b-dropdown-item(@click="downloadFileFolder(item.id)") Download
           b-dropdown-item(v-if="item.locked" :disabled="item.locked" v-b-tooltip.hover.left="'Cant be moved!'") Move to
-          FoldersModalMoveTo(v-else @moveToConfirmed="moveToFileFolder", :itemId="item.id", :inline="false")
+          FoldersModalMoveTo(v-else @moveToConfirmed="moveToFileFolder", :item="item", :inline="false")
             b-dropdown-item Move to
           b-dropdown-item-button.delete(v-if="item.locked" :disabled="item.locked" variant='danger' v-b-tooltip.hover.left="'Cant be deleted!'" )
             <!--b-icon.mr-1(icon='x-circle' aria-hidden='true')-->

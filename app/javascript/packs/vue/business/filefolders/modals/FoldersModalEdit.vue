@@ -59,7 +59,7 @@
       },
       async submit(e) {
         e.preventDefault();
-        console.log(this.item)
+        console.log()
 
         if (!this.file_folder.name) {
           this.makeToast('Error', `Please check all fields!`)
@@ -68,9 +68,38 @@
         if (this.file_folder.name.length <= 3) {
           this.errors.push('Name is very short, must be more 3 characters.');
           this.makeToast('Error', 'Name is very short, must be more 3 characters.')
-          return;
+          return
         }
 
+        // IF THIS ITEM IS FILE
+        if (this.item.file_addr) {
+          const params = {
+            file_doc: {
+              name: this.file_folder.name
+            }
+          }
+
+          // if (this.currentFolderId) params.file_doc.file_folder_id = this.currentFolderId
+
+          let formData = new FormData()
+          Object.keys(params.file_doc)
+            .map(specAttr => formData.append(`file_doc[${specAttr}]`, params.file_doc[specAttr]))
+          this.$store
+            .dispatch('filefolders/updateFile', { id: this.item.id, data: formData })
+            .then(response => {
+              if(!response.errors) {
+                this.makeToast('Success', `File successfully updated!`)
+              }
+            })
+            .catch(error => {
+              console.error(error)
+              this.makeToast('Error', `Something wrong! ${error}`)
+            })
+
+          return
+        }
+
+        // IF THIS ITEM IS A FOLDER
         const data = {
           file_folder: {
             // ...this.item,
