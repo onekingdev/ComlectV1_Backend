@@ -78,7 +78,7 @@
 
 <script>
   import Loading from '@/common/Loading/Loading'
-  import axios from 'axios'
+  // import axios from 'axios'
   export default {
     components: {
       Loading,
