@@ -43,7 +43,7 @@ export default {
     },
     DELETE_FILEFOLDERS (state, payload) {
       const type = payload.itemType === 'folder' ? 'folders' : 'files';
-      const index = state.filefolders[type].findIndex(record => record.id === payload.data.id);
+      const index = state.filefolders[type].findIndex(record => record.id === payload.id);
       state.filefolders[type].splice(index, 1)
     },
     SET_CUREENT_FOLDER_NAME (state, payload) {
@@ -91,11 +91,12 @@ export default {
       commit("clearError", null, { root: true });
       commit("setLoading", true, { root: true });
       try {
+        console.log('payload', payload)
         const { id, itemType  } = payload
         const endpoint = itemType === 'folder' ? 'file_folders' : 'file_docs'
         const response = await axios.delete(`/business/${endpoint}/${id}`)
         // console.log(response.data)
-        if (response.data) commit('DELETE_FILEFOLDERS', { itemType, data: response.data } )
+        if (response.data) commit('DELETE_FILEFOLDERS', payload )
         return response.data
       } catch (error) {
         commit("setError", error.message, { root: true });

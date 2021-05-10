@@ -19,18 +19,18 @@
           template(#button-content)
             b-icon(icon="three-dots")
           b-dropdown-item(v-if="item.locked" :disabled="item.locked" v-b-tooltip.hover.left="'Cant be edited!'") Edit
-          FoldersModalEdit(v-else @editConfirmed="moveToFileFolder", :item="item", :inline="false")
+          FoldersModalEdit(v-else, :item="item", :inline="false")
             b-dropdown-item Edit
           b-dropdown-item(@click="zipping(item.id, item.name)" :disabled="disabled")
             b-icon.m-r-1(v-if="disabled" icon="arrow-counterclockwise" animation="spin-reverse-pulse" font-scale="1")
             | Download
           b-dropdown-item(v-if="item.locked" :disabled="item.locked" v-b-tooltip.hover.left="'Cant be moved!'") Move to
-          FoldersModalMoveTo(v-else @moveToConfirmed="moveToFileFolder", :item="item", :inline="false")
+          FoldersModalMoveTo(v-else @movedConfirmed="moveToFileFolder", :item="item", :inline="false")
             b-dropdown-item Move to
           b-dropdown-item-button.delete(v-if="item.locked" :disabled="item.locked" variant='danger' v-b-tooltip.hover.left="'Cant be deleted!'" )
             <!--b-icon.mr-1(icon='x-circle' aria-hidden='true')-->
             | Delete
-          FilefoldersModalDelete(v-else @deleteConfirmed="deleteFileFolder(item.id, itemType)" :inline="false")
+          FilefoldersModalDelete(v-else @deleteConfirmed="deleteFileFolderItem(item.id, itemType)" :inline="false")
             b-dropdown-item(:disabled="item.locked").delete Delete
 
 </template>
@@ -156,14 +156,21 @@ export default {
       a.setAttribute("download", filename);
       a.click();
     },
-    async moveToFileFolder(){
-      await this.getFileFolders
+    moveToFileFolder(e) {
+      console.log('move done')
     },
-    deleteFileFolder(filefolderId, itemType){
-      this.$store.dispatch('filefolders/deleteFileFolder', { id: filefolderId, itemType })
-        .then(response => this.toast('Success', `${response.message}`))
-        .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
-    }
+    // deleteFileFolder(filefolderId, itemType){
+    //   this.$store.dispatch('filefolders/deleteFileFolder', { id: filefolderId, itemType })
+    //     .then(response => this.toast('Success', `${response.message}`))
+    //     .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
+    // },
+    async deleteFileFolderItem(filefolderId, itemType) {
+      try {
+        this.deleteFileFolder({ id: filefolderId, itemType })
+      } catch (error) {
+        this.makeToast('Error', error.message)
+      }
+    },
   }
 }
 </script>

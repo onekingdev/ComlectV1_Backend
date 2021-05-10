@@ -123,7 +123,7 @@
             return
           }
           this.makeToast('Success', `Folder successfully updated!`)
-          this.$emit('moveToConfirmed')
+          this.$emit('movedConfirmed', 'test')
           this.$bvModal.hide(this.modalId)
         } catch (error) {
           this.makeToast('Error', error.message)
