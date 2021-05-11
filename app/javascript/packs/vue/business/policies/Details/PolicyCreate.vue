@@ -26,9 +26,9 @@
                     button.btn.btn-default.mr-3(@click="download") Download
                     PoliciesModalPublish(@publishConfirmed="publishPolicy")
                       button.btn.btn-dark.mr-3 Publish
-                    PoliciesModalDelete(:policyId="policy.id", @deleteConfirmed="deletePolicy(policy.id)")
-                      button.btn.btn__close.mr-3
-                        b-icon(icon='x')
+                    <!--PoliciesModalDelete(:policyId="policy.id", @deleteConfirmed="deletePolicy(policy.id)")-->
+                    button.btn.btn__close.mr-3(@click="closeAndExit")
+                      b-icon(icon='x')
           .row
             .col-12.px-0
               b-tabs(content-class="mt-0")
@@ -93,7 +93,7 @@
   import HistoryPolicy from "./PolicyHistory";
   import PolicyRisks from "../Risks/PolicyRisks";
   import PoliciesModalCreate from "../Modals/PoliciesModalCreate";
-  import PoliciesModalDelete from "../Modals/PoliciesModalDelete";
+  // import PoliciesModalDelete from "../Modals/PoliciesModalDelete";
   import PoliciesModalArchive from "../Modals/PoliciesModalArchive";
   import PoliciesModalRemoveSubsection from "../Modals/PoliciesModalRemoveSubsection";
   import PoliciesModalPublish from "../Modals/PoliciesModalPublish";
@@ -117,7 +117,7 @@
       HistoryPolicy,
       PolicyRisks,
       PoliciesModalCreate,
-      PoliciesModalDelete,
+      // PoliciesModalDelete,
       PoliciesModalArchive,
       PoliciesModalRemoveSubsection,
       PoliciesModalPublish
@@ -188,6 +188,9 @@
           .catch(error => {
             this.makeToast('Error', `Couldn't submit form! ${error}`)
           })
+      },
+      closeAndExit () {
+        window.location.href = `${window.location.origin}/business/compliance_policies`
       },
       archivePolicy(policyId, archiveStatus) {
         this.$store
