@@ -9,7 +9,7 @@
   @end="onEnd"
   @input="emitter"
   )
-    .table__row(v-for='el in realValue' :key='el.title' :data-id-policy="el.id")
+    .table__row(v-for='(el, idxEl) in realValue' :key='el.title' :data-id-policy="el.id")
       .table__cell.table__cell_name(v-show="el.children && el.children.length !== 0")
         .d-flex.align-items-center
           .dropdown-toggle.link(
@@ -33,7 +33,7 @@
           )
       .table__cell.table__cell_name(v-show="el.children && el.children.length === 0")
         a.link(v-if="el.id" :href="`/business/compliance_policies/${el.id}`") {{ el.title }}
-        .link(v-else) {{ el.title }}
+        .link(v-else) {{ idxEl + 1 }} {{ el.title }}
       .table__cell(v-if="!shortTable && el.status")
         b-badge.status(:variant="statusVariant") {{ el.status }}
       .table__cell.text-right(v-if="!shortTable && el.updated_at") {{ dateToHuman(el.updated_at) }}
