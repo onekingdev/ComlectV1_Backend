@@ -389,6 +389,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  min-width: 3rem;
   text-align: center;
   text-transform: uppercase;
   transform: translateY(-50%);
