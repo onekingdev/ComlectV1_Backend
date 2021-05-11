@@ -20,7 +20,7 @@ class Api::BusinessesController < ApiController
       build_business
       respond_with current_business, serializer: BusinessSerializer
     elsif current_business.update(edit_business_params)
-      current_business.username = current_business.generate_username
+      current_business.username = current_business.generate_username if current_business.username.blank?
       current_business.update(sub_industries: convert_sub_industries(params[:sub_industry_ids]))
       respond_with current_business, serializer: BusinessSerializer
     else
