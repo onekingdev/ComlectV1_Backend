@@ -78,6 +78,7 @@
 </template>
 
 <script>
+  import { mapGetters } from "vuex"
   import ComboBox from '@/common/ComboBox'
   import Errors from '@/common/Errors'
   import { VueEditor } from "vue2-editor"
@@ -98,6 +99,19 @@
   var year = today.getFullYear();
   const toOption = id => ({ id, label: id })
 
+  // const initialTask = defaults => ({
+  //   body: null,
+  //   link_to: null,
+  //   assignee: null,
+  //   year: year,
+  //   remind_at: null,
+  //   end_date: null,
+  //   description: '',
+  //   comment: '',
+  //   file: null,
+  //   ...(defaults || {})
+  // })
+
   export default {
     mixins: [EtaggerMixin()],
     props: {
@@ -105,11 +119,11 @@
         type: Boolean,
         default: true
       },
-      reviews: {
-        type: Array,
-        required: false,
-        default: () => []
-      }
+      // reviews: {
+      //   type: Array,
+      //   required: false,
+      //   default: () => []
+      // }
     },
     components: {
       ComboBox,
@@ -144,6 +158,7 @@
           [{ list: "bullet" }],
           ["link"]
         ],
+        projects: [],
         errors: []
       }
     },
@@ -156,6 +171,7 @@
 
         this.errors = []
         const toId = (this.taskId) ? `/${this.taskId}` : ''
+        console.log('this.task', this.task)
         console.log('toId', toId)
         fetch('/api/business/reminders' + toId, {
           method: 'POST',
@@ -172,7 +188,7 @@
             this.$emit('saved')
             this.toast('Success', 'The task has been saved')
             this.$bvModal.hide(this.modalId)
-            this.resetTask()
+            // this.resetTask()
           } else {
             this.toast('Error', 'Couldn\'t submit form')
           }
@@ -204,19 +220,36 @@
       },
       getDocumentUrl(document) {
         return `/uploads/${document.file_data.storage}/${document.file_data.id}`
-      }
+      },
+      // resetTask() {
+      //   if (this.taskId) {
+      //     fetch(`/api/business/reminders/${this.taskId}`, {
+      //       method: 'GET',
+      //       headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}
+      //     }).then(response => response.json())
+      //       .then(result => Object.assign(this.task, result))
+      //   } else {
+      //     this.task = initialTask(this.remindAt ? { remind_at: this.remindAt } : undefined)
+      //   }
+      // }
     },
     computed: {
-      reviewsOptions () {
-        const revOpt = this.reviews.map(review => {
-          return { value: review.id, text: review.name }
-        })
-        return revOpt ? revOpt : []
+      // reviewsOptions () {
+      //   const revOpt = this.reviews.map(review => {
+      //     return { value: review.id, text: review.name }
+      //   })
+      //   return revOpt ? revOpt : []
+      // },
+      ...mapGetters({
+        reviews: 'annual/reviews'
+      }),
+      policies() {
+        return this.$store.getters.policiesList
       },
       linkToOptions() {
-        return [{...toOption('Projects'), children: ['Some project', 'Another', 'One'].map(toOption)},
-          {...toOption('Annual Reviews'), children: ['Annual Review 2018', 'Annual Review 1337', 'Some Review'].map(toOption)},
-          {...toOption('Policies'), children: ['Pol', 'Icy', 'Policy 3'].map(toOption)}]
+        return [{...toOption('Projects'), children: this.projects.map(record => record.title).map(toOption)},
+          {...toOption('Annual Reviews'), children: this.reviews.map(record => record.name).map(toOption)},
+          {...toOption('Policies'), children: this.policies.map(record => record.name).map(toOption) }]
       },
       assigneeOptions() {
         return ['John', 'Doe', 'Another specialist'].map(toOption)
@@ -224,6 +257,26 @@
       url() {
         return `/api/business/annual_reviews/${27}/documents`
       }
+    },
+    mounted() {
+      this.$store.dispatch("getPolicies")
+        .then((response) => console.log('response mounted', response))
+        .catch((err) => console.error(err));
+
+      this.$store.dispatch('annual/getReviews')
+        .then((response) => console.log('response mounted', response))
+        .catch((err) => console.error(err));
+
+      fetch('/api/business/local_projects/', {
+        method: 'GET',
+        headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+        // body: JSON.stringify(this.task)
+      }).then(response => response.json())
+        .then((response) => {
+          console.log('response mounted', response)
+          this.projects = response
+        })
+        .catch((err) => console.error(err));
     },
   }
 </script>
