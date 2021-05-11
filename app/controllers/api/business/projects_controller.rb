@@ -8,8 +8,11 @@ class Api::Business::ProjectsController < ApiController
   skip_before_action :verify_authenticity_token # TODO: proper authentication
 
   def create
-    if policy(@project).post? && @project.validate
-      @project.post! if project_params[:status] != 'draft'
+    if project_params[:status] == 'draft'
+      @project.save(validate: false)
+      respond_with @project, serializer: ProjectSerializer
+    elsif policy(@project).post? && @project.validate
+      @project.post!
       @project.new_project_notification
       unless @project.local_project_id
         local_project_params = @project.attributes.slice('business_id', 'title', 'description', 'starts_on', 'ends_on')
@@ -25,7 +28,10 @@ class Api::Business::ProjectsController < ApiController
   def update
     @project = Project::Form.find(@project.id)
     src_status = @project.status
-    if @project.update(project_params)
+    if project_params[:status] == 'draft'
+      @project.assign_attributes project_params
+      @project.save(validate: false)
+    elsif @project.update(project_params)
       @project.post! if project_params[:status] != 'draft' || src_status == 'published'
       respond_with @project, serializer: ProjectSerializer
     else
