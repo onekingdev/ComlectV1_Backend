@@ -413,14 +413,14 @@
   };
 </script>
 <style scoped>
-  .dragArea {
-    /*min-height: 50px;*/
-    outline: 1px dashed transparent;
-    transition: all 200ms ease-in;
-  }
-  .dragArea:hover,
-  .dragArea:active {
-    /*height: 50px;*/
-    outline-color: #ced4da;
-  }
+  /*.dragArea {*/
+    /*!*min-height: 50px;*!*/
+    /*outline: 1px dashed transparent;*/
+    /*transition: all 200ms ease-in;*/
+  /*}*/
+  /*.dragArea:hover,*/
+  /*.dragArea:active {*/
+    /*!*height: 50px;*!*/
+    /*outline-color: #ced4da;*/
+  /*}*/
 </style>
