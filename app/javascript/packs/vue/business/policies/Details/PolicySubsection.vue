@@ -63,7 +63,7 @@
     data() {
       return {
         description: "N/A",
-        title: "New section name",
+        title: "New Section",
         toggleVueEditor: false,
         isActive: false,
         count: 0,
@@ -95,7 +95,7 @@
 
           this.parentSection.children.push({
             id: id,
-            title: `${this.title}-№-${this.count}-${id}`,
+            title: `${this.title}`,
             description: this.description,
             children: [],
           })
@@ -108,7 +108,7 @@
         this.section.children.push({
           // component: SubsectionPolicy,
           id: this.count++,
-          title: `${this.title}-№-${this.count++}-${id}`,
+          title: `${this.title}`,
           description: this.description,
           children: [],
         })

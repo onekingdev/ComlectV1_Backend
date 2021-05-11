@@ -126,7 +126,7 @@
       return {
         leftMenu: true,
         description: "N/A",
-        title: "New Policy Subtitle",
+        title: "Section Name",
         toggleVueEditor: false,
         sections: [],
         count: 0,
@@ -279,7 +279,7 @@
         // })
         this.policiesComputed = {
           id: id,
-          title: `${this.title}-№-${this.count++}-${id}`,
+          title: `${this.title}`,
           description: this.description,
           children: [],
         }

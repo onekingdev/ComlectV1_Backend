@@ -184,6 +184,10 @@
 .quillWrapper .ql-picker-label {
   font-size: 12px!important;
 }
+.quillWrapper .ql-snow.ql-toolbar {
+  padding-top: 5px!important;
+  padding-bottom: 2px!important;
+}
 .quillWrapper .ql-snow.ql-toolbar .ql-formats {
   margin-bottom: 5px!important;
 }
