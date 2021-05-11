@@ -13,6 +13,5 @@ class CompliancePolicySerializer < ApplicationSerializer
              :status,
              :sections,
              :versions,
-             :archived,
-             :reminders
+             :archived
 end

@@ -15,8 +15,7 @@ class Api::Business::HiresController < ApiController
       )
       specialist = job_application.object.specialist
       specialist.business_specialists_roles.create(
-        business_id: job_application.object.project.business.id,
-        role: params.require(:role)
+        business_id: job_application.object.project.business.id
       )
       LocalProjectsSpecialist.create(local_project_id: @project.local_project.id, specialist_id: specialist.id)
     end

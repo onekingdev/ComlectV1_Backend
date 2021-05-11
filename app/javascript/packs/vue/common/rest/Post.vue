@@ -38,7 +38,7 @@ export default {
             this.$emit('errors', errors)
           }).catch(() => this.toast('Error', 'Couldn\'t submit form: Unknown error', true))
         } else if (response.status === 201 || response.status === 200) {
-          this.$emit('saved', response)
+          this.$emit('saved')
         } else {
           this.toast('Error', 'Couldn\'t submit form', true)
         }

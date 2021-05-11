@@ -1,10 +1,11 @@
-import axios from 'axios'
+// import axios from 'axios'
+import axios from '../../services/axios'
 
-const instance = axios.create({
-  baseURL: '/api',
-  timeout: 1000,
-  headers: {'X-Custom-Header': 'foobar'}
-});
+// const instance = axios.create({
+//   baseURL: '/api',
+//   timeout: 1000,
+//   headers: {'X-Custom-Header': 'foobar'}
+// });
 
 export default {
   state: {
@@ -20,7 +21,7 @@ export default {
       commit("clearError");
       commit("setLoading", true);
 
-      instance.get('/business/specialists')
+      axios.get('/business/specialists', { timeout: 10000 })
         .then(function (response) {
           // handle success
           commit('updateSpecialistsList', response.data)

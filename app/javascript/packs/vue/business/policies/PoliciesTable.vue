@@ -24,7 +24,7 @@
             .table__cell.table__cell_title.table__cell_clickable.text-right
               | Date Created
               b-icon.ml-2(icon='chevron-expand')
-            .table__cell.table__cell_title.table__cell_clickable.text-right
+            .table__cell.table__cell_title.table__cell_clickable
               | Risk Level
               b-icon.ml-2(icon='chevron-expand')
             .table__cell
