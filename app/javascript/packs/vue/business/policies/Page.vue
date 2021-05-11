@@ -9,7 +9,7 @@
                 h2: b Policies and Procedures
               div
                 button.btn.btn.btn-default.mr-3 Export
-                PoliciesModalCreate(@saved="updateList")
+                PoliciesModalCreate(@savedConfirmed="updateList")
                   button.btn.btn-dark.float-end New policy
     .row
       .col-12.px-0

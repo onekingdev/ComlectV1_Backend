@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Business::FileDocsController < ApplicationController
+class Business::FileDocsController < ApiController
   before_action :require_business!
   before_action :set_file_doc, only: %i[destroy edit update]
 
