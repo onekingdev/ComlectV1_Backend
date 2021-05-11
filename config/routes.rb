@@ -326,6 +326,8 @@ Rails.application.routes.draw do
         resources :timesheets, except: %i[new edit], controller: 'timesheets'
         resources :job_applications, path: 'applications', only: %i[show update create destroy]
         get :local
+        get :calendar_hide
+        get :calendar_show
       end
       post '/upgrade/subscribe' => 'upgrade#subscribe'
       delete '/upgrade/cancel' => 'upgrade#cancel'
