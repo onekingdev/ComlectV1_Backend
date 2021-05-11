@@ -4,7 +4,6 @@ import Vuex from "vuex";
 import policies from "./businesModules/policies";
 import specialistsMarketplace from "./businesModules/specialistsMarketplace";
 import annual from "./businesModules/annual"
-import filefolders from "./businesModules/filefolders"
 import risks from "./businesModules/risks";
 import shared from "./commonModules/shared";
 
@@ -56,10 +55,6 @@ const store = new Vuex.Store({
     annual: {
       namespaced: true,
       ...annual,
-    },
-    filefolders: {
-      namespaced: true,
-      ...filefolders,
     },
   },
 });

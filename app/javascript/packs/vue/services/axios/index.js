@@ -1,5 +1,4 @@
 import instance from 'axios'
-// import Vue from 'vue';
 import store  from '../../store/business'
 // import { createToast } from "../../mixins/ToasterMixin";
 
@@ -29,18 +28,11 @@ axios.interceptors.request.use((request) => {
 axios.interceptors.response.use(undefined, (error) => {
   // Errors handling
   const { response } = error
-  const { data, status, statusText, message } = response
+  const { data } = response
   if (data) {
     console.log('data interceprots', data)
     // createToast.toast('Error', data, true)
   }
-
-  // const vm = new Vue.extend({})
-  // vm.$bvToast.toast(`Server call returned error: ${message}`, {
-  //   title: `${statusText} (${status})`,
-  //   variant: 'danger',
-  // });
-
   throw data
 })
 

@@ -176,6 +176,29 @@
   border-radius: 3px;
 }
 
+
+/* ---------- Policy Editor ---------- */
+.ql-snow .ql-picker.ql-header {
+  width: 90px!important;
+}
+.quillWrapper .ql-picker-label {
+  font-size: 12px!important;
+}
+.quillWrapper .ql-snow.ql-toolbar .ql-formats {
+  margin-bottom: 5px!important;
+}
+.ql-editor {
+  min-height: 70px!important;
+}
+.ql-snow .ql-toolbar button svg,
+.quillWrapper .ql-snow.ql-toolbar button svg {
+  width: 15px!important;
+  height: 15px!important;
+}
+.ql-snow .ql-picker:not(.ql-color-picker):not(.ql-icon-picker) svg {
+  width: 15px!important;
+}
+
 /* ---------- Policy Details ---------- */
 .policy-actions {
   position: absolute;
