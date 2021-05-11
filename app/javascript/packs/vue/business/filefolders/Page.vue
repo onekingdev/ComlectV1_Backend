@@ -70,6 +70,7 @@
     methods: {
       ...mapActions({
         startZipping: 'filefolders/startZipping',
+        getFileFoldersById: 'filefolders/getFileFoldersById',
       }),
       makeToast(title, str) {
         this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
@@ -231,7 +232,14 @@
     },
     async mounted () {
       try {
-        await this.$store.dispatch('filefolders/getFileFolders')
+        const currentPage = window.location.pathname.match( /\d+/g )[0]
+        if(!currentPage) await this.$store.dispatch('filefolders/getFileFolders') // default fiflefolders
+
+        // if id exist in URL get fiflefolders
+        if(currentPage) {
+          await this.getFileFoldersById(currentPage)
+          this.$store.commit('filefolders/SET_CUREENT_FOLDER', currentPage)
+        }
       } catch (error) {
         this.makeToast('Error', error.message)
       }
