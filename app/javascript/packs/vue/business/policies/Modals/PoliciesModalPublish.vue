@@ -4,12 +4,13 @@
       slot
 
     b-modal.fade(:id="modalId" title="Publish Policy")
-      .d-block
-        p
-          b-icon.mr-3(icon="exclamation-circle-fill" scale="2" variant="info")
-          | The policy will be added to your compilance manual and employees will be able to view the new policy.
-        p
-          b Do you want to continue?
+      .row
+        .col-md-1.text-center.px-0
+          b-icon.mt-2.ml-3(icon="exclamation-circle-fill" scale="2" variant="info")
+        .col
+          p The policy will be added to your compilance manual and employees will be able to view the new policy.
+            br
+            b Do you want to continue?
       Errors(:errors="errors.title")
 
       template(slot="modal-footer")
