@@ -44,8 +44,8 @@
           b-dropdown(size="sm" variant="light" class="m-0 p-0" right)
             template(#button-content)
               b-icon(icon="three-dots")
-            b-dropdown-item(:href="'/business/compliance_policies/'+el.id") Edit
-            b-dropdown-item(@click="moveUp(el.id)") Move up
+            b-dropdown-item(v-if="!el.archived" :href="'/business/compliance_policies/'+el.id") Edit
+            b-dropdown-item(v-if="!el.archived" @click="moveUp(el.id)") Move up
             PoliciesModalArchive(@saved="updateList", :policyId="el.id", :archiveStatus="!el.archived" @archiveConfirmed="archivePolicy(el.id, !el.archived)" :inline="false")
               b-dropdown-item {{ !el.archived ? 'Archive' : 'Unarchive' }}
             PoliciesModalDelete(v-if="el.archived" @saved="updateList", :policyId="el.id", @deleteConfirmed="deletePolicy(el.id)" :inline="false")
