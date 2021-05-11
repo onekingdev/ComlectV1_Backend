@@ -125,7 +125,7 @@
     data() {
       return {
         leftMenu: true,
-        description: "N/A",
+        description: "",
         title: "Section Name",
         toggleVueEditor: false,
         sections: [],

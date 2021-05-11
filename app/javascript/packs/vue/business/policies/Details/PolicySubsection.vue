@@ -62,7 +62,7 @@
     },
     data() {
       return {
-        description: "N/A",
+        description: "",
         title: "New Section",
         toggleVueEditor: false,
         isActive: false,

@@ -268,6 +268,7 @@
 }
 
 .policy-details__text-editor {
+  min-height: 2rem;
   border: solid 1px transparent;
   cursor: pointer;
   transition: all 200ms ease-in;
