@@ -232,13 +232,13 @@
     },
     async mounted () {
       try {
-        const currentPage = window.location.pathname.match( /\d+/g )[0]
+        const currentPage = window.location.pathname.match( /\d+/g )
         if(!currentPage) await this.$store.dispatch('filefolders/getFileFolders') // default fiflefolders
 
         // if id exist in URL get fiflefolders
-        if(currentPage) {
-          await this.getFileFoldersById(currentPage)
-          this.$store.commit('filefolders/SET_CUREENT_FOLDER', currentPage)
+        if(currentPage[0]) {
+          await this.getFileFoldersById(currentPage[0])
+          this.$store.commit('filefolders/SET_CUREENT_FOLDER', currentPage[0])
         }
       } catch (error) {
         this.makeToast('Error', error.message)
