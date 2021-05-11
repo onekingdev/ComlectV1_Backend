@@ -36,8 +36,10 @@
                   b-dropdown.bg-white(text='Actions', variant="secondary", right)
                     PoliciesModalArchive(:archiveStatus="!policy.archived" @archiveConfirmed="archivePolicy(policy.id, !policy.archived)" :inline="false")
                       b-dropdown-item {{ !policy.archived ? 'Archive' : 'Unarchive' }} Policy
-                    PoliciesModalRemoveSubsection(@removeSubsectionConfirmed="deleteAllSections", :inline="false")
-                      b-dropdown-item.delete Delete sections
+                    PoliciesModalDelete(@deleteConfirmed="deletePolicy(policy.id)", :policyId="policy.id",  :inline="false")
+                      b-dropdown-item.delete Delete Policy
+                    <!--PoliciesModalRemoveSubsection(@removeSubsectionConfirmed="deleteAllSections", :inline="false")-->
+                      <!--b-dropdown-item.delete Delete sections-->
                     <!--b-dropdown-item Save all-->
                 .col-12.px-lg-5.px-md-3
                   .card-body.white-card-body.p-0.position-relative
@@ -93,7 +95,7 @@
   import HistoryPolicy from "./PolicyHistory";
   import PolicyRisks from "../Risks/PolicyRisks";
   import PoliciesModalCreate from "../Modals/PoliciesModalCreate";
-  // import PoliciesModalDelete from "../Modals/PoliciesModalDelete";
+  import PoliciesModalDelete from "../Modals/PoliciesModalDelete";
   import PoliciesModalArchive from "../Modals/PoliciesModalArchive";
   import PoliciesModalRemoveSubsection from "../Modals/PoliciesModalRemoveSubsection";
   import PoliciesModalPublish from "../Modals/PoliciesModalPublish";
@@ -117,7 +119,7 @@
       HistoryPolicy,
       PolicyRisks,
       PoliciesModalCreate,
-      // PoliciesModalDelete,
+      PoliciesModalDelete,
       PoliciesModalArchive,
       PoliciesModalRemoveSubsection,
       PoliciesModalPublish
