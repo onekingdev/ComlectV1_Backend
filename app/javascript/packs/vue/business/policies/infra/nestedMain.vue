@@ -38,7 +38,7 @@
         b-badge.status(:variant="statusVariant") {{ el.status }}
       .table__cell.text-right(v-if="!shortTable && el.updated_at") {{ dateToHuman(el.updated_at) }}
       .table__cell.text-right(v-if="!shortTable && el.created_at") {{ dateToHuman(el.created_at) }}
-      .table__cell(v-if="!shortTable && el.created_at") N/A
+      .table__cell.text-right(v-if="!shortTable && el.created_at") N/A
       .table__cell(v-if="!shortTable && el.created_at")
         .actions
           b-dropdown(size="sm" variant="light" class="m-0 p-0" right)

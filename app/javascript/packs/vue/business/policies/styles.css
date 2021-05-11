@@ -17,7 +17,9 @@
   transition: all 200ms ease;
   transform: translateY(-50%);
 }
+
 .btn-clear:hover,
+
 .btn-clear:active {
   background-color: #ced4da;
   box-shadow: 0 3px rgba(255, 193, 7, 1)
@@ -39,8 +41,13 @@
 
 .table__cell {
   display: table-cell;
-  padding: .8rem 1.5rem;
+  /*padding: .8rem 1.5rem;*/
+  padding: .5rem 0;
   border-bottom: solid 1px #ced4da;
+}
+
+.table__cell .table__cell {
+  padding: .5rem 1rem;
 }
 
 .table__cell:first-child {
@@ -309,7 +316,7 @@
   list-style: none;
   text-align: left;
   min-width: 10rem;
-  background-color: var(--white);
+  background-color: white;
   border: solid 1px #e9ebee;
   border-radius: 3px;
   box-shadow: 3px 3px 5px rgba(0, 0, 0, .3)
