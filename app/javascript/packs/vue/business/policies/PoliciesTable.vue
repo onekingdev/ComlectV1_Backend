@@ -27,7 +27,7 @@
             .table__cell.table__cell_title.table__cell_clickable.text-right
               | Risk Level
               b-icon.ml-2(icon='chevron-expand')
-            .table__cell
+            .table__cell(style="width: 40px")
         nested-draggable(v-model='policiesComputed', :policiesList="policies")
         .table(v-if="!loading && policiesComputed.length === 0")
           .table__row
