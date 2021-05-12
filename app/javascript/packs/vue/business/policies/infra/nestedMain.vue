@@ -1,7 +1,7 @@
 <template lang="pug">
-  draggable.dragArea(
+  draggable.dragArea.w-100(
   v-bind="dragOptions"
-  tag="tbody" :list="list"
+  tag="table" :list="list"
   :value="value"
   :move="checkMove"
   :policiesList="policiesList"
@@ -9,17 +9,45 @@
   @end="onEnd"
   @input="emitter"
   )
-    .table__row(v-for='(el, idxEl) in realValue' :key='el.title' :data-id-policy="el.id")
-      .table__cell.table__cell_name(v-show="el.children && el.children.length !== 0")
-        .d-flex.align-items-center
-          .dropdown-toggle.link(
-            v-if="el.children && el.children.length !== 0"
-            :id="`#sectionIcon-${el.id ? el.id : randomNum}`"
-            @click="toogleSections(el.id ? el.id : randomNum)"
-            :class="{active : shortTable}")
-            b-icon.mr-2(icon="chevron-compact-right")
-          a.link(v-if="el.id" :href="`/business/compliance_policies/${el.id}`") {{ el.title }}
-          .link(v-else) {{ el.title }}
+    template(v-for='(el, idxEl) in realValue')
+      tbody
+        .table__row
+          .table__cell.table__cell_name(v-show="el.children && el.children.length !== 0")
+            .d-flex.align-items-center
+              .dropdown-toggle.link(
+                v-if="el.children && el.children.length !== 0"
+                :id="`#sectionIcon-${el.id ? el.id : randomNum}`"
+                @click="toogleSections(el.id ? el.id : randomNum)"
+                :class="{active : shortTable}")
+                b-icon.mr-2(icon="chevron-compact-right")
+              a.link(v-if="el.id" :href="`/business/compliance_policies/${el.id}`") {{ el.title }}
+              .link(v-else) {{ el.title }}
+          .table__cell.table__cell_name(v-show="el.children && el.children.length === 0")
+            a.link(v-if="el.id" :href="`/business/compliance_policies/${el.id}`") {{ el.title }}
+            .link.ml-4(v-else) {{ idxEl + 1 }} {{ el.title }}
+          .table__cell(v-if="!shortTable && el.status")
+            b-badge.status(:variant="statusVariant") {{ el.status }}
+          .table__cell.text-right(v-if="!shortTable && el.updated_at") {{ dateToHuman(el.updated_at) }}
+          .table__cell.text-right(v-if="!shortTable && el.created_at") {{ dateToHuman(el.created_at) }}
+          .table__cell.text-right(v-if="!shortTable && el.created_at") N/A
+          .table__cell(v-if="!shortTable && el.created_at")
+            .actions
+              b-dropdown(size="sm" variant="light" class="m-0 p-0" right)
+                template(#button-content)
+                  b-icon(icon="three-dots")
+                b-dropdown-item(v-if="!el.archived" :href="'/business/compliance_policies/'+el.id") Edit
+                b-dropdown-item(v-if="!el.archived" @click="moveUp(el.id)") Move up
+                PoliciesModalArchive(@saved="updateList", :policyId="el.id", :archiveStatus="!el.archived" @archiveConfirmed="archivePolicy(el.id, !el.archived)" :inline="false")
+                  b-dropdown-item {{ !el.archived ? 'Archive' : 'Unarchive' }}
+                PoliciesModalDelete(v-if="el.archived" @saved="updateList", :policyId="el.id", @deleteConfirmed="deletePolicy(el.id)" :inline="false")
+                  b-dropdown-item.delete Delete
+        <!--.table__row(v-show="el.children && el.children.length === 0 &&  !el.id")-->
+          <!--.table__cell.table__cell_name-->
+            <!--.link.ml-4 {{ idxEl + 1 }} {{ el.title }}-->
+          <!--.table__cell-->
+          <!--.table__cell-->
+          <!--.table__cell-->
+          <!--.table__cell-->
         .dropdown-items.mb-2(v-if="el.children && el.children.length" :id="`#section-${el.id ? el.id : randomNum}`" :class="{active : shortTable}")
           nested-draggable(
           v-show="open"
@@ -31,25 +59,6 @@
           :policiesList="policiesList"
           :shortTable="shortTable"
           )
-      .table__cell.table__cell_name(v-show="el.children && el.children.length === 0")
-        a.link(v-if="el.id" :href="`/business/compliance_policies/${el.id}`") {{ el.title }}
-        .link(v-else) {{ idxEl + 1 }} {{ el.title }}
-      .table__cell(v-if="!shortTable && el.status")
-        b-badge.status(:variant="statusVariant") {{ el.status }}
-      .table__cell.text-right(v-if="!shortTable && el.updated_at") {{ dateToHuman(el.updated_at) }}
-      .table__cell.text-right(v-if="!shortTable && el.created_at") {{ dateToHuman(el.created_at) }}
-      .table__cell.text-right(v-if="!shortTable && el.created_at") N/A
-      .table__cell(v-if="!shortTable && el.created_at")
-        .actions
-          b-dropdown(size="sm" variant="light" class="m-0 p-0" right)
-            template(#button-content)
-              b-icon(icon="three-dots")
-            b-dropdown-item(v-if="!el.archived" :href="'/business/compliance_policies/'+el.id") Edit
-            b-dropdown-item(v-if="!el.archived" @click="moveUp(el.id)") Move up
-            PoliciesModalArchive(@saved="updateList", :policyId="el.id", :archiveStatus="!el.archived" @archiveConfirmed="archivePolicy(el.id, !el.archived)" :inline="false")
-              b-dropdown-item {{ !el.archived ? 'Archive' : 'Unarchive' }}
-            PoliciesModalDelete(v-if="el.archived" @saved="updateList", :policyId="el.id", @deleteConfirmed="deletePolicy(el.id)" :inline="false")
-              b-dropdown-item.delete Delete
 </template>
 <script>
   import draggable from "vuedraggable";
