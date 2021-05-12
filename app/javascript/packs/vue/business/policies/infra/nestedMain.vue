@@ -48,7 +48,7 @@
           <!--.table__cell-->
           <!--.table__cell-->
           <!--.table__cell-->
-        .dropdown-items.mb-2(v-if="el.children && el.children.length" :id="`#section-${el.id ? el.id : idxEl+'_'+randomNum}`" :class="{active : shortTable}")
+        .dropdown-items(v-if="el.children && el.children.length" :id="`#section-${el.id ? el.id : idxEl+'_'+randomNum}`" :class="{active : shortTable}")
           nested-draggable(
           v-show="open"
           :list="el.children"
