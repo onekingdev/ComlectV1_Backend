@@ -9,7 +9,7 @@
   @end="onEnd"
   @input="emitter"
   )
-    .table__row(v-for='el in realValue' :key='el.title' :data-id-policy="el.id")
+    .table__row(v-for='(el, idxEl) in realValue' :key='el.title' :data-id-policy="el.id")
       .table__cell.table__cell_name(v-show="el.children && el.children.length !== 0")
         .d-flex.align-items-center
           .dropdown-toggle.link(
@@ -33,19 +33,19 @@
           )
       .table__cell.table__cell_name(v-show="el.children && el.children.length === 0")
         a.link(v-if="el.id" :href="`/business/compliance_policies/${el.id}`") {{ el.title }}
-        .link(v-else) {{ el.title }}
+        .link(v-else) {{ idxEl + 1 }} {{ el.title }}
       .table__cell(v-if="!shortTable && el.status")
         b-badge.status(:variant="statusVariant") {{ el.status }}
       .table__cell.text-right(v-if="!shortTable && el.updated_at") {{ dateToHuman(el.updated_at) }}
       .table__cell.text-right(v-if="!shortTable && el.created_at") {{ dateToHuman(el.created_at) }}
-      .table__cell(v-if="!shortTable && el.created_at") N/A
+      .table__cell.text-right(v-if="!shortTable && el.created_at") N/A
       .table__cell(v-if="!shortTable && el.created_at")
         .actions
           b-dropdown(size="sm" variant="light" class="m-0 p-0" right)
             template(#button-content)
               b-icon(icon="three-dots")
-            b-dropdown-item(:href="'/business/compliance_policies/'+el.id") Edit
-            b-dropdown-item(@click="moveUp(el.id)") Move up
+            b-dropdown-item(v-if="!el.archived" :href="'/business/compliance_policies/'+el.id") Edit
+            b-dropdown-item(v-if="!el.archived" @click="moveUp(el.id)") Move up
             PoliciesModalArchive(@saved="updateList", :policyId="el.id", :archiveStatus="!el.archived" @archiveConfirmed="archivePolicy(el.id, !el.archived)" :inline="false")
               b-dropdown-item {{ !el.archived ? 'Archive' : 'Unarchive' }}
             PoliciesModalDelete(v-if="el.archived" @saved="updateList", :policyId="el.id", @deleteConfirmed="deletePolicy(el.id)" :inline="false")
@@ -327,7 +327,7 @@
       dateToHuman(value) {
         const date = DateTime.fromJSDate(new Date(value))
         if (!date.invalid) {
-          return date.toFormat('dd/MM/yyyy')
+          return date.toFormat('MM/dd/yyyy')
         }
         if (date.invalid) {
           return value
@@ -413,14 +413,14 @@
   };
 </script>
 <style scoped>
-  .dragArea {
-    /*min-height: 50px;*/
-    outline: 1px dashed transparent;
-    transition: all 200ms ease-in;
-  }
-  .dragArea:hover,
-  .dragArea:active {
-    /*height: 50px;*/
-    outline-color: #ced4da;
-  }
+  /*.dragArea {*/
+    /*!*min-height: 50px;*!*/
+    /*outline: 1px dashed transparent;*/
+    /*transition: all 200ms ease-in;*/
+  /*}*/
+  /*.dragArea:hover,*/
+  /*.dragArea:active {*/
+    /*!*height: 50px;*!*/
+    /*outline-color: #ced4da;*/
+  /*}*/
 </style>

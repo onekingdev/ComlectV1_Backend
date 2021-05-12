@@ -1,7 +1,10 @@
 export default {
   state: {
     loading: false,
-    error: null
+    error: null,
+    settings: {
+      authProvider: 'jwt',
+    }
   },
   mutations: {
     setLoading (state, payload) {
@@ -31,6 +34,9 @@ export default {
     },
     error (state) {
       return state.error
+    },
+    settings (state) {
+      return state.settings
     },
   }
 }

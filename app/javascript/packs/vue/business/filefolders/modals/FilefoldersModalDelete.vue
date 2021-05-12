@@ -3,15 +3,16 @@
     div(v-b-modal="modalId" :class="{'d-inline-block':inline}")
       slot
 
-    b-modal.fade(:id="modalId" title="Delete policy")
+    b-modal.fade(:id="modalId" title="Delete Document")
       .row
         .col-md-1.text-center.px-0
-          b-icon.mt-2.ml-3(icon="x-circle" scale="2" variant="danger")
+          b-icon.mt-2.ml-3(icon="exclamation-circle-fill" scale="2" variant="danger")
         .col
-          p Removing this policy will permanently delete any items populated within it.
+          p Removing this document will delete any progress and tasks associated with the file.
             br
             b Do you want to continue?
-      <!--Errors(:errors="errors.title")-->
+
+      Errors(:errors="errors.title")
 
       template(slot="modal-footer")
         button.btn(@click="$bvModal.hide(modalId)") Cancel
@@ -26,20 +27,11 @@
         type: Boolean,
         default: true
       },
-      policyId: {
-        type: Number,
-        default: true
-      },
     },
     data() {
       return {
         modalId: `modal_${rnd()}`,
-        policy: {
-          name: '',
-          description: 'N/A',
-          sections: [],
-        },
-        // errors: []
+        errors: []
       }
     },
     methods: {
@@ -48,14 +40,10 @@
       },
       submit(e) {
         e.preventDefault();
-        // this.errors = [];
+        this.errors = [];
 
         this.$emit('deleteConfirmed')
         this.$bvModal.hide(this.modalId)
-
-        if (window.location.href === `${window.location.origin}/business/compliance_policies/${this.policyId}`) {
-          window.location.href = `${window.location.origin}/business/compliance_policies/`
-        }
       },
     },
   }
