@@ -14,6 +14,10 @@ class Business::CompliancePoliciesController < ApplicationController
     render html: content_tag('business-policies-create-page', '', ':policy-id': params[:id]).html_safe, layout: 'vue_business'
   end
 
+  def index
+    render html: content_tag('business-policies-entire-page', '').html_safe, layout: 'vue_business'
+  end
+
   private
 
   def set_cpolicy
