@@ -36,7 +36,7 @@
                   b-dropdown.bg-white(text='Actions', variant="secondary", right)
                     PoliciesModalArchive(:archiveStatus="!policy.archived" @archiveConfirmed="archivePolicy(policy.id, !policy.archived)" :inline="false")
                       b-dropdown-item {{ !policy.archived ? 'Archive' : 'Unarchive' }} Policy
-                    PoliciesModalDelete(@deleteConfirmed="deletePolicy(policy.id)", :policyId="policy.id",  :inline="false")
+                    PoliciesModalDelete(v-if="policy.archived" @deleteConfirmed="deletePolicy(policy.id)", :policyId="policy.id",  :inline="false")
                       b-dropdown-item.delete Delete Policy
                     <!--PoliciesModalRemoveSubsection(@removeSubsectionConfirmed="deleteAllSections", :inline="false")-->
                       <!--b-dropdown-item.delete Delete sections-->
