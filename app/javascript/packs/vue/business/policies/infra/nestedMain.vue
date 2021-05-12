@@ -24,7 +24,7 @@
               .link(v-else) {{ el.title }}
           .table__cell.table__cell_name(v-show="el.children && el.children.length === 0")
             a.link(v-if="el.id" :href="`/business/compliance_policies/${el.id}`") {{ el.title }}
-            .link.ml-4(v-else) {{ idxEl + 1 }} {{ el.title }}
+            .link.ml-4(v-else) {{ idxEl + 1 }}. {{ el.title }}
           .table__cell(v-if="!shortTable && el.status")
             b-badge.status(:variant="statusVariant") {{ el.status }}
           .table__cell.text-right(v-if="!shortTable && el.updated_at") {{ dateToHuman(el.updated_at) }}
