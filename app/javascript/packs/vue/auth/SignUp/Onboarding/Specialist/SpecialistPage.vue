@@ -110,15 +110,15 @@
               h3.onboarding__title.m-t-2 What's your expirience?
               p.onboarding__sub-title Select one that the best matches your level of your expertise.
               b-form-group(class="onboarding-group")
-                b-button.exp__btn.text-left(type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onExpirienceChange($event, 0)")
+                b-button.exp__btn.text-left(:class="formStep2.expirience === 0 ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onExpirienceChange($event, 0)")
                   b.exp__btn--main Junior
                   br
                   span.exp__btn--sub Begining consulting with some experience in the field.
-                b-button.exp__btn.text-left(type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onExpirienceChange($event, 1)")
+                b-button.exp__btn.text-left(:class="formStep2.expirience === 1 ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onExpirienceChange($event, 1)")
                   b.exp__btn--main Intermediate
                   br
                   span.exp__btn--sub Good expirience and knowlage of the industry.
-                b-button.exp__btn.text-left(type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onExpirienceChange($event, 2)")
+                b-button.exp__btn.text-left(:class="formStep2.expirience === 2 ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onExpirienceChange($event, 2)")
                   b.exp__btn--main Expert
                   br
                   span.exp__btn--sub Deep understanding of industry with varied experience.
