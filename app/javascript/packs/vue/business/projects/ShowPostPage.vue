@@ -57,7 +57,10 @@
             .card
               .card-header: h3 Applicants
               .card-body: Get(:applications="applicationsUrl"): template(v-slot="{applications}")
-                p(v-if="!applications.length") No applicants
+                p(v-if="!applications.length")
+                  | No Applicants to Display
+                  br
+                  img(src='@/assets/no-applicants.svg' style="width: 100%; max-width: 300px")
                 table.table(v-else)
                   thead
                     tr
@@ -109,28 +112,16 @@
                                 dd.col-sm-9
                           template(#modal-footer="{ ok, cancel, hide }")
                             button.btn.btn-light(@click="hide") Close
-                            button.btn.btn-outline-dark(v-if="!hasSpecialist(application.project)" @click="denyProposal") Deny Proposal
+                            Post(v-if="!hasSpecialist(application.project)" :action="denyUrl(application.id)" :model="{}" @saved="denied(application.project.local_project_id)")
+                              button.btn.btn-outline-dark Deny Proposal
                             button.btn.btn-dark(v-if="!hasSpecialist(application.project)" v-b-modal="confirmModalId") Accept Proposal
-                        b-modal.fade(:id="confirmModalId" title="Accept Proposal")
-                          p Please confirm the applicant you wish to hire.
-                          .card
-                            .card-body
-                              SpecialistDetails(:specialist="application.specialist")
-                              InputSelect(v-model="specialist_role" :options="specialistRoleOptions") Select Role
-                              .form-text.text-muted Determines the permissions the specialist will have access to
-                          template(#modal-footer="{ ok, cancel, hide }")
-                            button.btn.btn-light(@click="hide") Cancel
-                            button.btn.btn-outline-dark(@click="goBack") Go Back
-                            Post(:action="hireUrl + '?job_application_id=' + application.id" :model="{specialist_role}" @saved="saved(project.local_project_id)")
-                              button.btn.btn-dark Confirm
+                        AcceptDenyProposalModal(:id="confirmModalId" :application="application" @back="goBack" @saved="accepted")
 </template>
 
 <script>
 import SpecialistDetails from './SpecialistDetails'
-import {
-  FIXED_PAYMENT_SCHEDULE_OPTIONS,
-  SPECIALIST_ROLE_OPTIONS,
-} from '@/common/ProjectInputOptions'
+import AcceptDenyProposalModal from './AcceptDenyProposalModal'
+import { FIXED_PAYMENT_SCHEDULE_OPTIONS } from '@/common/ProjectInputOptions'
 import { redirectWithToast } from '@/common/Toast'
 
 export default {
@@ -142,16 +133,19 @@ export default {
   },
   data() {
     return {
-      modalId: null,
-      specialist_role: Object.keys(SPECIALIST_ROLE_OPTIONS)[0]
+      modalId: null
     }
   },
   created() {
     this.modalId = 'modal_' + Math.random().toFixed(9) + Math.random().toFixed(7)
   },
   methods: {
-    saved(id) {
+    accepted(id) {
       redirectWithToast(this.$store.getters.url('URL_PROJECT_SHOW', id), 'Specialist added to project.')
+      this.$bvModal.hide(this.confirmModalId)
+    },
+    denied(id) {
+      redirectWithToast(this.$store.getters.url('URL_PROJECT_SHOW', id), 'Proposal denied.')
       this.$bvModal.hide(this.confirmModalId)
     },
     deleted() {
@@ -162,7 +156,8 @@ export default {
       this.$bvModal.hide(this.confirmModalId)
       this.$bvModal.show(this.modalId)
     },
-    denyProposal() {
+    denyUrl(id) {
+      return `/api/business/projects/${this.projectId}/applications/${id}/hide`
     }
   },
   computed: {
@@ -172,17 +167,14 @@ export default {
     applicationsUrl() {
       return this.$store.getters.url('URL_API_PROJECT_APPLICATIONS', this.projectId)
     },
-    hireUrl() {
-      return this.$store.getters.url('URL_API_PROJECT_HIRES', this.projectId)
-    },
     paymentScheduleReadable: () => application => FIXED_PAYMENT_SCHEDULE_OPTIONS[application.payment_schedule],
-    specialistRoleOptions: () => SPECIALIST_ROLE_OPTIONS,
     hasSpecialist: () => project => !!project.specialist_id,
     confirmModalId() {
       return (this.modalId || '') + '_confirm'
     }
   },
   components: {
+    AcceptDenyProposalModal,
     SpecialistDetails
   }
 }

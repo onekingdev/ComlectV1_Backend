@@ -110,33 +110,23 @@
               h3.onboarding__title.m-t-2 What's your expirience?
               p.onboarding__sub-title Select one that the best matches your level of your expertise.
               b-form-group(class="onboarding-group")
-                b-button.exp__btn.text-left(:class="formStep2.expirience === 0 ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onExpirienceChange($event, 0)")
+                b-button.exp__btn.text-left(type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onExpirienceChange($event, 0)")
                   b.exp__btn--main Junior
                   br
                   span.exp__btn--sub Begining consulting with some experience in the field.
-                b-button.exp__btn.text-left(:class="formStep2.expirience === 1 ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onExpirienceChange($event, 1)")
+                b-button.exp__btn.text-left(type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onExpirienceChange($event, 1)")
                   b.exp__btn--main Intermediate
                   br
                   span.exp__btn--sub Good expirience and knowlage of the industry.
-                b-button.exp__btn.text-left(:class="formStep2.expirience === 2 ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onExpirienceChange($event, 2)")
+                b-button.exp__btn.text-left(type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onExpirienceChange($event, 2)")
                   b.exp__btn--main Expert
                   br
                   span.exp__btn--sub Deep understanding of industry with varied experience.
               hr
-              <!--h3.onboarding__title.m-b-3.m-t-2 (Optional) Upload you resume:-->
-              <!--b-form-group.m-t-2(class="onboarding-group")-->
-                <!--b-form-file(v-model='formStep2.file' :state='Boolean(formStep2.file)' accept="application/pdf" placeholder='Choose a file or drop it here...' drop-placeholder='Drop file here...')-->
-                <!--.m-t-3 Selected file: {{ formStep2.file ? formStep2.file.name : '' }}-->
-              <!--hr-->
               h3.onboarding__title.m-b-3.m-t-2 (Optional) Upload you resume:
-              label.dropbox.w-100(for="upload-file")
-                input.input-file(type="file" id="upload-file" accept="application/pdf" ref="file" @change="selectFile")
-                p(v-if="!formStep2.file") Drag your resume here
-                  br
-                  | or
-                  br
-                  button.btn.btn-default Upload
-                p(v-if="formStep2.file") Selected file: {{ formStep2.file.name }}
+              b-form-group.m-t-2(class="onboarding-group")
+                b-form-file(v-model='formStep2.file' :state='Boolean(formStep2.file)' accept="application/pdf" placeholder='Choose a file or drop it here...' drop-placeholder='Drop file here...')
+                .m-t-3 Selected file: {{ formStep2.file ? formStep2.file.name : '' }}
               hr
               .text-right.m-t-2
                 b-button.mr-2(type='button' variant='outline-primary' @click="prevStep(1)") Go back
@@ -218,10 +208,16 @@
       Overlay
     },
     created() {
+      // console.log('userInfo', this.userInfo)
+      // console.log('industryIds', this.industryIds)
+      // console.log('subIndustryIds', this.subIndustryIds)
+      // console.log('jurisdictionIds', this.jurisdictionIds)
+      // console.log('states', this.states)
       if(this.industryIds) this.formStep1.industryOptions = this.industryIds;
       // if(this.subIndustryIds) this.formStep2.subIndustryOptions = this.subIndustryIds;
       if(this.subIndustryIds) {
         for (const [key, value] of Object.entries(this.subIndustryIds)) {
+          // console.log(`${key}: ${value}`);
           this.formStep1.subIndustryOptions.push({
             value: key,
             name: value
@@ -233,6 +229,7 @@
 
       const accountInfo = localStorage.getItem('app.currentUser');
       const accountInfoParsed = JSON.parse(accountInfo);
+      console.log(JSON.parse(accountInfo))
       if(accountInfo) {
         this.formStep1.industry = accountInfoParsed.industries;
         this.formStep1.subIndustry = accountInfoParsed.sub_industries;
@@ -304,6 +301,11 @@
           state: '',
           stateOptions: [],
         },
+        // options: [
+        //   { value: null, text: 'Please select an option' },
+        //   { text: 'Value 1', value: 'val1' },
+        //   { text: 'Value 2', value: 'val2' },
+        // ],
         value: null,
         options: ['list', 'of', 'options'],
         show: true,
@@ -363,6 +365,7 @@
       },
       onSubmit(event){
         event.preventDefault()
+        // console.log(this.form)
       },
       navigation(stepNum){
         const url = new URL(window.location);
@@ -422,9 +425,13 @@
           params.skill_names
             .map(skillName => formData.append(`skill_names[]`, skillName))
 
+          console.log('formData', formData)
+
           this.$store
             .dispatch('updateAccountInfoWithFile', formData)
             .then(response => {
+              // console.log('response', response)
+
               if(!response.errors) {
                 this['step'+(stepNum-1)] = false
                 this['navStep'+stepNum] = true
@@ -470,6 +477,7 @@
         this.billingTypeSelected = event
       },
       updateAdditionalUsers(event){
+        // console.log('users', event)
         this.additionalUsers = event
       },
       complitedPaymentMethod(response) {
@@ -477,6 +485,8 @@
         this.disabled = false;
       },
       selectPlanAndComplitePurchase (selectedPlan) {
+        // console.log('selectedPlan', selectedPlan)
+        // console.log('this.billingTypeSelected', this.billingTypeSelected)
         // CLEAR ERRORS
         this.errors = []
 
@@ -500,8 +510,11 @@
         this.$store
           .dispatch('updateSubscribe', dataToSend)
           .then(response => {
+            // console.log('response', response)
+
             if(response.errors) {
               for (const [key, value] of Object.entries(response.errors)) {
+                console.log(`${key}: ${value}`);
                 // this.makeToast('Error', `${key}: ${value}`)
                 // this.errors = Object.assign(this.errors, { [key]: value })
                 throw new Error(`${[key]} ${value}`)
@@ -510,6 +523,7 @@
 
             if(!response.errors) {
               this.makeToast('Success', `Update subscribe successfully finished!`)
+              // this.paySeats(selectedPlan)
 
               // OVERLAY
               if(+this.additionalUsers === 0) {
@@ -536,9 +550,45 @@
           })
           .finally(() => this.disabled = true)
       },
-      selectFile(event){
-        this.formStep2.file = event.target.files[0]
-      }
+      // paySeats(selectedPlan) {
+      //   const freeUsers = selectedPlan.usersCount;
+      //   const neededUsers = +this.additionalUsers;
+      //   // console.log(neededUsers, freeUsers)
+      //   if (neededUsers <= freeUsers) return
+      //   const countPayedUsers = neededUsers - freeUsers
+      //   // console.log(countPayedUsers)
+      //
+      //   let planName = this.billingTypeSelected === 'annually' ? 'seats_annual' : 'seats_monthly'
+      //
+      //   const dataToSend = {
+      //     userType: this.userType,
+      //     planName,
+      //     paymentSourceId : this.paymentSourceId,
+      //     countPayedUsers,
+      //   }
+      //
+      //   this.$store
+      //     .dispatch('updateSeatsSubscribe', dataToSend)
+      //     .then(response => {
+      //       // console.log('response', response)
+      //
+      //       for(let i=0; i <= response.length; i++) {
+      //         if(response[i].data.errors) {
+      //           for (const type of Object.keys(response[i].data.errors)) {
+      //             this.makeToast('Error', `Something wrong! ${response[i].data.errors[type]}`)
+      //           }
+      //         }
+      //         if(!response[i].data.errors) {
+      //           this.makeToast('Success', `Update seat subscribe successfully finished!`)
+      //         }
+      //       }
+      //     })
+      //     .catch(error => {
+      //       console.error(error)
+      //       this.makeToast('Error', `Something wrong! ${error}`)
+      //     })
+      //     .finally(() => this.disabled = true)
+      // },
     },
     computed: {
       loading() {
@@ -546,14 +596,6 @@
       },
       currentUser() {
         return this.$store.getters.getUser
-      },
-    },
-    async mounted () {
-      try {
-        const data = await this.$store.dispatch('getSkills')
-        if (data) this.formStep2.skills = data;
-      } catch (error) {
-        console.error(error)
       }
     }
   }

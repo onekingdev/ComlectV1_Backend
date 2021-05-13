@@ -78,7 +78,7 @@
 
 <script>
   import Loading from '@/common/Loading/Loading'
-  import axios from 'axios'
+  // import axios from 'axios'
   export default {
     components: {
       Loading,
@@ -135,23 +135,27 @@
         Object.entries(params).forEach(
           ([key, value]) => formData.append(key, value)
         )
-        console.log('formData', formData)
+        // console.log('formData', formData)
 
-        axios.defaults.baseURL = '/api';
-        axios.defaults.headers.common['Authorization'] = 'TOKEN';
-        // axios.defaults.headers.post['Content-Type'] = 'application/json';
-        // Finally, sending the request with our beloved Axios
-        axios
-          .patch('/business/compliance_policy_configuration', formData)
-          .then(response => {
-            console.log('axios response', response)
-            this.makeToast('Success', `Config successfully saved!`)
-          })
-          .catch(error => {
-            console.error('axios error', error)
-            this.makeToast('Error', `Something wrong! ${error}`)
-          })
-          .finally(() => console.log('request finished'))
+        this.$store.dispatch('postPolicyConfig', formData)
+          .then(response => this.makeToast('Success', `Config successfully saved!`) )
+          .catch(error => this.makeToast('Error', `Something wrong! ${error}`) )
+
+        // axios.defaults.baseURL = '/api';
+        // axios.defaults.headers.common['Authorization'] = 'TOKEN';
+        // // axios.defaults.headers.post['Content-Type'] = 'application/json';
+        // // Finally, sending the request with our beloved Axios
+        // axios
+        //   .patch('/business/compliance_policy_configuration', formData)
+        //   .then(response => {
+        //     console.log('axios response', response)
+        //     this.makeToast('Success', `Config successfully saved!`)
+        //   })
+        //   .catch(error => {
+        //     console.error('axios error', error)
+        //     this.makeToast('Error', `Something wrong! ${error}`)
+        //   })
+        //   .finally(() => console.log('request finished'))
       },
       onReset(event) {
         event.preventDefault()

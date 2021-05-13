@@ -19,6 +19,7 @@ html lang=I18n.locale
     = stylesheet_link_tag 'vue'
     = csrf_meta_tags
     script src='//d2wy8f7a9ursnm.cloudfront.net/bugsnag-3.min.js' data-apikey="#{ENV['BUGSNAG_API_KEY']}"
+    script src="https://maps.googleapis.com/maps/api/js?key=#{ENV.fetch('GOOGLE_PLACES_API_KEY')}&libraries=places"
     = javascript_include_tag '/app_config.js'
     = render 'google_analytics'
     = render 'mixpanel'
@@ -91,14 +92,14 @@ body class="#{controller_name} #{action_name}"
               span.navbar-toggler-icon
             #top_navbar.collapse.navbar-collapse.d-flex.justify-content-between
               .navbar-nav
-                a.nav-item.nav-link.active(href='#')
+                a.nav-item.nav-link(href='#')
                   | Home
                   span.sr-only (current)
-                a.nav-item.nav-link(href='#') Documents
+                a.nav-item.nav-link(href='/business/file_folders' class="#{'active' if params[:controller] == 'business/file_folders'}") Documents
                 a.nav-item.nav-link(href='/business/reports/risks') Reports
                 a.nav-item.nav-link(href='#') Community
               .navbar-nav
-                a.btn.btn-primary style="margin-top: 18px;" Find an Expert
+                a.btn.btn-primary(href='/business/specialists' style="margin-top: 18px;")  Find an Expert
                 .dropdown#notifications_dropdown
                   ion-icon(name='notifications-outline')
                 .dropdown#profile_dropdown.p-x-2

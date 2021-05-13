@@ -199,8 +199,10 @@
           }
         }
 
+        // console.log('dataToSend', dataToSend)
         this.$store.dispatch('singUp', dataToSend)
           .then((response) => {
+            // console.log('response', response)
 
             if (response.errors) {
               const properties = Object.keys(response.errors);
@@ -248,6 +250,7 @@
           userId: this.userId,
           code: this.form2.code
         }
+        // console.log('dataToSend', dataToSend)
 
         this.$store.dispatch('confirmEmail', dataToSend)
           .then((response) => {
@@ -258,6 +261,7 @@
             }
 
             if(response.token) {
+              // console.log('response with succes token', response)
               this.makeToast('Success', `${response.message}`)
               // localStorage.setItem('app.currentUser', JSON.stringify(response.token));
               // this.$store.commit('updateToken', response.token)
@@ -329,6 +333,7 @@
         //fetch from server then
         this.childdata = data;
         this.childDataLoaded = true;
+        // console.log('data', data) //has some values
       }
     },
     computed: {

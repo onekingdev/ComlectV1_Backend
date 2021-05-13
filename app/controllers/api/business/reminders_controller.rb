@@ -25,7 +25,6 @@ class Api::Business::RemindersController < ApiController
     @reminder.skip_occurencies = []
     @reminder.done_occurencies = {}
     # skip_occurence(current_business) if params[:src_id]
-
     if @reminder.save
       render json: @reminder, status: :created
     else
@@ -64,6 +63,7 @@ class Api::Business::RemindersController < ApiController
   private
 
   def reminder_params
-    params.permit(:body, :remind_at, :end_date, :repeats, :end_by, :repeat_every, :repeat_on, :on_type, :description)
+    params.permit(:body, :remind_at, :end_date, :repeats, :end_by, :repeat_every,
+                  :repeat_on, :on_type, :description, :linkable_id, :linkable_type)
   end
 end
