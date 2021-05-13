@@ -7,6 +7,5 @@ class ReviewCategorySerializer < ApplicationSerializer
              :name,
              :review_topics,
              :created_at,
-             :updated_at,
-             :reminders
+             :updated_at
 end

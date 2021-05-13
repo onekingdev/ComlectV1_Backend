@@ -25,8 +25,6 @@ import ModelLoader from '@/common/rest/ModelLoader'
 import filters from '@/filters'
 import { extractToastMessage } from '@/common/Toast'
 import ToasterMixin from '@/mixins/ToasterMixin'
-import RedirectMixin from '@/mixins/RedirectMixin'
-import HistoryMixin from '@/mixins/HistoryMixin'
 
 const data = () => ({
   isProfileMenuOpen: false
@@ -37,8 +35,6 @@ const init = configuration => {
   Vue.use(IconsPlugin)
 
   Vue.mixin(ToasterMixin)
-  Vue.mixin(RedirectMixin)
-  Vue.mixin(HistoryMixin)
 
   Vue.config.productionTip = false
   Vue.config.ignoredElements = ['ion-icon']
@@ -67,15 +63,9 @@ const init = configuration => {
   Vue.component('Delete', Delete)
   Vue.component('ModelLoader', ModelLoader)
 
-  Vue.directive('google-maps-autocomplete', {
-    inserted(el) {
-      new google.maps.places.Autocomplete(el)
-    }
-  })
-
   return new Vue({
     el: document.getElementById('app'),
-    mixins: [ToasterMixin, RedirectMixin, HistoryMixin],
+    mixins: [ToasterMixin],
     ...(configuration || {}),
     data,
     created() {
