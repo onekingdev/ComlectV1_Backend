@@ -208,16 +208,10 @@
       Overlay
     },
     created() {
-      // console.log('userInfo', this.userInfo)
-      // console.log('industryIds', this.industryIds)
-      // console.log('subIndustryIds', this.subIndustryIds)
-      // console.log('jurisdictionIds', this.jurisdictionIds)
-      // console.log('states', this.states)
       if(this.industryIds) this.formStep1.industryOptions = this.industryIds;
       // if(this.subIndustryIds) this.formStep2.subIndustryOptions = this.subIndustryIds;
       if(this.subIndustryIds) {
         for (const [key, value] of Object.entries(this.subIndustryIds)) {
-          // console.log(`${key}: ${value}`);
           this.formStep1.subIndustryOptions.push({
             value: key,
             name: value
@@ -229,7 +223,6 @@
 
       const accountInfo = localStorage.getItem('app.currentUser');
       const accountInfoParsed = JSON.parse(accountInfo);
-      console.log(JSON.parse(accountInfo))
       if(accountInfo) {
         this.formStep1.industry = accountInfoParsed.industries;
         this.formStep1.subIndustry = accountInfoParsed.sub_industries;
@@ -301,11 +294,6 @@
           state: '',
           stateOptions: [],
         },
-        // options: [
-        //   { value: null, text: 'Please select an option' },
-        //   { text: 'Value 1', value: 'val1' },
-        //   { text: 'Value 2', value: 'val2' },
-        // ],
         value: null,
         options: ['list', 'of', 'options'],
         show: true,
@@ -365,7 +353,6 @@
       },
       onSubmit(event){
         event.preventDefault()
-        // console.log(this.form)
       },
       navigation(stepNum){
         const url = new URL(window.location);
@@ -425,13 +412,9 @@
           params.skill_names
             .map(skillName => formData.append(`skill_names[]`, skillName))
 
-          console.log('formData', formData)
-
           this.$store
             .dispatch('updateAccountInfoWithFile', formData)
             .then(response => {
-              // console.log('response', response)
-
               if(!response.errors) {
                 this['step'+(stepNum-1)] = false
                 this['navStep'+stepNum] = true
@@ -477,7 +460,6 @@
         this.billingTypeSelected = event
       },
       updateAdditionalUsers(event){
-        // console.log('users', event)
         this.additionalUsers = event
       },
       complitedPaymentMethod(response) {
@@ -485,8 +467,6 @@
         this.disabled = false;
       },
       selectPlanAndComplitePurchase (selectedPlan) {
-        // console.log('selectedPlan', selectedPlan)
-        // console.log('this.billingTypeSelected', this.billingTypeSelected)
         // CLEAR ERRORS
         this.errors = []
 
@@ -510,11 +490,8 @@
         this.$store
           .dispatch('updateSubscribe', dataToSend)
           .then(response => {
-            // console.log('response', response)
-
             if(response.errors) {
               for (const [key, value] of Object.entries(response.errors)) {
-                console.log(`${key}: ${value}`);
                 // this.makeToast('Error', `${key}: ${value}`)
                 // this.errors = Object.assign(this.errors, { [key]: value })
                 throw new Error(`${[key]} ${value}`)
@@ -523,7 +500,6 @@
 
             if(!response.errors) {
               this.makeToast('Success', `Update subscribe successfully finished!`)
-              // this.paySeats(selectedPlan)
 
               // OVERLAY
               if(+this.additionalUsers === 0) {
@@ -550,45 +526,6 @@
           })
           .finally(() => this.disabled = true)
       },
-      // paySeats(selectedPlan) {
-      //   const freeUsers = selectedPlan.usersCount;
-      //   const neededUsers = +this.additionalUsers;
-      //   // console.log(neededUsers, freeUsers)
-      //   if (neededUsers <= freeUsers) return
-      //   const countPayedUsers = neededUsers - freeUsers
-      //   // console.log(countPayedUsers)
-      //
-      //   let planName = this.billingTypeSelected === 'annually' ? 'seats_annual' : 'seats_monthly'
-      //
-      //   const dataToSend = {
-      //     userType: this.userType,
-      //     planName,
-      //     paymentSourceId : this.paymentSourceId,
-      //     countPayedUsers,
-      //   }
-      //
-      //   this.$store
-      //     .dispatch('updateSeatsSubscribe', dataToSend)
-      //     .then(response => {
-      //       // console.log('response', response)
-      //
-      //       for(let i=0; i <= response.length; i++) {
-      //         if(response[i].data.errors) {
-      //           for (const type of Object.keys(response[i].data.errors)) {
-      //             this.makeToast('Error', `Something wrong! ${response[i].data.errors[type]}`)
-      //           }
-      //         }
-      //         if(!response[i].data.errors) {
-      //           this.makeToast('Success', `Update seat subscribe successfully finished!`)
-      //         }
-      //       }
-      //     })
-      //     .catch(error => {
-      //       console.error(error)
-      //       this.makeToast('Error', `Something wrong! ${error}`)
-      //     })
-      //     .finally(() => this.disabled = true)
-      // },
     },
     computed: {
       loading() {
