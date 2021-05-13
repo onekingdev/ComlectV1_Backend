@@ -14,10 +14,18 @@ import BusinessAnnualGeneralPage from './vue/business/annual/PageCurrentGeneral.
 
 import BusinessPoliciesPage from './vue/business/policies/Page.vue'
 import BusinessPoliciesCreatePage from './vue/business/policies/Details/PolicyCreate.vue'
+import BusinessPoliciesEntirePage from './vue/business/policies/Details/PolicyEntire.vue'
 
 const businesPolicies = {
   BusinessPoliciesPage,
   BusinessPoliciesCreatePage,
+  BusinessPoliciesEntirePage,
+}
+
+import BusinessMarketplacePage from './vue/business/marketplace/Page.vue'
+
+const businesMarketplace = {
+  BusinessMarketplacePage,
 }
 
 import BusinessReportsRisksPage from './vue/business/reportsrisks/Page.vue'
@@ -33,6 +41,13 @@ const businesRisks = {
   BusinessRisksPage,
   BusinessRisksPageDetail
 }
+
+import BusinessFileFoldersPage from './vue/business/filefolders/Page.vue'
+
+const BusinessFileFolders = {
+  BusinessFileFoldersPage,
+}
+
 
 init({
   store,
@@ -51,5 +66,7 @@ init({
     ...businesPolicies,
     ...BusinessReportsRisks,
     ...businesRisks,
+    ...businesMarketplace,
+    ...BusinessFileFolders
   }
 })

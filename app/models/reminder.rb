@@ -2,6 +2,7 @@
 
 class Reminder < ActiveRecord::Base
   belongs_to :remindable, polymorphic: true
+  belongs_to :linkable, polymorphic: true, optional: true
 
   TOTAL_MONTH = 1..12
   REPEATS = %w[Daily Weekly Monthly Yearly].freeze
@@ -15,6 +16,10 @@ class Reminder < ActiveRecord::Base
   validates :body, presence: true
   validates :remind_at, presence: true
   validates :end_date, presence: true
+
+  validate if: -> { linkable.present? } do
+    errors.add :linkable_id, :invalid if linkable.business != remindable
+  end
 
   def start_time
     remind_at

@@ -2,7 +2,7 @@
   div.d-inline-block(:class="{ 'float-right': right }")
     div.d-inline-block(v-b-modal="modalId"): slot
     b-modal.fade(:id="modalId" title="End Contract" no-stacking)
-      p ℹ️ Ending this contract will remove this specialist as a collaborator to the project, revoke and permissions granted due to the project, and payout the full contract price.
+      p ℹ️ Ending this contract will remove this specialist as a collaborator to the project, revoke their permissions to access your account, and payout the full contract price.
       p: b Do you want to continue?
       .card
         .card-header
@@ -34,12 +34,13 @@
           button.btn.btn-dark.m-r-1 Confirm
     b-modal(:id="modalId + '_review'" title="Write a Review")
       p Please rate/describe your experience and leave any additional comments for the specialist!
-      InputRating(v-model="review.rating") Rating
-      InputTextarea(v-model="review.comment" placeholder="Describe your overall experience and leave any notes for the specialist")
+      InputRating(v-model="review.value") Rating
+      InputTextarea(v-model="review.review" placeholder="Describe your overall experience and leave any notes for the specialist")
       .form-text.text-muted Optional
       template(#modal-footer="{ hide }")
         button.btn.btn-default(@click="hide") Cancel
-        Post(:action="ratingUrl" :model="review" @saved="ratingSaved" @errors="$emit('errors', $event)")
+        button.btn.btn-dark(v-if="review.value === null" title="Please rate your experience" disabled) Submit
+        Post(v-else :action="ratingUrl" :model="review" @saved="ratingSaved" @errors="$emit('errors', $event)")
           button.btn.btn-dark Submit
 </template>
 
@@ -61,8 +62,8 @@ export default {
     return {
       modalId: 'EndContractModal_' + Math.random().toFixed(12).replace('.', ''),
       review: {
-        rating: null,
-        comment: null
+        value: null,
+        review: null
       }
     }
   },

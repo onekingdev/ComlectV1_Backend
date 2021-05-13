@@ -1,0 +1,31 @@
+/* ---------- Specialist Marketplace page ---------- */
+.marketplace {
+
+}
+.marketplace__head {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 10rem;
+  color: #FFF;
+  text-align: center;
+}
+.marketplace__head_bg {
+  background: linear-gradient(155deg, #1b1c29 50%, #1b1c29 55%, #2d304f 60%);
+}
+.marketplace__title {
+
+}
+.marketplace__subtitle {
+
+}
+
+.specialist-figures {}
+.specialist-figures .list-group-item {
+  width: 33%;
+}
+
+.linkedin {
+  color: #0277b9;
+}

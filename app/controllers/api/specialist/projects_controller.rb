@@ -2,6 +2,7 @@
 
 class Api::Specialist::ProjectsController < ApiController
   before_action :require_specialist!
+  before_action :retrieve_project, only: %i[local calendar_show calendar_hide]
   skip_before_action :verify_authenticity_token # TODO: proper authentication
 
   def index
@@ -20,11 +21,26 @@ class Api::Specialist::ProjectsController < ApiController
   end
 
   def local
-    project = policy_scope(Project).find(params[:project_id])
-    respond_with project.local_project, serializer: LocalProjectSerializer
+    respond_with @project.local_project, serializer: LocalProjectSerializer
+  end
+
+  def calendar_hide
+    lproject = @project.local_project
+    current_user.hide_local_project(lproject.id)
+    respond_with lproject, serializer: LocalProjectSerializer
+  end
+
+  def calendar_show
+    lproject = @project.local_project
+    current_user.show_local_project(lproject.id)
+    respond_with lproject, serializer: LocalProjectSerializer
   end
 
   private
+
+  def retrieve_project
+    @project = policy_scope(Project).find(params[:project_id])
+  end
 
   def search_params
     params.permit(
