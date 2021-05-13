@@ -55,7 +55,7 @@
                               .policy-details__name Description
                               .policy-details__text-editor(@click="toggleVueEditorHandler", v-if="!toggleVueEditor", v-b-tooltip.hover.left title="Click to edit text", v-html="policy.description ? policy.description : description")
                               vue-editor.policy-details__text-editor(v-if="toggleVueEditor", v-model="policy.description", @blur="handleBlur")
-                              button.policy-details__btn.mr-3.btn.btn-default(v-if="policy.sections.length === 0" @click="addSection")
+                              button.policy-details__btn.mr-3.btn.btn-default(v-if="policy.sections.length === 0" @click="addSection($event, policy.id)")
                                 b-icon.mr-2(icon='plus-circle-fill')
                                 | Add Section
                             SubsectionPolicy(
@@ -65,7 +65,7 @@
                             :length = "policy.sections ? policy.sections.length : 0"
                             v-for="(section, index) in policy.sections"
                             :key="section.id"
-                            @addSection="addSection"
+                            @addSection="addSection($event, policy.id)"
                             @deleteSection="deleteSection")
                         HistoryPolicy.p-b-3(:policy="policy")
 </template>
@@ -99,6 +99,7 @@
     },
     data() {
       return {
+        policyId: 0,
         leftMenu: true,
         description: "",
         title: "Section Name",
@@ -192,8 +193,13 @@
           });
       },
 
-      addSection(event) {
+      addSection(event, policyId) {
         if(event) event.target.closest('.policy-details__btn').style.display = 'none';
+
+        this.policyId = policyId;
+        // console.log('policyId', policyId)
+        // console.log('this.policy', this.policy)
+
         const id = Math.floor(Math.random() * 100)
         this.policiesComputed = {
           id: id,
@@ -299,7 +305,7 @@
         set(value) {
           console.log(value)
           this.$store.dispatch("updatePolicySectionsById", {
-            id: this.policy.id,
+            id: this.policyId,
             sections: value
           });
         }
