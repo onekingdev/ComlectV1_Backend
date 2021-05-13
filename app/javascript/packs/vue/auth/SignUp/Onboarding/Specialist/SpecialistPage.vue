@@ -123,10 +123,20 @@
                   br
                   span.exp__btn--sub Deep understanding of industry with varied experience.
               hr
+              <!--h3.onboarding__title.m-b-3.m-t-2 (Optional) Upload you resume:-->
+              <!--b-form-group.m-t-2(class="onboarding-group")-->
+                <!--b-form-file(v-model='formStep2.file' :state='Boolean(formStep2.file)' accept="application/pdf" placeholder='Choose a file or drop it here...' drop-placeholder='Drop file here...')-->
+                <!--.m-t-3 Selected file: {{ formStep2.file ? formStep2.file.name : '' }}-->
+              <!--hr-->
               h3.onboarding__title.m-b-3.m-t-2 (Optional) Upload you resume:
-              b-form-group.m-t-2(class="onboarding-group")
-                b-form-file(v-model='formStep2.file' :state='Boolean(formStep2.file)' accept="application/pdf" placeholder='Choose a file or drop it here...' drop-placeholder='Drop file here...')
-                .m-t-3 Selected file: {{ formStep2.file ? formStep2.file.name : '' }}
+              label.dropbox.w-100(for="upload-file")
+                input.input-file(type="file" id="upload-file" accept="application/pdf" ref="file" @change="selectFile")
+                p(v-if="!formStep2.file") Drag your resume here
+                  br
+                  | or
+                  br
+                  button.btn.btn-default Upload
+                p(v-if="formStep2.file") Selected file: {{ formStep2.file.name }}
               hr
               .text-right.m-t-2
                 b-button.mr-2(type='button' variant='outline-primary' @click="prevStep(1)") Go back
@@ -526,6 +536,9 @@
           })
           .finally(() => this.disabled = true)
       },
+      selectFile(event){
+        this.formStep2.file = event.target.files[0]
+      }
     },
     computed: {
       loading() {
@@ -533,6 +546,14 @@
       },
       currentUser() {
         return this.$store.getters.getUser
+      },
+    },
+    async mounted () {
+      try {
+        const data = await this.$store.dispatch('getSkills')
+        if (data) this.formStep2.skills = data;
+      } catch (error) {
+        console.error(error)
       }
     }
   }
