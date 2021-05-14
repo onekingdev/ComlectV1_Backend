@@ -1,41 +1,62 @@
 <template lang="pug">
-  b-modal.fade(:id="id" title="Extend Deadline")
-    p Please confirm the applicant you wish to hire.
-    .card
-      .card-body
-        InputDate(v-model="project.ends_on" :errors="errors.ends_on" :options="datepickerOptions")
-    template(#modal-footer="{ hide }")
-      button.btn.btn-light(@click="hide") Cancel
-      Post(:action="extendUrl" :model="{project}" @saved="$emit('saved', project.ends_on)")
-        button.btn.btn-dark Confirm
+  div(:class="{'d-inline-block':inline}")
+    div(v-b-modal="modalId" :class="{'d-inline-block':inline}")
+      slot
+    b-modal.fade(:id="modalId" title="Extend Deadline" @show="newEtag")
+      ModelLoader(:url="projectId ? submitUrl : undefined" :default="initialProject" :etag="etag" @loaded="loadProject")
+
+        InputDate(v-model="project.ends_on" :errors="errors.ends_on" :options="datepickerOptions") New Due Date
+
+        template(slot="modal-footer")
+          button.btn.btn-light(@click="$bvModal.hide(modalId)") Cancel
+          Post(:action="submitUrl" :model="project" :method="httpMethod" @errors="errors = $event" @saved="saved")
+            button.btn.btn-dark Confirm
 </template>
 
 <script>
-import SpecialistDetails from './SpecialistDetails'
-import { SPECIALIST_ROLE_OPTIONS } from '@/common/ProjectInputOptions'
+import EtaggerMixin from '@/mixins/EtaggerMixin'
+
+const rnd = () => Math.random().toFixed(10).toString().replace('.', '')
+
+const initialProject = () => ({
+  ends_on: null,
+})
 
 export default {
+  mixins: [EtaggerMixin()],
   props: {
-    id: {
-      type: String,
-      required: true
+    inline: {
+      type: Boolean,
+      default: true
     },
-    project: {
-      type: Object,
-      required: true
-    }
+    projectId: Number,
   },
   data() {
     return {
-      // project: {
-      //   ends_on: '5/14/2021'
-      // },
+      modalId: `modal_${rnd()}`,
+      project: initialProject(),
       errors: {}
     }
   },
+  methods: {
+    loadProject(project) {
+      this.project = Object.assign({}, this.project, project)
+    },
+    saved() {
+      this.$emit('saved')
+      this.toast('Success', 'The project has been saved')
+      this.$bvModal.hide(this.modalId)
+      this.newEtag()
+    }
+  },
   computed: {
-    extendUrl() {
-      return this.$store.getters.url('URL_API_PROJECT_HIRES', this.project.ends_on)
+    initialProject: () => initialProject,
+    submitUrl() {
+      const toId = this.projectId ? `/${this.projectId}` : ''
+      return '/api/business/local_projects' + toId
+    },
+    httpMethod() {
+      return this.projectId ? 'PUT' : 'POST'
     },
     datepickerOptions() {
       return {

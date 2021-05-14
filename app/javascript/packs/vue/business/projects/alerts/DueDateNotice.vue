@@ -5,7 +5,7 @@
       .d-block.mr-auto
         h4: b The project's due date tommorow
         p.mb-0 Do you want to extend the dataline?
-      ExtendDeadlineModal
+      ExtendDeadlineModal(@saved="$emit('saved')" :project-id="project.id")
         button.btn.btn-default Extend
 </template>
 
