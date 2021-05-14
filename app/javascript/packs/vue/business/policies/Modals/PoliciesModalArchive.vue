@@ -4,17 +4,15 @@
       slot
 
     b-modal.fade(:id="modalId" :title="archiveStatus ? 'Archive Policy' : 'Unarchive Policy'")
-      .d-block(v-if="archiveStatus")
-        p
-          b-icon.mr-3(icon="exclamation-triangle-fill" scale="2" variant="warning")
-          | Archiving the policy will archive the policy along with its related sections, subsections, and risks.
-        p Any talks linked to the policy will remain linked unless the policy is deleted
-      .d-block(v-else)
-        p
-          b-icon.mr-3(icon="exclamation-triangle-fill" scale="2" variant="warning")
-          | Unarchiving the policy will place it back into the compilance manual.
-      p
-        b Do you want to continue?
+      .row
+        .col-md-1.text-center.px-0
+          b-icon.mt-2.ml-3(icon="exclamation-triangle-fill" scale="2" variant="warning")
+        .col
+          p Archiving the policy will archive the policy along with its related sections, subsections, and risks.
+          p Any talks linked to the policy will remain linked unless the policy is deleted
+            br
+            b Do you want to continue?
+
       Errors(:errors="errors.title")
 
       template(slot="modal-footer")

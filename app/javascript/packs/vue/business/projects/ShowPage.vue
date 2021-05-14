@@ -20,9 +20,6 @@
                   TimesheetsNotice(:project="marketProject")
                   EndContractNotice(:project="marketProject" @saved="contractEnded" @errors="contractEndErrors")
                   ChangeContractAlerts(:project="marketProject" @saved="newEtag" for="Business")
-            .row.p-x-1(v-if="showExtend")
-              .col
-                DueDateNotice(:project="project")
             .row.p-x-1
               .col-md-7.col-sm-12
                 .card
@@ -96,7 +93,6 @@
 import { fields, readablePaymentSchedule } from '@/common/ProposalFields'
 import DiscussionCard from '@/common/projects/DiscussionCard'
 import ApplicationsNotice from './alerts/ApplicationsNotice'
-import DueDateNotice from './alerts/DueDateNotice'
 import TimesheetsNotice from './alerts/TimesheetsNotice'
 import EndContractNotice from './alerts/EndContractNotice'
 import ProjectDetails from './ProjectDetails'
@@ -158,13 +154,9 @@ export default {
     viewHref() {
       return project => this.$store.getters.url('URL_PROJECT_POST', project.id)
     },
-    showExtend () {
-      return true
-    },
   },
   components: {
     ApplicationsNotice,
-    DueDateNotice,
     ChangeContractAlerts,
     DiscussionCard,
     LocalProjectModal,

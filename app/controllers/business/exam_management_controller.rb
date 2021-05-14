@@ -1,0 +1,12 @@
+# frozen_string_literal: true
+
+class Business::ExamManagementController < ApplicationController
+  include ActionView::Helpers::TagHelper
+
+  before_action :require_business!
+
+  def index
+    render html: content_tag('business-exam-management-page', '').html_safe, layout: 'vue_business'
+  end
+
+end

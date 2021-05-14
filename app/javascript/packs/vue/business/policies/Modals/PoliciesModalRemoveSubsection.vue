@@ -3,13 +3,14 @@
     div(v-b-modal="modalId" :class="{'d-inline-block':inline}")
       slot
 
-    b-modal.fade(:id="modalId" title="Remove Subsection")
-      .d-block
-        p
-          b-icon.mr-3(icon="exclamation-circle-fill" scale="2" variant="danger")
-          | Removing this subsection will permamently delete any items populated withing it.
-      p
-        b Do you want to continue?
+    b-modal.fade(:id="modalId" title="Remove Subsections")
+      .row
+        .col-md-1.text-center.px-0
+          b-icon.mt-2.ml-3(icon="exclamation-circle-fill" scale="2" variant="danger")
+        .col
+          p Removing this subsections will permamently delete any items populated withing it.
+            br
+            b Do you want to continue?
       Errors(:errors="errors.title")
 
       template(slot="modal-footer")
