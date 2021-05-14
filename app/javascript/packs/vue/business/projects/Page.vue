@@ -50,7 +50,7 @@
       b-tab(title="Ratings and Reviews")
         .card-body.white-card-body
           .container
-            Get(ratings='/api/business/ratings'): template(v-slot="{ratings}"): table.rating_table
+            Get(ratings='/api/project_ratings'): template(v-slot="{ratings}"): table.rating_table
               tbody
                 tr(v-for="rating in ratings")
                   td
@@ -60,10 +60,13 @@
                     p {{rating.rater_name}} | {{rating.created_at | asDate}}
                     p: i "{{rating.review}}"
                   td: StarRating(:stars="rating.value")
+                tr(v-if="!ratings.length")
+                  td.text-center
+                    h3.text-dark.p-y-2 No ratings
 </template>
 
 <script>
-import ProjectTable from '@/common/ProjectTable'
+import ProjectTable from './ProjectTable'
 import LocalProjectModal from './LocalProjectModal'
 import EtaggerMixin from '@/mixins/EtaggerMixin'
 

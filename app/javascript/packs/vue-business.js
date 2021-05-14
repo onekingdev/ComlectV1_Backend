@@ -20,6 +20,12 @@ const businesPolicies = {
   BusinessPoliciesCreatePage,
 }
 
+import BusinessMarketplacePage from './vue/business/marketplace/Page.vue'
+
+const businesMarketplace = {
+  BusinessMarketplacePage,
+}
+
 import BusinessReportsRisksPage from './vue/business/reportsrisks/Page.vue'
 
 const BusinessReportsRisks = {
@@ -33,6 +39,13 @@ const businesRisks = {
   BusinessRisksPage,
   BusinessRisksPageDetail
 }
+
+import BusinessFileFoldersPage from './vue/business/filefolders/Page.vue'
+
+const BusinessFileFolders = {
+  BusinessFileFoldersPage,
+}
+
 
 init({
   store,
@@ -51,5 +64,7 @@ init({
     ...businesPolicies,
     ...BusinessReportsRisks,
     ...businesRisks,
+    ...businesMarketplace,
+    ...BusinessFileFolders
   }
 })

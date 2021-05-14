@@ -209,10 +209,16 @@
       Overlay
     },
     created() {
+      // console.log('userInfo', this.userInfo)
+      // console.log('industryIds', this.industryIds)
+      // console.log('subIndustryIds', this.subIndustryIds)
+      // console.log('jurisdictionIds', this.jurisdictionIds)
+      // console.log('states', this.states)
       if(this.industryIds) this.formStep2.industryOptions = this.industryIds;
       // if(this.subIndustryIds) this.formStep2.subIndustryOptions = this.subIndustryIds;
       if(this.subIndustryIds) {
         for (const [key, value] of Object.entries(this.subIndustryIds)) {
+          // console.log(`${key}: ${value}`);
           this.formStep2.subIndustryOptions.push({
             value: key,
             name: value
@@ -224,6 +230,7 @@
 
       const accountInfo = localStorage.getItem('app.currentUser');
       const accountInfoParsed = JSON.parse(accountInfo);
+      // console.log(JSON.parse(accountInfo))
       if(accountInfo) {
         this.formStep2.companyName = accountInfoParsed.business_name;
         // this.formStep2.website = accountInfoParsed;
@@ -294,6 +301,11 @@
           state: '',
           stateOptions: [],
         },
+        // options: [
+        //   { value: null, text: 'Please select an option' },
+        //   { text: 'Value 1', value: 'val1' },
+        //   { text: 'Value 2', value: 'val2' },
+        // ],
         value: null,
         options: ['list', 'of', 'options'],
         show: true,
@@ -328,6 +340,7 @@
       },
       onSubmit(event){
         event.preventDefault()
+        // console.log(this.form)
       },
       checkCDRinfo(stepNum) {
         // CLEAR ERRORS
@@ -345,6 +358,7 @@
         this.$store
           .dispatch('getInfoByCRDNumber', dataToSend)
           .then(response => {
+            // console.log('response', response)
             // this.makeToast('Success', `CRD Number successfully sended!`)
 
             this.formStep1.CRDnumber = response.crd_number
@@ -371,6 +385,8 @@
             console.error(error)
             this.makeToast('Error', `Something wrong! ${error}`)
           })
+
+        // console.log(dataToSend)
       },
       navigation(stepNum){
         const url = new URL(window.location);
@@ -434,10 +450,13 @@
               jurisdiction_ids: this.formStep2.jurisdiction.map(record => record.id),
             }
           }
+          // console.log('subIndustry', this.formStep2.subIndustry)
+          // console.log('dataToSend', dataToSend)
 
           this.$store
             .dispatch('updateAccountInfo', dataToSend)
             .then(response => {
+              // console.log('response', response)
 
               if(response.errors) {
                 this.makeToast('Error', `Something wrong!`)
@@ -483,6 +502,7 @@
         this.billingTypeSelected = event
       },
       updateAdditionalUsers(event){
+        // console.log('users', event)
         this.additionalUsers = event
       },
       complitedPaymentMethod(response) {
@@ -490,6 +510,8 @@
         this.disabled = false;
       },
       selectPlanAndComplitePurchase (selectedPlan) {
+        // console.log('selectedPlan', selectedPlan)
+        // console.log('this.billingTypeSelected', this.billingTypeSelected)
         // CLEAR ERRORS
         this.errors = []
 
@@ -513,7 +535,10 @@
         this.$store
           .dispatch('updateSubscribe', dataToSend)
           .then(response => {
+            // console.log('response', response)
+
             if(response.errors) throw new Error(`Response error!`)
+
             if(!response.errors) {
               this.makeToast('Success', `Update subscribe successfully finished!`)
               this.paySeats(selectedPlan)
@@ -546,8 +571,10 @@
       paySeats(selectedPlan) {
         const freeUsers = selectedPlan.usersCount;
         const neededUsers = +this.additionalUsers;
+        // console.log(neededUsers, freeUsers)
         if (neededUsers <= freeUsers) return
         const countPayedUsers = neededUsers - freeUsers
+        // console.log(countPayedUsers)
 
         this.overlayStatusText = 'Subscribing additional seats...'
 
@@ -563,6 +590,7 @@
         this.$store
           .dispatch('updateSeatsSubscribe', dataToSend)
           .then(response => {
+            // console.log('response', response)
 
             if(response.errors) {
               for (const type of Object.keys(response[i].data.errors)) {
