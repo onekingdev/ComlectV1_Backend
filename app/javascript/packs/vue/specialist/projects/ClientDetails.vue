@@ -3,7 +3,7 @@
     .card-header
       | {{ business.business_name }}
       br
-      | {{ [business.country, business.city, business.state] | commas }}
+      | {{ [business.city, business.state, business.country] | commas }}
     .card-body
       dl.row
         dt.col-sm-3 Industry
