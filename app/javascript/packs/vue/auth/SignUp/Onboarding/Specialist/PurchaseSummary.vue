@@ -52,6 +52,7 @@
         return finalCoast !== 'FREE0' ? `+$${finalCoast}` : 'FREE'
       },
       countTotalCoast(planType, coastMonthly, coastAnnually, usersCount, usersFreeCount, usersCoastMonthly, usersCoastAnnually) {
+        // console.log(planType, coastMonthly, coastAnnually, usersCount, usersCoast)
         let finalCoast, finalUserCoast = 0;
         if (planType === 'monthly') {
           if (usersCount > usersFreeCount) finalUserCoast = (usersCount-usersFreeCount) * usersCoastMonthly
@@ -82,6 +83,11 @@
         }
       },
     },
+    // watch: {
+    // billingTypeSelected: function(newVal, oldVal) {
+    // console.log('Prop changed: ', newVal, ' | was: ', oldVal)
+    // }
+    // }
   }
 </script>
 
