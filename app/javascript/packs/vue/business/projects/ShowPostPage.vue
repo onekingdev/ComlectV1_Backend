@@ -112,9 +112,10 @@
                                 dd.col-sm-9
                           template(#modal-footer="{ ok, cancel, hide }")
                             button.btn.btn-light(@click="hide") Close
-                            button.btn.btn-outline-dark(v-if="!hasSpecialist(application.project)" @click="denyProposal") Deny Proposal
+                            Post(v-if="!hasSpecialist(application.project)" :action="denyUrl(application.id)" :model="{}" @saved="denied(application.project.local_project_id)")
+                              button.btn.btn-outline-dark Deny Proposal
                             button.btn.btn-dark(v-if="!hasSpecialist(application.project)" v-b-modal="confirmModalId") Accept Proposal
-                        AcceptDenyProposalModal(:id="confirmModalId" :application="application" @back="goBack" @saved="saved")
+                        AcceptDenyProposalModal(:id="confirmModalId" :application="application" @back="goBack" @saved="accepted")
 </template>
 
 <script>
@@ -122,6 +123,8 @@ import SpecialistDetails from './SpecialistDetails'
 import AcceptDenyProposalModal from './AcceptDenyProposalModal'
 import { FIXED_PAYMENT_SCHEDULE_OPTIONS } from '@/common/ProjectInputOptions'
 import { redirectWithToast } from '@/common/Toast'
+
+const TOKEN = localStorage.getItem('app.currentUser.token') ? JSON.parse(localStorage.getItem('app.currentUser.token')) : ''
 
 export default {
   props: {
@@ -139,8 +142,22 @@ export default {
     this.modalId = 'modal_' + Math.random().toFixed(9) + Math.random().toFixed(7)
   },
   methods: {
-    saved(id) {
+    accepted(id, role) {
+
+      fetch(`/api/business/specialist_roles/${id}`, {
+        method: 'PATCH',
+        headers: { 'Authorization': `${TOKEN}`,  'Accept': 'application/json',  'Content-Type': 'application/json' },
+        body: JSON.stringify({ "specialist": { "role": `${role}` } })
+      })
+        .then(response => response.json())
+        .then(result => console.log(result))
+        .catch(error => console.error(error))
+
       redirectWithToast(this.$store.getters.url('URL_PROJECT_SHOW', id), 'Specialist added to project.')
+      this.$bvModal.hide(this.confirmModalId)
+    },
+    denied(id) {
+      redirectWithToast(this.$store.getters.url('URL_PROJECT_SHOW', id), 'Proposal denied.')
       this.$bvModal.hide(this.confirmModalId)
     },
     deleted() {
@@ -151,7 +168,8 @@ export default {
       this.$bvModal.hide(this.confirmModalId)
       this.$bvModal.show(this.modalId)
     },
-    denyProposal() {
+    denyUrl(id) {
+      return `/api/business/projects/${this.projectId}/applications/${id}/hide`
     }
   },
   computed: {
