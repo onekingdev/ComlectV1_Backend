@@ -22,7 +22,7 @@
                   ChangeContractAlerts(:project="marketProject" @saved="newEtag" for="Business")
             .row.p-x-1
               .col
-                DueDateNotice(:project="project")
+                DueDateNotice(:project="project" @saved="newEtag")
             .row.p-x-1
               .col-md-7.col-sm-12
                 .card
