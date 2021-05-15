@@ -163,6 +163,7 @@
         this.$refs.elementRef.submit()
       },
       tokenCreated (token) {
+        // console.log(token);
         // handle the token
         // send it to your server
         const dataToSend = {
@@ -173,6 +174,7 @@
         this.$store
           .dispatch('generatePaymentMethod', dataToSend)
           .then(response => {
+            // console.log('response', response)
             this.$emit('complitedPaymentMethod', response)
             this.makeToast('Success', `Payment Method successfully added!`)
             this.isActive = false
@@ -185,6 +187,7 @@
           })
       },
       // addCardDetail() {
+      //   console.log(this.cardDetail)
       // this.cardOptions = Object.assign(this.cardOptions, {
       //   text: this.cardDetail.nameOnCard,
       //   value: this.cardOptions.length + 1,
@@ -202,6 +205,7 @@
         this.$store
           .dispatch('deletePaymentMethod', dataToSend)
           .then(response => {
+            console.log('response', response)
             const index = this.cardOptions.findIndex(record => record.id === payload.id);
             this.cardOptions.splice(index, 1)
             if (response.message)
@@ -223,6 +227,8 @@
         this.$emit('updateAdditionalUsers', value)
       },
       onPaymentMethodChange(cardId){
+        console.log(cardId)
+        console.log(this.cardSelected)
         this.$emit('complitedPaymentMethod', {
           id: cardId
         })
@@ -247,6 +253,7 @@
       this.$store
         .dispatch('getPaymentMethod', dataToSend)
         .then(response => {
+          // console.log('response', response)
           const newOptions = response.map((card, index) => {
             return { text: `Credit Card${index===0 ? ' (primary)' : ''}`, value: card.id, number: `**** **** **** ${card.last4}`, type: card.brand, id: card.id }
           })

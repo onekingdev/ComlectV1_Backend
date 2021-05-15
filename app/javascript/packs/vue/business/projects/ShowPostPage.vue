@@ -124,6 +124,8 @@ import AcceptDenyProposalModal from './AcceptDenyProposalModal'
 import { FIXED_PAYMENT_SCHEDULE_OPTIONS } from '@/common/ProjectInputOptions'
 import { redirectWithToast } from '@/common/Toast'
 
+const TOKEN = localStorage.getItem('app.currentUser.token') ? JSON.parse(localStorage.getItem('app.currentUser.token')) : ''
+
 export default {
   props: {
     projectId: {
@@ -140,7 +142,17 @@ export default {
     this.modalId = 'modal_' + Math.random().toFixed(9) + Math.random().toFixed(7)
   },
   methods: {
-    accepted(id) {
+    accepted(id, role) {
+
+      fetch(`/api/business/specialist_roles/${id}`, {
+        method: 'PATCH',
+        headers: { 'Authorization': `${TOKEN}`,  'Accept': 'application/json',  'Content-Type': 'application/json' },
+        body: JSON.stringify({ "specialist": { "role": `${role}` } })
+      })
+        .then(response => response.json())
+        .then(result => console.log(result))
+        .catch(error => console.error(error))
+
       redirectWithToast(this.$store.getters.url('URL_PROJECT_SHOW', id), 'Specialist added to project.')
       this.$bvModal.hide(this.confirmModalId)
     },

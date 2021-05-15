@@ -94,8 +94,14 @@ Rails.application.routes.draw do
       post :assign
     end
     post '/seats/buy' => 'seats#buy'
-    resources :compliance_policies, only: %i[show index] do
-      get :entire, on: :collection
+    resources :compliance_policies, only: %i[new update create edit show destroy index] do
+      collection do
+        put :sort
+      end
+      member do
+        put :ban
+        put :unban
+      end
     end
     get 'annual_reviews/:id/:revcat', to: 'annual_reviews#revcat'
     resources :annual_reviews, only: %i[new create show destroy index edit update]

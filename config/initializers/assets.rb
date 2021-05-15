@@ -16,4 +16,3 @@ Rails.application.config.assets.precompile << 'landing.js'
 Rails.application.config.assets.precompile << %r{.*.(?:eot|svg|ttf|woff|woff2)$}
 
 Rails.application.config.assets.precompile << 'vue.css'
-Rails.application.config.assets.precompile << 'vue_specialist.css'
