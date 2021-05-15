@@ -168,7 +168,7 @@
             }
           })
           .catch((error) => {
-            console.error('error', error)
+            console.error(error)
             for (const type of Object.keys(error.errors)) {
               this.makeToast('Error', `${error.errors[type]}`)
               this.error = `Error! ${error.errors[type]}`

@@ -1,9 +1,9 @@
 <template lang="pug">
   ul.list-group.list-group-horizontal.project-figures
     li.list-group-item(v-if="project.pricing_type === 'fixed'")
-      | Fixed Budget
+      | Estimated Budget
       br
-      | {{ (project.est_budget || project.fixed_budget) | usdWhole }}
+      | {{ project.est_budget | usdWhole }}
     li.list-group-item(v-else)
       | Hourly
       br

@@ -2,7 +2,8 @@
   div.policy-history
     h3.policy-history__title Version History
     .policy-history__body(v-if="policy.versions && policy.versions.length !== 0", v-for="data in policy.versions", :class="[policy.versions.length > 1 ? 'mb-2' : '' ]")
-      .policy-history__version v{{ data.id }}
+      <!--.policy-history__version v{{ data.id }}-->
+      .policy-history__version v
       .policy-history__version-info {{ policy.id - 1 === data.id ? 'Current Version' : 'Previous Version' }}
       .policy-history__author Published by ***
       .policy-history__date Last updated {{ dateToHuman(data.updated_at) }}
@@ -27,7 +28,7 @@
       dateToHuman (value) {
         const date = DateTime.fromJSDate(new Date(value))
         if (!date.invalid) {
-          return date.toFormat('dd/MM/yyyy')
+          return date.toFormat('MM/dd/yyyy')
         }
         if (date.invalid) {
           return value
