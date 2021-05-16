@@ -15,15 +15,9 @@ class LocalProjectSerializer < ApplicationSerializer
              :updated_at,
              :projects,
              :cost,
-             :visible_project,
-             :hide_on_calendar,
-             :reminders
+             :visible_project
 
   def status
     object.deep_status
-  end
-
-  def hide_on_calendar
-    current_user.hidden_local_projects.include?(object.id)
   end
 end

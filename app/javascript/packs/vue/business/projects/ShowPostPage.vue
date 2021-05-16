@@ -6,17 +6,9 @@
           Breadcrumbs(:items="['Project', project.title, 'Job Post']")
         .col-md-12.d-flex.justify-content-between.p-b-1.m-t-2
           div
-            h2
-              span.badge.badge-default.m-r-1(v-if="'draft' === project.status") Draft
-              | {{ project.title }}
+            h2 {{ project.title }}
           div
-            button.btn.btn-outline-dark.float-right(v-b-modal="'DeletePostModal'") Delete Post
-            b-modal#DeletePostModal.fade(title="Delete Post")
-              | Do you want to delete project post?
-              template(#modal-footer="{hide}")
-                button.btn.btn-default(@click="hide") Cancel
-                Delete(:url="url" @deleted="deleted")
-                  button.btn.btn-dark Delete
+            button.btn.btn-outline-dark.float-right Delete Post
     .white-card-body.p-y-1
       .container
         .row.p-x-1
@@ -57,10 +49,7 @@
             .card
               .card-header: h3 Applicants
               .card-body: Get(:applications="applicationsUrl"): template(v-slot="{applications}")
-                p(v-if="!applications.length")
-                  | No Applicants to Display
-                  br
-                  img(src='@/assets/no-applicants.svg' style="width: 100%; max-width: 300px")
+                p(v-if="!applications.length") No applicants
                 table.table(v-else)
                   thead
                     tr
@@ -112,19 +101,24 @@
                                 dd.col-sm-9
                           template(#modal-footer="{ ok, cancel, hide }")
                             button.btn.btn-light(@click="hide") Close
-                            Post(v-if="!hasSpecialist(application.project)" :action="denyUrl(application.id)" :model="{}" @saved="denied(application.project.local_project_id)")
-                              button.btn.btn-outline-dark Deny Proposal
+                            button.btn.btn-outline-dark(v-if="!hasSpecialist(application.project)" @click="denyProposal") Deny Proposal
                             button.btn.btn-dark(v-if="!hasSpecialist(application.project)" v-b-modal="confirmModalId") Accept Proposal
-                        AcceptDenyProposalModal(:id="confirmModalId" :application="application" @back="goBack" @saved="accepted")
+                        b-modal.fade(:id="confirmModalId" title="Accept Proposal")
+                          p Please confirm the applicant you wish to hire.
+                          .card
+                            .card-body
+                              SpecialistDetails(:specialist="application.specialist")
+                          template(#modal-footer="{ ok, cancel, hide }")
+                            button.btn.btn-light(@click="hide") Cancel
+                            button.btn.btn-outline-dark(@click="goBack") Go Back
+                            Post(:action="hireUrl + '?job_application_id=' + application.id" :model="{}" @saved="saved(project.local_project_id)")
+                              button.btn.btn-dark Confirm
 </template>
 
 <script>
 import SpecialistDetails from './SpecialistDetails'
-import AcceptDenyProposalModal from './AcceptDenyProposalModal'
 import { FIXED_PAYMENT_SCHEDULE_OPTIONS } from '@/common/ProjectInputOptions'
 import { redirectWithToast } from '@/common/Toast'
-
-const TOKEN = localStorage.getItem('app.currentUser.token') ? JSON.parse(localStorage.getItem('app.currentUser.token')) : ''
 
 export default {
   props: {
@@ -142,34 +136,15 @@ export default {
     this.modalId = 'modal_' + Math.random().toFixed(9) + Math.random().toFixed(7)
   },
   methods: {
-    accepted(id, role) {
-
-      fetch(`/api/business/specialist_roles/${id}`, {
-        method: 'PATCH',
-        headers: { 'Authorization': `${TOKEN}`,  'Accept': 'application/json',  'Content-Type': 'application/json' },
-        body: JSON.stringify({ "specialist": { "role": `${role}` } })
-      })
-        .then(response => response.json())
-        .then(result => console.log(result))
-        .catch(error => console.error(error))
-
+    saved(id) {
       redirectWithToast(this.$store.getters.url('URL_PROJECT_SHOW', id), 'Specialist added to project.')
       this.$bvModal.hide(this.confirmModalId)
-    },
-    denied(id) {
-      redirectWithToast(this.$store.getters.url('URL_PROJECT_SHOW', id), 'Proposal denied.')
-      this.$bvModal.hide(this.confirmModalId)
-    },
-    deleted() {
-      redirectWithToast('/business/projects', 'Project post deleted')
-      this.$bvModal.hide('DeletePostModal')
     },
     goBack() {
       this.$bvModal.hide(this.confirmModalId)
       this.$bvModal.show(this.modalId)
     },
-    denyUrl(id) {
-      return `/api/business/projects/${this.projectId}/applications/${id}/hide`
+    denyProposal() {
     }
   },
   computed: {
@@ -179,6 +154,9 @@ export default {
     applicationsUrl() {
       return this.$store.getters.url('URL_API_PROJECT_APPLICATIONS', this.projectId)
     },
+    hireUrl() {
+      return this.$store.getters.url('URL_API_PROJECT_HIRES', this.projectId)
+    },
     paymentScheduleReadable: () => application => FIXED_PAYMENT_SCHEDULE_OPTIONS[application.payment_schedule],
     hasSpecialist: () => project => !!project.specialist_id,
     confirmModalId() {
@@ -186,7 +164,6 @@ export default {
     }
   },
   components: {
-    AcceptDenyProposalModal,
     SpecialistDetails
   }
 }

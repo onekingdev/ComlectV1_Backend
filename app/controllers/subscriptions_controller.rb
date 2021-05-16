@@ -14,7 +14,7 @@ class SubscriptionsController < ApplicationController
         auto_renew: false,
         billing_period_ends: sub.cancel_at
       )
-      flash[:notice] = 'Successfully cancelled'
+      flash[:notice] = 'Successfully canceled'
     rescue => e
       flash[:error] = e.message
     end
@@ -28,7 +28,7 @@ class SubscriptionsController < ApplicationController
         status: 0,
         billing_period_ends_at: Time.zone.at(sub.cancel_at)
       )
-      flash[:notice] = 'Successfully cancelled'
+      flash[:notice] = 'Successfully canceled'
     rescue => e
       flash[:error] = e.message
     end

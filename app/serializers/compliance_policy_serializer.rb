@@ -2,7 +2,6 @@
 
 class CompliancePolicySerializer < ApplicationSerializer
   has_many :versions, serializer: CompliancePolicySerializer
-  has_many :risks, serializer: RiskSerializer
   attributes :id,
              :name,
              :created_at,
@@ -12,7 +11,5 @@ class CompliancePolicySerializer < ApplicationSerializer
              :src_id,
              :status,
              :sections,
-             :versions,
-             :archived,
-             :reminders
+             :versions
 end

@@ -27,7 +27,6 @@
       .row(v-for="(row, i) in entry.time_logs_attributes" :key="i")
         .col-sm-12
           hr
-          span.float-right.btn.btn-danger.btn-sm(v-if="i" @click="removeRow(i)") &times;
           InputText(v-model="row.description" :errors="errors['time_logs.description']" placeholder="Describe the task") Description
         .col-md-4
           InputDate(v-model="row.date" :errors="errors['time_logs.date']") Date
@@ -91,14 +90,11 @@ export default {
     addRow() {
       this.entry.time_logs_attributes.push(newEntryRow())
     },
-    removeRow(i) {
-      this.entry.time_logs_attributes.splice(i, 1)
-    },
     saved() {
       this.reloadTable()
       this.$bvModal.hide('timesheets-modal')
       Object.assign(this.entry, initialEntry())
-      this.toast('Success', 'Time logged and awaiting approval')
+      this.$bvToast.toast('Time logged and awaiting approval', { title: 'Success', autoHideDelay: 5000 })
     },
     reloadTable() {
       this.isTableVisible = false, setTimeout(() => this.isTableVisible = true, 0)
