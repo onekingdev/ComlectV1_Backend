@@ -21,9 +21,6 @@
                   EndContractNotice(:project="marketProject" @saved="contractEnded" @errors="contractEndErrors")
                   ChangeContractAlerts(:project="marketProject" @saved="newEtag" for="Business")
             .row.p-x-1
-              .col
-                DueDateNotice(:project="project" @saved="newEtag")
-            .row.p-x-1
               .col-md-7.col-sm-12
                 .card
                   ProjectDetails(:project="project" @saved="newEtag")
@@ -49,6 +46,20 @@
                 DiscussionCard(:project-id="project.id" :token="token")
       b-tab(title="Tasks")
         .card-body.white-card-body
+          TaskFormModal(id="ProjectTaskFormModal" @saved="taskSaved")
+            button.btn.btn-dark.m-r-1 New Task
+          b-dropdown(text="Show: All Tasks" variant="default")
+            b-dropdown-item All Tasks
+            b-dropdown-item My Tasks
+            b-dropdown-item Complete Tasks
+          button.btn.btn-default.float-right(@click="completedTasksOpen = false"): strong Collapse All
+          TaskTable(v-if="incompleteTasks.length" :tasks="incompleteTasks")
+          p(v-else) No incomplete tasks.
+          h3.pointer(v-if="completedTasks.length" @click="completedTasksOpen = !completedTasksOpen")
+            span.caret(:class="{caret_rotated:!completedTasksOpen}")
+            | Completed Tasks
+          b-collapse.m-t-1(v-if="completedTasks.length" v-model="completedTasksOpen")
+            TaskTable(:tasks="completedTasks")
       b-tab(title="Documents")
         DocumentList(:project="project")
       b-tab(title="Collaborators")
@@ -61,15 +72,14 @@
                     h3.m-y-0 Collaborators
                     button.btn.btn-default.float-right(v-b-modal="'AddCollaboratorModal'") Add Collaborator
                     b-modal#AddCollaboratorModal(title="Add Collaborator")
-                      Get(:etag="etag" :specialists="`/api/business/specialists`" :callback="getSpecialistsOptions"): template(v-slot="{specialists}")
-                        p Select a user to add.
-                        p
-                          strong Note:
-                          | An unlimited amount of employees can be added to the project but only one specialist can be actively working on a project at a time.
-                        InputSelect(value="" :options="specialists") Select User
-                        template(#modal-footer="{ hide }")
-                          button.btn(@click="hide") Cancel
-                          button.btn.btn-dark Add
+                      p Select a user to add.
+                      p
+                        strong Note:
+                        | An unlimited amount of employees can be added to the project but only one specialist can be actively working on a project at a time.
+                      InputSelect(value="" :options="[]") Select User
+                      template(#modal-footer="{ hide }")
+                        button.btn(@click="hide") Cancel
+                        button.btn.btn-dark Add
                   .card-body
                     table.rating_table
                       tbody
@@ -97,7 +107,6 @@
 import { fields, readablePaymentSchedule } from '@/common/ProposalFields'
 import DiscussionCard from '@/common/projects/DiscussionCard'
 import ApplicationsNotice from './alerts/ApplicationsNotice'
-import DueDateNotice from './alerts/DueDateNotice'
 import TimesheetsNotice from './alerts/TimesheetsNotice'
 import EndContractNotice from './alerts/EndContractNotice'
 import ProjectDetails from './ProjectDetails'
@@ -110,6 +119,8 @@ import EndContractModal from './EndContractModal'
 import ShowOnCalendarToggle from './ShowOnCalendarToggle'
 import ChangeContractAlerts from '@/common/projects/ChangeContractAlerts'
 import EditContractModal from '@/common/projects/EditContractModal'
+import TaskFormModal from '@/common/TaskFormModal'
+import TaskTable from './ShowPageTaskTable'
 import IssueModal from './IssueModal'
 
 export default {
@@ -132,6 +143,7 @@ export default {
     return {
       tab: 0,
       showingContract: null,
+      completedTasksOpen: true
     }
   },
   methods: {
@@ -142,6 +154,9 @@ export default {
     contractEndErrors(errors) {
       errors.length && this.toast('Error', 'Cannot request End project')
     },
+    taskSaved() {
+      this.toast('Success', 'Task created')
+    },
     getContracts(projects) {
       return projects.filter(project => !!project.specialist)
     },
@@ -150,10 +165,7 @@ export default {
       this.showingContract = collaborator || null
     },
     contractDetails: fields,
-    readablePaymentSchedule,
-    getSpecialistsOptions(specialists) {
-      return specialists.map(({ id, first_name, last_name }) => ({ id: id, label: `${first_name} ${last_name}`, text: `${first_name} ${last_name}` }))
-    }
+    readablePaymentSchedule
   },
   computed: {
     postHref() {
@@ -162,10 +174,15 @@ export default {
     viewHref() {
       return project => this.$store.getters.url('URL_PROJECT_POST', project.id)
     },
+    incompleteTasks() {
+      return []
+    },
+    completedTasks() {
+      return []
+    }
   },
   components: {
     ApplicationsNotice,
-    DueDateNotice,
     ChangeContractAlerts,
     DiscussionCard,
     LocalProjectModal,
@@ -178,6 +195,8 @@ export default {
     ShowOnCalendarToggle,
     DocumentList,
     EditContractModal,
+    TaskFormModal,
+    TaskTable,
     IssueModal
   }
 }

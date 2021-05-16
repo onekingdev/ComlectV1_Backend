@@ -46,6 +46,12 @@ const BusinessFileFolders = {
   BusinessFileFoldersPage,
 }
 
+import BusinessExamManagementPage from './vue/business/exammanagement/Page.vue'
+
+const BusinessExamManagement = {
+  BusinessExamManagementPage,
+}
+
 
 init({
   store,
@@ -65,6 +71,7 @@ init({
     ...BusinessReportsRisks,
     ...businesRisks,
     ...businesMarketplace,
-    ...BusinessFileFolders
+    ...BusinessFileFolders,
+    ...BusinessExamManagement,
   }
 })

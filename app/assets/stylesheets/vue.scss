@@ -164,6 +164,23 @@ table.table, table.table thead tr th {
   cursor: pointer;
 }
 
+.caret {
+  display: inline-block;
+  margin-left: .255em;
+  margin-right: .255em;
+  margin-top: -0.2em;
+  vertical-align: .255em;
+  content: "";
+  border-top: .3em solid;
+  border-right: .3em solid transparent;
+  border-bottom: 0;
+  border-left: .3em solid transparent;
+  transition: transform ease .12s;
+}
+.caret.caret_rotated {
+  transform: rotate(-90deg);
+}
+
 .nav-tabs {
   .nav-item {
     a {

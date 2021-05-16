@@ -79,7 +79,7 @@
       dateToHuman(value) {
         const date = DateTime.fromJSDate(new Date(value))
         if (!date.invalid) {
-          return date.toFormat('dd/MM/yyyy')
+          return date.toFormat('MM/dd/yyyy')
         }
         if (date.invalid) {
           return value

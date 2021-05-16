@@ -4,10 +4,10 @@ import * as jwt from '@/services/business'
 
 const mapAuthProviders = {
   jwt: {
-    login: jwt.login,
-    register: jwt.register,
-    currentAccount: jwt.currentAccount,
-    logout: jwt.logout,
+    // login: jwt.login,
+    // register: jwt.register,
+    // currentAccount: jwt.currentAccount,
+    // logout: jwt.logout,
     createPolicy: jwt.createPolicy,
     updatePolicySetup: jwt.updatePolicySetup,
   },

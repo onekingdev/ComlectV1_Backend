@@ -1,5 +1,5 @@
 <template lang="pug">
-  div
+  div(@mouseover="mouseOver")
     .container
       .row
         .col-12.p-t-3.d-flex.justify-content-between.p-b-1
@@ -61,7 +61,8 @@
         disabled: false,
         zipStatus: false,
         zipCounter: 0,
-        pageFolderName: ''
+        pageFolderName: '',
+        refreshTimer: 0,
       };
     },
     created() {
@@ -70,6 +71,7 @@
     methods: {
       ...mapActions({
         startZipping: 'filefolders/startZipping',
+        getFileFoldersById: 'filefolders/getFileFoldersById',
       }),
       makeToast(title, str) {
         this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
@@ -211,6 +213,16 @@
           this.makeToast('Error', error.message)
         }
       },
+      mouseOver: function(event){
+        if (event) this.refreshTimer++
+        if (this.refreshTimer === 300) {
+          this.refreshFolders()
+          this.refreshTimer = 0;
+        }
+      },
+      async refreshFolders() {
+        await this.$store.dispatch('filefolders/getFileFolders')
+      }
     },
     computed: {
       loading() {
@@ -231,8 +243,16 @@
     },
     async mounted () {
       try {
-        await this.$store.dispatch('filefolders/getFileFolders')
+        const currentPage = window.location.pathname.match( /\d+/g )
+        if(!currentPage) await this.$store.dispatch('filefolders/getFileFolders') // default fiflefolders
+
+        // if id exist in URL get fiflefolders
+        if(currentPage) {
+          await this.getFileFoldersById(currentPage[0])
+          this.$store.commit('filefolders/SET_CUREENT_FOLDER', currentPage[0])
+        }
       } catch (error) {
+        console.error(error)
         this.makeToast('Error', error.message)
       }
     },

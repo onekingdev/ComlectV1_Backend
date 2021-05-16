@@ -9,14 +9,17 @@ const initialSymbol = str => (typeof str === "string" && str[0]) || ''
 
 export default {
   props: {
-    user: Object
+    user: Object,
+    business: Object
   },
   computed: {
     src() {
-      return this.user && this.user.photo
+      return (this.user && this.user.photo) || (this.business && this.business.logo)
     },
     placeholderText() {
-      return initialSymbol(this.user.first_name) + ' ' + initialSymbol(this.user.last_name)
+      return this.user
+        ? `${initialSymbol(this.user.first_name)} ${initialSymbol(this.user.last_name)}`
+        : initialSymbol(this.business.business_name)
     }
   }
 }
