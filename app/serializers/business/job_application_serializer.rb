@@ -20,5 +20,6 @@ class Business::JobApplicationSerializer < ApplicationSerializer
              :status,
              :role_details,
              :specialist,
-             :project
+             :project,
+             :visibility
 end

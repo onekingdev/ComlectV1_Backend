@@ -19,6 +19,7 @@ html lang=I18n.locale
     = stylesheet_link_tag 'vue'
     = csrf_meta_tags
     script src='//d2wy8f7a9ursnm.cloudfront.net/bugsnag-3.min.js' data-apikey="#{ENV['BUGSNAG_API_KEY']}"
+    script src="https://maps.googleapis.com/maps/api/js?key=#{ENV.fetch('GOOGLE_PLACES_API_KEY')}&libraries=places"
     = javascript_include_tag '/app_config.js'
     = render 'google_analytics'
     = render 'mixpanel'
@@ -56,17 +57,17 @@ body class="#{controller_name} #{action_name}"
             b-collapse#program_management_collapse(:visible="true")
               ul.nav.flex-column
                 li.nav-item
-                  a.btn(aria-current='page' href='#')
+                  a.btn(aria-current='page' href='/business/compliance_policies' class="#{'active' if params[:controller] == 'business/compliance_policies'}")
                     ion-icon(name='newspaper-outline')
                     | Policies and Procedures
                 li.nav-item
-                  a.btn(aria-current='page' href='#')
+                  a.btn(aria-current='page' href='/business/annual_reviews')
                     ion-icon(name='document-text-outline')
                     | Annual Review
                 li.nav-item
-                  a.btn(aria-current='page' href='#')
-                    ion-icon(name='document-text-outline')
-                    | Filings
+                  a.btn(aria-current='page' href='/business/risks' class="#{'active' if params[:controller] == 'business/risks'}")
+                    ion-icon(name='warning-outline')
+                    | Risk Register
 
             h3.d-flex.justify-content-between(role="button" v-b-toggle.addons_collapse="")
               | Add-ons
@@ -91,21 +92,21 @@ body class="#{controller_name} #{action_name}"
               span.navbar-toggler-icon
             #top_navbar.collapse.navbar-collapse.d-flex.justify-content-between
               .navbar-nav
-                a.nav-item.nav-link.active(href='#')
-                  | Home 
+                a.nav-item.nav-link(href='#')
+                  | Home
                   span.sr-only (current)
-                a.nav-item.nav-link(href='#') Documents
-                a.nav-item.nav-link(href='#') Reports
+                a.nav-item.nav-link(href='/business/file_folders' class="#{'active' if params[:controller] == 'business/file_folders'}") Documents
+                a.nav-item.nav-link(href='/business/reports/risks') Reports
                 a.nav-item.nav-link(href='#') Community
               .navbar-nav
-                a.btn.btn-primary style="margin-top: 18px;" Find an Expert
+                a.btn.btn-primary(href='/business/specialists' style="margin-top: 18px;")  Find an Expert
                 .dropdown#notifications_dropdown
                   ion-icon(name='notifications-outline')
                 .dropdown#profile_dropdown.p-x-2
                   #profile_dropdown_btn(@click="isProfileMenuOpen = !isProfileMenuOpen" :aria-expanded="isProfileMenuOpen")
                     - if current_business
                       = image_tag (current_business.logo_url(:thumb) || 'default_userpic.png'), size: "25x25", style: "border-radius: 50%;margin-right: 15px;"
-                      = current_business
+                      | #{current_business.contact_first_name} #{current_business.contact_last_name}
                     ion-icon.m-l-1(name='chevron-down-outline')
                   ul.dropdown-menu(aria-labelledby="profile_dropdown_btn" :class="{ show: isProfileMenuOpen }")
                     li

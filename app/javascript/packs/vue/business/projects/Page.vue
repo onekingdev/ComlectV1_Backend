@@ -50,7 +50,7 @@
       b-tab(title="Ratings and Reviews")
         .card-body.white-card-body
           .container
-            Get(ratings='/api/business/ratings'): template(v-slot="{ratings}"): table.rating_table
+            Get(ratings='/api/project_ratings'): template(v-slot="{ratings}"): table.rating_table
               tbody
                 tr(v-for="rating in ratings")
                   td
@@ -63,12 +63,12 @@
 </template>
 
 <script>
-import ProjectTable from '@/common/ProjectTable'
+import ProjectTable from './ProjectTable'
 import LocalProjectModal from './LocalProjectModal'
 import EtaggerMixin from '@/mixins/EtaggerMixin'
 
 export default {
-  mixins: [EtaggerMixin],
+  mixins: [EtaggerMixin()],
   methods: {
     getContacts(projects) {
       return projects.reduce((result, project) => {

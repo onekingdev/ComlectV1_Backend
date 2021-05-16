@@ -25,7 +25,7 @@ class Project::Decorator < ApplicationDecorator
     url = h.business_project_extensions_path(project)
 
     h.form_for project.extensions.new, url: url, html: { class: 'js-project-extension-popover' } do |f|
-      f.hidden_field(:new_end_date,
+      f.hidden_field(:ends_on,
                      data: { min: ends_on.present? ? (ends_on + 1).to_a(zero_based_month: true) : '' }, class: 'new_end_date') +
         h.content_tag(:div, class: 'row row-compact') do
           h.content_tag(:div, class: 'col-xs-6') do
@@ -105,13 +105,9 @@ class Project::Decorator < ApplicationDecorator
 
   def start_and_duration
     return 'ASAP' if asap_duration?
-    string = rfp? && pending? ? rfp_timing_humanized : starts_on&.strftime('%b %d, %Y')
+    string = starts_on&.strftime('%b %d, %Y')
     return string if full_time? || rfp?
     ends_on.present? ? "#{string} (#{duration})" : string.to_s
-  end
-
-  def rfp_timing_humanized
-    Project::RFP_TIMING.map(&proc { |e| e[0] if e[1] == rfp_timing }).compact[0]
   end
 
   def duration

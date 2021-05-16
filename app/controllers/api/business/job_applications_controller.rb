@@ -20,7 +20,13 @@ class Api::Business::JobApplicationsController < ApiController
 
   def hide
     @job_application = current_business.job_applications.find(params[:job_application_id])
-    @job_application.hidden? ? @job_application.undecided! : @job_application.hidden!
+    if @job_application.hidden?
+      @job_application.undecided!
+    else
+      @job_application.hidden!
+      Notification::Deliver.application_declined(@job_application)
+    end
+    respond_with @job_application, serializer: Business::JobApplicationSerializer
   end
 
   private

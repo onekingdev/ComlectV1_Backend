@@ -28,7 +28,6 @@ class Project < ApplicationRecord
   has_many :transactions, dependent: :destroy
   has_many :extensions, dependent: :destroy, class_name: 'ProjectExtension'
   has_one :extension, -> { pending }, class_name: 'ProjectExtension'
-  has_many :documents, dependent: :destroy
   has_many :questions, dependent: :destroy
   has_many :answers, through: :questions, dependent: :destroy
   has_many :favorites, as: :favorited, dependent: :destroy, class_name: 'Favorite'
@@ -164,12 +163,6 @@ class Project < ApplicationRecord
   ].freeze
   PAYMENT_SCHEDULES = (HOURLY_PAYMENT_SCHEDULES + FIXED_PAYMENT_SCHEDULES).uniq.freeze
   enum payment_schedule: Hash[PAYMENT_SCHEDULES].invert
-  RFP_TIMING = [
-    %w[As\ soon\ as\ possible asap],
-    %w[Within\ the\ next\ 2\ weeks two_weeks],
-    %w[Within\ a\ month month],
-    %w[Not\ sure not_sure]
-  ].freeze
   MINIMUM_EXPERIENCE = [['Junior', 0], ['Intermediate', 1], ['Expert', 2]].freeze
   EXPERIENCE_RANGES = (0..2).each_with_object({}) do |n, years|
     years[n] = (n..Float::INFINITY)

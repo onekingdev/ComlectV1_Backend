@@ -8,6 +8,46 @@ import ProjectShowPage from '@/business/projects/ShowPage'
 import ProjectShowPostPage from '@/business/projects/ShowPostPage'
 import RemindersPage from '@/business/reminders/Page'
 import TimesheetsShowPage from '@/business/projects/TimesheetsShowPage'
+import BusinessAnnualsPage from './vue/business/annual/Page.vue'
+import BusinessAnnualReviewPage from './vue/business/annual/PageCurrentReviewCategory.vue'
+import BusinessAnnualGeneralPage from './vue/business/annual/PageCurrentGeneral.vue'
+
+import BusinessPoliciesPage from './vue/business/policies/Page.vue'
+import BusinessPoliciesCreatePage from './vue/business/policies/Details/PolicyCreate.vue'
+import BusinessPoliciesEntirePage from './vue/business/policies/Details/PolicyEntire.vue'
+
+const businesPolicies = {
+  BusinessPoliciesPage,
+  BusinessPoliciesCreatePage,
+  BusinessPoliciesEntirePage,
+}
+
+import BusinessMarketplacePage from './vue/business/marketplace/Page.vue'
+
+const businesMarketplace = {
+  BusinessMarketplacePage,
+}
+
+import BusinessReportsRisksPage from './vue/business/reportsrisks/Page.vue'
+
+const BusinessReportsRisks = {
+  BusinessReportsRisksPage,
+}
+
+import BusinessRisksPage from './vue/business/riskregister/Page.vue'
+import BusinessRisksPageDetail from './vue/business/riskregister/RiskDetail.vue'
+
+const businesRisks = {
+  BusinessRisksPage,
+  BusinessRisksPageDetail
+}
+
+import BusinessFileFoldersPage from './vue/business/filefolders/Page.vue'
+
+const BusinessFileFolders = {
+  BusinessFileFoldersPage,
+}
+
 
 init({
   store,
@@ -20,5 +60,13 @@ init({
     ProjectShowPostPage,
     RemindersPage,
     TimesheetsShowPage,
+    BusinessAnnualsPage,
+    BusinessAnnualReviewPage,
+    BusinessAnnualGeneralPage,
+    ...businesPolicies,
+    ...BusinessReportsRisks,
+    ...businesRisks,
+    ...businesMarketplace,
+    ...BusinessFileFolders
   }
 })

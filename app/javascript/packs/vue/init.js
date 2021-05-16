@@ -12,15 +12,21 @@ import InputText from '@/common/InputText'
 import InputTextarea from '@/common/InputTextarea'
 import InputNumber from '@/common/InputNumber'
 import InputSelect from '@/common/InputSelect'
+import InputRating from '@/common/InputRating'
 import StarRating from '@/common/StarRating'
 import UserAvatar from '@/common/UserAvatar'
 import PropertiesTable from '@/common/PropertiesTable'
 import CommonHeader from '@/common/CommonHeader'
 import Get from '@/common/rest/Get'
 import Post from '@/common/rest/Post'
+import Put from '@/common/rest/Put'
+import Delete from '@/common/rest/Delete'
 import ModelLoader from '@/common/rest/ModelLoader'
 import filters from '@/filters'
 import { extractToastMessage } from '@/common/Toast'
+import ToasterMixin from '@/mixins/ToasterMixin'
+import RedirectMixin from '@/mixins/RedirectMixin'
+import HistoryMixin from '@/mixins/HistoryMixin'
 
 const data = () => ({
   isProfileMenuOpen: false
@@ -29,6 +35,10 @@ const data = () => ({
 const init = configuration => {
   Vue.use(BootstrapVue)
   Vue.use(IconsPlugin)
+
+  Vue.mixin(ToasterMixin)
+  Vue.mixin(RedirectMixin)
+  Vue.mixin(HistoryMixin)
 
   Vue.config.productionTip = false
   Vue.config.ignoredElements = ['ion-icon']
@@ -46,23 +56,31 @@ const init = configuration => {
   Vue.component('InputTextarea', InputTextarea)
   Vue.component('InputNumber', InputNumber)
   Vue.component('InputSelect', InputSelect)
+  Vue.component('InputRating', InputRating)
   Vue.component('StarRating', StarRating)
   Vue.component('UserAvatar', UserAvatar)
   Vue.component('PropertiesTable', PropertiesTable)
   Vue.component('CommonHeader', CommonHeader)
   Vue.component('Get', Get)
   Vue.component('Post', Post)
+  Vue.component('Put', Put)
+  Vue.component('Delete', Delete)
   Vue.component('ModelLoader', ModelLoader)
+
+  Vue.directive('google-maps-autocomplete', {
+    inserted(el) {
+      new google.maps.places.Autocomplete(el)
+    }
+  })
 
   return new Vue({
     el: document.getElementById('app'),
+    mixins: [ToasterMixin, RedirectMixin, HistoryMixin],
     ...(configuration || {}),
     data,
     created() {
       const toast = extractToastMessage()
-      if (toast) {
-        this.$bvToast.toast(toast, { autoHideDelay: 5000 })
-      }
+      toast && this.toast('', toast)
     }
   })
 }

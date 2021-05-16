@@ -564,6 +564,24 @@ class Notification::Deliver < Draper::Decorator
       dispatcher.deliver_mail(action_url)
     end
 
+    def application_declined(application)
+      project = application.project
+      action_path, action_url = path_and_url(
+        :specialists_projects
+      )
+
+      dispatcher = Dispatcher.new(
+        user: project.business.user,
+        key: :job_application_declined,
+        action_path: action_path,
+        associated: project,
+        t: { project_title: project.title }
+      )
+
+      dispatcher.deliver_notification!
+      dispatcher.deliver_mail(action_url)
+    end
+
     def end_project_accepted!(request)
       project = request.project
       action_path, action_url = path_and_url :business_project_dashboard, project
@@ -777,8 +795,8 @@ class Notification::Deliver < Draper::Decorator
     end
 
     def transaction_processed!(transaction)
-      business_transaction_processed! transaction if transaction.business
-      specialist_transaction_processed! transaction if transaction.specialist
+      business_transaction_processed! transaction if transaction.business&.user
+      specialist_transaction_processed! transaction if transaction.specialist&.user
     end
 
     def business_transaction_processed!(transaction)
