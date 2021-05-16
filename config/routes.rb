@@ -273,6 +273,11 @@ Rails.application.routes.draw do
     resources :direct_messages, path: 'messages(/:recipient_username)', only: %i[index create]
     resources :project_ratings, only: %i[index]
     namespace :business do
+      resources :exams, only: %i[index show create update destroy] do
+        resources :exam_requests, path: 'requests', only: %i[create update destroy] do
+          resources :exam_request_files, path: 'documents', only: %i[create destroy]
+        end
+      end
       resources :file_folders, only: %i[index create destroy update show] do
         get :download_folder, on: :member
         get :check_zip, on: :member
