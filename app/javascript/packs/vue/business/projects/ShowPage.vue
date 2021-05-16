@@ -59,17 +59,18 @@
                 .card(v-if="!showingContract")
                   .card-header.d-flex.justify-content-between
                     h3.m-y-0 Collaborators
-                    Get(:etag="etag" :specialists="`/api/business/specialists`" :callback="getSpecialistsOptions"): template(v-slot="{specialists}")
+                    Get(:etag="etag" :specialists="`/api/business/specialists`" :callback="getSpecialistsOptions" ): template(v-slot="{specialists}")
                       button.btn.btn-default.float-right(v-b-modal="'AddCollaboratorModal'") Add Collaborator
-                      b-modal#AddCollaboratorModal(title="Add Collaborator")
+                      b-modal#AddCollaboratorModal(title="Add Collaborator" :project="project")
                         p Select a user to add.
                         p
                           strong Note:
                           | An unlimited amount of employees can be added to the project but only one specialist can be actively working on a project at a time.
-                        InputSelect(value="" :options="specialists") Select User
+                        InputSelect(value="role" :options="specialists") Select User
                         template(#modal-footer="{ hide }")
                           button.btn(@click="hide") Cancel
-                          button.btn.btn-dark Add
+                          Post(:action="hireUrl + '?job_application_id=' + project.id" :model="{role}" @saved="newEtag()")
+                            button.btn.btn-dark Add
                   .card-body
                     table.rating_table
                       tbody
@@ -132,6 +133,7 @@ export default {
     return {
       tab: 0,
       showingContract: null,
+      role: '',
     }
   },
   methods: {
@@ -162,6 +164,9 @@ export default {
     viewHref() {
       return project => this.$store.getters.url('URL_PROJECT_POST', project.id)
     },
+    hireUrl() {
+      return project => this.$store.getters.url('URL_API_PROJECT_HIRES', project.id)
+    }
   },
   components: {
     ApplicationsNotice,
