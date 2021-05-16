@@ -94,8 +94,14 @@ Rails.application.routes.draw do
       post :assign
     end
     post '/seats/buy' => 'seats#buy'
-    resources :compliance_policies, only: %i[show index] do
-      get :entire, on: :collection
+    resources :compliance_policies, only: %i[new update create edit show destroy index] do
+      collection do
+        put :sort
+      end
+      member do
+        put :ban
+        put :unban
+      end
     end
     get 'annual_reviews/:id/:revcat', to: 'annual_reviews#revcat'
     resources :annual_reviews, only: %i[new create show destroy index edit update]
@@ -273,11 +279,6 @@ Rails.application.routes.draw do
     resources :direct_messages, path: 'messages(/:recipient_username)', only: %i[index create]
     resources :project_ratings, only: %i[index]
     namespace :business do
-      resources :exams, only: %i[index show create update destroy] do
-        resources :exam_requests, path: 'requests', only: %i[create update destroy] do
-          resources :exam_request_files, path: 'documents', only: %i[create destroy]
-        end
-      end
       resources :file_folders, only: %i[index create destroy update show] do
         get :download_folder, on: :member
         get :check_zip, on: :member

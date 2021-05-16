@@ -1,25 +1,21 @@
 <template lang="pug">
-  ul.list-group.list-group-horizontal.w-100.project-figures
+  ul.list-group.list-group-horizontal.project-figures
     li.list-group-item(v-if="project.pricing_type === 'fixed'")
-      ion-icon.float-left.mt-3.mr-3(name="cash-outline")
-      | Estimated Budget
+      | Fixed Budget
       br
-      b {{ project.est_budget | usdWhole }}
+      | {{ (project.est_budget || project.fixed_budget) | usdWhole }}
     li.list-group-item(v-else)
-      ion-icon.float-left.mt-3.mr-3(name="cash-outline")
       | Hourly
       br
-      b {{ project.hourly_rate | usdWhole }} - {{ project.upper_hourly_rate | usdWhole }}
+      | {{ project.hourly_rate | usdWhole }} - {{ project.upper_hourly_rate | usdWhole }}
     li.list-group-item
-      ion-icon.float-left.mt-3.mr-3(name="cash-outline")
       | Payment Schedule
       br
-      b {{ paymentScheduleReadable }}
+      | {{ paymentScheduleReadable }}
     li.list-group-item
-      ion-icon.float-left.mt-3.mr-3(name="earth-outline")
       | Jurisdiction
       br
-      b {{ project.jurisdictions | names }}
+      | {{ project.jurisdictions | names }}
 </template>
 
 <script>
