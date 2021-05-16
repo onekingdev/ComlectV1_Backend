@@ -52,6 +52,7 @@
       const url = new URL(window.location);
       const resetPasswordToken = url.searchParams.get('reset_password_token');
       this.resetPasswordToken = resetPasswordToken;
+      console.log('resetPasswordToken', this.resetPasswordToken)
     },
     data() {
       return {
@@ -106,6 +107,7 @@
 
             if (response.errors) {
               for (const [key, value] of Object.entries(response.errors)) {
+                console.log(`${key}: ${value}`);
                 this.makeToast('Error', `${key}: ${value}`)
                 this.errors = Object.assign(this.errors, { [key]: value })
               }
@@ -126,8 +128,9 @@
             }, 6000)
           })
           .catch((error) => {
-            console.error(error)
+            console.error('error', error)
             for (const type of Object.keys(error.errors)) {
+              console.log('type', type)
               this.makeToast('Error', `${error.errors[type]}`)
               this.error = `Error! ${error.errors[type]}`
             }

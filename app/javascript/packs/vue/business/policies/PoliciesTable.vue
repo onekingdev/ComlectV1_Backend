@@ -12,7 +12,7 @@
     .row
       .col-12
         Loading
-        .table.mb-0(v-if="!loading && policiesComputed && policiesComputed.length !== 0")
+        .table(v-if="!loading && policiesComputed && policiesComputed.length !== 0")
           .table__row
             .table__cell.table__cell_title Name
             .table__cell.table__cell_title.table__cell_clickable
@@ -24,11 +24,11 @@
             .table__cell.table__cell_title.table__cell_clickable.text-right
               | Date Created
               b-icon.ml-2(icon='chevron-expand')
-            .table__cell.table__cell_title.table__cell_clickable.text-right
+            .table__cell.table__cell_title.table__cell_clickable
               | Risk Level
               b-icon.ml-2(icon='chevron-expand')
-            .table__cell(style="width: 40px")
-        nested-draggable(v-model='policiesComputed', :policiesList="policies")
+            .table__cell
+          nested-draggable(v-model='policiesComputed', :policiesList="policies")
         .table(v-if="!loading && policiesComputed.length === 0")
           .table__row
             .table__cell.text-center

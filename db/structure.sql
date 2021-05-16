@@ -1011,8 +1011,7 @@ CREATE TABLE public.exam_requests (
     complete boolean DEFAULT false,
     shared boolean DEFAULT false,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
-    exam_id integer
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -7945,7 +7944,6 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210423114454'),
 ('20210502165601'),
 ('20210505154804'),
-('20210508134939'),
-('20210516095619');
+('20210508134939');
 
 

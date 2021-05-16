@@ -1,13 +1,9 @@
 <template lang="pug">
   .card.m-t-1
     .card-header
-      div.d-flex.align-items-center
-        UserAvatar.mr-2(:business="business")
-        span.mr-auto
-          //- @todo add link to business page
-          | {{ business.business_name }}
-          br
-          | {{ [business.city, business.state, business.country] | commas }}
+      | {{ business.business_name }}
+      br
+      | {{ [business.country, business.city, business.state] | commas }}
     .card-body
       dl.row
         dt.col-sm-3 Industry
