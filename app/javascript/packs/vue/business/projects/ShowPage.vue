@@ -60,6 +60,20 @@
                 DiscussionCard(:project-id="project.id" :token="token")
       b-tab(title="Tasks")
         .card-body.white-card-body
+          TaskFormModal(id="ProjectTaskFormModal" @saved="taskSaved")
+            button.btn.btn-dark.m-r-1 New Task
+          b-dropdown(text="Show: All Tasks" variant="default")
+            b-dropdown-item All Tasks
+            b-dropdown-item My Tasks
+            b-dropdown-item Complete Tasks
+          button.btn.btn-default.float-right(@click="completedTasksOpen = false"): strong Collapse All
+          TaskTable(v-if="incompleteTasks.length" :tasks="incompleteTasks")
+          p(v-else) No incomplete tasks.
+          h3.pointer(v-if="completedTasks.length" @click="completedTasksOpen = !completedTasksOpen")
+            span.caret(:class="{caret_rotated:!completedTasksOpen}")
+            | Completed Tasks
+          b-collapse.m-t-1(v-if="completedTasks.length" v-model="completedTasksOpen")
+            TaskTable(:tasks="completedTasks")
       b-tab(title="Documents")
         DocumentList(:project="project")
       b-tab(title="Collaborators")
@@ -135,6 +149,8 @@ import EndContractModal from './EndContractModal'
 import ShowOnCalendarToggle from './ShowOnCalendarToggle'
 import ChangeContractAlerts from '@/common/projects/ChangeContractAlerts'
 import EditContractModal from '@/common/projects/EditContractModal'
+import TaskFormModal from '@/common/TaskFormModal'
+import TaskTable from './ShowPageTaskTable'
 import IssueModal from './IssueModal'
 import EditRoleModal from './EditRoleModal'
 
@@ -161,7 +177,8 @@ export default {
       tab: 0,
       showingContract: null,
       role: '',
-      modalId: null
+      modalId: null,
+      completedTasksOpen: true,
     }
   },
   created() {
@@ -174,6 +191,9 @@ export default {
     },
     contractEndErrors(errors) {
       errors.length && this.toast('Error', 'Cannot request End project')
+    },
+    taskSaved() {
+      this.toast('Success', 'Task created')
     },
     getContracts(projects) {
       return projects.filter(project => !!project.specialist)
@@ -194,7 +214,7 @@ export default {
         body: JSON.stringify({ "specialist": { "role": `${role}` } })
       })
         .then(response => response.json())
-        .then(result => console.log(result))
+        .then(result => this.toast('Success', 'The Role has been setted!'))
         .catch(error => console.error(error))
     },
   },
@@ -213,6 +233,12 @@ export default {
     },
     confirmModalId() {
       return (this.modalId || '') + '_confirm'
+    },
+    incompleteTasks() {
+      return []
+    },
+    completedTasks() {
+      return []
     }
   },
   components: {
@@ -232,6 +258,8 @@ export default {
     EditContractModal,
     IssueModal,
     EditRoleModal,
+    TaskFormModal,
+    TaskTable,
   }
 }
 </script>

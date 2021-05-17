@@ -2,7 +2,7 @@
   tr
     td
       a.link(:href="`/business/annual_reviews/${item.id}`")
-        | {{ item.year }} {{ item.name }}
+        | {{ item.name }}
     td
       <!--.reviews-table__progress.d-flex-->
         <!--.reviews-table__progress-numbers-->
@@ -50,7 +50,7 @@ export default {
     dateToHuman(value) {
       const date = DateTime.fromJSDate(new Date(value))
       if (!date.invalid) {
-        return date.toFormat('dd/MM/yyyy')
+        return date.toFormat('MM/dd/yyyy')
       }
       if (date.invalid) {
         return value

@@ -88,15 +88,11 @@
           "email": this.form.email,
         }
 
-        console.log('dataToSend', dataToSend)
-
         this.$store.dispatch('resetEmail', dataToSend)
           .then((response) => {
-            console.log('response', response)
 
             if (response.errors) {
               const properties = Object.keys(response.errors);
-              console.log('properties', properties)
               for (const type of Object.keys(response.errors)) {
                 this.errors = response.errors[type]
                 this.makeToast('Error', `Form has errors! Please recheck fields! ${error}`)
@@ -119,9 +115,8 @@
             // }, 3000)
           })
           .catch((error) => {
-            console.error('error', error)
+            console.error(error)
             for (const type of Object.keys(error.errors)) {
-              console.log('type', type)
               this.makeToast('Error', `${error.errors[type]}`)
               this.error = `Error! ${error.errors[type]}`
             }

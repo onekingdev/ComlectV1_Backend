@@ -333,6 +333,22 @@ export default {
         commit("setLoading", false)
       }
     },
+    async getSkills({commit}, payload) {
+      try {
+        commit("clearError");
+        commit("setLoading", true);
+
+        const response = await axios.get(`/skills`)
+        // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
+        return response.data
+
+      } catch (error) {
+        console.error(error);
+        throw error
+      } finally {
+        commit("setLoading", false)
+      }
+    },
   },
   getters: {
     getUser(state) {

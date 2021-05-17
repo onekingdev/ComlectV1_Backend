@@ -43,14 +43,16 @@
       }
     },
     methods: {
-      specialistRoleOptions: () => SPECIALIST_ROLE_OPTIONS,
       submit(e) {
         e.preventDefault();
         this.errors = [];
 
-        this.$emit('saved', application.id, role)
+        this.$emit('saved', this.specialist.id, this.role)
         this.$bvModal.hide(this.modalId)
       },
     },
+    computed: {
+      specialistRoleOptions: () => SPECIALIST_ROLE_OPTIONS,
+    }
   }
 </script>

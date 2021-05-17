@@ -1,7 +1,7 @@
 <template lang="pug">
   div
     .policy-details-subsection(:data-section-id="index")
-      .policy-details__name.mb-0 Subsection Name
+      .policy-details__name.mb-0 Section Name
       .d-flex.align-items-center
         b-icon.mr-2(v-if="section.children && section.children.length > 0" icon="chevron-compact-down")
         b-icon.mr-2(v-else icon="chevron-compact-right")
@@ -62,8 +62,8 @@
     },
     data() {
       return {
-        description: "N/A",
-        title: "New section name",
+        description: "",
+        title: "New Section",
         toggleVueEditor: false,
         isActive: false,
         count: 0,
@@ -95,7 +95,7 @@
 
           this.parentSection.children.push({
             id: id,
-            title: `${this.title}-№-${this.count}-${id}`,
+            title: `${this.title}`,
             description: this.description,
             children: [],
           })
@@ -108,7 +108,7 @@
         this.section.children.push({
           // component: SubsectionPolicy,
           id: this.count++,
-          title: `${this.title}-№-${this.count++}-${id}`,
+          title: `${this.title}`,
           description: this.description,
           children: [],
         })
