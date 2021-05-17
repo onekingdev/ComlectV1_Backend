@@ -19,7 +19,6 @@
                   <!--img.m-r-1.userpic_small(v-if="project.specialist.photo" :src="project.specialist.photo")-->
                   h3 {{ project.specialist.first_name }} {{project.specialist.last_name }}
                   p Specialist
-              .d-block
             .col-sm
               span.float-right Outstanding Due <br> {{ 500 | usdWhole }}
         .card-header
