@@ -64,7 +64,7 @@
                       b-modal#AddCollaboratorModal(title="Add Collaborator" :project="project")
                         p Select a user to add.
                         p
-                          strong Note:
+                          strong Note:&nbsp;
                           | An unlimited amount of employees can be added to the project but only one specialist can be actively working on a project at a time.
                         InputSelect(value="role" :options="specialists") Select User
                         template(#modal-footer="{ hide }")
