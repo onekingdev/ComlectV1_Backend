@@ -1,8 +1,8 @@
 <template lang="pug">
   .row
-    .col-sm-2.pr-0
+    .col-sm-3
       UserAvatar(:user="specialist")
-    .col-sm.pl-0
+    .col-sm
       h3 {{ specialist.first_name }} {{ specialist.last_name }}
       p {{ specialist.address_1 }} {{ specialist.address_2 }}
       StarRating(:stars="4")

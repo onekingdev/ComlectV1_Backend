@@ -86,6 +86,23 @@ body class="#{controller_name} #{action_name}"
                   a.btn(aria-current='page' href='#')
                     ion-icon(name='settings-outline')
                     | Settings
+            h3.d-flex.justify-content-between(role="button" v-b-toggle.files="")
+              | Files
+              ion-icon(name='chevron-down-outline')
+            b-collapse#files(:visible="true")
+              ul.nav.flex-column
+                li.nav-item
+                  a.btn(aria-current='page' href='/business/file_folders' class="#{'active' if params[:controller] == 'business/file_folders'}")
+                    ion-icon(name='folder-outline')
+                    | Book and records
+                li.nav-item
+                  a.btn(aria-current='page' href='/business/exam_management' class="#{'active' if params[:controller] == 'business/exam_management'}")
+                    ion-icon(name='search-outline')
+                    | Exam Management
+                li.nav-item
+                  a.btn(aria-current='page' href='#')
+                    ion-icon(name='settings-outline')
+                    | Settings
         main.col-md-9.col-lg-10#main-content.px-0
           nav.navbar.navbar-expand-lg.navbar-light.p-0
             button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarNavAltMarkup' aria-controls='navbarNavAltMarkup' aria-expanded='false' aria-label='Toggle navigation')
