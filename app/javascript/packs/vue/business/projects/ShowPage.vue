@@ -108,9 +108,8 @@
                     EndContractModal(:project="showingContract" @saved="contractEnded" @errors="contractEndErrors")
                       button.btn.btn-dark.float-right End Contract
                     b-dropdown.m-x-1.float-right(text="Actions" variant="default")
-                      Get(:applications="applicationsUrl"): template(v-slot="{applications}")
-                        AcceptDenyProposalModal(:id="confirmModalId" :application="application" @saved="accepted")
-                          b-dropdown-item Set role
+                      EditRoleModal(:specialist="showingContract.specialist" :inline="false" @saved="accepted")
+                        b-dropdown-item Set role
                       b-dropdown-item(v-b-modal="'IssueModal'") Report Issue
                     IssueModal(:project-id="showingContract.id" :token="token")
                     Breadcrumbs.m-y-1(:items="['Collaborators', `${showingContract.specialist.first_name} ${showingContract.specialist.last_name}`]")
@@ -137,7 +136,7 @@ import ShowOnCalendarToggle from './ShowOnCalendarToggle'
 import ChangeContractAlerts from '@/common/projects/ChangeContractAlerts'
 import EditContractModal from '@/common/projects/EditContractModal'
 import IssueModal from './IssueModal'
-import AcceptDenyProposalModal from './AcceptDenyProposalModal'
+import EditRoleModal from './EditRoleModal'
 
 const TOKEN = localStorage.getItem('app.currentUser.token') ? JSON.parse(localStorage.getItem('app.currentUser.token')) : ''
 
@@ -197,9 +196,6 @@ export default {
         .then(response => response.json())
         .then(result => console.log(result))
         .catch(error => console.error(error))
-
-      redirectWithToast(this.$store.getters.url('URL_PROJECT_SHOW', id), 'Specialist added to project.')
-      this.$bvModal.hide(this.confirmModalId)
     },
   },
   computed: {
@@ -235,7 +231,7 @@ export default {
     DocumentList,
     EditContractModal,
     IssueModal,
-    AcceptDenyProposalModal
+    EditRoleModal,
   }
 }
 </script>
