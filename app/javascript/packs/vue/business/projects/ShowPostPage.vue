@@ -66,17 +66,19 @@
                     tr
                       th
                         | Name
-                        img.img-icon(src='@/assets/svg_example.svg')
+                        b-icon.ml-2(icon='chevron-expand')
                       th
                   tbody
                     tr(v-for="application in applications" :key="application.id")
                       td
-                        UserAvatar(:user="application.specialist")
+                        .d-flex.align-items-center
+                        UserAvatar.mr-2(:user="application.specialist")
                         | {{ application.specialist.first_name }} {{ application.specialist.last_name }}
-                      td
-                        a(href="#" @click.prevent v-b-modal="modalId")
-                          img.img-icon(src='@/assets/magnifier.svg')
-                          | View
+                      td.align-middle
+                        .d-flex.align-items-center.justify-content-end
+                          a.link(href="#" @click.prevent v-b-modal="modalId")
+                            b-icon.mr-2(icon="search")
+                            | View
                         b-modal.fade(:id="modalId" title="View Proposal" no-stacking)
                           .card
                             .card-header
