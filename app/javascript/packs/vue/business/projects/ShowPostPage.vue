@@ -83,8 +83,8 @@
                           .card
                             .card-header
                               SpecialistDetails(:specialist="application.specialist")
-                            .card-body
-                              ul.list-group.list-group-horizontal
+                            .card-body.w-100
+                              ul.list-group.list-group-horizontal.mb-3.w-100
                                 li.list-group-item(v-if="application.pricing_type === 'fixed'")
                                   | Bid Price
                                   br
