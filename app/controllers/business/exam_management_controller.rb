@@ -10,6 +10,6 @@ class Business::ExamManagementController < ApplicationController
   end
 
   def show
-    render html: content_tag('business-exam-management-show-page', '').html_safe, layout: 'vue_business'
+    render html: content_tag('business-exam-management-show-page', '', ':exam-id': params[:id].to_i).html_safe, layout: 'vue_business'
   end
 end
