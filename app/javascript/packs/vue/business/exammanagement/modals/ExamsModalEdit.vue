@@ -7,7 +7,7 @@
       .row
         .col-12.m-b-2
           label.form-label Name
-          input.form-control(v-model="exam_management.name" type="text" placeholder="Enter the name of your exam" ref="input")
+          input.form-control(v-model="exam_management.name" type="text" placeholder="Enter the name of your exam" ref="input" @keyup="onChange")
       .row.m-b-2
         .col-6
           label.form-label Start Date
@@ -49,6 +49,12 @@
     methods: {
       makeToast(title, str) {
         this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
+      },
+      onChange(e){
+        if (e.keyCode === 13) {
+          // ENTER KEY CODE
+          this.submit(e)
+        }
       },
       async submit(e) {
         e.preventDefault();
