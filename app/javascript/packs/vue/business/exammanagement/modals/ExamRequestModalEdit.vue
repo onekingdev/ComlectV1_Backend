@@ -3,22 +3,22 @@
     div(v-b-modal="modalId" :class="{'d-inline-block':inline}")
       slot
 
-    b-modal.fade(:id="modalId" title="Add request")
+    b-modal.fade(:id="modalId" title="Edit request" @shown="getData")
       .row
         .col-12.m-b-2
           label.form-label Requested Item
-          input.form-control(v-model="requst.name" type="text" placeholder="Enter the item name" ref="input" @keyup="onChange")
+          input.form-control(v-model="requestData.name" type="text" placeholder="Enter the item name" ref="input" @keyup="onChange")
           Errors(:errors="errors.name")
       .row.m-b-2
         .col-12
           label.form-label Details
-          textarea.form-control(v-model="requst.details" rows="4")
+          textarea.form-control(v-model="requestData.details" rows="4")
           small(class="form-text text-muted") Optional
           Errors(:errors="errors.details")
 
       template(slot="modal-footer")
         button.btn(@click="$bvModal.hide(modalId)") Cancel
-        button.btn.btn-dark(@click="submit") Add
+        button.btn.btn-dark(@click="submit") Save
 </template>
 
 <script>
@@ -34,12 +34,16 @@
       examId: {
         type: Number,
         default: true
+      },
+      request: {
+        type: Object,
+        required: true
       }
     },
     data() {
       return {
         modalId: `modal_${rnd()}`,
-        requst: {
+        requestData: {
           name: '',
           details: '',
           complete: false,
@@ -53,11 +57,9 @@
         this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
       },
       resetForm() {
-        this.requst = {
+        this.requestData = {
           name: '',
           details: '',
-          complete: true,
-          shared: false
         }
       },
       onChange(e){
@@ -69,17 +71,17 @@
       async submit(e) {
         e.preventDefault();
 
-        if (!this.requst.name || !this.requst.details) {
+        if (!this.requestData.name || !this.requestData.details) {
           this.makeToast('Error', `Please check all fields!`)
           return
         }
 
         try {
-          await this.$store.dispatch('exams/createExamRequest', {
+          await this.$store.dispatch('exams/updateExamRequest', {
             id: this.examId,
-            request: this.requst
+            request: this.requestData
           })
-          this.makeToast('Success', `Exam Request successfully added!`)
+          this.makeToast('Success', `Exam Request successfully edited!`)
           this.$emit('saved')
           this.$bvModal.hide(this.modalId)
           this.resetForm()
@@ -87,6 +89,12 @@
           this.makeToast('Error', error.message)
         }
       },
+
+      getData() {
+        this.requestData = {
+          ...this.request
+        }
+      }
     },
     computed: {
       datepickerOptions() {
@@ -95,5 +103,8 @@
         }
       },
     },
+    // mounted() {
+    //   getData()
+    // },
   }
 </script>

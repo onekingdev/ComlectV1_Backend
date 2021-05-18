@@ -9,6 +9,7 @@ const mapAuthProviders = {
     getExamById: jwt.getExamById,
     createExamRequest: jwt.createExamRequest,
     deleteExamRequest: jwt.deleteExamRequest,
+    updateExamRequest: jwt.updateExamRequest,
   },
 }
 
@@ -39,6 +40,10 @@ export default {
     },
     ADD_REQUEST_CURRENT_EXAM(state, payload) {
       state.currentExam.exam_requests.push(payload)
+    },
+    UPDATE_REQUEST_CURRENT_EXAM(state, payload) {
+      const index = state.currentExam.exam_requests.findIndex(record => record.id === payload.id);
+      state.currentExam.exam_requests.splice(index, 1, payload)
     },
     DELETE_REQUEST_CURRENT_EXAM(state, payload) {
       const index = state.currentExam.exam_requests.findIndex(record => record.id === payload.id);
@@ -293,6 +298,42 @@ export default {
             if (success) {
               const data = success.data
               commit('ADD_REQUEST_CURRENT_EXAM', data)
+              return success
+            }
+            if (!success) {
+              // console.log('Not success', success)
+            }
+            commit("clearError");
+            commit("setLoading", false);
+          })
+      } catch (error) {
+        commit("setError", error.message, {
+          root: true
+        });
+        commit("setLoading", false, {
+          root: true
+        });
+        throw error;
+      } finally {
+        commit("setLoading", false, {
+          root: true
+        })
+      }
+    },
+    async updateExamRequest({state, commit, rootState}, payload) {
+      commit("clearError", null, {
+        root: true
+      });
+      commit("setLoading", true, {
+        root: true
+      });
+      try {
+        const updateExamRequest = mapAuthProviders[rootState.shared.settings.authProvider].updateExamRequest
+        updateExamRequest(payload)
+          .then((success) => {
+            if (success) {
+              const data = success.data
+              commit('UPDATE_REQUEST_CURRENT_EXAM', data)
               return success
             }
             if (!success) {

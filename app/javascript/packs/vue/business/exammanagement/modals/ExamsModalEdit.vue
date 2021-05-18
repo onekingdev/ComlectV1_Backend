@@ -32,7 +32,7 @@
       },
       exam: {
         type: Object,
-        default: true
+        required: true
       },
     },
     data() {

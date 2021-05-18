@@ -32,11 +32,10 @@
                   .reviews__topiclist
                     .p-t-2.d-flex.justify-content-between
                       b-form-group.mb-0
-                        b-button(type='button' variant='outline-dark') All
-                        b-button(type='button' variant='outline-primary') Shared
+                        b-button(type='button' variant='dark') All
+                        b-button(type='button' variant='outline-dark') Shared
                       ExamRequestModalCreate(:examId="examId")
                         b-button(variant="light") Add request
-                    <!--pre {{ currentExam }}-->
                     template(v-if="currentExam.exam_requests" v-for="(currentRequst, i) in currentExam.exam_requests")
                       .reviews__card--internal.p-y-1(:key="`${currentExam.name}-${i}`")
                         .row.m-b-1
@@ -49,6 +48,7 @@
                           .col-md-11
                             .d-flex.justify-content-between.align-items-center
                               .d-flex
+                                b-badge.mr-2(v-if="currentRequst.share_uuid" variant="success") {{ currentRequst.share_uuid ? 'Shared' : '' }}
                                 .exams__input.exams__topic-name {{ currentRequst.name }}
                               .d-flex
                                 b-dropdown(size="xs" variant="light" class="m-0 p-0" right)
@@ -62,7 +62,8 @@
                                 b-dropdown(size="sm" variant="light" class="m-0 p-0" right)
                                   template(#button-content)
                                     b-icon(icon="three-dots")
-                                  b-dropdown-item Edit
+                                  ExamRequestModalEdit(:examId="currentExam.id" :request="currentRequst" :inline="false")
+                                    b-dropdown-item Edit
                                   b-dropdown-item Share
                                   ExamModalDelete(@deleteConfirmed="deleteExamRequest(currentRequst.id)" :inline="false")
                                     b-dropdown-item.delete Delete
@@ -92,17 +93,6 @@
                                     template(#button-content)
                                       b-icon(icon="three-dots")
                                     b-dropdown-item.delete Delete file
-                                <!--.col-md-1.text-right-->
-                                  <!--b-dropdown(size="xs" variant="light" class="m-0 p-0" right)-->
-                                    <!--template(#button-content)-->
-                                      <!--b-icon(icon="three-dots")-->
-                                    <!--b-dropdown-item(@click="addFindings(i, topicItemIndex)") Log Finding-->
-                                    <!--b-dropdown-item.delete(@click="deleteTopicItem(i, topicItemIndex)") Delete item-->
-                                <!--.col-md-11.offset-md-1(v-if="topicItem.findings.length")-->
-                                  <!--label.form-label Finding-->
-                                <!--template(v-for="(finding, findingIndex) in topicItem.findings")-->
-                                  <!--.col-md-10.offset-md-1(:key="`${currentRequst.name}-${i}-${topicItemIndex}-${findingIndex}`")-->
-                                    <!--textarea.form-control.m-b-1(v-model="currentExam.exam_topics[i].items[topicItemIndex].findings[findingIndex]" type="text")-->
                   ExamRequestModalCreate(:examId="examId")
                     button.btn.btn-default.m-y-2
                       b-icon.mr-2(icon='plus-circle-fill')
@@ -124,10 +114,12 @@ import { mapGetters, mapActions } from "vuex"
 import { VueEditor } from "vue2-editor"
 import ExamRequestModalCreate from "./modals/ExamRequestModalCreate";
 import ExamModalDelete from "./modals/ExamModalDelete";
+import ExamRequestModalEdit from "./modals/ExamRequestModalEdit";
 
 export default {
   props: ['examId'],
   components: {
+    ExamRequestModalEdit,
     ExamRequestModalCreate,
     ExamModalDelete,
     VueEditor,
