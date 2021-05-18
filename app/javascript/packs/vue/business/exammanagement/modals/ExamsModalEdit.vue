@@ -11,10 +11,10 @@
       .row.m-b-2
         .col-6
           label.form-label Start Date
-          DatePicker(v-model="exam_management.exam_start")
+          DatePicker(v-model="exam_management.starts_on" :options="datepickerOptions")
         .col-6
           label.form-label Due Date
-          DatePicker(v-model="exam_management.exam_end")
+          DatePicker(v-model="exam_management.ends_on" :options="datepickerOptions")
 
       template(slot="modal-footer")
         button.btn(@click="$bvModal.hide(modalId)") Cancel
@@ -39,10 +39,10 @@
       return {
         modalId: `modal_${rnd()}`,
         exam_management: {
-          id: this.exam.id,
-          name: this.exam.name,
-          exam_start: this.exam.exam_start,
-          exam_end: this.exam.exam_start
+          id: '',
+          name: '',
+          starts_on: '',
+          ends_on: ''
         },
       }
     },
@@ -53,7 +53,7 @@
       async submit(e) {
         e.preventDefault();
 
-        if (!this.exam_management.name || !this.exam_management.exam_start || !this.exam_management.exam_end) {
+        if (!this.exam_management.name || !this.exam_management.starts_on || !this.exam_management.ends_on) {
           this.makeToast('Error', `Please check all fields!`)
           return
         }
@@ -69,7 +69,16 @@
       },
     },
     computed: {
-
+      datepickerOptions() {
+        return {
+          min: new Date
+        }
+      },
+    },
+    mounted() {
+      this.exam_management = {
+        ...this.exam
+      }
     },
   }
 </script>

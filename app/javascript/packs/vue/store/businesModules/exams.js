@@ -193,7 +193,7 @@ export default {
           .then((success) => {
             if (success) {
               const data = success.data
-              commit('ADD_EXAM', new ExamManagement(
+              commit('UPDATE_EXAM', new ExamManagement(
                   data.created_at,
                   data.ends_on,
                   data.exam_requests,
@@ -238,7 +238,7 @@ export default {
           .then((success) => {
             if (success) {
               const data = success.data
-              commit('ADD_EXAM', new ExamManagement(
+              commit('DELETE_EXAM', new ExamManagement(
                   data.created_at,
                   data.ends_on,
                   data.exam_requests,

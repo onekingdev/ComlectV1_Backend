@@ -22,7 +22,8 @@
               b-icon.ml-2(icon='chevron-expand')
         tbody
           tr(v-for="exam in exams" :key="exam.id")
-            td {{ exam.name }}
+            td
+              a.link(:href="`/business/exam_management/${exam.id}`") {{ exam.name }}
             td {{ exam.status }}
             td.text-right {{ dateToHuman(exam.created_at) }}
             td.text-right {{ dateToHuman(exam.updated_at) }}
@@ -65,7 +66,7 @@
         if (date.invalid) return value
       },
       deleteRecord(id){
-        this.deleteExam(id)
+        this.deleteExam({ id: id})
           .then(response => this.toast('Success', `The exam has been deleted! ${response.id}`))
           .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
       },
