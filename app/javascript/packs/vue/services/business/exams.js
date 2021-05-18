@@ -26,17 +26,6 @@ export async function createExam(payload) {
     .catch(err => console.error(err))
 }
 
-export async function getExam(payload) {
-  return await axios.get(`${END_POINT}/${payload.id}`, payload)
-    .then(response => {
-      if (response) {
-        return response
-      }
-      return false
-    })
-    .catch(err => console.error(err))
-}
-
 export async function updateExam(payload) {
   return await axios.patch(`${END_POINT}/${payload.id}`, payload)
     .then(response => {
@@ -50,6 +39,28 @@ export async function updateExam(payload) {
 
 export async function deleteExam(payload) {
   return await axios.delete(`${END_POINT}/${payload.id}`, payload)
+    .then(response => {
+      if (response) {
+        return response
+      }
+      return false
+    })
+    .catch(err => console.error(err))
+}
+
+export async function getExamById(payload) {
+  return await axios.get(`${END_POINT}/${payload}`)
+    .then(response => {
+      if (response) {
+        return response
+      }
+      return false
+    })
+    .catch(err => console.error(err))
+}
+
+export async function createExamRequest(payload) {
+  return await axios.post(`${END_POINT}/${payload.id}/requests`, payload.request)
     .then(response => {
       if (response) {
         return response

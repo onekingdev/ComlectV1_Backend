@@ -24,7 +24,8 @@
           tr(v-for="exam in exams" :key="exam.id")
             td
               a.link(:href="`/business/exam_management/${exam.id}`") {{ exam.name }}
-            td {{ exam.status }}
+            td
+              b-badge(variant="light") {{ exam.status ? exam.status : 'None' }}
             td.text-right {{ dateToHuman(exam.created_at) }}
             td.text-right {{ dateToHuman(exam.updated_at) }}
             td.text-right
