@@ -9,5 +9,6 @@ class ExamSerializer < ApplicationSerializer
              :share_uuid,
              :created_at,
              :updated_at,
-             :exam_requests
+             :exam_requests,
+             :complete
 end

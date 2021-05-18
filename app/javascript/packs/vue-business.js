@@ -47,11 +47,9 @@ const BusinessFileFolders = {
 }
 
 import BusinessExamManagementPage from './vue/business/exammanagement/Page.vue'
-import BusinessExamManagementShowPage from './vue/business/exammanagement/PageCurrentReviewExam.vue'
 
 const BusinessExamManagement = {
   BusinessExamManagementPage,
-  BusinessExamManagementShowPage,
 }
 
 
