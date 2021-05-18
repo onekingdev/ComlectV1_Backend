@@ -1047,7 +1047,8 @@ CREATE TABLE public.exams (
     share_uuid character varying,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
-    business_id integer
+    business_id integer,
+    complete boolean DEFAULT false
 );
 
 
@@ -7946,6 +7947,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210502165601'),
 ('20210505154804'),
 ('20210508134939'),
-('20210516095619');
+('20210516095619'),
+('20210518154715');
 
 
