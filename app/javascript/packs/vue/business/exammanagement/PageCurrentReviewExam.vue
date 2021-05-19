@@ -64,7 +64,7 @@
                                     b-icon(icon="three-dots")
                                   ExamRequestModalEdit(:examId="currentExam.id" :request="currentRequst" :inline="false")
                                     b-dropdown-item Edit
-                                  b-dropdown-item(@click="shareReqeust(currentRequst.id, true)") Share
+                                  b-dropdown-item(@click="shareReqeust(currentRequst.id, !currentRequst.shared)") {{ currentRequst.shared ? 'Unshare' : 'Share' }}
                                   ExamModalDelete(@deleteConfirmed="deleteExamRequest(currentRequst.id)" :inline="false")
                                     b-dropdown-item.delete Delete
                         .row.m-b-1
@@ -271,7 +271,7 @@ export default {
   }
 
   .reviews__checkbox {
-    margin-top: 5px;
+    margin-top: 3px;
   }
 
   .exams__topic-body {
