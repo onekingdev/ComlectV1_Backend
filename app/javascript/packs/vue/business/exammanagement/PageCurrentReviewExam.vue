@@ -103,7 +103,8 @@
                   .white-card-body.p-y-1
                     .d-flex.justify-content-end
                       button.btn.btn-default.mr-2(@click="saveExam") Save
-                      button.btn(:class="currentExam.complete ? 'btn-default' : 'btn-dark'" @click="markCompleteExam") Mark {{ currentExam.complete ? 'Incomplete' : 'Complete' }}
+                      ExamModalComplite(@compliteConfirmed="markCompleteExam", :completedStatus="currentExam.complete", :countCompleted="countCompleted" :inline="false")
+                        button.btn(:class="currentExam.complete ? 'btn-default' : 'btn-dark'") Mark {{ currentExam.complete ? 'Incomplete' : 'Complete' }}
         b-tab(title="Tasks")
           span Tasks
         b-tab(title="Attachments")
@@ -119,10 +120,12 @@ import ExamRequestModalCreate from "./modals/ExamRequestModalCreate";
 import ExamModalDelete from "./modals/ExamModalDelete";
 import ExamRequestModalEdit from "./modals/ExamRequestModalEdit";
 import ExamModalCreateTask from "./modals/ExamModalCreateTask";
+import ExamModalComplite from "./modals/ExamModalComplite";
 
 export default {
   props: ['examId'],
   components: {
+    ExamModalComplite,
     ExamModalCreateTask,
     ExamRequestModalEdit,
     ExamRequestModalCreate,
@@ -154,6 +157,11 @@ export default {
       } else {
         return this.currentExam.exam_requests
       }
+    },
+    countCompleted () {
+      const totalLenght = this.currentExam.exam_requests.length
+      const completedLenght = this.currentExam.exam_requests.filter(exam => exam.complete).length
+      return `${completedLenght}/${totalLenght}`
     }
   },
   async mounted () {
