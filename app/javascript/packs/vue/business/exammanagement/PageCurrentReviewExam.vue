@@ -101,7 +101,7 @@
                       | Add Request
                   .white-card-body.p-y-1
                     .d-flex.justify-content-end
-                      button.btn.btn-default.mr-2(@click="saveCategory") Save
+                      button.btn.btn-default.mr-2(@click="saveExam") Save
                       button.btn(:class="currentExam.complete ? 'btn-default' : 'btn-dark'" @click="markCompleteExam") Mark {{ currentExam.complete ? 'Incomplete' : 'Complete' }}
         b-tab(title="Tasks")
           span Tasks
@@ -170,16 +170,15 @@ export default {
     filterRequest (field) {
       this.filterOption = field
     },
-    async saveCategory () {
-      const examCategory = this.currentExam
+    async saveExam () {
+      const exam = this.currentExam
       const data = {
-        examlId: this.examlId,
-        ...examCategory
+        // examlId: this.examlId,
+        ...exam
       }
       try {
-        await this.updateexamCategory(data)
-        this.makeToast('Success', "Saved changes to annual exam.")
-        await this.getCurrentExam(this.examlId)
+        await this.updateExam(data)
+        this.makeToast('Success', "Saved changes to exam.")
       } catch (error) {
         this.makeToast('Error', error.message)
       }
