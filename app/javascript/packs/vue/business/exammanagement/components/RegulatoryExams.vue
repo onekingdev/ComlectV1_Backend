@@ -25,7 +25,7 @@
             td
               a.link(:href="`/business/exam_management/${exam.id}`") {{ exam.name }}
             td
-              b-badge(variant="light") {{ exam.status ? exam.status : 'None' }}
+              b-badge(:variant="exam.complete ? 'success' : 'light'") {{ exam.complete ? 'Completed' : 'Incompleted' }}
             td.text-right {{ dateToHuman(exam.created_at) }}
             td.text-right {{ dateToHuman(exam.updated_at) }}
             td.text-right
