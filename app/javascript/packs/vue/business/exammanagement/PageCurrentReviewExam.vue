@@ -31,7 +31,7 @@
                     b-button(variant="light") View Portal
                   .reviews__topiclist
                     .p-t-2.d-flex.justify-content-between
-                      b-form-group.mb-0
+                      b-form-group(size="md").mb-0
                         b-button(type='button' variant='dark') All
                         b-button(type='button' variant='outline-dark') Shared
                       ExamRequestModalCreate(:examId="examId")
@@ -55,7 +55,7 @@
                                   template(#button-content)
                                     | Add Item
                                     b-icon.ml-2(icon="chevron-down")
-                                  b-dropdown-item(@click="addTopicItem(i)") Text Entry
+                                  b-dropdown-item(@click="addTextEntry(i)") Text Entry
                                   b-dropdown-item Upload New
                                   b-dropdown-item(@click="deleteTopic(i)") Select Existing
                                 button.btn.btn-default.m-x-1 Create Task
@@ -74,15 +74,17 @@
                           .col-md-11.offset-md-1
                             .d-flex.justify-content-between.align-items-center
                               span
-                                b-icon.mr-2(icon="chevron-down")
-                                | {{ currentRequst.exam_request_files.length }} Items
-                            hr
-                            .row
-                              .col-11
-                                textarea.exams__topic-body.w-100(v-model="currentRequst.text_items")
-                              .col-1
-                                button.btn.btn__close
-                                  b-icon(icon="x" font-scale="1")
+                                b-icon.mr-2(:icon="currentRequst.text_items ? 'chevron-down' : 'chevron-right'")
+                                | {{ currentRequst.text_items ? currentRequst.text_items.length : 0 }} Items
+                            div(v-if="currentRequst.text_items")
+                              hr
+                              .row
+                                template(v-for="(textItem, textIndex) in currentRequst.text_items")
+                                .col-11(:key="`${currentRequst.name}-${i}-${textItem}-${textIndex}`")
+                                  textarea.exams__topic-body.w-100(v-model="currentRequst.text_items[textIndex]")
+                                .col-1
+                                  button.btn.btn__close(@click="removeTextEntry(i, textIndex)")
+                                    b-icon(icon="x" font-scale="1")
                             .row
                               template(v-for="(file, fileIndex) in currentRequst.exam_request_files")
                                 .col-md-6(:key="`${currentRequst.name}-${i}-${file}-${fileIndex}`")
@@ -201,12 +203,12 @@ export default {
         name: "New topic"
       })
     },
-    addTopicItem(i) {
-      this.currentExam.exam_topics[i].items.push({
-        findings: [],
-        body: "New topic",
-        checked: false
-      })
+    addTextEntry(i) {
+      if (!this.currentExam.exam_requests[i].text_items) this.currentExam.exam_requests[i].text_items = []
+      this.currentExam.exam_requests[i].text_items.push('')
+    },
+    removeTextEntry(i, itemIndex) {
+      this.currentExam.exam_requests[i].text_items.splice(itemIndex, 1);
     },
     addFindings(i, itemIndex) {
       this.currentExam.exam_topics[i].items[itemIndex].findings.push("")
