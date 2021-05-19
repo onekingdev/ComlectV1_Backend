@@ -32,11 +32,11 @@
                   .reviews__topiclist
                     .p-t-2.d-flex.justify-content-between
                       b-form-group
-                        b-button(size="md" type='button' variant='dark') All
-                        b-button(size="md" type='button' variant='outline-dark') Shared
+                        b-button(size="md" type='button' :variant="filterOption === 'all' ? 'dark' : 'outline-dark'" @click="filterRequest('all')") All
+                        b-button(size="md" type='button' :variant="filterOption === 'shared' ? 'dark' : 'outline-dark'" @click="filterRequest('shared')") Shared
                       ExamRequestModalCreate(:examId="examId")
                         b-button(variant='default') Add request
-                    template(v-if="currentExam.exam_requests" v-for="(currentRequst, i) in currentExam.exam_requests")
+                    template(v-if="currentExam.exam_requests" v-for="(currentRequst, i) in currentExamRequestsFiltered")
                       .reviews__card--internal.exams__card--internal(:key="`${currentExam.name}-${i}`" :class="{ 'completed': currentRequst.complete }")
                         .row.m-b-1
                           .col-md-1
@@ -134,6 +134,7 @@ export default {
         [{ list: "bullet" }],
         ["link"]
       ],
+      filterOption: 'all',
     }
   },
   computed: {
@@ -143,6 +144,13 @@ export default {
     currentExam () {
       // return this.exam.exam_categories.find(item => item.id === this.revcatId)
       return this.exam
+    },
+    currentExamRequestsFiltered () {
+      if (this.filterOption === 'shared') {
+        return this.currentExam.exam_requests.filter(exam => exam.shared)
+      } else {
+        return this.currentExam.exam_requests
+      }
     }
   },
   async mounted () {
@@ -159,6 +167,9 @@ export default {
       updateCurrentExamRequest: 'exams/updateExamRequest',
       deleteCurrentExamRequest: 'exams/deleteExamRequest'
     }),
+    filterRequest (field) {
+      this.filterOption = field
+    },
     async saveCategory () {
       const examCategory = this.currentExam
       const data = {
