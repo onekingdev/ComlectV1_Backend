@@ -34,6 +34,9 @@ export default {
       const index = state.exams.findIndex(record => record.id === payload.id);
       state.exams.splice(index, 1, payload)
     },
+    UPDATE_CURRENT_EXAM(state, payload) {
+      state.currentExam = payload
+    },
     DELETE_EXAM(state, payload) {
       const index = state.exams.findIndex(record => record.id === payload.id);
       state.exams.splice(index, 1)
@@ -69,6 +72,7 @@ export default {
               const exams = []
               for (const examItem of data) {
                 exams.push(new ExamManagement(
+                  examItem.complete,
                   examItem.created_at,
                   examItem.ends_on,
                   examItem.exam_requests,
@@ -117,6 +121,7 @@ export default {
             if (success) {
               const data = success.data
               commit('ADD_EXAM', new ExamManagement(
+                  data.complete,
                   data.created_at,
                   data.ends_on,
                   data.exam_requests,
@@ -162,6 +167,18 @@ export default {
             if (success) {
               const data = success.data
               commit('UPDATE_EXAM', new ExamManagement(
+                  data.complete,
+                  data.created_at,
+                  data.ends_on,
+                  data.exam_requests,
+                  data.id,
+                  data.name,
+                  data.share_uuid,
+                  data.starts_on,
+                  data.updated_at,
+                ))
+              commit('UPDATE_CURRENT_EXAM', new ExamManagement(
+                  data.complete,
                   data.created_at,
                   data.ends_on,
                   data.exam_requests,
@@ -207,6 +224,7 @@ export default {
             if (success) {
               const data = success.data
               commit('DELETE_EXAM', new ExamManagement(
+                  data.complete,
                   data.created_at,
                   data.ends_on,
                   data.exam_requests,
@@ -253,6 +271,7 @@ export default {
               console.log(success)
               const data = success.data
               commit('SET_CURRENT_EXAM', new ExamManagement(
+                data.complete,
                 data.created_at,
                 data.ends_on,
                 data.exam_requests,

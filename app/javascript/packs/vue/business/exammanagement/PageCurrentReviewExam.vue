@@ -41,9 +41,9 @@
                         .row.m-b-1
                           .col-md-1
                             .reviews__checkbox.d-flex.justify-content-between
-                              .reviews__checkbox-item.reviews__checkbox-item--true(@click="markComplete(currentRequst.id, true)" :class="{ 'checked': currentRequst.complete }")
+                              .reviews__checkbox-item.reviews__checkbox-item--true(@click="markCompleteReqeust(currentRequst.id, true)" :class="{ 'checked': currentRequst.complete }")
                                 b-icon(icon="check2")
-                              .reviews__checkbox-item.reviews__checkbox-item--false(@click="markComplete(currentRequst.id, false)" :class="{ 'checked': !currentRequst.complete }")
+                              .reviews__checkbox-item.reviews__checkbox-item--false(@click="markCompleteReqeust(currentRequst.id, false)" :class="{ 'checked': !currentRequst.complete }")
                                 b-icon(icon="x")
                           .col-md-11
                             .d-flex.justify-content-between.align-items-center
@@ -102,7 +102,7 @@
                   .white-card-body.p-y-1
                     .d-flex.justify-content-end
                       button.btn.btn-default.mr-2(@click="saveCategory") Save
-                      button.btn(:class="currentExam.complete ? 'btn-default' : 'btn-dark'") Mark {{ currentExam.complete ? 'Incomplete' : 'Complete' }}
+                      button.btn(:class="currentExam.complete ? 'btn-default' : 'btn-dark'" @click="markCompleteExam") Mark {{ currentExam.complete ? 'Incomplete' : 'Complete' }}
         b-tab(title="Tasks")
           span Tasks
         b-tab(title="Attachments")
@@ -173,7 +173,19 @@ export default {
         this.makeToast('Error', error.message)
       }
     },
-    async markComplete (id, status) {
+    async markCompleteExam (id, status) {
+      const data = {
+        id: this.currentExam.id,
+        complete: !this.currentExam.complete,
+      }
+      try {
+        await this.updateExam(data)
+        this.makeToast('Success', "Exam updated!")
+      } catch (error) {
+        this.makeToast('Error', error.message)
+      }
+    },
+    async markCompleteReqeust (id, status) {
       const data = {
         id: this.currentExam.id,
         request: {
