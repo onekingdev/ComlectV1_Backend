@@ -214,7 +214,7 @@
 
               this.makeToast('Success', `You will be redirect to the dashboard!`)
 
-              const dashboard = response.business ? '/business2' : '/specialist'
+              const dashboard = response.business ? '/business' : '/specialist'
               this.dashboardLink = dashboard
               setTimeout(() => {
                 window.location.href = `${dashboard}`;
