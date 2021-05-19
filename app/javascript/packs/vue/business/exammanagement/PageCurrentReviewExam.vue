@@ -58,7 +58,8 @@
                                   b-dropdown-item(@click="addTextEntry(i)") Text Entry
                                   b-dropdown-item Upload New
                                   b-dropdown-item(@click="deleteTopic(i)") Select Existing
-                                button.btn.btn-default.m-x-1 Create Task
+                                ExamModalCreateTask(:inline="false")
+                                  button.btn.btn-default.m-x-1 Create Task
                                 b-dropdown(size="sm" variant="none" class="m-0 p-0" right)
                                   template(#button-content)
                                     b-icon(icon="three-dots")
@@ -117,10 +118,12 @@ import { VueEditor } from "vue2-editor"
 import ExamRequestModalCreate from "./modals/ExamRequestModalCreate";
 import ExamModalDelete from "./modals/ExamModalDelete";
 import ExamRequestModalEdit from "./modals/ExamRequestModalEdit";
+import ExamModalCreateTask from "./modals/ExamModalCreateTask";
 
 export default {
   props: ['examId'],
   components: {
+    ExamModalCreateTask,
     ExamRequestModalEdit,
     ExamRequestModalCreate,
     ExamModalDelete,
