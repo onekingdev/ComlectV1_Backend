@@ -17,6 +17,7 @@ class Subscription < ActiveRecord::Base
     business_tier_monthly
     business_tier_annual
     specialist_pro
+    free
   ]
 
   enum kind_of: { ccc: 0, forum: 1, seats: 2 }

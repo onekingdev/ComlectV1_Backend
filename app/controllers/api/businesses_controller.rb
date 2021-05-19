@@ -16,7 +16,7 @@ class Api::BusinessesController < ApiController
   end
 
   def update
-    if edit_business_params.key?('crd_number')
+    if edit_business_params.key?('crd_number') && edit_business_params['crd_number'].present?
       build_business
       respond_with current_business, serializer: BusinessSerializer
     elsif current_business.update(edit_business_params)
