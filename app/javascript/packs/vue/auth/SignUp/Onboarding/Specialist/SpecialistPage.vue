@@ -234,13 +234,13 @@
       const accountInfo = localStorage.getItem('app.currentUser');
       const accountInfoParsed = JSON.parse(accountInfo);
       if(accountInfo) {
-        this.formStep1.industry = accountInfoParsed.industries;
-        this.formStep1.subIndustry = accountInfoParsed.sub_industries;
-        this.formStep1.jurisdiction = accountInfoParsed.jurisdictions;
+        this.formStep1.industry = accountInfoParsed.industries || ''
+        this.formStep1.subIndustry = accountInfoParsed.sub_industries || ''
+        this.formStep1.jurisdiction = accountInfoParsed.jurisdictions || ''
         // this.formStep1.regulatorSelected = accountInfoParsed.former_regulator ? 'yes' : 'no';
 
-        this.formStep2.skills = accountInfoParsed.skills || [];
-        this.formStep2.experience = accountInfoParsed.experience;
+        this.formStep2.skills = accountInfoParsed.skills || []
+        this.formStep2.experience = accountInfoParsed.experience || []
       }
 
 
