@@ -9,9 +9,10 @@
                 span.separator /&nbsp;
                 b {{ exam ? exam.name : '' }}
               h2: b {{ exam ? exam.name : '' }}
-            div
-              a.btn.link.mr-3 Share Link
-              button.btn.btn-default.mr-3 Mark Complite
+            .d-flex.align-items-center
+              ExamModalShare.mr-3
+                a.btn.link Share Link
+              button.btn.btn-default.mr-3 Mark Complete
               button.btn.btn-dark.mr-3(@click="saveAndExit") Save and Exit
               button.btn.btn__close
                 b-icon(icon="x")
@@ -121,10 +122,12 @@ import ExamModalDelete from "./modals/ExamModalDelete";
 import ExamRequestModalEdit from "./modals/ExamRequestModalEdit";
 import ExamModalCreateTask from "./modals/ExamModalCreateTask";
 import ExamModalComplite from "./modals/ExamModalComplite";
+import ExamModalShare from "./modals/ExamModalShare";
 
 export default {
   props: ['examId'],
   components: {
+    ExamModalShare,
     ExamModalComplite,
     ExamModalCreateTask,
     ExamRequestModalEdit,
