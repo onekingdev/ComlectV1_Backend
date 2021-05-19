@@ -73,9 +73,9 @@
         // }
       },
       copyTestingCode () {
-        let testingCodeToCopy = document.querySelector('#share-link')
-        testingCodeToCopy.setAttribute('type', 'text')
-        testingCodeToCopy.select()
+        let shareLinkToCopy = document.querySelector('#share-link')
+        // shareLinkToCopy.setAttribute('type', 'text')
+        shareLinkToCopy.select()
 
         try {
           var successful = document.execCommand('copy');
@@ -86,7 +86,7 @@
         }
 
         /* unselect the range */
-        // testingCodeToCopy.setAttribute('type', 'hidden')
+        // shareLinkToCopy.setAttribute('type', 'hidden')
         window.getSelection().removeAllRanges()
       },
     },
