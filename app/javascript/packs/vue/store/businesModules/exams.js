@@ -10,10 +10,13 @@ const mapAuthProviders = {
     createExamRequest: jwt.createExamRequest,
     deleteExamRequest: jwt.deleteExamRequest,
     updateExamRequest: jwt.updateExamRequest,
+    uploadExamRequestFile: jwt.uploadExamRequestFile,
+    deleteExamRequestFile: jwt.deleteExamRequestFile,
   },
 }
 
 import ExamManagement from "../../models/ExamManagement";
+import axios from "../../services/axios";
 
 export default {
   state: {
@@ -51,6 +54,14 @@ export default {
     DELETE_REQUEST_CURRENT_EXAM(state, payload) {
       const index = state.currentExam.exam_requests.findIndex(record => record.id === payload.id);
       state.currentExam.exam_requests.splice(index, 1)
+    },
+    ADD_FILE_REQUEST_CURRENT_EXAM(state, payload) {
+      const index = state.currentExam.exam_requests.findIndex(record => record.id === payload.requestId);
+      state.currentExam.exam_requests[index].push(payload.data)
+    },
+    DELETE_FILE_REQUEST_CURRENT_EXAM(state, payload) {
+      const index = state.currentExam.exam_requests.findIndex(record => record.id === payload.requestId);
+      state.currentExam.exam_requests[index].splice(index, 1)
     },
   },
   actions: {
@@ -409,6 +420,63 @@ export default {
         commit("setLoading", false, {
           root: true
         })
+      }
+    },
+    async uploadExamRequestFile({state, commit, rootState}, payload) {
+      commit("clearError", null, { root: true });
+      commit("setLoading", true, { root: true });
+      try {
+        const uploadExamRequestFile = mapAuthProviders[rootState.shared.settings.authProvider].uploadExamRequestFile
+        uploadExamRequestFile(payload)
+          .then((success) => {
+            if (success) {
+              const data = {
+                requestId: payload.request.id,
+                data: success.data
+              }
+              console.log('data', data)
+              // commit('ADD_FILE_REQUEST_CURRENT_EXAM', data)
+              return success
+            }
+            if (!success) {
+              // console.log('Not success', success)
+            }
+            commit("clearError");
+            commit("setLoading", false);
+          })
+      } catch (error) {
+        commit("setError", error.message, { root: true });
+        commit("setLoading", false, { root: true });
+        throw error;
+      } finally {
+        commit("setLoading", false, { root: true })
+      }
+    },
+    async deleteExamRequestFile({state, commit, rootState}, payload) {
+      commit("clearError", null, { root: true });
+      commit("setLoading", true, { root: true });
+      try {
+        const deleteExamRequestFile = mapAuthProviders[rootState.shared.settings.authProvider].deleteExamRequestFile
+        deleteExamRequestFile(payload)
+          .then((success) => {
+            if (success) {
+              const data = success.data
+              console.log('data', data)
+              // commit('ADD_REQUEST_CURRENT_EXAM', data)
+              return success
+            }
+            if (!success) {
+              // console.log('Not success', success)
+            }
+            commit("clearError");
+            commit("setLoading", false);
+          })
+      } catch (error) {
+        commit("setError", error.message, { root: true });
+        commit("setLoading", false, { root: true });
+        throw error;
+      } finally {
+        commit("setLoading", false, { root: true })
       }
     },
   },

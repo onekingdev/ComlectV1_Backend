@@ -520,7 +520,7 @@
                 this.overlayStatusText = 'Account successfully purchased, you will be redirect to the dashboard...'
                 this.overlayStatus = 'success'
                 // this.overlay = false
-                const dashboard = this.userType === 'business' ? '/business' : '/specialist'
+                const dashboard = this.userType === 'business' ? '/business2' : '/specialist'
                 setTimeout(() => {
                   window.location.href = `${dashboard}`;
                 }, 3000)

@@ -91,3 +91,32 @@ export async function deleteExamRequest(payload) {
     })
     .catch(err => console.error(err))
 }
+
+export async function uploadExamRequestFile(payload) {
+  const config = {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  };
+  return await axios.post(`${END_POINT}/${payload.id}/requests/${payload.request.id}/documents`, payload.formData, config)
+    .then(response => {
+      if (response) {
+        console.log('response', response)
+        return response.data
+      }
+      return false
+    })
+    .catch(err => console.log(err))
+}
+
+export async function deleteExamRequestFile(payload) {
+  return await axios.delete(`${END_POINT}/${payload.id}/requests/${payload.request.id}/documents/${payload.file.id}`)
+    .then(response => {
+      if (response) {
+        console.log('response', response)
+        return response.data
+      }
+      return false
+    })
+    .catch(err => console.log(err))
+}
