@@ -123,11 +123,11 @@
                   br
                   span.exp__btn--sub Deep understanding of industry with varied experience.
               hr
-              <!--h3.onboarding__title.m-b-3.m-t-2 (Optional) Upload you resume:-->
-              <!--b-form-group.m-t-2(class="onboarding-group")-->
-                <!--b-form-file(v-model='formStep2.file' :state='Boolean(formStep2.file)' accept="application/pdf" placeholder='Choose a file or drop it here...' drop-placeholder='Drop file here...')-->
-                <!--.m-t-3 Selected file: {{ formStep2.file ? formStep2.file.name : '' }}-->
-              <!--hr-->
+              // h3.onboarding__title.m-b-3.m-t-2 (Optional) Upload you resume:
+              // b-form-group.m-t-2(class="onboarding-group")
+              //   b-form-file(v-model='formStep2.file' :state='Boolean(formStep2.file)' accept="application/pdf" placeholder='Choose a file or drop it here...' drop-placeholder='Drop file here...')
+              //   .m-t-3 Selected file: {{ formStep2.file ? formStep2.file.name : '' }}
+              // hr
               h3.onboarding__title.m-b-3.m-t-2 (Optional) Upload you resume:
               label.dropbox.w-100(for="upload-file")
                 input.input-file(type="file" id="upload-file" accept="application/pdf" ref="file" @change="selectFile")
@@ -234,13 +234,13 @@
       const accountInfo = localStorage.getItem('app.currentUser');
       const accountInfoParsed = JSON.parse(accountInfo);
       if(accountInfo) {
-        this.formStep1.industry = accountInfoParsed.industries;
-        this.formStep1.subIndustry = accountInfoParsed.sub_industries;
-        this.formStep1.jurisdiction = accountInfoParsed.jurisdictions;
+        this.formStep1.industry = accountInfoParsed.industries || ''
+        this.formStep1.subIndustry = accountInfoParsed.sub_industries || ''
+        this.formStep1.jurisdiction = accountInfoParsed.jurisdictions || ''
         // this.formStep1.regulatorSelected = accountInfoParsed.former_regulator ? 'yes' : 'no';
 
-        this.formStep2.skills = accountInfoParsed.skills || [];
-        this.formStep2.experience = accountInfoParsed.experience;
+        this.formStep2.skills = accountInfoParsed.skills || []
+        this.formStep2.experience = accountInfoParsed.experience || []
       }
 
 
