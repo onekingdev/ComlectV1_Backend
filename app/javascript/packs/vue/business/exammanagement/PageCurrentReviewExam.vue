@@ -28,30 +28,30 @@
                 .card-body.white-card-body.reviews__card.px-5
                   .reviews__card--internal.p-y-1.d-flex.justify-content-between
                     h3 Requests
-                    b-button(variant="light") View Portal
+                    b-button(variant='default') View Portal
                   .reviews__topiclist
                     .p-t-2.d-flex.justify-content-between
-                      b-form-group(size="md").mb-0
-                        b-button(type='button' variant='dark') All
-                        b-button(type='button' variant='outline-dark') Shared
+                      b-form-group
+                        b-button(size="md" type='button' variant='dark') All
+                        b-button(size="md" type='button' variant='outline-dark') Shared
                       ExamRequestModalCreate(:examId="examId")
-                        b-button(variant="light") Add request
+                        b-button(variant='default') Add request
                     template(v-if="currentExam.exam_requests" v-for="(currentRequst, i) in currentExam.exam_requests")
-                      .reviews__card--internal.p-y-1(:key="`${currentExam.name}-${i}`")
+                      .reviews__card--internal.exams__card--internal(:key="`${currentExam.name}-${i}`" :class="{ 'completed': currentRequst.complete }")
                         .row.m-b-1
                           .col-md-1
                             .reviews__checkbox.d-flex.justify-content-between
-                              .reviews__checkbox-item.reviews__checkbox-item--true(@click="currentRequst.complete = true" :class="{ 'checked': currentRequst.checked }")
+                              .reviews__checkbox-item.reviews__checkbox-item--true(@click="markComplete(currentRequst.id, true)" :class="{ 'checked': currentRequst.complete }")
                                 b-icon(icon="check2")
-                              .reviews__checkbox-item.reviews__checkbox-item--false(@click="currentRequst.complete = false" :class="{ 'checked': !currentRequst.checked }")
+                              .reviews__checkbox-item.reviews__checkbox-item--false(@click="markComplete(currentRequst.id, false)" :class="{ 'checked': !currentRequst.complete }")
                                 b-icon(icon="x")
                           .col-md-11
                             .d-flex.justify-content-between.align-items-center
                               .d-flex
-                                b-badge.mr-2(v-if="currentRequst.share_uuid" variant="success") {{ currentRequst.share_uuid ? 'Shared' : '' }}
+                                b-badge.mr-2(v-if="currentRequst.shared" variant="success") {{ currentRequst.shared ? 'Shared' : '' }}
                                 .exams__input.exams__topic-name {{ currentRequst.name }}
-                              .d-flex
-                                b-dropdown(size="xs" variant="light" class="m-0 p-0" right)
+                              .d-flex.actions
+                                b-dropdown(size="xs" variant="default" class="m-0 p-0" right)
                                   template(#button-content)
                                     | Add Item
                                     b-icon.ml-2(icon="chevron-down")
@@ -59,12 +59,12 @@
                                   b-dropdown-item Upload New
                                   b-dropdown-item(@click="deleteTopic(i)") Select Existing
                                 button.btn.btn-default.m-x-1 Create Task
-                                b-dropdown(size="sm" variant="light" class="m-0 p-0" right)
+                                b-dropdown(size="sm" variant="none" class="m-0 p-0" right)
                                   template(#button-content)
                                     b-icon(icon="three-dots")
                                   ExamRequestModalEdit(:examId="currentExam.id" :request="currentRequst" :inline="false")
                                     b-dropdown-item Edit
-                                  b-dropdown-item Share
+                                  b-dropdown-item(@click="shareReqeust(currentRequst.id, true)") Share
                                   ExamModalDelete(@deleteConfirmed="deleteExamRequest(currentRequst.id)" :inline="false")
                                     b-dropdown-item.delete Delete
                         .row.m-b-1
@@ -96,7 +96,7 @@
                                       b-icon(icon="three-dots")
                                     b-dropdown-item.delete Delete file
                   ExamRequestModalCreate(:examId="examId")
-                    button.btn.btn-default.m-y-2
+                    b-button.m-b-2(variant='default')
                       b-icon.mr-2(icon='plus-circle-fill')
                       | Add Request
                   .white-card-body.p-y-1
@@ -156,6 +156,7 @@ export default {
     ...mapActions({
       updateExam: 'exams/updateExam',
       getCurrentExam: 'exams/getExamById',
+      updateCurrentExamRequest: 'exams/updateExamRequest',
       deleteCurrentExamRequest: 'exams/deleteExamRequest'
     }),
     async saveCategory () {
@@ -172,17 +173,32 @@ export default {
         this.makeToast('Error', error.message)
       }
     },
-    async markComplete () {
-      const examCategory = this.currentExam
+    async markComplete (id, status) {
       const data = {
-        examlId: this.examlId,
-        ...examCategory,
-        complete: !examCategory.complete,
+        id: this.currentExam.id,
+        request: {
+          id,
+          complete: status,
+        }
       }
       try {
-        await this.updateexamCategory(data)
-        this.makeToast('Success', "Saved changes to annual exam.")
-        await this.getCurrentexamexam(this.examlId)
+        await this.updateCurrentExamRequest(data)
+        this.makeToast('Success', "Request updated!")
+      } catch (error) {
+        this.makeToast('Error', error.message)
+      }
+    },
+    async shareReqeust (id, status) {
+      const data = {
+        id: this.currentExam.id,
+        request: {
+          id,
+          shared: status,
+        }
+      }
+      try {
+        await this.updateCurrentExamRequest(data)
+        this.makeToast('Success', "Request updated!")
       } catch (error) {
         this.makeToast('Error', error.message)
       }
@@ -254,7 +270,22 @@ export default {
     color: #ffc107;
   }
 
+  .reviews__checkbox {
+    margin-top: 5px;
+  }
+
   .exams__topic-body {
     border: 1px solid #dee2e6;
+  }
+
+  .exams__card--internal {
+    margin-bottom: 2rem;
+    padding: 1rem;
+    border: solid 1px #dcdee4;
+    border-radius: 5px;
+  }
+
+  .completed {
+    background-color: #f3f6f9;
   }
 </style>
