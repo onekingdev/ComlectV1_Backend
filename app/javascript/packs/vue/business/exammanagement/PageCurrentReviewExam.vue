@@ -96,7 +96,7 @@
                                       b-icon.file-card__icon(icon="file-earmark-text-fill" font-scale="2")
                                     div.ml-0.mr-auto
                                       p.file-card__name: b {{ file.name }}
-                                      a.file-card__link.link(:href="file.file_url") Download
+                                      a.file-card__link.link(:href="file.file_url" target="_blank") Download
                                     div.ml-auto.align-self-start.actions
                                       b-dropdown(size="sm" variant="none" class="m-0 p-0" right)
                                         template(#button-content)

@@ -101,7 +101,6 @@ export async function uploadExamRequestFile(payload) {
   return await axios.post(`${END_POINT}/${payload.id}/requests/${payload.request.id}/documents`, payload.formData, config)
     .then(response => {
       if (response) {
-        console.log('response', response)
         return response.data
       }
       return false
@@ -113,7 +112,6 @@ export async function deleteExamRequestFile(payload) {
   return await axios.delete(`${END_POINT}/${payload.id}/requests/${payload.request.id}/documents/${payload.file.id}`)
     .then(response => {
       if (response) {
-        console.log('response', response)
         return response.data
       }
       return false
