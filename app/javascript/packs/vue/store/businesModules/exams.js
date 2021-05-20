@@ -97,7 +97,7 @@ export default {
               return success
             }
             if (!success) {
-              // console.log('Not success', success)
+              console.error('Not success', success)
             }
             commit("clearError", null, {
               root: true
@@ -142,7 +142,7 @@ export default {
               return success
             }
             if (!success) {
-              // console.log('Not success', success)
+              console.error('Not success', success)
             }
             commit("clearError");
             commit("setLoading", false);
@@ -199,7 +199,7 @@ export default {
               return success
             }
             if (!success) {
-              // console.log('Not success', success)
+              console.error('Not success', success)
             }
             commit("clearError");
             commit("setLoading", false);
@@ -245,7 +245,7 @@ export default {
               return success
             }
             if (!success) {
-              // console.log('Not success', success)
+              console.error('Not success', success)
             }
             commit("clearError");
             commit("setLoading", false);
@@ -292,7 +292,7 @@ export default {
               return success
             }
             if (!success) {
-              // console.log('Not success', success)
+              console.error('Not success', success)
             }
             commit("clearError");
             commit("setLoading", false);
@@ -328,7 +328,7 @@ export default {
               return success
             }
             if (!success) {
-              // console.log('Not success', success)
+              console.error('Not success', success)
             }
             commit("clearError");
             commit("setLoading", false);
@@ -364,7 +364,7 @@ export default {
               return success
             }
             if (!success) {
-              // console.log('Not success', success)
+              console.error('Not success', success)
             }
             commit("clearError");
             commit("setLoading", false);
@@ -400,7 +400,7 @@ export default {
               return success
             }
             if (!success) {
-              // console.log('Not success', success)
+              console.error('Not success', success)
             }
             commit("clearError");
             commit("setLoading", false);
@@ -436,7 +436,7 @@ export default {
               return success
             }
             if (!success) {
-              // console.log('Not success', success)
+              console.error('Not success', success)
             }
             commit("clearError");
             commit("setLoading", false);
@@ -459,11 +459,11 @@ export default {
             if (success) {
               const data = success.data
               console.log('data', data)
-              // commit('ADD_REQUEST_CURRENT_EXAM', data)
+              // commit('DELETE_FILE_REQUEST_CURRENT_EXAM', data)
               return success
             }
             if (!success) {
-              // console.log('Not success', success)
+              console.error('Not success', success)
             }
             commit("clearError");
             commit("setLoading", false);
