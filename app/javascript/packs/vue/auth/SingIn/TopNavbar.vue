@@ -77,8 +77,8 @@
       created(){
         const token = localStorage.getItem('app.currentUser.token');
         if (token) {
-          this.$store.commit('updateToken', token)
-          this.$store.commit('loggedIn', true)
+          this.$store.commit('UPDATE_TOKEN', token)
+          this.$store.commit('UPDATE_LOGIN_STATUS', true)
         }
       },
       data() {

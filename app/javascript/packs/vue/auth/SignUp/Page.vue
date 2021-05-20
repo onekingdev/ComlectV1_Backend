@@ -67,7 +67,7 @@
               h1.text-center Confirm your email!
               p.text-center We send a 6 digit code to email.com. Please enter it below.
               div
-                b-form(@submit='onSubmitStep2' @keydown="onCodeChange" v-if='show' autocomplete="off")
+                b-form(@submit='onSubmitStep2' @keyup="onCodeChange" v-if='show' autocomplete="off")
                   b-form-group
                     .col.text-center
                       ion-icon(name="mail-outline")
@@ -282,6 +282,13 @@
       onCodeChange(e){
         this.errors = []
 
+        // CATCH COPY PASTE CASE
+        if (e.target.value.length === 6) {
+          for(let i=1; i <= 6; i++) {
+            this.form2['codePart'+i] = e.target.value.charAt(i-1)
+          }
+        }
+
         if (e.keyCode === 8 || e.keyCode === 46) {
           // BACKSPACE === 8 DELETE === 46
           e.preventDefault();
@@ -290,7 +297,7 @@
           return
         }
 
-        if (e.target.value.length < 6) {
+        if (e.target.value.length < 6 && (e.keyCode >= 48) && (e.keyCode <= 57) || (e.keyCode >= 96) && (e.keyCode <= 105)) {
           e.preventDefault();
           e.target.value = e.key
           if(e.target.nextElementSibling) {
@@ -300,13 +307,6 @@
 
           if(!e.target.nextElementSibling) {
             this.$refs.codesubmit.focus();
-          }
-        }
-
-        // CATCH COPY PASTE CASE
-        if (e.target.value.length === 6) {
-          for(let i=1; i <= 6; i++) {
-            this.form2['codePart'+i] = e.target.value.charAt(i-1)
           }
         }
 

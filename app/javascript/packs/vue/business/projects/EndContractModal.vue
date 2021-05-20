@@ -2,15 +2,23 @@
   div.d-inline-block(:class="{ 'float-right': right }")
     div.d-inline-block(v-b-modal="modalId"): slot
     b-modal.fade(:id="modalId" title="End Contract" no-stacking)
-      p ℹ️ Ending this contract will remove this specialist as a collaborator to the project, revoke their permissions to access your account, and payout the full contract price.
-      p: b Do you want to continue?
+      .row
+        .col-sm-1
+          b-icon.m-l-1(icon="exclamation-triangle-fill" scale="2" variant="warning")
+        .col-sm
+          p Ending this contract will remove this specialist as a collaborator to the project, revoke their permissions to access your account, and payout the full contract price.
+          p: b Do you want to continue?
       .card
         .card-header
           .row
-            .col-sm
-              img.m-r-1.userpic_small(v-if="project.specialist.photo" :src="project.specialist.photo")
-              h3 {{ project.specialist.first_name }} {{project.specialist.last_name }}
-              p Specialist
+            .col-sm-7
+              .row
+                .col-2.pt-2
+                  UserAvatar.userpic_small(:user="project.specialist")
+                .col
+                  <!--img.m-r-1.userpic_small(v-if="project.specialist.photo" :src="project.specialist.photo")-->
+                  h3 {{ project.specialist.first_name }} {{project.specialist.last_name }}
+                  p Specialist
             .col-sm
               span.float-right Outstanding Due <br> {{ 500 | usdWhole }}
         .card-header
