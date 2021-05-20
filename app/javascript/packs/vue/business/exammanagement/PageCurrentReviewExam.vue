@@ -57,7 +57,8 @@
                                     | Add Item
                                     b-icon.ml-2(icon="chevron-down")
                                   b-dropdown-item(@click="addTextEntry(i)") Text Entry
-                                  b-dropdown-item Upload New
+                                  ExamModalUpload(:currentExamId="currentExam.id"  :request="currentRequst" :inline="false")
+                                    b-dropdown-item Upload New
                                   b-dropdown-item(@click="deleteTopic(i)") Select Existing
                                 ExamModalCreateTask(:inline="false")
                                   button.btn.btn-default.m-x-1 Create Task
@@ -80,23 +81,28 @@
                                 | {{ currentRequst.text_items ? currentRequst.text_items.length : 0 }} Items
                             div(v-if="currentRequst.text_items")
                               hr
-                              .row
-                                template(v-for="(textItem, textIndex) in currentRequst.text_items")
-                                .col-11(:key="`${currentRequst.name}-${i}-${textItem}-${textIndex}`")
-                                  textarea.exams__topic-body.w-100(v-model="currentRequst.text_items[textIndex]")
-                                .col-1
-                                  button.btn.btn__close(@click="removeTextEntry(i, textIndex)")
-                                    b-icon(icon="x" font-scale="1")
+                              template(v-for="(textItem, textIndex) in currentRequst.text_items")
+                                .row
+                                  .col-12(:key="`${currentRequst.name}-${i}-${textItem}-${textIndex}`")
+                                    .d-flex
+                                      textarea.exams__topic-body.flex-grow-1(v-model="currentRequst.text_items[textIndex]")
+                                      button.btn.btn__close(@click="removeTextEntry(i, textIndex)")
+                                        b-icon(icon="x" font-scale="1")
                             .row
                               template(v-for="(file, fileIndex) in currentRequst.exam_request_files")
-                                .col-md-6(:key="`${currentRequst.name}-${i}-${file}-${fileIndex}`")
-                                  b-icon.mr-2(icon="file-earmark-text-fill")
-                                  p {{ file.name }} file name
-                                  .link Download
-                                  b-dropdown(size="xs" variant="light" class="m-0 p-0" right)
-                                    template(#button-content)
-                                      b-icon(icon="three-dots")
-                                    b-dropdown-item.delete Delete file
+                                .col-md-6.m-b-1(:key="`${currentRequst.name}-${i}-${file}-${fileIndex}`")
+                                  .file-card
+                                    div.mr-2
+                                      b-icon.file-card__icon(icon="file-earmark-text-fill" font-scale="2")
+                                    div.ml-0.mr-auto
+                                      p.file-card__name: b {{ file.name }}
+                                      a.file-card__link.link(:href="file.file_url") Download
+                                    div.ml-auto.align-self-start.actions
+                                      b-dropdown(size="sm" variant="none" class="m-0 p-0" right)
+                                        template(#button-content)
+                                          b-icon(icon="three-dots")
+                                        b-dropdown-item.delete(@click="removeFile(currentRequst.id, file.id)") Delete file
+
                   ExamRequestModalCreate(:examId="examId")
                     b-button.m-b-2(variant='default')
                       b-icon.mr-2(icon='plus-circle-fill')
@@ -123,10 +129,12 @@ import ExamRequestModalEdit from "./modals/ExamRequestModalEdit";
 import ExamModalCreateTask from "./modals/ExamModalCreateTask";
 import ExamModalComplite from "./modals/ExamModalComplite";
 import ExamModalShare from "./modals/ExamModalShare";
+import ExamModalUpload from "./modals/ExamModalUpload";
 
 export default {
   props: ['examId'],
   components: {
+    ExamModalUpload,
     ExamModalShare,
     ExamModalComplite,
     ExamModalCreateTask,
@@ -294,34 +302,31 @@ export default {
         })
         .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
     },
+    async removeFile(requestId, fileID) {
+
+      const data = {
+        id: this.currentExam.id,
+        request: { id: requestId},
+        file: { id: fileID },
+      }
+
+      try {
+        await this.$store.dispatch('exams/deleteExamRequestFile', data)
+        this.makeToast('Success', `File successfull deleted!`)
+        this.$emit('saved')
+        this.$bvModal.hide(this.modalId)
+        this.resetForm()
+      } catch (error) {
+        this.makeToast('Error', error.message)
+      }
+    },
     makeToast(title, str) {
       this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
-    }
+    },
   }
 }
 </script>
 
 <style scoped>
-  .separator {
-    color: #ffc107;
-  }
-
-  .reviews__checkbox {
-    margin-top: 3px;
-  }
-
-  .exams__topic-body {
-    border: 1px solid #dee2e6;
-  }
-
-  .exams__card--internal {
-    margin-bottom: 2rem;
-    padding: 1rem;
-    border: solid 1px #dcdee4;
-    border-radius: 5px;
-  }
-
-  .completed {
-    background-color: #f3f6f9;
-  }
+  @import "./styles.css";
 </style>
