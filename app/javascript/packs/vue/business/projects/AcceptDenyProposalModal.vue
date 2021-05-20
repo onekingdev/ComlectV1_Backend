@@ -9,7 +9,7 @@
     template(#modal-footer="{ hide }")
       button.btn.btn-light(@click="hide") Cancel
       button.btn.btn-outline-dark(@click="$emit('back')") Go Back
-      Post(:action="hireUrl + '?job_application_id=' + application.id" :model="{role}" @saved="$emit('saved', application.project.local_project_id)")
+      Post(:action="hireUrl + '?job_application_id=' + application.id" :model="{role}" @saved="$emit('saved', application.project.local_project_id, role)")
         button.btn.btn-dark Confirm
 </template>
 

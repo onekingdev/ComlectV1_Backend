@@ -1,5 +1,7 @@
 import axios from '../../services/axios'
 
+import { AccountInfoBusiness, AccountInfoSpecialist } from "../../models/AccountInfo";
+
 const currentUserLocalStorage = localStorage.getItem('app.currentUser') ? localStorage.getItem('app.currentUser') : ''
 const accessTokenLocalStorage = localStorage.getItem('app.currentUser.token') ? localStorage.getItem('app.currentUser.token') : ''
 
@@ -10,13 +12,13 @@ export default {
     loggedIn: false,
   },
   mutations: {
-    updateUser(state, payload) {
+    UPDATE_USER(state, payload) {
       state.currentUser = payload;
     },
-    updateToken(state, payload) {
+    UPDATE_TOKEN(state, payload) {
       state.accessToken = payload;
     },
-    loggedIn(state, payload) {
+    UPDATE_LOGIN_STATUS(state, payload) {
       state.loggedIn = payload
     }
   },
@@ -30,17 +32,44 @@ export default {
         // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
         if (response.data) {
           if(response.data.token) {
-            commit('updateToken', response.data.token)
+            commit('UPDATE_TOKEN', response.data.token)
             localStorage.setItem('app.currentUser.token', JSON.stringify(response.data.token));
-            commit('loggedIn', true)
+            commit('UPDATE_LOGIN_STATUS', true)
           }
           if(response.data.business) {
-            localStorage.setItem('app.currentUser', JSON.stringify(response.data.business));
-            commit('updateUser', response.data.business)
+            const data = response.data.business
+            commit('UPDATE_USER', new AccountInfoBusiness(
+              data.apartment,
+              data.aum,
+              data.business_name,
+              data.city,
+              data.client_account_cnt,
+              data.contact_first_name,
+              data.contact_last_name,
+              data.crd_number,
+              data.id,
+              data.industries,
+              data.jurisdictions,
+              data.state,
+              data.sub_industries,
+              data.username
+            ))
+            localStorage.setItem('app.currentUser', JSON.stringify(data));
           }
           if(response.data.specialist) {
-            localStorage.setItem('app.currentUser', JSON.stringify(response.data.specialist));
-            commit('updateUser', response.data.specialist)
+            const data = response.data.specialist
+            commit('UPDATE_USER', new AccountInfoSpecialist(
+              data.experience,
+              data.first_name,
+              data.former_regulator,
+              data.id,
+              data.industries,
+              data.last_name,
+              data.resume_url,
+              data.skills,
+              data.username
+            ))
+            localStorage.setItem('app.currentUser', JSON.stringify(data));
           }
         }
         return response.data
@@ -97,17 +126,44 @@ export default {
         // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
         if (response.data) {
           if(response.data.token) {
-            commit('updateToken', response.data.token)
+            commit('UPDATE_TOKEN', response.data.token)
             localStorage.setItem('app.currentUser.token', JSON.stringify(response.data.token));
-            commit('loggedIn', true)
+            commit('UPDATE_LOGIN_STATUS', true)
           }
           if(response.data.business) {
-            localStorage.setItem('app.currentUser', JSON.stringify(response.data.business));
-            commit('updateUser', response.data.business)
+            const data = response.data.business
+            commit('UPDATE_USER', new AccountInfoBusiness(
+              data.apartment,
+              data.aum,
+              data.business_name,
+              data.city,
+              data.client_account_cnt,
+              data.contact_first_name,
+              data.contact_last_name,
+              data.crd_number,
+              data.id,
+              data.industries,
+              data.jurisdictions,
+              data.state,
+              data.sub_industries,
+              data.username
+            ))
+            localStorage.setItem('app.currentUser', JSON.stringify(data));
           }
           if(response.data.specialist) {
-            localStorage.setItem('app.currentUser', JSON.stringify(response.data.specialist));
-            commit('updateUser', response.data.specialist)
+            const data = response.data.specialist
+            commit('UPDATE_USER', new AccountInfoSpecialist(
+              data.experience,
+              data.first_name,
+              data.former_regulator,
+              data.id,
+              data.industries,
+              data.last_name,
+              data.resume_url,
+              data.skills,
+              data.username
+            ))
+            localStorage.setItem('app.currentUser', JSON.stringify(data));
           }
         }
         return response.data
@@ -180,8 +236,35 @@ export default {
         const response = await axios.patch(`/${endPointUserType}`, payload)
         // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
         if(response.data) {
-          localStorage.setItem('app.currentUser', JSON.stringify(response.data));
-          commit('updateUser', response.data)
+          const data = response.data
+          if (payload.business) commit('UPDATE_USER', new AccountInfoBusiness(
+            data.apartment,
+            data.aum,
+            data.business_name,
+            data.city,
+            data.client_account_cnt,
+            data.contact_first_name,
+            data.contact_last_name,
+            data.crd_number,
+            data.id,
+            data.industries,
+            data.jurisdictions,
+            data.state,
+            data.sub_industries,
+            data.username
+          ))
+          if (!payload.business) commit('UPDATE_USER', new AccountInfoSpecialist(
+            data.experience,
+            data.first_name,
+            data.former_regulator,
+            data.id,
+            data.industries,
+            data.last_name,
+            data.resume_url,
+            data.skills,
+            data.username
+          ))
+          localStorage.setItem('app.currentUser', JSON.stringify(data));
         }
         return response.data
 
@@ -203,8 +286,35 @@ export default {
         };
         const response = await axios.patch(`/specialist`, payload, config)
         if(response.data) {
-          localStorage.setItem('app.currentUser', JSON.stringify(response.data));
-          commit('updateUser', response.data)
+          const data = response.data
+          if (payload.business) commit('UPDATE_USER', new AccountInfoBusiness(
+            data.apartment,
+            data.aum,
+            data.business_name,
+            data.city,
+            data.client_account_cnt,
+            data.contact_first_name,
+            data.contact_last_name,
+            data.crd_number,
+            data.id,
+            data.industries,
+            data.jurisdictions,
+            data.state,
+            data.sub_industries,
+            data.username
+          ))
+          if (!payload.business) commit('UPDATE_USER', new AccountInfoSpecialist(
+            data.experience,
+            data.first_name,
+            data.former_regulator,
+            data.id,
+            data.industries,
+            data.last_name,
+            data.resume_url,
+            data.skills,
+            data.username
+          ))
+          localStorage.setItem('app.currentUser', JSON.stringify(data));
         }
         return response.data
 

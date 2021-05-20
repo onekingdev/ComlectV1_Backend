@@ -9,23 +9,32 @@
             .row.p-x-1
               .col-sm-12
                 ChangeContractAlerts(:project="project" @saved="newEtag" for="Specialist")
-              .col-md-7.col-sm-12
+              .col-md-8.col-sm-12
                 PropertiesTable(title="Project Details" :properties="acceptedOverviewProps(localProject)")
-              .col-md-5.col-sm-12.pl-0
+              .col-md-4.col-sm-12.pl-0
                 .card
                   .card-header.d-flex.justify-content-between
                     h3.m-y-0 Collaborators
-                    button.btn.btn-default(@click="viewContract()") View All
+                    a.link.btn(@click="viewContract()") View All
                   .card-body
                     table.rating_table
+                      thead
+                        tr
+                          th
+                            | Name
+                            b-icon.ml-2(icon='chevron-expand')
+                          th
                       tbody
                         tr(v-for="contract in localProject.projects" :key="contract.specialist.id")
                           td
-                            img.m-r-1.userpic_small(v-if="contract.specialist.photo" :src="contract.specialist.photo")
-                            b {{ contract.specialist.first_name }} {{ contract.specialist.last_name }},
-                            |  Specialist
+                            .d-flex.align-items-center.mb-3
+                              div
+                                UserAvatar.userpic_small.mr-2(:user="contract.specialist")
+                              div.d-flex.flex-column
+                                b {{ contract.specialist.first_name }} {{ contract.specialist.last_name }}
+                                span {{ contract.specialist.seat_role }}
                           td
-                            b-dropdown.float-right(text="..." variant="default")
+                            b-dropdown.float-right(text="..." variant="default" right)
                               b-dropdown-item(@click="viewContract(contract)") View Contract
           .container.m-t-1
             .row.p-x-1
