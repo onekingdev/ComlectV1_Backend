@@ -412,7 +412,7 @@
 
           const dataToSend = {
             business: {
-              crd_number: this.formStep1.CRDnumber ? this.formStep1.CRDnumber : '',
+              // crd_number: this.formStep1.CRDnumber ? this.formStep1.CRDnumber : '',
               // contact_first_name: 'x',
               // contact_last_name: 'x',
               // contact_email: 'x',
@@ -435,6 +435,8 @@
               jurisdiction_ids: this.formStep2.jurisdiction.map(record => record.id),
             }
           }
+
+          if(this.formStep1.CRDnumber) dataToSend.business.crd_number = this.formStep1.CRDnumber
 
           this.$store
             .dispatch('updateAccountInfo', dataToSend)
