@@ -45,6 +45,7 @@
                     track-by="name",
                     label="name",
                     placeholder="Select Industry",
+                    @input="onChange",
                     required)
                     <!--b-form-select#selectS-4(v-model='formStep2.industry' :options='options' required)-->
                     .invalid-feedback.d-block(v-if="errors.industry") {{ errors.industry }}
@@ -220,14 +221,14 @@
     created() {
       if(this.industryIds) this.formStep1.industryOptions = this.industryIds;
       // if(this.subIndustryIds) this.formStep2.subIndustryOptions = this.subIndustryIds;
-      if(this.subIndustryIds) {
-        for (const [key, value] of Object.entries(this.subIndustryIds)) {
-          this.formStep1.subIndustryOptions.push({
-            value: key,
-            name: value
-          })
-        }
-      }
+      // if(this.subIndustryIds) {
+      //   for (const [key, value] of Object.entries(this.subIndustryIds)) {
+      //     this.formStep1.subIndustryOptions.push({
+      //       value: key,
+      //       name: value
+      //     })
+      //   }
+      // }
       if(this.jurisdictionIds) this.formStep1.jurisdictionOptions = this.jurisdictionIds;
       if(this.states) this.formStep1.stateOptions = this.states;
 
@@ -542,7 +543,26 @@
       },
       selectFile(event){
         this.formStep2.file = event.target.files[0]
-      }
+      },
+      onChange (industries) {
+        if(industries) {
+          this.formStep1.subIndustryOptions = []
+          const results = industries.map(industry => industry.id)
+
+          if(this.subIndustryIds) {
+            for (const [key, value] of Object.entries(this.subIndustryIds)) {
+              for (const i of results) {
+                if (i === +key.split('_')[0]) {
+                  this.formStep1.subIndustryOptions.push({
+                    value: key,
+                    name: value
+                  })
+                }
+              }
+            }
+          }
+        }
+      },
     },
     computed: {
       loading() {

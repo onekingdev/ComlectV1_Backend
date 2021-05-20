@@ -58,6 +58,7 @@
                     track-by="name",
                     label="name",
                     placeholder="Select Industry",
+                    @input="onChange",
                     required)
                     <!--b-form-select#selectB-4(v-model='formStep2.industry' :options='options' required)-->
                     .invalid-feedback.d-block(v-if="errors.industry") {{ errors.industry }}
@@ -211,14 +212,14 @@
     created() {
       if(this.industryIds) this.formStep2.industryOptions = this.industryIds;
       // if(this.subIndustryIds) this.formStep2.subIndustryOptions = this.subIndustryIds;
-      if(this.subIndustryIds) {
-        for (const [key, value] of Object.entries(this.subIndustryIds)) {
-          this.formStep2.subIndustryOptions.push({
-            value: key,
-            name: value
-          })
-        }
-      }
+      // if(this.subIndustryIds) {
+      //   for (const [key, value] of Object.entries(this.subIndustryIds)) {
+      //     this.formStep2.subIndustryOptions.push({
+      //       value: key,
+      //       name: value
+      //     })
+      //   }
+      // }
       if(this.jurisdictionIds) this.formStep2.jurisdictionOptions = this.jurisdictionIds;
       if(this.states) this.formStep2.stateOptions = this.states;
 
@@ -595,6 +596,25 @@
             }, 3000)
           })
           .finally(() => this.disabled = true)
+      },
+      onChange (industries) {
+        if(industries) {
+          this.formStep2.subIndustryOptions = []
+          const results = industries.map(industry => industry.id)
+
+          if(this.subIndustryIds) {
+            for (const [key, value] of Object.entries(this.subIndustryIds)) {
+              for (const i of results) {
+                if (i === +key.split('_')[0]) {
+                  this.formStep2.subIndustryOptions.push({
+                    value: key,
+                    name: value
+                  })
+                }
+              }
+            }
+          }
+        }
       },
     },
     computed: {
