@@ -297,7 +297,7 @@
           return
         }
 
-        if (e.target.value.length < 6 && (e.keyCode > 47) && (e.keyCode < 58)) {
+        if (e.target.value.length < 6 && (e.keyCode >= 48) && (e.keyCode <= 57) || (e.keyCode >= 96) && (e.keyCode <= 105)) {
           e.preventDefault();
           e.target.value = e.key
           if(e.target.nextElementSibling) {
