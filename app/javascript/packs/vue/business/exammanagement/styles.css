@@ -12,8 +12,14 @@
   margin-top: 3px;
 }
 
-.exams__topic-body {
+.exams__text:not(:last-child) {
+  margin-bottom: 1rem;
+}
+
+.exams__text-body {
+  width: calc(100% - 3rem);
   border: 1px solid #dee2e6;
+  border-radius: 5px;
 }
 
 .exams__card--internal {
