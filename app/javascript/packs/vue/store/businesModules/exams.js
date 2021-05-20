@@ -56,12 +56,14 @@ export default {
       state.currentExam.exam_requests.splice(index, 1)
     },
     ADD_FILE_REQUEST_CURRENT_EXAM(state, payload) {
-      const index = state.currentExam.exam_requests.findIndex(record => record.id === payload.requestId);
-      state.currentExam.exam_requests[index].push(payload.data)
+      const index = state.currentExam.exam_requests.findIndex(record => record.id === payload.exam_request_id);
+      const indexFile = state.currentExam.exam_requests[index].exam_request_files.findIndex(record => record.id === payload.id);
+      state.currentExam.exam_requests[index].exam_request_files.push(payload)
     },
     DELETE_FILE_REQUEST_CURRENT_EXAM(state, payload) {
-      const index = state.currentExam.exam_requests.findIndex(record => record.id === payload.requestId);
-      state.currentExam.exam_requests[index].splice(index, 1)
+      const index = state.currentExam.exam_requests.findIndex(record => record.id === payload.exam_request_id);
+      const indexFile = state.currentExam.exam_requests[index].exam_request_files.findIndex(record => record.id === payload.id);
+      state.currentExam.exam_requests[index].exam_request_files.splice(indexFile, 1)
     },
   },
   actions: {
@@ -427,12 +429,8 @@ export default {
         uploadExamRequestFile(payload)
           .then((success) => {
             if (success) {
-              const data = {
-                requestId: payload.request.id,
-                data: success.data
-              }
-              console.log('data', data)
-              // commit('ADD_FILE_REQUEST_CURRENT_EXAM', data)
+              const data = success
+              commit('ADD_FILE_REQUEST_CURRENT_EXAM', data)
               return success
             }
             if (!success) {
@@ -457,9 +455,8 @@ export default {
         deleteExamRequestFile(payload)
           .then((success) => {
             if (success) {
-              const data = success.data
-              console.log('data', data)
-              // commit('DELETE_FILE_REQUEST_CURRENT_EXAM', data)
+              const data = success
+              commit('DELETE_FILE_REQUEST_CURRENT_EXAM', data)
               return success
             }
             if (!success) {

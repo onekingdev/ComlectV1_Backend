@@ -315,7 +315,6 @@ export default {
         this.makeToast('Success', `File successfull deleted!`)
         this.$emit('saved')
         this.$bvModal.hide(this.modalId)
-        this.resetForm()
       } catch (error) {
         this.makeToast('Error', error.message)
       }

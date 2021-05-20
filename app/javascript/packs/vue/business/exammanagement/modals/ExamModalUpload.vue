@@ -94,7 +94,6 @@
             this.makeToast('Success', `File successfull loaded!`)
             this.$emit('saved')
             this.$bvModal.hide(this.modalId)
-            this.files = []
           } catch (error) {
             this.makeToast('Error', error.message)
           }
