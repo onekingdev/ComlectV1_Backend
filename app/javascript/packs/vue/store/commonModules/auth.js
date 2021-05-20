@@ -37,12 +37,39 @@ export default {
             commit('UPDATE_LOGIN_STATUS', true)
           }
           if(response.data.business) {
-            localStorage.setItem('app.currentUser', JSON.stringify(response.data.business));
-            commit('UPDATE_USER', response.data.business)
+            const data = response.data.business
+            commit('UPDATE_USER', new AccountInfoBusiness(
+              data.apartment,
+              data.aum,
+              data.business_name,
+              data.city,
+              data.client_account_cnt,
+              data.contact_first_name,
+              data.contact_last_name,
+              data.crd_number,
+              data.id,
+              data.industries,
+              data.jurisdictions,
+              data.state,
+              data.sub_industries,
+              data.username
+            ))
+            localStorage.setItem('app.currentUser', JSON.stringify(data));
           }
           if(response.data.specialist) {
-            localStorage.setItem('app.currentUser', JSON.stringify(response.data.specialist));
-            commit('UPDATE_USER', response.data.specialist)
+            const data = response.data.specialist
+            commit('UPDATE_USER', new AccountInfoSpecialist(
+              data.experience,
+              data.first_name,
+              data.former_regulator,
+              data.id,
+              data.industries,
+              data.last_name,
+              data.resume_url,
+              data.skills,
+              data.username
+            ))
+            localStorage.setItem('app.currentUser', JSON.stringify(data));
           }
         }
         return response.data
@@ -209,8 +236,35 @@ export default {
         const response = await axios.patch(`/${endPointUserType}`, payload)
         // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
         if(response.data) {
-          localStorage.setItem('app.currentUser', JSON.stringify(response.data));
-          commit('UPDATE_USER', response.data)
+          const data = response.data
+          if (payload.business) commit('UPDATE_USER', new AccountInfoBusiness(
+            data.apartment,
+            data.aum,
+            data.business_name,
+            data.city,
+            data.client_account_cnt,
+            data.contact_first_name,
+            data.contact_last_name,
+            data.crd_number,
+            data.id,
+            data.industries,
+            data.jurisdictions,
+            data.state,
+            data.sub_industries,
+            data.username
+          ))
+          if (!payload.business) commit('UPDATE_USER', new AccountInfoSpecialist(
+            data.experience,
+            data.first_name,
+            data.former_regulator,
+            data.id,
+            data.industries,
+            data.last_name,
+            data.resume_url,
+            data.skills,
+            data.username
+          ))
+          localStorage.setItem('app.currentUser', JSON.stringify(data));
         }
         return response.data
 
@@ -232,8 +286,35 @@ export default {
         };
         const response = await axios.patch(`/specialist`, payload, config)
         if(response.data) {
-          localStorage.setItem('app.currentUser', JSON.stringify(response.data));
-          commit('UPDATE_USER', response.data)
+          const data = response.data
+          if (payload.business) commit('UPDATE_USER', new AccountInfoBusiness(
+            data.apartment,
+            data.aum,
+            data.business_name,
+            data.city,
+            data.client_account_cnt,
+            data.contact_first_name,
+            data.contact_last_name,
+            data.crd_number,
+            data.id,
+            data.industries,
+            data.jurisdictions,
+            data.state,
+            data.sub_industries,
+            data.username
+          ))
+          if (!payload.business) commit('UPDATE_USER', new AccountInfoSpecialist(
+            data.experience,
+            data.first_name,
+            data.former_regulator,
+            data.id,
+            data.industries,
+            data.last_name,
+            data.resume_url,
+            data.skills,
+            data.username
+          ))
+          localStorage.setItem('app.currentUser', JSON.stringify(data));
         }
         return response.data
 
