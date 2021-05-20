@@ -500,6 +500,9 @@
         this.overlayStatusText = 'Setting up account. Subscribing a plan...'
 
         let planName;
+        if (selectedPlan.id === 1) {
+          planName = 'free';
+        }
         if (selectedPlan.id === 2) {
           planName = this.billingTypeSelected === 'annually' ? 'team_tier_annual' : 'team_tier_monthly';
         }
