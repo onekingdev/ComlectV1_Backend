@@ -75,19 +75,19 @@
                             p {{ currentRequst.details }}
                         .row.m-b-1
                           .col-md-11.offset-md-1
-                            .d-flex.justify-content-between.align-items-center
-                              span
-                                b-icon.mr-2(:icon="currentRequst.text_items ? 'chevron-down' : 'chevron-right'")
-                                | {{ currentRequst.text_items ? currentRequst.text_items.length : 0 }} Items
-                            div(v-if="currentRequst.text_items")
-                              hr
+                            .row
+                              .col
+                                .d-flex.justify-content-between.align-items-center
+                                  span
+                                    b-icon.mr-2(:icon="currentRequst.text_items ? 'chevron-down' : 'chevron-right'")
+                                    | {{ currentRequst.text_items ? currentRequst.text_items.length : 0 }} Items
+                            hr(v-if="currentRequst.text_items")
+                            .row(v-if="currentRequst.text_items")
                               template(v-for="(textItem, textIndex) in currentRequst.text_items")
-                                .row
-                                  .col-12(:key="`${currentRequst.name}-${i}-${textItem}-${textIndex}`")
-                                    .d-flex
-                                      textarea.exams__topic-body.flex-grow-1(v-model="currentRequst.text_items[textIndex]")
-                                      button.btn.btn__close(@click="removeTextEntry(i, textIndex)")
-                                        b-icon(icon="x" font-scale="1")
+                                .col-12.exams__text(:key="`${currentRequst.name}-${i}-${textItem}-${textIndex}`")
+                                    textarea.exams__text-body(v-model="currentRequst.text_items[textIndex]")
+                                    button.btn.btn__close.float-right(@click="removeTextEntry(i, textIndex)")
+                                      b-icon(icon="x" font-scale="1")
                             .row
                               template(v-for="(file, fileIndex) in currentRequst.exam_request_files")
                                 .col-md-6.m-b-1(:key="`${currentRequst.name}-${i}-${file}-${fileIndex}`")
