@@ -12,7 +12,8 @@
             .d-flex.align-items-center
               ExamModalShare.mr-3
                 a.btn.link Share Link
-              button.btn.btn-default.mr-3 Mark Complete
+              ExamModalComplite.mr-3(v-if="exam" @compliteConfirmed="markCompleteExam", :completedStatus="currentExam.complete", :countCompleted="countCompleted" :inline="false")
+                button.btn.btn-default Mark {{ exam.complete ? 'Incomplete' : 'Complete' }}
               button.btn.btn-dark.mr-3(@click="saveAndExit") Save and Exit
               button.btn.btn__close
                 b-icon(icon="x")
@@ -319,7 +320,7 @@ export default {
       console.log('createTask: ', i)
     },
     saveAndExit() {
-      this.saveCategory()
+      this.saveExam()
       window.location.href = `${window.location.origin}/business/exam_management/`
     },
     deleteexam(examId){
