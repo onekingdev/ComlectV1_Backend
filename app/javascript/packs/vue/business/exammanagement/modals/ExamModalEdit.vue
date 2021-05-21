@@ -72,10 +72,17 @@
 
         try {
           await this.$store.dispatch('exams/updateExam', this.exam_management)
-          this.makeToast('Success', `Exam Management successfully updated!`)
-          this.$emit('saved')
-          this.$bvModal.hide(this.modalId)
-          this.newEtag()
+            .then(response => {
+              console.log('response', response)
+              this.makeToast('Success', `Exam Management successfully updated!`)
+              this.$emit('saved')
+              this.$bvModal.hide(this.modalId)
+              this.newEtag()
+            })
+            .catch(error => {
+              console.error(error)
+              throw error
+            })
         } catch (error) {
           this.makeToast('Error', error.message)
         }
