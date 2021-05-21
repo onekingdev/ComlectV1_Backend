@@ -223,7 +223,8 @@ export default {
 
       const data = {
         // examlId: this.examlId,
-        ...exam
+        // ...exam
+        ...this.currentExam
       }
       try {
         await this.updateExam(data)
@@ -291,7 +292,8 @@ export default {
       })
     },
     addTextEntry(i) {
-      // if (!this.currentExam.exam_requests[i].text_items) this.currentExam.exam_requests[i].text_items = []
+
+      if (!this.currentExam.exam_requests[i].text_items) this.currentExam.exam_requests[i].text_items = []
       this.currentExam.exam_requests[i].text_items.push({
         text: ""
       })
