@@ -10,13 +10,11 @@
         .col-12.px-0
           .card-body.white-card-body.height-80
             .container
-              .row
-                .col-12
-                  Loading
               .row.p-x-1
                 .col-md-7.col-sm-12.pl-0
                   .card
-                    RegulatoryExams(:exams="exams")
+                    Loading
+                    RegulatoryExams(v-if="!loading" :exams="exams")
                 .col-md-5.col-sm-12.pl-0
                   .card
                     .card-header.d-flex.justify-content-between

@@ -146,8 +146,12 @@ export default {
             if (!success) {
               console.error('Not success', success)
             }
-            commit("clearError");
-            commit("setLoading", false);
+            commit("clearError", {
+              root: true
+            });
+            commit("setLoading", false, {
+              root: true
+            });
           })
       } catch (error) {
         commit("setError", error.message, {
@@ -203,8 +207,12 @@ export default {
             if (!success) {
               console.error('Not success', success)
             }
-            commit("clearError");
-            commit("setLoading", false);
+            commit("clearError", {
+              root: true
+            });
+            commit("setLoading", false, {
+              root: true
+            });
           })
       } catch (error) {
         commit("setError", error.message, {
@@ -249,8 +257,12 @@ export default {
             if (!success) {
               console.error('Not success', success)
             }
-            commit("clearError");
-            commit("setLoading", false);
+            commit("clearError", {
+              root: true
+            });
+            commit("setLoading", false, {
+              root: true
+            });
           })
       } catch (error) {
         commit("setError", error.message, {
@@ -296,8 +308,12 @@ export default {
             if (!success) {
               console.error('Not success', success)
             }
-            commit("clearError");
-            commit("setLoading", false);
+            commit("clearError", {
+              root: true
+            });
+            commit("setLoading", false, {
+              root: true
+            });
           })
       } catch (error) {
         commit("setError", error.message, {
@@ -332,8 +348,12 @@ export default {
             if (!success) {
               console.error('Not success', success)
             }
-            commit("clearError");
-            commit("setLoading", false);
+            commit("clearError", {
+              root: true
+            });
+            commit("setLoading", false, {
+              root: true
+            });
           })
       } catch (error) {
         commit("setError", error.message, {
@@ -368,8 +388,12 @@ export default {
             if (!success) {
               console.error('Not success', success)
             }
-            commit("clearError");
-            commit("setLoading", false);
+            commit("clearError", {
+              root: true
+            });
+            commit("setLoading", false, {
+              root: true
+            });
           })
       } catch (error) {
         commit("setError", error.message, {
@@ -404,8 +428,12 @@ export default {
             if (!success) {
               console.error('Not success', success)
             }
-            commit("clearError");
-            commit("setLoading", false);
+            commit("clearError", {
+              root: true
+            });
+            commit("setLoading", false, {
+              root: true
+            });
           })
       } catch (error) {
         commit("setError", error.message, {
@@ -436,8 +464,12 @@ export default {
             if (!success) {
               console.error('Not success', success)
             }
-            commit("clearError");
-            commit("setLoading", false);
+            commit("clearError", {
+              root: true
+            });
+            commit("setLoading", false, {
+              root: true
+            });
           })
       } catch (error) {
         commit("setError", error.message, { root: true });
@@ -462,8 +494,12 @@ export default {
             if (!success) {
               console.error('Not success', success)
             }
-            commit("clearError");
-            commit("setLoading", false);
+            commit("clearError", {
+              root: true
+            });
+            commit("setLoading", false, {
+              root: true
+            });
           })
       } catch (error) {
         commit("setError", error.message, { root: true });
