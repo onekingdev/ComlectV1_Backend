@@ -9,27 +9,31 @@
         thead(v-if="exams")
           tr
             th(width="40%")
-              | Name
-              b-icon.ml-2(icon='chevron-expand')
+              .d-inline
+                | Name
+                b-icon.ml-2(icon='chevron-expand')
             th
-              | Status
-              b-icon.ml-2(icon='chevron-expand')
+              .d-inline-flex
+                | Status
+                b-icon.ml-2(icon='chevron-expand')
             th.text-right
-              | Date created
-              b-icon.ml-2(icon='chevron-expand')
+              .d-inline
+                | Date created
+                b-icon.ml-2(icon='chevron-expand')
             th.text-right
-              | Last Modified
-              b-icon.ml-2(icon='chevron-expand')
+              .d-inline
+                | Last Modified
+                b-icon.ml-2(icon='chevron-expand')
         tbody
           tr(v-for="exam in exams" :key="exam.id")
             td
               a.link(:href="`/business/exam_management/${exam.id}`") {{ exam.name }}
             td
-              b-badge(:variant="exam.complete ? 'success' : 'light'") {{ exam.complete ? 'Completed' : 'Incompleted' }}
+              b-badge(:variant="exam.complete ? 'success' : 'light'") {{ exam.complete ? 'Completed' : 'Incomplete' }}
             td.text-right {{ dateToHuman(exam.created_at) }}
             td.text-right {{ dateToHuman(exam.updated_at) }}
             td.text-right
-              b-dropdown(size="sm" variant="light" class="m-0 p-0" right)
+              b-dropdown.actions(size="sm" variant="light" class="m-0 p-0" right)
                 template(#button-content)
                   b-icon(icon="three-dots")
                 ExamsModalEdit(:exam="exam" :inline="false")
@@ -46,8 +50,8 @@
   import { mapActions, mapGetters } from "vuex"
   import { DateTime } from 'luxon'
   import ExamModalCreate from '../modals/ExamModalCreate'
-  import ExamsModalEdit from '../modals/ExamsModalEdit'
-  import ExamsModalDelete from '../modals/ExamsModalDelete'
+  import ExamsModalEdit from '../modals/ExamModalEdit'
+  import ExamsModalDelete from '../modals/ExamModalDelete'
 
   export default {
     props: {
@@ -68,7 +72,7 @@
       },
       deleteRecord(id){
         this.deleteExam({ id: id})
-          .then(response => this.toast('Success', `The exam has been deleted! ${response.id}`))
+          .then(response => this.toast('Success', `The exam has been deleted!`))
           .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
       },
     },

@@ -8,7 +8,7 @@
     .container-fluid.p-x-0
       .row
         .col-12.px-0
-          .card-body.white-card-body
+          .card-body.white-card-body.height-80
             .container
               .row
                 .col-12

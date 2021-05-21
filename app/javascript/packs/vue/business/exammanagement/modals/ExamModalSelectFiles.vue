@@ -20,7 +20,7 @@
                 .row.m-b-1
                   .col-12.p-x-1
                     Loading
-                    FilefoldersTable(v-if="!loading && filefolders.files && filefolders.folders" :filefolders="filefolders")
+                    FilefoldersTable(v-if="!loading && filefolders.files && filefolders.folders" :filefolders="filefolders" :check="true" @selectedItem="collecingFiles")
                     table.table.reviews-table(v-if="!filefolders.files && !filefolders.folders && !loading")
                       tbody
                         tr
@@ -37,7 +37,7 @@
 
       template(slot="modal-footer")
         .col
-          label.m-t-1.form-label.font-weight-bold 0 Items Selected
+          label.m-t-1.form-label.font-weight-bold {{ countSelected }} Items Selected
         .col-justify-content-end
           a.btn.link(@click="$bvModal.hide(modalId)") Cancel
           button.btn.btn-dark(@click="submit") Add
@@ -66,6 +66,8 @@
     data() {
       return {
         modalId: `modal_${rnd()}`,
+        countSelected: 0,
+        filesCollection: []
       }
     },
     methods: {
@@ -111,6 +113,15 @@
           this.makeToast('Error', error.message)
         }
       },
+      collecingFiles (value) {
+        console.log('collecingFiles value', value)
+        this.filesCollection.push(value)
+
+        this.filesCollection.forEach(file => {
+          if (file.id !== value.id) this.filesCollection.push(value)
+        }, this)
+        console.log('filesCollection', this.filesCollection)
+      }
     },
     computed: {
       loading() {

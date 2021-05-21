@@ -1,5 +1,7 @@
 <template lang="pug">
   tr
+    td(v-if='check')
+      b-form-checkbox(v-model='form.checked[item.id]' @change="onChange")
     td.align-middle
       .d-flex.align-items-center
         a.link.d-flex.align-items-center(:href="itemType === 'file' ? item.file_addr : '#'" :target="itemType === 'file' ? '_blank' : '_self'" @click="openFolder($event, item.id, item.file_addr, item.name)")
@@ -44,7 +46,7 @@ import FilefoldersModalDelete from '../modals/FilefoldersModalDelete'
 
 export default {
   name: "ReviewItem",
-  props: ['item', 'itemType'],
+  props: ['item', 'itemType', 'check'],
   components: {
     FoldersModalMoveTo,
     FoldersModalEdit,
@@ -52,6 +54,9 @@ export default {
   },
   data () {
     return {
+      form: {
+        checked: [],
+      },
       zipCounter: 0,
       disabled: false
     }
@@ -172,6 +177,14 @@ export default {
       } catch (error) {
         this.makeToast('Error', error.message)
       }
+    },
+    onChange(event){
+      console.log(event)
+      console.log('this.form.checked', this.form.checked)
+      let file = this.item
+      console.log('file', file)
+
+      this.$emit('selectedItem', file)
     },
   }
 }
