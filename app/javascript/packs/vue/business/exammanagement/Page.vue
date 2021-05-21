@@ -10,11 +10,13 @@
         .col-12.px-0
           .card-body.white-card-body.height-80
             .container
-              .row.p-x-1
+              .row
+                .col-12
+                  Loading
+              .row.p-x-1(v-if="!loading")
                 .col-md-7.col-sm-12.pl-0
                   .card
-                    Loading
-                    RegulatoryExams(v-if="!loading" :exams="exams")
+                    RegulatoryExams(:exams="exams")
                 .col-md-5.col-sm-12.pl-0
                   .card
                     .card-header.d-flex.justify-content-between
@@ -51,12 +53,12 @@
       }),
     },
     computed: {
-      loading() {
-        return this.$store.getters.loading;
-      },
       ...mapGetters({
         exams: 'exams/exams',
       }),
+      loading() {
+        return this.$store.getters.loading;
+      },
     },
     async mounted () {
       try {

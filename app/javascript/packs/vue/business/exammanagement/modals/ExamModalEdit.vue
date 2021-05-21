@@ -65,8 +65,6 @@
       async submit(e) {
         e.preventDefault();
 
-        if (this.exam_management === this.exam) return
-
         if (!this.exam_management.name || !this.exam_management.starts_on || !this.exam_management.ends_on) {
           this.makeToast('Error', `Please check all fields!`)
           return
