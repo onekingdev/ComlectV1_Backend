@@ -2,8 +2,8 @@
   table.table.reviews-table
     thead
       tr
-        th(v-if='check')
-          <!--b-form-checkbox(v-model='form.checked[]')-->
+        th(v-if='check' width="5%")
+          // b-form-checkbox(v-model='form.checked[]')
         th(width="45%")
           | Name
         th(@click="sortSelect('progress', 'number')" width="20%").text-right
@@ -94,7 +94,6 @@ export default {
       }
     },
     selectedItemUp (value) {
-      console.log('selectedItemUp', value)
       this.$emit('selectedItem', value)
     }
   }

@@ -44,12 +44,23 @@
 </template>
 
 <script>
+  import EtaggerMixin from '@/mixins/EtaggerMixin'
   import { mapActions, mapGetters } from "vuex"
   import Loading from '@/common/Loading/Loading'
   import FilefoldersTable from '@/business/filefolders/components/FilefoldersTable'
-  import EtaggerMixin from '@/mixins/EtaggerMixin'
 
   const rnd = () => Math.random().toFixed(10).toString().replace('.', '')
+
+  async function createFile(path){
+    let response = await fetch(path);
+    let data = await response.blob();
+    let metadata = {
+      type: 'image/jpeg'
+    };
+    let file = new File([data], "test.jpg", metadata);
+
+    return file;
+  }
 
   export default {
     mixins: [EtaggerMixin()],
@@ -57,6 +68,14 @@
       inline: {
         type: Boolean,
         default: true
+      },
+      currentExamId: {
+        type: Number,
+        required: true
+      },
+      request: {
+        type: Object,
+        required: true
       },
     },
     components: {
@@ -66,7 +85,6 @@
     data() {
       return {
         modalId: `modal_${rnd()}`,
-        countSelected: 0,
         filesCollection: []
       }
     },
@@ -77,12 +95,34 @@
       async submit(e) {
         e.preventDefault();
         try {
-          // await this.$store.dispatch('exams/uploadExamRequestFile', data)
-          this.makeToast('Success', `File successfull added!`)
-          this.$emit('saved')
-          this.$bvModal.hide(this.modalId)
+          let formData = new FormData()
+          this.filesCollection.map(fileFromCollection => {
+
+            createFile(`${window.location.origin}/${fileFromCollection.file_addr}`)
+              .then(file => {
+                formData.append('file', file);
+                const data = {
+                  id: this.currentExamId,
+                  request: { id: this.request.id },
+                  formData
+                }
+                this.$store.dispatch('exams/uploadExamRequestFile', data)
+                  .then(response => {
+                    this.toast('Success', `File successfull loaded!`)
+                    this.$emit('saved')
+                    this.$bvModal.hide(this.modalId)
+
+                    // CLEAR ARRAY
+                    const index = this.filesCollection.findIndex(record => record.id === response.id);
+                    this.filesCollection.splice(index, 1)
+                  })
+                  .catch(error => console.error(error))
+              })
+              .catch(error => console.error(error))
+          })
+
         } catch (error) {
-          this.makeToast('Error', error.message)
+          this.toast('Error', error.message)
         }
       },
       async backToRoot (e) {
@@ -93,7 +133,7 @@
               this.$store.commit('filefolders/SET_CUREENT_FOLDER_NAME', null)
             })
         } catch (error) {
-          this.makeToast('Error', error.message)
+          this.toast('Error', error.message)
         }
       },
       async getData () {
@@ -110,17 +150,15 @@
           // }
         } catch (error) {
           console.error(error)
-          this.makeToast('Error', error.message)
+          this.toast('Error', error.message)
         }
       },
-      collecingFiles (value) {
-        console.log('collecingFiles value', value)
-        this.filesCollection.push(value)
-
-        this.filesCollection.forEach(file => {
-          if (file.id !== value.id) this.filesCollection.push(value)
-        }, this)
-        console.log('filesCollection', this.filesCollection)
+      collecingFiles (form) {
+        if (form.status) this.filesCollection.push(form.file)
+        if (!form.status) {
+          const index = this.filesCollection.findIndex(record => record.id === form.file.id);
+          this.filesCollection.splice(index, 1)
+        }
       }
     },
     computed: {
@@ -133,6 +171,9 @@
         currentFolderId: 'filefolders/currentFolder',
         currentFolderName: 'filefolders/currentFolderName'
       }),
+      countSelected() {
+        return this.filesCollection.length
+      }
     },
   }
 </script>
