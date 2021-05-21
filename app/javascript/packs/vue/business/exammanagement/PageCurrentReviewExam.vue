@@ -85,8 +85,8 @@
                               .col
                                 .d-flex.justify-content-between.align-items-center
                                   span
-                                    b-icon.mr-2(:icon="currentRequst.text_items.length ? 'chevron-down' : 'chevron-right'")
-                                    | {{ currentRequst.text_items.length ? currentRequst.text_items.length : 0 }} Items
+                                    b-icon.mr-2(:icon="currentRequst.text_items && currentRequst.text_items.length ? 'chevron-down' : 'chevron-right'")
+                                    | {{ currentRequst.text_items && currentRequst.text_items.length ? currentRequst.text_items.length : 0 }} Items
                             hr(v-if="currentRequst.text_items")
                             .row(v-if="currentRequst.text_items")
                               template(v-for="(textItem, textIndex) in currentRequst.text_items")
