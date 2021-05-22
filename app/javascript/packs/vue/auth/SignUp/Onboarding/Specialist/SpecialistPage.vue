@@ -108,18 +108,18 @@
                 required)
                 .invalid-feedback.d-block(v-if="errors.skills") {{ errors.skills }}
               hr
-              h3.onboarding__title.m-t-2 What's your expirience?
+              h3.onboarding__title.m-t-2 What's your experience?
               p.onboarding__sub-title Select one that the best matches your level of your expertise.
               b-form-group(class="onboarding-group")
-                b-button.exp__btn.text-left(:class="formStep2.expirience === 0 ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onExpirienceChange($event, 0)")
+                b-button.exp__btn.text-left(:class="formStep2.experience === 0 ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onexperienceChange($event, 0)")
                   b.exp__btn--main Junior
                   br
                   span.exp__btn--sub Begining consulting with some experience in the field.
-                b-button.exp__btn.text-left(:class="formStep2.expirience === 1 ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onExpirienceChange($event, 1)")
+                b-button.exp__btn.text-left(:class="formStep2.experience === 1 ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onexperienceChange($event, 1)")
                   b.exp__btn--main Intermediate
                   br
-                  span.exp__btn--sub Good expirience and knowlage of the industry.
-                b-button.exp__btn.text-left(:class="formStep2.expirience === 2 ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onExpirienceChange($event, 2)")
+                  span.exp__btn--sub Good experience and knowlage of the industry.
+                b-button.exp__btn.text-left(:class="formStep2.experience === 2 ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onexperienceChange($event, 2)")
                   b.exp__btn--main Expert
                   br
                   span.exp__btn--sub Deep understanding of industry with varied experience.
@@ -236,12 +236,13 @@
       const accountInfoParsed = JSON.parse(accountInfo);
       if(accountInfo) {
         this.formStep1.industry = accountInfoParsed.industries || ''
+        this.onChange(accountInfoParsed.industries)
         this.formStep1.subIndustry = accountInfoParsed.sub_industries || ''
         this.formStep1.jurisdiction = accountInfoParsed.jurisdictions || ''
         // this.formStep1.regulatorSelected = accountInfoParsed.former_regulator ? 'yes' : 'no';
 
         this.formStep2.skills = accountInfoParsed.skills || []
-        this.formStep2.experience = accountInfoParsed.experience || []
+        this.formStep2.experience = accountInfoParsed.experience
       }
 
 
@@ -290,7 +291,7 @@
           skills: [],
           skillsTags: [],
           file: null,
-          expirience: '',
+          experience: '',
 
           companyName: '',
           aum: '',
@@ -353,14 +354,14 @@
         this.formStep2.skillsTags.push(tag)
         this.formStep2.skills.push(tag)
       },
-      onExpirienceChange(event, value){
+      onexperienceChange(event, value){
         document.querySelectorAll('.exp__btn').forEach((el) => el.classList.remove('active'))
         if (event.target.classList.contains('exp__btn')) {
           event.target.classList.toggle('active')
         } else {
           event.target.closest(".exp__btn").classList.toggle('active')
         }
-        this.formStep2.expirience = value;
+        this.formStep2.experience = value;
       },
       onSubmit(event){
         event.preventDefault()
@@ -409,7 +410,7 @@
               last_name: this.currentUser.last_name,
               former_regulator: this.formStep1.regulatorSelected === 'yes',
               specialist_other: this.formStep1.regulator.join(', '),
-              experience: this.formStep2.expirience,
+              experience: this.formStep2.experience,
               // certifications: '',
               resume: this.formStep2.file ? this.formStep2.file : '',
             },
@@ -456,7 +457,7 @@
       //       skills: [],
       //       skillsTags: [],
       //       file: null,
-      //       expirience: '',
+      //       experience: '',
       //   }
       // },
       openDetails(id) {
@@ -574,17 +575,9 @@
     },
     async mounted () {
       try {
-        const data = await this.$store.dispatch('getSkills')
-          .then(response => console.log('response', response))
-          .catch(error => console.error('data', error))
-        // if (data) this.formStep2.skillsTags = data;
-
-        // for (const [key, value] of Object.entries(this.subIndustryIds)) {
-        //   this.formStep1.subIndustryOptions.push({
-        //     value: key,
-        //     name: value
-        //   })
-        // }
+        await this.$store.dispatch('getSkills')
+          .then(response => this.formStep2.skillsTags = response)
+          .catch(error => error)
       } catch (error) {
         console.error(error)
       }

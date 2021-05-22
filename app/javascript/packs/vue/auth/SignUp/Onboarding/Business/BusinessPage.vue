@@ -237,6 +237,7 @@
         this.formStep2.zip = accountInfoParsed.zip;
         // this.formStep1.CRDnumber = accountInfo;
         this.formStep2.industry = accountInfoParsed.industries;
+        this.onChange(accountInfoParsed.industries)
         this.formStep2.subIndustry = accountInfoParsed.sub_industries;
         this.formStep2.jurisdiction = accountInfoParsed.jurisdictions;
       }
