@@ -40,7 +40,7 @@
               .row.py-2
                 .col-sm-10
                   b-form-group(label="Search" label-for="search-input")
-                    b-form-input#search-input(v-model="search" placeholder="Enter project type, keywords, etc.")
+                    b-form-input#search-input(v-model="filter.keyword" placeholder="Enter project type, keywords, etc.")
                 .col-sm-2
                   b-form-group(label="Sort By" label-for="sort-input")
                     b-form-select#sort-input(value="Newest" :options="['Newest']")
@@ -99,6 +99,7 @@ const DURATION_OPTIONS = [{ label: 'Less than 1 month', value: '' },
                           { label: 'More than 6 months', value: '' }]
 
 const initialFilter = () => ({
+  keyword: '',
   pricing_type: PRICING_TYPE_OPTIONS.map(() => false),
   experience: EXPERIENCE_OPTIONS.map(() => false),
   budget: BUDGET_OPTIONS.map(() => false),
@@ -118,7 +119,6 @@ export default {
       filter: initialFilter(),
       openId: null,
       isSidebarOpen: false,
-      search: null
     }
   },
   created() {
@@ -168,6 +168,7 @@ export default {
 
       getCheckedItems(this.experienceOptions, 'experience').map(buildParam('experience')).map(arg => query.push(arg))
       getCheckedItems(this.budgetOptions, 'budget').map(buildParam('budget')).map(arg => query.push(arg))
+      this.filter.keyword.length && query.push(`keyword=${encodeURIComponent(this.filter.keyword)}`)
 
       return query.length ? ('?' + query.join('&')) : ''
     }
