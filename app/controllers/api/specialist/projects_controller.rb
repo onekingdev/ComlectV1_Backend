@@ -46,7 +46,7 @@ class Api::Specialist::ProjectsController < ApiController
     params.permit(
       :project_type, :sort_by, :keyword, :regulator, :location_type, :location, :location_range,
       :lat, :lng, :page, :pricing_type,
-      industry_ids: [], jurisdiction_ids: [], skill_names: [], experience: [], budget: []
+      industry_ids: [], jurisdiction_ids: [], skill_names: [], experience: [], budget: [], duration: []
     )
   end
 end

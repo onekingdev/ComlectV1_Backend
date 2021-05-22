@@ -2,38 +2,34 @@
   div
     .card-header.d-flex.justify-content-between
       h3.m-y-0 Regulatory Exams
-      ExamModalCreate(:exams-id="exams.id")
+      ExamModalCreate(@saved="$emit('saved')" :exams-id="exams.id")
         button.btn.btn-dark New Exam
     .card-body
       table.table.task_table
         thead(v-if="exams")
           tr
             th(width="40%")
-              .d-inline
-                | Name
-                b-icon.ml-2(icon='chevron-expand')
+              | Name
+              b-icon.ml-2(icon='chevron-expand')
             th
-              .d-inline-flex
-                | Status
-                b-icon.ml-2(icon='chevron-expand')
+              | Status
+              b-icon.ml-2(icon='chevron-expand')
             th.text-right
-              .d-inline
-                | Date created
-                b-icon.ml-2(icon='chevron-expand')
+              | Date created
+              b-icon.ml-2(icon='chevron-expand')
             th.text-right
-              .d-inline
-                | Last Modified
-                b-icon.ml-2(icon='chevron-expand')
+              | Last Modified
+              b-icon.ml-2(icon='chevron-expand')
         tbody
           tr(v-for="exam in exams" :key="exam.id")
             td
               a.link(:href="`/business/exam_management/${exam.id}`") {{ exam.name }}
             td
-              b-badge(:variant="exam.complete ? 'success' : 'light'") {{ exam.complete ? 'Completed' : 'Incomplete' }}
+              b-badge(:variant="exam.complete ? 'success' : 'light'") {{ exam.complete ? 'Completed' : 'Incompleted' }}
             td.text-right {{ dateToHuman(exam.created_at) }}
             td.text-right {{ dateToHuman(exam.updated_at) }}
             td.text-right
-              b-dropdown.actions(size="sm" variant="light" class="m-0 p-0" right)
+              b-dropdown(size="sm" variant="light" class="m-0 p-0" right)
                 template(#button-content)
                   b-icon(icon="three-dots")
                 ExamsModalEdit(:exam="exam" :inline="false")
@@ -50,8 +46,8 @@
   import { mapActions, mapGetters } from "vuex"
   import { DateTime } from 'luxon'
   import ExamModalCreate from '../modals/ExamModalCreate'
-  import ExamsModalEdit from '../modals/ExamModalEdit'
-  import ExamsModalDelete from '../modals/ExamModalDelete'
+  import ExamsModalEdit from '../modals/ExamsModalEdit'
+  import ExamsModalDelete from '../modals/ExamsModalDelete'
 
   export default {
     props: {
@@ -72,7 +68,7 @@
       },
       deleteRecord(id){
         this.deleteExam({ id: id})
-          .then(response => this.toast('Success', `The exam has been deleted!`))
+          .then(response => this.toast('Success', `The exam has been deleted! ${response.id}`))
           .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
       },
     },
@@ -83,10 +79,3 @@
     }
   }
 </script>
-
-<style scoped>
-  .link {
-    max-width: 400px;
-    word-break: break-all;
-  }
-</style>
