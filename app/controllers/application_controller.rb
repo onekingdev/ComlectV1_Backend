@@ -50,8 +50,9 @@ class ApplicationController < ActionController::Base
     return if params['controller'] == 'users/sessions'
     return if params['controller'] == 'api/specialist/upgrade'
     return if params['controller'] == 'api/skills'
+    return if params['controller'] == 'specialists'
 
-    redirect_to specialists_onboarding_path
+    redirect_to new_specialist_path
   end
 
   def storable_location?

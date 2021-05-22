@@ -5,7 +5,7 @@ import store  from '../../store/business'
 
 const axios = instance.create({
   baseURL: '/api',
-  timeout: 1000 * 10,
+  timeout: 1000,
   headers: {'Accept': 'application/json'}
 })
 
