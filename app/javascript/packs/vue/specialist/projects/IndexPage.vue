@@ -94,10 +94,10 @@ const BUDGET_OPTIONS = [{ label: 'Less than $100', value: [0, 100] },
                         { label: '$500 - $1000', value: [500, 1000] },
                         { label: '$1k - $5k', value: [1000, 5000] },
                         { label: '$5k+', value: [5000, 99999999] }]
-const DURATION_OPTIONS = [{ label: 'Less than 1 month', value: '' },
-                          { label: '1 to 3 months', value: '' },
-                          { label: '3 to 6 months', value: '' },
-                          { label: 'More than 6 months', value: '' }]
+const DURATION_OPTIONS = [{ label: 'Less than 1 month', value: [0, 31] },
+                          { label: '1 to 3 months', value: [28, 93] },
+                          { label: '3 to 6 months', value: [84, 186] },
+                          { label: 'More than 6 months', value: [168, 99999999] }]
 
 const initialFilter = () => ({
   keyword: '',
@@ -170,6 +170,7 @@ export default {
 
       getCheckedItems(this.experienceOptions, 'experience').map(buildParam('experience')).map(arg => query.push(arg))
       getCheckedItems(this.budgetOptions, 'budget').map(buildParam('budget')).map(arg => query.push(arg))
+      getCheckedItems(this.durationOptions, 'duration').map(buildParam('duration')).map(arg => query.push(arg))
       this.filter.keyword.length && query.push(`keyword=${encodeURIComponent(this.filter.keyword)}`)
 
       return query.length ? ('?' + query.join('&')) : ''
