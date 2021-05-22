@@ -43,7 +43,7 @@
                     b-form-input#search-input(v-model="filter.keyword" placeholder="Enter project type, keywords, etc.")
                 .col-sm-2
                   b-form-group(label="Sort By" label-for="sort-input")
-                    b-form-select#sort-input(value="Newest" :options="['Newest']")
+                    b-form-select#sort-input(v-model="filter.sort_by" :options="sortByOptions")
           .card-header(v-for="project in projects" :key="project.uid")
             .col-md-12
               h3.m-b-1
@@ -98,13 +98,17 @@ const DURATION_OPTIONS = [{ label: 'Less than 1 month', value: [0, 31] },
                           { label: '1 to 3 months', value: [28, 93] },
                           { label: '3 to 6 months', value: [84, 186] },
                           { label: 'More than 6 months', value: [168, 99999999] }]
+const SORT_BY_OPTIONS = [{ text: 'Newest', value: '' },
+                         { text: 'Price', value: 'budget' },
+                         { text: 'Duration', value: 'duration' }]
 
 const initialFilter = () => ({
   keyword: '',
   pricing_type: PRICING_TYPE_OPTIONS.map(() => false),
   experience: EXPERIENCE_OPTIONS.map(() => false),
   budget: BUDGET_OPTIONS.map(() => false),
-  duration: DURATION_OPTIONS.map(() => false)
+  duration: DURATION_OPTIONS.map(() => false),
+  sort_by: SORT_BY_OPTIONS[0].value
 })
 
 export default {
@@ -159,6 +163,7 @@ export default {
     experienceOptions: () => EXPERIENCE_OPTIONS,
     budgetOptions: () => BUDGET_OPTIONS,
     durationOptions: () => DURATION_OPTIONS,
+    sortByOptions: () => SORT_BY_OPTIONS,
     filterQuery() {
       let query = []
 
@@ -172,6 +177,7 @@ export default {
       getCheckedItems(this.budgetOptions, 'budget').map(buildParam('budget')).map(arg => query.push(arg))
       getCheckedItems(this.durationOptions, 'duration').map(buildParam('duration')).map(arg => query.push(arg))
       this.filter.keyword.length && query.push(`keyword=${encodeURIComponent(this.filter.keyword)}`)
+      this.filter.sort_by.length && query.push(`sort_by=${this.filter.sort_by}`)
 
       return query.length ? ('?' + query.join('&')) : ''
     }

@@ -134,6 +134,8 @@ class Project::Search
       records.order(starts_on: :asc)
     when 'budget'
       records.order(calculated_budget: :desc)
+    when 'duration'
+      records.order('ends_on - starts_on DESC')
     else
       records.recent
     end
