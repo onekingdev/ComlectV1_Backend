@@ -1,6 +1,15 @@
 /* ---------- Exams page ---------- */
+.height-80 {
+  height: calc(100vh - 150px);
+}
+
 .exams {
 
+}
+
+/* ---------- Tabs ---------- */
+.tab-actions {
+  margin: auto 3rem auto auto;
 }
 
 /* ---------- Current Exam page ---------- */
