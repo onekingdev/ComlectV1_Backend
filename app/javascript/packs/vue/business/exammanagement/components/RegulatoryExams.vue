@@ -2,7 +2,7 @@
   div
     .card-header.d-flex.justify-content-between
       h3.m-y-0 Regulatory Exams
-      ExamModalCreate(@saved="$emit('saved')" :exams-id="exams.id")
+      ExamModalCreate(:exams-id="exams.id")
         button.btn.btn-dark New Exam
     .card-body
       table.table.task_table
@@ -83,3 +83,10 @@
     }
   }
 </script>
+
+<style scoped>
+  .link {
+    max-width: 400px;
+    word-break: break-all;
+  }
+</style>

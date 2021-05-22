@@ -41,6 +41,7 @@
           starts_on: '',
           ends_on: ''
         },
+        errors: {}
       }
     },
     methods: {
@@ -50,8 +51,8 @@
       resetForm() {
         this.exam_management = {
           name: '',
-            starts_on: '',
-            ends_on: ''
+          starts_on: '',
+          ends_on: ''
         }
       },
       onChange(e){
@@ -70,10 +71,20 @@
 
         try {
           await this.$store.dispatch('exams/createExam', this.exam_management)
-          this.makeToast('Success', `Exam Management successfully created!`)
-          this.$emit('saved')
-          this.$bvModal.hide(this.modalId)
-          this.resetForm()
+            .then(response => {
+              if(!response.errors) {
+                this.makeToast('Success', `Exam Management ${response.name} successfully created!`)
+                // this.$emit('saved')
+                this.$bvModal.hide(this.modalId)
+                this.resetForm()
+              }
+              if(!response.errors) {
+                for (const error of response.errors) {
+                  this.errors.push(error)
+                }
+              }
+            })
+            .catch(error => this.makeToast('Error', `Something wrong! ${error}`) )
         } catch (error) {
           this.makeToast('Error', error.message)
         }
