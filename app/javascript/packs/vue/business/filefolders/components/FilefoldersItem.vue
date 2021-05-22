@@ -1,10 +1,5 @@
 <template lang="pug">
   tr
-    td(v-if="check" width="5%")
-      // b-form-checkbox(v-if="itemType === 'file'" v-model='form.checked[item.id]' @change="onChange")
-      .form-check(v-if="itemType === 'file'")
-        input.valid(:id="`ch-${item.id}`" type='checkbox' name='checkbox' v-model='form.checked[item.id]' @change="onChange")
-        label(:for="`ch-${item.id}`" class='form-check__label')
     td.align-middle
       .d-flex.align-items-center
         a.link.d-flex.align-items-center(:href="itemType === 'file' ? item.file_addr : '#'" :target="itemType === 'file' ? '_blank' : '_self'" @click="openFolder($event, item.id, item.file_addr, item.name)")
@@ -20,7 +15,7 @@
     td.align-middle.text-right {{ dateToHuman(item.updated_at) }}
     td.text-right
       .actions
-        b-dropdown(size="sm" variant="none" class="m-0 p-0" right)
+        b-dropdown(size="sm" variant="light" class="m-0 p-0" right)
           template(#button-content)
             b-icon(icon="three-dots")
           b-dropdown-item(v-if="item.locked" :disabled="item.locked" v-b-tooltip.hover.left="'Cant be edited!'") Edit
@@ -49,7 +44,7 @@ import FilefoldersModalDelete from '../modals/FilefoldersModalDelete'
 
 export default {
   name: "ReviewItem",
-  props: ['item', 'itemType', 'check'],
+  props: ['item', 'itemType'],
   components: {
     FoldersModalMoveTo,
     FoldersModalEdit,
@@ -57,9 +52,6 @@ export default {
   },
   data () {
     return {
-      form: {
-        checked: [],
-      },
       zipCounter: 0,
       disabled: false
     }
@@ -180,13 +172,6 @@ export default {
       } catch (error) {
         this.makeToast('Error', error.message)
       }
-    },
-    onChange(event){
-      let data = {
-        file: this.item,
-        status: event
-      }
-      this.$emit('selectedItem', data)
     },
   }
 }

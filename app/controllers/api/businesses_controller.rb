@@ -16,12 +16,13 @@ class Api::BusinessesController < ApiController
   end
 
   def update
-    if edit_business_params.key?('crd_number')
+    if edit_business_params.key?('crd_number') && edit_business_params['crd_number'].present?
       build_business
       respond_with current_business, serializer: BusinessSerializer
     elsif current_business.update(edit_business_params)
       current_business.username = current_business.generate_username if current_business.username.blank?
-      current_business.update(sub_industries: convert_sub_industries(params[:sub_industry_ids]))
+      current_business.update(sub_industries: convert_sub_industries(business_params[:sub_industry_ids]))
+
       respond_with current_business, serializer: BusinessSerializer
     else
       respond_with errors: { business: current_business.errors.messages }
@@ -46,11 +47,11 @@ class Api::BusinessesController < ApiController
     params.require(:business).permit(
       :contact_first_name, :contact_last_name, :contact_email, :contact_job_title, :contact_phone,
       :business_name, :website, :aum, :apartment, :client_account_cnt, :logo,
-      :address_1, :country, :city, :state, :zipcode, :crd_number,
-      industry_ids: [], jurisdiction_ids: [],
-      user_attributes: %i[
-        email password
-      ]
+      :address_1, :country, :city, :state, :zipcode, :crd_number, sub_industry_ids: [],
+                                                                  industry_ids: [], jurisdiction_ids: [],
+                                                                  user_attributes: %i[
+                                                                    email password
+                                                                  ]
     )
   end
 

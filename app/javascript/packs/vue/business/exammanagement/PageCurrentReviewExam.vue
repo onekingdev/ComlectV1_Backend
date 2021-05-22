@@ -12,35 +12,29 @@
             .d-flex.align-items-center
               ExamModalShare.mr-3
                 a.btn.link Share Link
-              ExamModalComplite.mr-3(v-if="exam" @compliteConfirmed="markCompleteExam", :completedStatus="currentExam.complete", :countCompleted="countCompleted" :inline="false")
-                button.btn.btn-default Mark {{ exam.complete ? 'Incomplete' : 'Complete' }}
+              button.btn.btn-default.mr-3 Mark Complete
               button.btn.btn-dark.mr-3(@click="saveAndExit") Save and Exit
               button.btn.btn__close
                 b-icon(icon="x")
     .reviews__tabs.exams__tabs
       b-tabs(content-class="mt-0")
-        template(#tabs-end)
-          b-dropdown.tab-actions.actions(v-if="exam" variant="default", right)
-            template(#button-content)
-              | Actions
-              b-icon.ml-2(icon="chevron-down" font-scale="1")
-            ExamModalEdit(:exam="exam" :inline="false")
-              b-dropdown-item Edit
-            ExamModalDelete(@deleteConfirmed="deleteRecord(exam.id)" :inline="false")
-              b-dropdown-item.delete Delete
         b-tab(title="Detail" active)
           .container-fluid(v-if="exam")
             .row
               .col-md-9.mx-auto.position-relative
+                .annual-actions
+                  b-dropdown.bg-white(text='Actions', variant="secondary", right)
+                    b-dropdown-item Edit
+                    b-dropdown-item.delete Delete
                 .card-body.white-card-body.reviews__card.px-5
                   .reviews__card--internal.p-y-1.d-flex.justify-content-between
                     h3 Requests
                     b-button(variant='default') View Portal
                   .reviews__topiclist
-                    .d-flex.justify-content-between.p-t-2.m-b-2
-                      b-button-group(size="md")
-                        b-button(type='button' :variant="filterOption === 'all' ? 'dark' : 'outline-dark'" @click="filterRequest('all')") All
-                        b-button(type='button' :variant="filterOption === 'shared' ? 'dark' : 'outline-dark'" @click="filterRequest('shared')") Shared
+                    .p-t-2.d-flex.justify-content-between
+                      b-form-group
+                        b-button(size="md" type='button' :variant="filterOption === 'all' ? 'dark' : 'outline-dark'" @click="filterRequest('all')") All
+                        b-button(size="md" type='button' :variant="filterOption === 'shared' ? 'dark' : 'outline-dark'" @click="filterRequest('shared')") Shared
                       ExamRequestModalCreate(:examId="examId")
                         b-button(variant='default') Add request
                     template(v-if="currentExam.exam_requests" v-for="(currentRequst, i) in currentExamRequestsFiltered")
@@ -65,8 +59,7 @@
                                   b-dropdown-item(@click="addTextEntry(i)") Text Entry
                                   ExamModalUpload(:currentExamId="currentExam.id"  :request="currentRequst" :inline="false")
                                     b-dropdown-item Upload New
-                                  ExamModalSelectFiles(:currentExamId="currentExam.id"  :request="currentRequst" :inline="false")
-                                    b-dropdown-item Select Existing
+                                  b-dropdown-item(@click="deleteTopic(i)") Select Existing
                                 ExamModalCreateTask(:inline="false")
                                   button.btn.btn-default.m-x-1 Create Task
                                 b-dropdown(size="sm" variant="none" class="m-0 p-0" right)
@@ -86,8 +79,8 @@
                               .col
                                 .d-flex.justify-content-between.align-items-center
                                   span
-                                    b-icon.mr-2(:icon="currentRequst.text_items && currentRequst.text_items.length ? 'chevron-down' : 'chevron-right'")
-                                    | {{ currentRequst.text_items && currentRequst.text_items.length ? currentRequst.text_items.length : 0 }} Items
+                                    b-icon.mr-2(:icon="currentRequst.text_items.length ? 'chevron-down' : 'chevron-right'")
+                                    | {{ currentRequst.text_items.length ? currentRequst.text_items.length : 0 }} Items
                             hr(v-if="currentRequst.text_items")
                             .row(v-if="currentRequst.text_items")
                               template(v-for="(textItem, textIndex) in currentRequst.text_items")
@@ -119,44 +112,34 @@
                       button.btn.btn-default.mr-2(@click="saveExam") Save
                       ExamModalComplite(@compliteConfirmed="markCompleteExam", :completedStatus="currentExam.complete", :countCompleted="countCompleted" :inline="false")
                         button.btn(:class="currentExam.complete ? 'btn-default' : 'btn-dark'") Mark {{ currentExam.complete ? 'Incomplete' : 'Complete' }}
-        b-tab(title="Tasks" lazy)
-          PageTasks
-        b-tab(title="Documents" lazy)
-          PageAttachments
-        b-tab(title="Activity" lazy)
-          PageActivity
+        b-tab(title="Tasks")
+          span Tasks
+        b-tab(title="Attachments")
+          span Attachments
+        b-tab(title="Activity")
+          span Activity
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex"
 // import { VueEditor } from "vue2-editor"
 import ExamRequestModalCreate from "./modals/ExamRequestModalCreate";
-import ExamModalEdit from "./modals/ExamModalEdit";
 import ExamModalDelete from "./modals/ExamModalDelete";
 import ExamRequestModalEdit from "./modals/ExamRequestModalEdit";
 import ExamModalCreateTask from "./modals/ExamModalCreateTask";
 import ExamModalComplite from "./modals/ExamModalComplite";
 import ExamModalShare from "./modals/ExamModalShare";
 import ExamModalUpload from "./modals/ExamModalUpload";
-import ExamModalSelectFiles from "./modals/ExamModalSelectFiles";
-import PageTasks from "./PageTasks";
-import PageAttachments from "./PageAttachments";
-import PageActivity from "./PageActivity";
 
 export default {
   props: ['examId'],
   components: {
-    PageActivity,
-    PageAttachments,
-    PageTasks,
-    ExamModalSelectFiles,
     ExamModalUpload,
     ExamModalShare,
     ExamModalComplite,
     ExamModalCreateTask,
     ExamRequestModalEdit,
     ExamRequestModalCreate,
-    ExamModalEdit,
     ExamModalDelete,
     // VueEditor,
   },
@@ -223,8 +206,7 @@ export default {
 
       const data = {
         // examlId: this.examlId,
-        // ...exam
-        ...this.currentExam
+        ...exam
       }
       try {
         await this.updateExam(data)
@@ -292,8 +274,7 @@ export default {
       })
     },
     addTextEntry(i) {
-
-      if (!this.currentExam.exam_requests[i].text_items) this.currentExam.exam_requests[i].text_items = []
+      // if (!this.currentExam.exam_requests[i].text_items) this.currentExam.exam_requests[i].text_items = []
       this.currentExam.exam_requests[i].text_items.push({
         text: ""
       })
@@ -322,7 +303,7 @@ export default {
       console.log('createTask: ', i)
     },
     saveAndExit() {
-      this.saveExam()
+      this.saveCategory()
       window.location.href = `${window.location.origin}/business/exam_management/`
     },
     deleteexam(examId){
@@ -346,15 +327,6 @@ export default {
         this.makeToast('Success', `File successfull deleted!`)
         this.$emit('saved')
         this.$bvModal.hide(this.modalId)
-      } catch (error) {
-        this.makeToast('Error', error.message)
-      }
-    },
-    async deleteRecord(id){
-      try {
-        this.deleteCurrentExamRequest({ id: id})
-          .then(response => this.toast('Success', `The exam has been deleted! ${response.id}`))
-          .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
       } catch (error) {
         this.makeToast('Error', error.message)
       }

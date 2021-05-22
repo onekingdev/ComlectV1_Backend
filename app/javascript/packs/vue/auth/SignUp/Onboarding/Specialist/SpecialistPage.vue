@@ -45,6 +45,7 @@
                     track-by="name",
                     label="name",
                     placeholder="Select Industry",
+                    @input="onChange",
                     required)
                     <!--b-form-select#selectS-4(v-model='formStep2.industry' :options='options' required)-->
                     .invalid-feedback.d-block(v-if="errors.industry") {{ errors.industry }}
@@ -123,11 +124,11 @@
                   br
                   span.exp__btn--sub Deep understanding of industry with varied experience.
               hr
-              <!--h3.onboarding__title.m-b-3.m-t-2 (Optional) Upload you resume:-->
-              <!--b-form-group.m-t-2(class="onboarding-group")-->
-                <!--b-form-file(v-model='formStep2.file' :state='Boolean(formStep2.file)' accept="application/pdf" placeholder='Choose a file or drop it here...' drop-placeholder='Drop file here...')-->
-                <!--.m-t-3 Selected file: {{ formStep2.file ? formStep2.file.name : '' }}-->
-              <!--hr-->
+              // h3.onboarding__title.m-b-3.m-t-2 (Optional) Upload you resume:
+              // b-form-group.m-t-2(class="onboarding-group")
+              //   b-form-file(v-model='formStep2.file' :state='Boolean(formStep2.file)' accept="application/pdf" placeholder='Choose a file or drop it here...' drop-placeholder='Drop file here...')
+              //   .m-t-3 Selected file: {{ formStep2.file ? formStep2.file.name : '' }}
+              // hr
               h3.onboarding__title.m-b-3.m-t-2 (Optional) Upload you resume:
               label.dropbox.w-100(for="upload-file")
                 input.input-file(type="file" id="upload-file" accept="application/pdf" ref="file" @change="selectFile")
@@ -220,27 +221,27 @@
     created() {
       if(this.industryIds) this.formStep1.industryOptions = this.industryIds;
       // if(this.subIndustryIds) this.formStep2.subIndustryOptions = this.subIndustryIds;
-      if(this.subIndustryIds) {
-        for (const [key, value] of Object.entries(this.subIndustryIds)) {
-          this.formStep1.subIndustryOptions.push({
-            value: key,
-            name: value
-          })
-        }
-      }
+      // if(this.subIndustryIds) {
+      //   for (const [key, value] of Object.entries(this.subIndustryIds)) {
+      //     this.formStep1.subIndustryOptions.push({
+      //       value: key,
+      //       name: value
+      //     })
+      //   }
+      // }
       if(this.jurisdictionIds) this.formStep1.jurisdictionOptions = this.jurisdictionIds;
       if(this.states) this.formStep1.stateOptions = this.states;
 
       const accountInfo = localStorage.getItem('app.currentUser');
       const accountInfoParsed = JSON.parse(accountInfo);
       if(accountInfo) {
-        this.formStep1.industry = accountInfoParsed.industries;
-        this.formStep1.subIndustry = accountInfoParsed.sub_industries;
-        this.formStep1.jurisdiction = accountInfoParsed.jurisdictions;
+        this.formStep1.industry = accountInfoParsed.industries || ''
+        this.formStep1.subIndustry = accountInfoParsed.sub_industries || ''
+        this.formStep1.jurisdiction = accountInfoParsed.jurisdictions || ''
         // this.formStep1.regulatorSelected = accountInfoParsed.former_regulator ? 'yes' : 'no';
 
-        this.formStep2.skills = accountInfoParsed.skills || [];
-        this.formStep2.experience = accountInfoParsed.experience;
+        this.formStep2.skills = accountInfoParsed.skills || []
+        this.formStep2.experience = accountInfoParsed.experience || []
       }
 
 
@@ -489,7 +490,7 @@
 
         let planName;
         if (selectedPlan.id === 1) {
-          planName = 'specialist_free';
+          planName = 'free';
         }
         if (selectedPlan.id === 2) {
           planName = 'specialist_pro';
@@ -520,7 +521,7 @@
                 this.overlayStatusText = 'Account successfully purchased, you will be redirect to the dashboard...'
                 this.overlayStatus = 'success'
                 // this.overlay = false
-                const dashboard = this.userType === 'business' ? '/business2' : '/specialist'
+                const dashboard = this.userType === 'business' ? '/business' : '/specialist'
                 setTimeout(() => {
                   window.location.href = `${dashboard}`;
                 }, 3000)
@@ -542,7 +543,26 @@
       },
       selectFile(event){
         this.formStep2.file = event.target.files[0]
-      }
+      },
+      onChange (industries) {
+        if(industries) {
+          this.formStep1.subIndustryOptions = []
+          const results = industries.map(industry => industry.id)
+
+          if(this.subIndustryIds) {
+            for (const [key, value] of Object.entries(this.subIndustryIds)) {
+              for (const i of results) {
+                if (i === +key.split('_')[0]) {
+                  this.formStep1.subIndustryOptions.push({
+                    value: key,
+                    name: value
+                  })
+                }
+              }
+            }
+          }
+        }
+      },
     },
     computed: {
       loading() {
@@ -555,7 +575,16 @@
     async mounted () {
       try {
         const data = await this.$store.dispatch('getSkills')
-        if (data) this.formStep2.skillsTags = data;
+          .then(response => console.log('response', response))
+          .catch(error => console.error('data', error))
+        // if (data) this.formStep2.skillsTags = data;
+
+        // for (const [key, value] of Object.entries(this.subIndustryIds)) {
+        //   this.formStep1.subIndustryOptions.push({
+        //     value: key,
+        //     name: value
+        //   })
+        // }
       } catch (error) {
         console.error(error)
       }

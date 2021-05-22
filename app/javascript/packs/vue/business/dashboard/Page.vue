@@ -15,31 +15,11 @@
       .col-md-5.col-sm-12.pl-0
         .card
           UpcomingTasks(@saved="newEtag" :etag="etag")
-    .row.p-x-1.p-y-3
-      .col-sm-12
-        .card
-          .card-header.d-flex.justify-content-between
-            h3 Projects
-            div
-              LocalProjectModal(@saved="refetch")
-                button.btn.btn-dark.float-end New Project
-              a.btn.float-end(href="/business/projects") View all
-          .card-body
-            ProjectTable(:projects="projects")
-    .row.p-x-1
-      .col-md-6.col-sm-12
-        RecentActivity
-      .col-md-6.col-sm-12
-        AddonNotifications
 </template>
 
 <script>
 import Calendar from './Calendar'
-import ProjectTable from '../projects/ProjectTable'
-import RecentActivity from './RecentActivity'
-import AddonNotifications from './AddonNotifications'
 import UpcomingTasks from '@/business/dashboard/UpcomingTasks'
-import LocalProjectModal from '../projects/LocalProjectModal'
 
 const endpointProjectsUrl = '/api/business/local_projects/'
 
@@ -75,11 +55,7 @@ export default {
   },
   components: {
     Calendar,
-    ProjectTable,
     UpcomingTasks,
-    RecentActivity,
-    AddonNotifications,
-    LocalProjectModal
   }
 }
 </script>

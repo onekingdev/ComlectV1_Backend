@@ -245,6 +245,8 @@ class Business < ApplicationRecord
   accepts_nested_attributes_for :tos_agreement
   accepts_nested_attributes_for :cookie_agreement
 
+  attr_accessor :sub_industry_ids
+
   # validate :tos_invalid?
   # validate :cookie_agreement_invalid?
 

@@ -8,12 +8,12 @@
     .container-fluid.p-x-0
       .row
         .col-12.px-0
-          .card-body.white-card-body.height-80
+          .card-body.white-card-body
             .container
               .row
                 .col-12
                   Loading
-              .row.p-x-1(v-if="!loading")
+              .row.p-x-1
                 .col-md-7.col-sm-12.pl-0
                   .card
                     RegulatoryExams(:exams="exams")
@@ -53,12 +53,12 @@
       }),
     },
     computed: {
-      ...mapGetters({
-        exams: 'exams/exams',
-      }),
       loading() {
         return this.$store.getters.loading;
       },
+      ...mapGetters({
+        exams: 'exams/exams',
+      }),
     },
     async mounted () {
       try {

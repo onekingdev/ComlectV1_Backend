@@ -68,9 +68,14 @@ export default {
   },
   actions: {
     async getExams({state, commit, rootState}, payload) {
-      commit("clearError", null, { root: true });
-      commit("setLoading", true, { root: true });
       try {
+        commit("clearError", null, {
+          root: true
+        });
+        commit("setLoading", true, {
+          root: true
+        });
+
         const getExams = mapAuthProviders[rootState.shared.settings.authProvider].getExams
         getExams()
           .then((success) => {
@@ -96,14 +101,20 @@ export default {
             if (!success) {
               console.error('Not success', success)
             }
-            commit("clearError", null, { root: true });
-            commit("setLoading", false, { root: true });
+            commit("clearError", null, {
+              root: true
+            });
+            commit("setLoading", false, {
+              root: true
+            });
           })
       } catch (error) {
         console.error(error);
         throw error
       } finally {
-        commit("setLoading", false, { root: true });
+        commit("setLoading", false, {
+          root: true
+        });
       }
     },
     async createExam({state, commit, rootState}, payload) {
@@ -135,12 +146,8 @@ export default {
             if (!success) {
               console.error('Not success', success)
             }
-            commit("clearError", {
-              root: true
-            });
-            commit("setLoading", false, {
-              root: true
-            });
+            commit("clearError");
+            commit("setLoading", false);
           })
       } catch (error) {
         commit("setError", error.message, {
@@ -196,12 +203,8 @@ export default {
             if (!success) {
               console.error('Not success', success)
             }
-            commit("clearError", {
-              root: true
-            });
-            commit("setLoading", false, {
-              root: true
-            });
+            commit("clearError");
+            commit("setLoading", false);
           })
       } catch (error) {
         commit("setError", error.message, {
@@ -246,12 +249,8 @@ export default {
             if (!success) {
               console.error('Not success', success)
             }
-            commit("clearError", {
-              root: true
-            });
-            commit("setLoading", false, {
-              root: true
-            });
+            commit("clearError");
+            commit("setLoading", false);
           })
       } catch (error) {
         commit("setError", error.message, {
@@ -297,12 +296,8 @@ export default {
             if (!success) {
               console.error('Not success', success)
             }
-            commit("clearError", {
-              root: true
-            });
-            commit("setLoading", false, {
-              root: true
-            });
+            commit("clearError");
+            commit("setLoading", false);
           })
       } catch (error) {
         commit("setError", error.message, {
@@ -337,12 +332,8 @@ export default {
             if (!success) {
               console.error('Not success', success)
             }
-            commit("clearError", {
-              root: true
-            });
-            commit("setLoading", false, {
-              root: true
-            });
+            commit("clearError");
+            commit("setLoading", false);
           })
       } catch (error) {
         commit("setError", error.message, {
@@ -377,12 +368,8 @@ export default {
             if (!success) {
               console.error('Not success', success)
             }
-            commit("clearError", {
-              root: true
-            });
-            commit("setLoading", false, {
-              root: true
-            });
+            commit("clearError");
+            commit("setLoading", false);
           })
       } catch (error) {
         commit("setError", error.message, {
@@ -417,12 +404,8 @@ export default {
             if (!success) {
               console.error('Not success', success)
             }
-            commit("clearError", {
-              root: true
-            });
-            commit("setLoading", false, {
-              root: true
-            });
+            commit("clearError");
+            commit("setLoading", false);
           })
       } catch (error) {
         commit("setError", error.message, {
@@ -453,12 +436,8 @@ export default {
             if (!success) {
               console.error('Not success', success)
             }
-            commit("clearError", {
-              root: true
-            });
-            commit("setLoading", false, {
-              root: true
-            });
+            commit("clearError");
+            commit("setLoading", false);
           })
       } catch (error) {
         commit("setError", error.message, { root: true });
@@ -483,12 +462,8 @@ export default {
             if (!success) {
               console.error('Not success', success)
             }
-            commit("clearError", {
-              root: true
-            });
-            commit("setLoading", false, {
-              root: true
-            });
+            commit("clearError");
+            commit("setLoading", false);
           })
       } catch (error) {
         commit("setError", error.message, { root: true });

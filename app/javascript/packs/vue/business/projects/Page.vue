@@ -60,6 +60,9 @@
                     p {{rating.rater_name}} | {{rating.created_at | asDate}}
                     p: i "{{rating.review}}"
                   td: StarRating(:stars="rating.value")
+                tr(v-if="!ratings.length")
+                  td.text-center
+                    h3.text-dark.p-y-2 No ratings
 </template>
 
 <script>
