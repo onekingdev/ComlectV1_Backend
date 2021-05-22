@@ -74,6 +74,9 @@ export default {
         const getExams = mapAuthProviders[rootState.shared.settings.authProvider].getExams
         getExams()
           .then((success) => {
+            commit("clearError", null, { root: true });
+            commit("setLoading", false, { root: true });
+
             if (success) {
               const data = success.data
               const exams = []
@@ -95,16 +98,16 @@ export default {
             }
             if (!success) {
               console.error('Not success', success)
+              commit("setError", success.message, { root: true });
             }
-            commit("clearError", null, { root: true });
-            commit("setLoading", false, { root: true });
           })
       } catch (error) {
-        console.error(error);
-        throw error
-      } finally {
+        console.error('catch error', error);
+        commit("setError", error.message, { root: true });
         commit("setLoading", false, { root: true });
+        throw error
       }
+      // } finally { commit("setLoading", false, { root: true }); }
     },
     async createExam({state, commit, rootState}, payload) {
       commit("clearError", null, {
@@ -135,7 +138,7 @@ export default {
             if (!success) {
               console.error('Not success', success)
             }
-            commit("clearError", {
+            commit("clearError", null, {
               root: true
             });
             commit("setLoading", false, {
@@ -196,7 +199,7 @@ export default {
             if (!success) {
               console.error('Not success', success)
             }
-            commit("clearError", {
+            commit("clearError", null, {
               root: true
             });
             commit("setLoading", false, {
@@ -246,7 +249,7 @@ export default {
             if (!success) {
               console.error('Not success', success)
             }
-            commit("clearError", {
+            commit("clearError", null, {
               root: true
             });
             commit("setLoading", false, {
@@ -278,6 +281,8 @@ export default {
         const getExamById = mapAuthProviders[rootState.shared.settings.authProvider].getExamById
         getExamById(payload)
           .then((success) => {
+            commit("clearError", null, { root: true });
+            commit("setLoading", false, { root: true });
             if (success) {
               console.log(success)
               const data = success.data
@@ -297,12 +302,6 @@ export default {
             if (!success) {
               console.error('Not success', success)
             }
-            commit("clearError", {
-              root: true
-            });
-            commit("setLoading", false, {
-              root: true
-            });
           })
       } catch (error) {
         commit("setError", error.message, {
@@ -312,11 +311,8 @@ export default {
           root: true
         });
         throw error;
-      } finally {
-        commit("setLoading", false, {
-          root: true
-        })
       }
+      // } finally { commit("setLoading", false, { root: true }) }
     },
     async createExamRequest({state, commit, rootState}, payload) {
       commit("clearError", null, {
@@ -337,7 +333,7 @@ export default {
             if (!success) {
               console.error('Not success', success)
             }
-            commit("clearError", {
+            commit("clearError", null, {
               root: true
             });
             commit("setLoading", false, {
@@ -377,7 +373,7 @@ export default {
             if (!success) {
               console.error('Not success', success)
             }
-            commit("clearError", {
+            commit("clearError", null, {
               root: true
             });
             commit("setLoading", false, {
@@ -417,7 +413,7 @@ export default {
             if (!success) {
               console.error('Not success', success)
             }
-            commit("clearError", {
+            commit("clearError", null, {
               root: true
             });
             commit("setLoading", false, {
@@ -453,7 +449,7 @@ export default {
             if (!success) {
               console.error('Not success', success)
             }
-            commit("clearError", {
+            commit("clearError", null, {
               root: true
             });
             commit("setLoading", false, {
@@ -483,7 +479,7 @@ export default {
             if (!success) {
               console.error('Not success', success)
             }
-            commit("clearError", {
+            commit("clearError", null, {
               root: true
             });
             commit("setLoading", false, {
