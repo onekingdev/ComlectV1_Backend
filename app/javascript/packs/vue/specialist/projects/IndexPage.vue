@@ -75,6 +75,7 @@
 <script>
 import ProjectFigures from './ProjectFigures'
 import ProjectDetails from './ProjectDetails'
+import debounce from 'lodash.debounce'
 
 const frontendUrl = '/projects'
 const endpointUrl = '/api/specialist/projects'
@@ -122,6 +123,7 @@ export default {
     }
   },
   created() {
+    this.refetch()
     if (this.initialOpenId) {
       this.openDetails(this.initialOpenId)
     }
@@ -176,10 +178,9 @@ export default {
   watch: {
     'filter': {
       deep: true,
-      immediate: true,
-      handler(val, oldVal) {
+      handler: debounce(function() {
         this.refetch()
-      }
+      }, 500)
     },
     'isSidebarOpen': {
       immediate: true,
