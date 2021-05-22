@@ -72,17 +72,10 @@
         try {
           await this.$store.dispatch('exams/createExam', this.exam_management)
             .then(response => {
-              if(!response.errors) {
-                this.makeToast('Success', `Exam Management ${response.name} successfully created!`)
-                // this.$emit('saved')
-                this.$bvModal.hide(this.modalId)
-                this.resetForm()
-              }
-              if(!response.errors) {
-                for (const error of response.errors) {
-                  this.errors.push(error)
-                }
-              }
+              this.makeToast('Success', `Exam Management successfully created!`)
+              // this.$emit('saved')
+              this.$bvModal.hide(this.modalId)
+              this.resetForm()
             })
             .catch(error => this.makeToast('Error', `Something wrong! ${error}`) )
         } catch (error) {
