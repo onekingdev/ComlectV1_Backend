@@ -45,7 +45,6 @@
                     track-by="name",
                     label="name",
                     placeholder="Select Industry",
-                    @input="onChange",
                     required)
                     <!--b-form-select#selectS-4(v-model='formStep2.industry' :options='options' required)-->
                     .invalid-feedback.d-block(v-if="errors.industry") {{ errors.industry }}
@@ -108,27 +107,27 @@
                 required)
                 .invalid-feedback.d-block(v-if="errors.skills") {{ errors.skills }}
               hr
-              h3.onboarding__title.m-t-2 What's your experience?
+              h3.onboarding__title.m-t-2 What's your expirience?
               p.onboarding__sub-title Select one that the best matches your level of your expertise.
               b-form-group(class="onboarding-group")
-                b-button.exp__btn.text-left(:class="formStep2.experience === 0 ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onexperienceChange($event, 0)")
+                b-button.exp__btn.text-left(:class="formStep2.expirience === 0 ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onExpirienceChange($event, 0)")
                   b.exp__btn--main Junior
                   br
                   span.exp__btn--sub Begining consulting with some experience in the field.
-                b-button.exp__btn.text-left(:class="formStep2.experience === 1 ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onexperienceChange($event, 1)")
+                b-button.exp__btn.text-left(:class="formStep2.expirience === 1 ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onExpirienceChange($event, 1)")
                   b.exp__btn--main Intermediate
                   br
-                  span.exp__btn--sub Good experience and knowlage of the industry.
-                b-button.exp__btn.text-left(:class="formStep2.experience === 2 ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onexperienceChange($event, 2)")
+                  span.exp__btn--sub Good expirience and knowlage of the industry.
+                b-button.exp__btn.text-left(:class="formStep2.expirience === 2 ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onExpirienceChange($event, 2)")
                   b.exp__btn--main Expert
                   br
                   span.exp__btn--sub Deep understanding of industry with varied experience.
               hr
-              // h3.onboarding__title.m-b-3.m-t-2 (Optional) Upload you resume:
-              // b-form-group.m-t-2(class="onboarding-group")
-              //   b-form-file(v-model='formStep2.file' :state='Boolean(formStep2.file)' accept="application/pdf" placeholder='Choose a file or drop it here...' drop-placeholder='Drop file here...')
-              //   .m-t-3 Selected file: {{ formStep2.file ? formStep2.file.name : '' }}
-              // hr
+              <!--h3.onboarding__title.m-b-3.m-t-2 (Optional) Upload you resume:-->
+              <!--b-form-group.m-t-2(class="onboarding-group")-->
+                <!--b-form-file(v-model='formStep2.file' :state='Boolean(formStep2.file)' accept="application/pdf" placeholder='Choose a file or drop it here...' drop-placeholder='Drop file here...')-->
+                <!--.m-t-3 Selected file: {{ formStep2.file ? formStep2.file.name : '' }}-->
+              <!--hr-->
               h3.onboarding__title.m-b-3.m-t-2 (Optional) Upload you resume:
               label.dropbox.w-100(for="upload-file")
                 input.input-file(type="file" id="upload-file" accept="application/pdf" ref="file" @change="selectFile")
@@ -221,28 +220,27 @@
     created() {
       if(this.industryIds) this.formStep1.industryOptions = this.industryIds;
       // if(this.subIndustryIds) this.formStep2.subIndustryOptions = this.subIndustryIds;
-      // if(this.subIndustryIds) {
-      //   for (const [key, value] of Object.entries(this.subIndustryIds)) {
-      //     this.formStep1.subIndustryOptions.push({
-      //       value: key,
-      //       name: value
-      //     })
-      //   }
-      // }
+      if(this.subIndustryIds) {
+        for (const [key, value] of Object.entries(this.subIndustryIds)) {
+          this.formStep1.subIndustryOptions.push({
+            value: key,
+            name: value
+          })
+        }
+      }
       if(this.jurisdictionIds) this.formStep1.jurisdictionOptions = this.jurisdictionIds;
       if(this.states) this.formStep1.stateOptions = this.states;
 
       const accountInfo = localStorage.getItem('app.currentUser');
       const accountInfoParsed = JSON.parse(accountInfo);
       if(accountInfo) {
-        this.formStep1.industry = accountInfoParsed.industries || ''
-        this.onChange(accountInfoParsed.industries)
-        this.formStep1.subIndustry = accountInfoParsed.sub_industries || ''
-        this.formStep1.jurisdiction = accountInfoParsed.jurisdictions || ''
+        this.formStep1.industry = accountInfoParsed.industries;
+        this.formStep1.subIndustry = accountInfoParsed.sub_industries;
+        this.formStep1.jurisdiction = accountInfoParsed.jurisdictions;
         // this.formStep1.regulatorSelected = accountInfoParsed.former_regulator ? 'yes' : 'no';
 
-        this.formStep2.skills = accountInfoParsed.skills || []
-        this.formStep2.experience = accountInfoParsed.experience
+        this.formStep2.skills = accountInfoParsed.skills || [];
+        this.formStep2.experience = accountInfoParsed.experience;
       }
 
 
@@ -291,7 +289,7 @@
           skills: [],
           skillsTags: [],
           file: null,
-          experience: '',
+          expirience: '',
 
           companyName: '',
           aum: '',
@@ -354,14 +352,14 @@
         this.formStep2.skillsTags.push(tag)
         this.formStep2.skills.push(tag)
       },
-      onexperienceChange(event, value){
+      onExpirienceChange(event, value){
         document.querySelectorAll('.exp__btn').forEach((el) => el.classList.remove('active'))
         if (event.target.classList.contains('exp__btn')) {
           event.target.classList.toggle('active')
         } else {
           event.target.closest(".exp__btn").classList.toggle('active')
         }
-        this.formStep2.experience = value;
+        this.formStep2.expirience = value;
       },
       onSubmit(event){
         event.preventDefault()
@@ -410,7 +408,7 @@
               last_name: this.currentUser.last_name,
               former_regulator: this.formStep1.regulatorSelected === 'yes',
               specialist_other: this.formStep1.regulator.join(', '),
-              experience: this.formStep2.experience,
+              experience: this.formStep2.expirience,
               // certifications: '',
               resume: this.formStep2.file ? this.formStep2.file : '',
             },
@@ -457,7 +455,7 @@
       //       skills: [],
       //       skillsTags: [],
       //       file: null,
-      //       experience: '',
+      //       expirience: '',
       //   }
       // },
       openDetails(id) {
@@ -491,7 +489,7 @@
 
         let planName;
         if (selectedPlan.id === 1) {
-          planName = 'free';
+          planName = 'specialist_free';
         }
         if (selectedPlan.id === 2) {
           planName = 'specialist_pro';
@@ -522,7 +520,7 @@
                 this.overlayStatusText = 'Account successfully purchased, you will be redirect to the dashboard...'
                 this.overlayStatus = 'success'
                 // this.overlay = false
-                const dashboard = this.userType === 'business' ? '/business' : '/specialist'
+                const dashboard = this.userType === 'business' ? '/business2' : '/specialist'
                 setTimeout(() => {
                   window.location.href = `${dashboard}`;
                 }, 3000)
@@ -544,26 +542,7 @@
       },
       selectFile(event){
         this.formStep2.file = event.target.files[0]
-      },
-      onChange (industries) {
-        if(industries) {
-          this.formStep1.subIndustryOptions = []
-          const results = industries.map(industry => industry.id)
-
-          if(this.subIndustryIds) {
-            for (const [key, value] of Object.entries(this.subIndustryIds)) {
-              for (const i of results) {
-                if (i === +key.split('_')[0]) {
-                  this.formStep1.subIndustryOptions.push({
-                    value: key,
-                    name: value
-                  })
-                }
-              }
-            }
-          }
-        }
-      },
+      }
     },
     computed: {
       loading() {
@@ -575,9 +554,8 @@
     },
     async mounted () {
       try {
-        await this.$store.dispatch('getSkills')
-          .then(response => this.formStep2.skillsTags = response)
-          .catch(error => error)
+        const data = await this.$store.dispatch('getSkills')
+        if (data) this.formStep2.skillsTags = data;
       } catch (error) {
         console.error(error)
       }
