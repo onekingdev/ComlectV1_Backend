@@ -201,6 +201,7 @@ export default {
   },
   async mounted () {
     try {
+      if(!this.examId) this.examId = 1;
       await this.getCurrentExam(this.examId)
     } catch (error) {
       this.makeToast('Error', error.message)

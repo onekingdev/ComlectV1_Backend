@@ -48,10 +48,12 @@ const BusinessFileFolders = {
 
 import BusinessExamManagementPage from './vue/business/exammanagement/Page.vue'
 import BusinessExamManagementShowPage from './vue/business/exammanagement/PageCurrentReviewExam.vue'
+import BusinessExamManagementAuditorPortalShowPage from './vue/business/exammanagement/PageAuditorPortal.vue'
 
 const BusinessExamManagement = {
   BusinessExamManagementPage,
   BusinessExamManagementShowPage,
+  BusinessExamManagementAuditorPortalShowPage,
 }
 
 
