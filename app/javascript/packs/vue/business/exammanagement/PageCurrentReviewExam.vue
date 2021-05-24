@@ -255,7 +255,8 @@ export default {
       }
       try {
         await this.updateExam(data)
-        this.makeToast('Success', "Exam updated!")
+          .then(response => this.makeToast('Success', "Exam updated!"))
+          .catch(error => this.makeToast('Error', error.message))
       } catch (error) {
         this.makeToast('Error', error.message)
       }
@@ -270,7 +271,8 @@ export default {
       }
       try {
         await this.updateCurrentExamRequest(data)
-        this.makeToast('Success', "Request updated!")
+          .then(response => this.makeToast('Success', "Request updated!"))
+          .catch(error => this.makeToast('Error', error.message))
       } catch (error) {
         this.makeToast('Error', error.message)
       }
@@ -285,7 +287,8 @@ export default {
       }
       try {
         await this.updateCurrentExamRequest(data)
-        this.makeToast('Success', "Request updated!")
+          .then(response => this.makeToast('Success', "Request updated!"))
+          .catch(error => this.makeToast('Error', error.message))
       } catch (error) {
         this.makeToast('Error', error.message)
       }
@@ -327,7 +330,8 @@ export default {
     async deleteExamRequest(id) {
       try {
         await this.deleteCurrentExamRequest({ id: this.examId, requestId: id })
-        this.toast('Success', `The request has been deleted!`)
+          .then(response => this.makeToast('Success', `The request has been deleted!`))
+          .catch(error => this.makeToast('Error', error.message))
       } catch (error) {
         this.makeToast('Error', error.message)
       }
@@ -357,9 +361,12 @@ export default {
 
       try {
         await this.$store.dispatch('exams/deleteExamRequestFile', data)
-        this.makeToast('Success', `File successfull deleted!`)
-        this.$emit('saved')
-        this.$bvModal.hide(this.modalId)
+          .then(response => {
+            this.makeToast('Success', `File successfull deleted!`)
+            this.$emit('saved')
+            this.$bvModal.hide(this.modalId)
+          })
+          .catch(error => this.makeToast('Error', error.message))
       } catch (error) {
         this.makeToast('Error', error.message)
       }
