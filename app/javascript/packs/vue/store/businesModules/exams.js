@@ -67,7 +67,7 @@ export default {
     },
   },
   actions: {
-    async getExams({state, commit, rootState}, payload) {
+    async getExams({state, commit, rootState}) {
       commit("clearError", null, { root: true });
       commit("setLoading", true, { root: true });
       try {
@@ -106,7 +106,6 @@ export default {
         commit("setLoading", false, { root: true });
         throw error
       }
-      // } finally { commit("setLoading", false, { root: true }); }
     },
     async createExam({state, commit, rootState}, payload) {
       commit("clearError", null, {

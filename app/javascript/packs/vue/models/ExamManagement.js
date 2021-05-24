@@ -4,6 +4,7 @@ export default class ExamManagement {
     this.created_at = created_at,
     this.ends_on = ends_on,
     this.exam_requests = this.examRequests(exam_requests),
+    // this.exam_requests_attributes = [],
     this.id = id,
     this.name = name,
     this.share_uuid = share_uuid,

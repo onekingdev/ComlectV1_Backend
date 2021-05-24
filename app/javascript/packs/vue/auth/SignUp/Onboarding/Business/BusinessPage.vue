@@ -58,6 +58,7 @@
                     track-by="name",
                     label="name",
                     placeholder="Select Industry",
+                    @input="onChange",
                     required)
                     <!--b-form-select#selectB-4(v-model='formStep2.industry' :options='options' required)-->
                     .invalid-feedback.d-block(v-if="errors.industry") {{ errors.industry }}
@@ -211,14 +212,14 @@
     created() {
       if(this.industryIds) this.formStep2.industryOptions = this.industryIds;
       // if(this.subIndustryIds) this.formStep2.subIndustryOptions = this.subIndustryIds;
-      if(this.subIndustryIds) {
-        for (const [key, value] of Object.entries(this.subIndustryIds)) {
-          this.formStep2.subIndustryOptions.push({
-            value: key,
-            name: value
-          })
-        }
-      }
+      // if(this.subIndustryIds) {
+      //   for (const [key, value] of Object.entries(this.subIndustryIds)) {
+      //     this.formStep2.subIndustryOptions.push({
+      //       value: key,
+      //       name: value
+      //     })
+      //   }
+      // }
       if(this.jurisdictionIds) this.formStep2.jurisdictionOptions = this.jurisdictionIds;
       if(this.states) this.formStep2.stateOptions = this.states;
 
@@ -236,6 +237,7 @@
         this.formStep2.zip = accountInfoParsed.zip;
         // this.formStep1.CRDnumber = accountInfo;
         this.formStep2.industry = accountInfoParsed.industries;
+        this.onChange(accountInfoParsed.industries)
         this.formStep2.subIndustry = accountInfoParsed.sub_industries;
         this.formStep2.jurisdiction = accountInfoParsed.jurisdictions;
       }
@@ -411,7 +413,7 @@
 
           const dataToSend = {
             business: {
-              crd_number: this.formStep1.CRDnumber ? this.formStep1.CRDnumber : '',
+              // crd_number: this.formStep1.CRDnumber ? this.formStep1.CRDnumber : '',
               // contact_first_name: 'x',
               // contact_last_name: 'x',
               // contact_email: 'x',
@@ -434,6 +436,8 @@
               jurisdiction_ids: this.formStep2.jurisdiction.map(record => record.id),
             }
           }
+
+          if(this.formStep1.CRDnumber) dataToSend.business.crd_number = this.formStep1.CRDnumber
 
           this.$store
             .dispatch('updateAccountInfo', dataToSend)
@@ -497,6 +501,9 @@
         this.overlayStatusText = 'Setting up account. Subscribing a plan...'
 
         let planName;
+        if (selectedPlan.id === 1) {
+          planName = 'free';
+        }
         if (selectedPlan.id === 2) {
           planName = this.billingTypeSelected === 'annually' ? 'team_tier_annual' : 'team_tier_monthly';
         }
@@ -523,7 +530,7 @@
                 this.overlayStatusText = 'Account successfully purchased, you will be redirect to the dashboard...'
                 this.overlayStatus = 'success'
                 // this.overlay = false
-                const dashboard = this.userType === 'business' ? '/business2' : '/specialist'
+                const dashboard = this.userType === 'business' ? '/business' : '/specialist'
                 setTimeout(() => {
                   window.location.href = `${dashboard}`;
                 }, 3000)
@@ -577,7 +584,7 @@
               this.overlayStatusText = `Account and ${countPayedUsers} seats successfully purchased, you will be redirect to the dashboard...`
               this.overlayStatus = 'success'
               // this.overlay = false
-              const dashboard = this.userType === 'business' ? '/business2' : '/specialist'
+              const dashboard = this.userType === 'business' ? '/business' : '/specialist'
               setTimeout(() => {
                 window.location.href = `${dashboard}`;
               }, 3000)
@@ -595,6 +602,25 @@
             }, 3000)
           })
           .finally(() => this.disabled = true)
+      },
+      onChange (industries) {
+        if(industries) {
+          this.formStep2.subIndustryOptions = []
+          const results = industries.map(industry => industry.id)
+
+          if(this.subIndustryIds) {
+            for (const [key, value] of Object.entries(this.subIndustryIds)) {
+              for (const i of results) {
+                if (i === +key.split('_')[0]) {
+                  this.formStep2.subIndustryOptions.push({
+                    value: key,
+                    name: value
+                  })
+                }
+              }
+            }
+          }
+        }
       },
     },
     computed: {

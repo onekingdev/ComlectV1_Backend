@@ -218,6 +218,7 @@ export default {
     },
     async saveExam () {
       const exam = this.currentExam
+      const examRequests = this.currentExam.exam_requests
 
       // PREPARE ENTRY TEXT FOR SENDING
       this.currentExam.exam_requests = this.currentExam.exam_requests
@@ -228,16 +229,23 @@ export default {
           }
         })
 
-      const data = {
+      let data = {
         // examlId: this.examlId,
         // ...exam
-        ...this.currentExam
+        ...this.currentExam,
+        exam_requests_attributes: this.currentExam.exam_requests
       }
+
+      delete data.exam_requests;
+
       try {
         await this.updateExam(data)
-        this.makeToast('Success', "Saved changes to exam.")
+          .then(response => this.makeToast('Success', "Saved changes to exam."))
+          .catch(error => this.makeToast('Error', error.message))
       } catch (error) {
         this.makeToast('Error', error.message)
+      } finally {
+        this.currentExam.exam_requests = examRequests
       }
     },
     async markCompleteExam (id, status) {

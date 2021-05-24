@@ -65,7 +65,6 @@ Rails.application.routes.draw do
     patch '/' => 'businesses#update', as: :update
   end
   get '/business' => 'business_dashboard#show', as: :business_dashboard
-  get '/business2' => 'business_dashboard2#show', as: :business_dashboard2
 
   concern :favoriteable do
     resources :favorites, only: [] do

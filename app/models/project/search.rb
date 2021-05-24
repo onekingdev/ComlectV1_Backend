@@ -11,7 +11,7 @@ class Project::Search
   MAX_VALUE = 50_000
 
   attr_accessor :project_type, :sort_by, :keyword, :jurisdiction_ids, :industry_ids, :skill_names, :experience,
-                :regulator, :location_type, :location, :lat, :lng, :location_range, :budget, :skill_selector,
+                :regulator, :location_type, :location, :lat, :lng, :location_range, :budget, :duration, :skill_selector,
                 :page, :per_page, :pricing_type
 
   def initialize(attributes = HashWithIndifferentAccess.new)
@@ -21,6 +21,7 @@ class Project::Search
     self.sort_by = 'newest' if sort_by.blank?
     self.project_type = 'one-off' if project_type.blank?
     self.budget = ["0,#{MAX_VALUE}"] if budget.blank?
+    self.duration = ["0,#{MAX_VALUE}"] if duration.blank?
     self.industry_ids ||= []
     self.industry_ids.map!(&:presence).compact!
     self.jurisdiction_ids ||= []
@@ -39,6 +40,7 @@ class Project::Search
     @results = filter_jurisdiction(@results)
     @results = filter_experience(@results)
     # @results = filter_budget(@results)
+    @results = filter_duration(@results)
     @results = filter_regulator(@results)
     @results = filter_location(@results)
     @results = filter_skills(@results)
@@ -83,6 +85,14 @@ class Project::Search
     records.where(conditions, compile_params(budget))
   end
 
+  def filter_duration(records)
+    return records if duration.blank?
+    conditions = duration.each_with_index.map do |_checkbox, i|
+      "(ends_on - starts_on BETWEEN :from_#{i} AND :to_#{i})"
+    end.join(' OR ')
+    records.where(conditions, compile_params(duration))
+  end
+
   def filter_regulator(records)
     return records if !regulator || regulator == '0'
     records.where(only_regulators: regulator)
@@ -124,6 +134,8 @@ class Project::Search
       records.order(starts_on: :asc)
     when 'budget'
       records.order(calculated_budget: :desc)
+    when 'duration'
+      records.order('ends_on - starts_on DESC')
     else
       records.recent
     end

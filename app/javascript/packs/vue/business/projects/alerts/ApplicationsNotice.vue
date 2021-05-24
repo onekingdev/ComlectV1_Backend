@@ -1,9 +1,14 @@
 <template lang="pug">
   Get(v-if="show" :applications='apiUrl'): template(v-slot="{applications}")
     .alert.alert-warning(v-if="applications.length")
-      h4.alert-heading {{ 'application' | plural(applications) }} received.
-      p There {{ applications | isAre }} currently {{ 'applicant' | plural(applications) }} for your project.
-      a.btn.btn-light(:href="viewPostUrl") View
+      .d-flex.justify-content-between
+        div.d-flex.align-items-center
+          b-icon.mr-4(icon="exclamation-triangle-fill" scale="2" variant="warning")
+          div
+            h4.alert-heading {{ 'application' | plural(applications) }} received.
+            p.mb-0 There {{ applications | isAre }} currently {{ 'applicant' | plural(applications) }} for your project.
+        div
+          a.btn.btn-light.mt-2(:href="viewPostUrl") View
     .alert.alert-info(v-else)
       div(v-if="project.status == 'published'")
         h4.alert-heading Your project is currently posted on the job board as of {{ project.created_at | asDate }}.
