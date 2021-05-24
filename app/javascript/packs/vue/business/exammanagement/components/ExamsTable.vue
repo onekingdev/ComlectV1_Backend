@@ -41,9 +41,9 @@
                   b-dropdown-item Edit
                 ExamsModalDelete(@deleteConfirmed="deleteRecord(exam.id)" :inline="false")
                   b-dropdown-item.delete Delete
-          tr(v-if="!exams && !exams.length")
-            td.text-center
-              h3 Exam Management not exist
+          tr(v-if="exams && !exams.length")
+            td(colspan="4").text-center
+              h3 Exams Management not exist
 
 </template>
 
