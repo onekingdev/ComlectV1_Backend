@@ -56,7 +56,7 @@
                                 b-icon(icon="x")
                           .col-md-11
                             .d-flex.justify-content-between.align-items-center
-                              .d-flex
+                              .d-flex.align-items-center
                                 b-badge.mr-2(v-if="currentRequst.shared" variant="success") {{ currentRequst.shared ? 'Shared' : '' }}
                                 .exams__input.exams__topic-name {{ currentRequst.name }}
                               .d-flex.actions.min-w-240
