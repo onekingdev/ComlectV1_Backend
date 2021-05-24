@@ -26,7 +26,7 @@
               b-icon.ml-2(icon="chevron-down" font-scale="1")
             ExamModalEdit(:exam="exam" :inline="false")
               b-dropdown-item Edit
-            ExamModalDelete(@deleteConfirmed="deleteRecord(exam.id)" :inline="false")
+            ExamModalDelete(@deleteConfirmed="deleteExam(exam.id)" :inline="false")
               b-dropdown-item.delete Delete
         b-tab(title="Detail" active)
           .container-fluid
@@ -211,6 +211,7 @@ export default {
     ...mapActions({
       updateExam: 'exams/updateExam',
       getCurrentExam: 'exams/getExamById',
+      deletetCurrentExam: 'exams/deleteExam',
       updateCurrentExamRequest: 'exams/updateExamRequest',
       deleteCurrentExamRequest: 'exams/deleteExamRequest'
     }),
@@ -375,11 +376,16 @@ export default {
         this.makeToast('Error', error.message)
       }
     },
-    async deleteRecord(id){
+    async deleteExam(id){
       try {
-        this.deleteCurrentExamRequest({ id: id})
-          .then(response => this.toast('Success', `The exam has been deleted! ${response.id}`))
-          .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
+        this.deletetCurrentExam({ id: id })
+          .then(response => {
+            this.makeToast('Success', `The exam has been deleted!`)
+            setTimeout(() => {
+              window.location.href = `${window.location.origin}/business/exam_management/`
+            }, 2000)
+          })
+          .catch(error => this.makeToast('Error', `Something wrong! ${error.message}`))
       } catch (error) {
         this.makeToast('Error', error.message)
       }
