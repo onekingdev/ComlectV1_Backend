@@ -2,8 +2,6 @@
   table.table.reviews-table
     thead
       tr
-        th(v-if='check' width="5%")
-          // b-form-checkbox(v-model='form.checked[]')
         th(width="45%")
           | Name
         th(@click="sortSelect('progress', 'number')" width="20%").text-right
@@ -18,8 +16,8 @@
         th
 
     tbody
-      FilefoldersItem(v-if="filefolders.folders" v-for="item in filefolders.folders" :key="'folder-'+item.id" :item="item" :itemType="'folder'" :check="check" @selectedItem="selectedItemUp")
-      FilefoldersItem(v-if="filefolders.files" v-for="item in filefolders.files" :key="'file-'+item.id" :item="item" :itemType="'file'" :check="check" @selectedItem="selectedItemUp")
+      FilefoldersItem(v-if="filefolders.folders" v-for="item in filefolders.folders" :key="'folder-'+item.id" :item="item" :itemType="'folder'")
+      FilefoldersItem(v-if="filefolders.files" v-for="item in filefolders.files" :key="'file-'+item.id" :item="item" :itemType="'file'")
 </template>
 
 <script>
@@ -29,7 +27,7 @@ export default {
   components: {
     FilefoldersItem
   },
-  props: ['filefolders', 'check'],
+  props: ['filefolders'],
   data () {
     return {
       sortOptions: {
@@ -92,9 +90,6 @@ export default {
         type: type,
         reverse: false
       }
-    },
-    selectedItemUp (value) {
-      this.$emit('selectedItem', value)
     }
   }
 }

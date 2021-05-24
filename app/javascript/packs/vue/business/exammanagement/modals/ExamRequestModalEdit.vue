@@ -81,13 +81,10 @@
             id: this.examId,
             request: this.requestData
           })
-            .then(response => {
-              this.makeToast('Success', `Exam Request successfully added!`)
-              this.$emit('saved')
-              this.$bvModal.hide(this.modalId)
-              this.resetForm()
-            })
-            .catch(error => this.makeToast('Error', error.message))
+          this.makeToast('Success', `Exam Request successfully edited!`)
+          this.$emit('saved')
+          this.$bvModal.hide(this.modalId)
+          this.resetForm()
         } catch (error) {
           this.makeToast('Error', error.message)
         }
