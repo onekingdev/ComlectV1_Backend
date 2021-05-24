@@ -15,7 +15,7 @@
               ExamModalComplite.mr-3(v-if="exam" @compliteConfirmed="markCompleteExam", :completedStatus="currentExam.complete", :countCompleted="countCompleted" :inline="false")
                 button.btn.btn-default Mark {{ exam.complete ? 'Incomplete' : 'Complete' }}
               button.btn.btn-dark.mr-3(@click="saveAndExit") Save and Exit
-              button.btn.btn__close
+              button.btn.btn__close(@click="exit")
                 b-icon(icon="x")
     .reviews__tabs.exams__tabs
       b-tabs(content-class="mt-0")
@@ -112,7 +112,7 @@
                                           b-icon(icon="three-dots")
                                         b-dropdown-item.delete(@click="removeFile(currentRequst.id, file.id)") Delete file
 
-                  ExamRequestModalCreate(:examId="examId")
+                  ExamRequestModalCreate(v-if="currentExam.exam_requests && currentExam.exam_requests.length" :examId="examId")
                     b-button.m-b-2(variant='default')
                       b-icon.mr-2(icon='plus-circle-fill')
                       | Add Request
@@ -342,6 +342,9 @@ export default {
     },
     saveAndExit() {
       this.saveExam()
+      window.location.href = `${window.location.origin}/business/exam_management/`
+    },
+    exit() {
       window.location.href = `${window.location.origin}/business/exam_management/`
     },
     // deleteexam(examId){
