@@ -226,7 +226,7 @@ export default {
         .map(request => {
           return {
             ...request,
-            text_items: request.text_items.map(item => item.text)
+            text_items: request.text_items ? request.text_items.map(item => item.text) : []
           }
         })
 
