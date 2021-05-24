@@ -32,9 +32,8 @@
           .container-fluid
             .row
               .col-md-9.mx-auto.position-relative
-                .card-body.white-card-body.reviews__card.px-5(v-if="loading")
-                  Loading
-                .card-body.white-card-body.reviews__card.px-5(v-if="!loading && exam")
+                Loading(v-if="!exam")
+                .card-body.white-card-body.reviews__card.px-5(v-if="exam")
                   .reviews__card--internal.p-y-1.d-flex.justify-content-between
                     h3 Requests
                     b-button(variant='default') View Portal

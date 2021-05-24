@@ -12,7 +12,7 @@ export async function getExams() {
       }
       return response
     })
-    .catch(err => console.error(err))
+    .catch(err => err)
 }
 
 export async function createExam(payload) {
@@ -23,7 +23,7 @@ export async function createExam(payload) {
       }
       return false
     })
-    .catch(err => console.error(err))
+    .catch(err => err)
 }
 
 export async function updateExam(payload) {
@@ -34,7 +34,7 @@ export async function updateExam(payload) {
       }
       return false
     })
-    .catch(err => console.error(err))
+    .catch(err => err)
 }
 
 export async function deleteExam(payload) {
@@ -45,7 +45,7 @@ export async function deleteExam(payload) {
       }
       return false
     })
-    .catch(err => console.error(err))
+    .catch(err => err)
 }
 
 export async function getExamById(payload) {
@@ -56,7 +56,7 @@ export async function getExamById(payload) {
       }
       return false
     })
-    .catch(err => console.error(err))
+    .catch(err => err)
 }
 
 export async function createExamRequest(payload) {
@@ -67,7 +67,7 @@ export async function createExamRequest(payload) {
       }
       return false
     })
-    .catch(err => console.error(err))
+    .catch(err => err)
 }
 
 export async function updateExamRequest(payload) {
@@ -78,7 +78,7 @@ export async function updateExamRequest(payload) {
       }
       return false
     })
-    .catch(err => console.error(err))
+    .catch(err => err)
 }
 
 export async function deleteExamRequest(payload) {
@@ -89,7 +89,7 @@ export async function deleteExamRequest(payload) {
       }
       return false
     })
-    .catch(err => console.error(err))
+    .catch(err => err)
 }
 
 export async function uploadExamRequestFile(payload) {

@@ -100,6 +100,7 @@ export default {
               commit("setError", success.message, { root: true });
             }
           })
+          .catch(error => error)
       } catch (error) {
         console.error('catch error', error);
         commit("setError", error.message, { root: true });
