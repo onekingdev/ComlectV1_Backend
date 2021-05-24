@@ -69,7 +69,7 @@
                                     b-dropdown-item Upload New
                                   ExamModalSelectFiles(:currentExamId="currentExam.id"  :request="currentRequst" :inline="false")
                                     b-dropdown-item Select Existing
-                                ExamModalCreateTask(:inline="false")
+                                ExamModalCreateTask(@saved="createTask(currentRequst.id)" :inline="false")
                                   button.btn.btn-default.m-x-1 Create Task
                                 b-dropdown(size="sm" variant="none" class="m-0 p-0" right)
                                   template(#button-content)
@@ -294,22 +294,22 @@ export default {
         this.makeToast('Error', error.message)
       }
     },
-    addTopic() {
-      const examCategory = this.currentExam
-      if (!examCategory.exam_topics) {
-        this.currentExam.exam_topics = [
-          {
-            items: [],
-            name: "New topic"
-          }
-        ]
-        return
-      }
-      this.currentExam.exam_topics.push({
-        items: [],
-        name: "New topic"
-      })
-    },
+    // addTopic() {
+    //   const examCategory = this.currentExam
+    //   if (!examCategory.exam_topics) {
+    //     this.currentExam.exam_topics = [
+    //       {
+    //         items: [],
+    //         name: "New topic"
+    //       }
+    //     ]
+    //     return
+    //   }
+    //   this.currentExam.exam_topics.push({
+    //     items: [],
+    //     name: "New topic"
+    //   })
+    // },
     addTextEntry(i) {
       if (!this.currentExam.exam_requests[i].text_items) this.currentExam.exam_requests[i].text_items = []
       this.currentExam.exam_requests[i].text_items.push({
@@ -319,15 +319,15 @@ export default {
     removeTextEntry(i, itemIndex) {
       this.currentExam.exam_requests[i].text_items.splice(itemIndex, 1);
     },
-    addFindings(i, itemIndex) {
-      this.currentExam.exam_topics[i].items[itemIndex].findings.push("")
-    },
-    deleteTopicItem(i, itemIndex) {
-      this.currentExam.exam_topics[i].items.splice(itemIndex, 1);
-    },
-    deleteTopic(i) {
-      this.currentExam.exam_topics.splice(i, 1);
-    },
+    // addFindings(i, itemIndex) {
+    //   this.currentExam.exam_topics[i].items[itemIndex].findings.push("")
+    // },
+    // deleteTopicItem(i, itemIndex) {
+    //   this.currentExam.exam_topics[i].items.splice(itemIndex, 1);
+    // },
+    // deleteTopic(i) {
+    //   this.currentExam.exam_topics.splice(i, 1);
+    // },
     async deleteExamRequest(id) {
       try {
         await this.deleteCurrentExamRequest({ id: this.examId, requestId: id })
@@ -344,14 +344,14 @@ export default {
       this.saveExam()
       window.location.href = `${window.location.origin}/business/exam_management/`
     },
-    deleteexam(examId){
-      this.$store.dispatch('annual/deleteexam', { id: examId })
-        .then(response => {
-          this.toast('Success', `The annual exam has been deleted! ${response.id}`)
-          window.location.href = `${window.location.origin}/business/annual_exams`
-        })
-        .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
-    },
+    // deleteexam(examId){
+    //   this.$store.dispatch('annual/deleteexam', { id: examId })
+    //     .then(response => {
+    //       this.toast('Success', `The annual exam has been deleted! ${response.id}`)
+    //       window.location.href = `${window.location.origin}/business/annual_exams`
+    //     })
+    //     .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
+    // },
     async removeFile(requestId, fileID) {
 
       const data = {
