@@ -145,6 +145,7 @@ export default {
               console.error('Not success', success)
             }
           })
+          .catch(error => error)
       } catch (error) {
         commit("setError", error.message, {
           root: true
@@ -204,6 +205,7 @@ export default {
               console.error('Not success', success)
             }
           })
+          .catch(error => error)
       } catch (error) {
         commit("setError", error.message, {
           root: true
@@ -252,6 +254,7 @@ export default {
               console.error('Not success', success)
             }
           })
+          .catch(error => error)
       } catch (error) {
         commit("setError", error.message, {
           root: true
@@ -295,6 +298,7 @@ export default {
               console.error('Not success', success)
             }
           })
+          .catch(error => error)
       } catch (error) {
         commit("setError", error.message, {
           root: true
@@ -332,6 +336,7 @@ export default {
               root: true
             });
           })
+          .catch(error => error)
       } catch (error) {
         commit("setError", error.message, {
           root: true
@@ -372,6 +377,7 @@ export default {
               root: true
             });
           })
+          .catch(error => error)
       } catch (error) {
         commit("setError", error.message, {
           root: true
@@ -412,6 +418,7 @@ export default {
               root: true
             });
           })
+          .catch(error => error)
       } catch (error) {
         commit("setError", error.message, {
           root: true
@@ -448,6 +455,7 @@ export default {
               root: true
             });
           })
+          .catch(error => error)
       } catch (error) {
         commit("setError", error.message, { root: true });
         commit("setLoading", false, { root: true });
@@ -478,6 +486,7 @@ export default {
               root: true
             });
           })
+          .catch(error => error)
       } catch (error) {
         commit("setError", error.message, { root: true });
         commit("setLoading", false, { root: true });
