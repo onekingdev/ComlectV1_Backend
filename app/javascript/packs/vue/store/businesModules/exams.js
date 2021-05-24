@@ -57,7 +57,7 @@ export default {
     },
     ADD_FILE_REQUEST_CURRENT_EXAM(state, payload) {
       const index = state.currentExam.exam_requests.findIndex(record => record.id === payload.exam_request_id);
-      const indexFile = state.currentExam.exam_requests[index].exam_request_files.findIndex(record => record.id === payload.id);
+      // const indexFile = state.currentExam.exam_requests[index].exam_request_files.findIndex(record => record.id === payload.id);
       state.currentExam.exam_requests[index].exam_request_files.push(payload)
     },
     DELETE_FILE_REQUEST_CURRENT_EXAM(state, payload) {
@@ -276,7 +276,6 @@ export default {
             commit("clearError", null, { root: true });
             commit("setLoading", false, { root: true });
             if (success) {
-              console.log(success)
               const data = success.data
               commit('SET_CURRENT_EXAM', new ExamManagement(
                 data.complete,
