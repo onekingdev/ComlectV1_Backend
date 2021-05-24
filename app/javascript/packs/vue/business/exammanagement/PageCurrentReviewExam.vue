@@ -59,7 +59,7 @@
                               .d-flex
                                 b-badge.mr-2(v-if="currentRequst.shared" variant="success") {{ currentRequst.shared ? 'Shared' : '' }}
                                 .exams__input.exams__topic-name {{ currentRequst.name }}
-                              .d-flex.actions
+                              .d-flex.actions.min-w-240
                                 b-dropdown(size="xs" variant="default" class="m-0 p-0" right)
                                   template(#button-content)
                                     | Add Item
@@ -399,4 +399,8 @@ export default {
 
 <style scoped>
   @import "./styles.css";
+
+  .min-w-240 {
+    min-width: 240px;
+  }
 </style>
