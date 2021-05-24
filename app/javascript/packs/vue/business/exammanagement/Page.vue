@@ -10,13 +10,10 @@
         .col-12.px-0
           .card-body.white-card-body.height-80
             .container
-              .row
-                .col-12
-                  Loading
-              .row.p-x-1(v-if="!loading")
+              .row.p-x-1
                 .col-md-7.col-sm-12.pl-0
                   .card
-                    RegulatoryExams(:exams="exams")
+                    RegulatoryExamsTable(:exams="exams")
                 .col-md-5.col-sm-12.pl-0
                   .card
                     .card-header.d-flex.justify-content-between
@@ -29,14 +26,12 @@
 
 <script>
   import { mapActions, mapGetters } from "vuex"
-  import Loading from '@/common/Loading/Loading'
-  import RegulatoryExams from './components/RegulatoryExams'
+  import RegulatoryExamsTable from './components/ExamsTable'
   import Tasks from './components/Tasks'
 
   export default {
     components: {
-      Loading,
-      RegulatoryExams,
+      RegulatoryExamsTable,
       Tasks
     },
     data() {
@@ -56,9 +51,6 @@
       ...mapGetters({
         exams: 'exams/exams',
       }),
-      loading() {
-        return this.$store.getters.loading;
-      },
     },
     async mounted () {
       try {

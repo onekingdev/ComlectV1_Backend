@@ -5,7 +5,8 @@
       ExamModalCreate(:exams-id="exams.id")
         button.btn.btn-dark New Exam
     .card-body
-      table.table.task_table
+      Loading
+      table.table.task_table(v-if="!loading")
         thead(v-if="exams")
           tr
             th(width="40%")
@@ -49,6 +50,7 @@
 <script>
   import { mapActions, mapGetters } from "vuex"
   import { DateTime } from 'luxon'
+  import Loading from '@/common/Loading/Loading'
   import ExamModalCreate from '../modals/ExamModalCreate'
   import ExamsModalEdit from '../modals/ExamModalEdit'
   import ExamsModalDelete from '../modals/ExamModalDelete'
@@ -59,6 +61,12 @@
         type: Array,
         required: false
       }
+    },
+    components: {
+      Loading,
+      ExamModalCreate,
+      ExamsModalEdit,
+      ExamsModalDelete,
     },
     methods: {
       ...mapActions({
@@ -76,10 +84,10 @@
           .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
       },
     },
-    components: {
-      ExamModalCreate,
-      ExamsModalEdit,
-      ExamsModalDelete,
+    computed: {
+      loading() {
+        return this.$store.getters.loading;
+      },
     }
   }
 </script>
