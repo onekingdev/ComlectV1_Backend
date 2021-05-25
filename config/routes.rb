@@ -85,7 +85,9 @@ Rails.application.routes.draw do
     resources :risks, only: %i[index show]
     get '/reports/risks' => 'reports#risks'
     resources :file_folders, only: %i[index show]
-    resources :exam_management, only: %i[index show]
+    resources :exam_management, only: %i[index show] do
+      get :portal, on: :member
+    end
     resources :file_docs
     resources :upgrade
     resources :addons, only: %i[index]

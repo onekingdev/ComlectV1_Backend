@@ -91,13 +91,16 @@
 
           try {
             await this.$store.dispatch('exams/uploadExamRequestFile', data)
-            this.makeToast('Success', `File successfull loaded!`)
-            this.$emit('saved')
-            this.$bvModal.hide(this.modalId)
+              .then(response => {
+                this.makeToast('Success', `File successfull loaded!`)
+                this.$emit('saved')
+                this.$bvModal.hide(this.modalId)
+              })
+              .catch(error => console.log(error))
+
           } catch (error) {
             this.makeToast('Error', error.message)
           }
-
         }
       },
       selectFile(event){
