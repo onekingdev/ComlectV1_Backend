@@ -55,7 +55,7 @@
                     :class="{ 'invalid': errors.industries }"
                     )
                       multiselect#selectB-4(
-                      v-model="formStep2.business.industry_ids"
+                      v-model="formStep2.business.industries"
                       :options="industryOptions"
                       :multiple="true"
                       track-by="name",
@@ -71,7 +71,7 @@
                     :class="{ 'invalid': errors.subIndustry }"
                     )
                       multiselect#selectB-5(
-                      v-model="formStep2.business.sub_industry_ids"
+                      v-model="formStep2.business.sub_industries"
                       :options="subIndustryOptions"
                       :multiple="true"
                       track-by="name",
@@ -86,7 +86,7 @@
                     :class="{ 'invalid': errors.jurisdiction }"
                     )
                       multiselect#selectB-6(
-                      v-model="formStep2.business.jurisdiction_ids"
+                      v-model="formStep2.business.jurisdictions"
                       :options="jurisdictionOptions"
                       :multiple="true"
                       track-by="name",
@@ -182,7 +182,7 @@
                           | {{ feature }}
               .row
                 .col.text-right
-                  b-button.mr-2(type='button' variant='outline-primary' @click="prevStep(2)") Go back
+                  b-button(type='button' variant='outline-primary' @click="prevStep(2)") Go back
 
         b-sidebar#BillingPlanSidebar(@hidden="closeSidebar" v-model="isSidebarOpen" backdrop-variant='dark' backdrop left no-header width="60%")
           .card
@@ -235,9 +235,9 @@
       city: '',
       state: '',
       zipcode: '',
-      industry_ids: [],
-      sub_industry_ids: [],
-      jurisdiction_ids: [],
+      industries: [],
+      sub_industries: [],
+      jurisdictions: [],
       time_zone: [],
     }
   })
@@ -269,7 +269,9 @@
       const accountInfo = localStorage.getItem('app.currentUser');
       const accountInfoParsed = JSON.parse(accountInfo);
       if(accountInfo) {
-        this.formStep2 = Object.assign({}, this.formStep2, { ...accountInfoParsed })
+        this.formStep1.crd_number = accountInfo.crd_number
+        this.formStep2.business = Object.assign({}, this.formStep2.business, { ...accountInfoParsed })
+        this.onChange(accountInfoParsed.industries)
       }
 
       const url = new URL(window.location);
@@ -413,15 +415,13 @@
           // if (!this.formStep2.business.jurisdiction) this.errors = Object.assign({}, this.errors, { jurisdiction: `Field can't be empty!` })
           // if (!this.formStep2.business.industry || !this.formStep2.business.subIndustry || !this.formStep2.business.jurisdiction ) return
 
-          // this.formStep2.business.industry_ids = this.formStep2.business.industry_ids ? this.formStep2.business.industry_ids.map(record => record.id) : []
-          // this.formStep2.business.sub_industry_ids = this.formStep2.business.industry_ids ? this.formStep2.business.subIndustry.map(record => record.value) : []
-          // this.formStep2.business.jurisdiction_ids = this.formStep2.business.industry_ids ? this.formStep2.business.jurisdiction.map(record => record.id) : []
-
           delete this.formStep2.errors
           const dataToSend = this.formStep2
           if(this.formStep1.crd_number) dataToSend.business.crd_number = this.formStep1.crd_number
 
-          console.log('dataToSend', dataToSend)
+          dataToSend.business.industry_ids = this.formStep2.business.industries.map(record => record.id) || []
+          dataToSend.business.sub_industry_ids = this.formStep2.business.sub_industries.map(record => record.value) || []
+          dataToSend.business.jurisdiction_ids = this.formStep2.business.jurisdictions.map(record => record.id) || []
 
           this.$store
             .dispatch('updateAccountInfo', dataToSend)
@@ -447,15 +447,29 @@
             })
         }
       },
-      openDetails(id) {
-        this.openId = id
+      openDetails(plan) {
+        if(plan.id === 1) {
+          const dataToSend = {
+            userType: this.userType,
+            planName: 'free',
+            paymentSourceId : 0,
+          }
+
+          this.$store.dispatch('updateSubscribe', dataToSend)
+            .then(response => this.makeToast('Success', `Update subscribe successfully finished!`))
+            .catch(error =>this.makeToast('Error', `Something wrong! ${error}`))
+
+          return
+        }
+
+        this.openId = plan.id
         // history.pushState({}, '', `${'new'}/${id}`)
         this.isSidebarOpen = true
-        this.selectedPlan = id;
+        this.selectedPlan = plan;
       },
       closeSidebar() {
         this.openId = null
-        this.project = null
+        // this.project = null
         // history.pushState({}, '', '')
         this.isSidebarOpen = false
       },

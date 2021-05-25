@@ -264,7 +264,7 @@ export default {
             data.skills,
             data.username
           ))
-          localStorage.setItem('app.currentUser', JSON.stringify(data));
+          if(!data.errors) localStorage.setItem('app.currentUser', JSON.stringify(data));
         }
         return response.data
 
@@ -314,7 +314,7 @@ export default {
             data.skills,
             data.username
           ))
-          localStorage.setItem('app.currentUser', JSON.stringify(data));
+          if(!data.errors) localStorage.setItem('app.currentUser', JSON.stringify(data));
         }
         return response.data
 
