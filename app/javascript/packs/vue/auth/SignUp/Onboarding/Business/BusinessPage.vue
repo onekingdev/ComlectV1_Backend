@@ -56,7 +56,7 @@
                     )
                       multiselect#selectB-4(
                       v-model="formStep2.business.industry_ids"
-                      :options="formStep2.business.industryOptions"
+                      :options="industryOptions"
                       :multiple="true"
                       track-by="name",
                       label="name",
@@ -72,7 +72,7 @@
                     )
                       multiselect#selectB-5(
                       v-model="formStep2.business.sub_industry_ids"
-                      :options="formStep2.business.subIndustryOptions"
+                      :options="subIndustryOptions"
                       :multiple="true"
                       track-by="name",
                       label="name",
@@ -87,7 +87,7 @@
                     )
                       multiselect#selectB-6(
                       v-model="formStep2.business.jurisdiction_ids"
-                      :options="formStep2.business.jurisdictionOptions"
+                      :options="jurisdictionOptions"
                       :multiple="true"
                       track-by="name",
                       label="name",
@@ -101,7 +101,7 @@
                     )
                       multiselect#selectB-7(
                       v-model="formStep2.business.time_zone"
-                      :options="formStep2.business.timeZoneOptions"
+                      :options="timeZoneOptions"
                       :multiple="true"
                       track-by="name",
                       label="name",
@@ -143,8 +143,9 @@
                     )
                       multiselect#selectB-13(
                       v-model="formStep2.business.state"
-                      :options="formStep2.business.stateOptions"
+                      :options="stateOptions"
                       placeholder="Select state",
+                      @input="onChangeState",
                       required)
                       .invalid-feedback.d-block(v-if="errors.state") {{ errors.state[0] }}
               .text-right
@@ -238,12 +239,6 @@
       sub_industry_ids: [],
       jurisdiction_ids: [],
       time_zone: [],
-
-      industryOptions: [],
-      subIndustryOptions: [],
-      jurisdictionOptions: [],
-      stateOptions: [],
-      timeZoneOptions: [],
     }
   })
 
@@ -258,7 +253,7 @@
       Overlay
     },
     created() {
-      if(this.industryIds) this.formStep2.business.industryOptions = this.industryIds;
+      if(this.industryIds) this.industryOptions = this.industryIds;
       // if(this.subIndustryIds) this.formStep2.subIndustryOptions = this.subIndustryIds;
       // if(this.subIndustryIds) {
       //   for (const [key, value] of Object.entries(this.subIndustryIds)) {
@@ -268,8 +263,8 @@
       //     })
       //   }
       // }
-      if(this.jurisdictionIds) this.formStep2.business.jurisdictionOptions = this.jurisdictionIds;
-      if(this.states) this.formStep2.business.stateOptions = this.states;
+      if(this.jurisdictionIds) this.jurisdictionOptions = this.jurisdictionIds;
+      if(this.states) this.stateOptions = this.states;
 
       const accountInfo = localStorage.getItem('app.currentUser');
       const accountInfoParsed = JSON.parse(accountInfo);
@@ -310,6 +305,12 @@
           ],
         },
         formStep2: initialAccountInfo(),
+        industryOptions: [],
+        subIndustryOptions: [],
+        jurisdictionOptions: [],
+        stateOptions: [],
+        timeZoneOptions: [],
+
         show: true,
         errors: {},
         step1: true,
@@ -412,8 +413,15 @@
           // if (!this.formStep2.business.jurisdiction) this.errors = Object.assign({}, this.errors, { jurisdiction: `Field can't be empty!` })
           // if (!this.formStep2.business.industry || !this.formStep2.business.subIndustry || !this.formStep2.business.jurisdiction ) return
 
+          // this.formStep2.business.industry_ids = this.formStep2.business.industry_ids ? this.formStep2.business.industry_ids.map(record => record.id) : []
+          // this.formStep2.business.sub_industry_ids = this.formStep2.business.industry_ids ? this.formStep2.business.subIndustry.map(record => record.value) : []
+          // this.formStep2.business.jurisdiction_ids = this.formStep2.business.industry_ids ? this.formStep2.business.jurisdiction.map(record => record.id) : []
+
+          delete this.formStep2.errors
           const dataToSend = this.formStep2
           if(this.formStep1.crd_number) dataToSend.business.crd_number = this.formStep1.crd_number
+
+          console.log('dataToSend', dataToSend)
 
           this.$store
             .dispatch('updateAccountInfo', dataToSend)
@@ -573,14 +581,15 @@
       },
       onChange (industries) {
         if(industries) {
-          this.formStep2.business.subIndustryOptions = []
+          delete this.errors.industries
+          this.subIndustryOptions = []
           const results = industries.map(industry => industry.id)
 
           if(this.subIndustryIds) {
             for (const [key, value] of Object.entries(this.subIndustryIds)) {
               for (const i of results) {
                 if (i === +key.split('_')[0]) {
-                  this.formStep2.business.subIndustryOptions.push({
+                  this.subIndustryOptions.push({
                     value: key,
                     name: value
                   })
@@ -591,8 +600,11 @@
         }
       },
       onChangeInput(e) {
-        e.target.classList.remove('is-invalid')
-        e.target.nextElementSibling.classList.remove('d-block')
+        if(e.target) e.target.classList.remove('is-invalid')
+        if(e.target.nextElementSibling) e.target.nextElementSibling.classList.remove('d-block')
+      },
+      onChangeState(){
+        delete this.errors.state
       }
     },
     computed: {
