@@ -270,6 +270,7 @@ a.link,
   }
 }
 
+/* ---------- FORMS---------- */
 .text-right .btn {
   min-width: 65px;
 }
@@ -277,4 +278,14 @@ a.link,
 label.required:after {
   content: " *";
   color: #ED60A6;
+}
+
+.form-control:focus,
+.form-control:active {
+  border: 1px solid #0378fe;
+  box-shadow: none !important;
+}
+
+.form-control.is-invalid {
+  border-color: #cd1837;
 }
