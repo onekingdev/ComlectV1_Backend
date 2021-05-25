@@ -178,7 +178,7 @@
 }
 
 .policy .tab-pane {
-  margin-bottom: 2rem;
+  margin: 0 3rem 2rem 2rem;
   border: solid 1px #dee2e6;
   border-radius: 3px;
 }
@@ -364,7 +364,8 @@
 
 /* ---------- Policy History ---------- */
 .policy-history {
-  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  /*margin-bottom: 2rem;*/
   /*border-top: solid 1px #e9ebee;*/
 }
 

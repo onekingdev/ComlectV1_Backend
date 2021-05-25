@@ -14,10 +14,12 @@ import BusinessAnnualGeneralPage from './vue/business/annual/PageCurrentGeneral.
 
 import BusinessPoliciesPage from './vue/business/policies/Page.vue'
 import BusinessPoliciesCreatePage from './vue/business/policies/Details/PolicyCreate.vue'
+import BusinessPoliciesDetailsWithoutSectionsPage from './vue/business/policies/Details/PolicyDetailsWithoutSections.vue'
 
 const businesPolicies = {
   BusinessPoliciesPage,
   BusinessPoliciesCreatePage,
+  BusinessPoliciesDetailsWithoutSectionsPage,
 }
 
 import BusinessMarketplacePage from './vue/business/marketplace/Page.vue'
