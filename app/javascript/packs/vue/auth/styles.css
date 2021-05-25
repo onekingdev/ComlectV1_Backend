@@ -269,3 +269,12 @@ a.link,
     width: 80%;
   }
 }
+
+.text-right .btn {
+  min-width: 65px;
+}
+
+label.required:after {
+  content: " *";
+  color: #ED60A6;
+}
