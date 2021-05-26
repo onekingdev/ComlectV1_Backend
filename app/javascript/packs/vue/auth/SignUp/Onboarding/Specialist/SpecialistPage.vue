@@ -238,12 +238,13 @@
         this.formStep1.industry = accountInfoParsed.industries || ''
         this.onChange(accountInfoParsed.industries)
         this.formStep1.subIndustry = accountInfoParsed.sub_industries || ''
-        this.formStep1.jurisdiction = accountInfoParsed.jurisdiction || ''
+        this.formStep1.jurisdiction = accountInfoParsed.jurisdictions || ''
         // this.formStep1.regulatorSelected = accountInfoParsed.former_regulator ? 'yes' : 'no';
 
         this.formStep2.skills = accountInfoParsed.skills || []
         this.formStep2.experience = accountInfoParsed.experience
       }
+
 
       const url = new URL(window.location);
       const stepNum = +url.searchParams.get('step');
@@ -427,7 +428,8 @@
           params.skill_names
             .map(skillName => formData.append(`skill_names[]`, skillName))
 
-          this.$store.dispatch('updateAccountInfoWithFile', formData)
+          this.$store
+            .dispatch('updateAccountInfoWithFile', formData)
             .then(response => {
               if(!response.errors) {
                 this['step'+(stepNum-1)] = false
@@ -440,7 +442,7 @@
             })
             .catch(error => {
               console.error(error)
-              this.makeToast('Error', `Something wrong! ${error.error}`)
+              this.makeToast('Error', `Something wrong! ${error}`)
             })
         }
       },
@@ -629,8 +631,6 @@
   }
   .multiselect__single {
     margin-bottom: 0;
-    font-size: 1.2rem;
-    line-height: 14px;
   }
 
   /* ALERTS*/
