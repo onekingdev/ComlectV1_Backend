@@ -168,7 +168,8 @@
               .row
                 .col-xl-4(v-for='(plan, index) in billingPlans')
                   b-card.w-100.mb-2.billing-plan(:class="[index === 0 ? 'billing-plan_low' : '', index === 1 ? 'billing-plan_medium' : '', index === 2 ? 'billing-plan_high' : '' ]")
-                    b-button.mb-3(type='button' variant='outline-primary' @click="openDetails(plan)") Select Plan
+                    b-button.mb-3(type='button' :variant="currentPlan.status && currentPlan.id === index+1 ? 'dark' : 'outline-primary'" @click="openDetails(plan)")
+                      | {{ currentPlan.status && currentPlan.id === index+1 ? 'Current' : 'Select' }} Plan
                     b-card-text
                       h4.billing-plan__name {{ plan.name }}
                       p.billing-plan__descr {{ plan.description }}
@@ -364,6 +365,7 @@
         overlay: false,
         overlayStatus: '',
         overlayStatusText: '',
+        currentPlan: { id: null, status: false }
       }
     },
     methods: {
@@ -482,7 +484,10 @@
           }
 
           this.$store.dispatch('updateSubscribe', dataToSend)
-            .then(response => this.makeToast('Success', `Update subscribe successfully finished!`))
+            .then(response => {
+              this.makeToast('Success', `Update subscribe successfully finished!`)
+              this.currentPlan = { id: 1, status: true }
+            })
             .catch(error =>this.makeToast('Error', `Something wrong!`))
 
           return
