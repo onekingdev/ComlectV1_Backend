@@ -224,7 +224,7 @@
     let rminutes = Math.round(minutes) === 0 ? '0'+Math.round(minutes) : Math.round(minutes)
     let zoneNameView = zoneName.split('/')[1] ? zoneName.split('/')[1].replace('_', ' ') : zoneName
 
-    return `(GMT ${rhoursView}:${rminutes})  ${zoneNameView}`
+    return `(GMT ${rhoursView}:${rminutes}) ${zoneNameView}`
   }
   const luxonValidTimezones = Object.entries(zones)
     .filter(([zoneName, v]) => Array.isArray(v))
