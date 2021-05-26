@@ -46,7 +46,7 @@ class Api::BusinessesController < ApiController
   def business_params
     params.require(:business).permit(
       :contact_first_name, :contact_last_name, :contact_email, :contact_job_title, :contact_phone,
-      :business_name, :website, :aum, :apartment, :client_account_cnt, :logo,
+      :business_name, :website, :aum, :apartment, :client_account_cnt, :logo, :time_zone,
       :address_1, :country, :city, :state, :zipcode, :crd_number, sub_industry_ids: [],
                                                                   industry_ids: [], jurisdiction_ids: [],
                                                                   user_attributes: %i[
