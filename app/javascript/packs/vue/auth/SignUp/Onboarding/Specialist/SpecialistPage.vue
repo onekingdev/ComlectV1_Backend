@@ -16,52 +16,72 @@
               .step(:class="navStep3 ? 'active' : ''")
                 h4.step__name 3. Choose plan
           Loading
-          b-form(@submit='onSubmit' v-if='show')
+          b-form(@submit='onSubmit' @change="onChangeInput" v-if='show')
             #step1.form(v-if='!loading' :class="step1 ? 'd-block' : 'd-none'")
               h3 What jurisdiction does your expertise extend to?
               p Providing your jurisdiction(s) will help find clients within your domain of expertise. Select all that apply.
               .row
                 .col-xl-6
-                  b-form-group#inputS-group-1(label='Jurisdiction' label-for='selectS-1')
-                    <!--b-form-select#selectS-6(v-model='formStep2.jurisdiction' :options='options' required)-->
-                    multiselect#selectS-1(
-                    v-model="formStep1.jurisdiction"
-                    :options="formStep1.jurisdictionOptions"
-                    :multiple="true"
-                    track-by="name",
-                    label="name",
-                    placeholder="Select jurisdiction",
-                    required)
-                    .invalid-feedback.d-block(v-if="errors.jurisdiction") {{ errors.jurisdiction }}
+                  b-form-group#inputS-group-1(label='Jurisdiction' label-for='selectS-1' label-class="required")
+                    div(
+                    :class="{ 'invalid': errors.jurisdiction }"
+                    )
+                      multiselect#selectS-1(
+                      v-model="formStep1.jurisdiction"
+                      :options="formStep1.jurisdictionOptions"
+                      :multiple="true"
+                      track-by="name",
+                      label="name",
+                      placeholder="Select jurisdiction",
+                      required)
+                      .invalid-feedback.d-block(v-if="errors.jurisdiction") {{ errors.jurisdiction }}
+              .row
+                .col-xl-6
+                  b-form-group#inputB-group-7(label='Time Zone' label-for='selectB-7' label-class="required")
+                    div(
+                    :class="{ 'invalid': errors.time_zone }"
+                    )
+                      multiselect#selectB-7(
+                      v-model="formStep1.time_zone"
+                      :options="formStep1.timeZoneOptions"
+                      :multiple="false"
+                      :show-labels="false"
+                      placeholder="Select Time Zone",
+                      required)
+                      .invalid-feedback.d-block(v-if="errors.time_zone") {{ errors.time_zone }}
               h3 What industries do you serve?
               p Select all that apply:
               .row
                 .col-xl-6
-                  b-form-group#inputS-group-4(label='Industry' label-for='selectS-4')
-                    multiselect#selectS-4(
-                    v-model="formStep1.industry"
-                    :options="formStep1.industryOptions"
-                    :multiple="true"
-                    track-by="name",
-                    label="name",
-                    placeholder="Select Industry",
-                    @input="onChange",
-                    required)
-                    <!--b-form-select#selectS-4(v-model='formStep2.industry' :options='options' required)-->
-                    .invalid-feedback.d-block(v-if="errors.industry") {{ errors.industry }}
+                  b-form-group#inputS-group-4(label='Industry' label-for='selectS-4' label-class="required")
+                    div(
+                    :class="{ 'invalid': errors.industry }"
+                    )
+                      multiselect#selectS-4(
+                      v-model="formStep1.industry"
+                      :options="formStep1.industryOptions"
+                      :multiple="true"
+                      track-by="name",
+                      label="name",
+                      placeholder="Select Industry",
+                      @input="onChange",
+                      required)
+                      .invalid-feedback.d-block(v-if="errors.industry") {{ errors.industry }}
               .row
                 .col-xl-6
-                  b-form-group#inputS-group-5(label='Sub-Industry' label-for='selectS-5')
-                    <!--b-form-select#selectS-5(v-model='formStep2.subIndustry' :options='options' required)-->
-                    multiselect#selectS-5(
-                    v-model="formStep1.subIndustry"
-                    :options="formStep1.subIndustryOptions"
-                    :multiple="true"
-                    track-by="name",
-                    label="name",
-                    placeholder="Select Sub-Industry",
-                    required)
-                    .invalid-feedback.d-block(v-if="errors.subIndustry") {{ errors.subIndustry }}
+                  b-form-group#inputS-group-5(label='Sub-Industry' label-for='selectS-5' label-class="required")
+                    div(
+                    :class="{ 'invalid': errors.subIndustry }"
+                    )
+                      multiselect#selectS-5(
+                      v-model="formStep1.subIndustry"
+                      :options="formStep1.subIndustryOptions"
+                      :multiple="true"
+                      track-by="name",
+                      label="name",
+                      placeholder="Select Sub-Industry",
+                      required)
+                      .invalid-feedback.d-block(v-if="errors.subIndustry") {{ errors.subIndustry }}
               h3 Are you a former regulator?
                 b-icon.h5.ml-2.mb-1(icon="exclamation-circle-fill" variant="secondary")
               p Select all that apply:
@@ -69,18 +89,21 @@
                 b-form-group(v-slot='{ ariaDescribedby }')
                   b-form-radio-group(v-model='formStep1.regulatorSelected' :options='formStep1.regulatorOptions' :aria-describedby='ariaDescribedby' name='radios-stacked' stacked)
                 b-form-group(label='Where did you work?' v-if="formStep1.regulatorSelected === 'yes'" label-for='selectS-6')
-                  multiselect#selectS-6(
-                  v-model="formStep1.regulator"
-                  :options="formStep1.regulatorOptionsTags"
-                  :multiple="true"
-                  track-by="name",
-                  label="name",
-                  tag-placeholder="Add this as new tag",
-                  placeholder="Search or add a tag",
-                  :taggable="true",
-                  @tag="addTag"
-                  required)
-                  .invalid-feedback.d-block(v-if="errors.regulator") {{ errors.regulator }}
+                  div(
+                  :class="{ 'invalid': errors.regulator }"
+                  )
+                    multiselect#selectS-6(
+                    v-model="formStep1.regulator"
+                    :options="formStep1.regulatorOptionsTags"
+                    :multiple="true"
+                    track-by="name",
+                    label="name",
+                    tag-placeholder="Add this as new tag",
+                    placeholder="Search or add a tag",
+                    :taggable="true",
+                    @tag="addTag"
+                    required)
+                    .invalid-feedback.d-block(v-if="errors.regulator") {{ errors.regulator }}
               .text-right
                 b-button(type='button' variant='dark' @click="nextStep(2)") Next
             #step2.form(v-if='!loading'  :class="step2 ? 'd-block' : 'd-none'")
@@ -91,22 +114,25 @@
                 .text-left
                   h3.onboarding__title Tell us more about yourself:
                   p.onboarding__sub-title Enter any relevant skills and education to better match with ideal clients.
-                <!--.text-right-->
-                  <!--SpecialistModalSkipStep(@skipConfirmed="skipStep(3)", :inline="false")-->
-                    <!--b-button.mr-2(type='button' variant='outline-primary') Skip this step-->
-              b-form-group(label='Skills' class="onboarding-group" label-for='selectS-7')
-                multiselect#selectS-7(
-                v-model="formStep2.skills"
-                :options="formStep2.skillsTags"
-                :multiple="true"
-                track-by="name",
-                label="name",
-                tag-placeholder="Add this as new tag",
-                placeholder="Search or add a tag",
-                :taggable="true",
-                @tag="addSkillsTag"
-                required)
-                .invalid-feedback.d-block(v-if="errors.skills") {{ errors.skills }}
+                // .text-right
+                //   SpecialistModalSkipStep(@skipConfirmed="skipStep(3)", :inline="false")
+                //     b-button.mr-2(type='button' variant='outline-primary') Skip this step
+              b-form-group(label='Skills' class="onboarding-group" label-for='selectS-7' label-class="required")
+                div(
+                :class="{ 'invalid': errors.skills }"
+                )
+                  multiselect#selectS-7(
+                  v-model="formStep2.skills"
+                  :options="formStep2.skillsTags"
+                  :multiple="true"
+                  track-by="name",
+                  label="name",
+                  tag-placeholder="Add this as new tag",
+                  placeholder="Search or add a tag",
+                  :taggable="true",
+                  @tag="addSkillsTag"
+                  required)
+                  .invalid-feedback.d-block(v-if="errors.skills") {{ errors.skills }}
               hr
               h3.onboarding__title.m-t-2 What's your experience?
               p.onboarding__sub-title Select one that the best matches your level of your expertise.
@@ -157,7 +183,7 @@
                       h4.billing-plan__name {{ plan.name }}
                       p.billing-plan__descr {{ plan.description }}
                       h5.billing-plan__coast {{ billingTypeSelected === 'annually' ?  plan.coastAnnuallyFormatted : plan.coastMonthlyFormatted }}
-                      <!--p.billing-plan__users {{ billingTypeSelected === 'annually' ?  plan.usersCount + ' free users plus $' + plan.additionalUserAnnually + '/year per person' : plan.usersCount + ' free users plus $' + plan.additionalUserMonthly + '/mo per person' }}-->
+                      // p.billing-plan__users {{ billingTypeSelected === 'annually' ?  plan.usersCount + ' free users plus $' + plan.additionalUserAnnually + '/year per person' : plan.usersCount + ' free users plus $' + plan.additionalUserMonthly + '/mo per person' }}
                       hr
                       ul.list-unstyled.billing-plan__list
                         li.billing-plan__item(v-for="feature in plan.features")
@@ -197,6 +223,24 @@
 </template>
 
 <script>
+  const {DateTime} = require('luxon')
+  const {zones} = require('tzdata')
+  const luxonValidTimeZoneName = function (zoneName) {
+    let hours = (DateTime.local().setZone(zoneName).offset / 60);
+    let rhours = Math.floor(hours)
+    let rhoursView = Math.floor(hours) < 10 && Math.floor(hours) >= 0 ? '0'+Math.round(hours) : '-0'+Math.abs(hours)
+    let minutes = (hours - rhours) * 60;
+    let rminutes = Math.round(minutes) === 0 ? '0'+Math.round(minutes) : Math.round(minutes)
+    let zoneNameView = zoneName.split('/')[1] ? zoneName.split('/')[1].replace('_', ' ') : zoneName
+
+    return `(GMT ${rhoursView}:${rminutes}) ${zoneNameView}`
+  }
+  const luxonValidTimezones = Object.entries(zones)
+    .filter(([zoneName, v]) => Array.isArray(v))
+    .map(([zoneName, v]) => zoneName)
+    .filter(tz => DateTime.local().setZone(tz).isValid)
+    .map(zoneName => `${luxonValidTimeZoneName(zoneName)}`)
+
   import Loading from '@/common/Loading/Loading'
   import TopNavbar from "@/auth/SignUp/TopNavbar";
   import Multiselect from 'vue-multiselect'
@@ -219,6 +263,7 @@
       Overlay
     },
     created() {
+      if(luxonValidTimezones) this.formStep1.timeZoneOptions = luxonValidTimezones;
       if(this.industryIds) this.formStep1.industryOptions = this.industryIds;
       // if(this.subIndustryIds) this.formStep2.subIndustryOptions = this.subIndustryIds;
       // if(this.subIndustryIds) {
@@ -268,8 +313,6 @@
     },
     data() {
       return {
-        userId: '',
-        otpSecret: '',
         userType: 'specialist',
         formStep1: {
           regulator: [],
@@ -285,6 +328,8 @@
           subIndustryOptions: [],
           jurisdiction: '',
           jurisdictionOptions: [],
+          time_zone: [],
+          timeZoneOptions: [],
         },
         formStep2: {
           skills: [],
@@ -305,8 +350,7 @@
           state: '',
           stateOptions: [],
         },
-        value: null,
-        options: ['list', 'of', 'options'],
+
         show: true,
         errors: {},
         step1: true,
@@ -369,6 +413,11 @@
         const url = new URL(window.location);
         url.searchParams.set('step', stepNum);
         window.history.pushState({}, '', url);
+
+        this['step'+(stepNum-1)] = false
+        this['navStep'+stepNum] = true
+        this['step'+stepNum] = true
+        this.currentStep = stepNum
       },
       prevStep(stepNum) {
         this['step'+(stepNum+1)] = false
@@ -387,24 +436,25 @@
         }
         if (stepNum === 2) {
           if (!this.formStep1.industry) this.errors = Object.assign({}, this.errors, { industry: `Field can't be empty!` })
+          if (!this.formStep1.time_zone) this.errors = Object.assign({}, this.errors, { time_zone: `Field can't be empty!` })
           if (!this.formStep1.subIndustry) this.errors = Object.assign({}, this.errors, { subIndustry: `Field can't be empty!` })
           if (!this.formStep1.jurisdiction) this.errors = Object.assign({}, this.errors, { jurisdiction: `Field can't be empty!` })
-          if (!this.formStep1.industry || !this.formStep1.subIndustry || !this.formStep1.jurisdiction ) return
+          if (!this.formStep1.industry || !this.formStep1.time_zone || !this.formStep1.subIndustry || !this.formStep1.jurisdiction ) return
 
-          this['step'+(stepNum-1)] = false
-          this['navStep'+stepNum] = true
-          this['step'+stepNum] = true
-          this.currentStep = stepNum
-          this.navigation(this.currentStep)
+          this.navigation(stepNum)
         }
 
         if (stepNum === 3) {
+
+          if (!this.formStep2.skills) this.errors = Object.assign({}, this.errors, { skills: `Field can't be empty!` })
+          if (!this.formStep2.skills) return
 
           const params = {
             specialist: {
               // industry_ids: this.formStep1.industry.map(record => record.id),
               // jurisdiction_ids: this.formStep1.jurisdiction.map(record => record.id),
 
+              time_zone: this.formStep1.time_zone,
               first_name: this.currentUser.first_name,
               last_name: this.currentUser.last_name,
               former_regulator: this.formStep1.regulatorSelected === 'yes',
@@ -458,11 +508,25 @@
       //       experience: '',
       //   }
       // },
-      openDetails(id) {
-        this.openId = id
+      openDetails(plan) {
+        if(plan.id === 1) {
+          const dataToSend = {
+            userType: this.userType,
+            planName: 'free',
+            paymentSourceId : null,
+          }
+
+          this.$store.dispatch('updateSubscribe', dataToSend)
+            .then(response => this.makeToast('Success', `Update subscribe successfully finished!`))
+            .catch(error =>this.makeToast('Error', `Something wrong!`))
+
+          return
+        }
+
+        this.openId = plan.id
         // history.pushState({}, '', `${'new'}/${id}`)
         this.isSidebarOpen = true
-        this.selectedPlan = id;
+        this.selectedPlan = plan;
       },
       closeSidebar() {
         this.openId = null
@@ -545,6 +609,7 @@
       },
       onChange (industries) {
         if(industries) {
+          delete this.errors.industries
           this.formStep1.subIndustryOptions = []
           const results = industries.map(industry => industry.id)
 
@@ -561,6 +626,13 @@
             }
           }
         }
+      },
+      onChangeInput(e) {
+        if(e.target) e.target.classList.remove('is-invalid')
+        if(e.target.nextElementSibling) e.target.nextElementSibling.classList.remove('d-block')
+      },
+      onChangeState(){
+        delete this.errors.state
       },
     },
     computed: {
@@ -629,6 +701,8 @@
   }
   .multiselect__single {
     margin-bottom: 0;
+    font-size: 1.2rem;
+    line-height: 14px;
   }
 
   /* ALERTS*/

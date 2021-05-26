@@ -120,7 +120,8 @@
               .row
                 .col-xl-9.pr-xl-2
                   b-form-group#inputB-group-9(label='Business Address' label-for='inputB-9' label-class="required")
-                    b-form-input#inputB-9(v-model='formStep2.business.address_1' placeholder='Business Address' required :class="{'is-invalid': errors.address_1 }")
+                    b-form-input#inputB-9(v-model='formStep2.business.address_1' placeholder='Business Address' required :class="{'is-invalid': errors.address_1 }"
+                                          v-debounce:1000ms="onAdressChange")
                     .invalid-feedback.d-block(v-if="errors.address_1") {{ errors.address_1[0] }}
                 .col-xl-3.pl-xl-2
                   b-form-group#inputB-group-10(label='Apt/Unit:' label-for='inputB-10')
@@ -223,7 +224,7 @@
     let rminutes = Math.round(minutes) === 0 ? '0'+Math.round(minutes) : Math.round(minutes)
     let zoneNameView = zoneName.split('/')[1] ? zoneName.split('/')[1].replace('_', ' ') : zoneName
 
-    return `(GMT ${rhoursView}:${rminutes})  ${zoneNameView}`
+    return `(GMT ${rhoursView}:${rminutes}) ${zoneNameView}`
   }
   const luxonValidTimezones = Object.entries(zones)
     .filter(([zoneName, v]) => Array.isArray(v))
@@ -644,6 +645,14 @@
       },
       onChangeState(){
         delete this.errors.state
+      },
+      onAdressChange() {
+        const address = this.formStep2.business.address_1
+        // console.log('address', address)
+
+        // this.$store.dispatch('getGeo', address)
+        //   .then(response => console.log('response', response))
+        //   .catch(error => console.error(error))
       }
     },
     computed: {
@@ -704,6 +713,8 @@
   }
   .multiselect__single {
     margin-bottom: 0;
+    font-size: 1.2rem;
+    line-height: 14px;
   }
 
     /* ALERTS*/
