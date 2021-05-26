@@ -289,3 +289,7 @@ label.required:after {
 .form-control.is-invalid {
   border-color: #cd1837;
 }
+
+label {
+  color: #797b7e;
+}

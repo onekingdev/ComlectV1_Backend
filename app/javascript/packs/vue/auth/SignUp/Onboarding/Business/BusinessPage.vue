@@ -452,12 +452,12 @@
           const dataToSend = {
             userType: this.userType,
             planName: 'free',
-            paymentSourceId : 0,
+            paymentSourceId : null,
           }
 
           this.$store.dispatch('updateSubscribe', dataToSend)
             .then(response => this.makeToast('Success', `Update subscribe successfully finished!`))
-            .catch(error =>this.makeToast('Error', `Something wrong! ${error}`))
+            .catch(error =>this.makeToast('Error', `Something wrong!`))
 
           return
         }
