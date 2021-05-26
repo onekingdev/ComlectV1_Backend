@@ -45,7 +45,7 @@ class Api::Business::UpgradeController < ApiController
         render json: { error: e.message, processed: serialize_subs(processed_subs) }, status: :unprocessable_entity && return
       end
     else
-      current_business.update(onboarding_passed: true)
+      current_business.update_attribute('onboarding_passed', true)
     end
     render json: { message: 'subscribed', processed: serialize_subs(processed_subs) }, status: :created
   end
