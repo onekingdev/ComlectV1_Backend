@@ -485,8 +485,9 @@
 
           this.$store.dispatch('updateSubscribe', dataToSend)
             .then(response => {
-              this.makeToast('Success', `Update subscribe successfully finished!`)
+              this.makeToast('Success', `Update subscribe successfully finished! You will be redirect.`)
               this.currentPlan = { id: 1, status: true }
+              this.redirect();
             })
             .catch(error =>this.makeToast('Error', `Something wrong!`))
 
@@ -551,10 +552,7 @@
                 this.overlayStatusText = 'Account successfully purchased, you will be redirect to the dashboard...'
                 this.overlayStatus = 'success'
                 // this.overlay = false
-                const dashboard = this.userType === 'business' ? '/business' : '/specialist'
-                setTimeout(() => {
-                  window.location.href = `${dashboard}`;
-                }, 3000)
+                this.redirect()
               }
             }
           })
@@ -605,10 +603,7 @@
               this.overlayStatusText = `Account and ${countPayedUsers} seats successfully purchased, you will be redirect to the dashboard...`
               this.overlayStatus = 'success'
               // this.overlay = false
-              const dashboard = this.userType === 'business' ? '/business' : '/specialist'
-              setTimeout(() => {
-                window.location.href = `${dashboard}`;
-              }, 3000)
+              this.redirect()
             }
           })
           .catch(error => {
@@ -658,6 +653,12 @@
         // this.$store.dispatch('getGeo', address)
         //   .then(response => console.log('response', response))
         //   .catch(error => console.error(error))
+      },
+      redirect() {
+        const dashboard = this.userType === 'business' ? '/business' : '/specialist'
+        setTimeout(() => {
+          window.location.href = `${dashboard}`;
+        }, 3000)
       }
     },
     computed: {
