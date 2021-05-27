@@ -310,3 +310,13 @@ label.required:after {
 label {
   color: #797b7e;
 }
+
+/* ---------- NAVBAR ---------- */
+.navbar .dropdown {
+  transition: all 200ms ease-in;
+}
+.navbar .dropdown:hover,
+.navbar .dropdown:active {
+  background-color: #f6f6f8;
+  cursor: pointer;
+}
