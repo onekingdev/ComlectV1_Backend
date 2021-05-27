@@ -37,7 +37,7 @@
                 .card-body.white-card-body.reviews__card.px-5(v-if="exam")
                   .reviews__card--internal.p-y-1.d-flex.justify-content-between
                     h3 Requests
-                    a.btn.btn-default(:href="`/business/exam_management/${exam.id}/portal`") View Portal
+                    b-button(variant='default') View Portal
                   .reviews__topiclist
                     .d-flex.justify-content-between.p-t-2.m-b-2
                       b-button-group(size="md")
@@ -59,7 +59,7 @@
                               .d-flex.align-items-center
                                 b-badge.mr-2(v-if="currentRequst.shared" variant="success") {{ currentRequst.shared ? 'Shared' : '' }}
                                 .exams__input.exams__topic-name {{ currentRequst.name }}
-                              .d-flex.actions.min-w-225
+                              .d-flex.actions.min-w-240
                                 b-dropdown(size="xs" variant="default" class="m-0 p-0" right)
                                   template(#button-content)
                                     | Add Item
@@ -94,7 +94,7 @@
                             .row(v-if="currentRequst.text_items")
                               template(v-for="(textItem, textIndex) in currentRequst.text_items")
                                 .col-12.exams__text(:key="`${currentRequst.name}-${i}-${textItem}-${textIndex}`")
-                                    textarea.exams__text-body(v-model="currentRequst.text_items[textIndex].text")
+                                    textarea.exams__text-body(v-model="currentRequst.text_items[textIndex]")
                                     button.btn.btn__close.float-right(@click="removeTextEntry(i, textIndex)")
                                       b-icon(icon="x" font-scale="1")
                             .row
@@ -400,7 +400,7 @@ export default {
 <style scoped>
   @import "./styles.css";
 
-  .min-w-225 {
-    min-width: 225px;
+  .min-w-240 {
+    min-width: 240px;
   }
 </style>
