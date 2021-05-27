@@ -25,8 +25,8 @@
                 b-form-group(v-slot='{ ariaDescribedby }')
                   b-form-radio-group(v-model='formStep1.crd_numberSelected' :options='formStep1.crd_numberOptions' :aria-describedby='ariaDescribedby' name='radios-stacked' stacked)
                 b-form-group(label='What is your CRD number?' v-if="formStep1.crd_numberSelected === 'yes'")
-                  b-form-input.w-50(v-model="formStep1.crd_number" placeholder="Enter your CRD number")
-                  .invalid-feedback.d-block(v-if="errors.crd_number") {{ errors.crd_number[0] }}
+                  b-form-input.w-50(v-model="formStep1.crd_number" placeholder="Enter your CRD number" :class="{'is-invalid': errors.crd_number }")
+                  .invalid-feedback.d-block(v-if="errors.crd_number") {{ errors.crd_number }}
               .text-right
                 b-button(type='button' variant='dark' @click="nextStep(2)") Next
             #step2.form(v-if='!loading'  :class="step2 ? 'd-block' : 'd-none'")
@@ -129,10 +129,14 @@
                     .invalid-feedback.d-block(v-if="errors.apartment") {{ errors.apartment[0] }}
               .row
                 .col-xl-4.pr-xl-2
+                  b-form-group#inputB-group-11(label='Zip' label-for='inputB-11' label-class="required")
+                    b-form-input#inputB-11(v-model='formStep2.business.zipcode' placeholder='Zip' required :class="{'is-invalid': errors.zipcode }")
+                    .invalid-feedback.d-block(v-if="errors.zipcode") {{ errors.zipcode[0] }}
+                .col-xl-4.px-xl-2
                   b-form-group#inputB-group-12(label='City' label-for='inputB-12' label-class="required")
                     b-form-input#inputB-12(v-model='formStep2.business.city' type='text' placeholder='City' required :class="{'is-invalid': errors.city }")
                     .invalid-feedback.d-block(v-if="errors.city") {{ errors.city[0] }}
-                .col-xl-4.px-xl-2
+                .col-xl-4.pl-xl-2
                   b-form-group#inputB-group-13(label='State' label-for='selectB-13' label-class="required")
                     div(
                     :class="{ 'invalid': errors.state }"
@@ -144,10 +148,6 @@
                       @input="onChangeState",
                       required)
                       .invalid-feedback.d-block(v-if="errors.state") {{ errors.state[0] }}
-                .col-xl-4.pl-xl-2
-                  b-form-group#inputB-group-11(label='Zip' label-for='inputB-11' label-class="required")
-                    b-form-input#inputB-11(v-model='formStep2.business.zipcode' placeholder='Zip' required :class="{'is-invalid': errors.zipcode }")
-                    .invalid-feedback.d-block(v-if="errors.zipcode") {{ errors.zipcode[0] }}
               .text-right
                 b-button.mr-2(type='button' variant='outline-primary' @click="prevStep(1)") Go back
                 // b-button.mr-2(type='button' variant='outline-primary' @click="nextStep(3)") Skip this step
@@ -297,7 +297,7 @@
       const accountInfo = localStorage.getItem('app.currentUser');
       const accountInfoParsed = JSON.parse(accountInfo);
       if(accountInfo) {
-        this.formStep1.crd_number = accountInfo.crd_number
+        this.formStep1.crd_number = accountInfo.crd_number ? accountInfo.crd_number : ''
         this.formStep2.business = Object.assign({}, this.formStep2.business, { ...accountInfoParsed })
         this.onChange(accountInfoParsed.industries)
       }
