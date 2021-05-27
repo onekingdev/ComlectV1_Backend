@@ -124,7 +124,7 @@
                 .col-xl-9.pr-xl-2
                   b-form-group#inputB-group-9(label='Business Address' label-for='inputB-9' label-class="required")
                     // b-form-input#inputB-9(v-model='formStep2.business.address_1' placeholder='Business Address' required :class="{'is-invalid': errors.address_1 }" v-debounce:1000ms="onAdressChange")
-                    vue-google-autocomplete#map(v-model='formStep2.business.address_1' classname='form-control' :class="{'is-invalid': errors.address_1 }" placeholder='Business Address'  v-on:placechanged='getAddressData')
+                    vue-google-autocomplete#map(ref="address" classname='form-control' :class="{'is-invalid': errors.address_1 }" v-model='formStep2.business.address_1' placeholder='Business Address'  v-on:placechanged='getAddressData')
                     .invalid-feedback.d-block(v-if="errors.address_1") {{ errors.address_1[0] }}
                 .col-xl-3.pl-xl-2
                   b-form-group#inputB-group-10(label='Apt/Unit:' label-for='inputB-10')
@@ -665,8 +665,10 @@
         // console.log('addressData', addressData)
         // console.log('placeResultData', placeResultData)
         // console.log('id', id)
+        const input = document.getElementById(id)
         const { administrative_area_level_1, locality, postal_code } = addressData
 
+        this.formStep2.business.address_1 = input.value
         this.formStep2.business.city = locality
         this.formStep2.business.state = administrative_area_level_1
         this.formStep2.business.zipcode = postal_code

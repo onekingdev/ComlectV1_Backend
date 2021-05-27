@@ -18,7 +18,7 @@ html lang=I18n.locale
     meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no"
     = stylesheet_link_tag 'vue'
     = csrf_meta_tags
-    script(async src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBcJYy5KCGzQw8hEHQ4K9A3ZaYhtSMfGh0&libraries=places')
+    script(defer src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBcJYy5KCGzQw8hEHQ4K9A3ZaYhtSMfGh0&libraries=places')
     / script(async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBcJYy5KCGzQw8hEHQ4K9A3ZaYhtSMfGh0&libraries=places&callback=initMap")
     script src='//d2wy8f7a9ursnm.cloudfront.net/bugsnag-3.min.js' data-apikey="#{ENV['BUGSNAG_API_KEY']}"
     = javascript_include_tag '/app_config.js'
