@@ -25,13 +25,11 @@
                   b-button.w-100(type='submit' variant='dark') Sign In
                   hr
                   b-form-group.text-center.forgot-password.m-t-1
-                    <!--p Forget your password?&nbsp;-->
-                      <!--a.link(href="#") Restore-->
+                    // p Forget your password?&nbsp;
+                    //  a.link(href="#") Restore
                     a.link.o-8.forgot-password(data-remote='true' href='/users/password/new') Forgot Password
                     h4.text-uppercase.m-t-1.m-b-1 Don’t have an account yet?&nbsp;
                       a.link(data-remote='true' href='/users/sign_up') sign up here
-                <!--b-card.mt-3(header='Form Data Result')-->
-                  <!--pre.m-0 {{ form }}-->
             #step2.form(v-if='!loading' :class="step2 ? 'd-block' : 'd-none'")
               h1.text-center Confirm your email!
               p.text-center We send a 6 digit code to email.com. Please enter it below.
@@ -55,8 +53,6 @@
                       .col
                         input(v-model='form2.code' type='hidden')
                   b-button.w-100(type='submit' variant='dark' ref="codesubmit") Submit
-                <!--b-card.mt-3(header='Form Data Result')-->
-                  <!--pre.m-0 {{ form2 }}-->
             #step3.form(v-if='!loading'  :class="step3 ? 'd-block' : 'd-none'")
               h1.text-center You successfuly logged in!
               p.text-center.m-b-2 You will be redirect to the dashboard!
@@ -78,18 +74,6 @@
     components: {
       TopNavbar,
       Loading,
-    },
-    created() {
-    //   const urlUserId = location.search.split('userid=')[1]
-    //   if(urlUserId) this.userId = urlUserId
-    //   const otpSecret = location.search.split('otp_secret=')[1]
-    //   if(otpSecret) this.otpSecret = otpSecret
-
-      // const currentUserLocalStorage = localStorage.getItem('app.currentUser') ? localStorage.getItem('app.currentUser') : '';
-      // if (currentUserLocalStorage) {
-      //   const currentUser = JSON.parse(currentUserLocalStorage);
-      //   this.userId = currentUser.userid;
-      // }
     },
     data() {
       return {
