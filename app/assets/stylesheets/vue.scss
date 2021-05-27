@@ -131,6 +131,8 @@ html {
 }
 
 .btn.btn-default { border: 1px solid #dadadc; background-color: #fff; }
+.btn.btn-default:hover,
+.btn.btn-default:active { background-color: #F3F6F9; }
 
 table.table, table.table thead tr th {
   border: 0px;

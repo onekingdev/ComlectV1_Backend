@@ -21,7 +21,7 @@ export default class ExamManagement {
         id: request.id,
         name: request.name,
         shared: request.shared,
-        text_items: request.text_items || [],
+        text_items: request.text_items.map(text => ({ text })) || [],
       }
     })
   }
