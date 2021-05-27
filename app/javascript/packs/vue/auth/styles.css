@@ -39,7 +39,7 @@
   color: #7f8184;
 }
 
-.form ion-icon {
+ion-icon {
   font-size: 15rem!important;
   filter: drop-shadow(5px 5px 5px lightgray);
 }
@@ -177,22 +177,39 @@ input[type=number] {
 
 .exp {}
 .exp__btn {
+  padding: 1rem 1.5rem;
   color: #2e304f;
   max-width: 20rem;
+  text-align: left;
   border: solid 1px #dcdee4;
   background-color: white;
+}
+@media (max-width: 575px) {
+  .exp__btn:not(:last-child) {
+    margin-bottom: 1rem;
+  }
 }
 .exp__btn:hover,
 .exp__btn:active,
 .exp__btn.active {
-  color: white!important;
-  background-color: #2e304f!important;
+  background-color: #f6f6f8!important;
+  border-color: #2e304f;
+  box-shadow: none;
 }
 .exp__btn:not(:last-child) {
   margin-right: 1rem;
 }
-.exp__btn--main {}
+.exp__btn--main {
+  display: block;
+  margin-bottom: .5rem;
+  width: 100%;
+  color: #303132;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
 .exp__btn--sub {
+  display: block;
+  width: 100%;
   color: #797b7e;
 }
 .exp__btn:hover .exp__btn--sub,

@@ -30,6 +30,7 @@
                       v-model="formStep1.jurisdiction"
                       :options="formStep1.jurisdictionOptions"
                       :multiple="true"
+                      :show-labels="false"
                       track-by="name",
                       label="name",
                       placeholder="Select jurisdiction",
@@ -61,6 +62,7 @@
                       v-model="formStep1.industry"
                       :options="formStep1.industryOptions"
                       :multiple="true"
+                      :show-labels="false"
                       track-by="name",
                       label="name",
                       placeholder="Select Industry",
@@ -77,6 +79,7 @@
                       v-model="formStep1.subIndustry"
                       :options="formStep1.subIndustryOptions"
                       :multiple="true"
+                      :show-labels="false"
                       track-by="name",
                       label="name",
                       placeholder="Select Sub-Industry",
@@ -96,6 +99,7 @@
                     v-model="formStep1.regulator"
                     :options="formStep1.regulatorOptionsTags"
                     :multiple="true"
+                    :show-labels="false"
                     track-by="name",
                     label="name",
                     tag-placeholder="Add this as new tag",
@@ -125,6 +129,7 @@
                   v-model="formStep2.skills"
                   :options="formStep2.skillsTags"
                   :multiple="true"
+                  :show-labels="false"
                   track-by="name",
                   label="name",
                   tag-placeholder="Add this as new tag",
@@ -137,17 +142,14 @@
               h3.onboarding__title.m-t-2 What's your experience?
               p.onboarding__sub-title Select one that the best matches your level of your expertise.
               b-form-group(class="onboarding-group")
-                b-button.exp__btn.text-left(:class="formStep2.experience === 0 ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onexperienceChange($event, 0)")
-                  b.exp__btn--main Junior
-                  br
+                b-button.exp__btn(variant="default" :class="formStep2.experience === 0 ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onexperienceChange($event, 0)")
+                  span.exp__btn--main Junior
                   span.exp__btn--sub Begining consulting with some experience in the field.
-                b-button.exp__btn.text-left(:class="formStep2.experience === 1 ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onexperienceChange($event, 1)")
-                  b.exp__btn--main Intermediate
-                  br
+                b-button.exp__btn(variant="default" :class="formStep2.experience === 1 ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onexperienceChange($event, 1)")
+                  span.exp__btn--main Intermediate
                   span.exp__btn--sub Good experience and knowlage of the industry.
-                b-button.exp__btn.text-left(:class="formStep2.experience === 2 ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onexperienceChange($event, 2)")
-                  b.exp__btn--main Expert
-                  br
+                b-button.exp__btn(variant="default" :class="formStep2.experience === 2 ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onexperienceChange($event, 2)")
+                  span.exp__btn--main Expert
                   span.exp__btn--sub Deep understanding of industry with varied experience.
               hr
               // h3.onboarding__title.m-b-3.m-t-2 (Optional) Upload you resume:
