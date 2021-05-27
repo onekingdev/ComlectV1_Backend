@@ -439,10 +439,10 @@
           return
         }
         if (stepNum === 2) {
-          if (!this.formStep1.industry) this.errors = Object.assign({}, this.errors, { industry: `Field can't be empty!` })
-          if (!this.formStep1.time_zone) this.errors = Object.assign({}, this.errors, { time_zone: `Field can't be empty!` })
-          if (!this.formStep1.subIndustry) this.errors = Object.assign({}, this.errors, { subIndustry: `Field can't be empty!` })
-          if (!this.formStep1.jurisdiction) this.errors = Object.assign({}, this.errors, { jurisdiction: `Field can't be empty!` })
+          if (!this.formStep1.jurisdiction.length) this.errors = Object.assign({}, this.errors, { jurisdiction: `Field can't be empty!` })
+          if (!this.formStep1.time_zone.length) this.errors = Object.assign({}, this.errors, { time_zone: `Field can't be empty!` })
+          if (!this.formStep1.industry.length) this.errors = Object.assign({}, this.errors, { industry: `Field can't be empty!` })
+          if (!this.formStep1.subIndustry.length) this.errors = Object.assign({}, this.errors, { subIndustry: `Field can't be empty!` })
           if (!this.formStep1.industry || !this.formStep1.time_zone || !this.formStep1.subIndustry || !this.formStep1.jurisdiction ) return
 
           this.navigation(stepNum)
