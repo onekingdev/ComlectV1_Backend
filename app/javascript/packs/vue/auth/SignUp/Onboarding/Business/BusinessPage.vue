@@ -129,14 +129,10 @@
                     .invalid-feedback.d-block(v-if="errors.apartment") {{ errors.apartment[0] }}
               .row
                 .col-xl-4.pr-xl-2
-                  b-form-group#inputB-group-11(label='Zip' label-for='inputB-11' label-class="required")
-                    b-form-input#inputB-11(v-model='formStep2.business.zipcode' placeholder='Zip' required :class="{'is-invalid': errors.zipcode }")
-                    .invalid-feedback.d-block(v-if="errors.zipcode") {{ errors.zipcode[0] }}
-                .col-xl-4.px-xl-2
                   b-form-group#inputB-group-12(label='City' label-for='inputB-12' label-class="required")
                     b-form-input#inputB-12(v-model='formStep2.business.city' type='text' placeholder='City' required :class="{'is-invalid': errors.city }")
                     .invalid-feedback.d-block(v-if="errors.city") {{ errors.city[0] }}
-                .col-xl-4.pl-xl-2
+                .col-xl-4.px-xl-2
                   b-form-group#inputB-group-13(label='State' label-for='selectB-13' label-class="required")
                     div(
                     :class="{ 'invalid': errors.state }"
@@ -148,6 +144,10 @@
                       @input="onChangeState",
                       required)
                       .invalid-feedback.d-block(v-if="errors.state") {{ errors.state[0] }}
+                .col-xl-4.pl-xl-2
+                  b-form-group#inputB-group-11(label='Zip' label-for='inputB-11' label-class="required")
+                    b-form-input#inputB-11(v-model='formStep2.business.zipcode' placeholder='Zip' required :class="{'is-invalid': errors.zipcode }")
+                    .invalid-feedback.d-block(v-if="errors.zipcode") {{ errors.zipcode[0] }}
               .text-right
                 b-button.mr-2(type='button' variant='outline-primary' @click="prevStep(1)") Go back
                 // b-button.mr-2(type='button' variant='outline-primary' @click="nextStep(3)") Skip this step
