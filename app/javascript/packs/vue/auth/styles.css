@@ -335,3 +335,42 @@ legend, .label {
   background-color: #f6f6f8;
   cursor: pointer;
 }
+
+/* ---------- Files List view ---------- */
+.file-card {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  border: solid 1px #dcdee4;
+  background-color: #ecf4ff;
+}
+.file-card:not(:last-child) {
+  margin-bottom: 1rem;
+}
+.file-card__icon {
+  color: #797b7e;
+}
+.file-card__name {
+  margin-bottom: 0;
+}
+.file-card__link {}
+.file-card__close {
+  position: relative;
+}
+.file-card__close::before,
+.file-card__close::after {
+  display: block;
+  position: absolute;
+  content: '.';
+}
+.file-card__close::before {
+  top: -5px;
+  left: 0;
+}
+.file-card__close::after {
+  top: -5px;
+  right: 0;
+}
+.file-card .dropdown-toggle::after {
+  display: none;
+}

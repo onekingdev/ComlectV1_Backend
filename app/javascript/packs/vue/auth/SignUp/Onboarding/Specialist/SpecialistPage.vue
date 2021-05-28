@@ -171,7 +171,7 @@
               //   .m-t-3 Selected file: {{ formStep2.file ? formStep2.file.name : '' }}
               // hr
               h3.onboarding__title.m-b-3.m-t-2 (Optional) Upload you resume:
-              label.dropbox.w-100(for="upload-file")
+              label.dropbox.w-100(v-if="!formStep2.file" for="upload-file")
                 input.input-file(type="file" id="upload-file" accept="application/pdf" ref="file" @change="selectFile")
                 p(v-if="!formStep2.file") Drag your resume here
                   br
@@ -179,6 +179,19 @@
                   br
                   button.btn.btn-default Upload
                 p(v-if="formStep2.file") Selected file: {{ formStep2.file.name }}
+              .row(v-if="formStep2.file")
+                .col-md-12.m-b-1
+                  .file-card
+                    div.mr-2
+                      b-icon.file-card__icon(icon="file-earmark-text-fill" font-scale="2")
+                    div.ml-0.mr-auto
+                      p.file-card__name: b {{ formStep2.file.name }}
+                      a.file-card__link.link(:href="formStep2.file.file_url" target="_blank") Download
+                    div.ml-auto.align-self-start.actions
+                      b-dropdown(size="sm" variant="none" class="m-0 p-0" right)
+                        template(#button-content)
+                          b-icon(icon="three-dots")
+                        b-dropdown-item.delete(@click="removeFile") Delete file
               hr
               .text-right.m-t-2
                 b-button.mr-2(type='button' variant='default' @click="prevStep(1)") Go back
@@ -318,7 +331,7 @@
             value: subIndfromOpt.value
           }
         }) : []
-        this.formStep1.jurisdiction = accountInfoParsed.jurisdiction || []
+        this.formStep1.jurisdiction = accountInfoParsed.jurisdictions || []
         // this.formStep1.regulatorSelected = accountInfoParsed.former_regulator ? 'yes' : 'no';
 
         this.formStep2.skills = accountInfoParsed.skills || []
@@ -499,8 +512,8 @@
               // certifications: '',
               resume: this.formStep2.file ? this.formStep2.file : '',
             },
-            sub_industry_ids: this.formStep1.business.sub_industries ? this.formStep2.business.sub_industries.map(record => record.value) : [],
-            skill_names: this.formStep2.business.skills ? this.formStep2.skills.map(skill => skill.name) : [],
+            sub_industry_ids: this.formStep1.subIindustry ? this.formStep2.subIindustry.map(record => record.value) : [],
+            skill_names: this.formStep2.skills ? this.formStep2.skills.map(skill => skill.name) : [],
           }
 
           let formData = new FormData()
@@ -676,7 +689,10 @@
         setTimeout(() => {
           window.location.href = `${dashboard}`;
         }, 3000)
-      }
+      },
+      removeFile() {
+        this.formStep2.file = null
+      },
     },
     computed: {
       loading() {
