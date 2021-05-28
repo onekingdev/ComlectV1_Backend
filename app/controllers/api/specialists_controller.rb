@@ -18,7 +18,7 @@ class Api::SpecialistsController < ApiController
   def update
     specialist = current_specialist
     if specialist.update(edit_specialist_params)
-      specialist.username = specialist.generate_username
+      specialist.username = specialist.generate_username if specialist.username.blank?
       specialist.update(sub_industries: convert_sub_industries(params[:sub_industry_ids])) if params[:sub_industry_ids].present?
       set_skills
       respond_with specialist, serializer: ::SpecialistSerializer
@@ -55,7 +55,7 @@ class Api::SpecialistsController < ApiController
     params.require(:specialist).permit(
       :first_name, :last_name,
       :former_regulator, :certifications, :resume,
-      :experience,
+      :experience, :specialist_other,
       jurisdiction_ids: [], industry_ids: [],
       user_attributes: %i[
         email password

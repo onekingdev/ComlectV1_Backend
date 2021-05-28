@@ -3,6 +3,10 @@
 class Api::Specialist::PaymentSettingsController < ApiController
   before_action :require_specialist!
 
+  def index
+    respond_with current_specialist.payment_sources, each_serializer: ::Specialist::PaymentSourceSerializer
+  end
+
   def create_card
     cus_id = current_specialist&.stripe_customer
     unless cus_id
@@ -23,7 +27,7 @@ class Api::Specialist::PaymentSettingsController < ApiController
       last4: card.last4,
       primary: current_specialist&.payment_sources&.length&.zero?
     )
-    respond_with payment_source, serilaizer: ::Specialist::PaymentSourceSerializer
+    respond_with payment_source, serializer: ::Specialist::PaymentSourceSerializer
   rescue Stripe::StripeError => e
     respond_with(message: { message: e.message }, status: :unprocessable_entity) && (return)
   end
@@ -50,7 +54,7 @@ class Api::Specialist::PaymentSettingsController < ApiController
         account_holder_type: bank.account_holder_type,
         primary: current_specialist&.payment_sources&.length&.zero?
     )
-    respond_with payment_source, serilaizer: ::Specialist::PaymentSourceSerializer
+    respond_with payment_source, serializer: ::Specialist::PaymentSourceSerializer
   rescue Stripe::StripeError => e
     respond_with(message: { message: e.message }, status: :unprocessable_entity) && (return)
   end
@@ -67,7 +71,7 @@ class Api::Specialist::PaymentSettingsController < ApiController
   def make_primary
     payment_source = current_specialist.payment_sources.find(params[:id])
     payment_source.make_primary!
-    respond_with payment_source, serilaizer: ::Specialist::PaymentSourceSerializer
+    respond_with payment_source, serializer: ::Specialist::PaymentSourceSerializer
   end
 
   def validate

@@ -8,7 +8,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   respond_to :js, :html
 
   def new
-    render html: content_tag('business-signup-page', '',
+    render html: content_tag('signup-page', '',
                              ':industry-ids': Industry.all.map(&proc { |ind|
                                                                   { id: ind.id,
                                                                     name: ind.name }

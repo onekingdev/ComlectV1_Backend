@@ -2,9 +2,12 @@ import Vue from "vue";
 import Vuex from "vuex";
 
 import policies from "./businesModules/policies";
+import specialistsMarketplace from "./businesModules/specialistsMarketplace";
+import annual from "./businesModules/annual"
+import filefolders from "./businesModules/filefolders"
+import exams from "./businesModules/exams"
 import risks from "./businesModules/risks";
-import shared from "./shared";
-import auth from "./businesModules/auth";
+import shared from "./commonModules/shared";
 
 Vue.use(Vuex);
 
@@ -41,6 +44,7 @@ const store = new Vuex.Store({
 
   modules: {
     policies,
+    specialistsMarketplace,
     risks,
     // policies: {
     //   namespaced: true,
@@ -50,7 +54,18 @@ const store = new Vuex.Store({
     //   // }
     // },
     shared,
-    auth,
+    annual: {
+      namespaced: true,
+      ...annual,
+    },
+    filefolders: {
+      namespaced: true,
+      ...filefolders,
+    },
+    exams: {
+      namespaced: true,
+      ...exams,
+    },
   },
 });
 

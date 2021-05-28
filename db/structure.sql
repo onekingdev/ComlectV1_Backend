@@ -1011,7 +1011,8 @@ CREATE TABLE public.exam_requests (
     complete boolean DEFAULT false,
     shared boolean DEFAULT false,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    exam_id integer
 );
 
 
@@ -1046,7 +1047,8 @@ CREATE TABLE public.exams (
     share_uuid character varying,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
-    business_id integer
+    business_id integer,
+    complete boolean DEFAULT false
 );
 
 
@@ -1219,10 +1221,10 @@ CREATE TABLE public.projects (
     business_id integer NOT NULL,
     type character varying DEFAULT 'rfp'::character varying NOT NULL,
     status character varying DEFAULT 'draft'::character varying NOT NULL,
-    title character varying NOT NULL,
+    title character varying,
     location_type character varying,
     location character varying,
-    description character varying NOT NULL,
+    description character varying,
     key_deliverables character varying,
     starts_on date,
     ends_on date,
@@ -2267,7 +2269,8 @@ CREATE TABLE public.users (
 '::text,
     otp_secret character varying,
     otp_counter integer,
-    email_confirmed boolean DEFAULT false
+    email_confirmed boolean DEFAULT false,
+    hidden_local_projects jsonb DEFAULT '[]'::jsonb
 );
 
 
@@ -3852,6 +3855,47 @@ ALTER SEQUENCE public.ported_subscriptions_id_seq OWNED BY public.ported_subscri
 
 
 --
+-- Name: potential_businesses; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.potential_businesses (
+    id bigint NOT NULL,
+    crd_number character varying,
+    contact_phone character varying,
+    business_name character varying,
+    website character varying,
+    address_1 character varying,
+    city character varying,
+    state character varying,
+    zipcode character varying,
+    apartment character varying,
+    client_account_cnt integer,
+    aum numeric,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: potential_businesses_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.potential_businesses_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: potential_businesses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.potential_businesses_id_seq OWNED BY public.potential_businesses.id;
+
+
+--
 -- Name: project_ends; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -4256,7 +4300,9 @@ CREATE TABLE public.reminders (
     skip_occurencies text DEFAULT ''::text,
     done_occurencies text,
     note character varying DEFAULT ''::character varying,
-    description text DEFAULT ''::text
+    description text DEFAULT ''::text,
+    linkable_id integer,
+    linkable_type character varying
 );
 
 
@@ -5437,6 +5483,13 @@ ALTER TABLE ONLY public.ported_subscriptions ALTER COLUMN id SET DEFAULT nextval
 
 
 --
+-- Name: potential_businesses id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.potential_businesses ALTER COLUMN id SET DEFAULT nextval('public.potential_businesses_id_seq'::regclass);
+
+
+--
 -- Name: project_ends id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -6039,6 +6092,14 @@ ALTER TABLE ONLY public.ported_businesses
 
 ALTER TABLE ONLY public.ported_subscriptions
     ADD CONSTRAINT ported_subscriptions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: potential_businesses potential_businesses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.potential_businesses
+    ADD CONSTRAINT potential_businesses_pkey PRIMARY KEY (id);
 
 
 --
@@ -6700,6 +6761,13 @@ CREATE INDEX index_ported_subscriptions_on_specialist_id ON public.ported_subscr
 
 
 --
+-- Name: index_potential_businesses_on_crd_number; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_potential_businesses_on_crd_number ON public.potential_businesses USING btree (crd_number);
+
+
+--
 -- Name: index_project_ends_on_expires_at; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7148,13 +7216,6 @@ CREATE INDEX index_subscriptions_on_kind_of ON public.subscriptions USING btree 
 
 
 --
--- Name: index_time_logs_on_timesheet_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_time_logs_on_timesheet_id ON public.time_logs USING btree (timesheet_id);
-
-
---
 -- Name: index_subscriptions_on_specialist_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7166,6 +7227,14 @@ CREATE INDEX index_subscriptions_on_specialist_id ON public.subscriptions USING 
 --
 
 CREATE INDEX index_subscriptions_on_specialist_payment_source_id ON public.subscriptions USING btree (specialist_payment_source_id);
+
+
+--
+-- Name: index_time_logs_on_timesheet_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_time_logs_on_timesheet_id ON public.time_logs USING btree (timesheet_id);
+
 
 --
 -- Name: index_timesheets_on_first_submitted_at; Type: INDEX; Schema: public; Owner: -
@@ -7423,19 +7492,20 @@ ALTER TABLE ONLY public.local_projects_specialists
 
 
 --
--- Name: tos_agreements fk_rails_6e25fd106a; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-
-ALTER TABLE ONLY public.tos_agreements
-    ADD CONSTRAINT fk_rails_6e25fd106a FOREIGN KEY (user_id) REFERENCES public.users(id);
---
 -- Name: subscriptions fk_rails_61927ae2df; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-
 ALTER TABLE ONLY public.subscriptions
     ADD CONSTRAINT fk_rails_61927ae2df FOREIGN KEY (specialist_payment_source_id) REFERENCES public.specialist_payment_sources(id);
+
+
+--
+-- Name: tos_agreements fk_rails_6e25fd106a; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tos_agreements
+    ADD CONSTRAINT fk_rails_6e25fd106a FOREIGN KEY (user_id) REFERENCES public.users(id);
+
 
 --
 -- Name: business_specialists_roles fk_rails_77436698dd; Type: FK CONSTRAINT; Schema: public; Owner: -
@@ -7468,12 +7538,6 @@ ALTER TABLE ONLY public.project_issues
 ALTER TABLE ONLY public.business_specialists_roles
     ADD CONSTRAINT fk_rails_a4e1c0f49f FOREIGN KEY (business_id) REFERENCES public.businesses(id);
 
---
--- Name: subscriptions fk_rails_dafea693de; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.subscriptions
-    ADD CONSTRAINT fk_rails_dafea693de FOREIGN KEY (specialist_id) REFERENCES public.specialists(id);
 
 --
 -- Name: compliance_policies_risks fk_rails_c295f383a5; Type: FK CONSTRAINT; Schema: public; Owner: -
@@ -7481,6 +7545,14 @@ ALTER TABLE ONLY public.subscriptions
 
 ALTER TABLE ONLY public.compliance_policies_risks
     ADD CONSTRAINT fk_rails_c295f383a5 FOREIGN KEY (risk_id) REFERENCES public.risks(id);
+
+
+--
+-- Name: subscriptions fk_rails_dafea693de; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.subscriptions
+    ADD CONSTRAINT fk_rails_dafea693de FOREIGN KEY (specialist_id) REFERENCES public.specialists(id);
 
 
 --
@@ -7852,7 +7924,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210312165913'),
 ('20210315233431'),
 ('20210316121459'),
-('20210317135216'),                                      
+('20210317135216'),
 ('20210320105303'),
 ('20210321120504'),
 ('20210323154622'),
@@ -7870,6 +7942,12 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210407003049'),
 ('20210408131105'),
 ('20210410142233'),
-('20210415142648');
+('20210415142648'),
+('20210423114454'),
+('20210502165601'),
+('20210505154804'),
+('20210508134939'),
+('20210516095619'),
+('20210518154715');
 
 

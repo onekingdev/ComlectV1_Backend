@@ -1,0 +1,44 @@
+{
+  "billingPlans": [
+    {
+      "id": 1,
+      "name": "Standart",
+      "description": "Try out our product for free!",
+      "coast": "FREE",
+      "coastMonthly": "FREE",
+      "coastMonthlyFormatted": "FREE",
+      "coastAnnually": "FREE",
+      "coastAnnuallyFormatted": "FREE",
+      "users": "1 admin user",
+      "usersCount": 0,
+      "additionalUserMonthly": 0,
+      "additionalUserAnnually": 0,
+      "features": [
+        "Compilance Calendar",
+        "Project Management"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "All Access Membership",
+      "description": "Full access to all features and resources",
+      "coast": "$400/year",
+      "coastMonthly": 0,
+      "coastMonthlyFormatted": "$0",
+      "coastAnnually": 400,
+      "coastAnnuallyFormatted": "$400/year",
+      "users": "3 free users plus $15/mo per person",
+      "usersCount": 3,
+      "additionalUserMonthly": 15,
+      "additionalUserAnnually": 120,
+      "features": [
+        "Compilance Calendar",
+        "Project Management",
+        "Job Board",
+        "Specialist Marketplace Profile",
+        "Access to Complect Community and Free resource Library",
+        "Client Account Access"
+      ]
+    }
+  ]
+}

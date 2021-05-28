@@ -7,6 +7,7 @@ class Business < ApplicationRecord
 
   has_and_belongs_to_many :jurisdictions, optional: true
   has_and_belongs_to_many :industries, optional: true
+  has_many :exams
   has_many :risks
   has_many :forum_questions
   has_many :local_projects
@@ -243,6 +244,8 @@ class Business < ApplicationRecord
   accepts_nested_attributes_for :user
   accepts_nested_attributes_for :tos_agreement
   accepts_nested_attributes_for :cookie_agreement
+
+  attr_accessor :sub_industry_ids
 
   # validate :tos_invalid?
   # validate :cookie_agreement_invalid?

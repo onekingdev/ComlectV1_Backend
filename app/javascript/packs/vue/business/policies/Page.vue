@@ -1,31 +1,31 @@
 <template lang="pug">
-  div
-    .container
-      .row
-        .col-12
-          .row.p-x-1
-            .col-md-12.p-t-3.d-flex.justify-content-between.p-b-1
+  .container-fluid
+    .row
+      .col-12
+        .container
+          .row
+            .col-md-12.d-flex.justify-content-between.p-t-3.p-b-1
               div
                 h2: b Policies and Procedures
               div
-                button.btn.btn.btn-default.mr-3 Export
-                PoliciesModalCreate(@saved="updateList")
+                button.btn.btn.btn-default.mr-3 Download
+                PoliciesModalCreate(@savedConfirmed="updateList")
                   button.btn.btn-dark.float-end New policy
-          .row
-            .col-12
-              b-tabs(content-class="mt-0")
-                b-tab(title="Compilance Manual" active)
-                  .card-body.white-card-body
-                    .container
-                      PoliciesTable(:policies="filteredUnArchivedList", @searching="searching")
-                b-tab(title="Archive")
-                  .card-body.white-card-body
-                    .container
-                      PoliciesTable(:policies="filteredArchivedList", @searching="searchingArchived")
-                b-tab(title="Setup")
-                  .card-body.white-card-body
-                    .container
-                      PoliciesSetup
+    .row
+      .col-12.px-0
+        b-tabs(content-class="mt-0")
+          b-tab(title="Compilance Manual" active)
+            .card-body.white-card-body
+              .container
+                PoliciesTable(:policies="filteredUnArchivedList", @searching="searching")
+          b-tab(title="Archive")
+            .card-body.white-card-body
+              .container
+                PoliciesTable(:policies="filteredArchivedList", @searching="searchingArchived")
+          b-tab(title="Setup" lazy)
+            .card-body.white-card-body
+              .container
+                PoliciesSetup
 </template>
 
 <script>

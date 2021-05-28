@@ -1,8 +1,13 @@
 # frozen_string_literal: true
 
 class Users::PasswordsController < Devise::PasswordsController
+  include ActionView::Helpers::TagHelper
   def new
-    super
+    render html: content_tag('reset-password-page', '').html_safe, layout: 'vue_onboarding'
+  end
+
+  def edit
+    render html: content_tag('change-password-page', '').html_safe, layout: 'vue_onboarding'
   end
 
   def create

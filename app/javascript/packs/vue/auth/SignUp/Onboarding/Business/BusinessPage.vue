@@ -3,6 +3,7 @@
     TopNavbar(:userInfo="userInfo")
     main.row#main-content
       .col-xl-10.col-md-9.m-x-auto
+        Overlay(v-if="overlay", :status="overlayStatus", :statusText="overlayStatusText", :show="overlay")
         .card-body.white-card-body.registration-onboarding.p-5
           .div
             h2 Set Up Your Account
@@ -18,51 +19,53 @@
           b-form(@submit='onSubmit' v-if='show')
             #step1.form(v-if='!loading' :class="step1 ? 'd-block' : 'd-none'")
               h3 Do you have a CRD number?
-                b-icon.h5.ml-2.mb-1(icon="exclamation-circle-fill" variant="secondary")
+                b-icon.h5.ml-2.mb-1(icon="exclamation-circle-fill" variant="secondary" v-b-tooltip.hover title="Automated update company info by CRD number")
               p The CRD number will be used to gather additional information about your business.
               div
                 b-form-group(v-slot='{ ariaDescribedby }')
                   b-form-radio-group(v-model='formStep1.CRDnumberSelected' :options='formStep1.CRDnumberOptions' :aria-describedby='ariaDescribedby' name='radios-stacked' stacked)
                 b-form-group(label='What is your CRD number?' v-if="formStep1.CRDnumberSelected === 'yes'")
                   b-form-input.w-50(v-model="formStep1.CRDnumber" placeholder="Enter your CRD number")
+                  .invalid-feedback.d-block(v-if="errors.CRDnumber") {{ errors.CRDnumber }}
               .text-right
                 b-button(type='button' variant='dark' @click="nextStep(2)") Next
             #step2.form(v-if='!loading'  :class="step2 ? 'd-block' : 'd-none'")
-              b-alert(show variant="primary" dismissible)
+              b-alert(v-if="formStep1.CRDnumber && formStep1.CRDnumber.length" show variant="primary" dismissible)
                 h4 Verify information
                 p.mb-0 The following fields were filled in based on the CRD number you provided. Please carefully review each field before proceeding.
               h3 Tell us more about your business
               .row
                 .col-xl-6.pr-xl-2
-                  b-form-group#input-group-1(label='Company Name' label-for='input-1')
-                    b-form-input#input-1(v-model='formStep2.companyName' type='text' placeholder='Company Name' required)
+                  b-form-group#inputB-group-1(label='Company Name' label-for='inputB-1')
+                    b-form-input#inputB-1(v-model='formStep2.companyName' type='text' placeholder='Company Name' required)
                     .invalid-feedback.d-block(v-if="errors.companyName") {{ errors.companyName }}
               .row
                 .col.pr-2
-                  b-form-group#input-group-2(label='AUM' label-for='input-2')
-                    b-form-input#input-2(v-model='formStep2.aum' type='text' placeholder='AUM' required)
+                  b-form-group#inputB-group-2(label='AUM' label-for='inputB-2')
+                    b-form-input#inputB-2(v-model='formStep2.aum' type='text' placeholder='AUM' required)
                     .invalid-feedback.d-block(v-if="errors.aum") {{ errors.aum }}
                 .col.pl-2
-                  b-form-group#input-group-3(label='Number of Accounts' label-for='input-3')
-                    b-form-input#input-3(v-model='formStep2.numAcc' type='text' placeholder='Number of Accounts' required)
+                  b-form-group#inputB-group-3(label='Number of Accounts' label-for='inputB-3')
+                    b-form-input#inputB-3(v-model='formStep2.numAcc' type='text' placeholder='Number of Accounts' required)
                     .invalid-feedback.d-block(v-if="errors.numAcc") {{ errors.numAcc }}
               .row
                 .col.pr-2
-                  b-form-group#input-group-4(label='Industry' label-for='select-4')
-                    multiselect#select-4(
+                  b-form-group#inputB-group-4(label='Industry' label-for='selectB-4')
+                    multiselect#selectB-4(
                     v-model="formStep2.industry"
                     :options="formStep2.industryOptions"
                     :multiple="true"
                     track-by="name",
                     label="name",
                     placeholder="Select Industry",
+                    @input="onChange",
                     required)
-                    <!--b-form-select#select-4(v-model='formStep2.industry' :options='options' required)-->
+                    <!--b-form-select#selectB-4(v-model='formStep2.industry' :options='options' required)-->
                     .invalid-feedback.d-block(v-if="errors.industry") {{ errors.industry }}
                 .col.pl-2
-                  b-form-group#input-group-5(label='Sub-Industry' label-for='select-5')
-                    <!--b-form-select#select-5(v-model='formStep2.subIndustry' :options='options' required)-->
-                    multiselect#select-5(
+                  b-form-group#inputB-group-5(label='Sub-Industry' label-for='selectB-5')
+                    <!--b-form-select#selectB-5(v-model='formStep2.subIndustry' :options='options' required)-->
+                    multiselect#selectB-5(
                     v-model="formStep2.subIndustry"
                     :options="formStep2.subIndustryOptions"
                     :multiple="true"
@@ -73,49 +76,49 @@
                     .invalid-feedback.d-block(v-if="errors.subIndustry") {{ errors.subIndustry }}
               .row
                 .col.pr-2
-                  b-form-group#input-group-6(label='Jurisdiction' label-for='select-6')
-                    <!--b-form-select#select-6(v-model='formStep2.jurisdiction' :options='options' required)-->
-                    multiselect#select-6(
+                  b-form-group#inputB-group-6(label='Jurisdiction' label-for='selectB-6')
+                    <!--b-form-select#selectB-6(v-model='formStep2.jurisdiction' :options='options' required)-->
+                    multiselect#selectB-6(
                     v-model="formStep2.jurisdiction"
                     :options="formStep2.jurisdictionOptions"
                     :multiple="true"
                     track-by="name",
                     label="name",
-                    placeholder="Select Sub-Industry",
+                    placeholder="Select Jurisdiction",
                     required)
                     .invalid-feedback.d-block(v-if="errors.jurisdiction") {{ errors.jurisdiction }}
                 .col.pl-2
-                  b-form-group#input-group-7(label='Company Website' label-for='input-7' description="Optional")
-                    b-form-input#input-7.form-control(v-model='formStep2.website' type='text' placeholder='Company Website')
+                  b-form-group#inputB-group-7(label='Company Website' label-for='inputB-7' description="Optional")
+                    b-form-input#inputB-7.form-control(v-model='formStep2.website' type='text' placeholder='Company Website')
                     .invalid-feedback.d-block(v-if="errors.website") {{ errors.website }}
               .row
                 .col-xl-6.pr-xl-2
-                  b-form-group#input-group-8(label='Phone Number' label-for='input-8')
-                    b-form-input#input-8(v-model='formStep2.phoneNumber' type='text' placeholder='Phone Number' required)
+                  b-form-group#inputB-group-8(label='Phone Number' label-for='inputB-8')
+                    b-form-input#inputB-8(v-model='formStep2.phoneNumber' type='text' placeholder='Phone Number' required)
                     .invalid-feedback.d-block(v-if="errors.phoneNumber") {{ errors.phoneNumber }}
               hr
               .row
                 .col-xl-9.pr-xl-2
-                  b-form-group#input-group-9(label='Business Address' label-for='input-9')
-                    b-form-input#input-9(v-model='formStep2.businessAddress' placeholder='Business Address' required)
+                  b-form-group#inputB-group-9(label='Business Address' label-for='inputB-9')
+                    b-form-input#inputB-9(v-model='formStep2.businessAddress' placeholder='Business Address' required)
                     .invalid-feedback.d-block(v-if="errors.businessAddress") {{ errors.businessAddress }}
                 .col-xl-3.pl-xl-2
-                  b-form-group#input-group-10(label='Apt/Unit:' label-for='input-10')
-                    b-form-input#input-10(v-model='formStep2.aptUnit' type='text' placeholder='Apt/Unit' required)
+                  b-form-group#inputB-group-10(label='Apt/Unit:' label-for='inputB-10')
+                    b-form-input#inputB-10(v-model='formStep2.aptUnit' type='text' placeholder='Apt/Unit' required)
                     .invalid-feedback.d-block(v-if="errors.aptUnit") {{ errors.aptUnit }}
               .row
                 .col-xl-4.pr-xl-2
-                  b-form-group#input-group-11(label='Zip' label-for='input-11')
-                    b-form-input#input-11(v-model='formStep2.zip' placeholder='Zip' required)
+                  b-form-group#inputB-group-11(label='Zip' label-for='inputB-11')
+                    b-form-input#inputB-11(v-model='formStep2.zip' placeholder='Zip' required)
                     .invalid-feedback.d-block(v-if="errors.zip") {{ errors.zip }}
                 .col-xl-4.px-xl-2
-                  b-form-group#input-group-12(label='City' label-for='input-12')
-                    b-form-input#input-12(v-model='formStep2.city' type='text' placeholder='City' required)
+                  b-form-group#inputB-group-12(label='City' label-for='inputB-12')
+                    b-form-input#inputB-12(v-model='formStep2.city' type='text' placeholder='City' required)
                     .invalid-feedback.d-block(v-if="errors.city") {{ errors.city }}
                 .col-xl-4.pl-xl-2
-                  b-form-group#input-group-13(label='State' label-for='select-13')
-                    <!--b-form-select#select-13(v-model='formStep2.state' :options='options' required)-->
-                    multiselect#select-13(
+                  b-form-group#inputB-group-13(label='State' label-for='selectB-13')
+                    <!--b-form-select#selectB-13(v-model='formStep2.state' :options='options' required)-->
+                    multiselect#selectB-13(
                     v-model="formStep2.state"
                     :options="formStep2.stateOptions"
                     placeholder="Select state",
@@ -139,14 +142,15 @@
                     name="radio-btn-outline"
                     buttons)
               .row
-                .col-xl-4(v-for='(plan, index) in billingPlan')
+                .col-xl-4(v-for='(plan, index) in billingPlans')
                   b-card.w-100.mb-2.billing-plan(:class="[index === 0 ? 'billing-plan_low' : '', index === 1 ? 'billing-plan_medium' : '', index === 2 ? 'billing-plan_high' : '' ]")
                     b-button.mb-3(type='button' variant='outline-primary' @click="openDetails(plan)") Select Plan
                     b-card-text
                       h4.billing-plan__name {{ plan.name }}
                       p.billing-plan__descr {{ plan.description }}
                       h5.billing-plan__coast {{ billingTypeSelected === 'annually' ?  plan.coastAnnuallyFormatted : plan.coastMonthlyFormatted }}
-                      p.billing-plan__users {{ plan.users }}
+                      p.billing-plan__users(v-if="plan.id === 1") 0 free users
+                      p.billing-plan__users(v-if="plan.id !== 1") {{ billingTypeSelected === 'annually' ?  plan.usersCount + ' free users plus $' + plan.additionalUserAnnually + '/year per person' : plan.usersCount + ' free users plus $' + plan.additionalUserMonthly + '/mo per person' }}
                       hr
                       ul.list-unstyled.billing-plan__list
                         li.billing-plan__item(v-for="feature in plan.features")
@@ -172,6 +176,7 @@
             :plan="selectedPlan"
             @updateBiliing="onBiliingChange"
             @updateAdditionalUsers="updateAdditionalUsers"
+            @complitedPaymentMethod="complitedPaymentMethod"
             )
         PurchaseSummary(
         v-if="isSidebarOpen"
@@ -179,7 +184,8 @@
         :billingTypeOptions="billingTypeOptions"
         :plan="selectedPlan"
         :additionalUsers="additionalUsers"
-        @complitePurchaseConfirmed="selectPlanAndComplitePurchase"
+        @complitePurchaseConfirmed="selectPlanAndComplitePurchase",
+        :disabled="disabled"
         )
 </template>
 
@@ -189,6 +195,9 @@
   import Multiselect from 'vue-multiselect'
   import BillingDetails from './BillingDetails'
   import PurchaseSummary from './PurchaseSummary'
+  import Overlay from '../Overlay'
+
+  import data from './BillingPlansData.json'
 
   export default {
     props: ['industryIds', 'jurisdictionIds', 'subIndustryIds', 'states', 'userInfo'],
@@ -197,33 +206,69 @@
       TopNavbar,
       Multiselect,
       BillingDetails,
-      PurchaseSummary
+      PurchaseSummary,
+      Overlay
     },
     created() {
-      console.log('userInfo', this.userInfo)
-      // console.log('industryIds', this.industryIds)
-      // console.log('subIndustryIds', this.subIndustryIds)
-      // console.log('jurisdictionIds', this.jurisdictionIds)
-      // console.log('states', this.states)
       if(this.industryIds) this.formStep2.industryOptions = this.industryIds;
       // if(this.subIndustryIds) this.formStep2.subIndustryOptions = this.subIndustryIds;
-      if(this.subIndustryIds) {
-        for (const [key, value] of Object.entries(this.subIndustryIds)) {
-          // console.log(`${key}: ${value}`);
-          this.formStep2.subIndustryOptions.push({
-            value: key,
-            name: value
-          })
-        }
-      }
+      // if(this.subIndustryIds) {
+      //   for (const [key, value] of Object.entries(this.subIndustryIds)) {
+      //     this.formStep2.subIndustryOptions.push({
+      //       value: key,
+      //       name: value
+      //     })
+      //   }
+      // }
       if(this.jurisdictionIds) this.formStep2.jurisdictionOptions = this.jurisdictionIds;
       if(this.states) this.formStep2.stateOptions = this.states;
+
+      const accountInfo = localStorage.getItem('app.currentUser');
+      const accountInfoParsed = JSON.parse(accountInfo);
+      if(accountInfo) {
+        this.formStep2.companyName = accountInfoParsed.business_name;
+        // this.formStep2.website = accountInfoParsed;
+        this.formStep2.aum = accountInfoParsed.aum;
+        this.formStep2.aptUnit = accountInfoParsed.apartment;
+        this.formStep2.numAcc = accountInfoParsed.client_account_cnt;
+        // this.formStep2.businessAddress = accountInfoParsed;
+        this.formStep2.city = accountInfoParsed.city;
+        this.formStep2.state = accountInfoParsed.state;
+        this.formStep2.zip = accountInfoParsed.zip;
+        // this.formStep1.CRDnumber = accountInfo;
+        this.formStep2.industry = accountInfoParsed.industries;
+        this.onChange(accountInfoParsed.industries)
+        this.formStep2.subIndustry = accountInfoParsed.sub_industries;
+        this.formStep2.jurisdiction = accountInfoParsed.jurisdictions;
+      }
+
+
+      const url = new URL(window.location);
+      const stepNum = +url.searchParams.get('step');
+      this.currentStep = stepNum;
+
+      if (stepNum === 2) {
+        this.step1 = false;
+        this.step2 = true;
+        this.step3 = false;
+        this.navStep1 = true;
+        this.navStep2 = true;
+        this.navStep3 = false;
+      }
+      if (stepNum === 3) {
+        this.step1 = false;
+        this.step2 = false;
+        this.step3 = true;
+        this.navStep1 = true;
+        this.navStep2 = true;
+        this.navStep3 = true;
+      }
     },
     data() {
       return {
         userId: '',
         otpSecret: '',
-        userType: '',
+        userType: 'business',
         formStep1: {
           CRDnumber: '',
           CRDnumberSelected: 'no',
@@ -251,19 +296,14 @@
           state: '',
           stateOptions: [],
         },
-        // options: [
-        //   { value: null, text: 'Please select an option' },
-        //   { text: 'Value 1', value: 'val1' },
-        //   { text: 'Value 2', value: 'val2' },
-        // ],
         value: null,
         options: ['list', 'of', 'options'],
         show: true,
         errors: {},
-        step1: false,
+        step1: true,
         step2: false,
-        step3: true,
-        currentStep: 3,
+        step3: false,
+        currentStep: 1,
         navStep1: true,
         navStep2: false,
         navStep3: false,
@@ -272,81 +312,16 @@
           { text: 'Billed Annually', value: 'annually' },
           { text: 'Billed Monthly', value: 'monthly' },
         ],
-        billingPlan: [
-          {
-            id: 1,
-            api_id: 'price_1IiE98GXaxE41NmqMgX2ln1u',
-            name: 'Starter',
-            description: 'Try out our product for free!',
-            coast: 'FREE',
-            coastMonthly: 'FREE',
-            coastMonthlyFormatted: `FREE`,
-            coastAnnually: 'FREE',
-            coastAnnuallyFormatted: `FREE`,
-            users: '1 admin user',
-            usersCount: 0,
-            additionalUserMonthly: 0,
-            additionalUserAnnually: 0,
-            features: [
-              'Compilance Calendar',
-              'Project Management',
-            ]
-          },
-          {
-            id: 2,
-            api_id: 'price_1IiYD7GXaxE41Nmqu9aE7eRC',
-            name: 'Team',
-            description: 'Small teams and startups',
-            coast: '$125/mo',
-            coastMonthly: 145,
-            coastMonthlyFormatted: `$145/mo`,
-            coastAnnually: 1500,
-            coastAnnuallyFormatted: `$1500`,
-            users: '3 free users plus $15/mo per person',
-            usersCount: 3,
-            additionalUserMonthly: 15,
-            additionalUserAnnually: 120,
-            features: [
-              'Compilance Calendar',
-              'Project Management',
-              'Policies and Procedures',
-              '1 Internal Review per year',
-              'Exam Management',
-              '5GB storage for books and records',
-              'Unlimited intefrations',
-            ]
-          },
-          {
-            id: 3,
-            api_id: 'price_1IiYDOGXaxE41Nmq4Uc27JUf',
-            name: 'Business',
-            description: 'Medium-sized organizations',
-            coast: '$250/mo',
-            coastMonthly: 270,
-            coastMonthlyFormatted: `$270/mo`,
-            coastAnnually: 3000,
-            coastAnnuallyFormatted: `$3000`,
-            users: '10 free users plus $15/mo per person',
-            usersCount: 10,
-            additionalUserMonthly: 15,
-            additionalUserAnnually: 120,
-            features: [
-              'Compilance Calendar',
-              'Project Management',
-              'Policies and Procedures',
-              '1 Internal Review per year',
-              'Exam Management',
-              'Auditor Portal',
-              '10GB storage for books and records',
-              'Unlimited intefrations',
-              'Free Personalized Onboarding'
-            ]
-          },
-        ],
+        billingPlans: data.billingPlans,
         openId: null,
         isSidebarOpen: false,
         selectedPlan: [],
         additionalUsers: 0,
+        paymentSourceId: null,
+        disabled: true,
+        overlay: false,
+        overlayStatus: '',
+        overlayStatusText: '',
       }
     },
     methods: {
@@ -355,78 +330,118 @@
       },
       onSubmit(event){
         event.preventDefault()
-        console.log(this.form)
       },
-      checkCDRinfo() {
+      checkCDRinfo(stepNum) {
         // CLEAR ERRORS
         this.errors = []
 
+        if (!this.formStep1.CRDnumber.length) {
+          this.errors = { CRDnumber: `Can't be empty!` }
+          return
+        }
+
         const dataToSend = {
-          crd: this.formStep1.CRDnumber
+          crd_number: this.formStep1.CRDnumber
         }
 
         this.$store
           .dispatch('getInfoByCRDNumber', dataToSend)
           .then(response => {
-            console.log('response', response)
-            this.makeToast('Success', `CRD Number successfully sended!`)
+            // this.makeToast('Success', `CRD Number successfully sended!`)
+
+            this.formStep1.CRDnumber = response.crd_number
+            this.formStep2.companyName = response.business_name
+            this.formStep2.website = response.website
+            this.formStep2.aum = response.aum
+            this.formStep2.aptUnit = response.apartment
+            this.formStep2.numAcc = response.client_account_cnt
+            this.formStep2.address_1 = response.businessAddress
+            this.formStep2.city = response.city
+            this.formStep2.state = response.state
+            this.formStep2.zipcode = response.zip
+            this.formStep2.industry = response.industries
+            this.formStep2.subIndustry = response.sub_industries
+            this.formStep2.jurisdiction = response.jurisdictions
+
+            this['step'+(stepNum-1)] = false
+            this['navStep'+stepNum] = true
+            this['step'+stepNum] = true
+            this.currentStep = stepNum
+            this.navigation(this.currentStep)
           })
           .catch(error => {
             console.error(error)
             this.makeToast('Error', `Something wrong! ${error}`)
           })
-
-        console.log(dataToSend)
+      },
+      navigation(stepNum){
+        const url = new URL(window.location);
+        url.searchParams.set('step', stepNum);
+        window.history.pushState({}, '', url);
       },
       prevStep(stepNum) {
         this['step'+(stepNum+1)] = false
         this['navStep'+(stepNum+1)] = false
         this['step'+stepNum] = true
         this.currentStep = stepNum
+        this.navigation(this.currentStep)
       },
       nextStep(stepNum) {
-        if (this.formStep1.CRDnumberSelected === 'yes') {
-          this.checkCDRinfo()
-          return
-        }
-        if (stepNum === 2 && this.formStep1.CRDnumberSelected === 'no') {
+        // CLEAR ERRORS
+        this.errors = []
+
+        if (stepNum === 2) {
+          if (this.formStep1.CRDnumberSelected === 'yes') {
+            this.checkCDRinfo(stepNum)
+            return
+          }
+          if (this.formStep1.CRDnumberSelected === 'no') this.formStep1.CRDnumber = ''
+
           this['step'+(stepNum-1)] = false
           this['navStep'+stepNum] = true
           this['step'+stepNum] = true
           this.currentStep = stepNum
+          this.navigation(this.currentStep)
         }
 
         if (stepNum === 3) {
-          // CLEAR ERRORS
-          this.errors = []
+
+          if (!this.formStep2.industry) this.errors = Object.assign({}, this.errors, { industry: `Field can't be empty!` })
+          if (!this.formStep2.subIndustry) this.errors = Object.assign({}, this.errors, { subIndustry: `Field can't be empty!` })
+          if (!this.formStep2.jurisdiction) this.errors = Object.assign({}, this.errors, { jurisdiction: `Field can't be empty!` })
+          if (!this.formStep2.industry || !this.formStep2.subIndustry || !this.formStep2.jurisdiction ) return
 
           const dataToSend = {
-            // contact_first_name: 'x',
-            // contact_last_name: 'x',
-            // contact_email: 'x',
-            // contact_job_title: 'x',
-            // contact_phone: 'x',
-            business_name: this.formStep2.companyName,
-            website: this.formStep2.website,
-            aum: this.formStep2.aum,
-            apartment: this.formStep2.aptUnit,
-            client_account_cnt: this.formStep2.numAcc,
-            // logo: 'x',
-            address_1: this.formStep2.businessAddress,
-            // country: 'x',
-            city: this.formStep2.city,
-            state: this.formStep2.state,
-            zipcode: this.formStep2.zip,
-            crd_number: this.formStep1.CRDnumber,
-            industry_ids: this.formStep2.industry.map(record => record.id),
-            sub_industry_ids: this.formStep2.subIndustry.map(record => record.id),
-            jurisdiction_ids: this.formStep2.jurisdiction.map(record => record.id),
+            business: {
+              // crd_number: this.formStep1.CRDnumber ? this.formStep1.CRDnumber : '',
+              // contact_first_name: 'x',
+              // contact_last_name: 'x',
+              // contact_email: 'x',
+              // contact_job_title: 'x',
+              // contact_phone: 'x',
+              business_name: this.formStep2.companyName,
+              website: this.formStep2.website,
+              aum: this.formStep2.aum,
+              apartment: this.formStep2.aptUnit,
+              client_account_cnt: this.formStep2.numAcc,
+              // logo: 'x',
+              address_1: this.formStep2.businessAddress,
+              // country: 'x',
+              city: this.formStep2.city,
+              state: this.formStep2.state,
+              zipcode: this.formStep2.zip,
+              // crd_number: this.formStep1.CRDnumber,
+              industry_ids: this.formStep2.industry.map(record => record.id),
+              sub_industry_ids: this.formStep2.subIndustry.map(record => record.value),
+              jurisdiction_ids: this.formStep2.jurisdiction.map(record => record.id),
+            }
           }
 
+          if(this.formStep1.CRDnumber) dataToSend.business.crd_number = this.formStep1.CRDnumber
+
           this.$store
-            .dispatch('updateBusinnesInfo', dataToSend)
+            .dispatch('updateAccountInfo', dataToSend)
             .then(response => {
-              console.log('response', response)
 
               if(response.errors) {
                 this.makeToast('Error', `Something wrong!`)
@@ -444,6 +459,7 @@
                 this['navStep'+stepNum] = true
                 this['step'+stepNum] = true
                 this.currentStep = stepNum
+                this.navigation(this.currentStep)
                 this.makeToast('Success', `Company info successfully sended!`)
               }
             })
@@ -471,37 +487,141 @@
         this.billingTypeSelected = event
       },
       updateAdditionalUsers(event){
-        // console.log('users', event)
         this.additionalUsers = event
       },
+      complitedPaymentMethod(response) {
+        this.paymentSourceId = response.id
+        this.disabled = false;
+      },
       selectPlanAndComplitePurchase (selectedPlan) {
-        console.log('selectedPlan', selectedPlan)
         // CLEAR ERRORS
         this.errors = []
 
+        this.overlay = true
+        this.overlayStatusText = 'Setting up account. Subscribing a plan...'
+
+        let planName;
+        if (selectedPlan.id === 1) {
+          planName = 'free';
+        }
+        if (selectedPlan.id === 2) {
+          planName = this.billingTypeSelected === 'annually' ? 'team_tier_annual' : 'team_tier_monthly';
+        }
+        if (selectedPlan.id === 3) {
+          planName = this.billingTypeSelected === 'annually' ? 'business_tier_annual' : 'business_tier_monthly'
+        }
+
         const dataToSend = {
-          business,
-          "plan": this.billingTypeSelected === 'annually' ? 'team_tier_annual' : 'team_tier_monthly'
+          userType: this.userType,
+          planName,
+          paymentSourceId : this.paymentSourceId,
         }
 
         this.$store
           .dispatch('updateSubscribe', dataToSend)
           .then(response => {
-            console.log('response', response)
-
-            if(response.errors) {
-              this.makeToast('Error', `Something wrong!`)
-            }
-
+            if(response.errors) throw new Error(`Response error!`)
             if(!response.errors) {
               this.makeToast('Success', `Update subscribe successfully finished!`)
+              this.paySeats(selectedPlan)
+
+              // OVERLAY
+              if(+this.additionalUsers === 0) {
+                this.overlayStatusText = 'Account successfully purchased, you will be redirect to the dashboard...'
+                this.overlayStatus = 'success'
+                // this.overlay = false
+                const dashboard = this.userType === 'business' ? '/business' : '/specialist'
+                setTimeout(() => {
+                  window.location.href = `${dashboard}`;
+                }, 3000)
+              }
             }
           })
           .catch(error => {
             console.error(error)
             this.makeToast('Error', `Something wrong! ${error}`)
+
+            // OVERLAY
+            this.overlayStatus = 'error'
+            this.overlayStatusText = `Something wrong! ${error}`
+            setTimeout(() => {
+              this.overlay = false
+            }, 3000)
           })
-      }
+          .finally(() => this.disabled = true)
+      },
+      paySeats(selectedPlan) {
+        const freeUsers = selectedPlan.usersCount;
+        const neededUsers = +this.additionalUsers;
+        if (neededUsers <= freeUsers) return
+        const countPayedUsers = neededUsers - freeUsers
+
+        this.overlayStatusText = 'Subscribing additional seats...'
+
+        let planName = this.billingTypeSelected === 'annually' ? 'seats_annual' : 'seats_monthly'
+
+        const dataToSend = {
+          userType: this.userType,
+          planName,
+          paymentSourceId : this.paymentSourceId,
+          countPayedUsers,
+        }
+
+        this.$store
+          .dispatch('updateSeatsSubscribe', dataToSend)
+          .then(response => {
+
+            if(response.errors) {
+              for (const type of Object.keys(response[i].data.errors)) {
+                this.makeToast('Error', `Something wrong! ${response[i].data.errors[type]}`)
+              }
+            }
+
+            if(!response.errors) {
+              this.makeToast('Success', `Update seat subscribe successfully finished!`)
+
+              // OVERLAY
+              this.overlayStatusText = `Account and ${countPayedUsers} seats successfully purchased, you will be redirect to the dashboard...`
+              this.overlayStatus = 'success'
+              // this.overlay = false
+              const dashboard = this.userType === 'business' ? '/business' : '/specialist'
+              setTimeout(() => {
+                window.location.href = `${dashboard}`;
+              }, 3000)
+            }
+          })
+          .catch(error => {
+            console.error(error)
+            this.makeToast('Error', `Something wrong! ${error}`)
+
+            // OVERLAY
+            this.overlayStatus = 'error'
+            this.overlayStatusText = `Something wrong! ${error}`
+            setTimeout(() => {
+              this.overlay = false
+            }, 3000)
+          })
+          .finally(() => this.disabled = true)
+      },
+      onChange (industries) {
+        if(industries) {
+          this.formStep2.subIndustryOptions = []
+          const results = industries.map(industry => industry.id)
+
+          if(this.subIndustryIds) {
+            for (const [key, value] of Object.entries(this.subIndustryIds)) {
+              for (const i of results) {
+                if (i === +key.split('_')[0]) {
+                  this.formStep2.subIndustryOptions.push({
+                    value: key,
+                    name: value
+                  })
+                }
+              }
+            }
+          }
+        }
+      },
     },
     computed: {
       loading() {
@@ -614,5 +734,5 @@
 </style>
 
 <style scoped>
-  @import "../../styles.css";
+  @import "../../../styles.css";
 </style>

@@ -65,7 +65,6 @@ Rails.application.routes.draw do
     patch '/' => 'businesses#update', as: :update
   end
   get '/business' => 'business_dashboard#show', as: :business_dashboard
-  get '/business2' => 'business_dashboard2#show', as: :business_dashboard2
 
   concern :favoriteable do
     resources :favorites, only: [] do
@@ -85,10 +84,8 @@ Rails.application.routes.draw do
     post '/upgrade/buy' => 'upgrade#subscribe'
     resources :risks, only: %i[index show]
     get '/reports/risks' => 'reports#risks'
-    resources :file_folders do
-      get :download_folder, on: :member
-      get :check_zip, on: :member
-    end
+    resources :file_folders, only: %i[index show]
+    resources :exam_management, only: %i[index show]
     resources :file_docs
     resources :upgrade
     resources :addons, only: %i[index]
@@ -97,15 +94,10 @@ Rails.application.routes.draw do
       post :assign
     end
     post '/seats/buy' => 'seats#buy'
-    resources :compliance_policies, only: %i[new update create edit show destroy index] do
-      collection do
-        put :sort
-      end
-      member do
-        put :ban
-        put :unban
-      end
+    resources :compliance_policies, only: %i[show index] do
+      get :entire, on: :collection
     end
+    get 'annual_reviews/:id/:revcat', to: 'annual_reviews#revcat'
     resources :annual_reviews, only: %i[new create show destroy index edit update]
     resources :annual_reports, only: %i[new create index update]
     resources :teams, only: %i[new create show edit index update destroy]
@@ -261,6 +253,8 @@ Rails.application.routes.draw do
     resources :users, only: [] do
       collection do
         post :sign_in, to: 'authentication#create'
+        post :password, to: 'passwords#create'
+        put :password, to: 'passwords#update'
       end
     end
     scope 'projects/:project_id' do
@@ -279,6 +273,17 @@ Rails.application.routes.draw do
     resources :direct_messages, path: 'messages(/:recipient_username)', only: %i[index create]
     resources :project_ratings, only: %i[index]
     namespace :business do
+      resources :exams, only: %i[index show create update destroy] do
+        resources :exam_requests, path: 'requests', only: %i[create update destroy] do
+          resources :exam_request_files, path: 'documents', only: %i[create destroy]
+        end
+      end
+      resources :file_folders, only: %i[index create destroy update show] do
+        get :download_folder, on: :member
+        get :check_zip, on: :member
+        get :list_tree, on: :member
+      end
+      resources :file_docs, only: %i[create update destroy]
       resource :compliance_policy_configuration, only: %i[show update]
       get '/reminders/:id' => 'reminders#show'
       delete '/reminders/:id' => 'reminders#destroy'
@@ -286,8 +291,9 @@ Rails.application.routes.draw do
       get '/reminders/:date_from/:date_to' => 'reminders#by_date'
       get '/overdue_reminders' => 'reminders#overdue'
       post '/reminders' => 'reminders#create'
-      resources :local_projects, only: %i[index create show update]
-      resources :projects, only: %i[index show create update] do
+      resources :local_projects, only: %i[index create show update destroy]
+      put 'local_projects/:id/complete' => 'local_projects#complete'
+      resources :projects, only: %i[index show create update destroy] do
         resources :project_messages, path: 'messages', only: %i[index create]
         resources :job_applications, path: 'applications', only: %i[index] do
           post :shortlist
@@ -312,7 +318,7 @@ Rails.application.routes.draw do
       end
       resources :ratings, only: %i[index]
       post '/upgrade/subscribe' => 'upgrade#subscribe'
-      resources :payment_settings, only: %i[create update destroy]
+      resources :payment_settings, only: %i[create update destroy index]
       put '/payment_settings/make_primary/:id' => 'payment_settings#make_primary'
     end
     namespace :specialist do
@@ -322,6 +328,8 @@ Rails.application.routes.draw do
         resources :timesheets, except: %i[new edit], controller: 'timesheets'
         resources :job_applications, path: 'applications', only: %i[show update create destroy]
         get :local
+        get :calendar_hide
+        get :calendar_show
       end
       post '/upgrade/subscribe' => 'upgrade#subscribe'
       delete '/upgrade/cancel' => 'upgrade#cancel'
@@ -330,6 +338,7 @@ Rails.application.routes.draw do
       delete '/payment_settings/delete_source/:id' => 'payment_settings#delete_source'
       put '/payment_settings/make_primary/:id' => 'payment_settings#make_primary'
       put '/payment_settings/validate/:id' => 'payment_settings#validate'
+      get '/payment_settings' => 'payment_settings#index'
     end
     resources :businesses, only: [:create]
     resource :business, only: %i[update] do
