@@ -291,6 +291,9 @@ a.link,
 .text-right .btn {
   min-width: 65px;
 }
+.custom-radio:not(:last-child) {
+  margin-bottom: 1rem;
+}
 
 label.required:after {
   content: " *";
@@ -307,6 +310,17 @@ label.required:after {
   border-color: #cd1837;
 }
 
-label {
+label,
+legend, .label {
   color: #797b7e;
+}
+
+/* ---------- NAVBAR ---------- */
+.navbar .dropdown {
+  transition: all 200ms ease-in;
+}
+.navbar .dropdown:hover,
+.navbar .dropdown:active {
+  background-color: #f6f6f8;
+  cursor: pointer;
 }

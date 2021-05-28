@@ -18,17 +18,26 @@
           Loading
           b-form(@submit='onSubmit' @change="onChangeInput" v-if='show')
             #step1.form(v-if='!loading' :class="step1 ? 'd-block' : 'd-none'")
-              h3 Do you have a CRD number?
-                b-icon.h5.ml-2.mb-1(icon="exclamation-circle-fill" variant="secondary" v-b-tooltip.hover title="Automated update company info by CRD number")
-              p The CRD number will be used to gather additional information about your business.
-              div
-                b-form-group(v-slot='{ ariaDescribedby }')
-                  b-form-radio-group(v-model='formStep1.crd_numberSelected' :options='formStep1.crd_numberOptions' :aria-describedby='ariaDescribedby' name='radios-stacked' stacked)
-                b-form-group(label='What is your CRD number?' v-if="formStep1.crd_numberSelected === 'yes'")
-                  b-form-input.w-50(v-model="formStep1.crd_number" placeholder="Enter your CRD number" :class="{'is-invalid': errors.crd_number }")
-                  .invalid-feedback.d-block(v-if="errors.crd_number") {{ errors.crd_number }}
-              .text-right
-                b-button(type='button' variant='dark' @click="nextStep(2)") Next
+              .row
+                .col
+                  h3 Do you have a CRD number?
+                    b-icon.h5.ml-2.mb-1(icon="exclamation-circle-fill" variant="secondary" v-b-tooltip.hover title="Automated update company info by CRD number")
+              p.m-b-2 The CRD number will be used to gather additional information about your business.
+              .row
+                .col
+                  b-form-group.p-x-1(v-slot='{ ariaDescribedby }')
+                    b-form-radio-group(v-model='formStep1.crd_numberSelected' :options='formStep1.crd_numberOptions' :aria-describedby='ariaDescribedby' name='radios-stacked' stacked)
+              .row
+                .col-lg-4
+                  .row
+                    .col-md-10.offset-lg-1.pr-0
+                      b-form-group(label='What is your CRD number?' label-class="label pb-0" v-if="formStep1.crd_numberSelected === 'yes'")
+                        b-form-input(v-model="formStep1.crd_number" placeholder="Enter your CRD number" :class="{'is-invalid': errors.crd_number }")
+                        .invalid-feedback.d-block(v-if="errors.crd_number") {{ errors.crd_number }}
+              .row
+                .col
+                  .text-right
+                    b-button(type='button' variant='dark' @click="nextStep(2)") Next
             #step2.form(v-if='!loading'  :class="step2 ? 'd-block' : 'd-none'")
               b-alert(v-if="formStep1.crd_number && formStep1.crd_number.length" show variant="primary" dismissible)
                 h4 Verify information
@@ -123,8 +132,8 @@
               .row
                 .col-xl-9.pr-xl-2
                   b-form-group#inputB-group-9(label='Business Address' label-for='inputB-9' label-class="required")
-                    b-form-input#inputB-9(v-model='formStep2.business.address_1' placeholder='Business Address' required :class="{'is-invalid': errors.address_1 }"
-                                          v-debounce:1000ms="onAdressChange")
+                    // b-form-input#inputB-9(v-model='formStep2.business.address_1' placeholder='Business Address' required :class="{'is-invalid': errors.address_1 }" v-debounce:1000ms="onAdressChange")
+                    vue-google-autocomplete#map(ref="address" classname='form-control' :class="{'is-invalid': errors.address_1 }" v-model='formStep2.business.address_1' placeholder='Business Address'  :fields="['address_components', 'adr_address', 'geometry', 'formatted_address', 'name']" v-on:placechanged='getAddressData')
                     .invalid-feedback.d-block(v-if="errors.address_1") {{ errors.address_1[0] }}
                 .col-xl-3.pl-xl-2
                   b-form-group#inputB-group-10(label='Apt/Unit:' label-for='inputB-10')
@@ -219,6 +228,8 @@
 </template>
 
 <script>
+  import VueGoogleAutocomplete from 'vue-google-autocomplete'
+
   const {DateTime} = require('luxon')
   const {zones} = require('tzdata')
   const luxonValidTimeZoneName = function (zoneName) {
@@ -273,7 +284,8 @@
       Multiselect,
       BillingDetails,
       PurchaseSummary,
-      Overlay
+      Overlay,
+      VueGoogleAutocomplete
     },
     created() {
       if(luxonValidTimezones) this.timeZoneOptions = luxonValidTimezones;
@@ -301,7 +313,7 @@
       const accountInfo = localStorage.getItem('app.currentUser');
       const accountInfoParsed = JSON.parse(accountInfo);
       if(accountInfo) {
-        this.formStep1.crd_number = accountInfo.crd_number ? accountInfo.crd_number : ''
+        if(accountInfo.crd_number) this.formStep1.crd_number = accountInfo.crd_number
         this.formStep2.business = Object.assign({}, this.formStep2.business, { ...accountInfoParsed })
         this.onChange(accountInfoParsed.industries)
       }
@@ -450,7 +462,7 @@
 
           delete this.formStep2.errors
           const dataToSend = this.formStep2
-          if(this.formStep1.crd_number) dataToSend.business.crd_number = this.formStep1.crd_number
+          if(this.formStep1.crd_number.length) dataToSend.business.crd_number = this.formStep1.crd_number
 
           dataToSend.business.industry_ids = this.formStep2.business.industries.map(record => record.id) || []
           dataToSend.business.sub_industry_ids = this.formStep2.business.sub_industries.map(record => record.value) || []
@@ -652,11 +664,23 @@
       },
       onAdressChange() {
         const address = this.formStep2.business.address_1
-        // console.log('address', address)
+        console.log('address', address)
 
-        // this.$store.dispatch('getGeo', address)
-        //   .then(response => console.log('response', response))
-        //   .catch(error => console.error(error))
+        this.$store.dispatch('getGeo', address)
+          .then(response => console.log('response', response))
+          .catch(error => console.error(error))
+      },
+      getAddressData (addressData, placeResultData, id) {
+        // console.log('addressData', addressData)
+        // console.log('placeResultData', placeResultData)
+        // console.log('id', id)
+        const input = document.getElementById(id)
+        const { administrative_area_level_1, locality, postal_code } = addressData
+
+        this.formStep2.business.address_1 = input.value
+        this.formStep2.business.city = locality
+        this.formStep2.business.state = administrative_area_level_1
+        this.formStep2.business.zipcode = postal_code
       },
       redirect() {
         const dashboard = this.userType === 'business' ? '/business' : '/specialist'

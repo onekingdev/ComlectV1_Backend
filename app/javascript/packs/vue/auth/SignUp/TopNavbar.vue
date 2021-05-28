@@ -11,7 +11,6 @@
               #profile_dropdown_btn(@click="isProfileMenuOpen = !isProfileMenuOpen" :aria-expanded="isProfileMenuOpen")
                 span {{ userName }}
                 b-icon.m-l-1(icon="chevron-down")
-                <!--ion-icon.m-l-1(name='chevron-down-outline' size="small")-->
               ul.dropdown-menu.dropdown-menu-right(aria-labelledby="profile_dropdown_btn" :class="{ show: isProfileMenuOpen }")
                 li
                   a.dropdown-item(href="#") Edit Profile
@@ -22,8 +21,8 @@
                         input.dropdown-item(type="submit" value="Sign Out")
             .p-x-2(v-else)
               a.btn.btn-dark(href="/users/sign_in") Sign in
-        <!--button.navbar-toggler.position-absolute.d-md-none.collapsed(type='button' data-toggle='collapse' data-target='#sidebarMenu' aria-controls='sidebarMenu' aria-expanded='false' aria-label='Toggle navigation')-->
-          <!--span.navbar-toggler-icon-->
+        // button.navbar-toggler.position-absolute.d-md-none.collapsed(type='button' data-toggle='collapse' data-target='#sidebarMenu' aria-controls='sidebarMenu' aria-expanded='false' aria-label='Toggle navigation')
+        //  span.navbar-toggler-icon
 </template>
 
 <script>

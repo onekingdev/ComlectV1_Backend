@@ -11,7 +11,6 @@
               #profile_dropdown_btn(@click="isProfileMenuOpen = !isProfileMenuOpen" :aria-expanded="isProfileMenuOpen")
                 span {{ userName }}
                 b-icon.m-l-1(icon="chevron-down")
-                <!--ion-icon.m-l-1(name='chevron-down-outline' size="small")-->
               ul.dropdown-menu.dropdown-menu-right(aria-labelledby="profile_dropdown_btn" :class="{ show: isProfileMenuOpen }")
                 li
                   a.dropdown-item(href="#") Edit Profile
