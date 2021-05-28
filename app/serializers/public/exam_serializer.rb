@@ -1,10 +1,8 @@
 # frozen_string_literal: true
 
-class ExamSerializer < ApplicationSerializer
+class Public::ExamSerializer < ApplicationSerializer
   has_many :exam_requests, serializer: ExamRequestSerializer
-  has_many :exam_auditors, serializer: ExamAuditorSerializer
-  attributes :id,
-             :name,
+  attributes :name,
              :starts_on,
              :ends_on,
              :share_uuid,

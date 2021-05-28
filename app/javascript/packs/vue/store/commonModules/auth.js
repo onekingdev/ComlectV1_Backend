@@ -53,12 +53,7 @@ export default {
               data.jurisdictions,
               data.state,
               data.sub_industries,
-              data.username,
-              data.address_1,
-              data.address_2,
-              data.contact_phone,
-              data.website,
-              data.zipcode
+              data.username
             ))
             localStorage.setItem('app.currentUser', JSON.stringify(data));
           }
@@ -152,12 +147,7 @@ export default {
               data.jurisdictions,
               data.state,
               data.sub_industries,
-              data.username,
-              data.address_1,
-              data.address_2,
-              data.contact_phone,
-              data.website,
-              data.zipcode
+              data.username
             ))
             localStorage.setItem('app.currentUser', JSON.stringify(data));
           }
@@ -262,12 +252,7 @@ export default {
             data.jurisdictions,
             data.state,
             data.sub_industries,
-            data.username,
-            data.address_1,
-            data.address_2,
-            data.contact_phone,
-            data.website,
-            data.zipcode
+            data.username
           ))
           if (!payload.business) commit('UPDATE_USER', new AccountInfoSpecialist(
             data.experience,
@@ -317,12 +302,7 @@ export default {
             data.jurisdictions,
             data.state,
             data.sub_industries,
-            data.username,
-            data.address_1,
-            data.address_2,
-            data.contact_phone,
-            data.website,
-            data.zipcode
+            data.username
           ))
           if (!payload.business) commit('UPDATE_USER', new AccountInfoSpecialist(
             data.experience,

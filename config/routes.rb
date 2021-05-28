@@ -53,6 +53,8 @@ Rails.application.routes.draw do
 
   get '/notifications_settings' => 'notifications#route'
 
+  get '/exams/:uuid' => 'exams#show'
+
   resources :turnkey_pages, only: %i[index show create new], path: 'turnkey'
   #  resources :turnkey_solutions # , only: :create
   post '/turnkey/:id' => 'turnkey_pages#create'
@@ -251,6 +253,9 @@ Rails.application.routes.draw do
   end
 
   namespace :api do
+    post 'exams/:uuid' => 'exams#email'
+    patch 'exams/:uuid' => 'exams#show'
+
     resources :skills, only: :index
     resources :users, only: [] do
       collection do
@@ -279,6 +284,8 @@ Rails.application.routes.draw do
         resources :exam_requests, path: 'requests', only: %i[create update destroy] do
           resources :exam_request_files, path: 'documents', only: %i[create destroy]
         end
+        post :invite, on: :member
+        post :uninvite, on: :member
       end
       resources :file_folders, only: %i[index create destroy update show] do
         get :download_folder, on: :member
