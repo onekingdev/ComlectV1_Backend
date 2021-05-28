@@ -168,7 +168,7 @@
                 p(v-if="formStep2.file") Selected file: {{ formStep2.file.name }}
               hr
               .text-right.m-t-2
-                b-button.mr-2(type='button' variant='outline-primary' @click="prevStep(1)") Go back
+                b-button.mr-2(type='button' variant='default' @click="prevStep(1)") Go back
                 b-button(type='button' variant='dark' @click="nextStep(3)") Next
             #step3.form(v-if='!loading'  :class="step3 ? 'd-block' : 'd-none'")
               .row
@@ -194,7 +194,7 @@
                           | {{ feature }}
               .row
                 .col.text-right
-                  b-button(type='button' variant='outline-primary' @click="prevStep(2)") Go back
+                  b-button(type='button' variant='default' @click="prevStep(2)") Go back
 
         b-sidebar#BillingPlanSidebar(@hidden="closeSidebar" v-model="isSidebarOpen" backdrop-variant='dark' backdrop left no-header width="60%")
           .card
