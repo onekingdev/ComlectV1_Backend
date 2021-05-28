@@ -135,14 +135,7 @@ input[type=number] {
   color: #86888b;
 }
 
-.billing-plan {
-  min-height: 40rem;
-}
-@media (max-width: 767px) {
-  .billing-plan {
-    min-height: auto;
-  }
-}
+.billing-plan {}
 .billing-plan_low {
   box-shadow: 0 -5px 0 #1ab27f;
 }
