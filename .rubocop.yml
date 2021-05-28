@@ -104,7 +104,7 @@ Metrics/MethodLength:
   Max: 55
 
 Metrics/PerceivedComplexity:
-  Max: 15
+  Max: 16
 
 ##################### Lint ##################################
 
