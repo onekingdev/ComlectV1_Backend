@@ -56,7 +56,7 @@
                             input.policy-details__input(v-model="policy.title")
                           .policy-details__name Description
                           .policy-details__text-editor(@click="toggleVueEditorHandler", v-if="!toggleVueEditor", v-b-tooltip.hover.left title="Click to edit text", v-html="policy.description ? policy.description : description")
-                          vue-editor.policy-details__text-editor(v-if="toggleVueEditor", :editorOptions="editorSettings" v-model="policy.description", @blur="handleBlur")
+                          vue-editor.policy-details__text-editor(v-if="toggleVueEditor" :editorOptions="editorSettings" :editor-toolbar="fullToolbar " v-model="policy.description")
                 b-tab(title="Risks" lazy)
                   .card-body.white-card-body.position-relative.p-0.h-100
                     PolicyRisks(:policyId="policyId")
@@ -121,11 +121,31 @@
               }
             }
           }
-        }
+        },
+        fullToolbar: [
+          // [{ font: [ '-apple-system', 'BlinkMacSystemFont', "Segoe UI", 'Roboto', "Helvetica Neue", 'Arial', "Noto Sans", 'sans-serif', "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"] }],
+          [{ header: [false, 1, 2, 3, 4, 5, 6] }],
+          // [{ size: ["small", false, "large", "huge"] }],
+          // ["bold", "italic", "underline", "strike"],
+          ["bold", "italic", "underline"],
+          [ { align: "" },  { align: "center" },  { align: "right" },  { align: "justify" } ],
+          // [{ header: 1 }, { header: 2 }],
+          ["blockquote", "code-block"],
+          // [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
+          [{ list: "ordered" }, { list: "bullet" }],
+          [{ script: "sub" }, { script: "super" }],
+          [{ indent: "-1" }, { indent: "+1" }],
+          [{ color: [] }, { background: [] }],
+          // ["link", "image", "video", "formula"],
+          ["link"],
+          // [{ direction: "rtl" }],
+          ["clean"]
+        ],
       }
     },
     methods: {
       saveDraft () {
+        this.toggleVueEditor = false
         this.updatePolicy()
       },
       download () {
@@ -346,11 +366,15 @@
 
 <style scoped>
   .h-80 {
-    min-height: calc(100vh - 200px);
+    min-height: calc(100vh - 225px);
   }
 
   .policy .tab-pane.h-80{
-    min-height: calc(100vh - 200px);
+    min-height: calc(100vh - 225px);
+  }
+
+  .policy-details {
+    min-height: calc(100vh - 225px);
   }
 
   .policy-details__text-editor {
