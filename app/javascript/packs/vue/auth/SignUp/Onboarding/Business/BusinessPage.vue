@@ -293,23 +293,13 @@
       // if(luxonValidTimezones) this.timeZoneOptions = luxonValidTimezones;
       if(luxonValidTimezones) {
         for (const value of luxonValidTimezones) {
-          console.log(value)
           const [ gmt, zone ] = value.split(') ')
-          console.log(gmt, zone )
           this.timeZoneOptions.push({
             value: zone,
             name: value
           })
         }
       }
-      // if(luxonValidTimezones) {
-      //   for (const [key, value] of Object.entries(luxonValidTimezones)) {
-      //     this.timeZoneOptions.push({
-      //       value: key,
-      //       name: value
-      //     })
-      //   }
-      // }
       if(this.industryIds) this.industryOptions = this.industryIds;
       // if(this.subIndustryIds) this.formStep2.subIndustryOptions = this.subIndustryIds;
       // if(this.subIndustryIds) {
@@ -475,12 +465,16 @@
 
           delete this.formStep2.errors
           const dataToSend = this.formStep2
-          if(this.formStep1.crd_number.length) dataToSend.business.crd_number = this.formStep1.crd_number
+          if(!this.formStep1.crd_number.length) delete dataToSend.business.crd_number
 
           dataToSend.business.industry_ids = this.formStep2.business.industries.map(record => record.id) || []
           dataToSend.business.sub_industry_ids = this.formStep2.business.sub_industries.map(record => record.value) || []
           dataToSend.business.jurisdiction_ids = this.formStep2.business.jurisdictions.map(record => record.id) || []
-          dataToSend.business.time_zone = this.formStep2.business.time_zone.value || ''
+          dataToSend.business.time_zone = this.formStep2.business.time_zone ? this.formStep2.business.time_zone.value : ''
+
+          delete dataToSend.business.industries
+          delete dataToSend.business.sub_industries
+          delete dataToSend.business.jurisdictions
 
           this.$store.dispatch('updateAccountInfo', dataToSend)
             .then(response => {
