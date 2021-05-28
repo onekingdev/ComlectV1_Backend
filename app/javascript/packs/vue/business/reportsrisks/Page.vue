@@ -11,10 +11,10 @@
             .col
               .card-body.white-card-body
                 Loading
-          .row.mb-3(v-if="!loading")
-            .col-md-7.col-12
+          .row(v-if="!loading")
+            .col-lg-7.col-12.m-b-2
               ReportRiskHeatmap
-            .col-md-5.col-12
+            .col-lg-5.col-12.m-b-2
               ReportRiskSummary
           .row
             .col
