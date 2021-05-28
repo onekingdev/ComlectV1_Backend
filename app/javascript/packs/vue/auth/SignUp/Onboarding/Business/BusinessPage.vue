@@ -116,6 +116,8 @@
                       :options="timeZoneOptions"
                       :multiple="false"
                       :show-labels="false"
+                      track-by="name",
+                      label="name"
                       placeholder="Select Time Zone",
                       required)
                       .invalid-feedback.d-block(v-if="errors.time_zone") {{ errors.time_zone[0] }}
@@ -288,7 +290,18 @@
       VueGoogleAutocomplete
     },
     created() {
-      if(luxonValidTimezones) this.timeZoneOptions = luxonValidTimezones;
+      // if(luxonValidTimezones) this.timeZoneOptions = luxonValidTimezones;
+      if(luxonValidTimezones) {
+        for (const value of luxonValidTimezones) {
+          console.log(value)
+          const [ gmt, zone ] = value.split(') ')
+          console.log(gmt, zone )
+          this.timeZoneOptions.push({
+            value: zone,
+            name: value
+          })
+        }
+      }
       // if(luxonValidTimezones) {
       //   for (const [key, value] of Object.entries(luxonValidTimezones)) {
       //     this.timeZoneOptions.push({
@@ -467,6 +480,7 @@
           dataToSend.business.industry_ids = this.formStep2.business.industries.map(record => record.id) || []
           dataToSend.business.sub_industry_ids = this.formStep2.business.sub_industries.map(record => record.value) || []
           dataToSend.business.jurisdiction_ids = this.formStep2.business.jurisdictions.map(record => record.id) || []
+          dataToSend.business.time_zone = this.formStep2.business.time_zone.value || ''
 
           this.$store.dispatch('updateAccountInfo', dataToSend)
             .then(response => {
