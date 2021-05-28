@@ -49,16 +49,16 @@
                     b-form-input#inputB-1(v-model='formStep2.business.business_name' type='text' placeholder='Company Name' required :class="{'is-invalid': errors.business_name }")
                     .invalid-feedback.d-block(v-if="errors.business_name") {{ errors.business_name[0] }}
               .row
-                .col.pr-2
+                .col-sm.pr-sm-2
                   b-form-group#inputB-group-2(label='AUM' label-for='inputB-2')
                     b-form-input#inputB-2(v-model='formStep2.business.aum' type='text' placeholder='AUM' required :class="{'is-invalid': errors.aum }")
                     .invalid-feedback.d-block(v-if="errors.aum") {{ errors.aum[0] }}
-                .col.pl-2
+                .col-sm.pl-sm-2
                   b-form-group#inputB-group-3(label='Number of Accounts' label-for='inputB-3')
                     b-form-input#inputB-3(v-model='formStep2.business.client_account_cnt' type='text' placeholder='Number of Accounts' required :class="{'is-invalid': errors.client_account_cnt }")
                     .invalid-feedback.d-block(v-if="errors.client_account_cnt") {{ errors.client_account_cnt[0] }}
               .row
-                .col.pr-2
+                .col-sm-6.pr-sm-2
                   b-form-group#inputB-group-4(label='Industry' label-for='selectB-4' label-class="required")
                     div(
                     :class="{ 'invalid': errors.industries }"
@@ -75,7 +75,7 @@
                       required)
                       .invalid-feedback.d-block(v-if="errors.industries") {{ errors.industries[0] }}
                       // label.typo__label.form__label(v-if="errors.industries") {{ errors.industries[0] }}
-                .col.pl-2
+                .col-sm-6.pl-sm-2
                   b-form-group#inputB-group-5(label='Sub-Industry' label-for='selectB-5' label-class="required")
                     div(
                     :class="{ 'invalid': errors.subIndustry }"
@@ -91,7 +91,7 @@
                       required)
                       .invalid-feedback.d-block(v-if="errors.subIndustry") {{ errors.subIndustry[0] }}
               .row
-                .col.pr-2
+                .col-sm-6.pr-sm-2
                   b-form-group#inputB-group-6(label='Jurisdiction' label-for='selectB-6' label-class="required")
                     div(
                     :class="{ 'invalid': errors.jurisdiction }"
@@ -106,7 +106,7 @@
                       placeholder="Select Jurisdiction",
                       required)
                       .invalid-feedback.d-block(v-if="errors.jurisdiction") {{ errors.jurisdiction[0] }}
-                .col.pl-2
+                .col-sm-6.pl-sm-2
                   b-form-group#inputB-group-7(label='Time Zone' label-for='selectB-7' label-class="required")
                     div(
                     :class="{ 'invalid': errors.time_zone }"
@@ -122,11 +122,11 @@
                       required)
                       .invalid-feedback.d-block(v-if="errors.time_zone") {{ errors.time_zone[0] }}
               .row
-                .col.pr-2
+                .col-sm-6.pr-sm-2
                   b-form-group#inputB-group-8(label='Phone Number' label-for='inputB-8')
                     b-form-input#inputB-8(v-model='formStep2.business.contact_phone' type='text' placeholder='Phone Number' required :class="{'is-invalid': errors.contact_phone }")
                     .invalid-feedback.d-block(v-if="errors.contact_phone") {{ errors.contact_phone[0] }}
-                .col.pl-2
+                .col-sm-6.pl-sm-2
                   b-form-group#inputB-group-7(label='Company Website' label-for='inputB-7' description="Optional")
                     b-form-input#inputB-7.form-control(v-model='formStep2.business.website' type='text' placeholder='Company Website' :class="{'is-invalid': errors.website }")
                     .invalid-feedback.d-block(v-if="errors.website") {{ errors.website[0] }}
@@ -163,8 +163,8 @@
                   b-form-group#inputB-group-11(label='Zip' label-for='inputB-11' label-class="required")
                     b-form-input#inputB-11(v-model='formStep2.business.zipcode' placeholder='Zip' required :class="{'is-invalid': errors.zipcode }")
                     .invalid-feedback.d-block(v-if="errors.zipcode") {{ errors.zipcode[0] }}
-              .text-right
-                b-button.mr-2(type='button' variant='outline-primary' @click="prevStep(1)") Go back
+              .text-right.m-t-3
+                b-button.mr-2(type='button' variant='default' @click="prevStep(1)") Go back
                 // b-button.mr-2(type='button' variant='outline-primary' @click="nextStep(3)") Skip this step
                 b-button(type='button' variant='dark' @click="nextStep(3)") Next
             #step3.form(v-if='!loading'  :class="step3 ? 'd-block' : 'd-none'")
@@ -198,7 +198,7 @@
                           | {{ feature }}
               .row
                 .col.text-right
-                  b-button(type='button' variant='outline-primary' @click="prevStep(2)") Go back
+                  b-button.m-t-3(type='button' variant='default' @click="prevStep(2)") Go back
 
         b-sidebar#BillingPlanSidebar(@hidden="closeSidebar" v-model="isSidebarOpen" backdrop-variant='dark' backdrop left no-header width="60%")
           .card
