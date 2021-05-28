@@ -6,9 +6,6 @@ class PotentialBusinessesImporter
   URL = 'https://www.sec.gov/help/foiadocsinvafoiahtm.html'
 
   def initialize
-    PotentialBusiness.delete_all
-    ActiveRecord::Base.connection.reset_pk_sequence!(PotentialBusiness.table_name)
-
     @zip_links = ZipLinksFetcher.new(URL).call
   end
 
@@ -49,7 +46,7 @@ class PotentialBusinessesImporter
       state: row['Main Office State'],
       zipcode: row['Main Office Postal Code'],
       client_account_cnt: row['5F(2)(f)'],
-      aum: row['5F(2)(c)'].nil? ? row['5F(2)(c)'] : row['5F(2)(c)'].delete(',')
+      aum: row['5F(2)(c)']
     }
   end
 end

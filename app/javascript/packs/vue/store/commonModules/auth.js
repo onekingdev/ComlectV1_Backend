@@ -4,7 +4,6 @@ import { AccountInfoBusiness, AccountInfoSpecialist } from "../../models/Account
 
 const currentUserLocalStorage = localStorage.getItem('app.currentUser') ? localStorage.getItem('app.currentUser') : ''
 const accessTokenLocalStorage = localStorage.getItem('app.currentUser.token') ? localStorage.getItem('app.currentUser.token') : ''
-const GOOGLE_API_KEY = process.env.GOOGLE_PLACES_API_KEY
 
 export default {
   state: {
@@ -265,7 +264,7 @@ export default {
             data.skills,
             data.username
           ))
-          if(!data.errors) localStorage.setItem('app.currentUser', JSON.stringify(data));
+          localStorage.setItem('app.currentUser', JSON.stringify(data));
         }
         return response.data
 
@@ -315,7 +314,7 @@ export default {
             data.skills,
             data.username
           ))
-          if(!data.errors) localStorage.setItem('app.currentUser', JSON.stringify(data));
+          localStorage.setItem('app.currentUser', JSON.stringify(data));
         }
         return response.data
 
@@ -458,16 +457,6 @@ export default {
         throw error
       } finally {
         commit("setLoading", false)
-      }
-    },
-    async getGeo({commit}, payload) {
-      try {
-        const response = await axios.post(`https://maps.googleapis.com/maps/api/geocode/json?address=${payload}&key=${GOOGLE_API_KEY}`)
-        return response
-      } catch (error) {
-        console.error(error);
-        throw error
-      } finally {
       }
     },
   },
