@@ -31,7 +31,7 @@
                 .col-lg-4
                   .row
                     .col-md-10.offset-lg-1.pr-0
-                      b-form-group(label='What is your CRD number?' label-class="label pb-0" v-if="formStep1.crd_numberSelected === 'yes'")
+                      b-form-group(v-if="formStep1.crd_numberSelected === 'yes'" label='What is your CRD number?' label-class="label pb-0")
                         b-form-input(v-model="formStep1.crd_number" placeholder="Enter your CRD number" :class="{'is-invalid': errors.crd_number }")
                         .invalid-feedback.d-block(v-if="errors.crd_number") {{ errors.crd_number }}
               .row
@@ -477,8 +477,6 @@
           delete this.formStep2.errors
           const dataToSend = this.formStep2
           if(!this.formStep1.crd_number.length) delete dataToSend.business.crd_number
-
-          console.log(this.formStep2.business.sub_industries)
 
           dataToSend.business.industry_ids = this.formStep2.business.industries ? this.formStep2.business.industries.map(record => record.id) : []
           dataToSend.business.sub_industry_ids = this.formStep2.business.sub_industries ? this.formStep2.business.sub_industries.map(record => record.value) : []

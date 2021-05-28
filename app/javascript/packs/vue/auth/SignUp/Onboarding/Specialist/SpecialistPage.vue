@@ -18,8 +18,10 @@
           Loading
           b-form(@submit='onSubmit' @change="onChangeInput" v-if='show')
             #step1.form(v-if='!loading' :class="step1 ? 'd-block' : 'd-none'")
-              h3 What jurisdiction does your expertise extend to?
-              p Providing your jurisdiction(s) will help find clients within your domain of expertise. Select all that apply.
+              .row
+                .col
+                  h3 What jurisdiction does your expertise extend to?
+                  p Providing your jurisdiction(s) will help find clients within your domain of expertise. Select all that apply.
               .row
                 .col-xl-6
                   b-form-group#inputS-group-1(label='Jurisdiction' label-for='selectS-1' label-class="required")
@@ -47,11 +49,15 @@
                       :options="formStep1.timeZoneOptions"
                       :multiple="false"
                       :show-labels="false"
+                      track-by="name",
+                      label="name",
                       placeholder="Select Time Zone",
                       required)
                       .invalid-feedback.d-block(v-if="errors.time_zone") {{ errors.time_zone }}
-              h3 What industries do you serve?
-              p Select all that apply:
+              .row
+                .col.p-t-2
+                  h3 What industries do you serve?
+                  p Select all that apply:
               .row
                 .col-xl-6
                   b-form-group#inputS-group-4(label='Industry' label-for='selectS-4' label-class="required")
@@ -85,29 +91,36 @@
                       placeholder="Select Sub-Industry",
                       required)
                       .invalid-feedback.d-block(v-if="errors.subIndustry") {{ errors.subIndustry }}
-              h3 Are you a former regulator?
-                b-icon.h5.ml-2.mb-1(icon="exclamation-circle-fill" variant="secondary")
-              p Select all that apply:
-              div
-                b-form-group(v-slot='{ ariaDescribedby }')
-                  b-form-radio-group(v-model='formStep1.regulatorSelected' :options='formStep1.regulatorOptions' :aria-describedby='ariaDescribedby' name='radios-stacked' stacked)
-                b-form-group(label='Where did you work?' v-if="formStep1.regulatorSelected === 'yes'" label-for='selectS-6')
-                  div(
-                  :class="{ 'invalid': errors.regulator }"
-                  )
-                    multiselect#selectS-6(
-                    v-model="formStep1.regulator"
-                    :options="formStep1.regulatorOptionsTags"
-                    :multiple="true"
-                    :show-labels="false"
-                    track-by="name",
-                    label="name",
-                    tag-placeholder="Add this as new tag",
-                    placeholder="Search or add a tag",
-                    :taggable="true",
-                    @tag="addTag"
-                    required)
-                    .invalid-feedback.d-block(v-if="errors.regulator") {{ errors.regulator }}
+              .row
+                .col.p-t-2
+                  h3 Are you a former regulator?
+                    b-icon.h5.ml-2.mb-1(icon="exclamation-circle-fill" variant="secondary")
+                  p Select all that apply:
+              .row
+                .col
+                  b-form-group(v-slot='{ ariaDescribedby }')
+                    b-form-radio-group(v-model='formStep1.regulatorSelected' :options='formStep1.regulatorOptions' :aria-describedby='ariaDescribedby' name='radios-stacked' stacked)
+              .row
+                .col-lg-6
+                  .row
+                    .col-md-11.offset-lg-1
+                      b-form-group(v-if="formStep1.regulatorSelected === 'yes'" label='Where did you work?'  label-for='selectS-6' label-class="label pb-0" )
+                        div(
+                        :class="{ 'invalid': errors.regulator }"
+                        )
+                          multiselect#selectS-6(
+                          v-model="formStep1.regulator"
+                          :options="formStep1.regulatorOptionsTags"
+                          :multiple="true"
+                          :show-labels="false"
+                          track-by="name",
+                          label="name",
+                          tag-placeholder="Add this as new tag",
+                          placeholder="Search or add a tag",
+                          :taggable="true",
+                          @tag="addTag"
+                          required)
+                          .invalid-feedback.d-block(v-if="errors.regulator") {{ errors.regulator }}
               .text-right
                 b-button(type='button' variant='dark' @click="nextStep(2)") Next
             #step2.form(v-if='!loading'  :class="step2 ? 'd-block' : 'd-none'")
@@ -266,7 +279,16 @@
       Overlay
     },
     created() {
-      if(luxonValidTimezones) this.formStep1.timeZoneOptions = luxonValidTimezones;
+      // if(luxonValidTimezones) this.formStep1.timeZoneOptions = luxonValidTimezones;
+      if(luxonValidTimezones) {
+        for (const value of luxonValidTimezones) {
+          const [ gmt, zone ] = value.split(') ')
+          this.formStep1.timeZoneOptions.push({
+            value: zone,
+            name: value
+          })
+        }
+      }
       if(this.industryIds) this.formStep1.industryOptions = this.industryIds;
       // if(this.subIndustryIds) this.formStep2.subIndustryOptions = this.subIndustryIds;
       // if(this.subIndustryIds) {
@@ -285,7 +307,17 @@
       if(accountInfo) {
         this.formStep1.industry = accountInfoParsed.industries || []
         this.onChange(accountInfoParsed.industries)
-        this.formStep1.subIndustry = accountInfoParsed.sub_industries ? accountInfoParsed.sub_industries.map((subInd, idx) => ({ name: subInd, value: idx })) : []
+        // this.formStep1.subIndustry = accountInfoParsed.sub_industries ? accountInfoParsed.sub_industries.map((subInd, idx) => ({ name: subInd, value: idx })) : []
+        this.formStep1.subIndustry = accountInfoParsed.sub_industries ? accountInfoParsed.sub_industries.map((subInd, idx) => {
+          const subIndfromOpt = this.subIndustryOptions.find(opt => {
+            if (opt.name === subInd)
+              return opt
+          })
+          return {
+            name: subIndfromOpt.name,
+            value: subIndfromOpt.value
+          }
+        }) : []
         this.formStep1.jurisdiction = accountInfoParsed.jurisdiction || []
         // this.formStep1.regulatorSelected = accountInfoParsed.former_regulator ? 'yes' : 'no';
 
@@ -467,13 +499,13 @@
               // certifications: '',
               resume: this.formStep2.file ? this.formStep2.file : '',
             },
-            sub_industry_ids: this.formStep1.subIndustry.map(record => record.value),
-            skill_names: this.formStep2.skills.map(skill => skill.name),
+            sub_industry_ids: this.formStep1.business.sub_industries ? this.formStep2.business.sub_industries.map(record => record.value) : [],
+            skill_names: this.formStep2.business.skills ? this.formStep2.skills.map(skill => skill.name) : [],
           }
 
           let formData = new FormData()
-          formData.append(`specialist[industry_ids][]`, this.formStep1.industry.map(record => record.id))
-          formData.append(`specialist[jurisdiction_ids][]`, this.formStep1.jurisdiction.map(record => record.id))
+          formData.append(`specialist[industry_ids][]`, this.formStep1.industry ? this.formStep1.industry.map(record => record.id) : [])
+          formData.append(`specialist[jurisdiction_ids][]`, this.formStep1.jurisdiction ? this.formStep1.jurisdiction.map(record => record.id) : [])
           Object.keys(params.specialist)
             .map(specAttr => formData.append(`specialist[${specAttr}]`, params.specialist[specAttr]))
           params.sub_industry_ids
