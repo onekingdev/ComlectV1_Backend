@@ -2,7 +2,7 @@
   "billingPlans": [
     {
       "id": 1,
-      "name": "Standart",
+      "name": "Standard",
       "description": "Try out our product for free!",
       "coast": "FREE",
       "coastMonthly": "FREE",
