@@ -15,7 +15,6 @@ class AnnualReportSerializer < ApplicationSerializer
              :business_id,
              :pdf_url,
              :year,
-             :name,
              :material_business_changes,
              :review_categories,
              :annual_review_employees,

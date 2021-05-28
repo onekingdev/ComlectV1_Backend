@@ -16,16 +16,13 @@ class Api::BusinessesController < ApiController
   end
 
   def update
-    if edit_business_params.key?('crd_number') && edit_business_params['crd_number'].present?
-      build_business
-      respond_with current_business, serializer: BusinessSerializer
-    elsif current_business.update(edit_business_params)
-      current_business.username = current_business.generate_username if current_business.username.blank?
-      current_business.update(sub_industries: convert_sub_industries(business_params[:sub_industry_ids]))
-
-      respond_with current_business, serializer: BusinessSerializer
+    business = current_business
+    if business.update(edit_business_params)
+      business.username = business.generate_username
+      business.update(sub_industries: convert_sub_industries(params[:sub_industry_ids]))
+      respond_with business, serializer: BusinessSerializer
     else
-      respond_with errors: { business: current_business.errors.messages }
+      respond_with errors: { business: business.errors.messages }
     end
   end
 
@@ -46,27 +43,16 @@ class Api::BusinessesController < ApiController
   def business_params
     params.require(:business).permit(
       :contact_first_name, :contact_last_name, :contact_email, :contact_job_title, :contact_phone,
-      :business_name, :website, :aum, :apartment, :client_account_cnt, :logo, :time_zone,
-      :address_1, :country, :city, :state, :zipcode, :crd_number, sub_industry_ids: [],
-                                                                  industry_ids: [], jurisdiction_ids: [],
-                                                                  user_attributes: %i[
-                                                                    email password
-                                                                  ]
+      :business_name, :website, :aum, :apartment, :client_account_cnt, :logo,
+      :address_1, :country, :city, :state, :zipcode, :crd_number,
+      industry_ids: [], jurisdiction_ids: [],
+      user_attributes: %i[
+        email password
+      ]
     )
   end
 
   def edit_business_params
     business_params.except(:user_attributes)
-  end
-
-  def build_business
-    potential_business = PotentialBusiness.find_by(crd_number: edit_business_params[:crd_number])
-    if potential_business
-      business_attrs = potential_business.attributes.except('id', 'created_at', 'updated_at')
-      current_business.assign_attributes(business_attrs)
-      current_business.save(validate: false)
-    else
-      current_business.update_attribute('crd_number', edit_business_params[:crd_number])
-    end
   end
 end

@@ -13,61 +13,9 @@
                 Loading
           .row.mb-3(v-if="!loading")
             .col-md-7.col-12
-              .card-body.white-card-body
-                .card-header
-                  h3.m-y-0 Risk Heatmap
-                .card-body
-                  .risks-heatmap
-                    .risks-heatmap__impact Impact
-                    .risks-heatmap__box-row(v-for='(row, rowIdx) in riskHeatmap' :key='rowIdx')
-                      .risks-heatmap__box-name {{ showLevel(rowIdx) }}
-                      .risks-heatmap__box(v-for='(column, colIdx) in row' :key='colIdx' :class="riskLevelClass(rowIdx, colIdx)") {{ column }}
-                    .risks-heatmap__box-row
-                      .risks-heatmap__box-name
-                      .risks-heatmap__box-name.justify-content-center Low
-                      .risks-heatmap__box-name.justify-content-center Medium
-                      .risks-heatmap__box-name.justify-content-center High
-                    .risks-heatmap__likelihood Likelihood
+              ReportRiskHeatmap(:riskHeatmap="riskHeatmap")
             .col-md-5.col-12
-              .card-body.white-card-body
-                .card-header
-                  h3.m-y-0 Risk Summary
-                .card-body
-                  table.table
-                    thead
-                      tr
-                        th Risk Level
-                          b-icon.ml-2(icon='chevron-expand')
-                        th.text-right Count
-                          b-icon.ml-2(icon='chevron-expand')
-                        th.text-right %
-                          b-icon.ml-2(icon='chevron-expand')
-                    tbody
-                      tr
-                        td.text-danger
-                          b-icon.mr-2(icon="exclamation-triangle-fill" variant="danger")
-                          | Hight
-                        td.text-right {{ riskSummary.hight.count }}
-                        td.text-right {{ riskSummary.hight.percent }}%
-
-                      tr
-                        td.text-warning
-                          b-icon.mr-2(icon="exclamation-triangle-fill" variant="warning")
-                          | Medium
-                        td.text-right {{ riskSummary.medium.count }}
-                        td.text-right {{ riskSummary.medium.percent }}%
-
-                      tr
-                        td.text-success
-                          b-icon.mr-2(icon="exclamation-triangle-fill" variant="success")
-                          | Low
-                        td.text-right {{ riskSummary.low.count }}
-                        td.text-right {{ riskSummary.low.percent }}%
-                      tr
-                        td
-                          b Total
-                        td.text-right {{ riskSummary.total.count }}
-                        td.text-right {{ riskSummary.total.percent }}%
+              ReportRisSummary(:riskSummary="riskSummary")
           .row
             .col
               .card-body.white-card-body
@@ -78,11 +26,15 @@
 <script>
   import Loading from '@/common/Loading/Loading'
   import RisksTable from '../riskregister/RisksTable.vue'
+  import ReportRiskHeatmap from "./components/ReportRiskHeatmap";
+  import ReportRiskSummary from "./components/ReportRiskSummary";
 
   export default {
     components: {
       Loading,
-      RisksTable
+      ReportRiskHeatmap,
+      ReportRiskSummary,
+      RisksTable,
     },
     created() {},
     data() {

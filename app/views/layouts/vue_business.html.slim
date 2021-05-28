@@ -19,7 +19,6 @@ html lang=I18n.locale
     = stylesheet_link_tag 'vue'
     = csrf_meta_tags
     script src='//d2wy8f7a9ursnm.cloudfront.net/bugsnag-3.min.js' data-apikey="#{ENV['BUGSNAG_API_KEY']}"
-    script src="https://maps.googleapis.com/maps/api/js?key=#{ENV.fetch('GOOGLE_PLACES_API_KEY')}&libraries=places"
     = javascript_include_tag '/app_config.js'
     = render 'google_analytics'
     = render 'mixpanel'
@@ -39,7 +38,7 @@ body class="#{controller_name} #{action_name}"
             b-collapse#overview_collapse(:visible="true")
               ul.nav.flex-column
                 li.nav-item
-                  a.btn(aria-current='page' href='/business' class="#{'active' if params[:controller] == 'business_dashboard'}")
+                  a.btn(aria-current='page' href='/business2' class="#{'active' if params[:controller] == 'business_dashboard2'}")
                     ion-icon(name='globe-outline')
                     | Dashboard
                 li.nav-item
@@ -61,7 +60,7 @@ body class="#{controller_name} #{action_name}"
                     ion-icon(name='newspaper-outline')
                     | Policies and Procedures
                 li.nav-item
-                  a.btn(aria-current='page' href='/business/annual_reviews')
+                  a.btn(aria-current='page' href='#')
                     ion-icon(name='document-text-outline')
                     | Annual Review
                 li.nav-item
@@ -86,37 +85,20 @@ body class="#{controller_name} #{action_name}"
                   a.btn(aria-current='page' href='#')
                     ion-icon(name='settings-outline')
                     | Settings
-            h3.d-flex.justify-content-between(role="button" v-b-toggle.files="")
-              | Files
-              ion-icon(name='chevron-down-outline')
-            b-collapse#files(:visible="true")
-              ul.nav.flex-column
-                li.nav-item
-                  a.btn(aria-current='page' href='/business/file_folders' class="#{'active' if params[:controller] == 'business/file_folders'}")
-                    ion-icon(name='folder-outline')
-                    | Book and records
-                li.nav-item
-                  a.btn(aria-current='page' href='/business/exam_management' class="#{'active' if params[:controller] == 'business/exam_management'}")
-                    ion-icon(name='search-outline')
-                    | Exam Management
-                li.nav-item
-                  a.btn(aria-current='page' href='#')
-                    ion-icon(name='settings-outline')
-                    | Settings
         main.col-md-9.col-lg-10#main-content.px-0
           nav.navbar.navbar-expand-lg.navbar-light.p-0
             button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarNavAltMarkup' aria-controls='navbarNavAltMarkup' aria-expanded='false' aria-label='Toggle navigation')
               span.navbar-toggler-icon
             #top_navbar.collapse.navbar-collapse.d-flex.justify-content-between
               .navbar-nav
-                a.nav-item.nav-link(href='#')
+                a.nav-item.nav-link.active(href='#')
                   | Home
                   span.sr-only (current)
-                a.nav-item.nav-link(href='/business/file_folders' class="#{'active' if params[:controller] == 'business/file_folders'}") Documents
+                a.nav-item.nav-link(href='#') Documents
                 a.nav-item.nav-link(href='/business/reports/risks') Reports
                 a.nav-item.nav-link(href='#') Community
               .navbar-nav
-                a.btn.btn-primary(href='/business/specialists' style="margin-top: 18px;")  Find an Expert
+                a.btn.btn-primary style="margin-top: 18px;" Find an Expert
                 .dropdown#notifications_dropdown
                   ion-icon(name='notifications-outline')
                 .dropdown#profile_dropdown.p-x-2

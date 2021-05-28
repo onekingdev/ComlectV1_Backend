@@ -2,7 +2,7 @@
 
 class FileDoc < ActiveRecord::Base
   belongs_to :business
-  belongs_to :file_folder, optional: true
+  belongs_to :file_folder
   include FileUploader[:file]
   validates :file, presence: true
   validate :folder_belongs_to_business

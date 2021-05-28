@@ -13,18 +13,7 @@ class Business::OnboardingController < ApplicationController
   include SubscriptionCommon
 
   def index
-    render html: content_tag('business-onboarding-page', '',
-                             ':industry-ids': Industry.all.map(&proc { |ind|
-                                                                  { id: ind.id,
-                                                                    name: ind.name }
-                                                                }).to_json,
-                             ':jurisdiction-ids': Jurisdiction.all.map(&proc { |ind|
-                                                                          { id: ind.id,
-                                                                            name: ind.name }
-                                                                        }).to_json,
-                             ':sub-industry-ids': sub_industries(false).to_json,
-                             ':states': State.fetch_all_usa.to_json).html_safe,
-           layout: 'vue_onboarding'
+    render html: content_tag('business-onboarding-page', '').html_safe, layout: 'vue_onboarding'
   end
 
   def subscribe
@@ -60,7 +49,7 @@ class Business::OnboardingController < ApplicationController
         )
         db_subscription.update(
           stripe_subscription_id: sub.id,
-          billing_period_ends: sub.cancel_at
+          billing_period_ends: sub.created
         )
       end
     end

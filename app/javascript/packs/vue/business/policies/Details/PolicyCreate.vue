@@ -19,28 +19,26 @@
                   .d-flex.align-items-center
                     button.btn.btn__menu.mr-3(@click="leftMenu = !leftMenu")
                       b-icon(icon='list')
-                    b-badge.btn.btn-default.mr-3(variant="light") {{ policy.status }}
+                    b-badge.btn.mr-3(variant="light") {{ policy.status }}
                     h3.policy__main-title.m-y-0 {{ policy.title }}
                   .d-flex.justify-content-end.align-items-center
                     a.link.btn.mr-3(@click="saveDraft") Save Draft
                     button.btn.btn-default.mr-3(@click="download") Download
                     PoliciesModalPublish(@publishConfirmed="publishPolicy")
                       button.btn.btn-dark.mr-3 Publish
-                    <!--PoliciesModalDelete(:policyId="policy.id", @deleteConfirmed="deletePolicy(policy.id)")-->
-                    button.btn.btn__close.mr-3(@click="closeAndExit")
-                      b-icon(icon='x')
+                    PoliciesModalDelete(:policyId="policy.id", @deleteConfirmed="deletePolicy(policy.id)")
+                      button.btn.btn__close.mr-3
+                        b-icon(icon='x')
           .row
             .col-12.px-0
               b-tabs(content-class="mt-0")
-                template(#tabs-end)
-                  b-dropdown.ml-auto.my-auto.mr-5.actions(text='Actions', variant="default", right)
-                    template(#button-content)
-                      | Actions
-                      b-icon.m-l-1(icon="chevron-down" font-scale="1")
+                .policy-actions
+                  b-dropdown.bg-white(text='Actions', variant="secondary", right)
                     PoliciesModalArchive(:archiveStatus="!policy.archived" @archiveConfirmed="archivePolicy(policy.id, !policy.archived)" :inline="false")
                       b-dropdown-item {{ !policy.archived ? 'Archive' : 'Unarchive' }} Policy
-                    PoliciesModalDelete(v-if="policy.archived" @deleteConfirmed="deletePolicy(policy.id)", :policyId="policy.id",  :inline="false")
-                      b-dropdown-item.delete Delete Policy
+                    PoliciesModalRemoveSubsection(@removeSubsectionConfirmed="deleteAllSections", :inline="false")
+                      b-dropdown-item.delete Delete sections
+                    <!--b-dropdown-item Save all-->
                 .col-12.px-lg-5.px-md-3
                   .card-body.white-card-body.p-0.position-relative
                     b-tab(title="Details" active)
@@ -127,8 +125,8 @@
     data() {
       return {
         leftMenu: true,
-        description: "",
-        title: "Section Name",
+        description: "N/A",
+        title: "New Policy Subtitle",
         toggleVueEditor: false,
         sections: [],
         count: 0,
@@ -190,9 +188,6 @@
           .catch(error => {
             this.makeToast('Error', `Couldn't submit form! ${error}`)
           })
-      },
-      closeAndExit () {
-        window.location.href = `${window.location.origin}/business/compliance_policies`
       },
       archivePolicy(policyId, archiveStatus) {
         this.$store
@@ -284,7 +279,7 @@
         // })
         this.policiesComputed = {
           id: id,
-          title: `${this.title}`,
+          title: `${this.title}-№-${this.count++}-${id}`,
           description: this.description,
           children: [],
         }
