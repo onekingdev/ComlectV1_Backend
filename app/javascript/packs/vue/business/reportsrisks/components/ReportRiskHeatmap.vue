@@ -18,7 +18,40 @@
 
 <script>
     export default {
-      props: ['riskHeatmap']
+      data() {
+        return {
+          levelOptionsImpact: ['High', 'Medium', 'Low'],
+        }
+      },
+      methods: {
+        showLevel(num) {
+          return this.levelOptionsImpact[num]
+        },
+        riskLevelClass(row, col){
+          let riskHeatmapArray = [
+            ['risks-heatmap__box_level-low','risks-heatmap__box_level-low','risks-heatmap__box_level-medium'],
+            ['risks-heatmap__box_level-medium','risks-heatmap__box_level-medium','risks-heatmap__box_level-medium'],
+            ['risks-heatmap__box_level-medium','risks-heatmap__box_level-high','risks-heatmap__box_level-high']]
+          return riskHeatmapArray[row][col]
+        },
+      },
+      computed: {
+        loading() {
+          return this.$store.getters.loading;
+        },
+        riskList() {
+          return this.$store.getters.risksList
+        },
+        riskHeatmap() {
+          let riskHeatmapArray = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+          this.riskList.forEach(function (risk) {
+            let counter = riskHeatmapArray[risk.impact][risk.likelihood]
+            counter = counter + 1
+            riskHeatmapArray[risk.impact][risk.likelihood] = counter
+          })
+          return riskHeatmapArray
+        },
+      }
     }
 </script>
 
