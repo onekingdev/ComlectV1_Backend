@@ -319,6 +319,17 @@
         if(accountInfo.crd_number) this.formStep1.crd_number = accountInfo.crd_number
         this.formStep2.business = Object.assign({}, this.formStep2.business, { ...accountInfoParsed })
         this.onChange(accountInfoParsed.industries)
+
+        this.formStep2.business.sub_industries = accountInfoParsed.sub_industries ? accountInfoParsed.sub_industries.map((subInd, idx) => {
+          const subIndfromOpt = this.subIndustryOptions.find(opt => {
+            if (opt.name === subInd)
+              return opt
+          })
+          return {
+            name: subIndfromOpt.name,
+            value: subIndfromOpt.value
+          }
+        }) : []
       }
 
       const url = new URL(window.location);
@@ -467,14 +478,16 @@
           const dataToSend = this.formStep2
           if(!this.formStep1.crd_number.length) delete dataToSend.business.crd_number
 
-          dataToSend.business.industry_ids = this.formStep2.business.industries.map(record => record.id) || []
-          dataToSend.business.sub_industry_ids = this.formStep2.business.sub_industries.map(record => record.value) || []
-          dataToSend.business.jurisdiction_ids = this.formStep2.business.jurisdictions.map(record => record.id) || []
+          console.log(this.formStep2.business.sub_industries)
+
+          dataToSend.business.industry_ids = this.formStep2.business.industries ? this.formStep2.business.industries.map(record => record.id) : []
+          dataToSend.business.sub_industry_ids = this.formStep2.business.sub_industries ? this.formStep2.business.sub_industries.map(record => record.value) : []
+          dataToSend.business.jurisdiction_ids = this.formStep2.business.jurisdictions ? this.formStep2.business.jurisdictions.map(record => record.id) : []
           dataToSend.business.time_zone = this.formStep2.business.time_zone ? this.formStep2.business.time_zone.value : ''
 
-          delete dataToSend.business.industries
-          delete dataToSend.business.sub_industries
-          delete dataToSend.business.jurisdictions
+          // delete dataToSend.business.industries
+          // delete dataToSend.business.sub_industries
+          // delete dataToSend.business.jurisdictions
 
           this.$store.dispatch('updateAccountInfo', dataToSend)
             .then(response => {

@@ -283,10 +283,10 @@
       const accountInfo = localStorage.getItem('app.currentUser');
       const accountInfoParsed = JSON.parse(accountInfo);
       if(accountInfo) {
-        this.formStep1.industry = accountInfoParsed.industries || ''
+        this.formStep1.industry = accountInfoParsed.industries || []
         this.onChange(accountInfoParsed.industries)
-        this.formStep1.subIndustry = accountInfoParsed.sub_industries || ''
-        this.formStep1.jurisdiction = accountInfoParsed.jurisdiction || ''
+        this.formStep1.subIndustry = accountInfoParsed.sub_industries ? accountInfoParsed.sub_industries.map((subInd, idx) => ({ name: subInd, value: idx })) : []
+        this.formStep1.jurisdiction = accountInfoParsed.jurisdiction || []
         // this.formStep1.regulatorSelected = accountInfoParsed.former_regulator ? 'yes' : 'no';
 
         this.formStep2.skills = accountInfoParsed.skills || []
