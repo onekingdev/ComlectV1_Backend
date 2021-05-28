@@ -56,7 +56,7 @@
                             input.policy-details__input(v-model="policy.title")
                           .policy-details__name Description
                           .policy-details__text-editor(@click="toggleVueEditorHandler", v-if="!toggleVueEditor", v-b-tooltip.hover.left title="Click to edit text", v-html="policy.description ? policy.description : description")
-                          vue-editor.policy-details__text-editor(v-if="toggleVueEditor", v-model="policy.description", @blur="handleBlur")
+                          vue-editor.policy-details__text-editor(v-if="toggleVueEditor", :editor-keyboard="customKeyboard" v-model="policy.description", @blur="handleBlur")
                 b-tab(title="Risks" lazy)
                   .card-body.white-card-body.position-relative.p-0.h-100
                     PolicyRisks(:policyId="policyId")
@@ -111,6 +111,13 @@
         toggleVueEditor: false,
         sections: [],
         count: 0,
+        customKeyboard: {
+          bindings: {
+            'list autofill': {
+              prefix: /^\s{0,}(1){1,1}(\.|-|\*|\[ ?\]|\[x\])$/
+            }
+          }
+        },
       }
     },
     methods: {
