@@ -57,7 +57,7 @@ export default {
     },
     ADD_FILE_REQUEST_CURRENT_EXAM(state, payload) {
       const index = state.currentExam.exam_requests.findIndex(record => record.id === payload.exam_request_id);
-      // const indexFile = state.currentExam.exam_requests[index].exam_request_files.findIndex(record => record.id === payload.id);
+      const indexFile = state.currentExam.exam_requests[index].exam_request_files.findIndex(record => record.id === payload.id);
       state.currentExam.exam_requests[index].exam_request_files.push(payload)
     },
     DELETE_FILE_REQUEST_CURRENT_EXAM(state, payload) {
@@ -67,15 +67,18 @@ export default {
     },
   },
   actions: {
-    async getExams({state, commit, rootState}) {
-      commit("clearError", null, { root: true });
-      commit("setLoading", true, { root: true });
+    async getExams({state, commit, rootState}, payload) {
       try {
+        commit("clearError", null, {
+          root: true
+        });
+        commit("setLoading", true, {
+          root: true
+        });
+
         const getExams = mapAuthProviders[rootState.shared.settings.authProvider].getExams
         getExams()
           .then((success) => {
-            commit("clearError", null, { root: true });
-            commit("setLoading", false, { root: true });
             if (success) {
               const data = success.data
               const exams = []
@@ -97,15 +100,21 @@ export default {
             }
             if (!success) {
               console.error('Not success', success)
-              commit("setError", success.message, { root: true });
             }
+            commit("clearError", null, {
+              root: true
+            });
+            commit("setLoading", false, {
+              root: true
+            });
           })
-          .catch(error => error)
       } catch (error) {
-        console.error('catch error', error);
-        commit("setError", error.message, { root: true });
-        commit("setLoading", false, { root: true });
+        console.error(error);
         throw error
+      } finally {
+        commit("setLoading", false, {
+          root: true
+        });
       }
     },
     async createExam({state, commit, rootState}, payload) {
@@ -119,12 +128,6 @@ export default {
         const createExam = mapAuthProviders[rootState.shared.settings.authProvider].createExam
         createExam(payload)
           .then((success) => {
-            commit("clearError", null, {
-              root: true
-            });
-            commit("setLoading", false, {
-              root: true
-            });
             if (success) {
               const data = success.data
               commit('ADD_EXAM', new ExamManagement(
@@ -141,11 +144,11 @@ export default {
               return success
             }
             if (!success) {
-              commit("setError", success.message, { root: true });
               console.error('Not success', success)
             }
+            commit("clearError");
+            commit("setLoading", false);
           })
-          .catch(error => error)
       } catch (error) {
         commit("setError", error.message, {
           root: true
@@ -154,8 +157,11 @@ export default {
           root: true
         });
         throw error;
+      } finally {
+        commit("setLoading", false, {
+          root: true
+        })
       }
-      // } finally { commit("setLoading", false, { root: true }) }
     },
     async updateExam({state, commit, rootState}, payload) {
       commit("clearError", null, {
@@ -168,12 +174,6 @@ export default {
         const updateExam = mapAuthProviders[rootState.shared.settings.authProvider].updateExam
         updateExam(payload)
           .then((success) => {
-            commit("clearError", null, {
-              root: true
-            });
-            commit("setLoading", false, {
-              root: true
-            });
             if (success) {
               const data = success.data
               commit('UPDATE_EXAM', new ExamManagement(
@@ -201,11 +201,11 @@ export default {
               return success
             }
             if (!success) {
-              commit("setError", success.message, { root: true });
               console.error('Not success', success)
             }
+            commit("clearError");
+            commit("setLoading", false);
           })
-          .catch(error => error)
       } catch (error) {
         commit("setError", error.message, {
           root: true
@@ -214,8 +214,11 @@ export default {
           root: true
         });
         throw error;
+      } finally {
+        commit("setLoading", false, {
+          root: true
+        })
       }
-      // } finally { commit("setLoading", false, { root: true }) }
     },
     async deleteExam({state, commit, rootState}, payload) {
       commit("clearError", null, {
@@ -228,12 +231,6 @@ export default {
         const deleteExam = mapAuthProviders[rootState.shared.settings.authProvider].deleteExam
         deleteExam(payload)
           .then((success) => {
-            commit("clearError", null, {
-              root: true
-            });
-            commit("setLoading", false, {
-              root: true
-            });
             if (success) {
               const data = success.data
               commit('DELETE_EXAM', new ExamManagement(
@@ -250,11 +247,11 @@ export default {
               return success
             }
             if (!success) {
-              commit("setError", success.message, { root: true });
               console.error('Not success', success)
             }
+            commit("clearError");
+            commit("setLoading", false);
           })
-          .catch(error => error)
       } catch (error) {
         commit("setError", error.message, {
           root: true
@@ -263,8 +260,11 @@ export default {
           root: true
         });
         throw error;
+      } finally {
+        commit("setLoading", false, {
+          root: true
+        })
       }
-      // } finally { commit("setLoading", false, { root: true }) }
     },
     async getExamById({state, commit, rootState}, payload) {
       commit("clearError", null, {
@@ -277,9 +277,8 @@ export default {
         const getExamById = mapAuthProviders[rootState.shared.settings.authProvider].getExamById
         getExamById(payload)
           .then((success) => {
-            commit("clearError", null, { root: true });
-            commit("setLoading", false, { root: true });
             if (success) {
+              console.log(success)
               const data = success.data
               commit('SET_CURRENT_EXAM', new ExamManagement(
                 data.complete,
@@ -297,8 +296,9 @@ export default {
             if (!success) {
               console.error('Not success', success)
             }
+            commit("clearError");
+            commit("setLoading", false);
           })
-          .catch(error => error)
       } catch (error) {
         commit("setError", error.message, {
           root: true
@@ -307,8 +307,11 @@ export default {
           root: true
         });
         throw error;
+      } finally {
+        commit("setLoading", false, {
+          root: true
+        })
       }
-      // } finally { commit("setLoading", false, { root: true }) }
     },
     async createExamRequest({state, commit, rootState}, payload) {
       commit("clearError", null, {
@@ -329,14 +332,9 @@ export default {
             if (!success) {
               console.error('Not success', success)
             }
-            commit("clearError", null, {
-              root: true
-            });
-            commit("setLoading", false, {
-              root: true
-            });
+            commit("clearError");
+            commit("setLoading", false);
           })
-          .catch(error => error)
       } catch (error) {
         commit("setError", error.message, {
           root: true
@@ -370,14 +368,9 @@ export default {
             if (!success) {
               console.error('Not success', success)
             }
-            commit("clearError", null, {
-              root: true
-            });
-            commit("setLoading", false, {
-              root: true
-            });
+            commit("clearError");
+            commit("setLoading", false);
           })
-          .catch(error => error)
       } catch (error) {
         commit("setError", error.message, {
           root: true
@@ -411,14 +404,9 @@ export default {
             if (!success) {
               console.error('Not success', success)
             }
-            commit("clearError", null, {
-              root: true
-            });
-            commit("setLoading", false, {
-              root: true
-            });
+            commit("clearError");
+            commit("setLoading", false);
           })
-          .catch(error => error)
       } catch (error) {
         commit("setError", error.message, {
           root: true
@@ -448,14 +436,9 @@ export default {
             if (!success) {
               console.error('Not success', success)
             }
-            commit("clearError", null, {
-              root: true
-            });
-            commit("setLoading", false, {
-              root: true
-            });
+            commit("clearError");
+            commit("setLoading", false);
           })
-          .catch(error => error)
       } catch (error) {
         commit("setError", error.message, { root: true });
         commit("setLoading", false, { root: true });
@@ -479,14 +462,9 @@ export default {
             if (!success) {
               console.error('Not success', success)
             }
-            commit("clearError", null, {
-              root: true
-            });
-            commit("setLoading", false, {
-              root: true
-            });
+            commit("clearError");
+            commit("setLoading", false);
           })
-          .catch(error => error)
       } catch (error) {
         commit("setError", error.message, { root: true });
         commit("setLoading", false, { root: true });

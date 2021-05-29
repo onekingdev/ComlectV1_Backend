@@ -44,9 +44,8 @@ class Api::Business::ExamsController < ApiController
   end
 
   def exam_params
-    params.require(:exam).permit(
-      :id, :name, :starts_on, :ends_on, :complete,
-      exam_requests_attributes: [:id, :name, :details, :complete, :shared, exam_request_file_ids: [], text_items: []]
+    params.permit(
+      :id, :name, :starts_on, :ends_on, :complete
     )
   end
 end

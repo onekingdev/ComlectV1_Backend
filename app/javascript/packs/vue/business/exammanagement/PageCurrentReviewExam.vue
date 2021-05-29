@@ -12,37 +12,29 @@
             .d-flex.align-items-center
               ExamModalShare.mr-3
                 a.btn.link Share Link
-              ExamModalComplite.mr-3(v-if="exam" @compliteConfirmed="markCompleteExam", :completedStatus="currentExam.complete", :countCompleted="countCompleted" :inline="false")
-                button.btn.btn-default Mark {{ exam.complete ? 'Incomplete' : 'Complete' }}
+              button.btn.btn-default.mr-3 Mark Complete
               button.btn.btn-dark.mr-3(@click="saveAndExit") Save and Exit
-              button.btn.btn__close(@click="exit")
+              button.btn.btn__close
                 b-icon(icon="x")
     .reviews__tabs.exams__tabs
       b-tabs(content-class="mt-0")
-        template(#tabs-end)
-          b-dropdown.tab-actions.actions(v-if="exam" variant="default", right)
-            template(#button-content)
-              | Actions
-              b-icon.ml-2(icon="chevron-down" font-scale="1")
-            ExamModalEdit(:exam="exam" :inline="false")
-              b-dropdown-item Edit
-            ExamModalDelete(@deleteConfirmed="deleteExam(exam.id)" :inline="false")
-              b-dropdown-item.delete Delete
         b-tab(title="Detail" active)
-          .container-fluid
+          .container-fluid(v-if="exam")
             .row
               .col-md-9.mx-auto.position-relative
-                .card-body.white-card-body.reviews__card.px-5(v-if="loading && !exam")
-                  Loading
-                .card-body.white-card-body.reviews__card.px-5(v-if="exam")
+                .annual-actions
+                  b-dropdown.bg-white(text='Actions', variant="secondary", right)
+                    b-dropdown-item Edit
+                    b-dropdown-item.delete Delete
+                .card-body.white-card-body.reviews__card.px-5
                   .reviews__card--internal.p-y-1.d-flex.justify-content-between
                     h3 Requests
                     b-button(variant='default') View Portal
                   .reviews__topiclist
-                    .d-flex.justify-content-between.p-t-2.m-b-2
-                      b-button-group(size="md")
-                        b-button(type='button' :variant="filterOption === 'all' ? 'dark' : 'outline-dark'" @click="filterRequest('all')") All
-                        b-button(type='button' :variant="filterOption === 'shared' ? 'dark' : 'outline-dark'" @click="filterRequest('shared')") Shared
+                    .p-t-2.d-flex.justify-content-between
+                      b-form-group
+                        b-button(size="md" type='button' :variant="filterOption === 'all' ? 'dark' : 'outline-dark'" @click="filterRequest('all')") All
+                        b-button(size="md" type='button' :variant="filterOption === 'shared' ? 'dark' : 'outline-dark'" @click="filterRequest('shared')") Shared
                       ExamRequestModalCreate(:examId="examId")
                         b-button(variant='default') Add request
                     template(v-if="currentExam.exam_requests" v-for="(currentRequst, i) in currentExamRequestsFiltered")
@@ -56,10 +48,10 @@
                                 b-icon(icon="x")
                           .col-md-11
                             .d-flex.justify-content-between.align-items-center
-                              .d-flex.align-items-center
+                              .d-flex
                                 b-badge.mr-2(v-if="currentRequst.shared" variant="success") {{ currentRequst.shared ? 'Shared' : '' }}
                                 .exams__input.exams__topic-name {{ currentRequst.name }}
-                              .d-flex.actions.min-w-240
+                              .d-flex.actions
                                 b-dropdown(size="xs" variant="default" class="m-0 p-0" right)
                                   template(#button-content)
                                     | Add Item
@@ -67,9 +59,8 @@
                                   b-dropdown-item(@click="addTextEntry(i)") Text Entry
                                   ExamModalUpload(:currentExamId="currentExam.id"  :request="currentRequst" :inline="false")
                                     b-dropdown-item Upload New
-                                  ExamModalSelectFiles(:currentExamId="currentExam.id"  :request="currentRequst" :inline="false")
-                                    b-dropdown-item Select Existing
-                                ExamModalCreateTask(@saved="createTask(currentRequst.id)" :inline="false")
+                                  b-dropdown-item(@click="deleteTopic(i)") Select Existing
+                                ExamModalCreateTask(:inline="false")
                                   button.btn.btn-default.m-x-1 Create Task
                                 b-dropdown(size="sm" variant="none" class="m-0 p-0" right)
                                   template(#button-content)
@@ -88,13 +79,13 @@
                               .col
                                 .d-flex.justify-content-between.align-items-center
                                   span
-                                    b-icon.mr-2(:icon="currentRequst.text_items && currentRequst.text_items.length ? 'chevron-down' : 'chevron-right'")
-                                    | {{ currentRequst.text_items && currentRequst.text_items.length ? currentRequst.text_items.length : 0 }} Items
+                                    b-icon.mr-2(:icon="currentRequst.text_items.length ? 'chevron-down' : 'chevron-right'")
+                                    | {{ currentRequst.text_items.length ? currentRequst.text_items.length : 0 }} Items
                             hr(v-if="currentRequst.text_items")
                             .row(v-if="currentRequst.text_items")
                               template(v-for="(textItem, textIndex) in currentRequst.text_items")
                                 .col-12.exams__text(:key="`${currentRequst.name}-${i}-${textItem}-${textIndex}`")
-                                    textarea.exams__text-body(v-model="currentRequst.text_items[textIndex]")
+                                    textarea.exams__text-body(v-model="currentRequst.text_items[textIndex].text")
                                     button.btn.btn__close.float-right(@click="removeTextEntry(i, textIndex)")
                                       b-icon(icon="x" font-scale="1")
                             .row
@@ -112,7 +103,7 @@
                                           b-icon(icon="three-dots")
                                         b-dropdown-item.delete(@click="removeFile(currentRequst.id, file.id)") Delete file
 
-                  ExamRequestModalCreate(v-if="currentExam.exam_requests && currentExam.exam_requests.length" :examId="examId")
+                  ExamRequestModalCreate(:examId="examId")
                     b-button.m-b-2(variant='default')
                       b-icon.mr-2(icon='plus-circle-fill')
                       | Add Request
@@ -121,46 +112,34 @@
                       button.btn.btn-default.mr-2(@click="saveExam") Save
                       ExamModalComplite(@compliteConfirmed="markCompleteExam", :completedStatus="currentExam.complete", :countCompleted="countCompleted" :inline="false")
                         button.btn(:class="currentExam.complete ? 'btn-default' : 'btn-dark'") Mark {{ currentExam.complete ? 'Incomplete' : 'Complete' }}
-        b-tab(title="Tasks" lazy)
-          PageTasks
-        b-tab(title="Documents" lazy)
-          PageAttachments
-        b-tab(title="Activity" lazy)
-          PageActivity
+        b-tab(title="Tasks")
+          span Tasks
+        b-tab(title="Attachments")
+          span Attachments
+        b-tab(title="Activity")
+          span Activity
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex"
 // import { VueEditor } from "vue2-editor"
-import Loading from '@/common/Loading/Loading'
 import ExamRequestModalCreate from "./modals/ExamRequestModalCreate";
-import ExamModalEdit from "./modals/ExamModalEdit";
 import ExamModalDelete from "./modals/ExamModalDelete";
 import ExamRequestModalEdit from "./modals/ExamRequestModalEdit";
 import ExamModalCreateTask from "./modals/ExamModalCreateTask";
 import ExamModalComplite from "./modals/ExamModalComplite";
 import ExamModalShare from "./modals/ExamModalShare";
 import ExamModalUpload from "./modals/ExamModalUpload";
-import ExamModalSelectFiles from "./modals/ExamModalSelectFiles";
-import PageTasks from "./PageTasks";
-import PageAttachments from "./PageAttachments";
-import PageActivity from "./PageActivity";
 
 export default {
   props: ['examId'],
   components: {
-    Loading,
-    PageActivity,
-    PageAttachments,
-    PageTasks,
-    ExamModalSelectFiles,
     ExamModalUpload,
     ExamModalShare,
     ExamModalComplite,
     ExamModalCreateTask,
     ExamRequestModalEdit,
     ExamRequestModalCreate,
-    ExamModalEdit,
     ExamModalDelete,
     // VueEditor,
   },
@@ -179,9 +158,6 @@ export default {
     ...mapGetters({
       exam: 'exams/currentExam'
     }),
-    loading() {
-      return this.$store.getters.loading;
-    },
     currentExam () {
       // return this.exam.exam_categories.find(item => item.id === this.revcatId)
       return this.exam
@@ -201,7 +177,6 @@ export default {
   },
   async mounted () {
     try {
-      if(!this.examId) this.examId = 1;
       await this.getCurrentExam(this.examId)
     } catch (error) {
       this.makeToast('Error', error.message)
@@ -211,7 +186,6 @@ export default {
     ...mapActions({
       updateExam: 'exams/updateExam',
       getCurrentExam: 'exams/getExamById',
-      deletetCurrentExam: 'exams/deleteExam',
       updateCurrentExamRequest: 'exams/updateExamRequest',
       deleteCurrentExamRequest: 'exams/deleteExamRequest'
     }),
@@ -220,34 +194,25 @@ export default {
     },
     async saveExam () {
       const exam = this.currentExam
-      const examRequests = this.currentExam.exam_requests
 
       // PREPARE ENTRY TEXT FOR SENDING
       this.currentExam.exam_requests = this.currentExam.exam_requests
         .map(request => {
           return {
             ...request,
-            text_items: request.text_items ? request.text_items.map(item => item.text) : []
+            text_items: request.text_items.map(item => item.text)
           }
         })
 
-      let data = {
+      const data = {
         // examlId: this.examlId,
-        // ...exam
-        ...this.currentExam,
-        exam_requests_attributes: this.currentExam.exam_requests
+        ...exam
       }
-
-      delete data.exam_requests;
-
       try {
         await this.updateExam(data)
-          .then(response => this.makeToast('Success', "Saved changes to exam."))
-          .catch(error => this.makeToast('Error', error.message))
+        this.makeToast('Success', "Saved changes to exam.")
       } catch (error) {
         this.makeToast('Error', error.message)
-      } finally {
-        this.currentExam.exam_requests = examRequests
       }
     },
     async markCompleteExam (id, status) {
@@ -257,8 +222,7 @@ export default {
       }
       try {
         await this.updateExam(data)
-          .then(response => this.makeToast('Success', "Exam updated!"))
-          .catch(error => this.makeToast('Error', error.message))
+        this.makeToast('Success', "Exam updated!")
       } catch (error) {
         this.makeToast('Error', error.message)
       }
@@ -273,8 +237,7 @@ export default {
       }
       try {
         await this.updateCurrentExamRequest(data)
-          .then(response => this.makeToast('Success', "Request updated!"))
-          .catch(error => this.makeToast('Error', error.message))
+        this.makeToast('Success', "Request updated!")
       } catch (error) {
         this.makeToast('Error', error.message)
       }
@@ -289,30 +252,29 @@ export default {
       }
       try {
         await this.updateCurrentExamRequest(data)
-          .then(response => this.makeToast('Success', "Request updated!"))
-          .catch(error => this.makeToast('Error', error.message))
+        this.makeToast('Success', "Request updated!")
       } catch (error) {
         this.makeToast('Error', error.message)
       }
     },
-    // addTopic() {
-    //   const examCategory = this.currentExam
-    //   if (!examCategory.exam_topics) {
-    //     this.currentExam.exam_topics = [
-    //       {
-    //         items: [],
-    //         name: "New topic"
-    //       }
-    //     ]
-    //     return
-    //   }
-    //   this.currentExam.exam_topics.push({
-    //     items: [],
-    //     name: "New topic"
-    //   })
-    // },
+    addTopic() {
+      const examCategory = this.currentExam
+      if (!examCategory.exam_topics) {
+        this.currentExam.exam_topics = [
+          {
+            items: [],
+            name: "New topic"
+          }
+        ]
+        return
+      }
+      this.currentExam.exam_topics.push({
+        items: [],
+        name: "New topic"
+      })
+    },
     addTextEntry(i) {
-      if (!this.currentExam.exam_requests[i].text_items) this.currentExam.exam_requests[i].text_items = []
+      // if (!this.currentExam.exam_requests[i].text_items) this.currentExam.exam_requests[i].text_items = []
       this.currentExam.exam_requests[i].text_items.push({
         text: ""
       })
@@ -320,20 +282,19 @@ export default {
     removeTextEntry(i, itemIndex) {
       this.currentExam.exam_requests[i].text_items.splice(itemIndex, 1);
     },
-    // addFindings(i, itemIndex) {
-    //   this.currentExam.exam_topics[i].items[itemIndex].findings.push("")
-    // },
-    // deleteTopicItem(i, itemIndex) {
-    //   this.currentExam.exam_topics[i].items.splice(itemIndex, 1);
-    // },
-    // deleteTopic(i) {
-    //   this.currentExam.exam_topics.splice(i, 1);
-    // },
+    addFindings(i, itemIndex) {
+      this.currentExam.exam_topics[i].items[itemIndex].findings.push("")
+    },
+    deleteTopicItem(i, itemIndex) {
+      this.currentExam.exam_topics[i].items.splice(itemIndex, 1);
+    },
+    deleteTopic(i) {
+      this.currentExam.exam_topics.splice(i, 1);
+    },
     async deleteExamRequest(id) {
       try {
         await this.deleteCurrentExamRequest({ id: this.examId, requestId: id })
-          .then(response => this.makeToast('Success', `The request has been deleted!`))
-          .catch(error => this.makeToast('Error', error.message))
+        this.toast('Success', `The request has been deleted!`)
       } catch (error) {
         this.makeToast('Error', error.message)
       }
@@ -342,20 +303,17 @@ export default {
       console.log('createTask: ', i)
     },
     saveAndExit() {
-      this.saveExam()
+      this.saveCategory()
       window.location.href = `${window.location.origin}/business/exam_management/`
     },
-    exit() {
-      window.location.href = `${window.location.origin}/business/exam_management/`
+    deleteexam(examId){
+      this.$store.dispatch('annual/deleteexam', { id: examId })
+        .then(response => {
+          this.toast('Success', `The annual exam has been deleted! ${response.id}`)
+          window.location.href = `${window.location.origin}/business/annual_exams`
+        })
+        .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
     },
-    // deleteexam(examId){
-    //   this.$store.dispatch('annual/deleteexam', { id: examId })
-    //     .then(response => {
-    //       this.toast('Success', `The annual exam has been deleted! ${response.id}`)
-    //       window.location.href = `${window.location.origin}/business/annual_exams`
-    //     })
-    //     .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
-    // },
     async removeFile(requestId, fileID) {
 
       const data = {
@@ -366,26 +324,9 @@ export default {
 
       try {
         await this.$store.dispatch('exams/deleteExamRequestFile', data)
-          .then(response => {
-            this.makeToast('Success', `File successfull deleted!`)
-            this.$emit('saved')
-            this.$bvModal.hide(this.modalId)
-          })
-          .catch(error => this.makeToast('Error', error.message))
-      } catch (error) {
-        this.makeToast('Error', error.message)
-      }
-    },
-    async deleteExam(id){
-      try {
-        this.deletetCurrentExam({ id: id })
-          .then(response => {
-            this.makeToast('Success', `The exam has been deleted!`)
-            setTimeout(() => {
-              window.location.href = `${window.location.origin}/business/exam_management/`
-            }, 2000)
-          })
-          .catch(error => this.makeToast('Error', `Something wrong! ${error.message}`))
+        this.makeToast('Success', `File successfull deleted!`)
+        this.$emit('saved')
+        this.$bvModal.hide(this.modalId)
       } catch (error) {
         this.makeToast('Error', error.message)
       }
@@ -399,8 +340,4 @@ export default {
 
 <style scoped>
   @import "./styles.css";
-
-  .min-w-240 {
-    min-width: 240px;
-  }
 </style>

@@ -18,8 +18,8 @@
                   .d-flex.align-items-center
                     button.btn.btn__menu.mr-3(@click="leftMenu = !leftMenu")
                       b-icon(icon='list')
-                    b-badge.btn.btn-default.mr-3(variant="light") {{ policy.status }}
-                    h3.policy__main-title.m-y-0 {{ policy.title }}
+                    b-badge.btn.btn-default.mr-3(variant="light") none
+                    h3.policy__main-title.m-y-0 Entire policies
                   .d-flex.justify-content-end.align-items-center
                     a.link.btn.mr-3(@click="saveDraft") Save Draft
                     button.btn.btn-default.mr-3(@click="download") Download
@@ -35,61 +35,58 @@
                     template(#button-content)
                       | Actions
                       b-icon.m-l-1(icon="chevron-down" font-scale="1")
-                    PoliciesModalArchive(:archiveStatus="!policy.archived" @archiveConfirmed="archivePolicy(policy.id, !policy.archived)" :inline="false")
+                    // PoliciesModalArchive(:archiveStatus="!policy.archived" @archiveConfirmed="archivePolicy(policy.id, !policy.archived)" :inline="false")
                       b-dropdown-item {{ !policy.archived ? 'Archive' : 'Unarchive' }} Policy
-                    PoliciesModalDelete(v-if="policy.archived" @deleteConfirmed="deletePolicy(policy.id)", :policyId="policy.id",  :inline="false")
+                    // PoliciesModalDelete(v-if="policy.archived" @deleteConfirmed="deletePolicy(policy.id)", :policyId="policy.id",  :inline="false")
                       b-dropdown-item.delete Delete Policy
-
-                b-tab.h-80(title="Details" active)
-                  .card-body.white-card-body.position-relative.p-0.h-100
-                    .policy-details(v-if="loading", :loading="loading")
-                      .policy-details__body
-                        .d-flex.flex-column.justify-content-center.align-items-center.mb-2
-                          b-icon(icon="three-dots", animation="cylon", font-scale="4")
-                          h5 Loading....
-                    .policy-details.d-flex.flex-column.h-100
-                      h3.policy-details__title Policy Details
-                      .policy-details__body.mb-0.flex-grow-1
-                        .policy-details-section
-                          .policy-details__name Name
-                          .d-flex
-                            input.policy-details__input(v-model="policy.title")
-                          .policy-details__name Description
-                          .policy-details__text-editor(@click="toggleVueEditorHandler", v-if="!toggleVueEditor", v-b-tooltip.hover.left title="Click to edit text", v-html="policy.description ? policy.description : description")
-                          vue-editor.policy-details__text-editor(v-if="toggleVueEditor" :editorOptions="editorSettings" :editor-toolbar="fullToolbar " v-model="policy.description")
-                b-tab(title="Risks" lazy)
-                  .card-body.white-card-body.position-relative.p-0.h-100
-                    PolicyRisks(:policyId="policyId")
-                b-tab(title="Tasks" lazy)
-                  .card-body.white-card-body.position-relative.p-0.h-100
-                    .policy-details
-                      h3.policy-details__title Tasks
-                      .policy-details__body Tasks
-                b-tab(title="History")
-                  .card-body.white-card-body.position-relative.p-0.h-100
-                    HistoryPolicy(:policy="policy")
+                b-tab(title="Details" active)
+                  .row
+                    .col-12.px-lg-5.px-md-3
+                      .card-body.white-card-body.p-0.position-relative
+                        .policy-details(v-if="loading", :loading="loading")
+                          .policy-details__body
+                            .d-flex.flex-column.justify-content-center.align-items-center.mb-2
+                              b-icon(icon="three-dots", animation="cylon", font-scale="4")
+                              h5 Loading....
+                        .policy-details.m-b-2(v-if="policiesList" v-for="policy in policiesList" :key="policy.id")
+                          // h3.policy-details__title Policy Details
+                          .policy-details__body
+                            .policy-details-section
+                              .policy-details__name Name
+                              .d-flex
+                                input.policy-details__input(v-model="policy.title")
+                              .policy-details__name Description
+                              .policy-details__text-editor(@click="toggleVueEditorHandler", v-if="!toggleVueEditor", v-b-tooltip.hover.left title="Click to edit text", v-html="policy.description ? policy.description : description")
+                              vue-editor.policy-details__text-editor(v-if="toggleVueEditor", v-model="policy.description", @blur="handleBlur")
+                        HistoryPolicy(:policy="policy")
+                      // b-tab(title="Risks")
+                      //   PolicyRisks(:policyId="policy.id")
+                      // b-tab(title="Tasks")
+                      //   .policy-details
+                      //     h3.policy-details__title Tasks
+                      //     .policy-details__body Tasks
 </template>
 
 <script>
-  import nestedDraggable from "../infra/nestedMain";
-  import rawdisplayer from "../infra/raw-displayer";
+  import nestedDraggable from "./infra/nestedMain";
+  import rawdisplayer from "./infra/raw-displayer";
   import { VueEditor } from "vue2-editor";
-  import SubsectionPolicy from "./PolicySubsection";
-  import HistoryPolicy from "./PolicyHistory";
-  import PolicyRisks from "../Risks/PolicyRisks";
-  import PoliciesModalCreate from "../Modals/PoliciesModalCreate";
-  import PoliciesModalDelete from "../Modals/PoliciesModalDelete";
-  import PoliciesModalArchive from "../Modals/PoliciesModalArchive";
-  import PoliciesModalRemoveSubsection from "../Modals/PoliciesModalRemoveSubsection";
-  import PoliciesModalPublish from "../Modals/PoliciesModalPublish";
+  import SubsectionPolicy from "./Details/PolicySubsection";
+  import HistoryPolicy from "./Details/PolicyHistory";
+  import PolicyRisks from "./Risks/PolicyRisks";
+  import PoliciesModalCreate from "./Modals/PoliciesModalCreate";
+  import PoliciesModalDelete from "./Modals/PoliciesModalDelete";
+  import PoliciesModalArchive from "./Modals/PoliciesModalArchive";
+  import PoliciesModalRemoveSubsection from "./Modals/PoliciesModalRemoveSubsection";
+  import PoliciesModalPublish from "./Modals/PoliciesModalPublish";
 
   export default {
-    props: {
-      policyId: {
-        type: Number,
-        required: true
-      },
-    },
+    // props: {
+    //   policyId: {
+    //     type: Number,
+    //     required: true
+    //   },
+    // },
     components: {
       nestedDraggable,
       rawdisplayer,
@@ -111,41 +108,11 @@
         toggleVueEditor: false,
         sections: [],
         count: 0,
-        editorSettings: {
-          modules: {
-            keyboard: {
-              bindings: {
-                'list autofill': {
-                  prefix: /^\s{0,}(1){1,1}(\.|-|\*|\[ ?\]|\[x\])$/
-                }
-              }
-            }
-          }
-        },
-        fullToolbar: [
-          // [{ font: [ '-apple-system', 'BlinkMacSystemFont', "Segoe UI", 'Roboto', "Helvetica Neue", 'Arial', "Noto Sans", 'sans-serif', "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"] }],
-          [{ header: [false, 1, 2, 3, 4, 5, 6] }],
-          // [{ size: ["small", false, "large", "huge"] }],
-          // ["bold", "italic", "underline", "strike"],
-          ["bold", "italic", "underline"],
-          [ { align: "" },  { align: "center" },  { align: "right" },  { align: "justify" } ],
-          // [{ header: 1 }, { header: 2 }],
-          ["blockquote", "code-block"],
-          // [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
-          [{ list: "ordered" }, { list: "bullet" }],
-          [{ script: "sub" }, { script: "super" }],
-          [{ indent: "-1" }, { indent: "+1" }],
-          [{ color: [] }, { background: [] }],
-          // ["link", "image", "video", "formula"],
-          ["link"],
-          // [{ direction: "rtl" }],
-          ["clean"]
-        ],
+        policyId: 155
       }
     },
     methods: {
       saveDraft () {
-        this.toggleVueEditor = false
         this.updatePolicy()
       },
       download () {
@@ -240,12 +207,6 @@
         if(event) event.target.closest('.policy-details__btn').style.display = 'none';
         const id = Math.floor(Math.random() * 100)
 
-        // this.policy.sections.push({
-        //   id: id,
-        //   title: `${this.title}-№-${this.count++}-${id}`,
-        //   description: this.description,
-        //   children: [],
-        // })
         this.policiesComputed = {
           id: id,
           title: `${this.title}`,
@@ -264,8 +225,10 @@
       handleBlur() {
         this.toggleVueEditorHandler()
       },
+
       updateList() {
-        this.$store.dispatch("getPolicies")
+        this.$store
+          .dispatch("getPolicies")
           .then((response) => {
             // console.log('response 1', response);
             this.policies = response
@@ -277,6 +240,7 @@
             this.makeToast('Error', err.message)
           });
       },
+
       deletePolicy(policyId) {
         this.$store
           .dispatch('deletePolicyById', { policyId })
@@ -287,6 +251,7 @@
             this.makeToast('Error', `Couldn't submit form! ${error}`)
           })
       },
+
       movePolicy(event) {
         const curPos = this.policies[event.oldIndex].position
         const newPos = this.policies[event.newIndex].position
@@ -316,6 +281,7 @@
             this.makeToast('Error', err.message)
           });
       },
+
       makeToast(title, str) {
         this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
       },
@@ -327,6 +293,9 @@
       policy(){
         const id = this.policyId
         return this.$store.getters.policyById(id)
+      },
+      policiesList() {
+        return this.$store.getters.policiesList;
       },
       policiesComputed: {
         get() {
@@ -358,26 +327,13 @@
         return this.$store.getters.policiesListNested
       }
     },
+    watch: {
+      policiesComputed (oldArr, newArr) {
+        console.log('watch record', oldArr, newArr)
+      },
+    },
     mounted() {
-      this.updateList()
+      this.updateList ()
     },
   };
 </script>
-
-<style scoped>
-  .h-80 {
-    min-height: calc(100vh - 225px);
-  }
-
-  .policy .tab-pane.h-80{
-    min-height: calc(100vh - 225px);
-  }
-
-  .policy-details {
-    min-height: calc(100vh - 225px);
-  }
-
-  .policy-details__text-editor {
-    border: solid 1px #e9ebee;
-  }
-</style>
