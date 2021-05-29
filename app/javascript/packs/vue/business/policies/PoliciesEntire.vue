@@ -48,9 +48,9 @@
                             .d-flex.flex-column.justify-content-center.align-items-center.mb-2
                               b-icon(icon="three-dots", animation="cylon", font-scale="4")
                               h5 Loading....
-                  .row
+                  .row.m-b-2(v-if="policiesList" v-for="policy in policiesList" :key="policy.id")
                     .col-12
-                      .card-body.white-card-body.p-0.position-relative.m-b-2(v-if="policiesList" v-for="policy in policiesList" :key="policy.id")
+                      .card-body.white-card-body.p-0.position-relative
                         .policy-details
                           // h3.policy-details__title Policy Details
                           .policy-details__body
@@ -340,3 +340,9 @@
     },
   };
 </script>
+
+<style scoped>
+  .policy .tab-pane {
+    border: none;
+  }
+</style>
