@@ -40,15 +40,18 @@
                     // PoliciesModalDelete(v-if="policy.archived" @deleteConfirmed="deletePolicy(policy.id)", :policyId="policy.id",  :inline="false")
                       b-dropdown-item.delete Delete Policy
                 b-tab(title="Details" active)
-                  .row
-                    .col-12.px-lg-5.px-md-3
+                  .row(v-if="loading", :loading="loading")
+                    .col-12
                       .card-body.white-card-body.p-0.position-relative
-                        .policy-details(v-if="loading", :loading="loading")
+                        .policy-details
                           .policy-details__body
                             .d-flex.flex-column.justify-content-center.align-items-center.mb-2
                               b-icon(icon="three-dots", animation="cylon", font-scale="4")
                               h5 Loading....
-                        .policy-details.m-b-2(v-if="policiesList" v-for="policy in policiesList" :key="policy.id")
+                  .row
+                    .col-12
+                      .card-body.white-card-body.p-0.position-relative.m-b-2(v-if="policiesList" v-for="policy in policiesList" :key="policy.id")
+                        .policy-details
                           // h3.policy-details__title Policy Details
                           .policy-details__body
                             .policy-details-section
