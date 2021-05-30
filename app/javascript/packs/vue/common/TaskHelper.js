@@ -2,7 +2,7 @@ import { DateTime } from 'luxon'
 
 const isProject = task => task.hasOwnProperty('starts_on') && task.hasOwnProperty('ends_on')
 const isTask = task => task.hasOwnProperty('remindable_type') && task.hasOwnProperty('skip_occurencies')
-const isOverdue = task => task.end_date && DateTime.fromISO(task.end_date) <= DateTime.local()
+const isOverdue = task => (task.end_date || task.ends_on) && DateTime.fromISO(task.end_date || task.ends_on) <= DateTime.local()
 const isComplete = task => {
   const { oid } = splitReminderOccurenceId(task.id)
   if (oid !== null) {
