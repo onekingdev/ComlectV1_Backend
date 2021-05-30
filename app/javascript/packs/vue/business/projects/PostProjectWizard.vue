@@ -81,6 +81,7 @@ import { redirectWithToast } from '@/common/Toast'
 import {
   PRICING_TYPES,
   LOCATION_TYPES,
+  SORT_INDUSTRIES,
   FIXED_PAYMENT_SCHEDULE_OPTIONS_FILTERED,
   HOURLY_PAYMENT_SCHEDULE_OPTIONS_FILTERED,
   MINIMUM_EXPERIENCE_OPTIONS,
@@ -253,7 +254,7 @@ export default {
     experienceOptions: () => MINIMUM_EXPERIENCE_OPTIONS,
     skillsOptions: () => ['SEC', 'Policy Writing', 'FINRA'].map(id => ({ id, label: id })),
     industryIdsOptions() {
-      return this.industryIds.map(toOption)
+      return SORT_INDUSTRIES(this.industryIds).map(toOption)
     },
     jurisdictionIdsOptions() {
       return this.jurisdictionIds.map(toOption)
