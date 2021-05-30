@@ -82,6 +82,7 @@ import {
   PRICING_TYPES,
   LOCATION_TYPES,
   SORT_INDUSTRIES,
+  SORT_JURISDICTIONS,
   FIXED_PAYMENT_SCHEDULE_OPTIONS_FILTERED,
   HOURLY_PAYMENT_SCHEDULE_OPTIONS_FILTERED,
   MINIMUM_EXPERIENCE_OPTIONS,
@@ -257,7 +258,7 @@ export default {
       return SORT_INDUSTRIES(this.industryIds).map(toOption)
     },
     jurisdictionIdsOptions() {
-      return this.jurisdictionIds.map(toOption)
+      return SORT_JURISDICTIONS(this.jurisdictionIds).map(toOption)
     },
     currentStep() {
       return this.steps.indexOf(this.step)
