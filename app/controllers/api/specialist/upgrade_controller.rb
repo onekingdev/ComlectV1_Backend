@@ -7,7 +7,7 @@ class Api::Specialist::UpgradeController < ApiController
   def subscribe
     specialist_plan_name = turnkey_params[:plan]&.parameterize
     respond_with(errors: { plan: 'Wrong plan name' }) && return unless Subscription::SPECIALIST_PLANS.include?(specialist_plan_name)
-    respond_with(errors: { subscribe: 'No payment source' }) && return unless @payment_source
+    respond_with(errors: { subscribe: 'No payment source' }) && return unless @payment_source || turnkey_params[:plan] == 'free'
     respond_with(errors: { subscribe: 'You have already subscribed to this plan' }) && return if active_subscription
 
     if turnkey_params[:plan] != 'free'

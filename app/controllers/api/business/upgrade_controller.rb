@@ -5,7 +5,7 @@ class Api::Business::UpgradeController < ApiController
 
   def subscribe
     respond_with(errors: { plan: 'Wrong plan name' }) && return unless Subscription.plans.key?(turnkey_params[:plan]&.parameterize)
-    respond_with(errors: { subscribe: 'No payment source' }) && return unless payment_source
+    respond_with(errors: { subscribe: 'No payment source' }) && return unless payment_source || turnkey_params[:plan] == 'free'
     active_subscriptions = current_business.subscriptions.where(status: 'active').where.not(plan: %w[seats_monthly seats_annual])
 
     processed_subs = []
@@ -45,7 +45,7 @@ class Api::Business::UpgradeController < ApiController
         render json: { error: e.message, processed: serialize_subs(processed_subs) }, status: :unprocessable_entity && return
       end
     else
-      current_business.update(onboarding_passed: true)
+      current_business.update_attribute('onboarding_passed', true)
     end
     render json: { message: 'subscribed', processed: serialize_subs(processed_subs) }, status: :created
   end
@@ -68,7 +68,7 @@ class Api::Business::UpgradeController < ApiController
   end
 
   def payment_source
-    @payment_source ||= current_business.payment_profile.payment_sources.find(params[:payment_source_id])
+    @payment_source ||= current_business.payment_profile&.payment_sources&.find(params[:payment_source_id])
   end
 
   def stripe_customer

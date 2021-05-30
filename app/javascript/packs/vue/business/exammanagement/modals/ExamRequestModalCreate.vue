@@ -25,6 +25,13 @@
   const rnd = () => Math.random().toFixed(10).toString().replace('.', '')
   var today = new Date();
 
+  const initialReqeust = () => ({
+    name: '',
+    details: '',
+    complete: false,
+    shared: false
+  })
+
   export default {
     props: {
       inline: {
@@ -39,12 +46,7 @@
     data() {
       return {
         modalId: `modal_${rnd()}`,
-        requst: {
-          name: '',
-          details: '',
-          complete: false,
-          shared: false
-        },
+        requst: initialReqeust() ,
         errors: []
       }
     },
@@ -53,12 +55,7 @@
         this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
       },
       resetForm() {
-        this.requst = {
-          name: '',
-          details: '',
-          complete: true,
-          shared: false
-        }
+        this.requst = initialReqeust()
       },
       onChange(e){
         if (e.keyCode === 13) {
@@ -79,10 +76,13 @@
             id: this.examId,
             request: this.requst
           })
-          this.makeToast('Success', `Exam Request successfully added!`)
-          this.$emit('saved')
-          this.$bvModal.hide(this.modalId)
-          this.resetForm()
+            .then(response => {
+              this.makeToast('Success', `Exam Request successfully added!`)
+              this.$emit('saved')
+              this.$bvModal.hide(this.modalId)
+              this.resetForm()
+            })
+            .catch(error => this.makeToast('Error', error.message))
         } catch (error) {
           this.makeToast('Error', error.message)
         }

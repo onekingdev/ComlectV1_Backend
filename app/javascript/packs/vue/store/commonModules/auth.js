@@ -4,6 +4,7 @@ import { AccountInfoBusiness, AccountInfoSpecialist } from "../../models/Account
 
 const currentUserLocalStorage = localStorage.getItem('app.currentUser') ? localStorage.getItem('app.currentUser') : ''
 const accessTokenLocalStorage = localStorage.getItem('app.currentUser.token') ? localStorage.getItem('app.currentUser.token') : ''
+const GOOGLE_API_KEY = process.env.GOOGLE_PLACES_API_KEY
 
 export default {
   state: {
@@ -52,7 +53,12 @@ export default {
               data.jurisdictions,
               data.state,
               data.sub_industries,
-              data.username
+              data.username,
+              data.address_1,
+              data.address_2,
+              data.contact_phone,
+              data.website,
+              data.zipcode
             ))
             localStorage.setItem('app.currentUser', JSON.stringify(data));
           }
@@ -146,7 +152,12 @@ export default {
               data.jurisdictions,
               data.state,
               data.sub_industries,
-              data.username
+              data.username,
+              data.address_1,
+              data.address_2,
+              data.contact_phone,
+              data.website,
+              data.zipcode
             ))
             localStorage.setItem('app.currentUser', JSON.stringify(data));
           }
@@ -251,7 +262,12 @@ export default {
             data.jurisdictions,
             data.state,
             data.sub_industries,
-            data.username
+            data.username,
+            data.address_1,
+            data.address_2,
+            data.contact_phone,
+            data.website,
+            data.zipcode
           ))
           if (!payload.business) commit('UPDATE_USER', new AccountInfoSpecialist(
             data.experience,
@@ -264,7 +280,7 @@ export default {
             data.skills,
             data.username
           ))
-          localStorage.setItem('app.currentUser', JSON.stringify(data));
+          if(!data.errors) localStorage.setItem('app.currentUser', JSON.stringify(data));
         }
         return response.data
 
@@ -301,7 +317,12 @@ export default {
             data.jurisdictions,
             data.state,
             data.sub_industries,
-            data.username
+            data.username,
+            data.address_1,
+            data.address_2,
+            data.contact_phone,
+            data.website,
+            data.zipcode
           ))
           if (!payload.business) commit('UPDATE_USER', new AccountInfoSpecialist(
             data.experience,
@@ -314,7 +335,7 @@ export default {
             data.skills,
             data.username
           ))
-          localStorage.setItem('app.currentUser', JSON.stringify(data));
+          if(!data.errors) localStorage.setItem('app.currentUser', JSON.stringify(data));
         }
         return response.data
 
@@ -457,6 +478,16 @@ export default {
         throw error
       } finally {
         commit("setLoading", false)
+      }
+    },
+    async getGeo({commit}, payload) {
+      try {
+        const response = await axios.post(`https://maps.googleapis.com/maps/api/geocode/json?address=${payload}&key=${GOOGLE_API_KEY}`)
+        return response
+      } catch (error) {
+        console.error(error);
+        throw error
+      } finally {
       }
     },
   },

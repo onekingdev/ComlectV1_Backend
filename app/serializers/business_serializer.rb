@@ -14,7 +14,13 @@ class BusinessSerializer < ApplicationSerializer
              :username,
              :aum,
              :apartment,
-             :client_account_cnt
+             :client_account_cnt,
+             :address_1,
+             :address_2,
+             :website,
+             :contact_phone,
+             :zipcode,
+             :time_zone
   has_many :jurisdictions, serializer: JurisdictionSerializer
   has_many :industries, serializer: IndustrySerializer
 end

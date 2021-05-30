@@ -3,6 +3,7 @@
 class Api::ProjectMessagesController < ApiController
   before_action :require_someone!
   before_action :find_project
+  skip_before_action :verify_authenticity_token
 
   def index
     render json: @project.messages.page(params[:page]).per(20).to_json

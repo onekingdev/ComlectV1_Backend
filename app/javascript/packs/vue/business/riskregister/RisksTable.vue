@@ -13,7 +13,7 @@
       .col-12
         Loading
         table.table(v-if="!loading")
-          thead
+          thead(v-if="filteredRisksComputed && filteredRisksComputed.length")
             tr
               th(width="55%") Name
               th Impact
@@ -50,7 +50,7 @@
                       b-dropdown-item-button Edit
                     b-dropdown-item-button.delete(@click="deleteRisk(risk.id)") Delete
             tr(v-if="!filteredRisksComputed.length")
-              td.text-center(colspan=5)
+              td.text-center
                 h4.py-2 No risks
 </template>
 
