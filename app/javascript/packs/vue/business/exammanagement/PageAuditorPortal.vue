@@ -56,6 +56,8 @@
 </script>
 
 <style scoped>
+  @import "./styles.css";
+
   .header-top {
     position: relative;
     z-index: 2;

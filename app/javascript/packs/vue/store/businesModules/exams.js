@@ -12,6 +12,8 @@ const mapAuthProviders = {
     updateExamRequest: jwt.updateExamRequest,
     uploadExamRequestFile: jwt.uploadExamRequestFile,
     deleteExamRequestFile: jwt.deleteExamRequestFile,
+    sendInvite: jwt.sendInvite,
+    sendUninvite: jwt.sendUninvite,
   },
 }
 
@@ -65,6 +67,13 @@ export default {
       const indexFile = state.currentExam.exam_requests[index].exam_request_files.findIndex(record => record.id === payload.id);
       state.currentExam.exam_requests[index].exam_request_files.splice(indexFile, 1)
     },
+    ADD_AUDITOR_CURRENT_EXAM(state, payload) {
+      state.currentExam.exam_auditors.push(payload)
+    },
+    REMOVE_AUDITOR_CURRENT_EXAM(state, payload) {
+      const index = state.currentExam.exam_auditors.findIndex(record => record.id === payload.auditorId);
+      state.currentExam.exam_auditors.splice(index, 1)
+    },
   },
   actions: {
     async getExams({state, commit, rootState}) {
@@ -84,6 +93,7 @@ export default {
                   examItem.complete,
                   examItem.created_at,
                   examItem.ends_on,
+                  examItem.exam_auditors,
                   examItem.exam_requests,
                   examItem.id,
                   examItem.name,
@@ -131,6 +141,7 @@ export default {
                   data.complete,
                   data.created_at,
                   data.ends_on,
+                  data.exam_auditors,
                   data.exam_requests,
                   data.id,
                   data.name,
@@ -180,6 +191,7 @@ export default {
                   data.complete,
                   data.created_at,
                   data.ends_on,
+                  data.exam_auditors,
                   data.exam_requests,
                   data.id,
                   data.name,
@@ -191,6 +203,7 @@ export default {
                   data.complete,
                   data.created_at,
                   data.ends_on,
+                  data.exam_auditors,
                   data.exam_requests,
                   data.id,
                   data.name,
@@ -240,6 +253,7 @@ export default {
                   data.complete,
                   data.created_at,
                   data.ends_on,
+                  data.exam_auditors,
                   data.exam_requests,
                   data.id,
                   data.name,
@@ -285,6 +299,7 @@ export default {
                 data.complete,
                 data.created_at,
                 data.ends_on,
+                data.exam_auditors,
                 data.exam_requests,
                 data.id,
                 data.name,
@@ -493,6 +508,90 @@ export default {
         throw error;
       } finally {
         commit("setLoading", false, { root: true })
+      }
+    },
+    async sendInvite({state, commit, rootState}, payload) {
+      commit("clearError", null, {
+        root: true
+      });
+      commit("setLoading", true, {
+        root: true
+      });
+      try {
+        const sendInvite = mapAuthProviders[rootState.shared.settings.authProvider].sendInvite
+        const data = await sendInvite(payload)
+          .then((success) => {
+            commit("clearError", null, {
+              root: true
+            });
+            commit("setLoading", false, {
+              root: true
+            });
+            if (success) {
+              const data = success.data
+              commit('ADD_AUDITOR_CURRENT_EXAM', data)
+              return data
+            }
+            if (!success) {
+              commit("setError", success.message, { root: true });
+              console.error('Not success', success)
+              return success
+            }
+          })
+          .catch(error => error)
+
+        return data
+
+      } catch (error) {
+        commit("setError", error.message, {
+          root: true
+        });
+        commit("setLoading", false, {
+          root: true
+        });
+        throw error;
+      }
+    },
+    async sendUninvite({state, commit, rootState}, payload) {
+      commit("clearError", null, {
+        root: true
+      });
+      commit("setLoading", true, {
+        root: true
+      });
+      try {
+        const sendUninvite = mapAuthProviders[rootState.shared.settings.authProvider].sendUninvite
+        const data = await sendUninvite(payload)
+          .then((success) => {
+            commit("clearError", null, {
+              root: true
+            });
+            commit("setLoading", false, {
+              root: true
+            });
+            if (success) {
+              const data = success.data
+              commit('REMOVE_AUDITOR_CURRENT_EXAM', payload)
+              return data
+            }
+            if (!success) {
+              commit("setError", success.message, { root: true });
+              console.error('Not success', success)
+              return success
+            }
+          })
+          .catch(error => error)
+
+        return data
+
+      } catch (error) {
+        commit("setError", error.message, {
+          root: true
+        });
+        commit("setLoading", false, {
+          root: true
+        });
+        throw error;
       }
     },
   },

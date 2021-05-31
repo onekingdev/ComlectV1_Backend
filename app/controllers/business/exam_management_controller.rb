@@ -15,6 +15,6 @@ class Business::ExamManagementController < ApplicationController
 
   def portal
     render html: content_tag('business-exam-management-auditor-portal-show-page', '',
-                             ':exam-id': params[:id].to_i).html_safe, layout: 'vue_business'
+                             ':exam-id': params[:id].to_i).html_safe, layout: 'vue_onboarding'
   end
 end

@@ -118,3 +118,25 @@ export async function deleteExamRequestFile(payload) {
     })
     .catch(err => console.log(err))
 }
+
+export async function sendInvite(payload) {
+  return await axios.post(`${END_POINT}/${payload.id}/invite`, {email: payload.email})
+    .then(response => {
+      if (response) {
+        return response
+      }
+      return false
+    })
+    .catch(err => err)
+}
+
+export async function sendUninvite(payload) {
+  return await axios.post(`${END_POINT}/${payload.id}/uninvite`, {email: payload.email})
+    .then(response => {
+      if (response) {
+        return response
+      }
+      return false
+    })
+    .catch(err => err)
+}
