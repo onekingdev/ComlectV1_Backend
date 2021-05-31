@@ -199,7 +199,7 @@
   }
   tbody {
     display: block;
-    height: 200px;
+    max-height: 20rem;
     overflow: auto;
   }
   thead, tbody tr {

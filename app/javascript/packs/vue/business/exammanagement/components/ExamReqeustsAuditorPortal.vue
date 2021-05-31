@@ -89,6 +89,9 @@
   export default {
     props: ['uuid'],
     components: {Loading},
+    created() {
+      console.log(this.uuid)
+    },
     data() {
       return {
         userId: '',
