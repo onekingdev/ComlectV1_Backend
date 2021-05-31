@@ -84,6 +84,7 @@
 </template>
 
 <script>
+  import { mapGetters } from "vuex"
   import Loading from '@/common/Loading/Loading'
   export default {
     props: ['uuid'],
@@ -133,6 +134,16 @@
         // clear errors
         this.errors = []
 
+        if (!this.form.email) {
+          this.makeToast('Error', `Please check all fields!`)
+          return
+        }
+
+        // open step 2
+        this.step1 = false
+        this.step2 = true
+        return
+
         const data = {
           "uuid": this.uuid,
           "email": this.form.email,
@@ -165,10 +176,6 @@
               this.error = `Error! ${error.errors[type]}`
             }
           })
-          .finally(() => {
-            this.step1 = false
-            this.step2 = true
-          })
       },
       onSubmitStep2(event) {
         event.preventDefault()
@@ -179,6 +186,11 @@
           this.makeToast('Error', `Code length incorrect!`)
           return
         }
+
+        // open step 3
+        this.step2 = false
+        this.step3 = true
+        return
 
         const data = {
           email: this.form.email,
@@ -205,10 +217,6 @@
             }
           })
           .catch((error) => this.makeToast('Error', `Couldn't submit form! ${error}`))
-          .finally(() => {
-            this.step2 = false
-            this.step3 = true
-          })
       },
       onCodeChange(e){
         this.errors = []
@@ -256,15 +264,15 @@
       },
     },
     computed: {
+      ...mapGetters({
+        currentExam: 'exams/currentExam'
+      }),
       loading() {
         return this.$store.getters.loading;
       },
       logIn() {
         return this.$store.getters.logIn;
       },
-      currentExam() {
-        return this.$store.getters.currentExam || {};
-      }
     },
   }
 </script>
