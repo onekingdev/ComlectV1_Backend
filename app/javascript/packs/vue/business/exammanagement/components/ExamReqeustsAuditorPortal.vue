@@ -1,7 +1,6 @@
 <template lang="pug">
   div
     Loading
-
     #step1.form(v-if='!loading' :class="step1 ? 'd-block' : 'd-none'")
       .row
         .col-xl-6.col-lg-8.col.m-x-auto
@@ -16,7 +15,7 @@
               b-form(@submit='onSubmit1' v-if='show')
                 b-form-group#input-group-1(label='Email:' label-for='input-1')
                   b-form-input#input-1(v-model='form.email' type='email' placeholder='Email' required)
-                  .invalid-feedback.d-block(v-if="errors['user.email']") 'Email' {{ ...errors['user.email'] }}
+                  .invalid-feedback.d-block(v-if="errors.email") {{ errors.email }}
                 b-button.w-100(type='submit' variant='dark') Confirm
     #step2.form(v-if='!loading' :class="step2 ? 'd-block' : 'd-none'")
       .row
@@ -87,7 +86,7 @@
 <script>
   import Loading from '@/common/Loading/Loading'
   export default {
-    props: ['currentExam'],
+    props: ['uuid'],
     components: {Loading},
     data() {
       return {
@@ -134,24 +133,13 @@
         // clear errors
         this.errors = []
 
-        // open step 2
-        this.step1 = false
-        this.step2 = true
-
-        return
-
-        let dataToSend;
-
-        dataToSend = {
-          "user": {
-            "email": this.form.email,
-            "password": this.form.password
-          },
+        const data = {
+          "uuid": this.uuid,
+          "email": this.form.email,
         }
 
-        this.$store.dispatch('singIn', dataToSend)
+        this.$store.dispatch('exams/confirmEmail', data)
           .then((response) => {
-
             if (response.errors) {
               const properties = Object.keys(response.errors);
               for (const type of Object.keys(response.errors)) {
@@ -161,7 +149,6 @@
               }
               return
             }
-
             if (!response.errors) {
               this.userId = response.userid
               this.makeToast('Success', `${response.message}`)
@@ -177,7 +164,10 @@
               this.makeToast('Error', `${error.errors[type]}`)
               this.error = `Error! ${error.errors[type]}`
             }
-            this.showAlert()
+          })
+          .finally(() => {
+            this.step1 = false
+            this.step2 = true
           })
       },
       onSubmitStep2(event) {
@@ -185,25 +175,17 @@
         // clear errors
         this.errors = []
 
-        this.step2 = false
-        this.step3 = true
-
-        return
-
         if(this.form2.code.length !== 6) {
           this.makeToast('Error', `Code length incorrect!`)
           return
         }
 
-        const dataToSend = {
-          "user": {
-            "email": this.form.email,
-            "password": this.form.password
-          },
-          "otp_secret": this.form2.code
+        const data = {
+          email: this.form.email,
+          otp: this.form2.code
         }
 
-        this.$store.dispatch('singIn', dataToSend)
+        this.$store.dispatch('clearError', data)
           .then((response) => {
 
             if (response.errors) {
@@ -216,21 +198,17 @@
               return
             }
 
-            if (!response.errors && response.token) {
+            if (!response.errors) {
               // open step 3
               this.step2 = false
               this.step3 = true
-
-              this.makeToast('Success', `You will be redirect to the dashboard!`)
-
-              const dashboard = response.business ? '/business' : '/specialist'
-              this.dashboardLink = dashboard
-              setTimeout(() => {
-                window.location.href = `${dashboard}`;
-              }, 3000)
             }
           })
           .catch((error) => this.makeToast('Error', `Couldn't submit form! ${error}`))
+          .finally(() => {
+            this.step2 = false
+            this.step3 = true
+          })
       },
       onCodeChange(e){
         this.errors = []
@@ -284,6 +262,9 @@
       logIn() {
         return this.$store.getters.logIn;
       },
+      currentExam() {
+        return this.$store.getters.currentExam || {};
+      }
     },
   }
 </script>

@@ -20,16 +20,16 @@
           .row
             .col
               Loading
-              ExamReqeusts(v-if="!loading && exam" :currentExam="exam")
+              ExamReqeustsAuditorPortal(v-if="!loading && exam" :currentExam="exam")
 </template>
 
 <script>
   import { mapGetters, mapActions } from "vuex"
   import Loading from '@/common/Loading/Loading'
-  import ExamReqeusts from "./components/ExamReqeustsAuditorPortal";
+  import ExamReqeustsAuditorPortal from "./components/ExamReqeustsAuditorPortal";
   export default {
     props: ['examId'],
-    components: {Loading, ExamReqeusts},
+    components: {Loading, ExamReqeustsAuditorPortal},
     computed: {
       ...mapGetters({
         exam: 'exams/currentExam'

@@ -140,3 +140,28 @@ export async function sendUninvite(payload) {
     })
     .catch(err => err)
 }
+
+export async function confirmEmail(payload) {
+  return await axios.post(`${END_POINT}/${payload.uuid}`, {email: payload.email})
+    .then(response => {
+      if (response) {
+        return response
+      }
+      return false
+    })
+    .catch(err => err)
+}
+
+export async function confirmOTP(payload) {
+  return await axios.PATCH(`${END_POINT}/${payload.uuid}`, {
+    email: payload.email,
+    otp: payload.otp,
+  })
+    .then(response => {
+      if (response) {
+        return response
+      }
+      return false
+    })
+    .catch(err => err)
+}

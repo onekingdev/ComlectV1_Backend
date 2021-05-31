@@ -99,7 +99,7 @@
       async invite(e) {
         e.preventDefault();
 
-        if (!this.exam.email || !this.exam.link) {
+        if (!this.exam.email) {
           this.makeToast('Error', `Please check all fields!`)
           return
         }
