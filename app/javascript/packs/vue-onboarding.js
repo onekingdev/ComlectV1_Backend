@@ -7,6 +7,7 @@ import ChangePasswordPage from './vue/auth/ChangePassword/Page.vue'
 import SpecialistOnboardingPage from './vue/auth/SignUp/Onboarding/Specialist/SpecialistPage.vue'
 import BusinessOnboardingPage from './vue/auth/SignUp/Onboarding/Business/BusinessPage.vue'
 import BusinessExamManagementAuditorPortalShowPage from './vue/business/exammanagement/PageAuditorPortal.vue'
+import ExamManagementAuditorPortal from './vue/business/exammanagement/PageAuditorPortal.vue'
 
 init({
   store,
@@ -17,6 +18,7 @@ init({
     ChangePasswordPage,
     SpecialistOnboardingPage,
     BusinessOnboardingPage,
-    BusinessExamManagementAuditorPortalShowPage
+    BusinessExamManagementAuditorPortalShowPage,
+    ExamManagementAuditorPortal
   }
 })
