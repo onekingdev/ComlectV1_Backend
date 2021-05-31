@@ -113,9 +113,6 @@
         step1: true,
         step2: false,
         step3: false,
-        childDataLoaded: false,
-        childdata : [],
-        component: '',
         dismissSecs: 8,
         dismissCountDown: 0,
         showDismissibleAlert: false,
@@ -175,6 +172,7 @@
               this.makeToast('Error', `${error.errors[type]}`)
               this.error = `Error! ${error.errors[type]}`
             }
+            this.showAlert()
           })
       },
       onSubmitStep2(event) {
