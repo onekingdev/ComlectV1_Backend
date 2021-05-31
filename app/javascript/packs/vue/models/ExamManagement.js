@@ -14,6 +14,7 @@ export default class ExamManagement {
   }
 
   examRequests(exam_requests) {
+    if (!exam_requests || exam_requests.length) return []
     return exam_requests.map(request => {
       return {
         complete: request.complete,

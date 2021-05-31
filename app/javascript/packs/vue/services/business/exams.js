@@ -105,7 +105,7 @@ export async function uploadExamRequestFile(payload) {
       }
       return false
     })
-    .catch(err => console.log(err))
+    .catch(err => err)
 }
 
 export async function deleteExamRequestFile(payload) {
@@ -116,7 +116,7 @@ export async function deleteExamRequestFile(payload) {
       }
       return false
     })
-    .catch(err => console.log(err))
+    .catch(err => err)
 }
 
 export async function sendInvite(payload) {

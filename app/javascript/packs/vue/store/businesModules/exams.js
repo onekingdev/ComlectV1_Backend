@@ -83,7 +83,7 @@ export default {
       commit("setLoading", true, { root: true });
       try {
         const getExams = mapAuthProviders[rootState.shared.settings.authProvider].getExams
-        getExams()
+        const data = getExams()
           .then((success) => {
             commit("clearError", null, { root: true });
             commit("setLoading", false, { root: true });
@@ -113,6 +113,7 @@ export default {
             }
           })
           .catch(error => error)
+        return data
       } catch (error) {
         console.error('catch error', error);
         commit("setError", error.message, { root: true });
