@@ -87,14 +87,11 @@
   import { mapGetters } from "vuex"
   import Loading from '@/common/Loading/Loading'
   export default {
-    // props: ['uuid'],
+    props: ['currentExam'],
     components: {Loading},
-    created() {
-      console.log(this.uuid)
-    },
     data() {
       return {
-        uuid: 'da49b69b-020f-4781-8659-91ab5b358c0c',
+        uuid: '',
         userId: '',
         otpSecret: '',
         userType: '',
@@ -114,9 +111,9 @@
         show: true,
         error: '',
         errors: {},
-        step1: true,
+        step1: false,
         step2: false,
-        step3: false,
+        step3: true,
         dismissSecs: 8,
         dismissCountDown: 0,
         showDismissibleAlert: false,
@@ -256,9 +253,6 @@
       },
     },
     computed: {
-      ...mapGetters({
-        currentExam: 'exams/currentExam'
-      }),
       loading() {
         return this.$store.getters.loading;
       },

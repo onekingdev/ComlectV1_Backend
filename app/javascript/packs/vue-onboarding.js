@@ -6,8 +6,8 @@ import ResetPasswordPage from './vue/auth/ResetPassword/Page.vue'
 import ChangePasswordPage from './vue/auth/ChangePassword/Page.vue'
 import SpecialistOnboardingPage from './vue/auth/SignUp/Onboarding/Specialist/SpecialistPage.vue'
 import BusinessOnboardingPage from './vue/auth/SignUp/Onboarding/Business/BusinessPage.vue'
-import BusinessExamManagementAuditorPortalShowPage from './vue/business/exammanagement/PageAuditorPortal.vue'
-import ExamManagementAuditorPortal from './vue/business/exammanagement/PageAuditorPortal.vue'
+import BusinessExamManagementAuditorPortalShowPage from './vue/business/exammanagement/PageAuditorPortalInternalAccess.vue'
+import ExamManagementAuditorPortal from './vue/business/exammanagement/PageAuditorPortalExternalAccess.vue'
 
 init({
   store,

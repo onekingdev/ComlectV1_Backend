@@ -14,8 +14,7 @@ export default class ExamManagement {
   }
 
   examRequests(exam_requests) {
-    if (!exam_requests || exam_requests.length) return []
-    return exam_requests.map(request => {
+    return exam_requests ? exam_requests.map(request => {
       return {
         complete: request.complete,
         details: request.details,
@@ -25,7 +24,7 @@ export default class ExamManagement {
         shared: request.shared,
         text_items: request.text_items.map(text => ({ text })) || [],
       }
-    })
+    }) : []
   }
 }
 
