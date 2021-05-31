@@ -37,9 +37,7 @@
       .col.ml-auto
         .card
           .card-header: h3 Messages
-          .card-body
-            p John Doe commented
-            p Andrew Gomez commented
+          .card-body: p
           .card-body
             b-form-textarea(placeholder="Make a comment or leave a note...")
     template(#modal-footer="{ ok, cancel, hide }")
