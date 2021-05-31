@@ -142,7 +142,7 @@ export async function sendUninvite(payload) {
 }
 
 export async function confirmEmail(payload) {
-  return await axios.post(`${END_POINT}/${payload.uuid}`, {email: payload.email})
+  return await axios.post(`/exams/${payload.uuid}`, {email: payload.email})
     .then(response => {
       if (response) {
         return response
@@ -153,7 +153,7 @@ export async function confirmEmail(payload) {
 }
 
 export async function confirmOTP(payload) {
-  return await axios.PATCH(`${END_POINT}/${payload.uuid}`, {
+  return await axios.PATCH(`/exams/${payload.uuid}`, {
     email: payload.email,
     otp: payload.otp,
   })

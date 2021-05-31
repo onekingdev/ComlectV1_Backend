@@ -87,13 +87,14 @@
   import { mapGetters } from "vuex"
   import Loading from '@/common/Loading/Loading'
   export default {
-    props: ['uuid'],
+    // props: ['uuid'],
     components: {Loading},
     created() {
       console.log(this.uuid)
     },
     data() {
       return {
+        uuid: 'da49b69b-020f-4781-8659-91ab5b358c0c',
         userId: '',
         otpSecret: '',
         userType: '',
@@ -139,11 +140,6 @@
           return
         }
 
-        // open step 2
-        this.step1 = false
-        this.step2 = true
-        return
-
         const data = {
           "uuid": this.uuid,
           "email": this.form.email,
@@ -151,16 +147,11 @@
 
         this.$store.dispatch('exams/confirmEmail', data)
           .then((response) => {
-            if (response.errors) {
-              const properties = Object.keys(response.errors);
-              for (const type of Object.keys(response.errors)) {
-                this.errors = response.errors[type]
-                this.makeToast('Error', `Form has errors! Please recheck fields! ${error}`)
-                // Object.keys(response.errors[type]).map(prop => response.errors[prop].map(err => this.makeToast(`Error`, `${prop}: ${err}`)))
-              }
-              return
+            if (response.error) {
+              this.error = response.error
+              this.makeToast('Error', `${response.error} ${response.message}`)
             }
-            if (!response.errors) {
+            if (!response.error) {
               this.userId = response.userid
               this.makeToast('Success', `${response.message}`)
 

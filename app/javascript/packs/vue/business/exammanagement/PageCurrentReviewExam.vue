@@ -37,7 +37,8 @@
                 .card-body.white-card-body.reviews__card.px-5(v-if="exam")
                   .reviews__card--internal.p-y-1.d-flex.justify-content-between
                     h3 Requests
-                    a.btn.btn-default(:href="`/exams/${exam.share_uuid}`") View Portal
+                    a.btn.btn-default(:href="`/business/exam_management/${exam.id}/portal`") View Portal
+                    <!--a.btn.btn-default(:href="`/exams/${exam.share_uuid}`") View Portal-->
                   .reviews__topiclist
                     .d-flex.justify-content-between.p-t-2.m-b-2
                       b-button-group(size="md")
