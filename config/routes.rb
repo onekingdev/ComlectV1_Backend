@@ -270,6 +270,19 @@ Rails.application.routes.draw do
       # resource :project_overview, path: 'overview(/:specialist_username)', only: :show
     end
 
+    namespace :settings do
+      get 'general' => 'general#index'
+      patch 'general' => 'general#update'
+
+      get 'profile' => 'profile#index'
+      patch 'profile' => 'profile#update'
+
+      get 'business' => 'business#index'
+      patch 'business' => 'business#update'
+
+      patch 'password' => 'password#update'
+    end
+
     get 'local_projects/:project_id/messages' => 'project_messages#index'
     post 'local_projects/:project_id/messages' => 'project_messages#create'
     resources :direct_messages, path: 'messages(/:recipient_username)', only: %i[index create]
@@ -352,6 +365,5 @@ Rails.application.routes.draw do
     resource :specialist, only: %i[update] do
       patch '/' => 'specialists#update', as: :update
     end
-    resources :otp_secrets, only: [:create]
   end
 end
