@@ -14,9 +14,9 @@
                 template(#button-content)
                   b-icon(icon="three-dots")
                 b-dropdown-item.delete Delete file
-    .row(v-if="!currentExam.exam_requests")
+    .row(v-if="!countDocuments")
       .col
-        table.table.task_table
+        table.table.task_table.mb-0
           tbody
             tr
               td.text-center
@@ -26,6 +26,15 @@
 <script>
   export default {
     props: ['currentExam'],
+    computed: {
+      countDocuments() {
+        let count = 0
+        this.currentExam.exam_requests.map(req => {
+          count += req.exam_request_files.length
+        })
+        return count
+      }
+    }
   }
 </script>
 
