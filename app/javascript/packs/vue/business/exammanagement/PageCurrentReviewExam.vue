@@ -124,9 +124,9 @@
         b-tab(title="Tasks" lazy)
           PageTasks
         b-tab(title="Documents" lazy)
-          PageAttachments
-        b-tab(title="Activity" lazy)
-          PageActivity
+          PageAttachments(:currentExam="currentExam")
+        // b-tab(title="Activity" lazy)
+        //   PageActivity
 </template>
 
 <script>

@@ -87,25 +87,16 @@
   import { mapGetters } from "vuex"
   import Loading from '@/common/Loading/Loading'
   export default {
-    // props: ['uuid'],
-    props: {
-      isAuthor: {
-        type: Boolean,
-        default: false
-      }
-    },
+    // props: ['uuid', 'examUuid '],
     components: {Loading},
     created() {
+      console.log('test')
       console.log(this.uuid)
-      if(this.isAuthor) {
-        this.step1 = false
-        this.step2 = false
-        this.step3 = true
-      }
+      console.log(this.examUuid)
     },
     data() {
       return {
-        uuid: 'da49b69b-020f-4781-8659-91ab5b358c0c',
+        uuid: 'c93922a6-7f7c-4a2f-a1df-1c6066be96be',
         userId: '',
         otpSecret: '',
         userType: '',
