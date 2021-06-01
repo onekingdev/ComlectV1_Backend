@@ -20,37 +20,19 @@
           .row
             .col
               Loading
-              ExamReqeustsAuditorPortal(v-if="!loading && exam" :currentExam="exam")
+              ExamReqeustsAuditorPortalExternal(v-if="!loading")
 </template>
 
 <script>
-  import { mapGetters, mapActions } from "vuex"
   import Loading from '@/common/Loading/Loading'
-  import ExamReqeustsAuditorPortal from "./components/ExamReqeustsAuditorPortalExternal";
+  import ExamReqeustsAuditorPortalExternal from "./components/ExamReqeustsAuditorPortalExternal";
   export default {
     props: ['examId'],
-    components: {Loading, ExamReqeustsAuditorPortal},
+    components: {Loading, ExamReqeustsAuditorPortalExternal},
     computed: {
-      ...mapGetters({
-        exam: 'exams/currentExam'
-      }),
       loading() {
         return this.$store.getters.loading;
       },
-    },
-    methods: {
-      ...mapActions({
-        getCurrentExam: 'exams/getExamById',
-      }),
-    },
-    async mounted () {
-      try {
-        if(!this.examId) this.examId = 1;
-        await this.getCurrentExam(this.examId)
-          .then(response => response)
-      } catch (error) {
-        console.error('Error', error.message)
-      }
     },
   }
 </script>

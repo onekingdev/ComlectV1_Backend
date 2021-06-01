@@ -5,7 +5,6 @@ class BusinessSerializer < ApplicationSerializer
              :contact_first_name,
              :contact_last_name,
              :business_name,
-             :country,
              :city,
              :state,
              :jurisdictions,
@@ -20,8 +19,7 @@ class BusinessSerializer < ApplicationSerializer
              :address_2,
              :website,
              :contact_phone,
-             :zipcode,
-             :time_zone
+             :zipcode
   has_many :jurisdictions, serializer: JurisdictionSerializer
   has_many :industries, serializer: IndustrySerializer
 end
