@@ -53,7 +53,12 @@ export default {
               data.jurisdictions,
               data.state,
               data.sub_industries,
-              data.username
+              data.username,
+              data.address_1,
+              data.address_2,
+              data.contact_phone,
+              data.website,
+              data.zipcode
             ))
             localStorage.setItem('app.currentUser', JSON.stringify(data));
           }
@@ -147,7 +152,12 @@ export default {
               data.jurisdictions,
               data.state,
               data.sub_industries,
-              data.username
+              data.username,
+              data.address_1,
+              data.address_2,
+              data.contact_phone,
+              data.website,
+              data.zipcode
             ))
             localStorage.setItem('app.currentUser', JSON.stringify(data));
           }
@@ -252,7 +262,12 @@ export default {
             data.jurisdictions,
             data.state,
             data.sub_industries,
-            data.username
+            data.username,
+            data.address_1,
+            data.address_2,
+            data.contact_phone,
+            data.website,
+            data.zipcode
           ))
           if (!payload.business) commit('UPDATE_USER', new AccountInfoSpecialist(
             data.experience,
@@ -302,7 +317,12 @@ export default {
             data.jurisdictions,
             data.state,
             data.sub_industries,
-            data.username
+            data.username,
+            data.address_1,
+            data.address_2,
+            data.contact_phone,
+            data.website,
+            data.zipcode
           ))
           if (!payload.business) commit('UPDATE_USER', new AccountInfoSpecialist(
             data.experience,
@@ -468,6 +488,22 @@ export default {
         console.error(error);
         throw error
       } finally {
+      }
+    },
+    async resendOTP({commit}, payload) {
+      try {
+        commit("clearError");
+        commit("setLoading", true);
+
+        const response = await axios.post(`/otp_secrets`, payload)
+        // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
+        return response.data
+
+      } catch (error) {
+        console.error(error);
+        throw error
+      } finally {
+        commit("setLoading", false)
       }
     },
   },

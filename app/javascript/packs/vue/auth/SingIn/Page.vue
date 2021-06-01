@@ -53,6 +53,7 @@
                       .col
                         input(v-model='form2.code' type='hidden')
                   b-button.w-100(type='submit' variant='dark' ref="codesubmit") Submit
+                  a.link(href="#" @click.stop="resendOTP") Send new code
             #step3.form(v-if='!loading'  :class="step3 ? 'd-block' : 'd-none'")
               h1.text-center You successfuly logged in!
               p.text-center.m-b-2 You will be redirect to the dashboard!
@@ -244,6 +245,17 @@
           // ENTER KEY CODE
           this.onSubmitStep2(e)
         }
+      },
+      resendOTP() {
+        let dataToSend = {
+          "user": {
+            "email": this.form.email,
+          },
+        }
+
+        this.$store.dispatch('resendOTP', dataToSend)
+          .then((response) => console.log(response))
+          .catch((error) => console.error(error))
       },
       countDownChanged(dismissCountDown) {
         this.dismissCountDown = dismissCountDown

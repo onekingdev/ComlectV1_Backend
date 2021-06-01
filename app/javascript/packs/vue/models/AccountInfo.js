@@ -1,5 +1,5 @@
 export class AccountInfoBusiness {
-  constructor(apartment, aum, business_name, city, client_account_cnt, contact_first_name, contact_last_name, crd_number, id, industries, jurisdictions, state, sub_industries, username) {
+  constructor(apartment, aum, business_name, city, client_account_cnt, contact_first_name, contact_last_name, crd_number, id, industries, jurisdictions, state, sub_industries, username, address_1, address_2, contact_phone, website, zipcode) {
     this.apartment = apartment,
     this.aum = aum,
     this.business_name = business_name,
@@ -13,7 +13,12 @@ export class AccountInfoBusiness {
     this.jurisdictions = jurisdictions,
     this.state = state,
     this.sub_industries = sub_industries,
-    this.username = username
+    this.username = username,
+    this.address_1 = address_1,
+    this.address_2 = address_2,
+    this.contact_phone = contact_phone,
+    this.website = website,
+    this.zipcode = zipcode
   }
 }
 
