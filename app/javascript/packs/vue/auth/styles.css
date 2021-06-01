@@ -44,12 +44,29 @@ ion-icon {
   filter: drop-shadow(5px 5px 5px lightgray);
 }
 
+@media (max-width: 575px) {
+  ion-icon {
+    font-size: 7em!important;
+  }
+}
+
 .code-input {
   margin-right: .5rem;
   width: 5rem;
   height: 6rem;
   font-size: 1.8rem;
   text-align: center;
+}
+@media (min-width: 576px) and (max-width: 767px) {
+
+}
+@media (max-width: 575px) {
+  .code-input {
+    margin-right: .3rem;
+    width: 2.5rem;
+    height: 3rem;
+    font-size: 1rem;
+  }
 }
 
 input::-webkit-outer-spin-button,

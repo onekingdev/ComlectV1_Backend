@@ -30,7 +30,6 @@ export default {
         commit("setLoading", true);
 
         const response = await axios.post(`/users/sign_in`, payload)
-        // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
         if (response.data) {
           if(response.data.token) {
             commit('UPDATE_TOKEN', response.data.token)
@@ -81,7 +80,6 @@ export default {
         return response.data
 
       } catch (error) {
-        console.error('error auth', error);
         throw error
       } finally {
         commit("setLoading", false)

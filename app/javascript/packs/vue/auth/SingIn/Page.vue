@@ -41,7 +41,7 @@
                   b-form-group
                     .row
                       .col-12.mx-0
-                        .d-flex.justify-content-space-around.mx-auto.w-75
+                        .d-flex.justify-content-space-around.mx-auto.flex-wrap
                           b-form-input#inputCode1.code-input.ml-auto(v-model='form2.codePart1' type='number' maxlength="1" required)
                           b-form-input#inputCode2.code-input(v-model='form2.codePart2' type='number' maxlength="1" required)
                           b-form-input#inputCode3.code-input(v-model='form2.codePart3' type='number' maxlength="1" required)
@@ -52,8 +52,11 @@
                     .row
                       .col
                         input(v-model='form2.code' type='hidden')
-                  b-button.w-100(type='submit' variant='dark' ref="codesubmit") Submit
-                  a.link(href="#" @click.stop="resendOTP") Send new code
+                  b-button.w-100.mb-2(type='submit' variant='dark' ref="codesubmit") Submit
+                  b-form-group
+                    .row
+                      .col-12.text-center
+                        a.link(href="#" @click.stop="resendOTP") Resend code
             #step3.form(v-if='!loading'  :class="step3 ? 'd-block' : 'd-none'")
               h1.text-center You successfuly logged in!
               p.text-center.m-b-2 You will be redirect to the dashboard!
@@ -120,10 +123,7 @@
         event.preventDefault()
         // clear errors
         this.errors = []
-
-        let dataToSend;
-
-        dataToSend = {
+        let dataToSend = {
           "user": {
             "email": this.form.email,
             "password": this.form.password
@@ -132,7 +132,6 @@
 
         this.$store.dispatch('singIn', dataToSend)
           .then((response) => {
-
             if (response.errors) {
               const properties = Object.keys(response.errors);
               for (const type of Object.keys(response.errors)) {
@@ -142,7 +141,6 @@
               }
               return
             }
-
             if (!response.errors) {
               this.userId = response.userid
               this.makeToast('Success', `${response.message}`)
@@ -153,12 +151,17 @@
             }
           })
           .catch((error) => {
-            console.error(error)
-            for (const type of Object.keys(error.errors)) {
-              this.makeToast('Error', `${error.errors[type]}`)
-              this.error = `Error! ${error.errors[type]}`
+            // console.error('error', error)
+            if(error.errors) {
+              for (const type of Object.keys(error.errors)) {
+                this.makeToast('Error', `${error.errors[type]}`)
+                this.error = `Error! ${error.errors[type]}`
+              }
+              this.showAlert()
             }
-            this.showAlert()
+            if (!error.errors) {
+              this.makeToast('Error', `${error.status} (${error.statusText})`)
+            }
           })
       },
       onSubmitStep2(event) {
@@ -252,10 +255,9 @@
             "email": this.form.email,
           },
         }
-
         this.$store.dispatch('resendOTP', dataToSend)
-          .then((response) => console.log(response))
-          .catch((error) => console.error(error))
+          .then((response) => this.makeToast('Success', `${response.message}`))
+          .catch((error) => this.makeToast('Error', `${error.status} (${error.statusText})`))
       },
       countDownChanged(dismissCountDown) {
         this.dismissCountDown = dismissCountDown
