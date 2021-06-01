@@ -114,6 +114,7 @@
                 this.errors = response.errors[type]
                 this.makeToast('Error', `Form has errors! Please recheck fields! ${error}`)
               }
+              this.showAlert()
             }
             if (!response.errors) {
               this.makeToast('Success', `${response.message}`)
@@ -123,12 +124,16 @@
             }
           })
           .catch((error) => {
-            if(error.errors) {
-              for (const type of Object.keys(error.errors)) {
-                this.makeToast('Error', `${error.errors[type]}`)
-                this.error = `Error! ${error.errors[type]}`
+            const { data } = error
+            if(data.errors) {
+              for (const type of Object.keys(data.errors)) {
+                this.makeToast('Error', `${data.errors[type]}`)
+                this.error = `Error! ${data.errors[type]}`
               }
               this.showAlert()
+            }
+            if (error.errors) {
+              this.toast('Error', `Couldn't submit form! ${error.message}`)
             }
             if (!error.errors) {
               this.makeToast('Error', `${error.status} (${error.statusText})`)
@@ -136,6 +141,7 @@
           })
       },
       otpConfirmed(response) {
+        console.log('emited and response', response)
         if (!response.errors && response.token) {
           // open step 3
           this.step2 = false

@@ -5,6 +5,10 @@
       h1.text-center Confirm your email!
       p.text-center We send a 6 digit code to {{ form.email }}. Please enter it below.
       div
+        b-alert(:show='dismissCountDown' dismissible fade variant='danger' @dismiss-count-down='countDownChanged')
+          | {{ error }}
+          br
+          | This alert will dismiss after {{ dismissCountDown }} seconds...
         b-form(@submit='onSubmit' @keyup="onCodeChange" v-if='show' autocomplete="off")
           b-form-group
             .col.text-center
@@ -33,13 +37,14 @@
 <script>
   import Loading from '@/common/Loading/Loading'
   export default {
-    props: ['form'],
+    props: ['form', 'userid'],
     components: {
       Loading,
     },
     data() {
       return {
         show: true,
+        error: '',
         errors: {},
         form2: {
           codePart1: '',
@@ -50,7 +55,10 @@
           codePart6: '',
           code: '',
         },
-        disabled: false
+        disabled: false,
+        dismissSecs: 8,
+        dismissCountDown: 0,
+        showDismissibleAlert: false,
       }
     },
     methods: {
@@ -63,13 +71,35 @@
           return
         }
 
-        const data = {
-          userId: this.currentUser.id,
-          code: this.form2.code
+        let data, method;
+        if(this.userId) {
+          data = {
+            userId: this.userId,
+            code: this.form2.code
+          }
+          method = 'confirmEmail'
+        }
+        if(!this.userId) {
+          data = {
+            "user": {
+              "email": this.form.email,
+              "password": this.form.password
+            },
+            "otp_secret": this.form2.code
+          }
+          method = 'singIn'
         }
 
-        this.$store.dispatch('confirmEmail', data)
+        this.$store.dispatch(method, data)
           .then((response) => {
+            console.log('response', response)
+            if(response.errors) {
+              for (const type of Object.keys(response.errors)) {
+                this.errors = response.errors[type]
+                this.makeToast('Error', `${response.errors[type]}`)
+              }
+              this.showAlert()
+            }
             if(!response.token) {
               this.errors = {code: response.message}
               this.toast('Error', `Errors ${response.message}`)
@@ -80,6 +110,14 @@
             }
           })
           .catch((error) => {
+            const { data } = error
+            if(data.errors) {
+              for (const type of Object.keys(data.errors)) {
+                this.makeToast('Error', `${data.errors[type]}`)
+                this.error = `Error! ${data.errors[type]}`
+              }
+              this.showAlert()
+            }
             if (error.errors) {
               this.toast('Error', `Couldn't submit form! ${error.message}`)
             }
@@ -143,6 +181,12 @@
         this.$store.dispatch('resendOTP', data)
           .then((response) => this.toast('Success', `${response.message}`))
           .catch((error) => this.toast('Error', `${error.status} (${error.statusText})`))
+      },
+      countDownChanged(dismissCountDown) {
+        this.dismissCountDown = dismissCountDown
+      },
+      showAlert() {
+        this.dismissCountDown = this.dismissSecs
       },
     },
     computed: {

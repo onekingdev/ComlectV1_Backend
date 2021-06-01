@@ -62,7 +62,7 @@
                     p Already have a Complect account?&nbsp;
                       a.link(href="#") Sign In
             #step2.form(v-if='!loading'  :class="step2 ? 'd-block' : 'd-none'")
-              OtpConfirm(@otpSecretConfirmed="otpConfirmed", :form="form")
+              OtpConfirm(@otpSecretConfirmed="otpConfirmed", :form="form", :userId="userId")
             #step3.form(v-if='!loading'  :class="step3 ? 'd-block' : 'd-none'")
               h1.text-center You successfuly registered!
               p.text-center You will be redirect to finish steps for updating your account
