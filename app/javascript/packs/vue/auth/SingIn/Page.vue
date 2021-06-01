@@ -15,7 +15,7 @@
                   | {{ error }}
                   br
                   | This alert will dismiss after {{ dismissCountDown }} seconds...
-                b-form(@submit='onSubmit' v-if='show')
+                b-form(@submit='onSubmit1' v-if='show')
                   b-form-group#input-group-1(label='Email:' label-for='input-1')
                     b-form-input#input-1(v-model='form.email' type='email' placeholder='Email' required)
                     .invalid-feedback.d-block(v-if="errors['user.email']") 'Email' {{ ...errors['user.email'] }}
@@ -31,7 +31,28 @@
                     h4.text-uppercase.m-t-1.m-b-1 Don’t have an account yet?&nbsp;
                       a.link(data-remote='true' href='/users/sign_up') sign up here
             #step2.form(v-if='!loading' :class="step2 ? 'd-block' : 'd-none'")
-              OtpConfirm(@otpSecretConfirmed="otpConfirmed", :form="form")
+              h1.text-center Confirm your email!
+              p.text-center We send a 6 digit code to email.com. Please enter it below.
+              div
+                b-form(@submit='onSubmitStep2' @keyup="onCodeChange" v-if='show' autocomplete="off")
+                  b-form-group
+                    .col.text-center
+                      ion-icon(name="mail-outline")
+                  b-form-group
+                    .row
+                      .col-12.mx-0
+                        .d-flex.justify-content-space-around.mx-auto.w-75
+                          b-form-input#inputCode1.code-input.ml-auto(v-model='form2.codePart1' type='number' maxlength="1" required)
+                          b-form-input#inputCode2.code-input(v-model='form2.codePart2' type='number' maxlength="1" required)
+                          b-form-input#inputCode3.code-input(v-model='form2.codePart3' type='number' maxlength="1" required)
+                          b-form-input#inputCode4.code-input(v-model='form2.codePart4' type='number' maxlength="1" required)
+                          b-form-input#inputCode5.code-input(v-model='form2.codePart5' type='number' maxlength="1" required)
+                          b-form-input#inputCode6.code-input.mr-auto(v-model='form2.codePart6' type='number' maxlength="1" required)
+                        .invalid-feedback.d-block.text-center(v-if="errors.code") {{ errors.code }}
+                    .row
+                      .col
+                        input(v-model='form2.code' type='hidden')
+                  b-button.w-100(type='submit' variant='dark' ref="codesubmit") Submit
             #step3.form(v-if='!loading'  :class="step3 ? 'd-block' : 'd-none'")
               h1.text-center You successfuly logged in!
               p.text-center.m-b-2 You will be redirect to the dashboard!
@@ -45,16 +66,14 @@
 <script>
   import Loading from '@/common/Loading/Loading'
   import TopNavbar from "./TopNavbar";
-  import OtpConfirm from "../components/OtpConfirm";
 
-  // const random = Math.floor(Math.random() * 1000);
+  const random = Math.floor(Math.random() * 1000);
 
   export default {
     props: ['industryIds', 'jurisdictionIds', 'subIndustryIds', 'states'],
     components: {
       TopNavbar,
       Loading,
-      OtpConfirm
     },
     data() {
       return {
@@ -96,64 +115,134 @@
       selectType(type){
         this.userType = type
       },
-      onSubmit(event) {
+      onSubmit1(event) {
         event.preventDefault()
         // clear errors
         this.errors = []
-        const data = {
+
+        let dataToSend;
+
+        dataToSend = {
           "user": {
             "email": this.form.email,
             "password": this.form.password
           },
         }
 
-        this.$store.dispatch('singIn', data)
+        this.$store.dispatch('singIn', dataToSend)
           .then((response) => {
+
             if (response.errors) {
+              const properties = Object.keys(response.errors);
               for (const type of Object.keys(response.errors)) {
                 this.errors = response.errors[type]
                 this.makeToast('Error', `Form has errors! Please recheck fields! ${error}`)
+                // Object.keys(response.errors[type]).map(prop => response.errors[prop].map(err => this.makeToast(`Error`, `${prop}: ${err}`)))
               }
-              this.showAlert()
+              return
             }
+
             if (!response.errors) {
+              this.userId = response.userid
               this.makeToast('Success', `${response.message}`)
+
               // open step 2
               this.step1 = false
               this.step2 = true
             }
           })
           .catch((error) => {
-            const { data } = error
-            if(data.errors) {
-              for (const type of Object.keys(data.errors)) {
-                this.makeToast('Error', `${data.errors[type]}`)
-                this.error = `Error! ${data.errors[type]}`
-              }
-              this.showAlert()
+            console.error(error)
+            for (const type of Object.keys(error.errors)) {
+              this.makeToast('Error', `${error.errors[type]}`)
+              this.error = `Error! ${error.errors[type]}`
             }
-            if (error.errors) {
-              this.toast('Error', `Couldn't submit form! ${error.message}`)
-            }
-            if (!error.errors) {
-              this.makeToast('Error', `${error.status} (${error.statusText})`)
-            }
+            this.showAlert()
           })
       },
-      otpConfirmed(response) {
-        console.log('emited and response', response)
-        if (!response.errors && response.token) {
-          // open step 3
-          this.step2 = false
-          this.step3 = true
+      onSubmitStep2(event) {
+        event.preventDefault()
+        // clear errors
+        this.errors = []
 
-          this.makeToast('Success', `You will be redirect to the dashboard!`)
+        if(this.form2.code.length !== 6) {
+          this.makeToast('Error', `Code length incorrect!`)
+          return
+        }
 
-          const dashboard = response.business ? '/business' : '/specialist'
-          this.dashboardLink = dashboard
-          setTimeout(() => {
-            window.location.href = `${dashboard}`;
-          }, 3000)
+        const dataToSend = {
+          "user": {
+            "email": this.form.email,
+            "password": this.form.password
+          },
+          "otp_secret": this.form2.code
+        }
+
+        this.$store.dispatch('singIn', dataToSend)
+          .then((response) => {
+
+            if (response.errors) {
+              const properties = Object.keys(response.errors);
+              for (const type of Object.keys(response.errors)) {
+                this.errors = response.errors[type]
+                this.makeToast('Error', `Form has errors! Please recheck fields! ${error}`)
+                // Object.keys(response.errors[type]).map(prop => response.errors[prop].map(err => this.makeToast(`Error`, `${prop}: ${err}`)))
+              }
+              return
+            }
+
+            if (!response.errors && response.token) {
+              // open step 3
+              this.step2 = false
+              this.step3 = true
+
+              this.makeToast('Success', `You will be redirect to the dashboard!`)
+
+              const dashboard = response.business ? '/business' : '/specialist'
+              this.dashboardLink = dashboard
+              setTimeout(() => {
+                window.location.href = `${dashboard}`;
+              }, 3000)
+            }
+          })
+          .catch((error) => this.makeToast('Error', `Couldn't submit form! ${error}`))
+      },
+      onCodeChange(e){
+        this.errors = []
+
+        if (e.keyCode === 8 || e.keyCode === 46) {
+          // BACKSPACE === 8 DELETE === 46
+          e.preventDefault();
+          e.target.value = ''
+          e.target.previousElementSibling?.focus()
+          return
+        }
+
+        if (e.target.value.length < 6) {
+          e.preventDefault();
+          e.target.value = e.key
+          if(e.target.nextElementSibling) {
+            e.target.nextElementSibling.value = ''
+            e.target.nextElementSibling.focus()
+          }
+
+          if(!e.target.nextElementSibling) {
+            this.$refs.codesubmit.focus();
+          }
+        }
+
+        // CATCH COPY PASTE CASE
+        if (e.target.value.length === 6) {
+          for(let i=1; i <= 6; i++) {
+            this.form2['codePart'+i] = e.target.value.charAt(i-1)
+          }
+        }
+
+        this.form2.code = this.form2.codePart1 + this.form2.codePart2 + this.form2.codePart3 + this.form2.codePart4 + this.form2.codePart5 + this.form2.codePart6
+
+        if (e.keyCode === 13) {
+          // ENTER KEY CODE
+          this.onSubmitStep2(e)
         }
       },
       countDownChanged(dismissCountDown) {
