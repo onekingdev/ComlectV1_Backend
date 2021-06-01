@@ -19,7 +19,7 @@
                     input(type="hidden" name="authenticity_token" value=form_authenticity_token)
                     input(type="hidden" name="_method" value="delete")
                     input.dropdown-item(type="submit" value="Sign Out")
-            .p-x-2(v-else)
+            .p-x-md-2(v-else)
               a.btn.btn-dark(href="/users/sign_in") Sign in
         button.navbar-toggler.position-absolute.d-md-none.collapsed(type='button' data-toggle='collapse' data-target='#sidebarMenu' aria-controls='sidebarMenu' aria-expanded='false' aria-label='Toggle navigation')
           span.navbar-toggler-icon
