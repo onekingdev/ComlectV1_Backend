@@ -1,0 +1,140 @@
+<template lang="pug">
+  div
+    h1.text-center Confirm your email!
+    p.text-center We send a 6 digit code to {{ form.email }}. Please enter it below.
+    div
+      b-form(@submit='onSubmit' @keyup="onCodeChange" v-if='show' autocomplete="off")
+        b-form-group
+          .col.text-center
+            ion-icon(name="mail-outline")
+        b-form-group
+          .row
+            .col-12.mx-0
+              .d-flex.justify-content-space-around.mx-auto
+                b-form-input#inputCode1.code-input.ml-auto(v-model='form2.codePart1' type='number' maxlength="1" required)
+                b-form-input#inputCode2.code-input(v-model='form2.codePart2' type='number' maxlength="1" required)
+                b-form-input#inputCode3.code-input(v-model='form2.codePart3' type='number' maxlength="1" required)
+                b-form-input#inputCode4.code-input(v-model='form2.codePart4' type='number' maxlength="1" required)
+                b-form-input#inputCode5.code-input(v-model='form2.codePart5' type='number' maxlength="1" required)
+                b-form-input#inputCode6.code-input.mr-auto(v-model='form2.codePart6' type='number' maxlength="1" required)
+              .invalid-feedback.d-block.text-center(v-if="errors.code") {{ errors.code }}
+          .row
+            .col
+              input(v-model='form2.code' type='hidden')
+        b-button.w-100.mb-2(type='submit' variant='dark' ref="codesubmit") Submit
+        b-form-group
+          .row
+            .col-12.text-center
+              a.link(href="#" @click.stop="resendOTP") Resend code
+</template>
+
+<script>
+  export default {
+    props: ['userId', 'form'],
+    data() {
+      return {
+        show: true,
+        errors: {},
+        form2: {
+          codePart1: '',
+          codePart2: '',
+          codePart3: '',
+          codePart4: '',
+          codePart5: '',
+          codePart6: '',
+          code: '',
+        },
+      }
+    },
+    methods: {
+      onSubmit(event) {
+        event.preventDefault()
+        // clear errors
+        this.errors = []
+
+        if(this.form2.code.length !== 6) {
+          this.toast('Error', `Code length incorrect!`)
+          return
+        }
+
+        const data = {
+          userId: this.userId,
+          code: this.form2.code
+        }
+
+        this.$store.dispatch('confirmEmail', data)
+          .then((response) => {
+            if(!response.token) {
+              this.errors = {code: response.message}
+              this.toast('Error', `Errors ${response.message}`)
+              return
+            }
+            if(response.token) {
+              this.toast('Success', `${response.message}`)
+              this.$emit('otpSecretConfirmed', response)
+            }
+          })
+          .catch((error) => {
+            if (error.errors) {
+              this.toast('Error', `Couldn't submit form! ${error.message}`)
+            }
+            if (!error.errors) {
+              this.toast('Error', `${error.status} (${error.statusText})`)
+            }
+          })
+      },
+      onCodeChange(e){
+        this.errors = []
+
+        // CATCH COPY PASTE CASE
+        if (e.target.value.length === 6) {
+          for(let i=1; i <= 6; i++) {
+            this.form2['codePart'+i] = e.target.value.charAt(i-1)
+          }
+        }
+
+        if (e.keyCode === 8 || e.keyCode === 46) {
+          // BACKSPACE === 8 DELETE === 46
+          e.preventDefault();
+          e.target.value = ''
+          e.target.previousElementSibling?.focus()
+          return
+        }
+
+        if (e.target.value.length < 6 && (e.keyCode >= 48) && (e.keyCode <= 57) || (e.keyCode >= 96) && (e.keyCode <= 105)) {
+          e.preventDefault();
+          e.target.value = e.key
+          if(e.target.nextElementSibling) {
+            e.target.nextElementSibling.value = ''
+            e.target.nextElementSibling.focus()
+          }
+
+          if(!e.target.nextElementSibling) {
+            this.$refs.codesubmit.focus();
+          }
+        }
+
+        this.form2.code = this.form2.codePart1 + this.form2.codePart2 + this.form2.codePart3 + this.form2.codePart4 + this.form2.codePart5 + this.form2.codePart6
+
+        if (e.keyCode === 13) {
+          // ENTER KEY CODE
+          this.onSubmit(e)
+        }
+      },
+      resendOTP() {
+        const data = {
+          "user": {
+            "email": this.form.email,
+          },
+        }
+        this.$store.dispatch('resendOTP', data)
+          .then((response) => this.toast('Success', `${response.message}`))
+          .catch((error) => this.toast('Error', `${error.status} (${error.statusText})`))
+      },
+    }
+  }
+</script>
+
+<style scoped>
+
+</style>

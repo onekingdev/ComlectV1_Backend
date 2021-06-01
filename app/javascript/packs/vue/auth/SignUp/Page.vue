@@ -61,33 +61,8 @@
                   b-form-group.text-center
                     p Already have a Complect account?&nbsp;
                       a.link(href="#") Sign In
-                <!--b-card.mt-3(header='Form Data Result')-->
-                  <!--pre.m-0 {{ form }}-->
             #step2.form(v-if='!loading'  :class="step2 ? 'd-block' : 'd-none'")
-              h1.text-center Confirm your email!
-              p.text-center We send a 6 digit code to email.com. Please enter it below.
-              div
-                b-form(@submit='onSubmitStep2' @keyup="onCodeChange" v-if='show' autocomplete="off")
-                  b-form-group
-                    .col.text-center
-                      ion-icon(name="mail-outline")
-                  b-form-group
-                    .row
-                      .col-12.mx-0
-                        .d-flex.justify-content-space-around.mx-auto
-                          b-form-input#inputCode1.code-input.ml-auto(v-model='form2.codePart1' type='number' maxlength="1" required)
-                          b-form-input#inputCode2.code-input(v-model='form2.codePart2' type='number' maxlength="1" required)
-                          b-form-input#inputCode3.code-input(v-model='form2.codePart3' type='number' maxlength="1" required)
-                          b-form-input#inputCode4.code-input(v-model='form2.codePart4' type='number' maxlength="1" required)
-                          b-form-input#inputCode5.code-input(v-model='form2.codePart5' type='number' maxlength="1" required)
-                          b-form-input#inputCode6.code-input.mr-auto(v-model='form2.codePart6' type='number' maxlength="1" required)
-                        .invalid-feedback.d-block.text-center(v-if="errors.code") {{ errors.code }}
-                    .row
-                      .col
-                        input(v-model='form2.code' type='hidden')
-                  b-button.w-100(type='submit' variant='dark' ref="codesubmit") Submit
-                <!--b-card.mt-3(header='Form Data Result')-->
-                  <!--pre.m-0 {{ form2 }}-->
+              OtpConfirm(@otpSecretConfirmed="otpConfirmed", :userId="userId", :form="form")
             #step3.form(v-if='!loading'  :class="step3 ? 'd-block' : 'd-none'")
               h1.text-center You successfuly registered!
               p.text-center You will be redirect to finish steps for updating your account
@@ -101,6 +76,7 @@
   import TopNavbar from "./TopNavbar";
   import BusinessPage from "./Onboarding/Business/BusinessPage";
   import SpecialistPage from "./Onboarding/Specialist/SpecialistPage";
+  import OtpConfirm from "../components/OtpConfirm";
 
   // const random = Math.floor(Math.random() * 1000);
 
@@ -110,7 +86,8 @@
       TopNavbar,
       Loading,
       BusinessPage,
-      SpecialistPage
+      SpecialistPage,
+      OtpConfirm
     },
     data() {
       return {
@@ -229,95 +206,23 @@
           })
           .catch((error) => this.makeToast('Error', `Couldn't submit form! ${error}`))
       },
-      onSubmitStep2(event) {
-        event.preventDefault()
-        // clear errors
-        this.errors = []
+      otpConfirmed(response) {
+        // localStorage.setItem('app.currentUser', JSON.stringify(response.token));
+        // this.$store.commit('updateToken', response.token)
 
-        // const urlUserId = location.search.split('userid=')[1]
-        // if(urlUserId) this.userId = urlUserId
-        // const otpSecret = location.search.split('otp_secret=')[1]
-        // if(otpSecret) this.otpSecret = otpSecret
+        // open step 3
+        this.step2 = false
+        this.step3 = true
 
-        if(this.form2.code.length !== 6) {
-          this.makeToast('Error', `Code length incorrect!`)
-          return
-        }
+        // Fetch data and show correct component to continue sign up
+        this.fetchINitData(response)
 
-        const dataToSend = {
-          userId: this.userId,
-          code: this.form2.code
-        }
-
-        this.$store.dispatch('confirmEmail', dataToSend)
-          .then((response) => {
-            if(!response.token) {
-              this.errors = {code: response.message}
-              this.makeToast('Error', `Errors ${response.message}`)
-              return
-            }
-
-            if(response.token) {
-              this.makeToast('Success', `${response.message}`)
-              // localStorage.setItem('app.currentUser', JSON.stringify(response.token));
-              // this.$store.commit('updateToken', response.token)
-
-              // open step 3
-              this.step2 = false
-              this.step3 = true
-
-              // Fetch data and show correct component to continue sign up
-              this.fetchINitData(response)
-
-              // Redirect to finish steps
-              // setTimeout(() => {
-              //   if (this.userType === 'business') window.location.href = `${window.location.origin}/businesses/new`
-              //   if (this.userType === 'specialist') window.location.href = `${window.location.origin}/specialists/new`
-              // }, 5000)
-            }
-
-          })
-          .catch((error) => this.makeToast('Error', `Couldn't submit form! ${error}`))
+        // Redirect to finish steps
+        // setTimeout(() => {
+        //   if (this.userType === 'business') window.location.href = `${window.location.origin}/businesses/new`
+        //   if (this.userType === 'specialist') window.location.href = `${window.location.origin}/specialists/new`
+        // }, 5000)
       },
-      onCodeChange(e){
-        this.errors = []
-
-        // CATCH COPY PASTE CASE
-        if (e.target.value.length === 6) {
-          for(let i=1; i <= 6; i++) {
-            this.form2['codePart'+i] = e.target.value.charAt(i-1)
-          }
-        }
-
-        if (e.keyCode === 8 || e.keyCode === 46) {
-          // BACKSPACE === 8 DELETE === 46
-          e.preventDefault();
-          e.target.value = ''
-          e.target.previousElementSibling?.focus()
-          return
-        }
-
-        if (e.target.value.length < 6 && (e.keyCode >= 48) && (e.keyCode <= 57) || (e.keyCode >= 96) && (e.keyCode <= 105)) {
-          e.preventDefault();
-          e.target.value = e.key
-          if(e.target.nextElementSibling) {
-            e.target.nextElementSibling.value = ''
-            e.target.nextElementSibling.focus()
-          }
-
-          if(!e.target.nextElementSibling) {
-            this.$refs.codesubmit.focus();
-          }
-        }
-
-        this.form2.code = this.form2.codePart1 + this.form2.codePart2 + this.form2.codePart3 + this.form2.codePart4 + this.form2.codePart5 + this.form2.codePart6
-
-        if (e.keyCode === 13) {
-          // ENTER KEY CODE
-          this.onSubmitStep2(e)
-        }
-      },
-
       fetchINitData(data){
         if (this.userType === 'business') {
           this.component = BusinessPage;
