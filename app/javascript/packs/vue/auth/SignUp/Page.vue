@@ -62,6 +62,7 @@
                     p Already have a Complect account?&nbsp;
                       a.link(href="#") Sign In
             #step2.form(v-if='!loading' :class="step2 ? 'd-block' : 'd-none'")
+              // OtpConfirm(@otpSecretConfirmed="otpConfirmed", :userId="userId", :form="form")
               h1.text-center Confirm your email!
               p.text-center We send a 6 digit code to email.com. Please enter it below.
               div
@@ -101,7 +102,7 @@
   import TopNavbar from "./TopNavbar";
   import BusinessPage from "./Onboarding/Business/BusinessPage";
   import SpecialistPage from "./Onboarding/Specialist/SpecialistPage";
-  import OtpConfirm from "../components/OtpConfirm";
+  // import OtpConfirm from "../components/OtpConfirm";
 
   // const random = Math.floor(Math.random() * 1000);
 
@@ -112,7 +113,7 @@
       Loading,
       BusinessPage,
       SpecialistPage,
-      OtpConfirm
+      // OtpConfirm
     },
     data() {
       return {
@@ -322,8 +323,8 @@
         }
 
         this.$store.dispatch('resendOTP', dataToSend)
-          .then((response) => console.log(response))
-          .catch((error) => console.error(error))
+          .then((response) => this.makeToast('Success', `${response.message}`))
+          .catch((error) => this.makeToast('Error', `${error.message}`))
       },
 
       fetchINitData(data){

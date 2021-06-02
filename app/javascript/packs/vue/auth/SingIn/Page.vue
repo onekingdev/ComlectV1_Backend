@@ -31,6 +31,7 @@
                     h4.text-uppercase.m-t-1.m-b-1 Don’t have an account yet?&nbsp;
                       a.link(data-remote='true' href='/users/sign_up') sign up here
             #step2.form(v-show='!loading' :class="step2 ? 'd-block' : 'd-none'")
+              // OtpConfirm(@otpSecretConfirmed="otpConfirmed", :form="form")
               h1.text-center Confirm your email!
               p.text-center We send a 6 digit code to email.com. Please enter it below.
               div
@@ -70,7 +71,7 @@
 <script>
   import Loading from '@/common/Loading/Loading'
   import TopNavbar from "./TopNavbar";
-  import OtpConfirm from "../components/OtpConfirm";
+  // import OtpConfirm from "../components/OtpConfirm";
 
   // const random = Math.floor(Math.random() * 1000);
 
@@ -79,7 +80,7 @@
     components: {
       TopNavbar,
       Loading,
-      OtpConfirm
+      // OtpConfirm
     },
     data() {
       return {
@@ -259,8 +260,8 @@
         }
 
         this.$store.dispatch('resendOTP', dataToSend)
-          .then((response) => console.log(response))
-          .catch((error) => console.error(error))
+          .then((response) => this.makeToast('Success', `${response.message}`))
+          .catch((error) => this.makeToast('Error', `${error.message}`))
       },
       countDownChanged(dismissCountDown) {
         this.dismissCountDown = dismissCountDown
