@@ -5,7 +5,7 @@
         #top_navbar.collapse.navbar-collapse.d-flex.justify-content-between
           .logo
             a.logo__link(href="/")
-              img.logo__img(height='48px' src='/assets/logo-b7915ac667f29762d6d3745cf555b7d2c80bf3cd90b798a32385bdf9106dc870.png' style="vertical-align: middle; margin: 8px;")
+              img.logo__img(src='/assets/logo-b7915ac667f29762d6d3745cf555b7d2c80bf3cd90b798a32385bdf9106dc870.png')
           .navbar-nav
             .dropdown.dropdown-profile(v-if="loggedIn")
               .dropdown-profile__btn(@click="isProfileMenuOpen = !isProfileMenuOpen" :aria-expanded="isProfileMenuOpen")

@@ -30,7 +30,7 @@
                     a.link.o-8.forgot-password(data-remote='true' href='/users/password/new') Forgot Password
                     h4.text-uppercase.m-t-1.m-b-1 Don’t have an account yet?&nbsp;
                       a.link(data-remote='true' href='/users/sign_up') sign up here
-            #step2.form(v-show='!loading' :class="step2 ? 'd-block' : 'd-none'")
+            #step2.form(v-if='!loading' :class="step2 ? 'd-block' : 'd-none'")
               // OtpConfirm(@otpSecretConfirmed="otpConfirmed", :form="form")
               h1.text-center Confirm your email!
               p.text-center We send a 6 digit code to email.com. Please enter it below.
