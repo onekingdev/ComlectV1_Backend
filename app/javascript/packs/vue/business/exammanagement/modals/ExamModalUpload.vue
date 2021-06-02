@@ -81,7 +81,7 @@
         let formData = new FormData()
         for( var i = 0; i < this.files.length; i++ ){
           let file = this.files[i];
-          formData.append('file', file);
+          formData.append('file', this.files[i]);
 
           const data = {
             id: this.currentExamId,
@@ -90,21 +90,16 @@
           }
 
           try {
-            setTimeout(() => {
-              this.$store.dispatch('exams/uploadExamRequestFile', data)
-                .then(response => {
-                  this.makeToast('Success', `File successfull uploaded!`)
-                  // this.$emit('saved')
-                  // this.$bvModal.hide(this.modalId)
-                  // document.querySelectorAll('.modal-body .file-card')[i].style.display = 'none'
-                })
-                .catch(error => console.log(error))
-            }, 300)
+            await this.$store.dispatch('exams/uploadExamRequestFile', data)
+              .then(response => {
+                this.makeToast('Success', `File successfull loaded!`)
+                this.$emit('saved')
+                this.$bvModal.hide(this.modalId)
+              })
+              .catch(error => console.log(error))
+
           } catch (error) {
             this.makeToast('Error', error.message)
-          } finally {
-            this.$emit('saved')
-            this.$bvModal.hide(this.modalId)
           }
         }
       },

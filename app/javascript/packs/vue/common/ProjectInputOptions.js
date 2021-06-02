@@ -32,6 +32,42 @@ const HOURLY_PAYMENT_SCHEDULE_OPTIONS = {
   monthly: 'Monthly'
 }
 
+const SORT_INDUSTRIES = dbCollection => sortKnownOptions(dbCollection, INDUSTRY_OPTIONS_ORDER)
+const SORT_JURISDICTIONS = dbCollection => sortKnownOptions(dbCollection, JURISDICTION_OPTIONS_ORDER)
+
+const INDUSTRY_OPTIONS_ORDER = [
+  'Investment Adviser',
+  'Broker-Dealer',
+  'Banking',
+  'Commodities Trader',
+  'Insurance Provider',
+  'Fintech',
+  'Other',
+]
+
+const JURISDICTION_OPTIONS_ORDER = [
+  'USA',
+  'Canada',
+  'Europe',
+  'Central America',
+  'South America',
+  'Australasia',
+  'Asia',
+  'Africa',
+  'Caribbean',
+  'Middle East',
+]
+
+const sortKnownOptions = (dbCollection, orderedNames)  => {
+  const [sortableOptions, otherOptions] = dbCollection.reduce((result, option) => {
+      result[orderedNames.includes(option.name) ? 0 : 1].push(option)
+      return result
+    }, [[], []])
+  return sortableOptions
+    .sort((a, b) => orderedNames.indexOf(a.name) - orderedNames.indexOf(b.name))
+    .concat(otherOptions)
+}
+
 const FIXED_PAYMENT_SCHEDULE_OPTIONS_FILTERED = (from, to) => filterPaymentScheduleOptions(FIXED_PAYMENT_SCHEDULE_OPTIONS, from, to)
 const HOURLY_PAYMENT_SCHEDULE_OPTIONS_FILTERED = (from, to) => filterPaymentScheduleOptions(HOURLY_PAYMENT_SCHEDULE_OPTIONS, from, to)
 
@@ -63,6 +99,8 @@ export {
   LOCATION_TYPES,
   FIXED_PAYMENT_SCHEDULE_OPTIONS,
   HOURLY_PAYMENT_SCHEDULE_OPTIONS,
+  SORT_INDUSTRIES,
+  SORT_JURISDICTIONS,
   FIXED_PAYMENT_SCHEDULE_OPTIONS_FILTERED,
   HOURLY_PAYMENT_SCHEDULE_OPTIONS_FILTERED,
   MINIMUM_EXPERIENCE_OPTIONS,
