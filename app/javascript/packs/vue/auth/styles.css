@@ -311,7 +311,18 @@ a.link,
     max-width: 100%;
   }
   .logo__img {
-    width: 80%;
+    width: 100%;
+    max-width: 150px;
+  }
+}
+
+.navbar-nav {
+  height: 65px;
+}
+
+@media (max-width: 575px) {
+  .navbar-nav {
+    height: auto;
   }
 }
 

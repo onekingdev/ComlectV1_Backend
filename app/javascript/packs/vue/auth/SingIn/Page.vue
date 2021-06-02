@@ -70,7 +70,7 @@
 
 <script>
   import Loading from '@/common/Loading/Loading'
-  import TopNavbar from "./TopNavbar";
+  import TopNavbar from "../components/TopNavbar";
   // import OtpConfirm from "../components/OtpConfirm";
 
   // const random = Math.floor(Math.random() * 1000);

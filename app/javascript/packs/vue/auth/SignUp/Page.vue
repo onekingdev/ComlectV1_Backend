@@ -99,7 +99,7 @@
 
 <script>
   import Loading from '@/common/Loading/Loading'
-  import TopNavbar from "./TopNavbar";
+  import TopNavbar from "../components/TopNavbar";
   import BusinessPage from "./Onboarding/Business/BusinessPage";
   import SpecialistPage from "./Onboarding/Specialist/SpecialistPage";
   // import OtpConfirm from "../components/OtpConfirm";
