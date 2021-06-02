@@ -11,9 +11,9 @@ class Api::Specialist::FavoritesController < ApiController
     @local_project = LocalProject.find_by id: favorite_params[:favorited_id]
     if @local_project && favorite_params[:favorited_type] == "Project"
       if Favorite.toggle!(current_specialist, favorite_params)
-        respond_with project_id: @local_project.id, toggled: true, status: :ok
+        respond_with project_id: @local_project.id, favorited: true, status: :ok
       else
-        respond_with project_id: @local_project.id, toggled: false, status: :ok
+        respond_with project_id: @local_project.id, favorited: false, status: :ok
       end
     else
       respond_with status: :unprocessable_entity
