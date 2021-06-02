@@ -22,9 +22,6 @@
                         button.btn.btn-dark New Task
                     .card-body
                       TaskTable(:tasks="tasks" @saved="$emit('saved')")
-      .row.mt-2
-        .col
-          Tasks(:shortTable="false")
 
 </template>
 
@@ -34,7 +31,6 @@
   import RegulatoryExamsTable from './components/ExamsTable'
   import TaskFormModal from '@/common/TaskFormModal'
   import TaskTable from '@/common/TaskTable'
-  import Tasks from '@/business/tasks/Page'
 
   export default {
     props: {
@@ -43,8 +39,7 @@
     components: {
       RegulatoryExamsTable,
       TaskFormModal,
-      TaskTable,
-      Tasks
+      TaskTable
     },
     data() {
       return {

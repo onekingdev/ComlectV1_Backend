@@ -270,6 +270,16 @@ Rails.application.routes.draw do
       # resource :project_overview, path: 'overview(/:specialist_username)', only: :show
     end
 
+    namespace :settings do
+      get 'general' => 'general#index'
+      patch 'general' => 'general#update'
+      get 'profile' => 'profile#index'
+      patch 'profile' => 'profile#update'
+      get 'business' => 'business#index'
+      patch 'business' => 'business#update'
+      patch 'password' => 'password#update'
+    end
+
     get 'local_projects/:project_id/messages' => 'project_messages#index'
     post 'local_projects/:project_id/messages' => 'project_messages#create'
     resources :direct_messages, path: 'messages(/:recipient_username)', only: %i[index create]
@@ -322,6 +332,8 @@ Rails.application.routes.draw do
       post '/upgrade/subscribe' => 'upgrade#subscribe'
       resources :payment_settings, only: %i[create update destroy index]
       put '/payment_settings/make_primary/:id' => 'payment_settings#make_primary'
+      get '/favorites' => 'favorites#index'
+      patch '/favorites' => 'favorites#update'
     end
     namespace :specialist do
       get '/projects/my' => 'projects#my'
@@ -341,6 +353,8 @@ Rails.application.routes.draw do
       put '/payment_settings/make_primary/:id' => 'payment_settings#make_primary'
       put '/payment_settings/validate/:id' => 'payment_settings#validate'
       get '/payment_settings' => 'payment_settings#index'
+      get '/favorites' => 'favorites#index'
+      patch '/favorites' => 'favorites#update'
     end
     resources :businesses, only: [:create]
     resource :business, only: %i[update] do

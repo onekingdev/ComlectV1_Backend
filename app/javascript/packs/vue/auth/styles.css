@@ -290,6 +290,20 @@ a.link,
 /* ---------- FORMS---------- */
 .text-right .btn {
   min-width: 65px;
+  font-weight: 600;
+}
+.btn.btn-dark:hover,
+.btn.btn-dark:active {
+  background-color: #2E304F;
+  box-shadow: none;
+}
+.btn.btn-default:hover,
+.btn.btn-default:active {
+  background-color: #F3F6F9;
+  box-shadow: none;
+}
+.custom-radio:not(:last-child) {
+  margin-bottom: 1rem;
 }
 
 label.required:after {
@@ -307,6 +321,56 @@ label.required:after {
   border-color: #cd1837;
 }
 
-label {
+label,
+legend, .label {
   color: #797b7e;
+}
+
+/* ---------- NAVBAR ---------- */
+.navbar .dropdown {
+  transition: all 200ms ease-in;
+}
+.navbar .dropdown:hover,
+.navbar .dropdown:active {
+  background-color: #f6f6f8;
+  cursor: pointer;
+}
+
+/* ---------- Files List view ---------- */
+.file-card {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  border: solid 1px #dcdee4;
+  background-color: #ecf4ff;
+}
+.file-card:not(:last-child) {
+  margin-bottom: 1rem;
+}
+.file-card__icon {
+  color: #797b7e;
+}
+.file-card__name {
+  margin-bottom: 0;
+}
+.file-card__link {}
+.file-card__close {
+  position: relative;
+}
+.file-card__close::before,
+.file-card__close::after {
+  display: block;
+  position: absolute;
+  content: '.';
+}
+.file-card__close::before {
+  top: -5px;
+  left: 0;
+}
+.file-card__close::after {
+  top: -5px;
+  right: 0;
+}
+.file-card .dropdown-toggle::after {
+  display: none;
 }
