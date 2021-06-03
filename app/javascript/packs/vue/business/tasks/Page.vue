@@ -3,7 +3,7 @@
     .card-header.d-flex.justify-content-between
       h3.m-y-0 Tasks
       .d-inline-block
-        a.btn.btn-default.m-r-1 Download
+        a.btn.btn-default.m-r-1(v-if="!shortTable") Download
         TaskModalCreate(@saved="refetch()")
           a.btn.btn-dark Create task
     .card-body.white-card-body
@@ -16,17 +16,20 @@
       .row
         .col
           Loading
-          TaskTable(v-if="loading", :shortTable="shortTable", :tasks="tasks")
+          TaskTable(v-if="!loading && tasks" :shortTable="shortTable", :tasks="tasks")
 </template>
 
 <script>
+  import { mapGetters } from "vuex"
+
   import { DateTime } from 'luxon'
   import { toEvent, isOverdue, splitReminderOccurenceId } from '@/common/TaskHelper'
 
-  import Loading from '@/common/Loading'
+  import Loading from '@/common/Loading/Loading'
   import TaskFormModal from '@/common/TaskFormModal'
   import TaskModalCreate from './modals/TaskModalCreate'
-  import TaskTable from "./components/TaskTable";
+
+  import TaskTable from './components/TaskTable'
 
   const endpointUrl = '/api/business/reminders/'
   const overdueEndpointUrl = '/api/business/overdue_reminders'
@@ -41,7 +44,7 @@
 
   export default {
     props: {
-      etag: Number,
+      // etag: Number,
       shortTable: {
         type: Boolean,
         default: false
@@ -55,11 +58,11 @@
     },
     data() {
       return {
-        tasks: []
+        // tasks: []
       }
     },
     created() {
-
+      // this.refetch()
     },
     methods: {
       refetch() {
@@ -68,12 +71,12 @@
         fetch(overdueEndpointUrl, { headers: {'Accept': 'application/json'} })
           .then(response => response.json())
           .then(result => {
-            console.log('result', result)
+            console.log('overdue result', result)
             this.tasks = result.tasks
           }).then(fetch(`${endpointUrl}${fromTo}`, { headers: {'Accept': 'application/json'}})
           .then(response => response.json())
           .then(result => {
-            console.log('result2', result)
+            console.log('reminders result', result)
             this.tasks = this.tasks.concat(result.tasks)
             this.projects = result.projects
           })
@@ -109,6 +112,9 @@
       },
     },
     computed: {
+      ...mapGetters({
+        tasks: 'reminders/tasks'
+      }),
       taskEvents() {
         return this.tasks.map(toEvent)
           .map(e => ({
@@ -122,15 +128,27 @@
         return this.$store.getters.loading;
       },
     },
-    mounted(){
-      this.refetch()
+    async mounted () {
+      try {
+        // await this.$store.dispatch('reminders/getTasks')
+
+        const fromTo = DateTime.local().minus({years: 10}).toSQLDate() + '/' + DateTime.local().plus({years: 10}).toSQLDate()
+        await this.$store.dispatch('reminders/getTasksByDate', fromTo)
+          .then(response => console.log('response', response))
+          .catch(error => console.error('error', error))
+        // await this.$store.dispatch('reminders/getOverdueTasks')
+        //   .then(response => console.log('response Overdue', response))
+        //   .catch(error => console.error('error', error))
+      } catch (error) {
+        this.makeToast('Error', error.message)
+      }
     },
     watch: {
-      etag: {
-        handler: function(newVal, outline) {
-          this.refetch()
-        }
-      }
+      // etag: {
+      //   handler: function(newVal, outline) {
+      //     this.refetch()
+      //   }
+      // }
     }
   }
 </script>

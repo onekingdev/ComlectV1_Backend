@@ -1,5 +1,5 @@
 <template lang="pug">
-  table.table.tasks-table
+  table.table.task_table
     thead
       tr
         th(width="40%")
@@ -7,6 +7,7 @@
           b-icon.ml-2(icon='chevron-expand')
         th(v-if="!shortTable" width="25%")
           | Assignee
+        
           b-icon.ml-2(icon='chevron-expand')
         th(v-if="!shortTable" @click="sortSelect('updated_at', 'date')").text-right
           | Start date
@@ -20,7 +21,7 @@
         th(v-if="!shortTable" @click="sortSelect('comments', 'number')").text-right
           | Comments
           b-icon.ml-2(icon='chevron-expand')
-        th.text-right(width="10%")
+        th.text-right(width="35px")
     tbody
       TaskItem(v-for="item in sortedTask" :key="item.id" :item="item" :shortTable="shortTable")
 </template>
@@ -108,3 +109,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  th {
+    cursor: pointer;
+  }
+</style>

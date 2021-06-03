@@ -3,6 +3,8 @@ import * as jwt from '@/services/business/tasks'
 const mapAuthProviders = {
   jwt: {
     getTasks: jwt.getTasks,
+    getTasksByDate: jwt.getTasksByDate,
+    getOverdueTasks: jwt.getOverdueTasks,
     createTask: jwt.createTask,
     updateTask: jwt.updateTask,
     deleteTask: jwt.deleteTask,
@@ -45,7 +47,7 @@ export default {
       commit("setLoading", true, { root: true });
       try {
         const getTasks = mapAuthProviders[rootState.shared.settings.authProvider].getTasks
-        getTasks()
+        const data = getTasks()
           .then((success) => {
             commit("clearError", null, { root: true });
             commit("setLoading", false, { root: true });
@@ -54,14 +56,25 @@ export default {
               const tasks = []
               for (const taskItem of data) {
                 tasks.push(new Task(
-                  taskItem.complete,
+                  taskItem.body,
                   taskItem.created_at,
-                  taskItem.ends_on,
-                  taskItem.exam_requests,
+                  taskItem.description,
+                  taskItem.done_at,
+                  taskItem.done_occurencies,
+                  taskItem.end_by,
+                  taskItem.end_date,
                   taskItem.id,
-                  taskItem.name,
-                  taskItem.share_uuid,
-                  taskItem.starts_on,
+                  taskItem.linkable_id,
+                  taskItem.linkable_type,
+                  taskItem.note,
+                  taskItem.on_type,
+                  taskItem.remind_at,
+                  taskItem.remindable_id,
+                  taskItem.remindable_type,
+                  taskItem.repeat_every,
+                  taskItem.repeat_on,
+                  taskItem.repeats,
+                  taskItem.skip_occurencies,
                   taskItem.updated_at,
                 ))
               }
@@ -74,6 +87,113 @@ export default {
             }
           })
           .catch(error => error)
+        return data
+      } catch (error) {
+        console.error('catch error', error);
+        commit("setError", error.message, { root: true });
+        commit("setLoading", false, { root: true });
+        throw error
+      }
+    },
+    async getTasksByDate({state, commit, rootState}, payload) {
+      commit("clearError", null, { root: true });
+      commit("setLoading", true, { root: true });
+      try {
+        const getTasksByDate = mapAuthProviders[rootState.shared.settings.authProvider].getTasksByDate
+        const data = await getTasksByDate(payload)
+          .then((success) => {
+            commit("clearError", null, { root: true });
+            commit("setLoading", false, { root: true });
+            if (success) {
+              const data = success.data.tasks
+              const tasks = []
+              for (const taskItem of data) {
+                tasks.push(new Task(
+                  taskItem.body,
+                  taskItem.created_at,
+                  taskItem.description,
+                  taskItem.done_at,
+                  taskItem.done_occurencies,
+                  taskItem.end_by,
+                  taskItem.end_date,
+                  taskItem.id,
+                  taskItem.linkable_id,
+                  taskItem.linkable_type,
+                  taskItem.note,
+                  taskItem.on_type,
+                  taskItem.remind_at,
+                  taskItem.remindable_id,
+                  taskItem.remindable_type,
+                  taskItem.repeat_every,
+                  taskItem.repeat_on,
+                  taskItem.repeats,
+                  taskItem.skip_occurencies,
+                  taskItem.updated_at,
+                ))
+              }
+              commit('SET_TASKS', tasks)
+              return success.data
+            }
+            if (!success) {
+              console.error('Not success', success)
+              commit("setError", success.message, { root: true });
+            }
+          })
+          .catch(error => error)
+        return data;
+      } catch (error) {
+        console.error('catch error', error);
+        commit("setError", error.message, { root: true });
+        commit("setLoading", false, { root: true });
+        throw error
+      }
+    },
+    async getOverdueTasks({state, commit, rootState}) {
+      commit("clearError", null, { root: true });
+      commit("setLoading", true, { root: true });
+      try {
+        const getOverdueTasks = mapAuthProviders[rootState.shared.settings.authProvider].getOverdueTasks
+        const data = getOverdueTasks()
+          .then((success) => {
+            commit("clearError", null, { root: true });
+            commit("setLoading", false, { root: true });
+            if (success) {
+              const data = success.data.tasks
+              const tasks = []
+              for (const taskItem of data) {
+                tasks.push(new Task(
+                  taskItem.body,
+                  taskItem.created_at,
+                  taskItem.description,
+                  taskItem.done_at,
+                  taskItem.done_occurencies,
+                  taskItem.end_by,
+                  taskItem.end_date,
+                  taskItem.id,
+                  taskItem.linkable_id,
+                  taskItem.linkable_type,
+                  taskItem.note,
+                  taskItem.on_type,
+                  taskItem.remind_at,
+                  taskItem.remindable_id,
+                  taskItem.remindable_type,
+                  taskItem.repeat_every,
+                  taskItem.repeat_on,
+                  taskItem.repeats,
+                  taskItem.skip_occurencies,
+                  taskItem.updated_at,
+                ))
+              }
+              commit('SET_TASKS', tasks)
+              return success.data
+            }
+            if (!success) {
+              console.error('Not success', success)
+              commit("setError", success.message, { root: true });
+            }
+          })
+          .catch(error => error)
+        return data
       } catch (error) {
         console.error('catch error', error);
         commit("setError", error.message, { root: true });

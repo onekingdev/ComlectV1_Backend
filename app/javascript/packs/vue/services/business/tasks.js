@@ -16,6 +16,30 @@ export async function getTasks() {
     .catch(err => err)
 }
 
+export async function getTasksByDate(payload) {
+  return axios
+    .get(`${END_POINT}/${payload}`)
+    .then(response => {
+      if (response) {
+        return response
+      }
+      return response
+    })
+    .catch(err => err)
+}
+
+export async function getOverdueTasks() {
+  return axios
+    .get(`${END_POINT_OVERDUE}`)
+    .then(response => {
+      if (response) {
+        return response
+      }
+      return response
+    })
+    .catch(err => err)
+}
+
 export async function createTask(payload) {
   return await axios.post(`${END_POINT}`, payload)
     .then(response => {

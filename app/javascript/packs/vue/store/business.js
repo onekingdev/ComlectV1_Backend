@@ -6,6 +6,7 @@ import specialistsMarketplace from "./businesModules/specialistsMarketplace";
 import annual from "./businesModules/annual"
 import filefolders from "./businesModules/filefolders"
 import exams from "./businesModules/exams"
+import tasks from "./businesModules/tasks"
 import risks from "./businesModules/risks";
 import shared from "./commonModules/shared";
 
@@ -65,6 +66,10 @@ const store = new Vuex.Store({
     exams: {
       namespaced: true,
       ...exams,
+    },
+    reminders: {
+      namespaced: true,
+      ...tasks,
     },
   },
 });
