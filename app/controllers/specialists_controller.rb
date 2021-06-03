@@ -129,7 +129,7 @@ class SpecialistsController < ApplicationController
   def specialist_params
     params.require(:specialist).permit(
       :delete_photo, :delete_resume, :first_name, :last_name, :country, :address_1, :address_2, :state, :city,
-      :lng, :phone, :linkedin_link, :public_profile, :former_regulator, :certifications, :photo, :resume,
+      :lng, :contact_phone, :linkedin_link, :public_profile, :former_regulator, :certifications, :photo, :resume,
       :zipcode, :lat, :time_zone, :call_booked, :annual_revenue_goal, :risk_tolerance, :automatching_available,
       jurisdiction_states_usa: [], jurisdiction_states_canada: [],
       jurisdiction_ids: [], industry_ids: [], skill_names: [],
