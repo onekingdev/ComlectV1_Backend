@@ -87,6 +87,7 @@
   })
 
   export default {
+    props: ['industryIds', 'jurisdictionIds', 'subIndustryIds', 'states'],
     components: {
       Loading,
       // VueRangeSlider,
@@ -118,6 +119,13 @@
       if (this.initialOpenId) {
         this.openDetails(this.initialOpenId)
       }
+
+
+      console.log('industryIds', this.industryIds)
+      if(this.industryIds) this.filter.jurisdictionOptions = this.industryIds
+      console.log('jurisdictionIds', this.jurisdictionIds)
+      console.log('subIndustryIds', this.subIndustryIds)
+      console.log('states', this.states)
     },
     unmounted() {
       this.debouncedSend.cancel()

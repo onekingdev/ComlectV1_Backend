@@ -7,7 +7,18 @@
         | Industry
         ion-icon(name='chevron-down-outline')
       b-collapse#collapse_industry(visible)
-        b-form-input(v-model="filter.industry")
+        // b-form-input(v-model="filter.industry")
+        div(:class="{ 'invalid': errors.industry }")
+          multiselect#selectS-1(
+            v-model="filter.industry"
+            :options="filter.jurisdictionOptions"
+            :multiple="true"
+            :show-labels="false"
+            track-by="name",
+            label="name",
+            placeholder="Select industry",
+            required)
+          .invalid-feedback.d-block(v-if="errors.industry") {{ errors.industry }}
       hr
       h3.d-flex.justify-content-between(role="button" v-b-toggle.collapse_experience)
         | Experience Level
@@ -40,11 +51,13 @@
 <script>
 import 'vue-range-component/dist/vue-range-slider.css'
 import VueRangeSlider from 'vue-range-component'
+import Multiselect from 'vue-multiselect'
 
 export default {
   name: 'MarketPlaceFilter',
   components: {
-    VueRangeSlider
+    VueRangeSlider,
+    Multiselect
   },
   props: {
     filter: {
@@ -58,6 +71,8 @@ export default {
   },
   data () {
     return {
+      errors: {},
+      jurisdictionOptions: [],
       experienceOptions: ['Junior', 'Intermediate', 'Expert'],
       regulatorOptions: ['SEC', 'FINRA', 'State', 'International'],
       vueRangeOptions: {
@@ -119,4 +134,55 @@ export default {
   width: 20px;
   height: 20px;
 }
+</style>
+
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+
+<style>
+  /* MULTISELECT */
+  .multiselect {
+    min-height: 20px;
+  }
+  .multiselect__placeholder {
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 2px;
+  }
+  .multiselect__tags {
+    min-height: 20px;
+    padding: 5px 40px 0 10px;
+    margin-bottom: 0;
+    border-color: #ced4da;
+  }
+  .multiselect__tag {
+    padding: 2px 26px 2px 10px;
+    margin-bottom: 0;
+    color: #0479ff;
+    background: #ecf4ff;
+  }
+  .multiselect__tag-icon:after {
+    color: #0479ff;
+  }
+  .multiselect__option--highlight {
+    color: #0479ff;
+    background: #ecf4ff;
+  }
+  .multiselect__option--highlight::after{
+    background: #0479ff;
+  }
+  .multiselect__tag-icon {
+    line-height: 1.2rem;
+  }
+  .multiselect__tag-icon:hover {
+    color: white;
+    background: #0479ff;
+  }
+  .multiselect__select {
+    height: 30px;
+  }
+  .multiselect__single {
+    margin-bottom: 0;
+    font-size: 1.2rem;
+    line-height: 14px;
+  }
 </style>

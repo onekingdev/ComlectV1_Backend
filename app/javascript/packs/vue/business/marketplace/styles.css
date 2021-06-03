@@ -35,7 +35,8 @@
 }
 
 .form-control:hover,
-.form-control:active {
+.form-control:active,
+.form-control:focus {
   border-color: #0479FF;
   box-shadow: none;
 }
