@@ -11,7 +11,7 @@
         div(:class="{ 'invalid': errors.industry }")
           multiselect#selectS-1(
             v-model="filter.industry"
-            :options="filter.jurisdictionOptions"
+            :options="filter.industryOptions"
             :multiple="true"
             :show-labels="false"
             track-by="name",
@@ -39,7 +39,18 @@
         | Jurisdiction
         ion-icon(name='chevron-down-outline')
       b-collapse#collapse_jurisdiction(visible)
-        b-form-input(v-model="filter.jurisdiction")
+        // b-form-input(v-model="filter.jurisdiction")
+        div(:class="{ 'invalid': errors.jurisdiction }")
+          multiselect#selectS-2(
+            v-model="filter.jurisdiction"
+            :options="filter.jurisdictionOptions"
+            :multiple="true"
+            :show-labels="false"
+            track-by="name",
+            label="name",
+            placeholder="Select jurisdiction",
+            required)
+          .invalid-feedback.d-block(v-if="errors.jurisdiction") {{ errors.jurisdiction }}
       hr
       h3.d-flex.justify-content-between(role="button" v-b-toggle.collapse_fromer_regulator)
         | Former Regulator
@@ -72,6 +83,7 @@ export default {
   data () {
     return {
       errors: {},
+      industryOptions: [],
       jurisdictionOptions: [],
       experienceOptions: ['Junior', 'Intermediate', 'Expert'],
       regulatorOptions: ['SEC', 'FINRA', 'State', 'International'],
@@ -157,25 +169,26 @@ export default {
   .multiselect__tag {
     padding: 2px 26px 2px 10px;
     margin-bottom: 0;
-    color: #0479ff;
-    background: #ecf4ff;
+    color: #303132;
+    background: white;
+    border: solid 1px #ced4da;
   }
   .multiselect__tag-icon:after {
-    color: #0479ff;
+    color: #303132;
   }
   .multiselect__option--highlight {
-    color: #0479ff;
+    color: #303132;
     background: #ecf4ff;
   }
   .multiselect__option--highlight::after{
-    background: #0479ff;
+    background: #303132;
   }
   .multiselect__tag-icon {
     line-height: 1.2rem;
   }
   .multiselect__tag-icon:hover {
     color: white;
-    background: #0479ff;
+    background: #303132;
   }
   .multiselect__select {
     height: 30px;

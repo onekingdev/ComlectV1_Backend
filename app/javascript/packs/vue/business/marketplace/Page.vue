@@ -120,12 +120,8 @@
         this.openDetails(this.initialOpenId)
       }
 
-
-      console.log('industryIds', this.industryIds)
-      if(this.industryIds) this.filter.jurisdictionOptions = this.industryIds
-      console.log('jurisdictionIds', this.jurisdictionIds)
-      console.log('subIndustryIds', this.subIndustryIds)
-      console.log('states', this.states)
+      if(this.industryIds) this.filter.industryOptions = this.industryIds
+      if(this.jurisdictionIds) this.filter.jurisdictionOptions = this.jurisdictionIds
     },
     unmounted() {
       this.debouncedSend.cancel()
