@@ -33,7 +33,7 @@
               b-button(variant="default" @click="isSidebarOpen = false") < Close
               div
                 a.btn.btn-default(href="#") Send
-                // a.btn.btn-default.m-l-1(href="#") Share
+                a.btn.btn-default.m-l-1(href="#") Share
             .d-flex.justify-content-between.m-t-1
               h4 Messages Details
               div
