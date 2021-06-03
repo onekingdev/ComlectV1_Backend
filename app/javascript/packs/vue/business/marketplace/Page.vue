@@ -164,7 +164,7 @@
     },
     computed: {
       ...mapGetters({
-        specialists: 'marketplace/specialistsList'
+        specialists: 'marketplace/specialists'
       }),
       loading() {
         return this.$store.getters.loading;

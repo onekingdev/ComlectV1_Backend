@@ -51,21 +51,33 @@ export default {
             commit("setLoading", false, { root: true });
             if (success) {
               const data = success.data
-              const exams = []
-              for (const examItem of data) {
-                exams.push(new Specialist(
-                  examItem.complete,
-                  examItem.created_at,
-                  examItem.ends_on,
-                  examItem.exam_requests,
-                  examItem.id,
-                  examItem.name,
-                  examItem.share_uuid,
-                  examItem.starts_on,
-                  examItem.updated_at,
+              const specialists = []
+              for (const specialistItem of data) {
+                specialists.push(new Specialist(
+                  specialistItem.business_specialists_roles,
+                  specialistItem.certifications,
+                  specialistItem.experience,
+                  specialistItem.first_name,
+                  specialistItem.former_regulator,
+                  specialistItem.id,
+                  specialistItem.industries,
+                  specialistItem.jurisdictions,
+                  specialistItem.last_name,
+                  specialistItem.location,
+                  specialistItem.min_hourly_rate,
+                  specialistItem.photo,
+                  specialistItem.ratings_average,
+                  specialistItem.ratings_count,
+                  specialistItem.ratings_total,
+                  specialistItem.resume_url,
+                  specialistItem.seat_role,
+                  specialistItem.skills,
+                  specialistItem.time_zone,
+                  specialistItem.username,
+                  specialistItem.visibility,
                 ))
               }
-              commit('SET_SPECIALISTS', exams)
+              commit('SET_SPECIALISTS', specialists)
               return data
             }
             if (!success) {
@@ -102,15 +114,27 @@ export default {
             if (success) {
               const data = success.data
               commit('ADD_SPECIALIST', new Specialist(
-                data.complete,
-                data.created_at,
-                data.ends_on,
-                data.exam_requests,
-                data.id,
-                data.name,
-                data.share_uuid,
-                data.starts_on,
-                data.updated_at,
+                specialistItem.business_specialists_roles,
+                specialistItem.certifications,
+                specialistItem.experience,
+                specialistItem.first_name,
+                specialistItem.former_regulator,
+                specialistItem.id,
+                specialistItem.industries,
+                specialistItem.jurisdictions,
+                specialistItem.last_name,
+                specialistItem.location,
+                specialistItem.min_hourly_rate,
+                specialistItem.photo,
+                specialistItem.ratings_average,
+                specialistItem.ratings_count,
+                specialistItem.ratings_total,
+                specialistItem.resume_url,
+                specialistItem.seat_role,
+                specialistItem.skills,
+                specialistItem.time_zone,
+                specialistItem.username,
+                specialistItem.visibility,
               ))
               return success
             }
@@ -150,26 +174,50 @@ export default {
             if (success) {
               const data = success.data
               commit('UPDATE_SPECIALIST', new Specialist(
-                data.complete,
-                data.created_at,
-                data.ends_on,
-                data.exam_requests,
-                data.id,
-                data.name,
-                data.share_uuid,
-                data.starts_on,
-                data.updated_at,
+                specialistItem.business_specialists_roles,
+                specialistItem.certifications,
+                specialistItem.experience,
+                specialistItem.first_name,
+                specialistItem.former_regulator,
+                specialistItem.id,
+                specialistItem.industries,
+                specialistItem.jurisdictions,
+                specialistItem.last_name,
+                specialistItem.location,
+                specialistItem.min_hourly_rate,
+                specialistItem.photo,
+                specialistItem.ratings_average,
+                specialistItem.ratings_count,
+                specialistItem.ratings_total,
+                specialistItem.resume_url,
+                specialistItem.seat_role,
+                specialistItem.skills,
+                specialistItem.time_zone,
+                specialistItem.username,
+                specialistItem.visibility,
               ))
               commit('UPDATE_CURRENT_SPECIALIST', new Specialist(
-                data.complete,
-                data.created_at,
-                data.ends_on,
-                data.exam_requests,
-                data.id,
-                data.name,
-                data.share_uuid,
-                data.starts_on,
-                data.updated_at,
+                specialistItem.business_specialists_roles,
+                specialistItem.certifications,
+                specialistItem.experience,
+                specialistItem.first_name,
+                specialistItem.former_regulator,
+                specialistItem.id,
+                specialistItem.industries,
+                specialistItem.jurisdictions,
+                specialistItem.last_name,
+                specialistItem.location,
+                specialistItem.min_hourly_rate,
+                specialistItem.photo,
+                specialistItem.ratings_average,
+                specialistItem.ratings_count,
+                specialistItem.ratings_total,
+                specialistItem.resume_url,
+                specialistItem.seat_role,
+                specialistItem.skills,
+                specialistItem.time_zone,
+                specialistItem.username,
+                specialistItem.visibility,
               ))
               return success
             }
@@ -209,15 +257,27 @@ export default {
             if (success) {
               const data = success.data
               commit('DELETE_SPECIALIST', new Specialist(
-                data.complete,
-                data.created_at,
-                data.ends_on,
-                data.exam_requests,
-                data.id,
-                data.name,
-                data.share_uuid,
-                data.starts_on,
-                data.updated_at,
+                specialistItem.business_specialists_roles,
+                specialistItem.certifications,
+                specialistItem.experience,
+                specialistItem.first_name,
+                specialistItem.former_regulator,
+                specialistItem.id,
+                specialistItem.industries,
+                specialistItem.jurisdictions,
+                specialistItem.last_name,
+                specialistItem.location,
+                specialistItem.min_hourly_rate,
+                specialistItem.photo,
+                specialistItem.ratings_average,
+                specialistItem.ratings_count,
+                specialistItem.ratings_total,
+                specialistItem.resume_url,
+                specialistItem.seat_role,
+                specialistItem.skills,
+                specialistItem.time_zone,
+                specialistItem.username,
+                specialistItem.visibility,
               ))
               return success
             }
@@ -253,15 +313,27 @@ export default {
             if (success) {
               const data = success.data
               commit('SET_CURRENT_SPECIALIST', new Specialist(
-                data.complete,
-                data.created_at,
-                data.ends_on,
-                data.exam_requests,
-                data.id,
-                data.name,
-                data.share_uuid,
-                data.starts_on,
-                data.updated_at,
+                specialistItem.business_specialists_roles,
+                specialistItem.certifications,
+                specialistItem.experience,
+                specialistItem.first_name,
+                specialistItem.former_regulator,
+                specialistItem.id,
+                specialistItem.industries,
+                specialistItem.jurisdictions,
+                specialistItem.last_name,
+                specialistItem.location,
+                specialistItem.min_hourly_rate,
+                specialistItem.photo,
+                specialistItem.ratings_average,
+                specialistItem.ratings_count,
+                specialistItem.ratings_total,
+                specialistItem.resume_url,
+                specialistItem.seat_role,
+                specialistItem.skills,
+                specialistItem.time_zone,
+                specialistItem.username,
+                specialistItem.visibility,
               ))
               return success
             }
