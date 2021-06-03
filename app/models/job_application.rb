@@ -3,7 +3,6 @@
 class JobApplication < ApplicationRecord
   belongs_to :specialist, optional: true
   belongs_to :project, counter_cache: true
-  include FileUploader[:document]
   has_one :user, through: :specialist
 
   enum visibility: { undecided: nil, shortlisted: 'shortlisted', hidden: 'hidden' }
