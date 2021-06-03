@@ -58,12 +58,6 @@ const BusinessExamManagement = {
   BusinessExamManagementAuditorPortalShowPage,
 }
 
-import BusinessTasksPage from './vue/business/tasks/Page.vue'
-
-const BusinessTasks = {
-  BusinessTasksPage,
-}
-
 
 init({
   store,
@@ -85,6 +79,5 @@ init({
     ...businesMarketplace,
     ...BusinessFileFolders,
     ...BusinessExamManagement,
-    ...BusinessTasks,
   }
 })

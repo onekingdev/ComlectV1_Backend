@@ -29,3 +29,13 @@
 .linkedin {
   color: #0277b9;
 }
+
+.form-control {
+  padding: .5rem;
+}
+
+.form-control:hover,
+.form-control:active {
+  border-color: #0479FF;
+  box-shadow: none;
+}

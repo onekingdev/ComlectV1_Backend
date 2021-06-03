@@ -352,5 +352,6 @@ Rails.application.routes.draw do
     resource :specialist, only: %i[update] do
       patch '/' => 'specialists#update', as: :update
     end
+    resources :otp_secrets, only: [:create]
   end
 end

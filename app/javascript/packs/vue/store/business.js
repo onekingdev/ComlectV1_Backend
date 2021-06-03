@@ -2,11 +2,10 @@ import Vue from "vue";
 import Vuex from "vuex";
 
 import policies from "./businesModules/policies";
-import specialistsMarketplace from "./businesModules/specialistsMarketplace";
+import marketplace from "./businesModules/marketplace";
 import annual from "./businesModules/annual"
 import filefolders from "./businesModules/filefolders"
 import exams from "./businesModules/exams"
-import tasks from "./businesModules/tasks"
 import risks from "./businesModules/risks";
 import shared from "./commonModules/shared";
 
@@ -45,7 +44,6 @@ const store = new Vuex.Store({
 
   modules: {
     policies,
-    specialistsMarketplace,
     risks,
     // policies: {
     //   namespaced: true,
@@ -63,13 +61,13 @@ const store = new Vuex.Store({
       namespaced: true,
       ...filefolders,
     },
+    marketplace: {
+      namespaced: true,
+      ...marketplace,
+    },
     exams: {
       namespaced: true,
       ...exams,
-    },
-    reminders: {
-      namespaced: true,
-      ...tasks,
     },
   },
 });
