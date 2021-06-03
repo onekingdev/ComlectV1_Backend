@@ -16,7 +16,7 @@ export default {
   name: 'MarketPlaceSearchInput',
   data() {
     return {
-      search: null,
+      search: '',
       value: []
     };
   },

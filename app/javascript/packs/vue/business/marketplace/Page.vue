@@ -23,7 +23,7 @@
               .row.py-2.px-4
                 .col
                   Loading
-            SpecialistPanel(v-for="specialist in specialists" :specialist="specialist" :key="specialist.id")
+            SpecialistPanel(v-for="specialist in specialists" :specialist="specialist" :key="specialist.id" @directMessage="isSidebarOpen = true")
             .card-body.m-2.text-danger(v-if="!specialists && !specialists.length"  title="No specialists")
 
       b-sidebar#ProjectSidebar(@hidden="closeSidebar" v-model="isSidebarOpen" backdrop-variant='dark' backdrop right width="60%")
@@ -32,10 +32,10 @@
             .d-flex.justify-content-between
               b-button(variant="default" @click="isSidebarOpen = false") < Close
               div
-                a.btn.btn-default(href="#") Save
-                a.btn.btn-default.m-l-1(href="#") Share
+                a.btn.btn-default(href="#") Send
+                // a.btn.btn-default.m-l-1(href="#") Share
             .d-flex.justify-content-between.m-t-1
-              h4 Project Details
+              h4 Messages Details
               div
                 a.btn.btn-dark(v-if="project" :href="applyUrl(project)") Apply
           SpecialistDetails(v-if="project" :project="project")

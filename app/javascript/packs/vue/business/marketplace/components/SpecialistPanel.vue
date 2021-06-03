@@ -19,7 +19,7 @@
           .col-md-3.col.justify-content-end
             .d-flex.align-items-center.justify-content-lg-end
               b-icon.linkedin.mr-3(icon='linkedin' font-scale="1.5")
-              b-button(variant="default") Message
+              b-button(variant="default" @click="$emit('directMessage')") Message
       .offset-lg-2.col-lg-10.col
         b-card-text.m-t-1(v-if="specialist.description") {{specialist.description}}
         b-card-text.m-t-1(v-else)
