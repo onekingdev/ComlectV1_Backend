@@ -23,7 +23,7 @@
   import { mapGetters } from "vuex"
 
   import { DateTime } from 'luxon'
-  import { toEvent, isOverdue, splitReminderOccurenceId } from '@/common/TaskHelper'
+  // import { toEvent, isOverdue, splitReminderOccurenceId } from '@/common/TaskHelper'
 
   import Loading from '@/common/Loading/Loading'
   import TaskFormModal from '@/common/TaskFormModal'
@@ -31,8 +31,8 @@
 
   import TaskTable from './components/TaskTable'
 
-  const endpointUrl = '/api/business/reminders/'
-  const overdueEndpointUrl = '/api/business/overdue_reminders'
+  // const endpointUrl = '/api/business/reminders/'
+  // const overdueEndpointUrl = '/api/business/overdue_reminders'
 
   // const fromTo = DateTime.local().minus({years: 10}).toSQLDate() + '/' + DateTime.local().plus({years: 10}).toSQLDate()
   // console.log(DateTime)
@@ -61,69 +61,69 @@
         // tasks: []
       }
     },
-    created() {
+    // created() {
       // this.refetch()
-    },
+    // },
     methods: {
-      refetch() {
-        const fromTo = DateTime.local().minus({years: 10}).toSQLDate() + '/' + DateTime.local().plus({years: 10}).toSQLDate()
-
-        fetch(overdueEndpointUrl, { headers: {'Accept': 'application/json'} })
-          .then(response => response.json())
-          .then(result => {
-            console.log('overdue result', result)
-            this.tasks = result.tasks
-          }).then(fetch(`${endpointUrl}${fromTo}`, { headers: {'Accept': 'application/json'}})
-          .then(response => response.json())
-          .then(result => {
-            console.log('reminders result', result)
-            this.tasks = this.tasks.concat(result.tasks)
-            this.projects = result.projects
-          })
-        )
-        // .catch(errorCallback)
-      },
-
-      isOverdue,
-      toggleDone(task) {
-        const { taskId, oid } = splitReminderOccurenceId(task.id)
-        const oidParam = oid !== null ? `&oid=${oid}` : ''
-        var target_state = (!(!!task.done_at)).toString()
-        fetch(`/api/business/reminders/${taskId}?done=${target_state}${oidParam}`, {
-          method: 'POST',
-          headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}
-        }).then(response => this.$emit('saved'))
-      },
-
-      createTask(i){
-        console.log('createTask: ', i)
-      },
-      deleteTask(id){
-        fetch(`${endpointUrl}${id}`, { method: 'DELETE', headers: {'Accept': 'application/json'} })
-          .then(response => response.json())
-          .then(response => {
-            console.log('result', response)
-            this.makeToast('Success', `Task successfully deleted!`)
-          })
-          .catch(error => this.makeToast('Error', `${error.message}`))
-      },
-      makeToast(title, str) {
-        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
-      },
+      // refetch() {
+      //   const fromTo = DateTime.local().minus({years: 10}).toSQLDate() + '/' + DateTime.local().plus({years: 10}).toSQLDate()
+      //
+      //   fetch(overdueEndpointUrl, { headers: {'Accept': 'application/json'} })
+      //     .then(response => response.json())
+      //     .then(result => {
+      //       console.log('overdue result', result)
+      //       this.tasks = result.tasks
+      //     }).then(fetch(`${endpointUrl}${fromTo}`, { headers: {'Accept': 'application/json'}})
+      //     .then(response => response.json())
+      //     .then(result => {
+      //       console.log('reminders result', result)
+      //       this.tasks = this.tasks.concat(result.tasks)
+      //       this.projects = result.projects
+      //     })
+      //   )
+      //   // .catch(errorCallback)
+      // },
+      //
+      // isOverdue,
+      // toggleDone(task) {
+      //   const { taskId, oid } = splitReminderOccurenceId(task.id)
+      //   const oidParam = oid !== null ? `&oid=${oid}` : ''
+      //   var target_state = (!(!!task.done_at)).toString()
+      //   fetch(`/api/business/reminders/${taskId}?done=${target_state}${oidParam}`, {
+      //     method: 'POST',
+      //     headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}
+      //   }).then(response => this.$emit('saved'))
+      // },
+      //
+      // createTask(i){
+      //   console.log('createTask: ', i)
+      // },
+      // deleteTask(id){
+      //   fetch(`${endpointUrl}${id}`, { method: 'DELETE', headers: {'Accept': 'application/json'} })
+      //     .then(response => response.json())
+      //     .then(response => {
+      //       console.log('result', response)
+      //       this.makeToast('Success', `Task successfully deleted!`)
+      //     })
+      //     .catch(error => this.makeToast('Error', `${error.message}`))
+      // },
+      // makeToast(title, str) {
+      //   this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
+      // },
     },
     computed: {
       ...mapGetters({
         tasks: 'reminders/tasks'
       }),
-      taskEvents() {
-        return this.tasks.map(toEvent)
-          .map(e => ({
-            ...e,
-            start: DateTime.fromSQL(e.start).toLocaleString(),
-            end: DateTime.fromSQL(e.end).toLocaleString(),
-            ...splitReminderOccurenceId(e.id)
-          }))
-      },
+      // taskEvents() {
+      //   return this.tasks.map(toEvent)
+      //     .map(e => ({
+      //       ...e,
+      //       start: DateTime.fromSQL(e.start).toLocaleString(),
+      //       end: DateTime.fromSQL(e.end).toLocaleString(),
+      //       ...splitReminderOccurenceId(e.id)
+      //     }))
+      // },
       loading() {
         return this.$store.getters.loading;
       },
@@ -143,12 +143,12 @@
         this.makeToast('Error', error.message)
       }
     },
-    watch: {
+    // watch: {
       // etag: {
       //   handler: function(newVal, outline) {
       //     this.refetch()
       //   }
       // }
-    }
+    // }
   }
 </script>
