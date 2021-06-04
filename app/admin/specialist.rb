@@ -54,7 +54,7 @@ ActiveAdmin.register Specialist do
     column :city
     column :state
     column :country
-    column :phone
+    column :contact_phone
     column :status do |specialist|
       label, css_class = specialist.suspended? ? %w[Suspended error] : %w[Active yes]
       status_tag label, class: css_class
@@ -87,7 +87,7 @@ ActiveAdmin.register Specialist do
       end
       row :deleted
       row :address, &:full_address
-      row :phone
+      row :contact_phone
       row :time_zone
       row :linkedin_link do |specialist|
         link_to specialist.linkedin_link, specialist.linkedin_link, target: '_blank' if specialist.linkedin_link.present?
@@ -121,7 +121,7 @@ ActiveAdmin.register Specialist do
     column :state
     column :city
     column :zipcode
-    column :phone
+    column :contact_phone
     column(:photo) { |specialist| specialist.photo.present? }
     column :linkedin_link
     column :experience
@@ -142,7 +142,7 @@ ActiveAdmin.register Specialist do
     column :updated_at
   end
 
-  permit_params :resume, :resume_data, :first_name, :last_name, :city, :zipcode, :state, :country, :phone, :linkedin_link,
+  permit_params :resume, :resume_data, :first_name, :last_name, :city, :zipcode, :state, :country, :contact_phone, :linkedin_link,
                 :visibility, :experience,
                 :former_regulator, :certifications, :dashboard_unlocked, :call_booked, :min_hourly_rate,
                 jurisdiction_ids: [], industry_ids: [], skill_ids: []
@@ -160,7 +160,7 @@ ActiveAdmin.register Specialist do
       f.input :zipcode
       f.input :state
       f.input :country
-      f.input :phone
+      f.input :contact_phone
       f.input :linkedin_link
       f.input :visibility, collection: Specialist.visibilities.invert
     end

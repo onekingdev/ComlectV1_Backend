@@ -4,5 +4,4 @@ class ExamRequest < ApplicationRecord
   belongs_to :exam
   has_one :business, through: :exam
   has_many :exam_request_files
-  has_many :reminders, as: :linkable
 end
