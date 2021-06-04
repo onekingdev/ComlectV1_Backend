@@ -173,7 +173,6 @@ export default {
 }
 .custom-control {
   margin-bottom: 10px;
-  cursor: pointer;
 }
 .custom-control-label {
   padding-left: 10px;
@@ -182,6 +181,10 @@ export default {
 .custom-control-label::before {
   width: 20px;
   height: 20px;
+}
+.custom-control-input {
+  width: 1.6rem;
+  height: 1.7rem;
 }
 .custom-control-input:checked ~ .custom-control-label::before {
   background-color: #303132;    border: 0;
@@ -195,18 +198,6 @@ export default {
   width: 20px;
   height: 20px;
 }
-
-.custom-control-label:hover,
-.custom-control-label:active,
-.custom-control-label:focus {
-  box-shadow: none;
-}
-
-.custom-control-input {
-  width: 1.6rem;
-  height: 1.7rem;
-}
-
 .custom-control-input:not(:disabled):active ~ .custom-control-label::before {
   color: #fff;
   background-color: #2E304F;
