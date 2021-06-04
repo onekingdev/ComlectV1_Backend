@@ -145,6 +145,10 @@
     methods: {
       sendRequest(newValue, oldValue) {
         console.log('changed: ', newValue)
+        this.sortOptions = {
+          ...this.sortOptions,
+          ...newValue
+        }
       },
       makeToast(title, str) {
         this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
@@ -213,6 +217,29 @@
           }
           return filteredSpecialists
         }
+
+        if(this.sortOptions.experienceLevel) {
+          const sortOption = this.sortOptions.experienceLevel
+          const defaultSpecialists = this.specialists
+          const filteredSpecialists = []
+
+          for (const level of sortOption) {
+            let numLevel = null
+            if (level === 'Junior') numLevel = 0
+            if (level === 'Intermediate') numLevel = 1
+            if (level === 'Expert') numLevel = 2
+
+            for (const specialist of defaultSpecialists) {
+              if(specialist.experience === numLevel) {
+                if(!filteredSpecialists.includes(specialist)) filteredSpecialists.push(specialist)
+              }
+            }
+          }
+
+          return filteredSpecialists
+        }
+
+
         return this.specialists
       },
       pricingTypeOptions: () => PRICING_TYPE_OPTIONS,
