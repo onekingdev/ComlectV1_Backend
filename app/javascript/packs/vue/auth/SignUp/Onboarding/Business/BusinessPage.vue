@@ -190,6 +190,9 @@
                       p.billing-plan__descr {{ plan.description }}
                       h5.billing-plan__coast {{ billingTypeSelected === 'annually' ?  plan.coastAnnuallyFormatted : plan.coastMonthlyFormatted }}
                       p.billing-plan__users(v-if="plan.id === 1") 0 free users
+                      p.billing-plan__users(v-if="plan.id !== 1 && billingTypeSelected === 'monthly'")
+                        span.billing-plan__discount {{ plan.coastMonthlyFormatted }}
+                        span.text-success &nbsp;{{ plan.coastAnnuallyFormatted }}
                       p.billing-plan__users(v-if="plan.id !== 1") {{ billingTypeSelected === 'annually' ?  plan.usersCount + ' free users plus $' + plan.additionalUserAnnually + '/year per person' : plan.usersCount + ' free users plus $' + plan.additionalUserMonthly + '/mo per person' }}
                       hr
                       ul.list-unstyled.billing-plan__list
@@ -251,7 +254,7 @@
     .map(zoneName => `${luxonValidTimeZoneName(zoneName)}`)
 
   import Loading from '@/common/Loading/Loading'
-  import TopNavbar from "@/auth/SignUp/TopNavbar";
+  import TopNavbar from "@/auth/components/TopNavbar";
   import Multiselect from 'vue-multiselect'
   import BillingDetails from './BillingDetails'
   import PurchaseSummary from './PurchaseSummary'
