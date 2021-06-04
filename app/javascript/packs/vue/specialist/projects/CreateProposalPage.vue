@@ -26,13 +26,14 @@
             h3.m-t-1 Attachments
             .card.m-b-1
               .card-body
-                p
-                  | Drop files here or
+                p Attach a cover letter, resume, or other documents here <br> or
+                label
                   a.btn.btn-light Upload Files
+                  input.d-none(type="file" accept="application/pdf" @change="pickFile")
             .text-right
               a.m-r-1.btn(@click="back") Cancel
               a.m-r-1.btn.btn-default Save Draft
-              Post(:action="`/api/specialist/projects/${projectId}/applications`" :model="form" @errors="errors = $event" @saved="saved")
+              PostMultipart(:action="`/api/specialist/projects/${projectId}/applications`" :model="form" @errors="errors = $event" @saved="saved")
                 button.btn.btn-dark Submit Proposal
           .col-md-6
             .card
@@ -66,6 +67,7 @@ const initialForm = (project) => ({
   message: null,
   key_deliverables: null,
   role_details: null,
+  document: null,
 })
 const calcPricingType = function(project) {
   if (project.pricing_type == "fixed") {
@@ -94,6 +96,9 @@ export default {
   methods: {
     saved() {
       redirectWithToast(this.$store.getters.url('URL_MY_PROJECT_SHOW', ''), 'Proposal sent')
+    },
+    pickFile(event) {
+      this.form.document = event.target.files[0]
     },
     calcPricingType
   },

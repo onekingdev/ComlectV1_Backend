@@ -1,37 +1,45 @@
 <template lang="pug">
-  b-modal.fade(:id="modalId" title="View Proposal" no-stacking)
-    .card
-      .card-header
-        SpecialistDetails(:specialist="application.specialist")
-      .card-body.w-100
-        ul.list-group.list-group-horizontal.mb-3.w-100
-          li.list-group-item(v-if="application.pricing_type === 'fixed'")
-            | Bid Price
-            br
-            | {{ application.fixed_budget | usdWhole }}
-          li.list-group-item(v-else)
-            | Hourly
-            br
-            | {{ application.hourly_rate | usdWhole }}
-          li.list-group-item
-            | Payment Schedule
-            br
-            | {{ paymentScheduleReadable(application) }}
-          li.list-group-item
-            | Jurisdiction
-            br
-            //- |
-        dl.row
-          dt.col-sm-3 Start Date
-          dd.col-sm-9 {{ application.starts_on | asDate }}
-          dt.col-sm-3 Due Date
-          dd.col-sm-9 {{ application.ends_on | asDate }}
-          dt.col-sm-3 Role Details
-          dd.col-sm-9 {{ application.role_details }}
-          dt.col-sm-3 Key Deliverables
-          dd.col-sm-9 {{ application.key_deliverables }}
-          dt.col-sm-3 Attachments
-          dd.col-sm-9
+  b-modal.fade(:id="modalId" title="View Proposal" size="xl" no-stacking)
+    .container: .row
+      .col
+        .card
+          .card-header
+            SpecialistDetails(:specialist="application.specialist")
+          .card-body
+            ul.list-group.list-group-horizontal.mb-3.w-100
+              li.list-group-item(v-if="application.pricing_type === 'fixed'")
+                | Bid Price
+                br
+                | {{ application.fixed_budget | usdWhole }}
+              li.list-group-item(v-else)
+                | Hourly
+                br
+                | {{ application.hourly_rate | usdWhole }}
+              li.list-group-item
+                | Payment Schedule
+                br
+                | {{ paymentScheduleReadable(application) }}
+              li.list-group-item
+                | Jurisdiction
+                br
+                //- |
+            dl.row
+              dt.col-sm-3 Start Date
+              dd.col-sm-9 {{ application.starts_on | asDate }}
+              dt.col-sm-3 Due Date
+              dd.col-sm-9 {{ application.ends_on | asDate }}
+              dt.col-sm-3 Role Details
+              dd.col-sm-9 {{ application.role_details }}
+              dt.col-sm-3 Key Deliverables
+              dd.col-sm-9 {{ application.key_deliverables }}
+              dt.col-sm-3 Attachments
+              dd.col-sm-9
+      .col.ml-auto
+        .card
+          .card-header: h3 Messages
+          .card-body: p
+          .card-body
+            b-form-textarea(placeholder="Make a comment or leave a note...")
     template(#modal-footer="{ ok, cancel, hide }")
       button.btn.btn-light(@click="hide") Close
       Post(v-if="!hasSpecialist(application.project)" :action="denyUrl(application.id)" :model="{}" @saved="denied(application.project.local_project_id)")
