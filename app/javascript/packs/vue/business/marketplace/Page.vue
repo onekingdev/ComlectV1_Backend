@@ -25,6 +25,10 @@
                   Loading
             SpecialistPanel(v-for="specialist in filteredSpecialists" :specialist="specialist" :key="specialist.id" @directMessage="isSidebarOpen = true")
             .card-body.m-2.text-danger(v-if="!specialists && !specialists.length"  title="No specialists")
+            .card-header(v-if="!filteredSpecialists.length && !loading")
+              .row.py-2.px-4
+                .col.text-center
+                  h3 No specialists found
 
       b-sidebar#ProjectSidebar(@hidden="closeSidebar" v-model="isSidebarOpen" backdrop-variant='dark' backdrop right width="60%")
         .card
@@ -170,7 +174,7 @@
         return `/projects/${project.id}/applications/new`
       },
       filterByInput (values) {
-        console.log('value', values)
+        // console.log('value', values)
         this.sortOptions.tags = values
       }
     },
@@ -184,17 +188,45 @@
       filteredSpecialists() {
         if(this.sortOptions.tags.length) {
           const sortOption = this.sortOptions
+          const defaultSpecialists = this.specialists
           const filteredSpecialists = []
-          this.specialists.map(specialist => {
-            sortOption.tags.map(tag => {
-              // const location = new RegExp("\\b" + specialist.location.toLowerCase() + "\\b").test(tag.toLowerCase())
-              const name = specialist.first_name.toLowerCase() === tag.toLowerCase()
-              const surname = specialist.last_name.toLowerCase() === tag.toLowerCase()
-              if (name || surname) {
-                filteredSpecialists.push(specialist)
+
+          for (const tag of sortOption.tags) {
+            defaultSpecialists.map(specialist => {
+              // const name = specialist.first_name.toLowerCase() === tag.toLowerCase()
+              // const surname = specialist.last_name.toLowerCase() === tag.toLowerCase()
+
+              for (const [key, value] of Object.entries(specialist)) {
+
+                // console.log(`${key}: ${value}`)
+                if (typeof value === 'string') {
+                  var myString = specialist[key].toLowerCase()
+                  var myWord = tag.toLowerCase()
+                  var a = new RegExp('\\b' + myWord + '\\b');
+
+                  if (a.test(myString)) {
+                    if(!filteredSpecialists.includes(specialist)) filteredSpecialists.push(specialist)
+                  }
+                }
               }
             })
-          })
+          }
+          // this.specialists.map(specialist => {
+          //   sortOption.tags.map(tag => {
+          //     // const location = new RegExp("\\b" + specialist.location.toLowerCase() + "\\b").test(tag.toLowerCase())
+          //     const name = specialist.first_name.toLowerCase() === tag.toLowerCase()
+          //     const surname = specialist.last_name.toLowerCase() === tag.toLowerCase()
+          //     if (name || surname) {
+          //       filteredSpecialists.push(specialist)
+          //     }
+          //
+          //     var myString = 'a long text with the desired word amongst others';
+          //
+          //     var myWord = 'word';
+          //     var a = new RegExp('\\b' + myWord + '\\b');
+          //     console.log(a.test(myString))
+          //   })
+          // })
           return filteredSpecialists
         }
         return this.specialists

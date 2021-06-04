@@ -28,6 +28,7 @@ export default {
     },
     removeTag (id) {
       this.values.splice(id, 1)
+      this.$emit('searchComplited', this.values)
     }
   }
 }
