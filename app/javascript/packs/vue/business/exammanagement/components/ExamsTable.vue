@@ -6,8 +6,8 @@
         button.btn.btn-dark New Exam
     .card-body
       Loading
-      table.table.task_table(v-if="!loading")
-        thead(v-if="exams")
+      table.table(v-if="!loading")
+        thead(v-if="exams && exams.length")
           tr
             th(width="40%")
               .d-inline
@@ -41,9 +41,11 @@
                   b-dropdown-item Edit
                 ExamsModalDelete(@deleteConfirmed="deleteRecord(exam.id)" :inline="false")
                   b-dropdown-item.delete Delete
-          tr(v-if="exams && !exams.length")
+      table.table(v-if="exams && !exams.length")
+        tbody
+          tr
             td(colspan="4").text-center
-              h3 Exams Management not exist
+              h3 Exams management not exist
 
 </template>
 

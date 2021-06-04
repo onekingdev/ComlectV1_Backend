@@ -30,11 +30,11 @@
                 ion-icon(name='chevron-down-outline')
               b-collapse#collapse_hourly_rate(visible)
                 <!--b-form-checkbox(v-for="(option, i) in pricingTypeOptions" v-model="filter.pricing_type[i]" :key="'hr'+i") {{option.label}}-->
-                vue-range-slider.mb-5(
-                ref='slider' v-model='value'
-                :min="min" :max="max" :formatter="formatter" :tooltip-merge="tooltipMerge" :enable-cross="enableCross"
-                :bgStyle="bgStyle" :tooltipStyle="tooltipStyle" :processStyle="processStyle" :slider-style="sliderStyle"
-                :tooltip-dir='tooltipDir')
+                // vue-range-slider.mb-5(
+                // ref='slider' v-model='value'
+                // :min="min" :max="max" :formatter="formatter" :tooltip-merge="tooltipMerge" :enable-cross="enableCross"
+                // :bgStyle="bgStyle" :tooltipStyle="tooltipStyle" :processStyle="processStyle" :slider-style="sliderStyle"
+                // :tooltip-dir='tooltipDir')
               hr
               h3.d-flex.justify-content-between(role="button" v-b-toggle.collapse_jurisdiction)
                 | Jurisdiction
@@ -123,8 +123,8 @@
   import SpecialistFigures from './SpecialistFigures'
   import SpecialistDetails from './SpecialistDetails'
 
-  import 'vue-range-component/dist/vue-range-slider.css'
-  import VueRangeSlider from 'vue-range-component'
+  // import 'vue-range-component/dist/vue-range-slider.css'
+  // import VueRangeSlider from 'vue-range-component'
 
 
   const frontendUrl = '/projects'
@@ -166,7 +166,7 @@
   export default {
     components: {
       Loading,
-      VueRangeSlider,
+      // VueRangeSlider,
       SpecialistFigures
     },
     data() {
