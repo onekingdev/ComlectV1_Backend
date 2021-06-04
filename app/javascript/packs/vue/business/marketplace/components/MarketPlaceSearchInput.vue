@@ -24,10 +24,13 @@ export default {
       if(!this.search) return
       this.values.push(this.search)
       this.search = ''
+      history.pushState({}, '', `/business/specialists?tag=${this.values.join('&tag=')}`)
       this.$emit('searchComplited', this.values)
     },
     removeTag (id) {
       this.values.splice(id, 1)
+      if(this.values.length) history.pushState({}, '', `/business/specialists?tag=${this.values.join('&tag=')}`)
+      if(!this.values.length) history.pushState({}, '', `/business/specialists`)
       this.$emit('searchComplited', this.values)
     }
   }

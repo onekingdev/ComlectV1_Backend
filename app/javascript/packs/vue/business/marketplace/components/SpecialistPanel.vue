@@ -44,6 +44,11 @@ export default {
       type: Object,
       required: true
     }
+  },
+  data() {
+    return {
+      experienceOptions: ['Junior', 'Intermediate', 'Expert'],
+    }
   }
 }
 </script>

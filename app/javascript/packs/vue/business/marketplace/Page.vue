@@ -211,22 +211,6 @@
               }
             })
           }
-          // this.specialists.map(specialist => {
-          //   sortOption.tags.map(tag => {
-          //     // const location = new RegExp("\\b" + specialist.location.toLowerCase() + "\\b").test(tag.toLowerCase())
-          //     const name = specialist.first_name.toLowerCase() === tag.toLowerCase()
-          //     const surname = specialist.last_name.toLowerCase() === tag.toLowerCase()
-          //     if (name || surname) {
-          //       filteredSpecialists.push(specialist)
-          //     }
-          //
-          //     var myString = 'a long text with the desired word amongst others';
-          //
-          //     var myWord = 'word';
-          //     var a = new RegExp('\\b' + myWord + '\\b');
-          //     console.log(a.test(myString))
-          //   })
-          // })
           return filteredSpecialists
         }
         return this.specialists
