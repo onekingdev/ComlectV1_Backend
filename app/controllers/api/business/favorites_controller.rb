@@ -5,14 +5,14 @@ class Api::Business::FavoritesController < ApiController
   skip_before_action :verify_authenticity_token
 
   def index
-    respond_with current_business.favorited_specialists.all.collect(&:id), each_serializer: Business::SpecialistSerializer
+    respond_with current_business.favorited_specialists, each_serializer: Business::SpecialistSerializer
   end
 
   def update
     specialist = Specialist.find_by id: favorite_params[:favorited_id]
     if specialist && favorite_params[:favorited_type] == 'Specialist'
-      Favorite.toggle!(current_business, favorite_params)
-      respond_with specialist_id: favorite_params[:favorited_id], status: :ok
+      result = Favorite.toggle!(current_business, favorite_params)
+      respond_with specialist_id: favorite_params[:favorited_id], favorited: result, status: :ok
     else
       respond_with status: :unprocessable_entity
     end
