@@ -49,3 +49,19 @@ ion-icon.close:active,
 ion-icon.close:hover {
   background-color: #E5E5EA;
 }
+
+/* ---------- search-form ---------- */
+.label {
+  color: #828487;
+}
+.search-form {
+  position: relative;
+}
+.search-form__icon {
+  position: absolute;
+  left: .8rem;
+  top: 2.7rem;
+}
+.search-form__input {
+  padding-left: 2.5rem;
+}
