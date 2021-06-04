@@ -240,6 +240,9 @@ class Business < ApplicationRecord
   validates :username, uniqueness: true, allow_blank: true
   # validates :client_account_cnt, presence: true
   # validates :total_assets, presence: true
+  validate if: -> { time_zone.present? } do
+    errors.add :time_zone unless ActiveSupport::TimeZone.all.collect(&:name).include?(time_zone)
+  end
 
   accepts_nested_attributes_for :user
   accepts_nested_attributes_for :tos_agreement

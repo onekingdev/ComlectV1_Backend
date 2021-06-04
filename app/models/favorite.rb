@@ -11,6 +11,11 @@ class Favorite < ApplicationRecord
   end
 
   def self.toggle!(owner, params)
-    owner.favorites.find_by(params)&.destroy || owner.favorites.create!(params)
+    if owner.favorites.find_by(params)&.destroy
+      return false
+    else
+      owner.favorites.create!(params)
+      return true
+    end
   end
 end

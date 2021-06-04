@@ -31,7 +31,6 @@
                     h4.text-uppercase.m-t-1.m-b-1 Don’t have an account yet?&nbsp;
                       a.link(data-remote='true' href='/users/sign_up') sign up here
             #step2.form(v-if='!loading' :class="step2 ? 'd-block' : 'd-none'")
-              // OtpConfirm(@otpSecretConfirmed="otpConfirmed", :form="form")
               h1.text-center Confirm your email!
               p.text-center We send a 6 digit code to email.com. Please enter it below.
               div
@@ -53,12 +52,8 @@
                     .row
                       .col
                         input(v-model='form2.code' type='hidden')
-                  b-button.w-100.mb-2(type='submit' variant='dark' ref="codesubmit") Submit
-                  b-form-group
-                    .row
-                      .col-12.text-center
-                        a.link(href="#" @click.stop="resendOTP") Send new code
-            #step3.form(v-if='!loading' :class="step3 ? 'd-block' : 'd-none'")
+                  b-button.w-100(type='submit' variant='dark' ref="codesubmit") Submit
+            #step3.form(v-if='!loading'  :class="step3 ? 'd-block' : 'd-none'")
               h1.text-center You successfuly logged in!
               p.text-center.m-b-2 You will be redirect to the dashboard!
                 b-icon.ml-2(icon="circle-fill" animation="throb" font-scale="1")
@@ -70,17 +65,15 @@
 
 <script>
   import Loading from '@/common/Loading/Loading'
-  import TopNavbar from "../components/TopNavbar";
-  // import OtpConfirm from "../components/OtpConfirm";
+  import TopNavbar from "./TopNavbar";
 
-  // const random = Math.floor(Math.random() * 1000);
+  const random = Math.floor(Math.random() * 1000);
 
   export default {
     props: ['industryIds', 'jurisdictionIds', 'subIndustryIds', 'states'],
     components: {
       TopNavbar,
       Loading,
-      // OtpConfirm
     },
     data() {
       return {
@@ -126,44 +119,45 @@
         event.preventDefault()
         // clear errors
         this.errors = []
-        const data = {
+
+        let dataToSend;
+
+        dataToSend = {
           "user": {
             "email": this.form.email,
             "password": this.form.password
           },
         }
 
-        this.$store.dispatch('singIn', data)
+        this.$store.dispatch('singIn', dataToSend)
           .then((response) => {
+
             if (response.errors) {
+              const properties = Object.keys(response.errors);
               for (const type of Object.keys(response.errors)) {
                 this.errors = response.errors[type]
                 this.makeToast('Error', `Form has errors! Please recheck fields! ${error}`)
+                // Object.keys(response.errors[type]).map(prop => response.errors[prop].map(err => this.makeToast(`Error`, `${prop}: ${err}`)))
               }
-              this.showAlert()
+              return
             }
+
             if (!response.errors) {
+              this.userId = response.userid
               this.makeToast('Success', `${response.message}`)
+
               // open step 2
               this.step1 = false
               this.step2 = true
             }
           })
           .catch((error) => {
-            const { data } = error
-            if(data.errors) {
-              for (const type of Object.keys(data.errors)) {
-                this.makeToast('Error', `${data.errors[type]}`)
-                this.error = `Error! ${data.errors[type]}`
-              }
-              this.showAlert()
+            console.error(error)
+            for (const type of Object.keys(error.errors)) {
+              this.makeToast('Error', `${error.errors[type]}`)
+              this.error = `Error! ${error.errors[type]}`
             }
-            if (error.errors) {
-              this.toast('Error', `Couldn't submit form! ${error.message}`)
-            }
-            if (!error.errors) {
-              this.makeToast('Error', `${error.status} (${error.statusText})`)
-            }
+            this.showAlert()
           })
       },
       onSubmitStep2(event) {
@@ -216,13 +210,6 @@
       onCodeChange(e){
         this.errors = []
 
-        // CATCH COPY PASTE CASE
-        if (e.target.value.length === 6) {
-          for(let i=1; i <= 6; i++) {
-            this.form2['codePart'+i] = e.target.value.charAt(i-1)
-          }
-        }
-
         if (e.keyCode === 8 || e.keyCode === 46) {
           // BACKSPACE === 8 DELETE === 46
           e.preventDefault();
@@ -231,7 +218,7 @@
           return
         }
 
-        if (e.target.value.length < 6 && (e.keyCode >= 48) && (e.keyCode <= 57) || (e.keyCode >= 96) && (e.keyCode <= 105)) {
+        if (e.target.value.length < 6) {
           e.preventDefault();
           e.target.value = e.key
           if(e.target.nextElementSibling) {
@@ -244,24 +231,19 @@
           }
         }
 
+        // CATCH COPY PASTE CASE
+        if (e.target.value.length === 6) {
+          for(let i=1; i <= 6; i++) {
+            this.form2['codePart'+i] = e.target.value.charAt(i-1)
+          }
+        }
+
         this.form2.code = this.form2.codePart1 + this.form2.codePart2 + this.form2.codePart3 + this.form2.codePart4 + this.form2.codePart5 + this.form2.codePart6
 
         if (e.keyCode === 13) {
           // ENTER KEY CODE
           this.onSubmitStep2(e)
         }
-      },
-
-      resendOTP() {
-        let dataToSend = {
-          "user": {
-            "email": this.form.email,
-          },
-        }
-
-        this.$store.dispatch('resendOTP', dataToSend)
-          .then((response) => this.makeToast('Success', `${response.message}`))
-          .catch((error) => this.makeToast('Error', `${error.message}`))
       },
       countDownChanged(dismissCountDown) {
         this.dismissCountDown = dismissCountDown

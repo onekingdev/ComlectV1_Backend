@@ -12,7 +12,7 @@
   text-align: center;
 }
 .marketplace__head_bg {
-  background: linear-gradient(169deg, #1b1c29 57%, #2d304f 57%);
+  background: linear-gradient(155deg, #1b1c29 50%, #1b1c29 55%, #2d304f 60%);
 }
 .marketplace__title {
 
@@ -28,40 +28,4 @@
 
 .linkedin {
   color: #0277b9;
-}
-
-.form-control {
-  padding: .5rem;
-}
-
-.form-control:hover,
-.form-control:active,
-.form-control:focus {
-  border-color: #0479FF;
-  box-shadow: none;
-}
-
-ion-icon.close {
-  font-size: .8rem;
-  cursor: pointer;
-}
-ion-icon.close:active,
-ion-icon.close:hover {
-  background-color: #E5E5EA;
-}
-
-/* ---------- search-form ---------- */
-.label {
-  color: #828487;
-}
-.search-form {
-  position: relative;
-}
-.search-form__icon {
-  position: absolute;
-  left: .8rem;
-  top: 2.7rem;
-}
-.search-form__input {
-  padding-left: 2.5rem;
 }
