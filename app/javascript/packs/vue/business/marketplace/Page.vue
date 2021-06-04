@@ -182,15 +182,20 @@
         return this.$store.getters.loading;
       },
       filteredSpecialists() {
-        console.log('this.specialists', this.specialists)
         if(this.sortOptions.tags.length) {
           const sortOption = this.sortOptions
-          const res = this.specialists.map(val => {
-            console.log('val', val)
-            // sortOption.tags.filter(tag => val.first_name.toLowerCase() === tag.toLowerCase())
+          const filteredSpecialists = []
+          this.specialists.map(specialist => {
+            sortOption.tags.map(tag => {
+              // const location = new RegExp("\\b" + specialist.location.toLowerCase() + "\\b").test(tag.toLowerCase())
+              const name = specialist.first_name.toLowerCase() === tag.toLowerCase()
+              const surname = specialist.last_name.toLowerCase() === tag.toLowerCase()
+              if (name || surname) {
+                filteredSpecialists.push(specialist)
+              }
+            })
           })
-          console.log(res)
-          // return this.specialists.map(val => sortOption.tags.filter(tag => val.first_name.toLowerCase() === tag.toLowerCase()))
+          return filteredSpecialists
         }
         return this.specialists
       },

@@ -31,7 +31,7 @@ axios.interceptors.response.use(undefined, (error) => {
   const { response } = error
   const { data, status, statusText, message } = response
   if (data) {
-    console.log('data interceprots', data)
+    // console.log('data interceprots', data)
     // createToast.toast('Error', data, true)
   }
 
@@ -41,7 +41,7 @@ axios.interceptors.response.use(undefined, (error) => {
   //   variant: 'danger',
   // });
 
-  throw data
+  throw response
 })
 
 export default axios

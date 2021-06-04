@@ -39,9 +39,15 @@
   color: #7f8184;
 }
 
-ion-icon {
+.form ion-icon {
   font-size: 15rem!important;
   filter: drop-shadow(5px 5px 5px lightgray);
+}
+
+@media (max-width: 575px) {
+  ion-icon {
+    font-size: 7em!important;
+  }
 }
 
 .code-input {
@@ -50,6 +56,17 @@ ion-icon {
   height: 6rem;
   font-size: 1.8rem;
   text-align: center;
+}
+@media (min-width: 576px) and (max-width: 767px) {
+
+}
+@media (max-width: 575px) {
+  .code-input {
+    margin-right: .3rem;
+    width: 2.5rem;
+    height: 3rem;
+    font-size: 1rem;
+  }
 }
 
 input::-webkit-outer-spin-button,
@@ -135,7 +152,14 @@ input[type=number] {
   color: #86888b;
 }
 
-.billing-plan {}
+.billing-plan {
+  min-height: 40rem;
+}
+@media (max-width: 767px) {
+  .billing-plan {
+    min-height: auto;
+  }
+}
 .billing-plan_low {
   box-shadow: 0 -5px 0 #1ab27f;
 }
@@ -165,6 +189,9 @@ input[type=number] {
 .billing-plan__users {
   margin-bottom: 1rem;
   color: #797b7e;
+}
+.billing-plan__discount {
+  text-decoration: line-through;
 }
 .billing-plan__list {
   margin-top: 1rem;
@@ -221,6 +248,7 @@ input[type=number] {
 a.link,
 .link {
   color: var(--blue);
+  cursor: pointer;
 }
 
 /* ---------- Onboarding Specialist Uploading ---------- */
@@ -283,7 +311,18 @@ a.link,
     max-width: 100%;
   }
   .logo__img {
-    width: 80%;
+    width: 100%;
+    max-width: 150px;
+  }
+}
+
+.navbar-nav {
+  height: 65px;
+}
+
+@media (max-width: 575px) {
+  .navbar-nav {
+    height: auto;
   }
 }
 
