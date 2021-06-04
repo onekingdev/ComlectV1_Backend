@@ -173,6 +173,7 @@ export default {
 }
 .custom-control {
   margin-bottom: 10px;
+  cursor: pointer;
 }
 .custom-control-label {
   padding-left: 10px;
@@ -193,6 +194,23 @@ export default {
   background-position: center center;
   width: 20px;
   height: 20px;
+}
+
+.custom-control-label:hover,
+.custom-control-label:active,
+.custom-control-label:focus {
+  box-shadow: none;
+}
+
+.custom-control-input {
+  width: 1.6rem;
+  height: 1.7rem;
+}
+
+.custom-control-input:not(:disabled):active ~ .custom-control-label::before {
+  color: #fff;
+  background-color: #2E304F;
+  border-color: #2E304F;
 }
 </style>
 
