@@ -7,6 +7,7 @@ const mapAuthProviders = {
     updateSpecialist: jwt.updateSpecialist,
     deleteSpecialist: jwt.deleteSpecialist,
     getSpecialistById: jwt.getSpecialistById,
+    getSpecialistsByFilter: jwt.getSpecialistsByFilter,
   },
 }
 
@@ -307,6 +308,61 @@ export default {
       try {
         const getSpecialistsById = mapAuthProviders[rootState.shared.settings.authProvider].getSpecialistsById
         getSpecialistsById(payload)
+          .then((success) => {
+            commit("clearError", null, { root: true });
+            commit("setLoading", false, { root: true });
+            if (success) {
+              const data = success.data
+              commit('SET_CURRENT_SPECIALIST', new Specialist(
+                specialistItem.business_specialists_roles,
+                specialistItem.certifications,
+                specialistItem.experience,
+                specialistItem.first_name,
+                specialistItem.former_regulator,
+                specialistItem.id,
+                specialistItem.industries,
+                specialistItem.jurisdictions,
+                specialistItem.last_name,
+                specialistItem.location,
+                specialistItem.min_hourly_rate,
+                specialistItem.photo,
+                specialistItem.ratings_average,
+                specialistItem.ratings_count,
+                specialistItem.ratings_total,
+                specialistItem.resume_url,
+                specialistItem.seat_role,
+                specialistItem.skills,
+                specialistItem.time_zone,
+                specialistItem.username,
+                specialistItem.visibility,
+              ))
+              return success
+            }
+            if (!success) {
+              console.error('Not success', success)
+            }
+          })
+          .catch(error => error)
+      } catch (error) {
+        commit("setError", error.message, {
+          root: true
+        });
+        commit("setLoading", false, {
+          root: true
+        });
+        throw error;
+      }
+    },
+    async getSpecialistsByFilter({state, commit, rootState}, payload) {
+      commit("clearError", null, {
+        root: true
+      });
+      commit("setLoading", true, {
+        root: true
+      });
+      try {
+        const getSpecialistsByFilter = mapAuthProviders[rootState.shared.settings.authProvider].getSpecialistsByFilter
+        getSpecialistsByFilter(payload)
           .then((success) => {
             commit("clearError", null, { root: true });
             commit("setLoading", false, { root: true });

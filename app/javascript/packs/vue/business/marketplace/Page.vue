@@ -157,6 +157,14 @@
           ...this.sortOptions,
           ...newValue
         }
+
+        // const data = {
+        //   min_hourly_rate: newValue.hourlyRate
+        // }
+        //
+        // this.$store.dispatch('marketplace/getSpecialistsByFilter', data)
+        //   .then((response) => console.log('response: ', response) )
+        //   .catch((error) => console.error(error) );
       },
       makeToast(title, str) {
         this.$bvToast.toast(str, { title, autoHideDelay: 5000 })

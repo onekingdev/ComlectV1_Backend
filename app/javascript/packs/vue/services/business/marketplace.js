@@ -59,4 +59,15 @@ export async function getSpecialistsById(payload) {
     .catch(err => err)
 }
 
+export async function getSpecialistsByFilter(payload) {
+  return await axios.get(`${END_POINT}`, '', { params: payload})
+    .then(response => {
+      if (response) {
+        return response
+      }
+      return false
+    })
+    .catch(err => err)
+}
+
 
