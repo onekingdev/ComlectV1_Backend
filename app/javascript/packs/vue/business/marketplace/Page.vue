@@ -9,44 +9,7 @@
     .container
       .row
         .col-lg-3
-          .card#sidebarMenu_alt
-            .card-header(style='border-bottom: 0px;')
-              b Filters
-            .card-body
-              h3.d-flex.justify-content-between(role="button" v-b-toggle.collapse_industry)
-                | Industry
-                ion-icon(name='chevron-down-outline')
-              b-collapse#collapse_industry(visible)
-                b-form-input(v-model="filter.industry")
-              hr
-              h3.d-flex.justify-content-between(role="button" v-b-toggle.collapse_experience)
-                | Experience Level
-                ion-icon(name='chevron-down-outline')
-              b-collapse#collapse_experience(visible)
-                b-form-checkbox(v-for="(option, i) in experienceOptions" v-model="filter.experience[i]" :key="'e'+i") {{option.label}}
-              hr
-              h3.d-flex.justify-content-between(role="button" v-b-toggle.collapse_hourly_rate)
-                | Hourly rate
-                ion-icon(name='chevron-down-outline')
-              b-collapse#collapse_hourly_rate(visible)
-                <!--b-form-checkbox(v-for="(option, i) in pricingTypeOptions" v-model="filter.pricing_type[i]" :key="'hr'+i") {{option.label}}-->
-                // vue-range-slider.mb-5(
-                // ref='slider' v-model='value'
-                // :min="min" :max="max" :formatter="formatter" :tooltip-merge="tooltipMerge" :enable-cross="enableCross"
-                // :bgStyle="bgStyle" :tooltipStyle="tooltipStyle" :processStyle="processStyle" :slider-style="sliderStyle"
-                // :tooltip-dir='tooltipDir')
-              hr
-              h3.d-flex.justify-content-between(role="button" v-b-toggle.collapse_jurisdiction)
-                | Jurisdiction
-                ion-icon(name='chevron-down-outline')
-              b-collapse#collapse_jurisdiction(visible)
-                b-form-input(v-model="filter.jurisdiction")
-              hr
-              h3.d-flex.justify-content-between(role="button" v-b-toggle.collapse_fromer_regulator)
-                | Fromer Regulator
-                ion-icon(name='chevron-down-outline')
-              b-collapse#collapse_fromer_regulator(visible)
-                b-form-checkbox(v-for="(option, i) in fromer_regulatorOptions" v-model="filter.fromer_regulator[i]" :key="'fr'+i") {{option.label}}
+           MarketPlaceFilter(:optionsForRequest="optionsForRequest" :filter="filter")
 
         .col-lg-9
           .card
@@ -54,54 +17,18 @@
               .col-md-12
                 h3 Browse Specialist
             .card-header
-              .col-md-12
-                .row.py-2
-                  .col-sm-12
-                    b-form-group(label="Search" label-for="search-input")
-                      b-form-input#search-input(v-model="search" placeholder="Enter keywords, skills, etc.")
-                .row.py-2
-                  .col
-                    b-badge(variant="light")
-                      | Mock audit
-                      ion-icon.ml-2(name='close-outline')
+              MarketPlaceSearchInput(@searchComplited="filterByInput")
 
             .card-header(v-if="loading")
               .row.py-2.px-4
                 .col
                   Loading
-            .card-header(v-if="!loading && specialistsList" v-for="specialist in specialistsList" :key="specialist.id")
+            SpecialistPanel(v-for="specialist in filteredSpecialists" :specialist="specialist" :key="specialist.id" @directMessage="isSidebarOpen = true")
+            .card-body.m-2.text-danger(v-if="!specialists && !specialists.length"  title="No specialists")
+            .card-header(v-if="!filteredSpecialists.length && !loading")
               .row.py-2.px-4
-                .col-lg-2.col-3
-                  b-img(v-bind="mainProps" rounded="circle" alt="image_desc" :src="specialist.photo ? specialist.photo : `https://loremflickr.com/100/100/cat?lock=${specialist.id}`")
-                .col-lg-10.col-9
-                  .row
-                    .col-md-9.col
-                      h3.m-b-1
-                        a.link(:href="specialist.resume_url" @click="openDetails(project.id)" target="_blank") {{ specialist.first_name }} {{ specialist.last_name }}
-                      h6.pb-1.card-subtitle.text-muted.mb-2  {{ specialist.location }} |
-                        .d-inline(v-if="specialist.industries" v-for="ind in specialist.industries") &nbsp;{{ ind.name }}&nbsp;
-                      .d-flex.py-2
-                        b-icon(icon='star-fill' variant="warning" font-scale="1.5")
-                        b-icon(icon='star-fill' variant="warning" font-scale="1.5")
-                        b-icon(icon='star-fill' variant="warning" font-scale="1.5")
-                        b-icon(icon='star-fill' variant="warning" font-scale="1.5")
-                        b-icon(icon='star' variant="warning" font-scale="1.5")
-                      .d-flex.py-2
-                        .badge.badge-default.m-r-1 Auditing
-                        .badge.badge-default.m-r-1 Compilance Reporting
-                        .badge.badge-default.m-r-1 Mock Interviews
-                    .col-md-3.col.justify-content-end
-                      .d-flex.align-items-center.justify-content-lg-end
-                        b-icon.linkedin.mr-3(icon='linkedin' font-scale="1.5")
-                        b-button(variant="default") Message
-                .offset-lg-2.col-lg-10.col
-                  b-card-text.m-t-1(v-if="specialist.description") {{specialist.description}}
-                  b-card-text.m-t-1(v-else)
-                  | Hi, my name Chris Jakson Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  | laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                  .d-flex.justify-content-between
-                    SpecialistFigures(:specialist="specialist")
-            .card-body.m-2.text-danger(v-if="!specialistsList.length"  title="No specialists")
+                .col.text-center
+                  h3 No specialists found
 
       b-sidebar#ProjectSidebar(@hidden="closeSidebar" v-model="isSidebarOpen" backdrop-variant='dark' backdrop right width="60%")
         .card
@@ -109,23 +36,23 @@
             .d-flex.justify-content-between
               b-button(variant="default" @click="isSidebarOpen = false") < Close
               div
-                a.btn.btn-default(href="#") Save
+                a.btn.btn-default(href="#") Send
                 a.btn.btn-default.m-l-1(href="#") Share
             .d-flex.justify-content-between.m-t-1
-              h4 Project Details
+              h4 Messages Details
               div
                 a.btn.btn-dark(v-if="project" :href="applyUrl(project)") Apply
           SpecialistDetails(v-if="project" :project="project")
 </template>
 
 <script>
+  import { mapGetters } from "vuex"
   import Loading from '@/common/Loading/Loading'
-  import SpecialistFigures from './SpecialistFigures'
-  import SpecialistDetails from './SpecialistDetails'
-
-  // import 'vue-range-component/dist/vue-range-slider.css'
-  // import VueRangeSlider from 'vue-range-component'
-
+  import MarketPlaceFilter from './components/MarketPlaceFilter'
+  import MarketPlaceSearchInput from './components/MarketPlaceSearchInput'
+  import SpecialistPanel from './components/SpecialistPanel'
+  import SpecialistDetails from './components/SpecialistDetails'
+  import _debounce from 'lodash/debounce'
 
   const frontendUrl = '/projects'
   const endpointUrl = '/api/specialist/projects'
@@ -137,7 +64,6 @@
   })
 
   const PRICING_TYPE_OPTIONS = [{ label: 'Fixed Price', value: 'fixed' }, { label: 'Hourly', value: 'hourly' }]
-  const EXPERIENCE_OPTIONS = [{ label: 'Junior', value: [0, 0] },{ label: 'Intermediate', value: [1, 1] },{ label: 'Expert', value: [2, 2] }]
   const BUDGET_OPTIONS = [{ label: 'Less than $100', value: [0, 100] },
     { label: '$100 - $250', value: [100, 250] },
     { label: '$250 - $500', value: [250, 500] },
@@ -155,19 +81,21 @@
 
   const initialFilter = () => ({
     pricing_type: PRICING_TYPE_OPTIONS.map(() => false),
-    experience: EXPERIENCE_OPTIONS.map(() => false),
     budget: BUDGET_OPTIONS.map(() => false),
     duration: DURATION_OPTIONS.map(() => false),
     fromer_regulator: FORMER_REGULATOR_OPTIONS.map(() => false),
-    industry: '',
-    jurisdiction: ''
+    industries: '',
+    jurisdictions: ''
   })
 
   export default {
+    props: ['industryIds', 'jurisdictionIds', 'subIndustryIds', 'states'],
     components: {
       Loading,
       // VueRangeSlider,
-      SpecialistFigures
+      SpecialistPanel,
+      MarketPlaceFilter,
+      MarketPlaceSearchInput
     },
     data() {
       return {
@@ -179,37 +107,51 @@
         isSidebarOpen: false,
         search: null,
         value: [0, 100],
-        mainProps: { blank: false, blankColor: '#777', width: 100, height: 100, class: 'm1' }
+        optionsForRequest: {
+          industries: [],
+          experienceLevel: [],
+          hourlyRate: [3, 100],
+          jurisdictions: [],
+          formerRegulator: []
+        },
+        sortOptions: {
+          tags: [],
+          industries: [],
+          experienceLevel: [],
+          hourlyRate: [0, 500],
+          jurisdictions: [],
+          formerRegulator: []
+        }
       };
     },
     created() {
+      this.debouncedSend = _debounce(this.sendRequest, 2000)
       if (this.initialOpenId) {
         this.openDetails(this.initialOpenId)
       }
 
-      this.min = 0
-      this.max = 250
-      this.bgStyle = {
-        backgroundColor: '#fff',
-        boxShadow: 'inset 0.5px 0.5px 3px 1px rgba(0,0,0,.36)'
+      if(this.industryIds) this.filter.industryOptions = this.industryIds
+      if(this.jurisdictionIds) this.filter.jurisdictionOptions = this.jurisdictionIds
+    },
+    unmounted() {
+      this.debouncedSend.cancel()
+    },
+    watch: {
+      optionsForRequest: {
+        handler: function (newValue, oldValue) {
+          this.debouncedSend(newValue, oldValue)
+        },
+        deep: true
       }
-      this.tooltipStyle = {
-        // color: '#303132',
-        backgroundColor: '#303132',
-        borderColor: '#303132'
-      }
-      this.processStyle = {
-        backgroundColor: '#303132'
-      },
-      this.sliderStyle = {
-        backgroundColor: '#303132',
-      },
-      this.enableCross = false,
-      this.tooltipMerge = false,
-      this.formatter = value => `$${value}`,
-      this.tooltipDir = 'bottom'
     },
     methods: {
+      sendRequest(newValue, oldValue) {
+        console.log('changed: ', newValue)
+        this.sortOptions = {
+          ...this.sortOptions,
+          ...newValue
+        }
+      },
       makeToast(title, str) {
         this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
       },
@@ -231,16 +173,106 @@
       closeSidebar() {
         this.openId = null
         this.project = null
-        history.pushState({}, '', frontendUrl)
+        history.pushState({}, '', '/business/specialists')
         this.isSidebarOpen = false
       },
       applyUrl(project) {
         return `/projects/${project.id}/applications/new`
+      },
+      filterByInput (values) {
+        // console.log('value', values)
+        this.sortOptions.tags = values
       }
     },
     computed: {
+      ...mapGetters({
+        specialists: 'marketplace/specialists'
+      }),
       loading() {
         return this.$store.getters.loading;
+      },
+      filteredSpecialists() {
+        const defaultSpecialists = this.specialists
+        let filteredSpecialists = []
+
+        if(this.sortOptions.industries.length) {
+          const sortOption = this.sortOptions.industries
+
+          for (const industry of sortOption) {
+            for (const specialist of defaultSpecialists) {
+              for (const ind of specialist.industries) {
+                if(ind.name.toLowerCase() === industry.name.toLowerCase()) {
+                  if(!filteredSpecialists.includes(specialist)) filteredSpecialists.push(specialist)
+                }
+              }
+            }
+          }
+
+          return filteredSpecialists
+        }
+
+        if(this.sortOptions.tags.length) {
+          const sortOption = this.sortOptions
+
+          for (const tag of sortOption.tags) {
+            defaultSpecialists.map(specialist => {
+              // const name = specialist.first_name.toLowerCase() === tag.toLowerCase()
+              // const surname = specialist.last_name.toLowerCase() === tag.toLowerCase()
+
+              for (const [key, value] of Object.entries(specialist)) {
+
+                // console.log(`${key}: ${value}`)
+                if (typeof value === 'string') {
+                  var myString = specialist[key].toLowerCase()
+                  var myWord = tag.toLowerCase()
+                  var a = new RegExp('\\b' + myWord + '\\b');
+
+                  if (a.test(myString)) {
+                    if(!filteredSpecialists.includes(specialist)) filteredSpecialists.push(specialist)
+                  }
+                }
+              }
+            })
+          }
+          return filteredSpecialists
+        }
+
+        if(this.sortOptions.experienceLevel.length) {
+          const sortOption = this.sortOptions.experienceLevel
+
+          for (const level of sortOption) {
+            let numLevel = null
+            if (level === 'Junior') numLevel = 0
+            if (level === 'Intermediate') numLevel = 1
+            if (level === 'Expert') numLevel = 2
+
+            for (const specialist of defaultSpecialists) {
+              if(specialist.experience === numLevel) {
+                if(!filteredSpecialists.includes(specialist)) filteredSpecialists.push(specialist)
+              }
+            }
+          }
+
+          return filteredSpecialists
+        }
+
+        if(this.sortOptions.jurisdictions.length) {
+          const sortOption = this.sortOptions.jurisdictions
+
+          for (const industry of sortOption) {
+            for (const specialist of defaultSpecialists) {
+              for (const ind of specialist.jurisdictions) {
+                if(ind.name.toLowerCase() === industry.name.toLowerCase()) {
+                  if(!filteredSpecialists.includes(specialist)) filteredSpecialists.push(specialist)
+                }
+              }
+            }
+          }
+
+          return filteredSpecialists
+        }
+
+        return defaultSpecialists
       },
       pricingTypeOptions: () => PRICING_TYPE_OPTIONS,
       experienceOptions: () => EXPERIENCE_OPTIONS,
@@ -261,20 +293,15 @@
 
         return query.length ? ('?' + query.join('&')) : ''
       },
-      specialistsList() {
-        return this.$store.getters.specialistsList;
-      }
     },
-    mounted() {
-      this.$store
-        .dispatch("getSpecialists")
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((err) => {
-          console.error(err);
-          this.makeToast('Error', err.message)
-        });
+    async mounted () {
+      try {
+        await this.$store.dispatch('marketplace/getSpecialists')
+          .then((response) => console.log('response: ', response) )
+          .catch((error) => console.error(error) );
+      } catch (error) {
+        console.error(error)
+      }
     },
   };
 </script>
