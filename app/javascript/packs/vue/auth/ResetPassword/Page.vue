@@ -40,7 +40,7 @@
 
 <script>
   import Loading from '@/common/Loading/Loading'
-  import TopNavbar from "../SingIn/TopNavbar";
+  import TopNavbar from "../components/TopNavbar";
   import ResetPasswordModal from './Modals/ResetPasswordModal'
 
   const random = Math.floor(Math.random() * 1000);
