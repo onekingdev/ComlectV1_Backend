@@ -24,7 +24,7 @@
                 .col
                   Loading
             SpecialistPanel(v-for="specialist in filteredSpecialists" :specialist="specialist" :key="specialist.id" @directMessage="isSidebarOpen = true")
-            .card-body(v-if="!loading")
+            .card-body(v-if="filteredSpecialists.length && !loading")
               .row
                 .col
                   b-pagination(v-model='currentPage' :total-rows='rows' :per-page='perPage' aria-controls='my-table' align="center" pills size="sm")
