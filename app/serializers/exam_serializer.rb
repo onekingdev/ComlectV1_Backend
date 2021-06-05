@@ -2,7 +2,6 @@
 
 class ExamSerializer < ApplicationSerializer
   has_many :exam_requests, serializer: ExamRequestSerializer
-  has_many :exam_auditors, serializer: ExamAuditorSerializer
   attributes :id,
              :name,
              :starts_on,

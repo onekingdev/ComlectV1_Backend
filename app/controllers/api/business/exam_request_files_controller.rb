@@ -5,9 +5,7 @@ class Api::Business::ExamRequestFilesController < ApiController
   before_action :find_exam_request, only: %i[create destroy]
 
   def create
-    examrequestfile = @exam_request.exam_request_files.create(
-      document_params.merge(name: document_params[:file].original_filename)
-    )
+    examrequestfile = @exam_request.exam_request_files.create(document_params)
     respond_with examrequestfile, serializer: ExamRequestFileSerializer
   end
 

@@ -271,7 +271,7 @@
     .map(zoneName => `${luxonValidTimeZoneName(zoneName)}`)
 
   import Loading from '@/common/Loading/Loading'
-  import TopNavbar from "@/auth/components/TopNavbar";
+  import TopNavbar from "@/auth/SignUp/TopNavbar";
   import Multiselect from 'vue-multiselect'
   import BillingDetails from './BillingDetails'
   import PurchaseSummary from './PurchaseSummary'
@@ -281,7 +281,7 @@
   import data from './BillingPlansData.json'
 
   export default {
-    props: ['industryIds', 'jurisdictionIds', 'subIndustryIds', 'states', 'userInfo'],
+    props: ['industryIds', 'jurisdictionIds', 'subIndustryIds', 'states', 'userInfo', 'timezones'],
     components: {
       Loading,
       TopNavbar,
