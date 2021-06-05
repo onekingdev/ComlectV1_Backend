@@ -24,6 +24,10 @@
                 .col
                   Loading
             SpecialistPanel(v-for="specialist in filteredSpecialists" :specialist="specialist" :key="specialist.id" @directMessage="isSidebarOpen = true")
+            .card-body(v-if="!loading")
+              .row
+                .col
+                  b-pagination(v-model='currentPage' :total-rows='rows' :per-page='perPage' aria-controls='my-table' align="center" pills size="sm")
             .card-body.m-2.text-danger(v-if="!specialists && !specialists.length"  title="No specialists")
             .card-header(v-if="!filteredSpecialists.length && !loading")
               .row.py-2.px-4
@@ -121,7 +125,9 @@
           hourlyRate: [0, 500],
           jurisdictions: [],
           formerRegulator: []
-        }
+        },
+        perPage: 3,
+        currentPage: 1,
       };
     },
     created() {
@@ -293,6 +299,9 @@
 
         return query.length ? ('?' + query.join('&')) : ''
       },
+      rows() {
+        return this.specialists.length
+      }
     },
     async mounted () {
       try {
