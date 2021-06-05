@@ -5,7 +5,8 @@ class Api::Specialist::FavoritesController < ApiController
   skip_before_action :verify_authenticity_token
 
   def index
-    respond_with current_specialist.favorited_projects, each_serializer: ProjectSerializer
+    respond_with current_specialist.favorited_projects.where(specialist_id: nil),
+                 each_serializer: ProjectSerializer
   end
 
   def update
