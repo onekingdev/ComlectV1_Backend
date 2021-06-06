@@ -87,16 +87,10 @@
   import { mapGetters } from "vuex"
   import Loading from '@/common/Loading/Loading'
   export default {
-    // props: ['uuid', 'examUuid '],
+    props: ['examUuid'],
     components: {Loading},
-    created() {
-      console.log('test')
-      console.log(this.uuid)
-      console.log(this.examUuid)
-    },
     data() {
       return {
-        uuid: 'c93922a6-7f7c-4a2f-a1df-1c6066be96be',
         userId: '',
         otpSecret: '',
         userType: '',
@@ -143,7 +137,7 @@
         }
 
         const data = {
-          "uuid": this.uuid,
+          "uuid": this.examUuid,
           "email": this.form.email,
         }
 

@@ -9,39 +9,27 @@
       table.table(v-if="!loading")
         thead(v-if="exams && exams.length")
           tr
-            th(width="40%")
+            th(@click="sortSelect('name', 'string')" width="40%")
               .d-inline
                 | Name
                 b-icon.ml-2(icon='chevron-expand')
             th
-              .d-inline-flex
+              .d-inline
                 | Status
                 b-icon.ml-2(icon='chevron-expand')
-            th.text-right
+            th(@click="sortSelect('created_at', 'date')").text-right
               .d-inline
                 | Date created
                 b-icon.ml-2(icon='chevron-expand')
-            th.text-right
+            th(@click="sortSelect('updated_at', 'date')").text-right
               .d-inline
                 | Last Modified
                 b-icon.ml-2(icon='chevron-expand')
+            th(width="30px")
         tbody
-          tr(v-for="exam in exams" :key="exam.id")
-            td
-              a.link(:href="`/business/exam_management/${exam.id}`") {{ exam.name }}
-            td
-              b-badge(:variant="exam.complete ? 'success' : 'light'") {{ exam.complete ? 'Completed' : 'Incomplete' }}
-            td.text-right {{ dateToHuman(exam.created_at) }}
-            td.text-right {{ dateToHuman(exam.updated_at) }}
-            td.text-right
-              b-dropdown.actions(size="sm" variant="light" class="m-0 p-0" right)
-                template(#button-content)
-                  b-icon(icon="three-dots")
-                ExamsModalEdit(:exam="exam" :inline="false")
-                  b-dropdown-item Edit
-                ExamsModalDelete(@deleteConfirmed="deleteRecord(exam.id)" :inline="false")
-                  b-dropdown-item.delete Delete
-      table.table(v-if="exams && !exams.length")
+          ExamItem(v-for="item in sortedView" :key="item.id" :item="item")
+
+      table(v-if="!loading && exams && !exams.length")
         tbody
           tr
             td(colspan="4").text-center
@@ -50,12 +38,9 @@
 </template>
 
 <script>
-  import { mapActions, mapGetters } from "vuex"
-  import { DateTime } from 'luxon'
   import Loading from '@/common/Loading/Loading'
   import ExamModalCreate from '../modals/ExamModalCreate'
-  import ExamsModalEdit from '../modals/ExamModalEdit'
-  import ExamsModalDelete from '../modals/ExamModalDelete'
+  import ExamItem from "./ExamItem"
 
   export default {
     props: {
@@ -67,29 +52,74 @@
     components: {
       Loading,
       ExamModalCreate,
-      ExamsModalEdit,
-      ExamsModalDelete,
+      ExamItem,
+    },
+    data () {
+      return {
+        sortOptions: {
+          field: 'status',
+          type: 'number',
+          reverse: false
+        }
+      }
     },
     methods: {
-      ...mapActions({
-        updateExam: 'exams/updateExam',
-        deleteExam: 'exams/deleteExam',
-      }),
-      dateToHuman(value) {
-        const date = DateTime.fromJSDate(new Date(value))
-        if (!date.invalid) return date.toFormat('MM/dd/yyyy')
-        if (date.invalid) return value
-      },
-      deleteRecord(id){
-        this.deleteExam({ id: id})
-          .then(response => this.toast('Success', `The exam has been deleted!`))
-          .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
-      },
+      sortSelect (field, type) {
+        const sortOption = this.sortOptions
+        if (field === sortOption.field) {
+          this.sortOptions.reverse = !sortOption.reverse
+          return
+        }
+        this.sortOptions = {
+          field: field,
+          type: type,
+          reverse: false
+        }
+      }
     },
     computed: {
       loading() {
         return this.$store.getters.loading;
       },
+      sortedView () {
+        const sortOption = this.sortOptions
+        return this.exams.sort((itemA, itemB)=> {
+          if (sortOption.type === 'number') {
+            if (sortOption.reverse) {
+              return  itemB[sortOption.field] - itemA[sortOption.field]
+            }
+            return itemA[sortOption.field] - itemB[sortOption.field]
+          }
+          if (sortOption.type === 'date') {
+            const dateA = new Date(itemA[sortOption.field])
+            const dateB = new Date(itemB[sortOption.field])
+            if (sortOption.reverse) {
+              return dateB - dateA
+            }
+            return dateA - dateB
+          }
+          if (sortOption.type === 'string') {
+            const stringA = itemA[sortOption.field].toLowerCase()
+            const stringB = itemB[sortOption.field].toLowerCase()
+            if (sortOption.reverse) {
+              if (stringA > stringB) {
+                return -1
+              }
+              if (stringA < stringB) {
+                return 1
+              }
+              return 0
+            }
+            if (stringA < stringB) {
+              return -1
+            }
+            if (stringA > stringB) {
+              return 1
+            }
+            return 0
+          }
+        })
+      }
     }
   }
 </script>
@@ -98,5 +128,8 @@
   .link {
     max-width: 400px;
     word-break: break-all;
+  }
+  .d-inline {
+    cursor: pointer;
   }
 </style>

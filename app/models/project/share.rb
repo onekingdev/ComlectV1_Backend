@@ -4,11 +4,9 @@ class Project::Share
   include ActiveModel::Model
   include ActionView::Helpers::TextHelper
 
-  attr_accessor :name, :email, :message, :message_html, :project, :user
+  attr_accessor :email, :message_html, :project, :user
 
   validates :email, presence: true
-  validates :name, presence: true, if: -> { user.specialist }
-  validates :message, presence: true, if: -> { user.business }
 
   def self.for(project, attributes = {})
     new(attributes).tap do |share|
@@ -18,7 +16,6 @@ class Project::Share
   end
 
   def set_specialist_message
-    self.message = specialist_message_text
     self.message_html = specialist_message_html
   end
 
@@ -28,24 +25,14 @@ class Project::Share
   end
 
   def send!
-    ProjectMailer.deliver_later :share, project, name, email, message, message_html
+    ProjectMailer.share(project, email, message_html).deliver
   end
 
   private
 
-  def specialist_message_text
-    I18n.t(
-      'project_shares.message_template.from_specialist',
-      recipient_name: name,
-      sender_name: user.specialist.full_name,
-      project_job: "#{project.title} #{project.full_time? ? 'job' : 'project'}"
-    ).strip
-  end
-
   def specialist_message_html
     simple_format I18n.t(
       'project_shares.message_template.from_specialist',
-      recipient_name: name,
       sender_name: user.specialist.full_name,
       project_job: "%{project_job_link} #{project.full_time? ? 'job' : 'project'}"
     ).strip

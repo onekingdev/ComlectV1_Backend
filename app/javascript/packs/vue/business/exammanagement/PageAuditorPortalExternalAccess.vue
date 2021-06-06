@@ -8,7 +8,7 @@
         .bg-black
     .row
       .col
-        .container
+        .container.portal
           .row
             .col.m-b-2
               .card-body.white-card-body.reviews__card
