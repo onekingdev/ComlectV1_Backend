@@ -14,13 +14,13 @@
                 a.btn.link Share Link
               ExamModalComplite.mr-3(v-if="exam" @compliteConfirmed="markCompleteExam", :completedStatus="currentExam.complete", :countCompleted="countCompleted" :inline="false")
                 button.btn.btn-default Mark {{ exam.complete ? 'Incomplete' : 'Complete' }}
-              button.btn.btn-dark.mr-3(@click="saveAndExit") Save and Exit
+              button.btn.btn-dark.mr-3(v-if="exam && !exam.complete" @click="saveAndExit") Save and Exit
               button.btn.btn__close(@click="exit")
                 b-icon(icon="x")
     .reviews__tabs.exams__tabs
       b-tabs(content-class="mt-0")
         template(#tabs-end)
-          b-dropdown.tab-actions.actions(v-if="exam" variant="default", right)
+          b-dropdown.tab-actions.actions(v-if="exam && !exam.complete" variant="default", right)
             template(#button-content)
               | Actions
               b-icon.ml-2(icon="chevron-down" font-scale="1")
@@ -43,23 +43,23 @@
                       b-button-group(size="md")
                         b-button(type='button' :variant="filterOption === 'all' ? 'dark' : 'outline-dark'" @click="filterRequest('all')") All
                         b-button(type='button' :variant="filterOption === 'shared' ? 'dark' : 'outline-dark'" @click="filterRequest('shared')") Shared
-                      ExamRequestModalCreate(:examId="examId")
+                      ExamRequestModalCreate(v-if="!exam.complete" :examId="examId")
                         b-button(variant='default') Add request
                     template(v-if="currentExam.exam_requests" v-for="(currentRequst, i) in currentExamRequestsFiltered")
                       .reviews__card--internal.exams__card--internal(:key="`${currentExam.name}-${i}`" :class="{ 'completed': currentRequst.complete }")
                         .row.m-b-1
                           .col-md-1
                             .reviews__checkbox.d-flex.justify-content-between
-                              .reviews__checkbox-item.reviews__checkbox-item--true(@click="markCompleteReqeust(currentRequst.id, true)" :class="{ 'checked': currentRequst.complete }")
+                              .reviews__checkbox-item.reviews__checkbox-item--true(@click="markCompleteReqeust(currentRequst.id, true)" :class="{ 'checked': currentRequst.complete, 'disabled': exam.complete }")
                                 b-icon(icon="check2")
-                              .reviews__checkbox-item.reviews__checkbox-item--false(@click="markCompleteReqeust(currentRequst.id, false)" :class="{ 'checked': !currentRequst.complete }")
+                              .reviews__checkbox-item.reviews__checkbox-item--false(@click="markCompleteReqeust(currentRequst.id, false)" :class="{ 'checked': !currentRequst.complete, 'disabled': exam.complete }")
                                 b-icon(icon="x")
                           .col-md-11
                             .d-flex.justify-content-between.align-items-center
                               .d-flex.align-items-center
                                 b-badge.mr-2(v-if="currentRequst.shared" variant="success") {{ currentRequst.shared ? 'Shared' : '' }}
                                 .exams__input.exams__topic-name {{ currentRequst.name }}
-                              .d-flex.actions.min-w-225
+                              .d-flex.actions.min-w-225(v-if="!exam.complete")
                                 b-dropdown(size="xs" variant="default" class="m-0 p-0" right)
                                   template(#button-content)
                                     | Add Item
@@ -94,8 +94,9 @@
                             .row(v-if="currentRequst.text_items")
                               template(v-for="(textItem, textIndex) in currentRequst.text_items")
                                 .col-12.exams__text(:key="`${currentRequst.name}-${i}-${textItem}-${textIndex}`")
-                                    textarea.exams__text-body(v-model="currentRequst.text_items[textIndex].text")
-                                    button.btn.btn__close.float-right(@click="removeTextEntry(i, textIndex)")
+                                    textarea.exams__text-body(v-if="!exam.complete" v-model="currentRequst.text_items[textIndex].text")
+                                    p(v-if="exam.complete") {{ currentRequst.text_items[textIndex].text }}
+                                    button.btn.btn__close.float-right(v-if="!exam.complete" @click="removeTextEntry(i, textIndex)")
                                       b-icon(icon="x" font-scale="1")
                             .row
                               template(v-for="(file, fileIndex) in currentRequst.exam_request_files")
@@ -106,19 +107,19 @@
                                     div.ml-0.mr-auto
                                       p.file-card__name: b {{ file.name }}
                                       a.file-card__link.link(:href="file.file_url" target="_blank") Download
-                                    div.ml-auto.align-self-start.actions
+                                    div.ml-auto.align-self-start.actions(v-if="!exam.complete")
                                       b-dropdown(size="sm" variant="none" class="m-0 p-0" right)
                                         template(#button-content)
                                           b-icon(icon="three-dots")
                                         b-dropdown-item.delete(@click="removeFile(currentRequst.id, file.id)") Delete file
 
-                  ExamRequestModalCreate(v-if="currentExam.exam_requests && currentExam.exam_requests.length" :examId="examId")
+                  ExamRequestModalCreate(v-if="currentExam.exam_requests && currentExam.exam_requests.length && !exam.complete" :examId="examId")
                     b-button.m-b-2(variant='default')
                       b-icon.mr-2(icon='plus-circle-fill')
                       | Add Request
                   .white-card-body.p-y-1
                     .d-flex.justify-content-end
-                      button.btn.btn-default.mr-2(@click="saveExam") Save
+                      button.btn.btn-default.mr-2(v-if="!exam.complete" @click="saveExam") Save
                       ExamModalComplite(@compliteConfirmed="markCompleteExam", :completedStatus="currentExam.complete", :countCompleted="countCompleted" :inline="false")
                         button.btn(:class="currentExam.complete ? 'btn-default' : 'btn-dark'") Mark {{ currentExam.complete ? 'Incomplete' : 'Complete' }}
         b-tab(title="Tasks" lazy)

@@ -10,7 +10,7 @@
       b-dropdown.actions(size="sm" variant="light" class="m-0 p-0" right)
         template(#button-content)
           b-icon(icon="three-dots")
-        ExamsModalEdit(:exam="item" :inline="false")
+        ExamsModalEdit(v-if="!item.complete" :exam="item" :inline="false")
           b-dropdown-item Edit
         ExamsModalDelete(@deleteConfirmed="deleteRecord(item.id)" :inline="false")
           b-dropdown-item.delete Delete
