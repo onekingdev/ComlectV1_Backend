@@ -50,9 +50,9 @@
                         .row.m-b-1
                           .col-md-1
                             .reviews__checkbox.d-flex.justify-content-between
-                              .reviews__checkbox-item.reviews__checkbox-item--true(@click="markCompleteReqeust(currentRequst.id, true)" :class="{ 'checked': currentRequst.complete, 'disabled': exam.complete }")
+                              .reviews__checkbox-item.reviews__checkbox-item--true(@click="markCompleteReqeust(currentRequst.id, true, exam.complete)" :class="{ 'checked': currentRequst.complete, 'disabled': exam.complete }")
                                 b-icon(icon="check2")
-                              .reviews__checkbox-item.reviews__checkbox-item--false(@click="markCompleteReqeust(currentRequst.id, false)" :class="{ 'checked': !currentRequst.complete, 'disabled': exam.complete }")
+                              .reviews__checkbox-item.reviews__checkbox-item--false(@click="markCompleteReqeust(currentRequst.id, false, exam.complete)" :class="{ 'checked': !currentRequst.complete, 'disabled': exam.complete }")
                                 b-icon(icon="x")
                           .col-md-11
                             .d-flex.justify-content-between.align-items-center
@@ -264,7 +264,8 @@ export default {
         this.makeToast('Error', error.message)
       }
     },
-    async markCompleteReqeust (id, status) {
+    async markCompleteReqeust (id, status, examStatus) {
+      if (examStatus) return
       const data = {
         id: this.currentExam.id,
         request: {
