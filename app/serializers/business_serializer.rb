@@ -5,6 +5,7 @@ class BusinessSerializer < ApplicationSerializer
              :contact_first_name,
              :contact_last_name,
              :business_name,
+             :country,
              :city,
              :state,
              :jurisdictions,

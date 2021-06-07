@@ -2223,7 +2223,7 @@ CREATE TABLE public.specialists (
     state character varying,
     city character varying,
     zipcode character varying,
-    phone character varying,
+    contact_phone character varying,
     linkedin_link character varying,
     former_regulator boolean DEFAULT false NOT NULL,
     photo_data jsonb,
@@ -8012,6 +8012,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210528030325'),
 ('20210528030543'),
 ('20210528182423'),
+('20210531233721'),
 ('20210601234719');
 
 

@@ -4,7 +4,13 @@
       slot
 
     b-modal.fade(:id="modalId" title="Share Exam" hide-footer)
-      .row
+      .row(v-if="!show")
+        .col.text-center
+          h4 Exam not complited yet. Are you sure?
+          .d-flex.justify-content-center
+            button.btn.mr-2(@click="$bvModal.hide(modalId)") No
+            button.btn.btn-dark(@click="approveHandle") Yes
+      .row(v-if="show")
         .col-10.m-b-2.pr-0
           label.form-label Email
           input.form-control(v-model="exam.email" type="email" placeholder="Enter the email" ref="input" @keyup="onChange")
@@ -60,11 +66,20 @@
       examAuditors: {
         type: Array,
         required: false,
-      }
+      },
+      examStatus: {
+        type: Boolean,
+        default: false
+      },
     },
     components: {
       Errors,
       UserAvatar,
+    },
+    created() {
+      if(this.examStatus) {
+        this.show = true
+      }
     },
     data() {
       return {
@@ -77,7 +92,8 @@
         specialist: {
           first_name: 'A',
           last_name: 'N'
-        }
+        },
+        show: false
       }
     },
     methods: {
@@ -182,9 +198,9 @@
         // shareLinkToCopy.setAttribute('type', 'hidden')
         window.getSelection().removeAllRanges()
       },
-    },
-    computed: {
-
+      approveHandle () {
+        this.show = true
+      }
     },
   }
 </script>

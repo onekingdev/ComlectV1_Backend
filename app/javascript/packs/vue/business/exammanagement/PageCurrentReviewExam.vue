@@ -10,7 +10,7 @@
                 b {{ exam ? exam.name : '' }}
               h2: b {{ exam ? exam.name : '' }}
             .d-flex.align-items-center
-              ExamModalShare.mr-3(v-if="exam" :examId="currentExam.id" :examAuditors="currentExam.exam_auditors")
+              ExamModalShare.mr-3(v-if="exam" :examId="currentExam.id" :examAuditors="currentExam.exam_auditors" :examStatus="exam.complete")
                 a.btn.link Share Link
               ExamModalComplite.mr-3(v-if="exam" @compliteConfirmed="markCompleteExam", :completedStatus="currentExam.complete", :countCompleted="countCompleted" :inline="false")
                 button.btn.btn-default Mark {{ exam.complete ? 'Incomplete' : 'Complete' }}
