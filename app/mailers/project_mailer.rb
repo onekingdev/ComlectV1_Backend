@@ -13,11 +13,10 @@ class ProjectMailer < ApplicationMailer
          }
   end
 
-  def share(project, name, email, message_text, message_html)
+  def share(project, email, message_html)
     @project_url = project_url(project)
-    @message_text = add_project_link(project, message_text, @project_url, :text)
     @message_html = add_project_link(project, message_html, @project_url, :html)
-    mail to: "#{name} <#{email}>",
+    mail to: "<#{email}>",
          template_id: ENV.fetch('POSTMARK_TEMPLATE_ID'),
          template_model: {
            subject: (project.full_time? ? 'Full-time role' : 'Project') + ' you might be interested in',
