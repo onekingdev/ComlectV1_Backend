@@ -89,9 +89,13 @@
   export default {
     props: ['examUuid'],
     components: {Loading},
+    created() {
+      const uuid = window.location.pathname.split('/')[2]
+      if(uuid) this.reserveUuid = uuid
+    },
     data() {
       return {
-        userId: '',
+        // userId: '',
         otpSecret: '',
         userType: '',
         form: {
@@ -116,7 +120,8 @@
         dismissSecs: 8,
         dismissCountDown: 0,
         showDismissibleAlert: false,
-        dashboardLink: ''
+        dashboardLink: '',
+        reserveUuid: ''
       }
     },
     methods: {
@@ -137,7 +142,7 @@
         }
 
         const data = {
-          "uuid": this.examUuid,
+          "uuid": this.examUuid ? this.examUuid : this.reserveUuid,
           "email": this.form.email,
         }
 
@@ -145,11 +150,11 @@
           .then((response) => {
             if (response.error) {
               this.error = response.error
-              this.makeToast('Error', `${response.error} ${response.message}`)
+              this.makeToast('Error', `${response.error} ${response.message ? response.message : response.status }`)
             }
             if (!response.error) {
-              this.userId = response.userid
-              this.makeToast('Success', `${response.message}`)
+              // this.userId = response.userid
+              this.makeToast('Success', `${response.message ? response.message : response.status}`)
 
               // open step 2
               this.step1 = false
@@ -174,11 +179,6 @@
           this.makeToast('Error', `Code length incorrect!`)
           return
         }
-
-        // open step 3
-        this.step2 = false
-        this.step3 = true
-        return
 
         const data = {
           email: this.form.email,
