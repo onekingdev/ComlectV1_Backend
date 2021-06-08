@@ -11,16 +11,20 @@
                   div
                     a.btn.btn-default Download
                     a.btn.m-l-1.btn-dark Create Documents
-              DocumentsTable(:currentExam="currentExam")
+              .row
+                .col
+                  table.table.task_table
+                    tbody
+                      tr
+                        td.text-center
+                          h3 No documents
 
 </template>
 
 <script>
-  import DocumentsTable from "./components/DocumentsTable";
   export default {
-    props: ['currentExam'],
     components: {
-      DocumentsTable
+
     },
     data() {
       return {
