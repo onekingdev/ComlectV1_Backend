@@ -19,21 +19,14 @@
                     p.greeting-text__subtitle Click on the reqeust item below to view their contents and download any document
           .row
             .col
-              Loading
-              ExamReqeustsAuditorPortalExternal(v-if="!loading")
+              ExamReqeustsAuditorPortalExternal
 </template>
 
 <script>
-  import Loading from '@/common/Loading/Loading'
   import ExamReqeustsAuditorPortalExternal from "./components/ExamReqeustsAuditorPortalExternal";
   export default {
     props: ['examId'],
-    components: {Loading, ExamReqeustsAuditorPortalExternal},
-    computed: {
-      loading() {
-        return this.$store.getters.loading;
-      },
-    },
+    components: {ExamReqeustsAuditorPortalExternal},
   }
 </script>
 

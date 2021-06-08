@@ -153,7 +153,7 @@ export async function confirmEmail(payload) {
 }
 
 export async function confirmOTP(payload) {
-  return await axios.PATCH(`/exams/${payload.uuid}`, {
+  return await axios.patch(`/exams/${payload.uuid}`, {
     email: payload.email,
     otp: payload.otp,
   })
