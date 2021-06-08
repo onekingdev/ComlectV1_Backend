@@ -56,10 +56,10 @@
                     b-badge.mr-2(v-if="currentRequst.shared" variant="success") {{ currentRequst.shared ? 'Shared' : '' }}
                     .exams__input.exams__topic-name {{ currentRequst.name }}
             .row.m-b-1
-              .col-md-11
+              .col
                 p {{ currentRequst.details }}
             .row.m-b-1
-              .col-md-11
+              .col
                 .row
                   .col
                     .d-flex.justify-content-between.align-items-center
