@@ -4,7 +4,6 @@ class Api::Settings::NotificationsController < ApiController
   before_action :require_someone!
 
   def index
-    #puts @current_someone.settings(item).value
     settings = [:email_notifications, :in_app_notifications, :email_updates].each_with_object({}) { |item, returning|
       returning[item] = @current_someone.settings(item).value
     }
