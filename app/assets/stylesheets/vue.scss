@@ -120,36 +120,6 @@ html {
   padding-bottom: 20px;
 }
 
-.dropdown-profile {
-  display: flex;
-
-  padding: 0 1rem;
-  height: 100%;
-
-  position: relative;
-  border-left: 1px solid #e3e5e9;
-  border-right: 1px solid #e3e5e9;
-
-  @media (max-width: 575px) {
-    padding: 0.25rem 0.75rem;
-  }
-
-  &__btn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    @media (max-width: 575px) {
-      font-size: 1rem;
-    }
-  }
-
-  .dropdown-menu {
-    position: absolute!important;
-  }
-}
-
-
 .card-header { 
   background: none !important;
   padding: 13px 16px;
@@ -161,8 +131,6 @@ html {
 }
 
 .btn.btn-default { border: 1px solid #dadadc; background-color: #fff; }
-.btn.btn-default:hover,
-.btn.btn-default:active { background-color: #F3F6F9; }
 
 table.table, table.table thead tr th {
   border: 0px;
@@ -383,15 +351,11 @@ table.table, table.table thead tr th {
         }
       }
 
-      &.disabled {
-        opacity: 1;
-      }
-      &:hover, &:active {
-        &:not(.disabled) {
-          color: #2e304f;
-          background-color: #dee2e6;
-          border-color: #dee2e6;
-        }
+      &:hover,
+      &:active {
+        color: #2e304f;
+        background-color: #dee2e6;
+        border-color: #dee2e6;
       }
 
       &:not(:last-child) {
@@ -435,10 +399,6 @@ table.table, table.table thead tr th {
       }
     }
   }
-}
-
-.portal {
-  min-height: 100vh;
 }
 
 @import '../../../node_modules/bootstrap/scss/bootstrap.scss';

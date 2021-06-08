@@ -127,7 +127,7 @@ body class="#{controller_name} #{action_name}"
                     ion-icon.m-l-1(name='chevron-down-outline')
                   ul.dropdown-menu(aria-labelledby="profile_dropdown_btn" :class="{ show: isProfileMenuOpen }")
                     li
-                      a.dropdown-item(href="#") Edit Profile
+                      a.dropdown-item(aria-current='page' href='/business/compliance_policies' class="#{'active' if params[:controller] == 'business/compliance_policies'}") Edit Profile
                     li
                       form(method="POST" action=destroy_user_session_path)
                         input(type="hidden" name="authenticity_token" value=form_authenticity_token)

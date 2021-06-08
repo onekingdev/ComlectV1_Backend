@@ -42,18 +42,7 @@ class User < ApplicationRecord
   include OTP::ActiveRecord
 
   def email_otp
-    OTP::Mailer.otp(email, otp, self).deliver
-  end
-
-  def verify_otp(otp)
-    return nil if !valid? || !persisted? || otp_secret.blank?
-
-    otp_digits = self.class.const_get(:OTP_DIGITS)
-    hotp = ROTP::HOTP.new(otp_secret, digits: otp_digits)
-    transaction do
-      otp_status = hotp.verify(otp.to_s, otp_counter)
-      otp_status
-    end
+    OTP::Mailer.otp(email, otp, self).deliver_later
   end
 
   def business_or_specialist

@@ -47,7 +47,6 @@ class Api::Specialist::JobApplicationsController < ApiController
   def job_application_params
     params.permit(
       :message,
-      :document,
       :key_deliverables,
       :pricing_type,
       :starts_on,
