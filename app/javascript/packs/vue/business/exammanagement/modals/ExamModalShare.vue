@@ -128,7 +128,6 @@
         try {
           await this.$store.dispatch('exams/sendInvite', data)
             .then(response => {
-              console.log(response)
               if(response.errors) {
                 for (const [key, value] of Object.entries(response.errors)) {
                   this.toast('Error', `${key}: ${value}`)
@@ -160,7 +159,6 @@
         try {
           await this.$store.dispatch('exams/sendUninvite', data)
             .then(response => {
-              console.log(response)
               if(response.errors) {
                 for (const [key, value] of Object.entries(response.errors)) {
                   this.toast('Error', `${key}: ${value}`)

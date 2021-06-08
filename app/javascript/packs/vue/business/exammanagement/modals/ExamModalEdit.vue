@@ -88,7 +88,6 @@
       },
       getData() {
         this.exam_management = Object.assign({}, this.exam_management, this.exam)
-        console.log(this.exam_management)
       }
     },
     computed: {
