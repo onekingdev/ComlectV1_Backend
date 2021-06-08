@@ -281,6 +281,8 @@ Rails.application.routes.draw do
       get 'profile' => 'profile#index'
       patch 'profile' => 'profile#update'
       patch 'password' => 'password#update'
+      get 'notifications' => 'notifications#index'
+      patch 'notifications' => 'notifications#update'
     end
 
     get 'local_projects/:project_id/messages' => 'project_messages#index'
