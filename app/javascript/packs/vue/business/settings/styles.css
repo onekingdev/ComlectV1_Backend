@@ -3,3 +3,40 @@
 
 }
 
+.panel-default {
+
+}
+
+.settings-nav {
+  width: 100%;
+  list-style: none;
+}
+
+.settings-nav__item {
+  padding: .8rem 1.3rem;
+  transition: all 200ms ease-in;
+}
+.settings-nav__item:not(:last-child){
+  margin-bottom: 1rem;
+}
+.settings-nav__item:hover,
+.settings-nav__item:active,
+.settings-nav__item.active {
+  font-weight: 600;
+  color: #303132;
+  background-color: #dcdee4;
+  cursor: pointer;
+  border-radius: 5px 0 0 5px;
+}
+
+.settings-nav__link {
+  color: inherit;
+  font-weight: 600;
+}
+
+.settings-nav__link:hover,
+.settings-nav__link:active {
+  text-decoration: none;
+}
+
+
