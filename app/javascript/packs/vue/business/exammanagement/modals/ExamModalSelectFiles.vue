@@ -51,13 +51,13 @@
 
   const rnd = () => Math.random().toFixed(10).toString().replace('.', '')
 
-  async function createFile(path, name){
+  async function createFile(path){
     let response = await fetch(path);
     let data = await response.blob();
     let metadata = {
       type: 'image/jpeg'
     };
-    let file = new File([data], name, metadata);
+    let file = new File([data], "test.jpg", metadata);
 
     return file;
   }
@@ -96,9 +96,9 @@
         e.preventDefault();
         try {
           let formData = new FormData()
-          for (const fileFromCollection of this.filesCollection) {
+          this.filesCollection.map(fileFromCollection => {
 
-            createFile(`${window.location.origin}/${fileFromCollection.file_addr}`, fileFromCollection.name)
+            createFile(`${window.location.origin}/${fileFromCollection.file_addr}`)
               .then(file => {
                 formData.append('file', file);
                 const data = {
@@ -106,26 +106,23 @@
                   request: { id: this.request.id },
                   formData
                 }
+                this.$store.dispatch('exams/uploadExamRequestFile', data)
+                  .then(response => {
+                    this.toast('Success', `File successfull loaded!`)
+                    this.$emit('saved')
+                    this.$bvModal.hide(this.modalId)
 
-                const sendFIle = new Promise((resolve, reject) => {
-                  this.$store.dispatch('exams/uploadExamRequestFile', data)
-                    .then(response => resolve(response))
-                    .catch(error => reject(error))
-                });
-
-                sendFIle
-                  .then(response => this.toast('Success', `${response.name} successful uploaded!`))
-                  .catch(error => this.toast('Error', error.message))
+                    // CLEAR ARRAY
+                    const index = this.filesCollection.findIndex(record => record.id === response.id);
+                    this.filesCollection.splice(index, 1)
+                  })
+                  .catch(error => console.error(error))
               })
               .catch(error => console.error(error))
-          }
+          })
 
         } catch (error) {
           this.toast('Error', error.message)
-        } finally {
-          this.filesCollection = []
-          this.$emit('saved')
-          this.$bvModal.hide(this.modalId)
         }
       },
       async backToRoot (e) {
@@ -157,9 +154,7 @@
         }
       },
       collecingFiles (form) {
-        if (form.status) {
-          if(!this.filesCollection.includes(form.file)) this.filesCollection.push(form.file)
-        }
+        if (form.status) this.filesCollection.push(form.file)
         if (!form.status) {
           const index = this.filesCollection.findIndex(record => record.id === form.file.id);
           this.filesCollection.splice(index, 1)

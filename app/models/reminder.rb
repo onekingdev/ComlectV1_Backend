@@ -3,7 +3,6 @@
 class Reminder < ActiveRecord::Base
   belongs_to :remindable, polymorphic: true
   belongs_to :linkable, polymorphic: true, optional: true
-  has_many :messages, as: :thread
 
   TOTAL_MONTH = 1..12
   REPEATS = %w[Daily Weekly Monthly Yearly].freeze
