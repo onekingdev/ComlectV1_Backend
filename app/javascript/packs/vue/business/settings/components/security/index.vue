@@ -33,8 +33,8 @@
                       b-form-input#input-4(v-model='form.confirm_password' type='password' placeholder='Confirm Password' required :class="{'is-invalid': errors.confirm_password }")
                       .invalid-feedback.d-block(v-if="errors.confirm_password") {{ errors.confirm_password[0] }}
                     b-form-group.text-right
-                      b-button.link.mr-2(type='reset' variant='none') Cancel
-                      b-button(type='submit' variant='dark') Save
+                      b-button.btn.link.mr-2(type='reset' variant='none') Cancel
+                      b-button.btn(type='submit' variant='dark') Save
             hr
             .settings___card--internal.p-y-1
               .row

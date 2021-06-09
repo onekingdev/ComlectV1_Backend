@@ -29,20 +29,25 @@
   import General from "./components/general";
   import Users from "./components/users";
   import Security from "./components/security";
+  import Subscriptions from "./components/subscriptions";
 
   export default {
     components: {
       Loading,
       General,
       Users,
-      Security
+      Security,
+      Subscriptions,
     },
     created() {
       // this.component = General;
       // this.component = Users;
-      this.component = Security;
+      // this.component = Security;
+      this.component = Subscriptions;
 
-      console.log(window.location)
+      // console.log(window.location)
+      // const pathName = window.location.pathname.split('settings/')
+      // console.log(pathName)
     },
     data() {
       return {
@@ -52,8 +57,8 @@
     methods: {
       openSetting (name) {
         this.component = name;
-        const baseUrl = new URL(window.location.origin);
-        window.history.pushState({}, name, `${baseUrl}business/settings/${name.toLowerCase()}`);
+        // const baseUrl = new URL(window.location.origin);
+        // window.history.pushState({}, name, `${baseUrl}business/settings/${name.toLowerCase()}`);
       }
     },
     computed: {

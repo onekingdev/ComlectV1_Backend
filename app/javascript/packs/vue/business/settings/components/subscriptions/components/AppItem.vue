@@ -1,0 +1,37 @@
+<template lang="pug">
+  tr
+    td
+      a.link(:href="item.url") {{ item.name }}
+    td.text-right
+      b-badge(variant='primary') {{ item.status }}
+    td.text-right
+      b-dropdown.actions(size="sm" variant="light" class="m-0 p-0" right)
+        template(#button-content)
+          b-icon(icon="three-dots")
+        b-dropdown-item Edit
+        b-dropdown-item.delete Delete
+</template>
+
+<script>
+  export default {
+    name: "appItem",
+    props: ['item'],
+    components: {
+
+    },
+    computed: {
+
+    },
+    methods: {
+      deleteApp(userId){
+        this.$store.dispatch('users/deleteApp', { id: userId })
+          .then(response => this.toast('Success', `The app has been deleted! ${response.id}`))
+          .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
+      }
+    }
+  }
+</script>
+
+<style scoped>
+
+</style>
