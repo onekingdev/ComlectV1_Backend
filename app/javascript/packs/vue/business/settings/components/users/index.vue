@@ -6,9 +6,9 @@
     .row(v-if='!loading')
       .col
         .card.settings__card
-          .card-title.px-xl-5.py-xl-3.mb-0
+          .card-title.px-3.px-xl-5.py-xl-4.mb-0
             h3.mb-0 Users
-          .card-body.white-card-body.px-xl-5
+          .card-body.white-card-body.px-3.px-xl-5
             .row
               .col
                 b-tabs(content-class='mt-3')
@@ -20,7 +20,7 @@
                       .col-4
                         .position-relative
                           b-icon.icon-searh(icon='search')
-                          input.form-control(type="text" placeholder="Search" v-model="searchInput", @keyup="searching")
+                          input.form-control.form-control_search(type="text" placeholder="Search" v-model="searchInput", @keyup="searching")
                           button.btn-clear(v-if="isActive" @click="clearInput")
                             b-icon.icon-clear(icon='x-circle')
                       .col-4(v-if="filteredUsers.length !== 0 && searchInput")
@@ -62,6 +62,7 @@
     methods: {
       searching () {
         if(this.searchInput.length) this.isActive = true
+        if(!this.searchInput.length) this.isActive = false
         this.$emit('searching', this.searchInput)
       },
       clearInput() {

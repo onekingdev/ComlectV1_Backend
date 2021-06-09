@@ -28,16 +28,21 @@
   import Loading from '@/common/Loading/Loading'
   import General from "./components/general";
   import Users from "./components/users";
+  import Security from "./components/security";
 
   export default {
     components: {
       Loading,
       General,
-      Users
+      Users,
+      Security
     },
     created() {
       // this.component = General;
-      this.component = Users;
+      // this.component = Users;
+      this.component = Security;
+
+      console.log(window.location)
     },
     data() {
       return {
@@ -47,6 +52,8 @@
     methods: {
       openSetting (name) {
         this.component = name;
+        const baseUrl = new URL(window.location.origin);
+        window.history.pushState({}, name, `${baseUrl}business/settings/${name.toLowerCase()}`);
       }
     },
     computed: {

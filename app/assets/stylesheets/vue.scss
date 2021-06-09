@@ -424,6 +424,23 @@ table.table, table.table thead tr th {
       color: #797b7e;
     }
   }
+
+  .form-control {
+    padding: 0.25rem 0.75rem;
+    box-shadow: none;
+
+    &:hover,
+    &:active,
+    &:focus {
+      border-color: #0479ff;
+      box-shadow: none;
+    }
+
+    &_search {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  }
 }
 
 @import '../../../node_modules/bootstrap/scss/bootstrap.scss';

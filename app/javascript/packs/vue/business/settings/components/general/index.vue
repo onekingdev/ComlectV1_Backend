@@ -6,9 +6,9 @@
     .row(v-if='!loading')
       .col
         .card.settings__card
-          .card-title.px-xl-5.py-xl-3.mb-0
+          .card-title.px-3.px-xl-5.py-xl-4.mb-0
             h3.mb-0 General
-          .card-body.white-card-body.px-xl-5
+          .card-body.white-card-body.px-3.px-xl-5
             .settings___card--internal.p-y-1
               .row
                 .col-md-12
@@ -65,8 +65,8 @@
                       placeholder="Select City",
                       required)
                       .invalid-feedback.d-block(v-if="errors.city") {{ errors.city[0] }}
-                  b-form-group#input-group-8(label='Phone Number' label-for='input-8')
-                    b-form-input#input-8(v-model='form.contact_phone' type='text' placeholder='Phone Number' required class="settings__card--label" :class="{'is-invalid': errors.contact_phone }")
+                  b-form-group#input-group-8(label='Phone Number' label-for='input-8' label-class="settings__card--label")
+                    b-form-input#input-8(v-model='form.contact_phone' type='text' placeholder='Phone Number' required :class="{'is-invalid': errors.contact_phone }")
                     .invalid-feedback.d-block(v-if="errors.contact_phone") {{ errors.contact_phone[0] }}
                   b-form-group.text-right
                     b-button.link.mr-2(type='reset' variant='none') Cancel
