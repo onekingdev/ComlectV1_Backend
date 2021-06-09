@@ -1,8 +1,9 @@
 export default class ExamManagement {
-  constructor(complete, created_at, ends_on, exam_requests, id, name, share_uuid, starts_on, updated_at) {
+  constructor(complete, created_at, ends_on, exam_auditors, exam_requests, id, name, share_uuid, starts_on, updated_at) {
     this.complete = complete,
     this.created_at = created_at,
     this.ends_on = ends_on,
+    this.exam_auditors = exam_auditors ? exam_auditors : [],
     this.exam_requests = this.examRequests(exam_requests),
     // this.exam_requests_attributes = [],
     this.id = id,
@@ -13,7 +14,7 @@ export default class ExamManagement {
   }
 
   examRequests(exam_requests) {
-    return exam_requests.map(request => {
+    return exam_requests ? exam_requests.map(request => {
       return {
         complete: request.complete,
         details: request.details,
@@ -21,9 +22,9 @@ export default class ExamManagement {
         id: request.id,
         name: request.name,
         shared: request.shared,
-        text_items: request.text_items || [],
+        text_items: request.text_items.map(text => ({ text })) || [],
       }
-    })
+    }) : []
   }
 }
 

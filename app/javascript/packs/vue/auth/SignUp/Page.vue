@@ -61,9 +61,8 @@
                   b-form-group.text-center
                     p Already have a Complect account?&nbsp;
                       a.link(href="#") Sign In
-                <!--b-card.mt-3(header='Form Data Result')-->
-                  <!--pre.m-0 {{ form }}-->
-            #step2.form(v-if='!loading'  :class="step2 ? 'd-block' : 'd-none'")
+            #step2.form(v-if='!loading' :class="step2 ? 'd-block' : 'd-none'")
+              // OtpConfirm(@otpSecretConfirmed="otpConfirmed", :userId="userId", :form="form")
               h1.text-center Confirm your email!
               p.text-center We send a 6 digit code to email.com. Please enter it below.
               div
@@ -85,9 +84,11 @@
                     .row
                       .col
                         input(v-model='form2.code' type='hidden')
-                  b-button.w-100(type='submit' variant='dark' ref="codesubmit") Submit
-                <!--b-card.mt-3(header='Form Data Result')-->
-                  <!--pre.m-0 {{ form2 }}-->
+                  b-button.w-100.mb-2(type='submit' variant='dark' ref="codesubmit") Submit
+                  b-form-group
+                    .row
+                      .col-12.text-center
+                        a.link(href="#" @click.stop="resendOTP") Send new code
             #step3.form(v-if='!loading'  :class="step3 ? 'd-block' : 'd-none'")
               h1.text-center You successfuly registered!
               p.text-center You will be redirect to finish steps for updating your account
@@ -98,19 +99,21 @@
 
 <script>
   import Loading from '@/common/Loading/Loading'
-  import TopNavbar from "./TopNavbar";
+  import TopNavbar from "../components/TopNavbar";
   import BusinessPage from "./Onboarding/Business/BusinessPage";
   import SpecialistPage from "./Onboarding/Specialist/SpecialistPage";
+  // import OtpConfirm from "../components/OtpConfirm";
 
   // const random = Math.floor(Math.random() * 1000);
 
   export default {
-    props: ['industryIds', 'jurisdictionIds', 'subIndustryIds', 'states'],
+    props: ['industryIds', 'jurisdictionIds', 'subIndustryIds', 'states', 'timezones'],
     components: {
       TopNavbar,
       Loading,
       BusinessPage,
-      SpecialistPage
+      SpecialistPage,
+      // OtpConfirm
     },
     data() {
       return {
@@ -201,23 +204,17 @@
 
         this.$store.dispatch('singUp', dataToSend)
           .then((response) => {
-
             if (response.errors) {
-              const properties = Object.keys(response.errors);
               for (const type of Object.keys(response.errors)) {
                 this.errors = response.errors[type]
                 this.makeToast('Error', `Form has errors! Please recheck fields! ${error}`)
-                // Object.keys(response.errors[type]).map(prop => response.errors[prop].map(err => this.makeToast(`Error`, `${prop}: ${err}`)))
               }
-
-              return
             }
-
             if (!response.errors) {
               this.userId = response.userid
               this.makeToast('Success', `${response.message}`)
 
-                // ?userid=14&otp_secret=123456
+              // ?userid=14&otp_secret=123456
               // const url = new URL(window.location);
               // url.searchParams.set('userid', response.userid);
               // window.history.pushState({}, '', url);
@@ -316,6 +313,18 @@
           // ENTER KEY CODE
           this.onSubmitStep2(e)
         }
+      },
+
+      resendOTP() {
+        let dataToSend = {
+          "user": {
+            "email": this.form.email,
+          },
+        }
+
+        this.$store.dispatch('resendOTP', dataToSend)
+          .then((response) => this.makeToast('Success', `${response.message}`))
+          .catch((error) => this.makeToast('Error', `${error.message}`))
       },
 
       fetchINitData(data){
