@@ -14,19 +14,21 @@
         template(#button-content)
           b-icon(icon="three-dots")
         b-dropdown-item Message
-        b-dropdown-item Edit Role
+        EditRoleModal(:specialist="item",  :inline="false")
+          b-dropdown-item Edit Role
         b-dropdown-item View contract
         b-dropdown-item.delete Delete
 </template>
 
 <script>
   import UserAvatar from '@/common/UserAvatar'
-  import { DateTime } from 'luxon'
+  import EditRoleModal from "../modals/RolesModalEdit";
 
   export default {
     name: "roleItem",
     props: ['item'],
     components: {
+      EditRoleModal,
       UserAvatar,
     },
     computed: {

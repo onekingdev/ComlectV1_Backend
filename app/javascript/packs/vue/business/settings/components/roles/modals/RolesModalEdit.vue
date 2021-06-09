@@ -3,22 +3,25 @@
     div(v-b-modal="modalId" :class="{'d-inline-block':inline}")
       slot
 
-    b-modal.fade(:id="modalId" title="Edit Annual Review")
+    b-modal.fade(:id="modalId" title="Edit Role")
       b-row.m-b-2
         .col
-          label.form-label New review name
-          input.form-control(v-model="review.name" type="text" placeholder="Enter the name of your review" @keyup.enter="submit" ref="input")
-          Errors(:errors="errors.name")
-
-      b-row.m-b-2
-        .col-6
-          label.form-label Start Date
-          DatePicker(v-model="review.review_start")
-          Errors(:errors="errors.review_start")
-        .col-6
-          label.form-label Due Date
-          DatePicker(v-model="review.review_end")
-          Errors(:errors="errors.review_end")
+          .card
+            .card-body
+              .d-flex
+                UserAvatar(:user="specialist")
+                .d-block.m-l-2
+                  h4: b {{ specialist.first_name + ' ' +  specialist.last_name }}
+                  p.mb-1 {{ specialist.state }}
+                  .d-flex.py-2
+                    b-icon(icon='star-fill' variant="warning" font-scale="1.5")
+                    b-icon(icon='star-fill' variant="warning" font-scale="1.5")
+                    b-icon(icon='star-fill' variant="warning" font-scale="1.5")
+                    b-icon(icon='star-fill' variant="warning" font-scale="1.5")
+                    b-icon(icon='star' variant="warning" font-scale="1.5")
+              hr
+              InputSelect(v-model="role" :options="specialistRoleOptions") Select Role
+              .form-text.text-muted Determines the permissions the specialist will have access to
 
       template(slot="modal-footer")
         button.btn(@click="$bvModal.hide(modalId)") Cancel
@@ -26,6 +29,9 @@
 </template>
 
 <script>
+  import UserAvatar from '@/common/UserAvatar'
+  import { SPECIALIST_ROLE_OPTIONS } from '@/common/ProjectInputOptions'
+
   const rnd = () => Math.random().toFixed(10).toString().replace('.', '')
   export default {
     props: {
@@ -33,57 +39,54 @@
         type: Boolean,
         default: true
       },
-      review: {
+      specialist: {
         type: Object,
         required: true
       }
     },
+    components: {
+      UserAvatar,
+    },
     data() {
       return {
         modalId: `modal_${rnd()}`,
-        // review: {
+        // specialist: {
         //   name: '',
         //   description: 'N/A',
         //   sections: [],
         // },
-        errors: []
+        errors: [],
+        role: Object.keys(SPECIALIST_ROLE_OPTIONS)[0]
       }
     },
     methods: {
-      focusInput() {
-        this.$refs.input.focus();
-      },
-      makeToast(title, str) {
-        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
-      },
-
       async submit (e) {
         e.preventDefault();
         this.errors = [];
 
-        if (!this.review.name) {
+        if (!this.specialist.name) {
           this.errors.push('Name is required.');
           this.makeToast('Error', 'Name is required.')
           return;
         }
-        if (this.review.name.length <= 3) {
+        if (this.specialist.name.length <= 3) {
           this.errors.push({name: 'Name is very short, must be more 3 characters.'});
           this.makeToast('Error', 'Name is very short, must be more 3 characters.')
           return;
         }
 
-        const review = this.review
+        const specialist = this.specialist
         const data = {
-          id: review.id,
-          name: review.name,
-          review_start: review.review_start,
-          review_end: review.review_end,
-          // regulatory_changes_attributes: review.regulatory_changes,
-          // material_business_changes: review.material_business_changes,
-          // annual_review_employees_attributes: review.annual_review_employees
+          id: specialist.id,
+          name: specialist.name,
+          specialist_start: specialist.specialist_start,
+          specialist_end: specialist.specialist_end,
+          // regulatory_changes_attributes: specialist.regulatory_changes,
+          // material_business_changes: specialist.material_business_changes,
+          // annual_specialist_employees_attributes: specialist.annual_specialist_employees
         }
         try {
-          await this.$store.dispatch('annual/updateReview', data)
+          await this.$store.dispatch('annual/updatespecialist', data)
             .then((response) => {
               // console.log('response', response)
               if (response.errors) {
@@ -97,7 +100,7 @@
               }
 
               if (!response.errors) {
-                this.makeToast('Success', "Saved changes to annual review.")
+                this.makeToast('Success', "Saved changes to annual specialist.")
                 this.$emit('saved')
                 this.$bvModal.hide(this.modalId)
               }
@@ -109,6 +112,8 @@
         }
       },
     },
-
+    computed: {
+      specialistRoleOptions: () => SPECIALIST_ROLE_OPTIONS,
+    }
   }
 </script>

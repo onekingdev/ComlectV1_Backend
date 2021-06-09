@@ -87,6 +87,7 @@
             last_name: 'Hudson',
             role: 'admin',
             status: true,
+            state: 'Arizona, USA'
           },
           {
             id: 2,
@@ -94,6 +95,7 @@
             last_name: 'Baby',
             role: 'developer',
             status: true,
+            state: 'California, USA'
           },
           {
             id: 3,
@@ -101,6 +103,7 @@
             last_name: 'Brenson',
             role: 'investor',
             status: false,
+            state: 'New York, USA'
           }
         ]
       },
