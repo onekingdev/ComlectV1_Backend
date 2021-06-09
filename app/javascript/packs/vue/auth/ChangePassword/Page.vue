@@ -39,7 +39,7 @@
 
 <script>
   import Loading from '@/common/Loading/Loading'
-  import TopNavbar from "../SingIn/TopNavbar";
+  import TopNavbar from "../components/TopNavbar";
 
   const random = Math.floor(Math.random() * 1000);
 

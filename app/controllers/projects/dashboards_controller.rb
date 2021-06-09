@@ -4,7 +4,7 @@ class Projects::DashboardsController < ApplicationController
   prepend_before_action :find_project, only: :show
   prepend_before_action :require_specialist!
   before_action :redirect_if_full_time
-  skip_before_action :check_unrated_project, if: -> { action_name == 'show' && @project&.requires_specialist_rating? }
+  # skip_before_action :check_unrated_project, if: -> { action_name == 'show' && @project&.requires_specialist_rating? }
 
   def show
     # rubocop:disable Style/GuardClause

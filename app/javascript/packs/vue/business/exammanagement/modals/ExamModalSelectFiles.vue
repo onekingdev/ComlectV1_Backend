@@ -51,13 +51,13 @@
 
   const rnd = () => Math.random().toFixed(10).toString().replace('.', '')
 
-  async function createFile(path){
+  async function createFile(path, name){
     let response = await fetch(path);
     let data = await response.blob();
     let metadata = {
       type: 'image/jpeg'
     };
-    let file = new File([data], "test.jpg", metadata);
+    let file = new File([data], name, metadata);
 
     return file;
   }
@@ -96,9 +96,9 @@
         e.preventDefault();
         try {
           let formData = new FormData()
-          this.filesCollection.map(fileFromCollection => {
+          for (const fileFromCollection of this.filesCollection) {
 
-            createFile(`${window.location.origin}/${fileFromCollection.file_addr}`)
+            createFile(`${window.location.origin}/${fileFromCollection.file_addr}`, fileFromCollection.name)
               .then(file => {
                 formData.append('file', file);
                 const data = {
@@ -106,23 +106,26 @@
                   request: { id: this.request.id },
                   formData
                 }
-                this.$store.dispatch('exams/uploadExamRequestFile', data)
-                  .then(response => {
-                    this.toast('Success', `File successfull loaded!`)
-                    this.$emit('saved')
-                    this.$bvModal.hide(this.modalId)
 
-                    // CLEAR ARRAY
-                    const index = this.filesCollection.findIndex(record => record.id === response.id);
-                    this.filesCollection.splice(index, 1)
-                  })
-                  .catch(error => console.error(error))
+                const sendFIle = new Promise((resolve, reject) => {
+                  this.$store.dispatch('exams/uploadExamRequestFile', data)
+                    .then(response => resolve(response))
+                    .catch(error => reject(error))
+                });
+
+                sendFIle
+                  .then(response => this.toast('Success', `${response.name} successful uploaded!`))
+                  .catch(error => this.toast('Error', error.message))
               })
               .catch(error => console.error(error))
-          })
+          }
 
         } catch (error) {
           this.toast('Error', error.message)
+        } finally {
+          this.filesCollection = []
+          this.$emit('saved')
+          this.$bvModal.hide(this.modalId)
         }
       },
       async backToRoot (e) {
@@ -154,7 +157,9 @@
         }
       },
       collecingFiles (form) {
-        if (form.status) this.filesCollection.push(form.file)
+        if (form.status) {
+          if(!this.filesCollection.includes(form.file)) this.filesCollection.push(form.file)
+        }
         if (!form.status) {
           const index = this.filesCollection.findIndex(record => record.id === form.file.id);
           this.filesCollection.splice(index, 1)

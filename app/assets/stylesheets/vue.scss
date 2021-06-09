@@ -120,6 +120,36 @@ html {
   padding-bottom: 20px;
 }
 
+.dropdown-profile {
+  display: flex;
+
+  padding: 0 1rem;
+  height: 100%;
+
+  position: relative;
+  border-left: 1px solid #e3e5e9;
+  border-right: 1px solid #e3e5e9;
+
+  @media (max-width: 575px) {
+    padding: 0.25rem 0.75rem;
+  }
+
+  &__btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    @media (max-width: 575px) {
+      font-size: 1rem;
+    }
+  }
+
+  .dropdown-menu {
+    position: absolute!important;
+  }
+}
+
+
 .card-header { 
   background: none !important;
   padding: 13px 16px;
@@ -131,6 +161,8 @@ html {
 }
 
 .btn.btn-default { border: 1px solid #dadadc; background-color: #fff; }
+.btn.btn-default:hover,
+.btn.btn-default:active { background-color: #F3F6F9; }
 
 table.table, table.table thead tr th {
   border: 0px;
@@ -184,22 +216,15 @@ table.table, table.table thead tr th {
 .nav-tabs {
   .nav-item {
     a {
-      //border: 0;
-      padding-left: 0;
-      padding-right: 0;
-      //margin-left: 27px;
-      font-size: 1.2rem;
+      border: 0px;
+      padding-left: 0px;
+      padding-right: 0px;
+      margin-left: 27px;
       color: #919396;
-      border: none;
     }
     .nav-link.active {
-      font-weight: 600;
       background: none !important;
       border-bottom: 4px solid #ffcc00;
-    }
-
-    &:not(:last-child) {
-      margin-right: 2.5rem;
     }
   }
 }
@@ -276,7 +301,6 @@ table.table, table.table thead tr th {
     }
   }
 }
-
 
 .reviews {
   &__list {
@@ -409,38 +433,8 @@ table.table, table.table thead tr th {
   }
 }
 
-.settings {
-  &__card {
-    border-radius: 10px;
-    border: 2px solid #e9ebee;
-    &--internal {
-      border-top: initial;
-      border-bottom: 2px solid #e9ebee;
-      &-top {
-        border-bottom: initial;
-      }
-    }
-    &--label {
-      color: #797b7e;
-    }
-  }
-
-  .form-control {
-    padding: 0.25rem 0.75rem;
-    box-shadow: none;
-
-    &:hover,
-    &:active,
-    &:focus {
-      border-color: #0479ff;
-      box-shadow: none;
-    }
-
-    &_search {
-      padding-left: 2rem;
-      padding-right: 2rem;
-    }
-  }
+.portal {
+  min-height: 100vh;
 }
 
 @import '../../../node_modules/bootstrap/scss/bootstrap.scss';

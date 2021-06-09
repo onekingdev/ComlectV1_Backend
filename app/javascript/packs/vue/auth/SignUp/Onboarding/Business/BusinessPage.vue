@@ -18,17 +18,26 @@
           Loading
           b-form(@submit='onSubmit' @change="onChangeInput" v-if='show')
             #step1.form(v-if='!loading' :class="step1 ? 'd-block' : 'd-none'")
-              h3 Do you have a CRD number?
-                b-icon.h5.ml-2.mb-1(icon="exclamation-circle-fill" variant="secondary" v-b-tooltip.hover title="Automated update company info by CRD number")
-              p The CRD number will be used to gather additional information about your business.
-              div
-                b-form-group(v-slot='{ ariaDescribedby }')
-                  b-form-radio-group(v-model='formStep1.crd_numberSelected' :options='formStep1.crd_numberOptions' :aria-describedby='ariaDescribedby' name='radios-stacked' stacked)
-                b-form-group(label='What is your CRD number?' v-if="formStep1.crd_numberSelected === 'yes'")
-                  b-form-input.w-50(v-model="formStep1.crd_number" placeholder="Enter your CRD number" :class="{'is-invalid': errors.crd_number }")
-                  .invalid-feedback.d-block(v-if="errors.crd_number") {{ errors.crd_number }}
-              .text-right
-                b-button(type='button' variant='dark' @click="nextStep(2)") Next
+              .row
+                .col
+                  h3 Do you have a CRD number?
+                    b-icon.h5.ml-2.mb-1(icon="exclamation-circle-fill" variant="secondary" v-b-tooltip.hover title="Automated update company info by CRD number")
+              p.m-b-2 The CRD number will be used to gather additional information about your business.
+              .row
+                .col
+                  b-form-group.p-x-1(v-slot='{ ariaDescribedby }')
+                    b-form-radio-group(v-model='formStep1.crd_numberSelected' :options='formStep1.crd_numberOptions' :aria-describedby='ariaDescribedby' name='radios-stacked' stacked)
+              .row
+                .col-lg-4
+                  .row
+                    .col-md-10.offset-lg-1.pr-0
+                      b-form-group(v-if="formStep1.crd_numberSelected === 'yes'" label='What is your CRD number?' label-class="label pb-0")
+                        b-form-input(v-model="formStep1.crd_number" placeholder="Enter your CRD number" :class="{'is-invalid': errors.crd_number }")
+                        .invalid-feedback.d-block(v-if="errors.crd_number") {{ errors.crd_number }}
+              .row
+                .col
+                  .text-right
+                    b-button(type='button' variant='dark' @click="nextStep(2)") Next
             #step2.form(v-if='!loading'  :class="step2 ? 'd-block' : 'd-none'")
               b-alert(v-if="formStep1.crd_number && formStep1.crd_number.length" show variant="primary" dismissible)
                 h4 Verify information
@@ -40,16 +49,16 @@
                     b-form-input#inputB-1(v-model='formStep2.business.business_name' type='text' placeholder='Company Name' required :class="{'is-invalid': errors.business_name }")
                     .invalid-feedback.d-block(v-if="errors.business_name") {{ errors.business_name[0] }}
               .row
-                .col.pr-2
+                .col-sm.pr-sm-2
                   b-form-group#inputB-group-2(label='AUM' label-for='inputB-2')
                     b-form-input#inputB-2(v-model='formStep2.business.aum' type='text' placeholder='AUM' required :class="{'is-invalid': errors.aum }")
                     .invalid-feedback.d-block(v-if="errors.aum") {{ errors.aum[0] }}
-                .col.pl-2
+                .col-sm.pl-sm-2
                   b-form-group#inputB-group-3(label='Number of Accounts' label-for='inputB-3')
                     b-form-input#inputB-3(v-model='formStep2.business.client_account_cnt' type='text' placeholder='Number of Accounts' required :class="{'is-invalid': errors.client_account_cnt }")
                     .invalid-feedback.d-block(v-if="errors.client_account_cnt") {{ errors.client_account_cnt[0] }}
               .row
-                .col.pr-2
+                .col-sm-6.pr-sm-2
                   b-form-group#inputB-group-4(label='Industry' label-for='selectB-4' label-class="required")
                     div(
                     :class="{ 'invalid': errors.industries }"
@@ -66,7 +75,7 @@
                       required)
                       .invalid-feedback.d-block(v-if="errors.industries") {{ errors.industries[0] }}
                       // label.typo__label.form__label(v-if="errors.industries") {{ errors.industries[0] }}
-                .col.pl-2
+                .col-sm-6.pl-sm-2
                   b-form-group#inputB-group-5(label='Sub-Industry' label-for='selectB-5' label-class="required")
                     div(
                     :class="{ 'invalid': errors.subIndustry }"
@@ -82,7 +91,7 @@
                       required)
                       .invalid-feedback.d-block(v-if="errors.subIndustry") {{ errors.subIndustry[0] }}
               .row
-                .col.pr-2
+                .col-sm-6.pr-sm-2
                   b-form-group#inputB-group-6(label='Jurisdiction' label-for='selectB-6' label-class="required")
                     div(
                     :class="{ 'invalid': errors.jurisdiction }"
@@ -97,7 +106,7 @@
                       placeholder="Select Jurisdiction",
                       required)
                       .invalid-feedback.d-block(v-if="errors.jurisdiction") {{ errors.jurisdiction[0] }}
-                .col.pl-2
+                .col-sm-6.pl-sm-2
                   b-form-group#inputB-group-7(label='Time Zone' label-for='selectB-7' label-class="required")
                     div(
                     :class="{ 'invalid': errors.time_zone }"
@@ -107,15 +116,17 @@
                       :options="timeZoneOptions"
                       :multiple="false"
                       :show-labels="false"
+                      track-by="name",
+                      label="name"
                       placeholder="Select Time Zone",
                       required)
                       .invalid-feedback.d-block(v-if="errors.time_zone") {{ errors.time_zone[0] }}
               .row
-                .col.pr-2
+                .col-sm-6.pr-sm-2
                   b-form-group#inputB-group-8(label='Phone Number' label-for='inputB-8')
                     b-form-input#inputB-8(v-model='formStep2.business.contact_phone' type='text' placeholder='Phone Number' required :class="{'is-invalid': errors.contact_phone }")
                     .invalid-feedback.d-block(v-if="errors.contact_phone") {{ errors.contact_phone[0] }}
-                .col.pl-2
+                .col-sm-6.pl-sm-2
                   b-form-group#inputB-group-7(label='Company Website' label-for='inputB-7' description="Optional")
                     b-form-input#inputB-7.form-control(v-model='formStep2.business.website' type='text' placeholder='Company Website' :class="{'is-invalid': errors.website }")
                     .invalid-feedback.d-block(v-if="errors.website") {{ errors.website[0] }}
@@ -123,8 +134,8 @@
               .row
                 .col-xl-9.pr-xl-2
                   b-form-group#inputB-group-9(label='Business Address' label-for='inputB-9' label-class="required")
-                    b-form-input#inputB-9(v-model='formStep2.business.address_1' placeholder='Business Address' required :class="{'is-invalid': errors.address_1 }"
-                                          v-debounce:1000ms="onAdressChange")
+                    // b-form-input#inputB-9(v-model='formStep2.business.address_1' placeholder='Business Address' required :class="{'is-invalid': errors.address_1 }" v-debounce:1000ms="onAdressChange")
+                    vue-google-autocomplete#map(ref="address" classname='form-control' :class="{'is-invalid': errors.address_1 }" v-model='formStep2.business.address_1' placeholder='Business Address'  :fields="['address_components', 'adr_address', 'geometry', 'formatted_address', 'name']" v-on:placechanged='getAddressData')
                     .invalid-feedback.d-block(v-if="errors.address_1") {{ errors.address_1[0] }}
                 .col-xl-3.pl-xl-2
                   b-form-group#inputB-group-10(label='Apt/Unit:' label-for='inputB-10')
@@ -152,8 +163,8 @@
                   b-form-group#inputB-group-11(label='Zip' label-for='inputB-11' label-class="required")
                     b-form-input#inputB-11(v-model='formStep2.business.zipcode' placeholder='Zip' required :class="{'is-invalid': errors.zipcode }")
                     .invalid-feedback.d-block(v-if="errors.zipcode") {{ errors.zipcode[0] }}
-              .text-right
-                b-button.mr-2(type='button' variant='outline-primary' @click="prevStep(1)") Go back
+              .text-right.m-t-3
+                b-button.mr-2(type='button' variant='default' @click="prevStep(1)") Go back
                 // b-button.mr-2(type='button' variant='outline-primary' @click="nextStep(3)") Skip this step
                 b-button(type='button' variant='dark' @click="nextStep(3)") Next
             #step3.form(v-if='!loading'  :class="step3 ? 'd-block' : 'd-none'")
@@ -179,6 +190,9 @@
                       p.billing-plan__descr {{ plan.description }}
                       h5.billing-plan__coast {{ billingTypeSelected === 'annually' ?  plan.coastAnnuallyFormatted : plan.coastMonthlyFormatted }}
                       p.billing-plan__users(v-if="plan.id === 1") 0 free users
+                      p.billing-plan__users(v-if="plan.id !== 1 && billingTypeSelected === 'monthly'")
+                        span.billing-plan__discount {{ plan.coastMonthlyFormatted }}
+                        span.text-success &nbsp;{{ plan.coastAnnuallyFormatted }}
                       p.billing-plan__users(v-if="plan.id !== 1") {{ billingTypeSelected === 'annually' ?  plan.usersCount + ' free users plus $' + plan.additionalUserAnnually + '/year per person' : plan.usersCount + ' free users plus $' + plan.additionalUserMonthly + '/mo per person' }}
                       hr
                       ul.list-unstyled.billing-plan__list
@@ -187,7 +201,7 @@
                           | {{ feature }}
               .row
                 .col.text-right
-                  b-button(type='button' variant='outline-primary' @click="prevStep(2)") Go back
+                  b-button.m-t-3(type='button' variant='default' @click="prevStep(2)") Go back
 
         b-sidebar#BillingPlanSidebar(@hidden="closeSidebar" v-model="isSidebarOpen" backdrop-variant='dark' backdrop left no-header width="60%")
           .card
@@ -219,6 +233,8 @@
 </template>
 
 <script>
+  import VueGoogleAutocomplete from 'vue-google-autocomplete'
+
   const {DateTime} = require('luxon')
   const {zones} = require('tzdata')
   const luxonValidTimeZoneName = function (zoneName) {
@@ -238,7 +254,7 @@
     .map(zoneName => `${luxonValidTimeZoneName(zoneName)}`)
 
   import Loading from '@/common/Loading/Loading'
-  import TopNavbar from "@/auth/SignUp/TopNavbar";
+  import TopNavbar from "@/auth/components/TopNavbar";
   import Multiselect from 'vue-multiselect'
   import BillingDetails from './BillingDetails'
   import PurchaseSummary from './PurchaseSummary'
@@ -266,25 +282,27 @@
   })
 
   export default {
-    props: ['industryIds', 'jurisdictionIds', 'subIndustryIds', 'states', 'userInfo'],
+    props: ['industryIds', 'jurisdictionIds', 'subIndustryIds', 'states', 'userInfo', 'timezones'],
     components: {
       Loading,
       TopNavbar,
       Multiselect,
       BillingDetails,
       PurchaseSummary,
-      Overlay
+      Overlay,
+      VueGoogleAutocomplete
     },
     created() {
-      if(luxonValidTimezones) this.timeZoneOptions = luxonValidTimezones;
-      // if(luxonValidTimezones) {
-      //   for (const [key, value] of Object.entries(luxonValidTimezones)) {
-      //     this.timeZoneOptions.push({
-      //       value: key,
-      //       name: value
-      //     })
-      //   }
-      // }
+      // if(luxonValidTimezones) this.timeZoneOptions = luxonValidTimezones;
+      if(luxonValidTimezones) {
+        for (const value of luxonValidTimezones) {
+          const [ gmt, zone ] = value.split(') ')
+          this.timeZoneOptions.push({
+            value: zone,
+            name: value
+          })
+        }
+      }
       if(this.industryIds) this.industryOptions = this.industryIds;
       // if(this.subIndustryIds) this.formStep2.subIndustryOptions = this.subIndustryIds;
       // if(this.subIndustryIds) {
@@ -301,9 +319,20 @@
       const accountInfo = localStorage.getItem('app.currentUser');
       const accountInfoParsed = JSON.parse(accountInfo);
       if(accountInfo) {
-        this.formStep1.crd_number = accountInfo.crd_number ? accountInfo.crd_number : ''
+        if(accountInfo.crd_number) this.formStep1.crd_number = accountInfo.crd_number
         this.formStep2.business = Object.assign({}, this.formStep2.business, { ...accountInfoParsed })
         this.onChange(accountInfoParsed.industries)
+
+        this.formStep2.business.sub_industries = accountInfoParsed.sub_industries ? accountInfoParsed.sub_industries.map((subInd, idx) => {
+          const subIndfromOpt = this.subIndustryOptions.find(opt => {
+            if (opt.name === subInd)
+              return opt
+          })
+          return {
+            name: subIndfromOpt.name,
+            value: subIndfromOpt.value
+          }
+        }) : []
       }
 
       const url = new URL(window.location);
@@ -450,11 +479,16 @@
 
           delete this.formStep2.errors
           const dataToSend = this.formStep2
-          if(this.formStep1.crd_number) dataToSend.business.crd_number = this.formStep1.crd_number
+          if(!this.formStep1.crd_number.length) delete dataToSend.business.crd_number
 
-          dataToSend.business.industry_ids = this.formStep2.business.industries.map(record => record.id) || []
-          dataToSend.business.sub_industry_ids = this.formStep2.business.sub_industries.map(record => record.value) || []
-          dataToSend.business.jurisdiction_ids = this.formStep2.business.jurisdictions.map(record => record.id) || []
+          dataToSend.business.industry_ids = this.formStep2.business.industries ? this.formStep2.business.industries.map(record => record.id) : []
+          dataToSend.business.sub_industry_ids = this.formStep2.business.sub_industries ? this.formStep2.business.sub_industries.map(record => record.value) : []
+          dataToSend.business.jurisdiction_ids = this.formStep2.business.jurisdictions ? this.formStep2.business.jurisdictions.map(record => record.id) : []
+          dataToSend.business.time_zone = this.formStep2.business.time_zone ? this.formStep2.business.time_zone.value : ''
+
+          // delete dataToSend.business.industries
+          // delete dataToSend.business.sub_industries
+          // delete dataToSend.business.jurisdictions
 
           this.$store.dispatch('updateAccountInfo', dataToSend)
             .then(response => {
@@ -652,11 +686,23 @@
       },
       onAdressChange() {
         const address = this.formStep2.business.address_1
-        // console.log('address', address)
+        console.log('address', address)
 
-        // this.$store.dispatch('getGeo', address)
-        //   .then(response => console.log('response', response))
-        //   .catch(error => console.error(error))
+        this.$store.dispatch('getGeo', address)
+          .then(response => console.log('response', response))
+          .catch(error => console.error(error))
+      },
+      getAddressData (addressData, placeResultData, id) {
+        // console.log('addressData', addressData)
+        // console.log('placeResultData', placeResultData)
+        // console.log('id', id)
+        const input = document.getElementById(id)
+        const { administrative_area_level_1, locality, postal_code } = addressData
+
+        this.formStep2.business.address_1 = input.value
+        this.formStep2.business.city = locality
+        this.formStep2.business.state = administrative_area_level_1
+        this.formStep2.business.zipcode = postal_code
       },
       redirect() {
         const dashboard = this.userType === 'business' ? '/business' : '/specialist'

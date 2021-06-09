@@ -57,13 +57,43 @@ class Business < ApplicationRecord
   has_one :compliance_policy_configuration, dependent: :destroy
 
   has_settings do |s|
-    s.key :notifications, defaults: {
-      marketing_emails: true,
-      got_rated: true,
+    s.key :in_app_notifications, defaults: {
+      task_created: true,
+      task_assigned: true,
+      task_file_uploaded: true,
+      task_new_comment: true,
+      task_completed: true,
+      task_overdue: true,
+      project_new_bid: true,
+      project_message: true,
+      project_overdue: true,
       project_ended: true,
+      project_completed: true,
+      got_rated: true,
       got_message: true,
       new_forum_answers: true,
       new_forum_comments: true
+    }
+    s.key :email_notifications, defaults: {
+      task_created: true,
+      task_assigned: true,
+      task_file_uploaded: true,
+      task_new_comment: true,
+      task_completed: true,
+      task_overdue: true,
+      project_new_bid: true,
+      project_message: true,
+      project_overdue: true,
+      project_ended: true,
+      project_completed: true,
+      got_rated: true,
+      got_message: true,
+      new_forum_question: true,
+      new_forum_comments: true
+    }
+    s.key :email_updates, defaults: {
+      monthly_newsletter: true,
+      promos_and_events: true
     }
   end
 
@@ -240,6 +270,9 @@ class Business < ApplicationRecord
   validates :username, uniqueness: true, allow_blank: true
   # validates :client_account_cnt, presence: true
   # validates :total_assets, presence: true
+  validate if: -> { time_zone.present? } do
+    errors.add :time_zone unless ActiveSupport::TimeZone.all.collect(&:name).include?(time_zone)
+  end
 
   accepts_nested_attributes_for :user
   accepts_nested_attributes_for :tos_agreement

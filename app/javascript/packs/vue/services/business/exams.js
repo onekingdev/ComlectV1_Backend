@@ -105,7 +105,7 @@ export async function uploadExamRequestFile(payload) {
       }
       return false
     })
-    .catch(err => console.log(err))
+    .catch(err => err)
 }
 
 export async function deleteExamRequestFile(payload) {
@@ -116,5 +116,52 @@ export async function deleteExamRequestFile(payload) {
       }
       return false
     })
-    .catch(err => console.log(err))
+    .catch(err => err)
+}
+
+export async function sendInvite(payload) {
+  return await axios.post(`${END_POINT}/${payload.id}/invite`, {email: payload.email})
+    .then(response => {
+      if (response) {
+        return response
+      }
+      return false
+    })
+    .catch(err => err)
+}
+
+export async function sendUninvite(payload) {
+  return await axios.post(`${END_POINT}/${payload.id}/uninvite`, {email: payload.email})
+    .then(response => {
+      if (response) {
+        return response
+      }
+      return false
+    })
+    .catch(err => err)
+}
+
+export async function confirmEmail(payload) {
+  return await axios.post(`/exams/${payload.uuid}`, {email: payload.email})
+    .then(response => {
+      if (response) {
+        return response
+      }
+      return false
+    })
+    .catch(err => err)
+}
+
+export async function confirmOTP(payload) {
+  return await axios.PATCH(`/exams/${payload.uuid}`, {
+    email: payload.email,
+    otp: payload.otp,
+  })
+    .then(response => {
+      if (response) {
+        return response
+      }
+      return false
+    })
+    .catch(err => err)
 }
