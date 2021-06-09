@@ -5,19 +5,19 @@
         .col-md-3
           .panel-default
             ul.settings-nav
-              li.settings-nav__item(@click="openSetting('General')")
+              li.settings-nav__item.active(@click="openSetting('General', $event)")
                 a.settings-nav__link(href='#') General
-              li.settings-nav__item(@click="openSetting('Users')")
+              li.settings-nav__item(@click="openSetting('Users', $event)")
                 a.settings-nav__link(href='#') Users
-              li.settings-nav__item(@click="openSetting('RolePermisssions')")
+              li.settings-nav__item(@click="openSetting('RolePermisssions', $event)")
                 a.settings-nav__link(href='#') Role and Permisssions
-              li.settings-nav__item(@click="openSetting('Security')")
+              li.settings-nav__item(@click="openSetting('Security', $event)")
                 a.settings-nav__link(href='#') Security
-              li.settings-nav__item(@click="openSetting('Subscriptions')")
+              li.settings-nav__item(@click="openSetting('Subscriptions', $event)")
                 a.settings-nav__link(href='#') Subscriptions
-              li.settings-nav__item(@click="openSetting('Billings')")
+              li.settings-nav__item(@click="openSetting('Billings', $event)")
                 a.settings-nav__link(href='#') Billings
-              li.settings-nav__item(@click="openSetting('Notifications')")
+              li.settings-nav__item(@click="openSetting('Notifications', $event)")
                 a.settings-nav__link(href='#') Notifications
         .col-md-9
           component(v-bind:is="component")
@@ -58,8 +58,16 @@
       };
     },
     methods: {
-      openSetting (name) {
+      openSetting (name, event) {
         this.component = name;
+
+        // const allLinks = document.querySelectorAll('.settings-nav__item')
+        // console.log(allLinks)
+
+        document.querySelectorAll('.settings-nav__item').forEach(function (link, i) {
+          link.classList.remove('active')
+        });
+        event.target.classList.add('active')
         // const baseUrl = new URL(window.location.origin);
         // window.history.pushState({}, name, `${baseUrl}business/settings/${name.toLowerCase()}`);
       }
