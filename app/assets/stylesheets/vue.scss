@@ -184,15 +184,22 @@ table.table, table.table thead tr th {
 .nav-tabs {
   .nav-item {
     a {
-      border: 0px;
-      padding-left: 0px;
-      padding-right: 0px;
-      margin-left: 27px;
+      //border: 0;
+      padding-left: 0;
+      padding-right: 0;
+      //margin-left: 27px;
+      font-size: 1.2rem;
       color: #919396;
+      border: none;
     }
     .nav-link.active {
+      font-weight: 600;
       background: none !important;
       border-bottom: 4px solid #ffcc00;
+    }
+
+    &:not(:last-child) {
+      margin-right: 2.5rem;
     }
   }
 }

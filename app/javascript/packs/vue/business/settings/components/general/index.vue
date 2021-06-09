@@ -66,7 +66,7 @@
                       required)
                       .invalid-feedback.d-block(v-if="errors.city") {{ errors.city[0] }}
                   b-form-group#input-group-8(label='Phone Number' label-for='input-8')
-                    b-form-input#input-8(v-model='form.contact_phone' type='text' placeholder='Phone Number' required :class="{'is-invalid': errors.contact_phone }")
+                    b-form-input#input-8(v-model='form.contact_phone' type='text' placeholder='Phone Number' required class="settings__card--label" :class="{'is-invalid': errors.contact_phone }")
                     .invalid-feedback.d-block(v-if="errors.contact_phone") {{ errors.contact_phone[0] }}
                   b-form-group.text-right
                     b-button.link.mr-2(type='reset' variant='none') Cancel

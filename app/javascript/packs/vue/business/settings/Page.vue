@@ -36,7 +36,8 @@
       Users
     },
     created() {
-      this.component = General;
+      // this.component = General;
+      this.component = Users;
     },
     data() {
       return {
