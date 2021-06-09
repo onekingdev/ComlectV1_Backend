@@ -5,27 +5,44 @@
 
     b-modal.fade(:id="modalId" title="Edit Plan")
       b-row.m-b-2
-        .col
-          label.form-label New plan name
-          input.form-control(v-model="plan.name" type="text" placeholder="Enter the name of your plan" @keyup.enter="submit" ref="input")
-          Errors(:errors="errors.name")
-
-      b-row.m-b-2
-        .col-6
-          label.form-label Start Date
-          DatePicker(v-model="plan.plan_start")
-          Errors(:errors="errors.plan_start")
-        .col-6
-          label.form-label Due Date
-          DatePicker(v-model="plan.plan_end")
-          Errors(:errors="errors.plan_end")
+        b-col(cols='8')
+          b-row
+            b-col
+              p Your organization currently has {{ plan.users }} registered users
+          b-row.m-b-2
+            b-col(class="pr-1")
+              label.form-label Billing plan
+              ComboBox(V-model="plan.billingPlan" :options="linkToOptions" placeholder="Select a billing plan")
+              Errors(:errors="errors.billingPlan")
+            b-col(class="pl-1")
+              label.form-label Users
+              input.form-control(v-model="plan.count" type="text" placeholder="Users" @keyup.enter="submit" ref="input")
+              Errors(:errors="errors.count")
+        b-col(cols='4')
+          b-card.mb-2
+            b-card-text
+              p.form-label.text-uppercase.mb-0 Users
+              p
+                b 100$
+                | /month
+              p.form-label.text-uppercase.mb-0 Total
+              p
+                b 150$
+                | /month
+      b-row
+        b-col
+          h5.mb-3 Payment method
+          b-form-group(v-slot='{ ariaDescribedby }')
+            b-form-radio(v-model='selected' :aria-describedby='ariaDescribedby' name='some-radios' value='A') **** **** **** 4242 Visa
+            b-form-radio(v-model='selected' :aria-describedby='ariaDescribedby' name='some-radios' value='B') Paypal (email@gmail.com)
 
       template(slot="modal-footer")
         button.btn(@click="$bvModal.hide(modalId)") Cancel
-        button.btn.btn-dark(@click="submit") Save
+        button.btn.btn-dark(@click="submit") Update
 </template>
 
 <script>
+  const toOption = id => ({ id, label: id })
   const rnd = () => Math.random().toFixed(10).toString().replace('.', '')
   export default {
     props: {
@@ -41,12 +58,8 @@
     data() {
       return {
         modalId: `modal_${rnd()}`,
-        // plan: {
-        //   name: '',
-        //   description: 'N/A',
-        //   sections: [],
-        // },
-        errors: []
+        errors: [],
+        selected: ''
       }
     },
     methods: {
@@ -109,6 +122,19 @@
         }
       },
     },
-
+    computed: {
+      linkToOptions() {
+        return [
+          {...toOption('Billed monthly')},
+          {...toOption('Billed anually')}
+          ]
+      },
+    }
   }
 </script>
+
+<style scoped>
+  .form-label {
+    color: #828487;
+  }
+</style>

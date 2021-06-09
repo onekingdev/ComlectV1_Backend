@@ -4,7 +4,7 @@
       tr
         th(width="80%") Name
           b-icon.ml-2(icon='chevron-expand' font-scale="1")
-        th(@click="sortSelect('created_at', 'date')").text-right Status
+        th(@click="sortSelect('created_at', 'date')").text-center Status
           b-icon.ml-2(icon='chevron-expand')
         th(width="35px")
     tbody

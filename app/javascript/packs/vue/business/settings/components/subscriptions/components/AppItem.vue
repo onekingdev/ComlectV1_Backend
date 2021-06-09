@@ -2,8 +2,8 @@
   tr
     td
       a.link(:href="item.url") {{ item.name }}
-    td.text-right
-      b-badge(variant='primary') {{ item.status }}
+    td.text-center
+      b-badge.status(:variant="item.status ? 'success' : 'light'") {{ item.status }}
     td.text-right
       b-dropdown.actions(size="sm" variant="light" class="m-0 p-0" right)
         template(#button-content)
@@ -18,6 +18,11 @@
     props: ['item'],
     components: {
 
+    },
+    data() {
+      return {
+        statusVariant: 'light',
+      }
     },
     computed: {
 
