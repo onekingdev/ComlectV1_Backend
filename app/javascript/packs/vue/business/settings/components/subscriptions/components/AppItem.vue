@@ -5,7 +5,7 @@
     td.text-center
       b-badge.status(:variant="item.status ? 'success' : 'light'") {{ item.status }}
     td.text-right
-      b-dropdown.actions(size="sm" variant="light" class="m-0 p-0" right)
+      b-dropdown.actions(size="sm" variant="none" class="m-0 p-0" right)
         template(#button-content)
           b-icon(icon="three-dots")
         b-dropdown-item Edit

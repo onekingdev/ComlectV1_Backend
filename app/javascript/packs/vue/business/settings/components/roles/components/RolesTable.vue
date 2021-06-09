@@ -6,11 +6,9 @@
           b-icon.ml-2(icon='chevron-expand' font-scale="1")
         th
           | Role
-          //RoleTypesModalInfo
-          //  b-icon.h5.ml-2.mb-1(icon="exclamation-circle-fill" variant="secondary" v-b-tooltip.hover title="Toooooooltip")
+          RoleTypesModalInfo
+            b-icon.h5.ml-2.mb-1(icon="exclamation-circle-fill" variant="secondary" v-b-tooltip.hover title="Toooooooltip")
         th Status
-          b-icon.ml-2(icon='chevron-expand')
-        th(@click="sortSelect('created_at', 'date')").text-right Start created
           b-icon.ml-2(icon='chevron-expand')
         th(width="35px")
     tbody
@@ -20,10 +18,10 @@
 <script>
 
 import RoleItem from "./RoleItem"
-// import RoleTypesModalInfo from "../modals/RoleTypesModalInfo";
+import RoleTypesModalInfo from "../../users/modals/RoleTypesModalInfo";
 export default {
   components: {
-    // RoleTypesModalInfo,
+    RoleTypesModalInfo,
     RoleItem
   },
   props: {

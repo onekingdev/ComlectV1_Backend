@@ -13,7 +13,7 @@
       div(v-if="!item.access") -
     td.text-right {{ dateToHuman(item.created_at) }}
     td.text-right
-      b-dropdown.actions(size="sm" variant="light" class="m-0 p-0" right)
+      b-dropdown.actions(size="sm" variant="none" class="m-0 p-0" right)
         template(#button-content)
           b-icon(icon="three-dots")
         b-dropdown-item Edit

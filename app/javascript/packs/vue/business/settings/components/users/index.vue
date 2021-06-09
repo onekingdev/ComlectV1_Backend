@@ -16,19 +16,14 @@
                     template(#title)
                       | Directory&nbsp;
                       span (7)
-                    .row.my-3
-                      .col-4
-                        .position-relative
-                          b-icon.icon-searh(icon='search')
-                          input.form-control.form-control_search(type="text" placeholder="Search" v-model="searchInput", @keyup="searching")
-                          button.btn-clear(v-if="isActive" @click="clearInput")
-                            b-icon.icon-clear(icon='x-circle')
-                      .col-4(v-if="filteredUsers.length !== 0 && searchInput")
-                        p Found {{ filteredUsers.length }} {{ filteredUsers.length === 1 ? 'result' : 'results' }}
-                      .col
-                        .d-flex.justify-content-end
-                          button.btn.btn-default.mr-2 Export
-                          button.btn.btn-dark Add User
+                    .div
+                      .row.my-3
+                        .col-md-8
+                          SearchItem(:users="filteredUsers" @searchingConfirmed="searching")
+                        .col-md-4
+                          .d-flex.justify-content-end
+                            button.btn.btn-default.mr-2 Export
+                            button.btn.btn-dark Add User
                     .row
                       .col-12
                         Loading
@@ -47,28 +42,22 @@
 <script>
   import Loading from '@/common/Loading/Loading'
   import UsersTable from "./components/UsersTable";
+  import SearchItem from "./components/SearchItem";
 
   export default {
     components: {
       Loading,
       UsersTable,
+      SearchItem,
     },
     data() {
       return {
         searchInput: '',
-        isActive: false,
       };
     },
     methods: {
-      searching () {
-        if(this.searchInput.length) this.isActive = true
-        if(!this.searchInput.length) this.isActive = false
-        this.$emit('searching', this.searchInput)
-      },
-      clearInput() {
-        this.searchInput = ''
-        this.isActive = false
-        this.$emit('searching', this.searchInput)
+      searching (value) {
+        this.searchInput = value
       },
     },
     computed: {
@@ -76,14 +65,26 @@
         return this.$store.getters.loading;
       },
       users() {
-        return [{
-          first_name: 'Holgaria',
-          last_name: 'Bolgaria',
-          email: 'holgaria@gmail.com',
-          checked: true,
-          access: false,
-          created_at: '31/01/2017'
-        }]
+        return [
+          {
+            first_name: 'Holgaria',
+            last_name: 'Bolgaria',
+            email: 'holgaria@gmail.com',
+            checked: true,
+            access: false,
+            created_at: '31/01/2017',
+            status: true
+          },
+          {
+            first_name: 'Jason',
+            last_name: 'Stetham',
+            email: 'stetham@gmail.com',
+            checked: true,
+            access: false,
+            created_at: '31/01/2017',
+            status: true
+          }
+        ]
       },
       filteredUsers () {
         return this.users.filter(user => {
@@ -91,6 +92,12 @@
           return fullName?.toLowerCase().includes(this.searchInput.toLowerCase())
         })
       },
+      filteredUsersActive () {
+        return this.filteredUsers.filter(user => user.status === true )
+      },
+      filteredUsersDisabled () {
+        return this.filteredUsers.filter(user => user.status === false )
+      }
     },
     mounted() {
 
