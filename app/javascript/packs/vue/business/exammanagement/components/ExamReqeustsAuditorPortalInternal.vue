@@ -56,16 +56,16 @@
                     b-badge.mr-2(v-if="currentRequst.shared" variant="success") {{ currentRequst.shared ? 'Shared' : '' }}
                     .exams__input.exams__topic-name {{ currentRequst.name }}
             .row.m-b-1
-              .col-md-11
+              .col
                 p {{ currentRequst.details }}
             .row.m-b-1
-              .col-md-11
+              .col
                 .row
                   .col
                     .d-flex.justify-content-between.align-items-center
                       span
-                        b-icon.mr-2(:icon="currentRequst.text_items && currentRequst.text_items.length ? 'chevron-down' : 'chevron-right'")
-                        | {{ currentRequst.text_items && currentRequst.text_items.length ? currentRequst.text_items.length : 0 }} Items
+                        b-icon.mr-2(:icon="itemsTotal && itemsTotal.length ? 'chevron-down' : 'chevron-right'")
+                        | {{ itemsTotal[i] }} Items
                 hr(v-if="currentRequst.text_items")
                 .row(v-if="currentRequst.text_items")
                   template(v-for="(textItem, textIndex) in currentRequst.text_items")
@@ -117,7 +117,7 @@
         dismissSecs: 8,
         dismissCountDown: 0,
         showDismissibleAlert: false,
-        dashboardLink: ''
+        dashboardLink: '',
       }
     },
     methods: {
@@ -259,6 +259,13 @@
       logIn() {
         return this.$store.getters.logIn;
       },
+      itemsTotal () {
+        const reqeustsItemsArr = this.currentExam.exam_requests.map(request => {
+          const itemsTotal = request.text_items.length + request.exam_request_files.length
+          return itemsTotal ? itemsTotal : 0
+        })
+        return reqeustsItemsArr
+      }
     },
   }
 </script>

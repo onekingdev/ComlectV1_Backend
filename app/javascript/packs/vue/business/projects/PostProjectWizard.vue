@@ -188,7 +188,7 @@ export default {
             this.errors[f] = [REQUIRED]
           }
         })
-        if (this.project.location_type !== Object.keys(this.locationTypes)[0] && !this.project.location) {
+        if (this.isLocationVisible && !this.project.location) {
           this.errors.location = [REQUIRED]
         }
         ['industry_ids', 'jurisdiction_ids'].map(f => {
@@ -281,7 +281,7 @@ export default {
       }
     },
     isLocationVisible() {
-      return 'onsite' === this.project.location_type
+      return ['remote_and_travel', 'onsite'].includes(this.project.location_type)
     }
   },
   components: {

@@ -42,7 +42,7 @@ class PotentialBusinessesImporter
       crd_number: row['Organization CRD#'],
       business_name: row['Legal Name'],
       website: row['Website Address']&.downcase,
-      contact_phone: row['Main Office Telephone Number'].delete('-'),
+      contact_phone: row['Main Office Telephone Number'].delete('.\-() '),
       address_1: row['Main Office Street Address 1'],
       apartment: row['Main Office Street Address 2'],
       city: row['Main Office City'],

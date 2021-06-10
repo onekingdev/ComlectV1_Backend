@@ -42,7 +42,11 @@
                   .row
                     .col
                       input(v-model='form2.code' type='hidden')
-                b-button.w-100(type='submit' variant='dark' ref="codesubmit") Submit
+                b-button.w-100.mb-2(type='submit' variant='dark' ref="codesubmit") Submit
+                b-form-group
+                  .row
+                    .col-12.text-center
+                      a.link(href="#" @click.stop="resendOTP") Send new code
     #step3.card-body.white-card-body.reviews__card.px-5(v-if='!loading && currentExam'  :class="step3 ? 'd-block' : 'd-none'")
       .reviews__card--internal.d-flex.justify-content-between.p-y-1.m-b-2
         h3 Shared with me
@@ -56,16 +60,16 @@
                     b-badge.mr-2(v-if="currentRequst.shared" variant="success") {{ currentRequst.shared ? 'Shared' : '' }}
                     .exams__input.exams__topic-name {{ currentRequst.name }}
             .row.m-b-1
-              .col-md-11
+              .col
                 p {{ currentRequst.details }}
             .row.m-b-1
-              .col-md-11
+              .col
                 .row
                   .col
                     .d-flex.justify-content-between.align-items-center
                       span
-                        b-icon.mr-2(:icon="currentRequst.text_items && currentRequst.text_items.length ? 'chevron-down' : 'chevron-right'")
-                        | {{ currentRequst.text_items && currentRequst.text_items.length ? currentRequst.text_items.length : 0 }} Items
+                        b-icon.mr-2(:icon="itemsTotal && itemsTotal.length ? 'chevron-down' : 'chevron-right'")
+                        | {{ itemsTotal[i] }} Items
                 hr(v-if="currentRequst.text_items")
                 .row(v-if="currentRequst.text_items")
                   template(v-for="(textItem, textIndex) in currentRequst.text_items")
@@ -84,20 +88,18 @@
 </template>
 
 <script>
-  import { mapGetters } from "vuex"
+  import { mapGetters, mapActions } from "vuex"
   import Loading from '@/common/Loading/Loading'
   export default {
-    // props: ['uuid', 'examUuid '],
+    props: ['examUuid'],
     components: {Loading},
     created() {
-      console.log('test')
-      console.log(this.uuid)
-      console.log(this.examUuid)
+      const uuid = window.location.pathname.split('/')[2]
+      if(uuid) this.reserveUuid = uuid
     },
     data() {
       return {
-        uuid: 'c93922a6-7f7c-4a2f-a1df-1c6066be96be',
-        userId: '',
+        // userId: '',
         otpSecret: '',
         userType: '',
         form: {
@@ -122,10 +124,16 @@
         dismissSecs: 8,
         dismissCountDown: 0,
         showDismissibleAlert: false,
-        dashboardLink: ''
+        dashboardLink: '',
+        reserveUuid: ''
       }
     },
     methods: {
+      ...mapActions({
+        getCurrentExam: 'exams/getExamById',
+        confirmEmail: 'exams/confirmEmail',
+        confirmOTP: 'exams/confirmOTP',
+      }),
       makeToast(title, str) {
         this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
       },
@@ -143,19 +151,19 @@
         }
 
         const data = {
-          "uuid": this.uuid,
+          "uuid": this.examUuid ? this.examUuid : this.reserveUuid,
           "email": this.form.email,
         }
 
-        this.$store.dispatch('exams/confirmEmail', data)
+        this.confirmEmail(data)
           .then((response) => {
             if (response.error) {
               this.error = response.error
-              this.makeToast('Error', `${response.error} ${response.message}`)
+              this.makeToast('Error', `${response.error} ${response.message ? response.message : response.status }`)
             }
             if (!response.error) {
-              this.userId = response.userid
-              this.makeToast('Success', `${response.message}`)
+              // this.userId = response.userid
+              this.makeToast('Success', `${response.message ? response.message : response.status}`)
 
               // open step 2
               this.step1 = false
@@ -181,36 +189,28 @@
           return
         }
 
-        // open step 3
-        this.step2 = false
-        this.step3 = true
-        return
-
         const data = {
+          uuid: this.examUuid ? this.examUuid : this.reserveUuid,
           email: this.form.email,
           otp: this.form2.code
         }
 
-        this.$store.dispatch('clearError', data)
+        this.confirmOTP(data)
           .then((response) => {
-
             if (response.errors) {
-              const properties = Object.keys(response.errors);
               for (const type of Object.keys(response.errors)) {
                 this.errors = response.errors[type]
-                this.makeToast('Error', `Form has errors! Please recheck fields! ${error}`)
-                // Object.keys(response.errors[type]).map(prop => response.errors[prop].map(err => this.makeToast(`Error`, `${prop}: ${err}`)))
+                this.makeToast('Error', `Email successful confirmed!`)
               }
-              return
             }
-
             if (!response.errors) {
+              this.makeToast('Success', `${response.message ? response.message : response.status}`)
               // open step 3
               this.step2 = false
               this.step3 = true
             }
           })
-          .catch((error) => this.makeToast('Error', `Couldn't submit form! ${error}`))
+          .catch((error) => this.makeToast('Error', `Couldn't submit form! ${error.message}`) )
       },
       onCodeChange(e){
         this.errors = []
@@ -250,6 +250,16 @@
           this.onSubmitStep2(e)
         }
       },
+      resendOTP() {
+        const data = {
+          "uuid": this.examUuid ? this.examUuid : this.reserveUuid,
+          "email": this.form.email,
+        }
+
+        this.confirmEmail(data)
+          .then((response) => this.makeToast('Success', `${response.message}`))
+          .catch((error) => this.makeToast('Error', `${error.message}`))
+      },
       countDownChanged(dismissCountDown) {
         this.dismissCountDown = dismissCountDown
       },
@@ -267,6 +277,13 @@
       logIn() {
         return this.$store.getters.logIn;
       },
+      itemsTotal () {
+        const reqeustsItemsArr = this.currentExam.exam_requests.map(request => {
+          const itemsTotal = request.text_items.length + request.exam_request_files.length
+          return itemsTotal ? itemsTotal : 0
+        })
+        return reqeustsItemsArr
+      }
     },
   }
 </script>
