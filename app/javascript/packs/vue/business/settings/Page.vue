@@ -5,20 +5,8 @@
         .col-md-3
           .panel-default
             ul.settings-nav
-              li.settings-nav__item.active(@click="openSetting('General', $event)")
-                a.settings-nav__link(href='#') General
-              li.settings-nav__item(@click="openSetting('Users', $event)")
-                a.settings-nav__link(href='#') Users
-              li.settings-nav__item(@click="openSetting('RolePermisssions', $event)")
-                a.settings-nav__link(href='#') Role and Permisssions
-              li.settings-nav__item(@click="openSetting('Security', $event)")
-                a.settings-nav__link(href='#') Security
-              li.settings-nav__item(@click="openSetting('Subscriptions', $event)")
-                a.settings-nav__link(href='#') Subscriptions
-              li.settings-nav__item(@click="openSetting('Billings', $event)")
-                a.settings-nav__link(href='#') Billings
-              li.settings-nav__item(@click="openSetting('Notifications', $event)")
-                a.settings-nav__link(href='#') Notifications
+              li.settings-nav__item(v-for='(item, idx) in menu' :key="idx" @click="openSetting(item.name, $event)" :class="{ active: idx === 0 }")
+                a.settings-nav__link(:href='item.link') {{ item.name }}
         .col-md-9
           component(v-bind:is="component")
 
@@ -57,7 +45,16 @@
     },
     data() {
       return {
-        component: ''
+        component: '',
+        menu: [
+          { name: 'General', link: '#' },
+          { name: 'Users', link: '#' },
+          { name: 'Security', link: '#' },
+          { name: 'Subscriptions', link: '#' },
+          { name: 'RolePermisssions', link: '#' },
+          { name: 'Billings', link: '#' },
+          { name: 'Notifications', link: '#' },
+        ]
       };
     },
     methods: {
