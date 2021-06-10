@@ -147,7 +147,7 @@ en:
           Best,
           %{company_name}
       from_specialist: |
-        Hi %{recipient_name},
+        Hi,
 
         %{sender_name} thought you would be interested in this new %{project_job} on Complect.
 

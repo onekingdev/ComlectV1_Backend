@@ -967,6 +967,41 @@ ALTER SEQUENCE public.email_threads_id_seq OWNED BY public.email_threads.id;
 
 
 --
+-- Name: exam_auditors; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.exam_auditors (
+    id bigint NOT NULL,
+    exam_id integer,
+    email character varying,
+    otp character varying,
+    otp_requested timestamp without time zone,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    retries integer DEFAULT 0
+);
+
+
+--
+-- Name: exam_auditors_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.exam_auditors_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: exam_auditors_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.exam_auditors_id_seq OWNED BY public.exam_auditors.id;
+
+
+--
 -- Name: exam_request_files; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1984,7 +2019,8 @@ CREATE TABLE public.job_applications (
     starts_on date,
     ends_on date,
     status character varying,
-    role_details text DEFAULT ''::text
+    role_details text DEFAULT ''::text,
+    document_data jsonb
 );
 
 
@@ -2187,7 +2223,7 @@ CREATE TABLE public.specialists (
     state character varying,
     city character varying,
     zipcode character varying,
-    phone character varying,
+    contact_phone character varying,
     linkedin_link character varying,
     former_regulator boolean DEFAULT false NOT NULL,
     photo_data jsonb,
@@ -5315,6 +5351,13 @@ ALTER TABLE ONLY public.email_threads ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
+-- Name: exam_auditors id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.exam_auditors ALTER COLUMN id SET DEFAULT nextval('public.exam_auditors_id_seq'::regclass);
+
+
+--
 -- Name: exam_request_files id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -5900,6 +5943,14 @@ ALTER TABLE ONLY public.education_histories
 
 ALTER TABLE ONLY public.email_threads
     ADD CONSTRAINT email_threads_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: exam_auditors exam_auditors_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.exam_auditors
+    ADD CONSTRAINT exam_auditors_pkey PRIMARY KEY (id);
 
 
 --
@@ -6569,6 +6620,13 @@ CREATE INDEX index_email_threads_on_specialist_id ON public.email_threads USING 
 --
 
 CREATE UNIQUE INDEX index_email_threads_on_thread_key ON public.email_threads USING btree (thread_key);
+
+
+--
+-- Name: index_exams_on_share_uuid; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_exams_on_share_uuid ON public.exams USING btree (share_uuid);
 
 
 --
@@ -7948,6 +8006,13 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210505154804'),
 ('20210508134939'),
 ('20210516095619'),
-('20210518154715');
+('20210518154715'),
+('20210527230840'),
+('20210527232059'),
+('20210528030325'),
+('20210528030543'),
+('20210528182423'),
+('20210531233721'),
+('20210601234719');
 
 

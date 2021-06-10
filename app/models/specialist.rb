@@ -50,16 +50,42 @@ class Specialist < ApplicationRecord
   has_many :business_specialists_roles, foreign_key: :specialist_id
   has_many :specialist_roles, source: :specialist, through: :business_specialists_roles
   has_many :subscriptions, foreign_key: :specialist_id
+  validate if: -> { time_zone.present? } do
+    errors.add :time_zone unless ActiveSupport::TimeZone.all.collect(&:name).include?(time_zone)
+  end
 
   has_settings do |s|
-    s.key :notifications, defaults: {
-      marketing_emails: true,
-      got_rated: true,
-      not_hired: true,
+    s.key :in_app_notifications, defaults: {
+      task_created: true,
+      task_assigned: true,
+      task_file_uploaded: true,
+      task_new_comment: true,
+      task_completed: true,
+      task_overdue: true,
       project_ended: true,
+      got_rated: true,
       got_message: true,
+      not_hired: true,
       new_forum_question: true,
       new_forum_comments: true
+    }
+    s.key :email_notifications, defaults: {
+      task_created: true,
+      task_assigned: true,
+      task_file_uploaded: true,
+      task_new_comment: true,
+      task_completed: true,
+      task_overdue: true,
+      project_ended: true,
+      got_rated: true,
+      got_message: true,
+      not_hired: true,
+      new_forum_question: true,
+      new_forum_comments: true
+    }
+    s.key :email_updates, defaults: {
+      monthly_newsletter: true,
+      promos_and_events: true
     }
   end
 

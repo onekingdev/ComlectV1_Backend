@@ -1,5 +1,5 @@
 <template lang="pug">
-  b-form-datepicker(v-bind="datepickerOptions" @input="input" :show-decade-nav="false" :hide-header="true")
+  b-form-datepicker(v-bind="datepickerOptions" @input="input" :show-decade-nav="false" :hide-header="true" locale="en-US")
 </template>
 
 <script>
