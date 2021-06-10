@@ -8,18 +8,20 @@
           p.mb-0 {{ item.email }}
     td
       b-form-checkbox(v-model="item.checked") {{item.checked ? 'Trusted' : 'Basic'}}
+    td(v-if="disabled") {{ item.reason }}
     td
       b-form-checkbox(v-if="item.access" v-model="item.access") {{item.access ? '' : '-'}}
       div(v-if="!item.access") -
-    td.text-right {{ dateToHuman(item.created_at) }}
+    td.text-right {{ item.created_at | dateToHuman }}
+    td.text-right(v-if="disabled") {{ item.disabled_at | dateToHuman }}
     td.text-right
       b-dropdown.actions(size="sm" variant="none" class="m-0 p-0" right)
         template(#button-content)
           b-icon(icon="three-dots")
         b-dropdown-item Edit
-        UserModalArchive(:archiveStatus="!item.status" :inline="false")
-          b-dropdown-item {{ !item.status ? 'Archive' : 'Unarchive' }}
-        UserModalDelete(:inline="false")
+        UserModalArchive(:archiveStatus="item.status" :inline="false")
+          b-dropdown-item {{ item.status ? 'Archive' : 'Unarchive' }}
+        UserModalDelete(v-if="item.status" :inline="false")
           b-dropdown-item.delete Delete
 </template>
 
@@ -31,7 +33,17 @@
 
   export default {
     name: "userItem",
-    props: ['item'],
+    props: {
+      item: {
+        type: Object,
+        required: true
+      },
+      disabled: {
+        type: Boolean,
+        required: false,
+        default: false
+      }
+    },
     components: {
       UserModalDelete,
       UserModalArchive,
@@ -41,7 +53,16 @@
 
     },
     methods: {
+
+      deleteUser(userId){
+        this.$store.dispatch('users/deleteUser', { id: userId })
+          .then(response => this.toast('Success', `The user has been deleted! ${response.id}`))
+          .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
+      }
+    },
+    filters: {
       dateToHuman(value) {
+        if (!value) return ''
         const date = DateTime.fromJSDate(new Date(value))
         if (!date.invalid) {
           return date.toFormat('MM/dd/yyyy')
@@ -50,11 +71,6 @@
           return value
         }
       },
-      deleteUser(userId){
-        this.$store.dispatch('users/deleteUser', { id: userId })
-          .then(response => this.toast('Success', `The user has been deleted! ${response.id}`))
-          .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
-      }
     }
   }
 </script>

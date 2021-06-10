@@ -7,14 +7,18 @@
         th
           | Roles
           RoleTypesModalInfo
-            b-icon.h5.ml-2.mb-1(icon="exclamation-circle-fill" variant="secondary" v-b-tooltip.hover title="Toooooooltip")
+            b-icon.ml-2(icon="exclamation-circle-fill" variant="secondary" v-b-tooltip.hover title="Toooooooltip" font-scale="1")
+        th(v-if="disabled") Reason
+          b-icon.ml-2(icon='chevron-expand')
         th Access Person
           b-icon.ml-2(icon='chevron-expand')
         th(@click="sortSelect('created_at', 'date')").text-right Start created
           b-icon.ml-2(icon='chevron-expand')
+        th(v-if="disabled" @click="sortSelect('disabled_at', 'date')").text-right Date disabled
+          b-icon.ml-2(icon='chevron-expand')
         th(width="35px")
     tbody
-      UserItem(v-for="item in sortedData" :key="item.id" :item="item")
+      UserItem(v-for="item in sortedData" :key="item.id" :item="item" :disabled="disabled")
 </template>
 
 <script>
@@ -30,6 +34,11 @@ export default {
     users: {
       type: Array,
       required: true
+    },
+    disabled: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   data () {

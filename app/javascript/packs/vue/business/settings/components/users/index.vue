@@ -15,11 +15,11 @@
                   b-tab(active)
                     template(#title)
                       | Directory&nbsp;
-                      span (7)
+                      span ({{ filteredUsersActive.length }})
                     .div
                       .row.my-3
                         .col-md-8
-                          SearchItem(:users="filteredUsers" @searchingConfirmed="searching")
+                          SearchItem(:users="filteredUsersActive" @searchingConfirmed="searching")
                         .col-md-4
                           .d-flex.justify-content-end
                             button.btn.btn-default.mr-2 Export
@@ -28,14 +28,34 @@
                     .row
                       .col-12
                         Loading
-                        UsersTable(v-if="!loading" :users="filteredUsers")
-                        table.table(v-if="!filteredUsers.length")
+                        UsersTable(v-if="!loading" :users="filteredUsersActive")
+                        table.table(v-if="!filteredUsersActive.length")
                           tbody
                             tr
                               td.text-center(colspan=5)
                                 h4.py-2 No Users
                   b-tab(title='Disabled Users')
-                    p I'm the second tab
+                    template(#title)
+                      | Directory&nbsp;
+                      span ({{ filteredUsersDisabled.length }})
+                    .div
+                      .row.my-3
+                        .col-md-8
+                          SearchItem(:users="filteredUsersDisabled" @searchingConfirmed="searching")
+                        .col-md-4
+                          .d-flex.justify-content-end
+                            button.btn.btn-default.mr-2 Export
+                            UserModalAdd
+                              button.btn.btn-dark Add User
+                    .row
+                      .col-12
+                        Loading
+                        UsersTable(v-if="!loading" :users="filteredUsersDisabled" :disabled="true")
+                        table.table(v-if="!filteredUsersDisabled.length")
+                          tbody
+                            tr
+                              td.text-center(colspan=5)
+                                h4.py-2 No Users
                   b-tab(title='Activity' disabled)
                     p I'm a disabled tab!
 </template>
@@ -76,7 +96,9 @@
             checked: true,
             access: false,
             created_at: '31/01/2017',
-            status: true
+            status: false,
+            reason: 'Termination',
+            disabled_at: '06/10/2021'
           },
           {
             first_name: 'Jason',
@@ -85,7 +107,27 @@
             checked: true,
             access: false,
             created_at: '31/01/2017',
-            status: false
+            status: false,
+            reason: 'Registration',
+            disabled_at: '06/10/2021'
+          },
+          {
+            first_name: 'Sandra ',
+            last_name: 'Bullock',
+            email: 'sandra111111111@gmail.com',
+            checked: true,
+            access: false,
+            created_at: '25/01/2017',
+            status: true,
+          },
+          {
+            first_name: 'Julia',
+            last_name: 'Roberts',
+            email: 'julia89099890970@gmail.com',
+            checked: true,
+            access: false,
+            created_at: '27/01/2017',
+            status: true
           }
         ]
       },
