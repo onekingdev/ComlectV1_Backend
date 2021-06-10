@@ -7,6 +7,7 @@ import annual from "./businesModules/annual"
 import filefolders from "./businesModules/filefolders"
 import exams from "./businesModules/exams"
 import settings from "./businesModules/settings"
+import tasks from "./businesModules/tasks"
 import risks from "./businesModules/risks";
 import shared from "./commonModules/shared";
 
@@ -73,6 +74,10 @@ const store = new Vuex.Store({
     settings: {
       namespaced: true,
       ...settings,
+    },
+    reminders: {
+      namespaced: true,
+      ...tasks,
     },
   },
 });
