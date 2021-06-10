@@ -171,8 +171,6 @@
 
         this.errors = []
         const toId = (this.taskId) ? `/${this.taskId}` : ''
-        // console.log('this.task', this.task)
-        // console.log('toId', toId)
         fetch('/api/business/reminders' + toId, {
           method: 'POST',
           headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
@@ -233,31 +231,19 @@
       //   }
       // }
       onShown () {
-        // console.log('catch')
         this.getData()
       },
       getData() {
         this.$store.dispatch("getPolicies")
-          .then((response) => {
-            // console.log('response mounted', response)
-          })
-          .catch((err) => console.error(err));
 
         this.$store.dispatch('annual/getReviews')
-          .then((response) => {
-            // console.log('response mounted', response)
-          })
-          .catch((err) => console.error(err));
 
         fetch('/api/business/local_projects/', {
           method: 'GET',
           headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
           // body: JSON.stringify(this.task)
         }).then(response => response.json())
-          .then((response) => {
-            // console.log('response mounted', response)
-            this.projects = response
-          })
+          .then((response) => this.projects = response)
           .catch((err) => console.error(err));
       }
     },

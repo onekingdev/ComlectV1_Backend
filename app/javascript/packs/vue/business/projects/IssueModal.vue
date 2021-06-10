@@ -6,7 +6,7 @@
     template(#modal-footer="{ hide }")
       button.btn.btn-default(@click="hide") Cancel
       button.btn.btn-dark(v-if="submitDisabled" disabled) Submit
-      Post(v-else :action="createUrl" :model="form" @errors="errors = $event" @saved="saved" :headers="headers")
+      Post(v-else :action="createUrl" :model="formModel" @errors="errors = $event" @saved="saved" :headers="headers")
         button.btn.btn-dark Submit
 </template>
 
@@ -39,6 +39,9 @@ export default {
     }
   },
   computed: {
+    formModel() {
+      return { issue: `I want to: ${TYPES[this.form.type]}\n\n ${this.form.issue}` }
+    },
     createUrl() {
       return `/api/projects/${this.projectId}/issues`
     },
