@@ -19,18 +19,21 @@
         b-dropdown-item Edit
         UserModalArchive(:archiveStatus="!item.status" :inline="false")
           b-dropdown-item {{ !item.status ? 'Archive' : 'Unarchive' }}
-        b-dropdown-item.delete Delete
+        UserModalDelete(:inline="false")
+          b-dropdown-item.delete Delete
 </template>
 
 <script>
   import UserAvatar from '@/common/UserAvatar'
   import { DateTime } from 'luxon'
   import UserModalArchive from "../modals/UserModalArchive";
+  import UserModalDelete from "../modals/UserModalDelete";
 
   export default {
     name: "userItem",
     props: ['item'],
     components: {
+      UserModalDelete,
       UserModalArchive,
       UserAvatar,
     },
