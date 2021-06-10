@@ -30,6 +30,7 @@ export default {
         commit("setLoading", true);
 
         const response = await axios.post(`/users/sign_in`, payload)
+        // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
         if (response.data) {
           if(response.data.token) {
             commit('UPDATE_TOKEN', response.data.token)
@@ -52,12 +53,7 @@ export default {
               data.jurisdictions,
               data.state,
               data.sub_industries,
-              data.username,
-              data.address_1,
-              data.address_2,
-              data.contact_phone,
-              data.website,
-              data.zipcode
+              data.username
             ))
             localStorage.setItem('app.currentUser', JSON.stringify(data));
           }
@@ -80,6 +76,7 @@ export default {
         return response.data
 
       } catch (error) {
+        console.error('error auth', error);
         throw error
       } finally {
         commit("setLoading", false)
@@ -150,12 +147,7 @@ export default {
               data.jurisdictions,
               data.state,
               data.sub_industries,
-              data.username,
-              data.address_1,
-              data.address_2,
-              data.contact_phone,
-              data.website,
-              data.zipcode
+              data.username
             ))
             localStorage.setItem('app.currentUser', JSON.stringify(data));
           }
@@ -260,12 +252,7 @@ export default {
             data.jurisdictions,
             data.state,
             data.sub_industries,
-            data.username,
-            data.address_1,
-            data.address_2,
-            data.contact_phone,
-            data.website,
-            data.zipcode
+            data.username
           ))
           if (!payload.business) commit('UPDATE_USER', new AccountInfoSpecialist(
             data.experience,
@@ -315,12 +302,7 @@ export default {
             data.jurisdictions,
             data.state,
             data.sub_industries,
-            data.username,
-            data.address_1,
-            data.address_2,
-            data.contact_phone,
-            data.website,
-            data.zipcode
+            data.username
           ))
           if (!payload.business) commit('UPDATE_USER', new AccountInfoSpecialist(
             data.experience,
@@ -486,22 +468,6 @@ export default {
         console.error(error);
         throw error
       } finally {
-      }
-    },
-    async resendOTP({commit}, payload) {
-      try {
-        commit("clearError");
-        commit("setLoading", true);
-
-        const response = await axios.post(`/otp_secrets`, payload)
-        // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
-        return response.data
-
-      } catch (error) {
-        console.error(error);
-        throw error
-      } finally {
-        commit("setLoading", false)
       }
     },
   },
