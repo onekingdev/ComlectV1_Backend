@@ -7,7 +7,7 @@
       .row
         .col-12.m-b-1
           Notifications(:notify="notify")
-            button.btn.btn-default(@click='click') Extend
+            button.btn.btn-default(@click='editUser') Edit
       .row
         .col-12.m-b-1
           label.form-label Email
@@ -37,11 +37,12 @@
 
 <script>
   import RoleTypesModalInfo from "./RoleTypesModalInfo";
+  import Notifications from "@/common/Notifications/Notifications";
   const rnd = () => Math.random().toFixed(10).toString().replace('.', '')
   const toOption = id => ({ id, label: id })
 
   export default {
-    components: {RoleTypesModalInfo},
+    components: {Notifications, RoleTypesModalInfo},
     props: {
       inline: {
         type: Boolean,
@@ -83,7 +84,7 @@
           this.toast('Error', error.message)
         }
       },
-      click(value) {
+      editUser(value) {
         console.log(value)
         console.log('123')
       },
