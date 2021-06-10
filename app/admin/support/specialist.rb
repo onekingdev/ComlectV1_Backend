@@ -30,7 +30,7 @@ ActiveAdmin.register Specialist, namespace: :support do
     column :city
     column :state
     column :country
-    column :phone
+    column :contact_phone
     column :status do |specialist|
       label, css_class = specialist.suspended? ? %w[Suspended error] : %w[Active yes]
       status_tag label, class: css_class
@@ -42,7 +42,7 @@ ActiveAdmin.register Specialist, namespace: :support do
     end
   end
 
-  permit_params :first_name, :last_name, :city, :zipcode, :state, :country, :phone, :linkedin_link
+  permit_params :first_name, :last_name, :city, :zipcode, :state, :country, :contact_phone, :linkedin_link
   form do |f|
     f.inputs name: 'Contact Information' do
       f.input :first_name
@@ -51,7 +51,7 @@ ActiveAdmin.register Specialist, namespace: :support do
       f.input :zipcode
       f.input :state
       f.input :country
-      f.input :phone
+      f.input :contact_phone
       f.input :linkedin_link
     end
     f.inputs name: 'Areas of Expertise' do

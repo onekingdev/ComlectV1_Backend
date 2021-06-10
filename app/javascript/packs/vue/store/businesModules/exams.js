@@ -12,6 +12,10 @@ const mapAuthProviders = {
     updateExamRequest: jwt.updateExamRequest,
     uploadExamRequestFile: jwt.uploadExamRequestFile,
     deleteExamRequestFile: jwt.deleteExamRequestFile,
+    sendInvite: jwt.sendInvite,
+    sendUninvite: jwt.sendUninvite,
+    confirmEmail: jwt.confirmEmail,
+    confirmOTP: jwt.confirmOTP,
   },
 }
 
@@ -65,6 +69,13 @@ export default {
       const indexFile = state.currentExam.exam_requests[index].exam_request_files.findIndex(record => record.id === payload.id);
       state.currentExam.exam_requests[index].exam_request_files.splice(indexFile, 1)
     },
+    ADD_AUDITOR_CURRENT_EXAM(state, payload) {
+      state.currentExam.exam_auditors.push(payload)
+    },
+    REMOVE_AUDITOR_CURRENT_EXAM(state, payload) {
+      const index = state.currentExam.exam_auditors.findIndex(record => record.id === payload.auditorId);
+      state.currentExam.exam_auditors.splice(index, 1)
+    },
   },
   actions: {
     async getExams({state, commit, rootState}) {
@@ -72,7 +83,7 @@ export default {
       commit("setLoading", true, { root: true });
       try {
         const getExams = mapAuthProviders[rootState.shared.settings.authProvider].getExams
-        getExams()
+        const data = getExams()
           .then((success) => {
             commit("clearError", null, { root: true });
             commit("setLoading", false, { root: true });
@@ -84,6 +95,7 @@ export default {
                   examItem.complete,
                   examItem.created_at,
                   examItem.ends_on,
+                  examItem.exam_auditors,
                   examItem.exam_requests,
                   examItem.id,
                   examItem.name,
@@ -101,6 +113,7 @@ export default {
             }
           })
           .catch(error => error)
+        return data
       } catch (error) {
         console.error('catch error', error);
         commit("setError", error.message, { root: true });
@@ -117,7 +130,7 @@ export default {
       });
       try {
         const createExam = mapAuthProviders[rootState.shared.settings.authProvider].createExam
-        createExam(payload)
+        const data = createExam(payload)
           .then((success) => {
             commit("clearError", null, {
               root: true
@@ -131,6 +144,7 @@ export default {
                   data.complete,
                   data.created_at,
                   data.ends_on,
+                  data.exam_auditors,
                   data.exam_requests,
                   data.id,
                   data.name,
@@ -146,6 +160,7 @@ export default {
             }
           })
           .catch(error => error)
+        return data
       } catch (error) {
         commit("setError", error.message, {
           root: true
@@ -166,7 +181,7 @@ export default {
       });
       try {
         const updateExam = mapAuthProviders[rootState.shared.settings.authProvider].updateExam
-        updateExam(payload)
+        const data = updateExam(payload)
           .then((success) => {
             commit("clearError", null, {
               root: true
@@ -180,6 +195,7 @@ export default {
                   data.complete,
                   data.created_at,
                   data.ends_on,
+                  data.exam_auditors,
                   data.exam_requests,
                   data.id,
                   data.name,
@@ -191,6 +207,7 @@ export default {
                   data.complete,
                   data.created_at,
                   data.ends_on,
+                  data.exam_auditors,
                   data.exam_requests,
                   data.id,
                   data.name,
@@ -206,6 +223,7 @@ export default {
             }
           })
           .catch(error => error)
+        return data
       } catch (error) {
         commit("setError", error.message, {
           root: true
@@ -226,7 +244,7 @@ export default {
       });
       try {
         const deleteExam = mapAuthProviders[rootState.shared.settings.authProvider].deleteExam
-        deleteExam(payload)
+        const data = deleteExam(payload)
           .then((success) => {
             commit("clearError", null, {
               root: true
@@ -240,6 +258,7 @@ export default {
                   data.complete,
                   data.created_at,
                   data.ends_on,
+                  data.exam_auditors,
                   data.exam_requests,
                   data.id,
                   data.name,
@@ -255,6 +274,7 @@ export default {
             }
           })
           .catch(error => error)
+        return data
       } catch (error) {
         commit("setError", error.message, {
           root: true
@@ -275,7 +295,7 @@ export default {
       });
       try {
         const getExamById = mapAuthProviders[rootState.shared.settings.authProvider].getExamById
-        getExamById(payload)
+        const data = getExamById(payload)
           .then((success) => {
             commit("clearError", null, { root: true });
             commit("setLoading", false, { root: true });
@@ -285,6 +305,7 @@ export default {
                 data.complete,
                 data.created_at,
                 data.ends_on,
+                data.exam_auditors,
                 data.exam_requests,
                 data.id,
                 data.name,
@@ -299,6 +320,7 @@ export default {
             }
           })
           .catch(error => error)
+        return data
       } catch (error) {
         commit("setError", error.message, {
           root: true
@@ -319,7 +341,7 @@ export default {
       });
       try {
         const createExamRequest = mapAuthProviders[rootState.shared.settings.authProvider].createExamRequest
-        createExamRequest(payload)
+        const data = createExamRequest(payload)
           .then((success) => {
             if (success) {
               const data = success.data
@@ -337,6 +359,7 @@ export default {
             });
           })
           .catch(error => error)
+        return data
       } catch (error) {
         commit("setError", error.message, {
           root: true
@@ -360,7 +383,7 @@ export default {
       });
       try {
         const updateExamRequest = mapAuthProviders[rootState.shared.settings.authProvider].updateExamRequest
-        updateExamRequest(payload)
+        const data = updateExamRequest(payload)
           .then((success) => {
             if (success) {
               const data = success.data
@@ -378,6 +401,7 @@ export default {
             });
           })
           .catch(error => error)
+        return data
       } catch (error) {
         commit("setError", error.message, {
           root: true
@@ -401,7 +425,7 @@ export default {
       });
       try {
         const deleteExamRequest = mapAuthProviders[rootState.shared.settings.authProvider].deleteExamRequest
-        deleteExamRequest(payload)
+        const data = deleteExamRequest(payload)
           .then((success) => {
             if (success) {
               const data = success.data
@@ -419,6 +443,7 @@ export default {
             });
           })
           .catch(error => error)
+        return data
       } catch (error) {
         commit("setError", error.message, {
           root: true
@@ -438,7 +463,7 @@ export default {
       commit("setLoading", true, { root: true });
       try {
         const uploadExamRequestFile = mapAuthProviders[rootState.shared.settings.authProvider].uploadExamRequestFile
-        uploadExamRequestFile(payload)
+        const data = uploadExamRequestFile(payload)
           .then((success) => {
             if (success) {
               const data = success
@@ -456,6 +481,8 @@ export default {
             });
           })
           .catch(error => error)
+        return data
+        return data
       } catch (error) {
         commit("setError", error.message, { root: true });
         commit("setLoading", false, { root: true });
@@ -469,7 +496,7 @@ export default {
       commit("setLoading", true, { root: true });
       try {
         const deleteExamRequestFile = mapAuthProviders[rootState.shared.settings.authProvider].deleteExamRequestFile
-        deleteExamRequestFile(payload)
+        const data = deleteExamRequestFile(payload)
           .then((success) => {
             if (success) {
               const data = success
@@ -487,12 +514,183 @@ export default {
             });
           })
           .catch(error => error)
+        return data
       } catch (error) {
         commit("setError", error.message, { root: true });
         commit("setLoading", false, { root: true });
         throw error;
       } finally {
         commit("setLoading", false, { root: true })
+      }
+    },
+    async sendInvite({state, commit, rootState}, payload) {
+      commit("clearError", null, {
+        root: true
+      });
+      commit("setLoading", true, {
+        root: true
+      });
+      try {
+        const sendInvite = mapAuthProviders[rootState.shared.settings.authProvider].sendInvite
+        const data = await sendInvite(payload)
+          .then((success) => {
+            commit("clearError", null, {
+              root: true
+            });
+            commit("setLoading", false, {
+              root: true
+            });
+            if (success) {
+              const data = success.data
+              commit('ADD_AUDITOR_CURRENT_EXAM', data)
+              return data
+            }
+            if (!success) {
+              commit("setError", success.message, { root: true });
+              console.error('Not success', success)
+              return success
+            }
+          })
+          .catch(error => error)
+        return data
+      } catch (error) {
+        commit("setError", error.message, {
+          root: true
+        });
+        commit("setLoading", false, {
+          root: true
+        });
+        throw error;
+      }
+    },
+    async sendUninvite({state, commit, rootState}, payload) {
+      commit("clearError", null, {
+        root: true
+      });
+      commit("setLoading", true, {
+        root: true
+      });
+      try {
+        const sendUninvite = mapAuthProviders[rootState.shared.settings.authProvider].sendUninvite
+        const data = await sendUninvite(payload)
+          .then((success) => {
+            commit("clearError", null, {
+              root: true
+            });
+            commit("setLoading", false, {
+              root: true
+            });
+            if (success) {
+              const data = success.data
+              commit('REMOVE_AUDITOR_CURRENT_EXAM', payload)
+              return data
+            }
+            if (!success) {
+              commit("setError", success.message, { root: true });
+              console.error('Not success', success)
+              return success
+            }
+          })
+          .catch(error => error)
+        return data
+      } catch (error) {
+        commit("setError", error.message, {
+          root: true
+        });
+        commit("setLoading", false, {
+          root: true
+        });
+        throw error;
+      }
+    },
+    async confirmEmail({state, commit, rootState}, payload) {
+      commit("clearError", null, {
+        root: true
+      });
+      commit("setLoading", true, {
+        root: true
+      });
+      try {
+        const confirmEmail = mapAuthProviders[rootState.shared.settings.authProvider].confirmEmail
+        const data = await confirmEmail(payload)
+          .then((success) => {
+            commit("clearError", null, {
+              root: true
+            });
+            commit("setLoading", false, {
+              root: true
+            });
+            if (success) {
+              const data = success.data
+              return data
+            }
+            if (!success) {
+              commit("setError", success.message, { root: true });
+              console.error('Not success', success)
+              return success
+            }
+          })
+          .catch(error => error)
+        return data
+      } catch (error) {
+        commit("setError", error.message, {
+          root: true
+        });
+        commit("setLoading", false, {
+          root: true
+        });
+        throw error;
+      }
+    },
+    async confirmOTP({state, commit, rootState}, payload) {
+      commit("clearError", null, {
+        root: true
+      });
+      commit("setLoading", true, {
+        root: true
+      });
+      try {
+        const confirmOTP = mapAuthProviders[rootState.shared.settings.authProvider].confirmOTP
+        const data = await confirmOTP(payload)
+          .then((success) => {
+            commit("clearError", null, {
+              root: true
+            });
+            commit("setLoading", false, {
+              root: true
+            });
+            if (success) {
+              const data = success.data
+              commit('SET_CURRENT_EXAM', new ExamManagement(
+                data.complete,
+                data.created_at,
+                data.ends_on,
+                data.exam_auditors,
+                data.exam_requests,
+                data.id,
+                data.name,
+                data.share_uuid,
+                data.starts_on,
+                data.updated_at,
+              ))
+              return success.data
+            }
+            if (!success) {
+              commit("setError", success.message, { root: true });
+              console.error('Not success', success)
+              return success
+            }
+          })
+          .catch(error => error)
+        return data
+      } catch (error) {
+        commit("setError", error.message, {
+          root: true
+        });
+        commit("setLoading", false, {
+          root: true
+        });
+        throw error;
       }
     },
   },
