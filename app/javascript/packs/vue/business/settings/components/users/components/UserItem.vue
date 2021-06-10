@@ -21,7 +21,7 @@
         b-dropdown-item Edit
         UserModalArchive(:archiveStatus="item.status" :inline="false")
           b-dropdown-item {{ item.status ? 'Archive' : 'Unarchive' }}
-        UserModalDelete(v-if="item.status" :inline="false")
+        UserModalDelete(v-if="!item.status" :inline="false")
           b-dropdown-item.delete Delete
 </template>
 
