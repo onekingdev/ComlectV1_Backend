@@ -3,7 +3,7 @@
     div(v-b-modal="modalId" :class="{'d-inline-block':inline}")
       slot
 
-    b-modal.fade(:id="modalId" title="Do Task A" size="xl" @shown="onShown")
+    b-modal.fade(:id="modalId" title="Do Task A" size="xl" @shown="getData")
       b-row
         .col-lg-6.pr-2
           b-row.m-b-2
@@ -171,8 +171,8 @@
 
         this.errors = []
         const toId = (this.taskId) ? `/${this.taskId}` : ''
-        // console.log('this.task', this.task)
-        // console.log('toId', toId)
+        console.log('this.task', this.task)
+        console.log('toId', toId)
         fetch('/api/business/reminders' + toId, {
           method: 'POST',
           headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
@@ -232,34 +232,34 @@
       //     this.task = initialTask(this.remindAt ? { remind_at: this.remindAt } : undefined)
       //   }
       // }
-      onShown () {
-        // console.log('catch')
-        this.getData()
+      async getData () {
+        try {
+          // await this.$store.dispatch('filefolders/getFileFolders')
+
+          this.$store.dispatch("getPolicies")
+            .then((response) => console.log('response mounted', response))
+            .catch((err) => console.error(err));
+
+          this.$store.dispatch('annual/getReviews')
+            .then((response) => console.log('response mounted', response))
+            .catch((err) => console.error(err));
+
+          fetch('/api/business/local_projects/', {
+            method: 'GET',
+            headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+            // body: JSON.stringify(this.task)
+          }).then(response => response.json())
+            .then((response) => {
+              console.log('response mounted', response)
+              this.projects = response
+            })
+            .catch((err) => console.error(err));
+
+        } catch (error) {
+          console.error(error)
+          this.toast('Error', error.message)
+        }
       },
-      getData() {
-        this.$store.dispatch("getPolicies")
-          .then((response) => {
-            // console.log('response mounted', response)
-          })
-          .catch((err) => console.error(err));
-
-        this.$store.dispatch('annual/getReviews')
-          .then((response) => {
-            // console.log('response mounted', response)
-          })
-          .catch((err) => console.error(err));
-
-        fetch('/api/business/local_projects/', {
-          method: 'GET',
-          headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
-          // body: JSON.stringify(this.task)
-        }).then(response => response.json())
-          .then((response) => {
-            // console.log('response mounted', response)
-            this.projects = response
-          })
-          .catch((err) => console.error(err));
-      }
     },
     computed: {
       // reviewsOptions () {
@@ -291,9 +291,9 @@
         }
       },
     },
-    // mounted() {
-    //
-    // },
+    mounted() {
+
+    },
   }
 </script>
 

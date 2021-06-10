@@ -77,11 +77,9 @@
         //   ([key, value]) => formData.append(key, value)
         // )
 
-        try {
-          // FOR MULTIPLE LOADING FILES
-          let formData = new FormData()
-          for( var i = 0; i < this.files.length; i++ ) {
-
+        // FOR MULTIPLE LOADING FILES
+        let formData = new FormData()
+        for( var i = 0; i < this.files.length; i++ ){
           let file = this.files[i];
           formData.append('file', file);
 
@@ -91,24 +89,23 @@
             formData
           }
 
-          const sendFIle = new Promise((resolve, reject) => {
-            this.$store.dispatch('exams/uploadExamRequestFile', data)
-              .then(response => resolve(response))
-              .catch(error => reject(error))
-          });
-
-          await sendFIle
-            .then(response => this.makeToast('Success', `${response.name} successful uploaded!`))
-            .catch(error => this.makeToast('Error', error.message))
-          // const result = await sendFIle
-          // console.log('result', result)
+          try {
+            setTimeout(() => {
+              this.$store.dispatch('exams/uploadExamRequestFile', data)
+                .then(response => {
+                  this.makeToast('Success', `File successfull uploaded!`)
+                  // this.$emit('saved')
+                  // this.$bvModal.hide(this.modalId)
+                  // document.querySelectorAll('.modal-body .file-card')[i].style.display = 'none'
+                })
+                .catch(error => console.log(error))
+            }, 300)
+          } catch (error) {
+            this.makeToast('Error', error.message)
+          } finally {
+            this.$emit('saved')
+            this.$bvModal.hide(this.modalId)
           }
-        } catch (error) {
-          this.makeToast('Error', error.message)
-        } finally {
-          this.files = []
-          this.$emit('saved')
-          this.$bvModal.hide(this.modalId)
         }
       },
       selectFile(event){

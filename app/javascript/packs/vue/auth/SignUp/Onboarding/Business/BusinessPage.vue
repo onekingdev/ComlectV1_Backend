@@ -282,7 +282,7 @@
   })
 
   export default {
-    props: ['industryIds', 'jurisdictionIds', 'subIndustryIds', 'states', 'userInfo', 'timezones'],
+    props: ['industryIds', 'jurisdictionIds', 'subIndustryIds', 'states', 'userInfo'],
     components: {
       Loading,
       TopNavbar,

@@ -383,15 +383,11 @@ table.table, table.table thead tr th {
         }
       }
 
-      &.disabled {
-        opacity: 1;
-      }
-      &:hover, &:active {
-        &:not(.disabled) {
-          color: #2e304f;
-          background-color: #dee2e6;
-          border-color: #dee2e6;
-        }
+      &:hover,
+      &:active {
+        color: #2e304f;
+        background-color: #dee2e6;
+        border-color: #dee2e6;
       }
 
       &:not(:last-child) {

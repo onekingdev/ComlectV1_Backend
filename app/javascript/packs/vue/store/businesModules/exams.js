@@ -650,8 +650,8 @@ export default {
         root: true
       });
       try {
-        const confirmOTP = mapAuthProviders[rootState.shared.settings.authProvider].confirmOTP
-        const data = await confirmOTP(payload)
+        const confirmEmail = mapAuthProviders[rootState.shared.settings.authProvider].confirmEmail
+        const data = await confirmEmail(payload)
           .then((success) => {
             commit("clearError", null, {
               root: true
@@ -661,19 +661,7 @@ export default {
             });
             if (success) {
               const data = success.data
-              commit('SET_CURRENT_EXAM', new ExamManagement(
-                data.complete,
-                data.created_at,
-                data.ends_on,
-                data.exam_auditors,
-                data.exam_requests,
-                data.id,
-                data.name,
-                data.share_uuid,
-                data.starts_on,
-                data.updated_at,
-              ))
-              return success.data
+              return data
             }
             if (!success) {
               commit("setError", success.message, { root: true });

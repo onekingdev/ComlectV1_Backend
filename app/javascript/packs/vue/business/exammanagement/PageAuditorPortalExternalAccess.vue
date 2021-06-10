@@ -8,7 +8,7 @@
         .bg-black
     .row
       .col
-        .container.portal
+        .container
           .row
             .col.m-b-2
               .card-body.white-card-body.reviews__card
@@ -19,14 +19,21 @@
                     p.greeting-text__subtitle Click on the reqeust item below to view their contents and download any document
           .row
             .col
-              ExamReqeustsAuditorPortalExternal
+              Loading
+              ExamReqeustsAuditorPortalExternal(v-if="!loading")
 </template>
 
 <script>
+  import Loading from '@/common/Loading/Loading'
   import ExamReqeustsAuditorPortalExternal from "./components/ExamReqeustsAuditorPortalExternal";
   export default {
     props: ['examId'],
-    components: {ExamReqeustsAuditorPortalExternal},
+    components: {Loading, ExamReqeustsAuditorPortalExternal},
+    computed: {
+      loading() {
+        return this.$store.getters.loading;
+      },
+    },
   }
 </script>
 
