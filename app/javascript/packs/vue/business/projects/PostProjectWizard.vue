@@ -81,8 +81,6 @@ import { redirectWithToast } from '@/common/Toast'
 import {
   PRICING_TYPES,
   LOCATION_TYPES,
-  SORT_INDUSTRIES,
-  SORT_JURISDICTIONS,
   FIXED_PAYMENT_SCHEDULE_OPTIONS_FILTERED,
   HOURLY_PAYMENT_SCHEDULE_OPTIONS_FILTERED,
   MINIMUM_EXPERIENCE_OPTIONS,
@@ -188,7 +186,7 @@ export default {
             this.errors[f] = [REQUIRED]
           }
         })
-        if (this.isLocationVisible && !this.project.location) {
+        if (this.project.location_type !== Object.keys(this.locationTypes)[0] && !this.project.location) {
           this.errors.location = [REQUIRED]
         }
         ['industry_ids', 'jurisdiction_ids'].map(f => {
@@ -255,10 +253,10 @@ export default {
     experienceOptions: () => MINIMUM_EXPERIENCE_OPTIONS,
     skillsOptions: () => ['SEC', 'Policy Writing', 'FINRA'].map(id => ({ id, label: id })),
     industryIdsOptions() {
-      return SORT_INDUSTRIES(this.industryIds).map(toOption)
+      return this.industryIds.map(toOption)
     },
     jurisdictionIdsOptions() {
-      return SORT_JURISDICTIONS(this.jurisdictionIds).map(toOption)
+      return this.jurisdictionIds.map(toOption)
     },
     currentStep() {
       return this.steps.indexOf(this.step)
@@ -281,7 +279,7 @@ export default {
       }
     },
     isLocationVisible() {
-      return ['remote_and_travel', 'onsite'].includes(this.project.location_type)
+      return 'onsite' === this.project.location_type
     }
   },
   components: {
