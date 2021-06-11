@@ -13,7 +13,8 @@
             p.mb-0.time {{ item.created_at | dateToHuman }}
       .col
         .d-flex.justify-content-end.align-items-center.h-100
-          b-button.btn.mr-2.font-weight-bold(v-if="item.type === 'message'" type='button' variant='default') View
+          MessagesModalCreate(v-if="item.type === 'message'" )
+            b-button.btn.mr-2.font-weight-bold(type='button' variant='default') View
           button.btn.btn__close
             b-icon(icon="x" font-scale="1")
 </template>
@@ -21,11 +22,13 @@
 <script>
   import { DateTime } from 'luxon'
   import UserAvatar from '@/common/UserAvatar'
+  import MessagesModalCreate from "../modals/MessagesModalCreate";
 
   export default {
     name: "notifyItem",
     props: ['item'],
     components: {
+      MessagesModalCreate,
       UserAvatar
     },
     data() {
