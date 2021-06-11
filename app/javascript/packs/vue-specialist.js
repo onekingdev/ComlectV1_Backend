@@ -6,6 +6,11 @@ import MyProjectsPage from '@/specialist/projects/MyProjectsPage'
 import MyProjectShowPage from '@/specialist/projects/MyProjectShowPage'
 import ProjectTimesheetsPage from '@/specialist/projects/ProjectTimesheetsPage'
 
+import SpecialistSettingsPage from './vue/specialist/settings/Page.vue'
+const SpecialistSettings = {
+  SpecialistSettingsPage,
+}
+
 init({
   store,
   components: {
@@ -14,5 +19,6 @@ init({
     MyProjectsPage,
     MyProjectShowPage,
     ProjectTimesheetsPage,
+    ...SpecialistSettings,
   }
 })
