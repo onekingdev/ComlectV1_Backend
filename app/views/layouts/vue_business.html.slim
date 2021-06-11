@@ -118,7 +118,8 @@ body class="#{controller_name} #{action_name}"
               .navbar-nav
                 a.btn.btn-primary(href='/business/specialists' style="margin-top: 18px;")  Find an Expert
                 .dropdown#notifications_dropdown
-                  ion-icon(name='notifications-outline')
+                  a.text-dark(href='/business/settings/notifications' class="#{'active' if params[:controller] == 'business/notification_settings'}")
+                    ion-icon(name='notifications-outline')
                 .dropdown#profile_dropdown.p-x-2
                   #profile_dropdown_btn(@click="isProfileMenuOpen = !isProfileMenuOpen" :aria-expanded="isProfileMenuOpen")
                     - if current_business
