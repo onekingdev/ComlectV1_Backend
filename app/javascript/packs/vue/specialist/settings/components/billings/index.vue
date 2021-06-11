@@ -13,6 +13,14 @@
               .row.m-b-2
                 .col
                   h4
+                    b Client Billing
+              .row
+                .col
+                  ClientBilling
+            .settings___card--internal.p-y-1
+              .row.m-b-2
+                .col
+                  h4
                     b Payment Method
                 .col.text-right
                   BillingMethodModalAdd(@selected="addMethod")
@@ -40,9 +48,11 @@
   import PaymentMethod from "./components/PaymentMethod";
   import BillingMethodModalAdd from "./modals/BillingMethodModalAdd";
   import CardModalAdd from "./modals/CardModalAdd";
+  import ClientBilling from "./components/ClientBilling";
 
   export default {
     components: {
+      ClientBilling,
       CardModalAdd,
       BillingMethodModalAdd,
       PaymentMethod,
