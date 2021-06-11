@@ -14,7 +14,7 @@
 
 <script>
   import Loading from '@/common/Loading/Loading'
-  import NotificationCenter from "./components/сenter";
+  import NotificationCenter from "./components/center";
 
   export default {
     components: {
