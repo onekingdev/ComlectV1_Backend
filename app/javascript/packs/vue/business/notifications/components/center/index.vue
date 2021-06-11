@@ -5,7 +5,7 @@
         Loading
     .row(v-if='!loading')
       .col
-        .card.settings__card
+        .card.settings__card.overflow-wrap
           .card-title.px-3.px-xl-5.py-xl-4.mb-0
             h3.mb-0 Notification Center
           .card-body.white-card-body.px-3.px-xl-5
@@ -15,20 +15,24 @@
                   h4 Today
               .row
                 .col
-                  NotificationsList(:notifications="notifications")
-                  div(v-if="!notifications && notifications.length") Notifications not avaliable
-            //.settings___card--internal.p-y-1
-            //  .row
-            //    .col
-            //      h4 Previous
-            //  .row
-            //    .col
-            //      // div(v-if="!notifications && notifications.length") Notifications not avaliable
+                  NotificationsList(:notifications="notificationsToday")
+                  div(v-if="!notificationsToday && !notificationsToday.length") Notifications for today not exist
+            .settings___card--internal.p-y-1
+              .row.m-b-1
+                .col
+                  h4 Previous
+              .row
+                .col
+                  NotificationsList(:notifications="notificationsNotToday")
+                   div(v-if="!notificationsNotToday && !notificationsNotToday.length") Notifications not exist
 </template>
 
 <script>
+  import { DateTime } from 'luxon'
   import Loading from '@/common/Loading/Loading'
   import NotificationsList from "./components/NotificationsList";
+
+  var today = DateTime.now().toLocaleString(DateTime.DATE_FULL)
 
   export default {
     components: {
@@ -103,8 +107,33 @@
             linkName: 'someLinkName',
             created_at: '2021-05-04T07:01:11.344Z',
           },
+          {
+            id: 6,
+            type: 'system',
+            variant: 'warning',
+            name: 'Special for today',
+            link: 'link',
+            linkName: 'Elbargo.ru',
+            created_at: '2021-06-11T07:01:11.344Z',
+          },
         ]
       },
+      notificationsToday() {
+        return this.notifications.filter(notify => {
+          const date = DateTime.fromJSDate(new Date(notify.created_at))
+            if (date.toLocaleString(DateTime.DATE_FULL) === today) {
+              return date.toLocaleString({ hour: '2-digit', minute: '2-digit', hour12: true })
+            }
+        })
+      },
+      notificationsNotToday() {
+        return this.notifications.filter(notify => {
+          const date = DateTime.fromJSDate(new Date(notify.created_at))
+          if (date.toLocaleString(DateTime.DATE_FULL) !== today) {
+            return date.toLocaleString({ hour: '2-digit', minute: '2-digit', hour12: true })
+          }
+        })
+      }
     },
     mounted() {
 

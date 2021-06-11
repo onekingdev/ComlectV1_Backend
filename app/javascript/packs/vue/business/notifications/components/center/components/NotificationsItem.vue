@@ -1,7 +1,7 @@
 <template lang="pug">
   b-list-group-item
     .row
-      .col
+      .col-10
         .d-flex.align-items-center
           .d-flex.align-items-center.justify-content-center.icon_width
             b-icon(v-if="item.type !== 'message'" icon="exclamation-triangle-fill" scale="2" variant="warning")
@@ -19,11 +19,8 @@
 </template>
 
 <script>
-  import UserAvatar from '@/common/UserAvatar'
   import { DateTime } from 'luxon'
-
-  const today = DateTime.local().toISODate()
-  console.log(today)
+  import UserAvatar from '@/common/UserAvatar'
 
   export default {
     name: "notifyItem",
