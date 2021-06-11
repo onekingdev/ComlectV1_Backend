@@ -15,7 +15,10 @@
                   h4
                     b Payment Method
                 .col.text-right
-                  b-button.btn.mr-2.font-weight-bold(type='button' variant='default') Add Method
+                  BillingMethodModalAdd(@selected="addMethod")
+                    b-button.btn.mr-2.font-weight-bold(type='button' variant='default') Add Method
+                  CardModalAdd(:billingMethod="billingMethod")
+                    b-button.d-none(ref="special") Card add
               .row
                 .col
                   PaymentMethod
@@ -35,20 +38,29 @@
   import Loading from '@/common/Loading/Loading'
   import InvoicesTable from "./components/InvoicesTable";
   import PaymentMethod from "./components/PaymentMethod";
+  import BillingMethodModalAdd from "./modals/BillingMethodModalAdd";
+  import CardModalAdd from "./modals/CardModalAdd";
 
   export default {
     components: {
+      CardModalAdd,
+      BillingMethodModalAdd,
       PaymentMethod,
       InvoicesTable,
       Loading,
     },
     data() {
       return {
-
+        billingMethod: '',
       };
     },
     methods: {
-
+      addMethod(value) {
+        this.billingMethod = value
+        // this.$root.$emit("bv::show::modal", "CardModalAdd");
+        // console.log(this.$root.$emit("bv::show::modal", "CardModalAdd"))
+        this.$refs.special.click()
+      }
     },
     computed: {
       loading() {
