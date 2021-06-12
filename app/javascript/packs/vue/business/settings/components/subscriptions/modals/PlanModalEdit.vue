@@ -5,20 +5,20 @@
 
     b-modal.fade(:id="modalId" title="Edit Plan")
       b-row.m-b-2
-        b-col(cols='8')
+        b-col(cols="8").pr-0
           b-row
             b-col
               p Your organization currently has {{ plan.users }} registered users
           b-row.m-b-2
             b-col(class="pr-1")
               label.form-label Billing plan
-              ComboBox(V-model="plan.billingPlan" :options="linkToOptions" placeholder="Select a billing plan")
+              ComboBox(V-model="plan.billingPlan" :options="linkToOptions" placeholder="Select a billing plan" @input="selectPlan")
               Errors(:errors="errors.billingPlan")
             b-col(class="pl-1")
               label.form-label Users
-              input.form-control(v-model="plan.count" type="text" placeholder="Users" @keyup.enter="submit" ref="input")
+              input.form-control(v-model="plan.count" type="number" placeholder="Users" ref="input" min="0" @keyup.enter="submit" @input="calcPrice")
               Errors(:errors="errors.count")
-        b-col(cols='4')
+        b-col
           b-card.mb-2
             b-card-text
               p.form-label.text-uppercase.mb-0 Users
@@ -29,7 +29,7 @@
               p
                 b 150$
                 | /month
-              p.text-success You saved 50$/month
+              p.text-success.mb-0(v-if="showDiscount") You saved 50$/month
       b-row
         b-col
           h5.mb-3 Payment method
@@ -60,7 +60,8 @@
       return {
         modalId: `modal_${rnd()}`,
         errors: [],
-        selected: ''
+        selected: '',
+        showDiscount: false
       }
     },
     methods: {
@@ -122,13 +123,29 @@
           this.makeToast('Error', error.message)
         }
       },
+      selectPlan(value) {
+        if (value==='anually') {
+          this.showDiscount = true
+          this.calcPrice(this.$refs.input.value)
+        }
+      },
+      calcPrice (event) {
+        const reqiredUsers = this.$refs.input.value;
+        if(this.showDiscount && reqiredUsers && reqiredUsers >= 1) console.log(reqiredUsers)
+      }
     },
     computed: {
       linkToOptions() {
         return [
-          {...toOption('Billed monthly')},
-          {...toOption('Billed anually')}
-          ]
+          {
+            id: 'monthly',
+            label: 'Billed monthly',
+          },
+          {
+            id: 'anually',
+            label: 'Billed anually',
+          }
+        ]
       },
     }
   }
