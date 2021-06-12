@@ -110,24 +110,10 @@
         // clear errors
         this.errors = []
 
-        const data = {
-          "user": {
-            "email": this.form.email,
-            "password": this.form.password
-          },
-        }
-
-        this.$store.dispatch('singIn', data)
-          .then((response) => console.log(error))
-          .catch((error) => console.error(error))
+        this.$store.dispatch('settings/updateGeneralSettings', this.form)
+          .then(response => this.toast('Success', `Information successfully saved!`) )
+          .catch(error => this.toast('Error', `Something wrong! ${error}`) )
       },
-
-      onChange (value) {
-        if(value) {
-
-        }
-      },
-
       onReset(event) {
         event.preventDefault()
         // Reset our form values
@@ -145,8 +131,14 @@
         return this.$store.getters.loading;
       },
     },
-    mounted() {
-
+    async mounted () {
+      try {
+        await this.$store.dispatch('settings/getGeneralSettings')
+          .then(response => this.form = {...response})
+          .catch(error => console.error(error))
+      } catch (error) {
+        console.error(error)
+      }
     },
   };
 </script>

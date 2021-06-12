@@ -1,15 +1,26 @@
-import axios from '../../services/axios'
+import axios from '../axios'
 
-const END_POINT = '/business/settings'
+const END_POINT = '/settings'
 
-export async function getSettings() {
+export async function getGeneralSettings() {
   return axios
-    .get(`${END_POINT}`)
+    .get(`${END_POINT}/general`)
     .then(response => {
       if (response) {
         return response
       }
       return response
+    })
+    .catch(err => err)
+}
+
+export async function updateGeneralSettings(payload) {
+  return await axios.patch(`${END_POINT}/general`, payload)
+    .then(response => {
+      if (response) {
+        return response
+      }
+      return false
     })
     .catch(err => err)
 }
