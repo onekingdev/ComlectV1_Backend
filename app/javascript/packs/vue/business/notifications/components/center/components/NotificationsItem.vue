@@ -13,7 +13,7 @@
             p.mb-0.time {{ item.created_at | dateToHuman }}
       .col
         .d-flex.justify-content-end.align-items-center.h-100
-          MessagesModalCreate(v-if="item.type === 'message'" )
+          MessagesModalCreate(v-if="item.type === 'message'" :item="item" )
             b-button.btn.mr-2.font-weight-bold(type='button' variant='default') View
           button.btn.btn__close
             b-icon(icon="x" font-scale="1")

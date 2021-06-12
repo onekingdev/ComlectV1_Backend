@@ -16,7 +16,7 @@
               .row
                 .col
                   NotificationsList(:notifications="notificationsToday")
-                  div(v-if="!notificationsToday && !notificationsToday.length") Notifications for today not exist
+                  div(v-if="notificationsToday && !notificationsToday.length") Notifications for today not exist
             .settings___card--internal.p-y-1
               .row.m-b-1
                 .col
@@ -24,7 +24,7 @@
               .row
                 .col
                   NotificationsList(:notifications="notificationsNotToday")
-                   div(v-if="!notificationsNotToday && !notificationsNotToday.length") Notifications not exist
+                   div(v-if="notificationsNotToday && !notificationsNotToday.length") Notifications not exist
 </template>
 
 <script>
@@ -68,6 +68,10 @@
             specialist: {
               first_name: 'Abrrrr',
               last_name: 'Kadbrrr',
+              address_1: 'Arizona, United States',
+              rate: '$200/hr',
+              avaibility: 'Open',
+              totaljobs: 8,
             },
             name: 'Some 2 task 2 task',
             link: 'some link 2 ',
@@ -114,7 +118,7 @@
             name: 'Special for today',
             link: 'link',
             linkName: 'Elbargo.ru',
-            created_at: '2021-06-11T07:01:11.344Z',
+            created_at: '2021-06-12T07:01:11.344Z',
           },
         ]
       },
