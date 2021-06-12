@@ -17,11 +17,11 @@
 </template>
 
 <script>
-  import { DateTime } from 'luxon'
+  // import { DateTime } from 'luxon'
   import Loading from '@/common/Loading/Loading'
   import MessagesList from "./components/MessagesList";
 
-  var today = DateTime.now().toLocaleString(DateTime.DATE_FULL)
+  // var today = DateTime.now().toLocaleString(DateTime.DATE_FULL)
 
   export default {
     components: {
@@ -57,7 +57,7 @@
             name: 'Some 2 task 2 task',
             link: 'some link 2 ',
             linkName: 'someLinkName2 ',
-            created_at: '2021-05-04T06:56:53.690Z',
+            created_at: '2021-06-12T06:56:53.690Z',
             messages: {
               files: []
             }
@@ -73,7 +73,7 @@
             name: 'Some 2 task 2 task',
             link: 'some link 2 ',
             linkName: 'someLinkName2 ',
-            created_at: '2021-05-04T06:58:37.972Z',
+            created_at: '2021-06-11T06:58:37.972Z',
             messages: {
               files: []
             }

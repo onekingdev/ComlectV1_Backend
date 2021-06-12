@@ -8,8 +8,8 @@
             UserAvatar(v-if="item.type === 'message'" :user="item.specialist")
           .d-block.ml-4
             h5 {{ item.name }}&nbsp;
-              a.link(:href="item.link") {{ item.linkName }}&nbsp;
-              | is due tommorow
+              a.link(:href="item.link") {{ item.linkName }}
+              span(v-if="tommorowMessage(item.created_at)") &nbsp;is due tommorow
             p.mb-0.time {{ item.created_at | dateToHuman }}
       .col
         .d-flex.justify-content-end.align-items-center.h-100
@@ -23,6 +23,9 @@
   import { DateTime } from 'luxon'
   import UserAvatar from '@/common/UserAvatar'
   import MessagesModalCreate from "../modals/MessagesModalCreate";
+
+  // var today = DateTime.now().toLocaleString(DateTime.DATE_FULL)
+  var tomorrow = DateTime.now().plus({ days: 1 }).toLocaleString(DateTime.DATE_FULL)
 
   export default {
     name: "notifyItem",
@@ -40,7 +43,13 @@
 
     },
     methods: {
-
+      tommorowMessage (value) {
+        const date = DateTime.fromJSDate(new Date(value))
+        if (date.plus({ days: 1 }).toLocaleString(DateTime.DATE_FULL) === tomorrow) {
+          return true
+        }
+        return false
+      }
     },
     filters: {
       dateToHuman(value) {
