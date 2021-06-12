@@ -15,11 +15,13 @@
 <script>
   import Loading from '@/common/Loading/Loading'
   import NotificationCenter from "./components/center";
+  import Messages from "./components/messages";
 
   export default {
     components: {
       Loading,
-      NotificationCenter
+      NotificationCenter,
+      Messages
     },
     created() {
       this.component = NotificationCenter;

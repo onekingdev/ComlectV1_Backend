@@ -1,16 +1,16 @@
 <template lang="pug">
   b-list-group
-    NotificationItem(v-for="item in notifications" :key="item.id" :item="item")
+    MessageItem(v-for="item in messages" :key="item.id" :item="item")
 </template>
 
 <script>
-  import NotificationItem from "./NotificationItem"
+  import MessageItem from "./MessageItem"
   export default {
     components: {
-      NotificationItem
+      MessageItem
     },
     props: {
-      notifications: {
+      messages: {
         type: Array,
         required: true
       }

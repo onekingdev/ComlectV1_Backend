@@ -144,6 +144,7 @@
           [{ list: "bullet" }],
           ["link"]
         ],
+        files: null
       }
     },
     methods: {
