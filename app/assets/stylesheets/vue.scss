@@ -107,6 +107,23 @@ html {
   #notifications_dropdown {
     font-size: 22px;
     padding: 20px 20px 0px 20px;
+
+    .link {
+      position: relative;
+      &.active {
+        &:after {
+          position: absolute;
+          display: block;
+          content: '';
+          top: -2px;
+          right: 0;
+          width: 15px;
+          height: 15px;
+          background-color: #ffc900;
+          border-radius: 50%;
+        }
+      }
+    }
   }
   #helps {
     padding-top: 22px;
