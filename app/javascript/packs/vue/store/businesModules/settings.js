@@ -1,15 +1,15 @@
-import * as jwt from '@/services/business/settings'
+import * as jwt from '@/services/common/settings'
 
 const mapAuthProviders = {
   jwt: {
     getGeneralSettings: jwt.getGeneralSettings,
     updateGeneralSettings: jwt.updateGeneralSettings,
+    updatePasswordSettings: jwt.updatePasswordSettings,
   },
 }
 
 // import Settings from "../../models/Settings";
-import BusinessSettingsGeneral from "../../models/Settings";
-import ExamManagement from "../../models/ExamManagement";
+import { SettingsGeneral } from "../../models/Settings";
 
 export default {
   state: {
@@ -38,7 +38,7 @@ export default {
               const data = success.data
               // const settings = []
               // for (const settingItem of data) {
-              //   settings.push(new BusinessSettingsGeneral(
+              //   settings.push(new SettingsGeneral(
               //     settingItem.apartment,
               //     settingItem.city,
               //     settingItem.contact_phone,
@@ -47,8 +47,7 @@ export default {
               //     settingItem.time_zone
               //   ))
               // }
-              const settings = new BusinessSettingsGeneral(
-                data.apartment,
+              const settings = new SettingsGeneral(
                 data.city,
                 data.contact_phone,
                 data.country,
@@ -84,6 +83,44 @@ export default {
       try {
         const updateGeneralSettings = mapAuthProviders[rootState.shared.settings.authProvider].updateGeneralSettings
         const data = updateGeneralSettings(payload)
+          .then((success) => {
+            commit("clearError", null, {
+              root: true
+            });
+            commit("setLoading", false, {
+              root: true
+            });
+            if (success) {
+              const data = success.data
+              return data
+            }
+            if (!success) {
+              commit("setError", success.message, { root: true });
+              console.error('Not success', success)
+            }
+          })
+          .catch(error => error)
+        return data
+      } catch (error) {
+        commit("setError", error.message, {
+          root: true
+        });
+        commit("setLoading", false, {
+          root: true
+        });
+        throw error;
+      }
+    },
+    async updatePasswordSettings({state, commit, rootState}, payload) {
+      commit("clearError", null, {
+        root: true
+      });
+      commit("setLoading", true, {
+        root: true
+      });
+      try {
+        const updatePasswordSettings = mapAuthProviders[rootState.shared.settings.authProvider].updatePasswordSettings
+        const data = updatePasswordSettings(payload)
           .then((success) => {
             commit("clearError", null, {
               root: true

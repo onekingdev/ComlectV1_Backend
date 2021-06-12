@@ -24,14 +24,14 @@
                       h4
                         b Reset Password
                     b-form-group#input-group-2(label='Old Password' label-for='input-2'  label-class="settings__card--label" )
-                      b-form-input#input-2(v-model='form.old_password' type='password' placeholder='Old Password' required :class="{'is-invalid': errors.old_password }")
-                      .invalid-feedback.d-block(v-if="errors.old_password") {{ errors.old_password[0] }}
+                      b-form-input#input-2(v-model='form.current_password' type='password' placeholder='Old Password' required :class="{'is-invalid': errors.current_password }")
+                      .invalid-feedback.d-block(v-if="errors.current_password") {{ errors.current_password[0] }}
                     b-form-group#input-group-3(label='New Password' label-for='input-3' description="Minimum 6 character" label-class="settings__card--label" )
-                      b-form-input#input-3(v-model='form.new_password' type='password' placeholder='New Password' required :class="{'is-invalid': errors.new_password }")
-                      .invalid-feedback.d-block(v-if="errors.new_password") {{ errors.new_password[0] }}
+                      b-form-input#input-3(v-model='form.password' type='password' placeholder='New Password' required :class="{'is-invalid': errors.password }")
+                      .invalid-feedback.d-block(v-if="errors.password") {{ errors.password[0] }}
                     b-form-group#input-group-4(label='Confirm Password' label-for='input-4' label-class="settings__card--label")
-                      b-form-input#input-4(v-model='form.confirm_password' type='password' placeholder='Confirm Password' required :class="{'is-invalid': errors.confirm_password }")
-                      .invalid-feedback.d-block(v-if="errors.confirm_password") {{ errors.confirm_password[0] }}
+                      b-form-input#input-4(v-model='form.password_confirmation' type='password' placeholder='Confirm Password' required :class="{'is-invalid': errors.password_confirmation }")
+                      .invalid-feedback.d-block(v-if="errors.password_confirmation") {{ errors.password_confirmation[0] }}
                     b-form-group.text-right
                       b-button.btn.link.mr-2(type='reset' variant='none') Cancel
                       b-button.btn(type='submit' variant='dark') Save
@@ -57,9 +57,9 @@
 
   const initialForm = () => ({
     email: '',
-    old_password: '',
-    new_password: '',
-    confirm_password: '',
+    current_password: '',
+    password: '',
+    password_confirmation: '',
   })
 
   export default {
@@ -89,22 +89,42 @@
 
         const data = {
           "user": {
-            "email": this.form.email,
-            "password": this.form.password
+            current_password: this.form.current_password,
+            password: this.form.password,
+            password_confirmation: this.form.password_confirmation,
           },
         }
 
-        this.$store.dispatch('singIn', data)
-          .then((response) => console.log(error))
-          .catch((error) => console.error(error))
+        this.$store.dispatch('settings/updatePasswordSettings', data)
+          .then((response) => {
+            console.log(response)
+            if (response.errors) {
+              for (const type of Object.keys(response.errors)) {
+                this.errors = response.errors[type]
+                this.toast('Error', `Form has errors! Please recheck fields! ${response.errors[type]}`)
+              }
+            }
+            if (!response.errors) {
+              this.toast('Success', `${response.message}`)
+            }
+          })
+          .catch((error) => {
+            console.error(error)
+            const { data } = error
+            if(data.errors) {
+              for (const type of Object.keys(data.errors)) {
+                this.toast('Error', `${data.errors[type]}`)
+                this.error = `Error! ${data.errors[type]}`
+              }
+            }
+            if (error.errors) {
+              this.toast('Error', `Couldn't submit form! ${error.message}`)
+            }
+            if (!error.errors) {
+              this.toast('Error', `${error.status} (${error.statusText})`)
+            }
+          })
       },
-
-      onChange (value) {
-        if(value) {
-
-        }
-      },
-
       onReset(event) {
         event.preventDefault()
         // Reset our form values

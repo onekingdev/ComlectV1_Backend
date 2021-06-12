@@ -24,3 +24,14 @@ export async function updateGeneralSettings(payload) {
     })
     .catch(err => err)
 }
+
+export async function updatePasswordSettings(payload) {
+  return await axios.patch(`${END_POINT}/password`, payload)
+    .then(response => {
+      if (response) {
+        return response
+      }
+      return false
+    })
+    .catch(err => err)
+}
