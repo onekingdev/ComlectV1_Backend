@@ -5,7 +5,7 @@
 
     b-modal.fade(:id="modalId" title="Messages" size="xl")
       b-row
-        .col-lg-6.pr-2
+        .col-lg-6.pr-lg-2
           .card
             .card-body.p-0
               .row
@@ -60,7 +60,7 @@
                         dl.row
                           dt.col-sm-6 Nested definition list
                           dd.col-sm-6.text-right.text-black 1998-2001
-        .col-lg-6.pl-2
+        .col-lg-6.pl-lg-2
           .card-body.white-card-body.reviews__card.p-0
             b-row
               .col.p-y-1.mx-3
