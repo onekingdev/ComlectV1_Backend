@@ -43,20 +43,9 @@
       messages() {
         return [
           {
-            id: 1,
-            type: 'system',
-            variant: 'warning',
-            name: 'Some task task',
-            link: 'some link',
-            linkName: 'someLinkName',
-            created_at: '2021-04-30T10:35:14.030Z',
-            messages: {
-              files: []
-            }
-          },
-          {
             id: 2,
             type: 'message',
+            message: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
             specialist: {
               first_name: 'Abrrrr',
               last_name: 'Kadbrrr',
@@ -76,6 +65,7 @@
           {
             id: 3,
             type: 'message',
+            message: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
             specialist: {
               first_name: 'Abrrrr',
               last_name: 'Kadbrrr',
@@ -91,6 +81,7 @@
           {
             id: 4,
             type: 'message',
+            message: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
             specialist: {
               first_name: 'Abrrrr',
               last_name: 'Kadbrrr',
@@ -99,30 +90,6 @@
             link: 'some link 2 ',
             linkName: 'someLinkName2 ',
             created_at: '2021-05-05T09:42:28.076Z',
-            messages: {
-              files: []
-            }
-          },
-          {
-            id: 5,
-            type: 'system',
-            variant: 'warning',
-            name: 'Some task task',
-            link: 'some link',
-            linkName: 'someLinkName',
-            created_at: '2021-05-04T07:01:11.344Z',
-            messages: {
-              files: []
-            }
-          },
-          {
-            id: 6,
-            type: 'system',
-            variant: 'warning',
-            name: 'Special for today',
-            link: 'link',
-            linkName: 'Elbargo.ru',
-            created_at: '2021-06-12T07:01:11.344Z',
             messages: {
               files: []
             }

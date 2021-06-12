@@ -1,22 +1,25 @@
 <template lang="pug">
   b-list-group-item
     .row
-      .col-10
+      .col
         .d-flex.align-items-center
           .d-flex.align-items-center.justify-content-center.icon_width
             b-icon(v-if="item.type !== 'message'" icon="exclamation-triangle-fill" scale="2" variant="warning")
             UserAvatar(v-if="item.type === 'message'" :user="item.specialist")
           .d-block.ml-4
-            h5 {{ item.name }}&nbsp;
-              a.link(:href="item.link") {{ item.linkName }}&nbsp;
-              | is due tommorow
+            h5 {{ item.specialist.first_name + ' ' + item.specialist.last_name }}
+            p.mb-0 {{ item.message }}
             p.mb-0.time {{ item.created_at | dateToHuman }}
-      .col
-        .d-flex.justify-content-end.align-items-center.h-100
-          MessagesModalCreate(v-if="item.type === 'message'" :item="item" )
-            b-button.btn.mr-2.font-weight-bold(type='button' variant='default') View
-          button.btn.btn__close
-            b-icon(icon="x" font-scale="1")
+          .d-flex.justify-content-end.align-items-center.h-100.ml-auto
+            b-badge.mr-2(variant="default") 1 New Message
+            MessagesModalCreate(v-if="item.type === 'message'" :item="item" )
+              b-button.btn.mr-2.font-weight-bold(type='button' variant='default') View
+            .actions
+              b-dropdown(size="sm" variant="none" class="m-0 p-0" right)
+                template(#button-content)
+                  b-icon(icon="three-dots")
+                b-dropdown-item-button Edit
+                b-dropdown-item-button.delete Delete
 </template>
 
 <script>
