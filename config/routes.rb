@@ -113,19 +113,8 @@ Rails.application.routes.draw do
       resource :questions
     end
     resource :projects, only: %i[index]
-    resource :settings, only: :show do
-      resource :password
-      # resource :referrals, only: :show
-      resource :delete_account
-      resources :payment_settings, as: :payment, path: 'payment' do
-        patch :make_primary
-        collection do
-          post :apply_coupon
-        end
-      end
-      resources :notification_settings, as: :notifications, path: 'notifications', only: %i[index update]
-      resources :subscription_settings, as: :subscriptions, path: 'subscriptions', only: %i[index update]
-    end
+    get 'settings' => 'settings#show'
+    get 'settings/:id' => 'settings#show'
 
     resources :specialists, only: :index
     concerns :favoriteable
