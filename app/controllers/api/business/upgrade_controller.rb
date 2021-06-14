@@ -38,25 +38,7 @@ class Api::Business::UpgradeController < ApiController
               stripe_subscription_id: sub.id,
               billing_period_ends: sub.cancel_at
             )
-            if turnkey_params[:plan].include?('_tier_')
-              for i in 1..3 + (turnkey_params[:plan].include?('business_tier_') ? 7 : 0) do
-                Seat.create(
-                  business_id: current_business.id,
-                  subscription_id: db_subscription.id,
-                  subscribed_at: Time.now.utc
-                )
-              end
-            end
-            if turnkey_params[:plan].include?('business_tier')
-            end
             current_business.update(onboarding_passed: true)
-            if seat_sub
-              Seat.create(
-                business_id: current_business.id,
-                subscription_id: db_subscription.id,
-                subscribed_at: Time.now.utc
-              )
-            end
           end
           processed_subs.push(db_subscription)
         end
@@ -77,19 +59,6 @@ class Api::Business::UpgradeController < ApiController
 
   def cancel_subscriptions(active_subscriptions)
     active_subscriptions.each do |active_subscription|
-      seats = Seat.where(subscription_id: active_subscription.id)
-      seats.each do |seat|
-        invitation = Specialist::Invitation.find_by(email: seat&.team_member&.email)
-        begin
-          Seat.transaction do
-            seat&.unassign
-            invitation&.specialist&.update!(dashboard_unlocked: false)
-          end
-          seat.destroy
-        rescue => e
-          puts e.message
-        end
-      end
       Stripe::CancelSubscription.call(active_subscription.stripe_subscription_id)
       active_subscription.update(status: Subscription.statuses['canceled'])
     end
