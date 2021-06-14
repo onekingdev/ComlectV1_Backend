@@ -11,7 +11,7 @@
             b-button.btn.link.mr-2(type='button' variant='none') Cancel
             PlanModalEdit(:plan="plan")
               b-button.btn.mr-2(type='button' variant='default') Edit plan
-            b-button.btn(type='button' variant='dark') Upgrade
+            b-button.btn(type='button' variant='dark' @click="$emit('upgradOpen')") Upgrade
       hr
       .row
         .col {{ plan.monthCoast }}, billed {{ plan.billinPeriod }} to {{ plan.paymentCardType }} {{ plan.paymentCard }}

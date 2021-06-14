@@ -130,3 +130,9 @@
     },
   };
 </script>
+
+<style>
+  .invalid-feedback {
+    color: #CE1938;
+  }
+</style>

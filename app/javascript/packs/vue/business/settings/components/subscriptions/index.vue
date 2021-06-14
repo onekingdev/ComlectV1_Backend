@@ -16,7 +16,7 @@
                     b Plan
               .row
                 .col
-                  Plan
+                  Plan(@upgradOpen="$emit('upgradOpen')")
             hr
             .settings___card--internal.p-y-1
               .row

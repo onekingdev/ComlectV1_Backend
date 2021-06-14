@@ -1,14 +1,20 @@
 <template lang="pug">
   div.settings
     .container-fluid
-      .row.p-t-3
+      template(v-if='componentUpgrade')
+        .row
+          .col-md-9.mx-auto.my-2
+            .card
+              .card-body
+                component(v-bind:is="componentUpgrade")
+      .row.p-t-3(v-if='!componentUpgrade')
         .col-md-3
           .panel-default
             ul.settings-nav
               li.settings-nav__item(v-for='(item, idx) in menu' :key="idx" @click="openSetting(item.name, $event)" :class="{ active: idx === 0 }")
                 a.settings-nav__link(:href='item.link') {{ item.name }}
         .col-md-9
-          component(v-bind:is="component")
+          component(v-bind:is="component" @upgradOpen="upgradOpen")
 
 </template>
 
@@ -21,6 +27,7 @@
   import RolePermisssions from "./components/roles";
   import Billings from "./components/billings";
   import Notifications from "./components/notifications";
+  import SelectPlan from './components/subscriptions/components/SelectPlan'
 
   export default {
     components: {
@@ -32,6 +39,7 @@
       RolePermisssions,
       Billings,
       Notifications,
+      SelectPlan,
     },
     created() {
       this.component = General;
@@ -49,6 +57,7 @@
     data() {
       return {
         component: '',
+        componentUpgrade: '',
         menu: [
           { name: 'General', link: '#' },
           { name: 'Users', link: '#' },
@@ -73,6 +82,10 @@
         event.target.classList.add('active')
         // const baseUrl = new URL(window.location.origin);
         // window.history.pushState({}, name, `${baseUrl}business/settings/${name.toLowerCase()}`);
+      },
+      upgradOpen() {
+        // console.log('open')
+        this.componentUpgrade = SelectPlan
       }
     },
     computed: {
