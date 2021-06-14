@@ -2,6 +2,7 @@
 
 class Api::Business::UpgradeController < ApiController
   before_action :require_business!
+  skip_before_action :verify_authenticity_token
 
   def subscribe
     respond_with(errors: { plan: 'Wrong plan name' }) && return unless Subscription.plans.key?(turnkey_params[:plan]&.parameterize)
