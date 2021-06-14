@@ -283,6 +283,7 @@ Rails.application.routes.draw do
       patch 'password' => 'password#update'
       get 'notifications' => 'notifications#index'
       patch 'notifications' => 'notifications#update'
+      delete 'profile' => 'profile#destroy'
     end
 
     get 'local_projects/:project_id/messages' => 'project_messages#index'
