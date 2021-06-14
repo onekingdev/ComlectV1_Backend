@@ -53,20 +53,11 @@
                       placeholder="Select State",
                       required)
                       .invalid-feedback.d-block(v-if="errors.state") {{ errors.state[0] }}
-                  b-form-group#input-group-4(label='City' label-for='select-4' label-class="settings__card--label required")
-                    div(
-                    :class="{ 'invalid': errors.city }"
-                    )
-                      multiselect#select-4(
-                      v-model="form.city"
-                      :options="options.city"
-                      :multiple="false"
-                      :show-labels="false"
-                      placeholder="Select City",
-                      required)
-                      .invalid-feedback.d-block(v-if="errors.city") {{ errors.city[0] }}
-                  b-form-group#input-group-8(label='Phone Number' label-for='input-8' label-class="settings__card--label")
-                    b-form-input#input-8(v-model='form.contact_phone' type='text' placeholder='Phone Number' required :class="{'is-invalid': errors.contact_phone }")
+                  b-form-group#input-group-4(label='Phone Number' label-for='input-4' label-class="settings__card--label")
+                    b-form-input#input-4(v-model='form.city' type='text' placeholder='Phone Number' required :class="{'is-invalid': errors.city }")
+                    .invalid-feedback.d-block(v-if="errors.city") {{ errors.city[0] }}
+                  b-form-group#input-group-5(label='Phone Number' label-for='input-5' label-class="settings__card--label")
+                    b-form-input#input-5(v-model='form.contact_phone' type='text' placeholder='Phone Number' required :class="{'is-invalid': errors.contact_phone }")
                     .invalid-feedback.d-block(v-if="errors.contact_phone") {{ errors.contact_phone[0] }}
                   b-form-group.text-right
                     b-button.link.mr-2(type='reset' variant='none') Cancel
