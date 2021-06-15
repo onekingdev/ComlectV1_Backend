@@ -610,7 +610,13 @@
       paySeats(selectedPlan) {
         const freeUsers = selectedPlan.usersCount;
         const neededUsers = +this.additionalUsers;
-        if (neededUsers <= freeUsers) return
+        if (neededUsers <= freeUsers) {
+          this.overlayStatusText = 'Account successfully purchased, you will be redirect to the dashboard...'
+          this.overlayStatus = 'success'
+          // this.overlay = false
+          this.redirect()
+          return
+        }
         const countPayedUsers = neededUsers - freeUsers
 
         this.overlayStatusText = 'Subscribing additional seats...'
