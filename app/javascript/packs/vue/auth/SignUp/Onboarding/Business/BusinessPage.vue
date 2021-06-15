@@ -583,8 +583,7 @@
             if(response.errors) throw new Error(`Response error!`)
             if(!response.errors) {
               this.makeToast('Success', `Update subscribe successfully finished!`)
-              this.paySeats(selectedPlan)
-
+              if(+this.additionalUsers > 0) this.paySeats(selectedPlan)
               // OVERLAY
               if(+this.additionalUsers === 0) {
                 this.overlayStatusText = 'Account successfully purchased, you will be redirect to the dashboard...'
@@ -608,16 +607,17 @@
           .finally(() => this.disabled = true)
       },
       paySeats(selectedPlan) {
-        const freeUsers = selectedPlan.usersCount;
+        // const freeUsers = selectedPlan.usersCount;
         const neededUsers = +this.additionalUsers;
-        if (neededUsers <= freeUsers) {
-          this.overlayStatusText = 'Account successfully purchased, you will be redirect to the dashboard...'
-          this.overlayStatus = 'success'
-          // this.overlay = false
-          this.redirect()
-          return
-        }
-        const countPayedUsers = neededUsers - freeUsers
+        // if (neededUsers <= freeUsers) {
+        //   this.overlayStatusText = 'Account successfully purchased, you will be redirect to the dashboard...'
+        //   this.overlayStatus = 'success'
+        //   // this.overlay = false
+        //   this.redirect()
+        //   return
+        // }
+        // const countPayedUsers = neededUsers - freeUsers // OLD VERSION
+        const countPayedUsers = neededUsers
 
         this.overlayStatusText = 'Subscribing additional seats...'
 
