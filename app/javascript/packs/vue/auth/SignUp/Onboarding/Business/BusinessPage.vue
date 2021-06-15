@@ -282,7 +282,7 @@
   })
 
   export default {
-    props: ['industryIds', 'jurisdictionIds', 'subIndustryIds', 'states', 'userInfo'],
+    props: ['industryIds', 'jurisdictionIds', 'subIndustryIds', 'states', 'userInfo', 'timezones'],
     components: {
       Loading,
       TopNavbar,
@@ -583,7 +583,8 @@
             if(response.errors) throw new Error(`Response error!`)
             if(!response.errors) {
               this.makeToast('Success', `Update subscribe successfully finished!`)
-              if(+this.additionalUsers > 0) this.paySeats(selectedPlan)
+              this.paySeats(selectedPlan)
+
               // OVERLAY
               if(+this.additionalUsers === 0) {
                 this.overlayStatusText = 'Account successfully purchased, you will be redirect to the dashboard...'
@@ -607,17 +608,10 @@
           .finally(() => this.disabled = true)
       },
       paySeats(selectedPlan) {
-        // const freeUsers = selectedPlan.usersCount;
+        const freeUsers = selectedPlan.usersCount;
         const neededUsers = +this.additionalUsers;
-        // if (neededUsers <= freeUsers) {
-        //   this.overlayStatusText = 'Account successfully purchased, you will be redirect to the dashboard...'
-        //   this.overlayStatus = 'success'
-        //   // this.overlay = false
-        //   this.redirect()
-        //   return
-        // }
-        // const countPayedUsers = neededUsers - freeUsers // OLD VERSION
-        const countPayedUsers = neededUsers
+        if (neededUsers <= freeUsers) return
+        const countPayedUsers = neededUsers - freeUsers
 
         this.overlayStatusText = 'Subscribing additional seats...'
 

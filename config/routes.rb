@@ -53,6 +53,8 @@ Rails.application.routes.draw do
 
   get '/notifications_settings' => 'notifications#route'
 
+  get '/exams/:uuid' => 'exams#show'
+
   resources :turnkey_pages, only: %i[index show create new], path: 'turnkey'
   #  resources :turnkey_solutions # , only: :create
   post '/turnkey/:id' => 'turnkey_pages#create'
@@ -111,19 +113,8 @@ Rails.application.routes.draw do
       resource :questions
     end
     resource :projects, only: %i[index]
-    resource :settings, only: :show do
-      resource :password
-      # resource :referrals, only: :show
-      resource :delete_account
-      resources :payment_settings, as: :payment, path: 'payment' do
-        patch :make_primary
-        collection do
-          post :apply_coupon
-        end
-      end
-      resources :notification_settings, as: :notifications, path: 'notifications', only: %i[index update]
-      resources :subscription_settings, as: :subscriptions, path: 'subscriptions', only: %i[index update]
-    end
+    get 'settings' => 'settings#show'
+    get 'settings/:id' => 'settings#show'
 
     resources :specialists, only: :index
     concerns :favoriteable
@@ -251,6 +242,9 @@ Rails.application.routes.draw do
   end
 
   namespace :api do
+    post 'exams/:uuid' => 'exams#email'
+    patch 'exams/:uuid' => 'exams#show'
+
     resources :skills, only: :index
     resources :users, only: [] do
       collection do
@@ -270,15 +264,28 @@ Rails.application.routes.draw do
       # resource :project_overview, path: 'overview(/:specialist_username)', only: :show
     end
 
+    namespace :settings do
+      get 'general' => 'general#index'
+      patch 'general' => 'general#update'
+      get 'profile' => 'profile#index'
+      patch 'profile' => 'profile#update'
+      patch 'password' => 'password#update'
+      get 'notifications' => 'notifications#index'
+      patch 'notifications' => 'notifications#update'
+      delete 'profile' => 'profile#destroy'
+    end
+
     get 'local_projects/:project_id/messages' => 'project_messages#index'
     post 'local_projects/:project_id/messages' => 'project_messages#create'
-    resources :direct_messages, path: 'messages(/:recipient_username)', only: %i[index create]
+    resources :direct_messages, path: 'messages/:recipient_username', only: %i[index create]
     resources :project_ratings, only: %i[index]
     namespace :business do
       resources :exams, only: %i[index show create update destroy] do
         resources :exam_requests, path: 'requests', only: %i[create update destroy] do
           resources :exam_request_files, path: 'documents', only: %i[create destroy]
         end
+        post :invite, on: :member
+        post :uninvite, on: :member
       end
       resources :file_folders, only: %i[index create destroy update show] do
         get :download_folder, on: :member
@@ -290,6 +297,8 @@ Rails.application.routes.draw do
       get '/reminders/:id' => 'reminders#show'
       delete '/reminders/:id' => 'reminders#destroy'
       post '/reminders/:id' => 'reminders#update'
+      get '/reminders/:id/messages' => '/api/reminder_messages#index'
+      post '/reminders/:id/messages' => '/api/reminder_messages#create'
       get '/reminders/:date_from/:date_to' => 'reminders#by_date'
       get '/overdue_reminders' => 'reminders#overdue'
       post '/reminders' => 'reminders#create'
@@ -322,6 +331,8 @@ Rails.application.routes.draw do
       post '/upgrade/subscribe' => 'upgrade#subscribe'
       resources :payment_settings, only: %i[create update destroy index]
       put '/payment_settings/make_primary/:id' => 'payment_settings#make_primary'
+      get '/favorites' => 'favorites#index'
+      patch '/favorites' => 'favorites#update'
     end
     namespace :specialist do
       get '/projects/my' => 'projects#my'
@@ -341,6 +352,9 @@ Rails.application.routes.draw do
       put '/payment_settings/make_primary/:id' => 'payment_settings#make_primary'
       put '/payment_settings/validate/:id' => 'payment_settings#validate'
       get '/payment_settings' => 'payment_settings#index'
+      get '/favorites' => 'favorites#index'
+      patch '/favorites' => 'favorites#update'
+      post '/share_project' => 'share_project#create'
     end
     resources :businesses, only: [:create]
     resource :business, only: %i[update] do

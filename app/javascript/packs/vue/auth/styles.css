@@ -39,7 +39,7 @@
   color: #7f8184;
 }
 
-ion-icon {
+.form ion-icon {
   font-size: 15rem!important;
   filter: drop-shadow(5px 5px 5px lightgray);
 }
