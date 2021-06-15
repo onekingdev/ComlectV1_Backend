@@ -107,7 +107,7 @@
   // const random = Math.floor(Math.random() * 1000);
 
   export default {
-    props: ['industryIds', 'jurisdictionIds', 'subIndustryIds', 'states', 'timezones'],
+    props: ['industryIds', 'jurisdictionIds', 'subIndustryIds', 'states'],
     components: {
       TopNavbar,
       Loading,

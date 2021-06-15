@@ -3,7 +3,7 @@
     div(v-b-modal="modalId" :class="{'d-inline-block':inline}")
       slot
 
-    b-modal.fade(:id="modalId" title="Edit Exam" @shown="getData")
+    b-modal.fade(:id="modalId" title="Edit Exam")
       .row
         .col-12.m-b-2
           label.form-label Name
@@ -86,9 +86,6 @@
           this.makeToast('Error', error.message)
         }
       },
-      getData() {
-        this.exam_management = Object.assign({}, this.exam_management, this.exam)
-      }
     },
     computed: {
       datepickerOptions() {
@@ -98,7 +95,7 @@
       },
     },
     mounted() {
-
+      this.exam_management = Object.assign({}, this.exam_management, this.exam)
     },
   }
 </script>
