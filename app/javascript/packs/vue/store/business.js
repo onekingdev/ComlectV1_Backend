@@ -6,10 +6,8 @@ import marketplace from "./businesModules/marketplace";
 import annual from "./businesModules/annual"
 import filefolders from "./businesModules/filefolders"
 import exams from "./businesModules/exams"
-import settings from "./businesModules/settings"
 import tasks from "./businesModules/tasks"
 import risks from "./businesModules/risks";
-// import auth from "./commonModules/auth";
 import shared from "./commonModules/shared";
 
 Vue.use(Vuex);
@@ -55,7 +53,6 @@ const store = new Vuex.Store({
     //   //
     //   // }
     // },
-    // auth,
     shared,
     annual: {
       namespaced: true,
@@ -72,10 +69,6 @@ const store = new Vuex.Store({
     exams: {
       namespaced: true,
       ...exams,
-    },
-    settings: {
-      namespaced: true,
-      ...settings,
     },
     reminders: {
       namespaced: true,

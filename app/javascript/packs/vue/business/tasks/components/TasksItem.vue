@@ -4,7 +4,7 @@
       ion-icon.m-r-1.pointer(@click="toggleDone(item)" v-bind:class="{ done_task: item.done_at }" name='checkmark-circle-outline')
       TaskFormModal(:task-id="item.taskId" :occurence-id="item.oid" @saved="$emit('saved')") {{ item.body }} {{ item.name }}
     td(v-if="!shortTable") {{ item.assignee }}
-    td(v-if="!shortTable").text-right(:class="{ overdue: isOverdue(item) }") {{ dateToHuman(item.remind_at) }}
+    td.text-right(v-if="!shortTable" :class="{ overdue: isOverdue(item) }") {{ dateToHuman(item.remind_at) }}
     td.text-right(:class="{ overdue: isOverdue(item) }") {{ dateToHuman(item.end_date) }}
     td(v-if="!shortTable").text-right 0
     td(v-if="!shortTable").text-right 0
