@@ -1,8 +1,10 @@
 <template lang="pug">
   div
-    .row
+    .row(v-if='loading')
       .col
-        Loading
+        .card-body.white-card-body.px-3.px-xl-5
+          .settings___card--internal.p-y-1
+            Loading
     .row(v-if='!loading')
       .col
         .card.settings__card
@@ -14,42 +16,42 @@
                 .col-md-8
                   b-form(v-if='show')
                     .row.mb-2
-                      .col
-                        .d-flex.justify-content-between
-                          h4
-                            b Tasks
-                          p.mb-0
-                            span.mr-3 IN-APP
-                            span EMAIL
+                      .col-10
+                        h4
+                          b Tasks
+                      .col.text-center IN-APP
+                      .col.text-center EMAIL
                     .row
                       .col-10
                         .custom-checkbox.b-custom-control-lg.pl-0(v-for="(option, i) in notificationsTasksOptions" :key="'task-main-'+i")
                           label {{option.label}}
                       .col.text-center
-                        .custom-checkbox.b-custom-control-lg.pl-0(v-for="(option, i) in form.in_app_notifications.tasks" :key="'task-app-'+i" )
-                          input.mb-2(type="checkbox" v-model="checkedApps[i]" :value="form.in_app_notifications.tasks[i]" class="regular-checkbox" @change="onChange('in_app_notifications')")
+                        .custom-checkbox.b-custom-control-lg.pl-0(v-for="(option, i) in notifications.in_app_notifications.tasks" :key="'task-app-'+i" )
+                          input.mb-2(type="checkbox" v-model="checkedApps[i]" :value="Object.keys(option)[0]" class="regular-checkbox" @change="onChange('in_app_notifications', Object.keys(option)[0])")
                       .col.text-center
-                        .custom-checkbox.b-custom-control-lg.pl-0(v-for="(option, i) in form.email_notifications.tasks" :key="'task-email-'+i" )
-                          input.mb-2(type="checkbox" v-model="checkedEmails[i]" :value="form.email_notifications.tasks[i]" class="regular-checkbox" @change="onChange('email_notifications')")
+                        .custom-checkbox.b-custom-control-lg.pl-0(v-for="(option, i) in notifications.email_notifications.tasks" :key="'task-email-'+i" )
+                          input.mb-2(type="checkbox" v-model="checkedEmails[i]" :value="Object.keys(option)[0]" class="regular-checkbox" @change="onChange('email_notifications', Object.keys(option)[0])")
                     .row.m-t-1
                       .col-12
                         h4
                           b Projects
-                    .row.mb-2(v-for="(option, i) in notificationsProjectsOptions" :key="'project'+i")
+                    .row.mb-2
                       .col-10
-                        .custom-checkbox.b-custom-control-lg.pl-0
+                        .custom-checkbox.b-custom-control-lg.pl-0(v-for="(option, i) in notificationsProjectsOptions" :key="'project'+i")
                           label {{option.label}}
                       .col.text-center
-                        input(type="checkbox" v-model="form.in_app_notifications[i]" class="regular-checkbox" @change="onChange")
+                        .custom-checkbox.b-custom-control-lg.pl-0(v-for="(option, i) in notifications.in_app_notifications.projects" :key="'projects-app-'+i" )
+                          input(type="checkbox" v-model="checkedApps[i]" :value="Object.keys(option)[0]" class="regular-checkbox" @change="onChange('in_app_notifications', Object.keys(option)[0])")
                       .col.text-center
-                        input(type="checkbox" v-model="form.email_notifications[i]" class="regular-checkbox" @change="onChange")
+                        .custom-checkbox.b-custom-control-lg.pl-0(v-for="(option, i) in notifications.email_notifications.projects" :key="'projects-email-'+i" )
+                          input(type="checkbox" v-model="checkedEmails[i]" :value="Object.keys(option)[0]" class="regular-checkbox" @change="onChange('in_app_notifications', Object.keys(option)[0])")
                     .row.m-t-1
                       .col-12
                         h4
                           b Email Updates
                       .col-md-6
                         b-form-group
-                          b-form-checkbox(v-for="(option, i) in notificationsEmailOptions" v-model="form.email_updates[i]" :key="'email'+i" size="lg" @change="onChange") {{option.label}}
+                          b-form-checkbox(v-for="(option, i) in notificationsEmailOptions" :key="'email'+i" v-model="checkedEmailsUpdates[i]" :value="option.value" size="lg" @change="onChange('email_updates', option.value)") {{option.label}}
                     .row.d-none
                       .col
                         b-form-group.text-right
@@ -65,7 +67,7 @@
     { label: 'When a task assigned to me' },
     { label: 'When a file is uploaded to a task' },
     { label: 'When someone comments on a task' },
-    { label: 'When a task is compiled' },
+    { label: 'When a task is completed' },
     { label: 'When a task is overdue' },
   ]
 
@@ -77,66 +79,84 @@
   ]
 
   const NOTIFICATIONS_EMAIL_OPTIONS = [
-    { label: 'Monthly Compilance Newsletter' },
-    { label: 'Promos and Upcomming Events' },
+    { label: 'Monthly Compilance Newsletter', value: 'monthly_newsletter' },
+    { label: 'Promos and Upcomming Events', value: 'promos_and_events' },
   ]
 
   const initialForm = () => ({
     in_app_notifications: {
-      tasks: {
-        task_created: true,
-        task_assigned: true,
-        task_file_uploaded: true,
-        task_new_comment: true,
-        task_completed: true,
-        task_overdue: true,
-      },
-      projects: {
-        project_new_bid: true,
-        project_message: true,
-        project_overdue: true,
-        project_ended: true,
-        project_completed: true,
-      },
-      got: {
-        got_rated: true,
-        got_message: true,
-      },
-      emails: {
-        new_forum_answers: true,
-        new_forum_comments: true,
-      },
+      task_created: true,
+      task_assigned: true,
+      task_file_uploaded: true,
+      task_new_comment: true,
+      task_completed: true,
+      task_overdue: true,
+      project_new_bid: true,
+      project_message: true,
+      project_overdue: true,
+      project_ended: true,
+      project_completed: true,
+      got_rated: true,
+      got_message: true,
+      new_forum_answers: true,
+      new_forum_comments: true,
     },
     email_notifications: {
-      tasks: {
-        task_created: true,
-        task_assigned: true,
-        task_file_uploaded: true,
-        task_new_comment: true,
-        task_completed: true,
-        task_overdue: true,
-      },
-      projects: {
-        project_new_bid: true,
-        project_message: true,
-        project_overdue: true,
-        project_ended: true,
-        project_completed: true,
-      },
-      got: {
-        got_rated: true,
-        got_message: true,
-      },
-      emails: {
-        new_forum_question: true,
-        new_forum_comments: true
-      },
+      task_created: true,
+      task_assigned: true,
+      task_file_uploaded: true,
+      task_new_comment: true,
+      task_completed: true,
+      task_overdue: true,
+      project_new_bid: true,
+      project_message: true,
+      project_overdue: true,
+      project_ended: true,
+      project_completed: true,
+      got_rated: true,
+      got_message: true,
+      new_forum_question: true,
+      new_forum_comments: true
     },
     email_updates: {
       monthly_newsletter: true,
       promos_and_events: true
     }
   })
+
+  const prepareCheckboxes = (form) => {
+    const tasksApp = []
+    const projectsApp = []
+    const tasksEmails = []
+    const projectsEmails = []
+    const email_updates = []
+    for(const [key, value] of Object.entries(form)) {
+      if (key === 'in_app_notifications') {
+        for(const [keyIn, valueIn] of Object.entries(value)) {
+          const splitedKey = keyIn.split('_')[0]
+          if (splitedKey === 'task') tasksApp.push({[keyIn]: valueIn})
+          if (splitedKey === 'project') projectsApp.push({[keyIn]: valueIn})
+        }
+      }
+      if (key === 'email_notifications') {
+        for(const [keyIn, valueIn] of Object.entries(value)) {
+          const splitedKey = keyIn.split('_')[0]
+          if (splitedKey === 'task') tasksEmails.push({[keyIn]: valueIn})
+          if (splitedKey === 'project') projectsEmails.push({[keyIn]: valueIn})
+        }
+      }
+      if (key !== 'in_app_notifications' && key !== 'email_notifications') {
+        for(const [keyIn, valueIn] of Object.entries(value)) {
+          email_updates.push({[keyIn]: valueIn})
+        }
+      }
+    }
+    return {
+      in_app_notifications: {tasks: tasksApp, projects: projectsApp },
+      email_notifications: {tasks: tasksEmails, projects: projectsEmails },
+      email_updates
+    }
+  }
 
   export default {
     components: {
@@ -148,42 +168,27 @@
         form: initialForm(),
         errors: {},
         checkedApps: [],
-        checkedEmails: []
+        checkedEmails: [],
+        checkedEmailsUpdates: []
       };
     },
     methods: {
-      onChange (kind) {
-        console.log('kind', kind)
-        console.log(this.checkedApps)
-        console.log(this.checkedApps[0])
-        console.log(Object.keys(this.checkedApps)[0])
-
-        let data;
-        if (kind === 'in_app_notifications') {
-          data = {
-            "kind": "in_app_notifications",
-            "setting": Object.keys(this.checkedApps)[0]
-          }
+      onChange (kind, setting) {
+        console.log(kind, setting)
+        const data = {
+          "kind": kind,
+          "setting": setting
         }
-        if (kind === 'email_notifications') {
-          data = {
-            "kind": "in_app_notifications",
-            "setting": Object.keys(this.checkedEmails)[0]
-          }
-        }
-        if (kind !== 'in_app_notifications' && kind !== 'email_notifications') {
-          data = {
-            "kind": "email_updates",
-            "setting": "task_assigned"
-          }
-        }
-        this.checkedApps = []
-        this.checkedEmails = []
 
         this.$store.dispatch('settings/updateNotificationsSettings', data)
           .then((response) => {
-            console.log(response)
-            this.toast('Success', `Setting is updated`)
+            if (response.error) {
+              this.toast('Error', `${response.error}`)
+            }
+            if (!response.error) {
+              console.log(response)
+              this.toast('Success', `Setting is updated`)
+            }
           })
           .catch((error) => console.error(error))
       },
@@ -195,11 +200,48 @@
       notificationsTasksOptions: () => NOTIFICATIONS_TASKS_OPTIONS,
       notificationsProjectsOptions: () => NOTIFICATIONS_PROJECTS_OPTIONS,
       notificationsEmailOptions: () => NOTIFICATIONS_EMAIL_OPTIONS,
+      notifications() {
+        return prepareCheckboxes(this.form)
+      },
+      notificationsTasksEmails() {
+        const tasks = []
+        for(const [key, value] of Object.entries(this.form)) {
+          if (key === 'email_notifications') {
+            for(const [keyIn, valueIn] of Object.entries(value)) {
+              const splitedKey = keyIn.split('_')[0]
+              if (splitedKey === 'task') tasks.push({[keyIn]: valueIn})
+            }
+          }
+        }
+        return tasks
+      }
     },
     async mounted () {
       try {
         await this.$store.dispatch('settings/getNotificationsSettings')
-          .then(response => console.log(response))
+          .then(response => {
+            console.log(response)
+            for(const [key, value] of Object.entries(response)) {
+              if (key === 'in_app_notifications') {
+                for(const [keyIn, valueIn] of Object.entries(value)) {
+                  if (valueIn) this.checkedApps.push(keyIn)
+                  else this.checkedApps.push(null)
+                }
+              }
+              if (key === 'email_notifications') {
+                for(const [keyIn, valueIn] of Object.entries(value)) {
+                  if (valueIn) this.checkedEmails.push(keyIn)
+                  else this.checkedEmails.push(null)
+                }
+              }
+              if (key !== 'in_app_notifications' && key !== 'email_notifications') {
+                for(const [keyIn, valueIn] of Object.entries(value)) {
+                  if (valueIn) this.checkedEmailsUpdates.push(keyIn)
+                  else this.checkedEmailsUpdates.push(null)
+                }
+              }
+            }
+          })
           .catch(error => console.error(error))
       } catch (error) {
         console.error(error)
@@ -220,6 +262,8 @@
     position: relative;
     width: 1.25rem;
     height: 1.25rem;
+    /*width: 20px;*/
+    /*height: 20px;*/
     border-radius: 0.3rem;
     transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   }
