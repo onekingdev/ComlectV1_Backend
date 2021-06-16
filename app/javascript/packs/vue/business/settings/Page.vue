@@ -42,13 +42,13 @@
       SelectPlan,
     },
     created() {
-      this.component = General;
+      // this.component = General;
       // this.component = Users;
       // this.component = Security;
       // this.component = Subscriptions;
       // this.component = RolePermisssions;
       // this.component = Billings;
-      // this.component = Notifications;
+      this.component = Notifications;
 
       // console.log(window.location)
       // const pathName = window.location.pathname.split('settings/')

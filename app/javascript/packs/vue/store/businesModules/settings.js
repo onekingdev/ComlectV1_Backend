@@ -5,6 +5,8 @@ const mapAuthProviders = {
     getGeneralSettings: jwt.getGeneralSettings,
     updateGeneralSettings: jwt.updateGeneralSettings,
     updatePasswordSettings: jwt.updatePasswordSettings,
+    getNotificationsSettings: jwt.getNotificationsSettings,
+    updateNotificationsSettings: jwt.updateNotificationsSettings,
   },
 }
 
@@ -147,6 +149,83 @@ export default {
           root: true
         });
         throw error;
+      }
+    },
+    async getNotificationsSettings({state, commit, rootState}) {
+      commit("clearError", null, { root: true });
+      commit("setLoading", true, { root: true });
+      try {
+        const getNotificationsSettings = mapAuthProviders[rootState.shared.settings.authProvider].getNotificationsSettings
+        const data = getNotificationsSettings()
+          .then((success) => {
+            commit("clearError", null, { root: true });
+            commit("setLoading", false, { root: true });
+            if (success) {
+              const data = success.data
+              // const settings = []
+              // for (const settingItem of data) {
+              //   settings.push(new SettingsGeneral(
+              //     settingItem.apartment,
+              //     settingItem.city,
+              //     settingItem.contact_phone,
+              //     settingItem.country,
+              //     settingItem.state,
+              //     settingItem.time_zone
+              //   ))
+              // }
+              const settings = new SettingsGeneral(
+                data.city,
+                data.contact_phone,
+                data.country,
+                data.state,
+                data.time_zone
+              )
+              commit('SET_SETTINGS', { general: settings })
+              return success.data
+            }
+            if (!success) {
+              console.error('Not success', success)
+              commit("setError", success.message, { root: true });
+            }
+          })
+          .catch(error => error)
+
+        return data;
+
+      } catch (error) {
+        console.error('catch error', error);
+        commit("setError", error.message, { root: true });
+        commit("setLoading", false, { root: true });
+        throw error
+      }
+    },
+    async updateNotificationsSettings({state, commit, rootState}, payload) {
+      commit("clearError", null, { root: true });
+      commit("setLoading", true, { root: true });
+      try {
+        const updateNotificationsSettings = mapAuthProviders[rootState.shared.settings.authProvider].updateNotificationsSettings
+        const data = updateNotificationsSettings(payload)
+          .then((success) => {
+            commit("clearError", null, { root: true });
+            commit("setLoading", false, { root: true });
+            if (success) {
+              const data = success.data
+              return data
+            }
+            if (!success) {
+              console.error('Not success', success)
+              commit("setError", success.message, { root: true });
+            }
+          })
+          .catch(error => error)
+
+        return data;
+
+      } catch (error) {
+        console.error('catch error', error);
+        commit("setError", error.message, { root: true });
+        commit("setLoading", false, { root: true });
+        throw error
       }
     },
   },

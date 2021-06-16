@@ -35,3 +35,26 @@ export async function updatePasswordSettings(payload) {
     })
     .catch(err => err)
 }
+
+export async function getNotificationsSettings() {
+  return axios
+    .get(`${END_POINT}/notifications`)
+    .then(response => {
+      if (response) {
+        return response
+      }
+      return response
+    })
+    .catch(err => err)
+}
+
+export async function updateNotificationsSettings(payload) {
+  return await axios.patch(`${END_POINT}/notifications`, payload)
+    .then(response => {
+      if (response) {
+        return response
+      }
+      return false
+    })
+    .catch(err => err)
+}

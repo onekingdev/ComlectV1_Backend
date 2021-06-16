@@ -12,21 +12,25 @@
             .settings___card--internal.p-y-1
               .row
                 .col-md-8
-                  b-form(@submit='onSubmit' @onchange="onChange" @reset="onReset" v-if='show')
+                  b-form(v-if='show')
                     .row.mb-2
+                      .col
+                        .d-flex.justify-content-between
+                          h4
+                            b Tasks
+                          p.mb-0
+                            span.mr-3 IN-APP
+                            span EMAIL
+                    .row
                       .col-10
-                        h4
-                          b Tasks
-                      .col.text-center IN-APP
-                      .col.text-center EMAIL
-                    .row.mb-2(v-for="(option, i) in notificationsTasksOptions" :key="'task'+i")
-                      .col-10
-                        .custom-checkbox.b-custom-control-lg.pl-0
+                        .custom-checkbox.b-custom-control-lg.pl-0(v-for="(option, i) in notificationsTasksOptions" :key="'task-main-'+i")
                           label {{option.label}}
                       .col.text-center
-                        input(type="checkbox" v-model="form.notificationsTasksApp[i]" name="taskApp" class="regular-checkbox")
+                        .custom-checkbox.b-custom-control-lg.pl-0(v-for="(option, i) in form.in_app_notifications.tasks" :key="'task-app-'+i" )
+                          input.mb-2(type="checkbox" v-model="checkedApps[i]" :value="form.in_app_notifications.tasks[i]" class="regular-checkbox" @change="onChange('in_app_notifications')")
                       .col.text-center
-                        input(type="checkbox" v-model="form.notificationsTasksEmail[i]" name="taskEmail" class="regular-checkbox")
+                        .custom-checkbox.b-custom-control-lg.pl-0(v-for="(option, i) in form.email_notifications.tasks" :key="'task-email-'+i" )
+                          input.mb-2(type="checkbox" v-model="checkedEmails[i]" :value="form.email_notifications.tasks[i]" class="regular-checkbox" @change="onChange('email_notifications')")
                     .row.m-t-1
                       .col-12
                         h4
@@ -36,17 +40,17 @@
                         .custom-checkbox.b-custom-control-lg.pl-0
                           label {{option.label}}
                       .col.text-center
-                        input(type="checkbox" v-model="form.notificationsProjectApp[i]" name="projectApp" class="regular-checkbox")
+                        input(type="checkbox" v-model="form.in_app_notifications[i]" class="regular-checkbox" @change="onChange")
                       .col.text-center
-                        input(type="checkbox" v-model="form.notificationsProjectEmail[i]" name="projectEmail" class="regular-checkbox")
+                        input(type="checkbox" v-model="form.email_notifications[i]" class="regular-checkbox" @change="onChange")
                     .row.m-t-1
                       .col-12
                         h4
                           b Email Updates
                       .col-md-6
                         b-form-group
-                          b-form-checkbox(v-for="(option, i) in notificationsEmailOptions" v-model="form.notificationsEmail[i]" :key="'email'+i" size="lg" name="email") {{option.label}}
-                    .row
+                          b-form-checkbox(v-for="(option, i) in notificationsEmailOptions" v-model="form.email_updates[i]" :key="'email'+i" size="lg" @change="onChange") {{option.label}}
+                    .row.d-none
                       .col
                         b-form-group.text-right
                           b-button.btn.link.mr-2(type='reset' variant='none') Cancel
@@ -57,30 +61,81 @@
   import Loading from '@/common/Loading/Loading'
 
   const NOTIFICATIONS_TASKS_OPTIONS = [
-    { label: 'When a task is created', value: '' },
-    { label: 'When a task assigned to me', value: '' },
-    { label: 'When a file is uploaded to a task', value: '' },
-    { label: 'When someone comments on a task', value: '' },
-    { label: 'When a task is compiled', value: '' },
-    { label: 'When a task is overdue', value: '' },
+    { label: 'When a task is created' },
+    { label: 'When a task assigned to me' },
+    { label: 'When a file is uploaded to a task' },
+    { label: 'When someone comments on a task' },
+    { label: 'When a task is compiled' },
+    { label: 'When a task is overdue' },
   ]
 
   const NOTIFICATIONS_PROJECTS_OPTIONS = [
-    { label: 'When new applicants bid for a project', value: '' },
-    { label: 'When applicants message me', value: '' },
-    { label: 'When a specialist accepts a project completition', value: '' },
-    { label: 'When a specialist accepts a dedline extension', value: '' },
+    { label: 'When new applicants bid for a project' },
+    { label: 'When applicants message me' },
+    { label: 'When a specialist accepts a project completition' },
+    { label: 'When a specialist accepts a dedline extension' },
   ]
 
   const NOTIFICATIONS_EMAIL_OPTIONS = [
-    { label: 'Monthly Compilance Newsletter', value: '' },
-    { label: 'Promos and Upcomming Events', value: '' },
+    { label: 'Monthly Compilance Newsletter' },
+    { label: 'Promos and Upcomming Events' },
   ]
 
   const initialForm = () => ({
-    notificationsTasksOptions: NOTIFICATIONS_TASKS_OPTIONS.map(() => false),
-    notificationsProjectsOptions: NOTIFICATIONS_PROJECTS_OPTIONS.map(() => false),
-    notificationsEmailOptions: NOTIFICATIONS_EMAIL_OPTIONS.map(() => false),
+    in_app_notifications: {
+      tasks: {
+        task_created: true,
+        task_assigned: true,
+        task_file_uploaded: true,
+        task_new_comment: true,
+        task_completed: true,
+        task_overdue: true,
+      },
+      projects: {
+        project_new_bid: true,
+        project_message: true,
+        project_overdue: true,
+        project_ended: true,
+        project_completed: true,
+      },
+      got: {
+        got_rated: true,
+        got_message: true,
+      },
+      emails: {
+        new_forum_answers: true,
+        new_forum_comments: true,
+      },
+    },
+    email_notifications: {
+      tasks: {
+        task_created: true,
+        task_assigned: true,
+        task_file_uploaded: true,
+        task_new_comment: true,
+        task_completed: true,
+        task_overdue: true,
+      },
+      projects: {
+        project_new_bid: true,
+        project_message: true,
+        project_overdue: true,
+        project_ended: true,
+        project_completed: true,
+      },
+      got: {
+        got_rated: true,
+        got_message: true,
+      },
+      emails: {
+        new_forum_question: true,
+        new_forum_comments: true
+      },
+    },
+    email_updates: {
+      monthly_newsletter: true,
+      promos_and_events: true
+    }
   })
 
   export default {
@@ -90,51 +145,47 @@
     data() {
       return {
         show: true,
-        form: {
-          notifications: initialForm(),
-          notificationsTasksApp: [],
-          notificationsTasksEmail: [],
-          notificationsProjectApp: [],
-          notificationsProjectEmail: [],
-          notificationsEmail: []
-        },
+        form: initialForm(),
         errors: {},
-        toggle: ''
+        checkedApps: [],
+        checkedEmails: []
       };
     },
     methods: {
-      onSubmit (event) {
-        event.preventDefault()
-        // clear errors
-        this.errors = []
+      onChange (kind) {
+        console.log('kind', kind)
+        console.log(this.checkedApps)
+        console.log(this.checkedApps[0])
+        console.log(Object.keys(this.checkedApps)[0])
 
-        console.log(this.form)
-        return
-
-        const data = {
-
+        let data;
+        if (kind === 'in_app_notifications') {
+          data = {
+            "kind": "in_app_notifications",
+            "setting": Object.keys(this.checkedApps)[0]
+          }
         }
+        if (kind === 'email_notifications') {
+          data = {
+            "kind": "in_app_notifications",
+            "setting": Object.keys(this.checkedEmails)[0]
+          }
+        }
+        if (kind !== 'in_app_notifications' && kind !== 'email_notifications') {
+          data = {
+            "kind": "email_updates",
+            "setting": "task_assigned"
+          }
+        }
+        this.checkedApps = []
+        this.checkedEmails = []
 
-        this.$store.dispatch('....', data)
-          .then((response) => console.log(error))
+        this.$store.dispatch('settings/updateNotificationsSettings', data)
+          .then((response) => {
+            console.log(response)
+            this.toast('Success', `Setting is updated`)
+          })
           .catch((error) => console.error(error))
-      },
-      onChange (value) {
-        if(value) {
-          console.log(value)
-          console.log(this.form)
-        }
-      },
-      onReset(event) {
-        event.preventDefault()
-        // Reset our form values
-        this.form = initialForm()
-        this.form.checked = []
-        // Trick to reset/clear native browser form validation state
-        this.show = false
-        this.$nextTick(() => {
-          this.show = true
-        })
       },
     },
     computed: {
@@ -145,8 +196,14 @@
       notificationsProjectsOptions: () => NOTIFICATIONS_PROJECTS_OPTIONS,
       notificationsEmailOptions: () => NOTIFICATIONS_EMAIL_OPTIONS,
     },
-    mounted() {
-
+    async mounted () {
+      try {
+        await this.$store.dispatch('settings/getNotificationsSettings')
+          .then(response => console.log(response))
+          .catch(error => console.error(error))
+      } catch (error) {
+        console.error(error)
+      }
     },
   };
 </script>
