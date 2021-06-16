@@ -11,7 +11,7 @@
         .col-md-3
           .panel-default
             ul.settings-nav
-              li.settings-nav__item(v-for='(item, idx) in menu' :key="idx" @click="openSetting(item.name, $event)" :class="{ active: idx === 0 }")
+              li.settings-nav__item(v-for='(item, idx) in menu' :key="idx" @click="openSetting(item.link, $event)" :class="{ active: item.link === component }")
                 a.settings-nav__link(:href='item.link') {{ item.name }}
         .col-md-9
           component(v-bind:is="component" :states="states", :timezones="timezones", :contries="contries", :userId="userId" @upgradOpen="upgradOpen")
@@ -24,7 +24,7 @@
   import Users from "./components/users";
   import Security from "./components/security";
   import Subscriptions from "./components/subscriptions";
-  import RolePermisssions from "./components/roles";
+  import Roles from "./components/roles";
   import Billings from "./components/billings";
   import Notifications from "./components/notifications";
   import SelectPlan from './components/subscriptions/components/SelectPlan'
@@ -37,52 +37,51 @@
       Users,
       Security,
       Subscriptions,
-      RolePermisssions,
+      Roles,
       Billings,
       Notifications,
       SelectPlan,
     },
     created() {
-      this.component = General;
+      // this.component = General;
       // this.component = Users;
       // this.component = Security;
       // this.component = Subscriptions;
-      // this.component = RolePermisssions;
+      // this.component = Roles;
       // this.component = Billings;
       // this.component = Notifications;
 
-      // console.log(window.location)
-      // const pathName = window.location.pathname.split('settings/')
-      // console.log(pathName)
+      const pathName = window.location.pathname.split('settings/')[1]
+      if(pathName) {
+        const pathNameFixed = pathName.charAt(0).toUpperCase() + pathName.slice(1);
+        this.openSetting(pathNameFixed)
+      }
+      if(!pathName) this.openSetting('General')
     },
     data() {
       return {
         component: '',
         componentUpgrade: '',
         menu: [
-          { name: 'General', link: '#' },
-          { name: 'Users', link: '#' },
-          { name: 'Security', link: '#' },
-          { name: 'Subscriptions', link: '#' },
-          { name: 'RolePermisssions', link: '#' },
-          { name: 'Billings', link: '#' },
-          { name: 'Notifications', link: '#' },
+          { name: 'General', link: 'General' },
+          { name: 'Users', link: 'Users' },
+          { name: 'Security', link: 'Security' },
+          { name: 'Subscriptions', link: 'Subscriptions' },
+          { name: 'Roles and Permisssions', link: 'Roles' },
+          { name: 'Billings', link: 'Billings' },
+          { name: 'Notifications', link: 'Notifications' },
         ]
       };
     },
     methods: {
       openSetting (name, event) {
         this.component = name;
-
-        // const allLinks = document.querySelectorAll('.settings-nav__item')
-        // console.log(allLinks)
-
         document.querySelectorAll('.settings-nav__item').forEach(function (link, i) {
           link.classList.remove('active')
         });
-        event.target.classList.add('active')
-        // const baseUrl = new URL(window.location.origin);
-        // window.history.pushState({}, name, `${baseUrl}business/settings/${name.toLowerCase()}`);
+        if(event) event.target.classList.add('active')
+
+        this.navigate(name)
       },
       upgradOpen () {
         // console.log('open')
@@ -92,6 +91,10 @@
         // console.log('open')
         this.componentUpgrade = ''
         this.toast('Success', 'Plan upgraded.')
+      },
+      navigate(name) {
+        const baseUrl = new URL(window.location.origin);
+        window.history.pushState({}, name, `${baseUrl}business/settings/${name.toLowerCase()}`);
       }
     },
     computed: {
