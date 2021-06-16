@@ -14,7 +14,7 @@
               li.settings-nav__item(v-for='(item, idx) in menu' :key="idx" @click="openSetting(item.name, $event)" :class="{ active: idx === 0 }")
                 a.settings-nav__link(:href='item.link') {{ item.name }}
         .col-md-9
-          component(v-bind:is="component" @upgradOpen="upgradOpen")
+          component(v-bind:is="component" :states="states", :timezones="timezones", :contries="contries", :userId="userId" @upgradOpen="upgradOpen")
 
 </template>
 
@@ -30,6 +30,7 @@
   import SelectPlan from './components/subscriptions/components/SelectPlan'
 
   export default {
+    props: ['states', 'timezones', 'contries', 'userId'],
     components: {
       Loading,
       General,
@@ -42,13 +43,13 @@
       SelectPlan,
     },
     created() {
-      // this.component = General;
+      this.component = General;
       // this.component = Users;
       // this.component = Security;
       // this.component = Subscriptions;
       // this.component = RolePermisssions;
       // this.component = Billings;
-      this.component = Notifications;
+      // this.component = Notifications;
 
       // console.log(window.location)
       // const pathName = window.location.pathname.split('settings/')

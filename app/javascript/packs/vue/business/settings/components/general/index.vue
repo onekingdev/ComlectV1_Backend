@@ -23,9 +23,11 @@
                     )
                       multiselect#select-1(
                       v-model="form.time_zone"
-                      :options="options.timeZone"
+                      :options="options.timezones"
                       :multiple="false"
                       :show-labels="false"
+                      track-by="name",
+                      label="name"
                       placeholder="Select Time Zone",
                       required)
                       .invalid-feedback.d-block(v-if="errors.time_zone") {{ errors.time_zone[0] }}
@@ -35,7 +37,7 @@
                     )
                       multiselect#select-2(
                       v-model="form.country"
-                      :options="options.country"
+                      :options="options.contries"
                       :multiple="false"
                       :show-labels="false"
                       placeholder="Select Country",
@@ -47,14 +49,14 @@
                     )
                       multiselect#select-3(
                       v-model="form.state"
-                      :options="options.state"
+                      :options="options.states"
                       :multiple="false"
                       :show-labels="false"
                       placeholder="Select State",
                       required)
                       .invalid-feedback.d-block(v-if="errors.state") {{ errors.state[0] }}
-                  b-form-group#input-group-4(label='Phone Number' label-for='input-4' label-class="settings__card--label")
-                    b-form-input#input-4(v-model='form.city' type='text' placeholder='Phone Number' required :class="{'is-invalid': errors.city }")
+                  b-form-group#input-group-4(label='City' label-for='input-4' label-class="settings__card--label")
+                    b-form-input#input-4(v-model='form.city' type='text' placeholder='City' required :class="{'is-invalid': errors.city }")
                     .invalid-feedback.d-block(v-if="errors.city") {{ errors.city[0] }}
                   b-form-group#input-group-5(label='Phone Number' label-for='input-5' label-class="settings__card--label")
                     b-form-input#input-5(v-model='form.contact_phone' type='text' placeholder='Phone Number' required :class="{'is-invalid': errors.contact_phone }")
@@ -77,20 +79,33 @@
   })
 
   export default {
+    props: ['states', 'timezones', 'contries', 'userId'],
     components: {
       Multiselect,
       Loading,
+    },
+    created(){
+      if(this.states) this.options.states = this.states
+      // if(this.timezones) this.options.timezones = this.timezones
+      if(this.contries) this.options.contries = this.contries
+
+      if(this.timezones) {
+        for (const [ value, label ] of this.timezones) {
+          this.options.timezones.push({
+            value: value,
+            name: label
+          })
+        }
+      }
     },
     data() {
       return {
         show: true,
         form: initialForm(),
-        timeZoneOptions: [],
         options: {
-          timeZone: [],
-          country: [],
-          state: [],
-          city: [],
+          timezones: [],
+          contries: [],
+          states: [],
         },
         errors: {},
       };
@@ -101,8 +116,28 @@
         // clear errors
         this.errors = []
 
+        this.form.time_zone = this.form.time_zone.name
+
         this.$store.dispatch('settings/updateGeneralSettings', this.form)
-          .then(response => this.toast('Success', `Information successfully saved!`) )
+          .then(response => {
+            if(response.errors) {
+              for (const [key, value] of Object.entries(response.errors)) {
+                this.toast('Error', `${key}: ${value}`)
+                this.errors = Object.assign(this.errors, { [key]: value })
+              }
+            }
+            if(!response.errors) {
+              this.toast('Success', `Information successfully saved!`)
+
+              this.form = {
+                ...response,
+                time_zone: {
+                  value: response.time_zone,
+                  name: response.time_zone
+                }
+              }
+            }
+          })
           .catch(error => this.toast('Error', `Something wrong! ${error}`) )
       },
       onReset(event) {
@@ -125,7 +160,15 @@
     async mounted () {
       try {
         await this.$store.dispatch('settings/getGeneralSettings')
-          .then(response => this.form = {...response})
+          .then(response => {
+            this.form = {
+              ...response,
+              time_zone: {
+                value: response.time_zone,
+                name: response.time_zone
+              }
+            }
+          })
           .catch(error => console.error(error))
       } catch (error) {
         console.error(error)
