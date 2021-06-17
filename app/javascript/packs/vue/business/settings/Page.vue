@@ -65,9 +65,9 @@
         menu: [
           { name: 'General', link: 'General' },
           { name: 'Users', link: 'Users' },
+          { name: 'Roles and Permisssions', link: 'Roles' },
           { name: 'Security', link: 'Security' },
           { name: 'Subscriptions', link: 'Subscriptions' },
-          { name: 'Roles and Permisssions', link: 'Roles' },
           { name: 'Billings', link: 'Billings' },
           { name: 'Notifications', link: 'Notifications' },
         ]

@@ -21,7 +21,7 @@
                     b-button.d-none(ref="special") Card add
               .row
                 .col
-                  PaymentMethod
+                  PaymentMethod(:paymentMethods="paymentMethods")
             hr
             .settings___card--internal.p-y-1
               .row
@@ -51,7 +51,9 @@
     },
     data() {
       return {
+        userType: 'business',
         billingMethod: '',
+        paymentMethods: []
       };
     },
     methods: {
@@ -84,7 +86,22 @@
       },
     },
     mounted() {
+      const dataToSend = {
+        userType: this.userType,
+      }
 
-    },
+      this.$store.dispatch('settings/getPaymentMethod', dataToSend)
+        .then(response => {
+          console.log(response)
+          // const newOptions = response.map((card, index) => {
+          //   return { text: `Credit Card${index===0 ? ' (primary)' : ''}`, value: card.id, number: `**** **** **** ${card.last4}`, type: card.brand, id: card.id }
+          // })
+          // console.log(newOptions)
+          this.paymentMethods = response
+        })
+        .catch(error => {
+          console.error(error)
+        })
+    }
   };
 </script>

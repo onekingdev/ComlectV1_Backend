@@ -369,7 +369,7 @@ export default {
           console.error(error);
         }
     },
-    async deletePaymentMethod({commit, getters}, payload) {
+    async deletePaymentMethod({state, commit, rootState}, payload) {
       commit("clearError", null, {root: true});
       commit("setLoading", true, {root: true});
       try {
