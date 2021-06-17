@@ -218,8 +218,11 @@
             for(const [key, value] of Object.entries(response)) {
               if (key === 'in_app_notifications') {
                 for(const [keyIn, valueIn] of Object.entries(value)) {
-                  if (valueIn) this.checkedApps.push(keyIn)
+                  // if (valueIn) this.checkedApps.push(keyIn)
                   // else this.checkedApps.push(null)
+                  const splitedKey = keyIn.split('_')[0]
+                  if (splitedKey === 'task') this.checkedTasksApps.push(keyIn)
+                  if (splitedKey === 'project') this.checkedProjectsApps.push(keyIn)
                 }
               }
               if (key === 'email_notifications') {
