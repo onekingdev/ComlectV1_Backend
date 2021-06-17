@@ -1,10 +1,5 @@
 <template lang="pug">
   div
-    .row(v-if='loading')
-      .col
-        .card-body.white-card-body.px-3.px-xl-5
-          .settings___card--internal.p-y-1
-            Loading
     .row(v-if='!loading')
       .col
         .card.settings__card
@@ -14,7 +9,8 @@
             .settings___card--internal.p-y-1
               .row
                 .col-md-8
-                  b-form(v-if='show')
+                  Loading
+                  b-form(v-if='!loading && show')
                     .row.mb-2
                       .col-12
                         .d-flex.justify-content-between
@@ -29,8 +25,8 @@
                           .custom-checkbox.b-custom-control-lg.pl-0
                             label {{option.label}}
                           .d-flex.ml-auto
-                            b-form-checkbox.mr-5(type="checkbox" v-model="checkedApps[i]" :value="option.value" @change="onChange('in_app_notifications', option.value)")
-                            b-form-checkbox(type="checkbox" v-model="checkedEmails[i]" :value="option.value" @change="onChange('email_notifications', option.value)")
+                            b-form-checkbox.mr-5(type="checkbox" v-model="checkedApps" :value="option.value" @change="onChange('in_app_notifications', option.value)")
+                            b-form-checkbox(type="checkbox" v-model="checkedEmails" :value="option.value" @change="onChange('email_notifications', option.value)")
                     .row.m-t-1
                       .col-12
                         h4
@@ -41,15 +37,15 @@
                           .custom-checkbox.b-custom-control-lg.pl-0
                             label {{option.label}}
                           .d-flex.ml-auto
-                            b-form-checkbox.mr-5(type="checkbox" v-model="checkedApps[i]" :value="option.value" @change="onChange('in_app_notifications', option.value)")
-                            b-form-checkbox(type="checkbox" v-model="checkedEmails[i]" :value="option.value" @change="onChange('in_app_notifications', option.value)")
+                            b-form-checkbox.mr-5(type="checkbox" v-model="checkedApps" :value="option.value" @change="onChange('in_app_notifications', option.value)")
+                            b-form-checkbox(type="checkbox" v-model="checkedEmails" :value="option.value" @change="onChange('in_app_notifications', option.value)")
                     .row.m-t-1
                       .col-12
                         h4
                           b Email Updates
                       .col-md-6
                         b-form-group
-                          b-form-checkbox(v-for="(option, i) in notificationsEmailOptions" :key="'email-updates-'+i" v-model="checkedEmailsUpdates[i]" :value="option.value" size="lg" @change="onChange('email_updates', option.value)") {{option.label}}
+                          b-form-checkbox(v-for="(option, i) in notificationsEmailOptions" :key="'email-updates-'+i" v-model="checkedEmailsUpdates" :value="option.value" size="lg" @change="onChange('email_updates', option.value)") {{option.label}}
                     .row.d-none
                       .col
                         b-form-group.text-right
@@ -223,19 +219,19 @@
               if (key === 'in_app_notifications') {
                 for(const [keyIn, valueIn] of Object.entries(value)) {
                   if (valueIn) this.checkedApps.push(keyIn)
-                  else this.checkedApps.push(null)
+                  // else this.checkedApps.push(null)
                 }
               }
               if (key === 'email_notifications') {
                 for(const [keyIn, valueIn] of Object.entries(value)) {
                   if (valueIn) this.checkedEmails.push(keyIn)
-                  else this.checkedEmails.push(null)
+                  // else this.checkedEmails.push(null)
                 }
               }
               if (key !== 'in_app_notifications' && key !== 'email_notifications') {
                 for(const [keyIn, valueIn] of Object.entries(value)) {
                   if (valueIn) this.checkedEmailsUpdates.push(keyIn)
-                  else this.checkedEmailsUpdates.push(null)
+                  // else this.checkedEmailsUpdates.push(null)
                 }
               }
             }
