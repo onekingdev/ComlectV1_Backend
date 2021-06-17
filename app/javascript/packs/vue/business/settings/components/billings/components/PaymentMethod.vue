@@ -1,18 +1,18 @@
 <template lang="pug">
   div
-    .card.mb-2(v-if="!paymentMethods.length")
+    .card.mb-2(v-if="paymentMethods && !paymentMethods.length")
       .card-body
-        h5.text-center Payment method not exist
+        h5.text-center Payment methods not exist
     .card.mb-2(v-for="payment in paymentMethods" :key="payment.id")
       .card-body
         .row
           .col
             .d-flex.align-items-center
-              b-icon(v-if="payment.brand === 'Visa'" icon='credit-card2-back-fill' variant="dark" font-scale="2")
+              b-icon(v-if="payment.last4" icon='credit-card2-back-fill' variant="dark" font-scale="2")
               ion-icon.payment(v-if="!payment.brand" name="logo-paypal")
               .d-block.ml-4
-                h3(v-if="payment.brand === 'Visa'") Credit Card
-                  span(v-if="payment.primary === '(Primary)'")
+                h3(v-if="payment.last4") Credit Card
+                  span(v-if="payment.primary") (Primary)
                 p.mb-0 {{ '**** **** **** ' + payment.last4 }} {{ payment.brand }} {{ payment.email }}
           .col
             .d-flex.justify-content-end.align-items-center.h-100
@@ -67,10 +67,7 @@
 
         this.$store.dispatch('settings/deletePaymentMethod', dataToSend)
           .then(response => {
-            const index = this.paymentMethods.findIndex(record => record.id === payload.id);
-            this.paymentMethods.splice(index, 1)
-            if (response.message)
-              this.toast('Success', `${response.message}`)
+            if (response.status === "ok") this.toast('Success', `${response.message.message}`)
           })
           .catch(error => {
             console.error(error)

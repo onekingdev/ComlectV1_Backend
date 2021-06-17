@@ -17,13 +17,15 @@ const mapAuthProviders = {
 }
 
 // import Settings from "../../models/Settings";
-import { SettingsGeneral } from "../../models/Settings";
+import { SettingsGeneral, SettingsPaymentMethod } from "../../models/Settings";
 import axios from "../../services/axios";
+import ExamManagement from "../../models/ExamManagement";
 
 export default {
   state: {
     settings: [],
     currentSetting: null,
+    paymentMethods: []
   },
   mutations: {
     SET_SETTINGS(state, payload) {
@@ -31,6 +33,16 @@ export default {
     },
     SET_CURRENT_SETTING (state, payload) {
       state.currentSettings = payload
+    },
+    SET_PAYMENT_METHODS (state, payload) {
+      state.paymentMethods = payload
+    },
+    ADD_PAYMENT_METHOD (state, payload) {
+      state.paymentMethods.push(payload)
+    },
+    DELETE_PAYMENT_METHOD (state, payload) {
+      const index = state.paymentMethods.findIndex(record => record.id === payload.id);
+      state.paymentMethods.splice(index, 1)
     },
   },
   actions: {
@@ -332,6 +344,23 @@ export default {
             commit("setLoading", false, {root: true});
             if (success) {
               const data = success.data
+              commit('ADD_PAYMENT_METHOD', new SettingsPaymentMethod(
+                data.account_holder_name,
+                data.account_holder_type,
+                data.brand,
+                data.country,
+                data.coupon_id,
+                data.currency,
+                data.exp_month,
+                data.exp_year,
+                data.id,
+                data.last4,
+                data.payment_profile_id,
+                data.primary,
+                data.stripe_id,
+                data.type,
+                data.validated,
+              ))
               return data
             }
             if (!success) {
@@ -349,22 +378,43 @@ export default {
       commit("clearError", null, {root: true});
       commit("setLoading", true, {root: true});
       try {
-          const getPaymentMethod = mapAuthProviders[rootState.shared.settings.authProvider].getPaymentMethod
-          const data = getPaymentMethod(payload)
-            .then((success) => {
-              commit("clearError", null, {root: true});
-              commit("setLoading", false, {root: true});
-              if (success) {
-                const data = success.data
-                return data
+        const getPaymentMethod = mapAuthProviders[rootState.shared.settings.authProvider].getPaymentMethod
+        const data = getPaymentMethod(payload)
+          .then((success) => {
+            commit("clearError", null, {root: true});
+            commit("setLoading", false, {root: true});
+            if (success) {
+              const data = success.data
+              const paymentMethods = []
+              for (const item of data) {
+                paymentMethods.push(new SettingsPaymentMethod(
+                  item.account_holder_name,
+                  item.account_holder_type,
+                  item.brand,
+                  item.country,
+                  item.coupon_id,
+                  item.currency,
+                  item.exp_month,
+                  item.exp_year,
+                  item.id,
+                  item.last4,
+                  item.payment_profile_id,
+                  item.primary,
+                  item.stripe_id,
+                  item.type,
+                  item.validated,
+                ))
               }
-              if (!success) {
-                console.error('Not success', success)
-                commit("setError", success.message, {root: true});
-              }
-            })
-            .catch(error => error)
-          return data;
+              commit('SET_PAYMENT_METHODS', paymentMethods)
+              return data
+            }
+            if (!success) {
+              console.error('Not success', success)
+              commit("setError", success.message, {root: true});
+            }
+          })
+          .catch(error => error)
+        return data;
         } catch (error) {
           console.error(error);
         }
@@ -380,6 +430,7 @@ export default {
             commit("setLoading", false, {root: true});
             if (success) {
               const data = success.data
+              commit('DELETE_PAYMENT_METHOD', { id: payload.id })
               return data
             }
             if (!success) {
@@ -396,6 +447,7 @@ export default {
   },
   getters: {
     settings: state => state.settings,
-    currentSetting: state => state.currentSetting
+    currentSetting: state => state.currentSetting,
+    paymentMethods: state => state.paymentMethods,
   },
 };

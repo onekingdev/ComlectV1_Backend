@@ -3,7 +3,7 @@
     td
       a.link(:href="item.url") {{ item.name }}
     td.text-center
-      b-badge.status(:variant="item.status ? 'success' : 'light'") {{ item.status }}
+      b-badge.status(:variant="item.status ? 'success' : 'light'") {{ item.status ? 'Active' : 'Inactive' }}
     td.text-right
       b-dropdown.actions(size="sm" variant="none" class="m-0 p-0" right)
         template(#button-content)

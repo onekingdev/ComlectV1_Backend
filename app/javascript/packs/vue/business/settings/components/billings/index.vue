@@ -13,7 +13,7 @@
               .col.text-right
                 BillingMethodModalAdd(@selected="addMethod")
                   b-button.btn.mr-2.font-weight-bold(type='button' variant='default') Add Method
-                BillingMethodCardModalAdd(:billingMethod="billingMethod")
+                BillingMethodCardModalAdd(:billingMethod="billingMethod" @complitedPaymentMethod="addPaymentMethod")
                   b-button.d-none(ref="special") Card add
             .row
               .col
@@ -32,6 +32,7 @@
 </template>
 
 <script>
+  import { mapGetters, mapActions } from "vuex"
   import Loading from '@/common/Loading/Loading'
   import InvoicesTable from "./components/InvoicesTable";
   import PaymentMethod from "./components/PaymentMethod";
@@ -50,18 +51,27 @@
       return {
         userType: 'business',
         billingMethod: '',
-        paymentMethods: []
+        // paymentMethods: []
       };
     },
     methods: {
+      ...mapActions({
+        getPaymentMethod: 'settings/getPaymentMethod'
+      }),
       addMethod(value) {
         this.billingMethod = value
         // this.$root.$emit("bv::show::modal", "CardModalAdd");
         // console.log(this.$root.$emit("bv::show::modal", "CardModalAdd"))
         this.$refs.special.click()
+      },
+      addPaymentMethod (response) {
+        this.paymentMethods.push(response)
       }
     },
     computed: {
+      ...mapGetters({
+        paymentMethods: 'settings/paymentMethods'
+      }),
       loading() {
         return this.$store.getters.loading;
       },
@@ -82,23 +92,17 @@
         ]
       },
     },
-    mounted() {
-      const dataToSend = {
-        userType: this.userType,
+    async mounted() {
+      try {
+        const data = {
+          userType: this.userType,
+        }
+        await this.getPaymentMethod(data)
+          .then(response => response)
+          .catch(error => console.error(error))
+      } catch (error) {
+        console.error(error)
       }
-
-      this.$store.dispatch('settings/getPaymentMethod', dataToSend)
-        .then(response => {
-          console.log(response)
-          // const newOptions = response.map((card, index) => {
-          //   return { text: `Credit Card${index===0 ? ' (primary)' : ''}`, value: card.id, number: `**** **** **** ${card.last4}`, type: card.brand, id: card.id }
-          // })
-          // console.log(newOptions)
-          this.paymentMethods = response
-        })
-        .catch(error => {
-          console.error(error)
-        })
     }
   };
 </script>
