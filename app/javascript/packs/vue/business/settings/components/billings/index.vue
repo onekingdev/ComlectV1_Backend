@@ -1,37 +1,34 @@
 <template lang="pug">
-  div
-    .row
-      .col
-        Loading
-    .row(v-if='!loading')
-      .col
-        .card.settings__card
-          .card-title.px-3.px-xl-5.py-xl-4.mb-0
-            h3.mb-0 Billings
-          .card-body.white-card-body.px-3.px-xl-5
-            .settings___card--internal.p-y-1
-              .row.m-b-2
-                .col
-                  h4
-                    b Payment Method
-                .col.text-right
-                  BillingMethodModalAdd(@selected="addMethod")
-                    b-button.btn.mr-2.font-weight-bold(type='button' variant='default') Add Method
-                  CardModalAdd(:billingMethod="billingMethod")
-                    b-button.d-none(ref="special") Card add
-              .row
-                .col
-                  PaymentMethod(:paymentMethods="paymentMethods")
-            hr
-            .settings___card--internal.p-y-1
-              .row
-                .col
-                  h4
-                    b Invoices
-              .row
-                .col
-                  InvoicesTable(:invoices="invoices")
-                  div(v-if="!invoices && invoices.length") Invoices not avaliable
+  .row
+    .col
+      .card.settings__card
+        .card-title.px-3.px-xl-5.py-xl-4.mb-0
+          h3.mb-0 Billings
+        .card-body.white-card-body.px-3.px-xl-5
+          .settings___card--internal.p-y-1
+            .row.m-b-2(v-if='!loading')
+              .col
+                h4
+                  b Payment Method
+              .col.text-right
+                BillingMethodModalAdd(@selected="addMethod")
+                  b-button.btn.mr-2.font-weight-bold(type='button' variant='default') Add Method
+                BillingMethodCardModalAdd(:billingMethod="billingMethod")
+                  b-button.d-none(ref="special") Card add
+            .row
+              .col
+                Loading
+                PaymentMethod(v-if='!loading' :paymentMethods="paymentMethods")
+          hr
+          .settings___card--internal.p-y-1(v-if='!loading')
+            .row
+              .col
+                h4
+                  b Invoices
+            .row
+              .col
+                InvoicesTable(:invoices="invoices")
+                div(v-if="!invoices && invoices.length") Invoices not avaliable
 </template>
 
 <script>
@@ -39,11 +36,11 @@
   import InvoicesTable from "./components/InvoicesTable";
   import PaymentMethod from "./components/PaymentMethod";
   import BillingMethodModalAdd from "./modals/BillingMethodModalAdd";
-  import CardModalAdd from "./modals/CardModalAdd";
+  import BillingMethodCardModalAdd from "./modals/BillingMethodCardModalAdd";
 
   export default {
     components: {
-      CardModalAdd,
+      BillingMethodCardModalAdd,
       BillingMethodModalAdd,
       PaymentMethod,
       InvoicesTable,
