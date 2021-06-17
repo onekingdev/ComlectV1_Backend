@@ -59,20 +59,23 @@
       makePrimary(cardId) {
         console.log(cardId)
       },
-      deletePaymentMethod(cardId) {
-        const dataToSend = {
-          userType: this.userType,
-          id: cardId,
+      async deletePaymentMethod(cardId) {
+        try {
+          const dataToSend = {
+            userType: this.userType,
+            id: cardId,
+          }
+          await this.$store.dispatch('settings/deletePaymentMethod', dataToSend)
+            .then(response => {
+              if (response.status === "ok") this.toast('Success', `${response.message.message}`)
+            })
+            .catch(error => {
+              console.error(error)
+              this.toast('Error', `Something wrong! ${error}`)
+            })
+        } catch (e) {
+          console.error(error)
         }
-
-        this.$store.dispatch('settings/deletePaymentMethod', dataToSend)
-          .then(response => {
-            if (response.status === "ok") this.toast('Success', `${response.message.message}`)
-          })
-          .catch(error => {
-            console.error(error)
-            this.toast('Error', `Something wrong! ${error}`)
-          })
       },
     },
     mounted() {

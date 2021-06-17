@@ -92,27 +92,29 @@
         // this.$emit('saved')
         // this.$bvModal.hide(this.modalId)
       },
-      tokenCreated (token) {
+      async tokenCreated (token) {
         console.log(token)
         // handle the token
         // send it to your server
-        const dataToSend = {
-          userType: this.userType,
-          stripeToken: token.id,
-        }
 
-        this.$store.dispatch('settings/generatePaymentMethod', dataToSend)
-          .then(response => {
-            this.$emit('complitedPaymentMethod', response)
-            this.toast('Success', `Payment Method successfully added!`)
-            // this.isActive = false
-            // this.cardOptions.push({ text: `Credit Card${this.cardOptions.length===0 ? ' (primary)' : ''}`, value: response.id, number: `**** **** **** ${response.last4}`, type: response.brand, id: response.id })
-            // this.cardSelected = response.id
-          })
-          .catch(error => {
-            console.error(error)
-            this.toast('Error', `Something wrong! ${error}`)
-          })
+        try {
+          const dataToSend = {
+            userType: this.userType,
+            stripeToken: token.id,
+          }
+
+          await this.$store.dispatch('settings/generatePaymentMethod', dataToSend)
+            .then(response => {
+              this.$emit('complitedPaymentMethod', response)
+              this.toast('Success', `Payment Method successfully added!`)
+            })
+            .catch(error => {
+              console.error(error)
+              this.toast('Error', `Something wrong! ${error}`)
+            })
+        } catch (error) {
+          console.error(error)
+        }
       },
     },
     computed: {
