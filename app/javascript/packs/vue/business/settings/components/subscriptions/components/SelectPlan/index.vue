@@ -61,6 +61,7 @@
 </template>
 
 <script>
+  import { mapActions } from "vuex"
   import BillingDetails from './BillingDetails'
   import PurchaseSummary from './PurchaseSummary'
 
@@ -117,6 +118,10 @@
       }
     },
     methods: {
+      ...mapActions({
+        updateSubscribe: 'settings/updateSubscribe',
+        updateSeatsSubscribe: 'settings/updateSeatsSubscribe',
+      }),
       openDetails(plan) {
         if(plan.id === 1) {
           const dataToSend = {
@@ -125,7 +130,7 @@
             paymentSourceId : null,
           }
 
-          this.$store.dispatch('updateSubscribe', dataToSend)
+          this.updateSubscribe(dataToSend)
             .then(response => {
               this.toast('Success', `Update subscribe successfully finished!`)
               this.currentPlan = { id: 1, status: true }
@@ -182,8 +187,7 @@
           paymentSourceId : this.paymentSourceId,
         }
 
-        this.$store
-          .dispatch('updateSubscribe', dataToSend)
+        this.updateSubscribe(dataToSend)
           .then(response => {
             if(response.errors) throw new Error(`Response error!`)
             if(!response.errors) {
@@ -230,8 +234,7 @@
           countPayedUsers,
         }
 
-        this.$store
-          .dispatch('updateSeatsSubscribe', dataToSend)
+        this.updateSeatsSubscribe(dataToSend)
           .then(response => {
 
             if(response.errors) {

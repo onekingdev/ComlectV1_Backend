@@ -7,11 +7,17 @@ const mapAuthProviders = {
     updatePasswordSettings: jwt.updatePasswordSettings,
     getNotificationsSettings: jwt.getNotificationsSettings,
     updateNotificationsSettings: jwt.updateNotificationsSettings,
+    updateSubscribe: jwt.updateSubscribe,
+    updateSeatsSubscribe: jwt.updateSeatsSubscribe,
+    generatePaymentMethod: jwt.generatePaymentMethod,
+    getPaymentMethod: jwt.getPaymentMethod,
+    deletePaymentMethod: jwt.deletePaymentMethod,
   },
 }
 
 // import Settings from "../../models/Settings";
 import { SettingsGeneral } from "../../models/Settings";
+import axios from "../../services/axios";
 
 export default {
   state: {
@@ -226,6 +232,126 @@ export default {
         commit("setError", error.message, { root: true });
         commit("setLoading", false, { root: true });
         throw error
+      }
+    },
+    async updateSubscribe({state, commit, rootState}, payload) {
+      commit("clearError", null, {root: true});
+      commit("setLoading", true, {root: true});
+      try {
+        const updateSubscribe = mapAuthProviders[rootState.shared.settings.authProvider].updateSubscribe
+        const data = updateSubscribe(payload)
+          .then((success) => {
+            commit("clearError", null, {root: true});
+            commit("setLoading", false, {root: true});
+            if (success) {
+              const data = success.data
+              return data
+            }
+            if (!success) {
+              console.error('Not success', success)
+              commit("setError", success.message, {root: true});
+            }
+          })
+          .catch(error => error)
+        return data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async updateSeatsSubscribe({state, commit, rootState}, payload) {
+      commit("clearError", null, {root: true});
+      commit("setLoading", true, {root: true});
+      try {
+        const updateSeatsSubscribe = mapAuthProviders[rootState.shared.settings.authProvider].updateSeatsSubscribe
+        const data = updateSeatsSubscribe(payload)
+          .then((success) => {
+            commit("clearError", null, {root: true});
+            commit("setLoading", false, {root: true});
+            if (success) {
+              const data = success.data
+              return data
+            }
+            if (!success) {
+              console.error('Not success', success)
+              commit("setError", success.message, {root: true});
+            }
+          })
+          .catch(error => error)
+        return data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async generatePaymentMethod({state, commit, rootState}, payload) {
+      commit("clearError", null, {root: true});
+      commit("setLoading", true, {root: true});
+      try {
+        const generatePaymentMethod = mapAuthProviders[rootState.shared.settings.authProvider].generatePaymentMethod
+        const data = generatePaymentMethod(payload)
+          .then((success) => {
+            commit("clearError", null, {root: true});
+            commit("setLoading", false, {root: true});
+            if (success) {
+              const data = success.data
+              return data
+            }
+            if (!success) {
+              console.error('Not success', success)
+              commit("setError", success.message, {root: true});
+            }
+          })
+          .catch(error => error)
+        return data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getPaymentMethod({state, commit, rootState}, payload) {
+      commit("clearError", null, {root: true});
+      commit("setLoading", true, {root: true});
+      try {
+          const getPaymentMethod = mapAuthProviders[rootState.shared.settings.authProvider].getPaymentMethod
+          const data = getPaymentMethod(payload)
+            .then((success) => {
+              commit("clearError", null, {root: true});
+              commit("setLoading", false, {root: true});
+              if (success) {
+                const data = success.data
+                return data
+              }
+              if (!success) {
+                console.error('Not success', success)
+                commit("setError", success.message, {root: true});
+              }
+            })
+            .catch(error => error)
+          return data;
+        } catch (error) {
+          console.error(error);
+        }
+    },
+    async deletePaymentMethod({commit, getters}, payload) {
+      commit("clearError", null, {root: true});
+      commit("setLoading", true, {root: true});
+      try {
+        const deletePaymentMethod = mapAuthProviders[rootState.shared.settings.authProvider].deletePaymentMethod
+        const data = deletePaymentMethod(payload)
+          .then((success) => {
+            commit("clearError", null, {root: true});
+            commit("setLoading", false, {root: true});
+            if (success) {
+              const data = success.data
+              return data
+            }
+            if (!success) {
+              console.error('Not success', success)
+              commit("setError", success.message, {root: true});
+            }
+          })
+          .catch(error => error)
+        return data;
+      } catch (error) {
+        console.error(error);
       }
     },
   },

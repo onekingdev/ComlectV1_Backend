@@ -107,6 +107,7 @@
 </template>
 
 <script>
+  import { mapActions } from "vuex"
   import { StripeCheckout, StripeElementCard  } from '@vue-stripe/vue-stripe';
 
   export default {
@@ -151,6 +152,11 @@
       };
     },
     methods: {
+      ...mapActions({
+        generatePaymentMethod: 'settings/generatePaymentMethod',
+        getPaymentMethod: 'settings/getPaymentMethod',
+        deletePaymentMethod: 'settings/deletePaymentMethod'
+      }),
       toast(title, str) {
         this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
       },
@@ -170,8 +176,7 @@
           stripeToken: token.id,
         }
 
-        this.$store
-          .dispatch('generatePaymentMethod', dataToSend)
+        this.generatePaymentMethod(dataToSend)
           .then(response => {
             this.$emit('complitedPaymentMethod', response)
             this.toast('Success', `Payment Method successfully added!`)
@@ -199,8 +204,7 @@
           id: cardId,
         }
 
-        this.$store
-          .dispatch('deletePaymentMethod', dataToSend)
+        this.deletePaymentMethod(dataToSend)
           .then(response => {
             const index = this.cardOptions.findIndex(record => record.id === payload.id);
             this.cardOptions.splice(index, 1)
@@ -244,8 +248,7 @@
         userType: this.userType,
       }
 
-      this.$store
-        .dispatch('getPaymentMethod', dataToSend)
+      this.getPaymentMethod(dataToSend)
         .then(response => {
           const newOptions = response.map((card, index) => {
             return { text: `Credit Card${index===0 ? ' (primary)' : ''}`, value: card.id, number: `**** **** **** ${card.last4}`, type: card.brand, id: card.id }

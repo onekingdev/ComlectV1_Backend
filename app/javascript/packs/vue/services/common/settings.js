@@ -58,3 +58,75 @@ export async function updateNotificationsSettings(payload) {
     })
     .catch(err => err)
 }
+
+export async function updateSubscribe(payload) {
+  axios.defaults.timeout = 10000;
+  const { userType, paymentSourceId, planName } = { ...payload }
+  const endPoint = userType === 'business' ? 'business' : 'specialist'
+  return await axios.post(`/${endPoint}/upgrade/subscribe`, { plan: planName }, { params: {
+      payment_source_id: paymentSourceId
+    }})
+    .then(response => {
+      if (response) {
+        return response
+      }
+      return false
+    })
+    .catch(err => err)
+}
+
+export async function updateSeatsSubscribe(payload) {
+  axios.defaults.timeout = 10000;
+  const { userType, stripeToken } = { ...payload }
+  const endPoint = userType === 'business' ? 'business/payment_settings' : 'specialist/payment_settings/create_card'
+  return await axios.post(`/${endPoint}`, null, { params: {
+      stripeToken: stripeToken,
+    }})
+    .then(response => {
+      if (response) {
+        return response
+      }
+      return false
+    })
+    .catch(err => err)
+}
+
+export async function generatePaymentMethod(payload) {
+  axios.defaults.timeout = 10000;
+  const { userType, stripeToken } = { ...payload }
+  const endPoint = userType === 'business' ? 'business/payment_settings' : 'specialist/payment_settings/create_card'
+  return await axios.post(`/${endPoint}`, null, { params: {
+      stripeToken: stripeToken,
+    }})
+    .then(response => {
+      if (response) {
+        return response
+      }
+      return false
+    })
+    .catch(err => err)
+}
+
+export async function getPaymentMethod(payload) {
+  const { userType } = {...payload}
+  return await axios.get(`/${userType}/payment_settings`)
+    .then(response => {
+      if (response) {
+        return response
+      }
+      return false
+    })
+    .catch(err => err)
+}
+
+export async function deletePaymentMethod(payload) {
+  const { userType, id } = {...payload}
+  return await axios.delete(`/${userType}/payment_settings/${id}`)
+    .then(response => {
+      if (response) {
+        return response
+      }
+      return false
+    })
+    .catch(err => err)
+}
