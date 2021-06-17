@@ -6,8 +6,8 @@ class Api::EmailConfirmationController < ApiController
 
   def update
     user = User.find(params[:user_id])
-    if !user.email_confirmed && user.verify_otp(params[:otp_secret])
-      user.update(email_confirmed: true)
+    if !user.confirmed_at && user.verify_otp(params[:otp_secret])
+      user.update(confirmed_at: DateTime.now)
       sign_in(:user, user)
       if user.business
         render json: { message: 'Email was successfully confirmed', token: JsonWebToken.encode(sub: user.id),
@@ -23,8 +23,8 @@ class Api::EmailConfirmationController < ApiController
 
   def resend
     user = User.find(params[:user_id])
-    if user.email_confirmed
-      respond_with errors: 'You have already confimed email'
+    if user.confirmed_at
+      respond_with errors: 'You have already confirmed email'
     else
       BusinessMailer.verify_email(user, user.otp).deliver!
       respond_with message: 'You have received one time passcode to confirm your email'

@@ -22,8 +22,8 @@ Rails.application.routes.draw do
   rescue ActiveRecord::StatementInvalid, PG::UndefinedTable => e
     Rails.logger.info "ActiveAdmin could not load: #{e.message}"
   end
-
   devise_for :users, controllers: {
+    confirmations: 'users/confirmations',
     sessions: 'users/sessions',
     registrations: 'users/registrations',
     passwords: 'users/passwords'
@@ -113,8 +113,19 @@ Rails.application.routes.draw do
       resource :questions
     end
     resource :projects, only: %i[index]
-    get 'settings' => 'settings#show'
-    get 'settings/:id' => 'settings#show'
+    resource :settings, only: :show do
+      resource :password
+      # resource :referrals, only: :show
+      resource :delete_account
+      resources :payment_settings, as: :payment, path: 'payment' do
+        patch :make_primary
+        collection do
+          post :apply_coupon
+        end
+      end
+      resources :notification_settings, as: :notifications, path: 'notifications', only: %i[index update]
+      resources :subscription_settings, as: :subscriptions, path: 'subscriptions', only: %i[index update]
+    end
 
     resources :specialists, only: :index
     concerns :favoriteable
@@ -272,7 +283,8 @@ Rails.application.routes.draw do
       patch 'password' => 'password#update'
       get 'notifications' => 'notifications#index'
       patch 'notifications' => 'notifications#update'
-      delete 'profile' => 'profile#destroy'
+      post 'email' => 'email#create'
+      patch 'email' => 'email#update'
     end
 
     get 'local_projects/:project_id/messages' => 'project_messages#index'
