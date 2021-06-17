@@ -25,8 +25,8 @@
                           .custom-checkbox.b-custom-control-lg.pl-0
                             label {{option.label}}
                           .d-flex.ml-auto
-                            b-form-checkbox.mr-5(type="checkbox" v-model="checkedApps" :value="option.value" @change="onChange('in_app_notifications', option.value)")
-                            b-form-checkbox(type="checkbox" v-model="checkedEmails" :value="option.value" @change="onChange('email_notifications', option.value)")
+                            b-form-checkbox.mr-5(type="checkbox" v-model="checkedTasksApps" :value="option.value" @change="onChange('in_app_notifications', option.value)")
+                            b-form-checkbox(type="checkbox" v-model="checkedTasksEmails" :value="option.value" @change="onChange('email_notifications', option.value)")
                     .row.m-t-1
                       .col-12
                         h4
@@ -37,8 +37,8 @@
                           .custom-checkbox.b-custom-control-lg.pl-0
                             label {{option.label}}
                           .d-flex.ml-auto
-                            b-form-checkbox.mr-5(type="checkbox" v-model="checkedApps" :value="option.value" @change="onChange('in_app_notifications', option.value)")
-                            b-form-checkbox(type="checkbox" v-model="checkedEmails" :value="option.value" @change="onChange('in_app_notifications', option.value)")
+                            b-form-checkbox.mr-5(type="checkbox" v-model="checkedProjectsApps" :value="option.value" @change="onChange('in_app_notifications', option.value)")
+                            b-form-checkbox(type="checkbox" v-model="checkedProjectsEmails" :value="option.value" @change="onChange('in_app_notifications', option.value)")
                     .row.m-t-1
                       .col-12
                         h4
@@ -161,8 +161,10 @@
         show: true,
         form: initialForm(),
         errors: {},
-        checkedApps: [],
-        checkedEmails: [],
+        checkedTasksApps: [],
+        checkedTasksEmails: [],
+        checkedProjectsApps: [],
+        checkedProjectsEmails: [],
         checkedEmailsUpdates: []
       };
     },
@@ -227,8 +229,11 @@
               }
               if (key === 'email_notifications') {
                 for(const [keyIn, valueIn] of Object.entries(value)) {
-                  if (valueIn) this.checkedEmails.push(keyIn)
+                  // if (valueIn) this.checkedEmails.push(keyIn)
                   // else this.checkedEmails.push(null)
+                  const splitedKey = keyIn.split('_')[0]
+                  if (splitedKey === 'task') this.checkedTasksEmails.push(keyIn)
+                  if (splitedKey === 'project') this.checkedProjectsEmails.push(keyIn)
                 }
               }
               if (key !== 'in_app_notifications' && key !== 'email_notifications') {
