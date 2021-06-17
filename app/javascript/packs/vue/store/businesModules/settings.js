@@ -5,6 +5,7 @@ const mapAuthProviders = {
     getGeneralSettings: jwt.getGeneralSettings,
     updateGeneralSettings: jwt.updateGeneralSettings,
     updatePasswordSettings: jwt.updatePasswordSettings,
+    deleteAccount: jwt.deleteAccount,
     getNotificationsSettings: jwt.getNotificationsSettings,
     updateNotificationsSettings: jwt.updateNotificationsSettings,
     updateSubscribe: jwt.updateSubscribe,
@@ -129,6 +130,44 @@ export default {
       try {
         const updatePasswordSettings = mapAuthProviders[rootState.shared.settings.authProvider].updatePasswordSettings
         const data = updatePasswordSettings(payload)
+          .then((success) => {
+            commit("clearError", null, {
+              root: true
+            });
+            commit("setLoading", false, {
+              root: true
+            });
+            if (success) {
+              const data = success.data
+              return data
+            }
+            if (!success) {
+              commit("setError", success.message, { root: true });
+              console.error('Not success', success)
+            }
+          })
+          .catch(error => error)
+        return data
+      } catch (error) {
+        commit("setError", error.message, {
+          root: true
+        });
+        commit("setLoading", false, {
+          root: true
+        });
+        throw error;
+      }
+    },
+    async deleteAccount({state, commit, rootState}) {
+      commit("clearError", null, {
+        root: true
+      });
+      commit("setLoading", true, {
+        root: true
+      });
+      try {
+        const deleteAccount = mapAuthProviders[rootState.shared.settings.authProvider].deleteAccount
+        const data = deleteAccount()
           .then((success) => {
             commit("clearError", null, {
               root: true

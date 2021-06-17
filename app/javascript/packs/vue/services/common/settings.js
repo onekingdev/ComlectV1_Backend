@@ -36,6 +36,17 @@ export async function updatePasswordSettings(payload) {
     .catch(err => err)
 }
 
+export async function deleteAccount() {
+  return await axios.delete(`${END_POINT}/profile`)
+    .then(response => {
+      if (response) {
+        return response
+      }
+      return false
+    })
+    .catch(err => err)
+}
+
 export async function getNotificationsSettings() {
   return axios
     .get(`${END_POINT}/notifications`)

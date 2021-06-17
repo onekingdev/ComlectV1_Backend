@@ -155,7 +155,37 @@
         })
       },
       deleteAccount (id) {
-        console.log(id)
+        this.errors = []
+
+        this.$store.dispatch('settings/deleteAccount')
+          .then((response) => {
+            console.log(response)
+            if (response.errors) {
+              for (const type of Object.keys(response.errors)) {
+                this.errors = response.errors[type]
+                this.toast('Error', `Form has errors! Please recheck fields! ${response.errors[type]}`)
+              }
+            }
+            if (!response.errors) {
+              this.toast('Success', `${response.message}`)
+            }
+          })
+          .catch((error) => {
+            console.error(error)
+            const { data } = error
+            if(data.errors) {
+              for (const type of Object.keys(data.errors)) {
+                this.toast('Error', `${data.errors[type]}`)
+                this.error = `Error! ${data.errors[type]}`
+              }
+            }
+            if (error.errors) {
+              this.toast('Error', `Couldn't submit form! ${error.message}`)
+            }
+            if (!error.errors) {
+              this.toast('Error', `${error.status} (${error.statusText})`)
+            }
+          })
       }
     },
     computed: {

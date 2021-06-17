@@ -243,8 +243,10 @@
                 }
               }
             }
-            console.log(this.checkedApps)
-            console.log(this.checkedEmails)
+            console.log(this.checkedTasksApps)
+            console.log(this.checkedProjectsApps)
+            console.log(this.checkedTasksEmails)
+            console.log(this.checkedProjectsEmails)
             console.log(this.checkedEmailsUpdates)
           })
           .catch(error => console.error(error))
