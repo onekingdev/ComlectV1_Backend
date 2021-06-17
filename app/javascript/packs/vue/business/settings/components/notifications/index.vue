@@ -16,42 +16,40 @@
                 .col-md-8
                   b-form(v-if='show')
                     .row.mb-2
-                      .col-10
-                        h4
-                          b Tasks
-                      .col.text-center IN-APP
-                      .col.text-center EMAIL
-                    .row
-                      .col-10
-                        .custom-checkbox.b-custom-control-lg.pl-0(v-for="(option, i) in notificationsTasksOptions" :key="'task-main-'+i")
-                          label {{option.label}}
-                      .col.text-center
-                        .custom-checkbox.b-custom-control-lg.pl-0(v-for="(option, i) in notifications.in_app_notifications.tasks" :key="'task-app-'+i" )
-                          input.mb-2(type="checkbox" v-model="checkedApps[i]" :value="Object.keys(option)[0]" class="regular-checkbox" @change="onChange('in_app_notifications', Object.keys(option)[0])")
-                      .col.text-center
-                        .custom-checkbox.b-custom-control-lg.pl-0(v-for="(option, i) in notifications.email_notifications.tasks" :key="'task-email-'+i" )
-                          input.mb-2(type="checkbox" v-model="checkedEmails[i]" :value="Object.keys(option)[0]" class="regular-checkbox" @change="onChange('email_notifications', Object.keys(option)[0])")
+                      .col-12
+                        .d-flex.justify-content-between
+                          h4
+                            b Tasks
+                          .d-flex
+                            div.mr-5 IN-APP
+                            div EMAIL
+                    .row.mb-2(v-for="(option, i) in notificationsTasksOptions" :key="'tasks-'+i")
+                      .col-12
+                        .d-flex.justify-content-between
+                          .custom-checkbox.b-custom-control-lg.pl-0
+                            label {{option.label}}
+                          .d-flex.ml-auto
+                            b-form-checkbox.mr-5(type="checkbox" v-model="checkedApps[i]" :value="option.value" @change="onChange('in_app_notifications', option.value)")
+                            b-form-checkbox(type="checkbox" v-model="checkedEmails[i]" :value="option.value" @change="onChange('email_notifications', option.value)")
                     .row.m-t-1
                       .col-12
                         h4
                           b Projects
-                    .row.mb-2
-                      .col-10
-                        .custom-checkbox.b-custom-control-lg.pl-0(v-for="(option, i) in notificationsProjectsOptions" :key="'project'+i")
-                          label {{option.label}}
-                      .col.text-center
-                        .custom-checkbox.b-custom-control-lg.pl-0(v-for="(option, i) in notifications.in_app_notifications.projects" :key="'projects-app-'+i" )
-                          input(type="checkbox" v-model="checkedApps[i]" :value="Object.keys(option)[0]" class="regular-checkbox" @change="onChange('in_app_notifications', Object.keys(option)[0])")
-                      .col.text-center
-                        .custom-checkbox.b-custom-control-lg.pl-0(v-for="(option, i) in notifications.email_notifications.projects" :key="'projects-email-'+i" )
-                          input(type="checkbox" v-model="checkedEmails[i]" :value="Object.keys(option)[0]" class="regular-checkbox" @change="onChange('in_app_notifications', Object.keys(option)[0])")
+                    .row.mb-2(v-for="(option, i) in notificationsProjectsOptions" :key="'projects-'+i")
+                      .col-12
+                        .d-flex.justify-content-between
+                          .custom-checkbox.b-custom-control-lg.pl-0
+                            label {{option.label}}
+                          .d-flex.ml-auto
+                            b-form-checkbox.mr-5(type="checkbox" v-model="checkedApps[i]" :value="option.value" @change="onChange('in_app_notifications', option.value)")
+                            b-form-checkbox(type="checkbox" v-model="checkedEmails[i]" :value="option.value" @change="onChange('in_app_notifications', option.value)")
                     .row.m-t-1
                       .col-12
                         h4
                           b Email Updates
                       .col-md-6
                         b-form-group
-                          b-form-checkbox(v-for="(option, i) in notificationsEmailOptions" :key="'email'+i" v-model="checkedEmailsUpdates[i]" :value="option.value" size="lg" @change="onChange('email_updates', option.value)") {{option.label}}
+                          b-form-checkbox(v-for="(option, i) in notificationsEmailOptions" :key="'email-updates-'+i" v-model="checkedEmailsUpdates[i]" :value="option.value" size="lg" @change="onChange('email_updates', option.value)") {{option.label}}
                     .row.d-none
                       .col
                         b-form-group.text-right
@@ -63,24 +61,24 @@
   import Loading from '@/common/Loading/Loading'
 
   const NOTIFICATIONS_TASKS_OPTIONS = [
-    { label: 'When a task is created' },
-    { label: 'When a task assigned to me' },
-    { label: 'When a file is uploaded to a task' },
-    { label: 'When someone comments on a task' },
-    { label: 'When a task is completed' },
-    { label: 'When a task is overdue' },
+    { label: 'When a task is created', value: 'task_created' },
+    { label: 'When a task assigned to me', value: 'task_assigned' },
+    { label: 'When a file is uploaded to a task', value: 'task_file_uploaded' },
+    { label: 'When someone comments on a task', value: 'task_new_comment' },
+    { label: 'When a task is completed', value: 'task_completed' },
+    { label: 'When a task is overdue', value: 'task_overdue' },
   ]
 
   const NOTIFICATIONS_PROJECTS_OPTIONS = [
-    { label: 'When new applicants bid for a project' },
-    { label: 'When applicants message me' },
-    { label: 'When a specialist accepts a project completition' },
-    { label: 'When a specialist accepts a dedline extension' },
+    { label: 'When new applicants bid for a project', value: 'project_new_bid' },
+    { label: 'When applicants message me', value: 'project_message' },
+    { label: 'When a specialist accepts a project completion', value: 'project_completed' },
+    { label: 'When a specialist accepts a deadline extension', value: 'project_overdue' },
   ]
 
   const NOTIFICATIONS_EMAIL_OPTIONS = [
-    { label: 'Monthly Compilance Newsletter', value: 'monthly_newsletter' },
-    { label: 'Promos and Upcomming Events', value: 'promos_and_events' },
+    { label: 'Monthly Compliance Newsletter', value: 'monthly_newsletter' },
+    { label: 'Promos and Upcoming Events', value: 'promos_and_events' },
   ]
 
   const initialForm = () => ({
@@ -241,6 +239,9 @@
                 }
               }
             }
+            console.log(this.checkedApps)
+            console.log(this.checkedEmails)
+            console.log(this.checkedEmailsUpdates)
           })
           .catch(error => console.error(error))
       } catch (error) {
@@ -252,53 +253,53 @@
 
 
 <style>
-  .regular-checkbox {
-    -webkit-appearance: none;
-    background-color: #fff;
-    border: 1px solid #303132;
-    /*box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);*/
-    padding: 9px;
-    display: inline-block;
-    position: relative;
-    width: 1.25rem;
-    height: 1.25rem;
-    /*width: 20px;*/
-    /*height: 20px;*/
-    border-radius: 0.3rem;
-    transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  }
+  /*.regular-checkbox {*/
+    /*-webkit-appearance: none;*/
+    /*background-color: #fff;*/
+    /*border: 1px solid #303132;*/
+    /*!*box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);*!*/
+    /*padding: 9px;*/
+    /*display: inline-block;*/
+    /*position: relative;*/
+    /*width: 1.25rem;*/
+    /*height: 1.25rem;*/
+    /*!*width: 20px;*!*/
+    /*!*height: 20px;*!*/
+    /*border-radius: 0.3rem;*/
+    /*transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;*/
+  /*}*/
 
-  .regular-checkbox:active, .regular-checkbox:checked:active {
-    /*box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0 1px 3px rgba(0,0,0,0.1);*/
-  }
+  /*.regular-checkbox:active, .regular-checkbox:checked:active {*/
+    /*!*box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0 1px 3px rgba(0,0,0,0.1);*!*/
+  /*}*/
 
-  .regular-checkbox:checked {
-    position: relative;
-    background-color: #303132;
-    border: 1px solid #303132;
-    /*box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);*/
-    color: #fff;
-  }
-
-  .regular-checkbox:checked:after {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-size: 70% 70%;
-    background-color: #303132;
-    background-repeat: no-repeat;
-    background-position: center;
-    /*background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26l2.974 2.99L8 2.193z'/%3e%3c/svg%3e") no-repeat 50% / 50% 50%;*/
-    /*content: '\2714';*/
-    content: '';
-    /*font-size: 10px;*/
-    /*position: absolute;*/
-    /*top: -1px;*/
-    /*left: 3px;*/
+  /*.regular-checkbox:checked {*/
+    /*position: relative;*/
+    /*background-color: #303132;*/
+    /*border: 1px solid #303132;*/
+    /*!*box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);*!*/
     /*color: #fff;*/
-    /*border: solid 1px red;*/
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26l2.974 2.99L8 2.193z'/%3e%3c/svg%3e");
-  }
+  /*}*/
+
+  /*.regular-checkbox:checked:after {*/
+    /*position: absolute;*/
+    /*width: 100%;*/
+    /*height: 100%;*/
+    /*background-size: 70% 70%;*/
+    /*background-color: #303132;*/
+    /*background-repeat: no-repeat;*/
+    /*background-position: center;*/
+    /*!*background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26l2.974 2.99L8 2.193z'/%3e%3c/svg%3e") no-repeat 50% / 50% 50%;*!*/
+    /*!*content: '\2714';*!*/
+    /*content: '';*/
+    /*!*font-size: 10px;*!*/
+    /*!*position: absolute;*!*/
+    /*!*top: -1px;*!*/
+    /*!*left: 3px;*!*/
+    /*!*color: #fff;*!*/
+    /*!*border: solid 1px red;*!*/
+    /*background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26l2.974 2.99L8 2.193z'/%3e%3c/svg%3e");*/
+  /*}*/
 
   /*
   .big-checkbox {
