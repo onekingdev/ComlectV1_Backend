@@ -93,7 +93,7 @@
             id: 2,
             first_name: 'Jonson',
             last_name: 'Baby',
-            role: 'developer',
+            role: 'trusted',
             status: true,
             state: 'California, USA'
           },
@@ -101,7 +101,7 @@
             id: 3,
             first_name: 'Richard',
             last_name: 'Brenson',
-            role: 'investor',
+            role: 'trusted',
             status: false,
             state: 'New York, USA'
           }

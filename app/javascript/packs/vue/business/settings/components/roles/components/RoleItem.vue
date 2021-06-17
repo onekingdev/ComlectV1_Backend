@@ -6,9 +6,13 @@
         .d-block.m-l-2
           p.mt-2.mb-0: b {{ item.first_name + ' ' +  item.last_name }}
     td
-      b-form-checkbox(v-model="item.checked") {{item.checked ? 'Trusted' : 'Basic'}}
+      .d-flex.align-items-center
+        ion-icon.black(v-if="item.role === 'admin'" name="people-outline" size="small")
+        b-icon(v-if="item.role === 'trusted'" icon="check-square-fill" scale="2" variant="success")
+        ion-icon.grey(v-if="item.role === 'basic'" name="person-circle-outline" size="small")
+        span.ml-3 {{ item.role | capitalize }}
     td
-      b-badge.status(:variant="item.status ? 'success' : 'light'") {{ item.status }}
+      b-badge.status(:variant="item.status ? 'success' : 'light'") {{ item.status ? 'Active' : 'Inactive' }}
     td.text-right
       b-dropdown.actions(size="sm" variant="none" class="m-0 p-0" right)
         template(#button-content)
@@ -39,6 +43,13 @@
         this.$store.dispatch('users/deleteUser', { id: userId })
           .then(response => this.toast('Success', `The user has been deleted! ${response.id}`))
           .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
+      }
+    },
+    filters: {
+      capitalize: function (value) {
+        if (!value) return ''
+        value = value.toString()
+        return value.charAt(0).toUpperCase() + value.slice(1)
       }
     }
   }
