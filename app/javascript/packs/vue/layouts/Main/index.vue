@@ -1,23 +1,24 @@
 <template lang="pug">
   .container-fluid.p-0
-    Topbar
     .d-flex
       Sidebar
-      main#main-content.flex-grow-1
-       ul
-         li
-           router-link(to='/business') Go to dashboard
-         li
-           router-link(to='/business/compliance_policies') Go to policies
-         li
-           router-link(to='/business/annual_reviews') Go to annual_reviews
-         li
-           router-link(to='/business/risks') Go to risks
-         li
-           router-link(to='/business/file_folders') Go to file_folders
-         li
-           router-link(to='/business/exam_management') Go to exam_management
-       router-view
+      .d-flex.flex-column.flex-grow-1
+        Topbar
+        main#main-content.flex-grow-1
+         // ul
+         //   li
+         //     router-link(to='/business') Go to dashboard
+         //   li
+         //     router-link(to='/business/compliance_policies') Go to policies
+         //   li
+         //     router-link(to='/business/annual_reviews') Go to annual_reviews
+         //   li
+         //     router-link(to='/business/risks') Go to risks
+         //   li
+         //     router-link(to='/business/file_folders') Go to file_folders
+         //   li
+         //     router-link(to='/business/exam_management') Go to exam_management
+         router-view
 
     // <cui-sidebar />
     // top bar
