@@ -14,9 +14,9 @@
          li
            router-link(to='/business/risks') Go to risks
          li
-           router-link(to='/business/risks') Go to risks
-         li
            router-link(to='/business/file_folders') Go to file_folders
+         li
+           router-link(to='/business/exam_management') Go to exam_management
        router-view
 
     // <cui-sidebar />
