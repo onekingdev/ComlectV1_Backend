@@ -9,15 +9,15 @@
     b-collapse#overview_collapse(:visible="true")
       ul.sidebar-menu__list
         li.nav-item.sidebar-menu__item
-          a.sidebar-menu__link(aria-current='page' href='/business')
+          router-link.sidebar-menu__link(to='/business')
             ion-icon(name='globe-outline')
             | Dashboard
         li.nav-item.sidebar-menu__item
-          a.sidebar-menu__link(aria-current='page' href='/business/projects')
+          router-link.sidebar-menu__link(to='/business/projects')
             ion-icon(name='list-outline')
             | Projects
         li.nav-item.sidebar-menu__item
-          a.sidebar-menu__link(aria-current='page' href='/business/reminders')
+          router-link.sidebar-menu__link(to='/business/reminders')
             ion-icon(name='checkbox-outline')
             | Tasks
 
@@ -27,15 +27,15 @@
     b-collapse#program_management_collapse(:visible="true")
       ul.sidebar-menu__list
         li.nav-item.sidebar-menu__item
-          a.sidebar-menu__link(aria-current='page' href='/business/compliance_policies')
+          router-link.sidebar-menu__link(to='/business/compliance_policies')
             ion-icon(name='newspaper-outline')
             | Policies and Procedures
         li.nav-item.sidebar-menu__item
-          a.sidebar-menu__link(aria-current='page' href='/business/annual_reviews')
+          router-link.sidebar-menu__link(to='/business/annual_reviews')
             ion-icon(name='document-text-outline')
             | Annual Review
         li.nav-item.sidebar-menu__item
-          a.sidebar-menu__link(aria-current='page' href='/business/risks')
+          router-link.sidebar-menu__link(to='/business/risks')
             ion-icon(name='warning-outline')
             | Risk Register
 
