@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    b-navbar.p-0(toggleable='lg' type='dark' variant='info')
+    b-navbar.p-0(toggleable='lg' type='dark' variant='none')
       .logo
         a.logo__link(href="/")
           img.logo__img(src="/assets/logo-b7915ac667f29762d6d3745cf555b7d2c80bf3cd90b798a32385bdf9106dc870.png" width="216px")
