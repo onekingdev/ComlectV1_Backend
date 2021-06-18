@@ -25,9 +25,13 @@
   box-shadow: 0 3px rgba(255, 193, 7, 1)
 }
 
-.form-control {
+/*.form-control {*/
+  /*padding-left: 2rem;*/
+  /*padding-right: 2rem;*/
+/*}*/
+
+.form-control_search {
   padding-left: 2rem;
-  padding-right: 2rem;
 }
 
 /* ---------- Policy table ---------- */
@@ -50,6 +54,7 @@
   padding: .5rem 1.7rem;
 }
 
+.table__cell_first,
 .table__cell:first-child {
   width: 40%;
 }

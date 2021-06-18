@@ -13,11 +13,13 @@ import BusinessAnnualReviewPage from './vue/business/annual/PageCurrentReviewCat
 import BusinessAnnualGeneralPage from './vue/business/annual/PageCurrentGeneral.vue'
 
 import BusinessPoliciesPage from './vue/business/policies/Page.vue'
+import BusinessPoliciesEntirePage from './vue/business/policies/PoliciesEntire.vue'
 import BusinessPoliciesCreatePage from './vue/business/policies/Details/PolicyCreate.vue'
 import BusinessPoliciesDetailsWithoutSectionsPage from './vue/business/policies/Details/PolicyDetailsWithoutSections.vue'
 
 const businesPolicies = {
   BusinessPoliciesPage,
+  BusinessPoliciesEntirePage,
   BusinessPoliciesCreatePage,
   BusinessPoliciesDetailsWithoutSectionsPage,
 }
