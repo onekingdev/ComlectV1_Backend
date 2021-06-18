@@ -1,5 +1,7 @@
 <template lang="pug">
   .container
+    router-link(to='/policies') Go to policies
+    router-link(to='/dashboard') Go to dashboard
     .row.p-x-1
       .col-md-12.p-t-3.d-flex.justify-content-between.p-b-1
         h2 <b>Welcome</b>, {{currentBusiness}}
