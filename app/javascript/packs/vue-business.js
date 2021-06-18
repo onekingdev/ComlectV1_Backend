@@ -1,6 +1,7 @@
 import init from './vue/init'
 import store from '@/store/business'
 import router from '@/router'
+import MainLayoyt from './vue/layouts/Main'
 import BusinessDashboardPage from './vue/business/dashboard/Page.vue'
 import BusinessRemindersPage from './vue/business/reminders/Page.vue'
 import BusinessPostProjectPage from './vue/business/projects/PostProjectPage.vue'
@@ -72,6 +73,7 @@ init({
   store,
   router,
   components: {
+    MainLayoyt,
     BusinessDashboardPage,
     BusinessRemindersPage,
     BusinessProjectsPage,
