@@ -2,25 +2,34 @@
   b-navbar.topbar.p-0(toggleable='sm')
     b-navbar-toggle(target='nav-collapse')
     b-collapse#nav-collapse.topbar-menu(is-nav)
-      b-navbar-nav.topbar-menu__list(class="align-items-center")
-        b-nav-item.topbar-menu__item(href='/') Home
-        b-nav-item.topbar-menu__item(href='/business/file_folders') Documents
-        b-nav-item.topbar-menu__item(href='/business/reports/risks') Reports
-        b-nav-item.topbar-menu__item.d-none(href='#') Community
+      ul.topbar-menu__list
+        li.nav-item.topbar-menu__item
+          a.topbar-menu__link(aria-current='page' href='/business') Home
+        li.nav-item.topbar-menu__item
+          a.topbar-menu__link(aria-current='page' href='/business/file_folders') Documents
+        li.nav-item.topbar-menu__item
+          a.topbar-menu__link(aria-current='page' href='/business/reports/risks') Reports
+        li.nav-item.topbar-menu__item.d-none
+          a.topbar-menu__link(aria-current='page' href='#') Community
+      // b-navbar-nav.topbar-menu__list(class="align-items-center")
+      //   b-nav-item.topbar-menu__item(href='/') Home
+      //   b-nav-item.topbar-menu__item(href='/business/file_folders') Documents
+      //   b-nav-item.topbar-menu__item(href='/business/reports/risks') Reports
+      //   b-nav-item.topbar-menu__item.d-none(href='#') Community
       // Right aligned nav items
-      b-navbar-nav.align-items-center.ml-auto
-        a.btn.btn-warning.mr-2(href='/business/specialists')  Find an Expert
-        a.btn.btn-default.mr-2(href='/business/settings/notifications')
+      b-navbar-nav.align-items-center.ml-auto.topbar-right
+        a.btn.btn-warning.topbar-right-btn__find(href='/business/specialists')  Find an Expert
+        a.btn.topbar-right-btn__notify(href='/business/settings/notifications')
           ion-icon(name='notifications-outline')
-        b-nav-item-dropdown(right)
+        b-nav-item-dropdown.topbar-right-dropdown(right)
           // Using 'button-content' slot
           template(#button-content)
-            UserAvatar.mx-1(:user="specialist")
+            UserAvatar.topbar-right-dropdown__avatar(:user="specialist")
             | {{ specialist.first_name }} {{ specialist.last_name }}
-            ion-icon.mx-1(name='chevron-down-outline')
+            ion-icon.topbar-right-dropdown__icon(name='chevron-down-outline')
           b-dropdown-item(href='/business/settings') Settings
           b-dropdown-item(href='#') Sign Out
-        a.btn.btn-default.px-1(href="#")
+        a.btn.topbar-right-btn__help(href="#")
           b-icon.mr-2( icon="question-circle-fill" aria-label="Help")
           | Help
 </template>

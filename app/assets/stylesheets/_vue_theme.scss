@@ -2,31 +2,52 @@
 * Orson http://en.orson.io , autreplanete http://www.autreplanete.com/ 
 *  
 **/
+// Brand Colors
+$primary: #2E304F; // Primary button, Primary branding
+$primary-dark: #1B1C29;
 
+$white: #fff;
+$black: #303132; // Primary text
+$gray-3: #797B7E; // Data table header text
+$gray-2: #A2A3A9; // Disabled primary buttons, Secondary text
+$gray-1: #DCDEE4; // HR, Outlines and borders
+$gray-hover: #F3F6F9; // Hover states, Current date on calendar
+$gray-background: #F6F6F8; // Title sections of pages, Background
+
+$blue: #0479FF; // Decorative
+$blue-text: #2180C2;  // Links, Actions
+$blue-light: #ECF4FF;  // Background
+$green: #1AB27F;  // Positive status Text
+$green-light: #D5FBEF;  // Positive status background
+$yellow: #FFC900;  // Attention status
+$yellow-dark: #AD841D;  // Attention status text
+$yellow-light: #FFF7E4;  // Attention status background
+$red: #CE1938;  // Error status
+$red-light: #FDDEE3;  // Error status background
 
 // Brand Colors
-$blue: #007bff;
-$indigo: #6610f2;
-$purple: #6f42c1;
-$pink: #e83e8c;
-$red: #dc3545;
-$orange: #fd7e14;
-$yellow: #ffc107;
-$green: #28a745;
-$teal: #20c997;
-$cyan: #17a2b8;
-$white: #fff;
-$gray-100: #f8f9fa;
-$gray-200: #e9ecef;
-$gray-300: #dee2e6;
-$gray-400: #ced4da;
-$gray-500: #adb5bd;
-$gray-600: #868e96;
-$gray-700: #495057;
-$gray-800: #343a40;
-$gray-900: #212529;
-$black: #000;
-$grays: (100: $gray-100, 200: $gray-200, 300: $gray-300, 400: $gray-400, 500: $gray-500, 600: $gray-600, 700: $gray-700, 800: $gray-800, 900: $gray-900);
-$theme-colors: (primary: $yellow, secondary: $gray-600, success: $green, info: $cyan, warning: $yellow, danger: $red, light: $gray-100, dark: $gray-800);
-$colors: (blue: $blue, indigo: $indigo, purple: $purple, pink: $pink, red: $red, orange: $orange, yellow: $yellow, green: $green, teal: $teal, cyan: $cyan, white: $white, gray: $gray-600,gray-dark: $gray-800);
-$theme-color-interval: 8%;
+//$blue: #007bff;
+//$indigo: #6610f2;
+//$purple: #6f42c1;
+//$pink: #e83e8c;
+//$red: #dc3545;
+//$orange: #fd7e14;
+//$yellow: #ffc107;
+//$green: #28a745;
+//$teal: #20c997;
+//$cyan: #17a2b8;
+//$white: #fff;
+//$gray-100: #f8f9fa;
+//$gray-200: #e9ecef;
+//$gray-300: #dee2e6;
+//$gray-400: #ced4da;
+//$gray-500: #adb5bd;
+//$gray-600: #868e96;
+//$gray-700: #495057;
+//$gray-800: #343a40;
+//$gray-900: #212529;
+//$black: #000;
+//$grays: (100: $gray-100, 200: $gray-200, 300: $gray-300, 400: $gray-400, 500: $gray-500, 600: $gray-600, 700: $gray-700, 800: $gray-800, 900: $gray-900);
+//$theme-colors: (primary: $yellow, secondary: $gray-600, success: $green, info: $cyan, warning: $yellow, danger: $red, light: $gray-100, dark: $gray-800);
+//$colors: (blue: $blue, indigo: $indigo, purple: $purple, pink: $pink, red: $red, orange: $orange, yellow: $yellow, green: $green, teal: $teal, cyan: $cyan, white: $white, gray: $gray-600,gray-dark: $gray-800);
+//$theme-color-interval: 8%;

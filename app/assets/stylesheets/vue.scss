@@ -18,7 +18,7 @@ html {
 }
 
 *:focus {
-  outline: -webkit-focus-ring-color auto 0px;
+  outline: -webkit-focus-ring-color auto 0;
 }
 
 
@@ -51,7 +51,7 @@ html {
 
 /* ---------- TOP NAVBAR ---------- */
 .navbar-light .navbar-nav .nav-link {
-  color: #303132;
+  color: $black !important;
 }
 
 .topbar {
@@ -62,6 +62,7 @@ html {
 .topbar-menu {
   margin-left: 2.5rem;
   //margin: 1.875rem auto 1.875rem 2.5rem; // 30px auto 30px 40px;
+  height: 100%;
 
   &__list {
     display: flex;
@@ -72,12 +73,12 @@ html {
     list-style: none;
   }
   &__item {
-    margin-right: 2.5rem // 40px;
+    margin-right: 2.5rem; // 40px;
   }
 
   .nav-link,
   &__link {
-    color: #303132;
+    color: $black;
 
     &:hover,
     &:active,
@@ -95,6 +96,55 @@ html {
     height: auto;
   }
 }
+
+.topbar-right {}
+.topbar-right-btn {
+  &__find {
+    margin-right: 1.875rem; //30px
+    color: $black !important;
+    font-weight: 600 !important;
+    background-color: $yellow;
+
+    &:hover,
+    &:active {
+      color: #282a30;
+      background-color: #ffdc5b;
+    }
+  }
+  &__notify {
+    margin-right: 1.875rem; //30px
+    border: none;
+    border-radius: 50%;
+
+    ion-icon {
+      font-size: 25px;
+    }
+  }
+  &__help {
+    margin-left: 1.25rem; // 20px;
+    margin-right: 2.5rem; // 40px;
+    color: #565759;
+    border: none;
+  }
+}
+.topbar-right-dropdown {
+  padding: 0 1.25rem; // 0 20px
+  border-left: solid 1px $gray-1;
+  border-right: solid 1px $gray-1;
+  height: 100%;
+  color: $black;
+
+  &__avatar {
+    margin-right: 1.25rem; // 20px;
+    //width: 1.5625rem; // 25px
+    //height: 1.5625rem; // 25px
+  }
+
+  &__icon {
+    margin-left: 0.8125rem;
+  }
+}
+
 
 
 .border-dark-progress {
@@ -114,7 +164,7 @@ html {
   width: 17.8125rem; // 285px
   min-height: 100vh;
   background-color: #1b1c29;
-  color: #fff;
+  color: $white;
 
   ion-icon {
     font-size: 15px;
@@ -157,14 +207,14 @@ html {
     width: 100%;
 
     font-size: 0.875rem; // 14px
-    color: #fff;
+    color: $white;
     border-radius: 4px;
     transition: all 200ms ease-in;
 
     &:hover,
     &:active,
     &.active {
-      color: #fff;
+      color: $white;
       text-decoration: none;
       background-color: #2f304f;
     }
@@ -204,7 +254,7 @@ html {
 }
 // need remove
 #top_navbar {
-  background-color: #fff;
+  background-color: $white;
   border-bottom: 1px solid #dfe0e6;
   font-size: 14px;
   .nav-item {
@@ -272,7 +322,7 @@ html {
   }
 }
 
-.btn.btn-default { border: 1px solid #dadadc; background-color: #fff; }
+.btn.btn-default { border: 1px solid #dadadc; background-color: $white; }
 .btn.btn-default:hover,
 .btn.btn-default:active { background-color: #F3F6F9; }
 
@@ -300,7 +350,7 @@ table.table, table.table thead tr th {
 }
 
 .white-card-body {
-  background-color: #fff;
+  background-color: $white;
   border-top: 2px solid #e9ebee;
 }
 
@@ -386,7 +436,7 @@ table.table, table.table thead tr th {
   max-width: 280px !important;
 }
 .b-toast {
-  background-color: #303132;
+  background-color: $black;
   border-radius: 0px;
   max-width: 280px !important;
   .toast {
@@ -394,10 +444,10 @@ table.table, table.table thead tr th {
     .toast-header, .toast-body {
       border-radius: 0px;
       border: 0px;
-      background-color: #303132;
-      color: #fff;
+      background-color: $black;
+      color: $white;
       button.close {
-        color: #fff;
+        color: $white;
         opacity: 1;
       }
     }
@@ -478,7 +528,7 @@ table.table, table.table thead tr th {
       cursor: pointer;
       transition: all 200ms ease-in;
       &.checked {
-        color: #fff;
+        color: $white;
       }
       &--true {
         &.checked {
