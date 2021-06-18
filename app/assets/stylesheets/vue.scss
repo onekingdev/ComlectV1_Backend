@@ -4,16 +4,53 @@
 html {
   font-size: 12px;
   background-color: #f6f6f8;
+  overflow-y: scroll;
 }
 
 *:focus {
   outline: -webkit-focus-ring-color auto 0px;
 }
 
+/* ---------- TOP NAVBAR ---------- */
+.logo {
+  max-width: 216px;
+
+  &__link {
+    width: 100%;
+  }
+
+  &__img {
+    width: 100%;
+    object-fit: contain;
+  }
+}
+@media (min-width: 576px) and (max-width: 767px) {}
+@media (max-width: 575px) {
+  .logo {
+    width: 100%;
+    max-width: 100%;
+
+    &__img {
+      width: 100%;
+      max-width: 150px;
+    }
+  }
+}
+
+.navbar-nav {
+  height: 65px;
+}
+@media (max-width: 575px) {
+  .navbar-nav {
+    height: auto;
+  }
+}
+
+
 .border-dark-progress {
   border-top: 4px solid #2F304F;
 }
-
+// need remove
 #sidebarMenu_alt {
   h3 {
     text-transform: uppercase;
@@ -87,10 +124,11 @@ html {
   }
 }
 
+// need remove
 #main-content {
   background-color: #f6f6f8;
 }
-
+// need remove
 #top_navbar {
   background-color: #fff;
   border-bottom: 1px solid #dfe0e6;
@@ -112,14 +150,14 @@ html {
     padding-top: 22px;
   }
 }
-
+// need remove
 #profile_dropdown {
   border-left: 1px solid #e3e5e9;
   border-right: 1px solid #e3e5e9;
   padding-top: 22px;
   padding-bottom: 20px;
 }
-
+// need remove
 .dropdown-profile {
   display: flex;
 
@@ -440,6 +478,20 @@ table.table, table.table thead tr th {
 .portal {
   min-height: 100vh;
 }
+
+/* ---------- CUTE SCROLLBAR ---------- */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 15px; }
+
+::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-image: -webkit-gradient(linear, left bottom, left top, from(#a8a8a8), to(#a8a8a8));
+  background-image: linear-gradient(to top, #1B1C29, #2E304F); }
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 5px; }
 
 @import '../../../node_modules/bootstrap/scss/bootstrap.scss';
 @import '../../../node_modules/bootstrap-vue/src/index.scss';

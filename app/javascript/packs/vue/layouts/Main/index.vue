@@ -1,15 +1,24 @@
 <template lang="pug">
-  div
-    ul
-      li
-        router-link(to='/business') Go to dashboard
-      li
-        router-link(to='/business/compliance_policies') Go to policies
-      li
-        router-link(to='/business/annual_reviews') Go to annual_reviews
+  .container-fluid.p-0
     Topbar
-    Sidebar
-    router-view
+    .d-flex
+      Sidebar
+      main#main-content.flex-grow-1
+       ul
+         li
+           router-link(to='/business') Go to dashboard
+         li
+           router-link(to='/business/compliance_policies') Go to policies
+         li
+           router-link(to='/business/annual_reviews') Go to annual_reviews
+         li
+           router-link(to='/business/risks') Go to risks
+         li
+           router-link(to='/business/risks') Go to risks
+         li
+           router-link(to='/business/file_folders') Go to file_folders
+       router-view
+
     // <cui-sidebar />
     // top bar
     // left menu
