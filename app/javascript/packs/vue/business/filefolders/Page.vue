@@ -1,43 +1,32 @@
 <template lang="pug">
   div(@mouseover="mouseOver")
-    .container
-      .row
-        .col-12.p-t-3.d-flex.justify-content-between.p-b-1
-          div
-            h2 {{ pageTitle }}
-          div
-            button.btn.btn-default(@click="zipping" :disabled="disabled")
-              b-icon.m-r-1(v-if="disabled" icon="arrow-counterclockwise" animation="spin-reverse-pulse" font-scale="1")
-              b-icon.m-r-1(v-else icon="file-zip" font-scale="1")
-              | Download ZIP
-    .container-fluid.p-x-0
-      .row
-        .col-12.px-0
-          .card-body.white-card-body
-            .container
-              .row.m-b-1
-                .col-12
-                  .d-flex.align-items-center
-                    a.btn.btn-default.m-r-1.p-0(v-if="currentFolderId" @click.stop="backToRoot")
-                      b-icon(icon="arrow-left-square" font-scale="1")
-                    h4.m-b-0 All Documents
-                      span.separator(v-if="currentFolderName") &nbsp/&nbsp;
-                      span(v-if="currentFolderName") {{ currentFolderName }}
-              .row.m-b-1
-                .col-12
-                  input(ref="inputFile" type="file" hidden @change="uploadFile")
-                  b-button.m-r-1(variant="dark" @click="selectFile") Upload
-                  FoldersModalCreate
-                    b-button(variant="light") New Folder
-              .row
-                .col-12
-                  Loading
-                  FilefoldersTable(v-if="!loading && filefolders.files && filefolders.folders" :filefolders="filefolders")
-                  table.table.reviews-table(v-if="!filefolders.files && !filefolders.folders && !loading")
-                    tbody
-                      tr
-                        td.text-center
-                          h3 Documents not exist
+    .page
+      h2.page__title {{ pageTitle }}
+      .page__actions
+        button.btn.btn-default(@click="zipping" :disabled="disabled")
+          b-icon.m-r-1(v-if="disabled" icon="arrow-counterclockwise" animation="spin-reverse-pulse" font-scale="1")
+          b-icon.m-r-1(v-else icon="file-zip" font-scale="1")
+          | Download ZIP
+    .card-body.white-card-body
+      .d-flex.align-items-center.mb-2
+        a.btn.btn-default.m-r-1.p-0(v-if="currentFolderId" @click.stop="backToRoot")
+          b-icon(icon="arrow-left-square" font-scale="1")
+        h4.m-b-0 All Documents
+          span.separator(v-if="currentFolderName") &nbsp/&nbsp;
+          span(v-if="currentFolderName") {{ currentFolderName }}
+      .d-flex
+        input(ref="inputFile" type="file" hidden @change="uploadFile")
+        b-button.m-r-1(variant="dark" @click="selectFile") Upload
+        FoldersModalCreate
+          b-button(variant="light") New Folder
+      .d-block
+        Loading
+        FilefoldersTable(v-if="!loading && filefolders.files && filefolders.folders" :filefolders="filefolders")
+        table.table.reviews-table(v-if="!filefolders.files && !filefolders.folders && !loading")
+          tbody
+            tr
+              td.text-center
+                h3 Documents not exist
 
 </template>
 

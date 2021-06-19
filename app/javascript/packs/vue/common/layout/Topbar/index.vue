@@ -4,18 +4,13 @@
     b-collapse#nav-collapse.topbar-menu(is-nav)
       ul.topbar-menu__list
         li.nav-item.topbar-menu__item
-          a.topbar-menu__link(aria-current='page' href='/business') Home
+          router-link.topbar-menu__link(to='/business' active-class="active" exact) Home
         li.nav-item.topbar-menu__item
-          a.topbar-menu__link(aria-current='page' href='/business/file_folders') Documents
+          router-link.topbar-menu__link(to='/business/file_folders' active-class="active" exact) Documents
         li.nav-item.topbar-menu__item
-          a.topbar-menu__link(aria-current='page' href='/business/reports/risks') Reports
+          router-link.topbar-menu__link(to='/business/reports/risks' active-class="active" exact) Reports
         li.nav-item.topbar-menu__item.d-none
           a.topbar-menu__link(aria-current='page' href='#') Community
-      // b-navbar-nav.topbar-menu__list(class="align-items-center")
-      //   b-nav-item.topbar-menu__item(href='/') Home
-      //   b-nav-item.topbar-menu__item(href='/business/file_folders') Documents
-      //   b-nav-item.topbar-menu__item(href='/business/reports/risks') Reports
-      //   b-nav-item.topbar-menu__item.d-none(href='#') Community
       // Right aligned nav items
       b-navbar-nav.align-items-center.ml-auto.topbar-right
         a.btn.btn-warning.topbar-right-btn__find(href='/business/specialists')  Find an Expert
@@ -24,7 +19,7 @@
         b-nav-item-dropdown.topbar-right-dropdown(right)
           // Using 'button-content' slot
           template(#button-content)
-            UserAvatar.topbar-right-dropdown__avatar(:user="specialist")
+            UserAvatar.topbar-right-dropdown__avatar(:user="specialist" :sm="true")
             | {{ specialist.first_name }} {{ specialist.last_name }}
             ion-icon.topbar-right-dropdown__icon(name='chevron-down-outline')
           b-dropdown-item(href='/business/settings') Settings

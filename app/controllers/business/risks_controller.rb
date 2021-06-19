@@ -6,7 +6,8 @@ class Business::RisksController < ApplicationController
   before_action :require_business!, only: %i[index show]
 
   def index
-    render html: content_tag('business-risks-page', '').html_safe, layout: 'vue_business'
+    # render html: content_tag('business-risks-page', '').html_safe, layout: 'vue_business'
+    render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_main_layout'
   end
 
   def show

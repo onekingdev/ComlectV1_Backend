@@ -5,6 +5,7 @@ import Dashboard from '@/business/dashboard/Page'
 import Policies from '@/business/policies/Page'
 import AnnualReviews from '@/business/annual/Page'
 import Risks from '@/business/riskregister/Page'
+import ReportsRisks from '@/business/reportsrisks/Page'
 import FileFolders from '@/business/filefolders/Page'
 import Exams from '@/business/exammanagement/Page'
 
@@ -47,6 +48,11 @@ export default new Router({
       path: '/business/exam_management',
       name: 'exam-management',
       component: Exams
+    },
+    {
+      path: '/business/reports/risks',
+      name: 'reports-risks',
+      component: ReportsRisks
     },
   ],
   mode: 'history'
