@@ -11,9 +11,9 @@ class Business::CompliancePoliciesController < ApplicationController
     render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_main_layout'
   end
 
-  def show
-    render html: content_tag('business-policies-create-page', '', ':policy-id': params[:id]).html_safe, layout: 'vue_business'
-  end
+  # def show
+  #   render html: content_tag('business-policies-create-page', '', ':policy-id': params[:id]).html_safe, layout: 'vue_business'
+  # end
 
   def show
     render html: content_tag('business-policies-details-without-sections-page', '',
