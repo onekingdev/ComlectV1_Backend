@@ -1,21 +1,14 @@
 <template lang="pug">
   div
-    .container
+    .page
+      h2.page__title {{ pageTitle }}
+    .card-body
       .row
-        .col-12.p-t-3.d-flex.justify-content-between.p-b-1
-          div
-            h2 {{ pageTitle }}
-    .container-fluid.p-x-0
-      .row
-        .col-12.px-0
-          .card-body.white-card-body.height-80
-            .container
-              .row.p-x-1
-                .col-md-7.col-sm-12.pl-0
-                  .card
-                    RegulatoryExamsTable(:exams="exams")
-                .col-md-5.col-sm-12.pl-0
-                  Tasks(:shortTable="true")
+        .col-md-7.col-sm-12.pl-0
+          .card
+            RegulatoryExamsTable(:exams="exams")
+        .col-md-5.col-sm-12.pl-0
+          Tasks(:shortTable="true")
 </template>
 
 <script>
