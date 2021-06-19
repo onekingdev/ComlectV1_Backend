@@ -264,6 +264,20 @@ html {
   padding-left: 2rem;
 }
 
+/* ---------- BUTTONS ---------- */
+.btn-primary,
+.btn-dark {
+  color: $white;
+  background-color: $black;
+  border-color: $black;
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary,
+.btn-dark:hover, .btn-dark:focus, .btn-dark:active, .btn-dark.active, .open>.dropdown-toggle.btn-dark {
+  color: $white;
+  background-color: $primary;
+  border-color: $primary;
+}
+
 
 /* ---------- NOT CHECKED STYLES - START ---------- */
 .border-dark-progress {

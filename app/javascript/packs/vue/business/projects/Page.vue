@@ -7,7 +7,7 @@
       .page__actions
         a.btn.btn-default(href='/business/projects/new') Post Project
         LocalProjectModal(@saved="newEtag")
-          a.btn.m-l-1.btn-dark New Project
+          a.btn.m-l-1.btn-primary New Project
     b-tabs(content-class="mt-0")
       b-tab(title="My Projects" active)
         .card-body.white-card-body

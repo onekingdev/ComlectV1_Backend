@@ -6,9 +6,9 @@
         li.nav-item.topbar-menu__item
           router-link.topbar-menu__link(to='/business' active-class="active" exact) Home
         li.nav-item.topbar-menu__item
-          router-link.topbar-menu__link(to='/business/file_folders' active-class="active" exact) Documents
+          router-link.topbar-menu__link(to='/business/file_folders' active-class="active") Documents
         li.nav-item.topbar-menu__item
-          router-link.topbar-menu__link(to='/business/reports/risks' active-class="active" exact) Reports
+          router-link.topbar-menu__link(to='/business/reports/risks' active-class="active") Reports
         li.nav-item.topbar-menu__item.d-none
           a.topbar-menu__link(aria-current='page' href='#') Community
       // Right aligned nav items
