@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 // import AuthGuard from './auth-guard'
 import Dashboard from '@/business/dashboard/Page'
+import Projects from '@/business/projects/Page'
+import Tasks from '@/business/tasks/Page'
 import Policies from '@/business/policies/Page'
 import AnnualReviews from '@/business/annual/Page'
 import Risks from '@/business/riskregister/Page'
@@ -17,6 +19,16 @@ export default new Router({
       path: '/business',
       name: 'dashboard',
       component: Dashboard
+    },
+    {
+      path: '/business/projects',
+      name: 'projects',
+      component: Projects
+    },
+    {
+      path: '/business/reminders',
+      name: 'tasks',
+      component: Tasks
     },
     {
       path: '/business/compliance_policies',
