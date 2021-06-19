@@ -23,6 +23,12 @@ export default new Router({
       component: Policies
     },
     {
+      path: '/business/compliance_policies/:policy-id',
+      name: 'policies',
+      props: true,
+      component: Policies
+    },
+    {
       path: '/business/annual_reviews',
       name: 'annual-reviews',
       component: AnnualReviews

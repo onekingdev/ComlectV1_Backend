@@ -27,15 +27,15 @@
     b-collapse#program_management_collapse(:visible="true")
       ul.sidebar-menu__list
         li.nav-item.sidebar-menu__item
-          router-link.sidebar-menu__link(to='/business/compliance_policies')
+          router-link.sidebar-menu__link(to='/business/compliance_policies' active-class="active" exact)
             ion-icon(name='newspaper-outline')
             | Policies and Procedures
         li.nav-item.sidebar-menu__item
-          router-link.sidebar-menu__link(to='/business/annual_reviews')
+          router-link.sidebar-menu__link(to='/business/annual_reviews' active-class="active" )
             ion-icon(name='document-text-outline')
             | Annual Review
         li.nav-item.sidebar-menu__item
-          router-link.sidebar-menu__link(to='/business/risks')
+          router-link.sidebar-menu__link(to='/business/risks' active-class="active" )
             ion-icon(name='warning-outline')
             | Risk Register
 

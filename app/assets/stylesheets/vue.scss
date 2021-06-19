@@ -3,10 +3,13 @@
 
 // REMOVE LATER
 //@import url('https://fonts.googleapis.com/css2?family=Varela&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600&family=Varela&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@100;300;400;600&family=Varela&display=swap');
 
 body {
   min-width: 1440px;
+}
+body.modal-open {
+  overflow: visible;
 }
 
 html {
@@ -14,13 +17,12 @@ html {
   //font-family: 'Varela', sans-serif;
   font-family: 'Public Sans', sans-serif;
   background-color: #f6f6f8;
-  overflow-y: scroll;
+  //overflow-y: scroll;
 }
 
 *:focus {
   outline: -webkit-focus-ring-color auto 0;
 }
-
 
 /* ---------- LOGO ---------- */
 .logo {
@@ -88,14 +90,14 @@ html {
   }
 }
 
-.navbar-nav {
-  height: 65px;
-}
-@media (max-width: 575px) {
-  .navbar-nav {
-    height: auto;
-  }
-}
+//.navbar-nav {
+//  height: 65px;
+//}
+//@media (max-width: 575px) {
+//  .navbar-nav {
+//    height: auto;
+//  }
+//}
 
 .topbar-right {}
 .topbar-right-btn {
@@ -143,18 +145,6 @@ html {
   &__icon {
     margin-left: 0.8125rem;
   }
-}
-
-
-
-.border-dark-progress {
-  border-top: 4px solid #2F304F;
-}
-
-.badge {
-  border: 1px solid #E5E5EA;
-  padding: 4px 9px !important;
-  font-weight: normal !important;
 }
 
 
@@ -224,6 +214,48 @@ html {
   }
 }
 
+/* ---------- COMMON PAGES ---------- */
+.page {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &__title {
+    margin: 2.5rem auto 1.9375rem 2.5rem; // 40px auto 31px 40px
+    font-size: 1.5rem; // 24px
+    font-weight: 400;
+    color: $black;
+  }
+  &__actions {
+    margin-right: 2.5rem; // 40px
+  }
+}
+
+.nav-tabs {
+  margin-left: 2.5rem;
+}
+
+.nav-tabs .nav-item .nav-link {
+  margin-left: 0;
+  margin-right: 2.5rem; // 40px
+}
+
+.nav-tabs .nav-item .nav-link.active {
+  font-weight: bold;
+  border-color: $yellow;
+}
+
+
+/* ---------- NOT CHECKED STYLES - START ---------- */
+.border-dark-progress {
+  border-top: 4px solid #2F304F;
+}
+
+.badge {
+  border: 1px solid #E5E5EA;
+  padding: 4px 9px !important;
+  font-weight: normal !important;
+}
 
 .b-form-datepicker {
   .form-control, .form-control:focus {
@@ -463,6 +495,7 @@ table.table, table.table thead tr th {
     }
   }
 }
+/* ---------- NOT CHECKED STYLES - END ---------- */
 
 .reviews {
   &__list {
