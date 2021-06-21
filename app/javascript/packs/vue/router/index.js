@@ -16,6 +16,7 @@ import RiskDetail from '@/business/riskregister/RiskDetail'
 import ReportsRisks from '@/business/reportsrisks/Page'
 import FileFolders from '@/business/filefolders/Page'
 import Exams from '@/business/exammanagement/Page'
+import ExamCurrentReview from '@/business/exammanagement/PageCurrentReviewExam'
 import Settings from '@/business/settings/Page'
 
 Vue.use(Router)
@@ -92,6 +93,12 @@ export default new Router({
       path: '/business/exam_management',
       name: 'exam-management',
       component: Exams
+    },
+    {
+      path: '/business/exam_management/:examId',
+      name: 'exam-management-current-review',
+      props: true,
+      component: ExamCurrentReview
     },
     {
       path: '/business/reports/risks',

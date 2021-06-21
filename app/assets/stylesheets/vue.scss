@@ -152,6 +152,7 @@ html {
 .sidebar-menu {
   padding: 0.625rem; // 10px
   width: 100%;
+  min-width: 17.8125rem; // 285px;
   max-width: 17.8125rem; // 285px;
   min-height: 100vh;
   background-color: #1b1c29;

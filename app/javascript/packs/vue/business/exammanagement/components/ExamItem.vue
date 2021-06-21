@@ -1,7 +1,8 @@
 <template lang="pug">
   tr
     td
-      a.link(:href="`/business/exam_management/${item.id}`") {{ item.name }}
+      router-link.link(:to='`/business/exam_management/${item.id}`') {{ item.name }}
+      // a.link(:href="`/business/exam_management/${item.id}`") {{ item.name }}
     td
       b-badge(:variant="item.complete ? 'success' : 'light'") {{ item.complete ? 'Completed' : 'Incomplete' }}
     td.text-right {{ dateToHuman(item.created_at) }}
