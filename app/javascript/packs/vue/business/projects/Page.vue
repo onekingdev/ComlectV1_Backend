@@ -10,7 +10,7 @@
           a.btn.m-l-1.btn-primary New Project
     b-tabs(content-class="mt-0")
       b-tab(title="My Projects" active)
-        .card-body.white-card-body
+        .card-body.white-card-body.card-body_full-height
           div
             b-dropdown.m-r-1(text='Filter by: All')
               b-dropdown-item All
@@ -24,7 +24,7 @@
           Get(projects="/api/business/local_projects/" :etag="etag"): template(v-slot="{projects}")
               ProjectTable(:projects="projects")
       b-tab(title="Contacts")
-        .card-body.white-card-body
+        .card-body.white-card-body.card-body_full-height
           Get(contacts="/api/business/local_projects/" :etag="etag" :callback="getContacts"): template(v-slot="{contacts}"): table.table
             thead
               tr
@@ -43,7 +43,7 @@
               tr(v-if="!contacts.length")
                 td(colspan=5) No contacts
       b-tab(title="Ratings and Reviews")
-        .card-body.white-card-body
+        .card-body.white-card-body.card-body_full-height
           Get(ratings='/api/project_ratings'): template(v-slot="{ratings}"): table.rating_table
             tbody
               tr(v-for="rating in ratings")
