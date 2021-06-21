@@ -245,10 +245,14 @@ html {
 //  margin-left: 2.5rem;
 //}
 //
-//.nav-tabs .nav-item .nav-link {
-//  margin-left: 0;
-//  margin-right: 2.5rem; // 40px
-//}
+.nav-tabs .nav-item .nav-link {
+  //margin-left: 0;
+  //margin-right: 2.5rem; // 40px
+}
+
+.nav-tabs .nav-item a {
+  margin-left: 2.5rem !important;
+}
 
 .nav-tabs .nav-item .nav-link.active {
   font-weight: bold;

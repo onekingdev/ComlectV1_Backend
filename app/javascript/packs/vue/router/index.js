@@ -3,6 +3,7 @@ import Router from 'vue-router'
 // import AuthGuard from './auth-guard'
 import Dashboard from '@/business/dashboard/Page'
 import Projects from '@/business/projects/Page'
+import ProjectReview from '@/business/projects/ShowPage'
 import Tasks from '@/business/tasks/Page'
 import Policies from '@/business/policies/Page'
 import PolicyCurrent from '@/business/policies/Details/PolicyCreate'
@@ -29,6 +30,12 @@ export default new Router({
       path: '/business/projects',
       name: 'projects',
       component: Projects
+    },
+    {
+      path: '/business/projects/:projectId',
+      name: 'project-review',
+      props: true,
+      component: ProjectReview
     },
     {
       path: '/business/reminders',
@@ -71,7 +78,7 @@ export default new Router({
     },
     {
       path: '/business/risks/:riskId',
-      name: 'risks',
+      name: 'risk-review',
       props: true,
       component: RiskDetail
     },
