@@ -69,8 +69,8 @@
     },
     created() {
       const splitUrl = window.location.pathname.split('/business/')[1]
-      if(splitUrl === "file_folders") this.$store.commit('changeSidebar', 'documents')
-      if(splitUrl !== "file_folders") this.$store.commit('changeSidebar', 'default')
+      if(splitUrl === "file_folders" || splitUrl === "settings") this.$store.commit('changeSidebar', 'documents')
+      if(splitUrl !== "file_folders" || splitUrl !== "settings") this.$store.commit('changeSidebar', 'default')
     },
     methods: {
       openLink (value) {

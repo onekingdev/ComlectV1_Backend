@@ -45,7 +45,7 @@
         first_name: user.contact_first_name ? `${user.contact_first_name}` : `${user.first_name}`,
         last_name: user.contact_last_name ? `${user.contact_last_name}` : `${user.last_name}`,
       }
-      // const token = localStorage.getItem('app.currentUser.token');
+      const token = localStorage.getItem('app.currentUser.token');
       // if (token) {
       //   this.$store.commit('auth/UPDATE_TOKEN', token)
       //   this.$store.commit('auth/UPDATE_LOGIN_STATUS', true)
@@ -64,12 +64,21 @@
       //   singOut: 'auth/singOut',
       // }),
       signOut() {
-        // localStorage.removeItem('app.currentUser');
-        // localStorage.removeItem('app.currentUser.token');
+        localStorage.removeItem('app.currentUser');
+        localStorage.removeItem('app.currentUser.token');
 
         // this.singOut()
         //   .then(response => console.log(response))
         //   .catch(error => console.error(error))
+        fetch('/users/sign_out/force', {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': JSON.parse(localStorage.getItem('app.currentUser.token'))
+          }
+        })
+          .then(response => response.json())
+          .then(data => console.log(data));
       },
       openLink (value) {
         if(value === 'documents') this.$store.commit('changeSidebar', 'documents')
