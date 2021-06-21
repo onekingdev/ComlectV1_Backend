@@ -11,7 +11,8 @@ class Business::RisksController < ApplicationController
   end
 
   def show
-    render html: content_tag('business-risks-page-detail', '', ':risk-id': params[:id]).html_safe, layout: 'vue_business'
+    # render html: content_tag('business-risks-page-detail', '', ':risk-id': params[:id]).html_safe, layout: 'vue_business'
+    render html: content_tag('main-layoyt', '', ':risk-id': params[:id]).html_safe, layout: 'vue_main_layout'
   end
 
   private

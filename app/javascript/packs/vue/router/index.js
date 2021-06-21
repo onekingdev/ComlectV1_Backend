@@ -11,6 +11,7 @@ import AnnualReviews from '@/business/annual/Page'
 import AnnualReviewsCurrentGeneral from '@/business/annual/PageCurrentGeneral'
 import AnnualReviewsCurrentReviewCategory from '@/business/annual/PageCurrentReviewCategory'
 import Risks from '@/business/riskregister/Page'
+import RiskDetail from '@/business/riskregister/RiskDetail'
 import ReportsRisks from '@/business/reportsrisks/Page'
 import FileFolders from '@/business/filefolders/Page'
 import Exams from '@/business/exammanagement/Page'
@@ -69,6 +70,12 @@ export default new Router({
       path: '/business/risks',
       name: 'risks',
       component: Risks
+    },
+    {
+      path: '/business/risks/:riskId',
+      name: 'risks',
+      props: true,
+      component: RiskDetail
     },
     {
       path: '/business/file_folders',
