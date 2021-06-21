@@ -4,7 +4,8 @@ export default {
     error: null,
     settings: {
       authProvider: 'jwt',
-    }
+    },
+    leftSidebar: 'default'
   },
   mutations: {
     setLoading (state, payload) {
@@ -15,6 +16,9 @@ export default {
     },
     clearError (state) {
       state.error = null
+    },
+    changeSidebar (state, payload) {
+      state.leftSidebar = payload
     }
   },
   actions: {
@@ -38,5 +42,8 @@ export default {
     settings (state) {
       return state.settings
     },
+    leftSidebar (state) {
+      return state.leftSidebar
+    }
   }
 }

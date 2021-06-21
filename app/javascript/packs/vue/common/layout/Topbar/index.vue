@@ -3,11 +3,11 @@
     b-navbar-toggle(target='nav-collapse')
     b-collapse#nav-collapse.topbar-menu(is-nav)
       ul.topbar-menu__list
-        li.nav-item.topbar-menu__item
+        li.nav-item.topbar-menu__item(@click="openLink('default')")
           router-link.topbar-menu__link(to='/business' active-class="active" exact) Home
-        li.nav-item.topbar-menu__item
+        li.nav-item.topbar-menu__item(@click="openLink('documents')")
           router-link.topbar-menu__link(to='/business/file_folders' active-class="active") Documents
-        li.nav-item.topbar-menu__item
+        li.nav-item.topbar-menu__item(@click="openLink('default')")
           router-link.topbar-menu__link(to='/business/reports/risks' active-class="active") Reports
         li.nav-item.topbar-menu__item.d-none
           a.topbar-menu__link(aria-current='page' href='#') Community
@@ -69,6 +69,10 @@
         // this.singOut()
         //   .then(response => console.log(response))
         //   .catch(error => console.error(error))
+      },
+      openLink (value) {
+        if(value === 'documents') this.$store.commit('changeSidebar', 'documents')
+        if(value !== 'documents') this.$store.commit('changeSidebar', 'default')
       }
     },
     computed: {
