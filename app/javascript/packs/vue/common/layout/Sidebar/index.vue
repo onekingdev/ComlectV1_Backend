@@ -45,16 +45,16 @@
        ion-icon(name='chevron-down-outline')
      b-collapse#files(:visible="true")
        ul.sidebar-menu__list
-         li.nav-item.sidebar-menu__item(@click="openLink('default')")
+         li.nav-item.sidebar-menu__item(@click="openLink('documents')")
            router-link.sidebar-menu__link(to='/business/file_folders' active-class="active" exact)
              ion-icon(name='folder-outline')
              | Book and records
-         li.nav-item.sidebar-menu__item(@click="openLink('default')")
+         li.nav-item.sidebar-menu__item(@click="openLink('documents')")
            router-link.sidebar-menu__link(to='/business/exam_management' active-class="active")
              ion-icon(name='search-outline')
              | Exam Management
          div(class="dropdown-divider")
-         li.nav-item.sidebar-menu__item(@click="openLink('default')")
+         li.nav-item.sidebar-menu__item(@click="openLink('documents')")
            router-link.sidebar-menu__link(to='/business/settings' active-class="active")
              ion-icon(name='settings-outline')
              | Settings
@@ -64,13 +64,13 @@
   export default {
     data() {
       return {
-        documentMenu: false
+
       }
     },
     created() {
       const splitUrl = window.location.pathname.split('/business/')[1]
-      if(splitUrl === "file_folders") this.documentMenu = true
-      if(splitUrl !== "file_folders") this.documentMenu = false
+      if(splitUrl === "file_folders") this.$store.commit('changeSidebar', 'documents')
+      if(splitUrl !== "file_folders") this.$store.commit('changeSidebar', 'default')
     },
     methods: {
       openLink (value) {

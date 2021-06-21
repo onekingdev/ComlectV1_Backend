@@ -16,6 +16,7 @@ import RiskDetail from '@/business/riskregister/RiskDetail'
 import ReportsRisks from '@/business/reportsrisks/Page'
 import FileFolders from '@/business/filefolders/Page'
 import Exams from '@/business/exammanagement/Page'
+import Settings from '@/business/settings/Page'
 
 Vue.use(Router)
 
@@ -96,6 +97,11 @@ export default new Router({
       path: '/business/reports/risks',
       name: 'reports-risks',
       component: ReportsRisks
+    },
+    {
+      path: '/business/settings',
+      name: 'settings',
+      component: Settings
     },
   ],
   mode: 'history'

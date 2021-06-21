@@ -15,6 +15,22 @@ class Api::Settings::ProfileController < ApiController
     end
   end
 
+  def destroy
+    delete = if @current_someone.class.name == 'Business'
+               Business::Delete.new(@current_someone)
+             else
+               Specialist::Delete.new(@current_someone)
+             end
+    authorize @current_someone, :freeze?
+
+    if delete.call
+      sign_out current_user
+      render json: { "deleted": true }.to_json
+    else
+      respond_with error: 'Could not delete your account at this time', status: :unprocessable_entity
+    end
+  end
+
   private
 
   def general_params

@@ -338,6 +338,23 @@ html {
   #notifications_dropdown {
     font-size: 22px;
     padding: 20px 20px 0px 20px;
+
+    .link {
+      position: relative;
+      &.active {
+        &:after {
+          position: absolute;
+          display: block;
+          content: '';
+          top: -2px;
+          right: 0;
+          width: 15px;
+          height: 15px;
+          background-color: #ffc900;
+          border-radius: 50%;
+        }
+      }
+    }
   }
   #helps {
     padding-top: 22px;
@@ -447,15 +464,22 @@ table.table, table.table thead tr th {
 .nav-tabs {
   .nav-item {
     a {
-      border: 0px;
-      padding-left: 0px;
-      padding-right: 0px;
-      margin-left: 27px;
+      //border: 0;
+      padding-left: 0;
+      padding-right: 0;
+      //margin-left: 27px;
+      font-size: 1.2rem;
       color: #919396;
+      border: none;
     }
     .nav-link.active {
+      font-weight: 600;
       background: none !important;
       border-bottom: 4px solid #ffcc00;
+    }
+
+    &:not(:last-child) {
+      margin-right: 2.5rem;
     }
   }
 }
@@ -533,6 +557,7 @@ table.table, table.table thead tr th {
   }
 }
 /* ---------- NOT CHECKED STYLES - END ---------- */
+
 
 .reviews {
   &__list {
@@ -665,6 +690,43 @@ table.table, table.table thead tr th {
           background: #6fca65;
         }
       }
+    }
+  }
+}
+
+.settings {
+  &__card {
+    border-radius: 10px;
+    border: 2px solid #e9ebee;
+
+    &--internal {
+      border-top: initial;
+      border-bottom: 2px solid #e9ebee;
+
+      &-top {
+        border-bottom: initial;
+      }
+    }
+
+    &--label {
+      color: #797b7e;
+    }
+  }
+
+  .form-control {
+    padding: 0.25rem 0.75rem;
+    box-shadow: none;
+
+    &:hover,
+    &:active,
+    &:focus {
+      border-color: #0479ff;
+      box-shadow: none;
+    }
+
+    &_search {
+      padding-left: 2rem;
+      padding-right: 2rem;
     }
   }
 }

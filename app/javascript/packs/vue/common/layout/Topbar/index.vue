@@ -22,7 +22,8 @@
             UserAvatar.topbar-right-dropdown__avatar(:user="specialist" :sm="true")
             | {{ specialist.first_name }} {{ specialist.last_name }}
             ion-icon.topbar-right-dropdown__icon(name='chevron-down-outline')
-          b-dropdown-item(href='/business/settings') Settings
+          b-dropdown-item(@click="openLink('documents')")
+            router-link(to='/business/settings' active-class="active") Settings
           b-dropdown-item(@click="signOut") Sign Out
         a.btn.topbar-right-btn__help(href="#")
           b-icon.mr-2( icon="question-circle-fill" aria-label="Help")
