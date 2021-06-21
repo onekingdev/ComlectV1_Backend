@@ -5,7 +5,11 @@ import Dashboard from '@/business/dashboard/Page'
 import Projects from '@/business/projects/Page'
 import Tasks from '@/business/tasks/Page'
 import Policies from '@/business/policies/Page'
+import PolicyCurrent from '@/business/policies/Details/PolicyCreate'
+import PolicyCurrentNoSections from '@/business/policies/Details/PolicyDetailsWithoutSections'
 import AnnualReviews from '@/business/annual/Page'
+import AnnualReviewsCurrentGeneral from '@/business/annual/PageCurrentGeneral'
+import AnnualReviewsCurrentReviewCategory from '@/business/annual/PageCurrentReviewCategory'
 import Risks from '@/business/riskregister/Page'
 import ReportsRisks from '@/business/reportsrisks/Page'
 import FileFolders from '@/business/filefolders/Page'
@@ -36,16 +40,31 @@ export default new Router({
       component: Policies
     },
     {
-      path: '/business/compliance_policies/:policy-id',
-      name: 'policies',
+      path: '/business/compliance_policies/:policyId',
+      name: 'policy-current',
       props: true,
-      component: Policies
+      component: PolicyCurrentNoSections
     },
     {
       path: '/business/annual_reviews',
       name: 'annual-reviews',
       component: AnnualReviews
     },
+    {
+      path: '/business/annual_reviews/:annualId',
+      name: 'annual-reviews-general',
+      props: true,
+      component: AnnualReviewsCurrentGeneral,
+      children: [
+        {
+          path: '/:revcatId',
+          name: 'annual-reviews-review-category',
+          props: true,
+          component: AnnualReviewsCurrentReviewCategory
+        },
+      ]
+    },
+
     {
       path: '/business/risks',
       name: 'risks',

@@ -1,9 +1,6 @@
 <template lang="pug">
-  .reviews__list-item
-    a.reviews__list-link.d-flex.justify-content-between.align-items-center(
-      :href="url"
-      :class="linkClass"
-    )
+  .reviews__list-item.mb-2
+    router-link.link.d-flex.justify-content-between.align-items-center(:to='url' :class="linkClass")
       .reviews__list-text
         | {{ title }}
       .reviews__list-icon(:class="{ 'checked': checked }")
