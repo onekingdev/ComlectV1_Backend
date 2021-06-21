@@ -1,6 +1,6 @@
 <template lang="pug">
   .reviews__list-item.mb-2
-    router-link.link.d-flex.justify-content-between.align-items-center(:to='url' :class="linkClass")
+    router-link.link.d-flex.justify-content-between.align-items-center(:to="url" :class="linkClass")
       .reviews__list-text
         | {{ title }}
       .reviews__list-icon(:class="{ 'checked': checked }")
@@ -35,9 +35,17 @@ export default {
   computed: {
     url () {
       if (this.id) {
-        return `/business/annual_reviews/${this.annualId}/${this.id}`
+        // return `/business/annual_reviews/${this.annualId}/${this.id}`
+        return {
+          name: 'annual-reviews-review-category',
+          params: { revcatId: this.id }
+        }
       }
-      return `/business/annual_reviews/${this.annualId}`
+      // return `/business/annual_reviews/${this.annualId}`
+      return {
+        name: 'annual-reviews-general',
+        params: { annualId: this.annualId }
+      }
     },
     linkClass() {
       return {

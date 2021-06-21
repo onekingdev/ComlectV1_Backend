@@ -64,10 +64,12 @@ export default {
       try {
         this.category.visible = false
         const response = await this.createReviewCategory(data)
-        this.makeToast('Success', "New category added")
-        await this.getCurrentReviewReview(this.annualId)
-        this.category.name = ""
-        window.location.href = `${window.location.origin}/business/annual_reviews/${response.annual_report_id}/${response.id}`
+        if (response) {
+          this.makeToast('Success', "New category added")
+          await this.getCurrentReviewReview(this.annualId)
+          this.category.name = ""
+          window.location.href = `${window.location.origin}/business/annual_reviews/${response.annual_report_id}/${response.id}`
+        }
       } catch (error) {
         this.makeToast('Error', error.message)
       }

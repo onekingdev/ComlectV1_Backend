@@ -56,14 +56,12 @@ export default new Router({
       name: 'annual-reviews-general',
       props: true,
       component: AnnualReviewsCurrentGeneral,
-      children: [
-        {
-          path: '/:revcatId',
-          name: 'annual-reviews-review-category',
-          props: true,
-          component: AnnualReviewsCurrentReviewCategory
-        },
-      ]
+    },
+    {
+      path: '/business/annual_reviews/:annualId/:revcatId',
+      name: 'annual-reviews-review-category',
+      props: true,
+      component: AnnualReviewsCurrentReviewCategory
     },
 
     {
