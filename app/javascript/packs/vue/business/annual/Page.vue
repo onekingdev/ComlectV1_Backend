@@ -5,7 +5,7 @@
       .page__actions
         AnnualModalCreate(:reviews="reviews")
           button.btn.btn-dark.float-end New Review
-    .card-body.white-card-body
+    .card-body.white-card-body.card-body_full-height
       b-alert.mb-2(show variant="primary" dismissible)
         .d-flex.justify-content-between.align-items-center
           .d-block

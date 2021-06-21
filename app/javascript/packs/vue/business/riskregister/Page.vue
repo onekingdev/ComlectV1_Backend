@@ -6,7 +6,7 @@
         a.btn.btn-default.mr-3(href='#') Export
         RisksAddEditModal
           button.btn.btn-dark Add Risk
-    .card-body.white-card-body
+    .card-body.white-card-body.card-body_full-height
       RisksTable
 
 </template>

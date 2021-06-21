@@ -1,5 +1,5 @@
 <template lang="pug">
-  .card-body.white-card-body.p-0
+  .card-body.white-card-body.p-0.h-100
     .card-header
       h3.m-y-0 Risk Summary
     .card-body

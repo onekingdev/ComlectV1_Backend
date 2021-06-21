@@ -1,8 +1,8 @@
 /* ---------- Policy page ---------- */
-.card-body {
-  padding: 1.25rem 2.5rem; /* 20px 40px */
-  min-height: calc(100vh - 216px);
-}
+/*.card-body {*/
+  /*padding: 1.25rem 2.5rem; !* 20px 40px *!*/
+  /*min-height: calc(100vh - 216px);*/
+/*}*/
 
 .icon-searh {
   position: absolute;

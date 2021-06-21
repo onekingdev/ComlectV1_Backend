@@ -7,7 +7,7 @@
           b-icon.m-r-1(v-if="disabled" icon="arrow-counterclockwise" animation="spin-reverse-pulse" font-scale="1")
           b-icon.m-r-1(v-else icon="file-zip" font-scale="1")
           | Download ZIP
-    .card-body.white-card-body
+    .card-body.white-card-body.card-body_full-height
       .d-flex.align-items-center.mb-2
         a.btn.btn-default.m-r-1.p-0(v-if="currentFolderId" @click.stop="backToRoot")
           b-icon(icon="arrow-left-square" font-scale="1")

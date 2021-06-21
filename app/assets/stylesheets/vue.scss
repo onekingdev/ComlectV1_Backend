@@ -241,23 +241,23 @@ html {
   }
 }
 
-.nav-tabs {
-  margin-left: 2.5rem;
-}
-
-.nav-tabs .nav-item .nav-link {
-  margin-left: 0;
-  margin-right: 2.5rem; // 40px
-}
+//.nav-tabs {
+//  margin-left: 2.5rem;
+//}
+//
+//.nav-tabs .nav-item .nav-link {
+//  margin-left: 0;
+//  margin-right: 2.5rem; // 40px
+//}
 
 .nav-tabs .nav-item .nav-link.active {
   font-weight: bold;
   border-color: $yellow;
 }
 
-.card-body {
-  padding: 1.25rem 2.5rem; /* 20px 40px */
-  min-height: calc(100vh - 216px);
+.card-body_full-height {
+  padding: 1.25rem 2.5rem !important; /* 20px 40px */
+  min-height: calc(100vh - 216px) !important;
 }
 
 .form-control_search {

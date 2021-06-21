@@ -9,13 +9,13 @@
     div
       b-tabs(content-class="mt-0")
         b-tab(title="Compilance Manual" active)
-          .card-body.white-card-body
+          .card-body.white-card-body.card-body_full-height
             PoliciesTable(:policies="filteredUnArchivedList", @searching="searching")
         b-tab(title="Archive")
-          .card-body.white-card-body
+          .card-body.white-card-body.card-body_full-height
             PoliciesTable(:policies="filteredArchivedList", @searching="searchingArchived")
         b-tab(title="Setup" lazy)
-          .card-body.white-card-body
+          .card-body.white-card-body.card-body_full-height
             PoliciesSetup
 </template>
 
