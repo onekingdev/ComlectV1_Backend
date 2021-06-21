@@ -37,13 +37,21 @@ class Business::ProjectsController < ApplicationController
     #           .find(params[:id])
     @project = current_business.local_projects.includes(:projects).find(params[:id])
 
+    # render html: content_tag(
+    #   'project-show-page',
+    #   '',
+    #   ':project-id': @project.id,
+    #   'current-business': current_business,
+    #   'token': JsonWebToken.encode(sub: current_business.id)
+    # ).html_safe, layout: 'vue_business'
+
     render html: content_tag(
-      'project-show-page',
-      '',
-      ':project-id': @project.id,
-      'current-business': current_business,
-      'token': JsonWebToken.encode(sub: current_business.id)
-    ).html_safe, layout: 'vue_business'
+          'main-layoyt',
+          '',
+          ':project-id': @project.id,
+          'current-business': current_business,
+          'token': JsonWebToken.encode(sub: current_business.id)
+        ).html_safe, layout: 'vue_main_layout'
   end
 
   def show_post
