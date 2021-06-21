@@ -23,28 +23,68 @@
             | {{ specialist.first_name }} {{ specialist.last_name }}
             ion-icon.topbar-right-dropdown__icon(name='chevron-down-outline')
           b-dropdown-item(href='/business/settings') Settings
-          b-dropdown-item(href='#') Sign Out
+          b-dropdown-item(@click="signOut") Sign Out
         a.btn.topbar-right-btn__help(href="#")
           b-icon.mr-2( icon="question-circle-fill" aria-label="Help")
           | Help
 </template>
 
 <script>
+  // import { mapActions, mapGetters } from "vuex"
   import UserAvatar from '@/common/UserAvatar'
+
   export default {
     name: "index",
     components: {
       UserAvatar
     },
+    created(){
+      const user = JSON.parse(localStorage.getItem('app.currentUser'));
+      this.specialist = {
+        first_name: user.contact_first_name ? `${user.contact_first_name}` : `${user.first_name}`,
+        last_name: user.contact_last_name ? `${user.contact_last_name}` : `${user.last_name}`,
+      }
+      // const token = localStorage.getItem('app.currentUser.token');
+      // if (token) {
+      //   this.$store.commit('auth/UPDATE_TOKEN', token)
+      //   this.$store.commit('auth/UPDATE_LOGIN_STATUS', true)
+      // }
+    },
     data() {
       return {
-        isProfileMenuOpen: false,
         specialist: {
-          first_name: 'Oscar',
-          last_name: 'Handsome'
+          first_name: '',
+          last_name: ''
         }
       }
-    }
+    },
+    methods: {
+      // ...mapActions({
+      //   singOut: 'auth/singOut',
+      // }),
+      signOut() {
+        // localStorage.removeItem('app.currentUser');
+        // localStorage.removeItem('app.currentUser.token');
+
+        // this.singOut()
+        //   .then(response => console.log(response))
+        //   .catch(error => console.error(error))
+      }
+    },
+    computed: {
+      // ...mapGetters({
+      //   currentUser: 'auth/getUser',
+      // }),
+      loggedIn() {
+        return this.$store.getters.loggedIn;
+      },
+      // specialist() {
+      //   return {
+      //     first_name: this.currentUser.contact_first_name ? `${this.currentUser.contact_first_name}` : `${this.currentUser.first_name}`,
+      //     last_name: this.currentUser.contact_last_name ? `${this.currentUser.contact_last_name}` : `${this.currentUser.last_name}`,
+      //   }
+      // }
+    },
   }
 </script>
 
