@@ -14,8 +14,9 @@
             a.topbar-menu__link(aria-current='page' href='#') Community
     // Right aligned nav items
     b-navbar-nav.flex-row.align-items-center.ml-auto.h-100
-      a.btn.btn-warning.btn-topbar.btn-topbar_find(href='/business/specialists')  Find an Expert
-      a.btn.btn-topbar.btn-topbar_notify(href='/business/settings/notification-center')
+      router-link.btn.btn-warning.btn-topbar.btn-topbar_find(v-if="userType === 'business'" :to='`/${userType}/specialists`') Find an Expert
+      router-link.btn.btn-warning.btn-topbar.btn-topbar_find(v-if="userType === 'specialist'" :to='`/${userType}/projects`') Browse Projects
+      router-link.btn.btn-topbar.btn-topbar_notify(:to='`/${userType}/settings/notification-center`')
         ion-icon(name='notifications-outline')
       b-nav-item-dropdown.topbar-right-dropdown.actions(right)
         // Using 'button-content' slot
