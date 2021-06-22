@@ -5,8 +5,7 @@ class Business::AnnualReviewsController < ApplicationController
   before_action :require_business!
 
   def index
-    # render html: content_tag('business-annuals-page', '').html_safe, layout: 'vue_business'
-    render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_main_layout'
+    render html: content_tag('business-annuals-page', '').html_safe, layout: 'vue_business'
   end
 
   def show

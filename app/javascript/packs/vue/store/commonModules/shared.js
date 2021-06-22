@@ -4,9 +4,7 @@ export default {
     error: null,
     settings: {
       authProvider: 'jwt',
-    },
-    leftSidebar: 'default',
-    userType: '',
+    }
   },
   mutations: {
     setLoading (state, payload) {
@@ -17,12 +15,6 @@ export default {
     },
     clearError (state) {
       state.error = null
-    },
-    changeSidebar (state, payload) {
-      state.leftSidebar = payload
-    },
-    changeUserType (state, payload) {
-      state.userType = payload
     }
   },
   actions: {
@@ -46,11 +38,5 @@ export default {
     settings (state) {
       return state.settings
     },
-    leftSidebar (state) {
-      return state.leftSidebar
-    },
-    userType (state) {
-      return state.userType
-    }
   }
 }

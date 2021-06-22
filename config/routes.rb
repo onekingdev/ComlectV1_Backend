@@ -113,8 +113,19 @@ Rails.application.routes.draw do
       resource :questions
     end
     resource :projects, only: %i[index]
-    get 'settings' => 'settings#show'
-    get 'settings/:id' => 'settings#show'
+    resource :settings, only: :show do
+      resource :password
+      # resource :referrals, only: :show
+      resource :delete_account
+      resources :payment_settings, as: :payment, path: 'payment' do
+        patch :make_primary
+        collection do
+          post :apply_coupon
+        end
+      end
+      resources :notification_settings, as: :notifications, path: 'notifications', only: %i[index update]
+      resources :subscription_settings, as: :subscriptions, path: 'subscriptions', only: %i[index update]
+    end
 
     resources :specialists, only: :index
     concerns :favoriteable
@@ -272,7 +283,6 @@ Rails.application.routes.draw do
       patch 'password' => 'password#update'
       get 'notifications' => 'notifications#index'
       patch 'notifications' => 'notifications#update'
-      delete 'profile' => 'profile#destroy'
     end
 
     get 'local_projects/:project_id/messages' => 'project_messages#index'
@@ -357,6 +367,7 @@ Rails.application.routes.draw do
       post '/share_project' => 'share_project#create'
     end
     resources :businesses, only: [:create]
+    get '/businesses/current' => 'businesses#current'
     resource :business, only: %i[update] do
       patch '/' => 'businesses#update', as: :update
     end

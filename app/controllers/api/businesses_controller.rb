@@ -2,7 +2,7 @@
 
 class Api::BusinessesController < ApiController
   skip_before_action :authenticate_user!, only: [:create]
-  before_action :require_business!, only: :update
+  before_action :require_business!, only: %i[update current]
 
   def create
     business = Business.new(business_params)
@@ -27,6 +27,10 @@ class Api::BusinessesController < ApiController
     else
       respond_with errors: { business: current_business.errors.messages }
     end
+  end
+
+  def current
+    respond_with current_business, serializer: BusinessSerializer
   end
 
   private
