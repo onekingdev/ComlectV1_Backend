@@ -14,19 +14,28 @@ class Specialists::ProjectsController < ApplicationController
   }.freeze
 
   def index
-    render html: content_tag('my-projects-page', '').html_safe,
-           layout: 'vue_specialist'
+    # render html: content_tag('my-projects-page', '').html_safe, layout: 'vue_specialist'
+    render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_main_layout'
   end
 
   def show
+    # @application = @project.job_applications.where(specialist_id: current_specialist.id).first
+    # render html: content_tag('my-project-show-page',
+    #                          '',
+    #                          ':id': params[:id],
+    #                          ':specialist-id': current_specialist.id,
+    #                          'token': JsonWebToken.encode(sub: current_user.id),
+    #                          ':application-id': @application.id).html_safe,
+    #        layout: 'vue_specialist'
+
     @application = @project.job_applications.where(specialist_id: current_specialist.id).first
-    render html: content_tag('my-project-show-page',
-                             '',
-                             ':id': params[:id],
-                             ':specialist-id': current_specialist.id,
-                             'token': JsonWebToken.encode(sub: current_user.id),
-                             ':application-id': @application.id).html_safe,
-           layout: 'vue_specialist'
+        render html: content_tag('main-layoyt',
+                                 '',
+                                 ':id': params[:id],
+                                 ':specialist-id': current_specialist.id,
+                                 'token': JsonWebToken.encode(sub: current_user.id),
+                                 ':application-id': @application.id).html_safe,
+               layout: 'vue_main_layout'
   end
 
   private

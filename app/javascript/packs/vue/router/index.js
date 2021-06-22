@@ -26,6 +26,8 @@ import SpecialistsMarketplace from '@/business/marketplace/Page'
 // SPECIALISTS
 import DashboardS from '@/specialist/dashboard/Page'
 import SettingsS from '@/specialist/settings/Page'
+import SettingsNotificationsS from '@/specialist/notifications/Page'
+import ProjectsS from '@/specialist/projects/Page'
 
 Vue.use(Router)
 
@@ -63,17 +65,19 @@ export default new Router({
 
     // SPECIALISTS
     { path: '/specialist', name: 'dashboard-specialist', component: DashboardS },
-    { path: '/specialist/settings', name: 'settings', component: SettingsS,
+    { path: '/specialist/projects', name: 'projects-specialist', component: ProjectsS },
+    { path: '/specialist/settings', name: 'settings-specialist', component: SettingsS,
       children:  [
-        { path: '/specialist/settings/general', name: 'settings-general', component: SettingsS, },
-        { path: '/specialist/settings/users', name: 'settings-users', component: SettingsS, },
-        { path: '/specialist/settings/roles', name: 'settings-roles', component: SettingsS, },
-        { path: '/specialist/settings/security', name: 'settings-security', component: SettingsS, },
-        { path: '/specialist/settings/subscriptions', name: 'settings-subscriptions', component: SettingsS, },
-        { path: '/specialist/settings/billings', name: 'settings-billings', component: SettingsS, },
-        { path: '/specialist/settings/notifications', name: 'settings-notifications', component: SettingsS, }
+        { path: '/specialist/settings/general', name: 'settings-general-specialist', component: SettingsS, },
+        { path: '/specialist/settings/users', name: 'settings-users-specialist', component: SettingsS, },
+        { path: '/specialist/settings/roles', name: 'settings-roles-specialist', component: SettingsS, },
+        { path: '/specialist/settings/security', name: 'settings-security-specialist', component: SettingsS, },
+        { path: '/specialist/settings/subscriptions', name: 'settings-subscriptions-specialist', component: SettingsS, },
+        { path: '/specialist/settings/billings', name: 'settings-billings-specialist', component: SettingsS, },
+        { path: '/specialist/settings/notifications', name: 'settings-notifications-specialist', component: SettingsS, }
       ],
     },
+    { path: '/specialist/settings/notification-center', name: 'settings-notification-center-specialist', component: SettingsNotificationsS },
   ],
   mode: 'history'
 })

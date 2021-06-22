@@ -10,6 +10,9 @@
         a.btn.btn-default Customize
     div.px-4
       .row
+        .col.mb-2
+          EmptyPlan
+      .row
         .col-md-7.col-sm-12
           .card
             Calendar(v-bind="{pdfUrl}" @saved="newEtag" :etag="etag")
@@ -21,6 +24,7 @@
 <script>
 import Calendar from './Calendar'
 import UpcomingTasks from '@/specialist/dashboard/UpcomingTasks'
+import EmptyPlan from '@/specialist/settings/components/subscriptions/components/EmptyPlan'
 
 const endpointProjectsUrl = '/api/specialist/local_projects/'
 
@@ -47,16 +51,17 @@ export default {
   props: {
     pdfUrl: {
       type: String,
-      required: true
+      required: false
     },
     currentBusiness: {
       type: String,
-      required: true
+      required: false
     }
   },
   components: {
     Calendar,
     UpcomingTasks,
+    EmptyPlan,
   }
 }
 </script>
