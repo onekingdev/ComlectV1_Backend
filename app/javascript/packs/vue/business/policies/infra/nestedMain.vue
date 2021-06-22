@@ -12,7 +12,7 @@
     template(v-for='(el, idxEl) in realValue')
       tbody
         .table__row
-          .table__cell.table__cell_name(v-show="el.children && el.children.length !== 0")
+          .table__cell.table__cell_name.table__cell_first(v-show="el.children && el.children.length !== 0")
             .d-flex.align-items-center
               .dropdown-toggle.link(
                 v-if="el.children && el.children.length !== 0"
@@ -22,7 +22,7 @@
                 b-icon.mr-2(icon="chevron-compact-right")
               a.link(v-if="el.id" :href="`/business/compliance_policies/${el.id}`") {{ el.title }}
               .link(v-else) {{ el.title }}
-          .table__cell.table__cell_name(v-show="el.children && el.children.length === 0")
+          .table__cell.table__cell_name.table__cell_first(v-show="el.children && el.children.length === 0")
             a.link(v-if="el.id" :href="`/business/compliance_policies/${el.id}`") {{ el.title }}
             .link.ml-4(v-else) {{ idxEl + 1 }}. {{ el.title }}
           .table__cell(v-if="!shortTable && el.status")
@@ -32,7 +32,7 @@
           .table__cell.text-right(v-if="!shortTable && el.created_at") N/A
           .table__cell(v-if="!shortTable && el.created_at")
             .actions
-              b-dropdown(size="sm" variant="light" class="m-0 p-0" right)
+              b-dropdown(size="sm" variant="none" class="m-0 p-0" right)
                 template(#button-content)
                   b-icon(icon="three-dots")
                 b-dropdown-item(v-if="!el.archived" :href="'/business/compliance_policies/'+el.id") Edit
