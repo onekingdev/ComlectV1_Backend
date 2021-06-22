@@ -1,9 +1,9 @@
-// import store from '../store'
-//
-// export default function (to, from, next) {
-//   if (store.getters.user) {
-//     next()
-//   } else {
-//     next('/login?loginError=true')
-//   }
-// }
+import store from '@/store/common'
+
+export default function (to, from, next) {
+  if (store.getters.userType === 'business') {
+    next()
+  } else {
+    next(`${store.getters.userType}/dashboard`)
+  }
+}

@@ -1,5 +1,8 @@
 import init from '@/init'
 import store from '@/store/specialist'
+import router from '@/router'
+import MainLayoyt from './vue/layouts/Main'
+import SpecialistDashboardPage from './vue/business/dashboard/Page.vue'
 import ProjectIndexPage from '@/specialist/projects/IndexPage'
 import CreateProposalPage from '@/specialist/projects/CreateProposalPage'
 import MyProjectsPage from '@/specialist/projects/MyProjectsPage'
@@ -13,7 +16,10 @@ const SpecialistSettings = {
 
 init({
   store,
+  router,
   components: {
+    MainLayoyt,
+    SpecialistDashboardPage,
     ProjectIndexPage,
     CreateProposalPage,
     MyProjectsPage,

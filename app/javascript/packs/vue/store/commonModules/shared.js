@@ -5,7 +5,8 @@ export default {
     settings: {
       authProvider: 'jwt',
     },
-    leftSidebar: 'default'
+    leftSidebar: 'default',
+    userType: '',
   },
   mutations: {
     setLoading (state, payload) {
@@ -19,6 +20,9 @@ export default {
     },
     changeSidebar (state, payload) {
       state.leftSidebar = payload
+    },
+    changeUserType (state, payload) {
+      state.userType = payload
     }
   },
   actions: {
@@ -44,6 +48,9 @@ export default {
     },
     leftSidebar (state) {
       return state.leftSidebar
+    },
+    userType (state) {
+      return state.userType
     }
   }
 }

@@ -19,7 +19,7 @@ import BusinessPoliciesEntirePage from './vue/business/policies/PoliciesEntire.v
 import BusinessPoliciesCreatePage from './vue/business/policies/Details/PolicyCreate.vue'
 import BusinessPoliciesDetailsWithoutSectionsPage from './vue/business/policies/Details/PolicyDetailsWithoutSections.vue'
 
-const businesPolicies = {
+const businessPolicies = {
   BusinessPoliciesPage,
   BusinessPoliciesEntirePage,
   BusinessPoliciesCreatePage,
@@ -92,7 +92,7 @@ init({
     BusinessAnnualsPage,
     BusinessAnnualReviewPage,
     BusinessAnnualGeneralPage,
-    ...businesPolicies,
+    ...businessPolicies,
     ...BusinessReportsRisks,
     ...businesRisks,
     ...businesMarketplace,

@@ -5,11 +5,11 @@
       b-collapse#nav-collapse.topbar-menu(is-nav)
         ul.topbar-menu__list
           li.nav-item.topbar-menu__item(@click="openLink('default')")
-            router-link.topbar-menu__link(to='/business' active-class="active" exact) Home
+            router-link.topbar-menu__link(:to='`/${userType}`' active-class="active" exact) Home
           li.nav-item.topbar-menu__item(@click="openLink('documents')")
-            router-link.topbar-menu__link(to='/business/file_folders' active-class="active") Documents
+            router-link.topbar-menu__link(:to='`/${userType}/file_folders`' active-class="active") Documents
           li.nav-item.topbar-menu__item(@click="openLink('default')")
-            router-link.topbar-menu__link(to='/business/reports/risks' active-class="active") Reports
+            router-link.topbar-menu__link(:to='`/${userType}/reports/risks`' active-class="active") Reports
           li.nav-item.topbar-menu__item.d-none
             a.topbar-menu__link(aria-current='page' href='#') Community
     // Right aligned nav items
@@ -20,11 +20,11 @@
       b-nav-item-dropdown.topbar-right-dropdown.actions(right)
         // Using 'button-content' slot
         template(#button-content)
-          UserAvatar.topbar-right-dropdown__avatar(:user="specialist" :sm="true")
-          | {{ specialist.first_name }} {{ specialist.last_name }}
+          UserAvatar.topbar-right-dropdown__avatar(:user="account" :sm="true")
+          | {{ account.first_name }} {{ account.last_name }}
           ion-icon.topbar-right-dropdown__icon(name='chevron-down-outline')
         li(@click="openLink('documents')")
-          router-link.dropdown-item(to='/business/settings' active-class="active") Settings
+          router-link.dropdown-item(:to='`/${userType}/settings`' active-class="active") Settings
         b-dropdown-item(@click="signOut") Sign Out
       a.btn.btn-topbar.btn-topbar_help(href="#")
         b-icon.mr-2( icon="question-circle-fill" aria-label="Help")
@@ -42,7 +42,7 @@
     },
     created(){
       const user = JSON.parse(localStorage.getItem('app.currentUser'));
-      this.specialist = {
+      this.account = {
         first_name: user.contact_first_name ? `${user.contact_first_name}` : `${user.first_name}`,
         last_name: user.contact_last_name ? `${user.contact_last_name}` : `${user.last_name}`,
       }
@@ -51,13 +51,17 @@
       //   this.$store.commit('auth/UPDATE_TOKEN', token)
       //   this.$store.commit('auth/UPDATE_LOGIN_STATUS', true)
       // }
+
+      const splittedUrl = window.location.pathname.split('/') // ["", "business", "reminders"]
+      this.userType = splittedUrl[1]
     },
     data() {
       return {
-        specialist: {
+        account: {
           first_name: '',
           last_name: ''
-        }
+        },
+        userType: ''
       }
     },
     methods: {
