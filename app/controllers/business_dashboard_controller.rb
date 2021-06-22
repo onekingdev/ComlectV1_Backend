@@ -10,10 +10,7 @@ class BusinessDashboardController < ApplicationController
   before_action :beginning_of_week
 
   def show
-    render html: content_tag('business-dashboard-page', '',
-                             "pdf-url": business_reminders_path(format: :pdf),
-                             "current-business": current_business).html_safe,
-           layout: 'vue_business'
+    render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_main_layout'
   end
 
   private
