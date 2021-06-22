@@ -119,7 +119,8 @@ html {
     &:hover,
     &:active {
       color: #282a30;
-      background-color: #ffdc5b;
+      background-color: #ffdc5b !important;
+      border-color: #ffdc5b !important;
     }
   }
   &_notify {
@@ -319,6 +320,85 @@ html {
   border-color: $primary;
 }
 
+
+/* ---------- DROPDOWNS ---------- */
+.actions {
+  position: relative;
+  display: block;
+  text-align: right;
+
+  &__btn {
+    padding: 0 1rem;
+    width: 2rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+    background-color: transparent;
+    border: none;
+    border-radius: 3px;
+
+    &.active {
+      background-color: rgba(0, 0, 0, .1);
+    }
+  }
+}
+
+
+.actions-dropdown {
+  display: none;
+  position: absolute;
+  z-index: 2;
+  top: 100%;
+  right: 0;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  text-align: left;
+  min-width: 10rem;
+  background-color: white;
+  border: solid 1px #e9ebee;
+  border-radius: 3px;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, .3);
+
+  &.active {
+    display: block;
+  }
+
+  &__item .link {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+.actions .dropdown-item,
+.actions-dropdown__item {
+  display: flex;
+  padding: .7rem 1.5rem;
+  font-size: 1rem;
+  text-wrap: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 200ms ease-in;
+}
+
+.actions .dropdown-item:hover,
+.actions .dropdown-item:active
+.actions-dropdown__item:hover,
+.actions-dropdown__item:active {
+  /*color: var(--white);*/
+  background-color: rgba(0, 123, 255, .2);
+}
+
+.actions .delete .dropdown-item:hover,
+.actions .delete .dropdown-item:active,
+.policy-actions .delete .dropdown-item:hover,
+.policy-actions .delete .dropdown-item:active,
+.actions-dropdown__item.delete:hover,
+.actions-dropdown__item.delete:active {
+  background-color: rgba(255, 0, 0, .2);
+}
 
 /* ---------- NOT CHECKED STYLES - START ---------- */
 .border-dark-progress {

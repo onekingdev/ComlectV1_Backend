@@ -47,6 +47,7 @@ export default {
   width: 1.5625rem;
   max-height: 1.5625rem;
   max-width: 1.5625rem;
-  line-height: 2em;
+  line-height: 2.5em;
+  font-size: .7rem;
 }
 </style>

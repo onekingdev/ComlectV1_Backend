@@ -32,7 +32,7 @@
           .table__cell.text-right(v-if="!shortTable && el.created_at") N/A
           .table__cell(v-if="!shortTable && el.created_at")
             .actions
-              b-dropdown(size="sm" variant="light" class="m-0 p-0" right)
+              b-dropdown(size="sm" variant="none" class="m-0 p-0" right)
                 template(#button-content)
                   b-icon(icon="three-dots")
                 b-dropdown-item(v-if="!el.archived" :href="'/business/compliance_policies/'+el.id") Edit

@@ -17,14 +17,14 @@
       a.btn.btn-warning.btn-topbar.btn-topbar_find(href='/business/specialists')  Find an Expert
       a.btn.btn-topbar.btn-topbar_notify(href='/business/settings/notification-center')
         ion-icon(name='notifications-outline')
-      b-nav-item-dropdown.topbar-right-dropdown(right)
+      b-nav-item-dropdown.topbar-right-dropdown.actions(right)
         // Using 'button-content' slot
         template(#button-content)
           UserAvatar.topbar-right-dropdown__avatar(:user="specialist" :sm="true")
           | {{ specialist.first_name }} {{ specialist.last_name }}
           ion-icon.topbar-right-dropdown__icon(name='chevron-down-outline')
-        b-dropdown-item(@click="openLink('documents')")
-          router-link(to='/business/settings' active-class="active") Settings
+        li(@click="openLink('documents')")
+          router-link.dropdown-item(to='/business/settings' active-class="active") Settings
         b-dropdown-item(@click="signOut") Sign Out
       a.btn.btn-topbar.btn-topbar_help(href="#")
         b-icon.mr-2( icon="question-circle-fill" aria-label="Help")

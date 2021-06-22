@@ -20,7 +20,7 @@
         | Download
     td.text-right
       .actions
-        b-dropdown(size="sm" variant="light" class="m-0 p-0" right)
+        b-dropdown(size="sm" variant="none" class="m-0 p-0" right)
           template(#button-content)
             b-icon(icon="three-dots")
           b-dropdown-item(:href="`/business/annual_reviews/${item.id}`") Edit

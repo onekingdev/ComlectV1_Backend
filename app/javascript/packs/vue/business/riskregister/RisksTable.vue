@@ -43,7 +43,7 @@
               td.text-right {{ dateToHuman(risk.created_at) }}
               td
                 .actions
-                  b-dropdown(size="sm" variant="light" class="m-0 p-0" right)
+                  b-dropdown(size="sm" variant="none" class="m-0 p-0" right)
                     template(#button-content)
                       b-icon(icon="three-dots")
                     RisksAddEditModal(:risks="risksComputed" :riskId="risk.id" :inline="false")

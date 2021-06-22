@@ -39,7 +39,7 @@
         <!--:min="min" :max="max" :formatter="formatter" :tooltip-merge="tooltipMerge" :enable-cross="enableCross"-->
         <!--:bgStyle="bgStyle" :tooltipStyle="tooltipStyle" :processStyle="processStyle" :slider-style="sliderStyle"-->
         <!--:tooltip-dir='tooltipDir')-->
-        .sliedr-contaner
+        .slieder-contaner
           vue-slider(v-model="optionsForRequest.hourlyRate" :enable-cross="false" v-bind="options")
       hr
       h5.d-flex.justify-content-between(role="button" v-b-toggle.collapse_jurisdiction)
@@ -166,13 +166,14 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 /* It's need to remove top triangles of points in vue-range-slider */
 .vue-range-slider.slider-component .slider-tooltip-wrap.slider-tooltip-bottom .slider-tooltip::before {
   display: none;
 }
 .custom-control {
   margin-bottom: 10px;
+  padding-left: 2rem;
 }
 .custom-control-label {
   padding-left: 10px;
@@ -258,7 +259,7 @@ export default {
 </style>
 
 <style>
-  .sliedr-contaner {
+  .slieder-contaner {
     height: 3.5rem;
   }
   .vue-slider-process,
