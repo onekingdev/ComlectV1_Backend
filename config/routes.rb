@@ -31,7 +31,6 @@ Rails.application.routes.draw do
   end
 
   devise_scope :user do
-    get 'users/sign_out/force' => 'users/sessions#destroy'
     get '/squarespace' => 'users/sessions#squarespace'
     get '/squarespace_destroy' => 'users/sessions#squarespace_destroy'
   end
@@ -260,6 +259,7 @@ Rails.application.routes.draw do
     resources :users, only: [] do
       collection do
         post :sign_in, to: 'authentication#create'
+        delete :sign_out, to: 'authentication#destroy'
         post :password, to: 'passwords#create'
         put :password, to: 'passwords#update'
       end
@@ -367,7 +367,6 @@ Rails.application.routes.draw do
       post '/share_project' => 'share_project#create'
     end
     resources :businesses, only: [:create]
-    get '/businesses/current' => 'businesses#current'
     resource :business, only: %i[update] do
       patch '/' => 'businesses#update', as: :update
     end
