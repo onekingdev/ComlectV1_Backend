@@ -15,7 +15,7 @@
     // Right aligned nav items
     b-navbar-nav.flex-row.align-items-center.ml-auto.h-100
       router-link.btn.btn-warning.btn-topbar.btn-topbar_find(v-if="userType === 'business'" :to='`/${userType}/specialists`') Find an Expert
-      router-link.btn.btn-warning.btn-topbar.btn-topbar_find(v-if="userType === 'specialist'" :to='`/${userType}/projects`') Browse Projects
+      router-link.btn.btn-warning.btn-topbar.btn-topbar_find(v-if="userType === 'specialist'" :to='`/${userType}/projects-marketpalce`') Browse Projects
       router-link.btn.btn-topbar.btn-topbar_notify(:to='`/${userType}/settings/notification-center`')
         ion-icon(name='notifications-outline')
       b-nav-item-dropdown.topbar-right-dropdown.actions(right)
