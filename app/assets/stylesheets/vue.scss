@@ -40,15 +40,15 @@ html {
 }
 @media (min-width: 576px) and (max-width: 767px) {}
 @media (max-width: 575px) {
-  .logo {
-    width: 100%;
-    max-width: 100%;
-
-    &__img {
-      width: 100%;
-      max-width: 150px;
-    }
-  }
+  //.logo {
+  //  width: 100%;
+  //  max-width: 100%;
+  //
+  //  &__img {
+  //    width: 100%;
+  //    max-width: 150px;
+  //  }
+  //}
 }
 
 /* ---------- TOP NAVBAR ---------- */
@@ -58,6 +58,7 @@ html {
 
 .topbar {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   height: 5rem; // 80px;
 }
@@ -99,8 +100,11 @@ html {
 //  }
 //}
 
-.topbar-right {}
+.topbar-right {
+
+}
 .topbar-right-btn {
+
   &__find {
     margin-right: 1.875rem; //30px
     color: $black !important;
@@ -123,18 +127,39 @@ html {
     }
   }
   &__help {
-    margin-left: 1.25rem; // 20px;
-    margin-right: 2.5rem; // 40px;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+
+    padding-left: 1.25rem !important; // 20px;
+    padding-right: 2.5rem !important; // 40px;
+    height: 100%;
+
     color: #565759;
     border: none;
+    transition: all 200ms ease-in;
+
+    &:hover,
+    &:active {
+      cursor: pointer;
+      background-color: $gray-hover;
+    }
   }
 }
 .topbar-right-dropdown {
-  padding: 0 1.25rem; // 0 20px
+  display: flex;
+
   border-left: solid 1px $gray-1;
   border-right: solid 1px $gray-1;
   height: 100%;
   color: $black;
+  transition: all 200ms ease-in;
+
+  &:hover,
+  &:active {
+    cursor: pointer;
+    background-color: $gray-hover;
+  }
 
   &__avatar {
     margin-right: 1.25rem; // 20px;
@@ -144,6 +169,12 @@ html {
 
   &__icon {
     margin-left: 0.8125rem;
+  }
+
+  .dropdown-toggle {
+    margin: 0 1.25rem; // 0 20px
+    width: 100%;
+    height: 100%;
   }
 }
 

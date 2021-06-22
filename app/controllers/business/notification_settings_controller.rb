@@ -10,7 +10,8 @@ class Business::NotificationSettingsController < ApplicationController
   # end
 
   def index
-    render html: content_tag('business-notifications-settings-page', '').html_safe, layout: 'vue_business'
+    # render html: content_tag('business-notifications-settings-page', '').html_safe, layout: 'vue_business'
+    render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_main_layout'
   end
 
   # def update

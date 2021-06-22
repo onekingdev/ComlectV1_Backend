@@ -18,6 +18,8 @@ import FileFolders from '@/business/filefolders/Page'
 import Exams from '@/business/exammanagement/Page'
 import ExamCurrentReview from '@/business/exammanagement/PageCurrentReviewExam'
 import Settings from '@/business/settings/Page'
+import SettingsNotifications from '@/business/notifications/Page'
+import SpecialistsMarketplace from '@/business/marketplace/Page'
 
 Vue.use(Router)
 
@@ -108,7 +110,54 @@ export default new Router({
     {
       path: '/business/settings',
       name: 'settings',
-      component: Settings
+      component: Settings,
+      children: [
+        {
+          path: '/business/settings/general',
+          name: 'settings-general',
+          component: Settings,
+        },
+        {
+          path: '/business/settings/users',
+          name: 'settings-users',
+          component: Settings,
+        },
+        {
+          path: '/business/settings/roles',
+          name: 'settings-roles',
+          component: Settings,
+        },
+        {
+          path: '/business/settings/security',
+          name: 'settings-security',
+          component: Settings,
+        },
+        {
+          path: '/business/settings/subscriptions',
+          name: 'settings-subscriptions',
+          component: Settings,
+        },
+        {
+          path: '/business/settings/billings',
+          name: 'settings-billings',
+          component: Settings,
+        },
+        {
+          path: '/business/settings/notifications',
+          name: 'settings-notifications',
+          component: Settings,
+        }
+      ],
+    },
+    {
+      path: '/business/settings/notification-center',
+      name: 'settings-notification-center',
+      component: SettingsNotifications
+    },
+    {
+      path: '/business/specialists',
+      name: 'specialists-marketplace',
+      component: SpecialistsMarketplace
     },
   ],
   mode: 'history'
