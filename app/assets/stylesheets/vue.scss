@@ -400,6 +400,59 @@ html {
   background-color: rgba(255, 0, 0, .2);
 }
 
+
+/* ---------- TABLES ---------- */
+table.table,
+table.table thead tr th {
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: $gray-3;
+  border: 0;
+}
+
+.task_table {
+  tbody ion-icon {
+    font-size: 20px;
+    vertical-align: middle;
+    color: #d2d3d8;
+  }
+  .overdue {
+    &:before {
+      content: ' ⚠️ ';
+    }
+    color: #b08a2b;
+  }
+  .done_task {
+    color: #3488FF;
+  }
+}
+
+
+//table {
+/*width: 400px;*/
+//}
+//table, tr td {
+  /*border: 1px solid red*/
+//}
+.short-table thead {
+  width: calc( 100% - 1em )/* scrollbar is average 1em/16px width, remove it from thead width */
+}
+.short-table tbody {
+  display: block;
+  max-height: 20rem;
+  overflow: auto;
+}
+.short-table thead,
+.short-table tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;/* even columns width , fix width of table too*/
+}
+
+
+
+
+
 /* ---------- NOT CHECKED STYLES - START ---------- */
 .border-dark-progress {
   border-top: 4px solid #2F304F;
@@ -529,28 +582,7 @@ html {
 .btn.btn-default:hover,
 .btn.btn-default:active { background-color: #F3F6F9; }
 
-table.table, table.table thead tr th {
-  border: 0px;
-  color: #767779;
-  font-weight: 500;
-}
 
-.task_table {
-  tbody ion-icon {
-    font-size: 20px;
-    vertical-align: middle;
-    color: #d2d3d8;
-  }
-  .overdue {
-    &:before {
-      content: ' ⚠️ ';
-    }
-    color: #b08a2b;
-  }
-  .done_task {
-    color: #3488FF;
-  }
-}
 
 .white-card-body {
   background-color: $white;

@@ -1,5 +1,5 @@
 <template lang="pug">
-  table.table.task_table
+  table.table.task_table(:class="{ 'short-table': shortTable }")
     thead
       tr
         th Name
@@ -22,6 +22,11 @@ export default {
     tasks: {
       type: Array,
       required: true
+    },
+    shortTable: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   methods: {
