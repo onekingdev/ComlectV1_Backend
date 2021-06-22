@@ -1,3 +1,4 @@
+// REMOVE LATER UTILITES (unneed)
 @import "_vue_utilities.scss";
 @import "_vue_theme.scss";
 
@@ -9,7 +10,7 @@ body {
   min-width: 1440px;
 }
 body.modal-open {
-  overflow: visible;
+  overflow: hidden !important;
 }
 
 html {
