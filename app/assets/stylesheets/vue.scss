@@ -100,12 +100,16 @@ html {
 //  }
 //}
 
-.topbar-right {
+.btn-topbar {
+  transition: all 200ms ease-in;
 
-}
-.topbar-right-btn {
+  &:hover,
+  &:active {
+    cursor: pointer;
+    background-color: $gray-hover;
+  }
 
-  &__find {
+  &_find {
     margin-right: 1.875rem; //30px
     color: $black !important;
     font-weight: 600 !important;
@@ -117,7 +121,7 @@ html {
       background-color: #ffdc5b;
     }
   }
-  &__notify {
+  &_notify {
     margin-right: 1.875rem; //30px
     border: none;
     border-radius: 50%;
@@ -126,7 +130,7 @@ html {
       font-size: 25px;
     }
   }
-  &__help {
+  &_help {
     display: flex !important;
     justify-content: center;
     align-items: center;
@@ -137,13 +141,6 @@ html {
 
     color: #565759;
     border: none;
-    transition: all 200ms ease-in;
-
-    &:hover,
-    &:active {
-      cursor: pointer;
-      background-color: $gray-hover;
-    }
   }
 }
 .topbar-right-dropdown {
@@ -274,7 +271,7 @@ html {
 }
 
 //.nav-tabs {
-//  margin-left: 2.5rem;
+//  padding-left: 2.5rem;
 //}
 //
 .nav-tabs .nav-item .nav-link {
@@ -282,8 +279,15 @@ html {
   //margin-right: 2.5rem; // 40px
 }
 
-.nav-tabs .nav-item a {
-  margin-left: 2.5rem !important;
+//.nav-tabs .nav-item a {
+//  margin-left: 2.5rem !important;
+//}
+
+.nav-tabs .nav-item:first-child {
+  margin-left: 2.5rem;
+}
+.nav-tabs .nav-item:not(:last-child) {
+  margin-right: 1.25rem;
 }
 
 .nav-tabs .nav-item .nav-link.active {

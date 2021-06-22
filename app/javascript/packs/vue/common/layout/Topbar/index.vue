@@ -13,9 +13,9 @@
           li.nav-item.topbar-menu__item.d-none
             a.topbar-menu__link(aria-current='page' href='#') Community
     // Right aligned nav items
-    b-navbar-nav.flex-row.align-items-center.ml-auto.h-100.topbar-right
-      a.btn.btn-warning.topbar-right-btn__find(href='/business/specialists')  Find an Expert
-      a.btn.topbar-right-btn__notify(href='/business/settings/notification-center')
+    b-navbar-nav.flex-row.align-items-center.ml-auto.h-100
+      a.btn.btn-warning.btn-topbar.btn-topbar_find(href='/business/specialists')  Find an Expert
+      a.btn.btn-topbar.btn-topbar_notify(href='/business/settings/notification-center')
         ion-icon(name='notifications-outline')
       b-nav-item-dropdown.topbar-right-dropdown(right)
         // Using 'button-content' slot
@@ -26,7 +26,7 @@
         b-dropdown-item(@click="openLink('documents')")
           router-link(to='/business/settings' active-class="active") Settings
         b-dropdown-item(@click="signOut") Sign Out
-      a.btn.topbar-right-btn__help(href="#")
+      a.btn.btn-topbar.btn-topbar_help(href="#")
         b-icon.mr-2( icon="question-circle-fill" aria-label="Help")
         | Help
 </template>
