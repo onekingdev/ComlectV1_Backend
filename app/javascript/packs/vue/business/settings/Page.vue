@@ -14,7 +14,7 @@
               li.settings-nav__item(v-for='(item, idx) in menu' :key="idx" @click="openSetting(item.link, $event)" :class="{ active: item.link === component }")
                 a.settings-nav__link(:href='item.link') {{ item.name }}
         .col-md-9
-          component(v-bind:is="component" :states="states", :timezones="timezones", :contries="contries", :userId="userId" @upgradOpen="upgradOpen")
+          component(v-bind:is="component" :states="states", :timezones="timezones", :contries="contries", :userId="userId" @openComponent="openComponent")
 
 </template>
 
@@ -28,6 +28,7 @@
   import Billings from "./components/billings";
   import Notifications from "./components/notifications";
   import SelectPlan from './components/subscriptions/components/SelectPlan'
+  import SelectBilling from './components/billings/components/SelectBilling'
 
   export default {
     props: ['states', 'timezones', 'contries', 'userId'],
@@ -41,6 +42,7 @@
       Billings,
       Notifications,
       SelectPlan,
+      SelectBilling,
     },
     created() {
       // this.component = General;
@@ -83,12 +85,10 @@
 
         this.navigate(name)
       },
-      upgradOpen () {
-        // console.log('open')
-        this.componentUpgrade = SelectPlan
+      openComponent (value) {
+        this.componentUpgrade = value
       },
       upgradePlanComplited () {
-        // console.log('open')
         this.componentUpgrade = ''
         this.toast('Success', 'Plan upgraded.')
       },

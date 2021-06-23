@@ -25,7 +25,7 @@
                 .col.text-right
                   BillingMethodModalAdd(@selected="addMethod")
                     b-button.btn.mr-2.font-weight-bold(type='button' variant='default') Add Method
-                  CardModalAdd(:billingMethod="billingMethod")
+                  BillingMethodCardModalAdd(:billingMethod="billingMethod")
                     b-button.d-none(ref="special") Card add
               .row
                 .col
@@ -47,13 +47,13 @@
   import InvoicesTable from "./components/InvoicesTable";
   import PaymentMethod from "./components/PaymentMethod";
   import BillingMethodModalAdd from "./modals/BillingMethodModalAdd";
-  import CardModalAdd from "./modals/CardModalAdd";
+  import BillingMethodCardModalAdd from "./modals/CardModalAdd";
   import ClientBilling from "./components/ClientBilling";
 
   export default {
     components: {
       ClientBilling,
-      CardModalAdd,
+      BillingMethodCardModalAdd,
       BillingMethodModalAdd,
       PaymentMethod,
       InvoicesTable,

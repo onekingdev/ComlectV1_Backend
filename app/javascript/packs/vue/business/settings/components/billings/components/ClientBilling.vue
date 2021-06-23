@@ -12,7 +12,7 @@
                   p.mb-0 Add how you would like to receive your funds by clicking "Add Method"
             .col
               .d-flex.justify-content-end.align-items-center.h-100
-                b-button.btn.font-weight-bold(type='button' variant='default' @click="$emit('addMethodOpen')") Add Methhod
+                b-button.btn.font-weight-bold(type='button' variant='default' @click="$emit('openComponent', 'SelectBilling')") Add Methhod
     .card.mb-2(v-for="billing in clientBilling" :key="billing.id")
       .card-title
       .card-body

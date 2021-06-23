@@ -16,7 +16,7 @@
                     b Plan
               .row
                 .col
-                  Plan(@upgradOpen="$emit('upgradOpen')")
+                  Plan(@openComponent="openComponent")
             hr
             .settings___card--internal.p-y-1
               .row
@@ -48,7 +48,9 @@
       };
     },
     methods: {
-
+      openComponent (value) {
+        this.$emit('openComponent', value)
+      }
     },
     computed: {
       loading() {
