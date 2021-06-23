@@ -141,3 +141,15 @@ export async function deletePaymentMethod(payload) {
     })
     .catch(err => err)
 }
+
+export async function makePrimaryPaymentMethod(payload) {
+  const { userType, id } = {...payload}
+  return await axios.put(`/${userType}/payment_settings/make_primary/${id}`)
+    .then(response => {
+      if (response) {
+        return response
+      }
+      return false
+    })
+    .catch(err => err)
+}
