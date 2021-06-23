@@ -72,7 +72,9 @@ body class="#{controller_name} #{action_name}"
                     ion-icon.m-l-1(name='chevron-down-outline')
                   ul.dropdown-menu(aria-labelledby="profile_dropdown_btn" :class="{ show: isProfileMenuOpen }")
                     li
-                      a.dropdown-item(aria-current='page' href='/specialist/settings' class="#{'active' if params[:controller] == 'specialist/settings'}") Edit Profile
+                      a.dropdown-item(aria-current='page' href='/specialist/settings' class="#{'active' if params[:controller] == 'specialist/settings'}") Settings
+                    li
+                      a.dropdown-item(aria-current='page' href='/specialist/profile' class="#{'active' if params[:controller] == 'specialist/profile'}") Edit Profile
                     li
                       form(method="POST" action=destroy_user_session_path)
                         input(type="hidden" name="authenticity_token" value=form_authenticity_token)

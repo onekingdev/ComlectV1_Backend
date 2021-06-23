@@ -7,8 +7,10 @@ import MyProjectShowPage from '@/specialist/projects/MyProjectShowPage'
 import ProjectTimesheetsPage from '@/specialist/projects/ProjectTimesheetsPage'
 
 import SpecialistSettingsPage from './vue/specialist/settings/Page.vue'
+import SpecialistProfilePage from './vue/specialist/profile/Page.vue'
 const SpecialistSettings = {
   SpecialistSettingsPage,
+  SpecialistProfilePage,
 }
 
 init({
