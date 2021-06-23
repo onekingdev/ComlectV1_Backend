@@ -7,11 +7,16 @@
           p.mb-1: b {{ item.first_name + ' ' +  item.last_name }}
           p.mb-0 {{ item.email }}
     td
-      b-form-checkbox(v-model="item.checked") {{item.checked ? 'Trusted' : 'Basic'}}
+      .d-flex.align-items-center
+        ion-icon.black(v-if="item.role === 'admin'" name="people-outline" size="small")
+        b-icon(v-if="item.role === 'trusted'" icon="check-square-fill" scale="2" variant="success")
+        ion-icon.grey(v-if="item.role === 'basic'" name="person-circle-outline" size="small")
+        span.ml-3 {{ item.role | capitalize }}
     td(v-if="disabled") {{ item.reason }}
     td
-      b-form-checkbox(v-if="item.access" v-model="item.access") {{item.access ? '' : '-'}}
-      div(v-if="!item.access") -
+      .d-flex.align-items-center
+        b-icon(v-if="item.access" icon="check-circle-fill" scale="2" variant="success")
+        div(v-if="!item.access") -
     td.text-right {{ item.created_at | dateToHuman }}
     td.text-right(v-if="disabled") {{ item.disabled_at | dateToHuman }}
     td.text-right
@@ -71,10 +76,23 @@
           return value
         }
       },
-    }
+      capitalize: function (value) {
+        if (!value) return ''
+        value = value.toString()
+        return value.charAt(0).toUpperCase() + value.slice(1)
+      }
+    },
   }
 </script>
 
 <style scoped>
 
+</style>
+<style>
+  ion-icon.black {
+    color: #303132;
+  }
+  ion-icon.grey {
+    color: #c6c8ce;
+  }
 </style>

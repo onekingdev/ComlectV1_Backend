@@ -5,7 +5,7 @@
         .col-md-3
           .panel-default
             ul.settings-nav
-              li.settings-nav__item(v-for='(item, idx) in menu' :key="idx" @click="openSetting(item.name, $event)" :class="{ active: idx === 0 }")
+              li.settings-nav__item(v-for='(item, idx) in menu' :key="idx" @click="openSetting(item.link, $event)" :class="{ active: item.link === component }")
                 a.settings-nav__link(:href='item.link') {{ item.name }}
         .col-md-9
           component(v-bind:is="component")
@@ -50,13 +50,13 @@
       return {
         component: '',
         menu: [
-          { name: 'General', link: '#' },
-          { name: 'ClientPermisssions', link: '#' },
-          { name: 'Users', link: '#' },
-          { name: 'Security', link: '#' },
-          { name: 'Subscriptions', link: '#' },
-          { name: 'Billings', link: '#' },
-          { name: 'Notifications', link: '#' },
+          { name: 'General', link: 'General' },
+          { name: 'Client Permisssions', link: 'ClientPermisssions' },
+          { name: 'Users', link: 'Users' },
+          { name: 'Security', link: 'Security' },
+          { name: 'Subscriptions', link: 'Subscriptions' },
+          { name: 'Billings', link: 'Billings' },
+          { name: 'Notifications', link: 'Notifications' },
         ]
       };
     },
