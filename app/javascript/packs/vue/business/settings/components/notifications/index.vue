@@ -213,7 +213,6 @@
       try {
         await this.$store.dispatch('settings/getNotificationsSettings')
           .then(response => {
-            console.log(response)
             for(const [key, value] of Object.entries(response)) {
               if (key === 'in_app_notifications') {
                 for(const [keyIn, valueIn] of Object.entries(value)) {
