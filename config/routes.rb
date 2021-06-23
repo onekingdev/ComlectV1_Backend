@@ -116,6 +116,8 @@ Rails.application.routes.draw do
     get 'settings' => 'settings#show'
     get 'settings/:id' => 'settings#show'
 
+    get 'profile' => 'profile#show'
+
     resources :specialists, only: :index
     concerns :favoriteable
     resources :messages

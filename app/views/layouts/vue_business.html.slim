@@ -100,7 +100,7 @@ body class="#{controller_name} #{action_name}"
                     ion-icon(name='search-outline')
                     | Exam Management
                 li.nav-item
-                  a.btn(aria-current='page' href='#')
+                  a.btn(aria-current='page' href='/business/settings' class="#{'active' if params[:controller] == 'business/settings'}")
                     ion-icon(name='settings-outline')
                     | Settings
         main.col-md-9.col-lg-10#main-content.px-0
@@ -128,7 +128,7 @@ body class="#{controller_name} #{action_name}"
                     ion-icon.m-l-1(name='chevron-down-outline')
                   ul.dropdown-menu(aria-labelledby="profile_dropdown_btn" :class="{ show: isProfileMenuOpen }")
                     li
-                      a.dropdown-item(aria-current='page' href='/business/settings' class="#{'active' if params[:controller] == 'business/settings'}") Edit Profile
+                      a.dropdown-item(aria-current='page' href='/business/profile' class="#{'active' if params[:controller] == 'business/profile'}") Edit Profile
                     li
                       form(method="POST" action=destroy_user_session_path)
                         input(type="hidden" name="authenticity_token" value=form_authenticity_token)

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Business::SettingsController < ApplicationController
+class Business::ProfileController < ApplicationController
   include ActionView::Helpers::TagHelper
 
   before_action :require_business!
@@ -10,7 +10,7 @@ class Business::SettingsController < ApplicationController
   # end
 
   def show
-    render html: content_tag('business-settings-page', '',
+    render html: content_tag('business-profile-page', '',
                              ':states': State.fetch_all_usa.to_json,
                              ':timezones': timezones_json,
                              ':contries': ISO3166::Country.all.collect(&:name).to_json,
