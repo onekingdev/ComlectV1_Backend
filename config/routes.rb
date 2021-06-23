@@ -174,6 +174,7 @@ Rails.application.routes.draw do
     resource :help, only: :show do
       resource :questions
     end
+    get 'profile' => 'profile#show'
     resource :settings, only: :show do
       resource :password
       resource :contact_information, only: %i[show update]
@@ -357,7 +358,6 @@ Rails.application.routes.draw do
       get '/favorites' => 'favorites#index'
       patch '/favorites' => 'favorites#update'
       post '/share_project' => 'share_project#create'
-      get 'profile' => 'profile#show
     end
     resources :businesses, only: [:create]
     resource :business, only: %i[update] do
