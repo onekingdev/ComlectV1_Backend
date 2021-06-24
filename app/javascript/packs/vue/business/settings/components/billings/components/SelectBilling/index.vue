@@ -7,16 +7,16 @@
         .steps
           .step(:class="navStep1 ? 'active' : ''")
             h4.step__name 1. Account information
-          .step(:class="navStep2 ? 'active' : ''")
-            h4.step__name 2. Personal Information
           .step(:class="navStep3 ? 'active' : ''")
+            h4.step__name 2. Personal Information
+          .step(:class="navStep4 ? 'active' : ''")
             h4.step__name 3. Payout type
       Overlay(v-if="overlay", :status="overlayStatus", :statusText="overlayStatusText", :show="overlay")
       .div
         Loading
         b-form(@submit='onSubmit' @change="onChangeInput" v-if='show')
           #step1.form(v-if='!loading' :class="step1 ? 'd-block' : 'd-none'")
-            .row.d-none
+            .row
               .col-md-6
                 .row
                   .col
@@ -71,11 +71,12 @@
                     b-form-group#inputB-group-2(label='Email' label-for='inputB-2' description="We'll send you a confirmation code to confirm")
                       b-form-input#inputB-2(v-model='formStep1.business.email' type='text' placeholder='Email' required :class="{'is-invalid': errors.email }")
                       .invalid-feedback.d-block(v-if="errors.email") {{ errors.email[0] }}
-            .row.d-none
+            .row
               .col
                 .text-right
-                  a.btn.link.mr-2(href="#") Cancel
-                  b-button(type='button' variant='dark' @click="nextStep(2)") Next
+                  // a.btn.link.mr-2(href="#" @click="$emit('openComponent', 'Billings')") Cancel
+                  b-button(type='button' variant='dark' @click="navigateTo(1)") Next
+          div(v-if='!loading' :class="step2 ? 'd-block' : 'd-none'")
             .row
               .col-md-6.mx-auto
                 .card
@@ -86,7 +87,7 @@
                       b-form
                         b-form-group
                           .col.text-center
-                            ion-icon(name="mail-outline")
+                            ion-icon.email(name="mail-outline")
                         b-form-group
                           .row
                             .col-12.mx-0
@@ -101,12 +102,12 @@
                           .row
                             .col
                               input(type='hidden')
-                        b-button.w-100.mb-2(type='submit' variant='dark' ref="codesubmit") Submit
+                        b-button.w-100.mb-2(type='submit' variant='dark' ref="codesubmit" @click="navigateTo(1)") Submit
                         b-form-group
                           .row
                             .col-12.text-center
                               button.btn.link  Resend code
-          #step2.form(v-if='!loading'  :class="step2 ? 'd-block' : 'd-none'")
+          #step2.form(v-if='!loading'  :class="step3 ? 'd-block' : 'd-none'")
             div.d-flex.justify-content-between
               .text-left
                 h3.onboarding__title Tell us more about yourself:
@@ -160,10 +161,10 @@
                   b-form-input#inputB-11(v-model='formStep2.business.zipcode' placeholder='Zip' required :class="{'is-invalid': errors.zipcode }")
                   .invalid-feedback.d-block(v-if="errors.zipcode") {{ errors.zipcode[0] }}
             .text-right.m-t-3
-              b-button.mr-2(type='button' variant='default' @click="prevStep(1)") Go back
+              b-button.mr-2(type='button' variant='default' @click="navigateTo(-1)") Go back
               // b-button.mr-2(type='button' variant='outline-primary' @click="nextStep(3)") Skip this step
-              b-button(type='button' variant='dark' @click="nextStep(3)") Next
-          #step3.form(v-if='!loading'  :class="step3 ? 'd-block' : 'd-none'")
+              b-button(type='button' variant='dark' @click="navigateTo(1)") Next
+          #step3.form(v-if='!loading'  :class="step4 ? 'd-block' : 'd-none'")
             .row
               .col-md-6
                 div.d-flex.justify-content-between
@@ -186,39 +187,18 @@
                       .invalid-feedback.d-block(v-if="errors.confirm_acc_num") {{ errors.confirm_acc_num[0] }}
             .row
               .col.text-right.mt-3
-                b-button.mr-2(type='button' variant='default' @click="prevStep(2)") Go back
-                b-button(type='button' variant='primary') Submit
+                b-button.mr-2(type='button' variant='default' @click="navigateTo(-1)") Go back
+                b-button(type='button' variant='dark') Submit
 </template>
 
 <script>
   import VueGoogleAutocomplete from 'vue-google-autocomplete'
 
-  const {DateTime} = require('luxon')
-  const {zones} = require('tzdata')
-  const luxonValidTimeZoneName = function (zoneName) {
-    let hours = (DateTime.local().setZone(zoneName).offset / 60);
-    let rhours = Math.floor(hours)
-    let rhoursView = Math.floor(hours) < 10 && Math.floor(hours) >= 0 ? '0'+Math.round(hours) : '-0'+Math.abs(hours)
-    let minutes = (hours - rhours) * 60;
-    let rminutes = Math.round(minutes) === 0 ? '0'+Math.round(minutes) : Math.round(minutes)
-    let zoneNameView = zoneName.split('/')[1] ? zoneName.split('/')[1].replace('_', ' ') : zoneName
-
-    return `(GMT ${rhoursView}:${rminutes}) ${zoneNameView}`
-  }
-  const luxonValidTimezones = Object.entries(zones)
-    .filter(([zoneName, v]) => Array.isArray(v))
-    .map(([zoneName, v]) => zoneName)
-    .filter(tz => DateTime.local().setZone(tz).isValid)
-    .map(zoneName => `${luxonValidTimeZoneName(zoneName)}`)
-
   import Loading from '@/common/Loading/Loading'
   import TopNavbar from "@/auth/components/TopNavbar";
   import Multiselect from 'vue-multiselect'
-  import BillingDetails from './BillingDetails'
-  import PurchaseSummary from './PurchaseSummary'
   import Overlay from './Overlay'
 
-  import data from './BillingPlansData.json'
   import OtpConfirm from "@/auth/components/OtpConfirm";
 
   const initialAccountInfo = () => ({
@@ -268,74 +248,11 @@
       Loading,
       TopNavbar,
       Multiselect,
-      BillingDetails,
-      PurchaseSummary,
       Overlay,
       VueGoogleAutocomplete
     },
     created() {
-      // if(luxonValidTimezones) this.timeZoneOptions = luxonValidTimezones;
-      if(luxonValidTimezones) {
-        for (const value of luxonValidTimezones) {
-          const [ gmt, zone ] = value.split(') ')
-          this.timeZoneOptions.push({
-            value: zone,
-            name: value
-          })
-        }
-      }
-      if(this.industryIds) this.industryOptions = this.industryIds;
-      // if(this.subIndustryIds) this.formStep2.subIndustryOptions = this.subIndustryIds;
-      // if(this.subIndustryIds) {
-      //   for (const [key, value] of Object.entries(this.subIndustryIds)) {
-      //     this.formStep2.subIndustryOptions.push({
-      //       value: key,
-      //       name: value
-      //     })
-      //   }
-      // }
-      if(this.jurisdictionIds) this.jurisdictionOptions = this.jurisdictionIds;
-      if(this.states) this.stateOptions = this.states;
 
-      const accountInfo = localStorage.getItem('app.currentUser');
-      const accountInfoParsed = JSON.parse(accountInfo);
-      if(accountInfo) {
-        if(accountInfo.crd_number) this.formStep1.crd_number = accountInfo.crd_number
-        this.formStep2.business = Object.assign({}, this.formStep2.business, { ...accountInfoParsed })
-        this.onChange(accountInfoParsed.industries)
-
-        this.formStep2.business.sub_industries = accountInfoParsed.sub_industries ? accountInfoParsed.sub_industries.map((subInd, idx) => {
-          const subIndfromOpt = this.subIndustryOptions.find(opt => {
-            if (opt.name === subInd)
-              return opt
-          })
-          return {
-            name: subIndfromOpt.name,
-            value: subIndfromOpt.value
-          }
-        }) : []
-      }
-
-      const url = new URL(window.location);
-      const stepNum = +url.searchParams.get('step');
-      this.currentStep = stepNum;
-
-      if (stepNum === 2) {
-        this.step1 = false;
-        this.step2 = true;
-        this.step3 = false;
-        this.navStep1 = true;
-        this.navStep2 = true;
-        this.navStep3 = false;
-      }
-      if (stepNum === 3) {
-        this.step1 = false;
-        this.step2 = false;
-        this.step3 = true;
-        this.navStep1 = true;
-        this.navStep2 = true;
-        this.navStep3 = true;
-      }
     },
     data() {
       return {
@@ -354,10 +271,12 @@
         step1: true,
         step2: false,
         step3: false,
+        step4: false,
         currentStep: 1,
         navStep1: true,
         navStep2: false,
         navStep3: false,
+        navStep4: false,
 
         overlay: false,
         overlayStatus: '',
@@ -367,95 +286,27 @@
     methods: {
       onSubmit(event){
         event.preventDefault()
-      },
-      navigation(stepNum){
-        const url = new URL(window.location);
-        url.searchParams.set('step', stepNum);
-        window.history.pushState({}, '', url);
 
-        this['step'+(stepNum-1)] = false
-        this['navStep'+stepNum] = true
-        this['step'+stepNum] = true
-        this.currentStep = stepNum
+        // this.$emit('upgradeBillingComplited')
       },
-      prevStep(stepNum) {
-        this['step'+(stepNum+1)] = false
-        this['navStep'+(stepNum+1)] = false
-        this['step'+stepNum] = true
-        this.currentStep = stepNum
-        this.navigation(this.currentStep)
-      },
-      nextStep(stepNum) {
-        // CLEAR ERRORS
-        this.errors = []
+      navigateTo(direction) {
+        this.currentStep = this.currentStep + direction
 
-        if (stepNum === 2) {
-          if (this.formStep1.crd_numberSelected === 'yes') {
-            this.checkCDRinfo(stepNum)
-            return
-          }
-          if (this.formStep1.crd_numberSelected === 'no') this.formStep1.crd_number = ''
-
-          this['step'+(stepNum-1)] = false
-          this['navStep'+stepNum] = true
-          this['step'+stepNum] = true
-          this.currentStep = stepNum
-          this.navigation(this.currentStep)
+        if (direction > 0) {
+          this['navStep' + this.currentStep] = true;
+          this['step' + this.currentStep] = true
+          this['step' + (this.currentStep - 1)] = false
         }
 
-        if (stepNum === 3) {
-
-          // if (!this.formStep2.business.industry) this.errors = Object.assign({}, this.errors, { industry: `Field can't be empty!` })
-          // if (!this.formStep2.business.subIndustry) this.errors = Object.assign({}, this.errors, { subIndustry: `Field can't be empty!` })
-          // if (!this.formStep2.business.jurisdiction) this.errors = Object.assign({}, this.errors, { jurisdiction: `Field can't be empty!` })
-          // if (!this.formStep2.business.industry || !this.formStep2.business.subIndustry || !this.formStep2.business.jurisdiction ) return
-
-          delete this.formStep2.errors
-          const dataToSend = this.formStep2
-          if(!this.formStep1.crd_number.length) delete dataToSend.business.crd_number
-
-          dataToSend.business.industry_ids = this.formStep2.business.industries ? this.formStep2.business.industries.map(record => record.id) : []
-          dataToSend.business.sub_industry_ids = this.formStep2.business.sub_industries ? this.formStep2.business.sub_industries.map(record => record.value) : []
-          dataToSend.business.jurisdiction_ids = this.formStep2.business.jurisdictions ? this.formStep2.business.jurisdictions.map(record => record.id) : []
-          dataToSend.business.time_zone = this.formStep2.business.time_zone ? this.formStep2.business.time_zone.value : ''
-
-          // delete dataToSend.business.industries
-          // delete dataToSend.business.sub_industries
-          // delete dataToSend.business.jurisdictions
-
-          this.$store.dispatch('updateAccountInfo', dataToSend)
-            .then(response => {
-              if(response.errors) {
-                for (const type of Object.keys(response.errors)) {
-                  this.errors = response.errors[type]
-                  this.toast('Error', `Form has errors! Please recheck fields!`)
-                }
-              }
-              if(!response.errors) {
-                this['step'+(stepNum-1)] = false
-                this['navStep'+stepNum] = true
-                this['step'+stepNum] = true
-                this.currentStep = stepNum
-                this.navigation(this.currentStep)
-                this.toast('Success', `Company info successfully sended!`)
-              }
-            })
-            .catch(error => {
-              console.error(error)
-              this.toast('Error', `Something wrong! ${error}`)
-            })
+        if (direction < 0) {
+          this['navStep' + this.currentStep] = true;
+          this['step' + this.currentStep] = true
+          this['navStep' + (this.currentStep + 1)] = false;
+          this['step' + (this.currentStep + 1)] = false
         }
       },
-
-      onBiliingChange(event) {
-        this.billingTypeSelected = event
-      },
-      updateAdditionalUsers(event){
-        this.additionalUsers = event
-      },
-      complitedPaymentMethod(response) {
-        this.paymentSourceId = response.id
-        this.disabled = false;
+      onChange (value) {
+        console.log(value)
       },
       onChangeInput(e) {
         if(e.target) e.target.classList.remove('is-invalid')
@@ -603,6 +454,10 @@
     border: solid 3px white;
     border-radius: 50%;
     box-shadow: 0 0 0px 2px black;
+  }
+
+  ion-icon.email {
+    font-size: 64px;
   }
 </style>
 

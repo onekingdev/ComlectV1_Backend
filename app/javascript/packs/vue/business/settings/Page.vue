@@ -6,7 +6,7 @@
           .col-md-9.mx-auto.my-2
             .card
               .card-body
-                component(v-bind:is="componentUpgrade" @upgradePlanComplited="upgradePlanComplited")
+                component(v-bind:is="componentUpgrade" @upgradePlanComplited="upgradePlanComplited" @upgradeBillingComplited="upgradeBillingComplited")
       .row.p-t-3(v-if='!componentUpgrade')
         .col-md-3
           .panel-default
@@ -91,6 +91,10 @@
       upgradePlanComplited () {
         this.componentUpgrade = ''
         this.toast('Success', 'Plan upgraded.')
+      },
+      upgradeBillingComplited () {
+        this.componentUpgrade = ''
+        this.toast('Success', 'Billing upgraded.')
       },
       navigate(name) {
         const baseUrl = new URL(window.location.origin);
