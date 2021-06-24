@@ -1,232 +1,193 @@
 <template lang="pug">
   div
-    .card-body.white-card-body.registration-onboarding.p-5
-      Overlay(v-if="overlay", :status="overlayStatus", :statusText="overlayStatusText", :show="overlay")
+    .card-body
       .div
-        h2 Set Up Your Account
+        h2 Set Up Client Billing
         hr
         .steps
           .step(:class="navStep1 ? 'active' : ''")
-            h4.step__name 1. CRD Number
+            h4.step__name 1. Account information
           .step(:class="navStep2 ? 'active' : ''")
-            h4.step__name 2. Company Information
+            h4.step__name 2. Personal Information
           .step(:class="navStep3 ? 'active' : ''")
-            h4.step__name 3. Choose plan
-      Loading
-      b-form(@submit='onSubmit' @change="onChangeInput" v-if='show')
-        #step1.form(v-if='!loading' :class="step1 ? 'd-block' : 'd-none'")
-          .row
-            .col
-              h3 Do you have a CRD number?
-                b-icon.h5.ml-2.mb-1(icon="exclamation-circle-fill" variant="secondary" v-b-tooltip.hover title="Automated update company info by CRD number")
-          p.m-b-2 The CRD number will be used to gather additional information about your business.
-          .row
-            .col
-              b-form-group.p-x-1(v-slot='{ ariaDescribedby }')
-                b-form-radio-group(v-model='formStep1.crd_numberSelected' :options='formStep1.crd_numberOptions' :aria-describedby='ariaDescribedby' name='radios-stacked' stacked)
-          .row
-            .col-lg-4
-              .row
-                .col-md-10.offset-lg-1.pr-0
-                  b-form-group(v-if="formStep1.crd_numberSelected === 'yes'" label='What is your CRD number?' label-class="label pb-0")
-                    b-form-input(v-model="formStep1.crd_number" placeholder="Enter your CRD number" :class="{'is-invalid': errors.crd_number }")
-                    .invalid-feedback.d-block(v-if="errors.crd_number") {{ errors.crd_number }}
-          .row
-            .col
-              .text-right
-                b-button(type='button' variant='dark' @click="nextStep(2)") Next
-        #step2.form(v-if='!loading'  :class="step2 ? 'd-block' : 'd-none'")
-          b-alert(v-if="formStep1.crd_number && formStep1.crd_number.length" show variant="primary" dismissible)
-            h4 Verify information
-            p.mb-0 The following fields were filled in based on the CRD number you provided. Please carefully review each field before proceeding.
-          h3 Tell us more about your business
-          .row
-            .col-xl-6.pr-xl-2
-              b-form-group#inputB-group-1(label='Company Name' label-for='inputB-1' label-class="required")
-                b-form-input#inputB-1(v-model='formStep2.business.business_name' type='text' placeholder='Company Name' required :class="{'is-invalid': errors.business_name }")
-                .invalid-feedback.d-block(v-if="errors.business_name") {{ errors.business_name[0] }}
-          .row
-            .col-sm.pr-sm-2
-              b-form-group#inputB-group-2(label='AUM' label-for='inputB-2')
-                b-form-input#inputB-2(v-model='formStep2.business.aum' type='text' placeholder='AUM' required :class="{'is-invalid': errors.aum }")
-                .invalid-feedback.d-block(v-if="errors.aum") {{ errors.aum[0] }}
-            .col-sm.pl-sm-2
-              b-form-group#inputB-group-3(label='Number of Accounts' label-for='inputB-3')
-                b-form-input#inputB-3(v-model='formStep2.business.client_account_cnt' type='text' placeholder='Number of Accounts' required :class="{'is-invalid': errors.client_account_cnt }")
-                .invalid-feedback.d-block(v-if="errors.client_account_cnt") {{ errors.client_account_cnt[0] }}
-          .row
-            .col-sm-6.pr-sm-2
-              b-form-group#inputB-group-4(label='Industry' label-for='selectB-4' label-class="required")
-                div(
-                :class="{ 'invalid': errors.industries }"
-                )
-                  multiselect#selectB-4(
-                  v-model="formStep2.business.industries"
-                  :options="industryOptions"
-                  :multiple="true"
-                  :show-labels="false"
-                  track-by="name",
-                  label="name",
-                  placeholder="Select Industry",
-                  @input="onChange",
-                  required)
-                  .invalid-feedback.d-block(v-if="errors.industries") {{ errors.industries[0] }}
-                  // label.typo__label.form__label(v-if="errors.industries") {{ errors.industries[0] }}
-            .col-sm-6.pl-sm-2
-              b-form-group#inputB-group-5(label='Sub-Industry' label-for='selectB-5' label-class="required")
-                div(
-                :class="{ 'invalid': errors.subIndustry }"
-                )
-                  multiselect#selectB-5(
-                  v-model="formStep2.business.sub_industries"
-                  :options="subIndustryOptions"
-                  :multiple="true"
-                  :show-labels="false"
-                  track-by="name",
-                  label="name",
-                  placeholder="Select Sub-Industry",
-                  required)
-                  .invalid-feedback.d-block(v-if="errors.subIndustry") {{ errors.subIndustry[0] }}
-          .row
-            .col-sm-6.pr-sm-2
-              b-form-group#inputB-group-6(label='Jurisdiction' label-for='selectB-6' label-class="required")
-                div(
-                :class="{ 'invalid': errors.jurisdiction }"
-                )
-                  multiselect#selectB-6(
-                  v-model="formStep2.business.jurisdictions"
-                  :options="jurisdictionOptions"
-                  :multiple="true"
-                  :show-labels="false"
-                  track-by="name",
-                  label="name",
-                  placeholder="Select Jurisdiction",
-                  required)
-                  .invalid-feedback.d-block(v-if="errors.jurisdiction") {{ errors.jurisdiction[0] }}
-            .col-sm-6.pl-sm-2
-              b-form-group#inputB-group-7(label='Time Zone' label-for='selectB-7' label-class="required")
-                div(
-                :class="{ 'invalid': errors.time_zone }"
-                )
-                  multiselect#selectB-7(
-                  v-model="formStep2.business.time_zone"
-                  :options="timeZoneOptions"
-                  :multiple="false"
-                  :show-labels="false"
-                  track-by="name",
-                  label="name"
-                  placeholder="Select Time Zone",
-                  required)
-                  .invalid-feedback.d-block(v-if="errors.time_zone") {{ errors.time_zone[0] }}
-          .row
-            .col-sm-6.pr-sm-2
-              b-form-group#inputB-group-8(label='Phone Number' label-for='inputB-8')
-                b-form-input#inputB-8(v-model='formStep2.business.contact_phone' type='text' placeholder='Phone Number' required :class="{'is-invalid': errors.contact_phone }")
-                .invalid-feedback.d-block(v-if="errors.contact_phone") {{ errors.contact_phone[0] }}
-            .col-sm-6.pl-sm-2
-              b-form-group#inputB-group-7(label='Company Website' label-for='inputB-7' description="Optional")
-                b-form-input#inputB-7.form-control(v-model='formStep2.business.website' type='text' placeholder='Company Website' :class="{'is-invalid': errors.website }")
-                .invalid-feedback.d-block(v-if="errors.website") {{ errors.website[0] }}
-          hr
-          .row
-            .col-xl-9.pr-xl-2
-              b-form-group#inputB-group-9(label='Business Address' label-for='inputB-9' label-class="required")
-                // b-form-input#inputB-9(v-model='formStep2.business.address_1' placeholder='Business Address' required :class="{'is-invalid': errors.address_1 }" v-debounce:1000ms="onAdressChange")
-                vue-google-autocomplete#map(ref="address" classname='form-control' :class="{'is-invalid': errors.address_1 }" v-model='formStep2.business.address_1' placeholder='Business Address'  :fields="['address_components', 'adr_address', 'geometry', 'formatted_address', 'name']" v-on:placechanged='getAddressData')
-                .invalid-feedback.d-block(v-if="errors.address_1") {{ errors.address_1[0] }}
-            .col-xl-3.pl-xl-2
-              b-form-group#inputB-group-10(label='Apt/Unit:' label-for='inputB-10')
-                b-form-input#inputB-10(v-model='formStep2.business.apartment' type='text' placeholder='Apt/Unit' required :class="{'is-invalid': errors.apartment }")
-                .invalid-feedback.d-block(v-if="errors.apartment") {{ errors.apartment[0] }}
-          .row
-            .col-xl-4.pr-xl-2
-              b-form-group#inputB-group-12(label='City' label-for='inputB-12' label-class="required")
-                b-form-input#inputB-12(v-model='formStep2.business.city' type='text' placeholder='City' required :class="{'is-invalid': errors.city }")
-                .invalid-feedback.d-block(v-if="errors.city") {{ errors.city[0] }}
-            .col-xl-4.px-xl-2
-              b-form-group#inputB-group-13(label='State' label-for='selectB-13' label-class="required")
-                div(
-                :class="{ 'invalid': errors.state }"
-                )
-                  multiselect#selectB-13(
-                  v-model="formStep2.business.state"
-                  :options="stateOptions"
-                  :show-labels="false"
-                  placeholder="Select state",
-                  @input="onChangeState",
-                  required)
-                  .invalid-feedback.d-block(v-if="errors.state") {{ errors.state[0] }}
-            .col-xl-4.pl-xl-2
-              b-form-group#inputB-group-11(label='Zip' label-for='inputB-11' label-class="required")
-                b-form-input#inputB-11(v-model='formStep2.business.zipcode' placeholder='Zip' required :class="{'is-invalid': errors.zipcode }")
-                .invalid-feedback.d-block(v-if="errors.zipcode") {{ errors.zipcode[0] }}
-          .text-right.m-t-3
-            b-button.mr-2(type='button' variant='default' @click="prevStep(1)") Go back
-            // b-button.mr-2(type='button' variant='outline-primary' @click="nextStep(3)") Skip this step
-            b-button(type='button' variant='dark' @click="nextStep(3)") Next
-        #step3.form(v-if='!loading'  :class="step3 ? 'd-block' : 'd-none'")
-          .row
-            .col.mb-2.text-center
-              h2.mb-3 Choose your plan
-              b-form-group.mb-5(v-slot="{ ariaDescribedby }")
-                b-form-radio-group(id="btn-radios-plan"
-                v-model="billingTypeSelected"
-                :options="billingTypeOptions"
-                :aria-describedby="ariaDescribedby"
-                button-variant="outline-primary"
-                size="lg"
-                name="radio-btn-outline"
-                buttons)
-          .row
-            .col-xl-4(v-for='(plan, index) in billingPlans')
-              b-card.w-100.mb-2.billing-plan(:class="[index === 0 ? 'billing-plan_low' : '', index === 1 ? 'billing-plan_medium' : '', index === 2 ? 'billing-plan_high' : '' ]")
-                b-button.mb-3(type='button' :variant="currentPlan.status && currentPlan.id === index+1 ? 'dark' : 'outline-primary'" @click="openDetails(plan)")
-                  | {{ currentPlan.status && currentPlan.id === index+1 ? 'Current' : 'Select' }} Plan
-                b-card-text
-                  h4.billing-plan__name {{ plan.name }}
-                  p.billing-plan__descr {{ plan.description }}
-                  h5.billing-plan__coast {{ billingTypeSelected === 'annually' ?  plan.coastAnnuallyFormatted : plan.coastMonthlyFormatted }}
-                  p.billing-plan__users(v-if="plan.id === 1") 0 free users
-                  p.billing-plan__users(v-if="plan.id !== 1 && billingTypeSelected === 'monthly'")
-                    span.billing-plan__discount {{ plan.coastMonthlyFormatted }}
-                    span.text-success &nbsp;{{ plan.coastAnnuallyFormatted }}
-                  p.billing-plan__users(v-if="plan.id !== 1") {{ billingTypeSelected === 'annually' ?  plan.usersCount + ' free users plus $' + plan.additionalUserAnnually + '/year per person' : plan.usersCount + ' free users plus $' + plan.additionalUserMonthly + '/mo per person' }}
-                  hr
-                  ul.list-unstyled.billing-plan__list
-                    li.billing-plan__item(v-for="feature in plan.features")
-                      b-icon.h4.mr-2.mb-0(icon="check-circle-fill" variant="success")
-                      | {{ feature }}
-          .row
-            .col.text-right
-              b-button.m-t-3(type='button' variant='default' @click="prevStep(2)") Go back
-
-    b-sidebar#BillingPlanSidebar(@hidden="closeSidebar" v-model="isSidebarOpen" backdrop-variant='dark' backdrop left no-header width="60%")
-      .card
-        .card-header.borderless
-          .d-flex.justify-content-between
-            b-button(variant="default" @click="isSidebarOpen = false")
-              b-icon.mr-2(icon="chevron-left" variant="dark")
-              | Back
-          .d-block.m-t-1
-            h2 Time to power up
-            p Review and confirm your subscription
-        BillingDetails(
-        :billingTypeSelected="billingTypeSelected"
-        :billingTypeOptions="billingTypeOptions"
-        :plan="selectedPlan"
-        @updateBiliing="onBiliingChange"
-        @updateAdditionalUsers="updateAdditionalUsers"
-        @complitedPaymentMethod="complitedPaymentMethod"
-        )
-    PurchaseSummary(
-    v-if="isSidebarOpen"
-    :billingTypeSelected="billingTypeSelected"
-    :billingTypeOptions="billingTypeOptions"
-    :plan="selectedPlan"
-    :additionalUsers="additionalUsers"
-    @complitePurchaseConfirmed="selectPlanAndComplitePurchase",
-    :disabled="disabled"
-    )
+            h4.step__name 3. Payout type
+      Overlay(v-if="overlay", :status="overlayStatus", :statusText="overlayStatusText", :show="overlay")
+      .div
+        Loading
+        b-form(@submit='onSubmit' @change="onChangeInput" v-if='show')
+          #step1.form(v-if='!loading' :class="step1 ? 'd-block' : 'd-none'")
+            .row.d-none
+              .col-md-6
+                .row
+                  .col
+                    b-form-group#inputB-group-4(label='Account type' label-for='selectB-4' label-class="required")
+                      div(
+                      :class="{ 'invalid': errors.account_type }"
+                      )
+                        multiselect#selectB-4(
+                        v-model="formStep1.business.account_type"
+                        :options="accountTypeOptions"
+                        :multiple="true"
+                        :show-labels="false"
+                        track-by="name",
+                        label="name",
+                        placeholder="Select Industry",
+                        @input="onChange",
+                        required)
+                        .invalid-feedback.d-block(v-if="errors.account_type") {{ errors.account_type[0] }}
+                .row
+                  .col-sm.pr-sm-2
+                    b-form-group#inputB-group-2(label='Legal first name' label-for='inputB-2')
+                      b-form-input#inputB-2(v-model='formStep1.business.first_name' type='text' placeholder='Legal first name' required :class="{'is-invalid': errors.first_name }")
+                      .invalid-feedback.d-block(v-if="errors.first_name") {{ errors.first_name[0] }}
+                  .col-sm.pl-sm-2
+                    b-form-group#inputB-group-3(label='Legal last name' label-for='inputB-3')
+                      b-form-input#inputB-3(v-model='formStep1.business.last_name' type='text' placeholder='Legal last name' required :class="{'is-invalid': errors.last_name }")
+                      .invalid-feedback.d-block(v-if="errors.last_name") {{ errors.last_name[0] }}
+                .row
+                  .col
+                    b-form-group#inputB-group-2(label='Legal business name' label-for='inputB-2')
+                      b-form-input#inputB-2(v-model='formStep1.business.legal_business_name' type='text' placeholder='Legal business name' required :class="{'is-invalid': errors.legal_business_name }")
+                      .invalid-feedback.d-block(v-if="errors.legal_business_name") {{ errors.legal_business_name[0] }}
+                .row
+                  .col
+                    b-form-group#inputB-group-4(label='Country' label-for='selectB-4' label-class="required")
+                      div(
+                      :class="{ 'invalid': errors.country }"
+                      )
+                        multiselect#selectB-4(
+                        v-model="formStep1.business.country"
+                        :options="countryOptions"
+                        :multiple="true"
+                        :show-labels="false"
+                        track-by="name",
+                        label="name",
+                        placeholder="Select Industry",
+                        @input="onChange",
+                        required)
+                        .invalid-feedback.d-block(v-if="errors.country") {{ errors.country[0] }}
+                .row
+                  .col
+                    b-form-group#inputB-group-2(label='Email' label-for='inputB-2' description="We'll send you a confirmation code to confirm")
+                      b-form-input#inputB-2(v-model='formStep1.business.email' type='text' placeholder='Email' required :class="{'is-invalid': errors.email }")
+                      .invalid-feedback.d-block(v-if="errors.email") {{ errors.email[0] }}
+            .row.d-none
+              .col
+                .text-right
+                  a.btn.link.mr-2(href="#") Cancel
+                  b-button(type='button' variant='dark' @click="nextStep(2)") Next
+            .row
+              .col-md-6.mx-auto
+                .card
+                  .card-body
+                    h1.text-center Confirm your email!
+                    p.text-center We send a 6 digit code to email. Please enter it below.
+                    div
+                      b-form
+                        b-form-group
+                          .col.text-center
+                            ion-icon(name="mail-outline")
+                        b-form-group
+                          .row
+                            .col-12.mx-0
+                              .d-flex.justify-content-space-around.mx-auto
+                                b-form-input#inputCode1.code-input.ml-auto(type='number' maxlength="1" required)
+                                b-form-input#inputCode2.code-input(type='number' maxlength="1" required)
+                                b-form-input#inputCode3.code-input(type='number' maxlength="1" required)
+                                b-form-input#inputCode4.code-input(type='number' maxlength="1" required)
+                                b-form-input#inputCode5.code-input(type='number' maxlength="1" required)
+                                b-form-input#inputCode6.code-input.mr-auto(type='number' maxlength="1" required)
+                              <!--.invalid-feedback.d-block.text-center(v-if="errors.code") {{ errors.code }}-->
+                          .row
+                            .col
+                              input(type='hidden')
+                        b-button.w-100.mb-2(type='submit' variant='dark' ref="codesubmit") Submit
+                        b-form-group
+                          .row
+                            .col-12.text-center
+                              button.btn.link  Resend code
+          #step2.form(v-if='!loading'  :class="step2 ? 'd-block' : 'd-none'")
+            div.d-flex.justify-content-between
+              .text-left
+                h3.onboarding__title Tell us more about yourself:
+                p.onboarding__sub-title We will use this to verify your identity
+            .row
+              .col-sm-6.pr-sm-2
+                InputDate(v-model="formStep2.business.date_of_birth" :errors="errors.date_of_birth" :options="datepickerOptions") Date of birth
+              .col-sm-6.pl-sm-2
+                b-form-group#inputB-group-7(label='Last 4 digits of Security Social Number' label-for='inputB-7')
+                  b-form-input#inputB-7.form-control(v-model='formStep2.business.last4ssn' type='text' placeholder='Enter last 4 digits of SSN' :class="{'is-invalid': errors.last4ssn }")
+                  .invalid-feedback.d-block(v-if="errors.last4ssn") {{ errors.last4ssn[0] }}
+            .row
+              .col-sm-6.pr-sm-2
+                b-form-group#inputB-group-7(label='Business operation name' label-for='inputB-7' description="optional")
+                  b-form-input#inputB-7.form-control(v-model='formStep2.business.business_name' type='text' placeholder='Doing business as' :class="{'is-invalid': errors.business_name }")
+                  .invalid-feedback.d-block(v-if="errors.business_name") {{ errors.business_name[0] }}
+              .col-sm-6.pl-sm-2
+                b-form-group#inputB-group-7(label='Business Website' label-for='inputB-7' description="Optional")
+                  b-form-input#inputB-7.form-control(v-model='formStep2.business.website' type='text' placeholder='Business Website' :class="{'is-invalid': errors.website }")
+                  .invalid-feedback.d-block(v-if="errors.website") {{ errors.website[0] }}
+            hr
+            .row
+              .col-xl-9.pr-xl-2
+                b-form-group#inputB-group-9(label='Home Address' label-for='inputB-9' label-class="required")
+                  vue-google-autocomplete#map(ref="address" classname='form-control' :class="{'is-invalid': errors.address_1 }" v-model='formStep2.business.address_1' placeholder='Business Address'  :fields="['address_components', 'adr_address', 'geometry', 'formatted_address', 'name']" v-on:placechanged='getAddressData')
+                  .invalid-feedback.d-block(v-if="errors.address_1") {{ errors.address_1[0] }}
+              .col-xl-3.pl-xl-2
+                b-form-group#inputB-group-10(label='Apt/Unit:' label-for='inputB-10')
+                  b-form-input#inputB-10(v-model='formStep2.business.apartment' type='text' placeholder='Apt/Unit' required :class="{'is-invalid': errors.apartment }")
+                  .invalid-feedback.d-block(v-if="errors.apartment") {{ errors.apartment[0] }}
+            .row
+              .col-xl-4.pr-xl-2
+                b-form-group#inputB-group-12(label='City' label-for='inputB-12' label-class="required")
+                  b-form-input#inputB-12(v-model='formStep2.business.city' type='text' placeholder='City' required :class="{'is-invalid': errors.city }")
+                  .invalid-feedback.d-block(v-if="errors.city") {{ errors.city[0] }}
+              .col-xl-4.px-xl-2
+                b-form-group#inputB-group-13(label='State' label-for='selectB-13' label-class="required")
+                  div(
+                  :class="{ 'invalid': errors.state }"
+                  )
+                    multiselect#selectB-13(
+                    v-model="formStep2.business.state"
+                    :options="stateOptions"
+                    :show-labels="false"
+                    placeholder="Select state",
+                    @input="onChangeState",
+                    required)
+                    .invalid-feedback.d-block(v-if="errors.state") {{ errors.state[0] }}
+              .col-xl-4.pl-xl-2
+                b-form-group#inputB-group-11(label='Zip' label-for='inputB-11' label-class="required")
+                  b-form-input#inputB-11(v-model='formStep2.business.zipcode' placeholder='Zip' required :class="{'is-invalid': errors.zipcode }")
+                  .invalid-feedback.d-block(v-if="errors.zipcode") {{ errors.zipcode[0] }}
+            .text-right.m-t-3
+              b-button.mr-2(type='button' variant='default' @click="prevStep(1)") Go back
+              // b-button.mr-2(type='button' variant='outline-primary' @click="nextStep(3)") Skip this step
+              b-button(type='button' variant='dark' @click="nextStep(3)") Next
+          #step3.form(v-if='!loading'  :class="step3 ? 'd-block' : 'd-none'")
+            .row
+              .col-md-6
+                div.d-flex.justify-content-between
+                  .text-left
+                    h3.onboarding__title Tell us where you'd like to recieve your payments
+                .row
+                  .col
+                    b-form-group#inputB-group-7(label='Routing Number' label-for='inputB-7')
+                      b-form-input#inputB-7.form-control(v-model='formStep3.business.routing_number' type='text' placeholder='000123456789' :class="{'is-invalid': errors.routing_number }")
+                      .invalid-feedback.d-block(v-if="errors.routing_number") {{ errors.routing_number[0] }}
+                .row
+                  .col
+                    b-form-group#inputB-group-7(label='Account Number' label-for='inputB-7')
+                      b-form-input#inputB-7.form-control(v-model='formStep3.business.acc_num' type='text' placeholder='000123456789' :class="{'is-invalid': errors.acc_num }")
+                      .invalid-feedback.d-block(v-if="errors.acc_num") {{ errors.acc_num[0] }}
+                .row
+                  .col
+                    b-form-group#inputB-group-7(label='Confirm Account Number' label-for='inputB-7')
+                      b-form-input#inputB-7.form-control(v-model='formStep3.business.confirm_acc_num' type='text' placeholder='000123456789' :class="{'is-invalid': errors.confirm_acc_num }")
+                      .invalid-feedback.d-block(v-if="errors.confirm_acc_num") {{ errors.confirm_acc_num[0] }}
+            .row
+              .col.text-right.mt-3
+                b-button.mr-2(type='button' variant='default' @click="prevStep(2)") Go back
+                b-button(type='button' variant='primary') Submit
 </template>
 
 <script>
@@ -258,6 +219,7 @@
   import Overlay from './Overlay'
 
   import data from './BillingPlansData.json'
+  import OtpConfirm from "@/auth/components/OtpConfirm";
 
   const initialAccountInfo = () => ({
     business: {
@@ -278,9 +240,31 @@
     }
   })
 
+  const initialPersonalInfo = () => ({
+    business: {
+      date_of_birth: '',
+      last4ssn: '',
+      business_name: '',
+      website: '',
+      address_1: '',
+      city: '',
+      state: '',
+      zipcode: '',
+    }
+  })
+
+  const initialPayoutType = () => ({
+    business: {
+      routing_number: '',
+      acc_num: '',
+      confirm_acc_num: '',
+    }
+  })
+
   export default {
     props: ['industryIds', 'jurisdictionIds', 'subIndustryIds', 'states', 'userInfo', 'timezones'],
     components: {
+      OtpConfirm,
       Loading,
       TopNavbar,
       Multiselect,
@@ -356,22 +340,16 @@
     data() {
       return {
         userType: 'business',
-        formStep1: {
-          crd_number: '',
-          crd_numberSelected: 'no',
-          crd_numberOptions: [
-            {text: 'No', value: 'no'},
-            {text: 'Yes', value: 'yes'},
-          ],
-        },
-        formStep2: initialAccountInfo(),
-        industryOptions: [],
-        subIndustryOptions: [],
-        jurisdictionOptions: [],
-        stateOptions: [],
-        timeZoneOptions: [],
+        formStep1: initialAccountInfo(),
+        accountTypeOptions: [],
+        countryOptions: [],
 
+        formStep2: initialPersonalInfo(),
+        stateOptions: [],
         show: true,
+
+        formStep3: initialPayoutType(),
+
         errors: {},
         step1: true,
         step2: false,
@@ -380,57 +358,15 @@
         navStep1: true,
         navStep2: false,
         navStep3: false,
-        billingTypeSelected: 'annually',
-        billingTypeOptions: [
-          { text: 'Billed Annually', value: 'annually' },
-          { text: 'Billed Monthly', value: 'monthly' },
-        ],
-        billingPlans: data.billingPlans,
-        openId: null,
-        isSidebarOpen: false,
-        selectedPlan: [],
-        additionalUsers: 0,
-        paymentSourceId: null,
-        disabled: true,
+
         overlay: false,
         overlayStatus: '',
         overlayStatusText: '',
-        currentPlan: { id: null, status: false }
       }
     },
     methods: {
-      makeToast(title, str) {
-        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
-      },
       onSubmit(event){
         event.preventDefault()
-      },
-      checkCDRinfo(stepNum) {
-        // CLEAR ERRORS
-        this.errors = []
-
-        if (!this.formStep1.crd_number.length) {
-          this.errors = { crd_number: `Can't be empty!` }
-          return
-        }
-
-        const dataToSend = {
-          crd_number: this.formStep1.crd_number
-        }
-
-        this.$store.dispatch('getInfoByCRDNumber', dataToSend)
-          .then(response => {
-            if (!response.errors) {
-              this.formStep1.crd_number = response.crd_number
-              this.formStep2.business = { ...response }
-              this.makeToast('Success', `Successfully sended!`)
-              this.navigation(stepNum)
-            }
-          })
-          .catch(error => {
-            console.error(error)
-            this.makeToast('Error', `Something wrong! ${error}`)
-          })
       },
       navigation(stepNum){
         const url = new URL(window.location);
@@ -492,7 +428,7 @@
               if(response.errors) {
                 for (const type of Object.keys(response.errors)) {
                   this.errors = response.errors[type]
-                  this.makeToast('Error', `Form has errors! Please recheck fields!`)
+                  this.toast('Error', `Form has errors! Please recheck fields!`)
                 }
               }
               if(!response.errors) {
@@ -501,45 +437,16 @@
                 this['step'+stepNum] = true
                 this.currentStep = stepNum
                 this.navigation(this.currentStep)
-                this.makeToast('Success', `Company info successfully sended!`)
+                this.toast('Success', `Company info successfully sended!`)
               }
             })
             .catch(error => {
               console.error(error)
-              this.makeToast('Error', `Something wrong! ${error}`)
+              this.toast('Error', `Something wrong! ${error}`)
             })
         }
       },
-      openDetails(plan) {
-        if(plan.id === 1) {
-          const dataToSend = {
-            userType: this.userType,
-            planName: 'free',
-            paymentSourceId : null,
-          }
 
-          this.$store.dispatch('updateSubscribe', dataToSend)
-            .then(response => {
-              this.makeToast('Success', `Update subscribe successfully finished! You will be redirect.`)
-              this.currentPlan = { id: 1, status: true }
-              this.redirect();
-            })
-            .catch(error =>this.makeToast('Error', `Something wrong!`))
-
-          return
-        }
-
-        this.openId = plan.id
-        // history.pushState({}, '', `${'new'}/${id}`)
-        this.isSidebarOpen = true
-        this.selectedPlan = plan;
-      },
-      closeSidebar() {
-        this.openId = null
-        // this.project = null
-        // history.pushState({}, '', '')
-        this.isSidebarOpen = false
-      },
       onBiliingChange(event) {
         this.billingTypeSelected = event
       },
@@ -549,130 +456,6 @@
       complitedPaymentMethod(response) {
         this.paymentSourceId = response.id
         this.disabled = false;
-      },
-      selectPlanAndComplitePurchase (selectedPlan) {
-        // CLEAR ERRORS
-        this.errors = []
-
-        this.overlay = true
-        this.overlayStatusText = 'Setting up account. Subscribing a plan...'
-
-        let planName;
-        if (selectedPlan.id === 1) {
-          planName = 'free';
-        }
-        if (selectedPlan.id === 2) {
-          planName = this.billingTypeSelected === 'annually' ? 'team_tier_annual' : 'team_tier_monthly';
-        }
-        if (selectedPlan.id === 3) {
-          planName = this.billingTypeSelected === 'annually' ? 'business_tier_annual' : 'business_tier_monthly'
-        }
-
-        const dataToSend = {
-          userType: this.userType,
-          planName,
-          paymentSourceId : this.paymentSourceId,
-        }
-
-        this.$store
-          .dispatch('updateSubscribe', dataToSend)
-          .then(response => {
-            if(response.errors) throw new Error(`Response error!`)
-            if(!response.errors) {
-              this.makeToast('Success', `Update subscribe successfully finished!`)
-              this.paySeats(selectedPlan)
-
-              // OVERLAY
-              if(+this.additionalUsers === 0) {
-                this.overlayStatusText = 'Account successfully purchased, you will be redirect to the dashboard...'
-                this.overlayStatus = 'success'
-                // this.overlay = false
-                this.redirect()
-              }
-            }
-          })
-          .catch(error => {
-            console.error(error)
-            this.makeToast('Error', `Something wrong! ${error}`)
-
-            // OVERLAY
-            this.overlayStatus = 'error'
-            this.overlayStatusText = `Something wrong! ${error}`
-            setTimeout(() => {
-              this.overlay = false
-            }, 3000)
-          })
-          .finally(() => this.disabled = true)
-      },
-      paySeats(selectedPlan) {
-        const freeUsers = selectedPlan.usersCount;
-        const neededUsers = +this.additionalUsers;
-        if (neededUsers <= freeUsers) return
-        const countPayedUsers = neededUsers - freeUsers
-
-        this.overlayStatusText = 'Subscribing additional seats...'
-
-        let planName = this.billingTypeSelected === 'annually' ? 'seats_annual' : 'seats_monthly'
-
-        const dataToSend = {
-          userType: this.userType,
-          planName,
-          paymentSourceId : this.paymentSourceId,
-          countPayedUsers,
-        }
-
-        this.$store
-          .dispatch('updateSeatsSubscribe', dataToSend)
-          .then(response => {
-
-            if(response.errors) {
-              for (const type of Object.keys(response[i].data.errors)) {
-                this.makeToast('Error', `Something wrong! ${response[i].data.errors[type]}`)
-              }
-            }
-
-            if(!response.errors) {
-              this.makeToast('Success', `Update seat subscribe successfully finished!`)
-
-              // OVERLAY
-              this.overlayStatusText = `Account and ${countPayedUsers} seats successfully purchased, you will be redirect to the dashboard...`
-              this.overlayStatus = 'success'
-              // this.overlay = false
-              this.redirect()
-            }
-          })
-          .catch(error => {
-            console.error(error)
-            this.makeToast('Error', `Something wrong! ${error}`)
-
-            // OVERLAY
-            this.overlayStatus = 'error'
-            this.overlayStatusText = `Something wrong! ${error}`
-            setTimeout(() => {
-              this.overlay = false
-            }, 3000)
-          })
-          .finally(() => this.disabled = true)
-      },
-      onChange (industries) {
-        if(industries) {
-          delete this.errors.industries
-          this.subIndustryOptions = []
-          const results = industries.map(industry => industry.id)
-
-          if(this.subIndustryIds) {
-            for (const [key, value] of Object.entries(this.subIndustryIds)) {
-              for (const i of results) {
-                if (i === +key.split('_')[0]) {
-                  this.subIndustryOptions.push({
-                    value: key,
-                    name: value
-                  })
-                }
-              }
-            }
-          }
-        }
       },
       onChangeInput(e) {
         if(e.target) e.target.classList.remove('is-invalid')
@@ -701,16 +484,15 @@
         this.formStep2.business.state = administrative_area_level_1
         this.formStep2.business.zipcode = postal_code
       },
-      redirect() {
-        const dashboard = this.userType === 'business' ? '/business' : '/specialist'
-        setTimeout(() => {
-          window.location.href = `${dashboard}`;
-        }, 3000)
-      }
     },
     computed: {
       loading() {
         return this.$store.getters.loading;
+      },
+      datepickerOptions() {
+        return {
+          min: new Date
+        }
       },
     }
   }
