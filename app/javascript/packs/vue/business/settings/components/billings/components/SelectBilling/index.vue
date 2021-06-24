@@ -7,6 +7,8 @@
         .steps
           .step(:class="navStep1 ? 'active' : ''")
             h4.step__name 1. Account information
+          .step.d-none(:class="navStep2 ? 'active' : ''")
+            h4.step__name Confirm email
           .step(:class="navStep3 ? 'active' : ''")
             h4.step__name 2. Personal Information
           .step(:class="navStep4 ? 'active' : ''")
@@ -27,15 +29,13 @@
                         multiselect#selectB-4(
                         v-model="formStep1.business.account_type"
                         :options="accountTypeOptions"
-                        :multiple="true"
+                        :multiple="false"
                         :show-labels="false"
-                        track-by="name",
-                        label="name",
-                        placeholder="Select Industry",
-                        @input="onChange",
+                        placeholder="Select account tyle",
+                        @input="onAccountTypeChange",
                         required)
                         .invalid-feedback.d-block(v-if="errors.account_type") {{ errors.account_type[0] }}
-                .row
+                .row(v-if="accountType === 'individual'")
                   .col-sm.pr-sm-2
                     b-form-group#inputB-group-2(label='Legal first name' label-for='inputB-2')
                       b-form-input#inputB-2(v-model='formStep1.business.first_name' type='text' placeholder='Legal first name' required :class="{'is-invalid': errors.first_name }")
@@ -44,7 +44,7 @@
                     b-form-group#inputB-group-3(label='Legal last name' label-for='inputB-3')
                       b-form-input#inputB-3(v-model='formStep1.business.last_name' type='text' placeholder='Legal last name' required :class="{'is-invalid': errors.last_name }")
                       .invalid-feedback.d-block(v-if="errors.last_name") {{ errors.last_name[0] }}
-                .row
+                .row(v-if="accountType === 'business'")
                   .col
                     b-form-group#inputB-group-2(label='Legal business name' label-for='inputB-2')
                       b-form-input#inputB-2(v-model='formStep1.business.legal_business_name' type='text' placeholder='Legal business name' required :class="{'is-invalid': errors.legal_business_name }")
@@ -110,16 +110,16 @@
           #step2.form(v-if='!loading'  :class="step3 ? 'd-block' : 'd-none'")
             div.d-flex.justify-content-between
               .text-left
-                h3.onboarding__title Tell us more about yourself:
+                h3.onboarding__title Tell us more about your{{ accountType === 'business' ? ' business' : 'self' }}:
                 p.onboarding__sub-title We will use this to verify your identity
-            .row
+            .row(v-if="accountType === 'individual'")
               .col-sm-6.pr-sm-2
                 InputDate(v-model="formStep2.business.date_of_birth" :errors="errors.date_of_birth" :options="datepickerOptions") Date of birth
               .col-sm-6.pl-sm-2
                 b-form-group#inputB-group-7(label='Last 4 digits of Security Social Number' label-for='inputB-7')
                   b-form-input#inputB-7.form-control(v-model='formStep2.business.last4ssn' type='text' placeholder='Enter last 4 digits of SSN' :class="{'is-invalid': errors.last4ssn }")
                   .invalid-feedback.d-block(v-if="errors.last4ssn") {{ errors.last4ssn[0] }}
-            .row
+            .row(v-if="accountType === 'business'")
               .col-sm-6.pr-sm-2
                 b-form-group#inputB-group-7(label='Business operation name' label-for='inputB-7' description="optional")
                   b-form-input#inputB-7.form-control(v-model='formStep2.business.business_name' type='text' placeholder='Doing business as' :class="{'is-invalid': errors.business_name }")
@@ -131,7 +131,7 @@
             hr
             .row
               .col-xl-9.pr-xl-2
-                b-form-group#inputB-group-9(label='Home Address' label-for='inputB-9' label-class="required")
+                b-form-group#inputB-group-9(:label="accountType === 'business' ? 'Business Address' : 'Home Address'" label-for='inputB-9' label-class="required")
                   vue-google-autocomplete#map(ref="address" classname='form-control' :class="{'is-invalid': errors.address_1 }" v-model='formStep2.business.address_1' placeholder='Business Address'  :fields="['address_components', 'adr_address', 'geometry', 'formatted_address', 'name']" v-on:placechanged='getAddressData')
                   .invalid-feedback.d-block(v-if="errors.address_1") {{ errors.address_1[0] }}
               .col-xl-3.pl-xl-2
@@ -258,7 +258,7 @@
       return {
         userType: 'business',
         formStep1: initialAccountInfo(),
-        accountTypeOptions: [],
+        accountTypeOptions: ['Business', 'Individual'],
         countryOptions: [],
 
         formStep2: initialPersonalInfo(),
@@ -281,6 +281,8 @@
         overlay: false,
         overlayStatus: '',
         overlayStatusText: '',
+
+        accountType: '',
       }
     },
     methods: {
@@ -304,6 +306,9 @@
           this['navStep' + (this.currentStep + 1)] = false;
           this['step' + (this.currentStep + 1)] = false
         }
+      },
+      onAccountTypeChange (value) {
+        this.accountType = value.toLowerCase()
       },
       onChange (value) {
         console.log(value)
