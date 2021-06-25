@@ -3,7 +3,7 @@
     .row
       .col
         Loading
-    .row(v-if='!loading')
+    .row
       .col
         .card.settings__card
           .card-title.px-3.px-xl-5.py-xl-4.mb-0

@@ -3,7 +3,7 @@
     div(v-b-modal="modalId" :class="{'d-inline-block':inline}")
       slot
 
-    b-modal.fade(:id="modalId" title="Edit Plan")
+    b-modal.fade(:id="modalId" title="Edit Plan" @shown="getData")
       b-row.m-b-2
         b-col(cols="8").pr-0
           b-row
@@ -34,8 +34,7 @@
         b-col
           h5.mb-3 Payment method
           b-form-group(v-slot='{ ariaDescribedby }')
-            b-form-radio(v-model='selected' :aria-describedby='ariaDescribedby' name='some-radios' value='A') **** **** **** 4242 Visa
-            b-form-radio(v-model='selected' :aria-describedby='ariaDescribedby' name='some-radios' value='B') Paypal (email@gmail.com)
+            b-form-radio(v-for="(paymentMethod, i) in paymentMethods" :key="i" v-model='selected' :aria-describedby='ariaDescribedby' name='radiosPaymentMethods' :value='paymentMethod.id') **** **** **** {{ paymentMethod.last4 }} {{ paymentMethod.brand }}
 
       template(slot="modal-footer")
         button.btn(@click="$bvModal.hide(modalId)") Cancel
@@ -43,6 +42,8 @@
 </template>
 
 <script>
+  import { mapGetters, mapActions } from "vuex"
+
   const toOption = id => ({ id, label: id })
   const rnd = () => Math.random().toFixed(10).toString().replace('.', '')
   export default {
@@ -65,6 +66,9 @@
       }
     },
     methods: {
+      ...mapActions({
+        getPaymentMethod: 'settings/getPaymentMethod'
+      }),
       focusInput() {
         this.$refs.input.focus();
       },
@@ -76,51 +80,10 @@
         e.preventDefault();
         this.errors = [];
 
-        if (!this.plan.name) {
-          this.errors.push('Name is required.');
-          this.makeToast('Error', 'Name is required.')
-          return;
-        }
-        if (this.plan.name.length <= 3) {
-          this.errors.push({name: 'Name is very short, must be more 3 characters.'});
-          this.makeToast('Error', 'Name is very short, must be more 3 characters.')
-          return;
-        }
-
-        const plan = this.plan
-        const data = {
-          id: plan.id,
-          name: plan.name,
-          plan_start: plan.plan_start,
-          plan_end: plan.plan_end,
-          // regulatory_changes_attributes: plan.regulatory_changes,
-          // material_business_changes: plan.material_business_changes,
-          // plan_plan_employees_attributes: plan.plan_plan_employees
-        }
         try {
-          await this.$store.dispatch('plan/updateplan', data)
-            .then((response) => {
-              // console.log('response', response)
-              if (response.errors) {
-                for (const [key, value] of Object.entries(response.errors)) {
-                  console.log(`${key}: ${value}`);
-                  this.makeToast('Error', `${key}: ${value}`)
-                  this.errors = Object.assign(this.errors, { [key]: value })
-                }
-                // console.log(this.errors)
-                return
-              }
-
-              if (!response.errors) {
-                this.makeToast('Success', "Saved changes to plan plan.")
-                this.$emit('saved')
-                this.$bvModal.hide(this.modalId)
-              }
-            })
-            .catch((error) => console.error(error))
-
+          console.log(this.plan, this.selected)
         } catch (error) {
-          this.makeToast('Error', error.message)
+          console.error(error)
         }
       },
       selectPlan(value) {
@@ -132,9 +95,25 @@
       calcPrice (event) {
         const reqiredUsers = this.$refs.input.value;
         if(this.showDiscount && reqiredUsers && reqiredUsers >= 1) console.log(reqiredUsers)
-      }
+      },
+      async getData () {
+        try {
+          const data = {
+            userType: 'business',
+          }
+          await this.getPaymentMethod(data)
+            .then(response => response)
+            .catch(error => console.error(error))
+        } catch (error) {
+          console.error(error)
+          this.toast('Error', error.message)
+        }
+      },
     },
     computed: {
+      ...mapGetters({
+        paymentMethods: 'settings/paymentMethods'
+      }),
       linkToOptions() {
         return [
           {
