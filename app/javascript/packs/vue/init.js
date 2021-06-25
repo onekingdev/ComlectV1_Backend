@@ -29,6 +29,7 @@ import ToasterMixin from '@/mixins/ToasterMixin'
 import RedirectMixin from '@/mixins/RedirectMixin'
 import HistoryMixin from '@/mixins/HistoryMixin'
 import vueDebounce from 'vue-debounce'
+import VueRouter from 'vue-router'
 
 const data = () => ({
   isProfileMenuOpen: false
@@ -38,6 +39,7 @@ const init = configuration => {
   Vue.use(BootstrapVue)
   Vue.use(IconsPlugin)
   Vue.use(vueDebounce)
+  Vue.use(VueRouter)
 
   Vue.mixin(ToasterMixin)
   Vue.mixin(RedirectMixin)

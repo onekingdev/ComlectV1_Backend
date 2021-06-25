@@ -1,0 +1,38 @@
+doctype html
+html lang=I18n.locale
+  head
+    script(type="module" src="https://unpkg.com/ionicons@5.2.3/dist/ionicons/ionicons.esm.js")
+
+    title
+      - if content_for?(:title)
+        = yield(:title) + " | "
+      | Complect
+    - if content_for?(:meta)
+      = yield :meta
+    - else
+      meta content="Complect is an online freelancing platform that connects financial services firms with financial regulatory compliance specialists with a minimum of three years direct compliance experience." name="description"
+      meta content="regulatory compliance hire freelance outsourcing platform finance cco complect" name="keywords"
+      // Open Graph
+      meta property="og:title" content="Complect – Compliance Specialists on Demand"
+      meta property="og:description" content="Complect is an online freelancing platform that connects financial services firms with financial regulatory compliance specialists with a minimum of three years direct compliance experience."
+    / meta(name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no")
+    meta name="viewport" content="width=1440"
+    = stylesheet_link_tag 'vue'
+    = csrf_meta_tags
+    script src='//d2wy8f7a9ursnm.cloudfront.net/bugsnag-3.min.js' data-apikey="#{ENV['BUGSNAG_API_KEY']}"
+    script src="https://maps.googleapis.com/maps/api/js?key=#{ENV.fetch('GOOGLE_PLACES_API_KEY')}&libraries=places"
+    = javascript_include_tag '/app_config.js'
+    = render 'google_analytics'
+    = render 'mixpanel'
+    = render 'layouts/favicons'
+    = yield :html_head
+    = render partial: "layouts/fullstory" if Rails.env == "production"
+
+body class="#{controller_name} #{action_name}"
+  #app
+    = yield
+
+  = yield :prepend_scripts
+  = javascript_pack_tag 'vue-business'
+  = yield :scripts
+  = render 'drift'

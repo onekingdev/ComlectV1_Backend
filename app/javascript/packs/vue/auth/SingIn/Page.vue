@@ -42,7 +42,7 @@
                   b-form-group
                     .row
                       .col-12.mx-0
-                        .d-flex.justify-content-space-around.mx-auto.w-75
+                        .d-flex.justify-content-space-around.mx-auto
                           b-form-input#inputCode1.code-input.ml-auto(v-model='form2.codePart1' type='number' maxlength="1" required)
                           b-form-input#inputCode2.code-input(v-model='form2.codePart2' type='number' maxlength="1" required)
                           b-form-input#inputCode3.code-input(v-model='form2.codePart3' type='number' maxlength="1" required)

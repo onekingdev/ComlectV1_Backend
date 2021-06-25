@@ -1,62 +1,53 @@
 <template lang="pug">
   div
-    .container
-      .row(v-if="loading")
-        .col-12
-          Loading
-      .row(v-if="!loading")
-        .col-12
-          .row.p-x-1
-            .col-md-12.d-flex.justify-content-between.p-t-3.p-b-1
-              div
-                h2: b {{ pageTitle }} / {{ riskComputed.name }}
-                h2
-                  b-badge.mr-2(:variant="badgeVariant(riskComputed.risk_level)") {{ showLevel(riskComputed.risk_level) }}
-                  b {{ riskComputed.name }}
-              div
-                b-dropdown.bg-white(text='Actions', variant="secondary", right)
-                  RiskModalDelete(@deleteConfirmed="deleteRisk", :riskId="riskComputed.id", :inline="false")
-                    b-dropdown-item.delete Delete risk
-          .row
-            .col-12
-              .card-body.white-card-body
-                div.mb-3
-                  b-card-group(deck)
-                    b-card(header-tag='header' header-class='d-flex')
-                      template(#header)
-                        h3.mb-0.font-weight-bold Risk Details
-                        RisksAddEditModal.ml-auto(:riskId="riskComputed.id" :inline="false")
-                          button.btn.btn-light Edit
-                      b-card-text
-                        .row
-                          .col-lg-2.col-md-3.col-4.pr-0
-                            b-list-group.text-secondary
-                              b-list-group-item.border.border-white.pb-0.pt-0 Title
-                              b-list-group-item.border.border-white.pb-0 Impact
-                              b-list-group-item.border.border-white.pb-0 Likelihood
-                          .col.pl-0
-                            b-list-group
-                              b-list-group-item.border.border-white.pb-0.pt-0 {{ riskComputed.name }}
-                              b-list-group-item.border.border-white.pb-0 {{ showLevel(riskComputed.impact) }}
-                              b-list-group-item.border.border-white.pb-0 {{ showLevel(riskComputed.likelihood) }}
-                div
-                  b-card-group(deck)
-                    b-card(header-tag='header' header-class='d-flex')
-                      template(#header)
-                        h3.mb-0.font-weight-bold Controls
-                        RiskContols.ml-auto(:riskId="riskComputed.id" :inline="false")
-                          button.btn.btn-light {{ !riskComputed.compliance_policies.length ? 'Add' : 'Edit' }} Control
-                      b-card-text
-                        PoliciesTable(:riskPolicies="riskComputed.compliance_policies", @deleteControl="updateRisk")
-                      b-card-text(v-if="!riskComputed.compliance_policies.length")
-                        div.no-results.text-center
-                          b-icon(icon="files" scale="5" variant="dark")
-                          p.no-results__title: b No results found
-                          p Add a policy as a control to get started
-                          RiskContols(:riskId="riskComputed.id" :inline="false")
-                            button.btn.btn-dark Add Control
-
-
+    div(v-if="loading")
+      Loading
+    .page(v-if="!loading")
+      .page__title
+        h2: b {{ pageTitle }} / {{ riskComputed.name }}
+        h2
+          b-badge.mr-2(:variant="badgeVariant(riskComputed.risk_level)") {{ showLevel(riskComputed.risk_level) }}
+          b {{ riskComputed.name }}
+      .page__actions
+        b-dropdown.bg-white(text='Actions', variant="secondary", right)
+          RiskModalDelete(@deleteConfirmed="deleteRisk", :riskId="riskComputed.id", :inline="false")
+            b-dropdown-item.delete Delete risk
+    .card-body.white-card-body.card-body_full-height(v-if="!loading")
+      div.mb-3
+        b-card-group(deck)
+          b-card(header-tag='header' header-class='d-flex')
+            template(#header)
+              h3.mb-0.font-weight-bold Risk Details
+              RisksAddEditModal.ml-auto(:riskId="riskComputed.id" :inline="false")
+                button.btn.btn-light Edit
+            b-card-text
+              .row
+                .col-lg-2.col-md-3.col-4.pr-0
+                  b-list-group.text-secondary
+                    b-list-group-item.border.border-white.pb-0.pt-0 Title
+                    b-list-group-item.border.border-white.pb-0 Impact
+                    b-list-group-item.border.border-white.pb-0 Likelihood
+                .col.pl-0
+                  b-list-group
+                    b-list-group-item.border.border-white.pb-0.pt-0 {{ riskComputed.name }}
+                    b-list-group-item.border.border-white.pb-0 {{ showLevel(riskComputed.impact) }}
+                    b-list-group-item.border.border-white.pb-0 {{ showLevel(riskComputed.likelihood) }}
+      div
+        b-card-group(deck)
+          b-card(header-tag='header' header-class='d-flex')
+            template(#header)
+              h3.mb-0.font-weight-bold Controls
+              RiskContols.ml-auto(:riskId="riskComputed.id" :inline="false")
+                button.btn.btn-light {{ !riskComputed.compliance_policies && !riskComputed.compliance_policies.length ? 'Add' : 'Edit' }} Control
+            b-card-text
+              PoliciesTable(:riskPolicies="riskComputed.compliance_policies", @deleteControl="updateRisk")
+            b-card-text(v-if="!riskComputed.compliance_policies && !riskComputed.compliance_policies.length")
+              div.no-results.text-center
+                b-icon(icon="files" scale="5" variant="dark")
+                p.no-results__title: b No results found
+                p Add a policy as a control to get started
+                RiskContols(:riskId="riskComputed.id" :inline="false")
+                  button.btn.btn-dark Add Control
 </template>
 
 <script>

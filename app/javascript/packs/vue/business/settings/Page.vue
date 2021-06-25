@@ -27,6 +27,7 @@
   import Roles from "./components/roles";
   import Billings from "./components/billings";
   import Notifications from "./components/notifications";
+  import AccessDenied from "@/common/layout/AccessDenied";
   import SelectPlan from './components/subscriptions/components/SelectPlan'
   import SelectBilling from './components/billings/components/SelectBilling'
 
@@ -41,6 +42,7 @@
       Roles,
       Billings,
       Notifications,
+      AccessDenied,
       SelectPlan,
       SelectBilling,
     },
@@ -72,6 +74,7 @@
           { name: 'Subscriptions', link: 'Subscriptions' },
           { name: 'Billings', link: 'Billings' },
           { name: 'Notifications', link: 'Notifications' },
+          { name: 'AccessDenied', link: 'AccessDenied' },
         ]
       };
     },

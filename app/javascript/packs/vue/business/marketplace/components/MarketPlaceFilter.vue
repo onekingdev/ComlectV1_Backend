@@ -3,7 +3,7 @@
     .card-header(style='border-bottom: 0px;')
       b Filters
     .card-body
-      h3.d-flex.justify-content-between(role="button" v-b-toggle.collapse_industry)
+      h5.d-flex.justify-content-between(role="button" v-b-toggle.collapse_industry)
         | Industry
         ion-icon(name='chevron-down-outline')
       b-collapse#collapse_industry(visible)
@@ -20,13 +20,13 @@
             required)
           .invalid-feedback.d-block(v-if="errors.industry") {{ errors.industry }}
       hr
-      h3.d-flex.justify-content-between(role="button" v-b-toggle.collapse_experience)
+      h5.d-flex.justify-content-between(role="button" v-b-toggle.collapse_experience)
         | Experience Level
         ion-icon(name='chevron-down-outline')
       b-collapse#collapse_experience(visible)
         b-form-checkbox(v-for="(option, i) in experienceOptions" :value="experienceOptions[i]" v-model="optionsForRequest.experienceLevel" :key="'e'+i") {{ option }}
       hr
-      h3.d-flex.justify-content-between(role="button" v-b-toggle.collapse_hourly_rate)
+      h5.d-flex.justify-content-between(role="button" v-b-toggle.collapse_hourly_rate)
         | Hourly rate
         ion-icon(name='chevron-down-outline')
       b-collapse#collapse_hourly_rate(visible)
@@ -39,10 +39,10 @@
         <!--:min="min" :max="max" :formatter="formatter" :tooltip-merge="tooltipMerge" :enable-cross="enableCross"-->
         <!--:bgStyle="bgStyle" :tooltipStyle="tooltipStyle" :processStyle="processStyle" :slider-style="sliderStyle"-->
         <!--:tooltip-dir='tooltipDir')-->
-        .sliedr-contaner
+        .slieder-contaner
           vue-slider(v-model="optionsForRequest.hourlyRate" :enable-cross="false" v-bind="options")
       hr
-      h3.d-flex.justify-content-between(role="button" v-b-toggle.collapse_jurisdiction)
+      h5.d-flex.justify-content-between(role="button" v-b-toggle.collapse_jurisdiction)
         | Jurisdiction
         ion-icon(name='chevron-down-outline')
       b-collapse#collapse_jurisdiction(visible)
@@ -59,7 +59,7 @@
             required)
           .invalid-feedback.d-block(v-if="errors.jurisdictions") {{ errors.jurisdictions }}
       hr
-      h3.d-flex.justify-content-between(role="button" v-b-toggle.collapse_fromer_regulator)
+      h5.d-flex.justify-content-between(role="button" v-b-toggle.collapse_fromer_regulator)
         | Former Regulator
         ion-icon(name='chevron-down-outline')
       b-collapse#collapse_fromer_regulator(visible)
@@ -166,13 +166,14 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 /* It's need to remove top triangles of points in vue-range-slider */
 .vue-range-slider.slider-component .slider-tooltip-wrap.slider-tooltip-bottom .slider-tooltip::before {
   display: none;
 }
 .custom-control {
   margin-bottom: 10px;
+  padding-left: 2rem;
 }
 .custom-control-label {
   padding-left: 10px;
@@ -258,7 +259,7 @@ export default {
 </style>
 
 <style>
-  .sliedr-contaner {
+  .slieder-contaner {
     height: 3.5rem;
   }
   .vue-slider-process,
