@@ -16,24 +16,24 @@
               Errors(:errors="errors.billingPlan")
             b-col(class="pl-1")
               label.form-label Users
-              input.form-control(v-model="plan.count" type="number" placeholder="Users" ref="input" min="0" @keyup.enter="submit" @input="calcPrice")
+              input.form-control(v-model="additionalUsers" type="number" placeholder="Users" ref="input" min="0" @keyup.enter="submit" @input="calcPrice")
               Errors(:errors="errors.count")
         b-col
           b-card.mb-2
             b-card-text
               p.form-label.text-uppercase.mb-0 Users
               p
-                b 100$
+                b ${{ summary.usersCoast }}
                 | /month
               p.form-label.text-uppercase.mb-0 Total
               p
-                b 150$
+                b ${{ summary.total }}
                 | /month
-              p.text-success.mb-0(v-if="showDiscount") You saved 50$/month
+              p.text-success.mb-0(v-if="showDiscount") You saved {{ summary.discount }}$/month
       b-row
         b-col
           h5.mb-3 Payment method
-          b-form-group(v-slot='{ ariaDescribedby }')
+          b-form-group.px-2(v-slot='{ ariaDescribedby }')
             b-form-radio(v-for="(paymentMethod, i) in paymentMethods" :key="i" v-model='selected' :aria-describedby='ariaDescribedby' name='radiosPaymentMethods' :value='paymentMethod.id') **** **** **** {{ paymentMethod.last4 }} {{ paymentMethod.brand }}
 
       template(slot="modal-footer")
@@ -62,7 +62,9 @@
         modalId: `modal_${rnd()}`,
         errors: [],
         selected: '',
-        showDiscount: false
+        showDiscount: false,
+        selectedPlan: '',
+        additionalUsers: 0,
       }
     },
     methods: {
@@ -81,7 +83,7 @@
         this.errors = [];
 
         try {
-          console.log(this.plan, this.selected)
+          console.log(this.plan, this.selected, this.additionalUsers)
         } catch (error) {
           console.error(error)
         }
@@ -89,7 +91,12 @@
       selectPlan(value) {
         if (value==='anually') {
           this.showDiscount = true
+          this.selectedPlan = 'anually'
           this.calcPrice(this.$refs.input.value)
+        }
+        if (value==='monthly' || value === '') {
+          this.showDiscount = false
+          this.selectedPlan = 'monthly'
         }
       },
       calcPrice (event) {
@@ -126,6 +133,26 @@
           }
         ]
       },
+      summary () {
+        const billingType = this.selectedPlan
+        let summary = {}
+        if (billingType === 'anually') {
+          const  usersCoast = this.additionalUsers * this.plan.additionalUserAnnually
+          summary = {
+            usersCoast,
+            total: this.plan.coastAnnually + usersCoast,
+            discount: Math.abs(this.plan.coastAnnually - this.plan.coastMonthly * 12)
+          }
+        }
+        if (billingType === 'monthly') {
+          const  usersCoast = this.additionalUsers * this.plan.additionalUserMonthly
+          summary = {
+            usersCoast,
+            total: this.plan.coastMonthly + usersCoast
+          }
+        }
+        return summary
+      }
     }
   }
 </script>

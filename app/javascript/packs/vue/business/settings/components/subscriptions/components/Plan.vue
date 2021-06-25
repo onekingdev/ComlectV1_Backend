@@ -34,6 +34,12 @@
             paymentCardType: 'Visa',
             paymentCard: '**** **** **** 4242',
             nextPaymentDate: 'October 25, 2021',
+
+            coastMonthly: 145,
+            coastAnnually: 1500,
+            usersCount: 10,
+            additionalUserMonthly: 15,
+            additionalUserAnnually: 120,
           }
         }
       }
