@@ -6,14 +6,6 @@
           h3.mb-0 Billings
         .card-body.white-card-body.px-3.px-xl-5
           .settings___card--internal.p-y-1
-            .row.m-b-2
-              .col
-                h4
-                  b Client Billing
-            .row
-              .col
-                ClientBilling(@openComponent="openComponent")
-          .settings___card--internal.p-y-1
             .row.m-b-2(v-if='!loading')
               .col
                 h4
@@ -46,7 +38,6 @@
   import PaymentMethod from "./components/PaymentMethod";
   import BillingMethodModalAdd from "./modals/BillingMethodModalAdd";
   import BillingMethodCardModalAdd from "./modals/BillingMethodCardModalAdd";
-  import ClientBilling from "./components/ClientBilling";
 
   export default {
     components: {
@@ -55,7 +46,6 @@
       PaymentMethod,
       InvoicesTable,
       Loading,
-      ClientBilling,
     },
     data() {
       return {
@@ -76,9 +66,6 @@
       },
       addPaymentMethod (response) {
         this.paymentMethods.push(response)
-      },
-      openComponent (value) {
-        this.$emit('openComponent', value)
       }
     },
     computed: {

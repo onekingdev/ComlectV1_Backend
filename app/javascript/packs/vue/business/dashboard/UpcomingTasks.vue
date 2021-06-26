@@ -62,18 +62,11 @@ export default {
             tasks = tasks.concat(result.tasks)
             projects = result.projects
 
-            this.tasks = this.restructureArray(tasks, LIMIT_OF_ARRAYS)
-            this.projects = this.restructureArray(projects, LIMIT_OF_ARRAYS)
+            this.tasks = tasks.slice(0, LIMIT_OF_ARRAYS)
+            this.projects = projects.slice(0, LIMIT_OF_ARRAYS)
           })
         )
         // .catch(errorCallback)
-    },
-    restructureArray(array, limit) {
-      let limitedArray = [];
-      for (let i = 0; i < limit; i++){
-        limitedArray.push(array[i])
-      }
-      return limitedArray
     }
   },
   components: {

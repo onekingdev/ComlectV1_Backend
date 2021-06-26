@@ -449,46 +449,7 @@ table.table thead tr th {
   table-layout: fixed;/* even columns width , fix width of table too*/
 }
 
-/* ---------- ACCESS DENIED PAGE ---------- */
-.access-denied {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
 
-  &_h-100 {
-    min-height: calc(100vh - 5rem - 3rem); // 80px
-  }
-
-  &__title {
-    margin-bottom: 1.25rem;
-  }
-
-  &__subtitle {
-    margin-bottom: 1.75rem;
-  }
-  &__btn {}
-
-  &__logo {
-    margin-bottom: 2.5rem;
-    width: 8.9375rem;
-    height: 8.75rem;
-
-    img {
-      width: 100%;
-      object-fit: cover;
-    }
-  }
-}
-
-.access-denied-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 2rem;
-}
 
 
 

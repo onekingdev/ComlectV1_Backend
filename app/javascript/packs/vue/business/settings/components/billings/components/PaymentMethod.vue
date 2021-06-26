@@ -56,21 +56,8 @@
       }
     },
     methods: {
-      async makePrimary(cardId) {
-        try {
-          const dataToSend = {
-            userType: this.userType,
-            id: cardId,
-          }
-          await this.$store.dispatch('settings/makePrimaryPaymentMethod', dataToSend)
-            .then(response => this.toast('Success', `The primary card successfully changed!`) )
-            .catch(error => {
-              console.error(error)
-              this.toast('Error', `Something wrong! ${error}`)
-            })
-        } catch (e) {
-          console.error(error)
-        }
+      makePrimary(cardId) {
+        console.log(cardId)
       },
       async deletePaymentMethod(cardId) {
         try {

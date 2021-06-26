@@ -6,7 +6,7 @@
           .col-md-9.mx-auto.my-2
             .card
               .card-body
-                component(v-bind:is="componentUpgrade" @upgradePlanComplited="upgradePlanComplited" @upgradeBillingComplited="upgradeBillingComplited")
+                component(v-bind:is="componentUpgrade" @upgradePlanComplited="upgradePlanComplited")
       .row.p-t-3(v-if='!componentUpgrade')
         .col-md-3
           .panel-default
@@ -14,7 +14,7 @@
               li.settings-nav__item(v-for='(item, idx) in menu' :key="idx" @click="openSetting(item.link, $event)" :class="{ active: item.link === component }")
                 a.settings-nav__link(:href='item.link') {{ item.name }}
         .col-md-9
-          component(v-bind:is="component" :states="states", :timezones="timezones", :contries="contries", :userId="userId" @openComponent="openComponent")
+          component(v-bind:is="component" :states="states", :timezones="timezones", :contries="contries", :userId="userId" @upgradOpen="upgradOpen")
 
 </template>
 
@@ -27,9 +27,7 @@
   import Roles from "./components/roles";
   import Billings from "./components/billings";
   import Notifications from "./components/notifications";
-  import AccessDenied from "@/common/layout/AccessDenied";
   import SelectPlan from './components/subscriptions/components/SelectPlan'
-  import SelectBilling from './components/billings/components/SelectBilling'
 
   export default {
     props: ['states', 'timezones', 'contries', 'userId'],
@@ -42,9 +40,7 @@
       Roles,
       Billings,
       Notifications,
-      AccessDenied,
       SelectPlan,
-      SelectBilling,
     },
     created() {
       // this.component = General;
@@ -74,7 +70,6 @@
           { name: 'Subscriptions', link: 'Subscriptions' },
           { name: 'Billings', link: 'Billings' },
           { name: 'Notifications', link: 'Notifications' },
-          { name: 'AccessDenied', link: 'AccessDenied' },
         ]
       };
     },
@@ -88,16 +83,14 @@
 
         this.navigate(name)
       },
-      openComponent (value) {
-        this.componentUpgrade = value
+      upgradOpen () {
+        // console.log('open')
+        this.componentUpgrade = SelectPlan
       },
       upgradePlanComplited () {
+        // console.log('open')
         this.componentUpgrade = ''
         this.toast('Success', 'Plan upgraded.')
-      },
-      upgradeBillingComplited () {
-        this.componentUpgrade = ''
-        this.toast('Success', 'Billing upgraded.')
       },
       navigate(name) {
         const baseUrl = new URL(window.location.origin);

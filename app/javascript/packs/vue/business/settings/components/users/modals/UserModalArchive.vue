@@ -19,11 +19,12 @@
           ComboBox(v-model="user.reason" :options="reasonOptions" placeholder="Select a reason" @input="reasonChange")
           .invalid-feedback.d-block(v-if="errors.reason") {{ errors.reason }}
           //Errors(:errors="errors.reason")
-      .row(v-if="showTextArea")
+      .row
         .col-12.m-b-1
           label.m-t-1.form-label Additional Information
           textarea.form-control(v-model="user.description" rows=3)
           .invalid-feedback.d-block(v-if="errors.description") {{ errors.description }}
+          //Errors(:errors="user.description")
           .form-text.text-muted Optional
 
       template(slot="modal-footer")
@@ -53,8 +54,7 @@
           reason: '',
           description: '',
         },
-        errors: {},
-        showTextArea: false
+        errors: {}
       }
     },
     methods: {
@@ -66,8 +66,7 @@
         this.$bvModal.hide(this.modalId)
       },
       reasonChange (value) {
-        if (value === 'Others') this.showTextArea = true
-        if (value !== 'Others') this.showTextArea = false
+        console.log(value)
       }
     },
     computed: {

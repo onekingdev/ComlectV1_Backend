@@ -2,17 +2,13 @@
   tr
     td
       .d-flex
-        UserAvatar(:user="item")
-        .d-block.m-l-2
+        // UserAvatar.m-r-2(:user="item")
+        .d-block
           p.mt-2.mb-0: b {{ item.first_name + ' ' +  item.last_name }}
     td
-      .d-flex.align-items-center
-        ion-icon.black(v-if="item.role === 'admin'" name="people-outline" size="small")
-        b-icon(v-if="item.role === 'trusted'" icon="check-square-fill" scale="2" variant="success")
-        ion-icon.grey(v-if="item.role === 'basic'" name="person-circle-outline" size="small")
-        span.ml-3 {{ item.role | capitalize }}
+      b-form-checkbox(v-model="item.checked") {{item.checked ? 'Trusted' : 'Basic'}}
     td
-      b-badge.status(:variant="item.status ? 'success' : 'light'") {{ item.status ? 'Active' : 'Inactive' }}
+      b-badge.status(:variant="item.status ? 'success' : 'light'") {{ item.status }}
     td.text-right
       b-dropdown.actions(size="sm" variant="none" class="m-0 p-0" right)
         template(#button-content)
@@ -25,7 +21,7 @@
 </template>
 
 <script>
-  import UserAvatar from '@/common/UserAvatar'
+  // import UserAvatar from '@/common/UserAvatar'
   import EditRoleModal from "../modals/RolesModalEdit";
 
   export default {
@@ -33,7 +29,7 @@
     props: ['item'],
     components: {
       EditRoleModal,
-      UserAvatar,
+      // UserAvatar,
     },
     computed: {
 
@@ -43,13 +39,6 @@
         this.$store.dispatch('users/deleteUser', { id: userId })
           .then(response => this.toast('Success', `The user has been deleted! ${response.id}`))
           .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
-      }
-    },
-    filters: {
-      capitalize: function (value) {
-        if (!value) return ''
-        value = value.toString()
-        return value.charAt(0).toUpperCase() + value.slice(1)
       }
     }
   }

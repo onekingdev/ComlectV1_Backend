@@ -11,7 +11,7 @@
             b-button.btn.link.mr-2(type='button' variant='none') Cancel
             PlanModalEdit(:plan="plan")
               b-button.btn.mr-2(type='button' variant='default') Edit plan
-            b-button.btn(type='button' variant='dark' @click="$emit('openComponent', 'SelectPlan')") Upgrade
+            b-button.btn(type='button' variant='dark' @click="$emit('upgradOpen')") Upgrade
       hr
       .row
         .col {{ plan.monthCoast }}, billed {{ plan.billinPeriod }} to {{ plan.paymentCardType }} {{ plan.paymentCard }}
@@ -34,12 +34,6 @@
             paymentCardType: 'Visa',
             paymentCard: '**** **** **** 4242',
             nextPaymentDate: 'October 25, 2021',
-
-            coastMonthly: 145,
-            coastAnnually: 1500,
-            usersCount: 10,
-            additionalUserMonthly: 15,
-            additionalUserAnnually: 120,
           }
         }
       }

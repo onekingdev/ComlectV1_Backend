@@ -65,11 +65,9 @@ const BusinessExamManagement = {
 
 import BusinessSettingsPage from './vue/business/settings/Page.vue'
 import BusinessNotificationsSettingsPage from './vue/business/notifications/Page.vue'
-import BusinessProfilePage from './vue/business/profile/Page.vue'
 const BusinessSettings = {
   BusinessSettingsPage,
   BusinessNotificationsSettingsPage,
-  BusinessProfilePage,
 }
 
 import BusinessTasksPage from './vue/business/tasks/Page.vue'
