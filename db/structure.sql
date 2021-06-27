@@ -2213,7 +2213,7 @@ CREATE TABLE public.specialists (
     address_2 character varying,
     discourse_username character varying,
     discourse_user_id integer,
-    specialist_team_id integer,
+    team_id integer,
     rewards_tier_id integer,
     rewards_tier_override_id integer,
     hubspot_contact_id character varying,
@@ -8014,6 +8014,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210528182423'),
 ('20210531233721'),
 ('20210601234719'),
-('20210623234110');
+('20210623234110'),
+('20210627144137');
 
 

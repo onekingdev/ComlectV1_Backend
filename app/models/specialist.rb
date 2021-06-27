@@ -3,7 +3,7 @@
 # rubocop:disable Metrics/ClassLength
 class Specialist < ApplicationRecord
   belongs_to :user, autosave: true
-  belongs_to :team, foreign_key: :specialist_team_id, optional: true
+  belongs_to :team, foreign_key: :team_id, optional: true
 
   belongs_to :rewards_tier, optional: true
 

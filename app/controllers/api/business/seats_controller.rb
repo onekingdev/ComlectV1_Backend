@@ -25,12 +25,11 @@ class Api::Business::SeatsController < ApiController
       Seat.transaction do
         seat.assign_to(employee.id)
         @invitation = Specialist::Invitation.create!(
-          department: team,
           first_name: employee.first_name,
           last_name: employee.last_name,
           email: employee.email,
           team: team,
-          role: Specialist::Invitation.roles[invitation_params[:role]]
+          role: Specialist::Invitation.roles[params[:role]]
         )
         Notification::Deliver.got_seat_assigned!(@invitation, :new_employee)
       end
