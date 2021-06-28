@@ -1,5 +1,7 @@
 import init from './vue/init'
 import store from '@/store/business'
+import router from '@/router'
+import MainLayoyt from './vue/layouts/Main'
 import BusinessDashboardPage from './vue/business/dashboard/Page.vue'
 import BusinessRemindersPage from './vue/business/reminders/Page.vue'
 import BusinessPostProjectPage from './vue/business/projects/PostProjectPage.vue'
@@ -13,11 +15,13 @@ import BusinessAnnualReviewPage from './vue/business/annual/PageCurrentReviewCat
 import BusinessAnnualGeneralPage from './vue/business/annual/PageCurrentGeneral.vue'
 
 import BusinessPoliciesPage from './vue/business/policies/Page.vue'
+import BusinessPoliciesEntirePage from './vue/business/policies/PoliciesEntire.vue'
 import BusinessPoliciesCreatePage from './vue/business/policies/Details/PolicyCreate.vue'
 import BusinessPoliciesDetailsWithoutSectionsPage from './vue/business/policies/Details/PolicyDetailsWithoutSections.vue'
 
-const businesPolicies = {
+const businessPolicies = {
   BusinessPoliciesPage,
+  BusinessPoliciesEntirePage,
   BusinessPoliciesCreatePage,
   BusinessPoliciesDetailsWithoutSectionsPage,
 }
@@ -29,11 +33,9 @@ const businesMarketplace = {
 }
 
 import BusinessReportsRisksPage from './vue/business/reportsrisks/Page.vue'
-import BusinessReportsOrganizationsPage from './vue/business/organizations/Page.vue'
 
 const BusinessReportsRisks = {
   BusinessReportsRisksPage,
-  BusinessReportsOrganizationsPage,
 }
 
 import BusinessRisksPage from './vue/business/riskregister/Page.vue'
@@ -60,16 +62,25 @@ const BusinessExamManagement = {
   // BusinessExamManagementAuditorPortalShowPage,
 }
 
+
+import BusinessSettingsPage from './vue/business/settings/Page.vue'
+import BusinessNotificationsSettingsPage from './vue/business/notifications/Page.vue'
+const BusinessSettings = {
+  BusinessSettingsPage,
+  BusinessNotificationsSettingsPage,
+}
+
 import BusinessTasksPage from './vue/business/tasks/Page.vue'
 
 const BusinessTasks = {
   BusinessTasksPage,
 }
 
-
 init({
   store,
+  router,
   components: {
+    MainLayoyt,
     BusinessDashboardPage,
     BusinessRemindersPage,
     BusinessProjectsPage,
@@ -81,12 +92,13 @@ init({
     BusinessAnnualsPage,
     BusinessAnnualReviewPage,
     BusinessAnnualGeneralPage,
-    ...businesPolicies,
+    ...businessPolicies,
     ...BusinessReportsRisks,
     ...businesRisks,
     ...businesMarketplace,
     ...BusinessFileFolders,
     ...BusinessExamManagement,
+    ...BusinessSettings,
     ...BusinessTasks,
   }
 })

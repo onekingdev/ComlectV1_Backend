@@ -55,7 +55,7 @@ export default {
               const specialists = []
               for (const specialistItem of data) {
                 specialists.push(new Specialist(
-                  specialistItem.business_specialists_roles,
+                  specialistItem.specialists_business_roles,
                   specialistItem.certifications,
                   specialistItem.experience,
                   specialistItem.first_name,
@@ -115,7 +115,7 @@ export default {
             if (success) {
               const data = success.data
               commit('ADD_SPECIALIST', new Specialist(
-                specialistItem.business_specialists_roles,
+                specialistItem.specialists_business_roles,
                 specialistItem.certifications,
                 specialistItem.experience,
                 specialistItem.first_name,
@@ -175,7 +175,7 @@ export default {
             if (success) {
               const data = success.data
               commit('UPDATE_SPECIALIST', new Specialist(
-                specialistItem.business_specialists_roles,
+                specialistItem.specialists_business_roles,
                 specialistItem.certifications,
                 specialistItem.experience,
                 specialistItem.first_name,
@@ -198,7 +198,7 @@ export default {
                 specialistItem.visibility,
               ))
               commit('UPDATE_CURRENT_SPECIALIST', new Specialist(
-                specialistItem.business_specialists_roles,
+                specialistItem.specialists_business_roles,
                 specialistItem.certifications,
                 specialistItem.experience,
                 specialistItem.first_name,
@@ -258,7 +258,7 @@ export default {
             if (success) {
               const data = success.data
               commit('DELETE_SPECIALIST', new Specialist(
-                specialistItem.business_specialists_roles,
+                specialistItem.specialists_business_roles,
                 specialistItem.certifications,
                 specialistItem.experience,
                 specialistItem.first_name,
@@ -314,7 +314,7 @@ export default {
             if (success) {
               const data = success.data
               commit('SET_CURRENT_SPECIALIST', new Specialist(
-                specialistItem.business_specialists_roles,
+                specialistItem.specialists_business_roles,
                 specialistItem.certifications,
                 specialistItem.experience,
                 specialistItem.first_name,
@@ -369,7 +369,7 @@ export default {
             if (success) {
               const data = success.data
               commit('SET_CURRENT_SPECIALIST', new Specialist(
-                specialistItem.business_specialists_roles,
+                specialistItem.specialists_business_roles,
                 specialistItem.certifications,
                 specialistItem.experience,
                 specialistItem.first_name,

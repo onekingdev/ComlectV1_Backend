@@ -2,11 +2,16 @@
 
 class Api::Business::SeatsController < ApiController
   before_action :require_business!
+  skip_before_action :verify_authenticity_token
+
+  def index
+    respond_with current_business.all_employees, each_serializer: Business::SpecialistSerializer
+  end
 
   def assign
     respond_with(errors: { seats: 'No available seats' }) && return if current_business.seats.available.count.zero?
 
-    employee = TeamMember.find_by(id: params[:seat_id])
+    employee = current_business.teams.first.team_members.create(invitation_params)
 
     respond_with(errors: { seats: 'Invalid employee' }) && return unless employee
 
@@ -18,14 +23,13 @@ class Api::Business::SeatsController < ApiController
 
     begin
       Seat.transaction do
-        seat.assign_to(params[:seat_id])
+        seat.assign_to(employee.id)
         @invitation = Specialist::Invitation.create!(
-          department: team,
           first_name: employee.first_name,
           last_name: employee.last_name,
           email: employee.email,
           team: team,
-          role: Specialist::Invitation.roles[invitation_params[:role]]
+          role: Specialist::Invitation.roles[params[:role]]
         )
         Notification::Deliver.got_seat_assigned!(@invitation, :new_employee)
       end
@@ -39,6 +43,6 @@ class Api::Business::SeatsController < ApiController
   private
 
   def invitation_params
-    params.require(:invitation).permit(:role)
+    params.require(:invitation).permit(:first_name, :last_name, :email, :start_date)
   end
 end

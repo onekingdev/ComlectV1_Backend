@@ -19,13 +19,14 @@ Rails.application.configure do
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
   # Don't send mail
-  config.action_mailer.perform_deliveries = false
+  config.action_mailer.perform_deliveries = true
   config.action_mailer.perform_caching = false
 
   # Mailcatcher:
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = { address: 'localhost', port: 1025 }
-
+  # config.action_mailer.delivery_method = :smtp
+  # config.action_mailer.smtp_settings = { address: 'localhost', port: 1025 }
+  config.action_mailer.delivery_method = :postmark
+  config.action_mailer.postmark_settings = { api_token: ENV.fetch('POSTMARK_API_KEY'), http_ssl_version: :TLSv1_2 }
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 

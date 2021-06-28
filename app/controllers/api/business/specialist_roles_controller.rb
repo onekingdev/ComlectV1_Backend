@@ -6,7 +6,7 @@ class Api::Business::SpecialistRolesController < ApiController
     if specialist.seat?
       specialist.update(seat_role: Specialist.seat_roles[specialist_params[:role]])
     else
-      business_specialist_role = specialist.business_specialists_roles.find_by(
+      business_specialist_role = specialist.specialists_business_roles.find_by(
         business_id: current_business.id, specialist_id: specialist.id
       )
       business_specialist_role.update(role: BusinessSpecialistsRole.roles[specialist_params[:role]])

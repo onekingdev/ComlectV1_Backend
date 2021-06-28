@@ -1,26 +1,21 @@
 <template lang="pug">
   div
-    .container
+    .page
+      h2.page__title {{ pageTitle }}
+    div.px-5
+      .row(v-if="loading")
+        .col
+          .card-body.white-card-body
+            Loading
+      .row(v-if="!loading")
+        .col-lg-7.col-12.m-b-2
+          ReportRiskHeatmap
+        .col-lg-5.col-12.m-b-2
+          ReportRiskSummary
       .row
-        .col-12
-          .row.p-x-1
-            .col-md-12.p-t-3.d-flex.justify-content-between.p-b-1
-              div
-                h2: b {{ pageTitle }}
-          .row(v-if="loading")
-            .col
-              .card-body.white-card-body
-                Loading
-          .row(v-if="!loading")
-            .col-lg-7.col-12.m-b-2
-              ReportRiskHeatmap
-            .col-lg-5.col-12.m-b-2
-              ReportRiskSummary
-          .row
-            .col
-              .card-body.white-card-body
-                RisksTable
-
+        .col
+          .card-body.white-card-body
+            RisksTable
 </template>
 
 <script>
