@@ -97,7 +97,6 @@
 }
 .file-card__name {
   margin-bottom: 0;
-  word-break: break-all;
 }
 .file-card__link {}
 .file-card__close {

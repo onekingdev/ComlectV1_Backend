@@ -117,9 +117,8 @@ body class="#{controller_name} #{action_name}"
                 a.nav-item.nav-link(href='#') Community
               .navbar-nav
                 a.btn.btn-primary(href='/business/specialists' style="margin-top: 18px;")  Find an Expert
-                .dropdown#notifications_dropdown.active
-                  a.link.text-dark(href='/business/settings/notifications' class="#{'active' if params[:controller] == 'business/notification_settings'}")
-                    ion-icon(name='notifications-outline')
+                .dropdown#notifications_dropdown
+                  ion-icon(name='notifications-outline')
                 .dropdown#profile_dropdown.p-x-2
                   #profile_dropdown_btn(@click="isProfileMenuOpen = !isProfileMenuOpen" :aria-expanded="isProfileMenuOpen")
                     - if current_business
@@ -128,7 +127,7 @@ body class="#{controller_name} #{action_name}"
                     ion-icon.m-l-1(name='chevron-down-outline')
                   ul.dropdown-menu(aria-labelledby="profile_dropdown_btn" :class="{ show: isProfileMenuOpen }")
                     li
-                      a.dropdown-item(aria-current='page' href='/business/settings' class="#{'active' if params[:controller] == 'business/settings'}") Edit Profile
+                      a.dropdown-item(href="#") Edit Profile
                     li
                       form(method="POST" action=destroy_user_session_path)
                         input(type="hidden" name="authenticity_token" value=form_authenticity_token)

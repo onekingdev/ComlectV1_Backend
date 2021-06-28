@@ -1,7 +1,7 @@
 <template lang="pug">
   span
     img.img-avatar(v-if="src" :src="src")
-    span.avatar-placeholder(v-else :class="{ sm: sm } ") {{placeholderText}}
+    span.avatar-placeholder(v-else) {{placeholderText}}
 </template>
 
 <script>
@@ -10,8 +10,7 @@ const initialSymbol = str => (typeof str === "string" && str[0]) || ''
 export default {
   props: {
     user: Object,
-    business: Object,
-    sm: Boolean,
+    business: Object
   },
   computed: {
     src() {
@@ -37,17 +36,9 @@ export default {
   border-radius: 1.5em;
   height: 3em;
   width: 3em;
-  background: #303132;
+  background: grey;
   line-height: 3em;
   color: white;
   text-align: center;
-}
-.sm {
-  height: 1.5625rem; /* 25px */
-  width: 1.5625rem;
-  max-height: 1.5625rem;
-  max-width: 1.5625rem;
-  line-height: 2.5em;
-  font-size: .7rem;
 }
 </style>

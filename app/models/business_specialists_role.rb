@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SpecialistsBusinessRole < ActiveRecord::Base
+class BusinessSpecialistsRole < ActiveRecord::Base
   belongs_to :business
   belongs_to :specialist
 

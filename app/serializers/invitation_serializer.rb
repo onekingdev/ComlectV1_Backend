@@ -2,6 +2,7 @@
 
 class InvitationSerializer < ApplicationSerializer
   attributes :id,
+             :specialist_team_id,
              :specialist_id,
              :first_name,
              :last_name,
