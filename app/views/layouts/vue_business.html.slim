@@ -103,6 +103,27 @@ body class="#{controller_name} #{action_name}"
                   a.btn(aria-current='page' href='#')
                     ion-icon(name='settings-outline')
                     | Settings
+            h3.d-flex.justify-content-between(role="button" v-b-toggle.reports="")
+              | Reports
+              ion-icon(name='chevron-down-outline')
+            b-collapse#reports(:visible="true")
+              ul.nav.flex-column
+                li.nav-item
+                  a.btn(aria-current='page' href='/business/reports/organization' class="#{'active' if params[:controller] == 'business/reports/organization'}")
+                    ion-icon(name='folder-outline')
+                    | Organization
+                li.nav-item
+                  a.btn(aria-current='page' href='/business/reports/risks' class="#{'active' if params[:controller] == 'business/reports/risks'}")
+                    ion-icon(name='search-outline')
+                    | Risks
+                li.nav-item
+                  a.btn(aria-current='page' href='/business/reports/financials' class="#{'active' if params[:controller] == 'business/reports/financials'}")
+                    ion-icon(name='search-outline')
+                    | Financials
+                li.nav-item
+                  a.btn(aria-current='page' href='#')
+                    ion-icon(name='settings-outline')
+                    | Settings
         main.col-md-9.col-lg-10#main-content.px-0
           nav.navbar.navbar-expand-lg.navbar-light.p-0
             button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarNavAltMarkup' aria-controls='navbarNavAltMarkup' aria-expanded='false' aria-label='Toggle navigation')
