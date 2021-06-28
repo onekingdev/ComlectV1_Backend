@@ -13,6 +13,7 @@
                   button.btn.link View all
             .card-body.white-card-body
               Loading
+              AccessPersonTable(v-if="!loading && accessPersons.length" :users="accessPersons")
               div(v-if="!loading")
                 .col-12
                   .table(v-if="!loading && accessPersons.length === 0")
@@ -59,16 +60,44 @@
 
 <script>
 import Loading from '@/common/Loading/Loading'
-// import ReviewTable from "./components/ReviewTable"
+import AccessPersonTable from "./components/AccessPerson/Table"
 
 export default {
   components: {
     Loading,
-    // ReviewTable,
+    AccessPersonTable,
   },
   data() {
     return {
-      accessPersons: [] ,
+      accessPersons: [
+        {
+          id: 1,
+          first_name: 'Bradly',
+          last_name: 'Hudson',
+          email: 'email@example.com',
+          role: 'admin',
+          status: true,
+          state: 'Arizona, USA'
+        },
+        {
+          id: 2,
+          first_name: 'Jonson',
+          last_name: 'Baby',
+          email: 'email@example.com',
+          role: 'trusted',
+          status: true,
+          state: 'California, USA'
+        },
+        {
+          id: 3,
+          first_name: 'Richard',
+          last_name: 'Brenson',
+          email: 'email@example.com',
+          role: 'trusted',
+          status: false,
+          state: 'New York, USA'
+        }
+      ] ,
       terminatedEmployees: [],
       resignations: []
     }
