@@ -30,10 +30,12 @@ const businesMarketplace = {
 
 import BusinessReportsRisksPage from './vue/business/reportsrisks/Page.vue'
 import BusinessReportsOrganizationsPage from './vue/business/organizations/Page.vue'
+import BusinessReportsFinancialsPage from './vue/business/financials/Page.vue'
 
 const BusinessReportsRisks = {
   BusinessReportsRisksPage,
   BusinessReportsOrganizationsPage,
+  BusinessReportsFinancialsPage,
 }
 
 import BusinessRisksPage from './vue/business/riskregister/Page.vue'

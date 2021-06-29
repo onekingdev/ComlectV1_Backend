@@ -12,4 +12,8 @@ class Business::ReportsController < ApplicationController
   def organizations
     render html: content_tag('business-reports-organizations-page', '').html_safe, layout: 'vue_business'
   end
+
+  def financials
+    render html: content_tag('business-reports-financials-page', '').html_safe, layout: 'vue_business'
+  end
 end
