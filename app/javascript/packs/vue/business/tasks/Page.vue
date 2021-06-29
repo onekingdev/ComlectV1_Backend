@@ -1,8 +1,8 @@
 <template lang="pug">
-  div
-    .page(v-if="!shortTable")
-      h2.page__title Tasks
-      .page__actions
+  .card
+    .card-header.d-flex.justify-content-between
+      h3.m-y-0 Tasks
+      .d-inline-block
         a.btn.btn-default.m-r-1(v-if="!shortTable") Download
         TaskModalCreate(@saved="refetch()")
           a.btn.btn-dark Create task

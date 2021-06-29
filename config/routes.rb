@@ -86,6 +86,7 @@ Rails.application.routes.draw do
     post '/upgrade/buy' => 'upgrade#subscribe'
     resources :risks, only: %i[index show]
     get '/reports/risks' => 'reports#risks'
+    get '/reports/organizations' => 'reports#organizations'
     resources :file_folders, only: %i[index show]
     resources :exam_management, only: %i[index show] do
       get :portal, on: :member
@@ -115,6 +116,8 @@ Rails.application.routes.draw do
     resource :projects, only: %i[index]
     get 'settings' => 'settings#show'
     get 'settings/:id' => 'settings#show'
+
+    get 'profile' => 'profile#show'
 
     resources :specialists, only: :index
     concerns :favoriteable
@@ -172,6 +175,7 @@ Rails.application.routes.draw do
     resource :help, only: :show do
       resource :questions
     end
+    get 'profile' => 'profile#show'
     resource :settings, only: :show do
       resource :password
       resource :contact_information, only: %i[show update]
@@ -321,8 +325,7 @@ Rails.application.routes.draw do
       end
       resources :specialist_roles, only: :update
       resources :specialists, only: :index
-      get '/seats', to: 'seats#index'
-      post '/seats', to: 'seats#assign'
+      post '/seats/:seat_id/assign', to: 'seats#assign'
       resources :annual_reports, only: %i[index show create update destroy]
       get '/annual_reports/:id/clone' => 'annual_reports#clone'
       scope 'annual_reports/:report_id' do

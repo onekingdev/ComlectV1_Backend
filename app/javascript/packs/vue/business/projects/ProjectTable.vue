@@ -11,8 +11,7 @@
         th End Date
     tbody
       tr(v-for="project in projectsHrefs" :key="key(project)")
-        // td: a.text-dark(:href="project.href") {{project.title}}
-        td: router-link.link(:to='`${project.href}`') {{ project.title }}
+        td: a.text-dark(:href="project.href") {{project.title}}
         td {{ project.assignee }}
         td {{ project.tasksLeft }}
         td {{ project.cost }}
