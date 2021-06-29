@@ -1,7 +1,7 @@
 <template lang="pug">
   .card-body.white-card-body
     .card-header
-      h3.m-y-0 Risk Summary
+      h3.m-y-0 Annual Budget
     .card-body
       table.table
         thead

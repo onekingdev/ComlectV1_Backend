@@ -6,40 +6,35 @@
           .row.p-x-1
             .col-md-12.p-t-3.d-flex.justify-content-between.p-b-1
               div
-                h2: b {{ pageTitle }}
+                h2: b Financials
           .row(v-if="loading")
             .col
               .card-body.white-card-body
                 Loading
           .row(v-if="!loading")
             .col-lg-7.col-12.m-b-2
-              ReportRiskHeatmap
+              CompilanceSpend
             .col-lg-5.col-12.m-b-2
-              ReportRiskSummary
+              AnnualBudget
           .row
             .col
-              .card-body.white-card-body
-                RisksTable
+              .card-body.white-card-body Payments
+
 
 </template>
 
 <script>
-  import Loading from '@/common/Loading/Loading'
-  import RisksTable from '../riskregister/RisksTable.vue'
-  import ReportRiskHeatmap from "./components/ReportRiskHeatmap";
-  import ReportRiskSummary from "./components/ReportRiskSummary";
+  import CompilanceSpend from "./components/CompilanceSpend";
+  import AnnualBudget from "./components/AnnualBudget";
 
   export default {
     components: {
-      Loading,
-      ReportRiskHeatmap,
-      ReportRiskSummary,
-      RisksTable,
+      CompilanceSpend,
+      AnnualBudget,
     },
-    created() {},
     data() {
       return {
-        pageTitle: "Financials",
+
       }
     },
     methods: {
@@ -53,7 +48,7 @@
   };
 </script>
 
-<style>
-  @import "./styles.css";
+<style module>
+
 </style>
 
