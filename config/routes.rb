@@ -86,6 +86,8 @@ Rails.application.routes.draw do
     post '/upgrade/buy' => 'upgrade#subscribe'
     resources :risks, only: %i[index show]
     get '/reports/risks' => 'reports#risks'
+    get '/reports/organizations' => 'reports#organizations'
+    get '/reports/financials' => 'reports#financials'
     resources :file_folders, only: %i[index show]
     resources :exam_management, only: %i[index show] do
       get :portal, on: :member

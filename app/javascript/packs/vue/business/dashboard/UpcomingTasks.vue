@@ -9,21 +9,15 @@
         | Tasks
         ion-icon(name='chevron-down-outline')
       b-collapse#upcoming_tasks_collapse(:visible="true")
-        TaskTable(:tasks="tasks" :shortTable="true" @saved="$emit('saved')")
-        .d-flex.justify-content-end.mb-2
-          router-link.link(:to='`/business/reminders`') More
+        TaskTable(:tasks="tasks" @saved="$emit('saved')")
       b.d-flex.justify-content-between(role="button" v-b-toggle.upcoming_projects_collapse="")
         | Projects
         ion-icon(name='chevron-down-outline')
       b-collapse#upcoming_projects_collapse(:visible="true")
         ProjectTable(:projects="projects")
-        .d-flex.justify-content-end
-          router-link.link(:to='`/business/projects`') More
 </template>
 
 <script>
-const LIMIT_OF_ARRAYS = 6
-
 const endpointUrl = '/api/business/reminders/'
 const overdueEndpointUrl = '/api/business/overdue_reminders'
 
@@ -49,21 +43,15 @@ export default {
     refetch() {
       const fromTo = DateTime.local().toSQLDate() + '/' + DateTime.local().plus({days: 7}).toSQLDate()
 
-      let tasks = []
-      let projects = []
-
       fetch(overdueEndpointUrl, { headers: {'Accept': 'application/json'} })
         .then(response => response.json())
         .then(result => {
-          tasks = result.tasks
+          this.tasks = result.tasks
         }).then(fetch(`${endpointUrl}${fromTo}`, { headers: {'Accept': 'application/json'}})
           .then(response => response.json())
           .then(result => {
-            tasks = tasks.concat(result.tasks)
-            projects = result.projects
-
-            this.tasks = tasks.slice(0, LIMIT_OF_ARRAYS)
-            this.projects = projects.slice(0, LIMIT_OF_ARRAYS)
+            this.tasks = this.tasks.concat(result.tasks)
+            this.projects = result.projects
           })
         )
         // .catch(errorCallback)
