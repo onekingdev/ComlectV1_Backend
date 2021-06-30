@@ -16,19 +16,24 @@
               CompilanceSpend
             .col-lg-5.col-12.m-b-2
               AnnualBudget
+          .row.mb-3
+            .col
+              Payments
           .row
             .col
-              .card-body.white-card-body Payments
-
-
+              PaymentDetails
 </template>
 
 <script>
   import CompilanceSpend from "./components/CompilanceSpend";
   import AnnualBudget from "./components/AnnualBudget";
+  import Payments from "./components/Payments";
+  import PaymentDetails from "./components/PaymentDetails";
 
   export default {
     components: {
+      PaymentDetails,
+      Payments,
       CompilanceSpend,
       AnnualBudget,
     },

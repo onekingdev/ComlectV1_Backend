@@ -109,9 +109,9 @@ body class="#{controller_name} #{action_name}"
             b-collapse#reports(:visible="true")
               ul.nav.flex-column
                 li.nav-item
-                  a.btn(aria-current='page' href='/business/reports/organization' class="#{'active' if params[:controller] == 'business/reports/organization'}")
+                  a.btn(aria-current='page' href='/business/reports/organizations' class="#{'active' if params[:controller] == 'business/reports/organizations'}")
                     ion-icon(name='folder-outline')
-                    | Organization
+                    | Organizations
                 li.nav-item
                   a.btn(aria-current='page' href='/business/reports/risks' class="#{'active' if params[:controller] == 'business/reports/risks'}")
                     ion-icon(name='warning-outline')

@@ -5,7 +5,7 @@
       .card-title.p-3.mb-0
         h3.mb-0 Compilance Spend
       .card-body.white-card-body
-        .card-body(v-if="loading")
+        .card-body
           .chart abc
 </template>
 
