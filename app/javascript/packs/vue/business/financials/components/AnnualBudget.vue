@@ -2,8 +2,12 @@
   div
     Loading
     .card
-      .card-title.p-3.mb-0
-        h3.mb-0 Annual Budget
+      .card-title
+        .d-flex.justify-content-between.pb-1.pt-3.px-3
+          div
+            h3.mb-0 Annual Budget
+          div
+            button.btn.btn.btn-default.mr-3 Edit
       .card-body.white-card-body
         .card-body
           .chart abc

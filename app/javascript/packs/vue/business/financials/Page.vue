@@ -7,14 +7,10 @@
             .col-md-12.p-t-3.d-flex.justify-content-between.p-b-1
               div
                 h2: b Financials
-          .row(v-if="loading")
-            .col
-              .card-body.white-card-body
-                Loading
-          .row(v-if="!loading")
-            .col-lg-7.col-12.m-b-2
+          .row
+            .col-lg-7.col-12.mb-3
               CompilanceSpend
-            .col-lg-5.col-12.m-b-2
+            .col-lg-5.col-12.mb-3
               AnnualBudget
           .row.mb-3
             .col
@@ -46,9 +42,7 @@
 
     },
     computed: {
-      loading() {
-        return this.$store.getters.loading;
-      },
+
     },
   };
 </script>

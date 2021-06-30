@@ -7,16 +7,16 @@
       .card-body.white-card-body
         .payments
           .payments__item
-            p.mb-1 This month (Feb 2021)
+            p.payments__name.mb-1 This month (Feb 2021)
             h3 $200
           .payments__item
-            p.mb-1 Upcoming (Next 30 Days)
+            p.payments__name.mb-1 Upcoming (Next 30 Days)
             h3 $400
           .payments__item
-            p.mb-1 YTD
+            p.payments__name.mb-1 YTD
             h3 $500
           .payments__item
-            p.mb-1 Total (all Time)
+            p.payments__name.mb-1 Total (all Time)
             h3 $12,000
 </template>
 
@@ -46,13 +46,20 @@
 <style scoped>
   .payments {
     display: flex;
+    width: 100%;
   }
   .payments__item {
     margin-top: 1rem;
     margin-bottom: 1rem;
-    padding: 1rem;
+    width: 25%;
+  }
+  .payments__item:not(:first-child) {
+    padding: .5rem 1rem;
   }
   .payments__item:not(:last-child) {
-    border-right: solid 1px black;
+    border-right: solid 1px #dcdee4;
+  }
+  .payments__name {
+    color: #7d7f82;
   }
 </style>

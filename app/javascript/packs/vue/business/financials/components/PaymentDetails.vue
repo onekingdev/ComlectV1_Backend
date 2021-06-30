@@ -2,16 +2,20 @@
   div
     Loading
     .card
-      .card-title.p-3.mb-0
-        h3.mb-0 Paymnet Detals
+      .card-title
+        .d-flex.justify-content-between.pb-1.pt-3.px-3
+          div
+            h3.mb-0 Paymnet Detals
+          div
+            button.btn.btn.btn-default.mr-3 Export
       .card-body.white-card-body
         b-tabs(content-class="mt-2")
           b-tab(title="Upcomming" active)
             b-row
-              .col Upcomming
+              .col.px-3 Upcomming
           b-tab(title="Completed")
             b-row
-              .col Completed
+              .col.px-3 Completed
 </template>
 
 <script>
