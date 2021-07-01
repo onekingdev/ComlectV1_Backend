@@ -29,6 +29,7 @@ import ToasterMixin from '@/mixins/ToasterMixin'
 import RedirectMixin from '@/mixins/RedirectMixin'
 import HistoryMixin from '@/mixins/HistoryMixin'
 import vueDebounce from 'vue-debounce'
+import VueApexCharts from 'vue-apexcharts'
 
 const data = () => ({
   isProfileMenuOpen: false
@@ -38,6 +39,7 @@ const init = configuration => {
   Vue.use(BootstrapVue)
   Vue.use(IconsPlugin)
   Vue.use(vueDebounce)
+  Vue.use(VueApexCharts)
 
   Vue.mixin(ToasterMixin)
   Vue.mixin(RedirectMixin)
@@ -70,6 +72,7 @@ const init = configuration => {
   Vue.component('Put', Put)
   Vue.component('Delete', Delete)
   Vue.component('ModelLoader', ModelLoader)
+  Vue.component('apexchart', VueApexCharts)
 
   Vue.directive('google-maps-autocomplete', {
     inserted(el) {

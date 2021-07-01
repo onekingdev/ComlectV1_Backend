@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class Users::ConfirmationsController < Devise::ConfirmationsController
-  include ActionView::Helpers::TagHelper
-
   # GET /resource/confirmation/new
   # def new
   #   super
@@ -14,9 +12,9 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
   # end
 
   # GET /resource/confirmation?confirmation_token=abcdef
-  def show
-    render html: content_tag('user-confirmation-page', '', ':token': params[:confirmation_token]).html_safe, layout: 'vue_onboarding'
-  end
+  # def show
+  #   super
+  # end
 
   # protected
 
