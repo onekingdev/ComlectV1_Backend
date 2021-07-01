@@ -149,9 +149,6 @@
       }
     },
     methods: {
-      makeToast(title, str) {
-        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
-      },
       selectType(type){
         this.userType = type
       },
@@ -170,7 +167,7 @@
 
         if (this.form.password !== this.form.passwordConfirm) {
           this.errors = { passwordConfirm : 'Passwords are different!'}
-          this.makeToast('Error', `Passwords are different!`)
+          this.toast('Error', `Passwords are different!`)
           return
         }
 
@@ -224,19 +221,19 @@
             if (response.errors) {
               for (const type of Object.keys(response.errors)) {
                 this.errors = response.errors[type]
-                this.makeToast('Error', `Form has errors! Please recheck fields! ${error}`)
+                this.toast('Error', `Form has errors! Please recheck fields! ${error}`)
               }
             }
             if (!response.errors) {
               this.userId = response.userid
-              this.makeToast('Success', `${response.message}`)
+              this.toast('Success', `${response.message}`)
 
               // open step 2
               this.step1 = false
               this.step2 = true
             }
           })
-          .catch((error) => this.makeToast('Error', `Couldn't submit form! ${error}`))
+          .catch((error) => this.toast('Error', `Couldn't submit form! ${error}`))
       },
       onSubmitStep2(event) {
         event.preventDefault()
@@ -249,7 +246,7 @@
         // if(otpSecret) this.otpSecret = otpSecret
 
         if(this.form2.code.length !== 6) {
-          this.makeToast('Error', `Code length incorrect!`)
+          this.toast('Error', `Code length incorrect!`)
           return
         }
 
@@ -262,12 +259,12 @@
           .then((response) => {
             if(!response.token) {
               this.errors = {code: response.message}
-              this.makeToast('Error', `Errors ${response.message}`)
+              this.toast('Error', `Errors ${response.message}`)
               return
             }
 
             if(response.token) {
-              this.makeToast('Success', `${response.message}`)
+              this.toast('Success', `${response.message}`)
               // localStorage.setItem('app.currentUser', JSON.stringify(response.token));
               // this.$store.commit('updateToken', response.token)
 
@@ -286,7 +283,7 @@
             }
 
           })
-          .catch((error) => this.makeToast('Error', `Couldn't submit form! ${error}`))
+          .catch((error) => this.toast('Error', `Couldn't submit form! ${error}`))
       },
       onCodeChange(e){
         this.errors = []
@@ -335,8 +332,8 @@
         }
 
         this.$store.dispatch('resendOTP', dataToSend)
-          .then((response) => this.makeToast('Success', `${response.message}`))
-          .catch((error) => this.makeToast('Error', `${error.message}`))
+          .then((response) => this.toast('Success', `${response.message}`))
+          .catch((error) => this.toast('Error', `${error.message}`))
       },
 
       fetchINitData(data){
