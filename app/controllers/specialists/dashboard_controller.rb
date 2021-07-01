@@ -12,15 +12,7 @@ class Specialists::DashboardController < ApplicationController
   before_action :init_tasks_calendar_grid
 
   def show
-   # @specialist = Specialist.preload_association.find(current_user.specialist.id)
-   # @financials = Specialist::Financials.for(current_specialist)
-   # @reminders_today = reminders_today(current_specialist, @calendar_grid)
-   # @reminders_week = reminders_week(current_specialist, @calendar_grid)
-   # @reminders_past = reminders_past(current_specialist)
-   # @calendar_grid = tasks_calendar_grid(current_specialist, Date.parse(params[:start_date]).beginning_of_month) if params[:start_date]
-   # @compliance_spend = ['Earned'] + transactions_monthly(@specialist)
-
-   render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_main_layout'
+    render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_main_layout'
   end
 
   def locked

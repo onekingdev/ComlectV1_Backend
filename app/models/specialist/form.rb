@@ -19,7 +19,7 @@ class Specialist::Form < Specialist
     tos_acceptance_ip = attributes.delete(:tos_acceptance_ip)
 
     new(attributes).tap do |specialist|
-      specialist.specialist_team_id = invitation.specialist_team_id if invitation
+      specialist.team_id = invitation.team_id if invitation
       specialist.build_user.build_tos_agreement.build_cookie_agreement unless specialist.user
       specialist.user.tos_acceptance_date = Time.zone.now
       specialist.user.tos_acceptance_ip = tos_acceptance_ip

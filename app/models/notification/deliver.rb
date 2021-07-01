@@ -75,7 +75,7 @@ class Notification::Deliver < Draper::Decorator
         key: :got_seat_assigned,
         action_path: action_path,
         t: {
-          company_name: invitation.department.business.name
+          company_name: invitation.team.business.name
         }
       )
 
@@ -101,8 +101,8 @@ class Notification::Deliver < Draper::Decorator
         key: :got_employee_invitation,
         action_path: action_path,
         t: {
-          manager_full_name: (invitation.team&.manager&.full_name || invitation.department&.business&.contact_full_name),
-          team_name: (invitation.team || invitation.department)&.name
+          manager_full_name: (invitation.team&.manager&.full_name || invitation.team&.business&.contact_full_name),
+          team_name: (invitation.team || invitation.team)&.name
         }
       )
 

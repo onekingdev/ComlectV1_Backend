@@ -73,7 +73,7 @@ class EmployeesController < ApplicationController
                   .first
     return unless @invitation
     session.delete(:employee_business_id)
-    session[:employee_business_id] = @invitation&.department&.business_id
+    session[:employee_business_id] = @invitation&.team&.business_id
   end
 
   def init_tasks_calendar_grid
