@@ -464,37 +464,6 @@ ALTER SEQUENCE public.bank_accounts_id_seq OWNED BY public.bank_accounts.id;
 
 
 --
--- Name: business_specialists_roles; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.business_specialists_roles (
-    id bigint NOT NULL,
-    business_id bigint NOT NULL,
-    specialist_id bigint NOT NULL,
-    role integer DEFAULT 0
-);
-
-
---
--- Name: business_specialists_roles_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.business_specialists_roles_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: business_specialists_roles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.business_specialists_roles_id_seq OWNED BY public.business_specialists_roles.id;
-
-
---
 -- Name: businesses; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2244,7 +2213,7 @@ CREATE TABLE public.specialists (
     address_2 character varying,
     discourse_username character varying,
     discourse_user_id integer,
-    specialist_team_id integer,
+    team_id integer,
     rewards_tier_id integer,
     rewards_tier_override_id integer,
     hubspot_contact_id character varying,
@@ -2305,7 +2274,6 @@ CREATE TABLE public.users (
 '::text,
     otp_secret character varying,
     otp_counter integer,
-    email_confirmed boolean DEFAULT false,
     hidden_local_projects jsonb DEFAULT '[]'::jsonb
 );
 
@@ -4695,6 +4663,37 @@ ALTER SEQUENCE public.specialist_teams_id_seq OWNED BY public.specialist_teams.i
 
 
 --
+-- Name: specialists_business_roles; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.specialists_business_roles (
+    id bigint NOT NULL,
+    business_id bigint NOT NULL,
+    specialist_id bigint NOT NULL,
+    role integer DEFAULT 0
+);
+
+
+--
+-- Name: specialists_business_roles_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.specialists_business_roles_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: specialists_business_roles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.specialists_business_roles_id_seq OWNED BY public.specialists_business_roles.id;
+
+
+--
 -- Name: specialists_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -5267,13 +5266,6 @@ ALTER TABLE ONLY public.bank_accounts ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
--- Name: business_specialists_roles id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.business_specialists_roles ALTER COLUMN id SET DEFAULT nextval('public.business_specialists_roles_id_seq'::regclass);
-
-
---
 -- Name: businesses id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -5687,6 +5679,13 @@ ALTER TABLE ONLY public.specialists ALTER COLUMN id SET DEFAULT nextval('public.
 
 
 --
+-- Name: specialists_business_roles id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.specialists_business_roles ALTER COLUMN id SET DEFAULT nextval('public.specialists_business_roles_id_seq'::regclass);
+
+
+--
 -- Name: stripe_accounts id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -5847,14 +5846,6 @@ ALTER TABLE ONLY public.audit_requests
 
 ALTER TABLE ONLY public.bank_accounts
     ADD CONSTRAINT bank_accounts_pkey PRIMARY KEY (id);
-
-
---
--- Name: business_specialists_roles business_specialists_roles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.business_specialists_roles
-    ADD CONSTRAINT business_specialists_roles_pkey PRIMARY KEY (id);
 
 
 --
@@ -6322,6 +6313,14 @@ ALTER TABLE ONLY public.specialist_teams
 
 
 --
+-- Name: specialists_business_roles specialists_business_roles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.specialists_business_roles
+    ADD CONSTRAINT specialists_business_roles_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: specialists specialists_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -6466,20 +6465,6 @@ CREATE INDEX index_answers_on_question_id ON public.answers USING btree (questio
 --
 
 CREATE INDEX index_bank_accounts_on_stripe_account_id ON public.bank_accounts USING btree (stripe_account_id);
-
-
---
--- Name: index_business_specialists_roles_on_business_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_business_specialists_roles_on_business_id ON public.business_specialists_roles USING btree (business_id);
-
-
---
--- Name: index_business_specialists_roles_on_specialist_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_business_specialists_roles_on_specialist_id ON public.business_specialists_roles USING btree (specialist_id);
 
 
 --
@@ -7197,6 +7182,20 @@ CREATE INDEX index_specialist_teams_on_manager_id ON public.specialist_teams USI
 
 
 --
+-- Name: index_specialists_business_roles_on_business_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_specialists_business_roles_on_business_id ON public.specialists_business_roles USING btree (business_id);
+
+
+--
+-- Name: index_specialists_business_roles_on_specialist_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_specialists_business_roles_on_specialist_id ON public.specialists_business_roles USING btree (specialist_id);
+
+
+--
 -- Name: index_specialists_on_discourse_username; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7566,10 +7565,10 @@ ALTER TABLE ONLY public.tos_agreements
 
 
 --
--- Name: business_specialists_roles fk_rails_77436698dd; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: specialists_business_roles fk_rails_77436698dd; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.business_specialists_roles
+ALTER TABLE ONLY public.specialists_business_roles
     ADD CONSTRAINT fk_rails_77436698dd FOREIGN KEY (specialist_id) REFERENCES public.specialists(id);
 
 
@@ -7590,10 +7589,10 @@ ALTER TABLE ONLY public.project_issues
 
 
 --
--- Name: business_specialists_roles fk_rails_a4e1c0f49f; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: specialists_business_roles fk_rails_a4e1c0f49f; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.business_specialists_roles
+ALTER TABLE ONLY public.specialists_business_roles
     ADD CONSTRAINT fk_rails_a4e1c0f49f FOREIGN KEY (business_id) REFERENCES public.businesses(id);
 
 
@@ -8013,6 +8012,9 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210528030543'),
 ('20210528182423'),
 ('20210531233721'),
-('20210601234719');
+('20210601234719'),
+('20210623234110'),
+('20210627144137'),
+('20210630220835');
 
 
