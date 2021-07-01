@@ -144,7 +144,8 @@
         step3: false,
         childDataLoaded: false,
         childdata : [],
-        component: ''
+        component: '',
+        seat_id: 1
       }
     },
     methods: {
@@ -202,6 +203,22 @@
           }
         }
 
+        // NEED FIX AND TRACE
+        // this.userType = 'seat'
+        if (this.userType === 'seat') {
+          dataToSend = {
+            seat_id: this.seat_id,
+            "seat": {
+              "first_name": this.form.firstName,
+              "last_name": this.form.lastName,
+              "user_attributes": {
+                "email": this.form.email,
+                "password": this.form.password
+              }
+            },
+          }
+        }
+
         this.$store.dispatch('singUp', dataToSend)
           .then((response) => {
             if (response.errors) {
@@ -213,11 +230,6 @@
             if (!response.errors) {
               this.userId = response.userid
               this.makeToast('Success', `${response.message}`)
-
-              // ?userid=14&otp_secret=123456
-              // const url = new URL(window.location);
-              // url.searchParams.set('userid', response.userid);
-              // window.history.pushState({}, '', url);
 
               // open step 2
               this.step1 = false

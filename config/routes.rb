@@ -86,8 +86,6 @@ Rails.application.routes.draw do
     post '/upgrade/buy' => 'upgrade#subscribe'
     resources :risks, only: %i[index show]
     get '/reports/risks' => 'reports#risks'
-    get '/reports/organizations' => 'reports#organizations'
-    get '/reports/financials' => 'reports#financials'
     resources :file_folders, only: %i[index show]
     resources :exam_management, only: %i[index show] do
       get :portal, on: :member
@@ -115,10 +113,19 @@ Rails.application.routes.draw do
       resource :questions
     end
     resource :projects, only: %i[index]
-    get 'settings' => 'settings#show'
-    get 'settings/:id' => 'settings#show'
-
-    get 'profile' => 'profile#show'
+    resource :settings, only: :show do
+      resource :password
+      # resource :referrals, only: :show
+      resource :delete_account
+      resources :payment_settings, as: :payment, path: 'payment' do
+        patch :make_primary
+        collection do
+          post :apply_coupon
+        end
+      end
+      resources :notification_settings, as: :notifications, path: 'notifications', only: %i[index update]
+      resources :subscription_settings, as: :subscriptions, path: 'subscriptions', only: %i[index update]
+    end
 
     resources :specialists, only: :index
     concerns :favoriteable
@@ -176,7 +183,6 @@ Rails.application.routes.draw do
     resource :help, only: :show do
       resource :questions
     end
-    get 'profile' => 'profile#show'
     resource :settings, only: :show do
       resource :password
       resource :contact_information, only: %i[show update]
@@ -277,7 +283,6 @@ Rails.application.routes.draw do
       patch 'password' => 'password#update'
       get 'notifications' => 'notifications#index'
       patch 'notifications' => 'notifications#update'
-      delete 'profile' => 'profile#destroy'
     end
 
     get 'local_projects/:project_id/messages' => 'project_messages#index'
