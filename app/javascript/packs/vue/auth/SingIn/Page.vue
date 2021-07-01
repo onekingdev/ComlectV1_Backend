@@ -132,12 +132,14 @@
 
         this.$store.dispatch('singIn', data)
           .then((response) => {
+            console.log('response.errors', response.errors)
             if (response.errors) {
               for (const type of Object.keys(response.errors)) {
                 this.errors = response.errors[type]
                 this.toast('Error', `Form has errors! Please recheck fields! ${error}`)
                 this.error = `${response.errors[type]}`
               }
+              this.error = `${response.errors}`
               this.showAlert()
             }
             if (!response.errors) {

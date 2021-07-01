@@ -10,21 +10,21 @@
             Loading
             #step0.form(v-if='!loading' :class="step0 ? 'd-block' : 'd-none'")
               h1.text-center Let's get you started!
-              p.text-center Create your FREE account
+              p.text-center Select your account type
               div
                 b-form(@submit='onSubmit0' v-if='show')
                   b-form-group
                     .row
-                      .col.pr-md-2.text-center
+                      .col-sm-6.col-12.pr-md-2.text-center.mb-sm-0.mb-3
                         .account-select(@click="selectType('business')" :class="userType === 'business' ? 'active' : ''")
                           h3.account-select__title.mb-3 I am a business
-                          ion-icon.mb-3(name="people-circle-outline" size="large")
-                          p.account-select__subtitle Looking to effectively manage my compilance program and find expetrise
-                      .col.pl-md-2.text-center
+                          img.mb-3(src='@/assets/business-outline.svg' width="50")
+                          p.account-select__subtitle Looking to effectively manage my compliance program and find expertise
+                      .col-sm-6.col-12.pl-md-2.text-center
                         .account-select(@click="selectType('specialist')" :class="userType === 'specialist' ? 'active' : ''")
                           h3.account-select__title.mb-3 I am a specialist
-                          ion-icon.mb-3(name="person-circle-outline" size="large")
-                          p.account-select__subtitle Looking to work with potential clients on compilance projects
+                          img.mb-3(src='@/assets/briefcase-outline.svg' width="50")
+                          p.account-select__subtitle Looking to work with potential clients on compliance projects
                   b-button.w-100(type='submit' variant='dark') Next
                   hr
                   b-form-group.text-center

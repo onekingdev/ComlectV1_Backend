@@ -34,7 +34,7 @@
 .account-select__title {}
 .account-select__subtitle {
   /*padding: 0 3rem;*/
-  min-height: 4rem;
+  height: 4rem;
   text-align: center;
   color: #7f8184;
 }
