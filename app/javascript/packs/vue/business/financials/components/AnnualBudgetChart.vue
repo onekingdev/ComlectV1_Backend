@@ -1,6 +1,6 @@
 <template lang="pug">
   div.chart-wrapper
-    apexchart(height="180" type="bar" :options="options" :series="series")
+    apexchart(height="220" type="bar" :options="options" :series="series")
 </template>
 
 <script>
@@ -34,7 +34,7 @@
         series: [{
           // name: 'series-1',
           data: [5, 10]
-        }]
+        }],
       }
     },
   };

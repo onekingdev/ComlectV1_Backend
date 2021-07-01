@@ -13,7 +13,7 @@
           .chart
             .d-flex.justify-content-end.mb-3
               p.mb-0
-                b Left:
+                b Left:&nbsp;
                 span $4,000
             AnnualBudgetChart
 </template>
