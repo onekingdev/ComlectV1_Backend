@@ -2,6 +2,6 @@
 
 FactoryBot.define do
   factory :compliance_policy do
-    title 'MyString'
+    name 'Compliance policy'
   end
 end

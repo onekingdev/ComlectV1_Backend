@@ -90,8 +90,7 @@ export default {
         commit("clearError");
         commit("setLoading", true);
 
-        let endPoint = payload.business ? 'businesses' : 'specialists'
-        endPoint = payload.seat_id ? `business/seats/${payload.seat_id}/assign` : endPoint
+        const endPoint = payload.business ? 'businesses' : 'specialists'
         const response = await axios.post(`/${endPoint}`, payload)
         // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
         return response.data

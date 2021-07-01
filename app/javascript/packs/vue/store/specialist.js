@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import settings from "./specialistModules/settings";
+import shared from "./commonModules/shared";
 
 Vue.use(Vuex)
 
@@ -20,6 +22,13 @@ const URLS = {
 const store = new Vuex.Store({
   getters: {
     url: () => (url, id) => URLS[url].replace(':id', id)
+  },
+  modules: {
+    shared,
+    settings: {
+      namespaced: true,
+      ...settings,
+    },
   }
 })
 
