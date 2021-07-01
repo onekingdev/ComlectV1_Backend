@@ -16,6 +16,20 @@
           chart: {
             id: 'vuechart-example'
           },
+          stroke: {
+            show: true,
+            width: 2,
+          },
+          plotOptions: {
+            bar: {
+              horizontal: false,
+              columnWidth: '20%',
+              endingShape: 'rounded'
+            },
+          },
+          dataLabels: {
+            enabled: false
+          },
           xaxis: {
             categories: [
               "Jan",
@@ -32,6 +46,16 @@
               "Dec"
             ]
           },
+          yaxis: {
+            // title: {
+            //   text: 'Growth',
+            // },
+            labels: {
+              formatter: function (y) {
+                return  y.toFixed(0) > 1000 ? "$" + y.toFixed(0).replace(/0*$/,"") + "k": "$" + y.toFixed(0).replace(/0*$/,"")
+              }
+            }
+          },
           // title: {
           //   text: 'Monthly Stock Pricing',
           //   align: 'center',
@@ -43,7 +67,7 @@
         },
         series: [{
           // name: 'series-1',
-          data: [5.5, 10, 14, 3, 2, 1, 0.2, 1, 5, 0, 0, 12]
+          data: [5000, 1000, 14000, 300, 200, 1000, 0.2, 1000, 5000, 0, 0, 12000]
         }],
       }
     },

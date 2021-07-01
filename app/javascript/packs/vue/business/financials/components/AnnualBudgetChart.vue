@@ -22,6 +22,26 @@
               "Annual Budget",
             ]
           },
+          yaxis: {
+            // title: {
+            //   text: 'Growth',
+            // },
+            labels: {
+              formatter: function (y) {
+                return  y.toFixed(0) > 1000 ? "$" + y.toFixed(0).replace(/0*$/,"") + "k": "$" + y.toFixed(0).replace(/0*$/,"")
+              }
+            }
+          },
+          plotOptions: {
+            bar: {
+              horizontal: false,
+              columnWidth: '15%',
+              endingShape: 'rounded'
+            },
+          },
+          dataLabels: {
+            enabled: false
+          },
           // title: {
           //   text: 'Monthly Stock Pricing',
           //   align: 'center',
