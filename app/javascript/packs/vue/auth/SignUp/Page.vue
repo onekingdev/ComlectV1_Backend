@@ -221,7 +221,7 @@
             if (response.errors) {
               for (const type of Object.keys(response.errors)) {
                 this.errors = response.errors[type]
-                this.toast('Error', `Form has errors! Please recheck fields! ${error}`)
+                // this.toast('Error', `Form has errors! Please recheck fields! ${error}`)
               }
             }
             if (!response.errors) {
@@ -233,7 +233,7 @@
               this.step2 = true
             }
           })
-          .catch((error) => this.toast('Error', `Couldn't submit form! ${error}`))
+          // .catch((error) => this.toast('Error', `Couldn't submit form! ${error}`))
       },
       onSubmitStep2(event) {
         event.preventDefault()

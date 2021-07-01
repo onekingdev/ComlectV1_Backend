@@ -136,6 +136,7 @@
               for (const type of Object.keys(response.errors)) {
                 this.errors = response.errors[type]
                 this.toast('Error', `Form has errors! Please recheck fields! ${error}`)
+                this.error = `${response.errors[type]}`
               }
               this.showAlert()
             }

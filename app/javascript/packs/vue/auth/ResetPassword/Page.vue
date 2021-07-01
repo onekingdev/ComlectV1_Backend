@@ -28,8 +28,6 @@
                     .m-t-1
                       .forgot-password.m-t-1.m-b-2
                         a.link(data-remote='true' href='/users/sign_in') Cancel
-                b-card.mt-3(header='Form Data Result')
-                  pre.m-0 {{ form }}
             #step2.form(v-if='!loading' :class="step2 ? 'd-block' : 'd-none'")
               h1.text-center You successfuly reseted password!
               p.text-center You will be redirect to the sign in page!
@@ -71,9 +69,6 @@
       }
     },
     methods: {
-      makeToast(title, str) {
-        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
-      },
       selectType(type){
         this.userType = type
       },
@@ -95,15 +90,15 @@
               const properties = Object.keys(response.errors);
               for (const type of Object.keys(response.errors)) {
                 this.errors = response.errors[type]
-                this.makeToast('Error', `Form has errors! Please recheck fields! ${error}`)
-                // Object.keys(response.errors[type]).map(prop => response.errors[prop].map(err => this.makeToast(`Error`, `${prop}: ${err}`)))
+                this.toast('Error', `Form has errors! Please recheck fields! ${error}`)
+                // Object.keys(response.errors[type]).map(prop => response.errors[prop].map(err => this.toast(`Error`, `${prop}: ${err}`)))
               }
               return
             }
 
             if (!response.errors) {
               this.userId = response.userid
-              this.makeToast('Success', `${response.message}`)
+              this.toast('Success', `${response.message}`)
 
               // open step 2
               this.step1 = false
@@ -117,7 +112,7 @@
           .catch((error) => {
             console.error(error)
             for (const type of Object.keys(error.errors)) {
-              this.makeToast('Error', `${error.errors[type]}`)
+              this.toast('Error', `${error.errors[type]}`)
               this.error = `Error! ${error.errors[type]}`
             }
             this.showAlert()
