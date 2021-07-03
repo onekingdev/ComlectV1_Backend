@@ -7,7 +7,7 @@
           .card-body.white-card-body.registration
             // Loading
             // #step1.form(v-if='!loading' :class="step1 ? 'd-block' : 'd-none'")
-            #step1.form(v-if='!loading' :class="step1 ? 'd-block' : 'd-none'")
+            #step1.form(:class="step1 ? 'd-block' : 'd-none'")
               h1.text-center Reset password
               p.text-center Enter the email address used to log in to your Complect
                 br
@@ -28,7 +28,7 @@
                   b-form-group.text-center.forgot-password.m-t-1
                     .forgot-password
                       a.link(data-remote='true' href='/users/sign_in') Cancel
-            #step2.form(v-if='!loading' :class="step2 ? 'd-block' : 'd-none'")
+            #step2.form(:class="step2 ? 'd-block' : 'd-none'")
               h1.text-center You successfuly reseted password!
               p.text-center You will be redirect to the sign in page!
               .text-center
