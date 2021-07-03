@@ -90,7 +90,8 @@ export default {
         commit("clearError");
         commit("setLoading", true);
 
-        const endPoint = payload.business ? 'businesses' : 'specialists'
+        let endPoint = payload.business ? 'businesses' : 'specialists'
+        endPoint = payload.seat_id ? `business/seats/${payload.seat_id}/assign` : endPoint
         const response = await axios.post(`/${endPoint}`, payload)
         // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
         return response.data
@@ -490,18 +491,11 @@ export default {
     },
     async resendOTP({commit}, payload) {
       try {
-        commit("clearError");
-        commit("setLoading", true);
-
         const response = await axios.post(`/otp_secrets`, payload)
-        // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
         return response.data
-
       } catch (error) {
         console.error(error);
         throw error
-      } finally {
-        commit("setLoading", false)
       }
     },
   },

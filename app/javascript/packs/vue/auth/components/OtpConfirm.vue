@@ -1,7 +1,7 @@
 <template lang="pug">
   div
-    h1.text-center Confirm your email!
-    p.text-center We send a 6 digit code to {{ form.email }}. Please enter it below.
+    h1.text-center Confirm Your Email!
+    p.text-center We sent a 6 digit code to {{ form.email }}. Please enter it below.
     div
       b-alert(:show='dismissCountDown' dismissible fade variant='danger' @dismiss-count-down='countDownChanged')
         | {{ error }}
@@ -10,7 +10,7 @@
       b-form(@submit='onSubmit' @keyup="onCodeChange" v-if='show' autocomplete="off")
         b-form-group
           .col.text-center
-            ion-icon(name="mail-outline")
+            img(src='@/assets/mail.svg' width="180" height="110")
         b-form-group
           .row
             .col-12.mx-0
@@ -29,7 +29,7 @@
         b-form-group
           .row
             .col-12.text-center
-              button.btn.link(@click.stop="resendOTP" :disabled="disabled") Resend code
+              button.btn.link(type="button" @click.stop="resendOTP" :disabled="disabled") Resend code
 </template>
 
 <script>
@@ -59,8 +59,8 @@
       onSubmit(event) {
         event.preventDefault()
 
-        console.log('this.userId', this.userId)
-        console.log('this.form', this.form)
+        this.error = ''
+        this.errors = []
 
         if(this.form2.code.length !== 6) {
           this.toast('Error', `Code length incorrect!`)
@@ -90,37 +90,32 @@
           .then((response) => {
             console.log('response', response)
             if(response.errors) {
-              this.toast('Error', `${response.errors}`)
-              // for (const type of Object.keys(response.errors)) {
-              //   this.errors = response.errors[type]
-              //   this.toast('Error', `${response.errors[type]}`)
-              // }
-              // this.showAlert()
+              // this.toast('Error', `${response.errors}`)
+              this.error = `${response.message}`
             }
-            // if(!response.token) {
-            //   this.errors = {code: response.message}
-            //   this.toast('Error', `Errors ${response.message}`)
-            // }
             if(response.token) {
               // this.toast('Success', `${response.message}`)
+              this.error = `${response.message}`
+              this.$emit('otpSecretConfirmed', response)
             }
-
-            this.$emit('otpSecretConfirmed', response)
           })
           .catch((error) => {
             const { data } = error
             if(data.errors) {
               for (const type of Object.keys(data.errors)) {
-                this.toast('Error', `${data.errors[type]}`)
+                // this.toast('Error', `${data.errors[type]}`)
                 this.error = `Error! ${data.errors[type]}`
               }
               this.showAlert()
             }
             if (error.errors) {
-              this.toast('Error', `Couldn't submit form! ${error.message}`)
+              // this.toast('Error', `Couldn't submit form! ${error.message}`)
+              this.error = `Error! ${data.errors[type]}`
+
             }
             if (!error.errors) {
-              this.toast('Error', `${error.status} (${error.statusText})`)
+              // this.toast('Error', `${error.status} (${error.statusText})`)
+              this.error = `Error! ${data.errors[type]}`
             }
           })
 

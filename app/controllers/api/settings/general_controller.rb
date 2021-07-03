@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class Api::Settings::GeneralController < ApiController
-  skip_before_action :verify_authenticity_token
   before_action :require_someone!
+  skip_before_action :verify_authenticity_token
 
   def index
     respond_with @current_someone, serializer: ::Settings::GeneralSerializer

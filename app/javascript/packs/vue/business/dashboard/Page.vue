@@ -1,21 +1,20 @@
 <template lang="pug">
-  div
-    .page
-      h2.page__title Welcome, {{currentBusiness}}
-      .page__actions
-        b-dropdown.m-r-1(text='Admin View')
-          b-dropdown-item Action
-          b-dropdown-item Another action
-          b-dropdown-item Something else here
-        a.btn.btn-default Customize
-    div.px-4
-      .row
-        .col-md-7.col-sm-12
-          .card
-            Calendar(v-bind="{pdfUrl}" @saved="newEtag" :etag="etag")
-        .col-md-5.col-sm-12.pl-0
-          .card
-            UpcomingTasks(@saved="newEtag" :etag="etag")
+  .container
+    .row.p-x-1
+      .col-md-12.p-t-3.d-flex.justify-content-between.p-b-1
+        h2 <b>Welcome</b>, {{currentBusiness}}
+        div
+          b-dropdown.m-r-1(text='Admin View')
+            b-dropdown-item Action
+            b-dropdown-item Another action
+            b-dropdown-item Something else here
+          a.btn.btn-default Customize
+      .col-md-7.col-sm-12
+        .card
+          Calendar(v-bind="{pdfUrl}" @saved="newEtag" :etag="etag")
+      .col-md-5.col-sm-12.pl-0
+        .card
+          UpcomingTasks(@saved="newEtag" :etag="etag")
 </template>
 
 <script>
