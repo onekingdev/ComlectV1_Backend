@@ -26,7 +26,7 @@
             .col
               input(v-model='form2.code' type='hidden')
         b-button.w-100.mb-2(type='submit' variant='dark' ref="codesubmit") Submit
-        b-form-group
+        b-form-group.mb-0
           .row
             .col-12.text-center
               button.btn.link(type="button" @click.stop="resendOTP" :disabled="disabled") Resend code

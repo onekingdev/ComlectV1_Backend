@@ -31,33 +31,33 @@
                     h4.text-uppercase.m-t-1 Don't have an account yet?&nbsp;
                       a.link(data-remote='true' href='/users/sign_up') Sign up
             #step2.form(v-if='!loading' :class="step2 ? 'd-block' : 'd-none'")
-              // OtpConfirm(@otpSecretConfirmed="otpConfirmed", :form="form")
-              h1.text-center Confirm your email!
-              p.text-center We send a 6 digit code to email.com. Please enter it below.
-              div
-                b-form(@submit='onSubmitStep2' @keyup="onCodeChange" v-if='show' autocomplete="off")
-                  b-form-group
-                    .col.text-center
-                      ion-icon(name="mail-outline")
-                  b-form-group
-                    .row
-                      .col-12.mx-0
-                        .d-flex.justify-content-space-around.mx-auto.w-75
-                          b-form-input#inputCode1.code-input.ml-auto(v-model='form2.codePart1' type='number' maxlength="1" required)
-                          b-form-input#inputCode2.code-input(v-model='form2.codePart2' type='number' maxlength="1" required)
-                          b-form-input#inputCode3.code-input(v-model='form2.codePart3' type='number' maxlength="1" required)
-                          b-form-input#inputCode4.code-input(v-model='form2.codePart4' type='number' maxlength="1" required)
-                          b-form-input#inputCode5.code-input(v-model='form2.codePart5' type='number' maxlength="1" required)
-                          b-form-input#inputCode6.code-input.mr-auto(v-model='form2.codePart6' type='number' maxlength="1" required)
-                        .invalid-feedback.d-block.text-center(v-if="errors.code") {{ errors.code }}
-                    .row
-                      .col
-                        input(v-model='form2.code' type='hidden')
-                  b-button.w-100.mb-2(type='submit' variant='dark' ref="codesubmit") Submit
-                  b-form-group
-                    .row
-                      .col-12.text-center
-                        a.link(href="#" @click.stop="resendOTP") Send new code
+              OtpConfirm(@otpSecretConfirmed="otpConfirmed", :form="form")
+              // h1.text-center Confirm your email!
+              // p.text-center We send a 6 digit code to email.com. Please enter it below.
+              // div
+              //   b-form(@submit='onSubmitStep2' @keyup="onCodeChange" v-if='show' autocomplete="off")
+              //     b-form-group
+              //       .col.text-center
+              //         ion-icon(name="mail-outline")
+              //     b-form-group
+              //       .row
+              //         .col-12.mx-0
+              //           .d-flex.justify-content-space-around.mx-auto.w-75
+              //             b-form-input#inputCode1.code-input.ml-auto(v-model='form2.codePart1' type='number' maxlength="1" required)
+              //             b-form-input#inputCode2.code-input(v-model='form2.codePart2' type='number' maxlength="1" required)
+              //             b-form-input#inputCode3.code-input(v-model='form2.codePart3' type='number' maxlength="1" required)
+              //             b-form-input#inputCode4.code-input(v-model='form2.codePart4' type='number' maxlength="1" required)
+              //             b-form-input#inputCode5.code-input(v-model='form2.codePart5' type='number' maxlength="1" required)
+              //             b-form-input#inputCode6.code-input.mr-auto(v-model='form2.codePart6' type='number' maxlength="1" required)
+              //           .invalid-feedback.d-block.text-center(v-if="errors.code") {{ errors.code }}
+              //       .row
+              //         .col
+              //           input(v-model='form2.code' type='hidden')
+              //     b-button.w-100.mb-2(type='submit' variant='dark' ref="codesubmit") Submit
+              //     b-form-group
+              //       .row
+              //         .col-12.text-center
+              //           a.link(href="#" @click.stop="resendOTP") Send new code
             #step3.form(v-if='!loading' :class="step3 ? 'd-block' : 'd-none'")
               h1.text-center You successfuly logged in!
               p.text-center.m-b-2 You will be redirect to the dashboard!
@@ -71,7 +71,7 @@
 <script>
   import Loading from '@/common/Loading/Loading'
   import TopNavbar from "../components/TopNavbar";
-  // import OtpConfirm from "../components/OtpConfirm";
+  import OtpConfirm from "../components/OtpConfirm";
 
   // const random = Math.floor(Math.random() * 1000);
 
@@ -80,7 +80,7 @@
     components: {
       TopNavbar,
       Loading,
-      // OtpConfirm
+      OtpConfirm
     },
     data() {
       return {
@@ -119,6 +119,10 @@
       selectType(type){
         this.userType = type
       },
+      otpConfirmed() {
+        this.step1 = false
+        this.step2 = true
+      },
       onSubmit1(event) {
         event.preventDefault()
         // clear errors
@@ -156,6 +160,10 @@
                 // this.toast('Error', `${data.errors[type]}`)
                 this.error = `Error! ${data.errors[type]}`
               }
+              this.showAlert()
+            }
+            if (!data.errors) {
+              this.error = `Error! Couldn't submit form.`
               this.showAlert()
             }
             // if (error.errors) {
