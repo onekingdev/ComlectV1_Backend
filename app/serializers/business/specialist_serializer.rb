@@ -4,7 +4,7 @@ class Business::SpecialistSerializer < ApplicationSerializer
   has_many :skills, serializer: SkillSerializer
   has_many :jurisdictions, serializer: JurisdictionSerializer
   has_many :industries, serializer: IndustrySerializer
-  has_many :specialists_business_roles
+  has_many :business_specialists_roles
   attributes :id,
              :photo,
              :first_name,
