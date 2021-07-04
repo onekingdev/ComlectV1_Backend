@@ -1,11 +1,11 @@
 <template lang="pug">
   div
     template(v-if='childDataLoaded')
-      component(v-bind:is="component" :userInfo='childdata', :industryIds="industryIds", :jurisdictionIds="jurisdictionIds", :subIndustryIds="subIndustryIds", :states="states")
+      component(v-bind:is="component" :userInfo='childdata', :industryIds="industryIds", :jurisdictionIds="jurisdictionIds", :subIndustryIds="subIndustryIds", :states="states", :timezones="timezones")
     .container-fluid(v-if='!childDataLoaded')
       TopNavbar
       main.row#main-content
-        .col-xl-4.col-lg-6.col-md-8.m-x-auto
+        .col-xl-5.col-lg-6.col-md-8.m-x-auto
           .card-body.white-card-body.registration
             Loading
             #step0.form(v-if='!loading' :class="step0 ? 'd-block' : 'd-none'")
@@ -62,33 +62,29 @@
                     p Already have a Complect account?&nbsp;
                       a.link(href="/users/sign_in") Sign In
             #step2.form(v-if='!loading' :class="step2 ? 'd-block' : 'd-none'")
-              // OtpConfirm(@otpSecretConfirmed="otpConfirmed", :userId="userId", :form="form")
-              h1.text-center Confirm Your Email!
-              p.text-center We sent a 6 digit code to {{ form.email }}. Please enter it below.
-              div
-                b-form(@submit='onSubmitStep2' @keyup="onCodeChange" v-if='show' autocomplete="off")
-                  b-form-group
-                    .col.text-center
-                      img(src='@/assets/mail.svg' width="180" height="110")
-                  b-form-group
-                    .row
-                      .col-12.mx-0
-                        .d-flex.justify-content-space-around.mx-auto
-                          b-form-input#inputCode1.code-input.ml-auto(v-model='form2.codePart1' type='number' maxlength="1" required)
-                          b-form-input#inputCode2.code-input(v-model='form2.codePart2' type='number' maxlength="1" required)
-                          b-form-input#inputCode3.code-input(v-model='form2.codePart3' type='number' maxlength="1" required)
-                          b-form-input#inputCode4.code-input(v-model='form2.codePart4' type='number' maxlength="1" required)
-                          b-form-input#inputCode5.code-input(v-model='form2.codePart5' type='number' maxlength="1" required)
-                          b-form-input#inputCode6.code-input.mr-auto(v-model='form2.codePart6' type='number' maxlength="1" required)
-                        .invalid-feedback.d-block.text-center(v-if="errors.code") {{ errors.code }}
-                    .row
-                      .col
-                        input(v-model='form2.code' type='hidden')
-                  b-button.w-100.mb-2(type='submit' variant='dark' ref="codesubmit") Submit
-                  b-form-group
-                    .row
-                      .col-12.text-center
-                        button.btn.link(type="button" @click.stop="resendOTP" :disabled="disabled") Resend code
+              OtpConfirm(@otpSecretConfirmed="otpConfirmed", :userId="userId", :form="form")
+              // h1.text-center Confirm Your Email!
+              // p.text-center We sent a 6 digit code to {{ form.email }}. Please enter it below.
+              // div
+              //   b-form(@submit='onSubmitStep2' @keyup="onCodeChange" v-if='show' autocomplete="off")
+              //     b-form-group
+              //       .col.text-center
+              //         img(src='@/assets/mail.svg' width="180" height="110")
+              //     b-form-group
+              //       .row
+              //         .col-12.mx-0
+              //           .d-flex.justify-content-space-around.mx-auto
+              //             b-form-input#inputCode1.code-input.ml-auto(v-model='form2.codePart1' type='number' maxlength="1" required)
+              //             b-form-input#inputCode2.code-input(v-model='form2.codePart2' type='number' maxlength="1" required)
+              //             b-form-input#inputCode3.code-input(v-model='form2.codePart3' type='number' maxlength="1" required)
+              //             b-form-input#inputCode4.code-input(v-model='form2.codePart4' type='number' maxlength="1" required)
+              //             b-form-input#inputCode5.code-input(v-model='form2.codePart5' type='number' maxlength="1" required)
+              //             b-form-input#inputCode6.code-input.mr-auto(v-model='form2.codePart6' type='number' maxlength="1" required)
+              //           .invalid-feedback.d-block.text-center(v-if="errors.code") {{ errors.code }}
+              //       .row
+              //         .col
+              //           input(v-model='form2.code' type='hidden')
+              //             button.btn.link(type="button" @click.stop="resendOTP" :disabled="disabled") Resend code
             #step3.form(v-if='!loading'  :class="step3 ? 'd-block' : 'd-none'")
               h1.text-center You successfuly registered!
               p.text-center You will be redirect to finish steps for updating your account
@@ -102,7 +98,7 @@
   import TopNavbar from "../components/TopNavbar";
   import BusinessPage from "./Onboarding/Business/BusinessPage";
   import SpecialistPage from "./Onboarding/Specialist/SpecialistPage";
-  // import OtpConfirm from "../components/OtpConfirm";
+  import OtpConfirm from "../components/OtpConfirm";
 
   // const random = Math.floor(Math.random() * 1000);
 
@@ -113,7 +109,7 @@
       Loading,
       BusinessPage,
       SpecialistPage,
-      // OtpConfirm
+      OtpConfirm
     },
     data() {
       return {
@@ -217,7 +213,7 @@
           }
         }
 
-        this.$store.dispatch('singUp', dataToSend)
+        this.$store.dispatch('signUp', dataToSend)
           .then((response) => {
             if (response.errors) {
               for (const type of Object.keys(response.errors)) {

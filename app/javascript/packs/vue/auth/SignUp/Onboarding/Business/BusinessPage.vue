@@ -294,12 +294,21 @@
     },
     created() {
       // if(luxonValidTimezones) this.timeZoneOptions = luxonValidTimezones;
-      if(luxonValidTimezones) {
-        for (const value of luxonValidTimezones) {
-          const [ gmt, zone ] = value.split(') ')
+      // if(luxonValidTimezones) {
+      //   for (const value of luxonValidTimezones) {
+      //     const [ gmt, zone ] = value.split(') ')
+      //     this.timeZoneOptions.push({
+      //       value: zone,
+      //       name: value
+      //     })
+      //   }
+      // }
+      if(this.timezones) {
+        for (const value of this.timezones) {
+          const [ zone, city ] = value.split(') ')
           this.timeZoneOptions.push({
-            value: zone,
-            name: value
+            value: city,
+            name: zone
           })
         }
       }

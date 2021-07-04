@@ -1,20 +1,13 @@
 <template lang="pug">
   div
-    .container
-      .row
-        .col-12.px-0
-          .row.p-x-1
-            .col-md-12.d-flex.justify-content-between.p-t-3.p-b-3
-              div
-                h2: b {{ pageTitle }}
-              div
-                a.btn.btn-default.mr-3(href='#') Export
-                RisksAddEditModal
-                  button.btn.btn-dark Add Risk
-          .row
-            .col-12
-              .card-body.white-card-body
-                RisksTable
+    .page
+      h2.page__title {{ pageTitle }}
+      .page__actions
+        a.btn.btn-default.mr-3(href='#') Export
+        RisksAddEditModal
+          button.btn.btn-dark Add Risk
+    .card-body.white-card-body.card-body_full-height
+      RisksTable
 
 </template>
 

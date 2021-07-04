@@ -347,7 +347,7 @@ class Business < ApplicationRecord
     assigned_team_members.each do |employee|
       user = User.find_by(email: employee.email)
       specialist = user.specialist if user.present?
-      employee_array << [specialist.full_name, specialist.id] if specialist.present?
+      employee_array << specialist if specialist.present?
     end
     employee_array
   end

@@ -4,7 +4,7 @@
       .col-4
         .position-relative
           b-icon.icon-searh(icon='search')
-          input.form-control(type="text" placeholder="Search" v-model="searchInput", @keyup="searching")
+          input.form-control.form-control_search(type="text" placeholder="Search" v-model="searchInput", @keyup="searching")
           button.btn-clear(v-if="isActive" @click="clearInput")
             b-icon.icon-clear(icon='x-circle')
       .col-4(v-if="filteredRisksComputed.length !== 0 && searchInput")
@@ -43,7 +43,7 @@
               td.text-right {{ dateToHuman(risk.created_at) }}
               td
                 .actions
-                  b-dropdown(size="sm" variant="light" class="m-0 p-0" right)
+                  b-dropdown(size="sm" variant="none" class="m-0 p-0" right)
                     template(#button-content)
                       b-icon(icon="three-dots")
                     RisksAddEditModal(:risks="risksComputed" :riskId="risk.id" :inline="false")

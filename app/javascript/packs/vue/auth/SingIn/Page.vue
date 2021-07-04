@@ -134,7 +134,7 @@
           },
         }
 
-        this.$store.dispatch('singIn', data)
+        this.$store.dispatch('signIn', data)
           .then((response) => {
             if (response.errors) {
               this.error = `${response.errors}`
@@ -192,7 +192,7 @@
           "otp_secret": this.form2.code
         }
 
-        this.$store.dispatch('singIn', dataToSend)
+        this.$store.dispatch('signIn', dataToSend)
           .then((response) => {
 
             if (response.errors) {
