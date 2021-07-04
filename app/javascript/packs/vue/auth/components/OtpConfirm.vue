@@ -88,14 +88,14 @@
 
         this.$store.dispatch(method, data)
           .then((response) => {
-            console.log('response', response)
             if(response.errors) {
               // this.toast('Error', `${response.errors}`)
               this.error = `${response.message}`
             }
             if(response.token) {
               // this.toast('Success', `${response.message}`)
-              this.error = `${response.message}`
+              // this.error = `${response.message}`
+              console.log(response)
               this.$emit('otpSecretConfirmed', response)
             }
           })
@@ -176,9 +176,6 @@
       },
     },
     computed: {
-      loading() {
-        return this.$store.getters.loading;
-      },
       currentUser() {
         return this.$store.getters.getUser
       },
