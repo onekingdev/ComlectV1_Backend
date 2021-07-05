@@ -1,11 +1,11 @@
 <template lang="pug">
-  table.table.task_table
+  table.table.task_table(:class="{ 'short-table': shortTable }")
     thead
       tr
         th Name
         th Due date
     tbody
-      tr(v-for="(task, i) in taskEvents" :key="i")
+      tr(v-for="(task, i) in taskEventsShort" :key="i")
         td
           ion-icon.m-r-1.pointer(@click="toggleDone(task)" v-bind:class="{ done_task: task.done_at }" name='checkmark-circle-outline')
           TaskFormModal(:task-id="task.taskId" :occurence-id="task.oid" @saved="$emit('saved')") {{ task.title }}
@@ -17,11 +17,17 @@ import { DateTime } from 'luxon'
 import TaskFormModal from '@/common/TaskFormModal'
 import { toEvent, isOverdue, splitReminderOccurenceId } from '@/common/TaskHelper'
 
+const SHORT_TASK_COUNT = 5
+
 export default {
   props: {
     tasks: {
       type: Array,
       required: true
+    },
+    shortTable: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {
@@ -45,6 +51,9 @@ export default {
           end: DateTime.fromSQL(e.end).toLocaleString(),
           ...splitReminderOccurenceId(e.id)
         }))
+    },
+    taskEventsShort() {
+      return this.shortTable ? this.taskEvents.slice(0, SHORT_TASK_COUNT) : this.taskEvents
     }
   },
   components: {

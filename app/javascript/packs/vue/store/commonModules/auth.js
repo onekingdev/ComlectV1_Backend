@@ -24,7 +24,7 @@ export default {
     }
   },
   actions: {
-    async singIn({commit}, payload) {
+    async signIn({commit}, payload) {
       try {
         commit("clearError");
         commit("setLoading", true);
@@ -85,12 +85,13 @@ export default {
         commit("setLoading", false)
       }
     },
-    async singUp({commit}, payload) {
+    async signUp({commit}, payload) {
       try {
         commit("clearError");
         commit("setLoading", true);
 
-        const endPoint = payload.business ? 'businesses' : 'specialists'
+        let endPoint = payload.business ? 'businesses' : 'specialists'
+        endPoint = payload.seat_id ? `business/seats/${payload.seat_id}/assign` : endPoint
         const response = await axios.post(`/${endPoint}`, payload)
         // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
         return response.data
@@ -102,13 +103,14 @@ export default {
         commit("setLoading", false)
       }
     },
-    async singOut({commit}, payload) {
+    async signOut({commit}, payload) {
       try {
         commit("clearError");
         commit("setLoading", true);
 
-        const endPoint = payload.business ? 'businesses' : 'specialists'
-        const response = await axios.delete(`/${endPoint}`, payload)
+        // const endPoint = payload.business ? 'businesses' : 'specialists'
+        // const response = await axios.delete(`/${endPoint}`, payload)
+        const response = await axios.delete(`/users/sign_out`, payload)
         // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
         return response.data
 
@@ -124,7 +126,9 @@ export default {
         commit("clearError");
         commit("setLoading", true);
 
-        const response = await axios.put(`/users/${payload.userId}/confirm_email`, {
+        // const response = await axios.put(`/users/${payload.userId}/confirm_email`, { "otp_secret": payload.code })
+        const response = await axios.put(`/users/confirm_email`, {
+          "email": payload.email,
           "otp_secret": payload.code
         })
         // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
@@ -490,18 +494,11 @@ export default {
     },
     async resendOTP({commit}, payload) {
       try {
-        commit("clearError");
-        commit("setLoading", true);
-
         const response = await axios.post(`/otp_secrets`, payload)
-        // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
         return response.data
-
       } catch (error) {
         console.error(error);
         throw error
-      } finally {
-        commit("setLoading", false)
       }
     },
   },

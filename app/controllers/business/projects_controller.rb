@@ -16,7 +16,8 @@ class Business::ProjectsController < ApplicationController
   }.freeze
 
   def index
-    render html: content_tag('business-projects-page', '').html_safe, layout: 'vue_business'
+    # render html: content_tag('business-projects-page', '').html_safe, layout: 'vue_business'
+    render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_main_layout'
   end
 
   def new
@@ -28,6 +29,15 @@ class Business::ProjectsController < ApplicationController
                              ':local-project': @local_project.to_json)
       .html_safe,
            layout: 'vue_business'
+
+    # @local_project = params[:local_project_id] ? LocalProject.find(params[:local_project_id]) : nil
+    #     render html: content_tag('main-layoyt',
+    #                              '',
+    #                              ':industry-ids': Industry.all.map(&proc { |ind| { id: ind.id, name: ind.name } }).to_json,
+    #                              ':jurisdiction-ids': Jurisdiction.all.map(&proc { |ind| { id: ind.id, name: ind.name } }).to_json,
+    #                              ':local-project': @local_project.to_json)
+    #       .html_safe,
+    #            layout: 'vue_main_layout'
   end
 
   def show
@@ -36,13 +46,21 @@ class Business::ProjectsController < ApplicationController
     #           .find(params[:id])
     @project = current_business.local_projects.includes(:projects).find(params[:id])
 
+    # render html: content_tag(
+    #   'project-show-page',
+    #   '',
+    #   ':project-id': @project.id,
+    #   'current-business': current_business,
+    #   'token': JsonWebToken.encode(sub: current_business.id)
+    # ).html_safe, layout: 'vue_business'
+
     render html: content_tag(
-      'project-show-page',
+      'main-layoyt',
       '',
       ':project-id': @project.id,
       'current-business': current_business,
       'token': JsonWebToken.encode(sub: current_business.id)
-    ).html_safe, layout: 'vue_business'
+    ).html_safe, layout: 'vue_main_layout'
   end
 
   def show_post

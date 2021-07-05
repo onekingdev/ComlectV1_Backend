@@ -1,6 +1,6 @@
 export default class Specialist {
-  constructor(business_specialists_roles, certifications, experience, first_name, former_regulator, id, industries, jurisdictions, last_name, location, min_hourly_rate, photo, ratings_average, ratings_count, ratings_total, resume_url, seat_role, skills, time_zone, username, visibility) {
-    this.business_specialists_roles = business_specialists_roles,
+  constructor(specialists_business_roles, certifications, experience, first_name, former_regulator, id, industries, jurisdictions, last_name, location, min_hourly_rate, photo, ratings_average, ratings_count, ratings_total, resume_url, seat_role, skills, time_zone, username, visibility) {
+    this.specialists_business_roles = specialists_business_roles,
     this.certifications = certifications,
     this.experience = experience,
     this.first_name = first_name,

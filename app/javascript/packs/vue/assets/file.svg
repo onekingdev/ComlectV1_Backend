@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="60px" height="76px" viewBox="0 0 60 76" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Group 2</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="02_02" transform="translate(-843.000000, -888.000000)">
+            <g id="Group-6" transform="translate(325.000000, 784.000000)">
+                <g id="Group-2" transform="translate(518.000000, 104.000000)">
+                    <g id="Group" transform="translate(0.000000, 0.000000)">
+                        <rect id="Rectangle-Copy-5" fill="#D1D9E2" x="12.4285714" y="0" width="47.5714286" height="63.5480226" rx="4"></rect>
+                        <path d="M4,12.4519774 L32.0314286,12.4519774 L32.0314286,12.4519774 L46.4025152,26.8501283 C47.1510336,27.6000563 47.5714286,28.6163313 47.5714286,29.6758933 L47.5714286,72 C47.5714286,74.209139 45.7805676,76 43.5714286,76 L4,76 C1.790861,76 2.705415e-16,74.209139 0,72 L0,16.4519774 C-2.705415e-16,14.2428384 1.790861,12.4519774 4,12.4519774 Z" id="Rectangle" fill="#E4E6EC"></path>
+                        <path d="M32.1428571,12.4519774 L47.5714286,27.9096045 L36.1428571,27.9096045 C33.9337181,27.9096045 32.1428571,26.1187435 32.1428571,23.9096045 L32.1428571,12.4519774 L32.1428571,12.4519774 Z" id="Rectangle" fill="#B8C0C9"></path>
+                        <rect id="Rectangle" fill="#B8C0C9" x="4.71428571" y="48.9491525" width="37.7142857" height="1.71751412" rx="0.858757062"></rect>
+                        <rect id="Rectangle-Copy-4" fill="#B8C0C9" x="4.71428571" y="42.5084746" width="37.7142857" height="1.71751412" rx="0.858757062"></rect>
+                        <rect id="Rectangle-Copy" fill="#B8C0C9" x="4.71428571" y="55.3898305" width="37.7142857" height="1.71751412" rx="0.858757062"></rect>
+                        <rect id="Rectangle-Copy-2" fill="#B8C0C9" x="4.71428571" y="61.8305085" width="37.7142857" height="1.71751412" rx="0.858757062"></rect>
+                        <rect id="Rectangle-Copy-3" fill="#B8C0C9" x="4.71428571" y="67.8418079" width="37.7142857" height="1.71751412" rx="0.858757062"></rect>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
