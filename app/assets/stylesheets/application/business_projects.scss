@@ -1,0 +1,11 @@
+.projects.index {
+    .btn-shadow{
+        padding: 0;
+    }
+    .dropdown-menu{
+        min-width: 0;
+    }
+    .dropdown-menu > li{
+        width: 100%!important;
+    }
+}

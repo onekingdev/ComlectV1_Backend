@@ -1,0 +1,106 @@
+.helps{
+    background-color: #ffffff;
+    p {
+      border: 2px solid #000000;
+      color: #000000;
+      padding: 20px;
+      font-weight: 400;
+    }
+
+    textarea {
+      height: 200px;
+    }
+}
+
+.helps-nav {
+  list-style-type: none;
+  padding-left: 10px;
+  //border-left: 2px solid #FFCC01;
+  margin-top: 24px;
+  margin-bottom: 24px;
+  margin-left: 15px;
+
+  .active a {
+    color: #ffcc33;
+  }
+
+  li a {
+    font-size: 16px;
+    font-weight: $medium-weight;
+    text-decoration: none;
+  }
+
+    li a:focus, li a:active, li a:hover {
+    color: #000000;
+    text-decoration: none;
+  }
+
+  .btn-md {
+    padding: 7px 14px;
+  }
+}
+
+#specialist-helps {
+  margin-top: 8px;
+  padding-left: 0px;
+  .clipboard-button {
+    display: none;
+  }
+
+  .clipboard--supported .clipboard-button {
+    display: initial;
+  }
+
+  .multiselect-parent .btn-default {
+    border-color: #FFCC01;
+  }
+
+  input.form-control {
+    border-color: #FFCC01;
+  }
+
+  table.faq {
+    border-top: 0px;
+    tr, td {
+      border-top: 0px;
+      border-bottom: 1px solid #dddddd;
+    }
+
+    tr.primary {
+      border-bottom: 2px solid #FFCC01;
+    }
+
+    td:first-child {
+      width: 10px;
+    }
+
+    strong {
+      font-weight: $bold-weight;
+    }
+  }
+
+  table.notification-preferences {
+    td {
+      padding-left: 0px;
+      padding-right: 0px;
+      line-height: 25px;
+    }
+  }
+
+  table.manage-employees {
+    border-top: 0px;
+
+    tr, td {
+      border-top: 0px;
+      border-bottom: 1px solid #dddddd;
+    }
+  }
+
+}
+
+body.faq_helps #specialist-helps {
+  .info-tooltip {
+    margin-top: 0px;
+    margin-left: 10px;
+  }
+}
