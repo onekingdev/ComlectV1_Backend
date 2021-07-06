@@ -1,8 +1,0 @@
-- audit_requests.each do |audit_request|
-  .m-b-2 style="padding-left: 35px;"
-    .fake_checkbox style="height: 25px; margin-left: -35px;" class=("checked" if !@audit_comments[audit_request.id].blank?)
-    = audit_request.body
-    textarea.form-control.m-t-1 name="audit_comments[#{audit_request.id}]"
-      = @audit_comments[audit_request.id]
-
-.clearfix

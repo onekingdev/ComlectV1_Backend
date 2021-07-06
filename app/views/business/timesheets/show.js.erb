@@ -1,6 +1,0 @@
-var $content = $('.selected-timesheet');
-$content.html('<%= j render 'show', timesheet: decorate(@timesheet) %>').attr('data-id', '<%= @timesheet.id %>');
-$('.timesheets .timesheet.selected').removeClass('selected');
-var $timesheet = $('.timesheets .timesheet[data-id=<%= @timesheet.id %>]');
-$timesheet.addClass('selected').removeClass('submitted').addClass('<%= @timesheet.status %>');
-$(document).trigger('newContent', $content);

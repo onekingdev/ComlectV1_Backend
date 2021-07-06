@@ -1,8 +1,0 @@
-- if results.empty?
-  h2.text-center.m-b-2 No projects found
-- else
-  = render results.map(&method(:decorate))
-  - if results.total_pages > 1
-    .projects-pagination.dot-pagination.m-b-1
-      - results.total_pages.times do |n|
-        = link_to '', '#', data: { page: n + 1 }, class: "page #{"current" if n + 1 == results.current_page}"

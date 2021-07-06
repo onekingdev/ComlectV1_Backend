@@ -1,3 +1,0 @@
-var $content = $('#charges-<%= params[:id] %>');
-$content.html('<%= j render params[:id], charges: @charges %>');
-$(document).trigger('newContent', $content);
