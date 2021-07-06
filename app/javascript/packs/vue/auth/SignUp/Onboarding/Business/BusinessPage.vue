@@ -189,7 +189,7 @@
                       h4.billing-plan__name {{ plan.name }}
                       p.billing-plan__descr {{ plan.description }}
                       h5.billing-plan__coast {{ billingTypeSelected === 'annually' ?  plan.coastAnnuallyFormatted : plan.coastMonthlyFormatted }}
-                      p.billing-plan__users(v-if="plan.id === 1") 0 free users
+                      p.billing-plan__users(v-if="plan.id === 1") {{ plan.users }}
                       p.billing-plan__users(v-if="plan.id !== 1 && billingTypeSelected === 'monthly'")
                         span.billing-plan__discount {{ plan.coastMonthlyFormatted }}
                         span.text-success &nbsp;{{ plan.coastAnnuallyFormatted }}
@@ -198,7 +198,7 @@
                       ul.list-unstyled.billing-plan__list
                         li.billing-plan__item(v-for="feature in plan.features")
                           b-icon.h4.mr-2.mb-0(icon="check-circle-fill" variant="success")
-                          | {{ feature }}
+                          span(v-html="feature")
               .row
                 .col.text-right
                   b-button.m-t-3(type='button' variant='default' @click="prevStep(2)") Go back
@@ -411,9 +411,6 @@
       }
     },
     methods: {
-      makeToast(title, str) {
-        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
-      },
       onSubmit(event){
         event.preventDefault()
       },
@@ -435,13 +432,13 @@
             if (!response.errors) {
               this.formStep1.crd_number = response.crd_number
               this.formStep2.business = { ...response }
-              this.makeToast('Success', `Successfully sended!`)
+              // this.toast('Success', `Successfully sended!`)
               this.navigation(stepNum)
             }
           })
           .catch(error => {
             console.error(error)
-            this.makeToast('Error', `Something wrong! ${error}`)
+            // this.toast('Error', `Something wrong! ${error}`)
           })
       },
       navigation(stepNum){
@@ -504,7 +501,7 @@
               if(response.errors) {
                 for (const type of Object.keys(response.errors)) {
                   this.errors = response.errors[type]
-                  this.makeToast('Error', `Form has errors! Please recheck fields!`)
+                  // this.toast('Error', `Form has errors! Please recheck fields!`)
                 }
               }
               if(!response.errors) {
@@ -513,12 +510,12 @@
                 this['step'+stepNum] = true
                 this.currentStep = stepNum
                 this.navigation(this.currentStep)
-                this.makeToast('Success', `Company info successfully sended!`)
+                // this.toast('Success', `Company info successfully sended!`)
               }
             })
             .catch(error => {
               console.error(error)
-              this.makeToast('Error', `Something wrong! ${error}`)
+              // this.toast('Error', `Something wrong! ${error}`)
             })
         }
       },
@@ -532,11 +529,14 @@
 
           this.$store.dispatch('updateSubscribe', dataToSend)
             .then(response => {
-              this.makeToast('Success', `Update subscribe successfully finished! You will be redirect.`)
+              // this.toast('Success', `Update subscribe successfully finished! You will be redirect.`)
               this.currentPlan = { id: 1, status: true }
               this.redirect();
             })
-            .catch(error =>this.makeToast('Error', `Something wrong!`))
+            .catch(error => {
+              // this.toast('Error', `Something wrong!`)
+              console.error(error)
+            })
 
           return
         }
@@ -591,7 +591,7 @@
           .then(response => {
             if(response.errors) throw new Error(`Response error!`)
             if(!response.errors) {
-              this.makeToast('Success', `Update subscribe successfully finished!`)
+              // this.toast('Success', `Update subscribe successfully finished!`)
               if(+this.additionalUsers > 0) this.paySeats(selectedPlan)
               // OVERLAY
               if(+this.additionalUsers === 0) {
@@ -604,7 +604,7 @@
           })
           .catch(error => {
             console.error(error)
-            this.makeToast('Error', `Something wrong! ${error}`)
+            // this.toast('Error', `Something wrong! ${error}`)
 
             // OVERLAY
             this.overlayStatus = 'error'
@@ -645,12 +645,12 @@
 
             if(response.errors) {
               for (const type of Object.keys(response[i].data.errors)) {
-                this.makeToast('Error', `Something wrong! ${response[i].data.errors[type]}`)
+                // this.toast('Error', `Something wrong! ${response[i].data.errors[type]}`)
               }
             }
 
             if(!response.errors) {
-              this.makeToast('Success', `Update seat subscribe successfully finished!`)
+              // this.toast('Success', `Update seat subscribe successfully finished!`)
 
               // OVERLAY
               this.overlayStatusText = `Account and ${countPayedUsers} seats successfully purchased, you will be redirect to the dashboard...`
@@ -661,7 +661,7 @@
           })
           .catch(error => {
             console.error(error)
-            this.makeToast('Error', `Something wrong! ${error}`)
+            // this.toast('Error', `Something wrong! ${error}`)
 
             // OVERLAY
             this.overlayStatus = 'error'

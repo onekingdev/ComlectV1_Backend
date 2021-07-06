@@ -27,7 +27,7 @@
                           p.account-select__subtitle Looking to work with potential clients on compliance projects
                   b-button.w-100(type='submit' variant='dark') Next
                   hr
-                  b-form-group.text-center
+                  b-form-group.text-center.mb-0
                     p.mb-0 Already have a Complect account?&nbsp;
                       a.link(href="/users/sign_in") Sign In
             #step1.form(v-if='!loading' :class="step1 ? 'd-block' : 'd-none'")
@@ -263,7 +263,7 @@
             }
 
             if(response.token) {
-              this.toast('Success', `${response.message}`)
+              // this.toast('Success', `${response.message}`)
               // localStorage.setItem('app.currentUser', JSON.stringify(response.token));
               // this.$store.commit('updateToken', response.token)
 
