@@ -1,5 +1,0 @@
-var $specialist = $('#specialist-settings');
-$specialist.html('<%= j render('show', specialist: @specialist, saved: @saved) %>');
-$(document).trigger('newContent', $specialist);
-$('.settings-nav > li').removeClass('active');
-$('.settings-nav > .contact-information').addClass('active');

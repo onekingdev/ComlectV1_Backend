@@ -1,3 +1,0 @@
-.timesheet data-id=timesheet.id class="#{timesheet.status} #{'selected' if selected.id == timesheet.id}"
-  = link_to '', project_timesheet_path(timesheet.project, timesheet), remote: true, class: 'sheet-icon'
-  .date= (timesheet.last_submitted_at || timesheet.created_at).in_time_zone(timesheet.business.tz).strftime('%d %b %Y')

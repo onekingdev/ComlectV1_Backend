@@ -293,21 +293,12 @@
     },
     created() {
       // if(luxonValidTimezones) this.formStep1.timeZoneOptions = luxonValidTimezones;
-      // if(luxonValidTimezones) {
-      //   for (const value of luxonValidTimezones) {
-      //     const [ gmt, zone ] = value.split(') ')
-      //     this.formStep1.timeZoneOptions.push({
-      //       value: zone,
-      //       name: value
-      //     })
-      //   }
-      // }
-      if(this.timezones) {
-        for (const value of this.timezones) {
-          const [ zone, city ] = value.split(') ')
-          this.timeZoneOptions.push({
-            value: city,
-            name: zone
+      if(luxonValidTimezones) {
+        for (const value of luxonValidTimezones) {
+          const [ gmt, zone ] = value.split(') ')
+          this.formStep1.timeZoneOptions.push({
+            value: zone,
+            name: value
           })
         }
       }
@@ -784,7 +775,7 @@
     box-shadow: inset 5px 0 0 #0479ff;
   }
   .alert-dismissible .close {
-    /*top: 10px;*/
+    top: 10px;
     font-size: 1.8rem;
   }
 

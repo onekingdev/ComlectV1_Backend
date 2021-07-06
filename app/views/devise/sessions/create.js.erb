@@ -1,5 +1,0 @@
-<% if resource %>
-  window.location.href = "<%= @js_redirect %>";
-<% else %>
-  _Modal.showPlain('<%= j render(template: 'devise/sessions/new.html', locals: { resource: resource_class.new }) %>', { class: 'transparent' });
-<% end %>

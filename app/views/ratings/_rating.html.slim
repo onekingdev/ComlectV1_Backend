@@ -1,9 +1,0 @@
-.rating.list-group-item
-  .list-group-item-heading
-    .detail= rating.created_at.strftime '%b %Y'
-    span
-      = rating.forum_rating ? "Compliance Advice" : rating.project.title
-    span.m-l-1= render_stars rating.value, { class: "small" }
-  .list-group-item-text
-    - if rating.review.strip.present?
-      = simple_format rating.review

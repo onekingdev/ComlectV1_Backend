@@ -1,6 +1,0 @@
-#message-thread.message-thread data-thread-id=thread&.id
-  - if thread
-    .messages.m-b-3 data-page=(params[:page] || 1) data-url=@thread_path data-params=({ thread_key: decorate(thread).thread_key(sender) }.to_json)
-      = render partial: 'message', collection: thread.messages.limit(5).map(&method(:decorate)).reverse, locals: { me: sender }
-  - else
-    h2.text-center No messages

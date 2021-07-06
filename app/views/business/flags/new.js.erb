@@ -1,7 +1,0 @@
-<% if params[:forum_answer_id] %>
-  var modalContent = '<%= j render partial: "business/flags/new" %>';
-<% else %>
-  var modalContent = '<%= j render 'new', flag: @flag, project: @project, question: @question %>';
-<% end %>
-
-$('body').find(".modal-body").html(modalContent)
