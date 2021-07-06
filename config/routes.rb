@@ -363,6 +363,7 @@ Rails.application.routes.draw do
       post '/share_project' => 'share_project#create'
     end
     resources :businesses, only: [:create]
+    get '/businesses/current' => 'businesses#current'
     resource :business, only: %i[update] do
       patch '/' => 'businesses#update', as: :update
     end

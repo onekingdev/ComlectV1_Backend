@@ -1,7 +1,7 @@
 <template lang="pug">
-  div
+  Get(currentBusiness="/api/businesses/current"): template(v-slot="{ currentBusiness }")
     .page
-      h2.page__title Welcome, {{currentBusiness}}
+      h2.page__title Welcome, {{currentBusiness.business_name}}
       .page__actions
         b-dropdown.m-r-1(text='Admin View')
           b-dropdown-item Action
@@ -23,6 +23,7 @@ import Calendar from './Calendar'
 import UpcomingTasks from '@/business/dashboard/UpcomingTasks'
 
 const endpointProjectsUrl = '/api/business/local_projects/'
+const pdfUrl = '/business/reminders.pdf'
 
 export default {
   data() {
@@ -44,15 +45,8 @@ export default {
   created() {
     this.refetch()
   },
-  props: {
-    pdfUrl: {
-      type: String,
-      required: true
-    },
-    currentBusiness: {
-      type: String,
-      required: true
-    }
+  computed: {
+    pdfUrl: () => pdfUrl
   },
   components: {
     Calendar,

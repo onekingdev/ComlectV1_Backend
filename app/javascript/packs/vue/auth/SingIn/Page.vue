@@ -9,7 +9,7 @@
 
             #step1.form(v-if='!loading' :class="step1 ? 'd-block' : 'd-none'")
               h1.text-center Let's get you started!
-              // p.text-center Enter to the system
+              p.text-center Enter to the system
               div
                 b-alert(:show='dismissCountDown' dismissible fade variant='danger' @dismiss-count-down='countDownChanged')
                   | {{ error }}
@@ -28,36 +28,36 @@
                     // p Forget your password?&nbsp;
                     //  a.link(href="#") Restore
                     a.link.o-8.forgot-password(data-remote='true' href='/users/password/new') Forgot Password
-                    h4.text-uppercase.m-t-1 Don't have an account yet?&nbsp;
-                      a.link(data-remote='true' href='/users/sign_up') Sign up
-            #step2.form(:class="step2 ? 'd-block' : 'd-none'")
-              OtpConfirm(@otpSecretConfirmed="otpConfirmed", :form="form")
-              // h1.text-center Confirm your email!
-              // p.text-center We send a 6 digit code to email.com. Please enter it below.
-              // div
-              //   b-form(@submit='onSubmitStep2' @keyup="onCodeChange" v-if='show' autocomplete="off")
-              //     b-form-group
-              //       .col.text-center
-              //         ion-icon(name="mail-outline")
-              //     b-form-group
-              //       .row
-              //         .col-12.mx-0
-              //           .d-flex.justify-content-space-around.mx-auto.w-75
-              //             b-form-input#inputCode1.code-input.ml-auto(v-model='form2.codePart1' type='number' maxlength="1" required)
-              //             b-form-input#inputCode2.code-input(v-model='form2.codePart2' type='number' maxlength="1" required)
-              //             b-form-input#inputCode3.code-input(v-model='form2.codePart3' type='number' maxlength="1" required)
-              //             b-form-input#inputCode4.code-input(v-model='form2.codePart4' type='number' maxlength="1" required)
-              //             b-form-input#inputCode5.code-input(v-model='form2.codePart5' type='number' maxlength="1" required)
-              //             b-form-input#inputCode6.code-input.mr-auto(v-model='form2.codePart6' type='number' maxlength="1" required)
-              //           .invalid-feedback.d-block.text-center(v-if="errors.code") {{ errors.code }}
-              //       .row
-              //         .col
-              //           input(v-model='form2.code' type='hidden')
-              //     b-button.w-100.mb-2(type='submit' variant='dark' ref="codesubmit") Submit
-              //     b-form-group
-              //       .row
-              //         .col-12.text-center
-              //           a.link(href="#" @click.stop="resendOTP") Send new code
+                    h4.text-uppercase.m-t-1.m-b-1 Don’t have an account yet?&nbsp;
+                      a.link(data-remote='true' href='/users/sign_up') sign up here
+            #step2.form(v-if='!loading' :class="step2 ? 'd-block' : 'd-none'")
+              // OtpConfirm(@otpSecretConfirmed="otpConfirmed", :form="form")
+              h1.text-center Confirm your email!
+              p.text-center We send a 6 digit code to email.com. Please enter it below.
+              div
+                b-form(@submit='onSubmitStep2' @keyup="onCodeChange" v-if='show' autocomplete="off")
+                  b-form-group
+                    .col.text-center
+                      ion-icon(name="mail-outline")
+                  b-form-group
+                    .row
+                      .col-12.mx-0
+                        .d-flex.justify-content-space-around.mx-auto
+                          b-form-input#inputCode1.code-input.ml-auto(v-model='form2.codePart1' type='number' maxlength="1" required)
+                          b-form-input#inputCode2.code-input(v-model='form2.codePart2' type='number' maxlength="1" required)
+                          b-form-input#inputCode3.code-input(v-model='form2.codePart3' type='number' maxlength="1" required)
+                          b-form-input#inputCode4.code-input(v-model='form2.codePart4' type='number' maxlength="1" required)
+                          b-form-input#inputCode5.code-input(v-model='form2.codePart5' type='number' maxlength="1" required)
+                          b-form-input#inputCode6.code-input.mr-auto(v-model='form2.codePart6' type='number' maxlength="1" required)
+                        .invalid-feedback.d-block.text-center(v-if="errors.code") {{ errors.code }}
+                    .row
+                      .col
+                        input(v-model='form2.code' type='hidden')
+                  b-button.w-100.mb-2(type='submit' variant='dark' ref="codesubmit") Submit
+                  b-form-group
+                    .row
+                      .col-12.text-center
+                        a.link(href="#" @click.stop="resendOTP") Send new code
             #step3.form(v-if='!loading' :class="step3 ? 'd-block' : 'd-none'")
               h1.text-center You successfuly logged in!
               p.text-center.m-b-2 You will be redirect to the dashboard!
@@ -71,7 +71,7 @@
 <script>
   import Loading from '@/common/Loading/Loading'
   import TopNavbar from "../components/TopNavbar";
-  import OtpConfirm from "../components/OtpConfirm";
+  // import OtpConfirm from "../components/OtpConfirm";
 
   // const random = Math.floor(Math.random() * 1000);
 
@@ -80,7 +80,7 @@
     components: {
       TopNavbar,
       Loading,
-      OtpConfirm
+      // OtpConfirm
     },
     data() {
       return {
@@ -116,12 +116,11 @@
       }
     },
     methods: {
+      makeToast(title, str) {
+        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
+      },
       selectType(type){
         this.userType = type
-      },
-      otpConfirmed() {
-        this.step1 = false
-        this.step2 = true
       },
       onSubmit1(event) {
         event.preventDefault()
@@ -134,20 +133,17 @@
           },
         }
 
-        this.$store.dispatch('signIn', data)
+        this.$store.dispatch('singIn', data)
           .then((response) => {
             if (response.errors) {
-              this.error = `${response.errors}`
+              for (const type of Object.keys(response.errors)) {
+                this.errors = response.errors[type]
+                this.makeToast('Error', `Form has errors! Please recheck fields! ${error}`)
+              }
               this.showAlert()
-
-              // for (const type of Object.keys(response.errors)) {
-              //   this.errors = response.errors[type]
-              //   // this.toast('Error', `Form has errors! Please recheck fields! ${error}`)
-              //   this.error = `${response.errors[type]}`
-              // }
             }
             if (!response.errors) {
-              // this.toast('Success', `${response.message}`)
+              this.makeToast('Success', `${response.message}`)
               // open step 2
               this.step1 = false
               this.step2 = true
@@ -157,21 +153,17 @@
             const { data } = error
             if(data.errors) {
               for (const type of Object.keys(data.errors)) {
-                // this.toast('Error', `${data.errors[type]}`)
+                this.makeToast('Error', `${data.errors[type]}`)
                 this.error = `Error! ${data.errors[type]}`
               }
               this.showAlert()
             }
-            if (!data.errors) {
-              this.error = `Error! Couldn't submit form.`
-              this.showAlert()
+            if (error.errors) {
+              this.toast('Error', `Couldn't submit form! ${error.message}`)
             }
-            // if (error.errors) {
-            //   this.toast('Error', `Couldn't submit form! ${error.message}`)
-            // }
-            // if (!error.errors) {
-            //   this.toast('Error', `${error.status} (${error.statusText})`)
-            // }
+            if (!error.errors) {
+              this.makeToast('Error', `${error.status} (${error.statusText})`)
+            }
           })
       },
       onSubmitStep2(event) {
@@ -180,7 +172,7 @@
         this.errors = []
 
         if(this.form2.code.length !== 6) {
-          this.toast('Error', `Code length incorrect!`)
+          this.makeToast('Error', `Code length incorrect!`)
           return
         }
 
@@ -192,15 +184,15 @@
           "otp_secret": this.form2.code
         }
 
-        this.$store.dispatch('signIn', dataToSend)
+        this.$store.dispatch('singIn', dataToSend)
           .then((response) => {
 
             if (response.errors) {
               const properties = Object.keys(response.errors);
               for (const type of Object.keys(response.errors)) {
                 this.errors = response.errors[type]
-                // this.toast('Error', `Form has errors! Please recheck fields! ${error}`)
-                // Object.keys(response.errors[type]).map(prop => response.errors[prop].map(err => this.toast(`Error`, `${prop}: ${err}`)))
+                this.makeToast('Error', `Form has errors! Please recheck fields! ${error}`)
+                // Object.keys(response.errors[type]).map(prop => response.errors[prop].map(err => this.makeToast(`Error`, `${prop}: ${err}`)))
               }
               return
             }
@@ -210,7 +202,7 @@
               this.step2 = false
               this.step3 = true
 
-              this.toast('Success', `You will be redirect to the dashboard!`)
+              this.makeToast('Success', `You will be redirect to the dashboard!`)
 
               const dashboard = response.business ? '/business' : '/specialist'
               this.dashboardLink = dashboard
@@ -219,10 +211,7 @@
               }, 3000)
             }
           })
-          .catch((error) => {
-            console.error(error)
-            // this.toast('Error', `Couldn't submit form! ${error}`)
-          })
+          .catch((error) => this.makeToast('Error', `Couldn't submit form! ${error}`))
       },
       onCodeChange(e){
         this.errors = []
@@ -271,8 +260,8 @@
         }
 
         this.$store.dispatch('resendOTP', dataToSend)
-          .then((response) => this.toast('Success', `${response.message}`))
-          .catch((error) => this.toast('Error', `${error.message}`))
+          .then((response) => this.makeToast('Success', `${response.message}`))
+          .catch((error) => this.makeToast('Error', `${error.message}`))
       },
       countDownChanged(dismissCountDown) {
         this.dismissCountDown = dismissCountDown
