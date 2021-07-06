@@ -1,0 +1,68 @@
+.m-l-2.m-r-2
+  form.turnkey_purchase_form(action=specialists_ported_businesses_buy_path method='post' data-remote='true' data-type='json')
+    .pull-left
+      h3.m-y-0 Purchase Upgrade
+    .pull-right
+      .btn-group style="margin-top: -8px;"
+        /= f.input :plan, as: :radio_pills, collection: [%w(Monthly monthly), %w[Annual annual]], btn_class: 'btn-shadow'
+        .btn-group data-toggle="buttons"
+          label.btn.btn-shadow.active
+            input#turnkey_plan_monthly.radio_pills.optional checked="checked" name="turnkey[plan]" type="radio" value="monthly"
+            | Monthly
+          label.btn.btn-shadow
+            input#turnkey_plan_annual.radio_pills.optional name="turnkey[plan]" type="radio" value="annual"
+            | Annual
+
+    .clearfix
+    hr.m-b-0.m-t-1.hr_heading
+    .errors-subscribe.alert.alert-danger.hide
+    table.table.m-t-3.borderless
+      tr
+        td style="width: 1px;" Turnkey&nbsp;Consulting&nbsp;Suite
+        td.text-right
+        td.text-center
+          | $
+          span.plan_charge_single_turnkey 30/mo
+        td
+          | =
+        td style="width: 1px;"
+          | $
+          span.plan_charge_total 30/mo
+      tr
+        td
+        td
+        td.text-center
+          b TOTAL
+        td
+          b
+            | =
+        td style="width: 1px;"
+          b
+            | $
+            span.plan_charge_total 30/mo
+    .clearfix
+    .pull-right
+      / = link_to "Purchase", specialists_ported_businesses_path(bought: true), class: "btn btn-primary m-b-3", style: "width: 140px;"
+      input.btn.btn-primary.p-x-3.m-b-3#buy-turnkeys-btn(type='submit' value='Purchase' style="width: 140px" data-disable-with="submitting")
+    .clearfix
+    small style="font-size: 9px;"
+      | *Note: This subscription product is an annual contract with the option to bill monthly or annually.
+
+javascript:
+  var patch_ported_enable = true;
+  if (typeof(patch_ported) != "undefined") { patch_ported(); }
+  /*var patch_seats_enable = true;
+  $(document).ready(function () {
+    let errors = $('.errors-subscribe')
+    $('.seats_purchase_form').on('ajax:beforeSend', function (e, data, status, xhr) {
+      errors.addClass('hide');
+      $('#buy-seats-btn').val('processing...');
+    }).on('ajax:success', function (e, data, status, xhr) {
+      window.location.reload();
+    }).on('ajax:error', function (e, data, status, xhr) {
+      errors.text(data.responseJSON.message);
+      errors.removeClass('hide');
+    }).on('ajax:complete', function (e, xhr, status, error) {
+      $('#buy-seats-btn').val('Purchase');
+    });
+  });*/

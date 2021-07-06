@@ -42,6 +42,9 @@
         signOut() {
           localStorage.removeItem('app.currentUser');
           localStorage.removeItem('app.currentUser.token');
+          this.$store.dispatch('auth/signOut')
+            .then(response => console.log(response))
+            .catch(error => console.error(error))
         }
       },
       computed: {

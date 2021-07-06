@@ -1,0 +1,86 @@
+= render 'public_header'
+.container
+  #page-content
+    .public-page-header.clearfix
+      .page-header-icon
+        = image_tag 'logo_black.png'
+      .page-header-title
+        p.title-text
+          b Q&A Forum
+        p.title-desc
+          | General compliance question-and-answer service
+    .details-content
+      .row
+        .col-lg-12
+          .row
+            .col-sm-6
+              h3 Product Details
+              p.product-desc
+                | For less than a cup of coffee a day, use this forum to ask any compliance questions and have them answered 
+                | by Complect's network of seasoned compliance specialists. This is also a great way to see different 
+                | specialists' view points, consulting style, and find a specialist that's a good fit for your firm for one 
+                | off projects or on-going engagements.
+              h3
+                | Integration Details
+              ul
+                li Single sign-on with Complect log in details
+                li Automated payments
+                li Integrated compliance spend tracking
+                li Add-on alert notifications
+              h3 Availability Limitations
+              p.product-desc
+                | None
+              h3
+                | Documentation
+              p.product-desc
+                | None
+            .col-sm-6
+              .pricing-plan
+                h3 Plans and Pricing
+                ul
+                  li
+                    .clearfix.accord-header
+                      span.pull-left FOREVER  FREE
+                      span.pull-right $0/MO
+                    ul.plan-description
+                      li
+                        p
+                          | Add our Q&A Forum to your dashboard for free! Be able to search and view up to five questions and answers a month through our unpaid service.
+                        a.btn.btn-sm.btn-warning-custom href="/ask-a-specialist" Go to Q&A Forum
+                  li
+                    .clearfix.accord-header
+                      span.pull-left BASIC
+                      span.pull-right $10/MO
+                    ul.plan-description
+                      li
+                        p
+                          | Unlimited access to search our Q&A Forum. View questions that have been asked by your peers in similar circumstances.
+                        - if current_business.forum_subscription.blank?
+                          button.btn.btn-sm.btn-warning-custom(data-toggle="modal" data-target="#subscription_modal" onclick="render_forum_sub_basic();") Purchase
+                        - else
+                          a.btn.btn-sm.btn-warning-custom href="/ask-a-specialist" Go to Q&A Forum
+
+                  li
+                    .clearfix.accord-header
+                      span.pull-left PRO
+                      span.pull-right $25/MO
+                    ul.plan-description
+                      li
+                        p
+                          | Don't just rely on others' questions, unlock the ability to ask your own! Advice at your fingertips from our entire network of specialists.
+                        - if current_business.forum_subscription.blank?
+                          button.btn.btn-sm.btn-warning-custom(data-toggle="modal" data-target="#subscription_modal" onclick="render_forum_sub_pro();") Purchase
+                        - elsif current_business.forum_subscription.level == "basic"
+                          button.btn.btn-sm.btn-warning-custom(data-toggle="modal" data-target="#subscription_modal" onclick="render_forum_sub_pro();") Upgrade
+                        - else
+                          a.btn.btn-sm.btn-warning-custom href="/ask-a-specialist" Go to Q&A Forum
+
+= render 'home/public_footer'
+= render partial: "business/subscription_settings/subscription_modal"
+
+= content_for :scripts do
+  javascript:
+    $('.accord-header').click(function() {
+      $(".plan-description").slideUp('fast');
+      $(this).next().slideDown('fats');
+    });

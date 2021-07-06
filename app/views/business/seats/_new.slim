@@ -1,0 +1,67 @@
+form.seats_purchase_form(action=business_seats_buy_path method='post' data-remote='true' data-type='json')
+  .bootbox-heading
+    .pull-left
+      h3.m-y-0 Purchase Seats
+    .pull-right.nav.nav-pills style="margin-top: -4px; height: 1px; margin-right: 20px;"
+      /= f.input :plan, as: :radio_pills, collection: [%w(Monthly monthly), %w[Annual annual]], btn_class: 'btn-shadow'
+      .btn-group data-toggle="buttons"
+        label.btn.btn-shadow.noshadow.active
+          input#seat_plan_monthly.radio_pills.optional checked="checked" name="seat[plan]" type="radio" value="monthly"
+          | MONTHLY
+        label.btn.btn-shadow.noshadow style="border-left: 1px solid #ccc !important;"
+          input#seat_plan_annual.radio_pills.optional name="seat[plan]" type="radio" value="annual"
+          | ANNUAL
+
+    .clearfix
+    hr.m-b-0.m-t-1
+  .errors-subscribe.alert.alert-danger.hide
+  table.table.m-t-3.borderless
+    tr
+      td style="width: 1px;"
+        input.form-control name="seat[cnt]" type="text" style="width: 50px; height: 50px; text-align: center; margin-top: -15px;" value="1"
+      td style="width: 1px;" Number&nbsp;of&nbsp;Seats
+      td.text-right X
+      td.text-center
+        | $
+        span.plan_charge_single_seat 12/mo
+      td
+        | =
+      td style="width: 1px;"
+        | $
+        span.plan_charge_total 12/mo
+    tr
+      td
+      td
+      td
+      td.text-center
+        b TOTAL
+      td
+        b
+          | =
+      td style="width: 1px;"
+        b
+          | $
+          span.plan_charge_total 12/mo
+  .clearfix
+  .pull-right
+    input.btn.btn-primary.p-x-3.m-b-3#buy-seats-btn(type='submit' value='Purchase' style="width: 140px")
+  .clearfix
+  small style="font-size: 9px;"
+    | *Note: This subscription product is an annual contract with the option to bill monthly or annually.
+
+javascript:
+  var patch_seats_enable = true;
+  $(document).ready(function () {
+    let errors = $('.errors-subscribe')
+    $('.seats_purchase_form').on('ajax:beforeSend', function (e, data, status, xhr) {
+      errors.addClass('hide');
+      $('#buy-seats-btn').addClass('disabled');
+    }).on('ajax:success', function (e, data, status, xhr) {
+      window.location.reload();
+    }).on('ajax:error', function (e, data, status, xhr) {
+      errors.text(data.responseJSON.message);
+      errors.removeClass('hide');
+    }).on('ajax:complete', function (e, xhr, status, error) {
+      $('#buy-seats-btn').val('Purchase');
+    });
+  });

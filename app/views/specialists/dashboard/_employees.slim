@@ -1,0 +1,27 @@
+.panel.panel-default.m-b-0
+  .panel-heading
+    .pull-left
+      h3 Employees
+    .clearfix
+  hr.m-b-0.m-t-1
+  .panel-content-wrapper.fullheight style="height: 204px;"
+    table.table.table-striped.table-blue
+      thead
+        tr
+          th Name
+          th Email
+          th &nbsp;
+      tbody
+        - employees.each do |specialist|
+          tr
+            td.col-xs-4
+              = specialist.full_name
+            td.col-xs-6
+              = specialist.user.email
+            td.col-xs-2
+              = link_to specialists_settings_delete_managed_account_path(specialist),
+              remote: true,
+              method: :delete,
+              title: 'Confirm Deletion',
+              data: { confirm: "Are you sure you want to delete #{specialist.full_name}'s account?", confirm_label: 'Delete' } do
+                i.icon-trash.pull-right

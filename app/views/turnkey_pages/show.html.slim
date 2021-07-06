@@ -1,0 +1,55 @@
+= render :partial => "header"
+.row.text-center
+  h1.m-t-3.p-t-1.m-b-3.p-b-3.brand-color = @turnkey_page.header_text
+
+.container
+  .row.m-b-3.p-b-3
+    - for solution in @turnkey_page.turnkey_solutions do
+      .turnkey-entry.col-md-4.col-sm-6 class=('col-md-push-2' if @turnkey_page.turnkey_solutions.count == 2)
+        = simple_form_for :solution, html: { "data-solution-id": solution.id, "data-budgets": solution.budgets } do |f|
+          = f.input :id, as: :hidden, input_html: { value: solution.id }
+          h1.m-t-0.m-b-2
+            = solution.title
+            br
+            span = solution.budget_range.blank? ? solution.range : solution.budget_range
+          - if solution.flavored?
+            = f.input :flavor, as: :radio_pills, collection: solution.flavors, input_html: { selected: solution.flavors[0] }, btn_class: 'btn-lg btn-default p-x-1'
+          - if solution.bd?
+            javascript:
+              var all_bds = #{raw Project.all_bds}
+            .bd-stuff.clearfix.m-b-2
+              = f.input :bd, as: :check_boxes, collection: @bds.map(&Proc.new { |s| s[0] }), input_html: { multiple: true, class: 'btn-grid-flavor' }
+          - if !solution.info_dot.blank?
+            button.info-tooltip class=('bd-tooltip' if solution.bd?) type="button" data-toggle="tooltip" title=(solution.info_dot) i
+          - if solution.principal_office
+            - hidden_class = solution.flavors.include?("era") ? " hidden-on-load" : ""
+            = f.input :state, collection: @states, placeholder: "Principal Office", input_html: { class: 'input-lg js-select'+hidden_class, multiple: false }
+          - if solution.aum_enabled
+            /= f.input :aum, collection: [["below $100MM", false], ["$100MM+", true]], placeholder: "AUM", input_html: { class: 'input-lg js-select', multiple: false }
+            = f.input :aum, placeholder: "AUM", input_html: { class: 'input-lg' }
+          - if solution.industries_enabled
+            = f.input :industries, collection: Industry.sorted, placeholder: t('simple_form.placeholders.specialist.industries'), input_html: { class: 'input-lg js-select', multiple: true }
+          - if solution.jurisdictions_enabled
+            = f.input :jurisdictions, collection: Jurisdiction.sorted, placeholder: t('simple_form.placeholders.specialist.jurisdictions'), input_html: { class: 'input-lg js-select', multiple: true }
+          - if solution.hours_enabled
+            = f.input :estimated_hours, placeholder: "No. of hours", as: :string, require: true, input_html: { class: 'input-lg', data: { masked: '0#' } }
+          - if solution.accounts_enabled
+            = f.input :accounts, placeholder: "No. of client accounts", as: :string, require: true, input_html: { class: 'input-lg', data: { masked: '0#' } }
+          - solution.project_templates.each_with_index do |template,i|
+            .description_switcher style=('display: none;' if i > 0)
+              p = template.public_description.html_safe if template.public_description.present?
+              ul.turnkey-entry-profits
+                - for feature in template.features_array do
+                  li class=('lst-none' if feature.is_a? Array)
+                    - if feature.is_a? String
+                      = feature.html_safe
+                    - if feature.is_a? Array
+                      ul
+                        - for sub_feature in feature do
+                          li = sub_feature.html_safe
+
+          .clearfix
+          .turnkey-entry-purchase
+            = link_to "Purchase", "#", class: "remote-submit btn btn-large btn-primary turnkey-entry-submit", "data-remote" => true
+
+= render :partial => "turnkey_footer"

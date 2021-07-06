@@ -1,0 +1,36 @@
+- content_for :title, "Financials"
+
+.panel.panel-default.panel-padded
+  .panel-heading
+    h3 Financials
+  hr.m-b-0.m-t-1
+  .panel-body.p-x-2
+    .my-financials.p-b-2
+      .financial
+        .amount= number_to_currency @financials.processed_this_month
+        .description Payments Made In <br>#{Time.zone.now.strftime('%B %Y')}
+      .financial
+        .amount= number_to_currency @financials.upcoming_30_days
+        .description Upcoming Payments<br>(next 30 days)
+      .financial
+        .amount= number_to_currency @financials.processed_ytd
+        .description Payments Made<br>YTD
+      .financial
+        .amount= number_to_currency @financials.processed_total
+        .description Total<br>Payments Made
+
+.panel.panel-default.m-t-3.panel-padded
+  .panel-heading style="display: flex; justify-content: space-between; align-items: center"
+    h3 Payment Details
+    span  
+      = link_to 'Export', "#", onclick: "window.location = $('.tab-pane.active .download_csv').attr('href')", class:" btn btn-primary btn-solid p-y-0 m-x-2 "
+      ul.nav.nav-pills
+        li.active.btn.btn-shadow.p-x-0= link_to '#charges-upcoming', data: { toggle: 'tab', "remote-load" => true, url: business_financial_path('upcoming', sort_by: 'date'), 'toggle-sync' => true } do
+          span Upcoming 
+        li.btn.btn-shadow.p-x-0 style="border-left: 1px solid #ccc !important;"= link_to '#charges-processed', data: { toggle: 'tab', "remote-load" => true, url: business_financial_path('processed', sort_by: 'date'), 'toggle-sync' => true } do
+          span Completed
+  hr.m-b-0.m-t-1
+  .panel-body
+    .tab-content
+      #charges-upcoming.tab-pane.clearfix.active
+      #charges-processed.tab-pane.clearfix

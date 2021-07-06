@@ -26,14 +26,14 @@
           ion-icon.topbar-right-dropdown__icon(name='chevron-down-outline')
         li(@click="openLink('documents')")
           router-link.dropdown-item(:to='`/${userType}/settings`' active-class="active") Settings
-        b-dropdown-item(@click="signOut") Sign Out
+        b-dropdown-item(@click="signOutAct") Sign Out
       a.btn.btn-topbar.btn-topbar_help(href="#")
         b-icon.mr-2( icon="question-circle-fill" aria-label="Help")
         | Help
 </template>
 
 <script>
-  // import { mapActions, mapGetters } from "vuex"
+  import { mapActions, mapGetters } from "vuex"
   import UserAvatar from '@/common/UserAvatar'
 
   export default {
@@ -67,25 +67,34 @@
     },
     methods: {
       // ...mapActions({
-      //   singOut: 'auth/singOut',
+      //   signOut: 'auth/signOut',
       // }),
-      signOut() {
-        // this.singOut()
-        //   .then(response => console.log(response))
-        //   .catch(error => console.error(error))
-        fetch('/users/sign_out/force', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': JSON.parse(localStorage.getItem('app.currentUser.token'))
-          }
+      signOutAct() {
+
+        const accessTokenLocalStorage = localStorage.getItem('app.currentUser.token') ? localStorage.getItem('app.currentUser.token') : ''
+        console.log(accessTokenLocalStorage)
+        console.log(JSON.stringify(accessTokenLocalStorage))
+        console.log(JSON.parse(accessTokenLocalStorage))
+        fetch('/api/users/sign_out', {
+          method: 'DELETE',
+          headers: {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': JSON.parse(accessTokenLocalStorage)},
         })
           .then(response => response.json())
           .then(data => {
             console.log(data)
-            // localStorage.removeItem('app.currentUser');
-            // localStorage.removeItem('app.currentUser.token');
-          });
+            localStorage.removeItem('app.currentUser');
+            localStorage.removeItem('app.currentUser.token');
+            window.location.href = `${window.location.origin}`
+          })
+          .catch(error => console.error(error))
+
+        // this.$store.dispatch('signOut')
+        //   .then(response => {
+        //     console.log(response)
+        //     window.location.href = `${window.location.origin}`
+        //     // router.push('home')
+        //   })
+        //   .catch(error => console.error(error))
       },
       openLink (value) {
         if(value === 'documents') this.$store.commit('changeSidebar', 'documents')

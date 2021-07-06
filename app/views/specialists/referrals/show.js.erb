@@ -1,0 +1,5 @@
+var $specialist = $('#specialist-settings');
+$specialist.html('<%= j render('show', specialist: @specialist) %>');
+$(document).trigger('newContent', $specialist);
+$('.settings-nav > li').removeClass('active');
+$('.settings-nav > .referrals').addClass('active');

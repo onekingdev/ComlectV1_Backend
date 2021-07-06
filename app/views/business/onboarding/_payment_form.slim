@@ -1,0 +1,26 @@
+- content_for :html_head do
+  script src="https://js.stripe.com/v3/"
+  script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js" data-client-name="Client Name" data-key="#{ENV.fetch('PLAID_PUBLIC_KEY')}" data-product="auth" data-env="sandbox"
+
+.loading.text-center
+  img(src="/assets/loading-dots.gif" width="40px")
+.payment_form
+  h5.text-center Add a card for future payments
+
+  br
+  .stripe-card-form
+  .clearfix.errors#card-errors
+  br
+
+  .form-switch.m-b-1
+    = form_for :payment_form, url: business_settings_payment_index_path, method: :post, html: { id: :payment_method_form } do |f|
+      = f.hidden_field :use_method, value: :card
+      = f.hidden_field :plaid_token
+      = f.hidden_field :plaid_account_id
+      = f.hidden_field :plaid_institution
+      = f.hidden_field :card_token
+
+      - if current_business.in_usa?
+        = link_to 'Link a bank instead', '#',
+                class: 'plaid-link',
+                data: { env: ENV.fetch('PLAID_ENV'), public_key: ENV.fetch('PLAID_PUBLIC_KEY'), client_name: current_business.business_name }

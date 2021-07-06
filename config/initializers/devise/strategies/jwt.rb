@@ -11,7 +11,7 @@ module Devise
         token = request.headers['Authorization']
         payload = JsonWebToken.decode(token)
         user = User.find(payload['sub'])
-        success! if user.jwt_hash == payload['jwt_hash']
+        success! user if user.jwt_hash == payload['jwt_hash']
       rescue ::JWT::ExpiredSignature
         fail! I18n.t('devise.failure.token_expired')
       rescue ::JWT::DecodeError

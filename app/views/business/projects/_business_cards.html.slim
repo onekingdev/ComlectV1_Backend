@@ -1,0 +1,42 @@
+- if @projects.empty?
+  h2.text-center.m-b-2 No projects yet
+- else
+  table.table.table-striped.table-blue.addon-alerts-table
+    thead.text-center
+      tr
+        th style='width: 30%;'
+          .p-l-2 Project
+        th Location
+        th Budget
+        th Start Date
+        th Team  
+        th
+        th style='width: 15%' Progress
+    tbody
+      - @projects.map(&method(:decorate)).each do |project|
+        - progressBar = project.pending? ? "0" : project.percent_complete.round
+        tr 
+          td
+            a.p-l-2 style="display: block;" href=(current_user.specialist ? project.specialist_project_href(current_specialist) : project.business_project_href) target="_blank"
+              = project.title
+          td = project.location_details
+          td = project.dollars
+          td = project.start_and_duration 
+          td
+            .text-center
+              - if project.business
+                div style="float: left; width: 15px;"
+                  = image_tag (project.business.logo_url(:thumb) || 'default_userpic.png'), size: "20x20", style: "border-radius: 50%;"
+              - if project.specialist
+                div style="float: left; width: 15px;"
+                  = image_tag (project.specialist.photo_url(:thumb) || 'default_userpic.png'), size: "20x20", style: "border-radius: 50%;"
+            /= image_tag "icon-business.png", style: "border-radius: 50%; width: 20px; height: 20px;"
+          td style="text-align: end; width: 1px;"
+            div style=" margin-right: -10px;" = "#{progressBar}%"
+          td style="width: 15%;"
+            .progress.m-b-0 style='background-color: #ccc; height: 3px;'
+              .progress-bar role="progressbar" aria-valuenow="#{progressBar}" aria-valuemin="0" aria-valuemax="100" style="width: #{progressBar}%; background-color: #{progressBar.to_i == 100 ? '#2DCE98' : '#EC428A'};"  
+
+  .clearfix
+javascript:
+  fullheight_all();
