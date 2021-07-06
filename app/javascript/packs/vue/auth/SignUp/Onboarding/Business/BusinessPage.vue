@@ -191,7 +191,7 @@
                       h5.billing-plan__coast {{ billingTypeSelected === 'annually' ?  plan.coastAnnuallyFormatted : plan.coastMonthlyFormatted }}
                       p.billing-plan__users(v-if="plan.id === 1") {{ plan.users }}
                       p.billing-plan__users(v-if="plan.id !== 1 && billingTypeSelected === 'monthly'")
-                        span.billing-plan__discount {{ plan.coastMonthlyFormatted }}
+                        span.billing-plan__discount {{ plan.scratched }}
                         span.text-success &nbsp;{{ plan.coastAnnuallyFormatted }}
                       p.billing-plan__users(v-if="plan.id !== 1") {{ billingTypeSelected === 'annually' ?  plan.usersCount + ' free users plus $' + plan.additionalUserAnnually + '/year per person' : plan.usersCount + ' free users plus $' + plan.additionalUserMonthly + '/mo per person' }}
                       hr
