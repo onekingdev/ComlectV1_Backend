@@ -71,22 +71,30 @@
       // }),
       signOutAct() {
 
-        // const accessTokenLocalStorage = localStorage.getItem('app.currentUser.token') ? localStorage.getItem('app.currentUser.token') : ''
-        // fetch('/api/users/sign_out', {
-        //   method: 'DELETE',
-        //   headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
-        //   token: JSON.stringify(accessTokenLocalStorage)
-        // })
-        //   .then(response => response.json())
-        //   .then(data => console.log(data));
-
-        this.$store.dispatch('signOut')
-          .then(response => {
-            console.log(response)
+        const accessTokenLocalStorage = localStorage.getItem('app.currentUser.token') ? localStorage.getItem('app.currentUser.token') : ''
+        console.log(accessTokenLocalStorage)
+        console.log(JSON.stringify(accessTokenLocalStorage))
+        console.log(JSON.parse(accessTokenLocalStorage))
+        fetch('/api/users/sign_out', {
+          method: 'DELETE',
+          headers: {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': JSON.parse(accessTokenLocalStorage)},
+        })
+          .then(response => response.json())
+          .then(data => {
+            console.log(data)
+            localStorage.removeItem('app.currentUser');
+            localStorage.removeItem('app.currentUser.token');
             window.location.href = `${window.location.origin}`
-            // router.push('home')
           })
           .catch(error => console.error(error))
+
+        // this.$store.dispatch('signOut')
+        //   .then(response => {
+        //     console.log(response)
+        //     window.location.href = `${window.location.origin}`
+        //     // router.push('home')
+        //   })
+        //   .catch(error => console.error(error))
       },
       openLink (value) {
         if(value === 'documents') this.$store.commit('changeSidebar', 'documents')
