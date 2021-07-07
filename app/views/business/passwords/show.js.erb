@@ -1,5 +1,0 @@
-var $business = $('#business-settings');
-$business.html('<%= j render('show', user: @user, saved: @saved) %>');
-$(document).trigger('newContent', $business);
-$(".settings-nav > li").removeClass("active");
-$(".settings-nav > .change-password").addClass("active");
