@@ -1,0 +1,8 @@
+var $content = $('.panel-drawer.timesheets');
+$content.html('<%= j render 'timesheets', timesheets: @timesheets, selected: nil %>');
+$('.timesheets .timesheet.selected').removeClass('selected');
+var id = $('.selected-timesheet').attr('data-id');
+if (id) {
+  $('.timesheets .timesheet[data-id=' + id + ']').addClass('selected');
+}
+$(document).trigger('newContent', $content);

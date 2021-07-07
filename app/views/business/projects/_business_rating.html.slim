@@ -1,0 +1,19 @@
+- if @ratings.empty?
+  h2.text-center.m-b-2 No ratings yet
+- else
+  table.table.table-striped.table-blue.addon-alerts-table
+    thead.text-center
+      tr
+        th 
+          .p-l-2 Project
+        th
+          | Rating
+        th Date
+    tbody
+      - @ratings.map().each do |rating|
+        tr
+          td
+            .p-l-2 = rating.project.title
+          td = render_stars rating.value
+          td = rating.created_at.strftime '%b %-d, %Y'
+  .clearfix

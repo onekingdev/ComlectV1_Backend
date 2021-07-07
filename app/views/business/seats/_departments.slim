@@ -1,0 +1,22 @@
+.panel.panel-default.m-b-2
+  .panel-heading
+    .pull-left
+      h3 Departments
+    .pull-right
+      = link_to "Add", new_business_team_path, "data-target": "#modal", "data-toggle": "modal", "data-remote": true, class: "btn btn-primary btn-solid p-y-0", style: "padding: 9px 10px;"
+
+    .clearfix
+  hr.m-b-0.m-t-1
+  .panel-content-wrapper.fixedheight_receiver style="height: 317px;"
+    table.table.table-striped.table-blue
+      thead
+        tr
+          th Name
+          th style="width: 1px;" &nbsp;
+      tbody
+        - @departments.each do |dep|
+          tr
+            td = link_to dep.name, edit_business_team_path(dep), remote: true, "data-target": "#modal", "data-toggle": "modal"
+            td style="width: 1px; font-size: 18px;"
+              = link_to business_team_path(dep), method: :delete, class: 'delete-department', data: { confirm: "<div class='bootbox-heading'>Delete Department<hr></div>Warning! This change is permanent. Deleting<br>this department will also delete all employees<br/>linked to the department as well. ", "confirm-label": "Confirm", "no-cancel": "true" } do
+                i.icon-trash

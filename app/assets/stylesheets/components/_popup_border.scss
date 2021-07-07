@@ -1,0 +1,38 @@
+.popup_border {
+  border: 3px solid #FFCC01;
+  text-align: center;
+  padding: 20px;
+}
+
+.modal-content {
+  border-radius: 10px;
+}
+
+.modal-header {
+  padding: 0px;
+}
+
+.modal-header {
+  height: 0px;
+}
+
+body.businesses.show, body.business_dashboard, body.compliance_policies, body.annual_reviews, body.audit_requests, body.annual_reports {
+  .modal-footer {
+    display: none;
+  }
+
+  .close {
+    background-image: asset_url("close.png");
+    background-size: contain;
+    padding: 0;
+    cursor: pointer;
+    position: absolute;
+    right: 8px;
+    z-index: 10000;
+    color: #fff;
+  }
+
+  .bootbox.confirm .modal-footer {
+    display: block;
+  }
+}

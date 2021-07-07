@@ -1,0 +1,17 @@
+.panel.panel-default.profile-info
+  .panel-heading
+    .pull-left
+      - if current_user.specialist
+        h3 Monthly Earnings
+      - else
+        h3 Compliance Spend
+    .pull-right
+      .seats_info YTD #{@financials.processed_ytd}
+    .clearfix
+  hr.m-b-0.m-t-1
+  .panel-content-wrapper.fullheight
+    #compliance_spend_chart style="width: 100%; height: 100%;"
+    /= line_chart User.group_by_month(:created_at, format: "%b").count, height: "245px"
+.clearfix
+javascript:
+  var compliance_spend_data = #{raw @compliance_spend.to_json};

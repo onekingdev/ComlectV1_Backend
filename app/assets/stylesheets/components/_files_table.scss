@@ -1,0 +1,14 @@
+table.files-table {
+  tbody {
+    tr {
+      td {
+        vertical-align: middle;
+        i {
+          &:before {
+            font-size: 18px;
+          }
+        }
+      }
+    }
+  }
+}

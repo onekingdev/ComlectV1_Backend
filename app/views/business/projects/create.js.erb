@@ -1,0 +1,2 @@
+$('.project_form').replaceWith('<%= j render 'form', project: Project::Decorator.decorate(@project) %>');
+$(document).trigger('newContent', $('.project_form'));

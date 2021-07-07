@@ -1,0 +1,14 @@
+label.strong Key Details & Applicant Prerequisites
+
+.row= render 'projects/attributes', project: project
+
+label.strong.m-t-3 Project Description
+
+- if project.description.present?
+  = simple_format project.description
+- else
+  p N/A
+
+label.strong.m-t-3 Key Deliverables
+
+= project.key_deliverables_list

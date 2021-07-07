@@ -1,0 +1,6 @@
+- if @err.nil?
+  span Thank you, we will contact you shortly.
+- else
+  = @err
+javascript:
+  grecaptcha.reset();

@@ -1,0 +1,5 @@
+var $business = $('#business-settings');
+$business.html('<%= j render('show', business: @business) %>');
+$(document).trigger('newContent', $business);
+$(".settings-nav > li").removeClass("active");
+$(".settings-nav > .referrals").addClass("active");

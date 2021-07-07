@@ -1,0 +1,13 @@
+.bootbox-body
+  .bootbox-heading
+    | Add Employee
+    hr.m-b-1
+  = simple_form_for Specialist::Invitation.new, url: specialists_invitations_path do |f|
+    .col-xs-12
+      = f.input :first_name, label: "Name", placeholder: 'Name', input_html: { class: 'input-lg input-gray'}
+    .col-xs-12
+      = f.input :email, placeholder: 'Email', input_html: { class: 'input-lg input-gray'}
+    .col-xs-12.text-right.m-y-3
+      = f.submit 'Save', class: 'btn btn-primary', style: "width: 140px;"
+  .clearfix
+.clearfix

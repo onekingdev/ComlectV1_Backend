@@ -1,0 +1,5 @@
+var path = '<%= @path %>';
+window.location.href = path;
+if (window.location.pathname == path.replace(/#.+$/, '')) {
+  window.location.reload();
+}
