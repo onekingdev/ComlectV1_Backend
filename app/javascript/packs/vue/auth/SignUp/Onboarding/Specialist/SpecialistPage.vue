@@ -40,7 +40,7 @@
                       .invalid-feedback.d-block(v-if="errors.jurisdiction") {{ errors.jurisdiction }}
               .row
                 .col-xl-6
-                  b-form-group#inputB-group-7(label='Time Zone' label-for='selectB-7' label-class="required")
+                  b-form-group#inputB-group-7(label='Your Time Zone' label-for='selectB-7' label-class="required")
                     div(
                     :class="{ 'invalid': errors.time_zone }"
                     )
@@ -130,7 +130,7 @@
               div.d-flex.justify-content-between
                 .text-left
                   h3.onboarding__title Tell us more about yourself:
-                  p.onboarding__sub-title Enter any relevant skills and education to better match with ideal clients.
+                  p.onboarding__sub-title Enter any relevant skills to better match you with suitable projects.
                 // .text-right
                 //   SpecialistModalSkipStep(@skipConfirmed="skipStep(3)", :inline="false")
                 //     b-button.mr-2(type='button' variant='outline-primary') Skip this step
@@ -153,14 +153,14 @@
                   .invalid-feedback.d-block(v-if="errors.skills") {{ errors.skills }}
               hr
               h3.onboarding__title.m-t-2 What's your experience?
-              p.onboarding__sub-title Select one that the best matches your level of your expertise.
+              p.onboarding__sub-title Select one that best matches your level of your expertise.
               b-form-group(class="onboarding-group")
                 b-button.exp__btn(variant="default" :class="formStep2.experience === 0 ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onexperienceChange($event, 0)")
                   span.exp__btn--main Junior
-                  span.exp__btn--sub Begining consulting with some experience in the field.
+                  span.exp__btn--sub Beginner consultant with some industry experience.
                 b-button.exp__btn(variant="default" :class="formStep2.experience === 1 ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onexperienceChange($event, 1)")
                   span.exp__btn--main Intermediate
-                  span.exp__btn--sub Good experience and knowlage of the industry.
+                  span.exp__btn--sub Good experience and solid knowledge of the industry.
                 b-button.exp__btn(variant="default" :class="formStep2.experience === 2 ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onexperienceChange($event, 2)")
                   span.exp__btn--main Expert
                   span.exp__btn--sub Deep understanding of industry with varied experience.
@@ -304,7 +304,7 @@
       // }
       if(this.timezones) {
         for (const value of this.timezones) {
-          const [ zone, city ] = value.split(') ')
+          const [ zone, city ] = value
           this.timeZoneOptions.push({
             value: city,
             name: zone
