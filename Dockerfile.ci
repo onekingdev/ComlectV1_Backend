@@ -9,6 +9,8 @@ RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends \
   libreoffice \
   wkhtmltopdf
 
+RUN export NODE_OPTIONS=--max_old_space_size=4096
+
 RUN gem install bundler
 
 COPY Gemfile* ./
