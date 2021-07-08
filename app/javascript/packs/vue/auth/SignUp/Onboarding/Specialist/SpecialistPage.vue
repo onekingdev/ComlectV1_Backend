@@ -40,7 +40,7 @@
                       .invalid-feedback.d-block(v-if="errors.jurisdiction") {{ errors.jurisdiction }}
               .row
                 .col-xl-6
-                  b-form-group#inputB-group-7(label='Time Zone' label-for='selectB-7' label-class="required")
+                  b-form-group#inputB-group-7(label='Your Time Zone' label-for='selectB-7' label-class="required")
                     div(
                     :class="{ 'invalid': errors.time_zone }"
                     )
@@ -130,7 +130,7 @@
               div.d-flex.justify-content-between
                 .text-left
                   h3.onboarding__title Tell us more about yourself:
-                  p.onboarding__sub-title Enter any relevant skills and education to better match with ideal clients.
+                  p.onboarding__sub-title Enter any relevant skills to better match you with suitable projects.
                 // .text-right
                 //   SpecialistModalSkipStep(@skipConfirmed="skipStep(3)", :inline="false")
                 //     b-button.mr-2(type='button' variant='outline-primary') Skip this step
@@ -153,14 +153,14 @@
                   .invalid-feedback.d-block(v-if="errors.skills") {{ errors.skills }}
               hr
               h3.onboarding__title.m-t-2 What's your experience?
-              p.onboarding__sub-title Select one that the best matches your level of your expertise.
+              p.onboarding__sub-title Select one that best matches your level of your expertise.
               b-form-group(class="onboarding-group")
                 b-button.exp__btn(variant="default" :class="formStep2.experience === 0 ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onexperienceChange($event, 0)")
                   span.exp__btn--main Junior
-                  span.exp__btn--sub Begining consulting with some experience in the field.
+                  span.exp__btn--sub Beginner consultant with some industry experience.
                 b-button.exp__btn(variant="default" :class="formStep2.experience === 1 ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onexperienceChange($event, 1)")
                   span.exp__btn--main Intermediate
-                  span.exp__btn--sub Good experience and knowlage of the industry.
+                  span.exp__btn--sub Good experience and solid knowledge of the industry.
                 b-button.exp__btn(variant="default" :class="formStep2.experience === 2 ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onexperienceChange($event, 2)")
                   span.exp__btn--main Expert
                   span.exp__btn--sub Deep understanding of industry with varied experience.
@@ -170,7 +170,7 @@
               //   b-form-file(v-model='formStep2.file' :state='Boolean(formStep2.file)' accept="application/pdf" placeholder='Choose a file or drop it here...' drop-placeholder='Drop file here...')
               //   .m-t-3 Selected file: {{ formStep2.file ? formStep2.file.name : '' }}
               // hr
-              h3.onboarding__title.m-b-3.m-t-2 (Optional) Upload you resume:
+              h3.onboarding__title.m-b-3.m-t-2 (Optional) Upload your resume:
               label.dropbox.w-100(v-if="!formStep2.file" for="upload-file")
                 input.input-file(type="file" id="upload-file" accept="application/pdf" ref="file" @change="selectFile")
                 p(v-if="!formStep2.file") Drag your resume here
@@ -191,7 +191,7 @@
                       b-dropdown(size="sm" variant="none" class="m-0 p-0" right)
                         template(#button-content)
                           b-icon(icon="three-dots")
-                        b-dropdown-item.delete(@click="removeFile") Delete file
+                        b-dropdown-item.delete(@click="removeFile") Delete File
               hr
               .text-right.m-t-2
                 b-button.mr-2(type='button' variant='default' @click="prevStep(1)") Go back
@@ -293,12 +293,21 @@
     },
     created() {
       // if(luxonValidTimezones) this.formStep1.timeZoneOptions = luxonValidTimezones;
-      if(luxonValidTimezones) {
-        for (const value of luxonValidTimezones) {
-          const [ gmt, zone ] = value.split(') ')
-          this.formStep1.timeZoneOptions.push({
-            value: zone,
-            name: value
+      // if(luxonValidTimezones) {
+      //   for (const value of luxonValidTimezones) {
+      //     const [ gmt, zone ] = value.split(') ')
+      //     this.formStep1.timeZoneOptions.push({
+      //       value: zone,
+      //       name: value
+      //     })
+      //   }
+      // }
+      if(this.timezones) {
+        for (const value of this.timezones) {
+          const [ zone, city ] = value
+          this.timeZoneOptions.push({
+            value: city,
+            name: zone
           })
         }
       }
@@ -775,7 +784,7 @@
     box-shadow: inset 5px 0 0 #0479ff;
   }
   .alert-dismissible .close {
-    top: 10px;
+    /*top: 10px;*/
     font-size: 1.8rem;
   }
 
