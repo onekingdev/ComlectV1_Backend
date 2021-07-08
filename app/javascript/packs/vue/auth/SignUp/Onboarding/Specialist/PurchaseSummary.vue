@@ -1,31 +1,29 @@
 <template lang="pug">
   .card.m-t-1.purchase-summary
-    .card-header
+    .card-header.purchase-summary-header
       | Purchase Summary
-    .card-body.pb-0
+    .card-body.purchase-summary-body.pb-0
       dl.row.mb-0
         dt.col-sm-6
           b {{ planComputed.name }} plan
         dd.col-sm-6.text-right {{ billingTypeSelected === 'annually' ?  planComputed.coastAnnuallyFormatted : planComputed.coastMonthlyFormatted }}
-        <!--dt.col-sm-6 {{ additionalUsers }} Users ({{ planComputed.usersCount }} Free)-->
-        <!--dd.col-sm-6.text-right {{ planComputed.additionalUserCoast }}-->
-        <!--dt.col-sm-6.text-success {{ billingTypeSelected === 'annually' ? 'Billed Annualy' : 'Billed Monthly' }}-->
-        <!--dd.col-sm-6.text-right.text-success(v-if="billingTypeSelected === 'annually'") You saved {{ planComputed.saved }}-->
-    hr(v-if="planComputed.tax")
-    .card-body.py-0(v-if="planComputed.tax")
+        //dt.col-sm-6 {{ additionalUsers }} Users ({{ planComputed.usersCount }} Free)
+        //dd.col-sm-6.text-right {{ planComputed.additionalUserCoast }}
+        //dt.col-sm-6.text-success {{ billingTypeSelected === 'annually' ? 'Billed Annualy' : 'Billed Monthly' }}
+        //dd.col-sm-6.text-right.text-success(v-if="billingTypeSelected === 'annually'") You saved {{ planComputed.saved }}
+    .card-body.purchase-summary-body.p-40.borderless(v-if="planComputed.tax")
       dl.row.mb-0
         dt.col-sm-6
           b Tax
         dd.col-sm-6.text-right.m-b-0
           b {{ planComputed.tax }}
-    hr
-    .card-body.pt-0
+    .purchase-summary-body.p-40.borderless
       dl.row.mb-0
         dt.col-sm-6
           b Total
         dd.col-sm-6.text-right.m-b-0
           b {{ planComputed.total }}
-    .card-footer
+    .card-footer.purchase-summary-footer.p-40
       b-button.w-100(type='button' variant='dark' @click="complitePurchase" :disabled="disabled")
         b-icon.mr-2(icon="arrow-clockwise" animation="spin" font-scale="1" v-show="loading")
         | Complete Purchase
@@ -84,14 +82,3 @@
     },
   }
 </script>
-
-<style scoped>
-  .purchase-summary {
-    position: absolute;
-    z-index: 1050;
-    right: 5rem;
-    top: 30%;
-    width: 30rem;
-    transform: translateY(-30%);
-  }
-</style>

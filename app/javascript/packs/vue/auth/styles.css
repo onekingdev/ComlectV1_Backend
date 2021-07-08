@@ -92,6 +92,10 @@ input[type=number] {
   border-bottom: solid 1px #DCDEE4;
 }
 
+/* ---------- utilites ---------- */
+.m-b-20 {
+  margin-bottom: 1.25rem;
+}
 .m-b-40 {
   margin-bottom: 2.5rem;
 }
@@ -102,6 +106,32 @@ input[type=number] {
 .p-y-20 {
   padding-top: 1.25rem;
   padding-bottom: 1.25rem;
+}
+
+.p-40 {
+  padding: 2.5rem;
+}
+
+/* ---------- purchase-summary ---------- */
+.purchase-summary {
+  position: absolute;
+  z-index: 1050;
+  right: 5rem;
+  top: 30%;
+  width: 31.875rem;
+  transform: translateY(-30%);
+}
+.purchase-summary-header{
+  padding: 1.5625rem 2.5rem;
+  font-size: 1.25rem;
+  background-color: white;
+}
+.purchase-summary-body {
+  font-size: 1rem;
+  border-bottom: solid 1px #DCDEE4;
+}
+.purchase-summary-footer {
+  background-color: white;
 }
 
 .steps {

@@ -385,9 +385,9 @@
 
         show: true,
         errors: {},
-        step1: false,
+        step1: true,
         step2: false,
-        step3: true,
+        step3: false,
         currentStep: 1,
         navStep1: true,
         navStep2: false,
