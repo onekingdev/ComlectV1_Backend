@@ -28,7 +28,7 @@
     .card-footer
       b-button.w-100(type='button' variant='dark' @click="complitePurchase" :disabled="disabled")
         b-icon.mr-2(icon="arrow-clockwise" animation="spin" font-scale="1" v-show="loading")
-        | Complite purchase
+        | Complete Purchase
 </template>
 
 <script>

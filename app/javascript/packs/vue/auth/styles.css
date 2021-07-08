@@ -84,6 +84,25 @@ input[type=number] {
 .registration-onboarding {
   margin-top: 2rem;
 }
+.registration-card {
+  padding: 2.5rem;
+  min-height: 100vh;
+}
+.registration-card-header {
+  border-bottom: solid 1px #DCDEE4;
+}
+
+.m-b-40 {
+  margin-bottom: 2.5rem;
+}
+.m-b-80 {
+  margin-bottom: 5rem;
+}
+
+.p-y-20 {
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+}
 
 .steps {
   display: flex;
@@ -328,7 +347,7 @@ a.link,
 
 /* ---------- FORMS---------- */
 .text-right .btn {
-  min-width: 65px;
+  /*min-width: 65px;*/
   font-weight: 600;
 }
 .btn.btn-dark:hover,

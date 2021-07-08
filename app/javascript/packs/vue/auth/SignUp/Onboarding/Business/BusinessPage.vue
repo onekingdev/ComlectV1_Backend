@@ -203,14 +203,14 @@
                 .col.text-right
                   b-button.m-t-3(type='button' variant='default' @click="prevStep(2)") Go back
 
-        b-sidebar#BillingPlanSidebar(@hidden="closeSidebar" v-model="isSidebarOpen" backdrop-variant='dark' backdrop left no-header width="60%")
-          .card
-            .card-header.borderless
-              .d-flex.justify-content-between
+        b-sidebar#BillingPlanSidebar(@hidden="closeSidebar" v-model="isSidebarOpen" backdrop-variant='dark' backdrop left no-header width="850px" no-close-on-backdrop)
+          .card.registration-card
+            .card-header.borderless.m-b-80.px-0
+              .d-flex.justify-content-between.m-b-40
                 b-button(variant="default" @click="isSidebarOpen = false")
                   b-icon.mr-2(icon="chevron-left" variant="dark")
                   | Back
-              .d-block.m-t-1
+              .d-block
                 h2 Time to power up
                 p Review and confirm your subscription
             BillingDetails(
@@ -385,9 +385,9 @@
 
         show: true,
         errors: {},
-        step1: true,
+        step1: false,
         step2: false,
-        step3: false,
+        step3: true,
         currentStep: 1,
         navStep1: true,
         navStep2: false,
