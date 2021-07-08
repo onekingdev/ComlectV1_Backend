@@ -33,7 +33,7 @@
 </template>
 
 <script>
-  // import { mapActions, mapGetters } from "vuex"
+  import { mapActions, mapGetters } from "vuex"
   import UserAvatar from '@/common/UserAvatar'
 
   export default {
@@ -53,8 +53,8 @@
       //   this.$store.commit('auth/UPDATE_LOGIN_STATUS', true)
       // }
 
-      const splittedUrl = window.location.pathname.split('/') // ["", "business", "reminders"]
-      this.userType = splittedUrl[1]
+      // const splittedUrl = window.location.pathname.split('/') // ["", "business", "reminders"]
+      // this.userType = splittedUrl[1]
     },
     data() {
       return {
@@ -62,12 +62,20 @@
           first_name: '',
           last_name: ''
         },
-        userType: ''
+        // userType: '',
+        // businessMenu: {
+        //   link: `/${this.userType}`,
+        //   title: ''
+        // },
+        // specialistMenu: {
+        //   link: '',
+        //   title: ''
+        // }
       }
     },
     methods: {
       // ...mapActions({
-      //   singOut: 'auth/singOut',
+      //   signOut: 'auth/signOut',
       // }),
       signOut() {
         // this.singOut()
@@ -83,9 +91,19 @@
           .then(response => response.json())
           .then(data => {
             console.log(data)
-            // localStorage.removeItem('app.currentUser');
-            // localStorage.removeItem('app.currentUser.token');
-          });
+            localStorage.removeItem('app.currentUser');
+            localStorage.removeItem('app.currentUser.token');
+            window.location.href = `${window.location.origin}`
+          })
+          .catch(error => console.error(error))
+
+        // this.$store.dispatch('signOut')
+        //   .then(response => {
+        //     console.log(response)
+        //     window.location.href = `${window.location.origin}`
+        //     // router.push('home')
+        //   })
+        //   .catch(error => console.error(error))
       },
       openLink (value) {
         if(value === 'documents') this.$store.commit('changeSidebar', 'documents')
@@ -105,6 +123,9 @@
       //     last_name: this.currentUser.contact_last_name ? `${this.currentUser.contact_last_name}` : `${this.currentUser.last_name}`,
       //   }
       // }
+      userType () {
+        return this.$store.getters.userType
+      }
     },
   }
 </script>
