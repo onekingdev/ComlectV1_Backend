@@ -22,11 +22,7 @@ gem 'unicorn'
 # doc to pdf
 gem 'combine_pdf'
 gem 'libreconv'
-gem 'pdfjs_viewer-rails', git: 'https://github.com/kourindouhime/pdfjs_viewer-rails.git'
 gem 'wicked_pdf'
-
-# calendar
-gem 'simple_calendar' # , '~> 2.0'
 
 # captcha
 gem 'bcrypt'

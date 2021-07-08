@@ -1,5 +1,3 @@
-const userTypeLocalStorage = localStorage.getItem('app.userType') ? localStorage.getItem('app.userType') : ''
-
 export default {
   state: {
     loading: false,
@@ -8,7 +6,7 @@ export default {
       authProvider: 'jwt',
     },
     leftSidebar: 'default',
-    userType: userTypeLocalStorage ? JSON.parse(userTypeLocalStorage) : '',
+    userType: '',
   },
   mutations: {
     setLoading (state, payload) {
