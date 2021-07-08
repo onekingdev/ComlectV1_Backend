@@ -389,9 +389,9 @@
         step2: false,
         step3: false,
         currentStep: 1,
-        navStep1: true,
+        navStep1: false,
         navStep2: false,
-        navStep3: false,
+        navStep3: true,
         billingTypeSelected: 'annually',
         billingTypeOptions: [
           { text: 'Billed Annually', value: 'annually' },
