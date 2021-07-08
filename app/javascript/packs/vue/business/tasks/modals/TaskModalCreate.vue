@@ -237,11 +237,11 @@
           // await this.$store.dispatch('filefolders/getFileFolders')
 
           this.$store.dispatch("getPolicies")
-            .then((response) => console.log('response mounted', response))
+            .then((response) => console.log('getPolicies response mounted', response))
             .catch((err) => console.error(err));
 
           this.$store.dispatch('annual/getReviews')
-            .then((response) => console.log('response mounted', response))
+            .then((response) => console.log('getReviews response mounted', response))
             .catch((err) => console.error(err));
 
           fetch('/api/business/local_projects/', {
@@ -250,7 +250,7 @@
             // body: JSON.stringify(this.task)
           }).then(response => response.json())
             .then((response) => {
-              console.log('response mounted', response)
+              console.log('local_projects response mounted', response)
               this.projects = response
             })
             .catch((err) => console.error(err));
