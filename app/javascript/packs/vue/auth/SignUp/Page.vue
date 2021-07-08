@@ -152,6 +152,8 @@
     methods: {
       selectType(type){
         this.userType = type
+        localStorage.setItem('app.userType', JSON.stringify(type))
+        this.$store.commit('changeUserType', type)
       },
       onSubmit0(event){
         event.preventDefault()
