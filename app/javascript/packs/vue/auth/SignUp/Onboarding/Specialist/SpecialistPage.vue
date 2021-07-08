@@ -410,8 +410,8 @@
 
         show: true,
         errors: {},
-        step1: true,
-        step2: false,
+        step1: false,
+        step2: true,
         step3: false,
         currentStep: 1,
         navStep1: true,
@@ -436,9 +436,6 @@
       }
     },
     methods: {
-      makeToast(title, str) {
-        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
-      },
       addTag (newTag) {
         const tag = {
           name: newTag,
@@ -543,12 +540,12 @@
                 this['step'+stepNum] = true
                 this.currentStep = stepNum
                 this.navigation(this.currentStep)
-                this.makeToast('Success', `Company info successfully sended!`)
+                // this.toast('Success', `Company info successfully sended!`)
               }
             })
             .catch(error => {
               console.error(error)
-              this.makeToast('Error', `Something wrong! ${error.error}`)
+              // this.toast('Error', `Something wrong! ${error.error}`)
             })
         }
       },
@@ -576,11 +573,14 @@
 
           this.$store.dispatch('updateSubscribe', dataToSend)
             .then(response => {
-              this.makeToast('Success', `Update subscribe successfully finished! You will be redirect.`)
+              // this.toast('Success', `Update subscribe successfully finished! You will be redirect.`)
               this.currentPlan = { id: 1, status: true }
               this.redirect()
             })
-            .catch(error =>this.makeToast('Error', `Something wrong!`))
+            .catch(error =>{
+              console.error(error)
+              // this.toast('Error', `Something wrong!`)
+            })
 
           return
         }
@@ -632,14 +632,14 @@
           .then(response => {
             if(response.errors) {
               for (const [key, value] of Object.entries(response.errors)) {
-                // this.makeToast('Error', `${key}: ${value}`)
+                // this.toast('Error', `${key}: ${value}`)
                 // this.errors = Object.assign(this.errors, { [key]: value })
                 throw new Error(`${[key]} ${value}`)
               }
             }
 
             if(!response.errors) {
-              this.makeToast('Success', `Update subscribe successfully finished!`)
+              // this.toast('Success', `Update subscribe successfully finished!`)
 
               // OVERLAY
               if(+this.additionalUsers === 0) {
@@ -652,7 +652,7 @@
           })
           .catch(error => {
             console.error(error)
-            this.makeToast('Error', `Something wrong! ${error}`)
+            // this.toast('Error', `Something wrong! ${error}`)
 
             // OVERLAY
             this.overlayStatus = 'error'
