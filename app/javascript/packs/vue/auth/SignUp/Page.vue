@@ -243,7 +243,8 @@
 
         const dataToSend = {
           userId: this.userId,
-          code: this.form2.code
+          code: this.form2.code,
+          email: this.form.email
         }
 
         this.$store.dispatch('confirmEmail', dataToSend)

@@ -123,9 +123,9 @@ export default {
       try {
         commit("clearError");
         commit("setLoading", true);
-
-        const response = await axios.put(`/users/${payload.userId}/confirm_email`, {
-          "otp_secret": payload.code
+        const response = await axios.put(`/users/confirm_email`, {
+          "otp_secret": payload.code,
+          "email": payload.email
         })
         // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
         if (response.data) {
