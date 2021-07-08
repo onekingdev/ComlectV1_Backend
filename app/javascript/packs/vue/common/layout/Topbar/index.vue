@@ -26,14 +26,14 @@
           ion-icon.topbar-right-dropdown__icon(name='chevron-down-outline')
         li(@click="openLink('documents')")
           router-link.dropdown-item(:to='`/${userType}/settings`' active-class="active") Settings
-        b-dropdown-item(@click="signOutAct") Sign Out
+        b-dropdown-item(@click="signOut") Sign Out
       a.btn.btn-topbar.btn-topbar_help(href="#")
         b-icon.mr-2( icon="question-circle-fill" aria-label="Help")
         | Help
 </template>
 
 <script>
-  import { mapActions, mapGetters } from "vuex"
+  // import { mapActions, mapGetters } from "vuex"
   import UserAvatar from '@/common/UserAvatar'
 
   export default {
@@ -53,8 +53,8 @@
       //   this.$store.commit('auth/UPDATE_LOGIN_STATUS', true)
       // }
 
-      // const splittedUrl = window.location.pathname.split('/') // ["", "business", "reminders"]
-      // this.userType = splittedUrl[1]
+      const splittedUrl = window.location.pathname.split('/') // ["", "business", "reminders"]
+      this.userType = splittedUrl[1]
     },
     data() {
       return {
@@ -62,43 +62,30 @@
           first_name: '',
           last_name: ''
         },
-        // userType: '',
-        // businessMenu: {
-        //   link: `/${this.userType}`,
-        //   title: ''
-        // },
-        // specialistMenu: {
-        //   link: '',
-        //   title: ''
-        // }
+        userType: ''
       }
     },
     methods: {
       // ...mapActions({
-      //   signOut: 'auth/signOut',
+      //   singOut: 'auth/singOut',
       // }),
-      signOutAct() {
-        const accessTokenLocalStorage = localStorage.getItem('app.currentUser.token') ? localStorage.getItem('app.currentUser.token') : ''
-        fetch('/api/users/sign_out', {
-          method: 'DELETE',
-          headers: {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': JSON.parse(accessTokenLocalStorage)},
+      signOut() {
+        // this.singOut()
+        //   .then(response => console.log(response))
+        //   .catch(error => console.error(error))
+        fetch('/users/sign_out/force', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': JSON.parse(localStorage.getItem('app.currentUser.token'))
+          }
         })
           .then(response => response.json())
           .then(data => {
             console.log(data)
-            localStorage.removeItem('app.currentUser');
-            localStorage.removeItem('app.currentUser.token');
-            window.location.href = `${window.location.origin}`
-          })
-          .catch(error => console.error(error))
-
-        // this.$store.dispatch('signOut')
-        //   .then(response => {
-        //     console.log(response)
-        //     window.location.href = `${window.location.origin}`
-        //     // router.push('home')
-        //   })
-        //   .catch(error => console.error(error))
+            // localStorage.removeItem('app.currentUser');
+            // localStorage.removeItem('app.currentUser.token');
+          });
       },
       openLink (value) {
         if(value === 'documents') this.$store.commit('changeSidebar', 'documents')
@@ -118,9 +105,6 @@
       //     last_name: this.currentUser.contact_last_name ? `${this.currentUser.contact_last_name}` : `${this.currentUser.last_name}`,
       //   }
       // }
-      userType () {
-        return this.$store.getters.userType
-      }
     },
   }
 </script>

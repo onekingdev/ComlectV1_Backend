@@ -62,6 +62,17 @@ export async function updateTask(payload) {
     .catch(err => err)
 }
 
+export async function updateTaskStatus(payload) {
+  return await axios.post(`${END_POINT}/${payload.id}?done=${payload.done}`)
+    .then(response => {
+      if (response) {
+        return response
+      }
+      return false
+    })
+    .catch(err => err)
+}
+
 export async function deleteTask(payload) {
   return await axios.delete(`${END_POINT}/${payload.id}`, payload)
     .then(response => {

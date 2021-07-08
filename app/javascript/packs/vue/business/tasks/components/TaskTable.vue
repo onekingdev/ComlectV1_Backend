@@ -2,7 +2,7 @@
   table.table.task_table
     thead
       tr
-        th(width="40%")
+        th
           | Name
           b-icon.ml-2(icon='chevron-expand')
         th(v-if="!shortTable" width="25%")
