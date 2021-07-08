@@ -15,9 +15,9 @@
                 h4.step__name 2. Skills and education
               .step(:class="navStep3 ? 'active' : ''")
                 h4.step__name 3. Choose plan
-          Loading
+          // Loading
           b-form(@submit='onSubmit' @change="onChangeInput" v-if='show')
-            #step1.form(v-if='!loading' :class="step1 ? 'd-block' : 'd-none'")
+            #step1.form(class="step1 ? 'd-block' : 'd-none'")
               .row
                 .col
                   h3 What jurisdiction does your expertise extend to?
@@ -123,7 +123,7 @@
                           .invalid-feedback.d-block(v-if="errors.regulator") {{ errors.regulator }}
               .text-right
                 b-button(type='button' variant='dark' @click="nextStep(2)") Next
-            #step2.form(v-if='!loading'  :class="step2 ? 'd-block' : 'd-none'")
+            #step2.form(:class="step2 ? 'd-block' : 'd-none'")
               b-alert.d-none(show variant="primary" dismissible)
                 h4 Verify information
                 p.mb-0 The following fields were filled in based on the CRD number you provided. Please carefully review each field before proceeding.
@@ -196,7 +196,7 @@
               .text-right.m-t-2
                 b-button.mr-2(type='button' variant='default' @click="prevStep(1)") Go back
                 b-button(type='button' variant='dark' @click="nextStep(3)") Next
-            #step3.form(v-if='!loading'  :class="step3 ? 'd-block' : 'd-none'")
+            #step3.form(:class="step3 ? 'd-block' : 'd-none'")
               .row
                 .col.mb-2.text-center
                   h2.mb-3 Choose your Membership plan
@@ -252,25 +252,25 @@
 </template>
 
 <script>
-  const {DateTime} = require('luxon')
-  const {zones} = require('tzdata')
-  const luxonValidTimeZoneName = function (zoneName) {
-    let hours = (DateTime.local().setZone(zoneName).offset / 60);
-    let rhours = Math.floor(hours)
-    let rhoursView = Math.floor(hours) < 10 && Math.floor(hours) >= 0 ? '0'+Math.round(hours) : '-0'+Math.abs(hours)
-    let minutes = (hours - rhours) * 60;
-    let rminutes = Math.round(minutes) === 0 ? '0'+Math.round(minutes) : Math.round(minutes)
-    let zoneNameView = zoneName.split('/')[1] ? zoneName.split('/')[1].replace('_', ' ') : zoneName
+  // const {DateTime} = require('luxon')
+  // const {zones} = require('tzdata')
+  // const luxonValidTimeZoneName = function (zoneName) {
+  //   let hours = (DateTime.local().setZone(zoneName).offset / 60);
+  //   let rhours = Math.floor(hours)
+  //   let rhoursView = Math.floor(hours) < 10 && Math.floor(hours) >= 0 ? '0'+Math.round(hours) : '-0'+Math.abs(hours)
+  //   let minutes = (hours - rhours) * 60;
+  //   let rminutes = Math.round(minutes) === 0 ? '0'+Math.round(minutes) : Math.round(minutes)
+  //   let zoneNameView = zoneName.split('/')[1] ? zoneName.split('/')[1].replace('_', ' ') : zoneName
+  //
+  //   return `(GMT ${rhoursView}:${rminutes}) ${zoneNameView}`
+  // }
+  // const luxonValidTimezones = Object.entries(zones)
+  //   .filter(([zoneName, v]) => Array.isArray(v))
+  //   .map(([zoneName, v]) => zoneName)
+  //   .filter(tz => DateTime.local().setZone(tz).isValid)
+  //   .map(zoneName => `${luxonValidTimeZoneName(zoneName)}`)
 
-    return `(GMT ${rhoursView}:${rminutes}) ${zoneNameView}`
-  }
-  const luxonValidTimezones = Object.entries(zones)
-    .filter(([zoneName, v]) => Array.isArray(v))
-    .map(([zoneName, v]) => zoneName)
-    .filter(tz => DateTime.local().setZone(tz).isValid)
-    .map(zoneName => `${luxonValidTimeZoneName(zoneName)}`)
-
-  import Loading from '@/common/Loading/Loading'
+  // import Loading from '@/common/Loading/Loading'
   import TopNavbar from "@/auth/components/TopNavbar";
   import Multiselect from 'vue-multiselect'
   import BillingDetails from './BillingDetails'
@@ -283,7 +283,7 @@
   export default {
     props: ['industryIds', 'jurisdictionIds', 'subIndustryIds', 'states', 'userInfo', 'timezones'],
     components: {
-      Loading,
+      // Loading,
       TopNavbar,
       Multiselect,
       BillingDetails,
@@ -410,8 +410,8 @@
 
         show: true,
         errors: {},
-        step1: false,
-        step2: true,
+        step1: true,
+        step2: false,
         step3: false,
         currentStep: 1,
         navStep1: true,
@@ -704,9 +704,9 @@
       },
     },
     computed: {
-      loading() {
-        return this.$store.getters.loading;
-      },
+      // loading() {
+      //   return this.$store.getters.loading;
+      // },
       currentUser() {
         return this.$store.getters.getUser
       },
