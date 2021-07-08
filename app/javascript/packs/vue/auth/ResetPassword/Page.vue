@@ -5,9 +5,10 @@
       main.row#main-content
         .col-xl-4.col-lg-6.col-md-8.m-x-auto
           .card-body.white-card-body.registration
-            Loading
-            #step1.form(v-if='!loading' :class="step1 ? 'd-block' : 'd-none'")
-              h1.text-center Reset password via email
+            // Loading
+            // #step1.form(v-if='!loading' :class="step1 ? 'd-block' : 'd-none'")
+            #step1.form(:class="step1 ? 'd-block' : 'd-none'")
+              h1.text-center Reset password
               p.text-center Enter the email address used to log in to your Complect
                 br
                 | account and we'll send you a link to reset your password. If you
@@ -25,12 +26,9 @@
                   b-button.w-100(type='submit' variant='dark') Reset
                   hr
                   b-form-group.text-center.forgot-password.m-t-1
-                    .m-t-1
-                      .forgot-password.m-t-1.m-b-2
-                        a.link(data-remote='true' href='/users/sign_in') Cancel
-                b-card.mt-3(header='Form Data Result')
-                  pre.m-0 {{ form }}
-            #step2.form(v-if='!loading' :class="step2 ? 'd-block' : 'd-none'")
+                    .forgot-password
+                      a.link(data-remote='true' href='/users/sign_in') Cancel
+            #step2.form(:class="step2 ? 'd-block' : 'd-none'")
               h1.text-center You successfuly reseted password!
               p.text-center You will be redirect to the sign in page!
               .text-center
@@ -39,16 +37,15 @@
 </template>
 
 <script>
-  import Loading from '@/common/Loading/Loading'
+  // import Loading from '@/common/Loading/Loading'
   import TopNavbar from "../components/TopNavbar";
   import ResetPasswordModal from './Modals/ResetPasswordModal'
 
-  const random = Math.floor(Math.random() * 1000);
+  const TIME_FOR_VIEW_MESSAGE = 3000
 
   export default {
-    props: ['industryIds', 'jurisdictionIds', 'subIndustryIds', 'states'],
     components: {
-      Loading,
+      // Loading,
       TopNavbar,
       ResetPasswordModal,
     },
@@ -71,9 +68,6 @@
       }
     },
     methods: {
-      makeToast(title, str) {
-        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
-      },
       selectType(type){
         this.userType = type
       },
@@ -90,24 +84,25 @@
 
         this.$store.dispatch('resetEmail', dataToSend)
           .then((response) => {
-
             if (response.errors) {
               const properties = Object.keys(response.errors);
               for (const type of Object.keys(response.errors)) {
                 this.errors = response.errors[type]
-                this.makeToast('Error', `Form has errors! Please recheck fields! ${error}`)
-                // Object.keys(response.errors[type]).map(prop => response.errors[prop].map(err => this.makeToast(`Error`, `${prop}: ${err}`)))
+                this.toast('Error', `Form has errors! Please recheck fields! ${error}`)
+                // Object.keys(response.errors[type]).map(prop => response.errors[prop].map(err => this.toast(`Error`, `${prop}: ${err}`)))
               }
-              return
             }
-
             if (!response.errors) {
-              this.userId = response.userid
-              this.makeToast('Success', `${response.message}`)
+              // this.userId = response.userid
+              // this.toast('Success', `${response.message}`)
 
               // open step 2
               this.step1 = false
               this.step2 = true
+
+              setTimeout(() => {
+                window.location.href = `${window.location.origin}/users/sign_in`
+              }, TIME_FOR_VIEW_MESSAGE)
             }
 
             // setTimeout(() => {
@@ -117,7 +112,7 @@
           .catch((error) => {
             console.error(error)
             for (const type of Object.keys(error.errors)) {
-              this.makeToast('Error', `${error.errors[type]}`)
+              this.toast('Error', `${error.errors[type]}`)
               this.error = `Error! ${error.errors[type]}`
             }
             this.showAlert()
@@ -131,9 +126,9 @@
       },
     },
     computed: {
-      loading() {
-        return this.$store.getters.loading;
-      },
+      // loading() {
+      //   return this.$store.getters.loading;
+      // },
     },
   }
 </script>
