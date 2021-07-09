@@ -92,7 +92,7 @@
       //        stripe-checkout(ref='checkoutRef' mode='payment' :pk='publishableKey' :line-items='lineItems' :success-url='successURL' :cancel-url='cancelURL' @loading='v => loading = v')
       //        button(@click='submit') Pay now!
       //hr
-    .card-header.registration-card-header.p-y-20.px-0(v-show="isActive")
+    .card-header.registration-card-header.p-y-20.px-0(v-show="isActive && !cardOptions.length")
       // p stripe-element-card:
       stripe-element-card(ref="elementRef"
       :pk="pk"

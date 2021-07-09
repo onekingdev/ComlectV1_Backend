@@ -27,8 +27,13 @@
           b {{ planComputed.total }}
     .card-footer.purchase-summary-footer.p-40
       b-button.w-100(type='button' variant='dark' @click="complitePurchase" :disabled="disabled")
-        b-icon.mr-2(icon="arrow-clockwise" animation="spin" font-scale="1" v-show="loading")
-        | Complete Purchase
+        //b-icon.mr-2(icon="arrow-clockwise" animation="spin" font-scale="1" v-show="loading")
+        .lds-ring.lds-ring-small(v-show="loading")
+          div
+          div
+          div
+          div
+        span(v-show="!loading") Complete Purchase
 </template>
 
 <script>
@@ -38,8 +43,7 @@
     components: { Coupon },
     data() {
       return {
-        promo_code: '',
-        errors: {}
+        loading: false
       }
     },
     methods: {
@@ -70,17 +74,11 @@
         const value = this.planComputed
         this.$emit('complitePurchaseConfirmed', value)
       },
-      activatePromoCode () {
-        console.log(this.promo_code)
-
-        this.toast('Success', 'Discount successfully applied.')
-        this.toast('Error', 'Invalid code. Discount was not applied.')
-      }
     },
     computed: {
-      loading() {
-        return this.$store.getters.loading;
-      },
+      // loading() {
+      //   return this.$store.getters.loading;
+      // },
       planComputed() {
         return {
           ...this.plan,

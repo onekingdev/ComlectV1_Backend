@@ -3,7 +3,7 @@
     .card-header.registration-card-header.p-y-20.px-0
       .row
         .col
-          h4.m-t-1 Plan
+          h4 Plan
         .col.text-right
           b-form-group(v-if="planComputed.id !== 1", v-slot="{ ariaDescribedby }")
             b-form-radio-group(id="btn-radios-plan"
@@ -27,15 +27,17 @@
     .card-header.registration-card-header.p-y-20.px-0(v-if="planComputed.id !== 1")
       .d-flex.justify-content-between
         div
-          h4.m-t-1 Users
+          h4 Users
           p Enter the number of users for your plan (this is often your employee headcount
         .d-flex.justify-content-end.align-items-center
           b-form-input(v-model="additionalUsersCount" type="number" min="1" max="100" @keyup="onChangeUserCount")
     .card-header.registration-card-header.p-y-20.px-0
       .d-flex.justify-content-between
-        h4.m-t-1 Payment Method
-        div.m-t-1
-          a.btn.btn-light(v-if="!cardOptions.length" @click="addBankAccount") Add Bank Account
+        h4 Payment Method
+        div.m-t-1(v-show="!cardOptions.length")
+          plaid-link(env='sandbox' :publicKey='plaidPK' clientName='Test App' product='transactions' v-bind='{ onSuccess }')
+            template(slot='button' slot-scope='props')
+              a.btn.btn-light(@click="props.onClick") Add Bank Account
     .card-body(v-if="cardOptions")
       dl.row(v-for="(card, i) in cardOptions")
         dt.col-sm-7
@@ -89,9 +91,9 @@
       //  stripe-checkout(ref='checkoutRef' mode='payment' :pk='publishableKey' :line-items='lineItems' :success-url='successURL' :cancel-url='cancelURL' @loading='v => loading = v')
       //  button(@click='submit') Pay now!
       //hr
-    .card-header.registration-card-header.p-y-20.px-0(v-show="isActive")
+    .card-header.registration-card-header.p-y-20.px-0(v-show="!cardOptions.length")
       //p stripe-element-card:
-      stripe-element-card(ref="elementRef" :pk="pk" @token="tokenCreated")
+      stripe-element-card(ref="elementRef" :pk="stripePK" @token="tokenCreated")
       // button(@click="submit") Generate token
       .row
         .col.text-right
@@ -107,12 +109,14 @@
 
 <script>
   import { StripeCheckout, StripeElementCard  } from '@vue-stripe/vue-stripe';
+  import PlaidLink from "vue-plaid-link";
 
   export default {
     props: ['billingTypeSelected', 'billingTypeOptions', 'plan'],
     components: {
       StripeCheckout,
-      StripeElementCard
+      StripeElementCard,
+      PlaidLink
     },
     data() {
       return {
@@ -146,7 +150,7 @@
         // ],
         errors: [],
         additionalUsersCount: 0,
-        isActive: true,
+        // isActive: true,
       };
     },
     methods: {
@@ -207,7 +211,7 @@
           .catch(error => console.error(error))
       },
       addBankAccount() {
-        this.isActive = true
+
       },
       onBiliingChange(event){
         this.$emit('updateBiliing', event)
@@ -220,7 +224,10 @@
         this.$emit('complitedPaymentMethod', {
           id: cardId
         })
-      }
+      },
+      onSuccess(token) {
+        console.log(token);
+      },
     },
     computed: {
       loading() {
@@ -229,8 +236,11 @@
       planComputed() {
         return this.plan
       },
-      pk() {
+      stripePK() {
         return process.env.STRIPE_PUBLISHABLE_KEY
+      },
+      plaidPK() {
+        return process.env.PLAID_PUBLIC_KEY
       }
     },
     mounted() {
