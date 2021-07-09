@@ -34,8 +34,8 @@
     .card-header.registration-card-header.p-y-20.px-0
       .d-flex.justify-content-between
         h4.m-t-1 Payment Method
-        div.m-t-1.d-none
-          a.btn.btn-light(@click="addBankAccount") Add Bank Account
+        div.m-t-1
+          a.btn.btn-light(v-if="!cardOptions.length" @click="addBankAccount") Add Bank Account
     .card-body(v-if="cardOptions")
       dl.row(v-for="(card, i) in cardOptions")
         dt.col-sm-7
@@ -200,9 +200,9 @@
         this.$store
           .dispatch('deletePaymentMethod', data)
           .then(response => {
-            const index = this.cardOptions.findIndex(record => record.id === payload.id);
+            const index = this.cardOptions.findIndex(record => record.id === cardId);
             this.cardOptions.splice(index, 1)
-            this.toast('Success', `Card removed`)
+            this.toast('Success', `${response.message.message}`)
           })
           .catch(error => console.error(error))
       },

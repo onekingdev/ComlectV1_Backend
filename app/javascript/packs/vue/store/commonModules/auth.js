@@ -462,7 +462,7 @@ export default {
 
         const { userType, id } = {...payload}
         const response = await axios.delete(`/${userType}/payment_settings/${id}`)
-        if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
+        // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
         return response.data
 
       } catch (error) {

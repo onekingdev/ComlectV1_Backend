@@ -5,7 +5,7 @@ class Api::Specialist::UpgradeController < ApiController
   before_action :payment_source, only: :subscribe
 
   def subscribe
-    current_business.update(onboarding_passed: true) && return if turnkey_params[:plan] == 'free'
+    current_specialist.update(dashboard_unlocked: true) && return if turnkey_params[:plan] == 'free'
 
     specialist_plan_name = turnkey_params[:plan]&.parameterize
     respond_with(errors: { plan: 'Wrong plan name' }) && return unless Subscription::SPECIALIST_PLANS.include?(specialist_plan_name)
