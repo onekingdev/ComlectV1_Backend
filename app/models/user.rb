@@ -169,4 +169,8 @@ class User < ApplicationRecord
   def show_local_project(project_id)
     update(hidden_local_projects: (hidden_local_projects - [project_id]))
   end
+
+  def send_confirmation_notification?
+    false
+  end
 end
