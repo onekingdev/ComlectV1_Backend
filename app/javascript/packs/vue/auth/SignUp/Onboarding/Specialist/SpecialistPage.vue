@@ -17,7 +17,7 @@
                 h4.step__name 3. Choose plan
           // Loading
           b-form(@submit='onSubmit' @change="onChangeInput" v-if='show')
-            #step1.form(class="step1 ? 'd-block' : 'd-none'")
+            #step1.form(:class="step1 ? 'd-block' : 'd-none'")
               .row
                 .col
                   h3 What jurisdiction does your expertise extend to?
