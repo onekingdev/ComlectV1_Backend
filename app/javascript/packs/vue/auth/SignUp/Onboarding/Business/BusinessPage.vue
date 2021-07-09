@@ -220,8 +220,6 @@
             @updateBiliing="onBiliingChange"
             @updateAdditionalUsers="updateAdditionalUsers"
             @complitedPaymentMethod="complitedPaymentMethod"
-            @addPaymentMethodStart="addPaymentMethodStart"
-            @addPaymentMethodEnd="addPaymentMethodEnd"
             )
         PurchaseSummary(
         v-if="isSidebarOpen"
@@ -335,6 +333,17 @@
         this.onChange(accountInfoParsed.industries)
 
         this.formStep2.business.sub_industries = accountInfoParsed.sub_industries ? accountInfoParsed.sub_industries.map((subInd, idx) => {
+          const subIndfromOpt = this.subIndustryOptions.find(opt => {
+            if (opt.name === subInd)
+              return opt
+          })
+          return {
+            name: subIndfromOpt.name,
+            value: subIndfromOpt.value
+          }
+        }) : []
+
+        this.formStep2.business.time_zone = accountInfoParsed.time_zone ? accountInfoParsed.time_zone.map((subInd, idx) => {
           const subIndfromOpt = this.subIndustryOptions.find(opt => {
             if (opt.name === subInd)
               return opt
