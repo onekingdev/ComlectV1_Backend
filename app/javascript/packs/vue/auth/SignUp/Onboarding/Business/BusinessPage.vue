@@ -595,7 +595,7 @@
               if(+this.additionalUsers > 0) this.paySeats(selectedPlan)
               // OVERLAY
               if(+this.additionalUsers === 0) {
-                this.overlayStatusText = 'Account successfully purchased, you will be redirect to the dashboard...'
+                this.overlayStatusText = 'Payment complete! Setting up account...'
                 this.overlayStatus = 'success'
                 // this.overlay = false
                 this.redirect()

@@ -93,7 +93,7 @@
       //hr
     .card-header.registration-card-header.p-y-20.px-0(v-show="!cardOptions.length")
       //p stripe-element-card:
-      stripe-element-card(ref="elementRef" :pk="stripePK" @token="tokenCreated")
+      stripe-element-card(ref="elementRef" :pk="pk" @token="tokenCreated")
       // button(@click="submit") Generate token
       .row
         .col.text-right
@@ -236,7 +236,7 @@
       planComputed() {
         return this.plan
       },
-      stripePK() {
+      pk() {
         return process.env.STRIPE_PUBLISHABLE_KEY
       },
       plaidPK() {
