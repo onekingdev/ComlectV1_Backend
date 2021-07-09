@@ -565,16 +565,20 @@
       // },
       openDetails(plan) {
         if(plan.id === 1) {
-          const dataToSend = {
+          this.overlay = true
+          this.overlayStatusText = 'Setting up account...'
+
+          const data = {
             userType: this.userType,
             planName: 'free',
             paymentSourceId : null,
           }
 
-          this.$store.dispatch('updateSubscribe', dataToSend)
+          this.$store.dispatch('updateSubscribe', data)
             .then(response => {
               // this.toast('Success', `Update subscribe successfully finished! You will be redirect.`)
               this.currentPlan = { id: 1, status: true }
+              this.overlayStatus = 'success'
               this.redirect()
             })
             .catch(error =>{
@@ -643,8 +647,8 @@
 
               // OVERLAY
               if(+this.additionalUsers === 0) {
-                this.overlayStatusText = 'Account successfully purchased, you will be redirect to the dashboard...'
                 this.overlayStatus = 'success'
+                this.overlayStatusText = 'Payment complete! Setting up account...'
                 // this.overlay = false
                 this.redirect()
               }
