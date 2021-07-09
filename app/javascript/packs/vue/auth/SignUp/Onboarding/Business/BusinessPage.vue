@@ -188,10 +188,10 @@
                     b-card-text
                       h4.billing-plan__name {{ plan.name }}
                       p.billing-plan__descr {{ plan.description }}
-                      h5.billing-plan__coast {{ billingTypeSelected === 'annually' ?  plan.coastMonthlyFormatted : plan.scratched }}
+                      h5.billing-plan__coast {{ billingTypeSelected === 'annually' ?  plan.coastMonthlyDiscountFormatted : plan.coastMonthlyFormatted }}
                       p.billing-plan__users(v-if="plan.id === 1") {{ plan.users }}
                       p.billing-plan__users(v-if="plan.id !== 1 && billingTypeSelected === 'annually'")
-                        span.billing-plan__discount {{ plan.scratched }}
+                        span.billing-plan__discount {{ plan.coastMonthlyFormatted }}
                         span.text-success &nbsp;{{ plan.coastAnnuallyFormatted }}
                       p.billing-plan__users(v-if="plan.id !== 1") {{ billingTypeSelected === 'annually' ?  plan.usersCount + ' free users plus $' + plan.additionalUserAnnually + '/year per person' : plan.usersCount + ' free users plus $' + plan.additionalUserMonthly + '/mo per person' }}
                       hr
