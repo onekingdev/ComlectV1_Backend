@@ -343,6 +343,11 @@
         this.formStep1.jurisdiction = accountInfoParsed.jurisdictions || []
         // this.formStep1.regulatorSelected = accountInfoParsed.former_regulator ? 'yes' : 'no';
 
+        this.formStep1.time_zone = {
+          name: accountInfoParsed.time_zone,
+          value: accountInfoParsed.time_zone
+        }
+
         this.formStep2.skills = accountInfoParsed.skills || []
         this.formStep2.experience = accountInfoParsed.experience
       }

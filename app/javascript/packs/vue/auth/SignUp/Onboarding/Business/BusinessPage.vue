@@ -342,6 +342,11 @@
             value: subIndfromOpt.value
           }
         }) : []
+
+        this.formStep2.business.time_zone = {
+          name: accountInfoParsed.time_zone,
+          value: accountInfoParsed.time_zone
+        }
       }
 
       const url = new URL(window.location);
