@@ -567,7 +567,7 @@
         this.errors = []
 
         this.overlay = true
-        this.overlayStatusText = 'Setting up account. Subscribing a plan...'
+        this.overlayStatusText = 'Processing payment...'
 
         let planName;
         if (selectedPlan.id === 1) {
@@ -608,7 +608,7 @@
 
             // OVERLAY
             this.overlayStatus = 'error'
-            this.overlayStatusText = `Something wrong! ${error}`
+            this.overlayStatusText = `Payment method could not be added.`
             setTimeout(() => {
               this.overlay = false
             }, 3000)

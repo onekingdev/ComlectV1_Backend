@@ -152,7 +152,7 @@
     methods: {
       selectType(type){
         this.userType = type
-        localStorage.setItem('app.userType', JSON.stringify(type))
+        localStorage.setItem('app.currentUser.userType', JSON.stringify(type))
         this.$store.commit('changeUserType', type)
       },
       onSubmit0(event){

@@ -9,6 +9,7 @@ class Users::SessionsController < Devise::SessionsController
   respond_to :js, :html
 
   def new
+  #  render html: content_tag('auth-layoyt', '').html_safe, layout: 'vue_onboarding'
     render html: content_tag('signin-page', '').html_safe, layout: 'vue_onboarding'
   end
 

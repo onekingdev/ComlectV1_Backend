@@ -1,5 +1,9 @@
 import init from './vue/init'
 import store from '@/store/common'
+// import router from '@/router'
+
+// import AuthLayoyt from './vue/layouts/Auth'
+
 import SignupPage from './vue/auth/SignUp/Page.vue'
 import SigninPage from './vue/auth/SingIn/Page.vue'
 import ResetPasswordPage from './vue/auth/ResetPassword/Page.vue'
@@ -11,7 +15,9 @@ import ExamManagementAuditorPortal from './vue/business/exammanagement/PageAudit
 
 init({
   store,
+  // router,
   components: {
+    // AuthLayoyt,
     SignupPage,
     SigninPage,
     ResetPasswordPage,

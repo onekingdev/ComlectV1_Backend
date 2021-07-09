@@ -3,10 +3,10 @@ import Router from 'vue-router'
 import AuthGuard from './auth-guard'
 
 // AUTH
-import signIn from '@/auth/SingIn/Page'
-import signUp from '@/auth/SignUp/Page'
-import ResetPassword from '@/auth/ResetPassword/Page'
-import ChangePassword from '@/auth/ChangePassword/Page'
+// import signIn from '@/auth/SingIn/Page'
+// import signUp from '@/auth/SignUp/Page'
+// import ResetPassword from '@/auth/ResetPassword/Page'
+// import ChangePassword from '@/auth/ChangePassword/Page'
 
 // BUSINESS
 import Dashboard from '@/business/dashboard/Page'
@@ -42,10 +42,10 @@ Vue.use(Router)
 export default new Router({
   routes: [
     // AUTH
-    { path: '/users/sign_in', name: 'sign-in', component: signIn },
-    { path: '/users/sign_up', name: 'sign-up', component: signUp },
-    { path: '/users/password/new', name: 'password-new', component: ResetPassword },
-    { path: '/users/password/change', name: 'password-change', component: ChangePassword },
+    // { path: '/users/sign_in', name: 'sign-in', component: signIn },
+    // { path: '/users/sign_up', name: 'sign-up', component: signUp },
+    // { path: '/users/password/new', name: 'password-new', component: ResetPassword },
+    // { path: '/users/password/change', name: 'password-change', component: ChangePassword },
 
     // BUSINESS
     { path: '/business', name: 'dashboard', component: Dashboard },
