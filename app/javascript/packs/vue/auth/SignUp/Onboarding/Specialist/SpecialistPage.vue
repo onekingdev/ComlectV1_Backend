@@ -305,7 +305,7 @@
       if(this.timezones) {
         for (const value of this.timezones) {
           const [ zone, city ] = value
-          this.timeZoneOptions.push({
+          this.formStep1.timeZoneOptions.push({
             value: city,
             name: zone
           })
