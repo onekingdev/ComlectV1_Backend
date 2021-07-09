@@ -14,7 +14,7 @@
       "additionalUserMonthly": 0,
       "additionalUserAnnually": 0,
       "features": [
-        "Compliance Calendar",
+        "Compilance Calendar",
         "Project Management"
       ]
     },
@@ -23,9 +23,8 @@
       "name": "Team",
       "description": "Small teams and startups",
       "coast": "$125/mo",
-      "coastMonthly": 125,
-      "coastMonthlyFormatted": "$125/mo",
-      "scratched": "$150/mo",
+      "coastMonthly": 145,
+      "coastMonthlyFormatted": "$145/mo",
       "coastAnnually": 1500,
       "coastAnnuallyFormatted": "$1500/year",
       "users": "3 free users plus $15/mo per person",
@@ -33,37 +32,38 @@
       "additionalUserMonthly": 15,
       "additionalUserAnnually": 120,
       "features": [
-        "Compliance Calendar",
+        "Compilance Calendar",
         "Project Management",
         "Policies and Procedures",
-        "<b>1</b> Internal Review per year",
+        "1 Internal Review per year",
         "Exam Management",
-        "<b>5GB</b> storage for books and records"
+        "5GB storage for books and records",
+        "Unlimited intefrations"
       ]
     },
     {
       "id": 3,
       "name": "Business",
       "description": "Medium-sized organizations",
-      "coast": "$210/mo",
-      "coastMonthly": 210,
-      "coastMonthlyFormatted": "$210/mo",
-      "scratched": "$250/mo",
-      "coastAnnually": 2520,
-      "coastAnnuallyFormatted": "$2520/year",
+      "coast": "$250/mo",
+      "coastMonthly": 270,
+      "coastMonthlyFormatted": "$270/mo",
+      "coastAnnually": 3000,
+      "coastAnnuallyFormatted": "$3000/year",
       "users": "10 free users plus $15/mo per person",
       "usersCount": 10,
       "additionalUserMonthly": 15,
       "additionalUserAnnually": 120,
       "features": [
-        "Compliance Calendar",
+        "Compilance Calendar",
         "Project Management",
         "Policies and Procedures",
-        "<b>Unlimited</b> Internal Reviews per year",
+        "1 Internal Review per year",
         "Exam Management",
         "Auditor Portal",
-        "<b>10GB</b> storage for books and records",
-        "<b>Free</b> personalized onboarding"
+        "10GB storage for books and records",
+        "Unlimited intefrations",
+        "Free Personalized Onboardig"
       ]
     }
   ]
