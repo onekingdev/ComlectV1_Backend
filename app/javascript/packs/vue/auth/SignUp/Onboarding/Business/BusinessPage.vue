@@ -720,6 +720,7 @@
         this.formStep2.business.zipcode = postal_code
       },
       redirect() {
+        localStorage.setItem('app.currentUser.firstEnter', JSON.stringify(true))
         const dashboard = this.userType === 'business' ? '/business' : '/specialist'
         setTimeout(() => {
           window.location.href = `${dashboard}`;
