@@ -1225,7 +1225,7 @@ GEM
     faraday_middleware (1.0.0)
       faraday (~> 1.0)
     fastimage (2.2.0)
-    ffi (1.13.1)
+    ffi (1.15.3)
     fog-aws (3.7.0)
       fog-core (~> 2.1)
       fog-json (~> 1.1)
@@ -1745,4 +1745,4 @@ RUBY VERSION
    ruby 2.5.7p206
 
 BUNDLED WITH
-   2.2.7
+   2.2.21

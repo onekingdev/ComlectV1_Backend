@@ -90,7 +90,8 @@ class Users::SessionsController < Devise::SessionsController
   protected
 
   def after_sign_in_path_for(resource)
-    @eaten_redirect || (resource.business ? business_dashboard_path : specialists_dashboard_path)
+    # fix session redirects
+    #@eaten_redirect || (resource.business ? business_dashboard_path : specialists_dashboard_path)
     # if resource.business
     #   business_dashboard_path
     # else
