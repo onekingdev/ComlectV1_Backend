@@ -1,43 +1,43 @@
 <template lang="pug">
   div
-    .card-header
+    .card-header.registration-card-header.p-y-20.px-0
       .row
         .col
           h4.m-t-1 Plan
-        <!--.col.text-right-->
-          <!--b-form-group(v-slot="{ ariaDescribedby }")-->
-            <!--b-form-radio-group(id="btn-radios-plan"-->
-            <!--:checked="billingTypeSelected"-->
-            <!--:options="billingTypeOptions"-->
-            <!--:aria-describedby="ariaDescribedby"-->
-            <!--button-variant="outline-primary"-->
-            <!--size="lg"-->
-            <!--name="radio-btn-outline"-->
-            <!--buttons-->
-            <!--@change="onBiliingChange"-->
-            <!--)-->
-    .card-header
+        //.col.text-right
+        //  b-form-group(v-slot="{ ariaDescribedby }")
+        //    b-form-radio-group(id="btn-radios-plan"
+        //    :checked="billingTypeSelected"
+        //    :options="billingTypeOptions"
+        //    :aria-describedby="ariaDescribedby"
+        //    button-variant="outline-primary"
+        //    size="lg"
+        //    name="radio-btn-outline"
+        //    buttons
+        //    @change="onBiliingChange"
+        //    )
+    .card-header.registration-card-header.p-y-20.px-0
       .row
         .col
           h4.m-t-1 {{ planComputed.name }}
           p {{ planComputed.description }}
         .col.text-right
           h4.m-t-2 {{ billingTypeSelected === 'annually' ?  planComputed.coastAnnuallyFormatted : planComputed.coastMonthlyFormatted }}
-          <!--p {{ billingTypeSelected === 'annually' ?  planComputed.usersCount + ' free users plus $' + planComputed.additionalUserAnnually + '/year per person' : planComputed.usersCount + ' free users plus $' + planComputed.additionalUserMonthly + '/mo per person' }}-->
-    <!--.card-header-->
-      <!--.d-flex.justify-content-between-->
-        <!--div-->
-          <!--h4.m-t-1 Users-->
-          <!--p Enter the amount of applicable employees to join your plan-->
-        <!--dl.row.m-t-2-->
-          <!--dt.col-sm-3-->
-          <!--dd.col-sm-9-->
-            <!--b-form-group-->
-              <!--b-form-input(v-model="additionalUsersCount" type="number" min="1" max="100" @keyup="onChangeUserCount")-->
-    .card-header
+          //p {{ billingTypeSelected === 'annually' ?  planComputed.usersCount + ' free users plus $' + planComputed.additionalUserAnnually + '/year per person' : planComputed.usersCount + ' free users plus $' + planComputed.additionalUserMonthly + '/mo per person' }}
+    //.card-header.registration-card-header.p-y-20.px-0
+    //  .d-flex.justify-content-between
+    //    div
+    //      h4.m-t-1 Users
+    //      p Enter the amount of applicable employees to join your plan
+    //    dl.row.m-t-2
+    //      dt.col-sm-3
+    //      dd.col-sm-9
+    //        b-form-group
+    //          b-form-input(v-model="additionalUsersCount" type="number" min="1" max="100" @keyup="onChangeUserCount")
+    .card-header.registration-card-header.p-y-20.px-0
       .d-flex.justify-content-between
         h4.m-t-1 Payment Method
-        div.m-t-1
+        div.m-t-1.d-none
           a.btn.btn-light(@click="addBankAccount") Add Bank Account
     .card-body(v-if="cardOptions")
       dl.row(v-for="(card, i) in cardOptions")
@@ -47,62 +47,67 @@
         dd.col-sm-5.text-right.m-b-0
           | {{ card.number }} {{ card.type }}
           a.link.ml-2(href="#" @click.stop="deletePaymentMethod(card.id)") Remove
-    .card-header
-      <!--div-->
-      <!--StripeCheckout(:pk="pk")-->
-      <!--hr-->
-      <!--div-->
-      <!--.row-->
-      <!--.col-->
-      <!--b-form-group#inputBilling-group-1(label='Name on Card' label-for='inputBilling-1')-->
-      <!--b-form-input#inputBilling-1(v-model='cardDetail.nameOnCard' type='text' placeholder='Name on Card' required)-->
-      <!--.invalid-feedback.d-block(v-if="errors.nameOnCard") {{ errors.nameOnCard }}-->
-      <!--.row-->
-      <!--.col-8.pr-2-->
-      <!--b-form-group#inputBilling-group-2(label='Card Number' label-for='inputBilling-2')-->
-      <!--b-form-input#inputBilling-2(v-model='cardDetail.cardNumber' type='text' placeholder='Card Number' required)-->
-      <!--.invalid-feedback.d-block(v-if="errors.cardNumber") {{ errors.cardNumber }}-->
-      <!--.col-1.px-2-->
-      <!--b-form-group#inputBilling-group-3(label='Exp date' label-for='inputBilling-3')-->
-      <!--b-form-input#inputBilling-3(v-model='cardDetail.expDate' type='text' placeholder='MM' required)-->
-      <!--.invalid-feedback.d-block(v-if="errors.expDate") {{ errorMonths.expDateMonth }}-->
-      <!--.col-1.px-2-->
-      <!--b-form-group#inputBilling-group-4(label='.' label-for='inputBilling-4')-->
-      <!--b-form-input#inputBilling-4(v-model='cardDetail.expDateYear' type='text' placeholder='YY' required)-->
-      <!--.invalid-feedback.d-block(v-if="errors.expDateYear") {{ errors.expDateYear }}-->
-      <!--.col-2.pl-2-->
-      <!--b-form-group#inputBilling-group-5(label='CVC/CVV' label-for='inputBilling-5')-->
-      <!--b-form-input#inputBilling-5(v-model='cardDetail.CVV' type='text' placeholder='3 or 4 digits' required)-->
-      <!--.invalid-feedback.d-block(v-if="errors.CVV") {{ errors.CVV }}-->
-      <!--.row-->
-      <!--.col.pr-2-->
-      <!--b-form-group#inputBilling-group-6(label='Country' label-for='inputBilling-6')-->
-      <!--b-form-input#inputBilling-6(v-model='cardDetail.country' type='text' placeholder='Country' required)-->
-      <!--.invalid-feedback.d-block(v-if="errors.country") {{ errors.country }}-->
-      <!--.col.pl-2-->
-      <!--b-form-group#inputBilling-group-7(label='Zip' label-for='inputBilling-7')-->
-      <!--b-form-input#inputBilling-7(v-model='cardDetail.zip' type='text' placeholder='Enter zip code' required)-->
-      <!--.invalid-feedback.d-block(v-if="errors.zip") {{ errors.zip }}-->
-      <!--.row-->
-      <!--.col.text-right-->
-      <!--b-button(type='button' variant='secondary' @click="addCardDetail") Add-->
-      <!--hr-->
-      <!--div-->
-      <!--p stripe-checkout:-->
-      <!--stripe-checkout(ref='checkoutRef' mode='payment' :pk='publishableKey' :line-items='lineItems' :success-url='successURL' :cancel-url='cancelURL' @loading='v => loading = v')-->
-      <!--button(@click='submit') Pay now!-->
+    //.card-header.registration-card-header.p-y-20.px-0
+      //div
+      //  StripeCheckout(:pk="pk")
+      //  hr
+      //  div
+      //    .row
+      //      .col
+      //      b-form-group#inputBilling-group-1(label='Name on Card' label-for='inputBilling-1')
+      //      b-form-input#inputBilling-1(v-model='cardDetail.nameOnCard' type='text' placeholder='Name on Card' required)
+      //      .invalid-feedback.d-block(v-if="errors.nameOnCard") {{ errors.nameOnCard }}
+      //    .row
+      //      .col-8.pr-2
+      //      b-form-group#inputBilling-group-2(label='Card Number' label-for='inputBilling-2')
+      //      b-form-input#inputBilling-2(v-model='cardDetail.cardNumber' type='text' placeholder='Card Number' required)
+      //      .invalid-feedback.d-block(v-if="errors.cardNumber") {{ errors.cardNumber }}
+      //    .col-1.px-2
+      //      b-form-group#inputBilling-group-3(label='Exp date' label-for='inputBilling-3')
+      //      b-form-input#inputBilling-3(v-model='cardDetail.expDate' type='text' placeholder='MM' required)
+      //      .invalid-feedback.d-block(v-if="errors.expDate") {{ errorMonths.expDateMonth }}
+      //    .col-1.px-2
+      //      b-form-group#inputBilling-group-4(label='.' label-for='inputBilling-4')
+      //      b-form-input#inputBilling-4(v-model='cardDetail.expDateYear' type='text' placeholder='YY' required)
+      //      .invalid-feedback.d-block(v-if="errors.expDateYear") {{ errors.expDateYear }}
+      //    .col-2.pl-2
+      //      b-form-group#inputBilling-group-5(label='CVC/CVV' label-for='inputBilling-5')
+      //      b-form-input#inputBilling-5(v-model='cardDetail.CVV' type='text' placeholder='3 or 4 digits' required)
+      //      .invalid-feedback.d-block(v-if="errors.CVV") {{ errors.CVV }}
+      //    .row
+      //      .col.pr-2
+      //        b-form-group#inputBilling-group-6(label='Country' label-for='inputBilling-6')
+      //        b-form-input#inputBilling-6(v-model='cardDetail.country' type='text' placeholder='Country' required)
+      //        .invalid-feedback.d-block(v-if="errors.country") {{ errors.country }}
+      //    .col.pl-2
+      //      b-form-group#inputBilling-group-7(label='Zip' label-for='inputBilling-7')
+      //      b-form-input#inputBilling-7(v-model='cardDetail.zip' type='text' placeholder='Enter zip code' required)
+      //      .invalid-feedback.d-block(v-if="errors.zip") {{ errors.zip }}
+      //    .row
+      //      .col.text-right
+      //        b-button(type='button' variant='secondary' @click="addCardDetail") Add
+      //        hr
+      //        div
+      //        p stripe-checkout:
+      //        stripe-checkout(ref='checkoutRef' mode='payment' :pk='publishableKey' :line-items='lineItems' :success-url='successURL' :cancel-url='cancelURL' @loading='v => loading = v')
+      //        button(@click='submit') Pay now!
       //hr
-      div(v-show="isActive")
-        <!--p stripe-element-card:-->
-        stripe-element-card(ref="elementRef"
-        :pk="pk"
-        @token="tokenCreated")
-        <!--button(@click="submit") Generate token-->
-        .row
-          .col.text-right
-            b-button(type='button' variant='outline-primary' @click="submit")
-              b-icon.mr-2(icon="arrow-clockwise" animation="spin" font-scale="1" v-show="loading")
-              | Add
+    .card-header.registration-card-header.p-y-20.px-0(v-show="isActive")
+      // p stripe-element-card:
+      stripe-element-card(ref="elementRef"
+      :pk="pk"
+      @token="tokenCreated")
+      //button(@click="submit") Generate token
+      .row
+        .col.text-right
+          b-button(type='button' variant='outline-primary' @click="submit")
+            // b-icon.mr-2(icon="arrow-clockwise" animation="spin" font-scale="1" v-show="loading")
+            .lds-ring.lds-ring-small(v-show="loading")
+              div
+              div
+              div
+              div
+            span(v-show="!loading") Add
 
 </template>
 
@@ -147,13 +152,10 @@
         // ],
         errors: [],
         additionalUsersCount: 0,
-        isActive: false,
+        isActive: true,
       };
     },
     methods: {
-      makeToast(title, str) {
-        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
-      },
       // submit () {
       //   // You will be redirected to Stripe's secure checkout page
       //   this.$refs.checkoutRef.redirectToCheckout();
@@ -174,14 +176,16 @@
           .dispatch('generatePaymentMethod', dataToSend)
           .then(response => {
             this.$emit('complitedPaymentMethod', response)
-            this.makeToast('Success', `Payment Method successfully added!`)
+            this.toast('Success', `Payment Method successfully added!`)
             this.isActive = false
+            this.$refs.elementRef.clear()
             this.cardOptions.push({ text: `Credit Card${this.cardOptions.length===0 ? ' (primary)' : ''}`, value: response.id, number: `**** **** **** ${response.last4}`, type: response.brand, id: response.id })
             this.cardSelected = response.id
           })
           .catch(error => {
             console.error(error)
-            this.makeToast('Error', `Something wrong! ${error}`)
+            // this.toast('Error', `Something wrong! ${error}`)
+            this.toast('Error', 'Payment method could not be added.')
           })
       },
       // addCardDetail() {
@@ -194,23 +198,19 @@
       // })
       // },
       deletePaymentMethod(cardId) {
-        const dataToSend = {
+        const data = {
           userType: this.userType,
           id: cardId,
         }
 
         this.$store
-          .dispatch('deletePaymentMethod', dataToSend)
+          .dispatch('deletePaymentMethod', data)
           .then(response => {
             const index = this.cardOptions.findIndex(record => record.id === payload.id);
             this.cardOptions.splice(index, 1)
-            if (response.message)
-              this.makeToast('Success', `${response.message}`)
+            this.toast('Success', `Card removed`)
           })
-          .catch(error => {
-            console.error(error)
-            this.makeToast('Error', `Something wrong! ${error}`)
-          })
+          .catch(error => console.error(error) )
       },
       addBankAccount() {
         this.isActive = true

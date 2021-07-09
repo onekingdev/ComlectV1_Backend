@@ -6,7 +6,12 @@
           .col-xl-3.m-x-auto
             .overlay-text
               h2.m-b-2 {{ statusText }}
-              b-icon(v-if="loading" icon="arrow-clockwise" animation="spin" font-scale="7.5")
+              //b-icon(v-if="loading" icon="arrow-clockwise" animation="spin" font-scale="7.5")
+              .lds-ring(v-if="loading")
+                div
+                div
+                div
+                div
               b-icon(v-if="!loading && status === 'success'" icon="check-circle-fill" variant="success" font-scale="7.5")
               b-icon(v-if="!loading && status === 'error'" icon="x-circle-fill" variant="danger" font-scale="7.5")
 </template>
