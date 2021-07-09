@@ -47,6 +47,12 @@ export default {
   },
   created() {
     this.refetch()
+
+    const firstView = JSON.parse(localStorage.getItem('app.currentUser.firstEnter'))
+    if (firstView) {
+      this.toast('Success', 'Account has been created.')
+      localStorage.removeItem('app.currentUser.firstEnter')
+    }
   },
   props: {
     pdfUrl: {
