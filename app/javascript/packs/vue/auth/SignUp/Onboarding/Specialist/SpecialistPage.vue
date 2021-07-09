@@ -222,7 +222,7 @@
                 .col.text-right
                   b-button(type='button' variant='default' @click="prevStep(2)") Go back
 
-        b-sidebar#BillingPlanSidebar(@hidden="closeSidebar" v-model="isSidebarOpen" backdrop-variant='dark' backdrop left no-header width="850px" no-close-on-backdrop)
+        b-sidebar#BillingPlanSidebar(@hidden="closeSidebar" v-model="isSidebarOpen" backdrop-variant='dark' backdrop left no-header width="60%" no-close-on-backdrop)
           .card.registration-card
             .card-header.borderless.m-b-80.px-0
               .d-flex.justify-content-between.m-b-40

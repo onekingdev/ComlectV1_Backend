@@ -220,6 +220,8 @@
             @updateBiliing="onBiliingChange"
             @updateAdditionalUsers="updateAdditionalUsers"
             @complitedPaymentMethod="complitedPaymentMethod"
+            @addPaymentMethodStart="addPaymentMethodStart"
+            @addPaymentMethodEnd="addPaymentMethodEnd"
             )
         PurchaseSummary(
         v-if="isSidebarOpen"
@@ -608,7 +610,8 @@
 
             // OVERLAY
             this.overlayStatus = 'error'
-            this.overlayStatusText = `Payment method could not be added.`
+            this.overlayStatusText = `Payment failed to process.`
+            this.toast('Error', 'Payment failed to process.')
             setTimeout(() => {
               this.overlay = false
             }, 3000)

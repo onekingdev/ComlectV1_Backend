@@ -34,7 +34,7 @@
     .card-header.registration-card-header.p-y-20.px-0
       .d-flex.justify-content-between
         h4 Payment Method
-        div.m-t-1(v-show="!cardOptions.length")
+        div(v-show="!cardOptions.length")
           plaid-link(env='sandbox' :publicKey='plaidPK' clientName='Test App' product='transactions' v-bind='{ onSuccess }')
             template(slot='button' slot-scope='props')
               a.btn.btn-light(@click="props.onClick") Add Bank Account
@@ -174,7 +174,7 @@
           .dispatch('generatePaymentMethod', dataToSend)
           .then(response => {
             this.$emit('complitedPaymentMethod', response)
-            this.toast('Success', `Payment Method successfully added!`)
+            this.toast('Success', `Payment method successfully added!`)
             this.isActive = false
             this.$refs.elementRef.clear()
             this.cardOptions.push({ text: `Credit Card${this.cardOptions.length===0 ? ' (primary)' : ''}`, value: response.id, number: `**** **** **** ${response.last4}`, type: response.brand, id: response.id })

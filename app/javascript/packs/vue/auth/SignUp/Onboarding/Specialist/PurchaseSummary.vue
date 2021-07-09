@@ -4,7 +4,7 @@
       | Purchase Summary
     .card-body.purchase-summary-body.p-40.pb-3
       Coupon
-    .card-body.purchase-summary-body.pb-0
+    .card-body.purchase-summary-body.p-40
       dl.row.mb-0
         dt.col-sm-6
           b {{ planComputed.name }} plan

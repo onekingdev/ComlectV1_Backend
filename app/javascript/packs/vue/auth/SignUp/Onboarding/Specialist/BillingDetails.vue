@@ -36,9 +36,11 @@
     //          b-form-input(v-model="additionalUsersCount" type="number" min="1" max="100" @keyup="onChangeUserCount")
     .card-header.registration-card-header.p-y-20.px-0
       .d-flex.justify-content-between
-        h4.m-t-1 Payment Method
-        div.m-t-1
-          a.btn.btn-light(v-if="!cardOptions.length" @click="addBankAccount") Add Bank Account
+        h4 Payment Method
+        div(v-show="!cardOptions.length")
+          plaid-link(env='sandbox' :publicKey='plaidPK' clientName='Test App' product='transactions' v-bind='{ onSuccess }')
+            template(slot='button' slot-scope='props')
+              a.btn.btn-light(@click="props.onClick") Add Bank Account
     .card-body(v-if="cardOptions")
       dl.row(v-for="(card, i) in cardOptions")
         dt.col-sm-7
@@ -92,11 +94,9 @@
       //        stripe-checkout(ref='checkoutRef' mode='payment' :pk='publishableKey' :line-items='lineItems' :success-url='successURL' :cancel-url='cancelURL' @loading='v => loading = v')
       //        button(@click='submit') Pay now!
       //hr
-    .card-header.registration-card-header.p-y-20.px-0(v-show="isActive && !cardOptions.length")
+    .card-header.registration-card-header.p-y-20.px-0(v-show="!cardOptions.length")
       // p stripe-element-card:
-      stripe-element-card(ref="elementRef"
-      :pk="pk"
-      @token="tokenCreated")
+      stripe-element-card(ref="elementRef" :pk="pk" @token="tokenCreated")
       //button(@click="submit") Generate token
       .row
         .col.text-right
@@ -113,12 +113,14 @@
 
 <script>
   import { StripeCheckout, StripeElementCard  } from '@vue-stripe/vue-stripe';
+  import PlaidLink from "vue-plaid-link";
 
   export default {
     props: ['billingTypeSelected', 'billingTypeOptions', 'plan'],
     components: {
       StripeCheckout,
-      StripeElementCard
+      StripeElementCard,
+      PlaidLink,
     },
     data() {
       return {
@@ -210,10 +212,10 @@
             this.cardOptions.splice(index, 1)
             this.toast('Success', `${response.message.message}`)
           })
-          .catch(error => console.error(error) )
+          .catch(error => console.error(error))
       },
       addBankAccount() {
-        this.isActive = true
+
       },
       onBiliingChange(event){
         this.$emit('updateBiliing', event)
@@ -226,7 +228,10 @@
         this.$emit('complitedPaymentMethod', {
           id: cardId
         })
-      }
+      },
+      onSuccess(token) {
+        console.log(token);
+      },
     },
     computed: {
       loading() {
@@ -237,6 +242,9 @@
       },
       pk() {
         return process.env.STRIPE_PUBLISHABLE_KEY
+      },
+      plaidPK() {
+        return process.env.PLAID_PUBLIC_KEY
       }
     },
     mounted() {
