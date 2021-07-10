@@ -350,7 +350,10 @@
 
         this.formStep2.skills = accountInfoParsed.skills || []
         this.formStep2.experience = accountInfoParsed.experience
-        this.formStep2.file = accountInfoParsed.resume_url
+        this.formStep2.file = {
+          name: "Uploaded File",
+          file_url: accountInfoParsed.resume_url
+        }
 
         // var a = document.createElement('a');
         // var linkText = document.createTextNode("Download");
