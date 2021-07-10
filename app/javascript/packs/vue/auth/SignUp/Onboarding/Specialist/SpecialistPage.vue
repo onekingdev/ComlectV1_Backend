@@ -588,7 +588,8 @@
             })
             .catch(error =>{
               console.error(error)
-              // this.toast('Error', `Something wrong!`)
+              this.toast('Error', `Something wrong! ${error}`)
+              this.overlay = false
             })
 
           return
