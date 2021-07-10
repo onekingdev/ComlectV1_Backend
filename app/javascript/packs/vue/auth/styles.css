@@ -202,11 +202,32 @@ input[type=number] {
 }
 
 .billing-plan {
+  width: 100%;
   min-height: 40rem;
+}
+.billing-plan .card-body {
+  padding: 1.875rem 1.25rem; /* 30 20 px*/
+}
+/*@media (min-width: 1200px) {*/
+  /*.billing-plan {*/
+    /*margin-bottom: 3.5rem;*/
+  /*}*/
+/*}*/
+@media (max-width: 992px) {
+  .billing-plan {
+    margin-bottom: 3rem;
+    min-height: auto;
+  }
 }
 @media (max-width: 767px) {
   .billing-plan {
+    margin-bottom: 2rem;
     min-height: auto;
+  }
+}
+@media (max-width: 575px) {
+  .billing-plan {
+    margin-bottom: 1rem;
   }
 }
 .billing-plan_low {

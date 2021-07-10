@@ -205,7 +205,7 @@
                     b-button(type='button' variant='outline-primary') Continue With Free Plan
               .row.justify-content-center
                 .col-xl-3(v-for='(plan, index) in billingPlans')
-                  b-card.w-100.mb-2.billing-plan(:class="[index === 0 ? 'billing-plan_default' : '', index === 1 ? 'billing-plan_high' : '' ]")
+                  b-card.billing-plan(:class="[index === 0 ? 'billing-plan_default' : '', index === 1 ? 'billing-plan_high' : '' ]")
                     b-button.mb-3(type='button' :variant="currentPlan.status && currentPlan.id === index+1 ? 'dark' : 'outline-primary'" @click="openDetails(plan)")
                       | {{ currentPlan.status && currentPlan.id === index+1 ? 'Current' : 'Select' }} Plan
                     b-card-text

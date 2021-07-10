@@ -182,7 +182,7 @@
                     buttons)
               .row
                 .col-xl-4(v-for='(plan, index) in billingPlans')
-                  b-card.w-100.mb-2.billing-plan(:class="[index === 0 ? 'billing-plan_low' : '', index === 1 ? 'billing-plan_medium' : '', index === 2 ? 'billing-plan_high' : '' ]")
+                  b-card.billing-plan(:class="[index === 0 ? 'billing-plan_low' : '', index === 1 ? 'billing-plan_medium' : '', index === 2 ? 'billing-plan_high' : '' ]")
                     b-button.mb-3(type='button' :variant="currentPlan.status && currentPlan.id === index+1 ? 'dark' : 'outline-primary'" @click="openDetails(plan)")
                       | {{ currentPlan.status && currentPlan.id === index+1 ? 'Current' : 'Select' }} Plan
                     b-card-text
