@@ -354,15 +354,6 @@
           name: "Uploaded File",
           file_url: accountInfoParsed.resume_url
         }
-
-        // var a = document.createElement('a');
-        // var linkText = document.createTextNode("Download");
-        // a.appendChild(linkText);
-        // a.title = "Download";
-        // a.href = accountInfoParsed.resume_url;
-        // // document.body.appendChild(a);
-        // var container = document.getElementsByClassName('file-card')
-        // container.appendChild(a)
       }
 
       const url = new URL(window.location);
