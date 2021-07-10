@@ -414,6 +414,14 @@ legend, .label {
   color: #797b7e;
 }
 
+.otp-icon {}
+@media (max-width: 575px) {
+  .otp-icon {
+    width: 9.375rem; /* 150px; */
+    height: 5rem; /*80px;*/
+  }
+}
+
 /* ---------- NAVBAR ---------- */
 .navbar .dropdown {
   transition: all 200ms ease-in;

@@ -10,7 +10,7 @@
       b-form(@submit='onSubmit' @keyup="onCodeChange" v-if='show' autocomplete="off")
         b-form-group
           .col.text-center
-            img(src='@/assets/mail.svg' width="180" height="110")
+            img.otp-icon(src='@/assets/mail.svg' width="180" height="110")
         b-form-group
           .row
             .col-12.mx-0
