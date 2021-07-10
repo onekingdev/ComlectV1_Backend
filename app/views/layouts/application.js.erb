@@ -1,0 +1,6 @@
+try {
+  <%= yield %>
+} catch (e) {
+  console.log(e);
+  Bugsnag.notifyException(e);
+}

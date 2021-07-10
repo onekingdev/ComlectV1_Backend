@@ -1,0 +1,17 @@
+#= require jquery
+#= require jquery_ujs
+#= require jquery-ui/widget
+#= require jquery-ui/widgets/sortable
+#= require jquery.slick
+#= require jquery.mousewheel
+#= require cocoon
+#= require jquery-mask-plugin/dist/jquery.mask
+#= require ion.rangeSlider/js/ion.rangeSlider
+#= require percircle/src/js/percircle
+#= require accounting.js/accounting
+#= require bootstrap-switch/dist/js/bootstrap-switch
+#= require utilities/content-initializer
+#= require_self
+#= require_tree ./utilities
+#= require_tree ./components
+#= require js.cookie

@@ -1,0 +1,25 @@
+version: v1.0
+name: Deploy to production
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+blocks:
+  - name: Deploy
+    task:
+      secrets:
+        - name: docker-hub
+      env_vars:
+        - name: HEROKU_APP
+          value: complect-docker-production
+        - name: RACK_ENV
+          value: production
+        - name: RAILS_ENV
+          value: production
+      jobs:
+        - name: Deploy PROD
+          commands:
+            - checkout
+            - 'heroku container:login'
+            - 'heroku container:release web worker --app $HEROKU_APP'
+            - 'heroku run --exit-code -- bundle exec rake db:migrate'

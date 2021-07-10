@@ -1,0 +1,61 @@
+doctype html
+html lang=I18n.locale
+  head
+    title
+      - if content_for?(:title)
+        = yield(:title) + " | "
+      | Complect
+    - if content_for?(:meta)
+      = yield :meta
+    - else
+      meta content="Complect is an online freelancing platform that connects financial services firms with financial regulatory compliance specialists with a minimum of three years direct compliance experience." name="description"
+      meta content="regulatory compliance hire freelance outsourcing platform finance cco complect" name="keywords"
+      // Open Graph
+      meta property="og:title" content="Complect – Compliance Specialists on Demand"
+      meta property="og:description" content="Complect is an online freelancing platform that connects financial services firms with financial regulatory compliance specialists with a minimum of three years direct compliance experience."
+    meta name="viewport" content="width=1024"
+    = stylesheet_link_tag 'application', media: 'all'
+    = csrf_meta_tags
+    script src='//d2wy8f7a9ursnm.cloudfront.net/bugsnag-3.min.js' data-apikey="#{ENV['BUGSNAG_API_KEY']}"
+    = javascript_include_tag '/app_config.js'
+    = render 'google_analytics'
+    = render 'mixpanel'
+    = render 'layouts/favicons'
+    = yield :html_head
+    = render partial: "layouts/fullstory" if Rails.env == "production"
+
+body class="#{controller_name} #{action_name} #{yield(:body_class)}"
+  .content-wrap
+    header#header class=(yield(:header_class) || 'compact')
+      = render "navbar", user: User::Decorator.new(current_user)
+      - unless current_user && current_user.cookie_agreement&.status == false
+        = yield :header
+
+    = render partial: "layouts/cookies"
+
+    .app_container style=("padding-left: 0px; margin-right: 0px;" if !current_user)
+      = render_flash
+      - if current_user && current_user.cookie_agreement&.status == false && params[:page] != 'privacy-policy'
+        = render partial: "layouts/cookies_required"
+      - elsif current_business && current_business.payment_profile.present? && current_business.payment_profile.failed && params[:controller] != 'business/payment_settings' && params[:controller] != 'business/settings'
+        = render partial: "layouts/payment_required"
+      - else
+        = yield
+
+    #modal.modal.fade tabindex=-1 role="dialog"
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close type="button" data-dismiss="modal" aria-label="Close"
+              span aria-hidden="true" &nbsp;
+            h4.modal-title
+          .modal-body
+          .modal-footer
+
+  /= render 'footer'
+
+  = yield :prepend_scripts
+  = javascript_include_tag 'application'
+  = javascript_pack_tag 'application'
+  = yield :scripts
+  = render 'drift'

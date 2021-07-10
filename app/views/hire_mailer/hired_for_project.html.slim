@@ -1,0 +1,10 @@
+p Hi #{@project.specialist.full_name},
+
+p
+  'Congratulations! We have selected you for our <a href="#{project_url(@project)}">#{@project.title}</a> project on Complect.
+  'We're excited to get working with you so click the link and visit the project dashboard to get started!
+
+p
+  'Best,
+  br
+  = @project.business.business_name

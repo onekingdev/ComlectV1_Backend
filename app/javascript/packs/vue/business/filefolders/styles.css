@@ -1,0 +1,64 @@
+/* ---------- Documents page ---------- */
+.documents {
+
+
+}
+
+/* ---------- Documents page ---------- */
+.form-check {
+  padding: 0;
+}
+.form-check input[type="checkbox"] {
+  position: absolute;
+  left: -9999px;
+}
+.form-check input[type="checkbox"] + label:before,
+.form-check input[type="checkbox"] + label:after {
+  vertical-align: middle;
+  content: "";
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  border: solid 1px #a8a8a8;
+  border-radius: 3px;
+  cursor: pointer;
+  -webkit-transition: border 200ms ease;
+  transition: border 200ms ease;
+}
+.form-check input[type="checkbox"] + label:after {
+  display: none;
+  opacity: 0;
+}
+.form-check input[type="checkbox"]:checked + label:before {
+  position: absolute;
+  left: 9px;
+  top: 4px;
+  width: 10px;
+  height: 15px;
+
+  display: block;
+  content: '';
+  /*background: url("../img/ic_ok.png") center no-repeat;*/
+  cursor: pointer;
+
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+  transform-origin: center;
+}
+.form-check input[type="checkbox"]:checked + label:after {
+  display: block;
+  content: "";
+  background-color: black;
+  border: solid 1px white;
+  opacity: 1;
+}
+.form-check__label {
+  margin-bottom: 0;
+  color: #423c39;
+  border: solid 1px transparent;
+  text-transform: none;
+  cursor: pointer;
+}

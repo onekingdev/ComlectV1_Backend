@@ -1,0 +1,23 @@
+default: &default
+  adapter: postgresql
+  host: <%=ENV['POSTGRES_HOST'] %>
+  username: <%=ENV['POSTGRES_USER'] %>
+  password: <%=ENV['POSTGRES_PASSWORD'] %>
+  encoding: unicode
+  pool: <%= ENV['DATABASE_POOL'].presence || 5 %>
+
+development:
+  <<: *default
+  database: complect_development
+
+test:
+  <<: *default
+  database: complect_test
+
+production:
+  <<: *default
+  database: complect_production
+
+staging:
+  <<: *default
+  database: complect_staging

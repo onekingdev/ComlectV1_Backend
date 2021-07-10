@@ -1,0 +1,74 @@
+{
+  "billingPlans": [
+    {
+      "id": 1,
+      "name": "Starter",
+      "description": "Try out our product for free!",
+      "coast": "FREE",
+      "coastMonthlyDiscount": "FREE",
+      "coastMonthlyDiscountFormatted": "FREE",
+      "coastMonthly": "FREE",
+      "coastMonthlyFormatted": "FREE",
+      "coastAnnually": "FREE",
+      "coastAnnuallyFormatted": "FREE",
+      "users": "1 admin user",
+      "usersCount": 0,
+      "additionalUserMonthly": 0,
+      "additionalUserAnnually": 0,
+      "features": [
+        "Compliance Calendar",
+        "Project Management"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Team",
+      "description": "Small teams and startups",
+      "coast": "$125/mo",
+      "coastMonthlyDiscount": 125,
+      "coastMonthlyDiscountFormatted": "$125/mo",
+      "coastMonthly": 150,
+      "coastMonthlyFormatted": "$150/mo",
+      "coastAnnually": 1500,
+      "coastAnnuallyFormatted": "$1500/year",
+      "users": "3 free users plus $15/mo per person",
+      "usersCount": 3,
+      "additionalUserMonthly": 15,
+      "additionalUserAnnually": 120,
+      "features": [
+        "Compliance Calendar",
+        "Project Management",
+        "Policies and Procedures",
+        "<b>1</b> Internal Review per year",
+        "Exam Management",
+        "<b>5GB</b> storage for books and records"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Business",
+      "description": "Medium-sized organizations",
+      "coast": "$210/mo",
+      "coastMonthlyDiscount": 210,
+      "coastMonthlyDiscountFormatted": "$210/mo",
+      "coastMonthly": 250,
+      "coastMonthlyFormatted": "$250/mo",
+      "coastAnnually": 2520,
+      "coastAnnuallyFormatted": "$2520/year",
+      "users": "10 free users plus $15/mo per person",
+      "usersCount": 10,
+      "additionalUserMonthly": 15,
+      "additionalUserAnnually": 120,
+      "features": [
+        "Compliance Calendar",
+        "Project Management",
+        "Policies and Procedures",
+        "<b>Unlimited</b> Internal Reviews per year",
+        "Exam Management",
+        "Auditor Portal",
+        "<b>10GB</b> storage for books and records",
+        "<b>Free</b> personalized onboarding"
+      ]
+    }
+  ]
+}

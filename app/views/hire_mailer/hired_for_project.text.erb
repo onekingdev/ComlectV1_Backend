@@ -1,0 +1,9 @@
+Hi <%= @project.specialist.full_name %>,
+
+Congratulations! We have selected you for our <%= @project.title %> project on Complect.
+We're excited to get working with you so click the link and visit the project dashboard to get started!
+
+<%= project_url(@project) %>
+
+Best,
+<%= @project.business.business_name %>

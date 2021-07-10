@@ -1,0 +1,126 @@
+{
+  "created": 1326853478,
+  "livemode": false,
+  "id": "evt_00000000000000",
+  "type": "account.updated",
+  "object": "event",
+  "request": null,
+  "pending_webhooks": 1,
+  "api_version": "2016-07-06",
+  "data": {
+    "object": {
+      "id": "acct_00000000000000",
+      "object": "account",
+      "business_logo": null,
+      "business_name": "Complect LLC",
+      "business_url": "http://www.complect.com",
+      "charges_enabled": true,
+      "country": "US",
+      "debit_negative_balances": true,
+      "decline_charge_on": {
+        "avs_failure": false,
+        "cvc_failure": true
+      },
+      "default_currency": "usd",
+      "details_submitted": true,
+      "display_name": "complect.com",
+      "email": "test@stripe.com",
+      "external_accounts": {
+        "object": "list",
+        "data": [
+          {
+            "id": "ba_18mRv1HkcZ87EYzv1fhUz6eh",
+            "object": "bank_account",
+            "account": "acct_18Ov4vHkcZ87EYzv",
+            "account_holder_name": null,
+            "account_holder_type": null,
+            "bank_name": "BANK OF AMERICA, N.A.",
+            "country": "US",
+            "currency": "usd",
+            "default_for_currency": true,
+            "fingerprint": "x3gxw7RX8HIU8p3S",
+            "last4": "8561",
+            "metadata": {
+            },
+            "routing_number": "021000322",
+            "status": "new"
+          }
+        ],
+        "has_more": false,
+        "total_count": 1,
+        "url": "/v1/accounts/acct_18Ov4vHkcZ87EYzv/external_accounts"
+      },
+      "legal_entity": {
+        "address": {
+          "city": "Denver",
+          "country": "US",
+          "line1": "1275 Clayton Street",
+          "line2": null,
+          "postal_code": "80206",
+          "state": "CO"
+        },
+        "business_name": "Complect LLC",
+        "business_tax_id_provided": true,
+        "dob": {
+          "day": 2,
+          "month": 7,
+          "year": 1985
+        },
+        "first_name": "James",
+        "last_name": "Lerner",
+        "personal_address": {
+          "city": null,
+          "country": "US",
+          "line1": null,
+          "line2": null,
+          "postal_code": null,
+          "state": null
+        },
+        "personal_id_number_provided": false,
+        "ssn_last_4_provided": true,
+        "type": "company",
+        "verification": {
+          "details": null,
+          "details_code": null,
+          "document": null,
+          "status": "verified"
+        }
+      },
+      "managed": true,
+      "metadata": {
+      },
+      "product_description": "Complect is an online freelancing platform that connects financial services firms with financial regulatory compliance specialists with a minimum of three years direct compliance experience. ",
+      "statement_descriptor": "TEST",
+      "support_email": null,
+      "support_phone": "347-618-9656",
+      "timezone": "America/Denver",
+      "tos_acceptance": {
+        "date": 1472147136,
+        "iovation_blackbox": "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",
+        "ip": "70.93.77.174",
+        "user_agent": null
+      },
+      "transfer_schedule": {
+        "delay_days": 2,
+        "interval": "daily"
+      },
+      "transfer_statement_descriptor": null,
+      "transfers_enabled": true,
+      "verification": {
+        "disabled_reason": null,
+        "due_by": 1489711587,
+        "fields_needed": [
+          "legal_entity.verification.document"
+        ]
+      }
+    },
+    "previous_attributes": {
+      "verification": {
+        "fields_needed": [
+
+        ],
+        "due_by": null
+      }
+    }
+  }
+}

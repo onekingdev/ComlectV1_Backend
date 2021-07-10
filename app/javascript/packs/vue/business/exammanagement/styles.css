@@ -1,0 +1,119 @@
+/* ---------- Exams page ---------- */
+.height-80 {
+  height: calc(100vh - 150px);
+}
+
+.exams {
+
+}
+
+/* ---------- Tabs ---------- */
+.tab-actions {
+  margin: auto 3rem auto auto;
+}
+
+/* ---------- Current Exam page ---------- */
+.separator {
+  color: #ffc107;
+}
+
+.reviews__checkbox {
+  margin-top: 3px;
+}
+
+.exams__text:not(:last-child) {
+  margin-bottom: 1rem;
+}
+
+.exams__text-body {
+  width: calc(100% - 3rem);
+  border: 1px solid #dee2e6;
+  border-radius: 5px;
+}
+
+.exams__card--internal {
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border: solid 1px #dcdee4;
+  border-radius: 5px;
+}
+
+.completed {
+  background-color: #f3f6f9;
+}
+
+/* ---------- Upload File ---------- */
+.dropbox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  border: 2px dashed #0479ff; /* the dash box */
+  border-radius: 5px;
+  /*outline-offset: -10px;*/
+  background: #f6f6f8;
+  color: #303132;
+  padding: 5px 5px;
+  min-height: 100px; /* minimum height */
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 200ms ease-in;
+}
+
+.input-file {
+  opacity: 0; /* invisible but it's there! */
+  width: 100%;
+  height: 200px;
+  position: absolute;
+  cursor: pointer;
+}
+
+.dropbox:hover {
+  opacity: .7;
+}
+
+.dropbox p {
+  margin-bottom: 0;
+  font-size: 1.2em;
+  text-align: center;
+  padding: 15px 0;
+}
+
+/* ---------- Files List view ---------- */
+.file-card {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  border: solid 1px #dcdee4;
+  background-color: #ecf4ff;
+}
+.file-card:not(:last-child) {
+  margin-bottom: 1rem;
+}
+.file-card__icon {
+  color: #797b7e;
+}
+.file-card__name {
+  margin-bottom: 0;
+  word-break: break-all;
+}
+.file-card__link {}
+.file-card__close {
+  position: relative;
+}
+.file-card__close::before,
+.file-card__close::after {
+  display: block;
+  position: absolute;
+  content: '.';
+}
+.file-card__close::before {
+  top: -5px;
+  left: 0;
+}
+.file-card__close::after {
+  top: -5px;
+  right: 0;
+}
