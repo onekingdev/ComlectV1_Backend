@@ -350,8 +350,6 @@
 
         this.formStep2.skills = accountInfoParsed.skills || []
         this.formStep2.experience = accountInfoParsed.experience
-
-        console.log(accountInfoParsed)
       }
 
       const url = new URL(window.location);
