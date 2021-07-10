@@ -350,6 +350,8 @@
 
         this.formStep2.skills = accountInfoParsed.skills || []
         this.formStep2.experience = accountInfoParsed.experience
+
+        console.log(accountInfoParsed)
       }
 
       const url = new URL(window.location);
@@ -514,7 +516,7 @@
               // industry_ids: this.formStep1.industry.map(record => record.id),
               // jurisdiction_ids: this.formStep1.jurisdiction.map(record => record.id),
 
-              time_zone: this.formStep1.time_zone,
+              time_zone: this.formStep1.time_zone.value,
               first_name: this.currentUser.first_name,
               last_name: this.currentUser.last_name,
               former_regulator: this.formStep1.regulatorSelected === 'yes',
