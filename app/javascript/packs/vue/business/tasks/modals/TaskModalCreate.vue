@@ -14,14 +14,14 @@
           b-row.m-b-2
             .col-12
               label.form-label Link To
-              //input.form-control(v-model="task.linkTo" type="text" placeholder="Link to")
+              <!--input.form-control(v-model="task.linkTo" type="text" placeholder="Link to")-->
               ComboBox(v-model="task.link_to" :options="linkToOptions" placeholder="Select projects, annual reviews, or policies to link the task to")
               small(class="form-text text-muted") Optional
               Errors(:errors="errors.link_to")
           b-row
             .col-12.m-b-2
               label.form-label Assegnee
-              //b-form-select(v-model="task.selected" :options="task.options")
+              <!--b-form-select(v-model="task.selected" :options="task.options")-->
               ComboBox(v-model="task.assignee" :options="assigneeOptions" placeholder="Select an assignee")
               small(class="form-text text-muted") Optional
               Errors(:errors="errors.assignee")
@@ -34,47 +34,6 @@
               label.form-label Due Date
               DatePicker(v-model="task.end_date" :options="datepickerOptions")
               Errors(:errors="errors.end_date")
-          b-row.m-b-2(no-gutters)
-            .col-sm
-              label.form-label Repeats
-              Dropdown(v-model="task.repeats" :options="repeatsOptions")
-            //- Daily
-            .col-sm.m-l-1(v-if="task.repeats === repeatsValues.REPEAT_DAILY")
-              label.form-label Every
-              input.form-control(type="number" min="1" max="1000" step="1" v-model="task.repeat_every")
-              .form-text Day(s)
-            //- Weekly
-            .col-sm.m-l-1(v-if="task.repeats === repeatsValues.REPEAT_WEEKLY")
-              label.form-label Every
-              input.form-control(type="number" min="1" max="1000" step="1" v-model="task.repeat_every")
-              .form-text Week(s)
-            .col-sm.m-l-1(v-if="task.repeats === repeatsValues.REPEAT_WEEKLY")
-              label.form-label Day
-              Dropdown(v-model="task.repeat_on" :options="daysOfWeek")
-            //- Monthly
-            .col-sm.m-l-1(v-if="task.repeats === repeatsValues.REPEAT_MONTHLY")
-              label.form-label Every
-              input.form-control(type="number" min="1" max="1000" step="1" v-model="task.repeat_every")
-              .form-text Months(s)
-            .col-sm.m-l-1(v-if="task.repeats === repeatsValues.REPEAT_MONTHLY")
-              label.form-label On
-              Dropdown(v-model="task.on_type" :options="['Day', 'First', 'Second', 'Third', 'Fourth']")
-            .col-sm.m-l-1(v-if="task.repeats === repeatsValues.REPEAT_MONTHLY")
-              label.form-label Day
-              input.form-control(v-model="task.repeat_on" v-if="task.on_type === 'Day'" type="number" min="1" max="31" step="1")
-              Dropdown(v-model="task.repeat_on" v-else :options="daysOfWeek")
-            //- Yearly
-            .col-sm.m-l-1(v-if="task.repeats === repeatsValues.REPEAT_YEARLY")
-              label.form-label Every
-              Dropdown(v-model="task.repeat_every" :options="months")
-            .col-sm.m-l-1(v-if="task.repeats === repeatsValues.REPEAT_YEARLY")
-              label.form-label On
-              Dropdown(v-model="task.on_type" :options="['Day', 'First', 'Second', 'Third', 'Fourth']")
-            .col-sm.m-l-1(v-if="task.repeats === repeatsValues.REPEAT_YEARLY")
-              label.form-label Day
-              input.form-control(v-model="task.repeat_on" v-if="task.on_type === 'Day'" type="number" min="1" max="31" step="1")
-              Dropdown(v-model="task.repeat_on" v-else :options="daysOfWeek")
-          Errors(:errors="errors.repeats || errors.repeat_every || errors.repeat_on || errors.on_type")
           b-row.m-b-2
             .col
               label.form-label Description
@@ -95,8 +54,8 @@
                   .col
                     .card-body.p-3
                       b-form-group
-                        //b-form-file(v-model='task.file' :state='Boolean(task.file)' accept="application/pdf" placeholder='Choose a file or drop it here...' drop-placeholder='Drop file here...')
-                        //.mt-3 Selected file: {{ task.file ? task.file.name : '' }}
+                        <!--b-form-file(v-model='task.file' :state='Boolean(task.file)' accept="application/pdf" placeholder='Choose a file or drop it here...' drop-placeholder='Drop file here...')-->
+                        <!--.mt-3 Selected file: {{ task.file ? task.file.name : '' }}-->
                         label
                           a.btn.btn-default Upload File
                           input(type="file" name="file" @change="onFileChanged" style="display: none")
@@ -110,17 +69,16 @@
                 .card-body.p-3.position-relative
                   label.form-label Comment
                   VueEditor(v-model="task.comment" :editor-toolbar="customToolbar")
-                  button.btn.btn-primary.save-comment-btn(@click="sendMessage") Send
+                  button.btn.btn-secondary.save-comment-btn Send
 
       template(slot="modal-footer")
-        button.btn.btn-outline-danger.mr-auto(@click="deleteTask(task)") Delete Task
-        //button.btn.ml-auto(@click="$bvModal.hide(modalId)") Cancel
-        button.btn.btn-default(@click="submit") Mark as Complite
+        button.btn(@click="$bvModal.hide(modalId)") Cancel
+        button.btn.btn-secondary(@click="submit") Mark as Complite
         button.btn.btn-dark(@click="submit") Save
 </template>
 
 <script>
-  import { mapGetters, mapActions } from "vuex"
+  import { mapGetters } from "vuex"
   import ComboBox from '@/common/ComboBox'
   import Errors from '@/common/Errors'
   import { VueEditor } from "vue2-editor"
@@ -154,20 +112,6 @@
   //   ...(defaults || {})
   // })
 
-  const REPEAT_NONE = null,
-    REPEAT_DAILY = 'Daily',
-    REPEAT_WEEKLY = 'Weekly',
-    REPEAT_MONTHLY = 'Monthly',
-    REPEAT_YEARLY = 'Yearly',
-    REPEAT_LABELS = {
-      [REPEAT_NONE]: 'Does not repeat',
-      [REPEAT_DAILY]: 'Daily',
-      [REPEAT_WEEKLY]: 'Weekly',
-      [REPEAT_MONTHLY]: 'Monthly',
-      [REPEAT_YEARLY]: 'Yearly',
-    },
-    REPEAT_OPTIONS = [REPEAT_NONE, REPEAT_DAILY, REPEAT_WEEKLY, REPEAT_MONTHLY, REPEAT_YEARLY]
-
   export default {
     mixins: [EtaggerMixin()],
     props: {
@@ -179,11 +123,7 @@
       //   type: Array,
       //   required: false,
       //   default: () => []
-      // },
-      taskId: {
-        type: Number,
-        required: false
-      }
+      // }
     },
     components: {
       ComboBox,
@@ -218,32 +158,21 @@
           [{ list: "bullet" }],
           ["link"]
         ],
-        reviews: [],
         projects: [],
         errors: []
       }
     },
     methods: {
-      ...mapActions({
-        // updateAnnual: 'annual/updateReview',
-        // getCurrentReviewReview: 'annual/getCurrentReview'
-      }),
-      deleteTask(task, deleteOccurence) {
-        const occurenceParams = deleteOccurence ? `?oid=${this.occurenceId}` : ''
-        fetch('/api/business/reminders/' + this.taskId + occurenceParams, {
-          method: 'DELETE',
-          headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}
-        }).then(response => this.$emit('saved'))
+      makeToast(title, str) {
+        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
       },
       async submit(e) {
         e.preventDefault();
 
         this.errors = []
         const toId = (this.taskId) ? `/${this.taskId}` : ''
-
         console.log('this.task', this.task)
         console.log('toId', toId)
-
         fetch('/api/business/reminders' + toId, {
           method: 'POST',
           headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
@@ -268,16 +197,16 @@
         // try {
         //   const response = await this.$store.dispatch('annual/createReview', this.annual_review)
         //   if (response.errors) {
-        //     this.toast('Error', `${response.status}`)
+        //     this.makeToast('Error', `${response.status}`)
         //     Object.keys(response.errors)
-        //       .map(prop => response.errors[prop].map(err => this.toast(`Error`, `${prop}: ${err}`)))
+        //       .map(prop => response.errors[prop].map(err => this.makeToast(`Error`, `${prop}: ${err}`)))
         //     return
         //   }
-        //   this.toast('Success', `Annual Review Successfully created!`)
+        //   this.makeToast('Success', `Annual Review Successfully created!`)
         //   this.$emit('saved')
         //   this.$bvModal.hide(this.modalId)
         // } catch (error) {
-        //   this.toast('Error', error.message)
+        //   this.makeToast('Error', error.message)
         // }
       },
       async onFileChanged(event) {
@@ -307,17 +236,12 @@
         try {
           // await this.$store.dispatch('filefolders/getFileFolders')
 
-          if (this.taskId)
-            this.$store.dispatch("reminders/getTaskMessagesById", { id: this.taskId })
-              .then((response) => console.log('getTaskMessagesById response mounted', response))
-              .catch((err) => console.error(err));
-
           this.$store.dispatch("getPolicies")
-            .then((response) => console.log('getPolicies response mounted', response))
+            .then((response) => console.log('response mounted', response))
             .catch((err) => console.error(err));
 
           this.$store.dispatch('annual/getReviews')
-            .then((response) => console.log('getReviews response mounted', response))
+            .then((response) => console.log('response mounted', response))
             .catch((err) => console.error(err));
 
           fetch('/api/business/local_projects/', {
@@ -326,7 +250,7 @@
             // body: JSON.stringify(this.task)
           }).then(response => response.json())
             .then((response) => {
-              console.log('local_projects response mounted', response)
+              console.log('response mounted', response)
               this.projects = response
             })
             .catch((err) => console.error(err));
@@ -336,37 +260,20 @@
           this.toast('Error', error.message)
         }
       },
-      sendMessage() {
-        console.log(this.task)
-        const data = {
-          id: this.taskId,
-          message: {
-            message: this.task.comment
-          }
-        }
-
-        this.$store.dispatch("reminders/postTaskMessagesById", data)
-          .then((response) => console.log('postTaskMessagesById response mounted', response))
-          .catch((err) => console.error(err));
-      }
     },
     computed: {
-      ...mapGetters({
-        // review: 'annual/currentReview'
-      }),
       // reviewsOptions () {
       //   const revOpt = this.reviews.map(review => {
       //     return { value: review.id, text: review.name }
       //   })
       //   return revOpt ? revOpt : []
       // },
+      ...mapGetters({
+        reviews: 'annual/reviews'
+      }),
       policies() {
         return this.$store.getters.policiesList
       },
-      repeatsValues() {
-        return {REPEAT_NONE, REPEAT_DAILY, REPEAT_WEEKLY, REPEAT_MONTHLY, REPEAT_YEARLY}
-      },
-      repeatsOptions: () => REPEAT_OPTIONS.map(value => ({ value, text: REPEAT_LABELS[value] })),
       linkToOptions() {
         return [{...toOption('Projects'), children: this.projects.map(record => record.title).map(toOption)},
           {...toOption('Annual Reviews'), children: this.reviews.map(record => record.name).map(toOption)},
@@ -376,7 +283,7 @@
         return ['John', 'Doe', 'Another specialist'].map(toOption)
       },
       url() {
-        // return `/api/business/reminders/${(this.taskId) ? `/${this.taskId}` : ''}/documents`
+        return `/api/business/annual_reviews/${27}/documents`
       },
       datepickerOptions() {
         return {

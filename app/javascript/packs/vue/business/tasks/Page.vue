@@ -1,5 +1,5 @@
 <template lang="pug">
-  div.container-fluid
+  div
     .page(v-if="!shortTable")
       h2.page__title Tasks
       .page__actions
@@ -7,21 +7,6 @@
         TaskModalCreate(@saved="refetch()")
           a.btn.btn-dark Create task
     .card-body.white-card-body
-      .row.mb-3
-        .col
-          div
-            b-dropdown.m-r-1(variant="default")
-              template(#button-content)
-                | Show: All Tasks
-                ion-icon.ml-2(name="chevron-down-outline" size="small")
-              b-dropdown-item All Tasks
-              b-dropdown-item My Tasks
-              b-dropdown-item Completed Tasks
-            b-dropdown.m-r-1(variant="default")
-              template(#button-content)
-                | All Links
-                ion-icon.ml-2(name="chevron-down-outline" size="small")
-              b-dropdown-item All Links
       .row(v-if="!shortTable")
         .col
           .d-flex.align-items-center
@@ -31,8 +16,7 @@
       .row
         .col
           Loading
-          TaskTable(v-if="tasks" :shortTable="shortTable", :tasks="tasks" :perPage="perPage" :currentPage="currentPage")
-          b-pagination(v-model='currentPage' :total-rows='rows' :per-page='perPage' aria-controls='tasks-table')
+          TaskTable(v-if="!loading && tasks" :shortTable="shortTable", :tasks="tasks")
 </template>
 
 <script>
@@ -74,17 +58,14 @@
     },
     data() {
       return {
-        // tasks: [],
-        perPage: 3,
-        currentPage: 1,
+        // tasks: []
       }
     },
     // created() {
       // this.refetch()
     // },
     methods: {
-      refetch() {
-        console.log('refetch')
+      // refetch() {
       //   const fromTo = DateTime.local().minus({years: 10}).toSQLDate() + '/' + DateTime.local().plus({years: 10}).toSQLDate()
       //
       //   fetch(overdueEndpointUrl, { headers: {'Accept': 'application/json'} })
@@ -101,7 +82,7 @@
       //     })
       //   )
       //   // .catch(errorCallback)
-      },
+      // },
       //
       // isOverdue,
       // toggleDone(task) {
@@ -146,9 +127,6 @@
       loading() {
         return this.$store.getters.loading;
       },
-      rows() {
-        return this.tasks.length
-      }
     },
     async mounted () {
       try {

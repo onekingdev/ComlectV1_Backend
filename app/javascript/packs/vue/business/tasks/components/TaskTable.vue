@@ -1,15 +1,13 @@
 <template lang="pug">
-  table.table.task_table(:per-page='perPage' :current-page='currentPage')
+  table.table.task_table
     thead
       tr
-        th
+        th(width="40%")
           | Name
           b-icon.ml-2(icon='chevron-expand')
         th(v-if="!shortTable" width="25%")
-          | Linked to
-          b-icon.ml-2(icon='chevron-expand')
-        th(v-if="!shortTable" width="25%")
           | Assignee
+        
           b-icon.ml-2(icon='chevron-expand')
         th(v-if="!shortTable" @click="sortSelect('updated_at', 'date')").text-right
           | Start date
@@ -43,15 +41,7 @@ export default {
     shortTable: {
       type: Boolean,
       default: false
-    },
-    perPage: {
-      type: Number,
-      default: 1
-    },
-    currentPage: {
-      type: Number,
-      default: 1
-    },
+    }
   },
   data () {
     return {
