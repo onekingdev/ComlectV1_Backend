@@ -6,8 +6,10 @@
           | Name
           b-icon.ml-2(icon='chevron-expand')
         th(v-if="!shortTable" width="25%")
+          | Linked to
+          b-icon.ml-2(icon='chevron-expand')
+        th(v-if="!shortTable" width="25%")
           | Assignee
-        
           b-icon.ml-2(icon='chevron-expand')
         th(v-if="!shortTable" @click="sortSelect('updated_at', 'date')").text-right
           | Start date

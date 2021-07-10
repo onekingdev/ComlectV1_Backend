@@ -1,6 +1,6 @@
 <template lang="pug">
-  Get(:etag="etag" :project="`/api/business/local_projects/${projectId}`"): template(v-slot="{project}")
-    CommonHeader(:title="project.title" :sub="currentBusiness" :breadcrumbs="['Projects', project.title]")
+  Get(:etag="etag" :project="`/api/business/local_projects/${projectId}`" currentBusiness="/api/businesses/current"): template(v-slot="{project,currentBusiness}")
+    CommonHeader(:title="project.title" :sub="currentBusiness.business_name" :breadcrumbs="['Projects', project.title]")
       p.text-right.m-b-2: ShowOnCalendarToggle(:project="project")
       b-dropdown.m-r-1(text='Actions' variant='default')
         li: LocalProjectModal(@saved="newEtag" :project-id="project.id" :inline="false")
@@ -117,7 +117,7 @@
                             button.btn.btn-default(@click="showingContract = contract") View Contract
                       .card-header(v-if="!getContracts(project.projects).length")
                         .d-flex.justify-content-center
-                          h5.text-dark Collaborators not exist
+                          h5.text-dark No collaborators
                 div(v-else)
                   .row: .col-sm-12
                     EndContractModal(:project="showingContract" @saved="contractEnded" @errors="contractEndErrors")
@@ -160,16 +160,8 @@ const TOKEN = localStorage.getItem('app.currentUser.token') ? JSON.parse(localSt
 export default {
   mixins: [EtaggerMixin()],
   props: {
-    currentBusiness: {
-      type: String,
-      required: true
-    },
     projectId: {
       type: Number,
-      required: true
-    },
-    token: {
-      type: String,
       required: true
     }
   },
@@ -240,7 +232,8 @@ export default {
     },
     completedTasks() {
       return []
-    }
+    },
+    token: () => TOKEN
   },
   components: {
     ApplicationsNotice,

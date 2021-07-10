@@ -1,8 +1,10 @@
 <template lang="pug">
   tr
     td
-      ion-icon.m-r-1.pointer(@click="toggleDone(item)" v-bind:class="{ done_task: item.done_at, textSuccess: item.done_at }" name='checkmark-circle-outline')
+      b-icon.m-r-1.pointer(icon="check-circle-fill" @click="toggleDone(item)" v-bind:class="{ done_task: item.done_at }")
+      //ion-icon.m-r-1.pointer(@click="toggleDone(item)" v-bind:class="{ done_task: item.done_at }" name='checkmark-circle-outline')
       TaskFormModal(:task-id="item.taskId" :occurence-id="item.oid" @saved="$emit('saved')") {{ item.body }} {{ item.name }}
+    td(v-if="!shortTable") {{ item.linkable_type }}
     td(v-if="!shortTable") {{ item.assignee }}
     td.text-right(v-if="!shortTable" :class="{ overdue: isOverdue(item) }") {{ item.remind_at | dateToHuman}}
     td.text-right(:class="{ overdue: isOverdue(item) }") {{ item.end_date | dateToHuman }}
