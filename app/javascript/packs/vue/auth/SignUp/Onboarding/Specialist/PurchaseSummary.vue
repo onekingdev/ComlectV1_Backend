@@ -1,49 +1,42 @@
 <template lang="pug">
   .card.m-t-1.purchase-summary
-    .card-header.purchase-summary-header
+    .card-header
       | Purchase Summary
-    .card-body.purchase-summary-body.p-40.pb-3
-      Coupon
-    .card-body.purchase-summary-body.p-40
+    .card-body.pb-0
       dl.row.mb-0
         dt.col-sm-6
           b {{ planComputed.name }} plan
         dd.col-sm-6.text-right {{ billingTypeSelected === 'annually' ?  planComputed.coastAnnuallyFormatted : planComputed.coastMonthlyFormatted }}
-        //dt.col-sm-6 {{ additionalUsers }} Users ({{ planComputed.usersCount }} Free)
-        //dd.col-sm-6.text-right {{ planComputed.additionalUserCoast }}
-        //dt.col-sm-6.text-success {{ billingTypeSelected === 'annually' ? 'Billed Annualy' : 'Billed Monthly' }}
-        //dd.col-sm-6.text-right.text-success(v-if="billingTypeSelected === 'annually'") You saved {{ planComputed.saved }}
-    .card-body.purchase-summary-body.p-40.borderless(v-if="planComputed.tax")
+        <!--dt.col-sm-6 {{ additionalUsers }} Users ({{ planComputed.usersCount }} Free)-->
+        <!--dd.col-sm-6.text-right {{ planComputed.additionalUserCoast }}-->
+        <!--dt.col-sm-6.text-success {{ billingTypeSelected === 'annually' ? 'Billed Annualy' : 'Billed Monthly' }}-->
+        <!--dd.col-sm-6.text-right.text-success(v-if="billingTypeSelected === 'annually'") You saved {{ planComputed.saved }}-->
+    hr(v-if="planComputed.tax")
+    .card-body.py-0(v-if="planComputed.tax")
       dl.row.mb-0
         dt.col-sm-6
           b Tax
         dd.col-sm-6.text-right.m-b-0
           b {{ planComputed.tax }}
-    .purchase-summary-body.p-40.borderless
+    hr
+    .card-body.pt-0
       dl.row.mb-0
         dt.col-sm-6
           b Total
         dd.col-sm-6.text-right.m-b-0
           b {{ planComputed.total }}
-    .card-footer.purchase-summary-footer.p-40
+    .card-footer
       b-button.w-100(type='button' variant='dark' @click="complitePurchase" :disabled="disabled")
-        //b-icon.mr-2(icon="arrow-clockwise" animation="spin" font-scale="1" v-show="loading")
-        .lds-ring.lds-ring-small(v-show="loading")
-          div
-          div
-          div
-          div
-        span(v-show="!loading") Complete Purchase
+        b-icon.mr-2(icon="arrow-clockwise" animation="spin" font-scale="1" v-show="loading")
+        | Complite purchase
 </template>
 
 <script>
-  import Coupon from '@/auth/components/Coupon'
   export default {
     props: ['billingTypeSelected', 'billingTypeOptions', 'plan', 'additionalUsers', 'disabled'],
-    components: { Coupon },
     data() {
       return {
-        loading: false
+
       }
     },
     methods: {
@@ -73,12 +66,12 @@
       complitePurchase() {
         const value = this.planComputed
         this.$emit('complitePurchaseConfirmed', value)
-      },
+      }
     },
     computed: {
-      // loading() {
-      //   return this.$store.getters.loading;
-      // },
+      loading() {
+        return this.$store.getters.loading;
+      },
       planComputed() {
         return {
           ...this.plan,
@@ -91,3 +84,14 @@
     },
   }
 </script>
+
+<style scoped>
+  .purchase-summary {
+    position: absolute;
+    z-index: 1050;
+    right: 5rem;
+    top: 30%;
+    width: 30rem;
+    transform: translateY(-30%);
+  }
+</style>

@@ -5,8 +5,6 @@
       "name": "Standard",
       "description": "Try out our product for free!",
       "coast": "FREE",
-      "coastMonthlyDiscount": "FREE",
-      "coastMonthlyDiscountFormatted": "FREE",
       "coastMonthly": "FREE",
       "coastMonthlyFormatted": "FREE",
       "coastAnnually": "FREE",
@@ -16,7 +14,7 @@
       "additionalUserMonthly": 0,
       "additionalUserAnnually": 0,
       "features": [
-        "Compliance Calendar",
+        "Compilance Calendar",
         "Project Management"
       ]
     },
@@ -25,8 +23,6 @@
       "name": "All Access Membership",
       "description": "Full access to all features and resources",
       "coast": "$400/year",
-      "coastMonthlyDiscount": 0,
-      "coastMonthlyDiscountFormatted": "$0",
       "coastMonthly": 0,
       "coastMonthlyFormatted": "$0",
       "coastAnnually": 400,
@@ -36,11 +32,11 @@
       "additionalUserMonthly": 15,
       "additionalUserAnnually": 120,
       "features": [
-        "Compliance Calendar",
+        "Compilance Calendar",
         "Project Management",
         "Job Board",
         "Specialist Marketplace Profile",
-        "Automated Billing",
+        "Access to Complect Community and Free resource Library",
         "Client Account Access"
       ]
     }
