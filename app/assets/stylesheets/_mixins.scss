@@ -1,4 +1,0 @@
-@mixin navbar-vertical-align-by-padding($element-height) {
-  padding-top: (($navbar-height - $element-height) / 2);
-  padding-bottom: (($navbar-height - $element-height) / 2);
-}
