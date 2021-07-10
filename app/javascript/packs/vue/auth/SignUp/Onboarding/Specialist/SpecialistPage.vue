@@ -350,6 +350,7 @@
 
         this.formStep2.skills = accountInfoParsed.skills || []
         this.formStep2.experience = accountInfoParsed.experience
+        this.formStep2.file = accountInfoParsed.resume_url
       }
 
       const url = new URL(window.location);
