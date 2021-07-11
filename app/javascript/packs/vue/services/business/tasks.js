@@ -52,7 +52,18 @@ export async function createTask(payload) {
 }
 
 export async function updateTask(payload) {
-  return await axios.patch(`${END_POINT}/${payload.id}`, payload)
+  return await axios.post(`${END_POINT}/${payload.id}`, payload.task)
+    .then(response => {
+      if (response) {
+        return response
+      }
+      return false
+    })
+    .catch(err => err)
+}
+
+export async function updateTaskStatus(payload) {
+  return await axios.post(`${END_POINT}/${payload.id}?done=${payload.done}`)
     .then(response => {
       if (response) {
         return response
@@ -75,6 +86,28 @@ export async function deleteTask(payload) {
 
 export async function getTaskById(payload) {
   return await axios.get(`${END_POINT}/${payload}`)
+    .then(response => {
+      if (response) {
+        return response
+      }
+      return false
+    })
+    .catch(err => err)
+}
+
+export async function getTaskMessagesById(payload) {
+  return await axios.get(`${END_POINT}/${payload.id}/messages`)
+    .then(response => {
+      if (response) {
+        return response
+      }
+      return false
+    })
+    .catch(err => err)
+}
+
+export async function postTaskMessageById(payload) {
+  return await axios.post(`${END_POINT}/${payload.id}/messages`, payload.message)
     .then(response => {
       if (response) {
         return response

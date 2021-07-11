@@ -50,7 +50,7 @@ export default new Router({
     // BUSINESS
     { path: '/business', name: 'dashboard', component: Dashboard },
     { path: '/business/projects', name: 'projects', component: Projects },
-    { path: '/business/projects/:projectId', name: 'project-review', props: true, component: ProjectReview },
+    { path: '/business/projects/:id(\\d+)', name: 'project-review', props: route => ({ projectId: +route.params.id }), component: ProjectReview },
     { path: '/business/reminders', name: 'tasks', component: Tasks },
     { path: '/business/compliance_policies', name: 'policies', component: Policies, beforeEnter: AuthGuard },
     { path: '/business/compliance_policies/:policyId', name: 'policy-current', props: true, component: PolicyCurrentNoSections, beforeEnter: AuthGuard },

@@ -7,8 +7,11 @@ const mapAuthProviders = {
     getOverdueTasks: jwt.getOverdueTasks,
     createTask: jwt.createTask,
     updateTask: jwt.updateTask,
+    updateTaskStatus: jwt.updateTaskStatus,
     deleteTask: jwt.deleteTask,
     getTaskById: jwt.getTaskById,
+    getTaskMessagesById: jwt.getTaskMessagesById,
+    postTaskMessageById: jwt.postTaskMessageById,
   },
 }
 
@@ -79,7 +82,7 @@ export default {
                 ))
               }
               commit('SET_TASKS', tasks)
-              return success
+              return data
             }
             if (!success) {
               console.error('Not success', success)
@@ -132,7 +135,7 @@ export default {
                 ))
               }
               commit('SET_TASKS', tasks)
-              return success.data
+              return data.data
             }
             if (!success) {
               console.error('Not success', success)
@@ -185,7 +188,7 @@ export default {
                 ))
               }
               commit('SET_TASKS', tasks)
-              return success.data
+              return data.data
             }
             if (!success) {
               console.error('Not success', success)
@@ -231,7 +234,7 @@ export default {
                 data.starts_on,
                 data.updated_at,
               ))
-              return success
+              return data
             }
             if (!success) {
               commit("setError", success.message, { root: true });
@@ -268,29 +271,132 @@ export default {
             });
             if (success) {
               const data = success.data
-              commit('UPDATE_EXAM', new Task(
-                data.complete,
+              commit('UPDATE_TASK', new Task(
+                data.body,
                 data.created_at,
-                data.ends_on,
-                data.exam_requests,
+                data.description,
+                data.done_at,
+                data.done_occurencies,
+                data.end_by,
+                data.end_date,
                 data.id,
-                data.name,
-                data.share_uuid,
-                data.starts_on,
+                data.linkable_id,
+                data.linkable_type,
+                data.note,
+                data.on_type,
+                data.remind_at,
+                data.remindable_id,
+                data.remindable_type,
+                data.repeat_every,
+                data.repeat_on,
+                data.repeats,
+                data.skip_occurencies,
                 data.updated_at,
               ))
-              commit('UPDATE_CURRENT_EXAM', new Task(
-                data.complete,
+              commit('UPDATE_CURRENT_TASK', new Task(
+                data.body,
                 data.created_at,
-                data.ends_on,
-                data.exam_requests,
+                data.description,
+                data.done_at,
+                data.done_occurencies,
+                data.end_by,
+                data.end_date,
                 data.id,
-                data.name,
-                data.share_uuid,
-                data.starts_on,
+                data.linkable_id,
+                data.linkable_type,
+                data.note,
+                data.on_type,
+                data.remind_at,
+                data.remindable_id,
+                data.remindable_type,
+                data.repeat_every,
+                data.repeat_on,
+                data.repeats,
+                data.skip_occurencies,
                 data.updated_at,
               ))
-              return success
+              return data
+            }
+            if (!success) {
+              commit("setError", success.message, { root: true });
+              console.error('Not success', success)
+            }
+          })
+          .catch(error => error)
+      } catch (error) {
+        commit("setError", error.message, {
+          root: true
+        });
+        commit("setLoading", false, {
+          root: true
+        });
+        throw error;
+      }
+    },
+    async updateTaskStatus({state, commit, rootState}, payload) {
+      commit("clearError", null, {
+        root: true
+      });
+      commit("setLoading", true, {
+        root: true
+      });
+      try {
+        const updateTaskStatus = mapAuthProviders[rootState.shared.settings.authProvider].updateTaskStatus
+        updateTaskStatus(payload)
+          .then((success) => {
+            commit("clearError", null, {
+              root: true
+            });
+            commit("setLoading", false, {
+              root: true
+            });
+            if (success) {
+              const data = success.data
+              commit('UPDATE_TASK', new Task(
+                data.body,
+                data.created_at,
+                data.description,
+                data.done_at,
+                data.done_occurencies,
+                data.end_by,
+                data.end_date,
+                data.id,
+                data.linkable_id,
+                data.linkable_type,
+                data.note,
+                data.on_type,
+                data.remind_at,
+                data.remindable_id,
+                data.remindable_type,
+                data.repeat_every,
+                data.repeat_on,
+                data.repeats,
+                data.skip_occurencies,
+                data.updated_at,
+              ))
+              commit('UPDATE_CURRENT_TASK', new Task(
+                data.body,
+                data.created_at,
+                data.description,
+                data.done_at,
+                data.done_occurencies,
+                data.end_by,
+                data.end_date,
+                data.id,
+                data.linkable_id,
+                data.linkable_type,
+                data.note,
+                data.on_type,
+                data.remind_at,
+                data.remindable_id,
+                data.remindable_type,
+                data.repeat_every,
+                data.repeat_on,
+                data.repeats,
+                data.skip_occurencies,
+                data.updated_at,
+              ))
+              return data
             }
             if (!success) {
               commit("setError", success.message, { root: true });
@@ -327,18 +433,10 @@ export default {
             });
             if (success) {
               const data = success.data
-              commit('DELETE_EXAM', new Task(
-                data.complete,
-                data.created_at,
-                data.ends_on,
-                data.exam_requests,
+              commit('DELETE_TASK', new Task(
                 data.id,
-                data.name,
-                data.share_uuid,
-                data.starts_on,
-                data.updated_at,
               ))
-              return success
+              return data
             }
             if (!success) {
               commit("setError", success.message, { root: true });
@@ -371,18 +469,205 @@ export default {
             commit("setLoading", false, { root: true });
             if (success) {
               const data = success.data
-              commit('SET_CURRENT_EXAM', new Task(
-                data.complete,
+              commit('UPDATE_TASK', new Task(
+                data.body,
                 data.created_at,
-                data.ends_on,
-                data.exam_requests,
+                data.description,
+                data.done_at,
+                data.done_occurencies,
+                data.end_by,
+                data.end_date,
                 data.id,
-                data.name,
-                data.share_uuid,
-                data.starts_on,
+                data.linkable_id,
+                data.linkable_type,
+                data.note,
+                data.on_type,
+                data.remind_at,
+                data.remindable_id,
+                data.remindable_type,
+                data.repeat_every,
+                data.repeat_on,
+                data.repeats,
+                data.skip_occurencies,
                 data.updated_at,
               ))
-              return success
+              commit('UPDATE_CURRENT_TASK', new Task(
+                data.body,
+                data.created_at,
+                data.description,
+                data.done_at,
+                data.done_occurencies,
+                data.end_by,
+                data.end_date,
+                data.id,
+                data.linkable_id,
+                data.linkable_type,
+                data.note,
+                data.on_type,
+                data.remind_at,
+                data.remindable_id,
+                data.remindable_type,
+                data.repeat_every,
+                data.repeat_on,
+                data.repeats,
+                data.skip_occurencies,
+                data.updated_at,
+              ))
+              return data
+            }
+            if (!success) {
+              console.error('Not success', success)
+            }
+          })
+          .catch(error => error)
+      } catch (error) {
+        commit("setError", error.message, {
+          root: true
+        });
+        commit("setLoading", false, {
+          root: true
+        });
+        throw error;
+      }
+    },
+    async getTaskMessagesById({state, commit, rootState}, payload) {
+      commit("clearError", null, {
+        root: true
+      });
+      commit("setLoading", true, {
+        root: true
+      });
+      try {
+        const getTaskMessagesById = mapAuthProviders[rootState.shared.settings.authProvider].getTaskMessagesById
+        getTaskMessagesById(payload)
+          .then((success) => {
+            commit("clearError", null, { root: true });
+            commit("setLoading", false, { root: true });
+            if (success) {
+              const data = success.data
+              console.log(data)
+              // commit('UPDATE_TASK', new Task(
+              //   data.body,
+              //   data.created_at,
+              //   data.description,
+              //   data.done_at,
+              //   data.done_occurencies,
+              //   data.end_by,
+              //   data.end_date,
+              //   data.id,
+              //   data.linkable_id,
+              //   data.linkable_type,
+              //   data.note,
+              //   data.on_type,
+              //   data.remind_at,
+              //   data.remindable_id,
+              //   data.remindable_type,
+              //   data.repeat_every,
+              //   data.repeat_on,
+              //   data.repeats,
+              //   data.skip_occurencies,
+              //   data.updated_at,
+              // ))
+              // commit('UPDATE_CURRENT_TASK', new Task(
+              //   data.body,
+              //   data.created_at,
+              //   data.description,
+              //   data.done_at,
+              //   data.done_occurencies,
+              //   data.end_by,
+              //   data.end_date,
+              //   data.id,
+              //   data.linkable_id,
+              //   data.linkable_type,
+              //   data.note,
+              //   data.on_type,
+              //   data.remind_at,
+              //   data.remindable_id,
+              //   data.remindable_type,
+              //   data.repeat_every,
+              //   data.repeat_on,
+              //   data.repeats,
+              //   data.skip_occurencies,
+              //   data.updated_at,
+              // ))
+              return data
+            }
+            if (!success) {
+              console.error('Not success', success)
+            }
+          })
+          .catch(error => error)
+      } catch (error) {
+        commit("setError", error.message, {
+          root: true
+        });
+        commit("setLoading", false, {
+          root: true
+        });
+        throw error;
+      }
+    },
+    async postTaskMessageById({state, commit, rootState}, payload) {
+      commit("clearError", null, {
+        root: true
+      });
+      commit("setLoading", true, {
+        root: true
+      });
+      try {
+        const postTaskMessageById = mapAuthProviders[rootState.shared.settings.authProvider].postTaskMessageById
+        postTaskMessageById(payload)
+          .then((success) => {
+            commit("clearError", null, { root: true });
+            commit("setLoading", false, { root: true });
+            if (success) {
+              const data = success.data
+              console.log(data)
+              // commit('UPDATE_TASK', new Task(
+              //   data.body,
+              //   data.created_at,
+              //   data.description,
+              //   data.done_at,
+              //   data.done_occurencies,
+              //   data.end_by,
+              //   data.end_date,
+              //   data.id,
+              //   data.linkable_id,
+              //   data.linkable_type,
+              //   data.note,
+              //   data.on_type,
+              //   data.remind_at,
+              //   data.remindable_id,
+              //   data.remindable_type,
+              //   data.repeat_every,
+              //   data.repeat_on,
+              //   data.repeats,
+              //   data.skip_occurencies,
+              //   data.updated_at,
+              // ))
+              // commit('UPDATE_CURRENT_TASK', new Task(
+              //   data.body,
+              //   data.created_at,
+              //   data.description,
+              //   data.done_at,
+              //   data.done_occurencies,
+              //   data.end_by,
+              //   data.end_date,
+              //   data.id,
+              //   data.linkable_id,
+              //   data.linkable_type,
+              //   data.note,
+              //   data.on_type,
+              //   data.remind_at,
+              //   data.remindable_id,
+              //   data.remindable_type,
+              //   data.repeat_every,
+              //   data.repeat_on,
+              //   data.repeats,
+              //   data.skip_occurencies,
+              //   data.updated_at,
+              // ))
+              return data
             }
             if (!success) {
               console.error('Not success', success)

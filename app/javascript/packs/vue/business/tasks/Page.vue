@@ -1,5 +1,5 @@
 <template lang="pug">
-  div
+  div.container-fluid
     .page(v-if="!shortTable")
       h2.page__title Tasks
       .page__actions
@@ -7,6 +7,21 @@
         TaskModalCreate(@saved="refetch()")
           a.btn.btn-dark Create task
     .card-body.white-card-body
+      .row.mb-3
+        .col
+          div
+            b-dropdown.actions.m-r-1(variant="default")
+              template(#button-content)
+                | Show: All Tasks
+                ion-icon.ml-2(name="chevron-down-outline" size="small")
+              b-dropdown-item All Tasks
+              b-dropdown-item My Tasks
+              b-dropdown-item Completed Tasks
+            b-dropdown.actions.m-r-1(variant="default")
+              template(#button-content)
+                | All Links
+                ion-icon.ml-2(name="chevron-down-outline" size="small")
+              b-dropdown-item All Links
       .row(v-if="!shortTable")
         .col
           .d-flex.align-items-center
@@ -16,7 +31,8 @@
       .row
         .col
           Loading
-          TaskTable(v-if="!loading && tasks" :shortTable="shortTable", :tasks="tasks")
+          TaskTable(v-if="tasks" :shortTable="shortTable", :tasks="tasks" :perPage="perPage" :currentPage="currentPage")
+          b-pagination(v-model='currentPage' :total-rows='rows' :per-page='perPage' :shortTable="!shortTable",  aria-controls='tasks-table')
 </template>
 
 <script>
@@ -26,10 +42,9 @@
   // import { toEvent, isOverdue, splitReminderOccurenceId } from '@/common/TaskHelper'
 
   import Loading from '@/common/Loading/Loading'
-  import TaskFormModal from '@/common/TaskFormModal'
-  import TaskModalCreate from './modals/TaskModalCreate'
-
   import TaskTable from './components/TaskTable'
+  import TaskModalCreate from './modals/TaskModalCreate'
+  // import TaskModalEdit from './modals/TaskModalEdit'
 
   // const endpointUrl = '/api/business/reminders/'
   // const overdueEndpointUrl = '/api/business/overdue_reminders'
@@ -53,19 +68,22 @@
     components: {
       Loading,
       TaskTable,
-      TaskFormModal,
-      TaskModalCreate
+      TaskModalCreate,
+      // TaskModalEdit
     },
     data() {
       return {
-        // tasks: []
+        // tasks: [],
+        perPage: 3,
+        currentPage: 1,
       }
     },
     // created() {
       // this.refetch()
     // },
     methods: {
-      // refetch() {
+      refetch() {
+        console.log('refetch')
       //   const fromTo = DateTime.local().minus({years: 10}).toSQLDate() + '/' + DateTime.local().plus({years: 10}).toSQLDate()
       //
       //   fetch(overdueEndpointUrl, { headers: {'Accept': 'application/json'} })
@@ -82,7 +100,7 @@
       //     })
       //   )
       //   // .catch(errorCallback)
-      // },
+      },
       //
       // isOverdue,
       // toggleDone(task) {
@@ -127,6 +145,9 @@
       loading() {
         return this.$store.getters.loading;
       },
+      rows() {
+        return this.tasks.length
+      }
     },
     async mounted () {
       try {
