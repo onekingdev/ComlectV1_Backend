@@ -158,8 +158,6 @@
         }).then(response => this.$emit('saved'))
       },
       async submit(saveOccurence) {
-        e.preventDefault();
-
         this.errors = []
         // const toId = (this.taskId) ? `/${this.taskId}` : ''
         const occurenceParams = saveOccurence ? `?oid=${this.occurenceId}&src_id=${this.taskId}` : ''
@@ -173,15 +171,17 @@
           console.log(data)
 
           const response = await this.$store.dispatch("reminders/createTask", data)
-          if (response.errors) {
-            this.toast('Error', `${response.status}`)
-            Object.keys(response.errors)
-              .map(prop => response.errors[prop].map(err => this.toast(`Error`, `${prop}: ${err}`)))
-          }
-          if (!response.errors) {
-            this.toast('Success', 'The task has been saved')
-            this.$emit('saved')
-            this.$bvModal.hide(this.modalId)
+          if (response) {
+            if (response.errors) {
+              this.toast('Error', `${response.status}`)
+              Object.keys(response.errors)
+                .map(prop => response.errors[prop].map(err => this.toast(`Error`, `${prop}: ${err}`)))
+            }
+            if (!response.errors) {
+              this.toast('Success', 'The task has been saved')
+              this.$emit('saved')
+              this.$bvModal.hide(this.modalId)
+            }
           }
         } catch (error) {
           this.toast('Error', error.message)
