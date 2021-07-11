@@ -7,7 +7,7 @@
         TaskModalCreate(@saved="refetch()")
           a.btn.btn-dark Create task
     .card-body.white-card-body
-      .row.mb-3
+      .row.mb-3(v-if="!shortTable")
         .col
           div
             b-dropdown.actions.m-r-1(variant="default")
@@ -47,7 +47,7 @@
           .col
             Loading
             TaskTable(v-if="tasks" :shortTable="shortTable", :tasks="tasks" :perPage="perPage" :currentPage="currentPage")
-            b-pagination(v-if="tasks" v-model='currentPage' :total-rows='rows' :per-page='perPage' :shortTable="!shortTable",  aria-controls='tasks-table')
+            b-pagination(v-if="!shortTable && tasks" v-model='currentPage' :total-rows='rows' :per-page='perPage' :shortTable="!shortTable",  aria-controls='tasks-table')
 
 </template>
 

@@ -8,7 +8,10 @@
           .card
             RegulatoryExamsTable(:exams="exams")
         .col-md-5.col-sm-12.pl-0
-          Tasks(:shortTable="true")
+          .card
+            .card-header.d-flex.justify-content-between
+              h3.m-y-0 Tasks
+            Tasks(:shortTable="true")
 </template>
 
 <script>
