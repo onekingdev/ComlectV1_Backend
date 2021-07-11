@@ -165,29 +165,36 @@
         try {
           const data = {
             ...this.task,
-            linkable_type: 'compilance_policy',
-            linkable_id: 145
+            // linkable_type: 'CompliancePolicy',
+            // linkable_id: 145
+            // linkable_type: 'LocalProject',
+            // linkable_id: 7
+            linkable_type: 'AnnualReport',
+            linkable_id: 23
           }
           console.log(data)
 
-          const response = await this.$store.dispatch("reminders/createTask", data)
-          if (response) {
-            if (response.errors) {
-              this.toast('Error', `${response.status}`)
-              Object.keys(response.errors)
-                .map(prop => response.errors[prop].map(err => this.toast(`Error`, `${prop}: ${err}`)))
-            }
-            if (!response.errors) {
-              this.toast('Success', 'The task has been saved')
-              this.$emit('saved')
-              this.$bvModal.hide(this.modalId)
-            }
-          }
+          await this.$store.dispatch("reminders/createTask", data)
+            .then(response => {
+              if (response.errors) {
+                this.toast('Error', `${response.status}`)
+                Object.keys(response.errors)
+                  .map(prop => response.errors[prop].map(err => this.toast(`Error`, `${prop}: ${err}`)))
+              }
+              if (!response.errors) {
+                this.toast('Success', 'The task has been saved')
+                this.$emit('saved')
+                this.$bvModal.hide(this.modalId)
+              }
+            })
+            .catch(error => {
+              console.error(error)
+              this.toast('Error', `Something wrong! ${error.message}`)
+            })
         } catch (error) {
           this.toast('Error', error.message)
           console.error(error)
         }
-
 
         // fetch('/api/business/reminders' + toId + occurenceParams, {
         //   method: 'POST',

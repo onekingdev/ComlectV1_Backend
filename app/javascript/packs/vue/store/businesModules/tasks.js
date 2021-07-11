@@ -222,16 +222,28 @@ export default {
               root: true
             });
             if (success) {
+              console.log('success', success)
               const data = success.data
-              commit('ADD_EXAM', new Task(
-                data.complete,
+              commit('ADD_TASK', new Task(
+                data.body,
                 data.created_at,
-                data.ends_on,
-                data.exam_requests,
+                data.description,
+                data.done_at,
+                data.done_occurencies,
+                data.end_by,
+                data.end_date,
                 data.id,
-                data.name,
-                data.share_uuid,
-                data.starts_on,
+                data.linkable_id,
+                data.linkable_type,
+                data.note,
+                data.on_type,
+                data.remind_at,
+                data.remindable_id,
+                data.remindable_type,
+                data.repeat_every,
+                data.repeat_on,
+                data.repeats,
+                data.skip_occurencies,
                 data.updated_at,
               ))
               return data

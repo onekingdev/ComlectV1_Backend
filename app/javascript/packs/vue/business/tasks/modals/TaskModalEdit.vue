@@ -258,7 +258,11 @@
         try {
           const data = {
             id: toId,
-            task: this.task
+            task: {
+              ...this.task,
+              // linkable_type: 'Exams',
+              // linkable_id: 28
+            },
           }
 
           console.log(data)

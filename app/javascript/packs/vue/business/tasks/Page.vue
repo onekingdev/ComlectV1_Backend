@@ -22,17 +22,33 @@
                 | All Links
                 ion-icon.ml-2(name="chevron-down-outline" size="small")
               b-dropdown-item All Links
-      .row(v-if="!shortTable")
-        .col
-          .d-flex.align-items-center
-            ion-icon.m-r-1(name="chevron-down-outline" size="small")
-            b-badge.m-r-1(variant="light") 0
-            h3 Compilance Program
-      .row
-        .col
-          Loading
-          TaskTable(v-if="tasks" :shortTable="shortTable", :tasks="tasks" :perPage="perPage" :currentPage="currentPage")
-          b-pagination(v-model='currentPage' :total-rows='rows' :per-page='perPage' :shortTable="!shortTable",  aria-controls='tasks-table')
+            b-dropdown.actions.m-r-1(variant="default")
+              template(#button-content)
+                | {{ perPage }} results
+                ion-icon.ml-2(name="chevron-down-outline" size="small")
+              b-dropdown-item(@click="perPage = 5") 5
+              b-dropdown-item(@click="perPage = 10") 10
+              b-dropdown-item(@click="perPage = 15") 15
+              b-dropdown-item(@click="perPage = 20") 20
+      .row(v-if="!tasks.length && !loading")
+        table.table
+          tbody
+            tr
+              td.text-center
+                h3 Tasks not exist
+      div(v-if="tasks.length")
+        .row(v-if="!shortTable")
+          .col
+            .d-flex.align-items-center
+              ion-icon.m-r-1(name="chevron-down-outline" size="small")
+              b-badge.m-r-1(variant="light") 0
+              h3 Compilance Program
+        .row
+          .col
+            Loading
+            TaskTable(v-if="tasks" :shortTable="shortTable", :tasks="tasks" :perPage="perPage" :currentPage="currentPage")
+            b-pagination(v-if="tasks" v-model='currentPage' :total-rows='rows' :per-page='perPage' :shortTable="!shortTable",  aria-controls='tasks-table')
+
 </template>
 
 <script>
@@ -74,8 +90,9 @@
     data() {
       return {
         // tasks: [],
-        perPage: 3,
+        perPage: 5,
         currentPage: 1,
+        toggleModal: false,
       }
     },
     // created() {
