@@ -90,11 +90,12 @@
 </template>
 
 <script>
+  import { mapGetters, mapActions } from "vuex"
   import { DateTime } from 'luxon'
   import { splitReminderOccurenceId } from '@/common/TaskHelper'
 
   const rnd = () => Math.random().toFixed(10).toString().replace('.', '')
-  const toOption = id => ({ id, label: id })
+  const toOption = (id, label) => ({ id, label })
   const index = (text, i) => ({ text, value: 1 + i })
 
   const initialTask = defaults => ({
@@ -137,11 +138,13 @@
         modalId: this.id || `modal_${rnd()}`,
         task: initialTask(),
         errors: [],
-        reviews: [],
-        projects: [],
       }
     },
     methods: {
+      ...mapActions({
+        getReviews: 'annual/getReviews',
+        getProjects: 'projects/getProjects'
+      }),
       deleteTask(task, deleteOccurence) {
         const occurenceParams = deleteOccurence ? `?oid=${this.occurenceId}` : ''
         fetch('/api/business/reminders/' + this.taskId + occurenceParams, {
@@ -241,10 +244,12 @@
             .then((response) => console.log('getPolicies response mounted', response))
             .catch((err) => console.error(err));
 
+          // this.getReviews
           this.$store.dispatch('annual/getReviews')
             .then((response) => console.log('getReviews response mounted', response))
             .catch((err) => console.error(err));
 
+          // this.getProjects
           this.$store.dispatch('projects/getProjects')
             .then((response) => console.log('getProjects response mounted', response))
             .catch((err) => console.error(err));
@@ -267,9 +272,15 @@
       },
       inputChangeLinked(value, instanceId) {
         console.log(value, instanceId)
+        this.task.linkable_type = 'AnnualReport'
+        this.task.linkable_id = value
       },
     },
     computed: {
+      ...mapGetters({
+        reviews: 'annual/reviews',
+        projects: 'projects/projects',
+      }),
       policies() {
         return this.$store.getters.policiesList
       },
@@ -289,9 +300,10 @@
       //     {...toOption('Policies'), children: ['Pol', 'Icy', 'Policy 3'].map(toOption)}]
       // },
       linkToOptions() {
-        return [{...toOption('Projects'), children: this.projects.map(record => record.title).map(toOption)},
-          {...toOption('Annual Reviews'), children: this.reviews.map(record => record.name).map(toOption)},
-          {...toOption('Policies'), children: this.policies.map(record => record.name).map(toOption) }]
+        return [{...toOption(1, 'Projects'), children: this.projects.map(record => ({ id: record.id, label: record.title }))},
+                {...toOption(2, 'Annual Reviews'), children: this.reviews.map(record => ({ id: record.id, label: record.name }))},
+                {...toOption(3, 'Policies'), children: this.policies.map(record => ({ id: record.id, label: record.name }))},
+              ]
       },
       assigneeOptions() {
         return ['John', 'Doe', 'Another specialist'].map(toOption)

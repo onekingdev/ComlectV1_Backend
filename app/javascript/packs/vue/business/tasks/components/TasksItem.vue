@@ -6,7 +6,10 @@
       TaskModalEdit.link(:taskProp="item" @saved="$emit('saved')")
         span(v-if="!item.done_at" ) {{ item.body }}
         s(v-else) {{ item.body }}
-    td(v-if="!shortTable") {{ item.linkable_type }}
+    td(v-if="!shortTable")
+      .d-flex.align-items-center.link
+        ion-icon.m-r-1(name="list-circle-outline")
+        | {{ item.linkable_type ? item.linkable_type : 'not selected' }}
     td(v-if="!shortTable") {{ item.assignee }}
     td.text-right(v-if="!shortTable" :class="{ overdue: isOverdue(item) }") {{ item.remind_at | dateToHuman}}
     td.text-right(:class="{ overdue: isOverdue(item) }") {{ item.end_date | dateToHuman }}
@@ -98,5 +101,7 @@ export default {
 </script>
 
 <style scoped>
-
+  .link ion-icon {
+    color: var(--blue)
+  }
 </style>
