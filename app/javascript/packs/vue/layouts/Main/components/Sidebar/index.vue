@@ -1,43 +1,45 @@
 <template lang="pug">
-  nav.sidebar-menu
-    .logo
-      a.logo__link(href="/")
-        img.logo__img(src="/assets/logo-2-white.png" width="81px")
-    div(v-if="leftSidebar === 'default' || userType === 'specialist'")
-      h3.sidebar-menu__title.d-flex.justify-content-between(role="button" v-b-toggle.overview_collapse="")
-        | Overview
-        ion-icon(name='chevron-down-outline')
+  nav.sidebar-menu(:class="{ mobileMenu: toggleMobileMenu }")
+    //.logo
+    //  a.logo__link(href="/")
+    //    img.logo__img(src="/assets/logo-2-white.png" width="81px")
+    div.sidebar-menu__central(v-if="leftSidebar === 'default' || userType === 'specialist'")
+      h3.sidebar-menu__title(role="button" v-b-toggle.overview_collapse="")
+        ion-icon(name='list-outline')
+        span(v-if="!toggleMobileMenu") Overview
+        ion-icon.ml-auto(name='chevron-down-outline')
       b-collapse#overview_collapse(:visible="true")
         ul.sidebar-menu__list
           li.nav-item.sidebar-menu__item(@click="openLink('default')")
             router-link.sidebar-menu__link(:to='`/${userType}`' active-class="active" exact)
-              ion-icon(name='globe-outline')
+              //ion-icon(name='globe-outline')
               | Dashboard
           li.nav-item.sidebar-menu__item(@click="openLink('default')")
-            router-link.sidebar-menu__link(:to='`/${userType}/projects`' active-class="active")
-              ion-icon(name='list-outline')
-              | Projects
-          li.nav-item.sidebar-menu__item(@click="openLink('default')")
             router-link.sidebar-menu__link(:to='`/${userType}/reminders`' active-class="active")
-              ion-icon(name='checkbox-outline')
+              //ion-icon(name='checkbox-outline')
               | Tasks
+          li.nav-item.sidebar-menu__item(@click="openLink('default')")
+            router-link.sidebar-menu__link(:to='`/${userType}/projects`' active-class="active")
+              //ion-icon(name='list-outline')
+              | Projects
       div(v-if="userType !== 'specialist'")
-        h3.sidebar-menu__title.d-flex.justify-content-between(role="button" v-b-toggle.program_management_collapse="")
-          | Program Management
-          ion-icon(name='chevron-down-outline')
+        h3.sidebar-menu__title(role="button" v-b-toggle.program_management_collapse="")
+          ion-icon(name='document-text-outline')
+          span(v-if="!toggleMobileMenu") Program Management
+          ion-icon.ml-auto(name='chevron-down-outline')
         b-collapse#program_management_collapse(:visible="true")
           ul.sidebar-menu__list
             li.nav-item.sidebar-menu__item(@click="openLink('default')")
               router-link.sidebar-menu__link(:to='`/${userType}/compliance_policies`' active-class="active")
-                ion-icon(name='newspaper-outline')
+                //ion-icon(name='newspaper-outline')
                 | Policies and Procedures
             li.nav-item.sidebar-menu__item(@click="openLink('default')")
               router-link.sidebar-menu__link(:to='`/${userType}/annual_reviews`' active-class="active")
-                ion-icon(name='document-text-outline')
+                //ion-icon(name='document-text-outline')
                 | Annual Review
             li.nav-item.sidebar-menu__item(@click="openLink('default')")
               router-link.sidebar-menu__link(:to='`/${userType}/risks`' active-class="active")
-                ion-icon(name='warning-outline')
+                //ion-icon(name='warning-outline')
                 | Risk Register
       div(v-if="userType === 'specialist'")
         div(class="dropdown-divider")
@@ -45,32 +47,37 @@
           router-link.sidebar-menu__link(:to='`/${userType}/settings`' active-class="active")
             ion-icon(name='settings-outline')
             | Settings
-    div(v-if="userType !== 'specialist' && leftSidebar === 'documents'")
-     h3.sidebar-menu__title.d-flex.justify-content-between(role="button" v-b-toggle.files="")
-       | Files
-       ion-icon(name='chevron-down-outline')
+    div.sidebar-menu__central(v-if="userType !== 'specialist' && leftSidebar === 'documents'")
+     h3.sidebar-menu__title(role="button" v-b-toggle.files="")
+      ion-icon(name='document-text-outline')
+      span(v-if="!toggleMobileMenu") Files
+      ion-icon.ml-auto(name='chevron-down-outline')
      b-collapse#files(:visible="true")
        ul.sidebar-menu__list
          li.nav-item.sidebar-menu__item(@click="openLink('documents')")
            router-link.sidebar-menu__link(:to='`/${userType}/file_folders`' active-class="active" exact)
-             ion-icon(name='folder-outline')
+             //ion-icon(name='folder-outline')
              | Book and records
          li.nav-item.sidebar-menu__item(@click="openLink('documents')")
            router-link.sidebar-menu__link(:to='`/${userType}/exam_management`' active-class="active")
-             ion-icon(name='search-outline')
+             //ion-icon(name='search-outline')
              | Exam Management
          div(class="dropdown-divider")
          li.nav-item.sidebar-menu__item(@click="openLink('documents')")
            router-link.sidebar-menu__link(:to='`/${userType}/settings`' active-class="active")
              ion-icon(name='settings-outline')
              | Settings
+    button.sidebar-menu__btn(@click="toggleMobileMenu = !toggleMobileMenu")
+      span(v-if="!toggleMobileMenu") Collapse menu
+      ion-icon.ml-2(name='arrow-back-circle-outline')
 </template>
 
 <script>
   export default {
     data() {
       return {
-        userType: ''
+        userType: '',
+        toggleMobileMenu: false
       }
     },
     created() {

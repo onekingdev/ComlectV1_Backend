@@ -19,7 +19,7 @@
 </template>
 
 <script>
-  import AccessDenied from "@/common/layout/AccessDenied"
+  import AccessDenied from "@/common/AccessDenied"
 
   const rnd = () => Math.random().toFixed(10).toString().replace('.', '')
   export default {

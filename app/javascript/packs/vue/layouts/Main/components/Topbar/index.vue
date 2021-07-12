@@ -1,7 +1,13 @@
 <template lang="pug">
   .topbar
+    .logo
+      a.logo__link(href="/")
+        // img.logo__img(src='@/assets/logo_wordmark.svg')
+        img.logo__img(src='@/assets/primary.svg' width="24" height="24")
     b-navbar.p-0(toggleable='lg')
       b-navbar-toggle(target='nav-collapse')
+        | Menu
+        ion-icon.ml-auto(name='chevron-down-outline')
       b-collapse#nav-collapse.topbar-menu(is-nav)
         ul.topbar-menu__list
           li.nav-item.topbar-menu__item(@click="openLink('default')")

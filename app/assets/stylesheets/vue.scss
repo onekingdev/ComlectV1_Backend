@@ -35,7 +35,11 @@ html {
 /* ---------- LOGO ---------- */
 .logo {
   //margin: 20px 20px 40px 10px;
-  max-width: 5.0625rem; //81px
+  margin: 1.75rem 1.25rem; // 28 20 px
+  //margin-right: 2.5rem; // 40px
+  //max-width: 5.0625rem; //81px
+  width: 1.5rem; // 24px
+  height: 1.5rem; // 24px
 
   &__link {
     width: 100%;
@@ -65,11 +69,13 @@ html {
 }
 
 .topbar {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 5rem; // 80px;
 }
+
 .topbar-menu {
   margin-left: 2.5rem;
   //margin: 1.875rem auto 1.875rem 2.5rem; // 30px auto 30px 40px;
@@ -82,19 +88,42 @@ html {
     margin-right: auto;
     padding: 0;
     list-style: none;
+
+    @media (max-width: 991.98px) {
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+    }
   }
+
   &__item {
     margin-right: 2.5rem; // 40px;
   }
 
   .nav-link,
   &__link {
+    font-family: 'Public Sans Regular', sans-serif;
+    font-size: 1rem; // 16px
     color: $black;
 
     &:hover,
     &:active,
     &.active {
       text-decoration: none;
+    }
+
+    @media (max-width: 991.98px) {
+      width: 100%;
+      padding: 1rem;
+      margin-bottom: 2rem;
+      color: $white;
+
+      &:hover,
+      &:active,
+      &.active {
+        background-color: $primary;
+        color: $white;
+      }
     }
   }
 }
@@ -107,6 +136,25 @@ html {
 //    height: auto;
 //  }
 //}
+
+.navbar-collapse {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  color: $white;
+  background-color: $black;
+
+  @media (max-width: 991.98px) {
+  //@include media-breakpoint-down(xl) {
+    position: fixed;
+    top: 5rem; //80px;
+    z-index: 10;
+    margin-left: 0;
+  }
+}
 
 .btn-topbar {
   transition: all 200ms ease-in;
@@ -187,6 +235,9 @@ html {
 
 /* ---------- LEFT SIDEBAR ---------- */
 .sidebar-menu {
+  display: flex;
+  flex-direction: column;
+
   padding: 0.625rem; // 10px
   width: 100%;
   min-width: 17.8125rem; // 285px;
@@ -194,23 +245,66 @@ html {
   min-height: 100vh;
   background-color: #1b1c29;
   color: $white;
+  border: solid 1px blue;
+
+  &.mobileMenu {
+    min-width: auto;
+    max-width: 70px;
+
+    .sidebar-menu__list {
+      display: none;
+    }
+
+    .sidebar-menu__title ion-icon:first-child {
+      margin-right: 0;
+    }
+    .sidebar-menu__title ion-icon:last-child {
+      display: none;
+    }
+
+    .sidebar-menu__btn {
+      padding-left: 0.625rem;
+      padding-right: 0.625rem;
+    }
+  }
+
+  @media (max-width: 991.98px) {
+    min-width: auto;
+    max-width: 70px;
+  }
+
+  &__central {
+    flex-grow: 1;
+    border: solid 1px green;
+  }
 
   ion-icon {
+    margin-right: 0.625rem; // 10px
+    //margin-right: 8px;
     font-size: 15px;
-    margin-right: 8px;
     vertical-align: middle;
   }
 
   &__title {
-    margin-bottom: 1.125rem; // 18px
-    text-transform: uppercase;
-    font-size: 11px;
-    letter-spacing: 1px;
-    font-weight: 400;
+    display: flex;
+    align-items: center;
+    //margin-bottom: 1.125rem; // 18px
+    margin: 1.375rem 0; // 22px
     color: #f6f6f6;
     padding-left: 10px;
     padding-top: 15px;
     padding-bottom: 5px;
+
+    font-family: 'Public Sans Bold', sans-serif;
+    font-size: 0.75rem; // 12px
+    letter-spacing: 1px;
+    font-weight: 400;
+    text-transform: uppercase;
+    //font-size: 11px;
+
+    @media (max-width: 991.98px) {
+      display: none;
+    }
   }
 
   &__list {
@@ -227,12 +321,20 @@ html {
     justify-content: flex-start;
     align-items: center;
     width: 100%;
+
+    font-family: 'Public Sans Regular', sans-serif;
+    font-size: 0.875rem; // 14px
+    //line-height: 1;
+
+    @media (max-width: 991.98px) {
+      display: none;
+    }
   }
 
   &__link {
     display: flex;
     align-items: center;
-    padding: 0.625rem; // 10px;
+    padding: 0.75rem 1.375rem; // 12px 22px;
     width: 100%;
 
     font-size: 0.875rem; // 14px
@@ -249,6 +351,37 @@ html {
     }
     &.active {
       font-weight: 600;
+    }
+  }
+
+  &__btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem; // 20px
+    padding-right: 0;
+    margin-top: auto;
+    margin-bottom: 0;
+    width: 100%;
+    text-align: left;
+    color: $white;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    transition: all 200ms ease-in;
+
+    &:hover,
+    &:active,
+    &.active {
+      color: $white;
+      text-decoration: none;
+      background-color: #2f304f;
+    }
+
+    @media (max-width: 991.98px) {
+      span {
+        display: none;
+      }
     }
   }
 }
@@ -531,6 +664,15 @@ table.table thead tr th {
       background: #ECEFF4;
     }
   }
+}
+
+.wrapper {
+  //padding: 2.5rem; //40px;
+  background-color: #f6f6f8;
+  //max-width: 1140px;
+  min-width: 800px;
+  overflow: auto;
+  border: solid 1px red;
 }
 
 // need remove

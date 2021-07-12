@@ -1,10 +1,10 @@
 <template lang="pug">
   .container-fluid.p-0
+    Topbar
     .d-flex
       Sidebar
       .d-flex.flex-column.flex-grow-1
-        Topbar
-        main#main-content.flex-grow-1
+        main.wrapper#main-content.flex-grow-1
          router-view
 
     // <cui-sidebar />
@@ -31,23 +31,15 @@
 </template>
 
 <script>
-  import Sidebar from '@/common/layout/Sidebar'
-  import Topbar from '@/common/layout/Topbar'
+  import Sidebar from './components/Sidebar'
+  import Topbar from './components/Topbar'
 
   export default {
     name: 'MainLayout',
     components: { Sidebar, Topbar },
-    data: function () {
-      return {
-      }
-    },
-    mounted() {
-    },
-    methods: {
-    },
   }
 </script>
 
 <style lang="scss" module>
-  /*@import "./style.module.scss";*/
+
 </style>

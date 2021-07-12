@@ -11,7 +11,7 @@
 </template>
 
 <script>
-  import AccessDeniedModal from "@/common/layout/AccessDenied/modals/AccessDeniedModal";
+  import AccessDeniedModal from "@/common/AccessDenied/modals/AccessDeniedModal";
   export default {
     components: {AccessDeniedModal}
   }

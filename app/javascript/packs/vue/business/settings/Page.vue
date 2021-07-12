@@ -27,7 +27,7 @@
   import Roles from "./components/roles";
   import Billings from "./components/billings";
   import Notifications from "./components/notifications";
-  import AccessDenied from "@/common/layout/AccessDenied";
+  import AccessDenied from "@/common/AccessDenied";
   import SelectPlan from './components/subscriptions/components/SelectPlan'
   import SelectBilling from './components/billings/components/SelectBilling'
 
