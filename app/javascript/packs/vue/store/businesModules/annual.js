@@ -101,7 +101,6 @@ export default {
         })
         const data = await response.json()
         const reviews = []
-        console.log(data)
         for (const annualItem of data) {
           reviews.push(new AnnualReview(
             annualItem.annual_review_employees,
@@ -122,7 +121,7 @@ export default {
           ))
         }
         commit('SET_REVIEWS', reviews)
-        return reviews
+        return data
       } catch (error) {
         commit("setError", error.message, {
           root: true

@@ -3,11 +3,11 @@
     div.d-inline-block(v-b-modal="modalId")
       slot
 
-    b-modal.fade(:id="modalId" :title="taskId ? task.body : 'New task'" @show="resetTask")
+    b-modal.fade(:id="modalId" :title="taskId ? task.body : 'New task'" @show="getData")
       InputText(v-model="task.body" :errors="errors.body" placeholder="Enter the name of your task") Task Name
 
       label.m-t-1.form-label Link to
-      ComboBox(V-model="task.link_to" :options="linkToOptions" placeholder="Select projects, annual reviews, or policies to link the task to")
+      ComboBox(V-model="task.link_to" :options="linkToOptions" placeholder="Select projects, annual reviews, or policies to link the task to" @input="inputChangeLinked")
       .form-text.text-muted Optional
       Errors(:errors="errors.link_to")
 
@@ -136,7 +136,9 @@
       return {
         modalId: this.id || `modal_${rnd()}`,
         task: initialTask(),
-        errors: []
+        errors: [],
+        reviews: [],
+        projects: [],
       }
     },
     methods: {
@@ -169,8 +171,8 @@
             // linkable_id: 145
             // linkable_type: 'LocalProject',
             // linkable_id: 7
-            linkable_type: 'AnnualReport',
-            linkable_id: 23
+            // linkable_type: 'AnnualReport',
+            // linkable_id: 23
           }
           console.log(data)
 
@@ -188,12 +190,12 @@
               }
             })
             .catch(error => {
-              console.error(error)
+              console.error('error', error)
               this.toast('Error', `Something wrong! ${error.message}`)
             })
         } catch (error) {
           this.toast('Error', error.message)
-          console.error(error)
+          console.error('catch error', error)
         }
 
         // fetch('/api/business/reminders' + toId + occurenceParams, {
@@ -217,19 +219,60 @@
         //   }
         // })
       },
-      resetTask() {
-        if (this.taskId) {
-          fetch(`/api/business/reminders/${this.taskId}`, {
-            method: 'GET',
-            headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}
-          }).then(response => response.json())
-            .then(result => Object.assign(this.task, result))
-        } else {
-          this.task = initialTask(this.remindAt ? { remind_at: this.remindAt } : undefined)
+      // resetTask() {
+      //   if (this.taskId) {
+      //     fetch(`/api/business/reminders/${this.taskId}`, {
+      //       method: 'GET',
+      //       headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}
+      //     }).then(response => response.json())
+      //       .then(result => Object.assign(this.task, result))
+      //   } else {
+      //     this.task = initialTask(this.remindAt ? { remind_at: this.remindAt } : undefined)
+      //   }
+      // },
+      async getData () {
+        try {
+
+          this.task = { ...this.taskProp }
+
+          // await this.$store.dispatch('filefolders/getFileFolders')
+
+          this.$store.dispatch("getPolicies")
+            .then((response) => console.log('getPolicies response mounted', response))
+            .catch((err) => console.error(err));
+
+          this.$store.dispatch('annual/getReviews')
+            .then((response) => console.log('getReviews response mounted', response))
+            .catch((err) => console.error(err));
+
+          this.$store.dispatch('projects/getProjects')
+            .then((response) => console.log('getProjects response mounted', response))
+            .catch((err) => console.error(err));
+
+          // fetch('/api/business/local_projects/', {
+          //   method: 'GET',
+          //   headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+          //   // body: JSON.stringify(this.task)
+          // }).then(response => response.json())
+          //   .then((response) => {
+          //     console.log('local_projects response mounted', response)
+          //     this.projects = response
+          //   })
+          //   .catch((err) => console.error(err));
+
+        } catch (error) {
+          console.error(error)
+          this.toast('Error', error.message)
         }
-      }
+      },
+      inputChangeLinked(value, instanceId) {
+        console.log(value, instanceId)
+      },
     },
     computed: {
+      policies() {
+        return this.$store.getters.policiesList
+      },
       daysOfWeek() {
         return ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map(index)
       },
@@ -240,14 +283,19 @@
         return {REPEAT_NONE, REPEAT_DAILY, REPEAT_WEEKLY, REPEAT_MONTHLY, REPEAT_YEARLY}
       },
       repeatsOptions: () => REPEAT_OPTIONS.map(value => ({ value, text: REPEAT_LABELS[value] })),
+      // linkToOptions() {
+      //   return [{...toOption('Projects'), children: ['Some project', 'Another', 'One'].map(toOption)},
+      //     {...toOption('Annual Reviews'), children: ['Annual Review 2018', 'Annual Review 1337', 'Some Review'].map(toOption)},
+      //     {...toOption('Policies'), children: ['Pol', 'Icy', 'Policy 3'].map(toOption)}]
+      // },
       linkToOptions() {
-        return [{...toOption('Projects'), children: ['Some project', 'Another', 'One'].map(toOption)},
-          {...toOption('Annual Reviews'), children: ['Annual Review 2018', 'Annual Review 1337', 'Some Review'].map(toOption)},
-          {...toOption('Policies'), children: ['Pol', 'Icy', 'Policy 3'].map(toOption)}]
+        return [{...toOption('Projects'), children: this.projects.map(record => record.title).map(toOption)},
+          {...toOption('Annual Reviews'), children: this.reviews.map(record => record.name).map(toOption)},
+          {...toOption('Policies'), children: this.policies.map(record => record.name).map(toOption) }]
       },
       assigneeOptions() {
         return ['John', 'Doe', 'Another specialist'].map(toOption)
-      }
+      },
     },
     watch: {
       'task.remind_at': {

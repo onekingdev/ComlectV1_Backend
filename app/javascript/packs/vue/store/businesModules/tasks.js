@@ -222,7 +222,6 @@ export default {
               root: true
             });
             if (success) {
-              console.log('success', success)
               const data = success.data
               commit('ADD_TASK', new Task(
                 data.body,
