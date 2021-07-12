@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    .row.my-3
+    .row.my-20
       .col-4
         .position-relative
           b-icon.icon-searh(icon='search')

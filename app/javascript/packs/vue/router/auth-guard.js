@@ -1,9 +1,9 @@
-import store from '@/store/common'
+import store from '@/store/commonModules/shared'
 
 export default function (to, from, next) {
-  if (store.getters.userType === 'business') {
-    next()
+  if (store.getters.userType === 'business' || store.getters.userType === 'specialist') {
+    // next()
   } else {
-    next(`${store.getters.userType}/dashboard`)
+    // next(`/users/sign_up`)
   }
 }

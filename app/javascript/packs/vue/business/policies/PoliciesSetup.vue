@@ -248,23 +248,23 @@
     border-radius: 3px;
   }
 
-  .preview::after {
-    display: block;
-    position: absolute;
-    z-index: 0;
-    top: 60%;
-    left: 80%;
-    margin: auto;
-    width: 100%;
-    height: 100%;
-    content: 'PREVIEW';
-    color: #ced4da;
-    text-transform: uppercase;
-    font-size: 2rem;
-    font-weight: bold;
-    transform: translate(-50%, -50%) rotate(-45deg);
-    transform-origin: center;
-  }
+  /*.preview::after {*/
+    /*display: block;*/
+    /*position: absolute;*/
+    /*z-index: 0;*/
+    /*top: 60%;*/
+    /*left: 80%;*/
+    /*margin: auto;*/
+    /*width: 100%;*/
+    /*height: 100%;*/
+    /*content: 'PREVIEW';*/
+    /*color: #ced4da;*/
+    /*text-transform: uppercase;*/
+    /*font-size: 2rem;*/
+    /*font-weight: bold;*/
+    /*transform: translate(-50%, -50%) rotate(-45deg);*/
+    /*transform-origin: center;*/
+  /*}*/
 
   .preview img {
     position: relative;

@@ -41,6 +41,7 @@
               router-link.sidebar-menu__link(:to='`/${userType}/risks`' active-class="active")
                 //ion-icon(name='warning-outline')
                 | Risk Register
+      .sidebar-menu__separator
       div(v-if="userType === 'specialist'")
         div(class="dropdown-divider")
         li.nav-item.sidebar-menu__item(@click="openLink('documents')")
@@ -67,9 +68,10 @@
            router-link.sidebar-menu__link(:to='`/${userType}/settings`' active-class="active")
              ion-icon(name='settings-outline')
              | Settings
+    .sidebar-menu__separator
     button.sidebar-menu__btn(@click="toggleMobileMenu = !toggleMobileMenu")
       span(v-if="!toggleMobileMenu") Collapse menu
-      ion-icon.ml-2(name='arrow-back-circle-outline')
+      ion-icon(:name="!toggleMobileMenu ? 'arrow-back-circle-outline' : 'arrow-forward-circle-outline'")
 </template>
 
 <script>
