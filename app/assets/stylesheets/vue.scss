@@ -667,45 +667,51 @@ table.table thead tr th {
   margin: 2rem;
 }
 
-
-
-/* ---------- NOT CHECKED STYLES - START ---------- */
-.border-dark-progress {
-  border-top: 4px solid #2F304F;
-}
-
+/* ---------- BADGE ---------- */
 .badge {
-  border: 1px solid transparent;
+  border: 1px solid #dcdee4;
   padding: 5px 15px !important;
   font-size: 0.75rem !important;
   font-weight: normal !important;
+  text-transform: capitalize;
   line-height: 14px;
 }
 
 .badge-success {
   color: #1bb380;
   background-color: #d5fbef;
+  border-color: #d5fbef;
 }
 
 .badge-danger {
   color: #ce1938;
   background-color: #fddee3;
+  border-color: #fddee3;
 }
 
 .badge-warning {
   color: #b08824;
   background-color: #fff7e4;
+  border-color: #fff7e4;
 }
 
 .badge-light {
+  color: #797b7e;
+  background-color: #f3f6f9;
+  border-color: #f3f6f9;
+}
+
+.badge-secondary {
   color: #373839;
   background-color: #ffffff;
   border-color: #dcdee4;
 }
 
-.badge-secondary {
-  color: #797b7e;
-  background-color: #f3f6f9;
+
+
+/* ---------- NOT CHECKED STYLES - START ---------- */
+.border-dark-progress {
+  border-top: 4px solid #2F304F;
 }
 
 .b-form-datepicker {
