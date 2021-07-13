@@ -28,6 +28,8 @@
 }
 
 .card.registration .card-footer {
+  padding: 1.25rem 0;
+  font-size: 0.875rem; /*14px*/
   background-color: white;
 }
 

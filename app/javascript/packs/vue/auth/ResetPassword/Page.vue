@@ -133,6 +133,6 @@
   }
 </script>
 
-<style scoped>
+<style module>
   @import "../styles.css";
 </style>

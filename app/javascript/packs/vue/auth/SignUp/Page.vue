@@ -6,10 +6,12 @@
       TopNavbar
       main.row#main-content
         .col-xl-4.col-lg-6.col-md-8.m-x-auto
-          Loading
-          .card.registration
+          .card.registration(v-if='loading')
             .card-body.white-card-body
-              #step0.form(v-if='!loading' :class="step0 ? 'd-block' : 'd-none'")
+              Loading
+          .card.registration(v-if='!loading')
+            .card-body.white-card-body
+              #step0.form(:class="step0 ? 'd-block' : 'd-none'")
                 .registration-welcome
                   h1.registration__title.text-center Let's get you started!
                   p.registration__subtitle.text-center Select your account type
@@ -28,7 +30,7 @@
                             img.account-select__img(src='@/assets/briefcase-outline.svg' width="50" height="50")
                             p.account-select__subtitle.px-4 Looking to work with potential clients on compliance projects
                     b-button.registration__btn.w-100(type='submit' variant='dark') Next
-              #step1.form(v-if='!loading' :class="step1 ? 'd-block' : 'd-none'")
+              #step1.form(:class="step1 ? 'd-block' : 'd-none'")
                 h1.text-center Let's get you started!
                 p.text-center Create your FREE account
                 div
@@ -55,7 +57,7 @@
                         | and acknowledge the&nbsp;
                         a.link(href="#") Privacy Policy
                     b-button.registration__btn.w-100(type='submit' variant='dark') Sign Up
-              #step2.form(v-if='!loading' :class="step2 ? 'd-block' : 'd-none'")
+              #step2.form(:class="step2 ? 'd-block' : 'd-none'")
                 // OtpConfirm(@otpSecretConfirmed="otpConfirmed", :userId="userId", :form="form")
                 h1.text-center Confirm Your Email!
                 p.text-center We sent a 6 digit code to {{ form.email }}. Please enter it below.
@@ -360,6 +362,6 @@
   }
 </script>
 
-<style scoped>
+<style module>
   @import "../styles.css";
 </style>
