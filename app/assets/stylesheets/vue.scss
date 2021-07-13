@@ -675,9 +675,37 @@ table.table thead tr th {
 }
 
 .badge {
-  border: 1px solid #E5E5EA;
-  padding: 4px 9px !important;
+  border: 1px solid transparent;
+  padding: 5px 15px !important;
+  font-size: 0.75rem !important;
   font-weight: normal !important;
+  line-height: 14px;
+}
+
+.badge-success {
+  color: #1bb380;
+  background-color: #d5fbef;
+}
+
+.badge-danger {
+  color: #ce1938;
+  background-color: #fddee3;
+}
+
+.badge-warning {
+  color: #b08824;
+  background-color: #fff7e4;
+}
+
+.badge-light {
+  color: #373839;
+  background-color: #ffffff;
+  border-color: #dcdee4;
+}
+
+.badge-secondary {
+  color: #797b7e;
+  background-color: #f3f6f9;
 }
 
 .b-form-datepicker {

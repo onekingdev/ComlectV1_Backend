@@ -12,13 +12,13 @@
       b-tab(title="My Projects" active)
         .card-body.white-card-body.card-body_full-height
           div
-            b-dropdown.m-r-1(text='Filter by: All')
+            b-dropdown.m-r-1(variant="default" text='Filter by: All')
               b-dropdown-item All
               b-dropdown-item In Progress
               b-dropdown-item Pending
               b-dropdown-item Overdue
               b-dropdown-item Complete
-            b-dropdown.m-r-1(text='Year: All')
+            b-dropdown.m-r-1(variant="default" text='Year: All')
               b-dropdown-item 2021
               b-dropdown-item 2020
           Get(projects="/api/business/local_projects/" :etag="etag"): template(v-slot="{projects}")
