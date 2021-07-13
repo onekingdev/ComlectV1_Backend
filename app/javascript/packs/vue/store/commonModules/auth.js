@@ -134,10 +134,7 @@ export default {
         commit("setLoading", true);
 
         // const response = await axios.put(`/users/${payload.userId}/confirm_email`, { "otp_secret": payload.code })
-        const response = await axios.put(`/users/confirm_email`, {
-          "otp_secret": payload.code,
-          "email": payload.email
-        })
+        const response = await axios.put(`/users/confirm_email`, payload)
 
         if (response.data) {
           if(response.data.token) {

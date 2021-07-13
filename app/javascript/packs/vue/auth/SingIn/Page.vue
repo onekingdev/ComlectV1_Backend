@@ -133,9 +133,9 @@
         // clear errors
         this.errors = []
         const data = {
-          "user": {
-            "email": this.form.email,
-            "password": this.form.password
+          user: {
+            email: this.form.email,
+            password: this.form.password
           },
         }
 
@@ -153,15 +153,15 @@
                 this.error = `${response.errors[type]}`
               }
 
-              if (this.error === 'Please, confirm your email') {
+              if (this.error === 'Please, confirm your email' || response.errors === 'Please, confirm your email') {
                 this.emailVerified = false
 
                 this.step1 = false
                 this.step2 = true
 
                 let data = {
-                  "user": {
-                    "email": this.form.email,
+                  user: {
+                    email: this.form.email,
                   },
                 }
 
@@ -219,15 +219,34 @@
         // IF UNVERIFIED EMAIL
         if(!this.emailVerified) {
           const dataToSend1 = {
-            "email": this.form.email,
-            "otp_secret": this.form2.code
+            email: this.form.email,
+            otp_secret: this.form2.code
           }
 
           this.$store.dispatch('confirmEmail', dataToSend1)
-            .then((response) => this.toast('Success', `${response.message}`))
-            .catch((error) => this.toast('Error', `${error.message}`))
+            .then((response) => {
+              console.log('response', response)
+              if (response.errors) {
+                for (const type of Object.keys(response.errors)) {
+                  this.errors = response.errors[type]
+                  this.errors.code = response.errors[type]
+                }
+              }
+              if (!response.errors && response.token) {
+                // open step 3
+                this.step2 = false
+                this.step3 = true
 
-          return
+                this.toast('Success', `You will be redirect to the dashboard!`)
+
+                const dashboard = response.business ? '/business' : '/specialist'
+                this.dashboardLink = dashboard
+                setTimeout(() => {
+                  window.location.href = `${dashboard}`;
+                }, 3000)
+              }
+            })
+            .catch((error) => this.toast('Error', `${error.message}`))
         }
 
 
@@ -235,10 +254,10 @@
         if(this.emailVerified) {
         const dataToSend = {
           "user": {
-            "email": this.form.email,
-            "password": this.form.password
+            email: this.form.email,
+            password: this.form.password
           },
-          "otp_secret": this.form2.code
+          otp_secret: this.form2.code
         }
 
         this.$store.dispatch('signIn', dataToSend)
