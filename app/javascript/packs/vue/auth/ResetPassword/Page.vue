@@ -4,36 +4,36 @@
       TopNavbar
       main.row#main-content
         .col-xl-4.col-lg-6.col-md-8.m-x-auto
-          .card-body.white-card-body.registration
-            // Loading
-            // #step1.form(v-if='!loading' :class="step1 ? 'd-block' : 'd-none'")
-            #step1.form(:class="step1 ? 'd-block' : 'd-none'")
-              h1.text-center Reset password
-              p.text-center Enter the email address used to log in to your Complect
-                br
-                | account and we'll send you a link to reset your password. If you
-                br
-                | are a business, we'll send the email to your key contact.
-              div
-                b-alert(:show='dismissCountDown' dismissible fade variant='danger' @dismiss-count-down='countDownChanged')
-                  | {{ error }}
-                  br
-                  | This alert will dismiss after {{ dismissCountDown }} seconds...
-                b-form(@submit='onSubmit1' v-if='show')
-                  b-form-group#input-group-1(label='Email Address:' label-for='input-1')
-                    b-form-input#input-1(v-model='form.email' type='email' placeholder='Email' required)
-                    .invalid-feedback.d-block(v-if="errors['user.email']") 'Email Address' {{ ...errors['user.email'] }}
-                  b-button.w-100(type='submit' variant='dark') Reset
-                  hr
-                  b-form-group.text-center.forgot-password.m-t-1
-                    .forgot-password
-                      a.link(data-remote='true' href='/users/sign_in') Cancel
-            #step2.form(:class="step2 ? 'd-block' : 'd-none'")
-              h1.text-center You successfuly reseted password!
-              p.text-center You will be redirect to the sign in page!
-              .text-center
-                b-icon( icon="circle-fill" animation="throb" font-scale="4")
-                  <!--ion-icon(name="checkmark-circle-outline" size="large")-->
+          .card.registration
+            .card-body.white-card-body
+              Loading
+              // #step1.form(v-if='!loading' :class="step1 ? 'd-block' : 'd-none'")
+              #step1.form(:class="step1 ? 'd-block' : 'd-none'")
+                .registration-welcome.text-center
+                  h1.registration__title Reset password
+                  p.registration__subtitle Enter the email address used to log in to your Complect
+                    | account and we'll send you a link to reset your password. If you
+                    | are a business, we'll send the email to your key contact.
+                div
+                  b-alert(:show='dismissCountDown' dismissible fade variant='danger' @dismiss-count-down='countDownChanged')
+                    | {{ error }}
+                    br
+                    | This alert will dismiss after {{ dismissCountDown }} seconds...
+                  b-form(@submit='onSubmit1' v-if='show')
+                    b-form-group#input-group-1.m-b-20(label='Email Address:' label-for='input-1')
+                      b-form-input#input-1(v-model='form.email' type='email' placeholder='Email' required)
+                      .invalid-feedback.d-block(v-if="errors['user.email']") 'Email Address' {{ ...errors['user.email'] }}
+                    b-button.registration__btn.w-100(type='submit' variant='dark') Reset
+              #step2.form(:class="step2 ? 'd-block' : 'd-none'")
+                h1.text-center You successfuly reseted password!
+                p.text-center You will be redirect to the sign in page!
+                .text-center
+                  b-icon(icon="circle-fill" animation="throb" font-scale="5")
+                    //ion-icon(name="checkmark-circle-outline" size="large")-->
+            .card-footer.text-center
+              b-form-group
+                a.link(data-remote='true' href='/users/sign_in') Cancel
+                //router-link.link(to='/users/sign_in') Cancel
 </template>
 
 <script>

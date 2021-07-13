@@ -9,8 +9,8 @@
               Loading
               #step1.form(v-if='!loading' :class="step1 ? 'd-block' : 'd-none'")
                 .registration-welcome
-                  h1.registration__title.text-center Let's get you started!
-                  // p.registration__subtitle.text-center Enter to the system
+                  h1.registration__title Let's get you started!
+                  // p.registration__subtitle Enter to the system
                 div
                   b-alert(:show='dismissCountDown' dismissible fade variant='danger' @dismiss-count-down='countDownChanged')
                     | {{ error }}

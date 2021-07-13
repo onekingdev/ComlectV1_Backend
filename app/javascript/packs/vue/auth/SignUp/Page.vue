@@ -13,8 +13,8 @@
             .card-body.white-card-body
               #step0.form(:class="step0 ? 'd-block' : 'd-none'")
                 .registration-welcome
-                  h1.registration__title.text-center Let's get you started!
-                  p.registration__subtitle.text-center Select your account type
+                  h1.registration__title Let's get you started!
+                  p.registration__subtitle Select your account type
                 div
                   b-form(@submit='onSubmit0' v-if='show')
                     b-form-group

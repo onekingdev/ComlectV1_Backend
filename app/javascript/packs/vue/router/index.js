@@ -43,7 +43,9 @@ export default new Router({
   routes: [
     // REDIRECTS
     { path: '/business', redirect: '/business/dashboard' },
+    { path: '/business/dashboard', redirect: '/business/dashboard' },
     { path: '/specialist', redirect: '/specialist/dashboard' },
+    { path: '/specialist/dashboard', redirect: '/specialist/dashboard' },
 
     // AUTH
     // { path: '/users/sign_in', name: 'sign-in', component: signIn },
