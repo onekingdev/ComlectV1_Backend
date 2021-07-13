@@ -8,3 +8,7 @@ import store from '@/store/commonModules/shared'
 //     // next(`/users/sign_up`)
 //   }
 // }
+
+export default {
+  
+}
