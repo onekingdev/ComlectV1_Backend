@@ -4,70 +4,71 @@
       TopNavbar
       main.row#main-content
         .col-xl-4.col-lg-6.col-md-8.m-x-auto
-          .card-body.white-card-body.registration
-            Loading
-
-            #step1.form(v-if='!loading' :class="step1 ? 'd-block' : 'd-none'")
-              h1.text-center Let's get you started!
-              // p.text-center Enter to the system
-              div
-                b-alert(:show='dismissCountDown' dismissible fade variant='danger' @dismiss-count-down='countDownChanged')
-                  | {{ error }}
-                  br
-                  | This alert will dismiss after {{ dismissCountDown }} seconds...
-                b-form(@submit='onSubmit1' v-if='show')
-                  b-form-group#input-group-1(label='Email:' label-for='input-1')
-                    b-form-input#input-1(v-model='form.email' type='email' placeholder='Email' required)
-                    .invalid-feedback.d-block(v-if="errors['user.email']") 'Email' {{ ...errors['user.email'] }}
-                  b-form-group#input-group-2(label='Password:' label-for='input-2')
-                    b-form-input#input-2(v-model='form.password' type='password' placeholder='Password' required)
-                    .invalid-feedback.d-block(v-if="errors['user.password']") 'Email' {{ ...errors['user.password'] }}
-                  b-button.w-100(type='submit' variant='dark') Sign In
-                  hr
-                  b-form-group.text-center.forgot-password.m-t-1
-                    // p Forget your password?&nbsp;
-                    //  a.link(href="#") Restore
-                    a.link.o-8.forgot-password(data-remote='true' href='/users/password/new') Forgot Password
-                    // router-link.link.o-8.forgot-password(to='/users/password/new') Forgot Password
-                    h4.text-uppercase.m-t-1 Don't have an account yet?&nbsp;
-                      a.link(data-remote='true' href='/users/sign_up') Sign up
-                      // router-link.link(to='/users/sign_up') Sign up
-            #step2.form(:class="step2 ? 'd-block' : 'd-none'")
-              // OtpConfirm(@otpSecretConfirmed="otpConfirmed", :form="form")
-              h1.text-center Confirm Your Email!
-              p.text-center We sent a 6 digit code to {{ form.email }}. Please enter it below.
-              div
-                b-form(@submit='onSubmitStep2' @keyup="onCodeChange" v-if='show' autocomplete="off")
-                  b-form-group
-                    .col.text-center
-                      img.otp-icon(src='@/assets/mail.svg' width="180" height="110")
-                  b-form-group
-                    .row
-                      .col-12.mx-0
-                        .d-flex.justify-content-space-around.mx-auto
-                          b-form-input#inputCode1.code-input.ml-auto(v-model='form2.codePart1' type='number' maxlength="1" required)
-                          b-form-input#inputCode2.code-input(v-model='form2.codePart2' type='number' maxlength="1" required)
-                          b-form-input#inputCode3.code-input(v-model='form2.codePart3' type='number' maxlength="1" required)
-                          b-form-input#inputCode4.code-input(v-model='form2.codePart4' type='number' maxlength="1" required)
-                          b-form-input#inputCode5.code-input(v-model='form2.codePart5' type='number' maxlength="1" required)
-                          b-form-input#inputCode6.code-input.mr-auto(v-model='form2.codePart6' type='number' maxlength="1" required)
-                        .invalid-feedback.d-block.text-center(v-if="errors.code") {{ errors.code }}
-                    .row
-                      .col
-                        input(v-model='form2.code' type='hidden')
-                  b-button.w-100.mb-2(type='submit' variant='dark' ref="codesubmit") Submit
-                  b-form-group
-                    .row
-                      .col-12.text-center
-                        a.link(href="#" @click.stop="resendOTP") Send new code
-            #step3.form(v-if='!loading' :class="step3 ? 'd-block' : 'd-none'")
-              h1.text-center You successfuly logged in!
-              p.text-center.m-b-2 You will be redirect to the dashboard!
-                b-icon.ml-2(icon="circle-fill" animation="throb" font-scale="1")
-              .text-center
-                ion-icon(name="checkmark-circle-outline")
-              p.text-center If you don't want to wait. Please&nbsp;
-                a.link(:href="dashboardLink") click here
+          .card.registration
+            .card-body.white-card-body
+              Loading
+              #step1.form(v-if='!loading' :class="step1 ? 'd-block' : 'd-none'")
+                .registration-welcome
+                  h1.registration__title.text-center Let's get you started!
+                  // p.registration__subtitle.text-center Enter to the system
+                div
+                  b-alert(:show='dismissCountDown' dismissible fade variant='danger' @dismiss-count-down='countDownChanged')
+                    | {{ error }}
+                    br
+                    | This alert will dismiss after {{ dismissCountDown }} seconds...
+                  b-form(@submit='onSubmit1' v-if='show')
+                    b-form-group#input-group-1(label='Email:' label-for='input-1')
+                      b-form-input#input-1(v-model='form.email' type='email' placeholder='Email' required)
+                      .invalid-feedback.d-block(v-if="errors['user.email']") 'Email' {{ ...errors['user.email'] }}
+                    b-form-group#input-group-2(label='Password:' label-for='input-2')
+                      b-form-input#input-2(v-model='form.password' type='password' placeholder='Password' required)
+                      .invalid-feedback.d-block(v-if="errors['user.password']") 'Email' {{ ...errors['user.password'] }}
+                    b-button.w-100(type='submit' variant='dark') Sign In
+                    hr
+                    b-form-group.text-center.forgot-password.m-t-1
+                      // p Forget your password?&nbsp;
+                      //  a.link(href="#") Restore
+                      a.link.o-8.forgot-password(data-remote='true' href='/users/password/new') Forgot Password
+                      // router-link.link.o-8.forgot-password(to='/users/password/new') Forgot Password
+                      h4.text-uppercase.m-t-1 Don't have an account yet?&nbsp;
+                        a.link(data-remote='true' href='/users/sign_up') Sign up
+                        // router-link.link(to='/users/sign_up') Sign up
+              #step2.form(:class="step2 ? 'd-block' : 'd-none'")
+                // OtpConfirm(@otpSecretConfirmed="otpConfirmed", :form="form")
+                h1.text-center Confirm Your Email!
+                p.text-center We sent a 6 digit code to {{ form.email }}. Please enter it below.
+                div
+                  b-form(@submit='onSubmitStep2' @keyup="onCodeChange" v-if='show' autocomplete="off")
+                    b-form-group
+                      .col.text-center
+                        img.otp-icon(src='@/assets/mail.svg' width="180" height="110")
+                    b-form-group
+                      .row
+                        .col-12.mx-0
+                          .d-flex.justify-content-space-around.mx-auto
+                            b-form-input#inputCode1.code-input.ml-auto(v-model='form2.codePart1' type='number' maxlength="1" required)
+                            b-form-input#inputCode2.code-input(v-model='form2.codePart2' type='number' maxlength="1" required)
+                            b-form-input#inputCode3.code-input(v-model='form2.codePart3' type='number' maxlength="1" required)
+                            b-form-input#inputCode4.code-input(v-model='form2.codePart4' type='number' maxlength="1" required)
+                            b-form-input#inputCode5.code-input(v-model='form2.codePart5' type='number' maxlength="1" required)
+                            b-form-input#inputCode6.code-input.mr-auto(v-model='form2.codePart6' type='number' maxlength="1" required)
+                          .invalid-feedback.d-block.text-center(v-if="errors.code") {{ errors.code }}
+                      .row
+                        .col
+                          input(v-model='form2.code' type='hidden')
+                    b-button.w-100.mb-2(type='submit' variant='dark' ref="codesubmit") Submit
+                    b-form-group
+                      .row
+                        .col-12.text-center
+                          a.link(href="#" @click.stop="resendOTP") Send new code
+              #step3.form(v-if='!loading' :class="step3 ? 'd-block' : 'd-none'")
+                h1.text-center You successfuly logged in!
+                p.text-center.m-b-2 You will be redirect to the dashboard!
+                  b-icon.ml-2.text-success(icon="circle-fill" animation="throb" font-scale="5")
+                .text-center
+                  ion-icon(name="checkmark-circle-outline")
+                p.text-center If you don't want to wait. Please&nbsp;
+                  a.link(:href="dashboardLink") click here
 </template>
 
 <script>
@@ -329,6 +330,6 @@
   }
 </script>
 
-<style scoped>
+<style module>
   @import "../styles.css";
 </style>

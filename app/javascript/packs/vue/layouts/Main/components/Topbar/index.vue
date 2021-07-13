@@ -1,6 +1,6 @@
 <template lang="pug">
   .topbar
-    .logo
+    .logo.logo_small
       a.logo__link(href="/")
         // img.logo__img(src='@/assets/logo_wordmark.svg')
         img.logo__img(src='@/assets/primary.svg' width="24" height="24")
@@ -11,7 +11,7 @@
       b-collapse#nav-collapse.topbar-menu(is-nav)
         ul.topbar-menu__list
           li.nav-item.topbar-menu__item(@click="openLink('default')")
-            router-link.topbar-menu__link(:to='`/${userType}`' active-class="active" exact) Home
+            router-link.topbar-menu__link(:to='`/${userType}/dashboard`' active-class="active" exact) Home
           li.nav-item.topbar-menu__item(@click="openLink('documents')")
             router-link.topbar-menu__link(:to='`/${userType}/file_folders`' active-class="active") Documents
           li.nav-item.topbar-menu__item(@click="openLink('default')")
@@ -33,7 +33,7 @@
         li(@click="openLink('documents')")
           router-link.dropdown-item(:to='`/${userType}/settings`' active-class="active") Settings
         b-dropdown-item(@click="signOut") Sign Out
-      a.btn.btn-topbar.btn-topbar_help(href="#")
+      a.btn.btn-topbar.btn-topbar_help.d-none(href="#")
         b-icon.mr-2( icon="question-circle-fill" aria-label="Help")
         | Help
 </template>

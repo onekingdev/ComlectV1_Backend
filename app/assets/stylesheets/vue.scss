@@ -1,3 +1,6 @@
+@import '../../../node_modules/bootstrap/scss/bootstrap.scss';
+@import '../../../node_modules/bootstrap-vue/src/index.scss';
+
 // REMOVE LATER UTILITES (unneed)
 @import "_vue_utilities.scss";
 @import "_vue_theme.scss";
@@ -38,8 +41,11 @@ html {
   margin: 1.75rem 1.25rem; // 28 20 px
   //margin-right: 2.5rem; // 40px
   //max-width: 5.0625rem; //81px
-  width: 1.5rem; // 24px
-  height: 1.5rem; // 24px
+
+  &_small {
+    width: 1.5rem; // 24px
+    height: 1.5rem; // 24px
+  }
 
   &__link {
     width: 100%;
@@ -137,24 +143,24 @@ html {
 //  }
 //}
 
-.navbar-collapse {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  color: $white;
-  background-color: $black;
-
-  @media (max-width: 991.98px) {
-  //@include media-breakpoint-down(xl) {
-    position: fixed;
-    top: 5rem; //80px;
-    z-index: 10;
-    margin-left: 0;
-  }
-}
+//.navbar-collapse {
+//  position: absolute;
+//  top: 0;
+//  right: 0;
+//  bottom: 0;
+//  left: 0;
+//  width: 100%;
+//  color: $white;
+//  background-color: $black;
+//
+//  @media (max-width: 991.98px) {
+//  //@include media-breakpoint-down(xl) {
+//    position: fixed;
+//    top: 5rem; //80px;
+//    z-index: 10;
+//    margin-left: 0;
+//  }
+//}
 
 .btn-topbar {
   transition: all 200ms ease-in;
@@ -245,7 +251,7 @@ html {
   min-height: 100vh;
   background-color: #1b1c29;
   color: $white;
-  border: solid 1px blue;
+  //border: solid 1px blue;
 
   &.mobileMenu {
     min-width: auto;
@@ -290,7 +296,7 @@ html {
 
   &__central {
     flex-grow: 1;
-    border: solid 1px green;
+    //border: solid 1px green;
   }
 
   ion-icon {
@@ -701,7 +707,7 @@ table.table thead tr th {
   //max-width: 1140px;
   min-width: 800px;
   overflow: auto;
-  border: solid 1px red;
+  //border: solid 1px red;
 }
 
 // need remove
@@ -1102,6 +1108,70 @@ table.table thead tr th {
   min-height: 100vh;
 }
 
+/* ---------- Loading ---------- */
+.lds-ring {
+  display: inline-block;
+  position: relative;
+  width: 160px;
+  height: 145px;
+}
+.lds-ring-small {
+  width: 25px;
+  height: 25px;
+}
+
+.lds-ring div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  margin: 8px;
+  border: 13px solid #2E304F;
+  border-radius: 50%;
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: #2E304F #DCDEE4 #DCDEE4 #DCDEE4;
+}
+.lds-ring-small div {
+  width: 15px;
+  height: 15px;
+  margin: 1px;
+  border: 3px solid #2E304F;
+  border-color: #2E304F transparent transparent transparent;
+}
+
+.lds-ring-stop div {
+  animation: none;
+  border-color: #2E304F #2E304F #2E304F #2E304F;
+}
+.lds-ring div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+.lds-ring div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+.lds-ring div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+
+.lds-ring-stop div:nth-child(1) {
+  transform: rotate(90deg);
+}
+.lds-ring-stop div:nth-child(2) {
+  transform: rotate(180deg);
+}
+.lds-ring-stop div:nth-child(3) {
+  transform: rotate(270deg);
+}
+@keyframes lds-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 /* ---------- CUTE SCROLLBAR ---------- */
 ::-webkit-scrollbar {
   width: 10px;
@@ -1115,6 +1185,3 @@ table.table thead tr th {
 ::-webkit-scrollbar-track {
   background: rgba(0, 0, 0, 0.1);
   border-radius: 5px; }
-
-@import '../../../node_modules/bootstrap/scss/bootstrap.scss';
-@import '../../../node_modules/bootstrap-vue/src/index.scss';
