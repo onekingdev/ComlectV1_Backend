@@ -33,17 +33,18 @@
                       h4.text-uppercase.m-t-1 Don't have an account yet?&nbsp;
                         a.link(data-remote='true' href='/users/sign_up') Sign up
                         // router-link.link(to='/users/sign_up') Sign up
-              #step2.form(:class="step2 ? 'd-block' : 'd-none'")
+              #step2.form(v-if='!loading' :class="step2 ? 'd-block' : 'd-none'")
                 // OtpConfirm(@otpSecretConfirmed="otpConfirmed", :form="form")
-                h1.text-center Confirm Your Email!
-                p.text-center We sent a 6 digit code to {{ form.email }}. Please enter it below.
+                .registration-welcome.text-center
+                  h1.registration__title Confirm Your Email!
+                  p.registration__subtitle We sent a 6 digit code to {{ form.email }}. Please enter it below.
                 div
                   b-form(@submit='onSubmitStep2' @keyup="onCodeChange" v-if='show' autocomplete="off")
                     b-form-group
                       .col.text-center
-                        img.otp-icon(src='@/assets/mail.svg' width="180" height="110")
+                        img.otp-icon.m-b-40(src='@/assets/mail.svg' width="180" height="110")
                     b-form-group
-                      .row
+                      .row.m-b-40
                         .col-12.mx-0
                           .d-flex.justify-content-space-around.mx-auto
                             b-form-input#inputCode1.code-input.ml-auto(v-model='form2.codePart1' type='number' maxlength="1" required)
@@ -56,7 +57,7 @@
                       .row
                         .col
                           input(v-model='form2.code' type='hidden')
-                    b-button.w-100.mb-2(type='submit' variant='dark' ref="codesubmit") Submit
+                    b-button.registration__btn.w-100(type='submit' variant='dark' ref="codesubmit") Submit
                     b-form-group
                       .row
                         .col-12.text-center
@@ -140,8 +141,9 @@
 
         this.$store.dispatch('signIn', data)
           .then((response) => {
+
             if (response.errors) {
-              console.log('abssbsbsbsbbs')
+              console.log('response.errors')
               this.error = `${response.errors}`
               this.showAlert()
 
@@ -164,8 +166,15 @@
                 }
 
                 this.$store.dispatch('resendOTP', data)
-                  .then((response) => this.toast('Success', `${response.message}`))
-                  .catch((error) => this.toast('Error', `${error.message}`))
+                  .then((response) => {
+                    // this.toast('Success', `${response.message}`)
+                    this.errors.code = `${response.message}`
+                    this.showAlert()
+                  })
+                  .catch((error) => {
+                    // this.toast('Error', `${error.message}`)
+                    console.log('resendOTP', error)
+                  })
               }
             }
             if (!response.errors) {
@@ -235,6 +244,7 @@
               const properties = Object.keys(response.errors);
               for (const type of Object.keys(response.errors)) {
                 this.errors = response.errors[type]
+                this.errors.code = response.errors[type]
                 // this.toast('Error', `Form has errors! Please recheck fields! ${error}`)
                 // Object.keys(response.errors[type]).map(prop => response.errors[prop].map(err => this.toast(`Error`, `${prop}: ${err}`)))
               }

@@ -59,8 +59,9 @@
                     b-button.registration__btn.w-100(type='submit' variant='dark') Sign Up
               #step2.form(:class="step2 ? 'd-block' : 'd-none'")
                 // OtpConfirm(@otpSecretConfirmed="otpConfirmed", :userId="userId", :form="form")
-                h1.text-center Confirm Your Email!
-                p.text-center We sent a 6 digit code to {{ form.email }}. Please enter it below.
+                .registration-welcome.text-center
+                  h1.registration__title Confirm Your Email!
+                  p.registration__subtitle We sent a 6 digit code to {{ form.email }}. Please enter it below.
                 div
                   b-form(@submit='onSubmitStep2' @keyup="onCodeChange" v-if='show' autocomplete="off")
                     b-form-group
@@ -80,7 +81,7 @@
                       .row
                         .col
                           input(v-model='form2.code' type='hidden')
-                    b-button.w-100.mb-2(type='submit' variant='dark' ref="codesubmit") Submit
+                    b-button.registration__btn.w-100.mb-2(type='submit' variant='dark' ref="codesubmit") Submit
                     b-form-group.mb-0
                       .row
                         .col-12.text-center

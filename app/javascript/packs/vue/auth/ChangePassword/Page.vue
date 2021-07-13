@@ -4,8 +4,8 @@
       TopNavbar
       main.row#main-content
         .col-xl-4.col-lg-6.col-md-8.m-x-auto
-          .card
-            .card-body.white-card-body.registration
+          .card.registration
+            .card-body.white-card-body
               Loading
               #step1.form(v-if='!loading' :class="step1 ? 'd-block' : 'd-none'")
                 .registration-welcome.text-center
@@ -20,15 +20,16 @@
                     b-form-group#input-group-4(label='Password:' label-for='input-4')
                       b-form-input#input-4(v-model='form.password' type='password' placeholder='Password' required)
                       .invalid-feedback.d-block(v-if="errors.password") 'Password' {{ errors.password }}
-                    b-form-group#input-group-5(label='Repeat Password:' label-for='input-5')
+                    b-form-group#input-group-5.m-b-20(label='Repeat Password:' label-for='input-5')
                       b-form-input#input-5(v-model='form.passwordConfirm' type='password' placeholder='Repeat Password' required)
                       .invalid-feedback.d-block(v-if="errors.passwordConfirm") {{ errors.passwordConfirm }}
-                    b-button.w-100(type='submit' variant='dark') Save
+                    b-button.registration__btn.w-100(type='submit' variant='dark') Save
               #step2.form(v-if='!loading' :class="step2 ? 'd-block' : 'd-none'")
-                h1.text-center You successfuly reseted password!
-                p.text-center You will be redirect to the sign in page!
-                .text-center
-                  b-icon( icon="circle-fill" animation="throb" font-scale="4")
+                .registration-welcome.text-center
+                  h1.registration__title You successfuly reseted password!
+                  p.registration__subtitle You will be redirect to the sign in page!
+                //.text-center
+                //  b-icon( icon="circle-fill" animation="throb" font-scale="4")
             .card-footer.text-center
               b-form-group
                 a.link(data-remote='true' href='/users/sign_in') Cancel

@@ -98,12 +98,22 @@
 /*}*/
 
 .code-input {
-  margin-right: .5rem;
-  width: 5rem;
-  height: 6rem;
-  font-size: 1.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+
+  width: 3.75rem; /*60px*/
+  height: 5rem; /*80px*/
+  font-size: 1.5rem; /*24px*/
   text-align: center;
+  border: solid 1px #DCDEE4;
+  border-radius: 4px;
 }
+.code-input:not(:last-child) {
+  margin-right: .5rem;
+}
+
 @media (min-width: 576px) and (max-width: 767px) {
 
 }
@@ -410,7 +420,8 @@ a.link,
 
 /* ---------- Logo page ---------- */
 .logo {
-  max-width: 216px;
+  /*max-width: 216px;*/
+  max-width: 160px;
 }
 .logo__link {
   width: 100%;
@@ -419,19 +430,19 @@ a.link,
   width: 100%;
   object-fit: contain;
 }
-@media (min-width: 576px) and (max-width: 767px) {
+/*@media (min-width: 576px) and (max-width: 767px) {*/
 
-}
-@media (max-width: 575px) {
-  /*.logo {*/
-    /*width: 100%;*/
-    /*max-width: 100%;*/
+/*}*/
+/*@media (max-width: 575px) {*/
+  /*!*.logo {*!*/
+    /*!*width: 100%;*!*/
+    /*!*max-width: 100%;*!*/
+  /*!*}*!*/
+  /*.logo__img {*/
+    /*!*width: 100%;*!*/
+    /*max-width: 150px;*/
   /*}*/
-  .logo__img {
-    /*width: 100%;*/
-    max-width: 150px;
-  }
-}
+/*}*/
 
 .navbar-nav {
   height: 65px;

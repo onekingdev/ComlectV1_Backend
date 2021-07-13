@@ -25,10 +25,11 @@
                       .invalid-feedback.d-block(v-if="errors['user.email']") 'Email Address' {{ ...errors['user.email'] }}
                     b-button.registration__btn.w-100(type='submit' variant='dark') Reset
               #step2.form(:class="step2 ? 'd-block' : 'd-none'")
-                h1.text-center You successfuly reseted password!
-                p.text-center You will be redirect to the sign in page!
-                .text-center
-                  b-icon(icon="circle-fill" animation="throb" font-scale="5")
+                .registration-welcome.text-center
+                  h1.registration__title You successfuly reseted password!
+                  p.registration__subtitle You will be redirect to the sign in page!
+                //.text-center
+                //  b-icon(icon="circle-fill" animation="throb" font-scale="5")
                     //ion-icon(name="checkmark-circle-outline" size="large")-->
             .card-footer.text-center
               b-form-group
