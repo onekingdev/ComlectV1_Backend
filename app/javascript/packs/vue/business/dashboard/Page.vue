@@ -1,7 +1,9 @@
 <template lang="pug">
   Get(currentBusiness="/api/businesses/current"): template(v-slot="{ currentBusiness }")
     .page
-      h2.page__title Welcome, {{currentBusiness.business_name}}
+      h2.page__title
+        b Welcome,&nbsp;
+        | {{currentBusiness.business_name}}
       .page__actions
         b-dropdown.m-r-1(text='Admin View')
           b-dropdown-item Action
