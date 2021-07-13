@@ -5,7 +5,7 @@
         // img.logo__img(src='@/assets/logo_wordmark.svg')
         img.logo__img(src='@/assets/primary.svg' width="24" height="24")
     b-navbar.p-0(toggleable='lg')
-      b-navbar-toggle.d-flex.justify-content-center(target='nav-collapse')
+      b-navbar-toggle.justify-content-center(target='nav-collapse')
         | Menu
         ion-icon.ml-2(name='chevron-down-outline')
       b-collapse#nav-collapse.topbar-menu(is-nav)
