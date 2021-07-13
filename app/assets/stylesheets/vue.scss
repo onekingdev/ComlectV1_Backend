@@ -43,6 +43,7 @@ html {
   //max-width: 5.0625rem; //81px
 
   &_small {
+    margin: 1.75rem 1.25rem; // 28 20 px
     width: 1.375rem; // 22px
     height: 1.375rem;
   }
@@ -235,6 +236,7 @@ html {
     margin: 0 1.25rem; // 0 20px
     width: 100%;
     height: 100%;
+    color: $black;
   }
 }
 

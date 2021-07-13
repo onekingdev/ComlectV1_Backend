@@ -35,7 +35,7 @@
   import Topbar from './components/Topbar'
 
   export default {
-    name: 'MainLayout',
+    // name: 'MainLayout',
     components: { Sidebar, Topbar },
   }
 </script>

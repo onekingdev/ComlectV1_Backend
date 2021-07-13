@@ -42,10 +42,10 @@ Vue.use(Router)
 export default new Router({
   routes: [
     // REDIRECTS
-    { path: '/business', redirect: '/business/dashboard' },
-    { path: '/business/dashboard', redirect: '/business/dashboard' },
-    { path: '/specialist', redirect: '/specialist/dashboard' },
-    { path: '/specialist/dashboard', redirect: '/specialist/dashboard' },
+    // { path: '/business', redirect: '/business/dashboard' },
+    // { path: '/business/dashboard', redirect: '/business/dashboard' },
+    // { path: '/specialist', redirect: '/specialist/dashboard' },
+    // { path: '/specialist/dashboard', redirect: '/specialist/dashboard' },
 
     // AUTH
     // { path: '/users/sign_in', name: 'sign-in', component: signIn },
@@ -54,7 +54,7 @@ export default new Router({
     // { path: '/users/password/change', name: 'password-change', component: ChangePassword },
 
     // BUSINESS
-    { path: '/business/dashboard', name: 'dashboard', component: Dashboard },
+    { path: '/business', name: 'dashboard', component: Dashboard },
     { path: '/business/projects', name: 'projects', component: Projects },
     { path: '/business/projects/:id(\\d+)', name: 'project-review', props: route => ({ projectId: +route.params.id }), component: ProjectReview },
     { path: '/business/reminders', name: 'tasks', component: Tasks },
@@ -85,7 +85,7 @@ export default new Router({
 
 
     // SPECIALISTS
-    { path: '/specialist/dashboard', name: 'dashboard-specialist', component: DashboardS },
+    { path: '/specialist', name: 'dashboard-specialist', component: DashboardS },
     { path: '/specialist/projects', name: 'projects-specialist', component: ProjectsS },
     { path: '/specialist/projects/:projectId', name: 'project-review-specialist', props: true, component: ProjectReviewS },
     { path: '/specialist/settings', name: 'settings-specialist', component: SettingsS,

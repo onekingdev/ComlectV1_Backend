@@ -39,7 +39,7 @@
                   h1.registration__title Confirm Your Email!
                   p.registration__subtitle We sent a 6 digit code to {{ form.email }}. Please enter it below.
                 div
-                  b-form(@submit='onSubmitStep2' @keyup="onCodeChange" v-if='show' autocomplete="off")
+                  b-form(@submit='onOTPConfirm' @keyup="onCodeChange" v-if='show' autocomplete="off")
                     b-form-group
                       .col.text-center
                         img.otp-icon.m-b-40(src='@/assets/mail.svg' width="180" height="110")
@@ -65,9 +65,9 @@
               #step3.form(v-if='!loading' :class="step3 ? 'd-block' : 'd-none'")
                 h1.text-center You successfuly logged in!
                 p.text-center.m-b-2 You will be redirect to the dashboard!
-                  b-icon.ml-2.text-success(icon="circle-fill" animation="throb" font-scale="5")
-                .text-center
-                  ion-icon(name="checkmark-circle-outline")
+                  //b-icon.ml-2(icon="circle-fill" animation="throb" font-scale="5")
+                //.text-center
+                //  ion-icon(name="checkmark-circle-outline")
                 p.text-center If you don't want to wait. Please&nbsp;
                   a.link(:href="dashboardLink") click here
 </template>
@@ -147,11 +147,11 @@
               this.error = `${response.errors}`
               this.showAlert()
 
-              // for (const type of Object.keys(response.errors)) {
-              //   this.errors = response.errors[type]
-              //   // this.toast('Error', `Form has errors! Please recheck fields! ${error}`)
-              //   this.error = `${response.errors[type]}`
-              // }
+              for (const type of Object.keys(response.errors)) {
+                this.errors = response.errors[type]
+                // this.toast('Error', `Form has errors! Please recheck fields! ${error}`)
+                this.error = `${response.errors[type]}`
+              }
 
               if (this.error === 'Please, confirm your email') {
                 this.emailVerified = false
@@ -205,10 +205,11 @@
             // }
           })
       },
-      onSubmitStep2(event) {
+      onOTPConfirm(event) {
         event.preventDefault()
-        // clear errors
         this.errors = []
+
+        console.log('emailVerified', this.emailVerified)
 
         if(this.form2.code.length !== 6) {
           this.toast('Error', `Code length incorrect!`)
@@ -225,6 +226,8 @@
           this.$store.dispatch('confirmEmail', dataToSend1)
             .then((response) => this.toast('Success', `${response.message}`))
             .catch((error) => this.toast('Error', `${error.message}`))
+
+          return
         }
 
 
@@ -240,15 +243,12 @@
 
         this.$store.dispatch('signIn', dataToSend)
           .then((response) => {
+            console.log('response', response)
             if (response.errors) {
-              const properties = Object.keys(response.errors);
               for (const type of Object.keys(response.errors)) {
                 this.errors = response.errors[type]
                 this.errors.code = response.errors[type]
-                // this.toast('Error', `Form has errors! Please recheck fields! ${error}`)
-                // Object.keys(response.errors[type]).map(prop => response.errors[prop].map(err => this.toast(`Error`, `${prop}: ${err}`)))
               }
-              return
             }
 
             if (!response.errors && response.token) {
@@ -266,11 +266,14 @@
             }
           })
           .catch((error) => {
-            console.error(error)
-            // this.toast('Error', `Couldn't submit form! ${error}`)
+            console.error('error', error.data)
+            console.error('error', error.data.errors)
+            console.error('error', error.data.errors.invalid)
+            if (error.data.errors) {
+              this.errors.code = error.data.errors.invalid
+            }
           })
         }
-
       },
       onCodeChange(e){
         this.errors = []
@@ -307,7 +310,7 @@
 
         if (e.keyCode === 13) {
           // ENTER KEY CODE
-          this.onSubmitStep2(e)
+          this.onOTPConfirm(e)
         }
       },
 
