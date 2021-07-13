@@ -39,7 +39,7 @@
 </template>
 
 <script>
-  import { mapActions, mapGetters } from "vuex"
+  // import { mapActions, mapGetters } from "vuex"
   import UserAvatar from '@/common/UserAvatar'
 
   export default {

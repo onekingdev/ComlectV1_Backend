@@ -86,7 +86,7 @@
   export default {
     props: {
       policyId: {
-        type: Number,
+        type: String,
         required: true
       },
     },
@@ -150,7 +150,7 @@
       },
       download () {
         this.$store
-          .dispatch("downloadPolicy", { policyId: this.policyId })
+          .dispatch("downloadPolicy", { policyId: +this.policyId })
           .then((myBlob) => {
             // console.log('response', myBlob)
             this.makeToast('Success', 'Policy succesfully downloaded.')
@@ -162,7 +162,7 @@
       },
       publishPolicy () {
         this.$store
-          .dispatch("publishPolicy", { policyId: this.policyId })
+          .dispatch("publishPolicy", { policyId: +this.policyId })
           .then(response => {
             console.log(response)
             this.makeToast('Success', 'Policy succesfully published. Please wait you will be redirected to the new Draft')
@@ -190,7 +190,7 @@
       },
       archivePolicy(policyId, archiveStatus) {
         this.$store
-          .dispatch('archivePolicyById', { policyId: this.policyId, archived: archiveStatus })
+          .dispatch('archivePolicyById', { policyId: +this.policyId, archived: archiveStatus })
           .then(response => {
             console.log('response', response)
             this.makeToast('Success', `Policy successfully ${archiveStatus ? 'archived' : 'unarchived'}!`)
@@ -325,7 +325,7 @@
         return this.$store.getters.loading;
       },
       policy(){
-        const id = this.policyId
+        const id = +this.policyId
         return this.$store.getters.policyById(id)
       },
       policiesComputed: {
@@ -351,7 +351,7 @@
         }
       },
       policyById() {
-        const id = this.policyId
+        const id = +this.policyId
         return this.$store.getters.policyById(id)
       },
       policiesListNested () {

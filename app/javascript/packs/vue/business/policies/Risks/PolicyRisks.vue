@@ -127,7 +127,7 @@
         return this.$store.getters.risksList
       },
       policyById(){
-        const id = this.policyId
+        const id = +this.policyId
         return this.$store.getters.policyById(id)
       }
     },
