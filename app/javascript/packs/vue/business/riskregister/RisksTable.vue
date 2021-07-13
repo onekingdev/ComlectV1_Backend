@@ -20,7 +20,7 @@
               th Likelihood
               th Risk level
               th.text-right Date created
-              th(width="10%")
+              th.text-right(width="35px")
           tbody
             tr(v-for="risk in filteredRisksComputed" :key="risk.id")
               td
@@ -37,11 +37,11 @@
               td {{ showLevel(risk.impact) }}
               td {{ showLevel(risk.likelihood) }}
               td
-                b-badge(:variant="badgeVariant(risk.risk_level)")
+                b-badge.badge-risk(:variant="badgeVariant(risk.risk_level)")
                   b-icon-exclamation-triangle-fill.mr-2
                   | {{ showLevel(risk.risk_level)  }}
               td.text-right {{ dateToHuman(risk.created_at) }}
-              td
+              td.text-right
                 .actions
                   b-dropdown(size="sm" variant="none" class="m-0 p-0" right)
                     template(#button-content)

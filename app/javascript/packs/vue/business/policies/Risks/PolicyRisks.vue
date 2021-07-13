@@ -22,7 +22,7 @@
             td {{ showLevel(risk.impact) }}
             td {{ showLevel(risk.likelihood) }}
             td
-              b-badge(:variant="badgeVariant(risk.risk_level)")
+              b-badge.badge-risk(:variant="badgeVariant(risk.risk_level)")
                 b-icon-exclamation-triangle-fill.mr-2
                 | {{ showLevel(risk.risk_level)  }}
             td.text-right {{ dateToHuman(risk.created_at) }}
