@@ -250,7 +250,7 @@ html {
   width: 100%;
   min-width: 17.8125rem; // 285px;
   max-width: 17.8125rem; // 285px;
-  min-height: 100vh;
+  min-height: calc(100vh - 5rem);
   background-color: #1b1c29;
   color: $white;
   //border: solid 1px blue;
