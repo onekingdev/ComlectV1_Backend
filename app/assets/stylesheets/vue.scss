@@ -756,15 +756,21 @@ table.table thead tr th {
 
 
 /* ---------- DASHBOARD CALENDAR ---------- */
+.fc-daygrid-event {
+  border-radius: 4px;
+}
+
  .fc-direction-ltr .fc-daygrid-block-event:not(.fc-event-end), .fc-direction-rtl .fc-daygrid-block-event:not(.fc-event-start) {
    border-top-right-radius: 4px !important;
    border-bottom-right-radius: 4px !important;
-   border-right-width: 0 !important;
+   border-right-width: 1px !important;
+   //border-color: transparent;
  }
  .fc-direction-ltr .fc-daygrid-block-event:not(.fc-event-start), .fc-direction-rtl .fc-daygrid-block-event:not(.fc-event-end) {
    border-top-left-radius: 4px !important;
    border-bottom-left-radius: 4px !important;
-   border-left-width: 0 !important;
+   border-left-width: 1px !important;
+   //border-color: transparent;
  }
 
 .fc-event-title-container {
@@ -776,7 +782,7 @@ table.table thead tr th {
 
 .task-is-project span,
 .task-is-project a {
-  font-size: 0.75rem; // 12px
+  //font-size: 0.75rem; // 12px
   color: #fff;
 }
 
@@ -786,6 +792,10 @@ table.table thead tr th {
 
 .fc-h-event .fc-event-title {
   display: flex;
+  align-items: center;
+}
+
+.fc-h-event .fc-event-title-container {
   align-items: center;
 }
 
@@ -821,7 +831,7 @@ table.table thead tr th {
 }
 
 .task-is-overdue {
-  border: 1px solid #dedfe4;
+  border: 1px solid #DCDEE4 !important;
 }
 
 .task-is-overdue,
@@ -850,7 +860,9 @@ table.table thead tr th {
 }
 
 .fc-event-title {
+  font-size: 0.75rem;
   font-weight: 400 !important;
+  //line-height: 2;
 }
 
 .fc-daygrid-dot-event {
