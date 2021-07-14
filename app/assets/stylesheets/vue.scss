@@ -1587,11 +1587,11 @@ table.table thead tr th {
 
 /* ---------- UTILITIES ---------- */
 .p-20 {
-  padding: 1.25rem !important;
+  padding: 1.25rem !important; // 20px
 }
 
 .p-40 {
-  padding: 2.5rem;
+  padding: 2.5rem; // 40px
 }
 
 .p-x-20 {
@@ -1605,8 +1605,8 @@ table.table thead tr th {
 }
 
 .p-y-20 {
-  padding-top: 1.25rem;
-  padding-bottom: 1.25rem;
+  padding-top: 1.25rem !important; // 20px
+  padding-bottom: 1.25rem !important; // 20px
 }
 
 .p-y-30 {
@@ -1619,9 +1619,13 @@ table.table thead tr th {
   padding-bottom: 2.5rem !important; // 40px
 }
 
+.p-b-20 {
+  padding-bottom: 1.25rem !important; // 20px
+}
+
 
 .m-20 {
-  margin: 1.25rem !important;
+  margin: 1.25rem !important; // 20px
 }
 
 .m-x-20 {
@@ -1635,7 +1639,7 @@ table.table thead tr th {
 }
 
 .m-b-20 {
-  margin-bottom: 1.25rem !important;
+  margin-bottom: 1.25rem !important; // 20px
 }
 .m-b-40 {
   margin-bottom: 2.5rem !important;

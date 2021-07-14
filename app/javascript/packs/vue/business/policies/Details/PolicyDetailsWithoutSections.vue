@@ -18,7 +18,7 @@
                   .d-flex.align-items-center
                     button.btn.btn__menu.mr-3(@click="leftMenu = !leftMenu")
                       b-icon(icon='list')
-                    b-badge.btn.btn-default.mr-3(variant="light") {{ policy.status }}
+                    b-badge.mr-3(variant="light") {{ policy.status }}
                     h3.policy__main-title.m-y-0 {{ policy.title }}
                   .d-flex.justify-content-end.align-items-center
                     a.link.btn.mr-3(@click="saveDraft") Save Draft
@@ -29,7 +29,7 @@
                       b-icon(icon='x')
           .row
             .col-12.px-0
-              b-tabs(content-class="mt-0")
+              b-tabs(content-class="mt-0 p-x-40 p-y-20")
                 template(#tabs-end)
                   b-dropdown.ml-auto.my-auto.mr-5.actions(text='Actions', variant="default", right)
                     template(#button-content)

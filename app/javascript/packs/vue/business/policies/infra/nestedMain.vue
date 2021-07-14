@@ -19,7 +19,7 @@
                 :id="`#sectionIcon-${el.id ? el.id : idxEl+'_'+randomNum}`"
                 @click="toogleSections(el.id ? el.id : idxEl+'_'+randomNum)"
                 :class="{active : shortTable}")
-                b-icon.mr-2(icon="chevron-compact-right")
+                b-icon.mr-2(icon="chevron-right")
               a.link(v-if="el.id" :href="`/business/compliance_policies/${el.id}`") {{ el.title }}
               .link(v-else) {{ el.title }}
           .table__cell.table__cell_name.table__cell_first(v-show="el.children && el.children.length === 0")
