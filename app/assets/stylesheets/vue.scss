@@ -20,7 +20,7 @@ html {
   //font-size: 14px;
   //font-family: 'Varela', sans-serif;
   font-family: 'Public Sans', sans-serif;
-  background-color: #f6f6f8;
+  background-color: $gray-background;
   //overflow-y: scroll;
 }
 
@@ -599,7 +599,7 @@ html {
 /* ---------- TABLES ---------- */
 table.table,
 table.table thead tr th {
-  font-size: 0.875rem;
+  font-size: 0.875rem; //14px
   font-weight: 400;
   color: $gray-3;
   border: 0;
@@ -609,10 +609,12 @@ table.table thead tr th {
   tbody ion-icon {
     font-size: 20px;
     vertical-align: middle;
-    color: #DCDEE4;
+    color: $gray-1;
   }
 
-  color: #303132;
+  .due-date {
+    color: $black;
+  }
 
   .overdue {
     //&:before {
@@ -700,7 +702,7 @@ table.table thead tr th {
 
 /* ---------- BADGE ---------- */
 .badge {
-  border: 1px solid #dcdee4;
+  border: 1px solid $gray-1;
   padding: 5px 15px !important;
   font-size: 0.75rem !important;
   font-weight: normal !important;
@@ -727,15 +729,15 @@ table.table thead tr th {
 }
 
 .badge-light {
-  color: #797b7e;
-  background-color: #f3f6f9;
-  border-color: #f3f6f9;
+  color: $gray-3;
+  background-color: $gray-hover;
+  border-color: $gray-hover;
 }
 
 .badge-secondary {
   color: #373839;
   background-color: #ffffff;
-  border-color: #dcdee4;
+  border-color: $gray-1;
 }
 
 .badge-primary {
@@ -847,13 +849,13 @@ table.table thead tr th {
 }
 
 .task-is-overdue {
-  border: 1px solid #DCDEE4 !important;
+  border: 1px solid $gray-1 !important;
 }
 
 .task-is-overdue,
 .task-is-overdue .fc-event-title {
   background-color: #FFF7E4 !important;
-  color: #303132;
+  color: $black;
 }
 
 .task-is-overdue ion-icon[name="warning-outline"] {
@@ -861,7 +863,7 @@ table.table thead tr th {
 }
 
 .task-is-overdue a {
-  color: #303132;
+  color: $black;
 }
 
 /* .task-is-complete,
@@ -886,16 +888,16 @@ table.table thead tr th {
 }
 
 .fc-day-today {
-  background-color: #f3f6f9 !important;
+  background-color: $gray-hover !important;
 }
 
 .fc-daygrid-day-number {
-  color: #303132 !important;
+  color: $black !important;
   font-size: 0.75rem; //12px
 }
 
 .fc-day-other .fc-daygrid-day-number {
-  color: #DCDEE4 !important
+  color: $gray-1 !important
 }
 
 .fc-daygrid-day-top {
@@ -958,16 +960,16 @@ table.table thead tr th {
 
 .b-form-datepicker {
   .form-control, .form-control:focus {
-    border: 0px;
+    border: 0;
     box-shadow: none;
 
     .rounded-circle {
-      border-radius: 0px !important;
+      border-radius: 0 !important;
     }
 
     .btn-primary.active:not(:disabled):not(.disabled) {
       background-color: #eceff4;
-      border: 0px !important;
+      border: 0 !important;
     }
 
     .btn:focus {
@@ -986,7 +988,7 @@ table.table thead tr th {
 
 .wrapper {
   //padding: 2.5rem; //40px;
-  background-color: #f6f6f8;
+  background-color: $gray-background;
   //max-width: 1140px;
   min-width: 800px;
   overflow: auto;
@@ -995,7 +997,7 @@ table.table thead tr th {
 
 // need remove
 #main-content {
-  background-color: #f6f6f8;
+  background-color: $gray-background;
 }
 
 // need remove
@@ -1080,12 +1082,13 @@ table.table thead tr th {
 
 .card-header {
   background: none !important;
-  padding: 13px 16px;
+  padding: 0.9375rem 1.25rem; //15 20px
 
   h3 {
-    font-weight: 400 !important;
-    font-size: 16px;
-    padding-top: 5px;
+    font-weight: 400;
+    font-size: 1.25rem; //20px
+    line-height: 2.1875rem; //35px
+    color: $black;
   }
 }
 
@@ -1096,7 +1099,7 @@ table.table thead tr th {
 
 .btn.btn-default:hover,
 .btn.btn-default:active {
-  background-color: #F3F6F9;
+  background-color: $gray-hover;
 }
 
 
@@ -1106,7 +1109,7 @@ table.table thead tr th {
 }
 
 .pointer {
-  color: #DCDEE4;
+  color: $gray-1;
   cursor: pointer;
 }
 
@@ -1425,7 +1428,7 @@ table.table thead tr th {
     }
 
     &--label {
-      color: #797b7e;
+      color: $gray-3;
     }
   }
 
@@ -1474,7 +1477,7 @@ table.table thead tr th {
   border: 13px solid #2E304F;
   border-radius: 50%;
   animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-  border-color: #2E304F #DCDEE4 #DCDEE4 #DCDEE4;
+  border-color: #2E304F $gray-1 $gray-1 $gray-1;
 }
 
 .lds-ring-small div {
