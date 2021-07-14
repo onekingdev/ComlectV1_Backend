@@ -775,6 +775,7 @@ table.table thead tr th {
 
 .fc-event-title-container {
   padding: 0.25rem 0.3125rem; // 4px 5px
+  padding-top: 0;
 }
 .fc .fc-daygrid-event {
   border-radius: 4px;
@@ -791,6 +792,7 @@ table.table thead tr th {
 }
 
 .fc-h-event .fc-event-title {
+  position: relative;
   display: flex;
   align-items: center;
 }
@@ -802,6 +804,8 @@ table.table thead tr th {
 .fc-event-title.fc-sticky {
 
   span {
+    position: relative;
+    top: 4px;
     margin-right: 5px;
   }
 
@@ -861,7 +865,7 @@ table.table thead tr th {
 
 .fc-event-title {
   font-size: 0.75rem;
-  font-weight: 400 !important;
+  //font-weight: 400 !important;
   //line-height: 2;
 }
 
