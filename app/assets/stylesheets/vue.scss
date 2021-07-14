@@ -83,6 +83,8 @@ html {
   justify-content: space-between;
   align-items: center;
   height: 5rem; // 80px;
+  min-width: calc(17.8125rem + 50rem); //calc(285px + 800px);
+  background-color: white;
 }
 
 .topbar-menu {
@@ -100,13 +102,17 @@ html {
 
     @media (max-width: 991.98px) {
       flex-direction: column;
-      width: 100%;
-      height: 100%;
     }
   }
 
   &__item {
     margin-right: 2.5rem; // 40px;
+
+    @media (max-width: 991.98px) {
+      margin-right: 0;
+      width: 100%;
+    }
+
   }
 
   .nav-link,
@@ -122,9 +128,9 @@ html {
     }
 
     @media (max-width: 991.98px) {
+      display: flex;
       width: 100%;
       padding: 1rem;
-      margin-bottom: 2rem;
       color: $white;
 
       &:hover,
@@ -146,24 +152,30 @@ html {
 //  }
 //}
 
-//.navbar-collapse {
-//  position: absolute;
-//  top: 0;
-//  right: 0;
-//  bottom: 0;
-//  left: 0;
-//  width: 100%;
-//  color: $white;
-//  background-color: $black;
-//
-//  @media (max-width: 991.98px) {
-//  //@include media-breakpoint-down(xl) {
-//    position: fixed;
-//    top: 5rem; //80px;
-//    z-index: 10;
-//    margin-left: 0;
-//  }
-//}
+.navbar-light .navbar-toggler {
+  border: none;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-collapse.collapse.show {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  color: $white;
+  background-color: $black;
+
+  @media (max-width: 991.98px) {
+  //@include media-breakpoint-down(xl) {
+    position: fixed;
+    top: 5rem; //80px;
+    z-index: 10;
+    margin-left: 0;
+  }
+}
 
 .btn-topbar {
   transition: all 200ms ease-in;
@@ -244,7 +256,6 @@ html {
     color: $black;
   }
 }
-
 
 /* ---------- LEFT SIDEBAR ---------- */
 .sidebar-menu {
@@ -416,13 +427,13 @@ html {
       outline: none;
     }
 
-    @media (max-width: 991.98px) {
-      padding: 1.25rem 0;
-
-      span {
-        display: none;
-      }
-    }
+    //@media (max-width: 991.98px) {
+    //  padding: 1.25rem 0;
+    //
+    //  span {
+    //    display: none;
+    //  }
+    //}
   }
 
   &__separator {
