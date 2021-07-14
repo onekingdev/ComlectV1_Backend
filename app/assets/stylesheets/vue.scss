@@ -795,6 +795,8 @@ table.table thead tr th {
   border-radius: 4px;
 }
 
+.task-is-task span,
+.task-is-task a,
 .task-is-project span,
 .task-is-project a {
   //font-size: 0.75rem; // 12px
@@ -817,6 +819,7 @@ table.table thead tr th {
 
 .fc-event-title.fc-sticky {
 
+  span.pointer,
   span {
     position: relative;
     top: 4px;
@@ -834,12 +837,15 @@ table.table thead tr th {
   color: #dae9fe;
 }
 
-.task-id-project a {
-  color: #fff;
-}
+//.task-id-project a {
+//  color: #fff;
+//}
 
 .task-is-task {
-  border: 1px solid #bfe5d5;
+  border: 1px solid #1AB27F !important;
+}
+.task-is-task span.pointer {
+  top: -2px !important;
 }
 
 .task-is-task,
