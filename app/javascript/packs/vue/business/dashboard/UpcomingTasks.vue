@@ -4,15 +4,15 @@
       h3.m-y-0 Upcoming
       TaskFormModal(@saved="$emit('saved')")
         button.btn.btn-dark.float-end New Task
-    .card-body
-      b.d-flex.justify-content-between(role="button" v-b-toggle.upcoming_tasks_collapse="")
+    .card-body.pt-3
+      b.d-flex.justify-content-between.mb-3(role="button" v-b-toggle.upcoming_tasks_collapse="")
         | Tasks
         ion-icon(:name="visible ? 'chevron-down-outline' : 'chevron-up-outline'")
       b-collapse#upcoming_tasks_collapse(:visible="true")
         TaskTable(:tasks="tasks" :shortTable="true" @saved="$emit('saved')")
         .d-flex.justify-content-end.mb-2
           router-link.link(:to='`/business/reminders`') More
-      b.d-flex.justify-content-between(role="button" v-b-toggle.upcoming_projects_collapse="")
+      b.d-flex.justify-content-between.mb-3(role="button" v-b-toggle.upcoming_projects_collapse="")
         | Projects
         ion-icon(:name="visible ? 'chevron-down-outline' : 'chevron-up-outline'")
       b-collapse#upcoming_projects_collapse(:visible="true")
