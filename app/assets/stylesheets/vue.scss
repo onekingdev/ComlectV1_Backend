@@ -609,15 +609,21 @@ table.table thead tr th {
   tbody ion-icon {
     font-size: 20px;
     vertical-align: middle;
-    color: #d2d3d8;
+    color: #DCDEE4;
   }
 
+  color: #303132;
+
   .overdue {
-    &:before {
-      content: ' ⚠️ ';
+    //&:before {
+      //content: ' ⚠️ ';
+    //}
+
+    ion-icon {
+      color: #FFC900;
     }
 
-    color: #b08a2b;
+    color: #AD841D;
   }
 
   .done_task {
