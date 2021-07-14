@@ -44,6 +44,10 @@ html {
 }
 
 // need remove or not
+#main-content {
+  background-color: $gray-background;
+}
+
 .main-content {
   //padding: 2.5rem; //40px;
   background-color: $gray-background;
