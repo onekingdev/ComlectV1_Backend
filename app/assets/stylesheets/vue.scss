@@ -1,3 +1,4 @@
+/* ---------- IMPORTS ---------- */
 @import '../../../node_modules/bootstrap/scss/bootstrap.scss';
 @import '../../../node_modules/bootstrap-vue/src/index.scss';
 // REMOVE LATER UTILITES (unneed)
@@ -7,8 +8,11 @@
 //@import url('https://fonts.googleapis.com/css2?family=Varela&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@100;300;400;600&family=Varela&display=swap');
 
+
+/* ---------- MAIN STYLES ---------- */
 body {
   //min-width: 1440px;
+  min-width: calc(17.8125rem + 50rem); //calc(285px + 800px);
 }
 
 body.modal-open {
@@ -34,6 +38,24 @@ html {
   outline: -webkit-focus-ring-color auto 0;
 }
 
+.wrapper {
+  //min-width: calc(17.8125rem + 50rem); //calc(285px + 800px);
+  //overflow: auto;
+}
+
+// need remove or not
+.main-content {
+  //padding: 2.5rem; //40px;
+  background-color: $gray-background;
+  //max-width: 1140px;
+  //min-width: 800px;
+  width: calc(100vw - 285px);
+  max-width: 100%;
+  //width: 100%;
+  overflow-x: auto;
+  border: solid 1px red;
+}
+
 /* ---------- LOGO ---------- */
 .logo {
   //margin: 20px 20px 40px 10px;
@@ -57,10 +79,10 @@ html {
   }
 }
 
-@media (min-width: 576px) and (max-width: 767px) {
-}
+//@media (min-width: 576px) and (max-width: 767px) {
+//}
 
-@media (max-width: 575px) {
+//@media (max-width: 575px) {
   //.logo {
   //  width: 100%;
   //  max-width: 100%;
@@ -70,7 +92,7 @@ html {
   //    max-width: 150px;
   //  }
   //}
-}
+//}
 
 /* ---------- TOP NAVBAR ---------- */
 .navbar-light .navbar-nav .nav-link {
@@ -83,8 +105,8 @@ html {
   justify-content: space-between;
   align-items: center;
   height: 5rem; // 80px;
-  min-width: calc(17.8125rem + 50rem); //calc(285px + 800px);
-  background-color: white;
+  //min-width: calc(17.8125rem + 50rem); //calc(285px + 800px);
+  //background-color: white;
 }
 
 .topbar-menu {
@@ -153,25 +175,27 @@ html {
 //}
 
 .navbar-light .navbar-toggler {
-  border: none;
-  display: flex;
-  align-items: center;
-}
-
-.navbar-collapse.collapse.show {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  color: $white;
-  background-color: $black;
 
   @media (max-width: 991.98px) {
+    border: none;
+    display: flex;
+    align-items: center;
+  }
+}
+
+.navbar-collapse.collapse{
+
   //@include media-breakpoint-down(xl) {
+  @media (max-width: 991.98px) {
     position: fixed;
     top: 5rem; //80px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    color: $white;
+    background-color: $black;
     z-index: 10;
     margin-left: 0;
   }
@@ -447,6 +471,12 @@ html {
 /* ---------- COMMON PAGES ---------- */
 .page {
   display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.page-header {
+  display: flex;
   justify-content: space-between;
   align-items: center;
 
@@ -498,8 +528,9 @@ html {
 }
 
 .card-body_full-height {
+  flex-grow: 1;
   padding: 1.25rem 2.5rem !important; /* 20px 40px */
-  min-height: calc(100vh - 216px) !important;
+  //min-height: calc(100vh - 216px) !important;
 }
 
 .form-control_search {
@@ -1004,20 +1035,6 @@ table.table thead tr th {
       background: #ECEFF4;
     }
   }
-}
-
-.wrapper {
-  //padding: 2.5rem; //40px;
-  background-color: $gray-background;
-  //max-width: 1140px;
-  min-width: 800px;
-  overflow: auto;
-  //border: solid 1px red;
-}
-
-// need remove
-#main-content {
-  background-color: $gray-background;
 }
 
 // need remove

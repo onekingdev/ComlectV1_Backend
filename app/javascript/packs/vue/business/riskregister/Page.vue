@@ -1,8 +1,8 @@
 <template lang="pug">
-  div
-    .page
-      h2.page__title {{ pageTitle }}
-      .page__actions
+  .page
+    .page-header
+      h2.page-header__title {{ pageTitle }}
+      .page-header__actions
         a.btn.btn-default.mr-3(href='#') Export
         RisksAddEditModal
           button.btn.btn-dark Add Risk

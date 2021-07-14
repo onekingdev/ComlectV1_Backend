@@ -1,8 +1,8 @@
 <template lang="pug">
-  div.container-fluid
-    .page(v-if="!shortTable")
-      h2.page__title Tasks
-      .page__actions
+  .page
+    .page-header(v-if="!shortTable")
+      h2.page-header__title Tasks
+      .page-header__actions
         a.btn.btn-default.m-r-1(v-if="!shortTable") Download
         TaskModalCreate(@saved="refetch()")
           a.btn.btn-dark Create task

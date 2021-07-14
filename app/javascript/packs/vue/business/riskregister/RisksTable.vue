@@ -26,7 +26,7 @@
               td
                 .d-flex.align-items-center
                   .dropdown-toggle.link(v-if="risk.compliance_policies.length !== 0" :id="`#sectionIcon-${risk.id}`", @click="toogleSections(risk.id)")
-                    b-icon.mr-2(icon="chevron-compact-right")
+                    b-icon.mr-2(icon="chevron-right")
                   a.link(:href="`/business/risks/${risk.id}`") {{ risk.name }}
                 .dropdown-items.mb-2(v-if="risk.compliance_policies" :id="`#section-${risk.id}`")
                   ul.list-unstyled.ml-3

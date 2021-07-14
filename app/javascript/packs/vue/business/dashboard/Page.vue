@@ -1,24 +1,25 @@
 <template lang="pug">
-  Get(currentBusiness="/api/businesses/current"): template(v-slot="{ currentBusiness }")
-    .page
-      h2.page__title
-        b Welcome,&nbsp;
-        | {{currentBusiness.business_name}}
-      .page__actions
-        b-dropdown.mr-2(variant="default" right)
-          template(#button-content)
-            | Admin view
-            b-icon.ml-2(icon="chevron-down")
-          b-dropdown-item Other view
-        a.btn.btn-default.font-weight-bold Customize
-    div.p-x-40
-      .row
-        .col-md-7.col-sm-12.mb-3.mb-md-0
-          .card
-            Calendar(v-bind="{pdfUrl}" @saved="newEtag" :etag="etag")
-        .col-md-5.col-sm-12
-          .card.h-100
-            UpcomingTasks(@saved="newEtag" :etag="etag")
+  .page
+    Get(currentBusiness="/api/businesses/current"): template(v-slot="{ currentBusiness }")
+      .page-header
+        h2.page-header__title
+          b Welcome,&nbsp;
+          | {{currentBusiness.business_name}}
+        .page-header__actions
+          b-dropdown.mr-2(variant="default" right)
+            template(#button-content)
+              | Admin view
+              b-icon.ml-2(icon="chevron-down")
+            b-dropdown-item Other view
+          a.btn.btn-default.font-weight-bold Customize
+      div.p-x-40
+        .row
+          .col-md-7.col-sm-12.mb-3.mb-md-0
+            .card
+              Calendar(v-bind="{pdfUrl}" @saved="newEtag" :etag="etag")
+          .col-md-5.col-sm-12
+            .card.h-100
+              UpcomingTasks(@saved="newEtag" :etag="etag")
 </template>
 
 <script>
