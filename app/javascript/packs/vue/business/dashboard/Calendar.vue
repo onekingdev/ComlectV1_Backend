@@ -9,7 +9,7 @@
             ion-icon.m-x-1(name='chevron-back-outline' @click.prevent="prev")
             ion-icon(name='chevron-forward-outline' @click.prevent="next")
       div
-        b-dropdown.mr-2(variant="default" text='Admin View')
+        b-dropdown.mr-2(variant="default")
           template(#button-content)
             | Monhly
             b-icon.ml-2(icon="chevron-down")
@@ -22,7 +22,7 @@
           template(#button-content)
             b-icon(icon="three-dots")
           b-dropdown-item-button Some Action
-    .card-body
+    .card-body.p-20
       FullCalendar(:options="calendarOptions" ref="FullCalendar")
         template(v-slot:dayCellContent="arg")
           TaskFormModal(:remind-at="jsToSql(arg.date)" @saved="$emit('saved')")

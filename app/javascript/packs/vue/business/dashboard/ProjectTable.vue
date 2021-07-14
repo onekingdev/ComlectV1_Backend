@@ -9,7 +9,9 @@
         td
           router-link.link(:to='project.href') {{project.title}}
           // a.text-dark(:href="project.href" target="_blank") {{project.title}}
-        td(:class="{ overdue: isOverdue(project) }") {{ project.ends_on | asDate }}
+        td(class="due-date" :class="{ overdue: isOverdue(project) }")
+          ion-icon.mr-2(v-if="isOverdue(project)" name="warning-outline")
+          | {{ project.ends_on | asDate }}
 </template>
 
 <script>

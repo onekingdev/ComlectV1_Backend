@@ -1548,3 +1548,63 @@ table.table thead tr th {
   background: rgba(0, 0, 0, 0.1);
   border-radius: 5px;
 }
+
+
+/* ---------- UTILITIES ---------- */
+.p-20 {
+  padding: 1.25rem !important;
+}
+
+.p-40 {
+  padding: 2.5rem;
+}
+
+.p-x-20 {
+  padding-left: 1.25rem !important; // 20px
+  padding-right: 1.25rem !important; // 20px
+}
+
+.p-x-40 {
+  padding-left: 2.5rem !important; // 40px
+  padding-right: 2.5rem !important; // 40px
+}
+
+.p-y-20 {
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+}
+
+.p-y-30 {
+  padding-top: 1.875rem !important; // 30px
+  padding-bottom: 1.875rem !important; // 30px
+}
+
+.p-y-40 {
+  padding-top: 2.5rem !important; // 40px
+  padding-bottom: 2.5rem !important; // 40px
+}
+
+
+.m-20 {
+  margin: 1.25rem !important;
+}
+
+.m-x-20 {
+  margin-right: 1.25rem !important; //20px
+  margin-left: 1.25rem !important; //20px
+}
+
+.m-y-20 {
+  margin-top: 1.25rem !important; //20px
+  margin-bottom: 1.25rem !important; //20px
+}
+
+.m-b-20 {
+  margin-bottom: 1.25rem !important;
+}
+.m-b-40 {
+  margin-bottom: 2.5rem !important;
+}
+.m-b-80 {
+  margin-bottom: 5rem !important;
+}
