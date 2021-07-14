@@ -674,7 +674,8 @@ table.table thead tr th {
       //content: ' ⚠️ ';
     //}
 
-    ion-icon {
+    ion-icon,
+    .text-warning {
       color: #FFC900;
     }
 
