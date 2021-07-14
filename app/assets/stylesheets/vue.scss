@@ -464,12 +464,16 @@ html {
     //}
   }
 
-  &__separator {
-    display: block;
-    height: 1px;
-    width: 100%;
-    background-color: $primary;
-  }
+  //&__separator {
+  //  display: block;
+  //  height: 1px;
+  //  width: 100%;
+  //  background-color: $primary;
+  //}
+}
+
+.dropdown-divider {
+  border-color: $primary;
 }
 
 /* ---------- COMMON PAGES ---------- */

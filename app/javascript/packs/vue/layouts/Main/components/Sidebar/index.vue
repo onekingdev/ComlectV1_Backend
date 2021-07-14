@@ -41,8 +41,8 @@
               router-link.sidebar-menu__link(:to='`/${userType}/risks`' active-class="active")
                 //ion-icon(name='warning-outline')
                 | Risk Register
-      .sidebar-menu__separator
-      div(v-if="userType === 'specialist'")
+      //.sidebar-menu__separator
+      div
         div(class="dropdown-divider")
         li.nav-item.sidebar-menu__item(@click="openLink('documents')")
           router-link.sidebar-menu__link(:to='`/${userType}/settings`' active-class="active")
@@ -64,11 +64,12 @@
              //ion-icon(name='search-outline')
              | Exam Management
          div(class="dropdown-divider")
-         li.nav-item.sidebar-menu__item(@click="openLink('documents')")
-           router-link.sidebar-menu__link(:to='`/${userType}/settings`' active-class="active")
-             ion-icon(name='settings-outline')
-             | Settings
-    .sidebar-menu__separator
+         //li.nav-item.sidebar-menu__item(@click="openLink('documents')")
+         //  router-link.sidebar-menu__link(:to='`/${userType}/settings`' active-class="active")
+         //    ion-icon(name='settings-outline')
+         //    | Settings
+    //.sidebar-menu__separator
+    div(class="dropdown-divider")
     button.sidebar-menu__btn(@click="toggleMobileMenu = !toggleMobileMenu")
       span(v-if="!toggleMobileMenu") Collapse menu
       ion-icon(:name="!toggleMobileMenu ? 'arrow-back-circle-outline' : 'arrow-forward-circle-outline'")
