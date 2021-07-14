@@ -756,6 +756,12 @@ table.table thead tr th {
 
 
 /* ---------- DASHBOARD CALENDAR ---------- */
+.fc .fc-col-header-cell-cushion {
+  font-weight: 100;
+  padding: 0.375rem; //6px
+  font-size: 0.75rem // 12px;
+}
+
 .fc-daygrid-event {
   border-radius: 4px;
 }
@@ -907,9 +913,36 @@ table.table thead tr th {
   min-height: 74px !important;
 }
 
-//.fc .fc-daygrid-more-link {
+.fc .fc-daygrid-more-link {
+  font-size: 0.75rem; //12px
 //  color: $black;
-//}
+}
+
+// DROPDOWN IN CALENDAR
+.fc-theme-standard .fc-popover {
+  border-radius: 0.375rem !important; //6px
+  overflow: hidden;
+}
+
+.fc-theme-standard .fc-popover-header {
+  font-size: 0.875rem;
+  background-color: white !important;
+  border-bottom: solid 1px $gray-1;
+}
+
+.fc-theme-standard .fc-popover .fc-h-event,
+.fc-theme-standard .fc-popover .fc-event-title,
+.fc-theme-standard .fc-popover .task-is-project span,
+.fc-theme-standard .fc-popover .task-is-project a,
+.fc-theme-standard .fc-popover .fc-h-event {
+  color: $black !important;
+  background-color: white !important;
+  border: none !important;
+}
+
+.fc-theme-standard .fc-popover .fc-event-title-container {
+  padding: 0.375rem 0; //6px
+}
 
 
 /* ---------- NOT CHECKED STYLES - START ---------- */
