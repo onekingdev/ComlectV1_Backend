@@ -103,6 +103,11 @@
       PoliciesModalRemoveSubsection,
       PoliciesModalPublish
     },
+    created() {
+      this.$store.commit('changeSidebar', 'builder')
+      // in case if commit not help
+      document.querySelector('.sidebar-menu').style.display = 'none'
+    },
     data() {
       return {
         leftMenu: true,

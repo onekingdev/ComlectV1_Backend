@@ -57,7 +57,7 @@ export default {
       }
       const reviewCategory = this.category
       const data = {
-        annualId: this.annualId,
+        annualId: +this.annualId,
         name: reviewCategory.name,
         complete: false
       }
@@ -66,7 +66,7 @@ export default {
         const response = await this.createReviewCategory(data)
         if (response) {
           this.makeToast('Success', "New category added")
-          await this.getCurrentReviewReview(this.annualId)
+          await this.getCurrentReviewReview(+this.annualId)
           this.category.name = ""
           window.location.href = `${window.location.origin}/business/annual_reviews/${response.annual_report_id}/${response.id}`
         }
