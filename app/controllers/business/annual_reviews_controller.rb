@@ -9,33 +9,18 @@ class Business::AnnualReviewsController < ApplicationController
     render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_main_layout'
   end
 
-  #def show
-  #  render html: content_tag('business-annual-general-page',
-  #                           '',
-  #                           ':annual-id': params[:id])
-  #    .html_safe, layout: 'vue_business'
-  #end
-
- def show
-    render html: content_tag('main-layoyt',
+  def show
+    render html: content_tag('business-annual-general-page',
                              '',
                              ':annual-id': params[:id])
-      .html_safe, layout: 'vue_main_layout'
+      .html_safe, layout: 'vue_business'
   end
 
-  #def revcat
-  #  render html: content_tag('business-annual-review-page',
-  #                           '',
-  #                           ':annual-id': params[:id],
-  #                           ':revcat-id': params[:revcat])
-  #    .html_safe, layout: 'vue_business'
-  #end
-
   def revcat
-    render html: content_tag('main-layoyt',
+    render html: content_tag('business-annual-review-page',
                              '',
                              ':annual-id': params[:id],
                              ':revcat-id': params[:revcat])
-      .html_safe, layout: 'vue_main_layout'
+      .html_safe, layout: 'vue_business'
   end
 end

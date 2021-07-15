@@ -1,4 +1,4 @@
-// import store from '@/store/commonModules/shared'
+import store from '@/store/commonModules/shared'
 
 // export default function (to, from, next) {
 //   console.log(to, from, next)
@@ -8,3 +8,4 @@
 //     // next(`/users/sign_up`)
 //   }
 // }
+

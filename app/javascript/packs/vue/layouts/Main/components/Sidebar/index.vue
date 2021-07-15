@@ -1,5 +1,5 @@
 <template lang="pug">
-  nav.sidebar-menu(v-if="leftSidebar !== 'settings'" :class="{ mobileMenu: toggleMobileMenu }")
+  nav.sidebar-menu(:class="{ mobileMenu: toggleMobileMenu }")
     //.logo
     //  a.logo__link(href="/")
     //    img.logo__img(src="/assets/logo-2-white.png" width="81px")
@@ -41,10 +41,10 @@
               router-link.sidebar-menu__link(:to='`/${userType}/risks`' active-class="active")
                 //ion-icon(name='warning-outline')
                 | Risk Register
-      //.sidebar-menu__separator
-      div
+      .sidebar-menu__separator
+      div(v-if="userType === 'specialist'")
         div(class="dropdown-divider")
-        li.nav-item.sidebar-menu__item(@click="openLink('settings')")
+        li.nav-item.sidebar-menu__item(@click="openLink('documents')")
           router-link.sidebar-menu__link(:to='`/${userType}/settings`' active-class="active")
             ion-icon(name='settings-outline')
             | Settings
@@ -64,12 +64,11 @@
              //ion-icon(name='search-outline')
              | Exam Management
          div(class="dropdown-divider")
-         li.nav-item.sidebar-menu__item(@click="openLink('settings')")
+         li.nav-item.sidebar-menu__item(@click="openLink('documents')")
            router-link.sidebar-menu__link(:to='`/${userType}/settings`' active-class="active")
              ion-icon(name='settings-outline')
              | Settings
-    //.sidebar-menu__separator
-    div(class="dropdown-divider")
+    .sidebar-menu__separator
     button.sidebar-menu__btn(@click="toggleMobileMenu = !toggleMobileMenu")
       span(v-if="!toggleMobileMenu") Collapse menu
       ion-icon(:name="!toggleMobileMenu ? 'arrow-back-circle-outline' : 'arrow-forward-circle-outline'")
@@ -93,10 +92,6 @@
     },
     methods: {
       openLink (value) {
-        if(value === 'settings') {
-          this.$store.commit('changeSidebar', 'settings')
-          return
-        }
         if(value === 'documents') this.$store.commit('changeSidebar', 'documents')
         if(value !== 'documents') this.$store.commit('changeSidebar', 'default')
       }
