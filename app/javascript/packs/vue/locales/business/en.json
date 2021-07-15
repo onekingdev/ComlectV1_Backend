@@ -89,13 +89,16 @@
   "profile": {
     "success": {
       "updated": "Config successfully saved!"
+    },
+    "errors": {
+      "error": "`Something wrong! ${error}`"
     }
   },
   "projects": {
     "success": {
       "saved": "The project has been saved",
       "issue": "Issue submitted",
-      "uploaded_doc": "Document uploaded' : 'Document upload failed",
+      "uploaded_doc": "Document uploaded",
       "added_specialist": "Specialist added to project.",
       "completed": "Project completed",
       "saved2": "Saved",
@@ -107,7 +110,7 @@
     "errors": {
       "field_title_empty":  "Please enter title'",
       "end_project": "Cannot request End project",
-      "unuploaded_doc": "Document upload failed"
+      "upload_doc_error": "Document upload failed"
     }
   },
   "reportsrisks": {},

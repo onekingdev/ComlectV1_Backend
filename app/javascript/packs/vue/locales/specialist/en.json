@@ -1,27 +1,28 @@
 {
   "dashboard": {
     "success": {
-      "name_required": "Name is required.",
-      "check_all_fields": "Please check all fields!",
-      "updated": "Saved changes to annual review.",
-      "created": "Annual Review Successfully created!",
-      "completed": "Annual review marked as complete!",
-      "deleted": "`The annual review has been deleted! ${response.id}`",
-      "deleted_task": "Task successfully deleted!",
-      "deleted_category": "`The annual review category has been deleted! ${response.id}`",
-      "updated_task": "The task has been saved",
-      "uploaded": "Document uploaded",
-      "category_created": "New category added",
-      "duplicated": "`The annual review has been duplicated! ${response.id}`"
-    },
-    "errors": {
-      "error": "`Something wrong! ${error}`",
-      "upload": "Document upload failed"
+      "created": "Account has been created."
     }
   },
   "notifications": {},
-  "profile": {},
-  "projects": {},
+  "profile": {
+    "success": {
+      "updated": "Config successfully saved!"
+    },
+    "errors": {
+      "error": "`Something wrong! ${error}`"
+    }
+  },
+  "projects": {
+    "success": {
+      "requested": "Project End has been requested",
+      "proposal_sent": "Proposal sent",
+      "approval": "Time logged and awaiting approval"
+    },
+    "errors": {
+      "error": "Cannot request End project"
+    }
+  },
   "settings": {
     "success": {
       "user_deleted": "`The user has been deleted! ${response.id}`",
