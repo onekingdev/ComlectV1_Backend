@@ -1,0 +1,48 @@
+{
+  "dashboard": {
+    "success": {
+      "name_required": "Name is required.",
+      "check_all_fields": "Please check all fields!",
+      "updated": "Saved changes to annual review.",
+      "created": "Annual Review Successfully created!",
+      "completed": "Annual review marked as complete!",
+      "deleted": "`The annual review has been deleted! ${response.id}`",
+      "deleted_task": "Task successfully deleted!",
+      "deleted_category": "`The annual review category has been deleted! ${response.id}`",
+      "updated_task": "The task has been saved",
+      "uploaded": "Document uploaded",
+      "category_created": "New category added",
+      "duplicated": "`The annual review has been duplicated! ${response.id}`"
+    },
+    "errors": {
+      "error": "`Something wrong! ${error}`",
+      "upload": "Document upload failed"
+    }
+  },
+  "notifications": {},
+  "profile": {},
+  "projects": {},
+  "settings": {
+    "success": {
+      "user_deleted": "`The user has been deleted! ${response.id}`",
+      "user_added": "User successfully added!",
+      "user_update": "Saved changes to specialist.",
+      "app_deleted": "`The app has been deleted! ${response.id}`",
+      "card_changed": "`The primary card successfully changed!`",
+      "setting_updated": "Setting is updated",
+      "plan_uprated": "Plan upgraded.",
+      "billing_upgrated": "Billing upgraded.",
+      "payment_method_added": "Payment Method successfully added!",
+      "subsribe_updated": "Update subscribe successfully finished!",
+      "seats_subsribe_updated": "Update seat subscribe successfully finished!",
+      "info_saved": "Information successfully saved!"
+    },
+    "errors": {
+      "error": "`Something wrong! ${error.message}`",
+      "field_error": "`Form has errors! Please recheck fields! ${response.errors[type]}`",
+      "from_error": "`Couldn't submit form! ${error.message}`",
+      "field_required": "Name is required.",
+      "filed_short": "Name is very short, must be more 3 characters."
+    }
+  }
+}
