@@ -315,6 +315,10 @@ html {
     //height: 1.5625rem; // 25px
 
     @include media-breakpoint-down(lg) {
+      margin-right: .5em;
+    }
+
+    @include media-breakpoint-down(xs) {
       margin-right: 0;
     }
   }
