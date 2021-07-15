@@ -20,18 +20,8 @@ class Business::CompliancePoliciesController < ApplicationController
   #                            ':policy-id': params[:id]).html_safe, layout: 'vue_business'
   # end
 
-  #def show
-  #  render html: content_tag('business-policies-details-without-sections-page', '',
-  #                           ':policy-id': params[:id]).html_safe, layout: 'vue_builder_layout'
-  #end
-
-  #def show
-  #  render html: content_tag('builder-layoyt', '',
-  #                           ':policy-id': params[:id]).html_safe, layout: 'vue_builder_layout'
-  #end
-
   def show
-    render html: content_tag('main-layoyt', '',
+    render html: content_tag('business-policies-details-without-sections-page', '',
                              ':policy-id': params[:id]).html_safe, layout: 'vue_builder_layout'
   end
 

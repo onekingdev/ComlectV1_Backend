@@ -1,12 +1,12 @@
 <template lang="pug">
-  .page
-    .page-header
-      h2.page-header__title Policies and Procedures
-      .page-header__actions
+  div
+    .page
+      h2.page__title Policies and Procedures
+      .page__actions
         button.btn.btn.btn-default.mr-3 Download
         PoliciesModalCreate(@savedConfirmed="updateList")
           button.btn.btn-dark.float-end New policy
-    .d-flex.flex-column.h-100
+    div
       b-tabs(content-class="mt-0")
         b-tab(title="Compilance Manual" active)
           .card-body.white-card-body.card-body_full-height
