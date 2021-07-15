@@ -11,8 +11,12 @@
         ion-icon.m-r-1(name="list-circle-outline")
         | {{ item.linkable_type ? item.linkable_type : 'not selected' }}
     td(v-if="!shortTable") {{ item.assignee }}
-    td.text-right(v-if="!shortTable" :class="{ overdue: isOverdue(item) }") {{ item.remind_at | dateToHuman}}
-    td.text-right(:class="{ overdue: isOverdue(item) }") {{ item.end_date | dateToHuman }}
+    td.text-right(v-if="!shortTable" :class="{ overdue: isOverdue(item) }")
+      b-icon.mr-2(v-if="isOverdue(item)" icon="exclamation-triangle-fill" variant="warning")
+      | {{ item.remind_at | dateToHuman}}
+    td.text-right(:class="{ overdue: isOverdue(item) }")
+      b-icon.mr-2(v-if="isOverdue(item)" icon="exclamation-triangle-fill" variant="warning")
+      | {{ item.end_date | dateToHuman }}
     td(v-if="!shortTable").text-right 0
     td(v-if="!shortTable").text-right 0
     td(v-if="!shortTable").text-right

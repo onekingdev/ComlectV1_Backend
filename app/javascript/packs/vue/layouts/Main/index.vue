@@ -1,10 +1,10 @@
 <template lang="pug">
-  .container-fluid.p-0
-    Topbar
-    .d-flex
-      Sidebar
-      .d-flex.flex-column.flex-grow-1
-        main.wrapper#main-content.flex-grow-1
+  .wrapper
+    .container-fluid.p-0
+      Topbar
+      .d-flex
+        Sidebar
+        main.main-content.flex-grow-1
          router-view
 
     // <cui-sidebar />

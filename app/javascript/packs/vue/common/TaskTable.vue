@@ -8,8 +8,10 @@
       tr(v-for="(task, i) in taskEventsShort" :key="i")
         td
           ion-icon.m-r-1.pointer(@click="toggleDone(task)" v-bind:class="{ done_task: task.done_at }" name='checkmark-circle-outline')
-          TaskFormModal(:task-id="task.taskId" :occurence-id="task.oid" @saved="$emit('saved')") {{ task.title }}
-        td(:class="{ overdue: isOverdue(task) }") {{ task.end }}
+          TaskFormModal.link(:task-id="task.taskId" :occurence-id="task.oid" @saved="$emit('saved')") {{ task.title }}
+        td(class="due-date" :class="{ overdue: isOverdue(task) }")
+          b-icon.mr-2(v-if="isOverdue(task)" icon="exclamation-triangle-fill" variant="warning")
+          | {{ task.end }}
 </template>
 
 <script>

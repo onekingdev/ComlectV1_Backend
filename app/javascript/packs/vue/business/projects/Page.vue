@@ -1,10 +1,10 @@
 <template lang="pug">
-  div
-    .page
-      .page__title
+  .page
+    .page-header
+      .page-header__title
         h2 Projects
-        p.page__subtitle.mb-0 Plan projects with employees or hire specialists for additional help
-      .page__actions
+        p.page-header__subtitle.mb-0 Plan projects with employees or hire specialists for additional help
+      .page-header__actions
         a.btn.btn-default(href='/business/projects/new') Post Project
         LocalProjectModal(@saved="newEtag")
           a.btn.m-l-1.btn-primary New Project
