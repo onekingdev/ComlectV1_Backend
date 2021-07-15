@@ -5,6 +5,7 @@ import AnnualReview from "../../models/AnnualReview";
 // HOOK TO NOT REWITE ALL REQUESTS
 const TOKEN = localStorage.getItem('app.currentUser.token') ? JSON.parse(localStorage.getItem('app.currentUser.token')) : ''
 
+
 export default {
   state: {
     reviews: [],
@@ -41,7 +42,7 @@ export default {
         const response = await fetch('/api/business/annual_reports', {
           method: 'POST',
           headers: {
-            'Authorization': `Bearer ${TOKEN}`,
+            'Authorization': `${TOKEN}`,
             'Accept': 'application/json',
             'Content-Type': 'application/json'
           },
@@ -94,7 +95,7 @@ export default {
         const response = await fetch('/api/business/annual_reports', {
           method: 'GET',
           headers: {
-            'Authorization': `Bearer ${TOKEN}`,
+            'Authorization': `${TOKEN}`,
             'Accept': 'application/json',
             'Content-Type': 'application/json'
           }
@@ -147,7 +148,7 @@ export default {
         const response = await fetch(`/api/business/annual_reports/${payload}`, {
           method: 'GET',
           headers: {
-            'Authorization': `Bearer ${TOKEN}`,
+            'Authorization': `${TOKEN}`,
             'Accept': 'application/json',
             'Content-Type': 'application/json'
           }
@@ -199,7 +200,7 @@ export default {
         const response = await fetch(`/api/business/annual_reports/${payload.id}`, {
           method: 'PATCH',
           headers: {
-            'Authorization': `Bearer ${TOKEN}`,
+            'Authorization': `${TOKEN}`,
             'Accept': 'application/json',
             'Content-Type': 'application/json'
           },
@@ -318,7 +319,7 @@ export default {
         const response = await fetch(`/api/business/annual_reports/${payload.annualId}/review_categories/${payload.id}`, {
           method: 'PATCH',
           headers: {
-            'Authorization': `Bearer ${TOKEN}`,
+            'Authorization': `${TOKEN}`,
             'Accept': 'application/json',
             'Content-Type': 'application/json'
           },
@@ -354,7 +355,7 @@ export default {
         const response = await fetch(`/api/business/annual_reports/${payload.annualId}/review_categories`, {
           method: 'POST',
           headers: {
-            'Authorization': `Bearer ${TOKEN}`,
+            'Authorization': `${TOKEN}`,
             'Accept': 'application/json',
             'Content-Type': 'application/json'
           },
@@ -390,7 +391,7 @@ export default {
         const response = await fetch(`/api/business/annual_reports/${payload.annualId}/review_categories/${payload.id}`, {
           method: 'DELETE',
           headers: {
-            'Authorization': `Bearer ${TOKEN}`,
+            'Authorization': `${TOKEN}`,
             'Accept': 'application/json',
             'Content-Type': 'application/json'
           },

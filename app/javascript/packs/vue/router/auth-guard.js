@@ -9,6 +9,3 @@ import store from '@/store/commonModules/shared'
 //   }
 // }
 
-export default {
-  
-}

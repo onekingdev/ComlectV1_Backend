@@ -76,7 +76,7 @@ export default {
         const data = await fetch('/api/business/compliance_policies', {
           method: 'POST',
           headers: {
-            'Authorization': `Bearer ${TOKEN}`,
+            'Authorization': `${TOKEN}`,
             'Accept': 'application/json',
             'Content-Type': 'application/json'},
           body: JSON.stringify({
@@ -120,7 +120,7 @@ export default {
         const data = await fetch('/api/business/compliance_policies/' + payload.id, {
           method: 'PUT',
           headers: {
-            'Authorization': `Bearer ${TOKEN}`,
+            'Authorization': `${TOKEN}`,
             'Accept': 'application/json',
             'Content-Type': 'application/json'},
           body: JSON.stringify({...payload})
@@ -166,7 +166,7 @@ export default {
         const data = await fetch(`${endpointUrl}${payload.policyId}/download`, {
           method: 'GET',
           headers: {
-            'Authorization': `Bearer ${TOKEN}`,
+            'Authorization': `${TOKEN}`,
             'Accept': 'application/json',
             'Content-Type': 'application/json'},
         })
@@ -204,7 +204,7 @@ export default {
         const data = await fetch(`${endpointUrl}${payload.policyId}/publish`, {
           method: 'GET',
           headers: {
-            'Authorization': `Bearer ${TOKEN}`,
+            'Authorization': `${TOKEN}`,
             'Accept': 'application/json',
             'Content-Type': 'application/json'},
         }).then(response => {
@@ -238,7 +238,7 @@ export default {
         const endpointUrl = '/api/business/compliance_policies'
         const data = await fetch(`${endpointUrl}`, {
           headers: {
-            'Authorization': `Bearer ${TOKEN}`,
+            'Authorization': `${TOKEN}`,
             'Accept': 'application/json'
           }})
           .then(response => {
@@ -276,7 +276,7 @@ export default {
         const endpointUrl = '/api/business/compliance_policies/'
         const data = await fetch(`${endpointUrl}${payload.policyId}`, {
           headers: {
-          'Authorization': `Bearer ${TOKEN}`,
+          'Authorization': `${TOKEN}`,
           'Accept': 'application/json'
           }})
           .then(response => response.json())
@@ -305,7 +305,7 @@ export default {
         const data = fetch('/api/business/compliance_policies/' + payload.id, {
           method: 'PATCH',
           headers: {
-            'Authorization': `Bearer ${TOKEN}`,
+            'Authorization': `${TOKEN}`,
             'Accept': 'application/json',
             'Content-Type': 'application/json'},
           body: JSON.stringify({
@@ -341,7 +341,7 @@ export default {
       //   fetch('/api/business/compliance_policies/' + policy1.id, {
       //     method: 'PATCH',
       //     headers: {
-      //       'Authorization': `Bearer ${TOKEN}`,
+      //       'Authorization': `${TOKEN}`,
       //       'Accept': 'application/json',
       //       'Content-Type': 'application/json'},
       //     body: JSON.stringify({
@@ -351,7 +351,7 @@ export default {
       //   fetch('/api/business/compliance_policies/' + policy2.id, {
       //     method: 'PATCH',
       //     headers: {
-      //       'Authorization': `Bearer ${TOKEN}`,
+      //       'Authorization': `${TOKEN}`,
       //       'Accept': 'application/json',
       //       'Content-Type': 'application/json'
       //     },
@@ -390,7 +390,7 @@ export default {
         const data = await fetch(`${endpointUrl}${payload.policyId}`, {
           method: 'DELETE',
           headers: {
-          'Authorization': `Bearer ${TOKEN}`,
+          'Authorization': `${TOKEN}`,
           'Accept': 'application/json'
         }})
           .then(response => response.json())
@@ -421,7 +421,7 @@ export default {
         const data = await fetch(`${endpointUrl}${payload.policyId}`, {
           method: 'PATCH',
           headers: {
-            'Authorization': `Bearer ${TOKEN}`,
+            'Authorization': `${TOKEN}`,
             'Accept': 'application/json',
             'Content-Type': 'application/json'},
           body: JSON.stringify({
@@ -456,7 +456,7 @@ export default {
         const data = await fetch('/api/business/compliance_policy_configuration', {
           method: 'GET',
           headers: {
-            'Authorization': `Bearer ${TOKEN}`,
+            'Authorization': `${TOKEN}`,
             'Accept': 'application/json',
             'Content-Type': 'application/json'}
         }).then(response => {
@@ -486,7 +486,7 @@ export default {
     //     const data = await fetch('/api/business/compliance_policy_configuration', {
     //       method: 'PATCH',
     //       headers: {
-    //         'Authorization': `Bearer ${TOKEN}`,
+    //         'Authorization': `${TOKEN}`,
     //         'Accept': 'application/json',
     //       //   'Content-Type': 'image/png'},
     //       // body: payload

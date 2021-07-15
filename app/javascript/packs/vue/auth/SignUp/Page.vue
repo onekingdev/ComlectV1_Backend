@@ -254,8 +254,8 @@
         }
 
         const dataToSend = {
-          userId: this.userId,
-          code: this.form2.code,
+          // userId: this.userId,
+          otp_secret: this.form2.code,
           email: this.form.email
         }
 
