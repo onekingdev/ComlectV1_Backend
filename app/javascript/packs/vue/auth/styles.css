@@ -419,17 +419,17 @@ a.link,
 }
 
 /* ---------- Logo page ---------- */
-.logo {
-  /*max-width: 216px;*/
-  max-width: 160px;
-}
-.logo__link {
-  width: 100%;
-}
-.logo__img {
-  width: 100%;
-  object-fit: contain;
-}
+/*.logo {*/
+  /*!*max-width: 216px;*!*/
+  /*max-width: 160px;*/
+/*}*/
+/*.logo__link {*/
+  /*width: 100%;*/
+/*}*/
+/*.logo__img {*/
+  /*width: 100%;*/
+  /*object-fit: contain;*/
+/*}*/
 /*@media (min-width: 576px) and (max-width: 767px) {*/
 
 /*}*/

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import AuthGuard from './auth-guard'
+// import AuthGuard from './auth-guard'
 
 // AUTH
 // import signIn from '@/auth/SingIn/Page'
@@ -58,8 +58,9 @@ export default new Router({
     { path: '/business/projects', name: 'projects', component: Projects },
     { path: '/business/projects/:id(\\d+)', name: 'project-review', props: route => ({ projectId: +route.params.id }), component: ProjectReview },
     { path: '/business/reminders', name: 'tasks', component: Tasks },
-    { path: '/business/compliance_policies', name: 'policies', component: Policies, beforeEnter: AuthGuard },
-    { path: '/business/compliance_policies/:policyId', name: 'policy-current', props: true, component: PolicyCurrentNoSections, beforeEnter: AuthGuard },
+    // { path: '/business/compliance_policies', name: 'policies', component: Policies, beforeEnter: AuthGuard },
+    { path: '/business/compliance_policies', name: 'policies', component: Policies, },
+    { path: '/business/compliance_policies/:policyId', name: 'policy-current', props: true, component: PolicyCurrentNoSections },
     { path: '/business/annual_reviews', name: 'annual-reviews', component: AnnualReviews },
     { path: '/business/annual_reviews/:annualId', name: 'annual-reviews-general', props: true, component: AnnualReviewsCurrentGeneral, },
     { path: '/business/annual_reviews/:annualId/:revcatId', name: 'annual-reviews-review-category', props: true, component: AnnualReviewsCurrentReviewCategory },

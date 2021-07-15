@@ -1,9 +1,9 @@
 <template lang="pug">
   .topbar
-    .logo.logo_small
+    .logo
       a.logo__link(href="/")
         // img.logo__img(src='@/assets/logo_wordmark.svg')
-        img.logo__img(src='@/assets/primary.svg' width="24" height="24")
+        img.logo__img.logo__img_small(src='@/assets/primary.svg' width="24" height="24")
     b-navbar.p-0(toggleable='lg')
       b-navbar-toggle.justify-content-center(target='nav-collapse')
         | Menu
@@ -11,13 +11,17 @@
       b-collapse#nav-collapse.topbar-menu(is-nav)
         ul.topbar-menu__list
           li.nav-item.topbar-menu__item(@click="openLink('default')")
-            router-link.topbar-menu__link(:to='`/${userType}/dashboard`' active-class="active" exact) Home
+            router-link.topbar-menu__link(:to='`/${userType}`' active-class="active" exact) Home
           li.nav-item.topbar-menu__item(@click="openLink('documents')")
             router-link.topbar-menu__link(:to='`/${userType}/file_folders`' active-class="active") Documents
           li.nav-item.topbar-menu__item(@click="openLink('default')")
             router-link.topbar-menu__link(:to='`/${userType}/reports/risks`' active-class="active") Reports
           li.nav-item.topbar-menu__item.d-none
             a.topbar-menu__link(aria-current='page' href='#') Community
+          li.nav-item.topbar-menu__item.d-sm-none(v-if="userType === 'business'" @click="openLink('default')")
+            router-link.topbar-menu__link(:to='`/${userType}/specialists`' active-class="active") Find an Expert
+          li.nav-item.topbar-menu__item.d-sm-none(v-if="userType === 'specialist'" @click="openLink('default')")
+            router-link.topbar-menu__link(:to='`/${userType}/projects-marketpalce`' active-class="active") Browse Projects
     // Right aligned nav items
     b-navbar-nav.flex-row.align-items-center.ml-auto.h-100
       router-link.btn.btn-warning.btn-topbar.btn-topbar_find(v-if="userType === 'business'" :to='`/${userType}/specialists`') Find an Expert
@@ -28,7 +32,7 @@
         // Using 'button-content' slot
         template(#button-content)
           UserAvatar.topbar-right-dropdown__avatar(:user="account" :sm="true")
-          | {{ account.first_name }} {{ account.last_name }}
+          span.topbar-right-dropdown__name {{ account.first_name }} {{ account.last_name }}
           ion-icon.topbar-right-dropdown__icon(name='chevron-down-outline')
         li(@click="openLink('documents')")
           router-link.dropdown-item(:to='`/${userType}/settings`' active-class="active") Settings
@@ -39,7 +43,7 @@
 </template>
 
 <script>
-  import { mapActions, mapGetters } from "vuex"
+  // import { mapActions, mapGetters } from "vuex"
   import UserAvatar from '@/common/UserAvatar'
 
   export default {
@@ -134,6 +138,12 @@
         return this.$store.getters.userType
       }
     },
+    watch: {
+      '$route' () {
+        document.getElementById('nav-collapse').classList.remove('show')
+        // $('#nav-collapse').collapse('hide')
+      }
+    }
   }
 </script>
 

@@ -18,7 +18,7 @@
     .reviews__tabs
       b-tabs(content-class="mt-0")
         b-tab(title="Detail" active)
-          .container-fluid(v-if="review")
+          .p-x-40(v-if="review")
             .row
               .col-md-3
                 ReviewsList(
@@ -140,7 +140,7 @@ export default {
   },
   async mounted () {
     try {
-      await this.getCurrentReviewReview(this.annualId)
+      await this.getCurrentReviewReview(+this.annualId)
     } catch (error) {
       this.makeToast('Error', error.message)
     }
@@ -153,13 +153,13 @@ export default {
     async saveCategory () {
       const reviewCategory = this.currentCategory
       const data = {
-        annualId: this.annualId,
+        annualId: +this.annualId,
         ...reviewCategory
       }
       try {
         await this.updateReviewCategory(data)
         this.makeToast('Success', "Saved changes to annual review.")
-        await this.getCurrentReviewReview(this.annualId)
+        await this.getCurrentReviewReview(+this.annualId)
       } catch (error) {
         this.makeToast('Error', error.message)
       }
@@ -167,14 +167,14 @@ export default {
     async markComplete () {
       const reviewCategory = this.currentCategory
       const data = {
-        annualId: this.annualId,
+        annualId: +this.annualId,
         ...reviewCategory,
         complete: !reviewCategory.complete,
       }
       try {
         await this.updateReviewCategory(data)
         this.makeToast('Success', "Saved changes to annual review.")
-        await this.getCurrentReviewReview(this.annualId)
+        await this.getCurrentReviewReview(+this.annualId)
       } catch (error) {
         this.makeToast('Error', error.message)
       }

@@ -44,7 +44,7 @@ export default {
       // return `/business/annual_reviews/${this.annualId}`
       return {
         name: 'annual-reviews-general',
-        params: { annualId: this.annualId }
+        params: { annualId: +this.annualId }
       }
     },
     linkClass() {

@@ -9,8 +9,20 @@
             ion-icon.m-x-1(name='chevron-back-outline' @click.prevent="prev")
             ion-icon(name='chevron-forward-outline' @click.prevent="next")
       div
-        a.btn.btn-default.float-end(:href="pdfUrl" target="_blank") Export
-    .card-body
+        b-dropdown.mr-2(variant="default")
+          template(#button-content)
+            | Monhly
+            b-icon.ml-2(icon="chevron-down")
+          b-dropdown-item Annually
+          b-dropdown-item Monhly
+          b-dropdown-item Weekly
+          b-dropdown-item Daily
+        a.btn.btn-default.mr-2.font-weight-bold(:href="pdfUrl" target="_blank") Export
+        b-dropdown(size="sm" variant="none" class="m-0 p-0" right)
+          template(#button-content)
+            b-icon(icon="three-dots")
+          b-dropdown-item-button Some Action
+    .card-body.p-20
       FullCalendar(:options="calendarOptions" ref="FullCalendar")
         template(v-slot:dayCellContent="arg")
           TaskFormModal(:remind-at="jsToSql(arg.date)" @saved="$emit('saved')")
@@ -122,48 +134,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.task-is-project,
-.task-is-project .fc-event-title {
-  background-color: #047aff !important;
-  color: #dae9fe;
-}
-.task-id-project a { color: #fff; }
-.task-is-task { border: 1px solid #bfe5d5; }
-.task-is-task,
-.task-is-task .fc-event-title {
-  background-color: #1ab27f !important;
-  color: #fff;
-}
-.task-is-overdue { border: 1px solid #dedfe4; }
-.task-is-overdue,
-.task-is-overdue .fc-event-title {
-  background-color: #fff7e4 !important;
-  color: #5b5a56;
-}
-/* .task-is-complete,
-.task-is-complete .fc-event-title {
-  background-color: #1ab27f !important;
-  color: #e6f5ef;
-} */
-.task-is-complete {
-  background-color: #e2e8f0;
-  border: 1px solid #dee1e7;
-  color: #454648;
-}
-.fc-event-title {
-  font-weight: 400 !important;
-}
-.fc-daygrid-dot-event {
-  padding: 2px 3px;
-}
-.fc-day-today { background-color: #f3f6f9 !important; }
-.fc-daygrid-day-number { color: #666667 !important; font-size: 11px; }
-.fc-day-other .fc-daygrid-day-number { color: #cecfd2 !important }
-.fc-daygrid-day-top { display: block !important; }
-.fc-col-header-cell-cushion  { font-weight: 400 !important; color: #666667 !important; }
-.fc-col-header-cell .fc-scrollgrid-sync-inner { text-align: left !important; }
-.fc-event-time, .fc-daygrid-event-dot { display: none; }
-.fc-daygrid-day-frame { min-height: 74px !important; }
-</style>

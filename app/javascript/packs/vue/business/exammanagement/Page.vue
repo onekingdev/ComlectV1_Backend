@@ -1,7 +1,7 @@
 <template lang="pug">
-  div
-    .page
-      h2.page__title {{ pageTitle }}
+  .page
+    .page-header
+      h2.page-header__title {{ pageTitle }}
     .card-body.white-card-body.card-body_full-height
       .row
         .col-md-7.col-sm-12.pl-0

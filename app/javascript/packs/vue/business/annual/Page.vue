@@ -1,8 +1,8 @@
 <template lang="pug">
-  div
-    .page
-      h2.page__title Internal Reviews
-      .page__actions
+  .page
+    .page-header
+      h2.page-header__title Internal Reviews
+      .page-header__actions
         AnnualModalCreate(:reviews="reviews")
           button.btn.btn-dark.float-end New Review
     .card-body.white-card-body.card-body_full-height

@@ -19,7 +19,9 @@
         td
           span.badge(:class="badgeClass(project)") {{ project.status }}
         td {{ project.starts_on | asDate }}
-        td(:class="{ overdue: isOverdue(project) }") {{ project.ends_on | asDate }}
+        td(class="due-date" :class="{ overdue: isOverdue(project) }")
+          b-icon.mr-2(v-if="isOverdue(project)" icon="exclamation-triangle-fill" variant="warning")
+          | {{ project.ends_on | asDate }}
 </template>
 
 <script>
