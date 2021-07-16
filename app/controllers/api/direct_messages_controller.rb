@@ -5,10 +5,10 @@ class Api::DirectMessagesController < ApiController
   skip_before_action :verify_authenticity_token
 
   def index
-    bid, sid = if @current_someone.class.name == 'Business'
+    bid, sid = if @current_someone.class.name.include?('Business')
                  [@current_someone.id,
                   Specialist.find(params[:recipient_id])]
-               elsif @current_someone.class.name == 'Specialist'
+               elsif @current_someone.class.name.include?('Specialist')
                  [Business.find(params[:recipient_id]),
                   @current_someone.id]
                end
