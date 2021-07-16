@@ -1,11 +1,13 @@
 <template lang="pug">
-  .page-header.p-y-20
-    .d-flex.flex-column.p-x-40
-      Breadcrumbs(:items="breadcrumbs")
-      h2.page-header__title.my-0.ml-0.mb-2 {{ title }}
-      p(v-if="sub") {{ sub }}
-    .page-header__actions
-        slot
+  .container
+    .row.p-x-1
+      .col-md-12.p-t-3.d-flex.justify-content-between.p-b-1
+        div
+          Breadcrumbs(:items="breadcrumbs")
+          h2 {{ title }}
+          p(v-if="sub") {{ sub }}
+        div
+          slot
 </template>
 
 <script>

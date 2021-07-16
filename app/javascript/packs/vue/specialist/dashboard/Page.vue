@@ -1,15 +1,14 @@
 <template lang="pug">
-  .page
-    .page-header
-      h2.page-header__title Welcome, {{currentBusiness}}
-      .page-header__actions
-        b-dropdown.mr-2(variant="default" right)
-          template(#button-content)
-            | Admin view
-            b-icon.ml-2(icon="chevron-down")
-          b-dropdown-item Other view
-        a.btn.btn-default.font-weight-bold Customize
-    div.p-x-40
+  div
+    .page
+      h2.page__title Welcome, {{currentSpecialist}}
+      .page__actions
+        b-dropdown.m-r-1(text='Admin View')
+          b-dropdown-item Action
+          b-dropdown-item Another action
+          b-dropdown-item Something else here
+        a.btn.btn-default Customize
+    div.px-4
       .row
         .col.mb-2
           EmptyPlan
@@ -55,20 +54,19 @@ export default {
       localStorage.removeItem('app.currentUser.firstEnter')
     }
   },
-  props: {
-    pdfUrl: {
-      type: String,
-      required: false
-    },
-    currentBusiness: {
-      type: String,
-      required: false
-    }
-  },
   components: {
     Calendar,
     UpcomingTasks,
     EmptyPlan,
+  },
+  computed: {
+    pdfUrl() {
+      return '/specialist/reminders.pdf'
+    },
+    currentSpecialist() {
+      // @TODO Must be fetched from API
+      return ''
+    }
   }
 }
 </script>

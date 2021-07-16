@@ -1,14 +1,14 @@
 <template lang="pug">
-  .page
+  div
     div(v-if="loading")
       Loading
-    .page-header(v-if="!loading")
-      .page-header__title
+    .page(v-if="!loading")
+      .page__title
         h2: b {{ pageTitle }} / {{ riskComputed.name }}
         h2
           b-badge.mr-2(:variant="badgeVariant(riskComputed.risk_level)") {{ showLevel(riskComputed.risk_level) }}
           b {{ riskComputed.name }}
-      .page-header__actions
+      .page__actions
         b-dropdown.bg-white(text='Actions', variant="secondary", right)
           RiskModalDelete(@deleteConfirmed="deleteRisk", :riskId="riskComputed.id", :inline="false")
             b-dropdown-item.delete Delete risk

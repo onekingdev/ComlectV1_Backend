@@ -100,7 +100,7 @@
               }
 
               if (!response.errors) {
-                this.makeToast('Success', "Saved changes to annual specialist.")
+                this.makeToast('Success', "Saved changes to specialist.")
                 this.$emit('saved')
                 this.$bvModal.hide(this.modalId)
               }

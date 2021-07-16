@@ -1,8 +1,8 @@
 <template lang="pug">
-  .page
-    .page-header
-      h2.page-header__title {{ pageTitle }}
-    .card-body.p-x-40
+  div
+    .page
+      h2.page__title {{ pageTitle }}
+    div.px-5
       .row(v-if="loading")
         .col
           .card-body.white-card-body

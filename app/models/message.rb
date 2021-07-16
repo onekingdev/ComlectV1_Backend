@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Message < ApplicationRecord
-  belongs_to :thread, polymorphic: true
+  belongs_to :thread, polymorphic: true, optional: true
   belongs_to :sender, polymorphic: true
   belongs_to :recipient, polymorphic: true, optional: true
 
