@@ -4,7 +4,7 @@
     //  a.logo__link(href="/")
     //    img.logo__img(src="/assets/logo-2-white.png" width="81px")
     div.sidebar-menu__central(v-if="leftSidebar === 'default' || userType === 'specialist'")
-      h3.sidebar-menu__title(role="button" v-b-toggle.overview_collapse="")
+      h3.sidebar-menu__title(role="button" v-b-toggle.overview_collapse="true" @click="toggleMobileMenu = false")
         ion-icon(name='list-outline')
         span(v-if="!toggleMobileMenu") Overview
         ion-icon.ml-auto(name='chevron-down-outline')
@@ -23,7 +23,7 @@
               //ion-icon(name='list-outline')
               | Projects
       div(v-if="userType !== 'specialist'")
-        h3.sidebar-menu__title(role="button" v-b-toggle.program_management_collapse="")
+        h3.sidebar-menu__title(role="button" v-b-toggle.program_management_collapse="true" @click="toggleMobileMenu = false")
           ion-icon(name='document-text-outline')
           span(v-if="!toggleMobileMenu") Program Management
           ion-icon.ml-auto(name='chevron-down-outline')
@@ -43,7 +43,7 @@
                 | Risk Register
       //.sidebar-menu__separator
       div(class="dropdown-divider")
-      .nav-item.sidebar-menu__item(@click="openLink('settings')")
+      .nav-item.sidebar-menu__item.sidebar-menu__item_setting(@click="openLink('settings')")
         router-link.sidebar-menu__link(:to='`/${userType}/settings`' active-class="active")
           ion-icon(name='settings-outline')
           span(v-if="!toggleMobileMenu") Settings
