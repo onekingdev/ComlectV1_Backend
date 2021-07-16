@@ -1,9 +1,9 @@
 <template lang="pug">
   .container-fluid.p-0
     Topbar
-    .d-flex
+    .wrapper
       Sidebar
-      main.main-content.flex-grow-1
+      main.main-content
        router-view
 </template>
 

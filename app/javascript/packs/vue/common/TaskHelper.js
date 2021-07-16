@@ -34,7 +34,7 @@ const splitReminderOccurenceId = val => {
     : { taskId: val, oid: null }
 }
 const badgeClass = project => project.status == "pending" ? 'badge-secondary'
-                            : project.status == "inprogress" ? "badge-light"
+                            : project.status == "inprogress" ? "badge-progress"
                             : project.status == "complete" ? "badge-success"
                             : project.status == "draft" ? 'badge-secondary'
                             : project.status == "published" ? 'badge-success'
