@@ -281,7 +281,7 @@ Rails.application.routes.draw do
 
     get 'local_projects/:project_id/messages' => 'project_messages#index'
     post 'local_projects/:project_id/messages' => 'project_messages#create'
-    resources :direct_messages, path: 'messages/:recipient_username', only: %i[index create]
+    resources :direct_messages, path: 'messages/:recipient_id', only: %i[index create]
     resources :project_ratings, only: %i[index]
     namespace :business do
       resources :exams, only: %i[index show create update destroy] do

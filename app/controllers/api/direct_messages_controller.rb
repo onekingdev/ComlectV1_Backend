@@ -7,9 +7,9 @@ class Api::DirectMessagesController < ApiController
   def index
     bid, sid = if @current_someone.class.name == 'Business'
                  [@current_someone.id,
-                  Specialist.find_by(username: params[:recipient_username]).id]
+                  Specialist.find(params[:recipient_id])]
                elsif @current_someone.class.name == 'Specialist'
-                 [Business.find_by(username: params[:recipient_username]).id,
+                 [Business.find(params[:recipient_id]),
                   @current_someone.id]
                end
     messages = Message.business_specialist(bid, sid).direct.page(params[:page]).per(20)
@@ -18,9 +18,9 @@ class Api::DirectMessagesController < ApiController
 
   def create
     recipient = if @current_someone.class.name.include? 'Business'
-                  Specialist.find_by(username: params[:recipient_username])
+                  Specialist.find(params[:recipient_id])
                 elsif @current_someone.class.name.include? 'Specialist'
-                  Business.find_by(username: params[:recipient_username])
+                  Business.find(params[:recipient_id])
                 end
     message = Message::Create.(nil, message_params.merge(sender: @current_someone, recipient: recipient), @current_someone, recipient)
     if !message.nil?
