@@ -18,7 +18,7 @@
                   .d-flex.align-items-center
                     button.btn.btn__menu.mr-3(@click="leftMenu = !leftMenu")
                       b-icon(icon='list')
-                    b-badge.btn.btn-default.mr-3(variant="light") {{ policy.status }}
+                    b-badge.mr-3(variant="light") {{ policy.status }}
                     h3.policy__main-title.m-y-0 {{ policy.title }}
                   .d-flex.justify-content-end.align-items-center
                     a.link.btn.mr-3(@click="saveDraft") Save Draft
@@ -29,7 +29,7 @@
                       b-icon(icon='x')
           .row
             .col-12.px-0
-              b-tabs(content-class="mt-0")
+              b-tabs(content-class="mt-0 p-x-40 p-y-20")
                 template(#tabs-end)
                   b-dropdown.ml-auto.my-auto.mr-5.actions(text='Actions', variant="default", right)
                     template(#button-content)
@@ -86,7 +86,7 @@
   export default {
     props: {
       policyId: {
-        type: Number,
+        type: String,
         required: true
       },
     },
@@ -102,6 +102,11 @@
       PoliciesModalArchive,
       PoliciesModalRemoveSubsection,
       PoliciesModalPublish
+    },
+    created() {
+      this.$store.commit('changeSidebar', 'builder')
+      // in case if commit not help
+      document.querySelector('.sidebar-menu').style.display = 'none'
     },
     data() {
       return {
@@ -150,7 +155,7 @@
       },
       download () {
         this.$store
-          .dispatch("downloadPolicy", { policyId: this.policyId })
+          .dispatch("downloadPolicy", { policyId: +this.policyId })
           .then((myBlob) => {
             // console.log('response', myBlob)
             this.makeToast('Success', 'Policy succesfully downloaded.')
@@ -162,7 +167,7 @@
       },
       publishPolicy () {
         this.$store
-          .dispatch("publishPolicy", { policyId: this.policyId })
+          .dispatch("publishPolicy", { policyId: +this.policyId })
           .then(response => {
             console.log(response)
             this.makeToast('Success', 'Policy succesfully published. Please wait you will be redirected to the new Draft')
@@ -190,7 +195,7 @@
       },
       archivePolicy(policyId, archiveStatus) {
         this.$store
-          .dispatch('archivePolicyById', { policyId: this.policyId, archived: archiveStatus })
+          .dispatch('archivePolicyById', { policyId: +this.policyId, archived: archiveStatus })
           .then(response => {
             console.log('response', response)
             this.makeToast('Success', `Policy successfully ${archiveStatus ? 'archived' : 'unarchived'}!`)
@@ -325,7 +330,7 @@
         return this.$store.getters.loading;
       },
       policy(){
-        const id = this.policyId
+        const id = +this.policyId
         return this.$store.getters.policyById(id)
       },
       policiesComputed: {
@@ -351,7 +356,7 @@
         }
       },
       policyById() {
-        const id = this.policyId
+        const id = +this.policyId
         return this.$store.getters.policyById(id)
       },
       policiesListNested () {

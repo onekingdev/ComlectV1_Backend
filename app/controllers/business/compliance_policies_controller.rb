@@ -7,21 +7,11 @@ class Business::CompliancePoliciesController < ApplicationController
   before_action :set_cpolicy, only: %i[update edit show destroy ban unban]
 
   def index
-    # render html: content_tag('business-policies-page', '').html_safe, layout: 'vue_business'
     render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_main_layout'
   end
 
-  # def show
-  #   render html: content_tag('business-policies-create-page', '', ':policy-id': params[:id]).html_safe, layout: 'vue_business'
-  # end
-
-  # def show
-  #   render html: content_tag('business-policies-details-without-sections-page', '',
-  #                            ':policy-id': params[:id]).html_safe, layout: 'vue_business'
-  # end
-
   def show
-    render html: content_tag('business-policies-details-without-sections-page', '',
+    render html: content_tag('main-layoyt', '',
                              ':policy-id': params[:id]).html_safe, layout: 'vue_builder_layout'
   end
 

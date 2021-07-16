@@ -1,8 +1,8 @@
 <template lang="pug">
   div
-    .row.my-20
+    .row
       .col-4
-        .position-relative
+        .position-relative.p-b-20
           b-icon.icon-searh(icon='search')
           input.form-control.form-control_search(type="text" placeholder="Search" v-model="searchInput", @keyup="searching")
           button.btn-clear(v-if="isActive" @click="clearInput")

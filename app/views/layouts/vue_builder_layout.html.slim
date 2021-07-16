@@ -30,40 +30,6 @@ html lang=I18n.locale
 
 body class="#{controller_name} #{action_name}"
   #app
-    nav.navbar.navbar-expand-lg.navbar-light.p-0
-      button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarNavAltMarkup' aria-controls='navbarNavAltMarkup' aria-expanded='false' aria-label='Toggle navigation')
-        span.navbar-toggler-icon
-      #top_navbar.collapse.navbar-collapse.d-flex.justify-content-between
-        .navbar-nav
-          a.nav-item.nav-link(href='#')
-            | Home
-            span.sr-only (current)
-          a.nav-item.nav-link(href='/business/file_folders' class="#{'active' if params[:controller] == 'business/file_folders'}") Documents
-          a.nav-item.nav-link(href='/business/reports/risks') Reports
-          a.nav-item.nav-link(href='#') Community
-        .navbar-nav
-          a.btn.btn-warning(href='/business/specialists' style="margin-top: 18px;")  Find an Expert
-          .dropdown#notifications_dropdown
-            ion-icon(name='notifications-outline')
-          .dropdown#profile_dropdown.p-x-2
-            #profile_dropdown_btn(@click="isProfileMenuOpen = !isProfileMenuOpen" :aria-expanded="isProfileMenuOpen")
-              - if current_business
-                            = image_tag (current_business.logo_url(:thumb) || 'default_userpic.png'), size: "25x25", style: "border-radius: 50%;margin-right: 15px;"
-                            | #{current_business.contact_first_name} #{current_business.contact_last_name}
-              ion-icon.m-l-1(name='chevron-down-outline')
-            ul.dropdown-menu(aria-labelledby="profile_dropdown_btn" :class="{ show: isProfileMenuOpen }")
-              li
-                a.dropdown-item(href="#") Edit Profile
-              li
-                form(method="POST" action=destroy_user_session_path)
-                  input(type="hidden" name="authenticity_token" value=form_authenticity_token)
-                  input(type="hidden" name="_method" value="delete")
-                  input.dropdown-item(type="submit" value="Sign Out")
-          #helps.p-x-2
-            ion-icon(name='help-circle-outline' style="vertical-align: middle; margin-right: 8px;")
-            | Help
-      button.navbar-toggler.position-absolute.d-md-none.collapsed(type='button' data-toggle='collapse' data-target='#sidebarMenu' aria-controls='sidebarMenu' aria-expanded='false' aria-label='Toggle navigation')
-        span.navbar-toggler-icon
     = yield
 
   = yield :prepend_scripts

@@ -18,7 +18,7 @@
     .reviews__tabs
       b-tabs(content-class="mt-0")
         b-tab(title="Detail" active)
-          .container-fluid(v-if="review")
+          .p-x-40(v-if="review")
             .row
               .col-md-3
                 ReviewsList(
@@ -164,7 +164,7 @@ export default {
   },
   async mounted () {
     try {
-      await this.getCurrentReviewReview(this.annualId)
+      await this.getCurrentReviewReview(+this.annualId)
     } catch (error) {
       this.makeToast('Error', error.message)
     }
@@ -212,7 +212,7 @@ export default {
           })
           .catch((error) => console.error(error))
 
-        await this.getCurrentReviewReview(this.annualId)
+        await this.getCurrentReviewReview(+this.annualId)
 
       } catch (error) {
         this.makeToast('Error', error.message)
@@ -242,7 +242,7 @@ export default {
           })
           .catch((error) => console.error(error))
         this.makeToast('Success', "Annual review marked as complete!")
-        await this.getCurrentReviewReview(this.annualId)
+        await this.getCurrentReviewReview(+this.annualId)
       } catch (error) {
         this.makeToast('Error', error.message)
       }

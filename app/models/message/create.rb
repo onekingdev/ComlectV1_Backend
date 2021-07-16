@@ -6,7 +6,7 @@ class Message::Create < Draper::Decorator
 
   def self.call(project, attributes, sender, recipient)
     if project.nil?
-      if sender.class.name.include?('Specialist') && recipient.class.name.include?('Business')
+      if sender.class.name == 'Specialist::Decorator' && recipient.class.name == 'Business::Decorator'
         if Message.business_specialist(recipient.id, sender.id).direct.count.positive? ||
            sender.applied_projects.collect(&:business_id).include?(recipient.id)
           create_msg(attributes)
@@ -22,6 +22,8 @@ class Message::Create < Draper::Decorator
   delegate :message, to: :model
 
   def self.create_msg(attributes)
-    Message.create(attributes)
+    new(Message.create(attributes)).tap do |message|
+      # Notification::Deliver.got_direct_message!(message) if message.persisted?
+    end
   end
 end

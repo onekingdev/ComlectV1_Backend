@@ -3,7 +3,7 @@ import store from '@/store/business'
 import router from '@/router'
 
 import MainLayoyt from './vue/layouts/Main'
-// import BuilderLayoyt from './vue/layouts/Builder'
+import BuilderLayoyt from './vue/layouts/Builder'
 
 import BusinessDashboardPage from './vue/business/dashboard/Page.vue'
 import BusinessRemindersPage from './vue/business/reminders/Page.vue'
@@ -86,7 +86,7 @@ init({
   router,
   components: {
     MainLayoyt,
-    // BuilderLayoyt,
+    BuilderLayoyt,
     BusinessDashboardPage,
     BusinessRemindersPage,
     BusinessProjectsPage,
