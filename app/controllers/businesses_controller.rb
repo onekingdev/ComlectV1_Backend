@@ -46,7 +46,7 @@ class BusinessesController < ApplicationController
                                                                         }).to_json,
                              ':sub-industry-ids': sub_industries(false).to_json,
                              ':states': State.fetch_all_usa.to_json,
-                             ':timezones': timezones_json).html_safe,
+                             ':timezones': timezones_array.to_json).html_safe,
            layout: 'vue_main_layout'
   end
 
