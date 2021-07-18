@@ -29,8 +29,8 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def timezones_array
-    ActiveSupport::TimeZone.all.map(&proc { |tz| [tz.tzinfo.to_s, tz.name] })
+  def timezones_json
+    ActiveSupport::TimeZone.all.map(&proc { |tz| [tz.tzinfo.to_s, tz.name] }).to_json
   end
 
   def sub_industries(specialist)
