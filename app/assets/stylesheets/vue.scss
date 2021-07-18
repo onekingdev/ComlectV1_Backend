@@ -9,13 +9,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@100;300;400;600&family=Varela&display=swap');
 
 
-$minWidthContent: 1440px;
+$minWidthContent: calc(62.5rem - 17.8125rem); // 1000px-285px (width minus sidebar width)
 
 /* ---------- MAIN STYLES ---------- */
 #app, body, html {
   margin: 0;
   padding: 0;
-  height: calc(100vh - 0);
+  min-height: calc(100vh);
   width: 100%;
   -webkit-font-smoothing: antialiased;
 }
@@ -89,9 +89,10 @@ html {
   flex-grow: 1;
   max-width: 100%;
   width: 100%;
+  overflow: hidden;
 }
 
-// need remove or not
+// need remove or rewrite
 #main-content {
   background-color: $gray-background;
 }
@@ -106,13 +107,12 @@ html {
   //min-width: 1440px;
   //min-width: 1000px;
   //min-width: 900px;
+  //min-width: 100%;
+  //max-width: 100%;
   //min-width: $minWidthContent;
-  min-width: calc(100% - 17.8125rem); // minus 285px
-  max-width: 100%;
 
+  overflow: auto;
   //border: solid 1px red;
-
-  overflow-y: auto;
 }
 
 
@@ -678,9 +678,13 @@ html {
   display: flex;
   flex-direction: column;
   height: 100%;
+  width: 100%;
+  //overflow: auto;
+  //border: solid 1px blue;
 
-  min-width: $minWidthContent;
-  overflow: auto;
+  @media (max-width: 1000px) {
+    min-width: $minWidthContent;
+  }
 }
 
 .page-header {
@@ -859,6 +863,18 @@ table.table thead tr th {
 }
 
 .task_table {
+  .name {
+    display: flex;
+    align-items: center;
+
+    @include media-breakpoint-down(lg) {
+      max-width: 150px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+  }
+
   tbody ion-icon {
     font-size: 20px;
     vertical-align: middle;
