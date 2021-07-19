@@ -52,6 +52,7 @@
       UserAvatar
     },
     created(){
+      window.addEventListener("resize", this.screenWidthChangeHandler);
       if (window.innerWidth < 1000) this.visible = false
 
       const user = JSON.parse(localStorage.getItem('app.currentUser'));
@@ -67,6 +68,9 @@
 
       // const splittedUrl = window.location.pathname.split('/') // ["", "business", "reminders"]
       // this.userType = splittedUrl[1]
+    },
+    destroyed() {
+      window.removeEventListener("resize", this.screenWidthChangeHandler);
     },
     data() {
       return {
@@ -87,6 +91,10 @@
       }
     },
     methods: {
+      screenWidthChangeHandler(e) {
+        if (window.innerWidth <= 991.98) this.visible = false
+        if (window.innerWidth > 991.98) this.visible = true
+      },
       // ...mapActions({
       //   signOut: 'auth/signOut',
       // }),
