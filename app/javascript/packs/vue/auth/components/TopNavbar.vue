@@ -6,8 +6,8 @@
           a.logo__link(href="/")
             img.logo__img.logo__img_full(src='@/assets/logo_wordmark.svg')
         .navbar-nav.mr-0
-          .dropdown.dropdown-profile(v-if="loggedIn")
-            .dropdown-profile__btn(@click="isProfileMenuOpen = !isProfileMenuOpen" :aria-expanded="isProfileMenuOpen")
+          .dropdown.dropdown-profile(v-if="loggedIn && userName")
+            .dropdown-profile__btn(v-if="userName" @click="isProfileMenuOpen = !isProfileMenuOpen" :aria-expanded="isProfileMenuOpen")
               span {{ userName }}
               b-icon.m-l-1(icon="chevron-down")
             ul.dropdown-menu.dropdown-menu-right(aria-labelledby="profile_dropdown_btn" :class="{ show: isProfileMenuOpen }")
@@ -68,7 +68,8 @@
           return this.$store.getters.getUser;
         },
         userName() {
-          return this.currentUser.contact_first_name ? `${this.currentUser.contact_first_name} ${this.currentUser.contact_last_name}` : `${this.currentUser.first_name} ${this.currentUser.last_name}`
+          const fullName = this.currentUser.contact_first_name ? `${this.currentUser.contact_first_name} ${this.currentUser.contact_last_name}` : `${this.currentUser.first_name} ${this.currentUser.last_name}`
+          return (fullName !== 'undefined undefined') ? fullName : ''
         }
       },
     }

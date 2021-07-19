@@ -76,7 +76,7 @@
                       .invalid-feedback.d-block(v-if="errors.industries") {{ errors.industries[0] }}
                       // label.typo__label.form__label(v-if="errors.industries") {{ errors.industries[0] }}
                 .col-sm-6.pl-sm-2
-                  b-form-group#inputB-group-5(label='Sub-Industry' label-for='selectB-5' label-class="required")
+                  b-form-group#inputB-group-5(label='Sub-Industry' label-for='selectB-5')
                     div(
                     :class="{ 'invalid': errors.subIndustry }"
                     )
@@ -92,7 +92,7 @@
                       .invalid-feedback.d-block(v-if="errors.subIndustry") {{ errors.subIndustry[0] }}
               .row
                 .col-sm-6.pr-sm-2
-                  b-form-group#inputB-group-6(label='Jurisdiction' label-for='selectB-6' label-class="required")
+                  b-form-group#inputB-group-6(label='Jurisdiction' label-for='selectB-6')
                     div(
                     :class="{ 'invalid': errors.jurisdiction }"
                     )
@@ -107,7 +107,7 @@
                       required)
                       .invalid-feedback.d-block(v-if="errors.jurisdiction") {{ errors.jurisdiction[0] }}
                 .col-sm-6.pl-sm-2
-                  b-form-group#inputB-group-7(label='Time Zone' label-for='selectB-7' label-class="required")
+                  b-form-group#inputB-group-7(label='Time Zone' label-for='selectB-7')
                     div(
                     :class="{ 'invalid': errors.time_zone }"
                     )
@@ -133,7 +133,7 @@
               hr
               .row
                 .col-xl-9.pr-xl-2
-                  b-form-group#inputB-group-9(label='Business Address' label-for='inputB-9' label-class="required")
+                  b-form-group#inputB-group-9(label='Business Address' label-for='inputB-9')
                     // b-form-input#inputB-9(v-model='formStep2.business.address_1' placeholder='Business Address' required :class="{'is-invalid': errors.address_1 }" v-debounce:1000ms="onAdressChange")
                     vue-google-autocomplete#map(ref="address" classname='form-control' :class="{'is-invalid': errors.address_1 }" v-model='formStep2.business.address_1' placeholder='Business Address'  :fields="['address_components', 'adr_address', 'geometry', 'formatted_address', 'name']" v-on:placechanged='getAddressData')
                     .invalid-feedback.d-block(v-if="errors.address_1") {{ errors.address_1[0] }}
@@ -160,7 +160,7 @@
                       required)
                       .invalid-feedback.d-block(v-if="errors.state") {{ errors.state[0] }}
                 .col-xl-4.pl-xl-2
-                  b-form-group#inputB-group-11(label='Zip' label-for='inputB-11' label-class="required")
+                  b-form-group#inputB-group-11(label='Zip' label-for='inputB-11')
                     b-form-input#inputB-11(v-model='formStep2.business.zipcode' placeholder='Zip' required :class="{'is-invalid': errors.zipcode }")
                     .invalid-feedback.d-block(v-if="errors.zipcode") {{ errors.zipcode[0] }}
               .text-right.m-t-3
@@ -757,6 +757,10 @@
     margin-bottom: 0;
     padding-top: 0;
     padding-bottom: 2px;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
   }
   .multiselect__tags {
     min-height: 2.4rem;

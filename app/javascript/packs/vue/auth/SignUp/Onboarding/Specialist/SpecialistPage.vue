@@ -749,6 +749,10 @@
     margin-bottom: 0;
     padding-top: 0;
     padding-bottom: 2px;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
   }
   .multiselect__tags {
     min-height: 2.4rem;
