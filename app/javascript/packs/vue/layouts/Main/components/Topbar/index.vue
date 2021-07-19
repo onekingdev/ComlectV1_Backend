@@ -52,6 +52,8 @@
       UserAvatar
     },
     created(){
+      if (window.innerWidth < 1000) this.visible = false
+
       const user = JSON.parse(localStorage.getItem('app.currentUser'));
       this.account = {
         first_name: user.contact_first_name ? `${user.contact_first_name}` : `${user.first_name}`,
@@ -65,10 +67,6 @@
 
       // const splittedUrl = window.location.pathname.split('/') // ["", "business", "reminders"]
       // this.userType = splittedUrl[1]
-    },
-    created() {
-      console.log(window.innerWidth)
-      if (window.innerWidth < 1000) this.visible = false
     },
     data() {
       return {
