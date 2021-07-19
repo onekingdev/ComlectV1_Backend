@@ -1,0 +1,49 @@
+{
+  "dashboard": {
+    "success": {
+      "created": "Account has been created."
+    }
+  },
+  "notifications": {},
+  "profile": {
+    "success": {
+      "updated": "Config successfully saved!"
+    },
+    "errors": {
+      "error": "`Something wrong! ${error}`"
+    }
+  },
+  "projects": {
+    "success": {
+      "requested": "Project End has been requested",
+      "proposal_sent": "Proposal sent",
+      "approval": "Time logged and awaiting approval"
+    },
+    "errors": {
+      "error": "Cannot request End project"
+    }
+  },
+  "settings": {
+    "success": {
+      "user_deleted": "`The user has been deleted! ${response.id}`",
+      "user_added": "User successfully added!",
+      "user_update": "Saved changes to specialist.",
+      "app_deleted": "`The app has been deleted! ${response.id}`",
+      "card_changed": "`The primary card successfully changed!`",
+      "setting_updated": "Setting is updated",
+      "plan_uprated": "Plan upgraded.",
+      "billing_upgrated": "Billing upgraded.",
+      "payment_method_added": "Payment Method successfully added!",
+      "subsribe_updated": "Update subscribe successfully finished!",
+      "seats_subsribe_updated": "Update seat subscribe successfully finished!",
+      "info_saved": "Information successfully saved!"
+    },
+    "errors": {
+      "error": "`Something wrong! ${error.message}`",
+      "field_error": "`Form has errors! Please recheck fields! ${response.errors[type]}`",
+      "from_error": "`Couldn't submit form! ${error.message}`",
+      "field_required": "Name is required.",
+      "filed_short": "Name is very short, must be more 3 characters."
+    }
+  }
+}

@@ -1,6 +1,9 @@
 /* ---------- Sign Up Page ---------- */
 .registration {
   margin-top: 10rem; /* 160px */
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 35.625rem;
   border-radius: 4px;
   border-color: #DCDEE4;
   overflow: hidden;
@@ -59,6 +62,11 @@
   border: solid 1px #DCDEE4;
   border-radius: 5px;
   transition: all 200ms ease;
+}
+@media (max-width: 575px) {
+  .account-select {
+    margin-bottom: 0;
+  }
 }
 .account-select:hover,
 .account-select:active {

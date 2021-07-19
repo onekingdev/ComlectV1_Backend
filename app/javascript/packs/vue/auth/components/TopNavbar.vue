@@ -1,7 +1,7 @@
 <template lang="pug">
   .row
     .col
-      .d-flex.justify-content-between.align-items-center
+      .topbar
         .logo
           a.logo__link(href="/")
             img.logo__img.logo__img_full(src='@/assets/logo_wordmark.svg')
