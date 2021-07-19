@@ -7,9 +7,8 @@
           li: LocalProjectModal(@saved="newEtag" :project-id="project.id" :inline="false")
             button.dropdown-item Edit
           li: DeleteLocalProjectModal(:project="project")
-        a.mr-2.btn.btn-default(v-if="project.visible_project" :href='viewHref(project.visible_project)') View Post
-        a.btn.btn-default(v-else :href='postHref(project)') Post Project
-        // router-link.btn.btn-default(:to='postHref(project)') Post Project
+        router-link.mr-2.btn.btn-default(v-if="project.visible_project" :to='viewHref(project.visible_project)') View Post
+        router-link.btn.btn-default(v-else :to='postHref(project)') Post Project
         CompleteLocalProjectModal(:project="project" @saved="newEtag")
       b-tabs(content-class="mt-0" v-model="tab")
         b-tab(title="Overview" active)

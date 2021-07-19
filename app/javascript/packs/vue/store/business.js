@@ -20,7 +20,7 @@ const URL_PROJECT_POST = `/business/project_posts/:id`;
 const URL_API_PROJECT = `/api${URL_PROJECT_SHOW}`;
 const URL_API_PROJECT_APPLICATIONS = `/api${URL_PROJECT_SHOW}/applications`;
 const URL_API_PROJECT_HIRES = `/api${URL_PROJECT_SHOW}/hires`;
-const URL_POST_LOCAL_PROJECT = "/business/projects/new?local_project_id=:id";
+const URL_POST_LOCAL_PROJECT = "/business/projects/new/:id";
 const URL_PROJECT_TIMESHEETS = `${URL_PROJECT_SHOW}/timesheets`;
 const URL_API_PROJECT_TIMESHEETS = `/api${URL_PROJECT_TIMESHEETS}`;
 

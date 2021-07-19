@@ -23,7 +23,7 @@
           .col-sm-6
             .card
               .card-header
-                a.btn.btn-outline-dark.float-right(:href="`/business/project_posts/${project.id}/edit`") Edit
+                router-link.btn.btn-outline-dark.float-right(:to='`/business/project_posts/${project.id}/edit`') Edit
                 h3 Post Details
               .card-body
                 dl.row

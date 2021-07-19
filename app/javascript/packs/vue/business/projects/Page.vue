@@ -5,7 +5,7 @@
         h2 Projects
         p.page-header__subtitle.mb-0 Plan projects with employees or hire specialists for additional help
       .page-header__actions
-        a.btn.btn-default(href='/business/projects/new') Post Project
+        router-link.btn.btn-default(to='/business/projects/new') Post Project
         LocalProjectModal(@saved="newEtag")
           a.btn.m-l-1.btn-primary New Project
     b-tabs(content-class="mt-0")

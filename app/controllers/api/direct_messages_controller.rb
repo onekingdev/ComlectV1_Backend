@@ -4,6 +4,19 @@ class Api::DirectMessagesController < ApiController
   before_action :require_someone!
   skip_before_action :verify_authenticity_token
 
+  def show
+    @threads = Message.direct.threads_for(@current_someone)
+    all_threads = []
+    @threads.each do |thread|
+      all_threads.push(thread)
+    end
+    if all_threads
+      respond_with threads: all_threads
+    else
+      respond_with errors: "no_threads"
+    end
+  end
+
   def index
     bid, sid = if @current_someone.class.name.include?('Business')
                  [@current_someone.id,
@@ -17,6 +30,10 @@ class Api::DirectMessagesController < ApiController
   end
 
   def create
+    if message_params[:message].nil? && message_params[:file].nil?
+      render json: { errors: "can't send empty message" }
+      return
+    end
     recipient = if @current_someone.class.name.include? 'Business'
                   Specialist.find(params[:recipient_id])
                 elsif @current_someone.class.name.include? 'Specialist'
