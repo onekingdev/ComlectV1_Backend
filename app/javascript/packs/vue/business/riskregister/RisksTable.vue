@@ -15,7 +15,7 @@
         table.table(v-if="!loading")
           thead(v-if="filteredRisksComputed && filteredRisksComputed.length")
             tr
-              th(width="55%") Name
+              th Name
               th Impact
               th Likelihood
               th Risk level
@@ -24,10 +24,10 @@
           tbody
             tr(v-for="risk in filteredRisksComputed" :key="risk.id")
               td
-                .d-flex.align-items-center
-                  .dropdown-toggle.link(v-if="risk.compliance_policies.length !== 0" :id="`#sectionIcon-${risk.id}`", @click="toogleSections(risk.id)")
+                .d-flex.align-items-center.link
+                  .dropdown-toggle(v-if="risk.compliance_policies.length !== 0" :id="`#sectionIcon-${risk.id}`", @click="toogleSections(risk.id)")
                     b-icon.mr-2(icon="chevron-right" font-scale="0.5")
-                  a.link(:href="`/business/risks/${risk.id}`") {{ risk.name }}
+                  a(:href="`/business/risks/${risk.id}`") {{ risk.name }}
                 .dropdown-items.mb-2(v-if="risk.compliance_policies" :id="`#section-${risk.id}`")
                   ul.list-unstyled.ml-3
                     li.mb-2(v-for="policy in risk.compliance_policies" :key="policy.id")

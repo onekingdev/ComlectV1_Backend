@@ -887,23 +887,24 @@ a.link,
 
   @include media-breakpoint-down(lg) {
     padding: 0.35em;
-    word-break: break-all;
-    text-overflow: ellipsis;
+    //word-break: break-all;
+    //text-overflow: ellipsis;
     font-size: 12px;
 
-    .link {
-      max-width: 150px;
+    .link,
+    a.link {
+      max-width: 90px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
       //border: solid 1px blue;
 
+      a,
       span {
-        width: 50px !important;
-        white-space: nowrap!important;
-        overflow: hidden!important;
-        text-overflow: ellipsis!important;
-        //border: solid 1px red;
+        max-width: inherit;
+        white-space: inherit;
+        overflow: inherit;
+        text-overflow: inherit;
       }
     }
 
