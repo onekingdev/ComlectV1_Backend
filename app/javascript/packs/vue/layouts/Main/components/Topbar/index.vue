@@ -8,7 +8,7 @@
       b-navbar-toggle.justify-content-center(target='nav-collapse')
         | Menu
         ion-icon.ml-2(name='chevron-down-outline')
-      b-collapse#nav-collapse.topbar-menu(is-nav)
+      b-collapse#nav-collapse.topbar-menu(v-model="visible")
         ul.topbar-menu__list
           li.nav-item.topbar-menu__item(@click="openLink('default')")
             router-link.topbar-menu__link(:to='`/${userType}`' active-class="active" exact) Home
@@ -66,8 +66,13 @@
       // const splittedUrl = window.location.pathname.split('/') // ["", "business", "reminders"]
       // this.userType = splittedUrl[1]
     },
+    created() {
+      console.log(window.innerWidth)
+      if (window.innerWidth < 1000) this.visible = false
+    },
     data() {
       return {
+        visible: true,
         account: {
           first_name: '',
           last_name: ''
@@ -140,7 +145,8 @@
     },
     watch: {
       '$route' () {
-        document.getElementById('nav-collapse').classList.remove('show')
+        this.visible = false
+        // document.getElementById('nav-collapse').classList.remove('show')
         // $('#nav-collapse').collapse('hide')
       }
     }
