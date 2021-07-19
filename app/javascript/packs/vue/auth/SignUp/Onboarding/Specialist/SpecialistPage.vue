@@ -751,8 +751,8 @@
     padding-bottom: 2px;
   }
   .multiselect__tags {
-    min-height: 20px;
-    padding: 5px 40px 0 10px;
+    min-height: 2.4rem;
+    padding: 7px 40px 0 10px;
     margin-bottom: 0;
     border-color: #ced4da;
   }
@@ -780,7 +780,7 @@
     background: #0479ff;
   }
   .multiselect__select {
-    height: 30px;
+    height: 2.4rem;
   }
   .multiselect__single {
     margin-bottom: 0;
