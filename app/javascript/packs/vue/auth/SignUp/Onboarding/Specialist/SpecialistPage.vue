@@ -761,7 +761,7 @@
     border-color: #ced4da;
   }
   .multiselect__tag {
-    padding: 2px 26px 2px 10px;
+    padding: 3px 26px 3px 10px;
     margin-bottom: 0;
     color: #0479ff;
     background: #ecf4ff;
@@ -777,7 +777,7 @@
     background: #0479ff;
   }
   .multiselect__tag-icon {
-    line-height: 1.2rem;
+    line-height: 1rem;
   }
   .multiselect__tag-icon:hover {
     color: white;
