@@ -749,15 +749,19 @@
     margin-bottom: 0;
     padding-top: 0;
     padding-bottom: 2px;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
   }
   .multiselect__tags {
-    min-height: 20px;
-    padding: 5px 40px 0 10px;
+    min-height: 2.4rem;
+    padding: 7px 40px 0 10px;
     margin-bottom: 0;
     border-color: #ced4da;
   }
   .multiselect__tag {
-    padding: 2px 26px 2px 10px;
+    padding: 3px 26px 3px 10px;
     margin-bottom: 0;
     color: #0479ff;
     background: #ecf4ff;
@@ -773,14 +777,14 @@
     background: #0479ff;
   }
   .multiselect__tag-icon {
-    line-height: 1.2rem;
+    line-height: 1rem;
   }
   .multiselect__tag-icon:hover {
     color: white;
     background: #0479ff;
   }
   .multiselect__select {
-    height: 30px;
+    height: 2.4rem;
   }
   .multiselect__single {
     margin-bottom: 0;

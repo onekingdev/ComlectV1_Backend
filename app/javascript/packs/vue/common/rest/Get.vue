@@ -24,19 +24,17 @@ export default {
   },
   methods: {
     refetch() {
-      Object.keys(this.$attrs)
-            .filter(prop => !!this.$attrs[prop])
-            .map(prop => fetch(this.$attrs[prop], { headers: {'Accept': 'application/json'}})
+      Object.keys(this.$attrs).map(prop => fetch(this.$attrs[prop], { headers: {'Accept': 'application/json'}})
             .then(response => response.json())
             .then(result => Vue.set(this.slotProps, prop, this.callback(result))))
     }
   },
   computed: {
     everythingLoaded() {
-      const totalNonEmptyProps = Object.keys(this.$attrs).filter(prop => !!this.$attrs[prop]).length,
+      const totalProps = Object.keys(this.$attrs).length,
             setProps = Object.keys(this.slotProps).length,
-            loadedProps = Object.values(this.slotProps).filter(o => typeof(o) === "object").length
-      return totalNonEmptyProps === setProps && setProps === loadedProps
+            nonEmptyProps = Object.values(this.slotProps).filter(o => typeof(o) === "object").length
+      return totalProps === setProps && setProps === nonEmptyProps
     }
   },
   watch: {

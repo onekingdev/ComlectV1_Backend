@@ -3,7 +3,7 @@
     .container-fluid(v-if='!childDataLoaded')
       TopNavbar
       main.row#main-content
-        .col-xl-4.col-lg-6.col-md-8.m-x-auto
+        .col.m-x-auto
           .card.registration
             .card-body.white-card-body
               Loading
