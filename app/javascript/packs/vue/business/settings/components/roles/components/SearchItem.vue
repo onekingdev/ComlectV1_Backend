@@ -1,6 +1,6 @@
 <template lang="pug">
   .row
-    .col-lg-4.col-12
+    .col-4
       .position-relative
         b-icon.icon-searh(icon='search')
         input.form-control.form-control_search(type="text" placeholder="Search" v-model="searchInput", @keyup="searching")
