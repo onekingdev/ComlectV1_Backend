@@ -370,6 +370,7 @@ html {
     width: 100%;
     height: 100%;
     color: $black;
+    background-color: transparent;
 
     @include media-breakpoint-down(lg) {
       margin: 0 .5em;
@@ -1124,25 +1125,32 @@ a:hover {
 
 
 /* ---------- TABLES ---------- */
+.table th {
+  white-space: nowrap;
+}
+
+.table td {
+  &:first-child {
+
+    @include media-breakpoint-down(lg) {
+      max-width: 50px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}
+
 .table th, .table td {
 
   @include media-breakpoint-down(lg) {
   //@media (max-width: 1000px) {
     padding: 0.75rem 0.35em;
-    //word-break: break-all;
-    //text-overflow: ellipsis;
-    font-size: 12px;
 
-    th:first-child,
-    td:first-child {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
 
     .link,
     a.link {
-      max-width: 90px;
+      max-width: 50px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -1150,10 +1158,10 @@ a:hover {
 
       a,
       span {
-        max-width: inherit;
-        white-space: inherit;
-        overflow: inherit;
-        text-overflow: inherit;
+        max-width: 50px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       ion-icon {
