@@ -1,5 +1,5 @@
 <template lang="pug">
-  nav.sidebar-menu(v-if="leftSidebar !== 'settings'" :class="{ menuClosed: toggleClosedMenu }")
+  nav.sidebar-menu(v-if="leftSidebar !== 'settings' || leftSidebar !== 'builder'" :class="{ menuClosed: toggleClosedMenu }")
     div.sidebar-menu__central(v-if="leftSidebar === 'default' || userType === 'specialist'")
       h3.sidebar-menu__title(
       :class="overview_collapse ? null : 'collapsed'"
@@ -132,6 +132,13 @@
         }
 
         const splitUrl = this.$route.name
+        if(splitUrl === "policy-current") {
+          this.$store.commit('changeSidebar', 'builder')
+          document.querySelector('.sidebar-menu').style.display = "none"
+          return
+        }
+
+        document.querySelector('.sidebar-menu').style.display = "flex"
         if(splitUrl === "file-folders"
           || splitUrl === "settings"
           || splitUrl === "settings-notification-center") this.$store.commit('changeSidebar', 'documents')
