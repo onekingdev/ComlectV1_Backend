@@ -32,8 +32,8 @@
       table(v-if="!loading && exams && !exams.length")
         tbody
           tr
-            td(colspan="4").text-center
-              h3 Exams management not exist
+            td
+              h4.text-center Exams management not exist
 
 </template>
 

@@ -4,10 +4,10 @@
       h2.page-header__title {{ pageTitle }}
     .card-body.white-card-body.card-body_full-height
       .row
-        .col-md-7.col-sm-12.pl-0
+        .col-lg-7.col-sm-12.pl-0.mb-3.mb-lg-0
           .card
             RegulatoryExamsTable(:exams="exams")
-        .col-md-5.col-sm-12.pl-0
+        .col-lg-5.col-sm-12.pl-0
           .card
             .card-header.d-flex.justify-content-between
               h3.m-y-0 Tasks
