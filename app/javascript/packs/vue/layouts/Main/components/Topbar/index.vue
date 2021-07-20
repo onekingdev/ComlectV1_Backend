@@ -151,7 +151,7 @@
     },
     watch: {
       '$route' () {
-        if(window.innerWidth < 576) {
+        if(window.innerWidth < 992) {
           this.visible = false
         }
         // document.getElementById('nav-collapse').classList.remove('show')
