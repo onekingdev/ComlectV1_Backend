@@ -12,6 +12,8 @@ import Router from 'vue-router'
 import Dashboard from '@/business/dashboard/Page'
 import Projects from '@/business/projects/Page'
 import ProjectReview from '@/business/projects/ShowPage'
+import PostProjectPage from '@/business/projects/PostProjectPage'
+import ShowPostPage from '@/business/projects/ShowPostPage'
 import Tasks from '@/business/tasks/Page'
 import Policies from '@/business/policies/Page'
 import PolicyCurrent from '@/business/policies/Details/PolicyCreate'
@@ -57,6 +59,10 @@ export default new Router({
     { path: '/business', name: 'dashboard', component: Dashboard },
     { path: '/business/projects', name: 'projects', component: Projects },
     { path: '/business/projects/:id(\\d+)', name: 'project-review', props: route => ({ projectId: +route.params.id }), component: ProjectReview },
+    { path: '/business/projects/new', name: 'project-post', component: PostProjectPage },
+    { path: '/business/projects/new/:id(\\d+)', name: 'project-post-from-local', props: route => ({ localProjectId: +route.params.id }), component: PostProjectPage },
+    { path: '/business/project_posts/:id(\\d+)', name: 'project-post-view', props: route => ({ projectId: +route.params.id }), component: ShowPostPage },
+    { path: '/business/project_posts/:id(\\d+)/edit', name: 'project-post-edit', props: route => ({ projectId: +route.params.id }), component: PostProjectPage },
     { path: '/business/reminders', name: 'tasks', component: Tasks },
     // { path: '/business/compliance_policies', name: 'policies', component: Policies, beforeEnter: AuthGuard },
     { path: '/business/compliance_policies', name: 'policies', component: Policies, },

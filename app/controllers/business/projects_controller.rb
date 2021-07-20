@@ -16,28 +16,11 @@ class Business::ProjectsController < ApplicationController
   }.freeze
 
   def index
-    # render html: content_tag('business-projects-page', '').html_safe, layout: 'vue_business'
     render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_main_layout'
   end
 
   def new
-    @local_project = params[:local_project_id] ? LocalProject.find(params[:local_project_id]) : nil
-    render html: content_tag('business-post-project-page',
-                             '',
-                             ':industry-ids': Industry.all.map(&proc { |ind| { id: ind.id, name: ind.name } }).to_json,
-                             ':jurisdiction-ids': Jurisdiction.all.map(&proc { |ind| { id: ind.id, name: ind.name } }).to_json,
-                             ':local-project': @local_project.to_json)
-      .html_safe,
-           layout: 'vue_business'
-
-    # @local_project = params[:local_project_id] ? LocalProject.find(params[:local_project_id]) : nil
-    #     render html: content_tag('main-layoyt',
-    #                              '',
-    #                              ':industry-ids': Industry.all.map(&proc { |ind| { id: ind.id, name: ind.name } }).to_json,
-    #                              ':jurisdiction-ids': Jurisdiction.all.map(&proc { |ind| { id: ind.id, name: ind.name } }).to_json,
-    #                              ':local-project': @local_project.to_json)
-    #       .html_safe,
-    #            layout: 'vue_main_layout'
+    render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_main_layout'
   end
 
   def show
@@ -45,25 +28,11 @@ class Business::ProjectsController < ApplicationController
   end
 
   def show_post
-    @project = current_business.projects.find(params[:id])
-
-    render html: content_tag(
-      'project-show-post-page',
-      '',
-      ':project-id': @project.id,
-      'current-business': current_business
-    ).html_safe, layout: 'vue_business'
+    render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_main_layout'
   end
 
   def update_post
-    project = current_business.projects.find(params[:id])
-    render html: content_tag('business-post-project-page',
-                             '',
-                             ':project-id': project.id,
-                             ':industry-ids': Industry.all.map(&proc { |ind| { id: ind.id, name: ind.name } }).to_json,
-                             ':jurisdiction-ids': Jurisdiction.all.map(&proc { |ind| { id: ind.id, name: ind.name } }).to_json)
-      .html_safe,
-           layout: 'vue_business'
+    render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_main_layout'
   end
 
   def create

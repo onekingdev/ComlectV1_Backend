@@ -8,14 +8,14 @@
             h4.alert-heading {{ 'application' | plural(applications) }} received.
             p.mb-0 There {{ applications | isAre }} currently {{ 'applicant' | plural(applications) }} for your project.
         div
-          a.btn.btn-light.mt-2(:href="viewPostUrl") View
+          router-link.btn.btn-light.mt-2(:to="viewPostUrl") View
     .alert.alert-info(v-else)
       div(v-if="project.status == 'published'")
         h4.alert-heading Your project is currently posted on the job board as of {{ project.created_at | asDate }}.
         p Keep an eye out! Specialists may reach out to you soon.
       div(v-else)
         h4.alert-heading Yout project is currently draft
-      a.btn.btn-light(:href="viewPostUrl") View
+      router-link.btn.btn-light(:to="viewPostUrl") View
 </template>
 
 <script>
