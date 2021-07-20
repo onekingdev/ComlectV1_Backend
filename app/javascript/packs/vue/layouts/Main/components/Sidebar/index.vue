@@ -1,7 +1,7 @@
 <template lang="pug">
   nav.sidebar-menu(v-if="leftSidebar !== 'settings'" :class="{ menuClosed: toggleClosedMenu }")
     div.sidebar-menu__central(v-if="leftSidebar === 'default' || userType === 'specialist'")
-      h3.sidebar-menu__title(role="button" v-b-toggle.overview_collapse @click="toggleClosedMenu = toggleClosedMenuFunc()")
+      h3.sidebar-menu__title(role="button" v-b-toggle.overview_collapse)
         ion-icon(name='list-outline')
         span Overview
         ion-icon.ml-auto(name='chevron-down-outline')
@@ -17,7 +17,7 @@
             router-link.sidebar-menu__link(:to='`/${userType}/projects`' active-class="active")
               | Projects
       div(v-if="userType !== 'specialist'")
-        h3.sidebar-menu__title(role="button" v-b-toggle.program_management_collapse @click="toggleClosedMenu = false")
+        h3.sidebar-menu__title(role="button" v-b-toggle.program_management_collapse)
           ion-icon(name='document-text-outline')
           span Program Management
           ion-icon.ml-auto(name='chevron-down-outline')
@@ -86,15 +86,6 @@
         if(value === 'documents') this.$store.commit('changeSidebar', 'documents')
         if(value !== 'documents') this.$store.commit('changeSidebar', 'default')
       },
-      toggleClosedMenuFunc () {
-        console.log(window.innerWidth)
-        if (window.innerWidth > 578) {
-          return
-        }
-        if (window.innerWidth < 578) {
-          this.toggleClosedMenu = true
-        }
-      }
     },
     computed: {
       leftSidebar () {
