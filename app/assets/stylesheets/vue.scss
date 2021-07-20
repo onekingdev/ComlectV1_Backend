@@ -781,12 +781,17 @@ html {
   padding: 0.625rem 2.0625rem; // 10 33px
   //max-width: 25rem; //400px
   border-color: #DCDEE4;
+
+  &::placeholder {
+    color: $gray-2;
+  }
 }
 
 .b-icon.bi.icon-searh {
   position: absolute;
   top: .7rem;
   left: .7rem;
+  color: #565759;
 }
 
 .btn-clear {
