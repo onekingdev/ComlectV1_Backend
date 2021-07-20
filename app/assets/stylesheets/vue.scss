@@ -329,6 +329,7 @@ html {
 
 .topbar-right-dropdown {
   display: flex;
+  align-items: center;
 
   border-left: solid 1px $gray-1;
   border-right: solid 1px $gray-1;
@@ -887,11 +888,11 @@ a.btn,
 .btn-primary:focus,
 .btn-primary:active,
 .btn-primary.active,
-.open > .dropdown-toggle.btn-primary,
 .btn-dark:hover,
 .btn-dark:focus,
 .btn-dark:active,
 .btn-dark.active,
+.open > .dropdown-toggle.btn-primary,
 .open > .dropdown-toggle.btn-dark {
   color: $white;
   background-color: $primary;
@@ -953,6 +954,18 @@ a.btn,
 
 
 /* ---------- DROPDOWNS ---------- */
+.dropdown-toggle {
+  color: $primary-dark;
+  background-color: $white;
+  border-color: $gray-1;
+  font-weight: 400;
+}
+.open > .btn.dropdown-toggle.btn-default {
+  color: $primary-dark;
+  background-color: $gray-background;
+  border-color: $gray-1;
+}
+
 //.actions {
 //  position: relative;
 //  display: block;
@@ -1065,6 +1078,36 @@ a.btn,
   background-color: $blue-light;
 }
 
+.dropdown-toggle {
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-toggle::after {
+  display: none;
+}
+
+.dropdown-toggle svg {
+  fill: #000;
+  transition: all 200ms ease-in;
+}
+
+.dropdown-toggle.active svg {
+  transform: rotate(90deg);
+}
+
+.btn.dropdown-toggle.btn-none {
+  border-color: transparent;
+
+  &:hover,
+  &:focus,
+  &:active,
+  &.active {
+    color: $black;
+    background-color: $gray-background;
+    border-color: $gray-1;
+  }
+}
 
 /* ---------- LINKS ---------- */
 a,

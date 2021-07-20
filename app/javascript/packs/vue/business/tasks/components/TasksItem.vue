@@ -21,7 +21,7 @@
     td(v-if="!shortTable").text-right 0
     td(v-if="!shortTable").text-right 0
     td(v-if="!shortTable").text-right
-      b-dropdown.actions(size="xs" variant="none" class="m-0 p-0" right)
+      b-dropdown(size="xs" variant="none" class="m-0 p-0" right)
         template(#button-content)
           b-icon(icon="three-dots")
         //b-dropdown-item(:href="`/business/reminders/${item.id}`") Edit
