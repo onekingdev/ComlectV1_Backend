@@ -1,7 +1,7 @@
 <template lang="pug">
   div
     .row
-      .col-4
+      .col-lg-4.col-12
         .position-relative.p-b-20
           b-icon.icon-searh(icon='search')
           input.form-control.form-control_search(type="text" placeholder="Search" v-model="searchInput", @keyup="searching")

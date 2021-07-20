@@ -1,6 +1,9 @@
 /* ---------- Sign Up Page ---------- */
 .registration {
   margin-top: 10rem; /* 160px */
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 35.625rem;
   border-radius: 4px;
   border-color: #DCDEE4;
   overflow: hidden;
@@ -15,37 +18,28 @@
     margin-top: 1rem;
   }
 }
-.link{
-  color: var(--blue)
-}
 
 .card.registration .card-body {
   padding: 2.5rem 2.5rem 1.25rem 2.5rem; /*40 20px*/
 }
-
 .card.registration .white-card-body {
   border-top: none;
 }
-
 .card.registration .card-footer {
   padding: 1.25rem 0;
   font-size: 0.875rem; /*14px*/
   background-color: white;
 }
-
 .registration-welcome {
   margin-bottom: 2.5rem;
   text-align: center;
 }
-
 .registration__title {
   font-size: 2rem; /* 32px */
 }
-
 .registration__subtitle {
   font-size: 1.25rem; /* 20px */
 }
-
 .registration__btn {
   margin-bottom: 1.875rem; /*30px*/
   font-weight: 600;
@@ -59,6 +53,11 @@
   border: solid 1px #DCDEE4;
   border-radius: 5px;
   transition: all 200ms ease;
+}
+@media (max-width: 575px) {
+  .account-select {
+    margin-bottom: 0;
+  }
 }
 .account-select:hover,
 .account-select:active {
@@ -85,17 +84,6 @@
   text-align: center;
   color: #797B7E;
 }
-
-/*.form ion-icon {*/
-  /*font-size: 15rem!important;*/
-  /*filter: drop-shadow(5px 5px 5px lightgray);*/
-/*}*/
-
-/*@media (max-width: 575px) {*/
-  /*ion-icon {*/
-    /*font-size: 7em!important;*/
-  /*}*/
-/*}*/
 
 .code-input {
   display: flex;
@@ -147,26 +135,6 @@ input[type=number] {
 }
 .registration-card-header {
   border-bottom: solid 1px #DCDEE4;
-}
-
-/* ---------- utilites ---------- */
-.m-b-20 {
-  margin-bottom: 1.25rem;
-}
-.m-b-40 {
-  margin-bottom: 2.5rem;
-}
-.m-b-80 {
-  margin-bottom: 5rem;
-}
-
-.p-y-20 {
-  padding-top: 1.25rem;
-  padding-bottom: 1.25rem;
-}
-
-.p-40 {
-  padding: 2.5rem;
 }
 
 /* ---------- purchase-summary ---------- */
@@ -372,14 +340,7 @@ input[type=number] {
   color: inherit;
 }
 
-a.link,
-.link {
-  color: var(--blue);
-  cursor: pointer;
-}
-
 /* ---------- Onboarding Specialist Uploading ---------- */
-
 .dropbox {
   display: flex;
   flex-direction: column;
@@ -398,7 +359,6 @@ a.link,
   overflow: hidden;
   transition: all 200ms ease-in;
 }
-
 .input-file {
   opacity: 0; /* invisible but it's there! */
   width: 100%;
@@ -406,99 +366,14 @@ a.link,
   position: absolute;
   cursor: pointer;
 }
-
 .dropbox:hover {
   opacity: .7;
 }
-
 .dropbox p {
   margin-bottom: 0;
   font-size: 1.2em;
   text-align: center;
   padding: 30px 0;
-}
-
-/* ---------- Logo page ---------- */
-/*.logo {*/
-  /*!*max-width: 216px;*!*/
-  /*max-width: 160px;*/
-/*}*/
-/*.logo__link {*/
-  /*width: 100%;*/
-/*}*/
-/*.logo__img {*/
-  /*width: 100%;*/
-  /*object-fit: contain;*/
-/*}*/
-/*@media (min-width: 576px) and (max-width: 767px) {*/
-
-/*}*/
-/*@media (max-width: 575px) {*/
-  /*!*.logo {*!*/
-    /*!*width: 100%;*!*/
-    /*!*max-width: 100%;*!*/
-  /*!*}*!*/
-  /*.logo__img {*/
-    /*!*width: 100%;*!*/
-    /*max-width: 150px;*/
-  /*}*/
-/*}*/
-
-.navbar-nav {
-  height: 65px;
-}
-
-@media (max-width: 575px) {
-  .navbar-nav {
-    height: auto;
-  }
-}
-
-/* ---------- FORMS---------- */
-.text-right .btn {
-  /*min-width: 65px;*/
-  font-weight: 600;
-}
-.btn.btn-dark:hover,
-.btn.btn-dark:active {
-  background-color: #2E304F;
-  box-shadow: none;
-}
-.btn.btn-default:hover,
-.btn.btn-default:active {
-  background-color: #F3F6F9;
-  box-shadow: none;
-}
-.custom-radio:not(:last-child) {
-  margin-bottom: 1rem;
-}
-
-label.required:after {
-  content: " *";
-  color: #ED60A6;
-}
-
-.form-control:focus,
-.form-control:active {
-  border: 1px solid #0378fe;
-  box-shadow: none !important;
-}
-
-.form-control.is-invalid {
-  border-color: #cd1837;
-}
-
-label,
-legend, .label {
-  color: #797b7e;
-}
-
-.otp-icon {}
-@media (max-width: 575px) {
-  .otp-icon {
-    width: 9.375rem; /* 150px; */
-    height: 5rem; /*80px;*/
-  }
 }
 
 /* ---------- NAVBAR ---------- */
@@ -509,119 +384,4 @@ legend, .label {
 .navbar .dropdown:active {
   background-color: #f6f6f8;
   cursor: pointer;
-}
-.dropdown-menu-right {
-  margin: 0;
-  padding: 0;
-}
-.dropdown-menu-right li {
-  padding: 0.75rem 0.625rem 0.75rem 0.625rem;
-}
-.dropdown-menu-right li:hover,
-.dropdown-menu-right li:active {
-  background-color: #F3F6F9;
-}
-
-/* ---------- Files List view ---------- */
-.file-card {
-  display: flex;
-  align-items: center;
-  padding: 1rem;
-  border: solid 1px #dcdee4;
-  background-color: #ecf4ff;
-}
-.file-card:not(:last-child) {
-  margin-bottom: 1rem;
-}
-.file-card__icon {
-  color: #797b7e;
-}
-.file-card__name {
-  margin-bottom: 0;
-}
-.file-card__link {}
-.file-card__close {
-  position: relative;
-}
-.file-card__close::before,
-.file-card__close::after {
-  display: block;
-  position: absolute;
-  content: '.';
-}
-.file-card__close::before {
-  top: -5px;
-  left: 0;
-}
-.file-card__close::after {
-  top: -5px;
-  right: 0;
-}
-.file-card .dropdown-toggle::after {
-  display: none;
-}
-
-
-/* ---------- Loading ---------- */
-.lds-ring {
-  display: inline-block;
-  position: relative;
-  width: 160px;
-  height: 145px;
-}
-.lds-ring-small {
-  width: 25px;
-  height: 25px;
-}
-
-.lds-ring div {
-  box-sizing: border-box;
-  display: block;
-  position: absolute;
-  width: 140px;
-  height: 140px;
-  margin: 8px;
-  border: 13px solid #2E304F;
-  border-radius: 50%;
-  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-  border-color: #2E304F #DCDEE4 #DCDEE4 #DCDEE4;
-}
-.lds-ring-small div {
-  width: 15px;
-  height: 15px;
-  margin: 1px;
-  border: 3px solid #2E304F;
-  border-color: #2E304F transparent transparent transparent;
-}
-
-.lds-ring-stop div {
-  animation: none;
-  border-color: #2E304F #2E304F #2E304F #2E304F;
-}
-.lds-ring div:nth-child(1) {
-  animation-delay: -0.45s;
-}
-.lds-ring div:nth-child(2) {
-  animation-delay: -0.3s;
-}
-.lds-ring div:nth-child(3) {
-  animation-delay: -0.15s;
-}
-
-.lds-ring-stop div:nth-child(1) {
-  transform: rotate(90deg);
-}
-.lds-ring-stop div:nth-child(2) {
-  transform: rotate(180deg);
-}
-.lds-ring-stop div:nth-child(3) {
-  transform: rotate(270deg);
-}
-@keyframes lds-ring {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
 }
