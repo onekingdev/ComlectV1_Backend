@@ -827,7 +827,7 @@ html {
 
 /* ---------- BUTTONS ---------- */
 a.btn,
-.btn {
+.btn:not(.dropdown-toggle) {
   padding: 0.6875rem 0.875rem; // 11 14px
   font-size: 0.875rem; //14px
   font-weight: bold;
