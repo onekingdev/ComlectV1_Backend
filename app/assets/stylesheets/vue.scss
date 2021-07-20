@@ -160,7 +160,7 @@ html {
     padding: 0;
     list-style: none;
 
-    @media (max-width: 1000px) {
+    @media (max-width: 991.98px) {
       flex-direction: column;
     }
   }
@@ -168,7 +168,7 @@ html {
   &__item {
     margin-right: 2.5rem; // 40px;
 
-    @media (max-width: 1000px) {
+    @media (max-width: 991.98px) {
       margin-right: 0;
       width: 100%;
     }
@@ -187,7 +187,7 @@ html {
       text-decoration: none;
     }
 
-    @media (max-width: 1000px) {
+    @media (max-width: 991.98px) {
       display: flex;
       width: 100%;
       padding: 1rem;
@@ -202,8 +202,9 @@ html {
     }
   }
 
-  //@media (max-width: 991.98px) {
-  @media (max-width: 1000px) {
+  @media (max-width: 991.98px) {
+  //@media (max-width: 1000px) {
+    display: none;
     position: fixed;
     top: 5rem; //80px;
     right: 0;
