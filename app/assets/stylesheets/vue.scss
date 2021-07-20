@@ -717,6 +717,11 @@ html {
   justify-content: space-between;
   align-items: center;
 
+  .separator {
+    //color: #ffc107;
+    color: $yellow;
+  }
+
   &__title,
   &__title h2 {
     margin: 2.5rem auto 1.9375rem 2.5rem; // 40px auto 31px 40px
@@ -817,13 +822,6 @@ html {
   &:active {
     background-color: $blue-light;
   }
-}
-
-/* ---------- LINKS ---------- */
-a.link,
-.link {
-  color: var(--blue);
-  cursor: pointer;
 }
 
 /* ---------- BUTTONS ---------- */
@@ -1000,11 +998,18 @@ a.link,
   text-decoration: none;
   background-color: $blue-light;
 }
-a {
-  color: #0479FF;
+
+
+/* ---------- LINKS ---------- */
+a,
+a.link,
+.link {
+  color: $blue;
+  cursor: pointer;
 }
+
 a:hover {
-  color: #0479FF;
+  color: $blue-text;
   text-decoration: underline;
 }
 
@@ -1040,6 +1045,10 @@ a:hover {
         white-space: inherit;
         overflow: inherit;
         text-overflow: inherit;
+      }
+
+      ion-icon {
+        font-size: 90%;
       }
     }
 
