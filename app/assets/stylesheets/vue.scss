@@ -775,8 +775,43 @@ html {
   //min-height: calc(100vh - 216px) !important;
 }
 
+
+// Move to comp search
 .form-control_search {
-  padding-left: 2rem;
+  padding: 0.625rem 2.0625rem; // 10 33px
+  //max-width: 25rem; //400px
+  border-color: #DCDEE4;
+}
+
+.b-icon.bi.icon-searh {
+  position: absolute;
+  top: .7rem;
+  left: .7rem;
+}
+
+.btn-clear {
+  position: absolute;
+  top: 1.25rem;
+  right: .4rem;
+  border: none;
+  background-color: transparent;
+  border-radius: 4px;
+  transition: all 200ms ease;
+  transform: translateY(-50%);
+}
+
+.btn-clear:hover,
+.btn-clear:active {
+
+  &:hover,
+  &:focus {
+    background-color: $gray-hover;
+  }
+
+  &.active,
+  &:active {
+    background-color: $blue-light;
+  }
 }
 
 /* ---------- LINKS ---------- */
@@ -808,6 +843,44 @@ a.link,
   background-color: $primary;
   border-color: $primary;
 }
+
+/* ---------- Buttons ---------- */
+
+/*a.btn,*/
+/*button.btn {*/
+/*padding: .5rem 1.2rem;*/
+/*font-weight: 600;*/
+/*transition: all 200ms ease-in;*/
+/*}*/
+/*a.btn {*/
+/*padding: .6rem 1.2rem;*/
+/*}*/
+/*a.btn:hover,*/
+/*a.btn:active,*/
+/*button.btn:hover,*/
+/*button.btn:active {*/
+/*opacity: .6;*/
+/*transform: translateY(3px);*/
+/*box-shadow: 0 3px rgba(255, 193, 7, 1)*/
+/*}*/
+
+/*button.btn__menu,*/
+/*button.btn__close {*/
+/*padding: 0;*/
+/*font-size: 1.5rem;*/
+/*font-weight: 600;*/
+/*}*/
+
+/*.policy-actions .dropdown-item,*/
+/*.delete button,*/
+/*.delete button{*/
+/*transition: all 200ms ease-in;*/
+/*}*/
+
+/*.delete button:hover,*/
+/*.delete button:active{*/
+/*background-color: rgba(255, 0, 0, .2);*/
+/*}*/
 
 
 /* ---------- DROPDOWNS ---------- */
@@ -888,6 +961,47 @@ a.link,
 //.actions-dropdown__item.delete:active {
 //  background-color: rgba(255, 0, 0, .2);
 //}
+
+//.dropdown-menu-right {
+//  margin: 0;
+//  padding: 0;
+//}
+//.dropdown-menu-right li {
+//  padding: 0.75rem 0.625rem 0.75rem 0.625rem;
+//}
+//.dropdown-menu-right li:hover,
+//.dropdown-menu-right li:active {
+//  background-color: $gray-hover;
+//}
+
+.dropdown-item {
+  padding: 0.75rem 0.625rem; // 12 10px
+  font-size: 0.875rem; //14px
+  color: #303132;
+  transition: all 200ms ease-in;
+}
+
+.btn.btn-default:hover,
+.btn.btn-default:active,
+.dropdown-item:hover,
+.dropdown-item:focus {
+  color: #303132;
+  text-decoration: none;
+  background-color: $gray-hover;
+}
+.dropdown-item.active,
+.dropdown-item:active {
+  color: #0479FF;
+  text-decoration: none;
+  background-color: $blue-light;
+}
+a {
+  color: #0479FF;
+}
+a:hover {
+  color: #0479FF;
+  text-decoration: underline;
+}
 
 
 /* ---------- TABLES ---------- */
@@ -1083,8 +1197,8 @@ table.table thead tr th {
 
 .badge-progress {
   color: #2180C2;
-  background-color: #ECF4FF;
-  border-color: #ECF4FF;
+  background-color: $blue-light;
+  border-color: $blue-light;
 }
 
 .badge-secondary {
@@ -1818,7 +1932,7 @@ table.table thead tr th {
 
 .btn.btn-default:hover,
 .btn.btn-default:active {
-  background-color: #F3F6F9;
+  background-color: $gray-hover;
   box-shadow: none;
 }
 
@@ -1862,7 +1976,7 @@ legend, .label {
   align-items: center;
   padding: 1rem;
   border: solid 1px #dcdee4;
-  background-color: #ecf4ff;
+  background-color: $blue-light;
 }
 
 .file-card:not(:last-child) {

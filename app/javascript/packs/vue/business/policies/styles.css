@@ -1,43 +1,5 @@
 /* ---------- Policy page ---------- */
-/*.card-body {*/
-  /*padding: 1.25rem 2.5rem; !* 20px 40px *!*/
-  /*min-height: calc(100vh - 216px);*/
-/*}*/
 
-.icon-searh {
-  position: absolute;
-  top: .75rem;
-  left: 0.5rem;
-  /*transform: translateY(-50%);*/
-}
-
-.btn-clear {
-  position: absolute;
-  top: 50%;
-  right: .2rem;
-  /*padding: .8rem;*/
-  border: none;
-  background-color: transparent;
-  border-radius: 50%;
-  transition: all 200ms ease;
-  transform: translateY(-50%);
-}
-
-.btn-clear:hover,
-
-.btn-clear:active {
-  background-color: #ced4da;
-  box-shadow: 0 3px rgba(255, 193, 7, 1)
-}
-
-/*.form-control {*/
-  /*padding-left: 2rem;*/
-  /*padding-right: 2rem;*/
-/*}*/
-
-.form-control_search {
-  padding-left: 2rem;
-}
 
 /* ---------- Policy table ---------- */
 .table {
@@ -440,42 +402,4 @@
 /* ---------- Modal ---------- */
 .modal-dialog {
   top: 15%;
-}
-
-/* ---------- Buttons ---------- */
-
-/*a.btn,*/
-/*button.btn {*/
-  /*padding: .5rem 1.2rem;*/
-  /*font-weight: 600;*/
-  /*transition: all 200ms ease-in;*/
-/*}*/
-/*a.btn {*/
-  /*padding: .6rem 1.2rem;*/
-/*}*/
-/*a.btn:hover,*/
-/*a.btn:active,*/
-/*button.btn:hover,*/
-/*button.btn:active {*/
-  /*opacity: .6;*/
-  /*transform: translateY(3px);*/
-  /*box-shadow: 0 3px rgba(255, 193, 7, 1)*/
-/*}*/
-
-button.btn__menu,
-button.btn__close {
-  padding: 0;
-  font-size: 1.5rem;
-  font-weight: 600;
-}
-
-.policy-actions .dropdown-item,
-.delete button,
-.delete button{
-  transition: all 200ms ease-in;
-}
-
-.delete button:hover,
-.delete button:active{
-  background-color: rgba(255, 0, 0, .2);
 }

@@ -10,7 +10,7 @@
             .dropdown-profile__btn(v-if="userName" @click="isProfileMenuOpen = !isProfileMenuOpen" :aria-expanded="isProfileMenuOpen")
               span {{ userName }}
               b-icon.m-l-1(icon="chevron-down")
-            ul.dropdown-menu.dropdown-menu-right(aria-labelledby="profile_dropdown_btn" :class="{ show: isProfileMenuOpen }")
+            ul.dropdown-menu(aria-labelledby="profile_dropdown_btn" :class="{ show: isProfileMenuOpen }")
               li(@click="signOut") Sign Out
           .ml-auto.mt-auto.mb-auto(v-else)
             a.btn.btn-dark(href="/users/sign_in") Sign in
