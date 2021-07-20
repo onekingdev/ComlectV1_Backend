@@ -132,7 +132,7 @@
         }
 
         const splitUrl = this.$route.name
-        if(splitUrl === "policy-current") {
+        if(splitUrl === "policy-current" || splitUrl === "settings") {
           this.$store.commit('changeSidebar', 'builder')
           document.querySelector('.sidebar-menu').style.display = "none"
           return
