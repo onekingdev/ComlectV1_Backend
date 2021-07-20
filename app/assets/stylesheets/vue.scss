@@ -272,16 +272,16 @@ html {
 
   &_find {
     margin-right: 1.875rem; //30px
-    color: $black !important;
-    font-weight: 600 !important;
-    background-color: $yellow;
+    //color: $black !important;
+    //font-weight: 600 !important;
+    //background-color: $yellow;
 
-    &:hover,
-    &:active {
-      color: #282a30;
-      background-color: #ffdc5b !important;
-      border-color: #ffdc5b !important;
-    }
+    //&:hover,
+    //&:active {
+    //  color: #282a30;
+    //  background-color: #ffdc5b !important;
+    //  border-color: #ffdc5b !important;
+    //}
 
     @include media-breakpoint-down(lg) {
       margin-right: .5em;
@@ -825,11 +825,62 @@ html {
 }
 
 /* ---------- BUTTONS ---------- */
+a.btn,
+.btn {
+  padding: 0.6875rem 0.875rem; // 11 14px
+  font-size: 0.875rem; //14px
+  font-weight: bold;
+  border-radius: 4px;
+  transition: all 200ms ease-in;
+}
 .btn-primary,
 .btn-dark {
   color: $white;
   background-color: $black;
   border-color: $black;
+}
+.btn.btn-default {
+  border-color: #DCDEE4 !important;
+}
+
+.btn.btn-default {
+
+  &:hover,
+  &:focus,
+  &:active,
+  &.active {
+    background-color: $blue-light;
+  }
+}
+
+.btn.btn-warning,
+.btn.btn-tertiary {
+  background-color: $yellow;
+  border-color: $yellow;
+
+  &:hover,
+  &:focus,
+  &:active,
+  &.active {
+    background-color: #ffdc5b;
+    border-color: #ffdc5b;
+  }
+}
+
+.btn.btn-delete,
+.btn.btn-danger {
+  color: $red;
+  background-color: $white;
+  border-color: #e1e3e8;
+
+  &:hover,
+  &:focus,
+  &:active,
+  &.active {
+    color: $red;
+    background-color: $red-light;
+    border-color: $red-light;
+  }
 }
 
 .btn-primary:hover,
@@ -845,6 +896,21 @@ html {
   color: $white;
   background-color: $primary;
   border-color: $primary;
+}
+
+.btn.btn-link {
+  color: $blue;
+  background-color: $white;
+  border-color: $white;
+
+  &:hover,
+  &:focus,
+  &:active,
+  &.active {
+    color: $blue;
+    background-color: #f6f6f8;
+    border-color: #f6f6f8;
+  }
 }
 
 /* ---------- Buttons ---------- */
@@ -980,7 +1046,7 @@ html {
 .dropdown-item {
   padding: 0.75rem 0.625rem; // 12 10px
   font-size: 0.875rem; //14px
-  color: #303132;
+  color: $black;
   transition: all 200ms ease-in;
 }
 
@@ -988,7 +1054,7 @@ html {
 .btn.btn-default:active,
 .dropdown-item:hover,
 .dropdown-item:focus {
-  color: #303132;
+  color: $black;
   text-decoration: none;
   background-color: $gray-hover;
 }

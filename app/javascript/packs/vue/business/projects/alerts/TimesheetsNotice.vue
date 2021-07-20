@@ -2,7 +2,7 @@
   .alert.alert-warning(v-if="hasPendingTimesheets")
     h4.alert-heading Timesheeet approval required
     p A new timesheet submission requires approval for completion.
-    a.btn.btn-light(:href="url('URL_PROJECT_TIMESHEETS', project.id)") View
+    router-link.btn.btn-light(:to="url('URL_PROJECT_TIMESHEETS', project.id)") View
 </template>
 
 <script>

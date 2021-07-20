@@ -18,7 +18,7 @@ class Business::SettingsController < ApplicationController
 
     render html: content_tag('main-layoyt', '',
                              ':states': State.fetch_all_usa.to_json,
-                             ':timezones': timezones_json,
+                             ':timezones': timezones_array.to_json,
                              ':contries': ISO3166::Country.all.collect(&:name).to_json,
                              ':user-id': current_user.id).html_safe, layout: 'vue_main_layout'
   end
