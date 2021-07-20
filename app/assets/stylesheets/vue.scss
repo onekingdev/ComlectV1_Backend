@@ -1578,6 +1578,30 @@ table.table thead tr th {
   padding: 0.375rem 0; //6px
 }
 
+/* ---------- PAGINATION ---------- */
+.page-item {
+
+  .page-link {
+    padding: 0.5rem 0.625rem; // 8 10px
+    color: $black;
+    border-color: $gray-1;
+
+    &:hover,
+    &:focus {
+      background-color: $gray-hover;
+    }
+
+    &:active,
+    &.active {
+
+    }
+  }
+}
+
+.page-item.active .page-link {
+  background-color: $black;
+}
+
 
 /* ---------- NOT CHECKED STYLES - START ---------- */
 .border-dark-progress {
