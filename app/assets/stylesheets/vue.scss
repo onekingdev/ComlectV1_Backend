@@ -1089,6 +1089,7 @@ a.btn,
   color: $black;
   text-decoration: none;
   background-color: $gray-hover;
+  cursor: pointer;
 }
 .dropdown-item.active,
 .dropdown-item:active {
@@ -1756,7 +1757,7 @@ table.table thead tr th {
 }
 
 .pointer {
-  color: $gray-1;
+  //color: $gray-1;
   cursor: pointer;
 }
 
@@ -2153,6 +2154,11 @@ legend, .label {
     width: 9.375rem; /* 150px; */
     height: 5rem; /*80px;*/
   }
+}
+
+/* ---------- ERRORS ---------- */
+.invalid-feedback {
+  color: $red;
 }
 
 /* ---------- Files List view ---------- */

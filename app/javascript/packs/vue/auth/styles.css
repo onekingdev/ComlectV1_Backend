@@ -127,7 +127,20 @@ input[type=number] {
 
 /* ---------- Registration page ---------- */
 .registration-onboarding {
-  margin-top: 2rem;
+  margin-top: 2.5rem;
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 71.25rem;
+}
+.registration-onboarding__title {
+  font-size: 1.25rem;
+}
+.registration-onboarding .card-header {
+  padding: 1.25rem 2.5rem;
+  border-bottom: solid 1px #DCDEE4;
+}
+.registration-onboarding .card-body {
+  padding: 2.125rem 2.5rem;
 }
 .registration-card {
   padding: 2.5rem;
@@ -162,7 +175,7 @@ input[type=number] {
 .steps {
   display: flex;
   justify-content: space-between;
-  margin: 3.5rem 0;
+  margin: 1rem 0 2.5rem;
 }
 .step {
   position: relative;
@@ -176,19 +189,21 @@ input[type=number] {
   right: 0;
   content: '';
   width: 100%;
-  height: 3px;
-  color: #dcdee4;
-  background-color: #dcdee4;
+  height: 5px;
+  color: #DCDEE4;
+  background-color: #DCDEE4;
 }
 .step.active::before {
-  color: #303132;
-  background-color: #2e304f;
+  color: #2E304F;
+  background-color: #2E304F;
 }
 .step__name {
-  color: #dcdee4;
+  color: #A2A3A9;
+  font-size: 1rem;
 }
 .step.active .step__name{
   color: #303132;
+  font-weight: bold;
 }
 
 @media (min-width: 576px) and (max-width: 767px) {
@@ -213,17 +228,34 @@ input[type=number] {
 
 /* ---------- Onboarding page ---------- */
 .onboarding {}
-.onboarding__title {}
+.onboarding__title {
+  font-size: 1.25rem;
+  color: #303132;
+}
 .onboarding__sub-title,
-.onboarding__label {
-  color: #86888b;
+.onboarding__label,
+.onboarding-group label {
+  margin-bottom: 0.3125rem;
+  color: #797B7E;
+  font-size: 0.875rem;
 }
 
 .onboarding-group {
-  margin-bottom: 2rem;
+  margin-bottom: 1.25rem;
 }
-.onboarding-group label {
-  color: #86888b;
+
+.onboarding .form-control {
+  padding: 0.4375rem 0.625rem;
+  font-size: 0.875rem;
+  border-color: #DCDEE4;
+}
+.onboarding .form-control::placeholder {
+  color: #A2A3A9;
+}
+
+.onboarding .text-muted {
+  font-size: 0.75rem;
+  color: #A2A3A9;
 }
 
 .billing-plan {

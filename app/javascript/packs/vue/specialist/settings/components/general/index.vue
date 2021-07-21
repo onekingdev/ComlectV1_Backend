@@ -197,7 +197,7 @@
     border-radius: 0.25rem;
   }
   .invalid .multiselect__tags {
-    border-color: #cd1837;
+    border-color: #CE1938;
   }
   .multiselect__tag {
     padding: 2px 26px 2px 10px;
