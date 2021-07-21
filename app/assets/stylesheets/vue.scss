@@ -241,6 +241,9 @@ html {
   //max-width: 5.0625rem; //81px
 
   &__link {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
     //width: 100%;
   }
 
@@ -255,9 +258,17 @@ html {
     }
 
     &_full {
+      margin-right: 1rem;
+      width: 30px;
+      height: 30px;
       //max-width: 216px;
-      max-width: 160px;
+      //max-width: 160px;
+      //min-height: 50px;
     }
+  }
+
+  &__text {
+    font-size: 30px;
   }
 }
 
