@@ -177,7 +177,7 @@
                       div.mr-2
                         b-icon.file-card__icon(icon="file-earmark-text-fill" font-scale="2")
                       div.ml-0.mr-auto
-                        p.file-card__name: b {{ formStep2.file.name }}
+                        p.file-card__name {{ formStep2.file.name }}
                         a.file-card__link.link(:href="formStep2.file.file_url" target="_blank") Download
                       div.ml-auto.align-self-start.actions
                         b-dropdown(size="sm" variant="none" class="m-0 p-0" right)
