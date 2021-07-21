@@ -820,31 +820,6 @@
     background-color: #303132;
     border-color: #303132;
   }
-
-  /*RADIO BUTTONS*/
-  .custom-control-label{
-    line-height: 2.1;
-  }
-  .custom-control-input:not(:disabled):active ~ .custom-control-label::before,
-  .custom-control-input:checked ~ .custom-control-label::before {
-    color: #fff;
-    border-color: #303132;
-    background-color: #303132;
-  }
-  .custom-control-label::before,
-  .custom-control-label::after {
-    left: -2rem;
-    width: 1.5rem;
-    height: 1.5rem;
-  }
-  .custom-radio .custom-control-input:checked ~ .custom-control-label::after {
-    background-image: none;
-    background-color: black;
-    padding: 2px;
-    border: solid 3px white;
-    border-radius: 50%;
-    box-shadow: 0 0 0px 2px black;
-  }
 </style>
 
 <style scoped>

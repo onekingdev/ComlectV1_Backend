@@ -19,7 +19,7 @@
                     p.onboarding__sub-title.m-b-20 The CRD number will be used to gather additional information about your business.
                 .row
                   .col
-                    b-form-group.p-x-1(v-slot='{ ariaDescribedby }')
+                    b-form-group(v-slot='{ ariaDescribedby }')
                       b-form-radio-group(v-model='formStep1.crd_numberSelected' :options='formStep1.crd_numberOptions' :aria-describedby='ariaDescribedby' name='radios-stacked' stacked)
                 .row
                   .col-lg-4
@@ -830,31 +830,6 @@
     color: #fff;
     background-color: #303132;
     border-color: #303132;
-  }
-
-  /*RADIO BUTTONS*/
-  .custom-control-label{
-    line-height: 2.1;
-  }
-  .custom-control-input:not(:disabled):active ~ .custom-control-label::before,
-  .custom-control-input:checked ~ .custom-control-label::before {
-    color: #fff;
-    border-color: #303132;
-    background-color: #303132;
-  }
-  .custom-control-label::before,
-  .custom-control-label::after {
-    left: -2rem;
-    width: 1.5rem;
-    height: 1.5rem;
-  }
-  .custom-radio .custom-control-input:checked ~ .custom-control-label::after {
-    background-image: none;
-    background-color: black;
-    padding: 2px;
-    border: solid 3px white;
-    border-radius: 50%;
-    box-shadow: 0 0 0px 2px black;
   }
 </style>
 

@@ -2122,9 +2122,7 @@ table.table thead tr th {
   box-shadow: none;
 }
 
-.custom-radio:not(:last-child) {
-  margin-bottom: 1rem;
-}
+
 
 label.required:after {
   content: " *";
@@ -2154,6 +2152,78 @@ legend, .label {
     width: 9.375rem; /* 150px; */
     height: 5rem; /*80px;*/
   }
+}
+
+/* ---------- RADIO BUTTONS---------- */
+
+//.custom-control {
+//  padding-left: 1.1rem;
+//}
+//.custom-radio:not(:last-child) {
+//  margin-bottom: 1.25rem;
+//}
+//.custom-control-label{
+//  line-height: 2.1;
+//}
+
+
+.custom-control {
+  margin-bottom: 10px;
+  padding-left: 2rem;
+}
+.custom-control-label {
+  //padding-left: 10px;
+  padding-top: 4px;
+  font-size: 0.875rem;
+  color: #303132;
+}
+//.custom-control-label::before {
+//  width: 20px;
+//  height: 20px;
+//}
+.custom-control-input {
+  width: 1.6rem;
+  height: 1.7rem;
+}
+
+.custom-control-input:checked ~ .custom-control-label::before {
+  background-color: #303132;
+  border: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+}
+.custom-checkbox .custom-control-input:checked ~ .custom-control-label::after {
+  background-size: 70%;
+  background-position: center center;
+  width: 20px;
+  height: 20px;
+}
+.custom-control-input:not(:disabled):active ~ .custom-control-label::before {
+  color: #fff;
+  background-color: #2E304F;
+  border-color: #2E304F;
+}
+
+.custom-control-input:not(:disabled):active ~ .custom-control-label::before,
+.custom-control-input:checked ~ .custom-control-label::before {
+  color: #fff;
+  border-color: #303132;
+  background-color: #303132;
+}
+.custom-control-label::before,
+.custom-control-label::after {
+  left: -2rem;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+.custom-radio .custom-control-input:checked ~ .custom-control-label::after {
+  background-image: none;
+  background-color: black;
+  padding: 2px;
+  border: solid 3px white;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px black;
 }
 
 /* ---------- ERRORS ---------- */
