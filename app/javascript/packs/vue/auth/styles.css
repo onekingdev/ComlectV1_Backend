@@ -234,10 +234,17 @@ input[type=number] {
 }
 .onboarding__sub-title,
 .onboarding__label,
-.onboarding-group label {
+.onboarding-group label,
+.onboarding label {
   margin-bottom: 0.3125rem;
   color: #797B7E;
   font-size: 0.875rem;
+}
+
+.onboarding__icon {
+  margin-left: 0.625rem;
+  font-size: 1rem;
+  color: #565759;
 }
 
 .onboarding-group {
@@ -365,6 +372,7 @@ input[type=number] {
   display: block;
   width: 100%;
   color: #797b7e;
+  transition: all 200ms ease-in;
 }
 .exp__btn:hover .exp__btn--sub,
 .exp__btn:active .exp__btn--sub,

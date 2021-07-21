@@ -14,9 +14,9 @@
               #step1.form(:class="step1 ? 'd-block' : 'd-none'")
                 .row
                   .col
-                    h3.onboarding__title.m-b-20 Do you have a CRD number?
-                      b-icon.h5.ml-2.mb-1(icon="exclamation-circle-fill" variant="secondary" v-b-tooltip.hover title="Automated update company info by CRD number")
-                p.m-b-2 The CRD number will be used to gather additional information about your business.
+                    h3.onboarding__title.m-b-10 Do you have a CRD number?
+                      b-icon.onboarding__icon(icon="exclamation-circle-fill" variant="secondary" v-b-tooltip.hover title="Automated update company info by CRD number")
+                    p.onboarding__sub-title.m-b-20 The CRD number will be used to gather additional information about your business.
                 .row
                   .col
                     b-form-group.p-x-1(v-slot='{ ariaDescribedby }')
@@ -25,7 +25,7 @@
                   .col-lg-4
                     .row
                       .col-md-10.offset-lg-1.pr-0
-                        b-form-group(v-if="formStep1.crd_numberSelected === 'yes'" label='What is your CRD number?' label-class="label pb-0")
+                        b-form-group(v-if="formStep1.crd_numberSelected === 'yes'" label='What is your CRD number?' label-class="onboarding__label label pb-0")
                           b-form-input(v-model="formStep1.crd_number" placeholder="Enter your CRD number" :class="{'is-invalid': errors.crd_number }")
                           .invalid-feedback.d-block(v-if="errors.crd_number") {{ errors.crd_number }}
                 .row
@@ -44,7 +44,7 @@
                       .invalid-feedback.d-block(v-if="errors.business_name") {{ errors.business_name[0] }}
                 .row
                   .col-sm.pr-sm-2
-                    b-form-group#inputB-group-2(label='AUM' label-for='inputB-2')
+                    b-form-group#inputB-group-2(label='AUM' label-for='inputB-2' label-class="onboarding__label")
                       b-form-input#inputB-2(v-model='formStep2.business.aum' type='text' placeholder='AUM' required :class="{'is-invalid': errors.aum }")
                       .invalid-feedback.d-block(v-if="errors.aum") {{ errors.aum[0] }}
                   .col-sm.pl-sm-2
@@ -758,14 +758,13 @@
     margin-bottom: 0;
     padding-top: 0;
     padding-bottom: 2px;
-    font-size: 1rem;
+    font-size: 0.875rem;
     font-weight: 400;
-    line-height: 1.5;
-    color: #495057;
+    line-height: 1;
   }
   .multiselect__tags {
-    min-height: 2.4rem;
-    padding: 7px 40px 0 10px;
+    min-height: 2.2rem;
+    padding: 5px 40px 0 10px;
     margin-bottom: 0;
     border-color: #ced4da;
     border-radius: 0.25rem;
