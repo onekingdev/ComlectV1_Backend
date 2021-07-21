@@ -223,6 +223,7 @@ input[type=number] {
     top: -.8rem;
   }
   .step__name {
+    margin-bottom: 1rem;
     font-size: 1.2rem;
   }
 }

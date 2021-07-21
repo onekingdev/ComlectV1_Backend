@@ -269,6 +269,10 @@ html {
 
   &__text {
     font-size: 30px;
+
+    @include media-breakpoint-down(xs) {
+      display: none;
+    }
   }
 }
 
