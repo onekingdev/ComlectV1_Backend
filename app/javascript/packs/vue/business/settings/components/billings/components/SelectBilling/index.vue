@@ -408,21 +408,6 @@
     line-height: 14px;
   }
 
-  /* ALERTS*/
-  .alert-primary {
-    color: #303132;
-    background-color: #ecf4ff;
-    border-color: transparent;
-    /*border-left-color: #0479ff;*/
-    border-radius: 0;
-    border-width: 0;
-    box-shadow: inset 5px 0 0 #0479ff;
-  }
-  .alert-dismissible .close {
-    top: 10px;
-    font-size: 1.8rem;
-  }
-
   /*BUTTONS*/
   .btn-outline-primary {
     color: #303132;

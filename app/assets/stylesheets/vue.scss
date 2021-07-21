@@ -1615,6 +1615,53 @@ table.table thead tr th {
 }
 
 
+/* ---------- NOTIFICATIONS ---------- */
+.notifications{
+
+  &__title {
+    margin-bottom: 0.3125rem;
+    font-size: 1rem;
+    color: #303132;
+  }
+  &__sub-title {
+    font-size: 0.875rem;
+    color: #303132;
+  }
+
+  /* ALERTS*/
+  &.alert {
+    margin-bottom: 0;
+    padding: 0.625rem 0.9375rem;
+    color: #303132;
+    border-radius: 0;
+    border-width: 0;
+    border-color: transparent;
+  }
+  &.alert-info,
+  &.alert-primary {
+    background-color: #ecf4ff;
+    box-shadow: inset 5px 0 0 #0479ff;
+  }
+  &.alert-success {
+    background-color: #d5fbef;
+    box-shadow: inset 5px 0 0 #1ab27f;
+  }
+  &.alert-warning {
+    background-color: #fff7e4;
+    box-shadow: inset 5px 0 0 #ffc900;
+  }
+  &.alert-danger {
+    background-color: #fddee3;
+    box-shadow: inset 5px 0 0 #ce1938;
+  }
+
+  &.alert-dismissible .close {
+    margin: 1rem;
+    padding: 0.25rem;
+  }
+}
+
+
 /* ---------- NOT CHECKED STYLES - START ---------- */
 .border-dark-progress {
   border-top: 4px solid #2F304F;

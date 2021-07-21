@@ -198,6 +198,7 @@ input[type=number] {
   background-color: #2E304F;
 }
 .step__name {
+  margin-bottom: 0;
   color: #A2A3A9;
   font-size: 1rem;
 }

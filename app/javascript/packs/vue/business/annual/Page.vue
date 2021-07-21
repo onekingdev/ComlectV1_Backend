@@ -73,8 +73,4 @@ export default {
     border-width: 0;
     box-shadow: inset 5px 0 0 #0479ff;
   }
-  .alert-dismissible .close {
-    top: 10px;
-    font-size: 1.8rem;
-  }
 </style>

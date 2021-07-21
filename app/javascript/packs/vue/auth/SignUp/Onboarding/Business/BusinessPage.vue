@@ -33,9 +33,7 @@
                     .text-right
                       b-button(type='button' variant='dark' @click="nextStep(2)") Next
               #step2.form(:class="step2 ? 'd-block' : 'd-none'")
-                b-alert(v-if="formStep1.crd_number && formStep1.crd_number.length" show variant="primary" dismissible)
-                  h4 Verify information
-                  p.mb-0 The following fields were filled in based on the CRD number you provided. Please carefully review each field before proceeding.
+                Notifications.m-b-20(v-if="formStep1.crd_number && formStep1.crd_number.length" :notify="notify" @clicked="clickNotify")
                 h3.onboarding__title.m-b-20 Tell us more about your business
                 .row
                   .col-xl-6.pr-xl-2
@@ -228,6 +226,7 @@
 
 <script>
   import VueGoogleAutocomplete from 'vue-google-autocomplete'
+  import Multiselect from 'vue-multiselect'
 
   // const {DateTime} = require('luxon')
   // const {zones} = require('tzdata')
@@ -250,7 +249,7 @@
   // import Loading from '@/common/Loading/Loading'
   import TopNavbar from "@/auth/components/TopNavbar";
   import Steps from "@/auth/components/Steps";
-  import Multiselect from 'vue-multiselect'
+  import Notifications from "@/common/Notifications/Notifications";
   import BillingDetails from './BillingDetails'
   import PurchaseSummary from './PurchaseSummary'
   import Overlay from '../Overlay'
@@ -279,6 +278,7 @@
   export default {
     props: ['industryIds', 'jurisdictionIds', 'subIndustryIds', 'states', 'userInfo', 'timezones'],
     components: {
+      Notifications,
       Steps,
       // Loading,
       TopNavbar,
@@ -389,6 +389,16 @@
         stateOptions: [],
         timeZoneOptions: [],
 
+        notify: {
+          show: 'show',
+          mainText: 'Verify information',
+          subText: 'The following fields were filled in based on the CRD number you provided. Please carefully review each field before proceeding.',
+          variant: 'primary',
+          dismissible: true,
+          icon: null,
+          scale: 2,
+        },
+
         show: true,
         errors: {},
         step1: true,
@@ -417,6 +427,10 @@
       }
     },
     methods: {
+      clickNotify(value) {
+        console.log(value)
+        console.log('123')
+      },
       onSubmit(event){
         event.preventDefault()
       },
@@ -802,21 +816,6 @@
     margin-bottom: 0;
     font-size: 0.875rem;
     line-height: 1.4rem;
-  }
-
-    /* ALERTS*/
- .alert-primary {
-   color: #303132;
-   background-color: #ecf4ff;
-   border-color: transparent;
-   /*border-left-color: #0479ff;*/
-   border-radius: 0;
-   border-width: 0;
-   box-shadow: inset 5px 0 0 #0479ff;
- }
-  .alert-dismissible .close {
-    /*top: 10px;*/
-    font-size: 1.8rem;
   }
 
   /*BUTTONS*/
