@@ -338,11 +338,11 @@ input[type=number] {
 
 .exp {}
 .exp__btn {
-  padding: 1rem 1.5rem;
-  color: #2e304f;
-  max-width: 20rem;
+  padding: 1.25rem;
+  color: #797B7E;
+  max-width: 15.625rem; /*250px*/
   text-align: left;
-  border: solid 1px #dcdee4;
+  border: solid 1px #DCDEE4;
   background-color: white;
 }
 @media (max-width: 575px) {
@@ -354,7 +354,7 @@ input[type=number] {
 .exp__btn:active,
 .exp__btn.active {
   background-color: #f6f6f8!important;
-  border-color: #2e304f;
+  border-color: #2E304F!important;
   box-shadow: none;
 }
 .exp__btn:not(:last-child) {
@@ -365,13 +365,15 @@ input[type=number] {
   margin-bottom: .5rem;
   width: 100%;
   color: #303132;
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: bold;
 }
 .exp__btn--sub {
   display: block;
   width: 100%;
   color: #797b7e;
+  font-size: 0.875rem;
+  font-weight: 400;
   transition: all 200ms ease-in;
 }
 .exp__btn:hover .exp__btn--sub,

@@ -14,8 +14,8 @@
               #step1.form(:class="step1 ? 'd-block' : 'd-none'")
                 .row
                   .col
-                    h3.onboarding__title What jurisdiction does your expertise extend to?
-                    p Providing your jurisdiction(s) will help find clients within your domain of expertise. Select all that apply.
+                    h3.onboarding__title.m-b-10 What jurisdiction does your expertise extend to?
+                    p.onboarding__sub-title Providing your jurisdiction(s) will help find clients within your domain of expertise. Select all that apply.
                 .row
                   .col-xl-6
                     b-form-group#inputS-group-1(label='Jurisdiction' label-for='selectS-1' label-class="onboarding__label required")
@@ -34,7 +34,7 @@
                         .invalid-feedback.d-block(v-if="errors.jurisdiction") {{ errors.jurisdiction }}
                 .row
                   .col-xl-6
-                    b-form-group#inputB-group-7(label='Your Time Zone' label-for='selectB-7' label-class="onboarding__label required")
+                    b-form-group#inputB-group-7.m-b-40(label='Your Time Zone' label-for='selectB-7' label-class="onboarding__label required")
                       div(
                       :class="{ 'invalid': errors.time_zone }"
                       )
@@ -49,9 +49,9 @@
                         required)
                         .invalid-feedback.d-block(v-if="errors.time_zone") {{ errors.time_zone }}
                 .row
-                  .col.p-t-2
-                    h3.onboarding__title.m-b-20 What industries do you serve?
-                    p Select all that apply:
+                  .col
+                    h3.onboarding__title.m-b-10 What industries do you serve?
+                    p.onboarding__sub-title Select all that apply:
                 .row
                   .col-xl-6
                     b-form-group#inputS-group-4(label='Industry' label-for='selectS-4' label-class="onboarding__label required")
@@ -71,7 +71,7 @@
                         .invalid-feedback.d-block(v-if="errors.industry") {{ errors.industry }}
                 .row
                   .col-xl-6
-                    b-form-group#inputS-group-5(label='Sub-Industry' label-for='selectS-5' label-class="onboarding__label required")
+                    b-form-group#inputS-group-5.m-b-40(label='Sub-Industry' label-for='selectS-5' label-class="onboarding__label required")
                       div(
                       :class="{ 'invalid': errors.subIndustry }"
                       )
@@ -86,10 +86,10 @@
                         required)
                         .invalid-feedback.d-block(v-if="errors.subIndustry") {{ errors.subIndustry }}
                 .row
-                  .col.p-t-2
+                  .col
                     h3.onboarding__title Are you a former regulator?
-                      b-icon.h5.ml-2.mb-1(icon="exclamation-circle-fill" variant="secondary")
-                    p Select all that apply:
+                      b-icon.onboarding__icon(icon="exclamation-circle-fill" variant="secondary")
+                    p.onboarding__sub-title Select all that apply:
                 .row
                   .col
                     b-form-group(v-slot='{ ariaDescribedby }')
@@ -118,10 +118,8 @@
                 .text-right
                   b-button(type='button' variant='dark' @click="nextStep(2)") Next
               #step2.form(:class="step2 ? 'd-block' : 'd-none'")
-                b-alert.d-none(show variant="primary" dismissible)
-                  h4 Verify information
-                  p.mb-0 The following fields were filled in based on the CRD number you provided. Please carefully review each field before proceeding.
-                div.d-flex.justify-content-between
+                Notifications.m-b-20.d-none(:notify="notify" @clicked="clickNotify")
+                .d-flex.justify-content-between
                   .text-left
                     h3.onboarding__title Tell us more about yourself:
                     p.onboarding__sub-title Enter any relevant skills to better match you with suitable projects.
@@ -145,8 +143,8 @@
                     @tag="addSkillsTag"
                     required)
                     .invalid-feedback.d-block(v-if="errors.skills") {{ errors.skills }}
-                hr
-                h3.onboarding__title.m-t-2 What's your experience?
+                hr.m-b-40
+                h3.onboarding__title What's your experience?
                 p.onboarding__sub-title Select one that best matches your level of your expertise.
                 b-form-group(class="onboarding-group")
                   b-button.exp__btn(variant="default" :class="formStep2.experience === 0 ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onexperienceChange($event, 0)")
@@ -164,7 +162,7 @@
                 //   b-form-file(v-model='formStep2.file' :state='Boolean(formStep2.file)' accept="application/pdf" placeholder='Choose a file or drop it here...' drop-placeholder='Drop file here...')
                 //   .m-t-3 Selected file: {{ formStep2.file ? formStep2.file.name : '' }}
                 // hr
-                h3.onboarding__title.m-b-3.m-t-2 (Optional) Upload your resume:
+                h3.onboarding__title.m-b-20 (Optional) Upload your resume:
                 label.dropbox.w-100(v-if="!formStep2.file" for="upload-file")
                   input.input-file(type="file" id="upload-file" accept="application/pdf" ref="file" @change="selectFile")
                   p(v-if="!formStep2.file") Drag your resume here
@@ -274,10 +272,12 @@
   import Overlay from '../Overlay'
 
   import data from './BillingPlansData.json'
+  import Notifications from "../../../../common/Notifications/Notifications";
 
   export default {
     props: ['industryIds', 'jurisdictionIds', 'subIndustryIds', 'states', 'userInfo', 'timezones'],
     components: {
+      Notifications,
       Steps,
       // Loading,
       TopNavbar,
@@ -417,6 +417,16 @@
           city: '',
           state: '',
           stateOptions: [],
+        },
+
+        notify: {
+          show: 'show',
+          mainText: 'Verify information',
+          subText: 'The following fields were filled in based on the CRD number you provided. Please carefully review each field before proceeding.',
+          variant: 'primary',
+          dismissible: true,
+          icon: null,
+          scale: 2,
         },
 
         show: true,
