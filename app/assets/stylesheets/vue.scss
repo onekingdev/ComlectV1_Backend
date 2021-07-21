@@ -2129,6 +2129,21 @@ label.required:after {
   color: #ED60A6;
 }
 
+.form-control {
+  padding: 0.4375rem 0.625rem;
+  font-size: 0.875rem;
+  color: #303132;
+  border-color: #DCDEE4;
+}
+.form-control::placeholder {
+  color: #A2A3A9;
+}
+
+.text-muted {
+  font-size: 0.75rem;
+  color: #A2A3A9;
+}
+
 .form-control:focus,
 .form-control:active {
   border: 1px solid #0378fe;
