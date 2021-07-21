@@ -258,6 +258,10 @@ input[type=number] {
   width: 100%;
   min-height: 40rem;
 }
+.billing-plan__title {
+  font-size: 2rem;
+  font-weight: bold;
+}
 .billing-plan .card-body {
   padding: 1.875rem 1.25rem; /* 30 20 px*/
 }

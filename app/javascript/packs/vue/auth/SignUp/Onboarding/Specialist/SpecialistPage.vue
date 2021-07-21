@@ -218,7 +218,7 @@
 
         b-sidebar#BillingPlanSidebar(@hidden="closeSidebar" v-model="isSidebarOpen" backdrop-variant='dark' backdrop left no-header width="60%" no-close-on-backdrop)
           .card.registration-card
-            .card-header.borderless.m-b-80.px-0
+            .card-header.borderless.m-b-80.px-0.pt-0
               .d-flex.justify-content-between.m-b-40
                 b-button(variant="default" @click="isSidebarOpen = false")
                   b-icon.mr-2(icon="chevron-left" variant="dark")

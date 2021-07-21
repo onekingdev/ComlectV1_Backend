@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    .card-header.registration-card-header.p-y-20.px-0
+    .card-header.registration-card-header.p-b-20.px-0
       .row
         .col
           h4.m-t-1 Plan
@@ -94,7 +94,7 @@
       //        stripe-checkout(ref='checkoutRef' mode='payment' :pk='publishableKey' :line-items='lineItems' :success-url='successURL' :cancel-url='cancelURL' @loading='v => loading = v')
       //        button(@click='submit') Pay now!
       //hr
-    .card-header.registration-card-header.p-y-20.px-0(v-show="!cardOptions.length")
+    .card-header.registration-card-header.bordeless.p-t-20.px-0(v-show="!cardOptions.length")
       // p stripe-element-card:
       stripe-element-card(ref="elementRef" :pk="pk" @token="tokenCreated")
       //button(@click="submit") Generate token

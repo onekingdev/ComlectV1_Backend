@@ -162,7 +162,7 @@
               #step3.form(:class="step3 ? 'd-block' : 'd-none'")
                 .row
                   .col.mb-2.text-center
-                    h2.mb-3 Choose your plan
+                    h2.m-b-20 Choose your plan
                     b-form-group.mb-5(v-slot="{ ariaDescribedby }")
                       b-form-radio-group(id="btn-radios-plan"
                       v-model="billingTypeSelected"
@@ -197,7 +197,7 @@
 
         b-sidebar#BillingPlanSidebar(@hidden="closeSidebar" v-model="isSidebarOpen" backdrop-variant='dark' backdrop left no-header width="60%" no-close-on-backdrop)
           .card.registration-card
-            .card-header.borderless.m-b-80.px-0
+            .card-header.borderless.m-b-80.px-0.pt-0
               .d-flex.justify-content-between.m-b-40
                 b-button(variant="default" @click="isSidebarOpen = false")
                   b-icon.mr-2(icon="chevron-left" variant="dark")
