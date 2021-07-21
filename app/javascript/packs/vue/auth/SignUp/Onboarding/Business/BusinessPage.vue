@@ -778,7 +778,7 @@
   }
   .multiselect__tags {
     min-height: 2.2rem;
-    padding: 5px 40px 0 10px;
+    padding: 5px 40px 0 5px;
     margin-bottom: 0;
     border-color: #ced4da;
     border-radius: 0.25rem;
@@ -787,10 +787,11 @@
     border-color: #CE1938;
   }
   .multiselect__tag {
-    padding: 3px 26px 3px 10px;
+    padding: 5px 26px 4px 5px;
     margin-bottom: 0;
-    color: #0479ff;
-    background: #ecf4ff;
+    font-size: 0.75rem;
+    color: #0479FF;
+    background: #ECF4FF;
   }
   .multiselect__tag-icon:after {
     color: #0479ff;
@@ -803,7 +804,7 @@
     background: #0479ff;
   }
   .multiselect__tag-icon {
-    line-height: 1rem;
+    line-height: 1.2rem;
   }
   .multiselect__tag-icon:hover {
     color: white;

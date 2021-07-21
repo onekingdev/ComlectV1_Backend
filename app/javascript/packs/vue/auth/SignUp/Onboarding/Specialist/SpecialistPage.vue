@@ -126,7 +126,7 @@
                   // .text-right
                   //   SpecialistModalSkipStep(@skipConfirmed="skipStep(3)", :inline="false")
                   //     b-button.mr-2(type='button' variant='outline-primary') Skip this step
-                b-form-group(label='Skills' class="onboarding-group" label-for='selectS-7' label-class="onboarding__label required")
+                b-form-group(label='Skills' class="onboarding-group m-b-30" label-for='selectS-7' label-class="onboarding__label required")
                   div(
                   :class="{ 'invalid': errors.skills }"
                   )
@@ -146,7 +146,7 @@
                 hr.m-b-40
                 h3.onboarding__title What's your experience?
                 p.onboarding__sub-title Select one that best matches your level of your expertise.
-                b-form-group(class="onboarding-group")
+                b-form-group(class="onboarding-group m-b-30")
                   b-button.exp__btn(variant="default" :class="formStep2.experience === 0 ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onexperienceChange($event, 0)")
                     span.exp__btn--main Junior
                     span.exp__btn--sub Beginner consultant with some industry experience.
@@ -156,7 +156,7 @@
                   b-button.exp__btn(variant="default" :class="formStep2.experience === 2 ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onexperienceChange($event, 2)")
                     span.exp__btn--main Expert
                     span.exp__btn--sub Deep understanding of industry with varied experience.
-                hr
+                hr.m-b-40
                 // h3.onboarding__title.m-b-3.m-t-2 (Optional) Upload you resume:
                 // b-form-group.m-t-2(class="onboarding-group")
                 //   b-form-file(v-model='formStep2.file' :state='Boolean(formStep2.file)' accept="application/pdf" placeholder='Choose a file or drop it here...' drop-placeholder='Drop file here...')
@@ -767,15 +767,19 @@
   }
   .multiselect__tags {
     min-height: 2.2rem;
-    padding: 5px 40px 0 10px;
+    padding: 5px 40px 0 5px;
     margin-bottom: 0;
     border-color: #ced4da;
   }
+  .invalid .multiselect__tags {
+    border-color: #CE1938;
+  }
   .multiselect__tag {
-    padding: 3px 26px 3px 10px;
+    padding: 5px 26px 4px 5px;
     margin-bottom: 0;
-    color: #0479ff;
-    background: #ecf4ff;
+    font-size: 0.75rem;
+    color: #0479FF;
+    background: #ECF4FF;
   }
   .multiselect__tag-icon:after {
     color: #0479ff;
@@ -788,7 +792,7 @@
     background: #0479ff;
   }
   .multiselect__tag-icon {
-    line-height: 1rem;
+    line-height: 1.2rem;
   }
   .multiselect__tag-icon:hover {
     color: white;
