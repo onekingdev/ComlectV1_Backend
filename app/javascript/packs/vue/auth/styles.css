@@ -154,10 +154,10 @@ input[type=number] {
 .purchase-summary {
   position: absolute;
   z-index: 1050;
-  right: 5rem;
-  top: 30%;
+  right: 2rem;
+  top: 0;
   width: 31.875rem;
-  transform: translateY(-30%);
+  /*transform: translateY(-30%);*/
 }
 .purchase-summary-header{
   padding: 1.5625rem 2.5rem;
@@ -170,6 +170,12 @@ input[type=number] {
 }
 .purchase-summary-footer {
   background-color: white;
+}
+.b-sidebar-backdrop {
+  opacity: 1;
+}
+.bg-dark {
+  background-color: #f6f6f8 !important;
 }
 
 .steps {
