@@ -22,9 +22,9 @@
                     b-form-group(v-slot='{ ariaDescribedby }')
                       b-form-radio-group(v-model='formStep1.crd_numberSelected' :options='formStep1.crd_numberOptions' :aria-describedby='ariaDescribedby' name='radios-stacked' stacked)
                 .row
-                  .col-lg-4
+                  .col-lg-6
                     .row
-                      .col-md-10.offset-lg-1.pr-0
+                      .col.offset-lg-1.pr-0.pl-0
                         b-form-group(v-if="formStep1.crd_numberSelected === 'yes'" label='What is your CRD number?' label-class="onboarding__label label pb-0")
                           b-form-input(v-model="formStep1.crd_number" placeholder="Enter your CRD number" :class="{'is-invalid': errors.crd_number }")
                           .invalid-feedback.d-block(v-if="errors.crd_number") {{ errors.crd_number }}

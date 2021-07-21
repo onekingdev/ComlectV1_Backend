@@ -2156,31 +2156,22 @@ legend, .label {
 
 /* ---------- RADIO BUTTONS---------- */
 
-//.custom-control {
-//  padding-left: 1.1rem;
-//}
-//.custom-radio:not(:last-child) {
-//  margin-bottom: 1.25rem;
-//}
-//.custom-control-label{
-//  line-height: 2.1;
-//}
-
-
 .custom-control {
-  margin-bottom: 10px;
   padding-left: 2rem;
+  //  padding-left: 1.1rem;
+
+  &:not(:last-child) {
+    margin-bottom: 0.625rem; //10px;
+  }
 }
 .custom-control-label {
   //padding-left: 10px;
   padding-top: 4px;
   font-size: 0.875rem;
+  //  line-height: 2.1;
   color: #303132;
 }
-//.custom-control-label::before {
-//  width: 20px;
-//  height: 20px;
-//}
+
 .custom-control-input {
   width: 1.6rem;
   height: 1.7rem;

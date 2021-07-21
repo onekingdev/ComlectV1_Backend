@@ -252,16 +252,17 @@ input[type=number] {
   margin-bottom: 1.25rem;
 }
 
-.onboarding .form-control {
+.form-control {
   padding: 0.4375rem 0.625rem;
   font-size: 0.875rem;
+  color: #303132;
   border-color: #DCDEE4;
 }
-.onboarding .form-control::placeholder {
+.form-control::placeholder {
   color: #A2A3A9;
 }
 
-.onboarding .text-muted {
+.text-muted {
   font-size: 0.75rem;
   color: #A2A3A9;
 }
