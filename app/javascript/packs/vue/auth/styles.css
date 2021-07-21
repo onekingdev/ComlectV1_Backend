@@ -133,6 +133,7 @@ input[type=number] {
   max-width: 71.25rem;
 }
 .registration-onboarding__title {
+  margin-bottom: 0;
   font-size: 1.25rem;
 }
 .registration-onboarding .card-header {
