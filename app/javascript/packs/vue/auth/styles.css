@@ -379,7 +379,7 @@ input[type=number] {
 .exp__btn:hover .exp__btn--sub,
 .exp__btn:active .exp__btn--sub,
 .exp__btn.active .exp__btn--sub {
-  color: inherit;
+  color: #797b7e;
 }
 
 /* ---------- Onboarding Specialist Uploading ---------- */
@@ -416,7 +416,13 @@ input[type=number] {
 .dropbox p {
   margin-bottom: 0;
   padding: 1.6875rem 0;
+  max-width: 135px;
   text-align: center;
+  line-height: 1.5;
+}
+
+.dropbox .btn.btn-default {
+  width: 100%;
 }
 
 /* ---------- NAVBAR ---------- */

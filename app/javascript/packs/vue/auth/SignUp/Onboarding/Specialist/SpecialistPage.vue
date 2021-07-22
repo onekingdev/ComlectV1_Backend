@@ -166,10 +166,7 @@
                 h3.onboarding__title.m-b-20 (Optional) Upload your resume:
                 label.dropbox.w-100(v-if="!formStep2.file" for="upload-file")
                   input.input-file(type="file" id="upload-file" accept="application/pdf" ref="file" @change="selectFile")
-                  p(v-if="!formStep2.file") Drag your resume here
-                    br
-                    | or
-                    br
+                  p(v-if="!formStep2.file") Drop resume here or
                     button.btn.btn-default Upload
                   p(v-if="formStep2.file") Selected file: {{ formStep2.file.name }}
                 .row(v-if="formStep2.file")
