@@ -276,7 +276,8 @@ input[type=number] {
 
 .billing-plan {
   min-height: 40rem;
-  width: 21.2rem /*340px;*/
+  width: 21.2rem; /*340px;*/
+  color: #303132;
 }
 .billing-plan_specialist {
   width: 22.5rem; /*360px;*/
@@ -328,33 +329,41 @@ input[type=number] {
   box-shadow: 0 -5px 0 #dcdee4;
 }
 .billing-plan__name {
-  margin-bottom: .6rem;
+  margin-bottom: 0.625rem;
   font-weight: bold;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
 }
 .billing-plan__descr {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
   font-size: 1rem;
 }
 .billing-plan__coast {
-  margin-bottom: .6rem;
-  font-size: 1.8rem;
+  margin-bottom: .625rem;
+  font-size: 1.5rem;
   font-weight: bold;
 }
 .billing-plan__users {
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
   color: #797b7e;
 }
 .billing-plan__discount {
   text-decoration: line-through;
 }
 .billing-plan__list {
-  margin-top: 1rem;
+  margin-top: 1.25rem;
 }
 .billing-plan__item {
   display: flex;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.875rem;
+  color: #303132;
+}
+
+.billing-plan__icon {
+  margin-right: 0.75rem;
+  width: 1.25rem;
+  height: 1.25rem;
 }
 
 .exp {}

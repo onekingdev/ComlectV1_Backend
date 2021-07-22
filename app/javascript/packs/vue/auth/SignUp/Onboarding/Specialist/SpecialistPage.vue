@@ -198,7 +198,7 @@
                       b-button(type='button' variant='outline-primary') Continue With Free Plan
                 .billing-plans
                   b-card.billing-plan.billing-plan_specialist(v-for='(plan, index) in billingPlans' :class="[index === 0 ? 'billing-plan_default' : '', index === 1 ? 'billing-plan_high' : '' ]")
-                    b-button.mb-3(type='button' :variant="currentPlan.status && currentPlan.id === index+1 ? 'dark' : 'secondary'" @click="openDetails(plan)")
+                    b-button.m-b-20(type='button' :variant="currentPlan.status && currentPlan.id === index+1 ? 'dark' : 'secondary'" @click="openDetails(plan)")
                       | {{ currentPlan.status && currentPlan.id === index+1 ? 'Current' : 'Select' }} Plan
                     b-card-text
                       h4.billing-plan__name {{ plan.name }}
@@ -208,7 +208,7 @@
                       hr
                       ul.list-unstyled.billing-plan__list
                         li.billing-plan__item(v-for="feature in plan.features")
-                          b-icon.h4.mr-2.mb-0(icon="check-circle-fill" variant="success")
+                          b-icon.billing-plan__icon(icon="check-circle-fill" variant="success")
                           | {{ feature }}
                 .row
                   .col.text-right
