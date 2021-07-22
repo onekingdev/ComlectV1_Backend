@@ -208,9 +208,9 @@
                 b-button(variant="default" @click="isSidebarOpen = false")
                   b-icon.mr-2(icon="chevron-left" variant="dark")
                   | Back
-              .d-block
-                h2 Time to power up
-                p Review and confirm your subscription
+              .registration-card__header
+                h2.registration-card__main-title Time to power up
+                p.registration-card__main-subtitle Review and confirm your subscription
             BillingDetails(
             :billingTypeSelected="billingTypeSelected"
             :billingTypeOptions="billingTypeOptions"
@@ -809,7 +809,7 @@
     background: #0479ff;
   }
   .multiselect__tag-icon {
-    line-height: 1.2rem;
+    line-height: 1.5rem;
   }
   .multiselect__tag-icon:hover {
     color: white;

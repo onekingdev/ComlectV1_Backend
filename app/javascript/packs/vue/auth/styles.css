@@ -143,12 +143,39 @@ input[type=number] {
 .registration-onboarding .card-body {
   padding: 2.125rem 2.5rem;
 }
+
 .registration-card {
   padding: 2.5rem;
   min-height: 100vh;
 }
+.registration-card__header {
+
+}
+
+.registration-card__main-title {
+  margin-bottom: 0.625rem;
+  font-size: 1.5rem;
+  color: #303132;
+}
+.registration-card__main-subtitle {
+  margin: 0;
+  color: #303132;
+  font-size: 1rem;
+}
+
 .registration-card-header {
+  padding-top: 0;
   border-bottom: solid 1px #DCDEE4;
+}
+
+.registration-card-header__title {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+.registration-card-header__subtitle {
+  margin-bottom: 0;
+  font-size: 1rem;
+  color: #797B7E;
 }
 
 /* ---------- purchase-summary ---------- */

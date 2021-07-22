@@ -3,7 +3,7 @@
     .card-header.registration-card-header.p-b-20.px-0
       .row
         .col
-          h4.m-t-1 Plan
+          h4.registration-card-header__title Plan
         //.col.text-right
         //  b-form-group(v-slot="{ ariaDescribedby }")
         //    b-form-radio-group(id="btn-radios-plan"
@@ -19,10 +19,10 @@
     .card-header.registration-card-header.p-y-20.px-0
       .row
         .col
-          h4.m-t-1 {{ planComputed.name }}
-          p {{ planComputed.description }}
+          h4.registration-card-header__title {{ planComputed.name }}
+          p.registration-card-header__subtitle {{ planComputed.description }}
         .col.text-right
-          h4.m-t-2 {{ billingTypeSelected === 'annually' ?  planComputed.coastAnnuallyFormatted : planComputed.scratched }}
+          h4.registration-card-header__title {{ billingTypeSelected === 'annually' ?  planComputed.coastAnnuallyFormatted : planComputed.scratched }}
           //p {{ billingTypeSelected === 'annually' ?  planComputed.usersCount + ' free users plus $' + planComputed.additionalUserAnnually + '/year per person' : planComputed.usersCount + ' free users plus $' + planComputed.additionalUserMonthly + '/mo per person' }}
     //.card-header.registration-card-header.p-y-20.px-0
     //  .d-flex.justify-content-between
@@ -36,7 +36,7 @@
     //          b-form-input(v-model="additionalUsersCount" type="number" min="1" max="100" @keyup="onChangeUserCount")
     .card-header.registration-card-header.p-y-20.px-0
       .d-flex.justify-content-between
-        h4 Payment Method
+        h4.registration-card-header__title Payment Method
         div(v-show="!cardOptions.length")
           plaid-link(env='sandbox' :publicKey='plaidPK' clientName='Test App' product='transactions' v-bind='{ onSuccess }')
             template(slot='button' slot-scope='props')
