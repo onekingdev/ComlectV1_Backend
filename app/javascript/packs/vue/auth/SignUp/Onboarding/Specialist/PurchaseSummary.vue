@@ -4,7 +4,7 @@
       | Purchase Summary
     .card-body.purchase-summary-body.p-x-40.p-y-20
       Coupon
-    .card-body.purchase-summary-body.p-x-40.p-y-20
+    .card-body.purchase-summary-body.p-40
       dl.row.mb-0
         dt.col-sm-6
           b {{ planComputed.name }} plan
@@ -13,20 +13,20 @@
         //dd.col-sm-6.text-right {{ planComputed.additionalUserCoast }}
         //dt.col-sm-6.text-success {{ billingTypeSelected === 'annually' ? 'Billed Annualy' : 'Billed Monthly' }}
         //dd.col-sm-6.text-right.text-success(v-if="billingTypeSelected === 'annually'") You saved {{ planComputed.saved }}
-    .card-body.purchase-summary-body.p-x-40.p-y-20(v-if="planComputed.tax")
-      dl.row.mb-0
-        dt.col-sm-6
-          b Tax
-        dd.col-sm-6.text-right.m-b-0
-          b {{ planComputed.tax }}
-    .purchase-summary-body.p-x-40.p-y-20.borderless
+      //.card-body.purchase-summary-body.p-x-40.p-y-20(v-if="planComputed.tax")
+      //  dl.row.mb-0
+      //    dt.col-sm-6
+      //      b Tax
+      //    dd.col-sm-6.text-right.m-b-0
+      //      b {{ planComputed.tax }}
+      hr
       dl.row.mb-0
         dt.col-sm-6
           b Total
         dd.col-sm-6.text-right.m-b-0
           b {{ planComputed.total }}
     .card-footer.purchase-summary-footer.p-40
-      b-button.w-100(type='button' variant='dark' @click="complitePurchase" :disabled="disabled")
+      b-button.purchase-summary__btn(type='button' variant='dark' @click="complitePurchase" :disabled="disabled")
         //b-icon.mr-2(icon="arrow-clockwise" animation="spin" font-scale="1" v-show="loading")
         .lds-ring.lds-ring-small(v-show="loading")
           div

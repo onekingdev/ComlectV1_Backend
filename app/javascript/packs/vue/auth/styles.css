@@ -208,6 +208,13 @@ input[type=number] {
   background-color: #f6f6f8 !important;
 }
 
+.purchase-summary__btn {
+  width: 100%;
+  height: 45px;
+}
+
+
+/* ---------- steps ---------- */
 .steps {
   display: flex;
   justify-content: space-between;

@@ -1,5 +1,5 @@
 <template lang="pug">
-  b-form-group#inputCoupon-group-1(label='Optional Promo Code' label-for='inputCoupon')
+  b-form-group#inputCoupon-group-1.mb-0(label='Optional Promo Code' label-for='inputCoupon')
     .d-flex
       b-form-input#inputCoupon(v-model='promo_code' type='text' placeholder='Enter promo code' required :class="{'is-invalid': errors.promo_code }")
       a.btn.btn-light.ml-2(@click="activatePromoCode") Apply
