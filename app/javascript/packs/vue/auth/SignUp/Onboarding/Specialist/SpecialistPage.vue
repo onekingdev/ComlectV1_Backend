@@ -215,8 +215,9 @@
                           b-icon.billing-plan__icon(icon="check-circle-fill" variant="success")
                           | {{ feature }}
                 .row
-                  .col.text-right
-                    b-button(type='button' variant='default' @click="prevStep(2)") Go back
+                  .col
+                    .text-right.m-t-30
+                      b-button(type='button' variant='default' @click="prevStep(2)") Go back
 
         b-sidebar#BillingPlanSidebar(@hidden="closeSidebar" v-model="isSidebarOpen" backdrop-variant='dark' backdrop left no-header width="60%" no-close-on-backdrop)
           .card.registration-card
