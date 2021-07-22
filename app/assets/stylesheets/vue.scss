@@ -1625,18 +1625,18 @@ table.table thead tr th {
   &__title {
     margin-bottom: 0.3125rem;
     font-size: 1rem;
-    color: #303132;
+    color: $black;
   }
   &__sub-title {
     font-size: 0.875rem;
-    color: #303132;
+    color: $black;
   }
 
   /* ALERTS*/
   &.alert {
     margin-bottom: 0;
     padding: 0.625rem 0.9375rem;
-    color: #303132;
+    color: $black;
     border-radius: 0;
     border-width: 0;
     border-color: transparent;
@@ -2183,7 +2183,7 @@ label.required:after {
 .form-control {
   padding: 0.4375rem 0.625rem;
   font-size: 0.875rem;
-  color: #303132;
+  color: $black;
   border-color: #DCDEE4;
 }
 .form-control::placeholder {
@@ -2235,7 +2235,7 @@ legend, .label {
   padding-top: 4px;
   font-size: 0.875rem;
   //  line-height: 2.1;
-  color: #303132;
+  color: $black;
 }
 
 .custom-control-input {
@@ -2244,7 +2244,7 @@ legend, .label {
 }
 
 .custom-control-input:checked ~ .custom-control-label::before {
-  background-color: #303132;
+  background-color: $black;
   border: 0;
   width: 20px;
   height: 20px;
@@ -2265,8 +2265,8 @@ legend, .label {
 .custom-control-input:not(:disabled):active ~ .custom-control-label::before,
 .custom-control-input:checked ~ .custom-control-label::before {
   color: #fff;
-  border-color: #303132;
-  background-color: #303132;
+  border-color: $black;
+  background-color: $black;
 }
 .custom-control-label::before,
 .custom-control-label::after {
@@ -2292,7 +2292,7 @@ legend, .label {
 .file-card {
   display: flex;
   align-items: center;
-  padding: 1rem;
+  padding: 0.625rem;
   border: solid 1px $gray-1;
   background-color: $blue-light;
 }
@@ -2302,14 +2302,20 @@ legend, .label {
 }
 
 .file-card__icon {
+  margin-right: 0.625rem; //10px
   color: #797b7e;
+  font-size: 150%;
 }
 
 .file-card__name {
-  margin-bottom: 0;
+  //margin-bottom: 0.3125rem;
+  font-size: 0.875rem;
+  color: $black;
+  word-break: break-all;
 }
 
 .file-card__link {
+  font-size: 0.75rem;
 }
 
 .file-card__close {
@@ -2335,6 +2341,12 @@ legend, .label {
 
 .file-card .dropdown-toggle::after {
   display: none;
+}
+
+.file-card .btn.dropdown-toggle{
+  padding: 0 !important;
+  background-color: transparent;
+  border: none;
 }
 
 /* ---------- Loading ---------- */

@@ -172,13 +172,13 @@
                 .row(v-if="formStep2.file")
                   .col-md-12.m-b-1
                     .file-card
-                      div.mr-2
-                        b-icon.file-card__icon(icon="file-earmark-text-fill" font-scale="2")
+                      div
+                        b-icon.file-card__icon(icon="file-earmark-text-fill")
                       div.ml-0.mr-auto
-                        p.file-card__name: b {{ formStep2.file.name }}
+                        p.file-card__name {{ formStep2.file.name }}
                         a.file-card__link.link(:href="formStep2.file.file_url" target="_blank") Download
                       div.ml-auto.align-self-start.actions
-                        b-dropdown(size="sm" variant="none" class="m-0 p-0" right)
+                        b-dropdown(size="sm" class="m-0 p-0" right)
                           template(#button-content)
                             b-icon(icon="three-dots")
                           b-dropdown-item.delete(@click="removeFile") Delete File

@@ -406,7 +406,7 @@ input[type=number] {
   color: #303132;
   opacity: 0; /* invisible but it's there! */
   width: 100%;
-  height: 200px;
+  height: 100%;
   position: absolute;
   cursor: pointer;
 }
@@ -416,7 +416,7 @@ input[type=number] {
 .dropbox p {
   margin-bottom: 0;
   padding: 1.6875rem 0;
-  max-width: 135px;
+  max-width: 7.25rem;  /*116px;*/
   text-align: center;
   line-height: 1.5;
 }
