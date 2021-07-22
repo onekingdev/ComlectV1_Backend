@@ -3,7 +3,7 @@
     .card-header.purchase-summary-header
       | Purchase Summary
     .card-body.purchase-summary-body.p-x-40.p-y-20
-      Coupon
+      Coupon(@couponApplied="addDiscount")
     .card-body.purchase-summary-body.p-40
       dl.row.m-b-20
         dt.col-sm-6
@@ -75,6 +75,9 @@
       complitePurchase() {
         const value = this.planComputed
         this.$emit('complitePurchaseConfirmed', value)
+      },
+      addDiscount() {
+        console.log('disocunt')
       }
     },
     computed: {

@@ -210,7 +210,22 @@ input[type=number] {
 
 .purchase-summary__btn {
   width: 100%;
-  height: 45px;
+  height: 2.8125rem; /*45px;*/
+  font-weight: bold;
+  font-size: 0.875rem;
+}
+
+
+/* ---------- coupon ---------- */
+.coupon {}
+.coupon__input {
+  text-transform: uppercase;
+}
+.coupon__input::placeholder{
+  text-transform: none;
+}
+.coupon__btn {
+  margin-left: 0.625rem;
 }
 
 
