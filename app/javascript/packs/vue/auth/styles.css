@@ -281,6 +281,7 @@ input[type=number] {
 }
 .billing-plan_specialist {
   width: 22.5rem; /*360px;*/
+  min-height: 32rem;
 }
 
 .billing-plan:not(:last-child) {

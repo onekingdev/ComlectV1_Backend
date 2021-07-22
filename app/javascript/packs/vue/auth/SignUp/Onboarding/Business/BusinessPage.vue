@@ -30,7 +30,7 @@
                           .invalid-feedback.d-block(v-if="errors.crd_number") {{ errors.crd_number }}
                 .row
                   .col
-                    .text-right
+                    .text-right.m-t-30
                       b-button(type='button' variant='dark' @click="nextStep(2)") Next
                         b-icon.ml-2(icon="chevron-right")
               #step2.form(:class="step2 ? 'd-block' : 'd-none'")
@@ -156,13 +156,15 @@
                     b-form-group#inputB-group-11(label='Zip' label-for='inputB-11' label-class='onboarding__label')
                       b-form-input#inputB-11(v-model='formStep2.business.zipcode' placeholder='Zip' required :class="{'is-invalid': errors.zipcode }")
                       .invalid-feedback.d-block(v-if="errors.zipcode") {{ errors.zipcode[0] }}
-                .text-right.m-t-3
-                  b-button.mr-2(type='button' variant='default' @click="prevStep(1)")
-                    b-icon.mr-2(icon="chevron-left")
-                    | Go back
-                  // b-button.mr-2(type='button' variant='outline-primary' @click="nextStep(3)") Skip this step
-                  b-button(type='button' variant='dark' @click="nextStep(3)") Next
-                    b-icon.ml-2(icon="chevron-right")
+                .row
+                  .col
+                    .text-right.m-t-30
+                      b-button.mr-2(type='button' variant='default' @click="prevStep(1)")
+                        b-icon.mr-2(icon="chevron-left")
+                        | Go back
+                      // b-button.mr-2(type='button' variant='outline-primary' @click="nextStep(3)") Skip this step
+                      b-button(type='button' variant='dark' @click="nextStep(3)") Next
+                        b-icon.ml-2(icon="chevron-right")
               #step3.form(:class="step3 ? 'd-block' : 'd-none'")
                 .row
                   .col.mb-2.text-center
@@ -195,8 +197,9 @@
                           b-icon.billing-plan__icon(icon="check-circle-fill" variant="success")
                           span(v-html="feature")
                 .row
-                  .col.text-right
-                    b-button.m-t-3(type='button' variant='default' @click="prevStep(2)") Go back
+                  .col
+                    .text-right.m-t-30
+                      b-button(type='button' variant='default' @click="prevStep(2)") Go back
 
         b-sidebar#BillingPlanSidebar(@hidden="closeSidebar" v-model="isSidebarOpen" backdrop-variant='dark' backdrop left no-header width="60%" no-close-on-backdrop)
           .card.registration-card

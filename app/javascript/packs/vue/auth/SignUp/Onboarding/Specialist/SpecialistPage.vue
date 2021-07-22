@@ -115,9 +115,11 @@
                             @tag="addTag"
                             required)
                             .invalid-feedback.d-block(v-if="errors.regulator") {{ errors.regulator }}
-                .text-right
-                  b-button(type='button' variant='dark' @click="nextStep(2)") Next
-                    b-icon.ml-2(icon="chevron-right")
+                .row
+                  .col
+                    .text-right.m-t-30
+                      b-button(type='button' variant='dark' @click="nextStep(2)") Next
+                        b-icon.ml-2(icon="chevron-right")
               #step2.form(:class="step2 ? 'd-block' : 'd-none'")
                 Notifications.m-b-20.d-none(:notify="notify" @clicked="clickNotify")
                 .d-flex.justify-content-between
@@ -183,12 +185,14 @@
                             b-icon(icon="three-dots")
                           b-dropdown-item.delete(@click="removeFile") Delete File
                 hr
-                .text-right.m-t-2
-                  b-button.mr-2(type='button' variant='default' @click="prevStep(1)")
-                    b-icon.mr-2(icon="chevron-left")
-                    | Go back
-                  b-button(type='button' variant='dark' @click="nextStep(3)") Next
-                    b-icon.ml-2(icon="chevron-right")
+                .row
+                  .col
+                    .text-right.m-t-30
+                      b-button.mr-2(type='button' variant='default' @click="prevStep(1)")
+                        b-icon.mr-2(icon="chevron-left")
+                        | Go back
+                      b-button(type='button' variant='dark' @click="nextStep(3)") Next
+                        b-icon.ml-2(icon="chevron-right")
               #step3.form(:class="step3 ? 'd-block' : 'd-none'")
                 .row
                   .col.mb-2.text-center
