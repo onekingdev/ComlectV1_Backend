@@ -1,27 +1,27 @@
 <template lang="pug">
-  .card.m-t-1.purchase-summary
+  .card.purchase-summary
     .card-header.purchase-summary-header
       | Purchase Summary
-    .card-body.purchase-summary-body.p-40.pb-3
+    .card-body.purchase-summary-body.p-x-40.p-y-20
       Coupon
-    .card-body.purchase-summary-body.p-40
+    .card-body.purchase-summary-body.p-x-40.p-y-20
       dl.row.m-b-20
         dt.col-sm-6
           b {{ planComputed.name }} plan
-        dd.col-sm-6.text-right {{ billingTypeSelected === 'annually' ?  planComputed.coastAnnuallyFormatted : planComputed.coastMonthlyFormatted }}
+        dd.col-sm-6.text-right.font-weight-bold {{ billingTypeSelected === 'annually' ?  planComputed.coastAnnuallyFormatted : planComputed.coastMonthlyFormatted }}
       dl.row.m-b-20
         dt.col-sm-6 {{ additionalUsers }} Users ({{ planComputed.usersCount }} Free)
-        dd.col-sm-6.text-right {{ planComputed.additionalUserCoast !== '+$0' ? planComputed.additionalUserCoast : 'FREE' }}
+        dd.col-sm-6.text-right.font-weight-bold {{ planComputed.additionalUserCoast !== '+$0' ? planComputed.additionalUserCoast : 'FREE' }}
       dl.row.mb-0
         dt.col-sm-6.text-success(v-if="billingTypeSelected === 'annually' && planComputed.id !== 1") Billed Annualy
         dd.col-sm-6.text-right.text-success(v-if="billingTypeSelected === 'annually' && planComputed.id !== 1") You saved {{ planComputed.saved }}
-    .card-body.py-0(v-if="planComputed.tax")
+    .card-body.purchase-summary-body.p-x-40.p-y-20(v-if="planComputed.tax")
       dl.row.mb-0
         dt.col-sm-6
           b Tax
         dd.col-sm-6.text-right.m-b-0
           b {{ planComputed.tax }}
-    .card-body.purchase-summary-body.p-40.borderless
+    .card-body.purchase-summary-body.p-x-40.p-y-20.borderless
       dl.row.mb-0
         dt.col-sm-6
           b Total

@@ -1,25 +1,25 @@
 <template lang="pug">
-  .card.m-t-1.purchase-summary
+  .card.purchase-summary
     .card-header.purchase-summary-header
       | Purchase Summary
-    .card-body.purchase-summary-body.p-40.pb-3
+    .card-body.purchase-summary-body.p-x-40.p-y-20
       Coupon
-    .card-body.purchase-summary-body.p-40
+    .card-body.purchase-summary-body.p-x-40.p-y-20
       dl.row.mb-0
         dt.col-sm-6
           b {{ planComputed.name }} plan
-        dd.col-sm-6.text-right {{ billingTypeSelected === 'annually' ?  planComputed.coastAnnuallyFormatted : planComputed.coastMonthlyFormatted }}
+        dd.col-sm-6.text-right.font-weight-bold {{ billingTypeSelected === 'annually' ?  planComputed.coastAnnuallyFormatted : planComputed.coastMonthlyFormatted }}
         //dt.col-sm-6 {{ additionalUsers }} Users ({{ planComputed.usersCount }} Free)
         //dd.col-sm-6.text-right {{ planComputed.additionalUserCoast }}
         //dt.col-sm-6.text-success {{ billingTypeSelected === 'annually' ? 'Billed Annualy' : 'Billed Monthly' }}
         //dd.col-sm-6.text-right.text-success(v-if="billingTypeSelected === 'annually'") You saved {{ planComputed.saved }}
-    .card-body.purchase-summary-body.p-40.borderless(v-if="planComputed.tax")
+    .card-body.purchase-summary-body.p-x-40.p-y-20(v-if="planComputed.tax")
       dl.row.mb-0
         dt.col-sm-6
           b Tax
         dd.col-sm-6.text-right.m-b-0
           b {{ planComputed.tax }}
-    .purchase-summary-body.p-40.borderless
+    .purchase-summary-body.p-x-40.p-y-20.borderless
       dl.row.mb-0
         dt.col-sm-6
           b Total
