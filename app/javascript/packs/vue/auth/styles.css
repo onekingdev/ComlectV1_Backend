@@ -261,10 +261,52 @@ input[type=number] {
   margin-bottom: 1.25rem;
 }
 
-.billing-plan {
-  width: 100%;
-  min-height: 40rem;
+
+
+.billing-plans {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
+@media (max-width: 1359px) {
+  .billing-plans {
+
+  }
+}
+
+.billing-plan {
+  min-height: 40rem;
+  width: 21.2rem /*340px;*/
+}
+.billing-plan_specialist {
+  width: 22.5rem; /*360px;*/
+}
+
+.billing-plan:not(:last-child) {
+  margin-right: 1.25rem;
+}
+@media (max-width: 1200px) {
+  .billing-plan {
+    margin-bottom: 3rem;
+    margin-left: auto;
+    margin-right: auto;
+    min-height: auto;
+  }
+  .billing-plan:not(:last-child) {
+    margin-right: auto;
+  }
+}
+@media (max-width: 768px) {
+  .billing-plan {
+    margin-bottom: 2rem;
+  }
+}
+@media (max-width: 576px) {
+  .billing-plan {
+    margin-bottom: 1rem;
+  }
+}
+
 .billing-plan__title {
   font-size: 2rem;
   font-weight: bold;
@@ -272,28 +314,7 @@ input[type=number] {
 .billing-plan .card-body {
   padding: 1.875rem 1.25rem; /* 30 20 px*/
 }
-/*@media (min-width: 1200px) {*/
-  /*.billing-plan {*/
-    /*margin-bottom: 3.5rem;*/
-  /*}*/
-/*}*/
-@media (max-width: 992px) {
-  .billing-plan {
-    margin-bottom: 3rem;
-    min-height: auto;
-  }
-}
-@media (max-width: 767px) {
-  .billing-plan {
-    margin-bottom: 2rem;
-    min-height: auto;
-  }
-}
-@media (max-width: 575px) {
-  .billing-plan {
-    margin-bottom: 1rem;
-  }
-}
+
 .billing-plan_low {
   box-shadow: 0 -5px 0 #1ab27f;
 }

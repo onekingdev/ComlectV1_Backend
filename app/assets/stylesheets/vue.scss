@@ -52,23 +52,24 @@ body {
   //}
 }
 
-body.modal-open {
-  overflow: hidden !important;
-}
-
 body, html {
   margin: 0;
   padding: 0;
-}
 
-html {
   //This define what 1rem is
   //font-size: 87.5%; // 1rem = 16px: 14px / 16px = 87.5%
 
   //font-size: 68%;
   //font-size: 14px;
+
   //font-family: 'Varela', sans-serif;
   font-family: 'Public Sans', sans-serif;
+}
+body.modal-open {
+  overflow: hidden !important;
+}
+
+html {
   background-color: $gray-background;
   //overflow-y: scroll;
 
@@ -844,20 +845,34 @@ html {
 /* ---------- BUTTONS ---------- */
 a.btn,
 .btn:not(.dropdown-toggle) {
-  padding: 0.6875rem 0.875rem; // 11 14px
+  padding: 0.5625rem 0.875rem; // 9 14px
+  height: 2.1875rem; //35px
   font-size: 0.875rem; //14px
   font-weight: bold;
   border-radius: 4px;
   transition: all 200ms ease-in;
 }
-.btn-primary,
-.btn-dark {
+.btn.btn-primary,
+.btn.btn-dark {
   color: $white;
   background-color: $black;
   border-color: $black;
 }
 .btn.btn-default {
   border-color: $gray-1 !important;
+}
+
+.btn.btn-secondary {
+  color: $dark;
+  background-color: $white;
+  border-color: $gray-1;
+
+  &:hover,
+  &:focus,
+  &:active,
+  &.active {
+    background-color: $gray-hover;
+  }
 }
 
 .btn.btn-default {

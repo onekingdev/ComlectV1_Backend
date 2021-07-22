@@ -167,7 +167,7 @@
                 .row
                   .col.mb-2.text-center
                     h2.m-b-20 Choose your plan
-                    b-form-group.mb-5(v-slot="{ ariaDescribedby }")
+                    b-form-group.m-b-40(v-slot="{ ariaDescribedby }")
                       b-form-radio-group(id="btn-radios-plan"
                       v-model="billingTypeSelected"
                       :options="billingTypeOptions"
@@ -176,25 +176,24 @@
                       size="lg"
                       name="radio-btn-outline"
                       buttons)
-                .row
-                  .col-xl-4(v-for='(plan, index) in billingPlans')
-                    b-card.billing-plan(:class="[index === 0 ? 'billing-plan_low' : '', index === 1 ? 'billing-plan_medium' : '', index === 2 ? 'billing-plan_high' : '' ]")
-                      b-button.mb-3(type='button' :variant="currentPlan.status && currentPlan.id === index+1 ? 'dark' : 'outline-primary'" @click="openDetails(plan)")
-                        | {{ currentPlan.status && currentPlan.id === index+1 ? 'Current' : 'Select' }} Plan
-                      b-card-text
-                        h4.billing-plan__name {{ plan.name }}
-                        p.billing-plan__descr {{ plan.description }}
-                        h5.billing-plan__coast {{ billingTypeSelected === 'annually' ?  plan.coastMonthlyDiscountFormatted : plan.coastMonthlyFormatted }}
-                        p.billing-plan__users(v-if="plan.id === 1") {{ plan.users }}
-                        p.billing-plan__users(v-if="plan.id !== 1 && billingTypeSelected === 'annually'")
-                          span.billing-plan__discount {{ plan.coastMonthlyFormatted }}
-                          span.text-success &nbsp;{{ plan.coastAnnuallyFormatted }}
-                        p.billing-plan__users(v-if="plan.id !== 1") {{ billingTypeSelected === 'annually' ?  plan.usersCount + ' free users plus $' + plan.additionalUserAnnually + '/year per person' : plan.usersCount + ' free users plus $' + plan.additionalUserMonthly + '/mo per person' }}
-                        hr
-                        ul.list-unstyled.billing-plan__list
-                          li.billing-plan__item(v-for="feature in plan.features")
-                            b-icon.h4.mr-2.mb-0(icon="check-circle-fill" variant="success")
-                            span(v-html="feature")
+                .billing-plans
+                  b-card.billing-plan(v-for='(plan, index) in billingPlans' :class="[index === 0 ? 'billing-plan_low' : '', index === 1 ? 'billing-plan_medium' : '', index === 2 ? 'billing-plan_high' : '' ]")
+                    b-button.mb-3(type='button' :variant="currentPlan.status && currentPlan.id === index+1 ? 'dark' : 'outline-primary'" @click="openDetails(plan)")
+                      | {{ currentPlan.status && currentPlan.id === index+1 ? 'Current' : 'Select' }} Plan
+                    b-card-text
+                      h4.billing-plan__name {{ plan.name }}
+                      p.billing-plan__descr {{ plan.description }}
+                      h5.billing-plan__coast {{ billingTypeSelected === 'annually' ?  plan.coastMonthlyDiscountFormatted : plan.coastMonthlyFormatted }}
+                      p.billing-plan__users(v-if="plan.id === 1") {{ plan.users }}
+                      p.billing-plan__users(v-if="plan.id !== 1 && billingTypeSelected === 'annually'")
+                        span.billing-plan__discount {{ plan.coastMonthlyFormatted }}
+                        span.text-success &nbsp;{{ plan.coastAnnuallyFormatted }}
+                      p.billing-plan__users(v-if="plan.id !== 1") {{ billingTypeSelected === 'annually' ?  plan.usersCount + ' free users plus $' + plan.additionalUserAnnually + '/year per person' : plan.usersCount + ' free users plus $' + plan.additionalUserMonthly + '/mo per person' }}
+                      hr
+                      ul.list-unstyled.billing-plan__list
+                        li.billing-plan__item(v-for="feature in plan.features")
+                          b-icon.h4.mr-2.mb-0(icon="check-circle-fill" variant="success")
+                          span(v-html="feature")
                 .row
                   .col.text-right
                     b-button.m-t-3(type='button' variant='default' @click="prevStep(2)") Go back
@@ -773,7 +772,7 @@
   }
   .multiselect__placeholder {
     margin-bottom: 0;
-    padding-top: 0;
+    padding-top: 5px;
     padding-bottom: 2px;
     font-size: 0.875rem;
     font-weight: 400;
