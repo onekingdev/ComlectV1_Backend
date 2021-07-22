@@ -32,6 +32,7 @@
                   .col
                     .text-right
                       b-button(type='button' variant='dark' @click="nextStep(2)") Next
+                        b-icon.ml-2(icon="chevron-right")
               #step2.form(:class="step2 ? 'd-block' : 'd-none'")
                 Notifications.m-b-20(v-if="formStep1.crd_number && formStep1.crd_number.length" :notify="notify" @clicked="clickNotify")
                 h3.onboarding__title.m-b-20 Tell us more about your business
@@ -156,9 +157,12 @@
                       b-form-input#inputB-11(v-model='formStep2.business.zipcode' placeholder='Zip' required :class="{'is-invalid': errors.zipcode }")
                       .invalid-feedback.d-block(v-if="errors.zipcode") {{ errors.zipcode[0] }}
                 .text-right.m-t-3
-                  b-button.mr-2(type='button' variant='default' @click="prevStep(1)") Go back
+                  b-button.mr-2(type='button' variant='default' @click="prevStep(1)")
+                    b-icon.mr-2(icon="chevron-left")
+                    | Go back
                   // b-button.mr-2(type='button' variant='outline-primary' @click="nextStep(3)") Skip this step
                   b-button(type='button' variant='dark' @click="nextStep(3)") Next
+                    b-icon.ml-2(icon="chevron-right")
               #step3.form(:class="step3 ? 'd-block' : 'd-none'")
                 .row
                   .col.mb-2.text-center
@@ -429,7 +433,6 @@
     methods: {
       clickNotify(value) {
         console.log(value)
-        console.log('123')
       },
       onSubmit(event){
         event.preventDefault()
@@ -766,7 +769,7 @@
 <style>
   /* MULTISELECT */
   .multiselect {
-    min-height: 20px;
+    min-height: calc(1.5em + 0.75rem + 2px);
   }
   .multiselect__placeholder {
     margin-bottom: 0;
@@ -787,7 +790,7 @@
     border-color: #CE1938;
   }
   .multiselect__tag {
-    padding: 5px 26px 4px 5px;
+    padding: 5px 26px 5px 5px;
     margin-bottom: 0;
     font-size: 0.75rem;
     color: #0479FF;
@@ -811,7 +814,7 @@
     background: #0479ff;
   }
   .multiselect__select {
-    height: 2.4rem;
+    height: 2.2rem;
   }
   .multiselect__single {
     margin-bottom: 0;

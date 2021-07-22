@@ -117,6 +117,7 @@
                             .invalid-feedback.d-block(v-if="errors.regulator") {{ errors.regulator }}
                 .text-right
                   b-button(type='button' variant='dark' @click="nextStep(2)") Next
+                    b-icon.ml-2(icon="chevron-right")
               #step2.form(:class="step2 ? 'd-block' : 'd-none'")
                 Notifications.m-b-20.d-none(:notify="notify" @clicked="clickNotify")
                 .d-flex.justify-content-between
@@ -177,7 +178,7 @@
                       div.mr-2
                         b-icon.file-card__icon(icon="file-earmark-text-fill" font-scale="2")
                       div.ml-0.mr-auto
-                        p.file-card__name {{ formStep2.file.name }}
+                        pclickNotify__name {{ formStep2.file.name }}
                         a.file-card__link.link(:href="formStep2.file.file_url" target="_blank") Download
                       div.ml-auto.align-self-start.actions
                         b-dropdown(size="sm" variant="none" class="m-0 p-0" right)
@@ -186,8 +187,11 @@
                           b-dropdown-item.delete(@click="removeFile") Delete File
                 hr
                 .text-right.m-t-2
-                  b-button.mr-2(type='button' variant='default' @click="prevStep(1)") Go back
+                  b-button.mr-2(type='button' variant='default' @click="prevStep(1)")
+                    b-icon.mr-2(icon="chevron-left")
+                    | Go back
                   b-button(type='button' variant='dark' @click="nextStep(3)") Next
+                    b-icon.ml-2(icon="chevron-right")
               #step3.form(:class="step3 ? 'd-block' : 'd-none'")
                 .row
                   .col.mb-2.text-center
@@ -457,6 +461,9 @@
       }
     },
     methods: {
+      clickNotify(value) {
+        console.log(value)
+      },
       addTag (newTag) {
         const tag = {
           name: newTag,
@@ -755,7 +762,7 @@
 <style>
   /* MULTISELECT */
   .multiselect {
-    min-height: 20px;
+    min-height: calc(1.5em + 0.75rem + 2px);
   }
   .multiselect__placeholder {
     margin-bottom: 0;
@@ -775,7 +782,7 @@
     border-color: #CE1938;
   }
   .multiselect__tag {
-    padding: 5px 26px 4px 5px;
+    padding: 5px 26px 5px 5px;
     margin-bottom: 0;
     font-size: 0.75rem;
     color: #0479FF;
@@ -799,7 +806,7 @@
     background: #0479ff;
   }
   .multiselect__select {
-    height: 2.4rem;
+    height: 2.2rem;
   }
   .multiselect__single {
     margin-bottom: 0;
