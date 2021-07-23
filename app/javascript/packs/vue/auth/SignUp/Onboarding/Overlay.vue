@@ -123,7 +123,7 @@
       transform:  translateX(0px);
     }
     to {
-      transform:  translateX(-1500px);
+      transform:  translateX(-100vw);
     }
   }
 </style>

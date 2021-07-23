@@ -265,6 +265,7 @@
           }
       }
 
+      const url = new URL(window.location);
       const currentStep = +url.searchParams.get('step')
       this.currentStep = currentStep ? currentStep : 1;
     },
