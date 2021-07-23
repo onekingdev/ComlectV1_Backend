@@ -4,7 +4,9 @@
       Loading
     .page-header(v-if="!loading")
       .page-header__title
-        h2: b {{ pageTitle }} / {{ riskComputed.name }}
+        h2: b {{ pageTitle }}&nbsp;
+          span.separator /&nbsp;
+          | {{ riskComputed.name }}
         h2
           b-badge.mr-2(:variant="badgeVariant(riskComputed.risk_level)") {{ showLevel(riskComputed.risk_level) }}
           b {{ riskComputed.name }}

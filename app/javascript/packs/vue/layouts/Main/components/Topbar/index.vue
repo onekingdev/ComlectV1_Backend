@@ -8,7 +8,7 @@
       b-navbar-toggle.justify-content-center(target='nav-collapse')
         | Menu
         ion-icon.ml-2(name='chevron-down-outline')
-      b-collapse#nav-collapse.topbar-menu(is-nav)
+      b-collapse#nav-collapse.topbar-menu(v-model="visible")
         ul.topbar-menu__list
           li.nav-item.topbar-menu__item(@click="openLink('default')")
             router-link.topbar-menu__link(:to='`/${userType}`' active-class="active" exact) Home
@@ -23,7 +23,7 @@
           li.nav-item.topbar-menu__item.d-sm-none(v-if="userType === 'specialist'" @click="openLink('default')")
             router-link.topbar-menu__link(:to='`/${userType}/projects-marketpalce`' active-class="active") Browse Projects
     // Right aligned nav items
-    b-navbar-nav.flex-row.align-items-center.ml-auto.h-100
+    b-navbar-nav.flex-row.align-items-center.ml-auto
       router-link.btn.btn-warning.btn-topbar.btn-topbar_find(v-if="userType === 'business'" :to='`/${userType}/specialists`') Find an Expert
       router-link.btn.btn-warning.btn-topbar.btn-topbar_find(v-if="userType === 'specialist'" :to='`/${userType}/projects-marketpalce`') Browse Projects
       router-link.btn.btn-topbar.btn-topbar_notify(:to='`/${userType}/settings/notification-center`')
@@ -52,6 +52,9 @@
       UserAvatar
     },
     created(){
+      window.addEventListener("resize", this.screenWidthChangeHandler);
+      if (window.innerWidth < 1000) this.visible = false
+
       const user = JSON.parse(localStorage.getItem('app.currentUser'));
       this.account = {
         first_name: user.contact_first_name ? `${user.contact_first_name}` : `${user.first_name}`,
@@ -66,8 +69,12 @@
       // const splittedUrl = window.location.pathname.split('/') // ["", "business", "reminders"]
       // this.userType = splittedUrl[1]
     },
+    destroyed() {
+      window.removeEventListener("resize", this.screenWidthChangeHandler);
+    },
     data() {
       return {
+        visible: true,
         account: {
           first_name: '',
           last_name: ''
@@ -84,6 +91,10 @@
       }
     },
     methods: {
+      screenWidthChangeHandler(e) {
+        if (window.innerWidth <= 991.98) this.visible = false
+        if (window.innerWidth > 991.98) this.visible = true
+      },
       // ...mapActions({
       //   signOut: 'auth/signOut',
       // }),
@@ -140,7 +151,10 @@
     },
     watch: {
       '$route' () {
-        document.getElementById('nav-collapse').classList.remove('show')
+        if(window.innerWidth < 992) {
+          this.visible = false
+        }
+        // document.getElementById('nav-collapse').classList.remove('show')
         // $('#nav-collapse').collapse('hide')
       }
     }

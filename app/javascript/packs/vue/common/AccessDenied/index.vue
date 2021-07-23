@@ -3,7 +3,7 @@
     .access-denied.access-denied_h-100
       .access-denied-content
         .access-denied__logo
-          img(src='/assets/svg/rocket.svg')
+          img(src='@/assets/rocket.svg')
         h3.access-denied__title Upgrade to Access Feature
         p.access-denied__subtitle Choose a plan to get started!
         b-button.access-denied__btn(variant="dark") Check out plans

@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe Api::Business::AnnualReportsController, type: :controller do
   before(:each) do
-    login_business_user
+    login_user
   end
 
   describe 'GET clone' do

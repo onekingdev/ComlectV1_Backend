@@ -24,7 +24,6 @@
     "pug-plain-loader": "^1.1.0",
     "regenerator-runtime": "^0.11.1",
     "stimulus": "^1.0.1",
-    "tzdata": "^1.0.25",
     "vue": "^2.6.12",
     "vue-axios": "^3.2.4",
     "vue-debounce": "^2.6.0",

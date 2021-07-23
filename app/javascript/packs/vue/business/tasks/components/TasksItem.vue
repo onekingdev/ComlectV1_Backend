@@ -1,11 +1,12 @@
 <template lang="pug">
   tr
     td
-      b-icon.m-r-1.pointer(font-scale="1" :icon="item.done_at ? 'check-circle-fill' : 'check-circle'" @click="toggleDone(item)" v-bind:class="{ done_task: item.done_at }")
-      //ion-icon.m-r-1.pointer(@click="toggleDone(item)" v-bind:class="{ done_task: item.done_at }" name='checkmark-circle-outline')
-      TaskModalEdit.link(:taskProp="item" @saved="$emit('saved')")
-        span(v-if="!item.done_at" ) {{ item.body }}
-        s(v-else) {{ item.body }}
+      .name
+        b-icon.m-r-1.pointer(font-scale="1" :icon="item.done_at ? 'check-circle-fill' : 'check-circle'" @click="toggleDone(item)" v-bind:class="{ done_task: item.done_at }")
+        //ion-icon.m-r-1.pointer(@click="toggleDone(item)" v-bind:class="{ done_task: item.done_at }" name='checkmark-circle-outline')
+        TaskModalEdit.link(:taskProp="item" @saved="$emit('saved')")
+          span(v-if="!item.done_at" ) {{ item.body }}
+          s(v-else) {{ item.body }}
     td(v-if="!shortTable")
       .d-flex.align-items-center.link
         ion-icon.m-r-1(name="list-circle-outline")
@@ -20,7 +21,7 @@
     td(v-if="!shortTable").text-right 0
     td(v-if="!shortTable").text-right 0
     td(v-if="!shortTable").text-right
-      b-dropdown.actions(size="xs" variant="none" class="m-0 p-0" right)
+      b-dropdown(size="xs" variant="none" class="m-0 p-0" right)
         template(#button-content)
           b-icon(icon="three-dots")
         //b-dropdown-item(:href="`/business/reminders/${item.id}`") Edit

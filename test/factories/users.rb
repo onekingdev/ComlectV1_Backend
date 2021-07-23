@@ -8,7 +8,6 @@ FactoryBot.define do
 
     sequence(:email) { |n| "#{n + rand(10_000)}@example.com" }
     password 'password'
-    confirmed_at Time.now.utc
 
     before(:create) do |user, evaluator|
       user.email = "#{evaluator.email_prefix}#{user.email}"

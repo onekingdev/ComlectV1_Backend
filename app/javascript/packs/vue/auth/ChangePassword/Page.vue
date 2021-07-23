@@ -8,7 +8,7 @@
             .card-body.white-card-body
               Loading
               #step1.form(v-if='!loading' :class="step1 ? 'd-block' : 'd-none'")
-                .registration-welcome.text-center
+                .registration-welcome
                   h1.registration__title Reset Password
                   // p.registration__subtitle Enter the new password and repeat
                 div
@@ -17,7 +17,7 @@
                     br
                     | This alert will dismiss after {{ dismissCountDown }} seconds...
                   b-form(@submit='onSubmit1' v-if='show')
-                    b-form-group#input-group-4(label='Password:' label-for='input-4')
+                    b-form-group#input-group-4.m-b-20(label='Password:' label-for='input-4')
                       b-form-input#input-4(v-model='form.password' type='password' placeholder='Password' required)
                       .invalid-feedback.d-block(v-if="errors.password") 'Password' {{ errors.password }}
                     b-form-group#input-group-5.m-b-20(label='Repeat Password:' label-for='input-5')
@@ -25,13 +25,13 @@
                       .invalid-feedback.d-block(v-if="errors.passwordConfirm") {{ errors.passwordConfirm }}
                     b-button.registration__btn.w-100(type='submit' variant='dark') Save
               #step2.form(v-if='!loading' :class="step2 ? 'd-block' : 'd-none'")
-                .registration-welcome.text-center
+                .registration-welcome
                   h1.registration__title You successfuly reseted password!
                   p.registration__subtitle You will be redirect to the sign in page!
                 //.text-center
                 //  b-icon( icon="circle-fill" animation="throb" font-scale="4")
-            .card-footer.text-center
-              b-form-group
+            .card-footer(v-if='!loading && step1')
+              b-form-group.text-center.mb-0
                 a.link(data-remote='true' href='/users/sign_in') Cancel
                 //router-link.link(to='/users/sign_in') Cancel
 </template>

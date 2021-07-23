@@ -374,7 +374,7 @@
     border-radius: 0.25rem;
   }
   .invalid .multiselect__tags {
-    border-color: #cd1837;
+    border-color: #CE1938;
   }
   .multiselect__tag {
     padding: 2px 26px 2px 10px;
@@ -408,21 +408,6 @@
     line-height: 14px;
   }
 
-  /* ALERTS*/
-  .alert-primary {
-    color: #303132;
-    background-color: #ecf4ff;
-    border-color: transparent;
-    /*border-left-color: #0479ff;*/
-    border-radius: 0;
-    border-width: 0;
-    box-shadow: inset 5px 0 0 #0479ff;
-  }
-  .alert-dismissible .close {
-    top: 10px;
-    font-size: 1.8rem;
-  }
-
   /*BUTTONS*/
   .btn-outline-primary {
     color: #303132;
@@ -434,31 +419,6 @@
     color: #fff;
     background-color: #303132;
     border-color: #303132;
-  }
-
-  /*RADIO BUTTONS*/
-  .custom-control-label{
-    line-height: 2.1;
-  }
-  .custom-control-input:not(:disabled):active ~ .custom-control-label::before,
-  .custom-control-input:checked ~ .custom-control-label::before {
-    color: #fff;
-    border-color: #303132;
-    background-color: #303132;
-  }
-  .custom-control-label::before,
-  .custom-control-label::after {
-    left: -2rem;
-    width: 1.5rem;
-    height: 1.5rem;
-  }
-  .custom-radio .custom-control-input:checked ~ .custom-control-label::after {
-    background-image: none;
-    background-color: black;
-    padding: 2px;
-    border: solid 3px white;
-    border-radius: 50%;
-    box-shadow: 0 0 0px 2px black;
   }
 
   ion-icon.email {
