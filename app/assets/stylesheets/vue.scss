@@ -2562,6 +2562,8 @@ legend, .label {
   margin-bottom: 5rem !important;
 }
 
+
+/* ---------- SELECT PLAN ---------- */
 .select-plan {
   display: flex;
   justify-content: flex-start;
@@ -2578,6 +2580,112 @@ legend, .label {
     overflow: auto;
   }
 }
+
+/* ---------- BILLING PLANS ---------- */
+.billing-plans {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.billing-plan {
+  min-height: 40rem;
+  width: 21.2rem; /*340px;*/
+  color: #303132;
+
+  &_specialist {
+    width: 22.5rem; /*360px;*/
+    min-height: 32rem;
+  }
+
+  &:not(:last-child) {
+    margin-right: 1.25rem;
+  }
+
+  &__title {
+    font-size: 2rem;
+    font-weight: bold;
+  }
+
+  .card-body {
+    padding: 1.875rem 1.25rem; /* 30 20 px*/
+  }
+
+  &_low {
+    box-shadow: 0 -5px 0 #1ab27f;
+  }
+  &_medium {
+    box-shadow: 0 -5px 0 #0479ff;
+  }
+  &_high {
+    box-shadow: 0 -5px 0 #2e304f;
+  }
+  &_default {
+    box-shadow: 0 -5px 0 #dcdee4;
+  }
+
+  &__name {
+    margin-bottom: 0.625rem;
+    font-weight: bold;
+    font-size: 1.25rem;
+  }
+  &__descr {
+    margin-bottom: 1.25rem;
+    font-size: 1rem;
+  }
+  &__coast {
+    margin-bottom: .625rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  &__users {
+    margin-bottom: 1.25rem;
+    color: #797b7e;
+  }
+  &__discount {
+    text-decoration: line-through;
+  }
+  &__list {
+    margin-top: 1.25rem;
+  }
+  &__item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.25rem;
+    font-size: 0.875rem;
+    color: #303132;
+  }
+
+  &__icon {
+    margin-right: 0.75rem;
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+}
+
+@media (max-width: 1200px) {
+  .billing-plan {
+    margin-bottom: 3rem;
+    margin-left: auto;
+    margin-right: auto;
+    min-height: auto;
+  }
+  .billing-plan:not(:last-child) {
+    margin-right: auto;
+  }
+}
+@media (max-width: 768px) {
+  .billing-plan {
+    margin-bottom: 2rem;
+  }
+}
+@media (max-width: 576px) {
+  .billing-plan {
+    margin-bottom: 1rem;
+  }
+}
+
+
 
 /* ---------- registration-card ---------- */
 .registration-card {

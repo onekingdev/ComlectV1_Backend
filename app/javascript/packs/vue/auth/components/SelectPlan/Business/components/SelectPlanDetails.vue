@@ -3,7 +3,7 @@
     .card.registration-card
       .card-header.borderless.m-b-80.px-0.pt-0
         .d-flex.justify-content-between.m-b-40
-          b-button(variant="default" @click="isSidebarOpen = false")
+          b-button(variant="default" @click="$emit('sidebarToggle', false)")
             b-icon.mr-2(icon="chevron-left" variant="dark")
             | Back
         .registration-card__header
@@ -49,9 +49,7 @@
         additionalUsers: 0,
         paymentSourceId: null,
         disabled: true,
-        overlay: false,
-        overlayStatus: '',
-        overlayStatusText: '',
+
       }
     },
     methods: {
@@ -62,7 +60,6 @@
         this.additionalUsers = event
       },
       complitedPaymentMethod(response) {
-        console.log('complitedPaymentMethod', response)
         this.paymentSourceId = response.id
         this.disabled = false;
       },
@@ -70,8 +67,12 @@
         // CLEAR ERRORS
         this.errors = []
 
-        this.overlay = true
-        this.overlayStatusText = 'Processing payment...'
+        // OVERLAY
+        this.$store.dispatch('setOverlay', {
+          active: true,
+          message: 'Setting up account...',
+          status: ''
+        })
 
         let planName;
         if (selectedPlan.id === 1) {
@@ -99,25 +100,29 @@
               // this.toast('Success', `Update subscribe successfully finished!`)
 
               // OVERLAY
-              if(+this.additionalUsers === 0) {
-                this.overlayStatusText = 'Payment complete! Setting up account...'
-                this.overlayStatus = 'success'
-                // this.overlay = false
-                this.redirect()
-              }
+              this.$store.dispatch('setOverlay', {
+                active: true,
+                message: 'Payment complete! Setting up account...',
+                status: 'success'
+              })
+              setTimeout(() => this.redirect() , 3000)
             }
           })
           .catch(error => {
             console.error(error)
-            // this.toast('Error', `Something wrong! ${error}`)
 
-            // OVERLAY
-            this.overlayStatus = 'error'
-            this.overlayStatusText = `Payment failed to process.`
             this.toast('Error', 'Payment failed to process.')
-            setTimeout(() => {
-              this.overlay = false
-            }, 3000)
+            // OVERLAY
+            this.$store.dispatch('setOverlay', {
+              active: true,
+              message: 'Payment failed to process.',
+              status: 'error'
+            })
+            setTimeout(() => this.$store.dispatch('setOverlay', {
+              active: false,
+              message: '',
+              status: ''
+            }), 3000)
           })
           .finally(() => this.disabled = true)
       },

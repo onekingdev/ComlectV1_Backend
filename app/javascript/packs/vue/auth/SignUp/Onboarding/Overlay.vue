@@ -1,11 +1,11 @@
 <template lang="pug">
   transition(type="animation"  name="ma")
-    .overlay(v-if="show")
+    .overlay
       .container-fluid
         .row
           .col-xl-3.m-x-auto
             .overlay-block
-              h2.overlay-text.m-b-2 {{ statusText }}
+              h2.overlay-text.m-b-2 {{ overlay.message }}
               //b-icon(v-if="loading" icon="arrow-clockwise" animation="spin" font-scale="7.5")
               .overlay-status(v-if="loading")
                 .lds-ring
@@ -13,7 +13,7 @@
                   div
                   div
                   div
-              .overlay-status(v-if="!loading && status === 'success'" )
+              .overlay-status(v-if="!loading && overlay.status === 'success'" )
                 .lds-ring.lds-ring-stop
                   div
                   div
@@ -21,22 +21,19 @@
                   div
                 ion-icon.overlay-icon(name="checkmark-outline")
                 //b-icon(v-if="!loading && status === 'success'" icon="check-circle-fill" variant="success" font-scale="7.5")
-              .overlay-status(v-if="!loading && status === 'error'")
+              .overlay-status(v-if="!loading && overlay.status === 'error'")
                 b-icon(icon="x-circle-fill" variant="danger" font-scale="7.5")
 </template>
 
 <script>
   export default {
-    props: ['status', 'statusText', 'show'],
-    data() {
-      return {
-
-      }
-    },
     computed: {
       loading() {
         return this.$store.getters.loading;
       },
+      overlay() {
+        return this.$store.getters.overlay;
+      }
     }
   }
 </script>

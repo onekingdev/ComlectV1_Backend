@@ -9,6 +9,11 @@ export default {
     },
     leftSidebar: 'default',
     userType: userTypeLocalStorage ? JSON.parse(userTypeLocalStorage) : '',
+    overlay: {
+      active: false,
+      message: '',
+      status: ''
+    }
   },
   mutations: {
     setLoading (state, payload) {
@@ -25,6 +30,9 @@ export default {
     },
     changeUserType (state, payload) {
       state.userType = payload
+    },
+    changeOverlay (state, payload) {
+      state.overlay = payload
     }
   },
   actions: {
@@ -36,7 +44,10 @@ export default {
     },
     clearError ({commit}) {
       commit('clearError')
-    }
+    },
+    setOverlay ({commit}, payload) {
+      commit('changeOverlay', payload)
+    },
   },
   getters: {
     loading (state) {
@@ -53,6 +64,9 @@ export default {
     },
     userType (state) {
       return state.userType
-    }
+    },
+    overlay (state) {
+      return state.overlay
+    },
   }
 }

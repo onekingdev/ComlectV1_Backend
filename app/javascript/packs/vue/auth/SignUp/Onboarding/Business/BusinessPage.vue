@@ -2,8 +2,8 @@
   .container-fluid
     TopNavbar(:userInfo="userInfo")
     main.row#main-content
+      Overlay(v-if="overlay.active")
       .col.m-x-auto(v-if="!isSidebarOpen")
-        Overlay(v-if="overlay", :status="overlayStatus", :statusText="overlayStatusText", :show="overlay")
         .card.registration-onboarding
           .card-header
             h2.registration-onboarding__title Set Up Your Account
@@ -167,7 +167,7 @@
                         b-icon.ml-2(icon="chevron-right")
               #step3.form(:class="currentStep === 3 ? 'd-block' : 'd-none'")
                 SelectPlan(:userType="userType" @goBack="prevStep(2)" @openDetails="openDetails")
-      SelectPlanPaymentAndSummary(:userType="userType" :isSidebarOpen="isSidebarOpen" :selectedPlan="selectedPlan")
+      SelectPlanPaymentAndSummary(:userType="userType" :isSidebarOpen="isSidebarOpen" :selectedPlan="selectedPlan" @sidebarToggle="isSidebarOpen = $event")
 
 </template>
 
@@ -298,9 +298,6 @@
         isSidebarOpen: false,
         selectedPlan: null,
 
-        overlay: false,
-        overlayStatus: '',
-        overlayStatusText: '',
         currentPlan: { id: null, status: false }
       }
     },
@@ -383,8 +380,13 @@
       },
       openDetails(plan) {
         if(plan.id === 1) {
-          this.overlay = true
-          this.overlayStatusText = 'Setting up account...'
+
+          // OVERLAY
+          this.$store.dispatch('setOverlay', {
+            active: true,
+            message: 'Setting up account...',
+            status: ''
+          })
 
           const dataToSend = {
             userType: this.userType,
@@ -395,13 +397,30 @@
           this.$store.dispatch('updateSubscribe', dataToSend)
             .then(response => {
               this.currentPlan = { id: 1, status: true }
-              this.overlayStatus = 'success'
-              this.redirect();
+
+              // OVERLAY
+              this.$store.dispatch('setOverlay', {
+                active: true,
+                message: 'Setting up account...',
+                status: 'success'
+              })
+
+              setTimeout(() => this.redirect() , 3000)
             })
             .catch(error => {
               console.error(error)
-              this.toast('Error', `Something wrong! ${error}`)
-              this.overlay = false
+
+              // OVERLAY
+              this.$store.dispatch('setOverlay', {
+                active: true,
+                message: `Something wrong! ${error}`,
+                status: 'error'
+              })
+              setTimeout(() => this.$store.dispatch('setOverlay', {
+                active: false,
+                message: '',
+                status: ''
+              }), 3000)
             })
 
           return
@@ -469,6 +488,12 @@
       // loading() {
       //   return this.$store.getters.loading;
       // },
+      currentUser() {
+        return this.$store.getters.getUser
+      },
+      overlay() {
+        return this.$store.getters.overlay;
+      }
     }
   }
 </script>
