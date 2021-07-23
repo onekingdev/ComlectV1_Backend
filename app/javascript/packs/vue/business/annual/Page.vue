@@ -12,7 +12,7 @@
             h4 Key Regulatory Developments 2021
             p.mb-0 New regulatory changes can have an impact on your policies and procedures.
           b-button.ml-auto(type="button" variant="light") View
-      p Rule 206(4)-7 under the Adviser Act and Rule 38a-1 under the Company Act require that you conduct an annual review of your compliance program no less than annually. Your last completed Annual Review was submitted on&nbsp;
+      p Rule 206(4)-7 under the Adviser Act and Rule 38a-1 under the Company Act require that you conduct an annual review of your compliance program no less than annually. Your last completed Annual Review was submitted on&nbps;
         a.link(href="#") 7/24/2020
       Loading
       ReviewTable(v-if="!loading" :reviews="reviews")
@@ -72,5 +72,9 @@ export default {
     border-radius: 0;
     border-width: 0;
     box-shadow: inset 5px 0 0 #0479ff;
+  }
+  .alert-dismissible .close {
+    top: 10px;
+    font-size: 1.8rem;
   }
 </style>

@@ -14,10 +14,12 @@
           a.btn.btn-default.font-weight-bold Customize
       div.p-x-40
         .row
-          .col-lg-7.col-sm-12.mb-3.mb-lg-0
+          //.col-md-7.col-sm-12.mb-3.mb-md-0
+          .col-7
             .card
               Calendar(v-bind="{pdfUrl}" @saved="newEtag" :etag="etag")
-          .col-lg-5.col-sm-12
+          //.col-md-5.col-sm-12
+          .col-5
             .card.h-100
               UpcomingTasks(@saved="newEtag" :etag="etag")
 </template>
