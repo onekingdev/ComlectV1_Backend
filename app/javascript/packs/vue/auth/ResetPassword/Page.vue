@@ -30,9 +30,9 @@
                   p.registration__subtitle You will be redirect to the sign in page!
                 //.text-center
                 //  b-icon(icon="circle-fill" animation="throb" font-scale="5")
-                    //ion-icon(name="checkmark-circle-outline" size="large")-->
-            .card-footer.text-center
-              b-form-group.mb-0
+                    //ion-icon(name="checkmark-circle-outline" size="large")
+            .card-footer(v-if='!loading && step1')
+              b-form-group.text-center.mb-0
                 a.link(data-remote='true' href='/users/sign_in') Cancel
                 //router-link.link(to='/users/sign_in') Cancel
 </template>

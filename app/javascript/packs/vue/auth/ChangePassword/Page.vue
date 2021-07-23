@@ -30,8 +30,8 @@
                   p.registration__subtitle You will be redirect to the sign in page!
                 //.text-center
                 //  b-icon( icon="circle-fill" animation="throb" font-scale="4")
-            .card-footer.text-center
-              b-form-group.mb-0
+            .card-footer(v-if='!loading && step1')
+              b-form-group.text-center.mb-0
                 a.link(data-remote='true' href='/users/sign_in') Cancel
                 //router-link.link(to='/users/sign_in') Cancel
 </template>

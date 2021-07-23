@@ -93,7 +93,7 @@
                   b-icon.ml-2(icon="circle-fill" animation="throb" font-scale="1")
                 .text-center
                   ion-icon(name="checkmark-circle-outline")
-            .card-footer
+            .card-footer(v-if='!loading && step1')
               b-form-group.text-center.mb-0
                 p.mb-0 Already have a Complect account?&nbsp;
                   a.link(href="/users/sign_in") Sign In

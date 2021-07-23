@@ -45,6 +45,38 @@
   font-weight: 600;
   background-color: #303132;
 }
+.registration label {
+  margin-bottom: 0.3125rem; /*5px*/
+  color: #797B7E;
+  font-size: 0.875rem;
+}
+.registration .form-control {
+  padding: 0.4375rem 0.625rem; /*7 10px*/
+  color: #303132;
+  border: solid 1px #DCDEE4;
+}
+.registration .form-control::placeholder {
+  color: #A2A3A9;
+}
+
+@media (max-width: 575px) {
+  .registration-welcome {
+    margin-bottom: 1em;
+  }
+  .registration__title {
+    font-size: 1.3em;
+  }
+  .registration__subtitle {
+    font-size: 1em;
+  }
+  .registration__btn {
+    margin-bottom: 1em;
+  }
+  .card.registration .card-footer {
+    padding: 1.25em 0;
+    font-size: 0.875em;
+  }
+}
 
 .account-select {
   margin-bottom: 2.875rem; /*46px*/
@@ -107,10 +139,18 @@
 }
 @media (max-width: 575px) {
   .code-input {
-    margin-right: .3rem;
-    width: 2.5rem;
+    margin-right: .3rem!important;
+    margin-left: .3rem!important;
+    padding: 0.4375rem 0.325rem!important;
+    width: 1.7rem;
     height: 3rem;
     font-size: 1rem;
+  }
+  .code-input:first-child {
+    margin-left: auto!important;
+  }
+  .code-input:last-child {
+    margin-right: auto!important;
   }
 }
 
