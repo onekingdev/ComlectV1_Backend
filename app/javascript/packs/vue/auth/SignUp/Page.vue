@@ -103,8 +103,8 @@
 <script>
   import Loading from '@/common/Loading/Loading'
   import TopNavbar from "../components/TopNavbar";
-  import BusinessPage from "./Onboarding/Business/BusinessPage";
-  import SpecialistPage from "./Onboarding/Specialist/SpecialistPage";
+  import BusinessPage from "./Onboarding/Business";
+  import SpecialistPage from "./Onboarding/Specialist";
   import OtpConfirm from "../components/OtpConfirm";
 
   // const random = Math.floor(Math.random() * 1000);
