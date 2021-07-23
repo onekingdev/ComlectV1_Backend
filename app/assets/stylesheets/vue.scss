@@ -397,6 +397,10 @@ html {
     }
   }
 
+  @include media-breakpoint-down(md) {
+    margin-right: 0;
+  }
+
   @include media-breakpoint-down(xs) {
     span.topbar-right-dropdown__name,
     ion-icon.topbar-right-dropdown__icon {
