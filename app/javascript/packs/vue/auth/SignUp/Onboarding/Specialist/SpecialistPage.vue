@@ -453,15 +453,10 @@
                 // this.toast('Success', `Company info successfully sended!`)
               }
             })
-            .catch(error => {
-              console.error(error)
-              // this.toast('Error', `Something wrong! ${error.error}`)
-            })
+            .catch(error => console.error('updateAccountInfoWithFile', error))
         }
       },
       openDetails(plan) {
-        console.log(plan)
-
         if(plan.id === 1) {
           this.overlay = true
           this.overlayStatusText = 'Setting up account...'
@@ -474,14 +469,12 @@
 
           this.$store.dispatch('updateSubscribe', data)
             .then(response => {
-              // this.toast('Success', `Update subscribe successfully finished! You will be redirect.`)
               this.currentPlan = { id: 1, status: true }
               this.overlayStatus = 'success'
               this.redirect()
             })
             .catch(error =>{
-              console.error(error)
-              this.toast('Error', `Something wrong! ${error}`)
+              console.error('updateSubscribe', error)
               this.overlay = false
             })
 
@@ -498,73 +491,6 @@
         this.project = null
         // history.pushState({}, '', '')
         this.isSidebarOpen = false
-      },
-      onBiliingChange(event) {
-        this.billingTypeSelected = event
-      },
-      updateAdditionalUsers(event){
-        this.additionalUsers = event
-      },
-      complitedPaymentMethod(response) {
-        this.paymentSourceId = response.id
-        this.disabled = false;
-      },
-      selectPlanAndComplitePurchase (selectedPlan) {
-        // CLEAR ERRORS
-        this.errors = []
-
-        this.overlay = true
-        this.overlayStatusText = 'Setting up account. Subscribing a plan...'
-
-        let planName;
-        if (selectedPlan.id === 1) {
-          planName = 'free';
-        }
-        if (selectedPlan.id === 2) {
-          planName = 'specialist_pro';
-        }
-
-        const dataToSend = {
-          userType: this.userType,
-          planName,
-          paymentSourceId : this.paymentSourceId,
-        }
-
-        this.$store
-          .dispatch('updateSubscribe', dataToSend)
-          .then(response => {
-            if(response.errors) {
-              for (const [key, value] of Object.entries(response.errors)) {
-                // this.toast('Error', `${key}: ${value}`)
-                // this.errors = Object.assign(this.errors, { [key]: value })
-                throw new Error(`${[key]} ${value}`)
-              }
-            }
-
-            if(!response.errors) {
-              // this.toast('Success', `Update subscribe successfully finished!`)
-
-              // OVERLAY
-              if(+this.additionalUsers === 0) {
-                this.overlayStatus = 'success'
-                this.overlayStatusText = 'Payment complete! Setting up account...'
-                // this.overlay = false
-                this.redirect()
-              }
-            }
-          })
-          .catch(error => {
-            console.error(error)
-            // this.toast('Error', `Something wrong! ${error}`)
-
-            // OVERLAY
-            this.overlayStatus = 'error'
-            this.overlayStatusText = `Something wrong! ${error}`
-            setTimeout(() => {
-              this.overlay = false
-            }, 3000)
-          })
-          .finally(() => this.disabled = true)
       },
       selectFile(event){
         this.formStep2.file = event.target.files[0]
