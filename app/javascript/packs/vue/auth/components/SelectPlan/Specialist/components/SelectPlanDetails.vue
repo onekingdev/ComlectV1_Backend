@@ -71,98 +71,43 @@
         this.errors = []
 
         this.overlay = true
-        this.overlayStatusText = 'Processing payment...'
+        this.overlayStatusText = 'Setting up account. Subscribing a plan...'
 
         let planName;
         if (selectedPlan.id === 1) {
           planName = 'free';
         }
         if (selectedPlan.id === 2) {
-          planName = this.billingTypeSelected === 'annually' ? 'team_tier_annual' : 'team_tier_monthly';
+          planName = 'specialist_pro';
         }
-        if (selectedPlan.id === 3) {
-          planName = this.billingTypeSelected === 'annually' ? 'business_tier_annual' : 'business_tier_monthly'
-        }
-
-        const data = {
-          userType: this.userType,
-          planName,
-          paymentSourceId : this.paymentSourceId,
-        }
-        if (+this.additionalUsers) data.countPayedUsers = +this.additionalUsers
-
-        this.$store
-          .dispatch('updateSubscribe', data)
-          .then(response => {
-            if(response.errors) throw new Error(`Response error!`)
-            if(!response.errors) {
-              // this.toast('Success', `Update subscribe successfully finished!`)
-
-              // OVERLAY
-              if(+this.additionalUsers === 0) {
-                this.overlayStatusText = 'Payment complete! Setting up account...'
-                this.overlayStatus = 'success'
-                // this.overlay = false
-                this.redirect()
-              }
-            }
-          })
-          .catch(error => {
-            console.error(error)
-            // this.toast('Error', `Something wrong! ${error}`)
-
-            // OVERLAY
-            this.overlayStatus = 'error'
-            this.overlayStatusText = `Payment failed to process.`
-            this.toast('Error', 'Payment failed to process.')
-            setTimeout(() => {
-              this.overlay = false
-            }, 3000)
-          })
-          .finally(() => this.disabled = true)
-      },
-      paySeats(selectedPlan) {
-        // const freeUsers = selectedPlan.usersCount;
-        const neededUsers = +this.additionalUsers;
-        // if (neededUsers <= freeUsers) {
-        //   this.overlayStatusText = 'Account successfully purchased, you will be redirect to the dashboard...'
-        //   this.overlayStatus = 'success'
-        //   // this.overlay = false
-        //   this.redirect()
-        //   return
-        // }
-        // const countPayedUsers = neededUsers - freeUsers // OLD VERSION
-        const countPayedUsers = neededUsers
-
-        this.overlayStatusText = 'Subscribing additional seats...'
-
-        let planName = this.billingTypeSelected === 'annually' ? 'seats_annual' : 'seats_monthly'
 
         const dataToSend = {
           userType: this.userType,
           planName,
           paymentSourceId : this.paymentSourceId,
-          countPayedUsers,
         }
 
         this.$store
-          .dispatch('updateSeatsSubscribe', dataToSend)
+          .dispatch('updateSubscribe', dataToSend)
           .then(response => {
-
             if(response.errors) {
-              for (const type of Object.keys(response[i].data.errors)) {
-                // this.toast('Error', `Something wrong! ${response[i].data.errors[type]}`)
+              for (const [key, value] of Object.entries(response.errors)) {
+                // this.toast('Error', `${key}: ${value}`)
+                // this.errors = Object.assign(this.errors, { [key]: value })
+                throw new Error(`${[key]} ${value}`)
               }
             }
 
             if(!response.errors) {
-              // this.toast('Success', `Update seat subscribe successfully finished!`)
+              // this.toast('Success', `Update subscribe successfully finished!`)
 
               // OVERLAY
-              this.overlayStatusText = `Account and ${countPayedUsers} seats successfully purchased, you will be redirect to the dashboard...`
-              this.overlayStatus = 'success'
-              // this.overlay = false
-              this.redirect()
+              if(+this.additionalUsers === 0) {
+                this.overlayStatus = 'success'
+                this.overlayStatusText = 'Payment complete! Setting up account...'
+                // this.overlay = false
+                this.redirect()
+              }
             }
           })
           .catch(error => {

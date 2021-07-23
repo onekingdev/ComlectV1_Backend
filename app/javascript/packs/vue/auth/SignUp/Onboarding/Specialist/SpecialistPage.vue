@@ -11,7 +11,7 @@
             Steps(:steps="steps", :currentStep="currentStep")
             // Loading
             b-form(@submit='onSubmit' @change="onChangeInput" v-if='show')
-              #step1.form(:class="step1 ? 'd-block' : 'd-none'")
+              #step1.form(:class="currentStep === 1 ? 'd-block' : 'd-none'")
                 .row
                   .col
                     h3.onboarding__title.m-b-10 What jurisdiction does your expertise extend to?
@@ -120,8 +120,7 @@
                     .text-right.m-t-30
                       b-button(type='button' variant='dark' @click="nextStep(2)") Next
                         b-icon.ml-2(icon="chevron-right")
-              #step2.form(:class="step2 ? 'd-block' : 'd-none'")
-                Notifications.m-b-20.d-none(:notify="notify" @clicked="clickNotify")
+              #step2.form(:class="currentStep === 2 ? 'd-block' : 'd-none'")
                 .d-flex.justify-content-between
                   .text-left
                     h3.onboarding__title Tell us more about yourself:
@@ -193,103 +192,30 @@
                         | Go back
                       b-button(type='button' variant='dark' @click="nextStep(3)") Next
                         b-icon.ml-2(icon="chevron-right")
-              #step3.form(:class="step3 ? 'd-block' : 'd-none'")
-                .row
-                  .col.mb-2.text-center
-                    h2.mb-3 Choose your Membership plan
-                    p.onboarding__sub-title.m-b-10 Want to skip selecting a plan?
-                    b-form-group.m-b-40
-                      b-button(type='button' variant='outline-primary') Continue With Free Plan
-                .billing-plans
-                  b-card.billing-plan.billing-plan_specialist(v-for='(plan, index) in billingPlans' :class="[index === 0 ? 'billing-plan_default' : '', index === 1 ? 'billing-plan_high' : '' ]")
-                    b-button.m-b-20(type='button' :variant="currentPlan.status && currentPlan.id === index+1 ? 'dark' : 'secondary'" @click="openDetails(plan)")
-                      | {{ currentPlan.status && currentPlan.id === index+1 ? 'Current' : 'Select' }} Plan
-                    b-card-text
-                      h4.billing-plan__name {{ plan.name }}
-                      p.billing-plan__descr {{ plan.description }}
-                      h5.billing-plan__coast {{ billingTypeSelected === 'annually' ?  plan.coastAnnuallyFormatted : plan.coastMonthlyFormatted }}
-                      // p.billing-plan__users {{ billingTypeSelected === 'annually' ?  plan.usersCount + ' free users plus $' + plan.additionalUserAnnually + '/year per person' : plan.usersCount + ' free users plus $' + plan.additionalUserMonthly + '/mo per person' }}
-                      hr
-                      ul.list-unstyled.billing-plan__list
-                        li.billing-plan__item(v-for="feature in plan.features")
-                          b-icon.billing-plan__icon(icon="check-circle-fill" variant="success")
-                          | {{ feature }}
-                .row
-                  .col
-                    .text-right.m-t-30
-                      b-button(type='button' variant='default' @click="prevStep(2)") Go back
-      .select-plan(v-if="isSidebarOpen")
-        .card.registration-card
-          .card-header.borderless.m-b-80.px-0.pt-0
-            .d-flex.justify-content-between.m-b-40
-              b-button(variant="default" @click="isSidebarOpen = false")
-                b-icon.mr-2(icon="chevron-left" variant="dark")
-                | Back
-            .registration-card__header
-              h2.registration-card__main-title Time to power up
-              p.registration-card__main-subtitle Review and confirm your subscription
-          BillingDetails(
-          :billingTypeSelected="billingTypeSelected"
-          :billingTypeOptions="billingTypeOptions"
-          :plan="selectedPlan"
-          @updateBiliing="onBiliingChange"
-          @updateAdditionalUsers="updateAdditionalUsers"
-          @complitedPaymentMethod="complitedPaymentMethod"
-          )
+              #step3.form(:class="currentStep === 3 ? 'd-block' : 'd-none'")
+                SelectPlan(:userType="userType" @goBack="prevStep(2)" @openDetails="openDetails")
+      SelectPlanPaymentAndSummary(:userType="userType" :isSidebarOpen="isSidebarOpen" :selectedPlan="selectedPlan")
 
-        PurchaseSummary(
-        v-if="isSidebarOpen"
-        :billingTypeSelected="billingTypeSelected"
-        :billingTypeOptions="billingTypeOptions"
-        :plan="selectedPlan"
-        :additionalUsers="additionalUsers"
-        @complitePurchaseConfirmed="selectPlanAndComplitePurchase",
-        :disabled="disabled"
-        )
 </template>
 
 <script>
-  // const {DateTime} = require('luxon')
-  // const {zones} = require('tzdata')
-  // const luxonValidTimeZoneName = function (zoneName) {
-  //   let hours = (DateTime.local().setZone(zoneName).offset / 60);
-  //   let rhours = Math.floor(hours)
-  //   let rhoursView = Math.floor(hours) < 10 && Math.floor(hours) >= 0 ? '0'+Math.round(hours) : '-0'+Math.abs(hours)
-  //   let minutes = (hours - rhours) * 60;
-  //   let rminutes = Math.round(minutes) === 0 ? '0'+Math.round(minutes) : Math.round(minutes)
-  //   let zoneNameView = zoneName.split('/')[1] ? zoneName.split('/')[1].replace('_', ' ') : zoneName
-  //
-  //   return `(GMT ${rhoursView}:${rminutes}) ${zoneNameView}`
-  // }
-  // const luxonValidTimezones = Object.entries(zones)
-  //   .filter(([zoneName, v]) => Array.isArray(v))
-  //   .map(([zoneName, v]) => zoneName)
-  //   .filter(tz => DateTime.local().setZone(tz).isValid)
-  //   .map(zoneName => `${luxonValidTimeZoneName(zoneName)}`)
-
   // import Loading from '@/common/Loading/Loading'
   import TopNavbar from "@/auth/components/TopNavbar";
   import Steps from "@/auth/components/Steps";
   import Multiselect from 'vue-multiselect'
-  import BillingDetails from './BillingDetails'
-  import PurchaseSummary from './PurchaseSummary'
-  // import SpecialistModalSkipStep from './Modals/SpecialistModalSkipStep'
+  import SelectPlan from '@/auth/components/SelectPlan/Specialist'
+  import SelectPlanPaymentAndSummary from '@/auth/components/SelectPlan/Specialist/components/SelectPlanDetails'
   import Overlay from '../Overlay'
-
-  import data from './BillingPlansData.json'
-  import Notifications from "../../../../common/Notifications/Notifications";
 
   export default {
     props: ['industryIds', 'jurisdictionIds', 'subIndustryIds', 'states', 'userInfo', 'timezones'],
     components: {
-      Notifications,
       Steps,
       // Loading,
       TopNavbar,
       Multiselect,
-      BillingDetails,
-      PurchaseSummary,
-      // SpecialistModalSkipStep,
+      SelectPlan,
+      SelectPlanPaymentAndSummary,
       Overlay
     },
     created() {
@@ -313,15 +239,6 @@
         }
       }
       if(this.industryIds) this.formStep1.industryOptions = this.industryIds;
-      // if(this.subIndustryIds) this.formStep2.subIndustryOptions = this.subIndustryIds;
-      // if(this.subIndustryIds) {
-      //   for (const [key, value] of Object.entries(this.subIndustryIds)) {
-      //     this.formStep1.subIndustryOptions.push({
-      //       value: key,
-      //       name: value
-      //     })
-      //   }
-      // }
       if(this.jurisdictionIds) this.formStep1.jurisdictionOptions = this.jurisdictionIds;
       if(this.states) this.formStep1.stateOptions = this.states;
 
@@ -358,26 +275,8 @@
           }
       }
 
-      const url = new URL(window.location);
-      const stepNum = +url.searchParams.get('step');
-      this.currentStep = stepNum;
-
-      if (stepNum === 2) {
-        this.step1 = false;
-        this.step2 = true;
-        this.step3 = false;
-        this.navStep1 = true;
-        this.navStep2 = true;
-        this.navStep3 = false;
-      }
-      if (stepNum === 3) {
-        this.step1 = false;
-        this.step2 = false;
-        this.step3 = true;
-        this.navStep1 = true;
-        this.navStep2 = true;
-        this.navStep3 = true;
-      }
+      const currentStep = +url.searchParams.get('step')
+      this.currentStep = currentStep ? currentStep : 1;
     },
     data() {
       return {
@@ -436,19 +335,15 @@
 
         show: true,
         errors: {},
-        step1: true,
-        step2: false,
-        step3: false,
+
         currentStep: 1,
-        navStep1: true,
-        navStep2: false,
-        navStep3: false,
+
         billingTypeSelected: 'annually',
         billingTypeOptions: [
           { text: 'Billed Annually', value: 'annually' },
           { text: 'Billed Monthly', value: 'monthly' },
         ],
-        billingPlans: data.billingPlans,
+
         openId: null,
         isSidebarOpen: false,
         selectedPlan: [],
@@ -462,9 +357,6 @@
       }
     },
     methods: {
-      clickNotify(value) {
-        console.log(value)
-      },
       addTag (newTag) {
         const tag = {
           name: newTag,
@@ -498,17 +390,10 @@
         url.searchParams.set('step', stepNum);
         window.history.pushState({}, '', url);
 
-        this['step'+(stepNum-1)] = false
-        this['navStep'+stepNum] = true
-        this['step'+stepNum] = true
         this.currentStep = stepNum
       },
       prevStep(stepNum) {
-        this['step'+(stepNum+1)] = false
-        this['navStep'+(stepNum+1)] = false
-        this['step'+stepNum] = true
-        this.currentStep = stepNum
-        this.navigation(this.currentStep)
+        this.navigation(stepNum)
       },
       nextStep(stepNum) {
         // CLEAR ERRORS
@@ -564,11 +449,7 @@
           this.$store.dispatch('updateAccountInfoWithFile', formData)
             .then(response => {
               if(!response.errors) {
-                this['step'+(stepNum-1)] = false
-                this['navStep'+stepNum] = true
-                this['step'+stepNum] = true
-                this.currentStep = stepNum
-                this.navigation(this.currentStep)
+                this.navigation(stepNum)
                 // this.toast('Success', `Company info successfully sended!`)
               }
             })
@@ -578,21 +459,9 @@
             })
         }
       },
-      // skipStep(stepNum){
-      //   this['step'+(stepNum-1)] = false
-      //   this['navStep'+stepNum] = true
-      //   this['step'+stepNum] = true
-      //   this.currentStep = stepNum
-      //   this.navigation(this.currentStep)
-      //
-      //   this.formStep2 = {
-      //       skills: [],
-      //       skillsTags: [],
-      //       file: null,
-      //       experience: '',
-      //   }
-      // },
       openDetails(plan) {
+        console.log(plan)
+
         if(plan.id === 1) {
           this.overlay = true
           this.overlayStatusText = 'Setting up account...'

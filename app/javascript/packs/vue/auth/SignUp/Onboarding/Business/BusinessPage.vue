@@ -11,7 +11,7 @@
             Steps(:steps="steps", :currentStep="currentStep")
             //Loading
             b-form(@submit='onSubmit' @change="onChangeInput" v-if='show')
-              #step1.form(:class="step1 ? 'd-block' : 'd-none'")
+              #step1.form(:class="currentStep === 1 ? 'd-block' : 'd-none'")
                 .row
                   .col
                     h3.onboarding__title.m-b-10 Do you have a CRD number?
@@ -33,7 +33,7 @@
                     .text-right.m-t-30
                       b-button(type='button' variant='dark' @click="nextStep(2)") Next
                         b-icon.ml-2(icon="chevron-right")
-              #step2.form(:class="step2 ? 'd-block' : 'd-none'")
+              #step2.form(:class="currentStep === 2 ? 'd-block' : 'd-none'")
                 Notifications.m-b-20(v-if="formStep1.crd_number && formStep1.crd_number.length" :notify="notify")
                 h3.onboarding__title.m-b-20 Tell us more about your business
                 .row
@@ -165,7 +165,7 @@
                       // b-button.mr-2(type='button' variant='outline-primary' @click="nextStep(3)") Skip this step
                       b-button(type='button' variant='dark' @click="nextStep(3)") Next
                         b-icon.ml-2(icon="chevron-right")
-              #step3.form(:class="step3 ? 'd-block' : 'd-none'")
+              #step3.form(:class="currentStep === 3 ? 'd-block' : 'd-none'")
                 SelectPlan(:userType="userType" @goBack="prevStep(2)" @openDetails="openDetails")
       SelectPlanPaymentAndSummary(:userType="userType" :isSidebarOpen="isSidebarOpen" :selectedPlan="selectedPlan")
 
@@ -254,7 +254,8 @@
       }
 
       const url = new URL(window.location);
-      this.currentStep = +url.searchParams.get('step');
+      const currentStep = +url.searchParams.get('step')
+      this.currentStep = currentStep ? currentStep : 1;
     },
     data() {
       return {
@@ -381,8 +382,6 @@
         }
       },
       openDetails(plan) {
-        console.log(plan)
-
         if(plan.id === 1) {
           this.overlay = true
           this.overlayStatusText = 'Setting up account...'
