@@ -3,7 +3,7 @@
     .container-fluid(v-if='!childDataLoaded')
       TopNavbar
       main.row#main-content
-        .col.m-x-auto
+        .col-xl-4.col-lg-6.col-md-8.m-x-auto
           .card.registration
             .card-body.white-card-body
               Loading
@@ -17,20 +17,21 @@
                     br
                     | This alert will dismiss after {{ dismissCountDown }} seconds...
                   b-form(@submit='onSubmit1' v-if='show')
-                    b-form-group#input-group-1.m-b-20(label='Email:' label-for='input-1')
+                    b-form-group#input-group-1(label='Email:' label-for='input-1')
                       b-form-input#input-1(v-model='form.email' type='email' placeholder='Email' required)
                       .invalid-feedback.d-block(v-if="errors['user.email']") 'Email' {{ ...errors['user.email'] }}
-                    b-form-group#input-group-2.m-b-20(label='Password:' label-for='input-2')
+                    b-form-group#input-group-2(label='Password:' label-for='input-2')
                       b-form-input#input-2(v-model='form.password' type='password' placeholder='Password' required)
                       .invalid-feedback.d-block(v-if="errors['user.password']") 'Email' {{ ...errors['user.password'] }}
-                    b-button.m-b-20.w-100(type='submit' variant='dark') Sign In
-                    b-form-group.text-center.forgot-password.mb-0
+                    b-button.w-100(type='submit' variant='dark') Sign In
+                    hr
+                    b-form-group.text-center.forgot-password.m-t-1
                       // p Forget your password?&nbsp;
                       //  a.link(href="#") Restore
                       a.link.o-8.forgot-password(data-remote='true' href='/users/password/new') Forgot Password
                       // router-link.link.o-8.forgot-password(to='/users/password/new') Forgot Password
-                      //h4.text-uppercase.m-t-1 Don't have an account yet?&nbsp;
-                      //  a.link(data-remote='true' href='/users/sign_up') Sign up
+                      h4.text-uppercase.m-t-1 Don't have an account yet?&nbsp;
+                        a.link(data-remote='true' href='/users/sign_up') Sign up
                         // router-link.link(to='/users/sign_up') Sign up
               #step2.form(v-if='!loading' :class="step2 ? 'd-block' : 'd-none'")
                 // OtpConfirm(@otpSecretConfirmed="otpConfirmed", :form="form")
@@ -46,12 +47,12 @@
                       .row.m-b-40
                         .col-12.mx-0
                           .d-flex.justify-content-space-around.mx-auto
-                            input#inputCode1.code-input.ml-auto(v-model='form2.codePart1' type='number' pattern='\d*' inputmode="decimal" maxlength="1" required)
-                            input#inputCode2.code-input(v-model='form2.codePart2' type='number' pattern='\d*' inputmode="decimal" maxlength="1" required)
-                            input#inputCode3.code-input(v-model='form2.codePart3' type='number' pattern='\d*' inputmode="decimal" maxlength="1" required)
-                            input#inputCode4.code-input(v-model='form2.codePart4' type='number' pattern='\d*' inputmode="decimal" maxlength="1" required)
-                            input#inputCode5.code-input(v-model='form2.codePart5' type='number' pattern='\d*' inputmode="decimal" maxlength="1" required)
-                            input#inputCode6.code-input.mr-auto(v-model='form2.codePart6' type='number' pattern='\d*' inputmode="decimal" maxlength="1" required)
+                            b-form-input#inputCode1.code-input.ml-auto(v-model='form2.codePart1' type='number' maxlength="1" required)
+                            b-form-input#inputCode2.code-input(v-model='form2.codePart2' type='number' maxlength="1" required)
+                            b-form-input#inputCode3.code-input(v-model='form2.codePart3' type='number' maxlength="1" required)
+                            b-form-input#inputCode4.code-input(v-model='form2.codePart4' type='number' maxlength="1" required)
+                            b-form-input#inputCode5.code-input(v-model='form2.codePart5' type='number' maxlength="1" required)
+                            b-form-input#inputCode6.code-input.mr-auto(v-model='form2.codePart6' type='number' maxlength="1" required)
                           .invalid-feedback.d-block.text-center(v-if="errors.code") {{ errors.code }}
                       .row
                         .col
@@ -69,11 +70,6 @@
                 //  ion-icon(name="checkmark-circle-outline")
                 p.text-center If you don't want to wait. Please&nbsp;
                   a.link(:href="dashboardLink") click here
-            .card-footer(v-if='!loading && step1')
-              b-form-group.text-center.mb-0
-                p.mb-0 Don't have an account yet?&nbsp;
-                  a.link(href="/users/sign_up") Sign up
-                  //router-link.link(to='/users/sign_up') Sign up
 </template>
 
 <script>

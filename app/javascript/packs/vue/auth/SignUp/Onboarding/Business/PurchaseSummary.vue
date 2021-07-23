@@ -1,34 +1,34 @@
 <template lang="pug">
-  .card.purchase-summary
+  .card.m-t-1.purchase-summary
     .card-header.purchase-summary-header
       | Purchase Summary
-    .card-body.purchase-summary-body.p-x-40.p-y-20
-      Coupon(@couponApplied="addDiscount")
+    .card-body.purchase-summary-body.p-40.pb-3
+      Coupon
     .card-body.purchase-summary-body.p-40
       dl.row.m-b-20
         dt.col-sm-6
           b {{ planComputed.name }} plan
-        dd.col-sm-6.text-right.font-weight-bold {{ billingTypeSelected === 'annually' ?  planComputed.coastAnnuallyFormatted : planComputed.coastMonthlyFormatted }}
-      dl.row(:class="billingTypeSelected === 'annually' ? 'm-b-20' : ''")
+        dd.col-sm-6.text-right {{ billingTypeSelected === 'annually' ?  planComputed.coastAnnuallyFormatted : planComputed.coastMonthlyFormatted }}
+      dl.row.m-b-20
         dt.col-sm-6 {{ additionalUsers }} Users ({{ planComputed.usersCount }} Free)
-        dd.col-sm-6.text-right.font-weight-bold {{ planComputed.additionalUserCoast !== '+$0' ? planComputed.additionalUserCoast : 'FREE' }}
+        dd.col-sm-6.text-right {{ planComputed.additionalUserCoast !== '+$0' ? planComputed.additionalUserCoast : 'FREE' }}
       dl.row.mb-0
         dt.col-sm-6.text-success(v-if="billingTypeSelected === 'annually' && planComputed.id !== 1") Billed Annualy
         dd.col-sm-6.text-right.text-success(v-if="billingTypeSelected === 'annually' && planComputed.id !== 1") You saved {{ planComputed.saved }}
-      //.card-body.purchase-summary-body.p-x-40.p-y-20(v-if="planComputed.tax")
-      //  dl.row.mb-0
-      //    dt.col-sm-6
-      //      b Tax
-      //    dd.col-sm-6.text-right.m-b-0
-      //      b {{ planComputed.tax }}
-      hr
+    .card-body.py-0(v-if="planComputed.tax")
+      dl.row.mb-0
+        dt.col-sm-6
+          b Tax
+        dd.col-sm-6.text-right.m-b-0
+          b {{ planComputed.tax }}
+    .card-body.purchase-summary-body.p-40.borderless
       dl.row.mb-0
         dt.col-sm-6
           b Total
         dd.col-sm-6.text-right.m-b-0
           b {{ planComputed.total }}
     .card-footer.purchase-summary-footer.p-40
-      b-button.purchase-summary__btn(type='button' variant='dark' @click="complitePurchase" :disabled="disabled")
+      b-button.w-100(type='button' variant='dark' @click="complitePurchase" :disabled="disabled")
         // b-icon.mr-2(icon="arrow-clockwise" animation="spin" font-scale="1" v-show="loading")
         .lds-ring.lds-ring-small(v-show="loading")
           div
@@ -75,9 +75,6 @@
       complitePurchase() {
         const value = this.planComputed
         this.$emit('complitePurchaseConfirmed', value)
-      },
-      addDiscount() {
-        console.log('disocunt')
       }
     },
     computed: {

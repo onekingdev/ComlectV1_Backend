@@ -251,3 +251,9 @@
 <style>
   @import "./styles.css";
 </style>
+
+<style scoped>
+  .separator {
+    color: #ffc107;
+  }
+</style>
