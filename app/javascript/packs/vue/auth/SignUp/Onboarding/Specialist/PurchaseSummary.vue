@@ -2,7 +2,7 @@
   .card.purchase-summary
     .card-header.purchase-summary-header
       | Purchase Summary
-    .card-body.purchase-summary-body.p-x-40.p-y-20
+    .card-body.purchase-summary-body.p-y-20
       Coupon(@couponApplied="addDiscount")
     .card-body.purchase-summary-body.p-40
       dl.row.mb-0

@@ -2632,17 +2632,9 @@ legend, .label {
 
 /* ---------- purchase-summary ---------- */
 .purchase-summary {
-  //position: absolute;
-  //z-index: 1050;
-  //right: 2rem;
-  //top: 0;
-  //width: 31.875rem;
-  /*transform: translateY(-30%);*/
   width: 31.875rem;
 
   @media (max-width: 800px) {
-    margin-right: 60px;
-    margin-left: 60px;
     width: 100%;
   }
 }
@@ -2651,11 +2643,19 @@ legend, .label {
   font-size: 1.25rem;
   color: #303132;
   border-bottom: solid 1px #DCDEE4;
+
+  @media (max-width: 800px) {
+    padding: 1.5em;
+  }
 }
 .purchase-summary-body {
   padding: 2.5rem;
   font-size: 1rem;
   border-bottom: solid 1px #DCDEE4;
+
+  @media (max-width: 800px) {
+    padding: 1.5em;
+  }
 }
 .purchase-summary-footer {
   background-color: white;
