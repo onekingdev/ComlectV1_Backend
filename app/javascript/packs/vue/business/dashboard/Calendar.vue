@@ -9,19 +9,19 @@
             ion-icon.m-x-1(name='chevron-back-outline' @click.prevent="prev")
             ion-icon(name='chevron-forward-outline' @click.prevent="next")
       div
-        b-dropdown.mr-2(variant="default")
-          template(#button-content)
-            | Monhly
-            b-icon.ml-2(icon="chevron-down")
-          b-dropdown-item Annually
-          b-dropdown-item Monhly
-          b-dropdown-item Weekly
-          b-dropdown-item Daily
-        a.btn.btn-default.mr-2.font-weight-bold(:href="pdfUrl" target="_blank") Export
-        b-dropdown(size="sm" variant="none" class="m-0 p-0" right)
-          template(#button-content)
-            b-icon(icon="three-dots")
-          b-dropdown-item-button Some Action
+        //b-dropdown.mr-2(variant="default")
+        //  template(#button-content)
+        //    | Monhly
+        //    b-icon.ml-2(icon="chevron-down")
+        //  b-dropdown-item Annually
+        //  b-dropdown-item Monhly
+        //  b-dropdown-item Weekly
+        //  b-dropdown-item Daily
+        a.btn.btn-default.font-weight-bold(:href="pdfUrl" target="_blank") Export
+        //b-dropdown(size="sm" variant="none" class="m-0 p-0" right)
+        //  template(#button-content)
+        //    b-icon(icon="three-dots")
+        //  b-dropdown-item-button Some Action
     .card-body.p-20
       FullCalendar(:options="calendarOptions" ref="FullCalendar")
         template(v-slot:dayCellContent="arg")

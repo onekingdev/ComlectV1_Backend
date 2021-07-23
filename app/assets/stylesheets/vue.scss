@@ -107,7 +107,7 @@ html {
   //padding: 2.5rem; //40px;
   background-color: $gray-background;
   width: 100%;
-  min-height: 100vh;
+  min-height: calc(100vh - 5rem);
   //max-width: 1140px;
   //min-width: calc(1000px - 285px);
   //min-width: 1440px;
@@ -288,7 +288,8 @@ html {
   }
 
   &_find {
-    margin-right: 1.875rem; //30px
+    margin-right: 0.625rem; // 10
+    //margin-right: 1.875rem; //30px
     //color: $black !important;
     //font-weight: 600 !important;
     //background-color: $yellow;
@@ -313,7 +314,8 @@ html {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-right: 1.875rem; //30px
+    margin-right: 0.625rem; // 10
+    //margin-right: 1.875rem; //30px
     border: none;
     //border-radius: 50%;
 
@@ -569,7 +571,7 @@ html {
       .sidebar-menu__link {
         display: flex;
         justify-content: flex-start !important;
-        padding: 0.75rem 1.375rem;
+        padding: 0.55rem 1.375rem;
       }
 
       .sidebar-menu__btn {
@@ -628,6 +630,7 @@ html {
     &_settings {
       margin: 0;
       padding: 0;
+      text-transform: none;
 
       h3 {
         padding: 0;
@@ -663,7 +666,8 @@ html {
   &__link {
     display: flex;
     align-items: center;
-    padding: 0.75rem 1.375rem; // 12px 22px;
+    margin: 0.25rem 0;
+    padding: 0.50rem 1.375rem; // 12px(less) 22px;
     width: 100%;
 
     font-size: 0.875rem; // 14px
@@ -681,6 +685,10 @@ html {
 
     &.active {
       font-weight: 600;
+    }
+
+    &_settings {
+      padding-left: 0.75rem;
     }
   }
 
@@ -1556,7 +1564,7 @@ table.table thead tr th {
 }
 
 .fc-day-other .fc-daygrid-day-number {
-  color: $gray-1 !important
+  color: $gray-2
 }
 
 .fc-daygrid-day-top {
@@ -2780,4 +2788,34 @@ legend, .label {
   height: 2.8125rem; /*45px;*/
   font-weight: bold;
   font-size: 0.875rem;
+}
+
+
+/* ---------- DASHBOARD CALENDAR ---------- */
+.dashboard {
+  display: flex;
+
+  @include media-breakpoint-down(lg) {
+    flex-direction: column;
+  }
+}
+
+.calendar {
+  margin-right: 1.25rem;
+  min-width: 43.75rem;
+
+  @include media-breakpoint-down(lg) {
+    margin-right: 0;
+    margin-bottom: 1.25rem;
+    min-width: auto;
+  }
+}
+
+.upcoming {
+  min-width: 22.125rem;
+  max-width: 22.125rem;
+
+  @include media-breakpoint-down(lg) {
+    max-width: 100%;
+  }
 }

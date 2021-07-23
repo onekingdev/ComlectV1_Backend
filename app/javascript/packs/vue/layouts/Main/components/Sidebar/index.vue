@@ -42,7 +42,7 @@
               router-link.sidebar-menu__link(:to='`/${userType}/risks`' active-class="active")
                 | Risk Register
       div(class="dropdown-divider")
-      router-link.sidebar-menu__link(:to='`/${userType}/settings`' active-class="active")
+      router-link.sidebar-menu__link.sidebar-menu__link_settings(:to='`/${userType}/settings`' active-class="active")
         h3.sidebar-menu__title.sidebar-menu__title_settings
           ion-icon(name='settings-outline' @click.stop="openLink('settings')")
           span Settings
@@ -65,7 +65,7 @@
            router-link.sidebar-menu__link(:to='`/${userType}/exam_management`' active-class="active")
              | Exam Management
      div(class="dropdown-divider")
-     router-link.sidebar-menu__link(:to='`/${userType}/settings`' active-class="active")
+     router-link.sidebar-menu__link.sidebar-menu__link_settings(:to='`/${userType}/settings`' active-class="active")
         h3.sidebar-menu__title.sidebar-menu__title_settings
           ion-icon(name='settings-outline' @click.stop="openLink('settings')")
           span Settings
