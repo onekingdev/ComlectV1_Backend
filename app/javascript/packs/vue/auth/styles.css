@@ -60,6 +60,9 @@
 }
 
 @media (max-width: 575px) {
+  .card.registration .card-body {
+    padding: 1em;
+  }
   .registration-welcome {
     margin-bottom: 1em;
   }
@@ -92,6 +95,8 @@
 @media (max-width: 575px) {
   .account-select {
     margin-bottom: 0;
+    padding: 1.5em 1.5em;
+    min-height: auto;
   }
 }
 .account-select:hover,
@@ -118,6 +123,12 @@
   font-size: 0.875rem; /*14px*/
   text-align: center;
   color: #797B7E;
+}
+@media (max-width: 575px) {
+  .account-select__subtitle {
+    padding: 0;
+    margin: 0;
+  }
 }
 
 .code-input {

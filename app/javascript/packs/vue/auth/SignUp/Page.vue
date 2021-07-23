@@ -32,16 +32,16 @@
                     b-button.registration__btn.w-100(type='submit' variant='dark') Next
               #step1.form(:class="step1 ? 'd-block' : 'd-none'")
                 .registration-welcome
-                  h1.text-center.m-b-10 Let's get you started!
-                  p.text-center.mb-0 Create your FREE account
+                  h1.registration__title Let's get you started!
+                  p.registration__subtitle Create your FREE account
                 div
                   b-form(@submit='onSubmit1' v-if='show')
-                    .row.m-b-20
+                    .row
                       .col-md-6.pr-md-2
-                        b-form-group#input-group-1.mb-0(label='First Name:' label-for='input-1')
+                        b-form-group#input-group-1.m-b-20(label='First Name:' label-for='input-1')
                           b-form-input#input-1(v-model='form.firstName' type='text' placeholder='First Name' min="3" required)
                       .col-md-6.pl-md-2
-                        b-form-group#input-group-2.mb-0(label='Last Name:' label-for='input-2')
+                        b-form-group#input-group-2.m-b-20(label='Last Name:' label-for='input-2')
                           b-form-input#input-2(v-model='form.lastName' type='text' placeholder='Last Name' min="3" required)
                     b-form-group#input-group-3.m-b-20(label='Email:' label-for='input-3')
                       b-form-input#input-3(v-model='form.email' type='email' placeholder='Email' required)
@@ -52,7 +52,7 @@
                     b-form-group#input-group-5.m-b-20(label='Repeat Password:' label-for='input-5')
                       b-form-input#input-5(v-model='form.passwordConfirm' type='password' placeholder='Repeat Password' required)
                       .invalid-feedback.d-block(v-if="errors.passwordConfirm") {{ errors.passwordConfirm }}
-                    b-form-group.m-b-20
+                    b-form-group.text-center.m-b-20
                       p By signing up, I accept the&nbsp;
                         a.link(href="#") Complect Terms of Use&nbsp;
                         | and acknowledge the&nbsp;
@@ -60,7 +60,7 @@
                     b-button.registration__btn.m-b-40.w-100(type='submit' variant='dark') Sign Up
               #step2.form(:class="step2 ? 'd-block' : 'd-none'")
                 // OtpConfirm(@otpSecretConfirmed="otpConfirmed", :userId="userId", :form="form")
-                .registration-welcome.text-center
+                .registration-welcome
                   h1.registration__title Confirm Your Email!
                   p.registration__subtitle We sent a 6 digit code to {{ form.email }}. Please enter it below.
                 div
