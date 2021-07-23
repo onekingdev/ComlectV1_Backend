@@ -696,12 +696,14 @@ html {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.25rem; // 20px
+    padding: 0.625rem 1.25rem; // 20px
     padding-right: 0;
     margin-top: auto;
     margin-bottom: 0;
     width: 100%;
+    font-size: 0.875rem;
     text-align: left;
+    text-transform: capitalize;
     color: $white;
     background-color: transparent;
     border: none;
@@ -1179,7 +1181,7 @@ table.table thead tr th {
   font-size: 0.875rem; //14px
   font-weight: 400;
   color: $gray-3;
-  border: 0;
+  //border: 0;
 }
 
 .task_table {
@@ -1237,7 +1239,7 @@ table.table thead tr th {
 
 .table th, .table td {
   padding: 0.625rem;
-  border-top: 1px solid $gray-1;
+  border-top: none;
 
   .btn.dropdown-toggle {
     padding-top: 0;
@@ -2817,5 +2819,13 @@ legend, .label {
 
   @include media-breakpoint-down(lg) {
     max-width: 100%;
+  }
+
+  &__header {
+    font-size: 1.25rem;
+  }
+
+  &__title {
+    font-size: 1rem;
   }
 }
