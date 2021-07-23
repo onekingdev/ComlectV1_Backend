@@ -38,10 +38,10 @@
         div(v-show="!cardOptions.length")
           plaid-link(env='sandbox' :publicKey='plaidPK' clientName='Test App' product='transactions' v-bind='{ onSuccess }')
             template(slot='button' slot-scope='props')
-              a.btn.btn-light(@click="props.onClick") Add Bank Account
+              a.btn.btn-default(@click="props.onClick") Add Bank Account
     .card-body(v-if="cardOptions")
       dl.row(v-for="(card, i) in cardOptions")
-        dt.col-sm-7
+        dt.col-7
           input.mr-2.mt-1(:id="'card'+card.id" type='radio' name='card' :value='card.id' v-model="cardSelected" @click="onPaymentMethodChange(card.id)")
           label(:for="'card'+card.id") {{ card.text }}
         dd.col-sm-5.text-right.m-b-0

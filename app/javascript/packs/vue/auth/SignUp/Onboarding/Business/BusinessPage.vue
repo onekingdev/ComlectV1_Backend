@@ -175,7 +175,6 @@
                       :options="billingTypeOptions"
                       :aria-describedby="ariaDescribedby"
                       button-variant="outline-primary"
-                      size="lg"
                       name="radio-btn-outline"
                       buttons)
                 .billing-plans

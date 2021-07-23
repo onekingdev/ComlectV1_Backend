@@ -198,6 +198,18 @@ input[type=number] {
   padding: 2.125rem 2.5rem;
 }
 
+@media (max-width: 575px) {
+  .registration-onboarding {
+    margin-top: 1.25em;
+  }
+  .registration-onboarding .card-header {
+    padding: 1em 1.25rem;
+  }
+  .registration-onboarding .card-body {
+    padding: 1.06em 1.25em;
+  }
+}
+
 
 /* ---------- coupon ---------- */
 .coupon {}

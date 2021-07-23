@@ -2575,7 +2575,7 @@ legend, .label {
 
   @media (max-width: 800px) {
     flex-direction: column;
-    min-height: auto;
+    overflow: auto;
   }
 }
 
@@ -2595,6 +2595,9 @@ legend, .label {
     margin-right: 0;
     margin-bottom: 1.25rem;
     width: 100%;
+  }
+  @media (max-width: 575px) {
+    padding: 1.5em;
   }
 }
 .registration-card__header {
