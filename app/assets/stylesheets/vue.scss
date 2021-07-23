@@ -349,6 +349,7 @@ html {
 .topbar-right-dropdown {
   display: flex;
   align-items: center;
+  margin-right: 2.5rem;
 
   border-left: solid 1px $gray-1;
   border-right: solid 1px $gray-1;
@@ -1218,9 +1219,10 @@ table.table thead tr th {
   }
 }
 
-.table th {
+.table thead th {
   color: $gray-3;
   white-space: nowrap;
+  border-bottom: 1px solid #DCDEE4;
 }
 
 .table td {
@@ -2815,7 +2817,7 @@ legend, .label {
 
 .upcoming {
   min-width: 22.125rem;
-  max-width: 22.125rem;
+  //max-width: 22.125rem;
 
   @include media-breakpoint-down(lg) {
     max-width: 100%;
@@ -2827,5 +2829,9 @@ legend, .label {
 
   &__title {
     font-size: 1rem;
+  }
+
+  &__more{
+    font-size: 0.875rem;
   }
 }
