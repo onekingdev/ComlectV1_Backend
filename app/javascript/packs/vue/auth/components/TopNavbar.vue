@@ -4,14 +4,16 @@
       .topbar
         .logo
           a.logo__link(href="/")
-            img.logo__img.logo__img_full(src='@/assets/logo_wordmark.svg')
+            img.logo__img.logo__img_full(src='@/assets/primary.svg')
+            svg.logo__text(width='200' height='30' xmlns='http://www.w3.org/2000/svg')
+              text(x='0' y='25' font-family='Varela') complect
         .navbar-nav.mr-0
           .dropdown.dropdown-profile(v-if="loggedIn && userName")
             .dropdown-profile__btn(v-if="userName" @click="isProfileMenuOpen = !isProfileMenuOpen" :aria-expanded="isProfileMenuOpen")
               span {{ userName }}
               b-icon.m-l-1(icon="chevron-down")
             ul.dropdown-menu(aria-labelledby="profile_dropdown_btn" :class="{ show: isProfileMenuOpen }")
-              li(@click="signOut") Sign Out
+              li(class="dropdown-item" @click="signOut") Sign Out
           .ml-auto.mt-auto.mb-auto(v-else)
             a.btn.btn-dark(href="/users/sign_in") Sign in
 </template>

@@ -9,7 +9,7 @@
               Loading
               // #step1.form(v-if='!loading' :class="step1 ? 'd-block' : 'd-none'")
               #step1.form(:class="step1 ? 'd-block' : 'd-none'")
-                .registration-welcome.text-center
+                .registration-welcome
                   h1.registration__title Reset password
                   p.registration__subtitle Enter the email address used to log in to your Complect
                     | account and we'll send you a link to reset your password. If you
@@ -25,14 +25,14 @@
                       .invalid-feedback.d-block(v-if="errors['user.email']") 'Email Address' {{ ...errors['user.email'] }}
                     b-button.registration__btn.w-100(type='submit' variant='dark') Reset
               #step2.form(:class="step2 ? 'd-block' : 'd-none'")
-                .registration-welcome.text-center
+                .registration-welcome
                   h1.registration__title You successfuly reseted password!
                   p.registration__subtitle You will be redirect to the sign in page!
                 //.text-center
                 //  b-icon(icon="circle-fill" animation="throb" font-scale="5")
                     //ion-icon(name="checkmark-circle-outline" size="large")-->
             .card-footer.text-center
-              b-form-group
+              b-form-group.mb-0
                 a.link(data-remote='true' href='/users/sign_in') Cancel
                 //router-link.link(to='/users/sign_in') Cancel
 </template>

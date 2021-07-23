@@ -171,39 +171,6 @@ export default {
 .vue-range-slider.slider-component .slider-tooltip-wrap.slider-tooltip-bottom .slider-tooltip::before {
   display: none;
 }
-.custom-control {
-  margin-bottom: 10px;
-  padding-left: 2rem;
-}
-.custom-control-label {
-  padding-left: 10px;
-  padding-top: 4px;
-}
-.custom-control-label::before {
-  width: 20px;
-  height: 20px;
-}
-.custom-control-input {
-  width: 1.6rem;
-  height: 1.7rem;
-}
-.custom-control-input:checked ~ .custom-control-label::before {
-  background-color: #303132;    border: 0;
-  width: 20px;
-  height: 20px;
-  border-radius: 4px;
-}
-.custom-checkbox .custom-control-input:checked ~ .custom-control-label::after {
-  background-size: 70%;
-  background-position: center center;
-  width: 20px;
-  height: 20px;
-}
-.custom-control-input:not(:disabled):active ~ .custom-control-label::before {
-  color: #fff;
-  background-color: #2E304F;
-  border-color: #2E304F;
-}
 </style>
 
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>

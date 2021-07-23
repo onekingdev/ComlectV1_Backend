@@ -17,21 +17,20 @@
                     br
                     | This alert will dismiss after {{ dismissCountDown }} seconds...
                   b-form(@submit='onSubmit1' v-if='show')
-                    b-form-group#input-group-1(label='Email:' label-for='input-1')
+                    b-form-group#input-group-1.m-b-20(label='Email:' label-for='input-1')
                       b-form-input#input-1(v-model='form.email' type='email' placeholder='Email' required)
                       .invalid-feedback.d-block(v-if="errors['user.email']") 'Email' {{ ...errors['user.email'] }}
-                    b-form-group#input-group-2(label='Password:' label-for='input-2')
+                    b-form-group#input-group-2.m-b-20(label='Password:' label-for='input-2')
                       b-form-input#input-2(v-model='form.password' type='password' placeholder='Password' required)
                       .invalid-feedback.d-block(v-if="errors['user.password']") 'Email' {{ ...errors['user.password'] }}
-                    b-button.w-100(type='submit' variant='dark') Sign In
-                    hr
-                    b-form-group.text-center.forgot-password.m-t-1
+                    b-button.m-b-20.w-100(type='submit' variant='dark') Sign In
+                    b-form-group.text-center.forgot-password.mb-0
                       // p Forget your password?&nbsp;
                       //  a.link(href="#") Restore
                       a.link.o-8.forgot-password(data-remote='true' href='/users/password/new') Forgot Password
                       // router-link.link.o-8.forgot-password(to='/users/password/new') Forgot Password
-                      h4.text-uppercase.m-t-1 Don't have an account yet?&nbsp;
-                        a.link(data-remote='true' href='/users/sign_up') Sign up
+                      //h4.text-uppercase.m-t-1 Don't have an account yet?&nbsp;
+                      //  a.link(data-remote='true' href='/users/sign_up') Sign up
                         // router-link.link(to='/users/sign_up') Sign up
               #step2.form(v-if='!loading' :class="step2 ? 'd-block' : 'd-none'")
                 // OtpConfirm(@otpSecretConfirmed="otpConfirmed", :form="form")
@@ -70,6 +69,11 @@
                 //  ion-icon(name="checkmark-circle-outline")
                 p.text-center If you don't want to wait. Please&nbsp;
                   a.link(:href="dashboardLink") click here
+            .card-footer
+              b-form-group.text-center.mb-0
+                p.mb-0 Don't have an account yet?&nbsp;
+                  a.link(href="/users/sign_up") Sign up
+                  //router-link.link(to='/users/sign_up') Sign up
 </template>
 
 <script>

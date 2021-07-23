@@ -3,8 +3,8 @@
     .d-flex.align-items-center
       b-icon.m-r-2.m-l-1(v-if="notifyIcon" :icon="notifyIcon" :animation="notify.animation" :scale="notify.scale" :variant="notify.variant")
       .d-block.mr-auto
-        h4(v-if="notify.mainText"): b {{ notify.mainText }}
-        p.mb-0(v-if="notify.subText") {{ notify.subText }}
+        h4.notifications__title(v-if="notify.mainText"): b {{ notify.mainText }}
+        p.notifications__sub-title.mb-0(v-if="notify.subText") {{ notify.subText }}
       span(@click="$emit('click')")
         slot
 </template>
@@ -50,32 +50,5 @@
 </script>
 
 <style scoped>
-  /* ALERTS*/
-  .notifications.alert {
-    color: #303132;
-    border-radius: 0;
-    border-width: 0;
-    border-color: transparent;
-  }
-  .notifications.alert-info,
-  .notifications.alert-primary {
-    background-color: #ecf4ff;
-    box-shadow: inset 5px 0 0 #0479ff;
-  }
-  .notifications.alert-success {
-    background-color: #d5fbef;
-    box-shadow: inset 5px 0 0 #1ab27f;
-  }
-  .notifications.alert-warning {
-    background-color: #fff7e4;
-    box-shadow: inset 5px 0 0 #ffc900;
-  }
-  .notifications.alert-danger {
-    background-color: #fddee3;
-    box-shadow: inset 5px 0 0 #ce1938;
-  }
-  .notifications.alert-dismissible .close {
-    top: 10px;
-    font-size: 1.8rem;
-  }
+
 </style>
