@@ -19,11 +19,13 @@
                 :id="`#sectionIcon-${el.id ? el.id : idxEl+'_'+randomNum}`"
                 @click="toogleSections(el.id ? el.id : idxEl+'_'+randomNum)"
                 :class="{active : shortTable}")
-                b-icon.mr-2(icon="chevron-right" font-scale="0.5")
-              a.link(v-if="el.id" :href="`/business/compliance_policies/${el.id}`") {{ el.title }}
+                b-icon.mr-2(icon="chevron-right")
+              //a.link(v-if="el.id" :href="`/business/compliance_policies/${el.id}`") {{ el.title }}
+              router-link.link(v-if="el.id" :to='`/business/compliance_policies/${el.id}`') {{ el.title }}
               .link(v-else) {{ el.title }}
           .table__cell.table__cell_name.table__cell_first(v-show="el.children && el.children.length === 0")
-            a.link(v-if="el.id" :href="`/business/compliance_policies/${el.id}`") {{ el.title }}
+            //a.link(v-if="el.id" :href="`/business/compliance_policies/${el.id}`") {{ el.title }}
+            router-link.link(v-if="el.id" :to='`/business/compliance_policies/${el.id}`') {{ el.title }}
             .link.ml-4(v-else) {{ idxEl + 1 }}. {{ el.title }}
           .table__cell(v-if="!shortTable && el.status")
             b-badge.status(:variant="statusVariant") {{ el.status }}

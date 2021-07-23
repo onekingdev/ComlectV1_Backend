@@ -5,7 +5,7 @@
     .container-fluid(v-if='!childDataLoaded')
       TopNavbar
       main.row#main-content
-        .col-xl-4.col-lg-6.col-md-8.m-x-auto
+        .col.m-x-auto
           .card.registration(v-if='loading')
             .card-body.white-card-body
               Loading
@@ -28,7 +28,7 @@
                           .account-select(@click="selectType('specialist')" :class="userType === 'specialist' ? 'active' : ''")
                             h3.account-select__title.mb-3 I am a specialist
                             img.account-select__img(src='@/assets/briefcase-outline.svg' width="50" height="50")
-                            p.account-select__subtitle.px-4 Looking to work with potential clients on compliance projects
+                            p.account-select__subtitle Looking to work with potential clients on compliance projects
                     b-button.registration__btn.w-100(type='submit' variant='dark') Next
               #step1.form(:class="step1 ? 'd-block' : 'd-none'")
                 h1.text-center Let's get you started!

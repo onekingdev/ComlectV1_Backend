@@ -9,13 +9,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@100;300;400;600&family=Varela&display=swap');
 
 
-$minWidthContent: 1440px;
+$minWidthContent: calc(62.5rem - 17.8125rem); // 1000px-285px (width minus sidebar width)
 
 /* ---------- MAIN STYLES ---------- */
 #app, body, html {
   margin: 0;
   padding: 0;
-  height: calc(100vh - 0);
+  min-height: calc(100vh);
   width: 100%;
   -webkit-font-smoothing: antialiased;
 }
@@ -62,6 +62,9 @@ body, html {
 }
 
 html {
+  //This define what 1rem is
+  //font-size: 87.5%; // 1rem = 16px: 14px / 16px = 87.5%
+
   //font-size: 68%;
   //font-size: 14px;
   //font-family: 'Varela', sans-serif;
@@ -89,10 +92,12 @@ html {
   flex-grow: 1;
   max-width: 100%;
   width: 100%;
+  overflow: hidden;
 }
 
-// need remove or not
+// need remove or rewrite
 #main-content {
+  min-height: calc(100vh - 80px);
   background-color: $gray-background;
 }
 
@@ -106,19 +111,20 @@ html {
   //min-width: 1440px;
   //min-width: 1000px;
   //min-width: 900px;
+  //min-width: 100%;
+  //max-width: 100%;
   //min-width: $minWidthContent;
-  min-width: calc(100% - 17.8125rem); // minus 285px
-  max-width: 100%;
 
+  overflow: auto;
   //border: solid 1px red;
-
-  overflow-y: auto;
 }
 
 
-
-
 /* ---------- TOP NAVBAR ---------- */
+.navbar-nav {
+  height: 100%;
+}
+
 .navbar-light .navbar-nav .nav-link {
   color: $black !important;
 }
@@ -196,8 +202,8 @@ html {
     }
   }
 
-  //@media (max-width: 991.98px) {
-  @include media-breakpoint-down(md) {
+  @media (max-width: 991.98px) {
+  //@media (max-width: 1000px) {
     position: fixed;
     top: 5rem; //80px;
     right: 0;
@@ -207,7 +213,7 @@ html {
     height: 100%;
     min-height: calc(100vh - 5rem);
     color: $white;
-    background-color: $black;
+    background-color: $primary-dark;
     z-index: 10;
     margin-left: 0;
   }
@@ -266,16 +272,16 @@ html {
 
   &_find {
     margin-right: 1.875rem; //30px
-    color: $black !important;
-    font-weight: 600 !important;
-    background-color: $yellow;
+    //color: $black !important;
+    //font-weight: 600 !important;
+    //background-color: $yellow;
 
-    &:hover,
-    &:active {
-      color: #282a30;
-      background-color: #ffdc5b !important;
-      border-color: #ffdc5b !important;
-    }
+    //&:hover,
+    //&:active {
+    //  color: #282a30;
+    //  background-color: #ffdc5b !important;
+    //  border-color: #ffdc5b !important;
+    //}
 
     @include media-breakpoint-down(lg) {
       margin-right: .5em;
@@ -323,6 +329,7 @@ html {
 
 .topbar-right-dropdown {
   display: flex;
+  align-items: center;
 
   border-left: solid 1px $gray-1;
   border-right: solid 1px $gray-1;
@@ -363,6 +370,7 @@ html {
     width: 100%;
     height: 100%;
     color: $black;
+    background-color: transparent;
 
     @include media-breakpoint-down(lg) {
       margin: 0 .5em;
@@ -400,24 +408,30 @@ html {
     ion-icon {
       margin-right: 0;
     }
+
     .sidebar-menu__title {
       ion-icon:first-child {
         margin-right: 0;
       }
+
       span {
         display: none;
       }
+
       ion-icon:last-child {
         display: none;
       }
     }
+
     .sidebar-menu__list {
       display: none;
     }
+
     .sidebar-menu__link {
       margin: 0;
       padding: 0;
     }
+
     .sidebar-menu__title,
     .sidebar-menu__btn {
       display: flex;
@@ -426,6 +440,7 @@ html {
       margin: 0;
       padding: 1rem;
     }
+
     .sidebar-menu__btn {
       span {
         display: none;
@@ -450,6 +465,7 @@ html {
       span {
         display: none;
       }
+
       ion-icon:last-child {
         display: none;
       }
@@ -482,6 +498,7 @@ html {
       span {
         display: none;
       }
+
       ion-icon {
         transform: rotate(180deg);
       }
@@ -494,19 +511,23 @@ html {
       ion-icon {
         margin-right: 0.625rem;
       }
+
       .sidebar-menu__title {
         display: flex;
 
         ion-icon:first-child {
           margin-right: .5rem;
         }
+
         span {
           display: flex;
         }
+
         ion-icon:last-child {
           display: flex;
         }
       }
+
       .sidebar-menu__title_settings {
         display: flex;
         padding: 0;
@@ -514,24 +535,30 @@ html {
         .sidebar-menu__link {
           display: flex;
         }
+
         ion-icon:first-child {
           margin-right: .5rem;
         }
       }
+
       .sidebar-menu__list {
         display: flex;
       }
+
       .sidebar-menu__item {
         display: flex;
       }
+
       .sidebar-menu__link {
         display: flex;
-        justify-content: flex-start!important;
+        justify-content: flex-start !important;
         padding: 0.75rem 1.375rem;
       }
+
       .sidebar-menu__btn {
         display: flex;
         justify-content: space-between;
+
         span {
           display: block;
         }
@@ -678,15 +705,24 @@ html {
   display: flex;
   flex-direction: column;
   height: 100%;
+  width: 100%;
+  //overflow: auto;
+  //border: solid 1px blue;
 
-  min-width: $minWidthContent;
-  overflow: auto;
+  @media (max-width: 1000px) {
+    min-width: $minWidthContent;
+  }
 }
 
 .page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  .separator {
+    //color: #ffc107;
+    color: $yellow;
+  }
 
   &__title,
   &__title h2 {
@@ -706,6 +742,11 @@ html {
 
   &__actions {
     margin-right: 2.5rem; // 40px
+
+    @include media-breakpoint-down(lg) {
+      min-width: 250px;
+      text-align: right;
+    }
   }
 }
 
@@ -741,35 +782,191 @@ html {
   //min-height: calc(100vh - 216px) !important;
 }
 
+
+// Move to comp search
 .form-control_search {
-  padding-left: 2rem;
+  padding: 0.625rem 2.0625rem; // 10 33px
+  //max-width: 25rem; //400px
+  border-color: $gray-1;
+
+  &::placeholder {
+    color: $gray-2;
+  }
+}
+
+.b-icon.bi.icon-searh {
+  position: absolute;
+  top: .7rem;
+  left: .7rem;
+  color: #565759;
+}
+
+.btn-clear {
+  position: absolute;
+  top: 1.25rem;
+  right: .4rem;
+  border: none;
+  background-color: transparent;
+  border-radius: 4px;
+  transition: all 200ms ease;
+  transform: translateY(-50%);
+}
+
+.btn-clear:hover,
+.btn-clear:active {
+
+  &:hover,
+  &:focus {
+    background-color: $gray-hover;
+  }
+
+  &.active,
+  &:active {
+    background-color: $blue-light;
+  }
 }
 
 /* ---------- BUTTONS ---------- */
+a.btn,
+.btn:not(.dropdown-toggle) {
+  padding: 0.6875rem 0.875rem; // 11 14px
+  font-size: 0.875rem; //14px
+  font-weight: bold;
+  border-radius: 4px;
+  transition: all 200ms ease-in;
+}
 .btn-primary,
 .btn-dark {
   color: $white;
   background-color: $black;
   border-color: $black;
 }
+.btn.btn-default {
+  border-color: $gray-1 !important;
+}
+
+.btn.btn-default {
+
+  &:hover,
+  &:focus,
+  &:active,
+  &.active {
+    background-color: $blue-light;
+  }
+}
+
+.btn.btn-warning,
+.btn.btn-tertiary {
+  background-color: $yellow;
+  border-color: $yellow;
+
+  &:hover,
+  &:focus,
+  &:active,
+  &.active {
+    background-color: #ffdc5b;
+    border-color: #ffdc5b;
+  }
+}
+
+.btn.btn-delete,
+.btn.btn-danger {
+  color: $red;
+  background-color: $white;
+  border-color: #e1e3e8;
+
+  &:hover,
+  &:focus,
+  &:active,
+  &.active {
+    color: $red;
+    background-color: $red-light;
+    border-color: $red-light;
+  }
+}
 
 .btn-primary:hover,
 .btn-primary:focus,
 .btn-primary:active,
 .btn-primary.active,
-.open > .dropdown-toggle.btn-primary,
 .btn-dark:hover,
 .btn-dark:focus,
 .btn-dark:active,
 .btn-dark.active,
+.open > .dropdown-toggle.btn-primary,
 .open > .dropdown-toggle.btn-dark {
   color: $white;
   background-color: $primary;
   border-color: $primary;
 }
 
+.btn.btn-link {
+  color: $blue;
+  background-color: $white;
+  border-color: $white;
+
+  &:hover,
+  &:focus,
+  &:active,
+  &.active {
+    color: $blue;
+    background-color: #f6f6f8;
+    border-color: #f6f6f8;
+  }
+}
+
+/* ---------- Buttons ---------- */
+
+/*a.btn,*/
+/*button.btn {*/
+/*padding: .5rem 1.2rem;*/
+/*font-weight: 600;*/
+/*transition: all 200ms ease-in;*/
+/*}*/
+/*a.btn {*/
+/*padding: .6rem 1.2rem;*/
+/*}*/
+/*a.btn:hover,*/
+/*a.btn:active,*/
+/*button.btn:hover,*/
+/*button.btn:active {*/
+/*opacity: .6;*/
+/*transform: translateY(3px);*/
+/*box-shadow: 0 3px rgba(255, 193, 7, 1)*/
+/*}*/
+
+/*button.btn__menu,*/
+/*button.btn__close {*/
+/*padding: 0;*/
+/*font-size: 1.5rem;*/
+/*font-weight: 600;*/
+/*}*/
+
+/*.policy-actions .dropdown-item,*/
+/*.delete button,*/
+/*.delete button{*/
+/*transition: all 200ms ease-in;*/
+/*}*/
+
+/*.delete button:hover,*/
+/*.delete button:active{*/
+/*background-color: rgba(255, 0, 0, .2);*/
+/*}*/
+
 
 /* ---------- DROPDOWNS ---------- */
+.dropdown-toggle {
+  color: $primary-dark;
+  background-color: $white;
+  border-color: $gray-1;
+  font-weight: 400;
+}
+.open > .btn.dropdown-toggle.btn-default {
+  color: $primary-dark;
+  background-color: $gray-background;
+  border-color: $gray-1;
+}
+
 //.actions {
 //  position: relative;
 //  display: block;
@@ -848,8 +1045,94 @@ html {
 //  background-color: rgba(255, 0, 0, .2);
 //}
 
+//.dropdown-menu-right {
+//  margin: 0;
+//  padding: 0;
+//}
+//.dropdown-menu-right li {
+//  padding: 0.75rem 0.625rem 0.75rem 0.625rem;
+//}
+//.dropdown-menu-right li:hover,
+//.dropdown-menu-right li:active {
+//  background-color: $gray-hover;
+//}
+
+.dropdown-item {
+  padding: 0.75rem 0.625rem; // 12 10px
+  font-size: 0.875rem; //14px
+  color: $black;
+  transition: all 200ms ease-in;
+
+  &:hover,
+  &:active,
+  &:focus {
+    //border: transparent;
+    outline: none;
+  }
+}
+
+.btn.btn-default:hover,
+.btn.btn-default:active,
+.dropdown-item:hover,
+.dropdown-item:focus {
+  color: $black;
+  text-decoration: none;
+  background-color: $gray-hover;
+}
+.dropdown-item.active,
+.dropdown-item:active {
+  color: #0479FF;
+  text-decoration: none;
+  background-color: $blue-light;
+}
+
+.dropdown-toggle {
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-toggle::after {
+  display: none;
+}
+
+.dropdown-toggle svg {
+  fill: #000;
+  transition: all 200ms ease-in;
+}
+
+.dropdown-toggle.active svg {
+  transform: rotate(90deg);
+}
+
+.btn.dropdown-toggle.btn-none {
+  border-color: transparent;
+
+  &:hover,
+  &:focus,
+  &:active,
+  &.active {
+    color: $black;
+    background-color: $gray-background;
+    border-color: $gray-1;
+  }
+}
+
+/* ---------- LINKS ---------- */
+a,
+a.link,
+.link {
+  color: $blue;
+  cursor: pointer;
+}
+
+a:hover {
+  color: $blue-text;
+  text-decoration: underline;
+}
+
 
 /* ---------- TABLES ---------- */
+
 table.table,
 table.table thead tr th {
   font-size: 0.875rem; //14px
@@ -859,6 +1142,11 @@ table.table thead tr th {
 }
 
 .task_table {
+  .name {
+    display: flex;
+    align-items: center;
+  }
+
   tbody ion-icon {
     font-size: 20px;
     vertical-align: middle;
@@ -871,7 +1159,7 @@ table.table thead tr th {
 
   .overdue {
     //&:before {
-      //content: ' ⚠️ ';
+    //content: ' ⚠️ ';
     //}
 
     ion-icon,
@@ -886,6 +1174,75 @@ table.table thead tr th {
     color: #1AB27F;
   }
 }
+
+.table th {
+  color: $gray-3;
+  white-space: nowrap;
+}
+
+.table td {
+  color: $black;
+
+  &:first-child {
+
+    @include media-breakpoint-down(lg) {
+      max-width: 50px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}
+
+.table th, .table td {
+  padding: 0.625rem;
+  border-top: 1px solid $gray-1;
+
+  .btn.dropdown-toggle {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  @include media-breakpoint-down(lg) {
+  //@media (max-width: 1000px) {
+    padding: 0.75rem 0.35em;
+
+
+    .link,
+    a.link {
+      max-width: 50px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      //border: solid 1px blue;
+
+      a,
+      span {
+        max-width: 50px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      ion-icon {
+        font-size: 90%;
+      }
+    }
+
+    .m-r-1 {
+      margin-right: .2em;
+    }
+
+    .btn.dropdown-toggle {
+      padding: 0;
+    }
+
+    .b-icon.bi {
+      font-size: 100%;
+    }
+  }
+}
+
 
 
 //table {
@@ -990,8 +1347,8 @@ table.table thead tr th {
 
 .badge-progress {
   color: #2180C2;
-  background-color: #ECF4FF;
-  border-color: #ECF4FF;
+  background-color: $blue-light;
+  border-color: $blue-light;
 }
 
 .badge-secondary {
@@ -1034,23 +1391,25 @@ table.table thead tr th {
   border-radius: 4px;
 }
 
- .fc-direction-ltr .fc-daygrid-block-event:not(.fc-event-end), .fc-direction-rtl .fc-daygrid-block-event:not(.fc-event-start) {
-   border-top-right-radius: 4px !important;
-   border-bottom-right-radius: 4px !important;
-   border-right-width: 1px !important;
-   //border-color: transparent;
- }
- .fc-direction-ltr .fc-daygrid-block-event:not(.fc-event-start), .fc-direction-rtl .fc-daygrid-block-event:not(.fc-event-end) {
-   border-top-left-radius: 4px !important;
-   border-bottom-left-radius: 4px !important;
-   border-left-width: 1px !important;
-   //border-color: transparent;
- }
+.fc-direction-ltr .fc-daygrid-block-event:not(.fc-event-end), .fc-direction-rtl .fc-daygrid-block-event:not(.fc-event-start) {
+  border-top-right-radius: 4px !important;
+  border-bottom-right-radius: 4px !important;
+  border-right-width: 1px !important;
+  //border-color: transparent;
+}
+
+.fc-direction-ltr .fc-daygrid-block-event:not(.fc-event-start), .fc-direction-rtl .fc-daygrid-block-event:not(.fc-event-end) {
+  border-top-left-radius: 4px !important;
+  border-bottom-left-radius: 4px !important;
+  border-left-width: 1px !important;
+  //border-color: transparent;
+}
 
 .fc-event-title-container {
   padding: 0.25rem 0.3125rem; // 4px 5px
   padding-top: 0;
 }
+
 .fc .fc-daygrid-event {
   border-radius: 4px;
 }
@@ -1104,6 +1463,7 @@ table.table thead tr th {
 .task-is-task {
   border: 1px solid #1AB27F !important;
 }
+
 .task-is-task span.pointer {
   top: -2px !important;
 }
@@ -1189,7 +1549,7 @@ table.table thead tr th {
 
 .fc .fc-daygrid-more-link {
   font-size: 0.75rem; //12px
-//  color: $black;
+  //  color: $black;
 }
 
 // DROPDOWN IN CALENDAR
@@ -1216,6 +1576,30 @@ table.table thead tr th {
 
 .fc-theme-standard .fc-popover .fc-event-title-container {
   padding: 0.375rem 0; //6px
+}
+
+/* ---------- PAGINATION ---------- */
+.page-item {
+
+  .page-link {
+    padding: 0.5rem 0.625rem; // 8 10px
+    color: $black;
+    border-color: $gray-1;
+
+    &:hover,
+    &:focus {
+      background-color: $gray-hover;
+    }
+
+    &:active,
+    &.active {
+
+    }
+  }
+}
+
+.page-item.active .page-link {
+  background-color: $black;
 }
 
 
@@ -1508,7 +1892,7 @@ table.table thead tr th {
 
 /* ---------- NOT CHECKED STYLES - END ---------- */
 
-
+/* ---------- reviews ---------- */
 .reviews {
   &__list {
     &-icon {
@@ -1665,6 +2049,7 @@ table.table thead tr th {
   }
 }
 
+/* ---------- settings ---------- */
 .settings {
   &__card {
     border-radius: 10px;
@@ -1702,8 +2087,110 @@ table.table thead tr th {
   }
 }
 
+/* ---------- portal ---------- */
 .portal {
   min-height: 100vh;
+}
+
+/* ---------- FORMS---------- */
+.text-right .btn {
+  /*min-width: 65px;*/
+  font-weight: 600;
+}
+
+.btn.btn-dark:hover,
+.btn.btn-dark:active {
+  background-color: #2E304F;
+  box-shadow: none;
+}
+
+.btn.btn-default:hover,
+.btn.btn-default:active {
+  background-color: $gray-hover;
+  box-shadow: none;
+}
+
+.custom-radio:not(:last-child) {
+  margin-bottom: 1rem;
+}
+
+label.required:after {
+  content: " *";
+  color: #ED60A6;
+}
+
+.form-control:focus,
+.form-control:active {
+  border: 1px solid #0378fe;
+  box-shadow: none !important;
+}
+
+.form-control.is-invalid {
+  border-color: #cd1837;
+}
+
+label,
+legend, .label {
+  color: #797b7e;
+}
+
+.otp-icon {
+}
+
+@media (max-width: 575px) {
+  .otp-icon {
+    width: 9.375rem; /* 150px; */
+    height: 5rem; /*80px;*/
+  }
+}
+
+/* ---------- Files List view ---------- */
+.file-card {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  border: solid 1px $gray-1;
+  background-color: $blue-light;
+}
+
+.file-card:not(:last-child) {
+  margin-bottom: 1rem;
+}
+
+.file-card__icon {
+  color: #797b7e;
+}
+
+.file-card__name {
+  margin-bottom: 0;
+}
+
+.file-card__link {
+}
+
+.file-card__close {
+  position: relative;
+}
+
+.file-card__close::before,
+.file-card__close::after {
+  display: block;
+  position: absolute;
+  content: '.';
+}
+
+.file-card__close::before {
+  top: -5px;
+  left: 0;
+}
+
+.file-card__close::after {
+  top: -5px;
+  right: 0;
+}
+
+.file-card .dropdown-toggle::after {
+  display: none;
 }
 
 /* ---------- Loading ---------- */
@@ -1852,9 +2339,11 @@ table.table thead tr th {
 .m-b-20 {
   margin-bottom: 1.25rem !important; // 20px
 }
+
 .m-b-40 {
   margin-bottom: 2.5rem !important;
 }
+
 .m-b-80 {
   margin-bottom: 5rem !important;
 }

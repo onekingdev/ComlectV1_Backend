@@ -13,7 +13,7 @@ class Api::DirectMessagesController < ApiController
     if all_threads
       respond_with threads: all_threads
     else
-      respond_with errors: "no_threads"
+      respond_with errors: 'no_threads'
     end
   end
 
