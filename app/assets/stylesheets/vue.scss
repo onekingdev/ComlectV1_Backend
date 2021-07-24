@@ -421,13 +421,13 @@ html {
   min-height: calc(100vh - 5rem);
   background-color: #1b1c29;
   color: $white;
-  transition: max-width 200ms ease-in;
+  transition: min-width 200ms ease-in;
 
   //border: solid 1px yellow;
 
   &.menuClosed {
     min-width: auto;
-    max-width: 70px;
+    width: 4.375rem; //70px;
 
     ion-icon {
       margin-right: 0;
