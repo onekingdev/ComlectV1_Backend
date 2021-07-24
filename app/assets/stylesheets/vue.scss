@@ -429,6 +429,10 @@ html {
     min-width: auto;
     width: 4.375rem; //70px;
 
+    @include media-breakpoint-down(xs) {
+      transition: none;
+    }
+
     ion-icon {
       margin-right: 0;
     }
@@ -444,6 +448,16 @@ html {
         color: $white;
         text-decoration: none;
         background-color: #2f304f;
+      }
+
+      @include media-breakpoint-down(xs) {
+        transition: none;
+
+        &:hover,
+        &:active,
+        &.active {
+          background-color: transparent;
+        }
       }
 
 
