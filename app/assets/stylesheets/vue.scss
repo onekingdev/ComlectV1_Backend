@@ -842,48 +842,6 @@ html {
 }
 
 
-// Move to comp search
-.form-control_search {
-  padding: 0.625rem 2.0625rem; // 10 33px
-  //max-width: 25rem; //400px
-  border-color: $gray-1;
-
-  &::placeholder {
-    color: $gray-2;
-  }
-}
-
-.b-icon.bi.icon-searh {
-  position: absolute;
-  top: .7rem;
-  left: .7rem;
-  color: #565759;
-}
-
-.btn-clear {
-  position: absolute;
-  top: 1.25rem;
-  right: .4rem;
-  border: none;
-  background-color: transparent;
-  border-radius: 4px;
-  transition: all 200ms ease;
-  transform: translateY(-50%);
-}
-
-.btn-clear:hover,
-.btn-clear:active {
-
-  &:hover,
-  &:focus {
-    background-color: $gray-hover;
-  }
-
-  &.active,
-  &:active {
-    background-color: $blue-light;
-  }
-}
 
 /* ---------- BUTTONS ---------- */
 a.btn,
@@ -2245,6 +2203,16 @@ label.required:after {
   font-size: 0.875rem;
   color: $black;
   border-color: #DCDEE4;
+
+  &_search {
+    padding: 0.625rem 2.0625rem; // 10 33px
+    //max-width: 25rem; //400px
+    border-color: $gray-1;
+
+    &::placeholder {
+      color: $gray-2;
+    }
+  }
 }
 .form-control::placeholder {
   color: #A2A3A9;
@@ -2864,5 +2832,39 @@ legend, .label {
 
   &__more{
     font-size: 0.875rem;
+  }
+}
+
+// Move to comp search
+
+.b-icon.bi.icon-searh {
+  position: absolute;
+  top: .7rem;
+  left: .7rem;
+  color: #565759;
+}
+
+.btn-clear {
+  position: absolute;
+  top: 1.25rem;
+  right: .4rem;
+  border: none;
+  background-color: transparent;
+  border-radius: 4px;
+  transition: all 200ms ease;
+  transform: translateY(-50%);
+}
+
+.btn-clear:hover,
+.btn-clear:active {
+
+  &:hover,
+  &:focus {
+    background-color: $gray-hover;
+  }
+
+  &.active,
+  &:active {
+    background-color: $blue-light;
   }
 }

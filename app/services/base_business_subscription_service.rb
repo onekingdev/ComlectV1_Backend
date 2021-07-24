@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/ClassLength
+
 class BaseBusinessSubscriptionService < ApplicationService
   attr_accessor :subscriptions
 
@@ -151,15 +153,14 @@ class BaseBusinessSubscriptionService < ApplicationService
         billing_period_ends: stripe_subscription.cancel_at
       )
 
-      if add_seats
-        seat_count =
-          if subscription.kind_of == 'ccc'
-            plan_seat_count > free_seat_count ? free_seat_count : plan_seat_count
-          else
-            subscription.quantity
-          end
-        create_seats(subscription, seat_count)
-      end
+      next unless add_seats
+      seat_count =
+        if subscription.kind_of == 'ccc'
+          plan_seat_count > free_seat_count ? free_seat_count : plan_seat_count
+        else
+          subscription.quantity
+        end
+      create_seats(subscription, seat_count)
     end
   end
 
@@ -286,12 +287,11 @@ class BaseBusinessSubscriptionService < ApplicationService
     latest_invoice = Stripe::Invoice.retrieve(@stripe_subscription.latest_invoice)
     latest_charge_id = latest_invoice.charge
 
-    if prorated_amount.positive?
-      Stripe::Refund.create(
-        charge: latest_charge_id,
-        amount:  prorated_amount
-      )
-    end
+    return unless prorated_amount.positive?
+    Stripe::Refund.create(
+      charge: latest_charge_id,
+      amount:  prorated_amount
+    )
   end
 
   def primary_plan_change?
@@ -417,3 +417,5 @@ class BaseBusinessSubscriptionService < ApplicationService
     @stripe_seat_subscription = Stripe::Subscription.retrieve(stripe_subscription_id)
   end
 end
+
+# rubocop:enable Metrics/ClassLength
