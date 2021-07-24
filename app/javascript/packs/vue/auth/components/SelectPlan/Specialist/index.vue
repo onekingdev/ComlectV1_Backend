@@ -7,7 +7,7 @@
         b-form-group.m-b-40
           b-button(type='button' variant='outline-primary') Continue With Free Plan
     .billing-plans
-      b-card.billing-plan.billing-plan_specialist(v-for='(plan, index) in billingPlans' :class="[index === 0 ? 'billing-plan_default' : '', index === 1 ? 'billing-plan_high' : '' ]"  :key=`i`)
+      b-card.billing-plan.billing-plan_specialist(v-for='(plan, index) in billingPlans' :class="[index === 0 ? 'billing-plan_default' : '', index === 1 ? 'billing-plan_high' : '' ]"  :key=`index`)
         b-button.m-b-20(type='button' :variant="currentPlan.status && currentPlan.id === index+1 ? 'dark' : 'secondary'" @click="$emit('openDetails', plan)")
           | {{ currentPlan.status && currentPlan.id === index+1 ? 'Current' : 'Select' }} Plan
         b-card-text

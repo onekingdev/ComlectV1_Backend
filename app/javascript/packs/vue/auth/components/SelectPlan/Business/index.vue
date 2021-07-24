@@ -12,7 +12,7 @@
           name="radio-btn-outline"
           buttons)
     .billing-plans
-      b-card.billing-plan(v-for='(plan, index) in billingPlans' :class="[index === 0 ? 'billing-plan_low' : '', index === 1 ? 'billing-plan_medium' : '', index === 2 ? 'billing-plan_high' : '' ]" :key=`i`)
+      b-card.billing-plan(v-for='(plan, index) in billingPlans' :class="[index === 0 ? 'billing-plan_low' : '', index === 1 ? 'billing-plan_medium' : '', index === 2 ? 'billing-plan_high' : '' ]" :key=`index`)
         b-button.m-b-20(type='button' :variant="currentPlan.status && currentPlan.id === index+1 ? 'dark' : 'outline-primary'" @click="$emit('openDetails', plan)")
           | {{ currentPlan.status && currentPlan.id === index+1 ? 'Current' : 'Select' }} Plan
         b-card-text
