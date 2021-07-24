@@ -136,6 +136,9 @@
         event.preventDefault()
         // clear errors
         this.errors = []
+
+        this.form.email = this.form.email.toLowerCase()
+
         const data = {
           user: {
             email: this.form.email,
@@ -363,6 +366,11 @@
         return this.$store.getters.logIn;
       },
     },
+    watch: {
+      email (newValue, oldValue) {
+        newValue.toLowerCase()
+      },
+    }
   }
 </script>
 

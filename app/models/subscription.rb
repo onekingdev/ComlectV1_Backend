@@ -9,6 +9,14 @@ class Subscription < ActiveRecord::Base
 
   SPECIALIST_PLANS = %w[specialist_pro free].freeze
 
+  BUSINESS_PLANS = {
+    1 => 'free',
+    2 => 'team_tier_monthly',
+    3 => 'team_tier_annual',
+    4 => 'business_tier_monthly',
+    5 => 'business_tier_annual'
+  }.freeze
+
   enum plan: %w[
     seats_monthly
     seats_annual

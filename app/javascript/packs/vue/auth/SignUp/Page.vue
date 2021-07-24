@@ -177,6 +177,8 @@
           return
         }
 
+        this.form.email = this.form.email.toLowerCase()
+
         let dataToSend;
 
         // FOR BUSSINES
@@ -361,6 +363,12 @@
         return this.$store.getters.logIn;
       },
     },
+    watch: {
+      email (newValue, oldValue) {
+        newValue.toLowerCase()
+        console.log(newValue, oldValue)
+      },
+    }
   }
 </script>
 

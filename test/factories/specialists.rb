@@ -10,11 +10,11 @@ FactoryBot.define do
     experience { 1 }
     first_name { Faker::Name.first_name }
     last_name { Faker::Name.last_name }
-    time_zone { Faker::Address.time_zone }
+    time_zone 'Mountain Time (US & Canada)'
     address_1 { Faker::Address.street_address }
     country { Faker::Address.country }
-    state { Faker::Address.country }
-    city { Faker::Address.country }
+    state { Faker::Address.state }
+    city { Faker::Address.city }
     zipcode { '10001' }
 
     sequence(:username) { |n| "UserN#{n + rand(10_000)}" }
