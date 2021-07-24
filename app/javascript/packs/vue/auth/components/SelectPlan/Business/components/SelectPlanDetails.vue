@@ -39,6 +39,9 @@
       BillingDetails,
       PurchaseSummary,
     },
+    created(){
+      console.log('userType', this.userType)
+    },
     data() {
       return {
         billingTypeSelected: 'annually',
@@ -67,6 +70,8 @@
         // CLEAR ERRORS
         this.errors = []
 
+        console.log('userType', this.userType)
+
         // OVERLAY
         this.$store.dispatch('setOverlay', {
           active: true,
@@ -87,10 +92,10 @@
 
         const data = {
           userType: this.userType,
-          planName,
-          paymentSourceId : this.paymentSourceId,
+          planName: planName,
+          payment_source_id : this.paymentSourceId,
         }
-        if (+this.additionalUsers) data.countPayedUsers = +this.additionalUsers
+        if (+this.additionalUsers) data.additionalUsers = +this.additionalUsers
 
         this.$store
           .dispatch('updateSubscribe', data)

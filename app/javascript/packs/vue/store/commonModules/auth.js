@@ -357,14 +357,16 @@ export default {
         commit("clearError");
         commit("setLoading", true);
 
-        const { userType, paymentSourceId, planName } = { ...payload }
+        const { userType, paymentSourceId, planName, additionalUsers } = { ...payload }
 
         const endPoint = userType === 'business' ? 'business' : 'specialist'
         // WAIT LONGER
         axios.defaults.timeout = 10000;
-        const response = await axios.post(`/${endPoint}/upgrade/subscribe`, { plan: planName }, { params: {
-            payment_source_id: paymentSourceId
-          }})
+        const response = await axios.post(`/${endPoint}/upgrade/subscribe`, {
+          plan: planName,
+          payment_source_id: paymentSourceId,
+          seats_count: additionalUsers
+        })
         // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
         return response.data
 
