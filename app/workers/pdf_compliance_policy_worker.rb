@@ -9,7 +9,6 @@ class PdfCompliancePolicyWorker
     Rails.env.production? || Rails.env.staging? ? in_path : "#{Rails.root}/public#{in_path}"
   end
 
-  # rubocop:disable Metrics/MethodLength
   def perform(policy_doc_id)
     policy_doc = CompliancePolicyDoc.find(policy_doc_id)
     tgt_compliance_policy = policy_doc.compliance_policy.business.compliance_policies.first
@@ -20,10 +19,10 @@ class PdfCompliancePolicyWorker
 
     if MIME::Types.type_for(doc_path).first.to_s == 'application/pdf'
       file = if Rails.env.production? || Rails.env.staging?
-               URI.parse(doc_path).open
-             else
-               File.open(doc_path)
-             end
+        URI.parse(doc_path).open
+      else
+        File.open(doc_path)
+      end
     else
       Libreconv.convert(doc_path, tmp_fd.path)
       file = File.new(tmp_fd)
@@ -58,10 +57,10 @@ class PdfCompliancePolicyWorker
         if cpolicy.compliance_policy_docs.first.present?
           pdf_path = env_path(cpolicy.compliance_policy_docs.first.pdf_url.split('?')[0])
           merged_pdf << if Rails.env.production? || Rails.env.staging?
-                          CombinePDF.parse(URI.open(pdf_path).read)
-                        else
-                          CombinePDF.load(pdf_path)
-                        end
+            CombinePDF.parse(URI.open(pdf_path).read)
+          else
+            CombinePDF.load(pdf_path)
+          end
         end
       rescue StandardError
         if cpolicy.compliance_policy_docs.count > 1
@@ -83,5 +82,4 @@ class PdfCompliancePolicyWorker
     tmp_pdf_file.unlink
     file.delete
   end
-  # rubocop:enable Metrics/MethodLength
 end

@@ -17,11 +17,13 @@ class Api::Settings::ProfileController < ApiController
   end
 
   def destroy
-    delete = if @current_someone.class.name == 'Business'
-               Business::Delete.new(@current_someone)
-             else
-               Specialist::Delete.new(@current_someone)
-             end
+    delete =
+      if @current_someone.class.name == 'Business'
+        Business::Delete.new(@current_someone)
+      else
+        Specialist::Delete.new(@current_someone)
+      end
+
     authorize @current_someone, :freeze?
 
     if delete.call

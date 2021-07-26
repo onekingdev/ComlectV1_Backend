@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/ClassLength
 class Project::Decorator < ApplicationDecorator
   decorates Project
   decorates_association :business, with: Business::Decorator
@@ -94,12 +93,12 @@ class Project::Decorator < ApplicationDecorator
 
   def dollars
     amount = if full_time?
-               annual_salary
-             elsif rfp?
-               est_budget
-             else
-               hourly_pricing? ? hourly_rate : fixed_budget
-             end
+      annual_salary
+    elsif rfp?
+      est_budget
+    else
+      hourly_pricing? ? hourly_rate : fixed_budget
+    end
     internal? ? '' : h.number_to_currency(amount, precision: 0) + ("/hr, est. #{estimated_hours} hrs." if hourly_rate?).to_s
   end
 
@@ -223,4 +222,3 @@ class Project::Decorator < ApplicationDecorator
     )
   end
 end
-# rubocop:enable Metrics/ClassLength

@@ -26,7 +26,7 @@ class ProjectMessagesController < ApplicationController
   def create
     dst = recipient
     dst = Specialist.find(specialist_from_params_or_project) if dst.blank?
-    @message = Message::Create.(@project, message_params.merge(sender: sender, recipient: dst))
+    @message = Message::Create.call(@project, message_params.merge(sender: sender, recipient: dst))
     respond_to do |format|
       format.js do
         if @message

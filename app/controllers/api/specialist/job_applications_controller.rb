@@ -1,5 +1,3 @@
-# index show
-
 # frozen_string_literal: true
 
 class Api::Specialist::JobApplicationsController < ApiController
@@ -38,7 +36,7 @@ class Api::Specialist::JobApplicationsController < ApiController
     job_application = current_specialist.job_applications.find_by(id: params[:id])
     return render_404 unless job_application
     authorize job_application, :destroy?
-    JobApplication::Delete.(job_application)
+    JobApplication::Delete.call(job_application)
     render json: @project
   end
 

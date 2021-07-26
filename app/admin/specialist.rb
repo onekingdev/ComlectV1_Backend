@@ -28,7 +28,7 @@ ActiveAdmin.register Specialist do
   controller do
     defaults finder: :find_by_username
     def destroy_resource(resource)
-      User::Delete.(resource.user)
+      User::Delete.call(resource.user)
     end
 
     def scoped_collection

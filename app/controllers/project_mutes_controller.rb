@@ -23,9 +23,9 @@ class ProjectMutesController < ApplicationController
 
   def set_project
     @project = if current_user.business
-                 current_user.business.projects.find(params[:id])
-               else
-                 current_user.specialist.projects.find(params[:id])
-               end
+      current_user.business.projects.find(params[:id])
+    else
+      current_user.specialist.projects.find(params[:id])
+    end
   end
 end

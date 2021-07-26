@@ -96,6 +96,9 @@ class Project::Form < Project
     process_invite true if invite&.not_sent?
   end
 
+  # something strange here
+  # we have these methods as `attr_accessor`
+  # rubocop:disable Lint/DuplicateMethods
   def full_time_starts_on
     @full_time_starts_on.present? ? Date.parse(@full_time_starts_on) : starts_on
   end
@@ -107,6 +110,7 @@ class Project::Form < Project
   def fixed_payment_schedule
     @fixed_payment_schedule || payment_schedule
   end
+  # rubocop:enable Lint/DuplicateMethods
 
   private
 
@@ -119,12 +123,12 @@ class Project::Form < Project
   # Clear unnecessary fields
   def assign_type_fields
     fields = if one_off?
-               FULL_TIME_FIELDS - SHARED_FIELDS
-             elsif rfp?
-               FULL_TIME_FIELDS - ONE_OFF_FIELDS - RFP_FIELDS
-             else
-               ONE_OFF_FIELDS - SHARED_FIELDS
-             end
+      FULL_TIME_FIELDS - SHARED_FIELDS
+    elsif rfp?
+      FULL_TIME_FIELDS - ONE_OFF_FIELDS - RFP_FIELDS
+    else
+      ONE_OFF_FIELDS - SHARED_FIELDS
+    end
 
     clear_fields(fields)
     true

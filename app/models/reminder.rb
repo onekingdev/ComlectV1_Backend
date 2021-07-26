@@ -87,19 +87,19 @@ class Reminder < ActiveRecord::Base
       date_cursor += repeat_every.months
       date_cursor = date_cursor.beginning_of_month
       date_cursor = if on_type == 'Day'
-                      date_cursor.change(day: repeat_on)
-                    else
-                      Reminder.find_month_day(date_cursor, on_type, repeat_on)
-                    end
+        date_cursor.change(day: repeat_on)
+      else
+        Reminder.find_month_day(date_cursor, on_type, repeat_on)
+      end
     when 'Yearly'
       date_cursor += 1.year
       date_cursor = date_cursor.change(month: repeat_every)
       date_cursor = date_cursor.beginning_of_month
       date_cursor = if on_type == 'Day'
-                      date_cursor.change(day: repeat_on)
-                    else
-                      Reminder.find_month_day(date_cursor, on_type, repeat_on)
-                    end
+        date_cursor.change(day: repeat_on)
+      else
+        Reminder.find_month_day(date_cursor, on_type, repeat_on)
+      end
     end
     date_cursor
   end

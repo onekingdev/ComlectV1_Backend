@@ -12,7 +12,7 @@ class FlagsController < ApplicationController
 
   def create
     flagged_forum_answer = ForumAnswer.find(flag_params[:forum_answer_id])
-    @flag = Flag::Create.(
+    @flag = Flag::Create.call(
       current_user.specialist ? current_specialist : current_business,
       flagged_forum_answer,
       reason: flag_params[:reason].values.join(', ')

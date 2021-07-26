@@ -150,11 +150,11 @@ class Project::Search
   private
 
   def compile_params(input_arr)
-    input_arr.each_with_index.each_with_object({}) { |(checkbox, i), hash|
+    input_arr.each_with_index.each_with_object({}) do |(checkbox, i), hash|
       from, to = checkbox.split(',')
       hash[:"from_#{i}"] = from
       hash[:"to_#{i}"] = to
-    }
+    end
   end
 
   def location_ranges

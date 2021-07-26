@@ -20,12 +20,12 @@ class DocumentsController < ApplicationController
 
   def create
     @document = if current_business && params[:specialist_username]
-                  Document.create(document_params.merge(owner: @me,
-                                                        project: @project,
-                                                        specialist_id: Specialist.find_by(username: params[:specialist_username]).id))
-                else
-                  Document.create(document_params.merge(owner: @me, project: @project))
-                end
+      Document.create(document_params.merge(owner: @me,
+                                            project: @project,
+                                            specialist_id: Specialist.find_by(username: params[:specialist_username]).id))
+    else
+      Document.create(document_params.merge(owner: @me, project: @project))
+    end
     dashboard_redirection_based_on_role
   end
 
@@ -58,10 +58,7 @@ class DocumentsController < ApplicationController
     business = @project.business
     specialist = current_business ? params_or_project_specialist : current_or_project_specialist
     all_documents = @project.messages.business_specialist(business.id, specialist.id).where.not(file_data: nil)
-    # rubocop:disable Metrics/LineLength
     all_documents += @project.documents.where(specialist_id: [specialist.id, nil]).or(@project.documents.where(owner: [specialist, business]))
-    # rubocop:enable Metrics/LineLength
-
     sort_docs(all_documents, params['sort_direction'], params['sort_by'] || 'Date Added')
   end
 

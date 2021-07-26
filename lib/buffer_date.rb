@@ -9,6 +9,6 @@ class BufferDate
                when 0 then 1.day # sunday -> monday (tues midnight)
                else
                  1.day
-               end
+    end
   end
 end

@@ -74,10 +74,10 @@ class Charge::Processing
     credit = Business::Credit.for(business)
 
     @business_credit_in_cents = if business_fee_in_cents >= credit.amount_in_cents
-                                  credit.amount_in_cents
-                                else
-                                  business_fee_in_cents
-                                end
+      credit.amount_in_cents
+    else
+      business_fee_in_cents
+    end
   end
 
   def specialist_credit_in_cents
@@ -85,10 +85,10 @@ class Charge::Processing
     credit = Specialist::Credit.for(specialist)
 
     @specialist_credit_in_cents = if specialist_fee_in_cents >= credit.amount_in_cents
-                                    credit.amount_in_cents
-                                  else
-                                    specialist_fee_in_cents
-                                  end
+      credit.amount_in_cents
+    else
+      specialist_fee_in_cents
+    end
   end
 
   def amount_in_cents

@@ -7,12 +7,10 @@ class Projects::DashboardsController < ApplicationController
   # skip_before_action :check_unrated_project, if: -> { action_name == 'show' && @project&.requires_specialist_rating? }
 
   def show
-    # rubocop:disable Style/GuardClause
     if @project.rfp?
       applications = @project.job_applications.where(specialist_id: current_specialist.id)
       @project.populate_rfp(applications[0]) if applications.count.positive?
     end
-    # rubocop:enable Style/GuardClause
   end
 
   private

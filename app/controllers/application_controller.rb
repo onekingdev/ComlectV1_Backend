@@ -88,10 +88,10 @@ class ApplicationController < ActionController::Base
     return unless user_signed_in?
 
     business = if session[:employee_business_id].present?
-                 ::Business.find_by(id: session[:employee_business_id])
-               else
-                 current_user.business
-               end
+      ::Business.find_by(id: session[:employee_business_id])
+    else
+      current_user.business
+    end
     return unless business
 
     define_current_business(business)

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/ClassLength
-
 class BaseBusinessSubscriptionService < ApplicationService
   attr_accessor :subscriptions
 
@@ -417,5 +415,3 @@ class BaseBusinessSubscriptionService < ApplicationService
     @stripe_seat_subscription = Stripe::Subscription.retrieve(stripe_subscription_id)
   end
 end
-
-# rubocop:enable Metrics/ClassLength

@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/ClassLength
 class Project < ApplicationRecord
   self.inheritance_column = '_none'
   # attr_accessor :color
@@ -203,12 +202,10 @@ class Project < ApplicationRecord
   end
 
   def job_application
-    # rubocop:disable Style/GuardClause
     if active? && rfp?
       ja = job_applications.where(specialist_id: specialist_id)
       ja.present? ? ja.first : nil
     end
-    # rubocop:enable Style/GuardClause
   end
 
   def self.ending
@@ -286,9 +283,13 @@ class Project < ApplicationRecord
     [business, specialist]
   end
 
+  # something strange here
+  # we have this method as `alias_attribute`
+  # rubocop:disable Lint/DuplicateMethods
   def body
     title
   end
+  # rubocop:enable Lint/DuplicateMethods
 
   def to_s
     title
@@ -456,13 +457,11 @@ class Project < ApplicationRecord
   def new_project_notification
     environment = ENV['STRIPE_PUBLISHABLE_KEY'].start_with?('pk_test') ? 'staging' : 'production'
     environment = 'staging' if Rails.env.development?
-    # rubocop:disable Style/GuardClause
     if !admin_notified && !draft? && environment == 'production'
       ProjectMailer.notify_admin_on_creation(self).deliver_later
       update(admin_notified: true)
       save!
     end
-    # rubocop:enable Style/GuardClause
   end
 
   def send_email
@@ -523,4 +522,3 @@ class Project < ApplicationRecord
     self.expires_at = starts_on.in_time_zone(time_zone).end_of_day
   end
 end
-# rubocop:enable Metrics/ClassLength

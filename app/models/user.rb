@@ -29,7 +29,7 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :tos_agreement
   accepts_nested_attributes_for :cookie_agreement
 
-  scope :inactive, -> {
+  scope :inactive, lambda {
     where('last_sign_in_at < ?', Time.zone.now - 90.days)
       .where(inactive_for_period: false, suspended: false)
   }
@@ -120,7 +120,7 @@ class User < ApplicationRecord
   def freeze_specialist_account!
     create_dummy_issue specialist_projects.active, specialist
     # Withdraw active job applications
-    specialist.job_applications.pending.each { |application| JobApplication::Delete.(application) }
+    specialist.job_applications.pending.each { |application| JobApplication::Delete.call(application) }
     # And just delete all applications which weren't accepted to avoid sending notifications
     specialist.job_applications.not_accepted.delete_all
     specialist.update_attribute :visibility, Specialist.visibilities[:is_private]

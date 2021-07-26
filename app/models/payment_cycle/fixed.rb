@@ -52,10 +52,10 @@ class PaymentCycle::Fixed < PaymentCycle
 
   def last_period_amount
     # Because of rounding, use a different method to return the last amount
-    previous = outstanding_occurrences[0..-2].map { |date|
+    previous = outstanding_occurrences[0..-2].map do |date|
       days = days_for_period(date)
       (days * amount_per_day_remaining).round(2)
-    }.reduce(:+) || 0
+    end.reduce(:+) || 0
 
     outstanding_amount - previous
   end
@@ -69,12 +69,12 @@ class PaymentCycle::Fixed < PaymentCycle
     previous = project.starts_on
     last = occurrences.last.to_date
 
-    @_periods = occurrences.map { |occurrence|
+    @_periods = occurrences.map do |occurrence|
       date = occurrence.to_date
       adjust = date == last ? 0 : -1
       (previous..date + adjust).tap do
         previous = date + adjust + 1
       end
-    }
+    end
   end
 end

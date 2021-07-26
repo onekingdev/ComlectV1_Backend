@@ -40,10 +40,10 @@ module ApplicationHelper
   def sort_by_url(attribute, default: 'asc')
     direction = sort_direction(default)
     direction = if params[:sort_by] == attribute
-                  reverse_sort(direction)
-                else
-                  default_sort(default)
-                end
+      reverse_sort(direction)
+    else
+      default_sort(default)
+    end
     current_uri(sort_by: attribute, sort_direction: direction)
   end
 

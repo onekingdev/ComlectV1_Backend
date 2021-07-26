@@ -1,15 +1,22 @@
 # Overrides from https://github.com/bbatsov/rubocop/blob/master/config/default.yml
 
 AllCops:
-  DefaultFormatter: fuubar
   DisplayCopNames: true
   ExtraDetails: true
-  TargetRubyVersion: 2.4
-  TargetRailsVersion: 4.2
+  TargetRubyVersion: 2.5
+  TargetRailsVersion: 6.0
   Exclude:
     - 'bin/*'
-    - 'node_modules/**/*'
+    - 'db/**/**'
+    - 'test/**/**'
+    - 'spec/**/**'
     - 'vendor/**/*'
+    - 'node_modules/**/*'
+
+# === Rails ===
+
+Rails:
+  Enabled: true
 
 Rails/UnknownEnv:
   Environments:
@@ -18,8 +25,39 @@ Rails/UnknownEnv:
     - test
     - staging
 
-Rails/CreateTableWithTimestamps:
+Rails/Output:
+  Include:
+    - app/**/*.rb
+    - config/**/*.rb
+    - db/**/*.rb
+    - lib/**/*.rb
+    - test/**/*.rb
+
+Rails/OutputSafety:
   Enabled: false
+
+Rails/SkipsModelValidations:
+  Enabled: false
+
+Rails/HasManyOrHasOneDependent:
+  Enabled: false
+
+Rails/LexicallyScopedActionFilter:
+  Enabled: false
+
+Rails/InverseOf:
+  Enabled: false
+
+Rails/ApplicationRecord:
+  Enabled: false
+
+Rails/HasAndBelongsToMany:
+  Enabled: false
+
+Rails/FilePath:
+  Enabled: false
+
+# === Layout ===
 
 Layout/EmptyLineBetweenDefs:
   AllowAdjacentOneLineDefs: true
@@ -30,131 +68,174 @@ Layout/MultilineMethodCallBraceLayout:
 Layout/MultilineMethodDefinitionBraceLayout:
   Enabled: true
 
-Naming/VariableNumber:
-  Enabled: false
+Layout/CaseIndentation:
+  Enabled: true
 
-Style/BlockDelimiters:
+Layout/CommentIndentation:
+  Enabled: true
+
+Layout/ElseAlignment:
+  Enabled: true
+
+Layout/EmptyLineAfterMagicComment:
+  Enabled: true
+
+Layout/EmptyLinesAroundClassBody:
+  Enabled: true
+
+Layout/EmptyLinesAroundMethodBody:
+  Enabled: true
+
+Layout/EmptyLinesAroundModuleBody:
+  Enabled: true
+
+Layout/FirstParameterIndentation:
+  Enabled: true
+
+Layout/IndentationWidth:
+  Enabled: true
+
+Layout/LeadingCommentSpace:
+  Enabled: true
+
+Layout/SpaceAfterColon:
+  Enabled: true
+
+Layout/SpaceAfterComma:
+  Enabled: true
+
+Layout/SpaceAroundEqualsInParameterDefault:
+  Enabled: true
+
+Layout/SpaceAroundKeyword:
+  Enabled: true
+
+Layout/SpaceAroundOperators:
+  Enabled: true
+
+Layout/SpaceBeforeComma:
+    Enabled: true
+
+Layout/SpaceBeforeFirstArg:
+    Enabled: true
+
+Layout/SpaceBeforeBlockBraces:
+  Enabled: true
+
+Layout/SpaceInsideBlockBraces:
+  Enabled: true
+
+Layout/SpaceInsideHashLiteralBraces:
+  Enabled: true
+
+Layout/SpaceInsideParens:
+  Enabled: true
+
+Layout/Tab:
+  Enabled: true
+
+Layout/TrailingWhitespace:
+  Enabled: true
+
+Layout/EndAlignment:
+  Enabled: true
+  EnforcedStyleAlignWith: variable
+  AutoCorrect: true
+
+Lint/RequireParentheses:
+  Enabled: true
+
+# === Style ===
+
+Style/FrozenStringLiteralComment:
+  Enabled: true
+  EnforcedStyle: always
+  Exclude:
+    - test/**/**
+    - db/migrate/*
+
+Style/DefWithParentheses:
+  Enabled: true
+
+Style/MethodDefParentheses:
+  Enabled: true
+
+Style/StringLiterals:
+  Enabled: true
+  EnforcedStyle: single_quotes
+
+Style/RedundantReturn:
+  Enabled: true
+  AllowMultipleReturnValues: true
+
+Style/Semicolon:
+  Enabled: true
+  AllowAsExpressionSeparator: true
+
+Style/ColonMethodCall:
+  Enabled: true
+
+Style/HashSyntax:
+  Enabled: true
+
+Style/BracesAroundHashParameters:
+  Enabled: true
+  EnforcedStyle: context_dependent
+
+Style/Documentation:
   Enabled: false
 
 Style/ClassAndModuleChildren:
   Enabled: false
 
-Style/CommandLiteral:
-  Enabled: false
-
-Style/Documentation:
-  Enabled: false
-
-Style/FormatStringToken:
-  Enabled: false
-
-Style/Lambda:
-  Enabled: false
-
-Style/LambdaCall:
-  Enabled: false
-
-Style/RegexpLiteral:
+Style/AndOr:
   Enabled: false
 
 Style/RescueStandardError:
   Enabled: false
 
-Style/RescueModifier:
+Style/GuardClause:
   Enabled: false
 
-Style/Send:
-  Enabled: true
-
-Style/SingleLineMethods:
+Style/Lambda:
   Enabled: false
 
-Style/SymbolArray:
-  Enabled: true
+Style/RegexpLiteral:
+  Enabled: false
 
-##################### Metrics ##################################
+Style/FormatStringToken:
+  Enabled: false
+
+Style/Next:
+  Enabled: false
+
+# === Metrics ===
+
+Metrics/ClassLength:
+  Enabled: false
+
+Metrics/LineLength:
+  Enabled: false
 
 Metrics/AbcSize:
   Enabled: false
 
-Metrics/BlockLength:
-  Max: 150
-  Exclude:
-    - 'app/admin/**/*'
-    - 'config/routes.rb'
-    - 'spec/**/*'
-    - 'test/**/*'
-
-Metrics/BlockNesting:
-  Max: 3
-
-Metrics/ClassLength:
-  Max: 175
-
-Metrics/ModuleLength:
-  Max: 120
+Metrics/MethodLength:
+  Enabled: false
 
 Metrics/CyclomaticComplexity:
-  Max: 15
-
-Metrics/LineLength:
-  Max: 135
-
-Metrics/MethodLength:
-  Max: 55
+  Enabled: false
 
 Metrics/PerceivedComplexity:
-  Max: 16
-
-##################### Lint ##################################
-
-Lint/AmbiguousBlockAssociation:
   Enabled: false
 
-Lint/DuplicateMethods:
+Metrics/BlockLength:
   Enabled: false
 
-##################### Performance ############################
-
-# Using all defaults
-
-##################### Rails ##################################
-
-Rails:
-  Enabled: true
-
-Rails/FilePath:
+Metrics/ModuleLength:
   Enabled: false
 
-Rails/Output:
-  Include:
-    - app/**/*.rb
-    - config/**/*.rb
-    - db/**/*.rb
-    - lib/**/*.rb
-    - test/**/*.rb
+# === Lint ===
 
-Rails/HasAndBelongsToMany:
+Lint/Debugger:
   Enabled: false
-
-Rails/HasManyOrHasOneDependent:
-  Enabled: false
-
-Rails/InverseOf:
-  Enabled: false
-
-Rails/LexicallyScopedActionFilter:
-  Enabled: false
-
-Rails/NotNullColumn:
-  Enabled: false
-
-Rails/OutputSafety:
-  Enabled: false
-
-Rails/ReversibleMigration:
-  Enabled: false
-
-Rails/SkipsModelValidations:
-  Enabled: false
-

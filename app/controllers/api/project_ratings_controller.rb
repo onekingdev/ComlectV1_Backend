@@ -12,10 +12,11 @@ class Api::ProjectRatingsController < ApiController
 
   def create
     project = if @current_someone.class.name.include?('Specialist')
-                @current_someone.projects.pending_specialist_rating.find(params[:project_id])
-              elsif @current_someone.class.name.include?('Business')
-                @current_someone.projects.pending_business_rating.find(params[:project_id])
-              end
+      @current_someone.projects.pending_specialist_rating.find(params[:project_id])
+    elsif @current_someone.class.name.include?('Business')
+      @current_someone.projects.pending_business_rating.find(params[:project_id])
+    end
+
     rating = project.ratings.new(rating_params.merge(rater: @current_someone))
     if rating.save
       Notification::Deliver.got_rated! rating

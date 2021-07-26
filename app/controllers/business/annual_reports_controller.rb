@@ -30,6 +30,7 @@ class Business::AnnualReportsController < ApplicationController
         @kit = IMGKit.new(render_to_string)
         send_data(@kit.to_jpg, type: 'image/jpeg', disposition: 'inline')
       end
+
       format.pdf do
         pdf = render_to_string pdf: 'annual_report.pdf',
                                template: 'business/annual_reports/annual_report.pdf.erb', encoding: 'UTF-8',
@@ -48,15 +49,15 @@ class Business::AnnualReportsController < ApplicationController
         @annual_review = current_business.annual_reviews.where(year: @annual_report.review_end.year)
         doc_path = env_path(@annual_report.pdf_url.split('?')[0])
         @annual_review = if @annual_review.present?
-                           @annual_review.first
-                         else
-                           AnnualReview.create(business_id: current_business.id, year: @annual_report.review_end.year)
-                         end
+          @annual_review.first
+        else
+          AnnualReview.create(business_id: current_business.id, year: @annual_report.review_end.year)
+        end
         pdf_file = if Rails.env.production? || Rails.env.staging?
-                     URI.parse(doc_path).open
-                   else
-                     File.open(doc_path)
-                   end
+          URI.parse(doc_path).open
+        else
+          File.open(doc_path)
+        end
         uploaded_pdf = uploader.upload(pdf_file)
         @annual_review.update(file_data: uploaded_pdf.to_json, pdf_data: uploaded_pdf.to_json, processed: true)
         file.delete
@@ -132,17 +133,15 @@ class Business::AnnualReportsController < ApplicationController
   end
 
   def annual_report_params
-    # rubocop:disable Metrics/LineLength
     params.require(:annual_report).permit(:review_start, :review_end, :tailored_lvl, :cof_bits, :comments, annual_review_employees_attributes: %i[id name title department _destroy], business_changes_attributes: %i[id change _destroy], regulatory_changes_attributes: %i[id change response _destroy], findings_attributes: %i[id finding action risk_lvl _destroy compliance_category checkbox_index])
-    # rubocop:enable Metrics/LineLength
   end
 
   def set_mock_audit_template
     @mock_audit = if current_business.funds?
-                    current_business.total_assets > 500_000_000 ? 'mock_audit_aum_funds' : 'mock_audit_funds'
-                  else
-                    current_business.total_assets > 500_000_000 ? 'mock_audit_aum' : 'mock_audit'
-                  end
+      current_business.total_assets > 500_000_000 ? 'mock_audit_aum_funds' : 'mock_audit_funds'
+    else
+      current_business.total_assets > 500_000_000 ? 'mock_audit_aum' : 'mock_audit'
+    end
   end
 
   def env_path(in_path)

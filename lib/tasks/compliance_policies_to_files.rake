@@ -11,12 +11,12 @@ task policies_to_folders: :environment do
   def create_root_folder(business)
     ne_folder = business.file_folders.where(parent_id: nil, name: 'Compliance Policies')
     folder = if ne_folder.count.positive?
-               ne_folder.first
-             else
-               FileFolder.create(
-                 business_id: business.id, parent_id: nil, name: 'Compliance Policies'
-               )
-             end
+      ne_folder.first
+    else
+      FileFolder.create(
+        business_id: business.id, parent_id: nil, name: 'Compliance Policies'
+      )
+    end
     folder
   end
 
@@ -27,20 +27,20 @@ task policies_to_folders: :environment do
       next unless cp.compliance_policy_docs.any?
       ne_folder = business.file_folders.where(parent_id: root_folder.id, name: cp.title)
       cp_folder = if ne_folder.count.positive?
-                    ne_folder.first
-                  else
-                    FileFolder.create(
-                      business_id: business.id, parent_id: root_folder.id, name: cp.title
-                    )
-                  end
+        ne_folder.first
+      else
+        FileFolder.create(
+          business_id: business.id, parent_id: root_folder.id, name: cp.title
+        )
+      end
       cp.compliance_policy_docs.each do |cpd|
         doc_path = env_path(cpd.doc_url.split('?')[0])
         uploader = FileUploader.new(:store)
         file = if Rails.env.production? || Rails.env.staging?
-                 URI.parse(doc_path).open
-               else
-                 File.open(doc_path)
-               end
+          URI.parse(doc_path).open
+        else
+          File.open(doc_path)
+        end
         uploaded_file = uploader.upload(file)
         FileDoc.create(
           business_id: business.id,

@@ -11,7 +11,7 @@ class Projects::IssuesController < ApplicationController
   end
 
   def create
-    @issue = ProjectIssue::Create.(@project, issue_params)
+    @issue = ProjectIssue::Create.call(@project, issue_params)
     respond_to do |format|
       format.js do
         render :new unless @issue.persisted?
