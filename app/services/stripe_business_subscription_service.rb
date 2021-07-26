@@ -19,6 +19,7 @@ class StripeBusinessSubscriptionService < BaseBusinessSubscriptionService
       return self if only_seat_count_change? && update_seats
 
       __send__("#{action_name}_#{current_plan}_to_#{new_plan}")
+      onboarding_passed!
     rescue Stripe::StripeError => e
       handle_stripe_error(e.message)
     end

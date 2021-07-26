@@ -65,6 +65,9 @@
   import { StripeCheckout, StripeElementCard  } from '@vue-stripe/vue-stripe';
   import PlaidLink from "vue-plaid-link";
 
+  /* Will be deleted soon after we test it on staging */
+  console.warn("process.env.STRIPE_PUBLISHABLE_KEY > ", process.env.STRIPE_PUBLISHABLE_KEY)
+
   export default {
     props: ['billingTypeSelected', 'billingTypeOptions', 'plan'],
     components: {

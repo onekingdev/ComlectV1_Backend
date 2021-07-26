@@ -27,7 +27,7 @@ class Api::Specialist::UpgradeController < ApiController
   private
 
   def turnkey_params
-    params.permit(:plan)
+    params.require(:upgrade).permit(:plan, :payment_source_id)
   end
 
   def active_subscription

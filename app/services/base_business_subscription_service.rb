@@ -51,7 +51,7 @@ class BaseBusinessSubscriptionService < ApplicationService
 
   def subscribe_free_plan
     cancel_subscriptions if active_subscriptions.present?
-    current_business.update(onboarding_passed: true)
+    onboarding_passed!
   end
 
   def active_subscriptions
@@ -96,7 +96,11 @@ class BaseBusinessSubscriptionService < ApplicationService
     create_primary_subscription
     create_seat_subscription if plan_has_additional_seats?
     commit_subscriptions
-    true
+    onboarding_passed!
+  end
+
+  def onboarding_passed!
+    current_business.update(onboarding_passed: true)
   end
 
   def create_primary_subscription(with_commit: false, with_seats: false)

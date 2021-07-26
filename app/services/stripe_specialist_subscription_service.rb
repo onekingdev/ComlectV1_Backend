@@ -69,9 +69,13 @@ class StripeSpecialistSubscriptionService < ApplicationService
     @active_subscription ||= current_specialist.subscriptions.active.first
   end
 
+  def dashboard_unlocked!
+    current_specialist.update(dashboard_unlocked: true)
+  end
+
   def subscribe_free_plan
     cancel_subscription if active_subscription.present?
-    current_specialist.update(dashboard_unlocked: true)
+    dashboard_unlocked!
   end
 
   def cancel_subscription
@@ -117,7 +121,7 @@ class StripeSpecialistSubscriptionService < ApplicationService
       billing_period_ends: @stripe_subscription.cancel_at
     )
 
-    current_specialist.update(dashboard_unlocked: true)
+    dashboard_unlocked!
   end
 
   def nothing_to_change?
