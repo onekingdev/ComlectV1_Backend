@@ -209,7 +209,7 @@ ActiveAdmin.setup do |config|
   #
   # To load a javascript file:
   #   config.register_javascript 'my_javascript.js'
-  maps_api = "https://maps.googleapis.com/maps/api/js?key=#{ENV.fetch('GOOGLE_PLACES_API_KEY')}&libraries=places"
+  maps_api = "https://maps.googleapis.com/maps/api/js?key=#{ENV['GOOGLE_PLACES_API_KEY']}&libraries=places"
   config.register_javascript maps_api
 
   # == CSV options
