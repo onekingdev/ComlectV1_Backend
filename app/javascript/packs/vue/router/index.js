@@ -88,7 +88,7 @@ export default new Router({
       ],
     },
     { path: '/business/settings/notification-center', name: 'settings-notification-center', component: SettingsNotifications },
-    { path: '/business/specialists', name: 'specialists-marketplace', component: SpecialistsMarketplace },
+    { path: '/specialistmarketplace', name: 'specialists-marketplace', component: SpecialistsMarketplace },
 
 
     // SPECIALISTS

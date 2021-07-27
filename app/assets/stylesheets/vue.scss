@@ -1838,7 +1838,19 @@ table.table thead tr th {
 
 .white-card-body {
   background-color: $white;
-  border-top: 2px solid #e9ebee;
+  //border-top: solid 1px $gray-1;
+}
+
+.tabs {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  background-color: white;
+}
+
+.nav-tabs {
+  background-color: $gray-background;
+  border-bottom: 1px solid $gray-1;
 }
 
 .pointer {

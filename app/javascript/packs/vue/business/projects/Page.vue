@@ -2,8 +2,8 @@
   .page
     .page-header
       .page-header__title
-        h2 Projects
-        p.page-header__subtitle.mb-0 Plan projects with employees or hire specialists for additional help
+        h2.m-b-10 Projects
+        p.page-header__subtitle.mb-0 Plan projects with employees or hire external specialists to help
       .page-header__actions
         router-link.btn.btn-default(to='/business/projects/new') Post Project
         LocalProjectModal(@saved="newEtag")
@@ -12,13 +12,19 @@
       b-tab(title="My Projects" active)
         .card-body.white-card-body.card-body_full-height
           div
-            b-dropdown.m-r-1(variant="default" text='Filter by: All')
+            b-dropdown.m-r-1(variant="default")
+              template(#button-content)
+                | Filter by: All
+                ion-icon.ml-2(name="chevron-down-outline" size="small")
               b-dropdown-item All
               b-dropdown-item In Progress
               b-dropdown-item Pending
               b-dropdown-item Overdue
               b-dropdown-item Complete
-            b-dropdown.m-r-1(variant="default" text='Year: All')
+            b-dropdown.m-r-1(variant="default")
+              template(#button-content)
+                | Year: All
+                ion-icon.ml-2(name="chevron-down-outline" size="small")
               b-dropdown-item 2021
               b-dropdown-item 2020
           Get(projects="/api/business/local_projects/" :etag="etag"): template(v-slot="{projects}")
@@ -40,8 +46,6 @@
                 td: .badge.badge-success {{ contact.status }}
                 td: StarRating(:stars="contact.rating")
                 td &hellip;
-              tr(v-if="!contacts.length")
-                td(colspan=5) No contacts
       b-tab(title="Ratings and Reviews")
         .card-body.white-card-body.card-body_full-height
           Get(ratings='/api/project_ratings'): template(v-slot="{ratings}"): table.rating_table
