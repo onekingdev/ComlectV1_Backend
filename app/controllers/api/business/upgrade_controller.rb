@@ -24,12 +24,12 @@ class Api::Business::UpgradeController < ApiController
 
   private
 
-  def payment_source
-    current_business.payment_profile&.default_payment_source
+  def turnkey_params
+    params.permit(:plan, :seats_count)
   end
 
-  def turnkey_params
-    params.require(:upgrade).permit(:plan, :seats_count, :payment_source_id)
+  def payment_source
+    current_business.payment_profile&.default_payment_source
   end
 
   def serialize_subs(subs)

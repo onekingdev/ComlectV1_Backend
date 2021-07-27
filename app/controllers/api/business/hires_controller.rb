@@ -1,3 +1,5 @@
+# index show
+
 # frozen_string_literal: true
 
 class Api::Business::HiresController < ApiController
@@ -8,7 +10,7 @@ class Api::Business::HiresController < ApiController
 
   def create
     if @project.pending?
-      job_application = JobApplication::Accept.call(
+      job_application = JobApplication::Accept.(
         @project.job_applications.find(params.require(:job_application_id))
       )
       specialist = job_application.object.specialist

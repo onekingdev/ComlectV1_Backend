@@ -36,7 +36,7 @@ ActiveAdmin.register User do
 
   controller do
     def destroy_resource(resource)
-      User::Delete.call(resource)
+      User::Delete.(resource)
     end
 
     def resource

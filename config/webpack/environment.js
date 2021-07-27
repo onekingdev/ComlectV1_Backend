@@ -7,6 +7,11 @@ const path = require('path')
 const dotenv = require('dotenv')
 const result = dotenv.config()
 
+if (result.error) {
+  throw result.error
+}
+// console.log(result.parsed)
+
 environment.plugins.prepend(
     'VueLoaderPlugin',
     new VueLoaderPlugin()

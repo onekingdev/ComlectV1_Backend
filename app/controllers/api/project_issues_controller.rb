@@ -5,8 +5,7 @@ class Api::ProjectIssuesController < ApiController
   before_action :find_project
 
   def create
-    @issue = ProjectIssue::Create.call(@project, issue_params.merge(user_id: current_user.id))
-
+    @issue = ProjectIssue::Create.(@project, issue_params.merge(user_id: current_user.id))
     if @issue.persisted?
       respond_with @issue
     else

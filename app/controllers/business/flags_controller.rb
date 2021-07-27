@@ -6,7 +6,7 @@ class Business::FlagsController < ApplicationController
   def new; end
 
   def create
-    @flag = Flag::Create.call(
+    @flag = Flag::Create.(
       current_business,
       find_flagged_content,
       reason: flag_params[:reason].values.join(', ')

@@ -7,7 +7,7 @@ ActiveAdmin.register Business, namespace: :support do
 
   controller do
     def destroy_resource(resource)
-      User::Delete.call(resource.user)
+      User::Delete.(resource.user)
     end
 
     def scoped_collection

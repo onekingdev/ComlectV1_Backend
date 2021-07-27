@@ -5,7 +5,7 @@
       .page-header__actions
         a.btn.btn-default.m-r-1(v-if="!shortTable") Download
         TaskModalCreate(@saved="refetch()")
-          a.btn.btn-dark Create task
+          a.btn.btn-dark New task
     .card-body.white-card-body
       .row.mb-3(v-if="!shortTable")
         .col
@@ -22,7 +22,7 @@
                 | All Links
                 ion-icon.ml-2(name="chevron-down-outline" size="small")
               b-dropdown-item All Links
-            b-dropdown.actions.m-r-1(variant="default")
+            b-dropdown.actions.d-none(variant="default")
               template(#button-content)
                 | {{ perPage }} results
                 ion-icon.ml-2(name="chevron-down-outline" size="small")
@@ -47,7 +47,7 @@
           .col
             Loading
             TaskTable(v-if="tasks" :shortTable="shortTable", :tasks="tasks" :perPage="perPage" :currentPage="currentPage")
-            b-pagination(v-if="!shortTable && tasks" v-model='currentPage' :total-rows='rows' :per-page='perPage' :shortTable="!shortTable",  aria-controls='tasks-table')
+            b-pagination(v-if="!shortTable && tasks.length >= perPage" v-model='currentPage' :total-rows='rows' :per-page='perPage' :shortTable="!shortTable",  aria-controls='tasks-table')
 
 </template>
 
@@ -90,7 +90,7 @@
     data() {
       return {
         // tasks: [],
-        perPage: 5,
+        perPage: 10,
         currentPage: 1,
         toggleModal: false,
       }
