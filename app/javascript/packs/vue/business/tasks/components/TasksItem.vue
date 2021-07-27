@@ -2,14 +2,14 @@
   tr
     td
       .name
-        b-icon.m-r-1.pointer(font-scale="1" :icon="item.done_at ? 'check-circle-fill' : 'check-circle'" @click="toggleDone(item)" v-bind:class="{ done_task: item.done_at }")
+        b-icon.pointer.m-r-1(font-scale="1" :icon="item.done_at ? 'check-circle-fill' : 'check-circle'" @click="toggleDone(item)" v-bind:class="{ done_task: item.done_at }")
         //ion-icon.m-r-1.pointer(@click="toggleDone(item)" v-bind:class="{ done_task: item.done_at }" name='checkmark-circle-outline')
         TaskModalEdit.link(:taskProp="item" @saved="$emit('saved')")
           span(v-if="!item.done_at" ) {{ item.body }}
           s(v-else) {{ item.body }}
     td(v-if="!shortTable")
       .d-flex.align-items-center
-        ion-icon.mr-2(v-if="linkedTo(item)" :name="linkedTo(item)" :class="linkedToClass(item)")
+        ion-icon.mr-1(v-if="linkedTo(item)" :name="linkedTo(item)" :class="linkedToClass(item)")
         .link {{ item.linkable_type ? item.linkable_type : '---' }}
     td(v-if="!shortTable") {{ item.assignee }}
     td.text-right(v-if="!shortTable")
