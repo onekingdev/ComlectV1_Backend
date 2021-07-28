@@ -1160,6 +1160,17 @@ a.link,
 .link {
   color: $blue;
   cursor: pointer;
+
+  .d-inline-block {
+    max-width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    @include media-breakpoint-down(xs) {
+      max-width: 100px;
+    }
+  }
 }
 
 a:hover {
@@ -1236,16 +1247,6 @@ table.table thead tr th {
 
 .table td {
   color: $black;
-
-  &:first-child {
-
-    @include media-breakpoint-down(lg) {
-      max-width: 50px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-  }
 }
 
 .table th, .table td {
@@ -1264,15 +1265,10 @@ table.table thead tr th {
 
     .link,
     a.link {
-      max-width: 50px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      //border: solid 1px blue;
 
       a,
       span {
-        max-width: 50px;
+        max-width: 250px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -1435,6 +1431,10 @@ table.table thead tr th {
 
 
 /* ---------- DASHBOARD CALENDAR ---------- */
+.fc .fc-daygrid-body-unbalanced .fc-daygrid-day-events {
+  max-height: 3.5rem;
+}
+
 .fc .fc-col-header-cell-cushion {
   font-weight: 100;
   padding: 0.375rem; //6px
@@ -1480,10 +1480,12 @@ table.table thead tr th {
   //margin: 0.25rem 0.3125rem; // 4px 5px
 }
 
+.fc-h-event .fc-event-main {
+  height: 1.5625rem; //25px;
+}
+
 .fc-h-event .fc-event-title {
   position: relative;
-  display: flex;
-  align-items: center;
 }
 
 .fc-h-event .fc-event-title-container {
@@ -1495,7 +1497,7 @@ table.table thead tr th {
   span.pointer,
   span {
     position: relative;
-    top: 4px;
+    top: 2px;
     margin-right: 5px;
   }
 
@@ -1518,9 +1520,9 @@ table.table thead tr th {
   border: 1px solid #1AB27F !important;
 }
 
-.task-is-task span.pointer {
-  top: -2px !important;
-}
+//.task-is-task span.pointer {
+//  top: -3px !important;
+//}
 
 .task-is-task,
 .task-is-task .fc-event-title {
@@ -1558,6 +1560,9 @@ table.table thead tr th {
 }
 
 .fc-event-title {
+  display: flex!important;
+  align-items: center;
+
   font-size: 0.75rem;
   //font-weight: 400 !important;
   //line-height: 2;
