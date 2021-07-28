@@ -649,8 +649,8 @@ html {
 
     font-family: 'Public Sans Bold', sans-serif;
     font-size: 0.75rem; // 12px
+    font-weight: bold;
     letter-spacing: 1px;
-    font-weight: 400;
     text-transform: uppercase;
     //font-size: 11px;
 
@@ -667,6 +667,8 @@ html {
       margin: 0;
       padding: 0;
       text-transform: none;
+      font-size: 0.875rem; //14px
+      font-weight: 400;
 
       h3 {
         padding: 0;
@@ -761,6 +763,14 @@ html {
 
 .dropdown-divider {
   border-color: $primary;
+}
+
+.flip-horizontal {
+  transform: scale(-1, 1);
+
+  ion-icon {
+    margin-left: 0.625rem;
+  }
 }
 
 /* ---------- COMMON PAGES ---------- */
@@ -1433,6 +1443,10 @@ table.table thead tr th {
 /* ---------- DASHBOARD CALENDAR ---------- */
 .fc .fc-daygrid-body-unbalanced .fc-daygrid-day-events {
   max-height: 3.5rem;
+
+  @include media-breakpoint-down(lg) {
+    max-height: 4.5rem;
+  }
 }
 
 .fc .fc-col-header-cell-cushion {
