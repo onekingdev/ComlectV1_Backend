@@ -32,6 +32,7 @@ import ExamCurrentReview from '@/business/exammanagement/PageCurrentReviewExam'
 import Settings from '@/business/settings/Page'
 import SettingsNotifications from '@/business/notifications/Page'
 import SpecialistsMarketplace from '@/business/marketplace/Page'
+import Profile from '@/business/profile/Page'
 
 // SPECIALISTS
 import DashboardS from '@/specialist/dashboard/Page'
@@ -93,6 +94,7 @@ export default new Router({
     },
     { path: '/business/settings/notification-center', name: 'settings-notification-center', component: SettingsNotifications },
     { path: '/specialistmarketplace', name: 'specialists-marketplace', component: SpecialistsMarketplace },
+    { path: '/business/profile', name: 'profile', component: Profile },
 
 
     // SPECIALISTS
