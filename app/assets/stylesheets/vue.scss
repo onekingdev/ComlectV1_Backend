@@ -1459,26 +1459,32 @@ table.table thead tr th {
   //border-color: transparent;
 }
 
+.fc-event-main-frame {
+  width: 100%;
+}
+
 .fc-event-title-container {
-  padding: 0.25rem 0.3125rem; // 4px 5px
-  padding-top: 0;
+  padding: 0 0.3125rem; // 0 5px
+  width: 100%;
+  background-color: transparent;
 }
 
 .fc .fc-daygrid-event {
   border-radius: 4px;
+  overflow: hidden;
 }
 
-.task-is-task span,
-.task-is-task a,
-.task-is-project span,
-.task-is-project a {
-  //font-size: 0.75rem; // 12px
-  //color: #fff;
-}
+//.task-is-task span,
+//.task-is-task a,
+//.task-is-project span,
+//.task-is-project a {
+//  font-size: 0.75rem; // 12px
+//  color: #fff;
+//}
 
-.task-is-project span {
-  //margin: 0.25rem 0.3125rem; // 4px 5px
-}
+//.task-is-project span {
+//  margin: 0.25rem 0.3125rem; // 4px 5px
+//}
 
 .fc-h-event .fc-event-main {
   height: 1.5625rem; //25px;
@@ -1488,15 +1494,17 @@ table.table thead tr th {
   top: 3px;
 }
 
-.fc-event-title-container,
-.fc-h-event .fc-event-title-container {
-  //align-items: center;
-}
+//.fc-event-title-container,
+//.fc-h-event .fc-event-title-container {
+//  align-items: center;
+//}
 
 .fc-event-title.fc-sticky {
   display: flex;
   align-items: center;
   position: relative;
+
+  width: 100%;
 
   span.pointer,
   span {
@@ -1505,9 +1513,16 @@ table.table thead tr th {
     margin-right: 5px;
   }
 
-  ion-icon {
-    //font-size: 1.1rem;
+  span.pointer {
+    //width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
+
+  //ion-icon {
+  //  //font-size: 1.1rem;
+  //}
 }
 
 .fc-h-event,
@@ -1516,26 +1531,29 @@ table.table thead tr th {
 .task-is-project .fc-event-title {
   background-color: #047aff;
   color: #dae9fe;
+
+  &:hover {
+    background-color: #047aff !important;
+  }
 }
 
 //.task-id-project a {
 //  color: #fff;
 //}
 
-.fc-h-event.task-is-task,
 .task-is-task {
   border: 1px solid #1AB27F !important;
 }
-
-//.task-is-task span.pointer {
-//  top: -3px !important;
-//}
 
 .task-is-task,
 .fc-h-event.task-is-task,
 .task-is-task .fc-event-title {
   background-color: #1ab27f;
   color: #fff;
+
+  &:hover {
+    background-color: #1ab27f !important;
+  }
 }
 
 .task-is-overdue {
@@ -1547,6 +1565,10 @@ table.table thead tr th {
 .task-is-overdue .fc-event-title {
   background-color: #FFF7E4;
   color: $black;
+
+  &:hover {
+    background-color: #FFF7E4 !important;
+  }
 }
 
 .task-is-overdue .fc-event-title {
@@ -1564,6 +1586,7 @@ table.table thead tr th {
   background-color: #1ab27f !important;
   color: #e6f5ef;
 } */
+.fc-h-event.task-is-complete,
 .task-is-complete {
   background-color: #e2e8f0;
   border: 1px solid #dee1e7;
@@ -1581,8 +1604,18 @@ table.table thead tr th {
   }
 }
 
+.fc-daygrid-dot-event:hover,
+.fc-daygrid-dot-event.fc-event-mirror {
+  background-color: yellow;
+}
+
+.fc-event:hover,
+.fc-event-selected {
+  background-color: inherit;
+}
+
 .fc-daygrid-dot-event {
-  padding: 2px 3px;
+  //padding: 2px 3px;
 }
 
 .fc-day-today {
