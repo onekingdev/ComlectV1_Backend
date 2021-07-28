@@ -2840,6 +2840,14 @@ legend, .label {
     margin-bottom: 1.25rem;
     min-width: auto;
   }
+
+  &__title {
+    min-width: 13.7rem;
+  }
+
+  ion-icon.hydrated {
+    cursor: pointer;
+  }
 }
 
 .upcoming {
