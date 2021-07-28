@@ -1445,6 +1445,11 @@ table.table thead tr th {
   border-radius: 4px;
 }
 
+.fc-direction-ltr .fc-daygrid-event.fc-event-end,
+.fc-direction-rtl .fc-daygrid-event.fc-event-start {
+  margin-right: 1px;
+}
+
 .fc-direction-ltr .fc-daygrid-block-event:not(.fc-event-end), .fc-direction-rtl .fc-daygrid-block-event:not(.fc-event-start) {
   border-top-right-radius: 4px !important;
   border-bottom-right-radius: 4px !important;
@@ -1461,6 +1466,7 @@ table.table thead tr th {
 
 .fc-event-main-frame {
   width: 100%;
+  height: 100%;
 }
 
 .fc-event-title-container {
@@ -1491,7 +1497,8 @@ table.table thead tr th {
 }
 
 .fc-h-event .fc-event-title {
-  top: 3px;
+  top: 0;
+  height: 100%;
 }
 
 //.fc-event-title-container,
@@ -1508,9 +1515,15 @@ table.table thead tr th {
 
   span.pointer,
   span {
-    //position: relative;
+    position: relative;
     //top: 2px;
-    margin-right: 5px;
+    margin-right: 1px;
+
+    ion-icon {
+      position: relative;
+      top: 3px;
+      font-size: 14px;
+    }
   }
 
   span.pointer {
