@@ -1432,7 +1432,7 @@ table.table thead tr th {
 
 /* ---------- DASHBOARD CALENDAR ---------- */
 .fc .fc-daygrid-body-unbalanced .fc-daygrid-day-events {
-  max-height: 3.5rem;
+  max-height: 4rem;
 }
 
 .fc .fc-col-header-cell-cushion {
@@ -1473,7 +1473,7 @@ table.table thead tr th {
 .task-is-project span,
 .task-is-project a {
   //font-size: 0.75rem; // 12px
-  color: #fff;
+  //color: #fff;
 }
 
 .task-is-project span {
@@ -1510,9 +1510,11 @@ table.table thead tr th {
   }
 }
 
+.fc-h-event,
+.fc-h-event.task-is-project,
 .task-is-project,
 .task-is-project .fc-event-title {
-  background-color: #047aff !important;
+  background-color: #047aff;
   color: #dae9fe;
 }
 
@@ -1520,6 +1522,7 @@ table.table thead tr th {
 //  color: #fff;
 //}
 
+.fc-h-event.task-is-task,
 .task-is-task {
   border: 1px solid #1AB27F !important;
 }
@@ -1529,8 +1532,9 @@ table.table thead tr th {
 //}
 
 .task-is-task,
+.fc-h-event.task-is-task,
 .task-is-task .fc-event-title {
-  background-color: #1ab27f !important;
+  background-color: #1ab27f;
   color: #fff;
 }
 
@@ -1539,17 +1543,20 @@ table.table thead tr th {
 }
 
 .task-is-overdue,
+.fc-h-event.task-is-overdue,
 .task-is-overdue .fc-event-title {
-  background-color: #FFF7E4 !important;
+  background-color: #FFF7E4;
   color: $black;
 }
 
-.task-is-overdue ion-icon[name="warning-outline"] {
-  color: #FFC900;
-}
+.task-is-overdue .fc-event-title {
+  a, span {
+    color: $black;
+  }
 
-.task-is-overdue a {
-  color: $black;
+  ion-icon[name="warning-outline"] {
+    color: #FFC900;
+  }
 }
 
 /* .task-is-complete,
@@ -1567,6 +1574,11 @@ table.table thead tr th {
   font-size: 0.75rem;
   //font-weight: 400 !important;
   //line-height: 2;
+
+  a,
+  span {
+    color: $white;
+  }
 }
 
 .fc-daygrid-dot-event {
@@ -1643,6 +1655,29 @@ table.table thead tr th {
 //.fc-event-title.fc-sticky span {
 //  top: 0;
 //}
+
+.fc .fc-more-popover .fc-popover-body {
+  background-color: $white;
+
+  .fc-h-event .fc-event-main {
+    color: $black;
+    background-color: $white;
+    border: transparent;
+  }
+
+  .fc-h-event {
+    border: none !important;
+  }
+
+  .fc-event-title {
+    color: $black !important;
+    background: transparent;
+
+    a, span {
+      color: $black;
+    }
+  }
+}
 
 /* ---------- PAGINATION ---------- */
 .page-item {

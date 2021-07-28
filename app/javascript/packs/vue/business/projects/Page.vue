@@ -5,9 +5,9 @@
         h2.m-b-10 Projects
         p.page-header__subtitle.mb-0 Plan projects with employees or hire external specialists to help
       .page-header__actions
-        router-link.btn.btn-default(to='/business/projects/new') Post Project
+        router-link.btn.btn-default.m-r-1(to='/business/projects/new') Post Project
         LocalProjectModal(@saved="newEtag")
-          a.btn.m-l-1.btn-primary New Project
+          a.btn.btn-primary New Project
     b-tabs(content-class="mt-0")
       b-tab(title="My Projects" active)
         .card-body.white-card-body.card-body_full-height
