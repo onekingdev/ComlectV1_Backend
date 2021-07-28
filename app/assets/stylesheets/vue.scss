@@ -1184,10 +1184,14 @@ table.table thead tr th {
     align-items: center;
   }
 
-  tbody ion-icon,
-  tbody .b-icon.bi {
+  tbody ion-icon {
     font-size: 20px;
     vertical-align: middle;
+    color: $gray-1;
+  }
+
+  tbody .b-icon.bi {
+    font-size: 0.875rem;
     color: $gray-1;
   }
 
