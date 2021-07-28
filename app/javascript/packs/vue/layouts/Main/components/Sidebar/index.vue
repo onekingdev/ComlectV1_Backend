@@ -61,7 +61,7 @@
          li.nav-item.sidebar-menu__item(@click.stop="openLink('documents')")
            router-link.sidebar-menu__link(:to='`/${userType}/file_folders`' active-class="active" exact)
              | Book and records
-         li.nav-item.sidebar-menu__item(@click.stop="openLink('documents')")
+         li.nav-item.sidebar-menu__item(@click.stop="openLink('settings')")
            router-link.sidebar-menu__link(:to='`/${userType}/exam_management`' active-class="active")
              | Exam Management
      div(class="dropdown-divider")
