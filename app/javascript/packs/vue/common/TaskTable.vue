@@ -19,7 +19,7 @@ import { DateTime } from 'luxon'
 import TaskFormModal from '@/common/TaskFormModal'
 import { toEvent, isOverdue, splitReminderOccurenceId } from '@/common/TaskHelper'
 
-const SHORT_TASK_COUNT = 5
+const SHORT_TASK_COUNT = 6
 
 export default {
   props: {

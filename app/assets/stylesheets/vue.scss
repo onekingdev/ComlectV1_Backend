@@ -325,6 +325,7 @@ html {
 
     ion-icon {
       font-size: 25px;
+      --ionicon-stroke-width: 24px;
     }
 
     @include media-breakpoint-down(lg) {
@@ -356,7 +357,7 @@ html {
   margin-right: 2.5rem;
 
   border-left: solid 1px $gray-1;
-  border-right: solid 1px $gray-1;
+  //border-right: solid 1px $gray-1;
   height: 100%;
   color: $black;
   transition: all 200ms ease-in;
@@ -641,13 +642,14 @@ html {
     display: flex;
     align-items: center;
     //margin-bottom: 1.125rem; // 18px
-    margin: 1.375rem 0; // 22px
+    //margin: 1.375rem 0; // 22px
+    margin: 0.75rem 0; // 22px
     color: #f6f6f6;
     padding-left: 1.25rem; //20
     padding-top: 0.9375rem; // 15
     padding-bottom: 0.3125rem; //5
 
-    font-family: 'Public Sans Bold', sans-serif;
+    //font-family: 'Public Sans Bold', sans-serif;
     font-size: 0.75rem; // 12px
     font-weight: bold;
     letter-spacing: 1px;
@@ -669,10 +671,18 @@ html {
       text-transform: none;
       font-size: 0.875rem; //14px
       font-weight: 400;
+      letter-spacing: 0;
 
       h3 {
         padding: 0;
         margin: 0;
+      }
+    }
+
+    &:not(.collapsed) {
+
+      ion-icon[name="chevron-down-outline"] {
+        transform: scale(1, -1);
       }
     }
   }
@@ -696,7 +706,7 @@ html {
     align-items: center;
     width: 100%;
 
-    font-family: 'Public Sans Regular', sans-serif;
+    //font-family: 'Public Sans Regular', sans-serif;
     font-size: 0.875rem; // 14px
     //line-height: 1;
   }
@@ -1172,6 +1182,7 @@ a.link,
   cursor: pointer;
 
   .d-inline-block {
+    margin-bottom: -5px;
     max-width: 250px;
     white-space: nowrap;
     overflow: hidden;
@@ -1190,16 +1201,78 @@ a:hover {
 
 
 /* ---------- TABLES ---------- */
-
+//table {
+/*width: 400px;*/
+//}
+//table, tr td {
+/*border: 1px solid red*/
+//}
 table.table,
 table.table thead tr th {
   font-size: 0.875rem; //14px
   font-weight: 400;
+  vertical-align: middle;
   color: $gray-3;
   //border: 0;
+  white-space: nowrap;
+}
+
+.table th,
+.table td {
+  padding: 0.625rem;
+  border-top: none;
+  border-bottom: 1px solid $gray-1;
+
+  .btn.dropdown-toggle {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  @include media-breakpoint-down(lg) {
+    //@media (max-width: 1000px) {
+    padding: 0.75rem 0.35em;
+
+
+    .link,
+    a.link {
+
+      a,
+      span {
+        max-width: 250px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      ion-icon {
+        font-size: 90%;
+      }
+    }
+
+    .m-r-1 {
+      margin-right: .2em;
+    }
+
+    .btn.dropdown-toggle {
+      padding: 0;
+    }
+
+    .b-icon.bi {
+      font-size: 100%;
+    }
+  }
+}
+
+.table td {
+  color: $black;
 }
 
 .task_table {
+
+  td {
+    padding: .4rem 0.625rem;
+  }
+
   .name {
     display: flex;
     align-items: center;
@@ -1249,68 +1322,6 @@ table.table thead tr th {
   }
 }
 
-.table thead th {
-  color: $gray-3;
-  white-space: nowrap;
-  border-bottom: 1px solid #DCDEE4;
-}
-
-.table td {
-  color: $black;
-}
-
-.table th, .table td {
-  padding: 0.625rem;
-  border-top: none;
-
-  .btn.dropdown-toggle {
-    padding-top: 0;
-    padding-bottom: 0;
-  }
-
-  @include media-breakpoint-down(lg) {
-  //@media (max-width: 1000px) {
-    padding: 0.75rem 0.35em;
-
-
-    .link,
-    a.link {
-
-      a,
-      span {
-        max-width: 250px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-
-      ion-icon {
-        font-size: 90%;
-      }
-    }
-
-    .m-r-1 {
-      margin-right: .2em;
-    }
-
-    .btn.dropdown-toggle {
-      padding: 0;
-    }
-
-    .b-icon.bi {
-      font-size: 100%;
-    }
-  }
-}
-
-
-
-//table {
-/*width: 400px;*/
-//}
-//table, tr td {
-/*border: 1px solid red*/
-//}
 .short-table thead {
   width: calc(100% - 1em) /* scrollbar is average 1em/16px width, remove it from thead width */
 }
@@ -1649,7 +1660,12 @@ table.table thead tr th {
   background-color: $gray-hover !important;
 }
 
+.fc-more-popover-misc {
+  display: none;
+}
+
 .fc-daygrid-day-number {
+  display: none;
   color: $black !important;
   font-size: 0.75rem; //12px
 }
@@ -2978,6 +2994,13 @@ legend, .label {
 
   &__title {
     font-size: 1rem;
+
+    &:not(.collapsed) {
+
+      ion-icon[name="chevron-down-outline"] {
+        transform: scale(1, -1);
+      }
+    }
   }
 
   &__more{

@@ -35,7 +35,7 @@
           span.topbar-right-dropdown__name {{ account.first_name }} {{ account.last_name }}
           ion-icon.topbar-right-dropdown__icon(name='chevron-down-outline')
         li(@click="openLink('documents')")
-          router-link.dropdown-item(:to='`/${userType}/settings`' active-class="active") Settings
+          router-link.dropdown-item(:to='`/${userType}/profile`' active-class="active") Profile
         b-dropdown-item(@click="signOut") Sign Out
       //a.btn.btn-topbar.btn-topbar_help.d-none(href="#")
       //  b-icon.mr-2( icon="question-circle-fill" aria-label="Help")
