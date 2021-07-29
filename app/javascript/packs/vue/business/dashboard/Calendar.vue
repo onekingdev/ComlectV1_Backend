@@ -2,10 +2,10 @@
   div
     .card-header.d-flex.justify-content-between.p-t-0
       div(style="vertical-align: middle")
-        h3.m-y-0
+        h3.calendar__title.m-y-0
           TaskFormModal(id="CalendarTaskFormModal" v-bind="nowEditingTask" @saved="$emit('saved')")
           | {{currentMonth}}
-          small(style="vertical-align: middle")
+          small.float-right(style="vertical-align: middle")
             ion-icon.m-x-1(name='chevron-back-outline' @click.prevent="prev")
             ion-icon(name='chevron-forward-outline' @click.prevent="next")
       div
@@ -17,7 +17,7 @@
         //  b-dropdown-item Monhly
         //  b-dropdown-item Weekly
         //  b-dropdown-item Daily
-        a.btn.btn-default.font-weight-bold(:href="pdfUrl" target="_blank") Export
+        a.btn.btn-default.font-weight-bold(:href="pdfUrl" target="_blank") Download
         //b-dropdown(size="sm" variant="none" class="m-0 p-0" right)
         //  template(#button-content)
         //    b-icon(icon="three-dots")

@@ -9,7 +9,7 @@
         | Tasks
         ion-icon(name="chevron-down-outline")
       b-collapse#upcoming_tasks_collapse(:visible="true")
-        TaskTable(:tasks="tasks" :shortTable="true" @saved="$emit('saved')")
+        TaskTable.upcoming__table(:tasks="tasks" :shortTable="true" @saved="$emit('saved')")
         .d-flex.justify-content-end.mb-2(v-if="tasks.length")
           router-link.link.upcoming__more(:to='`/business/reminders`') More
       b.upcoming__title.d-flex.justify-content-between.m-b-10(role="button" v-b-toggle.upcoming_projects_collapse="")
@@ -22,7 +22,8 @@
 </template>
 
 <script>
-const LIMIT_OF_ARRAYS = 6
+const LIMIT_OF_ARRAY_TASKS = 10
+const LIMIT_OF_ARRAY_PROJECTS = 5
 
 const endpointUrl = '/api/business/reminders/'
 const overdueEndpointUrl = '/api/business/overdue_reminders'
@@ -62,8 +63,9 @@ export default {
             tasks = tasks.concat(result.tasks)
             projects = result.projects
 
-            this.tasks = tasks.slice(0, LIMIT_OF_ARRAYS)
-            this.projects = projects.slice(0, LIMIT_OF_ARRAYS)
+            // this.tasks = tasks.slice(0, LIMIT_OF_ARRAY_TASKS).filter(task => !task.done_at)
+            this.tasks = tasks.filter(task => !task.done_at)
+            this.projects = projects.slice(0, LIMIT_OF_ARRAY_PROJECTS)
           })
         )
         // .catch(errorCallback)
