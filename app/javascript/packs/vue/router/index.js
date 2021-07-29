@@ -35,7 +35,6 @@ import Profile from '@/business/profile/Page'
 import Settings from '@/business/settings/Page'
 import SettingsNotifications from '@/business/notifications/Page'
 import SpecialistsMarketplace from '@/business/marketplace/Page'
-import Profile from '@/business/profile/Page'
 
 // SPECIALISTS
 import DashboardS from '@/specialist/dashboard/Page'
