@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/ClassLength
 class StripeAccount < ApplicationRecord
   belongs_to :specialist, optional: true
   has_many :bank_accounts, dependent: :destroy
@@ -154,7 +153,7 @@ class StripeAccount < ApplicationRecord
     file = File.new(tmp.path)
     Stripe::FileUpload.create(
       { purpose: 'identity_document', file: file },
-      stripe_account: stripe_id
+      { stripe_account: stripe_id }
     )
   end
 
@@ -231,4 +230,3 @@ class StripeAccount < ApplicationRecord
     (STRIPE_ERRORS.detect { |regex, _m| regex.match(error) } || [nil, error])[1]
   end
 end
-# rubocop:enable Metrics/ClassLength

@@ -40,7 +40,11 @@ class Business::OnboardingController < ApplicationController
     end
 
     if need_subscription?
-      plan = params[:checkout][:schedule].to_s.downcase.strip rescue nil
+      plan = begin
+               params[:checkout][:schedule].to_s.downcase.strip
+             rescue
+               nil
+             end
       return redirect_to '/business/onboarding', flash: { error: 'Wrong plan' } unless Subscription.plans.key?(plan)
 
       db_subscription = current_business.subscriptions.base.presence || Subscription.create(

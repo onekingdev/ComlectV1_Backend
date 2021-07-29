@@ -62,16 +62,17 @@ class ProjectMailer < ApplicationMailer
 
   def add_project_link(project, text, url, format = :html)
     found = text =~ /%\{project_job_link\}/
-    replacement = case [format, !found.nil?]
-                  when [:html, true]
-                    "<a href='#{url}'>#{project.title}</a>".html_safe
-                  when [:html, false]
-                    "<p>Project Link: <a href='#{url}'>#{project.title}</a></p>".html_safe
-                  when [:text, true]
-                    url
-                  else # [:text, false]
-                    "\n\nProject Link: #{url}"
-                  end
+    replacement =
+      case [format, !found.nil?]
+      when [:html, true]
+        "<a href='#{url}'>#{project.title}</a>".html_safe
+      when [:html, false]
+        "<p>Project Link: <a href='#{url}'>#{project.title}</a></p>".html_safe
+      when [:text, true]
+        url
+      else # [:text, false]
+        "\n\nProject Link: #{url}"
+      end
     found ? text.gsub('%{project_job_link}', replacement) : text + replacement
   end
 

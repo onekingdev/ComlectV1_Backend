@@ -19,12 +19,13 @@ class Api::DirectMessagesController < ApiController
 
   def index
     bid, sid = if @current_someone.class.name.include?('Business')
-                 [@current_someone.id,
-                  Specialist.find(params[:recipient_id])]
-               elsif @current_someone.class.name.include?('Specialist')
-                 [Business.find(params[:recipient_id]),
-                  @current_someone.id]
-               end
+      [@current_someone.id,
+       Specialist.find(params[:recipient_id])]
+    elsif @current_someone.class.name.include?('Specialist')
+      [Business.find(params[:recipient_id]),
+       @current_someone.id]
+    end
+
     messages = Message.business_specialist(bid, sid).direct.page(params[:page]).per(20)
     render json: messages.to_json
   end
@@ -34,12 +35,14 @@ class Api::DirectMessagesController < ApiController
       render json: { errors: "can't send empty message" }
       return
     end
+
     recipient = if @current_someone.class.name.include? 'Business'
-                  Specialist.find(params[:recipient_id])
-                elsif @current_someone.class.name.include? 'Specialist'
-                  Business.find(params[:recipient_id])
-                end
-    message = Message::Create.(nil, message_params.merge(sender: @current_someone, recipient: recipient), @current_someone, recipient)
+      Specialist.find(params[:recipient_id])
+    elsif @current_someone.class.name.include? 'Specialist'
+      Business.find(params[:recipient_id])
+    end
+
+    message = Message::Create.call(nil, message_params.merge(sender: @current_someone, recipient: recipient), @current_someone, recipient)
     if !message.nil?
       render json: message
     else

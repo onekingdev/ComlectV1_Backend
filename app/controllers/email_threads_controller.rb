@@ -3,7 +3,7 @@
 class EmailThreadsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
-  before_action -> {
+  before_action lambda {
     authenticated = authenticate_with_http_basic do |u, p|
       u == ENV.fetch('POSTMARK_INBOUND_USER') && p == ENV.fetch('POSTMARK_INBOUND_PASSWORD')
     end

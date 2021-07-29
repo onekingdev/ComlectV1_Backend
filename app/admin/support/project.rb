@@ -78,10 +78,10 @@ ActiveAdmin.register Project, namespace: :support do
                            data: { confirm: 'Do you want to end this project?' })
       end
       actions << if project.ratings.count.positive?
-                   link_to('Ratings', support_ratings_path(q: { project_id_eq: project.id }), class: 'member_link')
-                 else
-                   '<span class="member_span">No Ratings yet</span>'.html_safe
-                 end
+        link_to('Ratings', support_ratings_path(q: { project_id_eq: project.id }), class: 'member_link')
+      else
+        '<span class="member_span">No Ratings yet</span>'.html_safe
+      end
       actions.join('').html_safe
     end
   end

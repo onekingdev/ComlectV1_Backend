@@ -43,10 +43,10 @@ class StripeAccount::Form < StripeAccount
   def self.prepopulate(account, specialist)
     PREPOPULATE_FIELDS.each do |field, specialist_field|
       value = if specialist_field.is_a?(Proc)
-                specialist_field.call(specialist)
-              else
-                specialist.public_send(specialist_field)
-              end
+        specialist_field.call(specialist)
+      else
+        specialist.public_send(specialist_field)
+      end
       account.public_send("#{field}=", value) if account.public_send(field).blank?
     end
   end

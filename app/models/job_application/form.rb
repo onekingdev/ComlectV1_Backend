@@ -41,7 +41,7 @@ class JobApplication::Form < JobApplication
     if application.save && !application.draft?
       Favorite.remove! specialist, project
       Notification::Deliver.project_application!(application) if project.interview?
-      JobApplication::Accept.(application) if project.auto_match?
+      JobApplication::Accept.call(application) if project.auto_match?
     end
 
     application
@@ -96,6 +96,9 @@ class JobApplication::Form < JobApplication
     true
   end
 
+  # something strange here
+  # we have these methods as `attr_accessor`
+  # rubocop:disable Lint/DuplicateMethods
   def hourly_payment_schedule
     @hourly_payment_schedule || payment_schedule
   end
@@ -103,4 +106,5 @@ class JobApplication::Form < JobApplication
   def fixed_payment_schedule
     @fixed_payment_schedule || payment_schedule
   end
+  # rubocop:enable Lint/DuplicateMethods
 end

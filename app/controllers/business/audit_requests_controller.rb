@@ -58,9 +58,9 @@ class Business::AuditRequestsController < ApplicationController
 
   def set_mock_audit_template
     @mock_audit = if current_business.funds?
-                    current_business.total_assets > 500_000_000 ? 'mock_audit_aum_funds' : 'mock_audit_funds'
-                  else
-                    current_business.total_assets > 500_000_000 ? 'mock_audit_aum' : 'mock_audit'
-                  end
+      current_business.total_assets > 500_000_000 ? 'mock_audit_aum_funds' : 'mock_audit_funds'
+    else
+      current_business.total_assets > 500_000_000 ? 'mock_audit_aum' : 'mock_audit'
+    end
   end
 end

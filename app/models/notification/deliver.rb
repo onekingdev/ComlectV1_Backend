@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/ClassLength
 class Notification::Deliver < Draper::Decorator
   decorates Notification
 
@@ -241,20 +240,19 @@ class Notification::Deliver < Draper::Decorator
 
     def got_project_message!(message)
       project = message.thread
-      # rubocop:disable Metrics/LineLength
       init, rcv, path, action_url = if message.sender == project.business
-                                      [
-                                        project.business, message.recipient,
-                                        *path_and_url(:project_dashboard, project, anchor: 'project-messages')
-                                      ]
-                                    else
-                                      [
-                                        message.sender, project.business,
-                                        *path_and_url(:business_project_dashboard, project, anchor: 'project-messages')
-                                      ]
-                                    end
+        [
+          project.business, message.recipient,
+          *path_and_url(:project_dashboard, project, anchor: 'project-messages')
+        ]
+      else
+        [
+          message.sender, project.business,
+          *path_and_url(:business_project_dashboard, project, anchor: 'project-messages')
+        ]
+      end
       path, action_url = *path_and_url(:business_project_dashboard_interview, project, message.sender, anchor: 'project-messages') if message.sender != project.business && project.specialist.blank?
-      # rubocop:enable Metrics/LineLength
+
       dispatcher = Dispatcher.new(
         user: rcv.user,
         key: :got_project_message,
@@ -471,16 +469,16 @@ class Notification::Deliver < Draper::Decorator
     def escalated!(issue)
       project = issue.project
       rcv, key, path, action_url = if issue.user.specialist
-                                     [
-                                       project.business.user, :business_escalated,
-                                       *path_and_url(:business_project_dashboard, project, anchor: 'project-messages')
-                                     ]
-                                   elsif issue.user.business
-                                     [
-                                       project.specialist.user, :specialist_escalated,
-                                       *path_and_url(:project_dashboard, project, anchor: 'project-messages')
-                                     ]
-                                   end
+        [
+          project.business.user, :business_escalated,
+          *path_and_url(:business_project_dashboard, project, anchor: 'project-messages')
+        ]
+      elsif issue.user.business
+        [
+          project.specialist.user, :specialist_escalated,
+          *path_and_url(:project_dashboard, project, anchor: 'project-messages')
+        ]
+      end
 
       dispatcher = Dispatcher.new(
         user: rcv,
@@ -753,16 +751,16 @@ class Notification::Deliver < Draper::Decorator
 
     def payment_issue!(user)
       key, path, action_url = if user.specialist
-                                [
-                                  :specialist_payment_issue,
-                                  *path_and_url(:specialists_settings_payment)
-                                ]
-                              elsif user.business
-                                [
-                                  :business_payment_issue,
-                                  *path_and_url(:business_settings_payment_index)
-                                ]
-                              end
+        [
+          :specialist_payment_issue,
+          *path_and_url(:specialists_settings_payment)
+        ]
+      elsif user.business
+        [
+          :business_payment_issue,
+          *path_and_url(:business_settings_payment_index)
+        ]
+      end
 
       dispatcher = Dispatcher.new(
         user: user,
@@ -908,20 +906,20 @@ class Notification::Deliver < Draper::Decorator
 
     def business_name_and_img(business)
       image = if business.logo
-                business.logo_url(:thumb).split('?').first
-              else
-                default_img_url
-              end
+        business.logo_url(:thumb).split('?').first
+      else
+        default_img_url
+      end
 
       [business.business_name, image]
     end
 
     def specialist_name_and_img(specialist)
       image = if specialist.photo
-                specialist.photo_url(:thumb).split('?').first
-              else
-                default_img_url
-              end
+        specialist.photo_url(:thumb).split('?').first
+      else
+        default_img_url
+      end
 
       [specialist.first_name, image]
     end
@@ -946,4 +944,3 @@ class Notification::Deliver < Draper::Decorator
   end
   # rubocop:enable Naming/UncommunicativeMethodParamName
 end
-# rubocop:enable Metrics/ClassLength

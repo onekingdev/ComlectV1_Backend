@@ -38,10 +38,10 @@ class TurnkeyPagesController < ApplicationController
     solution = TurnkeySolution.find(params_solution[:id])
     if solution.validate_params(params_solution)
       template = if solution.flavored? && params_solution.include?(:flavor)
-                   solution.project_templates.where(flavor: params_solution[:flavor]).first
-                 else
-                   solution.project_templates.first
-                 end
+        solution.project_templates.where(flavor: params_solution[:flavor]).first
+      else
+        solution.project_templates.first
+      end
       Project.new.build_from_template(current_business.id, template, params_solution)
     else
       Project.new

@@ -14,7 +14,7 @@ ActiveAdmin.register Specialist, namespace: :support do
 
   controller do
     def destroy_resource(resource)
-      User::Delete.(resource.user)
+      User::Delete.call(resource.user)
     end
 
     def scoped_collection

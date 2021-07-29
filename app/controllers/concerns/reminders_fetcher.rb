@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/ModuleLength
 module RemindersFetcher
   class FakeTask
     def initialize(id)
@@ -151,5 +150,3 @@ module RemindersFetcher
     week_tasks.uniq.delete_if { |x| x.class.name == 'RemindersFetcher::FakeTask' }
   end
 end
-
-# rubocop:enable Metrics/ModuleLength

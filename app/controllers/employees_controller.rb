@@ -83,10 +83,10 @@ class EmployeesController < ApplicationController
 
   def mirror
     businesses = if current_specialist.seat?
-                   current_specialist.businesses_to_manage
-                 else
-                   current_specialist.manageable_ria_businesses
-                 end
+      current_specialist.businesses_to_manage
+    else
+      current_specialist.manageable_ria_businesses
+    end
     business = businesses.find_by(id: params[:business_id])
     return redirect_to specialists_projects_path unless business
 

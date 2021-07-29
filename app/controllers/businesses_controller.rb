@@ -20,35 +20,35 @@ class BusinessesController < ApplicationController
     @business = Business.for_signup
   end
 
-  def new
-    # render html: content_tag('business-onboarding-page', '',
-    #                          ':industry-ids': Industry.all.map(&proc { |ind|
-    #                                                               { id: ind.id,
-    #                                                                 name: ind.name }
-    #                                                             }).to_json,
-    #                          ':jurisdiction-ids': Jurisdiction.all.map(&proc { |ind|
-    #                                                                       { id: ind.id,
-    #                                                                         name: ind.name }
-    #                                                                     }).to_json,
-    #                          ':sub-industry-ids': sub_industries(false).to_json,
-    #                          ':states': State.fetch_all_usa.to_json,
-    #                          ':timezones': timezones_json).html_safe,
-    #        layout: 'vue_onboarding'
+  # def new
+  # render html: content_tag('business-onboarding-page', '',
+  #                          ':industry-ids': Industry.all.map(&proc { |ind|
+  #                                                               { id: ind.id,
+  #                                                                 name: ind.name }
+  #                                                             }).to_json,
+  #                          ':jurisdiction-ids': Jurisdiction.all.map(&proc { |ind|
+  #                                                                       { id: ind.id,
+  #                                                                         name: ind.name }
+  #                                                                     }).to_json,
+  #                          ':sub-industry-ids': sub_industries(false).to_json,
+  #                          ':states': State.fetch_all_usa.to_json,
+  #                          ':timezones': timezones_json).html_safe,
+  #        layout: 'vue_onboarding'
 
-    render html: content_tag('main-layoyt', '',
-                             ':industry-ids': Industry.all.map(&proc { |ind|
-                                                                  { id: ind.id,
-                                                                    name: ind.name }
-                                                                }).to_json,
-                             ':jurisdiction-ids': Jurisdiction.all.map(&proc { |ind|
-                                                                          { id: ind.id,
-                                                                            name: ind.name }
-                                                                        }).to_json,
-                             ':sub-industry-ids': sub_industries(false).to_json,
-                             ':states': State.fetch_all_usa.to_json,
-                             ':timezones': timezones_array.to_json).html_safe,
-           layout: 'vue_main_layout'
-  end
+  # render html: content_tag('main-layoyt', '',
+  #                          ':industry-ids': Industry.all.map(&proc { |ind|
+  #                                                               { id: ind.id,
+  #                                                                 name: ind.name }
+  #                                                             }).to_json,
+  #                          ':jurisdiction-ids': Jurisdiction.all.map(&proc { |ind|
+  #                                                                       { id: ind.id,
+  #                                                                         name: ind.name }
+  #                                                                     }).to_json,
+  #                          ':sub-industry-ids': sub_industries(false).to_json,
+  #                          ':states': State.fetch_all_usa.to_json,
+  #                          ':timezones': timezones_array.to_json).html_safe,
+  #        layout: 'vue_main_layout'
+  # end
 
   def create
     @business = Business.for_signup(business_params, cookies[:referral])
@@ -79,7 +79,7 @@ class BusinessesController < ApplicationController
 
       mixpanel_track_later 'Sign Up'
 
-      %i[complect_contact_first_name complect_contact_last_name complect_business_name complect_address_1 complect_city complect_state complect_step21 complect_contact_job_title complect_contact_phone complect_address_2 complect_zipcode complect_client_account_cnt complect_total_assets complect_user_attributes_email complect_first_name complect_last_name referral complect_step1 complect_step11 complect_step2 complect_step3 complect_step4 complect_step41 complect_step42 complect_other].each do |c| # rubocop:disable Metrics/LineLength
+      %i[complect_contact_first_name complect_contact_last_name complect_business_name complect_address_1 complect_city complect_state complect_step21 complect_contact_job_title complect_contact_phone complect_address_2 complect_zipcode complect_client_account_cnt complect_total_assets complect_user_attributes_email complect_first_name complect_last_name referral complect_step1 complect_step11 complect_step2 complect_step3 complect_step4 complect_step41 complect_step42 complect_other].each do |c|
         cookies.delete c
       end
 

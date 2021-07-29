@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'validators/url_validator'
-# rubocop:disable Metrics/ClassLength
 class Business < ApplicationRecord
   belongs_to :user
 
@@ -107,14 +106,12 @@ class Business < ApplicationRecord
   after_create :add_as_employee
 
   def spawn_compliance_policies
-    # rubocop:disable Style/GuardClause
     unless compliance_policies_spawned
       update(compliance_policies_spawned: true)
       I18n.t(:compliance_manual_sections).map(&:to_a).map(&:last).each do |section|
         compliance_policies.create(title: section)
       end
     end
-    # rubocop:enable Style/GuardClause
   end
 
   def add_as_employee
@@ -352,8 +349,6 @@ class Business < ApplicationRecord
     employee_array
   end
 
-  # rubocop:disable Metrics/CyclomaticComplexity
-  # rubocop:disable Metrics/PerceivedComplexity
   def gap_analysis_est
     basic = 450
     deluxe = 1000
@@ -411,8 +406,6 @@ class Business < ApplicationRecord
     end
     [basic, deluxe, premium]
   end
-  # rubocop:enable Metrics/CyclomaticComplexity
-  # rubocop:enable Metrics/PerceivedComplexity
 
   def generate_username
     src = business_name.split(' ').map(&:capitalize).join('')
@@ -420,10 +413,10 @@ class Business < ApplicationRecord
     while Business.find_by_sql(['SELECT * from businesses WHERE username = ?', generated]).count.positive?
       ext_num = generated.scan(/\d/).join('')
       generated = if !ext_num.empty?
-                    "#{src}#{ext_num.to_i + 1}"
-                  else
-                    "#{src}1"
-                  end
+        "#{src}#{ext_num.to_i + 1}"
+      else
+        "#{src}1"
+      end
     end
     generated
   end
@@ -523,4 +516,3 @@ class Business < ApplicationRecord
     end
   end
 end
-# rubocop:enable Metrics/ClassLength

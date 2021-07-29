@@ -42,6 +42,9 @@ class Specialist::Form < Specialist
     end
   end
 
+  # something strange here
+  # we have this method as `attr_accessor`
+  # rubocop:disable Lint/DuplicateMethods
   def public_profile
     @public_profile.nil? ? public? : @public_profile
   end
@@ -50,6 +53,7 @@ class Specialist::Form < Specialist
     @public_profile = ActiveRecord::Type::Boolean.new.type_cast_from_database(is_public)
     self.visibility = @public_profile ? Specialist.visibilities[:is_public] : Specialist.visibilities[:is_private]
   end
+  # rubocop:enable Lint/DuplicateMethods
 
   def delete_photo
     @delete_photo ||= '0'

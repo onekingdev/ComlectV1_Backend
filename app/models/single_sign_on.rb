@@ -59,6 +59,9 @@ class SingleSignOn
     end.join("\n")
   end
 
+  # something strange here
+  # we have these methods as `attr_accessor`
+  # rubocop:disable Lint/DuplicateMethods
   def sso_secret
     @sso_secret || self.class.sso_secret
   end
@@ -66,6 +69,7 @@ class SingleSignOn
   def sso_url
     @sso_url || self.class.sso_url
   end
+  # rubocop:enable Lint/DuplicateMethods
 
   def custom_fields
     @custom_fields ||= {}

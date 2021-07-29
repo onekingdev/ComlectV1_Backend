@@ -5,9 +5,9 @@ class Api::Settings::NotificationsController < ApiController
   before_action :require_someone!
 
   def index
-    settings = %i[email_notifications in_app_notifications email_updates].each_with_object({}) { |item, returning|
+    settings = %i[email_notifications in_app_notifications email_updates].each_with_object({}) do |item, returning|
       returning[item] = @current_someone.settings(item).value
-    }
+    end
     render json: settings.to_json
   end
 
