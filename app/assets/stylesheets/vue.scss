@@ -876,7 +876,16 @@ a.btn,
   line-height: 1.2;
   font-weight: bold;
   border-radius: 4px;
+  outline: none;
   transition: all 200ms ease-in;
+
+  &:hover,
+  &:active,
+  &.active,
+  &:focus {
+    outline: none !important;
+    box-shadow: none;
+  }
 }
 .btn.btn-primary,
 .btn.btn-dark {
