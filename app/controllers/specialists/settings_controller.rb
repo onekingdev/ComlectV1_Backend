@@ -11,6 +11,6 @@ class Specialists::SettingsController < ApplicationController
 
   def show
     # render html: content_tag('specialist-settings-page', '').html_safe, layout: 'vue_specialist'
-    render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_main_layout'
+    render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_business_layout'
   end
 end

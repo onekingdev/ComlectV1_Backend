@@ -10,7 +10,7 @@ class BusinessDashboardController < ApplicationController
   before_action :beginning_of_week
 
   def show
-    render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_main_layout'
+    render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_business_layout'
   end
 
   private

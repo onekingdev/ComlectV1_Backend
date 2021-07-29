@@ -145,10 +145,7 @@ export default {
       fetch('/api/business/reminders/' + this.taskId + occurenceParams, {
         method: 'DELETE',
         headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}
-      }).then(response => {
-        this.$emit('saved')
-        this.$router.push('/business')
-      })
+      }).then(response => this.$emit('saved'))
     },
     toggleDone(task) {
       const { taskId, oid } = splitReminderOccurenceId(task.id)
@@ -158,10 +155,7 @@ export default {
       fetch(`/api/business/reminders/${taskId}?done=${target_state}${oidParam}${src_id_params}`, {
         method: 'POST',
         headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}
-      }).then(response => {
-        this.$emit('saved')
-        this.$bvModal.hide(this.modalId)
-      })
+      }).then(response => this.$emit('saved'))
     },
     submit(saveOccurence) {
       this.errors = []

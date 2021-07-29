@@ -10,7 +10,7 @@ import settings from "./businesModules/settings"
 import tasks from "./businesModules/tasks"
 import projects from "./businesModules/projects"
 import risks from "./businesModules/risks";
-// import auth from "./commonModules/auth";
+import auth from "./commonModules/auth";
 import shared from "./commonModules/shared";
 
 Vue.use(Vuex);
@@ -56,7 +56,7 @@ const store = new Vuex.Store({
     //   //
     //   // }
     // },
-    // auth,
+    auth,
     shared,
     annual: {
       namespaced: true,

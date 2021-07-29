@@ -8,8 +8,6 @@ import Router from 'vue-router'
 // import ResetPassword from '@/auth/ResetPassword/Page'
 // import ChangePassword from '@/auth/ChangePassword/Page'
 
-import PageNotFound from '@/common/PageNotFound'
-
 // BUSINESS
 import Dashboard from '@/business/dashboard/Page'
 import Projects from '@/business/projects/Page'
@@ -43,7 +41,6 @@ import ProjectReviewS from '@/specialist/projects/MyProjectShowPage'
 import SettingsS from '@/specialist/settings/Page'
 import SettingsNotificationsS from '@/specialist/notifications/Page'
 import ProjectsMarketplaceS from '@/specialist/projects/IndexPage'
-import ProfileS from '@/specialist/profile/Page'
 
 Vue.use(Router)
 
@@ -60,8 +57,6 @@ export default new Router({
     // { path: '/users/sign_up', name: 'sign-up', component: signUp },
     // { path: '/users/password/new', name: 'password-new', component: ResetPassword },
     // { path: '/users/password/change', name: 'password-change', component: ChangePassword },
-
-    { path: "*", component: PageNotFound },
 
     // BUSINESS
     { path: '/business', name: 'dashboard', component: Dashboard },
@@ -99,8 +94,7 @@ export default new Router({
       ],
     },
     { path: '/business/settings/notification-center', name: 'settings-notification-center', component: SettingsNotifications },
-    { path: '/specialistmarketplace', name: 'specialists-marketplace', component: SpecialistsMarketplace },
-    { path: '/business/profile', name: 'profile', component: Profile },
+    { path: '/business/specialists', name: 'specialists-marketplace', component: SpecialistsMarketplace },
 
 
     // SPECIALISTS
@@ -120,7 +114,6 @@ export default new Router({
     },
     { path: '/specialist/settings/notification-center', name: 'settings-notification-center-specialist', component: SettingsNotificationsS },
     { path: '/specialist/projects-marketpalce', name: 'projects-marketpalce-specialist', component: ProjectsMarketplaceS },
-    { path: '/specialist/profile', name: 'profile-specialist', component: ProfileS },
   ],
   mode: 'history'
 })
