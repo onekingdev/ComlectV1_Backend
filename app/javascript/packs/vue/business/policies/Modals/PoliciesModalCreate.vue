@@ -81,7 +81,8 @@
               this.policy.name = ''
 
               setTimeout(() => {
-                window.location.href = `${window.location.origin}/business/compliance_policies/${response.id}`
+                // window.location.href = `${window.location.origin}/business/compliance_policies/${response.id}`
+                this.$router.push(`/business/compliance_policies/${response.id}`)
               }, 1000)
             }
           })

@@ -842,9 +842,10 @@ html {
   //margin-right: 2.5rem; // 40px
 }
 
-//.nav-tabs .nav-item a {
+.nav-tabs .nav-item a {
 //  margin-left: 2.5rem !important;
-//}
+  font-size: 1rem !important;
+}
 
 .nav-tabs .nav-item:first-child {
   margin-left: 2.5rem;

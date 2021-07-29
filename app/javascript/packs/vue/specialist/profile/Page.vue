@@ -8,9 +8,9 @@
               h3.m-y-0 Profile
             .card-body.white-card-body
               b-tabs(content-class="mt-0")
-                b-tab(title="My Profile")
+                b-tab(title="My Profile" active)
                   MyProfile
-                b-tab(title="Settings" active)
+                b-tab(title="Settings")
                   Settings
 </template>
 

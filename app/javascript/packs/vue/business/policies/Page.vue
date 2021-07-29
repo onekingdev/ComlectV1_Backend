@@ -8,7 +8,7 @@
           button.btn.btn-dark.float-end New policy
     .d-flex.flex-column.h-100
       b-tabs(content-class="mt-0")
-        b-tab(title="Compilance Manual" active)
+        b-tab(title="Compilance" active)
           .card-body.white-card-body.card-body_full-height
             PoliciesTable(:policies="filteredUnArchivedList", @searching="searching")
         b-tab(title="Archive")
