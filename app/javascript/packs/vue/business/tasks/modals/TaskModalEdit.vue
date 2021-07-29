@@ -6,26 +6,26 @@
     b-modal.fade(:id="modalId" title="Do Task A" size="xl" @shown="getData")
       b-row
         .col-lg-6.pr-2
-          b-row.m-b-2
+          b-row.m-b-10
             .col-12
               label.form-label Task Name
               input.form-control(v-model="task.body" type="text" placeholder="Enter the name of your task" ref="input")
               Errors(:errors="errors.body")
-          b-row.m-b-2
+          b-row.m-b-10
             .col-12
               label.form-label Link To
               //input.form-control(v-model="task.linkTo" type="text" placeholder="Link to")
-              ComboBox(v-model="task.link_to" :options="linkToOptions" placeholder="Select projects, annual reviews, or policies to link the task to")
+              ComboBox(v-model="task.link_to" :options="linkToOptions" placeholder="Select projects, internal reviews, or policies to link the task to")
               small(class="form-text text-muted") Optional
               Errors(:errors="errors.link_to")
           b-row
-            .col-12.m-b-2
+            .col-12.m-b-10
               label.form-label Assegnee
               //b-form-select(v-model="task.selected" :options="task.options")
               ComboBox(v-model="task.assignee" :options="assigneeOptions" placeholder="Select an assignee")
               small(class="form-text text-muted") Optional
               Errors(:errors="errors.assignee")
-          b-row.m-b-2
+          b-row.mb-0
             .col-6
               label.form-label Start Date
               DatePicker(v-model="task.remind_at" :options="datepickerOptions")
@@ -34,7 +34,7 @@
               label.form-label Due Date
               DatePicker(v-model="task.end_date" :options="datepickerOptions")
               Errors(:errors="errors.end_date")
-          b-row.m-b-2(no-gutters)
+          b-row.m-b-10(no-gutters)
             .col-sm
               label.form-label Repeats
               Dropdown(v-model="task.repeats" :options="repeatsOptions")
@@ -75,7 +75,7 @@
               input.form-control(v-model="task.repeat_on" v-if="task.on_type === 'Day'" type="number" min="1" max="31" step="1")
               Dropdown(v-model="task.repeat_on" v-else :options="daysOfWeek")
           Errors(:errors="errors.repeats || errors.repeat_every || errors.repeat_on || errors.on_type")
-          b-row.m-b-2
+          b-row.m-b-10
             .col
               label.form-label Description
               textarea.form-control(v-model="task.description" rows="6")
@@ -115,12 +115,12 @@
       template(v-if="task.done_at" slot="modal-footer")
         span.mr-2
           b-icon.m-r-1.pointer(icon="check-circle-fill" class="done_task")
-          b Complited on {{ task.done_at | dateToHuman }}
+          b Completed on {{ task.done_at | dateToHuman }}
         button.btn.btn-default(@click="toggleDone(task)") Reopen
       template(v-if="!task.done_at" slot="modal-footer")
         button.btn.btn-outline-danger.mr-auto(@click="deleteTask(task)") Delete Task
         //button.btn.ml-auto(@click="$bvModal.hide(modalId)") Cancel
-        button.btn.btn-default(@click="toggleDone(task)") Mark as Complite
+        button.btn.btn-default(@click="toggleDone(task)") Mark as Complete
         button.btn.btn-dark(@click="submit") Save
 </template>
 
@@ -410,7 +410,7 @@
       repeatsOptions: () => REPEAT_OPTIONS.map(value => ({ value, text: REPEAT_LABELS[value] })),
       linkToOptions() {
         return [{...toOption('Projects'), children: this.projects.map(record => record.title).map(toOption)},
-          {...toOption('Annual Reviews'), children: this.reviews.map(record => record.name).map(toOption)},
+          {...toOption('Internal Reviews'), children: this.reviews.map(record => record.name).map(toOption)},
           {...toOption('Policies'), children: this.policies.map(record => record.name).map(toOption) }]
       },
       assigneeOptions() {

@@ -17,7 +17,7 @@
         //  b-dropdown-item Monhly
         //  b-dropdown-item Weekly
         //  b-dropdown-item Daily
-        a.btn.btn-default.font-weight-bold(:href="pdfUrl" target="_blank") Download
+        a.btn.btn-secondary(:href="pdfUrl" target="_blank") Download
         //b-dropdown(size="sm" variant="none" class="m-0 p-0" right)
         //  template(#button-content)
         //    b-icon(icon="three-dots")

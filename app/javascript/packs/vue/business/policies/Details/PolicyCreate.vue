@@ -10,7 +10,6 @@
               .col-12
                 .table
                   nested-draggable(v-model='policiesComputed', :policiesList="policiesListNested" :shortTable="true")
-            <!--rawdisplayer(:value='policiesComputed' title='List')-->
         .col(v-if="policy")
           .row
             .col-md-12.px-0
@@ -26,7 +25,7 @@
                     button.btn.btn-default.mr-3(@click="download") Download
                     PoliciesModalPublish(@publishConfirmed="publishPolicy")
                       button.btn.btn-dark.mr-3 Publish
-                    <!--PoliciesModalDelete(:policyId="policy.id", @deleteConfirmed="deletePolicy(policy.id)")-->
+                    //PoliciesModalDelete(:policyId="policy.id", @deleteConfirmed="deletePolicy(policy.id)")
                     button.btn.btn__close.mr-3(@click="closeAndExit")
                       b-icon(icon='x')
           .row
@@ -79,12 +78,7 @@
                       .policy-details
                         h3.policy-details__title Tasks
                         .policy-details__body Tasks
-                    <!--b-tab(title="Activity")-->
-                      <!--.policy-details-->
-                        <!--h3.policy-details__title Activity-->
-                        <!--.policy-details__body Activity-->
-            <!--.col-12-->
-              <!--pre {{ policy }}-->
+
 </template>
 
 <script>

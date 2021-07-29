@@ -47,7 +47,7 @@
         .col-sm.m-l-1(v-if="task.repeats === repeatsValues.REPEAT_MONTHLY")
           label.form-label Every
           input.form-control(type="number" min="1" max="1000" step="1" v-model="task.repeat_every")
-          .form-text Months(s)
+          .form-text Month(s)
         .col-sm.m-l-1(v-if="task.repeats === repeatsValues.REPEAT_MONTHLY")
           label.form-label On
           Dropdown(v-model="task.on_type" :options="['Day', 'First', 'Second', 'Third', 'Fourth']")
@@ -79,7 +79,7 @@
               b-dropdown-item(@click="deleteTask(task, true)") Delete Occurence
               b-dropdown-item(@click="deleteTask(task)") Delete Series
           div
-            button.btn(@click="$bvModal.hide(modalId)") Cancel
+            button.btn.link.m-r-1(@click="$bvModal.hide(modalId)") Cancel
             button.btn.btn-default.m-r-1(v-if="taskId && !task.done_at" @click="toggleDone(task)") Mark as Complete
             button.btn.btn-default.m-r-1(v-if="taskId && task.done_at" @click="toggleDone(task)") Mark as Incomplete
             button.btn.btn-dark(v-if="!taskId" @click="submit()") Create
@@ -301,7 +301,7 @@
       // },
       linkToOptions() {
         return [{...toOption(1, 'Projects'), children: this.projects.map(record => ({ id: record.id, label: record.title }))},
-                {...toOption(2, 'Annual Reviews'), children: this.reviews.map(record => ({ id: record.id, label: record.name }))},
+                {...toOption(2, 'Internal Reviews'), children: this.reviews.map(record => ({ id: record.id, label: record.name }))},
                 {...toOption(3, 'Policies'), children: this.policies.map(record => ({ id: record.id, label: record.name }))},
               ]
       },
