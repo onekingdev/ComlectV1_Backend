@@ -2,24 +2,23 @@
   tr
     td
       .name
-        b-icon.m-r-1.pointer(font-scale="1" :icon="item.done_at ? 'check-circle-fill' : 'check-circle'" @click="toggleDone(item)" v-bind:class="{ done_task: item.done_at }")
+        b-icon.pointer.m-r-1(font-scale="1" :icon="item.done_at ? 'check-circle-fill' : 'check-circle'" @click="toggleDone(item)" v-bind:class="{ done_task: item.done_at }")
         //ion-icon.m-r-1.pointer(@click="toggleDone(item)" v-bind:class="{ done_task: item.done_at }" name='checkmark-circle-outline')
         TaskModalEdit.link(:taskProp="item" @saved="$emit('saved')")
           span(v-if="!item.done_at" ) {{ item.body }}
           s(v-else) {{ item.body }}
     td(v-if="!shortTable")
-      .d-flex.align-items-center.link
-        ion-icon.m-r-1(name="list-circle-outline")
-        | {{ item.linkable_type ? item.linkable_type : 'not selected' }}
+      .d-flex.align-items-center
+        ion-icon.mr-1(v-if="linkedTo(item)" :name="linkedTo(item)" :class="linkedToClass(item)")
+        .link {{ item.linkable_type ? item.linkable_type : '---' }}
     td(v-if="!shortTable") {{ item.assignee }}
-    td.text-right(v-if="!shortTable" :class="{ overdue: isOverdue(item) }")
-      b-icon.mr-2(v-if="isOverdue(item)" icon="exclamation-triangle-fill" variant="warning")
+    td.text-right(v-if="!shortTable")
       | {{ item.remind_at | dateToHuman}}
     td.text-right(:class="{ overdue: isOverdue(item) }")
       b-icon.mr-2(v-if="isOverdue(item)" icon="exclamation-triangle-fill" variant="warning")
       | {{ item.end_date | dateToHuman }}
-    td(v-if="!shortTable").text-right 0
-    td(v-if="!shortTable").text-right 0
+    td.d-none(v-if="!shortTable").text-right 0
+    td.d-none(v-if="!shortTable").text-right 0
     td(v-if="!shortTable").text-right
       b-dropdown(size="xs" variant="none" class="m-0 p-0" right)
         template(#button-content)
@@ -35,7 +34,7 @@
 
 <script>
 import { DateTime } from 'luxon'
-import { toEvent, isOverdue, splitReminderOccurenceId } from '@/common/TaskHelper'
+import { toEvent, isOverdue, splitReminderOccurenceId, linkedTo, linkedToClass } from '@/common/TaskHelper'
 import TaskFormModal from '@/common/TaskFormModal'
 import TaskModalEdit from '../modals/TaskModalEdit'
 import TaskModalDelete from '../modals/TaskModalDelete'
@@ -67,6 +66,8 @@ export default {
   },
   methods: {
     isOverdue,
+    linkedTo,
+    linkedToClass,
     toggleDone(task) {
       const { taskId, oid } = splitReminderOccurenceId(task.id)
       const oidParam = oid !== null ? `&oid=${oid}` : ''
