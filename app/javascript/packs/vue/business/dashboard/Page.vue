@@ -12,7 +12,7 @@
         //      b-icon.ml-2(icon="chevron-down")
         //    b-dropdown-item Other view
         //  a.btn.btn-default.font-weight-bold Customize
-      div.p-x-40
+      div.p-x-40.p-b-40
         .row
           .col
             .dashboard

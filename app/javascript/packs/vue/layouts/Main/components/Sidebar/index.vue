@@ -72,7 +72,8 @@
     div(class="dropdown-divider")
     button.sidebar-menu__btn(@click="toggleClosedMenu = !toggleClosedMenu")
       span Collapse menu
-      ion-icon(:name="!toggleClosedMenu ? 'arrow-back-circle-outline' : 'arrow-forward-circle-outline'")
+      div( :class="!toggleClosedMenu ? 'flip-horizontal' : ''")
+        ion-icon(name="log-in-outline")
 </template>
 
 <script>

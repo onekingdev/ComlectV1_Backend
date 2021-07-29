@@ -40,4 +40,12 @@ const badgeClass = project => project.status == "pending" ? 'badge-secondary'
                             : project.status == "published" ? 'badge-success'
                             : isOverdue(project) ? "badge-warning" : ''
 
-export { isProject, isTask, isOverdue, isComplete, toEvent, cssClass, splitReminderOccurenceId, iconArray, badgeClass }
+const linkedTo = linkableType => linkableType.linkable_type === 'CompliancePolicy' ? 'document-text'
+                               : linkableType.linkable_type === "AnnualReport" ? "reader"
+                               : linkableType.linkable_type === "LocalProject" ? "list-circle" : ''
+
+const linkedToClass = linkableType => linkableType.linkable_type === 'CompliancePolicy' ? 'black'
+                                    : linkableType.linkable_type === "AnnualReport" ? "yellow"
+                                    : linkableType.linkable_type === "LocalProject" ? "blue" : ''
+
+export { isProject, isTask, isOverdue, isComplete, toEvent, cssClass, splitReminderOccurenceId, iconArray, badgeClass, linkedTo, linkedToClass }

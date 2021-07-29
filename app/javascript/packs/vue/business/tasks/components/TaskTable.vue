@@ -17,10 +17,10 @@
         th(@click="sortSelect('created_at', 'date')").text-right
           | Due date
           b-icon.ml-2(icon='chevron-expand')
-        th(v-if="!shortTable" @click="sortSelect('files', 'number')").text-right
+        th.d-none(v-if="!shortTable" @click="sortSelect('files', 'number')").text-right
           | Files
           b-icon.ml-2(icon='chevron-expand')
-        th(v-if="!shortTable" @click="sortSelect('comments', 'number')").text-right
+        th.d-none(v-if="!shortTable" @click="sortSelect('comments', 'number')").text-right
           | Comments
           b-icon.ml-2(icon='chevron-expand')
         th.text-right(width="35px")
