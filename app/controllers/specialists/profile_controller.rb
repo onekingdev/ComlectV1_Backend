@@ -8,11 +8,7 @@ class Specialists::ProfileController < ApplicationController
   #   @user = current_user
   # end
 
-  #def show
-  #  render html: content_tag('specialist-profile-page', '').html_safe, layout: 'vue_specialist'
-  #end
-
   def show
-    render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_main_layout'
+    render html: content_tag('specialist-profile-page', '').html_safe, layout: 'vue_specialist'
   end
 end

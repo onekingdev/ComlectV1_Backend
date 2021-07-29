@@ -1,27 +1,25 @@
 <template lang="pug">
-  div.profile
+  div
     .container-fluid
       .row
         .col-md-9.mx-auto.mt-3
           .card
             .card-header
-              h3.m-y-0 Profile
+              h2 Profile
             .card-body.white-card-body
-              b-tabs(content-class="mt-0")
-                b-tab(title="My Profile" active)
-                  MyProfile
-                b-tab(title="Settings")
-                  Settings
+              MyProfile
+            .card-body.white-card-body
+              CompanyDetails
 </template>
 
 <script>
   import MyProfile from "./components/MyProfile";
-  import Settings from "./components/Settings";
+  import CompanyDetails from "./components/CompanyDetails";
 
   export default {
     components: {
       MyProfile,
-      Settings,
+      CompanyDetails,
     },
   }
 </script>
@@ -57,18 +55,5 @@
   .preview img {
     width: 100%;
     object-fit: contain;
-  }
-
-  .preview-switcher {
-    display: flex;
-  }
-
-  .profile .nav-tabs {
-    background-color: white;
-    margin-bottom: 2.5rem;
-  }
-
-  .profile .nav-tabs .nav-item:not(:last-child) {
-    margin-left: 0;
   }
 </style>
