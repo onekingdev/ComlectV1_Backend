@@ -1269,8 +1269,10 @@ table.table thead tr th {
 
 .task_table {
 
-  td {
-    padding: .3rem 0.625rem;
+  &.short-table {
+    td {
+      padding: .3rem 0.625rem;
+    }
   }
 
   .name {
