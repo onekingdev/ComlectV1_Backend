@@ -19,12 +19,12 @@
           li.nav-item.topbar-menu__item.d-none
             a.topbar-menu__link(aria-current='page' href='#') Community
           li.nav-item.topbar-menu__item.d-sm-none(v-if="userType === 'business'" @click="openLink('default')")
-            router-link.topbar-menu__link(:to='`/${userType}/specialists`' active-class="active") Find an Expert
+            router-link.topbar-menu__link(:to='`/specialistmarketplace`' active-class="active") Find an Expert
           li.nav-item.topbar-menu__item.d-sm-none(v-if="userType === 'specialist'" @click="openLink('default')")
             router-link.topbar-menu__link(:to='`/${userType}/projects-marketpalce`' active-class="active") Browse Projects
     // Right aligned nav items
     b-navbar-nav.flex-row.align-items-center.ml-auto
-      router-link.btn.btn-warning.btn-topbar.btn-topbar_find(v-if="userType === 'business'" :to='`/${userType}/specialists`') Find an Expert
+      router-link.btn.btn-warning.btn-topbar.btn-topbar_find(v-if="userType === 'business'" :to='`/specialistmarketplace`') Find an Expert
       router-link.btn.btn-warning.btn-topbar.btn-topbar_find(v-if="userType === 'specialist'" :to='`/${userType}/projects-marketpalce`') Browse Projects
       router-link.btn.btn-topbar.btn-topbar_notify(:to='`/${userType}/settings/notification-center`')
         ion-icon(name='notifications-outline')
@@ -35,7 +35,7 @@
           span.topbar-right-dropdown__name {{ account.first_name }} {{ account.last_name }}
           ion-icon.topbar-right-dropdown__icon(name='chevron-down-outline')
         li(@click="openLink('documents')")
-          router-link.dropdown-item(:to='`/${userType}/settings`' active-class="active") Settings
+          router-link.dropdown-item(:to='`/${userType}/profile`' active-class="active") Profile
         b-dropdown-item(@click="signOut") Sign Out
       //a.btn.btn-topbar.btn-topbar_help.d-none(href="#")
       //  b-icon.mr-2( icon="question-circle-fill" aria-label="Help")
