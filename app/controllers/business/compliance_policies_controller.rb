@@ -16,7 +16,7 @@ class Business::CompliancePoliciesController < ApplicationController
   end
 
   def entire
-    render html: content_tag('business-policies-entire-page', '').html_safe, layout: 'vue_business'
+    render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_main_layout'
   end
 
   private

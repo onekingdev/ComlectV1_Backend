@@ -5,10 +5,10 @@
       .page-header__actions
         button.btn.btn.btn-default.mr-3 Download
         PoliciesModalCreate(@savedConfirmed="updateList")
-          button.btn.btn-dark.float-end New Policy
+          button.btn.btn-dark.float-end New policy
     .d-flex.flex-column.h-100
       b-tabs(content-class="mt-0")
-        b-tab(title="Compliance" active)
+        b-tab(title="Compilance Manual" active)
           .card-body.white-card-body.card-body_full-height
             PoliciesTable(:policies="filteredUnArchivedList", @searching="searching")
         b-tab(title="Archive")
