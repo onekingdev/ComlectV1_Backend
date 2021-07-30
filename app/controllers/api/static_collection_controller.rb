@@ -15,7 +15,6 @@ class Api::StaticCollectionController < ApiController
                    "states": State.fetch_all_usa,
                    "countries": ISO3166::Country.all.collect(&:name),
                    "timezones": timezones_array,
-                   "STRIPE_PUBLISHABLE_KEY": ENV.fetch('STRIPE_PUBLISHABLE_KEY'),
-                   "PLAID_PUBLIC_KEY": ENV['PLAID_PUBLIC_KEY'] }.to_json
+                   "STRIPE_PUBLISHABLE_KEY": ENV.fetch('STRIPE_PUBLISHABLE_KEY') }.to_json
   end
 end
