@@ -1,5 +1,5 @@
 <template lang="pug">
-  Get(:project="`/api/business/projects/${projectId}`"): template(v-slot="{project}")
+  div
     Breadcrumbs(:items="['Projects', project.title, 'My Timesheet']")
     Get(:timesheets="url('URL_API_PROJECT_TIMESHEETS', project.id)" :etag="etag" :callback="enrichTimesheets"): template(v-slot="{timesheets}"): table.table
       thead
@@ -56,8 +56,12 @@ const today = () => DateTime.local().toISODate()
 export default {
   mixins: [EtaggerMixin()],
   props: {
-    projectId: {
-      type: Number,
+    project: {
+      type: Object,
+      required: true
+    },
+    token: {
+      type: String,
       required: true
     }
   },
@@ -69,7 +73,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['url', 'accessToken']),
+    ...mapGetters(['url']),
     enrichTimesheets() {
       return timesheets => timesheets.map(t => ({
         ...t,
@@ -82,7 +86,7 @@ export default {
       return timesheetId => ({
         action: this.url('URL_API_PROJECT_TIMESHEETS', this.project.id) + '/' + timesheetId,
         method: 'PUT',
-        headers: { Authorization: this.accessToken }
+        headers: { Authorization: this.token }
       })
     },
     totalDue() {

@@ -56,7 +56,9 @@ class Business::RemindersController < ApplicationController
   def index
     respond_to do |format|
       format.html do
-        render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_business_layout'
+        #       render html: content_tag('reminders-page', ''), layout: 'vue_business'
+        # render html: content_tag('business-tasks-page', ''), layout: 'vue_business'
+        render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_main_layout'
       end
       format.pdf do
         render pdf: 'reminders.pdf',

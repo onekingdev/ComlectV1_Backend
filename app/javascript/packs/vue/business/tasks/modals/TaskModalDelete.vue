@@ -7,7 +7,7 @@
       .row
         .col-md-1.text-center.px-0
           //b-icon.mt-2.ml-3(icon="exclamation-circle-fill" scale="2" variant="danger")
-          img(src='@/assets/error.svg' width="30" height="30")
+          img(src='@/assets/error_20.svg' width="25" height="25")
         .col
           p Removing this task will delete any progress and tasks associated with the file.
             br
@@ -17,7 +17,7 @@
 
       template(slot="modal-footer")
         button.btn.link.mr-2(@click="$bvModal.hide(modalId)") Cancel
-        button.btn.btn-primary(@click="submit") Confirm
+        button.btn.btn-dark(@click="submit") Confirm
 </template>
 
 <script>

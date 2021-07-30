@@ -4,15 +4,18 @@
       slot
 
     b-modal.fade(:id="modalId" title="Delete risk")
-      .d-flex
-        b-icon.mr-3(icon="x-circle" scale="2" variant="danger")
-        p You are about to delete the risk and romove any connections to its related controls.
-      p
-        b Do you want to continue?
+      .row
+        .col-md-1.text-center.px-0
+          //b-icon.mt-2.ml-3(icon="exclamation-circle-fill" scale="2" variant="danger")
+          img(src='@/assets/error_20.svg' width="25" height="25")
+        .col
+          p You are about to delete the risk and romove any connections to its related controls.
+            br
+            b Do you want to continue?
       Errors(:errors="errors.title")
 
       template(slot="modal-footer")
-        button.btn(@click="$bvModal.hide(modalId)") Cancel
+        button.btn.link.mr-2(@click="$bvModal.hide(modalId)") Cancel
         button.btn.btn-dark(@click="submit") Confirm
 </template>
 
