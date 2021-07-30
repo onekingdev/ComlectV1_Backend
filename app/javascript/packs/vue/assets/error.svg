@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="121px" height="120px" viewBox="0 0 121 120" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon/20/red/error</title>
+    <g id="Page-States" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Error-State" transform="translate(-665.000000, -336.000000)">
+            <g id="icon/20/red/error" transform="translate(665.127613, 336.000000)">
+                <circle id="Oval" fill="#B6C0CA" cx="60" cy="60" r="60"></circle>
+                <rect id="Rectangle" fill="#FFFFFF" x="18" y="54" width="84" height="12"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

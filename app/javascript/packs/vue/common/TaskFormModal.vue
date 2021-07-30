@@ -7,7 +7,7 @@
       InputText(v-model="task.body" :errors="errors.body" placeholder="Enter the name of your task") Task Name
 
       label.m-t-1.form-label Link to
-      ComboBox(V-model="task.link_to" :options="linkToOptions" placeholder="Select projects, annual reviews, or policies to link the task to")
+      ComboBox(V-model="task.link_to" :options="linkToOptions" placeholder="Select projects, internal reviews, or policies to link the task to")
       .form-text.text-muted Optional
       Errors(:errors="errors.link_to")
 
@@ -47,7 +47,7 @@
         .col-sm.m-l-1(v-if="task.repeats === repeatsValues.REPEAT_MONTHLY")
           label.form-label Every
           input.form-control(type="number" min="1" max="1000" step="1" v-model="task.repeat_every")
-          .form-text Months(s)
+          .form-text Month(s)
         .col-sm.m-l-1(v-if="task.repeats === repeatsValues.REPEAT_MONTHLY")
           label.form-label On
           Dropdown(v-model="task.on_type" :options="['Day', 'First', 'Second', 'Third', 'Fourth']")
@@ -79,7 +79,7 @@
               b-dropdown-item(@click="deleteTask(task, true)") Delete Occurence
               b-dropdown-item(@click="deleteTask(task)") Delete Series
           div
-            button.btn(@click="$bvModal.hide(modalId)") Cancel
+            button.btn.link.m-r-1(@click="$bvModal.hide(modalId)") Cancel
             button.btn.btn-default.m-r-1(v-if="taskId && !task.done_at" @click="toggleDone(task)") Mark as Complete
             button.btn.btn-default.m-r-1(v-if="taskId && task.done_at" @click="toggleDone(task)") Mark as Incomplete
             button.btn.btn-dark(v-if="!taskId" @click="submit()") Create
@@ -213,7 +213,7 @@ export default {
     repeatsOptions: () => REPEAT_OPTIONS.map(value => ({ value, text: REPEAT_LABELS[value] })),
     linkToOptions() {
       return [{...toOption('Projects'), children: ['Some project', 'Another', 'One'].map(toOption)},
-        {...toOption('Annual Reviews'), children: ['Annual Review 2018', 'Annual Review 1337', 'Some Review'].map(toOption)},
+        {...toOption('Internal Reviews'), children: ['Internal Review 2018', 'Internal Review 1337', 'Some Review'].map(toOption)},
         {...toOption('Policies'), children: ['Pol', 'Icy', 'Policy 3'].map(toOption)}]
     },
     assigneeOptions() {
