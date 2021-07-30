@@ -2,13 +2,14 @@ import Vue from 'vue'
 import Router from 'vue-router'
 // import AuthGuard from './auth-guard'
 
+// NOT FOUND
+import PageNotFound from '@/common/PageNotFound'
+
 // AUTH
 // import signIn from '@/auth/SingIn/Page'
 // import signUp from '@/auth/SignUp/Page'
 // import ResetPassword from '@/auth/ResetPassword/Page'
 // import ChangePassword from '@/auth/ChangePassword/Page'
-
-import PageNotFound from '@/common/PageNotFound'
 
 // BUSINESS
 import Dashboard from '@/business/dashboard/Page'
