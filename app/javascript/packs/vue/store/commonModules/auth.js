@@ -11,7 +11,6 @@ export default {
     currentUser: currentUserLocalStorage ? JSON.parse(currentUserLocalStorage) : {},
     accessToken: accessTokenLocalStorage ? JSON.parse(accessTokenLocalStorage) : '',
     loggedIn: false,
-    staticCollection: {},
   },
   mutations: {
     UPDATE_USER(state, payload) {
@@ -22,10 +21,7 @@ export default {
     },
     UPDATE_LOGIN_STATUS(state, payload) {
       state.loggedIn = payload
-    },
-    SET_STATIC_COLLECTION (state, payload) {
-      state.staticCollection = payload
-    },
+    }
   },
   actions: {
     async signIn({commit}, payload) {
@@ -424,15 +420,13 @@ export default {
         // WAIT LONGER
         axios.defaults.timeout = 10000;
 
-        const { userType, stripeToken, plaid } = { ...payload }
+        const { userType, stripeToken } = { ...payload }
 
         const endPoint = userType === 'business' ? 'business/payment_settings' : 'specialist/payment_settings/create_card'
         // const response = await axios.post(`/${endPoint}/payment_settings?stripeToken=${payload.stripeToken}`)
-        let response
-        if (stripeToken) response = await axios.post(`/${endPoint}`, null, { params: {
+        const response = await axios.post(`/${endPoint}`, null, { params: {
             stripeToken: stripeToken,
           }})
-        if (plaid) response = await axios.post(`/${endPoint}`, plaid)
         // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
         return response.data
 
@@ -510,21 +504,6 @@ export default {
       } catch (error) {
         console.error(error);
         throw error
-      }
-    },
-    async getStaticCollection({commit}) {
-      try {
-        commit("clearError");
-        commit("setLoading", true);
-
-        const response = await axios.get(`/static_collection`)
-        return response.data
-
-      } catch (error) {
-        console.error(error);
-        return error
-      } finally {
-        commit("setLoading", false)
       }
     },
   },
