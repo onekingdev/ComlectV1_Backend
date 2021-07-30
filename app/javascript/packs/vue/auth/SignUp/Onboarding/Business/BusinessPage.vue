@@ -58,13 +58,13 @@
                       )
                         multiselect#selectB-4(
                         v-model="formStep2.business.industries"
-                        :options="industryOptions"
+                        :options="staticCollection.industries"
                         :multiple="true"
                         :show-labels="false"
                         track-by="name",
                         label="name",
                         placeholder="Select Industry",
-                        @input="onChange",
+                        @input="onChangeIndustries",
                         required)
                         .invalid-feedback.d-block(v-if="errors.industries") {{ errors.industries[0] }}
                         // label.typo__label.form__label(v-if="errors.industries") {{ errors.industries[0] }}
@@ -91,7 +91,7 @@
                       )
                         multiselect#selectB-6(
                         v-model="formStep2.business.jurisdictions"
-                        :options="jurisdictionOptions"
+                        :options="staticCollection.jurisdictions"
                         :multiple="true"
                         :show-labels="false"
                         track-by="name",
@@ -106,7 +106,7 @@
                       )
                         multiselect#selectB-7(
                         v-model="formStep2.business.time_zone"
-                        :options="timeZoneOptions"
+                        :options="staticCollection.timezones"
                         :multiple="false"
                         :show-labels="false"
                         track-by="name",
@@ -146,7 +146,7 @@
                       )
                         multiselect#selectB-13(
                         v-model="formStep2.business.state"
-                        :options="stateOptions"
+                        :options="staticCollection.states"
                         :show-labels="false"
                         placeholder="Select state",
                         @input="onChangeState",
@@ -203,7 +203,8 @@
   })
 
   export default {
-    props: ['industryIds', 'jurisdictionIds', 'subIndustryIds', 'states', 'userInfo', 'timezones'],
+    // props: ['industryIds', 'jurisdictionIds', 'subIndustryIds', 'states', 'userInfo', 'timezones'],
+    props: ['userInfo'],
     components: {
       Steps,
       Notifications,
@@ -216,25 +217,26 @@
       SelectPlanPaymentAndSummary,
     },
     created() {
-      if(this.timezones) {
-        for (const value of this.timezones) {
-          const [ zone, city ] = value
-          this.timeZoneOptions.push({
-            value: city,
-            name: zone
-          })
-        }
-      }
-      if(this.industryIds) this.industryOptions = this.industryIds;
-      if(this.jurisdictionIds) this.jurisdictionOptions = this.jurisdictionIds;
-      if(this.states) this.stateOptions = this.states;
+      console.log('userInfo', this.userInfo)
+      // if(this.timezones) {
+      //   for (const value of this.timezones) {
+      //     const [ zone, city ] = value
+      //     this.timeZoneOptions.push({
+      //       value: city,
+      //       name: zone
+      //     })
+      //   }
+      // }
+      // if(this.industryIds) this.industryOptions = this.industryIds;
+      // if(this.jurisdictionIds) this.jurisdictionOptions = this.jurisdictionIds;
+      // if(this.states) this.stateOptions = this.states;
 
       const accountInfo = localStorage.getItem('app.currentUser');
       const accountInfoParsed = JSON.parse(accountInfo);
       if(accountInfo) {
         if(accountInfo.crd_number) this.formStep1.crd_number = accountInfo.crd_number
         this.formStep2.business = Object.assign({}, this.formStep2.business, { ...accountInfoParsed })
-        this.onChange(accountInfoParsed.industries)
+        this.onChangeIndustries(accountInfoParsed.industries)
 
         this.formStep2.business.sub_industries = accountInfoParsed.sub_industries ? accountInfoParsed.sub_industries.map((subInd, idx) => {
           const subIndfromOpt = this.subIndustryOptions.find(opt => {
@@ -274,11 +276,11 @@
           ],
         },
         formStep2: initialAccountInfo(),
-        industryOptions: [],
+        // industryOptions: [],
         subIndustryOptions: [],
-        jurisdictionOptions: [],
-        stateOptions: [],
-        timeZoneOptions: [],
+        // jurisdictionOptions: [],
+        // stateOptions: [],
+        // timeZoneOptions: [],
 
         notify: {
           show: 'show',
@@ -432,14 +434,14 @@
       closeSidebar() {
         this.isSidebarOpen = false
       },
-      onChange (industries) {
+      onChangeIndustries (industries) {
         if(industries) {
           delete this.errors.industries
           this.subIndustryOptions = []
           const results = industries.map(industry => industry.id)
 
-          if(this.subIndustryIds) {
-            for (const [key, value] of Object.entries(this.subIndustryIds)) {
+          if(this.staticCollection.sub_industries_business) {
+            for (const [key, value] of Object.entries(this.staticCollection.sub_industries_business)) {
               for (const i of results) {
                 if (i === +key.split('_')[0]) {
                   this.subIndustryOptions.push({
@@ -488,6 +490,9 @@
       // loading() {
       //   return this.$store.getters.loading;
       // },
+      staticCollection() {
+        return this.$store.getters.staticCollection;
+      },
       currentUser() {
         return this.$store.getters.getUser
       },
@@ -495,14 +500,13 @@
         return this.$store.getters.overlay;
       }
     },
-    async mounted () {
-      try {
-        await this.$store.dispatch('getStaticCollection')
-          .then((response) => console.log(response))
-          .catch((error) => console.error(error))
-      } catch (error) {
-        console.error(error)
-      }
+    mounted () {
+      const accountInfo = localStorage.getItem('app.currentUser');
+      const accountInfoParsed = JSON.parse(accountInfo);
+
+      this.$store.dispatch('getStaticCollection')
+        .then(response => this.onChangeIndustries(accountInfoParsed.industries))
+        .catch(error => console.error(error))
     }
   }
 </script>

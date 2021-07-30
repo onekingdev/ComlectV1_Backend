@@ -24,7 +24,7 @@
                       )
                         multiselect#selectS-1(
                         v-model="formStep1.jurisdiction"
-                        :options="formStep1.jurisdictionOptions"
+                        :options="staticCollection.jurisdictions"
                         :multiple="true"
                         :show-labels="false"
                         track-by="name",
@@ -40,7 +40,7 @@
                       )
                         multiselect#selectB-7(
                         v-model="formStep1.time_zone"
-                        :options="formStep1.timeZoneOptions"
+                        :options="staticCollection.timezones"
                         :multiple="false"
                         :show-labels="false"
                         track-by="name",
@@ -60,13 +60,13 @@
                       )
                         multiselect#selectS-4(
                         v-model="formStep1.industry"
-                        :options="formStep1.industryOptions"
+                        :options="staticCollection.industries"
                         :multiple="true"
                         :show-labels="false"
                         track-by="name",
                         label="name",
                         placeholder="Select Industry",
-                        @input="onChange",
+                        @input="onChangeIndustries",
                         required)
                         .invalid-feedback.d-block(v-if="errors.industry") {{ errors.industry }}
                 .row
@@ -208,7 +208,8 @@
   import Overlay from '../Overlay'
 
   export default {
-    props: ['industryIds', 'jurisdictionIds', 'subIndustryIds', 'states', 'userInfo', 'timezones'],
+    // props: ['industryIds', 'jurisdictionIds', 'subIndustryIds', 'states', 'userInfo', 'timezones'],
+    props: ['userInfo'],
     components: {
       Steps,
       // Loading,
@@ -219,24 +220,24 @@
       Overlay
     },
     created() {
-      if(this.timezones) {
-        for (const value of this.timezones) {
-          const [ zone, city ] = value
-          this.formStep1.timeZoneOptions.push({
-            value: city,
-            name: zone
-          })
-        }
-      }
-      if(this.industryIds) this.formStep1.industryOptions = this.industryIds;
-      if(this.jurisdictionIds) this.formStep1.jurisdictionOptions = this.jurisdictionIds;
-      if(this.states) this.formStep1.stateOptions = this.states;
+      // if(this.timezones) {
+      //   for (const value of this.timezones) {
+      //     const [ zone, city ] = value
+      //     this.formStep1.timeZoneOptions.push({
+      //       value: city,
+      //       name: zone
+      //     })
+      //   }
+      // }
+      // if(this.industryIds) this.formStep1.industryOptions = this.industryIds;
+      // if(this.jurisdictionIds) this.formStep1.jurisdictionOptions = this.jurisdictionIds;
+      // if(this.states) this.formStep1.stateOptions = this.states;
 
       const accountInfo = localStorage.getItem('app.currentUser');
       const accountInfoParsed = JSON.parse(accountInfo);
       if(accountInfo) {
         this.formStep1.industry = accountInfoParsed.industries || []
-        this.onChange(accountInfoParsed.industries)
+        this.onChangeIndustries(accountInfoParsed.industries)
         // this.formStep1.subIndustry = accountInfoParsed.sub_industries ? accountInfoParsed.sub_industries.map((subInd, idx) => ({ name: subInd, value: idx })) : []
         this.formStep1.subIndustry = accountInfoParsed.sub_industries ? accountInfoParsed.sub_industries.map((subInd, idx) => {
           const subIndfromOpt = this.subIndustryOptions.find(opt => {
@@ -286,13 +287,13 @@
           ],
           regulatorOptionsTags: [],
           industry: '',
-          industryOptions: [],
+          // industryOptions: [],
           subIndustry: '',
           subIndustryOptions: [],
           jurisdiction: '',
-          jurisdictionOptions: [],
+          // jurisdictionOptions: [],
           time_zone: [],
-          timeZoneOptions: [],
+          // timeZoneOptions: [],
         },
         formStep2: {
           skills: [],
@@ -310,8 +311,8 @@
           aptUnit: '',
           zip: '',
           city: '',
-          state: '',
-          stateOptions: [],
+          // state: '',
+          // stateOptions: [],
         },
 
         notify: {
@@ -504,14 +505,14 @@
       selectFile(event){
         this.formStep2.file = event.target.files[0]
       },
-      onChange (industries) {
+      onChangeIndustries (industries) {
         if(industries) {
           delete this.errors.industries
           this.formStep1.subIndustryOptions = []
           const results = industries.map(industry => industry.id)
 
-          if(this.subIndustryIds) {
-            for (const [key, value] of Object.entries(this.subIndustryIds)) {
+          if(this.staticCollection.sub_industries_specialist) {
+            for (const [key, value] of Object.entries(this.staticCollection.sub_industries_specialist)) {
               for (const i of results) {
                 if (i === +key.split('_')[0]) {
                   this.formStep1.subIndustryOptions.push({
@@ -528,9 +529,9 @@
         if(e.target) e.target.classList.remove('is-invalid')
         if(e.target.nextElementSibling) e.target.nextElementSibling.classList.remove('d-block')
       },
-      onChangeState(){
-        delete this.errors.state
-      },
+      // onChangeState(){
+      //   delete this.errors.state
+      // },
       redirect() {
         localStorage.setItem('app.currentUser.firstEnter', JSON.stringify(true))
         const dashboard = this.userType === 'business' ? '/business' : '/specialist'
@@ -546,6 +547,9 @@
       // loading() {
       //   return this.$store.getters.loading;
       // },
+      staticCollection() {
+        return this.$store.getters.staticCollection;
+      },
       currentUser() {
         return this.$store.getters.getUser
       },
@@ -553,18 +557,17 @@
         return this.$store.getters.overlay;
       }
     },
-    async mounted () {
-      try {
-        await this.$store.dispatch('getSkills')
-          .then(response => this.formStep2.skillsTags = response)
-          .catch(error => console.error(error))
+    mounted () {
+      this.$store.dispatch('getSkills')
+        .then(response => this.formStep2.skillsTags = response)
+        .catch(error => console.error(error))
 
-        await this.$store.dispatch('getStaticCollection')
-          .then((response) => console.log(response))
-          .catch((error) => console.error(error))
-      } catch (error) {
-        console.error(error)
-      }
+      const accountInfo = localStorage.getItem('app.currentUser');
+      const accountInfoParsed = JSON.parse(accountInfo);
+
+      this.$store.dispatch('getStaticCollection')
+        .then(response => this.onChangeIndustries(accountInfoParsed.industries))
+        .catch(error => console.error(error))
     }
   }
 </script>

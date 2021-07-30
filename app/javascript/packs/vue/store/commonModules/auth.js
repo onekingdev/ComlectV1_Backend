@@ -11,7 +11,18 @@ export default {
     currentUser: currentUserLocalStorage ? JSON.parse(currentUserLocalStorage) : {},
     accessToken: accessTokenLocalStorage ? JSON.parse(accessTokenLocalStorage) : '',
     loggedIn: false,
-    staticCollection: {},
+    staticCollection: {
+      GOOGLE_PLACES_API_KEY: '',
+      PLAID_PUBLIC_KEY: '',
+      STRIPE_PUBLISHABLE_KEY: '',
+      countries: [],
+      industries: [],
+      jurisdictions: [],
+      states: [],
+      sub_industries_business: [],
+      sub_industries_specialist: [],
+      timezones: [],
+    },
   },
   mutations: {
     UPDATE_USER(state, payload) {
@@ -24,7 +35,18 @@ export default {
       state.loggedIn = payload
     },
     SET_STATIC_COLLECTION (state, payload) {
-      state.staticCollection = payload
+      const timezones = payload.timezones.map(tz => {
+          const [ zone, city ] = tz
+          return {
+            value: city,
+            name: zone
+          }
+        }
+      )
+      state.staticCollection = {
+        ...payload,
+        timezones
+      }
     },
   },
   actions: {
@@ -538,6 +560,9 @@ export default {
     },
     accessToken(state) {
       return state.accessToken
+    },
+    staticCollection(state) {
+      return state.staticCollection
     },
   },
 };

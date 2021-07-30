@@ -39,9 +39,9 @@
       BillingDetails,
       PurchaseSummary,
     },
-    created(){
-      console.log('userType', this.userType)
-    },
+    // created(){
+    //   console.log('userType', this.userType)
+    // },
     data() {
       return {
         billingTypeSelected: 'annually',
@@ -70,7 +70,7 @@
         // CLEAR ERRORS
         this.errors = []
 
-        console.log('userType', this.userType)
+        // console.log('userType', this.userType)
 
         // OVERLAY
         this.$store.dispatch('setOverlay', {

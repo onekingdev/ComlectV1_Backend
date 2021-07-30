@@ -193,10 +193,10 @@
         return this.plan
       },
       pk() {
-        return process.env.STRIPE_PUBLISHABLE_KEY
+        return this.$store.getters.staticCollection.STRIPE_PUBLISHABLE_KEY
       },
       plaidPK() {
-        return process.env.PLAID_PUBLIC_KEY
+        return this.$store.getters.staticCollection.PLAID_PUBLIC_KEY;
       }
     },
     mounted() {
