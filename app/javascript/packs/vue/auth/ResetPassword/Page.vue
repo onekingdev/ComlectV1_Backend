@@ -6,7 +6,7 @@
         .col-xl-4.col-lg-6.col-md-8.m-x-auto
           .card.registration
             .card-body.white-card-body
-              Loading
+              // Loading
               // #step1.form(v-if='!loading' :class="step1 ? 'd-block' : 'd-none'")
               #step1.form(:class="step1 ? 'd-block' : 'd-none'")
                 .registration-welcome
@@ -31,7 +31,7 @@
                 //.text-center
                 //  b-icon(icon="circle-fill" animation="throb" font-scale="5")
                     //ion-icon(name="checkmark-circle-outline" size="large")
-            .card-footer(v-if='!loading && step1')
+            .card-footer(v-if='step1')
               b-form-group.text-center.mb-0
                 a.link(data-remote='true' href='/users/sign_in') Cancel
                 //router-link.link(to='/users/sign_in') Cancel

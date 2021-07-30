@@ -49,6 +49,9 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
+    //NOT FOUND
+    { path: "*", component: PageNotFound },
+
     // REDIRECTS
     // { path: '/business', redirect: '/business/dashboard' },
     // { path: '/business/dashboard', redirect: '/business/dashboard' },
@@ -60,8 +63,6 @@ export default new Router({
     // { path: '/users/sign_up', name: 'sign-up', component: signUp },
     // { path: '/users/password/new', name: 'password-new', component: ResetPassword },
     // { path: '/users/password/change', name: 'password-change', component: ChangePassword },
-
-    { path: "*", component: PageNotFound },
 
     // BUSINESS
     { path: '/business', name: 'dashboard', component: Dashboard },
