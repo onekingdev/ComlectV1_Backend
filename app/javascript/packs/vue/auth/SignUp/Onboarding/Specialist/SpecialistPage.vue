@@ -557,7 +557,11 @@
       try {
         await this.$store.dispatch('getSkills')
           .then(response => this.formStep2.skillsTags = response)
-          .catch(error => error)
+          .catch(error => console.error(error))
+
+        await this.$store.dispatch('getStaticCollection')
+          .then((response) => console.log(response))
+          .catch((error) => console.error(error))
       } catch (error) {
         console.error(error)
       }

@@ -494,6 +494,15 @@
       overlay() {
         return this.$store.getters.overlay;
       }
+    },
+    async mounted () {
+      try {
+        await this.$store.dispatch('getStaticCollection')
+          .then((response) => console.log(response))
+          .catch((error) => console.error(error))
+      } catch (error) {
+        console.error(error)
+      }
     }
   }
 </script>
