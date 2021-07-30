@@ -1,10 +1,5 @@
 /* ---------- Policy page ---------- */
 
-/* ---------- Policy List Tabs ---------- */
-.policy-list .nav-tabs {
-  background-color: #F6F6F8;
-  border-bottom: 1px solid #DCDEE4;
-}
 
 /* ---------- Policy table ---------- */
 .table {
@@ -18,9 +13,7 @@
 .table__cell {
   display: table-cell;
   /*padding: .8rem 1.5rem;*/
-  padding: 0.6875rem 0.625rem;
-  font-size: 0.875rem;
-  vertical-align: middle;
+  padding: .5rem 0;
   border-bottom: solid 1px #ced4da;
 }
 
@@ -32,28 +25,6 @@
 .table__cell:first-child {
   width: 40%;
   word-break: break-all;
-}
-
-.table__cell:nth-child(2) {
-  width: auto;
-  text-align: left;
-}
-.table__cell:nth-child(3) {
-  width: auto;
-  text-align: right;
-}
-.table__cell:nth-child(4) {
-  width: auto;
-  text-align: right;
-}
-
-.table__cell:nth-child(5) {
-  width: auto;
-  text-align: right;
-}
-
-.table__cell:last-child {
-  width: 40px;
 }
 
 @media (max-width: 1200px) {
@@ -71,11 +42,11 @@
 }
 
 .table__cell_title {
-  color: #797B7E;
+  color: var(--gray);
 }
 
 .table__cell_name {
-  color: #2180C2;
+  color: var(--blue);
 }
 
 .table__cell_name:hover {
@@ -89,10 +60,6 @@
 .table__cell_clickable:hover svg,
 .table__cell_clickable:active svg {
   transform: scale(1.2);
-}
-
-.dropdown-toggle.link .b-icon.bi {
-  font-size: 0.875rem;
 }
 
 
@@ -411,4 +378,10 @@
 
 .tree4 .draggable-placeholder-inner {
   background-color: orangered;
+}
+
+
+/* ---------- Modal ---------- */
+.modal-dialog {
+  top: 15%;
 }
