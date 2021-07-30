@@ -36,7 +36,7 @@
       .d-flex.justify-content-between
         h4.registration-card-header__title Payment Method
         div(v-show="!cardOptions.length")
-          plaid-link(env='sandbox' :publicKey='plaidPK' clientName='Test App' product='transactions' v-bind='{ onSuccess }')
+          plaid-link(env='sandbox' :publicKey='plaidPK' clientName='Test App' product='transactions' v-bind='{ onPlaidSuccess }')
             template(slot='button' slot-scope='props')
               a.btn.btn-default(@click="props.onClick") Add Bank Account
     .card-body(v-if="cardOptions")
@@ -165,9 +165,21 @@
           id: cardId
         })
       },
-      onSuccess(token) {
-        console.log(token);
-      },
+      onPlaidSuccess() {
+        // form.find('#payment_form_plaid_token').val(publicToken);
+        // form.find('#payment_form_plaid_account_id').val(metadata.account_id);
+        // form.find('#payment_form_plaid_institution').val(metadata.institution.name);
+
+        const data = {
+          plaid_token: "plaid_token",
+          plaid_account_id: "plaid_account_id",
+          plaid_institution: "plaid_institution"
+        }
+
+        this.$store.dispatch('generatePaymentMethod', data)
+          .then(response => console.log(response))
+          .catch(error => console.error(error))
+      }
     },
     computed: {
       loading() {
