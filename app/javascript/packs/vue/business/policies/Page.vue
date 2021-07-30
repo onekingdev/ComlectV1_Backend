@@ -6,7 +6,7 @@
         button.btn.btn.btn-default.mr-3 Download
         PoliciesModalCreate(@savedConfirmed="updateList")
           button.btn.btn-dark.float-end New Policy
-    .policy-list.d-flex.flex-column.h-100
+    .special-navs.d-flex.flex-column.h-100
       b-tabs(content-class="mt-0")
         b-tab(title="Compliance" active)
           .card-body.white-card-body.card-body_full-height

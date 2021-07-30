@@ -877,6 +877,12 @@ input, button, select, optgroup, textarea {
   //border-bottom: 1px solid $gray-1;
 }
 
+.special-navs .nav-tabs,
+.nav-tabs.special-navs {
+  background-color: #F6F6F8;
+  border-bottom: 1px solid #DCDEE4;
+}
+
 .nav-tabs .nav-item .nav-link {
   //margin-left: 0;
   //margin-right: 2.5rem; // 40px
