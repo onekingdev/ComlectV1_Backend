@@ -12,26 +12,28 @@
     template(v-for='(el, idxEl) in realValue')
       tbody
         .table__row
-          .table__cell.table__cell_name.table__cell_first(v-show="el.children && el.children.length !== 0")
-            .d-flex.align-items-center
-              .dropdown-toggle.link(
-                v-if="el.children && el.children.length !== 0"
-                :id="`#sectionIcon-${el.id ? el.id : idxEl+'_'+randomNum}`"
-                @click="toogleSections(el.id ? el.id : idxEl+'_'+randomNum)"
-                :class="{active : shortTable}")
-                b-icon.mr-2(icon="chevron-right")
-              //a.link(v-if="el.id" :href="`/business/compliance_policies/${el.id}`") {{ el.title }}
-              router-link.link(v-if="el.id" :to='`/business/compliance_policies/${el.id}`') {{ el.title }}
-              .link(v-else) {{ el.title }}
-          .table__cell.table__cell_name.table__cell_first(v-show="el.children && el.children.length === 0")
-            //a.link(v-if="el.id" :href="`/business/compliance_policies/${el.id}`") {{ el.title }}
-            router-link.link(v-if="el.id" :to='`/business/compliance_policies/${el.id}`') {{ el.title }}
-            .link.ml-4(v-else) {{ idxEl + 1 }}. {{ el.title }}
+          .table__cell.table__cell_name.table__cell_first
+            router-link.link(:to='`/business/compliance_policies/${el.id}`') {{ el.title }}
+          //.table__cell.table__cell_name.table__cell_first(v-show="el.children && el.children.length !== 0")
+          //  .d-flex.align-items-center
+          //    .dropdown-toggle.link(
+          //      v-if="el.children && el.children.length !== 0"
+          //      :id="`#sectionIcon-${el.id ? el.id : idxEl+'_'+randomNum}`"
+          //      @click="toogleSections(el.id ? el.id : idxEl+'_'+randomNum)"
+          //      :class="{active : shortTable}")
+          //      b-icon.mr-2(icon="chevron-right")
+          //    //a.link(v-if="el.id" :href="`/business/compliance_policies/${el.id}`") {{ el.title }}
+          //    router-link.link(v-if="el.id" :to='`/business/compliance_policies/${el.id}`') {{ el.title }}
+          //    .link(v-else) {{ el.title }}
+          //.table__cell.table__cell_name.table__cell_first(v-show="el.children && el.children.length === 0")
+          //  //a.link(v-if="el.id" :href="`/business/compliance_policies/${el.id}`") {{ el.title }}
+          //  router-link.link(v-if="el.id" :to='`/business/compliance_policies/${el.id}`') {{ el.title }}
+          //  .link.ml-4(v-else) {{ idxEl + 1 }}. {{ el.title }}
           .table__cell(v-if="!shortTable && el.status")
             b-badge.status(:variant="statusVariant") {{ el.status }}
           .table__cell.text-right(v-if="!shortTable && el.updated_at") {{ dateToHuman(el.updated_at) }}
           .table__cell.text-right(v-if="!shortTable && el.created_at") {{ dateToHuman(el.created_at) }}
-          .table__cell.text-right(v-if="!shortTable && el.created_at") N/A
+          //.table__cell.text-right(v-if="!shortTable && el.created_at") N/A
           .table__cell(v-if="!shortTable && el.created_at")
             .actions
               b-dropdown(size="sm" variant="none" class="m-0 p-0" right)
@@ -43,13 +45,13 @@
                   b-dropdown-item {{ !el.archived ? 'Archive' : 'Unarchive' }}
                 PoliciesModalDelete(v-if="el.archived" @saved="updateList", :policyId="el.id", @deleteConfirmed="deletePolicy(el.id)" :inline="false")
                   b-dropdown-item.delete Delete
-        <!--.table__row(v-show="el.children && el.children.length === 0 &&  !el.id")-->
-          <!--.table__cell.table__cell_name-->
-            <!--.link.ml-4 {{ idxEl + 1 }} {{ el.title }}-->
-          <!--.table__cell-->
-          <!--.table__cell-->
-          <!--.table__cell-->
-          <!--.table__cell-->
+        //.table__row(v-show="el.children && el.children.length === 0 &&  !el.id")
+        //  .table__cell.table__cell_name
+        //    .link.ml-4 {{ idxEl + 1 }} {{ el.title }}
+        //  .table__cell
+        //  .table__cell
+        //  .table__cell
+        //  .table__cell
         .dropdown-items(v-if="el.children && el.children.length" :id="`#section-${el.id ? el.id : idxEl+'_'+randomNum}`" :class="{active : shortTable}")
           nested-draggable(
           v-show="open"
