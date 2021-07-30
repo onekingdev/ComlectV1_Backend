@@ -420,13 +420,15 @@ export default {
         // WAIT LONGER
         axios.defaults.timeout = 10000;
 
-        const { userType, stripeToken } = { ...payload }
+        const { userType, stripeToken, plaid } = { ...payload }
 
         const endPoint = userType === 'business' ? 'business/payment_settings' : 'specialist/payment_settings/create_card'
         // const response = await axios.post(`/${endPoint}/payment_settings?stripeToken=${payload.stripeToken}`)
-        const response = await axios.post(`/${endPoint}`, null, { params: {
+        let response
+        if (stripeToken) response = await axios.post(`/${endPoint}`, null, { params: {
             stripeToken: stripeToken,
           }})
+        if (plaid) response = await axios.post(`/${endPoint}`, plaid)
         // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
         return response.data
 
