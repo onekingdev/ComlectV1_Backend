@@ -35,10 +35,10 @@
                     template(#button-content)
                       | Actions
                       b-icon.m-l-1(icon="chevron-down" font-scale="1")
-                    // PoliciesModalArchive(:archiveStatus="!policy.archived" @archiveConfirmed="archivePolicy(policy.id, !policy.archived)" :inline="false")
-                      b-dropdown-item {{ !policy.archived ? 'Archive' : 'Unarchive' }} Policy
-                    // PoliciesModalDelete(v-if="policy.archived" @deleteConfirmed="deletePolicy(policy.id)", :policyId="policy.id",  :inline="false")
-                      b-dropdown-item.delete Delete Policy
+                    //- PoliciesModalArchive(:archiveStatus="!policy.archived" @archiveConfirmed="archivePolicy(policy.id, !policy.archived)" :inline="false")
+                      //- b-dropdown-item {{ !policy.archived ? 'Archive' : 'Unarchive' }} Policy
+                    //- PoliciesModalDelete(v-if="policy.archived" @deleteConfirmed="deletePolicy(policy.id)", :policyId="policy.id",  :inline="false")
+                      //- b-dropdown-item.delete Delete Policy
                 b-tab(title="Details" active)
                   .row(v-if="loading", :loading="loading")
                     .col-12

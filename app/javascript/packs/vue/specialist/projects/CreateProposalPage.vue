@@ -26,14 +26,15 @@
             h3.m-t-1 Attachments
             .card.m-b-1
               .card-body
-                p Attach a cover letter, resume, or other documents here <br> or
+                p Attach a cover letter, resume, or other document here. Limited to only one file.
                 label
-                  a.btn.btn-light Upload Files
+                  a.btn.btn-light Upload File
                   input.d-none(type="file" accept="application/pdf" @change="pickFile")
             .text-right
               a.m-r-1.btn(@click="back") Cancel
               a.m-r-1.btn.btn-default Save Draft
-              PostMultipart(:action="`/api/specialist/projects/${projectId}/applications`" :model="form" @errors="errors = $event" @saved="saved")
+              // PostMultipart(:action="`/api/specialist/projects/${projectId}/applications`" :model="form" @errors="errors = $event" @saved="saved")
+              Post(:action="`/api/specialist/projects/${projectId}/applications`" :model="form" @errors="errors = $event" @saved="saved")
                 button.btn.btn-dark Submit Proposal
           .col-md-6
             .card

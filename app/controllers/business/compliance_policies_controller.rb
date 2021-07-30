@@ -7,7 +7,7 @@ class Business::CompliancePoliciesController < ApplicationController
   before_action :set_cpolicy, only: %i[update edit show destroy ban unban]
 
   def index
-    render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_main_layout'
+    render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_business_layout'
   end
 
   def show
@@ -16,7 +16,7 @@ class Business::CompliancePoliciesController < ApplicationController
   end
 
   def entire
-    render html: content_tag('business-policies-entire-page', '').html_safe, layout: 'vue_business'
+    render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_business_layout'
   end
 
   private

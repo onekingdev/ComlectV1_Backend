@@ -4,7 +4,6 @@
 // REMOVE LATER UTILITES (unneed)
 @import "_vue_utilities.scss";
 @import "_vue_theme.scss";
-@import "_type.scss";
 // REMOVE LATER
 //@import url('https://fonts.googleapis.com/css2?family=Varela&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@100;300;400;600&family=Varela&display=swap');
@@ -64,7 +63,7 @@ body, html {
   //font-size: 14px;
 
   //font-family: 'Varela', sans-serif;
-  font-family: 'Public Sans', sans-serif !important;
+  font-family: 'Public Sans', sans-serif;
 }
 body.modal-open {
   overflow: hidden !important;
@@ -77,26 +76,6 @@ html {
   //@media (max-width: 575px) {
   //  font-size: 60%;
   //}
-}
-
-pre, code, kbd, samp {
-  font-family: monospace;
-}
-
-input, button, select, optgroup, textarea {
-  font-family: inherit;
-}
-
-.tooltip {
-  font-family: 'Public Sans', sans-serif !important;
-}
-
-.popover {
-  font-family: 'Public Sans', sans-serif !important;
-}
-
-.text-monospace {
-  font-family: monospace;
 }
 
 *:focus {
@@ -234,7 +213,7 @@ input, button, select, optgroup, textarea {
 
   .nav-link,
   &__link {
-    //font-family: 'Public Sans Regular', sans-serif;
+    font-family: 'Public Sans Regular', sans-serif;
     font-size: 1rem; // 16px
     color: $black;
 
@@ -854,37 +833,18 @@ input, button, select, optgroup, textarea {
   }
 }
 
-
-/* ---------- NAV TABS ---------- */
 //.nav-tabs {
 //  padding-left: 2.5rem;
 //}
 //
-
-.tabs {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  background-color: white;
-}
-
-.nav-tabs {
-  //background-color: $gray-background;
-  //border-bottom: 1px solid $gray-1;
-}
-
 .nav-tabs .nav-item .nav-link {
   //margin-left: 0;
   //margin-right: 2.5rem; // 40px
-  padding-top: 0;
-  //padding-bottom: 1.125rem; //18px
-  padding-bottom: 0.625rem; //10px
 }
 
 .nav-tabs .nav-item a {
 //  margin-left: 2.5rem !important;
   font-size: 1rem !important;
-  font-weight: bold;
 }
 
 .nav-tabs .nav-item:first-child {
@@ -896,6 +856,7 @@ input, button, select, optgroup, textarea {
 }
 
 .nav-tabs .nav-item .nav-link.active {
+  font-weight: bold;
   border-color: $yellow;
 }
 
@@ -946,7 +907,7 @@ a.btn,
   &:focus,
   &:active,
   &.active {
-    background-color: $gray-hover !important;
+    background-color: $gray-hover;
   }
 }
 
@@ -956,7 +917,7 @@ a.btn,
   &:focus,
   &:active,
   &.active {
-    background-color: $gray-hover !important;
+    background-color: $blue-light;
   }
 }
 
@@ -969,25 +930,24 @@ a.btn,
   &:focus,
   &:active,
   &.active {
-    background-color: #ffdc5b !important;
-    border-color: #ffdc5b !important;
+    background-color: #ffdc5b;
+    border-color: #ffdc5b;
   }
 }
 
 .btn.btn-delete,
-.btn.btn-danger,
-.btn.btn-outline-danger {
+.btn.btn-danger {
   color: $red;
-  background-color: $white !important;
-  border-color: #e1e3e8 !important;
+  background-color: $white;
+  border-color: #e1e3e8;
 
   &:hover,
   &:focus,
   &:active,
   &.active {
-    color: $red !important;
-    background-color: $gray-background !important;
-    border-color: $gray-1 !important;
+    color: $red;
+    background-color: $red-light;
+    border-color: $red-light;
   }
 }
 
@@ -1006,7 +966,6 @@ a.btn,
   border-color: $primary;
 }
 
-.btn.link,
 .btn.btn-link {
   color: $blue;
   background-color: $white;
@@ -1016,9 +975,9 @@ a.btn,
   &:focus,
   &:active,
   &.active {
-    color: $blue !important;
-    background-color: #f6f6f8 !important;
-    border-color: #f6f6f8 !important;
+    color: $blue;
+    background-color: #f6f6f8;
+    border-color: #f6f6f8;
   }
 }
 
@@ -1264,11 +1223,8 @@ table.table thead tr th {
   font-weight: 400;
   vertical-align: middle;
   color: $gray-3;
+  //border: 0;
   white-space: nowrap;
-}
-
-.table thead th {
-  border-bottom: 1px solid $gray-1;
 }
 
 .table th,
@@ -1324,13 +1280,9 @@ table.table thead tr th {
 .task_table {
 
   &.short-table {
-    th, td {
-      padding: .4rem 0.625rem;
+    td {
+      padding: .3rem 0.625rem;
     }
-  }
-
-  th {
-    border: none;
   }
 
   .name {
@@ -2028,6 +1980,17 @@ table.table thead tr th {
   //border-top: solid 1px $gray-1;
 }
 
+.tabs {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  background-color: white;
+}
+
+.nav-tabs {
+  background-color: $gray-background;
+  border-bottom: 1px solid $gray-1;
+}
 
 .pointer {
   //color: $gray-1;
@@ -2306,7 +2269,7 @@ table.table thead tr th {
 
   &__card {
     border-radius: 10px;
-    border: 1px solid $gray-1;
+    border: 2px solid #e9ebee;
 
     &--internal {
       border-top: initial;
@@ -2428,7 +2391,6 @@ label.required:after {
   color: #A2A3A9;
 }
 
-.form-text,
 .text-muted {
   font-size: 0.75rem;
   color: #A2A3A9;
@@ -2458,89 +2420,6 @@ legend, .label {
     width: 9.375rem; /* 150px; */
     height: 5rem; /*80px;*/
   }
-}
-
-
-// treeselect
-.custom-select,
-.vue-treeselect__menu-container,
-.vue-treeselect__placeholder,
-.vue-treeselect__input {
-  font-size: 0.875rem !important;
-}
-
-.btn-secondary:not(:disabled):not(.disabled):active,
-.btn-secondary.active:not(:disabled):not(.disabled), .show > .btn-secondary.dropdown-toggle,
-.input-group > .input-group-append > .btn-group > .btn,
-.input-group > .input-group-prepend:not(:first-child) > .btn-group > .btn,
-.input-group > .input-group-prepend:first-child > .btn-group:not(:first-child) > .btn {
-  border-left: none;
-
-  &:hover,
-  &:active,
-  &:focus {
-    background-color: $white;
-    border-color: $gray-1;
-  }
-}
-
-/* ---------- MODAL ---------- */
-//.modal {
-//  text-align: center;
-//  padding: 0!important;
-//}
-//
-//.modal:before {
-//  content: '';
-//  display: inline-block;
-//  height: 100%;
-//  vertical-align: middle;
-//  margin-right: -4px;
-//}
-
-//.modal-dialog {
-//  display: inline-block;
-//  text-align: left;
-//  vertical-align: middle;
-//  min-width: 37.5rem; //600px;
-//  min-height: 43.5rem; // 696px;
-//
-//  @include media-breakpoint-down(md) {
-//    min-width: 1px;
-//    min-height: auto;
-//  }
-//}
-
-// Make pop-up in center
-.modal-dialog {
-  min-height: calc(100vh - 60px);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  overflow: auto;
-  @media(max-width: 768px) {
-    min-height: calc(100vh - 20px);
-  }
-}
-
-.modal-dialog {
-  //top: 7%;
-}
-
-.modal-content {
-  border: none !important;
-}
-
-.modal-title {
-  text-transform: capitalize;
-}
-.modal-header .close {
-  font-size: 1.75rem;
-  padding: .85rem;
-}
-
-.modal-body {
-  padding: 1.5625rem 1.25rem;
 }
 
 /* ---------- RADIO BUTTONS---------- */
