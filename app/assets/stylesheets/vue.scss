@@ -7,7 +7,7 @@
 @import "_type.scss";
 // REMOVE LATER
 //@import url('https://fonts.googleapis.com/css2?family=Varela&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@100;300;400;600&family=Varela&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@100;300;400;600;700&family=Varela&display=swap');
 
 
 $minWidthContent: calc(62.5rem - 17.8125rem); // 1000px-285px (width minus sidebar width)
@@ -64,7 +64,7 @@ body, html {
   //font-size: 14px;
 
   //font-family: 'Varela', sans-serif;
-  font-family: 'Public Sans', sans-serif !important;
+  font-family: 'Public Sans', serif !important;
 }
 body.modal-open {
   overflow: hidden !important;
@@ -914,7 +914,7 @@ a.btn,
   //height: 2.1875rem; //35px
   font-size: 0.875rem; //14px
   line-height: 1.2;
-  font-weight: bold;
+  font-weight: 700;
   border-radius: 4px;
   outline: none;
   transition: all 200ms ease-in;
@@ -2026,19 +2026,6 @@ table.table thead tr th {
 .white-card-body {
   background-color: $white;
   //border-top: solid 1px $gray-1;
-}
-
-.tabs {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  background-color: white;
-}
-
-.nav-tabs {
-  //background-color: $gray-background;
-  //border-bottom: 1px solid $gray-1;
-
 }
 
 
