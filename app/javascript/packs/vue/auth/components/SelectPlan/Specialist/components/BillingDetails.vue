@@ -26,18 +26,19 @@
           label(:for="'card'+card.id") {{ card.text }}
         dd.col-sm-5.text-right.m-b-0
           | {{ card.number }} {{ card.type }}
-          a.link.ml-2(@click.stop="deletePaymentMethod(card.id)") Remove
+          a.link.ml-2(href="#" @click.stop="deletePaymentMethod(card.id)") Remove
     .card-header.registration-card-header.bordeless.p-t-20.px-0(v-show="!cardOptions.length")
       stripe-element-card(ref="elementRef" :pk="pk" @token="tokenCreated")
       .row
         .col.text-right
-          b-button(v-show="!loading" type='button' variant='outline-primary' @click="submit") Add
-          b-button(v-show="loading" type='button' variant='none')
-            .lds-ring.lds-ring-small
+          b-button(type='button' variant='outline-primary' @click="submit")
+            // b-icon.mr-2(icon="arrow-clockwise" animation="spin" font-scale="1" v-show="loading")
+            .lds-ring.lds-ring-small(v-show="loading")
               div
               div
               div
               div
+            span(v-show="!loading") Add
 
 </template>
 
@@ -154,10 +155,10 @@
         return this.plan
       },
       pk() {
-        return this.$store.getters.staticCollection.STRIPE_PUBLISHABLE_KEY
+        return process.env.STRIPE_PUBLISHABLE_KEY
       },
       plaidPK() {
-        return this.$store.getters.staticCollection.PLAID_PUBLIC_KEY;
+        return process.env.PLAID_PUBLIC_KEY
       }
     },
     mounted() {
