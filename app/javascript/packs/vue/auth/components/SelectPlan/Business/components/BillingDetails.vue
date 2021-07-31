@@ -36,7 +36,7 @@
       .d-flex.justify-content-between
         h4.registration-card-header__title Payment Method
         div(v-show="!cardOptions.length")
-          plaid-link(env='sandbox' :publicKey='plaidPK' clientName='Test App' product='transactions' v-bind='{ onSuccess }')
+          plaid-link(env='sandbox' :publicKey='plaidPK' clientName='Test App' product='auth' v-bind='{ onSuccess }')
             template(slot='button' slot-scope='props')
               a.btn.btn-default(@click="props.onClick") Add Bank Account
     .card-body(v-if="cardOptions")
