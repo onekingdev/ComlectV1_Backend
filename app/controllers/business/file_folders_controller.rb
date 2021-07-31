@@ -7,7 +7,7 @@ class Business::FileFoldersController < ApplicationController
 
   def index
     # render html: content_tag('business-file-folders-page', ''), layout: 'vue_business'
-    render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_main_layout'
+    render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_business_layout'
   end
 
   def show

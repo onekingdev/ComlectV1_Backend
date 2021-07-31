@@ -11,6 +11,18 @@ export default {
     currentUser: currentUserLocalStorage ? JSON.parse(currentUserLocalStorage) : {},
     accessToken: accessTokenLocalStorage ? JSON.parse(accessTokenLocalStorage) : '',
     loggedIn: false,
+    staticCollection: {
+      GOOGLE_PLACES_API_KEY: '',
+      PLAID_PUBLIC_KEY: '',
+      STRIPE_PUBLISHABLE_KEY: '',
+      countries: [],
+      industries: [],
+      jurisdictions: [],
+      states: [],
+      sub_industries_business: [],
+      sub_industries_specialist: [],
+      timezones: [],
+    },
   },
   mutations: {
     UPDATE_USER(state, payload) {
@@ -21,7 +33,21 @@ export default {
     },
     UPDATE_LOGIN_STATUS(state, payload) {
       state.loggedIn = payload
-    }
+    },
+    SET_STATIC_COLLECTION (state, payload) {
+      const timezones = payload.timezones.map(tz => {
+          const [ zone, city ] = tz
+          return {
+            value: city,
+            name: zone
+          }
+        }
+      )
+      state.staticCollection = {
+        ...payload,
+        timezones
+      }
+    },
   },
   actions: {
     async signIn({commit}, payload) {
@@ -420,13 +446,15 @@ export default {
         // WAIT LONGER
         axios.defaults.timeout = 10000;
 
-        const { userType, stripeToken } = { ...payload }
+        const { userType, stripeToken, plaid } = { ...payload }
 
         const endPoint = userType === 'business' ? 'business/payment_settings' : 'specialist/payment_settings/create_card'
         // const response = await axios.post(`/${endPoint}/payment_settings?stripeToken=${payload.stripeToken}`)
-        const response = await axios.post(`/${endPoint}`, null, { params: {
+        let response
+        if (stripeToken) response = await axios.post(`/${endPoint}`, null, { params: {
             stripeToken: stripeToken,
           }})
+        if (plaid) response = await axios.post(`/${endPoint}`, plaid)
         // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
         return response.data
 
@@ -506,6 +534,22 @@ export default {
         throw error
       }
     },
+    async getStaticCollection({commit}) {
+      try {
+        commit("clearError");
+        commit("setLoading", true);
+
+        const response = await axios.get(`/static_collection`)
+        if (response.data) commit('SET_STATIC_COLLECTION', response.data)
+        return response.data
+
+      } catch (error) {
+        console.error(error);
+        return error
+      } finally {
+        commit("setLoading", false)
+      }
+    },
   },
   getters: {
     getUser(state) {
@@ -516,6 +560,9 @@ export default {
     },
     accessToken(state) {
       return state.accessToken
+    },
+    staticCollection(state) {
+      return state.staticCollection
     },
   },
 };

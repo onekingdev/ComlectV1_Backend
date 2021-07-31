@@ -1,7 +1,7 @@
 <template lang="pug">
   .page
     .page-header
-      h2.page-header__title Welcome, {{currentBusiness}}
+      h2.page-header__title Welcome, {{currentSpecialist}}
       .page-header__actions
         b-dropdown.mr-2(variant="default" right)
           template(#button-content)
