@@ -1,40 +1,37 @@
 <template lang="pug">
-  div
-    h1.text-center Confirm Your Email!
-    p.text-center We sent a 6 digit code to {{ form.email }}. Please enter it below.
-    div
-      b-alert(:show='dismissCountDown' dismissible fade variant='danger' @dismiss-count-down='countDownChanged')
-        | {{ error }}
-        br
-        | This alert will dismiss after {{ dismissCountDown }} seconds...
-      b-form(@submit='onSubmit' @keyup="onCodeChange" v-if='show' autocomplete="off")
-        b-form-group
-          .col.text-center
-            img.otp-icon(src='@/assets/mail.svg' width="180" height="110")
-        b-form-group
-          .row
-            .col-12.mx-0
-              .d-flex.justify-content-space-around.mx-auto
-                b-form-input#inputCode1.code-input.ml-auto(v-model='form2.codePart1' type='number' maxlength="1" required)
-                b-form-input#inputCode2.code-input(v-model='form2.codePart2' type='number' maxlength="1" required)
-                b-form-input#inputCode3.code-input(v-model='form2.codePart3' type='number' maxlength="1" required)
-                b-form-input#inputCode4.code-input(v-model='form2.codePart4' type='number' maxlength="1" required)
-                b-form-input#inputCode5.code-input(v-model='form2.codePart5' type='number' maxlength="1" required)
-                b-form-input#inputCode6.code-input.mr-auto(v-model='form2.codePart6' type='number' maxlength="1" required)
-              .invalid-feedback.d-block.text-center(v-if="errors.code") {{ errors.code }}
-          .row
-            .col
-              input(v-model='form2.code' type='hidden')
-        b-button.w-100.mb-2(type='submit' variant='dark' ref="codesubmit") Submit
-        b-form-group.mb-0
-          .row
-            .col-12.text-center
-              button.btn.link(type="button" @click.stop="resendOTP" :disabled="disabled") Resend code
+  .card.registration
+    .card-body.white-card-body
+      h1.text-center Confirm Your Email!
+      p.text-center We sent a 6 digit code to {{ form.email }}. Please enter it below.
+      div
+        b-form(@submit='onSubmit' @keyup="onCodeChange" v-if='show' autocomplete="off")
+          b-form-group
+            .col.text-center
+              img.otp-icon(src='@/assets/mail.svg' width="180" height="110")
+          b-form-group
+            .row
+              .col-12.mx-0
+                .d-flex.justify-content-space-around.mx-auto
+                  b-form-input#inputCode1.code-input.ml-auto(v-model='form2.codePart1' type='number' maxlength="1" required)
+                  b-form-input#inputCode2.code-input(v-model='form2.codePart2' type='number' maxlength="1" required)
+                  b-form-input#inputCode3.code-input(v-model='form2.codePart3' type='number' maxlength="1" required)
+                  b-form-input#inputCode4.code-input(v-model='form2.codePart4' type='number' maxlength="1" required)
+                  b-form-input#inputCode5.code-input(v-model='form2.codePart5' type='number' maxlength="1" required)
+                  b-form-input#inputCode6.code-input.mr-auto(v-model='form2.codePart6' type='number' maxlength="1" required)
+                .invalid-feedback.d-block.text-center(v-if="error") {{ error }}
+            .row
+              .col
+                input(v-model='form2.code' type='hidden')
+          b-button.w-100.mb-3(type='submit' variant='dark' ref="codesubmit") Submit
+          b-form-group.mb-0
+            .row
+              .col-12.text-center
+                a.link(@click.stop="resendOTP" :disabled="disabled") Resend code
 </template>
 
 <script>
   export default {
-    props: ['form', 'userid'],
+    props: ['form', 'userid', 'userType'],
     data() {
       return {
         show: true,
@@ -58,67 +55,79 @@
     methods: {
       onSubmit(event) {
         event.preventDefault()
-
-        this.error = ''
         this.errors = []
+
+        console.log('emailVerified', this.emailVerified)
 
         if(this.form2.code.length !== 6) {
           this.toast('Error', `Code length incorrect!`)
           return
         }
 
-        let data, method;
-        if(this.userId) {
-          data = {
-            userId: this.userId,
-            code: this.form2.code
+        // IF UNVERIFIED EMAIL
+        if(!this.emailVerified) {
+          const dataToSend1 = {
+            email: this.form.email,
+            otp_secret: this.form2.code
           }
-          method = 'confirmEmail'
-        }
-        if(!this.userId) {
-          data = {
-            "user": {
-              "email": this.form.email,
-              "password": this.form.password
-            },
-            "otp_secret": this.form2.code
-          }
-          method = 'signIn'
-        }
 
-        this.$store.dispatch(method, data)
-          .then((response) => {
-            if(response.errors) {
-              // this.toast('Error', `${response.errors}`)
-              this.error = `${response.message}`
-            }
-            if(response.token) {
-              // this.toast('Success', `${response.message}`)
-              // this.error = `${response.message}`
-              console.log(response)
-              this.$emit('otpSecretConfirmed', response)
-            }
-          })
-          .catch((error) => {
-            const { data } = error
-            if(data.errors) {
-              for (const type of Object.keys(data.errors)) {
-                // this.toast('Error', `${data.errors[type]}`)
-                this.error = `Error! ${data.errors[type]}`
+          this.$store.dispatch('confirmEmail', dataToSend1)
+            .then((response) => {
+              console.log('response', response)
+              if (response.errors) {
+
               }
-              this.showAlert()
-            }
-            if (error.errors) {
-              // this.toast('Error', `Couldn't submit form! ${error.message}`)
-              this.error = `Error! ${data.errors[type]}`
+              if (!response.errors && response.token) {
+                // open step 3
+                // this.step2 = false
+                // this.step3 = true
 
-            }
-            if (!error.errors) {
-              // this.toast('Error', `${error.status} (${error.statusText})`)
-              this.error = `Error! ${data.errors[type]}`
-            }
-          })
+                const dashboard = response.business ? '/business' : '/specialist'
+                // window.location.href = `${dashboard}`;
+                this.$router.push(`${dashboard}/onboarding`)
+              }
+            })
+            .catch((error) => this.toast('Error', `${error.message}`))
+        }
 
+        // IF VERIFIED EMAIL
+        if(this.emailVerified) {
+          const dataToSend = {
+            "user": {
+              email: this.form.email,
+              password: this.form.password
+            },
+            otp_secret: this.form2.code
+          }
+
+          this.$store.dispatch('signIn', dataToSend)
+            .then((response) => {
+              console.log('response', response)
+              if (response.errors) {
+
+              }
+
+              if (!response.errors && response.token) {
+                // open step 3
+                // this.step2 = false
+                // this.step3 = true
+
+                const dashboard = response.business ? '/business' : '/specialist'
+                // window.location.href = `${dashboard}`;
+                this.$router.push(`${dashboard}/onboarding`)
+              }
+
+              this.error = response.message
+            })
+            .catch((error) => {
+              console.error('error', error.data)
+              console.error('error', error.data.errors)
+              console.error('error', error.data.errors.invalid)
+              if (error.data.errors) {
+                this.errors.code = error.data.errors.invalid
+              }
+            })
+        }
       },
       onCodeChange(e){
         this.errors = []

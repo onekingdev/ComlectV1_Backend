@@ -1,40 +1,27 @@
 <template lang="pug">
-  div
-    .container-fluid
-      TopNavbar
-      main.row#main-content
-        .col-xl-4.col-lg-6.col-md-8.m-x-auto
-          .card.registration
-            .card-body.white-card-body
-              // Loading
-              // #step1.form(v-if='!loading' :class="step1 ? 'd-block' : 'd-none'")
-              #step1.form(:class="step1 ? 'd-block' : 'd-none'")
-                .registration-welcome
-                  h1.registration__title Reset password
-                  p.registration__subtitle Enter the email address used to log in to your Complect
-                    | account and we'll send you a link to reset your password. If you
-                    | are a business, we'll send the email to your key contact.
-                div
-                  b-alert(:show='dismissCountDown' dismissible fade variant='danger' @dismiss-count-down='countDownChanged')
-                    | {{ error }}
-                    br
-                    | This alert will dismiss after {{ dismissCountDown }} seconds...
-                  b-form(@submit='onSubmit1' v-if='show')
-                    b-form-group#input-group-1.m-b-20(label='Email Address:' label-for='input-1')
-                      b-form-input#input-1(v-model='form.email' type='email' placeholder='Email' required)
-                      .invalid-feedback.d-block(v-if="errors['user.email']") 'Email Address' {{ ...errors['user.email'] }}
-                    b-button.registration__btn.w-100(type='submit' variant='dark') Reset
-              #step2.form(:class="step2 ? 'd-block' : 'd-none'")
-                .registration-welcome
-                  h1.registration__title You successfuly reseted password!
-                  p.registration__subtitle You will be redirect to the sign in page!
-                //.text-center
-                //  b-icon(icon="circle-fill" animation="throb" font-scale="5")
-                    //ion-icon(name="checkmark-circle-outline" size="large")
-            .card-footer(v-if='step1')
-              b-form-group.text-center.mb-0
-                a.link(data-remote='true' href='/users/sign_in') Cancel
-                //router-link.link(to='/users/sign_in') Cancel
+  .card.registration
+    .card-body.white-card-body
+      Loading
+      // #step1.form(v-if='!loading' :class="step1 ? 'd-block' : 'd-none'")
+      #step1.form(:class="step1 ? 'd-block' : 'd-none'")
+        .registration-welcome
+          h1.registration__title Reset password
+          p.registration__subtitle Enter the email address used to log in to your Complect
+            | account and we'll send you a link to reset your password. If you
+            | are a business, we'll send the email to your key contact.
+        div
+          b-alert(:show='dismissCountDown' dismissible fade variant='danger' @dismiss-count-down='countDownChanged')
+            | {{ error }}
+            br
+            | This alert will dismiss after {{ dismissCountDown }} seconds...
+          b-form(@submit='onSubmit1' v-if='show')
+            b-form-group#input-group-1.m-b-20(label='Email Address:' label-for='input-1')
+              b-form-input#input-1(v-model='form.email' type='email' placeholder='Email' required)
+              .invalid-feedback.d-block(v-if="errors['user.email']") 'Email Address' {{ ...errors['user.email'] }}
+            b-button.registration__btn.w-100(type='submit' variant='dark') Reset
+    .card-footer(v-if='!loading && step1')
+      b-form-group.text-center.mb-0
+        router-link.link(to='/users/sign_in') Cancel
 </template>
 
 <script>

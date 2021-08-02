@@ -1,39 +1,26 @@
 <template lang="pug">
-  div
-    .container-fluid
-      TopNavbar
-      main.row#main-content
-        .col-xl-4.col-lg-6.col-md-8.m-x-auto
-          .card.registration
-            .card-body.white-card-body
-              Loading
-              #step1.form(v-if='!loading' :class="step1 ? 'd-block' : 'd-none'")
-                .registration-welcome
-                  h1.registration__title Reset Password
-                  // p.registration__subtitle Enter the new password and repeat
-                div
-                  b-alert(:show='dismissCountDown' dismissible fade variant='danger' @dismiss-count-down='countDownChanged')
-                    | {{ error }}
-                    br
-                    | This alert will dismiss after {{ dismissCountDown }} seconds...
-                  b-form(@submit='onSubmit1' v-if='show')
-                    b-form-group#input-group-4.m-b-20(label='Password:' label-for='input-4')
-                      b-form-input#input-4(v-model='form.password' type='password' placeholder='Password' required)
-                      .invalid-feedback.d-block(v-if="errors.password") 'Password' {{ errors.password }}
-                    b-form-group#input-group-5.m-b-20(label='Repeat Password:' label-for='input-5')
-                      b-form-input#input-5(v-model='form.passwordConfirm' type='password' placeholder='Repeat Password' required)
-                      .invalid-feedback.d-block(v-if="errors.passwordConfirm") {{ errors.passwordConfirm }}
-                    b-button.registration__btn.w-100(type='submit' variant='dark') Save
-              #step2.form(v-if='!loading' :class="step2 ? 'd-block' : 'd-none'")
-                .registration-welcome
-                  h1.registration__title You successfuly reseted password!
-                  p.registration__subtitle You will be redirect to the sign in page!
-                //.text-center
-                //  b-icon( icon="circle-fill" animation="throb" font-scale="4")
-            .card-footer(v-if='!loading && step1')
-              b-form-group.text-center.mb-0
-                a.link(data-remote='true' href='/users/sign_in') Cancel
-                //router-link.link(to='/users/sign_in') Cancel
+  .card.registration
+    .card-body.white-card-body
+      Loading
+      .form
+        .registration-welcome
+          h1.registration__title Reset Password
+        div
+          b-alert(:show='dismissCountDown' dismissible fade variant='danger' @dismiss-count-down='countDownChanged')
+            | {{ error }}
+            br
+            | This alert will dismiss after {{ dismissCountDown }} seconds...
+          b-form(@submit='onSubmit1' v-if='show')
+            b-form-group#input-group-4.m-b-20(label='Password:' label-for='input-4')
+              b-form-input#input-4(v-model='form.password' type='password' placeholder='Password' required)
+              .invalid-feedback.d-block(v-if="errors.password") 'Password' {{ errors.password }}
+            b-form-group#input-group-5.m-b-20(label='Repeat Password:' label-for='input-5')
+              b-form-input#input-5(v-model='form.passwordConfirm' type='password' placeholder='Repeat Password' required)
+              .invalid-feedback.d-block(v-if="errors.passwordConfirm") {{ errors.passwordConfirm }}
+            b-button.registration__btn.w-100(type='submit' variant='dark') Save
+    .card-footer
+      b-form-group.text-center.mb-0
+        router-link.link(to='/users/sign_in') Cancel
 </template>
 
 <script>

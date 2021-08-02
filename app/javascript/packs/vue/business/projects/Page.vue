@@ -8,7 +8,7 @@
         router-link.btn.btn-default.m-r-1(to='/business/projects/new') Post Project
         LocalProjectModal(@saved="newEtag")
           a.btn.btn-primary New Project
-    b-tabs(content-class="mt-0")
+    b-tabs.special-navs(content-class="mt-0")
       b-tab(title="My Projects" active)
         .card-body.white-card-body.card-body_full-height
           div

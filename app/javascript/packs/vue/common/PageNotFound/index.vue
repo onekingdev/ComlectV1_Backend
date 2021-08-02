@@ -6,20 +6,13 @@
           img(src='@/assets/rocket.svg')
         h3.access-denied__title Page Not Found
         p.access-denied__subtitle Please search again
-        b-button.access-denied__btn(variant="dark" @click="backToMain") Back to main
+        router-link.btn.btn-dark.access-denied__btn(to='/') Back to main
           b-icon.ml-2(icon="chevron-right")
 </template>
 
 <script>
   export default {
-    methods: {
-      backToMain () {
-        window.location = backToMainUrl
-      }
-    },
-    computed () {
-      backToMainUrl : '/'
-    }
+
   }
 </script>
 

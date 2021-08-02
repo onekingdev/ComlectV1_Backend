@@ -1,21 +1,21 @@
 /* ---------- Sign Up Page ---------- */
 .registration {
-  margin-top: 10rem; /* 160px */
-  margin-right: auto;
-  margin-left: auto;
-  max-width: 35.625rem;
+  /*margin-top: 10rem; !* 160px *!*/
+  /*margin-right: auto;*/
+  /*margin-left: auto;*/
+  width: 35.625rem;
   border-radius: 4px;
   border-color: #DCDEE4;
   overflow: hidden;
 }
 @media (min-width: 576px) and (max-width: 767px) {
   .registration {
-    margin-top: 3rem;
+    /*margin-top: 3rem;*/
   }
 }
 @media (max-width: 575px) {
   .registration {
-    margin-top: 1rem;
+    /*margin-top: 1rem;*/
   }
 }
 
@@ -184,7 +184,8 @@ input[type=number] {
   margin-top: 2.5rem;
   margin-right: auto;
   margin-left: auto;
-  max-width: 71.25rem;
+  margin-bottom: auto;
+  width: 71.25rem;
 }
 .registration-onboarding__title {
   margin-bottom: 0;
