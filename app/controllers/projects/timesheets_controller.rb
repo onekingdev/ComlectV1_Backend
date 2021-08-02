@@ -7,7 +7,11 @@ class Projects::TimesheetsController < ApplicationController
   before_action :find_project
 
   def index
-    render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_specialist_layout'
+    render html: content_tag('project-timesheets-page',
+                             '',
+                             ':id': params[:project_id],
+                             'token': JsonWebToken.encode(sub: current_user.id)).html_safe,
+           layout: 'vue_specialist'
   end
 
   def show

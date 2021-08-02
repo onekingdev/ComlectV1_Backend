@@ -8,8 +8,12 @@ class Users::SessionsController < Devise::SessionsController
   before_action :eat_redirect, only: :create
   respond_to :js, :html
 
+  # def new
+  #  render html: content_tag('signin-page', '').html_safe, layout: 'vue_onboarding'
+  # end
+
   def new
-    render html: content_tag('signin-page', '').html_safe, layout: 'vue_onboarding'
+    render html: content_tag('auth-layoyt', '').html_safe, layout: 'vue_onboarding'
   end
 
   # POST /resource/sign_in

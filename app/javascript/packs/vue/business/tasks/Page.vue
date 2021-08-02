@@ -5,8 +5,8 @@
       .page-header__actions
         a.btn.btn-default.m-r-1(v-if="!shortTable") Download
         TaskModalCreate(@saved="refetch()")
-          a.btn.btn-dark New task
-    .card-body.white-card-body
+          a.btn.btn-dark New Task
+    .card-body.white-card-body.p-x-40
       .row.mb-3(v-if="!shortTable")
         .col
           div

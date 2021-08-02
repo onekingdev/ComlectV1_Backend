@@ -64,10 +64,10 @@ import { isOverdue, badgeClass } from '@/common/TaskHelper'
 export default {
   computed: {
     apiProjectsUrl() {
-      return '/api/specialist/projects/my'
+      return this.$store.getters.url('URL_API_MY_PROJECTS')
     },
     linkProjectUrl() {
-      return id => `/specialist/my-projects/${id}`
+      return id => this.$store.getters.url('URL_MY_PROJECT_SHOW', id)
     },
     getContacts() {
       return projects => projects.reduce((contacts, project) => {
