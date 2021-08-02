@@ -142,7 +142,7 @@
         if (!this.form.password) Object.assign(this.errors, { password: 'Field empty' })
         if (!this.form.passwordConfirm) Object.assign(this.errors, { passwordConfirm: 'Field empty' })
         if (this.form.email && !validateEmail(this.form.email)) {
-          Object.assign(this.errors, { email: 'Email not valid!' })
+          Object.assign(this.errors, { email: 'Email not valid' })
           return
         }
         if (this.form.password !== this.form.passwordConfirm) {

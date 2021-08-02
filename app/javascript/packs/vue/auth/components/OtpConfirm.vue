@@ -1,8 +1,9 @@
 <template lang="pug">
   .card.registration
     .card-body.white-card-body
-      h1.text-center Confirm Your Email!
-      p.text-center We sent a 6 digit code to {{ form.email }}. Please enter it below.
+      .registration-welcome
+        h1.registration__title Confirm Your Email
+        p.registration__subtitle We sent a 6 digit code to {{ form.email }}. Please enter it below.
       div
         b-form(@submit='onSubmit' @keyup="onCodeChange" v-if='show' autocomplete="off")
           b-form-group
@@ -23,10 +24,11 @@
               .col
                 input(v-model='form2.code' type='hidden')
           b-button.w-100.mb-3(type='submit' variant='dark' ref="codesubmit") Submit
-          b-form-group.mb-0
-            .row
-              .col-12.text-center
-                a.link(@click.stop="resendOTP" :disabled="disabled") Resend code
+          .card-footer
+            b-form-group.mb-0
+              .row
+                .col-12.text-center
+                  a.link(@click.stop="resendOTP" :disabled="disabled") Resend code
 </template>
 
 <script>

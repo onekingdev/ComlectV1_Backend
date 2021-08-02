@@ -81,7 +81,7 @@
         if (!this.form.email) Object.assign(this.errors, { email: 'Field empty' })
         if (!this.form.password) Object.assign(this.errors, { password: 'Field empty' })
         if (this.form.email && !validateEmail(this.form.email)) {
-          Object.assign(this.errors, { email: 'Email not valid!' })
+          Object.assign(this.errors, { email: 'Email not valid' })
           return
         }
 
