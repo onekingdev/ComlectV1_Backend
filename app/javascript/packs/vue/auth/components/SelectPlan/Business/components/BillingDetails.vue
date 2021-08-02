@@ -31,7 +31,7 @@
           h4.registration-card-header__title Users
           p.registration-card-header__subtitle Enter the number of users for your plan (this is often your employee headcount
         .d-flex.justify-content-end.align-items-center
-          b-form-input(v-model="additionalUsersCount" type="number" min="1" max="100" @keyup="onChangeUserCount")
+          b-form-input.form-control-number(v-model="additionalUsersCount" type="number" min="1" max="100" @keyup="onChangeUserCount")
     .card-header.registration-card-header.p-y-20.px-0
       .d-flex.justify-content-between
         h4.registration-card-header__title Payment Method
