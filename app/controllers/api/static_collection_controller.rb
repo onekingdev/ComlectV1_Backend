@@ -13,6 +13,10 @@ class Api::StaticCollectionController < ApiController
                    "sub_industries_business": sub_industries(false),
                    "sub_industries_specialist": sub_industries(true),
                    "states": State.fetch_all_usa,
-                   "timezones": timezones_array }.to_json
+                   "countries": ISO3166::Country.all.collect(&:name),
+                   "timezones": timezones_array,
+                   "STRIPE_PUBLISHABLE_KEY": ENV.fetch('STRIPE_PUBLISHABLE_KEY'),
+                   "PLAID_PUBLIC_KEY": ENV.fetch('PLAID_PUBLIC_KEY'),
+                   "GOOGLE_PLACES_API_KEY": ENV.fetch('GOOGLE_PLACES_API_KEY') }.to_json
   end
 end

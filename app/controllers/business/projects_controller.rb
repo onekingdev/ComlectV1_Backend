@@ -16,23 +16,23 @@ class Business::ProjectsController < ApplicationController
   }.freeze
 
   def index
-    render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_main_layout'
+    render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_business_layout'
   end
 
   def new
-    render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_main_layout'
+    render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_business_layout'
   end
 
   def show
-    render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_main_layout'
+    render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_business_layout'
   end
 
   def show_post
-    render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_main_layout'
+    render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_business_layout'
   end
 
   def update_post
-    render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_main_layout'
+    render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_business_layout'
   end
 
   def create

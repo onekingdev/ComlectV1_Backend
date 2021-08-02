@@ -2,6 +2,9 @@ import Vue from 'vue'
 import Router from 'vue-router'
 // import AuthGuard from './auth-guard'
 
+// NOT FOUND
+import PageNotFound from '@/common/PageNotFound'
+
 // AUTH
 import SignIn from '@/auth/SingIn/Page'
 import SignUp from '@/auth/SignUp/Page'
@@ -11,16 +14,16 @@ import OtpConfirm from '@/auth/components/OtpConfirm'
 import BusinessOnboarding from '@/auth/SignUp/Onboarding/Business/BusinessPage'
 import SpecialistOnboarding from '@/auth/SignUp/Onboarding/Specialist/SpecialistPage'
 
-import PageNotFound from '@/common/PageNotFound'
-
 // BUSINESS
 import Dashboard from '@/business/dashboard/Page'
 import Projects from '@/business/projects/Page'
 import ProjectReview from '@/business/projects/ShowPage'
 import PostProjectPage from '@/business/projects/PostProjectPage'
 import ShowPostPage from '@/business/projects/ShowPostPage'
+import ProjectTimesheetsShowPage from '@/business/projects/TimesheetsShowPage'
 import Tasks from '@/business/tasks/Page'
 import Policies from '@/business/policies/Page'
+import PoliciesEntire from '@/business/policies/PoliciesEntire'
 import PolicyCurrent from '@/business/policies/Details/PolicyCreate'
 import PolicyCurrentNoSections from '@/business/policies/Details/PolicyDetailsWithoutSections'
 import AnnualReviews from '@/business/annual/Page'
@@ -32,10 +35,10 @@ import ReportsRisks from '@/business/reportsrisks/Page'
 import FileFolders from '@/business/filefolders/Page'
 import Exams from '@/business/exammanagement/Page'
 import ExamCurrentReview from '@/business/exammanagement/PageCurrentReviewExam'
+import Profile from '@/business/profile/Page'
 import Settings from '@/business/settings/Page'
 import SettingsNotifications from '@/business/notifications/Page'
 import SpecialistsMarketplace from '@/business/marketplace/Page'
-import Profile from '@/business/profile/Page'
 
 // SPECIALISTS
 import DashboardS from '@/specialist/dashboard/Page'
@@ -50,6 +53,9 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
+    //NOT FOUND
+    { path: "*", component: PageNotFound },
+
     // REDIRECTS
     // { path: '/business', redirect: '/business/dashboard' },
     // { path: '/business/dashboard', redirect: '/business/dashboard' },
@@ -66,12 +72,11 @@ export default new Router({
     { path: '/business/onboarding', name: 'business-onboarding', component: BusinessOnboarding, props: true },
     { path: '/specialist/onboarding', name: 'specialist-onboarding', component: SpecialistOnboarding, props: true },
 
-    { path: "*", component: PageNotFound },
-
     // BUSINESS
     { path: '/business', name: 'dashboard', component: Dashboard },
     { path: '/business/projects', name: 'projects', component: Projects },
     { path: '/business/projects/:id(\\d+)', name: 'project-review', props: route => ({ projectId: +route.params.id }), component: ProjectReview },
+    { path: '/business/projects/:id(\\d+)/timesheets', name: 'project-timesheets', props: route => ({ projectId: +route.params.id }), component: ProjectTimesheetsShowPage },
     { path: '/business/projects/new', name: 'project-post', component: PostProjectPage },
     { path: '/business/projects/new/:id(\\d+)', name: 'project-post-from-local', props: route => ({ localProjectId: +route.params.id }), component: PostProjectPage },
     { path: '/business/project_posts/:id(\\d+)', name: 'project-post-view', props: route => ({ projectId: +route.params.id }), component: ShowPostPage },
@@ -79,7 +84,8 @@ export default new Router({
     { path: '/business/reminders', name: 'tasks', component: Tasks },
     // { path: '/business/compliance_policies', name: 'policies', component: Policies, beforeEnter: AuthGuard },
     { path: '/business/compliance_policies', name: 'policies', component: Policies, },
-    { path: '/business/compliance_policies/:policyId', name: 'policy-current', props: true, component: PolicyCurrentNoSections },
+    { path: '/business/compliance_policies/entire', name: 'policies-entire', props: true, component: PoliciesEntire },
+    { path: '/business/compliance_policies/:policyId(\\d+)', name: 'policy-current', props: true, component: PolicyCurrentNoSections },
     { path: '/business/annual_reviews', name: 'annual-reviews', component: AnnualReviews },
     { path: '/business/annual_reviews/:annualId', name: 'annual-reviews-general', props: true, component: AnnualReviewsCurrentGeneral, },
     { path: '/business/annual_reviews/:annualId/:revcatId', name: 'annual-reviews-review-category', props: true, component: AnnualReviewsCurrentReviewCategory },
@@ -89,6 +95,7 @@ export default new Router({
     { path: '/business/exam_management', name: 'exam-management', component: Exams },
     { path: '/business/exam_management/:examId', name: 'exam-management-current-review', props: true, component: ExamCurrentReview },
     { path: '/business/reports/risks', name: 'reports-risks', component: ReportsRisks },
+    { path: '/business/profile', name: 'profile', component: Profile},
     { path: '/business/settings', name: 'settings', component: Settings,
       children:  [
         { path: '/business/settings/general', name: 'settings-general', component: Settings, },
@@ -102,13 +109,13 @@ export default new Router({
     },
     { path: '/business/settings/notification-center', name: 'settings-notification-center', component: SettingsNotifications },
     { path: '/specialistmarketplace', name: 'specialists-marketplace', component: SpecialistsMarketplace },
-    { path: '/business/profile', name: 'profile', component: Profile },
 
 
     // SPECIALISTS
     { path: '/specialist', name: 'dashboard-specialist', component: DashboardS },
     { path: '/specialist/projects', name: 'projects-specialist', component: ProjectsS },
     { path: '/specialist/projects/:projectId', name: 'project-review-specialist', props: true, component: ProjectReviewS },
+    { path: '/specialist/profile', name: 'profile-specialist', component: ProfileS },
     { path: '/specialist/settings', name: 'settings-specialist', component: SettingsS,
       children:  [
         { path: '/specialist/settings/general', name: 'settings-general-specialist', component: SettingsS, },
@@ -122,7 +129,6 @@ export default new Router({
     },
     { path: '/specialist/settings/notification-center', name: 'settings-notification-center-specialist', component: SettingsNotificationsS },
     { path: '/specialist/projects-marketpalce', name: 'projects-marketpalce-specialist', component: ProjectsMarketplaceS },
-    { path: '/specialist/profile', name: 'profile-specialist', component: ProfileS },
   ],
   mode: 'history'
 })

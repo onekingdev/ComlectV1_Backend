@@ -2047,6 +2047,19 @@ table.table thead tr th {
   //border-top: solid 1px $gray-1;
 }
 
+.tabs {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  background-color: white;
+}
+
+.nav-tabs {
+  //background-color: $gray-background;
+  //border-bottom: 1px solid $gray-1;
+
+}
+
 
 .pointer {
   //color: $gray-1;
@@ -2701,8 +2714,8 @@ legend, .label {
 }
 
 .lds-ring-small {
-  width: 25px;
-  height: 25px;
+  width: 15px;
+  height: 15px;
 }
 
 .lds-ring div {
@@ -3064,10 +3077,10 @@ legend, .label {
 
 /* ---------- purchase-summary ---------- */
 .purchase-summary {
-  width: 31.875rem;
+  min-width: 31.875rem;
 
   @media (max-width: 800px) {
-    width: 100%;
+    min-width: 100%;
   }
 }
 .purchase-summary-header{

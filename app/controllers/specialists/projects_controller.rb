@@ -15,7 +15,7 @@ class Specialists::ProjectsController < ApplicationController
 
   def index
     # render html: content_tag('my-projects-page', '').html_safe, layout: 'vue_specialist'
-    render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_main_layout'
+    render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_business_layout'
   end
 
   def show
@@ -35,7 +35,7 @@ class Specialists::ProjectsController < ApplicationController
                              ':specialist-id': current_specialist.id,
                              'token': JsonWebToken.encode(sub: current_user.id),
                              ':application-id': @application.id).html_safe,
-           layout: 'vue_main_layout'
+           layout: 'vue_business_layout_but_actually_specialist'
   end
 
   private
