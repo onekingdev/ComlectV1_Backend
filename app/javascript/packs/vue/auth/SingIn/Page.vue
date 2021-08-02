@@ -9,10 +9,10 @@
           b-form(@submit='onSubmit' v-if='show')
             b-form-group#input-group-1.m-b-20(label='Email:' label-for='input-1')
               b-form-input#input-1(v-model='form.email' type='email' placeholder='Email')
-              Errors(:errors="errors.email")
+              .invalid-feedback.d-block(v-if="errors['user.email']") 'Email' {{ errors['user.email'] }}
             b-form-group#input-group-2.m-b-20(label='Password:' label-for='input-2')
               b-form-input#input-2(v-model='form.password' type='password' placeholder='Password')
-              Errors(:errors="errors.password")
+              .invalid-feedback.d-block(v-if="errors['user.password']") 'Email' {{ errors['user.password'] }}
             b-button.m-b-20.w-100(type='submit' variant='dark') Sign In
             b-form-group.text-center.forgot-password.mb-0
               router-link.link.o-8.forgot-password(to='/users/password/new') Forgot Password
@@ -68,6 +68,9 @@
         // clear errors
         this.error = ''
         this.errors = []
+
+        if (!this.form.email) Object.assign(this.errors, { email: 'Field empty' })
+        if (!this.form.password) Object.assign(this.errors, { password: 'Field empty' })
 
         this.form.email = this.form.email.toLowerCase()
         const data = {

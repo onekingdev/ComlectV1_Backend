@@ -35,13 +35,13 @@
                   b-form-input#input-2(v-model='form.lastName' type='text' placeholder='Last Name' min="3")
             b-form-group#input-group-3.m-b-20(label='Email:' label-for='input-3')
               b-form-input#input-3(v-model='form.email' type='email' placeholder='Email')
-              Errors(:errors="errors.email")
+              .invalid-feedback.d-block(v-if="errors['user.email']") This email {{ errors['user.email'][0] }}
             b-form-group#input-group-4.m-b-20(label='Password:' label-for='input-4')
               b-form-input#input-4(v-model='form.password' type='password' placeholder='Password')
-              Errors(:errors="errors.password")
+              .invalid-feedback.d-block(v-if="errors['user.password']") 'Password' {{ errors['user.password'][0] }}
             b-form-group#input-group-5.m-b-20(label='Repeat Password:' label-for='input-5')
               b-form-input#input-5(v-model='form.passwordConfirm' type='password' placeholder='Repeat Password')
-              Errors(:errors="errors.passwordConfirm")
+              .invalid-feedback.d-block(v-if="errors.passwordConfirm") {{ errors.passwordConfirm }}
             b-form-group.text-center.m-b-20
               p By signing up, I accept the&nbsp;
                 a.link(href="#") Complect Terms of Use&nbsp;
