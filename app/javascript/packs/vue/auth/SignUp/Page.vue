@@ -26,6 +26,7 @@
           p.registration__subtitle Create your FREE account
         div
           b-form(@submit='onSubmit' v-if='show')
+            b-alert.m-b-20(v-if="error" variant="danger" show) {{ error }}
             .row
               .col-md-6.pr-md-2
                 b-form-group#input-group-1.m-b-20(label='First Name:' label-for='input-1')
@@ -66,8 +67,11 @@
   // const random = Math.floor(Math.random() * 1000);
 
   const initialForm = () => ({
-    email: '',
+    firstName: ``,
+    lastName: ``,
+    email: ``,
     password: '',
+    passwordConfirm: '',
   })
 
   //validate Email
@@ -132,15 +136,20 @@
         // clear errors
         this.errors = []
 
+        if (!this.form.firstName) Object.assign(this.errors, { firstName: 'Field empty' })
+        if (!this.form.lastName) Object.assign(this.errors, { lastName: 'Field empty' })
+        if (!this.form.email) Object.assign(this.errors, { email: 'Field empty' })
+        if (!this.form.password) Object.assign(this.errors, { password: 'Field empty' })
+        if (!this.form.passwordConfirm) Object.assign(this.errors, { passwordConfirm: 'Field empty' })
+        if (this.form.email && !validateEmail(this.form.email)) {
+          Object.assign(this.errors, { email: 'Email not valid!' })
+          return
+        }
         if (this.form.password !== this.form.passwordConfirm) {
           this.errors = { passwordConfirm : 'Password does not match'}
           // this.toast('Error', `Password does not match`)
           return
         }
-
-        if (!this.form.email) Object.assign(this.errors, { email: 'Field empty' })
-        if (this.form.email && !validateEmail(this.form.email)) Object.assign(this.errors, { email: 'Email not valid!' })
-        if (!this.form.password) Object.assign(this.errors, { password: 'Field empty' })
 
         this.form.email = this.form.email.toLowerCase()
 
@@ -192,9 +201,8 @@
         this.$store.dispatch('signUp', dataToSend)
           .then((response) => {
             if (response.errors) {
-              for (const type of Object.keys(response.errors)) {
-                this.errors = response.errors[type]
-                // this.toast('Error', `Form has errors! Please recheck fields! ${error}`)
+              for (const [key, value] of Object.entries(response.errors[this.userType])) {
+                console.log(`${key}: ${value}`);
               }
             }
             if (!response.errors) {

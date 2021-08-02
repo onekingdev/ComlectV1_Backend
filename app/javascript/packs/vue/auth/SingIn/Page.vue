@@ -5,7 +5,7 @@
         .registration-welcome
           h1.registration__title Let's get you started!
         div
-          .invalid-feedback.d-block.text-center.m-b-20(v-if="error") {{ error }}
+          b-alert.m-b-20(v-if="error" variant="danger" show) {{ error }}
           b-form(@submit='onSubmit' v-if='show')
             b-form-group#input-group-1.m-b-20(label='Email:' label-for='input-1')
               b-form-input#input-1(v-model='form.email' type='text' placeholder='Email' :class="{'is-invalid': errors.email }")
@@ -79,12 +79,16 @@
         this.errors = []
 
         if (!this.form.email) Object.assign(this.errors, { email: 'Field empty' })
-        if (this.form.email && !validateEmail(this.form.email)) Object.assign(this.errors, { email: 'Email not valid!' })
         if (!this.form.password) Object.assign(this.errors, { password: 'Field empty' })
+        if (this.form.email && !validateEmail(this.form.email)) {
+          Object.assign(this.errors, { email: 'Email not valid!' })
+          return
+        }
 
         console.log(validateEmail(this.form.email))
 
         this.form.email = this.form.email.toLowerCase()
+
         const data = {
           user: {
             email: this.form.email,
