@@ -3079,6 +3079,10 @@ legend, .label {
 .purchase-summary {
   min-width: 31.875rem;
 
+  @media (max-width: 1200px) {
+    min-width: auto;
+  }
+
   @media (max-width: 800px) {
     min-width: 100%;
   }
