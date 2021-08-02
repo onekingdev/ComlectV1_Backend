@@ -5,7 +5,7 @@
         .col-md-12
           h3 Create Proposal
       .card-header
-        Get(:project='`/api/specialist/projects/${projectId}`'): template(v-slot="{project}"): div.row.pl-3
+        Get(:project='`/api/specialist/projects/${projectId}`' :callback="projectLoaded"): template(v-slot="{project}"): div.row.pl-3
           .col-md-6
             h3 Terms
             .row
@@ -83,23 +83,24 @@ export default {
     projectId: {
       type: Number,
       required: true
-    },
-    project: {
-      type: Object
     }
   },
   data() {
     return {
-      form: initialForm(this.project),
+      form: initialForm(),
       errors: {}
     }
   },
   methods: {
     saved() {
-      redirectWithToast(this.$store.getters.url('URL_MY_PROJECT_SHOW', ''), 'Proposal sent')
+      redirectWithToast('/specialist/my-projects/', 'Proposal sent')
     },
     pickFile(event) {
       this.form.document = event.target.files[0]
+    },
+    projectLoaded(payload) {
+      Object.assign(this.form, initialForm(payload))
+      return payload
     },
     calcPricingType
   },

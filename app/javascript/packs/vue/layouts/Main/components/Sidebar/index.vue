@@ -11,15 +11,9 @@
         ion-icon.ml-auto(name='chevron-down-outline')
       b-collapse#overview_collapse(v-model="overview_collapse")
         ul.sidebar-menu__list
-          li.nav-item.sidebar-menu__item(@click.stop="openLink('default')")
-            router-link.sidebar-menu__link(:to='`/${userType}`' active-class="active" exact)
-              | Dashboard
-          li.nav-item.sidebar-menu__item(@click.stop="openLink('default')")
-            router-link.sidebar-menu__link(:to='`/${userType}/reminders`' active-class="active")
-              | Tasks
-          li.nav-item.sidebar-menu__item(@click.stop="openLink('default')")
-            router-link.sidebar-menu__link(:to='`/${userType}/projects`' active-class="active")
-              | Projects
+          li.nav-item.sidebar-menu__item(v-for="(link, i) in menuLinksOverview" @click.stop="openLink('default')" :key="i")
+            router-link.sidebar-menu__link(:to='link.to' active-class="active" :exact="link.exact || false")
+              | {{ link.label }}
       div(v-if="userType !== 'specialist'")
         h3.sidebar-menu__title(
         :class="program_management_collapse ? null : 'collapsed'"
@@ -83,13 +77,11 @@
         overview_collapse: true,
         program_management_collapse: true,
         files: true,
-        userType: '',
         toggleClosedMenu: false
       }
     },
     created() {
       const splittedUrl = window.location.pathname.split('/') // ["", "business", "reminders"]
-      this.userType = splittedUrl[1]
       this.$store.commit('changeUserType', this.userType)
       const splitUrl = splittedUrl[2]
       if(splitUrl === "file_folders" || splitUrl === "settings") this.$store.commit('changeSidebar', 'documents')
@@ -122,6 +114,39 @@
     computed: {
       leftSidebar () {
         return this.$store.getters.leftSidebar
+      },
+      userType() {
+        const splittedUrl = window.location.pathname.split('/') // ["", "business", "reminders"]
+        return splittedUrl[1] === 'business' ? 'business' : 'specialist'
+      },
+      menuLinksOverview() {
+        return this.userType === 'business' ? this.menuLinksOverviewBusiness : this.menuLinksOverviewSpecialist
+      },
+      menuLinksOverviewBusiness() {
+        return [{
+          to: '/business',
+          label: 'Dashboard',
+          exact: true
+        }, {
+          to: '/business/reminders',
+          label: 'Tasks'
+        }, {
+          to: '/business/projects',
+          label: 'Projects'
+        }]
+      },
+      menuLinksOverviewSpecialist() {
+        return [{
+          to: '/specialist',
+          label: 'Dashboard',
+          exact: true
+        }, {
+          to: '/specialist/reminders',
+          label: 'Tasks'
+        }, {
+          to: '/specialist/my-projects',
+          label: 'Projects'
+        }]
       }
     },
     watch: {

@@ -1,66 +1,130 @@
 <template lang="pug">
-  .card.registration
-    .card-body.white-card-body
-      .form
-        .registration-welcome
-          h1.registration__title Let's get you started!
-        div
-          b-alert.m-b-20(v-if="error" variant="danger" show) {{ error }}
-          b-form(@submit='onSubmit' v-if='show')
-            b-form-group#input-group-1.m-b-20(label='Email:' label-for='input-1')
-              b-form-input#input-1(v-model='form.email' type='text' placeholder='Email' :class="{'is-invalid': errors.email }")
-              .invalid-feedback.d-block(v-if="errors.email") {{ errors.email }}
-            b-form-group#input-group-2.m-b-20(label='Password:' label-for='input-2')
-              b-form-input#input-2(v-model='form.password' type='password' placeholder='Password' :class="{'is-invalid': errors.password }")
-              .invalid-feedback.d-block(v-if="errors.password") {{ errors.password }}
-            b-button.m-b-20.w-100(type='submit' variant='dark') Sign In
-            b-form-group.text-center.forgot-password.mb-0
-              router-link.link.o-8.forgot-password(to='/users/password/new') Forgot Password
-    .card-footer
-      b-form-group.text-center.mb-0
-        p.mb-0 Don't have an account yet?&nbsp;
-          router-link.link(to='/users/sign_up') Sign up
+  div
+    .container-fluid(v-if='!childDataLoaded')
+      TopNavbar
+      main.row#main-content
+        .col.m-x-auto
+          .card.registration
+            .card-body.white-card-body
+              Loading
+              #step1.form(v-if='!loading' :class="step1 ? 'd-block' : 'd-none'")
+                .registration-welcome
+                  h1.registration__title Let's get you started!
+                  // p.registration__subtitle Enter to the system
+                div
+                  b-alert(:show='dismissCountDown' dismissible fade variant='danger' @dismiss-count-down='countDownChanged')
+                    | {{ error }}
+                    br
+                    | This alert will dismiss after {{ dismissCountDown }} seconds...
+                  b-form(@submit='onSubmit1' v-if='show')
+                    b-form-group#input-group-1.m-b-20(label='Email:' label-for='input-1')
+                      b-form-input#input-1(v-model='form.email' type='email' placeholder='Email' required)
+                      .invalid-feedback.d-block(v-if="errors['user.email']") 'Email' {{ ...errors['user.email'] }}
+                    b-form-group#input-group-2.m-b-20(label='Password:' label-for='input-2')
+                      b-form-input#input-2(v-model='form.password' type='password' placeholder='Password' required)
+                      .invalid-feedback.d-block(v-if="errors['user.password']") 'Email' {{ ...errors['user.password'] }}
+                    b-button.m-b-20.w-100(type='submit' variant='dark') Sign In
+                    b-form-group.text-center.forgot-password.mb-0
+                      // p Forget your password?&nbsp;
+                      //  a.link(href="#") Restore
+                      a.link.o-8.forgot-password(data-remote='true' href='/users/password/new') Forgot Password
+                      // router-link.link.o-8.forgot-password(to='/users/password/new') Forgot Password
+                      //h4.text-uppercase.m-t-1 Don't have an account yet?&nbsp;
+                      //  a.link(data-remote='true' href='/users/sign_up') Sign up
+                        // router-link.link(to='/users/sign_up') Sign up
+              #step2.form(v-if='!loading' :class="step2 ? 'd-block' : 'd-none'")
+                // OtpConfirm(@otpSecretConfirmed="otpConfirmed", :form="form")
+                .registration-welcome.text-center
+                  h1.registration__title Confirm Your Email!
+                  p.registration__subtitle We sent a 6 digit code to {{ form.email }}. Please enter it below.
+                div
+                  b-form(@submit='onOTPConfirm' @keyup="onCodeChange" v-if='show' autocomplete="off")
+                    b-form-group
+                      .col.text-center
+                        img.otp-icon.m-b-40(src='@/assets/mail.svg' width="180" height="110")
+                    b-form-group
+                      .row.m-b-40
+                        .col-12.mx-0
+                          .d-flex.justify-content-space-around.mx-auto
+                            input#inputCode1.code-input.ml-auto(v-model='form2.codePart1' type='number' pattern='\d*' inputmode="decimal" maxlength="1" required)
+                            input#inputCode2.code-input(v-model='form2.codePart2' type='number' pattern='\d*' inputmode="decimal" maxlength="1" required)
+                            input#inputCode3.code-input(v-model='form2.codePart3' type='number' pattern='\d*' inputmode="decimal" maxlength="1" required)
+                            input#inputCode4.code-input(v-model='form2.codePart4' type='number' pattern='\d*' inputmode="decimal" maxlength="1" required)
+                            input#inputCode5.code-input(v-model='form2.codePart5' type='number' pattern='\d*' inputmode="decimal" maxlength="1" required)
+                            input#inputCode6.code-input.mr-auto(v-model='form2.codePart6' type='number' pattern='\d*' inputmode="decimal" maxlength="1" required)
+                          .invalid-feedback.d-block.text-center(v-if="errors.code") {{ errors.code }}
+                      .row
+                        .col
+                          input(v-model='form2.code' type='hidden')
+                    b-button.registration__btn.w-100(type='submit' variant='dark' ref="codesubmit") Submit
+                    b-form-group
+                      .row
+                        .col-12.text-center
+                          a.link(href="#" @click.stop="resendOTP") Send new code
+              #step3.form(v-if='!loading' :class="step3 ? 'd-block' : 'd-none'")
+                h1.text-center You successfuly logged in!
+                p.text-center.m-b-2 You will be redirect to the dashboard!
+                  //b-icon.ml-2(icon="circle-fill" animation="throb" font-scale="5")
+                //.text-center
+                //  ion-icon(name="checkmark-circle-outline")
+                p.text-center If you don't want to wait. Please&nbsp;
+                  a.link(:href="dashboardLink") click here
+            .card-footer(v-if='!loading && step1')
+              b-form-group.text-center.mb-0
+                p.mb-0 Don't have an account yet?&nbsp;
+                  a.link(href="/users/sign_up") Sign up
+                  //router-link.link(to='/users/sign_up') Sign up
 </template>
 
 <script>
   import Loading from '@/common/Loading/Loading'
   import TopNavbar from "../components/TopNavbar";
+  // import OtpConfirm from "../components/OtpConfirm";
+
+  // const random = Math.floor(Math.random() * 1000);
 
   /* Will be deleted soon after we test it on staging */
   console.warn("process.env.STRIPE_PUBLISHABLE_KEY > ", process.env.STRIPE_PUBLISHABLE_KEY)
   console.warn("process.env.PLAID_PUBLIC_KEY > ", process.env.PLAID_PUBLIC_KEY)
 
-  const initialForm = () => ({
-    firstName: ``,
-    lastName: ``,
-    email: ``,
-    password: '',
-    passwordConfirm: '',
-  })
-
-  //validate Email
-  function validateEmail($email) {
-    var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-    return emailReg.test($email);
-  }
-
   export default {
+    props: ['industryIds', 'jurisdictionIds', 'subIndustryIds', 'states'],
     components: {
       TopNavbar,
       Loading,
+      // OtpConfirm
     },
     data() {
       return {
         userId: '',
         otpSecret: '',
         userType: '',
-        form: initialForm(),
+        form: {
+          email: '',
+          password: '',
+        },
+        form2: {
+          codePart1: '',
+          codePart2: '',
+          codePart3: '',
+          codePart4: '',
+          codePart5: '',
+          codePart6: '',
+          code: '',
+        },
         show: true,
         error: '',
         errors: {},
         step1: true,
         step2: false,
         step3: false,
+        childDataLoaded: false,
+        childdata : [],
+        component: '',
+        dismissSecs: 8,
+        dismissCountDown: 0,
+        showDismissibleAlert: false,
+        dashboardLink: '',
         emailVerified: true,
       }
     },
@@ -72,20 +136,10 @@
         this.step1 = false
         this.step2 = true
       },
-      onSubmit(event) {
+      onSubmit1(event) {
         event.preventDefault()
         // clear errors
-        this.error = ''
         this.errors = []
-
-        if (!this.form.email) Object.assign(this.errors, { email: 'Field empty' })
-        if (!this.form.password) Object.assign(this.errors, { password: 'Field empty' })
-        if (this.form.email && !validateEmail(this.form.email)) {
-          Object.assign(this.errors, { email: 'Email not valid' })
-          return
-        }
-
-        console.log(validateEmail(this.form.email))
 
         this.form.email = this.form.email.toLowerCase()
 
@@ -95,20 +149,26 @@
             password: this.form.password
           },
         }
-        console.log('data', data)
+
         this.$store.dispatch('signIn', data)
-          .then(response => {
+          .then((response) => {
+
             if (response.errors) {
-              console.log('response.signIn', response)
-              if (response.errors === 'Invalid email or password') {
-                this.error = response.errors
+              console.log('response.errors')
+              this.error = `${response.errors}`
+              this.showAlert()
+
+              for (const type of Object.keys(response.errors)) {
+                this.errors = response.errors[type]
+                // this.toast('Error', `Form has errors! Please recheck fields! ${error}`)
+                this.error = `${response.errors[type]}`
               }
-              if (response.error === 'Please, confirm your email' || response.errors === 'Please, confirm your email') {
+
+              if (this.error === 'Please, confirm your email' || response.errors === 'Please, confirm your email') {
                 this.emailVerified = false
 
-                // this.step1 = false
-                // this.step2 = true
-                this.$router.push({ name: 'otp-confirm', params: {form: this.form, userid: this.userid, userType: this.userType, emailVerified: this.emailVerified }})
+                this.step1 = false
+                this.step2 = true
 
                 let data = {
                   user: {
@@ -116,34 +176,44 @@
                   },
                 }
 
-                console.log('data2', data)
-
                 this.$store.dispatch('resendOTP', data)
                   .then((response) => {
-                    console.log('response.resendOTP', response)
-                    this.$router.push({ name: 'otp-confirm', params: {form: this.form, userid: this.userid, userType: this.userType, emailVerified: this.emailVerified }})
+                    // this.toast('Success', `${response.message}`)
+                    this.errors.code = `${response.message}`
+                    this.showAlert()
                   })
                   .catch((error) => {
-                    console.error('error.resendOTP', error)
+                    // this.toast('Error', `${error.message}`)
+                    console.log('resendOTP', error)
                   })
               }
             }
             if (!response.errors) {
               // this.toast('Success', `${response.message}`)
               // open step 2
-              // this.step1 = false
-              // this.step2 = true
-              // this.$router.push('/otp-confirm')
-              // this.$router.push({ path: '/otp-confirm', params: {form: this.form }})
-              console.log({form: this.form, userid: this.userid, userType: this.userType, emailVerified: this.emailVerified })
-              this.$router.push({ name: 'otp-confirm', params: {form: this.form, userid: this.userid, userType: this.userType, emailVerified: this.emailVerified }})
+              this.step1 = false
+              this.step2 = true
             }
           })
-          .catch(error => {
-            if (error.errors === 'Invalid email or password.' || error.errors.invalid === 'Invalid email or password.') {
-              this.error = error.errors.invalid
+          .catch((error) => {
+            const { data } = error
+            if(data.errors) {
+              for (const type of Object.keys(data.errors)) {
+                // this.toast('Error', `${data.errors[type]}`)
+                this.error = `Error! ${data.errors[type]}`
+              }
+              this.showAlert()
             }
-            console.log(error)
+            if (!data.errors) {
+              this.error = `Error! Couldn't submit form.`
+              this.showAlert()
+            }
+            // if (error.errors) {
+            //   this.toast('Error', `Couldn't submit form! ${error.message}`)
+            // }
+            // if (!error.errors) {
+            //   this.toast('Error', `${error.status} (${error.statusText})`)
+            // }
           })
       },
       onOTPConfirm(event) {
@@ -178,18 +248,18 @@
                 this.step2 = false
                 this.step3 = true
 
-                // this.toast('Success', `You will be redirect to the dashboard!`)
+                this.toast('Success', `You will be redirect to the dashboard!`)
 
                 const dashboard = response.business ? '/business' : '/specialist'
+                this.dashboardLink = dashboard
                 setTimeout(() => {
                   window.location.href = `${dashboard}`;
                 }, 3000)
               }
             })
-            .catch((error) => {
-              // this.toast('Error', `${error.message}`)
-            })
+            .catch((error) => this.toast('Error', `${error.message}`))
         }
+
 
         // IF VERIFIED EMAIL
         if(this.emailVerified) {
@@ -216,9 +286,10 @@
               this.step2 = false
               this.step3 = true
 
-              // this.toast('Success', `You will be redirect to the dashboard!`)
+              this.toast('Success', `You will be redirect to the dashboard!`)
 
               const dashboard = response.business ? '/business' : '/specialist'
+              this.dashboardLink = dashboard
               setTimeout(() => {
                 window.location.href = `${dashboard}`;
               }, 3000)
@@ -281,12 +352,14 @@
         }
 
         this.$store.dispatch('resendOTP', dataToSend)
-          .then((response) => {
-            // this.toast('Success', `${response.message}`)
-          })
-          .catch((error) => {
-            // this.toast('Error', `${error.message}`)
-          })
+          .then((response) => this.toast('Success', `${response.message}`))
+          .catch((error) => this.toast('Error', `${error.message}`))
+      },
+      countDownChanged(dismissCountDown) {
+        this.dismissCountDown = dismissCountDown
+      },
+      showAlert() {
+        this.dismissCountDown = this.dismissSecs
       },
     },
     computed: {

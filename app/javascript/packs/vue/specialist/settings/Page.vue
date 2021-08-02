@@ -11,8 +11,8 @@
         .col-md-3
           .panel-default
             ul.settings-nav
-              li.settings-nav__item(v-for='(item, idx) in menu' :key="idx" @click="openSetting(item.link, $event)" :class="{ active: item.link === component }")
-                a.settings-nav__link(:href='item.link') {{ item.name }}
+              li.settings-nav__item(v-for='(item, idx) in menu' :key="idx" @click="openSetting(item.component)" :class="{ active: item.link === component }")
+                a.settings-nav__link(:href='item.link' @click.prevent) {{ item.name }}
         .col-md-9
           component(v-bind:is="component" @addMethodOpen="addMethodOpen")
 
@@ -59,25 +59,19 @@
         component: '',
         componentUpgrade: '',
         menu: [
-          { name: 'General', link: 'General' },
-          { name: 'Client Permisssions', link: 'ClientPermisssions' },
-          { name: 'Users', link: 'Users' },
-          { name: 'Security', link: 'Security' },
-          { name: 'Subscriptions', link: 'Subscriptions' },
-          { name: 'Billings', link: 'Billings' },
-          { name: 'Notifications', link: 'Notifications' },
+          { name: 'General', link: 'general', component: General },
+          { name: 'Client Permisssions', link: 'roles', component: ClientPermisssions },
+          { name: 'Users', link: 'users', component: Users },
+          { name: 'Security', link: 'security', component: Security },
+          { name: 'Subscriptions', link: 'subscriptions', component: Subscriptions },
+          { name: 'Billings', link: 'billings', component: Billings },
+          { name: 'Notifications', link: 'notifications', component: Notifications },
         ]
       };
     },
     methods: {
-      openSetting (name, event) {
-        this.component = name;
-        document.querySelectorAll('.settings-nav__item').forEach(function (link, i) {
-          link.classList.remove('active')
-        });
-        if(event) event.target.classList.add('active')
-
-        this.navigate(name)
+      openSetting (name) {
+        this.component = name
       },
       addMethodOpen () {
         // console.log('open')
@@ -87,19 +81,12 @@
         // console.log('open')
         this.componentUpgrade = ''
         this.toast('Success', 'Plan upgraded.')
-      },
-      navigate(name) {
-        const baseUrl = new URL(window.location.origin);
-        window.history.pushState({}, name, `${baseUrl}business/settings/${name.toLowerCase()}`);
       }
     },
     computed: {
       loading() {
         return this.$store.getters.loading;
       },
-    },
-    mounted() {
-
     },
   };
 </script>

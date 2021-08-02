@@ -7,13 +7,10 @@
 @import "_type.scss";
 // REMOVE LATER
 //@import url('https://fonts.googleapis.com/css2?family=Varela&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@100;300;400;600;700&family=Varela&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@100;300;400;600&family=Varela&display=swap');
 
 
 $minWidthContent: calc(62.5rem - 17.8125rem); // 1000px-285px (width minus sidebar width)
-$font-weight-regular: 400;
-$font-weight-semi-bold: 600;
-$font-weight-bold: 700;
 
 /* ---------- MAIN STYLES ---------- */
 #app, body, html {
@@ -68,7 +65,6 @@ body, html {
 
   //font-family: 'Varela', sans-serif;
   font-family: 'Public Sans', sans-serif !important;
-  font-weight: $font-weight-regular;
 }
 body.modal-open {
   overflow: hidden !important;
@@ -123,11 +119,6 @@ input, button, select, optgroup, textarea {
 
 // need remove or rewrite
 #main-content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
-
   min-height: calc(100vh - 80px);
   background-color: $gray-background;
 }
@@ -762,7 +753,7 @@ input, button, select, optgroup, textarea {
     }
 
     &.active {
-      font-weight: $font-weight-bold;
+      font-weight: 600;
     }
 
     &_settings {
@@ -882,12 +873,6 @@ input, button, select, optgroup, textarea {
   //border-bottom: 1px solid $gray-1;
 }
 
-.special-navs .nav-tabs,
-.nav-tabs.special-navs {
-  background-color: #F6F6F8;
-  border-bottom: 1px solid #DCDEE4;
-}
-
 .nav-tabs .nav-item .nav-link {
   //margin-left: 0;
   //margin-right: 2.5rem; // 40px
@@ -929,7 +914,7 @@ a.btn,
   //height: 2.1875rem; //35px
   font-size: 0.875rem; //14px
   line-height: 1.2;
-  font-weight: $font-weight-bold;
+  font-weight: bold;
   border-radius: 4px;
   outline: none;
   transition: all 200ms ease-in;
@@ -940,10 +925,6 @@ a.btn,
   &:focus {
     outline: none !important;
     box-shadow: none;
-  }
-
-  .b-icon.bi {
-    font-size: 100%;
   }
 }
 .btn.btn-primary,
@@ -1046,7 +1027,7 @@ a.btn,
 /*a.btn,*/
 /*button.btn {*/
 /*padding: .5rem 1.2rem;*/
-/*font-weight: $font-weight-bold;*/
+/*font-weight: 600;*/
 /*transition: all 200ms ease-in;*/
 /*}*/
 /*a.btn {*/
@@ -1065,7 +1046,7 @@ a.btn,
 /*button.btn__close {*/
 /*padding: 0;*/
 /*font-size: 1.5rem;*/
-/*font-weight: $font-weight-bold;*/
+/*font-weight: 600;*/
 /*}*/
 
 /*.policy-actions .dropdown-item,*/
@@ -1102,7 +1083,7 @@ a.btn,
 //    padding: 0 1rem;
 //    width: 2rem;
 //    font-size: 1.5rem;
-//    font-weight: $font-weight-bold;
+//    font-weight: 600;
 //    background-color: transparent;
 //    border: none;
 //    border-radius: 3px;
@@ -2097,7 +2078,7 @@ table.table thead tr th {
     }
 
     .nav-link.active {
-      font-weight: $font-weight-bold;
+      font-weight: 600;
       background: none !important;
       border-bottom: 4px solid #ffcc00;
     }
@@ -2331,7 +2312,7 @@ table.table thead tr th {
       .nav-item .nav-link, .policy .nav-tabs .nav-item .nav-link.active {
         padding-top: 1rem;
         padding-bottom: 1rem;
-        font-weight: $font-weight-bold;
+        font-weight: 600;
       }
     }
   }
@@ -2418,7 +2399,7 @@ table.table thead tr th {
 
 .text-right .btn {
   /*min-width: 65px;*/
-  font-weight: $font-weight-bold;
+  font-weight: 600;
 }
 
 .btn.btn-dark:hover,
@@ -2482,7 +2463,6 @@ legend, .label {
 }
 
 .otp-icon {
-  margin-bottom: 2.5rem;
 }
 
 @media (max-width: 575px) {
@@ -2715,8 +2695,8 @@ legend, .label {
 }
 
 .lds-ring-small {
-  width: 15px;
-  height: 15px;
+  width: 25px;
+  height: 25px;
 }
 
 .lds-ring div {
@@ -2894,10 +2874,6 @@ legend, .label {
 
 .m-b-40 {
   margin-bottom: 2.5rem !important;
-}
-
-.m-b-60 {
-  margin-bottom: 3.75rem !important; // 60px
 }
 
 .m-b-80 {
@@ -3080,20 +3056,12 @@ legend, .label {
   color: #797B7E;
 }
 
-.form-control-number {
-  min-width: 2rem;
-}
-
 /* ---------- purchase-summary ---------- */
 .purchase-summary {
-  min-width: 31.875rem;
-
-  @media (max-width: 1200px) {
-    min-width: auto;
-  }
+  width: 31.875rem;
 
   @media (max-width: 800px) {
-    min-width: 100%;
+    width: 100%;
   }
 }
 .purchase-summary-header{

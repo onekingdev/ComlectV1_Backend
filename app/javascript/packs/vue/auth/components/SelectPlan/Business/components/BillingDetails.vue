@@ -31,7 +31,7 @@
           h4.registration-card-header__title Users
           p.registration-card-header__subtitle Enter the number of users for your plan (this is often your employee headcount
         .d-flex.justify-content-end.align-items-center
-          b-form-input.form-control-number(v-model="additionalUsersCount" type="number" min="1" max="100" @keyup="onChangeUserCount")
+          b-form-input(v-model="additionalUsersCount" type="number" min="1" max="100" @keyup="onChangeUserCount")
     .card-header.registration-card-header.p-y-20.px-0
       .d-flex.justify-content-between
         h4.registration-card-header__title Payment Method
@@ -46,18 +46,19 @@
           label(:for="'card'+card.id") {{ card.text }}
         dd.col-sm-5.text-right.m-b-0
           | {{ card.number }} {{ card.type }}
-          a.link.ml-2(@click.stop="deletePaymentMethod(card.id)") Remove
+          a.link.ml-2(href="#" @click.stop="deletePaymentMethod(card.id)") Remove
     .card-header.registration-card-header.bordeless.p-t-20.px-0(v-show="!cardOptions.length")
       stripe-element-card(ref="elementRef" :pk="pk" @token="tokenCreated")
       .row
         .col.text-right
-          b-button(v-show="!loading" type='button' variant='outline-primary' @click="submit") Add
-          b-button(v-show="loading" type='button' variant='none')
-            .lds-ring.lds-ring-small
+          b-button(type='button' variant='outline-primary' @click="submit")
+            // b-icon.mr-2(icon="arrow-clockwise" animation="spin" font-scale="1" v-show="loading")
+            .lds-ring.lds-ring-small(v-show="loading")
               div
               div
               div
               div
+            span(v-show="!loading") Add
 </template>
 
 <script>
@@ -164,26 +165,9 @@
           id: cardId
         })
       },
-      onSuccess (publicToken, metadata) {
-        console.log('plaidPK', this.plaidPK)
-        console.log('plaid info', publicToken, metadata)
-        // form.find('#payment_form_plaid_token').val(publicToken);
-        // form.find('#payment_form_plaid_account_id').val(metadata.account_id);
-        // form.find('#payment_form_plaid_institution').val(metadata.institution.name);
-
-        const data = {
-          userType: this.userType,
-          plaid: {
-            plaid_token: this.plaidPK,
-            plaid_account_id: metadata.account_id,
-            plaid_institution: metadata.institution.name
-          }
-        }
-
-        this.$store.dispatch('generatePaymentMethod', data)
-          .then(response => console.log(response))
-          .catch(error => console.error(error))
-      }
+      onSuccess(token) {
+        console.log(token);
+      },
     },
     computed: {
       loading() {
@@ -193,10 +177,10 @@
         return this.plan
       },
       pk() {
-        return this.$store.getters.staticCollection.STRIPE_PUBLISHABLE_KEY
+        return process.env.STRIPE_PUBLISHABLE_KEY
       },
       plaidPK() {
-        return this.$store.getters.staticCollection.PLAID_PUBLIC_KEY;
+        return process.env.PLAID_PUBLIC_KEY
       }
     },
     mounted() {
