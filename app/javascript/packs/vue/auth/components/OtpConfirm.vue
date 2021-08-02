@@ -75,6 +75,11 @@
           this.$store.dispatch('confirmEmail', dataToSend1)
             .then((response) => {
               console.log('response', response)
+              this.error = response.message
+
+              if(response.message === 'Invalid 6 digits code')
+                this.toast('Error', 'Verification code failed. Try again.')
+
               if (response.errors) {
 
               }
@@ -88,7 +93,10 @@
                 this.$router.push(`${dashboard}/onboarding`)
               }
             })
-            .catch((error) => this.toast('Error', `${error.message}`))
+            .catch((error) => {
+              console.error(error)
+              this.toast('Error', `${error.message}`)
+            })
         }
 
         // IF VERIFIED EMAIL
