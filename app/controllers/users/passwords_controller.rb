@@ -2,8 +2,12 @@
 
 class Users::PasswordsController < Devise::PasswordsController
   include ActionView::Helpers::TagHelper
+  # def new
+  #   render html: content_tag('reset-password-page', '').html_safe, layout: 'vue_onboarding'
+  # end
+
   def new
-    render html: content_tag('reset-password-page', '').html_safe, layout: 'vue_onboarding'
+    render html: content_tag('auth-layoyt', '').html_safe, layout: 'vue_onboarding'
   end
 
   def edit
