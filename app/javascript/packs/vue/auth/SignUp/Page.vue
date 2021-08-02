@@ -45,13 +45,13 @@
             b-form-group#input-group-5.m-b-20(label='Repeat Password:' label-for='input-5')
               b-form-input#input-5(v-model='form.passwordConfirm' type='password' placeholder='Repeat Password' :class="{'is-invalid': errors.passwordConfirm }")
               .invalid-feedback.d-block(v-if="errors.passwordConfirm") {{ errors.passwordConfirm }}
-            b-form-group.text-center.m-b-20
+            b-form-group.paragraph.m-b-20
               p By signing up, I accept the&nbsp;
                 a.link(href="#") Complect Terms of Use&nbsp;
                 | and acknowledge the&nbsp;
                 a.link(href="#") Privacy Policy
             b-button.registration__btn.m-b-40.w-100(type='submit' variant='dark') Sign Up
-    .card-footer(v-if='!loading && step1')
+    .card-footer
       b-form-group.text-center.mb-0
         p.mb-0 Already have a Complect account?&nbsp;
           router-link.link(to='/users/sign_in') Sign In

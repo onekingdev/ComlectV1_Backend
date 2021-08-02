@@ -41,11 +41,15 @@
   font-weight: 600;
 }
 .registration__subtitle {
-  /*  font-size: 1.25rem;  20px */
+  font-size: 1.25rem;  /* 20px */
+}
+.registration__subtitle_forgot {
   font-size: 0.875rem; /* 14px */
 }
+
 .registration__btn {
-  margin-bottom: 1.875rem; /*30px*/
+  /*margin-bottom: 1.875rem; 30px*/
+  margin-bottom: 0.125rem; /*30px*/
   font-weight: 600;
   background-color: #303132;
 }
@@ -92,7 +96,8 @@
 }
 
 .account-select {
-  margin-bottom: 2.875rem; /*46px*/
+  /* margin-bottom: 2.875rem; 46px*/
+  margin-bottom: 1.875rem; /*46px*/
   padding: 2.5rem 1.5625rem; /* 40 25px */
   min-height: 15.5625rem; /*249px*/
   border: solid 1px #DCDEE4;

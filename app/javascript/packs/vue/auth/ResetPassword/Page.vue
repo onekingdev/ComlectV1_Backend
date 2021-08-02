@@ -5,8 +5,8 @@
       // #step1.form(v-if='!loading' :class="step1 ? 'd-block' : 'd-none'")
       .form
         .registration-welcome
-          h1.registration__title Reset password
-          p.registration__subtitle Please enter the email address used to log into your account to receive a link to reset your password. If you no longer have access to that email account, please contact us at help@complect.com for assistance.
+          h1.registration__title Reset Password
+          p.registration__subtitle.registration__subtitle_forgot Please enter the email address used to log into your account to receive a link to reset your password. If you no longer have access to that email account, please contact us at help@complect.com for assistance.
         div
           .invalid-feedback.d-block.text-center.m-b-20(v-if="error") {{ error }}
           b-form(@submit='onSubmit1' v-if='show')
