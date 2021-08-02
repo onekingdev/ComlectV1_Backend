@@ -31,7 +31,7 @@
 
 <script>
   export default {
-    props: ['form', 'userid', 'userType'],
+    props: ['form', 'userid', 'userType', 'emailVerified'],
     data() {
       return {
         show: true,
@@ -71,6 +71,8 @@
             otp_secret: this.form2.code
           }
 
+          console.log('dataToSend1 !this.emailVerified', dataToSend1)
+
           this.$store.dispatch('confirmEmail', dataToSend1)
             .then((response) => {
               console.log('response', response)
@@ -100,6 +102,8 @@
             otp_secret: this.form2.code
           }
 
+          console.log('dataToSend this.emailVerifie', dataToSend)
+
           this.$store.dispatch('signIn', dataToSend)
             .then((response) => {
               console.log('response', response)
@@ -113,8 +117,9 @@
                 // this.step3 = true
 
                 const dashboard = response.business ? '/business' : '/specialist'
-                // window.location.href = `${dashboard}`;
-                this.$router.push(`${dashboard}/onboarding`)
+                window.location.href = `${dashboard}`;
+                // this.$router.push(`${dashboard}/onboarding`)
+                // this.$router.push(`${dashboard}`)
               }
 
               this.error = response.message

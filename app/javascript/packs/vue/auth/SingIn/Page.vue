@@ -116,6 +116,7 @@
               // this.step2 = true
               // this.$router.push('/otp-confirm')
               // this.$router.push({ path: '/otp-confirm', params: {form: this.form }})
+              console.log({form: this.form, userid: this.userid, userType: this.userType, emailVerified: this.emailVerified })
               this.$router.push({ name: 'otp-confirm', params: {form: this.form, userid: this.userid, userType: this.userType, emailVerified: this.emailVerified }})
             }
           })
