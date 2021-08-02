@@ -1,7 +1,7 @@
 <template lang="pug">
   .card.registration
     .card-body.white-card-body
-      Loading
+      //Loading
       // #step1.form(v-if='!loading' :class="step1 ? 'd-block' : 'd-none'")
       #step1.form(:class="step1 ? 'd-block' : 'd-none'")
         .registration-welcome
@@ -10,16 +10,13 @@
             | account and we'll send you a link to reset your password. If you
             | are a business, we'll send the email to your key contact.
         div
-          b-alert(:show='dismissCountDown' dismissible fade variant='danger' @dismiss-count-down='countDownChanged')
-            | {{ error }}
-            br
-            | This alert will dismiss after {{ dismissCountDown }} seconds...
+          .invalid-feedback.d-block.text-center.m-b-20(v-if="error") {{ error }}
           b-form(@submit='onSubmit1' v-if='show')
             b-form-group#input-group-1.m-b-20(label='Email Address:' label-for='input-1')
               b-form-input#input-1(v-model='form.email' type='email' placeholder='Email' required)
               .invalid-feedback.d-block(v-if="errors['user.email']") 'Email Address' {{ ...errors['user.email'] }}
             b-button.registration__btn.w-100(type='submit' variant='dark') Reset
-    .card-footer(v-if='!loading && step1')
+    .card-footer
       b-form-group.text-center.mb-0
         router-link.link(to='/users/sign_in') Cancel
 </template>

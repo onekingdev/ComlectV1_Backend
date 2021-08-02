@@ -5,14 +5,14 @@
         .registration-welcome
           h1.registration__title Let's get you started!
         div
-          .invalid-feedback.d-block.text-center(v-if="error") {{ error }}
+          .invalid-feedback.d-block.text-center.m-b-20(v-if="error") {{ error }}
           b-form(@submit='onSubmit' v-if='show')
             b-form-group#input-group-1.m-b-20(label='Email:' label-for='input-1')
-              b-form-input#input-1(v-model='form.email' type='email' placeholder='Email' required)
-              .invalid-feedback.d-block(v-if="errors['user.email']") 'Email' {{ ...errors['user.email'] }}
+              b-form-input#input-1(v-model='form.email' type='email' placeholder='Email')
+              Errors(:errors="errors.email")
             b-form-group#input-group-2.m-b-20(label='Password:' label-for='input-2')
-              b-form-input#input-2(v-model='form.password' type='password' placeholder='Password' required)
-              .invalid-feedback.d-block(v-if="errors['user.password']") 'Email' {{ ...errors['user.password'] }}
+              b-form-input#input-2(v-model='form.password' type='password' placeholder='Password')
+              Errors(:errors="errors.password")
             b-button.m-b-20.w-100(type='submit' variant='dark') Sign In
             b-form-group.text-center.forgot-password.mb-0
               router-link.link.o-8.forgot-password(to='/users/password/new') Forgot Password
@@ -25,52 +25,33 @@
 <script>
   import Loading from '@/common/Loading/Loading'
   import TopNavbar from "../components/TopNavbar";
-  // import OtpConfirm from "../components/OtpConfirm";
-
-  // const random = Math.floor(Math.random() * 1000);
 
   /* Will be deleted soon after we test it on staging */
   console.warn("process.env.STRIPE_PUBLISHABLE_KEY > ", process.env.STRIPE_PUBLISHABLE_KEY)
   console.warn("process.env.PLAID_PUBLIC_KEY > ", process.env.PLAID_PUBLIC_KEY)
 
+  const initialForm = () => ({
+    email: '',
+    password: '',
+  })
+
   export default {
-    props: ['industryIds', 'jurisdictionIds', 'subIndustryIds', 'states'],
     components: {
       TopNavbar,
       Loading,
-      // OtpConfirm
     },
     data() {
       return {
         userId: '',
         otpSecret: '',
         userType: '',
-        form: {
-          email: '',
-          password: '',
-        },
-        form2: {
-          codePart1: '',
-          codePart2: '',
-          codePart3: '',
-          codePart4: '',
-          codePart5: '',
-          codePart6: '',
-          code: '',
-        },
+        form: initialForm(),
         show: true,
         error: '',
         errors: {},
         step1: true,
         step2: false,
         step3: false,
-        childDataLoaded: false,
-        childdata : [],
-        component: '',
-        dismissSecs: 8,
-        dismissCountDown: 0,
-        showDismissibleAlert: false,
-        dashboardLink: '',
         emailVerified: true,
       }
     },
@@ -85,30 +66,30 @@
       onSubmit(event) {
         event.preventDefault()
         // clear errors
+        this.error = ''
         this.errors = []
 
         this.form.email = this.form.email.toLowerCase()
-
         const data = {
           user: {
             email: this.form.email,
             password: this.form.password
           },
         }
-
         console.log('data', data)
-
         this.$store.dispatch('signIn', data)
-          .then((response) => {
-
+          .then(response => {
             if (response.errors) {
               console.log('response.signIn', response)
-
-              if (this.error === 'Please, confirm your email' || response.errors === 'Please, confirm your email') {
+              if (response.errors === 'Invalid email or password') {
+                this.error = response.errors
+              }
+              if (response.error === 'Please, confirm your email' || response.errors === 'Please, confirm your email') {
                 this.emailVerified = false
 
-                this.step1 = false
-                this.step2 = true
+                // this.step1 = false
+                // this.step2 = true
+                this.$router.push({ name: 'otp-confirm', params: {form: this.form, userid: this.userid, userType: this.userType, emailVerified: this.emailVerified }})
 
                 let data = {
                   user: {
@@ -129,7 +110,6 @@
               }
             }
             if (!response.errors) {
-
               // this.toast('Success', `${response.message}`)
               // open step 2
               // this.step1 = false
@@ -139,7 +119,12 @@
               this.$router.push({ name: 'otp-confirm', params: {form: this.form, userid: this.userid, userType: this.userType, emailVerified: this.emailVerified }})
             }
           })
-          .catch((error) => this.error = error)
+          .catch(error => {
+            if (response.errors === 'Invalid email or password.' || response.errors.invalid === 'Invalid email or password.') {
+              this.error = response.errors
+            }
+            console.log(error)
+          })
       },
       onOTPConfirm(event) {
         event.preventDefault()
@@ -173,16 +158,17 @@
                 this.step2 = false
                 this.step3 = true
 
-                this.toast('Success', `You will be redirect to the dashboard!`)
+                // this.toast('Success', `You will be redirect to the dashboard!`)
 
                 const dashboard = response.business ? '/business' : '/specialist'
-                this.dashboardLink = dashboard
                 setTimeout(() => {
                   window.location.href = `${dashboard}`;
                 }, 3000)
               }
             })
-            .catch((error) => this.toast('Error', `${error.message}`))
+            .catch((error) => {
+              // this.toast('Error', `${error.message}`)
+            })
         }
 
         // IF VERIFIED EMAIL
@@ -210,10 +196,9 @@
               this.step2 = false
               this.step3 = true
 
-              this.toast('Success', `You will be redirect to the dashboard!`)
+              // this.toast('Success', `You will be redirect to the dashboard!`)
 
               const dashboard = response.business ? '/business' : '/specialist'
-              this.dashboardLink = dashboard
               setTimeout(() => {
                 window.location.href = `${dashboard}`;
               }, 3000)
@@ -276,14 +261,12 @@
         }
 
         this.$store.dispatch('resendOTP', dataToSend)
-          .then((response) => this.toast('Success', `${response.message}`))
-          .catch((error) => this.toast('Error', `${error.message}`))
-      },
-      countDownChanged(dismissCountDown) {
-        this.dismissCountDown = dismissCountDown
-      },
-      showAlert() {
-        this.dismissCountDown = this.dismissSecs
+          .then((response) => {
+            // this.toast('Success', `${response.message}`)
+          })
+          .catch((error) => {
+            // this.toast('Error', `${error.message}`)
+          })
       },
     },
     computed: {
