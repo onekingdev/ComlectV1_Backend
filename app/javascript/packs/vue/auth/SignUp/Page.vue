@@ -29,18 +29,20 @@
             .row
               .col-md-6.pr-md-2
                 b-form-group#input-group-1.m-b-20(label='First Name:' label-for='input-1')
-                  b-form-input#input-1(v-model='form.firstName' type='text' placeholder='First Name' min="3")
+                  b-form-input#input-1(v-model='form.firstName' type='text' placeholder='First Name' :class="{'is-invalid': errors.firstName }")
+                  .invalid-feedback.d-block(v-if="errors.firstName") {{ errors.firstName }}
               .col-md-6.pl-md-2
                 b-form-group#input-group-2.m-b-20(label='Last Name:' label-for='input-2')
-                  b-form-input#input-2(v-model='form.lastName' type='text' placeholder='Last Name' min="3")
+                  b-form-input#input-2(v-model='form.lastName' type='text' placeholder='Last Name' :class="{'is-invalid': errors.lastName }")
+                  .invalid-feedback.d-block(v-if="errors.lastName") {{ errors.lastName }}
             b-form-group#input-group-3.m-b-20(label='Email:' label-for='input-3')
-              b-form-input#input-3(v-model='form.email' type='email' placeholder='Email')
-              .invalid-feedback.d-block(v-if="errors['user.email']") This email {{ errors['user.email'][0] }}
+              b-form-input#input-3(v-model='form.email' type='text' placeholder='Email' :class="{'is-invalid': errors.email }")
+              .invalid-feedback.d-block(v-if="errors.email") {{ errors.email }}
             b-form-group#input-group-4.m-b-20(label='Password:' label-for='input-4')
-              b-form-input#input-4(v-model='form.password' type='password' placeholder='Password')
-              .invalid-feedback.d-block(v-if="errors['user.password']") 'Password' {{ errors['user.password'][0] }}
+              b-form-input#input-4(v-model='form.password' type='password' placeholder='Password' :class="{'is-invalid': errors.password }")
+              .invalid-feedback.d-block(v-if="errors.password") {{ errors.password }}
             b-form-group#input-group-5.m-b-20(label='Repeat Password:' label-for='input-5')
-              b-form-input#input-5(v-model='form.passwordConfirm' type='password' placeholder='Repeat Password')
+              b-form-input#input-5(v-model='form.passwordConfirm' type='password' placeholder='Repeat Password' :class="{'is-invalid': errors.passwordConfirm }")
               .invalid-feedback.d-block(v-if="errors.passwordConfirm") {{ errors.passwordConfirm }}
             b-form-group.text-center.m-b-20
               p By signing up, I accept the&nbsp;
@@ -63,6 +65,17 @@
 
   // const random = Math.floor(Math.random() * 1000);
 
+  const initialForm = () => ({
+    email: '',
+    password: '',
+  })
+
+  //validate Email
+  function validateEmail($email) {
+    var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+    return emailReg.test($email);
+  }
+
   export default {
     props: ['industryIds', 'jurisdictionIds', 'subIndustryIds', 'states', 'timezones'],
     components: {
@@ -77,13 +90,7 @@
         userId: '',
         otpSecret: '',
         userType: '',
-        form: {
-          firstName: ``,
-          lastName: ``,
-          email: ``,
-          password: '',
-          passwordConfirm: '',
-        },
+        form: initialForm(),
         form2: {
           codePart1: '',
           codePart2: '',
@@ -130,6 +137,10 @@
           // this.toast('Error', `Password does not match`)
           return
         }
+
+        if (!this.form.email) Object.assign(this.errors, { email: 'Field empty' })
+        if (this.form.email && !validateEmail(this.form.email)) Object.assign(this.errors, { email: 'Email not valid!' })
+        if (!this.form.password) Object.assign(this.errors, { password: 'Field empty' })
 
         this.form.email = this.form.email.toLowerCase()
 

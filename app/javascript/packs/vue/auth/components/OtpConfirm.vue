@@ -55,6 +55,7 @@
     methods: {
       onSubmit(event) {
         event.preventDefault()
+        this.error = ''
         this.errors = []
 
         console.log('emailVerified', this.emailVerified)
@@ -129,12 +130,13 @@
               console.error('error', error.data.errors)
               console.error('error', error.data.errors.invalid)
               if (error.data.errors) {
-                this.errors.code = error.data.errors.invalid
+                this.error = error.data.errors.invalid
               }
             })
         }
       },
       onCodeChange(e){
+        this.error = ''
         this.errors = []
 
         // CATCH COPY PASTE CASE

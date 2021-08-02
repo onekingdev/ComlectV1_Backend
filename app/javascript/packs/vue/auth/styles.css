@@ -56,16 +56,13 @@
   color: #797B7E;
   font-size: 0.875rem;
 }
-.registration .form-control {
+.registration .form-control:not(.is-invalid) {
   padding: 0.4375rem 0.625rem; /*7 10px*/
   color: #303132;
   border: solid 1px #DCDEE4;
 }
 .registration .form-control::placeholder {
   color: #A2A3A9;
-}
-.registration__footer {
-  font-size: 0.875rem;
 }
 
 @media (max-width: 575px) {

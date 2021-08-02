@@ -8,11 +8,11 @@
           .invalid-feedback.d-block.text-center.m-b-20(v-if="error") {{ error }}
           b-form(@submit='onSubmit' v-if='show')
             b-form-group#input-group-1.m-b-20(label='Email:' label-for='input-1')
-              b-form-input#input-1(v-model='form.email' type='email' placeholder='Email')
-              .invalid-feedback.d-block(v-if="errors['user.email']") 'Email' {{ errors['user.email'] }}
+              b-form-input#input-1(v-model='form.email' type='text' placeholder='Email' :class="{'is-invalid': errors.email }")
+              .invalid-feedback.d-block(v-if="errors.email") {{ errors.email }}
             b-form-group#input-group-2.m-b-20(label='Password:' label-for='input-2')
-              b-form-input#input-2(v-model='form.password' type='password' placeholder='Password')
-              .invalid-feedback.d-block(v-if="errors['user.password']") 'Email' {{ errors['user.password'] }}
+              b-form-input#input-2(v-model='form.password' type='password' placeholder='Password' :class="{'is-invalid': errors.password }")
+              .invalid-feedback.d-block(v-if="errors.password") {{ errors.password }}
             b-button.m-b-20.w-100(type='submit' variant='dark') Sign In
             b-form-group.text-center.forgot-password.mb-0
               router-link.link.o-8.forgot-password(to='/users/password/new') Forgot Password
@@ -31,9 +31,18 @@
   console.warn("process.env.PLAID_PUBLIC_KEY > ", process.env.PLAID_PUBLIC_KEY)
 
   const initialForm = () => ({
-    email: '',
+    firstName: ``,
+    lastName: ``,
+    email: ``,
     password: '',
+    passwordConfirm: '',
   })
+
+  //validate Email
+  function validateEmail($email) {
+    var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+    return emailReg.test($email);
+  }
 
   export default {
     components: {
@@ -70,7 +79,10 @@
         this.errors = []
 
         if (!this.form.email) Object.assign(this.errors, { email: 'Field empty' })
+        if (this.form.email && !validateEmail(this.form.email)) Object.assign(this.errors, { email: 'Email not valid!' })
         if (!this.form.password) Object.assign(this.errors, { password: 'Field empty' })
+
+        console.log(validateEmail(this.form.email))
 
         this.form.email = this.form.email.toLowerCase()
         const data = {
@@ -124,8 +136,8 @@
             }
           })
           .catch(error => {
-            if (response.errors === 'Invalid email or password.' || response.errors.invalid === 'Invalid email or password.') {
-              this.error = response.errors
+            if (error.errors === 'Invalid email or password.' || error.errors.invalid === 'Invalid email or password.') {
+              this.error = error.errors.invalid
             }
             console.log(error)
           })
