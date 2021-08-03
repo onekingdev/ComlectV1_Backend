@@ -384,7 +384,6 @@
         this.navigation(stepNum)
       },
       nextStep(stepNum) {
-        console.log(stepNum)
         // CLEAR ERRORS
         for (var value in this.errors) delete this.errors[value];
 
@@ -397,7 +396,10 @@
           if (!this.formStep1.time_zone.length) this.errors = Object.assign({}, this.errors, { time_zone: `Field can't be empty` })
           if (!this.formStep1.industry.length) this.errors = Object.assign({}, this.errors, { industry: `Field can't be empty` })
           if (!this.formStep1.subIndustry.length) this.errors = Object.assign({}, this.errors, { subIndustry: `Field can't be empty` })
-          if (!this.formStep1.industry || !this.formStep1.time_zone || !this.formStep1.subIndustry || !this.formStep1.jurisdiction ) return
+          if (!this.formStep1.industry || !this.formStep1.time_zone || !this.formStep1.subIndustry || !this.formStep1.jurisdiction ) {
+            this.navigation(1)
+            return
+          }
 
           this.navigation(stepNum)
         }
@@ -533,10 +535,7 @@
       // },
       redirect() {
         localStorage.setItem('app.currentUser.firstEnter', JSON.stringify(true))
-        const dashboard = this.userType === 'business' ? '/business' : '/specialist'
-        setTimeout(() => {
-          window.location.href = `${dashboard}`;
-        }, 3000)
+        window.location.href = `${this.userType}`;
       },
       removeFile() {
         this.formStep2.file = null
