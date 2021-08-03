@@ -384,18 +384,19 @@
         this.navigation(stepNum)
       },
       nextStep(stepNum) {
+        console.log(stepNum)
         // CLEAR ERRORS
         for (var value in this.errors) delete this.errors[value];
 
         if (this.formStep1.regulatorSelected === 'yes' && !this.formStep1.regulator.length) {
-          this.errors = Object.assign({}, this.errors, { regulator: `Field can't be empty!` })
+          this.errors = Object.assign({}, this.errors, { regulator: `Field can't be empty` })
           return
         }
         if (stepNum === 2) {
-          if (!this.formStep1.jurisdiction.length) this.errors = Object.assign({}, this.errors, { jurisdiction: `Field can't be empty!` })
-          if (!this.formStep1.time_zone.length) this.errors = Object.assign({}, this.errors, { time_zone: `Field can't be empty!` })
-          if (!this.formStep1.industry.length) this.errors = Object.assign({}, this.errors, { industry: `Field can't be empty!` })
-          if (!this.formStep1.subIndustry.length) this.errors = Object.assign({}, this.errors, { subIndustry: `Field can't be empty!` })
+          if (!this.formStep1.jurisdiction.length) this.errors = Object.assign({}, this.errors, { jurisdiction: `Field can't be empty` })
+          if (!this.formStep1.time_zone.length) this.errors = Object.assign({}, this.errors, { time_zone: `Field can't be empty` })
+          if (!this.formStep1.industry.length) this.errors = Object.assign({}, this.errors, { industry: `Field can't be empty` })
+          if (!this.formStep1.subIndustry.length) this.errors = Object.assign({}, this.errors, { subIndustry: `Field can't be empty` })
           if (!this.formStep1.industry || !this.formStep1.time_zone || !this.formStep1.subIndustry || !this.formStep1.jurisdiction ) return
 
           this.navigation(stepNum)
@@ -403,7 +404,7 @@
 
         if (stepNum === 3) {
 
-          if (!this.formStep2.skills) this.errors = Object.assign({}, this.errors, { skills: `Field can't be empty!` })
+          if (!this.formStep2.skills) this.errors = Object.assign({}, this.errors, { skills: `Field can't be empty` })
           if (!this.formStep2.skills) return
 
           const params = {

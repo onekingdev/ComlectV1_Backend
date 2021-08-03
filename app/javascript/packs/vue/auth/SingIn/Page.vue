@@ -114,7 +114,7 @@
             if (error.errors === 'Invalid email or password.' || error.errors.invalid === 'Invalid email or password.') {
               this.error = error.errors.invalid
             }
-            console.log(error)
+            console.error(error)
           })
       },
       onOTPConfirm(event) {
@@ -135,7 +135,6 @@
 
           this.$store.dispatch('confirmEmail', dataToSend1)
             .then((response) => {
-              console.log('response', response)
               if (response.errors) {
                 for (const type of Object.keys(response.errors)) {
                   this.errors = response.errors[type]
@@ -163,7 +162,6 @@
 
         this.$store.dispatch('signIn', dataToSend)
           .then((response) => {
-            console.log('response', response)
             if (response.errors) {
               for (const type of Object.keys(response.errors)) {
                 this.errors = response.errors[type]
