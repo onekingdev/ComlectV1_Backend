@@ -44,12 +44,17 @@ import SpecialistsMarketplace from '@/business/marketplace/Page'
 import DashboardS from '@/specialist/dashboard/Page'
 import ProjectsS from '@/specialist/projects/MyProjectsPage'
 import ProjectReviewS from '@/specialist/projects/MyProjectShowPage'
+import CreateProposalPage from '@/specialist/projects/CreateProposalPage'
+import ProjectTimesheetsPage from '@/specialist/projects/ProjectTimesheetsPage'
 import SettingsS from '@/specialist/settings/Page'
 import SettingsNotificationsS from '@/specialist/notifications/Page'
 import ProjectsMarketplaceS from '@/specialist/projects/IndexPage'
 import ProfileS from '@/specialist/profile/Page'
 
 Vue.use(Router)
+
+const paramsToInts = paramNames =>
+  route => Object.fromEntries(paramNames.map(paramName => [paramName, +route.params[paramName]]))
 
 export default new Router({
   routes: [
@@ -113,9 +118,8 @@ export default new Router({
 
     // SPECIALISTS
     { path: '/specialist', name: 'dashboard-specialist', component: DashboardS },
-    { path: '/specialist/projects', name: 'projects-specialist', component: ProjectsS },
-    { path: '/specialist/projects/:projectId', name: 'project-review-specialist', props: true, component: ProjectReviewS },
-    { path: '/specialist/profile', name: 'profile-specialist', component: ProfileS },
+    { path: '/specialist/my-projects', name: 'projects-specialist', component: ProjectsS },
+    { path: '/specialist/my-projects/:id(\\d+)', name: 'project-review-specialist', props: paramsToInts(['id']), component: ProjectReviewS },
     { path: '/specialist/settings', name: 'settings-specialist', component: SettingsS,
       children:  [
         { path: '/specialist/settings/general', name: 'settings-general-specialist', component: SettingsS, },
@@ -128,7 +132,11 @@ export default new Router({
       ],
     },
     { path: '/specialist/settings/notification-center', name: 'settings-notification-center-specialist', component: SettingsNotificationsS },
-    { path: '/specialist/projects-marketpalce', name: 'projects-marketpalce-specialist', component: ProjectsMarketplaceS },
+    { path: '/projects', name: 'projects-marketpalce-specialist', component: ProjectsMarketplaceS },
+    { path: '/projects/:initialOpenId(\\d+)', name: 'projects-marketpalce-specialist-view', props: paramsToInts(['initialOpenId']), component: ProjectsMarketplaceS },
+    { path: '/projects/:projectId(\\d+)/applications/new', name: 'projects-marketplace-create-proposal', props: paramsToInts(['projectId']), component: CreateProposalPage },
+    { path: '/projects/:id(\\d+)/timesheets', name: 'my-project-timesheet-page', props: paramsToInts(['id']), component: ProjectTimesheetsPage },
+    { path: '/specialist/profile', name: 'profile-specialist', component: ProfileS },
   ],
   mode: 'history'
 })

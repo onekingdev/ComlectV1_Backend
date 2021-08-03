@@ -7,10 +7,10 @@ class ProjectsController < ApplicationController
   before_action :require_specialist!
 
   def index
-    render html: content_tag('project-index-page', '').html_safe, layout: 'vue_specialist'
+    render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_specialist_layout'
   end
 
   def show
-    render html: content_tag('project-index-page', '', ':initial-open-id': params[:id]).html_safe, layout: 'vue_specialist'
+    render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_specialist_layout'
   end
 end

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import settings from "./specialistModules/settings";
 import shared from "./commonModules/shared";
+import auth from "./commonModules/auth";
 
 Vue.use(Vuex)
 
@@ -25,6 +26,7 @@ const store = new Vuex.Store({
   },
   modules: {
     shared,
+    auth,
     settings: {
       namespaced: true,
       ...settings,

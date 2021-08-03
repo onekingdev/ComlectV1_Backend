@@ -25,7 +25,7 @@
                             b-icon.ml-2(icon='chevron-expand')
                           th
                       tbody
-                        tr(v-for="contract in localProject.projects" :key="contract.specialist.id")
+                        tr(v-for="contract in getContractsByLocalProject(localProject)" :key="contract._key")
                           td
                             .d-flex.align-items-center.mb-3
                               div
@@ -39,7 +39,7 @@
           .container.m-t-1
             .row.p-x-1
               .col-md-12
-                DiscussionCard(:project-id="project.local_project_id" :token="token")
+                DiscussionCard(:project-id="project.local_project_id" :token="accessToken")
       b-tab(title="Tasks")
       b-tab(title="Documents")
       b-tab(title="Collaborators")
@@ -53,7 +53,7 @@
                   .card-body
                     table.rating_table
                       tbody
-                        tr(v-for="contract in localProject.projects" :key="contract.specialist.id")
+                        tr(v-for="contract in getContractsByLocalProject(localProject)" :key="contract._key")
                           td
                             button.btn.btn-default.float-right(@click="showingContract = contract") View Contract
                             img.m-r-1.userpic_small(v-if="contract.specialist.photo" :src="contract.specialist.photo")
@@ -112,9 +112,9 @@
           .container
             .row.p-x-1
               .col-md-12
-                Get(:application="applicationUrl(project.id, applicationId)"): template(v-slot="{application}")
+                Get(:application="applicationUrl(project.id)"): template(v-slot="{application}")
                   PropertiesTable(title="Proposal" :properties="proposalProps(application)")
-                    EditProposalModal(:project-id="project.id" :application-id="applicationId")
+                    EditProposalModal(:project-id="project.id" :application-id="application.id")
                       button.btn.btn-outline-dark.float-right Edit
 </template>
 
@@ -125,6 +125,7 @@ import DiscussionCard from '@/common/projects/DiscussionCard'
 import EditContractModal from '@/common/projects/EditContractModal'
 import EditProposalModal from '@/specialist/projects/EditProposalModal'
 import EtaggerMixin from '@/mixins/EtaggerMixin'
+import { mapGetters } from 'vuex'
 
 const overviewProps = project => {
   return [{ name: 'Owner', value: project.business && project.business.business_name },
@@ -160,18 +161,6 @@ export default {
     id: {
       type: Number,
       required: true
-    },
-    specialistId: {
-      type: Number,
-      required: true
-    },
-    applicationId: {
-      type: Number,
-      required: true
-    },
-    token: {
-      type: String,
-      required: true
     }
   },
   data() {
@@ -182,14 +171,18 @@ export default {
   },
   methods: {
     isApproved(project) {
-      return this.specialistId === project.specialist_id
+      return this.getUser.id === project.specialist_id
     },
     overviewProps,
     acceptedOverviewProps,
     readablePaymentSchedule,
     proposalProps: fields,
-    applicationUrl(projectId, applicationId) {
-      return '/api/specialist/projects/' + projectId + '/applications/' + applicationId
+    applicationUrl(projectId) {
+      return '/api/specialist/projects/' + projectId + '/applications/my'
+    },
+    getContractsByLocalProject(localProject) {
+      return localProject.projects.filter(lp => lp.specialist)
+        .map(project => ({...project, _key: `${project.id}_${project.specialist.id}` }))
     },
     completeUrl(project) {
       return '/api/projects/' + project.id + '/end'
@@ -207,6 +200,7 @@ export default {
     },
   },
   computed: {
+    ...mapGetters(['accessToken', 'getUser']),
     projectUrl() {
       return this.$store.getters.url('URL_API_MY_PROJECT', this.id)
     },

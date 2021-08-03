@@ -49,6 +49,7 @@
 
 <script>
 import { DateTime } from 'luxon'
+import { mapGetters } from 'vuex'
 
 const initialEntry = () => ({ time_logs_attributes: [newEntryRow()] })
 const newEntryRow = () => ({
@@ -65,10 +66,6 @@ export default {
   props: {
     id: {
       type: Number,
-      required: true
-    },
-    token: {
-      type: String,
       required: true
     }
   },
@@ -105,6 +102,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['accessToken']),
     submitData() {
       return {
         timesheet: this.entry
@@ -122,7 +120,7 @@ export default {
     },
     headers() {
       return {
-        Authorization: this.token
+        Authorization: this.accessToken
       }
     }
   }

@@ -61,14 +61,14 @@
       .card
         .card-header.borderless
           .d-flex.justify-content-between
-            b-button(variant="default" @click="isSidebarOpen = false") < Close
+            b-button(variant="default" @click="isSidebarOpen = false") &lt; Close
             div
               a.btn.btn-default(href="#") Save
               a.btn.btn-default.m-l-1(href="#") Share
           .d-flex.justify-content-between.m-t-1
             h4 Project Details
             div
-              a.btn.btn-dark(v-if="project" :href="applyUrl(project)") Apply
+              router-link.btn.btn-dark(v-if="project" :to="applyUrl(project)") Apply
         ProjectDetails(v-if="project" :project="project")
 </template>
 

@@ -12,10 +12,7 @@ class Projects::JobApplicationsController < ApplicationController
   end
 
   def new
-    render html: content_tag('create-proposal-page',
-                             '',
-                             ':project-id' => @project.id,
-                             ':project': @project.to_json).html_safe, layout: 'vue_specialist'
+    render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_specialist_layout'
   end
 
   def edit

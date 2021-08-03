@@ -174,6 +174,7 @@ Rails.application.routes.draw do
       resource :questions
     end
     get 'profile' => 'profile#show'
+    get 'settings/:page', to: 'settings#show', page: /general|users|roles|security|subscriptions|billings|notifications/
     resource :settings, only: :show do
       resource :password
       resource :contact_information, only: %i[show update]
@@ -347,6 +348,7 @@ Rails.application.routes.draw do
       resources :projects, only: %i[index show] do
         resources :project_messages, path: 'messages', only: %i[index create]
         resources :timesheets, except: %i[new edit], controller: 'timesheets'
+        get '/applications/my' => 'job_applications#my'
         resources :job_applications, path: 'applications', only: %i[show update create destroy]
         get :local
         get :calendar_hide

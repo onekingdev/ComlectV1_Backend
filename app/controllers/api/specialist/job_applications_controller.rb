@@ -10,6 +10,12 @@ class Api::Specialist::JobApplicationsController < ApiController
     render json: current_specialist.job_applications.find(params[:id])
   end
 
+  def my
+    job_application = current_specialist.job_applications.where(project_id: params[:project_id]).first
+    return render_404 unless job_application
+    render json: job_application
+  end
+
   def update
     job_application = JobApplication::Form.where(specialist_id: current_specialist.id, id: params[:id]).first
     if @project.rfp? && job_application.update(job_application_params)
