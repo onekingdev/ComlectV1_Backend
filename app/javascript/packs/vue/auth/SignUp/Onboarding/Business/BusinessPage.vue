@@ -13,8 +13,8 @@
               .row
                 .col
                   h3.onboarding__title.m-b-10 Do you have a CRD number?
-                    b-icon.onboarding__icon(icon="exclamation-circle-fill" variant="secondary" v-b-tooltip.hover title="Automated update company info by CRD number")
-                  p.onboarding__sub-title.m-b-20 The CRD number will be used to gather additional information about your business.
+                    ion-icon.onboarding__icon(name="information-circle" v-b-tooltip.hover title='You can find your CRD number on the IAPD site')
+                  p.onboarding__sub-title.m-b-20 The CRD number will be used to auto-populate information about your business
               .row
                 .col
                   b-form-group(v-slot='{ ariaDescribedby }')
@@ -114,7 +114,7 @@
                       .invalid-feedback.d-block(v-if="errors.time_zone") {{ errors.time_zone[0] }}
               .row
                 .col-sm-6.pr-sm-2
-                  b-form-group#inputB-group-8(label='Phone Number' label-for='inputB-8' label-class='onboarding__label')
+                  b-form-group#inputB-group-8(label='Phone Number' label-for='inputB-8' label-class='onboarding__label' description="Optional")
                     b-form-input#inputB-8(v-model='formStep2.business.contact_phone' type='text' placeholder='Phone Number' required :class="{'is-invalid': errors.contact_phone }")
                     .invalid-feedback.d-block(v-if="errors.contact_phone") {{ errors.contact_phone[0] }}
                 .col-sm-6.pl-sm-2

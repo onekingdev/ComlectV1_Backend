@@ -16,7 +16,7 @@
             b-button.registration__btn.w-100(type='submit' variant='dark') Reset
     .card-footer
       b-form-group.text-center.mb-0
-        router-link.link(to='/users/sign_in') Cancel
+        router-link.btn.link(to='/users/sign_in') Cancel
 </template>
 
 <script>

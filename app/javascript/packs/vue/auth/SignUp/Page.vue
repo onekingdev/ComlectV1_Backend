@@ -7,7 +7,7 @@
           p.registration__subtitle Select your account type
         div
           b-form(@submit='onSubmit0' v-if='show')
-            b-form-group
+            b-form-group.mb-0
               .row
                 .col-sm-6.col-12.pr-md-2.text-center.mb-sm-0.mb-3
                   .account-select(@click="selectType('business')" :class="userType === 'business' ? 'active' : ''")
@@ -19,7 +19,7 @@
                     h3.account-select__title.mb-3 I am a specialist
                     img.account-select__img(src='@/assets/briefcase-outline.svg' width="50" height="50")
                     p.account-select__subtitle Looking to work with potential clients on compliance projects
-            b-button.registration__btn.w-100(type='submit' variant='dark') Next
+            b-button.registration__btn.w-100.mb-2(type='submit' variant='dark') Next
       #step1.form(:class="step1 ? 'd-block' : 'd-none'")
         .registration-welcome
           h1.registration__title Let's get you started!
@@ -45,12 +45,12 @@
             b-form-group#input-group-5.m-b-20(label='Repeat Password:' label-for='input-5')
               b-form-input#input-5(v-model='form.passwordConfirm' type='password' placeholder='Repeat Password' :class="{'is-invalid': errors.passwordConfirm }")
               Errors(:errors="errors.passwordConfirm")
-            b-form-group.paragraph.m-b-20
+            b-form-group.paragraph.m-b-10
               p By signing up, I accept the&nbsp;
                 a.link(href="#") Complect Terms of Use&nbsp;
                 | and acknowledge the&nbsp;
                 a.link(href="#") Privacy Policy
-            b-button.registration__btn.m-b-40.w-100(type='submit' variant='dark') Sign Up
+            b-button.registration__btn.m-b-20.w-100(type='submit' variant='dark') Sign Up
     .card-footer
       b-form-group.text-center.mb-0
         p.mb-0 Already have a Complect account?&nbsp;
@@ -128,7 +128,7 @@
         // if (!this.form.passwordConfirm) Object.assign(this.errors, { passwordConfirm: 'Field empty' })
         if (this.form.email && !validateEmail(this.form.email)) {
           Object.assign({}, this.errors, { email: 'Email not valid' })
-          return
+          // return
         }
         if (this.form.password !== this.form.passwordConfirm) {
           this.errors = { passwordConfirm : ['Password does not match'] }

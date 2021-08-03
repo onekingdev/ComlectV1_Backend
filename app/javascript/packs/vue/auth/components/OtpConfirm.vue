@@ -24,7 +24,7 @@
           b-button.w-100.m-b--40(type='submit' variant='dark' ref="codesubmit") Submit
     .card-footer
       b-form-group.text-center.mb-0
-        a.link(@click.stop="resendOTP") Resend code
+        button.btn.link(@click.stop="resendOTP") Send new code
 </template>
 
 <script>

@@ -193,7 +193,8 @@ input[type=number] {
 
 /* ---------- Registration page ---------- */
 .registration-onboarding {
-  margin-top: 2.5rem;
+  /* margin-top: 2.5rem;*/
+  margin-top: 0;
   margin-right: auto;
   margin-left: auto;
   margin-bottom: auto;
@@ -285,10 +286,11 @@ input[type=number] {
   margin-bottom: 0;
   color: #A2A3A9;
   font-size: 1rem;
+  font-weight: 600;
 }
 .step.active .step__name{
   color: #303132;
-  font-weight: bold;
+  /*font-weight: 600;*/
 }
 
 @media (min-width: 576px) and (max-width: 767px) {
@@ -315,6 +317,8 @@ input[type=number] {
 /* ---------- Onboarding page ---------- */
 .onboarding {}
 .onboarding__title {
+  display: flex;
+  align-items: center;
   font-size: 1.25rem;
   color: #303132;
 }
@@ -329,8 +333,7 @@ input[type=number] {
 
 .onboarding__icon {
   margin-left: 0.625rem;
-  margin-bottom: 2px;
-  font-size: .90rem;
+  font-size: 1.2rem;
   color: #565759 !important;
 }
 

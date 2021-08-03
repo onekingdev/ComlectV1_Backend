@@ -127,9 +127,14 @@ input, button, select, optgroup, textarea {
   justify-content: center;
   align-items: center;
   flex-grow: 1;
+  padding: 2.5rem 0;
 
   min-height: calc(100vh - 80px);
   background-color: $gray-background;
+
+  @include media-breakpoint-down(xs) {
+    padding: .5em 0;
+  }
 }
 
 .main-content {
@@ -1051,6 +1056,10 @@ a.btn,
     background-color: #f6f6f8 !important;
     border-color: #f6f6f8 !important;
   }
+}
+
+.btn.link {
+  font-weight: 400;
 }
 
 /* ---------- Buttons ---------- */
@@ -2546,6 +2555,9 @@ legend, .label {
 .multiselect__tag-icon:after {
   color: #0479ff !important;
 }
+.multiselect__content-wrapper {
+  font-size: 14px !important;
+}
 .multiselect__option--highlight {
   color: #0479ff !important;
   background: #ecf4ff !important;
@@ -2583,6 +2595,16 @@ legend, .label {
     background-color: $white;
     border-color: $gray-1;
   }
+}
+
+// ALERTS
+.alert {
+  font-size: 0.875rem;
+}
+
+// TOOLTIP
+.tooltip {
+  font-size: 0.75rem;
 }
 
 /* ---------- MODAL ---------- */
@@ -2709,6 +2731,7 @@ legend, .label {
 
 /* ---------- ERRORS ---------- */
 .invalid-feedback {
+  text-transform: capitalize;
   color: $red;
 }
 
