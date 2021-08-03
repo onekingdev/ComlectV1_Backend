@@ -46,6 +46,9 @@
         },
       }
     },
+    created() {
+      if (!this.form) this.$router.back()
+    },
     methods: {
       onSubmit(event) {
         event.preventDefault()

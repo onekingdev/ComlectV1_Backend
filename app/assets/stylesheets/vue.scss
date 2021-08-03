@@ -3073,12 +3073,14 @@ legend, .label {
     font-size: 1rem;
   }
   &__coast {
-    margin-bottom: .625rem;
+    //margin-bottom: .625rem;
+    margin-bottom: .325rem;
     font-size: 1.5rem;
     font-weight: bold;
   }
   &__users {
     margin-bottom: 1.25rem;
+    font-size: 0.875rem;
     color: #797b7e;
   }
   &__discount {

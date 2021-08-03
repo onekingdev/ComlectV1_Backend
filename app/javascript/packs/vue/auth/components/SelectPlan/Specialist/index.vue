@@ -25,7 +25,7 @@
         .text-right.m-t-30
           b-button.mr-2(type='button' variant='default' @click="$emit('goBack')")
             b-icon.mr-2(icon="chevron-left")
-            | Go back
+            | Go Back
 </template>
 
 <script>
