@@ -187,7 +187,7 @@
                   .text-right.m-t-30
                     b-button.mr-2(type='button' variant='default' @click="prevStep(1)")
                       b-icon.mr-2(icon="chevron-left")
-                      | Go back
+                      | Go Back
                     b-button(type='button' variant='dark' @click="nextStep(3)") Next
                       b-icon.ml-2(icon="chevron-right")
             #step3.form(:class="currentStep === 3 ? 'd-block' : 'd-none'")

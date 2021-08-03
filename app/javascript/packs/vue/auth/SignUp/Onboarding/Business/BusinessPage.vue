@@ -41,11 +41,11 @@
                     .invalid-feedback.d-block(v-if="errors.business_name") {{ errors.business_name[0] }}
               .row
                 .col-sm.pr-sm-2
-                  b-form-group#inputB-group-2(label='AUM' label-for='inputB-2' label-class="onboarding__label label required")
+                  b-form-group#inputB-group-2(label='AUM' label-for='inputB-2' label-class="onboarding__label label")
                     b-form-input#inputB-2(v-model='formStep2.business.aum' type='text' placeholder='AUM' required :class="{'is-invalid': errors.aum }")
                     .invalid-feedback.d-block(v-if="errors.aum") {{ errors.aum[0] }}
                 .col-sm.pl-sm-2
-                  b-form-group#inputB-group-3(label='Number of Accounts' label-for='inputB-3' label-class="onboarding__label label required")
+                  b-form-group#inputB-group-3(label='Number of Accounts' label-for='inputB-3' label-class="onboarding__label label")
                     b-form-input#inputB-3(v-model='formStep2.business.client_account_cnt' type='text' placeholder='Number of Accounts' required :class="{'is-invalid': errors.client_account_cnt }")
                     .invalid-feedback.d-block(v-if="errors.client_account_cnt") {{ errors.client_account_cnt[0] }}
               .row
@@ -114,11 +114,11 @@
                       .invalid-feedback.d-block(v-if="errors.time_zone") {{ errors.time_zone[0] }}
               .row
                 .col-sm-6.pr-sm-2
-                  b-form-group#inputB-group-8(label='Phone Number' label-for='inputB-8' label-class='onboarding__label label required' description="Optional")
+                  b-form-group#inputB-group-8(label='Phone Number' label-for='inputB-8' label-class='onboarding__label label' description="Optional")
                     b-form-input#inputB-8(v-model='formStep2.business.contact_phone' type='text' placeholder='Phone Number' required :class="{'is-invalid': errors.contact_phone }")
                     .invalid-feedback.d-block(v-if="errors.contact_phone") {{ errors.contact_phone[0] }}
                 .col-sm-6.pl-sm-2
-                  b-form-group#inputB-group-7(label='Company Website' label-for='inputB-7' label-class='onboarding__label label required' description="Optional")
+                  b-form-group#inputB-group-7(label='Company Website' label-for='inputB-7' label-class='onboarding__label label' description="Optional")
                     b-form-input#inputB-7.form-control(v-model='formStep2.business.website' type='text' placeholder='Company Website' :class="{'is-invalid': errors.website }")
                     .invalid-feedback.d-block(v-if="errors.website") {{ errors.website[0] }}
               hr
@@ -129,7 +129,7 @@
                     vue-google-autocomplete#map(ref="address" classname='form-control' :class="{'is-invalid': errors.address_1 }" v-model='formStep2.business.address_1' placeholder='Business Address'  :fields="['address_components', 'adr_address', 'geometry', 'formatted_address', 'name']" v-on:placechanged='getAddressData')
                     .invalid-feedback.d-block(v-if="errors.address_1") {{ errors.address_1[0] }}
                 .col-xl-3.pl-xl-2
-                  b-form-group#inputB-group-10(label='Apt/Unit:' label-for='inputB-10' label-class='onboarding__label label required')
+                  b-form-group#inputB-group-10(label='Apt/Unit:' label-for='inputB-10' label-class='onboarding__label label')
                     b-form-input#inputB-10(v-model='formStep2.business.apartment' type='text' placeholder='Apt/Unit' required :class="{'is-invalid': errors.apartment }")
                     .invalid-feedback.d-block(v-if="errors.apartment") {{ errors.apartment[0] }}
               .row
@@ -159,7 +159,7 @@
                   .text-right.m-t-30
                     b-button.mr-2(type='button' variant='default' @click="prevStep(1)")
                       b-icon.mr-2(icon="chevron-left")
-                      | Go back
+                      | Go Back
                     // b-button.mr-2(type='button' variant='outline-primary' @click="nextStep(3)") Skip this step
                     b-button(type='button' variant='dark' @click="nextStep(3)") Next
                       b-icon.ml-2(icon="chevron-right")
@@ -282,7 +282,7 @@
 
         notify: {
           show: 'show',
-          mainText: 'Verify information',
+          mainText: 'Verify Information',
           subText: 'The following fields were filled in based on the CRD number you provided. Please carefully review each field before proceeding.',
           variant: 'primary',
           dismissible: true,
@@ -310,7 +310,7 @@
         for (var value in this.errors) delete this.errors[value];
 
         if (!this.formStep1.crd_number.length) {
-          this.errors = { crd_number: `Can't be empty!` }
+          this.errors = { crd_number: `Required Field` }
           return
         }
 
