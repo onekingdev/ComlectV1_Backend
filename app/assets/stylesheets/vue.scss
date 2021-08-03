@@ -1025,6 +1025,18 @@ a.btn,
   border-color: $primary;
 }
 
+.btn-outline-primary {
+  color: #303132;
+  border-color: #303132;
+  font-weight: bold;
+}
+.btn-outline-primary:hover:not(:disabled):not(.disabled),
+.btn-outline-primary.active:not(:disabled):not(.disabled) {
+  color: #fff;
+  background-color: #303132;
+  border-color: #303132;
+}
+
 .btn.link,
 .btn.btn-link {
   color: $blue;
@@ -2502,6 +2514,62 @@ legend, .label {
   font-size: 0.875rem !important;
 }
 
+/* MULTISELECT */
+.multiselect {
+  min-height: calc(1.5em + 0.75rem + 2px) !important;
+}
+.multiselect__placeholder {
+  margin-bottom: 0 !important;
+  padding-top: 5px !important;
+  padding-bottom: 2px !important;
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+  line-height: 1 !important;
+}
+.multiselect__tags {
+  min-height: calc(1.5em + 0.75rem + 2px) !important;
+  padding: 5px 40px 0 5px;
+  margin-bottom: 0 !important;
+  border-color: #ced4da !important;
+  border-radius: 0.25rem !important;
+}
+.invalid .multiselect__tags {
+  border-color: #CE1938 !important;
+}
+.multiselect__tag {
+  padding: 5px 26px 5px 5px !important;
+  margin-bottom: 0 !important;
+  font-size: 0.75rem !important;
+  color: #0479FF !important;
+  background: #ECF4FF !important;
+}
+.multiselect__tag-icon:after {
+  color: #0479ff !important;
+}
+.multiselect__option--highlight {
+  color: #0479ff !important;
+  background: #ecf4ff !important;
+}
+.multiselect__option--highlight::after{
+  background: #0479ff !important;
+}
+.multiselect__tag-icon {
+  line-height: 1.5rem !important;
+}
+.multiselect__tag-icon:hover {
+  color: white !important;
+  background: #0479ff !important;
+}
+.multiselect__select {
+  height: 2.2rem !important;
+}
+.multiselect__single {
+  margin-bottom: 0 !important;
+  font-size: 0.875rem !important;
+  line-height: 1.4rem !important;
+}
+
+// RECHECK .btn-secondary
 .btn-secondary:not(:disabled):not(.disabled):active,
 .btn-secondary.active:not(:disabled):not(.disabled), .show > .btn-secondary.dropdown-toggle,
 .input-group > .input-group-append > .btn-group > .btn,
