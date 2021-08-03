@@ -6,10 +6,10 @@
         p.registration__subtitle We sent a 6 digit code to {{ form.email }}. Please enter it below.
       div
         b-form(@submit='onSubmit' @keyup="onCodeChange" v-if='show' autocomplete="off")
-          b-form-group
+          b-form-group.m-b-40
             .col.text-center
               img.otp-icon(src='@/assets/mail.svg' width="180" height="110")
-          b-form-group
+          b-form-group.mb-0
             .row
               .col-12.mx-0
                 .d-flex.justify-content-space-around.mx-auto
@@ -20,15 +20,11 @@
                   b-form-input#inputCode5.code-input(v-model='form2.codePart5' type='number' maxlength="1" required)
                   b-form-input#inputCode6.code-input.mr-auto(v-model='form2.codePart6' type='number' maxlength="1" required)
                 .invalid-feedback.d-block.text-center(v-if="error") {{ error }}
-            .row
-              .col
                 input(v-model='form2.code' type='hidden')
-          b-button.w-100.mb-3(type='submit' variant='dark' ref="codesubmit") Submit
-          .card-footer
-            b-form-group.mb-0
-              .row
-                .col-12.text-center
-                  a.link(@click.stop="resendOTP") Resend code
+          b-button.w-100.m-b--40(type='submit' variant='dark' ref="codesubmit") Submit
+    .card-footer
+      b-form-group.text-center.mb-0
+        a.link(@click.stop="resendOTP") Resend code
 </template>
 
 <script>
