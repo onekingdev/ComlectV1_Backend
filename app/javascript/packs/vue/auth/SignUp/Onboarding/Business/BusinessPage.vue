@@ -405,7 +405,7 @@
                 status: 'success'
               })
 
-              setTimeout(() => this.redirect() , 3000)
+              setTimeout(() => this.redirect() , 2000)
             })
             .catch(error => {
               console.error(error)
@@ -420,7 +420,7 @@
                 active: false,
                 message: '',
                 status: ''
-              }), 3000)
+              }), 2000)
             })
 
           return

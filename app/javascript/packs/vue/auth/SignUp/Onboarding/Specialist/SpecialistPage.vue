@@ -471,7 +471,7 @@
                 message: 'Setting up account...',
                 status: 'success'
               })
-              setTimeout(() => this.redirect() , 3000)
+              setTimeout(() => this.redirect() , 2000)
             })
             .catch(error =>{
               console.error('updateSubscribe', error)
@@ -486,7 +486,7 @@
                 active: false,
                 message: '',
                 status: ''
-              }), 3000)
+              }), 2000)
             })
 
           return
