@@ -590,6 +590,7 @@
     padding: 5px 40px 0 5px;
     margin-bottom: 0;
     border-color: #ced4da;
+    border-radius: 0.25rem;
   }
   .invalid .multiselect__tags {
     border-color: #CE1938;

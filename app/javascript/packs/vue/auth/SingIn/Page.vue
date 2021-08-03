@@ -58,9 +58,6 @@
         show: true,
         error: '',
         errors: {},
-        step1: true,
-        step2: false,
-        step3: false,
         emailVerified: true,
       }
     },
@@ -68,74 +65,48 @@
       selectType(type){
         this.userType = type
       },
-      otpConfirmed() {
-        this.step1 = false
-        this.step2 = true
-      },
       onSubmit(event) {
         event.preventDefault()
-        // clear errors
+        // CLEAR ERRORS
         this.error = ''
-        this.errors = []
+        for (var value in this.errors) delete this.errors[value];
 
-        if (!this.form.email) Object.assign(this.errors, { email: 'Field empty' })
-        if (!this.form.password) Object.assign(this.errors, { password: 'Field empty' })
+        if (!this.form.email) Object.assign({}, this.errors, { email: 'Field empty' })
+        if (!this.form.password) Object.assign({}, this.errors, { password: 'Field empty' })
         if (this.form.email && !validateEmail(this.form.email)) {
-          Object.assign(this.errors, { email: 'Email not valid' })
+          Object.assign({}, this.errors, { email: 'Email not valid' })
           return
         }
 
-        console.log(validateEmail(this.form.email))
-
-        this.form.email = this.form.email.toLowerCase()
-
+        this.form.email = this.form.email.toLowerCase() // Avoid issues with Capitalized emails
         const data = {
           user: {
             email: this.form.email,
             password: this.form.password
           },
         }
-        console.log('data', data)
         this.$store.dispatch('signIn', data)
           .then(response => {
             if (response.errors) {
-              console.log('response.signIn', response)
               if (response.errors === 'Invalid email or password') {
                 this.error = response.errors
               }
               if (response.error === 'Please, confirm your email' || response.errors === 'Please, confirm your email') {
                 this.emailVerified = false
-
-                // this.step1 = false
-                // this.step2 = true
+                // OPEN OTP
                 this.$router.push({ name: 'otp-confirm', params: {form: this.form, userid: this.userid, userType: this.userType, emailVerified: this.emailVerified }})
-
                 let data = {
                   user: {
                     email: this.form.email,
                   },
                 }
-
-                console.log('data2', data)
-
                 this.$store.dispatch('resendOTP', data)
-                  .then((response) => {
-                    console.log('response.resendOTP', response)
-                    this.$router.push({ name: 'otp-confirm', params: {form: this.form, userid: this.userid, userType: this.userType, emailVerified: this.emailVerified }})
-                  })
-                  .catch((error) => {
-                    console.error('error.resendOTP', error)
-                  })
+                  .then((response) => this.$router.push({ name: 'otp-confirm', params: {form: this.form, userid: this.userid, userType: this.userType, emailVerified: this.emailVerified }}) )
+                  .catch((error) => console.error(error))
               }
             }
             if (!response.errors) {
-              // this.toast('Success', `${response.message}`)
-              // open step 2
-              // this.step1 = false
-              // this.step2 = true
-              // this.$router.push('/otp-confirm')
-              // this.$router.push({ path: '/otp-confirm', params: {form: this.form }})
-              console.log({form: this.form, userid: this.userid, userType: this.userType, emailVerified: this.emailVerified })
+              // OPEN OTP CONFIRM
               this.$router.push({ name: 'otp-confirm', params: {form: this.form, userid: this.userid, userType: this.userType, emailVerified: this.emailVerified }})
             }
           })
@@ -149,8 +120,6 @@
       onOTPConfirm(event) {
         event.preventDefault()
         this.errors = []
-
-        console.log('emailVerified', this.emailVerified)
 
         if(this.form2.code.length !== 6) {
           this.toast('Error', `Code length incorrect!`)
@@ -174,21 +143,12 @@
                 }
               }
               if (!response.errors && response.token) {
-                // open step 3
-                this.step2 = false
-                this.step3 = true
-
-                // this.toast('Success', `You will be redirect to the dashboard!`)
-
+                // OPEN DASHBOARD
                 const dashboard = response.business ? '/business' : '/specialist'
-                setTimeout(() => {
-                  window.location.href = `${dashboard}`;
-                }, 3000)
+                window.location.href = `${dashboard}`;
               }
             })
-            .catch((error) => {
-              // this.toast('Error', `${error.message}`)
-            })
+            .catch(error => console.error(error))
         }
 
         // IF VERIFIED EMAIL
@@ -212,89 +172,22 @@
             }
 
             if (!response.errors && response.token) {
-              // open step 3
-              this.step2 = false
-              this.step3 = true
-
-              // this.toast('Success', `You will be redirect to the dashboard!`)
-
+              // OPEN DASHBOARD
               const dashboard = response.business ? '/business' : '/specialist'
-              setTimeout(() => {
-                window.location.href = `${dashboard}`;
-              }, 3000)
+              window.location.href = `${dashboard}`;
             }
           })
-          .catch((error) => {
-            console.error('error', error.data)
-            console.error('error', error.data.errors)
-            console.error('error', error.data.errors.invalid)
+          .catch(error => {
             if (error.data.errors) {
               this.errors.code = error.data.errors.invalid
             }
           })
         }
       },
-      onCodeChange(e){
-        this.errors = []
-
-        // CATCH COPY PASTE CASE
-        if (e.target.value.length === 6) {
-          for(let i=1; i <= 6; i++) {
-            this.form2['codePart'+i] = e.target.value.charAt(i-1)
-          }
-        }
-
-        if (e.keyCode === 8 || e.keyCode === 46) {
-          // BACKSPACE === 8 DELETE === 46
-          e.preventDefault();
-          e.target.value = ''
-          e.target.previousElementSibling?.focus()
-          return
-        }
-
-        if (e.target.value.length < 6 && (e.keyCode >= 48) && (e.keyCode <= 57) || (e.keyCode >= 96) && (e.keyCode <= 105)) {
-          e.preventDefault();
-          e.target.value = e.key
-          if(e.target.nextElementSibling) {
-            e.target.nextElementSibling.value = ''
-            e.target.nextElementSibling.focus()
-          }
-
-          if(!e.target.nextElementSibling) {
-            this.$refs.codesubmit.focus();
-          }
-        }
-
-        this.form2.code = this.form2.codePart1 + this.form2.codePart2 + this.form2.codePart3 + this.form2.codePart4 + this.form2.codePart5 + this.form2.codePart6
-
-        if (e.keyCode === 13) {
-          // ENTER KEY CODE
-          this.onOTPConfirm(e)
-        }
-      },
-
-      resendOTP() {
-        let dataToSend = {
-          "user": {
-            "email": this.form.email,
-          },
-        }
-
-        this.$store.dispatch('resendOTP', dataToSend)
-          .then((response) => {
-            // this.toast('Success', `${response.message}`)
-          })
-          .catch((error) => {
-            // this.toast('Error', `${error.message}`)
-          })
-      },
     },
     computed: {
       loading() {
         return this.$store.getters.loading;
-      },
-      logIn() {
-        return this.$store.getters.logIn;
       },
     },
     watch: {
