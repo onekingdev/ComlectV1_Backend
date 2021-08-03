@@ -307,7 +307,7 @@
       },
       checkCDRinfo(stepNum) {
         // CLEAR ERRORS
-        this.errors = []
+        for (var value in this.errors) delete this.errors[value];
 
         if (!this.formStep1.crd_number.length) {
           this.errors = { crd_number: `Can't be empty!` }
@@ -341,7 +341,7 @@
       },
       nextStep(stepNum) {
         // CLEAR ERRORS
-        this.errors = []
+        for (var value in this.errors) delete this.errors[value];
 
         if (stepNum === 2) {
           if (this.formStep1.crd_numberSelected === 'yes') {

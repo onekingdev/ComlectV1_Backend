@@ -385,7 +385,7 @@
       },
       nextStep(stepNum) {
         // CLEAR ERRORS
-        this.errors = []
+        for (var value in this.errors) delete this.errors[value];
 
         if (this.formStep1.regulatorSelected === 'yes' && !this.formStep1.regulator.length) {
           this.errors = Object.assign({}, this.errors, { regulator: `Field can't be empty!` })
