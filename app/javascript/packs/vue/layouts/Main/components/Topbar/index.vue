@@ -12,7 +12,7 @@
         ul.topbar-menu__list
           li.nav-item.topbar-menu__item(@click="openLink('default')")
             router-link.topbar-menu__link(:to='`/${userType}`' active-class="active" exact) Home
-          li.nav-item.topbar-menu__item(@click="openLink('documents')")
+          li.nav-item.topbar-menu__item(v-if="userType === 'business'" @click="openLink('documents')")
             router-link.topbar-menu__link(:to='`/${userType}/file_folders`' active-class="active") Documents
           li.nav-item.topbar-menu__item(@click="openLink('default')")
             router-link.topbar-menu__link(:to='`/${userType}/reports/risks`' active-class="active") Reports

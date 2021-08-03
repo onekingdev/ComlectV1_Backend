@@ -35,7 +35,7 @@ import { DateTime } from 'luxon'
 import { toEvent, cssClass } from '@/common/TaskHelper'
 import TaskFormModal from '@/common/TaskFormModal'
 
-const endpointUrl = '/api/business/reminders/'
+const endpointUrl = '/api/specialist/reminders/'
 const jsToSql = date => DateTime.fromJSDate(date).toSQLDate()
 
 export default {

@@ -535,7 +535,7 @@
       // },
       redirect() {
         localStorage.setItem('app.currentUser.firstEnter', JSON.stringify(true))
-        window.location.href = `${this.userType}`;
+        window.location.href = `/${this.userType}`;
       },
       removeFile() {
         this.formStep2.file = null

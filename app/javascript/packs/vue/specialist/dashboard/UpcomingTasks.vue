@@ -24,8 +24,8 @@
 <script>
 const LIMIT_OF_ARRAYS = 6
 
-const endpointUrl = '/api/business/reminders/'
-const overdueEndpointUrl = '/api/business/overdue_reminders'
+const endpointUrl = '/api/specialist/reminders/'
+const overdueEndpointUrl = '/api/specialist/overdue_reminders'
 
 import TaskTable from '@/common/TaskTable'
 import ProjectTable from './ProjectTable'
