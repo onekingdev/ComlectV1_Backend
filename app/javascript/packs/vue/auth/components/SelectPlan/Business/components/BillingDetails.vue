@@ -39,7 +39,7 @@
           plaid-link(env='sandbox' :publicKey='plaidPK' clientName='Test App' product='transactions' v-bind='{ onSuccess }')
             template(slot='button' slot-scope='props')
               a.btn.btn-default(@click="props.onClick") Add Bank Account
-    .card-body(v-if="cardOptions")
+    .card-body(v-if="cardOptions.length")
       dl.row(v-for="(card, i) in cardOptions")
         dt.col-7
           input.mr-2.mt-1(:id="'card'+card.id" type='radio' name='card' :value='card.id' v-model="cardSelected" @click="onPaymentMethodChange(card.id)")
