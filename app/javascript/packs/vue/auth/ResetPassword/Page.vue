@@ -12,7 +12,7 @@
           b-form(@submit='onSubmit1' v-if='show')
             b-form-group#input-group-1.m-b-20(label='Email Address:' label-for='input-1')
               b-form-input#input-1(v-model='form.email' type='email' placeholder='Email' required)
-              .invalid-feedback.d-block(v-if="errors['user.email']") 'Email Address' {{ ...errors['user.email'] }}
+              .invalid-feedback.d-block(v-if="errors['user.email']") {{ errors['user.email'] }}
             b-button.registration__btn.w-100(type='submit' variant='dark') Reset
     .card-footer
       b-form-group.text-center.mb-0

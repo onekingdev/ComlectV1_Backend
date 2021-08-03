@@ -36,21 +36,21 @@
               h3.onboarding__title.m-b-20 Tell us more about your business
               .row
                 .col-xl-6.pr-xl-2
-                  b-form-group#inputB-group-1(label='Company Name' label-for='inputB-1' label-class="onboarding__label required")
+                  b-form-group#inputB-group-1(label='Company Name' label-for='inputB-1' label-class="onboarding__label label required")
                     b-form-input#inputB-1(v-model='formStep2.business.business_name' type='text' placeholder='Company Name' required :class="{'is-invalid': errors.business_name }")
                     .invalid-feedback.d-block(v-if="errors.business_name") {{ errors.business_name[0] }}
               .row
                 .col-sm.pr-sm-2
-                  b-form-group#inputB-group-2(label='AUM' label-for='inputB-2' label-class="onboarding__label")
+                  b-form-group#inputB-group-2(label='AUM' label-for='inputB-2' label-class="onboarding__label label required")
                     b-form-input#inputB-2(v-model='formStep2.business.aum' type='text' placeholder='AUM' required :class="{'is-invalid': errors.aum }")
                     .invalid-feedback.d-block(v-if="errors.aum") {{ errors.aum[0] }}
                 .col-sm.pl-sm-2
-                  b-form-group#inputB-group-3(label='Number of Accounts' label-for='inputB-3')
+                  b-form-group#inputB-group-3(label='Number of Accounts' label-for='inputB-3' label-class="onboarding__label label required")
                     b-form-input#inputB-3(v-model='formStep2.business.client_account_cnt' type='text' placeholder='Number of Accounts' required :class="{'is-invalid': errors.client_account_cnt }")
                     .invalid-feedback.d-block(v-if="errors.client_account_cnt") {{ errors.client_account_cnt[0] }}
               .row
                 .col-sm-6.pr-sm-2
-                  b-form-group#inputB-group-4(label='Industry' label-for='selectB-4' label-class="onboarding__label required")
+                  b-form-group#inputB-group-4(label='Industry' label-for='selectB-4' label-class="onboarding__label label required")
                     div(
                     :class="{ 'invalid': errors.industries }"
                     )
@@ -67,7 +67,7 @@
                       .invalid-feedback.d-block(v-if="errors.industries") {{ errors.industries[0] }}
                       // label.typo__label.form__label(v-if="errors.industries") {{ errors.industries[0] }}
                 .col-sm-6.pl-sm-2
-                  b-form-group#inputB-group-5(label='Sub-Industry' label-for='selectB-5')
+                  b-form-group#inputB-group-5(label='Sub-Industry' label-for='selectB-5' label-class="onboarding__label label required")
                     div(
                     :class="{ 'invalid': errors.subIndustry }"
                     )
@@ -83,7 +83,7 @@
                       .invalid-feedback.d-block(v-if="errors.subIndustry") {{ errors.subIndustry[0] }}
               .row
                 .col-sm-6.pr-sm-2
-                  b-form-group#inputB-group-6(label='Jurisdiction' label-for='selectB-6')
+                  b-form-group#inputB-group-6(label='Jurisdiction' label-for='selectB-6' label-class="onboarding__label label required")
                     div(
                     :class="{ 'invalid': errors.jurisdiction }"
                     )
@@ -98,7 +98,7 @@
                       required)
                       .invalid-feedback.d-block(v-if="errors.jurisdiction") {{ errors.jurisdiction[0] }}
                 .col-sm-6.pl-sm-2
-                  b-form-group#inputB-group-7(label='Time Zone' label-for='selectB-7')
+                  b-form-group#inputB-group-7(label='Time Zone' label-for='selectB-7' label-class="onboarding__label label required")
                     div(
                     :class="{ 'invalid': errors.time_zone }"
                     )
@@ -114,31 +114,31 @@
                       .invalid-feedback.d-block(v-if="errors.time_zone") {{ errors.time_zone[0] }}
               .row
                 .col-sm-6.pr-sm-2
-                  b-form-group#inputB-group-8(label='Phone Number' label-for='inputB-8' label-class='onboarding__label' description="Optional")
+                  b-form-group#inputB-group-8(label='Phone Number' label-for='inputB-8' label-class='onboarding__label label required' description="Optional")
                     b-form-input#inputB-8(v-model='formStep2.business.contact_phone' type='text' placeholder='Phone Number' required :class="{'is-invalid': errors.contact_phone }")
                     .invalid-feedback.d-block(v-if="errors.contact_phone") {{ errors.contact_phone[0] }}
                 .col-sm-6.pl-sm-2
-                  b-form-group#inputB-group-7(label='Company Website' label-for='inputB-7' label-class='onboarding__label' description="Optional")
+                  b-form-group#inputB-group-7(label='Company Website' label-for='inputB-7' label-class='onboarding__label label required' description="Optional")
                     b-form-input#inputB-7.form-control(v-model='formStep2.business.website' type='text' placeholder='Company Website' :class="{'is-invalid': errors.website }")
                     .invalid-feedback.d-block(v-if="errors.website") {{ errors.website[0] }}
               hr
               .row
                 .col-xl-9.pr-xl-2
-                  b-form-group#inputB-group-9(label='Business Address' label-for='inputB-9' label-class='onboarding__label')
+                  b-form-group#inputB-group-9(label='Business Address' label-for='inputB-9' label-class='onboarding__label label required')
                     // b-form-input#inputB-9(v-model='formStep2.business.address_1' placeholder='Business Address' required :class="{'is-invalid': errors.address_1 }" v-debounce:1000ms="onAdressChange")
                     vue-google-autocomplete#map(ref="address" classname='form-control' :class="{'is-invalid': errors.address_1 }" v-model='formStep2.business.address_1' placeholder='Business Address'  :fields="['address_components', 'adr_address', 'geometry', 'formatted_address', 'name']" v-on:placechanged='getAddressData')
                     .invalid-feedback.d-block(v-if="errors.address_1") {{ errors.address_1[0] }}
                 .col-xl-3.pl-xl-2
-                  b-form-group#inputB-group-10(label='Apt/Unit:' label-for='inputB-10' label-class='onboarding__label')
+                  b-form-group#inputB-group-10(label='Apt/Unit:' label-for='inputB-10' label-class='onboarding__label label required')
                     b-form-input#inputB-10(v-model='formStep2.business.apartment' type='text' placeholder='Apt/Unit' required :class="{'is-invalid': errors.apartment }")
                     .invalid-feedback.d-block(v-if="errors.apartment") {{ errors.apartment[0] }}
               .row
                 .col-xl-4.pr-xl-2
-                  b-form-group#inputB-group-12(label='City' label-for='inputB-12' label-class="onboarding__label required")
+                  b-form-group#inputB-group-12(label='City' label-for='inputB-12' label-class="onboarding__label label required")
                     b-form-input#inputB-12(v-model='formStep2.business.city' type='text' placeholder='City' required :class="{'is-invalid': errors.city }")
                     .invalid-feedback.d-block(v-if="errors.city") {{ errors.city[0] }}
                 .col-xl-4.px-xl-2
-                  b-form-group#inputB-group-13(label='State' label-for='selectB-13' label-class="onboarding__label required")
+                  b-form-group#inputB-group-13(label='State' label-for='selectB-13' label-class="onboarding__label label required")
                     div(
                     :class="{ 'invalid': errors.state }"
                     )
@@ -151,7 +151,7 @@
                       required)
                       .invalid-feedback.d-block(v-if="errors.state") {{ errors.state[0] }}
                 .col-xl-4.pl-xl-2
-                  b-form-group#inputB-group-11(label='Zip' label-for='inputB-11' label-class='onboarding__label')
+                  b-form-group#inputB-group-11(label='Zip' label-for='inputB-11' label-class='onboarding__label label required')
                     b-form-input#inputB-11(v-model='formStep2.business.zipcode' placeholder='Zip' required :class="{'is-invalid': errors.zipcode }")
                     .invalid-feedback.d-block(v-if="errors.zipcode") {{ errors.zipcode[0] }}
               .row

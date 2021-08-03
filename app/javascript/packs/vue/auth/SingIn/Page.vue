@@ -19,7 +19,7 @@
     .card-footer
       b-form-group.text-center.mb-0
         p.mb-0 Don't have an account yet?&nbsp;
-          router-link.link(to='/users/sign_up') Sign up
+          router-link.link(to='/users/sign_up') Sign Up
 </template>
 
 <script>
