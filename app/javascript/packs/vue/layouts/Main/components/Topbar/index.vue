@@ -60,6 +60,7 @@
         first_name: user.contact_first_name ? `${user.contact_first_name}` : `${user.first_name}`,
         last_name: user.contact_last_name ? `${user.contact_last_name}` : `${user.last_name}`,
       }
+      this.$store.commit('UPDATE_USER', user)
       const token = localStorage.getItem('app.currentUser.token');
       // if (token) {
       //   this.$store.commit('auth/UPDATE_TOKEN', token)
