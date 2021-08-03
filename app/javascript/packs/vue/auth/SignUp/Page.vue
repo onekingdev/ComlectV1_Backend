@@ -30,28 +30,27 @@
             .row
               .col-md-6.pr-md-2
                 b-form-group#input-group-1.m-b-20(label='First Name:' label-for='input-1')
-                  b-form-input#input-1(v-model='form.firstName' type='text' placeholder='First Name' :class="{'is-invalid': errors.firstName }")
+                  b-form-input#input-1(v-model='form.firstName' type='text' placeholder='First Name' :class="{'is-invalid': errors.contact_first_name }")
                   Errors(:errors="errors.contact_first_name")
               .col-md-6.pl-md-2
                 b-form-group#input-group-2.m-b-20(label='Last Name:' label-for='input-2')
-                  b-form-input#input-2(v-model='form.lastName' type='text' placeholder='Last Name' :class="{'is-invalid': errors.lastName }")
-                  .invalid-feedback.d-block(v-if="errors.contact_last_name") {{ errors.contact_last_name }}
+                  b-form-input#input-2(v-model='form.lastName' type='text' placeholder='Last Name' :class="{'is-invalid': errors.contact_last_name }")
+                  Errors(:errors="errors.contact_last_name")
             b-form-group#input-group-3.m-b-20(label='Email:' label-for='input-3')
-              b-form-input#input-3(v-model='form.email' type='text' placeholder='Email' :class="{'is-invalid': errors.email }")
-              .invalid-feedback.d-block(v-if="errors.email") {{ errors.email }}
+              b-form-input#input-3(v-model='form.email' type='text' placeholder='Email' :class="{'is-invalid': errors['user.email'] }")
+              Errors(:errors="errors['user.email']")
             b-form-group#input-group-4.m-b-20(label='Password:' label-for='input-4')
-              b-form-input#input-4(v-model='form.password' type='password' placeholder='Password' :class="{'is-invalid': errors.password }")
-              .invalid-feedback.d-block(v-if="errors.password") {{ errors.password }}
+              b-form-input#input-4(v-model='form.password' type='password' placeholder='Password' :class="{'is-invalid': errors['user.password'] }")
+              Errors(:errors="errors['user.password']")
             b-form-group#input-group-5.m-b-20(label='Repeat Password:' label-for='input-5')
               b-form-input#input-5(v-model='form.passwordConfirm' type='password' placeholder='Repeat Password' :class="{'is-invalid': errors.passwordConfirm }")
-              .invalid-feedback.d-block(v-if="errors.passwordConfirm") {{ errors.passwordConfirm }}
+              Errors(:errors="errors.passwordConfirm")
             b-form-group.paragraph.m-b-20
               p By signing up, I accept the&nbsp;
                 a.link(href="#") Complect Terms of Use&nbsp;
                 | and acknowledge the&nbsp;
                 a.link(href="#") Privacy Policy
             b-button.registration__btn.m-b-40.w-100(type='submit' variant='dark') Sign Up
-            pre {{ errors }}
     .card-footer
       b-form-group.text-center.mb-0
         p.mb-0 Already have a Complect account?&nbsp;
@@ -132,8 +131,7 @@
           return
         }
         if (this.form.password !== this.form.passwordConfirm) {
-          this.errors = { passwordConfirm : 'Password does not match'}
-          // this.toast('Error', `Password does not match`)
+          this.errors = { passwordConfirm : ['Password does not match'] }
           return
         }
 
@@ -186,33 +184,19 @@
 
         this.$store.dispatch('signUp', dataToSend)
           .then(response => {
-            console.log(response.errors)
-            console.log(response.errors.business)
-            console.log(response.errors[this.userType])
-            let newErrors;
             if (response.errors) {
               for (const [key, value] of Object.entries(response.errors[this.userType])) {
-                console.log(`${key}: ${value[0]}`);
-                newErrors = Object.assign(this.errors, { [key]: value[0] })
+                this.errors = Object.assign({}, this.errors, {[key]: value})
               }
-              this.errors = newErrors
-
-              console.log('this.errors', this.errors)
             }
             if (!response.errors) {
               this.userId = response.userid
-              this.toast('Success', `${response.message}`)
-
-              // open step 2
-              // this.step1 = false
-              // this.step2 = true
-              // this.$router.push('/otp-confirm')
+              // OPEN OTP
               this.$router.push({ name: 'otp-confirm', params: {form: this.form, userid: this.userid, userType: this.userType, emailVerified: this.emailVerified }})
+              this.toast('Success', `${response.message}`)
             }
           })
-          .catch(error => {
-            console.error(error)
-          })
+          .catch(error => console.error(error) )
       },
 
     },
