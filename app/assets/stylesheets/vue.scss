@@ -3032,6 +3032,10 @@ legend, .label {
   width: 21.2rem; /*340px;*/
   color: #303132;
 
+  &__common-info {
+    min-height: 11rem;
+  }
+
   &_specialist {
     width: 22.5rem; /*360px;*/
     min-height: 32rem;
@@ -3079,11 +3083,12 @@ legend, .label {
     font-weight: bold;
   }
   &__users {
-    margin-bottom: 1.25rem;
+    margin-bottom: 0.5rem;
     font-size: 0.875rem;
     color: #797b7e;
   }
   &__discount {
+    font-size: 0.875rem;
     text-decoration: line-through;
   }
   &__list {
