@@ -320,6 +320,7 @@ input, button, select, optgroup, textarea {
 
   &__text {
     font-size: 30px;
+    letter-spacing: 1px;
 
     @include media-breakpoint-down(xs) {
       display: none;

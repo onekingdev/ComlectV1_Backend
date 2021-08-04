@@ -21,13 +21,14 @@
       stripe-element-card(ref="elementRef" :pk="pk" @token="tokenCreated")
       .row
         .col.text-right
-          b-button(v-show="!loading" type='button' variant='outline-primary' @click="submit" :disabled="disabled") Add
+          b-button(v-show="!loading" type='button' variant='dark' @click="submit" :disabled="disabled") Add
           b-button(v-show="loading" type='button' variant='none')
             .lds-ring.lds-ring-small
               div
               div
               div
               div
+
 </template>
 
 <script>
@@ -68,7 +69,7 @@
         errors: [],
         additionalUsersCount: 0,
         // isActive: true,
-        disabled: true
+        disabled: false
       };
     },
     methods: {
