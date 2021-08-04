@@ -9,15 +9,24 @@
             ion-icon.m-x-1(name='chevron-back-outline' @click.prevent="prev")
             ion-icon(name='chevron-forward-outline' @click.prevent="next")
       div
-        //b-dropdown.mr-2(variant="default")
-        //  template(#button-content)
-        //    | Monhly
-        //    b-icon.ml-2(icon="chevron-down")
-        //  b-dropdown-item Annually
-        //  b-dropdown-item Monhly
-        //  b-dropdown-item Weekly
-        //  b-dropdown-item Daily
-        a.btn.btn-secondary(:href="pdfUrl" target="_blank") Download
+        b-dropdown#dropdown-form.m-2(ref='dropdown')
+          template(#button-content)
+            | Download
+            b-icon.ml-2(icon="chevron-down")
+          b-dropdown-form(style="width: 374px;")
+            b-row.m-t-1(no-gutters)
+              .col-sm.m-r-1
+                label.form-label Start Date
+                DatePicker(v-model="download.start_date")
+                Errors(:errors="errors.start_date")
+              .col-sm
+                label.form-label Due Date
+                DatePicker(v-model="download.end_date")
+                Errors(:errors="errors.end_date")
+            .d-flex.justify-content-between
+              b-button.link(variant='none' size='sm' @click='onClick') Download All
+              b-button(variant='secondary' size='sm' @click='onClick') Download
+        //a.btn.btn-secondary(:href="pdfUrl" target="_blank") Download
         //b-dropdown(size="sm" variant="none" class="m-0 p-0" right)
         //  template(#button-content)
         //    b-icon(icon="three-dots")
@@ -64,7 +73,12 @@ export default {
       nowEditingTask: {
         taskId: null,
         occurenceId: null
-      }
+      },
+      download: {
+        start_date: '',
+        end_date: '',
+      },
+      errors: {}
     }
   },
   methods: {
@@ -89,6 +103,10 @@ export default {
     },
     refetchEvents() {
       this.calendarObject.refetchEvents()
+    },
+    onClick() {
+      // Close the menu and (by passing true) return focus to the toggle button
+      this.$refs.dropdown.hide(true)
     }
   },
   mounted() {
