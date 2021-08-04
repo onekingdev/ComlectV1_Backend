@@ -162,8 +162,8 @@
               //   b-form-file(v-model='formStep2.file' :state='Boolean(formStep2.file)' accept="application/pdf" placeholder='Choose a file or drop it here...' drop-placeholder='Drop file here...')
               //   .m-t-3 Selected file: {{ formStep2.file ? formStep2.file.name : '' }}
               // hr
-              h3.onboarding__title Upload your resume:
-              .form-text.text-muted.m-b-20 Optional
+              h3.onboarding__title.mb-0 Upload your resume:
+              .form-text.text-muted.m-b-20.mt-0 Optional
               label.dropbox.w-100(v-if="!formStep2.file" for="upload-file")
                 input.input-file(type="file" id="upload-file" accept="application/pdf" ref="file" @change="selectFile")
                 p(v-if="!formStep2.file") Drop resume here OR
