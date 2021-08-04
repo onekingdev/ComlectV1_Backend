@@ -469,12 +469,13 @@
             .then(response => {
               this.currentPlan = { id: 1, status: true }
 
-              this.$store.dispatch('setOverlay', {
-                active: true,
-                message: 'Setting up account...',
-                status: 'success'
-              })
-              setTimeout(() => this.redirect() , 2000)
+              // this.$store.dispatch('setOverlay', {
+              //   active: true,
+              //   message: 'Setting up account...',
+              //   status: 'success'
+              // })
+              // setTimeout(() => this.redirect() , 2000)
+              this.redirect()
             })
             .catch(error =>{
               console.error('updateSubscribe', error)
