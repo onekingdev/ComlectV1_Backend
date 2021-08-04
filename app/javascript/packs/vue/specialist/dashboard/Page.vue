@@ -4,7 +4,8 @@
       EmptyPlan
     .page-header
       h2.page-header__title
-        b Welcome, {{currentSpecialist}}
+        b Welcome,&nbsp;
+        | {{currentSpecialist}}
     div.p-x-40.p-b-40
       .row
         .col
