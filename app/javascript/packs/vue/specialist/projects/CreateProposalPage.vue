@@ -56,7 +56,7 @@ const FIXED_BUDGET = Object.keys(PRICING_TYPES_OPTIONS)[0]
 const HOURLY_RATE = Object.keys(PRICING_TYPES_OPTIONS)[1]
 
 const initialForm = (project) => ({
-  hourly_rate: null,
+  // hourly_rate: null,
   starts_on: (project && project.starts_on) || null,
   ends_on: (project && project.ends_on ) || null,
   pricing_type: (project && calcPricingType(project)) || null,
