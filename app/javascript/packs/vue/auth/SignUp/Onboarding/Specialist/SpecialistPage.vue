@@ -86,7 +86,7 @@
               .row
                 .col
                   h3.onboarding__title Are you a former regulator?
-                    ion-icon.onboarding__icon(name="information-circle" v-b-tooltip.hover.html title='some text')
+                    //ion-icon.onboarding__icon(name="information-circle" v-b-tooltip.hover.html title='some text')
                   p.onboarding__sub-title Select all that apply:
               .row
                 .col
