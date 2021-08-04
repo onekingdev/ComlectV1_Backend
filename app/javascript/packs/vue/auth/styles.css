@@ -201,7 +201,7 @@ input[type=number] {
   min-width: 71.25rem;
 }
 .registration-onboarding.full {
-  margin: 0;
+  margin: -2.5rem 0;
   margin-right: auto;
   width: auto;
 }

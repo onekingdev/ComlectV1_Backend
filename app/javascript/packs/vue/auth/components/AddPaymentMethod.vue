@@ -1,10 +1,10 @@
 <template lang="pug">
   div
-    .card-header.registration-card-header.p-y-20.px-0
-      .d-flex.justify-content-between
-        h4.registration-card-header__title Payment Method
+    .card-header.registration-card-header.borderless.p-y-20.px-0
+      .d-flex.justify-content-between.align-items-center
+        h4.registration-card-header__title.mb-0 Payment Method
         div(v-show="!cardOptions.length")
-          plaid-link(env='sandbox' :publicKey='plaidPK' clientName='Test App' product='transactions' v-bind='{ onSuccess }')
+          plaid-link(env='sandbox' :publicKey='plaidPK' clientName='Test App' product='auth' v-bind='{ onSuccess }')
             template(slot='button' slot-scope='props')
               a.btn.btn-default(@click="props.onClick") Add Bank Account
     .card-header.registration-card-header.p-y-20.px-0(v-if="cardOptions.length")
@@ -144,9 +144,11 @@
         const data = {
           userType: this.userType,
           plaid: {
-            plaid_token: this.plaidPK,
-            plaid_account_id: metadata.account_id,
-            plaid_institution: metadata.institution.name
+            payment_source_ach: {
+              plaid_token: publicToken,
+              plaid_account_id: metadata.account_id,
+              plaid_institution: metadata.institution.name
+            }
           }
         }
 

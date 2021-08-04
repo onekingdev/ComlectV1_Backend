@@ -15,6 +15,16 @@ $font-weight-regular: 400;
 $font-weight-semi-bold: 600;
 $font-weight-bold: 700;
 
+$font-size-8: 0.5rem;
+$font-size-10: 0.625rem;
+$font-size-12: 0.75rem;
+$font-size-14: 0.875rem;
+$font-size-16: 1rem;
+$font-size-18: 1.125rem;
+$font-size-20: 1.25rem;
+$font-size-22: 1.375rem;
+$font-size-24: 1.5rem;
+
 /* ---------- MAIN STYLES ---------- */
 #app, body, html {
   margin: 0;
@@ -957,6 +967,13 @@ a.btn,
   color: $white;
   background-color: $black;
   border-color: $black;
+
+  &.disabled,
+  &:disabled {
+    //color: #fff;
+    background-color: $gray-2;
+    border-color: $gray-2;
+  }
 }
 .btn.btn-default {
   border-color: $gray-1 !important;
@@ -2912,6 +2929,11 @@ legend, .label {
   padding-right: 2.5rem !important; // 40px
 }
 
+.p-y-10 {
+  padding-top: 0.625rem !important; // 10px
+  padding-bottom: 0.625rem !important; // 10px
+}
+
 .p-y-20 {
   padding-top: 1.25rem !important; // 20px
   padding-bottom: 1.25rem !important; // 20px
@@ -2943,7 +2965,6 @@ legend, .label {
   padding-bottom: 2.5rem !important; // 40px
 }
 
-
 .m-20 {
   margin: 1.25rem !important; // 20px
 }
@@ -2958,16 +2979,13 @@ legend, .label {
   margin-bottom: 1.25rem !important; //20px
 }
 
-
 .m-t-10 {
   margin-top: 0.625rem !important; // 10px
 }
 
-
 .m-t-20 {
   margin-top: 1.25rem !important; // 30px
 }
-
 
 .m-t-30 {
   margin-top: 1.875rem !important; // 30px
@@ -3000,7 +3018,6 @@ legend, .label {
 .m-b-80 {
   margin-bottom: 5rem !important;
 }
-
 
 /* ---------- SELECT PLAN ---------- */
 .select-plan {
@@ -3144,7 +3161,6 @@ legend, .label {
   @media (max-width: 1250px) {
     min-width: auto;
   }
-
   @media (max-width: 800px) {
     margin-right: 0;
     margin-bottom: 1.25rem;
@@ -3153,36 +3169,37 @@ legend, .label {
   @media (max-width: 575px) {
     padding: 1.5em;
   }
-}
-.registration-card__header {
 
+  &__header {}
+  &__main-title {
+    //margin-bottom: 0.625rem;
+    margin-bottom: 0;
+    font-size: 1.5rem;
+    color: #303132;
+  }
+  &__main-subtitle {
+    margin: 0;
+    color: #303132;
+    font-size: 1rem;
+  }
 }
 
-.registration-card__main-title {
-  margin-bottom: 0.625rem;
-  font-size: 1.5rem;
-  color: #303132;
-}
-.registration-card__main-subtitle {
-  margin: 0;
-  color: #303132;
-  font-size: 1rem;
-}
 
 .registration-card-header {
   padding-top: 0;
   border-bottom: solid 1px #DCDEE4;
+
+  &__title {
+    font-size: 1.25rem;
+    font-weight: bold;
+  }
+  &__subtitle {
+    margin-bottom: 0;
+    font-size: 0.875rem;
+    color: #797B7E;
+  }
 }
 
-.registration-card-header__title {
-  font-size: 1.25rem;
-  font-weight: bold;
-}
-.registration-card-header__subtitle {
-  margin-bottom: 0;
-  font-size: 1rem;
-  color: #797B7E;
-}
 
 .form-control-number {
   min-width: 2rem;
@@ -3228,7 +3245,10 @@ legend, .label {
 .bg-dark {
   background-color: #f6f6f8 !important;
 }
-
+.purchase-summary__total {
+  font-size: $font-size-20;
+  font-size: $font-weight-bold;
+}
 .purchase-summary__btn {
   width: 100%;
   height: 2.8125rem; /*45px;*/

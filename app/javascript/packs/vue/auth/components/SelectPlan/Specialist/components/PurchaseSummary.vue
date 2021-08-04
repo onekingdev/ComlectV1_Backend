@@ -4,10 +4,9 @@
       | Purchase Summary
     .card-body.purchase-summary-body.p-y-20
       Coupon(@couponApplied="addDiscount")
-    .card-body.purchase-summary-body.p-40
+    .card-body.purchase-summary-body.p-40.pb-0
       dl.row.mb-0
-        dt.col-6
-          b {{ planComputed.name }} plan
+        dt.col-6 {{ planComputed.name }} plan
         dd.col-6.text-right.font-weight-bold {{ billingTypeSelected === 'annually' ?  planComputed.coastAnnuallyFormatted : planComputed.coastMonthlyFormatted }}
         //dt.col-6 {{ additionalUsers }} Users ({{ planComputed.usersCount }} Free)
         //dd.col-6.text-right {{ planComputed.additionalUserCoast }}
@@ -20,12 +19,12 @@
       //    dd.col-6.text-right.m-b-0
       //      b {{ planComputed.tax }}
       hr
-      dl.row.mb-0
+      dl.row.mb-0.purchase-summary__total
         dt.col-6
           b Total
         dd.col-6.text-right.m-b-0
           b {{ planComputed.total }}
-    .card-footer.purchase-summary-footer.p-40
+    .card-footer.purchase-summary-footer.borderless.p-40
       b-button.purchase-summary__btn(type='button' variant='dark' @click="complitePurchase" :disabled="disabled")
         //b-icon.mr-2(icon="arrow-clockwise" animation="spin" font-scale="1" v-show="loading")
         .lds-ring.lds-ring-small(v-show="loading")

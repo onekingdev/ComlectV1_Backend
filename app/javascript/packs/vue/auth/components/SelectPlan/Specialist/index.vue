@@ -10,16 +10,16 @@
       b-card.billing-plan.billing-plan_specialist(v-for='(plan, index) in billingPlans' :class="[index === 0 ? 'billing-plan_default' : '', index === 1 ? 'billing-plan_high' : '' ]"  :key=`index`)
         b-button.m-b-20(type='button' :variant="currentPlan.status && currentPlan.id === index+1 ? 'dark' : 'secondary'" @click="$emit('openDetails', plan)")
           | {{ currentPlan.status && currentPlan.id === index+1 ? 'Current' : 'Select' }} Plan
-        b-card-text
+        b-card-text.billing-plan__common-info
           h4.billing-plan__name {{ plan.name }}
           p.billing-plan__descr {{ plan.description }}
           h5.billing-plan__coast {{ billingTypeSelected === 'annually' ?  plan.coastAnnuallyFormatted : plan.coastMonthlyFormatted }}
           // p.billing-plan__users {{ billingTypeSelected === 'annually' ?  plan.usersCount + ' free users plus $' + plan.additionalUserAnnually + '/year per person' : plan.usersCount + ' free users plus $' + plan.additionalUserMonthly + '/mo per person' }}
-          hr
-          ul.list-unstyled.billing-plan__list
-            li.billing-plan__item(v-for="feature in plan.features")
-              b-icon.billing-plan__icon(icon="check-circle-fill" variant="success")
-              | {{ feature }}
+        hr
+        ul.list-unstyled.billing-plan__list
+          li.billing-plan__item(v-for="feature in plan.features")
+            b-icon.billing-plan__icon(icon="check-circle-fill" variant="success")
+            | {{ feature }}
     .row
       .col
         .text-right.m-t-30
