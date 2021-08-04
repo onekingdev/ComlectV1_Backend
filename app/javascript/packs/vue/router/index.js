@@ -75,7 +75,9 @@ export default new Router({
     { path: '/users/password/change', name: 'password-change', component: ChangePassword },
     { path: '/verification', name: 'verification', component: Verification, props: true },
     { path: '/business/onboarding', name: 'business-onboarding', component: BusinessOnboarding, props: true },
+    { path: '/businesses/new', name: 'business-onboarding', component: BusinessOnboarding, props: true },
     { path: '/specialist/onboarding', name: 'specialist-onboarding', component: SpecialistOnboarding, props: true },
+    { path: '/specialist/new', name: 'specialist-onboarding', component: SpecialistOnboarding, props: true },
 
     // BUSINESS
     { path: '/business', name: 'dashboard', component: Dashboard },
