@@ -55,10 +55,10 @@
         this.error = ''
         this.errors = []
 
-        if(this.form2.code.length !== 6) {
-          this.error = 'Code length incorrect'
-          return
-        }
+        // if(this.form2.code.length !== 6) {
+        //   this.error = 'Code length incorrect'
+        //   return
+        // }
 
         // IF UNVERIFIED EMAIL
         if(!this.emailVerified) {
