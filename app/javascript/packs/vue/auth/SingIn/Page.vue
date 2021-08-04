@@ -111,10 +111,9 @@
             }
           })
           .catch(error => {
-            if (error.errors === 'Invalid email or password.' || error.errors.invalid === 'Invalid email or password.') {
-              this.error = error.errors.invalid
+            if (error.data.errors) {
+              this.error = error.data.errors.invalid
             }
-            console.error(error)
           })
       },
     },
