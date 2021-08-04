@@ -3071,6 +3071,14 @@ legend, .label {
   &_specialist {
     width: 22.5rem; /*360px;*/
     min-height: 32rem;
+
+    .card-body {
+      padding: 1.75rem !important; /*  20 px*/
+    }
+
+    .billing-plan__common-info {
+      min-height: 6rem;
+    }
   }
 
   &:not(:last-child) {

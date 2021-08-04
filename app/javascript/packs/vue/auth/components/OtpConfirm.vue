@@ -56,7 +56,7 @@
         this.errors = []
 
         if(this.form2.code.length !== 6) {
-          this.toast('Error', `Code length incorrect!`)
+          this.error = 'Code length incorrect'
           return
         }
 
@@ -152,6 +152,8 @@
           e.preventDefault();
           e.target.value = ''
           e.target.previousElementSibling?.focus()
+          // CLEAR CODE if all fields empty
+          if(!this.form2.codePart1 && !this.form2.codePart2 && !this.form2.codePart3 && !this.form2.codePart4 && !this.form2.codePart5 && !this.form2.codePart6) this.form2.code = ''
           return
         }
 

@@ -8,8 +8,10 @@
           b-button(type='button' variant='outline-primary' @click="$emit('openDetails', freePlan)") Continue With Free Plan
     .billing-plans
       b-card.billing-plan.billing-plan_specialist(v-for='(plan, index) in billingPlans' :class="[index === 0 ? 'billing-plan_default' : '', index === 1 ? 'billing-plan_high' : '' ]"  :key=`index`)
-        b-button.m-b-20(type='button' :variant="currentPlan.status && currentPlan.id === index+1 ? 'dark' : 'secondary'" @click="$emit('openDetails', plan)")
-          | {{ currentPlan.status && currentPlan.id === index+1 ? 'Current' : 'Select' }} Plan
+        //b-button.m-b-20(type='button' :variant="currentPlan.status && currentPlan.id === index+1 ? 'dark' : 'secondary'" @click="$emit('openDetails', plan)")
+        //  | {{ currentPlan.status && currentPlan.id === index+1 ? 'Current' : 'Select' }} Plan
+        b-button.m-b-20(type='button' :variant="currentPlan.id === index+1 ? 'dark' : 'secondary'" @click="$emit('openDetails', plan)")
+        | {{ currentPlan.id === index+1 ? 'Current' : 'Select' }} Plan
         b-card-text.billing-plan__common-info
           h4.billing-plan__name {{ plan.name }}
           p.billing-plan__descr {{ plan.description }}
