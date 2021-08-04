@@ -55,8 +55,6 @@
         this.error = ''
         this.errors = []
 
-        console.log('emailVerified', this.emailVerified)
-
         if(this.form2.code.length !== 6) {
           this.toast('Error', `Code length incorrect!`)
           return
@@ -68,8 +66,6 @@
             email: this.form.email,
             otp_secret: this.form2.code
           }
-
-          console.log('dataToSend1 !this.emailVerified', dataToSend1)
 
           this.$store.dispatch('confirmEmail', dataToSend1)
             .then((response) => {
@@ -96,6 +92,7 @@
               console.error(error)
               this.toast('Error', `${error.message}`)
             })
+            .finally(() => { return })
         }
 
         // IF VERIFIED EMAIL
@@ -138,6 +135,7 @@
                 this.error = error.data.errors.invalid
               }
             })
+            .finally(() => { return })
         }
       },
       onCodeChange(e){
