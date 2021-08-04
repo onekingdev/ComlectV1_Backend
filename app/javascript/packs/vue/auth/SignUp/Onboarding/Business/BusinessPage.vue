@@ -13,7 +13,7 @@
               .row
                 .col
                   h3.onboarding__title.m-b-10 Do you have a CRD number?
-                    ion-icon.onboarding__icon(name="information-circle" v-b-tooltip.hover title='You can find your CRD number on the IAPD site')
+                    ion-icon.onboarding__icon(name="information-circle" v-b-tooltip.hover.html :title='IAPDurl')
                   p.onboarding__sub-title.m-b-20 The CRD number will be used to auto-populate information about your business
               .row
                 .col
@@ -493,6 +493,11 @@
       },
       overlay() {
         return this.$store.getters.overlay;
+      },
+      IAPDurl() {
+        const linkIAPD = 'https://adviserinfo.sec.gov/'
+        const text = `You can find your CRD number on the <a href="${linkIAPD}" target="_blank">IAPD site</a>`
+        return text
       }
     },
     mounted () {
