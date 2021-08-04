@@ -162,10 +162,11 @@
               //   b-form-file(v-model='formStep2.file' :state='Boolean(formStep2.file)' accept="application/pdf" placeholder='Choose a file or drop it here...' drop-placeholder='Drop file here...')
               //   .m-t-3 Selected file: {{ formStep2.file ? formStep2.file.name : '' }}
               // hr
-              h3.onboarding__title.m-b-20 (Optional) Upload your resume:
+              h3.onboarding__title Upload your resume:
+              .form-text.text-muted.m-b-20 Optional
               label.dropbox.w-100(v-if="!formStep2.file" for="upload-file")
                 input.input-file(type="file" id="upload-file" accept="application/pdf" ref="file" @change="selectFile")
-                p(v-if="!formStep2.file") Drop resume here or
+                p(v-if="!formStep2.file") Drop resume here OR
                   button.btn.btn-default Upload
                 p(v-if="formStep2.file") Selected file: {{ formStep2.file.name }}
               .row(v-if="formStep2.file")
@@ -173,10 +174,10 @@
                   .file-card
                     div
                       b-icon.file-card__icon(icon="file-earmark-text-fill")
-                    div.ml-0.mr-auto
+                    .ml-0.mr-auto
                       p.file-card__name {{ formStep2.file.name }}
                       a.file-card__link.link(:href="formStep2.file.file_url" target="_blank") Download
-                    div.ml-auto.align-self-start.actions
+                    .ml-auto.my-auto.align-self-start.actions
                       b-dropdown(size="sm" class="m-0 p-0" right)
                         template(#button-content)
                           b-icon(icon="three-dots")
