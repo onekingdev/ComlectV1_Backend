@@ -393,15 +393,14 @@
           return
         }
         if (stepNum === 2) {
-          if (!this.formStep1.jurisdiction.length) this.errors = Object.assign({}, this.errors, { jurisdiction: `Required Field` })
-          if (!this.formStep1.time_zone.length) this.errors = Object.assign({}, this.errors, { time_zone: `Required Field` })
-          if (!this.formStep1.industry.length) this.errors = Object.assign({}, this.errors, { industry: `Required Field` })
-          if (!this.formStep1.subIndustry.length) this.errors = Object.assign({}, this.errors, { subIndustry: `Required Field` })
-          if (!this.formStep1.industry || !this.formStep1.time_zone || !this.formStep1.subIndustry || !this.formStep1.jurisdiction ) {
-            this.navigation(1)
-            return
-          }
-
+        //   if (!this.formStep1.jurisdiction.length) this.errors = Object.assign({}, this.errors, { jurisdiction: `Required Field` })
+        //   if (!this.formStep1.time_zone.length) this.errors = Object.assign({}, this.errors, { time_zone: `Required Field` })
+        //   if (!this.formStep1.industry.length) this.errors = Object.assign({}, this.errors, { industry: `Required Field` })
+        //   if (!this.formStep1.subIndustry.length) this.errors = Object.assign({}, this.errors, { subIndustry: `Required Field` })
+        //   if (!this.formStep1.industry || !this.formStep1.time_zone || !this.formStep1.subIndustry || !this.formStep1.jurisdiction ) {
+        //     return
+        //   }
+        //
           this.navigation(stepNum)
         }
 
@@ -445,7 +444,10 @@
                 // this.toast('Success', `Company info successfully sended!`)
               }
             })
-            .catch(error => console.error('updateAccountInfoWithFile', error))
+            .catch(error => {
+              this.navigation(1)
+              console.error('updateAccountInfoWithFile', error)
+            })
         }
       },
       openDetails(plan) {
