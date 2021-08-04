@@ -320,7 +320,7 @@ input, button, select, optgroup, textarea {
 
   &__text {
     font-size: 30px;
-    letter-spacing: 1px;
+    //letter-spacing: -2px;
 
     @include media-breakpoint-down(xs) {
       display: none;
@@ -2754,13 +2754,19 @@ legend, .label {
 }
 
 /* ---------- ERRORS ---------- */
-.invalid-feedback {
-  text-transform: capitalize;
+.invalid-feedback,
+#stripe-element-errors {
+  //text-transform: capitalize;
   color: $red;
 
-  //&::first-letter {
-  //  text-transform: capitalize;
-  //}
+  &::first-letter {
+    text-transform: capitalize;
+  }
+}
+
+#stripe-element-errors {
+  font-size: 80%;
+  margin-top: 0.25rem;
 }
 
 /* ---------- Files List view ---------- */
@@ -3166,6 +3172,7 @@ legend, .label {
   margin-right: 1.25rem;
   min-width: 53.125rem; //850px
   height: 100%;
+  border-radius: 0;
 
   @media (max-width: 1250px) {
     min-width: auto;

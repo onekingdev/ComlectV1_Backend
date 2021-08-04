@@ -399,13 +399,14 @@
               this.currentPlan = { id: 1, status: true }
 
               // OVERLAY
-              this.$store.dispatch('setOverlay', {
-                active: true,
-                message: 'Setting up account...',
-                status: 'success'
-              })
+              // this.$store.dispatch('setOverlay', {
+              //   active: true,
+              //   message: 'Setting up account...',
+              //   status: 'success'
+              // })
 
-              setTimeout(() => this.redirect() , 2000)
+              // setTimeout(() => this.redirect() , 2000)
+              this.redirect()
             })
             .catch(error => {
               console.error(error)

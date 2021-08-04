@@ -7,16 +7,17 @@
           plaid-link(env='sandbox' :publicKey='plaidPK' clientName='Test App' product='auth' v-bind='{ onSuccess }')
             template(slot='button' slot-scope='props')
               a.btn.btn-default(@click="props.onClick") Add Bank Account
-    .card-header.registration-card-header.p-y-20.px-0(v-if="cardOptions.length")
-      dl.row(v-for="(card, i) in cardOptions")
-        dt.col-7
+    .card-header.registration-card-header.borderless.p-y-20.px-0(v-if="cardOptions.length")
+      div(v-for="(card, i) in cardOptions")
+        .d-flex.justify-content-between.align-items-center
           //input.mr-2.mt-1(:id="'card'+card.id" type='radio' name='card' :value='card.id' v-model="cardSelected" @click="onPaymentMethodChange(card.id)")
           //label(:for="'card'+card.id") {{ card.text }}
-          ion-icon.mr-2.text-success(name="checkmark-circle")
-          label {{ card.text }}
-        dd.col-sm-5.text-right.m-b-0
-          | {{ card.number }} {{ card.type }}
-          a.link.ml-2(@click.stop="deletePaymentMethod(card.id)") Remove
+          //ion-icon.mr-2.text-success(name="checkmark-circle")
+          .paragraph {{ card.text }}
+          .d-flex.align-items-center
+            .paragraph.font-weight-bold
+              | {{ card.number }} {{ card.type }}
+            a.link.ml-2(@click.stop="deletePaymentMethod(card.id)") Remove
     .card-header.registration-card-header.borderless.p-t-20.px-0(v-show="!cardOptions.length")
       stripe-element-card(ref="elementRef" :pk="pk" @token="tokenCreated")
       .row
@@ -44,6 +45,14 @@
       StripeCheckout,
       StripeElementCard,
       PlaidLink
+    },
+    created() {
+      const paymentMethodID = JSON.parse(localStorage.getItem('app.currentUser.paymentMethodID'));
+      if (paymentMethodID) {
+        this.$emit('complitedPaymentMethod', paymentMethodID)
+        this.cardSelected = paymentMethodID
+        this.onPaymentMethodChange(paymentMethodID)
+      }
     },
     data() {
       return {
@@ -94,11 +103,13 @@
           .then(response => {
             this.$emit('complitedPaymentMethod', response)
             this.toast('Success', `Payment method successfully added!`)
-            this.isActive = false
+            // this.isActive = false
             this.$refs.elementRef.clear()
             this.cardOptions.push({ text: `Credit Card${this.cardOptions.length===0 ? ' (primary)' : ''}`, value: response.id, number: `**** **** **** ${response.last4}`, type: response.brand, id: response.id })
             this.cardSelected = response.id
             this.onPaymentMethodChange(response.id)
+            // SAVE FOR RELOAD PAGE CASES
+            localStorage.setItem('app.currentUser.paymentMethodID', JSON.stringify(response.id));
           })
           .catch(error => {
             console.error(error)
