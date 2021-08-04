@@ -192,7 +192,7 @@
             if (!response.errors) {
               this.userId = response.userid
               // OPEN OTP
-              this.$router.push({ name: 'otp-confirm', params: {form: this.form, userid: this.userid, userType: this.userType, emailVerified: this.emailVerified }})
+              this.$router.push({ name: 'verification', params: {form: this.form, userid: this.userid, userType: this.userType, emailVerified: this.emailVerified }})
               this.toast('Success', `${response.message}`)
             }
           })

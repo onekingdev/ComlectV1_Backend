@@ -17,11 +17,11 @@
         dd.col-sm-5.text-right.m-b-0
           | {{ card.number }} {{ card.type }}
           a.link.ml-2(@click.stop="deletePaymentMethod(card.id)") Remove
-    .card-header.registration-card-header.bordeless.p-t-20.px-0(v-show="!cardOptions.length")
+    .card-header.registration-card-header.borderless.p-t-20.px-0(v-show="!cardOptions.length")
       stripe-element-card(ref="elementRef" :pk="pk" @token="tokenCreated")
       .row
         .col.text-right
-          b-button(v-show="!loading" type='button' variant='outline-primary' @click="submit") Add
+          b-button(v-show="!loading" type='button' variant='outline-primary' @click="submit" :disabled="disabled") Add
           b-button(v-show="loading" type='button' variant='none')
             .lds-ring.lds-ring-small
               div
@@ -68,6 +68,7 @@
         errors: [],
         additionalUsersCount: 0,
         // isActive: true,
+        disabled: true
       };
     },
     methods: {

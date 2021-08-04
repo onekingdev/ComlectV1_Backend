@@ -9,11 +9,11 @@
         dt.col-6 {{ planComputed.name }} plan
         dd.col-6.text-right.font-weight-bold {{ billingTypeSelected === 'annually' ?  planComputed.coastAnnuallyFormatted : planComputed.coastMonthlyFormatted }}
       dl.row.mb-0
-        dt.col-6 {{ additionalUsers }} Users ({{ planComputed.usersCount }} Free)
+        .col-6 {{ additionalUsers }} Users ({{ planComputed.usersCount }} Free)
         //dd.col-6.text-right.font-weight-bold {{ planComputed.additionalUserCoast !== '+$0' ? planComputed.additionalUserCoast : 'FREE' }}
         dd.col-6.text-right.font-weight-bold {{ planComputed.additionalUserCoast }}
       dl.row.mb-0
-        dt.col-6.text-success(v-if="billingTypeSelected === 'annually' && planComputed.id !== 1") Billed Annualy
+        .col-6.text-success(v-if="billingTypeSelected === 'annually' && planComputed.id !== 1") Billed Annually
         dd.col-6.text-right.text-success(v-if="billingTypeSelected === 'annually' && planComputed.id !== 1") You saved {{ planComputed.saved }}
       //.card-body.purchase-summary-body.p-x-40.p-y-20(v-if="planComputed.tax")
       //  dl.row.mb-0

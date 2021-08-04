@@ -94,20 +94,20 @@
               if (response.error === 'Please, confirm your email' || response.errors === 'Please, confirm your email') {
                 this.emailVerified = false
                 // OPEN OTP
-                this.$router.push({ name: 'otp-confirm', params: {form: this.form, userid: this.userid, userType: this.userType, emailVerified: this.emailVerified }})
+                this.$router.push({ name: 'verification', params: {form: this.form, userid: this.userid, userType: this.userType, emailVerified: this.emailVerified }})
                 let data = {
                   user: {
                     email: this.form.email,
                   },
                 }
                 this.$store.dispatch('resendOTP', data)
-                  .then((response) => this.$router.push({ name: 'otp-confirm', params: {form: this.form, userid: this.userid, userType: this.userType, emailVerified: this.emailVerified }}) )
+                  .then((response) => this.$router.push({ name: 'verification', params: {form: this.form, userid: this.userid, userType: this.userType, emailVerified: this.emailVerified }}) )
                   .catch((error) => console.error(error))
               }
             }
             if (!response.errors) {
               // OPEN OTP CONFIRM
-              this.$router.push({ name: 'otp-confirm', params: {form: this.form, userid: this.userid, userType: this.userType, emailVerified: this.emailVerified }})
+              this.$router.push({ name: 'verification', params: {form: this.form, userid: this.userid, userType: this.userType, emailVerified: this.emailVerified }})
             }
           })
           .catch(error => {
