@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon</title>
+    <g id="Components" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="toast/success" transform="translate(-15.000000, -20.000000)">
+            <g id="Group" transform="translate(15.000000, 20.000000)">
+                <rect id="Rectangle" fill="#1AB27F" x="0" y="0" width="20" height="20" rx="10"></rect>
+                <path d="M15.8071512,6.3613231 L8.6110233,14.7023303 C8.45130439,14.8875547 8.2168774,14.9961626 7.96851189,15 L7.95405538,15 C7.71121957,15 7.4798301,14.8994905 7.31743365,14.7237041 L4.23337886,11.3873013 C4.02016667,11.1671212 3.9461595,10.851777 4.03999323,10.563286 C4.13382697,10.2747951 4.38078125,10.0584149 4.68530108,9.99787045 C4.98982091,9.93732596 5.30413415,10.0421152 5.50662231,10.2716915 L7.93156748,12.8949383 L14.495357,5.28846104 C14.8017162,4.94359972 15.3357217,4.90216927 15.694307,5.19544133 C16.0528923,5.48871339 16.1031524,6.00799045 15.8071512,6.3613231 Z" id="Path" stroke="#FFFFFF" fill="#FFFFFF" fill-rule="nonzero"></path>
+            </g>
+        </g>
+    </g>
+</svg>
