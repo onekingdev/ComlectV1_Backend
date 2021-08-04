@@ -2957,6 +2957,10 @@ legend, .label {
   padding-top: 1.25rem !important; // 20px
 }
 
+.p-t-30 {
+  padding-top: 1.875rem !important; // 30px
+}
+
 .p-t-40 {
   padding-top: 2.5rem !important; // 40px
 }
@@ -3399,4 +3403,24 @@ legend, .label {
 .exp__btn:active .exp__btn--sub,
 .exp__btn.active .exp__btn--sub {
   color: #797b7e;
+}
+
+/* ---------- INFORMATION BOARD ---------- */
+.info-board {
+  padding: 1.5rem; //30px
+  color: $black;
+
+  &__title {
+    margin-bottom: 0.625rem; //10px;
+    font-size: $font-size-24;
+  }
+  &__subtitle {
+    margin-right: 2rem;
+    font-size: $font-size-14;
+  }
+  &__icon {
+    width: 2rem;
+    height: 2rem;
+  }
+  &__btn {}
 }

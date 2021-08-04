@@ -2,15 +2,27 @@
   div
     .card-header.d-flex.justify-content-between.p-t-0
       div(style="vertical-align: middle")
-        h3.m-y-0
+        h3.calendar__title.m-y-0
           TaskFormModal(id="CalendarTaskFormModal" v-bind="nowEditingTask" @saved="$emit('saved')")
           | {{currentMonth}}
-          small(style="vertical-align: middle")
+          small.float-right(style="vertical-align: middle")
             ion-icon.m-x-1(name='chevron-back-outline' @click.prevent="prev")
             ion-icon(name='chevron-forward-outline' @click.prevent="next")
       div
-        a.btn.btn-default.float-end(:href="pdfUrl" target="_blank") Export
-    .card-body
+        //b-dropdown.mr-2(variant="default")
+        //  template(#button-content)
+        //    | Monhly
+        //    b-icon.ml-2(icon="chevron-down")
+        //  b-dropdown-item Annually
+        //  b-dropdown-item Monhly
+        //  b-dropdown-item Weekly
+        //  b-dropdown-item Daily
+        a.btn.btn-secondary(:href="pdfUrl" target="_blank") Download
+        //b-dropdown(size="sm" variant="none" class="m-0 p-0" right)
+        //  template(#button-content)
+        //    b-icon(icon="three-dots")
+        //  b-dropdown-item-button Some Action
+    .card-body.p-20
       FullCalendar(:options="calendarOptions" ref="FullCalendar")
         template(v-slot:dayCellContent="arg")
           TaskFormModal(:remind-at="jsToSql(arg.date)" @saved="$emit('saved')")

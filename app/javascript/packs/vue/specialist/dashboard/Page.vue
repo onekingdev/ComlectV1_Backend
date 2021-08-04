@@ -1,12 +1,11 @@
 <template lang="pug">
   .page
+    .page-header.p-x-40.p-t-30
+      EmptyPlan
     .page-header
       h2.page-header__title
         b Welcome, {{currentSpecialist}}
     div.p-x-40.p-b-40
-      .row
-        .col.m-b-20
-          EmptyPlan
       .row
         .col
           .dashboard
