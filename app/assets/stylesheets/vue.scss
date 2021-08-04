@@ -2756,6 +2756,10 @@ legend, .label {
 .invalid-feedback {
   text-transform: capitalize;
   color: $red;
+
+  //&::first-letter {
+  //  text-transform: capitalize;
+  //}
 }
 
 /* ---------- Files List view ---------- */
