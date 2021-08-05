@@ -19,7 +19,7 @@
         console.log(this.promo_code)
 
         this.toast('Success', 'Discount successfully applied.')
-        this.toast('Error', 'Invalid code. Discount was not applied.')
+        this.toast('Error', 'Invalid code. Discount was not applied.', true)
 
         this.$emit('couponApplied')
       }

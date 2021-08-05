@@ -114,7 +114,7 @@
           .catch(error => {
             console.error(error)
             // this.toast('Error', `Something wrong! ${error}`)
-            this.toast('Error', 'Payment method could not be added.')
+            this.toast('Error', 'Payment method could not be added.', true)
           })
       },
       deletePaymentMethod(cardId) {

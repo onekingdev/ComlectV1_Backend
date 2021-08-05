@@ -58,12 +58,12 @@ export default {
     duplicateReview(reviewId){
       this.$store.dispatch('annual/duplicateReview', { id: reviewId })
         .then(response => this.toast('Success', `The annual review has been duplicated! ${response.id}`))
-        .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
+        .catch(error => this.toast('Error', `Something wrong! ${error.message}`, true))
     },
     deleteReview(reviewId){
       this.$store.dispatch('annual/deleteReview', { id: reviewId })
         .then(response => this.toast('Success', `The annual review has been deleted! ${response.id}`))
-        .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
+        .catch(error => this.toast('Error', `Something wrong! ${error.message}`, true))
     }
   }
 }

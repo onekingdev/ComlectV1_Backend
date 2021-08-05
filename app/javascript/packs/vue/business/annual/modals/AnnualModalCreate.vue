@@ -62,14 +62,11 @@
       }
     },
     methods: {
-      makeToast(title, str, variant) {
-        this.$bvToast.toast(str, { title, autoHideDelay: 50000, variant })
-      },
       async submit(e) {
         e.preventDefault();
 
         if (!this.annual_review.name || !this.annual_review.review_start || !this.annual_review.review_end) {
-          this.makeToast('Error', `Please check all fields!`, 'danger')
+          this.toast('Error', `Please check all fields!`, true)
           return
         }
 
@@ -92,13 +89,13 @@
 
               this.$store.dispatch('annual/updateReview', data)
                 .then((response) => {
-                  this.makeToast('Success', `Annual Review Successfully created!`)
+                  this.toast('Success', `Annual Review Successfully created!`)
                   this.$emit('saved')
                   this.$bvModal.hide(this.modalId)
                 })
                 .catch((error) => console.error(error))
             })
-            .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
+            .catch(error => this.toast('Error', `Something wrong! ${error.message}`, true))
 
           return
         }
@@ -106,16 +103,16 @@
         try {
           const response = await this.$store.dispatch('annual/createReview', this.annual_review)
           if (response.errors) {
-            this.makeToast('Error', `${response.status}`)
+            this.toast('Error', `${response.status}`, true)
             Object.keys(response.errors)
-              .map(prop => response.errors[prop].map(err => this.makeToast(`Error`, `${prop}: ${err}`)))
+              .map(prop => response.errors[prop].map(err => this.toast(`Error`, `${prop}: ${err}`)))
             return
           }
-          this.makeToast('Success', `Annual Review Successfully created!`)
+          this.toast('Success', `Annual Review Successfully created!`)
           this.$emit('saved')
           this.$bvModal.hide(this.modalId)
         } catch (error) {
-          this.makeToast('Error', error.message)
+          this.toast('Error', error.message, true)
         }
       },
     },

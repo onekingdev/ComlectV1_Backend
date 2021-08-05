@@ -47,13 +47,10 @@ export default {
     try {
       await this.$store.dispatch('annual/getReviews')
     } catch (error) {
-      this.makeToast('Error', error.message)
+      this.toast('Error', error.message, true)
     }
   },
   methods: {
-    makeToast(title, str) {
-      this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
-    }
   }
 }
 </script>

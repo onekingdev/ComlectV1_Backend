@@ -75,7 +75,7 @@
               this.error = response.message
 
               if(response.message === 'Invalid 6 digits code')
-                this.toast('Error', 'Verification code failed. Try again.')
+                this.toast('Error', 'Verification code failed. Try again.', true)
 
               if (response.errors) {
 
@@ -92,7 +92,7 @@
             })
             .catch((error) => {
               console.error(error)
-              this.toast('Error', `${error.message}`)
+              this.toast('Error', `${error.message}`, true)
             })
         }
 
@@ -113,7 +113,7 @@
               console.log('response', response)
               if (response.errors) {
                 this.error = response.message
-                this.toast('Error', 'Verification code failed. Try again.')
+                this.toast('Error', 'Verification code failed. Try again.', true)
               }
 
               if (!response.errors && response.token) {
@@ -131,7 +131,7 @@
               console.error('error', error.data)
               console.error('error', error.data.errors)
               console.error('error', error.data.errors.invalid)
-              this.toast('Error', 'Verification code failed. Try again.')
+              this.toast('Error', 'Verification code failed. Try again.', true)
               if (error.data.errors) {
                 this.error = error.data.errors.invalid
               }
@@ -187,7 +187,7 @@
         }
         this.$store.dispatch('resendOTP', data)
           .then((response) => this.toast('Success', `${response.message}`))
-          .catch((error) => this.toast('Error', `${error.status} (${error.statusText})`))
+          .catch((error) => this.toast('Error', `${error.status} (${error.statusText})`, true))
       },
     },
     computed: {

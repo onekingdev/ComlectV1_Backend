@@ -266,7 +266,7 @@ export default {
           this.toast('Success', `The annual review has been deleted! ${response.id}`)
           window.location.href = `${window.location.origin}/business/annual_reviews`
         })
-        .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
+        .catch(error => this.toast('Error', `Something wrong! ${error.message}`, true))
     },
     makeToast(title, str) {
       this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
