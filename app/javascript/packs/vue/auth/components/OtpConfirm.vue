@@ -96,6 +96,8 @@
               console.error(error)
               this.toast('Error', `${error.message}`)
             })
+
+          return
         }
 
         // IF VERIFIED EMAIL
@@ -138,6 +140,8 @@
                 this.error = error.data.errors.invalid
               }
             })
+
+          return
         }
       },
       onCodeChange(e){
