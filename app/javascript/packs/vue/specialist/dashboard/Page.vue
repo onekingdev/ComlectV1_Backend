@@ -22,6 +22,7 @@ import UpcomingTasks from '@/specialist/dashboard/UpcomingTasks'
 import EmptyPlan from '@/specialist/settings/components/subscriptions/components/EmptyPlan'
 
 const endpointProjectsUrl = '/api/specialist/local_projects/'
+const pdfUrl = '/specialist/reminders.pdf'
 
 export default {
   data() {
@@ -55,9 +56,7 @@ export default {
     EmptyPlan,
   },
   computed: {
-    pdfUrl() {
-      return '/specialist/reminders.pdf'
-    },
+    pdfUrl: () => pdfUrl,
     currentSpecialist() {
       // @TODO Must be fetched from API
       const accountInfo = this.$store.getters.getUser
