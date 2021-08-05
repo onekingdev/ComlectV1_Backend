@@ -45,14 +45,9 @@ export default {
         .then(response => response.json())
         .then(result => this.projects = result)
     },
-    makeToast(title, str, variant) {
-      this.$bvToast.toast(str, { title, autoHideDelay: 50000, variant })
-    },
   },
   created() {
     this.refetch()
-    this.makeToast('Success', 'Very butiful toast, must be more 3 characters.', 'success')
-    this.makeToast('Error', 'Name is very short, must be more 3 characters.', 'danger')
 
     const firstView = JSON.parse(localStorage.getItem('app.currentUser.firstEnter'))
     if (firstView) {
