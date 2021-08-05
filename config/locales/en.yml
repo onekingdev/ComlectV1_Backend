@@ -88,6 +88,8 @@ en:
               no_industry: You don't have the required industry experience
               no_regulator: You don't have regulatory experience
               no_payment_info: You need to have verified payment info
+            starts_on:
+              past: Project start date can't be in past
         specialist:
           attributes:
             photo:

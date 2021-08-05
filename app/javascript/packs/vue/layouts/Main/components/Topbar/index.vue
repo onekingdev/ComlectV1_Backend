@@ -34,6 +34,8 @@
           UserAvatar.topbar-right-dropdown__avatar(:user="account" :sm="true")
           span.topbar-right-dropdown__name {{ account.first_name }} {{ account.last_name }}
           ion-icon.topbar-right-dropdown__icon(name='chevron-down-outline')
+        li(v-if="activeContracts && userType === 'specialist'" v-for="contract in  activeContracts" :key='contract')
+          a.dropdown-item(href="#") {{ contract }}
         li(@click="openLink('documents')")
           router-link.dropdown-item(:to='`/${userType}/profile`' active-class="active") Profile
         b-dropdown-item(@click="signOut") Sign Out
@@ -148,6 +150,9 @@
       // }
       userType () {
         return this.$store.getters.userType
+      },
+      activeContracts () {
+        return [ 'Active Contract 1', 'Active Contract 2' ]
       }
     },
     watch: {

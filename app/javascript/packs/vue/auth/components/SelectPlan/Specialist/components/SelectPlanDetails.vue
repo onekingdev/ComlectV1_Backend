@@ -1,7 +1,7 @@
 <template lang="pug">
   .select-plan(v-if="isSidebarOpen")
     .card.registration-card
-      .card-header.borderless.m-b-80.px-0.pt-0
+      .card-header.borderless.m-b-40.px-0.pt-0
         .d-flex.justify-content-between.m-b-40
           b-button(variant="default" @click="$emit('sidebarToggle', false)")
             b-icon.mr-2(icon="chevron-left" variant="dark")
@@ -66,8 +66,12 @@
         // CLEAR ERRORS
         this.errors = []
 
-        this.overlay = true
-        this.overlayStatusText = 'Setting up account. Subscribing a plan...'
+        // OVERLAY
+        this.$store.dispatch('setOverlay', {
+          active: true,
+          message: 'Setting up account',
+          status: ''
+        })
 
         let planName;
         if (selectedPlan.id === 1) {
@@ -91,12 +95,19 @@
               // this.toast('Success', `Update subscribe successfully finished!`)
 
               // OVERLAY
+              // this.$store.dispatch('setOverlay', {
+              //   active: true,
+              //   message: 'Payment complete! Setting up account...',
+              //   status: 'success'
+              // })
+              // setTimeout(() => this.redirect() , 3000)
+
               this.$store.dispatch('setOverlay', {
                 active: true,
-                message: 'Payment complete! Setting up account...',
+                message: 'Setting up account',
                 status: 'success'
               })
-              setTimeout(() => this.redirect() , 3000)
+              this.redirect()
             }
           })
           .catch(error => {

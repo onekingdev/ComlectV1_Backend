@@ -10,7 +10,7 @@
         router-link.mr-2.btn.btn-default(v-if="project.visible_project" :to='viewHref(project.visible_project)') View Post
         router-link.mr-3.btn.btn-default(v-else :to='postHref(project)') Post Project
         CompleteLocalProjectModal(:project="project" @saved="newEtag")
-      b-tabs(content-class="mt-0" v-model="tab")
+      b-tabs.special-navs(content-class="mt-0" v-model="tab")
         b-tab(title="Overview" active)
           .card-body.white-card-body.card-body_full-height
             .container

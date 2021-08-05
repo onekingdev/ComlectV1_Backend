@@ -3,7 +3,7 @@
     .card-header.registration-card-header.p-b-20.px-0
       .row
         .col
-          h4.registration-card-header__title Plan
+          h4.registration-card__main-title Plan
     .card-header.registration-card-header.p-y-20.px-0
       .row
         .col

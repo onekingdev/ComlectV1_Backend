@@ -1,28 +1,29 @@
 <template lang="pug">
   div
     .card-header.d-flex.justify-content-between
-      h3.m-y-0 Upcoming
+      h3.upcoming__header.m-y-0 Upcoming
       TaskFormModal(@saved="$emit('saved')")
         button.btn.btn-dark.float-end New Task
-    .card-body
-      b.d-flex.justify-content-between(role="button" v-b-toggle.upcoming_tasks_collapse="")
+    .card-body.p-x-20.p-y-30
+      b.upcoming__title.d-flex.justify-content-between.m-b-10(role="button" v-b-toggle.upcoming_tasks_collapse="")
         | Tasks
-        ion-icon(name='chevron-down-outline')
+        ion-icon(name="chevron-down-outline")
       b-collapse#upcoming_tasks_collapse(:visible="true")
-        TaskTable(:tasks="tasks" :shortTable="true" @saved="$emit('saved')")
-        .d-flex.justify-content-end.mb-2
-          router-link.link(:to='`/business/reminders`') More
-      b.d-flex.justify-content-between(role="button" v-b-toggle.upcoming_projects_collapse="")
+        TaskTable.upcoming__table(:tasks="tasks" :shortTable="true" @saved="$emit('saved')")
+        .d-flex.justify-content-end.mb-2(v-if="tasks.length")
+          router-link.link.upcoming__more(:to='`/specialist/reminders`') More
+      b.upcoming__title.d-flex.justify-content-between.m-b-10(role="button" v-b-toggle.upcoming_projects_collapse="")
         | Projects
-        ion-icon(name='chevron-down-outline')
+        ion-icon(name="chevron-down-outline")
       b-collapse#upcoming_projects_collapse(:visible="true")
         ProjectTable(:projects="projects")
-        .d-flex.justify-content-end
-          router-link.link(:to='`/business/projects`') More
+        .d-flex.justify-content-end(v-if="projects.length")
+          router-link.link.upcoming__more(:to='`/specialist/projects`') More
 </template>
 
 <script>
-const LIMIT_OF_ARRAYS = 6
+const LIMIT_OF_ARRAY_TASKS = 10
+const LIMIT_OF_ARRAY_PROJECTS = 5
 
 const endpointUrl = '/api/specialist/reminders/'
 const overdueEndpointUrl = '/api/specialist/overdue_reminders'
@@ -57,24 +58,18 @@ export default {
         .then(result => {
           tasks = result.tasks
         }).then(fetch(`${endpointUrl}${fromTo}`, { headers: {'Accept': 'application/json'}})
-          .then(response => response.json())
-          .then(result => {
-            tasks = tasks.concat(result.tasks)
-            projects = result.projects
+        .then(response => response.json())
+        .then(result => {
+          tasks = tasks.concat(result.tasks)
+          projects = result.projects
 
-            this.tasks = this.restructureArray(tasks, LIMIT_OF_ARRAYS)
-            this.projects = this.restructureArray(projects, LIMIT_OF_ARRAYS)
-          })
-        )
-        // .catch(errorCallback)
+          // this.tasks = tasks.slice(0, LIMIT_OF_ARRAY_TASKS).filter(task => !task.done_at)
+          this.tasks = tasks.filter(task => !task.done_at)
+          this.projects = projects.slice(0, LIMIT_OF_ARRAY_PROJECTS)
+        })
+      )
+      // .catch(errorCallback)
     },
-    restructureArray(array, limit) {
-      let limitedArray = [];
-      for (let i = 0; i < limit; i++){
-        limitedArray.push(array[i])
-      }
-      return limitedArray
-    }
   },
   components: {
     TaskFormModal,

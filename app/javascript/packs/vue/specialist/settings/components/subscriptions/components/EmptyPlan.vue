@@ -1,15 +1,15 @@
 <template lang="pug">
-  .card
-    .card-body
-      .d-flex.justify-content-between
+  .card.info-board.w-100
+    .card-body.p-0
+      .d-flex.justify-content-between.align-items-center
         .d-flex.align-items-center
-          ion-icon.plan__icon(name="home-outline")
-          .d-flex.flex-column.ml-3
-            h3 Get hired for your next big job
-            p.mb-0 Sign up for a Complect PRO Specialist account and unlock the compilance job board, program mirroring, and automated invoicing.
+          b-icon.info-board__icon(icon="shop")
+          .d-flex.flex-column
+            h3.info-board__title Get hired for your next big job
+            p.info-board__subtitle.mb-0 Sign up for our All Access Membership and unlock the compliance job board, enjoy automated billing, and access to client compliance program management tools.
         .d-flex.ml-auto.align-items-center
-          button.btn.btn-default.mr-2 More information
-          button.btn.btn-dark Upgrade now
+          //button.btn.btn-default.mr-2 More information
+          button.btn.btn-dark Upgrade Now
             b-icon.ml-2(icon="chevron-right")
 </template>
 

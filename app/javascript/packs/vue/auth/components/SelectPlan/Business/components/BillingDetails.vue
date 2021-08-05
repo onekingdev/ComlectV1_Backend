@@ -4,7 +4,7 @@
       .row
         .col
           h4.registration-card__main-title Plan
-          p.registration-card__main-subtitle Review and confirm your subscription
+          //p.registration-card__main-subtitle Review and confirm your subscription
         .col.text-right
           b-form-group(v-if="planComputed.id !== 1", v-slot="{ ariaDescribedby }")
             b-form-radio-group(id="btn-radios-plan"
@@ -29,17 +29,14 @@
       .d-flex.justify-content-between
         div
           h4.registration-card-header__title Users
-          p.registration-card-header__subtitle Enter the number of users for your plan (this is often your employee headcount
-        .d-flex.justify-content-end.align-items-center
+          p.registration-card-header__subtitle Enter the number of users (this is often your employee headcount)
+        .d-block
           b-form-input.form-control-number(v-model="additionalUsersCount" type="number" min="1" max="100" @keyup="onChangeUserCount")
     AddPaymentMethod(:billingTypeSelected="billingTypeSelected", :billingTypeOptions="billingTypeOptions", :plan="plan", :userType="userType" @complitedPaymentMethod="complitedPaymentMethod")
 </template>
 
 <script>
   import AddPaymentMethod from "../../../AddPaymentMethod";
-
-  /* Will be deleted soon after we test it on staging */
-  console.warn("process.env.STRIPE_PUBLISHABLE_KEY > ", process.env.STRIPE_PUBLISHABLE_KEY)
 
   export default {
     props: ['billingTypeSelected', 'billingTypeOptions', 'plan'],

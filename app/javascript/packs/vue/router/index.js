@@ -10,7 +10,7 @@ import SignIn from '@/auth/SingIn/Page'
 import SignUp from '@/auth/SignUp/Page'
 import ResetPassword from '@/auth/ResetPassword/Page'
 import ChangePassword from '@/auth/ChangePassword/Page'
-import OtpConfirm from '@/auth/components/OtpConfirm'
+import Verification from '@/auth/components/OtpConfirm'
 import BusinessOnboarding from '@/auth/SignUp/Onboarding/Business/BusinessPage'
 import SpecialistOnboarding from '@/auth/SignUp/Onboarding/Specialist/SpecialistPage'
 
@@ -73,9 +73,11 @@ export default new Router({
     { path: '/users/sign_up', name: 'sign-up', component: SignUp },
     { path: '/users/password/new', name: 'password-new', component: ResetPassword },
     { path: '/users/password/change', name: 'password-change', component: ChangePassword },
-    { path: '/otp-confirm', name: 'otp-confirm', component: OtpConfirm, props: true },
+    { path: '/verification', name: 'verification', component: Verification, props: true },
     { path: '/business/onboarding', name: 'business-onboarding', component: BusinessOnboarding, props: true },
+    { path: '/businesses/new', name: 'business-onboarding-new', component: BusinessOnboarding, props: true },
     { path: '/specialist/onboarding', name: 'specialist-onboarding', component: SpecialistOnboarding, props: true },
+    { path: '/specialist/new', name: 'specialist-onboarding-new', component: SpecialistOnboarding, props: true },
 
     // BUSINESS
     { path: '/business', name: 'dashboard', component: Dashboard },

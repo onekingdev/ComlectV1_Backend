@@ -86,7 +86,7 @@
               .row
                 .col
                   h3.onboarding__title Are you a former regulator?
-                    b-icon.onboarding__icon(icon="exclamation-circle-fill" variant="secondary")
+                    //ion-icon.onboarding__icon(name="information-circle" v-b-tooltip.hover.html title='some text')
                   p.onboarding__sub-title Select all that apply:
               .row
                 .col
@@ -126,7 +126,7 @@
                 // .text-right
                 //   SpecialistModalSkipStep(@skipConfirmed="skipStep(3)", :inline="false")
                 //     b-button.mr-2(type='button' variant='outline-primary') Skip this step
-              b-form-group(label='Skills' class="onboarding-group m-b-30" label-for='selectS-7' label-class="onboarding__label required")
+              b-form-group(label='Skills' class="onboarding-group m-b-30" label-for='selectS-7' label-class="onboarding__label")
                 div(
                 :class="{ 'invalid': errors.skills }"
                 )
@@ -143,9 +143,8 @@
                   @tag="addSkillsTag"
                   required)
                   .invalid-feedback.d-block(v-if="errors.skills") {{ errors.skills }}
-              hr.m-b-40
               h3.onboarding__title What's your experience?
-              p.onboarding__sub-title Select one that best matches your level of your expertise.
+              label.onboarding__sub-title(class='label required') Select one that best matches your level of your expertise.
               b-form-group(class="onboarding-group m-b-30")
                 b-button.exp__btn(variant="default" :class="formStep2.experience === 0 ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onexperienceChange($event, 0)")
                   span.exp__btn--main Junior
@@ -156,16 +155,16 @@
                 b-button.exp__btn(variant="default" :class="formStep2.experience === 2 ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onexperienceChange($event, 2)")
                   span.exp__btn--main Expert
                   span.exp__btn--sub Deep understanding of industry with varied experience.
-              hr.m-b-40
               // h3.onboarding__title.m-b-3.m-t-2 (Optional) Upload you resume:
               // b-form-group.m-t-2(class="onboarding-group")
               //   b-form-file(v-model='formStep2.file' :state='Boolean(formStep2.file)' accept="application/pdf" placeholder='Choose a file or drop it here...' drop-placeholder='Drop file here...')
               //   .m-t-3 Selected file: {{ formStep2.file ? formStep2.file.name : '' }}
               // hr
-              h3.onboarding__title.m-b-20 (Optional) Upload your resume:
+              h3.onboarding__title.m-b-10 Upload your resume:
+              p.onboarding__sub-title Optional
               label.dropbox.w-100(v-if="!formStep2.file" for="upload-file")
                 input.input-file(type="file" id="upload-file" accept="application/pdf" ref="file" @change="selectFile")
-                p(v-if="!formStep2.file") Drop resume here or
+                p(v-if="!formStep2.file") Drop resume here OR
                   button.btn.btn-default Upload
                 p(v-if="formStep2.file") Selected file: {{ formStep2.file.name }}
               .row(v-if="formStep2.file")
@@ -173,15 +172,14 @@
                   .file-card
                     div
                       b-icon.file-card__icon(icon="file-earmark-text-fill")
-                    div.ml-0.mr-auto
+                    .ml-0.mr-auto
                       p.file-card__name {{ formStep2.file.name }}
                       a.file-card__link.link(:href="formStep2.file.file_url" target="_blank") Download
-                    div.ml-auto.align-self-start.actions
+                    .ml-auto.my-auto.align-self-start.actions
                       b-dropdown(size="sm" class="m-0 p-0" right)
                         template(#button-content)
                           b-icon(icon="three-dots")
                         b-dropdown-item.delete(@click="removeFile") Delete File
-              hr
               .row
                 .col
                   .text-right.m-t-30
@@ -388,19 +386,18 @@
         for (var value in this.errors) delete this.errors[value];
 
         if (this.formStep1.regulatorSelected === 'yes' && !this.formStep1.regulator.length) {
-          this.errors = Object.assign({}, this.errors, { regulator: `Required Field` })
+          this.errors = Object.assign({}, this.errors, { regulator: `Required field` })
           return
         }
         if (stepNum === 2) {
-          if (!this.formStep1.jurisdiction.length) this.errors = Object.assign({}, this.errors, { jurisdiction: `Required Field` })
-          if (!this.formStep1.time_zone.length) this.errors = Object.assign({}, this.errors, { time_zone: `Required Field` })
-          if (!this.formStep1.industry.length) this.errors = Object.assign({}, this.errors, { industry: `Required Field` })
-          if (!this.formStep1.subIndustry.length) this.errors = Object.assign({}, this.errors, { subIndustry: `Required Field` })
-          if (!this.formStep1.industry || !this.formStep1.time_zone || !this.formStep1.subIndustry || !this.formStep1.jurisdiction ) {
-            this.navigation(1)
-            return
-          }
-
+        //   if (!this.formStep1.jurisdiction.length) this.errors = Object.assign({}, this.errors, { jurisdiction: `Required Field` })
+        //   if (!this.formStep1.time_zone.length) this.errors = Object.assign({}, this.errors, { time_zone: `Required Field` })
+        //   if (!this.formStep1.industry.length) this.errors = Object.assign({}, this.errors, { industry: `Required Field` })
+        //   if (!this.formStep1.subIndustry.length) this.errors = Object.assign({}, this.errors, { subIndustry: `Required Field` })
+        //   if (!this.formStep1.industry || !this.formStep1.time_zone || !this.formStep1.subIndustry || !this.formStep1.jurisdiction ) {
+        //     return
+        //   }
+        //
           this.navigation(stepNum)
         }
 
@@ -444,7 +441,10 @@
                 // this.toast('Success', `Company info successfully sended!`)
               }
             })
-            .catch(error => console.error('updateAccountInfoWithFile', error))
+            .catch(error => {
+              // this.navigation(1)
+              console.error('updateAccountInfoWithFile', error)
+            })
         }
       },
       openDetails(plan) {
@@ -452,7 +452,7 @@
 
           this.$store.dispatch('setOverlay', {
             active: true,
-            message: 'Setting up account...',
+            message: 'Setting up account',
             status: ''
           })
 
@@ -466,12 +466,13 @@
             .then(response => {
               this.currentPlan = { id: 1, status: true }
 
-              this.$store.dispatch('setOverlay', {
-                active: true,
-                message: 'Setting up account...',
-                status: 'success'
-              })
-              setTimeout(() => this.redirect() , 2000)
+              // this.$store.dispatch('setOverlay', {
+              //   active: true,
+              //   message: 'Setting up account...',
+              //   status: 'success'
+              // })
+              // setTimeout(() => this.redirect() , 2000)
+              this.redirect()
             })
             .catch(error =>{
               console.error('updateSubscribe', error)

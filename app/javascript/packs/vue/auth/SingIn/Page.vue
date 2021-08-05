@@ -71,12 +71,12 @@
         this.error = ''
         for (var value in this.errors) delete this.errors[value];
 
-        if (!this.form.email) Object.assign(this.errors, { email: 'Field empty' })
-        if (!this.form.password) Object.assign(this.errors, { password: 'Field empty' })
-        if (this.form.email && !validateEmail(this.form.email)) {
-          Object.assign(this.errors, { email: 'Email not valid' })
-          return
-        }
+        // if (!this.form.email) Object.assign(this.errors, { email: 'Field empty' })
+        // if (!this.form.password) Object.assign(this.errors, { password: 'Field empty' })
+        // if (this.form.email && !validateEmail(this.form.email)) {
+        //   Object.assign(this.errors, { email: 'Email not valid' })
+        //   return
+        // }
 
         this.form.email = this.form.email.toLowerCase() // Avoid issues with Capitalized emails
         const data = {
@@ -94,93 +94,27 @@
               if (response.error === 'Please, confirm your email' || response.errors === 'Please, confirm your email') {
                 this.emailVerified = false
                 // OPEN OTP
-                this.$router.push({ name: 'otp-confirm', params: {form: this.form, userid: this.userid, userType: this.userType, emailVerified: this.emailVerified }})
+                this.$router.push({ name: 'verification', params: {form: this.form, userid: this.userid, userType: this.userType, emailVerified: this.emailVerified }})
                 let data = {
                   user: {
                     email: this.form.email,
                   },
                 }
                 this.$store.dispatch('resendOTP', data)
-                  .then((response) => this.$router.push({ name: 'otp-confirm', params: {form: this.form, userid: this.userid, userType: this.userType, emailVerified: this.emailVerified }}) )
+                  .then((response) => this.$router.push({ name: 'verification', params: {form: this.form, userid: this.userid, userType: this.userType, emailVerified: this.emailVerified }}) )
                   .catch((error) => console.error(error))
               }
             }
             if (!response.errors) {
               // OPEN OTP CONFIRM
-              this.$router.push({ name: 'otp-confirm', params: {form: this.form, userid: this.userid, userType: this.userType, emailVerified: this.emailVerified }})
-            }
-          })
-          .catch(error => {
-            if (error.errors === 'Invalid email or password.' || error.errors.invalid === 'Invalid email or password.') {
-              this.error = error.errors.invalid
-            }
-            console.error(error)
-          })
-      },
-      onOTPConfirm(event) {
-        event.preventDefault()
-        this.errors = []
-
-        if(this.form2.code.length !== 6) {
-          this.toast('Error', `Code length incorrect!`)
-          return
-        }
-
-        // IF UNVERIFIED EMAIL
-        if(!this.emailVerified) {
-          const dataToSend1 = {
-            email: this.form.email,
-            otp_secret: this.form2.code
-          }
-
-          this.$store.dispatch('confirmEmail', dataToSend1)
-            .then((response) => {
-              if (response.errors) {
-                for (const type of Object.keys(response.errors)) {
-                  this.errors = response.errors[type]
-                  this.errors.code = response.errors[type]
-                }
-              }
-              if (!response.errors && response.token) {
-                // OPEN DASHBOARD
-                const dashboard = response.business ? '/business' : '/specialist'
-                window.location.href = `${dashboard}`;
-              }
-            })
-            .catch(error => console.error(error))
-        }
-
-        // IF VERIFIED EMAIL
-        if(this.emailVerified) {
-        const dataToSend = {
-          "user": {
-            email: this.form.email,
-            password: this.form.password
-          },
-          otp_secret: this.form2.code
-        }
-
-        this.$store.dispatch('signIn', dataToSend)
-          .then((response) => {
-            if (response.errors) {
-              for (const type of Object.keys(response.errors)) {
-                this.errors = response.errors[type]
-                this.errors.code = response.errors[type]
-              }
-            }
-
-            if (!response.errors && response.token) {
-              // OPEN DASHBOARD
-              const dashboard = response.business ? '/business' : '/specialist'
-              window.location.href = `${dashboard}`;
+              this.$router.push({ name: 'verification', params: {form: this.form, userid: this.userid, userType: this.userType, emailVerified: this.emailVerified }})
             }
           })
           .catch(error => {
             if (error.data.errors) {
-              this.errors.code = error.data.errors.invalid
+              this.error = error.data.errors.invalid
             }
           })
-        }
       },
     },
     computed: {

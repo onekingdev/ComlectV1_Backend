@@ -25,6 +25,21 @@ class SpecialistsController < ApplicationController
     @specialist = Specialist.preload_association.find_by(username: params[:id])
   end
 
+  # def new
+  #   render html: content_tag('specialist-onboarding-page', '',
+  #                            ':industry-ids': Industry.all.map(&proc { |ind|
+  #                                                                 { id: ind.id,
+  #                                                                   name: ind.name }
+  #                                                               }).to_json,
+  #                            ':jurisdiction-ids': Jurisdiction.all.map(&proc { |ind|
+  #                                                                         { id: ind.id,
+  #                                                                           name: ind.name }
+  #                                                                       }).to_json,
+  #                            ':sub-industry-ids': sub_industries(true).to_json,
+  #                            ':states': State.fetch_all_usa.to_json,
+  #                            ':timezones': timezones_array.to_json).html_safe, layout: 'vue_onboarding'
+  # end
+
   def new
     render html: content_tag('auth-layoyt', '').html_safe, layout: 'vue_onboarding'
   end
