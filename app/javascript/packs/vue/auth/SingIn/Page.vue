@@ -23,6 +23,7 @@
 </template>
 
 <script>
+  console.log('this.$store', this.$store)
   import Loading from '@/common/Loading/Loading'
   import TopNavbar from "../components/TopNavbar";
 

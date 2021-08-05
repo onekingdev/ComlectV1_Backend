@@ -59,7 +59,7 @@ export default {
     currentBusiness() {
       // @TODO Must be fetched from API
       const accountInfo = this.$store.getters.getUser
-      return `${accountInfo.contact_first_name} ${accountInfo.contact_last_name}`
+      return accountInfo ? `${accountInfo.contact_first_name} ${accountInfo.contact_last_name}` : ''
     },
   },
   components: {

@@ -67,6 +67,8 @@
             otp_secret: this.form2.code
           }
 
+          console.log('dataToSend1 !this.emailVerified', dataToSend1)
+
           this.$store.dispatch('confirmEmail', dataToSend1)
             .then((response) => {
               console.log('response', response)

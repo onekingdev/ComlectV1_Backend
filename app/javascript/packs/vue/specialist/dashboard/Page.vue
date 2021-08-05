@@ -60,7 +60,7 @@ export default {
     currentSpecialist() {
       // @TODO Must be fetched from API
       const accountInfo = this.$store.getters.getUser
-      return `${accountInfo.first_name} ${accountInfo.last_name}`
+      return accountInfo ? `${accountInfo.first_name} ${accountInfo.last_name}` : ''
     }
   }
 }

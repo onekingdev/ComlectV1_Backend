@@ -33,6 +33,7 @@
         .d-block
           b-form-input.form-control-number(v-model="additionalUsersCount" type="number" min="1" max="100" @keyup="onChangeUserCount")
     AddPaymentMethod(:billingTypeSelected="billingTypeSelected", :billingTypeOptions="billingTypeOptions", :plan="plan", :userType="userType" @complitedPaymentMethod="complitedPaymentMethod")
+
 </template>
 
 <script>
