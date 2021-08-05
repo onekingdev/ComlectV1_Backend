@@ -1487,7 +1487,7 @@ table.table thead tr th {
   }
 
   &__error-num {
-    margin-bottom: 2.5rem;
+    margin-bottom: 1rem;
     font-size: 120px;
     font-weight: 900;
     color: #B6C0CA;
@@ -2246,40 +2246,88 @@ table.table thead tr th {
   }
 }
 
+/* ---------- TOASTS ---------- */
+.b-toaster.b-toaster-top-right .b-toaster-slot, .b-toaster.b-toaster-top-left .b-toaster-slot, .b-toaster.b-toaster-top-center .b-toaster-slot, .b-toaster.b-toaster-top-full .b-toaster-slot {
+  top: 3rem;
+}
+
 .b-toaster-slot {
-  max-width: 280px !important;
+  max-width: 380px !important;
 }
 
 .b-toast {
   background-color: $black;
-  border-radius: 0px;
-  max-width: 280px !important;
+  border-radius: 0;
 
   .toast {
-    border: 0px;
+    position: relative;
+    border: 0;
+    border-left: solid 5px transparent;
+    border-radius: 0;
+    max-width: 380px !important;
 
-    .toast-header, .toast-body {
-      border-radius: 0px;
-      border: 0px;
+    &::before {
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: 15px;
+      bottom: 0;
+      width: 20px;
+      height: 20px;
+      content: '';
+      transform: translateY(-50%);
+      //background: url("./complete.svg") center no-repeat;
+    }
+
+    .toast-header,
+    .toast-body {
+      padding-left: 45px;
+      border-radius: 0;
+      border: 0;
       background-color: $black;
       color: $white;
+    }
 
-      button.close {
-        color: $white;
-        opacity: 1;
-      }
+    .close {
+      font-weight: $font-weight-regular;
+      color: $white;
+      opacity: 1;
     }
 
     .toast-header {
       padding-top: 10px;
-      padding-bottom: 0px;
-      font-size: 14px;
-      font-weight: 300;
+      padding-bottom: 0;
+      font-size: $font-size-16;
+      font-weight: $font-weight-semi-bold;
     }
 
     .toast-body {
-      padding-top: 0px;
+      padding-top: 0;
       padding-bottom: 10px;
+      font-size: $font-size-14;
+      font-weight: $font-weight-regular;
+    }
+  }
+
+  &.b-toast-success {
+
+    .toast {
+      border-left: solid 5px $green;
+
+      &::before {
+        background: url("./complete.svg") center no-repeat;
+      }
+    }
+  }
+
+  &.b-toast-danger {
+
+    .toast {
+      border-left: solid 5px $red;
+
+      &::before {
+        background: url("./error_20.svg") center no-repeat;
+      }
     }
   }
 }

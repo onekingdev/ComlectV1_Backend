@@ -53,8 +53,8 @@
       focusInput() {
         this.$refs.input.focus();
       },
-      makeToast(title, str) {
-        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
+      makeToast(title, str, variant) {
+        this.$bvToast.toast(str, { title, autoHideDelay: 5000, variant })
       },
 
       async submit (e) {
@@ -63,12 +63,12 @@
 
         if (!this.review.name) {
           this.errors.push('Name is required.');
-          this.makeToast('Error', 'Name is required.')
+          this.makeToast('Error', 'Name is required', 'danger')
           return;
         }
         if (this.review.name.length <= 3) {
           this.errors.push({name: 'Name is very short, must be more 3 characters.'});
-          this.makeToast('Error', 'Name is very short, must be more 3 characters.')
+          this.makeToast('Error', 'Name is very short, must be more 3 characters', 'danger')
           return;
         }
 
