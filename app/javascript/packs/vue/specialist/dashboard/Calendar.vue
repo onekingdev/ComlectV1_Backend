@@ -9,7 +9,7 @@
             ion-icon.m-x-1(name='chevron-back-outline' @click.prevent="prev")
             ion-icon(name='chevron-forward-outline' @click.prevent="next")
       div
-        b-dropdown#dropdown-form.m-2(ref='dropdown')
+        b-dropdown#dropdown-form.m-2(ref='dropdown' variant="none")
           template(#button-content)
             | Download
             b-icon.ml-2(icon="chevron-down")

@@ -310,7 +310,7 @@
         for (var value in this.errors) delete this.errors[value];
 
         if (!this.formStep1.crd_number.length) {
-          this.errors = { crd_number: `Required Field` }
+          this.errors = { crd_number: `Required field` }
           return
         }
 

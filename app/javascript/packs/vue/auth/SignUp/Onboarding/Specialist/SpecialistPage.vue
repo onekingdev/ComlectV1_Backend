@@ -126,7 +126,7 @@
                 // .text-right
                 //   SpecialistModalSkipStep(@skipConfirmed="skipStep(3)", :inline="false")
                 //     b-button.mr-2(type='button' variant='outline-primary') Skip this step
-              b-form-group(label='Skills' class="onboarding-group m-b-30" label-for='selectS-7' label-class="onboarding__label required")
+              b-form-group(label='Skills' class="onboarding-group m-b-30" label-for='selectS-7' label-class="onboarding__label")
                 div(
                 :class="{ 'invalid': errors.skills }"
                 )
@@ -143,9 +143,8 @@
                   @tag="addSkillsTag"
                   required)
                   .invalid-feedback.d-block(v-if="errors.skills") {{ errors.skills }}
-              hr.m-b-40
               h3.onboarding__title What's your experience?
-              p.onboarding__sub-title Select one that best matches your level of your expertise.
+              label.onboarding__sub-title(class='label required') Select one that best matches your level of your expertise.
               b-form-group(class="onboarding-group m-b-30")
                 b-button.exp__btn(variant="default" :class="formStep2.experience === 0 ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onexperienceChange($event, 0)")
                   span.exp__btn--main Junior
@@ -156,14 +155,13 @@
                 b-button.exp__btn(variant="default" :class="formStep2.experience === 2 ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onexperienceChange($event, 2)")
                   span.exp__btn--main Expert
                   span.exp__btn--sub Deep understanding of industry with varied experience.
-              hr.m-b-40
               // h3.onboarding__title.m-b-3.m-t-2 (Optional) Upload you resume:
               // b-form-group.m-t-2(class="onboarding-group")
               //   b-form-file(v-model='formStep2.file' :state='Boolean(formStep2.file)' accept="application/pdf" placeholder='Choose a file or drop it here...' drop-placeholder='Drop file here...')
               //   .m-t-3 Selected file: {{ formStep2.file ? formStep2.file.name : '' }}
               // hr
-              h3.onboarding__title.mb-0 Upload your resume:
-              .form-text.text-muted.m-b-20.mt-0 Optional
+              h3.onboarding__title.m-b-10 Upload your resume:
+              p.onboarding__sub-title Optional
               label.dropbox.w-100(v-if="!formStep2.file" for="upload-file")
                 input.input-file(type="file" id="upload-file" accept="application/pdf" ref="file" @change="selectFile")
                 p(v-if="!formStep2.file") Drop resume here OR
@@ -182,7 +180,6 @@
                         template(#button-content)
                           b-icon(icon="three-dots")
                         b-dropdown-item.delete(@click="removeFile") Delete File
-              hr
               .row
                 .col
                   .text-right.m-t-30
@@ -389,7 +386,7 @@
         for (var value in this.errors) delete this.errors[value];
 
         if (this.formStep1.regulatorSelected === 'yes' && !this.formStep1.regulator.length) {
-          this.errors = Object.assign({}, this.errors, { regulator: `Required Field` })
+          this.errors = Object.assign({}, this.errors, { regulator: `Required field` })
           return
         }
         if (stepNum === 2) {
@@ -445,7 +442,7 @@
               }
             })
             .catch(error => {
-              this.navigation(1)
+              // this.navigation(1)
               console.error('updateAccountInfoWithFile', error)
             })
         }
