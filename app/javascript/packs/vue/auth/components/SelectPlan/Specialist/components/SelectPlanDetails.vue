@@ -66,8 +66,12 @@
         // CLEAR ERRORS
         this.errors = []
 
-        this.overlay = true
-        this.overlayStatusText = 'Setting up account. Subscribing a plan...'
+        // OVERLAY
+        this.$store.dispatch('setOverlay', {
+          active: true,
+          message: 'Setting up account',
+          status: ''
+        })
 
         let planName;
         if (selectedPlan.id === 1) {
@@ -100,7 +104,7 @@
 
               this.$store.dispatch('setOverlay', {
                 active: true,
-                message: 'Setting up account...',
+                message: 'Setting up account',
                 status: 'success'
               })
               this.redirect()

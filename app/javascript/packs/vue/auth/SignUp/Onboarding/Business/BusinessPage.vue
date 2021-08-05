@@ -384,7 +384,7 @@
           // OVERLAY
           this.$store.dispatch('setOverlay', {
             active: true,
-            message: 'Setting up account...',
+            message: 'Setting up account',
             status: ''
           })
 
