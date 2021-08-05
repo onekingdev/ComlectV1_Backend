@@ -54,7 +54,7 @@
         this.$refs.input.focus();
       },
       makeToast(title, str, variant) {
-        this.$bvToast.toast(str, { title, autoHideDelay: 5000, variant })
+        this.$bvToast.toast(str, { title, autoHideDelay: 50000, variant })
       },
 
       async submit (e) {

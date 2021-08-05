@@ -62,14 +62,14 @@
       }
     },
     methods: {
-      makeToast(title, str) {
-        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
+      makeToast(title, str, variant) {
+        this.$bvToast.toast(str, { title, autoHideDelay: 50000, variant })
       },
       async submit(e) {
         e.preventDefault();
 
         if (!this.annual_review.name || !this.annual_review.review_start || !this.annual_review.review_end) {
-          this.makeToast('Error', `Please check all fields!`)
+          this.makeToast('Error', `Please check all fields!`, 'danger')
           return
         }
 
