@@ -1,42 +1,46 @@
 <template lang="pug">
-  div
-    .container
-      .row.p-x-1
-        .col-md-12.p-t-3.d-flex.justify-content-between.p-b-1
-          div
-            h2: b Projects
-          div
-            a.btn.btn-default(href='/projects') Browse Projects
-    b-tabs(content-class="mt-0")
+  .page
+    .page-header
+      .page-header__title
+        h2.m-b-10 Projects
+      .page-header__actions
+        router-link.btn.btn-default(to='/projects') Browse Projects
+    b-tabs.special-navs(content-class="mt-0")
       b-tab(title="My Projects" active)
-        .card-body.white-card-body
-          .container
-            div
-              b-dropdown.m-r-1(text='Filter by: All')
-                b-dropdown-item All
-              b-dropdown.m-r-1(text='Year: All')
-                b-dropdown-item 2021
-                b-dropdown-item 2020
-            Get(:projects="apiProjectsUrl"): template(v-slot="{projects}"): table.table.task_table
-              thead
-                tr
-                  th Title
-                  th Client
-                  th Payment
-                  th Status
-                  th Start Date
-                  th End Date
-              tbody
-                tr(v-for="project in projects" :key="project.id")
-                  td: a(:href="linkProjectUrl(project.id)") {{ project.title }}
-                  td {{ project.business.business_name }}
-                  td {{ (project.fixed_budget || project.est_budget) | usdWhole }}
-                  td
-                    span.badge(:class="badgeClass(project)") {{ project.status }}
-                  td {{ project.starts_on | asDate }}
-                  td {{ project.ends_on | asDate }}
+        .card-body.white-card-body.card-body_full-height
+          div.m-b-20
+            b-dropdown.m-r-1(variant="default")
+              template(#button-content)
+                | Filter by: All
+                ion-icon.ml-2(name="chevron-down-outline" size="small")
+              b-dropdown-item All
+              b-dropdown-item In Progress
+              b-dropdown-item Pending
+              b-dropdown-item Overdue
+              b-dropdown-item Complete
+            //b-dropdown.m-r-1(text='Year: All')
+            //  b-dropdown-item 2021
+            //  b-dropdown-item 2020
+          Get(:projects="apiProjectsUrl"): template(v-slot="{projects}"): table.table.task_table
+            thead
+              tr
+                th Title
+                th Client
+                th Payment
+                th Status
+                th Start Date
+                th End Date
+            tbody
+              tr(v-for="project in projects" :key="project.id")
+                td: router-link.link(:to='`linkProjectUrl(project.id)`') {{ project.title }}
+                td {{ project.business.business_name }}
+                td {{ (project.fixed_budget || project.est_budget) | usdWhole }}
+                td
+                  span.badge(:class="badgeClass(project)") {{ project.status }}
+                td {{ project.starts_on | asDate }}
+                td {{ project.ends_on | asDate }}
       b-tab(title="Contacts")
-        .card-body.white-card-body
+        .card-body.white-card-body.card-body_full-height
           Get(:contacts="apiProjectsUrl" :callback="getContacts"): template(v-slot="{contacts}"): table.table
             thead
               tr
@@ -55,7 +59,8 @@
               tr(v-if="!contacts.length")
                 td(colspan=5) No contacts
       b-tab(title="Ratings and Reviews")
-        p Ratings and Reviews
+        .card-body.white-card-body.card-body_full-height
+          p Ratings and Reviews
 </template>
 
 <script>
