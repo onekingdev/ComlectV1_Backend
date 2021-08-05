@@ -11,7 +11,7 @@
     b-tabs.special-navs(content-class="mt-0")
       b-tab(title="My Projects" active)
         .card-body.white-card-body.card-body_full-height
-          div
+          div.m-b-20
             b-dropdown.m-r-1(variant="default")
               template(#button-content)
                 | Filter by: All
@@ -21,12 +21,12 @@
               b-dropdown-item Pending
               b-dropdown-item Overdue
               b-dropdown-item Complete
-            b-dropdown.m-r-1(variant="default")
-              template(#button-content)
-                | Year: All
-                ion-icon.ml-2(name="chevron-down-outline" size="small")
-              b-dropdown-item 2021
-              b-dropdown-item 2020
+            //b-dropdown.m-r-1(variant="default")
+            //  template(#button-content)
+            //    | Year: All
+            //    ion-icon.ml-2(name="chevron-down-outline" size="small")
+            //  b-dropdown-item 2021
+            //  b-dropdown-item 2020
           Get(projects="/api/business/local_projects/" :etag="etag"): template(v-slot="{projects}")
               ProjectTable(:projects="projects")
       b-tab(title="Contacts")

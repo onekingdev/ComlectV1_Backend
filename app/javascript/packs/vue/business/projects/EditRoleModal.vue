@@ -12,7 +12,7 @@
           .form-text.text-muted Determines the permissions the specialist will have access to
 
       template(slot="modal-footer")
-        button.btn(@click="$bvModal.hide(modalId)") Cancel
+        button.btn.btn-link(@click="$bvModal.hide(modalId)") Cancel
         button.btn.btn-dark(@click="submit") Set
 </template>
 

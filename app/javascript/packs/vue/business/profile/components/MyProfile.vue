@@ -22,7 +22,7 @@
               b-form-input#input-2(v-model='form.last_name' type='text' placeholder='Last Name' min="3" required)
               .invalid-feedback.d-block(v-if="errors.last_name") {{ errors.last_name[0] }}
       b-form-group.text-right
-        b-button.btn.mr-2(type='reset') Cancel
+        b-button.btn.btn-link.mr-2(type='reset') Cancel
         b-button.btn(type='submit' variant='primary') Save
 </template>
 

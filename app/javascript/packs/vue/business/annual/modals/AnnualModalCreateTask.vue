@@ -72,7 +72,7 @@
                   button.btn.btn-secondary.save-comment-btn Send
 
       template(slot="modal-footer")
-        button.btn(@click="$bvModal.hide(modalId)") Cancel
+        button.btn.btn-link(@click="$bvModal.hide(modalId)") Cancel
         button.btn.btn-secondary(@click="submit") Mark as Complite
         button.btn.btn-dark(@click="submit") Save
 </template>

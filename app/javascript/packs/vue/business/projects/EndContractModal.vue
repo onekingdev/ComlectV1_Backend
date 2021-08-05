@@ -37,7 +37,7 @@
         .card-header
           p.text-right.text-muted *Transactional fees lorem ipsum dolor.
       template(#modal-footer="{ hide }")
-        button.btn.btn-default(@click="hide") Cancel
+        button.btn.btn-link(@click="hide") Cancel
         Post(:action="completeUrl" :model="{}" @saved="contractEnded" @errors="$emit('errors', $event)")
           button.btn.btn-dark.m-r-1 Confirm
     b-modal(:id="modalId + '_review'" title="Write a Review")
@@ -46,7 +46,7 @@
       InputTextarea(v-model="review.review" placeholder="Describe your overall experience and leave any notes for the specialist")
       .form-text.text-muted Optional
       template(#modal-footer="{ hide }")
-        button.btn.btn-default(@click="hide") Cancel
+        button.btn.btn-link(@click="hide") Cancel
         button.btn.btn-dark(v-if="review.value === null" title="Please rate your experience" disabled) Submit
         Post(v-else :action="ratingUrl" :model="review" @saved="ratingSaved" @errors="$emit('errors', $event)")
           button.btn.btn-dark Submit

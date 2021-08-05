@@ -14,7 +14,7 @@
             b-icon.ml-2(icon="chevron-right")
 
       template(slot="modal-footer")
-        button.btn(@click="$bvModal.hide(modalId)") Cancel
+        button.btn.btn-link.mr-2(@click="$bvModal.hide(modalId)") Cancel
         button.btn.btn-dark(@click="submit") Upgrade
 </template>
 

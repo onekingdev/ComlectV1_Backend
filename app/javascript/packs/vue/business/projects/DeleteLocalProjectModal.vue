@@ -10,7 +10,7 @@
         p: strong Do you want to continue?
 
       template(#modal-footer="{ hide }")
-        button.btn(@click="hide") Cancel
+        button.btn.btn-link(@click="hide") Cancel
         Delete(v-if="!hasSpecialist" :url="deleteUrl" @deleted="deleted")
           button.btn.btn-default Confirm
 </template>

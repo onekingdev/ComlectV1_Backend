@@ -45,8 +45,8 @@
         //      h3 Compilance Program
         .row
           .col
-            Loading
-            TaskTable(v-if="tasks" :shortTable="shortTable", :tasks="tasks" :perPage="perPage" :currentPage="currentPage")
+            Loading(:absolute="true")
+            TaskTable.m-b-40(v-if="tasks" :shortTable="shortTable", :tasks="tasks" :perPage="perPage" :currentPage="currentPage")
             b-pagination(v-if="!shortTable && tasks.length >= perPage" v-model='currentPage' :total-rows='rows' :per-page='perPage' :shortTable="!shortTable",  aria-controls='tasks-table')
 
 </template>

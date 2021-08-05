@@ -119,7 +119,7 @@
         button.btn.btn-default(@click="toggleDone(task)") Reopen
       template(v-if="!task.done_at" slot="modal-footer")
         button.btn.btn-outline-danger.mr-auto(@click="deleteTask(task)") Delete Task
-        //button.btn.ml-auto(@click="$bvModal.hide(modalId)") Cancel
+        //button.btn.btn-link.ml-auto(@click="$bvModal.hide(modalId)") Cancel
         button.btn.btn-default(@click="toggleDone(task)") Mark as Complete
         button.btn.btn-dark(@click="submit") Save
 </template>

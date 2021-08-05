@@ -26,7 +26,7 @@
                 b-icon(icon="x" font-scale="1")
 
       template(slot="modal-footer")
-        button.btn(@click="$bvModal.hide(modalId)") Cancel
+        button.btn.btn-link(@click="$bvModal.hide(modalId)") Cancel
         button.btn.btn-dark(@click="submit") Add
 </template>
 

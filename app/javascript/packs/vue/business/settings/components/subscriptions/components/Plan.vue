@@ -8,7 +8,7 @@
           p {{ plan.users }} active users
         .col
           .d-flex.justify-content-end
-            b-button.btn.link.mr-2(type='button' variant='none') Cancel
+            b-button.btn.btn-link.mr-2(type='button' variant='none') Cancel
             PlanModalEdit(:plan="plan")
               b-button.btn.mr-2(type='button' variant='default') Edit plan
             b-button.btn(type='button' variant='dark' @click="$emit('openComponent', 'SelectPlan')") Upgrade

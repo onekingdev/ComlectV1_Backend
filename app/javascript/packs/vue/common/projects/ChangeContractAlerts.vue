@@ -24,7 +24,7 @@
         b-modal(id="ExtendDeadlineModal" title="Extend Deadline")
           InputDate(v-model="form.ends_on" :errors="errors.ends_on" :options="datepickerOptions") New Due Date
           template(#modal-footer="{ hide }")
-            button.btn.btn-default.float-right(@click="hide") Cancel
+            button.btn.btn-link.float-right(@click="hide") Cancel
             Post(:action="submitUrl" :model="form" @errors="errors = $event" @saved="saved('A project extension has been requested')")
               button.btn.btn-dark.float-right Confirm
 </template>

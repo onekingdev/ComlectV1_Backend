@@ -26,7 +26,7 @@
           p Employee level access with limited settings.
 
       template(slot="modal-footer")
-        button.btn(@click="$bvModal.hide(modalId)") Cancel
+        button.btn.btn-link(@click="$bvModal.hide(modalId)") Cancel
         button.btn.btn-danger(@click="submit") Confirm
 </template>
 

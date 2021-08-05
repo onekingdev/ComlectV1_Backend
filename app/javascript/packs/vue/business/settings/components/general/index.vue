@@ -62,7 +62,7 @@
                     b-form-input#input-5(v-model='form.contact_phone' type='text' placeholder='Phone Number' required :class="{'is-invalid': errors.contact_phone }")
                     .invalid-feedback.d-block(v-if="errors.contact_phone") {{ errors.contact_phone[0] }}
                   b-form-group.text-right
-                    b-button.link.mr-2(type='reset' variant='none') Cancel
+                    b-button.btn.btn-link.mr-2(type='reset' variant='none') Cancel
                     b-button(type='submit' variant='dark') Save
 </template>
 
