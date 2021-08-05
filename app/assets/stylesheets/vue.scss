@@ -3044,13 +3044,14 @@ legend, .label {
   align-items: center;
 
   width: 100%;
-  min-height: calc(100vh - 95px);
+  min-height: calc(100vh - 80px);
 
   background-color: $gray-background;
   overflow: hidden;
 
   @media (max-width: 800px) {
     flex-direction: column;
+    min-height: auto;
     overflow: auto;
   }
 }
@@ -3179,8 +3180,9 @@ legend, .label {
 /* ---------- registration-card ---------- */
 .registration-card {
   padding: 2.5rem;
-  margin-left: 0;
+  margin: 0;
   margin-right: 1.25rem;
+  min-height: inherit;
   min-width: 53.125rem; //850px
   height: 100%;
   border-radius: 0;
@@ -3191,6 +3193,7 @@ legend, .label {
   @media (max-width: 800px) {
     margin-right: 0;
     margin-bottom: 1.25rem;
+    min-height: auto;
     width: 100%;
   }
   @media (max-width: 575px) {

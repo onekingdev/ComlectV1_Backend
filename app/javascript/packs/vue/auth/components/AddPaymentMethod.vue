@@ -52,6 +52,7 @@
         this.$emit('complitedPaymentMethod', paymentMethodID)
         this.cardSelected = paymentMethodID
         this.onPaymentMethodChange(paymentMethodID)
+        this.card.id = paymentMethodID
       }
     },
     data() {

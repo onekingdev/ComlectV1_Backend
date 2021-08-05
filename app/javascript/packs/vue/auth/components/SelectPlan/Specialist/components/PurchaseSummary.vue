@@ -4,10 +4,10 @@
       | Purchase Summary
     .card-body.purchase-summary-body.p-y-20
       Coupon(@couponApplied="addDiscount")
-    .card-body.purchase-summary-body.p-40.pb-0
+    .card-body.purchase-summary-body.borderless.p-40.pb-0
       dl.row.mb-0
-        dt.col-6 {{ planComputed.name }} plan
-        dd.col-6.text-right.font-weight-bold {{ billingTypeSelected === 'annually' ?  planComputed.coastAnnuallyFormatted : planComputed.coastMonthlyFormatted }}
+        dt.col-7 {{ planComputed.name }} plan
+        dd.col-5.text-right.font-weight-bold {{ billingTypeSelected === 'annually' ?  planComputed.coastAnnuallyFormatted : planComputed.coastMonthlyFormatted }}
         //dt.col-6 {{ additionalUsers }} Users ({{ planComputed.usersCount }} Free)
         //dd.col-6.text-right {{ planComputed.additionalUserCoast }}
         //dt.col-6.text-success {{ billingTypeSelected === 'annually' ? 'Billed Annualy' : 'Billed Monthly' }}
