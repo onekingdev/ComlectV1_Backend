@@ -28,7 +28,7 @@
           .card.m-b-1
             .card-body
       template(#modal-footer="{ hide }")
-        a.m-r-1.btn(@click="hide") Cancel
+        button.btn.btn-link.mr-2(@click="hide") Cancel
         Post(:action="`/api/projects/${project.id}/extension/1`" method="PUT" :model="{deny:true}" @saved="saved(false)")
           button.btn.btn-outline-dark Reject
         Post(:action="`/api/projects/${project.id}/extension/1`" method="PUT" :model="{confirm:true}" @saved="saved(true)")

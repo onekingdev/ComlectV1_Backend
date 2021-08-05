@@ -74,7 +74,7 @@
             .row
               .col
                 .text-right
-                  // a.btn.link.mr-2(href="#" @click="$emit('openComponent', 'Billings')") Cancel
+                  // a.btn.btn-link.mr-2(href="#" @click="$emit('openComponent', 'Billings')") Cancel
                   b-button(type='button' variant='dark' @click="navigateTo(1)") Next
           div(v-if='!loading' :class="step2 ? 'd-block' : 'd-none'")
             .row

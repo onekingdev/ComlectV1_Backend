@@ -79,7 +79,7 @@
               b-dropdown-item(@click="deleteTask(task, true)") Delete Occurence
               b-dropdown-item(@click="deleteTask(task)") Delete Series
           div
-            button.btn.link.m-r-1(@click="$bvModal.hide(modalId)") Cancel
+            button.btn.btn-link.m-r-1(@click="$bvModal.hide(modalId)") Cancel
             button.btn.btn-default.m-r-1(v-if="taskId && !task.done_at" @click="toggleDone(task)") Mark as Complete
             button.btn.btn-default.m-r-1(v-if="taskId && task.done_at" @click="toggleDone(task)") Mark as Incomplete
             button.btn.btn-dark(v-if="!taskId" @click="submit()") Create

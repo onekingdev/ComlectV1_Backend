@@ -4,7 +4,7 @@
     InputTextarea(v-model="form.issue" :errors="errors.issue" placeholder="Enter the details of the issue") Details
     .form-text.text-muted Include anything you'd like us to know so we can best help you
     template(#modal-footer="{ hide }")
-      button.btn.btn-default(@click="hide") Cancel
+      button.btn.btn-link(@click="hide") Cancel
       button.btn.btn-dark(v-if="submitDisabled" disabled) Submit
       Post(v-else :action="createUrl" :model="formModel" @errors="errors = $event" @saved="saved" :headers="headers")
         button.btn.btn-dark Submit

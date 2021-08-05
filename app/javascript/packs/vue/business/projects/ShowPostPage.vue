@@ -14,7 +14,7 @@
             b-modal#DeletePostModal.fade(title="Delete Post")
               | Do you want to delete project post?
               template(#modal-footer="{hide}")
-                button.btn.btn-default(@click="hide") Cancel
+                button.btn.btn-link(@click="hide") Cancel
                 Delete(:url="url" @deleted="deleted")
                   button.btn.btn-dark Delete
     .white-card-body.p-y-1

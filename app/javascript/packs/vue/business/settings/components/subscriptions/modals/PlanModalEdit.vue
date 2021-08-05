@@ -37,7 +37,7 @@
             b-form-radio(v-for="(paymentMethod, i) in paymentMethods" :key="i" v-model='selected' :aria-describedby='ariaDescribedby' name='radiosPaymentMethods' :value='paymentMethod.id') **** **** **** {{ paymentMethod.last4 }} {{ paymentMethod.brand }}
 
       template(slot="modal-footer")
-        button.btn(@click="$bvModal.hide(modalId)") Cancel
+        button.btn.btn-link(@click="$bvModal.hide(modalId)") Cancel
         button.btn.btn-dark(@click="submit") Update
 </template>
 

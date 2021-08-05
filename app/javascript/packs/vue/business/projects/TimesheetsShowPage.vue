@@ -34,7 +34,7 @@
               hr
               p.text-right Total Due: {{ totalDue | usdWhole }}
               template(slot="modal-footer")
-                button.btn.btn-light(@click="$bvModal.hide(`TimesheetModal${timesheet.id}`)") Cancel
+                button.btn.btn-link(@click="$bvModal.hide(`TimesheetModal${timesheet.id}`)") Cancel
                 Post(:model="{dispute:1}" v-bind="buttonConfig(timesheet.id)" @saved="saved(timesheet, 'Disputed')")
                   button.btn.btn-outline-dark Reject
                 Post(:model="{approve:1}" v-bind="buttonConfig(timesheet.id)" @saved="saved(timesheet, 'Approved')")

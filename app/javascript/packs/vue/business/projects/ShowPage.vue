@@ -94,7 +94,7 @@
                             | An unlimited amount of employees can be added to the project but only one specialist can be actively working on a project at a time.
                           InputSelect(value="role" :options="specialists") Select User
                           template(#modal-footer="{ hide }")
-                            button.btn(@click="hide") Cancel
+                            button.btn.btn-link(@click="hide") Cancel
                             Post(:action="hireUrl + '?job_application_id=' + project.id" :model="{role}" @saved="newEtag()")
                               button.btn.btn-dark Add
                     .card-body

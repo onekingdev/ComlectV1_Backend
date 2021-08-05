@@ -910,6 +910,13 @@ input, button, select, optgroup, textarea {
   padding-top: 0;
   //padding-bottom: 1.125rem; //18px
   padding-bottom: 0.625rem; //10px
+  font-weight: $font-weight-regular;
+
+  &:hover,
+  &:active,
+  &:focus {
+    outline: 0 !important;
+  }
 }
 
 .nav-tabs .nav-item a {
@@ -954,8 +961,8 @@ a.btn,
   &:active,
   &.active,
   &:focus {
-    outline: none !important;
-    box-shadow: none;
+    outline: 0 !important;
+    box-shadow: none !important;
   }
 
   .b-icon.bi {
@@ -1074,6 +1081,7 @@ a.btn,
     color: $blue !important;
     background-color: #f6f6f8 !important;
     border-color: #f6f6f8 !important;
+    text-decoration: none!important;
   }
 }
 
@@ -1289,6 +1297,7 @@ a,
 a.link,
 .link {
   color: $blue;
+  outline: 0;
   cursor: pointer;
 
   .d-inline-block {
@@ -1327,6 +1336,7 @@ table.table thead tr th {
 }
 
 .table thead th {
+  padding-bottom: .3rem;
   border-bottom: 1px solid $gray-1;
 }
 
@@ -2543,8 +2553,20 @@ legend, .label {
 .custom-select,
 .vue-treeselect__menu-container,
 .vue-treeselect__placeholder,
-.vue-treeselect__input {
+.vue-treeselect__input,
+.vue-treeselect__single-value {
   font-size: 0.875rem !important;
+}
+
+select.custom-select::-ms-expand {
+  display: none;
+}
+
+select.custom-select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-indent: 1px;
+  text-overflow: '';
 }
 
 /* MULTISELECT */

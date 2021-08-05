@@ -11,7 +11,7 @@
           Errors(:errors="errors.name")
 
       template(slot="modal-footer")
-        button.btn(@click="$bvModal.hide(modalId)") Cancel
+        button.btn.btn-link(@click="$bvModal.hide(modalId)") Cancel
         button.btn.btn-dark(@click="submit") Save
 </template>
 

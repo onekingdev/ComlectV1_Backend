@@ -12,7 +12,7 @@
         p: strong Do you want to continue?
 
       template(#modal-footer="{ hide }")
-        button.btn(@click="hide") Cancel
+        button.btn.btn-link(@click="hide") Cancel
         Put(:action="url" :model="{ status: 'complete' }" @saved="hide(), completed()")
           button.btn.btn-default Confirm
 </template>

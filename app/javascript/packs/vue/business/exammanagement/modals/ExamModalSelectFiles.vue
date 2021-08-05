@@ -39,7 +39,7 @@
         .col
           label.m-t-1.form-label.font-weight-bold {{ countSelected }} Items Selected
         .col-justify-content-end
-          a.btn.link(@click="$bvModal.hide(modalId)") Cancel
+          a.btn.link.btn-link(@click="$bvModal.hide(modalId)") Cancel
           button.btn.btn-dark(@click="submit") Add
 </template>
 

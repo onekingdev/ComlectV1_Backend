@@ -137,7 +137,7 @@
               b-form-input#inputB-11(v-model='form.business.zipcode' placeholder='Zip' required :class="{'is-invalid': errors.zipcode }")
               .invalid-feedback.d-block(v-if="errors.zipcode") {{ errors.zipcode[0] }}
         b-form-group.text-right
-          b-button.btn.mr-2(type='reset') Cancel
+          b-button.btn.btn-link.mr-2(type='reset') Cancel
           b-button.btn(type='submit' variant='primary') Save
 </template>
 

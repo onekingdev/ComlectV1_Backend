@@ -44,7 +44,7 @@
                     b-dropdown-item.delete(@click="unIinvite(auditor.id, auditor.email)") Delete
 
       template(slot="modal-footer" footer-class="d-none")
-        button.btn(@click="$bvModal.hide(modalId)") Cancel
+        button.btn.btn-link(@click="$bvModal.hide(modalId)") Cancel
         // button.btn.btn-dark(@click="invite") Send
 </template>
 
