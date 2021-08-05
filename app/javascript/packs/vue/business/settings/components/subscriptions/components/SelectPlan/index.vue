@@ -192,7 +192,7 @@
             if(response.errors) throw new Error(`Response error!`)
             if(!response.errors) {
               this.toast('Success', `Update subscribe successfully finished!`)
-              this.paySeats(selectedPlan)
+              if(+this.additionalUsers > 0) this.paySeats(selectedPlan)
 
               // OVERLAY
               if(+this.additionalUsers === 0) {
@@ -218,10 +218,11 @@
           .finally(() => this.disabled = true)
       },
       paySeats(selectedPlan) {
-        const freeUsers = selectedPlan.usersCount;
+        // const freeUsers = selectedPlan.usersCount;
         const neededUsers = +this.additionalUsers;
-        if (neededUsers <= freeUsers) return
-        const countPayedUsers = neededUsers - freeUsers
+        // if (neededUsers <= freeUsers) return
+        // const countPayedUsers = neededUsers - freeUsers
+        const countPayedUsers = neededUsers
 
         this.overlayStatusText = 'Subscribing additional seats...'
 

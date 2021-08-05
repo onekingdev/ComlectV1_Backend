@@ -87,12 +87,17 @@ export async function updateSubscribe(payload) {
 }
 
 export async function updateSeatsSubscribe(payload) {
-  axios.defaults.timeout = 10000;
-  const { userType, stripeToken } = { ...payload }
-  const endPoint = userType === 'business' ? 'business/payment_settings' : 'specialist/payment_settings/create_card'
-  return await axios.post(`/${endPoint}`, null, { params: {
-      stripeToken: stripeToken,
-    }})
+
+  const { userType, paymentSourceId, planName, countPayedUsers } = { ...payload }
+  const endPoint = userType === 'business' ? 'business' : 'specialist'
+
+  // WAIT LONGER
+  axios.defaults.timeout = 60000;
+  const response = await axios.post(`/${endPoint}/upgrade/subscribe`, { plan: planName, seats_count: countPayedUsers })
+  return response.data
+
+  // const endPoint = userType === 'business' ? 'business/payment_settings' : 'specialist/payment_settings/create_card'
+  // return await axios.post(`/${endPoint}`, null, { params: { stripeToken: stripeToken, }})
     .then(response => {
       if (response) {
         return response
