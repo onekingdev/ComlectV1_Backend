@@ -7,20 +7,6 @@ module StripeHelper
       type: 'service'
     )
     Stripe::Plan.create(
-      id: ENV['STRIPE_SUB_CCC_MONTHLY'],
-      interval: 'month',
-      currency: 'usd',
-      amount: 5000,
-      product: product.id
-    )
-    Stripe::Plan.create(
-      id: ENV['STRIPE_SUB_CCC_ANNUAL'],
-      interval: 'year',
-      currency: 'usd',
-      amount: 50_000,
-      product: product.id
-    )
-    Stripe::Plan.create(
       id: ENV['STRIPE_SUB_SEATS_MONTHLY'],
       interval: 'month',
       currency: 'usd',

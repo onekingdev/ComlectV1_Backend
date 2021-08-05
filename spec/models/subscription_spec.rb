@@ -4,14 +4,6 @@ require 'rails_helper'
 
 RSpec.describe Subscription, type: :model do
   describe '.get_plan_id' do
-    it 'when monthly' do
-      expect(described_class.get_plan_id('monthly')).to eq(ENV['STRIPE_SUB_CCC_MONTHLY'])
-    end
-
-    it 'when annual' do
-      expect(described_class.get_plan_id('annual')).to eq(ENV['STRIPE_SUB_CCC_ANNUAL'])
-    end
-
     it 'when seats monthly' do
       expect(described_class.get_plan_id('seats_monthly')).to eq(ENV['STRIPE_SUB_SEATS_MONTHLY'])
     end
