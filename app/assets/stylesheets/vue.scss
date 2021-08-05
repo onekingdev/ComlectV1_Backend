@@ -15,21 +15,11 @@ $font-weight-regular: 400;
 $font-weight-semi-bold: 600;
 $font-weight-bold: 700;
 
-$font-size-8: 0.5rem;
-$font-size-10: 0.625rem;
-$font-size-12: 0.75rem;
-$font-size-14: 0.875rem;
-$font-size-16: 1rem;
-$font-size-18: 1.125rem;
-$font-size-20: 1.25rem;
-$font-size-22: 1.375rem;
-$font-size-24: 1.5rem;
-
 /* ---------- MAIN STYLES ---------- */
 #app, body, html {
   margin: 0;
   padding: 0;
-  //min-height: calc(100vh);
+  min-height: calc(100vh);
   width: 100%;
   -webkit-font-smoothing: antialiased;
 }
@@ -137,7 +127,7 @@ input, button, select, optgroup, textarea {
   justify-content: center;
   align-items: center;
   flex-grow: 1;
-  //padding: 2.5rem 0;
+  padding: 2.5rem 0;
 
   min-height: calc(100vh - 80px);
   background-color: $gray-background;
@@ -320,7 +310,6 @@ input, button, select, optgroup, textarea {
 
   &__text {
     font-size: 30px;
-    //letter-spacing: -2px;
 
     @include media-breakpoint-down(xs) {
       display: none;
@@ -968,13 +957,6 @@ a.btn,
   color: $white;
   background-color: $black;
   border-color: $black;
-
-  &.disabled,
-  &:disabled {
-    //color: #fff;
-    background-color: $gray-2;
-    border-color: $gray-2;
-  }
 }
 .btn.btn-default {
   border-color: $gray-1 !important;
@@ -1784,7 +1766,7 @@ table.table thead tr th {
 }
 
 .fc-daygrid-day-number {
-  //display: none;
+  display: none;
   color: $black !important;
   font-size: 0.75rem; //12px
 }
@@ -2601,11 +2583,8 @@ legend, .label {
 }
 .multiselect__single {
   margin-bottom: 0 !important;
-  line-height: 1.4rem !important;
-}
-.multiselect__input,
-.multiselect__single {
   font-size: 0.875rem !important;
+  line-height: 1.4rem !important;
 }
 
 // RECHECK .btn-secondary
@@ -2757,19 +2736,9 @@ legend, .label {
 }
 
 /* ---------- ERRORS ---------- */
-.invalid-feedback,
-#stripe-element-errors {
-  //text-transform: capitalize;
+.invalid-feedback {
+  text-transform: capitalize;
   color: $red;
-
-  &::first-letter {
-    text-transform: capitalize;
-  }
-}
-
-#stripe-element-errors {
-  font-size: 80%;
-  margin-top: 0.25rem;
 }
 
 /* ---------- Files List view ---------- */
@@ -2943,11 +2912,6 @@ legend, .label {
   padding-right: 2.5rem !important; // 40px
 }
 
-.p-y-10 {
-  padding-top: 0.625rem !important; // 10px
-  padding-bottom: 0.625rem !important; // 10px
-}
-
 .p-y-20 {
   padding-top: 1.25rem !important; // 20px
   padding-bottom: 1.25rem !important; // 20px
@@ -2967,10 +2931,6 @@ legend, .label {
   padding-top: 1.25rem !important; // 20px
 }
 
-.p-t-30 {
-  padding-top: 1.875rem !important; // 30px
-}
-
 .p-t-40 {
   padding-top: 2.5rem !important; // 40px
 }
@@ -2982,6 +2942,7 @@ legend, .label {
 .p-b-40 {
   padding-bottom: 2.5rem !important; // 40px
 }
+
 
 .m-20 {
   margin: 1.25rem !important; // 20px
@@ -2997,13 +2958,16 @@ legend, .label {
   margin-bottom: 1.25rem !important; //20px
 }
 
+
 .m-t-10 {
   margin-top: 0.625rem !important; // 10px
 }
 
+
 .m-t-20 {
   margin-top: 1.25rem !important; // 30px
 }
+
 
 .m-t-30 {
   margin-top: 1.875rem !important; // 30px
@@ -3037,6 +3001,7 @@ legend, .label {
   margin-bottom: 5rem !important;
 }
 
+
 /* ---------- SELECT PLAN ---------- */
 .select-plan {
   display: flex;
@@ -3044,14 +3009,13 @@ legend, .label {
   align-items: center;
 
   width: 100%;
-  min-height: calc(100vh - 80px);
+  min-height: calc(100vh - 95px);
 
   background-color: $gray-background;
   overflow: hidden;
 
   @media (max-width: 800px) {
     flex-direction: column;
-    min-height: auto;
     overflow: auto;
   }
 }
@@ -3075,14 +3039,6 @@ legend, .label {
   &_specialist {
     width: 22.5rem; /*360px;*/
     min-height: 32rem;
-
-    .card-body {
-      padding: 1.75rem !important; /*  20 px*/
-    }
-
-    .billing-plan__common-info {
-      min-height: 6rem;
-    }
   }
 
   &:not(:last-child) {
@@ -3180,56 +3136,53 @@ legend, .label {
 /* ---------- registration-card ---------- */
 .registration-card {
   padding: 2.5rem;
-  margin: 0;
+  margin-left: 0;
   margin-right: 1.25rem;
-  min-height: inherit;
   min-width: 53.125rem; //850px
   height: 100%;
-  border-radius: 0;
 
   @media (max-width: 1250px) {
     min-width: auto;
   }
+
   @media (max-width: 800px) {
     margin-right: 0;
     margin-bottom: 1.25rem;
-    min-height: auto;
     width: 100%;
   }
   @media (max-width: 575px) {
     padding: 1.5em;
   }
+}
+.registration-card__header {
 
-  &__header {}
-  &__main-title {
-    //margin-bottom: 0.625rem;
-    margin-bottom: 0;
-    font-size: 1.5rem;
-    color: #303132;
-  }
-  &__main-subtitle {
-    margin: 0;
-    color: #303132;
-    font-size: 1rem;
-  }
 }
 
+.registration-card__main-title {
+  margin-bottom: 0.625rem;
+  font-size: 1.5rem;
+  color: #303132;
+}
+.registration-card__main-subtitle {
+  margin: 0;
+  color: #303132;
+  font-size: 1rem;
+}
 
 .registration-card-header {
   padding-top: 0;
   border-bottom: solid 1px #DCDEE4;
-
-  &__title {
-    font-size: 1.25rem;
-    font-weight: bold;
-  }
-  &__subtitle {
-    margin-bottom: 0;
-    font-size: 0.875rem;
-    color: #797B7E;
-  }
 }
 
+.registration-card-header__title {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+.registration-card-header__subtitle {
+  margin-bottom: 0;
+  font-size: 1rem;
+  color: #797B7E;
+}
 
 .form-control-number {
   min-width: 2rem;
@@ -3275,10 +3228,7 @@ legend, .label {
 .bg-dark {
   background-color: #f6f6f8 !important;
 }
-.purchase-summary__total {
-  font-size: $font-size-20;
-  font-weight: $font-weight-bold;
-}
+
 .purchase-summary__btn {
   width: 100%;
   height: 2.8125rem; /*45px;*/
@@ -3425,28 +3375,4 @@ legend, .label {
 .exp__btn:active .exp__btn--sub,
 .exp__btn.active .exp__btn--sub {
   color: #797b7e;
-}
-
-/* ---------- INFORMATION BOARD ---------- */
-.info-board {
-  padding: 1.5rem 1.5rem 1.5rem 2.5rem; //30px 30 30 40
-  color: $black;
-  border: solid 1px $gray-1;
-
-  &__title {
-    margin-bottom: 0.625rem; //10px;
-    font-size: $font-size-24;
-    font-weight: $font-weight-semi-bold;
-  }
-  &__subtitle {
-    margin-right: 2rem;
-    font-size: $font-size-14;
-  }
-  &__icon {
-    margin-right: 2.5rem; //40px;
-    width: 2rem;
-    height: 2rem;
-    color: #565759;
-  }
-  &__btn {}
 }

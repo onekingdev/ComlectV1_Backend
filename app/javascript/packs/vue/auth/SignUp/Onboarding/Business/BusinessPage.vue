@@ -13,7 +13,7 @@
               .row
                 .col
                   h3.onboarding__title.m-b-10 Do you have a CRD number?
-                    ion-icon.onboarding__icon(name="information-circle" v-b-tooltip.hover.html :title='IAPDurl')
+                    ion-icon.onboarding__icon(name="information-circle" v-b-tooltip.hover title='You can find your CRD number on the IAPD site')
                   p.onboarding__sub-title.m-b-20 The CRD number will be used to auto-populate information about your business
               .row
                 .col
@@ -310,7 +310,7 @@
         for (var value in this.errors) delete this.errors[value];
 
         if (!this.formStep1.crd_number.length) {
-          this.errors = { crd_number: `Required field` }
+          this.errors = { crd_number: `Required Field` }
           return
         }
 
@@ -384,7 +384,7 @@
           // OVERLAY
           this.$store.dispatch('setOverlay', {
             active: true,
-            message: 'Setting up account',
+            message: 'Setting up account...',
             status: ''
           })
 
@@ -399,14 +399,13 @@
               this.currentPlan = { id: 1, status: true }
 
               // OVERLAY
-              // this.$store.dispatch('setOverlay', {
-              //   active: true,
-              //   message: 'Setting up account...',
-              //   status: 'success'
-              // })
+              this.$store.dispatch('setOverlay', {
+                active: true,
+                message: 'Setting up account...',
+                status: 'success'
+              })
 
-              // setTimeout(() => this.redirect() , 2000)
-              this.redirect()
+              setTimeout(() => this.redirect() , 2000)
             })
             .catch(error => {
               console.error(error)
@@ -494,11 +493,6 @@
       },
       overlay() {
         return this.$store.getters.overlay;
-      },
-      IAPDurl() {
-        const linkIAPD = 'https://adviserinfo.sec.gov/'
-        const text = `You can find your CRD number on the <a href="${linkIAPD}" target="_blank">IAPD site</a>`
-        return text
       }
     },
     mounted () {

@@ -28,11 +28,7 @@ export default {
       this.$emit('errors', [])
       fetch(this.action, {
         method: this.method,
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': localStorage.getItem('app.currentUser.token') ? JSON.parse(localStorage.getItem('app.currentUser.token')) : '',
-          ...this.headers},
+        headers: {'Accept': 'application/json', 'Content-Type': 'application/json', ...this.headers},
         body: JSON.stringify(this.model)
       }).then(response => {
         if (response.status === 422) {

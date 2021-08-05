@@ -13,12 +13,12 @@
             .row
               .col-12.mx-0
                 .d-flex.justify-content-space-around.mx-auto
-                  b-form-input#inputCode1.code-input.ml-auto(v-model='form2.codePart1' type='number' maxlength="1")
-                  b-form-input#inputCode2.code-input(v-model='form2.codePart2' type='number' maxlength="1")
-                  b-form-input#inputCode3.code-input(v-model='form2.codePart3' type='number' maxlength="1")
-                  b-form-input#inputCode4.code-input(v-model='form2.codePart4' type='number' maxlength="1")
-                  b-form-input#inputCode5.code-input(v-model='form2.codePart5' type='number' maxlength="1")
-                  b-form-input#inputCode6.code-input.mr-auto(v-model='form2.codePart6' type='number' maxlength="1")
+                  b-form-input#inputCode1.code-input.ml-auto(v-model='form2.codePart1' type='number' maxlength="1" required)
+                  b-form-input#inputCode2.code-input(v-model='form2.codePart2' type='number' maxlength="1" required)
+                  b-form-input#inputCode3.code-input(v-model='form2.codePart3' type='number' maxlength="1" required)
+                  b-form-input#inputCode4.code-input(v-model='form2.codePart4' type='number' maxlength="1" required)
+                  b-form-input#inputCode5.code-input(v-model='form2.codePart5' type='number' maxlength="1" required)
+                  b-form-input#inputCode6.code-input.mr-auto(v-model='form2.codePart6' type='number' maxlength="1" required)
                 .invalid-feedback.d-block.text-center(v-if="error") {{ error }}
                 input(v-model='form2.code' type='hidden')
           b-button.w-100.m-b--40(type='submit' variant='dark' ref="codesubmit") Submit
@@ -55,10 +55,12 @@
         this.error = ''
         this.errors = []
 
-        // if(this.form2.code.length !== 6) {
-        //   this.error = 'Code length incorrect'
-        //   return
-        // }
+        console.log('emailVerified', this.emailVerified)
+
+        if(this.form2.code.length !== 6) {
+          this.toast('Error', `Code length incorrect!`)
+          return
+        }
 
         // IF UNVERIFIED EMAIL
         if(!this.emailVerified) {
@@ -66,6 +68,8 @@
             email: this.form.email,
             otp_secret: this.form2.code
           }
+
+          console.log('dataToSend1 !this.emailVerified', dataToSend1)
 
           this.$store.dispatch('confirmEmail', dataToSend1)
             .then((response) => {
@@ -152,8 +156,6 @@
           e.preventDefault();
           e.target.value = ''
           e.target.previousElementSibling?.focus()
-          // CLEAR CODE if all fields empty
-          if(!this.form2.codePart1 && !this.form2.codePart2 && !this.form2.codePart3 && !this.form2.codePart4 && !this.form2.codePart5 && !this.form2.codePart6) this.form2.code = ''
           return
         }
 

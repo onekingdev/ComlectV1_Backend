@@ -1,19 +1,25 @@
 <template lang="pug">
   .page
-    .page-header.p-x-40.p-t-30
-      EmptyPlan
     .page-header
-      h2.page-header__title
-        b Welcome,&nbsp;
-        | {{currentSpecialist}}
-    div.p-x-40.p-b-40
+      h2.page-header__title Welcome, {{currentSpecialist}}
+      .page-header__actions
+        b-dropdown.mr-2(variant="default" right)
+          template(#button-content)
+            | Admin view
+            b-icon.ml-2(icon="chevron-down")
+          b-dropdown-item Other view
+        a.btn.btn-default.font-weight-bold Customize
+    div.p-x-40
       .row
-        .col
-          .dashboard
-            .card.calendar
-              Calendar(v-bind="{pdfUrl}" @saved="newEtag" :etag="etag")
-            .card.upcoming.h-100
-              UpcomingTasks(@saved="newEtag" :etag="etag")
+        .col.mb-2
+          EmptyPlan
+      .row
+        .col-md-7.col-sm-12
+          .card
+            Calendar(v-bind="{pdfUrl}" @saved="newEtag" :etag="etag")
+        .col-md-5.col-sm-12.pl-0
+          .card
+            UpcomingTasks(@saved="newEtag" :etag="etag")
 </template>
 
 <script>
@@ -22,7 +28,6 @@ import UpcomingTasks from '@/specialist/dashboard/UpcomingTasks'
 import EmptyPlan from '@/specialist/settings/components/subscriptions/components/EmptyPlan'
 
 const endpointProjectsUrl = '/api/specialist/local_projects/'
-const pdfUrl = '/specialist/reminders.pdf'
 
 export default {
   data() {
@@ -56,7 +61,9 @@ export default {
     EmptyPlan,
   },
   computed: {
-    pdfUrl: () => pdfUrl,
+    pdfUrl() {
+      return '/specialist/reminders.pdf'
+    },
     currentSpecialist() {
       // @TODO Must be fetched from API
       const accountInfo = this.$store.getters.getUser

@@ -3,15 +3,13 @@
     thead
       tr
         th Name
-        th.text-right Due date
+        th Due date
     tbody
       tr(v-for="(project, i) in projectList" :key="i")
         td
           router-link.link(:to='project.href') {{project.title}}
           // a.text-dark(:href="project.href" target="_blank") {{project.title}}
-        td.text-right(class="due-date" :class="{ overdue: isOverdue(project) }")
-          b-icon.mr-2(v-if="isOverdue(project)" icon="exclamation-triangle-fill" variant="warning")
-          | {{ project.ends_on | asDate }}
+        td(:class="{ overdue: isOverdue(project) }") {{ project.ends_on | asDate }}
 </template>
 
 <script>

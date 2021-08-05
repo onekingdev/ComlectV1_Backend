@@ -2,36 +2,15 @@
   div
     .card-header.d-flex.justify-content-between.p-t-0
       div(style="vertical-align: middle")
-        h3.calendar__title.m-y-0
+        h3.m-y-0
           TaskFormModal(id="CalendarTaskFormModal" v-bind="nowEditingTask" @saved="$emit('saved')")
           | {{currentMonth}}
-          small.float-right(style="vertical-align: middle")
+          small(style="vertical-align: middle")
             ion-icon.m-x-1(name='chevron-back-outline' @click.prevent="prev")
             ion-icon(name='chevron-forward-outline' @click.prevent="next")
       div
-        b-dropdown#dropdown-form.m-2(ref='dropdown' variant="none")
-          template(#button-content)
-            | Download
-            b-icon.ml-2(icon="chevron-down")
-          b-dropdown-form(style="width: 374px;")
-            b-row.m-t-1(no-gutters)
-              .col-sm.m-r-1
-                label.form-label Start Date
-                DatePicker(v-model="download.start_date")
-                Errors(:errors="errors.start_date")
-              .col-sm
-                label.form-label Due Date
-                DatePicker(v-model="download.end_date")
-                Errors(:errors="errors.end_date")
-            .d-flex.justify-content-between
-              b-button.link(variant='none' size='sm' @click='onClick') Download All
-              b-button(variant='secondary' size='sm' @click='onClick') Download
-        //a.btn.btn-secondary(:href="pdfUrl" target="_blank") Download
-        //b-dropdown(size="sm" variant="none" class="m-0 p-0" right)
-        //  template(#button-content)
-        //    b-icon(icon="three-dots")
-        //  b-dropdown-item-button Some Action
-    .card-body.p-20
+        a.btn.btn-default.float-end(:href="pdfUrl" target="_blank") Export
+    .card-body
       FullCalendar(:options="calendarOptions" ref="FullCalendar")
         template(v-slot:dayCellContent="arg")
           TaskFormModal(:remind-at="jsToSql(arg.date)" @saved="$emit('saved')")
@@ -73,12 +52,7 @@ export default {
       nowEditingTask: {
         taskId: null,
         occurenceId: null
-      },
-      download: {
-        start_date: '',
-        end_date: '',
-      },
-      errors: {}
+      }
     }
   },
   methods: {
@@ -103,10 +77,6 @@ export default {
     },
     refetchEvents() {
       this.calendarObject.refetchEvents()
-    },
-    onClick() {
-      // Close the menu and (by passing true) return focus to the toggle button
-      this.$refs.dropdown.hide(true)
     }
   },
   mounted() {
