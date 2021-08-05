@@ -1758,6 +1758,12 @@ table.table thead tr th {
   background-color: #e2e8f0;
   border: 1px solid #dee1e7;
   color: #454648;
+
+  &:hover {
+    background-color: #e2e8f0 !important;
+    border: 1px solid #dee1e7 !important;
+    color: #454648 !important;
+  }
 }
 
 .fc-event-title {
@@ -1905,6 +1911,7 @@ table.table thead tr th {
 }
 
 .page-item.active .page-link {
+  font-size: $font-size-14;
   background-color: $black;
 }
 
