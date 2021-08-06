@@ -35,7 +35,7 @@
               b-dropdown-item(@click="perPage = 20") 20
       .row.h-100(v-if="!sortedTasks.length && !loading")
         .col.h-100.text-center
-          EmptyState(:name="Tasks")
+          EmptyState(name="Tasks")
       div(v-if="sortedTasks.length")
         //.row(v-if="!shortTable")
         //  .col

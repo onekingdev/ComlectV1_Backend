@@ -7,7 +7,13 @@
 
 <script>
   export default {
-    props: ['name']
+    props: {
+      name: {
+        type: String,
+        required: false,
+        default: 'Record(s)'
+      }
+    }
   }
 </script>
 
