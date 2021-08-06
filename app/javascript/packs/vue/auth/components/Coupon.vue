@@ -16,11 +16,8 @@
     },
     methods: {
       activatePromoCode () {
-        console.log(this.promo_code)
-
         this.toast('Success', 'Discount successfully applied.')
         this.toast('Error', 'Invalid code. Discount was not applied.')
-
         this.$emit('couponApplied')
       }
     }

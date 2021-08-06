@@ -215,7 +215,6 @@
       SelectPlanPaymentAndSummary,
     },
     created() {
-      console.log('userInfo', this.userInfo)
       // if(this.timezones) {
       //   for (const value of this.timezones) {
       //     const [ zone, city ] = value
@@ -462,10 +461,8 @@
       },
       onAdressChange() {
         const address = this.formStep2.business.address_1
-        console.log('address', address)
-
         this.$store.dispatch('getGeo', address)
-          .then(response => console.log('response', response))
+          .then(response => console.info(response))
           .catch(error => console.error(error))
       },
       getAddressData (addressData, placeResultData, id) {

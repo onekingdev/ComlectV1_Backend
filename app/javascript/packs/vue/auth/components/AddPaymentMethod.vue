@@ -47,11 +47,12 @@
     },
     created() {
       const paymentMethod = JSON.parse(localStorage.getItem('app.currentUser.paymentMethod'));
+      console.log('paymentMethod', paymentMethod)
       if (paymentMethod) {
         this.$emit('complitedPaymentMethod', paymentMethod.id)
-        this.cardOptions.push({ text: `${paymentMethod.type}${this.cardOptions.length===0 ? ' (primary)' : ''}`, value: paymentMethod.id, number: `**** **** **** ${paymentMethod.last4}`, type: paymentMethod.brand, id: paymentMethod.id })
         this.cardSelected = paymentMethod.id
         this.onPaymentMethodChange(paymentMethod.id)
+        this.cardOptions.push({ text: `${paymentMethod.type}${this.cardOptions.length===0 ? ' (primary)' : ''}`, value: paymentMethod.id, number: `**** **** **** ${paymentMethod.last4}`, type: paymentMethod.brand, id: paymentMethod.id })
       }
     },
     data() {
@@ -192,8 +193,7 @@
         userType: this.userType,
       }
 
-      this.$store
-        .dispatch('getPaymentMethod', dataToSend)
+      this.$store.dispatch('getPaymentMethod', dataToSend)
         .then(response => {
           const newOptions = response.map((card, index) => {
             return { text: `Credit Card${index===0 ? ' (primary)' : ''}`, value: card.id, number: `**** **** **** ${card.last4}`, type: card.brand, id: card.id }

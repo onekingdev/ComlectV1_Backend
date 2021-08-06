@@ -48,7 +48,6 @@
           })
             .then(response => response.json())
             .then(data => {
-              console.log(data)
               localStorage.removeItem('app.currentUser');
               localStorage.removeItem('app.currentUser.token');
               localStorage.removeItem('app.currentUser.userType');

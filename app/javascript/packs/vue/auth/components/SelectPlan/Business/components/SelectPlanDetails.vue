@@ -39,9 +39,6 @@
       BillingDetails,
       PurchaseSummary,
     },
-    // created(){
-    //   console.log('userType', this.userType)
-    // },
     data() {
       return {
         billingTypeSelected: 'annually',
@@ -70,8 +67,6 @@
         // CLEAR ERRORS
         this.errors = []
 
-        // console.log('userType', this.userType)
-
         // OVERLAY
         this.$store.dispatch('setOverlay', {
           active: true,
@@ -97,8 +92,7 @@
         }
         if (+this.additionalUsers) data.additionalUsers = +this.additionalUsers
 
-        this.$store
-          .dispatch('updateSubscribe', data)
+        this.$store.dispatch('updateSubscribe', data)
           .then(response => {
             if(response.errors) throw new Error(`Response error!`)
             if(!response.errors) {

@@ -87,8 +87,7 @@
           paymentSourceId : this.paymentSourceId,
         }
 
-        this.$store
-          .dispatch('updateSubscribe', dataToSend)
+        this.$store.dispatch('updateSubscribe', dataToSend)
           .then(response => {
             if(response.errors) throw new Error(`Response error!`)
             if(!response.errors) {
