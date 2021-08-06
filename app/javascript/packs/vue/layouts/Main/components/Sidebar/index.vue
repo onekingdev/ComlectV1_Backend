@@ -199,7 +199,6 @@
           return
         }
 
-        console.log('splitUrl', splitUrl)
         if(splitUrl === "reports-risks" || splitUrl === "reports-organizations" || splitUrl === "reports-financials") {
           this.$store.commit('changeSidebar', 'reports')
           return
