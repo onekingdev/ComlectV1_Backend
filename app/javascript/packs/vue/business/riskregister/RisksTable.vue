@@ -1,6 +1,6 @@
 <template lang="pug">
-  div
-    .row.my-3
+  div.h-100
+    .row.m-b-20
       .col-lg-4.col-12
         .position-relative
           b-icon.icon-searh(icon='search')
@@ -9,11 +9,14 @@
             b-icon.icon-clear(icon='x-circle')
       .col-4(v-if="filteredRisksComputed.length !== 0 && searchInput")
         p Found {{ filteredRisksComputed.length }} {{ filteredRisksComputed.length === 1 ? 'result' : 'results' }}
+    .row.h-100(v-if="!filteredRisksComputed.length && !loading")
+      .col.h-100.text-center
+        EmptyState
     .row
       .col-12
         Loading
-        table.table(v-if="!loading")
-          thead(v-if="filteredRisksComputed && filteredRisksComputed.length")
+        table.table(v-if="!loading && filteredRisksComputed && filteredRisksComputed.length")
+          thead
             tr
               th Name
                 b-icon.ml-2(icon='chevron-expand')
@@ -54,9 +57,7 @@
                     RisksAddEditModal(:risks="risksComputed" :riskId="risk.id" :inline="false")
                       b-dropdown-item-button Edit
                     b-dropdown-item-button.delete(@click="deleteRisk(risk.id)") Delete
-            tr(v-if="!filteredRisksComputed.length")
-              td.text-center
-                h4.py-2 No risks
+
 </template>
 
 <script>

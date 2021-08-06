@@ -6,9 +6,9 @@
     b-modal.fade(:id="modalId" :title="riskId ? 'Edit risk' : 'New risk'" @show="newEtag")
       ModelLoader(:url="riskId ? submitUrl : undefined" :default="initialrisk" :etag="etag" @loaded="loadrisk")
 
-        <!--b-form-group#input-group-1(label='Risk' label-for='select-1')-->
-          <!--b-form-select#select-1(v-model='risk.risks' :options='options' @change="onChange" required)-->
-          <!--Errors(:errors="errors.risk")-->
+        //b-form-group#input-group-1(label='Risk' label-for='select-1')
+        //  b-form-select#select-1(v-model='risk.risks' :options='options' @change="onChange" required)
+        //  Errors(:errors="errors.risk")
 
         b-row.m-t-1(no-gutters)
           .col
@@ -93,9 +93,6 @@ export default {
       // this.options = [{ value: null, text: 'New Risk' }]
       // this.options = this.options.concat(this.risksComputedAsOptions)
     },
-    makeToast(title, str) {
-      this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
-    },
     submit(e) {
       e.preventDefault()
       this.errors = [];
@@ -103,7 +100,7 @@ export default {
         this.errors.push([
           'Field is required.'
         ]);
-        this.makeToast('Error', 'Field is required.')
+        this.toast('Error', 'Field is required.', true)
         return;
       }
 
@@ -124,14 +121,14 @@ export default {
           if (response.errors) {
 
           } else {
-            this.makeToast('Success', 'The risk has been saved')
+            this.toast('Success', 'The risk has been saved')
             this.$bvModal.hide(this.modalId)
             this.newEtag()
           }
         })
         .catch(error => {
           console.error(error)
-          this.makeToast('Error', `Couldn't submit form! ${error}`)
+          this.toast('Error', `Couldn't submit form! ${error}`, true)
         })
 
       // this.$emit('saved', this.risk)

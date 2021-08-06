@@ -6,7 +6,7 @@
         a.btn.btn-default.m-r-1(v-if="!shortTable") Download
         TaskModalCreate(@saved="refetch()")
           a.btn.btn-dark New Task
-    .card-body.white-card-body.p-x-40
+    .card-body.white-card-body.card-body_full-height.p-x-40
       .row.mb-3(v-if="!shortTable")
         .col
           div

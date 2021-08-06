@@ -187,7 +187,7 @@
                   .map(prop => response.errors[prop].map(err => this.toast(`Error`, `${prop}: ${err}`)))
               }
               if (!response.errors) {
-                this.toast('Success', 'The task has been saved')
+                this.toast('Success', 'The task has been saved', false)
                 this.$emit('saved')
                 this.$bvModal.hide(this.modalId)
               }

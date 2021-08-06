@@ -15,23 +15,23 @@
       p Rule 206(4)-7 under the Adviser Act and Rule 38a-1 under the Company Act require that you conduct an annual review of your compliance program no less than annually. Your last completed Annual Review was submitted on&nbsp;
         a.link(href="#") 7/24/2020
       Loading
-      ReviewTable(v-if="!loading" :reviews="reviews")
-      table.table.reviews-table(v-if="!reviews.length && !loading")
-        tbody
-          tr
-            td.text-center
-              h3 Annual Reviews not exist
+      ReviewTable(v-if="!loading && reviews.length" :reviews="reviews")
+      .row.h-100(v-if="!reviews.length && !loading")
+        .col.h-100.text-center
+          EmptyState
 </template>
 
 <script>
 import { mapGetters } from "vuex"
 import Loading from '@/common/Loading/Loading'
+import EmptyState from '@/common/EmptyState'
 import AnnualModalCreate from "./modals/AnnualModalCreate"
 import ReviewTable from "./components/ReviewTable"
 
 export default {
   components: {
     Loading,
+    EmptyState,
     ReviewTable,
     AnnualModalCreate
   },

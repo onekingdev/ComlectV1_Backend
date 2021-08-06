@@ -30,6 +30,8 @@ import RedirectMixin from '@/mixins/RedirectMixin'
 import HistoryMixin from '@/mixins/HistoryMixin'
 import vueDebounce from 'vue-debounce'
 import VueRouter from 'vue-router'
+import Loading from '@/common/Loading/Loading'
+import EmptyState from '@/common/EmptyState'
 
 const data = () => ({
   isProfileMenuOpen: false
@@ -72,6 +74,8 @@ const init = configuration => {
   Vue.component('Put', Put)
   Vue.component('Delete', Delete)
   Vue.component('ModelLoader', ModelLoader)
+  Vue.component('EmptyState', EmptyState)
+  Vue.component('Loading', Loading)
 
   Vue.directive('google-maps-autocomplete', {
     inserted(el) {
