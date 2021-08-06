@@ -180,7 +180,7 @@
         if (sortBy === 'completed')
           result = this.tasks.filter(task => task.done_at)
         if (sortBy === 'overdue')
-          result = this.tasks.filter(task => task.end_date >= DateTime.local())
+          result = this.tasks.filter(task => DateTime.fromISO(task.end_date || task.ends_on) <= DateTime.local())
         if (sortBy === 'all')
           result = this.tasks
         if (sortBy === 'LocalProject' || sortBy === 'CompliancePolicy'|| sortBy === 'AnnualReport')
