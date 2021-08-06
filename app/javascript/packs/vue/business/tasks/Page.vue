@@ -35,10 +35,7 @@
               b-dropdown-item(@click="perPage = 20") 20
       .row.h-100(v-if="!sortedTasks.length && !loading")
         .col.h-100.text-center
-          .empty-state
-            h3.empty-state__title Tasks not exist
-            .empty-state__image
-              img(src='@/assets/empty state.svg')
+          EmptyState(:name="Tasks")
       div(v-if="sortedTasks.length")
         //.row(v-if="!shortTable")
         //  .col
@@ -61,6 +58,7 @@
   // import { toEvent, isOverdue, splitReminderOccurenceId } from '@/common/TaskHelper'
 
   import Loading from '@/common/Loading/Loading'
+  import EmptyState from '@/common/EmptyState'
   import TaskTable from './components/TaskTable'
   import TaskModalCreate from './modals/TaskModalCreate'
   // import TaskModalEdit from './modals/TaskModalEdit'
@@ -88,6 +86,7 @@
     },
     components: {
       Loading,
+      EmptyState,
       TaskTable,
       TaskModalCreate,
       // TaskModalEdit
