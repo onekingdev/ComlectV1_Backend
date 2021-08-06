@@ -68,6 +68,12 @@
           Dropdown(v-model="task.repeat_on" v-else :options="daysOfWeek")
       Errors(:errors="errors.repeats || errors.repeat_every || errors.repeat_on || errors.on_type")
 
+      b-row.m-t-1(v-if="task.repeats" no-gutters )
+        .col-sm-6.m-r-1
+          label.form-label End By Date
+          DatePicker(v-model="task.end_by")
+          Errors(:errors="errors.end_by")
+
       InputTextarea.m-t-1(v-model="task.description" :errors="errors.description") Description
       .form-text.text-muted Optional
 
@@ -104,6 +110,7 @@
     assignee: null,
     remind_at: null,
     end_date: null,
+    end_by: null,
     repeats: REPEAT_NONE,
     repeat_every: null,
     repeat_on: null,

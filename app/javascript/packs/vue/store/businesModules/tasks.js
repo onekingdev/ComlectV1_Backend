@@ -108,9 +108,9 @@ export default {
             commit("clearError", null, { root: true });
             commit("setLoading", false, { root: true });
             if (success) {
-              const data = success.data.tasks
+              const data = success.data
               const tasks = []
-              for (const taskItem of data) {
+              for (const taskItem of data.tasks) {
                 tasks.push(new Task(
                   taskItem.body,
                   taskItem.created_at,
@@ -135,7 +135,7 @@ export default {
                 ))
               }
               commit('SET_TASKS', tasks)
-              return data.data
+              return data
             }
             if (!success) {
               console.error('Not success', success)

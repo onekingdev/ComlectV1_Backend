@@ -47,7 +47,7 @@
           .col
             Loading(:absolute="true")
             TaskTable.m-b-40(v-if="tasks" :shortTable="shortTable", :tasks="sortedTasks" :perPage="perPage" :currentPage="currentPage")
-            b-pagination(v-if="!shortTable && shortTable.length >= perPage" v-model='currentPage' :total-rows='rows' :per-page='perPage' :shortTable="!shortTable",  aria-controls='tasks-table')
+            b-pagination(v-if="!shortTable && sortedTasks.length >= perPage" v-model='currentPage' :total-rows='rows' :per-page='perPage' :shortTable="!shortTable",  aria-controls='tasks-table')
 
 </template>
 
@@ -55,7 +55,7 @@
   import { mapGetters } from "vuex"
 
   import { DateTime } from 'luxon'
-  // import { toEvent, isOverdue, splitReminderOccurenceId } from '@/common/TaskHelper'
+  import { toEvent, isOverdue, splitReminderOccurenceId } from '@/common/TaskHelper'
 
   import Loading from '@/common/Loading/Loading'
   import EmptyState from '@/common/EmptyState'
@@ -97,7 +97,8 @@
         perPage: 10,
         currentPage: 1,
         toggleModal: false,
-        sortedBy: ''
+        sortedBy: '',
+        projects: []
       }
     },
     // created() {
@@ -156,7 +157,7 @@
     },
     computed: {
       ...mapGetters({
-        tasks: 'reminders/tasks'
+        tasks: 'reminders/tasks',
       }),
       // taskEvents() {
       //   return this.tasks.map(toEvent)
@@ -180,7 +181,7 @@
         if (sortBy === 'completed')
           result = this.tasks.filter(task => task.done_at)
         if (sortBy === 'overdue')
-          result = this.tasks.filter(task => DateTime.fromISO(task.end_date || task.ends_on) <= DateTime.local())
+          result = this.tasks.filter(task => isOverdue(task))
         if (sortBy === 'all')
           result = this.tasks
         if (sortBy === 'LocalProject' || sortBy === 'CompliancePolicy'|| sortBy === 'AnnualReport')
@@ -195,7 +196,10 @@
 
         const fromTo = DateTime.local().minus({years: 10}).toSQLDate() + '/' + DateTime.local().plus({years: 10}).toSQLDate()
         await this.$store.dispatch('reminders/getTasksByDate', fromTo)
-          .then(response => console.log('response', response))
+          .then(response => {
+            console.log('response', response)
+            if (response.projects) this.projects = response.projects
+          })
           .catch(error => console.error('error', error))
         // await this.$store.dispatch('reminders/getOverdueTasks')
         //   .then(response => console.log('response Overdue', response))

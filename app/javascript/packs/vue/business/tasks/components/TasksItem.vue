@@ -10,12 +10,14 @@
     td(v-if="!shortTable")
       .d-flex.align-items-center
         ion-icon.mr-1(v-if="linkedTo(item)" :name="linkedTo(item)" :class="linkedToClass(item)")
-        .link {{ item.linkable_type ? item.linkable_type : '---' }}
-    td(v-if="!shortTable") {{ item.assignee }}
+        .link(v-if="item.linkable_type") {{ item.linkable_type }}
+        span(v-else) ---
+    td(v-if="!shortTable") {{ item.assignee ? item.assignee : '---' }}
     td.text-right(v-if="!shortTable")
       | {{ item.remind_at | dateToHuman}}
     td.text-right(:class="{ overdue: isOverdue(item) }")
       b-icon.mr-2(v-if="isOverdue(item)" icon="exclamation-triangle-fill" variant="warning")
+      ion-icon.text-dark.mr-2(v-if="isRepeat(item)" name="repeat-outline")
       | {{ item.end_date | dateToHuman }}
     td.d-none(v-if="!shortTable").text-right 0
     td.d-none(v-if="!shortTable").text-right 0
@@ -34,7 +36,7 @@
 
 <script>
 import { DateTime } from 'luxon'
-import { toEvent, isOverdue, splitReminderOccurenceId, linkedTo, linkedToClass } from '@/common/TaskHelper'
+import { toEvent, isOverdue, splitReminderOccurenceId, linkedTo, linkedToClass, isRepeat } from '@/common/TaskHelper'
 import TaskFormModal from '@/common/TaskFormModal'
 import TaskModalEdit from '../modals/TaskModalEdit'
 import TaskModalDelete from '../modals/TaskModalDelete'
@@ -65,6 +67,7 @@ export default {
     }
   },
   methods: {
+    isRepeat,
     isOverdue,
     linkedTo,
     linkedToClass,
