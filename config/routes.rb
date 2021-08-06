@@ -105,6 +105,7 @@ Rails.application.routes.draw do
     resources :teams, only: %i[new create show edit index update destroy]
     resources :team_members, only: %i[new create edit update destroy]
     resources :reminders, only: %i[new update create destroy show edit index]
+    resources :tasks, only: %i[new update create destroy show edit index]
     resources :audit_requests, only: %i[index update create new edit show destroy]
     put '/audit_requests' => 'audit_requests#update'
     resource :help, only: :show do
@@ -169,6 +170,7 @@ Rails.application.routes.draw do
     get '/' => 'dashboard#show', as: :dashboard
     get '/locked' => 'dashboard#locked'
     resources :reminders, only: %i[new update create destroy edit show index]
+    resources :tasks, only: %i[new update create destroy edit show index]
     resources :addons, only: %i[index]
     resource :help, only: :show do
       resource :questions
@@ -310,6 +312,15 @@ Rails.application.routes.draw do
       get '/reminders/:date_from/:date_to' => 'reminders#by_date'
       get '/overdue_reminders' => 'reminders#overdue'
       post '/reminders' => 'reminders#create'
+      get '/tasks' => 'reminders#create'
+      get '/tasks/:id' => 'reminders#show'
+      delete '/tasks/:id' => 'reminders#destroy'
+      post '/tasks/:id' => 'reminders#update'
+      get '/tasks/:id/messages' => '/api/reminder_messages#index'
+      post '/tasks/:id/messages' => '/api/reminder_messages#create'
+      get '/tasks/:date_from/:date_to' => 'reminders#by_date'
+      get '/tasks' => 'reminders#overdue'
+      post '/tasks' => 'reminders#create'
       resources :local_projects, only: %i[index create show update destroy]
       put 'local_projects/:id/complete' => 'local_projects#complete'
       resources :projects, only: %i[index show create update destroy] do

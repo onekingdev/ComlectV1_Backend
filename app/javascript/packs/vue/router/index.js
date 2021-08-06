@@ -88,7 +88,7 @@ export default new Router({
     { path: '/business/projects/new/:id(\\d+)', name: 'project-post-from-local', props: route => ({ localProjectId: +route.params.id }), component: PostProjectPage },
     { path: '/business/project_posts/:id(\\d+)', name: 'project-post-view', props: route => ({ projectId: +route.params.id }), component: ShowPostPage },
     { path: '/business/project_posts/:id(\\d+)/edit', name: 'project-post-edit', props: route => ({ projectId: +route.params.id }), component: PostProjectPage },
-    { path: '/business/reminders', name: 'tasks', component: Tasks },
+    { path: '/business/tasks', name: 'tasks', component: Tasks },
     // { path: '/business/compliance_policies', name: 'policies', component: Policies, beforeEnter: AuthGuard },
     { path: '/business/compliance_policies', name: 'policies', component: Policies, },
     { path: '/business/compliance_policies/entire', name: 'policies-entire', props: true, component: PoliciesEntire },

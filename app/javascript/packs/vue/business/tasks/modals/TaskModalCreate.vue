@@ -274,6 +274,9 @@
         console.log(value, instanceId)
         this.task.linkable_type = 'AnnualReport'
         this.task.linkable_id = value
+
+        console.log('reviews', this.reviews)
+        console.log('reviews', this.projects)
       },
     },
     computed: {
