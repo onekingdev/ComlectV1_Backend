@@ -123,7 +123,7 @@
           .catch(error => {
             console.error(error)
 
-            this.toast('Error', 'Payment failed to process.', true)
+            this.toast('Error', 'Payment failed to process.')
             // OVERLAY
             this.$store.dispatch('setOverlay', {
               active: true,

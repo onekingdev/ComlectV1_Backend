@@ -187,7 +187,7 @@
                   .map(prop => response.errors[prop].map(err => this.toast(`Error`, `${prop}: ${err}`)))
               }
               if (!response.errors) {
-                this.toast('Success', 'The task has been saved', false)
+                this.toast('Success', 'The task has been saved')
                 this.$emit('saved')
                 this.$bvModal.hide(this.modalId)
               }
@@ -274,9 +274,6 @@
         console.log(value, instanceId)
         this.task.linkable_type = 'AnnualReport'
         this.task.linkable_id = value
-
-        console.log('reviews', this.reviews)
-        console.log('reviews', this.projects)
       },
     },
     computed: {

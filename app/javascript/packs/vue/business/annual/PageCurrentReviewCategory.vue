@@ -142,7 +142,7 @@ export default {
     try {
       await this.getCurrentReviewReview(+this.annualId)
     } catch (error) {
-      this.toast('Error', error.message, true)
+      this.makeToast('Error', error.message)
     }
   },
   methods: {
@@ -158,10 +158,10 @@ export default {
       }
       try {
         await this.updateReviewCategory(data)
-        this.toast('Success', "Saved changes to annual review.")
+        this.makeToast('Success', "Saved changes to annual review.")
         await this.getCurrentReviewReview(+this.annualId)
       } catch (error) {
-        this.toast('Error', error.message, true)
+        this.makeToast('Error', error.message)
       }
     },
     async markComplete () {
@@ -173,10 +173,10 @@ export default {
       }
       try {
         await this.updateReviewCategory(data)
-        this.toast('Success', "Saved changes to annual review.")
+        this.makeToast('Success', "Saved changes to annual review.")
         await this.getCurrentReviewReview(+this.annualId)
       } catch (error) {
-        this.toast('Error', error.message, true)
+        this.makeToast('Error', error.message)
       }
     },
     addTopic() {
@@ -218,7 +218,7 @@ export default {
           this.toast('Success', `The annual review category has been deleted! ${response.id}`)
           window.location.href = `${window.location.origin}/business/annual_reviews/${response.annual_report_id}`
         })
-        .catch(error => this.toast('Error', `Something wrong! ${error.message}`, true))
+        .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
     },
     createTask(i){
       console.log('createTask: ', i)
@@ -230,11 +230,14 @@ export default {
     deleteReview(reviewId){
       this.$store.dispatch('annual/deleteReview', { id: reviewId })
         .then(response => {
-          this.toast('Success', `The annual review has been deleted! ${response.id}, true`)
+          this.toast('Success', `The annual review has been deleted! ${response.id}`)
           window.location.href = `${window.location.origin}/business/annual_reviews`
         })
-        .catch(error => this.toast('Error', `Something wrong! ${error.message}`, true))
+        .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
     },
+    makeToast(title, str) {
+      this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
+    }
   }
 }
 </script>

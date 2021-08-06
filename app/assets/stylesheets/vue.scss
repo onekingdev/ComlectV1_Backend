@@ -14,7 +14,6 @@ $minWidthContent: calc(62.5rem - 17.8125rem); // 1000px-285px (width minus sideb
 $font-weight-regular: 400;
 $font-weight-semi-bold: 600;
 $font-weight-bold: 700;
-$font-weight-900: 900;
 
 $font-size-8: 0.5rem;
 $font-size-10: 0.625rem;
@@ -25,11 +24,6 @@ $font-size-18: 1.125rem;
 $font-size-20: 1.25rem;
 $font-size-22: 1.375rem;
 $font-size-24: 1.5rem;
-
-/* ---------- MIXINS ---------- */
-@mixin font-bold {
-  font-weight: 700;
-}
 
 /* ---------- MAIN STYLES ---------- */
 #app, body, html {
@@ -448,7 +442,6 @@ input, button, select, optgroup, textarea {
     height: 100%;
     color: $black;
     background-color: transparent;
-    outline: 0;
 
     @include media-breakpoint-down(lg) {
       margin: 0 .5em;
@@ -840,9 +833,8 @@ input, button, select, optgroup, textarea {
 .page {
   display: flex;
   flex-direction: column;
-  width: 100%;
   height: 100%;
-  min-height: calc(100vh - 80px);
+  width: 100%;
   //overflow: auto;
   //border: solid 1px blue;
 
@@ -946,8 +938,6 @@ input, button, select, optgroup, textarea {
 }
 
 .card-body_full-height {
-  display: flex;
-  flex-direction: column;
   flex-grow: 1;
   padding: 1.25rem 2.5rem !important; /* 20px 40px */
   //min-height: calc(100vh - 216px) !important;
@@ -1368,7 +1358,6 @@ table.table thead tr th {
 
     .link,
     a.link {
-      outline: 0 !important;
 
       a,
       span {
@@ -1376,8 +1365,6 @@ table.table thead tr th {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-
-        outline: 0 !important;
       }
 
       ion-icon {
@@ -1493,17 +1480,8 @@ table.table thead tr th {
     min-height: calc(100vh - 5rem - 3rem); // 80px
   }
 
-  &__error-num {
-    margin-bottom: 1rem;
-    font-size: 120px;
-    font-weight: 900;
-    color: #B6C0CA;
-  }
-
   &__title {
     margin-bottom: 1.25rem;
-    font-size: $font-size-20;
-    font-weight: $font-weight-bold;
   }
 
   &__subtitle {
@@ -2253,88 +2231,40 @@ table.table thead tr th {
   }
 }
 
-/* ---------- TOASTS ---------- */
-.b-toaster.b-toaster-top-right .b-toaster-slot, .b-toaster.b-toaster-top-left .b-toaster-slot, .b-toaster.b-toaster-top-center .b-toaster-slot, .b-toaster.b-toaster-top-full .b-toaster-slot {
-  top: 3rem;
-}
-
 .b-toaster-slot {
-  max-width: 380px !important;
+  max-width: 280px !important;
 }
 
 .b-toast {
   background-color: $black;
-  border-radius: 0;
+  border-radius: 0px;
+  max-width: 280px !important;
 
   .toast {
-    position: relative;
-    border: 0;
-    border-left: solid 5px transparent;
-    border-radius: 0;
-    max-width: 380px !important;
+    border: 0px;
 
-    &::before {
-      display: block;
-      position: absolute;
-      top: 50%;
-      left: 15px;
-      bottom: 0;
-      width: 20px;
-      height: 20px;
-      content: '';
-      transform: translateY(-50%);
-      //background: url("./complete.svg") center no-repeat;
-    }
-
-    .toast-header,
-    .toast-body {
-      padding-left: 45px;
-      border-radius: 0;
-      border: 0;
+    .toast-header, .toast-body {
+      border-radius: 0px;
+      border: 0px;
       background-color: $black;
       color: $white;
-    }
 
-    .close {
-      font-weight: $font-weight-regular;
-      color: $white;
-      opacity: 1;
+      button.close {
+        color: $white;
+        opacity: 1;
+      }
     }
 
     .toast-header {
       padding-top: 10px;
-      padding-bottom: 0;
-      font-size: $font-size-16;
-      font-weight: $font-weight-semi-bold;
+      padding-bottom: 0px;
+      font-size: 14px;
+      font-weight: 300;
     }
 
     .toast-body {
-      padding-top: 0;
+      padding-top: 0px;
       padding-bottom: 10px;
-      font-size: $font-size-14;
-      font-weight: $font-weight-regular;
-    }
-  }
-
-  &.b-toast-success {
-
-    .toast {
-      border-left: solid 5px $green;
-
-      &::before {
-        background: url("./complete.svg") center no-repeat;
-      }
-    }
-  }
-
-  &.b-toast-danger {
-
-    .toast {
-      border-left: solid 5px $red;
-
-      &::before {
-        background: url("./error_20.svg") center no-repeat;
-      }
     }
   }
 }
@@ -3552,30 +3482,4 @@ select.custom-select {
     color: #565759;
   }
   &__btn {}
-}
-
-/* ---------- EMPTY DATA ---------- */
-.empty-state {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-
-  &__title {
-    margin-bottom: 1.25rem;
-    font-size: $font-size-20;
-    font-weight: $font-weight-bold;
-  }
-  &__image {
-    margin: auto;
-    width: 5.9375rem;
-    height: 5.75rem;
-
-    img {
-      width: 100%;
-      object-fit: cover;
-    }
-  }
 }

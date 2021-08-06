@@ -127,9 +127,12 @@
           .then(response => response.json())
           .then(response => {
             console.log('result', response)
-            this.toast('Success', `Task successfully deleted!`)
+            this.makeToast('Success', `Task successfully deleted!`)
           })
-        .catch(error => this.toast('Error', `${error.message}`, true))
+        .catch(error => this.makeToast('Error', `${error.message}`))
+      },
+      makeToast(title, str) {
+        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
       },
     },
     computed: {

@@ -6,7 +6,7 @@
         a.btn.btn-default.m-r-1(v-if="!shortTable") Download
         TaskModalCreate(@saved="refetch()")
           a.btn.btn-dark New Task
-    .card-body.white-card-body.card-body_full-height.p-x-40
+    .card-body.white-card-body.p-x-40
       .row.mb-3(v-if="!shortTable")
         .col
           div
@@ -14,17 +14,14 @@
               template(#button-content)
                 | Show: All Tasks
                 ion-icon.ml-2(name="chevron-down-outline" size="small")
-              b-dropdown-item(@click="sortBy('all')") All Tasks
-              b-dropdown-item(@click="sortBy('overdue')") Overdue
-              b-dropdown-item(@click="sortBy('completed')") Completed
+              b-dropdown-item All Tasks
+              b-dropdown-item My Tasks
+              b-dropdown-item Completed Tasks
             b-dropdown.actions.m-r-1(variant="default")
               template(#button-content)
                 | All Links
                 ion-icon.ml-2(name="chevron-down-outline" size="small")
-              b-dropdown-item(@click="sortBy('all')") All Links
-              b-dropdown-item(@click="sortBy('LocalProject')") Projects
-              b-dropdown-item(@click="sortBy('CompliancePolicy')") Policies
-              b-dropdown-item(@click="sortBy('AnnualReport')") Internal Reviews
+              b-dropdown-item All Links
             b-dropdown.actions.d-none(variant="default")
               template(#button-content)
                 | {{ perPage }} results
@@ -33,10 +30,13 @@
               b-dropdown-item(@click="perPage = 10") 10
               b-dropdown-item(@click="perPage = 15") 15
               b-dropdown-item(@click="perPage = 20") 20
-      .row.h-100(v-if="!sortedTasks.length && !loading")
-        .col.h-100.text-center
-          EmptyState(name="Tasks")
-      div(v-if="sortedTasks.length")
+      .row(v-if="!tasks.length && !loading")
+        table.table
+          tbody
+            tr
+              td.text-center
+                h3 Tasks not exist
+      div(v-if="tasks.length")
         //.row(v-if="!shortTable")
         //  .col
         //    .d-flex.align-items-center
@@ -46,8 +46,8 @@
         .row
           .col
             Loading(:absolute="true")
-            TaskTable.m-b-40(v-if="tasks" :shortTable="shortTable", :tasks="sortedTasks" :perPage="perPage" :currentPage="currentPage")
-            b-pagination(v-if="!shortTable && shortTable.length >= perPage" v-model='currentPage' :total-rows='rows' :per-page='perPage' :shortTable="!shortTable",  aria-controls='tasks-table')
+            TaskTable.m-b-40(v-if="tasks" :shortTable="shortTable", :tasks="tasks" :perPage="perPage" :currentPage="currentPage")
+            b-pagination(v-if="!shortTable && tasks.length >= perPage" v-model='currentPage' :total-rows='rows' :per-page='perPage' :shortTable="!shortTable",  aria-controls='tasks-table')
 
 </template>
 
@@ -58,7 +58,6 @@
   // import { toEvent, isOverdue, splitReminderOccurenceId } from '@/common/TaskHelper'
 
   import Loading from '@/common/Loading/Loading'
-  import EmptyState from '@/common/EmptyState'
   import TaskTable from './components/TaskTable'
   import TaskModalCreate from './modals/TaskModalCreate'
   // import TaskModalEdit from './modals/TaskModalEdit'
@@ -74,8 +73,6 @@
   // console.log(DateTime.local().plus({years: 10}).toSQLDate())
   // console.log(fromTo)
 
-  // const today = () => DateTime.local().toISODate()
-
   export default {
     props: {
       // etag: Number,
@@ -86,7 +83,6 @@
     },
     components: {
       Loading,
-      EmptyState,
       TaskTable,
       TaskModalCreate,
       // TaskModalEdit
@@ -97,7 +93,6 @@
         perPage: 10,
         currentPage: 1,
         toggleModal: false,
-        sortedBy: ''
       }
     },
     // created() {
@@ -150,9 +145,6 @@
       // makeToast(title, str) {
       //   this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
       // },
-      sortBy (value) {
-        this.sortedBy = value
-      }
     },
     computed: {
       ...mapGetters({
@@ -172,21 +164,6 @@
       },
       rows() {
         return this.tasks.length
-      },
-      sortedTasks () {
-        const sortBy = this.sortedBy
-
-        let result
-        if (sortBy === 'completed')
-          result = this.tasks.filter(task => task.done_at)
-        if (sortBy === 'overdue')
-          result = this.tasks.filter(task => task.end_date >= DateTime.local())
-        if (sortBy === 'all')
-          result = this.tasks
-        if (sortBy === 'LocalProject' || sortBy === 'CompliancePolicy'|| sortBy === 'AnnualReport')
-          result = this.tasks.filter(task => task.linkable_type === sortBy)
-
-        return result ? result : this.tasks
       }
     },
     async mounted () {

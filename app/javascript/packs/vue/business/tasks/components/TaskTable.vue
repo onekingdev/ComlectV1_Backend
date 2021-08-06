@@ -5,10 +5,10 @@
         th
           | Name
           b-icon.ml-2(icon='chevron-expand')
-        th(v-if="!shortTable" @click="sortSelect('body', 'string')")
+        th(v-if="!shortTable")
           | Linked to
           b-icon.ml-2(icon='chevron-expand')
-        th(v-if="!shortTable" @click="sortSelect('linkable_type', 'string')")
+        th(v-if="!shortTable")
           | Assignee
           b-icon.ml-2(icon='chevron-expand')
         th(v-if="!shortTable" @click="sortSelect('updated_at', 'date')").text-right

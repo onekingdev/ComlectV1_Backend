@@ -68,9 +68,7 @@ class Subscription < ActiveRecord::Base
 
   def self.get_plan_id(plan)
     case plan.to_s.downcase
-    when 'monthly' then ENV['STRIPE_SUB_CCC_MONTHLY']
     when 'seats_monthly' then ENV['STRIPE_SUB_SEATS_MONTHLY']
-    when 'annual' then ENV['STRIPE_SUB_CCC_ANNUAL']
     when 'seats_annual' then ENV['STRIPE_SUB_SEATS_ANNUAL']
     when 'team_tier_monthly' then ENV['STRIPE_SUB_CCC_TEAM_TIER_MONTHLY']
     when 'team_tier_annual' then ENV['STRIPE_SUB_CCC_TEAM_TIER_ANNUAL']
