@@ -14,7 +14,7 @@
             router-link.topbar-menu__link(:to='`/${userType}`' active-class="active" exact) Home
           li.nav-item.topbar-menu__item(v-if="userType === 'business'" @click="openLink('documents')")
             router-link.topbar-menu__link(:to='`/${userType}/file_folders`' active-class="active") Documents
-          li.nav-item.topbar-menu__item(@click="openLink('default')")
+          li.nav-item.topbar-menu__item(@click="openLink('reports')")
             router-link.topbar-menu__link(:to='`/${userType}/reports/risks`' active-class="active") Reports
           li.nav-item.topbar-menu__item.d-none
             a.topbar-menu__link(aria-current='page' href='#') Community
@@ -132,6 +132,10 @@
         //   .catch(error => console.error(error))
       },
       openLink (value) {
+        if(value === 'reports') {
+          this.$store.commit('changeSidebar', 'reports')
+          return
+        }
         if(value === 'documents') this.$store.commit('changeSidebar', 'documents')
         if(value !== 'documents') this.$store.commit('changeSidebar', 'default')
       }

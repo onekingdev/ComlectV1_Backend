@@ -11,7 +11,7 @@
       b-collapse#upcoming_tasks_collapse(:visible="true")
         TaskTable.upcoming__table(:tasks="tasks" :shortTable="true" @saved="$emit('saved')")
         .d-flex.justify-content-end.mb-2(v-if="tasks.length")
-          router-link.link.upcoming__more(:to='`/business/reminders`') More
+          router-link.link.upcoming__more(:to='`/business/tasks`') More
       b.upcoming__title.d-flex.justify-content-between.m-b-10(role="button" v-b-toggle.upcoming_projects_collapse="")
         | Projects
         ion-icon(name="chevron-down-outline")

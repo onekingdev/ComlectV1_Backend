@@ -63,6 +63,32 @@
         h3.sidebar-menu__title.sidebar-menu__title_settings
           ion-icon(name='settings-outline' @click.stop="openLink('settings')")
           span Settings
+    div.sidebar-menu__central(v-if="userType === 'business' && leftSidebar === 'reports'")
+      h3.sidebar-menu__title(
+      :class="reports ? null : 'collapsed'"
+      :aria-expanded="reports ? 'true' : 'false'"
+      aria-controls="reports"
+      @click="menuToggle('reports')"
+      )
+        ion-icon(name='document-text-outline')
+        span Reports
+        ion-icon.ml-auto(name='chevron-down-outline')
+      b-collapse#reports(v-model="reports")
+        ul.sidebar-menu__list
+          li.nav-item.sidebar-menu__item(@click.stop="openLink('reports')")
+            router-link.sidebar-menu__link(:to='`/${userType}/reports/organizations`' active-class="active" exact)
+              | Organization
+          li.nav-item.sidebar-menu__item(@click.stop="openLink('reports')")
+            router-link.sidebar-menu__link(:to='`/${userType}/reports/risks`' active-class="active")
+              | Risks
+          li.nav-item.sidebar-menu__item(@click.stop="openLink('reports')")
+            router-link.sidebar-menu__link(:to='`/${userType}/reports/financials`' active-class="active")
+              | Financials
+      div(class="dropdown-divider")
+      router-link.sidebar-menu__link.sidebar-menu__link_settings(:to='`/${userType}/settings`' active-class="active")
+        h3.sidebar-menu__title.sidebar-menu__title_settings
+          ion-icon(name='settings-outline' @click.stop="openLink('settings')")
+          span Settings
     div(class="dropdown-divider")
     button.sidebar-menu__btn(@click="toggleClosedMenu = !toggleClosedMenu")
       span Collapse menu
@@ -77,6 +103,7 @@
         overview_collapse: true,
         program_management_collapse: true,
         files: true,
+        reports: true,
         toggleClosedMenu: false
       }
     },
@@ -84,6 +111,10 @@
       const splittedUrl = window.location.pathname.split('/') // ["", "business", "reminders"]
       this.$store.commit('changeUserType', this.userType)
       const splitUrl = splittedUrl[2]
+      if(splitUrl === "reports" || splitUrl === "reports/risks" || splitUrl === "reports/organizations" || splitUrl === "reports/financials") {
+        this.$store.commit('changeSidebar', 'reports')
+        return
+      }
       if(splitUrl === "file_folders" || splitUrl === "settings") this.$store.commit('changeSidebar', 'documents')
       if(splitUrl !== "file_folders") this.$store.commit('changeSidebar', 'default')
     },
@@ -97,6 +128,10 @@
         }
         if(value === 'settings') {
           this.$store.commit('changeSidebar', 'settings')
+          return
+        }
+        if(value === 'reports') {
+          this.$store.commit('changeSidebar', 'reports')
           return
         }
         if(value === 'documents') this.$store.commit('changeSidebar', 'documents')
@@ -128,7 +163,7 @@
           label: 'Dashboard',
           exact: true
         }, {
-          to: '/business/reminders',
+          to: '/business/tasks',
           label: 'Tasks'
         }, {
           to: '/business/projects',
@@ -141,7 +176,7 @@
           label: 'Dashboard',
           exact: true
         }, {
-          to: '/specialist/reminders',
+          to: '/specialist/tasks',
           label: 'Tasks'
         }, {
           to: '/specialist/my-projects',
@@ -161,6 +196,12 @@
         if(splitUrl === "policy-current" || splitUrl === "settings") {
           this.$store.commit('changeSidebar', 'builder')
           document.querySelector('.sidebar-menu').style.display = "none"
+          return
+        }
+
+        console.log('splitUrl', splitUrl)
+        if(splitUrl === "reports-risks" || splitUrl === "reports-organizations" || splitUrl === "reports-financials") {
+          this.$store.commit('changeSidebar', 'reports')
           return
         }
 

@@ -53,9 +53,6 @@
       focusInput() {
         this.$refs.input.focus();
       },
-      makeToast(title, str) {
-        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
-      },
 
       async submit (e) {
         e.preventDefault();
@@ -63,12 +60,12 @@
 
         if (!this.review.name) {
           this.errors.push('Name is required.');
-          this.makeToast('Error', 'Name is required.')
+          this.toast('Error', 'Name is required', true)
           return;
         }
         if (this.review.name.length <= 3) {
           this.errors.push({name: 'Name is very short, must be more 3 characters.'});
-          this.makeToast('Error', 'Name is very short, must be more 3 characters.')
+          this.toast('Error', 'Name is very short, must be more 3 characters', true)
           return;
         }
 
@@ -87,7 +84,7 @@
             .then((response) => {
               if (response.errors) {
                 for (const [key, value] of Object.entries(response.errors)) {
-                  this.makeToast('Error', `${key}: ${value}`)
+                  this.toast('Error', `${key}: ${value}`, true)
                   this.errors = Object.assign(this.errors, { [key]: value })
                 }
                 // console.log(this.errors)
@@ -95,7 +92,7 @@
               }
 
               if (!response.errors) {
-                this.makeToast('Success', "Saved changes to annual review.")
+                this.toast('Success', "Saved changes to annual review.")
                 this.$emit('saved')
                 this.$bvModal.hide(this.modalId)
               }
@@ -103,7 +100,7 @@
             .catch((error) => console.error(error))
 
         } catch (error) {
-          this.makeToast('Error', error.message)
+          this.toast('Error', error.message, true)
         }
       },
     },

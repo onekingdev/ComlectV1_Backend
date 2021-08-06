@@ -32,6 +32,8 @@ import AnnualReviewsCurrentReviewCategory from '@/business/annual/PageCurrentRev
 import Risks from '@/business/riskregister/Page'
 import RiskDetail from '@/business/riskregister/RiskDetail'
 import ReportsRisks from '@/business/reportsrisks/Page'
+import ReportsOrganizations from '@/business/organizations/Page.vue'
+import ReportsFinancials from '@/business/financials/Page.vue'
 import FileFolders from '@/business/filefolders/Page'
 import Exams from '@/business/exammanagement/Page'
 import ExamCurrentReview from '@/business/exammanagement/PageCurrentReviewExam'
@@ -88,7 +90,7 @@ export default new Router({
     { path: '/business/projects/new/:id(\\d+)', name: 'project-post-from-local', props: route => ({ localProjectId: +route.params.id }), component: PostProjectPage },
     { path: '/business/project_posts/:id(\\d+)', name: 'project-post-view', props: route => ({ projectId: +route.params.id }), component: ShowPostPage },
     { path: '/business/project_posts/:id(\\d+)/edit', name: 'project-post-edit', props: route => ({ projectId: +route.params.id }), component: PostProjectPage },
-    { path: '/business/reminders', name: 'tasks', component: Tasks },
+    { path: '/business/tasks', name: 'tasks', component: Tasks },
     // { path: '/business/compliance_policies', name: 'policies', component: Policies, beforeEnter: AuthGuard },
     { path: '/business/compliance_policies', name: 'policies', component: Policies, },
     { path: '/business/compliance_policies/entire', name: 'policies-entire', props: true, component: PoliciesEntire },
@@ -102,6 +104,8 @@ export default new Router({
     { path: '/business/exam_management', name: 'exam-management', component: Exams },
     { path: '/business/exam_management/:examId', name: 'exam-management-current-review', props: true, component: ExamCurrentReview },
     { path: '/business/reports/risks', name: 'reports-risks', component: ReportsRisks },
+    { path: '/business/reports/organizations', name: 'reports-organizations', component: ReportsOrganizations },
+    { path: '/business/reports/financials', name: 'reports-financials', component: ReportsFinancials },
     { path: '/business/profile', name: 'profile', component: Profile},
     { path: '/business/settings', name: 'settings', component: Settings,
       children:  [

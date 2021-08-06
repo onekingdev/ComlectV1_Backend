@@ -163,9 +163,6 @@
       }
     },
     methods: {
-      makeToast(title, str) {
-        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
-      },
       async submit(e) {
         e.preventDefault();
 
@@ -182,7 +179,7 @@
             response.json().then(errors => {
               this.errors = errors
               Object.keys(this.errors)
-                .map(prop => this.errors[prop].map(err => this.toast(`Error`, `${prop}: ${err}`)))
+                .map(prop => this.errors[prop].map(err => this.toast(`Error`, `${prop}: ${err}`, true)))
             })
           } else if (response.status === 201 || response.status === 200) {
             this.$emit('saved')
@@ -190,23 +187,23 @@
             this.$bvModal.hide(this.modalId)
             // this.resetTask()
           } else {
-            this.toast('Error', 'Couldn\'t submit form')
+            this.toast('Error', 'Couldn\'t submit form', true)
           }
         })
 
         // try {
         //   const response = await this.$store.dispatch('annual/createReview', this.annual_review)
         //   if (response.errors) {
-        //     this.makeToast('Error', `${response.status}`)
+        //     this.toast('Error', `${response.status}`)
         //     Object.keys(response.errors)
-        //       .map(prop => response.errors[prop].map(err => this.makeToast(`Error`, `${prop}: ${err}`)))
+        //       .map(prop => response.errors[prop].map(err => this.toast(`Error`, `${prop}: ${err}`)))
         //     return
         //   }
-        //   this.makeToast('Success', `Annual Review Successfully created!`)
+        //   this.toast('Success', `Annual Review Successfully created!`)
         //   this.$emit('saved')
         //   this.$bvModal.hide(this.modalId)
         // } catch (error) {
-        //   this.makeToast('Error', error.message)
+        //   this.toast('Error', error.message)
         // }
       },
       async onFileChanged(event) {
