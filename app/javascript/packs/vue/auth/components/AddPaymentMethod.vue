@@ -47,12 +47,11 @@
     },
     created() {
       const paymentMethod = JSON.parse(localStorage.getItem('app.currentUser.paymentMethod'));
-      console.log('paymentMethod', paymentMethod)
       if (paymentMethod) {
-        this.$emit('complitedPaymentMethod', paymentMethod.id)
         this.cardSelected = paymentMethod.id
         this.onPaymentMethodChange(paymentMethod.id)
-        this.cardOptions.push({ text: `${paymentMethod.type}${this.cardOptions.length===0 ? ' (primary)' : ''}`, value: paymentMethod.id, number: `**** **** **** ${paymentMethod.last4}`, type: paymentMethod.brand, id: paymentMethod.id })
+        this.cardOptions.push({ ...paymentMethod })
+        this.$emit('complitedPaymentMethod', paymentMethod.id)
       }
     },
     data() {
@@ -97,8 +96,6 @@
 
         this.$store.dispatch('generatePaymentMethod', data)
           .then(response => {
-            this.$emit('complitedPaymentMethod', response)
-            this.toast('Success', `Payment method successfully added!`)
             // this.isActive = false
             this.$refs.elementRef.clear()
             const data = { text: `Credit Card${this.cardOptions.length===0 ? ' (primary)' : ''}`, value: response.id, number: `**** **** **** ${response.last4}`, type: response.brand, id: response.id }
@@ -107,6 +104,9 @@
             this.onPaymentMethodChange(response.id)
             // SAVE FOR RELOAD PAGE CASES
             localStorage.setItem('app.currentUser.paymentMethod', JSON.stringify(data));
+
+            this.$emit('complitedPaymentMethod', response)
+            this.toast('Success', `Payment method successfully added!`)
           })
           .catch(error => {
             console.error(error)
@@ -156,8 +156,6 @@
 
         this.$store.dispatch('generatePaymentMethod', data)
           .then(response => {
-            this.$emit('complitedPaymentMethod', response)
-            this.toast('Success', `Payment method successfully added!`)
             // this.isActive = false
             this.$refs.elementRef.clear()
             const data = { text: `${response.brand}${this.cardOptions.length===0 ? ' (primary)' : ''}`, value: response.id, number: `**** **** **** ${response.last4}`, type: '', id: response.id }
@@ -166,6 +164,9 @@
             this.onPaymentMethodChange(response.id)
             // SAVE FOR RELOAD PAGE CASES
             localStorage.setItem('app.currentUser.paymentMethod', JSON.stringify(data));
+
+            this.$emit('complitedPaymentMethod', response)
+            this.toast('Success', `Payment method successfully added!`)
           })
           .catch(error => {
             console.error(error)
@@ -188,22 +189,22 @@
         return this.$store.getters.staticCollection.PLAID_PUBLIC_KEY;
       }
     },
-    mounted() {
-      const dataToSend = {
-        userType: this.userType,
-      }
-
-      this.$store.dispatch('getPaymentMethod', dataToSend)
-        .then(response => {
-          const newOptions = response.map((card, index) => {
-            return { text: `Credit Card${index===0 ? ' (primary)' : ''}`, value: card.id, number: `**** **** **** ${card.last4}`, type: card.brand, id: card.id }
-          })
-          this.cardOptions = newOptions
-        })
-        .catch(error => {
-          console.error(error)
-        })
-    }
+    // mounted() {
+    //   const data = {
+    //     userType: this.userType,
+    //   }
+    //
+    //   this.$store.dispatch('getPaymentMethod', data)
+    //     .then(response => {
+    //       const newOptions = response.map((card, index) => {
+    //         return { text: `Credit Card${index===0 ? ' (primary)' : ''}`, value: card.id, number: `**** **** **** ${card.last4}`, type: card.brand, id: card.id }
+    //       })
+    //       this.cardOptions = newOptions
+    //     })
+    //     .catch(error => {
+    //       console.error(error)
+    //     })
+    // }
   }
 </script>
 
