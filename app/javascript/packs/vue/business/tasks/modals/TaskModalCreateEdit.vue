@@ -259,7 +259,11 @@
       deleteTask(task, deleteOccurence){
         const occurenceParams = deleteOccurence ? `?oid=${this.occurenceId}` : ''
         this.$store.dispatch('reminders/deleteTask', { id: task.id, occurenceParams })
-          .then(response => this.toast('Success', `The task deleted!`))
+          .then(response => {
+            this.toast('Success', `The task deleted!`)
+            this.$emit('saved')
+            this.$bvModal.hide(this.modalId)
+          })
           .catch(error => this.toast('Error', `Something wrong! ${error.message}`, true))
       },
       async submit(saveOccurence) {
@@ -317,13 +321,26 @@
         // })
       },
 
-      inputChangeLinked(value, instanceId) {
-        console.log(value, instanceId)
-        this.task.linkable_type = 'AnnualReport'
-        this.task.linkable_id = value
+      inputChangeLinked(value, ) {
+        let tempTask = {}
 
-        console.log('reviews', this.reviews)
-        console.log('reviews', this.projects)
+        const checkArray = function (nameArray, linkableTypeName) {
+          nameArray.forEach(element => {
+            if (element.title === value) {
+              tempTask.linkable_type = linkableTypeName
+              tempTask.linkable_id = element.id
+            }
+          });
+        }
+
+        checkArray(this.projects, 'LocalProject')
+        checkArray(this.policies, 'CompliancePolicy')
+        checkArray(this.reviews, 'AnnualReport')
+
+        this.task = {
+          ...this.task,
+          ...tempTask,
+        }
       },
 
       submitUpdate(e) {
@@ -408,16 +425,13 @@
       getDocumentUrl(document) {
         return `/uploads/${document.file_data.storage}/${document.file_data.id}`
       },
-
       async getData () {
+
+        this.task = { ...this.taskProp }
+
         try {
-
-          this.task = { ...this.taskProp }
-
-          // await this.$store.dispatch('filefolders/getFileFolders')
-
-          if (this.taskId)
-            this.$store.dispatch("reminders/getTaskMessagesById", { id: this.taskId })
+          if(this.taskProp)
+            this.$store.dispatch("reminders/getTaskMessagesById", { id: this.taskProp.id })
               .then((response) => console.log('getTaskMessagesById response mounted', response))
               .catch((err) => console.error(err));
 
@@ -429,19 +443,13 @@
             .then((response) => console.log('getReviews response mounted', response))
             .catch((err) => console.error(err));
 
-          fetch('/api/business/local_projects/', {
-            method: 'GET',
-            headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
-            // body: JSON.stringify(this.task)
-          }).then(response => response.json())
-            .then((response) => {
-              console.log('local_projects response mounted', response)
-            })
+          this.$store.dispatch('projects/getProjects')
+            .then((response) => console.log('getProjects response mounted', response))
             .catch((err) => console.error(err));
 
         } catch (error) {
           console.error(error)
-          this.toast('Error', error.message)
+          this.toast('Error', error.message, true)
         }
       },
       sendMessage(task) {
@@ -482,9 +490,9 @@
       //     {...toOption('Policies'), children: ['Pol', 'Icy', 'Policy 3'].map(toOption)}]
       // },
       linkToOptions() {
-        return [{...toOption(1, 'Projects'), children: this.projects.map(record => ({ id: record.id, label: record.title }))},
-                {...toOption(2, 'Internal Reviews'), children: this.reviews.map(record => ({ id: record.id, label: record.name }))},
-                {...toOption(3, 'Policies'), children: this.policies.map(record => ({ id: record.id, label: record.name }))},
+        return [{...toOption('Projects'), children: this.projects.map(record => ({ id: record.title, label: record.title }))},
+                {...toOption('Internal Reviews'), children: this.reviews.map(record => ({ id: record.name, label: record.name }))},
+                {...toOption('Policies'), children: this.policies.map(record => ({ id: record.name, label: record.name }))},
               ]
       },
       // linkToOptions() {
@@ -497,12 +505,12 @@
       },
 
       url() {
-        // return `/api/business/reminders/${(this.taskId) ? `/${this.taskId}` : ''}/documents`
-        return `/api/business/reminders/${(this.taskId) ? `/${this.taskId}` : ''}/messages`
+        return `/api/business/reminders/${(this.taskProp.id) ? `/${this.taskProp.id}` : ''}/documents`
+        // return `/api/business/reminders/${(this.taskProp.id) ? `/${this.taskProp.id}` : ''}/messages`
       },
       datepickerOptions() {
         return {
-          min: new Date
+          // min: new Date
         }
       },
     },
