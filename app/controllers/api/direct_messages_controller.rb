@@ -32,7 +32,7 @@ class Api::DirectMessagesController < ApiController
 
   def create
     if message_params[:message].nil? && message_params[:file].nil?
-      render json: { errors: I18n.t('api.direct_messages.empty_message') }
+      render json: { errors: "can't send empty message" }
       return
     end
 

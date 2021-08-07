@@ -163,7 +163,7 @@
           label: 'Dashboard',
           exact: true
         }, {
-          to: '/business/tasks',
+          to: '/business/reminders',
           label: 'Tasks'
         }, {
           to: '/business/projects',
@@ -176,7 +176,7 @@
           label: 'Dashboard',
           exact: true
         }, {
-          to: '/specialist/tasks',
+          to: '/specialist/reminders',
           label: 'Tasks'
         }, {
           to: '/specialist/my-projects',
@@ -199,7 +199,6 @@
           return
         }
 
-        console.log('splitUrl', splitUrl)
         if(splitUrl === "reports-risks" || splitUrl === "reports-organizations" || splitUrl === "reports-financials") {
           this.$store.commit('changeSidebar', 'reports')
           return
