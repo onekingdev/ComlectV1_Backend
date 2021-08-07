@@ -969,7 +969,7 @@ a.btn,
   line-height: 1.2;
   font-weight: $font-weight-bold;
   border-radius: 4px;
-  outline: none;
+  outline: 0 !important;
   transition: all 200ms ease-in;
 
   &:hover,
@@ -1149,6 +1149,14 @@ a.btn,
   background-color: $white;
   border-color: $gray-1;
   font-weight: 400;
+  outline: 0 !important;
+
+  &:hover,
+  &:active,
+  &.active,
+  &:focus {
+    outline: 0 !important;
+  }
 }
 .open > .btn.dropdown-toggle.btn-default {
   color: $primary-dark;

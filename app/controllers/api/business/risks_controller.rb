@@ -41,10 +41,6 @@ class Api::Business::RisksController < ApiController
 
   private
 
-  def find_risk
-    @risk = current_business.risks.find(params[:id])
-  end
-
   def risk_params
     params.permit(
       :name,
@@ -52,5 +48,9 @@ class Api::Business::RisksController < ApiController
       :likelihood,
       compliance_policy_ids: []
     )
+  end
+
+  def find_risk
+    @risk = current_business.risks.find(params[:id])
   end
 end

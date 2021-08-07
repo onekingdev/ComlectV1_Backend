@@ -10,18 +10,18 @@ class Api::ProjectEndsController < ApiController
 
   def create
     if ProjectEnd::Request.process!(@project, @current_someone)
-      render json: { success: I18n.t('api.project_ends.requested'), project: @project }
+      render json: { success: 'Project End has been requested', project: @project }
     else
-      render json: { error: I18n.t('api.project_ends.request_failure') }
+      render json: { error: 'Error' }
     end
   end
 
   def update
     return render_404 unless @project.end_requested?
     if ProjectEnd::Request.confirm_or_deny!(@project, params.slice(:confirm, :deny), @current_someone)
-      render json: { success: I18n.t('api.project_ends.confirmed') }
+      render json: { success: 'Project End has been confirmed' }
     else
-      render json: { error: I18n.t('api.project_ends.confirm_from_other_side') }
+      render json: { error: 'Should be confirmed from the other side' }
     end
   end
 

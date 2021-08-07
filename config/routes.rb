@@ -317,15 +317,6 @@ Rails.application.routes.draw do
       get '/reminders/:date_from/:date_to' => 'reminders#by_date'
       get '/overdue_reminders' => 'reminders#overdue'
       post '/reminders' => 'reminders#create'
-      get '/tasks' => 'reminders#create'
-      get '/tasks/:id' => 'reminders#show'
-      delete '/tasks/:id' => 'reminders#destroy'
-      post '/tasks/:id' => 'reminders#update'
-      get '/tasks/:id/messages' => '/api/reminder_messages#index'
-      post '/tasks/:id/messages' => '/api/reminder_messages#create'
-      get '/tasks/:date_from/:date_to' => 'reminders#by_date'
-      get '/tasks' => 'reminders#overdue'
-      post '/tasks' => 'reminders#create'
       resources :local_projects, only: %i[index create show update destroy]
       put 'local_projects/:id/complete' => 'local_projects#complete'
       resources :projects, only: %i[index show create update destroy] do

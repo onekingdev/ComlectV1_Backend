@@ -71,8 +71,8 @@
       b-row.m-t-1(v-if="task.repeats" no-gutters )
         .col-sm-6.m-r-1
           label.form-label End By Date
-          DatePicker(v-model="task.end_by_date")
-          Errors(:errors="errors.end_by_date")
+          DatePicker(v-model="task.end_by")
+          Errors(:errors="errors.end_by")
 
       InputTextarea.m-t-1(v-model="task.description" :errors="errors.description") Description
       .form-text.text-muted Optional
@@ -109,7 +109,7 @@ const initialTask = defaults => ({
   assignee: null,
   remind_at: null,
   end_date: null,
-  end_by_date: null,
+  end_by: null,
   repeats: REPEAT_NONE,
   repeat_every: null,
   repeat_on: null,
