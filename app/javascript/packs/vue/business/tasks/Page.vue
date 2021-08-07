@@ -12,19 +12,19 @@
           div
             b-dropdown.actions.m-r-1(variant="default")
               template(#button-content)
-                | Show: {{ sortedByNameGeneral }}
+                | Show: {{ sortedByNameGeneral | capitalize }}
                 ion-icon.ml-2(name="chevron-down-outline" size="small")
-              b-dropdown-item(@click="sortBy('all', 1)") All Tasks
-              b-dropdown-item(@click="sortBy('overdue', 1)") Overdue
-              b-dropdown-item(@click="sortBy('completed', 1)") Completed
+              b-dropdown-item(@click="sortBy('all')") All Tasks
+              b-dropdown-item(@click="sortBy('overdue')") Overdue
+              b-dropdown-item(@click="sortBy('completed')") Completed
             b-dropdown.actions.m-r-1(variant="default")
               template(#button-content)
-                | {{ sortedByNameAdditional }}
+                | {{ sortedByNameAdditional | capitalize }}
                 ion-icon.ml-2(name="chevron-down-outline" size="small")
-              b-dropdown-item(@click="sortBy('all', 2)") All Links
-              b-dropdown-item(@click="sortBy('LocalProject', 2)") Projects
-              b-dropdown-item(@click="sortBy('CompliancePolicy', 2)") Policies
-              b-dropdown-item(@click="sortBy('AnnualReport', 2)") Internal Reviews
+              b-dropdown-item(@click="sortByType('all')") All Links
+              b-dropdown-item(@click="sortByType('LocalProject')") Projects
+              b-dropdown-item(@click="sortByType('CompliancePolicy')") Policies
+              b-dropdown-item(@click="sortByType('AnnualReport')") Internal Reviews
             b-dropdown.actions.d-none(variant="default")
               template(#button-content)
                 | {{ perPage }} results
@@ -98,6 +98,7 @@
         currentPage: 1,
         toggleModal: false,
         sortedBy: '',
+        sortedByLinkedTo: '',
         sortedByNameGeneral: 'All Tasks',
         sortedByNameAdditional: 'All Links',
         projects: []
@@ -153,11 +154,13 @@
       // makeToast(title, str) {
       //   this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
       // },
-      sortBy (value, num) {
+      sortBy (value) {
         this.sortedBy = value
-        const upperFirst = value.charAt(0).toUpperCase() + value.slice(1)
-        if (num === 1) this.sortedByNameGeneral = upperFirst
-        if (num === 2) this.sortedByNameAdditional = upperFirst
+        this.sortedByNameGeneral = value
+      },
+      sortByType (value) {
+        this.sortedByLinkedTo = value
+        this.sortedByNameAdditional = value
       }
     },
     computed: {
@@ -180,17 +183,26 @@
         return this.tasks.length
       },
       sortedTasks () {
-        const sortBy = this.sortedBy
+        const sortedBy = this.sortedBy
+        const sortedByType = this.sortedByLinkedTo
 
         let result
-        if (sortBy === 'completed')
-          result = this.tasks.filter(task => task.done_at)
-        if (sortBy === 'overdue')
-          result = this.tasks.filter(task => isOverdue(task))
-        if (sortBy === 'all')
-          result = this.tasks
-        if (sortBy === 'LocalProject' || sortBy === 'CompliancePolicy'|| sortBy === 'AnnualReport')
-          result = this.tasks.filter(task => task.linkable_type === sortBy)
+
+        if (sortedBy) {
+          if (sortedBy === 'completed')
+            result = this.tasks.filter(task => task.done_at)
+          if (sortedBy === 'overdue')
+            result = this.tasks.filter(task => isOverdue(task))
+          if (sortedBy === 'all')
+            result = this.tasks
+        }
+
+        if (sortedByType) {
+          if (sortedByType === 'LocalProject' || sortedByType === 'CompliancePolicy'|| sortedByType === 'AnnualReport')
+            result = result.filter(task => task.linkable_type === sortedByType)
+          if (sortedByType === 'all')
+            result = result ? result : this.tasks
+        }
 
         return result ? result : this.tasks
       }
@@ -220,5 +232,12 @@
       //   }
       // }
     // }
+    filters: {
+      capitalize: function (value) {
+        if (!value) return ''
+        value = value.toString()
+        return value.charAt(0).toUpperCase() + value.slice(1)
+      }
+    },
   }
 </script>
