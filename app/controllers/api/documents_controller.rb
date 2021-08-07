@@ -21,10 +21,10 @@ class Api::DocumentsController < ApiController
       if document.destroy
         respond_with document, serializer: DocumentSerializer
       else
-        render json: { error: 'Unable to delete document' }, status: :unprocessable_entity
+        render json: { error: I18n.t('api.documents.cannot_destroy') }, status: :unprocessable_entity
       end
     else
-      render json: { error: 'Only document owner can remove it' }, status: :unprocessable_entity
+      render json: { error: I18n.t('api.documents.not_owner') }, status: :unprocessable_entity
     end
   end
 

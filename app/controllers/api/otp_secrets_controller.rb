@@ -8,6 +8,6 @@ class Api::OtpSecretsController < ApiController
     user = User.find_first_by_auth_conditions(email: params[:user][:email])
 
     user.email_otp
-    render(json: { message: 'You have received one time passcode on your email to verify login' })
+    render(json: { message: I18n.t('api.otp_secrets.otp_sent') })
   end
 end

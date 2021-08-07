@@ -37,7 +37,7 @@ class Api::Business::ExamsController < ApiController
       auditor.destroy
       render json: { status: 'ok' }, status: :ok
     else
-      respond_with error: 'Not found', status: :unprocessable_entity
+      respond_with error: I18n.t('api.business.exams.auditor_not_found'), status: :unprocessable_entity
     end
   end
 

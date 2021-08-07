@@ -9,7 +9,7 @@ class Api::BusinessesController < ApiController
     if business.save
       business.update_attribute('account_created', true)
       BusinessMailer.verify_email(business.user, business.user.otp).deliver_later
-      render json: { userid: business.user_id, message: 'You have received one time passcode to confirm your email' }.to_json
+      render json: { userid: business.user_id, message: I18n.t('api.businesses.confirm_otp') }.to_json
     else
       respond_with errors: { business: business.errors.messages }
     end

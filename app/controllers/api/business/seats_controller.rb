@@ -9,15 +9,15 @@ class Api::Business::SeatsController < ApiController
   end
 
   def assign
-    respond_with(errors: { seats: 'No available seats' }) && return if current_business.seats.available.count.zero?
+    respond_with(errors: { seats: I18n.t('api.business.seats.no_available_seats') }) && return if current_business.seats.available.count.zero?
 
     employee = current_business.teams.first.team_members.create(invitation_params)
 
-    respond_with(errors: { seats: 'Invalid employee' }) && return unless employee
+    respond_with(errors: { seats: I18n.t('api.business.seats.invalid_employee') }) && return unless employee
 
     team = current_business.teams.find_by(id: employee.team_id)
 
-    respond_with(errors: { seats: 'Employee is not in your teams' }) && return unless team
+    respond_with(errors: { seats: I18n.t('api.business.seats.employee_not_in_team') }) && return unless team
 
     seat = current_business.seats.available.first
 
