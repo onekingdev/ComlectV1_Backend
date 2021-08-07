@@ -30,7 +30,7 @@ class Api::Settings::ProfileController < ApiController
       sign_out current_user
       render json: { "deleted": true }.to_json
     else
-      respond_with error: 'Could not delete your account at this time', status: :unprocessable_entity
+      respond_with error: I18n.t('api.settings.profile.cannot_delete'), status: :unprocessable_entity
     end
   end
 

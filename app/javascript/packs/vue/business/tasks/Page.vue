@@ -12,19 +12,19 @@
           div
             b-dropdown.actions.m-r-1(variant="default")
               template(#button-content)
-                | Show: {{ sortedByNameGeneral | capitalize }}
+                | Show: All Tasks
                 ion-icon.ml-2(name="chevron-down-outline" size="small")
               b-dropdown-item(@click="sortBy('all')") All Tasks
               b-dropdown-item(@click="sortBy('overdue')") Overdue
               b-dropdown-item(@click="sortBy('completed')") Completed
             b-dropdown.actions.m-r-1(variant="default")
               template(#button-content)
-                | {{ sortedByNameAdditional | capitalize }}
+                | All Links
                 ion-icon.ml-2(name="chevron-down-outline" size="small")
-              b-dropdown-item(@click="sortByType('all')") All Links
-              b-dropdown-item(@click="sortByType('LocalProject')") Projects
-              b-dropdown-item(@click="sortByType('CompliancePolicy')") Policies
-              b-dropdown-item(@click="sortByType('AnnualReport')") Internal Reviews
+              b-dropdown-item(@click="sortBy('all')") All Links
+              b-dropdown-item(@click="sortBy('LocalProject')") Projects
+              b-dropdown-item(@click="sortBy('CompliancePolicy')") Policies
+              b-dropdown-item(@click="sortBy('AnnualReport')") Internal Reviews
             b-dropdown.actions.d-none(variant="default")
               template(#button-content)
                 | {{ perPage }} results
@@ -47,7 +47,7 @@
           .col
             Loading(:absolute="true")
             TaskTable.m-b-40(v-if="tasks" :shortTable="shortTable", :tasks="sortedTasks" :perPage="perPage" :currentPage="currentPage")
-            b-pagination(v-if="!shortTable && sortedTasks.length >= perPage" v-model='currentPage' :total-rows='rows' :per-page='perPage' :shortTable="!shortTable",  aria-controls='tasks-table')
+            b-pagination(v-if="!shortTable && shortTable.length >= perPage" v-model='currentPage' :total-rows='rows' :per-page='perPage' :shortTable="!shortTable",  aria-controls='tasks-table')
 
 </template>
 
@@ -55,7 +55,7 @@
   import { mapGetters } from "vuex"
 
   import { DateTime } from 'luxon'
-  import { toEvent, isOverdue, splitReminderOccurenceId } from '@/common/TaskHelper'
+  // import { toEvent, isOverdue, splitReminderOccurenceId } from '@/common/TaskHelper'
 
   import Loading from '@/common/Loading/Loading'
   import EmptyState from '@/common/EmptyState'
@@ -97,11 +97,7 @@
         perPage: 10,
         currentPage: 1,
         toggleModal: false,
-        sortedBy: '',
-        sortedByLinkedTo: '',
-        sortedByNameGeneral: 'All Tasks',
-        sortedByNameAdditional: 'All Links',
-        projects: []
+        sortedBy: ''
       }
     },
     // created() {
@@ -156,16 +152,11 @@
       // },
       sortBy (value) {
         this.sortedBy = value
-        this.sortedByNameGeneral = value
-      },
-      sortByType (value) {
-        this.sortedByLinkedTo = value
-        this.sortedByNameAdditional = value
       }
     },
     computed: {
       ...mapGetters({
-        tasks: 'reminders/tasks',
+        tasks: 'reminders/tasks'
       }),
       // taskEvents() {
       //   return this.tasks.map(toEvent)
@@ -183,26 +174,17 @@
         return this.tasks.length
       },
       sortedTasks () {
-        const sortedBy = this.sortedBy
-        const sortedByType = this.sortedByLinkedTo
+        const sortBy = this.sortedBy
 
         let result
-
-        if (sortedBy) {
-          if (sortedBy === 'completed')
-            result = this.tasks.filter(task => task.done_at)
-          if (sortedBy === 'overdue')
-            result = this.tasks.filter(task => isOverdue(task))
-          if (sortedBy === 'all')
-            result = this.tasks
-        }
-
-        if (sortedByType) {
-          if (sortedByType === 'LocalProject' || sortedByType === 'CompliancePolicy'|| sortedByType === 'AnnualReport')
-            result = result.filter(task => task.linkable_type === sortedByType)
-          if (sortedByType === 'all')
-            result = result ? result : this.tasks
-        }
+        if (sortBy === 'completed')
+          result = this.tasks.filter(task => task.done_at)
+        if (sortBy === 'overdue')
+          result = this.tasks.filter(task => task.end_date >= DateTime.local())
+        if (sortBy === 'all')
+          result = this.tasks
+        if (sortBy === 'LocalProject' || sortBy === 'CompliancePolicy'|| sortBy === 'AnnualReport')
+          result = this.tasks.filter(task => task.linkable_type === sortBy)
 
         return result ? result : this.tasks
       }
@@ -213,14 +195,11 @@
 
         const fromTo = DateTime.local().minus({years: 10}).toSQLDate() + '/' + DateTime.local().plus({years: 10}).toSQLDate()
         await this.$store.dispatch('reminders/getTasksByDate', fromTo)
-          .then(response => {
-            console.log('response', response)
-            if (response.projects) this.projects = response.projects
-          })
+          .then(response => console.log('response', response))
           .catch(error => console.error('error', error))
-        //await this.$store.dispatch('reminders/getOverdueTasks')
-        //  .then(response => console.log('response Overdue', response))
-        //  .catch(error => console.error('error', error))
+        // await this.$store.dispatch('reminders/getOverdueTasks')
+        //   .then(response => console.log('response Overdue', response))
+        //   .catch(error => console.error('error', error))
       } catch (error) {
         this.makeToast('Error', error.message)
       }
@@ -232,12 +211,5 @@
       //   }
       // }
     // }
-    filters: {
-      capitalize: function (value) {
-        if (!value) return ''
-        value = value.toString()
-        return value.charAt(0).toUpperCase() + value.slice(1)
-      }
-    },
   }
 </script>

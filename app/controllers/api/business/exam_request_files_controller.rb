@@ -16,7 +16,7 @@ class Api::Business::ExamRequestFilesController < ApiController
     if exam_request_file.destroy
       respond_with exam_request_file, serializer: ExamRequestFileSerializer
     else
-      render json: { error: 'Unable to delete document' }, status: :unprocessable_entity
+      render json: { error: I18n.t('api.business.exam_request_files.unable_to_delete') }, status: :unprocessable_entity
     end
   end
 

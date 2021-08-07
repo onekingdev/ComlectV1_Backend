@@ -20,9 +20,9 @@ class Api::ProjectExtensionsController < ApiController
   def update
     return render_404 unless @project.extension_requested?
     if ProjectExtension::Request.confirm_or_deny!(@project, params.slice(:confirm, :deny), @current_someone)
-      render json: { success: 'A project extensions has been processed', project: @project }
+      render json: { success: I18n.t('api.project_extensions.processed'), project: @project }
     else
-      render json: { error: 'Should be confirmed from the other side' }
+      render json: { error: I18n.t('api.project_extensions.confirm_from_other_side') }
     end
   end
 

@@ -26,7 +26,7 @@ class Api::Business::FileFoldersController < ApiController
     if @file_folder.persisted?
       respond_with errors: @file_folder.errors, status: :unprocessable_entity
     else
-      respond_with message: 'Deleted ok', status: :ok
+      respond_with message: I18n.t('api.business.file_folders.destroyed'), status: :ok
     end
   end
 
@@ -45,7 +45,7 @@ class Api::Business::FileFoldersController < ApiController
     @file_folder.zip = nil
     @file_folder.save
     ZipFolderWorker.perform_async(params[:id], current_user.id)
-    respond_with message: 'Compression has been queued'
+    respond_with message: I18n.t('api.business.file_folders.compression_queued')
   end
 
   def check_zip

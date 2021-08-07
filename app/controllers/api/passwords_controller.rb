@@ -8,7 +8,7 @@ class Api::PasswordsController < ApiController
     user = User.find_by(email: params[:email])
     params[:email] = user.business.contact_email if user&.business&.contact_email.present?
     if user.send_reset_password_instructions
-      respond_with message: 'Password reset email has been sent', status: :ok
+      respond_with message: I18n.t('api.passwords.reset_email'), status: :ok
     else
       respond_with error: 'Internal error', status: :unprocessable_entity
     end

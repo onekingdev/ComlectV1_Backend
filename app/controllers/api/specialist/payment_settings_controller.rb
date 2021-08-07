@@ -63,7 +63,7 @@ class Api::Specialist::PaymentSettingsController < ApiController
     payment_source = current_specialist.payment_sources.find(params[:id])
     Stripe::DeattachSource.call(current_specialist.stripe_customer, payment_source.stripe_card_id)
     payment_source.destroy
-    respond_with message: { message: 'Payment source was deattached' }, status: :ok
+    respond_with message: { message: I18n.t('api.specialist.payment_settings.payment_source_deattached') }, status: :ok
   rescue Stripe::StripeError => e
     respond_with(message: { message: e.message }, status: :unprocessable_entity) && (return)
   end

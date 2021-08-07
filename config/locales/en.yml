@@ -50,61 +50,59 @@ en:
         time_zone: Time Zone
     errors:
       messages:
-        blank: required field
-        email: invalid field
-        url: invalid field
+        blank: Required field
+        email: Invalid email address
+        url: Invalid entry
       models:
         business:
           attributes:
             logo:
-              invalid: Not a supported image type
-              too_large: Too large (max is 2 MB)
+              invalid: Invalid file type
+              too_large: File size is too large (2MB max)
         project:
           attributes:
             base:
-              no_payment: "Oops! We do not have <a target='_blank' href='/business/settings/payment'>payment details</a> on file for you. Please add them before you can post a project."
+              no_payment: "We do not have a valid <a target='_blank' href='/business/settings/billing'>payment method</a> on file for you. Please add a payment method before you can post a project."
             location_type:
-              inclusion: Please select from the list
+              inclusion: Please make a selection
             estimated_days:
-              duration: Invalid field for duration type
+              duration: Invalid entry
             starts_on:
-              duration: Invalid field for duration type
-              invalid: Must be before end date
-              past: Must be in the future
+              duration: Invalid entry
+              invalid: Date must occur before end date
+              past: Date must occur in the future
             ends_on:
-              duration: Invalid field for duration type
-              invalid: Must be after end date
+              duration: Invalid entry
+              invalid: Date must occur after start date
             hourly_payment_schedule:
-              too_little_duration: Not available on durations less than 2 weeks
+              too_little_duration: Not available for projects lasting less than 2 weeks
             fixed_payment_schedule:
-              too_little_duration: Not available on durations less than 2 weeks
+              too_little_duration: Not available for projects lasting less than 2 weeks
             skill_ids:
-              too_long: Select 10 skills max
+              too_long: Limited to 10 skills max
         job_application:
           attributes:
             prerequisites:
-              no_experience: You don't have enough compliance experience to apply
-              no_jurisdiction: You don't have the required jurisdiction
-              no_industry: You don't have the required industry experience
-              no_regulator: You don't have regulatory experience
-              no_payment_info: You need to have verified payment info
+              no_experience: You do not have enough compliance experience to apply
+              no_jurisdiction: You do not have the required jurisdiction expertise to apply
+              no_industry: You do not have the required industry expertise to apply
+              no_regulator: You do not have the required former regulator experience to apply
+              no_payment_info: Please add a verified bank account to proceed
             starts_on:
-              past: Project start date can't be in past
+              past: Start date cannot be in the past
         specialist:
           attributes:
             photo:
-              invalid: Not a supported image type
-              too_large: Too large (max is 2 MB)
+              invalid: Invalid file type
+              too_large: File size is too large (2MB max)
             resume:
-              invalid: Not a PDF file
-              too_large: Resume file size is too large. Please upload a file 2MB or less.
-              blank: Resume is missing.
-            call_booked:
-              blank: Ensure you've booked an interview call with us.
+              invalid: Only PDF files accepted
+              too_large: File size is too large (2MB max)
+              blank: Required field
         rating:
           attributes:
             review:
-              blank: Oops! Please complete all sections before submitting. Your opinion matters.
+              blank: Incomplete fields
         message:
           attributes:
             message:
@@ -117,99 +115,27 @@ en:
   project_invites:
     message_templates:
       invite: |
-        Hi %{specialist},
+        Dear %{specialist},
 
-        We really like your profile and think you would be a great fit for our %{project_or_job} on Complect. Click the link to see more details and apply!
+        We really like your profile and think you would be a great fit for our %{project_or_job} project on Complect. Please click the link to learn more and submit a proposal!
 
         Best,
         %{company_name}
       hire_again: |
-        Hi %{specialist},
+        Dear %{specialist},
 
-        You did such a great job last time, we'd like to hire you again for our %{project_or_job} on Complect. Click the link to learn more and we hope you will apply!
+        It was a pleasure working with you. We'd like to hire you again for our %{project_or_job} project on Complect. Please click the link to learn more and submit a proposal!
 
         Best,
         %{company_name}
 
   project_shares:
     message_template:
-      from_business:
-        job: |
-          Hi,
-
-          We thought you might be interested in this new full-time position of %{project_title} at our firm that we've listed on Complect. Click the link to learn more, share it with someone else, or apply!
-
-          Best,
-          %{company_name}
-        project: |
-          Hi,
-
-          We thought you might be interested in this %{project_title} project of ours on Complect. Click the link to learn more, share it with someone else, or apply!
-
-          Best,
-          %{company_name}
       from_specialist: |
-        Hi,
+        Hi, %{sender_name}, thought you would be interested in this new %{project_job} project on Complect. You can create a free account on our site to learn more about the project opportunity!
 
-        %{sender_name} thought you would be interested in this new %{project_job} on Complect.
-
-        Visit our website to apply, and find additional projects and full time roles like these!
-
-  forbidden: "We're sorry but your request appears to have triggered an error. Please review the request or try again."
-  personalize:
-    sec_or_crd: 
-      question: 'What is your firm’s SEC file number or CRD number?'
-    office_state:
-      question: 'What state is your primary office location?'
-    branch_offices:
-      question: 'Do you have any branch offices?'
-    client_account_cnt:
-      question: 'How many client accounts do you have?'
-    client_types: 
-      question: 'Select all the following clients that your firm services:'
-      info: 'For pooled investment vehicles, your fund is considered the client and not the underlying investors within the fund'
-      less_1mm: 'Natural persons with less than $1MM net worth'
-      accredited_investors: 'Natural persons with $1MM-$4.99MM networth (e.g. accredited investors and qualified clients)'
-      qualified_purchasers: 'Natural persons with $5MM+ networth (e.g. qualified purchasers)'
-      institutional_investors: 'Institutional investors (e.g. pension plans, corporate accounts)'
-      pooled_investment: 'Pooled investment vehicles, including mutual funds'
-    aum: 
-      question: 'What is your current AUM or, if you are a startup, the AUM you will be launching with to start?'
-    cco:
-      question: 'Do you have a multi-hatted CCO?'
-      info: 'This means a CCO that has other responsibilities, like CFO/COO/CIO/Founder'
-      'yes': 'Yes'
-      'no': No, I don’t have a CCO
-      no_error: "Would you like to hire a full time or outsourced CCO through Complect?"
-      dedicated: No, I have a dedicated CCO
-    already_covered:
-      question: 'Select all the following key areas of your business that is currently covered by policies and procedures within your compliance manual:'
-      code_of_ethics: Code of Ethics
-      privacy: Privacy, Cybersecurity, & Identity Theft Prevention
-      custody: Custody
-      portfolio: Portfolio Management
-      trading: Trading
-      proxy: Proxy Voting
-      valuation: Valuation
-      marketing: Marketing
-      regulatory: Regulatory Filings & Disclosures
-      books: Books & Records
-      planning: Business Continuity Planning
-      compliance: Compliance Program
-      other: Other
-    review_plan:
-      question: "Oh no! It appears there may be a gap in your compliance program. Regulators will be reviewing each of those key areas during a full scope exam. Therefore, we recommend that you have them in place. Would you like to book a gap analysis with one of our compliance specialists?"
-      info: "Our BASIC REVIEW provides a compliance manual review and update. The DELUXE REVIEW provides a high level gap analysis that includes employee interviews and limited testing. The PREMIUM REVIEW guarantees a former regulator will conduct a full compliance program review in the form of a mock audit, which you can also use to meet your annual compliance program review requirements."
-      'no': 'No'
-      basic: BASIC REVIEW
-      deluxe: DELUXE REVIEW
-      premium: PREMIUM REVIEW
-    annual_compliance:
-      question: Do you complete an annual compliance program review?
-      no_state_reg: "Not all state require an annual compliance program review, but it is a mandatory requirement once you are SEC registered and a best business practice that regulators like to see. Your compliance command center will give you the ability to conduct one yourself or hire one of our compliance specialists to conduct a review for you in the form of a mock audit!"
-      no_sec_reg: "Oh no! As an SEC registered investment adviser, Rule 204(6)-7 requires all you to review your compliance program on at least an annual basis. Not to worry though, your compliance command center will give you the ability to conduct one yourself or hire one of our compliance specialists to conduct a review for you in the form of a mock audit!"
-      'yes': "Good job! You’re on top of the ball here. Your compliance command center will centralize all your review records for when the regulators come. You should be prepared to upload all the information in one place so you have a quick way to provide information to regulators when they come knocking. We also give you the ability to hire one of our compliance specialists to conduct a review for you in the form of a mock audit."
-      'no': 'No'
+  forbidden: "Your request has triggered an error. Please review the request or try again."
+  
   annual_report:
     0: Adequacy of written code of ethics, code of conduct, and related policies and procedures
     1: Check that any person supervised by the Company (e.g. employees, partners, officers, directors or occupying a similar status/performing similar functions) that provides investment advice on behalf of the adviser and has access to non-public information regarding the investment activities of the adviser or its clients’ holdings is subject to the Code of Ethics
@@ -259,8 +185,67 @@ en:
     identity_theft_prevention_cybersecurity_and_safeguarding_of_information: Identity Theft Prevention, Cybersecurity, & Safeguarding of Information
     code_of_ethics_and_insider_trading: Code of Ethics & Insider Trading
 
-  business_products:
-    registration: Registration
-    registration_and_maintenance: Registration & Maintenance
-    compliance_command_center: Compliance Command Center
-    marketplace: Marketplace
+  api:
+    business:
+      exam_request_files:
+        unable_to_delete: 'Document has not been deleted.'
+      exams:
+        auditor_not_found: 'Access has not been granted. Please check the email address.'
+      file_docs:
+        destroyed: 'Document has been deleted'
+      file_folders:
+        destroyed: 'Folder has been deleted'
+        compression_queued: 'Download has been initiated.'
+      payment_settings:
+        payment_source_deattached: 'Payment method has been deleted.'
+      projects:
+        project_has_specialist: 'Project has not been deleted. Please terminate any active contracts.'
+      seats:
+        no_available_seats: 'User has not been added. Please purchase an additional seat.'
+        invalid_employee: 'User has not been added. Try again.'
+        employee_not_in_team: 'User cannot be added. This email is already in use.'
+    settings:
+      profile:
+        cannot_delete: 'Account has not been deleted. Please terminate any active contracts.'
+    specialist:
+      payment_settings:
+        payment_source_deattached: 'Payment method has been deleted.'
+      upgrade:
+        subscribe_success: 'Plan has been upgraded.'
+        no_subscription_to_cancel: 'Plan has not been cancelled. There are no active subscriptions'
+        cancelled: 'Plan has been cancelled.'
+    authentication:
+      invalid: 'Invalid email or password'
+      confirm_email: 'Please confirm email'
+      otp_sent: 'A one time passcode has been sent to your email.'
+      invalid_otp: 'Invalid 6 digit code'
+    businesses:
+      confirm_otp: 'A one time passcode has been sent to your email.'
+    direct_messages:
+      empty_message: "Message has not been sent. Please complete missing fields."
+    documents:
+      cannot_destroy: 'Document has not been deleted.'
+      not_owner: 'Document has not been deleted. You do not have the requisite permissions.'
+    email_confirmation:
+      confirmed: 'Email address has been confirmed.'
+      invalid_otp: 'Invalid 6 digit code'
+      already_confirmed: 'You have already confirmed email'
+      otp_sent: 'A one time passcode has been sent to your email.'
+    exams:
+      wrong_auditor_email: 'Access has not been granted. Please check the email address.'
+      otp_timeout: 'Timeout'
+      too_many_fails: 'Access denied. Too many failed attempts.'
+    otp_secrets:
+      otp_sent: 'A one time passcode has been sent to your email.'
+    passwords:
+      reset_email: 'Password reset email has been sent.'
+    project_ends:
+      requested: 'Contract termination request has been sent.'
+      request_failure: 'Contract termination request has not been sent. Try again.'
+      confirmed: 'Contract termination request has been approved.'
+      confirm_from_other_side: 'Contract termination must be approved by both parties'
+    project_extensions:
+      processed: 'Contract extension request has been sent.'
+      confirm_from_other_side: 'Contract extension must be approved by both parties'
+    specialists:
+      confirm_otp: 'A one time passcode has been sent to your email.'
