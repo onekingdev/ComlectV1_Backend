@@ -29,7 +29,7 @@
         TaskModalCreateEdit(@editConfirmed="editConfirmed", :taskProp="item", :inline="false")
           b-dropdown-item Edit
         //b-dropdown-item {{ item.done_at ? 'Incomplite' : 'Complite' }}
-        TaskModalDelete(@deleteConfirmed="deleteTask(item.id)", :inline="false")
+        TaskModalDelete(@deleteConfirmed="deleteTask(item)", :inline="false")
           b-dropdown-item Delete
 </template>
 
@@ -66,8 +66,9 @@ export default {
         console.error('error catch in task Item', error)
       }
     },
-    deleteTask(id){
-      this.$store.dispatch('reminders/deleteTask', { id })
+    deleteTask(task, deleteOccurence){
+      const occurenceParams = deleteOccurence ? `?oid=${this.occurenceId}` : ''
+      this.$store.dispatch('reminders/deleteTask', { id: task.id, occurenceParams })
         .then(response => this.toast('Success', `The task deleted!`))
         .catch(error => this.toast('Error', `Something wrong! ${error.message}`, true))
     },

@@ -74,7 +74,7 @@ export async function updateTaskStatus(payload) {
 }
 
 export async function deleteTask(payload) {
-  return await axios.delete(`${END_POINT}/${payload.id}`, payload)
+  return await axios.delete(`${END_POINT}/${payload.id}${payload.occurenceParams}`, payload)
     .then(response => {
       if (response) {
         return response

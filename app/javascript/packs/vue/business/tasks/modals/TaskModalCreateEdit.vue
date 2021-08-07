@@ -108,7 +108,7 @@
                 .card-body.p-3.position-relative
                   label.form-label Comment
                   VueEditor(v-model="task.comment" :editor-toolbar="customToolbar")
-                  button.btn.btn-primary.save-comment-btn(@click="sendMessage") Send
+                  button.btn.btn-primary.save-comment-btn(@click="sendMessage(task)") Send
 
       template(v-if="!taskProp" slot="modal-footer")
         .d-flex.justify-content-between(style="width: 100%")
@@ -256,12 +256,11 @@
           console.error(error)
         }
       },
-      deleteTask(task, deleteOccurence) {
+      deleteTask(task, deleteOccurence){
         const occurenceParams = deleteOccurence ? `?oid=${this.occurenceId}` : ''
-        fetch('/api/business/reminders/' + this.taskId + occurenceParams, {
-          method: 'DELETE',
-          headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}
-        }).then(response => this.$emit('saved'))
+        this.$store.dispatch('reminders/deleteTask', { id: task.id, occurenceParams })
+          .then(response => this.toast('Success', `The task deleted!`))
+          .catch(error => this.toast('Error', `Something wrong! ${error.message}`, true))
       },
       async submit(saveOccurence) {
         this.errors = []
@@ -445,10 +444,10 @@
           this.toast('Error', error.message)
         }
       },
-      sendMessage() {
-        console.log(this.task)
+      sendMessage(task) {
+
         const data = {
-          id: this.taskId,
+          id: task.id,
           message: {
             message: this.task.comment
           }
