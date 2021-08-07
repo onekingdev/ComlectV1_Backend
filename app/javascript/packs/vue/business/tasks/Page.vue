@@ -12,19 +12,19 @@
           div
             b-dropdown.actions.m-r-1(variant="default")
               template(#button-content)
-                | Show: All Tasks
+                | Show: {{ sortedByNameGeneral }}
                 ion-icon.ml-2(name="chevron-down-outline" size="small")
-              b-dropdown-item(@click="sortBy('all')") All Tasks
-              b-dropdown-item(@click="sortBy('overdue')") Overdue
-              b-dropdown-item(@click="sortBy('completed')") Completed
+              b-dropdown-item(@click="sortBy('all', 1)") All Tasks
+              b-dropdown-item(@click="sortBy('overdue', 1)") Overdue
+              b-dropdown-item(@click="sortBy('completed', 1)") Completed
             b-dropdown.actions.m-r-1(variant="default")
               template(#button-content)
-                | All Links
+                | {{ sortedByNameAdditional }}
                 ion-icon.ml-2(name="chevron-down-outline" size="small")
-              b-dropdown-item(@click="sortBy('all')") All Links
-              b-dropdown-item(@click="sortBy('LocalProject')") Projects
-              b-dropdown-item(@click="sortBy('CompliancePolicy')") Policies
-              b-dropdown-item(@click="sortBy('AnnualReport')") Internal Reviews
+              b-dropdown-item(@click="sortBy('all', 2)") All Links
+              b-dropdown-item(@click="sortBy('LocalProject', 2)") Projects
+              b-dropdown-item(@click="sortBy('CompliancePolicy', 2)") Policies
+              b-dropdown-item(@click="sortBy('AnnualReport', 2)") Internal Reviews
             b-dropdown.actions.d-none(variant="default")
               template(#button-content)
                 | {{ perPage }} results
@@ -98,6 +98,8 @@
         currentPage: 1,
         toggleModal: false,
         sortedBy: '',
+        sortedByNameGeneral: 'All Tasks',
+        sortedByNameAdditional: 'All Links',
         projects: []
       }
     },
@@ -151,8 +153,11 @@
       // makeToast(title, str) {
       //   this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
       // },
-      sortBy (value) {
+      sortBy (value, num) {
         this.sortedBy = value
+        const upperFirst = value.charAt(0).toUpperCase() + value.slice(1)
+        if (num === 1) this.sortedByNameGeneral = upperFirst
+        if (num === 2) this.sortedByNameAdditional = upperFirst
       }
     },
     computed: {
@@ -201,9 +206,9 @@
             if (response.projects) this.projects = response.projects
           })
           .catch(error => console.error('error', error))
-        // await this.$store.dispatch('reminders/getOverdueTasks')
-        //   .then(response => console.log('response Overdue', response))
-        //   .catch(error => console.error('error', error))
+        //await this.$store.dispatch('reminders/getOverdueTasks')
+        //  .then(response => console.log('response Overdue', response))
+        //  .catch(error => console.error('error', error))
       } catch (error) {
         this.makeToast('Error', error.message)
       }

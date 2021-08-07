@@ -63,7 +63,7 @@ export async function updateTask(payload) {
 }
 
 export async function updateTaskStatus(payload) {
-  return await axios.post(`${END_POINT}/${payload.id}?done=${payload.done}`)
+  return await axios.post(`${END_POINT}/${payload.id}?done=${payload.done}${payload.oidParam}${payload.src_id_params}`)
     .then(response => {
       if (response) {
         return response

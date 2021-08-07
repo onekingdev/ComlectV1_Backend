@@ -160,6 +160,7 @@ export default {
           .then((success) => {
             commit("clearError", null, { root: true });
             commit("setLoading", false, { root: true });
+            console.log('success overdue', success)
             if (success) {
               const data = success.data.tasks
               const tasks = []
@@ -416,12 +417,8 @@ export default {
           })
           .catch(error => error)
       } catch (error) {
-        commit("setError", error.message, {
-          root: true
-        });
-        commit("setLoading", false, {
-          root: true
-        });
+        commit("setError", error.message, { root: true });
+        commit("setLoading", false, { root: true });
         throw error;
       }
     },
@@ -444,9 +441,7 @@ export default {
             });
             if (success) {
               const data = success.data
-              commit('DELETE_TASK', new Task(
-                data.id,
-              ))
+              commit('DELETE_TASK', data.id ? data.id : payload.id)
               return data
             }
             if (!success) {

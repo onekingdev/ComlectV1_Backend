@@ -14,11 +14,11 @@
         span(v-else) ---
     td(v-if="!shortTable") {{ item.assignee ? item.assignee : '---' }}
     td.text-right(v-if="!shortTable")
-      | {{ item.remind_at | dateToHuman}}
+      | {{ item.remind_at | asDate }}
     td.text-right(:class="{ overdue: isOverdue(item) }")
       b-icon.mr-2(v-if="isOverdue(item)" icon="exclamation-triangle-fill" variant="warning")
       ion-icon.text-dark.mr-2(v-if="isRepeat(item)" name="repeat-outline")
-      | {{ item.end_date | dateToHuman }}
+      | {{ item.end_date | asDate }}
     td.d-none(v-if="!shortTable").text-right 0
     td.d-none(v-if="!shortTable").text-right 0
     td(v-if="!shortTable").text-right
@@ -29,7 +29,6 @@
         TaskModalEdit(@editConfirmed="editConfirmed", :taskProp="item", :inline="false")
           b-dropdown-item Edit
         //b-dropdown-item {{ item.done_at ? 'Incomplite' : 'Complite' }}
-        //b-dropdown-item(@click="duplicateTask(item.id)") Duplicate
         TaskModalDelete(@deleteConfirmed="deleteTask(item.id)", :inline="false")
           b-dropdown-item Delete
 </template>
@@ -49,68 +48,36 @@ export default {
     TaskModalEdit,
     TaskModalDelete,
   },
-  computed: {
-    progressWidth() {
-      const part = 100 / +this.item.review_categories.length
-      return +part * +this.item.progress
-    },
-    taskEvents() {
-      const data = this.tasks.map(toEvent)
-        .map(e => ({
-          ...e,
-          start: DateTime.fromSQL(e.start).toLocaleString(),
-          end: DateTime.fromSQL(e.end).toLocaleString(),
-          ...splitReminderOccurenceId(e.id)
-        }))
-      console.log(data)
-      return data
-    }
-  },
+  computed: { },
   methods: {
     isRepeat,
     isOverdue,
     linkedTo,
     linkedToClass,
-    toggleDone(task) {
+    async toggleDone(task) {
       const { taskId, oid } = splitReminderOccurenceId(task.id)
-      const oidParam = oid !== null ? `&oid=${oid}` : ''
+      const oidParam = oid !== null ? `&oid=${oid}` : ''                // BACK RETURNS 404 with this
+      const src_id_params = oid !== null ? `&src_id=${task.id}` : ''    // BACK RETURNS 404 with this
       let target_state = (!(!!task.done_at)).toString()
 
-       this.$store.dispatch('reminders/updateTaskStatus', { id: taskId, done: target_state })
-        .then(response => this.toast('Success', `Updated!`))
-        .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
-    },
-    duplicateTask(id){
-      console.log('Hey duplicate it!', id)
-      // this.$store.dispatch('reminders/duplicateTask', { id: id })
-      //   .then(response => this.toast('Success', `The annual review has been duplicated! ${response.id}`))
-      //   .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
+      try {
+        await this.$store.dispatch('reminders/updateTaskStatus', { id: taskId, done: target_state, oidParam, src_id_params })
+          .then(response => this.toast('Success', `Updated!`))
+          .catch(error => this.toast('Error', `Something wrong! ${error.message}`, true))
+      } catch (error) {
+        console.error('error catch in task Item', error)
+      }
     },
     deleteTask(id){
       this.$store.dispatch('reminders/deleteTask', { id })
-        .then(response => this.toast('Success', `The Task has been deleted!`))
-        .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
+        .then(response => this.toast('Success', `The task deleted!`))
+        .catch(error => this.toast('Error', `Something wrong! ${error.message}`, true))
     },
-    editConfirmed() {
-      console.log('editConfirmed')
-    }
+    editConfirmed() { console.log('editConfirmed') }
   },
-  filters: {
-    dateToHuman(value) {
-      const date = DateTime.fromJSDate(new Date(value))
-      if (!date.invalid) {
-        return date.toFormat('MM/dd/yyyy')
-      }
-      if (date.invalid) {
-        return value
-      }
-    },
-  }
 }
 </script>
 
 <style scoped>
-  .link ion-icon {
-    color: var(--blue)
-  }
+
 </style>
