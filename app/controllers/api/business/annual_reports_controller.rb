@@ -53,6 +53,10 @@ class Api::Business::AnnualReportsController < ApiController
 
   private
 
+  def find_areport
+    @areport = current_business.annual_reports.find(params[:id])
+  end
+
   def areport_params
     params.require(:annual_report).permit(
       :id,
@@ -65,9 +69,5 @@ class Api::Business::AnnualReportsController < ApiController
       annual_review_employees_attributes: %i[id name title department],
       review_categories_attributes: %i[id complete name review_topics]
     )
-  end
-
-  def find_areport
-    @areport = current_business.annual_reports.find(params[:id])
   end
 end

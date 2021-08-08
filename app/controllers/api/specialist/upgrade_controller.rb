@@ -7,19 +7,19 @@ class Api::Specialist::UpgradeController < ApiController
     service = StripeSpecialistSubscriptionService.call(current_specialist, turnkey_params)
 
     if service.success?
-      respond_with message: 'You have successfully subscribed', status: :created
+      respond_with message: I18n.t('api.specialist.upgrade.subscribe_success'), status: :created
     else
       render json: { message: service.error }, status: :unprocessable_entity
     end
   end
 
   def cancel
-    respond_with(errors: { subscription: 'You don\'t have any subscriptions' }) && return unless active_subscription
+    respond_with(errors: { subscription: I18n.t('api.specialist.upgrade.no_subscription_to_cancel') }) && return unless active_subscription
 
     Stripe::CancelSubscription.call(active_subscription.stripe_subscription_id)
     active_subscription.update(status: Subscription.statuses['canceled'])
 
-    respond_with message: { message: 'Subscription was cancelled' }, status: :ok
+    respond_with message: { message: I18n.t('api.specialist.upgrade.cancelled') }, status: :ok
   rescue Stripe::StripeError => e
     respond_with(message: { message: e.message }, status: :unprocessable_entity) && (return)
   end

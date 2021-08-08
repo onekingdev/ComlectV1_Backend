@@ -44,9 +44,6 @@
       };
     },
     methods: {
-      makeToast(title, str) {
-        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
-      },
       searching (value) {
         this.searchInput = value;
       },
@@ -61,7 +58,7 @@
           })
           .catch((err) => {
             console.error(err);
-            this.makeToast('Error', err.message)
+            this.toast('Error', err.message, true)
           });
       },
     },
@@ -102,7 +99,7 @@
         })
         .catch((err) => {
           console.error(err);
-          this.makeToast('Error', err.message)
+          this.toast('Error', err.message, true)
         });
     },
   };

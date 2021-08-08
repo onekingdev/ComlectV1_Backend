@@ -100,11 +100,11 @@
           .dispatch('updateRisk', {...dataToSend})
           .then(response => {
             console.log('response', response)
-            this.makeToast('Success', 'Changes saved')
+            this.toast('Success', 'Changes saved')
           })
           .catch(error => {
             console.error(error)
-            this.makeToast('Error', `Couldn't submit form! ${error}`)
+            this.toast('Error', `Couldn't submit form! ${error}`, true)
           })
       },
       savedConfirmed(value){
@@ -115,9 +115,6 @@
         // if (index) this.policyById.risks.splice(index, 1, value)
         this.policyById.risks.push(value)
       },
-      makeToast(title, str) {
-        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
-      },
     },
     computed: {
       loading() {
@@ -127,7 +124,7 @@
         return this.$store.getters.risksList
       },
       policyById(){
-        const id = +this.policyId
+        const id = this.policyId
         return this.$store.getters.policyById(id)
       }
     },
@@ -136,11 +133,11 @@
         .dispatch('getRisks')
         .then(response => {
           console.log('response', response)
-          // this.makeToast('Success', `Policy successfully deleted!`)
+          // this.toast('Success', `Policy successfully deleted!`)
         })
         .catch(error => {
           console.error(error)
-          // this.makeToast('Error', `Couldn't submit form! ${error}`)
+          // this.toast('Error', `Couldn't submit form! ${error}`)
         })
     }
   }

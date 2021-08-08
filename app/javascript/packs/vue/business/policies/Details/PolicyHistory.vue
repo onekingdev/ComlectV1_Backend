@@ -22,9 +22,6 @@
       }
     },
     methods: {
-      makeToast(title, str) {
-        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
-      },
       dateToHuman (value) {
         const date = DateTime.fromJSDate(new Date(value))
         if (!date.invalid) {
@@ -39,11 +36,11 @@
           .dispatch("downloadPolicy", { policyId })
           .then((myBlob) => {
             // console.log('response', myBlob)
-            this.makeToast('Success', 'Policy succesfully downloaded.')
+            this.toast('Success', 'Policy succesfully downloaded.')
           })
           .catch((err) => {
             // console.log(err)
-            this.makeToast('Error', err.message)
+            this.toast('Error', err.message, true)
           });
       },
     }

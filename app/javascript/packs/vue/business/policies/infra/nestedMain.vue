@@ -130,9 +130,6 @@
       }
     },
     methods: {
-      makeToast(title, str) {
-        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
-      },
       updateList () {
         this.$store
           .dispatch("getPolicies")
@@ -141,7 +138,7 @@
           })
           .catch((error) => {
             console.error(error);
-            this.makeToast('Error', err.message)
+            this.toast('Error', err.message, true)
           });
       },
       movePolicy() {
@@ -155,11 +152,11 @@
           })
           .then((response) => {
             console.log('response in nested', response)
-            this.makeToast('Success', 'Policy succesfully moved.')
+            this.toast('Success', 'Policy succesfully moved.')
           })
           .catch((error) => {
             console.error(error)
-            this.makeToast('Error', err.message)
+            this.toast('Error', err.message, true)
           });
       },
       checkMove: function(evt){
@@ -323,7 +320,7 @@
           })
             .then((response) => {
               console.log('response updating', response)
-              this.makeToast('Success', 'Changes succesfully saved.')
+              this.toast('Success', 'Changes succesfully saved.')
             })
         }
         if(targetPolicyDetele) {
@@ -333,7 +330,7 @@
           })
             .then((response) => {
               console.log('response deleting', response)
-              this.makeToast('Success', 'Changes succesfully saved.')
+              this.toast('Success', 'Changes succesfully saved.')
             })
         }
       },
@@ -357,11 +354,11 @@
           })
           .then((response) => {
             console.log('response', response)
-            this.makeToast('Success', 'Policy succesfully moved.')
+            this.toast('Success', 'Policy succesfully moved.')
           })
           .catch((err) => {
             console.error(err)
-            this.makeToast('Error', err.message)
+            this.toast('Error', err.message, true)
           });
       },
       deletePolicy(policyId) {
@@ -369,11 +366,11 @@
           .dispatch('deletePolicyById', { policyId })
           .then(response => {
             console.log('response', response)
-            this.makeToast('Success', `Policy successfully deleted!`)
+            this.toast('Success', `Policy successfully deleted!`)
           })
           .catch(error => {
             console.error(error)
-            this.makeToast('Error', `Couldn't submit form! ${error}`)
+            this.toast('Error', `Couldn't submit form! ${error}`, true)
           })
       },
       archivePolicy(policyId, archiveStatus) {
@@ -381,11 +378,11 @@
           .dispatch('archivePolicyById', { policyId, archived: archiveStatus })
           .then(response => {
             console.log('response', response)
-            this.makeToast('Success', `Policy successfully ${archiveStatus ? 'archived' : 'unarchived'}!`)
+            this.toast('Success', `Policy successfully ${archiveStatus ? 'archived' : 'unarchived'}!`)
           })
           .catch(error => {
             console.error(error)
-            this.makeToast('Error', `Couldn't submit form! ${error}`)
+            this.toast('Error', `Couldn't submit form! ${error}`, true)
           })
       },
       emitter(value) {

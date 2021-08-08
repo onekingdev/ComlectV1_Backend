@@ -41,9 +41,6 @@
       focusInput() {
         this.$refs.input.focus();
       },
-      makeToast(title, str) {
-        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
-      },
       clearErrors() {
         this.errors = [];
       },
@@ -54,12 +51,12 @@
 
         if (!this.policy.name) {
           this.errors.push(['Name is required']);
-          this.makeToast('Error', 'Name is required.')
+          this.toast('Error', 'Name is required.', true)
           return;
         }
         if (this.policy.name.length <= 3) {
           this.errors.push('Name is very short, must be more 3 characters.');
-          this.makeToast('Error', 'Name is very short, must be more 3 characters.')
+          this.toast('Error', 'Name is very short, must be more 3 characters.', true)
           return;
         }
 
@@ -69,13 +66,13 @@
           })
           .then((response) => {
             if (response.errors) {
-              this.makeToast('Error', `${response.status}`)
+              this.toast('Error', `${response.status}`, true)
               this.errors.push({ title: `${response.errors.title}`});
               Object.keys(response.errors)
-                .map(prop => response.errors[prop].map(err => this.makeToast(`Error`, `${prop}: ${err}`)))
+                .map(prop => response.errors[prop].map(err => this.toast(`Error`, `${prop}: ${err}`)))
             }
             if(!response.errors) {
-              this.makeToast('Success', `Policy successfully created! You will be redirect...`)
+              this.toast('Success', `Policy successfully created! You will be redirect...`)
               this.$emit('savedConfirmed')
               this.$bvModal.hide(this.modalId)
               this.policy.name = ''
@@ -88,7 +85,7 @@
           })
           .catch((error) => {
             console.error(error)
-            this.makeToast('Error', error)
+            this.toast('Error', error, true)
           });
       },
     },

@@ -91,7 +91,7 @@ export default {
       this.options = [{ value: null, text: 'New Risk' }]
       this.options = this.options.concat(this.risksComputedAsOptions)
     },
-    makeToast(title, str) {
+    toast(title, str) {
       this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
     },
     submit(e) {
@@ -101,7 +101,7 @@ export default {
         this.errors.push([
           'Field is required.'
         ]);
-        this.makeToast('Error', 'Field is required.')
+        this.toast('Error', 'Field is required.', true)
         return;
       }
 
@@ -123,14 +123,14 @@ export default {
 
           } else {
             this.$emit('saved', response)
-            this.makeToast('Success', 'The risk has been saved')
+            this.toast('Success', 'The risk has been saved')
             this.$bvModal.hide(this.modalId)
             this.newEtag()
           }
         })
         .catch(error => {
           console.error(error)
-          this.makeToast('Error', `Couldn't submit form! ${error}`)
+          this.toast('Error', `Couldn't submit form! ${error}`, true)
         })
 
       // this.$emit('saved', this.risk)

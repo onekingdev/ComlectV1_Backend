@@ -7,13 +7,13 @@ class Api::AuthenticationController < ApiController
   def create
     user = User.find_first_by_auth_conditions(email: params[:user][:email])
     # respond_with(errors: "User not found") && return if user.nil?
-    respond_with(errors: 'Invalid email or password') && return if user.nil?
-    respond_with(errors: 'Please, confirm your email') && return unless user.confirmed_at
+    respond_with(errors: I18n.t('api.authentication.invalid')) && return if user.nil?
+    respond_with(errors: I18n.t('api.authentication.confirm_email')) && return unless user.confirmed_at
 
     if user&.valid_password?(params[:user][:password])
       unless params[:otp_secret]
         user.email_otp
-        render(json: { message: 'You have received one time passcode on your email to verify login' }) && return
+        render(json: { message: I18n.t('api.authentication.otp_sent') }) && return
       end
       if user.verify_otp(params[:otp_secret])
         sign_in(:user, user)
@@ -26,7 +26,7 @@ class Api::AuthenticationController < ApiController
                          specialist: SpecialistSerializer.new(user.specialist).serializable_hash }
         end
       else
-        render json: { errors: { invalid: 'Invalid secret key' } }, status: :unprocessable_entity
+        render json: { errors: { invalid: I18n.t('api.authentication.invalid_otp') } }, status: :unprocessable_entity
       end
     else
       render json: { errors:

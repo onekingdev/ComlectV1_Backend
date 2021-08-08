@@ -9,7 +9,7 @@ class Api::SpecialistsController < ApiController
 
     if specialist.save
       BusinessMailer.verify_email(specialist.user, specialist.user.otp).deliver_later
-      render json: { userid: specialist.user_id, message: 'You have received one time passcode to confirm your email' }.to_json
+      render json: { userid: specialist.user_id, message: I18n.t('api.specialists.confirm_otp') }.to_json
     else
       respond_with errors: { specialist: specialist.errors.messages }
     end

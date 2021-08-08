@@ -25,7 +25,7 @@ class Api::Business::FileDocsController < ApiController
 
   def destroy
     if @file_doc.destroy
-      respond_with message: 'File destroyed successfully', status: :ok
+      respond_with message: I18n.t('api.business.file_docs.destroyed'), status: :ok
     else
       respond_with errors: @file_doc.errors, status: :unprocessable_entity
     end

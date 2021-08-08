@@ -44,9 +44,6 @@
       }
     },
     methods: {
-      makeToast(title, str) {
-        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
-      },
       submit(e) {
         e.preventDefault();
         // this.errors = [];
