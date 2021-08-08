@@ -445,9 +445,5 @@
 </script>
 
 <style scoped>
-  .save-comment-btn {
-    position: absolute;
-    right: 2rem;
-    bottom: 2rem;
-  }
+
 </style>

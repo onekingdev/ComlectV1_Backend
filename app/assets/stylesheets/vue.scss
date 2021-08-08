@@ -3152,6 +3152,10 @@ select.custom-select {
   padding-bottom: 2.5rem !important; // 40px
 }
 
+.p-t-10 {
+  padding-top: 0.625rem !important; // 10px
+}
+
 .p-t-20 {
   padding-top: 1.25rem !important; // 20px
 }
@@ -3727,9 +3731,9 @@ select.custom-select {
   flex-direction: column;
 
   width: 100%;
-  min-height: 325px;
+  min-height: 20.3125rem;//325px;
   height: 100%;
-  max-height: 350px;
+  max-height: 22.9375rem; //367px;
   overflow: auto;
 }
 
@@ -3758,6 +3762,7 @@ select.custom-select {
   }
   &__date {
     margin-right: 3px;
+    min-width: 4.5rem; //72px;
     font-size: $font-size-12;
     color: $gray-2
   }
@@ -3768,3 +3773,51 @@ select.custom-select {
   }
 }
 
+.save-comment-btn {
+  position: absolute;
+  right: 2rem;
+  bottom: 2rem;
+}
+
+
+/* ---------- Policy Editor / VUE EDITOR ---------- */
+.ql-snow .ql-picker.ql-header {
+  width: 90px!important;
+}
+.quillWrapper .ql-picker-label {
+  font-size: 12px!important;
+}
+
+.ql-toolbar.ql-snow {
+  border: 1px solid $gray-1 !important;
+  font-family: 'Public Sans', sans-serif !important;
+  //padding: 8px;
+}
+
+.quillWrapper .ql-snow.ql-toolbar {
+  padding-top: 4px!important;
+  padding-bottom: 2px!important;
+}
+.quillWrapper .ql-snow.ql-toolbar .ql-formats {
+  margin-bottom: 4px!important;
+}
+.ql-editor {
+  /*min-height: 70px!important;*/
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-size: 1rem!important;
+  font-weight: 400!important;
+  line-height: 1.5!important;
+}
+.ql-snow .ql-toolbar button svg,
+.quillWrapper .ql-snow.ql-toolbar button svg {
+  width: 14px!important;
+  height: 14px!important;
+}
+.ql-snow .ql-picker:not(.ql-color-picker):not(.ql-icon-picker) svg {
+  width: 14px!important;
+}
+
+//.ql-font span[data-value="roboto"]::before {
+//  font-family: "Roboto";
+//  content: "Roboto" !important;
+//}

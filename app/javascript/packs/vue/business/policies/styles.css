@@ -183,41 +183,6 @@
 }
 
 
-/* ---------- Policy Editor ---------- */
-.ql-snow .ql-picker.ql-header {
-  width: 90px!important;
-}
-.quillWrapper .ql-picker-label {
-  font-size: 12px!important;
-}
-.quillWrapper .ql-snow.ql-toolbar {
-  padding-top: 5px!important;
-  padding-bottom: 2px!important;
-}
-.quillWrapper .ql-snow.ql-toolbar .ql-formats {
-  margin-bottom: 5px!important;
-}
-.ql-editor {
-  /*min-height: 70px!important;*/
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  font-size: 1rem!important;
-  font-weight: 400!important;
-  line-height: 1.5!important;
-}
-.ql-snow .ql-toolbar button svg,
-.quillWrapper .ql-snow.ql-toolbar button svg {
-  width: 15px!important;
-  height: 15px!important;
-}
-.ql-snow .ql-picker:not(.ql-color-picker):not(.ql-icon-picker) svg {
-  width: 15px!important;
-}
-
-.ql-font span[data-value="roboto"]::before {
-  font-family: "Roboto";
-  content: "Roboto" !important;
-}
-
 /* ---------- Policy Details ---------- */
 .policy-actions {
   position: absolute;
