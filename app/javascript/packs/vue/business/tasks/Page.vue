@@ -3,29 +3,29 @@
     .page-header(v-if="!shortTable")
       h2.page-header__title Tasks
       .page-header__actions
-        a.btn.btn-default.m-r-1(v-if="!shortTable") Download
+        a.btn.btn-default.m-r-1(v-if="!shortTable" :href="pdfUrl" target="_blank") Download
         TaskModalCreateEdit(@saved="refetch()")
           a.btn.btn-dark New Task
     .card-body.white-card-body.card-body_full-height.p-x-40
       .row.mb-3(v-if="!shortTable")
         .col
           div
-            b-dropdown.actions.m-r-1(variant="default")
+            b-dropdown.actions__dropdown.actions__dropdown_tasks.m-r-1(variant="default")
               template(#button-content)
                 | Show: {{ sortedByNameGeneral | capitalize }}
                 ion-icon.ml-2(name="chevron-down-outline" size="small")
               b-dropdown-item(@click="sortBy('all')") All Tasks
               b-dropdown-item(@click="sortBy('overdue')") Overdue
               b-dropdown-item(@click="sortBy('completed')") Completed
-            b-dropdown.actions.m-r-1(variant="default")
+            b-dropdown.actions__dropdown.actions__dropdown_links.m-r-1(variant="default")
               template(#button-content)
-                | {{ sortedByNameAdditional | capitalize }}
+                | {{ sortedByNameAdditional | capitalize | linkableTypeCorrector }}
                 ion-icon.ml-2(name="chevron-down-outline" size="small")
               b-dropdown-item(@click="sortByType('all')") All Links
               b-dropdown-item(@click="sortByType('LocalProject')") Projects
               b-dropdown-item(@click="sortByType('CompliancePolicy')") Policies
               b-dropdown-item(@click="sortByType('AnnualReport')") Internal Reviews
-            b-dropdown.actions.d-none(variant="default")
+            b-dropdown.actions__dropdown.d-none(variant="default")
               template(#button-content)
                 | {{ perPage }} results
                 ion-icon.ml-2(name="chevron-down-outline" size="small")
@@ -76,6 +76,8 @@
 
   // const today = () => DateTime.local().toISODate()
 
+  const pdfUrl = '/business/reminders.pdf'
+
   export default {
     props: {
       // etag: Number,
@@ -97,8 +99,8 @@
         perPage: 10,
         currentPage: 1,
         toggleModal: false,
-        sortedBy: '',
-        sortedByLinkedTo: '',
+        sortedBy: 'all',
+        sortedByLinkedTo: 'all',
         sortedByNameGeneral: 'All Tasks',
         sortedByNameAdditional: 'All Links',
         projects: []
@@ -167,6 +169,7 @@
       ...mapGetters({
         tasks: 'reminders/tasks',
       }),
+      pdfUrl: () => pdfUrl,
       // taskEvents() {
       //   return this.tasks.map(toEvent)
       //     .map(e => ({
@@ -205,7 +208,7 @@
         }
 
         return result ? result : this.tasks
-      }
+      },
     },
     async mounted () {
       try {
@@ -237,6 +240,10 @@
         if (!value) return ''
         value = value.toString()
         return value.charAt(0).toUpperCase() + value.slice(1)
+      },
+      linkableTypeCorrector: function (value) {
+        if (value === 'AnnualReport') value = 'Internal Review'
+        return value.replace(/[A-Z]/g, ' $&')
       }
     },
   }

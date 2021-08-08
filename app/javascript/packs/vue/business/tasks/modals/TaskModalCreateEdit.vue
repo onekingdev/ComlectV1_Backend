@@ -80,14 +80,14 @@
           .form-text.text-muted Optional
 
         .col-lg-6.pl-2(v-if="taskProp")
-          .card-body.white-card-body.reviews__card.p-0
-            b-tabs(content-class="mt-2" class="pt-3")
+          .card-body.white-card-body.reviews__card.h-100.p-0
+            b-tabs.special-navs-messages(content-class="m-20" class="p-t-20")
               b-tab(title="Comments" active)
                 b-row
                   .col.text-center
-                    .card-body.p-3
-                      h4 No Comments to Display
-                      p Type in the comment box below to get started
+                    .card-body.p-0
+                      Messages
+
               b-tab(title="Files")
                 b-row
                   .col
@@ -102,10 +102,10 @@
                           .alert.alert-info.col-md-4(v-for="document in documents" :key="document.id")
                             p {{ document.file_data.metadata.filename }}
                             p: a(:href='getDocumentUrl(document)' target="_blank") Download
-            hr
+            hr.m-0
             b-row
               .col
-                .card-body.p-3.position-relative
+                .card-body.p-20.position-relative
                   label.form-label Comment
                   VueEditor(v-model="task.comment" :editor-toolbar="customToolbar")
                   button.btn.btn-primary.save-comment-btn(@click="sendMessage(task)") Send
@@ -147,6 +147,7 @@
 
   import { splitReminderOccurenceId } from '@/common/TaskHelper'
   import ComboBox from '@/common/ComboBox'
+  import Messages from '@/common/Messages'
   import Errors from '@/common/Errors'
 
   import EtaggerMixin from '@/mixins/EtaggerMixin'
@@ -224,9 +225,10 @@
       remindAt: String
     },
     components: {
-      ComboBox,
-      Errors,
       VueEditor,
+      ComboBox,
+      Messages,
+      Errors,
     },
     data() {
       return {
