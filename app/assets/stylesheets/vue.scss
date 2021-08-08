@@ -1546,6 +1546,11 @@ table.table thead tr th {
   }
 }
 
+.b-icon.bi.done_task{
+  color: #1AB27F;
+  font-size: 125%;
+}
+
 .short-table thead {
   width: calc(100% - 1em) /* scrollbar is average 1em/16px width, remove it from thead width */
 }
@@ -2968,6 +2973,8 @@ select.custom-select {
 
 .file-card__icon {
   margin-right: 0.625rem; //10px
+  width: 1.5625rem; //25px
+  height: 1.5625rem; //25px
   color: #797b7e;
   font-size: 150%;
 }
@@ -2975,7 +2982,8 @@ select.custom-select {
 .file-card__name {
   margin-bottom: 0;
   //margin-bottom: 0.3125rem;
-  font-size: 0.875rem;
+  //font-size: 0.875rem;
+  @include font-regular-14;
   color: $black;
   word-break: break-all;
 }
@@ -3723,6 +3731,11 @@ select.custom-select {
   height: 100%;
   max-height: 350px;
   overflow: auto;
+}
+
+.messages-border {
+  border-radius: 4px;
+  border: 1px solid #C6C8CE;
 }
 
 .message {

@@ -76,11 +76,11 @@
               DatePicker(v-model="task.end_by")
               Errors(:errors="errors.end_by")
 
-          InputTextarea.m-t-1(v-model="task.description" :errors="errors.description") Description
+          InputTextarea.m-t-1(v-model="task.description" :rows="8" :errors="errors.description") Description
           .form-text.text-muted Optional
 
         .col-lg-6.pl-2(v-if="taskProp")
-          .card-body.white-card-body.reviews__card.h-100.p-0
+          .card-body.white-card-body.messages-border.h-100.p-0
             b-tabs.special-navs-messages(content-class="m-20" class="p-t-20")
               b-tab(title="Comments" active)
                 b-row
@@ -91,7 +91,7 @@
               b-tab(title="Files")
                 b-row
                   .col
-                    .card-body.p-3
+                    .card-body.p-0
                       b-form-group
                         //b-form-file(v-model='task.file' :state='Boolean(task.file)' accept="application/pdf" placeholder='Choose a file or drop it here...' drop-placeholder='Drop file here...')
                         //.mt-3 Selected file: {{ task.file ? task.file.name : '' }}
@@ -422,7 +422,7 @@
       },
 
       url() {
-        return `/api/business/reminders/${(this.taskProp.id) ? `/${this.taskProp.id}` : ''}/documents`
+        return `/api/business/reminders/${(this.taskProp.id) ? `${this.taskProp.id}` : ''}/documents`
         // return `/api/business/reminders/${(this.taskProp.id) ? `/${this.taskProp.id}` : ''}/messages`
       },
       datepickerOptions() {
