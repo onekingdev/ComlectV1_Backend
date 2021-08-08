@@ -1,8 +1,8 @@
 <template lang="pug">
   b-input-group.mb-1
-    b-form-input(v-bind="datepickerOptions" @input="input")
+    b-form-input(v-bind="datepickerOptions" @input="input" :show-decade-nav="false" :hide-header="true")
     b-input-group-append
-      b-form-datepicker.d-none(v-bind="datepickerOptions" @input="input" :show-decade-nav="false" :hide-header="true" locale="en-US" button-only right)
+      b-form-datepicker(v-bind="datepickerOptions" @input="input" :show-decade-nav="false" :hide-header="true" locale="en-US" button-only right)
 </template>
 
 <script>

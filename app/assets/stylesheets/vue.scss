@@ -1023,7 +1023,7 @@ a.btn,
     box-shadow: none !important;
   }
 
-  .b-icon.bi {
+  &:not(.btn__menu).b-icon.bi {
     padding-bottom: 2px;
     font-size: 100%;
   }
