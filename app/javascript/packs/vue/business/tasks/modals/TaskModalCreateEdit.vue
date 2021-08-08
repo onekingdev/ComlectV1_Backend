@@ -160,6 +160,15 @@
     })
   }
 
+  const checkArray = function (nameArray, linkableTypeName) {
+    nameArray.forEach(element => {
+      if (element.title === value) {
+        tempTask.linkable_type = linkableTypeName
+        tempTask.linkable_id = element.id
+      }
+    });
+  }
+
   const rnd = () => Math.random().toFixed(10).toString().replace('.', '')
   const today = new Date();
   const year = today.getFullYear();
@@ -275,12 +284,6 @@
           const data = {
             ...this.task,
             occurenceParams
-            // linkable_type: 'CompliancePolicy',
-            // linkable_id: 145
-            // linkable_type: 'LocalProject',
-            // linkable_id: 7
-            // linkable_type: 'AnnualReport',
-            // linkable_id: 23
           }
           console.log(data)
 
@@ -298,52 +301,20 @@
           this.toast('Error', error.message, true)
           console.error('catch error', error)
         }
-
-        // fetch('/api/business/reminders' + toId + occurenceParams, {
-        //   method: 'POST',
-        //   headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
-        //   body: JSON.stringify(this.task)
-        // }).then(response => {
-        //   if (response.status === 422) {
-        //     response.json().then(errors => {
-        //       this.errors = errors
-        //       Object.keys(this.errors)
-        //         .map(prop => this.errors[prop].map(err => this.toast(`Error`, `${prop}: ${err}`)))
-        //     })
-        //   } else if (response.status === 201 || response.status === 200) {
-        //     this.$emit('saved')
-        //     this.toast('Success', 'The task has been saved')
-        //     this.$bvModal.hide(this.modalId)
-        //     this.resetTask()
-        //   } else {
-        //     this.toast('Error', 'Couldn\'t submit form')
-        //   }
-        // })
       },
 
       inputChangeLinked(value, ) {
         let tempTask = {}
-
-        const checkArray = function (nameArray, linkableTypeName) {
-          nameArray.forEach(element => {
-            if (element.title === value) {
-              tempTask.linkable_type = linkableTypeName
-              tempTask.linkable_id = element.id
-            }
-          });
-        }
-
         checkArray(this.projects, 'LocalProject')
         checkArray(this.policies, 'CompliancePolicy')
         checkArray(this.reviews, 'AnnualReport')
-
         this.task = {
           ...this.task,
           ...tempTask,
         }
       },
 
-      submitUpdate(e) {
+      async submitUpdate(e) {
         e.preventDefault();
 
         this.errors = []
@@ -354,14 +325,12 @@
             id: toId,
             task: {
               ...this.task,
-              // linkable_type: 'Exams',
-              // linkable_id: 28
             },
           }
 
           console.log(data)
 
-          this.$store.dispatch("reminders/updateTask", data)
+          await this.$store.dispatch("reminders/updateTask", data)
             .then(response => {
               // if (response.errors) {
               //   this.toast('Error', `${response.status}`)
@@ -369,7 +338,6 @@
               //     .map(prop => response.errors[prop].map(err => this.toast(`Error`, `${prop}: ${err}`)))
               //   return
               // }
-
               this.toast('Success', 'The task has been saved')
               this.$emit('saved')
               this.$bvModal.hide(this.modalId)
@@ -379,40 +347,7 @@
           this.toast('Error', error.message)
           console.error(error)
         }
-
-        // await this.$store.dispatch("reminders/updateTask", data)
-        //   .then((response) => {
-        //     console.log('updateTask response', response)
-        //
-        //     this.$emit('saved')
-        //     this.toast('Success', 'The task has been saved')
-        //     this.$bvModal.hide(this.modalId)
-        //   })
-        //   .catch((err) => console.error(err));
-
-        // fetch('/api/business/reminders' + toId, {
-        //   method: 'POST',
-        //   headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
-        //   body: JSON.stringify(this.task)
-        // }).then(response => {
-        //   if (response.status === 422) {
-        //     response.json().then(errors => {
-        //       this.errors = errors
-        //       Object.keys(this.errors)
-        //         .map(prop => this.errors[prop].map(err => this.toast(`Error`, `${prop}: ${err}`)))
-        //     })
-        //   } else if (response.status === 201 || response.status === 200) {
-        //     this.$emit('saved')
-        //     this.toast('Success', 'The task has been saved')
-        //     this.$bvModal.hide(this.modalId)
-        //     // this.resetTask()
-        //   } else {
-        //     this.toast('Error', 'Couldn\'t submit form')
-        //   }
-        // })
-
       },
-
       async onFileChanged(event) {
         const file = event.target.files && event.target.files[0]
         if (file) {
@@ -426,26 +361,16 @@
         return `/uploads/${document.file_data.storage}/${document.file_data.id}`
       },
       async getData () {
-
         this.task = { ...this.taskProp }
-
         try {
           if(this.taskProp)
             this.$store.dispatch("reminders/getTaskMessagesById", { id: this.taskProp.id })
-              .then((response) => console.log('getTaskMessagesById response mounted', response))
-              .catch((err) => console.error(err));
 
           this.$store.dispatch("getPolicies")
-            .then((response) => console.log('getPolicies response mounted', response))
-            .catch((err) => console.error(err));
 
           this.$store.dispatch('annual/getReviews')
-            .then((response) => console.log('getReviews response mounted', response))
-            .catch((err) => console.error(err));
 
           this.$store.dispatch('projects/getProjects')
-            .then((response) => console.log('getProjects response mounted', response))
-            .catch((err) => console.error(err));
 
         } catch (error) {
           console.error(error)
@@ -484,22 +409,12 @@
         return {REPEAT_NONE, REPEAT_DAILY, REPEAT_WEEKLY, REPEAT_MONTHLY, REPEAT_YEARLY}
       },
       repeatsOptions: () => REPEAT_OPTIONS.map(value => ({ value, text: REPEAT_LABELS[value] })),
-      // linkToOptions() {
-      //   return [{...toOption('Projects'), children: ['Some project', 'Another', 'One'].map(toOption)},
-      //     {...toOption('Annual Reviews'), children: ['Annual Review 2018', 'Annual Review 1337', 'Some Review'].map(toOption)},
-      //     {...toOption('Policies'), children: ['Pol', 'Icy', 'Policy 3'].map(toOption)}]
-      // },
       linkToOptions() {
         return [{...toOption('Projects'), children: this.projects.map(record => ({ id: record.title, label: record.title }))},
                 {...toOption('Internal Reviews'), children: this.reviews.map(record => ({ id: record.name, label: record.name }))},
                 {...toOption('Policies'), children: this.policies.map(record => ({ id: record.name, label: record.name }))},
               ]
       },
-      // linkToOptions() {
-      //   return [{...toOption('Projects'), children: this.projects.map(record => record.title).map(toOption)},
-      //     {...toOption('Internal Reviews'), children: this.reviews.map(record => record.name).map(toOption)},
-      //     {...toOption('Policies'), children: this.policies.map(record => record.name).map(toOption) }]
-      // },
       assigneeOptions() {
         return ['John', 'Doe', 'Another specialist'].map(toOption)
       },

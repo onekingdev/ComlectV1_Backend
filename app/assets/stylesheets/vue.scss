@@ -1431,6 +1431,10 @@ table.table thead tr th {
   .name {
     display: flex;
     align-items: center;
+
+    .b-icon.bi {
+      font-size: 1rem;
+    }
   }
 
   tbody ion-icon {

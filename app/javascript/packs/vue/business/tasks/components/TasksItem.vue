@@ -10,7 +10,7 @@
     td(v-if="!shortTable")
       .d-flex.align-items-center
         ion-icon.mr-1(v-if="linkedTo(item)" :name="linkedTo(item)" :class="linkedToClass(item)")
-        .link(v-if="item.linkable_type") {{ item.linkable_type }}
+        .link(v-if="item.linkable_type") {{ item.linkable_type | linkableTypeCorrector }}
         span(v-else) ---
     td(v-if="!shortTable") {{ item.assignee ? item.assignee : '---' }}
     td.text-right(v-if="!shortTable")
@@ -73,6 +73,12 @@ export default {
         .catch(error => this.toast('Error', `Something wrong! ${error.message}`, true))
     },
     editConfirmed() { console.log('editConfirmed') }
+  },
+  filters: {
+    linkableTypeCorrector: function (value) {
+      if (value === 'AnnualReport') value = 'Internal Review'
+      return value.replace(/[A-Z]/g, ' $&')
+    }
   },
 }
 </script>
