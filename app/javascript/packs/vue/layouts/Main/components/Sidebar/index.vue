@@ -1,5 +1,5 @@
 <template lang="pug">
-  nav.sidebar-menu(v-if="leftSidebar !== 'settings' || leftSidebar !== 'builder'" :class="{ menuClosed: toggleClosedMenu }")
+  nav.sidebar-menu(v-if="leftSidebar !== 'settings' || leftSidebar !== 'builder'" :class="[{ menuClosed: toggleClosedMenu }, leftSidebar==='builder' ? 'd-none' : '']")
     div.sidebar-menu__central(v-if="leftSidebar === 'default' || userType === 'specialist'")
       h3.sidebar-menu__title(
       :class="overview_collapse ? null : 'collapsed'"
