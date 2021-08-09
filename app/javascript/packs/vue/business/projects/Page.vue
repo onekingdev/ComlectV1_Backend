@@ -4,7 +4,7 @@
       .page-header__title
         h2.m-b-10 Projects
         p.page-header__subtitle.mb-0 Plan projects with employees or hire external specialists to help
-      .page-header__actions.m-t-40.mb-auto
+      .page-header__actions.mt-0.mb-auto
         router-link.btn.btn-default.m-r-1(to='/business/projects/new') Post Project
         LocalProjectModal(@saved="newEtag")
           a.btn.btn-primary New Project

@@ -313,12 +313,13 @@ input, button, select, optgroup, textarea {
     }
 
     &:hover {
-      color: $black;
-      font-weight: $font-weight-bold;
-    }
-    &:active {
       color: $gray-3;
       font-weight: $font-weight-regular;
+    }
+    &:active,
+    &.active {
+      color: $black;
+      font-weight: $font-weight-bold;
     }
 
     @include media-breakpoint-down(md) {
@@ -902,6 +903,7 @@ input, button, select, optgroup, textarea {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 2.5rem 2.5rem 1.25rem 2.5rem; // 40 40 20 40
 
   .separator {
     //color: #ffc107;
@@ -910,14 +912,10 @@ input, button, select, optgroup, textarea {
 
   &__title,
   &__title h2 {
-    margin: 2.5rem auto 1.9375rem 2.5rem; // 40px auto 31px 40px
+    margin: 0;
     font-size: 1.5rem; // 24px
     font-weight: 400;
     color: $black;
-  }
-
-  &__title h2 {
-    margin: 0;
   }
 
   &__subtitle {
@@ -925,11 +923,12 @@ input, button, select, optgroup, textarea {
   }
 
   &__actions {
-    margin-right: 2.5rem; // 40px
+    //margin-right: 2.5rem; // 40px
+    min-width: 250px;
+    text-align: right;
 
     @include media-breakpoint-down(lg) {
-      min-width: 250px;
-      text-align: right;
+
     }
   }
 }

@@ -2,20 +2,27 @@
   table.table.task_table
     thead
       tr
-        th Title
+        th Name
+          b-icon.ml-2(icon='chevron-expand')
         th Collaborators
+          b-icon.ml-2(icon='chevron-expand')
         th.text-right Tasks Left
+          b-icon.ml-2(icon='chevron-expand')
         th.text-right Cost
+          b-icon.ml-2(icon='chevron-expand')
         th Status
+          b-icon.ml-2(icon='chevron-expand')
         th Start Date
+          b-icon.ml-2(icon='chevron-expand')
         th.text-right End Date
+          b-icon.ml-2(icon='chevron-expand')
     tbody
       tr(v-for="project in projectsHrefs" :key="key(project)")
         // td: a.text-dark(:href="project.href") {{project.title}}
         td: router-link.link(:to='`${project.href}`') {{ project.title }}
         td {{ project.assignee }}
         td.text-right {{ project.tasksLeft }}
-        td.text-right {{ project.cost }}
+        td.text-right {{ project.cost | usdWhole }}
         td
           span.badge(:class="badgeClass(project)") {{ project.status | statusCorrector }}
         td {{ project.starts_on | asDate }}
