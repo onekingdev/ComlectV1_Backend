@@ -1,7 +1,7 @@
 <template lang="pug">
   .page-header.p-y-20
-    .d-flex.flex-column.p-x-40
-      Breadcrumbs(:items="breadcrumbs")
+    .d-flex.flex-column
+      Breadcrumbs.mb-2(:items="breadcrumbs")
       h2.page-header__title.my-0.ml-0.mb-2 {{ title }}
       p(v-if="sub") {{ sub }}
     .page-header__actions

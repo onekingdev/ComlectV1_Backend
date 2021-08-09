@@ -1,9 +1,9 @@
 <template lang="pug">
-  b-row(no-gutters)
-    .col-sm.border-dark-progress.p-t-1(v-for="(label, i) in stepsActive" :key="label")
-      b {{1+i}}. {{label}}
-    .col-sm.p-t-1(v-for="(label, i) in stepsInactive" :key="label")
-      | {{1+i+stepsActive.length}}. {{label}}
+  .steps
+    .step.active(v-for="(label, i) in stepsActive" :key="label")
+      h4.step__name {{1+i}}. {{label}}
+    .step(v-for="(label, i) in stepsInactive" :key="label")
+      h4.step__name {{1+i+stepsActive.length}}. {{label}}
 </template>
 
 <script>

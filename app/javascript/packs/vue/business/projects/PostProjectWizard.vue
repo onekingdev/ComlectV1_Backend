@@ -1,78 +1,83 @@
 <template lang="pug">
   ModelLoader(:url="projectId ? endpointUrl : undefined" :default="defaultProject" @loaded="loadProject" :callback="transformBackendModel")
-    Breadcrumbs(:items="['Projects', pageTitle]")
-    h2 {{ pageTitle }}
-    p Tell us more about your project and get connected to our experienced specialists.
-    WizardProgress(v-bind="{step,steps}")
-    .row.no-gutters
-      .col-md-6.p-t-2(v-if="step === steps[0]")
+    .page
+      .page-header
+        .d-flex.flex-column
+          Breadcrumbs.mb-2(:items="['Projects', pageTitle]")
+          .page-header__title.my-0.ml-0.m-b-10 {{ pageTitle }}
+          p.page-header__subtitle.mb-0 Tell us more about your project and get connected to our experienced specialists.
+      .p-x-40
+        WizardProgress(v-bind="{step,steps}")
+        .row.no-gutters
+          .col-md-6(v-if="step === steps[0]")
 
-        InputText(v-model="project.title" :errors="errors.title") Title
-        .row.m-t-1
-          .col-sm: InputDate(v-model="project.starts_on" :errors="errors.starts_on" :options="datepickerOptions") Start Date
-          .col-sm: InputDate(v-model="project.ends_on" :errors="errors.ends_on" :options="datepickerOptions") Due Date
+            InputText(v-model="project.title" :errors="errors.title") Name
+            .row.m-t-1
+              .col-sm: InputDate(v-model="project.starts_on" :errors="errors.starts_on" :options="datepickerOptions") Start Date
+              .col-sm: InputDate(v-model="project.ends_on" :errors="errors.ends_on" :options="datepickerOptions") Due Date
 
-        InputTextarea.m-t-1(v-model="project.description" :errors="errors.description") Description
-        InputTextarea.m-t-1(v-model="project.role_details" :errors="errors.role_details") Role Details
-        .form-text.text-muted Project post information for the specialist
+            InputTextarea.m-t-1(v-model="project.description" :errors="errors.description" placeholder="General project description") Description
+            InputTextarea.m-t-1(v-model="project.role_details" :errors="errors.role_details" placeholder="Describe specific specialsit role in the project") Role Details
+            //.form-text.text-muted Project post information for the specialist
 
-        InputSelect.m-t-1(v-model="project.location_type" :errors="errors.location_type" :options="locationTypes") Location Type
-        div.m-t-1(v-if="isLocationVisible")
-          label.form-label Location
-          input.form-control(v-model="project.location" type="text" v-google-maps-autocomplete)
-          Errors(:errors="errors.location")
+            InputSelect.m-t-1(v-model="project.location_type" :errors="errors.location_type" :options="locationTypes") Location Type
 
-        label.m-t-1.form-label Industry
-        ComboBox(v-model="project.industry_ids" :options="industryIdsOptions" :multiple="true")
-        Errors(:errors="errors.industry_ids")
+            div.m-t-1(v-if="isLocationVisible")
+              label.form-label Location
+              input.form-control(v-model="project.location" type="text" v-google-maps-autocomplete)
+              Errors(:errors="errors.location")
 
-        label.m-t-1.form-label Jurisdiction
-        ComboBox(v-model="project.jurisdiction_ids" :options="jurisdictionIdsOptions" :multiple="true")
-        Errors(:errors="errors.jurisdiction_ids")
+            label.m-t-1.form-label Industry
+            ComboBox(v-model="project.industry_ids" :options="industryIdsOptions" :multiple="true")
+            Errors(:errors="errors.industry_ids")
 
-    .row.no-gutters
-      .col-md-6.p-t-2(v-if="step === steps[1]")
-        InputSelect(v-model="project.minimum_experience" :errors="errors.minimum_experience" :options="experienceOptions") Minimum Experience
+            label.m-t-1.form-label Jurisdiction
+            ComboBox(v-model="project.jurisdiction_ids" :options="jurisdictionIdsOptions" :multiple="true")
+            Errors(:errors="errors.jurisdiction_ids")
 
-        b-form-checkbox.m-y-1(v-model="project.only_regulators") Only former regulators
-        Errors(:errors="errors.only_regulators")
+        .row.no-gutters
+          .col-md-6(v-if="step === steps[1]")
+            InputSelect(v-model="project.minimum_experience" :errors="errors.minimum_experience" :options="experienceOptions") Minimum Experience
 
-        label.form-label Skills
-        Get(skills="/api/skills" :callback="getSkillOptions"): template(v-slot="{skills}")
-          ComboBox(v-model="project.skill_names" :multiple="true" :id-as-label="true" :tree-props="comboboxProps(skills)" @input="inputSkills")
-        Errors(:errors="errors.skill_names")
+            b-form-checkbox.m-y-1(v-model="project.only_regulators") Only former regulators
+            Errors(:errors="errors.only_regulators")
 
-    .row.no-gutters
-      .col-md-6.p-t-2(v-if="step === steps[2]")
+            label.form-label Skills
+            Get(skills="/api/skills" :callback="getSkillOptions"): template(v-slot="{skills}")
+              ComboBox(v-model="project.skill_names" :multiple="true" :id-as-label="true" :tree-props="comboboxProps(skills)" @input="inputSkills")
+            Errors(:errors="errors.skill_names")
 
-        b-row.no-gutters
-          .card.col-sm.pointer(v-for="(type, i) in pricingTypes" :class="cardClass(type, i)" :key="i" @click="project.pricing_type = type.id")
-            .card-body
-              h5.card-title {{type.label}}
-              p.card-text {{type.text}}
+        .row.no-gutters
+          .col-md-6(v-if="step === steps[2]")
 
-        .m-t-1(v-if="project.pricing_type === pricingTypes[0].id")
-          InputText(v-model="project.est_budget" :errors="errors.est_budget") Estimated Budget
-          InputSelect.m-t-1(v-model="project.fixed_payment_schedule" :errors="errors.fixed_payment_schedule" :options="fixedPaymentScheduleOptions") Method of Payment
+            b-row.no-gutters
+              .card.col-sm.pointer(v-for="(type, i) in pricingTypes" :class="cardClass(type, i)" :key="i" @click="project.pricing_type = type.id")
+                .card-body
+                  h5.card-title {{type.label}}
+                  p.card-text {{type.text}}
 
-        div(v-else)
-          .m-t-1
-            InputText(v-model="project.hourly_rate" :errors="errors.hourly_rate") Estimated Hourly Rate
-          .m-t-1
-            InputText(v-model="project.upper_hourly_rate" :errors="errors.upper_hourly_rate") Upper Hourly Rate
-          .m-t-1
-            InputSelect.m-t-1(v-model="project.hourly_payment_schedule" :errors="errors.hourly_payment_schedule" :options="hourlyPaymentScheduleOptions") Method of Payment
+            .m-t-1(v-if="project.pricing_type === pricingTypes[0].id")
+              InputText(v-model="project.est_budget" :errors="errors.est_budget") Estimated Budget
+              InputSelect.m-t-1(v-model="project.fixed_payment_schedule" :errors="errors.fixed_payment_schedule" :options="fixedPaymentScheduleOptions") Method of Payment
 
-    .row.no-gutters
-      .col-md-6.text-right.m-t-1
-        button.btn.btn-outline-dark.float-left(v-if="prevEnabled" @click="prev") Previous
-        button.btn.m-r-1(@click="back") Exit
-        button.btn.btn-outline-dark.m-r-1(v-if="saveDraftEnabled && !canSaveDraft" @click="toast('Error', 'Please enter title')") Save as Draft
-        Post(v-else-if="saveDraftEnabled" :action="endpointUrl" :model="draftProject" :method="method" @saved="saved" @errors="errors = $event")
-          button.btn.btn-outline-dark.m-r-1 Save as Draft
-        button.btn.btn-dark(v-if="nextEnabled" @click="next") Next
-        Post(v-else :action="endpointUrl" :model="publishedProject" :method="method" @saved="saved" @errors="errors = $event")
-          button.btn.btn-dark Submit
+            div(v-else)
+              .m-t-1
+                InputText(v-model="project.hourly_rate" :errors="errors.hourly_rate") Estimated Hourly Rate
+              .m-t-1
+                InputText(v-model="project.upper_hourly_rate" :errors="errors.upper_hourly_rate") Upper Hourly Rate
+              .m-t-1
+                InputSelect.m-t-1(v-model="project.hourly_payment_schedule" :errors="errors.hourly_payment_schedule" :options="hourlyPaymentScheduleOptions") Method of Payment
+
+        .row.no-gutters
+          .col-md-6.text-right.m-t-1
+            button.btn.btn-outline-dark.float-left(v-if="prevEnabled" @click="prev") Previous
+            button.btn.btn-link.m-r-1(@click="back") Exit
+            button.btn.btn-default.m-r-1(v-if="saveDraftEnabled && !canSaveDraft" @click="toast('Error', 'Please enter title')") Save as Draft
+            Post(v-else-if="saveDraftEnabled" :action="endpointUrl" :model="draftProject" :method="method" @saved="saved" @errors="errors = $event")
+              button.btn.btn-default.m-r-1 Save as Draft
+            button.btn.btn-dark(v-if="nextEnabled" @click="next") Next
+            Post(v-else :action="endpointUrl" :model="publishedProject" :method="method" @saved="saved" @errors="errors = $event")
+              button.btn.btn-dark Submit
 </template>
 
 <script>

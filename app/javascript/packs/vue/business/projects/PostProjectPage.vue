@@ -1,10 +1,8 @@
 <template lang="pug">
-  .container.white-card-body
+  .white-card-body
     Get(staticCollections="/api/static_collection" :localProject="localProjectUrl")
       template(v-slot="{ staticCollections: { industries: industryIds, jurisdictions: jurisdictionIds }, localProject }")
-        .row.p-x-1
-          .col-md-12.p-t-3.p-b-1
-            Wizard(v-bind="{ projectId, industryIds, jurisdictionIds, localProject }")
+        Wizard(v-bind="{ projectId, industryIds, jurisdictionIds, localProject }")
 </template>
 
 <script>
