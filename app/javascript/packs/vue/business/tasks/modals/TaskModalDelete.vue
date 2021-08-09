@@ -7,10 +7,10 @@
       .row
         .col-md-1.text-center.px-0
           //b-icon.mt-2.ml-3(icon="exclamation-circle-fill" scale="2" variant="danger")
-          img(src='@/assets/error_20.svg' width="25" height="25")
+          img.mt-1.ml-1(src='@/assets/error_20.svg' width="25" height="25")
         .col
-          p Removing this task will delete any progress and tasks associated with the file.
-            br
+          p.m-b-10 Deleting this task will also remove all messages and documents associated with this task.
+          p.mb-0
             b Do you want to continue?
 
       Errors(:errors="errors.title")

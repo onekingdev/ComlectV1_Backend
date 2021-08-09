@@ -29,6 +29,7 @@
 .table__cell:first-child {
   width: 40%;
   /*word-break: break-all;*/
+  max-width: 320px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -37,6 +38,7 @@
 .table__cell_first a,
 .table__cell:first-child a {
   width: 100%;
+  max-width: 320px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

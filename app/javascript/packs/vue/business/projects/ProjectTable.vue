@@ -17,7 +17,7 @@
         td {{ project.tasksLeft }}
         td {{ project.cost }}
         td
-          span.badge(:class="badgeClass(project)") {{ project.status }}
+          span.badge(:class="badgeClass(project)") {{ project.status | statusCorrector }}
         td {{ project.starts_on | asDate }}
         td(class="due-date" :class="{ overdue: isOverdue(project) }")
           b-icon.mr-2(v-if="isOverdue(project)" icon="exclamation-triangle-fill" variant="warning")
@@ -52,6 +52,12 @@ export default {
         tasksLeft: tasksLeft(p)
       }))
     }
-  }
+  },
+  filters: {
+    statusCorrector: function (value) {
+      if (value === 'Inprogress') value = 'In Progress'
+      return value.replace(/[A-Z]/g, ' $&')
+    }
+  },
 }
 </script>

@@ -293,11 +293,11 @@ input, button, select, optgroup, textarea {
     color: $black;
     //font-size: 1rem;
 
+
     @include media-breakpoint-down(md) {
       margin-right: 0;
       width: 100%;
     }
-
   }
 
   .nav-link,
@@ -310,6 +310,15 @@ input, button, select, optgroup, textarea {
     &:active,
     &.active {
       text-decoration: none;
+    }
+
+    &:hover {
+      color: $black;
+      font-weight: $font-weight-bold;
+    }
+    &:active {
+      color: $gray-3;
+      font-weight: $font-weight-regular;
     }
 
     @include media-breakpoint-down(md) {
@@ -1431,6 +1440,7 @@ table.table thead tr th {
   border-bottom: 1px solid $gray-1;
 
 
+
   .btn.dropdown-toggle {
     padding-top: 0;
     padding-bottom: 0;
@@ -1444,6 +1454,7 @@ table.table thead tr th {
     .link,
     a.link {
       outline: 0 !important;
+      box-shadow: none !important;
 
       a,
       span {

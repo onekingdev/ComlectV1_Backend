@@ -16,8 +16,10 @@
                 | Show: {{ sortedByNameGeneral | capitalize }}
                 ion-icon.ml-2(name="chevron-down-outline" size="small")
               b-dropdown-item(@click="sortBy('all')") All Tasks
-              b-dropdown-item(@click="sortBy('overdue')") Overdue
+              b-dropdown-item(@click="sortBy('notStarted')") Not Started
+              b-dropdown-item(@click="sortBy('draft')") Draft
               b-dropdown-item(@click="sortBy('completed')") Completed
+              b-dropdown-item(@click="sortBy('overdue')") Overdue
             b-dropdown.actions__dropdown.actions__dropdown_links.m-r-1(variant="default")
               template(#button-content)
                 | {{ sortedByNameAdditional | capitalize | linkableTypeCorrector }}
@@ -48,7 +50,7 @@
           .col
             Loading(:absolute="true")
             TaskTable.m-b-40(v-if="tasks" :shortTable="shortTable", :tasks="sortedTasks" :perPage="perPage" :currentPage="currentPage")
-            b-pagination(v-if="!shortTable && sortedTasks.length >= perPage" v-model='currentPage' :total-rows='rows' :per-page='perPage' :shortTable="!shortTable",  aria-controls='tasks-table')
+            b-pagination(v-if="!shortTable && sortedTasks.length > perPage" v-model='currentPage' :total-rows='rows' :per-page='perPage' :shortTable="!shortTable",  aria-controls='tasks-table')
 
 </template>
 
