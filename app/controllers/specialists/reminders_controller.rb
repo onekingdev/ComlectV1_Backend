@@ -2,6 +2,7 @@
 
 class Specialists::RemindersController < ApplicationController
   include RemindersUpdater
+  include ActionView::Helpers::TagHelper
 
   before_action :require_specialist!
   before_action :set_specialist
@@ -54,10 +55,13 @@ class Specialists::RemindersController < ApplicationController
 
   def index
     respond_to do |format|
+      format.html do
+        render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_specialist_layout'
+      end
       format.pdf do
         render pdf: 'reminders.pdf',
-               template: 'business/reminders/index.pdf.erb', encoding: 'UTF-8',
-               locals: { remindable: @specialist },
+               template: 'specialist/reminders/index.pdf.erb', encoding: 'UTF-8',
+               locals: { remindable: current_specialist },
                margin: { top:               20,
                          bottom:            25,
                          left:              15,

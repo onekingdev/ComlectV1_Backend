@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+
+import tasks from "./specialistModules/tasks"
 import settings from "./specialistModules/settings";
 import shared from "./commonModules/shared";
 // import auth from "./commonModules/auth";
@@ -27,6 +29,10 @@ const store = new Vuex.Store({
   modules: {
     shared,
     // auth,
+    reminders: {
+      namespaced: true,
+      ...tasks,
+    },
     settings: {
       namespaced: true,
       ...settings,

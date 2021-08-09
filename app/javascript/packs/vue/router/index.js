@@ -52,6 +52,7 @@ import SettingsS from '@/specialist/settings/Page'
 import SettingsNotificationsS from '@/specialist/notifications/Page'
 import ProjectsMarketplaceS from '@/specialist/projects/IndexPage'
 import ProfileS from '@/specialist/profile/Page'
+import TasksS from '@/business/tasks/Page'
 
 Vue.use(Router)
 
@@ -96,13 +97,13 @@ export default new Router({
     { path: '/business/compliance_policies/entire', name: 'policies-entire', props: true, component: PoliciesEntire },
     { path: '/business/compliance_policies/:policyId(\\d+)', name: 'policy-current', props: route => ({ policyId: +route.params.policyId }), component: PolicyCurrentNoSections },
     { path: '/business/annual_reviews', name: 'annual-reviews', component: AnnualReviews },
-    { path: '/business/annual_reviews/:annualId', name: 'annual-reviews-general', props: route => ({ annualId: +route.params.id }), component: AnnualReviewsCurrentGeneral, },
-    { path: '/business/annual_reviews/:annualId/:revcatId(\\d+)', name: 'annual-reviews-review-category', props: route => ({ annualId: +route.params.id }, {revcatId: +route.params.id}), component: AnnualReviewsCurrentReviewCategory },
+    { path: '/business/annual_reviews/:annualId', name: 'annual-reviews-general', props: route => ({ annualId: +route.params.annualId }), component: AnnualReviewsCurrentGeneral, },
+    { path: '/business/annual_reviews/:annualId/:revcatId(\\d+)', name: 'annual-reviews-review-category', props: route => ({ annualId: +route.params.annualId }, {revcatId: +route.params.revcatId}), component: AnnualReviewsCurrentReviewCategory },
     { path: '/business/risks', name: 'risks', component: Risks },
-    { path: '/business/risks/:riskId(\\d+)', name: 'risk-review', props: route => ({ riskId: +route.params.id }), component: RiskDetail },
+    { path: '/business/risks/:riskId(\\d+)', name: 'risk-review', props: route => ({ riskId: +route.params.riskId }), component: RiskDetail },
     { path: '/business/file_folders', name: 'file-folders', component: FileFolders },
     { path: '/business/exam_management', name: 'exam-management', component: Exams },
-    { path: '/business/exam_management/:examId(\\d+)', name: 'exam-management-current-review', props: route => ({ examId: +route.params.id }), component: ExamCurrentReview },
+    { path: '/business/exam_management/:examId(\\d+)', name: 'exam-management-current-review', props: route => ({ examId: +route.params.examId }), component: ExamCurrentReview },
     { path: '/business/reports/risks', name: 'reports-risks', component: ReportsRisks },
     { path: '/business/reports/organizations', name: 'reports-organizations', component: ReportsOrganizations },
     { path: '/business/reports/financials', name: 'reports-financials', component: ReportsFinancials },
@@ -124,6 +125,7 @@ export default new Router({
 
     // SPECIALISTS
     { path: '/specialist', name: 'dashboard-specialist', component: DashboardS },
+    { path: '/specialist/reminders', name: 'tasks', component: TasksS },
     { path: '/specialist/my-projects', name: 'projects-specialist', component: ProjectsS },
     { path: '/specialist/my-projects/:id(\\d+)', name: 'project-review-specialist', props: paramsToInts(['id']), component: ProjectReviewS },
     { path: '/specialist/settings', name: 'settings-specialist', component: SettingsS,
