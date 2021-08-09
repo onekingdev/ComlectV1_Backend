@@ -8,12 +8,12 @@
     //  b-dropdown-item Monhly
     //  b-dropdown-item Weekly
     //  b-dropdown-item Daily
-    b-dropdown#dropdown-form.m-0(ref='dropdown' variant="light-outline")
+    b-dropdown#dropdown-form.m-0(ref='dropdown' variant="default")
       template(#button-content)
-        | Download
+        b Download
         //b-icon.ml-2(icon="chevron-down")
-      b-dropdown-form.p-y-10(style="width: 400px;")
-        b-row(no-gutters)
+      b-dropdown-form(style="width: 400px;" right)
+        b-row.m-t-1(no-gutters)
           .col-sm.m-r-1
             label.form-label Start Date
             DatePicker(v-model="download.start_date")
@@ -47,7 +47,7 @@
     methods: {
       onClick() {
         // Close the menu and (by passing true) return focus to the toggle button
-        this.$refs.dropdown.hide(true)
+        // this.$refs.dropdown.hide(true)
       },
     }
   }

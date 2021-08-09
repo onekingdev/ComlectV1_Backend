@@ -48,19 +48,23 @@
                 td &hellip;
       b-tab(title="Ratings and Reviews")
         .card-body.white-card-body.card-body_full-height
-          Get(ratings='/api/project_ratings'): template(v-slot="{ratings}"): table.rating_table
-            tbody
-              tr(v-for="rating in ratings")
-                td
-                  img.m-r-1.userpic_small(v-bind:src="rating.rater_pic")
-                td
-                  h3 {{rating.project_title}}
-                  p {{rating.rater_name}} | {{rating.created_at | asDate}}
-                  p: i "{{rating.review}}"
-                td: StarRating(:stars="rating.value")
-              tr(v-if="!ratings.length")
-                td.text-center
-                  h3.text-dark.p-y-2 No ratings
+          Get(ratings='/api/project_ratings'): template(v-slot="{ratings}")
+            table.rating_table(v-if="ratings.length")
+              tbody
+                tr(v-for="rating in ratings")
+                  td
+                    img.m-r-1.userpic_small(v-bind:src="rating.rater_pic")
+                  td
+                    h3 {{rating.project_title}}
+                    p {{rating.rater_name}} | {{rating.created_at | asDate}}
+                    p: i "{{rating.review}}"
+                  td: StarRating(:stars="rating.value")
+                tr(v-if="!ratings.length")
+                  td.text-center
+                    h3.text-dark.p-y-2 No ratings
+            .row.h-100(v-if="!ratings.length")
+              .col.h-100.text-center
+                EmptyState(name="Tasks")
 </template>
 
 <script>

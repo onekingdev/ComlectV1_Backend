@@ -66,7 +66,7 @@ $font-size-24: 1.5rem;
 
 @mixin font-bold-14 {
   font-size: $font-size-14;
-  font-weight: $font-weight-semi-bold;
+  font-weight: $font-weight-bold;
 }
 
 /* ---------- MAIN STYLES ---------- */
@@ -1346,7 +1346,7 @@ a.btn,
   display: flex;
   align-items: center;
 
-  @include font-bold-14
+  font-size: $font-size-14;
 }
 
 .dropdown-toggle::after {
@@ -1385,6 +1385,7 @@ a.link,
 
   .d-inline-block {
     margin-bottom: -5px;
+    width: 100%;
     max-width: 320px;
     white-space: nowrap;
     overflow: hidden;
@@ -1429,10 +1430,6 @@ table.table thead tr th {
   border-top: none;
   border-bottom: 1px solid $gray-1;
 
-  max-width: 250px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 
   .btn.dropdown-toggle {
     padding-top: 0;
@@ -2041,11 +2038,14 @@ table.table thead tr th {
     &:hover,
     &:focus {
       background-color: $gray-hover;
+      outline: none !important;
+      box-shadow: none !important;
     }
 
     &:active,
     &.active {
-
+      outline: none !important;
+      box-shadow: none !important;
     }
   }
 }
@@ -2102,9 +2102,17 @@ table.table thead tr th {
   }
 
   &.alert-dismissible .close {
-    margin: 1rem;
-    padding: 0.25rem;
+    //margin: 1rem;
+    //padding: 0.25rem;
   }
+}
+
+.alert-dismissible .close {
+  top: 50%;
+  right: 1.25rem;
+  bottom: 0;
+  transform: translateY(-50%);
+  padding: .5rem;
 }
 
 

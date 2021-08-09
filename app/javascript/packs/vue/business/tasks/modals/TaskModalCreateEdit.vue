@@ -1,6 +1,6 @@
 <template lang="pug">
-  div.d-inline-block
-    div.d-inline-block(v-b-modal="modalId")
+  div(:class="{'d-inline-block':inline}")
+    div(v-b-modal="modalId" :class="{'d-inline-block':inline}")
       slot
 
     b-modal.fade(:id="modalId" :title="taskProp ? taskProp.body : 'New task'" :size="taskProp ? 'xl' : 'md'" @show="getData")
