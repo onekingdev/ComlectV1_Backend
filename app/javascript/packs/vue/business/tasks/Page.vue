@@ -4,7 +4,7 @@
       h2.page-header__title Tasks
       .page-header__actions
         //a.btn.btn-default.m-r-1(v-if="!shortTable" :href="pdfUrl" target="_blank") Download
-        Download.d-inline-block.m-r-1(v-if="!shortTable" :href="pdfUrl")
+        Download.d-inline-block.m-r-1(v-if="!shortTable" :pdfUrl="pdfUrl")
         TaskModalCreateEdit(@saved="refetch()")
           a.btn.btn-dark New Task
     .card-body.white-card-body.card-body_full-height.p-x-40

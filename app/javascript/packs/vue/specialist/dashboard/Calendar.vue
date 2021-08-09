@@ -8,7 +8,7 @@
           small.float-right(style="vertical-align: middle")
             ion-icon.m-x-1(name='chevron-back-outline' @click.prevent="prev")
             ion-icon(name='chevron-forward-outline' @click.prevent="next")
-      Download(:href="pdfUrl")
+      Download(:pdfUrl="pdfUrl")
     .card-body.p-20
       FullCalendar(:options="calendarOptions" ref="FullCalendar")
         template(v-slot:dayCellContent="arg")

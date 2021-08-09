@@ -1128,6 +1128,7 @@ a.btn,
 
 .btn.link,
 .btn.btn-link {
+  font-weight: $font-weight-regular;
   color: $blue;
   background-color: $white;
   border-color: $white;
@@ -1345,7 +1346,7 @@ a.btn,
   display: flex;
   align-items: center;
 
-  @include font-regular-14
+  @include font-bold-14
 }
 
 .dropdown-toggle::after {

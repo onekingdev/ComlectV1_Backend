@@ -12,7 +12,7 @@
       template(#button-content)
         | Download
         //b-icon.ml-2(icon="chevron-down")
-      b-dropdown-form.p-y-20(style="width: 400px;")
+      b-dropdown-form.p-y-10(style="width: 400px;")
         b-row(no-gutters)
           .col-sm.m-r-1
             label.form-label Start Date
@@ -30,11 +30,10 @@
 <script>
   export default {
     props: {
-      href: {
+      pdfUrl: {
         type: String,
-        required: false,
-        default: '#'
-      }
+        required: true
+      },
     },
     data() {
       return {
