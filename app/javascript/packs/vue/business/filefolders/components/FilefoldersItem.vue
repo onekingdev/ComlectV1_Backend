@@ -6,8 +6,8 @@
         input.valid(:id="`ch-${item.id}`" type='checkbox' name='checkbox' v-model='form.checked[item.id]' @change="onChange")
         label(:for="`ch-${item.id}`" class='form-check__label')
     td.align-middle
-      .d-flex.align-items-center
-        a.link.d-flex.align-items-center(:href="itemType === 'file' ? item.file_addr : '#'" :target="itemType === 'file' ? '_blank' : '_self'" @click="openFolder($event, item.id, item.file_addr, item.name)")
+      .d-flex.align-items-center.truncate
+        a.link(:href="itemType === 'file' ? item.file_addr : '#'" :target="itemType === 'file' ? '_blank' : '_self'" @click="openFolder($event, item.id, item.file_addr, item.name)")
           ion-icon.m-r-1(:name="itemType === 'folder' ? 'folder-outline' : 'document-outline'" size="small")
           | {{ item.name }}
         span.m-l-1(v-if="disabled")

@@ -1426,6 +1426,11 @@ table.table thead tr th {
   border-top: none;
   border-bottom: 1px solid $gray-1;
 
+  max-width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
   .btn.dropdown-toggle {
     padding-top: 0;
     padding-bottom: 0;
@@ -1566,6 +1571,21 @@ table.table thead tr th {
   display: table;
   width: 100%;
   table-layout: fixed; /* even columns width , fix width of table too*/
+}
+
+/* ---------- Additional style change later for better solution ---------- */
+.truncate {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  a {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 /* ---------- ACCESS DENIED PAGE ---------- */

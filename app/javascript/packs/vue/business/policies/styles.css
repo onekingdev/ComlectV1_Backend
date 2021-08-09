@@ -28,7 +28,18 @@
 .table__cell_first,
 .table__cell:first-child {
   width: 40%;
-  word-break: break-all;
+  /*word-break: break-all;*/
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.table__cell_first a,
+.table__cell:first-child a {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .table__cell:nth-child(2) {

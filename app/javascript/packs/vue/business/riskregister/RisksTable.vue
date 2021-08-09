@@ -32,7 +32,7 @@
           tbody
             tr(v-for="risk in filteredRisksComputed" :key="risk.id")
               td
-                .d-flex.align-items-center.link
+                .d-flex.align-items-center.link.truncate
                   .dropdown-toggle(v-if="risk.compliance_policies.length !== 0" :id="`#sectionIcon-${risk.id}`", @click="toogleSections(risk.id)")
                     b-icon.m-r-1(icon="chevron-right")
                   a(:href="`/business/risks/${risk.id}`") {{ risk.name }}
