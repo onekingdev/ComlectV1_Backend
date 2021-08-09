@@ -42,7 +42,7 @@
                   b-icon.ml-2(icon='chevron-expand')
                 th Status
                   b-icon.ml-2(icon='chevron-expand')
-                th Rating
+                th(width="140px") Rating
                   b-icon.ml-2(icon='chevron-expand')
                 th(width="40px")
             tbody
@@ -52,8 +52,8 @@
                 td: .badge.badge-success {{ contact.status }}
                 //td: StarRating(:stars="contact.rating")
                 //td &hellip;
-                td
-                  .d-flex
+                td.text-right
+                  .d-flex.justify-content-end
                     StarsRating(:rate="contact.rating")
                 td(width="40px").text-right
                   b-dropdown(size="xs" variant="none" class="m-0 p-0" right)
@@ -63,7 +63,7 @@
                     b-dropdown-item Remove Contact
       b-tab(title="Ratings and Reviews")
         .card-body.white-card-body.card-body_full-height
-          Get(ratings='/api/project_ratings'): template(v-slot="{ratings}")
+          Get.h-100(ratings='/api/project_ratings'): template(v-slot="{ratings}")
             table.rating_table(v-if="ratings.length")
               tbody
                 tr(v-for="rating in ratings")
