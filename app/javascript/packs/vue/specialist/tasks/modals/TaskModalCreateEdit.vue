@@ -8,14 +8,14 @@
         div(:class="taskProp ? 'col-lg-6 pr-2' : 'col'")
           InputText(v-model="task.body" :errors="errors.body" placeholder="Enter the name of your task") Task Name
 
-          label.m-t-1.form-label Link to
-          ComboBox(V-model="task.link_to" :options="linkToOptions" placeholder="Select projects, internal reviews, or policies to link the task to" @input="inputChangeLinked")
-          .form-text.text-muted Optional
-          Errors(:errors="errors.link_to")
+          //label.m-t-1.form-label Link to
+          //ComboBox(V-model="task.link_to" :options="linkToOptions" placeholder="Select projects, internal reviews, or policies to link the task to" @input="inputChangeLinked")
+          //.form-text.text-muted Optional
+          //Errors(:errors="errors.link_to")
 
-          label.m-t-1.form-label Assignee
-          ComboBox(V-model="task.assignee" :options="assigneeOptions" placeholder="Select an assignee")
-          Errors(:errors="errors.assignee")
+          //label.m-t-1.form-label Assignee
+          //ComboBox(V-model="task.assignee" :options="assigneeOptions" placeholder="Select an assignee")
+          //Errors(:errors="errors.assignee")
 
           b-row.m-t-1(no-gutters)
             .col-sm.m-r-1
