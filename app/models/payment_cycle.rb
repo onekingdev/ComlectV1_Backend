@@ -17,7 +17,11 @@ class PaymentCycle
   def self.for(project)
     return PaymentCycle::FullTime.new(project) if project.full_time?
     hourly_or_fixed = project.hourly_pricing? ? 'hourly' : 'fixed'
-    klass = SCHEDULE_CLASSES.fetch("#{hourly_or_fixed}/#{project.payment_schedule.parameterize.underscore}")
+
+    klass = SCHEDULE_CLASSES.fetch(
+      "#{hourly_or_fixed}/#{project.payment_schedule.parameterize.underscore}"
+    )
+
     klass.new(project)
   end
 

@@ -6,15 +6,15 @@ class ProjectEnd::Request < Draper::Decorator
 
   extend NotificationsHelper
 
-  def self.process!(project, someone)
+  def self.process!(project, someone = nil)
     return if project.end_requests.any?(&:confirmed?)
 
     # Delete previous request if any
     pending.where(project_id: project).delete_all
     expires_at = BufferDate.for(project.business.tz.now, time_zone: project.business.tz)
-    new(create!(project: project,
-                expires_at: expires_at,
-                requester: someone.class.name)).tap do |request|
+    obj = new(create!(project: project, expires_at: expires_at, requester: someone.class.name))
+
+    obj.tap do |request|
       if someone.class.name.include?('Business')
         request.confirm!
         Notification::Deliver.end_project_accepted! request

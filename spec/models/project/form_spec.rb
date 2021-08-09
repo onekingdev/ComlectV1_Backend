@@ -54,21 +54,27 @@ RSpec.describe Project::Form, type: :model do
   end
 
   describe 'validations' do
-    let(:form) {
-      Project::Form.new(business: business).tap do |form|
+    let(:form) do
+      obj = Project::Form.new(
+        business: business,
+        upper_hourly_rate: 100,
+        role_details: 'role_details'
+      )
+
+      obj.tap do |form|
         form.assign_attributes project
       end
-    }
+    end
 
     context 'when asap duration' do
       context 'with estimated_days present' do
-        let(:project) {
+        let(:project) do
           attributes_for(
             :project_one_off_hourly,
             :asap_duration,
             estimated_days: 15
           )
-        }
+        end
 
         it 'is valid' do
           expect(form).to be_valid
@@ -76,13 +82,13 @@ RSpec.describe Project::Form, type: :model do
       end
 
       context 'without estimated_days present' do
-        let(:project) {
+        let(:project) do
           attributes_for(
             :project_one_off_hourly,
             :asap_duration,
             estimated_days: nil
           )
-        }
+        end
 
         it 'is not valid' do
           expect(form).not_to be_valid
@@ -91,14 +97,14 @@ RSpec.describe Project::Form, type: :model do
       end
 
       context 'with starts_on and ends_on present' do
-        let(:project) {
+        let(:project) do
           attributes_for(
             :project_one_off_hourly,
             :asap_duration,
             starts_on: 1.month.from_now,
             ends_on: 1.month.from_now + 1.month
           )
-        }
+        end
 
         it 'is not valid' do
           expect(form).not_to be_valid
@@ -124,7 +130,15 @@ RSpec.describe Project::Form, type: :model do
   end
 
   describe '#post' do
-    let!(:project) { create(:project_one_off_hourly, business: business) }
+    let!(:project) do
+      create(
+        :project_one_off_hourly,
+        business: business,
+        role_details: 'role_details',
+        upper_hourly_rate: 100
+      )
+    end
+
     let!(:form) { Project::Form.find(project.id) }
 
     it 'publishes project' do
@@ -135,7 +149,15 @@ RSpec.describe Project::Form, type: :model do
   end
 
   describe '#save' do
-    let!(:project) { create(:project_one_off_hourly, business: business) }
+    let!(:project) do
+      create(
+        :project_one_off_hourly,
+        business: business,
+        role_details: 'role_details',
+        upper_hourly_rate: 100
+      )
+    end
+
     let!(:form) { Project::Form.find(project.id) }
 
     it 'publishes project' do

@@ -13,7 +13,7 @@ class Notification < ApplicationRecord
   scope :not_forum, -> { where.not(key: %w[forum_comment forum_answer industry_forum_question]) }
 
   def self.enabled?(who, notification)
-    who.settings(:notifications).public_send(notification)
+    who.settings(:in_app_notifications).public_send(notification)
   end
 
   def self.clear!(user, key, associated)

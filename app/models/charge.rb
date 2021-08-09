@@ -7,7 +7,7 @@ class Charge < ApplicationRecord
   has_one :business, through: :project
   has_one :specialist, through: :project
 
-  COMPLECT_FEE_PCT = 0.10
+  COMPLECT_FEE_PCT = 0
   COMPLECT_ADMIN_FEE_CENTS = 150
   STRIPE_FEES = {
     usd: { percent: 2.9, fixed: 0.30, ach: 0.8 },
@@ -151,7 +151,6 @@ class Charge < ApplicationRecord
     return unless specialist
 
     self.specialist_fee_in_cents = 0 if specialist&.zero_fee || PortedBusiness.ported?(business&.id, specialist&.id)
-
     self.specialist_fee_in_cents ||= amount_in_cents * COMPLECT_FEE_PCT
   end
 end
