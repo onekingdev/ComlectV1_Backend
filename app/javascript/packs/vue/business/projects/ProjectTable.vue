@@ -1,34 +1,34 @@
 <template lang="pug">
-  table.table.task_table
+  table.table.task_table.project-table
     thead
       tr
-        th Name
+        th.project-table__name.project-table__name_head Name
           b-icon.ml-2(icon='chevron-expand')
-        th Collaborators
+        th.project-table__assignee.project-table__assignee_head Collaborators
           b-icon.ml-2(icon='chevron-expand')
-        th.text-right Tasks Left
+        th.project-table__left.project-table__left_head.text-right Tasks Left
           b-icon.ml-2(icon='chevron-expand')
-        th.text-right Cost
+        th.project-table__coast.project-table__coast_head.text-right Cost
           b-icon.ml-2(icon='chevron-expand')
-        th Status
+        th.project-table__status.project-table__status_head Status
           b-icon.ml-2(icon='chevron-expand')
-        th Start Date
+        th.project-table__start-date.project-table__start-date_head Start Date
           b-icon.ml-2(icon='chevron-expand')
-        th.text-right End Date
+        th.project-table__end-date.project-table__end-date_head.text-right End Date
           b-icon.ml-2(icon='chevron-expand')
     tbody
       tr(v-for="project in projectsHrefs" :key="key(project)")
         // td: a.text-dark(:href="project.href") {{project.title}}
-        td: router-link.link(:to='`${project.href}`') {{ project.title }}
-        td {{ project.assignee }}
-        td.text-right {{ project.tasksLeft }}
-        td.text-right {{ project.cost | usdWhole }}
-        td
+        td.project-table__name: router-link.link(:to='`${project.href}`') {{ project.title }}
+        td.project-table__assignee {{ project.assignee }}
+        td.project-table__left.text-right {{ project.tasksLeft }}
+        td.project-table__coast.text-right {{ project.cost | usdWhole }}
+        td.project-table__status
           span.badge(:class="badgeClass(project)") {{ project.status | statusCorrector }}
-        td {{ project.starts_on | asDate }}
-        td.text-right(class="due-date" :class="{ overdue: isOverdue(project) }")
+        td.project-table__start-date {{ project.starts_on | asDate }}
+        td.project-table__end-date.text-right(class="due-date" :class="{ overdue: isOverdue(project) }")
           b-icon.mr-2(v-if="isOverdue(project)" icon="exclamation-triangle-fill" variant="warning")
-          | {{ project.ends_on | asDate }}
+          span.end-date {{ project.ends_on | asDate }}
 </template>
 
 <script>

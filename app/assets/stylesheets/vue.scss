@@ -1391,24 +1391,6 @@ a.link,
   color: $blue;
   outline: 0;
   cursor: pointer;
-
-  max-width: 250px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-
-  .d-inline-block {
-    margin-bottom: -5px;
-    width: 100%;
-    max-width: 320px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-
-    @include media-breakpoint-down(xs) {
-      max-width: 100px;
-    }
-  }
 }
 
 a:hover {
@@ -1425,84 +1407,79 @@ a:hover {
 /*border: 1px solid red*/
 //}
 table.table,
-table.table thead tr th {
-  font-size: 0.875rem; //14px
-  font-weight: 400;
-  vertical-align: middle;
-  color: $gray-3;
-  white-space: nowrap;
-}
+table.table
 
-.table thead th {
-  padding-bottom: .3rem;
-  border-bottom: 1px solid $gray-1;
-}
-
-.table th,
-.table td {
-  padding: 0.625rem;
-  border-top: none;
-  border-bottom: 1px solid $gray-1;
-
-  .btn.dropdown-toggle {
-    padding-top: 0;
-    padding-bottom: 0;
+table.table {
+  th {
+    padding-bottom: .3rem;
+    @include font-regular-14;
+    color: $gray-3;
+    white-space: nowrap;
+    border-bottom: 1px solid $gray-1;
   }
 
-  @include media-breakpoint-down(lg) {
-    //@media (max-width: 1000px) {
-    padding: 0.75rem 0.35em;
+  td {
+    color: $black;
+  }
 
-
-    .link,
-    a.link {
-      outline: 0 !important;
-      box-shadow: none !important;
-
-      a,
-      span {
-        max-width: 250px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-
-        outline: 0 !important;
-      }
-
-      ion-icon {
-        font-size: 90%;
-      }
-    }
-
-    .m-r-1 {
-      margin-right: .2em;
-    }
+  th,
+  td {
+    padding: 0.625rem;
+    border-top: none;
+    border-bottom: 1px solid $gray-1;
 
     .btn.dropdown-toggle {
-      padding: 0;
+      padding-top: 0;
+      padding-bottom: 0;
     }
 
-    .b-icon.bi {
-      font-size: 100%;
+    @include media-breakpoint-down(lg) {
+      //@media (max-width: 1000px) {
+      padding: 0.75rem 0.35em;
+
+
+      .link,
+      a.link {
+        outline: 0 !important;
+        box-shadow: none !important;
+
+        a,
+        span {
+          max-width: 250px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+
+          outline: 0 !important;
+        }
+
+        ion-icon {
+          font-size: 90%;
+        }
+      }
+
+      .m-r-1 {
+        margin-right: .2em;
+      }
+
+      .btn.dropdown-toggle {
+        padding: 0;
+      }
+
+      .b-icon.bi {
+        font-size: 100%;
+      }
     }
   }
-}
 
-.table td {
-  color: $black;
-
-  &:first-child {
-    width: 100%;
-    max-width: 320px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
 }
 
 .task_table {
 
   &.short-table {
+    thead {
+      width: calc(100% - 1em) /* scrollbar is average 1em/16px width, remove it from thead width */
+    }
     th, td {
       padding: .4rem 0.625rem;
 
@@ -1511,17 +1488,42 @@ table.table thead tr th {
       overflow: hidden;
       text-overflow: ellipsis;
 
-      &:last-child {
-        width: 110px;
-      }
+      //&:last-child {
+      //  width: 110px;
+      //}
+    }
+    tbody {
+      display: block;
+      max-height: 20rem;
+      overflow: auto;
+    }
+
+    thead,
+    tbody tr {
+      display: table;
+      width: 100%;
+      table-layout: fixed; /* even columns width , fix width of table too*/
     }
   }
 
-  &:not(&.short-table) {
-    th, td {
-      &:first-child {
-        width: 25%;
-      }
+  //&:not(&.short-table) {
+  //  th, td {
+  //    &:first-child {
+  //      width: 25%;
+  //    }
+  //  }
+  //}
+
+  .d-inline-block {
+    margin-bottom: -5px;
+    width: 100%;
+    max-width: 375px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    @include media-breakpoint-down(xs) {
+      max-width: 100px;
     }
   }
 
@@ -1587,21 +1589,44 @@ table.table thead tr th {
   font-size: 125%;
 }
 
-.short-table thead {
-  width: calc(100% - 1em) /* scrollbar is average 1em/16px width, remove it from thead width */
-}
+.project-table {
 
-.short-table tbody {
-  display: block;
-  max-height: 20rem;
-  overflow: auto;
-}
+  &__name {
+    &_head {}
 
-.short-table thead,
-.short-table tbody tr {
-  display: table;
-  width: 100%;
-  table-layout: fixed; /* even columns width , fix width of table too*/
+    max-width: 375px;
+    //max-width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  &__assignee {
+    &_head {}
+  }
+  &__left{
+    &_head {}
+  }
+  &__coast{
+    &_head {}
+  }
+  &__status{
+    &_head {}
+  }
+  &__start-date{
+    &_head {}
+
+    width: 110px;
+  }
+  &__end-date{
+    &_head {}
+
+    width: 140px;
+
+    .end-date {
+      display: inline-block;
+      min-width: 80px;
+    }
+  }
 }
 
 /* ---------- Additional style change later for better solution ---------- */
