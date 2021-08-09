@@ -1412,7 +1412,6 @@ table.table
 table.table {
   th {
     padding-bottom: .3rem;
-    @include font-regular-14;
     color: $gray-3;
     white-space: nowrap;
     border-bottom: 1px solid $gray-1;
@@ -1425,6 +1424,7 @@ table.table {
   th,
   td {
     padding: 0.625rem;
+    @include font-regular-14;
     border-top: none;
     border-bottom: 1px solid $gray-1;
 
