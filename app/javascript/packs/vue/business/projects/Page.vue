@@ -37,17 +37,30 @@
             thead
               tr
                 th Name
+                  b-icon.ml-2(icon='chevron-expand')
                 th Location
+                  b-icon.ml-2(icon='chevron-expand')
                 th Status
+                  b-icon.ml-2(icon='chevron-expand')
                 th Rating
-                th
+                  b-icon.ml-2(icon='chevron-expand')
+                th(width="40px")
             tbody
               tr(v-for="contact in contacts" :key="contact.id")
                 td {{ contact.name }}
                 td {{ contact.location }}
                 td: .badge.badge-success {{ contact.status }}
-                td: StarRating(:stars="contact.rating")
-                td &hellip;
+                //td: StarRating(:stars="contact.rating")
+                //td &hellip;
+                td
+                  .d-flex
+                    StarsRating(:rate="contact.rating")
+                td(width="40px").text-right
+                  b-dropdown(size="xs" variant="none" class="m-0 p-0" right)
+                    template(#button-content)
+                      b-icon(icon="three-dots")
+                    b-dropdown-item Message
+                    b-dropdown-item Remove Contact
       b-tab(title="Ratings and Reviews")
         .card-body.white-card-body.card-body_full-height
           Get(ratings='/api/project_ratings'): template(v-slot="{ratings}")
@@ -73,9 +86,15 @@
 import ProjectTable from './ProjectTable'
 import LocalProjectModal from './LocalProjectModal'
 import EtaggerMixin from '@/mixins/EtaggerMixin'
+import StarsRating from '@/business/marketplace/components/StarsRating'
 
 export default {
   mixins: [EtaggerMixin()],
+  components: {
+    ProjectTable,
+    LocalProjectModal,
+    StarsRating
+  },
   methods: {
     getContacts(projects) {
       return projects.reduce((result, project) => {
@@ -85,8 +104,9 @@ export default {
             result.push({
               id: spec.id,
               name: spec.first_name + ' ' + spec.last_name,
-              location: [spec.country, spec.state, spec.city].filter(a => a).join(', '),
-              status: spec.visibility,
+              // location: [spec.country, spec.state, spec.city].filter(a => a).join(', '),
+              location: spec.location,
+              status: spec.visibility === 'is_public' ? 'Available' : 'Unavailable',
               rating: 5
             })
           }
@@ -94,10 +114,6 @@ export default {
         return result
       }, [])
     }
-  },
-  components: {
-    ProjectTable,
-    LocalProjectModal
   }
 }
 </script>

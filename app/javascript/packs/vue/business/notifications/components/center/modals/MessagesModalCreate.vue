@@ -195,7 +195,5 @@
 </style>
 
 <style>
-  .ql-editor {
-    min-height: 100px!important;
-  }
+
 </style>

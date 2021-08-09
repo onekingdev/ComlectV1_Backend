@@ -963,6 +963,8 @@ input, button, select, optgroup, textarea {
 .nav-tabs.special-navs-messages {
 
   .nav-item {
+    padding-top: 2px;
+
     &:first-child {
       margin-left: 1.25rem;
     }
@@ -3897,6 +3899,7 @@ select.custom-select {
   margin-bottom: 4px!important;
 }
 .ql-editor {
+  min-height: 93px!important;
   /*min-height: 70px!important;*/
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   font-size: 1rem!important;

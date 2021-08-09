@@ -133,7 +133,8 @@
           b Completed on {{ task.done_at | asDate }}
         button.btn.btn-default(@click="toggleDone(task)") Reopen
       template(v-if="!task.done_at && taskProp" slot="modal-footer")
-        button.btn.btn-outline-danger.mr-auto(@click="deleteTask(task)") Delete Task
+        TaskModalDelete.mr-auto(:inline="false" @click="$bvModal.hide(modalId)" @deleteConfirmed="deleteTask(task)")
+          button.btn.btn-outline-danger Delete Task
         //button.btn.btn-link.ml-auto(@click="$bvModal.hide(modalId)") Cancel
         button.btn.btn-default(@click="toggleDone(task)") Mark as Complete
         button.btn.btn-dark(@click="submitUpdate") Save
@@ -149,6 +150,7 @@
   import ComboBox from '@/common/ComboBox'
   import Messages from '@/common/Messages'
   import Errors from '@/common/Errors'
+  import TaskModalDelete from './TaskModalDelete'
 
   import EtaggerMixin from '@/mixins/EtaggerMixin'
 
@@ -231,6 +233,7 @@
       ComboBox,
       Messages,
       Errors,
+      TaskModalDelete,
     },
     data() {
       return {
