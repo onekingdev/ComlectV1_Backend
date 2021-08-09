@@ -161,9 +161,9 @@
     })
   }
 
-  const checkArray = function (nameArray, linkableTypeName) {
+  const checkArray = function (nameArray, linkableTypeName, value) {
     nameArray.forEach(element => {
-      if (element.title === value) {
+      if (element.title === value || element.name === value) {
         tempTask.linkable_type = linkableTypeName
         tempTask.linkable_id = element.id
       }
@@ -305,11 +305,11 @@
         }
       },
 
-      inputChangeLinked(value, ) {
+      inputChangeLinked(value) {
         let tempTask = {}
-        checkArray(this.projects, 'LocalProject')
-        checkArray(this.policies, 'CompliancePolicy')
-        checkArray(this.reviews, 'AnnualReport')
+        checkArray(this.projects, 'LocalProject', value)
+        checkArray(this.policies, 'CompliancePolicy', value)
+        checkArray(this.reviews, 'AnnualReport', value)
         this.task = {
           ...this.task,
           ...tempTask,
