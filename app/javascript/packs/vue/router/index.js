@@ -125,7 +125,7 @@ export default new Router({
 
     // SPECIALISTS
     { path: '/specialist', name: 'dashboard-specialist', component: DashboardS },
-    { path: '/specialist/reminders', name: 'tasks', component: TasksS },
+    { path: '/specialist/reminders', name: 'tasks-specialist', component: TasksS },
     { path: '/specialist/my-projects', name: 'projects-specialist', component: ProjectsS },
     { path: '/specialist/my-projects/:id(\\d+)', name: 'project-review-specialist', props: paramsToInts(['id']), component: ProjectReviewS },
     { path: '/specialist/settings', name: 'settings-specialist', component: SettingsS,
