@@ -5,10 +5,10 @@
     .card-body.white-card-body.card-body_full-height
       .row
         .col-lg-7.col-sm-12.pl-0.mb-3.mb-lg-0
-          .card
+          .card.h-100
             RegulatoryExamsTable(:exams="exams")
         .col-lg-5.col-sm-12.pl-0
-          .card
+          .card.h-100
             .card-header.d-flex.justify-content-between
               h3.m-y-0 Tasks
             Tasks(:shortTable="true")

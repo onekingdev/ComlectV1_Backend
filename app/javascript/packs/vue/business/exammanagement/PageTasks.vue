@@ -10,7 +10,7 @@
                   h2 Tasks
                   div
                     a.btn.btn-default.m-r-1 Download
-                    <!--AnnualModalCreateTask(@saved="refetch()")-->
+                    //AnnualModalCreateTask(@saved="refetch()")
                     a.btn.btn-dark Create task
               hr
               .row

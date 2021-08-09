@@ -21,11 +21,9 @@
                   .col-12.p-x-1
                     Loading
                     FilefoldersTable(v-if="!loading && filefolders.files && filefolders.folders" :filefolders="filefolders" :check="true" @selectedItem="collecingFiles")
-                    table.table.reviews-table(v-if="!filefolders.files && !filefolders.folders && !loading")
-                      tbody
-                        tr
-                          td.text-center
-                            h3 Documents not exist
+                    .row.h-100(v-if="!filefolders.files && !filefolders.folders && !loading")
+                      .col.h-100.text-center
+                        EmptyState
             b-tab(title="Policies" title-item-class="font-weight-bold")
               div
                 table.table

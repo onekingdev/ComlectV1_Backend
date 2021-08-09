@@ -4,7 +4,7 @@
       h3.m-y-0 Regulatory Exams
       ExamModalCreate(:exams-id="exams.id")
         button.btn.btn-dark New Exam
-    .card-body
+    .card-body.h-100
       Loading
       table.table(v-if="!loading")
         thead(v-if="exams && exams.length")
@@ -29,11 +29,9 @@
         tbody
           ExamItem(v-for="item in sortedView" :key="item.id" :item="item")
 
-      table(v-if="!loading && exams && !exams.length")
-        tbody
-          tr
-            td
-              h4.text-center Exams management not exist
+      .row.h-100(v-if="!loading && exams && !exams.length")
+        .col.h-100.text-center
+          EmptyState
 
 </template>
 
