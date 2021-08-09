@@ -956,7 +956,8 @@ input, button, select, optgroup, textarea {
 .special-navs .nav-tabs,
 .nav-tabs.special-navs {
   background-color: #F6F6F8;
-  border-bottom: 1px solid #DCDEE4;
+  //border-bottom: 1px solid #DCDEE4;
+  border-bottom: none;
 }
 
 .special-navs-messages .nav-tabs,
@@ -1392,6 +1393,11 @@ a.link,
   outline: 0;
   cursor: pointer;
 
+  max-width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
   .d-inline-block {
     margin-bottom: -5px;
     width: 100%;
@@ -1439,8 +1445,6 @@ table.table thead tr th {
   border-top: none;
   border-bottom: 1px solid $gray-1;
 
-
-
   .btn.dropdown-toggle {
     padding-top: 0;
     padding-bottom: 0;
@@ -1487,6 +1491,14 @@ table.table thead tr th {
 
 .table td {
   color: $black;
+
+  &:first-child {
+    width: 100%;
+    max-width: 320px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 .task_table {
@@ -1494,6 +1506,11 @@ table.table thead tr th {
   &.short-table {
     th, td {
       padding: .4rem 0.625rem;
+
+      width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
 
       &:last-child {
         width: 110px;
@@ -1937,6 +1954,10 @@ table.table thead tr th {
 
 .fc-daygrid-dot-event {
   //padding: 2px 3px;
+}
+
+.fc-daygrid-dot-event .fc-event-title {
+  font-weight: $font-weight-regular !important;
 }
 
 .fc-day-today {

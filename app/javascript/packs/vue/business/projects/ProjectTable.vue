@@ -4,22 +4,22 @@
       tr
         th Title
         th Collaborators
-        th Tasks Left
-        th Cost
+        th.text-right Tasks Left
+        th.text-right Cost
         th Status
         th Start Date
-        th End Date
+        th.text-right End Date
     tbody
       tr(v-for="project in projectsHrefs" :key="key(project)")
         // td: a.text-dark(:href="project.href") {{project.title}}
         td: router-link.link(:to='`${project.href}`') {{ project.title }}
         td {{ project.assignee }}
-        td {{ project.tasksLeft }}
-        td {{ project.cost }}
+        td.text-right {{ project.tasksLeft }}
+        td.text-right {{ project.cost }}
         td
           span.badge(:class="badgeClass(project)") {{ project.status | statusCorrector }}
         td {{ project.starts_on | asDate }}
-        td(class="due-date" :class="{ overdue: isOverdue(project) }")
+        td.text-right(class="due-date" :class="{ overdue: isOverdue(project) }")
           b-icon.mr-2(v-if="isOverdue(project)" icon="exclamation-triangle-fill" variant="warning")
           | {{ project.ends_on | asDate }}
 </template>
@@ -55,7 +55,7 @@ export default {
   },
   filters: {
     statusCorrector: function (value) {
-      if (value === 'Inprogress') value = 'In Progress'
+      if (value === 'inprogress') value = 'In Progress'
       return value.replace(/[A-Z]/g, ' $&')
     }
   },

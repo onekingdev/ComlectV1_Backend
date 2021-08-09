@@ -4,7 +4,7 @@
       .page-header__title
         h2.m-b-10 Projects
         p.page-header__subtitle.mb-0 Plan projects with employees or hire external specialists to help
-      .page-header__actions
+      .page-header__actions.m-t-40.mb-auto
         router-link.btn.btn-default.m-r-1(to='/business/projects/new') Post Project
         LocalProjectModal(@saved="newEtag")
           a.btn.btn-primary New Project
@@ -17,10 +17,12 @@
                 | Filter by: All
                 ion-icon.ml-2(name="chevron-down-outline" size="small")
               b-dropdown-item All
+              b-dropdown-item Not Started
+              b-dropdown-item Draft
               b-dropdown-item In Progress
               b-dropdown-item Pending
-              b-dropdown-item Overdue
               b-dropdown-item Complete
+              b-dropdown-item Overdue
             //b-dropdown.m-r-1(variant="default")
             //  template(#button-content)
             //    | Year: All
