@@ -245,7 +245,7 @@
     },
     methods: {
       ...mapActions({
-        getReviews: 'annual/getReviews',
+        // getReviews: 'annual/getReviews',
         getProjects: 'projects/getProjects'
       }),
       toggleDone(task) {
@@ -308,8 +308,8 @@
       inputChangeLinked(value, ) {
         let tempTask = {}
         checkArray(this.projects, 'LocalProject')
-        checkArray(this.policies, 'CompliancePolicy')
-        checkArray(this.reviews, 'AnnualReport')
+        // checkArray(this.policies, 'CompliancePolicy')
+        // checkArray(this.reviews, 'AnnualReport')
         this.task = {
           ...this.task,
           ...tempTask,
@@ -368,9 +368,9 @@
           if(this.taskProp)
             this.$store.dispatch("reminders/getTaskMessagesById", { id: this.taskProp.id })
 
-          this.$store.dispatch("getPolicies")
+          // this.$store.dispatch("getPolicies")
 
-          this.$store.dispatch('annual/getReviews')
+          // this.$store.dispatch('annual/getReviews')
 
           this.$store.dispatch('projects/getProjects')
 
@@ -395,12 +395,12 @@
     },
     computed: {
       ...mapGetters({
-        reviews: 'annual/reviews',
+        // reviews: 'annual/reviews',
         projects: 'projects/projects',
       }),
-      policies() {
-        return this.$store.getters.policiesList
-      },
+      // policies() {
+      //   return this.$store.getters.policiesList
+      // },
       daysOfWeek() {
         return ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map(index)
       },
@@ -413,8 +413,8 @@
       repeatsOptions: () => REPEAT_OPTIONS.map(value => ({ value, text: REPEAT_LABELS[value] })),
       linkToOptions() {
         return [{...toOption('Projects'), children: this.projects.map(record => ({ id: record.title, label: record.title }))},
-                {...toOption('Internal Reviews'), children: this.reviews.map(record => ({ id: record.name, label: record.name }))},
-                {...toOption('Policies'), children: this.policies.map(record => ({ id: record.name, label: record.name }))},
+                // {...toOption('Internal Reviews'), children: this.reviews.map(record => ({ id: record.name, label: record.name }))},
+                // {...toOption('Policies'), children: this.policies.map(record => ({ id: record.name, label: record.name }))},
               ]
       },
       assigneeOptions() {

@@ -52,7 +52,7 @@ import SettingsS from '@/specialist/settings/Page'
 import SettingsNotificationsS from '@/specialist/notifications/Page'
 import ProjectsMarketplaceS from '@/specialist/projects/IndexPage'
 import ProfileS from '@/specialist/profile/Page'
-import TasksS from '@/business/tasks/Page'
+import TasksS from '@/specialist/tasks/Page'
 
 Vue.use(Router)
 

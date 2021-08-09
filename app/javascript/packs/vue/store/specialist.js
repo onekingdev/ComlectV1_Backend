@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 
 import tasks from "./specialistModules/tasks"
 import settings from "./specialistModules/settings";
+import projects from "./specialistModules/projects"
 import shared from "./commonModules/shared";
 // import auth from "./commonModules/auth";
 
@@ -36,6 +37,10 @@ const store = new Vuex.Store({
     settings: {
       namespaced: true,
       ...settings,
+    },
+    projects: {
+      namespaced: true,
+      ...projects,
     },
   }
 })
