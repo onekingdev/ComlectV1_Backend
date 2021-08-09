@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    .card-header.d-flex.justify-content-between.p-t-0
+    .card-header.d-flex.justify-content-between.align-items-center.p-t-0
       div(style="vertical-align: middle")
         h3.calendar__title.m-y-0
           TaskFormModal(id="CalendarTaskFormModal" v-bind="nowEditingTask" @saved="$emit('saved')")
@@ -8,29 +8,7 @@
           small.float-right(style="vertical-align: middle")
             ion-icon.m-x-1(name='chevron-back-outline' @click.prevent="prev")
             ion-icon(name='chevron-forward-outline' @click.prevent="next")
-      div
-        b-dropdown#dropdown-form.m-2(ref='dropdown' variant="none")
-          template(#button-content)
-            | Download
-            b-icon.ml-2(icon="chevron-down")
-          b-dropdown-form(style="width: 374px;")
-            b-row.m-t-1(no-gutters)
-              .col-sm.m-r-1
-                label.form-label Start Date
-                DatePicker(v-model="download.start_date")
-                Errors(:errors="errors.start_date")
-              .col-sm
-                label.form-label Due Date
-                DatePicker(v-model="download.end_date")
-                Errors(:errors="errors.end_date")
-            .d-flex.justify-content-between
-              b-button.link(variant='none' size='sm' @click='onClick') Download All
-              b-button(variant='secondary' size='sm' @click='onClick') Download
-        //a.btn.btn-secondary(:href="pdfUrl" target="_blank") Download
-        //b-dropdown(size="sm" variant="none" class="m-0 p-0" right)
-        //  template(#button-content)
-        //    b-icon(icon="three-dots")
-        //  b-dropdown-item-button Some Action
+      Download(:href="pdfUrl")
     .card-body.p-20
       FullCalendar(:options="calendarOptions" ref="FullCalendar")
         template(v-slot:dayCellContent="arg")
@@ -55,6 +33,7 @@ import interactionPlugin from '@fullcalendar/interaction'
 import { DateTime } from 'luxon'
 import { toEvent, cssClass } from '@/common/TaskHelper'
 import TaskFormModal from '@/common/TaskFormModal'
+import Download from '@/common/Dashboard/components/Download'
 
 const endpointUrl = '/api/specialist/reminders/'
 const jsToSql = date => DateTime.fromJSDate(date).toSQLDate()
@@ -66,6 +45,11 @@ export default {
       required: true
     },
     etag: Number
+  },
+  components: {
+    FullCalendar,
+    TaskFormModal,
+    Download
   },
   data() {
     return {
@@ -145,10 +129,6 @@ export default {
         this.refetchEvents()
       }
     }
-  },
-  components: {
-    FullCalendar,
-    TaskFormModal
   }
 }
 </script>

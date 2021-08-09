@@ -1344,6 +1344,8 @@ a.btn,
 .dropdown-toggle {
   display: flex;
   align-items: center;
+
+  @include font-regular-14
 }
 
 .dropdown-toggle::after {
@@ -1382,7 +1384,7 @@ a.link,
 
   .d-inline-block {
     margin-bottom: -5px;
-    max-width: 250px;
+    max-width: 320px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1483,6 +1485,10 @@ table.table thead tr th {
   &.short-table {
     th, td {
       padding: .4rem 0.625rem;
+
+      &:last-child {
+        width: 110px;
+      }
     }
   }
 
@@ -1745,6 +1751,10 @@ table.table thead tr th {
   border-bottom-left-radius: 4px !important;
   border-left-width: 1px !important;
   //border-color: transparent;
+}
+
+.fc-direction-ltr .fc-daygrid-event.fc-event-start, .fc-direction-rtl .fc-daygrid-event.fc-event-end {
+  margin-left: 0!important;
 }
 
 .fc-event-main-frame {

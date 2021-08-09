@@ -3,7 +3,8 @@
     .page-header(v-if="!shortTable")
       h2.page-header__title Tasks
       .page-header__actions
-        a.btn.btn-default.m-r-1(v-if="!shortTable" :href="pdfUrl" target="_blank") Download
+        //a.btn.btn-default.m-r-1(v-if="!shortTable" :href="pdfUrl" target="_blank") Download
+        Download.d-inline-block.m-r-1(v-if="!shortTable" :href="pdfUrl")
         TaskModalCreateEdit(@saved="refetch()")
           a.btn.btn-dark New Task
     .card-body.white-card-body.card-body_full-height.p-x-40
@@ -62,6 +63,7 @@
   import TaskTable from './components/TaskTable'
   import TaskModalCreateEdit from './modals/TaskModalCreateEdit'
   // import TaskModalEdit from './modals/TaskModalEdit'
+  import Download from '@/common/Dashboard/components/Download'
 
   // const endpointUrl = '/api/business/reminders/'
   // const overdueEndpointUrl = '/api/business/overdue_reminders'
@@ -91,7 +93,8 @@
       EmptyState,
       TaskTable,
       TaskModalCreateEdit,
-      // TaskModalEdit
+      // TaskModalEdit,
+      Download
     },
     data() {
       return {
