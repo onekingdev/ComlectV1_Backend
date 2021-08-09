@@ -8,7 +8,7 @@
         router-link.btn.btn-default.m-r-1(to='/business/projects/new') Post Project
         LocalProjectModal(@saved="newEtag")
           a.btn.btn-primary New Project
-    b-tabs.special-navs(content-class="mt-0")
+    b-tabs.special-navs(content-class="mt-0 h-100")
       b-tab(title="My Projects" active)
         .card-body.white-card-body.card-body_full-height
           div.m-b-20
@@ -61,8 +61,8 @@
                       b-icon(icon="three-dots")
                     b-dropdown-item Message
                     b-dropdown-item Remove Contact
-      b-tab(title="Ratings and Reviews")
-        .card-body.white-card-body.card-body_full-height
+      b-tab.h-100(title="Ratings and Reviews")
+        .card-body.white-card-body.card-body_full-height.h-100
           Get.h-100(ratings='/api/project_ratings'): template(v-slot="{ratings}")
             table.rating_table(v-if="ratings.length")
               tbody
@@ -74,12 +74,11 @@
                     p {{rating.rater_name}} | {{rating.created_at | asDate}}
                     p: i "{{rating.review}}"
                   td: StarRating(:stars="rating.value")
-                tr(v-if="!ratings.length")
-                  td.text-center
-                    h3.text-dark.p-y-2 No ratings
-            .row.h-100(v-if="!ratings.length")
-              .col.h-100.text-center
-                EmptyState(name="Tasks")
+                //tr(v-if="!ratings.length")
+                //  td.text-center
+                //    h3.text-dark.p-y-2 No ratings
+            .d-flex.flex-grow-1.justify-content-center.align-items-cener.h-100(v-if="!ratings.length")
+              EmptyState(name="Tasks")
 </template>
 
 <script>
