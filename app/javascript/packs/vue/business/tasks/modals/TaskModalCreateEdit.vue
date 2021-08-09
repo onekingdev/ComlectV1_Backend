@@ -162,12 +162,14 @@
   }
 
   const checkArray = function (nameArray, linkableTypeName, value) {
+    let tempTask = {}
     nameArray.forEach(element => {
       if (element.title === value || element.name === value) {
         tempTask.linkable_type = linkableTypeName
         tempTask.linkable_id = element.id
       }
     });
+    return tempTask
   }
 
   const rnd = () => Math.random().toFixed(10).toString().replace('.', '')
@@ -306,10 +308,10 @@
       },
 
       inputChangeLinked(value) {
-        let tempTask = {}
-        checkArray(this.projects, 'LocalProject', value)
-        checkArray(this.policies, 'CompliancePolicy', value)
-        checkArray(this.reviews, 'AnnualReport', value)
+        let tempTask
+        tempTask = checkArray(this.projects, 'LocalProject', value)
+        tempTask = checkArray(this.policies, 'CompliancePolicy', value)
+        tempTask = checkArray(this.reviews, 'AnnualReport', value)
         this.task = {
           ...this.task,
           ...tempTask,
