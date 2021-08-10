@@ -4,7 +4,7 @@
       h3 Discussion
     Get(:messages="messagesUrl" :etag="etag"): template(v-slot="{messages}")
       .card-body(v-if="!messages.length")
-        | No comments posted
+        EmptyState
         hr
       .card-body(v-else)
         div(v-for="message in messages" :key="message.id")

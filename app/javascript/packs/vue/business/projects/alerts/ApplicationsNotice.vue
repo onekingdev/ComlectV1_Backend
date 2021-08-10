@@ -1,5 +1,5 @@
 <template lang="pug">
-  Get(v-if="show" :applications='apiUrl'): template(v-slot="{applications}")
+  Get(v-if="show" :applications='apiUrl' :callback="getApplications"): template(v-slot="{applications}")
     .alert.alert-warning(v-if="applications.length")
       .d-flex.justify-content-between
         div.d-flex.align-items-center
@@ -9,21 +9,79 @@
             p.mb-0 There {{ applications | isAre }} currently {{ 'applicant' | plural(applications) }} for your project.
         div
           router-link.btn.btn-light.mt-2(:to="viewPostUrl") View
-    .alert.alert-info(v-else)
-      div(v-if="project.status == 'published'")
-        h4.alert-heading Your project is currently posted on the job board as of {{ project.created_at | asDate }}.
-        p Keep an eye out! Specialists may reach out to you soon.
-      div(v-else)
-        h4.alert-heading Yout project is currently draft
-      router-link.btn.btn-light(:to="viewPostUrl") View
+    div(v-else)
+      Notifications.m-b-20(:notify="applications")
+        router-link.btn.btn-light.m-r-1(:to="viewPostUrl") View
+
 </template>
 
 <script>
+import Notifications from "@/common/Notifications/Notifications";
 export default {
   props: {
     project: {
       type: Object,
       required: true
+    }
+  },
+  components: {
+    Notifications,
+  },
+  data() {
+    return {
+      // notify: {
+      //   show: 'show',
+      //   mainText: `Your project is currently posted on the job board as of ${ project.created_at | asDate }.`,
+      //   subText: 'Keep an eye out! Specialists may reach out to you soon.',
+      //   variant: 'primary',
+      //   dismissible: true,
+      //   icon: null,
+      //   scale: 2,
+      // },
+    }
+  },
+  methods: {
+    getApplications(applications) {
+      console.log('aap-s', applications)
+
+      let notify = {}
+
+      //if (applications.length) {
+      //  notify = {
+      //    show: 'show',
+      //    mainText: `'application' ${ this.$options.filters.plural(applications) } received.`,
+      //    subText: `There ${ this.$options.filters.isAre(applications) } currently ${ this.$options.filters.plural(applications) } for your project.`,
+      //    variant: 'primary',
+      //    dismissible: true,
+      //    icon: null,
+      //    scale: 2,
+      //  }
+      //  return notify
+      //}
+
+      if (this.project.status === 'published') {
+        notify = {
+          show: 'show',
+          mainText: `Your project is currently posted on the job board as of ${ this.$options.filters.asDate(this.project.created_at) }.`,
+          subText: 'Keep an eye out! Specialists may reach out to you soon.',
+          variant: 'primary',
+          dismissible: true,
+          icon: null,
+          scale: 2,
+        }
+      } else {
+        notify = {
+          show: 'show',
+          mainText: `Yout project is currently draft`,
+          subText: '',
+          variant: 'primary',
+          dismissible: true,
+          icon: null,
+          scale: 2,
+        }
+      }
+
+      return notify
     }
   },
   computed: {

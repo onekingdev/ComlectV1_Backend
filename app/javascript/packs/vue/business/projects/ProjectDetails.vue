@@ -13,10 +13,10 @@
         dd.col-sm-9 {{ project.starts_on | asDate }}
         dt.col-sm-3 Due Date
         dd.col-sm-9 {{ project.ends_on | asDate }}
-        dt.col-sm-3 Details
+        dt.col-sm-3 Description
         dd.col-sm-9 {{ project.description }}
-        dt.col-sm-3 Members
-        dd.col-sm-9
+        //dt.col-sm-3 Members
+        //dd.col-sm-9
 </template>
 
 <script>
