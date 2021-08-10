@@ -17,6 +17,7 @@
         dd.col-sm-9.mb-0 {{ project.description }}
         //dt.col-sm-3 Members
         //dd.col-sm-9
+
 </template>
 
 <script>

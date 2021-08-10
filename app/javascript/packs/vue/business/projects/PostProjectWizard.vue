@@ -16,7 +16,7 @@
             .col-sm: InputDate(v-model="project.ends_on" :errors="errors.ends_on" :options="datepickerOptions") Due Date
 
           InputTextarea.m-t-1(v-model="project.description" :errors="errors.description" placeholder="General project description") Description
-          InputTextarea.m-t-1(v-model="project.role_details" :errors="errors.role_details" placeholder="Describe specific specialsit role in the project") Role Details
+          InputTextarea.m-t-1(v-model="project.role_details" :errors="errors.role_details" placeholder="Describe specific specialist role in the project") Role Details
           //.form-text.text-muted Project post information for the specialist
 
           InputSelect.m-t-1.form-control_no-icon(v-model="project.location_type" :errors="errors.location_type" :options="locationTypes") Location Type

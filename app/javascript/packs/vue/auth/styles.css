@@ -256,65 +256,6 @@ input[type=number] {
   margin-left: 0.625rem;
 }
 
-
-/* ---------- steps ---------- */
-.steps {
-  display: flex;
-  justify-content: space-between;
-  margin: 1rem 0 2.5rem;
-}
-.step {
-  position: relative;
-  width: 32%;
-}
-.step::before {
-  display: block;
-  position: absolute;
-  top: -1rem;
-  left: 0;
-  right: 0;
-  content: '';
-  width: 100%;
-  height: 5px;
-  color: #DCDEE4;
-  background-color: #DCDEE4;
-}
-.step.active::before {
-  color: #2E304F;
-  background-color: #2E304F;
-}
-.step__name {
-  margin-bottom: 0;
-  color: #A2A3A9;
-  font-size: 1rem;
-  font-weight: 600;
-}
-.step.active .step__name{
-  color: #303132;
-  /*font-weight: 600;*/
-}
-
-@media (min-width: 576px) and (max-width: 767px) {
-
-}
-@media (max-width: 575px) {
-  .steps {
-    flex-direction: column;
-    margin: 1.2rem 0;
-  }
-  .step {
-    width: 100%;
-    margin-bottom: .8rem;
-  }
-  .step::before {
-    top: -.8rem;
-  }
-  .step__name {
-    margin-bottom: 1rem;
-    font-size: 1.2rem;
-  }
-}
-
 /* ---------- Onboarding page ---------- */
 .onboarding {}
 .onboarding__title {

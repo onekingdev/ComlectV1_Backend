@@ -4082,3 +4082,62 @@ select.custom-select {
     color: $gray-3;
   }
 }
+
+/* ---------- steps ---------- */
+.steps {
+  display: flex;
+  justify-content: space-between;
+  margin: 1rem 0 2.5rem;
+}
+.step {
+  position: relative;
+  width: 32%;
+
+  &::before {
+    display: block;
+    position: absolute;
+    top: -1rem;
+    left: 0;
+    right: 0;
+    content: '';
+    width: 100%;
+    height: 5px;
+    color: #DCDEE4;
+    background-color: #DCDEE4;
+  }
+
+  &.active::before {
+    color: #2E304F;
+    background-color: #2E304F;
+  }
+
+  &__name {
+    margin-bottom: 0;
+    color: #A2A3A9;
+    font-size: 1rem;
+    font-weight: $font-weight-regular;
+  }
+
+  &.active .step__name{
+    color: #303132;
+    font-weight: $font-weight-bold;
+  }
+}
+
+@media (max-width: 575px) {
+  .steps {
+    flex-direction: column;
+    margin: 1.2rem 0;
+  }
+  .step {
+    width: 100%;
+    margin-bottom: .8rem;
+  }
+  .step::before {
+    top: -.8rem;
+  }
+  .step__name {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+  }
+}
