@@ -209,6 +209,9 @@ Style/FormatStringToken:
 Style/Next:
   Enabled: false
 
+Style/IfUnlessModifier:
+  Enabled: false
+
 # === Metrics ===
 
 Metrics/ClassLength:
