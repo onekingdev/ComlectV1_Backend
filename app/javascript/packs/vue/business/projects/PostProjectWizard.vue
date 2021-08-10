@@ -60,7 +60,7 @@
 
           .m-t-1(v-if="project.pricing_type === pricingTypes[0].id")
             InputText(v-model="project.est_budget" :errors="errors.est_budget") Estimated Budget
-            InputSelect.m-t-1(v-model="project.fixed_payment_schedule" :errors="errors.fixed_payment_schedule" :options="fixedPaymentScheduleOptions") Method of Payment
+            InputSelect.form-control_no-icon.m-t-1(v-model="project.fixed_payment_schedule" :errors="errors.fixed_payment_schedule" :options="fixedPaymentScheduleOptions") Method of Payment
 
           div(v-else)
             .m-t-1
