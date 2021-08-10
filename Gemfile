@@ -21,6 +21,7 @@ gem 'unicorn'
 
 # doc to pdf
 gem 'combine_pdf'
+gem 'libreconv'
 gem 'wicked_pdf'
 
 # captcha

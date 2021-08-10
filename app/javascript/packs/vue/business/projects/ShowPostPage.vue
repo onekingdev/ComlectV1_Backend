@@ -5,7 +5,7 @@
         .d-flex.flex-column
           Breadcrumbs.m-b-20(:items="['Project', project.title, 'Job Post']")
           h2.page-header__title.m-b-20
-            span.badge.badge-default.m-r-1(v-if="'draft' === project.status") Draft
+            //span.badge.badge-default.m-r-1(v-if="'draft' === project.status") Draft
             | {{ project.title }}
         .page-header__actions
           button.btn.btn-default.m-t-auto.mb-0(v-b-modal="'DeletePostModal'") Delete Post
@@ -17,11 +17,11 @@
                   button.btn.btn-dark Delete
       .card-body.white-card-body.card-body_full-height
         .row
-          .col-sm-6
+          .col-lg-7
             .card
               .card-header
                 h3.mb-0 Post Details
-                router-link.btn.btn-outline-dark.float-right(:to='`/business/project_posts/${project.id}/edit`') Edit
+                router-link.btn.btn-default.float-right(:to='`/business/project_posts/${project.id}/edit`') Edit
               .card-body
                 dl.row
                   dt.col-sm-3 Title
@@ -50,14 +50,13 @@
                   dd.col-sm-9 {{ (project.est_budget || project.fixed_budget) | usdWhole }}
                   dt.col-sm-3 Payment Schedule
                   dd.col-sm-9 {{ paymentScheduleReadable(project) }}
-          .col-sm-6
-            .card
-              .card-header: h3 Applicants
-              .card-body: Get(:applications="applicationsUrl"): template(v-slot="{applications}")
-                p(v-if="!applications.length")
-                  | No Applicants to Display
-                  br
-                  img(src='@/assets/no-applicants.svg' style="width: 100%; max-width: 300px")
+          .col-lg-5
+            .card.applications
+              .card-header: h3.mb-0 Applicants
+              .card-body.applications__body: Get(:applications="applicationsUrl"): template(v-slot="{applications}")
+                .d-flex.flex-column.justify-content-center.align-items-center(v-if="!applications.length")
+                  ion-icon.applications__icon.m-b-10(name="person-circle-outline")
+                  p.applications__text No Applicants to Display
                 table.table(v-else)
                   thead
                     tr
